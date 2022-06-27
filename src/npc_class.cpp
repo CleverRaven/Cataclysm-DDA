@@ -229,7 +229,7 @@ static distribution load_distribution( const JsonObject &jo, const std::string &
         return load_distribution( obj );
     }
 
-    jo.throw_error( "Invalid distribution type", name );
+    jo.throw_error_at( name, "Invalid distribution type" );
 }
 
 bool shopkeeper_item_group::can_sell( npc const &guy ) const

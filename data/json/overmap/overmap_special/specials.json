@@ -892,7 +892,8 @@
     "overmaps": [
       { "point": [ 0, -1, 0 ], "overmap": "road_end_north" },
       { "point": [ 0, 0, 0 ], "overmap": "bunker_south" },
-      { "point": [ 0, 0, -1 ], "overmap": "bunker_basement_1" }
+      { "point": [ 0, 0, -1 ], "overmap": "bunker_basement_1" },
+      { "point": [ 0, 0, 1 ], "overmap": "bunker_roof_south" }
     ],
     "connections": [ { "point": [ 0, -1, 0 ], "from": [ 0, 0, 0 ] } ],
     "locations": [ "forest" ],
@@ -7281,7 +7282,11 @@
       { "point": [ 0, 0, 1 ], "overmap": "helipad2f_nw_north" },
       { "point": [ 1, 0, 1 ], "overmap": "helipad2f_ne_north" },
       { "point": [ 0, 1, 1 ], "overmap": "helipad2f_sw_north" },
-      { "point": [ 1, 1, 1 ], "overmap": "helipad2f_se_north" }
+      { "point": [ 1, 1, 1 ], "overmap": "helipad2f_se_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "helipad_roof_nw_north" },
+      { "point": [ 1, 0, 2 ], "overmap": "helipad_roof_ne_north" },
+      { "point": [ 0, 1, 2 ], "overmap": "helipad_roof_sw_north" },
+      { "point": [ 1, 1, 2 ], "overmap": "helipad_roof_se_north" }
     ],
     "locations": [ "land" ],
     "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road", "connection": "local_road", "from": [ 0, 0, 0 ] } ],

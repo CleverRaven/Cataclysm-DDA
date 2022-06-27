@@ -832,14 +832,12 @@ void Character::deactivate_mutation( const trait_id &mut )
         recalculate_enchantment_cache();
     }
 
-    if( !mut->deactivated_eocs.empty() ) {
-        for( const effect_on_condition_id &eoc : mut->deactivated_eocs ) {
-            dialogue d( get_talker_for( *this ), nullptr );
-            if( eoc->type == eoc_type::ACTIVATION ) {
-                eoc->activate( d );
-            } else {
-                debugmsg( "Must use an activation eoc for a mutation deactivation.  If you don't want the effect_on_condition to happen on its own (without the mutation being activated), remove the recurrence min and max.  Otherwise, create a non-recurring effect_on_condition for this mutation with its condition and effects, then have a recurring one queue it." );
-            }
+    for( const effect_on_condition_id &eoc : mut->deactivated_eocs ) {
+        dialogue d( get_talker_for( *this ), nullptr );
+        if( eoc->type == eoc_type::ACTIVATION ) {
+            eoc->activate( d );
+        } else {
+            debugmsg( "Must use an activation eoc for a mutation deactivation.  If you don't want the effect_on_condition to happen on its own (without the mutation being activated), remove the recurrence min and max.  Otherwise, create a non-recurring effect_on_condition for this mutation with its condition and effects, then have a recurring one queue it." );
         }
     }
 
@@ -1605,11 +1603,9 @@ void Character::remove_mutation( const trait_id &mut, bool silent )
             if( has_base_trait( iter.id ) && !has_trait( iter.id ) ) {
                 //See if that base trait cancels the mutation we are using
                 std::vector<trait_id> traitcheck = iter.cancels;
-                if( !traitcheck.empty() ) {
-                    for( size_t j = 0; !replacing && j < traitcheck.size(); j++ ) {
-                        if( traitcheck[j] == mut ) {
-                            replacing = ( iter.id );
-                        }
+                for( size_t j = 0; !replacing && j < traitcheck.size(); j++ ) {
+                    if( traitcheck[j] == mut ) {
+                        replacing = ( iter.id );
                     }
                 }
             }
@@ -1627,11 +1623,9 @@ void Character::remove_mutation( const trait_id &mut, bool silent )
             if( has_base_trait( iter.id ) && !has_trait( iter.id ) ) {
                 //See if that base trait cancels the mutation we are using
                 std::vector<trait_id> traitcheck = iter.cancels;
-                if( !traitcheck.empty() ) {
-                    for( size_t j = 0; !replacing2 && j < traitcheck.size(); j++ ) {
-                        if( traitcheck[j] == mut && ( iter.id ) != replacing ) {
-                            replacing2 = ( iter.id );
-                        }
+                for( size_t j = 0; !replacing2 && j < traitcheck.size(); j++ ) {
+                    if( traitcheck[j] == mut && ( iter.id ) != replacing ) {
+                        replacing2 = ( iter.id );
                     }
                 }
             }

@@ -386,7 +386,7 @@ void widget::load( const JsonObject &jo, const std::string & )
         _bps.clear();
         for( const JsonValue val : jo.get_array( "bodyparts" ) ) {
             if( !val.test_string() ) {
-                jo.throw_error( "Invalid string value in bodyparts array", "bodyparts" );
+                jo.throw_error_at( "bodyparts", "Invalid string value in bodyparts array" );
                 continue;
             }
             _bps.emplace( bodypart_id( val.get_string() ) );
@@ -1474,14 +1474,26 @@ std::string widget::layout( const avatar &ava, unsigned int max_width, int label
             for( const widget_id &wid : _widgets ) {
                 widget cur_child = wid.obj();
                 int cur_width = child_width;
-                if( cur_child._style == "layout" && cur_child._width > 1 ) {
-                    cur_width = cur_child._width;
+                // determine spacing based on type of column
+                if( _arrange == "minimum_columns" ) {
+                    if( cur_child._width > 1 ) {
+                        cur_width = cur_child._width;
+                    }
+                    // if last widget make it take the remaining space
+                    if( wid == _widgets.back() ) {
+                        cur_width = avail_width - total_width;
+                    }
+                } else { //columns
+                    if( cur_child._style == "layout" && cur_child._width > 1 ) {
+                        cur_width = cur_child._width;
+                    }
+                    // Spread remainder over the first few columns
+                    if( remainder > 0 ) {
+                        cur_width += 1;
+                        remainder -= 1;
+                    }
                 }
-                // Spread remainder over the first few columns
-                if( remainder > 0 ) {
-                    cur_width += 1;
-                    remainder -= 1;
-                }
+
                 if( cur_width > 0 ) {
                     total_width += cur_width;
                 }
@@ -1493,9 +1505,10 @@ std::string widget::layout( const avatar &ava, unsigned int max_width, int label
                 const std::string txt = cur_child.layout( ava, skip_pad_this ? 0 : cur_width,
                                         label_width, skip_pad_this );
                 // Store the resulting text for this column
-                cols.emplace_back( foldstring( txt, skip_pad_this ? 0 : cur_width ) );
+                cols.emplace_back( string_split( txt, '\n' ) );
                 widths.emplace_back( cur_width );
             }
+
             int h_max = 0;
             std::string sep;
             // Line up each row of each column to form the whole multi-line layout

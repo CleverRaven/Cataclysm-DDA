@@ -319,7 +319,7 @@ void input_manager::load( const std::string &file_name, bool is_user_preferences
             } else if( input_method == "mouse" ) {
                 new_events[0].type = input_event_t::mouse;
             } else {
-                keybinding.throw_error( "unknown input_method", "input_method" );
+                keybinding.throw_error_at( "input_method", "unknown input_method" );
             }
 
             if( keybinding.has_member( "mod" ) ) {

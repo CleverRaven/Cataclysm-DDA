@@ -1,11 +1,34 @@
 [
   {
+    "id": "ll_left_limbs_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "text_align": "right",
+    "widgets": [ "status_hpg_layout_larm", "status_hpg_layout_lleg" ]
+  },
+  {
+    "id": "ll_middle_limbs_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "text_align": "center",
+    "widgets": [ "status_hpg_layout_head", "status_hpg_layout_torso" ]
+  },
+  {
+    "id": "ll_right_limbs_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "widgets": [ "status_hpg_layout_rarm", "status_hpg_layout_rleg" ]
+  },
+  {
     "id": "ll_limbs_layout",
     "type": "widget",
     "style": "layout",
     "label": "Limbs",
-    "arrange": "rows",
-    "widgets": [ "hitpoint_graphs_top_layout", "hitpoint_graphs_bottom_layout" ]
+    "arrange": "columns",
+    "widgets": [ "ll_left_limbs_layout", "ll_middle_limbs_layout", "ll_right_limbs_layout" ]
   },
   {
     "id": "ll_stamina_speed_move_layout",
@@ -77,6 +100,32 @@
     "widgets": [ "ll_pain_thirst_desc_layout", "ll_rest_hunger_desc_layout", "ll_heat_weight_desc_layout" ]
   },
   {
+    "id": "ll_place_overmap",
+    "type": "widget",
+    "label": "Overmap",
+    "var": "overmap_text",
+    "style": "text",
+    "width": 14,
+    "height": 5,
+    "text_align": "right",
+    "flags": [ "W_LABEL_NONE" ]
+  },
+  {
+    "id": "ll_place_info",
+    "type": "widget",
+    "style": "layout",
+    "width": 20,
+    "copy-from": "all_location_info_rows_layout"
+  },
+  {
+    "id": "ll_place_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Place",
+    "arrange": "columns",
+    "widgets": [ "ll_place_info", "ll_place_overmap" ]
+  },
+  {
     "id": "legacy_labels_sidebar",
     "type": "widget",
     "style": "sidebar",
@@ -89,12 +138,11 @@
       "ll_stats_layout",
       "all_weariness_layout",
       "ll_needs_layout",
-      "all_location_info_rows_layout",
+      "ll_place_layout",
       "wind_temp_layout",
-      "bodypart_status_layout",
       "weapon_style_layout",
       "vehicle_acf_label_layout",
-      "compass_all_layout",
+      "compass_all_danger_layout",
       "rad_badge_desc"
     ]
   }

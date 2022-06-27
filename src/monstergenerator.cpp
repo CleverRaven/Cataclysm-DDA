@@ -708,7 +708,7 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     if( !was_loaded || jo.has_member( "symbol" ) ) {
         sym = jo.get_string( "symbol" );
         if( utf8_wrapper( sym ).display_width() != 1 ) {
-            jo.throw_error( "monster symbol should be exactly one console cell width", "symbol" );
+            jo.throw_error_at( "symbol", "monster symbol should be exactly one console cell width" );
         }
     }
     if( was_loaded && jo.has_member( "copy-from" ) && looks_like.empty() ) {
@@ -1198,9 +1198,9 @@ mtype_special_attack MonsterGenerator::create_actor( const JsonObject &obj,
     const std::string attack_type = obj.get_string( "attack_type", type );
 
     if( type != "monster_attack" && attack_type != type ) {
-        obj.throw_error(
-            R"(Specifying "attack_type" is only allowed when "type" is "monster_attack" or not specified)",
-            "type" );
+        obj.throw_error_at(
+            "type",
+            R"(Specifying "attack_type" is only allowed when "type" is "monster_attack" or not specified)" );
     }
 
     std::unique_ptr<mattack_actor> new_attack;
@@ -1208,7 +1208,7 @@ mtype_special_attack MonsterGenerator::create_actor( const JsonObject &obj,
         const std::string id = obj.get_string( "id" );
         const auto &iter = attack_map.find( id );
         if( iter == attack_map.end() ) {
-            obj.throw_error( "Monster attacks must specify type and/or id", "type" );
+            obj.throw_error_at( "type", "Monster attacks must specify type and/or id" );
         }
 
         new_attack = iter->second->clone();
@@ -1223,7 +1223,7 @@ mtype_special_attack MonsterGenerator::create_actor( const JsonObject &obj,
     } else if( attack_type == "spell" ) {
         new_attack = std::make_unique<mon_spellcasting_actor>();
     } else {
-        obj.throw_error( "unknown monster attack", "attack_type" );
+        obj.throw_error_at( "attack_type", "unknown monster attack" );
     }
 
     new_attack->load( obj, src );

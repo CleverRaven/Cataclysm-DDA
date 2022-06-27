@@ -19,14 +19,14 @@
         "material": [ { "type": "qt_steel", "covered_by_mat": 100, "thickness": 6 } ],
         "covers": [ "torso" ],
         "coverage": 100,
-        "encumbrance": 25
+        "encumbrance": 5
       },
       {
         "material": [ { "type": "qt_steel", "covered_by_mat": 100, "thickness": 6 } ],
         "covers": [ "leg_l", "leg_r", "arm_l", "arm_r" ],
         "specifically_covers": [ "arm_shoulder_r", "arm_shoulder_l", "leg_hip_l", "leg_hip_r" ],
         "coverage": 100,
-        "encumbrance": 10
+        "encumbrance": 5
       }
     ]
   },
@@ -43,14 +43,14 @@
         "material": [ { "type": "qt_steel", "covered_by_mat": 100, "thickness": 3 } ],
         "covers": [ "torso" ],
         "coverage": 85,
-        "encumbrance": 25
+        "encumbrance": 5
       },
       {
         "material": [ { "type": "qt_steel", "covered_by_mat": 100, "thickness": 3 } ],
         "covers": [ "leg_l", "leg_r", "arm_l", "arm_r" ],
         "specifically_covers": [ "arm_shoulder_r", "arm_shoulder_l", "leg_hip_l", "leg_hip_r" ],
         "coverage": 85,
-        "encumbrance": 10
+        "encumbrance": 5
       }
     ]
   },
@@ -79,14 +79,14 @@
         "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 4.5 } ],
         "covers": [ "torso" ],
         "coverage": 100,
-        "encumbrance": 25
+        "encumbrance": 5
       },
       {
         "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 4.5 } ],
         "covers": [ "leg_l", "leg_r", "arm_l", "arm_r" ],
         "specifically_covers": [ "arm_shoulder_r", "arm_shoulder_l", "leg_hip_l", "leg_hip_r" ],
         "coverage": 100,
-        "encumbrance": 10
+        "encumbrance": 5
       }
     ]
   },
@@ -103,14 +103,14 @@
         "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 2.25 } ],
         "covers": [ "torso" ],
         "coverage": 85,
-        "encumbrance": 25
+        "encumbrance": 5
       },
       {
         "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 2.25 } ],
         "covers": [ "leg_l", "leg_r", "arm_l", "arm_r" ],
         "specifically_covers": [ "arm_shoulder_r", "arm_shoulder_l", "leg_hip_l", "leg_hip_r" ],
         "coverage": 85,
-        "encumbrance": 10
+        "encumbrance": 5
       }
     ]
   },
@@ -139,14 +139,14 @@
         "material": [ { "type": "vacuum_carbide", "covered_by_mat": 100, "thickness": 4 } ],
         "covers": [ "torso" ],
         "coverage": 100,
-        "encumbrance": 35
+        "encumbrance": 5
       },
       {
         "material": [ { "type": "vacuum_carbide", "covered_by_mat": 100, "thickness": 4 } ],
         "covers": [ "leg_l", "leg_r", "arm_l", "arm_r" ],
         "specifically_covers": [ "arm_shoulder_r", "arm_shoulder_l", "leg_hip_l", "leg_hip_r" ],
         "coverage": 100,
-        "encumbrance": 15
+        "encumbrance": 5
       }
     ]
   },
@@ -166,14 +166,14 @@
         "material": [ { "type": "vacuum_carbide", "covered_by_mat": 100, "thickness": 2 } ],
         "covers": [ "torso" ],
         "coverage": 85,
-        "encumbrance": 35
+        "encumbrance": 5
       },
       {
         "material": [ { "type": "vacuum_carbide", "covered_by_mat": 100, "thickness": 2 } ],
         "covers": [ "leg_l", "leg_r", "arm_l", "arm_r" ],
         "specifically_covers": [ "arm_shoulder_r", "arm_shoulder_l", "leg_hip_l", "leg_hip_r" ],
         "coverage": 85,
-        "encumbrance": 15
+        "encumbrance": 5
       }
     ]
   },

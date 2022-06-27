@@ -1850,9 +1850,9 @@ void load_construction( const JsonObject &jo )
     con.id = construction_id( -1 );
     con.str_id = construction_str_id( jo.get_string( "id" ) );
     if( con.str_id.is_null() ) {
-        jo.throw_error( "Null construction id specified", "id" );
+        jo.throw_error_at( "id", "Null construction id specified" );
     } else if( construction_id_map.find( con.str_id ) != construction_id_map.end() ) {
-        jo.throw_error( "Duplicate construction id", "id" );
+        jo.throw_error_at( "id", "Duplicate construction id" );
     }
 
     jo.get_member( "group" ).read( con.group );

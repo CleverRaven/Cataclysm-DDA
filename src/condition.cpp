@@ -42,6 +42,7 @@
 #include "units.h"
 #include "vehicle.h"
 #include "vpart_position.h"
+#include "widget.h"
 
 class basecamp;
 class recipe;
@@ -306,7 +307,7 @@ void read_condition( const JsonObject &jo, const std::string &member_name,
             return sub_condition( d );
         };
     } else {
-        jo.throw_error( "invalid condition syntax", member_name );
+        jo.throw_error_at( member_name, "invalid condition syntax" );
     }
 }
 
@@ -388,6 +389,29 @@ void conditional_t<T>::set_u_has_mission( const JsonObject &jo )
             }
         }
         return false;
+    };
+}
+
+template<class T>
+void conditional_t<T>::set_u_monsters_in_direction( const JsonObject &jo )
+{
+    const std::string &dir = jo.get_string( "u_monsters_in_direction" );
+    condition = [dir]( const T & ) {
+        //This string_to_enum function is defined in widget.h. Should it be moved?
+        const int card_dir = static_cast<int>( io::string_to_enum<cardinal_direction>( dir ) );
+        int monster_count = get_avatar().get_mon_visible().unique_mons[card_dir].size();
+        return monster_count > 0;
+    };
+}
+
+template<class T>
+void conditional_t<T>::set_u_safe_mode_trigger( const JsonObject &jo )
+{
+    const std::string &dir = jo.get_string( "u_safe_mode_trigger" );
+    condition = [dir]( const T & ) {
+        //This string_to_enum function is defined in widget.h. Should it be moved?
+        const int card_dir = static_cast<int>( io::string_to_enum<cardinal_direction>( dir ) );
+        return get_avatar().get_mon_visible().dangerous[card_dir];
     };
 }
 
@@ -1545,6 +1569,10 @@ std::function<int( const T & )> conditional_t<T>::get_get_int( const JsonObject 
             return [is_npc]( const T & d ) {
                 return d.actor( is_npc )->get_thirst();
             };
+        } else if( checked_value == "instant_thirst" ) {
+            return [is_npc]( const T & d ) {
+                return d.actor( is_npc )->get_instant_thirst();
+            };
         } else if( checked_value == "stored_kcal" ) {
             return [is_npc]( const T & d ) {
                 return d.actor( is_npc )->get_stored_kcal();
@@ -1806,17 +1834,17 @@ static std::function<void( const T &, int )> get_set_int( const JsonObject &jo,
             };
         } else if( weather_aspect == "windpower" ) {
             return [min, max]( const T & d, int input ) {
-                get_weather().weather_precise->windpower = handle_min_max<T>( d, input, min, max );;
+                get_weather().weather_precise->windpower = handle_min_max<T>( d, input, min, max );
                 get_weather().clear_temp_cache();
             };
         } else if( weather_aspect == "humidity" ) {
             return [min, max]( const T & d, int input ) {
-                get_weather().weather_precise->humidity = handle_min_max<T>( d, input, min, max );;
+                get_weather().weather_precise->humidity = handle_min_max<T>( d, input, min, max );
                 get_weather().clear_temp_cache();
             };
         } else if( weather_aspect == "pressure" ) {
             return [min, max]( const T & d, int input ) {
-                get_weather().weather_precise->pressure = handle_min_max<T>( d, input, min, max );;
+                get_weather().weather_precise->pressure = handle_min_max<T>( d, input, min, max );
                 get_weather().clear_temp_cache();
             };
         }
@@ -2493,6 +2521,10 @@ conditional_t<T>::conditional_t( const JsonObject &jo )
         set_is_riding( is_npc );
     } else if( jo.has_string( "u_has_mission" ) ) {
         set_u_has_mission( jo );
+    } else if( jo.has_string( "u_monsters_in_direction" ) ) {
+        set_u_monsters_in_direction( jo );
+    } else if( jo.has_string( "u_safe_mode_trigger" ) ) {
+        set_u_safe_mode_trigger( jo );
     } else if( jo.has_int( "u_has_strength" ) || jo.has_object( "u_has_strength" ) ) {
         set_has_strength( jo, "u_has_strength" );
     } else if( jo.has_int( "npc_has_strength" ) || jo.has_object( "npc_has_strength" ) ) {

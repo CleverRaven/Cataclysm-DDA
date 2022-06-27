@@ -602,7 +602,7 @@ load_mapgen_function( const JsonObject &jio, const std::string &id_base, const p
             ret = std::make_shared<mapgen_function_builtin>( ptr, mgweight );
             oter_mapgen.add( id_base, ret );
         } else {
-            jio.throw_error( "function does not exist", "name" );
+            jio.throw_error_at( "name", "function does not exist" );
         }
     } else if( mgtype == "json" ) {
         if( !jio.has_object( "object" ) ) {
@@ -615,7 +615,7 @@ load_mapgen_function( const JsonObject &jio, const std::string &id_base, const p
                   jsrc, mgweight, "mapgen " + id_base, offset, total );
         oter_mapgen.add( id_base, ret );
     } else {
-        jio.throw_error( R"(invalid value: must be "builtin" or "json")", "method" );
+        jio.throw_error_at( "method", R"(invalid value: must be "builtin" or "json")" );
     }
     return ret;
 }
@@ -753,11 +753,11 @@ static bool common_check_bounds( const jmapgen_int &x, const jmapgen_int &y,
     }
 
     if( x.valmax > mapgensize.x - 1 ) {
-        jso.throw_error( "coordinate range cannot cross grid boundaries", "x" );
+        jso.throw_error_at( "x", "coordinate range cannot cross grid boundaries" );
     }
 
     if( y.valmax > mapgensize.y - 1 ) {
-        jso.throw_error( "coordinate range cannot cross grid boundaries", "y" );
+        jso.throw_error_at( "y", "coordinate range cannot cross grid boundaries" );
     }
 
     return true;
@@ -819,7 +819,7 @@ jmapgen_int::jmapgen_int( const JsonObject &jo, const std::string &tag )
     if( jo.has_array( tag ) ) {
         JsonArray sparray = jo.get_array( tag );
         if( sparray.size() < 1 || sparray.size() > 2 ) {
-            jo.throw_error( "invalid data: must be an array of 1 or 2 values", tag );
+            jo.throw_error_at( tag, "invalid data: must be an array of 1 or 2 values" );
         }
         val = sparray.get_int( 0 );
         if( sparray.size() == 2 ) {
@@ -840,7 +840,7 @@ jmapgen_int::jmapgen_int( const JsonObject &jo, const std::string &tag, const in
     if( jo.has_array( tag ) ) {
         JsonArray sparray = jo.get_array( tag );
         if( sparray.size() > 2 ) {
-            jo.throw_error( "invalid data: must be an array of 1 or 2 values", tag );
+            jo.throw_error_at( tag, "invalid data: must be an array of 1 or 2 values" );
         }
         if( sparray.size() >= 1 ) {
             val = sparray.get_int( 0 );
@@ -3006,35 +3006,18 @@ class jmapgen_remove_vehicles : public jmapgen_piece
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
                     const std::string &/*context*/ ) const override {
 
-            const tripoint start = dat.m.getabs( tripoint( x.val, y.val, dat.zlevel() ) );
-            const tripoint end = dat.m.getabs( tripoint( x.valmax, y.valmax, dat.zlevel() ) );
-            if( start == end ) {
-                if( optional_vpart_position vp = dat.m.veh_at( dat.m.getlocal( start ) ) ) {
-                    bool remove = vehicles_to_remove.empty();
-                    for( const vproto_id &vpid : vehicles_to_remove ) {
-                        if( vp->vehicle().type == vpid ) {
-                            remove = true;
+            const tripoint start( x.val, y.val, dat.zlevel() );
+            const tripoint end( x.valmax, y.valmax, dat.zlevel() );
+            const tripoint_range<tripoint> range = tripoint_range<tripoint>( start, end );
+            for( const tripoint &p : range ) {
+                if( optional_vpart_position vp = dat.m.veh_at( p ) ) {
+                    const auto rit = std::find( vehicles_to_remove.begin(), vehicles_to_remove.end(),
+                                                vp->vehicle().type );
+                    if( rit != vehicles_to_remove.end() ) {
+                        if( get_map().inbounds( dat.m.getglobal( start ) ) ) {
+                            get_map().remove_vehicle_from_cache( &vp->vehicle(), start.z, end.z );
                         }
-                    }
-                    if( remove ) {
                         dat.m.destroy_vehicle( &vp->vehicle() );
-                        get_map().clear_vehicle_level_caches();
-                    }
-                }
-            } else {
-                tripoint_range<tripoint> range = tripoint_range<tripoint>( start, end );
-                for( const tripoint &p : range ) {
-                    if( optional_vpart_position vp = dat.m.veh_at( dat.m.getlocal( p ) ) ) {
-                        bool remove = vehicles_to_remove.empty();
-                        for( const vproto_id &vpid : vehicles_to_remove ) {
-                            if( vp->vehicle().type == vpid ) {
-                                remove = true;
-                            }
-                        }
-                        if( remove ) {
-                            dat.m.destroy_vehicle( &vp->vehicle() );
-                            get_map().clear_vehicle_level_caches();
-                        }
                     }
                 }
             }
@@ -3087,8 +3070,10 @@ class jmapgen_remove_all : public jmapgen_piece
                 dat.m.clear_fields( p );
                 dat.m.delete_graffiti( p );
                 if( optional_vpart_position vp = dat.m.veh_at( p ) ) {
+                    if( get_map().inbounds( dat.m.getglobal( start ) ) ) {
+                        get_map().remove_vehicle_from_cache( &vp->vehicle(), start.z, end.z );
+                    }
                     dat.m.destroy_vehicle( &vp->vehicle() );
-                    get_map().clear_vehicle_level_caches();
                 }
             }
         }
@@ -3968,7 +3953,7 @@ void mapgen_function_json_base::setup_common()
         jsin.error( "format: no terrain map" );
     }
     if( mapgen_defer::defer ) {
-        mapgen_defer::jsi.throw_error( mapgen_defer::message, mapgen_defer::member );
+        mapgen_defer::jsi.throw_error_at( mapgen_defer::member, mapgen_defer::message );
     } else {
         mapgen_defer::jsi = JsonObject();
     }
@@ -4039,16 +4024,18 @@ bool mapgen_function_json_base::setup_common( const JsonObject &jo )
 
                 if( !has_terrain && !fallback_terrain_exists ) {
                     parray.string_error(
+                        c, i + 1,
                         string_format( "format: rows: row %d column %d: "
                                        "'%s' is not in 'terrain', and no 'fill_ter' is set!",
-                                       c + 1, i + 1, key.str ), c, i + 1 );
+                                       c + 1, i + 1, key.str ) );
                 }
                 if( !has_terrain && !has_placing && key.str != " " && key.str != "." ) {
                     try {
                         parray.string_error(
+                            c, i + 1,
                             string_format( "format: rows: row %d column %d: "
                                            "'%s' has no terrain, furniture, or other definition",
-                                           c + 1, i + 1, key.str ), c, i + 1 );
+                                           c + 1, i + 1, key.str ) );
                     } catch( const JsonError &e ) {
                         debugmsg( "(json-error)\n%s", e.what() );
                     }
@@ -7479,15 +7466,10 @@ bool update_mapgen_function_json::update_map( const tripoint_abs_omt &omt_pos, c
         return false;
     }
 
-    tinymap update_tmap;
+    std::unique_ptr<tinymap> p_update_tmap = std::make_unique<tinymap>();
+    tinymap &update_tmap = *p_update_tmap;
     const tripoint_abs_sm sm_pos = project_to<coords::sm>( omt_pos );
 
-    bool shifted = false;
-    tripoint_abs_ms avatar_pos = get_avatar().get_location();
-    if( get_map().inbounds( project_to<coords::ms>( sm_pos ) ) ) {
-        g->place_player_overmap( project_to<coords::omt>( avatar_pos ) + tripoint( 0, 10, 0 ), false );
-        shifted = true;
-    }
     update_tmap.load( sm_pos, true );
     update_tmap.rotate( 4 - rotation );
     update_tmap.mirror( mirror_horizontal, mirror_vertical );
@@ -7498,8 +7480,11 @@ bool update_mapgen_function_json::update_map( const tripoint_abs_omt &omt_pos, c
     update_tmap.mirror( mirror_horizontal, mirror_vertical );
     update_tmap.rotate( rotation );
 
-    if( shifted ) {
-        g->place_player_overmap( project_to<coords::omt>( avatar_pos ), false );
+    if( get_map().inbounds( project_to<coords::ms>( sm_pos ) ) ) {
+        // trigger main map cleanup
+        p_update_tmap.reset();
+        // trigger new traps, etc
+        g->place_player( get_avatar().pos() );
     }
 
     return u;

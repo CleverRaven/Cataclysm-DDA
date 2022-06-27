@@ -1072,7 +1072,7 @@ template<typename T>
 T read_from_json_string( const JsonValue &jv, const std::vector<std::pair<std::string, T>> &units )
 {
     const auto error = [&]( const char *const msg, size_t offset ) {
-        jv.throw_error( msg, offset );
+        jv.throw_error( offset, msg );
     };
 
     const std::string s = jv;
