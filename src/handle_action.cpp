@@ -2332,7 +2332,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             break;
 
         case ACTION_DISASSEMBLE:
-			if( in_shell ) {
+            if( in_shell ) {
                 add_msg( m_info, _( "You can't disassemble while you're in your shell." ) );
             } else if( player_character.controlling_vehicle ) {
                 add_msg( m_info, _( "You can't disassemble items while driving." ) );
