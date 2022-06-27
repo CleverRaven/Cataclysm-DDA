@@ -270,6 +270,7 @@ caparison
 capiche
 caprison
 carapaces
+carbamide
 carryin
 casehead
 castable
@@ -821,6 +822,7 @@ hunllef
 hydria
 hydrogel
 hygrometer
+hygroscopic
 hyperaggressive
 hypergeometric
 hypervitaminosis
@@ -1271,6 +1273,7 @@ pemmican
 penetrators
 pentaceratops
 pentacerops
+pentaerythritol
 peptone
 peridots
 peripheric
@@ -1749,6 +1752,7 @@ terpenes
 terranean
 testbed
 tetradrachm
+tetranitrate
 th
 thawb
 thawbs
@@ -1805,6 +1809,7 @@ tricorne
 trifacet
 trifacets
 trilaser
+trinitrotoluene
 tripcore
 troglobite
 troodon

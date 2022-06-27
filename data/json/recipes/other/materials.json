@@ -386,7 +386,13 @@
     "book_learn": [ [ "adv_chemistry", 4 ], [ "textbook_chemistry", 4 ] ],
     "result_mult": 9,
     "qualities": [ { "id": "CHEM", "level": 2 } ],
-    "tools": [ [ [ "surface_heat", 100, "LIST" ] ], [ [ "eletrolysis_kit", 100 ] ], [ [ "sheet_metal", -1 ] ], [ [ "chem_magnesium_oxide", -1 ] ], [ [ "material_sand", -1 ] ] ],
+    "tools": [
+      [ [ "surface_heat", 100, "LIST" ] ],
+      [ [ "eletrolysis_kit", 100 ] ],
+      [ [ "sheet_metal", -1 ] ],
+      [ [ "chem_magnesium_oxide", -1 ] ],
+      [ [ "material_sand", -1 ] ]
+    ],
     "components": [
       [ [ "chem_ethanol", 50 ] ],
       [ [ "salt_water", 2 ] ],
@@ -816,7 +822,12 @@
     "batch_time_factors": [ 50, 2 ],
     "qualities": [ { "id": "CHEM", "level": 1 }, { "id": "CUT", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
-    "components": [ [ [ "string_36", 4 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "chem_saltpetre", 7 ], [ "chem_sodium_nitrate", 7 ] ], [ [ "sugar", 5 ] ] ]
+    "components": [
+      [ [ "string_36", 4 ] ],
+      [ [ "water", 1 ], [ "water_clean", 1 ] ],
+      [ [ "chem_saltpetre", 7 ], [ "chem_sodium_nitrate", 7 ] ],
+      [ [ "sugar", 5 ] ]
+    ]
   },
   {
     "result": "fuse",
