@@ -104,6 +104,13 @@
     "upgrades": { "age_grow": 40, "into": "mon_qianzhousaurus_juvenile" }
   },
   {
+    "id": "mon_nanuqsaurus_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_dryptosaurus_hatchling",
+    "default_faction": "daspletosaurus_hatchling",
+    "upgrades": { "age_grow": 40, "into": "mon_nanuqsaurus_juvenile" }
+  },
+  {
     "id": "mon_daspletosaurus_hatchling",
     "type": "MONSTER",
     "copy-from": "mon_dryptosaurus_hatchling",

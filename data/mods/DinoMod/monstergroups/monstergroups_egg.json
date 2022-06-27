@@ -60,6 +60,7 @@
       { "monster": "mon_appalachiosaurus_hatchling", "weight": 8 },
       { "monster": "mon_gorgosaurus_hatchling", "weight": 8 },
       { "monster": "mon_albertosaurus_hatchling", "weight": 8 },
+      { "monster": "mon_nanuqsaurus_hatchling", "weight": 8 },
       { "monster": "mon_daspletosaurus_hatchling", "weight": 8 },
       { "monster": "mon_gallimimus_hatchling", "weight": 20 },
       { "monster": "mon_struthiomimus_hatchling", "weight": 20 },
@@ -150,6 +151,11 @@
     "name": "GROUP_EGG_qianzhousaurus",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_qianzhousaurus_hatchling" } ]
+  },
+  {
+    "name": "GROUP_EGG_nanuqsaurus",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_nanuqsaurus_hatchling" } ]
   },
   {
     "name": "GROUP_EGG_daspletosaurus",
