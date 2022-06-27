@@ -16,7 +16,7 @@ const static flag_id json_flag_W_LABEL_NONE( "W_LABEL_NONE" );
 const static flag_id json_flag_W_NO_PADDING( "W_NO_PADDING" );
 
 // Default label separator for widgets.
-const static std::string default_separator = "DEFAULT";
+const static std::string default_separator = ": ";
 
 // Use generic factory wrappers for widgets to use standardized JSON loading methods
 namespace
@@ -362,13 +362,15 @@ void widget::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "text_align", _text_align, widget_alignment::LEFT );
     optional( jo, was_loaded, "label_align", _label_align, widget_alignment::LEFT );
     optional( jo, was_loaded, "flags", _flags );
+    optional( jo, was_loaded, "padding", _padding, 2 );
 
     if( _style == "sidebar" ) {
         mandatory( jo, was_loaded, "separator", _separator );
         explicit_separator = true;
     } else {
+        explicit_separator = ( jo.get_string( "separator") );
+        explicit_padding = ( jo.get_int( "padding" ) );
         optional( jo, was_loaded, "separator", _separator, default_separator );
-        explicit_separator = ( _separator != default_separator );
     }
     _height = _height_max;
     _label_width = _label.empty() ? 0 : utf8_width( _label.translated() );
@@ -456,8 +458,8 @@ int widget::finalize_label_width_recursive( const widget_id &id )
     return w->_label_width;
 }
 
-void widget::finalize_label_separator_recursive( const widget_id &id,
-        const std::string &label_separator )
+void widget::finalize_inherited_fields_recursive( const widget_id &id,
+        const std::string &label_separator, const int &col_padding )
 {
     widget *w = nullptr;
     // Get the original widget from the widget factory.
@@ -469,20 +471,23 @@ void widget::finalize_label_separator_recursive( const widget_id &id,
     }
     if( w == nullptr ) {
         return;
-    } else if( w->_widgets.empty() ) {
-        if( !w->explicit_separator ) {
+    }
+    if( !w->explicit_separator ) {
             w->_separator = label_separator;
             return;
         } else {
             return;
         }
+        if( !w->explicit_padding ) {
+            w->_padding = col_padding;
+            return;
+        }
+    if( w->_widgets.empty() ) {
+        return;
     }
     // If we get here, we have a layout that contains nested widgets.
     for( const widget_id &wid : w->_widgets ) {
-        if( !w->explicit_separator ) {
-            w->_separator = label_separator;
-        }
-        widget::finalize_label_separator_recursive( wid, w->_separator );
+        widget::finalize_inherited_fields_recursive( wid, w->explicit_separator ? w->_separator : label_separator, w->explicit_padding ? w->_padding : padding );
     }
 }
 
@@ -490,7 +495,7 @@ void widget::finalize()
 {
     for( const widget &wgt : widget::get_all() ) {
         if( wgt.explicit_separator ) {
-            widget::finalize_label_separator_recursive( wgt.getId(), wgt._separator );
+            widget::finalize_inherited_fields_recursive( wgt.getId(), wgt._separator, wgt._padding );
         }
         widget::finalize_label_width_recursive( wgt.getId() );
     }
@@ -1460,7 +1465,7 @@ std::string widget::layout( const avatar &ava, unsigned int max_width, int label
                 debugmsg( "widget layout has no widgets" );
             }
             // Number of spaces between columns
-            const int col_padding = 2;
+            const int col_padding = _padding;
             // Subtract column padding to get space available for widgets
             const int avail_width = max_width - col_padding * ( num_widgets - 1 );
             // Divide available width equally among all widgets
