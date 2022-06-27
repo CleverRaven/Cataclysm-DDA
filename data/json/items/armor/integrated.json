@@ -768,7 +768,7 @@
     "material": [ "chitin_light" ],
     "symbol": "x",
     "color": "magenta",
-	"pocket_data": [
+    "pocket_data": [
       {
         "pocket_type": "CONTAINER",
         "max_contains_volume": "7 L",
@@ -776,7 +776,7 @@
         "max_item_length": "50 cm",
         "moves": 350
       }
-	 ],
+    ],
     "warmth": 7,
     "environmental_protection": 13,
     "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "BELTED", "WATERPROOF", "PADDED" ],
@@ -802,15 +802,15 @@
     "material": [ "bone" ],
     "symbol": "x",
     "color": "magenta",
-	"pocket_data": [
+    "pocket_data": [
       {
         "pocket_type": "CONTAINER",
         "max_contains_volume": "7 L",
-        "max_contains_weight": "30 kg",
+        "max_contains_weight": "20 kg",
         "max_item_length": "50 cm",
         "moves": 350
       }
-	 ],
+    ],
     "warmth": 7,
     "environmental_protection": 13,
     "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "BELTED", "WATERPROOF", "PADDED" ],
