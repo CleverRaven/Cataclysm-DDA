@@ -707,7 +707,7 @@ units::temperature get_local_windchill( units::temperature temperature, double h
         windchill_f = windchill_c * 9 / 5;
     }
 
-    return units::from_fahrenheit( std::ceil( windchill_f ) );
+    return units::from_fahrenheit( windchill_f );
 }
 
 nc_color get_wind_color( double windpower )
