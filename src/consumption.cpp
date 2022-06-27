@@ -1209,7 +1209,7 @@ void Character::modify_morale( item &food, const int nutr )
                                _( "You feast upon the human flesh, and in doing so, devour their spirit." ) );
             // You're not really consuming anything special; you just think you are.
             add_morale( MORALE_CANNIBAL, 25, 300 );
-        } else if( cannibal && psycho ) {
+        } else if( ( cannibal || sapiovore ) && psycho ) {
             add_msg_if_player( m_good, _( "You feast upon the human flesh." ) );
             add_morale( MORALE_CANNIBAL, 15, 200 );
         } else if( ( cannibal || sapiovore ) && spiritual ) {
@@ -1219,12 +1219,14 @@ void Character::modify_morale( item &food, const int nutr )
         } else if( cannibal ) {
             add_msg_if_player( m_good, _( "You indulge your shameful hunger." ) );
             add_morale( MORALE_CANNIBAL, 10, 50 );
-        } else if( ( psycho || sapiovore ) && spiritual ) {
+        } else if( psycho && spiritual ) {
             add_msg_if_player( _( "You greedily devour the taboo meat." ) );
             // Small bonus for violating a taboo.
             add_morale( MORALE_CANNIBAL, 5, 50 );
-        } else if( psycho || sapiovore ) {
+        } else if( psycho ) {
             add_msg_if_player( _( "Meh.  You've eaten worse." ) );
+        } else if( sapiovore ) {
+            // Omitting the message for sapiovores. They just don't care what meat they eat.
         } else if( spiritual ) {
             add_msg_if_player( m_bad,
                                _( "This is probably going to count against you if there's still an afterlife." ) );
