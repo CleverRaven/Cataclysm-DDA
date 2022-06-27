@@ -1086,7 +1086,7 @@
     "color": "white",
     "description": "White crystalline powder, also known as pentaerythritol tetranitrate.  It is a very powerful explosive material.",
     "material": [ "powder" ],
-    "volume": "303 ml",
+    "volume": "283 ml",
     "weight": "1 g",
     "ammo_type": "components",
     "count": 500
@@ -1584,7 +1584,7 @@
     "color": "white",
     "description": "White crystalline highly flammable powder made from urea and nitric acid, often used in improvised explosive devices due to the ease of acquiring the materials necessary to produce it.",
     "material": [ "powder" ],
-    "volume": "303 ml",
+    "volume": "300 ml",
     "weight": "1 g",
     "ammo_type": "components",
     "count": 500
