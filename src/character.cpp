@@ -4096,6 +4096,12 @@ int Character::get_thirst() const
     return thirst;
 }
 
+int Character::get_instant_thirst() const
+{
+    return thirst - std::max( units::to_milliliter<int>
+                              ( stomach.get_water() / 10 ), 0 );
+}
+
 void Character::mod_thirst( int nthirst )
 {
     if( has_flag( json_flag_NO_THIRST ) || !needs_food() ) {

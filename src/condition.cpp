@@ -1569,6 +1569,10 @@ std::function<int( const T & )> conditional_t<T>::get_get_int( const JsonObject 
             return [is_npc]( const T & d ) {
                 return d.actor( is_npc )->get_thirst();
             };
+        } else if( checked_value == "instant_thirst" ) {
+            return [is_npc]( const T & d ) {
+                return d.actor( is_npc )->get_instant_thirst();
+            };
         } else if( checked_value == "stored_kcal" ) {
             return [is_npc]( const T & d ) {
                 return d.actor( is_npc )->get_stored_kcal();
