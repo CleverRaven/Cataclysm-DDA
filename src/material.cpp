@@ -282,7 +282,7 @@ bool material_type::is_valid_thickness( float thickness ) const
     }
 
     // float calcs so rounding need to be mindful of
-    return std::fmodf( thickness, _sheet_thickness ) < .01;
+    return std::fmod( thickness, _sheet_thickness ) < .01f;
 }
 
 float material_type::thickness_multiple() const
