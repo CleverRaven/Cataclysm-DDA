@@ -18,28 +18,31 @@
     "energy_source": "NONE"
   },
   {
-	  "type": "SPELL",
-	  "id": "exo_flamethrower",
-	  "description": "A massive gout of flame leaps forward, igniting everything in it's path.",
-	  "valid_targets": [ "hostile", "ground" ],
-	  "flags": ,
-	  "message": "",
-	  "effect":
-  },
-  {
-	  "type": "SPELL",
-	  "id": "exo_shoulderlaser",
-	  "description": "The turret tracks the targeted enemy and unleashes a burst of laser fire.",
-	  "valid_targets": "enemy",
-  },
-  {
-	  "type": "SPELL",
-	  "id": "exo_soniccannon",
-	  "description": "With a thrum that makes your teeth ache, the sonic cannon fires.",
-  },
-  {
-	  "type": "SPELL",
-	  "id": "exo_microwave",
-	  "description": "Vapor curls from the shroud of the microwave cannon as invisible heat blasts the target."
-  },
+    "type": "SPELL",
+    "id": "exo_flamethrower",
+	"name": "Exosuit Flamethrower",
+    "description": "A massive gout of flame leaps forward, igniting everything in it's path.",
+    "effect": "attack",
+    "shape": "cone",
+    "valid_targets": [ "hostile", "ground" ],
+    "flags": "IGNITE_FLAMMABLE",
+    "message": "",
+    "max_level": 20,
+    "min_damage": 20,
+    "max_damage": 30,
+    "damage_increment": 5.0,
+    "min_range": 3,
+    "max_range": 7,
+    "range_increment": 0.25,
+    "min_aoe": 5,
+    "max_aoe": 15,
+    "aoe_increment": 5.0,
+	"damage_type": "heat",
+	"field_id": "fd_fire",
+    "field_chance": 3,
+    "min_field_intensity": 10,
+    "max_field_intensity": 10,
+    "field_intensity_increment": 1,
+    "field_intensity_variance": 0.1    
+  }	
 ]
