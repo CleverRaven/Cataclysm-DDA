@@ -1450,7 +1450,7 @@ bool trapfunc::cast_spell( const tripoint &p, Creature *critter, item * )
     map &here = get_map();
     trap tr = here.tr_at( p );
     const spell trap_spell = tr.spell_data.get_spell( 0 );
-    npc dummy;    
+    npc dummy;
     here.remove_trap( p );
     // we remove the trap before casting the spell because otherwise if mapgen is invoked on our location it will retrigger the trap and create an infinite loop
     trap_spell.cast_all_effects( dummy, critter->pos() );
