@@ -841,7 +841,7 @@ void avatar::vomit()
 
 nc_color avatar::basic_symbol_color() const
 {
-	bool in_shell = has_active_mutation( trait_SHELL2 ) ||
+    bool in_shell = has_active_mutation( trait_SHELL2 ) ||
                     has_active_mutation( trait_SHELL3 );
     if( has_effect( effect_onfire ) ) {
         return c_red;
