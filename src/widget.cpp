@@ -461,7 +461,7 @@ int widget::finalize_label_width_recursive( const widget_id &id )
 }
 
 void widget::finalize_inherited_fields_recursive( const widget_id &id,
-        const std::string &label_separator, const int &col_padding )
+        const std::string &label_separator, const int col_padding )
 {
     widget *w = nullptr;
     // Get the original widget from the widget factory.
