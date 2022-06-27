@@ -39,7 +39,7 @@
     "aoe_increment": 5.0,
 	"damage_type": "heat",
 	"field_id": "fd_fire",
-    "field_chance": 3,
+    "field_chance": 2,
     "min_field_intensity": 10,
     "max_field_intensity": 10,
     "field_intensity_increment": 1,
