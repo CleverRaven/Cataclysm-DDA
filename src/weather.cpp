@@ -669,11 +669,12 @@ std::string print_pressure( double pressure, int decimals )
     return string_format( pgettext( "air pressure in kPa", "%s kPa" ), ret );
 }
 
-units::temperature get_local_windchill( units::temperature temperature, double humidity, double wind_mph )
+units::temperature get_local_windchill( units::temperature temperature, double humidity,
+                                        double wind_mph )
 {
     double windchill_f = 0;
-	
-	const double temperature_f = units::to_fahrenheit( temperature );
+
+    const double temperature_f = units::to_fahrenheit( temperature );
 
     if( temperature_f < 50 ) {
         /// Model 1, cold wind chill (only valid for temps below 50F)

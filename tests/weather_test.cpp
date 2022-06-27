@@ -202,10 +202,14 @@ TEST_CASE( "local wind chill calculation", "[weather][wind_chill]" )
 
         WHEN( "wind speed is less than 3 mph" ) {
             THEN( "windchill is undefined and effectively 0" ) {
-                CHECK( 0 == units::to_fahrenheit( get_local_windchill(  units::from_fahrenheit( 30.0f ), 0.0f, 2.9f  ) ) );
-                CHECK( 0 == units::to_fahrenheit( get_local_windchill(  units::from_fahrenheit( 30.0f ), 0.0f, 2.0f  ) ) );
-                CHECK( 0 == units::to_fahrenheit( get_local_windchill(  units::from_fahrenheit( 30.0f ), 0.0f, 1.0f  ) ) );
-                CHECK( 0 == units::to_fahrenheit( get_local_windchill(  units::from_fahrenheit( 30.0f ), 0.0f, 0.0f  ) ) );
+                CHECK( 0 == units::to_fahrenheit( get_local_windchill( units::from_fahrenheit( 30.0f ), 0.0f,
+                                                  2.9f ) ) );
+                CHECK( 0 == units::to_fahrenheit( get_local_windchill( units::from_fahrenheit( 30.0f ), 0.0f,
+                                                  2.0f ) ) );
+                CHECK( 0 == units::to_fahrenheit( get_local_windchill( units::from_fahrenheit( 30.0f ), 0.0f,
+                                                  1.0f ) ) );
+                CHECK( 0 == units::to_fahrenheit( get_local_windchill( units::from_fahrenheit( 30.0f ), 0.0f,
+                                                  0.0f ) ) );
             }
         }
 
@@ -221,7 +225,8 @@ TEST_CASE( "local wind chill calculation", "[weather][wind_chill]" )
                 temp_f = units::from_fahrenheit( 14.0f );
 
                 THEN( "the wind chill effect is -12F" ) {
-                    CHECK( units::to_fahrenheit( get_local_windchill(  temp_f, 0.0f, wind_mph  ) ) == Approx( -12.6 ).margin( 0.1 ) );
+                    CHECK( units::to_fahrenheit( get_local_windchill( temp_f, 0.0f,
+                                                 wind_mph ) ) == Approx( -12.6 ).margin( 0.1 ) );
                 }
             }
 
@@ -229,7 +234,8 @@ TEST_CASE( "local wind chill calculation", "[weather][wind_chill]" )
                 temp_f = units::from_fahrenheit( -4.0f );
 
                 THEN( "there is more wind chill, an effect of -16F" ) {
-                    CHECK( units::to_fahrenheit( get_local_windchill(  temp_f, 0.0f, wind_mph  ) ) == Approx( -16.9 ).margin( 0.1 ) );
+                    CHECK( units::to_fahrenheit( get_local_windchill( temp_f, 0.0f,
+                                                 wind_mph ) ) == Approx( -16.9 ).margin( 0.1 ) );
                 }
             }
         }
@@ -238,15 +244,24 @@ TEST_CASE( "local wind chill calculation", "[weather][wind_chill]" )
 
         WHEN( "wind speed is at least 3 mph" ) {
             THEN( "windchill gets colder as temperature decreases" ) {
-                CHECK( units::to_fahrenheit( get_local_windchill(  units::from_fahrenheit( 40.0f ), 0.0f, 15.0f  ) ) == Approx( -8.2 ).margin( 0.1 ) );
-                CHECK( units::to_fahrenheit( get_local_windchill(  units::from_fahrenheit( 30.0f ), 0.0f, 15.0f  ) ) == Approx( -11 ).margin( 0.1 ) );
-                CHECK( units::to_fahrenheit( get_local_windchill(  units::from_fahrenheit( 20.0f ), 0.0f, 15.0f  ) ) == Approx( -13.7 ).margin( 0.1 ) );
-                CHECK( units::to_fahrenheit( get_local_windchill(  units::from_fahrenheit( 10.0f ), 0.0f, 15.0f  ) ) == Approx( -16.6 ).margin( 0.1 ) );
-                CHECK( units::to_fahrenheit( get_local_windchill(  units::from_fahrenheit( 0.0f ), 0.0f, 15.0f  ) ) == Approx( -19.4 ).margin( 0.1 ) );
-                CHECK( units::to_fahrenheit( get_local_windchill(  units::from_fahrenheit( -10.0f ), 0.0f, 15.0f  ) ) == Approx( -22.2 ).margin( 0.1 ) );
-                CHECK( units::to_fahrenheit( get_local_windchill(  units::from_fahrenheit( -20.0f ), 0.0f, 15.0f  ) ) == Approx( -25 ).margin( 0.1 ) );
-                CHECK( units::to_fahrenheit( get_local_windchill(  units::from_fahrenheit( -30.0f ), 0.0f, 15.0f  ) ) == Approx( -27.8 ).margin( 0.1 ) );
-                CHECK( units::to_fahrenheit( get_local_windchill(  units::from_fahrenheit( -40.0f ), 0.0f, 15.0f  ) ) == Approx( -30.6 ).margin( 0.1 ) );
+                CHECK( units::to_fahrenheit( get_local_windchill( units::from_fahrenheit( 40.0f ), 0.0f,
+                                             15.0f ) ) == Approx( -8.2 ).margin( 0.1 ) );
+                CHECK( units::to_fahrenheit( get_local_windchill( units::from_fahrenheit( 30.0f ), 0.0f,
+                                             15.0f ) ) == Approx( -11 ).margin( 0.1 ) );
+                CHECK( units::to_fahrenheit( get_local_windchill( units::from_fahrenheit( 20.0f ), 0.0f,
+                                             15.0f ) ) == Approx( -13.7 ).margin( 0.1 ) );
+                CHECK( units::to_fahrenheit( get_local_windchill( units::from_fahrenheit( 10.0f ), 0.0f,
+                                             15.0f ) ) == Approx( -16.6 ).margin( 0.1 ) );
+                CHECK( units::to_fahrenheit( get_local_windchill( units::from_fahrenheit( 0.0f ), 0.0f,
+                                             15.0f ) ) == Approx( -19.4 ).margin( 0.1 ) );
+                CHECK( units::to_fahrenheit( get_local_windchill( units::from_fahrenheit( -10.0f ), 0.0f,
+                                             15.0f ) ) == Approx( -22.2 ).margin( 0.1 ) );
+                CHECK( units::to_fahrenheit( get_local_windchill( units::from_fahrenheit( -20.0f ), 0.0f,
+                                             15.0f ) ) == Approx( -25 ).margin( 0.1 ) );
+                CHECK( units::to_fahrenheit( get_local_windchill( units::from_fahrenheit( -30.0f ), 0.0f,
+                                             15.0f ) ) == Approx( -27.8 ).margin( 0.1 ) );
+                CHECK( units::to_fahrenheit( get_local_windchill( units::from_fahrenheit( -40.0f ), 0.0f,
+                                             15.0f ) ) == Approx( -30.6 ).margin( 0.1 ) );
             }
         }
 
@@ -262,7 +277,8 @@ TEST_CASE( "local wind chill calculation", "[weather][wind_chill]" )
 
                 THEN( "wind chill is -24C (-11.2F)" ) {
                     // -4C offset from -20C =~ -7.2F offset from -4F
-                    CHECK( units::to_fahrenheit( get_local_windchill(  temp_f, 0.0f, wind_mph  ) ) == Approx( -7.6 ).margin( 0.1 ) );
+                    CHECK( units::to_fahrenheit( get_local_windchill( temp_f, 0.0f,
+                                                 wind_mph ) ) == Approx( -7.6 ).margin( 0.1 ) );
                 }
             }
             WHEN( "wind speed increases to 19mph" ) {
@@ -270,7 +286,8 @@ TEST_CASE( "local wind chill calculation", "[weather][wind_chill]" )
 
                 THEN( "wind chill is -33C (-27.4F)" ) {
                     // -13C offset from -20C =~ -23.4F offset from -4F
-                    CHECK( units::to_fahrenheit( get_local_windchill(  temp_f, 0.0f, wind_mph  ) ) == Approx( -22.7 ).margin( 0.1 ) );
+                    CHECK( units::to_fahrenheit( get_local_windchill( temp_f, 0.0f,
+                                                 wind_mph ) ) == Approx( -22.7 ).margin( 0.1 ) );
                 }
             }
         }
@@ -280,24 +297,40 @@ TEST_CASE( "local wind chill calculation", "[weather][wind_chill]" )
         WHEN( "wind speed is at least 3 mph" ) {
             THEN( "windchill gets colder as wind increases" ) {
                 // Just below freezing
-                CHECK( units::to_fahrenheit( get_local_windchill(  units::from_fahrenheit( 30.0f ), 0.0f, 3.0f  ) ) == Approx( -2.9 ).margin( 0.1 ) );
-                CHECK( units::to_fahrenheit( get_local_windchill(  units::from_fahrenheit( 30.0f ), 0.0f, 4.0f  ) ) == Approx( -4.2 ).margin( 0.1 ) );
-                CHECK( units::to_fahrenheit( get_local_windchill(  units::from_fahrenheit( 30.0f ), 0.0f, 5.0f  ) ) == Approx( -5.3 ).margin( 0.1 ) );
-                CHECK( units::to_fahrenheit( get_local_windchill(  units::from_fahrenheit( 30.0f ), 0.0f, 10.0f  ) ) == Approx( -8.8 ).margin( 0.1 ) );
-                CHECK( units::to_fahrenheit( get_local_windchill(  units::from_fahrenheit( 30.0f ), 0.0f, 20.0f  ) ) == Approx( -12.6 ).margin( 0.1 ) );
-                CHECK( units::to_fahrenheit( get_local_windchill(  units::from_fahrenheit( 30.0f ), 0.0f, 30.0f  ) ) == Approx( -15.1 ).margin( 0.1 ) );
-                CHECK( units::to_fahrenheit( get_local_windchill(  units::from_fahrenheit( 30.0f ), 0.0f, 40.0f  ) ) == Approx( -17 ).margin( 0.1 ) );
-                CHECK( units::to_fahrenheit( get_local_windchill(  units::from_fahrenheit( 30.0f ), 0.0f, 50.0f  ) ) == Approx( -18.5 ).margin( 0.1 ) );
+                CHECK( units::to_fahrenheit( get_local_windchill( units::from_fahrenheit( 30.0f ), 0.0f,
+                                             3.0f ) ) == Approx( -2.9 ).margin( 0.1 ) );
+                CHECK( units::to_fahrenheit( get_local_windchill( units::from_fahrenheit( 30.0f ), 0.0f,
+                                             4.0f ) ) == Approx( -4.2 ).margin( 0.1 ) );
+                CHECK( units::to_fahrenheit( get_local_windchill( units::from_fahrenheit( 30.0f ), 0.0f,
+                                             5.0f ) ) == Approx( -5.3 ).margin( 0.1 ) );
+                CHECK( units::to_fahrenheit( get_local_windchill( units::from_fahrenheit( 30.0f ), 0.0f,
+                                             10.0f ) ) == Approx( -8.8 ).margin( 0.1 ) );
+                CHECK( units::to_fahrenheit( get_local_windchill( units::from_fahrenheit( 30.0f ), 0.0f,
+                                             20.0f ) ) == Approx( -12.6 ).margin( 0.1 ) );
+                CHECK( units::to_fahrenheit( get_local_windchill( units::from_fahrenheit( 30.0f ), 0.0f,
+                                             30.0f ) ) == Approx( -15.1 ).margin( 0.1 ) );
+                CHECK( units::to_fahrenheit( get_local_windchill( units::from_fahrenheit( 30.0f ), 0.0f,
+                                             40.0f ) ) == Approx( -17 ).margin( 0.1 ) );
+                CHECK( units::to_fahrenheit( get_local_windchill( units::from_fahrenheit( 30.0f ), 0.0f,
+                                             50.0f ) ) == Approx( -18.5 ).margin( 0.1 ) );
 
                 // Well below zero
-                CHECK( units::to_fahrenheit( get_local_windchill(  units::from_fahrenheit( -30.0f ), 0.0f, 3.0f  ) ) == Approx( -10.8 ).margin( 0.1 ) );
-                CHECK( units::to_fahrenheit( get_local_windchill(  units::from_fahrenheit( -30.0f ), 0.0f, 4.0f  ) ) == Approx( -13.5 ).margin( 0.1 ) );
-                CHECK( units::to_fahrenheit( get_local_windchill(  units::from_fahrenheit( -30.0f ), 0.0f, 5.0f  ) ) == Approx( -15.7 ).margin( 0.1 ) );
-                CHECK( units::to_fahrenheit( get_local_windchill(  units::from_fahrenheit( -30.0f ), 0.0f, 10.0f  ) ) == Approx( -23.1 ).margin( 0.1 ) );
-                CHECK( units::to_fahrenheit( get_local_windchill(  units::from_fahrenheit( -30.0f ), 0.0f, 20.0f  ) ) == Approx( -31.4 ).margin( 0.1 ) );
-                CHECK( units::to_fahrenheit( get_local_windchill(  units::from_fahrenheit( -30.0f ), 0.0f, 30.0f  ) ) == Approx( -36.6).margin( 0.1 ) );
-                CHECK( units::to_fahrenheit( get_local_windchill(  units::from_fahrenheit( -30.0f ), 0.0f, 40.0f  ) ) == Approx( -40.6 ).margin( 0.1 ) );
-                CHECK( units::to_fahrenheit( get_local_windchill(  units::from_fahrenheit( -30.0f ), 0.0f, 50.0f  ) ) == Approx( -43.7 ).margin( 0.1 ) );
+                CHECK( units::to_fahrenheit( get_local_windchill( units::from_fahrenheit( -30.0f ), 0.0f,
+                                             3.0f ) ) == Approx( -10.8 ).margin( 0.1 ) );
+                CHECK( units::to_fahrenheit( get_local_windchill( units::from_fahrenheit( -30.0f ), 0.0f,
+                                             4.0f ) ) == Approx( -13.5 ).margin( 0.1 ) );
+                CHECK( units::to_fahrenheit( get_local_windchill( units::from_fahrenheit( -30.0f ), 0.0f,
+                                             5.0f ) ) == Approx( -15.7 ).margin( 0.1 ) );
+                CHECK( units::to_fahrenheit( get_local_windchill( units::from_fahrenheit( -30.0f ), 0.0f,
+                                             10.0f ) ) == Approx( -23.1 ).margin( 0.1 ) );
+                CHECK( units::to_fahrenheit( get_local_windchill( units::from_fahrenheit( -30.0f ), 0.0f,
+                                             20.0f ) ) == Approx( -31.4 ).margin( 0.1 ) );
+                CHECK( units::to_fahrenheit( get_local_windchill( units::from_fahrenheit( -30.0f ), 0.0f,
+                                             30.0f ) ) == Approx( -36.6 ).margin( 0.1 ) );
+                CHECK( units::to_fahrenheit( get_local_windchill( units::from_fahrenheit( -30.0f ), 0.0f,
+                                             40.0f ) ) == Approx( -40.6 ).margin( 0.1 ) );
+                CHECK( units::to_fahrenheit( get_local_windchill( units::from_fahrenheit( -30.0f ), 0.0f,
+                                             50.0f ) ) == Approx( -43.7 ).margin( 0.1 ) );
             }
         }
 
@@ -307,17 +340,26 @@ TEST_CASE( "local wind chill calculation", "[weather][wind_chill]" )
         // (as low as −46C or −50F) when humidity levels are also low."
 
         THEN( "wind chill index is unaffected by humidity" ) {
-            CHECK( units::to_fahrenheit( get_local_windchill(  units::from_fahrenheit( 40.0f ), 0.0f, 10.0f  ) ) == Approx( -6.4 ).margin( 0.1 ) );
-            CHECK( units::to_fahrenheit( get_local_windchill(  units::from_fahrenheit( 40.0f ), 50.0f, 10.0f  ) ) == Approx( -6.4 ).margin( 0.1 ) );
-            CHECK( units::to_fahrenheit( get_local_windchill(  units::from_fahrenheit( 40.0f ), 100.0f, 10.0f  ) ) == Approx( -6.4 ).margin( 0.1 ) );
+            CHECK( units::to_fahrenheit( get_local_windchill( units::from_fahrenheit( 40.0f ), 0.0f,
+                                         10.0f ) ) == Approx( -6.4 ).margin( 0.1 ) );
+            CHECK( units::to_fahrenheit( get_local_windchill( units::from_fahrenheit( 40.0f ), 50.0f,
+                                         10.0f ) ) == Approx( -6.4 ).margin( 0.1 ) );
+            CHECK( units::to_fahrenheit( get_local_windchill( units::from_fahrenheit( 40.0f ), 100.0f,
+                                         10.0f ) ) == Approx( -6.4 ).margin( 0.1 ) );
 
-            CHECK( units::to_fahrenheit( get_local_windchill(  units::from_fahrenheit( 10.0f ), 0.0f, 30.0f  ) ) == Approx( -22.3 ).margin( 0.1 ) );
-            CHECK( units::to_fahrenheit( get_local_windchill(  units::from_fahrenheit( 10.0f ), 50.0f, 30.0f  ) ) == Approx( -22.3 ).margin( 0.1 ) );
-            CHECK( units::to_fahrenheit( get_local_windchill(  units::from_fahrenheit( 10.0f ), 100.0f, 30.0f  ) ) == Approx( -22.3 ).margin( 0.1 ) );
+            CHECK( units::to_fahrenheit( get_local_windchill( units::from_fahrenheit( 10.0f ), 0.0f,
+                                         30.0f ) ) == Approx( -22.3 ).margin( 0.1 ) );
+            CHECK( units::to_fahrenheit( get_local_windchill( units::from_fahrenheit( 10.0f ), 50.0f,
+                                         30.0f ) ) == Approx( -22.3 ).margin( 0.1 ) );
+            CHECK( units::to_fahrenheit( get_local_windchill( units::from_fahrenheit( 10.0f ), 100.0f,
+                                         30.0f ) ) == Approx( -22.3 ).margin( 0.1 ) );
 
-            CHECK( units::to_fahrenheit( get_local_windchill(  units::from_fahrenheit( -20.0f ), 0.0f, 30.0f  ) ) == Approx( -33 ).margin( 0.1 ) );
-            CHECK( units::to_fahrenheit( get_local_windchill(  units::from_fahrenheit( -20.0f ), 50.0f, 30.0f  ) ) == Approx( -33 ).margin( 0.1 ) );
-            CHECK( units::to_fahrenheit( get_local_windchill(  units::from_fahrenheit( -20.0f ), 100.0f, 30.0f  ) ) == Approx( -33 ).margin( 0.1 ) );
+            CHECK( units::to_fahrenheit( get_local_windchill( units::from_fahrenheit( -20.0f ), 0.0f,
+                                         30.0f ) ) == Approx( -33 ).margin( 0.1 ) );
+            CHECK( units::to_fahrenheit( get_local_windchill( units::from_fahrenheit( -20.0f ), 50.0f,
+                                         30.0f ) ) == Approx( -33 ).margin( 0.1 ) );
+            CHECK( units::to_fahrenheit( get_local_windchill( units::from_fahrenheit( -20.0f ), 100.0f,
+                                         30.0f ) ) == Approx( -33 ).margin( 0.1 ) );
         }
     }
 
@@ -329,12 +371,18 @@ TEST_CASE( "local wind chill calculation", "[weather][wind_chill]" )
                 wind_mph = 10.0f;
 
                 THEN( "apparent temp increases as humidity increases" ) {
-                    CHECK( units::to_fahrenheit( get_local_windchill(  temp_f, 0.0f, wind_mph  ) ) == Approx( -12.8 ).margin( 0.1 ) );
-                    CHECK( units::to_fahrenheit( get_local_windchill(  temp_f, 20.0f, wind_mph  ) ) == Approx( -11.4 ).margin( 0.1 ) );
-                    CHECK( units::to_fahrenheit( get_local_windchill(  temp_f, 40.0f, wind_mph  ) ) == Approx( -9.9 ).margin( 0.1 ) );
-                    CHECK( units::to_fahrenheit( get_local_windchill(  temp_f, 60.0f, wind_mph  ) ) == Approx( -8.4 ).margin( 0.1 ) );
-                    CHECK( units::to_fahrenheit( get_local_windchill(  temp_f, 80.0f, wind_mph  ) ) == Approx( -7 ).margin( 0.1 ) );
-                    CHECK( units::to_fahrenheit( get_local_windchill(  temp_f, 100.0f, wind_mph  ) ) == Approx( -5.6 ).margin( 0.1 ) );
+                    CHECK( units::to_fahrenheit( get_local_windchill( temp_f, 0.0f,
+                                                 wind_mph ) ) == Approx( -12.8 ).margin( 0.1 ) );
+                    CHECK( units::to_fahrenheit( get_local_windchill( temp_f, 20.0f,
+                                                 wind_mph ) ) == Approx( -11.4 ).margin( 0.1 ) );
+                    CHECK( units::to_fahrenheit( get_local_windchill( temp_f, 40.0f,
+                                                 wind_mph ) ) == Approx( -9.9 ).margin( 0.1 ) );
+                    CHECK( units::to_fahrenheit( get_local_windchill( temp_f, 60.0f,
+                                                 wind_mph ) ) == Approx( -8.4 ).margin( 0.1 ) );
+                    CHECK( units::to_fahrenheit( get_local_windchill( temp_f, 80.0f,
+                                                 wind_mph ) ) == Approx( -7 ).margin( 0.1 ) );
+                    CHECK( units::to_fahrenheit( get_local_windchill( temp_f, 100.0f,
+                                                 wind_mph ) ) == Approx( -5.6 ).margin( 0.1 ) );
                 }
             }
 
@@ -342,12 +390,18 @@ TEST_CASE( "local wind chill calculation", "[weather][wind_chill]" )
                 humidity = 90.0f;
 
                 THEN( "apparent temp decreases as wind increases" ) {
-                    CHECK( units::to_fahrenheit( get_local_windchill(  temp_f, humidity, 0.0f  ) ) == Approx( -0.6 ).margin( 0.1 ) );
-                    CHECK( units::to_fahrenheit( get_local_windchill(  temp_f, humidity, 10.0f  ) ) == Approx( -6.3 ).margin( 0.1 ) );
-                    CHECK( units::to_fahrenheit( get_local_windchill(  temp_f, humidity, 20.0f  ) ) == Approx( -11.9 ).margin( 0.1 ) );
-                    CHECK( units::to_fahrenheit( get_local_windchill(  temp_f, humidity, 30.0f  ) ) == Approx( -17.5 ).margin( 0.1 ) );
-                    CHECK( units::to_fahrenheit( get_local_windchill(  temp_f, humidity, 40.0f  ) ) == Approx( -23.2 ).margin( 0.1 ) );
-                    CHECK( units::to_fahrenheit( get_local_windchill(  temp_f, humidity, 50.0f  ) ) == Approx( -28.8 ).margin( 0.1 ) );
+                    CHECK( units::to_fahrenheit( get_local_windchill( temp_f, humidity,
+                                                 0.0f ) ) == Approx( -0.6 ).margin( 0.1 ) );
+                    CHECK( units::to_fahrenheit( get_local_windchill( temp_f, humidity,
+                                                 10.0f ) ) == Approx( -6.3 ).margin( 0.1 ) );
+                    CHECK( units::to_fahrenheit( get_local_windchill( temp_f, humidity,
+                                                 20.0f ) ) == Approx( -11.9 ).margin( 0.1 ) );
+                    CHECK( units::to_fahrenheit( get_local_windchill( temp_f, humidity,
+                                                 30.0f ) ) == Approx( -17.5 ).margin( 0.1 ) );
+                    CHECK( units::to_fahrenheit( get_local_windchill( temp_f, humidity,
+                                                 40.0f ) ) == Approx( -23.2 ).margin( 0.1 ) );
+                    CHECK( units::to_fahrenheit( get_local_windchill( temp_f, humidity,
+                                                 50.0f ) ) == Approx( -28.8 ).margin( 0.1 ) );
                 }
             }
         }
@@ -357,14 +411,20 @@ TEST_CASE( "local wind chill calculation", "[weather][wind_chill]" )
 
             THEN( "apparent temp offset is only influenced by wind speed" ) {
                 // No wind still gets -7 for some reason
-                CHECK( units::to_fahrenheit( get_local_windchill(  units::from_fahrenheit( 50.0f ), humidity, 0.0f  ) ) == Approx( -7.2 ).margin( 0.1 ) );
-                CHECK( units::to_fahrenheit( get_local_windchill(  units::from_fahrenheit( 70.0f ), humidity, 0.0f  ) ) == Approx( -7.2 ).margin( 0.1 ) );
-                CHECK( units::to_fahrenheit( get_local_windchill(  units::from_fahrenheit( 90.0f ), humidity, 0.0f  ) ) == Approx( -7.2 ).margin( 0.1 ) );
+                CHECK( units::to_fahrenheit( get_local_windchill( units::from_fahrenheit( 50.0f ), humidity,
+                                             0.0f ) ) == Approx( -7.2 ).margin( 0.1 ) );
+                CHECK( units::to_fahrenheit( get_local_windchill( units::from_fahrenheit( 70.0f ), humidity,
+                                             0.0f ) ) == Approx( -7.2 ).margin( 0.1 ) );
+                CHECK( units::to_fahrenheit( get_local_windchill( units::from_fahrenheit( 90.0f ), humidity,
+                                             0.0f ) ) == Approx( -7.2 ).margin( 0.1 ) );
 
                 // 25mph wind == -21F to temperature
-                CHECK( units::to_fahrenheit( get_local_windchill(  units::from_fahrenheit( 50.0f ), humidity, 25.0f  ) ) == Approx( -21.3 ).margin( 0.1 ) );
-                CHECK( units::to_fahrenheit( get_local_windchill(  units::from_fahrenheit( 70.0f ), humidity, 25.0f  ) ) == Approx( -21.3 ).margin( 0.1 ) );
-                CHECK( units::to_fahrenheit( get_local_windchill(  units::from_fahrenheit( 90.0f ), humidity, 25.0f  ) ) == Approx( -21.3 ).margin( 0.1 ) );
+                CHECK( units::to_fahrenheit( get_local_windchill( units::from_fahrenheit( 50.0f ), humidity,
+                                             25.0f ) ) == Approx( -21.3 ).margin( 0.1 ) );
+                CHECK( units::to_fahrenheit( get_local_windchill( units::from_fahrenheit( 70.0f ), humidity,
+                                             25.0f ) ) == Approx( -21.3 ).margin( 0.1 ) );
+                CHECK( units::to_fahrenheit( get_local_windchill( units::from_fahrenheit( 90.0f ), humidity,
+                                             25.0f ) ) == Approx( -21.3 ).margin( 0.1 ) );
             }
         }
 
@@ -375,12 +435,18 @@ TEST_CASE( "local wind chill calculation", "[weather][wind_chill]" )
                 wind_mph = 0.0f;
 
                 THEN( "apparent temp increases more as it gets hotter" ) {
-                    CHECK( units::to_fahrenheit( get_local_windchill(  units::from_fahrenheit( 50.0f ), humidity, wind_mph  ) ) == Approx( -3.6 ).margin( 0.1 ) );
-                    CHECK( units::to_fahrenheit( get_local_windchill(  units::from_fahrenheit( 60.0f ), humidity, wind_mph  ) ) == Approx( -2 ).margin( 0.1 ) );
-                    CHECK( units::to_fahrenheit( get_local_windchill(  units::from_fahrenheit( 70.0f ), humidity, wind_mph  ) ) == Approx( 0.2 ).margin( 0.1 ) );
-                    CHECK( units::to_fahrenheit( get_local_windchill(  units::from_fahrenheit( 80.0f ), humidity, wind_mph  ) ) == Approx( 3.2 ).margin( 0.1 ) );
-                    CHECK( units::to_fahrenheit( get_local_windchill(  units::from_fahrenheit( 90.0f ), humidity, wind_mph  ) ) == Approx( 7 ).margin( 0.1 ) );
-                    CHECK( units::to_fahrenheit( get_local_windchill(  units::from_fahrenheit( 100.0f ), humidity, wind_mph  ) ) == Approx( 12.1 ).margin( 0.1 ) );
+                    CHECK( units::to_fahrenheit( get_local_windchill( units::from_fahrenheit( 50.0f ), humidity,
+                                                 wind_mph ) ) == Approx( -3.6 ).margin( 0.1 ) );
+                    CHECK( units::to_fahrenheit( get_local_windchill( units::from_fahrenheit( 60.0f ), humidity,
+                                                 wind_mph ) ) == Approx( -2 ).margin( 0.1 ) );
+                    CHECK( units::to_fahrenheit( get_local_windchill( units::from_fahrenheit( 70.0f ), humidity,
+                                                 wind_mph ) ) == Approx( 0.2 ).margin( 0.1 ) );
+                    CHECK( units::to_fahrenheit( get_local_windchill( units::from_fahrenheit( 80.0f ), humidity,
+                                                 wind_mph ) ) == Approx( 3.2 ).margin( 0.1 ) );
+                    CHECK( units::to_fahrenheit( get_local_windchill( units::from_fahrenheit( 90.0f ), humidity,
+                                                 wind_mph ) ) == Approx( 7 ).margin( 0.1 ) );
+                    CHECK( units::to_fahrenheit( get_local_windchill( units::from_fahrenheit( 100.0f ), humidity,
+                                                 wind_mph ) ) == Approx( 12.1 ).margin( 0.1 ) );
                 }
             }
 
@@ -388,12 +454,18 @@ TEST_CASE( "local wind chill calculation", "[weather][wind_chill]" )
                 wind_mph = 10.0f;
 
                 THEN( "apparent temp is less but still increases more as it gets hotter" ) {
-                    CHECK( units::to_fahrenheit( get_local_windchill(  units::from_fahrenheit( 50.0f ), humidity, wind_mph  ) ) == Approx( -9.2 ).margin( 0.1 ) );
-                    CHECK( units::to_fahrenheit( get_local_windchill(  units::from_fahrenheit( 60.0f ), humidity, wind_mph  ) ) == Approx( -7.6 ).margin( 0.1 ) );
-                    CHECK( units::to_fahrenheit( get_local_windchill(  units::from_fahrenheit( 70.0f ), humidity, wind_mph  ) ) == Approx( -5.4 ).margin( 0.1 ) );
-                    CHECK( units::to_fahrenheit( get_local_windchill(  units::from_fahrenheit( 80.0f ), humidity, wind_mph  ) ) == Approx( -2.5 ).margin( 0.1 ) );
-                    CHECK( units::to_fahrenheit( get_local_windchill(  units::from_fahrenheit( 90.0f ), humidity, wind_mph  ) ) == Approx( 1.4 ).margin( 0.1 ) );
-                    CHECK( units::to_fahrenheit( get_local_windchill(  units::from_fahrenheit( 100.0f ), humidity, wind_mph  ) ) == Approx( 6.5 ).margin( 0.1 ) );
+                    CHECK( units::to_fahrenheit( get_local_windchill( units::from_fahrenheit( 50.0f ), humidity,
+                                                 wind_mph ) ) == Approx( -9.2 ).margin( 0.1 ) );
+                    CHECK( units::to_fahrenheit( get_local_windchill( units::from_fahrenheit( 60.0f ), humidity,
+                                                 wind_mph ) ) == Approx( -7.6 ).margin( 0.1 ) );
+                    CHECK( units::to_fahrenheit( get_local_windchill( units::from_fahrenheit( 70.0f ), humidity,
+                                                 wind_mph ) ) == Approx( -5.4 ).margin( 0.1 ) );
+                    CHECK( units::to_fahrenheit( get_local_windchill( units::from_fahrenheit( 80.0f ), humidity,
+                                                 wind_mph ) ) == Approx( -2.5 ).margin( 0.1 ) );
+                    CHECK( units::to_fahrenheit( get_local_windchill( units::from_fahrenheit( 90.0f ), humidity,
+                                                 wind_mph ) ) == Approx( 1.4 ).margin( 0.1 ) );
+                    CHECK( units::to_fahrenheit( get_local_windchill( units::from_fahrenheit( 100.0f ), humidity,
+                                                 wind_mph ) ) == Approx( 6.5 ).margin( 0.1 ) );
                 }
             }
         }

@@ -476,8 +476,8 @@ void Character::update_bodytemp()
                                          ( 1 - wind_res_per_bp[bp] / 100.0 ) );
         // Calculate windchill
         units::temperature windchill = get_local_windchill( player_local_temp,
-                                             get_local_humidity( weather.humidity, get_weather().weather_id, sheltered ),
-                                             bp_windpower );
+                                       get_local_humidity( weather.humidity, get_weather().weather_id, sheltered ),
+                                       bp_windpower );
 
         static const auto is_lower = []( const bodypart_id & bp ) {
             return bp->has_flag( json_flag_LIMB_LOWER );
@@ -497,7 +497,8 @@ void Character::update_bodytemp()
 
         // Convergent temperature is affected by ambient temperature,
         // clothing warmth, and body wetness.
-		int temp = units::to_fahrenheit(units::from_fahrenheit(BODYTEMP_NORM + adjusted_temp + clothing_warmth_adjustment + bp_temp_min + units::to_fahrenheit( windchill ) * 100) );
+        int temp = units::to_fahrenheit( units::from_fahrenheit( BODYTEMP_NORM + adjusted_temp +
+                                         clothing_warmth_adjustment + bp_temp_min + units::to_fahrenheit( windchill ) * 100 ) );
         set_part_temp_conv( bp, temp );
         // HUNGER / STARVATION
         mod_part_temp_conv( bp, hunger_warmth );
