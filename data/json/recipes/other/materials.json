@@ -388,7 +388,7 @@
     "qualities": [ { "id": "CHEM", "level": 2 } ],
     "tools": [
       [ [ "surface_heat", 100, "LIST" ] ],
-      [ [ "eletrolysis_kit", 100 ] ],
+      [ [ "electrolysis_kit", 100 ] ],
       [ [ "sheet_metal", -1 ] ],
       [ [ "chem_magnesium_oxide", -1 ] ],
       [ [ "material_sand", -1 ] ]
