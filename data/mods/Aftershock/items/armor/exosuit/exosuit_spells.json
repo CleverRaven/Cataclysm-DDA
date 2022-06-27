@@ -16,5 +16,30 @@
     "difficulty": -20,
     "max_level": 1,
     "energy_source": "NONE"
-  }
+  },
+  {
+	  "type": "SPELL",
+	  "id": "exo_flamethrower",
+	  "description": "A massive gout of flame leaps forward, igniting everything in it's path.",
+	  "valid_targets": [ "hostile", "ground" ],
+	  "flags": ,
+	  "message": "",
+	  "effect":
+  },
+  {
+	  "type": "SPELL",
+	  "id": "exo_shoulderlaser",
+	  "description": "The turret tracks the targeted enemy and unleashes a burst of laser fire.",
+	  "valid_targets": "enemy",
+  },
+  {
+	  "type": "SPELL",
+	  "id": "exo_soniccannon",
+	  "description": "With a thrum that makes your teeth ache, the sonic cannon fires.",
+  },
+  {
+	  "type": "SPELL",
+	  "id": "exo_microwave",
+	  "description": "Vapor curls from the shroud of the microwave cannon as invisible heat blasts the target."
+  },
 ]
