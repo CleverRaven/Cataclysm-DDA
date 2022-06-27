@@ -1471,15 +1471,7 @@ std::string widget::layout( const avatar &ava, unsigned int max_width, int label
             // Divide available width equally among all widgets
             const int child_width = avail_width / num_widgets;
             // Keep remainder to distribute
-            const int total_widget_width = std::accumulate( _widgets.begin(), _widgets.end(), 0,
-            [child_width]( int sum, const widget_id & wid ) {
-                widget cur_child = wid.obj();
-                return sum + ( cur_child._style == "layout" &&
-                               cur_child._width > 1 ? cur_child._width : child_width );
-            } );
-            // Total widget width with padding
-            const int total_widget_padded_width = total_widget_width + col_padding * ( num_widgets - 1 );
-            int remainder = max_width - total_widget_padded_width;
+            int remainder = avail_width % num_widgets;
             // Store the (potentially) multi-row text for each column
             std::vector<std::vector<std::string>> cols;
             std::vector<int> widths;
