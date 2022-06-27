@@ -442,7 +442,7 @@
       { "item": "sharps", "prob": 10, "charges-min": 0, "charges-max": 0 },
       { "item": "sks", "prob": 20, "charges-min": 0, "charges-max": 0 },
       { "item": "m1a", "prob": 30, "charges-min": 0, "charges-max": 0 },
-      { "item": "fn_ps90", "prob": 1, "charges-min": 0, "charges-max": 0 },
+      { "item": "fn_ps90", "prob": 5, "charges-min": 0, "charges-max": 0 },
       { "item": "aksemi", "prob": 15, "charges-min": 0, "charges-max": 0 },
       { "item": "mk47", "prob": 10, "charges-min": 0, "charges-max": 0 }
     ]
