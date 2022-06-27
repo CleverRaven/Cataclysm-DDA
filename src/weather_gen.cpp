@@ -74,7 +74,7 @@ static weather_gen_common get_common_data( const tripoint &location, const time_
     return result;
 }
 
-static double weather_temperature_from_common_data( const weather_generator &wg,
+static units::temperature weather_temperature_from_common_data( const weather_generator &wg,
         const weather_gen_common &common, const season_effective_time &t )
 {
     const double x( common.x );
@@ -100,10 +100,10 @@ static double weather_temperature_from_common_data( const weather_generator &wg,
     const double T = baseline + raw_noise_4d( x, y, z, modSEED ) * noise_magnitude_K;
 
     // Convert from Celsius to Fahrenheit
-    return T * 9 / 5 + 32;
+    return units::from_celcius( T );
 }
 
-double weather_generator::get_weather_temperature(
+units::temperature weather_generator::get_weather_temperature(
     const tripoint &location, const time_point &real_t, unsigned seed ) const
 {
     return weather_temperature_from_common_data( *this, get_common_data( location, real_t, seed ),
@@ -126,7 +126,7 @@ w_point weather_generator::get_weather( const tripoint &location, const time_poi
     const season_type season = common.season;
 
     // Noise factors
-    const double T( weather_temperature_from_common_data( *this, common, t ) );
+    const units::temperature T( weather_temperature_from_common_data( *this, common, t ) );
     double W( raw_noise_4d( x / 2.5, y / 2.5, z / 200, modSEED ) * 10.0 );
 
     // Humidity variation
@@ -303,7 +303,8 @@ void weather_generator::test_weather( unsigned seed ) const
                 day = day_of_season<int>( i );
             }
             testfile << "|;" << year << ";" << season_of_year( i ) << ";" << day << ";" << hour << ";" << minute
-                     << ";" << w.temperature << ";" << w.humidity << ";" << w.pressure << ";" << conditions->name << ";"
+                     << ";" << units::to_fahrenheit( w.temperature ) << ";" << w.humidity << ";" << w.pressure << ";" <<
+                     conditions->name << ";"
                      <<
                      w.windpower << ";" << w.winddirection << std::endl;
         }

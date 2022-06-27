@@ -8949,8 +8949,8 @@ cata::optional<int> iuse::weather_tool( Character *p, item *it, bool, const trip
                               velocity_units( VU_WIND ) );
         p->add_msg_if_player(
             m_neutral, _( "Feels Like: %s." ),
-            print_temperature( player_local_temp + get_local_windchill( units::from_fahrenheit(
-                                   weatherPoint.temperature ), weatherPoint.humidity, windpower / 100 ) ) );
+            print_temperature( player_local_temp + get_local_windchill( weatherPoint.temperature,
+                               weatherPoint.humidity, windpower / 100 ) ) );
         std::string dirstring = get_dirstring( weather.winddirection );
         p->add_msg_if_player( m_neutral, _( "Wind Direction: From the %s." ), dirstring );
     }

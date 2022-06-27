@@ -99,7 +99,8 @@ void Character::update_body_wetness( const w_point &weather )
 
     // Weather slows down drying
     float weather_mult = 1.0;
-    weather_mult += ( ( weather.humidity - 66.0f ) - ( weather.temperature - 65.0f ) ) / 100.0f;
+    weather_mult += ( ( weather.humidity - 66.0f ) - ( units::to_fahrenheit(
+                          weather.temperature ) - 65.0f ) ) / 100.0f;
     weather_mult = std::max( 0.1f, weather_mult );
 
     for( const bodypart_id &bp : get_all_body_parts() ) {

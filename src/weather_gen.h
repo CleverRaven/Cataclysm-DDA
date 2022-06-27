@@ -8,12 +8,13 @@
 
 #include "calendar.h"
 #include "type_id.h"
+#include "units.h"
 
 class JsonObject;
 struct tripoint;
 
 struct w_point {
-    double temperature = 0;
+    units::temperature temperature = units::from_kelvin( 0 );
     double humidity = 0;
     double pressure = 0;
     double windpower = 0;
@@ -62,7 +63,7 @@ class weather_generator
         int get_water_temperature() const;
         void test_weather( unsigned seed ) const;
 
-        double get_weather_temperature( const tripoint &, const time_point &, unsigned ) const;
+        units::temperature get_weather_temperature( const tripoint &, const time_point &, unsigned ) const;
 
         static weather_generator load( const JsonObject &jo );
 };

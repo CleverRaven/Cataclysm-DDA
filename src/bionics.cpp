@@ -1094,8 +1094,8 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
                            convert_velocity( static_cast<int>( windpower ), VU_WIND ),
                            velocity_units( VU_WIND ) );
         add_msg_if_player( m_info, _( "Feels Like: %s." ),
-                           print_temperature( player_local_temp + get_local_windchill( units::from_fahrenheit(
-                                   weatherPoint.temperature ), weatherPoint.humidity,  windpower / 100 ) ) );
+                           print_temperature( player_local_temp + get_local_windchill( weatherPoint.temperature,
+                                              weatherPoint.humidity,  windpower / 100 ) ) );
         std::string dirstring = get_dirstring( weather.winddirection );
         add_msg_if_player( m_info, _( "Wind Direction: From the %s." ), dirstring );
     } else if( bio.id == bio_remote ) {

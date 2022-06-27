@@ -73,7 +73,7 @@ static year_of_weather_data collect_weather_data( unsigned seed )
         w_point w = wgen.get_weather( tripoint_zero, i, seed );
         int day = to_days<int>( time_past_new_year( i ) );
         int minute = to_minutes<int>( time_past_midnight( i ) );
-        result.temperature[day][minute] = w.temperature;
+        result.temperature[day][minute] = units::to_fahrenheit( w.temperature );
         int hour = to_hours<int>( time_past_new_year( i ) );
         *get_weather().weather_precise = w;
         result.hourly_precip[hour] +=

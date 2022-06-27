@@ -12344,8 +12344,8 @@ bool item::process_temperature_rot( float insulation, const tripoint &pos, map &
             // Use weather if above ground, use map temp if below
             units::temperature env_temperature;
             if( pos.z >= 0 && flag != temperature_flag::ROOT_CELLAR ) {
-                double weather_temperature = wgen.get_weather_temperature( pos, time, seed );
-                env_temperature = units::from_fahrenheit( weather_temperature + enviroment_mod ) + local_mod;
+                units::temperature weather_temperature = wgen.get_weather_temperature( pos, time, seed );
+                env_temperature = units::from_fahrenheit( enviroment_mod ) + local_mod + weather_temperature;
             } else {
                 env_temperature = units::from_fahrenheit( units::to_fahrenheit( AVERAGE_ANNUAL_TEMPERATURE ) +
                                   enviroment_mod ) + local_mod;

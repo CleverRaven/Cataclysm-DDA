@@ -585,8 +585,8 @@ std::string weather_forecast( const point_abs_sm &abs_sm_pos )
     // Accumulate percentages for each period of various weather statistics, and report that
     // (with fuzz) as the weather chances.
     // int weather_proportions[NUM_WEATHER_TYPES] = {0};
-    double high = -100.0;
-    double low = 100.0;
+    units::temperature high = 0_K;
+    units::temperature low = 1000_K;
     // TODO: fix point types
     const tripoint abs_ms_pos =
         tripoint( project_to<coords::ms>( abs_sm_pos ).raw(), 0 );
@@ -622,8 +622,8 @@ std::string weather_forecast( const point_abs_sm &abs_sm_pos )
         weather_report += string_format(
                               _( "%s… %s. Highs of %s. Lows of %s. " ),
                               day, forecast->name,
-                              print_temperature( units::from_fahrenheit( high ) ),
-                              print_temperature( units::from_fahrenheit( low ) )
+                              print_temperature( high ),
+                              print_temperature( low )
                           );
     }
     *weather.weather_precise = weatherPoint;
@@ -949,7 +949,7 @@ void weather_manager::update_weather()
                      weather_gen.get_weather_conditions( w )
                      : weather_override;
         sfx::do_ambient();
-        temperature = w.temperature;
+        temperature = units::to_fahrenheit( w.temperature );
         winddirection = wind_direction_override ? *wind_direction_override : w.winddirection;
         windspeed = windspeed_override ? *windspeed_override : w.windpower;
         lightning_active = false;
