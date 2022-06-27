@@ -248,8 +248,8 @@ void tileset::clear()
     memory_tile_values.clear();
     duplicate_ids.clear();
     tile_ids.clear();
-    for( int i = 0; i < season_type::NUM_SEASONS; ++i ) {
-        tile_ids_by_season[i].clear();
+    for( std::unordered_map<std::string, season_tile_value> &m : tile_ids_by_season ) {
+        m.clear();
     }
     item_layer_data.clear();
     field_layer_data.clear();
@@ -3049,9 +3049,9 @@ bool cata_tiles::draw_field_or_item( const tripoint &p, const lit_level ll, int 
                 auto has_field = [&]( field_type_id fld, const tripoint & q, const bool invis ) -> field_type_id {
                     // go through the fields and see if they are equal
                     field_type_id found = fd_null;
-                    for( std::map<field_type_id, field_entry>::iterator itt = here.field_at( q ).begin(); itt != here.field_at( q ).end(); ++itt )
+                    for( std::pair<const field_type_id, field_entry> &this_fld : here.field_at( q ) )
                     {
-                        if( itt->first == fld ) {
+                        if( this_fld.first == fld ) {
                             found = fld;
                         }
                     }

@@ -631,15 +631,14 @@ std::set<translation, localized_comparator> body_part_type::consolidate(
         }
 
         bool found = false;
-        for( std::vector<sub_bodypart_id>::iterator sbp_it = covered.begin(); sbp_it != covered.end();
-             ++sbp_it ) {
+        for( sub_bodypart_id &sbp_it : covered ) {
             // go through each body part and test if its partner is there as well
-            if( temp == *sbp_it ) {
+            if( temp == sbp_it ) {
                 // add the multiple name not the single
                 to_return.insert( sbp->name_multiple );
                 found = true;
                 // set the found part to a null value
-                *sbp_it = sub_body_part_sub_limb_debug;
+                sbp_it = sub_body_part_sub_limb_debug;
                 break;
             }
         }

@@ -3266,6 +3266,7 @@ void overmap::generate( const overmap *north, const overmap *east,
             int z = 0;
             const oter_id lake_surface( "lake_surface" );
             for( int j = 0; j < OMAPY; j++ ) {
+                // NOLINTNEXTLINE(modernize-loop-convert)
                 for( int i = 0; i < OMAPX; i++ ) {
                     layer[z + OVERMAP_DEPTH].terrain[i][j] = lake_surface;
                 }

@@ -99,8 +99,8 @@ void init()
         buttons_map[i] = JOY_0 + i;
     }
 
-    for( int i = 0; i < max_tasks; ++i ) {
-        all_tasks[i].counter = 0;
+    for( gamepad::task_t &task : all_tasks ) {
+        task.counter = 0;
     }
 
     int ret = SDL_Init( SDL_INIT_TIMER | SDL_INIT_GAMECONTROLLER );

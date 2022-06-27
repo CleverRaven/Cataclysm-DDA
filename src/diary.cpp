@@ -681,8 +681,8 @@ void diary::export_to_txt( bool lastexport )
             myfile << remove_color_tags( str ) + "\n";
         }
         std::vector<std::string> folded_text = foldstring( page.m_text, 50 );
-        for( int i = 0; i < static_cast<int>( folded_text.size() ); i++ ) {
-            myfile << folded_text[i] + "\n";
+        for( const std::string &line : folded_text ) {
+            myfile << line + "\n";
         }
         myfile <<  "\n\n\n";
     }
