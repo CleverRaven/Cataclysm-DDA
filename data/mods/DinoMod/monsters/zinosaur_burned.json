@@ -495,7 +495,6 @@
     "armor_cut": 17,
     "armor_bullet": 13,
     "hp": 165,
-    "burn_into": "mon_zamargasaurus_scorched",
     "fungalize_into": "mon_zamargasaurus_fungus",
     "description": "Heavily-burned zombie dinosaur sauropod that still reeks of charred meat.  Its flesh has mended into a leathery shell studded with two rows of tall spines."
   },
@@ -718,7 +717,6 @@
     "special_attacks": [ [ "GRAB", 7 ] ],
     "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true }, "message": "A %s explodes!" },
     "harvest": "zed_dino_leather",
-    "burn_into": {  },
     "flags": [ "SEES", "HEARS", "STUMBLES", "POISON", "NO_BREATHE", "REVIVES", "REVIVES_HEALTHY", "NO_NECRO", "FILTHY" ]
   },
   {
