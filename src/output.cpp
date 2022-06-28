@@ -941,12 +941,10 @@ std::string item_filter_rule_string( const item_filter_type type )
                         "items satisfing [<color_yellow>b</color>]oth conditions." );
     //~ An example of how to filter items based on category or material.
     str << "\n" << _( "Example: c:food,m:iron,q:hammering,n:toolshelf,d:pipe,s:devices,b:mre;sealed" );
-    if( type == item_filter_type::FILTER ) {
-        str << "\n\n" << _( "To exclude items, place [<color_yellow>-</color>] in front.  "
-                            "Place [<color_yellow>--</color>] in front to include only matching items." );
-        //~ An example of how to exclude items with - when filtering items.
-        str << "\n" << _( "Example: steel,-chunk,--c:spare parts" );
-    }
+    str << "\n\n" << _( "To exclude items, place [<color_yellow>-</color>] in front.  "
+                        "Place [<color_yellow>--</color>] in front to include only matching items." );
+    //~ An example of how to exclude items with - when filtering items.
+    str << "\n" << _( "Example: steel,-chunk,--c:spare parts" );
     return str.str();
 }
 
