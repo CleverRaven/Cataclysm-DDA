@@ -272,7 +272,7 @@ class widget
         static int finalize_label_width_recursive( const widget_id &id );
         // Recursively derive _separator for nested layouts in this widget
         static void finalize_inherited_fields_recursive( const widget_id &id,
-                const std::string &label_separator, const int col_padding );
+                const std::string &label_separator, int col_padding );
         // Reset to defaults using generic widget_factory
         static void reset();
         // Get all widget instances from the factory
