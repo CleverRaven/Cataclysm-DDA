@@ -945,22 +945,28 @@ void draw_item_filter_rules( const catacurses::window &win, int starty, int heig
                                   //~ An example of how to separate multiple items with a comma when filtering items.
                                   _( "Example: back,flash,aid, ,band" ) ); // NOLINT(cata-text-style): literal comma
 
-    if( type == item_filter_type::FILTER ) {
-        starty += fold_and_print( win, point( 1, starty ), len, c_white,
-                                  _( "To exclude items, place [<color_yellow>-</color>] in front." ) );
-        starty += 1 + fold_and_print( win, point( 1, starty ), len, c_white,
-                                      //~ An example of how to exclude items with - when filtering items.
-                                      _( "Example: -pipe,-chunk,-steel" ) );
-    }
-
     starty += fold_and_print( win, point( 1, starty ), len, c_white,
                               _( "Search [<color_yellow>c</color>]ategory, [<color_yellow>m</color>]aterial, "
                                  "[<color_yellow>q</color>]uality, [<color_yellow>n</color>]otes, "
-                                 "[<color_yellow>s</color>]skill taught by books or "
-                                 "[<color_yellow>d</color>]isassembled components." ) );
-    fold_and_print( win, point( 1, starty ), len, c_white,
-                    //~ An example of how to filter items based on category or material.
-                    _( "Examples: c:food,m:iron,q:hammering,n:toolshelf,d:pipe,s:devices" ) );
+                                 "[<color_yellow>s</color>]skill taught by books, "
+                                 "[<color_yellow>d</color>]isassembled components, or "
+                                 "items satisfing [<color_yellow>b</color>]oth conditions." ) );
+    starty += 1 + fold_and_print( win, point( 1, starty ), len, c_white,
+                                  //~ An example of how to filter items based on category or material.
+                                  _( "Example: c:food,m:iron,q:hammering,n:toolshelf,d:pipe,s:devices,b:mre;sealed" ) );
+
+    if( type == item_filter_type::FILTER ) {
+        starty += fold_and_print( win, point( 1, starty ), len, c_white,
+                                  _( "To exclude items, place [<color_yellow>-</color>] in front.  "
+                                     "Place [<color_yellow>--</color>] in front to include only matching items." ) );
+        starty += 1 + fold_and_print( win, point( 1, starty ), len, c_white,
+                                      //~ An example of how to exclude items with - when filtering items.
+                                      _( "Example: steel,-chunk,--c:spare parts" ) );
+    }
+
+    // Ignore unused final starty value
+    static_cast<void>( starty );
+
     wnoutrefresh( win );
 }
 
