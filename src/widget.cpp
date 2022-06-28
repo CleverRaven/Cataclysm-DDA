@@ -363,12 +363,6 @@ void widget::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "label_align", _label_align, widget_alignment::LEFT );
     optional( jo, was_loaded, "flags", _flags );
 
-    translation localized_width;
-    optional( jo, was_loaded, "localized_width", localized_width, translation() );
-    if( !localized_width.empty() ) {
-        _width = std::stoi( localized_width.translated() );
-    }
-
     if( _style == "sidebar" ) {
         mandatory( jo, was_loaded, "separator", _separator );
         mandatory( jo, was_loaded, "padding", _padding );
