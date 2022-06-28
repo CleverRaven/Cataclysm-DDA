@@ -4060,12 +4060,6 @@ void iexamine::water_source( Character &, const tripoint &examp )
     liquid_handler::handle_liquid( water, nullptr, 0, &examp );
 }
 
-void iexamine::clean_water_source( Character &, const tripoint &examp )
-{
-    item water = item( "water_clean", calendar::turn_zero, item::INFINITE_CHARGES );
-    liquid_handler::handle_liquid( water, nullptr, 0, &examp );
-}
-
 void iexamine::finite_water_source( Character &, const tripoint &examp )
 {
     map_stack items = get_map().i_at( examp );
@@ -6593,7 +6587,6 @@ iexamine_functions iexamine_functions_from_string( const std::string &function_n
             { "tree_maple_tapped", &iexamine::tree_maple_tapped },
             { "shrub_wildveggies", &iexamine::shrub_wildveggies },
             { "water_source", &iexamine::water_source },
-            { "clean_water_source", &iexamine::clean_water_source },
             { "finite_water_source", &iexamine::finite_water_source },
             { "reload_furniture", &iexamine::reload_furniture },
             { "curtains", &iexamine::curtains },
