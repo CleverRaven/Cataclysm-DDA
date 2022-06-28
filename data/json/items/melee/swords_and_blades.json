@@ -79,26 +79,57 @@
     "techniques": [ "WBLOCK_2" ]
   },
   {
-    "id": "switchblade",
-    "type": "TOOL",
-    "category": "weapons",
-    "name": { "str": "switchblade" },
-    "description": "This is a long, thin knife with a spring-loaded blade that rests inside the handle while not in use.",
-    "weight": "100 g",
-    "volume": "50 ml",
-    "longest_side": "15 cm",
-    "price": 2000,
-    "price_postapoc": 50,
-    "to_hit": { "grip": "weapon", "length": "hand", "surface": "point", "balance": "neutral" },
-    "cutting": 16,
-    "material": [ "steel", "plastic" ],
-    "symbol": ";",
-    "color": "dark_gray",
-    "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 14 ] ],
-    "techniques": [ "RAPID" ],
-    "flags": [ "STAB" ],
-    "weapon_category": [ "KNIVES" ]
-  },
+     "id": "switchblade",
+     "type": "TOOL",
+     "category": "weapons",
+     "name": {
+         "str": "switchblade"
+     },
+     "description": "This is a long, thin knife with a spring-loaded blade that rests inside the handle while not in use.",
+     "weight": "100 g",
+     "volume": "50 ml",
+     "longest_side": "15 cm",
+     "price": 2000,
+     "price_postapoc": 50,
+     "to_hit": {
+         "grip": "weapon",
+         "length": "hand",
+         "surface": "point",
+         "balance": "neutral"
+     },
+     "cutting": 16,
+     "material": ["steel", "plastic"],
+     "symbol": ";",
+     "color": "dark_gray",
+     "qualities": [
+         ["CUT", 2],
+         ["CUT_FINE", 1],
+         ["BUTCHER", 14]
+     ],
+     "techniques": ["RAPID"],
+     "flags": ["STAB"],
+     "weapon_category": ["KNIVES"],
+     "variant_type": "generic",
+     "variants": [
+      {
+             "id": "switchblade_balisong",
+             "name": {
+                 "str": "balisong"
+             },
+             "description": "A flashy knife with hinged handles that completely conceal the blade while folded. Popular among movie gangbangers, and people who thought fidget spinners were too safe.",
+             "weight": 1
+         },
+         {
+             "id": "switchblade_generic",
+             "name": {
+                 "str": "switchblade"
+             },
+             "description": "This is a long, thin knife with a spring-loaded blade that rests inside the handle while not in use.",
+             "weight": 3
+         }
+     ]
+
+ },
   {
     "id": "knife_folding",
     "type": "TOOL",
