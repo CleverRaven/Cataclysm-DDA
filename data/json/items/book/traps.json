@@ -72,7 +72,6 @@
     "price_postapoc": 2250,
     "material": [ "paper" ],
     "symbol": "?",
-    "looks_like": "manual_dodge",
     "color": "green",
     "skill": "traps",
     "max_level": 3,
