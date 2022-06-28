@@ -1185,9 +1185,9 @@ class game
 units::temperature get_heat_radiation( const tripoint &location );
 
 // Returns heat intensity of adjecent fires
-int get_get_best_fire( const tripoint &location );
+int get_best_fire( const tripoint &location );
 // Returns temperature modifier from hot air fields of given location
-int get_convection_temperature( const tripoint &location );
+units::temperature get_convection_temperature( const tripoint &location );
 
 namespace cata_event_dispatch
 {

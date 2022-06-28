@@ -12324,10 +12324,10 @@ bool item::process_temperature_rot( float insulation, const tripoint &pos, map &
         units::temperature enviroment_mod;
         // Toilets and vending machines will try to get the heat radiation and convection during mapgen and segfault.
         if( !g->new_game ) {
-            enviroment_mod = get_heat_radiation( pos, false );
+            enviroment_mod = get_heat_radiation( pos );
             enviroment_mod += get_convection_temperature( pos );
         } else {
-            enviroment_mod = 0;
+            enviroment_mod = 0_K;
         }
 
         if( carried ) {

@@ -1496,7 +1496,7 @@ units::temperature get_heat_radiation( const tripoint &location )
     return temp_mod;
 }
 
-int get_best_fire( const tripoint &location, bool direct )
+int get_best_fire( const tripoint &location )
 {
     // Direct heat from fire sources
     // Cache fires to avoid scanning the map around us bp times
@@ -1536,20 +1536,20 @@ int get_best_fire( const tripoint &location, bool direct )
     return best_fire;
 }
 
-int get_convection_temperature( const tripoint &location )
+units::temperature get_convection_temperature( const tripoint &location )
 {
-    int temp_mod = 0;
+    units::temperature temp_mod = 0_K;
     map &here = get_map();
     // Directly on lava tiles
-    int lava_mod = here.tr_at( location ).has_flag( json_flag_CONVECTS_TEMPERATURE ) ?
-                   fd_fire->get_intensity_level().convection_temperature_mod : 0;
+    units::temperature lava_mod = here.tr_at( location ).has_flag( json_flag_CONVECTS_TEMPERATURE ) ?
+                   units::from_kelvin( fd_fire->get_intensity_level().convection_temperature_mod / 1.8 ): 0_K;
     // Modifier from fields
     for( auto fd : here.field_at( location ) ) {
         // Nullify lava modifier when there is open fire
         if( fd.first.obj().has_fire ) {
-            lava_mod = 0;
+            lava_mod = 0_K;
         }
-        temp_mod += fd.second.get_intensity_level().convection_temperature_mod;
+        temp_mod += units::from_kelvin( fd.second.get_intensity_level().convection_temperature_mod / 1.8 );
     }
     return temp_mod + lava_mod;
 }

@@ -998,11 +998,11 @@ units::temperature weather_manager::get_temperature( const tripoint &location )
                               ( g->new_game ? 0_K : get_map().get_temperature( location ) );
 
     if( !g->new_game ) {
-        units::temperature temp_mod = 0;
-        temp_mod += get_heat_radiation( location, false );
+        units::temperature temp_mod = 0_K;
+        temp_mod += get_heat_radiation( location );
         temp_mod += get_convection_temperature( location );
 
-        temp = units::from_fahrenheit( units::to_fahrenheit( temp ) + temp_mod );
+        temp += temp_mod;
     }
 
     temperature_cache.emplace( std::make_pair( location, temp ) );
