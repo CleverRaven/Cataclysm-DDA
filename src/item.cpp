@@ -12343,13 +12343,19 @@ bool item::process_temperature_rot( float insulation, const tripoint &pos, map &
             // Get the environment temperature
             // Use weather if above ground, use map temp if below
             units::temperature env_temperature;
+            // TODO make this all use units::temperature to make summing make sense
             if( pos.z >= 0 && flag != temperature_flag::ROOT_CELLAR ) {
                 units::temperature weather_temperature = wgen.get_weather_temperature( pos, time, seed );
-                env_temperature = units::from_fahrenheit( enviroment_mod ) + local_mod + weather_temperature;
+                env_temperature = weather_temperature;
+                //env_temperature = units::from_fahrenheit( units::to_fahrenheit( weather_temperature + local_mod ) + enviroment_mod )
             } else {
-                env_temperature = units::from_fahrenheit( units::to_fahrenheit( AVERAGE_ANNUAL_TEMPERATURE ) +
-                                  enviroment_mod ) + local_mod;
+                env_temperature = AVERAGE_ANNUAL_TEMPERATURE;
+                //env_temperature = units::from_fahrenheit( units::to_fahrenheit( AVERAGE_ANNUAL_TEMPERATURE + local_mod ) + enviroment_mod )
             }
+            env_temperature += local_mod;
+            env_temperature = units::from_fahrenheit( units::to_fahrenheit( env_temperature ) +
+                              enviroment_mod );
+            //env_temperature = units::from_fahrenheit( units::to_fahrenheit( AVERAGE_ANNUAL_TEMPERATURE + local_mod ) + enviroment_mod )
 
             switch( flag ) {
                 case temperature_flag::NORMAL:

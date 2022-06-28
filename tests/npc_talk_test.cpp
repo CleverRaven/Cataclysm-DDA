@@ -1380,7 +1380,8 @@ TEST_CASE( "npc_arithmetic", "[npc_talk]" )
     // "Sets temperature to 2."
     effects = d.responses[ 1 ].success;
     effects.apply( d );
-    CHECK( units::to_fahrenheit( get_weather().weather_precise->temperature ) == 2 );
+    CHECK( units::to_fahrenheit( get_weather().weather_precise->temperature ) == Approx( 2 ).margin(
+               0.01 ) );
 
     get_weather().weather_precise->windpower = 20;
     get_weather().clear_temp_cache();
