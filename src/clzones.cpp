@@ -1428,7 +1428,7 @@ bool zone_manager::save_world_zones( std::string const &suffix )
 {
     std::string const savefile = _savefile( suffix, false );
     std::vector<zone_data> tmp;
-    std::copy_if( zones.begin(), zones.end(), std::back_inserter( tmp ), []( zone_data z ) {
+    std::copy_if( zones.begin(), zones.end(), std::back_inserter( tmp ), []( const zone_data & z ) {
         return z.get_faction() != faction_your_followers;
     } );
     return write_to_file( savefile, [&]( std::ostream & fout ) {
