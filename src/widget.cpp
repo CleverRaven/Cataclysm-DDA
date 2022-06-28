@@ -1480,7 +1480,7 @@ std::string widget::layout( const avatar &ava, unsigned int max_width, int label
             // Total widget width with padding
             const int total_widget_padded_width = total_widget_width + col_padding * ( num_widgets - 1 );
             // Keep remainder to distribute
-            int remainder = std::max(max_width - total_widget_padded_width, 0);
+            int remainder = std::max( max_width - total_widget_padded_width, 0 );
             // Store the (potentially) multi-row text for each column
             std::vector<std::vector<std::string>> cols;
             std::vector<int> widths;
