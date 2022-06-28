@@ -4364,7 +4364,7 @@ bool jmapgen_setmap::apply( const mapgendata &dat, const point &offset ) const
                                                 0 );
                 for( const point &i : line ) {
                     creature_tracker &creatures = get_creature_tracker();
-                    Creature *tmp_critter = creatures.creature_at( tripoint( i.x, i.y, m.get_abs_sub().z() ) );
+                    Creature *tmp_critter = creatures.creature_at( tripoint( i, m.get_abs_sub().z() ) );
                     if( tmp_critter != nullptr ) {
                         tmp_critter->die( nullptr );
                     }
