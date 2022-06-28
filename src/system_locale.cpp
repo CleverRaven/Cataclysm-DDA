@@ -160,7 +160,8 @@ cata::optional<bool> UseMetricSystem()
 #if defined(_WIN32)
     // https://docs.microsoft.com/en-us/globalization/locale/units-of-measurement
     DWORD measurementUnit;
-    if( GetLocaleInfo( LOCALE_USER_DEFAULT, LOCALE_IMEASURE | LOCALE_RETURN_NUMBER, &measurementUnit,
+    if( GetLocaleInfo( LOCALE_USER_DEFAULT, LOCALE_IMEASURE | LOCALE_RETURN_NUMBER,
+                       reinterpret_cast<LPSTR>( &measurementUnit ),
                        sizeof( measurementUnit ) / sizeof( TCHAR ) ) == 0 ) {
         return cata::nullopt;
     }
