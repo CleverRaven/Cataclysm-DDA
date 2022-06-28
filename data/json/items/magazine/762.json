@@ -107,7 +107,7 @@
     "id": "vz58mag10",
     "looks_like": "stanag30",
     "type": "MAGAZINE",
-    "name": { "str": "shortened Czech 10-round magazine" },
+    "name": { "str": "VZ 10-round magazine" },
     "description": "A modified Czechoslovak rifle magazine which has been tweaked to only be capable of holding 10 rounds, in accordance with certain US magazine size restrictions.",
     "variant_type": "gun",
     "variants": [
@@ -133,7 +133,7 @@
     "id": "vz58mag30",
     "looks_like": "stanag30",
     "type": "MAGAZINE",
-    "name": { "str": "Czech surplus 30-round magazine" },
+    "name": { "str": "VZ 30-round magazine" },
     "description": "An original surplus magazine, constructed out of lightweight aluminum and made for use within Czechoslovak infantry rifles and their modern derivatives.",
     "variant_type": "gun",
     "variants": [
