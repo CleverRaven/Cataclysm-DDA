@@ -1369,6 +1369,26 @@
     "type": "json_flag"
   },
   {
+    "id": "LO_CORE",
+    "type": "json_flag",
+    "//": "This indicates that the loadout is meant to be one of the core exclusive loadouts.  Can influence further layout availability."
+  },
+  {
+    "id": "LO_OVERRIDE_PROFESSION",
+    "type": "json_flag",
+    "//": "This indicates that the loadout's gear will override the profession's items.  Use with CORE_LOADOUT."
+  },
+  {
+    "id": "LO_FORBID_ADDON",
+    "type": "json_flag",
+    "//": "This indicates that this loadout blocks all ADDON_LOADOUTs from being selected.  Use with CORE_LOADOUT"
+  },
+  {
+    "id": "LO_ADDON",
+    "type": "json_flag",
+    "//": "This indicates that the loadout is additive to a CORE_LOADOUT.  Can be locked behind professions and backgrounds."
+  },
+  {
     "id": "LUPINE",
     "type": "json_flag"
   },

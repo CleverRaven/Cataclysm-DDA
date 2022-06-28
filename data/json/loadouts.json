@@ -4,21 +4,24 @@
     "id": "lo_profession",
     "name": "Profession Items (default)",
     "description": "This starts your character with the items that are listed with their profession.",
-    "points": 0
+    "points": 0,
+	"flags": [ "LO_CORE" ]
   },
   {
     "type": "loadout",
     "id": "lo_naked",
     "name": "Naked and Afraid",
     "description": "This starts your character with nothing.",
-    "points": 8
+    "points": -8,	
+	"flags": [ "LO_CORE", "LO_FORBID_ADDON", "LO_OVERRIDE_PROFESSION" ]
   },
   {
     "type": "loadout",
     "id": "lo_shower_victim",
     "name": "Shower Victim",
     "description": "You get a towel and some soap.",
-    "points": 5
+    "points": -5,
+	"flags": [ "LO_CORE", "LO_FORBID_ADDON", "LO_OVERRIDE_PROFESSION" ]
   },
   {
     "type": "loadout",
@@ -27,6 +30,7 @@
     "name": "Lockpicking",
     "description": "You get a locksmith's kit.",
     "points": 1,
-    "items": { "both": { "items": [ "picklocks", "fanny" ] } }
+    "items": { "both": { "items": [ "picklocks", "fanny" ] } },
+	"flags": [ "LO_ADDON" ]
   }
 ]
