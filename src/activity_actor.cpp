@@ -3722,8 +3722,10 @@ bool disable_activity_actor::can_disable_or_reprogram( const monster &monster )
 
 int disable_activity_actor::get_disable_turns()
 {
-    return 2000 / ( get_avatar().get_skill_level( skill_electronics ) + get_avatar().get_skill_level(
-                        skill_mechanics ) );
+    const int elec_skill = get_avatar().get_skill_level( skill_electronics );
+    const int mech_skill = get_avatar().get_skill_level( skill_mechanics );
+    const int time_scale = std::max( elec_skill + mech_skill, 1 );
+    return 2000 / time_scale;
 }
 
 void disable_activity_actor::serialize( JsonOut &jsout ) const
