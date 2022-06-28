@@ -2,16 +2,16 @@
 #ifndef CATA_SRC_BUTCHERY_REQUIREMENTS_H
 #define CATA_SRC_BUTCHERY_REQUIREMENTS_H
 
+#include <iosfwd>
 #include <map>
-#include <string>
+#include <utility>
 #include <vector>
 
-#include "optional.h"
-#include "string_id.h"
+#include "creature.h"
 #include "type_id.h"
 
-class read_only_visitable;
 class JsonObject;
+class read_only_visitable;
 
 enum class butcher_type : int;
 enum class creature_size : int;
@@ -26,6 +26,7 @@ class butchery_requirements
     public:
         bool was_loaded = false;
         string_id<butchery_requirements> id;
+        std::vector<std::pair<string_id<butchery_requirements>, mod_id>> src;
 
         // tries to find the requirement with the highest speed bonus. if it fails it returns cata::nullopt
         std::pair<float, requirement_id> get_fastest_requirements(
@@ -35,7 +36,7 @@ class butchery_requirements
         void load( const JsonObject &jo, const std::string & );
         static const std::vector<butchery_requirements> &get_all();
         static void check_consistency();
-        static void reset_all();
+        static void reset();
         bool is_valid() const;
     private:
         // int is speed bonus

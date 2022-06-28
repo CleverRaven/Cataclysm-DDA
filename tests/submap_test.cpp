@@ -1,4 +1,4 @@
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "submap.h"
 
 #include "game_constants.h"
@@ -85,6 +85,33 @@ TEST_CASE( "submap rotation", "[submap]" )
             CHECK( sm.get_ter( center_2 ) == ter_id( 3 ) );
             CHECK( sm.get_ter( center_3 ) == ter_id( 4 ) );
             CHECK( sm.get_ter( center_4 ) == ter_id( 1 ) );
+        }
+    }
+}
+
+TEST_CASE( "submap rotation2", "[submap]" )
+{
+    int rotation_turns = GENERATE( 0, 1, 2, 3 );
+    CAPTURE( rotation_turns );
+    submap sm;
+    submap sm_copy;
+
+    for( int x = 0; x < SEEX; x++ ) {
+        for( int y = 0; y < SEEY; y++ ) {
+            sm.set_radiation( {x, y}, x + y * SEEX );
+            sm_copy.set_radiation( {x, y}, x + y * SEEX );
+        }
+    }
+
+    sm.rotate( rotation_turns );
+
+    for( int x = 0; x < SEEX; x++ ) {
+        for( int y = 0; y < SEEY; y++ ) {
+            point p( x, y );
+            point p_after_rotation = p.rotate( rotation_turns, {SEEX, SEEY} );
+
+            CAPTURE( p, p_after_rotation );
+            CHECK( sm.get_radiation( p_after_rotation ) == sm_copy.get_radiation( p ) );
         }
     }
 }

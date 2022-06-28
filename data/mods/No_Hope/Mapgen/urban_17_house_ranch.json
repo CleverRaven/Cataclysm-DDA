@@ -1,0 +1,67 @@
+[
+  {
+    "method": "json",
+    "om_terrain": [ [ "urban_17_1", "urban_17_2" ] ],
+    "type": "mapgen",
+    "weight": 25000,
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        ".._________p...........``.......................",
+        ".._________.....#$$$$$$ƃƃ$$$$$$###oo###.........",
+        ".._________.....$''GKG'''''''''#D   ER#^........",
+        ".._________.....###*####oo#oo###d     #.........",
+        ".._________.....#L+  +         |  @@  o......[..",
+        ".._________...###|||||      HH |  @@s #.........",
+        ".._________...#     E|x     lH |+|||||#.........",
+        ".._________...o rrr  |x     lH | +,,,B#.........",
+        ".._________...o rE   |      HH | |S8tB#.........",
+        ".._________...#  RR  +         | |||||#.........",
+        ".._________...#|||||||           |BB|t#.........",
+        ".._________...#6,,,,,,,,,      | |,,+,#.........",
+        ".._________...oZ,|4,,JJJ, hffh |+|,8||#.........",
+        ".._________...oW,|O,,,,,, hffh | +,S|D#.........",
+        "..__________..#0,|125n3F,      | ||||+#...[.....",
+        "..___________.#|+||||||##::;::##  II  #.........",
+        "..___________&#&'''''''#```````#   E R#.........",
+        "..____________=''''''''#^``````#d     o.........",
+        "..____________='''''''U#```````#b @@  o.........",
+        "..____________='''''''U#```````#T @@s #.........",
+        "...___________=''''''''o```````##o##o##.........",
+        ".[..__________=''''''''#....................[...",
+        "..............####o#####........................",
+        "................................................"
+      ],
+      "palettes": [
+        "standard_domestic_palette",
+        "standard_domestic_lino_kitchen",
+        "standard_domestic_lino_bathroom",
+        "standard_domestic_landscaping_palette"
+      ],
+      "terrain": {
+        ",": "t_linoleum_gray",
+        "Z": "t_linoleum_gray",
+        "0": "t_linoleum_gray",
+        "f": "t_carpet_green",
+        "h": "t_carpet_green",
+        "W": "t_linoleum_gray",
+        "₸": "t_thconc_floor",
+        "U": "t_thconc_floor",
+        "K": "t_thconc_floor",
+        "G": "t_thconc_floor",
+        "'": "t_thconc_floor",
+        "N": "t_thconc_floor",
+        "q": "t_thconc_floor",
+        "=": "t_door_metal_locked",
+        "&": "t_gates_control_brick",
+        "ƃ": "t_screen_door_c",
+        ";": "t_door_glass_c",
+        "$": "t_screened_porch_wall",
+        "Y": "t_linoleum_gray"
+      },
+      "furniture": { "0": "f_counter" },
+      "place_loot": [ { "item": "television", "x": 22, "y": 6, "chance": 50 }, { "item": "stereo", "x": 22, "y": 7, "chance": 50 } ],
+      "place_vehicles": [ { "vehicle": "suburban_home", "x": 5, "y": 10, "chance": 30, "rotation": 100, "status": 1 } ]
+    }
+  }
+]

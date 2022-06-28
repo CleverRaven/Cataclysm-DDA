@@ -10,6 +10,7 @@
 #include <vector>
 #include <string>
 
+#include "cuboid_rectangle.h"
 #include "options.h"
 #include "pimpl.h"
 #include "type_id.h"
@@ -29,13 +30,13 @@ class save_t
     private:
         std::string name;
 
-        save_t( const std::string &name );
+        explicit save_t( const std::string &name );
 
     public:
-        std::string player_name() const;
+        std::string decoded_name() const;
         std::string base_path() const;
 
-        static save_t from_player_name( const std::string &name );
+        static save_t from_save_id( const std::string &save_id );
         static save_t from_base_path( const std::string &base_path );
 
         bool operator==( const save_t &rhs ) const {
@@ -67,6 +68,7 @@ struct WORLD {
         std::vector<mod_id> active_mod_order;
 
         WORLD();
+        explicit WORLD( const std::string &name );
         void COPY_WORLD( const WORLD *world_to_copy );
 
         bool save_exists( const save_t &name ) const;
@@ -94,6 +96,7 @@ class worldfactory
         WORLDPTR make_new_world( bool show_prompt = true, const std::string &world_to_copy = "" );
         WORLDPTR make_new_world( special_game_type special_type );
         // Used for unit tests - does NOT verify if the mods can be loaded
+        WORLDPTR make_new_world( const std::string &name, const std::vector<mod_id> &mods );
         WORLDPTR make_new_world( const std::vector<mod_id> &mods );
         /// Returns the *existing* world of given name.
         WORLDPTR get_world( const std::string &name );
@@ -103,7 +106,7 @@ class worldfactory
 
         void init();
 
-        WORLDPTR pick_world( bool show_prompt = true );
+        WORLDPTR pick_world( bool show_prompt = true, bool empty_only = false );
 
         WORLDPTR active_world;
 
@@ -126,7 +129,8 @@ class worldfactory
          */
         void delete_world( const std::string &worldname, bool delete_folder );
 
-        static void draw_worldgen_tabs( const catacurses::window &w, size_t current );
+        static std::map<size_t, inclusive_rectangle<point>> draw_worldgen_tabs( const catacurses::window &w,
+                size_t current );
         void show_active_world_mods( const std::vector<mod_id> &world_mods );
 
     private:
@@ -143,9 +147,10 @@ class worldfactory
                                        const std::function<bool()> &on_quit );
 
         void draw_modselection_borders( const catacurses::window &win, const input_context &ctxtp );
-        void draw_mod_list( const catacurses::window &w, int &start, size_t cursor,
-                            const std::vector<mod_id> &mods, bool is_active_list, const std::string &text_if_empty,
-                            const catacurses::window &w_shift );
+        std::map<int, inclusive_rectangle<point>> draw_mod_list( const catacurses::window &w, int &start,
+                                               size_t cursor, const std::vector<mod_id> &mods,
+                                               bool is_active_list, const std::string &text_if_empty,
+                                               const catacurses::window &w_shift, bool recalc_start );
 
         WORLDPTR add_world( std::unique_ptr<WORLD> retworld );
 

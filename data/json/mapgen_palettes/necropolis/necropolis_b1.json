@@ -25,7 +25,7 @@
       "{": "f_rubble"
     },
     "terrain": {
-      " ": "t_rock_floor",
+      " ": "t_dirt",
       "!": "t_bars",
       "#": "t_ladder_up",
       ")": "t_floor",
@@ -33,7 +33,7 @@
       "+": "t_door_metal_c",
       ",": "t_pavement_y",
       "-": "t_wall",
-      ".": "t_rock",
+      ".": "t_soil",
       "2": "t_sewage_pipe",
       "3": "t_sewage",
       "4": "t_water_pump",

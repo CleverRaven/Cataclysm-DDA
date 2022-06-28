@@ -1,6 +1,6 @@
 #include "event.h"
 
-#include <algorithm>
+#include <string>
 
 namespace io
 {
@@ -103,8 +103,7 @@ std::string enum_to_string<event_type>( event_type data )
         case event_type::num_event_types:
             break;
     }
-    debugmsg( "Invalid event_type" );
-    abort();
+    cata_fatal( "Invalid event_type" );
 }
 
 } // namespace io

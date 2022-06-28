@@ -2,17 +2,15 @@
 #ifndef CATA_SRC_OVERMAP_CONNECTION_H
 #define CATA_SRC_OVERMAP_CONNECTION_H
 
-#include <algorithm>
+#include <iosfwd>
 #include <list>
 #include <set>
-#include <string>
 #include <vector>
 
 #include "int_id.h"
 #include "omdata.h"
 #include "string_id.h"
 
-class JsonIn;
 class JsonObject;
 struct overmap_location;
 
@@ -41,7 +39,7 @@ class overmap_connection
                 }
 
                 void load( const JsonObject &jo );
-                void deserialize( JsonIn &jsin );
+                void deserialize( const JsonObject &jo );
 
             private:
                 std::set<string_id<overmap_location>> locations;
@@ -58,13 +56,14 @@ class overmap_connection
 
     public:
         string_id<overmap_connection> id;
+        std::vector<std::pair<string_id<overmap_connection>, mod_id>> src;
         bool was_loaded = false;
 
     private:
         struct cache {
             const subtype *value = nullptr;
             bool assigned = false;
-            operator bool() const {
+            explicit operator bool() const {
                 return assigned;
             }
         };

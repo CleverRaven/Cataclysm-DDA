@@ -2,10 +2,10 @@
 #ifndef CATA_SRC_DEPENDENCY_TREE_H
 #define CATA_SRC_DEPENDENCY_TREE_H
 
+#include <iosfwd>
 #include <map>
 #include <stack>
 #include <vector>
-#include <string>
 
 #include "type_id.h"
 
@@ -29,7 +29,7 @@ class dependency_node
         bool on_stack;
 
         dependency_node();
-        dependency_node( const mod_id &key );
+        explicit dependency_node( const mod_id &key );
 
         void add_parent( dependency_node *parent );
         void add_child( dependency_node *child );

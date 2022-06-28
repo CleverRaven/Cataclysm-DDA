@@ -2,18 +2,20 @@
 #ifndef CATA_SRC_NPC_CLASS_H
 #define CATA_SRC_NPC_CLASS_H
 
-#include <algorithm>
 #include <functional>
+#include <iosfwd>
 #include <map>
-#include <string>
 #include <vector>
 
-#include "string_id.h"
+#include "shop_cons_rate.h"
 #include "translations.h"
 #include "type_id.h"
 
+class npc;
 class JsonObject;
 class Trait_group;
+
+struct dialogue;
 
 namespace trait_group
 {
@@ -27,7 +29,7 @@ class distribution
 {
     private:
         std::function<float()> generator_function;
-        distribution( const std::function<float()> &gen );
+        explicit distribution( const std::function<float()> &gen );
 
     public:
         distribution();
@@ -43,6 +45,26 @@ class distribution
         static distribution rng_roll( int from, int to );
         static distribution dice_roll( int sides, int size );
         static distribution one_in( float in );
+};
+struct shopkeeper_item_group {
+    item_group_id id = item_group_id( "EMPTY_GROUP" );
+    int trust = 0;
+    bool strict = false;
+    std::string refusal;
+    std::function<bool( const dialogue & )> condition;
+
+    // Rigid shopkeeper groups will be processed a single time. Default groups are not rigid, and will be processed until the shopkeeper has no more room or remaining value to populate goods with.
+    bool rigid = false;
+
+    shopkeeper_item_group() = default;
+    shopkeeper_item_group( const std::string &id, int trust, bool strict, bool rigid = false ) :
+        id( item_group_id( id ) ), trust( trust ), strict( strict ), rigid( rigid ) {}
+
+    bool can_sell( npc const &guy ) const;
+    bool can_restock( npc const &guy ) const;
+    std::string get_refusal() const;
+
+    void deserialize( const JsonObject &jo );
 };
 
 class npc_class
@@ -62,11 +84,19 @@ class npc_class
         // Just for finalization
         std::map<skill_id, distribution> bonus_skills;
 
-        item_group_id shopkeeper_item_group = item_group_id( "EMPTY_GROUP" );
+        // first -> item group, second -> trust
+        std::vector<shopkeeper_item_group> shop_item_groups;
+        shopkeeper_cons_rates_id shop_cons_rates_id = shopkeeper_cons_rates_id::NULL_ID();
+        shopkeeper_blacklist_id shop_blacklist_id = shopkeeper_blacklist_id::NULL_ID();
+        time_duration restock_interval = 6_days;
 
     public:
         npc_class_id id;
+        std::vector<std::pair<npc_class_id, mod_id>> src;
         bool was_loaded = false;
+
+        // By default, NPCs will be open to trade anything in their inventory, including worn items. If this is set to false, they won't sell items that they're directly wearing or wielding. Items inside of pockets/bags/etc are still fair game.
+        bool sells_belongings = true;
 
         item_group_id worn_override;
         item_group_id carry_override;
@@ -90,7 +120,10 @@ class npc_class
 
         int roll_skill( const skill_id & ) const;
 
-        const item_group_id &get_shopkeeper_items() const;
+        const std::vector<shopkeeper_item_group> &get_shopkeeper_items() const;
+        const shopkeeper_cons_rates &get_shopkeeper_cons_rates() const;
+        const shopkeeper_blacklist &get_shopkeeper_blacklist() const;
+        const time_duration &get_shop_restock_interval() const;
 
         void load( const JsonObject &jo, const std::string &src );
 

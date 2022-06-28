@@ -1,6 +1,8 @@
 /* Entry point and main loop for Cataclysm
  */
 
+// IWYU pragma: no_include <sys/signal.h>
+#include <clocale>
 #include <algorithm>
 #include <array>
 #include <clocale>
@@ -8,9 +10,9 @@
 #include <cstdlib>
 #include <cstring>
 #include <ctime>
+#include <exception>
 #include <functional>
 #include <iostream>
-#include <locale>
 #include <map>
 #include <memory>
 #include <string>
@@ -23,22 +25,35 @@
 #endif
 #include "cached_options.h"
 #include "color.h"
+#include "compatibility.h"
 #include "crash.h"
 #include "cursesdef.h"
 #include "debug.h"
+#include "do_turn.h"
 #include "filesystem.h"
 #include "game.h"
+#include "game_constants.h"
 #include "game_ui.h"
+#include "get_version.h"
 #include "input.h"
 #include "loading_ui.h"
 #include "main_menu.h"
 #include "mapsharing.h"
+#include "memory_fast.h"
 #include "options.h"
 #include "output.h"
+#include "ordered_static_globals.h"
 #include "path_info.h"
 #include "rng.h"
+#include "system_language.h"
 #include "translations.h"
 #include "type_id.h"
+#include "ui_manager.h"
+
+#if defined(PREFIX)
+#   undef PREFIX
+#   include "prefix.h"
+#endif
 
 class ui_adaptor;
 
@@ -118,9 +133,17 @@ void exit_handler( int s )
 
         catacurses::endwin();
 
+#if defined(__ANDROID__)
+        // Avoid capturing SIGABRT on exit on Android in crash report
+        // Can be removed once the SIGABRT on exit problem is fixed
+        signal( SIGABRT, SIG_DFL );
+#endif
+
         exit( exit_status );
     }
     inp_mngr.set_timeout( old_timeout );
+    ui_manager::redraw_invalidated();
+    catacurses::doupdate();
 }
 
 struct arg_handler {
@@ -179,6 +202,34 @@ void printHelpMessage( const FirstPassArgs &first_pass_arguments,
     }
 }
 
+
+/**
+ * Displays current application version and compile options values
+ */
+void printVersionMessage()
+{
+#if defined(TILES)
+    const bool hasTiles = true;
+#else
+    const bool hasTiles = false;
+#endif
+
+#if defined(SDL_SOUND)
+    const bool hasSound = true;
+#else
+    const bool hasSound = false;
+#endif
+
+    printf( "Cataclysm Dark Days Ahead: %s\n\n"
+            "%ctiles, %csound\n\n"
+            "data dir: %s\nuser dir: %s\n",
+            getVersionString(),
+            hasTiles ? '+' : '-',
+            hasSound ? '+' : '-',
+            PATH_INFO::datadir().c_str(),
+            PATH_INFO::user_dir().c_str() );
+}
+
 template<typename ArgHandlerContainer>
 void process_args( const char **argv, int argc, const ArgHandlerContainer &arg_handlers )
 {
@@ -220,6 +271,7 @@ struct cli_opts {
     dump_mode dmode = dump_mode::TSV;
     std::vector<std::string> opts;
     std::string world; /** if set try to load first save in this world on startup */
+    bool disable_ascii_art = false;
 };
 
 cli_opts parse_commandline( int argc, const char **argv )
@@ -229,7 +281,8 @@ cli_opts parse_commandline( int argc, const char **argv )
     const char *section_default = nullptr;
     const char *section_map_sharing = "Map sharing";
     const char *section_user_directory = "User directories";
-    const std::array<arg_handler, 12> first_pass_arguments = {{
+    const char *section_accessibility = "Accessibility";
+    const std::array<arg_handler, 13> first_pass_arguments = {{
             {
                 "--seed", "<string of letters and or numbers>",
                 "Sets the random number generator's seed value",
@@ -379,6 +432,16 @@ cli_opts parse_commandline( int argc, const char **argv )
                     PATH_INFO::set_standard_filenames();
                     return 1;
                 }
+            },
+            {
+                "--disable-ascii-art", nullptr,
+                "Disable aesthetic ascii art in menus and descriptions.",
+                section_accessibility,
+                0,
+                [&result]( int, const char ** ) -> int {
+                    result.disable_ascii_art = true;
+                    return 0;
+                }
             }
         }
     };
@@ -484,6 +547,11 @@ cli_opts parse_commandline( int argc, const char **argv )
         std::exit( 0 );
     }
 
+    if( std::count( argv, argv + argc, std::string( "--version" ) ) ) {
+        printVersionMessage();
+        std::exit( 0 );
+    }
+
     // skip program name
     --argc;
     ++argv;
@@ -497,8 +565,8 @@ cli_opts parse_commandline( int argc, const char **argv )
 }  // namespace
 
 #if defined(USE_WINMAIN)
-int APIENTRY WinMain( HINSTANCE /* hInstance */, HINSTANCE /* hPrevInstance */,
-                      LPSTR /* lpCmdLine */, int /* nCmdShow */ )
+int APIENTRY WinMain( _In_ HINSTANCE /* hInstance */, _In_opt_ HINSTANCE /* hPrevInstance */,
+                      _In_ LPSTR /* lpCmdLine */, _In_ int /* nCmdShow */ )
 {
     int argc = __argc;
     char **argv = __argv;
@@ -508,7 +576,9 @@ extern "C" int SDL_main( int argc, char **argv ) {
 int main( int argc, const char *argv[] )
 {
 #endif
+    ordered_static_globals();
     init_crash_handlers();
+    reset_floating_point_mode();
 
 #if defined(__ANDROID__)
     // Start the standard output logging redirector
@@ -525,9 +595,7 @@ int main( int argc, const char *argv[] )
 #else
     // Set default file paths
 #if defined(PREFIX)
-#define Q(STR) #STR
-#define QUOTE(STR) Q(STR)
-    PATH_INFO::init_base_path( std::string( QUOTE( PREFIX ) ) );
+    PATH_INFO::init_base_path( std::string( PREFIX ) );
 #else
     PATH_INFO::init_base_path( "" );
 #endif
@@ -615,8 +683,8 @@ int main( int argc, const char *argv[] )
     if( !test_mode ) {
         try {
             // set minimum FULL_SCREEN sizes
-            FULL_SCREEN_WIDTH = 80;
-            FULL_SCREEN_HEIGHT = 24;
+            FULL_SCREEN_WIDTH = EVEN_MINIMUM_TERM_WIDTH;
+            FULL_SCREEN_HEIGHT = EVEN_MINIMUM_TERM_HEIGHT;
             catacurses::init_interface();
         } catch( const std::exception &err ) {
             // can't use any curses function as it has not been initialized
@@ -655,6 +723,12 @@ int main( int argc, const char *argv[] )
         exit_handler( -999 );
     }
 
+    // Override existing settings from cli  options
+    if( cli.disable_ascii_art ) {
+        get_options().get_option( "ENABLE_ASCII_ART" ).setValue( "false" );
+        get_options().get_option( "ENABLE_ASCII_TITLE" ).setValue( "false" );
+    }
+
     // Now we do the actual game.
 
     // I have no clue what this comment is on about
@@ -670,21 +744,7 @@ int main( int argc, const char *argv[] )
 #endif
 
 #if defined(LOCALIZE)
-    std::string lang;
-#if defined(_WIN32)
-    lang = getLangFromLCID( GetUserDefaultLCID() );
-#else
-    const char *v = setlocale( LC_ALL, nullptr );
-    if( v != nullptr ) {
-        lang = v;
-
-        if( lang == "C" ) {
-            lang = "en";
-        }
-    }
-#endif
-    if( get_option<std::string>( "USE_LANG" ).empty() && ( lang.empty() ||
-            !isValidLanguage( lang ) ) ) {
+    if( get_option<std::string>( "USE_LANG" ).empty() && getSystemLanguage().empty() ) {
         select_language();
         set_language();
     }
@@ -706,7 +766,7 @@ int main( int argc, const char *argv[] )
         }
 
         shared_ptr_fast<ui_adaptor> ui = g->create_or_get_main_ui_adaptor();
-        while( !g->do_turn() );
+        while( !do_turn() );
     }
 
     exit_handler( -999 );

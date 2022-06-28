@@ -1,26 +1,46 @@
 [
   {
+    "type": "mapgen",
     "method": "json",
+    "om_terrain": "dump",
+    "weight": 100,
     "object": {
+      "rows": [
+        "          ....          ",
+        "          ....          ",
+        " |||||||||....||||||||| ",
+        " |....................| ",
+        " |&&&&&&&&&&&&&&&&&&&&| ",
+        " |&&&&&&&&&&&&&&&&&&&&| ",
+        " |&&&&&&&&&&&&&&&&&&&&| ",
+        " |&&&&&&&&&&&&&&&&&&&&| ",
+        " |&&&^^^^^^^^^^^^^^&&&| ",
+        " |^^^^^^^^^^^^^^^^^^^^| ",
+        " |^^^^^^^^^^^^^^^^^^^^| ",
+        " |^^^^^^^^^^^^^^^^^^^^| ",
+        " |^^^^^^^^^^^^^^^^^^^^| ",
+        " |^^^^^^^^^^^^^^^^^^^^| ",
+        " |^^^^^^^^^^^^^^^^^^^^| ",
+        " |^^^^^^^^^^^^^^^^^^^^| ",
+        " |^^^^^^^^^^^^^^^^^^^^| ",
+        " |^^^^^^^^^^^^^^^^^^^^| ",
+        " |^^^^^^^^^^^^^^^^^^^^| ",
+        " |^^^^^^^^^^^^^^^^^^^^| ",
+        " |^^^^^^^^^^^^^^^^^^^^| ",
+        " |^^^^^^^^^^^^^^^^^^^^| ",
+        " |||||||||||||||||||||| ",
+        "                        "
+      ],
+      "terrain": {
+        ".": "t_region_groundcover_barren",
+        "&": "t_region_soil",
+        "^": "t_region_soil",
+        " ": "t_region_groundcover_urban",
+        "|": "t_chainfence"
+      },
       "furniture": {
-        ".": "f_null",
-        "P": "f_sign",
-        "^": [ "f_rubble", "f_rubble", "f_rubble", "f_null", "f_rubble_rock", "f_wreckage" ],
-        "&": [
-          "f_rubble",
-          "f_rubble",
-          "f_rubble",
-          "f_null",
-          "f_null",
-          "f_null",
-          "f_null",
-          "f_null",
-          "f_null",
-          "f_rubble_rock",
-          "f_wreckage"
-        ],
-        "_": "f_null",
-        "|": "f_null"
+        "^": [ [ "f_rubble", 3 ], "f_null", "f_rubble_rock", "f_wreckage" ],
+        "&": [ [ "f_rubble", 3 ], [ "f_null", 6 ], "f_rubble_rock", "f_wreckage" ]
       },
       "items": {
         "^": [
@@ -55,69 +75,52 @@
           { "item": "misc_smoking", "chance": 1 },
           { "item": "tools_home", "chance": 1 }
         ]
-      },
-      "rows": [
-        "__________....__________",
-        "__________....__________",
-        "_||||||||P....P||||||||_",
-        "_|....................|_",
-        "_|&&&&&&&&&&&&&&&&&&&&|_",
-        "_|&&&&&&&&&&&&&&&&&&&&|_",
-        "_|&&&&&&&&&&&&&&&&&&&&|_",
-        "_|&&&&&&&&&&&&&&&&&&&&|_",
-        "_|&&&^^^^^^^^^^^^^^&&&|_",
-        "_|^^^^^^^^^^^^^^^^^^^^|_",
-        "_|^^^^^^^^^^^^^^^^^^^^|_",
-        "_|^^^^^^^^^^^^^^^^^^^^|_",
-        "_|^^^^^^^^^^^^^^^^^^^^|_",
-        "_|^^^^^^^^^^^^^^^^^^^^|_",
-        "_|^^^^^^^^^^^^^^^^^^^^|_",
-        "_|^^^^^^^^^^^^^^^^^^^^|_",
-        "_|^^^^^^^^^^^^^^^^^^^^|_",
-        "_|^^^^^^^^^^^^^^^^^^^^|_",
-        "_|^^^^^^^^^^^^^^^^^^^^|_",
-        "_|^^^^^^^^^^^^^^^^^^^^|_",
-        "_|^^^^^^^^^^^^^^^^^^^^|_",
-        "_|^^^^^^^^^^^^^^^^^^^^|_",
-        "_||||||||||||||||||||||_",
-        "________________________"
-      ],
-      "terrain": {
-        ".": [ "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_grass" ],
-        "P": "t_chainfence",
-        "&": "t_dirt",
-        "^": "t_dirt",
-        "_": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt" ],
-        "|": "t_chainfence"
       },
       "place_signs": [ { "signage": "<city> Dump", "x": 9, "y": 2 }, { "signage": "<city> Dump", "x": 14, "y": 2 } ]
-    },
-    "om_terrain": "dump",
-    "type": "mapgen",
-    "weight": 100
+    }
   },
   {
+    "type": "mapgen",
     "method": "json",
+    "om_terrain": "dump",
+    "weight": 100,
     "object": {
+      "rows": [
+        "         ......         ",
+        "         ......         ",
+        " ||||||||......|||||||| ",
+        " |....................| ",
+        " |....................| ",
+        " |....................| ",
+        " |....................| ",
+        " |....................| ",
+        " |....................| ",
+        " |....................| ",
+        " |&&&&&&&&&&&&&&&&&&&&| ",
+        " |&&&&&&&&&&&&&&&&&&&&| ",
+        " |&&&&&&&&&&&&&&&&&&&&| ",
+        " |^^^^^^^^^^^^^^^^^^^^| ",
+        " |^^^^^^^^^^^^^^^^^^^^| ",
+        " |^^^^^^^^^^^^^^^^^^^^| ",
+        " |^^^^^^^^^^^^^^^^^^^^| ",
+        " |^^^^^^^^^^^^^^^^^^^^| ",
+        " |^^^^^^^^^^^^^^^^^^^^| ",
+        " |^^^^^^^^^^^^^^^^^^^^| ",
+        " |^^^^^^^^^^^^^^^^^^^^| ",
+        " |^^^^^^^^^^^^^^^^^^^^| ",
+        " |||||||||||||||||||||| ",
+        "                        "
+      ],
+      "terrain": {
+        ".": "t_region_groundcover_barren",
+        "&": "t_region_soil",
+        "^": "t_region_soil",
+        " ": "t_region_groundcover_urban",
+        "|": "t_chainfence"
+      },
       "furniture": {
-        ".": "f_null",
-        "P": "f_sign",
-        "^": [ "f_rubble", "f_rubble", "f_rubble", "f_null", "f_rubble_rock", "f_wreckage" ],
-        "&": [
-          "f_rubble",
-          "f_rubble",
-          "f_rubble",
-          "f_null",
-          "f_null",
-          "f_null",
-          "f_null",
-          "f_null",
-          "f_null",
-          "f_rubble_rock",
-          "f_wreckage"
-        ],
-        "_": "f_null",
-        "|": "f_null"
+        "^": [ [ "f_rubble", 3 ], "f_null", "f_rubble_rock", "f_wreckage" ],
+        "&": [ [ "f_rubble", 3 ], [ "f_null", 6 ], "f_rubble_rock", "f_wreckage" ]
       },
       "items": {
         "^": [
@@ -153,102 +156,52 @@
           { "item": "tools_home", "chance": 1 }
         ]
       },
-      "rows": [
-        "_________......_________",
-        "_________......_________",
-        "_|||||||P......P|||||||_",
-        "_|....................|_",
-        "_|....................|_",
-        "_|....................|_",
-        "_|....................|_",
-        "_|....................|_",
-        "_|....................|_",
-        "_|....................|_",
-        "_|&&&&&&&&&&&&&&&&&&&&|_",
-        "_|&&&&&&&&&&&&&&&&&&&&|_",
-        "_|&&&&&&&&&&&&&&&&&&&&|_",
-        "_|^^^^^^^^^^^^^^^^^^^^|_",
-        "_|^^^^^^^^^^^^^^^^^^^^|_",
-        "_|^^^^^^^^^^^^^^^^^^^^|_",
-        "_|^^^^^^^^^^^^^^^^^^^^|_",
-        "_|^^^^^^^^^^^^^^^^^^^^|_",
-        "_|^^^^^^^^^^^^^^^^^^^^|_",
-        "_|^^^^^^^^^^^^^^^^^^^^|_",
-        "_|^^^^^^^^^^^^^^^^^^^^|_",
-        "_|^^^^^^^^^^^^^^^^^^^^|_",
-        "_||||||||||||||||||||||_",
-        "________________________"
-      ],
-      "terrain": {
-        ".": [ "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_grass" ],
-        "P": "t_chainfence",
-        "&": "t_dirt",
-        "^": "t_dirt",
-        "_": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_shrub", "t_dirt" ],
-        "|": "t_chainfence"
-      },
       "place_signs": [ { "signage": "<city> Dump", "x": 8, "y": 2 }, { "signage": "<city> Dump", "x": 15, "y": 2 } ]
-    },
-    "om_terrain": "dump",
-    "type": "mapgen",
-    "weight": 100
+    }
   },
   {
+    "type": "mapgen",
     "method": "json",
+    "om_terrain": "dump",
+    "weight": 100,
     "object": {
+      "rows": [
+        "         ______         ",
+        "      ___PPPPPP___      ",
+        "    __PPPPPPPPPPPP__    ",
+        "   _PPPPPPPPPPPPPPPP_   ",
+        "  _PPPPPPPPPPPPPPPPPP_  ",
+        "  _PPPPPPPP##PPPPPPPP__ ",
+        " _PPPPPPP######PPPPPPP_ ",
+        " _PPPPP##########PPPPP_ ",
+        " _PPPPP##########PPPPP_ ",
+        "_PPPPP#####&&#####PPPPP_",
+        "_PPPPP####&&&&####PPPPP_",
+        "_PPPP####&&&&&&####PPPP_",
+        "_PPPP####&&&&&&####PPPP_",
+        "_PPPPP####&&&&####PPPPP_",
+        "_PPPPP#####&&#####PPPPP_",
+        " _PPPPP##########PPPPP_ ",
+        " _PPPPP##########PPPPP_ ",
+        " _PPPPPPP######PPPPPPP_ ",
+        "  _PPPPPPPP##PPPPPPPP_  ",
+        "  _PPPPPPPPPPPPPPPPPP_  ",
+        "   _PPPPPPPPPPPPPPPP_   ",
+        "    __PPPPPPPPPPPP__    ",
+        "      ___PPPPPP___      ",
+        "         ______         "
+      ],
+      "terrain": {
+        "#": "t_region_soil",
+        "&": "t_region_soil",
+        " ": "t_region_groundcover_urban",
+        "P": "t_region_soil",
+        "_": "t_region_soil"
+      },
       "furniture": {
-        "#": [
-          "f_rubble",
-          "f_rubble",
-          "f_rubble",
-          "f_rubble",
-          "f_rubble",
-          "f_rubble",
-          "f_rubble_rock",
-          "f_rubble_rock",
-          "f_wreckage",
-          "f_null",
-          "f_null",
-          "f_null",
-          "f_null"
-        ],
-        "&": [
-          "f_rubble",
-          "f_rubble",
-          "f_rubble",
-          "f_rubble",
-          "f_rubble",
-          "f_rubble",
-          "f_rubble_rock",
-          "f_rubble_rock",
-          "f_wreckage"
-        ],
-        ".": "f_null",
-        "P": [
-          "f_rubble",
-          "f_rubble",
-          "f_rubble",
-          "f_rubble",
-          "f_rubble",
-          "f_rubble",
-          "f_rubble_rock",
-          "f_rubble_rock",
-          "f_wreckage",
-          "f_null",
-          "f_null",
-          "f_null",
-          "f_null",
-          "f_null",
-          "f_null",
-          "f_null",
-          "f_null",
-          "f_null",
-          "f_null",
-          "f_null",
-          "f_null"
-        ],
-        "_": "f_null",
-        "d": "f_sign"
+        "#": [ [ "f_rubble", 6 ], [ "f_rubble_rock", 2 ], "f_wreckage", [ "f_null", 4 ] ],
+        "&": [ [ "f_rubble", 6 ], [ "f_rubble_rock", 2 ], "f_wreckage" ],
+        "P": [ [ "f_rubble", 6 ], [ "f_rubble_rock", 2 ], "f_wreckage", [ "f_null", 12 ] ]
       },
       "items": {
         "&": [
@@ -294,84 +247,52 @@
           { "item": "misc_smoking", "chance": 1 }
         ]
       },
-      "rows": [
-        "........................",
-        ".d....___PPPPPP___....d.",
-        "....__PPPPPPPPPPPP__....",
-        "..._PPPPPPPPPPPPPPPP_...",
-        ".._PPPPPPPPPPPPPPPPPP_..",
-        ".._PPPPPPPP##PPPPPPPP__.",
-        "._PPPPPPP######PPPPPPP_.",
-        "._PPPPP##########PPPPP_.",
-        "._PPPPP##########PPPPP_.",
-        ".PPPPP#####&&#####PPPPP.",
-        ".PPPPP####&&&&####PPPPP.",
-        ".PPPP####&&&&&&####PPPP.",
-        ".PPPP####&&&&&&####PPPP.",
-        ".PPPPP####&&&&####PPPPP.",
-        ".PPPPP#####&&#####PPPPP.",
-        "._PPPPP##########PPPPP_.",
-        "._PPPPP##########PPPPP_.",
-        "._PPPPPPP######PPPPPPP_.",
-        ".._PPPPPPPP##PPPPPPPP_..",
-        ".._PPPPPPPPPPPPPPPPPP_..",
-        "..._PPPPPPPPPPPPPPPP_...",
-        "....__PPPPPPPPPPPP__....",
-        "......___PPPPPP___......",
-        "........................"
-      ],
-      "terrain": {
-        "#": [ "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_grass" ],
-        "&": [ "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_grass" ],
-        ".": [
-          "t_grass",
-          "t_grass",
-          "t_grass",
-          "t_grass",
-          "t_grass",
-          "t_grass",
-          "t_grass",
-          "t_grass",
-          "t_grass",
-          "t_grass",
-          "t_grass",
-          "t_shrub",
-          "t_dirt",
-          "t_dirt"
-        ],
-        "P": [ "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_grass" ],
-        "_": [ "t_dirt", "t_dirt", "t_dirt", "t_grass" ],
-        "d": "t_grass"
-      },
       "place_signs": [ { "signage": "DUMP", "x": 1, "y": 1 }, { "signage": "DUMP", "x": 22, "y": 1 } ]
-    },
-    "om_terrain": "dump",
-    "type": "mapgen",
-    "weight": 100
+    }
   },
   {
+    "type": "mapgen",
     "method": "json",
+    "om_terrain": "dump",
+    "weight": 100,
     "object": {
+      "rows": [
+        "         ______         ",
+        "         ______         ",
+        "         ______     7   ",
+        "        ________        ",
+        "      _____________     ",
+        "    ________________  7 ",
+        "   __________________   ",
+        "   __________________   ",
+        "  ____________________  ",
+        "  ____________________  ",
+        "  _______rrrrrr_______  ",
+        "  ____rrrrrrrrrrrr____  ",
+        "  __rrrrrrrrrrrrrrrr__  ",
+        "  __rrrrrrr^^rrrrrrr__  ",
+        "  _rrrr^^^^^^^^^^rrrr_  ",
+        "  ^^^^^^^^^^^^^^^^^^^^  ",
+        "  ^^^^^^^^^^^^^^^^^^^^  ",
+        "  |^^^^^^^^^^^^^^^^^^|  ",
+        "  |^^^^^^^^^^^^^^^^^^|  ",
+        "  |^^^^^^^^^^^^^^^^^^|  ",
+        "  |^^^^^^^^^^^^^^^^^^|  ",
+        "  ||||||||||||||||||||  ",
+        "                        ",
+        "                        "
+      ],
+      "terrain": {
+        " ": "t_region_groundcover_urban",
+        "7": "t_tree_birch",
+        "^": "t_region_groundcover_barren",
+        "_": "t_region_groundcover_barren",
+        "r": "t_region_groundcover_barren",
+        "|": "t_concrete_wall"
+      },
       "furniture": {
-        ".": "f_null",
-        "7": "f_null",
-        "P": "f_sign",
-        "^": [ "f_rubble", "f_rubble", "f_rubble", "f_null", "f_rubble_rock", "f_wreckage" ],
-        "_": "f_null",
-        "r": [
-          "f_rubble",
-          "f_rubble",
-          "f_rubble",
-          "f_null",
-          "f_null",
-          "f_null",
-          "f_null",
-          "f_null",
-          "f_null",
-          "f_rubble_rock",
-          "f_wreckage"
-        ],
-        "|": "f_null"
+        "^": [ [ "f_rubble", 3 ], "f_null", "f_rubble_rock", "f_wreckage" ],
+        "r": [ [ "f_rubble", 3 ], [ "f_null", 6 ], "f_rubble_rock", "f_wreckage" ]
       },
       "items": {
         "^": [
@@ -409,68 +330,45 @@
           { "item": "tools_home", "chance": 1 }
         ]
       },
-      "rows": [
-        ".........______.........",
-        ".........______.........",
-        ".........______..P..7...",
-        "........________........",
-        "......_____________.....",
-        "....________________..7.",
-        "...__________________...",
-        "...__________________...",
-        "..____________________..",
-        "..____________________..",
-        ".._______rrrrrr_______..",
-        "..____rrrrrrrrrrrr____..",
-        "..__rrrrrrrrrrrrrrrr__..",
-        "..__rrrrrrr^^rrrrrrr__..",
-        ".._rrrr^^^^^^^^^^rrrr_..",
-        "..^^^^^^^^^^^^^^^^^^^^..",
-        "..^^^^^^^^^^^^^^^^^^^^..",
-        "..|^^^^^^^^^^^^^^^^^^|..",
-        "..|^^^^^^^^^^^^^^^^^^|..",
-        "..|^^^^^^^^^^^^^^^^^^|..",
-        "..|^^^^^^^^^^^^^^^^^^|..",
-        "..||||||||||||||||||||..",
-        "........................",
-        "........................"
-      ],
-      "terrain": {
-        ".": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt" ],
-        "7": "t_tree_birch",
-        "P": "t_grass",
-        "^": "t_dirt",
-        "_": [ "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_grass" ],
-        "r": "t_dirt",
-        "|": "t_concrete_wall"
-      },
       "place_signs": [ { "signage": "<city> Area Dump", "x": 17, "y": 2 } ]
-    },
-    "om_terrain": "dump",
-    "type": "mapgen",
-    "weight": 100
+    }
   },
   {
+    "type": "mapgen",
     "method": "json",
+    "om_terrain": "dump",
+    "weight": 100,
     "object": {
+      "rows": [
+        "         ______         ",
+        "         ______         ",
+        "         ______         ",
+        "      ___________       ",
+        "    ________________    ",
+        "   __________________   ",
+        "   __________________   ",
+        "  _____rrrrrrrrrr_____  ",
+        "  ___rrrrrrrrrrrrrr___  ",
+        "  __rrrrrrrrrrrrrrrr__  ",
+        "  _rrrrrrrrrrrrrrrrrr_  ",
+        "  _rrrrrrrrrrrrrrrrrr_  ",
+        "  _rrrrrrrrrrrrrrrrrr_  ",
+        "  _rrr^^^^^^^^^^^^rrr_  ",
+        "  _r^^^^^^^^^^^^^^^^r_  ",
+        "  _^^^^^^^^^^^^^^^^^^_  ",
+        "  _^^^^^^^^^^^^^^^^^^_  ",
+        "  _^^^^^^^^^^^^^^^^^^_  ",
+        "  _^^^^^^^^^^^^^^^^^^_  ",
+        "  _^^^^^^^^^^^^^^^^^^_  ",
+        "   _^^^^^^^^^^^^^^^^_   ",
+        "    _^^^^^^^^^^^^^^_    ",
+        "                        ",
+        "                        "
+      ],
+      "terrain": { " ": "t_region_groundcover_urban", "^": "t_region_soil", "_": "t_region_groundcover_barren", "r": "t_region_soil" },
       "furniture": {
-        ".": "f_null",
-        "7": "f_null",
-        "^": [ "f_rubble", "f_rubble", "f_rubble", "f_null", "f_rubble_rock", "f_wreckage" ],
-        "_": "f_null",
-        "r": [
-          "f_rubble",
-          "f_rubble",
-          "f_rubble",
-          "f_null",
-          "f_null",
-          "f_null",
-          "f_null",
-          "f_null",
-          "f_null",
-          "f_rubble_rock",
-          "f_wreckage"
-        ]
+        "^": [ [ "f_rubble", 3 ], "f_null", "f_rubble_rock", "f_wreckage" ],
+        "r": [ [ "f_rubble", 3 ], [ "f_null", 6 ], "f_rubble_rock", "f_wreckage" ]
       },
       "items": {
         "^": [
@@ -507,43 +405,7 @@
           { "item": "misc_smoking", "chance": 1 },
           { "item": "tools_home", "chance": 1 }
         ]
-      },
-      "rows": [
-        ".........______.........",
-        ".........______.........",
-        "..7......______......7..",
-        "......___________.......",
-        "....________________....",
-        "...__________________...",
-        "...__________________...",
-        ".._____rrrrrrrrrr_____..",
-        "..___rrrrrrrrrrrrrr___..",
-        "..__rrrrrrrrrrrrrrrr__..",
-        ".._rrrrrrrrrrrrrrrrrr_..",
-        ".._rrrrrrrrrrrrrrrrrr_..",
-        ".._rrrrrrrrrrrrrrrrrr_..",
-        ".._rrr^^^^^^^^^^^^rrr_..",
-        ".._r^^^^^^^^^^^^^^^^r_..",
-        ".._^^^^^^^^^^^^^^^^^^_..",
-        ".._^^^^^^^^^^^^^^^^^^_..",
-        ".._^^^^^^^^^^^^^^^^^^_..",
-        ".._^^^^^^^^^^^^^^^^^^_..",
-        ".._^^^^^^^^^^^^^^^^^^_..",
-        "..._^^^^^^^^^^^^^^^^_...",
-        "...._^^^^^^^^^^^^^^_....",
-        "........................",
-        "........................"
-      ],
-      "terrain": {
-        ".": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt" ],
-        "7": "t_tree_maple",
-        "^": "t_dirt",
-        "_": [ "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_grass" ],
-        "r": "t_dirt"
       }
-    },
-    "om_terrain": "dump",
-    "type": "mapgen",
-    "weight": 100
+    }
   }
 ]

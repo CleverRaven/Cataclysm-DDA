@@ -84,7 +84,7 @@
     "move_cost": 0,
     "coverage": 100,
     "description": "The shutters of this porthole are deployed, but the lack of a window between them allows the frozen air to leak into the room.",
-    "open": "t_wall_prefab_glass",
+    "open": "t_wall_prefab_bglass",
     "flags": [ "NOITEM", "WALL", "PERMEABLE", "OPENCLOSE_INSIDE" ],
     "roof": "t_metal_flat_roof",
     "bash": {
@@ -111,6 +111,7 @@
     "coverage": 60,
     "color": "yellow",
     "description": "The glass panel that would have covered this porthole has been broken, allowing unfettered access to the rooms within.",
+    "close": "t_wall_prefab_bglass_shutters",
     "flags": [ "TRANSPARENT", "FLAMMABLE", "NOITEM", "MOUNTABLE", "CONNECT_TO_WALL", "SMALL_PASSAGE", "WINDOW" ],
     "roof": "t_metal_flat_roof",
     "bash": {

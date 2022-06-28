@@ -1,7 +1,8 @@
-#include "catch/catch.hpp"
-#include "text_snippets.h"
+#include <new>
 
+#include "cata_catch.h"
 #include "optional.h"
+#include "text_snippets.h"
 #include "translations.h"
 
 TEST_CASE( "random_snippet_with_small_seed", "[text_snippets][rng]" )

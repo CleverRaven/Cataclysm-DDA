@@ -53,6 +53,7 @@
         "q": "t_thconc_floor",
         "=": "t_door_metal_locked",
         "&": "t_gates_control_brick",
+        "#": "t_brick_wall",
         "ƃ": "t_screen_door_c",
         ";": "t_door_glass_c",
         "$": "t_screened_porch_wall",
@@ -60,7 +61,7 @@
       },
       "furniture": { "0": "f_counter" },
       "place_loot": [ { "item": "television", "x": 22, "y": 6, "chance": 100 }, { "item": "stereo", "x": 22, "y": 7, "chance": 50 } ],
-      "place_vehicles": [ { "vehicle": "suburban_home", "x": 5, "y": 10, "chance": 100, "rotation": 100 } ]
+      "place_vehicles": [ { "vehicle": "suburban_home_compact", "x": 5, "y": 10, "chance": 100, "rotation": 100 } ]
     }
   },
   {

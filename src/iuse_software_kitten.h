@@ -2,18 +2,17 @@
 #ifndef CATA_SRC_IUSE_SOFTWARE_KITTEN_H
 #define CATA_SRC_IUSE_SOFTWARE_KITTEN_H
 
-#include <string>
+#include <iosfwd>
+#include <vector>
 
 #include "color.h"
 #include "cursesdef.h"
 #include "point.h"
 
-class ui_adaptor;
-
 struct kobject {
     point pos;
     nc_color color;
-    int character = 0;
+    uint8_t character = 0;
 };
 
 static constexpr int MAXMESSAGES = 1200;

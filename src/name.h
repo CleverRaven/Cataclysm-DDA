@@ -2,9 +2,10 @@
 #ifndef CATA_SRC_NAME_H
 #define CATA_SRC_NAME_H
 
+#include <iosfwd>
+#include <map>
 #include <string>
-
-#include "enum_traits.h"
+#include <vector>
 
 template <typename E> struct enum_traits;
 
@@ -33,6 +34,8 @@ struct enum_traits<nameFlags> {
 
 namespace Name
 {
+using names_map = std::map< nameFlags, std::vector< std::string > >;
+names_map &get_names();
 /// Load names from given json file to use for generation
 void load_from_file( const std::string &filename );
 

@@ -20,8 +20,8 @@
 #include "color.h"
 #include "coordinate_conversions.h"
 #include "creature.h"
+#include "creature_tracker.h"
 #include "debug.h"
-#include "game.h"
 #include "game_constants.h"
 #include "int_id.h"
 #include "lightmap.h"
@@ -34,6 +34,10 @@
 #include "sdl_utils.h"
 #include "vehicle.h"
 #include "vpart_position.h"
+
+class game;
+// NOLINTNEXTLINE(cata-static-declarations)
+extern std::unique_ptr<game> g;
 
 namespace
 {
@@ -120,7 +124,7 @@ SDL_Color get_critter_color( Creature *critter, int flicker, int mixture )
 class pixel_minimap::shared_texture_pool
 {
     public:
-        shared_texture_pool( const std::function<SDL_Texture_Ptr()> &generator ) {
+        explicit shared_texture_pool( const std::function<SDL_Texture_Ptr()> &generator ) {
             const size_t pool_size = ( MAPSIZE + 1 ) * ( MAPSIZE + 1 );
 
             texture_pool.reserve( pool_size );
@@ -147,8 +151,10 @@ class pixel_minimap::shared_texture_pool
         //releases the provided texture back into the inactive pool to be used again
         //called automatically in the submap cache destructor
         void release_tex( size_t index, SDL_Texture_Ptr &&ptr ) {
-            inactive_index.push_back( index );
-            texture_pool[index] = std::move( ptr );
+            if( ptr ) {
+                inactive_index.push_back( index );
+                texture_pool[index] = std::move( ptr );
+            }
         }
 
     private:
@@ -173,7 +179,7 @@ struct pixel_minimap::submap_cache {
     shared_texture_pool &pool;
 
     //reserve the SEEX * SEEY submap tiles
-    submap_cache( shared_texture_pool &pool ) :
+    explicit submap_cache( shared_texture_pool &pool ) :
         pool( pool ) {
         chunk_tex = pool.request_tex( texture_index );
     }
@@ -183,6 +189,7 @@ struct pixel_minimap::submap_cache {
         pool.release_tex( texture_index, std::move( chunk_tex ) );
     }
 
+    submap_cache( const submap_cache & ) = delete;
     submap_cache( submap_cache && ) = default;
 
     SDL_Color &color_at( const point &p ) {
@@ -218,7 +225,8 @@ void pixel_minimap::set_settings( const pixel_minimap_settings &settings )
 
 void pixel_minimap::prepare_cache_for_updates( const tripoint &center )
 {
-    const tripoint new_center_sm = get_map().get_abs_sub() + ms_to_sm_copy( center );
+    // TODO: fix point types
+    const tripoint new_center_sm = get_map().get_abs_sub().raw() + ms_to_sm_copy( center );
     const tripoint center_sm_diff = cached_center_sm - new_center_sm;
 
     //invalidate the cache if the game shifted more than one submap in the last update, or if z-level changed.
@@ -295,7 +303,8 @@ void pixel_minimap::update_cache_at( const tripoint &sm_pos )
     const level_cache &access_cache = here.access_cache( sm_pos.z );
     const bool nv_goggle = get_player_character().get_vision_modes()[NV_GOGGLES];
 
-    submap_cache &cache_item = get_cache_at( here.get_abs_sub() + sm_pos );
+    // TODO: fix point types
+    submap_cache &cache_item = get_cache_at( here.get_abs_sub().raw() + sm_pos );
     const tripoint ms_pos = sm_to_ms_copy( sm_pos );
 
     cache_item.touched = true;
@@ -331,7 +340,7 @@ void pixel_minimap::update_cache_at( const tripoint &sm_pos )
 
             if( current_color != color ) {
                 current_color = color;
-                cache_item.update_list.push_back( { x, y } );
+                cache_item.update_list.emplace_back( x, y );
             }
         }
     }
@@ -342,7 +351,7 @@ pixel_minimap::submap_cache &pixel_minimap::get_cache_at( const tripoint &abs_sm
     auto it = cache.find( abs_sm_pos );
 
     if( it == cache.end() ) {
-        it = cache.emplace( abs_sm_pos, *tex_pool ).first;
+        it = cache.emplace( abs_sm_pos, submap_cache( *tex_pool ) ).first;
     }
 
     return it->second;
@@ -442,7 +451,8 @@ void pixel_minimap::render( const tripoint &center )
 
 void pixel_minimap::render_cache( const tripoint &center )
 {
-    const tripoint sm_center = get_map().get_abs_sub() + ms_to_sm_copy( center );
+    // TODO: fix point types
+    const tripoint sm_center = get_map().get_abs_sub().raw() + ms_to_sm_copy( center );
     const tripoint sm_offset = tripoint{
         total_tiles_count.x / SEEX / 2,
         total_tiles_count.y / SEEY / 2, 0
@@ -493,23 +503,23 @@ void pixel_minimap::render_critters( const tripoint &center )
 
     const level_cache &access_cache = get_map().access_cache( center.z );
 
-    const int start_x = center.x - total_tiles_count.x / 2;
-    const int start_y = center.y - total_tiles_count.y / 2;
+    const point start( center.x - total_tiles_count.x / 2, center.y - total_tiles_count.y / 2 );
     const point beacon_size = {
         std::max<int>( projector->get_tile_size().x *settings.beacon_size / 2, 2 ),
         std::max<int>( projector->get_tile_size().y *settings.beacon_size / 2, 2 )
     };
 
+    creature_tracker &creatures = get_creature_tracker();
     for( int y = 0; y < total_tiles_count.y; y++ ) {
         for( int x = 0; x < total_tiles_count.x; x++ ) {
-            const tripoint p = tripoint{ start_x + x, start_y + y, center.z };
+            const tripoint p = start + tripoint( x, y, center.z );
             const lit_level lighting = access_cache.visibility_cache[p.x][p.y];
 
             if( lighting == lit_level::DARK || lighting == lit_level::BLANK ) {
                 continue;
             }
 
-            Creature *critter = g->critter_at( p, true );
+            Creature *critter = creatures.creature_at( p, true );
 
             if( critter == nullptr || !get_player_view().sees( *critter ) ) {
                 continue;

@@ -18,7 +18,7 @@
       },
       { "text": "Wanna get outta here?", "topic": "TALK_SUGGEST_FOLLOW" },
       { "text": "Let's trade items.", "topic": "TALK_TECHNO_KID", "effect": "start_trade" },
-      { "text": "Can I do anything for you?", "topic": "TALK_MISSION_OFFER" },
+      { "text": "Can I do anything for you?", "topic": "TALK_MISSION_LIST" },
       { "text": "About the mission…", "topic": "TALK_MISSION_INQUIRE", "condition": "has_assigned_mission" },
       {
         "text": "About one of those missions…",

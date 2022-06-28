@@ -1,23 +1,22 @@
-#include "catch/catch.hpp"
-#include "shadowcasting.h"
-
+#include <algorithm>
 #include <array>
 #include <chrono>
 #include <cstdio>
 #include <functional>
-#include <memory>
-#include <random>
 #include <sstream>
 #include <type_traits>
 #include <vector>
 
+#include "cata_catch.h"
 #include "cuboid_rectangle.h"
 #include "game_constants.h"
+#include "level_cache.h"
 #include "lightmap.h"
 #include "line.h" // For rl_dist.
 #include "map.h"
 #include "point.h"
 #include "rng.h"
+#include "shadowcasting.h"
 
 // Constants setting the ratio of set to unset tiles.
 static constexpr unsigned int NUMERATOR = 1;
@@ -290,9 +289,16 @@ static void shadowcasting_runoff( const int iterations, const bool test_bresenha
 static void shadowcasting_float_quad(
     const int iterations, const unsigned int denominator = DENOMINATOR )
 {
-    float lit_squares_float[MAPSIZE * SEEX][MAPSIZE * SEEY] = {};
-    four_quadrants lit_squares_quad[MAPSIZE * SEEX][MAPSIZE * SEEY] = {};
-    float transparency_cache[MAPSIZE * SEEX][MAPSIZE * SEEY] = {};
+    struct test_grids {
+        float lit_squares_float[MAPSIZE * SEEX][MAPSIZE * SEEY] = {};
+        four_quadrants lit_squares_quad[MAPSIZE * SEEX][MAPSIZE * SEEY] = {};
+        float transparency_cache[MAPSIZE * SEEX][MAPSIZE * SEEY] = {};
+    };
+
+    std::unique_ptr<test_grids> grids = std::make_unique<test_grids>();
+    float ( &lit_squares_float )[MAPSIZE * SEEX][MAPSIZE * SEEY] = grids->lit_squares_float;
+    four_quadrants( &lit_squares_quad )[MAPSIZE * SEEX][MAPSIZE * SEEY] = grids->lit_squares_quad;
+    float ( &transparency_cache )[MAPSIZE * SEEX][MAPSIZE * SEEY] = grids->transparency_cache;
 
     randomly_fill_transparency( transparency_cache, denominator );
 
@@ -344,8 +350,14 @@ static void do_3d_benchmark(
     std::array<const float ( * )[MAPSIZE *SEEX][MAPSIZE *SEEY], OVERMAP_LAYERS> &transparency_caches,
     const int iterations )
 {
-    float seen_squares[OVERMAP_LAYERS][MAPSIZE * SEEX][MAPSIZE * SEEY] = {};
-    bool floor_cache[OVERMAP_LAYERS][MAPSIZE * SEEX][MAPSIZE * SEEY] = {};
+    struct test_grids {
+        float seen_squares[OVERMAP_LAYERS][MAPSIZE * SEEX][MAPSIZE * SEEY] = {};
+        bool floor_cache[OVERMAP_LAYERS][MAPSIZE * SEEX][MAPSIZE * SEEY] = {};
+    };
+
+    std::unique_ptr<test_grids> grids = std::make_unique<test_grids>();
+    float ( &seen_squares )[OVERMAP_LAYERS][MAPSIZE * SEEX][MAPSIZE * SEEY] = grids->seen_squares;
+    bool ( &floor_cache )[OVERMAP_LAYERS][MAPSIZE * SEEX][MAPSIZE * SEEY] = grids->floor_cache;
 
     const tripoint origin( 65, 65, 0 );
     std::array<float ( * )[MAPSIZE *SEEX][MAPSIZE *SEEY], OVERMAP_LAYERS> seen_caches;
@@ -373,7 +385,13 @@ static void do_3d_benchmark(
 
 static void shadowcasting_3d_benchmark( const int iterations )
 {
-    float transparency_cache[OVERMAP_LAYERS][MAPSIZE * SEEX][MAPSIZE * SEEY] = {{{0}}};
+    struct test_grids {
+        float transparency_cache[OVERMAP_LAYERS][MAPSIZE * SEEX][MAPSIZE * SEEY] = {{{0}}};
+    };
+
+    std::unique_ptr<test_grids> grids = std::make_unique<test_grids>();
+    float ( &transparency_cache )[OVERMAP_LAYERS][MAPSIZE * SEEX][MAPSIZE * SEEY] =
+        grids->transparency_cache;
     std::array<const float ( * )[MAPSIZE *SEEX][MAPSIZE *SEEY], OVERMAP_LAYERS> transparency_caches;
     for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
         randomly_fill_transparency( transparency_cache[z + OVERMAP_DEPTH] );
@@ -582,11 +600,9 @@ static void run_spot_check( const grid_overlay &test_case, const grid_overlay &e
                 trans_grid << caches[gz]->transparency_cache[gx][gy];
                 expected_grid << ( expected.get_transparency_global( { gx, gy, gz } ) > 0 ? 'V' : 'O' );
                 actual_grid << ( ( *seen_squares[gz] )[gx][gy] > 0 ? 'V' : 'O' );
-                if( V == expected.get_transparency_global( { gx, gy, gz } ) &&
-                    ( *seen_squares[gz] )[gx][gy] == 0 ) {
-                    passed = false;
-                } else if( O == expected.get_transparency_global( { gx, gy, gz } ) &&
-                           ( *seen_squares[gz] )[gx][gy] > 0 ) {
+                const float expected_trans = expected.get_transparency_global( { gx, gy, gz } );
+                const float seen = ( *seen_squares[gz] )[gx][gy];
+                if( ( V == expected_trans && seen == 0 ) || ( O == expected_trans && seen > 0 ) ) {
                     passed = false;
                 }
             }

@@ -328,6 +328,13 @@
         "switch": true
       },
       {
+        "text": "<BGSS_intro_question>",
+        "//": "This is a unique background story that should not be given out randomly.",
+        "topic": "BGSS_METEOROLOGIST_1",
+        "condition": { "npc_has_trait": "BGSS_METEOROLOGIST" },
+        "switch": true
+      },
+      {
         "text": "How did you come to be a merc working for the Free Merchants, anyway?",
         "//": "This is a unique background story that should not be given out randomly.",
         "topic": "BGSS_SCAVENGER_MERC_1_STORY1",
@@ -339,6 +346,13 @@
         "//": "This is a unique background story that should not be given out randomly.",
         "topic": "BGSS_SCAVENGER_MERC_1_STORY3",
         "condition": { "and": [ { "npc_has_trait": "BGSS_Scavenger_Merc_1" }, { "npc_has_effect": "BGSS_Merc_haswhisky" } ] },
+        "switch": true
+      },
+      {
+        "text": "<BGSS_intro_question>",
+        "topic": "BGSS_pizzaiolo_STORY1",
+        "//": "This is a unique background story that should not be given out randomly.",
+        "condition": { "npc_has_trait": "BGSS_pizzaiolo" },
         "switch": true
       }
     ]

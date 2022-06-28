@@ -129,7 +129,7 @@ static void CheckConstructor( UseNamedPointConstantsCheck &Check,
                 Value = -Value;
             }
         } else {
-            cata_assert( false ); // NOLINT(misc-static-assert,cert-dcl03-c)
+            abort(); // NOLINT(cata-assert)
         }
         Args.insert( { Key, Value } );
     };
@@ -169,7 +169,7 @@ static void CheckConstructor( UseNamedPointConstantsCheck &Check,
     if( TempParent ) {
         SourceRangeToReplace = ConstructorCall->getSourceRange();
         // Work around buggy source range for default parameters
-        const std::string ReplacedText = getText( Result, ConstructorCall );
+        const StringRef ReplacedText = getText( Result, ConstructorCall );
         if( ReplacedText.size() >= 2 && ReplacedText.substr( 0, 2 ) == "= " ) {
             Replacement = "= " + Replacement;
         }

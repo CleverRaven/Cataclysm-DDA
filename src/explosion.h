@@ -3,15 +3,16 @@
 #define CATA_SRC_EXPLOSION_H
 
 #include <map>
-#include <string>
+#include <utility>
 #include <vector>
 
-#include "string_id.h"
+#include "coordinates.h"
+#include "optional.h"
+#include "point.h"
 #include "type_id.h"
 
 class JsonObject;
 class nc_color;
-struct tripoint;
 
 struct shrapnel_data {
     int casing_mass = 0;
@@ -21,8 +22,8 @@ struct shrapnel_data {
     itype_id drop       = itype_id::NULL_ID();
 
     shrapnel_data() = default;
-    shrapnel_data( int casing_mass, float fragment_mass = 0.005f, int recovery = 0,
-                   itype_id drop = itype_id::NULL_ID() )
+    explicit shrapnel_data( int casing_mass, float fragment_mass = 0.005f, int recovery = 0,
+                            itype_id drop = itype_id::NULL_ID() )
         : casing_mass( casing_mass )
         , fragment_mass( fragment_mass )
         , recovery( recovery )
@@ -45,8 +46,8 @@ struct explosion_data {
     int safe_range() const;
 
     explosion_data() = default;
-    explosion_data( float power, float distance_factor = 0.8f, bool fire = false,
-                    shrapnel_data shrapnel = {} )
+    explicit explosion_data( float power, float distance_factor = 0.8f, bool fire = false,
+                             shrapnel_data shrapnel = {} )
         : power( power )
         , distance_factor( distance_factor )
         , fire( fire )
@@ -57,7 +58,7 @@ struct explosion_data {
 // handles explosion related functions
 namespace explosion_handler
 {
-using queued_explosion = std::pair<tripoint, explosion_data>;
+using queued_explosion = std::pair<tripoint_abs_ms, explosion_data>;
 static std::vector<queued_explosion> _explosions;
 
 /** Queue an explosion at p of intensity (power) with (shrapnel) chunks of shrapnel.
@@ -80,6 +81,8 @@ void resonance_cascade( const tripoint &p );
 void scrambler_blast( const tripoint &p );
 /** Triggers an EMP blast at p. */
 void emp_blast( const tripoint &p );
+/** Nuke the area at p - global overmap terrain coordinates! */
+void nuke( const tripoint_abs_omt &p );
 // shockwave applies knockback to all targets within radius of p
 // parameters force, stun, and dam_mult are passed to knockback()
 // ignore_player determines if player is affected, useful for bionic, etc.
@@ -87,7 +90,8 @@ void shockwave( const tripoint &p, int radius, int force, int stun, int dam_mult
                 bool ignore_player );
 
 void draw_explosion( const tripoint &p, int radius, const nc_color &col );
-void draw_custom_explosion( const tripoint &p, const std::map<tripoint, nc_color> &area );
+void draw_custom_explosion( const tripoint &p, const std::map<tripoint, nc_color> &area,
+                            const cata::optional<std::string> &tile_id = cata::nullopt );
 
 void process_explosions();
 } // namespace explosion_handler

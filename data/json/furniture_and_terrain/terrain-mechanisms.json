@@ -249,7 +249,14 @@
     "color": "pink",
     "move_cost": 0,
     "flags": [ "NOITEM", "CONNECT_TO_WALL" ],
-    "examine_action": "cardreader",
+    "examine_action": {
+      "type": "cardreader",
+      "flags": [ "SCIENCE_CARD" ],
+      "terrain_changes": { "t_door_metal_locked": "t_door_metal_c" },
+      "query_msg": "Swipe your ID card?",
+      "success_msg": "You insert your ID card.\n<color_light_green>The nearby doors unlock.</color>",
+      "redundant_msg": "The nearby doors are already opened."
+    },
     "bash": {
       "str_min": 18,
       "str_max": 180,
@@ -269,7 +276,14 @@
     "color": "pink",
     "move_cost": 0,
     "flags": [ "NOITEM", "CONNECT_TO_WALL" ],
-    "examine_action": "cardreader",
+    "examine_action": {
+      "type": "cardreader",
+      "flags": [ "MILITARY_CARD" ],
+      "terrain_changes": { "t_door_metal_locked": "t_door_metal_c" },
+      "query_msg": "Swipe your ID card?",
+      "success_msg": "You insert your ID card.\n<color_light_green>The nearby doors unlock.</color>",
+      "redundant_msg": "The nearby doors are already opened."
+    },
     "bash": {
       "str_min": 18,
       "str_max": 180,
@@ -290,7 +304,14 @@
     "color": "pink",
     "move_cost": 0,
     "flags": [ "NOITEM", "CONNECT_TO_WALL" ],
-    "examine_action": "cardreader",
+    "examine_action": {
+      "type": "cardreader",
+      "flags": [ "INDUSTRIAL_CARD" ],
+      "terrain_changes": { "t_door_metal_locked": "t_door_metal_c" },
+      "query_msg": "Swipe your ID card?",
+      "success_msg": "You insert your ID card.\n<color_light_green>The nearby doors unlock.</color>",
+      "redundant_msg": "The nearby doors are already opened."
+    },
     "bash": {
       "str_min": 18,
       "str_max": 180,
@@ -319,6 +340,321 @@
       "sound_fail": "whack!",
       "ter_set": "t_card_reader_broken",
       "items": [ { "item": "plastic_chunk", "count": [ 0, 2 ] }, { "item": "scrap", "prob": 50 } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_card_science_visitor",
+    "name": "Facility entrance card reader",
+    "description": "This is a smartcard reader.  It sports the stylized symbol of an atom inside a flask that is universally known to indicate SCIENCE.  You could swipe a Visitor's Pass near it to unlock the gates.",
+    "//": "Entrance card for a lab.  Low security access.",
+    "symbol": "6",
+    "color": "cyan",
+    "copy-from": "t_card_science",
+    "looks_like": "t_card_science",
+    "examine_action": {
+      "type": "cardreader",
+      "flags": [ "SCIENCE_CARD_VISITOR" ],
+      "consume_card": true,
+      "allow_hacking": true,
+      "despawn_monsters": true,
+      "radius": 3,
+      "terrain_changes": { "t_door_metal_locked": "t_door_metal_c" },
+      "query": true,
+      "query_msg": "Are you sure you want to open this door?",
+      "success_msg": "You opened the door!",
+      "redundant_msg": "The door is already open."
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_card_artisans",
+    "name": "card reader",
+    "description": "This is a smartcard reader.  Text written on a post note above reads 'CO-OP MEMBERS ONLY'.",
+    "//": "for the isolated artisans faction",
+    "symbol": "6",
+    "color": "pink",
+    "move_cost": 0,
+    "flags": [ "NOITEM", "CONNECT_TO_WALL" ],
+    "examine_action": {
+      "type": "cardreader",
+      "flags": [ "COOP_CARD" ],
+      "terrain_changes": { "t_door_metal_locked": "t_door_metal_c" },
+      "query_msg": "Swipe your ID card?",
+      "success_msg": "You insert your ID card.\n<color_light_green>The nearby doors unlock.</color>",
+      "redundant_msg": "The nearby doors are already opened."
+    },
+    "bash": {
+      "str_min": 18,
+      "str_max": 180,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "ter_set": "t_card_reader_broken",
+      "items": [ { "item": "plastic_chunk", "count": [ 0, 2 ] }, { "item": "scrap", "prob": 50 } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_card_science_maintenance_green",
+    "name": "Maintenance: green zone card reader",
+    "description": "This is a smartcard reader.  It sports the stylized symbol of an atom and a wrench on a green background.  You could swipe a maintenance employee badge near it to unlock the gates.",
+    "//": "Entrance card for a lab.  Low security access.",
+    "symbol": "6",
+    "color": "green",
+    "copy-from": "t_card_science",
+    "looks_like": "t_card_science",
+    "examine_action": {
+      "type": "cardreader",
+      "flags": [ "SCIENCE_CARD_MAINTENANCE_GREEN" ],
+      "consume_card": false,
+      "allow_hacking": false,
+      "despawn_monsters": true,
+      "radius": 7,
+      "terrain_changes": { "t_door_metal_locked": "t_thconc_floor" },
+      "query": true,
+      "query_msg": "Are you sure you want to open this gate?",
+      "success_msg": "You opened the gate!",
+      "redundant_msg": "The gate is already open."
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_card_science_maintenance_yellow",
+    "name": "Maintenance: ocher zone card reader",
+    "description": "This is a smartcard reader.  It sports the stylized symbol of an atom and a wrench on a ocher background.  You could swipe a maintenance employee badge near it to unlock the gates.",
+    "//": "Tier 2 card for a lab.  Medium security access. Reanamed player facing name to ocher.",
+    "symbol": "6",
+    "color": "yellow",
+    "copy-from": "t_card_science",
+    "looks_like": "t_card_science",
+    "examine_action": {
+      "type": "cardreader",
+      "flags": [ "SCIENCE_CARD_MAINTENANCE_YELLOW" ],
+      "consume_card": false,
+      "allow_hacking": true,
+      "despawn_monsters": false,
+      "radius": 3,
+      "terrain_changes": { "t_door_metal_locked": "t_door_metal_c" },
+      "query": true,
+      "query_msg": "Are you sure you want to open this door?",
+      "success_msg": "You opened the door!",
+      "redundant_msg": "The door is already open."
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_card_science_maintenance_blue",
+    "name": "Maintenance: blue zone card reader",
+    "description": "This is a smartcard reader.  It sports the stylized symbol of an atom and a wrench on a blue background.  You could swipe a maintenance employee badge near it to unlock the gates.",
+    "//": "Tier 3 card for a lab.  High security access.",
+    "symbol": "6",
+    "color": "blue",
+    "copy-from": "t_card_science",
+    "looks_like": "t_card_science",
+    "examine_action": {
+      "type": "cardreader",
+      "flags": [ "SCIENCE_CARD_MAINTENANCE_BLUE" ],
+      "consume_card": false,
+      "allow_hacking": true,
+      "despawn_monsters": false,
+      "radius": 3,
+      "terrain_changes": { "t_door_metal_locked": "t_door_metal_c" },
+      "query": true,
+      "query_msg": "Are you sure you want to open this door?",
+      "success_msg": "You opened the door!",
+      "redundant_msg": "The door is already open."
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_card_science_transport_1",
+    "name": "Freight hauler access card reader",
+    "description": "This is a smartcard reader.  It sports the stylized symbol of an atom and a truck.  You could swipe a transporter's badge near it to unlock the gates.",
+    "//": "Entrance card for a lab.  Low security access.",
+    "symbol": "6",
+    "color": "cyan",
+    "copy-from": "t_card_science",
+    "looks_like": "t_card_science",
+    "examine_action": {
+      "type": "cardreader",
+      "flags": [ "SCIENCE_CARD_TRANSPORT_1" ],
+      "consume_card": true,
+      "allow_hacking": false,
+      "despawn_monsters": false,
+      "radius": 7,
+      "terrain_changes": { "t_door_metal_locked": "t_thconc_floor" },
+      "query": true,
+      "query_msg": "Are you sure you want to open this gate?",
+      "success_msg": "You opened the gate!",
+      "redundant_msg": "The gate is already open."
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_card_science_security_yellow",
+    "name": "Security: yellow zone card reader",
+    "description": "This is a smartcard reader.  It sports the stylized symbol of an atom and a taser on a yellow background.  You could swipe a security employee badge near it to unlock the gates.",
+    "//": "Tier 1 card for a lab.  Medium security access.",
+    "symbol": "6",
+    "color": "yellow",
+    "copy-from": "t_card_science",
+    "looks_like": "t_card_science",
+    "examine_action": {
+      "type": "cardreader",
+      "flags": [ "SCIENCE_CARD_SECURITY_YELLOW" ],
+      "consume_card": false,
+      "allow_hacking": true,
+      "despawn_monsters": true,
+      "radius": 2,
+      "terrain_changes": { "t_door_metal_locked": "t_door_metal_c" },
+      "query": true,
+      "query_msg": "Are you sure you want to open this door?",
+      "success_msg": "You opened the door!",
+      "redundant_msg": "The door is already open."
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_card_science_security_magenta",
+    "name": "Security: magenta zone card reader",
+    "description": "This is a smartcard reader.  It sports the stylized symbol of an atom and a pistol on a magenta background.  You could swipe a security employee badge near it to unlock the gates.",
+    "//": "Tier 2 card for a lab.  Medium security access.",
+    "symbol": "6",
+    "color": "magenta",
+    "copy-from": "t_card_science",
+    "looks_like": "t_card_science",
+    "examine_action": {
+      "type": "cardreader",
+      "flags": [ "SCIENCE_CARD_SECURITY_MAGENTA" ],
+      "consume_card": false,
+      "allow_hacking": true,
+      "despawn_monsters": true,
+      "radius": 4,
+      "terrain_changes": { "t_door_metal_locked": "t_door_metal_c" },
+      "query": true,
+      "query_msg": "Are you sure you want to open this door?",
+      "success_msg": "You opened the door!",
+      "redundant_msg": "The door is already open."
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_card_science_security_black",
+    "name": "Security: black zone card reader",
+    "description": "This is a smartcard reader.  It sports the stylized symbol of an atom and a rifle on a black background.  You could swipe a security employee badge near it to unlock the gates.",
+    "//": "Tier 3 card for a lab.  High security access.",
+    "symbol": "6",
+    "color": "black",
+    "copy-from": "t_card_science",
+    "looks_like": "t_card_science",
+    "examine_action": {
+      "type": "cardreader",
+      "flags": [ "SCIENCE_CARD_SECURITY_BLACK" ],
+      "consume_card": false,
+      "allow_hacking": true,
+      "despawn_monsters": true,
+      "radius": 3,
+      "terrain_changes": { "t_door_metal_locked": "t_door_metal_c" },
+      "query": true,
+      "query_msg": "Are you sure you want to open this door?",
+      "success_msg": "You opened the door!",
+      "redundant_msg": "The door is already open."
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_card_science_mutagen_green",
+    "name": "Researcher: light green zone card reader",
+    "description": "This is a smartcard reader.  It sports the stylized symbol of an atom and a flask on a light green background.  You could swipe a researcher scientist badge near it to unlock the gates.",
+    "//": "Entrance card for a lab research areas.",
+    "symbol": "6",
+    "color": "light_green",
+    "copy-from": "t_card_science",
+    "looks_like": "t_card_science",
+    "examine_action": {
+      "type": "cardreader",
+      "flags": [ "SCIENCE_CARD_MUTAGEN_GREEN" ],
+      "consume_card": false,
+      "allow_hacking": true,
+      "despawn_monsters": true,
+      "radius": 3,
+      "terrain_changes": { "t_door_metal_locked": "t_door_metal_c" },
+      "query": true,
+      "query_msg": "Are you sure you want to open this door?",
+      "success_msg": "You opened the door!",
+      "redundant_msg": "The door is already open."
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_card_science_mutagen_pink",
+    "name": "Researcher: pink zone card reader",
+    "description": "This is a smartcard reader.  It sports the stylized symbol of an atom and a flask on a pink background.  You could swipe a researcher scientist badge near it to unlock the gates.",
+    "//": "Entrance card for a lab research areas.",
+    "symbol": "6",
+    "color": "light_red",
+    "copy-from": "t_card_science",
+    "looks_like": "t_card_science",
+    "examine_action": {
+      "type": "cardreader",
+      "flags": [ "SCIENCE_CARD_MUTAGEN_PINK" ],
+      "consume_card": false,
+      "allow_hacking": true,
+      "despawn_monsters": true,
+      "radius": 3,
+      "terrain_changes": { "t_door_metal_locked": "t_door_metal_c" },
+      "query": true,
+      "query_msg": "Are you sure you want to open this door?",
+      "success_msg": "You opened the door!",
+      "redundant_msg": "The door is already open."
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_card_science_mutagen_cyan",
+    "name": "Researcher: cyan zone card reader",
+    "description": "This is a smartcard reader.  It sports the stylized symbol of an atom and a flask on a cyan background.  You could swipe a researcher scientist badge near it to unlock the gates.",
+    "//": "Entrance card for a lab research areas.",
+    "symbol": "6",
+    "color": "cyan",
+    "copy-from": "t_card_science",
+    "looks_like": "t_card_science",
+    "examine_action": {
+      "type": "cardreader",
+      "flags": [ "SCIENCE_CARD_MUTAGEN_CYAN" ],
+      "consume_card": false,
+      "allow_hacking": true,
+      "despawn_monsters": true,
+      "radius": 3,
+      "terrain_changes": { "t_door_metal_locked": "t_door_metal_c" },
+      "query": true,
+      "query_msg": "Are you sure you want to open this door?",
+      "success_msg": "You opened the door!",
+      "redundant_msg": "The door is already open."
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_card_science_medical_red",
+    "name": "Medical: red zone card reader",
+    "description": "This is a smartcard reader.  It sports the stylized symbol of an atom and a syringe on a red background.  You could swipe a researcher scientist badge near it to unlock the gates.",
+    "//": "Entrance card for a lab medical areas.",
+    "symbol": "6",
+    "color": "cyan",
+    "copy-from": "t_card_science",
+    "looks_like": "t_card_science",
+    "examine_action": {
+      "type": "cardreader",
+      "flags": [ "SCIENCE_CARD_MEDICAL_RED" ],
+      "consume_card": false,
+      "allow_hacking": true,
+      "despawn_monsters": true,
+      "radius": 3,
+      "terrain_changes": { "t_door_metal_locked": "t_door_metal_c" },
+      "query": true,
+      "query_msg": "Are you sure you want to open this door?",
+      "success_msg": "You opened the door!",
+      "redundant_msg": "The door is already open."
     }
   },
   {
@@ -381,6 +717,113 @@
     }
   },
   {
+    "copy-from": "t_elevator_control",
+    "type": "terrain",
+    "symbol": ".",
+    "color": "dark_gray",
+    "id": "t_elevator_control_no_roof",
+    "roof": "t_null",
+    "flags": [ "NOITEM" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_elevator_control_robofac_up",
+    "name": "elevator controls",
+    "description": "This is the control face for an elevator.  You could press the appropriate button to take you to your choice of floor.",
+    "symbol": "6",
+    "color": "light_blue",
+    "move_cost": 0,
+    "coverage": 50,
+    "roof": "t_flat_roof",
+    "flags": [ "NOITEM", "INDOORS" ],
+    "examine_action": {
+      "type": "effect_on_condition",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_ROBOFAC_ELEVATOR_UP",
+          "condition": { "u_has_trait": "PROF_HUB01_ANCILLIARY" },
+          "effect": [
+            { "u_location_variable": { "u_val": "robofac_elevator_up" }, "z_adjust": 1 },
+            { "u_message": "The elevator starts moving before you can touch the panel.", "popup": true },
+            { "u_teleport": { "u_val": "robofac_elevator_up" } }
+          ],
+          "false_effect": {
+            "u_message": "The control panels' screen flashes before displaying \"UNAUTHORIZED\" in bold red letters.",
+            "popup": true
+          }
+        }
+      ]
+    },
+    "bash": {
+      "str_min": 40,
+      "str_max": 150,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "ter_set": "t_console_broken",
+      "items": [
+        { "item": "processor", "prob": 25 },
+        { "item": "RAM", "count": [ 0, 2 ], "prob": 50 },
+        { "item": "cable", "charges": [ 1, 2 ], "prob": 50 },
+        { "item": "small_lcd_screen", "prob": 25 },
+        { "item": "e_scrap", "count": [ 1, 4 ], "prob": 50 },
+        { "item": "circuit", "count": [ 0, 2 ], "prob": 50 },
+        { "item": "power_supply", "prob": 25 },
+        { "item": "amplifier", "prob": 25 },
+        { "item": "plastic_chunk", "count": [ 4, 10 ], "prob": 50 },
+        { "item": "scrap", "count": [ 2, 6 ], "prob": 50 }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_elevator_control_robofac_down",
+    "name": "elevator controls",
+    "description": "This is the control face for an elevator.  You could press the appropriate button to take you to your choice of floor.",
+    "symbol": "6",
+    "color": "light_blue",
+    "move_cost": 0,
+    "coverage": 50,
+    "roof": "t_flat_roof",
+    "flags": [ "NOITEM", "INDOORS" ],
+    "examine_action": {
+      "type": "effect_on_condition",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_ROBOFAC_ELEVATOR_DOWN",
+          "condition": { "u_has_trait": "PROF_HUB01_ANCILLIARY" },
+          "effect": [
+            { "u_location_variable": { "u_val": "robofac_elevator_down" }, "z_adjust": -1 },
+            { "u_message": "The elevator starts moving before you can touch the panel.", "popup": true },
+            { "u_teleport": { "u_val": "robofac_elevator_down" } }
+          ],
+          "false_effect": {
+            "u_message": "The control panels' screen flashes before displaying \"UNAUTHORIZED\" in bold red letters.",
+            "popup": true
+          }
+        }
+      ]
+    },
+    "bash": {
+      "str_min": 40,
+      "str_max": 150,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "ter_set": "t_console_broken",
+      "items": [
+        { "item": "processor", "prob": 25 },
+        { "item": "RAM", "count": [ 0, 2 ], "prob": 50 },
+        { "item": "cable", "charges": [ 1, 2 ], "prob": 50 },
+        { "item": "small_lcd_screen", "prob": 25 },
+        { "item": "e_scrap", "count": [ 1, 4 ], "prob": 50 },
+        { "item": "circuit", "count": [ 0, 2 ], "prob": 50 },
+        { "item": "power_supply", "prob": 25 },
+        { "item": "amplifier", "prob": 25 },
+        { "item": "plastic_chunk", "count": [ 4, 10 ], "prob": 50 },
+        { "item": "scrap", "count": [ 2, 6 ], "prob": 50 }
+      ]
+    }
+  },
+  {
     "type": "terrain",
     "id": "t_elevator_control_off",
     "name": "powerless controls",
@@ -412,6 +855,15 @@
     }
   },
   {
+    "copy-from": "t_elevator_control_off",
+    "type": "terrain",
+    "symbol": ".",
+    "color": "dark_gray",
+    "id": "t_elevator_control_off_no_roof",
+    "roof": "t_null",
+    "flags": [ "NOITEM" ]
+  },
+  {
     "type": "terrain",
     "id": "t_pedestal_wyrm",
     "name": "dark pedestal",
@@ -420,7 +872,7 @@
     "color": "dark_gray",
     "move_cost": 0,
     "coverage": 50,
-    "flags": [ "TRANSPARENT", "MOUNTABLE", "PERMEABLE", "MINEABLE" ],
+    "flags": [ "TRANSPARENT", "MOUNTABLE", "PERMEABLE", "MINEABLE", "SEALED" ],
     "examine_action": "pedestal_wyrm",
     "bash": {
       "str_min": 100,
@@ -494,5 +946,16 @@
     "move_cost": 0,
     "flags": [ "TRANSPARENT", "PERMEABLE" ],
     "examine_action": "fswitch"
+  },
+  {
+    "id": "t_nuclear_reactor",
+    "type": "terrain",
+    "name": "nuclear reactor core",
+    "//": "just a copy of aftershock nuclear reactor",
+    "description": "Naval A1B reactor, used in Gerald R. Ford-class aircraft carriers, and can produce enough steam to generate 125 megawatts of energy.",
+    "symbol": "R",
+    "color": "light_green",
+    "move_cost": 0,
+    "flags": [ "TRANSPARENT", "CONTAINER", "REDUCE_SCENT", "PERMEABLE", "PLACE_ITEM" ]
   }
 ]

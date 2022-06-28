@@ -1,0 +1,159 @@
+[
+  {
+    "type": "npc",
+    "id": "RC_survivor_visiting",
+    "//": "A random scavenger visiting the refugee center to check it out, just like you.",
+    "name_suffix": "Survivor",
+    "class": "NC_SCAVENGER",
+    "attitude": 0,
+    "mission": 3,
+    "chat": "TALK_RC_SURVIVOR_1",
+    "faction": "no_faction"
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_RC_SURVIVOR_1",
+    "dynamic_line": "Hey there.  Do you work here, or what?",
+    "speaker_effect": {
+      "effect": [
+        { "npc_first_topic": "TALK_RC_SURVIVOR_2" },
+        {
+          "arithmetic": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, "=", { "rand": 4 } ]
+        }
+      ]
+    },
+    "responses": [
+      { "text": "Me?  No, I'm just passing through, how about you?", "topic": "TALK_RC_SURVIVOR_Story" },
+      { "text": "Work here?  No, of course not.  I'll be on my way.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_RC_SURVIVOR_2",
+    "dynamic_line": "What's up?",
+    "responses": [
+      { "text": "What's your story?", "topic": "TALK_RC_SURVIVOR_Story" },
+      { "text": "You seen anything interesting out there?", "topic": "TALK_RC_SURVIVOR_Tips" },
+      { "text": "Not much, just passing through.  Have a good day.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_RC_SURVIVOR_Story",
+    "dynamic_line": "I found a map to this place in an evac center and thought I'd see if it was just full of <zombies> or if there was something up.  Didn't expect to find so many survivors still alive though.",
+    "responses": [
+      {
+        "text": "You looking for a travelling companion?  I could use someone to watch my back.",
+        "topic": "TALK_RC_SURVIVOR_Join"
+      },
+      { "text": "You seen anything interesting out there?", "topic": "TALK_RC_SURVIVOR_Tips" },
+      { "text": "Well, I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_RC_SURVIVOR_Tips",
+    "dynamic_line": {
+      "compare_int": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, "=", { "const": 0 } ],
+      "yes": "Sure.  Seen more'n I'd like to think about honestly.  Like, I think these zombies are evolving?  I've seen new things come out that I swear aren't natural.  One of them looked like it was sparking with electricity.",
+      "no": {
+        "compare_int": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, "=", { "const": 1 } ],
+        "yes": "Come to think of it, yeah.  The other day, I met this weird old man in the woods.  Obsessed with rabbits.  He seemed like a nice fellow, open to visitors, if you'd like I can send you his way to trade.",
+        "no": {
+          "compare_int": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, "=", { "const": 2 } ],
+          "yes": "I could point you to some acquaintances of mine that have a farm, they're decent folk, if you have goods to trade.  Be careful around them, I get a vibe like they don't like visitors too much, and honestly it makes me nervous that they made it through this so together.  Kinda of ominous, you know?",
+          "no": {
+            "compare_int": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, "=", { "const": 3 } ],
+            "yes": "There's so much weird stuff out there in the wilderness now.  A while back, I found this weird cartoon sign with a map on it, pointing to some kind of trade center.  Haven't been there yet but I can show you my copy of the map if you want.",
+            "no": "ERROR: out of bounds on randomize_directions."
+          }
+        }
+      }
+    },
+    "responses": [
+      {
+        "text": "Sure, show me where to find this guy.",
+        "topic": "TALK_RC_SURVIVOR_Tips2",
+        "condition": {
+          "and": [
+            {
+              "compare_int": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, "=", { "const": 1 } ]
+            },
+            { "not": { "u_has_var": "directions", "type": "teamster", "context": "mission", "value": "lapin" } }
+          ]
+        },
+        "effect": { "assign_mission": "directions_lapin" },
+        "switch": true
+      },
+      {
+        "text": "I'm always open to meet new survivors.  Where are these acquaintances of yours?",
+        "topic": "TALK_RC_SURVIVOR_Tips2",
+        "condition": {
+          "and": [
+            {
+              "compare_int": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, "=", { "const": 2 } ]
+            },
+            { "not": { "u_has_var": "directions", "type": "teamster", "context": "mission", "value": "isherwood" } }
+          ]
+        },
+        "effect": { "assign_mission": "directions_isherwood" },
+        "switch": true
+      },
+      {
+        "text": "Weird.  I guess I could check that out too, sure.",
+        "topic": "TALK_RC_SURVIVOR_Tips2",
+        "condition": {
+          "and": [
+            {
+              "compare_int": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, "=", { "const": 3 } ]
+            },
+            { "not": { "u_has_var": "directions", "type": "teamster", "context": "mission", "value": "exodii" } }
+          ]
+        },
+        "effect": { "assign_mission": "directions_exodii" },
+        "switch": true
+      },
+      {
+        "text": "Ah, yeah, I've heard of that too.  It's a weird world out there, hey?",
+        "topic": "TALK_NONE",
+        "switch": true,
+        "default": true
+      },
+      { "text": "Actually, I have to go.  Maybe later.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_RC_SURVIVOR_Tips2",
+    "dynamic_line": "Sure, here, I'll draw you up a little map.",
+    "responses": [
+      { "text": "Thanks!  What's your story?", "topic": "TALK_RC_SURVIVOR_Story" },
+      { "text": "Thanks!  I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_RC_SURVIVOR_Join",
+    "dynamic_line": "Sorry, I have people of my own to look out for.  I can't leave them in the lurch.",
+    "responses": [
+      { "text": "They could come along too.", "topic": "TALK_RC_SURVIVOR_Join1" },
+      { "text": "Why don't I come back to your hideout?", "topic": "TALK_RC_SURVIVOR_Join2" },
+      { "text": "Oh well, I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_RC_SURVIVOR_Join1",
+    "dynamic_line": "It doesn't really work that way.  They're back in safety, and I've got to go check in with them with some supplies.  You know how it is, not everyone is suited to risk travel these days.",
+    "responses": [
+      { "text": "Why don't I come back to your hideout?", "topic": "TALK_RC_SURVIVOR_Join2" },
+      { "text": "Oh well, I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_RC_SURVIVOR_Join2",
+    "dynamic_line": "Look, I don't know a better way to put this.  I don't know you, I can't bring some random back with me.  For all I know you're a cannibal psycho or something.  We all saw too much of that during <the_cataclysm>.  Me and mine, we're not looking to expand our tribe just now, OK?",
+    "responses": [ { "text": "Oh well, I'd better get going.", "topic": "TALK_DONE" } ]
+  }
+]

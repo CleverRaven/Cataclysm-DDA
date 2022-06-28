@@ -1,0 +1,156 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "ws_fire_lookout_tower_base" ],
+    "weight": 100000,
+    "object": {
+      "rows": [
+        "........................",
+        "........................",
+        "....................f...",
+        "........................",
+        "......,,....,.,.........",
+        "....,...,,.,..f,,.,.....",
+        ".....,,.,,.....,,.,.....",
+        "......,XX,,,.,,XX,,.....",
+        ".....,,XX,,,,,,XX,......",
+        "....,.,,,,,,,,,,,..,....",
+        ".....,.,,,XXXX,,,.......",
+        "......,.,,X<<X,,,.,.....",
+        "....,.,.,,X++X,,,,......",
+        "......f.,,XDDX,,,,......",
+        "....,..,,,,,,,,,,,,.....",
+        "....,.,XX,,,,,,XX,,.....",
+        ".....,,XX,,,,,,XX,,.....",
+        "......,,,,,,.,,,,,,,....",
+        "....,.,..,,,.,.,,.,.....",
+        "........,..,............",
+        ".................f......",
+        "........................",
+        "........................",
+        "........................"
+      ],
+      "terrain": {
+        "X": "t_concrete_wall",
+        ".": "t_grass",
+        ",": "t_dirt",
+        "+": "t_concrete",
+        "D": "t_door_locked",
+        "<": "t_ladder_up",
+        "f": "t_dirt"
+      },
+      "items": { "f": { "item": "trash_forest", "chance": 80 } },
+      "place_vehicles": [
+        { "vehicle": "motorcycle", "x": 11, "y": 9, "rotation": 180, "chance": 25, "status": 1 },
+        { "vehicle": "motorcycle", "x": 12, "y": 7, "rotation": 0, "chance": 25, "status": 1 },
+        { "vehicle": "bicycle", "x": 6, "y": 10, "rotation": 100, "chance": 25, "status": 1 },
+        { "vehicle": "bicycle", "x": 19, "y": 10, "rotation": 90, "chance": 25, "status": 1 },
+        { "vehicle": "surv_rv", "x": 4, "y": 20, "chance": 8, "rotation": 180, "fuel": 0, "status": 1 },
+        { "vehicle": "surv_car", "x": 16, "y": 2, "chance": 15, "rotation": 0, "fuel": 0, "status": 1 }
+      ],
+      "place_monsters": [
+        { "monster": "GROUP_ZOMBIE", "x": 12, "y": 9, "repeat": [ 2, 4 ] },
+        { "monster": "GROUP_ZOMBIE_FIRELOOKOUTTOWER", "x": 12, "y": 9, "repeat": [ 2, 3 ] },
+        { "monster": "GROUP_ZOMBIE_FIRELOOKOUTTOWER", "x": [ 15, 16 ], "y": [ 10, 13 ], "repeat": [ 3, 2 ] },
+        { "monster": "GROUP_ZOMBIE_FIRELOOKOUTTOWER", "x": [ 6, 7 ], "y": [ 9, 15 ], "repeat": [ 3, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "ws_fire_lookout_tower_f1" ],
+    "weight": 100000,
+    "object": {
+      "rows": [
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        ".....XXXXGGGGGGXXXX.....",
+        "....XXu,,,,,,,,,bbXX....",
+        "....XL,,,,,,,,,,,,uX....",
+        "....XL,,,,,BB,,,,,,X....",
+        "....X,,,,,XXXXt,,,,X....",
+        "....G,,,,,D,TXt,,,,G....",
+        "....G,,,,dXXXXO,,,,G....",
+        "....G,,,HdX≷≷XS,,,,G....",
+        "....G,,,,dX,,XF,,,,G....",
+        "....G,,,,cXDDX,,,,,G....",
+        "....G,,,,,,,,,,,,,,G....",
+        "....X,,,,,hhhh,,,,,X....",
+        "....X,,,,,tttt,,,CCX....",
+        "....Xu,,,,hhhh,,,CCX....",
+        "....XX,,,,,,,,,,,uXX....",
+        ".....XXXXGGGGGGXXXX.....",
+        "........................",
+        "........................",
+        "........................",
+        "........................"
+      ],
+      "terrain": {
+        ".": "t_open_air",
+        "X": "t_wall_log",
+        ",": "t_floor",
+        "G": "t_wall_glass",
+        "D": "t_door_locked_interior",
+        "≷": "t_ladder_up_down",
+        "u": "t_floor",
+        "S": "t_floor",
+        "B": "t_floor",
+        "T": "t_floor",
+        "t": "t_floor",
+        "h": "t_floor",
+        "H": "t_floor",
+        "O": "t_floor",
+        "F": "t_floor",
+        "L": "t_floor",
+        "C": "t_floor",
+        "b": "t_floor",
+        "c": "t_floor",
+        "d": "t_floor"
+      },
+      "furniture": {
+        "S": "f_sink",
+        "B": "f_sofa",
+        "T": "f_toilet",
+        "t": "f_table",
+        "h": "f_bench",
+        "H": "f_armchair",
+        "O": "f_woodstove",
+        "F": "f_fridge",
+        "L": "f_locker",
+        "C": "f_crate_c",
+        "b": "f_bookcase",
+        "d": "f_desk",
+        "c": "f_trashcan"
+      },
+      "toilets": { "T": {  } },
+      "items": {
+        "C": { "item": "flt_loot_rare", "chance": 20 },
+        "d": { "item": "flt_loot_misc", "chance": 20 },
+        "L": { "item": "flt_loot_misc", "chance": 20 },
+        "b": { "item": "flt_loot_books", "chance": 20 },
+        "F": { "item": "flt_loot_food", "chance": 20 },
+        "t": { "item": "flt_loot_food", "chance": 20 },
+        "S": { "item": "flt_loot_food", "chance": 20 },
+        "B": { "item": "bed", "chance": 50 },
+        "c": { "item": "trash", "chance": 50 }
+      },
+      "add": [
+        { "item": "coffeemaker", "x": 14, "y": [ 8, 9 ], "chance": 2 },
+        { "item": "binoculars", "x": 9, "y": [ 10, 12 ], "chance": 2 },
+        { "item": "pan", "x": 14, "y": 10, "chance": 1 },
+        { "item": "jug_plastic", "x": 14, "y": 12, "chance": 3 },
+        { "item": "water_clean", "x": 14, "y": 12, "chance": 2 },
+        { "item": "char_purifier", "x": 14, "y": 11, "chance": 2 }
+      ],
+      "place_monsters": [
+        { "monster": "GROUP_ZOMBIE_FIRELOOKOUTTOWER", "x": 12, "y": 9 },
+        { "monster": "GROUP_ZOMBIE_FIRELOOKOUTTOWER", "x": [ 15, 16 ], "y": [ 10, 13 ], "repeat": [ 1, 2 ] },
+        { "monster": "GROUP_ZOMBIE_FIRELOOKOUTTOWER", "x": [ 6, 7 ], "y": [ 9, 15 ], "repeat": [ 1, 2 ] }
+      ]
+    }
+  }
+]

@@ -5,6 +5,8 @@
 #include <limits>
 #include <type_traits>
 
+class JsonIn;
+
 /**
  * An interval of numeric values between @ref min and @ref max (including both).
  * By default it's [0, 0].
@@ -32,8 +34,8 @@ struct numeric_interval {
         return max == 0 || min > max;
     }
 
-    template<typename JsonStream>
-    void deserialize( JsonStream &jsin ) {
+    template<typename Value = JsonValue, std::enable_if_t<std::is_same<std::decay_t<Value>, JsonValue>::value>* = nullptr>
+    void deserialize( const Value &jsin ) {
         auto ja = jsin.get_array();
         if( ja.size() != 2 ) {
             ja.throw_error( "Intervals should be in format [min, max]." );

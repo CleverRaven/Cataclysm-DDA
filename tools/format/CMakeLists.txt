@@ -1,12 +1,12 @@
 include(ExternalProject)
 
 add_executable(
-    json_formatter
-    format.cpp
-    format_main.cpp
-    ${CMAKE_SOURCE_DIR}/src/json.cpp
-    )
+        json_formatter
+        format.cpp
+        format_main.cpp
+        ${CMAKE_SOURCE_DIR}/src/json.cpp)
 
-ADD_DEFINITIONS(-DCATA_IN_TOOL)
+add_definitions(-DCATA_IN_TOOL)
 
-INCLUDE_DIRECTORIES( ${CMAKE_SOURCE_DIR}/src )
+include_directories(${CMAKE_SOURCE_DIR}/src)
+

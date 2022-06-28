@@ -1,0 +1,60 @@
+[
+  {
+    "type": "recipe",
+    "activity_level": "fake",
+    "result": "parabolan_felt_patch",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "skills_required": [ "tailor", 1 ],
+    "difficulty": 1,
+    "time": "15 m",
+    "autolearn": true,
+    "components": [ [ [ "soap", 5 ] ], [ [ "water_clean", 3 ] ], [ [ "crystallized_mana", 6 ] ], [ [ "parabolan_wool_staple", 1 ] ] ]
+  },
+  {
+    "result": "parabolan_yarn",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "tailor",
+    "difficulty": 1,
+    "time": "30 m",
+    "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_spinning" }, { "proficiency": "prof_fibers" } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "tools": [ [ [ "distaff_spindle", -1 ] ] ],
+    "components": [ [ [ "parabolan_wool_staple", 1 ] ] ]
+  },
+  {
+    "result": "parabolan_blouse",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "skill_used": "tailor",
+    "difficulty": 2,
+    "time": "5 h",
+    "autolearn": true,
+    "reversible": true,
+    "book_learn": [ [ "mag_tailor", 1 ], [ "manual_tailor", 1 ], [ "mag_beauty", 1 ] ],
+    "using": [ [ "sewing_standard", 20 ] ],
+    "components": [ [ [ "parabolan_felt_patch", 14 ] ], [ [ "parabolan_yarn", 4 ] ] ]
+  },
+  {
+    "result": "parabolan_breeches",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_LEGS",
+    "skill_used": "tailor",
+    "difficulty": 4,
+    "time": "6 h",
+    "book_learn": [ [ "mag_tailor", 1 ], [ "manual_tailor", 1 ], [ "mag_beauty", 1 ] ],
+    "reversible": true,
+    "using": [ [ "sewing_standard", 20 ], [ "fastener_small", 1 ] ],
+    "proficiencies": [ { "proficiency": "prof_closures" } ],
+    "components": [ [ [ "parabolan_felt_patch", 20 ] ], [ [ "parabolan_yarn", 4 ] ] ]
+  }
+]

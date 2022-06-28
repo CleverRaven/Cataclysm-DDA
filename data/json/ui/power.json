@@ -1,0 +1,17 @@
+[
+  {
+    "id": "power_desc",
+    "type": "widget",
+    "label": "Bionic Power",
+    "style": "text",
+    "var": "power_text"
+  },
+  {
+    "id": "power_short_desc",
+    "//": "Omits the word 'Bionic' from the label.",
+    "type": "widget",
+    "label": "Power",
+    "style": "text",
+    "var": "power_text"
+  }
+]

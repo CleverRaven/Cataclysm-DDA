@@ -1,7 +1,12 @@
+#include <algorithm>
+#include <cstddef>
 #include <iomanip>
+#include <map>
+#include <string>
 
-#include "map.h"
 #include "field.h"
+#include "level_cache.h"
+#include "map.h"
 #include "map_test_case.h"
 
 tripoint map_test_case::get_origin()

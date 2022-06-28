@@ -69,7 +69,8 @@
         "9": "t_linoleum_gray",
         "t": "t_linoleum_gray",
         "=": "t_door_metal_locked",
-        "&": "t_gates_control_brick"
+        "&": "t_gates_control_brick",
+        "#": "t_brick_wall"
       },
       "furniture": { "!": "f_region_flower", "0": "f_stool" },
       "place_loot": [
@@ -79,7 +80,7 @@
         { "item": "lawnmower", "x": 33, "y": 18, "chance": 100 },
         { "item": "basket_laundry", "x": 31, "y": 18, "chance": 100 }
       ],
-      "place_vehicles": [ { "vehicle": "suburban_home", "x": 39, "y": 19, "chance": 100, "rotation": 270 } ]
+      "place_vehicles": [ { "vehicle": "suburban_home_compact", "x": 39, "y": 19, "chance": 100, "rotation": 270 } ]
     }
   },
   {

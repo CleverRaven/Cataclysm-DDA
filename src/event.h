@@ -5,9 +5,8 @@
 #include <array>
 #include <cstddef>
 #include <cstdlib>
-#include <functional>
+#include <iosfwd>
 #include <map>
-#include <string>
 #include <type_traits>
 #include <unordered_map>
 #include <utility>
@@ -531,7 +530,7 @@ template<>
 struct event_spec<event_type::gains_addiction> {
     static constexpr std::array<std::pair<const char *, cata_variant_type>, 2> fields = {{
             { "character", cata_variant_type::character_id },
-            { "add_type", cata_variant_type::add_type },
+            { "add_type", cata_variant_type::addiction_id },
         }
     };
 };
@@ -626,7 +625,7 @@ template<>
 struct event_spec<event_type::loses_addiction> {
     static constexpr std::array<std::pair<const char *, cata_variant_type>, 2> fields = {{
             { "character", cata_variant_type::character_id },
-            { "add_type", cata_variant_type::add_type },
+            { "add_type", cata_variant_type::addiction_id },
         }
     };
 };
@@ -777,9 +776,8 @@ class event
         cata_variant get_variant( const std::string &key ) const {
             auto it = data_.find( key );
             if( it == data_.end() ) {
-                debugmsg( "No such key %s in event of type %s", key,
-                          io::enum_to_string( type_ ) );
-                abort();
+                cata_fatal( "No such key %s in event of type %s", key,
+                            io::enum_to_string( type_ ) );
             }
             return it->second;
         }

@@ -10,6 +10,8 @@
     "rating": "good",
     "max_duration": "1 h",
     "max_intensity": 10,
+    "int_decay_tick": 2,
+    "int_decay_remove": true,
     "base_mods": {
       "str_mod": [ 1 ],
       "dex_mod": [ 2 ],
@@ -57,6 +59,34 @@
     "max_duration": "10 m",
     "max_intensity": 3,
     "scaling_mods": { "int_mod": [ -1 ], "per_mod": [ -2 ], "speed_mod": [ -5 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "test_vitamineff",
+    "name": [ "Vitamins!" ],
+    "desc": [ "" ],
+    "vitamins": [
+      { "vitamin": "test_vitv", "rate": [ [ 2, 2 ] ], "tick": [ "5 m" ] },
+      { "vitamin": "test_vitx", "absorb_mult": [ 0.5 ] }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "test_fatalism",
+    "name": [ "Placebo", "Plague", "Fatalism" ],
+    "desc": [ "" ],
+    "max_intensity": 3,
+    "chance_kill": [ [ 0, 1 ], [ 1, 10 ], [ 1, 1 ] ]
+  },
+  {
+    "type": "effect_type",
+    "id": "test_int_remove",
+    "name": [ "Protected from removal" ],
+    "desc": [ "Don't worry, you can't run out of steam!" ],
+    "int_decay_remove": false,
+    "max_intensity": 4,
+    "int_decay_step": -2,
+    "int_decay_tick": 1
   },
   {
     "type": "effect_type",

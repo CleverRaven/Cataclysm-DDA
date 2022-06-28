@@ -6,13 +6,10 @@
 
 #include "cuboid_rectangle.h"
 #include "point.h"
-#include "ui.h"
 
 class Character;
 class item;
 class item_location;
-class map;
-struct tripoint;
 
 namespace Pickup
 {
@@ -21,7 +18,7 @@ namespace Pickup
  * `true` in other cases.
  */
 bool do_pickup( std::vector<item_location> &targets, std::vector<int> &quantities,
-                bool autopickup );
+                bool autopickup, bool &stash_successful );
 bool query_thief();
 
 enum from_where : int {
@@ -31,7 +28,7 @@ enum from_where : int {
 };
 
 /** Pick up items; 'g' or ',' or via examine() */
-void pick_up( const tripoint &p, int min, from_where get_items_from = prompt );
+void autopickup( const tripoint &p );
 /** Determines the cost of moving an item by a character. */
 int cost_to_move_item( const Character &who, const item &it );
 

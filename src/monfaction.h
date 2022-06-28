@@ -3,17 +3,18 @@
 #define CATA_SRC_MONFACTION_H
 
 #include <cstdint>
+#include <iosfwd>
 #include <limits>
 #include <map>
 #include <set>
 #include <vector>
 
-#include "enum_traits.h"
 #include "optional.h"
 #include "type_id.h"
 
 class JsonObject;
-
+class monfaction;
+template <typename E> struct enum_traits;
 template <typename T> class generic_factory;
 
 enum mf_attitude {
@@ -56,6 +57,7 @@ class monfaction
         bool is_root() const;
 
         mfaction_str_id id = mfaction_str_id::NULL_ID();
+        std::vector<std::pair<mfaction_str_id, mod_id>> src;
         mfaction_str_id base_faction = mfaction_str_id::NULL_ID();
 
     private:
@@ -64,6 +66,10 @@ class monfaction
 
         // temporary attitude cache, used by `attitude_rec`
         mutable mfaction_att_map attitude_map;
+        std::set<mfaction_str_id> _att_by_mood;
+        std::set<mfaction_str_id> _att_neutral;
+        std::set<mfaction_str_id> _att_friendly;
+        std::set<mfaction_str_id> _att_hate;
         // final attitude cache,
         // compact vector of attitudes towards other factions,
         // where index is other faction's `int_id`

@@ -2,6 +2,10 @@
 #ifndef CATA_SRC_STRING_ID_H
 #define CATA_SRC_STRING_ID_H
 
+#include <cstddef>
+#include <cstdint>
+#include <functional>
+#include <iosfwd>
 #include <string>
 #include <type_traits>
 
@@ -9,16 +13,11 @@ static constexpr int64_t INVALID_VERSION = -1;
 static constexpr int INVALID_CID = -1;
 
 template<typename T>
-class int_id;
-
+class generic_factory;
 template<typename T>
-class string_id;
-
+class int_id;
 template<typename T>
 struct lexicographic;
-
-template<typename T>
-class generic_factory;
 
 /**
  * This represents an identifier (implemented as std::string) of some object.
@@ -93,10 +92,12 @@ struct string_id_params {
 // NOTE: string_id.h is the safest place for these markers, because they MUST be declared
 // before any usage of corresponding string_id type in cpp files
 class Item_spawn_data;
+
 template<> struct string_id_params<Item_spawn_data> {
     static constexpr bool dynamic = true;
 };
 class Trait_group;
+
 template<> struct string_id_params<Trait_group> {
     static constexpr bool dynamic = true;
 };
@@ -332,6 +333,11 @@ class string_id
          */
         explicit operator bool() const {
             return !is_null();
+        }
+
+        friend std::ostream &operator<<( std::ostream &os, const string_id &s ) {
+            os << s.str();
+            return os;
         }
 
     private:

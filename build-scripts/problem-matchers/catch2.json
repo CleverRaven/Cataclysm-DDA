@@ -4,19 +4,19 @@
             "owner": "cata-catch2",
             "pattern": [
                 {
-                    "regexp": "^(?:.\\[[0-9;]+m)*(?:\\.\\./)*([^:]*):(\\d+): .*FAILED:.*$",
+                    "regexp": "(?:\\(.*\\)=>[\\s\\t]*)(?:.\\[[0-9;]+m)*[\\s\\t]*(?:\\.\\./)*([^:]*):(\\d+): .*FAILED:.*$",
                     "file": 1,
                     "line": 2
                 },
                 {
-                    "regexp": "^(?:.\\[[0-9;]+m)*  (.+)$",
+                    "regexp": "(?:\\(.*\\)=>[\\s\\t]*)(?:.\\[[0-9;]+m)*[\\s\\t]*(.+)$",
                     "code": 1
                 },
                 {
-                    "regexp": "^(?:.\\[[0-9;]+m)*(with expansion|due to a fatal error condition):$"
+                    "regexp": "(?:\\(.*\\)=>[\\s\\t]*)(?:.\\[[0-9;]+m)*[\\s\\t]*(with expansion|due to a fatal error condition):$"
                 },
                 {
-                    "regexp": "^(?:.\\[[0-9;]+m)*  (.+)$",
+                    "regexp": "(?:\\(.*\\)=>[\\s\\t]*)(?:.\\[[0-9;]+m)*[\\s\\t]*(.+)$",
                     "message": 1
                 }
             ]

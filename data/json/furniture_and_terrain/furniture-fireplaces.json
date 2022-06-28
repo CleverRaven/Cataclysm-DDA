@@ -4,7 +4,7 @@
     "id": "f_fireplace",
     "name": "fireplace",
     "symbol": "#",
-    "description": "A common fixture for safely hosting a fire indoors, with a chimney to vent the smoke to the outside.  Dangerous to leave unattended while lit.",
+    "description": "A common fixture for safely hosting a fire indoors, with a chimney to vent the smoke to the outside.",
     "bgcolor": "white",
     "move_cost_mod": 2,
     "coverage": 50,
@@ -63,6 +63,32 @@
         { "item": "scrap", "count": [ 5, 15 ] },
         { "item": "steel_chunk", "count": [ 2, 6 ] },
         { "item": "sheet_metal_small", "count": [ 2, 6 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_hobo_stove",
+    "name": "hobo stove",
+    "description": "This is a small improvised wood stove, made from a metal can.  It's too small to fit anything much larger than splintered wood.",
+    "symbol": "#",
+    "color": "red",
+    "move_cost_mod": 2,
+    "coverage": 35,
+    "required_str": 4,
+    "flags": [ "PLACE_ITEM", "TRANSPARENT", "FIRE_CONTAINER", "EASY_DECONSTRUCT" ],
+    "deployed_item": "hobo_stove",
+    "examine_action": "fireplace",
+    "max_volume": "680 ml",
+    "bash": {
+      "str_min": 8,
+      "str_max": 30,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 2, 4 ] },
+        { "item": "steel_chunk", "count": [ 1, 2 ] },
+        { "item": "sheet_metal_small", "count": [ 1, 2 ] }
       ]
     }
   },
@@ -133,5 +159,28 @@
     "deconstruct": { "items": [ { "item": "rock", "count": 20 } ] },
     "flags": [ "TRANSPARENT", "CONTAINER", "FIRE_CONTAINER", "PLACE_ITEM", "EASY_DECONSTRUCT" ],
     "examine_action": "fireplace"
+  },
+  {
+    "type": "furniture",
+    "id": "f_clay_oven",
+    "name": "clay oven",
+    "looks_like": "f_fireplace",
+    "description": "A simple clay oven with a chimney, with a firebrick alcove in the middle that can be used to cook food or just to contain a fire.",
+    "symbol": "U",
+    "color": "brown",
+    "move_cost_mod": -1,
+    "coverage": 50,
+    "required_str": -1,
+    "crafting_pseudo_item": "fake_oven",
+    "flags": [ "CONTAINER", "FIRE_CONTAINER", "SUPPRESS_SMOKE", "PLACE_ITEM", "MINEABLE" ],
+    "deconstruct": { "items": [ { "item": "rock", "count": 30 }, { "item": "fire_brick", "count": 10 } ] },
+    "examine_action": "fireplace",
+    "bash": {
+      "str_min": 18,
+      "str_max": 50,
+      "sound": "crash!",
+      "sound_fail": "whump.",
+      "items": [ { "item": "rock", "count": [ 20, 30 ] }, { "item": "fire_brick", "count": [ 4, 8 ] } ]
+    }
   }
 ]

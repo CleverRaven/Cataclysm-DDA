@@ -6,6 +6,7 @@
     "description": "This is a small shelter, made of sticks and skins.  Use it to place.  This shelter has been damaged, and needs repairs.",
     "weight": "1360 g",
     "volume": "7500 ml",
+    "longest_side": "90 cm",
     "price": 2000,
     "price_postapoc": 50,
     "to_hit": -3,
@@ -21,6 +22,7 @@
     "description": "This is a family sized tent.  It provides a large amount of space, but is very bulky.",
     "weight": "2266 g",
     "volume": "10 L",
+    "longest_side": "90 cm",
     "price": 50000,
     "price_postapoc": 1500,
     "to_hit": -3,
@@ -46,6 +48,7 @@
     "description": "This is a small shelter, made of sticks and skins.  Use it to place.",
     "weight": "1360 g",
     "volume": "7500 ml",
+    "longest_side": "90 cm",
     "price": 6500,
     "price_postapoc": 500,
     "to_hit": -3,
@@ -70,6 +73,7 @@
     "description": "This is a small personal tent, it's just big enough to fit you comfortably.",
     "weight": "1133 g",
     "volume": "2500 ml",
+    "longest_side": "90 cm",
     "price": 15000,
     "price_postapoc": 1000,
     "to_hit": -3,
@@ -86,5 +90,20 @@
       "door_opened": "f_canvas_door_o",
       "door_closed": "f_canvas_door"
     }
+  },
+  {
+    "type": "GENERIC",
+    "id": "tent_pole",
+    "symbol": "/",
+    "color": "dark_gray",
+    "name": { "str": "aluminum tent pole" },
+    "description": "A light collapsible tent pole made from aluminum, perfect for pitching a tent.",
+    "looks_like": "long_pole",
+    "material": [ "aluminum" ],
+    "weight": "225 g",
+    "volume": "100 ml",
+    "longest_side": "90 cm",
+    "bashing": 1,
+    "to_hit": -1
   }
 ]

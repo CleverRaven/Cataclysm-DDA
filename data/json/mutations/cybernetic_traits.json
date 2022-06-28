@@ -1,0 +1,49 @@
+[
+  {
+    "type": "mutation_type",
+    "id": "Cyberframe"
+  },
+  {
+    "type": "mutation_type",
+    "id": "Cybernetic"
+  },
+  {
+    "type": "mutation",
+    "id": "CBM_Interface",
+    "name": { "str": "Standard Neurobionic Interface" },
+    "points": 0,
+    "description": "You have a matrix in your central nervous system that acts as a universal control and installation bus for compact bionic modules.",
+    "valid": false,
+    "purifiable": false,
+    "types": [ "Cybernetic" ]
+  },
+  {
+    "type": "mutation",
+    "id": "EXODII_BODY_1",
+    "flags": [ "Exodii_Body" ],
+    "name": { "str": "Exodii cyborg framework - style 1a" },
+    "points": 0,
+    "visibility": 4,
+    "ugliness": 4,
+    "mixed_effect": true,
+    "description": "Your brain and some of your organs are shielded in a nice tough bipedal walker frame.",
+    "valid": false,
+    "purifiable": false,
+    "types": [ "Cyberframe", "Cybernetic" ],
+    "passive_mods": { "str_mod": 4, "dex_mod": 4 },
+    "hp_adjustment": 20,
+    "restricts_gear": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r" ],
+    "armor": [
+      {
+        "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth" ],
+        "cut": 30,
+        "bash": 30,
+        "stab": 30,
+        "bullet": 25,
+        "acid": 25,
+        "electric": 5
+      }
+    ],
+    "weight_capacity_modifier": 3
+  }
+]

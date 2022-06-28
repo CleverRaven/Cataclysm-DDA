@@ -2,6 +2,7 @@
 #ifndef CATA_SRC_MAPSHARING_H
 #define CATA_SRC_MAPSHARING_H
 
+#include <iosfwd>
 #include <set>
 #include <string>
 

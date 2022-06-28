@@ -20,7 +20,6 @@
       { "trait": "BGSS_Scavenger_Merc_1" },
       { "trait": "PSYCHOPATH" },
       { "trait": "TOUGH" },
-      { "trait": "PARKOUR" },
       { "trait": "BADTEMPER" },
       { "trait": "SLOWREADER" },
       { "trait": "INSOMNIA" },
@@ -45,7 +44,7 @@
     "id": "NC_SCAVENGER_MERC_worn",
     "subtype": "collection",
     "items": [
-      { "item": "ballistic_vest_esapi" },
+      { "group": "military_ballistic_vest_pristine" },
       { "item": "legpouch_large", "contents-group": "army_mags_m4" },
       { "item": "boxer_briefs" },
       { "item": "pants_army" },
@@ -64,8 +63,7 @@
     "items": [
       { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
       { "item": "stanag30", "ammo-item": "556", "charges": 30 },
-      { "item": "mre_chilibeans_box" },
-      { "item": "mre_chickennoodle_box" }
+      { "group": "any_MRE", "count": 2 }
     ]
   },
   {
@@ -73,7 +71,13 @@
     "id": "NC_SCAVENGER_MERC_wield",
     "subtype": "collection",
     "items": [
-      { "item": "m4a1", "ammo-item": "556", "charges": 30, "contents-item": [ "shoulder_strap", "holo_sight", "suppressor" ] }
+      {
+        "item": "m4_carbine",
+        "variant": "m4a1",
+        "ammo-item": "556",
+        "charges": 30,
+        "contents-item": [ "shoulder_strap", "holo_sight", "suppressor" ]
+      }
     ]
   },
   {
@@ -102,25 +106,25 @@
   {
     "id": "TALK_SCAVENGER_MERC_HIRE",
     "type": "talk_topic",
-    "dynamic_line": "I'm currently waiting for a customer to return… I'll make you a deal though, 750 Merch will cover my expenses if I get a small cut of the loot.",
+    "dynamic_line": "I'm currently waiting for a customer to return… I'll make you a deal though, 750 merch will cover my expenses if I get a small cut of the loot.",
     "responses": [
-      { "text": "What the heck is a Merch?", "topic": "TALK_SCAVENGER_MERC_MERCH" },
+      { "text": "What the heck is a merch?", "topic": "TALK_SCAVENGER_MERC_MERCH" },
       { "text": "I might be back.", "topic": "TALK_SCAVENGER_MERC" },
       {
-        "text": "[FMC750] You have a deal.",
+        "text": "[750 merch] You have a deal.",
         "topic": "TALK_SCAVENGER_MERC_HIRE_SUCCESS",
         "condition": { "u_has_items": { "item": "FMCNote", "count": 750 } },
-        "effect": { "u_consume_item": "FMCNote", "count": 750 }
+        "effect": { "u_consume_item": "FMCNote", "count": 750, "popup": true }
       }
     ]
   },
   {
     "id": "TALK_SCAVENGER_MERC_MERCH",
     "type": "talk_topic",
-    "dynamic_line": "Merchs are what they call dollar bills around here.  Free Merchant Credit Notes or something.  If you want to buy stuff around here and you don't want to barter away your guns, you need Merch.",
+    "dynamic_line": "Merch is what they call dollar bills around here.  Free Merchant Credit Notes or something.  If you want to buy stuff around here and you don't want to barter away your guns, you need merch.",
     "responses": [
       { "text": "I see.  Let's try this again from the start.", "topic": "TALK_SCAVENGER_MERC" },
-      { "text": "Okay, how much Merch do I need?", "topic": "TALK_SCAVENGER_MERC_HIRE" },
+      { "text": "Okay, how much merch do I need?", "topic": "TALK_SCAVENGER_MERC_HIRE" },
       { "text": "Well, thanks for the info.  Bye!", "topic": "TALK_DONE" }
     ]
   },

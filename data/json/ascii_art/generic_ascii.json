@@ -743,6 +743,30 @@
   },
   {
     "type": "ascii_art",
+    "id": "bucket_wood",
+    "picture": [
+      "                                         ",
+      "    <color_light_gray>/▀▀▀</color><color_brown>▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀</color><color_light_gray>▀▀▀\\              ",
+      "   //                     \\\\             ",
+      "  //                       \\\\            ",
+      " ▐█                         █▌           ",
+      " ▐▀    </color><color_white>░░░░░░░░░░░░░░░░░    </color><color_light_gray>▀▌           ",
+      " ▐ </color><color_white>░░░░</color><color_dark_gray>░░░░░░░░░░░░░░░░░</color><color_white>░░░░ </color><color_light_gray>▌           ",
+      " </color><color_white>╘▓</color><color_dark_gray>░░░░░░░░░░░░░░░░░░░░░░░░░</color><color_white>▓╛           ",
+      "   ▓▓▓▓</color><color_dark_gray>░░░░░░░░░░░░░░░░░</color><color_white>▓▓▓▓             ",
+      "   </color><color_light_gray>▒▒▒▒</color><color_white>▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓</color><color_brown>▒▒█             ",
+      "   ▒█▒▒▒▒▒█▒▒▒▒▒█▒▒▒▒▒█▒▒▒▒▒            ",
+      "   ▒█▒▒▒▒▒█▒▒▒▒▒█▒▒▒▒▒█▒▒▒▒▒            ",
+      "   ▒█▒▒▒▒▒█▒▒▒▒▒█▒▒▒▒▒█▒▒▒▒▒            ",
+      "   ▒█▒▒▒▒▒█▒▒▒▒▒█▒▒▒▒▒█▒▒▒▒▒            ",
+      "   ▒█▒▒▒▒▒█▒▒▒▒▒█▒▒▒▒▒█▒▒▒▒▒            ",
+      "   </color><color_light_gray>▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒</color><color_brown>            ",
+      "   ▒█▒▒▒▒▒█▒▒▒▒▒█▒▒▒▒▒█▒▒▒▒▒            ",
+      "                                        "
+    ]
+  },
+  {
+    "type": "ascii_art",
     "id": "crude_picklock",
     "picture": [
       "                                         ",

@@ -18,6 +18,27 @@
     "qualities": [ [ "COOK", 1 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   },
   {
+    "id": "hobo_stove",
+    "type": "TOOL",
+    "name": { "str": "hobo stove" },
+    "description": "This is a small improvised wood stove, made from a metal can or similar container of the right size.  It's too small to fit anything much larger than splintered wood.  Activate it to Deploy.",
+    "copy-from": "can_medium",
+    "weight": "100 g",
+    "volume": "550 ml",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "watertight": false,
+        "open_container": false,
+        "min_contains_volume": "4 ml",
+        "max_contains_volume": "400 ml",
+        "max_contains_weight": "1 kg"
+      }
+    ],
+    "use_action": { "type": "deploy_furn", "furn_type": "f_hobo_stove" }
+  },
+  {
     "id": "55gal_firebarrel",
     "type": "TOOL",
     "name": { "str": "fire barrel (200L)", "str_pl": "fire barrels (200L)" },
@@ -121,14 +142,14 @@
     "type": "TOOL",
     "name": { "str": "folding bicycle" },
     "description": "This is a bicycle folded into a relatively portable package.",
-    "weight": "9071 g",
-    "volume": "21500 ml",
-    "//": "needs huge realism balance, current values are wildly inaccurate",
+    "weight": "10160 g",
+    "volume": "76651 ml",
+    "//": "Data taken from given values/dimensions for the Brompton S1E folding bicycle",
     "price": 35000,
     "price_postapoc": 2000,
     "to_hit": -5,
     "bashing": 10,
-    "material": [ "aluminum" ],
+    "material": [ "steel" ],
     "symbol": "0",
     "color": "light_gray",
     "use_action": {
@@ -210,8 +231,8 @@
   {
     "id": "tourist_table",
     "type": "TOOL",
-    "name": { "str": "tourist table" },
-    "description": "Metal tourist table for off-road trips.  It is folded for easy transportation.",
+    "name": { "str": "folding table" },
+    "description": "Metal folding table for off-road trips.  It is currently folded for easy transportation.",
     "weight": "4500 g",
     "volume": "15 L",
     "longest_side": "90 cm",

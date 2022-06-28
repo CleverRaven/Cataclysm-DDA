@@ -1,8 +1,13 @@
-#include "catch/catch.hpp"
-#include "character.h"
-#include "recipe.h"
-#include "type_id.h"
 #include <sstream>
+#include <string>
+
+#include "calendar.h"
+#include "cata_catch.h"
+#include "character.h"
+#include "json.h"
+#include "recipe.h"
+#include "requirements.h"
+#include "type_id.h"
 
 static std::string reqs_to_json_string( const requirement_data &reqs )
 {
@@ -56,11 +61,11 @@ TEST_CASE( "blueprint_autocalc_with_components", "[recipe][blueprint]" )
     CHECK( stove_3->required_all_skills_string() == "<color_cyan>none</color>" );
 
     CHECK( reqs_to_json_string( stove_1->simple_requirements() ) ==
-           R"({"tools":[],"qualities":[[{"id":"CUT"}],[{"id":"SAW_M"}]],)"
+           R"({"tools":[],"qualities":[[{"id":"CUT","level":2}],[{"id":"SAW_M"}]],)"
            R"("components":[[["pipe",2],["scrap",1]],[["metal_tank",1]],[["pipe",1]]]})" );
     CAPTURE( reqs_to_json_string( stove_2->simple_requirements() ) );
     CHECK( stove_1->simple_requirements().has_same_requirements_as(
                stove_2->simple_requirements() ) );
     CHECK( reqs_to_json_string( stove_3->simple_requirements() ) ==
-           R"({"tools":[],"qualities":[[{"id":"CUT"}]],"components":[[["pipe",2],["scrap",1]]]})" );
+           R"({"tools":[],"qualities":[[{"id":"CUT","level":2}]],"components":[[["pipe",2],["scrap",1]]]})" );
 }

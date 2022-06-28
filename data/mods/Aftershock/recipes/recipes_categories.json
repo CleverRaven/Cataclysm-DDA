@@ -1,0 +1,15 @@
+[
+  {
+    "type": "recipe_category",
+    "id": "CC_ELECTRONIC",
+    "recipe_subcategories": [
+      "CSC_ALL",
+      "CSC_ELECTRONIC_CBMS",
+      "CSC_ELECTRONIC_TOOLS",
+      "CSC_ELECTRONIC_PARTS",
+      "CSC_ELECTRONIC_LIGHTING",
+      "CSC_ELECTRONIC_COMPONENTS",
+      "CSC_ELECTRONIC_OTHER"
+    ]
+  }
+]

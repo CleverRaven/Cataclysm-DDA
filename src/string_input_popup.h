@@ -5,9 +5,9 @@
 #include <cstddef>
 #include <cstdint>
 #include <functional>
+#include <iosfwd>
 #include <map>
 #include <memory>
-#include <string>
 #include <vector>
 
 #include "color.h"
@@ -60,11 +60,12 @@ class string_input_popup // NOLINT(cata-xy)
         int _max_length = -1;
         bool _only_digits = false;
         bool _hist_use_uilist = true;
-        bool _ignore_custom_actions = true;
         int _startx = 0;
         int _starty = 0;
         int _endx = 0;
         int _position = -1;
+        // in output (console) cells, not characters of the string!
+        int shift = 0;
         int _hist_str_ind = 0;
         //Counts only when @_hist_use_uilist is false
         const size_t _hist_max_size = 100;
@@ -92,7 +93,7 @@ class string_input_popup // NOLINT(cata-xy)
         void show_history( utf8_wrapper &ret );
         void add_to_history( const std::string &value ) const;
         void update_input_history( utf8_wrapper &ret, bool up );
-        void draw( const utf8_wrapper &ret, const utf8_wrapper &edit, int shift ) const;
+        void draw( const utf8_wrapper &ret, const utf8_wrapper &edit ) const;
 
     public:
         string_input_popup();
@@ -165,16 +166,6 @@ class string_input_popup // NOLINT(cata-xy)
          */
         string_input_popup &hist_use_uilist( bool value ) {
             _hist_use_uilist = value;
-            return *this;
-        }
-        /**
-         * If true and the custom input context returns an input action, the
-         * action is not handled at all and left to be handled by the caller.
-         * Otherwise the action is always handled as an input event to the popup.
-         * The caller can use @ref handled to check whether the last input is handled.
-         */
-        string_input_popup &ignore_custom_actions( const bool value ) {
-            _ignore_custom_actions = value;
             return *this;
         }
         /**

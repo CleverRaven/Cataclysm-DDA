@@ -1,10 +1,18 @@
 #include "butchery_requirements.h"
 
+#include <cstddef>
+#include <functional>
+#include <iterator>
+#include <set>
+#include <string>
+
 #include "activity_handlers.h"
 #include "creature.h"
 #include "debug.h"
+#include "enum_conversions.h"
 #include "generic_factory.h"
-#include "inventory.h"
+#include "item.h"
+#include "json.h"
 #include "requirements.h"
 
 namespace
@@ -34,7 +42,7 @@ const std::vector<butchery_requirements> &butchery_requirements::get_all()
     return butchery_req_factory.get_all();
 }
 
-void butchery_requirements::reset_all()
+void butchery_requirements::reset()
 {
     butchery_req_factory.reset();
 }
@@ -46,8 +54,6 @@ bool butchery_requirements::is_valid() const
 
 void butchery_requirements::load( const JsonObject &jo, const std::string & )
 {
-    mandatory( jo, was_loaded, "id", id );
-
     for( const JsonMember member : jo.get_object( "requirements" ) ) {
         float modifier = std::stof( member.name() );
         requirements.emplace( modifier, std::map<creature_size, std::map<butcher_type, requirement_id>> {} );

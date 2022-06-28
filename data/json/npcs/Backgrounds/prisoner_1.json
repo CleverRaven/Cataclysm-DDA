@@ -184,7 +184,7 @@
   {
     "id": "BGSS_PRISONER_1_IN_FOR_BIOWEAPON",
     "type": "talk_topic",
-    "dynamic_line": "It's a bit of a … it's a thing.  It started out as a dare.  I wound up making a bioweapon.  It didn't get used or anything, but, well, it got out of hand.",
+    "dynamic_line": "It's a bit of a… it's a thing.  It started out as a dare.  I wound up making a bioweapon.  It didn't get used or anything, but, well, it got out of hand.",
     "responses": [ { "text": "<done_conversation_section>", "topic": "TALK_NONE" }, { "text": "<end_talking>", "topic": "TALK_DONE" } ]
   },
   {

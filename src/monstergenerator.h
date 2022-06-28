@@ -2,15 +2,18 @@
 #ifndef CATA_SRC_MONSTERGENERATOR_H
 #define CATA_SRC_MONSTERGENERATOR_H
 
+#include <array>
+#include <iosfwd>
 #include <map>
 #include <memory>
-#include <string>
 #include <vector>
 
 #include "enum_bitset.h"
 #include "enums.h"
+#include "generic_factory.h"
 #include "mattack_common.h"
 #include "mtype.h"
+#include "optional.h"
 #include "pimpl.h"
 #include "translations.h"
 #include "type_id.h"
@@ -19,8 +22,6 @@ class Creature;
 class JsonObject;
 class monster;
 struct dealt_projectile_attack;
-template <typename T> class generic_factory;
-template <typename T> class string_id;
 
 using mon_action_death  = void ( * )( monster & );
 using mon_action_attack = bool ( * )( monster * );
@@ -28,6 +29,7 @@ using mon_action_defend = void ( * )( monster &, Creature *, dealt_projectile_at
 
 struct species_type {
     species_id id;
+    std::vector<std::pair<species_id, mod_id>> src;
     bool was_loaded = false;
     translation description;
     translation footsteps;
@@ -83,7 +85,6 @@ class MonsterGenerator
 
         // Init functions
         void init_phases();
-        void init_death();
         void init_attack();
         void init_defense();
 
@@ -107,7 +108,7 @@ class MonsterGenerator
         pimpl<generic_factory<species_type>> mon_species;
         std::vector<mtype_id> hallucination_monsters;
 
-        std::map<std::string, phase_id> phase_map;
+        std::unordered_map<std::string, phase_id> phase_map;
         std::map<std::string, mon_action_death> death_map;
         std::map<std::string, mon_action_defend> defense_map;
         std::map<std::string, mtype_special_attack> attack_map;

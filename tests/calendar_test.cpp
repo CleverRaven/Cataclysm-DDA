@@ -1,10 +1,12 @@
-#include "catch/catch.hpp"
-#include "calendar.h"
-
+#include <iosfwd>
 #include <string>
+
+#include "calendar.h"
+#include "cata_catch.h"
 
 TEST_CASE( "time_duration_to_string", "[calendar]" )
 {
+    calendar::set_season_length( 91 );
     CHECK( to_string( 10_seconds ) == "10 seconds" );
     CHECK( to_string( 60_seconds ) == "1 minute" );
     CHECK( to_string( 70_seconds ) == "1 minute and 10 seconds" );
@@ -27,6 +29,7 @@ TEST_CASE( "time_duration_to_string", "[calendar]" )
 
 TEST_CASE( "time_duration_to_string_eternal_season", "[calendar]" )
 {
+    calendar::set_season_length( 91 );
     calendar::set_eternal_season( true );
     CHECK( to_string( 7_days ) == "1 week" );
     CHECK( to_string( 8_days ) == "1 week and 1 day" );
@@ -38,4 +41,5 @@ TEST_CASE( "time_duration_to_string_eternal_season", "[calendar]" )
     CHECK( to_string( 465_days ) == "66 weeks and 3 days" );
     CHECK( to_string( 3650_days ) == "521 weeks and 3 days" );
     calendar::set_eternal_season( false );
+    REQUIRE( calendar::season_from_default_ratio() == Approx( 1.0f ) );
 }

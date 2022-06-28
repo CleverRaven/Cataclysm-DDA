@@ -1,19 +1,17 @@
-#include "catch/catch.hpp"
-#include "line.h"
-
 #include <algorithm>
 #include <chrono>
-#include <cmath>
 #include <cstdio>
 #include <cstdlib>
-#include <ctime>
-#include <memory>
+#include <functional>
+#include <iosfwd>
 #include <string>
 #include <type_traits>
 #include <vector>
 
 #include "cata_generators.h"
+#include "cata_catch.h"
 #include "coordinates.h"
+#include "line.h"
 #include "point.h"
 #include "rng.h"
 
@@ -133,9 +131,9 @@ TEST_CASE( "test_normalized_angle", "[line]" )
     CHECK( get_normalized_angle( point_zero, {-10, -10} ) == Approx( 1.0 ) );
 }
 
+// NOLINTNEXTLINE(readability-function-size)
 TEST_CASE( "Test bounds for mapping x/y/z/ offsets to direction enum", "[line]" )
 {
-
     // Test the unit cube, which are the only values this function is valid for.
     REQUIRE( make_xyz_unit( tripoint( -1, -1, 1 ) ) == direction::ABOVENORTHWEST );
     REQUIRE( make_xyz_unit( tripoint_north_west ) == direction::NORTHWEST );

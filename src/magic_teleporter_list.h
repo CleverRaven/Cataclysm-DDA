@@ -2,16 +2,16 @@
 #ifndef CATA_SRC_MAGIC_TELEPORTER_LIST_H
 #define CATA_SRC_MAGIC_TELEPORTER_LIST_H
 
+#include <iosfwd>
 #include <map>
 #include <set>
-#include <string>
 
 #include "coordinates.h"
 #include "optional.h"
-#include "point.h"
 
 class Character;
 class JsonIn;
+class JsonObject;
 class JsonOut;
 struct tripoint;
 
@@ -37,7 +37,7 @@ class teleporter_list
         void translocate( const std::set<tripoint> &targets );
 
         void serialize( JsonOut &json ) const;
-        void deserialize( JsonIn &jsin );
+        void deserialize( const JsonObject &data );
 };
 
 #endif // CATA_SRC_MAGIC_TELEPORTER_LIST_H

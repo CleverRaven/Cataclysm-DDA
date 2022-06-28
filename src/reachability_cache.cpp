@@ -1,8 +1,12 @@
-#include <deque>
-#include "point.h"
-#include "map.h"
-#include "reachability_cache.h"
+#include <algorithm>
+#include <array>
+#include <cstdlib>
+#include <tuple>
+
 #include "cuboid_rectangle.h"
+#include "level_cache.h"
+#include "point.h"
+#include "reachability_cache.h"
 
 //helper functions
 static constexpr half_open_rectangle<point> bounding_rect( point_zero, {MAPSIZE_X, MAPSIZE_Y} );
@@ -56,7 +60,9 @@ void reachability_cache<Horizontal, Types...>::rebuild( Q q,
     static_assert( MAPSIZE_X == SEEX * MAPSIZE, "reachability cache uses outdated map dimensions" );
 
     // start is inclusive, end is exclusive (1 step outside of the range)
-    point dir, start, end;
+    point dir;
+    point start;
+    point end;
 
     if( q == Q::SW || q == Q::NW ) {
         std::tie( dir.x, start.x, end.x ) = std::make_tuple( 1, 0, MAPSIZE_X );

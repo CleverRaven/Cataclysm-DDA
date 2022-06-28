@@ -1,0 +1,136 @@
+[
+  {
+    "type": "palette",
+    "id": "swamp_background",
+    "furniture": { "i": "f_cattails" },
+    "terrain": { "i": "t_water_sh" }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "cattail",
+    "object": { "rows": [ "i" ], "furniture": { "i": "f_cattails" }, "mapgensize": [ 1, 1 ] }
+  },
+  {
+    "type": "palette",
+    "id": "swampshack_palette",
+    "parameters": {
+      "wall_type": {
+        "type": "ter_str_id",
+        "default": { "distribution": [ [ "t_wall_wood", 3 ], [ "t_drystone_wall", 1 ], [ "t_wall_log", 2 ] ] }
+      }
+    },
+    "terrain": {
+      "#": "t_dirtmound",
+      "&": "t_region_soil",
+      "+": "t_door_c",
+      ".": "t_floor",
+      "C": "t_floor",
+      "c": "t_floor",
+      "S": "t_floor",
+      "s": "t_floor",
+      "L": "t_floor",
+      "B": "t_floor",
+      "b": "t_floor",
+      "T": "t_floor",
+      "D": "t_floor",
+      "d": "t_floor",
+      ",": "t_dirtfloor",
+      "X": "t_dirtfloor",
+      "x": "t_dirtfloor",
+      "N": "t_dirtfloor",
+      "l": "t_dirtfloor",
+      "@": "t_dirtfloor",
+      "n": "t_dirtfloor",
+      "1": "t_dirtfloor",
+      "-": { "param": "wall_type", "fallback": "t_wall_wood" },
+      ";": "t_region_groundcover_barren",
+      "R": "t_region_soil",
+      "^": "t_region_soil",
+      "o": "t_window_domestic",
+      "=": "t_region_soil",
+      "V": "t_dirtfloor"
+    },
+    "furniture": {
+      "&": "f_kiln_empty",
+      "@": "f_smoking_rack",
+      "^": "f_bulletin",
+      "B": "f_bookcase",
+      "b": "f_makeshift_bed",
+      "D": "f_rack",
+      "d": "f_dresser",
+      "L": "f_locker",
+      "N": "f_cupboard",
+      "n": "f_counter",
+      "R": "f_rack_wood",
+      "S": "f_woodstove",
+      "s": "f_counter",
+      "T": "f_table",
+      "V": "f_fvat_empty",
+      "l": "f_locker",
+      "1": "f_crate_c",
+      "C": "f_cupboard",
+      "c": "f_chair",
+      "=": "f_sandbag_wall",
+      "X": "f_crate_c",
+      "x": "f_crate_o"
+    },
+    "items": {
+      "B": [ { "item": "novels", "chance": 50 }, { "item": "textbooks", "chance": 25 } ],
+      "b": { "item": "bed", "chance": 60 },
+      "C": [
+        { "item": "kitchen", "chance": 50, "repeat": [ 3, 4 ] },
+        { "item": "preserved_food", "chance": 50, "repeat": [ 1, 4 ] }
+      ],
+      "D": { "item": "NC_HUNTER_misc", "chance": 50, "repeat": [ 2, 5 ] },
+      "d": { "item": "dresser", "chance": 75, "repeat": [ 2, 4 ] },
+      "L": { "item": "NC_HUNTER_misc", "chance": 50 },
+      "l": { "item": "hardware", "chance": 60 },
+      "N": { "item": "cleaning", "chance": 60 },
+      "n": { "item": "NC_HUNTER_misc", "chance": 60 },
+      "s": { "item": "traveler", "chance": 40, "repeat": [ 1, 3 ] },
+      "X": [ { "item": "hardware", "chance": 30, "repeat": [ 1, 2 ] }, { "item": "mischw", "chance": 30, "repeat": [ 1, 4 ] } ],
+      "x": [ { "item": "cleaning", "chance": 30 }, { "item": "hardware_plumbing", "chance": 30 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "hunter_shack" ],
+    "weight": 100,
+    "object": {
+      "predecessor_mapgen": "forest_water",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "       -----------      ",
+        "       -CSn.....D-      ",
+        "       -....--+---      ",
+        "       -B..d-@..L-      ",
+        "       -B...-@..L-      ",
+        "       -bbTc-s.ss-      ",
+        "       ---o---+---      ",
+        "       ;=V;;^;;;=       ",
+        "       ;;;;;;;;X=       ",
+        "       ;=&&;xxXX=       ",
+        "        =========       ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "swampshack_palette" ],
+      "place_loot": [ { "item": "net", "x": 11, "y": 14, "chance": 100 }, { "item": "stepladder", "x": 11, "y": 16, "chance": 50 } ],
+      "terrain": { "V": "t_region_soil", "x": "t_region_soil", "X": "t_region_soil" },
+      "place_nested": [ { "chunks": [ "NC_Yoshimi_spawn" ], "x": [ 10 ], "y": [ 9 ] } ]
+    }
+  }
+]

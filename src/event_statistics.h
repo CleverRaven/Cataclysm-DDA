@@ -2,20 +2,24 @@
 #ifndef CATA_SRC_EVENT_STATISTICS_H
 #define CATA_SRC_EVENT_STATISTICS_H
 
+#include <iosfwd>
 #include <memory>
-#include <string>
 #include <unordered_map>
 #include <vector>
 
 #include "clone_ptr.h"
 #include "string_id.h"
 #include "translations.h"
+#include "type_id.h"
 
 class cata_variant;
+
 enum class cata_variant_type : int;
 class event_multiset;
+
 enum class event_type : int;
 class JsonObject;
+
 enum class monotonically : int;
 class stats_tracker;
 class stats_tracker_state;
@@ -50,12 +54,14 @@ class event_transformation
         static void reset();
 
         string_id<event_transformation> id;
+        std::vector<std::pair<string_id<event_transformation>, mod_id>> src;
         bool was_loaded = false;
 
         event_fields_type fields() const;
         monotonically monotonicity() const;
 
         class impl;
+
     private:
         cata::clone_ptr<impl> impl_;
 };
@@ -74,6 +80,7 @@ class event_statistic
         static void reset();
 
         string_id<event_statistic> id;
+        std::vector<std::pair<string_id<event_statistic>, mod_id>> src;
         bool was_loaded = false;
 
         const translation &description() const {
@@ -84,6 +91,7 @@ class event_statistic
         monotonically monotonicity() const;
 
         class impl;
+
     private:
         translation description_;
         cata::clone_ptr<impl> impl_;
@@ -105,6 +113,7 @@ class score
         static void reset();
 
         string_id<score> id;
+        std::vector<std::pair<string_id<score>, mod_id>> src;
         bool was_loaded = false;
     private:
         translation description_;

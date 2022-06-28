@@ -72,7 +72,7 @@
       {
         "text": "Thanks.",
         "topic": "TALK_NONE",
-        "effect": [ { "u_buy_item": "necropolis_freq" }, { "u_add_effect": "has_og_comm_freq", "duration": "PERMANENT" } ]
+        "effect": [ { "u_spawn_item": "necropolis_freq" }, { "u_add_effect": "has_og_comm_freq", "duration": "PERMANENT" } ]
       }
     ]
   },
@@ -85,7 +85,7 @@
     "value": 250000,
     "item": "radio_repeater_mod",
     "start": {
-      "effect": { "u_buy_item": "repeater_mod_guide" },
+      "effect": { "u_spawn_item": "repeater_mod_guide" },
       "assign_mission_target": { "om_terrain": "necropolis_c_23", "om_special": "Necropolis", "reveal_radius": 3, "z": -2 }
     },
     "origins": [ "ORIGIN_SECONDARY" ],

@@ -2,7 +2,7 @@
   {
     "type": "npc",
     "id": "isherwood_chris",
-    "//": "Part of Isherwood family.",
+    "//": "Part of the Isherwood family.",
     "name_unique": "Chris Isherwood",
     "gender": "male",
     "class": "NC_ISHERWOOD_CHRIS",

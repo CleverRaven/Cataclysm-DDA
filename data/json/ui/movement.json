@@ -1,0 +1,60 @@
+[
+  {
+    "id": "move_mode_template",
+    "type": "widget",
+    "style": "clause",
+    "default_clause": { "text": "bugging out", "sym": "-", "color": "dark_gray" },
+    "clauses": [
+      { "id": "run", "text": "running", "sym": "R", "color": "red", "condition": { "u_has_move_mode": "run" } },
+      { "id": "walk", "text": "walking", "sym": "W", "color": "white", "condition": { "u_has_move_mode": "walk" } },
+      {
+        "id": "crouch",
+        "text": "crouching",
+        "sym": "C",
+        "color": "light_blue",
+        "condition": { "u_has_move_mode": "crouch" }
+      },
+      { "id": "prone", "text": "prone", "sym": "P", "color": "green", "condition": { "u_has_move_mode": "prone" } }
+    ]
+  },
+  {
+    "id": "move_mode_desc",
+    "type": "widget",
+    "label": "Mode",
+    "style": "text",
+    "copy-from": "move_mode_template",
+    "//": "Full move mode name walking/running/crouching/prone"
+  },
+  {
+    "id": "move_mode_letter",
+    "type": "widget",
+    "label": "Mode",
+    "style": "symbol",
+    "copy-from": "move_mode_template",
+    "//": "Single-letter W/R/C/P"
+  },
+  {
+    "id": "move_num",
+    "type": "widget",
+    "label": "Move count",
+    "var": "move",
+    "style": "number"
+  },
+  {
+    "id": "move_count_mode_desc",
+    "type": "widget",
+    "label": "Move",
+    "style": "text",
+    "var": "move_count_mode_text",
+    "//": "Colorized movement counter and mode letter, like 100(W), from display::move_count_and_mode_text_color"
+  },
+  {
+    "id": "move_cost_num",
+    "type": "widget",
+    "label": "Move cost",
+    "style": "number",
+    "var": "move_cost",
+    "colors": [ "c_green", "c_light_green", "c_yellow", "c_light_red", "c_red", "c_red_red" ],
+    "//": "Modified base move cost, from Character::run_cost"
+  }
+]

@@ -1,0 +1,70 @@
+[
+  {
+    "id": "nomad_bodyglove_1",
+    "type": "ARMOR",
+    "name": { "str": "nomad bodyglove" },
+    "description": "A simple, thin, skintight layer of breathable fabric that protects your skin.  It has integrated feet and precisely placed rubberized pads to protect critical points from impact and abrasion.",
+    "weight": "125 g",
+    "volume": "1 L",
+    "price": 2500,
+    "price_postapoc": 400,
+    "material": [ "lycra", "rubber" ],
+    "symbol": "[",
+    "looks_like": "union_suit",
+    "color": "white",
+    "armor": [
+      {
+        "material": [
+          { "type": "lycra", "covered_by_mat": 100, "thickness": 0.2 },
+          { "type": "rubber", "covered_by_mat": 80, "thickness": 0.8 }
+        ],
+        "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ],
+        "coverage": 100,
+        "encumbrance": 1,
+        "breathability": "GOOD"
+      },
+      {
+        "material": [ { "type": "lycra", "covered_by_mat": 100, "thickness": 0.2 } ],
+        "covers": [ "foot_l", "foot_r" ],
+        "coverage": 100,
+        "encumbrance": 1,
+        "breathability": "GOOD"
+      }
+    ],
+    "warmth": 1,
+    "material_thickness": 1,
+    "environmental_protection": 1,
+    "flags": [ "VARSIZE", "SKINTIGHT", "HOOD", "STURDY", "SOFT" ]
+  },
+  {
+    "id": "nomad_bodyglove_2",
+    "type": "ARMOR",
+    "name": { "str": "nomad bodymesh", "str_pl": "nomad bodymeshes" },
+    "description": "A simple, thin, skintight layer of breathable fabric that protects your skin.  It has integrated feet and precisely placed rubberized pads to protect critical points from impact and abrasion, and has been reinforced with a loose mesh of advanced polymer threads.",
+    "copy-from": "nomad_bodyglove_1",
+    "extend": { "material": [ "kevlar" ] },
+    "armor": [
+      {
+        "material": [
+          { "type": "lycra", "covered_by_mat": 100, "thickness": 0.2 },
+          { "type": "rubber", "covered_by_mat": 80, "thickness": 0.8 },
+          { "type": "kevlar", "covered_by_mat": 40, "thickness": 0.54 }
+        ],
+        "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ],
+        "coverage": 100,
+        "encumbrance": 1,
+        "breathability": "GOOD"
+      },
+      {
+        "material": [
+          { "type": "lycra", "covered_by_mat": 100, "thickness": 0.2 },
+          { "type": "kevlar", "covered_by_mat": 40, "thickness": 0.54 }
+        ],
+        "covers": [ "foot_l", "foot_r" ],
+        "coverage": 100,
+        "encumbrance": 1,
+        "breathability": "GOOD"
+      }
+    ]
+  }
+]

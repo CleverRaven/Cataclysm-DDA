@@ -1,0 +1,8 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "mx_lab_concourse_area_spawn",
+    "object": { "place_loot": [ { "group": "lanyard_YS_badge", "x": 4, "y": [ 5, 18 ], "chance": 100 } ] }
+  }
+]

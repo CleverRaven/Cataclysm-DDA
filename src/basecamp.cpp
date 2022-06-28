@@ -1,7 +1,9 @@
 #include "basecamp.h"
 
 #include <algorithm>
+#include <functional>
 #include <map>
+#include <new>
 #include <sstream>
 #include <string>
 #include <unordered_set>
@@ -13,15 +15,15 @@
 #include "character.h"
 #include "character_id.h"
 #include "clzones.h"
+#include "colony.h"
 #include "color.h"
-#include "compatibility.h"
 #include "debug.h"
 #include "faction_camp.h"
-#include "flat_set.h"
 #include "game.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_group.h"
+#include "itype.h"
 #include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
@@ -34,10 +36,11 @@
 #include "recipe_groups.h"
 #include "requirements.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "string_input_popup.h"
 #include "translations.h"
 #include "type_id.h"
+
+static const item_group_id Item_spawn_data_forest( "forest" );
 
 static const zone_type_id zone_type_CAMP_STORAGE( "CAMP_STORAGE" );
 
@@ -71,7 +74,7 @@ std::string base_camps::faction_encode_short( const std::string &type )
 
 std::string base_camps::faction_encode_abs( const expansion_data &e, int number )
 {
-    return faction_encode_short( e.type ) + to_string( number );
+    return faction_encode_short( e.type ) + std::to_string( number );
 }
 
 std::string base_camps::faction_decode( const std::string &full_type )
@@ -81,7 +84,7 @@ std::string base_camps::faction_decode( const std::string &full_type )
     }
     int last_bar = full_type.find_last_of( '_' );
 
-    return full_type.substr( prefix_len, last_bar - prefix_len );
+    return full_type.substr( prefix_len, size_t( last_bar - prefix_len ) );
 }
 
 time_duration base_camps::to_workdays( const time_duration &work_time )
@@ -101,7 +104,7 @@ int base_camps::max_upgrade_by_type( const std::string &type )
     if( max_upgrade_cache.find( type ) == max_upgrade_cache.end() ) {
         int max = -1;
         const std::string faction_base = faction_encode_short( type );
-        while( recipe_id( faction_base + to_string( max + 1 ) ).is_valid() ) {
+        while( recipe_id( faction_base + std::to_string( max + 1 ) ).is_valid() ) {
             max += 1;
         }
         max_upgrade_cache[type] = max;
@@ -143,8 +146,8 @@ expansion_data basecamp::parse_expansion( const std::string &terrain,
 {
     expansion_data e;
     int last_bar = terrain.find_last_of( '_' );
-    e.type = terrain.substr( base_camps::prefix_len, last_bar - base_camps::prefix_len );
-    e.cur_level = std::stoi( terrain.substr( last_bar + 1 ) );
+    e.type = terrain.substr( base_camps::prefix_len, size_t( last_bar - base_camps::prefix_len ) );
+    e.cur_level = std::stoi( terrain.substr( size_t( last_bar + 1 ) ) );
     e.pos = new_pos;
     return e;
 }
@@ -219,7 +222,7 @@ std::string basecamp::om_upgrade_description( const std::string &bldg, bool trun
 
     std::string comp;
     for( auto &elem : component_print_buffer ) {
-        comp = comp + elem + "\n";
+        str_append( comp, elem, "\n" );
     }
     comp = string_format( _( "Notes:\n%s\n\nSkills used: %s\n%s\n" ),
                           making.description, making.required_all_skills_string(), comp );
@@ -388,7 +391,7 @@ item_group_id basecamp::get_gatherlist() const
             return gatherlist;
         }
     }
-    return item_group_id( "forest" );
+    return Item_spawn_data_forest;
 }
 
 void basecamp::add_resource( const itype_id &camp_resource )
@@ -541,14 +544,54 @@ std::vector<npc_ptr> basecamp::get_npcs_assigned()
     return assigned_npcs;
 }
 
+void basecamp::hide_mission( ui_mission_id id )
+{
+    const base_camps::direction_data &base_data = base_camps::all_directions.at( id.id.dir.value() );
+    for( ui_mission_id &miss_id : hidden_missions[size_t( base_data.tab_order )] ) {
+        if( is_equal( miss_id, id ) ) {
+            return;
+        }  //  The UI shouldn't allow us to hide something already hidden, but check anyway.
+    }
+    hidden_missions[size_t( base_data.tab_order )].push_back( id );
+}
+
+void basecamp::reveal_mission( ui_mission_id id )
+{
+    const base_camps::direction_data &base_data = base_camps::all_directions.at( id.id.dir.value() );
+    for( auto it = hidden_missions[size_t( base_data.tab_order )].begin();
+         it != hidden_missions[size_t( base_data.tab_order )].end(); it++ ) {
+        if( is_equal( id.id, it->id ) ) {
+            hidden_missions[size_t( base_data.tab_order )].erase( it );
+            return;
+        }
+    }
+    debugmsg( "Trying to reveal revealed mission.  Has no effect." );
+}
+
+bool basecamp::is_hidden( ui_mission_id id )
+{
+    if( hidden_missions.empty() ) {
+        return false;
+    }
+
+    const base_camps::direction_data &base_data = base_camps::all_directions.at( id.id.dir.value() );
+    for( ui_mission_id &miss_id : hidden_missions[size_t( base_data.tab_order )] ) {
+        if( is_equal( miss_id, id ) ) {
+            return true;
+        }
+    }
+    return false;
+}
+
 // get the subset of companions working on a specific task
-comp_list basecamp::get_mission_workers( const std::string &mission_id, bool contains )
+comp_list basecamp::get_mission_workers( const mission_id &miss_id, bool contains )
 {
     comp_list available;
     for( const auto &elem : camp_workers ) {
         npc_companion_mission c_mission = elem->get_companion_mission();
-        if( ( c_mission.mission_id == mission_id ) ||
-            ( contains && c_mission.mission_id.find( mission_id ) != std::string::npos ) ) {
+        if( is_equal( c_mission.miss_id, miss_id ) ||
+            ( contains && c_mission.miss_id.id == miss_id.id &&
+              c_mission.miss_id.dir == miss_id.dir ) ) {
             available.push_back( elem );
         }
     }
@@ -557,7 +600,6 @@ comp_list basecamp::get_mission_workers( const std::string &mission_id, bool con
 
 void basecamp::query_new_name()
 {
-    std::string camp_name;
     string_input_popup popup;
     do {
         popup.title( _( "Name this camp" ) )
@@ -567,7 +609,7 @@ void basecamp::query_new_name()
         .query();
     } while( popup.canceled() || popup.text().empty() );
 
-    name = popup.text();;
+    name = popup.text();
 }
 
 void basecamp::set_name( const std::string &new_name )
@@ -604,15 +646,16 @@ std::list<item> basecamp::use_charges( const itype_id &fake_id, int &quantity )
 void basecamp::form_crafting_inventory( map &target_map )
 {
     _inv.clear();
-    const tripoint &dump_spot = get_dumping_spot();
+    const tripoint_abs_ms &dump_spot = get_dumping_spot();
     const tripoint &origin = target_map.getlocal( dump_spot );
     auto &mgr = zone_manager::get_manager();
     map &here = get_map();
-    if( here.check_vehicle_zones( here.get_abs_sub().z ) ) {
+    if( here.check_vehicle_zones( here.get_abs_sub().z() ) ) {
         mgr.cache_vzones();
     }
     if( mgr.has_near( zone_type_CAMP_STORAGE, dump_spot, 60 ) ) {
-        std::unordered_set<tripoint> src_set = mgr.get_near( zone_type_CAMP_STORAGE, dump_spot, 60 );
+        std::unordered_set<tripoint_abs_ms> src_set =
+            mgr.get_near( zone_type_CAMP_STORAGE, dump_spot, 60 );
         _inv.form_from_zone( target_map, src_set, nullptr, false );
     }
     /*
@@ -659,6 +702,16 @@ void basecamp::form_crafting_inventory( map &target_map )
         }
         _inv.add_item( camp_item );
     }
+
+    //  We're potentially adding the same item multiple times if present in multiple expansions,
+    //  but we're already that with the resources above. The resources are stored in expansions
+    //  rather than in a common pool to allow them to apply only to their respective expansion
+    //  in the future.
+    for( auto &expansion : expansions ) {
+        for( itype_id &it : expansion.second.available_pseudo_items ) {
+            _inv.add_item( item( it ) );
+        }
+    }
 }
 
 void basecamp::form_crafting_inventory()
@@ -689,6 +742,13 @@ std::string basecamp::expansion_tab( const point &dir ) const
         }
     }
     return _( "Empty Expansion" );
+}
+
+bool basecamp::point_within_camp( const tripoint_abs_omt &p ) const
+{
+    return std::any_of( expansions.begin(), expansions.end(), [ p ]( auto & e ) {
+        return p == e.second.pos;
+    } );
 }
 
 // legacy load and save

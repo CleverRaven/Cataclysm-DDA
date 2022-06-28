@@ -1,0 +1,14 @@
+[
+  {
+    "type": "mapgen",
+    "om_terrain": [ "faction_base_helipad_garage_0" ],
+    "method": "json",
+    "object": { "fill_ter": "t_dirt" }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "faction_base_helipad_garage_0",
+    "method": "json",
+    "object": { "set": [ { "point": "furniture", "id": "f_clear", "x": 0, "y": 0 } ] }
+  }
+]

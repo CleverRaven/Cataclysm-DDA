@@ -1,0 +1,22 @@
+[
+  {
+    "id": "zone_disassemble",
+    "type": "LOOT_ZONE",
+    "name": "Disassembly Work",
+    "description": "Items in this zone are marked for disassembly"
+  },
+  {
+    "id": "zone_strip",
+    "type": "LOOT_ZONE",
+    "name": "Loot: Strip Corpses",
+    "can_be_personal": true,
+    "description": "Corpses in this zone you don't otherwise sort will have everything taken off them and dropped on the same tile."
+  },
+  {
+    "id": "zone_unload_all",
+    "type": "LOOT_ZONE",
+    "name": "Loot: Unload Everything",
+    "can_be_personal": true,
+    "description": "Any containers in this zone you don't otherwise sort will have their contents dumped out and placed on the same tile.  This includes corpses, magazines, and magazine wells."
+  }
+]

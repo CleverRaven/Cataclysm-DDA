@@ -2,11 +2,10 @@
 #ifndef CATA_SRC_FACTION_CAMP_H
 #define CATA_SRC_FACTION_CAMP_H
 
-#include <string>
+#include <iosfwd>
 #include <utility>
 #include <vector>
 
-#include "basecamp.h"
 #include "coordinates.h"
 
 template <typename E> struct enum_traits;
@@ -18,7 +17,10 @@ class window;
 class npc;
 struct mission_entry;
 struct point;
-struct tripoint;
+namespace base_camps
+{
+enum tab_mode : int;
+} // namespace base_camps
 
 enum class farm_ops : int {
     plow = 1,
@@ -30,8 +32,6 @@ template<>
 struct enum_traits<farm_ops> {
     static constexpr bool is_flag_enum = true;
 };
-
-std::string get_mission_action_string( const std::string &input_mission );
 
 namespace talk_function
 {

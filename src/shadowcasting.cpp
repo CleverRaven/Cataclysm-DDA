@@ -1,11 +1,14 @@
 #include "shadowcasting.h"
 
-#include "cached_options.h"
+#include <cstdint>
+#include <cstdlib>
+#include <iterator>
+
 #include "cuboid_rectangle.h"
-#include "enums.h"
 #include "fragment_cloud.h" // IWYU pragma: keep
 #include "line.h"
 #include "list.h"
+#include "point.h"
 
 struct slope {
     slope( int_least8_t rise, int_least8_t run ) {
@@ -157,7 +160,7 @@ void cast_horizontal_zlight_segment(
 
     slope new_start_minor( 1, 1 );
 
-    T last_intensity = 0.0;
+    T last_intensity( 0.0 );
     tripoint delta;
     tripoint current;
 
@@ -168,14 +171,14 @@ void cast_horizontal_zlight_segment(
     cata::list<span<T>> spans = { {
             slope( 0, 1 ), slope( 1, 1 ),
             slope( 0, 1 ), slope( 1, 1 ),
-            LIGHT_TRANSPARENCY_OPEN_AIR
+            T( LIGHT_TRANSPARENCY_OPEN_AIR )
         }
     };
     // At each "depth", a.k.a. distance from the origin, we iterate once over the list of spans,
     // possibly splitting them.
     for( int distance = 1; distance <= radius; distance++ ) {
         delta.y = distance;
-        T current_transparency = 0.0f;
+        T current_transparency( 0.0f );
 
         for( auto this_span = spans.begin(); this_span != spans.end(); ) {
             bool started_block = false;
@@ -203,11 +206,13 @@ void cast_horizontal_zlight_segment(
                 if( current.z > max_z || current.z < min_z ) {
                     // Current tile is out of bounds, advance to the next tile.
                     continue;
-                } else if( this_span->start_major > leading_edge_major ) {
+                }
+                if( this_span->start_major > leading_edge_major ) {
                     // Current span has a higher z-value,
                     // jump to next iteration to catch up.
                     continue;
-                } else if( this_span->skip_first_row && this_span->start_major == leading_edge_major ) {
+                }
+                if( this_span->skip_first_row && this_span->start_major == leading_edge_major ) {
                     // Prevents an infinite loop in some cases after splitting off the D span.
                     // We don't want to recheck the row that just caused the D span to be split off,
                     // since that can lead to an identical span being split off again, hence the
@@ -216,7 +221,8 @@ void cast_horizontal_zlight_segment(
                     // This could also be accomplished by adding a small epsilon to the start_major
                     // of the D span but that causes artifacts.
                     continue;
-                } else if( this_span->end_major < trailing_edge_major ) {
+                }
+                if( this_span->end_major < trailing_edge_major ) {
                     // We've escaped the bounds of the current span we're considering,
                     // So continue to the next span.
                     break;
@@ -234,10 +240,12 @@ void cast_horizontal_zlight_segment(
                     if( !bounds.contains( current.xy() ) ) {
                         // Current tile is out of bounds, advance to the next tile.
                         continue;
-                    } else if( this_span->start_minor > leading_edge_minor ) {
+                    }
+                    if( this_span->start_minor > leading_edge_minor ) {
                         // Current tile comes before the span we're considering, advance to the next tile.
                         continue;
-                    } else if( this_span->end_minor < trailing_edge_minor ) {
+                    }
+                    if( this_span->end_minor < trailing_edge_minor ) {
                         // Current tile is after the span we're considering, continue to next row.
                         break;
                     }
@@ -301,15 +309,16 @@ void cast_horizontal_zlight_segment(
                 }
             }
 
-            if( !started_block ) {
-                // If we didn't scan at least 1 z-level, don't iterate further
+            if( // If we didn't scan at least 1 z-level, don't iterate further
                 // Otherwise we may "phase" through tiles without checking them or waste time
                 // checking spans that are out of bounds.
-                this_span = spans.erase( this_span );
-            } else if( !is_transparent( current_transparency, last_intensity ) ) {
-                // If we reach the end of the span with terrain being opaque, we don't iterate further.
+                !started_block ||
+                // If we reach the end of the span with terrain being opaque, we don't iterate
+                // further.
                 // This means that any encountered transparent tiles from the current span have been
                 // split off into new spans
+                !is_transparent( current_transparency, last_intensity )
+            ) {
                 this_span = spans.erase( this_span );
             } else {
                 // Cumulative average of the values encountered.
@@ -339,7 +348,7 @@ void cast_vertical_zlight_segment(
 
     slope new_start_minor( 1, 1 );
 
-    T last_intensity = 0.0;
+    T last_intensity( 0.0 );
     tripoint delta;
     tripoint current;
 
@@ -350,14 +359,14 @@ void cast_vertical_zlight_segment(
     cata::list<span<T>> spans = { {
             slope( 0, 1 ), slope( 1, 1 ),
             slope( 0, 1 ), slope( 1, 1 ),
-            LIGHT_TRANSPARENCY_OPEN_AIR
+            T( LIGHT_TRANSPARENCY_OPEN_AIR )
         }
     };
     // At each "depth", a.k.a. distance from the origin, we iterate once over the list of spans,
     // possibly splitting them.
     for( int distance = 1; distance <= radius; distance++ ) {
         delta.z = distance;
-        T current_transparency = 0.0f;
+        T current_transparency( 0.0f );
 
         for( auto this_span = spans.begin(); this_span != spans.end(); ) {
             bool started_block = false;
@@ -369,11 +378,13 @@ void cast_vertical_zlight_segment(
                 if( current.y < 0 || current.y >= MAPSIZE_Y ) {
                     // Current tile is out of bounds, advance to the next tile.
                     continue;
-                } else if( this_span->start_major > leading_edge_major ) {
+                }
+                if( this_span->start_major > leading_edge_major ) {
                     // Current span has a higher z-value,
                     // jump to next iteration to catch up.
                     continue;
-                } else if( this_span->skip_first_row && this_span->start_major == leading_edge_major ) {
+                }
+                if( this_span->skip_first_row && this_span->start_major == leading_edge_major ) {
                     // Prevents an infinite loop in some cases after splitting off the D span.
                     // We don't want to recheck the row that just caused the D span to be split off,
                     // since that can lead to an identical span being split off again, hence the
@@ -382,7 +393,8 @@ void cast_vertical_zlight_segment(
                     // This could also be accomplished by adding a small epsilon to the start_major
                     // of the D span but that causes artifacts.
                     continue;
-                } else if( this_span->end_major < trailing_edge_major ) {
+                }
+                if( this_span->end_major < trailing_edge_major ) {
                     // We've escaped the bounds of the current span we're considering,
                     // So continue to the next span.
                     break;
@@ -400,10 +412,12 @@ void cast_vertical_zlight_segment(
                         current.z > max_z || current.z < min_z ) {
                         // Current tile is out of bounds, advance to the next tile.
                         continue;
-                    } else if( this_span->start_minor > leading_edge_minor ) {
+                    }
+                    if( this_span->start_minor > leading_edge_minor ) {
                         // Current tile comes before the span we're considering, advance to the next tile.
                         continue;
-                    } else if( this_span->end_minor < trailing_edge_minor ) {
+                    }
+                    if( this_span->end_minor < trailing_edge_minor ) {
                         // Current tile is after the span we're considering, continue to next row.
                         break;
                     }
@@ -467,15 +481,16 @@ void cast_vertical_zlight_segment(
                 }
             }
 
-            if( !started_block ) {
-                // If we didn't scan at least 1 z-level, don't iterate further
+            if( // If we didn't scan at least 1 z-level, don't iterate further
                 // Otherwise we may "phase" through tiles without checking them or waste time
                 // checking spans that are out of bounds.
-                this_span = spans.erase( this_span );
-            } else if( !is_transparent( current_transparency, last_intensity ) ) {
-                // If we reach the end of the span with terrain being opaque, we don't iterate further.
+                !started_block ||
+                // If we reach the end of the span with terrain being opaque, we don't iterate
+                // further.
                 // This means that any encountered transparent tiles from the current span have been
                 // split off into new spans
+                !is_transparent( current_transparency, last_intensity )
+            ) {
                 this_span = spans.erase( this_span );
             } else {
                 // Cumulative average of the values encountered.

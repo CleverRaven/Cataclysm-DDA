@@ -3,7 +3,7 @@
     "type": "palette",
     "id": "collapsed_tower",
     "terrain": {
-      "#": "t_rock",
+      "#": "t_soil",
       "+": "t_door_c",
       "-": "t_wall",
       ".": "t_region_groundcover_urban",

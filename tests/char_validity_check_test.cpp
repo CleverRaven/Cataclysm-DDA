@@ -1,4 +1,4 @@
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "char_validity_check.h"
 
 TEST_CASE( "char_validity_check" )
@@ -8,7 +8,6 @@ TEST_CASE( "char_validity_check" )
     CHECK( is_char_allowed( '\t' ) == false );
     CHECK( is_char_allowed( '\n' ) == false );
     CHECK( is_char_allowed( '\r' ) == false );
-    CHECK( is_char_allowed( '\xa0' ) == false );
     CHECK( is_char_allowed( '\\' ) == false );
     CHECK( is_char_allowed( '/' ) == false );
     CHECK( is_char_allowed( ' ' ) == true );

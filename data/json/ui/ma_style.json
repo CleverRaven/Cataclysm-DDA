@@ -1,0 +1,15 @@
+[
+  {
+    "id": "style_desc",
+    "type": "widget",
+    "label": "Style",
+    "style": "text",
+    "var": "style_text"
+  },
+  {
+    "id": "style_desc_no_label",
+    "type": "widget",
+    "copy-from": "style_desc",
+    "flags": [ "W_LABEL_NONE" ]
+  }
+]

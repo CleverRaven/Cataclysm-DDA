@@ -6,7 +6,6 @@
 #include "generic_factory.h"
 #include "json.h"
 #include "requirements.h"
-#include "string_id.h"
 #include "translations.h"
 
 static std::map<fault_id, fault> faults_all;
@@ -71,7 +70,7 @@ void fault::load_fault( const JsonObject &jo )
     optional( jo, false, "flags", f.flags );
 
     if( faults_all.find( f.id_ ) != faults_all.end() ) {
-        jo.throw_error( "parsed fault overwrites existing definition", "id" );
+        jo.throw_error_at( "id", "parsed fault overwrites existing definition" );
     } else {
         faults_all[f.id_] = f;
     }

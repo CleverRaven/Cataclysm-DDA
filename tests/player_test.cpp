@@ -1,8 +1,9 @@
-#include "catch/catch.hpp"
-
 #include <array>
-#include <string>
+#include <functional>
+#include <iosfwd>
 
+#include "calendar.h"
+#include "cata_catch.h"
 #include "character.h"
 #include "item.h"
 #include "type_id.h"

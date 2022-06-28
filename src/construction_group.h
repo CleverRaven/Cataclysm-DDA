@@ -2,7 +2,8 @@
 #ifndef CATA_SRC_CONSTRUCTION_GROUP_H
 #define CATA_SRC_CONSTRUCTION_GROUP_H
 
-#include <string>
+#include <cstddef>
+#include <iosfwd>
 #include <vector>
 
 #include "translations.h"
@@ -14,6 +15,7 @@ struct construction_group {
         void load( const JsonObject &jo, const std::string &src );
 
         construction_group_str_id id;
+        std::vector<std::pair<construction_group_str_id, mod_id>> src;
         bool was_loaded = false;
 
         std::string name() const;

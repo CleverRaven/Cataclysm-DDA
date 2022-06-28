@@ -1,0 +1,42 @@
+[
+  {
+    "type": "body_graph",
+    "id": "full_body",
+    "fill_sym": "#",
+    "fill_color": "white",
+    "rows": [
+      "                  111                   ",
+      "                 11111                  ",
+      "                  111                   ",
+      "                 22222                  ",
+      "              32222222225               ",
+      "             3322222222255              ",
+      "             33 2222222 55              ",
+      "             33 2222222 55              ",
+      "            33  2222222  55             ",
+      "            3  777222999  5             ",
+      "           44  7777 9999  66            ",
+      "           44  7777 9999  66            ",
+      "               7777 9999                ",
+      "                77   99                 ",
+      "               777   999                ",
+      "               777   999                ",
+      "                77   99                 ",
+      "                77   99                 ",
+      "                8     0                 ",
+      "               88     00                "
+    ],
+    "parts": {
+      "1": { "body_parts": [ "head" ], "select_color": "red", "nested_graph": "head" },
+      "2": { "body_parts": [ "torso" ], "select_color": "red", "nested_graph": "torso" },
+      "3": { "body_parts": [ "arm_r" ], "select_color": "red", "nested_graph": "arm_r" },
+      "4": { "body_parts": [ "hand_r" ], "select_color": "red", "nested_graph": "hand_r" },
+      "5": { "body_parts": [ "arm_l" ], "select_color": "red", "nested_graph": "arm_l" },
+      "6": { "body_parts": [ "hand_l" ], "select_color": "red", "nested_graph": "hand_l" },
+      "7": { "body_parts": [ "leg_r" ], "select_color": "red", "nested_graph": "leg_r" },
+      "8": { "body_parts": [ "foot_r" ], "select_color": "red", "nested_graph": "foot_r" },
+      "9": { "body_parts": [ "leg_l" ], "select_color": "red", "nested_graph": "leg_l" },
+      "0": { "body_parts": [ "foot_l" ], "select_color": "red", "nested_graph": "foot_l" }
+    }
+  }
+]

@@ -1,0 +1,51 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "house_rv" ],
+    "weight": 30000,
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        ".%~~~~~~~~p.%%%..---....",
+        ".%~~~~~~~~.####oo#*####.",
+        ".%~~~~~~~~.#RRR  L   E#.",
+        ".%~~~~~~~~.#         s#.",
+        ".%~~~~~~~~.# ll      E#.",
+        ".%~~~~~~~~.#HHHH     T#.",
+        ".%~~~~~~~~.#          #.",
+        ".%~~~~~~~~.#L    hhh  o.",
+        "..~~~~~~~~~*     fff  o.",
+        "..~~~~~~~~.#     hhh  o.",
+        "..~~~~~~~~.#          o.",
+        "..~~~~~~~~^#     AAA y#.",
+        ".########### ||| JJJ||#.",
+        ".#BBy      + |66    7Fo.",
+        ".o     || || |Y      5o.",
+        ".#S88Yt|Q U|     43O21o.",
+        ".#|||||||||| ||+||||||#.",
+        ".#d   b  +D| |zz666666#.",
+        ".#@@    y||| |z      z#.",
+        ".#@@       + +  UUUUUU#.",
+        ".#s       h|+|      A #.",
+        ".#  TEy  II|>|gzqqqNNN#.",
+        ".####oo#####o##########.",
+        ".....................^.."
+      ],
+      "palettes": [ "standard_domestic_palette" ],
+      "terrain": {
+        "%": [ "t_region_shrub", "t_region_shrub_fruit", "t_region_shrub_decorative" ],
+        "G": "t_concrete",
+        "K": "t_concrete",
+        "~": "t_concrete",
+        "j": "t_concrete"
+      },
+      "place_loot": [
+        { "group": "guns_pistol_common", "x": 2, "y": 17, "chance": 5, "ammo": 20, "magazine": 20 },
+        { "group": "camping", "x": [ 16, 19 ], "y": 19, "chance": 20, "repeat": [ 1, 4 ] }
+      ],
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 2, 21 ], "y": [ 2, 21 ], "chance": 2 } ],
+      "place_vehicles": [ { "vehicle": "rv", "x": 5, "y": 4, "chance": 5, "rotation": 270, "status": 1 } ]
+    }
+  }
+]

@@ -1,6 +1,8 @@
 #include "scores_ui.h"
 
 #include <algorithm>
+#include <functional>
+#include <iosfwd>
 #include <iterator>
 #include <string>
 #include <tuple>
@@ -13,6 +15,7 @@
 #include "cursesdef.h"
 #include "event_statistics.h"
 #include "input.h"
+#include "localized_comparator.h"
 #include "kill_tracker.h"
 #include "output.h"
 #include "point.h"
@@ -51,10 +54,14 @@ static std::string get_achievements_text( const achievements_tracker &achievemen
         return std::make_tuple( comp, ach->name().translated(), ach );
     } );
     std::sort( sortable_achievements.begin(), sortable_achievements.end(), localized_compare );
-    char ch = string_from_int( LINE_OXOX ).at( 0 );
+    std::string horizontal_line;
+    horizontal_line.reserve( std::string( LINE_OXOX_S ).length() * width );
+    for( int i = 0; i < width; i++ ) {
+        horizontal_line.append( LINE_OXOX_S );
+    }
     for( const sortable_achievement &ach : sortable_achievements ) {
         os += achievements.ui_text_for( std::get<const achievement *>( ach ) );
-        os += colorize( std::string( width, ch ), c_magenta );
+        os += colorize( horizontal_line, c_magenta );
     }
     if( valid_achievements.empty() ) {
         os += string_format( _( "This game has no valid %s.\n" ), thing_name );
@@ -102,6 +109,9 @@ void show_scores_ui( const achievements_tracker &achievements, stats_tracker &st
     ctxt.register_action( "PREV_TAB" );
     ctxt.register_action( "NEXT_TAB" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
+    // mouse input
+    ctxt.register_action( "SCROLL_UP" );
+    ctxt.register_action( "SCROLL_DOWN" );
 
     catacurses::window w_view;
     scrolling_text_view view( w_view );
@@ -150,8 +160,7 @@ void show_scores_ui( const achievements_tracker &achievements, stats_tracker &st
                     view.set_text( kills.get_kills_text() );
                     break;
                 case tab_mode::num_tabs:
-                    // NOLINTNEXTLINE(misc-static-assert,cert-dcl03-c)
-                    cata_assert( false );
+                    cata_fatal( "Invalid tab" );
                     break;
             }
         }
@@ -171,9 +180,9 @@ void show_scores_ui( const achievements_tracker &achievements, stats_tracker &st
                 tab = static_cast<tab_mode>( static_cast<int>( tab_mode::num_tabs ) - 1 );
             }
             new_tab = true;
-        } else if( action == "DOWN" ) {
+        } else if( action == "DOWN" || action == "SCROLL_DOWN" ) {
             view.scroll_down();
-        } else if( action == "UP" ) {
+        } else if( action == "UP" || action == "SCROLL_UP" ) {
             view.scroll_up();
         } else if( action == "PAGE_DOWN" ) {
             view.page_down();

@@ -91,9 +91,9 @@ catacurses::window catacurses::newwin( int nlines, int ncols, const point &begin
         newwindow->line[j].chars.resize( ncols );
         newwindow->line[j].touched = true; //Touch them all !?
     }
-    return std::shared_ptr<void>( newwindow, []( void *const w ) {
+    return catacurses::window( std::shared_ptr<void>( newwindow, []( void *const w ) {
         delete static_cast<cata_cursesport::WINDOW *>( w );
-    } );
+    } ) );
 }
 
 static inline int newline( cata_cursesport::WINDOW *win )
@@ -233,7 +233,8 @@ static inline int fill( const char *&fmt, int &len, std::string &target )
         if( cw > 0 && dlen > 0 ) {
             // Stop at the *second* non-zero-width character
             break;
-        } else if( cw == -1 && start == fmt ) {
+        }
+        if( cw == -1 && start == fmt ) {
             // First char is a control character: they only disturb the screen,
             // so replace it with a single space (e.g. instead of a '\t').
             // Newlines at the begin of a sequence are handled in printstring
@@ -507,7 +508,7 @@ void catacurses::wattron( const window &win_, const nc_color &attrs )
     }
 }
 
-void catacurses::wattroff( const window &win_, int )
+void catacurses::wattroff( const window &win_, nc_color )
 {
     cata_cursesport::WINDOW *const win = win_.get<cata_cursesport::WINDOW>();
     if( win == nullptr ) {

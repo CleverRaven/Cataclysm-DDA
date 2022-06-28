@@ -1,0 +1,599 @@
+[
+  {
+    "type": "palette",
+    "id": "lab_common_palette",
+    "toilets": { "t": {  } },
+    "liquids": { "g": { "liquid": "water_clean", "amount": [ 0, 100 ] } },
+    "terrain": {
+      "‡": "t_railroad_track_small_d",
+      "Ŧ": "t_railroad_track_small",
+      "$": "t_secretdoor_concrete_c",
+      "⁴": "t_conveyor",
+      "⁵": "t_sai_box",
+      "⁶": "t_gates_control_metal_lab",
+      "⁷": "t_reinforced_glass",
+      "⁸": "t_door_glass_frosted_lab_c",
+      "⁹": "t_door_glass_lab_c",
+      ")": "t_door_glass_c",
+      "]": "t_wall_glass",
+      "+": "t_door_lab_c",
+      "-": "t_reinforced_door_glass_lab_c",
+      "*": "t_vat",
+      "#": "t_door_metal_lab_c",
+      "=": "t_door_metal_locked",
+      "&": "t_gates_control_concrete_lab",
+      "X": "t_laminated_glass",
+      ":": "t_ballistic_glass",
+      "|": "t_concrete_wall",
+      "¢": "t_bars",
+      "ȣ": "t_door_bar_locked",
+      "?": "t_rock",
+      "~": "t_open_air_rooved",
+      "ƨ": "t_water_pool_shallow",
+      "%": "t_glass_railing",
+      "ɱ": "t_console_broken",
+      "¥": "t_card_science",
+      "±": "t_metal_ventilation_shutter",
+      "ʔ": "t_reinforced_glass_shutter",
+      "^": "t_grate",
+      "`": "t_metal_floor",
+      ",": "t_linoleum_gray",
+      "i": "t_linoleum_gray",
+      ".": "t_linoleum_white",
+      ";": "t_strconc_floor",
+      "_": "t_thconc_floor",
+      "¶": "t_carpet_concrete_yellow",
+      "ꞝ": "t_carpet_concrete_green",
+      "£": "t_thconc_y",
+      "ß": "t_thconc_r",
+      "<": "t_stairs_up",
+      ">": "t_stairs_down",
+      "ի": "t_chaingate_c",
+      "ն": "t_chainfence",
+      "è": "t_thconc_floor_olight",
+      "ä": "t_thconc_y_olight",
+      "é": "t_strconc_floor_olight",
+      "ê": "t_linoleum_gray_floor_olight",
+      "ë": "t_linoleum_whitefloor_olight",
+      "î": "t_metal_floor_olight",
+      "♥": "t_ramp_down_high",
+      "♠": "t_ramp_down_low",
+      "♦": "t_ramp_up_high",
+      "♣": "t_ramp_up_low"
+    },
+    "furniture": {
+      "a": "f_sample_freezer",
+      "b": "f_scan_bed",
+      "c": "f_lab_bench",
+      "d": "f_fume_hood",
+      "e": "f_centrifuge",
+      "f": "f_table",
+      "g": "f_water_heater",
+      "h": "f_chair",
+      "i": "f_bench",
+      "j": "f_bench",
+      "k": "f_autoclave",
+      "l": "f_shaker",
+      "m": "f_glass_fridge",
+      "n": "f_eyewash",
+      "o": "f_IV_pole",
+      "p": "f_curtain",
+      "q": "f_rack",
+      "r": "f_desk",
+      "s": "f_table",
+      "u": "f_air_conditioner",
+      "v": "f_air_filter",
+      "w": "f_rack_wood",
+      "x": "f_entertainment_center",
+      "y": [ "f_indoor_plant", "f_indoor_plant_y" ],
+      "z": "f_cardboard_box",
+      "A": "f_stool",
+      "C": "f_cupboard",
+      "E": "f_armchair",
+      "F": "f_fridge",
+      "H": "f_sofa",
+      "I": "f_desk",
+      "J": "f_counter",
+      "L": "f_locker",
+      "M": "f_displaycase",
+      "N": "f_workbench",
+      "P": "f_filing_cabinet",
+      "Q": "f_rack",
+      "R": "f_bookcase",
+      "S": "f_sink",
+      "T": "f_floor_lamp",
+      "U": "f_utility_shelf",
+      "V": "f_glass_cabinet",
+      "Y": "f_trashcan",
+      "8": "f_counter",
+      "9": "f_shower",
+      "@": "f_bed",
+      "∞": "f_foot_locker",
+      "ɤ": "f_counter_gate_c"
+    },
+    "items": {
+      "Y": [ { "item": "trash", "chance": 20, "repeat": [ 1, 3 ] } ],
+      "P": [ { "item": "file_room", "chance": 100, "repeat": [ 3, 4 ] }, { "item": "low_level_badges_mutagen", "chance": 10 } ],
+      "8": [
+        { "item": "SUS_hair_drawer", "chance": 10 },
+        { "item": "SUS_bathroom_cabinet", "chance": 20 },
+        { "item": "SUS_bathroom_medicine", "chance": 20 },
+        { "item": "harddrugs", "chance": 2 }
+      ]
+    }
+  },
+  {
+    "type": "palette",
+    "id": "lab_residential_palette",
+    "//": "Intended as a palette for residential areas in labs.",
+    "furniture": {
+      "a": "f_fireplace",
+      "b": "f_bigmirror",
+      "c": "f_statue",
+      "d": "f_dresser",
+      "e": "f_pool_table",
+      "k": "f_woodstove",
+      "l": "f_coffee_table",
+      "n": "f_dishwasher",
+      "v": [ "f_gun_safe_el", "f_safe_l" ],
+      "B": "f_bathtub",
+      "D": "f_wardrobe",
+      "G": "f_camp_chair",
+      "K": "f_tourist_table",
+      "O": "f_oven",
+      "W": "f_washer",
+      "Z": "f_dryer",
+      "1": "f_cupboard",
+      "2": "f_cupboard",
+      "3": "f_cupboard",
+      "4": "f_cupboard",
+      "5": "f_sink",
+      "6": "f_rack_wood",
+      "7": "f_cupboard",
+      "₸": "f_deckchair",
+      "≠": "f_chest",
+      "Ø": "f_pinball_machine",
+      "Æ": "f_arcade_machine",
+      "ʭ": "f_ladder"
+    },
+    "terrain": { "a": "t_strconc_floor", ":": "t_wall_glass" },
+    "sealed_item": { "ե": { "item": { "item": "seed_rose" }, "furniture": "f_planter_harvest" } },
+    "items": {
+      "a": { "item": "fireplace_fill", "chance": 30, "repeat": [ 2, 5 ] },
+      "d": [
+        { "item": "SUS_dresser_mens", "chance": 50, "repeat": [ 1, 2 ] },
+        { "item": "SUS_dresser_womens", "chance": 50, "repeat": [ 1, 2 ] }
+      ],
+      "e": { "item": "pool_table", "chance": 30, "repeat": [ 1, 2 ] },
+      "f": [
+        { "item": "dishes_dining", "chance": 30 },
+        { "item": "tea_dishes", "chance": 10, "repeat": [ 1, 2 ] },
+        { "item": "baked_goods", "chance": 5 },
+        { "item": "groce_condiment", "chance": 10, "repeat": [ 1, 2 ] },
+        { "item": "dining", "chance": 10 }
+      ],
+      "k": { "item": "stash_wood", "chance": 30, "repeat": [ 2, 5 ] },
+      "l": [
+        { "item": "elecsto_persele", "chance": 10, "repeat": [ 1, 3 ] },
+        { "item": "livingroom", "chance": 10, "repeat": [ 1, 3 ] }
+      ],
+      "s": [
+        { "item": "consumer_electronics", "chance": 10, "repeat": [ 1, 3 ] },
+        { "item": "livingroom", "chance": 10, "repeat": [ 1, 3 ] }
+      ],
+      "n": { "item": "SUS_dishwasher", "chance": 70 },
+      "p": { "item": "mail", "chance": 30, "repeat": [ 2, 5 ] },
+      "q": [
+        { "item": "tools_home", "chance": 40 },
+        { "item": "cleaning", "chance": 30, "repeat": [ 1, 2 ] },
+        { "item": "mechanics", "chance": 1, "repeat": [ 1, 2 ] },
+        { "item": "camping", "chance": 10 },
+        { "item": "tools_survival", "chance": 5, "repeat": [ 1, 2 ] }
+      ],
+      "r": [ { "item": "office_paper", "chance": 5 }, { "item": "office", "chance": 25 } ],
+      "t": { "item": "SUS_toilet", "chance": 10, "repeat": [ 1, 3 ] },
+      "v": [
+        { "item": "art", "chance": 5 },
+        { "item": "home_display_case", "chance": 30 },
+        { "item": "harddrugs", "chance": 10, "repeat": [ 1, 2 ] },
+        { "item": "maps", "chance": 2 },
+        { "item": "guns_pistol_common", "chance": 50, "ammo": 90, "magazine": 100 },
+        { "item": "gemstones", "chance": 30, "repeat": [ 1, 2 ] }
+      ],
+      "x": { "item": "consumer_electronics", "chance": 10, "repeat": [ 1, 3 ] },
+      "B": { "item": "shower", "chance": 10, "repeat": [ 1, 2 ] },
+      "D": [
+        { "item": "SUS_wardrobe_mens", "chance": 50, "repeat": [ 1, 2 ] },
+        { "item": "SUS_wardrobe_womens", "chance": 50, "repeat": [ 1, 2 ] }
+      ],
+      "F": { "item": "SUS_fridge", "chance": 100 },
+      "I": [ { "item": "SUS_desks_bedroom_unisex", "chance": 5 }, { "item": "office", "chance": 25 } ],
+      "J": { "item": "kitchen_counters", "chance": 5 },
+      "L": { "item": "unisex_coat_rack", "chance": 30, "repeat": [ 1, 4 ] },
+      "M": { "item": "home_display_case", "chance": 70 },
+      "N": [
+        { "item": "tools_common", "chance": 20, "repeat": [ 1, 2 ] },
+        { "item": "hardware", "chance": 30, "repeat": [ 1, 2 ] },
+        { "item": "cleaning", "chance": 10, "repeat": [ 1, 2 ] }
+      ],
+      "O": { "item": "SUS_oven", "chance": 100 },
+      "Q": [
+        { "item": "shower", "chance": 20 },
+        { "item": "cleaning", "chance": 30, "repeat": [ 1, 2 ] },
+        { "item": "bed", "chance": 30, "repeat": [ 1, 2 ] }
+      ],
+      "R": [ { "item": "homebooks", "chance": 40, "repeat": [ 1, 4 ] }, { "item": "games", "chance": 20, "repeat": [ 1, 2 ] } ],
+      "S": [ { "item": "SUS_bathroom_sink", "chance": 80 }, { "item": "SUS_bathroom_medicine", "chance": 60 } ],
+      "U": [
+        { "item": "home_hw", "chance": 20, "repeat": [ 1, 2 ] },
+        { "item": "cleaning", "chance": 40, "repeat": [ 1, 2 ] },
+        { "item": "camping", "chance": 5, "repeat": [ 1, 2 ] }
+      ],
+      "V": { "item": "home_display_case", "chance": 50 },
+      "Y": { "item": "trash", "chance": 30, "repeat": [ 1, 4 ] },
+      "1": [ { "item": "SUS_dishes", "chance": 100 }, { "item": "SUS_silverware", "chance": 100 } ],
+      "2": { "item": "SUS_cookware", "chance": 100 },
+      "3": [ { "item": "SUS_utensils", "chance": 50 }, { "item": "SUS_knife_drawer", "chance": 50 } ],
+      "4": { "item": "SUS_junk_drawer", "chance": 100 },
+      "5": { "item": "SUS_kitchen_sink", "chance": 100 },
+      "6": [ { "item": "SUS_pantry", "chance": 25 }, { "item": "cannedfood", "chance": 20, "repeat": [ 1, 2 ] } ],
+      "7": [ { "item": "SUS_breakfast_cupboard", "chance": 30 }, { "item": "SUS_coffee_cupboard", "chance": 50 } ],
+      "9": { "item": "shower", "chance": 30, "repeat": [ 1, 2 ] },
+      "@": { "item": "bed", "chance": 50 },
+      "Z": { "item": "laundry", "chance": 100 },
+      "W": { "item": "laundry", "chance": 50 },
+      "z": [
+        { "item": "allsporting", "chance": 40, "repeat": [ 1, 2 ] },
+        { "item": "chem_home", "chance": 50, "repeat": [ 1, 2 ] },
+        { "item": "child_items", "chance": 30, "repeat": [ 1, 2 ] },
+        { "item": "stash_drugs", "chance": 1 },
+        { "item": "maps", "chance": 7 }
+      ],
+      "≠": [
+        { "item": "toy_box", "chance": 80, "repeat": [ 1, 2 ] },
+        { "item": "toy_store", "chance": 60, "repeat": [ 1, 2 ] },
+        { "item": "games", "chance": 10, "repeat": [ 1, 2 ] },
+        { "item": "allsporting", "chance": 5 }
+      ]
+    }
+  },
+  {
+    "type": "palette",
+    "id": "lab_maintenance_palette",
+    "//": "for maintenance areas of labs.",
+    "liquids": { "ɜ": { "liquid": "water_clean", "amount": [ 0, 100 ] } },
+    "terrain": { ";": "t_thconc_floor", "1": "t_elevator_control_off", "2": "t_elevator", "7": "t_sewage_pump", "0": "t_sewage_pipe" },
+    "furniture": {
+      "ƃ": "f_warehouse_shelf",
+      "W": "f_generator_broken",
+      "Z": "f_control_station",
+      "₸": "f_machinery_electronic",
+      "≠": "f_foot_locker",
+      "Ø": "f_server",
+      "ɜ": "f_standing_tank",
+      "Æ": "f_55gal_firebarrel",
+      "ʉ": "f_arcfurnace_empty",
+      "ʋ": "f_drill_press",
+      "ã": "f_hydraulic_press",
+      "ʍ": "f_air_compressor",
+      "ʭ": "f_ladder",
+      "5": "f_water_purifier",
+      "6": "f_machinery_heavy",
+      "Ö": "f_machinery_light",
+      "3": "f_vending_c",
+      "4": "f_vending_c"
+    },
+    "items": {
+      "3": { "item": "vending_food", "chance": 90 },
+      "4": { "item": "vending_drink", "chance": 90 },
+      "Q": { "item": "gas_charging_rack", "chance": 30 },
+      "J": [ { "item": "mechanics", "chance": 30 } ]
+    },
+    "sealed_item": { "]": { "item": { "item": "seed_rose" }, "furniture": "f_planter_harvest" } }
+  },
+  {
+    "type": "palette",
+    "id": "lab_security_palette",
+    "//": "for security/police areas of labs.",
+    "terrain": {
+      ";": "t_thconc_floor",
+      "⁴": "t_strconc_floor",
+      "_": "t_pavement",
+      "7": "t_reinforced_glass_shutter",
+      "1": "t_elevator_control_off",
+      "2": "t_elevator"
+    },
+    "furniture": {
+      "W": "f_generator_broken",
+      "Z": "f_control_station",
+      "₸": "f_machinery_electronic",
+      "≠": "f_foot_locker",
+      "L": "f_locker",
+      "Ø": "f_pinball_machine",
+      "Æ": "f_arcade_machine",
+      "ʭ": "f_ladder",
+      "ʉ": "f_sandbag_wall",
+      "ʋ": "f_sandbag_half",
+      "5": "f_target",
+      "3": "f_vending_c",
+      "4": "f_vending_c"
+    },
+    "monster": {
+      "0": { "monster": "mon_turret_rifle", "spawn_data": { "ammo": [ { "ammo_id": "556", "qty": [ 30, 90 ] } ] } },
+      "ɜ": { "monster": "mon_turret_rifle", "spawn_data": { "ammo": [ { "ammo_id": "556", "qty": [ 30, 90 ] } ] } },
+      "ɛ": { "monster": "mon_turret_rifle", "spawn_data": { "ammo": [ { "ammo_id": "556", "qty": [ 30, 90 ] } ] } }
+    },
+    "items": {
+      "3": { "item": "vending_food", "chance": 90 },
+      "4": { "item": "vending_drink", "chance": 90 },
+      "P": { "item": "lab_files_security", "chance": 50 },
+      "U": [
+        { "item": "home_hw", "chance": 10, "repeat": [ 1, 2 ] },
+        { "item": "drugs_emergency", "chance": 30, "repeat": [ 1, 2 ] },
+        { "item": "cleaning", "chance": 40, "repeat": [ 1, 2 ] }
+      ],
+      "∞": [
+        { "item": "clothing_soldier_set_pristine", "chance": 100 },
+        { "item": "gear_soldier_sidearm", "chance": 33 },
+        { "item": "book_military", "chance": 33 }
+      ]
+    }
+  },
+  {
+    "type": "palette",
+    "id": "lab_mutagen_palette",
+    "//": "for mutagen research areas of labs.",
+    "palettes": [ "lab_common_palette" ],
+    "furniture": {
+      "W": "f_generator_broken",
+      "Z": "f_control_station",
+      "₸": "f_machinery_electronic",
+      "1": "f_CTscan",
+      "2": "f_MRI",
+      "3": "f_electron_microscope",
+      "4": "f_dialysis",
+      "5": "f_ventilator",
+      "7": "f_anesthetic",
+      "8": "f_GC",
+      "9": "f_MS",
+      "0": "f_NMR"
+    },
+    "sealed_item": { "л": { "item": { "item": "seed_rose" }, "furniture": "f_planter_harvest" } },
+    "items": {
+      "a": [
+        { "item": "mutagens", "chance": 5 },
+        { "item": "virology_lab_fridge", "chance": 30 },
+        { "item": "supplies_samples_lab", "chance": 30 },
+        { "item": "fridgesnacks", "chance": 15 },
+        { "item": "cloning_vat", "chance": 10 }
+      ],
+      "b": { "item": "hospital_bed", "chance": 20 },
+      "c": [
+        { "item": "hospital_lab", "chance": 50, "repeat": [ 1, 2 ] },
+        { "item": "chem_lab", "chance": 50, "repeat": [ 1, 2 ] }
+      ],
+      "d": [ { "item": "tools_science", "chance": 50, "repeat": [ 1, 2 ] } ],
+      "f": [
+        { "item": "tools_science", "chance": 30 },
+        { "item": "baked_goods", "chance": 1 },
+        { "item": "writing_utensils", "chance": 10, "repeat": [ 1, 2 ] },
+        { "item": "office_supplies", "chance": 10 }
+      ],
+      "k": { "item": "mut_iv", "chance": 5, "repeat": [ 1, 4 ] },
+      "l": [
+        { "item": "elecsto_persele", "chance": 10, "repeat": [ 1, 3 ] },
+        { "item": "livingroom", "chance": 10, "repeat": [ 1, 3 ] }
+      ],
+      "m": [
+        { "item": "mutagens", "chance": 5 },
+        { "item": "virology_lab_fridge", "chance": 30 },
+        { "item": "supplies_samples_lab", "chance": 30 },
+        { "item": "fridgesnacks", "chance": 15 },
+        { "item": "cloning_vat", "chance": 10 }
+      ],
+      "q": [
+        { "item": "tools_home", "chance": 10 },
+        { "item": "cleaning", "chance": 30, "repeat": [ 1, 2 ] },
+        { "item": "tools_science", "chance": 20, "repeat": [ 1, 2 ] },
+        { "item": "supplies_reagents_lab", "chance": 30 },
+        { "item": "chem_lab", "chance": 40, "repeat": [ 1, 2 ] }
+      ],
+      "r": [
+        { "item": "office_mess", "chance": 5 },
+        { "item": "office_supplies", "chance": 25 },
+        { "item": "lab_files_biology", "chance": 10 }
+      ],
+      "s": [ { "item": "consumer_electronics", "chance": 10 } ],
+      "w": [
+        { "item": "chem_lab", "chance": 20 },
+        { "item": "cleaning", "chance": 30, "repeat": [ 1, 2 ] },
+        { "item": "tools_science", "chance": 30, "repeat": [ 1, 2 ] }
+      ],
+      "x": { "item": "consumer_electronics", "chance": 10, "repeat": [ 1, 3 ] },
+      "z": [
+        { "item": "chem_lab", "chance": 40, "repeat": [ 1, 2 ] },
+        { "item": "supplies_reagents_lab", "chance": 30, "repeat": [ 1, 2 ] },
+        { "item": "supplies_electronics", "chance": 20, "repeat": [ 1, 2 ] },
+        { "item": "supplies_plumbing", "chance": 3 },
+        { "item": "mut_lab", "chance": 30 }
+      ],
+      "F": { "item": "SUS_fridge", "chance": 100 },
+      "I": [ { "item": "SUS_desks_bedroom_unisex", "chance": 5 }, { "item": "office", "chance": 25 } ],
+      "J": [
+        { "item": "hospital_lab", "chance": 10, "repeat": [ 1, 2 ] },
+        { "item": "chem_lab", "chance": 20, "repeat": [ 1, 2 ] },
+        { "item": "mut_lab", "chance": 40, "repeat": [ 1, 2 ] },
+        { "item": "tools_science", "chance": 30 }
+      ],
+      "L": [
+        { "item": "lab_shoes", "chance": 70, "repeat": 2 },
+        { "item": "lab_pants", "chance": 70, "repeat": 2 },
+        { "item": "lab_torso", "chance": 70, "repeat": 2 }
+      ],
+      "N": [
+        { "item": "tools_common", "chance": 20, "repeat": [ 1, 2 ] },
+        { "item": "tools_science", "chance": 30, "repeat": [ 1, 2 ] },
+        { "item": "tools_mutation", "chance": 10, "repeat": [ 1, 2 ] },
+        { "item": "cleaning", "chance": 10, "repeat": [ 1, 2 ] }
+      ],
+      "P": [ { "item": "office_paper", "chance": 100 }, { "item": "lab_files_biology", "chance": 50 } ],
+      "R": [
+        { "item": "lab_bookshelves", "chance": 30, "repeat": [ 1, 2 ] },
+        { "item": "common_mutation_books", "chance": 20 },
+        { "item": "rare_mutation_books", "chance": 15 }
+      ],
+      "S": [ { "item": "cleaning", "chance": 80 }, { "item": "SUS_bathroom_medicine", "chance": 60 } ],
+      "U": [
+        { "item": "home_hw", "chance": 20, "repeat": [ 1, 2 ] },
+        { "item": "cleaning", "chance": 40, "repeat": [ 1, 2 ] },
+        { "item": "supplies_reagents_lab", "chance": 5, "repeat": [ 1, 2 ] }
+      ],
+      "V": { "item": "mut_lab", "chance": 50 },
+      "Y": { "item": "trash", "chance": 30, "repeat": [ 1, 4 ] },
+      "8": [
+        { "item": "SUS_bathroom_cabinet", "chance": 30 },
+        { "item": "SUS_bathroom_medicine", "chance": 40 },
+        { "item": "harddrugs", "chance": 2 }
+      ],
+      "9": { "item": "shower", "chance": 30, "repeat": [ 1, 2 ] },
+      "@": { "item": "bed", "chance": 50 },
+      "∞": [
+        { "item": "toy_store", "chance": 10, "repeat": [ 1, 2 ] },
+        { "item": "games", "chance": 10, "repeat": [ 1, 2 ] },
+        { "item": "snacks", "chance": 30 }
+      ]
+    }
+  },
+  {
+    "type": "palette",
+    "id": "lab_medical_palette",
+    "//": "for normal medical clinic areas of labs.",
+    "terrain": { "1": "t_elevator_control_off", "2": "t_elevator" },
+    "furniture": {
+      "W": "f_generator_broken",
+      "ɔ": "f_autodoc",
+      "Я": "f_autodoc_couch",
+      "Z": "f_control_station",
+      "₸": "f_machinery_electronic",
+      "Ø": "f_CTscan",
+      "Æ": [ [ "f_GC", 5 ], [ "f_NMR", 5 ], [ "f_MS", 5 ] ],
+      "3": "f_electron_microscope",
+      "4": "f_dialysis",
+      "5": "f_ventilator",
+      "7": "f_anesthetic",
+      "8": [ [ "f_MRI", 5 ], [ "f_CTscan", 5 ] ]
+    },
+    "sealed_item": { "л": { "item": { "item": "seed_rose" }, "furniture": "f_planter_harvest" } },
+    "items": {
+      "a": [
+        { "item": "virology_lab_fridge", "chance": 30 },
+        { "item": "supplies_samples_lab", "chance": 30 },
+        { "item": "fridgesnacks", "chance": 15 }
+      ],
+      "b": { "item": "hospital_bed", "chance": 20 },
+      "c": [
+        { "item": "hospital_lab", "chance": 75, "repeat": [ 1, 5 ] },
+        { "item": "chem_lab", "chance": 75, "repeat": [ 1, 2 ] }
+      ],
+      "d": [ { "item": "tools_science", "chance": 70, "repeat": [ 1, 2 ] } ],
+      "f": [
+        { "item": "tools_science", "chance": 30 },
+        { "item": "baked_goods", "chance": 1 },
+        { "item": "writing_utensils", "chance": 10, "repeat": [ 1, 2 ] },
+        { "item": "office_supplies", "chance": 10 }
+      ],
+      "l": [
+        { "item": "elecsto_persele", "chance": 10, "repeat": [ 1, 3 ] },
+        { "item": "livingroom", "chance": 10, "repeat": [ 1, 3 ] }
+      ],
+      "m": [
+        { "item": "virology_lab_fridge", "chance": 30 },
+        { "item": "supplies_samples_lab", "chance": 30 },
+        { "item": "fridgesnacks", "chance": 15 }
+      ],
+      "q": [
+        { "item": "tools_home", "chance": 10 },
+        { "item": "cleaning", "chance": 30, "repeat": [ 1, 2 ] },
+        { "item": "tools_science", "chance": 20, "repeat": [ 1, 2 ] },
+        { "item": "supplies_reagents_lab", "chance": 30 },
+        { "item": "chem_lab", "chance": 40, "repeat": [ 1, 2 ] }
+      ],
+      "r": [
+        { "item": "office_mess", "chance": 5 },
+        { "item": "office_supplies", "chance": 25 },
+        { "item": "lab_files_psychology", "chance": 10 }
+      ],
+      "s": [ { "item": "consumer_electronics", "chance": 10 } ],
+      "w": [
+        { "item": "chem_lab", "chance": 20 },
+        { "item": "cleaning", "chance": 30, "repeat": [ 1, 2 ] },
+        { "item": "tools_science", "chance": 30, "repeat": [ 1, 2 ] }
+      ],
+      "x": { "item": "consumer_electronics", "chance": 10, "repeat": [ 1, 3 ] },
+      "z": [
+        { "item": "chem_lab", "chance": 40, "repeat": [ 1, 2 ] },
+        { "item": "supplies_reagents_lab", "chance": 30, "repeat": [ 1, 2 ] },
+        { "item": "supplies_electronics", "chance": 20, "repeat": [ 1, 2 ] },
+        { "item": "supplies_plumbing", "chance": 3 }
+      ],
+      "F": { "item": "SUS_fridge", "chance": 100 },
+      "I": [ { "item": "SUS_desks_bedroom_unisex", "chance": 5 }, { "item": "office", "chance": 25 } ],
+      "J": [
+        { "item": "hospital_lab", "chance": 30 },
+        { "item": "chem_lab", "chance": 20 },
+        { "item": "tools_science", "chance": 30 }
+      ],
+      "L": [
+        { "item": "lab_shoes", "chance": 70, "repeat": 2 },
+        { "item": "lab_pants", "chance": 70, "repeat": 2 },
+        { "item": "lab_torso", "chance": 70, "repeat": 2 }
+      ],
+      "N": [
+        { "item": "tools_common", "chance": 20, "repeat": [ 1, 2 ] },
+        { "item": "tools_science", "chance": 30, "repeat": [ 1, 2 ] },
+        { "item": "cleaning", "chance": 10, "repeat": [ 1, 2 ] }
+      ],
+      "P": { "item": "office_paper", "chance": 100 },
+      "Q": [
+        { "item": "harddrugs", "chance": 100, "repeat": [ 1, 6 ] },
+        { "item": "drugs_rare", "chance": 40, "repeat": [ 1, 2 ] }
+      ],
+      "R": [
+        { "item": "lab_bookshelves", "chance": 20, "repeat": [ 1, 4 ] },
+        { "item": "games", "chance": 5, "repeat": [ 1, 2 ] }
+      ],
+      "S": [ { "item": "cleaning", "chance": 80 }, { "item": "SUS_bathroom_medicine", "chance": 60 } ],
+      "U": [
+        { "item": "home_hw", "chance": 20, "repeat": [ 1, 2 ] },
+        { "item": "cleaning", "chance": 40, "repeat": [ 1, 2 ] },
+        { "item": "supplies_reagents_lab", "chance": 5, "repeat": [ 1, 2 ] }
+      ],
+      "V": { "item": "softdrugs", "chance": 50 },
+      "Y": { "item": "trash", "chance": 30, "repeat": [ 1, 4 ] },
+      "8": [
+        { "item": "SUS_bathroom_cabinet", "chance": 30 },
+        { "item": "SUS_bathroom_medicine", "chance": 40 },
+        { "item": "harddrugs", "chance": 2 }
+      ],
+      "9": { "item": "shower", "chance": 30, "repeat": [ 1, 2 ] },
+      "@": { "item": "bed", "chance": 50 },
+      "∞": [
+        { "item": "toy_store", "chance": 10, "repeat": [ 1, 2 ] },
+        { "item": "games", "chance": 10, "repeat": [ 1, 2 ] },
+        { "item": "snacks", "chance": 30 }
+      ]
+    }
+  },
+  {
+    "type": "palette",
+    "id": "lab_vent_palette",
+    "//": "Adds a vent to the grate from the common palette.  Vent will be either cold or hot, but the same for the entire lab",
+    "parameters": {
+      "lab_vent_type": {
+        "type": "furn_str_id",
+        "default": { "distribution": [ [ "f_vent_cold_air2_blast", 2 ], [ "f_vent_hot_air2_blast", 1 ] ] }
+      }
+    },
+    "furniture": { "^": { "param": "lab_vent_type", "fallback": "f_vent_cold_air2_blast" } }
+  }
+]

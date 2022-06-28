@@ -1,0 +1,36 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmc_mansion_farm_field",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rows": [
+        "fffff",
+        "fffff",
+        "     ",
+        "     ",
+        "     "
+      ],
+      "terrain": { "f": "t_dirtmound" },
+      "furniture": { "f": "f_clear" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmc_mansion_farm_field_thin",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rows": [
+        "fffff",
+        "     ",
+        "     ",
+        "     ",
+        "     "
+      ],
+      "terrain": { "f": "t_dirtmound" },
+      "furniture": { "f": "f_clear" }
+    }
+  }
+]

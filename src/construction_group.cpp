@@ -1,5 +1,7 @@
 #include "construction_group.h"
 
+#include <set>
+
 #include "generic_factory.h"
 #include "json.h"
 

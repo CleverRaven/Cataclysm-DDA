@@ -1,8 +1,10 @@
+#include "vehicle.h" // IWYU pragma: associated
+
 #include <algorithm>
 #include <cmath>
 #include <cstdlib>
-#include <memory>
 #include <set>
+#include <string>
 
 #include "calendar.h"
 #include "cata_utility.h"
@@ -15,30 +17,33 @@
 #include "options.h"
 #include "output.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "translations.h"
 #include "units.h"
 #include "units_utility.h"
 #include "veh_type.h"
-#include "vehicle.h" // IWYU pragma: associated
 #include "vpart_position.h"
 
 static const std::string part_location_structure( "structure" );
-static const itype_id itype_battery( "battery" );
+static const ammotype ammo_battery( "battery" );
+
 static const itype_id fuel_type_muscle( "muscle" );
+static const itype_id itype_battery( "battery" );
 
 std::string vehicle::disp_name() const
 {
     return string_format( _( "the %s" ), name );
 }
 
-char vehicle::part_sym( const int p, const bool exact ) const
+char vehicle::part_sym( const int p, const bool exact, const bool include_fake ) const
 {
     if( p < 0 || p >= static_cast<int>( parts.size() ) || parts[p].removed ) {
         return ' ';
     }
 
-    const int displayed_part = exact ? p : part_displayed_at( parts[p].mount );
+    int displayed_part = exact ? p : part_displayed_at( parts[p].mount, include_fake );
+    if( displayed_part == -1 ) {
+        displayed_part = p;
+    }
 
     const vehicle_part &vp = parts.at( displayed_part );
     const vpart_info &vp_info = part_info( displayed_part );
@@ -72,7 +77,7 @@ std::string vehicle::part_id_string( const int p, char &part_mod ) const
         return "";
     }
 
-    int displayed_part = part_displayed_at( parts[p].mount );
+    int displayed_part = part_displayed_at( parts[p].mount, true );
     if( displayed_part < 0 || displayed_part >= static_cast<int>( parts.size() ) ||
         parts[ displayed_part ].removed ) {
         return "";
@@ -91,7 +96,7 @@ std::string vehicle::part_id_string( const int p, char &part_mod ) const
     return vp.id.str() + ( vp.variant.empty() ?  "" : "_" + vp.variant );
 }
 
-nc_color vehicle::part_color( const int p, const bool exact ) const
+nc_color vehicle::part_color( const int p, const bool exact, const bool include_fake ) const
 {
     if( p < 0 || p >= static_cast<int>( parts.size() ) ) {
         return c_black;
@@ -109,7 +114,7 @@ nc_color vehicle::part_color( const int p, const bool exact ) const
     if( parm >= 0 ) {
         col = part_info( parm ).color;
     } else {
-        const int displayed_part = exact ? p : part_displayed_at( parts[p].mount );
+        const int displayed_part = exact ? p : part_displayed_at( parts[p].mount, include_fake );
 
         if( displayed_part < 0 || displayed_part >= static_cast<int>( parts.size() ) ) {
             return c_black;
@@ -159,21 +164,24 @@ nc_color vehicle::part_color( const int p, const bool exact ) const
  * @param detail Whether or not to show detailed contents for fuel components.
  */
 int vehicle::print_part_list( const catacurses::window &win, int y1, const int max_y, int width,
-                              int p, int hl /*= -1*/, bool detail ) const
+                              int p, int hl /*= -1*/, bool detail, bool include_fakes ) const
 {
     if( p < 0 || p >= static_cast<int>( parts.size() ) ) {
         return y1;
     }
-    std::vector<int> pl = this->parts_at_relative( parts[p].mount, true );
+    std::vector<int> pl = this->parts_at_relative( parts[p].mount, true, include_fakes );
     int y = y1;
     for( size_t i = 0; i < pl.size(); i++ ) {
+        const vehicle_part &vp = parts[ pl [ i ] ];
+        if( vp.is_fake && !vp.is_active_fake ) {
+            continue;
+        }
         if( y >= max_y ) {
             mvwprintz( win, point( 1, y ), c_yellow, _( "More parts here…" ) );
             ++y;
             break;
         }
 
-        const vehicle_part &vp = parts[ pl [ i ] ];
 
         std::string partname = vp.name();
 
@@ -181,7 +189,7 @@ int vehicle::print_part_list( const catacurses::window &win, int y1, const int m
             if( detail ) {
                 if( vp.ammo_current() == itype_battery ) {
                     partname += string_format( _( " (%s/%s charge)" ), vp.ammo_remaining(),
-                                               vp.ammo_capacity( ammotype( "battery" ) ) );
+                                               vp.ammo_capacity( ammo_battery ) );
                 } else {
                     const itype *pt_ammo_cur = item::find_type( vp.ammo_current() );
                     auto stack = units::legacy_volume_factor / pt_ammo_cur->stack_size;
@@ -293,11 +301,11 @@ void vehicle::print_vparts_descs( const catacurses::window &win, int max_y, int 
         // -4 = -2 for left & right padding + -2 for "> "
         int new_lines = 2 + vp.info().format_description( possible_msg, desc_color, width - 4 );
         if( vp.has_flag( vehicle_part::carrying_flag ) ) {
-            possible_msg += "  Carrying a vehicle on a rack.\n";
+            possible_msg += _( "  Carrying a vehicle on a rack.\n" );
             new_lines += 1;
         }
         if( vp.has_flag( vehicle_part::carried_flag ) ) {
-            possible_msg += string_format( "  Part of a %s carried on a rack.\n",
+            possible_msg += string_format( _( "  Part of a %s carried on a rack.\n" ),
                                            vp.carried_name() );
             new_lines += 1;
         }
@@ -328,7 +336,8 @@ std::vector<itype_id> vehicle::get_printable_fuel_types() const
 {
     std::set<itype_id> opts;
     for( const auto &pt : parts ) {
-        if( pt.is_fuel_store() && !pt.ammo_current().is_null() ) {
+        if( !pt.has_flag( vehicle_part::carried_flag ) && pt.is_fuel_store() &&
+            !pt.ammo_current().is_null() ) {
             opts.emplace( pt.ammo_current() );
         }
     }
@@ -441,7 +450,7 @@ void vehicle::print_fuel_indicator( const catacurses::window &win, const point &
             rate = consumption_per_hour( fuel_type, fuel_data->second );
             units = _( "mL" );
         }
-        if( fuel_type == itype_id( "battery" ) ) {
+        if( fuel_type == itype_battery ) {
             rate += power_to_energy_bat( net_battery_charge_rate_w(), 1_hours );
             units = _( "kJ" );
         }
@@ -477,4 +486,40 @@ void vehicle::print_fuel_indicator( const catacurses::window &win, const point &
             }
         }
     }
+}
+
+void vehicle::print_speed_gauge( const catacurses::window &win, const point &p, int spacing )
+{
+    if( spacing < 0 ) {
+        spacing = 0;
+    }
+    if( !cruise_on ) {
+        return;
+    }
+
+    // Color is based on how much vehicle is straining beyond its safe velocity
+    const float strain = this->strain();
+    nc_color col_vel = strain <= 0 ? c_light_blue :
+                       ( strain <= 0.2 ? c_yellow :
+                         ( strain <= 0.4 ? c_light_red : c_red ) );
+    // Get cruising (target) velocity, and current (actual) velocity
+    int t_speed = static_cast<int>( convert_velocity( cruise_velocity, VU_VEHICLE ) );
+    int c_speed = static_cast<int>( convert_velocity( velocity, VU_VEHICLE ) );
+    auto ndigits = []( int value ) {
+        return value == 0 ? 1 :
+               ( value > 0 ?
+                 static_cast<int>( std::log10( static_cast<double>( std::abs( value ) ) ) ) + 1 :
+                 static_cast<int>( std::log10( static_cast<double>( std::abs( value ) ) ) ) + 2 );
+    };
+    const std::string type = get_option<std::string> ( "USE_METRIC_SPEEDS" );
+    int t_offset = ndigits( t_speed );
+    int c_offset = ndigits( c_speed );
+
+    // Target cruising velocity in green
+    mvwprintz( win, p, c_light_green, "%d", t_speed );
+    mvwprintz( win, p + point( t_offset + spacing, 0 ), c_light_gray, "<" );
+    // Current velocity in color indicating engine strain
+    mvwprintz( win, p + point( t_offset + 1 + 2 * spacing, 0 ), col_vel, "%d", c_speed );
+    // Units of speed (mph, km/h, t/t)
+    mvwprintz( win, p + point( t_offset  + c_offset + 1 + 3 * spacing, 0 ), c_light_gray, type );
 }

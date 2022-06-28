@@ -25,8 +25,8 @@ except ImportError:
 
 
 def write_to_json(pathname, data, prettify=False):
-    with open(pathname, "w") as fp:
-        json.dump(data, fp)
+    with open(pathname, "w", encoding="utf-8") as fp:
+        json.dump(data, fp, ensure_ascii=False)
 
     json_formatter = "./tools/format/json_formatter.cgi"
     if prettify and os.path.isfile(json_formatter):
@@ -333,7 +333,7 @@ class PngRefs(object):
             sys.exit(-1)
 
         if delete_pathname:
-            with open(delete_pathname) as del_file:
+            with open(delete_pathname, encoding="utf-8") as del_file:
                 del_ranges = json.load(del_file)
                 for delete_range in del_ranges:
                     if not isinstance(delete_range, list):
@@ -345,7 +345,7 @@ class PngRefs(object):
                     for i in range(min_png, max_png + 1):
                         self.delete_pngnums.append(i)
 
-        with open(tileset_confname) as conf_file:
+        with open(tileset_confname, encoding="utf-8") as conf_file:
             return(json.load(conf_file))
 
     def add_pngnum_to_tsfilepath(self, pngnum):

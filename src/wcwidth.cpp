@@ -150,7 +150,7 @@ int mk_wcwidth( uint32_t ucs )
     if( ucs == 0 ) {
         return 0;
     }
-    if( ( ucs > 0 && ucs < 32 ) || ( ucs >= 0x7f && ucs < 0xa0 ) ) {
+    if( ( ucs < 32 ) || ( ucs >= 0x7f && ucs < 0xa0 ) ) {
         return -1;
     }
 

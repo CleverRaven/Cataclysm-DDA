@@ -2,6 +2,8 @@
 #ifndef CATA_SRC_TILERAY_H
 #define CATA_SRC_TILERAY_H
 
+#include <iosfwd>
+
 #include "point.h"
 #include "units.h"
 
@@ -35,8 +37,8 @@ class tileray
         bool infinite = false;  // ray is infinite (end will always return true)
     public:
         tileray();
-        tileray( const point &ad );
-        tileray( units::angle adir );
+        explicit tileray( const point &ad );
+        explicit tileray( units::angle adir );
 
         void init( const point &ad );   // init ray with ad
         void init( const units::angle &adir ); // init ray with direction
@@ -61,7 +63,7 @@ class tileray
 
         void advance( int num = 1 ); // move to the next tile (calculate last dx, dy)
         void clear_advance(); // clear steps, leftover, last_dx, and last_dy
-        bool end();      // do we reach the end of (dx,dy) defined ray?
+        int get_steps() const;  // how many steps we advanced
 };
 
 #endif // CATA_SRC_TILERAY_H

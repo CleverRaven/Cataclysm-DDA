@@ -3,15 +3,17 @@
 #define CATA_SRC_AMMO_EFFECT_H
 
 #include <cstddef>
+#include <iosfwd>
 #include <string>
 #include <vector>
 
 #include "explosion.h"
 #include "field_type.h"
-#include "string_id.h"
 #include "type_id.h"
 
 class JsonObject;
+
+generic_factory<ammo_effect> &get_all_ammo_effects();
 
 struct ammo_effect {
     public:
@@ -48,6 +50,7 @@ struct ammo_effect {
     public:
         // Used by generic_factory
         string_id<ammo_effect> id;
+        std::vector<std::pair<string_id<ammo_effect>, mod_id>> src;
         bool was_loaded = false;
 
     public:

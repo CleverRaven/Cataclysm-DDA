@@ -2,7 +2,7 @@
   {
     "type": "SPELL",
     "id": "STORM_ELEMENTAL_ZAPBACK",
-    "name": "Fire Elemental Zapback",
+    "name": "Storm Elemental Zapback",
     "description": "The zapback effect from the Storm Elemental Attunement.",
     "effect": "attack",
     "shape": "blast",
@@ -19,6 +19,6 @@
     "id": "STORM_ELEMENTAL",
     "condition": "ALWAYS",
     "values": [ { "value": "ARMOR_ELEC", "multiply": -0.4 } ],
-    "hit_me_effect": [ { "id": "STORM_ELEMENTAL_BURNBACK" } ]
+    "hit_me_effect": [ { "id": "STORM_ELEMENTAL_ZAPBACK" } ]
   }
 ]
