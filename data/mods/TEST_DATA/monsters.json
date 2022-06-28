@@ -223,6 +223,13 @@
     ]
   },
   {
+    "id": "mon_test_weakpoint_mon",
+    "type": "MONSTER",
+    "copy-from": "mon_test_zombie_cop",
+    "weakpoints": [ { "id": "test_eye", "name": "inline eye (zero coverage)", "coverage": 0 } ],
+    "delete": { "weakpoints": [ { "id": "test_head" } ], "weakpoint_sets": [ "test_special_head" ] }
+  },
+  {
     "id": "mon_zombie_survivor_no_weakpoints",
     "type": "MONSTER",
     "name": { "str": "zombie survivor test only" },
