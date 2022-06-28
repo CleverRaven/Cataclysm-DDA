@@ -3233,7 +3233,7 @@
     "components": [ [ [ "stereo", 1 ] ] ],
     "pre_special": "check_empty",
     "post_special": "done_appliance",
-    "activity_level": "BRISK_EXERCISE"
+    "activity_level": "LIGHT_EXERCISE"
   },
   {
     "type": "construction",

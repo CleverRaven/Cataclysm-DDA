@@ -201,7 +201,7 @@
     "id": "ap_stereo",
     "name": { "str": "Stereo System" },
     "location": "structure",
-    "description": "A stereo system. When turned on, it plays music, improving your mood.",
+    "description": "A stereo system.  When turned on, it plays music, improving your mood.",
     "item": "stereo",
     "flags": [ "STEREO", "APPLIANCE", "ENABLED_DRAINS_EPOWER" ],
     "copy-from": "stereo"
