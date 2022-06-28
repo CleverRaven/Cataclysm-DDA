@@ -45,7 +45,7 @@
 #include "ordered_static_globals.h"
 #include "path_info.h"
 #include "rng.h"
-#include "system_language.h"
+#include "system_locale.h"
 #include "translations.h"
 #include "type_id.h"
 #include "ui_manager.h"
@@ -744,7 +744,7 @@ int main( int argc, const char *argv[] )
 #endif
 
 #if defined(LOCALIZE)
-    if( get_option<std::string>( "USE_LANG" ).empty() && getSystemLanguage().empty() ) {
+    if( get_option<std::string>( "USE_LANG" ).empty() && !SystemLocale::Language().has_value() ) {
         select_language();
         set_language();
     }
