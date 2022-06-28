@@ -2623,7 +2623,7 @@
     "looks_like": "socks",
     "color": "light_gray",
     "material_thickness": 0.3,
-    "flags": [ "VARSIZE", "SKINTIGHT", "ALLOWS_TALONS" ],
+    "flags": [ "VARSIZE", "SKINTIGHT" ],
     "armor": [
       {
         "covers": [ "foot_l", "foot_r" ],

@@ -3614,9 +3614,9 @@
     "description": "Your feet have shifted into bird-like talons.  Instead of toes you now have three long talons at the front and one at the back, ending in wicked claws and preventing you from wearing shoes.  Fortunately they don't impede your movement.",
     "category": [ "BIRD" ],
     "attacks": {
-      "attack_text_u": "You slash %s with a talon",
-      "attack_text_npc": "%1$s slashes %2$s with a talon",
-      "chance": 20,
+      "attack_text_u": "You slash %s with your talons",
+      "attack_text_npc": "%1$s slashes %2$s with their talons",
+      "chance": 18,
       "strength_damage": { "damage_type": "cut", "amount": 5 }
     }
   },
