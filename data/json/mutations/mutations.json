@@ -3604,7 +3604,13 @@
     "name": { "str": "Clawed Feet" },
     "copy-from": "RAP_TALONS",
     "description": "Your toenails have grown long and sharp, preventing you from wearing shoes, but providing you with a set of powerful claws on your feet.  Fortunately they don't impede your movement.",
-    "category": [ "LIZARD" ]
+    "category": [ "LIZARD" ],
+    "attacks": {
+      "attack_text_u": "You slash %s with your claws",
+      "attack_text_npc": "%1$s slashes %2$s with their claws",
+      "chance": 15,
+      "strength_damage": { "damage_type": "cut", "amount": 3 }
+    }
   },
   {
     "type": "mutation",
@@ -3616,8 +3622,8 @@
     "attacks": {
       "attack_text_u": "You slash %s with your talons",
       "attack_text_npc": "%1$s slashes %2$s with their talons",
-      "chance": 18,
-      "strength_damage": { "damage_type": "cut", "amount": 5 }
+      "chance": 20,
+      "strength_damage": { "damage_type": "cut", "amount": 4 }
     }
   },
   {
