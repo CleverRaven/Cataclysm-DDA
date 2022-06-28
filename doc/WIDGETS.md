@@ -15,6 +15,7 @@
     - [Text style](#text-style)
 - [Fields](#fields)
   - [label](#label)
+  - [string](#string)
   - [fill](#fill)
   - [style](#style)
   - [direction](#direction)
@@ -127,6 +128,7 @@ linked sections:
 | [flags](#flags)         |                       | list of strings | Optional toggles
 | [height](#height)       | integer               | Maximum number of lines of text to take up
 | [label](#label)         | string or translation | Visible descriptor or heading
+| [string](#string)       | string or translation | Visible descriptor or heading. Used as a last resort by "text" style widgets. Mandatory if the widget has no clauses.
 | [clauses](#clauses-and-conditions) | list of objects | Arbitrary conditional expressions mapped to colored text, symbols, or numbers
 | [style](#style)         | string                | Sub-type or visual theme: "number", "graph", "text", "layout"
 | symbols                 | string                | For [graph style](#graph-style), text characters for ascending values
@@ -424,7 +426,112 @@ Also see [Graph widgets](#graph-widgets) for some predefined ones you can use or
 
 ### Text style
 
-**TODO**
+Text style widgets display text. They can be very powerful, but are also pretty complex.
+
+The simplest text widget is one that displays static text using the `string` field. If a text widget
+does not have any clauses or a `var` field, it _must_ have the `string` field. The widget below
+displays a single dot.
+```JSON
+{
+  "id": "lcom_spacer",
+  "type": "widget",
+  "style": "text",
+  "string": ".",
+  "flags": [ "W_LABEL_NONE" ]
+}
+```
+
+In the vast majority of cases, text widgets will display text conditionally using [clauses](#clauses-and-conditions).
+These clauses use dialogue conditions to determine what text to show and in what color.
+The below widget is a prime example of a text widget, and is used to display a player's thirst level.
+```JSON
+{
+  "id": "thirst_desc_label",
+  "type": "widget",
+  "label": "Thirst",
+  "style": "text",
+  "clauses": [
+    {
+      "id": "parched",
+      "text": "Parched",
+      "color": "light_red",
+      "condition": { "compare_int": [ { "u_val": "thirst" }, ">", { "const": 520 } ] }
+    },
+    {
+      "id": "dehydrated",
+      "text": "Dehydrated",
+      "color": "light_red",
+      "condition": {
+        "and": [
+          { "compare_int": [ { "u_val": "thirst" }, ">", { "const": 240 } ] },
+          { "compare_int": [ { "u_val": "thirst" }, "<=", { "const": 520 } ] }
+        ]
+      }
+    },
+    {
+      "id": "very_thirsty",
+      "text": "Very thirsty",
+      "color": "yellow",
+      "condition": {
+        "and": [
+          { "compare_int": [ { "u_val": "thirst" }, ">", { "const": 80 } ] },
+          { "compare_int": [ { "u_val": "thirst" }, "<=", { "const": 240 } ] }
+        ]
+      }
+    },
+    {
+      "id": "thirsty",
+      "text": "Thirsty",
+      "color": "yellow",
+      "condition": {
+        "and": [
+          { "compare_int": [ { "u_val": "thirst" }, ">", { "const": 40 } ] },
+          { "compare_int": [ { "u_val": "thirst" }, "<=", { "const": 80 } ] }
+        ]
+      }
+    },
+    {
+      "id": "neutral",
+      "text": "",
+      "color": "white",
+      "condition": {
+        "and": [
+          { "compare_int": [ { "u_val": "thirst" }, ">=", { "const": 0 } ] },
+          { "compare_int": [ { "u_val": "thirst" }, "<=", { "const": 40 } ] }
+        ]
+      }
+    },
+    {
+      "id": "slaked",
+      "text": "Slaked",
+      "color": "green",
+      "condition": {
+        "and": [
+          { "compare_int": [ { "u_val": "thirst" }, ">=", { "const": -20 } ] },
+          { "compare_int": [ { "u_val": "thirst" }, "<", { "const": 0 } ] }
+        ]
+      }
+    },
+    {
+      "id": "hydrated",
+      "text": "Hydrated",
+      "color": "green",
+      "condition": {
+        "and": [
+          { "compare_int": [ { "u_val": "thirst" }, ">=", { "const": -60 } ] },
+          { "compare_int": [ { "u_val": "thirst" }, "<", { "const": -20 } ] }
+        ]
+      }
+    },
+    {
+      "id": "turgid",
+      "text": "Turgid",
+      "color": "green",
+      "condition": { "compare_int": [ { "u_val": "thirst" }, "<", { "const": -60 } ] }
+    }
+  ]
+},
+```
 
 See [Text widgets](#text-widgets) for a variety of predefined text widgets you can use or extend.
 
@@ -465,6 +572,10 @@ appropriate words in other languages.
 See the [Translatable strings section of JSON_INFO.md](JSON_INFO.md#translatable-strings)
 for more on how these work.
 
+## string
+
+If you have a `text` style widget that has no other options for what to display, it must have a
+`string` field to display instead. This will cause the widget to display a static string.
 
 ## fill
 
@@ -672,7 +783,7 @@ Widgets can use flags to specify special behaviors:
 }
 ```
 
-Here are some flags that can be included:
+Here are the flags that can be included:
 
 | Flag id                 | Description
 |---                      |---
@@ -680,7 +791,7 @@ Here are some flags that can be included:
 | `W_DISABLED_BY_DEFAULT` | Makes this widget disabled by default (only applies to top-level widgets/layouts)
 | `W_DISABLED_WHEN_EMPTY` | Automatically hides this widget when the widget's text is empty
 | `W_DYNAMIC_HEIGHT`      | Allows certain multi-line widgets to dynamically adjust their height
-| `W_NO_PADDING`          | Removes extra padding added between columns for alignment (applies recursively to sub-widgets)
+| `W_NO_PADDING`          | Removes extra padding added between columns for alignment (applies recursively to sub-widgets). This will remove all excess whitespace, including whitespace that is explicitly defined by the developer.
 
 
 # Clauses and conditions
