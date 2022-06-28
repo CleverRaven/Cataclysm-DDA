@@ -239,7 +239,7 @@ class widget
         // Graph fill style ("bucket" or "pool")
         std::string _fill;
         // String values mapped to numeric values or ranges
-        std::vector<translation> _strings;
+        translation _string;
         // Colors mapped to values or ranges
         std::vector<nc_color> _colors;
         // Child widget ids for layout style
@@ -312,12 +312,12 @@ class widget
         std::string number( int value, bool from_condition ) const;
         // Return the numeric value(s) from all true conditional clauses in this widget
         std::string number_cond( enumeration_conjunction join_type = enumeration_conjunction::none ) const;
-        // Return the text clause mapped to a given value for "text" style
-        std::string text( int value, bool from_condition, int width = 0 );
+        // Return the text clause for "text" style
+        std::string text( bool from_condition, int width = 0 );
         // Return the text clause(s) from all true conditional clauses in this widget
         std::string text_cond( bool no_join = false, int width = 0 );
         // Return the symbol mapped to a given value for "symbol" style
-        std::string sym( int value, bool from_condition );
+        std::string sym( bool from_condition );
         // Return the symbol(s) from all true conditional clauses in this widget
         std::string sym_cond( bool no_join = true,
                               enumeration_conjunction join_type = enumeration_conjunction::none ) const;
