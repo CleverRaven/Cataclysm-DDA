@@ -1930,14 +1930,12 @@ void Character::perform_technique( const ma_technique &technique, Creature &t, d
 
     // Add effects for each repeat of the tech
     for( int i = 0; i < rep; i++ ) {
-        if( !technique.tech_effects.empty() ) {
-            for( const tech_effect_data &eff : technique.tech_effects ) {
-                // Add the tech's effects if it rolls the chance and either did damage or ignores it
-                if( x_in_y( eff.chance, 100 ) && ( di.total_damage() != 0 || !eff.on_damage ) ) {
-                    if( eff.req_flag == json_flag_NULL || has_flag( eff.req_flag ) ) {
-                        t.add_effect( eff.id, time_duration::from_turns( eff.duration ), eff.permanent );
-                        add_msg_if_player( m_good, _( eff.message ), t.disp_name() );
-                    }
+        for( const tech_effect_data &eff : technique.tech_effects ) {
+            // Add the tech's effects if it rolls the chance and either did damage or ignores it
+            if( x_in_y( eff.chance, 100 ) && ( di.total_damage() != 0 || !eff.on_damage ) ) {
+                if( eff.req_flag == json_flag_NULL || has_flag( eff.req_flag ) ) {
+                    t.add_effect( eff.id, time_duration::from_turns( eff.duration ), eff.permanent );
+                    add_msg_if_player( m_good, _( eff.message ), t.disp_name() );
                 }
             }
         }

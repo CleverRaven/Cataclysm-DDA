@@ -602,7 +602,7 @@ load_mapgen_function( const JsonObject &jio, const std::string &id_base, const p
             ret = std::make_shared<mapgen_function_builtin>( ptr, mgweight );
             oter_mapgen.add( id_base, ret );
         } else {
-            jio.throw_error( "function does not exist", "name" );
+            jio.throw_error_at( "name", "function does not exist" );
         }
     } else if( mgtype == "json" ) {
         if( !jio.has_object( "object" ) ) {
@@ -615,7 +615,7 @@ load_mapgen_function( const JsonObject &jio, const std::string &id_base, const p
                   jsrc, mgweight, "mapgen " + id_base, offset, total );
         oter_mapgen.add( id_base, ret );
     } else {
-        jio.throw_error( R"(invalid value: must be "builtin" or "json")", "method" );
+        jio.throw_error_at( "method", R"(invalid value: must be "builtin" or "json")" );
     }
     return ret;
 }
@@ -753,11 +753,11 @@ static bool common_check_bounds( const jmapgen_int &x, const jmapgen_int &y,
     }
 
     if( x.valmax > mapgensize.x - 1 ) {
-        jso.throw_error( "coordinate range cannot cross grid boundaries", "x" );
+        jso.throw_error_at( "x", "coordinate range cannot cross grid boundaries" );
     }
 
     if( y.valmax > mapgensize.y - 1 ) {
-        jso.throw_error( "coordinate range cannot cross grid boundaries", "y" );
+        jso.throw_error_at( "y", "coordinate range cannot cross grid boundaries" );
     }
 
     return true;
@@ -819,7 +819,7 @@ jmapgen_int::jmapgen_int( const JsonObject &jo, const std::string &tag )
     if( jo.has_array( tag ) ) {
         JsonArray sparray = jo.get_array( tag );
         if( sparray.size() < 1 || sparray.size() > 2 ) {
-            jo.throw_error( "invalid data: must be an array of 1 or 2 values", tag );
+            jo.throw_error_at( tag, "invalid data: must be an array of 1 or 2 values" );
         }
         val = sparray.get_int( 0 );
         if( sparray.size() == 2 ) {
@@ -840,7 +840,7 @@ jmapgen_int::jmapgen_int( const JsonObject &jo, const std::string &tag, const in
     if( jo.has_array( tag ) ) {
         JsonArray sparray = jo.get_array( tag );
         if( sparray.size() > 2 ) {
-            jo.throw_error( "invalid data: must be an array of 1 or 2 values", tag );
+            jo.throw_error_at( tag, "invalid data: must be an array of 1 or 2 values" );
         }
         if( sparray.size() >= 1 ) {
             val = sparray.get_int( 0 );
@@ -1766,7 +1766,11 @@ class jmapgen_npc : public jmapgen_piece
                                                       unique_id );
                 return;
             }
-            character_id npc_id = dat.m.place_npc( point( x.get(), y.get() ), chosen_id );
+            tripoint const dst( x.get(), y.get(), dat.m.get_abs_sub().z() );
+            character_id npc_id = dat.m.place_npc( dst.xy(), chosen_id );
+            if( get_map().inbounds( dat.m.getglobal( dst ) ) ) {
+                dat.m.queue_main_cleanup();
+            }
             if( dat.mission() && target ) {
                 dat.mission()->set_target_npc_id( npc_id );
             }
@@ -2402,8 +2406,12 @@ class jmapgen_vehicle : public jmapgen_piece
             if( chosen_id.is_null() ) {
                 return;
             }
-            dat.m.add_vehicle( chosen_id, point( x.get(), y.get() ), random_entry( rotation ),
+            tripoint const dst( x.get(), y.get(), dat.m.get_abs_sub().z() );
+            dat.m.add_vehicle( chosen_id, dst.xy(), random_entry( rotation ),
                                fuel, status, true, faction );
+            if( get_map().inbounds( dat.m.getglobal( dst ) ) ) {
+                dat.m.queue_main_cleanup();
+            }
         }
         bool has_vehicle_collision( const mapgendata &dat, const point &p ) const override {
             return dat.m.veh_at( tripoint( p, dat.zlevel() ) ).has_value();
@@ -3037,12 +3045,15 @@ class jmapgen_remove_npcs : public jmapgen_piece
                     const std::string & /*context*/ ) const override {
             for( auto const &npc : overmap_buffer.get_npcs_near_omt(
                      project_to<coords::omt>( dat.m.get_abs_sub() ), 0 ) ) {
-                if( !npc->is_dead() and
-                    ( npc_class.empty() or npc->idz == npc_class_id( npc_class ) ) and
-                    ( unique_id.empty() or unique_id == npc->get_unique_id() ) ) {
+                if( !npc->is_dead() &&
+                    ( npc_class.empty() || npc->idz == npc_class_id( npc_class ) ) &&
+                    ( unique_id.empty() || unique_id == npc->get_unique_id() ) ) {
                     overmap_buffer.remove_npc( npc->getID() );
                     if( !unique_id.empty() ) {
                         g->unique_npc_despawn( unique_id );
+                    }
+                    if( get_map().inbounds( npc->get_location() ) ) {
+                        g->remove_npc( npc->getID() );
                     }
                 }
             }
@@ -3953,7 +3964,7 @@ void mapgen_function_json_base::setup_common()
         jsin.error( "format: no terrain map" );
     }
     if( mapgen_defer::defer ) {
-        mapgen_defer::jsi.throw_error( mapgen_defer::message, mapgen_defer::member );
+        mapgen_defer::jsi.throw_error_at( mapgen_defer::member, mapgen_defer::message );
     } else {
         mapgen_defer::jsi = JsonObject();
     }
@@ -4024,16 +4035,18 @@ bool mapgen_function_json_base::setup_common( const JsonObject &jo )
 
                 if( !has_terrain && !fallback_terrain_exists ) {
                     parray.string_error(
+                        c, i + 1,
                         string_format( "format: rows: row %d column %d: "
                                        "'%s' is not in 'terrain', and no 'fill_ter' is set!",
-                                       c + 1, i + 1, key.str ), c, i + 1 );
+                                       c + 1, i + 1, key.str ) );
                 }
                 if( !has_terrain && !has_placing && key.str != " " && key.str != "." ) {
                     try {
                         parray.string_error(
+                            c, i + 1,
                             string_format( "format: rows: row %d column %d: "
                                            "'%s' has no terrain, furniture, or other definition",
-                                           c + 1, i + 1, key.str ), c, i + 1 );
+                                           c + 1, i + 1, key.str ) );
                     } catch( const JsonError &e ) {
                         debugmsg( "(json-error)\n%s", e.what() );
                     }

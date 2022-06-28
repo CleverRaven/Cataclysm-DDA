@@ -63,7 +63,7 @@ void vitamin::load_vitamin( const JsonObject &jo )
     vit.rate_ = read_from_json_string<time_duration>( jo.get_member( "rate" ), time_duration::units );
 
     if( !jo.has_string( "vit_type" ) ) {
-        jo.throw_error( "vitamin must have a vitamin type", "vit_type" );
+        jo.throw_error_at( "vit_type", "vitamin must have a vitamin type" );
     }
     vit.type_ = jo.get_enum_value<vitamin_type>( "vit_type" );
 
@@ -80,7 +80,7 @@ void vitamin::load_vitamin( const JsonObject &jo )
     }
 
     if( vitamins_all.find( vit.id_ ) != vitamins_all.end() ) {
-        jo.throw_error( "parsed vitamin overwrites existing definition", "id" );
+        jo.throw_error_at( "id", "parsed vitamin overwrites existing definition" );
     } else {
         vitamins_all[ vit.id_ ] = vit;
     }

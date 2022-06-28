@@ -307,7 +307,7 @@ void assign_function( const JsonObject &jo, const std::string &id, Fun &target,
         if( iter != cont.end() ) {
             target = iter->second;
         } else {
-            jo.throw_error( "Invalid mission function", id );
+            jo.throw_error_at( id, "Invalid mission function" );
         }
     }
 }

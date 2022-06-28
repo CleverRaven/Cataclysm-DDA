@@ -4096,6 +4096,12 @@ int Character::get_thirst() const
     return thirst;
 }
 
+int Character::get_instant_thirst() const
+{
+    return thirst - std::max( units::to_milliliter<int>
+                              ( stomach.get_water() / 10 ), 0 );
+}
+
 void Character::mod_thirst( int nthirst )
 {
     if( has_flag( json_flag_NO_THIRST ) || !needs_food() ) {
@@ -9278,10 +9284,8 @@ void Character::process_one_effect( effect &it, bool is_new )
 
     // Handle miss messages
     const std::vector<std::pair<translation, int>> &msgs = it.get_miss_msgs();
-    if( !msgs.empty() ) {
-        for( const auto &i : msgs ) {
-            add_miss_reason( i.first.translated(), static_cast<unsigned>( i.second ) );
-        }
+    for( const auto &i : msgs ) {
+        add_miss_reason( i.first.translated(), static_cast<unsigned>( i.second ) );
     }
 
     // Handle vitamins

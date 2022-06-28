@@ -30,7 +30,7 @@
     "occupied_bodyparts": [ [ "hand_r", 3 ] ],
     "fake_weapon": "afs_bionic_rocket",
     "flags": [ "BIONIC_TOGGLED", "BIONIC_WEAPON", "NO_UNWIELD" ],
-    "act_cost": 5
+    "act_cost": "35 J"
   },
   {
     "id": "afs_bio_linguistic_coprocessor",
@@ -46,8 +46,8 @@
     "description": "Tiny cybernetic stimulators have been installed throughout your ventral tegmental area, and trigger at set intervals using bionic power.  This slowly releases a stream of reward chemicals and hormones into your brain, inducing a state of euphoria that notably elevates mood.",
     "occupied_bodyparts": [ [ "head", 5 ] ],
     "flags": [ "BIONIC_TOGGLED", "BIONIC_SLEEP_FRIENDLY" ],
-    "act_cost": 5,
-    "react_cost": 5,
+    "act_cost": "5 J",
+    "react_cost": "5 J",
     "time": 200
   },
   {

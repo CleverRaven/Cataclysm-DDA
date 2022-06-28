@@ -2525,7 +2525,7 @@ static const int max_salt_water_pipe_length =
 //  Hard coded strings used to construct expansion "provides" needed by recipes to coordinate salt water pipe construction
 static const std::string salt_water_pipe_string_base = "salt_water_pipe_";
 static const std::string salt_water_pipe_string_suffix = "_scheduled";
-static const double diagonal_salt_pipe_cost = sqrt( 2.0 );
+static const double diagonal_salt_pipe_cost = std::sqrt( 2.0 );
 static const double salt_pipe_legal = 0.0;
 static const double salt_pipe_illegal = -0.1;
 static const double salt_pipe_swamp = -0.2;

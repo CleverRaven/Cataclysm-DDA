@@ -16,30 +16,22 @@
       {
         "material": [ { "type": "lvl4ballisticglass", "covered_by_mat": 100, "thickness": 3 } ],
         "covers": [ "eyes" ],
-        "coverage": 100,
-        "encumbrance": 5
+        "coverage": 100
       },
       {
         "material": [
           { "type": "plastic", "covered_by_mat": 80, "thickness": 1.2 },
           { "type": "nomex", "covered_by_mat": 100, "thickness": 0.8 }
         ],
-        "covers": [ "head", "mouth" ],
-        "coverage": 100,
-        "encumbrance": 5
-      },
-      {
-        "material": [
-          { "type": "plastic", "covered_by_mat": 80, "thickness": 1.2 },
-          { "type": "nomex", "covered_by_mat": 100, "thickness": 0.8 }
-        ],
-        "covers": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
-        "coverage": 100,
-        "encumbrance": 5
+        "covers": [ "head", "mouth", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
+        "coverage": 100
       }
     ],
     "warmth": 10,
-    "flags": [ "EXO_UNDERLAYER", "USE_UPS", "SKINTIGHT", "WATERPROOF", "POWERARMOR_COMPATIBLE", "SOFT" ]
+    "flags": [ "EXO_UNDERLAYER", "USE_UPS", "SKINTIGHT", "WATERPROOF", "POWERARMOR_COMPATIBLE", "SOFT" ],
+    "relic_data": {
+      "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "ITEM_ENCUMBRANCE", "add": -10 } ] } ]
+    }
   },
   {
     "id": "afs_exo_combat_underlayer",
@@ -58,17 +50,7 @@
       {
         "material": [ { "type": "lvl4ballisticglass", "covered_by_mat": 100, "thickness": 3 } ],
         "covers": [ "eyes" ],
-        "coverage": 100,
-        "encumbrance": 5
-      },
-      {
-        "material": [
-          { "type": "kevlar", "covered_by_mat": 80, "thickness": 1.2 },
-          { "type": "nomex", "covered_by_mat": 100, "thickness": 0.8 }
-        ],
-        "covers": [ "head", "mouth" ],
-        "coverage": 100,
-        "encumbrance": 5
+        "coverage": 100
       },
       {
         "material": [
@@ -76,30 +58,22 @@
           { "type": "nomex", "covered_by_mat": 100, "thickness": 0.8 }
         ],
         "covers": [ "torso" ],
-        "coverage": 100,
-        "encumbrance": 10
+        "coverage": 100
       },
       {
         "material": [
           { "type": "kevlar", "covered_by_mat": 80, "thickness": 1.2 },
           { "type": "nomex", "covered_by_mat": 100, "thickness": 0.8 }
         ],
-        "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ],
-        "coverage": 100,
-        "encumbrance": 5
-      },
-      {
-        "material": [
-          { "type": "kevlar", "covered_by_mat": 80, "thickness": 1.2 },
-          { "type": "nomex", "covered_by_mat": 100, "thickness": 0.8 }
-        ],
-        "covers": [ "leg_l", "leg_r", "foot_l", "foot_r" ],
-        "coverage": 100,
-        "encumbrance": 5
+        "covers": [ "head", "mouth", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
+        "coverage": 100
       }
     ],
     "warmth": 10,
-    "flags": [ "EXO_UNDERLAYER", "USE_UPS", "SKINTIGHT", "WATERPROOF", "POWERARMOR_COMPATIBLE", "SOFT" ]
+    "flags": [ "EXO_UNDERLAYER", "USE_UPS", "SKINTIGHT", "WATERPROOF", "POWERARMOR_COMPATIBLE", "SOFT" ],
+    "relic_data": {
+      "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "ITEM_ENCUMBRANCE", "add": -10 } ] } ]
+    }
   },
   {
     "id": "afs_exo_eva_underlayer",
@@ -118,26 +92,15 @@
       {
         "material": [ { "type": "lvl4ballisticglass", "covered_by_mat": 100, "thickness": 3 } ],
         "covers": [ "eyes" ],
-        "coverage": 100,
-        "encumbrance": 5
+        "coverage": 100
       },
       {
         "material": [
           { "type": "nanoprinted_alloy", "covered_by_mat": 80, "thickness": 1.2 },
           { "type": "nomex", "covered_by_mat": 100, "thickness": 0.8 }
         ],
-        "covers": [ "head", "mouth" ],
-        "coverage": 100,
-        "encumbrance": 5
-      },
-      {
-        "material": [
-          { "type": "nanoprinted_alloy", "covered_by_mat": 80, "thickness": 1.2 },
-          { "type": "nomex", "covered_by_mat": 100, "thickness": 0.8 }
-        ],
-        "covers": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
-        "coverage": 100,
-        "encumbrance": 5
+        "covers": [ "head", "mouth", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
+        "coverage": 100
       }
     ],
     "warmth": 10,
@@ -151,7 +114,10 @@
       "GAS_PROOF",
       "RAD_RESIST",
       "RAINPROOF"
-    ]
+    ],
+    "relic_data": {
+      "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "ITEM_ENCUMBRANCE", "add": -10 } ] } ]
+    }
   },
   {
     "id": "afs_exo_hazard_underlayer",
@@ -170,17 +136,7 @@
       {
         "material": [ { "type": "lvl4ballisticglass", "covered_by_mat": 100, "thickness": 3 } ],
         "covers": [ "eyes" ],
-        "coverage": 100,
-        "encumbrance": 5
-      },
-      {
-        "material": [
-          { "type": "kevlar_rigid", "covered_by_mat": 80, "thickness": 1.2 },
-          { "type": "nomex", "covered_by_mat": 100, "thickness": 0.8 }
-        ],
-        "covers": [ "head", "mouth" ],
-        "coverage": 100,
-        "encumbrance": 10
+        "coverage": 100
       },
       {
         "material": [
@@ -188,17 +144,15 @@
           { "type": "nomex", "covered_by_mat": 100, "thickness": 0.8 }
         ],
         "covers": [ "torso" ],
-        "coverage": 100,
-        "encumbrance": 15
+        "coverage": 100
       },
       {
         "material": [
           { "type": "kevlar_rigid", "covered_by_mat": 80, "thickness": 1.2 },
           { "type": "nomex", "covered_by_mat": 100, "thickness": 0.8 }
         ],
-        "covers": [ "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
-        "coverage": 100,
-        "encumbrance": 10
+        "covers": [ "head", "mouth", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
+        "coverage": 100
       }
     ],
     "warmth": 10,
@@ -212,6 +166,9 @@
       "GAS_PROOF",
       "RAD_RESIST",
       "RAINPROOF"
-    ]
+    ],
+    "relic_data": {
+      "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "ITEM_ENCUMBRANCE", "add": -10 } ] } ]
+    }
   }
 ]

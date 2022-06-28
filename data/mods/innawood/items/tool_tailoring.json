@@ -115,11 +115,11 @@
     "category": "spare_parts",
     "name": { "str": "fibercloth sheet" },
     "description": "A sheet of fabric woven from plant fiber, suitable for making clothing.",
-    "weight": "5 g",
-    "volume": "3 ml",
+    "weight": "38 g",
+    "volume": "47 ml",
     "price": 1000,
     "price_postapoc": 100,
-    "material": [ "veggy" ],
+    "material": [ "fibercloth" ],
     "symbol": "=",
     "color": "green"
   }
