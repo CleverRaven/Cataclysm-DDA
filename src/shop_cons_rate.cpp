@@ -18,16 +18,16 @@ generic_factory<shopkeeper_blacklist> shop_blacklist_factory( SHOPKEEPER_BLACKLI
 
 bool icg_entry::operator==( icg_entry const &rhs ) const
 {
-    return itype == rhs.itype and category == rhs.category and item_group == rhs.item_group;
+    return itype == rhs.itype && category == rhs.category && item_group == rhs.item_group;
 }
 
 bool icg_entry::matches( item const &it, npc const &beta ) const
 {
     dialogue const temp( get_talker_for( get_avatar() ), get_talker_for( beta ) );
-    return ( !condition or condition( temp ) ) and
-           ( itype.is_empty() or it.typeId() == itype ) and
-           ( category.is_empty() or it.get_category_shallow().id == category ) and
-           ( item_group.is_empty() or
+    return ( !condition || condition( temp ) ) &&
+           ( itype.is_empty() || it.typeId() == itype ) &&
+           ( category.is_empty() || it.get_category_shallow().id == category ) &&
+           ( item_group.is_empty() ||
              item_group::group_contains_item( item_group, it.typeId() ) );
 }
 
@@ -126,7 +126,7 @@ class shopkeeper_cons_rates_reader : public generic_typed_reader<shopkeeper_cons
 
 bool shopkeeper_cons_rate_entry::operator==( shopkeeper_cons_rate_entry const &rhs ) const
 {
-    return icg_entry::operator==( rhs ) and rate == rhs.rate;
+    return icg_entry::operator==( rhs ) && rate == rhs.rate;
 }
 
 void shopkeeper_blacklist::load( JsonObject const &jo, std::string const &/*src*/ )
@@ -144,12 +144,12 @@ void shopkeeper_cons_rates::load( JsonObject const &jo, std::string const &/*src
 void shopkeeper_cons_rates::check() const
 {
     for( auto const &rate : rates ) {
-        if( !rate.itype.is_empty() and
-            ( !rate.category.is_empty() or !rate.item_group.is_empty() ) ) {
+        if( !rate.itype.is_empty() &&
+            ( !rate.category.is_empty() || !rate.item_group.is_empty() ) ) {
             debugmsg( "category/item_group filters are redundant when itype is specified in %s.",
                       id.c_str() );
         }
-        if( rate.itype.is_empty() and rate.category.is_empty() and rate.item_group.is_empty() ) {
+        if( rate.itype.is_empty() && rate.category.is_empty() && rate.item_group.is_empty() ) {
             debugmsg( "empty shop rate filter in %s.", id.c_str() );
         }
     }
@@ -183,7 +183,7 @@ icg_entry const *shopkeeper_blacklist::matches( item const &it, npc const &beta 
 
 bool shopkeeper_cons_rates::matches( item const &it, npc const &beta ) const
 {
-    return it.type->price_post < junk_threshold or
+    return it.type->price_post < junk_threshold ||
            std::any_of( rates.begin(), rates.end(),
     [&it, &beta]( shopkeeper_cons_rate_entry const & rit ) {
         return rit.matches( it, beta );

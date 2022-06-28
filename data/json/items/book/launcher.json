@@ -12,6 +12,7 @@
     "material": [ "paper" ],
     "symbol": "?",
     "color": "pink",
+    "looks_like": "mag_glam",
     "skill": "launcher",
     "max_level": 1,
     "intelligence": 5,
@@ -32,6 +33,7 @@
     "symbol": "?",
     "color": "green",
     "skill": "launcher",
+    "looks_like": "mag_guns",
     "max_level": 3,
     "intelligence": 4,
     "time": "18 m"

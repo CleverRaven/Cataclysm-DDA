@@ -1,17 +1,64 @@
 [
   {
+    "id": "lcom_spacer",
+    "type": "widget",
+    "style": "text",
+    "string": ".",
+    "flags": [ "W_LABEL_NONE" ]
+  },
+  {
+    "id": "lcom_hpg_status_head",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "columns",
+    "widgets": [ "bodypart_head_status_text", "lcom_spacer", "hp_head_graph_nolabel" ],
+    "flags": [ "W_NO_PADDING" ]
+  },
+  {
+    "id": "lcom_hpg_status_torso",
+    "type": "widget",
+    "copy-from": "status_hpg_layout_torso",
+    "flags": [ "W_NO_PADDING" ]
+  },
+  {
+    "id": "lcom_hpg_status_larm",
+    "type": "widget",
+    "copy-from": "status_hpg_layout_larm",
+    "flags": [ "W_NO_PADDING" ]
+  },
+  {
+    "id": "lcom_hpg_status_rarm",
+    "type": "widget",
+    "copy-from": "status_hpg_layout_rarm",
+    "flags": [ "W_NO_PADDING" ]
+  },
+  {
+    "id": "lcom_hpg_status_lleg",
+    "type": "widget",
+    "copy-from": "status_hpg_layout_lleg",
+    "flags": [ "W_NO_PADDING" ]
+  },
+  {
+    "id": "lcom_hpg_status_rleg",
+    "type": "widget",
+    "copy-from": "status_hpg_layout_rleg",
+    "flags": [ "W_NO_PADDING" ]
+  },
+  {
     "id": "lcom_limbs_left_layout",
     "type": "widget",
     "style": "layout",
     "arrange": "rows",
-    "widgets": [ "hp_head_graph", "hp_left_arm_graph", "hp_left_leg_graph" ]
+    "width": 12,
+    "widgets": [ "lcom_hpg_status_head", "lcom_hpg_status_larm", "lcom_hpg_status_lleg" ]
   },
   {
     "id": "lcom_limbs_mid_layout",
     "type": "widget",
     "style": "layout",
     "arrange": "rows",
-    "widgets": [ "hp_torso_graph", "hp_right_arm_graph", "hp_right_leg_graph" ]
+    "width": 12,
+    "widgets": [ "lcom_hpg_status_torso", "lcom_hpg_status_rarm", "lcom_hpg_status_rleg" ]
   },
   {
     "id": "lcom_safe_mood_layout",
@@ -25,6 +72,7 @@
     "type": "widget",
     "style": "layout",
     "arrange": "rows",
+    "width": 10,
     "widgets": [ "stamina_graph_classic", "power_short_desc", "lcom_safe_mood_layout" ]
   },
   {

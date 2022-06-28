@@ -3031,7 +3031,7 @@ void item::deserialize( const JsonObject &data )
     }
 
     // FIXME: batch_size migration from charges - remove after 0.G
-    if( is_craft() and craft_data_->batch_size <= 0 ) {
+    if( is_craft() && craft_data_->batch_size <= 0 ) {
         craft_data_->batch_size = clamp( charges, 1, charges );
         charges = 0;
     }
