@@ -36,6 +36,13 @@
     "use_action": { "type": "cast_spell", "spell_id": "exo_flamethrower", "no_fail": true, "level": 20 }
   },
   {
+    "type": "enchantment",
+    "id": "exolaser",
+    "has": "WORN",
+    "condition": "ACTIVE",
+    "intermittent_activation": { "effects": [ { "frequency": "2 seconds", "spell_effects": [ { "id": "exo_laserturret" } ] } ] }
+  },
+  {
     "id": "exo_shoulder_turret",
     "type": "TOOL_ARMOR",
     "category": "exosuit",
