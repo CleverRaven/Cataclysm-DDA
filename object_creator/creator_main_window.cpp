@@ -7,6 +7,7 @@
 #include <QtWidgets/qapplication.h>
 #include <QtWidgets/qmainwindow.h>
 #include <QtWidgets/qpushbutton.h>
+#include <QtCore/QSettings>
 
 namespace io
 {
@@ -41,6 +42,8 @@ int creator::main_window::execute( QApplication &app )
 
     title_menu.show();
     spell_button.show();
+
+    QSettings settings("CleverRaven", "Cataclysm - DDA");
 
     return app.exec();
 }
