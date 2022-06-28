@@ -145,6 +145,8 @@ std::string enum_to_string<widget_var>( widget_var data )
             return "power_text";
         case widget_var::safe_mode_text:
             return "safe_mode_text";
+        case widget_var::safe_mode_classic_text:
+            return "safe_mode_classic_text";
         case widget_var::style_text:
             return "style_text";
         case widget_var::time_text:
@@ -157,6 +159,8 @@ std::string enum_to_string<widget_var>( widget_var data )
             return "veh_fuel_text";
         case widget_var::weariness_text:
             return "weariness_text";
+        case widget_var::weary_transition_level:
+            return "weary_transition_level";
         case widget_var::weary_malus_text:
             return "weary_malus_text";
         case widget_var::weather_text:
@@ -346,7 +350,6 @@ nc_color widget_clause::get_color_for_id( const std::string &clause_id, const wi
 
 void widget::load( const JsonObject &jo, const std::string & )
 {
-    optional( jo, was_loaded, "strings", _strings );
     optional( jo, was_loaded, "width", _width, 1 );
     optional( jo, was_loaded, "height", _height_max, 1 );
     optional( jo, was_loaded, "symbols", _symbols, "-" );
@@ -382,7 +385,7 @@ void widget::load( const JsonObject &jo, const std::string & )
         _bps.clear();
         for( const JsonValue val : jo.get_array( "bodyparts" ) ) {
             if( !val.test_string() ) {
-                jo.throw_error( "Invalid string value in bodyparts array", "bodyparts" );
+                jo.throw_error_at( "bodyparts", "Invalid string value in bodyparts array" );
                 continue;
             }
             _bps.emplace( bodypart_id( val.get_string() ) );
@@ -408,7 +411,11 @@ void widget::load( const JsonObject &jo, const std::string & )
     if( jo.has_object( "default_clause" ) ) {
         _default_clause.load( jo.get_object( "default_clause" ) );
     }
-
+    if( _style == "text" && _clauses.empty() && _var == widget_var::last ) {
+        mandatory( jo, was_loaded, "string", _string );
+    } else {
+        optional( jo, was_loaded, "string", _string );
+    }
     optional( jo, was_loaded, "widgets", _widgets, string_id_reader<::widget> {} );
 }
 
@@ -583,6 +590,10 @@ void widget::set_default_var_range( const avatar &ava )
             _var_min = 0;
             _var_max = 10;
             break;
+        case widget_var::weary_transition_level:
+            _var_min = 0;
+            _var_max = ava.weary_threshold();
+            break;
 
         // Base stats
         // Normal is the base stat value only; min and max are -3 and +3 from base
@@ -692,6 +703,9 @@ int widget::get_var_value( const avatar &ava ) const
             break;
         case widget_var::weariness_level:
             value = ava.weariness_level();
+            break;
+        case widget_var::weary_transition_level:
+            value = ava.weariness_transition_level();
             break;
         case widget_var::stat_str:
             value = ava.get_str();
@@ -889,6 +903,7 @@ bool widget::uses_text_function()
         case widget_var::place_text:
         case widget_var::power_text:
         case widget_var::safe_mode_text:
+        case widget_var::safe_mode_classic_text:
         case widget_var::style_text:
         case widget_var::time_text:
         case widget_var::veh_azimuth_text:
@@ -977,6 +992,9 @@ std::string widget::color_text_function_string( const avatar &ava, unsigned int 
         case widget_var::safe_mode_text:
             desc = display::safe_mode_text_color( false );
             break;
+        case widget_var::safe_mode_classic_text:
+            desc = display::safe_mode_text_color( true );
+            break;
         case widget_var::style_text:
             desc.first = ava.martial_arts_data->selected_style_name( ava );
             break;
@@ -1052,9 +1070,9 @@ std::string widget::value_string( int value, int width_max )
     if( _style == "graph" ) {
         ret += graph( value );
     } else if( _style == "text" ) {
-        ret += text( value, !_clauses.empty(), w );
+        ret += text( !_clauses.empty(), w );
     } else if( _style == "symbol" ) {
-        ret += sym( value, !_clauses.empty() );
+        ret += sym( !_clauses.empty() );
     } else if( _style == "legend" ) {
         ret += sym_text( !_clauses.empty(), w );
     } else if( _style == "number" ) {
@@ -1120,17 +1138,17 @@ std::string widget::number( int value, bool from_condition ) const
     return from_condition ? number_cond() : string_format( "%d", value );
 }
 
-std::string widget::text( int value, bool from_condition, int width )
+std::string widget::text( bool from_condition, int width )
 {
     if( from_condition ) {
         return text_cond( false, width );
     }
-    return _strings.at( value ).translated();
+    return _string.translated();
 }
 
-std::string widget::sym( int value, bool from_condition )
+std::string widget::sym( bool from_condition )
 {
-    return from_condition ? sym_cond() : text( value, from_condition );
+    return from_condition ? sym_cond() : text( from_condition, 0 );
 }
 
 std::string widget::sym_text( bool from_condition, int width )
@@ -1138,9 +1156,7 @@ std::string widget::sym_text( bool from_condition, int width )
     if( from_condition ) {
         return sym_text_cond( true, width );
     }
-    return enumerate_as_string( _strings.begin(), _strings.end(), []( const translation & t ) {
-        return t.translated();
-    }, enumeration_conjunction::none );
+    return _string.translated();
 }
 
 std::string widget::number_cond( enumeration_conjunction join_type ) const
@@ -1455,25 +1471,45 @@ std::string widget::layout( const avatar &ava, unsigned int max_width, int label
             // Store the (potentially) multi-row text for each column
             std::vector<std::vector<std::string>> cols;
             std::vector<int> widths;
+            unsigned int total_width = 0;
             for( const widget_id &wid : _widgets ) {
                 widget cur_child = wid.obj();
                 int cur_width = child_width;
-                if( cur_child._style == "layout" && cur_child._width > 1 ) {
-                    cur_width = cur_child._width;
+                // determine spacing based on type of column
+                if( _arrange == "minimum_columns" ) {
+                    if( cur_child._width > 1 ) {
+                        cur_width = cur_child._width;
+                    }
+                    // if last widget make it take the remaining space
+                    if( wid == _widgets.back() ) {
+                        cur_width = avail_width - total_width;
+                    }
+                } else { //columns
+                    if( cur_child._style == "layout" && cur_child._width > 1 ) {
+                        cur_width = cur_child._width;
+                    }
+                    // Spread remainder over the first few columns
+                    if( remainder > 0 ) {
+                        cur_width += 1;
+                        remainder -= 1;
+                    }
                 }
-                // Spread remainder over the first few columns
-                if( remainder > 0 ) {
-                    cur_width += 1;
-                    remainder -= 1;
+
+                if( cur_width > 0 ) {
+                    total_width += cur_width;
+                }
+                if( total_width > max_width ) {
+                    debugmsg( "widget layout is wider than sidebar allows." );
                 }
                 const bool skip_pad_this = skip_pad || wid->has_flag( json_flag_W_NO_PADDING );
                 // Layout child in this column
                 const std::string txt = cur_child.layout( ava, skip_pad_this ? 0 : cur_width,
                                         label_width, skip_pad_this );
                 // Store the resulting text for this column
-                cols.emplace_back( foldstring( txt, skip_pad_this ? 0 : cur_width ) );
+                cols.emplace_back( string_split( txt, '\n' ) );
                 widths.emplace_back( cur_width );
             }
+
             int h_max = 0;
             std::string sep;
             // Line up each row of each column to form the whole multi-line layout

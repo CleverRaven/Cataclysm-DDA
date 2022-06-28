@@ -30,7 +30,7 @@ const std::unordered_set<std::string> simple_string_conds = { {
 };
 const std::unordered_set<std::string> complex_conds = { {
         "u_has_any_trait", "npc_has_any_trait", "u_has_trait", "npc_has_trait",
-        "u_has_flag", "npc_has_flag", "npc_has_class", "u_has_mission",
+        "u_has_flag", "npc_has_flag", "npc_has_class", "u_has_mission", "u_monsters_in_direction", "u_safe_mode_trigger",
         "u_has_strength", "npc_has_strength", "u_has_dexterity", "npc_has_dexterity",
         "u_has_intelligence", "npc_has_intelligence", "u_has_perception", "npc_has_perception",
         "u_is_wearing", "npc_is_wearing", "u_has_item", "npc_has_item", "u_has_move_mode", "npc_has_move_mode",
@@ -258,6 +258,8 @@ struct conditional_t {
         void set_is_riding( bool is_npc = false );
         void set_npc_has_class( const JsonObject &jo, bool is_npc );
         void set_u_has_mission( const JsonObject &jo );
+        void set_u_monsters_in_direction( const JsonObject &jo );
+        void set_u_safe_mode_trigger( const JsonObject &jo );
         void set_has_strength( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_has_dexterity( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_has_intelligence( const JsonObject &jo, const std::string &member, bool is_npc = false );

@@ -33,6 +33,40 @@ void length::deserialize( const JsonValue &jv )
 }
 
 template<>
+void specific_energy::serialize( JsonOut &jsout ) const
+{
+    jsout.write( string_format( "%f", value_ ) );
+}
+
+template<>
+void specific_energy::deserialize( const JsonValue &jv )
+{
+    if( jv.test_int() ) {
+        // Compatibility with old 0.F saves
+        *this = units::from_joule_per_gram( jv.get_int() );
+        return;
+    }
+    *this = units::from_joule_per_gram( std::stof( jv.get_string() ) );
+}
+
+template<>
+void temperature::serialize( JsonOut &jsout ) const
+{
+    jsout.write( string_format( "%f", value_ ) );
+}
+
+template<>
+void temperature::deserialize( const JsonValue &jv )
+{
+    if( jv.test_int() ) {
+        // Compatibility with old 0.F saves
+        *this = from_kelvin( jv.get_int() );
+        return;
+    }
+    *this = from_kelvin( std::stof( jv.get_string() ) );
+}
+
+template<>
 void energy::serialize( JsonOut &jsout ) const
 {
     if( value_ % 1000000 == 0 ) {

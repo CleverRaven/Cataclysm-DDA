@@ -29,6 +29,7 @@ enum class widget_var : int {
     max_mana,       // Current maximum mana, integer
     morale_level,   // Current morale level, integer (may be negative)
     weariness_level, // Current weariness level, integer
+    weary_transition_level, // Current weariness level, integer
     stat_str,       // Base STR (strength) stat, integer
     stat_dex,       // Base DEX (dexterity) stat, integer
     stat_int,       // Base INT (intelligence) stat, integer
@@ -56,6 +57,7 @@ enum class widget_var : int {
     place_text,     // Place name in world where character is
     power_text,     // Remaining power from bionics, color string
     safe_mode_text, // Safe mode text, color string
+    safe_mode_classic_text, // Safe mode text, classic mode color string.
     style_text,     // Active martial arts style name
     time_text,      // Current time - exact if character has a watch, approximate otherwise
     veh_azimuth_text, // Azimuth or heading in degrees, string
@@ -237,7 +239,7 @@ class widget
         // Graph fill style ("bucket" or "pool")
         std::string _fill;
         // String values mapped to numeric values or ranges
-        std::vector<translation> _strings;
+        translation _string;
         // Colors mapped to values or ranges
         std::vector<nc_color> _colors;
         // Child widget ids for layout style
@@ -310,12 +312,12 @@ class widget
         std::string number( int value, bool from_condition ) const;
         // Return the numeric value(s) from all true conditional clauses in this widget
         std::string number_cond( enumeration_conjunction join_type = enumeration_conjunction::none ) const;
-        // Return the text clause mapped to a given value for "text" style
-        std::string text( int value, bool from_condition, int width = 0 );
+        // Return the text clause for "text" style
+        std::string text( bool from_condition, int width = 0 );
         // Return the text clause(s) from all true conditional clauses in this widget
         std::string text_cond( bool no_join = false, int width = 0 );
         // Return the symbol mapped to a given value for "symbol" style
-        std::string sym( int value, bool from_condition );
+        std::string sym( bool from_condition );
         // Return the symbol(s) from all true conditional clauses in this widget
         std::string sym_cond( bool no_join = true,
                               enumeration_conjunction join_type = enumeration_conjunction::none ) const;

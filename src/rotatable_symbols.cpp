@@ -45,7 +45,7 @@ void load( const JsonObject &jo, const std::string &src )
     mandatory( jo, false, tuple_key, tuple_temp );
 
     if( tuple_temp.size() != 2 && tuple_temp.size() != 4 ) {
-        jo.throw_error( "Invalid size.  Must be either 2 or 4.", tuple_key );
+        jo.throw_error_at( tuple_key, "Invalid size.  Must be either 2 or 4." );
     }
     std::vector<uint32_t> tuple;
     tuple.reserve( tuple_temp.size() );
@@ -60,7 +60,8 @@ void load( const JsonObject &jo, const std::string &src )
         const bool found = entry_iter != symbols.end() && entry_iter->symbol == *iter;
 
         if( strict && found ) {
-            jo.throw_error( string_format( "Symbol %ld was already defined.", *iter ), tuple_key );
+            jo.throw_error_at(
+                tuple_key, string_format( "Symbol %ld was already defined.", *iter ) );
         }
 
         rotatable_symbol &entry = found ? *entry_iter : temp_entry;

@@ -3,6 +3,7 @@
 
 #include "AlmostNeverAutoCheck.h"
 #include "AssertCheck.h"
+#include "AvoidAlternativeTokensCheck.h"
 #include "ClangTidyModule.h"
 #include "ClangTidyModuleRegistry.h"
 #include "CombineLocalsIntoPointCheck.h"
@@ -63,6 +64,8 @@ class CataModule : public ClangTidyModule
             }
             CheckFactories.registerCheck<AlmostNeverAutoCheck>( "cata-almost-never-auto" );
             CheckFactories.registerCheck<AssertCheck>( "cata-assert" );
+            CheckFactories.registerCheck<AvoidAlternativeTokensCheck>(
+                "cata-avoid-alternative-tokens" );
             CheckFactories.registerCheck<CombineLocalsIntoPointCheck>(
                 "cata-combine-locals-into-point" );
             CheckFactories.registerCheck<DeterminismCheck>( "cata-determinism" );

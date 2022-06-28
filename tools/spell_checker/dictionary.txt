@@ -44,6 +44,7 @@ alkyl
 alleghaniensis
 allosaurusid
 allucination
+alnico
 altamente
 alternators
 alumentum
@@ -560,6 +561,7 @@ eviscerations
 exchangeable
 exodii
 exosuit
+exosuits
 explodin
 explosivity
 extensible
@@ -1148,6 +1150,7 @@ nanomesh
 nanoprinted
 nanoribbon
 nanoskirt
+nanuqsaurus
 narry
 ncrease
 nd
@@ -1615,6 +1618,7 @@ spacebar
 spadelike
 spak
 spall
+spalling
 spasmically
 spearcat
 spearhand
@@ -1831,6 +1835,8 @@ uncoils
 underbarrel
 undercovering
 undergrown
+underlayer
+underlayers
 underprepared
 underslung
 undersuit

@@ -1500,7 +1500,7 @@ void npc::form_opinion( const Character &you )
     // FEAR
     if( weapon.is_gun() ) {
         // TODO: Make bows not guns
-        if( weapon.is_gun() ) {
+        if( weapon.has_flag( flag_PRIMITIVE_RANGED_WEAPON ) ) {
             op_of_u.fear += 2;
         } else {
             op_of_u.fear += 6;
@@ -2072,15 +2072,13 @@ void npc::shop_restock()
 
     // First, populate trade goods using rigid groups.
     // Rigid groups are always processed a single time, regardless of the shopkeeper's inventory size or desired total value of goods.
-    if( !rigid_groups.empty() ) {
-        for( const item_group_id &rg : rigid_groups ) {
-            item_group::ItemList rigid_items = item_group::items_from( rg, calendar::turn );
-            if( !rigid_items.empty() ) {
-                for( item &tmpit : rigid_items ) {
-                    if( !tmpit.is_null() ) {
-                        tmpit.set_owner( *this );
-                        ret.push_back( tmpit );
-                    }
+    for( const item_group_id &rg : rigid_groups ) {
+        item_group::ItemList rigid_items = item_group::items_from( rg, calendar::turn );
+        if( !rigid_items.empty() ) {
+            for( item &tmpit : rigid_items ) {
+                if( !tmpit.is_null() ) {
+                    tmpit.set_owner( *this );
+                    ret.push_back( tmpit );
                 }
             }
         }

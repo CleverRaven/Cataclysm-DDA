@@ -218,7 +218,7 @@ void quality_requirement::load( const JsonValue &value )
     level = quality_data.get_int( "level", 1 );
     count = quality_data.get_int( "amount", 1 );
     if( count <= 0 ) {
-        quality_data.throw_error( "quality amount must be a positive number", "amount" );
+        quality_data.throw_error_at( "amount", "quality amount must be a positive number" );
     }
     // Note: level is not checked, negative values and 0 are allow, see butchering quality.
 }

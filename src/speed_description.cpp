@@ -50,7 +50,7 @@ void speed_description_value::load( const JsonObject &jo )
 {
     mandatory( jo, was_loaded, "value", value_ );
     if( value_ < 0.00 ) {
-        jo.throw_error( "value outside supported range", "value" );
+        jo.throw_error_at( "value", "value outside supported range" );
     }
     if( jo.has_array( "descriptions" ) ) {
         optional( jo, was_loaded, "descriptions", descriptions_ );

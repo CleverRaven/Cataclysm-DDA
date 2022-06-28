@@ -14,23 +14,26 @@ struct disp_overmap_cache {
         tripoint_abs_omt _center;
         tripoint_abs_omt _mission;
         std::string _om_wgt_str;
+        int _width;
 
     public:
         disp_overmap_cache();
 
         // Returns true if the stored overmap string can be used with the given
         // center (player) position and mission target.
-        bool is_valid_for( const tripoint_abs_omt &center, const tripoint_abs_omt &mission ) const {
-            return _center == center && _mission == mission;
+        bool is_valid_for( const tripoint_abs_omt &center,
+                           const tripoint_abs_omt &mission, int width ) const {
+            return _center == center && _mission == mission && _width == width;
         }
 
         // Rebuild the cache using the validation parameters "center" and "mission"
         // and store the associated widget string.
-        void rebuild( const tripoint_abs_omt &center, const tripoint_abs_omt &mission,
+        void rebuild( const tripoint_abs_omt &center, const tripoint_abs_omt &mission, int width,
                       const std::string &om_wgt_str ) {
             _center = center;
             _mission = mission;
             _om_wgt_str = om_wgt_str;
+            _width = width;
         }
 
         // Retrieve the cached widget string

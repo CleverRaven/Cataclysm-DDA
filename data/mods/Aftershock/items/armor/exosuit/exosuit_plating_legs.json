@@ -3,10 +3,10 @@
     "id": "exo_leg_steel",
     "type": "ARMOR",
     "category": "exosuit",
-    "name": { "str": "steel leg plating (exosuit)", "str_pl": "steel leg plates (exosuit)" },
+    "name": { "str": "steel leg plate (exosuit)", "str_pl": "steel leg plates (exosuit)" },
     "description": "Designed to attach to an exosuit's legs, these are sturdy plates of steel.",
-    "weight": "33000 g",
-    "volume": "10 L",
+    "weight": "13500 g",
+    "volume": "6500 ml",
     "material": [ "qt_steel" ],
     "symbol": "L",
     "looks_like": "legguard_lightplate",
@@ -15,10 +15,10 @@
     "non_functional": "damaged_exo_leg_steel_plate",
     "armor": [
       {
-        "material": [ { "type": "qt_steel", "covered_by_mat": 100, "thickness": 4 } ],
+        "material": [ { "type": "qt_steel", "covered_by_mat": 100, "thickness": 6 } ],
         "covers": [ "leg_l", "leg_r", "foot_l", "foot_r" ],
         "coverage": 100,
-        "encumbrance": 15
+        "encumbrance": 5
       }
     ]
   },
@@ -32,10 +32,10 @@
     "non_functional": "destroyed_exo_leg_steel_plate",
     "armor": [
       {
-        "material": [ { "type": "qt_steel", "covered_by_mat": 100, "thickness": 2 } ],
+        "material": [ { "type": "qt_steel", "covered_by_mat": 100, "thickness": 3 } ],
         "covers": [ "leg_l", "leg_r", "foot_l", "foot_r" ],
         "coverage": 85,
-        "encumbrance": 15
+        "encumbrance": 5
       }
     ]
   },
@@ -52,7 +52,7 @@
     "type": "ARMOR",
     "category": "exosuit",
     "copy-from": "exo_leg_steel",
-    "name": { "str": "plastic leg plating (exosuit)", "str_pl": "plastic leg plates (exosuit)" },
+    "name": { "str": "plastic leg plate (exosuit)", "str_pl": "plastic leg plates (exosuit)" },
     "description": "Designed to attach to an exosuit's legs, these are plates of plastic.",
     "weight": "6000 g",
     "volume": "10 L",
@@ -60,10 +60,10 @@
     "non_functional": "damaged_exo_leg_plastic_plate",
     "armor": [
       {
-        "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 3 } ],
+        "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 4.5 } ],
         "covers": [ "leg_l", "leg_r", "foot_l", "foot_r" ],
         "coverage": 100,
-        "encumbrance": 10
+        "encumbrance": 5
       }
     ]
   },
@@ -77,10 +77,10 @@
     "non_functional": "destroyed_exo_leg_plastic_plate",
     "armor": [
       {
-        "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 1.5 } ],
+        "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 2.25 } ],
         "covers": [ "leg_l", "leg_r", "foot_l", "foot_r" ],
         "coverage": 85,
-        "encumbrance": 10
+        "encumbrance": 5
       }
     ]
   },
@@ -97,16 +97,15 @@
     "type": "ARMOR",
     "category": "exosuit",
     "copy-from": "exo_leg_steel",
-    "name": { "str": "carbide leg plating (exosuit)", "str_pl": "carbide leg plates (exosuit)" },
+    "name": { "str": "carbide leg plate (exosuit)", "str_pl": "carbide leg plates (exosuit)" },
     "description": "Designed to attach to an exosuit's legs, these are sturdy plates of vacuum-cast carbide.",
-    "weight": "41000 g",
+    "weight": "13365 g",
     "volume": "10 L",
     "material": [ "vacuum_carbide" ],
-    "material_thickness": 6,
     "non_functional": "damaged_exo_leg_vcc_plate",
     "armor": [
       {
-        "material": [ { "type": "vacuum_carbide", "covered_by_mat": 100, "thickness": 6 } ],
+        "material": [ { "type": "vacuum_carbide", "covered_by_mat": 100, "thickness": 4 } ],
         "covers": [ "leg_l", "leg_r", "foot_l", "foot_r" ],
         "coverage": 100,
         "encumbrance": 20
@@ -123,10 +122,10 @@
     "non_functional": "destroyed_exo_leg_vcc_plate",
     "armor": [
       {
-        "material": [ { "type": "vacuum_carbide", "covered_by_mat": 100, "thickness": 3 } ],
+        "material": [ { "type": "vacuum_carbide", "covered_by_mat": 100, "thickness": 2 } ],
         "covers": [ "leg_l", "leg_r", "foot_l", "foot_r" ],
         "coverage": 85,
-        "encumbrance": 20
+        "encumbrance": 5
       }
     ]
   },

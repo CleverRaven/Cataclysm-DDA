@@ -119,14 +119,14 @@ void bonus_container::load( const JsonArray &jarr, const bool mult )
     for( const JsonObject qualifiers : jarr ) {
         const affected_stat as = affected_stat_from_string( qualifiers.get_string( "stat" ) );
         if( as == affected_stat::NONE ) {
-            qualifiers.throw_error( "Invalid affected stat", "stat" );
+            qualifiers.throw_error_at( "stat", "Invalid affected stat" );
         }
 
         damage_type dt = damage_type::NONE;
         if( needs_damage_type( as ) ) {
             qualifiers.read( "type", dt );
             if( dt == damage_type::NONE ) {
-                qualifiers.throw_error( "Invalid damage type", "type" );
+                qualifiers.throw_error_at( "type", "Invalid damage type" );
             }
         }
 

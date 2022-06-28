@@ -551,7 +551,7 @@ std::string inventory_selector_preset::cell_t::get_text( const inventory_entry &
 
 bool inventory_holster_preset::is_shown( const item_location &contained ) const
 {
-    if( contained.eventually_contains( holster ) ) {
+    if( contained.eventually_contains( holster ) || holster.eventually_contains( contained ) ) {
         return false;
     }
     if( contained.where() != item_location::type::container
@@ -991,12 +991,12 @@ inventory_entry *inventory_column::add_entry( const inventory_entry &entry )
             }
             item_location found_entry_item = entry.locations.front();
             // this would be much simpler if item::parent_item() didn't call debugmsg
-            return entry_item.where() == found_entry_item.where() and
-                   entry_item.position() == found_entry_item.position() and
-                   ( ( !entry_item.has_parent() and !found_entry_item.has_parent() ) ||
-                     ( entry_item.has_parent() and found_entry_item.has_parent() and
-                       entry_item.parent_item() == found_entry_item.parent_item() ) ) and
-                   entry_item->is_collapsed() == found_entry_item->is_collapsed() and
+            return entry_item.where() == found_entry_item.where() &&
+                   entry_item.position() == found_entry_item.position() &&
+                   ( ( !entry_item.has_parent() && !found_entry_item.has_parent() ) ||
+                     ( entry_item.has_parent() && found_entry_item.has_parent() &&
+                       entry_item.parent_item() == found_entry_item.parent_item() ) ) &&
+                   entry_item->is_collapsed() == found_entry_item->is_collapsed() &&
                    entry_item->display_stacked_with( *found_entry_item, preset.get_checking_components() );
         } );
         if( entry_with_loc != entries.end() ) {
@@ -1073,7 +1073,7 @@ bool inventory_column::indented_sort_compare( inventory_entry const &lhs,
         return path_lhs.size() < path_rhs.size();
     }
     // otherwise sort the entries below their lowest common ancestor
-    while( li < path_lhs.size() and path_lhs[li] != path_rhs[ri] ) {
+    while( li < path_lhs.size() && path_lhs[li] != path_rhs[ri] ) {
         p_lhs = path_lhs[li++];
         p_rhs = path_rhs[ri++];
     }
@@ -1217,8 +1217,11 @@ int inventory_column::reassign_custom_invlets( int cur_idx, const std::string &p
     for( auto &elem : entries ) {
         // Only items on map/in vehicles: those that the player does not possess.
         if( elem.is_selectable() && elem.any_item()->invlet <= '\0' ) {
-            elem.custom_invlet = cur_idx < static_cast<int>( pickup_chars.size() ) ? pickup_chars[cur_idx] :
-                                 '\0';
+            elem.custom_invlet =
+                static_cast<uint8_t>(
+                    cur_idx < static_cast<int>( pickup_chars.size() ) ?
+                    pickup_chars[cur_idx] : '\0'
+                );
             cur_idx++;
         }
     }
@@ -1312,7 +1315,7 @@ void inventory_column::draw( const catacurses::window &win, const point &p,
                                    text_width; // Align either to the left or to the right
 
                 const std::string &hl_option = get_option<std::string>( "INVENTORY_HIGHLIGHT" );
-                if( cell_index == 0 and entry.chevron ) {
+                if( cell_index == 0 && entry.chevron ) {
                     trim_and_print( win, point( text_x - 1, yy ), 1, c_dark_gray,
                                     entry.collapsed ? "▶" : "▼" );
                 }
@@ -1782,7 +1785,7 @@ void inventory_selector::prepare_layout( size_t client_width, size_t client_heig
 void inventory_selector::reassign_custom_invlets()
 {
     if( invlet_type_ == SELECTOR_INVLET_DEFAULT || invlet_type_ == SELECTOR_INVLET_NUMERIC ) {
-        int min_invlet = use_invlet ? '0' : '\0';
+        int min_invlet = static_cast<uint8_t>( use_invlet ? '0' : '\0' );
         for( inventory_column *elem : columns ) {
             elem->prepare_paging();
             min_invlet = elem->reassign_custom_invlets( u, min_invlet, use_invlet ? '9' : '\0' );
@@ -2456,7 +2459,7 @@ void inventory_selector::toggle_categorize_contained()
         inventory_column replacement_column;
         for( inventory_entry *entry : own_gear_column.get_entries( return_item, true ) ) {
             item_location const loc = entry->locations.front();
-            if( entry->any_item().where() == item_location::type::container and
+            if( entry->any_item().where() == item_location::type::container &&
                 !is_worn_ablative( loc.parent_item(), loc ) ) {
                 item_location ancestor = entry->any_item();
                 while( ancestor.has_parent() ) {
@@ -2706,7 +2709,7 @@ void inventory_multiselector::set_chosen_count( inventory_entry &entry, size_t c
     for( const item_location &loc : entry.locations ) {
         for( auto iter = to_use.begin(); iter != to_use.end(); ) {
             if( iter->first == loc ) {
-                to_use.erase( iter );
+                iter = to_use.erase( iter );
             } else {
                 ++iter;
             }
@@ -3004,7 +3007,7 @@ void inventory_multiselector::on_input( const inventory_input &input )
         count += input.ch - '0';
     } else if( input.action == "TOGGLE_ENTRY" ) { // Mark selected
         toggle_entries( count, toggle_mode::SELECTED );
-    } else if( input.action == "INCREASE_COUNT" or input.action == "DECREASE_COUNT" ) {
+    } else if( input.action == "INCREASE_COUNT" || input.action == "DECREASE_COUNT" ) {
         inventory_entry &entry = get_active_column().get_highlighted();
         size_t const count = entry.chosen_count;
         size_t const max = entry.get_available_count();

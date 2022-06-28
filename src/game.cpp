@@ -1105,6 +1105,18 @@ void game::unload_npcs()
     critter_tracker->clear_npcs();
 }
 
+void game::remove_npc( character_id const &id )
+{
+    std::list<shared_ptr_fast<npc>> &active_npc = critter_tracker->active_npc;
+    auto const it = std::find_if( active_npc.begin(), active_npc.end(),
+    [id]( shared_ptr_fast<npc> const & n ) {
+        return n->getID() == id;
+    } );
+    if( it != active_npc.end() ) {
+        active_npc.erase( it );
+    }
+}
+
 void game::reload_npcs()
 {
     // TODO: Make it not invoke the "on_unload" command for the NPCs that will be loaded anyway
@@ -10002,7 +10014,11 @@ point game::place_player( const tripoint &dest_loc )
     }
 
     // If the player is in a vehicle, unboard them from the current part
+    bool was_in_control_same_pos = false;
     if( u.in_vehicle ) {
+        if( u.controlling_vehicle && u.pos() == dest_loc ) {
+            was_in_control_same_pos = true;
+        }
         m.unboard_vehicle( u.pos() );
     }
     // Move the player
@@ -10124,6 +10140,9 @@ point game::place_player( const tripoint &dest_loc )
     // If the new tile is a boardable part, board it
     if( vp1.part_with_feature( "BOARDABLE", true ) && !u.is_mounted() ) {
         m.board_vehicle( u.pos(), &u );
+        if( was_in_control_same_pos && vp1.part_with_feature( "CONTROLS", true ) ) {
+            u.controlling_vehicle = true;
+        }
     }
 
     // Traps!
@@ -10218,7 +10237,8 @@ point game::place_player( const tripoint &dest_loc )
         }
     }
 
-    if( ( vp1.part_with_feature( "CONTROL_ANIMAL", true ) ||
+    if( !was_in_control_same_pos &&
+        ( vp1.part_with_feature( "CONTROL_ANIMAL", true ) ||
           vp1.part_with_feature( "CONTROLS", true ) ) && u.in_vehicle && !u.is_mounted() ) {
         add_msg( _( "There are vehicle controls here." ) );
         if( !u.has_trait( trait_WAYFARER ) ) {
@@ -10983,6 +11003,13 @@ void game::vertical_move( int movez, bool force, bool peeking )
 
         if( u.get_working_arm_count() < 1 && !here.has_flag( ter_furn_flag::TFLAG_LADDER, u.pos() ) ) {
             add_msg( m_info, _( "You can't climb because your arms are too damaged or encumbered." ) );
+            return;
+        }
+
+        const item &weapon = u.get_wielded_item();
+        if( !here.has_flag( ter_furn_flag::TFLAG_LADDER, u.pos() ) && weapon.is_two_handed( u ) ) {
+            add_msg( m_info, _( "You can't climb because you have to wield %s with both hands." ),
+                     weapon.tname() );
             return;
         }
 

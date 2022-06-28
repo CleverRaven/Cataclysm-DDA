@@ -2198,10 +2198,8 @@ void npc::load( const JsonObject &data )
 
     std::vector<tripoint_abs_omt> companion_mission_pts;
     data.read( "companion_mission_points", companion_mission_pts );
-    if( !companion_mission_pts.empty() ) {
-        for( auto pt : companion_mission_pts ) {
-            companion_mission_points.push_back( pt );
-        }
+    for( auto pt : companion_mission_pts ) {
+        companion_mission_points.push_back( pt );
     }
 
     if( !data.read( "companion_mission_time", companion_mission_t ) ) {
@@ -2808,8 +2806,8 @@ void item::io( Archive &archive )
     archive.io( "faults", faults, io::empty_default_tag() );
     archive.io( "item_tags", item_tags, io::empty_default_tag() );
     archive.io( "components", components, io::empty_default_tag() );
-    archive.io( "specific_energy", specific_energy, -10 );
-    archive.io( "temperature", temperature, 0 );
+    archive.io( "specific_energy", specific_energy, units::from_joule_per_gram( -10.f ) );
+    archive.io( "temperature", temperature, units::from_kelvin( 0.f ) );
     archive.io( "recipe_charges", recipe_charges, 1 );
     // Legacy: remove flag check/unset after 0.F
     archive.io( "ethereal", ethereal, has_flag( flag_ETHEREAL_ITEM ) );
@@ -2863,6 +2861,15 @@ void item::io( Archive &archive )
     if( poison != 0 && irradiation == 0 && typeId() == itype_rad_badge ) {
         std::swap( irradiation, poison );
     }
+
+    // Compatibility with old 0.F saves
+    // Tempreature used to be saved as 0.00001 K integer.
+    // specific_energy used to be saved as 0.00001 J/g integer.
+    if( temperature > 100000_K ) {
+        temperature /= 100000;
+        specific_energy /= 100000;
+    }
+
 
     // erase all invalid flags (not defined in flags.json)
     // warning was generated earlier on load
@@ -3024,7 +3031,7 @@ void item::deserialize( const JsonObject &data )
     }
 
     // FIXME: batch_size migration from charges - remove after 0.G
-    if( is_craft() and craft_data_->batch_size <= 0 ) {
+    if( is_craft() && craft_data_->batch_size <= 0 ) {
         craft_data_->batch_size = clamp( charges, 1, charges );
         charges = 0;
     }
@@ -3132,7 +3139,7 @@ void vehicle_part::deserialize( const JsonObject &data )
 
     // if we don't know what type of part it is, it'll cause problems later.
     if( !pid.is_valid() ) {
-        data.throw_error( "bad vehicle part", "id" );
+        data.throw_error_at( "id", "bad vehicle part" );
     }
     id = pid;
     if( variant.empty() ) {
@@ -3159,7 +3166,7 @@ void vehicle_part::deserialize( const JsonObject &data )
     if( data.has_int( "z_offset" ) ) {
         int z_offset = data.get_int( "z_offset" );
         if( std::abs( z_offset ) > 10 ) {
-            data.throw_error( "z_offset out of range", "z_offset" );
+            data.throw_error_at( "z_offset", "z_offset out of range" );
         }
         precalc[0].z = z_offset;
         precalc[1].z = z_offset;
