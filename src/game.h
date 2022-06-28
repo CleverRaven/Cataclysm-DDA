@@ -1182,9 +1182,10 @@ class game
 
 // Returns temperature modifier from direct heat radiation of nearby sources
 // @param location Location affected by heat sources
-// @param direct forces return of heat intensity (and not temperature modifier) of
-// adjacent hottest heat source
-int get_heat_radiation( const tripoint &location, bool direct );
+units::temperature get_heat_radiation( const tripoint &location );
+
+// Returns heat intensity of adjecent fires
+int get_get_best_fire( const tripoint &location );
 // Returns temperature modifier from hot air fields of given location
 int get_convection_temperature( const tripoint &location );
 

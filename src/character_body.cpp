@@ -425,7 +425,7 @@ void Character::update_bodytemp()
                                   sun_intensity_type::high ?
                                   1000 :
                                   500 ) : 0;
-    const int best_fire = get_heat_radiation( pos(), true );
+    const int best_fire = get_best_fire( pos() );
 
     const int lying_warmth = use_floor_warmth ? floor_warmth( pos() ) : 0;
     const int water_temperature =
@@ -438,7 +438,7 @@ void Character::update_bodytemp()
     // Difference between high and low is the "safe" heat - one we only apply if it's beneficial
     const int mutation_heat_bonus = mutation_heat_high - mutation_heat_low;
 
-    const int h_radiation = get_heat_radiation( pos(), false );
+    const int h_radiation = units::to_fahrenheit( get_heat_radiation( pos() ) );
 
     std::map<bodypart_id, std::vector<const item *>> clothing_map;
     for( const bodypart_id &bp : get_all_body_parts() ) {

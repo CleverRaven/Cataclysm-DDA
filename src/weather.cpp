@@ -998,7 +998,7 @@ units::temperature weather_manager::get_temperature( const tripoint &location )
                               ( g->new_game ? 0_K : get_map().get_temperature( location ) );
 
     if( !g->new_game ) {
-        int temp_mod = 0;
+        units::temperature temp_mod = 0;
         temp_mod += get_heat_radiation( location, false );
         temp_mod += get_convection_temperature( location );
 
