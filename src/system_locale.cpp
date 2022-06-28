@@ -11,6 +11,8 @@
 #elif defined(__ANDROID__)
 #include <jni.h>
 #include "sdl_wrappers.h" // for SDL_AndroidGetJNIEnv()
+#elif defined(__linux__)
+#include <langinfo.h>
 #endif
 
 #include "cata_utility.h"
@@ -157,10 +159,27 @@ cata::optional<std::string> Language()
 
 cata::optional<bool> UseMetricSystem()
 {
-#if defined(__APPLE__)
+#if defined(_WIN32)
+    // https://docs.microsoft.com/en-us/globalization/locale/units-of-measurement
+    DWORD measurementUnit;
+    if( GetLocaleInfo( LOCALE_USER_DEFAULT, LOCALE_IMEASURE | LOCALE_RETURN_NUMBER,
+                       reinterpret_cast<LPSTR>( &measurementUnit ),
+                       sizeof( measurementUnit ) / sizeof( TCHAR ) ) == 0 ) {
+        return cata::nullopt;
+    }
+    // measurementUnit == 0 => Metric System
+    // measurementUnit == 1 => Imperial System
+    return measurementUnit == 0;
+#elif defined(__APPLE__)
     CFLocaleRef localeRef = CFLocaleCopyCurrent();
     CFTypeRef useMetricSystem = CFLocaleGetValue( localeRef, kCFLocaleUsesMetricSystem );
     return static_cast<bool>( CFBooleanGetValue( static_cast<CFBooleanRef>( useMetricSystem ) ) );
+#elif defined(__linux__) && defined(_NL_MEASUREMENT_MEASUREMENT)
+    std::string const measurement( nl_langinfo( _NL_MEASUREMENT_MEASUREMENT ) );
+    if( !measurement.empty() ) {
+        return measurement.front() == 1;
+    }
+    return cata::nullopt;
 #else
     return cata::nullopt;
 #endif
