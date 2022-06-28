@@ -3,6 +3,9 @@ from ..write_text import write_text
 
 def parse_widget(json, origin):
     id = json["id"]
+    if "localized_width" in json:
+        write_text(json["localized_width"], origin,
+                   comment="Override width for UI widget \"{}\"".format(id))
     if "label" in json:
         write_text(json["label"], origin,
                    comment="Label of UI widget \"{}\"".format(id))
