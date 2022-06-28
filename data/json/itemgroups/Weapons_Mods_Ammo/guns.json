@@ -389,8 +389,12 @@
       { "group": "nested_sks", "prob": 1 },
       { "group": "nested_win70", "prob": 2 },
       { "group": "nested_1895sbl", "prob": 1 },
+<<<<<<< HEAD
       { "group": "nested_fn_ps90", "prob": 30 },
       { "group": "nested_vz58ts", "prob": 10 },
+=======
+      { "group": "nested_fn_ps90", "prob": 1 },
+>>>>>>> master
       { "group": "nested_aksemi", "prob": 2 }
     ]
   },
@@ -417,8 +421,12 @@
       { "item": "ruger_mini", "prob": 1, "charges-min": 0, "charges-max": 5 },
       { "item": "sks", "prob": 1, "charges-min": 0, "charges-max": 10 },
       { "item": "win70", "prob": 2, "charges-min": 0, "charges-max": 3 },
+<<<<<<< HEAD
       { "item": "fn_ps90", "prob": 30, "charges-min": 0, "charges-max": 50 },
       { "item": "vz58ts", "prob": 10, "charges-min": 0, "charges-max": 30 },
+=======
+      { "item": "fn_ps90", "prob": 1, "charges-min": 0, "charges-max": 50 },
+>>>>>>> master
       { "item": "1895sbl", "prob": 1, "charges-min": 0, "charges-max": 6 },
       { "item": "aksemi", "prob": 2, "charges-min": 0, "charges-max": 30 },
       { "item": "mk47", "prob": 1, "charges-min": 0, "charges-max": 30 }
@@ -444,8 +452,12 @@
       { "item": "sharps", "prob": 10, "charges-min": 0, "charges-max": 0 },
       { "item": "sks", "prob": 20, "charges-min": 0, "charges-max": 0 },
       { "item": "m1a", "prob": 30, "charges-min": 0, "charges-max": 0 },
+<<<<<<< HEAD
       { "item": "fn_ps90", "prob": 30, "charges-min": 0, "charges-max": 0 },
       { "item": "vz58ts", "prob": 10, "charges-min": 0, "charges-max": 0 },
+=======
+      { "item": "fn_ps90", "prob": 5, "charges-min": 0, "charges-max": 0 },
+>>>>>>> master
       { "item": "aksemi", "prob": 15, "charges-min": 0, "charges-max": 0 },
       { "item": "mk47", "prob": 10, "charges-min": 0, "charges-max": 0 }
     ]

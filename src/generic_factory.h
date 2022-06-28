@@ -736,7 +736,7 @@ inline bool handle_proportional( const JsonObject &jo, const std::string &name, 
             member *= scalar;
             return true;
         } else {
-            jo.throw_error( "Invalid scalar for %s", name );
+            jo.throw_error_at( name, "Invalid scalar for " + name );
         }
     }
     return false;
@@ -781,7 +781,7 @@ inline bool handle_relative( const JsonObject &jo, const std::string &name, Memb
             member += adder;
             return true;
         } else {
-            jo.throw_error( "Invalid adder for %s", name );
+            jo.throw_error_at( name, "Invalid adder for " + name );
         }
     }
     return false;
@@ -857,15 +857,17 @@ inline bool one_char_symbol_reader( const JsonObject &jo, const std::string &mem
         return false;
     }
     if( sym_as_string.size() != 1 ) {
-        jo.throw_error(
-            string_format( "%s must be exactly one ASCII character but was %zu characters",
-                           member_name, sym_as_string.size() ), member_name );
+        jo.throw_error_at(
+            member_name,
+            string_format( "%s must be exactly one ASCII character but was %zu bytes",
+                           member_name, sym_as_string.size() ) );
     }
     uint8_t c = sym_as_string.front();
     if( c > 127 ) {
-        jo.throw_error(
+        jo.throw_error_at(
+            member_name,
             string_format( "%s must be exactly one ASCII character but was non-ASCII (%u)",
-                           member_name, c ), member_name );
+                           member_name, c ) );
     }
     sym = c;
     return true;
@@ -890,7 +892,7 @@ inline bool unicode_codepoint_from_symbol_reader( const JsonObject &jo,
     }
     uint32_t sym_as_codepoint = UTF8_getch( sym_as_string );
     if( mk_wcwidth( sym_as_codepoint ) != 1 ) {
-        jo.throw_error( member_name + " must be exactly one console cell wide", member_name );
+        jo.throw_error_at( member_name, member_name + " must be exactly one console cell wide" );
     }
     member = sym_as_codepoint;
     return true;

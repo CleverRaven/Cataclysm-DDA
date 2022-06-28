@@ -120,7 +120,7 @@
     "id": "mon_fungaloid_ganglion",
     "type": "MONSTER",
     "name": { "str": "fungal ganglion" },
-    "description": "An enormous fungus rooted to the ground that seems to be the nexus for all the fungus in the area.  It periodicaly gives birth to new saprolings.",
+    "description": "An enormous fungus rooted to the ground that seems to be the nexus for all the fungus in the area.  It periodically gives birth to new saprolings.",
     "default_faction": "fungus",
     "species": [ "FUNGUS" ],
     "diff": 50,

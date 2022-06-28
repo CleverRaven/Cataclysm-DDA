@@ -352,6 +352,7 @@ struct mtype {
     private:
         std::vector<weakpoints_id> weakpoints_deferred;
         ::weakpoints weakpoints_deferred_inline;
+        std::set<std::string> weakpoints_deferred_deleted;
 
     public:
 

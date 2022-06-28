@@ -24,7 +24,7 @@
         "max_contains_volume": "10 L",
         "max_contains_weight": "145 kg",
         "flag_restriction": [ "EXO_PSU_PLATE" ],
-        "moves": 60
+        "moves": 120
       }
     ]
   },
@@ -59,7 +59,7 @@
         "max_contains_volume": "10 L",
         "max_contains_weight": "145 kg",
         "flag_restriction": [ "EXO_PSU_PLATE" ],
-        "moves": 60
+        "moves": 120
       }
     ]
   },

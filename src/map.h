@@ -2079,6 +2079,7 @@ class map
         bool _main_requires_cleanup = false;
 
     public:
+        void queue_main_cleanup();
         const level_cache &get_cache_ref( int zlev ) const {
             return get_cache( zlev );
         }

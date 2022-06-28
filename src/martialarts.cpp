@@ -657,11 +657,9 @@ bool ma_requirements::is_valid_character( const Character &u ) const
         }
     }
 
-    if( !req_char_flags_all.empty() ) {
-        for( const json_character_flag &flag : req_char_flags_all ) {
-            if( !u.has_flag( flag ) ) {
-                return false;
-            }
+    for( const json_character_flag &flag : req_char_flags_all ) {
+        if( !u.has_flag( flag ) ) {
+            return false;
         }
     }
 

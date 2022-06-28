@@ -1074,7 +1074,7 @@
       [ [ "link_sheet", 3 ], [ "chainmail_arms", 1 ] ],
       [ [ "link_sheet", 4 ], [ "chainmail_legs", 1 ] ],
       [ [ "link_sheet", 2 ], [ "chainmail_hands", 1 ] ],
-      [ [ "link_sheet", 2 ], [ "chainmail_feet", 1 ] ],
+      [ [ "boots_rubber", 1 ] ],
       [ [ "chain_link", 500 ] ],
       [ [ "wire", 5 ] ]
     ]
@@ -1091,7 +1091,7 @@
       [ [ "link_sheet", 2 ], [ "chainmail_arms", 1 ] ],
       [ [ "link_sheet", 3 ], [ "chainmail_legs", 1 ] ],
       [ [ "link_sheet", 2 ], [ "chainmail_hands", 1 ] ],
-      [ [ "link_sheet", 2 ], [ "chainmail_feet", 1 ] ],
+      [ [ "boots_rubber", 1 ] ],
       [ [ "chain_link", 375 ] ],
       [ [ "wire", 3 ] ]
     ]
@@ -1107,7 +1107,7 @@
       [ [ "link_sheet", 4 ], [ "xl_chainmail_arms", 1 ] ],
       [ [ "link_sheet", 5 ], [ "xl_chainmail_legs", 1 ] ],
       [ [ "link_sheet", 3 ], [ "xl_chainmail_hands", 1 ] ],
-      [ [ "link_sheet", 3 ], [ "xl_chainmail_feet", 1 ] ],
+      [ [ "boots_rubber", 1 ] ],
       [ [ "chain_link", 750 ] ],
       [ [ "wire", 5 ] ]
     ]

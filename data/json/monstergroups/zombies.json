@@ -165,6 +165,7 @@
   },
   {
     "type": "monstergroup",
+    "default": "mon_null",
     "name": "GROUP_ZOMBIE_GAS",
     "monsters": [ { "monster": "mon_gas_zombie", "weight": 250, "cost_multiplier": 2, "starts": "7 days" } ]
   },
