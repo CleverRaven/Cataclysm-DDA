@@ -47,6 +47,7 @@
       {
         "pocket_type": "MAGAZINE",
         "description": "This is a tank for gasoline.  Holds up to 10 liters.",
+        "ablative": true,
         "rigid": true,
         "watertight": true,
         "ammo_restriction": { "gasoline": 10000 }

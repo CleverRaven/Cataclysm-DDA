@@ -26,7 +26,6 @@
         "description": "This is a mounting point for helmet plating.",
         "ablative": true,
         "flag_restriction": [ "EXO_HELMET_PLATE" ],
-        "inherits_flags": true,
         "moves": 120
       },
       {
@@ -49,7 +48,6 @@
         "max_contains_volume": "10 L",
         "max_contains_weight": "80 kg",
         "flag_restriction": [ "EXO_TORSO_PLATE" ],
-        "inherits_flags": true,
         "moves": 120
       },
       {
@@ -83,7 +81,6 @@
         "max_contains_volume": "12 L",
         "max_contains_weight": "80 kg",
         "flag_restriction": [ "EXO_ARM_PLATE" ],
-        "inherits_flags": true,
         "moves": 120
       },
       {
@@ -106,7 +103,6 @@
         "max_contains_volume": "12 L",
         "max_contains_weight": "80 kg",
         "flag_restriction": [ "EXO_LEG_PLATE" ],
-        "inherits_flags": true,
         "moves": 120
       },
       {
