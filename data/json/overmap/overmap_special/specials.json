@@ -75,11 +75,134 @@
   {
     "type": "overmap_special",
     "id": "Riverside Dwelling",
-    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "riverside_dwelling_north" } ],
-    "locations": [ "water" ],
-    "city_distance": [ 4, 60 ],
-    "occurrences": [ 0, 6 ],
+    "overmaps": [
+      { "point": [ 0, 0, 1 ], "overmap": "riverside_dwelling_roof_north", "locations": [ "open_air" ] },
+      { "point": [ 0, 0, 0 ], "overmap": "riverside_dwelling_north", "locations": [ "land" ] },
+      { "point": [ 0, -1, 0 ], "overmap": "river_north", "locations": [ "water" ] }
+    ],
+    "city_distance": [ 5, -1 ],
+    "occurrences": [ 0, 2 ],
     "flags": [ "CLASSIC", "WILDERNESS", "MAN_MADE" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Riverside Dwelling 1",
+    "overmaps": [
+      { "point": [ 0, 0, 1 ], "overmap": "riverside_dwelling1_roof_north", "locations": [ "open_air" ] },
+      { "point": [ 0, 0, 0 ], "overmap": "riverside_dwelling1_north", "locations": [ "land" ] },
+      { "point": [ 0, -1, 0 ], "overmap": "river_north", "locations": [ "water" ] }
+    ],
+    "city_distance": [ 5, -1 ],
+    "occurrences": [ 0, 2 ],
+    "flags": [ "CLASSIC", "WILDERNESS", "MAN_MADE" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Riverside Dwelling 2",
+    "overmaps": [
+      { "point": [ 0, 0, 1 ], "overmap": "riverside_dwelling2_roof_north", "locations": [ "open_air" ] },
+      { "point": [ 0, 0, 0 ], "overmap": "riverside_dwelling2_north", "locations": [ "land" ] },
+      { "point": [ 0, -1, 0 ], "overmap": "river_north", "locations": [ "water" ] }
+    ],
+    "city_distance": [ 5, -1 ],
+    "occurrences": [ 0, 2 ],
+    "flags": [ "CLASSIC", "WILDERNESS", "MAN_MADE" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Riverside Dwelling 3",
+    "overmaps": [
+      { "point": [ 0, 0, 1 ], "overmap": "riverside_dwelling3_roof_north", "locations": [ "open_air" ] },
+      { "point": [ 0, 0, 0 ], "overmap": "riverside_dwelling3_north", "locations": [ "land" ] },
+      { "point": [ 0, -1, 0 ], "overmap": "river_north", "locations": [ "water" ] }
+    ],
+    "city_distance": [ 5, -1 ],
+    "occurrences": [ 0, 2 ],
+    "flags": [ "CLASSIC", "WILDERNESS", "MAN_MADE" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Lakeside Cabin",
+    "overmaps": [
+      { "point": [ 0, -1, 0 ], "overmap": "lake_surface", "locations": [ "lake_surface" ] },
+      { "point": [ 0, 0, 0 ], "overmap": "cabin_lakeside_north", "locations": [ "lake_shore" ] },
+      { "point": [ 0, 0, 1 ], "overmap": "cabin_lakeside_roof_north", "locations": [ "open_air" ] },
+      { "point": [ 1, 0, 0 ], "overmap": "lake_shore", "locations": [ "lake_shore" ] },
+      { "point": [ -1, 0, 0 ], "overmap": "lake_shore", "locations": [ "lake_shore" ] }
+    ],
+    "city_distance": [ 5, -1 ],
+    "occurrences": [ 0, 3 ],
+    "flags": [ "CLASSIC", "LAKE", "MAN_MADE" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Lakeside Cabin 1",
+    "overmaps": [
+      { "point": [ 0, -1, 0 ], "overmap": "lake_surface", "locations": [ "lake_surface" ] },
+      { "point": [ 0, 0, 0 ], "overmap": "cabin_lakeside1_north", "locations": [ "lake_shore" ] },
+      { "point": [ 0, 0, 1 ], "overmap": "cabin_lakeside1_roof_north", "locations": [ "open_air" ] },
+      { "point": [ 1, 0, 0 ], "overmap": "lake_shore", "locations": [ "lake_shore" ] },
+      { "point": [ -1, 0, 0 ], "overmap": "lake_shore", "locations": [ "lake_shore" ] }
+    ],
+    "city_distance": [ 5, -1 ],
+    "occurrences": [ 0, 3 ],
+    "flags": [ "CLASSIC", "LAKE", "MAN_MADE" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Lakeside Cabin 2",
+    "overmaps": [
+      { "point": [ 0, -1, 0 ], "overmap": "lake_surface", "locations": [ "lake_surface" ] },
+      { "point": [ 0, 0, 0 ], "overmap": "cabin_lakeside2_north", "locations": [ "lake_shore" ] },
+      { "point": [ 0, 0, 1 ], "overmap": "cabin_lakeside2_roof_north", "locations": [ "open_air" ] },
+      { "point": [ 1, 0, 0 ], "overmap": "lake_shore", "locations": [ "lake_shore" ] },
+      { "point": [ -1, 0, 0 ], "overmap": "lake_shore", "locations": [ "lake_shore" ] }
+    ],
+    "city_distance": [ 5, -1 ],
+    "occurrences": [ 0, 1 ],
+    "flags": [ "CLASSIC", "LAKE", "MAN_MADE" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Lakeside Cabin 3",
+    "overmaps": [
+      { "point": [ 0, -1, 0 ], "overmap": "lake_surface", "locations": [ "lake_surface" ] },
+      { "point": [ 0, 0, 0 ], "overmap": "cabin_lakeside3_north", "locations": [ "lake_shore" ] },
+      { "point": [ 0, 0, 1 ], "overmap": "cabin_lakeside3_roof_north", "locations": [ "open_air" ] },
+      { "point": [ 1, 0, 0 ], "overmap": "lake_shore", "locations": [ "lake_shore" ] },
+      { "point": [ -1, 0, 0 ], "overmap": "lake_shore", "locations": [ "lake_shore" ] }
+    ],
+    "city_distance": [ 5, -1 ],
+    "occurrences": [ 0, 3 ],
+    "flags": [ "CLASSIC", "LAKE", "MAN_MADE" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Lakeside Cabin 4",
+    "overmaps": [
+      { "point": [ 0, -1, 0 ], "overmap": "lake_surface", "locations": [ "lake_surface" ] },
+      { "point": [ 0, 0, 0 ], "overmap": "cabin_lakeside4_north", "locations": [ "lake_shore" ] },
+      { "point": [ 0, 0, 1 ], "overmap": "cabin_lakeside4_roof_north", "locations": [ "open_air" ] },
+      { "point": [ 1, 0, 0 ], "overmap": "lake_shore", "locations": [ "lake_shore" ] },
+      { "point": [ -1, 0, 0 ], "overmap": "lake_shore", "locations": [ "lake_shore" ] }
+    ],
+    "city_distance": [ 5, -1 ],
+    "occurrences": [ 0, 3 ],
+    "flags": [ "CLASSIC", "LAKE", "MAN_MADE" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Lakeside Cabin 5",
+    "overmaps": [
+      { "point": [ 0, -1, 0 ], "overmap": "lake_surface", "locations": [ "lake_surface" ] },
+      { "point": [ 0, 0, 0 ], "overmap": "cabin_lakeside5_north", "locations": [ "lake_shore" ] },
+      { "point": [ 0, 0, 1 ], "overmap": "cabin_lakeside5_roof_north", "locations": [ "open_air" ] },
+      { "point": [ 1, 0, 0 ], "overmap": "lake_shore", "locations": [ "lake_shore" ] },
+      { "point": [ -1, 0, 0 ], "overmap": "lake_shore", "locations": [ "lake_shore" ] }
+    ],
+    "city_distance": [ 5, -1 ],
+    "occurrences": [ 0, 1 ],
+    "flags": [ "CLASSIC", "LAKE", "MAN_MADE" ]
   },
   {
     "type": "overmap_special",
@@ -888,25 +1011,12 @@
   },
   {
     "type": "overmap_special",
-    "id": "military_bunker",
-    "overmaps": [
-      { "point": [ 0, -1, 0 ], "overmap": "road_end_north" },
-      { "point": [ 0, 0, 0 ], "overmap": "bunker_south" },
-      { "point": [ 0, 0, -1 ], "overmap": "bunker_basement" }
-    ],
-    "connections": [ { "point": [ 0, -1, 0 ], "from": [ 0, 0, 0 ] } ],
-    "locations": [ "forest" ],
-    "city_distance": [ 20, -1 ],
-    "occurrences": [ 25, 100 ],
-    "flags": [ "MILITARY", "UNIQUE" ]
-  },
-  {
-    "type": "overmap_special",
     "id": "military_bunker_1",
     "overmaps": [
       { "point": [ 0, -1, 0 ], "overmap": "road_end_north" },
       { "point": [ 0, 0, 0 ], "overmap": "bunker_south" },
-      { "point": [ 0, 0, -1 ], "overmap": "bunker_basement_1" }
+      { "point": [ 0, 0, -1 ], "overmap": "bunker_basement_1" },
+      { "point": [ 0, 0, 1 ], "overmap": "bunker_roof_south" }
     ],
     "connections": [ { "point": [ 0, -1, 0 ], "from": [ 0, 0, 0 ] } ],
     "locations": [ "forest" ],
@@ -3479,7 +3589,10 @@
   {
     "type": "overmap_special",
     "id": "bandit_cabin",
-    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "bandit_cabin_north" } ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "bandit_cabin_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "bandit_cabin_roof_north" }
+    ],
     "locations": [ "forest" ],
     "city_distance": [ 20, -1 ],
     "city_sizes": [ 4, -1 ],
@@ -3493,7 +3606,11 @@
       { "point": [ 0, 0, 0 ], "overmap": "bandit_camp_1_north" },
       { "point": [ 1, 0, 0 ], "overmap": "bandit_camp_2_north" },
       { "point": [ 0, 1, 0 ], "overmap": "bandit_camp_3_north" },
-      { "point": [ 1, 1, 0 ], "overmap": "bandit_camp_4_north" }
+      { "point": [ 1, 1, 0 ], "overmap": "bandit_camp_4_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "bandit_camp_1_roof_north" },
+      { "point": [ 1, 0, 1 ], "overmap": "bandit_camp_2_roof_north" },
+      { "point": [ 0, 1, 1 ], "overmap": "bandit_camp_3_roof_north" },
+      { "point": [ 1, 1, 1 ], "overmap": "bandit_camp_4_roof_north" }
     ],
     "locations": [ "wilderness" ],
     "city_distance": [ 20, -1 ],
@@ -4278,14 +4395,16 @@
     "id": "bandit_garage",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "bandit_garage_1_north" },
-      { "point": [ 1, 0, 0 ], "overmap": "bandit_garage_2_north" }
+      { "point": [ 1, 0, 0 ], "overmap": "bandit_garage_2_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "bandit_garage_1_roof_north" },
+      { "point": [ 1, 0, 1 ], "overmap": "bandit_garage_2_roof_north" }
     ],
     "locations": [ "forest" ],
     "connections": [ { "point": [ -1, 0, 0 ], "terrain": "road" } ],
     "city_distance": [ 20, -1 ],
     "city_sizes": [ 4, -1 ],
     "occurrences": [ 50, 100 ],
-    "flags": [ "CLASSIC", "URBAN", "UNIQUE" ]
+    "flags": [ "CLASSIC", "URBAN", "UNIQUE", "MAN_MADE" ]
   },
   {
     "type": "overmap_special",
@@ -7286,7 +7405,11 @@
       { "point": [ 0, 0, 1 ], "overmap": "helipad2f_nw_north" },
       { "point": [ 1, 0, 1 ], "overmap": "helipad2f_ne_north" },
       { "point": [ 0, 1, 1 ], "overmap": "helipad2f_sw_north" },
-      { "point": [ 1, 1, 1 ], "overmap": "helipad2f_se_north" }
+      { "point": [ 1, 1, 1 ], "overmap": "helipad2f_se_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "helipad_roof_nw_north" },
+      { "point": [ 1, 0, 2 ], "overmap": "helipad_roof_ne_north" },
+      { "point": [ 0, 1, 2 ], "overmap": "helipad_roof_sw_north" },
+      { "point": [ 1, 1, 2 ], "overmap": "helipad_roof_se_north" }
     ],
     "locations": [ "land" ],
     "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road", "connection": "local_road", "from": [ 0, 0, 0 ] } ],

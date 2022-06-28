@@ -2502,7 +2502,7 @@ void veh_interact::display_veh()
     std::vector<int> structural_parts = veh->all_parts_at_location( "structure" );
     for( auto &structural_part : structural_parts ) {
         const int p = structural_part;
-        int sym = veh->part_sym( p, false, false );
+        char sym = veh->part_sym( p, false, false );
         nc_color col = veh->part_color( p, false, false );
 
         const point q = ( veh->part( p ).mount + dd ).rotate( 3 );
@@ -2526,7 +2526,7 @@ void veh_interact::display_veh()
         obstruct = true;
     }
     nc_color col = cpart >= 0 ? veh->part_color( cpart, false, false ) : c_black;
-    int sym = cpart >= 0 ? veh->part_sym( cpart, false, false ) : ' ';
+    char sym = cpart >= 0 ? veh->part_sym( cpart, false, false ) : ' ';
     mvwputch( w_disp, point( hw, hh ), obstruct ? red_background( col ) : hilite( col ),
               special_symbol( sym ) );
     wnoutrefresh( w_disp );
@@ -3223,12 +3223,10 @@ void veh_interact::complete_vehicle( Character &you )
         // so the vehicle could have lost some of its parts from other NPCS works
         // during this player/NPCs activity.
         // check the vehicle points that were stored at beginning of activity.
-        if( !you.activity.coord_set.empty() ) {
-            for( const tripoint &pt : you.activity.coord_set ) {
-                vp = here.veh_at( here.getlocal( pt ) );
-                if( vp ) {
-                    break;
-                }
+        for( const tripoint &pt : you.activity.coord_set ) {
+            vp = here.veh_at( here.getlocal( pt ) );
+            if( vp ) {
+                break;
             }
         }
         // check again, to see if it really is a case of vehicle gone missing.

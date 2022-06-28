@@ -45,16 +45,16 @@ std::list<item> npc_trading::transfer_items( trade_selector::select_t &stuff, Ch
         if( giver.is_npc() ) {
             npc = giver.as_npc();
             f_wants = [npc]( item const * it, int price, int market_price ) {
-                return npc->wants_to_sell( *it, price, market_price );
+                return npc->wants_to_sell( *it, price, market_price ).success();
             };
         } else if( receiver.is_npc() ) {
             npc = receiver.as_npc();
             f_wants = [npc]( item const * it, int price, int market_price ) {
-                return npc->wants_to_buy( *it, price, market_price );
+                return npc->wants_to_buy( *it, price, market_price ).success();
             };
         }
         // spill contained, unwanted items
-        if( f_wants and gift.is_container() ) {
+        if( f_wants && gift.is_container() ) {
             for( item *it : gift.get_contents().all_items_top() ) {
                 int const price =
                     trading_price( giver, receiver, { item_location{ giver, it }, 1 } );
@@ -115,7 +115,7 @@ std::vector<item_pricing> npc_trading::init_selling( npc &np )
 
         const int price = it.price( true );
         int val = np.value( it );
-        if( np.wants_to_sell( it, val, price ) ) {
+        if( np.wants_to_sell( it, val, price ).success() ) {
             result.emplace_back( np, it, val, static_cast<int>( it.count() ) );
         }
     }
@@ -169,10 +169,10 @@ int npc_trading::adjusted_price( item const *it, int amount, Character const &bu
                                           *faction_party ) : nullptr;
 
     double price = it->price_no_contents( true );
-    if( fpr != nullptr and seller.is_npc() ) {
+    if( fpr != nullptr && seller.is_npc() ) {
         price *= fpr->markup;
     }
-    if( it->count_by_charges() and amount >= 0 ) {
+    if( it->count_by_charges() && amount >= 0 ) {
         price *= static_cast<double>( amount ) / it->charges;
     }
     if( buyer.is_npc() ) {
@@ -181,7 +181,7 @@ int npc_trading::adjusted_price( item const *it, int amount, Character const &bu
         price = seller.as_npc()->value( *it, price );
     }
 
-    if( fpr != nullptr and fpr->fixed_adj.has_value() ) {
+    if( fpr != nullptr && fpr->fixed_adj.has_value() ) {
         double const fixed_adj = fpr->fixed_adj.value();
         price *= 1 + ( seller.is_npc() ? fixed_adj : -fixed_adj );
     } else {
@@ -203,12 +203,12 @@ int npc_trading::trading_price( Character const &buyer, Character const &seller,
 
         if( seller.is_npc() ) {
             npc const &np = *seller.as_npc();
-            if( !np.wants_to_sell( *e, price, market_price ) ) {
+            if( !np.wants_to_sell( *e, price, market_price ).success() ) {
                 return VisitResponse::SKIP;
             }
         } else if( buyer.is_npc() ) {
             npc const &np = *buyer.as_npc();
-            if( !np.wants_to_buy( *e, price, market_price ) ) {
+            if( !np.wants_to_buy( *e, price, market_price ).success() ) {
                 return VisitResponse::SKIP;
             }
         }

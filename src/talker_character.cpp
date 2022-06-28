@@ -452,6 +452,11 @@ int talker_character_const::get_thirst() const
     return me_chr_const->get_thirst();
 }
 
+int talker_character_const::get_instant_thirst() const
+{
+    return me_chr_const->get_instant_thirst();
+}
+
 int talker_character_const::get_stored_kcal() const
 {
     return me_chr_const->get_stored_kcal();
@@ -537,9 +542,9 @@ void talker_character::set_fatigue( int amount )
     me_chr->set_fatigue( amount );
 }
 
-void talker_character::mod_healthy_mod( int amount, int cap )
+void talker_character::mod_daily_health( int amount, int cap )
 {
-    me_chr->mod_healthy_mod( amount, cap );
+    me_chr->mod_daily_health( amount, cap );
 }
 
 int talker_character_const::morale_cur() const
@@ -691,7 +696,7 @@ int talker_character_const::get_fine_detail_vision_mod() const
 
 int talker_character_const::get_health() const
 {
-    return me_chr_const->get_healthy();
+    return me_chr_const->get_lifestyle();
 }
 
 static std::pair<bodypart_id, bodypart_id> temp_delta( const Character *u )

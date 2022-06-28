@@ -1170,7 +1170,7 @@
     "book_learn": [ [ "manual_rifle", 6 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
     "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 20 ] ],
-    "tools": [ [ [ "m249", -1 ] ], [ [ "small_repairkit", 40 ], [ "large_repairkit", 40 ] ] ],
+    "tools": [ [ [ "m240", -1 ] ], [ [ "small_repairkit", 40 ], [ "large_repairkit", 40 ] ] ],
     "components": [ [ [ "sheet_metal_small", 5 ] ] ]
   }
 ]

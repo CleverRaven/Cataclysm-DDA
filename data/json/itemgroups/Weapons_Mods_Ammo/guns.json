@@ -389,7 +389,7 @@
       { "group": "nested_sks", "prob": 1 },
       { "group": "nested_win70", "prob": 2 },
       { "group": "nested_1895sbl", "prob": 1 },
-      { "group": "nested_fn_ps90", "prob": 30 },
+      { "group": "nested_fn_ps90", "prob": 1 },
       { "group": "nested_aksemi", "prob": 2 }
     ]
   },
@@ -416,7 +416,7 @@
       { "item": "ruger_mini", "prob": 1, "charges-min": 0, "charges-max": 5 },
       { "item": "sks", "prob": 1, "charges-min": 0, "charges-max": 10 },
       { "item": "win70", "prob": 2, "charges-min": 0, "charges-max": 3 },
-      { "item": "fn_ps90", "prob": 30, "charges-min": 0, "charges-max": 50 },
+      { "item": "fn_ps90", "prob": 1, "charges-min": 0, "charges-max": 50 },
       { "item": "1895sbl", "prob": 1, "charges-min": 0, "charges-max": 6 },
       { "item": "aksemi", "prob": 2, "charges-min": 0, "charges-max": 30 },
       { "item": "mk47", "prob": 1, "charges-min": 0, "charges-max": 30 }
@@ -442,7 +442,7 @@
       { "item": "sharps", "prob": 10, "charges-min": 0, "charges-max": 0 },
       { "item": "sks", "prob": 20, "charges-min": 0, "charges-max": 0 },
       { "item": "m1a", "prob": 30, "charges-min": 0, "charges-max": 0 },
-      { "item": "fn_ps90", "prob": 30, "charges-min": 0, "charges-max": 0 },
+      { "item": "fn_ps90", "prob": 5, "charges-min": 0, "charges-max": 0 },
       { "item": "aksemi", "prob": 15, "charges-min": 0, "charges-max": 0 },
       { "item": "mk47", "prob": 10, "charges-min": 0, "charges-max": 0 }
     ]
@@ -474,7 +474,8 @@
       { "group": "nested_weatherby_5", "prob": 15 },
       { "group": "nested_hk417_13", "prob": 40 },
       { "group": "nested_ar15_retool_300blk", "prob": 15 },
-      { "group": "nested_iwi_tavor_x95_300blk", "prob": 10 }
+      { "group": "nested_iwi_tavor_x95_300blk", "prob": 10 },
+      { "group": "nested_hk_usc45", "prob": 20 }
     ]
   },
   {
@@ -508,6 +509,7 @@
     "//": "Military specification rifles only ever found at military sites.",
     "//2": "Making the assumption any loaded gun will have additional ammo and mags with it.",
     "items": [
+      { "group": "nested_m4_carbine", "prob": 200 },
       { "group": "nested_h&k416a5", "prob": 50 },
       { "group": "nested_m107a1", "prob": 30 },
       { "group": "nested_m134", "prob": 10 },
@@ -523,7 +525,7 @@
       { "group": "nested_rm51_assault_rifle", "prob": 25 },
       { "group": "nested_rm614_lmg", "prob": 10 },
       { "group": "nested_rm88_battle_rifle", "prob": 25 },
-      { "group": "nested_sig_assault_rifle", "prob": 100 },
+      { "group": "nested_sig_assault_rifle", "prob": 50 },
       { "group": "nested_scar_l", "prob": 50 },
       { "group": "nested_scar_h", "prob": 50 },
       { "group": "nested_m110a1", "prob": 50 },

@@ -1225,7 +1225,7 @@ void suffer::from_radiation( Character &you )
 {
     map &here = get_map();
     // checking for radioactive items in inventory
-    const int item_radiation = you.leak_level( flag_RADIOACTIVE );
+    const float item_radiation = you.leak_level();
     const int map_radiation = here.get_radiation( you.pos() );
     float rads = map_radiation / 100.0f + item_radiation / 10.0f;
 
@@ -1312,12 +1312,7 @@ void suffer::from_radiation( Character &you )
     }
 
     if( !radiogenic && you.get_rad() > 0 ) {
-        // Even if you heal the radiation itself, the damage is done.
-        const int hmod = you.get_healthy_mod();
-        const int health_mod_cap = std::max( -200, 200 - you.get_rad() );
-        if( hmod > health_mod_cap ) {
-            you.set_healthy_mod( health_mod_cap );
-        }
+        you.mod_daily_health( -you.get_rad(), -200 );
     }
 
     if( you.get_rad() > 200 && calendar::once_every( 10_minutes ) && x_in_y( you.get_rad(), 1000 ) ) {
@@ -1716,6 +1711,11 @@ void Character::suffer()
     }
     //Suffer from enchantments
     enchantment_cache->activate_passive( *this );
+    if( calendar::once_every( 30_minutes ) ) {
+        int healthy_mod = enchantment_cache->modify_value( enchant_vals::mod::MOD_HEALTH, 0 );
+        int healthy_mod_cap = enchantment_cache->modify_value( enchant_vals::mod::MOD_HEALTH_CAP, 0 );
+        mod_daily_health( healthy_mod, healthy_mod_cap );
+    }
 }
 
 bool Character::irradiate( float rads, bool bypass )
@@ -1838,7 +1838,7 @@ void Character::mend( int rate_multiplier )
     }
 
     // Being healthy helps.
-    healing_factor *= 1.0f + get_healthy() / 200.0f;
+    healing_factor *= 1.0f + get_lifestyle() / 200.0f;
 
     // Very hungry starts lowering the chance
     // square rooting the value makes the numbers drop off faster when below 1
@@ -2157,11 +2157,4 @@ int Character::addiction_level( const addiction_id &type ) const
         return ad.type == type;
     } );
     return iter != addictions.end() ? iter->intensity : 0;
-}
-
-int  Character::leak_level( const flag_id &flag ) const
-{
-    int leak_level = 0;
-    leak_level = inv->leak_level( flag );
-    return leak_level;
 }

@@ -45,7 +45,6 @@ static const itype_id itype_heroin( "heroin" );
 static const itype_id itype_oxycodone( "oxycodone" );
 static const itype_id itype_salt_water( "salt_water" );
 static const itype_id itype_tramadol( "tramadol" );
-static const itype_id itype_water( "water" );
 
 static const material_id material_iron( "iron" );
 
@@ -557,22 +556,6 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
         if( !water.is_null() ) {
             add_item( water );
         }
-        // kludge that can probably be done better to check specifically for toilet water to use in
-        // crafting
-        if( m.furn( p )->has_examine( iexamine::toilet ) ) {
-            // get water charges at location
-            map_stack toilet = m.i_at( p );
-            auto water = toilet.end();
-            for( auto candidate = toilet.begin(); candidate != toilet.end(); ++candidate ) {
-                if( candidate->typeId() == itype_water ) {
-                    water = candidate;
-                    break;
-                }
-            }
-            if( water != toilet.end() && water->charges > 0 ) {
-                add_item( *water );
-            }
-        }
 
         // keg-kludge
         if( m.furn( p )->has_examine( iexamine::keg ) ) {
@@ -782,23 +765,6 @@ std::list<item> inventory::use_amount( const itype_id &it, int quantity,
     return ret;
 }
 
-int inventory::leak_level( const flag_id &flag ) const
-{
-    int ret = 0;
-
-    for( const auto &elem : items ) {
-        for( const auto &elem_stack_iter : elem ) {
-            if( elem_stack_iter.has_flag( flag ) ) {
-                if( elem_stack_iter.has_flag( flag_LEAK_ALWAYS ) ) {
-                    ret += elem_stack_iter.volume() / units::legacy_volume_factor;
-                } else if( elem_stack_iter.has_flag( flag_LEAK_DAM ) && elem_stack_iter.damage() > 0 ) {
-                    ret += elem_stack_iter.damage_level();
-                }
-            }
-        }
-    }
-    return ret;
-}
 
 int inventory::worst_item_value( npc *p ) const
 {

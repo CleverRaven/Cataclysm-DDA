@@ -55,7 +55,7 @@ dest_t _get_shuffled_point_set( std::unordered_set<tripoint_abs_ms> const &set )
 // returns true if item wasn't placed
 bool _to_map( item const &it, map &here, tripoint const &dpoint_here )
 {
-    if( here.can_put_items_ter_furn( dpoint_here ) and
+    if( here.can_put_items_ter_furn( dpoint_here ) &&
         here.free_volume( dpoint_here ) >= it.volume() ) {
         item const &ret = here.add_item_or_charges( dpoint_here, it, false );
         return ret.is_null();
@@ -113,7 +113,7 @@ std::list<item> distribute_items_to_npc_zones( std::list<item> &items, npc &guy 
             tripoint const dpoint_here = here.getlocal( dpoint );
             cata::optional<vpart_reference> const vp =
                 here.veh_at( dpoint_here ).part_with_feature( "CARGO", false );
-            if( vp and vp->vehicle().get_owner() == fac_id ) {
+            if( vp && vp->vehicle().get_owner() == fac_id ) {
                 leftover = _to_veh( it, vp );
             } else {
                 leftover = _to_map( it, here, dpoint_here );

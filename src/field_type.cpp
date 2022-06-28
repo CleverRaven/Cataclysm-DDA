@@ -253,7 +253,7 @@ void field_type::load( const JsonObject &jo, const std::string & )
         intensity_levels.emplace_back( intensity_level );
     }
     if( intensity_levels.empty() ) {
-        jo.throw_error( "No intensity levels defined for field type", "id" );
+        jo.throw_error_at( "id", "No intensity levels defined for field type" );
     }
 
     if( jo.has_object( "npc_complain" ) ) {

@@ -716,6 +716,9 @@ class map
         void clear_vehicle_point_from_cache( vehicle *veh, const tripoint &pt );
         // clears all vehicle level caches
         void clear_vehicle_level_caches();
+        void remove_vehicle_from_cache( vehicle *veh, int zmin = -OVERMAP_DEPTH,
+                                        int zmax = OVERMAP_HEIGHT );
+        void reset_vehicles_sm_pos();
         // clears and build vehicle level caches
         void rebuild_vehicle_level_caches();
         void clear_vehicle_list( int zlev );
@@ -2072,7 +2075,11 @@ class map
         // !value || value->first != map::abs_sub means cache is invalid
         cata::optional<std::pair<tripoint_abs_sm, int>> max_populated_zlev = cata::nullopt;
 
+        // this is set for maps loaded in bounds of the main map (g->m)
+        bool _main_requires_cleanup = false;
+
     public:
+        void queue_main_cleanup();
         const level_cache &get_cache_ref( int zlev ) const {
             return get_cache( zlev );
         }

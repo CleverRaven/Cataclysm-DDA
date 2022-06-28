@@ -1496,6 +1496,21 @@
   },
   {
     "type": "overmap_terrain",
+    "id": [
+      "station_radio_tower_even",
+      "station_radio_tower_odd",
+      "station_radio_tower_top",
+      "station_radio_1_tower_even",
+      "station_radio_1_tower_odd",
+      "station_radio_1_tower_top"
+    ],
+    "name": "radio tower",
+    "sym": "X",
+    "color": "light_gray",
+    "see_cost": 2
+  },
+  {
+    "type": "overmap_terrain",
     "id": "cs_gardening_allotment",
     "copy-from": "generic_city_building",
     "name": "gardening allotment",

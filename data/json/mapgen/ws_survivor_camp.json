@@ -27,6 +27,7 @@
       [ "fire_drill", 30 ],
       { "item": "lighter", "prob": 30, "charges": [ 0, 100 ] },
       { "item": "matches", "prob": 30, "charges": [ 0, 20 ] },
+      { "item": "small_lighter", "prob": 10, "charges": [ 0, 50 ] },
       [ "sunglasses", 30 ],
       [ "fitover_sunglasses", 20 ],
       [ "ax", 10 ],

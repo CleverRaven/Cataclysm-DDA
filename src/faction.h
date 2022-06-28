@@ -75,7 +75,7 @@ struct faction_price_rule: public icg_entry {
 
     faction_price_rule() = default;
     faction_price_rule( itype_id const &id, double m, double f )
-        : icg_entry{ id, {}, {}, {} }, markup( m ), fixed_adj( f ) {};
+        : icg_entry{ id, {}, {}, {}, {} }, markup( m ), fixed_adj( f ) {};
     explicit faction_price_rule( icg_entry const &rhs ) : icg_entry( rhs ) {}
 
     void deserialize( JsonObject const &jo );
