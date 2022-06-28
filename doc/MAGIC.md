@@ -428,7 +428,7 @@ Spell types:
     "effect": "target_attack",                           // effects are coded in C++. A list is provided in this document of possible effects that have been coded.
     "extra_effects": [ { "id": "sacrifice_spell", "hit_self": true }, { "id": "test_attack" } ],     // this allows you to cast multiple spells with only one spell
     "effect_str": "eff_test_note",                       // varies, see table of implemented effects in this document
-	"min_aoe": 6,                                        // area of effect, or range of variance
+    "min_aoe": 6,                                        // area of effect, or range of variance
     "max_aoe": 6,
     "min_duration": 1,                                   // duration of spell effect in moves (if the spell has a special effect)
     "max_duration": 1
