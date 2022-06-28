@@ -76,12 +76,12 @@
       "Ahh but if you want suggestions and are one for craft beers, I certainly suggest having some old world brew before it all goes flat or sour.",
       "Speaking off, Cranberry here brought me a whole cask of Cabernet a few days ago.  So if red wines are your thing I can offer that by the gallon.",
       "Just bought some of this new \"Free Whiskey\" from the caravaneer up above.  Its vile if you ask me, but it packs a good punch.  A real drink of the apocalypse I suppose.",
-      "The water I boiled from a pool by the rails, so I dont suggest you get some.",
+      "The water I boiled from a pool by the rails, so I don't suggest you get some.",
       "And you can also try chatting with some of the other patrons if networking is your thing.",
       "Also have some old world sodas if alcohol isn't your kind of thing.",
       "Not much fruit juice to make fancy drinks, but I can scrounge up some still.",
       "Can also sell some dry foods if you want to stock for a trip somewhere.",
-      "Also good for a chat if you dont want anything."
+      "Also good for a chat if you don't want anything."
     ]
   },
   {
@@ -105,7 +105,10 @@
       }
     },
     "speaker_effect": {
-      "effect": [ { "u_add_var": "first_meet", "type": "dialogue", "context": "ancilla_barkeep", "value": "yes" } ],
+      "effect": [
+        { "u_add_var": "first_meet", "type": "dialogue", "context": "ancilla_barkeep", "value": "yes" },
+        { "npc_add_var": "barkeep", "type": "bool", "context": "ancilla", "value": "yes" }
+      ],
       "sentinel": "bar_meet"
     },
     "responses": [
@@ -123,7 +126,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_ANCILLA_BARKEEP_INFORMATION",
-    "dynamic_line": "If what you want are jobs and opportunities, you'll probably be better off asking to my other patrons.  Have regulars from well across the state, im sure some can offer what you want.\"\n\n \"Really, I just tend the bar and dont ask many questions.  Things tend work out better that way.",
+    "dynamic_line": "If what you want are jobs and opportunities, you'll probably be better off asking to my other patrons.  Have regulars from well across the state, im sure some can offer what you want.\"\n\n \"Really, I just tend the bar and don't ask many questions.  Things tend work out better that way.",
     "responses": [ { "text": "I'll ask around, thank you.", "topic": "TALK_ANCILLA_BARKEEP" } ]
   },
   {
@@ -158,7 +161,7 @@
         "topic": "TALK_DONE",
         "effect": { "u_buy_item": "whiskey", "container": "glass", "cost": 300 }
       },
-      { "text": "On second thought, don't bother.", "topic": "TALK_RANCH_BARKEEP" }
+      { "text": "On second thought, don't bother.", "topic": "TALK_ANCILLA_BARKEEP" }
     ]
   },
   {

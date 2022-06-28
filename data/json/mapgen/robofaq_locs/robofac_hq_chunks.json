@@ -150,7 +150,7 @@
         "h hA.A....   7|>|    |i;",
         " ddA.A@@..  |||S|    +  ",
         "   A......  +...   Y |||",
-        "||||========|...       ^",
+        "||||========|...    Q  ^",
         ",,,|WWWWWWWW|      Y t ?",
         "ssssssssssAA|AA ...  t ?",
         "_y______ssA.[.. ...  t ?",
@@ -177,7 +177,7 @@
           { "item": "NC_ANCILLA_GRUNT_carry", "chance": 50 }
         ]
       },
-      "npcs": { "Q": { "class": "robofac_intercom" } }
+      "npcs": { "Q": { "class": "ancilla_hq_guard" } }
     }
   },
   {
@@ -221,7 +221,6 @@
       "place_zones": [
         { "type": "NPC_INVESTIGATE_ONLY", "faction": "robofac_auxiliaries", "x": [ 2, 14 ], "y": [ 8, 12 ] },
         { "type": "LOOT_UNSORTED", "faction": "robofac_auxiliaries", "x": [ 2, 2 ], "y": [ 10, 10 ] },
-        { "type": "LOOT_UNSORTED", "faction": "robofac_auxiliaries", "x": [ 2, 2 ], "y": [ 11, 11 ] },
         { "type": "LOOT_CURRENCY", "faction": "robofac_auxiliaries", "x": [ 2, 2 ], "y": [ 9, 9 ] }
       ]
     }

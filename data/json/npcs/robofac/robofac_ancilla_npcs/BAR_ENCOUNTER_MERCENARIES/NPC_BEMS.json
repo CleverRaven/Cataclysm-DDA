@@ -6,7 +6,7 @@
     "name_unique": "the enterprising gunrunner",
     "class": "NC_BEM_GUNRUNNER",
     "attitude": 0,
-    "mission": 3,
+    "mission": 7,
     "chat": "BEM_GUNRUNNER_1",
     "faction": "robofac_auxiliaries"
   },

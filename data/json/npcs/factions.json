@@ -91,6 +91,18 @@
     "food_supply": 115200,
     "wealth": 75000,
     "currency": "RobofacCoin",
+    "price_rules": [
+      {
+        "group": "NC_ANCILLA_BARKEEP_stock",
+        "markup": 2.5,
+        "condition": { "npc_has_var": "barkeep", "type": "bool", "context": "ancilla", "value": "yes" }
+      },
+      {
+        "group": "BEM_GUNRUNNER_STOCK",
+        "markup": 3.5,
+        "condition": { "npc_has_var": "gunrunner", "type": "bool", "context": "ancilla", "value": "yes" }
+      }
+    ],
     "relations": {
       "robofac": {
         "kill on sight": false,
