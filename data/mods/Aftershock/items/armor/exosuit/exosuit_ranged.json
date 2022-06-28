@@ -47,7 +47,7 @@
     "type": "TOOL_ARMOR",
     "category": "exosuit",
     "name": { "str": "exosuit shoulder-mounted laser" },
-    "description": "A small semi-autonomous laser on a flexible mount.  While active, it will fire on any hostiles that come within a limited rainge.",
+    "description": "A small semi-autonomous laser on a flexible mount.  While active, it will fire on any hostiles that come within a limited range.",
     "weight": "2 kg",
     "volume": "5 L",
     "longest_side": "100 cm",
