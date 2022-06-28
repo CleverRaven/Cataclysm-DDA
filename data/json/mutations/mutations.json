@@ -3608,8 +3608,8 @@
     "attacks": {
       "attack_text_u": "You slash %s with your claws",
       "attack_text_npc": "%1$s slashes %2$s with their claws",
-      "chance": 15,
-      "strength_damage": { "damage_type": "cut", "amount": 3 }
+      "chance": 8,
+      "strength_damage": { "damage_type": "cut", "amount": 2 }
     }
   },
   {
@@ -3622,8 +3622,8 @@
     "attacks": {
       "attack_text_u": "You slash %s with your talons",
       "attack_text_npc": "%1$s slashes %2$s with their talons",
-      "chance": 20,
-      "strength_damage": { "damage_type": "cut", "amount": 4 }
+      "chance": 12,
+      "strength_damage": { "damage_type": "cut", "amount": 3 }
     }
   },
   {
