@@ -44,5 +44,32 @@
     "max_field_intensity": 10,
     "field_intensity_increment": 1,
     "field_intensity_variance": 0.1    
-  }	
-]
+  },{
+    "id": "exo_laserturret",
+    "type": "SPELL",
+    "name": "Exosuit Laser Turret",
+    "description": "A burst of invisible laser pulses stab at the target.",
+    "valid_targets": [ "hostile" ],
+    "flags": [ "SILENT", "NO_PROJECTILE" ],
+    "effect": "attack",
+    "shape": "blast",
+    "max_level": 20,
+    "min_damage": 5,
+    "max_damage": 5,
+    "damage_increment": 5.0,
+    "min_range": 1,
+    "max_range": 15,
+    "range_increment": 0.25,
+    "min_aoe": 1,
+    "max_aoe": 1,
+    "damage_type": "heat",
+    "sound_description": "a sharp crack"
+  },
+  {
+    "type": "enchantment",
+    "id": "exolaser",
+    "has": "HELD",
+    "condition": "ACTIVE",
+    "intermittent_activation": { "effects": [ { "frequency": "2 seconds", "spell_effects": [ { "id": "exo_laserturret" } ] } ] }
+  }
+  ]

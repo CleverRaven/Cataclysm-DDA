@@ -2,8 +2,8 @@
   {
     "id": "exo_flame_unit",
     "type": "TOOL_ARMOR",
-	"category": "exosuit",
-	"name": { "str": "exosuit heavy flame unit" },
+    "category": "exosuit",
+    "name": { "str": "exosuit heavy flame unit" },
     "description": "A bulky flamethrower unit, meant to be mounted on an exosuit.  An internal compressor adds extra range and spread to the flame compared to most handheld flame units.",
     "weight": "2 kg",
     "volume": "5 L",
@@ -20,8 +20,8 @@
   {
     "id": "exo_sonic_unit",
     "type": "TOOL_ARMOR",
-	"category": "exosuit",
-	"name": { "str": "exosuit sonic cannon" },
+    "category": "exosuit",
+    "name": { "str": "exosuit sonic cannon" },
     "description": "A.",
     "weight": "2 kg",
     "volume": "5 L",
@@ -36,10 +36,17 @@
     "use_action": { "type": "cast_spell", "spell_id": "exo_flamethrower", "no_fail": true, "level": 20 }
   },
   {
+    "type": "enchantment",
+    "id": "exolaser",
+    "has": "HELD",
+    "condition": "ACTIVE",
+    "intermittent_activation": { "effects": [ { "frequency": "2 seconds", "spell_effects": [ { "id": "exo_laserturret" } ] } ] }
+  },
+  {
     "id": "exo_shoulder_turret",
     "type": "TOOL_ARMOR",
-	"category": "exosuit",
-	"name": { "str": "exosuit shoulder-mounted laser" },
+    "category": "exosuit",
+    "name": { "str": "exosuit shoulder-mounted laser" },
     "description": "A small semi-autonomous laser on a flexible mount.  While active, it will fire on any hostiles that come within a limited rainge.",
     "weight": "2 kg",
     "volume": "5 L",
@@ -58,9 +65,8 @@
         "max_contains_weight": "20 kg",
         "magazine_well": "75 ml",
         "item_restriction": [ "afs_cartridge", "afs_compact_cartridge", "afs_bootleg_cartridge", "afs_archeotech_cartridge" ]
-      },
-    "relic_data": {
-      "passive_effects": [ { "has": "HELD", "condition": "ACTIVE", "values": [ { "value": "CARRY_WEIGHT", "add": 30000 } ] } ]
+      }
+    ],
     "use_action": {
       "type": "transform",
       "menu_text": "Activate",
@@ -68,12 +74,15 @@
       "target": "exo_shoulder_turret_on",
       "active": true,
       "need_charges_msg": "The %s's power cartridge is drained."
+    }
   },
   {
-	"id": "exo_shoulder_turret_on",
-	"type": "TOOL_ARMOR",
-	"copy-from": "exo_shoulder_turret",
-	"name": { "str": "exosuit shoulder-mounted laser (on)", "str_pl": "exosuit shoulder-mounted lasers (on)" },{ "type": "cast_spell", "spell_id": "exo_laserturret", "no_fail": true, "level": 20 },
+    "id": "exo_shoulder_turret_on",
+    "type": "TOOL_ARMOR",
+    "copy-from": "exo_shoulder_turret",
+    "name": { "str": "exosuit shoulder-mounted laser (on)", "str_pl": "exosuit shoulder-mounted lasers (on)" },
+    "power_draw": 50,
+    "relic_data": { "passive_effects": [ { "id": "exolaser" } ] },
     "use_action": {
       "ammo_scale": 0,
       "type": "transform",
@@ -81,13 +90,13 @@
       "msg": "You deactivate your %s.",
       "target": "exo_shoulder_turret",
       "need_charges_msg": "The %s's power cartridge is drained."
-    },
+    }
   },
   {
     "id": "exo_microwave_unit",
     "type": "TOOL_ARMOR",
-	"category": "exosuit",
-	"name": { "str": "exosuit microwave cannon" },
+    "category": "exosuit",
+    "name": { "str": "exosuit microwave cannon" },
     "description": "A.",
     "weight": "2 kg",
     "volume": "5 L",
