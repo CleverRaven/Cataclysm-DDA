@@ -411,6 +411,9 @@ class talker
         virtual int get_thirst() const {
             return 0;
         }
+        virtual int get_instant_thirst() const {
+            return 0;
+        }
         virtual int get_stored_kcal() const {
             return 0;
         }
@@ -474,7 +477,7 @@ class talker
             return 0;
         }
         virtual void set_mana_cur( int ) {}
-        virtual void mod_healthy_mod( int, int ) {}
+        virtual void mod_daily_health( int, int ) {}
         virtual int morale_cur() const {
             return 0;
         }

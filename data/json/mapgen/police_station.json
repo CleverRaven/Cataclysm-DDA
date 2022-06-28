@@ -16,7 +16,7 @@
         "|..xxx|---|---|---|--=-|",
         "|...C.|bbb|bbb|bbb|....|",
         "|-+---|...|...|...|LLLL|",
-        "|.....|#*#|#*#|#*#|----|",
+        "|.....|#α#|#α#|#α#|----|",
         "|5.....................|",
         "|-=-|..|+-|-+|-+--|-+--|",
         "|..1|..|.S|S.|t..c|....|",
@@ -43,7 +43,8 @@
         "=": "t_door_metal_locked",
         "w": "t_window",
         "4": "t_gutter_downspout",
-        "#": "t_bars"
+        "#": "t_sconc_wall",
+        "α": "t_door_metal_c_peep"
       },
       "furniture": {
         "c": "f_counter",
@@ -164,7 +165,7 @@
         "|..xxx|---|---|---|--=-|",
         "|...C.|bbb|bbb|bbb|....|",
         "|$^$$$|...|...|...|LLLL|",
-        "|.....|#*#|#*#|#*#|----|",
+        "|.....|#α#|#α#|#α#|----|",
         "|......................|",
         "|$^$|..|+-|-+|-+--|-+--|",
         "|..2|..|.S|S.|t..c|....|",
@@ -194,7 +195,8 @@
         "w": "t_window",
         "<": "t_stairs_up",
         "9": "t_gutter_downspout",
-        "#": "t_bars"
+        "#": "t_sconc_wall",
+        "α": "t_door_metal_c_peep"
       },
       "furniture": {
         "c": "f_counter",
@@ -278,7 +280,7 @@
         "|": "t_brick_wall",
         ".": "t_floor",
         " ": "t_open_air",
-        "4": "t_door_bar_locked",
+        "4": "t_door_metal_c_peep",
         "*": "t_door_locked",
         "+": "t_door_c",
         "$": "t_reinforced_glass",
@@ -288,7 +290,7 @@
         ">": "t_stairs_down",
         "<": "t_stairs_up",
         "~": "t_gutter_downspout",
-        "#": "t_bars"
+        "#": "t_sconc_wall"
       },
       "furniture": {
         "c": "f_counter",
@@ -431,7 +433,7 @@
         "|-------|*|---|---|,,,,,",
         "|bbb|bbb|.|bbb|bbb|,,,,,",
         "|...|...|.|...|...|,,,,,",
-        "|#*#|#*#|.|#*#|#*#|,,,,,",
+        "|#α#|#α#|.|#α#|#α#|,,,,,",
         "|.................|,,,,,",
         "|--------*------*-|,,,,,",
         "|llll|5......+$|.<|,,,,,",
@@ -464,7 +466,8 @@
         "w": "t_window",
         "<": "t_ladder_up",
         "4": "t_gutter_downspout",
-        "#": "t_bars"
+        "#": "t_sconc_wall",
+        "α": "t_door_metal_c_peep"
       },
       "furniture": {
         "c": "f_counter",

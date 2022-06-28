@@ -2,7 +2,7 @@
   {
     "id": "test_duststorm",
     "type": "TOOL",
-    "name": { "str_sp": "Test Dust Storm Causer" },
+    "name": { "str": "test dust storm causer" },
     "description": "Causes dust storms.",
     "weight": "1 g",
     "volume": "1 ml",

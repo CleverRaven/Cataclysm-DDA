@@ -667,6 +667,7 @@ void uilist::setup()
     }
 
     started = true;
+    recalc_start = true;
 }
 
 void uilist::reposition( ui_adaptor &ui )
@@ -736,7 +737,9 @@ void uilist::show()
         estart += text_lines + 1; // +1 for the horizontal line.
     }
 
-    calcStartPos( vshift, fselected, vmax, fentries.size() );
+    if( recalc_start ) {
+        calcStartPos( vshift, fselected, vmax, fentries.size() );
+    }
 
     const int pad_size = std::max( 0, w_width - 2 - pad_left - pad_right );
     const std::string padspaces = std::string( pad_size, ' ' );
@@ -1039,9 +1042,10 @@ void uilist::query( bool loop, int timeout )
         const input_event event = ctxt.get_raw_input();
         ret_evt = event;
         const auto iter = keymap.find( ret_evt );
+        recalc_start = false;
 
         if( scrollby( scroll_amount_from_action( ret_act ) ) ) {
-            /* nothing */
+            recalc_start = true;
         } else if( filtering && ret_act == "UILIST.FILTER" ) {
             inputfilter();
         } else if( iter != keymap.end() ) {
@@ -1098,6 +1102,7 @@ void uilist::query( bool loop, int timeout )
             if( unhandled && allow_anykey ) {
                 ret = UILIST_UNBOUND;
             } else if( unhandled && allow_additional ) {
+                recalc_start = true;
                 for( const auto &it : additional_actions ) {
                     if( it.first == ret_act ) {
                         ret = UILIST_ADDITIONAL;

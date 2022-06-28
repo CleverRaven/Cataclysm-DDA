@@ -496,7 +496,7 @@ void gun_actor::load_internal( const JsonObject &obj, const std::string & )
 
     for( JsonArray mode : obj.get_array( "ranges" ) ) {
         if( mode.size() < 2 || mode.get_int( 0 ) > mode.get_int( 1 ) ) {
-            obj.throw_error( "incomplete or invalid range specified", "ranges" );
+            obj.throw_error_at( "ranges", "incomplete or invalid range specified" );
         }
         ranges.emplace( std::make_pair<int, int>( mode.get_int( 0 ), mode.get_int( 1 ) ),
                         gun_mode_id( mode.size() > 2 ? mode.get_string( 2 ) : "" ) );

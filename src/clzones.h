@@ -440,8 +440,12 @@ class zone_manager
                   const tripoint &start, const tripoint &end,
                   const shared_ptr_fast<zone_options> &options = nullptr, bool personal = false,
                   bool silent = false, map *pmap = nullptr );
+        // get first matching zone
         const zone_data *get_zone_at( const tripoint_abs_ms &where, const zone_type_id &type,
                                       const faction_id &fac = your_fac ) const;
+        // get all matching zones (useful for LOOT_CUSTOM and LOOT_ITEM_GROUP)
+        std::vector<zone_data const *> get_zones_at( const tripoint_abs_ms &where, const zone_type_id &type,
+                const faction_id &fac = your_fac ) const;
         void create_vehicle_loot_zone( class vehicle &vehicle, const point &mount_point,
                                        zone_data &new_zone, map *pmap = nullptr );
 

@@ -475,7 +475,7 @@ void editmap::uber_draw_ter( const catacurses::window &w, map *m )
     creature_tracker &creatures = get_creature_tracker();
     drawsq_params params = drawsq_params().center( center );
     for( const tripoint &p : tripoint_range<tripoint>( start, end ) ) {
-        int sym = game_map ? '%' : ' ';
+        uint8_t sym = game_map ? '%' : ' ';
         if( p.x >= 0 && p.x < msize && p.y >= 0 && p.y < msize ) {
             if( game_map ) {
                 Creature *critter = creatures.creature_at( p );
@@ -1197,6 +1197,7 @@ void editmap::update_fmenu_entry( uilist &fmenu, field &field, const field_type_
     if( fld != nullptr ) {
         fmenu.entries[idx.to_i()].txt += " " + std::string( field_intensity, '*' );
     }
+    fmenu.entries[idx.to_i()].txt += string_format( " (%s)", ftype.id.c_str() );
     fmenu.entries[idx.to_i()].text_color = fld != nullptr ? c_cyan : fmenu.text_color;
     fmenu.entries[idx.to_i()].extratxt.color = ftype.get_intensity_level( field_intensity - 1 ).color;
     fmenu.entries[idx.to_i()].extratxt.txt = ftype.get_symbol( field_intensity - 1 );

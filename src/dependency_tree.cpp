@@ -81,10 +81,8 @@ void dependency_node::check_cyclicity()
         }
 
         // add check parents, if exist, to stack
-        if( !check->parents.empty() ) {
-            for( auto &elem : check->parents ) {
-                nodes_to_check.push( elem );
-            }
+        for( auto &elem : check->parents ) {
+            nodes_to_check.push( elem );
         }
         nodes_visited.insert( check->key );
     }
@@ -117,17 +115,15 @@ void dependency_node::inherit_errors()
         nodes_to_check.pop();
 
         // add check errors
-        if( !check->errors().empty() ) {
-            std::map<NODE_ERROR_TYPE, std::vector<std::string > > cerrors = check->errors();
-            for( auto &cerror : cerrors ) {
-                std::vector<std::string> node_errors = cerror.second;
-                NODE_ERROR_TYPE error_type = cerror.first;
-                std::vector<std::string> cur_errors = all_errors[error_type];
-                for( auto &node_error : node_errors ) {
-                    if( std::find( cur_errors.begin(), cur_errors.end(), node_error ) ==
-                        cur_errors.end() ) {
-                        all_errors[cerror.first].push_back( node_error );
-                    }
+        std::map<NODE_ERROR_TYPE, std::vector<std::string > > cerrors = check->errors();
+        for( auto &cerror : cerrors ) {
+            std::vector<std::string> node_errors = cerror.second;
+            NODE_ERROR_TYPE error_type = cerror.first;
+            std::vector<std::string> cur_errors = all_errors[error_type];
+            for( auto &node_error : node_errors ) {
+                if( std::find( cur_errors.begin(), cur_errors.end(), node_error ) ==
+                    cur_errors.end() ) {
+                    all_errors[cerror.first].push_back( node_error );
                 }
             }
         }
@@ -135,10 +131,8 @@ void dependency_node::inherit_errors()
             continue;
         }
         // add check parents, if exist, to stack
-        if( !check->parents.empty() ) {
-            for( auto &elem : check->parents ) {
-                nodes_to_check.push( elem );
-            }
+        for( auto &elem : check->parents ) {
+            nodes_to_check.push( elem );
         }
         nodes_visited.insert( check->key );
     }
@@ -185,10 +179,8 @@ std::vector<dependency_node *> dependency_node::get_dependencies_as_nodes()
         dependencies.push_back( check );
 
         // add parents to check list
-        if( !check->parents.empty() ) {
-            for( auto &elem : check->parents ) {
-                nodes_to_check.push( elem );
-            }
+        for( auto &elem : check->parents ) {
+            nodes_to_check.push( elem );
         }
         found.insert( check->key );
     }
@@ -243,10 +235,8 @@ std::vector<dependency_node *> dependency_node::get_dependents_as_nodes()
         }
         dependents.push_back( check );
 
-        if( !check->children.empty() ) {
-            for( auto &elem : check->children ) {
-                nodes_to_check.push( elem );
-            }
+        for( auto &elem : check->children ) {
+            nodes_to_check.push( elem );
         }
         found.insert( check->key );
     }

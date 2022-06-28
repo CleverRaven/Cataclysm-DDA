@@ -127,6 +127,41 @@
     ]
   },
   {
+    "id": "clothing_navy",
+    "type": "item_group",
+    "subtype": "collection",
+    "//": "Base clothing entries for Navy personnel like sailors, Marines, SEALs, etc. Leaving out entries for boots and pants in order to define them in the individual drops for the monsters themselves, so as to give the appropriate type of boots and army pants pattern to the appropriate types of personnel.",
+    "items": [
+      { "group": "clothing_soldier_shirt" },
+      { "distribution": [ { "item": "jacket_army_modern", "prob": 50 }, { "item": "combat_shirt", "prob": 50 } ] },
+      { "distribution": [ { "item": "socks", "prob": 30 }, { "item": "nomex_socks", "prob": 70 } ] },
+      {
+        "distribution": [
+          { "collection": [ { "item": "sports_bra" }, { "item": "boy_shorts" } ] },
+          { "distribution": [ { "item": "briefs" }, { "item": "boxer_briefs" }, { "item": "boxer_shorts" } ] }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "clothing_navy_officer",
+    "type": "item_group",
+    "subtype": "collection",
+    "//": "Base clothing entries for Navy officers.",
+    "items": [
+      { "item": "boots", "damage": [ 0, 4 ] },
+      { "item": "hat_navy", "damage": [ 0, 4 ] },
+      { "item": "officer_uniform", "damage": [ 0, 4 ] },
+      { "distribution": [ { "item": "socks", "prob": 30 }, { "item": "nomex_socks", "prob": 70 } ] },
+      {
+        "distribution": [
+          { "collection": [ { "item": "sports_bra" }, { "item": "boy_shorts" } ] },
+          { "distribution": [ { "item": "briefs" }, { "item": "boxer_briefs" }, { "item": "boxer_shorts" } ] }
+        ]
+      }
+    ]
+  },
+  {
     "id": "clothing_military",
     "type": "item_group",
     "subtype": "collection",
@@ -1870,6 +1905,35 @@
       { "item": "briefcase", "prob": 10 },
       { "item": "leg_bag", "prob": 1 },
       { "item": "quiver_takedown_bow", "prob": 1 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "large_bags",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "backpack", "prob": 38 },
+      { "item": "backpack_hiking", "prob": 3 },
+      { "item": "daypack", "prob": 3 },
+      { "item": "backpack_tactical_large", "prob": 1 },
+      { "group": "molle_backpacks_and_accessories", "prob": 1 },
+      { "item": "duffelbag", "prob": 5 },
+      { "item": "bigback", "prob": 1 },
+      { "item": "travelpack", "prob": 5 },
+      { "item": "rucksack", "prob": 20 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "small_bags",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "petpack", "prob": 3 },
+      { "item": "purse", "prob": 40 },
+      { "item": "mbag", "prob": 20 },
+      { "item": "slingpack", "prob": 8 },
+      { "item": "backpack_leather", "prob": 8 },
+      { "item": "briefcase", "prob": 10 }
     ]
   },
   {

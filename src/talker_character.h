@@ -104,6 +104,7 @@ class talker_character_const: public talker
         int get_fatigue() const override;
         int get_hunger() const override;
         int get_thirst() const override;
+        int get_instant_thirst() const override;
         int get_stored_kcal() const override;
         bool is_in_control_of( const vehicle &veh ) const override;
 
@@ -201,7 +202,7 @@ class talker_character: public talker_character_const
 
         void set_fatigue( int amount ) override;
         void mod_pain( int amount ) override;
-        void mod_healthy_mod( int, int ) override;
+        void mod_daily_health( int, int ) override;
         void add_morale( const morale_type &new_morale, int bonus, int max_bonus, time_duration duration,
                          time_duration decay_started, bool capped ) override;
         void remove_morale( const morale_type &old_morale ) override;

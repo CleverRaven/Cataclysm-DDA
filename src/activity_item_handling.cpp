@@ -825,8 +825,8 @@ namespace
 bool _can_construct( tripoint const &loc, construction_id const &idx, construction const &check,
                      cata::optional<construction_id> const &part_con_idx )
 {
-    return ( part_con_idx and * part_con_idx == check.id ) or
-           ( check.pre_terrain != idx->post_terrain and can_construct( check, loc ) );
+    return ( part_con_idx && *part_con_idx == check.id ) ||
+           ( check.pre_terrain != idx->post_terrain && can_construct( check, loc ) );
 }
 
 construction const *
@@ -859,11 +859,11 @@ construction const *_find_prereq( tripoint const &loc, construction_id const &id
     construction const & it ) {
         furn_id const f = top_idx->post_is_furniture ? _get_id<furn_id>( top_idx ) : furn_id();
         ter_id const t = top_idx->post_is_furniture ? ter_id() : _get_id<ter_id>( top_idx );
-        return it.group != idx->group and !it.post_terrain.empty() and
-               it.post_terrain == idx->pre_terrain and
+        return it.group != idx->group && !it.post_terrain.empty() &&
+               it.post_terrain == idx->pre_terrain &&
                // don't get stuck building and deconstructing the top level post_terrain
-               it.pre_terrain != top_idx->post_terrain and
-               ( it.pre_flags.empty() or !can_construct_furn_ter( it, f, t ) );
+               it.pre_terrain != top_idx->post_terrain &&
+               ( it.pre_flags.empty() || !can_construct_furn_ter( it, f, t ) );
     } );
 
     for( construction const *gcon : cons ) {
@@ -876,7 +876,7 @@ construction const *_find_prereq( tripoint const &loc, construction_id const &id
             return gcon;
         }
         // try to find a prerequisite of this prerequisite
-        if( !gcon->pre_terrain.empty() or !gcon->pre_flags.empty() ) {
+        if( !gcon->pre_terrain.empty() || !gcon->pre_flags.empty() ) {
             con = _find_prereq( loc, gcon->id, top_idx, part_con_idx, checked_cache );
         }
         if( con != nullptr ) {
@@ -922,9 +922,9 @@ static activity_reason_info find_base_construction(
     map &here = get_map();
     const furn_id furn = here.furn( loc );
     const ter_id ter = here.ter( loc );
-    if( !build.post_terrain.empty() and
-        ( ( !build.post_is_furniture and ter_id( build.post_terrain ) == ter ) or
-          ( build.post_is_furniture and furn_id( build.post_terrain ) == furn ) ) ) {
+    if( !build.post_terrain.empty() &&
+        ( ( !build.post_is_furniture && ter_id( build.post_terrain ) == ter ) ||
+          ( build.post_is_furniture && furn_id( build.post_terrain ) == furn ) ) ) {
         return activity_reason_info::build( do_activity_reason::ALREADY_DONE, false, build.id );
     }
 
@@ -2205,19 +2205,32 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
             if( mgr.has_near( zone_type_zone_unload_all, abspos, 1, _fac_id( you ) ) ||
                 ( mgr.has_near( zone_type_zone_strip, abspos, 1, _fac_id( you ) ) && it->first->is_corpse() ) ) {
                 if( dest_set.empty() && !it->first->is_container_empty() && !it->first->any_pockets_sealed() ) {
+                    //Check if on a cargo part
+                    if( const cata::optional<vpart_reference> vp = here.veh_at( src_loc ).part_with_feature( "CARGO",
+                            false ) ) {
+                        dest_veh = &vp->vehicle();
+                        dest_part = vp->part_index();
+                    } else {
+                        dest_veh = nullptr;
+                        dest_part = -1;
+                    }
                     for( item *contained : it->first->all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
                         // no liquids don't want to spill stuff
-                        if( !contained->made_of( phase_id::LIQUID ) ) {
-                            //here.add_item_or_charges( src_loc, it->first->remove_item( *contained ) );
-                            //Check if on a cargo part
-                            if( const cata::optional<vpart_reference> vp = here.veh_at( src_loc ).part_with_feature( "CARGO",
-                                    false ) ) {
-                                dest_veh = &vp->vehicle();
-                                dest_part = vp->part_index();
-                            } else {
-                                dest_veh = nullptr;
-                                dest_part = -1;
-                            }
+                        if( !contained->made_of( phase_id::LIQUID ) && !contained->made_of( phase_id::GAS ) ) {
+                            move_item( you, *contained, contained->count(), src_loc, src_loc, this_veh, this_part );
+                            it->first->remove_item( *contained );
+                        }
+                    }
+                    for( item *contained : it->first->all_items_top( item_pocket::pocket_type::MAGAZINE ) ) {
+                        // no liquids don't want to spill stuff
+                        if( !contained->made_of( phase_id::LIQUID ) && !contained->made_of( phase_id::GAS ) ) {
+                            move_item( you, *contained, contained->count(), src_loc, src_loc, this_veh, this_part );
+                            it->first->remove_item( *contained );
+                        }
+                    }
+                    for( item *contained : it->first->all_items_top( item_pocket::pocket_type::MAGAZINE_WELL ) ) {
+                        // no liquids don't want to spill stuff
+                        if( !contained->made_of( phase_id::LIQUID ) && !contained->made_of( phase_id::GAS ) ) {
                             move_item( you, *contained, contained->count(), src_loc, src_loc, this_veh, this_part );
                             it->first->remove_item( *contained );
                         }

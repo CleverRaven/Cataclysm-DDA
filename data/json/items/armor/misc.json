@@ -24,7 +24,7 @@
     "type": "ARMOR",
     "name": { "str": "clown nose" },
     "description": "A red latex nose often seen being worn by clowns.",
-    "weight": "150 g",
+    "weight": "100 g",
     "volume": "100 ml",
     "price": 800,
     "price_postapoc": 10,

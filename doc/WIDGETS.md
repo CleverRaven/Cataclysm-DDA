@@ -118,8 +118,9 @@ linked sections:
 
 | field                   | type                  | description
 | --                      | --                    | --
-| arrange                 | string                | For "layout" style, display child widgets as "rows" or "columns"
+| arrange                 | string                | For "layout" style, display child widgets as "rows", "columns" or "minimum_columns"
 | bodypart                | string                | For "bp_*" variables, body part id like "leg_r" or "torso"
+| separator               | string                | The string used to separate the label from the widget data. Children will inherit if this is not defined. Mandatory if style is "sidebar".
 | [colors](#colors)       | list of strings       | Color names in a spectrum across variable range
 | [direction](#direction) | string                | Cardinal compass direction like "N" or "SE"
 | [fill](#fill)           | string                | For [graph style](#graph-style), fill using ike "bucket" or "pool"
@@ -190,8 +191,9 @@ Use widgets with "style": "layout" to arrange child widgets in sidebar panels, g
 the "widgets" list field.
 
 The arrangement of child widgets is defined by the "arrange" field, which may be "columns" (default)
-to array widgets horizontally, or "rows" to arrange them vertically, one widget per row.  Widgets in
-the same row will have their horizontal space split as equally as possible.
+to array widgets horizontally, or "rows" to arrange them vertically, one widget per row.  Normal columns
+will split their horizontal space as equally as possible. Whereas minimum_columns will take their exact
+amount of space (defaulting to space split like columns) with the last column in the row taking all remaining space.
 
 ```json
 [
@@ -678,6 +680,7 @@ Here are some flags that can be included:
 | `W_DISABLED_BY_DEFAULT` | Makes this widget disabled by default (only applies to top-level widgets/layouts)
 | `W_DISABLED_WHEN_EMPTY` | Automatically hides this widget when the widget's text is empty
 | `W_DYNAMIC_HEIGHT`      | Allows certain multi-line widgets to dynamically adjust their height
+| `W_NO_PADDING`          | Removes extra padding added between columns for alignment (applies recursively to sub-widgets)
 
 
 # Clauses and conditions
@@ -857,33 +860,34 @@ rendered with reference to the maximum value for the variable; see [Variable ran
 
 Some vars refer to text descriptors. These must use style "text". Examples:
 
-| var                     | description
-|--                       |--
-| `activity_text`         | Activity level - "None", "Light". "Moderate", "Brisk", "Active", "Extreme"
-| `bp_outer_armor_text`   | Item name and damage bars of armor/clothing worn on the given "bodypart"
-| `compass_legend_text`   | (_multiline_) A list of creatures visible by the player, corresponding to compass symbols
-| `compass_text`          | A compass direction (ex: NE), displaying visible creatures in that direction
-| `date_text`             | Current day within season, like "Summer, day 15"
-| `env_temp_text`         | Environment temperature, if thermometer is available
-| `mood_text`             | Avatar mood represented as an emoticon face
-| `move_mode_letter`      | Movement mode - "W": walking, "R": running, "C": crouching, "P": prone
-| `move_mode_text`        | Movement mode - "walking", "running", "crouching", "prone"
-| `overmap_loc_text`      | Overmap coordinates, same as shown in the lower corner of overmap screen
-| `overmap_text`          | (_multiline_) Colored text rendering of the local overmap; may define "width" and "height"
-| `pain_text`             | "Mild pain", "Distracting pain", "Intense pain", etc.
-| `place_text`            | Location place name
-| `power_text`            | Bionic power available
-| `safe_mode_text`        | Status of safe mode - "On" or "Off", with color for approaching turn limit
-| `style_text`            | Name of current martial arts style
-| `time_text`             | Current time - exact if clock is available, approximate otherwise
-| `veh_azimuth_text`      | Heading of vehicle in degrees
-| `veh_cruise_text`       | Target and actual cruising velocity, positive or negative
-| `veh_fuel_text`         | Percentage of fuel remaining for current vehicle engine
-| `weariness_text`        | Weariness level - "Fresh", "Light", "Moderate", "Weary" etc.
-| `weary_malus_text`      | Percentage penalty affecting speed due to weariness
-| `weather_text`          | Weather conditions - "Sunny", "Cloudy", "Drizzle", "Portal Storm" etc.
-| `wielding_text`         | Name of current weapon or wielded item
-| `wind_text`             | Wind direction and intensity
+| var                      | description
+|--                        |--
+| `activity_text`          | Activity level - "None", "Light". "Moderate", "Brisk", "Active", "Extreme"
+| `bp_outer_armor_text`    | Item name and damage bars of armor/clothing worn on the given "bodypart"
+| `compass_legend_text`    | (_multiline_) A list of creatures visible by the player, corresponding to compass symbols
+| `compass_text`           | A compass direction (ex: NE), displaying visible creatures in that direction
+| `date_text`              | Current day within season, like "Summer, day 15"
+| `env_temp_text`          | Environment temperature, if thermometer is available
+| `mood_text`              | Avatar mood represented as an emoticon face
+| `move_mode_letter`       | Movement mode - "W": walking, "R": running, "C": crouching, "P": prone
+| `move_mode_text`         | Movement mode - "walking", "running", "crouching", "prone"
+| `overmap_loc_text`       | Overmap coordinates, same as shown in the lower corner of overmap screen
+| `overmap_text`           | (_multiline_) Colored text rendering of the local overmap; may define "width" and "height"
+| `pain_text`              | "Mild pain", "Distracting pain", "Intense pain", etc.
+| `place_text`             | Location place name
+| `power_text`             | Bionic power available
+| `safe_mode_text`         | Status of safe mode - "On" or "Off", with color for approaching turn limit
+| `safe_mode_classic_text` | Status of safe mode - "SAFE", with color for approaching turn limit
+| `style_text`             | Name of current martial arts style
+| `time_text`              | Current time - exact if clock is available, approximate otherwise
+| `veh_azimuth_text`       | Heading of vehicle in degrees
+| `veh_cruise_text`        | Target and actual cruising velocity, positive or negative
+| `veh_fuel_text`          | Percentage of fuel remaining for current vehicle engine
+| `weariness_text`         | Weariness level - "Fresh", "Light", "Moderate", "Weary" etc.
+| `weary_malus_text`       | Percentage penalty affecting speed due to weariness
+| `weather_text`           | Weather conditions - "Sunny", "Cloudy", "Drizzle", "Portal Storm" etc.
+| `wielding_text`          | Name of current weapon or wielded item
+| `wind_text`              | Wind direction and intensity
 
 
 # Predefined widgets
@@ -1045,4 +1049,3 @@ few custom widgets, then using "copy-from" and "extend" on the custom sidebar ob
 
 These two extra widgets, "current_max_mana_nums_layout" and "mana_graph_layout", will be appended to
 the custom sidebar sections whenever a game with the Magiclysm mod is loaded.
-

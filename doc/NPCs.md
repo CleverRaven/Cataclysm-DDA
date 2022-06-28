@@ -37,6 +37,8 @@ Format:
     }
   ],
   "shopkeeper_consumption_rates": "basic_shop_rates",
+  "shopkeeper_blacklist": "test_blacklist",
+  "restock_interval": "6 days",
   "traits": [ { "group": "BG_survival_story_EVACUEE" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ]
 }
 ```
@@ -45,6 +47,8 @@ There are a couple of items in the above template that may not be self explanato
 * `"sells_belongings": false` means that this NPC's worn or held items will strictly be excluded from their shopkeeper list; otherwise, they'll be happy to sell things like their pants. It defaults to `true` if not specified.
 *`"shopkeeper_item_group"` is only needed if the planned NPC will be a shopkeeper with a revolving stock of items that change every three in-game days. All of the item overrides will ensure that any NPC of this class spawns with specific items.
 * `"shopkeeper_consumption_rates"` optional to define item consumption rates for this shopkeeper. Default is to consume all items before restocking
+* `"shopkeeper_blacklist"` optional to define blacklists for this shopkeeper
+* `"restock_interval"`: optional. Default is 6 days
 
 ##### Shopkeeper item groups
 `"shopkeeper_item_group"` entries have the following fields:
@@ -53,6 +57,7 @@ There are a couple of items in the above template that may not be self explanato
 - `"condition"` : (_optional_) Checked alongside trust with the avatar as alpha and the evaluating NPC as beta. See [Player or NPC conditions](#player-or-npc-conditions).
 - `"strict"` : (_optional_) If true, items in this group will not be available for restocking unless the conditions are met. (Defaults to false)
 - `"rigid"` : (_optional_) By default, item groups will be continually iterated until they reach a certain value or size threshold for the NPC. Rigid groups are instead guaranteed to populate a single time if they can, and will not include duplicate reruns. (Defaults to false)
+- `"refusal"` : (_optional_) message to display in UIs (ex: trade UI) when conditions are not met. Defaults to `"<npcname> does not trust you enough"`
 
 #### NPC
 There is a second template required for a new NPC. It looks like this:

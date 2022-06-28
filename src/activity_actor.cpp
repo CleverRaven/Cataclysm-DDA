@@ -2801,23 +2801,32 @@ void unload_activity_actor::unload( Character &who, item_location &target )
     if( it.is_container() ) {
         contents_change_handler handler;
         bool changed = false;
-        for( item *contained : it.all_items_top( item_pocket::pocket_type::CONTAINER, true ) ) {
-            int old_charges = contained->charges;
-            const bool consumed = who.add_or_drop_with_msg( *contained, true, &it, contained );
-            if( consumed || contained->charges != old_charges ) {
-                changed = true;
-                handler.unseal_pocket_containing( item_location( target, contained ) );
+
+        for( item_pocket::pocket_type ptype : {
+                 item_pocket::pocket_type::CONTAINER,
+                 item_pocket::pocket_type::MAGAZINE_WELL,
+                 item_pocket::pocket_type::MAGAZINE
+             } ) {
+
+            for( item *contained : it.all_items_top( ptype, true ) ) {
+                int old_charges = contained->charges;
+                const bool consumed = who.add_or_drop_with_msg( *contained, true, &it, contained );
+                if( consumed || contained->charges != old_charges ) {
+                    changed = true;
+                    handler.unseal_pocket_containing( item_location( target, contained ) );
+                }
+                if( consumed ) {
+                    it.remove_item( *contained );
+                }
             }
-            if( consumed ) {
-                it.remove_item( *contained );
+
+            if( changed ) {
+                it.on_contents_changed();
+                who.invalidate_weight_carried_cache();
+                handler.handle_by( who );
             }
         }
 
-        if( changed ) {
-            it.on_contents_changed();
-            who.invalidate_weight_carried_cache();
-            handler.handle_by( who );
-        }
         return;
     }
 
@@ -4003,7 +4012,7 @@ void reload_activity_actor::finish( player_activity &act, Character &who )
     }
 
     // Attempt to put item in another pocket before prompting
-    if( who.try_add( reloadable, nullptr, nullptr, false ) != nullptr ) {
+    if( who.try_add( reloadable, nullptr, nullptr, false ) != item_location::nowhere ) {
         // try_add copied the old item, so remove it now.
         loc.remove_item();
         return;
@@ -4102,7 +4111,7 @@ void milk_activity_actor::finish( player_activity &act, Character &who )
         return;
     }
     item milk( milked_item->first, calendar::turn, milked_item->second );
-    milk.set_item_temperature( 311.75 );
+    milk.set_item_temperature( units::from_celcius( 38.6 ) );
     if( liquid_handler::handle_liquid( milk, nullptr, 1, nullptr, nullptr, -1, source_mon ) ) {
         milked_item->second = 0;
         if( milk.charges > 0 ) {
@@ -4748,9 +4757,9 @@ time_duration prying_activity_actor::prying_time( const activity_data_common &da
 
     int difficulty = pdata.difficulty;
     difficulty -= tool->get_quality( qual_PRY ) - pdata.prying_level;
-    return time_duration::from_moves(
+    return time_duration::from_seconds(
                /** @ARM_STR speeds up crowbar prying attempts */
-               std::max( 20, 5 * ( 4 * difficulty - who.get_arm_str() ) ) );
+               std::max( 5, 2 * ( 4 * difficulty - who.get_arm_str() ) ) );
 }
 
 void prying_activity_actor::start( player_activity &act, Character &who )

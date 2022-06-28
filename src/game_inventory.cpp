@@ -2292,7 +2292,9 @@ static item_location autodoc_internal( Character &you, Character &patient,
 
         inv_s.clear_items();
         inv_s.add_character_items( you );
-        inv_s.add_character_items( patient );
+        if( you.getID() != patient.getID() ) {
+            inv_s.add_character_items( patient );
+        }
         inv_s.add_nearby_items( radius );
 
         if( inv_s.empty() ) {
@@ -2415,10 +2417,18 @@ class bionic_install_surgeon_preset : public inventory_selector_preset
         }
 
         bool is_shown( const item_location &loc ) const override {
-            return ( loc->is_owned_by( you ) or loc->is_owned_by( pa ) ) and loc->is_bionic();
+            return ( loc->is_owned_by( you ) || loc->is_owned_by( pa ) ) && loc->is_bionic();
         }
 
         std::string get_denial( const item_location &loc ) const override {
+            if( you.is_npc() ) {
+                int const price = npc_trading::bionic_install_price( you, pa, loc );
+                ret_val<bool> const refusal =
+                    you.as_npc()->wants_to_sell( *loc, price, loc->price( true ) );
+                if( !refusal.success() ) {
+                    return you.replace_with_npc_name( refusal.str() );
+                }
+            }
             const ret_val<bool> installable = pa.is_installable( loc, false );
             return installable.str();
         }

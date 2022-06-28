@@ -157,8 +157,8 @@ std::pair<item_location, item_pocket *> Character::best_pocket( const item &it, 
     return ret;
 }
 
-item *Character::try_add( item it, const item *avoid, const item *original_inventory_item,
-                          const bool allow_wield, bool ignore_pkt_settings )
+item_location Character::try_add( item it, const item *avoid, const item *original_inventory_item,
+                                  const bool allow_wield, bool ignore_pkt_settings )
 {
     invalidate_inventory_validity_cache();
     itype_id item_type_id = it.typeId();
@@ -175,21 +175,23 @@ item *Character::try_add( item it, const item *avoid, const item *original_inven
         }
     }
     std::pair<item_location, item_pocket *> pocket = best_pocket( it, avoid, ignore_pkt_settings );
-    item *ret = nullptr;
+    item_location ret = item_location::nowhere;
     if( pocket.second == nullptr ) {
         if( !has_weapon() && allow_wield && wield( it ) ) {
-            ret = &weapon;
+            ret = item_location( *this, &weapon );
         } else {
-            return nullptr;
+            return ret;
         }
     } else {
         // this will set ret to either it, or to stack where it was placed
-        pocket.second->add( it, &ret );
-        if( !keep_invlet && ( !it.count_by_charges() || it.charges == ret->charges ) ) {
-            inv->update_invlet( *ret, true, original_inventory_item );
+        item *newit = nullptr;
+        pocket.second->add( it, &newit );
+        if( !keep_invlet && ( !it.count_by_charges() || it.charges == newit->charges ) ) {
+            inv->update_invlet( *newit, true, original_inventory_item );
         }
         pocket.first.on_contents_changed();
         pocket.second->on_contents_changed();
+        ret = item_location( pocket.first, newit );
     }
 
     if( keep_invlet ) {
@@ -200,24 +202,25 @@ item *Character::try_add( item it, const item *avoid, const item *original_inven
     return ret;
 }
 
-item &Character::i_add( item it, bool /* should_stack */, const item *avoid,
-                        const item *original_inventory_item, const bool allow_drop,
-                        const bool allow_wield, bool ignore_pkt_settings )
+item_location Character::i_add( item it, bool /* should_stack */, const item *avoid,
+                                const item *original_inventory_item, const bool allow_drop,
+                                const bool allow_wield, bool ignore_pkt_settings )
 {
     invalidate_inventory_validity_cache();
-    item *added = try_add( it, avoid, original_inventory_item, allow_wield, ignore_pkt_settings );
-    if( added == nullptr ) {
+    item_location added = try_add( it, avoid, original_inventory_item, allow_wield,
+                                   ignore_pkt_settings );
+    if( added == item_location::nowhere ) {
         if( !allow_wield || !wield( it ) ) {
             if( allow_drop ) {
-                return get_map().add_item_or_charges( pos(), it );
+                return item_location( map_cursor( pos() ), &get_map().add_item_or_charges( pos(), it ) );
             } else {
-                return null_item_reference();
+                return added;
             }
         } else {
-            return weapon;
+            return item_location( *this, &weapon );
         }
     } else {
-        return *added;
+        return added;
     }
 }
 

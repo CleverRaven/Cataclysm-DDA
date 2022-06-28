@@ -12,6 +12,6 @@
     "reversible": true,
     "using": [ [ "cordage_short", 2 ] ],
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ], [ [ "rag", 1 ] ] ]
+    "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ], [ [ "cotton_patchwork", 1 ] ] ]
   }
 ]

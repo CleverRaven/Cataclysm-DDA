@@ -271,20 +271,6 @@
     "//": "Current SPRING first DAY count is 1000.",
     "is_animal": true,
     "monsters": [
-      {
-        "monster": "mon_coelophysis",
-        "weight": 100,
-        "cost_multiplier": 5,
-        "pack_size": [ 4, 8 ],
-        "conditions": [ "NIGHT", "SPRING", "SUMMER", "AUTUMN" ]
-      },
-      {
-        "monster": "mon_coelophysis",
-        "weight": 100,
-        "cost_multiplier": 5,
-        "pack_size": [ 4, 8 ],
-        "conditions": [ "WINTER" ]
-      },
       { "monster": "mon_compsognathus", "weight": 400, "cost_multiplier": 0, "pack_size": [ 4, 12 ] },
       {
         "monster": "mon_albertonykus",
@@ -299,20 +285,6 @@
         "cost_multiplier": 10,
         "pack_size": [ 2, 4 ],
         "conditions": [ "DAY" ]
-      },
-      {
-        "monster": "mon_deinonychus",
-        "weight": 100,
-        "cost_multiplier": 15,
-        "pack_size": [ 2, 3 ],
-        "conditions": [ "DAY" ]
-      },
-      {
-        "monster": "mon_dromaeosaurus",
-        "weight": 150,
-        "cost_multiplier": 10,
-        "pack_size": [ 2, 4 ],
-        "conditions": [ "NIGHT" ]
       },
       {
         "monster": "mon_stenonychosaurus",
@@ -335,6 +307,7 @@
         "pack_size": [ 4, 12 ],
         "conditions": [ "WINTER" ]
       },
+      { "monster": "mon_oryctodromeus", "weight": 150, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
       {
         "monster": "mon_dimorphodon",
         "weight": 500,

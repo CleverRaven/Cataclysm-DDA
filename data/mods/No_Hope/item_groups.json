@@ -126,7 +126,7 @@
       [ "can_food", 5 ],
       [ "bubblewrap", 3 ],
       [ "cig_butt", 15 ],
-      { "item": "rag", "prob": 8, "custom-flags": [ "FILTHY" ] },
+      { "item": "cotton_patchwork", "prob": 8, "custom-flags": [ "FILTHY" ] },
       { "item": "syringe", "prob": 5, "custom-flags": [ "FILTHY" ] },
       { "item": "lighter", "prob": 5, "charges-min": 0, "charges-max": 10 },
       { "item": "matches", "prob": 5, "charges-min": 0, "charges-max": 20 },

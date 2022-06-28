@@ -179,13 +179,11 @@ static const itype_id itype_string_36( "string_36" );
 static const itype_id itype_tree_spile( "tree_spile" );
 static const itype_id itype_unfinished_cac2( "unfinished_cac2" );
 static const itype_id itype_unfinished_charcoal( "unfinished_charcoal" );
-static const itype_id itype_water( "water" );
 
 static const json_character_flag json_flag_ATTUNEMENT( "ATTUNEMENT" );
 static const json_character_flag json_flag_SUPER_HEARING( "SUPER_HEARING" );
 static const json_character_flag json_flag_WALL_CLING( "WALL_CLING" );
 static const json_character_flag json_flag_WEB_RAPPEL( "WEB_RAPPEL" );
-
 
 static const material_id material_bone( "bone" );
 static const material_id material_cac2powder( "cac2powder" );
@@ -1150,31 +1148,6 @@ void iexamine::vending( Character &you, const tripoint &examp )
 }
 
 /**
- * If there's water, allow its usage but add chance of poison.
- */
-void iexamine::toilet( Character &, const tripoint &examp )
-{
-    map_stack items = get_map().i_at( examp );
-    auto water = items.begin();
-    for( ; water != items.end(); ++water ) {
-        if( water->typeId() == itype_water ) {
-            break;
-        }
-    }
-
-    if( water == items.end() ) {
-        add_msg( m_info, _( "This toilet is empty." ) );
-    } else if( !water->made_of( phase_id::LIQUID ) ) {
-        add_msg( m_info, _( "The toilet water is frozen solid!" ) );
-    } else {
-        // Use a different poison value each time water is drawn from the toilet.
-        water->poison = one_in( 3 ) ? 0 : rng( 1, 3 );
-
-        liquid_handler::handle_liquid_from_ground( water, examp );
-    }
-}
-
-/**
  * If underground, move 2 levels up else move 2 levels down. Stable movement between levels 0 and -2.
  */
 void iexamine::elevator( Character &you, const tripoint &examp )
@@ -1193,11 +1166,11 @@ void iexamine::elevator( Character &you, const tripoint &examp )
     for( Creature &critter : g->all_creatures() ) {
         if( critter.is_avatar() ) {
             continue;
-        } else if( here.ter( critter.pos() ) == ter_id( "t_elevator" ) ) {
+        } else if( here.has_flag( "ELEVATOR", critter.pos() ) ) {
             tripoint critter_omt = ms_to_omt_copy( here.getabs( critter.pos() ) );
             if( critter_omt == new_floor_omt ) {
                 for( const tripoint &candidate : closest_points_first( critter.pos(), 10 ) ) {
-                    if( here.ter( candidate ) != ter_id( "t_elevator" ) &&
+                    if( !here.has_flag( "ELEVATOR", candidate ) &&
                         here.passable( candidate ) &&
                         !creatures.creature_at( candidate ) ) {
                         critter.setpos( candidate );
@@ -1208,6 +1181,32 @@ void iexamine::elevator( Character &you, const tripoint &examp )
         }
     }
 
+    const auto move_item = [&]( map_stack & items, const tripoint & src, const tripoint & dest ) {
+        for( auto it = items.begin(); it != items.end(); ) {
+            here.add_item_or_charges( dest, *it );
+            it = here.i_rem( src, it );
+        }
+    };
+
+    const auto first_elevator_tile = [&]( const tripoint & pos ) -> tripoint {
+        for( const tripoint &candidate : closest_points_first( pos, 10 ) )
+        {
+            if( here.has_flag( "ELEVATOR", candidate ) ) {
+                return candidate;
+            }
+        }
+        return pos;
+    };
+
+    // move along every item in the elevator
+    for( const tripoint &pos : closest_points_first( you.pos(), 10 ) ) {
+        if( here.has_flag( "ELEVATOR", pos ) ) {
+            map_stack items = here.i_at( pos );
+            tripoint dest = first_elevator_tile( pos + tripoint( 0, 0, movez ) );
+            move_item( items, pos, dest );
+        }
+    }
+
     // move the player
     g->vertical_move( movez, false );
 
@@ -1215,12 +1214,12 @@ void iexamine::elevator( Character &you, const tripoint &examp )
     for( Creature &critter : g->all_creatures() ) {
         if( critter.is_avatar() ) {
             continue;
-        } else if( here.ter( critter.pos() ) == ter_id( "t_elevator" ) ) {
+        } else if( here.has_flag( "ELEVATOR", critter.pos() ) ) {
             tripoint critter_omt = ms_to_omt_copy( here.getabs( critter.pos() ) );
 
             if( critter_omt == original_floor_omt ) {
                 for( const tripoint &candidate : closest_points_first( you.pos(), 10 ) ) {
-                    if( here.ter( candidate ) == ter_id( "t_elevator" ) &&
+                    if( here.has_flag( "ELEVATOR", candidate ) &&
                         candidate != you.pos() &&
                         !creatures.creature_at( candidate ) ) {
                         critter.setpos( candidate );
@@ -2035,7 +2034,8 @@ void iexamine_helper::handle_harvest( Character &you, const std::string &itemid,
 {
     item harvest = item( itemid );
     if( harvest.has_temperature() ) {
-        harvest.set_item_temperature( temp_to_kelvin( get_weather().get_temperature( you.pos() ) ) );
+        harvest.set_item_temperature( units::from_fahrenheit( get_weather().get_temperature(
+                                          you.pos() ) ) );
     }
     if( !force_drop && you.can_pickVolume( harvest, true ) &&
         you.can_pickWeight( harvest, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) ) {
@@ -4747,8 +4747,9 @@ void iexamine::ledge( Character &you, const tripoint &examp )
     cmenu.text = _( "There is a ledge here.  What do you want to do?" );
     cmenu.addentry( 1, true, 'j', _( "Jump over." ) );
     cmenu.addentry( 2, true, 'c', _( "Climb down." ) );
+    cmenu.addentry( 3, true, 'p', _( "Peek down." ) );
     if( you.has_flag( json_flag_WALL_CLING ) ) {
-        cmenu.addentry( 3, true, 'C', _( "Crawl down." ) );
+        cmenu.addentry( 4, true, 'C', _( "Crawl down." ) );
     }
 
     cmenu.query();
@@ -4900,6 +4901,27 @@ void iexamine::ledge( Character &you, const tripoint &examp )
             break;
         }
         case 3: {
+            // Peek
+            tripoint where = examp;
+            tripoint below = examp;
+            below.z--;
+            while( here.valid_move( where, below, false, true ) ) {
+                where.z--;
+                below.z--;
+            }
+
+            const int height = examp.z - where.z;
+            add_msg_debug( debugmode::DF_IEXAMINE, "Ledge height %d", height );
+            if( height == 0 ) {
+                you.add_msg_if_player( _( "You can't peek down there." ) );
+                return;
+            }
+
+            g->peek( where );
+            you.add_msg_if_player( _( "You peek over the ledge." ) );
+            break;
+        }
+        case 4: {
             // If player is grabbed, trapped, or somehow otherwise movement-impeded, first try to break free
             if( !you.move_effects( false ) ) {
                 you.moves -= 100;
@@ -5410,9 +5432,9 @@ void iexamine::autodoc( Character &you, const tripoint &examp )
                     patient.add_effect( effect_pblue, 1_hours );
                 }
             }
-            if( patient.leak_level( flag_RADIOACTIVE ) ) {
+            if( static_cast<int>( patient.leak_level() ) ) {
                 popup( _( "Warning!  Autodoc detected a radiation leak of %d mSv from items in patient's possession.  Urgent decontamination procedures highly recommended." ),
-                       patient.leak_level( flag_RADIOACTIVE ) );
+                       static_cast<int>( patient.leak_level() ) );
             }
             break;
         }
@@ -6514,7 +6536,6 @@ iexamine_functions iexamine_functions_from_string( const std::string &function_n
             { "gaspump", &iexamine::gaspump },
             { "atm", &iexamine::atm },
             { "vending", &iexamine::vending },
-            { "toilet", &iexamine::toilet },
             { "elevator", &iexamine::elevator },
             { "controls_gate", &iexamine::controls_gate },
             { "cardreader_robofac", &iexamine::cardreader_robofac },

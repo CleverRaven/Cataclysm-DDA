@@ -189,6 +189,7 @@
     "to_hit": -1,
     "material": [ "flesh" ],
     "cutting": 7,
+    "weapon_category": [ "SHIVS" ],
     "flags": [ "SPEAR", "SHEATH_KNIFE" ]
   },
   {
@@ -243,6 +244,7 @@
     "material": [ "flesh" ],
     "volume": "250 ml",
     "cutting": 8,
+    "weapon_category": [ "SHIVS" ],
     "flags": [ "SPEAR", "SHEATH_KNIFE" ],
     "price": 1500
   },

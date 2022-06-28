@@ -237,7 +237,7 @@ static void check_part_ammo_capacity( vpart_id part_type, itype_id item_type, am
 TEST_CASE( "verify_vehicle_tank_refill", "[vehicle]" )
 {
     check_part_ammo_capacity( vpart_ap_fridge_test, itype_fridge_test, ammo_water, 1600 );
-    check_part_ammo_capacity( vpart_ap_fridge_test, itype_fridge_test, ammo_flammable, 400000 );
+    check_part_ammo_capacity( vpart_ap_fridge_test, itype_fridge_test, ammo_flammable, 444444 );
     check_part_ammo_capacity( vpart_tank_test, itype_metal_tank_test, ammo_water, 240 );
     check_part_ammo_capacity( vpart_tank_test, itype_metal_tank_test, ammo_flammable, 60000 );
 }
