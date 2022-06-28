@@ -112,6 +112,7 @@
     "type": "SPELL",
     "id": "spell_avian_leap",
     "name": "Talon Leap",
+    "//": "TODO: Balance its effect and damage once issue #53511 is fixed.",
     "description": "You jump at your target with your talons up front, attempting to deal devastating damage to your target.",
     "valid_targets": [ "hostile" ],
     "flags": [ "SILENT", "NO_LEGS", "NO_HANDS", "RANDOM_DAMAGE" ],
