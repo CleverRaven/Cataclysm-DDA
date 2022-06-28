@@ -193,7 +193,7 @@ str_or_var<T> get_str_or_var( const JsonValue &jv, std::string member, bool requ
 }
 
 template<class T>
-const tripoint_abs_ms get_tripoint_from_var( cata::optional<var_info> var, const T &d )
+tripoint_abs_ms get_tripoint_from_var( cata::optional<var_info> var, const T &d )
 {
     tripoint_abs_ms target_pos = get_map().getglobal( d.actor( false )->pos() );
     if( var.has_value() ) {
@@ -221,7 +221,7 @@ var_info read_var_info( const JsonObject &jo, bool require_default )
     } else if( jo.has_member( "default_time" ) ) {
         time_duration max_time;
         mandatory( jo, false, "default_time", max_time );
-        default_val = to_turns<int>( max_time );
+        default_val = std::to_string( to_turns<int>( max_time ) );
     } else if( require_default ) {
         jo.throw_error( "No default value provided." );
     }
