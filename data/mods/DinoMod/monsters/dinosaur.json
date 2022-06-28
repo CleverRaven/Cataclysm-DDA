@@ -934,7 +934,7 @@
     "harvest": "mammal_tiny",
     "vision_night": 5,
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "FRIEND_DIED" ],
-    "categories": [ "DINOSAUR", "WILDLIFE" ]
+    "categories": [ "DINOSAUR", "WILDLIFE", "MAN_MADE" ]
   },
   {
     "type": "MONSTER",
@@ -1563,7 +1563,7 @@
     "harvest": "dino_feather_leather",
     "anger_triggers": [ "HURT", "FRIEND_ATTACKED", "PLAYER_NEAR_BABY" ],
     "fear_triggers": [ "PLAYER_CLOSE", "FRIEND_DIED" ],
-    "categories": [ "DINOSAUR", "WILDLIFE", "MAN_MADE" ]
+    "categories": [ "DINOSAUR", "WILDLIFE" ]
   },
   {
     "type": "MONSTER",
