@@ -938,7 +938,7 @@ std::string item_filter_rule_string( const item_filter_type type )
                         "[<color_yellow>q</color>]uality, [<color_yellow>n</color>]otes, "
                         "[<color_yellow>s</color>]skill taught by books, "
                         "[<color_yellow>d</color>]isassembled components, or "
-                        "items satisfing [<color_yellow>b</color>]oth conditions." );
+                        "items satisfying [<color_yellow>b</color>]oth conditions." );
     //~ An example of how to filter items based on category or material.
     str << "\n" << _( "Example: c:food,m:iron,q:hammering,n:toolshelf,d:pipe,s:devices,b:mre;sealed" );
     str << "\n\n" << _( "To exclude items, place [<color_yellow>-</color>] in front.  "
