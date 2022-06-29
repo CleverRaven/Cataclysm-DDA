@@ -235,6 +235,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "30carbine",
+    "name": ".30 Carbine",
+    "default": "30carbine"
+  },
+  {
+    "type": "ammunition_type",
     "id": "270win",
     "name": ".270 Winchester",
     "default": "270win_jsp"
