@@ -144,7 +144,7 @@
       "id": "mon_bison",
       "type": "MONSTER",
       "name": { "str_sp": "ancient bison" },
-      "description": "A massive, meaty bovid that roams the steppes in large herds.  Its insulated against the cold with a thick layer of wool.  Two short horns appear from its bushy head wool.",
+      "description": "A massive, meaty bovid that roams the steppes in large herds.  It is insulated against the cold with a thick layer of wool.  Two short horns appear from its bushy head wool.",
       "default_faction": "herbivore",
       "bodytype": "horse",
       "categories": [ "WILDLIFE" ],
