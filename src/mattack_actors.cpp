@@ -395,11 +395,10 @@ bool melee_actor::call( monster &z ) const
         return false;
     }
 
-    if( !forbidden_effects_any.empty() ) {
-        for( const efftype_id &effect : forbidden_effects_any ) {
-            if( z.has_effect( effect ) ) {
-                return false;
-            }
+
+    for( const efftype_id &effect : forbidden_effects_any ) {
+        if( z.has_effect( effect ) ) {
+            return false;
         }
     }
 
@@ -427,11 +426,9 @@ bool melee_actor::call( monster &z ) const
         }
     }
 
-    if( !required_effects_all.empty() ) {
-        for( const efftype_id &effect : required_effects_all ) {
-            if( !z.has_effect( effect ) ) {
-                return false;
-            }
+    for( const efftype_id &effect : required_effects_all ) {
+        if( !z.has_effect( effect ) ) {
+            return false;
         }
     }
 
