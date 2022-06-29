@@ -2722,7 +2722,7 @@
         ],
         "covers": [ "head" ],
         "coverage": 100,
-        "encumbrance_modifiers": [ "WELL_SUPPORTED" ]
+        "encumbrance_modifiers": [ "NONE" ]
       },
       {
         "material": [
@@ -2777,7 +2777,7 @@
         ],
         "covers": [ "head" ],
         "coverage": 100,
-        "encumbrance_modifiers": [ "WELL_SUPPORTED" ]
+        "encumbrance_modifiers": [ "NONE" ]
       }
     ],
     "environmental_protection": 2,
