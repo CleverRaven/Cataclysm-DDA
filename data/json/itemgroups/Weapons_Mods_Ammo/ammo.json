@@ -709,7 +709,7 @@
       { "item": "9mm_casing", "prob": 100 },
       { "item": "9x18mm_casing", "prob": 80 },
       { "item": "shot_hull", "prob": 100 },
-      { "item": "300blk_casing", "prob": 80 }
+      { "item": "300blk_casing", "prob": 80 },
       { "item": "30carbine_casing", "prob": 60 }
     ]
   },
@@ -754,7 +754,7 @@
       [ "700nx_casing", 10 ],
       [ "300_casing", 60 ],
       [ "762R_casing", 10 ],
-      [ "32_casing", 70 ]
+      [ "32_casing", 70 ],
       [ "30carbine_casing", 40 ]
     ]
   },
