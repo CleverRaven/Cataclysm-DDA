@@ -2058,6 +2058,7 @@
       { "group": "on_hand_57" }
     ]
   },
+  {
   "id": "nested_m1carbine",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
