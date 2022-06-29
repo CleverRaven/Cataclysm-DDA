@@ -102,6 +102,26 @@
     "damage_reduction": { "all": 4 }
   },
   {
+    "id": "frame_wood_deck",
+    "type": "vehicle_part",
+    "name": { "str": "skateboard deck" },
+    "item": "frame_wood_deck",
+    "location": "structure",
+    "standard_symbols": true,
+    "categories": [ "hull" ],
+    "color": "brown",
+    "broken_color": "brown",
+    "durability": 100,
+    "description": "A light wooden decking.  Other skateboard components can be mounted on it.",
+    "breaks_into": [ { "item": "splinter", "count": [ 3, 5 ] }, { "item": "nails", "count": [ 1, 4 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "fabrication", 0 ] ], "time": "10 m", "using": [ [ "nails", 4 ] ] },
+      "repair": { "skills": [ [ "fabrication", 0 ] ], "time": "5 m", "using": [ [ "adhesive", 1 ] ] }
+    },
+    "flags": [ "MOUNTABLE", "FOLDABLE", "INITIAL_PART" ],
+    "damage_reduction": { "all": 2 }
+  },
+  {
     "id": "hdframe",
     "type": "vehicle_part",
     "name": { "str": "heavy-duty frame" },

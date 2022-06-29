@@ -323,5 +323,35 @@
     "id": "metal_bench",
     "symbol": "#",
     "type": "vehicle_part"
+  },
+  {
+    "type": "vehicle_part",
+    "abstract": "griptape_pedal",
+    "name": { "str": "griptape pedal" },
+    "categories": [ "operations", "passengers" ],
+    "symbol": "#",
+    "looks_like": "seat",
+    "color": "light_gray",
+    "broken_symbol": "*",
+    "broken_color": "light_gray",
+    "damage_modifier": 2,
+    "damage_reduction": { "all": 3, "bash": 5 },
+    "durability": 80,
+    "description": "A grip tape wrapping that gives friction for the rider to maintain control with..",
+    "folded_volume": "1250 ml",
+    "comfort": 1,
+    "item": "griptape",
+    "location": "center",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "200 s", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "200 s", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "repair": {
+        "skills": [ [ "mechanics", 2 ] ],
+        "time": "20 s",
+        "using": [ [ "repair_welding_standard", 1 ], [ "sewing_standard", 4 ] ]
+      }
+    },
+    "flags": [ "SEAT", "BOARDABLE", "FOLDABLE", "NONBELTABLE" ],
+    "breaks_into": [ { "item": "leather", "prob": 50 }, { "item": "scrap", "count": [ 1, 2 ] } ]
   }
 ]

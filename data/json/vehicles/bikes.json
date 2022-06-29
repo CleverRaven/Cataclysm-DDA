@@ -195,6 +195,17 @@
     ]
   },
   {
+    "id": "skateboard",
+    "type": "vehicle",
+    "name": "Skateboard",
+    "blueprint": [ "$" ],
+    "//": "Bikes, scooters and skateboards are all the same type of vehicle 'micromobility'.",
+    "parts": [
+      { "x": 0, "y": 0, "parts": [ "frame_wood_deck", "griptape_pedal", "wheel_mount_light" ] },
+      { "x": 0, "y": 0, "parts": [ "wheel_wheelchair", "hand_rims", "basketsm_wheelchair" ] }
+    ]
+  },
+  {
     "id": "scooter",
     "type": "vehicle",
     "name": "Scooter",
