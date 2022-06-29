@@ -692,5 +692,56 @@
     "move_cost_mod": -1,
     "required_str": -1,
     "flags": [ "TRANSPARENT" ]
+  },
+  {
+    "type": "furniture",
+    "id": "f_spiked_officer",
+    "name": "impaled mercenary",
+    "description": "A dead body encased in high tech armor hanging in the air.  Their form seems twisted and refracted in the light of the strange glowing crystal that has seeped out of the ground and impaled their body.",
+    "symbol": "!",
+    "color": "red",
+    "move_cost_mod": -1,
+    "coverage": 100,
+    "flags": [ "TRANSPARENT", "ORGANIC" ],
+    "deconstruct": { "items": [ { "item": "glass", "count": 1000 } ] },
+    "required_str": -1,
+    "bash": {
+      "str_min": 100,
+      "str_max": 100,
+      "sound": "smash!",
+      "sound_fail": "an absence of sound.",
+      "items": [ { "item": "glass", "count": [ 1, 2 ] } ]
+    },
+    "examine_action": {
+      "type": "effect_on_condition",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_HAUNTING_BEGIN",
+          "condition": { "u_has_effect": "medium" },
+          "effect": [
+              { "queue_eocs": "EOC_HAUNTING", "time_in_future": [ "30 seconds" ] },
+              { "u_location_variable": { "global_val": "cell_loc" }, "z_adjust": 6, "z_override": true },
+              {
+                "mapgen_update": "You reach out as if compelled to.  The crystal feels like nothing but the corpse inside is screaming, it needs your help.",
+                "popup": true
+              },
+          ]
+        },
+        {
+          "id": "EOC_HAUNTING_WARN",
+          "condition": { "not": { "u_has_effect": "medium" } },
+          "effect": [
+            {
+              "u_message": "You reach out as if compelled to.  The crystal feels like nothing but the corpse inside is screaming, it needs your help.",
+              "popup": true
+            },
+            {
+              "u_message": "FREE ME."
+            },
+            { "u_add_effect": "medium", "duration": 60 }
+          ]
+        }
+      ]
+    }
   }
 ]

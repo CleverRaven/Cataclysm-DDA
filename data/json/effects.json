@@ -3893,6 +3893,20 @@
     "max_intensity": 10
   },
   {
+    "type": "effect_type",
+    "//": "effect for if you are close to interacting with something horrible",
+    "id": "medium",
+    "name": [ "Watched" ],
+    "desc": [ "There's something in your head, it's ready to break free if you let it." ],
+    "apply_message": "It is reaching out to you, you need to be careful about touching it again.",
+    "max_duration": "60 s",
+    "rating": "bad",
+    "base_mods": {
+      "int_mod": [ -1 ]
+    },
+    "show_in_info": true
+  },
+  {
     "id": "weakened_inertia",
     "type": "effect_type",
     "name": [ "Weakened Inertia" ],
