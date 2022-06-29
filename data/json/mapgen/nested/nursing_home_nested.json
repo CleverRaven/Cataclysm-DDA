@@ -1,5 +1,5 @@
 [
-{
+  {
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "nursing_home_receptionist",
@@ -33,7 +33,7 @@
       ]
     }
   },
-    {
+  {
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "nursing_home_coo",
@@ -50,7 +50,7 @@
       ]
     }
   },
-      {
+  {
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "nursing_home_sci",
@@ -67,4 +67,4 @@
       ]
     }
   }
-  ]
+]
