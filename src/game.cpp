@@ -11017,7 +11017,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
 
         const item &weapon = u.get_wielded_item();
         if( !here.has_flag( ter_furn_flag::TFLAG_LADDER, u.pos() ) && weapon.is_two_handed( u ) &&
-            query_yn( "You can't climb because you have to wield %s with both hands.\n\nPut it away?",
+            query_yn( "You can't climb because you have to wield a %s with both hands.\n\nPut it away?",
                       weapon.tname() ) ) {
             if( !u.unwield() ) {
                 return;
