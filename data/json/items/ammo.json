@@ -1500,5 +1500,42 @@
     "flags": [ "TRADER_AVOID" ],
     "phase": "liquid",
     "ammo_type": "red_pen_ink"
-  }
-]
+  },
+  {
+    "type": "AMMO",
+    "id": "stale_cookie",
+    "symbol": "*",
+    "looks_like": "cookies",
+	"color": "brown",
+    "name": { "str": "inedible stale cookie" },
+    "description": "One of Grandma's homemade freshly baked cookies. Or at least it used to be.",
+    "category": "spare_parts",
+    "material": [ "wheat", "junk" ],
+    "ammo_type": "stale_cookie",
+    "flags": [ "TRADER_AVOID", "NPC_THROWN", "NONCONDUCTIVE", "NON_FOULING" ],
+    "weight": "33 g",
+    "volume": "50 ml",
+    "damage": { "damage_type": "bash", "amount": 1 },
+    "range": 10,
+    "dispersion": 7,
+	"loudness": 0,
+    "effects": [ "NONCONDUCTIVE", "NEVER_MISFIRES", "IRREPLACEABLE_CONSUMABLE", "NON_FOULING" ]
+    },
+    {
+    "type": "AMMO",
+    "ammo_type": "zeriatric_dentures",
+	"id": "zeriatric_dentures",
+    "symbol": "*",
+    "looks_like": "dentures",
+	"color": "white",
+    "name": { "str": "zeriatric dentures" },
+    "description": "Fake teeth.",
+    "category": "spare_parts",
+    "flags": [ "TRADER_AVOID", "NPC_THROWN", "NONCONDUCTIVE", "NON_FOULING", "ZERO_WEIGHT" ],
+    "damage": { "damage_type": "stab", "amount": 3, "armor_penetration": 10 },
+    "range": 10,
+    "dispersion": 7,
+	"loudness": 0,
+    "effects": [ "NONCONDUCTIVE", "NEVER_MISFIRES", "IRREPLACEABLE_CONSUMABLE", "NON_FOULING" ]
+    }
+ ]
