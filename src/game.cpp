@@ -1542,7 +1542,7 @@ units::temperature get_convection_temperature( const tripoint &location )
     map &here = get_map();
     // Directly on lava tiles
     units::temperature lava_mod = here.tr_at( location ).has_flag( json_flag_CONVECTS_TEMPERATURE ) ?
-                   units::from_kelvin( fd_fire->get_intensity_level().convection_temperature_mod / 1.8 ): 0_K;
+                                  units::from_kelvin( fd_fire->get_intensity_level().convection_temperature_mod / 1.8 ) : 0_K;
     // Modifier from fields
     for( auto fd : here.field_at( location ) ) {
         // Nullify lava modifier when there is open fire
