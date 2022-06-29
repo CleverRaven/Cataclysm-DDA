@@ -1571,6 +1571,11 @@ class item : public visitable
           */
         bool can_unload_liquid() const;
 
+        /**
+         * Returns true if none of the contents are solid
+         */
+        bool contains_no_solids() const;
+
         bool is_dangerous() const; // Is it an active grenade or something similar that will hurt us?
 
         /** Is item derived from a zombie? */
