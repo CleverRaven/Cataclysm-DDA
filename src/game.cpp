@@ -1491,7 +1491,7 @@ units::temperature get_heat_radiation( const tripoint &location )
         }
         // Ensure fire_dist >= 1 to avoid divide-by-zero errors.
         const int fire_dist = std::max( 1, square_dist( dest, location ) );
-        temp_mod += units::from_kelvin( 6 * heat_intensity * heat_intensity / fire_dist / 1.8 );
+        temp_mod += units::from_kelvin( 6.f * heat_intensity * heat_intensity / fire_dist / 1.8 );
     }
     return temp_mod;
 }
