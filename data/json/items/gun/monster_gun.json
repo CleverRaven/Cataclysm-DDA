@@ -175,7 +175,7 @@
   {
     "id": "feral_human_thrown_stale_cookie",
     "//": "cookies thrown by feral grannies.",
-	"type": "GUN",
+    "type": "GUN",
     "symbol": "%",
     "color": "red",
     "name": { "str": "throw cookie" },
@@ -185,9 +185,9 @@
     "skill": "rifle",
     "ammo": [ "stale_cookie" ],
     "ammo_effects": [ "NONCONDUCTIVE", "NO_PENETRATE_OBSTACLES", "NEVER_MISFIRES" ],
-    "ranged_damage": { "damage_type": "bash", "amount": 1},
+    "ranged_damage": { "damage_type": "bash", "amount": 1 },
     "clip_size": 1,
-	"weight": "33 g",
+    "weight": "33 g",
     "volume": "50 ml",
     "loudness": 2,
     "range": 8,
@@ -204,12 +204,12 @@
       }
     ]
   },
-{
+  {
     "id": "zeriatric_spit",
     "type": "GUN",
     "symbol": "%",
     "color": "red",
-	"ammo": [ "zeriatric_dentures" ],
+    "ammo": [ "zeriatric_dentures" ],
     "name": { "str": "zeriatric denture spit" },
     "description": "Fake gun that fires zeriatric dentures.",
     "flags": [ "NEVER_JAMS", "ZERO_WEIGHT" ],
@@ -219,8 +219,8 @@
     "range": 10,
     "dispersion": 100,
     "ranged_damage": { "damage_type": "stab", "amount": 6 },
-	"pocket_data": [
-	{
+    "pocket_data": [
+      {
         "pocket_type": "MAGAZINE",
         "rigid": true,
         "max_contains_volume": "200 L",
@@ -228,6 +228,6 @@
         "max_item_length": "2000 m",
         "ammo_restriction": { "zeriatric_dentures": 1 }
       }
-	  ]
-  } 
+    ]
+  }
 ]
