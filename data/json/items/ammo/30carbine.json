@@ -11,7 +11,7 @@
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
     "material": [ "brass", "powder" ],
     "symbol": "=",
-    "color": "light_gray",
+    "color": "yellow",
     "count": 50,
     "stack_size": 50,
     "ammo_type": "30carbine",
