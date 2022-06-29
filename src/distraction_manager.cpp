@@ -92,7 +92,7 @@ void distraction_manager_gui::show()
         // Draw header
         werase( w_header );
         fold_and_print( w_header, point_zero, getmaxx( w_header ), c_white,
-                        configurable_distractions[currentLine].second.c_str() );
+                        _( configurable_distractions[currentLine].second.c_str() ) );
 
         // Draw horizontal line and corner pieces of the table
         for( int x = 0; x < 78; x++ ) {
@@ -129,7 +129,7 @@ void distraction_manager_gui::show()
 
             // Print distraction types
             mvwprintz( w, point( 1, i - startPosition ), line_color, "%s",
-                       configurable_distractions[i].first.c_str() );
+                       _( configurable_distractions[i].first.c_str() ) );
 
             // Print "Enabled/Disabled" text
             mvwprintz( w, point( 62, i - startPosition ), status_color, "%s", status_string );
