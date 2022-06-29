@@ -752,7 +752,7 @@
     "color": "light_blue",
     "move_cost": 0,
     "coverage": 40,
-    "flags": [ "TRANSPARENT", "CLEAN_WATER", "LIQUIDCONT" ],
+    "flags": [ "TRANSPARENT", "LIQUIDCONT" ],
     "bash": {
       "str_min": 15,
       "str_max": 80,

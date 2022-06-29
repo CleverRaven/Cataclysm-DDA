@@ -588,7 +588,6 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```BUTCHER_EQ``` Butcher's equipment - required for full butchery of corpses.
 - ```CAN_SIT``` Furniture the player can sit on. Player sitting near furniture with the `FLAT_SURF` tag will get mood bonus for eating.
 - ```CHIP``` Used in construction menu to determine if wall can have paint chipped off.
-- ```CLEAN_WATER``` Liquid taken from tiles with this flag is safe for drinking. 
 - ```COLLAPSES``` Has a roof that can collapse.
 - ```CONNECT_TO_WALL``` (only for terrain) This flag has been superseded by the JSON entry `connects_to`, but is retained for backward compatibility.
 - ```CONSOLE``` Used as a computer.
