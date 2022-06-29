@@ -802,6 +802,7 @@
     "volume": "500 ml",
     "bashing": 1,
     "charges_per_use": 5,
+    "ammo": "battery",
     "use_action": [ "CAMERA" ],
     "pocket_data": [
       {
@@ -829,6 +830,7 @@
     "volume": "500 ml",
     "bashing": 1,
     "charges_per_use": 5,
+    "ammo": "battery",
     "use_action": [ "CAMERA" ],
     "pocket_data": [
       {
