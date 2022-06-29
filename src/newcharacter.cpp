@@ -3129,9 +3129,6 @@ tab_direction set_scenario( avatar &u, pool_type pool )
                        "                                             " );
             nc_color col;
             if( get_scenario() != sorted_scens[i] ) {
-                if( sorted_scens[i]->has_flag( "CITY_START" ) && !scenario_sorter.cities_enabled ) {
-
-                }
                 if( cur_id_is_valid && sorted_scens[i] == sorted_scens[cur_id] &&
                     ( ( sorted_scens[i]->has_flag( "CITY_START" ) && !scenario_sorter.cities_enabled ) ||
                       !sorted_scens[i]->can_pick().success() ) ) {
