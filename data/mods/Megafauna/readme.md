@@ -1,7 +1,9 @@
 **Description**
-Through the portals rupturing reality in the cataclysm, some long extinct animals were drawn into our world. Some distant memory of these Pleistocenic animals may rest deep in your conscious. Long ago, our ancestors encountered this massive Megafauna and may even be responsible for their extinction. 
+Through the portals rupturing reality in the cataclysm, you were sucked into a world yet untouched by humans. Here you encounter massive animals that seem almost out of place, but eerily familiar at the same time. You know this megafauna went extinct just around the time your ancestors first set foot on this land some 10.000 years ago. Distant memories of these Pleistocenic animals rest deep in your conscious. 
 
-16 new animals friendly to a more innawood-style playthrough. Hunt them ruthlessly like our ancestors did, or befriend and try to domesticate them. But beware you don't get eaten by them before.
+Adds 16 lorefriendly megafauna species especially suited for innawood playthroughs. Features all-time favorites like Woolly Mammoths, Mastodons and Sabre-toothed Cats. Hunt them ruthlessly like our ancestors did, or befriend and try to domesticate them. But beware you don't get eaten or trampled before.
+
+At the same time, species introduced in modern times are removed! E.g.: wild boars, cows, cats, dogs, ... 
 
 
 **Goals and Scope**
