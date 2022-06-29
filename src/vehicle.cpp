@@ -4406,33 +4406,31 @@ void vehicle::set_owner( const Character &c )
 
 bool vehicle::handle_potential_theft( Character const &you, bool check_only, bool prompt )
 {
-    const bool is_owned_by_player = is_owned_by( you );
-    std::vector<npc *> witnesses;
-    for( npc &elem : g->all_npcs() ) {
-        if( rl_dist( elem.pos(), you.pos() ) < MAX_VIEW_DISTANCE && has_owner() &&
-            !is_owned_by_player && elem.sees( you.pos() ) ) {
-            witnesses.push_back( &elem );
-        }
-    }
+    const bool is_owned_by_player =
+        is_owned_by( you ) || ( you.is_npc() && is_owned_by( get_avatar() ) &&
+                                you.as_npc()->is_friendly( get_avatar() ) );
     // the vehicle is yours, that's fine.
-    if( is_owned_by_player ) { // NOLINT(bugprone-branch-clone)
+    if( is_owned_by_player ) {
         return true;
-        // if There is no owner
-        // handle transfer of ownership
-    } else if( !has_owner() ||
-               // if there is a marker for having been stolen, but 15 minutes have passed, then
-               // officially transfer ownership
-               ( witnesses.empty() && has_old_owner() && !is_old_owner( you ) && theft_time &&
-                 calendar::turn - *theft_time > 15_minutes ) ) {
-        set_owner( you.get_faction()->id );
-        remove_old_owner();
-        return true;
+    }
+    std::vector<Creature *> witnesses = g->get_creatures_if( [&you, this]( Creature const & cr ) {
+        Character const *const elem = cr.as_character();
+        return elem != nullptr && you.getID() != elem->getID() && is_owned_by( *elem ) &&
+               rl_dist( elem->pos(), you.pos() ) < MAX_VIEW_DISTANCE && elem->sees( you.pos() );
+    } );
+    if( !has_owner() || ( witnesses.empty() && ( has_old_owner() || you.is_npc() ) ) ) {
+        if( !has_owner() ||
+            // if there is a marker for having been stolen, but 15 minutes have passed, then
+            // officially transfer ownership
+            ( theft_time && calendar::turn - *theft_time > 15_minutes ) ) {
+            set_owner( you.get_faction()->id );
+            remove_old_owner();
+        }
         // No witnesses? then don't need to prompt, we assume the player is in process of stealing it.
         // Ownership transfer checking is handled above, and warnings handled below.
         // This is just to perform interaction with the vehicle without a prompt.
         // It will prompt first-time, even with no witnesses, to inform player it is owned by someone else
         // subsequently, no further prompts, the player should know by then.
-    } else if( witnesses.empty() && old_owner ) {
         return true;
     }
     // if we are just checking if we could continue without problems, then the rest is assumed false
@@ -4441,7 +4439,7 @@ bool vehicle::handle_potential_theft( Character const &you, bool check_only, boo
     }
     // if we got here, there's some theft occurring
     if( prompt ) {
-        if( !query_yn(
+        if( !you.query_yn(
                 _( "This vehicle belongs to: %s, there may be consequences if you are observed interacting with it, continue?" ),
                 _( get_owner_name() ) ) ) {
             return false;
@@ -4449,13 +4447,13 @@ bool vehicle::handle_potential_theft( Character const &you, bool check_only, boo
     }
     // set old owner so that we can restore ownership if there are witnesses.
     set_old_owner( get_owner() );
-    for( npc *elem : witnesses ) {
-        elem->say( "<witnessed_thievery>", 7 );
-    }
-    if( !witnesses.empty() ) {
-        if( you.add_faction_warning( get_owner() ) ) {
-            for( npc *elem : witnesses ) {
-                elem->make_angry();
+    bool const make_angry = !witnesses.empty() && you.add_faction_warning( get_owner() );
+    for( Creature *elem : witnesses ) {
+        if( elem->is_npc() ) {
+            npc &n = *elem->as_npc();
+            n.say( "<witnessed_thievery>", 7 );
+            if( make_angry ) {
+                n.make_angry();
             }
         }
         // remove the temporary marker for a successful theft, as it was witnessed.
