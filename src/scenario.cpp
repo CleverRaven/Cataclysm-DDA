@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <cstdlib>
 
+#include "achievement.h"
 #include "debug.h"
 #include "generic_factory.h"
 #include "json.h"
@@ -10,6 +11,7 @@
 #include "mission.h"
 #include "mutation.h"
 #include "options.h"
+#include "past_games_info.h"
 #include "profession.h"
 #include "rng.h"
 #include "start_location.h"
@@ -93,6 +95,8 @@ void scenario::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "flags", flags, auto_flags_reader<> {} );
     optional( jo, was_loaded, "map_extra", _map_extra, map_extra_id::NULL_ID() );
     optional( jo, was_loaded, "missions", _missions, string_id_reader<::mission_type> {} );
+
+    optional( jo, was_loaded, "requirement", _requirement );
 
     optional( jo, was_loaded, "eoc", _eoc, auto_flags_reader<effect_on_condition_id> {} );
 
@@ -458,6 +462,11 @@ int scenario::start_location_targets_count() const
     return cnt;
 }
 
+cata::optional<achievement_id> scenario::get_requirement() const
+{
+    return _requirement;
+}
+
 bool scenario::custom_start_date() const
 {
     return _custom_start_date;
@@ -541,10 +550,33 @@ bool scenario::allowed_start( const start_location_id &loc ) const
     return std::find( vec.begin(), vec.end(), loc ) != vec.end();
 }
 
-bool scenario::can_pick( const scenario &current_scenario, const int points ) const
+ret_val<bool> scenario::can_afford( const scenario &current_scenario, const int points ) const
 {
-    return point_cost() - current_scenario.point_cost() <= points;
+    if( point_cost() - current_scenario.point_cost() <= points ) {
+        return ret_val<bool>::make_success();
+
+    }
+
+    return ret_val<bool>::make_failure( _( "You don't have enough points" ) );
 }
+
+ret_val<bool> scenario::can_pick() const
+{
+    if( _requirement ) {
+        const achievement_completion_info *other_games = get_past_games().achievement(
+                    _requirement.value()->id );
+        if( !other_games ) {
+            return ret_val<bool>::make_failure(
+                       _( "You must complete the achievement %s to unlock this start" ), _requirement.value()->name() );
+        } else if( other_games->games_completed.empty() ) {
+            return ret_val<bool>::make_failure(
+                       _( "You must complete the achievement %s to unlock this start" ), _requirement.value()->name() );
+        }
+    }
+
+    return ret_val<bool>::make_success();
+}
+
 bool scenario::has_map_extra() const
 {
     return !_map_extra.is_null();
