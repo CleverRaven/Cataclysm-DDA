@@ -810,13 +810,12 @@
     "monsters": [
       { "monster": "mon_zombie", "weight": 12 },
       { "monster": "mon_zombie_fat", "weight": 5 },
-	  { "monster": "mon_zeriatric", "weight": 40, "pack_size": [ 3, 4 ] },
+      { "monster": "mon_zeriatric", "weight": 40, "pack_size": [ 3, 4 ] },
       { "monster": "mon_zombie_crawler", "weight": 5 },
       { "monster": "mon_zombie_brainless", "weight": 5 },
-	  { "monster": "mon_zombie_medical", "weight": 20 },
-	  { "monster": "mon_boomer", "weight": 3 },
+      { "monster": "mon_zombie_medical", "weight": 20 },
+      { "monster": "mon_boomer", "weight": 3 },
       { "monster": "mon_feral_granny", "weight": 10 }
-	  
     ]
   },
   {
@@ -824,9 +823,9 @@
     "type": "monstergroup",
     "monsters": [
       { "monster": "mon_zombie_labsecurity", "weight": 15 },
-	  { "monster": "mon_zombie_technician", "weight": 10 },
+      { "monster": "mon_zombie_technician", "weight": 10 },
       { "monster": "mon_zombie_scientist", "weight": 40 },
       { "monster": "mon_zombie_medical", "weight": 35 }
-	    ]
-  }  
+    ]
+  }
 ]
