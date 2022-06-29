@@ -7058,7 +7058,7 @@ bool item::has_own_flag( const flag_id &f ) const
     return item_tags.count( f );
 }
 
-bool item::has_flag( const flag_id &f ) const
+bool item::has_flag( const flag_id &f, bool ignore_inherit ) const
 {
     bool ret = false;
     if( !f.is_valid() ) {
@@ -7066,7 +7066,7 @@ bool item::has_flag( const flag_id &f ) const
         return false;
     }
 
-    if( f->inherit() ) {
+    if( !ignore_inherit && f->inherit() ) {
         for( const item *e : is_gun() ? gunmods() : toolmods() ) {
             // gunmods fired separately do not contribute to base gun flags
             if( !e->is_gun() && e->has_flag( f ) ) {
