@@ -229,22 +229,5 @@
         "ammo_restriction": { "zeriatric_dentures": 1 }
       }
 	  ]
-  },
-  {
-    "type": "AMMO",
-    "ammo_type": "zeriatric_dentures",
-	"id": "zeriatric_dentures",
-    "symbol": "*",
-    "looks_like": "dentures",
-	"color": "white",
-    "name": { "str": "zeriatric dentures" },
-    "description": "Fake teeth.",
-    "category": "spare_parts",
-    "flags": [ "TRADER_AVOID", "NPC_THROWN", "NONCONDUCTIVE", "NON_FOULING", "ZERO_WEIGHT" ],
-    "damage": { "damage_type": "stab", "amount": 3, "armor_penetration": 10 },
-    "range": 10,
-    "dispersion": 7,
-	"loudness": 0,
-    "effects": [ "NONCONDUCTIVE", "NEVER_MISFIRES", "IRREPLACEABLE_CONSUMABLE", "NON_FOULING" ]
-    }
+  } 
 ]
