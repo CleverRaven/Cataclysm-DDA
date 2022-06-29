@@ -248,8 +248,8 @@
       { "item": "3006", "prob": 25, "charges": [ 1, 20 ] },
       { "item": "308", "prob": 25, "charges": [ 1, 20 ] },
       { "item": "762_54R", "prob": 10, "charges": [ 1, 20 ] },
-      { "item": "762_m43", "prob": 20, "charges": [ 1, 30 ] }
-      { "item": "30carbine", "prob": 20, "charges": [ 1, 50 ] )
+      { "item": "762_m43", "prob": 20, "charges": [ 1, 30 ] },
+      { "item": "30carbine", "prob": 20, "charges": [ 1, 50 ] }
     ]
   },
   {
