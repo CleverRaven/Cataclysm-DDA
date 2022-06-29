@@ -42,8 +42,7 @@
       { "monster": "mon_diplodocus_hatchling", "weight": 20 },
       { "monster": "mon_camarasaurus_hatchling", "weight": 20 },
       { "monster": "mon_brachiosaurus_hatchling", "weight": 20 },
-      { "monster": "mon_alamosaurus_hatchling", "weight": 20 },
-      { "monster": "mon_mosasaurus_hatchling", "weight": 5 }
+      { "monster": "mon_alamosaurus_hatchling", "weight": 20 }
     ]
   },
   {
