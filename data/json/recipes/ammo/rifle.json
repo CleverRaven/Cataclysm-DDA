@@ -1215,7 +1215,8 @@
       [ [ "smrifle_primer", 1 ] ],
       [ [ "gunpowder", 10 ], [ "gunpowder_magnum_pistol", 10 ], [ "gunpowder_rifle", 10 ] ],
       [ [ "lead", 1 ] ],
-      [ [ "copper", 1 ] ] ]
+      [ [ "copper", 1 ] ]
+    ]
   },
   {
     "result": "bp_30carbine",
@@ -1239,6 +1240,7 @@
       [ [ "smrifle_primer", 1 ] ],
       [ [ "chem_black_powder", 10 ] ],
       [ [ "lead", 1 ] ],
-      [ [ "copper", 1 ] ] ]
-	}
+      [ [ "copper", 1 ] ]
+    ]
+  }
 ]
