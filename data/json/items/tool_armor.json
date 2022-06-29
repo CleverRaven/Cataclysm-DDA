@@ -2731,7 +2731,7 @@
         ],
         "covers": [ "eyes" ],
         "rigid_layer_only": true,
-        "coverage": 80,
+        "coverage": 100,
         "encumbrance": 5,
         "layers": [ "OUTER" ]
       },
@@ -2742,7 +2742,7 @@
         ],
         "covers": [ "mouth" ],
         "rigid_layer_only": true,
-        "coverage": 50,
+        "coverage": 100,
         "encumbrance": 2,
         "layers": [ "OUTER" ]
       }
