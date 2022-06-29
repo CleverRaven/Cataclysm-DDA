@@ -3620,7 +3620,7 @@
     "visibility": 4,
     "ugliness": 2,
     "mixed_effect": true,
-    "description": "Your legs amd feet have shifted into bird-like legs.  Your legs are thinner and your lower legs are covered in yellow-ish scales.  Instead of toes you now have three long talons at the front and one at the back, ending in wicked claws and preventing you from wearing shoes.  Fortunately they don't impede your movement.",
+    "description": "Your legs and feet have become bird-like.  Instead of toes you now have three long talons at the front and one at the back, ending in wicked claws and preventing you from wearing shoes.  Fortunately they don't impede your movement.",
     "spells_learned": [ [ "spell_avian_leap", 1 ] ],
     "types": [ "LEGS", "FEET" ],
     "prereqs": [ "WINGS_BIRD" ],
