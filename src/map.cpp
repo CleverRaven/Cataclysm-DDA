@@ -4303,7 +4303,7 @@ void map::adjust_radiation( const tripoint &p, const int delta )
     current_submap->set_radiation( l, current_radiation + delta );
 }
 
-units::temperature map::get_temperature( const tripoint &p ) const
+units::temperature map::get_temperature_mod( const tripoint &p ) const
 {
     if( !inbounds( p ) ) {
         return 0_K;
@@ -4318,7 +4318,7 @@ units::temperature map::get_temperature( const tripoint &p ) const
     return current_submap->get_temperature();
 }
 
-void map::set_temperature( const tripoint &p, int new_temperature )
+void map::set_temperature_mod( const tripoint &p, units::temperature new_temperature_mod )
 {
     if( !inbounds( p ) ) {
         return;
@@ -4329,7 +4329,7 @@ void map::set_temperature( const tripoint &p, int new_temperature )
         return;
     }
 
-    current_submap->set_temperature( new_temperature );
+    current_submap->set_temperature_mod( new_temperature_mod );
 }
 // Items: 3D
 
@@ -7520,7 +7520,7 @@ void map::produce_sap( const tripoint &p, const time_duration &time_since_last_a
 
     item sap( "maple_sap", calendar::turn );
 
-    sap.set_item_temperature( get_temperature( p ) );
+    sap.set_item_temperature( get_weather().get_temperature( p ) );
     sap.charges = new_charges;
 
     // Is there a proper container?

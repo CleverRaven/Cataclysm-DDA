@@ -12319,7 +12319,7 @@ bool item::process_temperature_rot( float insulation, const tripoint &pos, map &
 
         const weather_generator &wgen = get_weather().get_cur_weather_gen();
         const unsigned int seed = g->get_seed();
-        units::temperature local_mod = g->new_game ? 0_K : here.get_temperature( pos );
+        units::temperature local_mod = g->new_game ? 0_K : here.get_temperature_mod( pos );
 
         units::temperature enviroment_mod;
         // Toilets and vending machines will try to get the heat radiation and convection during mapgen and segfault.
