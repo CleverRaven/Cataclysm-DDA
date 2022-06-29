@@ -5,7 +5,7 @@
     "looks_like": "garand",
     "type": "GUN",
     "name": { "str": "M1 carbine" },
-    "description": "A light rifle developed during the Second World War to provide a less cumbersome weapon for soldiers that didn't need the firepower of an M1 Garand. Firing the .30 Carbine cartridge, it provides more firepower than a pistol and is easier to carry than most other rifles.",
+    "description": "A light rifle developed during the Second World War to provide a less cumbersome weapon for soldiers that didn't need the firepower of the M1 Garand. Firing the .30 Carbine cartridge, it provides more firepower than a pistol and is easier to carry than most other rifles.",
     "weight": "2400 g",
     "volume": "2800 ml",
     "longest_side": "900 mm",
