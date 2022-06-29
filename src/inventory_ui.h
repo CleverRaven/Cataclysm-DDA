@@ -424,6 +424,10 @@ class inventory_column
             indent_entries_override = entry_override;
         }
 
+        void clear_indent_entries_override() {
+            indent_entries_override = cata::nullopt;
+        }
+
         void invalidate_paging() {
             paging_is_valid = false;
         }
@@ -843,6 +847,9 @@ class inventory_selector
         static bool skip_unselectable;
 
         uimode _uimode = uimode::categories;
+
+        void _categorize( inventory_column &col );
+        void _uncategorize( inventory_column &col );
 
     public:
         std::string action_bound_to_key( char key ) const;

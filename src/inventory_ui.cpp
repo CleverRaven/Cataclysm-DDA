@@ -2446,6 +2446,55 @@ bool inventory_selector::is_overflown( size_t client_width ) const
     return get_columns_occupancy_ratio( client_width ) > 1.0;
 }
 
+void inventory_selector::_categorize( inventory_column &col )
+{
+    const auto return_item = []( const inventory_entry & entry ) {
+        return entry.is_item();
+    };
+    inventory_column replacement_column;
+    for( inventory_entry *entry : col.get_entries( return_item, true ) ) {
+        inventory_entry *ret =
+            add_entry( replacement_column, std::move( entry->locations ), nullptr,
+                       entry->chosen_count, entry->topmost_parent, entry->chevron );
+        ret->generation = entry->generation;
+    }
+    col.clear();
+    replacement_column.move_entries_to( col );
+    col.set_indent_entries_override( false );
+}
+
+void inventory_selector::_uncategorize( inventory_column &col )
+{
+    const auto return_item = []( const inventory_entry & entry ) {
+        return entry.is_item();
+    };
+    inventory_column replacement_column;
+    for( inventory_entry *entry : col.get_entries( return_item, true ) ) {
+        item_location loc = entry->any_item();
+        item_location ancestor = loc;
+        while( ancestor.has_parent() ) {
+            ancestor = ancestor.parent_item();
+        }
+        const item_category *custom_category = nullptr;
+        if( ancestor.where() != item_location::type::character ) {
+            const std::string name = to_upper_case( remove_color_tags( ancestor.describe() ) );
+            const item_category map_cat( name, no_translation( name ), 100 );
+            custom_category = naturalize_category( map_cat, loc.position() );
+        } else if( &*ancestor == &u.get_wielded_item() ) {
+            custom_category = &item_category_WEAPON_HELD.obj();
+        } else if( u.is_worn( *ancestor ) ) {
+            custom_category = &item_category_ITEMS_WORN.obj();
+        }
+        inventory_entry *ret =
+            add_entry( replacement_column, std::move( entry->locations ), custom_category,
+                       entry->chosen_count, entry->topmost_parent, entry->chevron );
+        ret->generation = entry->generation;
+    }
+    col.clear();
+    replacement_column.move_entries_to( col );
+    col.clear_indent_entries_override();
+}
+
 void inventory_selector::toggle_categorize_contained()
 {
     const auto return_item = []( const inventory_entry & entry ) {
@@ -2461,49 +2510,22 @@ void inventory_selector::toggle_categorize_contained()
             item_location const loc = entry->locations.front();
             if( entry->any_item().where() == item_location::type::container &&
                 !is_worn_ablative( loc.parent_item(), loc ) ) {
-                item_location ancestor = entry->any_item();
-                while( ancestor.has_parent() ) {
-                    ancestor = ancestor.parent_item();
-                }
-                const item_category *custom_category = nullptr;
-                if( ancestor.where() != item_location::type::character ) {
-                    // might have been merged from the map column
-                    custom_category = entry->get_category_ptr();
-                }
-                inventory_entry *ret =
-                    add_entry( own_inv_column, std::move( entry->locations ), custom_category,
-                               entry->chosen_count, entry->topmost_parent, entry->chevron );
-                ret->generation = entry->generation;
-
+                own_inv_column.add_entry( *entry );
             } else {
                 replacement_column.add_entry( *entry );
             }
         }
         own_gear_column.clear();
         replacement_column.move_entries_to( own_gear_column );
-        own_inv_column.set_indent_entries_override( false );
+        for( inventory_column *col : columns ) {
+            _categorize( *col );
+        }
         _uimode = uimode::categories;
     } else {
-        for( inventory_entry *entry : own_inv_column.get_entries( return_item, true ) ) {
-            item_location ancestor = entry->any_item();
-            while( ancestor.has_parent() ) {
-                ancestor = ancestor.parent_item();
-            }
-            const item_category *custom_category = nullptr;
-            if( ancestor.where() != item_location::type::character ) {
-                // might have been merged from the map column
-                custom_category = entry->get_category_ptr();
-            } else if( &*ancestor == &u.get_wielded_item() ) {
-                custom_category = &item_category_WEAPON_HELD.obj();
-            } else if( u.is_worn( *ancestor ) ) {
-                custom_category = &item_category_ITEMS_WORN.obj();
-            }
-            inventory_entry *ret =
-                add_entry( own_gear_column, std::move( entry->locations ), custom_category,
-                           entry->chosen_count, entry->topmost_parent, entry->chevron );
-            ret->generation = entry->generation;
+        own_inv_column.move_entries_to( own_gear_column );
+        for( inventory_column *col : columns ) {
+            _uncategorize( *col );
         }
-        own_inv_column.clear();
         _uimode = uimode::hierarchy;
     }
     if( !highlighted.empty() ) {
