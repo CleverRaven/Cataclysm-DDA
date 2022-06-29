@@ -793,7 +793,7 @@
     "symbol": "[",
     "color": "blue",
     "name": { "str": "wearable camera" },
-    "description": "A point-and-shoot digital camera, with digital viewfinder, a backup 'iron-sight', and flash.  You can look at your photos on the digital screen, or transfer them with a memory card.  Takes conventional batteries. This one can be worn over your neck.",
+    "description": "A point-and-shoot digital camera, with digital viewfinder, a backup 'iron-sight', and flash.  You can look at your photos on the digital screen, or transfer them with a memory card.  Takes conventional batteries.  This one can be worn over your neck.",
     "price": 20000,
     "price_postapoc": 50,
     "material": [ "plastic", "steel" ],
