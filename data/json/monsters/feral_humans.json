@@ -1025,7 +1025,7 @@
     "type": "MONSTER",
     "name": { "str": "Big Pappy" },
     "//": "Boss enemy for Nursing Home special",
-	"description": "A gigantic, monstrous old man with a crazed, anguished face. Created by a twisted science experiment. Carries a large cane, and seems intent to discipline you with it.",
+    "description": "A gigantic, monstrous old man with a crazed, anguished face. Created by a twisted science experiment. Carries a large cane, and seems intent to discipline you with it.",
     "default_faction": "zombie",
     "bodytype": "human",
     "species": [ "MUTANT", "CYBORG" ],
@@ -1052,23 +1052,23 @@
     "families": [ "prof_intro_biology", "prof_physiology" ],
     "bleed_rate": 50,
     "aggression": 50,
-	"vision_day": 30,
-	"vision_night": 30,
-    "harvest": "human" ,
-	"dissect": "dissect_mon_broken_cyborg",
-	"path_settings": { "max_dist": 30, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
+    "vision_day": 30,
+    "vision_night": 30,
+    "harvest": "human",
+    "dissect": "dissect_mon_broken_cyborg",
+    "path_settings": { "max_dist": 30, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
     "special_attacks": [
       { "id": "smash", "throw_strength": 72, "cooldown": 30 },
-	  { "id": "impale", "cooldown": 5, "min_mul": 1, "max_mul": 3 },
+      { "id": "impale", "cooldown": 5, "min_mul": 1, "max_mul": 3 },
       [ "BIO_OP_TAKEDOWN", 20 ],
       [ "RANGED_PULL", 20 ],
       [ "GRAB_DRAG", 10 ],
-	  [ "PARROT", 150 ]
+      [ "PARROT", 150 ]
     ],
     "death_drops": "feral_big_pappy",
     "zombify_into": "mon_zombie_brute_grappler",
-	"anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
-	"flags": [
+    "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
+    "flags": [
       "SEES",
       "HEARS",
       "SMELLS",
@@ -1079,14 +1079,14 @@
       "GROUP_BASH",
       "REVIVES",
       "DESTROYS",
-	  "HUMAN",
-	  "PUSH_MON",
+      "HUMAN",
+      "PUSH_MON",
       "PUSH_VEH",
       "RANGED_ATTACKER",
-	  "STUN_IMMUNE",
-	  "CLIMBS",
-	  "PRIORITIZE_TARGETS"
-	  ]
+      "STUN_IMMUNE",
+      "CLIMBS",
+      "PRIORITIZE_TARGETS"
+    ]
   },
   {
     "id": "mon_feral_granny",
@@ -1099,7 +1099,7 @@
     "volume": "62500 ml",
     "weight": "85729 g",
     "//": "Weight is equal to average weight of elderly woman, plus the in-game foldable wheelchair",
-	"hp": 65,
+    "hp": 65,
     "speed": 120,
     "material": [ "flesh" ],
     "symbol": "g",
@@ -1119,7 +1119,7 @@
     "path_settings": { "max_dist": 30, "allow_climb_stairs": false, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
     "starting_ammo": { "stale_cookie": 4 },
     "special_attacks": [
-		[ "PARROT", 15 ],
+      [ "PARROT", 15 ],
       {
         "type": "gun",
         "cooldown": 5,
@@ -1134,9 +1134,9 @@
         "ranges": [ [ 2, 5, "DEFAULT" ] ],
         "description": "The granny throws a stale cookie at you!"
       },
-	    ["GRAB", 10],
-		["SHRIEK", 70]
-	     ],
+      [ "GRAB", 10 ],
+      [ "SHRIEK", 70 ]
+    ],
     "death_drops": "feral_granny",
     "zombify_into": "mon_zombie_crawler",
     "fungalize_into": "mon_zombie_fungus",
@@ -1151,8 +1151,8 @@
       "HUMAN",
       "CAN_OPEN_DOORS",
       "PATH_AVOID_DANGER_1",
-	  "GUILT",
-	  "GRABS"
-	  ]
+      "GUILT",
+      "GRABS"
+    ]
   }
 ]
