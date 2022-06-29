@@ -1,6 +1,6 @@
 [
   {
-    "id": "m1_carbine",
+    "id": "m1carbine",
     "copy-from": "rifle_semi",
     "looks_like": "garand",
     "type": "GUN",
@@ -38,7 +38,7 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "m1carbinemag", "m1carbinebigmag" ] } ]
   },
   {
-    "id": "m2_carbine",
+    "id": "m2carbine",
     "copy-from": "rifle_auto",
     "looks_like": "garand",
     "type": "GUN",
