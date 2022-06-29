@@ -211,7 +211,7 @@ struct mon_effect_data {
     std::string message;
 
     mon_effect_data();
-    void load(const JsonObject& jo);
+    void load( const JsonObject &jo );
 };
 
 /** Pet food data */

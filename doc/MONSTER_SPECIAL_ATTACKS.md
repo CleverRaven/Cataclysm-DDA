@@ -186,6 +186,7 @@ The common type for JSON-defined attacks. Note, you don't have to declare it in 
 | `dodgeable`           | Boolean, default true. The attack can be dodged normally.
 | `uncanny_dodgeable`   | Boolean, defaults to the value of `dodgeable`. The attack can be dodged by the Uncanny Dodge bionic or by characters having the `UNCANNY_DODGE` character flag. Uncanny dodging takes precedence over normal dodging.
 | `blockable`           | Boolean, default true. The attack can be blocked (after the dodge checks).
+| `effects_require_dmg` | Boolean, default true. Effects will only be applied if the attack successfully damaged the target.
 | `effects`				| Array, defines additional effects for the attack to add. See [MONSTERS.md](MONSTERS.md#"attackeffs") for the exact syntax.
 | `self_effect_always`  | Array of `effects` the monster applies to itself when doing this attack.
 | `self_effect_onhit`   | Array of `effects` the monster applies to itself when successfully hitting with the attack.
