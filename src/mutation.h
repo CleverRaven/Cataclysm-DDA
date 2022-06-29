@@ -513,6 +513,7 @@ bool mutation_category_is_valid( const mutation_category_id &cat );
 bool mutation_type_exists( const std::string &id );
 std::vector<trait_id> get_mutations_in_types( const std::set<std::string> &ids );
 std::vector<trait_id> get_mutations_in_type( const std::string &id );
+bool mutation_is_in_category( const trait_id &mut, const mutation_category_id &cat );
 bool trait_display_sort( const trait_id &a, const trait_id &b ) noexcept;
 bool trait_display_nocolor_sort( const trait_id &a, const trait_id &b ) noexcept;
 
