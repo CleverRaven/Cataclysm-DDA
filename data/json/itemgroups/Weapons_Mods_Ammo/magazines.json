@@ -359,7 +359,7 @@
       { "item": "stanag40", "prob": 3 },
       { "item": "ar10mag_20rd", "prob": 30 },
       { "item": "akmag30", "prob": 5 },
-      { "item": "m1carbinemag", "prob": 5 }
+      { "item": "m1carbinemag", "prob": 15 }
     ]
   },
   {
@@ -396,7 +396,8 @@
       [ "g36mag_100rd", 3 ],
       [ "usc10mag", 5 ],
       [ "usc15mag", 7 ],
-      [ "usc20mag", 20 ]
+      [ "usc20mag", 20 ],
+      [ "m1carbinebigmag", 30 ]
     ]
   },
   {
