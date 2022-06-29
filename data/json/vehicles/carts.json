@@ -338,11 +338,7 @@
     "id": "hospital_bed_small",
     "type": "vehicle",
     "name": "small hospital bed",
-    "blueprint": [
-      [ "x" ]
-    ],
-    "parts": [
-      { "x": 0, "y": 0, "parts": [ "xlframe_vertical_2", "wheel_10", "bed" ] }
-    ]
+    "blueprint": [ [ "x" ] ],
+    "parts": [ { "x": 0, "y": 0, "parts": [ "xlframe_vertical_2", "wheel_10", "bed" ] } ]
   }
 ]
