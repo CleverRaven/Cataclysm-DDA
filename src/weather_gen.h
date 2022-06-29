@@ -60,7 +60,7 @@ class weather_generator
         weather_type_id get_weather_conditions( const w_point & ) const;
         int get_wind_direction( season_type ) const;
         int convert_winddir( int ) const;
-        int get_water_temperature() const;
+        units::temperature get_water_temperature() const;
         void test_weather( unsigned seed ) const;
 
         units::temperature get_weather_temperature( const tripoint &, const time_point &, unsigned ) const;

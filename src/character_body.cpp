@@ -428,8 +428,8 @@ void Character::update_bodytemp()
     const int best_fire = get_best_fire( pos() );
 
     const int lying_warmth = use_floor_warmth ? floor_warmth( pos() ) : 0;
-    const int water_temperature =
-        100 * temp_to_celsius( get_weather().get_cur_weather_gen().get_water_temperature() );
+    const int water_temperature = 100 * units::to_celcius(
+                                      get_weather().get_cur_weather_gen().get_water_temperature() );
 
     // Correction of body temperature due to traits and mutations
     // Lower heat is applied always

@@ -245,7 +245,7 @@ int weather_generator::convert_winddir( const int inputdir ) const
     return static_cast<int>( finputdir );
 }
 
-int weather_generator::get_water_temperature() const
+units::temperature weather_generator::get_water_temperature() const
 {
     /**
     WATER TEMPERATURE
@@ -258,21 +258,21 @@ int weather_generator::get_water_temperature() const
     int day = to_days<int>( time_past_new_year( t.t ) );
     int hour = hour_of_day<int>( t.t );
 
-    int water_temperature = 0;
+    float water_temperature = 0;
 
     if( season_length == 0 ) {
         season_length = 1;
     }
 
     // Temperature varies between 33.8F and 75.2F depending on the time of year. Day = 0 corresponds to the start of spring.
-    int annual_mean_water_temperature = 54.5 + 20.7 * std::sin( tau * ( day - season_length * 0.5 ) /
-                                        ( season_length * 4.0 ) );
+    float annual_mean_water_temperature = 54.5 + 20.7 * std::sin( tau * ( day - season_length * 0.5 ) /
+                                          ( season_length * 4.0 ) );
     // Temperature varies between +2F and -2F depending on the time of day. Hour = 0 corresponds to midnight.
-    int daily_water_temperature_variation = 2.0 + 2.0 * std::sin( tau * ( hour - 6.0 ) / 24.0 );
+    float daily_water_temperature_variation = 2.0 + 2.0 * std::sin( tau * ( hour - 6.0 ) / 24.0 );
 
     water_temperature = annual_mean_water_temperature + daily_water_temperature_variation;
 
-    return water_temperature;
+    return units::from_fahrenheit( water_temperature );
 }
 
 void weather_generator::test_weather( unsigned seed ) const
