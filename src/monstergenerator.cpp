@@ -664,7 +664,7 @@ mon_effect_data::mon_effect_data() :
     chance( 100.0f ),
     permanent( false ),
     affect_hit_bp( false ),
-    bp( "bp_null" ),
+    bp( body_part_bp_null ),
     duration( 1, 1 ),
     intensity( 0, 0 ) {}
 

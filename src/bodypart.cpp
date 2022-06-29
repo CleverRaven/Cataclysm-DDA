@@ -15,6 +15,7 @@
 #include "rng.h"
 
 
+const bodypart_str_id body_part_bp_null( "bp_null" );
 const bodypart_str_id body_part_arm_l( "arm_l" );
 const bodypart_str_id body_part_arm_r( "arm_r" );
 const bodypart_str_id body_part_eyes( "eyes" );
