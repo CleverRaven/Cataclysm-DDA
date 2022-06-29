@@ -174,7 +174,7 @@
   },
   {
     "id": "feral_human_thrown_stale_cookie",
-    "//": "cookies thrown by feral grannies."
+    "//": "cookies thrown by feral grannies.",
 	"type": "GUN",
     "symbol": "%",
     "color": "red",
