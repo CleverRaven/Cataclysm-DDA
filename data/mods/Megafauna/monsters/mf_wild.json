@@ -240,12 +240,12 @@
         {
           "id": "longswipe",
           "damage_max_instance": [ { "damage_type": "bash", "amount": 20 } ],
-          "hit_dmg_u": "The %1$s thrusts its trunk at your %2$s, smashing it!",
-          "hit_dmg_npc": "The %1$s thrusts its trunk at <npcname>!",
-          "no_dmg_msg_u": "The %1$s thrusts its trunk at your %2$s, but it glances off your armor!",
-          "no_dmg_msg_npc": "The %1$s thrusts its trunk at <npcname>, but it glances off their armor!",
-          "miss_msg_u": "The %s thrusts its trunk at you, but you evade it!",
-          "miss_msg_npc": "The %s thrusts its trunk at <npcname>, but they evade it!"
+          "hit_dmg_u": "The %1$s swings its trunk at your %2$s, smashing it!",
+          "hit_dmg_npc": "The %1$s swings its trunk at <npcname>!",
+          "no_dmg_msg_u": "The %1$s swings its trunk at your %2$s, but it glances off your armor!",
+          "no_dmg_msg_npc": "The %1$s swings its trunk at <npcname>, but it glances off their armor!",
+          "miss_msg_u": "The %s swings its trunk at you, but you evade it!",
+          "miss_msg_npc": "The %s swings its trunk at <npcname>, but they evade it!"
         }
       ],
       "flags": [
