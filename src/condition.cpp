@@ -1825,7 +1825,7 @@ static std::function<void( const T &, int )> get_set_int( const JsonObject &jo,
             return [min, max]( const T & d, int input ) {
                 const int new_temperature = handle_min_max<T>( d, input, min, max );
                 get_weather().weather_precise->temperature = units::from_fahrenheit( new_temperature );
-                get_weather().temperature = new_temperature;
+                get_weather().temperature = units::from_fahrenheit( new_temperature );
                 get_weather().clear_temp_cache();
             };
         } else if( weather_aspect == "windpower" ) {

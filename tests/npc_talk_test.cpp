@@ -1103,7 +1103,7 @@ TEST_CASE( "npc_compare_int", "[npc_talk]" )
     const skill_id skill = skill_driving;
     player_character.set_skill_level( skill, 0 );
 
-    get_weather().temperature = 19;
+    get_weather().temperature = units::from_fahrenheit( 19 );
     get_weather().windspeed = 20;
     get_weather().weather_precise->temperature = units::from_fahrenheit( 19 );
     get_weather().weather_precise->windpower = 20;

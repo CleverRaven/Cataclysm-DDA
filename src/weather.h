@@ -168,7 +168,7 @@ class weather_manager
         // Updates the temperature and weather patten
         void update_weather();
         // The air temperature
-        int temperature = 0;
+        units::temperature temperature = 0_K;
         bool lightning_active = false;
         // Weather pattern
         weather_type_id weather_id = WEATHER_NULL;

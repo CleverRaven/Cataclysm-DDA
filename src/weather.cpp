@@ -568,7 +568,7 @@ std::string weather_forecast( const point_abs_sm &abs_sm_pos )
                           _( "The current time is %1$s Eastern Standard Time.  At %2$s in %3$s, it was %4$s.  The temperature was %5$s. " ),
                           to_string_time_of_day( calendar::turn ), print_time_just_hour( calendar::turn ),
                           city_name,
-                          weather.weather_id->name, print_temperature( units::from_fahrenheit( get_weather().temperature ) )
+                          weather.weather_id->name, print_temperature( get_weather().temperature )
                       );
 
     //weather_report += ", the dewpoint ???, and the relative humidity ???.  ";
@@ -925,7 +925,7 @@ weather_manager::weather_manager()
     lightning_active = false;
     weather_override = WEATHER_NULL;
     nextweather = calendar::before_time_starts;
-    temperature = 0;
+    temperature = 0_K;
     weather_id = WEATHER_CLEAR;
 }
 
@@ -949,7 +949,7 @@ void weather_manager::update_weather()
                      weather_gen.get_weather_conditions( w )
                      : weather_override;
         sfx::do_ambient();
-        temperature = units::to_fahrenheit( w.temperature );
+        temperature = w.temperature;
         winddirection = wind_direction_override ? *wind_direction_override : w.winddirection;
         windspeed = windspeed_override ? *windspeed_override : w.windpower;
         lightning_active = false;
@@ -993,8 +993,7 @@ units::temperature weather_manager::get_temperature( const tripoint &location )
 
 
     //underground temperature = average New England temperature = 43F/6C
-    units::temperature temp = ( location.z < 0 ? AVERAGE_ANNUAL_TEMPERATURE :
-                                units::from_fahrenheit( temperature ) ) +
+    units::temperature temp = ( location.z < 0 ? AVERAGE_ANNUAL_TEMPERATURE : temperature ) +
                               ( g->new_game ? 0_K : get_map().get_temperature_mod( location ) );
 
     if( !g->new_game ) {
@@ -1011,7 +1010,7 @@ units::temperature weather_manager::get_temperature( const tripoint &location )
 
 units::temperature weather_manager::get_temperature( const tripoint_abs_omt &location )
 {
-    return location.z() < 0 ? AVERAGE_ANNUAL_TEMPERATURE : units::from_fahrenheit( temperature );
+    return location.z() < 0 ? AVERAGE_ANNUAL_TEMPERATURE : temperature;
 }
 
 void weather_manager::clear_temp_cache()
