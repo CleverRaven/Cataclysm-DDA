@@ -72,7 +72,7 @@
       "id": "mon_woodox",
       "type": "MONSTER",
       "name": { "str_sp": "wood-ox" },
-      "description": "A large-built bovine sometimes found browsing in high altitudes woods.  It has thick, long coat of wool and two short, curved horns.",
+      "description": "A large-built bovine sometimes found browsing in high altitude woods.  It has a thick, long coat of wool and two short, curved horns.",
       "default_faction": "herbivore",
       "bodytype": "horse",
       "categories": [ "WILDLIFE" ],
