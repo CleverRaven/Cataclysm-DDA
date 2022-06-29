@@ -502,7 +502,7 @@
       { "item": "garand", "prob": 10, "charges-min": 0, "charges-max": 0 },
       { "item": "carbine_flintlock", "prob": 1, "charges-min": 0, "charges-max": 0 },
       { "item": "rifle_flintlock", "prob": 1, "charges-min": 0, "charges-max": 0 },
-      { "item": "win70", "prob": 10, "charges-min": 0, "charges-max": 0 }
+      { "item": "win70", "prob": 10, "charges-min": 0, "charges-max": 0 },
       { "item": "m1carbine", "prob": 10, "charges-min": 0, "charges-max": 0 }
     ]
   },
