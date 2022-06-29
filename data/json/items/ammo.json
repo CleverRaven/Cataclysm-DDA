@@ -1506,7 +1506,7 @@
     "id": "stale_cookie",
     "symbol": "*",
     "looks_like": "cookies",
-	"color": "brown",
+    "color": "brown",
     "name": { "str": "inedible stale cookie" },
     "description": "One of Grandma's homemade freshly baked cookies. Or at least it used to be.",
     "category": "spare_parts",
@@ -1518,16 +1518,16 @@
     "damage": { "damage_type": "bash", "amount": 1 },
     "range": 10,
     "dispersion": 7,
-	"loudness": 0,
+    "loudness": 0,
     "effects": [ "NONCONDUCTIVE", "NEVER_MISFIRES", "IRREPLACEABLE_CONSUMABLE", "NON_FOULING" ]
-    },
-    {
+  },
+  {
     "type": "AMMO",
     "ammo_type": "zeriatric_dentures",
-	"id": "zeriatric_dentures",
+    "id": "zeriatric_dentures",
     "symbol": "*",
     "looks_like": "dentures",
-	"color": "white",
+    "color": "white",
     "name": { "str": "zeriatric dentures" },
     "description": "Fake teeth.",
     "category": "spare_parts",
@@ -1535,7 +1535,7 @@
     "damage": { "damage_type": "stab", "amount": 3, "armor_penetration": 10 },
     "range": 10,
     "dispersion": 7,
-	"loudness": 0,
+    "loudness": 0,
     "effects": [ "NONCONDUCTIVE", "NEVER_MISFIRES", "IRREPLACEABLE_CONSUMABLE", "NON_FOULING" ]
-    }
- ]
+  }
+]
