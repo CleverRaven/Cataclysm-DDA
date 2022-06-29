@@ -605,11 +605,6 @@
     "name": "7.62x54mm",
     "default": "762_54R"
   },
-    "type": "ammunition_type",
-    "id": "30carbine",
-    "name": ".30 Carbine",
-    "default": "30carbine"
-  },
   {
     "type": "ammunition_type",
     "id": "fishspear",
