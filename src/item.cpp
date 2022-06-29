@@ -9872,6 +9872,11 @@ bool item::can_unload_liquid() const
     return contents.can_unload_liquid();
 }
 
+bool item::contains_no_solids() const
+{
+    return contents.contains_no_solids();
+}
+
 bool item::allows_speedloader( const itype_id &speedloader_id ) const
 {
     return contents.allows_speedloader( speedloader_id );
