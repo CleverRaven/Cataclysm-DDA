@@ -249,6 +249,7 @@
       { "item": "308", "prob": 25, "charges": [ 1, 20 ] },
       { "item": "762_54R", "prob": 10, "charges": [ 1, 20 ] },
       { "item": "762_m43", "prob": 20, "charges": [ 1, 30 ] }
+      { "item": "30carbine", "prob" 20, "charges": [ 1, 50 ] )
     ]
   },
   {
@@ -709,6 +710,7 @@
       { "item": "9x18mm_casing", "prob": 80 },
       { "item": "shot_hull", "prob": 100 },
       { "item": "300blk_casing", "prob": 80 }
+      { "item": "30carbine_casing", "prob": 60 }
     ]
   },
   {
@@ -753,6 +755,7 @@
       [ "300_casing", 60 ],
       [ "762R_casing", 10 ],
       [ "32_casing", 70 ]
+      [ "30_carbine", 40 ]
     ]
   },
   {
