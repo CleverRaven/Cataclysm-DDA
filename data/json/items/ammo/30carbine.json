@@ -1,5 +1,5 @@
 [
- {
+  {
     "id": "30carbine",
     "type": "AMMO",
     "name": { "str_sp": ".30 Carbine" },
@@ -21,8 +21,8 @@
     "dispersion": 30,
     "recoil": 1000,
     "effects": [ "COOKOFF" ]
- },
- {
+  },
+  {
     "id": "bp_30carbine",
     "copy-from": "30carbine",
     "type": "AMMO",
@@ -36,8 +36,8 @@
     },
     "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
- },
- {
+  },
+  {
     "id": "reloaded_30carbine",
     "copy-from": "30carbine",
     "type": "AMMO",
