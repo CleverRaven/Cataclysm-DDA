@@ -13,7 +13,7 @@
     "material": [ "steel" ],
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": [ ".30 Carbine" ],
+    "ammo_type": [ "30carbine" ],
     "flags": [ "MAG_COMPACT" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "30carbine": 30 } } ]
   },
@@ -31,7 +31,7 @@
     "material": [ "steel" ],
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": [ ".30 Carbine" ],
+    "ammo_type": [ "30carbine" ],
     "flags": [ "MAG_COMPACT" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "30carbine": 15 } } ]
   }
