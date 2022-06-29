@@ -54,6 +54,8 @@ static const itype_id itype_bullwhip( "bullwhip" );
 static const itype_id itype_grapnel( "grapnel" );
 static const itype_id itype_rope_30( "rope_30" );
 
+static const flag_id json_flag_UNCONSUMED( "UNCONSUMED" );
+
 static const json_character_flag json_flag_WINGS_1( "WINGS_1" );
 static const json_character_flag json_flag_WINGS_2( "WINGS_2" );
 
@@ -73,7 +75,7 @@ static const species_id species_ROBOT( "ROBOT" );
 static const trait_id trait_INFIMMUNE( "INFIMMUNE" );
 static const trait_id trait_INFRESIST( "INFRESIST" );
 
-static const flag_id json_flag_UNCONSUMED( "UNCONSUMED" );
+
 
 // A pit becomes less effective as it fills with corpses.
 static float pit_effectiveness( const tripoint &p )
