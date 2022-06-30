@@ -3,7 +3,7 @@
     "id": "player_health_and_stasistik_block",
     "type": "widget",
     "style": "layout",
-    "label": "player_health",
+    "label": "player_block",
     "width": 58,
     "height": 17,
     "arrange": "minimum_columns",
