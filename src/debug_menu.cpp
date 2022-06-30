@@ -2899,7 +2899,7 @@ void debug()
             break;
         case debug_menu_index::UNLOCK_ALL:
             if( query_yn(
-                    _( "This will add the arcade mode achievement unlocking all starting scenarios and professions for all worlds.  The character who performs this action will need to die for it to be recorded.  Achievements are tracked from your memorial file so characters from any world will be checked.  Activating this will spoil factions and situations you may otherwise stumble upon naturally.  Some scenarios are frustrating for the uninitiatedand some professions skip portions of the games content.  If new to the game progression would otherwise help you be introduced to mechanics at a reasonable pace." ) ) ) {
+                    _( "Activating this will add the arcade mode achievement unlocking all starting scenarios and professions for all worlds.  The character who performs this action will need to die for it to be recorded.  Achievements are tracked from the memorial folder if you need to get rid of this.  Activating this will spoil factions and situations you may otherwise stumble upon naturally while playing.  Some scenarios are frustrating for the uninitiated, and some professions skip portions of the game's content.  If new to the game progression would otherwise help you be introduced to mechanics at a reasonable pace." ) ) ) {
                 get_achievements().report_achievement( &achievement_id( "achievement_arcade_mode" ).obj(),
                                                        achievement_completion::completed );
             }
