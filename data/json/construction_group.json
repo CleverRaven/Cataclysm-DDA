@@ -1126,6 +1126,11 @@
   },
   {
     "type": "construction_group",
+    "id": "place_stereo",
+    "name": "Place Stereo System"
+  },
+  {
+    "type": "construction_group",
     "id": "place_minifridge",
     "name": "Place Minifridge"
   },

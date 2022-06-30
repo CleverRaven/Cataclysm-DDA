@@ -957,15 +957,18 @@ void Character::mutate( const int &true_random_chance, const bool use_vitamins )
             // ...for those that we have...
             if( has_trait( base_mutation ) ) {
                 // ...consider the mutations that replace it.
+
                 for( const trait_id &mutation : base_mdata.replacements ) {
-                    if( mutation->valid && mutation_ok( mutation, force_good, force_bad, mut_vit, terminal ) ) {
+                    if( mutation->valid && mutation_ok( mutation, force_good, force_bad, mut_vit, terminal ) &&
+                        mutation_is_in_category( mutation, cat ) ) {
                         upgrades.push_back( mutation );
                     }
                 }
 
                 // ...consider the mutations that add to it.
                 for( const trait_id &mutation : base_mdata.additions ) {
-                    if( mutation->valid && mutation_ok( mutation, force_good, force_bad, mut_vit, terminal ) ) {
+                    if( mutation->valid && mutation_ok( mutation, force_good, force_bad, mut_vit, terminal ) &&
+                        mutation_is_in_category( mutation, cat ) ) {
                         upgrades.push_back( mutation );
                     }
                 }
@@ -1212,13 +1215,12 @@ bool Character::mutate_towards( const trait_id &mut, const mutation_category_id 
 
     // Only mutate in-category prerequisites
     if( mut_cat != mutation_category_ANY ) {
-        const std::vector<trait_id> &muts_in_cat = mutations_category[mut_cat];
-        auto is_not_in_category = [&muts_in_cat]( const trait_id & p ) {
-            return std::find( muts_in_cat.begin(), muts_in_cat.end(), p ) == muts_in_cat.end();
+        auto is_not_in_mut_cat = [&mut_cat]( const trait_id & p ) {
+            return !mutation_is_in_category( p, mut_cat );
         };
-        prereqs1.erase( std::remove_if( prereqs1.begin(), prereqs1.end(), is_not_in_category ),
+        prereqs1.erase( std::remove_if( prereqs1.begin(), prereqs1.end(), is_not_in_mut_cat ),
                         prereqs1.end() );
-        prereqs2.erase( std::remove_if( prereqs2.begin(), prereqs2.end(), is_not_in_category ),
+        prereqs2.erase( std::remove_if( prereqs2.begin(), prereqs2.end(), is_not_in_mut_cat ),
                         prereqs2.end() );
     }
 
