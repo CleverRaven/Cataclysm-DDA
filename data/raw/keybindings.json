@@ -880,7 +880,8 @@
   },
   {
     "type": "keybinding",
-    "id": "QUIT",
+    "//": "Use a prefix here to avoid falling back to QUIT.  Otherwise MOUSE_RIGHT is dropped when keyboard_mode is keychar.",
+    "id": "WORLDGEN_CONFIRM.QUIT",
     "category": "WORLDGEN_CONFIRM_DIALOG",
     "name": "Exit worldgen screen",
     "bindings": [

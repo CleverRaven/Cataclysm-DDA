@@ -1583,7 +1583,7 @@ int worldfactory::show_worldgen_basic( WORLDPTR world )
 
     input_context ctxt( "WORLDGEN_CONFIRM_DIALOG" );
     // dialog actions
-    ctxt.register_action( "QUIT" );
+    ctxt.register_action( "WORLDGEN_CONFIRM.QUIT" );
     ctxt.register_action( "PICK_RANDOM_WORLDNAME" );
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
@@ -1608,6 +1608,8 @@ int worldfactory::show_worldgen_basic( WORLDPTR world )
     bool noname = false;
     bool custom_opts = false;
 
+    std::map<int, inclusive_rectangle<point>> btn_map;
+    std::map<int, inclusive_rectangle<point>> slider_inc_map;
     std::string worldname = world->world_name;
     int sel_opt = 0;
 
@@ -1740,53 +1742,78 @@ int worldfactory::show_worldgen_basic( WORLDPTR world )
     };
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
+        slider_inc_map.clear();
+        btn_map.clear();
         const int win_width = getmaxx( w_confirmation ) - 2;
         const int win_height = getmaxy( w_confirmation );
 
         werase( w_confirmation );
         //~ Title text for the world creation menu.  The < and > characters decorate the border.
         draw_border( w_confirmation, c_light_gray, _( "< Create World >" ), c_white );
+        // World name
         mvwprintz( w_confirmation, point( 2, namebar_pos.y ), c_white, _( "World name:" ) );
+        size_t name_txt_width = 0;
         if( noname ) {
-            mvwprintz( w_confirmation, namebar_pos, h_light_gray,
-                       _( "________NO NAME ENTERED!________" ) );
+            const std::string name_txt = _( "________NO NAME ENTERED!________" );
+            name_txt_width = utf8_width( name_txt );
+            mvwprintz( w_confirmation, namebar_pos,
+                       sel_opt == 0 ? hilite( c_light_gray ) : c_light_gray, name_txt );
             wnoutrefresh( w_confirmation );
         } else {
             mvwprintz( w_confirmation, namebar_pos, sel_opt == 0 ? hilite( c_pink ) : c_pink, worldname );
+            name_txt_width = utf8_width( worldname );
         }
+        btn_map.emplace( 0,
+                         inclusive_rectangle<point>( namebar_pos, namebar_pos + point( name_txt_width, 0 ) ) );
 
+        // Slider options
         int y = namebar_pos.y + 2;
         for( int i = 0; static_cast<size_t>( i ) < sliders.size(); i++, y++ ) {
-            std::string sl_txt = get_opt_slider( win_width / 2, slider_levels[i],
+            std::string sl_txt = get_opt_slider( win_width / 2 - 2, slider_levels[i],
                                                  sliders[i].second.size() - 1,
                                                  i == sel_opt - 1, custom_opts );
             const world_slider_opt &sel_sl = sliders[i].second[slider_levels[i]];
-            trim_and_print( w_confirmation, point( 2, y++ ), win_width,
+            trim_and_print( w_confirmation, point( 3, y++ ), win_width,
                             c_white, _( sliders[i].first ) );
-            trim_and_print( w_confirmation, point( 2, y ), win_width,
+            trim_and_print( w_confirmation, point( 3, y ), win_width,
                             i == sel_opt - 1 ? hilite( c_white ) : c_white, sl_txt );
-            mvwprintz( w_confirmation, point( 4 + win_width / 2, y++ ), c_white,
+            if( i == sel_opt - 1 ) {
+                mvwputch( w_confirmation, point( 1, y ), hilite( c_yellow ), '<' );
+                mvwputch( w_confirmation, point( 2 + win_width / 2, y ), hilite( c_yellow ), '>' );
+            }
+            slider_inc_map.emplace( i * 2, inclusive_rectangle<point>( point( 1, y ), point( 1, y ) ) );
+            slider_inc_map.emplace( i * 2 + 1, inclusive_rectangle<point>( point( 2 + win_width / 2, y ),
+                                    point( 2 + win_width / 2, y ) ) );
+            mvwprintz( w_confirmation, point( 5 + win_width / 2, y++ ), c_white,
                        custom_opts ? _( "Custom" ) : sel_sl.name.translated() );
+            btn_map.emplace( 1 + i,
+                             inclusive_rectangle<point>( point( 1, y - 1 ), point( 2 + win_width / 2, y - 1 ) ) );
         }
 
         auto get_clr = []( const nc_color & base, bool hi ) {
             return hi ? hilite( base ) : base;
         };
 
+        // Finish button
         nc_color acc_clr = get_clr( c_yellow, sel_opt == static_cast<int>( sliders.size() + 1 ) );
         nc_color base_clr = get_clr( c_white, sel_opt == static_cast<int>( sliders.size() + 1 ) );
         std::string btn_txt = string_format( "%s %s %s", colorize( "[", acc_clr ),
                                              _( "Finish" ), colorize( "]", acc_clr ) );
-        print_colored_text( w_confirmation, point( win_width / 4 - utf8_width( btn_txt, true ) / 2, y ),
-                            base_clr, base_clr, btn_txt );
+        const point finish_pos( win_width / 4 - utf8_width( btn_txt, true ) / 2, y );
+        print_colored_text( w_confirmation, finish_pos, base_clr, base_clr, btn_txt );
+        btn_map.emplace( sliders.size() + 1,
+                         inclusive_rectangle<point>( finish_pos, finish_pos + point( utf8_width( btn_txt, true ), 0 ) ) );
+        // Reset button
         acc_clr = get_clr( c_yellow, sel_opt == static_cast<int>( sliders.size() + 2 ) );
         base_clr = get_clr( c_white, sel_opt == static_cast<int>( sliders.size() + 2 ) );
         btn_txt = string_format( "%s %s %s", colorize( "[", acc_clr ),
                                  _( "Reset" ), colorize( "]", acc_clr ) );
-        print_colored_text( w_confirmation,
-                            point( ( win_width * 3 ) / 4 - utf8_width( btn_txt, true ) / 2, y++ ),
-                            base_clr, base_clr, btn_txt );
+        const point reset_pos( ( win_width * 3 ) / 4 - utf8_width( btn_txt, true ) / 2, y++ );
+        print_colored_text( w_confirmation, reset_pos, base_clr, base_clr, btn_txt );
+        btn_map.emplace( sliders.size() + 2,
+                         inclusive_rectangle<point>( reset_pos, reset_pos + point( utf8_width( btn_txt, true ), 0 ) ) );
 
+        // Hint text
         std::string hint_txt =
             string_format( _( "Press [<color_yellow>%s</color>] to pick a random name for your world." ),
                            ctxt.get_desc( "PICK_RANDOM_WORLDNAME" ) );
@@ -1795,24 +1822,55 @@ int worldfactory::show_worldgen_basic( WORLDPTR world )
         }
         y += fold_and_print( w_confirmation, point( 2, y + 1 ), win_width, c_light_gray, hint_txt ) + 1;
 
+        // Advanced settings legend
         nc_color dummy = c_light_gray;
+        std::string sctxt = string_format( _( "[<color_yellow>%s</color>] - Advanced options" ),
+                                           ctxt.get_desc( "ADVANCED_SETTINGS", 1U ) );
         mvwprintz( w_confirmation, point( 2, win_height - 4 ), c_light_gray, _( "Advanced settings:" ) );
-        print_colored_text( w_confirmation, point( 2, win_height - 3 ), dummy, c_light_gray,
-                            string_format( _( "[<color_yellow>%s</color>] - Advanced options" ),
-                                           ctxt.get_desc( "ADVANCED_SETTINGS", 1U ) ) );
-        print_colored_text( w_confirmation, point( 2, win_height - 2 ), dummy, c_light_gray,
-                            string_format( _( "[<color_yellow>%s</color>] - Open mod manager" ),
-                                           ctxt.get_desc( "PICK_MODS", 1U ) ) );
+        print_colored_text( w_confirmation, point( 2, win_height - 3 ), dummy, c_light_gray, sctxt );
+        btn_map.emplace( sliders.size() + 3, inclusive_rectangle<point>( point( 2, win_height - 3 ),
+                         point( 2 + utf8_width( sctxt, true ), win_height - 3 ) ) );
+        sctxt = string_format( _( "[<color_yellow>%s</color>] - Open mod manager" ),
+                               ctxt.get_desc( "PICK_MODS", 1U ) );
+        print_colored_text( w_confirmation, point( 2, win_height - 2 ), dummy, c_light_gray, sctxt );
+        btn_map.emplace( sliders.size() + 4, inclusive_rectangle<point>( point( 2, win_height - 2 ),
+                         point( 2 + utf8_width( sctxt, true ), win_height - 2 ) ) );
         wnoutrefresh( w_confirmation );
     } );
 
     do {
         ui_manager::redraw();
 
-        const std::string action = ctxt.handle_input();
+        std::string action = ctxt.handle_input();
+        // Handle mouse input
         if( action == "MOUSE_MOVE" || action == "SELECT" ) {
-            //TODO: mouse selection
-        } else if( action == "CONFIRM" ) {
+            cata::optional<point> coord = ctxt.get_coordinates_text( w_confirmation );
+            if( !!coord ) {
+                int orig_opt = sel_opt;
+                bool found = run_for_point_in<int, point>( btn_map, *coord,
+                [&sel_opt]( const std::pair<int, inclusive_rectangle<point>> &p ) {
+                    sel_opt = p.first;
+                } ) > 0;
+                if( found && action == "SELECT" ) {
+                    if( sel_opt == static_cast<int>( sliders.size() + 3 ) ) {
+                        action = "ADVANCED_SETTINGS";
+                        sel_opt = orig_opt;
+                    } else if( sel_opt == static_cast<int>( sliders.size() + 4 ) ) {
+                        action = "PICK_MODS";
+                        sel_opt = orig_opt;
+                    } else {
+                        action = "CONFIRM";
+                        run_for_point_in<int, point>( slider_inc_map, *coord,
+                        [&action]( const std::pair<int, inclusive_rectangle<point>> &p ) {
+                            action = p.first % 2 == 0 ? "LEFT" : "RIGHT";
+                        } );
+                    }
+                }
+            }
+        }
+
+        // Handle other inputs
+        if( action == "CONFIRM" ) {
             if( sel_opt == 0 ) {
                 // rename
                 string_input_popup popup;
@@ -1906,7 +1964,8 @@ int worldfactory::show_worldgen_basic( WORLDPTR world )
             }
         } else if( action == "PICK_RANDOM_WORLDNAME" ) {
             world->world_name = worldname = pick_random_name();
-        } else if( action == "QUIT" && query_yn( _( "Do you want to abort World Generation?" ) ) ) {
+        } else if( action == "WORLDGEN_CONFIRM.QUIT" &&
+                   query_yn( _( "Do you want to abort World Generation?" ) ) ) {
             world->world_name = worldname;
             return -999;
         }
