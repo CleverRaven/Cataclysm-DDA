@@ -1320,10 +1320,13 @@ class Character : public Creature, public visitable
         /** Picks a random valid mutation and gives it to the Character, possibly removing/changing others along the way */
         void mutate( const int &true_random_chance, bool use_vitamins );
         void mutate( );
-        /** Returns true if the player doesn't have the mutation or a conflicting one and it complies with the force typing */
-        bool mutation_ok( const trait_id &mutation, bool force_good, bool force_bad,
+        /** Returns true if the player doesn't have the mutation or a conflicting one and it complies with the allowed typing */
+        bool mutation_ok( const trait_id &mutation, bool allow_good, bool allow_bad, bool allow_neutral,
                           const vitamin_id &mut_vit, const bool &terminal ) const;
-        bool mutation_ok( const trait_id &mutation, bool force_good, bool force_bad ) const;
+        bool mutation_ok( const trait_id &mutation, bool allow_good, bool allow_bad,
+                          bool allow_neutral ) const;
+        /** Roll, based on instability, whether next mutation should be good or bad */
+        bool roll_bad_mutation() const;
         /** Picks a random valid mutation in a category and mutate_towards() it */
         void mutate_category( const mutation_category_id &mut_cat, bool use_vitamins );
         void mutate_category( const mutation_category_id &mut_cat );
