@@ -604,7 +604,7 @@
     "color": "light_gray",
     "ammo": "battery",
     "flags": [ "FRAGILE", "CANT_WEAR", "WATERPROOF", "IS_UPS", "EXO_MEDIUM_GADGET", "LEAK_DAM", "RADIOACTIVE" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 100 } } ],
-    "relic_data": { "charge_info": { "regenerate_ammo": true, "recharge_type": "periodic", "time": "30 s" } }
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 1000 } } ],
+    "relic_data": { "charge_info": { "regenerate_ammo": true, "recharge_type": "periodic", "time": "60 s" } }
   }
 ]
