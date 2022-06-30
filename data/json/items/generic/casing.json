@@ -495,5 +495,15 @@
     "description": "An empty casing from a .300 AAC Blackout round.",
     "weight": "6 g",
     "volume": "9ml"
+  },
+  {
+    "id": "30carbine_casing",
+    "copy-from": "casing",
+    "looks_like": "223_casing",
+    "type": "GENERIC",
+    "name": { "str": ".30 Carbine casing" },
+    "description": "An empty casing from a .30 Carbine round.",
+    "weight": "6 g",
+    "volume": "8ml"
   }
 ]

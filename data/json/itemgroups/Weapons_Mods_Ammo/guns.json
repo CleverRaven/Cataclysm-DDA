@@ -390,7 +390,8 @@
       { "group": "nested_win70", "prob": 2 },
       { "group": "nested_1895sbl", "prob": 1 },
       { "group": "nested_fn_ps90", "prob": 1 },
-      { "group": "nested_aksemi", "prob": 2 }
+      { "group": "nested_aksemi", "prob": 2 },
+      { "group": "nested_m1carbine", "prob": 1 }
     ]
   },
   {
@@ -419,7 +420,8 @@
       { "item": "fn_ps90", "prob": 1, "charges-min": 0, "charges-max": 50 },
       { "item": "1895sbl", "prob": 1, "charges-min": 0, "charges-max": 6 },
       { "item": "aksemi", "prob": 2, "charges-min": 0, "charges-max": 30 },
-      { "item": "mk47", "prob": 1, "charges-min": 0, "charges-max": 30 }
+      { "item": "mk47", "prob": 1, "charges-min": 0, "charges-max": 30 },
+      { "item": "m1carbine", "prob": 1, "charges-min": 0, "charges-max": 15 }
     ]
   },
   {
@@ -500,7 +502,8 @@
       { "item": "garand", "prob": 10, "charges-min": 0, "charges-max": 0 },
       { "item": "carbine_flintlock", "prob": 1, "charges-min": 0, "charges-max": 0 },
       { "item": "rifle_flintlock", "prob": 1, "charges-min": 0, "charges-max": 0 },
-      { "item": "win70", "prob": 10, "charges-min": 0, "charges-max": 0 }
+      { "item": "win70", "prob": 10, "charges-min": 0, "charges-max": 0 },
+      { "item": "m1carbine", "prob": 10, "charges-min": 0, "charges-max": 0 }
     ]
   },
   {
@@ -592,7 +595,8 @@
       { "item": "m16_auto_rifle", "variant": "acr", "prob": 25, "charges-min": 0, "charges-max": 0 },
       { "item": "fs2000", "prob": 6, "charges-min": 0, "charges-max": 0 },
       { "item": "acr_300blk", "prob": 15, "charges-min": 0, "charges-max": 0 },
-      { "item": "hk417_13", "prob": 40, "charges-min": 0, "charges-max": 0 }
+      { "item": "hk417_13", "prob": 40, "charges-min": 0, "charges-max": 0 },
+      { "item": "m2carbine", "prob": 5, "charges-min": 0, "charges-max": 0 }
     ]
   },
   {
