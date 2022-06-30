@@ -853,7 +853,7 @@ bool do_turn()
 
     u.update_bodytemp();
     u.update_body_wetness( *weather.weather_precise );
-    u.apply_wetness_morale( units::to_fahrenheit( weather.temperature ) );
+    u.apply_wetness_morale( weather.temperature );
 
     if( calendar::once_every( 1_minutes ) ) {
         u.update_morale();

@@ -438,7 +438,7 @@ void Character::update_bodytemp()
     // Difference between high and low is the "safe" heat - one we only apply if it's beneficial
     const int mutation_heat_bonus = mutation_heat_high - mutation_heat_low;
 
-    const int h_radiation = units::to_fahrenheit( get_heat_radiation( pos() ) );
+    const int h_radiation = units::to_kelvin( get_heat_radiation( pos() ) ) * 1.8; // dT(F) = dT(K) * 1.8
 
     std::map<bodypart_id, std::vector<const item *>> clothing_map;
     for( const bodypart_id &bp : get_all_body_parts() ) {
