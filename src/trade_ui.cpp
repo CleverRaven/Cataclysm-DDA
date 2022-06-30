@@ -50,9 +50,9 @@ trade_preset::trade_preset( Character const &you, Character const &trader )
 
 bool trade_preset::is_shown( item_location const &loc ) const
 {
-    return !loc->has_var( VAR_TRADE_IGNORE ) and inventory_selector_preset::is_shown( loc ) and
-           loc->is_owned_by( _u ) and loc->made_of( phase_id::SOLID ) and
-           ( !_u.is_wielding( *loc ) or !loc->has_flag( json_flag_NO_UNWIELD ) );
+    return !loc->has_var( VAR_TRADE_IGNORE ) && inventory_selector_preset::is_shown( loc ) &&
+           loc->is_owned_by( _u ) && loc->made_of( phase_id::SOLID ) &&
+           ( !_u.is_wielding( *loc ) || !loc->has_flag( json_flag_NO_UNWIELD ) );
 }
 
 std::string trade_preset::get_denial( const item_location &loc ) const
@@ -86,11 +86,11 @@ std::string trade_preset::get_denial( const item_location &loc ) const
 bool trade_preset::cat_sort_compare( const inventory_entry &lhs, const inventory_entry &rhs ) const
 {
     item_category const *const lcat = lhs.get_category_ptr();
-    if( lcat->get_id() == item_category_ITEMS_WORN or lcat->get_id() == item_category_WEAPON_HELD ) {
+    if( lcat->get_id() == item_category_ITEMS_WORN || lcat->get_id() == item_category_WEAPON_HELD ) {
         return false;
     }
     item_category const *const rcat = rhs.get_category_ptr();
-    if( rcat->get_id() == item_category_ITEMS_WORN or rcat->get_id() == item_category_WEAPON_HELD ) {
+    if( rcat->get_id() == item_category_ITEMS_WORN || rcat->get_id() == item_category_WEAPON_HELD ) {
         return true;
     }
 
@@ -119,7 +119,7 @@ trade_ui::trade_ui( party_t &you, npc &trader, currency_t cost, std::string titl
         // FIXME: migration for traders in old saves - remove after 0.G
         zone_data const *const fallback =
             zmgr.get_zone_at( trader.get_location(), true, trader.get_fac_id() );
-        bool const legacy = fallback != nullptr and fallback->get_name() == fallback_name;
+        bool const legacy = fallback != nullptr && fallback->get_name() == fallback_name;
 
         if( legacy ) {
             _panes[_trader]->add_nearby_items( PICKUP_RANGE );
@@ -209,7 +209,7 @@ void trade_ui::recalc_values_cpane()
 void trade_ui::autobalance()
 {
     int const sign = _cpane == _you ? -1 : 1;
-    if( ( sign < 0 and _balance < 0 ) or ( sign > 0 and _balance > 0 ) ) {
+    if( ( sign < 0 && _balance < 0 ) || ( sign > 0 && _balance > 0 ) ) {
         inventory_entry &entry = _panes[_cpane]->get_active_column().get_highlighted();
         size_t const avail = entry.get_available_count() - entry.chosen_count;
         double const price = npc_trading::trading_price( *_parties[-_cpane + 1], *_parties[_cpane],

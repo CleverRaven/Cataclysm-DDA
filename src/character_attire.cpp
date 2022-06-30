@@ -54,7 +54,8 @@ ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) cons
     if( it.has_flag( flag_INTEGRATED ) ) {
         return ret_val<bool>::make_success();
     }
-    if( it.has_flag( flag_CANT_WEAR ) ) {
+    // need to ignore inherited flags for this because items in pockets likely have CANT_WEAR
+    if( it.has_flag( flag_CANT_WEAR, true ) ) {
         return ret_val<bool>::make_failure( _( "Can't be worn directly." ) );
     }
     if( has_effect( effect_incorporeal ) ) {
@@ -1076,12 +1077,10 @@ ret_val<bool> outfit::power_armor_conflicts( const item &clothing ) const
         }
         if( !clothing.covers( body_part_torso ) ) {
             bool power_armor = false;
-            if( !worn.empty() ) {
-                for( const item &elem : worn ) {
-                    if( elem.is_power_armor() ) {
-                        power_armor = true;
-                        break;
-                    }
+            for( const item &elem : worn ) {
+                if( elem.is_power_armor() ) {
+                    power_armor = true;
+                    break;
                 }
             }
             if( !power_armor ) {

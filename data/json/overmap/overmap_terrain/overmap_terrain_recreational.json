@@ -63,57 +63,40 @@
     "color": "i_blue"
   },
   {
-    "id": "skate_park",
     "type": "overmap_terrain",
+    "id": [ "skate_park", "skate_park_up", "skate_park_down" ],
     "copy-from": "generic_city_building",
     "name": "skate park",
     "sym": "O",
     "color": "light_gray"
   },
   {
-    "id": [ "small_wooded_trail", "small_wooded_trail_2" ],
     "type": "overmap_terrain",
+    "id": [ "small_wooded_trail", "small_wooded_trail_2" ],
     "copy-from": "generic_city_building",
     "name": "small wooded trail",
     "sym": "S",
     "color": "i_green"
   },
   {
-    "id": "pavilion",
     "type": "overmap_terrain",
+    "id": [ "pavilion", "pavilion_1" ],
     "copy-from": "generic_city_building",
     "name": "pavilion",
     "sym": "A",
     "color": "i_green"
   },
   {
-    "id": "pavilion_roof",
     "type": "overmap_terrain",
+    "id": [ "pavilion_roof", "pavilion_roof_1" ],
     "copy-from": "generic_city_building",
     "name": "pavilion roof",
     "sym": "A",
     "color": "i_green"
   },
   {
-    "id": "pavilion_1",
     "type": "overmap_terrain",
-    "copy-from": "generic_city_building",
-    "looks_like": "pavilion",
-    "name": "pavilion",
-    "sym": "A",
-    "color": "i_green"
-  },
-  {
-    "id": "pavilion_roof_1",
-    "type": "overmap_terrain",
-    "copy-from": "generic_city_building",
-    "name": "pavilion roof",
-    "sym": "A",
-    "color": "i_green"
-  },
-  {
     "id": "hunting_blind",
-    "type": "overmap_terrain",
     "name": "hunting blind",
     "sym": "H",
     "color": "i_green",

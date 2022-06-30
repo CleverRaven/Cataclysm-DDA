@@ -190,6 +190,7 @@ map::~map()
     if( _main_requires_cleanup ) {
         get_map().reset_vehicles_sm_pos();
         get_map().rebuild_vehicle_level_caches();
+        g->load_npcs();
     }
 }
 // NOLINTNEXTLINE(performance-noexcept-move-constructor)
@@ -343,7 +344,7 @@ void map::reset_vehicles_sm_pos()
                 if( sm != nullptr ) {
                     for( auto const &elem : sm->vehicles ) {
                         elem->sm_pos = grid;
-                        get_map().add_vehicle_to_cache( &*elem );
+                        add_vehicle_to_cache( &*elem );
                         _add_vehicle_to_list( ch, &*elem );
                     }
                 }
@@ -4104,7 +4105,7 @@ bool map::open_door( Creature const &u, const tripoint &p, const bool inside,
         int openable = vp->vehicle().next_part_to_open( vp->part_index(), true );
         if( openable >= 0 ) {
             if( !check_only ) {
-                if( ( u.is_npc() or u.is_avatar() ) and
+                if( ( u.is_npc() || u.is_avatar() ) &&
                     !vp->vehicle().handle_potential_theft( *u.as_character() ) ) {
                     return false;
                 }
@@ -9016,6 +9017,13 @@ void map::set_pathfinding_cache_dirty( const int zlev )
 {
     if( inbounds_z( zlev ) ) {
         get_pathfinding_cache( zlev ).dirty = true;
+    }
+}
+
+void map::queue_main_cleanup()
+{
+    if( this != &get_map() ) {
+        _main_requires_cleanup = true;
     }
 }
 

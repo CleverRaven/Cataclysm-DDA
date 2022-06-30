@@ -104,6 +104,13 @@
     "upgrades": { "age_grow": 40, "into": "mon_qianzhousaurus_juvenile" }
   },
   {
+    "id": "mon_nanuqsaurus_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_dryptosaurus_hatchling",
+    "default_faction": "daspletosaurus_hatchling",
+    "upgrades": { "age_grow": 40, "into": "mon_nanuqsaurus_juvenile" }
+  },
+  {
     "id": "mon_daspletosaurus_hatchling",
     "type": "MONSTER",
     "copy-from": "mon_dryptosaurus_hatchling",
@@ -464,8 +471,8 @@
     "id": "mon_mosasaurus_hatchling",
     "type": "MONSTER",
     "copy-from": "mon_spinosaurus_hatchling",
-    "name": "mosasaurus hatchling",
-    "description": "A tiny aquatic reptile hatchling with huge shiny eyes and pointy little teeth.",
+    "name": "mosasaurus neonate",
+    "description": "A tiny aquatic reptile neonate with huge shiny eyes and pointy little teeth.",
     "default_faction": "mosasaurus_hatchling",
     "upgrades": { "age_grow": 30, "into": "mon_mosasaurus_juvenile" },
     "death_function": { "effect": { "id": "death_guilt", "min_level": 3 } },

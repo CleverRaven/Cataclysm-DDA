@@ -3,9 +3,7 @@
 #include "game.h"
 #include "map.h"
 #include "map_helpers.h"
-#include "mapgen_functions.h"
-#include "mapgendata.h"
-#include "overmapbuffer.h"
+#include "mapgen_helpers.h"
 #include "player_helpers.h"
 #include "vehicle.h"
 
@@ -13,7 +11,6 @@ static const nested_mapgen_id
 nested_mapgen_test_nested_remove_all_1x1( "test_nested_remove_all_1x1" );
 static const nested_mapgen_id
 nested_mapgen_test_nested_remove_shopping_cart( "test_nested_remove_shopping_cart" );
-static const oter_str_id oter_field( "field" );
 static const update_mapgen_id
 update_mapgen_test_update_place_shopping_cart( "test_update_place_shopping_cart" );
 static const update_mapgen_id
@@ -22,10 +19,6 @@ static const vproto_id vehicle_prototype_motorcycle_cross( "motorcycle_cross" );
 static const vproto_id vehicle_prototype_shopping_cart( "shopping_cart" );
 namespace
 {
-using fprep_t = std::function<void( map &m )>;
-using fmgu_t = std::function<void( tripoint_abs_omt const &p, update_mapgen_id const &id )>;
-using fmgn_t = std::function<void( tripoint_abs_omt const &p, nested_mapgen_id const &id )>;
-
 void check_vehicle_still_works( vehicle &veh )
 {
     map &here = get_map();
@@ -54,43 +47,6 @@ void remote_add_test_vehicle( map &m )
     add_test_vehicle( m, tripoint_zero );
     REQUIRE( m.get_vehicles().size() == 1 );
     REQUIRE( m.veh_at( tripoint_zero ).has_value() );
-}
-
-void common_mapgen_prep( tripoint_abs_omt const &pos, fprep_t const &prep )
-{
-    if( prep ) {
-        tinymap tm;
-        tm.load( project_to<coords::sm>( pos ), true );
-        prep( tm );
-    }
-}
-
-void manual_update_mapgen( tripoint_abs_omt const &pos, update_mapgen_id const &id )
-{
-    // make sure we don't rotate the update
-    overmap_buffer.ter_set( pos, oter_field.id() );
-    run_mapgen_update_func( id, pos, nullptr, false );
-}
-
-void manual_nested_mapgen( tripoint_abs_omt const &pos, nested_mapgen_id const &id )
-{
-    tinymap tm;
-    tm.load( project_to<coords::sm>( pos ), true );
-    mapgendata md( pos, tm, 0.0f, calendar::turn, nullptr );
-    const auto &ptr = nested_mapgens[id].funcs().pick();
-    ( *ptr )->nest( md, point_zero, "test" );
-}
-
-template<typename F, typename ID>
-void manual_mapgen( tripoint_abs_omt const &where, F const &fmg, ID const &id,
-                    fprep_t const &prep = {} )
-{
-    // FIXME: remove once the overlap warning in `map::load()` has been fully solved
-    restore_on_out_of_scope<bool> restore_test_mode( test_mode );
-    test_mode = false;
-
-    common_mapgen_prep( where, prep );
-    fmg( where, id );
 }
 
 template<typename F, typename ID>

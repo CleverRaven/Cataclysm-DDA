@@ -18,7 +18,7 @@
         "material": [ { "type": "qt_steel", "covered_by_mat": 100, "thickness": 6 } ],
         "covers": [ "torso" ],
         "coverage": 50,
-        "encumbrance": 15
+        "encumbrance": 5
       }
     ]
   },
@@ -34,7 +34,7 @@
         "material": [ { "type": "qt_steel", "covered_by_mat": 100, "thickness": 3 } ],
         "covers": [ "torso" ],
         "coverage": 40,
-        "encumbrance": 15
+        "encumbrance": 5
       }
     ]
   },
@@ -63,7 +63,7 @@
         "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 4.5 } ],
         "covers": [ "torso" ],
         "coverage": 50,
-        "encumbrance": 15
+        "encumbrance": 5
       }
     ]
   },
@@ -79,7 +79,7 @@
         "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 2.25 } ],
         "covers": [ "torso" ],
         "coverage": 40,
-        "encumbrance": 15
+        "encumbrance": 5
       }
     ]
   },
@@ -108,7 +108,7 @@
         "material": [ { "type": "vacuum_carbide", "covered_by_mat": 100, "thickness": 4 } ],
         "covers": [ "torso" ],
         "coverage": 50,
-        "encumbrance": 25
+        "encumbrance": 5
       }
     ]
   },
@@ -124,7 +124,7 @@
         "material": [ { "type": "vacuum_carbide", "covered_by_mat": 100, "thickness": 2 } ],
         "covers": [ "torso" ],
         "coverage": 40,
-        "encumbrance": 25
+        "encumbrance": 5
       }
     ]
   },

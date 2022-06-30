@@ -1481,7 +1481,6 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
 
             description +=
                 _( "\nUse <color_red>up/down arrow</color> to go through your search history." );
-            description += "\n\n\n";
 
             string_input_popup popup;
             popup
@@ -1561,7 +1560,7 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
             recalc_unread = highlight_unread_recipes;
             keepline = true;
             if( static_cast<size_t>( line + 1 ) < current.size() ) {
-                line++;;
+                line++;
             } else {
                 line--;
             }

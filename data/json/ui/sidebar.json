@@ -6,6 +6,7 @@
     "label": { "str": "custom", "ctxt": "UI sidebar" },
     "width": 36,
     "separator": ": ",
+    "padding": 2,
     "widgets": [
       "hitpoints_all_narrow_graphs_layout",
       "stats_narrow_layout",

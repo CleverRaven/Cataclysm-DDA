@@ -1957,7 +1957,7 @@ talk_trial::talk_trial( const JsonObject &jo )
     };
     const auto iter = types_map.find( jo.get_string( "type", "NONE" ) );
     if( iter == types_map.end() ) {
-        jo.throw_error( "invalid talk trial type", "type" );
+        jo.throw_error_at( "type", "invalid talk trial type" );
     }
     type = iter->second;
     if( !( type == TALK_TRIAL_NONE || type == TALK_TRIAL_CONDITION ) ) {
@@ -3794,7 +3794,7 @@ void talk_effect_t<T>::parse_sub_effect( const JsonObject &jo )
             subeffect_fun.set_u_sell_item( item_name, cost, count, jo );
         } else if( jo.has_string( "u_buy_item" ) ) {
             if( cost <= 0 ) {
-                jo.throw_error( "u_buy_item expecting a non-zero cost parameter", "u_buy_item" );
+                jo.throw_error_at( "u_buy_item", "u_buy_item expecting a non-zero cost parameter" );
             }
             itype_id item_name;
             jo.read( "u_buy_item", item_name, true );
@@ -4146,7 +4146,7 @@ void talk_effect_t<T>::parse_string_effect( const std::string &effect_id, const 
         set_effect( subeffect_fun );
         return;
     }
-    jo.throw_error( "unknown effect string", effect_id );
+    jo.throw_error_at( effect_id, "unknown effect string" );
 }
 
 template<class T>
@@ -4179,11 +4179,11 @@ void talk_effect_t<T>::load_effect( const JsonObject &jo, const std::string &mem
                 JsonObject sub_effect = entry.get_object();
                 parse_sub_effect( sub_effect );
             } else {
-                jo.throw_error( "invalid effect array syntax", member_name );
+                jo.throw_error_at( member_name, "invalid effect array syntax" );
             }
         }
     } else {
-        jo.throw_error( "invalid effect syntax", member_name );
+        jo.throw_error_at( member_name, "invalid effect syntax" );
     }
 }
 
@@ -4446,7 +4446,7 @@ dynamic_line_t::dynamic_line_t( const JsonObject &jo )
             if( jo.has_bool( sub_member ) ) {
                 // This also marks the member as visited.
                 if( !jo.get_bool( sub_member ) ) {
-                    jo.throw_error( "value must be true", sub_member );
+                    jo.throw_error_at( sub_member, "value must be true" );
                 }
                 dcondition = conditional_t<dialogue>( sub_member );
                 function = [dcondition, yes, no]( const dialogue & d ) {
@@ -4564,7 +4564,7 @@ void json_talk_topic::load( const JsonObject &jo )
         }
     }
     if( responses.empty() ) {
-        jo.throw_error( "no responses for talk topic defined", "responses" );
+        jo.throw_error_at( "responses", "no responses for talk topic defined" );
     }
     replace_built_in_responses = jo.get_bool( "replace_built_in_responses",
                                  replace_built_in_responses );

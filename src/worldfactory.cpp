@@ -1792,7 +1792,7 @@ void load_world_option( const JsonObject &jo )
 {
     JsonArray arr = jo.get_array( "options" );
     if( arr.empty() ) {
-        jo.throw_error( "no options specified", "options" );
+        jo.throw_error_at( "options", "no options specified" );
     }
     for( const std::string line : arr ) {
         get_options().get_option( line ).setValue( "true" );
@@ -1824,7 +1824,7 @@ void load_external_option( const JsonObject &jo )
     } else if( stype == "string" || stype == "string_input" ) {
         opt.setValue( jo.get_string( "value" ) );
     } else {
-        jo.throw_error( "Unknown or unsupported stype for external option", "stype" );
+        jo.throw_error_at( "stype", "Unknown or unsupported stype for external option" );
     }
     // Just visit this member if it exists
     if( jo.has_member( "info" ) ) {

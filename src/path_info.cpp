@@ -7,7 +7,7 @@
 #include "filesystem.h" // IWYU pragma: keep
 #include "options.h"
 #include "rng.h"
-#include "system_language.h"
+#include "system_locale.h"
 
 #if defined(_WIN32)
 #include <windows.h>
@@ -129,7 +129,8 @@ std::string find_translated_file( const std::string &base_path, const std::strin
 {
 #if defined(LOCALIZE) && !defined(__CYGWIN__)
     const std::string language_option = get_option<std::string>( "USE_LANG" );
-    const std::string loc_name = language_option.empty() ? getSystemLanguage() : language_option;
+    const std::string loc_name = language_option.empty() ? SystemLocale::Language().value_or( "" ) :
+                                 language_option;
     if( !loc_name.empty() ) {
         const std::string local_path = base_path + loc_name + extension;
         if( file_exist( local_path ) ) {

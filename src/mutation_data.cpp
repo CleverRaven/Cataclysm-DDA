@@ -869,7 +869,7 @@ void mutation_branch::load_trait_group( const JsonObject &jsobj,
                                         const std::string &subtype )
 {
     if( subtype != "distribution" && subtype != "collection" && subtype != "old" ) {
-        jsobj.throw_error( "unknown trait group type", "subtype" );
+        jsobj.throw_error_at( "subtype", "unknown trait group type" );
     }
 
     Trait_group &tg = make_group_or_throw( gid, subtype == "collection" || subtype == "old" );
@@ -981,4 +981,10 @@ template<>
 bool string_id<mutation_category_trait>::is_valid() const
 {
     return mutation_category_traits.count( *this );
+}
+
+bool mutation_is_in_category( const trait_id &mut, const mutation_category_id &cat )
+{
+    return std::find( mutations_category[cat].begin(), mutations_category[cat].end(),
+                      mut ) != mutations_category[cat].end();
 }

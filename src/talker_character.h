@@ -104,6 +104,7 @@ class talker_character_const: public talker
         int get_fatigue() const override;
         int get_hunger() const override;
         int get_thirst() const override;
+        int get_instant_thirst() const override;
         int get_stored_kcal() const override;
         bool is_in_control_of( const vehicle &veh ) const override;
 
