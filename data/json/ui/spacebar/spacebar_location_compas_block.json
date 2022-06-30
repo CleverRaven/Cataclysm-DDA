@@ -3,7 +3,7 @@
       "id": "places_compas_block",
       "type": "widget",
       "style": "layout",
-      "label": "compas block",
+      "label": "6. compas block",
       "arrange": "minimum_columns",
       "width": 58,
       "widgets": [ "spacebar_separator_2", "places_compas_block_tmp" ]

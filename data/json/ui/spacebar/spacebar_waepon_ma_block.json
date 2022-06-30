@@ -3,7 +3,7 @@
     "id": "player_weapon_and_martial_arts_block",
     "type": "widget",
     "style": "layout",
-    "label": "Weapon/Sound block",
+    "label": "4. Weapon/Sound block",
     "arrange": "minimum_columns",
     "width": 58,
     "widgets": [ "spacebar_separator_2", "weapon_sound_block", "ma_buff_legend" ]

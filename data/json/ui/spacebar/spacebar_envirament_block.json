@@ -3,7 +3,7 @@
     "id": "enviroment_conditions_block",
     "type": "widget",
     "style": "layout",
-    "label": "enviroment block",
+    "label": "5. enviroment block",
     "arrange": "minimum_columns",
     "width": 58,
     "widgets": [ "spacebar_separator_2", "enviroment_conditions_block_2" ]
