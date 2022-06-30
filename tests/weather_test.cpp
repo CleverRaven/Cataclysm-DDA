@@ -203,13 +203,13 @@ TEST_CASE( "local wind chill calculation", "[weather][wind_chill]" )
         WHEN( "wind speed is less than 3 mph" ) {
             THEN( "windchill is undefined and effectively 0" ) {
                 CHECK( 0 == units::to_kelvin( get_local_windchill( units::from_fahrenheit( 30.0f ), 0.0f,
-                                                  2.9f ) ) );
+                                              2.9f ) ) );
                 CHECK( 0 == units::to_kelvin( get_local_windchill( units::from_fahrenheit( 30.0f ), 0.0f,
-                                                  2.0f ) ) );
+                                              2.0f ) ) );
                 CHECK( 0 == units::to_kelvin( get_local_windchill( units::from_fahrenheit( 30.0f ), 0.0f,
-                                                  1.0f ) ) );
+                                              1.0f ) ) );
                 CHECK( 0 == units::to_kelvin( get_local_windchill( units::from_fahrenheit( 30.0f ), 0.0f,
-                                                  0.0f ) ) );
+                                              0.0f ) ) );
             }
         }
 
@@ -226,7 +226,7 @@ TEST_CASE( "local wind chill calculation", "[weather][wind_chill]" )
 
                 THEN( "the wind chill effect is -7C (-12.6F)" ) {
                     CHECK( units::to_kelvin( get_local_windchill( temp_f, 0.0f,
-                                                 wind_mph ) ) == Approx( -7.0 ).margin( 0.1 ) );
+                                             wind_mph ) ) == Approx( -7.0 ).margin( 0.1 ) );
                 }
             }
 
@@ -235,7 +235,7 @@ TEST_CASE( "local wind chill calculation", "[weather][wind_chill]" )
 
                 THEN( "there is more wind chill, an effect of -9.4C (-17F)" ) {
                     CHECK( units::to_kelvin( get_local_windchill( temp_f, 0.0f,
-                                                 wind_mph ) ) == Approx( -9.4 ).margin( 0.1 ) );
+                                             wind_mph ) ) == Approx( -9.4 ).margin( 0.1 ) );
                 }
             }
         }
@@ -245,23 +245,23 @@ TEST_CASE( "local wind chill calculation", "[weather][wind_chill]" )
         WHEN( "wind speed is at least 3 mph" ) {
             THEN( "windchill gets colder as temperature decreases" ) {
                 CHECK( units::to_kelvin( get_local_windchill( units::from_fahrenheit( 40.0f ), 0.0f,
-                                             15.0f ) ) == Approx( -4.5 ).margin( 0.1 ) );
+                                         15.0f ) ) == Approx( -4.5 ).margin( 0.1 ) );
                 CHECK( units::to_kelvin( get_local_windchill( units::from_fahrenheit( 30.0f ), 0.0f,
-                                             15.0f ) ) == Approx( -6.1 ).margin( 0.1 ) );
+                                         15.0f ) ) == Approx( -6.1 ).margin( 0.1 ) );
                 CHECK( units::to_kelvin( get_local_windchill( units::from_fahrenheit( 20.0f ), 0.0f,
-                                             15.0f ) ) == Approx( -7.7 ).margin( 0.1 ) );
+                                         15.0f ) ) == Approx( -7.7 ).margin( 0.1 ) );
                 CHECK( units::to_kelvin( get_local_windchill( units::from_fahrenheit( 10.0f ), 0.0f,
-                                             15.0f ) ) == Approx( -9.2 ).margin( 0.1 ) );
+                                         15.0f ) ) == Approx( -9.2 ).margin( 0.1 ) );
                 CHECK( units::to_kelvin( get_local_windchill( units::from_fahrenheit( 0.0f ), 0.0f,
-                                             15.0f ) ) == Approx( -10.8 ).margin( 0.1 ) );
+                                         15.0f ) ) == Approx( -10.8 ).margin( 0.1 ) );
                 CHECK( units::to_kelvin( get_local_windchill( units::from_fahrenheit( -10.0f ), 0.0f,
-                                             15.0f ) ) == Approx( -12.4 ).margin( 0.1 ) );
+                                         15.0f ) ) == Approx( -12.4 ).margin( 0.1 ) );
                 CHECK( units::to_kelvin( get_local_windchill( units::from_fahrenheit( -20.0f ), 0.0f,
-                                             15.0f ) ) == Approx( -13.9 ).margin( 0.1 ) );
+                                         15.0f ) ) == Approx( -13.9 ).margin( 0.1 ) );
                 CHECK( units::to_kelvin( get_local_windchill( units::from_fahrenheit( -30.0f ), 0.0f,
-                                             15.0f ) ) == Approx( -15.5 ).margin( 0.1 ) );
+                                         15.0f ) ) == Approx( -15.5 ).margin( 0.1 ) );
                 CHECK( units::to_kelvin( get_local_windchill( units::from_fahrenheit( -40.0f ), 0.0f,
-                                             15.0f ) ) == Approx( -17.1 ).margin( 0.1 ) );
+                                         15.0f ) ) == Approx( -17.1 ).margin( 0.1 ) );
             }
         }
 
@@ -278,7 +278,7 @@ TEST_CASE( "local wind chill calculation", "[weather][wind_chill]" )
                 THEN( "wind chill is -4.3C (-7.74F)" ) {
                     // -4C offset from -20C =~ -7.2F offset from -4F
                     CHECK( units::to_kelvin( get_local_windchill( temp_f, 0.0f,
-                                                 wind_mph ) ) == Approx( -4.3 ).margin( 0.1 ) );
+                                             wind_mph ) ) == Approx( -4.3 ).margin( 0.1 ) );
                 }
             }
             WHEN( "wind speed increases to 19mph" ) {
@@ -286,7 +286,7 @@ TEST_CASE( "local wind chill calculation", "[weather][wind_chill]" )
 
                 THEN( "wind chill is -12.7C (-22.9F)" ) {
                     CHECK( units::to_kelvin( get_local_windchill( temp_f, 0.0f,
-                                                 wind_mph ) ) == Approx( -12.7 ).margin( 0.1 ) );
+                                             wind_mph ) ) == Approx( -12.7 ).margin( 0.1 ) );
                 }
             }
         }
@@ -297,39 +297,39 @@ TEST_CASE( "local wind chill calculation", "[weather][wind_chill]" )
             THEN( "windchill gets colder as wind increases" ) {
                 // Just below freezing
                 CHECK( units::to_kelvin( get_local_windchill( units::from_fahrenheit( 30.0f ), 0.0f,
-                                             3.0f ) ) == Approx( -1.6 ).margin( 0.1 ) );
+                                         3.0f ) ) == Approx( -1.6 ).margin( 0.1 ) );
                 CHECK( units::to_kelvin( get_local_windchill( units::from_fahrenheit( 30.0f ), 0.0f,
-                                             4.0f ) ) == Approx( -2.4 ).margin( 0.1 ) );
+                                         4.0f ) ) == Approx( -2.4 ).margin( 0.1 ) );
                 CHECK( units::to_kelvin( get_local_windchill( units::from_fahrenheit( 30.0f ), 0.0f,
-                                             5.0f ) ) == Approx( -2.9 ).margin( 0.1 ) );
+                                         5.0f ) ) == Approx( -2.9 ).margin( 0.1 ) );
                 CHECK( units::to_kelvin( get_local_windchill( units::from_fahrenheit( 30.0f ), 0.0f,
-                                             10.0f ) ) == Approx( -4.9 ).margin( 0.1 ) );
+                                         10.0f ) ) == Approx( -4.9 ).margin( 0.1 ) );
                 CHECK( units::to_kelvin( get_local_windchill( units::from_fahrenheit( 30.0f ), 0.0f,
-                                             20.0f ) ) == Approx( -7.0 ).margin( 0.1 ) );
+                                         20.0f ) ) == Approx( -7.0 ).margin( 0.1 ) );
                 CHECK( units::to_kelvin( get_local_windchill( units::from_fahrenheit( 30.0f ), 0.0f,
-                                             30.0f ) ) == Approx( -8.4 ).margin( 0.1 ) );
+                                         30.0f ) ) == Approx( -8.4 ).margin( 0.1 ) );
                 CHECK( units::to_kelvin( get_local_windchill( units::from_fahrenheit( 30.0f ), 0.0f,
-                                             40.0f ) ) == Approx( -9.5 ).margin( 0.1 ) );
+                                         40.0f ) ) == Approx( -9.5 ).margin( 0.1 ) );
                 CHECK( units::to_kelvin( get_local_windchill( units::from_fahrenheit( 30.0f ), 0.0f,
-                                             50.0f ) ) == Approx( -10.3 ).margin( 0.1 ) );
+                                         50.0f ) ) == Approx( -10.3 ).margin( 0.1 ) );
 
                 // Well below zero
                 CHECK( units::to_kelvin( get_local_windchill( units::from_fahrenheit( -30.0f ), 0.0f,
-                                             3.0f ) ) == Approx( -6.0 ).margin( 0.1 ) );
+                                         3.0f ) ) == Approx( -6.0 ).margin( 0.1 ) );
                 CHECK( units::to_kelvin( get_local_windchill( units::from_fahrenheit( -30.0f ), 0.0f,
-                                             4.0f ) ) == Approx( -7.6 ).margin( 0.1 ) );
+                                         4.0f ) ) == Approx( -7.6 ).margin( 0.1 ) );
                 CHECK( units::to_kelvin( get_local_windchill( units::from_fahrenheit( -30.0f ), 0.0f,
-                                             5.0f ) ) == Approx( -8.8 ).margin( 0.1 ) );
+                                         5.0f ) ) == Approx( -8.8 ).margin( 0.1 ) );
                 CHECK( units::to_kelvin( get_local_windchill( units::from_fahrenheit( -30.0f ), 0.0f,
-                                             10.0f ) ) == Approx( -12.9 ).margin( 0.1 ) );
+                                         10.0f ) ) == Approx( -12.9 ).margin( 0.1 ) );
                 CHECK( units::to_kelvin( get_local_windchill( units::from_fahrenheit( -30.0f ), 0.0f,
-                                             20.0f ) ) == Approx( -17.5 ).margin( 0.1 ) );
+                                         20.0f ) ) == Approx( -17.5 ).margin( 0.1 ) );
                 CHECK( units::to_kelvin( get_local_windchill( units::from_fahrenheit( -30.0f ), 0.0f,
-                                             30.0f ) ) == Approx( -20.4 ).margin( 0.1 ) );
+                                         30.0f ) ) == Approx( -20.4 ).margin( 0.1 ) );
                 CHECK( units::to_kelvin( get_local_windchill( units::from_fahrenheit( -30.0f ), 0.0f,
-                                             40.0f ) ) == Approx( -22.6 ).margin( 0.1 ) );
+                                         40.0f ) ) == Approx( -22.6 ).margin( 0.1 ) );
                 CHECK( units::to_kelvin( get_local_windchill( units::from_fahrenheit( -30.0f ), 0.0f,
-                                             50.0f ) ) == Approx( -24.3 ).margin( 0.1 ) );
+                                         50.0f ) ) == Approx( -24.3 ).margin( 0.1 ) );
             }
         }
 
@@ -340,25 +340,25 @@ TEST_CASE( "local wind chill calculation", "[weather][wind_chill]" )
 
         THEN( "wind chill index is unaffected by humidity" ) {
             CHECK( units::to_kelvin( get_local_windchill( units::from_fahrenheit( 40.0f ), 0.0f,
-                                         10.0f ) ) == Approx( -3.5 ).margin( 0.1 ) );
+                                     10.0f ) ) == Approx( -3.5 ).margin( 0.1 ) );
             CHECK( units::to_kelvin( get_local_windchill( units::from_fahrenheit( 40.0f ), 50.0f,
-                                         10.0f ) ) == Approx( -3.5 ).margin( 0.1 ) );
+                                     10.0f ) ) == Approx( -3.5 ).margin( 0.1 ) );
             CHECK( units::to_kelvin( get_local_windchill( units::from_fahrenheit( 40.0f ), 100.0f,
-                                         10.0f ) ) == Approx( -3.5 ).margin( 0.1 ) );
+                                     10.0f ) ) == Approx( -3.5 ).margin( 0.1 ) );
 
             CHECK( units::to_kelvin( get_local_windchill( units::from_fahrenheit( 10.0f ), 0.0f,
-                                         30.0f ) ) == Approx( -12.4 ).margin( 0.1 ) );
+                                     30.0f ) ) == Approx( -12.4 ).margin( 0.1 ) );
             CHECK( units::to_kelvin( get_local_windchill( units::from_fahrenheit( 10.0f ), 50.0f,
-                                         30.0f ) ) == Approx( -12.4 ).margin( 0.1 ) );
+                                     30.0f ) ) == Approx( -12.4 ).margin( 0.1 ) );
             CHECK( units::to_kelvin( get_local_windchill( units::from_fahrenheit( 10.0f ), 100.0f,
-                                         30.0f ) ) == Approx( -12.4 ).margin( 0.1 ) );
+                                     30.0f ) ) == Approx( -12.4 ).margin( 0.1 ) );
 
             CHECK( units::to_kelvin( get_local_windchill( units::from_fahrenheit( -20.0f ), 0.0f,
-                                         30.0f ) ) == Approx( -18.4 ).margin( 0.1 ) );
+                                     30.0f ) ) == Approx( -18.4 ).margin( 0.1 ) );
             CHECK( units::to_kelvin( get_local_windchill( units::from_fahrenheit( -20.0f ), 50.0f,
-                                         30.0f ) ) == Approx( -18.4 ).margin( 0.1 ) );
+                                     30.0f ) ) == Approx( -18.4 ).margin( 0.1 ) );
             CHECK( units::to_kelvin( get_local_windchill( units::from_fahrenheit( -20.0f ), 100.0f,
-                                         30.0f ) ) == Approx( -18.4 ).margin( 0.1 ) );
+                                     30.0f ) ) == Approx( -18.4 ).margin( 0.1 ) );
         }
     }
 
@@ -371,17 +371,17 @@ TEST_CASE( "local wind chill calculation", "[weather][wind_chill]" )
 
                 THEN( "apparent temp increases as humidity increases" ) {
                     CHECK( units::to_kelvin( get_local_windchill( temp_f, 0.0f,
-                                                 wind_mph ) ) == Approx( -7.1 ).margin( 0.1 ) );
+                                             wind_mph ) ) == Approx( -7.1 ).margin( 0.1 ) );
                     CHECK( units::to_kelvin( get_local_windchill( temp_f, 20.0f,
-                                                 wind_mph ) ) == Approx( -6.3 ).margin( 0.1 ) );
+                                             wind_mph ) ) == Approx( -6.3 ).margin( 0.1 ) );
                     CHECK( units::to_kelvin( get_local_windchill( temp_f, 40.0f,
-                                                 wind_mph ) ) == Approx( -5.5 ).margin( 0.1 ) );
+                                             wind_mph ) ) == Approx( -5.5 ).margin( 0.1 ) );
                     CHECK( units::to_kelvin( get_local_windchill( temp_f, 60.0f,
-                                                 wind_mph ) ) == Approx( -4.7 ).margin( 0.1 ) );
+                                             wind_mph ) ) == Approx( -4.7 ).margin( 0.1 ) );
                     CHECK( units::to_kelvin( get_local_windchill( temp_f, 80.0f,
-                                                 wind_mph ) ) == Approx( -3.9 ).margin( 0.1 ) );
+                                             wind_mph ) ) == Approx( -3.9 ).margin( 0.1 ) );
                     CHECK( units::to_kelvin( get_local_windchill( temp_f, 100.0f,
-                                                 wind_mph ) ) == Approx( -3.1 ).margin( 0.1 ) );
+                                             wind_mph ) ) == Approx( -3.1 ).margin( 0.1 ) );
                 }
             }
 
@@ -390,17 +390,17 @@ TEST_CASE( "local wind chill calculation", "[weather][wind_chill]" )
 
                 THEN( "apparent temp decreases as wind increases" ) {
                     CHECK( units::to_kelvin( get_local_windchill( temp_f, humidity,
-                                                 0.0f ) ) == Approx( -0.36 ).margin( 0.01 ) );
+                                             0.0f ) ) == Approx( -0.36 ).margin( 0.01 ) );
                     CHECK( units::to_kelvin( get_local_windchill( temp_f, humidity,
-                                                 10.0f ) ) == Approx( -3.5 ).margin( 0.1 ) );
+                                             10.0f ) ) == Approx( -3.5 ).margin( 0.1 ) );
                     CHECK( units::to_kelvin( get_local_windchill( temp_f, humidity,
-                                                 20.0f ) ) == Approx( -6.6 ).margin( 0.1 ) );
+                                             20.0f ) ) == Approx( -6.6 ).margin( 0.1 ) );
                     CHECK( units::to_kelvin( get_local_windchill( temp_f, humidity,
-                                                 30.0f ) ) == Approx( -9.7 ).margin( 0.1 ) );
+                                             30.0f ) ) == Approx( -9.7 ).margin( 0.1 ) );
                     CHECK( units::to_kelvin( get_local_windchill( temp_f, humidity,
-                                                 40.0f ) ) == Approx( -12.9 ).margin( 0.1 ) );
+                                             40.0f ) ) == Approx( -12.9 ).margin( 0.1 ) );
                     CHECK( units::to_kelvin( get_local_windchill( temp_f, humidity,
-                                                 50.0f ) ) == Approx( -16.0 ).margin( 0.1 ) );
+                                             50.0f ) ) == Approx( -16.0 ).margin( 0.1 ) );
                 }
             }
         }
@@ -410,19 +410,19 @@ TEST_CASE( "local wind chill calculation", "[weather][wind_chill]" )
 
             THEN( "apparent temp offset is only influenced by wind speed" ) {
                 CHECK( units::to_kelvin( get_local_windchill( units::from_fahrenheit( 50.0f ), humidity,
-                                             0.0f ) ) == Approx( -4.0 ).margin( 0.1 ) );
+                                         0.0f ) ) == Approx( -4.0 ).margin( 0.1 ) );
                 CHECK( units::to_kelvin( get_local_windchill( units::from_fahrenheit( 70.0f ), humidity,
-                                             0.0f ) ) == Approx( -4.0 ).margin( 0.1 ) );
+                                         0.0f ) ) == Approx( -4.0 ).margin( 0.1 ) );
                 CHECK( units::to_kelvin( get_local_windchill( units::from_fahrenheit( 90.0f ), humidity,
-                                             0.0f ) ) == Approx( -4.0 ).margin( 0.1 ) );
+                                         0.0f ) ) == Approx( -4.0 ).margin( 0.1 ) );
 
                 // 25mph wind == -11.8K (-21F) to temperature
                 CHECK( units::to_kelvin( get_local_windchill( units::from_fahrenheit( 50.0f ), humidity,
-                                             25.0f ) ) == Approx( -11.8 ).margin( 0.1 ) );
+                                         25.0f ) ) == Approx( -11.8 ).margin( 0.1 ) );
                 CHECK( units::to_kelvin( get_local_windchill( units::from_fahrenheit( 70.0f ), humidity,
-                                             25.0f ) ) == Approx( -11.8 ).margin( 0.1 ) );
+                                         25.0f ) ) == Approx( -11.8 ).margin( 0.1 ) );
                 CHECK( units::to_kelvin( get_local_windchill( units::from_fahrenheit( 90.0f ), humidity,
-                                             25.0f ) ) == Approx( -11.8 ).margin( 0.1 ) );
+                                         25.0f ) ) == Approx( -11.8 ).margin( 0.1 ) );
             }
         }
 
@@ -434,17 +434,17 @@ TEST_CASE( "local wind chill calculation", "[weather][wind_chill]" )
 
                 THEN( "apparent temp increases more as it gets hotter" ) {
                     CHECK( units::to_kelvin( get_local_windchill( units::from_fahrenheit( 50.0f ), humidity,
-                                                 wind_mph ) ) == Approx( -2.0 ).margin( 0.1 ) );
+                                             wind_mph ) ) == Approx( -2.0 ).margin( 0.1 ) );
                     CHECK( units::to_kelvin( get_local_windchill( units::from_fahrenheit( 60.0f ), humidity,
-                                                 wind_mph ) ) == Approx( -1.1 ).margin( 0.1 ) );
+                                             wind_mph ) ) == Approx( -1.1 ).margin( 0.1 ) );
                     CHECK( units::to_kelvin( get_local_windchill( units::from_fahrenheit( 70.0f ), humidity,
-                                                 wind_mph ) ) == Approx( 0.12 ).margin( 0.01 ) );
+                                             wind_mph ) ) == Approx( 0.12 ).margin( 0.01 ) );
                     CHECK( units::to_kelvin( get_local_windchill( units::from_fahrenheit( 80.0f ), humidity,
-                                                 wind_mph ) ) == Approx( 1.8 ).margin( 0.1 ) );
+                                             wind_mph ) ) == Approx( 1.8 ).margin( 0.1 ) );
                     CHECK( units::to_kelvin( get_local_windchill( units::from_fahrenheit( 90.0f ), humidity,
-                                                 wind_mph ) ) == Approx( 3.9 ).margin( 0.1 ) );
+                                             wind_mph ) ) == Approx( 3.9 ).margin( 0.1 ) );
                     CHECK( units::to_kelvin( get_local_windchill( units::from_fahrenheit( 100.0f ), humidity,
-                                                 wind_mph ) ) == Approx( 6.8 ).margin( 0.1 ) );
+                                             wind_mph ) ) == Approx( 6.8 ).margin( 0.1 ) );
                 }
             }
 
@@ -453,17 +453,17 @@ TEST_CASE( "local wind chill calculation", "[weather][wind_chill]" )
 
                 THEN( "apparent temp is less but still increases more as it gets hotter" ) {
                     CHECK( units::to_kelvin( get_local_windchill( units::from_fahrenheit( 50.0f ), humidity,
-                                                 wind_mph ) ) == Approx( -5.1 ).margin( 0.1 ) );
+                                             wind_mph ) ) == Approx( -5.1 ).margin( 0.1 ) );
                     CHECK( units::to_kelvin( get_local_windchill( units::from_fahrenheit( 60.0f ), humidity,
-                                                 wind_mph ) ) == Approx( -4.2 ).margin( 0.1 ) );
+                                             wind_mph ) ) == Approx( -4.2 ).margin( 0.1 ) );
                     CHECK( units::to_kelvin( get_local_windchill( units::from_fahrenheit( 70.0f ), humidity,
-                                                 wind_mph ) ) == Approx( -3.0 ).margin( 0.1 ) );
+                                             wind_mph ) ) == Approx( -3.0 ).margin( 0.1 ) );
                     CHECK( units::to_kelvin( get_local_windchill( units::from_fahrenheit( 80.0f ), humidity,
-                                                 wind_mph ) ) == Approx( -1.4 ).margin( 0.1 ) );
+                                             wind_mph ) ) == Approx( -1.4 ).margin( 0.1 ) );
                     CHECK( units::to_kelvin( get_local_windchill( units::from_fahrenheit( 90.0f ), humidity,
-                                                 wind_mph ) ) == Approx( 0.78 ).margin( 0.01 ) );
+                                             wind_mph ) ) == Approx( 0.78 ).margin( 0.01 ) );
                     CHECK( units::to_kelvin( get_local_windchill( units::from_fahrenheit( 100.0f ), humidity,
-                                                 wind_mph ) ) == Approx( 3.6 ).margin( 0.1 ) );
+                                             wind_mph ) ) == Approx( 3.6 ).margin( 0.1 ) );
                 }
             }
         }
