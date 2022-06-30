@@ -3232,7 +3232,7 @@
     "time": "5 m",
     "components": [ [ [ "stereo", 1 ] ] ],
     "pre_special": "check_empty",
-    "post_special": "done_appliance",
+    "post_special": "done_appliance"
   },
   {
     "type": "construction",
