@@ -59,29 +59,32 @@ int creator::main_window::execute( QApplication &app )
     mods_label.show();
     row++;
 
+    //We always load 'dda' so we exclude it from the mods list
     QStringList all_mods;
     for( const mod_id& e : world_generator->get_mod_manager().all_mods() ) {
-        if ( !e->obsolete && e->ident.str() != "dda" ) {
-            all_mods.append(e->ident.c_str());
+        if( !e->obsolete && e->ident.str() != "dda" ) {
+            all_mods.append( e->ident.c_str() );
         }
     }
 
     dual_list_box mods_box;
     mods_box.initialize( all_mods );
-    mods_box.resize( QSize( default_text_box_width * 4, default_text_box_height * 6 ) );
+    mods_box.resize( QSize( default_text_box_width * 8, default_text_box_height * 10 ) );
     mods_box.setParent( &title_menu );
     mods_box.move( QPoint( col * default_text_box_width, row * default_text_box_height ) );
     mods_box.show();
+    //The user's mod selection gets saved to a file
     QObject::connect( &mods_box, &dual_list_box::pressed, [&]() {
             settings.setValue( "mods/include", mods_box.get_included() );
         });
 
-    if( settings.contains("mods/include") ) {
+    //A previous selection of mods is loaded from disk and applied to the modlist widget
+    if( settings.contains( "mods/include" ) ) {
         QStringList modlist = settings.value( "mods/include" ).value<QStringList>();
         mods_box.set_included( modlist );
     }
 
-    row += 7;
+    row += 11;
 
     QPushButton spell_button( _( "Spell Creator" ), &title_menu );
     spell_button.move( QPoint( col * default_text_box_width, row * default_text_box_height ) );
@@ -97,11 +100,11 @@ int creator::main_window::execute( QApplication &app )
     spell_button.show();
 
     row += 3;
-    col += 3;
-    max_row = std::max(max_row, row);
-    max_col = std::max(max_col, col);
-    title_menu.resize(QSize((max_col + 1) * default_text_box_width,
-        (max_row)*default_text_box_height));
+    col += 6;
+    max_row = std::max( max_row, row );
+    max_col = std::max( max_col, col );
+    title_menu.resize( QSize( ( max_col + 1) * default_text_box_width,
+        ( max_row )*default_text_box_height ) );
 
 
     return app.exec();
