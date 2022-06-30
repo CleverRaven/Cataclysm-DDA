@@ -7585,7 +7585,7 @@ void game::list_items_monsters()
 
 static std::string list_items_filter_history_help()
 {
-    return colorize( _( "UP: history, CTRL-U clear line, ESC: abort, ENTER: save" ), c_green );
+    return colorize( _( "UP: history, CTRL-U: clear line, ESC: abort, ENTER: save" ), c_green );
 }
 
 game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
