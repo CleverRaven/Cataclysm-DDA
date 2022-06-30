@@ -674,12 +674,15 @@ units::temperature get_local_windchill( units::temperature temperature, double h
 {
     double windchill_k = 0;
 
-    //const double temperature_f = units::to_fahrenheit( temperature );
     const double temperature_c = units::to_celcius( temperature );
 
-    if( temperature_c < 10 && wind_mph > 3 ) {
-        /// Model 1, cold wind chill (only valid for temps below 50F)
+    if( temperature_c < 10 ) {
+        /// Model 1, cold wind chill (only valid for temps below 50F/10C)
         /// Is also used as a standard in North America.
+		
+		if( wind_mph < 3 ){
+			return units::from_kelvin( 0 );
+		}
 
         // Temperature is removed at the end, because get_local_windchill is meant to calculate the difference.
         // Source : http://en.wikipedia.org/wiki/Wind_chill#North_American_and_United_Kingdom_wind_chill_index

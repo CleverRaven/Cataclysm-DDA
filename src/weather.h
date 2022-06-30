@@ -105,7 +105,7 @@ std::string print_temperature( units::temperature temperature, int decimals = 0 
 std::string print_humidity( double humidity, int decimals = 0 );
 std::string print_pressure( double pressure, int decimals = 0 );
 
-// Return windchill offset starting from given temperature, humidity and wind
+// Returns temperature delta caused by windchill at given temperature, humidity and wind
 units::temperature get_local_windchill( units::temperature temperature, double humidity,
                                         double wind_mph );
 
