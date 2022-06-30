@@ -216,7 +216,18 @@
     "environmental_protection": 16,
     "ammo": "battery",
     "use_action": { "type": "transform", "msg": "The %s engages.", "target": "power_armor_basic_on", "active": true },
-    "flags": [ "WATERPROOF", "STURDY", "ELECTRIC_IMMUNE", "COMBAT_TOGGLEABLE", "ONE_PER_LAYER", "SKINTIGHT", "NORMAL", "OUTER", "BELTED", "RAD_PROOF" ],
+    "flags": [
+      "WATERPROOF",
+      "STURDY",
+      "ELECTRIC_IMMUNE",
+      "COMBAT_TOGGLEABLE",
+      "ONE_PER_LAYER",
+      "SKINTIGHT",
+      "NORMAL",
+      "OUTER",
+      "BELTED",
+      "RAD_PROOF"
+    ],
     "armor": [
       {
         "encumbrance": 50,
@@ -403,7 +414,18 @@
     "environmental_protection": 16,
     "ammo": "battery",
     "use_action": { "type": "transform", "msg": "The %s engages.", "target": "power_armor_heavy_on", "active": true },
-    "flags": [ "WATERPROOF", "STURDY", "ELECTRIC_IMMUNE", "COMBAT_TOGGLEABLE", "ONE_PER_LAYER", "SKINTIGHT", "NORMAL", "OUTER", "BELTED", "RAD_PROOF" ],
+    "flags": [
+      "WATERPROOF",
+      "STURDY",
+      "ELECTRIC_IMMUNE",
+      "COMBAT_TOGGLEABLE",
+      "ONE_PER_LAYER",
+      "SKINTIGHT",
+      "NORMAL",
+      "OUTER",
+      "BELTED",
+      "RAD_PROOF"
+    ],
     "armor": [
       {
         "encumbrance": 60,
@@ -460,7 +482,20 @@
     "material_thickness": 14,
     "environmental_protection": 16,
     "qualities": [ [ "GLARE", 1 ] ],
-    "flags": [ "WATCH", "WATERPROOF", "STURDY", "PARTIAL_DEAF", "THERMOMETER", "SUN_GLASSES", "COMBAT_TOGGLEABLE", "ONE_PER_LAYER", "SKINTIGHT", "NORMAL", "OUTER", "RAD_PROOF" ],
+    "flags": [
+      "WATCH",
+      "WATERPROOF",
+      "STURDY",
+      "PARTIAL_DEAF",
+      "THERMOMETER",
+      "SUN_GLASSES",
+      "COMBAT_TOGGLEABLE",
+      "ONE_PER_LAYER",
+      "SKINTIGHT",
+      "NORMAL",
+      "OUTER",
+      "RAD_PROOF"
+    ],
     "armor": [ { "encumbrance": 50, "coverage": 100, "covers": [ "head", "eyes", "mouth" ] } ]
   },
   {
@@ -505,7 +540,20 @@
       "target": "power_armor_helmet_heavy_on",
       "active": true
     },
-    "flags": [ "WATCH", "WATERPROOF", "STURDY", "PARTIAL_DEAF", "THERMOMETER", "SUN_GLASSES", "COMBAT_TOGGLEABLE", "ONE_PER_LAYER", "SKINTIGHT", "NORMAL", "OUTER", "RAD_PROOF" ],
+    "flags": [
+      "WATCH",
+      "WATERPROOF",
+      "STURDY",
+      "PARTIAL_DEAF",
+      "THERMOMETER",
+      "SUN_GLASSES",
+      "COMBAT_TOGGLEABLE",
+      "ONE_PER_LAYER",
+      "SKINTIGHT",
+      "NORMAL",
+      "OUTER",
+      "RAD_PROOF"
+    ],
     "armor": [ { "encumbrance": 60, "coverage": 100, "covers": [ "head", "eyes", "mouth" ] } ]
   },
   {
@@ -549,7 +597,20 @@
     },
     "material_thickness": 8,
     "environmental_protection": 16,
-    "flags": [ "WATCH", "WATERPROOF", "STURDY", "THERMOMETER", "SUN_GLASSES", "SWIM_GOGGLES", "COMBAT_TOGGLEABLE", "ONE_PER_LAYER", "SKINTIGHT", "NORMAL", "OUTER", "RAD_PROOF" ],
+    "flags": [
+      "WATCH",
+      "WATERPROOF",
+      "STURDY",
+      "THERMOMETER",
+      "SUN_GLASSES",
+      "SWIM_GOGGLES",
+      "COMBAT_TOGGLEABLE",
+      "ONE_PER_LAYER",
+      "SKINTIGHT",
+      "NORMAL",
+      "OUTER",
+      "RAD_PROOF"
+    ],
     "armor": [ { "encumbrance": 40, "coverage": 100, "covers": [ "head", "eyes", "mouth" ] } ]
   },
   {
@@ -659,7 +720,18 @@
     "environmental_protection": 16,
     "ammo": "battery",
     "use_action": { "type": "transform", "msg": "The %s engages.", "target": "power_armor_light_on", "active": true },
-    "flags": [ "WATERPROOF", "STURDY", "ELECTRIC_IMMUNE", "COMBAT_TOGGLEABLE", "ONE_PER_LAYER", "SKINTIGHT", "NORMAL", "OUTER", "BELTED", "RAD_PROOF" ],
+    "flags": [
+      "WATERPROOF",
+      "STURDY",
+      "ELECTRIC_IMMUNE",
+      "COMBAT_TOGGLEABLE",
+      "ONE_PER_LAYER",
+      "SKINTIGHT",
+      "NORMAL",
+      "OUTER",
+      "BELTED",
+      "RAD_PROOF"
+    ],
     "armor": [
       {
         "encumbrance": 40,
