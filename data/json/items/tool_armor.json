@@ -787,6 +787,62 @@
     "armor": [ { "coverage": 15, "covers": [ "head" ] } ]
   },
   {
+    "id": "wearable_camera",
+    "type": "TOOL_ARMOR",
+    "category": "clothing",
+    "symbol": "[",
+    "color": "blue",
+    "name": { "str": "wearable camera" },
+    "description": "A point-and-shoot digital camera, with digital viewfinder, a backup 'iron-sight', and flash.  You can look at your photos on the digital screen, or transfer them with a memory card.  Takes conventional batteries.  This one can be worn over your neck.",
+    "price": 20000,
+    "price_postapoc": 50,
+    "material": [ "plastic", "steel" ],
+    "flags": [ "OVERSIZE", "BELTED", "ALLOWS_NATURAL_ATTACKS" ],
+    "weight": "520 g",
+    "volume": "500 ml",
+    "bashing": 1,
+    "charges_per_use": 5,
+    "ammo": "battery",
+    "use_action": [ "CAMERA" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
+        "default_magazine": "light_plus_battery_cell"
+      }
+    ],
+    "armor": [ { "coverage": 15, "covers": [ "head" ] } ]
+  },
+  {
+    "id": "wearable_camera_pro",
+    "type": "TOOL_ARMOR",
+    "category": "clothing",
+    "symbol": "[",
+    "color": "blue",
+    "name": { "str": "wearable professional camera" },
+    "description": "A 35mm digital SLR (single-lens reflex) camera, with optical and digital viewfinders, zoom lens with auto-focus and stabilizer, and flash.  You can view your photos on it or transfer them with a memory card; it runs on conventional batteries.  Before the Cataclysm, you could have taken professional-grade photos using this.  This one can be worn over your neck",
+    "price": 800000,
+    "price_postapoc": 100,
+    "material": [ "plastic", "steel" ],
+    "flags": [ "CAMERA_PRO", "ALWAYS_TWOHAND", "OVERSIZE", "BELTED", "ALLOWS_NATURAL_ATTACKS" ],
+    "weight": "520 g",
+    "volume": "500 ml",
+    "bashing": 1,
+    "charges_per_use": 5,
+    "ammo": "battery",
+    "use_action": [ "CAMERA" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
+        "default_magazine": "light_plus_battery_cell"
+      }
+    ],
+    "armor": [ { "coverage": 15, "covers": [ "head" ] } ]
+  },
+  {
     "id": "wearable_light_on",
     "copy-from": "wearable_light",
     "repairs_like": "wearable_light",
