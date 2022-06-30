@@ -934,7 +934,7 @@
     "harvest": "mammal_tiny",
     "vision_night": 5,
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "FRIEND_DIED" ],
-    "categories": [ "DINOSAUR", "WILDLIFE" ]
+    "categories": [ "DINOSAUR", "WILDLIFE", "MAN_MADE" ]
   },
   {
     "type": "MONSTER",
