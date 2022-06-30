@@ -1448,8 +1448,7 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
                 int full_text_length = 0;
                 const auto range = overlay_strings.equal_range( coord );
                 for( auto ri = range.first; ri != range.second; ++ri ) {
-                    utf8_wrapper rt( ri->second.text );
-                    full_text_length += rt.display_width();
+                    full_text_length += utf8_width( ri->second.text );
                 }
 
                 alignment_offset = 0;

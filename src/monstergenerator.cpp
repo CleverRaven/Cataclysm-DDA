@@ -717,7 +717,7 @@ void mtype::load( const JsonObject &jo, const std::string &src )
 
     if( !was_loaded || jo.has_member( "symbol" ) ) {
         sym = jo.get_string( "symbol" );
-        if( utf8_wrapper( sym ).display_width() != 1 ) {
+        if( utf8_width( sym ) != 1 ) {
             jo.throw_error_at( "symbol", "monster symbol should be exactly one console cell width" );
         }
     }
