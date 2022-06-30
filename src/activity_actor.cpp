@@ -3410,8 +3410,16 @@ static std::list<item> obtain_activity_items(
             who.set_check_encumbrance( true );
         }
 
-        // Take off the item or remove it from the player's inventory
-        if( who.is_worn( *loc ) ) {
+        // Take off the item or remove it from where it's been
+        if( loc.where_recursive() == item_location::type::map ||
+            loc.where_recursive() == item_location::type::vehicle ) {
+            item copy( *loc );
+            if( loc->count_by_charges() && loc->count() > it->count() ) {
+                copy.charges -= it->count();
+            }
+            loc.remove_item();
+            res.push_back( copy );
+        } else if( who.is_worn( *loc ) ) {
             who.takeoff( loc, &res );
         } else if( loc->count_by_charges() ) {
             res.push_back( who.reduce_charges( &*loc, it->count() ) );
