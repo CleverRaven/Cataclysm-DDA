@@ -428,7 +428,7 @@ const profession *scenario::weighted_random_profession() const
 
     while( true ) {
         const string_id<profession> &candidate = random_entry_ref( choices );
-        if( x_in_y( 2, 2 + std::abs( candidate->point_cost() ) ) ) {
+        if( candidate->can_pick().success() && x_in_y( 2, 2 + std::abs( candidate->point_cost() ) ) ) {
             return &candidate.obj();
         }
     }
@@ -563,7 +563,8 @@ ret_val<bool> scenario::can_afford( const scenario &current_scenario, const int 
 ret_val<bool> scenario::can_pick() const
 {
     // if meta progression is disabled then skip this
-    if( !get_option<bool>( "META_PROGRESS" ) ) {
+    if( get_past_games().achievement( achievement_id( "achievement_arcade_mode" ) ) ||
+        !get_option<bool>( "META_PROGRESS" ) ) {
         return ret_val<bool>::make_success();
     }
 

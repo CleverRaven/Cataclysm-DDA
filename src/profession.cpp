@@ -579,7 +579,8 @@ ret_val<bool> profession::can_afford( const Character &you, const int points ) c
 ret_val<bool> profession::can_pick() const
 {
     // if meta progression is disabled then skip this
-    if( !get_option<bool>( "META_PROGRESS" ) ) {
+    if( get_past_games().achievement( achievement_id( "achievement_arcade_mode" ) ) ||
+        !get_option<bool>( "META_PROGRESS" ) ) {
         return ret_val<bool>::make_success();
     }
 

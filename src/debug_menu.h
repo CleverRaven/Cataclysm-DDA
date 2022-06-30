@@ -37,6 +37,7 @@ enum class debug_menu_index : int {
     CHANGE_THEORY,
     LEARN_MA,
     UNLOCK_RECIPES,
+    UNLOCK_ALL,
     EDIT_PLAYER,
     CONTROL_NPC,
     SPAWN_ARTIFACT,
