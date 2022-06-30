@@ -146,6 +146,13 @@ enum class fatigue_levels : int {
     EXHAUSTED = 575,
     MASSIVE_FATIGUE = 1000
 };
+
+enum class radiation_protection : int {
+    RESISTS,
+    IMMUNE,
+    NONE
+};
+
 const std::unordered_map<std::string, fatigue_levels> fatigue_level_strs = { {
         { "TIRED", fatigue_levels::TIRED },
         { "DEAD_TIRED", fatigue_levels::DEAD_TIRED },
@@ -772,10 +779,6 @@ class Character : public Creature, public visitable
         // formats and prints encumbrance info to specified window
         void print_encumbrance( const catacurses::window &win, int line = -1,
                                 const item *selected_clothing = nullptr ) const;
-        /** Returns true if the character is wearing power armor */
-        bool is_wearing_power_armor( bool *hasHelmet = nullptr ) const;
-        /** Returns true if the character is wearing active power */
-        bool is_wearing_active_power_armor() const;
         /** Returns true if the player is wearing an active optical cloak */
         bool is_wearing_active_optcloak() const;
 
@@ -2211,7 +2214,7 @@ class Character : public Creature, public visitable
         /** Returns true if the player is immune to this kind of damage */
         bool is_immune_damage( damage_type ) const override;
         /** Returns true if the player is protected from radiation */
-        bool is_rad_immune() const;
+        radiation_protection is_rad_protected() const;
         /** Returns true if the player is immune to throws */
         bool is_throw_immune() const;
         /** Returns true if the player's melee skill increases the bash damage weapon cap */

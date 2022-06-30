@@ -75,6 +75,11 @@
     "info": "This gear is <info>strapped</info> onto you."
   },
   {
+    "id": "BIO_INTERFACE",
+    "type": "json_flag",
+    "info": "This item can draw power from a bionic interface."
+  },
+  {
     "id": "BIONIC_INSTALLATION_DATA",
     "type": "json_flag",
     "info": "This item <info>provides</info> instructions and other required data for several bionics, allowing installation of them with <good>minimal failure chance</good>."
@@ -638,7 +643,7 @@
   {
     "id": "RAD_PROOF",
     "type": "json_flag",
-    "info": "This clothing <good>completely protects</good> you from <info>radiation</info>.",
+    "info": "This clothing if covering your entire body <good>completely protects</good> you from <info>radiation</info>.",
     "conflicts": [ "RAD_RESIST" ]
   },
   {

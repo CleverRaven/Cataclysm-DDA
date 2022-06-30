@@ -147,13 +147,6 @@ ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) cons
         return ret_val<bool>::make_success();
     }
 
-    {
-        const ret_val<bool> power_armor_conflicts = worn.power_armor_conflicts( it );
-        if( !power_armor_conflicts.success() ) {
-            return power_armor_conflicts;
-        }
-    }
-
     // Check if we don't have both hands available before wearing a briefcase, shield, etc. Also occurs if we're already wearing one.
     if( it.has_flag( flag_RESTRICT_HANDS ) && ( worn_with_flag( flag_RESTRICT_HANDS ) ||
             weapon.is_two_handed( *this ) ) ) {
@@ -708,16 +701,6 @@ bool Character::change_side( item_location &loc, bool interactive )
     return change_side( *loc, interactive );
 }
 
-bool Character::is_wearing_power_armor( bool *hasHelmet ) const
-{
-    return worn.is_wearing_power_armor( hasHelmet );
-}
-
-bool Character::is_wearing_active_power_armor() const
-{
-    return worn.is_wearing_active_power_armor();
-}
-
 bool Character::is_wearing_active_optcloak() const
 {
     return worn.is_wearing_active_optcloak();
@@ -1064,78 +1047,6 @@ const
         }
     }
     return ret;
-}
-
-ret_val<bool> outfit::power_armor_conflicts( const item &clothing ) const
-{
-    if( clothing.is_power_armor() ) {
-        for( const item &elem : worn ) {
-            if( elem.get_covered_body_parts().make_intersection( clothing.get_covered_body_parts() ).any() &&
-                !elem.has_flag( flag_POWERARMOR_COMPATIBLE ) ) {
-                return ret_val<bool>::make_failure( _( "Can't wear power armor over other gear!" ) );
-            }
-        }
-        if( !clothing.covers( body_part_torso ) ) {
-            bool power_armor = false;
-            for( const item &elem : worn ) {
-                if( elem.is_power_armor() ) {
-                    power_armor = true;
-                    break;
-                }
-            }
-            if( !power_armor ) {
-                return ret_val<bool>::make_failure(
-                           _( "You can only wear power armor components with power armor!" ) );
-            }
-        }
-
-        for( const item &i : worn ) {
-            if( i.is_power_armor() && i.typeId() == clothing.typeId() ) {
-                return ret_val<bool>::make_failure( _( "Can't wear more than one %s!" ), clothing.tname() );
-            }
-        }
-    } else {
-        // Only headgear can be worn with power armor, except other power armor components.
-        // You can't wear headgear if power armor helmet is already sitting on your head.
-        bool has_helmet = false;
-        if( !clothing.has_flag( flag_POWERARMOR_COMPATIBLE ) && ( is_wearing_power_armor( &has_helmet ) &&
-                ( has_helmet || !( clothing.covers( body_part_head ) || clothing.covers( body_part_mouth ) ||
-                                   clothing.covers( body_part_eyes ) ) ) ) ) {
-            return ret_val<bool>::make_failure( _( "Can't wear %s with power armor!" ), clothing.tname() );
-        }
-    }
-    return ret_val<bool>::make_success();
-}
-
-bool outfit::is_wearing_power_armor( bool *has_helmet ) const
-{
-    bool result = false;
-    for( const item &elem : worn ) {
-        if( !elem.is_power_armor() ) {
-            continue;
-        }
-        if( has_helmet == nullptr ) {
-            // found power armor, helmet not requested, cancel loop
-            return true;
-        }
-        // found power armor, continue search for helmet
-        result = true;
-        if( elem.covers( body_part_head ) ) {
-            *has_helmet = true;
-            return true;
-        }
-    }
-    return result;
-}
-
-bool outfit::is_wearing_active_power_armor() const
-{
-    for( const item &w : worn ) {
-        if( w.is_power_armor() && w.active ) {
-            return true;
-        }
-    }
-    return false;
 }
 
 bool outfit::is_wearing_active_optcloak() const

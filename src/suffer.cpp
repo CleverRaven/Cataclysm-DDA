@@ -1243,12 +1243,11 @@ void suffer::from_radiation( Character &you )
     const bool rad_mut_proc = rad_mut > 0 && x_in_y( rad_mut, to_turns<int>( you.in_sleep_state() ?
                               3_hours : 30_minutes ) );
 
-    bool has_helmet = false;
-    const bool power_armored = you.is_wearing_power_armor( &has_helmet );
-    const bool rad_resist = power_armored || you.worn_with_flag( flag_RAD_RESIST );
+    const radiation_protection rad_protection = you.is_rad_protected();
 
     if( rad_mut > 0 ) {
-        const bool kept_in = you.is_rad_immune() || ( rad_resist && !one_in( 4 ) );
+        const bool kept_in = rad_protection == radiation_protection::IMMUNE ||
+                             ( rad_protection == radiation_protection::RESISTS && !one_in( 4 ) );
         if( kept_in ) {
             // As if standing on a map tile with radiation level equal to rad_mut
             rads += rad_mut / 100.0f;
@@ -1730,14 +1729,12 @@ bool Character::irradiate( float rads, bool bypass )
     }
 
     if( rads > 0 ) {
-        bool has_helmet = false;
-        const bool power_armored = is_wearing_power_armor( &has_helmet );
-        const bool rad_resist = power_armored || worn_with_flag( flag_RAD_RESIST );
+        const radiation_protection rad_protection = is_rad_protected();
 
-        if( is_rad_immune() && !bypass ) {
+        if( rad_protection == radiation_protection::IMMUNE && !bypass ) {
             // Power armor and some high-tech gear protects completely from radiation
             rads = 0.0f;
-        } else if( rad_resist && !bypass ) {
+        } else if( rad_protection == radiation_protection::RESISTS && !bypass ) {
             rads /= 4.0f;
         }
 
