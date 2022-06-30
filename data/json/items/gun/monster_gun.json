@@ -171,5 +171,63 @@
     "range": 65,
     "durability": 9,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 1 } } ]
+  },
+  {
+    "id": "feral_human_thrown_stale_cookie",
+    "//": "cookies thrown by feral grannies.",
+    "type": "GUN",
+    "symbol": "%",
+    "color": "red",
+    "name": { "str": "throw cookie" },
+    "description": "Grandma's iconic freshly baked cookie. Or it used to be. ",
+    "material": [ "wheat", "junk" ],
+    "flags": [ "PRIMITIVE_RANGED_WEAPON", "NEVER_JAMS", "NONCONDUCTIVE", "NO_REPAIR", "WATERPROOF_GUN", "NO_SALVAGE", "NO_UNLOAD" ],
+    "skill": "rifle",
+    "ammo": [ "stale_cookie" ],
+    "ammo_effects": [ "NONCONDUCTIVE", "NO_PENETRATE_OBSTACLES", "NEVER_MISFIRES" ],
+    "ranged_damage": { "damage_type": "bash", "amount": 1 },
+    "clip_size": 1,
+    "weight": "33 g",
+    "volume": "50 ml",
+    "loudness": 2,
+    "range": 8,
+    "dispersion": 100,
+    "durability": 0,
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE",
+        "rigid": true,
+        "max_contains_volume": "200 L",
+        "max_contains_weight": "400 kg",
+        "max_item_length": "2000 m",
+        "ammo_restriction": { "stale_cookie": 4 }
+      }
+    ]
+  },
+  {
+    "id": "zeriatric_spit",
+    "type": "GUN",
+    "symbol": "%",
+    "color": "red",
+    "ammo": [ "zeriatric_dentures" ],
+    "name": { "str": "zeriatric denture spit" },
+    "description": "Fake gun that fires zeriatric dentures.",
+    "flags": [ "NEVER_JAMS", "ZERO_WEIGHT" ],
+    "ammo_effects": [ "NEVER_MISFIRES", "NO_DAMAGE_SCALING", "NO_PENETRATE_OBSTACLES", "ZERO_WEIGHT" ],
+    "skill": "rifle",
+    "durability": 10,
+    "range": 10,
+    "dispersion": 100,
+    "ranged_damage": { "damage_type": "stab", "amount": 6 },
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE",
+        "rigid": true,
+        "max_contains_volume": "200 L",
+        "max_contains_weight": "400 kg",
+        "max_item_length": "2000 m",
+        "ammo_restriction": { "zeriatric_dentures": 1 }
+      }
+    ]
   }
 ]

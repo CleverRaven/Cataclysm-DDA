@@ -331,5 +331,23 @@
     "symbol": "T",
     "color": "red",
     "flags": [ "DURABLE_MELEE" ]
+  },
+  {
+    "id": "folded_wheelchair",
+    "type": "TOOL",
+    "name": { "str": "folded Foldable wheelchair" },
+    "description": "A folded Foldable wheelchair.",
+    "weight": "10586 g",
+    "volume": "13500 ml",
+    "longest_side": "0 cm",
+    "symbol": "/",
+    "color": "light_gray",
+    "flags": [ "NO_REPAIR" ],
+    "use_action": {
+      "type": "unfold_vehicle",
+      "vehicle_name": "wheelchair",
+      "unfold_msg": "You painstakingly unfold the wheelchair and make it ready to use.",
+      "moves": 500
+    }
   }
 ]

@@ -754,5 +754,17 @@
     "id": "ammonia_liquid",
     "name": "ammonia",
     "default": "ammonia_liquid"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "stale_cookie",
+    "name": "gross stale cookie",
+    "default": "stale_cookie"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "zeriatric_dentures",
+    "name": "zeriatric dentures",
+    "default": "zeriatric_dentures"
   }
 ]
