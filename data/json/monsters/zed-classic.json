@@ -80,7 +80,7 @@
     "death_drops": "default_zombie_death_drops",
     "burn_into": "mon_zombie_scorched",
     "fungalize_into": "mon_zombie_fungus",
-    "upgrades": { "half_life": 14, "into_group": "GROUP_ZOMBIE_UPGRADE" },
+    "upgrades": { "half_life": 30, "into_group": "GROUP_ZOMBIE_UPGRADE" },
     "flags": [
       "SEES",
       "HEARS",
@@ -178,7 +178,7 @@
     "death_drops": "default_zombie_death_drops",
     "burn_into": "mon_zombie_scorched",
     "fungalize_into": "mon_zombie_fungus",
-    "upgrades": { "half_life": 14, "into_group": "GROUP_ZOMBIE_CRAWLER_UPGRADE" },
+    "upgrades": { "half_life": 30, "into_group": "GROUP_ZOMBIE_CRAWLER_UPGRADE" },
     "flags": [
       "SEES",
       "HEARS",
@@ -264,7 +264,7 @@
     "death_drops": "default_zombie_death_drops",
     "burn_into": "mon_zombie_scorched",
     "fungalize_into": "mon_zombie_fungus",
-    "upgrades": { "half_life": 12, "into_group": "GROUP_ZOMBIE_FAT" },
+    "upgrades": { "half_life": 32, "into_group": "GROUP_ZOMBIE_FAT" },
     "flags": [
       "SEES",
       "HEARS",
@@ -419,7 +419,7 @@
     "death_drops": "default_zombie_death_drops",
     "burn_into": "mon_zombie_scorched",
     "fungalize_into": "mon_zombie_fungus",
-    "upgrades": { "half_life": 23, "into": "mon_devourer" },
+    "upgrades": { "half_life": 43, "into": "mon_devourer" },
     "flags": [
       "SEES",
       "HEARS",
@@ -469,7 +469,7 @@
     "harvest": "zombie",
     "special_attacks": [ [ "GRAB", 7 ], [ "scratch", 15 ] ],
     "death_drops": "mon_zombie_swat_death_drops",
-    "upgrades": { "half_life": 28, "into": "mon_zombie_kevlar_1" },
+    "upgrades": { "half_life": 38, "into": "mon_zombie_kevlar_1" },
     "fungalize_into": "mon_zombie_fungus",
     "burn_into": "mon_zombie_scorched",
     "flags": [
@@ -522,7 +522,7 @@
     "death_drops": "default_zombie_death_drops",
     "burn_into": "mon_zombie_scorched",
     "fungalize_into": "mon_zombie_fungus",
-    "upgrades": { "half_life": 14, "into_group": "GROUP_ZOMBIE_UPGRADE" },
+    "upgrades": { "half_life": 30, "into_group": "GROUP_ZOMBIE_UPGRADE" },
     "flags": [
       "SEES",
       "HEARS",
@@ -546,7 +546,7 @@
     "copy-from": "mon_zombie",
     "looks_like": "mon_zombie",
     "dodge": 1,
-    "upgrades": { "half_life": 14, "into_group": "GROUP_ZOMBIE_UPGRADE" },
+    "upgrades": { "half_life": 30, "into_group": "GROUP_ZOMBIE_UPGRADE" },
     "death_drops": "mon_zombie_resort_dancer_death_drops"
   },
   {
@@ -556,7 +556,7 @@
     "description": "This muscular zombie is dressed in the tattered remnants of a security uniform.",
     "copy-from": "mon_zombie_tough",
     "looks_like": "mon_zombie_tough",
-    "upgrades": { "half_life": 14, "into_group": "GROUP_ZOMBIE_UPGRADE" },
+    "upgrades": { "half_life": 30, "into_group": "GROUP_ZOMBIE_UPGRADE" },
     "death_drops": "mon_zombie_resort_bouncer_death_drops"
   },
   {
@@ -564,7 +564,7 @@
     "type": "MONSTER",
     "copy-from": "mon_zombie",
     "looks_like": "mon_zombie",
-    "upgrades": { "half_life": 14, "into_group": "GROUP_ZOMBIE_UPGRADE" },
+    "upgrades": { "half_life": 30, "into_group": "GROUP_ZOMBIE_UPGRADE" },
     "death_drops": "mon_zombie_resort_staff_death_drops"
   }
 ]
