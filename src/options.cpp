@@ -2708,8 +2708,7 @@ static void draw_borders_internal( const catacurses::window &w, std::map<int, bo
     wnoutrefresh( w );
 }
 
-std::string options_manager::show( bool ingame, const bool world_options_only,
-                                   const std::function<bool()> &on_quit )
+std::string options_manager::show( bool ingame, const bool world_options_only, bool with_tabs )
 {
     const int iWorldOptPage = std::find_if( pages_.begin(), pages_.end(), [&]( const Page & p ) {
         return &p == &world_default_page_;
@@ -2744,8 +2743,10 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
     ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
     ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
     ctxt.register_action( "QUIT" );
-    ctxt.register_action( "NEXT_TAB" );
-    ctxt.register_action( "PREV_TAB" );
+    if( with_tabs || !world_options_only ) {
+        ctxt.register_action( "NEXT_TAB" );
+        ctxt.register_action( "PREV_TAB" );
+    }
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     // for mouse selection
@@ -2807,7 +2808,12 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
         opt_line_map.clear();
         opt_tab_map.clear();
         if( world_options_only ) {
-            worldgen_tab_map = worldfactory::draw_worldgen_tabs( w_options_border, sel_worldgen_tab );
+            if( with_tabs ) {
+                worldgen_tab_map = worldfactory::draw_worldgen_tabs( w_options_border, sel_worldgen_tab );
+            } else {
+                werase( w_options_border );
+                draw_border( w_options_border );
+            }
         }
 
         draw_borders_external( w_options_border, iTooltipHeight + 1 + iWorldOffset, mapLines,
@@ -2993,8 +2999,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
 
         std::string action = ctxt.handle_input();
 
-        if( world_options_only && ( action == "NEXT_TAB" || action == "PREV_TAB" ||
-                                    ( action == "QUIT" && ( !on_quit || on_quit() ) ) ) ) {
+        if( world_options_only && ( action == "NEXT_TAB" || action == "PREV_TAB" || action == "QUIT" ) ) {
             return action;
         }
 
@@ -3002,7 +3007,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
             bool found_opt = false;
             sel_worldgen_tab = 1;
             cata::optional<point> coord = ctxt.get_coordinates_text( w_options_border );
-            if( world_options_only && !!coord ) {
+            if( world_options_only && with_tabs && !!coord ) {
                 // worldgen tabs
                 found_opt = run_for_point_in<size_t, point>( worldgen_tab_map, *coord,
                 [&sel_worldgen_tab]( const std::pair<size_t, inclusive_rectangle<point>> &p ) {
