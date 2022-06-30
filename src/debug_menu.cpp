@@ -115,6 +115,8 @@
 #include "weighted_list.h"
 #include "worldfactory.h"
 
+static const achievement_id achievement_achievement_arcade_mode( "achievement_arcade_mode" );
+
 static const bodypart_str_id body_part_no_a_real_part( "no_a_real_part" );
 
 static const efftype_id effect_asthma( "asthma" );
@@ -2900,7 +2902,7 @@ void debug()
         case debug_menu_index::UNLOCK_ALL:
             if( query_yn(
                     _( "Activating this will add the arcade mode achievement unlocking all starting scenarios and professions for all worlds.  The character who performs this action will need to die for it to be recorded.  Achievements are tracked from the memorial folder if you need to get rid of this.  Activating this will spoil factions and situations you may otherwise stumble upon naturally while playing.  Some scenarios are frustrating for the uninitiated, and some professions skip portions of the game's content.  If new to the game progression would otherwise help you be introduced to mechanics at a reasonable pace." ) ) ) {
-                get_achievements().report_achievement( &achievement_id( "achievement_arcade_mode" ).obj(),
+                get_achievements().report_achievement( &achievement_achievement_arcade_mode.obj(),
                                                        achievement_completion::completed );
             }
             break;

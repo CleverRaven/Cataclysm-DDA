@@ -21,6 +21,8 @@
 
 template <typename E> struct enum_traits;
 
+static const achievement_id achievement_achievement_arcade_mode( "achievement_arcade_mode" );
+
 // Some details about how achievements work
 // ========================================
 //
@@ -452,7 +454,7 @@ void achievement::check() const
     }
 
     // handled with debug mode
-    if( id == achievement_id( "achievement_arcade_mode" ) ) {
+    if( id == achievement_achievement_arcade_mode ) {
         all_requirements_become_false = false;
     }
 
@@ -812,7 +814,7 @@ achievement_completion achievements_tracker::is_completed( const achievement_id 
 bool achievements_tracker::is_hidden( const achievement *ach ) const
 {
     // hard code for arcade mode achievement
-    if( ach->id == achievement_id( "achievement_arcade_mode" ) ) {
+    if( ach->id == achievement_achievement_arcade_mode ) {
         return true;
     }
 
