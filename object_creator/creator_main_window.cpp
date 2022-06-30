@@ -44,8 +44,8 @@ int creator::main_window::execute( QApplication &app )
 
     //Does nothing on it's own but once settings.setvalue() is called it will create
     //an ini file in C:\Users\User\AppData\Roaming\CleverRaven or equivalent directory
-    QSettings settings(QSettings::IniFormat, QSettings::UserScope,
-        "CleverRaven", "Cataclysm - DDA");
+    QSettings settings( QSettings::IniFormat, QSettings::UserScope,
+        "CleverRaven", "Cataclysm - DDA" );
 
 
     // =========================================================================================
