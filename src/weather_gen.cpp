@@ -99,7 +99,6 @@ static units::temperature weather_temperature_from_common_data( const weather_ge
 
     const double T = baseline + raw_noise_4d( x, y, z, modSEED ) * noise_magnitude_K;
 
-    // Convert from Celsius to Fahrenheit
     return units::from_celcius( T );
 }
 

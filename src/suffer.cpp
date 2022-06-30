@@ -2007,8 +2007,8 @@ void Character::apply_wetness_morale( units::temperature temperature )
     }
 
     // Normalize temperature to [-1.0,1.0]
-	float temperature_f = units::to_fahrenheit( temperature )
-    temperature_f = std::max( 0, std::min( 100, temperature_f ) );
+    float temperature_f = units::to_fahrenheit( temperature );
+    temperature_f = std::max( 0.f, std::min( 100.f, temperature_f ) );
     const double global_temperature_mod = -1.0 + ( 2.0 * temperature_f / 100.0 );
 
     int total_morale = 0;

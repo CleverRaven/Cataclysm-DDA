@@ -14,7 +14,7 @@ class JsonObject;
 struct tripoint;
 
 struct w_point {
-    units::temperature temperature = units::from_kelvin( 0 );
+    units::temperature temperature = 0_K;
     double humidity = 0;
     double pressure = 0;
     double windpower = 0;

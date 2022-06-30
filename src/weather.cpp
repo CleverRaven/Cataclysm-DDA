@@ -681,6 +681,7 @@ units::temperature get_local_windchill( units::temperature temperature, double h
         /// Is also used as a standard in North America.
 
         if( wind_mph < 3 ) {
+            // This model fails when wind is less than 3 mph
             return units::from_kelvin( 0 );
         }
 

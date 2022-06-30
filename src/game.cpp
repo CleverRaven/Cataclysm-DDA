@@ -1459,9 +1459,6 @@ static int maptile_field_intensity( maptile &mt, field_type_id fld )
 
 units::temperature get_heat_radiation( const tripoint &location )
 {
-    // Direct heat from fire sources
-    // Cache fires to avoid scanning the map around us bp times
-    // Stored as intensity-distance pairs
     units::temperature temp_mod = 0_K;
     Character &player_character = get_player_character();
     map &here = get_map();
@@ -1498,9 +1495,6 @@ units::temperature get_heat_radiation( const tripoint &location )
 
 int get_best_fire( const tripoint &location )
 {
-    // Direct heat from fire sources
-    // Cache fires to avoid scanning the map around us bp times
-    // Stored as intensity-distance pairs
     int best_fire = 0;
     Character &player_character = get_player_character();
     map &here = get_map();
