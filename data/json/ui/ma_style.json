@@ -29,7 +29,7 @@
     "style": "clause",
     "clauses": [
       {
-        "//": "Sōjutsu",
+        "//": "Sōjutsu   ------------------------------------------",
         "condition": { "u_has_effect": "mabuff:buff_sojutsu_static" },
         "id": "buff_sojutsu_static",
         "text": "Sōjutsu Stance"
@@ -40,7 +40,7 @@
         "text": "Superior Positioning"
       },
       {
-        "//": "Bōjutsu",
+        "//": "Bōjutsu   ------------------------------------------",
         "condition": { "u_has_effect": "mabuff:buff_bojutsu_static" },
         "id": "buff_bojutsu_static",
         "text": "Bōjutsu Stance"
@@ -56,7 +56,7 @@
         "text": "Rolling Staff"
       },
       {
-        "//": "Muay Thai",
+        "//": "Muay Thai   ------------------------------------------",
         "condition": { "u_has_effect": "mabuff:buff_muay_thai_static" },
         "id": "buff_muay_thai_static",
         "text": "Muay Thai Stance"
@@ -67,7 +67,7 @@
         "text": "Determination"
       },
       {
-        "//": "Ninjutsu",
+        "//": "Ninjutsu   ------------------------------------------",
         "condition": { "u_has_effect": "mabuff:buff_ninjutsu_static1" },
         "id": "buff_sojutsu_static",
         "text": "Ninjutsu Stance"
@@ -93,7 +93,7 @@
         "text": "Escape Plan"
       },
       {
-        "//": "Niten Ichi-Ryu",
+        "//": "Niten Ichi-Ryu   ------------------------------------------",
         "condition": { "u_has_effect": "mabuff:buff_niten_static" },
         "id": "buff_niten_static",
         "text": "Niten Ichi-Ryu Stance"
@@ -119,7 +119,7 @@
         "text": "Stillness"
       },
       {
-        "//": "Aikido",
+        "//": "Aikido   ------------------------------------------",
         "condition": { "u_has_effect": "mabuff:buff_aikido_static1" },
         "id": "buff_aikido_static1",
         "text": "Aikido Stance"
@@ -145,13 +145,13 @@
         "text": "Fluid Dodging"
       },
       {
-        "//": "Brawling",
+        "//": "Brawling   ------------------------------------------",
         "condition": { "u_has_effect": "mabuff:buff_brawling_block" },
         "id": "buff_brawling_block",
         "text": "Enhanced Blocking"
       },
       {
-        "//": "Barbaran Montante",
+        "//": "Barbaran Montante   ----------------------------------",
         "condition": { "u_has_effect": "mabuff:buff_barbaran_static" },
         "id": "buff_barbaran_static",
         "text": "Barbaran Represa"
@@ -177,7 +177,7 @@
         "text": "Vulgar Preparation"
       },
       {
-        "//": "Boxing",
+        "//": "Boxing   ------------------------------------------",
         "condition": { "u_has_effect": "mabuff:buff_boxing_static" },
         "id": "buff_boxing_static",
         "text": "Boxing Stance"
@@ -189,7 +189,7 @@
         "text": "Counter Chance"
       },
       {
-        "//": "Zui Quan",
+        "//": "Zui Quan   --------------- 10 -----------------------",
         "condition": { "u_has_effect": "mabuff:buff_zuiquan_static" },
         "id": "buff_zuiquan_static",
         "text": "Zui Quan Stance"
@@ -205,7 +205,7 @@
         "text": "Drunken Dodging"
       },
       {
-        "//": "Eskrima",
+        "//": "Eskrima   -------------------- 20 -------------------",
         "condition": { "u_has_effect": "mabuff:buff_eskrima_static" },
         "id": "buff_eskrima_static",
         "text": "Eskrima Stance"
@@ -216,7 +216,7 @@
         "text": "Eskrima Combination"
       },
       {
-        "//": "Fencing",
+        "//": "Fencing   -------------------- 20 -------------------",
         "condition": { "u_has_effect": "mabuff:buff_fencing_static" },
         "id": "buff_fencing_static",
         "text": "Fencing Stance"
@@ -233,7 +233,7 @@
         "text": "Counter Time"
       },
       {
-        "//": "Fior Di Battaglia",
+        "//": "Fior Di Battaglia   ----------------- 20 ----------------",
         "condition": { "u_has_effect": "mabuff:buff_medievalpole_static" },
         "id": "buff_medievalpole_static",
         "text": "Stand Your Ground"
@@ -254,7 +254,7 @@
         "text": "Defense Break"
       },
       {
-        "//": "Judo",
+        "//": "Judo   -------------------- 20 -------------------",
         "condition": { "u_has_effect": "mabuff:buff_judo_static" },
         "id": "buff_judo_static",
         "text": "Judo Stance"
@@ -265,7 +265,7 @@
         "text": "Perfect Position"
       },
       {
-        "//": "Karate",
+        "//": "Karate   -------------------- 20 -------------------",
         "condition": { "u_has_effect": "mabuff:buff_karate_static" },
         "id": "buff_karate_static",
         "text": "Karate Stance"
@@ -276,7 +276,7 @@
         "text": "Karate Kata"
       },
       {
-        "//": "Krav Maga",
+        "//": "Krav Maga   -------------------- 20 -------------------",
         "condition": { "u_has_effect": "mabuff:buff_krav_maga_static" },
         "id": "buff_krav_maga_static",
         "text": "Krav Maga Stance"
@@ -287,7 +287,7 @@
         "text": "Strike Vitals"
       },
       {
-        "//": "Medieval Swordsmanship",
+        "//": "Medieval Swordsmanship   ------------- 20 ----------------",
         "condition": { "u_has_effect": "mabuff:buff_swordsmanship_static" },
         "id": "buff_swordsmanship_static",
         "text": "Swordsman's Stance"
@@ -308,7 +308,7 @@
         "text": "Half Swording"
       },
       {
-        "//": "Capoeira",
+        "//": "Capoeira   -------------------- 20 -------------------",
         "condition": { "u_has_effect": "mabuff:buff_capoeira_static" },
         "id": "buff_capoeira_static",
         "text": "Capoeira Stance"
@@ -324,7 +324,7 @@
         "text": "Capoeira Momentum"
       },
       {
-        "//": "Pankration",
+        "//": "Pankration   -------------------- 20 -------------------",
         "condition": { "u_has_effect": "mabuff:buff_pankration_ondodge" },
         "id": "buff_pankration_ondodge",
         "text": "Counter Chance"
@@ -335,7 +335,7 @@
         "text": "Close Combat"
       },
       {
-        "//": "Silat",
+        "//": "Silat   -------------------- 20 -------------------",
         "condition": { "u_has_effect": "mabuff:buff_silat_static" },
         "id": "buff_silat_static",
         "text": "Silat Stance"
@@ -351,7 +351,7 @@
         "text": "Silat Ambush"
       },
       {
-        "//": "Taekwondo",
+        "//": "Taekwondo   ---------------------- 30 ----------------",
         "condition": { "u_has_effect": "mabuff:buff_taekwondo_static" },
         "id": "buff_taekwondo_static",
         "text": "Taekwondo Stance"
@@ -362,7 +362,7 @@
         "text": "Unhindered"
       },
       {
-        "//": "Tai Chi",
+        "//": "Tai Chi   ---------------------- 30 ----------------",
         "condition": { "u_has_effect": "mabuff:buff_tai_chi_static" },
         "id": "buff_tai_chi_static",
         "text": "Tai Chi Stance"
@@ -378,7 +378,7 @@
         "text": "Cross Hands"
       },
       {
-        "//": "Crane Kung Fu",
+        "//": "Crane Kung Fu   -------------- 30 ----------------",
         "condition": { "u_has_effect": "mabuff:buff_crane_static1" },
         "id": "buff_crane_static1",
         "text": "Crane's Precision"
@@ -399,7 +399,7 @@
         "text": "Crane's Flight"
       },
       {
-        "//": "Dragon Kung Fu",
+        "//": "Dragon Kung Fu   -------------- 30 ----------------",
         "condition": { "u_has_effect": "mabuff:buff_dragon_static" },
         "id": "buff_dragon_static",
         "text": "Dragon's Knowledge"
@@ -420,7 +420,7 @@
         "text": "Dragon Power"
       },
       {
-        "//": "Leopard Kung Fu",
+        "//": "Leopard Kung Fu   -------------- 30 ----------------",
         "condition": { "u_has_effect": "mabuff:buff_leopard_static1" },
         "id": "buff_leopard_static1",
         "text": "Leopard's Strategy"
@@ -436,7 +436,7 @@
         "text": "Leopard's Agility"
       },
       {
-        "//": "Snake Kung Fu",
+        "//": "Snake Kung Fu   -------------- 30 ----------------",
         "condition": { "u_has_effect": "mabuff:buff_snake_static" },
         "id": "buff_snake_static",
         "text": "Snake's Sight"
@@ -449,14 +449,14 @@
         "text": "Snake's Coi"
       },
       {
-        "//": "Tiger Kung Fu",
+        "//": "Tiger Kung Fu   -------------- 30 ----------------",
         "condition": { "u_has_effect": "mabuff:buff_tiger_static" },
         "id": "buff_tiger_static",
         "text": ""
       },
       { "condition": { "u_has_effect": "mabuff:buff_tiger_onhit" }, "id": "buff_tiger_onhit", "text": "Tiger Fury" },
       {
-        "//": "Wing Chun",
+        "//": "Wing Chun   -------------- 30 ---------------------",
         "condition": { "u_has_effect": "mabuff:buff_wingchun_static" },
         "id": "buff_wingchun_static",
         "text": "Chi-Sao Sensitivity"
@@ -472,7 +472,7 @@
         "text": "Biu Ji"
       },
       {
-        "//": "Bionic Combatives",
+        "//": "Bionic Combatives   -------------- 30 ----------------",
         "condition": { "u_has_effect": "mabuff:buff_biojutsu_static" },
         "id": "buff_biojutsu_static",
         "text": "Biojutsu Stance"
@@ -488,7 +488,7 @@
         "text": "Optimization"
       },
       {
-        "//": "Centipede Kung Fu",
+        "//": "Centipede Kung Fu   -------------- 30 ----------------",
         "condition": { "u_has_effect": "mabuff:buff_centipede_onhit" },
         "id": "buff_centipede_onhit",
         "text": "Centipede's Frenzy"
@@ -499,7 +499,7 @@
         "text": "Centipede's Venom"
       },
       {
-        "//": "Lizard Kung Fu",
+        "//": "Lizard Kung Fu   -------------------------------------",
         "condition": { "u_has_effect": "mabuff:buff_lizard_static1" },
         "id": "buff_lizard_static1",
         "text": "Lizard's Cunning"
@@ -525,7 +525,7 @@
         "text": "Lizard's Venom"
       },
       {
-        "//": "Scorpion Kung Fu",
+        "//": "Scorpion Kung Fu   -------------------------------------",
         "condition": { "u_has_effect": "mabuff:buff_scorpion_static" },
         "id": "buff_scorpion_static",
         "text": "Scorpion's Venom"
@@ -541,7 +541,7 @@
         "text": "Scorpion's Charge"
       },
       {
-        "//": "Toad Kung Fu",
+        "//": "Toad Kung Fu   -------------------------------------",
         "condition": { "u_has_effect": "mabuff:buff_toad_static" },
         "id": "buff_toad_static",
         "text": "Toad's Iron Skin"
@@ -562,7 +562,7 @@
         "text": "Toad's Venom"
       },
       {
-        "//": "Viper Kung Fu",
+        "//": "Viper Kung Fu   -------------------------------------",
         "condition": { "u_has_effect": "mabuff:buff_venom_snake_static" },
         "id": "buff_venom_snake_static",
         "text": "Viper's Patience"
