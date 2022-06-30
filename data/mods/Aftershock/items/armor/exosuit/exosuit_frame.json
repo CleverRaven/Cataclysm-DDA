@@ -124,7 +124,14 @@
     "armor": [
       {
         "material": [ { "type": "titanium", "covered_by_mat": 100, "thickness": 2 } ],
-        "covers": [ "head", "eyes", "mouth", "torso", "arm_l", "arm_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
+        "covers": [ "eyes" ],
+        "coverage": 100,
+        "encumbrance": 100,
+        "layers": [ "OUTER" ]
+      },
+      {
+        "material": [ { "type": "titanium", "covered_by_mat": 100, "thickness": 2 } ],
+        "covers": [ "head", "mouth", "torso", "arm_l", "arm_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
         "coverage": 40,
         "encumbrance": 20,
         "layers": [ "OUTER" ]
