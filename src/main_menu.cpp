@@ -527,22 +527,9 @@ void main_menu::load_char_templates()
     std::reverse( templates.begin(), templates.end() );
 }
 
-bool main_menu::opening_screen()
+bool global_init()
 {
-    // set holiday based on local system time
-    current_holiday = get_holiday_from_time();
-
-    if( music::get_music_id() != music::music_id::title ) {
-        music::deactivate_music_id_all();
-    } else {
-        play_music( music::get_music_id_string() );
-    }
-
-    world_generator->set_active_world( nullptr );
-    world_generator->init();
-
     get_help().load();
-    init_strings();
 
     if( !assure_dir_exist( PATH_INFO::config_dir() ) ) {
         popup( _( "Unable to make config directory.  Check permissions." ) );
@@ -573,6 +560,25 @@ bool main_menu::opening_screen()
         popup( _( "Unable to make graphics directory.  Check permissions." ) );
         return false;
     }
+
+    return true;
+}
+
+bool main_menu::opening_screen()
+{
+    // set holiday based on local system time
+    current_holiday = get_holiday_from_time();
+
+    if( music::get_music_id() != music::music_id::title ) {
+        music::deactivate_music_id_all();
+    } else {
+        play_music( music::get_music_id_string() );
+    }
+
+    world_generator->set_active_world( nullptr );
+    world_generator->init();
+
+    init_strings();
 
     load_char_templates();
 

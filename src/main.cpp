@@ -751,6 +751,10 @@ int main( int argc, const char *argv[] )
 #endif
     replay_buffered_debugmsg_prompts();
 
+    if( !global_init() ) {
+        exit_handler( -999 );
+        return 0;
+    }
     while( true ) {
         if( !cli.world.empty() ) {
             if( !g->load( cli.world ) ) {
