@@ -13,17 +13,6 @@
     "flags": [ "W_LABEL_NONE" ]
   },
   {
-    "//": "Displays players martial art buffes/debufs by name",
-    "id": "ma_buff_legend",
-    "type": "widget",
-    "style": "legend",
-    "copy-from": "ma_buff_indicator_template",
-    "width": 0,
-    "height": 4,
-    "text_align": "left",
-    "flags": [ "W_LABEL_NONE", "W_DYNAMIC_HEIGHT" ]
-  },
-  {
     "id": "ma_buff_indicator_template",
     "type": "widget",
     "style": "clause",
@@ -579,5 +568,16 @@
       }
     ],
     "default_clause": { "text": "no martial art activ" }
-  }
+  },
+  {
+    "//": "Displays players martial art buffes/debufs by name",
+    "id": "ma_buff_legend",
+    "type": "widget",
+    "style": "legend",
+    "copy-from": "ma_buff_indicator_template",
+    "width": 0,
+    "height": 4,
+    "text_align": "left",
+    "flags": [ "W_LABEL_NONE", "W_DYNAMIC_HEIGHT" ]
+  }  
 ]
