@@ -1252,7 +1252,7 @@
       "corpse_type": "NO_CORPSE",
       "message": "Something about the %s disappearing feels off.."
     },
-    "flags": [ "SEES", "HEARS", "NO_BREATHE", "PUSH_MON", "ALWAYS_VISIBLE" ]
+    "flags": [ "SEES", "HEARS", "NO_BREATHE", "PUSH_MON", "ALWAYS_VISIBLE", "ALWAYS_SEES_YOU" ]
   },
   {
     "id": "mon_tainted_shadow",

@@ -738,6 +738,13 @@
     "percent_spread": 50
   },
   {
+    "id": "fd_endless_empty",
+    "type": "field_type",
+    "intensity_levels": [ { "name": "hungry light", "light_override": 3.5 } ],
+    "half_life": -1,
+    "display_field": false
+  },
+  {
     "id": "fd_flame_burst",
     "type": "field_type",
     "legacy_enum_id": 18,
