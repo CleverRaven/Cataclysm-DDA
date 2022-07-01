@@ -1654,8 +1654,8 @@ void salvage_actor::cut_up( Character &p, item_location &cut ) const
                 }
             }
             // We decrease efficiency so on avg no more mass is salvaged than the original item weighed
-            num_adjusted *= std::min( static_cast<float>( curr.weight().value() ) / static_cast<float>
-                                  ( ingredient_weight.value() ), 1.0f );
+            num_adjusted *= std::min( 1.0f, static_cast<float>( curr.weight().value() )
+                                      / static_cast<float>( ingredient_weight.value() ) );
 
             // Find default components set from recipe
             for( const auto &altercomps : requirements.get_components() ) {
