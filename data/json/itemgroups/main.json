@@ -173,6 +173,7 @@
       { "item": "m79", "prob": 10 },
       { "item": "m320", "prob": 50 },
       { "item": "mgl", "prob": 60 },
+      { "item": "mm1", "prob": 3 },
       { "item": "rm802", "prob": 40 },
       { "item": "m203", "prob": 50 },
       { "item": "LAW_Packed", "prob": 80 },
