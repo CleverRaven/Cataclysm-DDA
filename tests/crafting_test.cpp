@@ -1552,6 +1552,7 @@ TEST_CASE( "Unloading non-empty components", "[crafting]" )
 TEST_CASE( "Warn when using favorited component", "[crafting]" )
 {
     map &m = get_map();
+    clear_map();
     item pocketknife( itype_pockknife );
 
     GIVEN( "crafting 1 makeshift funnel" ) {
