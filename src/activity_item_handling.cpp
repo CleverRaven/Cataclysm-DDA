@@ -2204,7 +2204,8 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
             // then we should unload it and see what is inside
             if( mgr.has_near( zone_type_zone_unload_all, abspos, 1, _fac_id( you ) ) ||
                 ( mgr.has_near( zone_type_zone_strip, abspos, 1, _fac_id( you ) ) && it->first->is_corpse() ) ) {
-                if( dest_set.empty() && !it->first->is_container_empty() && !it->first->any_pockets_sealed() ) {
+                if( dest_set.empty() && you.rate_action_unload( *it->first ) == hint_rating::good &&
+                    !it->first->any_pockets_sealed() ) {
                     //Check if on a cargo part
                     if( const cata::optional<vpart_reference> vp = here.veh_at( src_loc ).part_with_feature( "CARGO",
                             false ) ) {
