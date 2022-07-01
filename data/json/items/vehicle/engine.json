@@ -115,7 +115,7 @@
     "name": { "str": "I6 diesel engine" },
     "description": "An industrial-sized 6-cylinder diesel engine, commonly called straight-6.  About as powerful as a V6 engine but significantly larger for use in heavy equipment.",
     "weight": "580 kg",
-    "volume": "635 L",
+    "volume": "500 L",
     "price": 27000,
     "price_postapoc": 1500,
     "displacement": 600
@@ -305,7 +305,7 @@
     "description": "A gas turbine engine, usually used for military vehicles.  Known for its high rate of fuel consumption.",
     "//": "Based on AGT1500 engine.",
     "weight": "1134 kg",
-    "volume": "1036 L",
+    "volume": "900 L",
     "price": 96000,
     "price_postapoc": 2500,
     "displacement": 2700
@@ -316,9 +316,9 @@
     "type": "ENGINE",
     "name": { "str": "1,900 HP gas turbine engine" },
     "description": "A large gas turbine engine, usually used for military helicopters.  Known for its high rate of fuel consumption.",
-    "//": "Based on T700 turboshaft engine. Much lighter weight than the 1,350 HP small gas turbine.  Doubled the published weight and volume to account for a transmission.",
+    "//": "Based on T700 turboshaft engine. Much lighter weight than the 1,350 HP small gas turbine.  Doubled the published weight to account for a transmission.",
     "weight": "400 kg",
-    "volume": "800 L",
+    "volume": "400 L",
     "price": 192000,
     "price_postapoc": 5000,
     "displacement": 3800
@@ -331,7 +331,7 @@
     "description": "A massive gas turbine engine, used to power the V-22 Osprey.  Known for its high rate of fuel consumption.",
     "//": "Based on Rolls-Royce T406.",
     "weight": "900 kg",
-    "volume": "4260 L",
+    "volume": "900 L",
     "price": 960000,
     "price_postapoc": 7500,
     "displacement": 11995
