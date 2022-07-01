@@ -1613,6 +1613,7 @@ void salvage_actor::cut_up( Character &p, item_location &cut ) const
         if( curr.type->is_basic_component() )
         {
             int num_actual = static_cast<int>( num_adjusted );
+            num_actual += x_in_y( num_adjusted - num_actual, 1.0 );
             salvage[curr.typeId()] += num_actual;
             return;
         }
