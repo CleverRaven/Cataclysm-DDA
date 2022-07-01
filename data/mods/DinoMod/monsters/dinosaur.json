@@ -459,7 +459,7 @@
       "PRIORITIZE_TARGETS"
     ],
     "harvest": "dino_large_feather_pred",
-    "dissect": [ "dissect_tyrant_sample_large" ],
+    "dissect": "dissect_tyrant_sample_large",
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "HURT", "PLAYER_CLOSE", "SOUND" ],
     "categories": [ "DINOSAUR", "WILDLIFE" ]
   },
