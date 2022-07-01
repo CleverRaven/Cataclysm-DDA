@@ -119,7 +119,11 @@
     ],
     "armor": [
       {
-        "material": [ { "type": [ "plastic", "rubber", "glass" ], "covered_by_mat": 100, "thickness": 2 } ],
+        "material": [
+          { "type": "plastic", "covered_by_mat": 80, "thickness": 2 },
+          { "type": "rubber", "covered_by_mat": 20, "thickness": 2 },
+          { "type": "lvl4ballisticglass", "covered_by_mat": 100, "thickness": 2 }
+        ],
         "covers": [ "eyes" ],
         "coverage": 100,
         "encumbrance": 100,
@@ -172,7 +176,11 @@
     ],
     "armor": [
       {
-        "material": [ { "type": [ "plastic", "rubber", "glass" ], "covered_by_mat": 100, "thickness": 2 } ],
+        "material": [
+          { "type": "plastic", "covered_by_mat": 80, "thickness": 2 },
+          { "type": "rubber", "covered_by_mat": 20, "thickness": 2 },
+          { "type": "lvl4ballisticglass", "covered_by_mat": 100, "thickness": 2 }
+        ],
         "covers": [ "eyes" ],
         "coverage": 100,
         "encumbrance": 5,
