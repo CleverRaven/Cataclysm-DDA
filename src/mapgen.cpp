@@ -79,6 +79,7 @@
 #include "vpart_position.h"
 #include "vpart_range.h"
 #include "weighted_list.h"
+#include "creature_tracker.h"
 
 static const furn_str_id furn_f_console( "f_console" );
 static const furn_str_id furn_f_sign( "f_sign" );
@@ -870,6 +871,7 @@ void mapgen_function_json_base::setup_setmap( const JsonArray &parray )
     setmap_opmap[ "furniture" ] = JMAPGEN_SETMAP_FURN;
     setmap_opmap[ "trap" ] = JMAPGEN_SETMAP_TRAP;
     setmap_opmap[ "trap_remove" ] = JMAPGEN_SETMAP_TRAP_REMOVE;
+    setmap_opmap[ "creature_remove" ] = JMAPGEN_SETMAP_CREATURE_REMOVE;
     setmap_opmap[ "item_remove" ] = JMAPGEN_SETMAP_ITEM_REMOVE;
     setmap_opmap[ "field_remove" ] = JMAPGEN_SETMAP_FIELD_REMOVE;
     setmap_opmap[ "radiation" ] = JMAPGEN_SETMAP_RADIATION;
@@ -925,7 +927,7 @@ void mapgen_function_json_base::setup_setmap( const JsonArray &parray )
         if( tmpop == JMAPGEN_SETMAP_RADIATION ) {
             tmp_i = jmapgen_int( pjo, "amount" );
         } else if( tmpop == JMAPGEN_SETMAP_BASH || tmpop == JMAPGEN_SETMAP_ITEM_REMOVE ||
-                   tmpop == JMAPGEN_SETMAP_FIELD_REMOVE ) {
+                   tmpop == JMAPGEN_SETMAP_FIELD_REMOVE || tmpop == JMAPGEN_SETMAP_CREATURE_REMOVE ) {
             //suppress warning
         } else if( tmpop == JMAPGEN_SETMAP_VARIABLE ) {
             string_val = "npctalk_var_" + pjo.get_string( "id" );
@@ -4241,14 +4243,17 @@ mapgen_phase jmapgen_setmap::phase() const
             return mapgen_phase::furniture;
         case JMAPGEN_SETMAP_TRAP:
         case JMAPGEN_SETMAP_TRAP_REMOVE:
+        case JMAPGEN_SETMAP_CREATURE_REMOVE:
         case JMAPGEN_SETMAP_ITEM_REMOVE:
         case JMAPGEN_SETMAP_FIELD_REMOVE:
         case JMAPGEN_SETMAP_LINE_TRAP:
         case JMAPGEN_SETMAP_LINE_TRAP_REMOVE:
+        case JMAPGEN_SETMAP_LINE_CREATURE_REMOVE:
         case JMAPGEN_SETMAP_LINE_ITEM_REMOVE:
         case JMAPGEN_SETMAP_LINE_FIELD_REMOVE:
         case JMAPGEN_SETMAP_SQUARE_TRAP:
         case JMAPGEN_SETMAP_SQUARE_TRAP_REMOVE:
+        case JMAPGEN_SETMAP_SQUARE_CREATURE_REMOVE:
         case JMAPGEN_SETMAP_SQUARE_ITEM_REMOVE:
         case JMAPGEN_SETMAP_SQUARE_FIELD_REMOVE:
             return mapgen_phase::default_;
@@ -4312,6 +4317,14 @@ bool jmapgen_setmap::apply( const mapgendata &dat, const point &offset ) const
                 mremove_trap( &m, point( x_get(), y_get() ), trap_id( val.get() ).id() );
             }
             break;
+            case JMAPGEN_SETMAP_CREATURE_REMOVE: {
+                creature_tracker &creatures = get_creature_tracker();
+                Creature *tmp_critter = creatures.creature_at( tripoint( x_get(), y_get(), m.get_abs_sub().z() ) );
+                if( tmp_critter != nullptr ) {
+                    tmp_critter->die( nullptr );
+                }
+            }
+            break;
             case JMAPGEN_SETMAP_ITEM_REMOVE: {
                 m.i_clear( point( x_get(), y_get() ) );
             }
@@ -4354,6 +4367,18 @@ bool jmapgen_setmap::apply( const mapgendata &dat, const point &offset ) const
                 for( const point &i : line ) {
                     // TODO: the trap_id should be stored separately and not be wrapped in an jmapgen_int
                     mremove_trap( &m, i, trap_id( val.get() ).id() );
+                }
+            }
+            break;
+            case JMAPGEN_SETMAP_LINE_CREATURE_REMOVE: {
+                const std::vector<point> line = line_to( point( x_get(), y_get() ), point( x2_get(), y2_get() ),
+                                                0 );
+                for( const point &i : line ) {
+                    creature_tracker &creatures = get_creature_tracker();
+                    Creature *tmp_critter = creatures.creature_at( tripoint( i, m.get_abs_sub().z() ) );
+                    if( tmp_critter != nullptr ) {
+                        tmp_critter->die( nullptr );
+                    }
                 }
             }
             break;
@@ -4411,6 +4436,21 @@ bool jmapgen_setmap::apply( const mapgendata &dat, const point &offset ) const
                     for( int ty = c.y; ty <= cy2; ty++ ) {
                         // TODO: the trap_id should be stored separately and not be wrapped in an jmapgen_int
                         mremove_trap( &m, point( tx, ty ), trap_id( val.get() ).id() );
+                    }
+                }
+            }
+            break;
+            case JMAPGEN_SETMAP_SQUARE_CREATURE_REMOVE: {
+                const point c( x_get(), y_get() );
+                const int cx2 = x2_get();
+                const int cy2 = y2_get();
+                for( int tx = c.x; tx <= cx2; tx++ ) {
+                    for( int ty = c.y; ty <= cy2; ty++ ) {
+                        creature_tracker &creatures = get_creature_tracker();
+                        Creature *tmp_critter = creatures.creature_at( tripoint( tx, ty, m.get_abs_sub().z() ) );
+                        if( tmp_critter != nullptr ) {
+                            tmp_critter->die( nullptr );
+                        }
                     }
                 }
             }

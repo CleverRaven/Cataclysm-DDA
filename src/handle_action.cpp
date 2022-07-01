@@ -79,6 +79,7 @@
 #include "scores_ui.h"
 #include "sounds.h"
 #include "string_formatter.h"
+#include "timed_event.h"
 #include "translations.h"
 #include "ui.h"
 #include "ui_manager.h"
@@ -2481,7 +2482,11 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             if( !m.is_outside( player_character.pos() ) ) {
                 uistate.overmap_visible_weather = false;
             }
-            ui::omap::display();
+            if( !get_timed_events().get( timed_event_type::OVERRIDE_PLACE ) ) {
+                ui::omap::display();
+            } else {
+                add_msg( m_info, _( "You have no idea where you are." ) );
+            }
             break;
 
         case ACTION_SKY:

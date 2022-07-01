@@ -1498,7 +1498,7 @@ void computer_session::failure_alarm()
                    "alarm" );
     if( get_map().get_abs_sub().z() > 0 && !get_timed_events().queued( timed_event_type::WANTED ) ) {
         get_timed_events().add( timed_event_type::WANTED, calendar::turn + 30_minutes, 0,
-                                player_character.global_sm_location() );
+                                player_character.get_location() );
     }
 }
 

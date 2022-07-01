@@ -830,5 +830,15 @@
       "place_liquids": [ { "liquid": "gasoline", "x": [ 5, 20 ], "y": [ 5, 20 ], "amount": 5, "repeat": 40 } ],
       "place_fields": [ { "field": "fd_fire", "x": [ 5, 20 ], "y": [ 5, 20 ], "repeat": 40 } ]
     }
+  },
+  {
+    "id": "MISSION_INVESTIGATE_PORTAL_DUNGEON",
+    "type": "mission_definition",
+    "name": { "str": "Investigate Strange Location" },
+    "goal": "MGOAL_GO_TO",
+    "description": "You could find this place upside down, dizzy and blindfolded.  Its presence is too altered to allow the mercy of ignorance.",
+    "difficulty": 0,
+    "value": 0,
+    "start": { "assign_mission_target": { "var": { "global_val": "portal_dungeon" } } }
   }
 ]
