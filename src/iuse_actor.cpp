@@ -1594,11 +1594,6 @@ void salvage_actor::cut_up( Character &p, item_location &cut ) const
     // Reinforcing does not decrease losses.
     efficiency *= std::min( std::pow( 0.8, cut.get_item()->damage_level() ), 1.0 );
 
-    // Apply proportional item loss.
-    for( auto &iter : salvage ) {
-        iter.second *= efficiency;
-    }
-
     auto distribute_uniformly = [&mat_to_weight]( item x, float num_adjusted ) -> void {
         const float mat_total = std::max( x.type->mat_portion_total, 1 );
         for( const auto &type : x.made_of() )
