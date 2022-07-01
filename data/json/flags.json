@@ -1955,6 +1955,16 @@
     "name": "laser sight"
   },
   {
+    "id": "JETPACK",
+    "type": "json_flag",
+    "info": "This item is a jetpack."
+  },
+  {
+    "id": "LEVITATION",
+    "type": "json_flag",
+    "info": "Allows movement in open air."
+  },
+  {
     "id": "EXO_SMALL",
     "type": "json_flag",
     "info": "This is meant for a small exosuit hardpoint."

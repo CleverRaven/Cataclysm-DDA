@@ -9579,6 +9579,14 @@ void Character::process_effects()
     Creature::process_effects();
 }
 
+void Character::gravity_check()
+{
+    if( get_map().tr_at( pos() ) == tr_ledge ) {
+        get_map().tr_at( pos() ).trigger( pos(), *this );
+        get_map().update_visibility_cache( pos().z );
+    }
+}
+
 double Character::vomit_mod()
 {
     double mod = mutation_value( "vomit_multiplier" );
