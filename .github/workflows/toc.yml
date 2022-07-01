@@ -5,6 +5,9 @@ on:
     paths:
     - 'doc/JSON_INFO.md'
 name: TOC Generator
+permissions:
+  contents: read
+
 jobs:
   generateTOC:
     if: github.repository == 'CleverRaven/Cataclysm-DDA'
