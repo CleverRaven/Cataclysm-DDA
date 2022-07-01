@@ -1010,6 +1010,11 @@
     "//": "Chooses a spell at random to cast from extra_effects.  See MAGIC.md for details"
   },
   {
+    "id": "EXTRA_EFFECTS_FIRST",
+    "type": "json_flag",
+    "//": "A spell extra effects are cast before the main spell.  See MAGIC.md for details"
+  },
+  {
     "id": "PAIN_NORESIST",
     "type": "json_flag",
     "//": "pain altering spells can't be resisted (like with the deadened trait)"
