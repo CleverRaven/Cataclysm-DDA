@@ -1879,7 +1879,7 @@ tab_direction set_profession( avatar &u, pool_type pool )
 
             if( sorted_profs[cur_id]->get_requirement().has_value() ) {
                 buffer += colorize( _( "Requirements:" ), c_light_blue ) + "\n";
-                buffer += string_format( _( "Complete %s\n" ),
+                buffer += string_format( _( "Complete \"%s\"\n" ),
                                          sorted_profs[cur_id]->get_requirement().value()->name() );
             }
 
@@ -3169,7 +3169,7 @@ tab_direction set_scenario( avatar &u, pool_type pool )
             if( sorted_scens[cur_id]->get_requirement().has_value() ) {
                 mvwprintz( w_requirement, point_zero, COL_HEADER, _( "\nRequirements:" ) );
                 wprintz( w_requirement, c_light_gray,
-                         string_format( _( "\nComplete %s\n\n" ),
+                         string_format( _( "\nComplete \"%s\"\n\n" ),
                                         sorted_scens[cur_id]->get_requirement().value()->name() ) );
             }
 

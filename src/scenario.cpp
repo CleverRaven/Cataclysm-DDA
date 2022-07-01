@@ -575,10 +575,12 @@ ret_val<bool> scenario::can_pick() const
                     _requirement.value()->id );
         if( !other_games ) {
             return ret_val<bool>::make_failure(
-                       _( "You must complete the achievement %s to unlock this start" ), _requirement.value()->name() );
+                       _( "You must complete the achievement \"%s\" to unlock this scenario." ),
+                       _requirement.value()->name() );
         } else if( other_games->games_completed.empty() ) {
             return ret_val<bool>::make_failure(
-                       _( "You must complete the achievement %s to unlock this start" ), _requirement.value()->name() );
+                       _( "You must complete the achievement \"%s\" to unlock this scenario." ),
+                       _requirement.value()->name() );
         }
     }
 
