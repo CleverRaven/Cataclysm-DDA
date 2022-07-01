@@ -8,29 +8,14 @@
       { "monster": "mon_sabcat", "weight": 5, "cost_multiplier": 0, "pack_size": [ 1, 1 ] },
       { "monster": "mon_cave_lion", "weight": 5, "cost_multiplier": 0, "pack_size": [ 1, 4 ] },
       { "monster": "mon_shortface", "weight": 5, "cost_multiplier": 0, "pack_size": [ 1, 1 ] },
-      {
-        "monster": "mon_peccary_flathead",
-        "weight": 15,
-        "cost_multiplier": 0,
-        "pack_size": [ 5, 10 ]
-      },
-      {
-        "monster": "mon_peccary_longnose",
-        "weight": 12,
-        "cost_multiplier": 0,
-        "pack_size": [ 1, 1 ]
-      },
+      { "monster": "mon_peccary_flathead", "weight": 15, "cost_multiplier": 0, "pack_size": [ 5, 10 ] },
+      { "monster": "mon_peccary_longnose", "weight": 12, "cost_multiplier": 0, "pack_size": [ 1, 1 ] },
       { "monster": "mon_mammoth", "weight": 10, "cost_multiplier": 0, "pack_size": [ 1, 5 ] },
       { "monster": "mon_mastodon", "weight": 10, "cost_multiplier": 0, "pack_size": [ 1, 5 ] },
       { "monster": "mon_direwolf", "weight": 5, "cost_multiplier": 0, "pack_size": [ 2, 6 ] },
       { "monster": "mon_stagmoose", "weight": 10, "cost_multiplier": 0, "pack_size": [ 1, 1 ] },
       { "monster": "mon_giant_beaver", "weight": 10, "cost_multiplier": 0, "pack_size": [ 1, 3 ] },
-      {
-        "monster": "mon_large_claw_sloth",
-        "weight": 6,
-        "cost_multiplier": 0,
-        "pack_size": [ 1, 2 ]
-      },
+      { "monster": "mon_large_claw_sloth", "weight": 6, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
       { "monster": "mon_shrubox", "weight": 10, "cost_multiplier": 0, "pack_size": [ 3, 6 ] },
       { "monster": "mon_woodox", "weight": 12, "cost_multiplier": 0, "pack_size": [ 3, 6 ] },
       { "monster": "mon_bison", "weight": 10, "cost_multiplier": 0, "pack_size": [ 6, 12 ] },
@@ -1358,29 +1343,14 @@
       { "monster": "mon_sabcat", "weight": 5, "cost_multiplier": 0, "pack_size": [ 1, 1 ] },
       { "monster": "mon_cave_lion", "weight": 5, "cost_multiplier": 0, "pack_size": [ 1, 4 ] },
       { "monster": "mon_shortface", "weight": 5, "cost_multiplier": 0, "pack_size": [ 1, 1 ] },
-      {
-        "monster": "mon_peccary_flathead",
-        "weight": 12,
-        "cost_multiplier": 0,
-        "pack_size": [ 5, 10 ]
-      },
-      {
-        "monster": "mon_peccary_longnose",
-        "weight": 10,
-        "cost_multiplier": 0,
-        "pack_size": [ 1, 1 ]
-      },
+      { "monster": "mon_peccary_flathead", "weight": 12, "cost_multiplier": 0, "pack_size": [ 5, 10 ] },
+      { "monster": "mon_peccary_longnose", "weight": 10, "cost_multiplier": 0, "pack_size": [ 1, 1 ] },
       { "monster": "mon_mammoth", "weight": 10, "cost_multiplier": 0, "pack_size": [ 1, 5 ] },
       { "monster": "mon_mastodon", "weight": 10, "cost_multiplier": 0, "pack_size": [ 1, 5 ] },
       { "monster": "mon_direwolf", "weight": 5, "cost_multiplier": 0, "pack_size": [ 1, 6 ] },
       { "monster": "mon_stagmoose", "weight": 10, "cost_multiplier": 0, "pack_size": [ 1, 1 ] },
       { "monster": "mon_giant_beaver", "weight": 10, "cost_multiplier": 0, "pack_size": [ 1, 3 ] },
-      {
-        "monster": "mon_large_claw_sloth",
-        "weight": 10,
-        "cost_multiplier": 0,
-        "pack_size": [ 1, 2 ]
-      },
+      { "monster": "mon_large_claw_sloth", "weight": 10, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
       { "monster": "mon_shrubox", "weight": 10, "cost_multiplier": 0, "pack_size": [ 3, 6 ] },
       { "monster": "mon_woodox", "weight": 12, "cost_multiplier": 0, "pack_size": [ 3, 6 ] },
       { "monster": "mon_bison", "weight": 10, "cost_multiplier": 0, "pack_size": [ 6, 12 ] },
@@ -1810,29 +1780,14 @@
       { "monster": "mon_sabcat", "weight": 15, "cost_multiplier": 0, "pack_size": [ 1, 1 ] },
       { "monster": "mon_cave_lion", "weight": 15, "cost_multiplier": 0, "pack_size": [ 1, 4 ] },
       { "monster": "mon_shortface", "weight": 15, "cost_multiplier": 0, "pack_size": [ 1, 1 ] },
-      {
-        "monster": "mon_peccary_flathead",
-        "weight": 30,
-        "cost_multiplier": 0,
-        "pack_size": [ 5, 10 ]
-      },
-      {
-        "monster": "mon_peccary_longnose",
-        "weight": 20,
-        "cost_multiplier": 0,
-        "pack_size": [ 1, 1 ]
-      },
+      { "monster": "mon_peccary_flathead", "weight": 30, "cost_multiplier": 0, "pack_size": [ 5, 10 ] },
+      { "monster": "mon_peccary_longnose", "weight": 20, "cost_multiplier": 0, "pack_size": [ 1, 1 ] },
       { "monster": "mon_mammoth", "weight": 10, "cost_multiplier": 0, "pack_size": [ 1, 5 ] },
       { "monster": "mon_mastodon", "weight": 10, "cost_multiplier": 0, "pack_size": [ 1, 5 ] },
       { "monster": "mon_direwolf", "weight": 15, "cost_multiplier": 0, "pack_size": [ 1, 6 ] },
       { "monster": "mon_stagmoose", "weight": 10, "cost_multiplier": 0, "pack_size": [ 1, 1 ] },
       { "monster": "mon_giant_beaver", "weight": 30, "cost_multiplier": 0, "pack_size": [ 1, 3 ] },
-      {
-        "monster": "mon_large_claw_sloth",
-        "weight": 20,
-        "cost_multiplier": 0,
-        "pack_size": [ 1, 2 ]
-      },
+      { "monster": "mon_large_claw_sloth", "weight": 20, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
       { "monster": "mon_shrubox", "weight": 10, "cost_multiplier": 0, "pack_size": [ 3, 6 ] },
       { "monster": "mon_woodox", "weight": 20, "cost_multiplier": 0, "pack_size": [ 3, 6 ] },
       { "monster": "mon_bison", "weight": 5, "cost_multiplier": 0, "pack_size": [ 6, 12 ] },
