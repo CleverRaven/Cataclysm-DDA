@@ -1599,26 +1599,26 @@ void salvage_actor::cut_up( Character &p, item_location &cut ) const
         iter.second *= efficiency;
     }
 
-    auto distribute_uniformly = [&mat_to_weight]( item x, float efficiency ) -> void {
+    auto distribute_uniformly = [&mat_to_weight]( item x, float num_adjusted ) -> void {
         const float mat_total = std::max( x.type->mat_portion_total, 1 );
         for( const auto &type : x.made_of() )
         {
             mat_to_weight[type.first] += x.weight() * ( static_cast<float>( type.second ) / mat_total ) *
-            efficiency;
+            num_adjusted;
         }
     };
 
     // efficiency is decreased every time the ingredients of a recipe have more mass than the output
-    // num is passed along until we reach a basic component
-    std::function<void( item, int, float )> cut_up_component =
+    // num_adjusted represents the number of items and efficiency in one value
+    std::function<void( item, float )> cut_up_component =
         [&salvage, &mat_set, &distribute_uniformly, &cut_up_component]
-    ( item curr, int num, float eff_curr ) -> void {
+    ( item curr, float num_adjusted ) -> void {
 
         // If it is one of the basic components, add it into the list
         if( curr.type->is_basic_component() )
         {
-            int num_adjusted = static_cast<int>( num * eff_curr );
-            salvage[curr.typeId()] += num_adjusted;
+            int num_actual = static_cast<int>( num_adjusted );
+            salvage[curr.typeId()] += num_actual;
             return;
         }
 
@@ -1634,7 +1634,7 @@ void salvage_actor::cut_up( Character &p, item_location &cut ) const
         if( !curr.components.empty() )
         {
             for( const item &iter : curr.components ) {
-                cut_up_component( iter, num, eff_curr );
+                cut_up_component( iter, num_adjusted );
             }
             return;
         }
@@ -1651,8 +1651,8 @@ void salvage_actor::cut_up( Character &p, item_location &cut ) const
                     ingredient_weight += altercomps.front().type->weight * altercomps.front().count;
                 }
             }
-            // We must decrease efficiency so on avg no more mass is salvaged than the original item weighed
-            eff_curr *= std::min( static_cast<float>( curr.weight().value() ) / static_cast<float>
+            // We decrease efficiency so on avg no more mass is salvaged than the original item weighed
+            num_adjusted *= std::min( static_cast<float>( curr.weight().value() ) / static_cast<float>
                                   ( ingredient_weight.value() ), 1.0f );
 
             // Find default components set from recipe
@@ -1660,23 +1660,23 @@ void salvage_actor::cut_up( Character &p, item_location &cut ) const
                 const item_comp &comp = altercomps.front();
                 if( comp.type->count_by_charges() ) {
                     item next = item( comp.type, calendar::turn, comp.count );
-                    cut_up_component( next, num, eff_curr );
+                    cut_up_component( next, num_adjusted );
                 } else {
                     item next = item( comp.type, calendar::turn );
-                    cut_up_component( next, num * comp.count, eff_curr );
+                    num_adjusted *= comp.count;
+                    cut_up_component( next, num_adjusted );
                 }
             }
         } else
         {
             // No recipe was found so we guess and distribute the weight uniformly.
             // This is imprecise but it can't be exploited as no recipe exists for the item
-            distribute_uniformly( curr, eff_curr );
-            return;
+            distribute_uniformly( curr, num_adjusted );
         }
     };
 
     // Decompose the item into irreducible parts
-    cut_up_component( *cut.get_item(), 1, efficiency );
+    cut_up_component( *cut.get_item(), efficiency );
 
 
     // Not much practice, and you won't get very far ripping things up.
