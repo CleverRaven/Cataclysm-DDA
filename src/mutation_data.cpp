@@ -982,3 +982,9 @@ bool string_id<mutation_category_trait>::is_valid() const
 {
     return mutation_category_traits.count( *this );
 }
+
+bool mutation_is_in_category( const trait_id &mut, const mutation_category_id &cat )
+{
+    return std::find( mutations_category[cat].begin(), mutations_category[cat].end(),
+                      mut ) != mutations_category[cat].end();
+}

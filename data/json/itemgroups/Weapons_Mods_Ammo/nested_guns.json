@@ -2057,5 +2057,17 @@
       { "item": "ruger_57mag", "prob": 50 },
       { "group": "on_hand_57" }
     ]
+  },
+  {
+    "id": "nested_m1carbine",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "entries": [
+      { "item": "m1carbine", "charges-min": 0, "charges-max": 15 },
+      { "item": "m1carbinemag" },
+      { "item": "m1carbinemag", "prob": 50 },
+      { "group": "on_hand_30carbine" }
+    ]
   }
 ]

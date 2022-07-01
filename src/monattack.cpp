@@ -3536,7 +3536,7 @@ bool mattack::photograph( monster *z )
     }
 
     get_timed_events().add( timed_event_type::ROBOT_ATTACK, calendar::turn + rng( 15_turns, 30_turns ),
-                            0, player_character.global_sm_location() );
+                            0, player_character.get_location() );
     z->add_effect( effect_source::empty(), effect_eyebot_assisted, 6_hours );
     z->add_effect( effect_source::empty(), effect_eyebot_depleted, 1_minutes, true, 0 );
 
@@ -6205,7 +6205,7 @@ bool mattack::dsa_drone_scan( monster *z )
     if( summon_reinforcements ) {
         get_timed_events().add( timed_event_type::DSA_ALRP_SUMMON,
                                 calendar::turn + rng( 5_turns, 10_turns ),
-                                0, target->global_sm_location() );
+                                0, target->get_location() );
     }
     return true;
 }

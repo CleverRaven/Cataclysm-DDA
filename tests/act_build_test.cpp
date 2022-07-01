@@ -24,7 +24,7 @@ void run_activities( Character &u, int max_moves )
 {
     u.assign_activity( ACT_MULTIPLE_CONSTRUCTION );
     int turns = 0;
-    while( ( !u.activity.is_null() or u.is_auto_moving() ) and turns < max_moves ) {
+    while( ( !u.activity.is_null() || u.is_auto_moving() ) && turns < max_moves ) {
         u.set_moves( u.get_speed() );
         if( u.is_auto_moving() ) {
             u.setpos( get_map().getlocal( *u.destination_point ) );
@@ -33,7 +33,7 @@ void run_activities( Character &u, int max_moves )
         }
         u.activity.do_turn( u );
         // npc plz do your thing
-        if( u.is_npc() and u.activity.is_null() and !u.is_auto_moving() and !u.backlog.empty() and
+        if( u.is_npc() && u.activity.is_null() && !u.is_auto_moving() && !u.backlog.empty() &&
             u.backlog.back().id() == ACT_MULTIPLE_CONSTRUCTION ) {
             activity_handlers::resume_for_multi_activities( u );
         }

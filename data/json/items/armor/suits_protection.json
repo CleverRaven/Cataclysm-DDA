@@ -1648,13 +1648,50 @@
     "type": "ARMOR",
     "copy-from": "lc_chainmail_suit",
     "name": { "str": "faraday chainmail suit" },
-    "description": "A fully customized chainmail suit that can be worn over your normal clothing.  The suit is conductively interconnected, protecting against electricity.",
+    "description": "A fully customized chainmail suit with integrated rubber boots that can be worn over your normal clothing.  The suit is conductively interconnected, protecting against electricity.",
     "armor": [
       {
-        "material": [ { "type": "lc_steel", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth", "eyes" ],
+        "material": [ { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
+        "covers": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "mouth", "eyes" ],
         "coverage": 100,
         "encumbrance": 30
+      },
+      {
+        "material": [ { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_upper_l", "leg_knee_l", "leg_hip_l", "leg_upper_r", "leg_knee_r", "leg_hip_r" ],
+        "coverage": 100,
+        "encumbrance": 30
+      },
+      {
+        "material": [ { "type": "rubber", "covered_by_mat": 100, "thickness": 3.0 } ],
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_lower_l", "leg_lower_r" ],
+        "coverage": 100
+      },
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [
+          "foot_toes_r",
+          "foot_toes_l",
+          "foot_ankle_r",
+          "foot_ankle_l",
+          "foot_heel_r",
+          "foot_heel_l",
+          "foot_arch_r",
+          "foot_arch_l"
+        ],
+        "material": [ { "type": "rubber", "covered_by_mat": 100, "thickness": 3.0 } ],
+        "layers": [ "NORMAL" ],
+        "encumbrance": 30,
+        "coverage": 100
+      },
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
+        "material": [ { "type": "rubber", "covered_by_mat": 100, "thickness": 6.0 } ],
+        "layers": [ "NORMAL" ],
+        "coverage": 100
       }
     ],
     "extend": { "flags": [ "ELECTRIC_IMMUNE" ] }
