@@ -24,22 +24,76 @@
     ]
   },
   {
-    "id": "raptor_sample",
+    "id": "raptor_sample_single",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "raptor_sample", "prob": 30 } ]
+    "entries": [ { "item": "raptor_sample" } ]
   },
   {
-    "id": "tyrant_sample",
+    "id": "raptor_sample_small",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "tyrant_sample", "prob": 30 } ]
+    "entries": [ { "item": "raptor_sample", "count-min": 1, "count-max": 3 } ]
   },
   {
-    "id": "stego_sample",
+    "id": "raptor_sample_large",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "stego_sample", "prob": 30 } ]
+    "entries": [ { "item": "raptor_sample", "count-min": 3, "count-max": 6 } ]
+  },
+  {
+    "id": "raptor_sample_huge",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "raptor_sample", "count-min": 10, "count-max": 20 } ]
+  },
+  {
+    "id": "tyrant_sample_single",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "tyrant_sample" } ]
+  },
+  {
+    "id": "tyrant_sample_small",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "tyrant_sample", "count-min": 1, "count-max": 3 } ]
+  },
+  {
+    "id": "tyrant_sample_large",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "tyrant_sample", "count-min": 3, "count-max": 6 } ]
+  },
+  {
+    "id": "tyrant_sample_huge",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "tyrant_sample", "count-min": 10, "count-max": 20 } ]
+  },
+  {
+    "id": "stego_sample_single",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "stego_sample" } ]
+  },
+  {
+    "id": "stego_sample_small",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "stego_sample", "count-min": 1, "count-max": 3 } ]
+  },
+  {
+    "id": "stego_sample_large",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "stego_sample", "count-min": 3, "count-max": 6 } ]
+  },
+  {
+    "id": "stego_sample_huge",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "stego_sample", "count-min": 10, "count-max": 20 } ]
   },
   {
     "type": "item_group",
