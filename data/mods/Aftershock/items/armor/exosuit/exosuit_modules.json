@@ -428,7 +428,7 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE",
-        "description": "This is a the manuevering unit's fuel tank.  Holds up to 10 liters of pressurized fuel.",
+        "description": "This is the maneuvering unit's fuel tank.  Holds up to 10 liters of pressurized fuel.",
         "rigid": true,
         "watertight": true,
         "ammo_restriction": { "ammonia_liquid": 10 }
