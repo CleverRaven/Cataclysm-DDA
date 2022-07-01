@@ -622,8 +622,10 @@
     "flags": [ "CANT_WEAR", "USE_UPS", "EXO_SMALL_GADGET" ],
     "pocket_data": [
       {
-        "pocket_type": "CONTAINER",
+        "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
+        "max_contains_weight": "250 g",
+        "max_contains_volume": "250 ml",
         "item_restriction": [ "afs_cartridge", "afs_compact_cartridge", "afs_bootleg_cartridge", "afs_archeotech_cartridge" ]
       }
     ]
