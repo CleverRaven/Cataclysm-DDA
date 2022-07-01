@@ -233,7 +233,7 @@
     "id": "spacebar_warmth_graph",
     "type": "widget",
     "style": "graph",
-    "symbols": ".oO",
+    "symbols": "Oo.oO",
     "fill": "bucket",
     "var": "bp_warmth",
     "width": 1,
