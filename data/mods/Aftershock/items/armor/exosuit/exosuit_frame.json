@@ -175,7 +175,8 @@
       "OUTER",
       "CLIMATE_CONTROL",
       "PARTIAL_DEAF",
-      "GLARE_RESIST"
+      "SUN_GLASSES",
+      "FLASH_PROTECTION"
     ],
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "STRENGTH", "add": 10 } ] } ] },
     "power_draw": 6173,
