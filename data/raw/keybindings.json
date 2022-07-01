@@ -3575,6 +3575,17 @@
   },
   {
     "type": "keybinding",
+    "id": "LOAD_BASE_COLORS",
+    "category": "COLORS",
+    "name": "Load base colors",
+    "bindings": [
+      { "input_method": "keyboard_any", "key": "c" },
+      { "input_method": "keyboard_char", "key": "C" },
+      { "input_method": "keyboard_code", "key": "c", "mod": [ "shift" ] }
+    ]
+  },
+  {
+    "type": "keybinding",
     "id": "YES",
     "category": "YESNO",
     "name": "Yes",
