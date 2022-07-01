@@ -1618,10 +1618,16 @@ void salvage_actor::cut_up( Character &p, item_location &cut ) const
             return;
         }
 
+        // Items count by charges are not always smaller than base materials
+        // Necessary for e.g. bones -> bone splinters
+        if( curr.count_by_charges() )
+        {
+            distribute_uniformly( curr, num_adjusted );
+            return;
+        }
         // Discard invalid component
         // Non-salvageable items are discarded even if made of appropriate material
-        // Items count by charges should be even smaller than base materials and therefore unsalvageable
-        if( !curr.made_of_any( mat_set ) || !curr.is_salvageable() || curr.count_by_charges() )
+        if( !curr.made_of_any( mat_set ) || !curr.is_salvageable() )
         {
             return;
         }
