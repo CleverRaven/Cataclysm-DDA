@@ -710,17 +710,20 @@ static void draw_header( const catacurses::window &w )
     tmpx += shortcut_print( w, point( tmpx, 0 ), c_white, c_light_green,
                             _( "<Arrow Keys> To navigate" ) ) + 2;
     tmpx += shortcut_print( w, point( tmpx, 0 ), c_white, c_light_green, _( "<Enter>-Edit" ) ) + 2;
-    shortcut_print( w, point( tmpx, 0 ), c_white, c_light_green, _( "Load <T>emplate" ) );
+    tmpx = 0;
+    tmpx += shortcut_print( w, point( tmpx, 1 ), c_white, c_light_green,
+                            _( "Load a <C>olor theme" ) ) + 2;
+    shortcut_print( w, point( tmpx, 1 ), c_white, c_light_green, _( "Load <T>emplate" ) );
 
     // NOLINTNEXTLINE(cata-use-named-point-constants)
-    mvwprintz( w, point( 0, 1 ), c_white, _( "Some color changes may require a restart." ) );
+    mvwprintz( w, point( 0, 2 ), c_white, _( "Some color changes may require a restart." ) );
 
-    mvwhline( w, point( 0, 2 ), LINE_OXOX, getmaxx( w ) ); // Draw line under header
-    mvwputch( w, point( 48, 2 ), BORDER_COLOR, LINE_OXXX ); //^|^
+    mvwhline( w, point( 0, 3 ), LINE_OXOX, getmaxx( w ) ); // Draw line under header
+    mvwputch( w, point( 48, 3 ), BORDER_COLOR, LINE_OXXX ); //^|^
 
-    mvwprintz( w, point( 3, 3 ), c_white, _( "Colorname" ) );
-    mvwprintz( w, point( 21, 3 ), c_white, _( "Normal" ) );
-    mvwprintz( w, point( 52, 3 ), c_white, _( "Invert" ) );
+    mvwprintz( w, point( 3, 4 ), c_white, _( "Colorname" ) );
+    mvwprintz( w, point( 21, 4 ), c_white, _( "Normal" ) );
+    mvwprintz( w, point( 52, 4 ), c_white, _( "Invert" ) );
 
     wnoutrefresh( w );
 }
@@ -778,6 +781,7 @@ void color_manager::show_gui()
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "REMOVE_CUSTOM" );
     ctxt.register_action( "LOAD_TEMPLATE" );
+    ctxt.register_action( "LOAD_BASE_COLORS" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
 
     std::map<std::string, color_struct> name_color_map;
@@ -949,6 +953,28 @@ void color_manager::show_gui()
 
             finalize(); // Need to recalculate caches
 
+        } else if( action == "LOAD_BASE_COLORS" ) {
+            auto vFiles = get_files_from_path( ".json", PATH_INFO::color_themes(), false, true );
+
+            if( !vFiles.empty() ) {
+                uilist ui_templates;
+                ui_templates.w_y_setup = [&]( int ) -> int {
+                    return iHeaderHeight + 1 + calc_offset_y();
+                };
+                ui_templates.w_height_setup = 18;
+
+                ui_templates.text = _( "Color themes:" );
+
+                for( const auto &filename : vFiles ) {
+                    ui_templates.addentry( filename.substr( filename.find_last_of( '/' ) + 1 ) );
+                }
+
+                ui_templates.query();
+
+                if( ui_templates.ret >= 0 && static_cast<size_t>( ui_templates.ret ) < vFiles.size() ) {
+                    copy_file( vFiles[ui_templates.ret], PATH_INFO::base_colors() );
+                }
+            }
         } else if( action == "CONFIRM" ) {
             uilist ui_colors;
             ui_colors.w_y_setup = [&]( int ) -> int {
