@@ -133,6 +133,7 @@ static const vproto_id vehicle_prototype_custom( "custom" );
 #if defined(TILES)
 #include "sdl_wrappers.h"
 #endif
+#include "timed_event.h"
 
 #define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -198,6 +199,7 @@ std::string enum_to_string<debug_menu::debug_menu_index>( debug_menu::debug_menu
         case debug_menu::debug_menu_index::WRITE_GLOBAL_EOCS: return "WRITE_GLOBAL_EOCS";
         case debug_menu::debug_menu_index::WRITE_GLOBAL_VARS: return "WRITE_GLOBAL_VARS";
         case debug_menu::debug_menu_index::EDIT_GLOBAL_VARS: return "SET_GLOBAL_VARS";
+        case debug_menu::debug_menu_index::WRITE_TIMED_EVENTS: return "WRITE_TIMED_EVENTS";
         case debug_menu::debug_menu_index::SAVE_SCREENSHOT: return "SAVE_SCREENSHOT";
         case debug_menu::debug_menu_index::GAME_REPORT: return "GAME_REPORT";
         case debug_menu::debug_menu_index::DISPLAY_SCENTS_LOCAL: return "DISPLAY_SCENTS_LOCAL";
@@ -319,7 +321,8 @@ static int info_uilist( bool display_all_entries = true )
             { uilist_entry( debug_menu_index::TEST_WEATHER, true, 'W', _( "Test weather" ) ) },
             { uilist_entry( debug_menu_index::WRITE_GLOBAL_EOCS, true, 'C', _( "Write global effect_on_condition(s) to eocs.output" ) ) },
             { uilist_entry( debug_menu_index::WRITE_GLOBAL_VARS, true, 'G', _( "Write global var(s) to var_list.output" ) ) },
-            { uilist_entry( debug_menu_index::EDIT_GLOBAL_VARS, true, 'e', _( "Edit global var(s)" ) ) },
+            { uilist_entry( debug_menu_index::WRITE_TIMED_EVENTS, true, 'E', _( "Write Timed (E)vents to timed_event_list.output" ) ) },
+            { uilist_entry( debug_menu_index::EDIT_GLOBAL_VARS, true, 's', _( "Edit global var(s)" ) ) },
             { uilist_entry( debug_menu_index::TEST_MAP_EXTRA_DISTRIBUTION, true, 'e', _( "Test map extra list" ) ) },
             { uilist_entry( debug_menu_index::GENERATE_EFFECT_LIST, true, 'L', _( "Generate effect list" ) ) },
         };
@@ -3007,7 +3010,20 @@ void debug()
             popup( _( "Var list written to var_list.output" ) );
         }
         break;
+        case debug_menu_index::WRITE_TIMED_EVENTS: {
+            write_to_file( "timed_event_list.output", [&]( std::ostream & testfile ) {
+                testfile << "|;when;type;key;string_id;strength;map_point;faction_id;" << std::endl;
+                for( const auto &te : get_timed_events().get_all() ) {
+                    testfile << "|;" << to_string( te.when ) << ";" << static_cast<int>( te.type ) << ";" << te.key <<
+                             ";" << te.string_id << ";" << te.strength << ";" << te.map_point << ";" << te.faction_id << ";" <<
+                             std::endl;
+                }
 
+            }, "timed_event_list" );
+
+            popup( _( "Var list written to timed_event_list.output" ) );
+        }
+        break;
         case debug_menu_index::EDIT_GLOBAL_VARS: {
             std::string key;
             std::string value;

@@ -1489,11 +1489,13 @@ void timed_event_manager::unserialize_all( JsonIn &jsin )
         time_point when;
         int faction_id;
         int strength;
-        tripoint_abs_sm where;
+        tripoint_abs_ms map_square;
+        tripoint_abs_sm map_point;
         std::string string_id;
         submap_revert revert;
         jo.read( "faction", faction_id );
-        jo.read( "map_point", where );
+        jo.read( "map_point", map_point );
+        jo.read( "map_square", map_square, false );
         jo.read( "strength", strength );
         jo.read( "string_id", string_id );
         jo.read( "type", type );
@@ -1508,7 +1510,8 @@ void timed_event_manager::unserialize_all( JsonIn &jsin )
                 pt.y++;
             }
         }
-        get_timed_events().add( static_cast<timed_event_type>( type ), when, faction_id, where, strength,
+        get_timed_events().add( static_cast<timed_event_type>( type ), when, faction_id, map_square,
+                                strength,
                                 string_id, revert );
     }
 }
@@ -1568,6 +1571,7 @@ void timed_event_manager::serialize_all( JsonOut &jsout )
         jsout.start_object();
         jsout.member( "faction", elem.faction_id );
         jsout.member( "map_point", elem.map_point );
+        jsout.member( "map_square", elem.map_square );
         jsout.member( "strength", elem.strength );
         jsout.member( "string_id", elem.string_id );
         jsout.member( "type", elem.type );

@@ -113,6 +113,7 @@ static const efftype_id effect_crushed( "crushed" );
 static const field_type_str_id field_fd_clairvoyant( "fd_clairvoyant" );
 
 static const flag_id json_flag_PRESERVE_SPAWN_OMT( "PRESERVE_SPAWN_OMT" );
+static const flag_id json_flag_UNDODGEABLE( "UNDODGEABLE" );
 
 static const item_group_id Item_spawn_data_default_zombie_clothes( "default_zombie_clothes" );
 static const item_group_id Item_spawn_data_default_zombie_items( "default_zombie_items" );
@@ -3468,9 +3469,8 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
         // Blame nearby player
         if( rl_dist( player_character.pos(), p ) <= 3 ) {
             get_event_bus().send<event_type::triggers_alarm>( player_character.getID() );
-            const tripoint_abs_sm sm_pos = project_to<coords::sm>( tripoint_abs_ms( getabs( p ) ) );
             get_timed_events().add( timed_event_type::WANTED, calendar::turn + 30_minutes, 0,
-                                    sm_pos );
+                                    tripoint_abs_ms( getabs( p ) ) );
         }
     }
 
@@ -3936,8 +3936,8 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
                 !get_timed_events().queued( timed_event_type::WANTED ) ) {
                 sounds::sound( p, 40, sounds::sound_t::alarm, _( "an alarm go off!" ),
                                false, "environment", "alarm" );
-                const tripoint_abs_sm sm_pos = project_to<coords::sm>( tripoint_abs_ms( getabs( p ) ) );
-                get_timed_events().add( timed_event_type::WANTED, calendar::turn + 30_minutes, 0, sm_pos );
+                get_timed_events().add( timed_event_type::WANTED, calendar::turn + 30_minutes, 0,
+                                        tripoint_abs_ms( getabs( p ) ) );
             }
             return true;
         }
@@ -4162,7 +4162,8 @@ void map::translate_radius( const ter_id &from, const ter_id &to, float radi, co
     }
 }
 
-void map::transform_radius( const ter_furn_transform_id transform, float radi, const tripoint &p )
+void map::transform_radius( ter_furn_transform_id transform, float radi,
+                            const tripoint_abs_ms &p )
 {
     tripoint_abs_ms avatar_pos = get_avatar().get_location();
     bool shifted = false;
@@ -4172,7 +4173,7 @@ void map::transform_radius( const ter_furn_transform_id transform, float radi, c
         shifted = true;
     }
     for( const tripoint &t : points_on_zlevel() ) {
-        const float radiX = trig_dist( p, getabs( t ) );
+        const float radiX = trig_dist( p, getglobal( t ) );
         // within distance, and either no submap limitation or same overmap coords.
         if( radiX <= radi ) {
             transform->transform( t, shifted );
@@ -8721,7 +8722,7 @@ void map::maybe_trigger_trap( const tripoint &pos, Creature &c, const bool may_a
         return;
     }
 
-    if( may_avoid && c.avoid_trap( pos, tr ) ) {
+    if( !tr.has_flag( json_flag_UNDODGEABLE ) && may_avoid && c.avoid_trap( pos, tr ) ) {
         Character *const pl = c.as_character();
         if( !tr.is_always_invisible() && pl && !pl->knows_trap( pos ) ) {
             pl->add_msg_if_player( _( "You've spotted a %1$s!" ), tr.name() );

@@ -3504,5 +3504,16 @@
     "id": "eyebot_depleted",
     "int_add_val": 1,
     "max_intensity": 10
+  },
+  {
+    "id": "weakened_inertia",
+    "type": "effect_type",
+    "name": [ "Weakened Inertia" ],
+    "desc": [ "Your body moves strangely easily, as if it weighted less." ],
+    "apply_message": "Reality as you know it is damaged, but for a change the outcome seems suspiciously beneficial.",
+    "remove_message": "Reality reasserts itself and your inertia returns to normal.",
+    "rating": "good",
+    "show_intensity": false,
+    "base_mods": { "dex_mod": [ 4, 0 ] }
   }
 ]
