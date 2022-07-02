@@ -36,3 +36,9 @@ jobs:
     - name: Display Corrections
       if: failure()
       run: git diff --color
+
+    - name: 'suggester / JSON'
+      uses: reviewdog/action-suggester@v1
+      if: failure()
+      with:
+        tool_name: 'JSON formatter'
