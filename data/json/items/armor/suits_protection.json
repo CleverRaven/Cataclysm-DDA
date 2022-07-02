@@ -2594,7 +2594,7 @@
     "price_postapoc": 1000,
     "to_hit": -5,
     "bashing": 2,
-    "material": [ "leather", "plastic" ],
+    "material": [ "leather", "plastic_pad" ],
     "symbol": "[",
     "looks_like": "jumpsuit",
     "color": "light_red",
