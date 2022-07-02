@@ -440,7 +440,11 @@
     "book_learn": [ [ "recipe_melee", 2 ] ],
     "using": [ [ "cordage", 6 ], [ "mixed_steel", 3 ] ],
     "components": [ [ [ "cotton_patchwork", 20 ] ] ],
-    "proficiencies": [ { "proficiency": "prof_armorsmithing", "fail_multiplier": 1 }, { "proficiency": "prof_closures" }, { "proficiency": "prof_articulation" } ],
+    "proficiencies": [
+      { "proficiency": "prof_armorsmithing" }, 
+      { "proficiency": "prof_closures" },
+      { "proficiency": "prof_articulation" }
+	],
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "HAMMER", "level": 1 }, { "id": "SAW_M", "level": 1 } ]
   },
   {
