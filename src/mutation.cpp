@@ -1190,8 +1190,8 @@ bool Character::mutate_towards( const trait_id &mut, const mutation_category_id 
         }
     }
 
-    for( size_t i = 0; i < canceltrait.size(); i++ ) {
-        if( !purifiable( canceltrait[i] ) ) {
+    for( auto &m : canceltrait ) {
+        if( !purifiable( m ) ) {
             // We can't cancel unpurifiable mutations
             return false;
         }
