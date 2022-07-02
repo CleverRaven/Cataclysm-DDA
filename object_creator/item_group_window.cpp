@@ -113,16 +113,14 @@ creator::item_group_window::item_group_window( QWidget *parent, Qt::WindowFlags 
     entries_box.insertColumn( 0 );
     entries_box.insertColumn( 0 );
     entries_box.insertColumn( 0 );
-    entries_box.insertColumn( 0 );
     entries_box.insertRow( 0 );
-    entries_box.setHorizontalHeaderLabels( QStringList{ "X", "GI", "Item", "Prob" } );
+    entries_box.setHorizontalHeaderLabels( QStringList{ "X", "Item", "Prob" } );
     entries_box.verticalHeader()->setSectionResizeMode(QHeaderView::Fixed);
     entries_box.verticalHeader()->setDefaultSectionSize(12);
     entries_box.verticalHeader()->hide();
     entries_box.horizontalHeader()->resizeSection( 0, default_text_box_width * 0.25 );
-    entries_box.horizontalHeader()->resizeSection( 1, default_text_box_width * 0.25 );
-    entries_box.horizontalHeader()->resizeSection( 2, default_text_box_width * 2.50 );
-    entries_box.horizontalHeader()->resizeSection( 3, default_text_box_width * 0.50 );
+    entries_box.horizontalHeader()->resizeSection( 1, default_text_box_width * 2.50 );
+    entries_box.horizontalHeader()->resizeSection( 2, default_text_box_width * 0.50 );
     entries_box.setSelectionBehavior( QAbstractItemView::SelectionBehavior::SelectItems );
     entries_box.setSelectionMode( QAbstractItemView::SelectionMode::SingleSelection );
     entries_box.show();
@@ -157,10 +155,13 @@ void creator::item_group_window::write_json()
         for( int row = 0; row < entries_box.rowCount() - 0; row++ ) {
             jo.start_object();
             QAbstractItemModel* model = entries_box.model();
-            QVariant group_item = model->data( model->index( row, 1 ), Qt::DisplayRole );
-            QVariant item_text = model->data( model->index( row, 2 ), Qt::DisplayRole );
-            QVariant prob_text = model->data( model->index( row, 3 ), Qt::DisplayRole );
-            if( group_item.toString().toStdString() == "G" ){
+            QVariant item_text = model->data( model->index( row, 1 ), Qt::DisplayRole );
+            QVariant prob_text = model->data( model->index( row, 2 ), Qt::DisplayRole );
+
+            //If the backgroundcolor is yellow, it's a group. Otherwise it's an item
+            QTableWidgetItem* item = entries_box.item(row, 1);
+            QBrush item_color = item->backgroundColor();
+            if( item_color == Qt::yellow ){
                 jo.member( "group", item_text.toString().toStdString() );
             } else {
                 jo.member( "item", item_text.toString().toStdString() );
@@ -187,13 +188,13 @@ void creator::item_group_window::write_json()
 
 void creator::item_group_window::deleteEntriesLine()
 {
-    QWidget* w = qobject_cast<QWidget*>(sender()->parent());
+    QWidget* w = qobject_cast<QWidget*>( sender()->parent() );
 
-    if (w) {
-        int row = entries_box.indexAt(w->pos()).row();
+    if( w ) {
+        int row = entries_box.indexAt( w->pos() ).row();
         entries_box.removeRow(row);
-        if (entries_box.rowCount() < 1) {
-            entries_box.insertRow(0);
+        if( entries_box.rowCount() < 1 ) {
+            entries_box.insertRow( 0 );
         }
     }
     write_json();
@@ -290,20 +291,15 @@ void creator::item_group_window::entries_add_item( QListWidgetItem* cur_widget, 
     entries_box.setCellWidget( entries_box.rowCount() - 1, 0, pWidget );
 
     QTableWidgetItem* item = new QTableWidgetItem();
-    if (group) {
-        item->setText( QString( "G" ) );
-    } else {
-        item->setText( QString( "I" ) );
+    item->setText( cur_widget->text() );
+    if( group ) {
+        item->setBackgroundColor(Qt::yellow);
     }
     entries_box.setItem(entries_box.rowCount() - 1, 1, item);
 
     item = new QTableWidgetItem();
-    item->setText(cur_widget->text());
-    entries_box.setItem(entries_box.rowCount() - 1, 2, item);
-
-    item = new QTableWidgetItem();
     item->setText( QString( "100" ) );
-    entries_box.setItem( entries_box.rowCount() - 1, 3, item );
+    entries_box.setItem( entries_box.rowCount() - 1, 2, item );
 
     delete cur_widget;
 

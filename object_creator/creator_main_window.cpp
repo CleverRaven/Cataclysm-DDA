@@ -50,10 +50,10 @@ int creator::main_window::execute( QApplication &app )
     item_group_window item_group_editor( &title_menu );
 
     QPushButton spell_button( _( "Spell Creator" ), &title_menu );
-    spell_button.resize(default_text_box_size);
+    spell_button.resize( default_text_box_size );
     QPushButton item_group_button( _( "Item group Creator" ), &title_menu );
-    item_group_button.move(QPoint(col * default_text_box_width, row++ * default_text_box_height));
-    item_group_button.resize(default_text_box_size);
+    item_group_button.move( QPoint( col * default_text_box_width, row++ * default_text_box_height ) );
+    item_group_button.resize( default_text_box_size );
 
     QObject::connect( &spell_button, &QPushButton::released,
     [&]() {
