@@ -852,9 +852,7 @@ std::string spell::duration_string() const
     if( has_flag( spell_flag::RANDOM_DURATION ) ) {
         return string_format( "%s - %s", moves_to_string( min_leveled_duration() ),
                               moves_to_string( type->max_duration ) );
-    } else if( has_flag( spell_flag::PERMANENT ) && ( is_max_level() || effect() == "summon" ) ) {
-        return _( "Permanent" );
-    } else if( has_flag( spell_flag::PERMANENT_ALL_LEVELS ) ) {
+    } else if( has_flag( spell_flag::PERMANENT ) && ( is_max_level() || effect() == "summon" ) || ( has_flag( spell_flag::PERMANENT_ALL_LEVELS ) ) ) {
         return _( "Permanent" );
     } else {
         return moves_to_string( duration() );
