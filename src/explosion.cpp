@@ -347,7 +347,7 @@ static void do_blast( const tripoint &p, const float power,
             }
         };
 
-        for( const auto &blp : blast_parts ) {
+        for( const blastable_part &blp : blast_parts ) {
             const int part_dam = rng( force * blp.low_mul, force * blp.high_mul );
             const std::string hit_part_name = body_part_name_accusative( blp.bp );
             const damage_instance dmg_instance = damage_instance( damage_type::BASH, part_dam, 0,
@@ -507,7 +507,7 @@ void _make_explosion( const tripoint &p, const explosion_data &ex )
     }
 
     map &here = get_map();
-    const auto &shr = ex.shrapnel;
+    const shrapnel_data &shr = ex.shrapnel;
     if( shr.casing_mass > 0 ) {
         auto shrapnel_locations = shrapnel( p, ex.power, shr.casing_mass, shr.fragment_mass );
 
@@ -516,7 +516,7 @@ void _make_explosion( const tripoint &p, const explosion_data &ex )
 
             // Extract only passable tiles affected by shrapnel
             std::vector<tripoint> tiles;
-            for( const auto &e : shrapnel_locations ) {
+            for( const tripoint &e : shrapnel_locations ) {
                 if( here.passable( e ) ) {
                     tiles.push_back( e );
                 }
@@ -528,7 +528,7 @@ void _make_explosion( const tripoint &p, const explosion_data &ex )
             std::shuffle( tiles.begin(), tiles.end(), rng_get_engine() );
             tiles.resize( std::min( static_cast<int>( tiles.size() ), qty ) );
 
-            for( const auto &e : tiles ) {
+            for( const tripoint &e : tiles ) {
                 here.add_item_or_charges( e, item( shr.drop, calendar::turn, item::solitary_tag{} ) );
             }
         }

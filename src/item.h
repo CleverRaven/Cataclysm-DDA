@@ -452,6 +452,8 @@ class item : public visitable
                        int batch, bool debug ) const;
         void food_info( const item *food_item, std::vector<iteminfo> &info, const iteminfo_query *parts,
                         int batch, bool debug ) const;
+        void rot_info( const item *food_item, std::vector<iteminfo> &info, const iteminfo_query *parts,
+                       int batch, bool debug ) const;
         void magazine_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
                             bool debug ) const;
         void ammo_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
@@ -1571,6 +1573,11 @@ class item : public visitable
           */
         bool can_unload_liquid() const;
 
+        /**
+         * Returns true if none of the contents are solid
+         */
+        bool contains_no_solids() const;
+
         bool is_dangerous() const; // Is it an active grenade or something similar that will hurt us?
 
         /** Is item derived from a zombie? */
@@ -1759,9 +1766,11 @@ class item : public visitable
          * item itself (@ref item_tags). The item has the flag if it appears in either set.
          *
          * Gun mods that are attached to guns also contribute their flags to the gun item.
+         *
+         * ignore_inherit means the item will skip checking items in pockets flags even if it has inherit
          */
         /*@{*/
-        bool has_flag( const flag_id &flag ) const;
+        bool has_flag( const flag_id &flag, bool ignore_inherit = false ) const;
 
         template<typename Container, typename T = std::decay_t<decltype( *std::declval<const Container &>().begin() )>>
         bool has_any_flag( const Container &flags ) const {

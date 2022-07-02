@@ -272,7 +272,7 @@ void debug_menu::wishmutate( Character *you )
         if( wmenu.ret >= 0 ) {
             int rc = 0;
             const trait_id mstr = cb.vTraits[ wmenu.ret ];
-            const auto &mdata = mstr.obj();
+            const mutation_branch &mdata = mstr.obj();
             const bool threshold = mdata.threshold;
             const bool profession = mdata.profession;
             // Manual override for the threshold-gaining

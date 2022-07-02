@@ -764,7 +764,7 @@ void npc::regen_ai_cache()
     // Non-allied NPCs with a completed mission should move to the player
     if( !is_player_ally() && !is_stationary( true ) ) {
         Character &player_character = get_player_character();
-        for( auto &miss : chatbin.missions_assigned ) {
+        for( ::mission *miss : chatbin.missions_assigned ) {
             if( miss->is_complete( getID() ) ) {
                 // unless the player found an item and already told the NPC he wanted to keep it
                 const mission_goal &mgoal = miss->get_type().goal;
@@ -2185,7 +2185,7 @@ bool npc::enough_time_to_reload( const item &gun ) const
     const float target_speed = target->speed_rating();
     const float turns_til_reached = distance / target_speed;
     if( target->is_avatar() || target->is_npc() ) {
-        const auto &c = dynamic_cast<const Character &>( *target );
+        const Character &c = dynamic_cast<const Character &>( *target );
         const item weapon = c.get_wielded_item();
         // TODO: Allow reloading if the player has a low accuracy gun
         if( sees( c ) && weapon.is_gun() && rltime > 200 &&
@@ -2543,7 +2543,7 @@ void npc::avoid_friendly_fire()
                ( rl_dist( r, tar ) - rl_dist( r, center ) );
     } );
 
-    for( const auto &pt : candidates ) {
+    for( const tripoint &pt : candidates ) {
         if( can_move_to( pt ) ) {
             move_to( pt );
             return;
@@ -2775,7 +2775,7 @@ void npc::move_away_from( const std::vector<sphere> &spheres, bool no_bashing )
     tripoint minp( pos() );
     tripoint maxp( pos() );
 
-    for( const auto &elem : spheres ) {
+    for( const sphere &elem : spheres ) {
         minp.x = std::min( minp.x, elem.center.x - elem.radius );
         minp.y = std::min( minp.y, elem.center.y - elem.radius );
         maxp.x = std::max( maxp.x, elem.center.x + elem.radius );
@@ -2804,7 +2804,7 @@ void npc::move_away_from( const std::vector<sphere> &spheres, bool no_bashing )
         return std::make_tuple( danger, distance, move_cost );
     } );
 
-    for( const auto &elem : escape_points ) {
+    for( const tripoint &elem : escape_points ) {
         update_path( elem, no_bashing );
 
         if( elem == pos() || !path.empty() ) {
@@ -2875,7 +2875,7 @@ void npc::find_item()
             followers.push_back( npc_to_add );
         }
         viewer &player_view = get_player_view();
-        for( auto &elem : followers ) {
+        for( npc *&elem : followers ) {
             if( !it.is_owned_by( *this, true ) && ( player_view.sees( this->pos() ) ||
                                                     player_view.sees( wanted_item_pos ) ||
                                                     elem->sees( this->pos() ) || elem->sees( wanted_item_pos ) ) ) {
@@ -3087,7 +3087,7 @@ void npc::pick_up_item()
         }
     }
 
-    for( auto &it : picked_up ) {
+    for( item &it : picked_up ) {
         int itval = value( it );
         if( itval < worst_item_value ) {
             worst_item_value = itval;
@@ -3209,7 +3209,7 @@ void npc::drop_items( const units::mass &drop_weight, const units::volume &drop_
             index = rWgt[0].index;
             rWgt.erase( rWgt.begin() );
             // Fix the rest of those indices.
-            for( auto &elem : rWgt ) {
+            for( ratio_index &elem : rWgt ) {
                 if( elem.index > index ) {
                     elem.index--;
                 }
@@ -3963,7 +3963,7 @@ bool npc::consume_food()
             set_thirst( 0 );
         }
     } else {
-        for( const auto &food_item : inv_food ) {
+        for( item * const &food_item : inv_food ) {
             float cur_weight = rate_food( *food_item, want_hunger, want_quench );
             // Note: will_eat is expensive, avoid calling it if possible
             if( cur_weight > best_weight && will_eat( *food_item ).success() ) {
@@ -4215,7 +4215,7 @@ void npc::set_omt_destination()
     }
 
     std::string dest_type;
-    for( const auto &fulfill : needs ) {
+    for( const npc_need &fulfill : needs ) {
         auto cache_iter = goal_cache.find( fulfill );
         if( cache_iter != goal_cache.end() && cache_iter->second.omt_loc == surface_omt_loc ) {
             goal = cache_iter->second.goal;
@@ -4321,7 +4321,7 @@ void npc::go_to_omt_destination()
     tripoint centre_sub = sm_tri + point( SEEX, SEEY );
     if( !here.passable( centre_sub ) ) {
         auto candidates = here.points_in_radius( centre_sub, 2 );
-        for( const auto &elem : candidates ) {
+        for( const tripoint &elem : candidates ) {
             if( here.passable( elem ) ) {
                 centre_sub = elem;
                 break;
@@ -4450,7 +4450,7 @@ static bodypart_id bp_affected( npc &who, const efftype_id &effect_type )
     bodypart_id ret;
     int highest_intensity = INT_MIN;
     for( const bodypart_id &bp : who.get_all_body_parts() ) {
-        const auto &eff = who.get_effect( effect_type, bp );
+        const effect &eff = who.get_effect( effect_type, bp );
         if( !eff.is_null() && eff.get_intensity() > highest_intensity ) {
             ret = bp;
             highest_intensity = eff.get_intensity();
@@ -4576,7 +4576,7 @@ bool npc::complain()
     // At intensity 3, ignore player wanting us to shut up
     if( has_effect( effect_infected ) ) {
         const bodypart_id &bp =  bp_affected( *this, effect_infected );
-        const auto &eff = get_effect( effect_infected, bp );
+        const effect &eff = get_effect( effect_infected, bp );
         int intensity = eff.get_intensity();
         std::string talktag = chatbin.snip_wound_infected;
         parse_tags( talktag, get_player_character(), *this );
@@ -4731,7 +4731,7 @@ bool outfit::adjust_worn( npc &guy )
         return false;
     };
 
-    for( auto &elem : worn ) {
+    for( item &elem : worn ) {
         if( !elem.has_flag( flag_SPLINT ) ) {
             continue;
         }

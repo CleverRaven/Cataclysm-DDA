@@ -954,6 +954,18 @@ bool item_contents::can_contain_liquid( bool held_or_ground ) const
     return false;
 }
 
+bool item_contents::contains_no_solids() const
+{
+    for( const item_pocket &pocket : contents ) {
+        if( pocket.is_type( item_pocket::pocket_type::CONTAINER ) &&
+            pocket.contains_phase( phase_id::SOLID ) ) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
 bool item_contents::can_reload_with( const item &ammo, const bool now ) const
 {
     for( const item_pocket *pocket : get_all_reloadable_pockets() ) {
