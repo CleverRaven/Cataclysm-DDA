@@ -2956,15 +2956,14 @@
   },
   {
     "type": "effect_type",
-    "id": "dna_damaged",
-    "name": [ "Mildly Damaged DNA", "Damaged DNA", "Badly Damaged DNA" ],
+    "id": "genetics_damaged",
+    "name": [ "Mild Genetic Damage", "Genetic Damage", "Severe Genetic Damage" ],
     "desc": [
       "After some mutations, you feel slightly uncomfortable - and that's it.",
-      "After many mutations, you feel uncomfortable, and you know for sure - that your DNA is getting damaged.",
-      "After LOTS OF mutations, you feel REALLY unnerving, seems like you DNA is getting badly damaged now."
+      "After many mutations, you feel uncomfortable, and you know for sure - that your Genetics System is getting damaged.",
+      "After LOTS OF mutations, you feel REALLY unnerving, seems like you Genetics System is getting badly damaged now."
     ],
     "max_intensity": 1,
-    "//": "No morale_mod is currently possible in effects, for some reason.  As soon as it's implemented, it goes here.",
     "rating": "bad"
   },
   {
