@@ -2598,7 +2598,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "time": "2 m",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "scrap", 1 ] ], [ [ "plastic_chunk", 3 ] ], [ [ "motor_micro", 1 ] ], [ [ "cable", 2 ] ] ]
+    "components": [ [ [ "scrap_aluminum", 1 ] ], [ [ "plastic_chunk", 3 ] ], [ [ "motor_micro", 1 ] ], [ [ "cable", 2 ] ] ]
   },
   {
     "result": "fancy_sunglasses",
@@ -3071,7 +3071,7 @@
     "difficulty": 3,
     "time": "6 m",
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "cable", 12 ] ], [ [ "amplifier", 2 ] ], [ [ "lightstrip_inactive", 1 ] ], [ [ "material_aluminium_ingot", 1 ] ] ]
+    "components": [ [ [ "cable", 12 ] ], [ [ "amplifier", 2 ] ], [ [ "lightstrip_inactive", 1 ] ], [ [ "scrap_aluminum", 4 ] ] ]
   },
   {
     "result": "holy_symbol",
@@ -3243,7 +3243,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "time": "3 m",
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "plastic_chunk", 3 ] ], [ [ "scrap", 1 ] ], [ [ "wire", 5 ] ] ]
+    "components": [ [ [ "plastic_chunk", 3 ] ], [ [ "scrap_aluminum", 1 ] ], [ [ "wire", 5 ] ] ]
   },
   {
     "result": "lawnmower",
@@ -4500,7 +4500,7 @@
     "skill_used": "electronics",
     "time": "12 m",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "cable", 2 ] ], [ [ "power_supply", 1 ] ], [ [ "scrap", 2 ] ], [ [ "element", 4 ] ] ]
+    "components": [ [ [ "cable", 2 ] ], [ [ "power_supply", 1 ] ], [ [ "scrap_aluminum", 2 ] ], [ [ "element", 4 ] ] ]
   },
   {
     "result": "touristmap",
@@ -5989,7 +5989,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "2 m",
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "scrap", 1 ] ] ]
+    "components": [ [ [ "scrap_aluminum", 6 ] ] ]
   },
   {
     "result": "can_medium",
@@ -6029,7 +6029,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "12 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "scrap", 2 ] ] ]
+    "components": [ [ [ "scrap_aluminum", 2 ] ] ]
   },
   {
     "result": "shavingkit",
@@ -6394,5 +6394,53 @@
     "time": "10 m",
     "components": [ [ [ "felt_patch", 150 ] ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ]
+  },
+  {
+    "result": "office_holepunch",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "10 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "scrap_aluminum", 1 ] ] ]
+  },
+  {
+    "result": "mic_stand_tall",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "2 m",
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "scrap_aluminum", 30 ] ] ]
+  },
+  {
+    "result": "guitar_stand",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "2 m",
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "scrap_aluminum", 10 ] ] ]
+  },
+  {
+    "result": "bat_metal",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "2 m",
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "scrap_aluminum", 15 ] ] ]
+  },
+  {
+    "result": "PR24-extended",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "2 m",
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "scrap_aluminum", 10 ], [ "plastic_chunk", 3 ] ] ]
+  },
+  {
+    "result": "PR24-retracted",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "2 m",
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "scrap_aluminum", 10 ], [ "plastic_chunk", 3 ] ] ]
   }
 ]
