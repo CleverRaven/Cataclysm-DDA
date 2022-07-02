@@ -243,15 +243,15 @@ void recipe::load( const JsonObject &jo, const std::string &src )
 
     // Mandatory: This recipe's exertion level
     // TODO: Make this mandatory, no default or 'fake' exception
-    std::string exert = jo.get_string( "activity_level", "MODERATE_EXERCISE" );
+    optional( jo, was_loaded, "activity_level", exertion_str, "MODERATE_EXERCISE" );
     // For making scripting that needs to be broken up over multiple PRs easier
-    if( exert == "fake" ) {
-        exert = "MODERATE_EXERCISE";
+    if( exertion_str == "fake" ) {
+        exertion_str = "MODERATE_EXERCISE";
     }
-    const auto it = activity_levels_map.find( exert );
+    const auto it = activity_levels_map.find( exertion_str );
     if( it == activity_levels_map.end() ) {
         jo.throw_error_at(
-            "activity_level", string_format( "Invalid activity level %s", exert ) );
+            "activity_level", string_format( "Invalid activity level %s", exertion_str ) );
     }
     exertion = it->second;
 

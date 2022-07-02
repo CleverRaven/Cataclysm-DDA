@@ -297,7 +297,9 @@
       "robofac_gun",
       "obrez",
       "mk47",
-      "hk_usc45"
+      "hk_usc45",
+      "m1carbine",
+      "m2carbine"
     ],
     "type": "MIGRATION",
     "replace": "rifle_sporter"

@@ -3299,7 +3299,8 @@
       { "group": "supplies_mechanics", "count": 10 },
       { "group": "supplies_metal", "count": 10 }
     ],
-    "death_function": { "effect": { "id": "death_fireball", "hit_self": true } }
+    "death_function": { "effect": { "id": "death_fireball", "hit_self": true } },
+    "categories": [ "DINOSAUR", "MAN_MADE" ]
   },
   {
     "type": "MONSTER",
@@ -3324,7 +3325,8 @@
       { "group": "mil_hw", "count": 10 },
       { "group": "supplies_metal", "count": 10 }
     ],
-    "death_function": { "effect": { "id": "death_fireball", "hit_self": true } }
+    "death_function": { "effect": { "id": "death_fireball", "hit_self": true } },
+    "categories": [ "DINOSAUR", "MAN_MADE" ]
   },
   {
     "type": "MONSTER",
@@ -3349,7 +3351,8 @@
       { "group": "mil_hw", "count": 10 },
       { "group": "supplies_metal", "count": 10 }
     ],
-    "death_function": { "effect": { "id": "death_fireball", "hit_self": true } }
+    "death_function": { "effect": { "id": "death_fireball", "hit_self": true } },
+    "categories": [ "DINOSAUR", "MAN_MADE" ]
   },
   {
     "type": "MONSTER",
@@ -3374,7 +3377,8 @@
       { "group": "mil_hw", "count": 10 },
       { "group": "supplies_metal", "count": 10 }
     ],
-    "death_function": { "effect": { "id": "death_fireball", "hit_self": true } }
+    "death_function": { "effect": { "id": "death_fireball", "hit_self": true } },
+    "categories": [ "DINOSAUR", "MAN_MADE" ]
   },
   {
     "type": "MONSTER",

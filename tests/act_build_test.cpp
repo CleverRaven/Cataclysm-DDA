@@ -66,7 +66,7 @@ construction setup_testcase( Character &u, std::string const &constr, tripoint c
 {
     construction build = get_construction( constr );
 
-    auto &zmgr = zone_manager::get_manager();
+    zone_manager &zmgr = zone_manager::get_manager();
     shared_ptr_fast<blueprint_options> options =
         make_shared_fast<blueprint_options>( build.pre_terrain, build.group, build.id );
 

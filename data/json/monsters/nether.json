@@ -1153,5 +1153,57 @@
     ],
     "death_function": { "corpse_type": "NO_CORPSE", "message": "Your memory can't decide whether the %s was even there in the first place." },
     "flags": [ "FLIES", "NO_BREATHE", "SEES", "HEARS", "RANGED_ATTACKER" ]
+  },
+  {
+    "id": "mon_endless_hunger",
+    "type": "MONSTER",
+    "name": { "str": "endless hunger" },
+    "description": "Your mind fills in large shifting images of predators to save you from its actual appearance.",
+    "default_faction": "nether",
+    "species": [ "NETHER" ],
+    "volume": "62500 ml",
+    "weight": "0 g",
+    "hp": 35,
+    "speed": 80,
+    "symbol": "O",
+    "color": "dark_gray",
+    "aggression": 100,
+    "morale": 100,
+    "melee_skill": 5,
+    "melee_dice": 2,
+    "melee_dice_sides": 2,
+    "melee_damage": [ { "damage_type": "cut", "amount": 10 } ],
+    "death_function": {
+      "effect": { "id": "mon_endless_hunger_revive", "hit_self": true },
+      "corpse_type": "NO_CORPSE",
+      "message": "Something about the %s disappearing feels off.."
+    },
+    "flags": [ "SEES", "HEARS", "NO_BREATHE", "PUSH_MON", "ALWAYS_VISIBLE" ]
+  },
+  {
+    "id": "mon_tainted_shadow",
+    "type": "MONSTER",
+    "name": { "str": "tainted shadow" },
+    "description": "Your shadow is host to something alien.",
+    "default_faction": "nether",
+    "species": [ "NETHER" ],
+    "volume": "62500 ml",
+    "weight": "0 g",
+    "hp": 35,
+    "speed": 100,
+    "symbol": "H",
+    "color": "dark_gray",
+    "aggression": 100,
+    "morale": 100,
+    "melee_skill": 5,
+    "melee_dice": 2,
+    "melee_dice_sides": 2,
+    "melee_damage": [ { "damage_type": "cut", "amount": 10 } ],
+    "death_function": {
+      "effect": { "id": "mon_tainted_shadow_revive", "hit_self": true },
+      "corpse_type": "NO_CORPSE",
+      "message": "Your shadow seemingly becomes normal again."
+    },
+    "flags": [ "SEES", "HEARS", "NO_BREATHE" ]
   }
 ]

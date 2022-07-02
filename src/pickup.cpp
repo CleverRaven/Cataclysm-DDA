@@ -366,7 +366,7 @@ void Pickup::autopickup( const tripoint &p )
             direction::SOUTHEAST, direction::SOUTH, direction::SOUTHWEST,
             direction::WEST, direction::NORTHWEST
         };
-        for( auto &elem : adjacentDir ) {
+        for( direction &elem : adjacentDir ) {
 
             tripoint apos = tripoint( displace_XY( elem ), 0 );
             apos += p;

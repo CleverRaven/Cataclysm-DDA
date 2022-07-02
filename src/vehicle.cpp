@@ -4559,7 +4559,7 @@ int vehicle::engine_fuel_usage( int e ) const
     if( is_perpetual_type( e ) ) {
         return 0;
     }
-    const auto &info = part_info( engines[ e ] );
+    const vpart_info &info = part_info( engines[ e ] );
 
     int usage = info.energy_consumption;
     if( parts[ engines[ e ] ].has_fault_flag( "DOUBLE_FUEL_CONSUMPTION" ) ) {
@@ -6801,12 +6801,12 @@ int vehicle::break_off( map &here, int p, int dmg )
         // remove parts for which required flags are not present anymore
         if( !part_info( p ).get_flags().empty() ) {
             const std::vector<int> parts_here = parts_at_relative( position, false );
-            for( const auto &part : parts_here ) {
+            for( const int &part : parts_here ) {
                 bool remove = false;
                 for( const std::string &flag : part_info( part ).get_flags() ) {
                     if( !json_flag::get( flag ).requires_flag().empty() ) {
                         remove = true;
-                        for( const auto &elem : parts_here ) {
+                        for( const int &elem : parts_here ) {
                             if( part_info( elem ).has_flag( json_flag::get( flag ).requires_flag() ) ) {
                                 remove = false;
                                 continue;
