@@ -1808,15 +1808,28 @@ int worldfactory::show_worldgen_basic( WORLDPTR world )
         base_clr = get_clr( c_white, sel_opt == static_cast<int>( sliders.size() + 2 ) );
         btn_txt = string_format( "%s %s %s", colorize( "[", acc_clr ),
                                  _( "Reset" ), colorize( "]", acc_clr ) );
-        const point reset_pos( ( win_width * 3 ) / 4 - utf8_width( btn_txt, true ) / 2, y++ );
+        const point reset_pos( win_width / 2 - utf8_width( btn_txt, true ) / 2, y );
         print_colored_text( w_confirmation, reset_pos, base_clr, base_clr, btn_txt );
         btn_map.emplace( sliders.size() + 2,
                          inclusive_rectangle<point>( reset_pos, reset_pos + point( utf8_width( btn_txt, true ), 0 ) ) );
+        // Randomize button
+        acc_clr = get_clr( c_yellow, sel_opt == static_cast<int>( sliders.size() + 3 ) );
+        base_clr = get_clr( c_white, sel_opt == static_cast<int>( sliders.size() + 3 ) );
+        btn_txt = string_format( "%s %s %s", colorize( "[", acc_clr ),
+                                 _( "Randomize" ), colorize( "]", acc_clr ) );
+        const point rand_pos( ( win_width * 3 ) / 4 - utf8_width( btn_txt, true ) / 2, y++ );
+        print_colored_text( w_confirmation, rand_pos, base_clr, base_clr, btn_txt );
+        btn_map.emplace( sliders.size() + 3,
+                         inclusive_rectangle<point>( rand_pos, rand_pos + point( utf8_width( btn_txt, true ), 0 ) ) );
 
         // Hint text
         std::string hint_txt =
-            string_format( _( "Press [<color_yellow>%s</color>] to pick a random name for your world." ),
-                           ctxt.get_desc( "PICK_RANDOM_WORLDNAME" ) );
+            string_format( _( "Press [<color_yellow>%s</color>] to pick a random name for your world.\n"
+                              "Navigate options with [<color_yellow>directional keys</color>] "
+                              "and confirm with [<color_yellow>%s</color>].\n"
+                              "Press [<color_yellow>%s</color>] to see additional control information." ),
+                           ctxt.get_desc( "PICK_RANDOM_WORLDNAME", 1U ), ctxt.get_desc( "CONFIRM", 1U ),
+                           ctxt.get_desc( "HELP_KEYBINDINGS", 1U ) );
         if( !custom_opts && sel_opt > 0 && sel_opt <= static_cast<int>( sliders.size() ) ) {
             hint_txt = sliders.at( sel_opt - 1 ).second.at( slider_levels.at( sel_opt - 1 ) ).desc.translated();
         }
@@ -1828,12 +1841,12 @@ int worldfactory::show_worldgen_basic( WORLDPTR world )
                                            ctxt.get_desc( "ADVANCED_SETTINGS", 1U ) );
         mvwprintz( w_confirmation, point( 2, win_height - 4 ), c_light_gray, _( "Advanced settings:" ) );
         print_colored_text( w_confirmation, point( 2, win_height - 3 ), dummy, c_light_gray, sctxt );
-        btn_map.emplace( sliders.size() + 3, inclusive_rectangle<point>( point( 2, win_height - 3 ),
+        btn_map.emplace( sliders.size() + 4, inclusive_rectangle<point>( point( 2, win_height - 3 ),
                          point( 2 + utf8_width( sctxt, true ), win_height - 3 ) ) );
         sctxt = string_format( _( "[<color_yellow>%s</color>] - Open mod manager" ),
                                ctxt.get_desc( "PICK_MODS", 1U ) );
         print_colored_text( w_confirmation, point( 2, win_height - 2 ), dummy, c_light_gray, sctxt );
-        btn_map.emplace( sliders.size() + 4, inclusive_rectangle<point>( point( 2, win_height - 2 ),
+        btn_map.emplace( sliders.size() + 5, inclusive_rectangle<point>( point( 2, win_height - 2 ),
                          point( 2 + utf8_width( sctxt, true ), win_height - 2 ) ) );
         wnoutrefresh( w_confirmation );
     } );
@@ -1852,12 +1865,10 @@ int worldfactory::show_worldgen_basic( WORLDPTR world )
                     sel_opt = p.first;
                 } ) > 0;
                 if( found && action == "SELECT" ) {
-                    if( sel_opt == static_cast<int>( sliders.size() + 3 ) ) {
+                    if( sel_opt == static_cast<int>( sliders.size() + 4 ) ) {
                         action = "ADVANCED_SETTINGS";
-                        sel_opt = orig_opt;
-                    } else if( sel_opt == static_cast<int>( sliders.size() + 4 ) ) {
+                    } else if( sel_opt == static_cast<int>( sliders.size() + 5 ) ) {
                         action = "PICK_MODS";
-                        sel_opt = orig_opt;
                     } else {
                         action = "CONFIRM";
                         run_for_point_in<int, point>( slider_inc_map, *coord,
@@ -1865,6 +1876,9 @@ int worldfactory::show_worldgen_basic( WORLDPTR world )
                             action = p.first % 2 == 0 ? "LEFT" : "RIGHT";
                         } );
                     }
+                }
+                if( sel_opt > static_cast<int>( sliders.size() + 3 ) ) {
+                    sel_opt = orig_opt;
                 }
             }
         }
@@ -1910,6 +1924,11 @@ int worldfactory::show_worldgen_basic( WORLDPTR world )
                 world->active_mod_order = world_generator->get_mod_manager().get_default_mods();
                 slider_levels = slider_defaults;
                 custom_opts = false;
+            } else if( sel_opt == static_cast<int>( sliders.size() + 3 ) ) {
+                // randomize
+                for( int i = 0; i < static_cast<int>( sliders.size() ); i++ ) {
+                    slider_levels[i] = rng( 0, sliders.at( i ).second.size() - 1 );
+                }
             }
         } else if( action == "UP" ) {
             sel_opt--;
@@ -1945,9 +1964,9 @@ int worldfactory::show_worldgen_basic( WORLDPTR world )
                     }
                 }
             } else if( sel_opt > static_cast<int>( sliders.size() ) ) {
-                if( action == "LEFT" && sel_opt == static_cast<int>( sliders.size() + 2 ) ) {
+                if( action == "LEFT" && sel_opt > static_cast<int>( sliders.size() + 1 ) ) {
                     sel_opt--;
-                } else if( action == "RIGHT" && sel_opt == static_cast<int>( sliders.size() + 1 ) ) {
+                } else if( action == "RIGHT" && sel_opt < static_cast<int>( sliders.size() + 3 ) ) {
                     sel_opt++;
                 }
             }
