@@ -239,8 +239,8 @@
     "subcategory": "CSC_CHEM_CHEMICALS",
     "skill_used": "fabrication",
     "difficulty": 4,
-    "time": "2 h 30 m",
-    "book_learn": [ [ "textbook_chemistry", 4 ], [ "textbook_gaswarfare", 4 ], [ "atomic_survival", 3 ] ],
+    "time": "10 m",
+    "autolearn": true,
     "tools": [ [ [ "gaspump", 120 ], [ "air_compressor_tool", 120 ] ] ],
     "components": [ [ [ "scuba_tank", 1 ] ] ]
   },
@@ -252,8 +252,8 @@
     "subcategory": "CSC_CHEM_CHEMICALS",
     "skill_used": "fabrication",
     "difficulty": 4,
-    "time": "2 h",
-    "book_learn": [ [ "textbook_chemistry", 4 ], [ "textbook_gaswarfare", 4 ], [ "atomic_survival", 3 ] ],
+    "time": "5 m",
+    "autolearn": true,
     "tools": [ [ [ "gaspump", 40 ], [ "air_compressor_tool", 40 ] ] ],
     "components": [ [ [ "small_scuba_tank", 1 ] ] ]
   },
