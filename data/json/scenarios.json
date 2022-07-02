@@ -398,7 +398,8 @@
     "flags": [ "LONE_START" ],
     "custom_initial_date": { "season": "winter" },
     "add_professions": true,
-    "professions": [ "sheltered_survivor", "sheltered_militia", "winter_scavenger", "winter_army" ]
+    "professions": [ "sheltered_survivor", "sheltered_militia", "winter_scavenger", "winter_army" ],
+    "requirement": "achievement_survive_91_days"
   },
   {
     "type": "scenario",
@@ -422,7 +423,8 @@
     "flags": [ "LONE_START" ],
     "custom_initial_date": { "season": "summer", "year": 2 },
     "add_professions": true,
-    "professions": [ "sheltered_survivor", "sheltered_militia", "winter_scavenger", "winter_army" ]
+    "professions": [ "sheltered_survivor", "sheltered_militia", "winter_scavenger", "winter_army" ],
+    "requirement": "achievement_survive_91_days"
   },
   {
     "type": "scenario",
