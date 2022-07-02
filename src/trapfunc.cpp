@@ -1252,7 +1252,7 @@ bool trapfunc::ledge( const tripoint &p, Creature *c, item * )
                                     _( "<npcname> flaps their wings and flutters down gracefully." ) );
     } else if( you->has_active_bionic( bio_shock_absorber ) ) {
         you->add_msg_if_player( m_info,
-                                _( "You use your " ) );
+                                _( "You hit the ground hard, but your grav chute handles the impact admirably!" ) );
     } else if( !jetpack.is_null() ) {
         if( jetpack.ammo_sufficient( you ) ) {
             you->add_msg_player_or_npc( _( "You ignite your %s and use it to break the fall." ),
