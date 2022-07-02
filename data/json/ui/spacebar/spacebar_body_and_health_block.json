@@ -5,7 +5,7 @@
     "style": "layout",
     "label": "1. player_block",
     "width": 58,
-    "height": 17,
+    "height": 18,
     "arrange": "minimum_columns",
     "widgets": [ "piktogram", "char_num_block" ]
   },
@@ -15,7 +15,7 @@
     "style": "layout",
     "arrange": "rows",
     "width": 14,
-    "height": 17,
+    "height": 18,
     "widgets": [ "spacebar_separator_2", "spacebar_body_graph" ]
   },
   {
