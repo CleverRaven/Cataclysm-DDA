@@ -200,7 +200,7 @@ void avatar::control_npc_menu()
     std::vector<shared_ptr_fast<npc>> followers;
     uilist charmenu;
     int charnum = 0;
-    for( const auto &elem : g->get_follower_list() ) {
+    for( const character_id &elem : g->get_follower_list() ) {
         shared_ptr_fast<npc> follower = overmap_buffer.find_npc( elem );
         if( follower ) {
             followers.emplace_back( follower );
@@ -707,7 +707,7 @@ void avatar::identify( const item &item )
         return;
     }
 
-    const auto &book = item; // alias
+    const ::item &book = item; // alias
     cata_assert( !has_identified( item.typeId() ) );
     items_identified.insert( item.typeId() );
     cata_assert( has_identified( item.typeId() ) );
@@ -750,7 +750,7 @@ void avatar::identify( const item &item )
 
     std::vector<std::string> crafting_recipes;
     std::vector<std::string> practice_recipes;
-    for( const auto &elem : reading->recipes ) {
+    for( const islot_book::recipe_with_description_t &elem : reading->recipes ) {
         // If the player knows it, they recognize it even if it's not clearly stated.
         if( elem.is_hidden() && !knows_recipe( elem.recipe ) ) {
             continue;
@@ -1067,7 +1067,7 @@ void avatar::reset_stats()
     // Effects
     for( const auto &maps : *effects ) {
         for( const auto &i : maps.second ) {
-            const auto &it = i.second;
+            const effect &it = i.second;
             bool reduced = resists_effect( it );
             mod_str_bonus( it.get_mod( "STR", reduced ) );
             mod_dex_bonus( it.get_mod( "DEX", reduced ) );
@@ -1812,7 +1812,7 @@ bool character_martial_arts::pick_style( const avatar &you ) // Style selection 
     kmenu.selected = STYLE_OFFSET;
 
     for( size_t i = 0; i < selectable_styles.size(); i++ ) {
-        const auto &style = selectable_styles[i].obj();
+        const martialart &style = selectable_styles[i].obj();
         //Check if this style is currently selected
         const bool selected = selectable_styles[i] == style_selected;
         std::string entry_text = style.name.translated();

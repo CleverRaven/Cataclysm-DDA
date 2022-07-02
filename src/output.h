@@ -1134,7 +1134,7 @@ std::string colorize_symbols( const std::string &str, F color_of )
         }
     };
 
-    for( const auto &elem : str ) {
+    for( const char &elem : str ) {
         const nc_color new_color = color_of( elem );
 
         if( prev_color != new_color ) {

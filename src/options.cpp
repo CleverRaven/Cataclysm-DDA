@@ -2292,6 +2292,13 @@ void options_manager::add_options_world_default()
     { { "any", to_translation( "Any" ) }, { "multi_pool", to_translation( "Multi-pool only" ) }, { "no_freeform", to_translation( "No freeform" ) } },
     "any"
        );
+
+    add_empty_line();
+
+    add( "META_PROGRESS", "world_default", to_translation( "Meta Progression" ),
+         to_translation( "Will you need to complete certain achievements to enable certain scenarios and professions?  Achievements are tracked from your memorial file so characters from any world will be checked.  Disabling this will spoil factions and situations you may otherwise stumble upon naturally.  Some scenarios are frustrating for the uninitiated and some professions skip portions of the games content.  If new to the game meta progression will help you be introduced to mechanics at a reasonable pace." ),
+         true
+       );
 }
 
 void options_manager::add_options_debug()
@@ -2810,8 +2817,9 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
         Page &page = pages_[iCurrentPage];
         auto &page_items = page.items_;
 
-        auto &cOPTIONS = ( ingame || world_options_only ) && iCurrentPage == iWorldOptPage ?
-                         ACTIVE_WORLD_OPTIONS : OPTIONS;
+        options_manager::options_container &cOPTIONS = ( ingame || world_options_only ) &&
+                iCurrentPage == iWorldOptPage ?
+                ACTIVE_WORLD_OPTIONS : OPTIONS;
 
         //Clear the lines
         for( int i = 0; i < iContentHeight; i++ ) {
@@ -2979,8 +2987,9 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
         Page &page = pages_[iCurrentPage];
         auto &page_items = page.items_;
 
-        auto &cOPTIONS = ( ingame || world_options_only ) && iCurrentPage == iWorldOptPage ?
-                         ACTIVE_WORLD_OPTIONS : OPTIONS;
+        options_manager::options_container &cOPTIONS = ( ingame || world_options_only ) &&
+                iCurrentPage == iWorldOptPage ?
+                ACTIVE_WORLD_OPTIONS : OPTIONS;
 
         std::string action = ctxt.handle_input();
 
@@ -3264,7 +3273,7 @@ void options_manager::serialize( JsonOut &json ) const
             }
             const auto iter = options.find( *opt_name );
             if( iter != options.end() ) {
-                const auto &opt = iter->second;
+                const options_manager::cOpt &opt = iter->second;
 
                 json.start_object();
 

@@ -129,7 +129,7 @@
     "special_attacks": [ { "type": "leap", "cooldown": 5, "max_range": 5, "allow_no_target": true }, [ "BIO_OP_TAKEDOWN", 20 ] ],
     "description": "A small feathered bipedal dinosaur dotted with crackling bionics.  Its small, hooked claws glow menacingly.",
     "special_when_hit": [ "ZAPBACK", 75 ],
-    "dissect": "dissect_CBM_DINO"
+    "dissect": "dissect_CBM_raptor"
   },
   {
     "type": "MONSTER",
@@ -156,7 +156,7 @@
     "zombify_into": "mon_zeinonychus_bio_op",
     "description": "A bipedal dinosaur covered with feathers and crackling bionics.  Each foot has a large glowing sickle-like claw.",
     "special_when_hit": [ "ZAPBACK", 75 ],
-    "dissect": "dissect_CBM_DINO"
+    "dissect": "dissect_CBM_raptor"
   },
   {
     "type": "MONSTER",
@@ -182,7 +182,7 @@
     "special_attacks": [ { "type": "leap", "cooldown": 5, "max_range": 5, "allow_no_target": true }, [ "BIO_OP_TAKEDOWN", 20 ] ],
     "description": "A small feathered bipedal dinosaur dotted with crackling bionics.  Its small, hooked claws and many sharp teeth glow menacingly.",
     "special_when_hit": [ "ZAPBACK", 75 ],
-    "dissect": "dissect_CBM_DINO"
+    "dissect": "dissect_CBM_raptor"
   },
   {
     "type": "MONSTER",
@@ -208,7 +208,7 @@
     "special_attacks": [ { "type": "leap", "cooldown": 5, "max_range": 5, "allow_no_target": true }, [ "BIO_OP_TAKEDOWN", 20 ] ],
     "description": "A small feathered bipedal dinosaur dotted with crackling bionics.  Each foot has a large glowing sickle-like claw.",
     "special_when_hit": [ "ZAPBACK", 75 ],
-    "dissect": "dissect_CBM_DINO"
+    "dissect": "dissect_CBM_raptor"
   },
   {
     "type": "MONSTER",

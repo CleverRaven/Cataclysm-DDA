@@ -57,7 +57,6 @@ readability-*,\
 -misc-non-private-member-variables-in-classes,\
 -modernize-avoid-bind,\
 -modernize-avoid-c-arrays,\
--modernize-loop-convert,\
 -modernize-pass-by-value,\
 -modernize-return-braced-init-list,\
 -modernize-use-default-member-init,\

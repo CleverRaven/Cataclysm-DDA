@@ -56,6 +56,17 @@
   },
   {
     "type": "proficiency",
+    "id": "prof_wp_cyborg",
+    "category": "prof_weakpoint",
+    "name": { "str": "Cyborg Anatomy" },
+    "description": "You're somewhat familiar with cybernetic creatures.  You're able to find openings and gaps that aren't as hardened.",
+    "can_learn": true,
+    "time_to_learn": "19 h",
+    "default_weakpoint_bonus": 4,
+    "default_weakpoint_penalty": -4
+  },
+  {
+    "type": "proficiency",
     "id": "prof_wp_basic_bug",
     "category": "prof_weakpoint",
     "name": { "str": "Invertebrate Biology" },

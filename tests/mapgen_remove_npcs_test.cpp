@@ -55,6 +55,8 @@ TEST_CASE( "mapgen_remove_npcs" )
         map &here = get_map();
         clear_map();
         clear_avatar();
+        tripoint const start_loc( HALF_MAPSIZE_X + SEEX - 2, HALF_MAPSIZE_Y + SEEY - 1, 0 );
+        get_avatar().setpos( start_loc );
         clear_npcs();
 
         tripoint_abs_omt const omt = project_to<coords::omt>( get_avatar().get_location() );
