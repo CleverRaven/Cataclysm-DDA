@@ -522,6 +522,23 @@
     "extra_effects": [ { "id": "boomer_claymore_suicide", "hit_self": true } ]
   },
   {
+    "id": "create_noise",
+    "type": "SPELL",
+    "name": { "str": "Do noise" },
+    "description": "Causes some noise",
+    "message": "The %s makes a deafening screech",
+    "sound_description": "a deafening screech",
+    "sound_type": "combat",
+    "sound_ambient": true,
+    "sound_id": "misc",
+    "sound_variant": "shockwave",
+    "min_damage": 50,
+    "max_damage": 50,
+    "valid_targets": [ "self" ],
+    "shape": "blast",
+    "effect": "noise"
+  },
+  {
     "id": "boomer_claymore_suicide",
     "type": "SPELL",
     "name": { "str": "Boomer Suicide Spell" },

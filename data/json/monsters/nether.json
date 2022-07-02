@@ -1155,6 +1155,69 @@
     "flags": [ "FLIES", "NO_BREATHE", "SEES", "HEARS", "RANGED_ATTACKER" ]
   },
   {
+    "id": "mon_archunk_weak",
+    "type": "MONSTER",
+    "name": { "str": "chunk of unknown material", "str_pl": "chunks of unknown material" },
+    "description": "This formless, pitch-black mass wriggles on the ground as it reshapes itself before your eyes.  It slowly drags itself towards you with many tendrils of varied sizes.  As it gets closer to you, its wriggling intensifies as if it reacted to you.",
+    "default_faction": "nether",
+    "species": [ "HORROR" ],
+    "//": "No NETHER or it will run away at low HP",
+    "volume": "62500 ml",
+    "weight": "11110 g",
+    "hp": 75,
+    "symbol": "H",
+    "color": "light_gray",
+    "aggression": 100,
+    "morale": 100,
+    "anger_triggers": [ "HURT" ],
+    "speed": 75,
+    "armor_bash": 20,
+    "armor_cut": 20,
+    "armor_stab": 20,
+    "armor_bullet": 20,
+    "armor_fire": 20,
+    "armor_elec": 20,
+    "bleed_rate": 0,
+    "special_attacks": [
+      [ "TENTACLE", 2 ],
+      {
+        "type": "spell",
+        "spell_data": { "id": "create_noise", "hit_self": true },
+        "cooldown": 20,
+        "monster_message": "The chunk twists and tears itself as it reacts to your presence!"
+      }
+    ],
+    "death_function": {
+      "corpse_type": "NO_CORPSE",
+      "message": "The material stabilizes and reforms itself into a small chunk of unknown composition."
+    },
+    "death_drops": "ps_artifact_weak",
+    "flags": [ "COLDPROOF", "SEES", "HEARS", "NO_BREATHE", "STUN_IMMUNE", "NOHEAD", "ACIDPROOF" ]
+  },
+  {
+    "id": "mon_archunk_medium",
+    "type": "MONSTER",
+    "copy-from": "mon_archunk_weak",
+    "name": { "str": "pulsating chunk of unknown material", "str_pl": "pulsating chunks of unknown material" },
+    "description": "This formless, pitch-black mass wriggles and pulses on the ground as it reshapes itself before your eyes.  It slowly drags itself towards you with many tendrils of varied sizes.  As it gets closer to you, its pulsing intensifies as if it reacted to you.",
+    "symbol": "H",
+    "hp": 100,
+    "color": "dark_gray",
+    "death_drops": "ps_artifact_medium"
+  },
+  {
+    "id": "mon_archunk_strong",
+    "type": "MONSTER",
+    "copy-from": "mon_archunk_weak",
+    "name": { "str": "resonating chunk of unknown material", "str_pl": "resonating chunks of unknown material" },
+    "description": "This formless, pitch-black mass wriggles violently and noisily on the ground as it reshapes itself before your eyes.  It slowly drags itself towards you with many tendrils of varied sizes sparkling with electricity.  As it gets closer to you, its wriggling intensifies and its sparks grow brighter as if it reacted to you.",
+    "symbol": "H",
+    "hp": 125,
+    "color": "dark_gray",
+    "emit_fields": [ { "emit_id": "emit_shock_cloud", "delay": "1 s" } ],
+    "death_drops": "ps_artifact_strong"
+  },
+  {
     "id": "mon_endless_hunger",
     "type": "MONSTER",
     "name": { "str": "endless hunger" },
