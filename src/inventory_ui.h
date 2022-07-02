@@ -166,6 +166,10 @@ class inventory_entry
         size_t generation = 0;
         bool chevron = false;
 
+        void set_custom_category( const item_category *category ) {
+            custom_category = category;
+        }
+
     private:
         const item_category *custom_category = nullptr;
         bool enabled = true;
@@ -897,6 +901,7 @@ class inventory_multiselector : public inventory_selector
         void on_input( const inventory_input &input );
         int count = 0;
         stats get_raw_stats() const override;
+        void toggle_categorize_contained();
     private:
         std::unique_ptr<inventory_column> selection_col;
         GetStats get_stats;
