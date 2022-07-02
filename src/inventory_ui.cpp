@@ -106,6 +106,11 @@ bool always_yes( const inventory_entry & )
     return true;
 }
 
+bool return_item( const inventory_entry& entry )
+{
+    return entry.is_item();
+}
+
 } // namespace
 
 bool is_worn_ablative( item_location const &container, item_location const &child )
@@ -2448,9 +2453,6 @@ bool inventory_selector::is_overflown( size_t client_width ) const
 
 void inventory_selector::_categorize( inventory_column &col )
 {
-    const auto return_item = []( const inventory_entry & entry ) {
-        return entry.is_item();
-    };
     inventory_column replacement_column;
     for( inventory_entry *entry : col.get_entries( return_item, true ) ) {
         inventory_entry *ret =
@@ -2465,9 +2467,6 @@ void inventory_selector::_categorize( inventory_column &col )
 
 void inventory_selector::_uncategorize( inventory_column &col )
 {
-    const auto return_item = []( const inventory_entry & entry ) {
-        return entry.is_item();
-    };
     inventory_column replacement_column;
     for( inventory_entry *entry : col.get_entries( return_item, true ) ) {
         item_location loc = entry->any_item();
@@ -2497,9 +2496,6 @@ void inventory_selector::_uncategorize( inventory_column &col )
 
 void inventory_selector::toggle_categorize_contained()
 {
-    const auto return_item = []( const inventory_entry & entry ) {
-        return entry.is_item();
-    };
     std::vector<item_location> highlighted;
     if( get_highlighted().is_item() ) {
         highlighted = get_highlighted().locations;
@@ -2643,9 +2639,6 @@ void inventory_selector::action_examine( const item_location sitem )
 
 void inventory_selector::highlight()
 {
-    const auto return_item = []( const inventory_entry & entry ) {
-        return entry.is_item();
-    };
     const inventory_entry &selected = get_active_column().get_highlighted();
     if( !selected.is_item() ) {
         return;
