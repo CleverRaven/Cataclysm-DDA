@@ -947,6 +947,16 @@
   },
   {
     "type": "item_group",
+    "id": "longguns_cop_loaded",
+    "items": [
+      { "group": "nested_ar15", "prob": 20 },
+      { "group": "nested_mossberg_500", "prob": 10 },
+      { "group": "nested_remington_700", "prob": 5 },
+      { "group": "nested_remington_870", "prob": 10 }
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "sidearms_cop",
     "items": [
       { "item": "fn57", "prob": 20, "charges": [ 0, 20 ] },
