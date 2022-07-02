@@ -1589,16 +1589,25 @@ int worldfactory::show_worldgen_basic( WORLDPTR world )
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "PICK_MODS" );
     ctxt.register_action( "ADVANCED_SETTINGS" );
+    ctxt.register_action( "SCROLL_UP" );
+    ctxt.register_action( "SCROLL_DOWN" );
     ctxt.register_cardinal();
     // mouse selection
     ctxt.register_action( "SELECT" );
     ctxt.register_action( "MOUSE_MOVE" );
 
+    int win_height = 0;
+    int content_height = 0; // buttons & sliders
+    bool recalc_startpos = false;
     const auto init_windows = [&]( ui_adaptor & ui ) {
+        recalc_startpos = true;
         const int iMinScreenWidth = std::max( FULL_SCREEN_WIDTH, TERMX / 2 );
         const int iOffsetX = TERMX > FULL_SCREEN_WIDTH ? ( TERMX - iMinScreenWidth ) / 2 : 0;
 
         w_confirmation = catacurses::newwin( TERMY, iMinScreenWidth, point( iOffsetX, 0 ) );
+
+        win_height = getmaxy( w_confirmation );
+        content_height = win_height - namebar_pos.y - 10;
 
         ui.position_from_window( w_confirmation );
     };
@@ -1614,6 +1623,7 @@ int worldfactory::show_worldgen_basic( WORLDPTR world )
     std::vector<int> wg_slevels; // current slider levels
     std::string worldname = world->world_name;
     int sel_opt = 0;
+    int top_opt = 0;
 
     for( const option_slider &osl : option_slider::get_all() ) {
         if( osl.context() == "WORLDGEN" ) {
@@ -1627,30 +1637,43 @@ int worldfactory::show_worldgen_basic( WORLDPTR world )
         slider_inc_map.clear();
         btn_map.clear();
         const int win_width = getmaxx( w_confirmation ) - 2;
-        const int win_height = getmaxy( w_confirmation );
+
+        int start = top_opt == 0 ? 0 : ( 2 + ( top_opt - 1 ) * 3 );
+        int sel_y = sel_opt == 0 ? 0 :
+                    ( sel_opt <= static_cast<int>( wg_sliders.size() ) ?
+                      ( 2 + ( sel_opt - 1 ) * 3 ) : ( 2 + wg_sliders.size() * 3 ) );
+        if( recalc_startpos ) {
+            calcStartPos( start, sel_y, content_height, wg_sliders.size() * 3 + 4 );
+        }
+        top_opt = start < 2 ? 0 : start / 3 + 1;
 
         werase( w_confirmation );
         //~ Title text for the world creation menu.  The < and > characters decorate the border.
-        draw_border( w_confirmation, c_light_gray, _( "< Create World >" ), c_white );
-        // World name
-        mvwprintz( w_confirmation, point( 2, namebar_pos.y ), c_white, _( "World name:" ) );
-        size_t name_txt_width = 0;
-        if( noname ) {
-            const std::string name_txt = _( "________NO NAME ENTERED!________" );
-            name_txt_width = utf8_width( name_txt );
-            mvwprintz( w_confirmation, namebar_pos,
-                       sel_opt == 0 ? hilite( c_light_gray ) : c_light_gray, name_txt );
-            wnoutrefresh( w_confirmation );
-        } else {
-            mvwprintz( w_confirmation, namebar_pos, sel_opt == 0 ? hilite( c_pink ) : c_pink, worldname );
-            name_txt_width = utf8_width( worldname );
+        draw_border( w_confirmation, BORDER_COLOR, _( "< Create World >" ), c_white );
+
+        if( top_opt == 0 ) {
+            // World name
+            mvwprintz( w_confirmation, point( 2, namebar_pos.y ), c_white, _( "World name:" ) );
+            size_t name_txt_width = 0;
+            if( noname ) {
+                const std::string name_txt = _( "________NO NAME ENTERED!________" );
+                name_txt_width = utf8_width( name_txt );
+                mvwprintz( w_confirmation, namebar_pos,
+                           sel_opt == 0 ? hilite( c_light_gray ) : c_light_gray, name_txt );
+                wnoutrefresh( w_confirmation );
+            } else {
+                mvwprintz( w_confirmation, namebar_pos, sel_opt == 0 ? hilite( c_pink ) : c_pink, worldname );
+                name_txt_width = utf8_width( worldname );
+            }
+            btn_map.emplace( 0, inclusive_rectangle<point>( namebar_pos,
+                             namebar_pos + point( name_txt_width, 0 ) ) );
         }
-        btn_map.emplace( 0,
-                         inclusive_rectangle<point>( namebar_pos, namebar_pos + point( name_txt_width, 0 ) ) );
 
         // Slider options
-        int y = namebar_pos.y + 2;
-        for( int i = 0; static_cast<size_t>( i ) < wg_sliders.size(); i++, y++ ) {
+        int y = namebar_pos.y + ( top_opt == 0 ? 2 : 0 );
+        bool all_sliders_drawn = false;
+        for( int i = top_opt == 0 ? 0 : top_opt - 1;
+             i < static_cast<int>( wg_sliders.size() ) && y < content_height - 2; i++, y++ ) {
             std::string sl_txt = get_opt_slider( win_width / 2 - 2, wg_slevels[i],
                                                  wg_sliders[i]->count() - 1,
                                                  i == sel_opt - 1, custom_opts );
@@ -1669,39 +1692,61 @@ int worldfactory::show_worldgen_basic( WORLDPTR world )
                        custom_opts ? _( "Custom" ) : wg_sliders[i]->level_name( wg_slevels[i] ).translated() );
             btn_map.emplace( 1 + i,
                              inclusive_rectangle<point>( point( 1, y - 1 ), point( 2 + win_width / 2, y - 1 ) ) );
+            if( i == static_cast<int>( wg_sliders.size() ) - 1 ) {
+                all_sliders_drawn = true;
+            }
         }
 
         auto get_clr = []( const nc_color & base, bool hi ) {
             return hi ? hilite( base ) : base;
         };
 
-        // Finish button
-        nc_color acc_clr = get_clr( c_yellow, sel_opt == static_cast<int>( wg_sliders.size() + 1 ) );
-        nc_color base_clr = get_clr( c_white, sel_opt == static_cast<int>( wg_sliders.size() + 1 ) );
-        std::string btn_txt = string_format( "%s %s %s", colorize( "[", acc_clr ),
-                                             _( "Finish" ), colorize( "]", acc_clr ) );
-        const point finish_pos( win_width / 4 - utf8_width( btn_txt, true ) / 2, y );
-        print_colored_text( w_confirmation, finish_pos, base_clr, base_clr, btn_txt );
-        btn_map.emplace( wg_sliders.size() + 1,
-                         inclusive_rectangle<point>( finish_pos, finish_pos + point( utf8_width( btn_txt, true ), 0 ) ) );
-        // Reset button
-        acc_clr = get_clr( c_yellow, sel_opt == static_cast<int>( wg_sliders.size() + 2 ) );
-        base_clr = get_clr( c_white, sel_opt == static_cast<int>( wg_sliders.size() + 2 ) );
-        btn_txt = string_format( "%s %s %s", colorize( "[", acc_clr ),
-                                 _( "Reset" ), colorize( "]", acc_clr ) );
-        const point reset_pos( win_width / 2 - utf8_width( btn_txt, true ) / 2, y );
-        print_colored_text( w_confirmation, reset_pos, base_clr, base_clr, btn_txt );
-        btn_map.emplace( wg_sliders.size() + 2,
-                         inclusive_rectangle<point>( reset_pos, reset_pos + point( utf8_width( btn_txt, true ), 0 ) ) );
-        // Randomize button
-        acc_clr = get_clr( c_yellow, sel_opt == static_cast<int>( wg_sliders.size() + 3 ) );
-        base_clr = get_clr( c_white, sel_opt == static_cast<int>( wg_sliders.size() + 3 ) );
-        btn_txt = string_format( "%s %s %s", colorize( "[", acc_clr ),
-                                 _( "Randomize" ), colorize( "]", acc_clr ) );
-        const point rand_pos( ( win_width * 3 ) / 4 - utf8_width( btn_txt, true ) / 2, y++ );
-        print_colored_text( w_confirmation, rand_pos, base_clr, base_clr, btn_txt );
-        btn_map.emplace( wg_sliders.size() + 3,
-                         inclusive_rectangle<point>( rand_pos, rand_pos + point( utf8_width( btn_txt, true ), 0 ) ) );
+        if( all_sliders_drawn && y <= content_height ) {
+            // Finish button
+            nc_color acc_clr = get_clr( c_yellow, sel_opt == static_cast<int>( wg_sliders.size() + 1 ) );
+            nc_color base_clr = get_clr( c_white, sel_opt == static_cast<int>( wg_sliders.size() + 1 ) );
+            std::string btn_txt = string_format( "%s %s %s", colorize( "[", acc_clr ),
+                                                 _( "Finish" ), colorize( "]", acc_clr ) );
+            const point finish_pos( win_width / 4 - utf8_width( btn_txt, true ) / 2, y );
+            print_colored_text( w_confirmation, finish_pos, base_clr, base_clr, btn_txt );
+            btn_map.emplace( wg_sliders.size() + 1,
+                             inclusive_rectangle<point>( finish_pos, finish_pos + point( utf8_width( btn_txt, true ), 0 ) ) );
+            // Reset button
+            acc_clr = get_clr( c_yellow, sel_opt == static_cast<int>( wg_sliders.size() + 2 ) );
+            base_clr = get_clr( c_white, sel_opt == static_cast<int>( wg_sliders.size() + 2 ) );
+            btn_txt = string_format( "%s %s %s", colorize( "[", acc_clr ),
+                                     _( "Reset" ), colorize( "]", acc_clr ) );
+            const point reset_pos( win_width / 2 - utf8_width( btn_txt, true ) / 2, y );
+            print_colored_text( w_confirmation, reset_pos, base_clr, base_clr, btn_txt );
+            btn_map.emplace( wg_sliders.size() + 2,
+                             inclusive_rectangle<point>( reset_pos, reset_pos + point( utf8_width( btn_txt, true ), 0 ) ) );
+            // Randomize button
+            acc_clr = get_clr( c_yellow, sel_opt == static_cast<int>( wg_sliders.size() + 3 ) );
+            base_clr = get_clr( c_white, sel_opt == static_cast<int>( wg_sliders.size() + 3 ) );
+            btn_txt = string_format( "%s %s %s", colorize( "[", acc_clr ),
+                                     _( "Randomize" ), colorize( "]", acc_clr ) );
+            const point rand_pos( ( win_width * 3 ) / 4 - utf8_width( btn_txt, true ) / 2, y++ );
+            print_colored_text( w_confirmation, rand_pos, base_clr, base_clr, btn_txt );
+            btn_map.emplace( wg_sliders.size() + 3,
+                             inclusive_rectangle<point>( rand_pos, rand_pos + point( utf8_width( btn_txt, true ), 0 ) ) );
+        }
+
+        // Content scrollbar
+        scrollbar()
+        .border_color( BORDER_COLOR )
+        .offset_x( 0 )
+        .offset_y( 1 )
+        .content_size( wg_sliders.size() * 3 + 3 )
+        .viewport_pos( top_opt * 3 )
+        .viewport_size( content_height )
+        .apply( w_confirmation );
+
+        // Bottom box
+        mvwputch( w_confirmation, point( 0, win_height - 10 ), BORDER_COLOR, LINE_XXXO );
+        for( int i = 0; i < win_width; i++ ) {
+            wputch( w_confirmation, BORDER_COLOR, LINE_OXOX );
+        }
+        wputch( w_confirmation, BORDER_COLOR, LINE_XOXX );
 
         // Hint text
         std::string hint_txt =
@@ -1714,7 +1759,8 @@ int worldfactory::show_worldgen_basic( WORLDPTR world )
         if( !custom_opts && sel_opt > 0 && sel_opt <= static_cast<int>( wg_sliders.size() ) ) {
             hint_txt = wg_sliders[sel_opt - 1]->level_desc( wg_slevels[sel_opt - 1] ).translated();
         }
-        y += fold_and_print( w_confirmation, point( 2, y + 1 ), win_width, c_light_gray, hint_txt ) + 1;
+        y += fold_and_print( w_confirmation, point( 2, win_height - 9 ),
+                             win_width, c_light_gray, hint_txt ) + 1;
 
         // Advanced settings legend
         nc_color dummy = c_light_gray;
@@ -1735,6 +1781,7 @@ int worldfactory::show_worldgen_basic( WORLDPTR world )
     do {
         ui_manager::redraw();
 
+        recalc_startpos = false;
         std::string action = ctxt.handle_input();
         // Handle mouse input
         if( action == "MOUSE_MOVE" || action == "SELECT" ) {
@@ -1811,16 +1858,20 @@ int worldfactory::show_worldgen_basic( WORLDPTR world )
                     wg_slevels[i] = wg_sliders[i]->random_level();
                 }
             }
-        } else if( action == "UP" ) {
+        } else if( action == "UP" || action == "SCROLL_UP" ) {
             sel_opt--;
             if( sel_opt < 0 ) {
-                sel_opt = wg_sliders.size() + 2;
+                sel_opt = wg_sliders.size() + 1;
+            } else if( sel_opt > static_cast<int>( wg_sliders.size() ) ) {
+                sel_opt = wg_sliders.size();
             }
-        } else if( action == "DOWN" ) {
+            recalc_startpos = true;
+        } else if( action == "DOWN" || action == "SCROLL_DOWN" ) {
             sel_opt++;
-            if( sel_opt > static_cast<int>( wg_sliders.size() + 2 ) ) {
+            if( sel_opt > static_cast<int>( wg_sliders.size() + 1 ) ) {
                 sel_opt = 0;
             }
+            recalc_startpos = true;
         } else if( action == "LEFT" || action == "RIGHT" ) {
             if( sel_opt > 0 && sel_opt <= static_cast<int>( wg_sliders.size() ) ) {
                 if( custom_opts && query_yn( _( "Currently using customized advanced options.  "
