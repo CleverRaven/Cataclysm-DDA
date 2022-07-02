@@ -1050,6 +1050,7 @@
     "id": "Missile Silo",
     "overmaps": [
       { "point": [ 0, -1, 0 ], "overmap": "road_end_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "silo_roof" },
       { "point": [ 0, 0, 0 ], "overmap": "silo" },
       { "point": [ 0, 0, -1 ], "overmap": "silo_1" },
       { "point": [ 0, 0, -2 ], "overmap": "silo_2" },
