@@ -115,6 +115,8 @@
 #include "weighted_list.h"
 #include "worldfactory.h"
 
+static const achievement_id achievement_achievement_arcade_mode( "achievement_arcade_mode" );
+
 static const bodypart_str_id body_part_no_a_real_part( "no_a_real_part" );
 
 static const efftype_id effect_asthma( "asthma" );
@@ -187,6 +189,7 @@ std::string enum_to_string<debug_menu::debug_menu_index>( debug_menu::debug_menu
         case debug_menu::debug_menu_index::OM_TELEPORT_CITY: return "OM_TELEPORT_CITY";
         case debug_menu::debug_menu_index::TRAIT_GROUP: return "TRAIT_GROUP";
         case debug_menu::debug_menu_index::ENABLE_ACHIEVEMENTS: return "ENABLE_ACHIEVEMENTS";
+        case debug_menu::debug_menu_index::UNLOCK_ALL: return "UNLOCK_ALL";
         case debug_menu::debug_menu_index::SHOW_MSG: return "SHOW_MSG";
         case debug_menu::debug_menu_index::CRASH_GAME: return "CRASH_GAME";
         case debug_menu::debug_menu_index::MAP_EXTRA: return "MAP_EXTRA";
@@ -337,6 +340,7 @@ static int game_uilist()
 {
     std::vector<uilist_entry> uilist_initializer = {
         { uilist_entry( debug_menu_index::ENABLE_ACHIEVEMENTS, true, 'a', _( "Enable achievements" ) ) },
+        { uilist_entry( debug_menu_index::UNLOCK_ALL, true, 'u', _( "Unlock all progression" ) ) },
         { uilist_entry( debug_menu_index::SHOW_MSG, true, 'd', _( "Show debug message" ) ) },
         { uilist_entry( debug_menu_index::CRASH_GAME, true, 'C', _( "Crash game (test crash handling)" ) ) },
         { uilist_entry( debug_menu_index::ACTIVATE_EOC, true, 'E', _( "Activate EOC" ) ) },
@@ -2420,6 +2424,7 @@ void debug()
         debug_menu_index::SAVE_SCREENSHOT,
         debug_menu_index::GAME_REPORT,
         debug_menu_index::ENABLE_ACHIEVEMENTS,
+        debug_menu_index::UNLOCK_ALL,
         debug_menu_index::BENCHMARK,
         debug_menu_index::SHOW_MSG,
     };
@@ -2895,6 +2900,13 @@ void debug()
             } else {
                 achievements.set_enabled( true );
                 popup( _( "Achievements enabled" ) );
+            }
+            break;
+        case debug_menu_index::UNLOCK_ALL:
+            if( query_yn(
+                    _( "Activating this will add the Arcade Mode achievement unlocking all starting scenarios and professions for all worlds.  The character who performs this action will need to die for it to be recorded.  Achievements are tracked from the memorial folder if you need to get rid of this.  Activating this will spoil factions and situations you may otherwise stumble upon naturally while playing.  Some scenarios are frustrating for the uninitiated, and some professions skip portions of the game's content.  If new to the game progression would otherwise help you be introduced to mechanics at a reasonable pace." ) ) ) {
+                get_achievements().report_achievement( &achievement_achievement_arcade_mode.obj(),
+                                                       achievement_completion::completed );
             }
             break;
         case debug_menu_index::SHOW_MSG:

@@ -1459,10 +1459,10 @@ Example:
   "junk_threshold": "10 cent", // items below this price will be consumed completely regardless of matches below
   "rates": [ // lower entries override higher ones
       { "item": "hammer", "rate": 1 },
-      { 
+      {
         "item": "hammer",
         "rate": 10,
-        "condition": { "npc_has_var": "hammer_eater", "type": "bool", "context": "dinner", "value": "yes" } 
+        "condition": { "npc_has_var": "hammer_eater", "type": "bool", "context": "dinner", "value": "yes" }
       },
       { "category": "ammo", "rate": 10 },
       { "group": "EXODII_basic_trade", "rate": 100 }
@@ -1478,7 +1478,7 @@ Similar to `shopkeeper_consumption_rates`
   "type": "shopkeeper_blacklist",
   "id": "basic_blacklist",
   "entries": [
-      { 
+      {
         "item": "hammer",
         "condition": { "npc_has_var": "hammer_hater", "type": "bool", "context": "test", "value": "yes" },
         "message": "<npcname> hates this item"
@@ -1586,6 +1586,12 @@ A list of CBM ids that are implanted in the character.
 (optional, array of strings)
 
 A list of trait/mutation ids that are applied to the character.
+
+#### `requirement`
+
+(optional, an achievement ID)
+
+The achievement you need to do to access this profession
 
 ### Recipes
 
@@ -4819,6 +4825,12 @@ A list of allowed professions that can be chosen when using this scenario. The f
 (optional, string)
 
 Add a map special to the starting location, see JSON_FLAGS for the possible specials.
+
+#### `requirement`
+
+(optional, an achievement ID)
+
+The achievement you need to do to access this scenario
 
 ## `eocs`
 (optional, array of strings)

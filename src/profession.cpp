@@ -8,6 +8,7 @@
 #include <memory>
 
 #include "game.h"
+#include "achievement.h"
 #include "addiction.h"
 #include "avatar.h"
 #include "calendar.h"
@@ -21,10 +22,13 @@
 #include "magic.h"
 #include "mission.h"
 #include "options.h"
+#include "past_games_info.h"
 #include "pimpl.h"
 #include "translations.h"
 #include "type_id.h"
 #include "visitable.h"
+
+static const achievement_id achievement_achievement_arcade_mode( "achievement_arcade_mode" );
 
 namespace
 {
@@ -241,6 +245,9 @@ void profession::load( const JsonObject &jo, const std::string & )
         }
     }
     optional( jo, was_loaded, "no_bonus", no_bonus );
+
+    optional( jo, was_loaded, "requirement", _requirement );
+
 
     optional( jo, was_loaded, "skills", _starting_skills, skilllevel_reader {} );
     optional( jo, was_loaded, "addictions", _starting_addictions, addiction_reader {} );
@@ -562,9 +569,38 @@ bool profession::has_flag( const std::string &flag ) const
     return flags.count( flag ) != 0;
 }
 
-bool profession::can_pick( const Character &you, const int points ) const
+ret_val<bool> profession::can_afford( const Character &you, const int points ) const
 {
-    return point_cost() - you.prof->point_cost() <= points;
+    if( point_cost() - you.prof->point_cost() <= points ) {
+        return ret_val<bool>::make_success();
+    }
+
+    return ret_val<bool>::make_failure( _( "You don't have enough points" ) );
+}
+
+ret_val<bool> profession::can_pick() const
+{
+    // if meta progression is disabled then skip this
+    if( get_past_games().achievement( achievement_achievement_arcade_mode ) ||
+        !get_option<bool>( "META_PROGRESS" ) ) {
+        return ret_val<bool>::make_success();
+    }
+
+    if( _requirement ) {
+        const achievement_completion_info *other_games = get_past_games().achievement(
+                    _requirement.value()->id );
+        if( !other_games ) {
+            return ret_val<bool>::make_failure(
+                       _( "You must complete the achievement \"%s\" to unlock this profession." ),
+                       _requirement.value()->name() );
+        } else if( other_games->games_completed.empty() ) {
+            return ret_val<bool>::make_failure(
+                       _( "You must complete the achievement \"%s\" to unlock this profession." ),
+                       _requirement.value()->name() );
+        }
+    }
+
+    return ret_val<bool>::make_success();
 }
 
 bool profession::is_locked_trait( const trait_id &trait ) const
@@ -790,4 +826,9 @@ bool profession::is_hobby() const
 const std::vector<mission_type_id> &profession::missions() const
 {
     return _missions;
+}
+
+cata::optional<achievement_id> profession::get_requirement() const
+{
+    return _requirement;
 }
