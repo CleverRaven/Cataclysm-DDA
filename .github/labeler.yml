@@ -43,6 +43,12 @@
   - "**/CMakeLists.txt"
   - "**/*.cmake"
 
+"Code: Infrastructure / Style / Static Analysis":
+  - .astylerc
+  - .clang-tidy
+  - .editorconfig
+  - .lgtm.yml
+
 "Crafting / Construction / Recipes":
   - "**/recipes/**/*"
   - data/json/construction.json
