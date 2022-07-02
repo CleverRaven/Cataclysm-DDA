@@ -250,10 +250,9 @@ static const itype_id itype_towel_wet( "towel_wet" );
 
 static const json_character_flag json_flag_CLIMB_NO_LADDER( "CLIMB_NO_LADDER" );
 static const json_character_flag json_flag_HYPEROPIC( "HYPEROPIC" );
+static const flag_id json_flag_LEVITATION( "LEVITATION" );
 static const json_character_flag json_flag_WALL_CLING( "WALL_CLING" );
 static const json_character_flag json_flag_WEB_RAPPEL( "WEB_RAPPEL" );
-
-static const flag_id json_flag_LEVITATION( "LEVITATION" );
 
 static const material_id material_glass( "glass" );
 
