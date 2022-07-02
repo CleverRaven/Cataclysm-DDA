@@ -4,7 +4,7 @@
     "id": "wps_cyborg_body",
     "weakpoints": [
       {
-        "id": "gap",
+        "id": "small_gap",
         "name": "a small gap in the armored plates",
         "coverage": 5,
         "difficulty": { "melee": 4, "ranged": 5 },
@@ -12,7 +12,7 @@
         "armor_mult": { "all": 0.25 }
       },
       {
-        "id": "joint",
+        "id": "weak_joint",
         "name": "a joint in the armored plates",
         "coverage": 10,
         "difficulty": { "melee": 3, "ranged": 7 },
@@ -75,8 +75,8 @@
         "coverage": 15
       },
       {
-        "id": "head",
-        "name": "the head",
+        "id": "motive_power",
+        "name": "the motive power box",
         "coverage": 5,
         "crit_mult": { "all": 1.1 },
         "armor_mult": { "physical": 0.75 },
@@ -92,14 +92,14 @@
           {
             "effect": "stunned",
             "duration": [ 1, 2 ],
-            "chance": 25,
+            "chance": 15,
             "message": "The %s is stunned!",
             "damage_required": [ 11, 50 ]
           },
           {
             "effect": "stunned",
             "duration": [ 1, 2 ],
-            "chance": 45,
+            "chance": 25,
             "message": "The %s is stunned!",
             "damage_required": [ 51, 100 ]
           }
