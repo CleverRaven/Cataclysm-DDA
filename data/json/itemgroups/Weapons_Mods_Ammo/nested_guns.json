@@ -2071,26 +2071,28 @@
     ]
   },
   {
-<<<<<<< HEAD
     "id": "nested_m714",
-=======
     "id": "nested_m1carbine",
->>>>>>> master
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
     "entries": [
-<<<<<<< HEAD
       { "item": "mauser_m714", "charges-min": 0, "charges-max": 20 },
       { "item": "mausermag_20rd" },
       { "item": "mausermag_20rd", "prob": 50 },
       { "group": "on_hand_9mm" }
-=======
+    ]
+  },
+  {
+    "id": "nested_m1carbine",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "entries": [
       { "item": "m1carbine", "charges-min": 0, "charges-max": 15 },
       { "item": "m1carbinemag" },
       { "item": "m1carbinemag", "prob": 50 },
       { "group": "on_hand_30carbine" }
->>>>>>> master
     ]
   }
 ]
