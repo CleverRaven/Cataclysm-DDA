@@ -583,7 +583,6 @@
       { "item": "m320_mod", "prob": 10 },
       { "item": "ugl_buttstock", "prob": 10 },
       { "item": "mgl", "prob": 6 },
-      { "item": "mm1", "prob": 1 },
       { "item": "rm802", "prob": 6 },
       { "item": "suppressor", "prob": 15 },
       { "item": "shot_suppressor", "prob": 1 },
