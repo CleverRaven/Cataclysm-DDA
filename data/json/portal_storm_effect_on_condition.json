@@ -1129,6 +1129,7 @@
       { "u_teleport": { "global_val": "dungeon_start" }, "fail_message": "Something is very wrong!" },
       { "arithmetic": [ { "global_val": "var", "var_name": "portal_dungeon_level" }, "=", { "const": 1 } ] },
       { "run_eocs": [ "EOC_PORTAL_STORM_DUNGEON_MONSTER_SPAWN", "EOC_PORTAL_STORM_DUNGEON_ENDLESS_HUNGER_SPAWN" ] },
+      { "queue_eocs": "EOC_PORTAL_STORM_DUNGEON_SHIFT", "time_in_future": [ "5 seconds", "15 seconds" ] },
       { "u_message": "You are trapped in <global_val:place_name>!" },
       { "u_message": { "global_val": "portal_storm_voice_mood", "default_str": "none" }, "snippet": true }
     ]
