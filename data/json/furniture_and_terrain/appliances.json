@@ -630,7 +630,7 @@
       { "item": "hd_pipe_fittings", "prob": 50 },
       { "item": "hd_compressor", "prob": 25 },
       { "item": "hd_valve", "prob": 25 },
-      { "item": "hd_valve", "prob": 25 },
+      { "item": "pressure_gauge", "prob": 25 },
       { "item": "power_supply", "prob": 25 },
       { "item": "cable", "charges": [ 20, 40 ] }
     ]
