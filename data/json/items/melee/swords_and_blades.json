@@ -1576,7 +1576,7 @@
     "symbol": "/",
     "color": "light_gray",
     "name": { "str": "shortsword" },
-    "description": "A sword, larger than a dagger, but shorter than an Arming Sword, and the perfect length for a sidearm.  Despite its diminuative size compared to other swords, it's still a deadly weapon.",
+    "description": "A sword, larger than a dagger, but shorter than an arming sword, and the perfect length for a sidearm.  Despite its diminutive size compared to other swords, it's still a deadly weapon.",
     "price": 100000,
     "price_postapoc": 4500,
     "material": [ "steel" ],
