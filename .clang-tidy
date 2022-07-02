@@ -71,7 +71,6 @@ readability-*,\
 -readability-magic-numbers,\
 -readability-make-member-function-const,\
 -readability-named-parameter,\
--readability-qualified-auto,\
 -readability-redundant-access-specifiers,\
 -readability-use-anyofallof,\
 "

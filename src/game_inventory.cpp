@@ -1185,7 +1185,7 @@ class activatable_inventory_preset : public pickup_inventory_preset
             if( consume_drug != nullptr ) { //its a drug)
                 const consume_drug_iuse *consume_drug_use = dynamic_cast<const consume_drug_iuse *>
                         ( consume_drug->get_actor_ptr() );
-                for( auto &tool : consume_drug_use->tools_needed ) {
+                for( const auto &tool : consume_drug_use->tools_needed ) {
                     const bool has = item::count_by_charges( tool.first )
                                      ? you.has_charges( tool.first, ( tool.second == -1 ) ? 1 : tool.second )
                                      : you.has_amount( tool.first, 1 );

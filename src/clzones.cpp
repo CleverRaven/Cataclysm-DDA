@@ -502,7 +502,7 @@ cata::optional<zone_type_id> zone_manager::query_type( bool personal ) const
     std::vector<std::pair<zone_type_id, zone_type>> types_vec;
     // only add personal functioning zones for personal
     if( personal ) {
-        for( auto &tmp : types ) {
+        for( const auto &tmp : types ) {
             if( tmp.second.can_be_personal ) {
                 types_vec.emplace_back( tmp );
             }

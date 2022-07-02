@@ -1038,7 +1038,7 @@ static void simultaneous_add( Character &u, const std::vector<mabuff_id> &buffs 
 void martialart::remove_all_buffs( Character &u ) const
 {
     // Remove static buffs
-    for( auto &elem : static_buffs ) {
+    for( const auto &elem : static_buffs ) {
         const efftype_id eff_id = elem->get_effect_id();
         if( u.has_effect( eff_id ) && !elem->persists ) {
             u.remove_effect( eff_id );
@@ -1046,7 +1046,7 @@ void martialart::remove_all_buffs( Character &u ) const
     }
 
     // Remove onmove buffs
-    for( auto &elem : onmove_buffs ) {
+    for( const auto &elem : onmove_buffs ) {
         const efftype_id eff_id = elem->get_effect_id();
         if( u.has_effect( eff_id ) && !elem->persists ) {
             u.remove_effect( eff_id );
@@ -1054,7 +1054,7 @@ void martialart::remove_all_buffs( Character &u ) const
     }
 
     // Remove onpause buffs
-    for( auto &elem : onpause_buffs ) {
+    for( const auto &elem : onpause_buffs ) {
         const efftype_id eff_id = elem->get_effect_id();
         if( u.has_effect( eff_id ) && !elem->persists ) {
             u.remove_effect( eff_id );
@@ -1062,7 +1062,7 @@ void martialart::remove_all_buffs( Character &u ) const
     }
 
     // Remove onhit buffs
-    for( auto &elem : onhit_buffs ) {
+    for( const auto &elem : onhit_buffs ) {
         const efftype_id eff_id = elem->get_effect_id();
         if( u.has_effect( eff_id ) && !elem->persists ) {
             u.remove_effect( eff_id );
@@ -1070,7 +1070,7 @@ void martialart::remove_all_buffs( Character &u ) const
     }
 
     // Remove onattack buffs
-    for( auto &elem : onattack_buffs ) {
+    for( const auto &elem : onattack_buffs ) {
         const efftype_id eff_id = elem->get_effect_id();
         if( u.has_effect( eff_id ) && !elem->persists ) {
             u.remove_effect( eff_id );
@@ -1078,7 +1078,7 @@ void martialart::remove_all_buffs( Character &u ) const
     }
 
     // Remove ondodge buffs
-    for( auto &elem : ondodge_buffs ) {
+    for( const auto &elem : ondodge_buffs ) {
         const efftype_id eff_id = elem->get_effect_id();
         if( u.has_effect( eff_id ) && !elem->persists ) {
             u.remove_effect( eff_id );
@@ -1086,7 +1086,7 @@ void martialart::remove_all_buffs( Character &u ) const
     }
 
     // Remove onblock buffs
-    for( auto &elem : onblock_buffs ) {
+    for( const auto &elem : onblock_buffs ) {
         const efftype_id eff_id = elem->get_effect_id();
         if( u.has_effect( eff_id ) && !elem->persists ) {
             u.remove_effect( eff_id );
@@ -1094,7 +1094,7 @@ void martialart::remove_all_buffs( Character &u ) const
     }
 
     // Remove ongethit buffs
-    for( auto &elem : ongethit_buffs ) {
+    for( const auto &elem : ongethit_buffs ) {
         const efftype_id eff_id = elem->get_effect_id();
         if( u.has_effect( eff_id ) && !elem->persists ) {
             u.remove_effect( eff_id );
@@ -1102,7 +1102,7 @@ void martialart::remove_all_buffs( Character &u ) const
     }
 
     // Remove onmiss buffs
-    for( auto &elem : onmiss_buffs ) {
+    for( const auto &elem : onmiss_buffs ) {
         const efftype_id eff_id = elem->get_effect_id();
         if( u.has_effect( eff_id ) && !elem->persists ) {
             u.remove_effect( eff_id );
@@ -1110,7 +1110,7 @@ void martialart::remove_all_buffs( Character &u ) const
     }
 
     // Remove oncrit buffs
-    for( auto &elem : oncrit_buffs ) {
+    for( const auto &elem : oncrit_buffs ) {
         const efftype_id eff_id = elem->get_effect_id();
         if( u.has_effect( eff_id ) && !elem->persists ) {
             u.remove_effect( eff_id );
@@ -1118,7 +1118,7 @@ void martialart::remove_all_buffs( Character &u ) const
     }
 
     // Remove onkill buffs
-    for( auto &elem : onkill_buffs ) {
+    for( const auto &elem : onkill_buffs ) {
         const efftype_id eff_id = elem->get_effect_id();
         if( u.has_effect( eff_id ) && !elem->persists ) {
             u.remove_effect( eff_id );

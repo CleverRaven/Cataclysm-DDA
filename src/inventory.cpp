@@ -678,7 +678,7 @@ void inventory::dump( std::vector<item *> &dest )
 
 void inventory::dump( std::vector<const item *> &dest ) const
 {
-    for( auto &elem : items ) {
+    for( const auto &elem : items ) {
         for( const item &elem_stack_iter : elem ) {
             dest.push_back( &elem_stack_iter );
         }
