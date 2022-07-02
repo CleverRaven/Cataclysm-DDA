@@ -385,6 +385,6 @@
     "height": 3,
     "bodyparts": [ "head", "torso", "arm_l", "arm_r", "leg_l", "leg_r" ],
     "copy-from": "bodypart_status_indicator_template",
-    "flags": [ "W_LABEL_NONE", "W_DYNAMIC_HEIGHT" ]
+    "flags": [ "W_LABEL_NONE" ]
   }
 ]
