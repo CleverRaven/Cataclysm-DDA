@@ -153,6 +153,7 @@ struct talk_effect_fun_t {
         void set_place_override( const JsonObject &jo, const std::string &member );
         void set_mapgen_update( const JsonObject &jo, const std::string &member );
         void set_remove_npc( const JsonObject &jo, const std::string &member );
+        void set_alter_timed_events( const JsonObject &jo, const std::string &member );
         void set_revert_location( const JsonObject &jo, const std::string &member );
         void set_npc_goal( const JsonObject &jo, const std::string &member );
         void set_bulk_trade_accept( bool is_trade, int quantity, bool is_npc = false );
@@ -409,6 +410,8 @@ struct dynamic_line_t {
 };
 
 struct var_info {
+    var_info( var_type in_type, std::string in_name ): type( in_type ),
+        name( in_name ) {}
     var_info( var_type in_type, std::string in_name, std::string in_default_val ): type( in_type ),
         name( in_name ), default_val( in_default_val ) {}
     var_type type;
@@ -417,18 +420,19 @@ struct var_info {
 };
 
 template<class T>
-static std::string read_var_value( var_type type, std::string name, const T &d )
+static std::string read_var_value( var_info info, const T &d )
 {
+    std::string ret_val;
     global_variables &globvars = get_globals();
-    switch( type ) {
+    switch( info.type ) {
         case var_type::global:
-            return globvars.get_global_value( name );
+            ret_val = globvars.get_global_value( info.name );
             break;
         case var_type::u:
-            return d.actor( false )->get_value( name );
+            ret_val = d.actor( false )->get_value( info.name );
             break;
         case var_type::npc:
-            return d.actor( true )->get_value( name );
+            ret_val = d.actor( true )->get_value( info.name );
             break;
         case var_type::faction:
             debugmsg( "Not implemented yet." );
@@ -440,7 +444,10 @@ static std::string read_var_value( var_type type, std::string name, const T &d )
             debugmsg( "Invalid type." );
             break;
     }
-    return "";
+    if( ret_val.empty() ) {
+        ret_val = info.default_val;
+    }
+    return ret_val;
 }
 
 /**

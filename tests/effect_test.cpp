@@ -636,7 +636,7 @@ TEST_CASE( "bleed_effect_attribution", "[effect][bleed][monster]" )
         }
         WHEN( "when player cuts npc" ) {
 
-            auto &test_npc = *spawn_npc( player.pos().xy() + point_south_west, "thug" );
+            npc &test_npc = *spawn_npc( player.pos().xy() + point_south_west, "thug" );
             REQUIRE( test_npc.get_hp() == test_npc.get_hp_max() );
             THEN( "bleed effect gets attributed to player" ) {
                 test_npc.deal_damage( player.as_character(), body_part_torso, cut_damage );

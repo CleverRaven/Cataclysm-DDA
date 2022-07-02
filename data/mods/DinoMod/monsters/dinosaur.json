@@ -338,6 +338,7 @@
     "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "DESTROYS", "WARM", "PUSH_MON" ],
     "special_attacks": [ [ "GRAB", 7 ], { "type": "bite", "cooldown": 5 }, [ "LUNGE", 10 ], [ "LONGSWIPE", 25 ] ],
     "harvest": "dino_large_feather_pred",
+    "dissect": "dissect_tyrant_sample_large",
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "HURT", "PLAYER_CLOSE", "SOUND" ],
     "categories": [ "DINOSAUR", "WILDLIFE" ]
   },
@@ -378,6 +379,7 @@
     "special_attacks": [ [ "GRAB", 7 ], { "type": "bite", "cooldown": 5 }, [ "LUNGE", 10 ], [ "BIO_OP_TAKEDOWN", 30 ] ],
     "flags": [ "SEES", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "DESTROYS", "WARM", "SWARMS", "PUSH_MON" ],
     "harvest": "dino_large_feather_pred",
+    "dissect": "dissect_tyrant_sample_large",
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "HURT", "PLAYER_CLOSE", "SOUND" ],
     "categories": [ "DINOSAUR", "WILDLIFE" ]
   },
@@ -457,7 +459,7 @@
       "PRIORITIZE_TARGETS"
     ],
     "harvest": "dino_large_feather_pred",
-    "dissect": "dissect_dino_large_pred",
+    "dissect": "dissect_tyrant_sample_large",
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "HURT", "PLAYER_CLOSE", "SOUND" ],
     "categories": [ "DINOSAUR", "WILDLIFE" ]
   },
@@ -735,6 +737,7 @@
     "biosignature": { "biosig_item": "feces_dino", "biosig_timer": 3 },
     "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "KEENNOSE", "WARM", "CLIMBS" ],
     "harvest": "dino_feather_leather",
+    "dissect": "dissect_raptor_sample_single",
     "anger_triggers": [ "FRIEND_ATTACKED", "PLAYER_WEAK", "HURT" ],
     "fear_triggers": [ "FRIEND_DIED", "PLAYER_CLOSE" ],
     "categories": [ "DINOSAUR", "WILDLIFE" ]
@@ -788,6 +791,7 @@
       "PRIORITIZE_TARGETS"
     ],
     "harvest": "dino_feather_leather",
+    "dissect": "dissect_raptor_sample_single",
     "anger_triggers": [ "FRIEND_ATTACKED", "PLAYER_WEAK", "PLAYER_CLOSE", "HURT", "STALK" ],
     "fear_triggers": [ "FRIEND_DIED" ],
     "categories": [ "DINOSAUR", "WILDLIFE" ]
@@ -830,6 +834,7 @@
     "biosignature": { "biosig_item": "feces_dino", "biosig_timer": 3 },
     "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "KEENNOSE", "WARM", "CLIMBS" ],
     "harvest": "dino_large_feather_pred",
+    "dissect": "dissect_raptor_sample_small",
     "anger_triggers": [ "FRIEND_ATTACKED", "PLAYER_WEAK", "PLAYER_CLOSE", "HURT", "STALK", "SOUND" ],
     "fear_triggers": [ "FRIEND_DIED" ],
     "categories": [ "DINOSAUR", "WILDLIFE" ]
@@ -1119,7 +1124,8 @@
     "petfood": { "food": [ "DINOFOOD_C" ] },
     "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CANPLAY" ],
     "fear_triggers": [ "PLAYER_CLOSE", "FRIEND_DIED" ],
-    "harvest": "mammal_small_leather"
+    "harvest": "mammal_small_leather",
+    "dissect": "dissect_stego_sample_single"
   },
   {
     "type": "MONSTER",
@@ -1159,6 +1165,7 @@
     "petfood": { "food": [ "DINOFOOD_C" ] },
     "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "WARM" ],
     "harvest": "mammal_large_leather",
+    "dissect": "dissect_stego_sample_large",
     "anger_triggers": [ "HURT", "FRIEND_ATTACKED", "PLAYER_NEAR_BABY" ],
     "categories": [ "DINOSAUR", "WILDLIFE" ]
   },
@@ -1218,6 +1225,7 @@
     "petfood": { "food": [ "DINOFOOD_C" ] },
     "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "WARM", "PET_MOUNTABLE", "PET_WONT_FOLLOW" ],
     "harvest": "mammal_large_leather",
+    "dissect": "dissect_stego_sample_large",
     "anger_triggers": [ "HURT", "FRIEND_ATTACKED", "PLAYER_NEAR_BABY" ],
     "categories": [ "DINOSAUR", "WILDLIFE" ]
   },

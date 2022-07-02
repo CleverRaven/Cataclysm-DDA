@@ -737,7 +737,7 @@ void hacking_activity_actor::finish( player_activity &act, Character &who )
                            "alarm" );
             if( examp.z > 0 && !get_timed_events().queued( timed_event_type::WANTED ) ) {
                 get_timed_events().add( timed_event_type::WANTED, calendar::turn + 30_minutes, 0,
-                                        who.global_sm_location() );
+                                        who.get_location() );
             }
             break;
         case hack_result::NOTHING:
@@ -2243,7 +2243,7 @@ void lockpick_activity_actor::finish( player_activity &act, Character &who )
                        "alarm" );
         if( !get_timed_events().queued( timed_event_type::WANTED ) ) {
             get_timed_events().add( timed_event_type::WANTED, calendar::turn + 30_minutes, 0,
-                                    who.global_sm_location() );
+                                    who.get_location() );
         }
     }
 
@@ -4968,7 +4968,7 @@ void prying_activity_actor::handle_prying( Character &who )
                        "alarm" );
         if( !get_timed_events().queued( timed_event_type::WANTED ) ) {
             get_timed_events().add( timed_event_type::WANTED, calendar::turn + 30_minutes, 0,
-                                    who.global_sm_location() );
+                                    who.get_location() );
         }
     }
 
@@ -5669,10 +5669,10 @@ void firstaid_activity_actor::finish( player_activity &act, Character &who )
     act.values.clear();
 
     // Return to first eat or consume meds menu activity in the backlog.
-    for( auto iter = who.backlog.begin(); iter != who.backlog.end(); ++iter ) {
-        if( iter->id() == ACT_EAT_MENU ||
-            iter->id() == ACT_CONSUME_MEDS_MENU ) {
-            iter->auto_resume = true;
+    for( player_activity &backlog_act : who.backlog ) {
+        if( backlog_act.id() == ACT_EAT_MENU ||
+            backlog_act.id() == ACT_CONSUME_MEDS_MENU ) {
+            backlog_act.auto_resume = true;
             break;
         }
     }

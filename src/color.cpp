@@ -52,7 +52,7 @@ void color_manager::finalize()
         }
     };
 
-    for( auto &entry : color_array ) {
+    for( color_manager::color_struct &entry : color_array ) {
         entry.invert = get( entry.invert_id );
 
         if( !entry.name_custom.empty() ) {
@@ -73,7 +73,7 @@ void color_manager::finalize()
     }
 
     // Highlights in a next run, to make sure custom colors are set
-    for( auto &entry : color_array ) {
+    for( color_manager::color_struct &entry : color_array ) {
         const std::string my_name = get_name( entry.color );
         const std::string root = my_name.substr( 2, my_name.length() - 2 );
         const size_t underscore_num = std::count( root.begin(), root.end(), '_' ) -
@@ -124,7 +124,7 @@ color_id color_manager::color_to_id( const nc_color &color ) const
     }
 
     // Optimally this shouldn't happen, but allow for now
-    for( const auto &entry : color_array ) {
+    for( const color_manager::color_struct &entry : color_array ) {
         if( entry.color == color ) {
             debugmsg( "Couldn't find color %d", color.operator int() );
             return entry.col_id;
@@ -695,7 +695,7 @@ void color_manager::clear()
 {
     name_map.clear();
     inverted_map.clear();
-    for( auto &entry : color_array ) {
+    for( color_manager::color_struct &entry : color_array ) {
         entry.name.clear();
         entry.name_custom.clear();
         entry.name_invert_custom.clear();
@@ -796,7 +796,7 @@ void color_manager::show_gui()
         mvwputch( w_colors_border, point( getmaxx( w_colors_border ) - 1, 3 ), BORDER_COLOR,
                   LINE_XOXX ); // -|
 
-        for( auto &iCol : vLines ) {
+        for( int &iCol : vLines ) {
             if( iCol > -1 ) {
                 mvwputch( w_colors_border, point( iCol + 1, FULL_SCREEN_HEIGHT - 1 ), BORDER_COLOR,
                           LINE_XXOX ); // _|_
@@ -812,7 +812,7 @@ void color_manager::show_gui()
             for( int j = 0; j < 79; j++ ) {
                 mvwputch( w_colors, point( j, i ), c_black, ' ' );
 
-                for( auto &iCol : vLines ) {
+                for( int &iCol : vLines ) {
                     if( iCol == j ) {
                         mvwputch( w_colors, point( j, i ), BORDER_COLOR, LINE_XOXO );
                     }
@@ -832,7 +832,7 @@ void color_manager::show_gui()
         for( int i = iStartPos; iter != name_color_map.end(); ++iter, ++i ) {
             if( i >= iStartPos &&
                 i < iStartPos + ( iContentHeight > iMaxColors ? iMaxColors : iContentHeight ) ) {
-                auto &entry = iter->second;
+                color_manager::color_struct &entry = iter->second;
 
                 if( iCurrentLine == i ) {
                     mvwprintz( w_colors, point( vLines[iCurrentCol - 1] + 2, i - iStartPos ), c_yellow, ">" );
@@ -904,7 +904,7 @@ void color_manager::show_gui()
                 iCurrentCol = 1;
             }
         } else if( action == "REMOVE_CUSTOM" ) {
-            auto &entry = std::next( name_color_map.begin(), iCurrentLine )->second;
+            color_manager::color_struct &entry = std::next( name_color_map.begin(), iCurrentLine )->second;
 
             if( iCurrentCol == 1 && !entry.name_custom.empty() ) {
                 bStuffChanged = true;
@@ -982,7 +982,8 @@ void color_manager::show_gui()
             };
             ui_colors.w_height_setup = 18;
 
-            const auto &entry = std::next( name_color_map.begin(), iCurrentLine )->second;
+            const color_manager::color_struct &entry = std::next( name_color_map.begin(),
+                    iCurrentLine )->second;
 
             std::string sColorType = _( "Normal" );
             std::string sSelected = entry.name_custom;
@@ -1024,7 +1025,7 @@ void color_manager::show_gui()
                 auto iter = name_color_map.begin();
                 std::advance( iter, ui_colors.ret );
 
-                auto &entry = std::next( name_color_map.begin(), iCurrentLine )->second;
+                color_manager::color_struct &entry = std::next( name_color_map.begin(), iCurrentLine )->second;
 
                 if( iCurrentCol == 1 ) {
                     entry.name_custom = iter->first;

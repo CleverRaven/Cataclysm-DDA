@@ -1865,7 +1865,7 @@ static bool fetch_activity( Character &you, const tripoint &src_loc,
     const units::mass weight_allowed = you.weight_capacity() - you.weight_carried();
     // TODO: vehicle_stack and map_stack into one loop.
     if( src_veh ) {
-        for( auto &veh_elem : src_veh->get_items( src_part ) ) {
+        for( item &veh_elem : src_veh->get_items( src_part ) ) {
             for( auto elem : mental_map_2 ) {
                 if( std::get<0>( elem ) == src_loc && veh_elem.typeId() == std::get<1>( elem ) ) {
                     if( !you.backlog.empty() && you.backlog.front().id() == ACT_MULTIPLE_CONSTRUCTION ) {
@@ -2007,7 +2007,7 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
 
     map &here = get_map();
     const tripoint_abs_ms abspos = you.get_location();
-    auto &mgr = zone_manager::get_manager();
+    zone_manager &mgr = zone_manager::get_manager();
     if( here.check_vehicle_zones( here.get_abs_sub().z() ) ) {
         mgr.cache_vzones();
     }
@@ -2039,7 +2039,7 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
             act.placement = src.raw();
             act.coord_set.erase( src.raw() );
 
-            const auto &src_loc = here.getlocal( src );
+            const tripoint &src_loc = here.getlocal( src );
             if( !here.inbounds( src_loc ) ) {
                 if( !here.inbounds( you.pos() ) ) {
                     // p is implicitly an NPC that has been moved off the map, so reset the activity
@@ -2151,7 +2151,7 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
                 false ) ) {
             src_veh = &vp->vehicle();
             src_part = vp->part_index();
-            for( auto &it : src_veh->get_items( src_part ) ) {
+            for( item &it : src_veh->get_items( src_part ) ) {
                 items.emplace_back( &it, true );
             }
         } else {
@@ -2920,8 +2920,8 @@ static bool generic_multi_activity_do( Character &you, const activity_id &act_id
             if( elem.is_disassemblable() ) {
                 // Disassemble the checked one.
                 if( elem.get_var( "activity_var" ) == you.name ) {
-                    const auto &r = ( elem.typeId() == itype_disassembly ) ? elem.get_making() :
-                                    recipe_dictionary::get_uncraft( elem.typeId() );
+                    const recipe &r = ( elem.typeId() == itype_disassembly ) ? elem.get_making() :
+                                      recipe_dictionary::get_uncraft( elem.typeId() );
                     int const qty = std::max( 1, elem.typeId() == itype_disassembly ? elem.get_making_batch_size() :
                                               elem.charges );
                     player_activity act = player_activity( disassemble_activity_actor( r.time_to_craft_moves( you,

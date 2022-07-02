@@ -69,7 +69,7 @@ void load( const JsonObject &jo, const std::string &src )
         entry.symbol = *iter;
 
         auto rotation_iter = iter;
-        for( auto &element : entry.rotated_symbol ) {
+        for( unsigned int &element : entry.rotated_symbol ) {
             if( ++rotation_iter == tuple.cend() ) {
                 rotation_iter = tuple.cbegin();
             }

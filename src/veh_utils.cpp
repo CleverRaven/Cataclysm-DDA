@@ -54,7 +54,7 @@ int calc_xp_gain( const vpart_info &vp, const skill_id &sk, const Character &who
 
 vehicle_part &most_repairable_part( vehicle &veh, Character &who, bool only_repairable )
 {
-    const auto &inv = who.crafting_inventory();
+    const inventory &inv = who.crafting_inventory();
 
     enum class repairable_status {
         not_repairable = 0,
@@ -63,7 +63,7 @@ vehicle_part &most_repairable_part( vehicle &veh, Character &who, bool only_repa
     };
     std::map<const vehicle_part *, repairable_status> repairable_cache;
     for( const vpart_reference &vpr : veh.get_all_parts() ) {
-        const auto &info = vpr.info();
+        const vpart_info &info = vpr.info();
         repairable_cache[ &vpr.part() ] = repairable_status::not_repairable;
         if( vpr.part().removed || vpr.part().damage() <= vpr.part().degradation() ) {
             continue;
@@ -136,7 +136,7 @@ bool repair_part( vehicle &veh, vehicle_part &pt, Character &who, const std::str
     // consume items extracting any base item (which we will need if replacing broken part)
     item base( vp.base_item );
     for( const auto &e : reqs.get_components() ) {
-        for( auto &obj : who.consume_items( who.select_item_component( e, 1, map_inv ), 1,
+        for( item &obj : who.consume_items( who.select_item_component( e, 1, map_inv ), 1,
                                             is_crafting_component ) ) {
             if( obj.typeId() == vp.base_item ) {
                 base = obj;

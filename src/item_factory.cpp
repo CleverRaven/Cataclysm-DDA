@@ -2284,7 +2284,7 @@ void Item_factory::check_definitions() const
             if( !m_templates.count( m.replace ) ) {
                 debugmsg( "Invalid migration target: %s", m.replace.c_str() );
             }
-            for( const auto &c : m.contents ) {
+            for( const migration::content &c : m.contents ) {
                 if( !m_templates.count( c.id ) ) {
                     debugmsg( "Invalid migration contents: %s", c.id.str() );
                 }
