@@ -44,6 +44,7 @@ disp_overmap_cache::disp_overmap_cache()
 {
     _center = overmap::invalid_tripoint;
     _mission = overmap::invalid_tripoint;
+    _width = 0;
 }
 
 disp_bodygraph_cache::disp_bodygraph_cache()
@@ -593,8 +594,7 @@ std::pair<std::string, nc_color> display::activity_text_color( const Character &
 std::pair<std::string, nc_color> display::thirst_text_color( const Character &u )
 {
     // some delay from water in stomach is desired, but there needs to be some visceral response
-    int thirst = u.get_thirst() - std::max( units::to_milliliter<int>( u.stomach.get_water() ) / 10,
-                                            0 );
+    int thirst = u.get_instant_thirst();
     std::string hydration_string;
     nc_color hydration_color = c_white;
     if( thirst > 520 ) {
@@ -1153,7 +1153,7 @@ std::string display::colorized_overmap_text( const avatar &u, const int width, c
     const tripoint_abs_omt &center_xyz = u.global_omt_location();
     const tripoint_abs_omt &mission_xyz = u.get_active_mission_target();
     // Retrieve cached string instead of constantly rebuilding it
-    if( disp_om_cache.is_valid_for( center_xyz, mission_xyz ) ) {
+    if( disp_om_cache.is_valid_for( center_xyz, mission_xyz, width ) ) {
         return disp_om_cache.get_val();
     }
 
@@ -1192,7 +1192,7 @@ std::string display::colorized_overmap_text( const avatar &u, const int width, c
     }
 
     // Rebuild the cache so we can reuse it if nothing changes
-    disp_om_cache.rebuild( center_xyz, mission_xyz, overmap_text );
+    disp_om_cache.rebuild( center_xyz, mission_xyz, width, overmap_text );
 
     return overmap_text;
 }

@@ -452,6 +452,8 @@ class item : public visitable
                        int batch, bool debug ) const;
         void food_info( const item *food_item, std::vector<iteminfo> &info, const iteminfo_query *parts,
                         int batch, bool debug ) const;
+        void rot_info( const item *food_item, std::vector<iteminfo> &info, const iteminfo_query *parts,
+                       int batch, bool debug ) const;
         void magazine_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
                             bool debug ) const;
         void ammo_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
@@ -960,9 +962,9 @@ class item : public visitable
 
 
         /**
-        * Calculates rot per hour at given temperature.
-        */
-        float get_hourly_rotpoints_at_temp( int temp ) const;
+         * Returns rate of rot (rot/h) at the given temperature
+         */
+        float calc_hourly_rotpoints_at_temp( units::temperature temp ) const;
 
         /**
          * Accumulate rot of the item since last rot calculation.
@@ -971,7 +973,7 @@ class item : public visitable
          * @param time Time point to which rot is calculated
          * @param temp Temperature at which the rot is calculated
          */
-        void calc_rot( int temp, float spoil_modifier, const time_duration &time_delta );
+        void calc_rot( units::temperature temp, float spoil_modifier, const time_duration &time_delta );
 
         /**
          * This is part of a workaround so that items don't rot away to nothing if the smoking rack
@@ -999,11 +1001,11 @@ class item : public visitable
         /** Set the item to COLD and resets last_temp_check*/
         void cold_up();
 
-        /** Sets the item temperature and item energy from new temperature (K) and resets last_temp_check */
-        void set_item_temperature( float new_temperature );
+        /** Sets the item temperature and item energy from new temperature and resets last_temp_check */
+        void set_item_temperature( units::temperature new_temperature );
 
         /** Sets the item to new temperature and energy based new specific energy (J/g) and resets last_temp_check*/
-        void set_item_specific_energy( float specific_energy );
+        void set_item_specific_energy( units::specific_energy specific_energy );
 
         /**
          * Get the thermal energy of the item in Joules.
@@ -1494,10 +1496,15 @@ class item : public visitable
 
         /** Returns empty string if the book teach no skill */
         std::string get_book_skill() const;
+
+        //** Returns specific heat of the item (J/g K) */
         float get_specific_heat_liquid() const;
         float get_specific_heat_solid() const;
+
+        /** Returns latent heat of the item (J/g) */
         float get_latent_heat() const;
-        float get_freeze_point() const; // Celsius
+
+        units::temperature get_freeze_point() const;
 
         void set_last_temp_check( const time_point &pt );
 
@@ -1565,6 +1572,11 @@ class item : public visitable
           * Returns true if any of the contents are not frozen or not empty if it's liquid
           */
         bool can_unload_liquid() const;
+
+        /**
+         * Returns true if none of the contents are solid
+         */
+        bool contains_no_solids() const;
 
         bool is_dangerous() const; // Is it an active grenade or something similar that will hurt us?
 
@@ -1754,9 +1766,11 @@ class item : public visitable
          * item itself (@ref item_tags). The item has the flag if it appears in either set.
          *
          * Gun mods that are attached to guns also contribute their flags to the gun item.
+         *
+         * ignore_inherit means the item will skip checking items in pockets flags even if it has inherit
          */
         /*@{*/
-        bool has_flag( const flag_id &flag ) const;
+        bool has_flag( const flag_id &flag, bool ignore_inherit = false ) const;
 
         template<typename Container, typename T = std::decay_t<decltype( *std::declval<const Container &>().begin() )>>
         bool has_any_flag( const Container &flags ) const {
@@ -2729,13 +2743,13 @@ class item : public visitable
          * @param insulation Amount of insulation item has
          * @param time_delta time duration from previous temperature calculation
          */
-        void calc_temp( int temp, float insulation, const time_duration &time_delta );
+        void calc_temp( units::temperature temp, float insulation, const time_duration &time_delta );
 
-        /** Calculates item specific energy (J/g) from temperature (K)*/
-        float get_specific_energy_from_temperature( float new_temperature );
+        /** Calculates item specific energy (J/g) from temperature*/
+        units::specific_energy get_specific_energy_from_temperature( units::temperature new_temperature );
 
         /** Update flags associated with temperature */
-        void set_temp_flags( float new_temperature, float freeze_percentage );
+        void set_temp_flags( units::temperature new_temperature, float freeze_percentage );
 
         std::list<item *> all_items_top_recursive( item_pocket::pocket_type pk_type );
         std::list<const item *> all_items_top_recursive( item_pocket::pocket_type pk_type ) const;
@@ -2845,8 +2859,9 @@ class item : public visitable
         snippet_id snip_id = snippet_id::NULL_ID(); // Associated dynamic text snippet id.
         int irradiation = 0;       // Tracks radiation dosage.
         int item_counter = 0;      // generic counter to be used with item flags
-        int specific_energy = -10; // Specific energy (0.00001 J/g). Negative value for unprocessed.
-        int temperature = 0;       // Temperature of the item (in 0.00001 K).
+        units::specific_energy specific_energy = units::from_joule_per_gram(
+                    -10 ); // Specific energy J/g. Negative value for unprocessed.
+        units::temperature temperature = units::from_kelvin( 0 );       // Temperature of the item .
         int mission_id = -1;       // Refers to a mission in game's master list
         int player_id = -1;        // Only give a mission to the right player!
         bool ethereal = false;

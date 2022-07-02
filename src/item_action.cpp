@@ -206,7 +206,7 @@ item_action_map item_action_generator::map_actions_to_items( Character &you,
 
 std::string item_action_generator::get_action_name( const item_action_id &id ) const
 {
-    const auto &act = get_action( id );
+    const item_action &act = get_action( id );
     if( !act.name.empty() ) {
         return act.name.translated();
     }
@@ -245,7 +245,7 @@ void item_action_generator::load_item_action( const JsonObject &jo )
 void item_action_generator::check_consistency() const
 {
     for( const auto &elem : item_actions ) {
-        const auto &action = elem.second;
+        const item_action &action = elem.second;
         if( !item_controller->has_iuse( action.id ) ) {
             debugmsg( "Item action \"%s\" isn't known to the game.  Check item action definitions in JSON.",
                       action.id.c_str() );
@@ -255,7 +255,7 @@ void item_action_generator::check_consistency() const
 
 void game::item_action_menu( item_location loc )
 {
-    const auto &gen = item_action_generator::generator();
+    const item_action_generator &gen = item_action_generator::generator();
     const action_map &item_actions = gen.get_item_action_map();
     std::vector<item *> pseudos;
     bool use_player_inventory = false;

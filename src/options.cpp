@@ -32,6 +32,7 @@
 #include "sounds.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
+#include "system_locale.h"
 #include "translations.h"
 #include "try_parse_integer.h"
 #include "ui_manager.h"
@@ -1415,12 +1416,13 @@ void options_manager::add_options_interface()
     add( "USE_METRIC_SPEEDS", "interface", to_translation( "Speed units" ),
          to_translation( "Switch between mph, km/h, and tiles/turn." ),
     { { "mph", to_translation( "mph" ) }, { "km/h", to_translation( "km/h" ) }, { "t/t", to_translation( "tiles/turn" ) } },
-    "mph"
+    ( SystemLocale::UseMetricSystem().value_or( false ) ? "km/h" : "mph" )
        );
 
     add( "USE_METRIC_WEIGHTS", "interface", to_translation( "Mass units" ),
          to_translation( "Switch between lbs and kg." ),
-    { { "lbs", to_translation( "lbs" ) }, { "kg", to_translation( "kg" ) } }, "lbs"
+    { { "lbs", to_translation( "lbs" ) }, { "kg", to_translation( "kg" ) } },
+    ( SystemLocale::UseMetricSystem().value_or( false ) ? "kg" : "lbs" )
        );
 
     add( "VOLUME_UNITS", "interface", to_translation( "Volume units" ),
@@ -1431,7 +1433,7 @@ void options_manager::add_options_interface()
     add( "DISTANCE_UNITS", "interface", to_translation( "Distance units" ),
          to_translation( "Switch between metric and imperial distance units." ),
     { { "metric", to_translation( "Metric" ) }, { "imperial", to_translation( "Imperial" ) } },
-    "imperial" );
+    ( SystemLocale::UseMetricSystem().value_or( false ) ? "metric" : "imperial" ) );
 
     add( "24_HOUR", "interface", to_translation( "Time format" ),
          to_translation( "12h: AM/PM, e.g. 7:31 AM - Military: 24h Military, e.g. 0731 - 24h: Normal 24h, e.g. 7:31" ),
@@ -2290,6 +2292,13 @@ void options_manager::add_options_world_default()
     { { "any", to_translation( "Any" ) }, { "multi_pool", to_translation( "Multi-pool only" ) }, { "no_freeform", to_translation( "No freeform" ) } },
     "any"
        );
+
+    add_empty_line();
+
+    add( "META_PROGRESS", "world_default", to_translation( "Meta Progression" ),
+         to_translation( "Will you need to complete certain achievements to enable certain scenarios and professions?  Achievements are tracked from your memorial file so characters from any world will be checked.  Disabling this will spoil factions and situations you may otherwise stumble upon naturally.  Some scenarios are frustrating for the uninitiated and some professions skip portions of the games content.  If new to the game meta progression will help you be introduced to mechanics at a reasonable pace." ),
+         true
+       );
 }
 
 void options_manager::add_options_debug()
@@ -2808,8 +2817,9 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
         Page &page = pages_[iCurrentPage];
         auto &page_items = page.items_;
 
-        auto &cOPTIONS = ( ingame || world_options_only ) && iCurrentPage == iWorldOptPage ?
-                         ACTIVE_WORLD_OPTIONS : OPTIONS;
+        options_manager::options_container &cOPTIONS = ( ingame || world_options_only ) &&
+                iCurrentPage == iWorldOptPage ?
+                ACTIVE_WORLD_OPTIONS : OPTIONS;
 
         //Clear the lines
         for( int i = 0; i < iContentHeight; i++ ) {
@@ -2977,8 +2987,9 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
         Page &page = pages_[iCurrentPage];
         auto &page_items = page.items_;
 
-        auto &cOPTIONS = ( ingame || world_options_only ) && iCurrentPage == iWorldOptPage ?
-                         ACTIVE_WORLD_OPTIONS : OPTIONS;
+        options_manager::options_container &cOPTIONS = ( ingame || world_options_only ) &&
+                iCurrentPage == iWorldOptPage ?
+                ACTIVE_WORLD_OPTIONS : OPTIONS;
 
         std::string action = ctxt.handle_input();
 
@@ -3262,7 +3273,7 @@ void options_manager::serialize( JsonOut &json ) const
             }
             const auto iter = options.find( *opt_name );
             if( iter != options.end() ) {
-                const auto &opt = iter->second;
+                const options_manager::cOpt &opt = iter->second;
 
                 json.start_object();
 

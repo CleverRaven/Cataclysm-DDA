@@ -225,7 +225,7 @@ void standardize_construction_times( const int time )
         debugmsg( "standardize_construction_times called before finalization" );
         return;
     }
-    for( auto &c : constructions ) {
+    for( construction &c : constructions ) {
         c.time = time;
     }
 }
@@ -246,7 +246,7 @@ constructions_by_filter( std::function<bool( construction const & )> const &filt
         return {};
     }
     std::vector<construction *> result;
-    for( auto &constructions_a : constructions ) {
+    for( construction &constructions_a : constructions ) {
         if( filter( constructions_a ) ) {
             result.push_back( &constructions_a );
         }
@@ -265,7 +265,7 @@ static void load_available_constructions( std::vector<construction_group_str_id>
         return;
     }
     avatar &player_character = get_avatar();
-    for( auto &it : constructions ) {
+    for( construction &it : constructions ) {
         if( it.on_display && ( !hide_unconstructable ||
                                player_can_build( player_character, player_character.crafting_inventory(), it ) ) ) {
             bool already_have_it = false;
@@ -889,7 +889,7 @@ static std::vector<construction *> player_can_build_valid_constructions( Charact
     // check all with the same group to see if player can build any
     // if so, it will be added to the result
     std::vector<construction *> cons = constructions_by_group( group );
-    for( auto &con : cons ) {
+    for( construction *&con : cons ) {
         if( player_can_build( you, inv, *con ) ) {
             result.push_back( con );
         }
@@ -902,7 +902,7 @@ bool player_can_build( Character &you, const read_only_visitable &inv,
 {
     // check all with the same group to see if player can build any
     std::vector<construction *> cons = constructions_by_group( group );
-    for( auto &con : cons ) {
+    for( construction *&con : cons ) {
         if( player_can_build( you, inv, *con ) ) {
             return true;
         }
@@ -932,7 +932,7 @@ bool player_can_see_to_build( Character &you, const construction_group_str_id &g
         return true;
     }
     std::vector<construction *> cons = constructions_by_group( group );
-    for( auto &con : cons ) {
+    for( construction *&con : cons ) {
         if( con->dark_craftable ) {
             return true;
         }
@@ -1104,7 +1104,7 @@ void complete_construction( Character *you )
     // Friendly NPCs gain exp from assisting or watching...
     // TODO: NPCs watching other NPCs do stuff and learning from it
     if( you->is_avatar() ) {
-        for( auto &elem : get_avatar().get_crafting_helpers() ) {
+        for( npc *&elem : get_avatar().get_crafting_helpers() ) {
             if( elem->meets_skill_requirements( built ) ) {
                 add_msg( m_info, _( "%s assists you with the work…" ), elem->get_name() );
             } else {
@@ -1442,16 +1442,16 @@ void construct::done_wiring( const tripoint &p, Character &/*who*/ )
 
         bounding_box vehicle_box = veh->get_bounding_box( false );
         point size;
-        size.x = abs( ( vehicle_box.p2 - vehicle_box.p1 ).x ) + 1;
-        size.y = abs( ( vehicle_box.p2 - vehicle_box.p1 ).y ) + 1;
+        size.x = std::abs( ( vehicle_box.p2 - vehicle_box.p1 ).x ) + 1;
+        size.y = std::abs( ( vehicle_box.p2 - vehicle_box.p1 ).y ) + 1;
 
         vehicle &veh_target = vp->vehicle();
         if( &veh_target != veh && veh_target.has_tag( flag_WIRING ) ) {
             bounding_box target_vehicle_box = veh_target.get_bounding_box( false );
 
             point target_size;
-            target_size.x = abs( ( target_vehicle_box.p2 - target_vehicle_box.p1 ).x ) + 1;
-            target_size.y = abs( ( target_vehicle_box.p2 - target_vehicle_box.p1 ).y ) + 1;
+            target_size.x = std::abs( ( target_vehicle_box.p2 - target_vehicle_box.p1 ).x ) + 1;
+            target_size.y = std::abs( ( target_vehicle_box.p2 - target_vehicle_box.p1 ).y ) + 1;
 
             if( size.x + target_size.x <= MAX_WIRE_VEHICLE_SIZE &&
                 size.y + target_size.y <= MAX_WIRE_VEHICLE_SIZE ) {
@@ -1850,9 +1850,9 @@ void load_construction( const JsonObject &jo )
     con.id = construction_id( -1 );
     con.str_id = construction_str_id( jo.get_string( "id" ) );
     if( con.str_id.is_null() ) {
-        jo.throw_error( "Null construction id specified", "id" );
+        jo.throw_error_at( "id", "Null construction id specified" );
     } else if( construction_id_map.find( con.str_id ) != construction_id_map.end() ) {
-        jo.throw_error( "Duplicate construction id", "id" );
+        jo.throw_error_at( "id", "Duplicate construction id" );
     }
 
     jo.get_member( "group" ).read( con.group );
@@ -2078,7 +2078,7 @@ int construction::adjusted_time() const
     int final_time = time;
     int assistants = 0;
 
-    for( auto &elem : get_avatar().get_crafting_helpers() ) {
+    for( npc *&elem : get_avatar().get_crafting_helpers() ) {
         if( elem->meets_skill_requirements( *this ) ) {
             assistants++;
         }
@@ -2189,13 +2189,13 @@ build_reqs get_build_reqs_for_furn_ter_ids(
                 if( pre_build.category == construction_category_REPAIR ) {
                     continue;
                 }
-                if( ( pre_build.post_terrain.empty() or
-                      ( !pre_build.post_is_furniture and
-                        ter_id( pre_build.post_terrain ) != base_ter ) ) and
-                    ( pre_build.pre_terrain.empty() or
-                      ( pre_build.post_is_furniture and
-                        ter_id( pre_build.pre_terrain ) == base_ter ) ) and
-                    pre_build.post_terrain == build_pre_ter and
+                if( ( pre_build.post_terrain.empty() ||
+                      ( !pre_build.post_is_furniture &&
+                        ter_id( pre_build.post_terrain ) != base_ter ) ) &&
+                    ( pre_build.pre_terrain.empty() ||
+                      ( pre_build.post_is_furniture &&
+                        ter_id( pre_build.pre_terrain ) == base_ter ) ) &&
+                    pre_build.post_terrain == build_pre_ter &&
                     pre_build.pre_terrain != build.post_terrain ) {
                     if( total_builds.find( pre_build.id ) == total_builds.end() ) {
                         total_builds[pre_build.id] = 0;

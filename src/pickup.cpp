@@ -236,7 +236,7 @@ static bool pick_one_up( item_location &loc, int quantity, bool &got_water, Pick
             if( !picked_up ) {
                 break;
             } else {
-                const int invlet = newit.invlet;
+                const char invlet = newit.invlet;
                 newit = it;
                 newit.invlet = invlet;
             }
@@ -366,7 +366,7 @@ void Pickup::autopickup( const tripoint &p )
             direction::SOUTHEAST, direction::SOUTH, direction::SOUTHWEST,
             direction::WEST, direction::NORTHWEST
         };
-        for( auto &elem : adjacentDir ) {
+        for( direction &elem : adjacentDir ) {
 
             tripoint apos = tripoint( displace_XY( elem ), 0 );
             apos += p;

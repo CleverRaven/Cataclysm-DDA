@@ -354,14 +354,14 @@ TEST_CASE( "liquid_reloading", "[reload]" )
 
         SECTION( "with frozen water" ) {
             item liquid( "water_clean" );
-            liquid.set_item_temperature( 200 );
+            liquid.set_item_temperature( units::from_kelvin( 200 ) );
             REQUIRE( liquid.is_frozen_liquid() );
             test_reloading( container, liquid, false );
         }
 
         SECTION( "with frozen water from container" ) {
             item liquid( "water_clean" );
-            liquid.set_item_temperature( 200 );
+            liquid.set_item_temperature( units::from_kelvin( 200 ) );
             REQUIRE( liquid.is_frozen_liquid() );
 
             item liquid_container( "bottle_plastic" );
@@ -405,14 +405,14 @@ TEST_CASE( "liquid_reloading", "[reload]" )
 
         SECTION( "with frozen water" ) {
             item liquid( "water_clean" );
-            liquid.set_item_temperature( 200 );
+            liquid.set_item_temperature( units::from_kelvin( 200 ) );
             REQUIRE( liquid.is_frozen_liquid() );
             test_reloading( container, liquid, false );
         }
 
         SECTION( "with frozen water from container" ) {
             item liquid( "water_clean" );
-            liquid.set_item_temperature( 200 );
+            liquid.set_item_temperature( units::from_kelvin( 200 ) );
             REQUIRE( liquid.is_frozen_liquid() );
 
             item liquid_container( "bottle_plastic" );
@@ -453,14 +453,14 @@ TEST_CASE( "liquid_reloading", "[reload]" )
 
         SECTION( "with frozen water" ) {
             item liquid( "water_clean" );
-            liquid.set_item_temperature( 200 );
+            liquid.set_item_temperature( units::from_kelvin( 200 ) );
             REQUIRE( liquid.is_frozen_liquid() );
             test_reloading( container, liquid, false );
         }
 
         SECTION( "with frozen water from container" ) {
             item liquid( "water_clean" );
-            liquid.set_item_temperature( 200 );
+            liquid.set_item_temperature( units::from_kelvin( 200 ) );
             REQUIRE( liquid.is_frozen_liquid() );
 
             item liquid_container( "bottle_plastic" );

@@ -15,6 +15,7 @@
     - [Text style](#text-style)
 - [Fields](#fields)
   - [label](#label)
+  - [string](#string)
   - [fill](#fill)
   - [style](#style)
   - [direction](#direction)
@@ -118,15 +119,17 @@ linked sections:
 
 | field                   | type                  | description
 | --                      | --                    | --
-| arrange                 | string                | For "layout" style, display child widgets as "rows" or "columns"
+| arrange                 | string                | For "layout" style, display child widgets as "rows", "columns" or "minimum_columns"
 | bodypart                | string                | For "bp_*" variables, body part id like "leg_r" or "torso"
 | separator               | string                | The string used to separate the label from the widget data. Children will inherit if this is not defined. Mandatory if style is "sidebar".
+| padding                 | int                   | Amount of padding between columns for this widget. Children will inherit if this is not defined. Mandatory if style is "sidebar".
 | [colors](#colors)       | list of strings       | Color names in a spectrum across variable range
 | [direction](#direction) | string                | Cardinal compass direction like "N" or "SE"
 | [fill](#fill)           | string                | For [graph style](#graph-style), fill using ike "bucket" or "pool"
 | [flags](#flags)         |                       | list of strings | Optional toggles
 | [height](#height)       | integer               | Maximum number of lines of text to take up
 | [label](#label)         | string or translation | Visible descriptor or heading
+| [string](#string)       | string or translation | Visible descriptor or heading. Used as a last resort by "text" style widgets. Mandatory if the widget has no clauses.
 | [clauses](#clauses-and-conditions) | list of objects | Arbitrary conditional expressions mapped to colored text, symbols, or numbers
 | [style](#style)         | string                | Sub-type or visual theme: "number", "graph", "text", "layout"
 | symbols                 | string                | For [graph style](#graph-style), text characters for ascending values
@@ -191,8 +194,9 @@ Use widgets with "style": "layout" to arrange child widgets in sidebar panels, g
 the "widgets" list field.
 
 The arrangement of child widgets is defined by the "arrange" field, which may be "columns" (default)
-to array widgets horizontally, or "rows" to arrange them vertically, one widget per row.  Widgets in
-the same row will have their horizontal space split as equally as possible.
+to array widgets horizontally, or "rows" to arrange them vertically, one widget per row.  Normal columns
+will split their horizontal space as equally as possible. Whereas minimum_columns will take their exact
+amount of space (defaulting to space split like columns) with the last column in the row taking all remaining space.
 
 ```json
 [
@@ -423,7 +427,112 @@ Also see [Graph widgets](#graph-widgets) for some predefined ones you can use or
 
 ### Text style
 
-**TODO**
+Text style widgets display text. They can be very powerful, but are also pretty complex.
+
+The simplest text widget is one that displays static text using the `string` field. If a text widget
+does not have any clauses or a `var` field, it _must_ have the `string` field. The widget below
+displays a single dot.
+```JSON
+{
+  "id": "lcom_spacer",
+  "type": "widget",
+  "style": "text",
+  "string": ".",
+  "flags": [ "W_LABEL_NONE" ]
+}
+```
+
+In the vast majority of cases, text widgets will display text conditionally using [clauses](#clauses-and-conditions).
+These clauses use dialogue conditions to determine what text to show and in what color.
+The below widget is a prime example of a text widget, and is used to display a player's thirst level.
+```JSON
+{
+  "id": "thirst_desc_label",
+  "type": "widget",
+  "label": "Thirst",
+  "style": "text",
+  "clauses": [
+    {
+      "id": "parched",
+      "text": "Parched",
+      "color": "light_red",
+      "condition": { "compare_int": [ { "u_val": "thirst" }, ">", { "const": 520 } ] }
+    },
+    {
+      "id": "dehydrated",
+      "text": "Dehydrated",
+      "color": "light_red",
+      "condition": {
+        "and": [
+          { "compare_int": [ { "u_val": "thirst" }, ">", { "const": 240 } ] },
+          { "compare_int": [ { "u_val": "thirst" }, "<=", { "const": 520 } ] }
+        ]
+      }
+    },
+    {
+      "id": "very_thirsty",
+      "text": "Very thirsty",
+      "color": "yellow",
+      "condition": {
+        "and": [
+          { "compare_int": [ { "u_val": "thirst" }, ">", { "const": 80 } ] },
+          { "compare_int": [ { "u_val": "thirst" }, "<=", { "const": 240 } ] }
+        ]
+      }
+    },
+    {
+      "id": "thirsty",
+      "text": "Thirsty",
+      "color": "yellow",
+      "condition": {
+        "and": [
+          { "compare_int": [ { "u_val": "thirst" }, ">", { "const": 40 } ] },
+          { "compare_int": [ { "u_val": "thirst" }, "<=", { "const": 80 } ] }
+        ]
+      }
+    },
+    {
+      "id": "neutral",
+      "text": "",
+      "color": "white",
+      "condition": {
+        "and": [
+          { "compare_int": [ { "u_val": "thirst" }, ">=", { "const": 0 } ] },
+          { "compare_int": [ { "u_val": "thirst" }, "<=", { "const": 40 } ] }
+        ]
+      }
+    },
+    {
+      "id": "slaked",
+      "text": "Slaked",
+      "color": "green",
+      "condition": {
+        "and": [
+          { "compare_int": [ { "u_val": "thirst" }, ">=", { "const": -20 } ] },
+          { "compare_int": [ { "u_val": "thirst" }, "<", { "const": 0 } ] }
+        ]
+      }
+    },
+    {
+      "id": "hydrated",
+      "text": "Hydrated",
+      "color": "green",
+      "condition": {
+        "and": [
+          { "compare_int": [ { "u_val": "thirst" }, ">=", { "const": -60 } ] },
+          { "compare_int": [ { "u_val": "thirst" }, "<", { "const": -20 } ] }
+        ]
+      }
+    },
+    {
+      "id": "turgid",
+      "text": "Turgid",
+      "color": "green",
+      "condition": { "compare_int": [ { "u_val": "thirst" }, "<", { "const": -60 } ] }
+    }
+  ]
+},
+```
 
 See [Text widgets](#text-widgets) for a variety of predefined text widgets you can use or extend.
 
@@ -464,6 +573,10 @@ appropriate words in other languages.
 See the [Translatable strings section of JSON_INFO.md](JSON_INFO.md#translatable-strings)
 for more on how these work.
 
+## string
+
+If you have a `text` style widget that has no other options for what to display, it must have a
+`string` field to display instead. This will cause the widget to display a static string.
 
 ## fill
 
@@ -671,7 +784,7 @@ Widgets can use flags to specify special behaviors:
 }
 ```
 
-Here are some flags that can be included:
+Here are the flags that can be included:
 
 | Flag id                 | Description
 |---                      |---
@@ -679,7 +792,7 @@ Here are some flags that can be included:
 | `W_DISABLED_BY_DEFAULT` | Makes this widget disabled by default (only applies to top-level widgets/layouts)
 | `W_DISABLED_WHEN_EMPTY` | Automatically hides this widget when the widget's text is empty
 | `W_DYNAMIC_HEIGHT`      | Allows certain multi-line widgets to dynamically adjust their height
-| `W_NO_PADDING`          | Removes extra padding added between columns for alignment (applies recursively to sub-widgets)
+| `W_NO_PADDING`          | Removes extra padding added between columns for alignment (applies recursively to sub-widgets). This will remove all excess whitespace, including whitespace that is explicitly defined by the developer.
 
 
 # Clauses and conditions
@@ -859,33 +972,34 @@ rendered with reference to the maximum value for the variable; see [Variable ran
 
 Some vars refer to text descriptors. These must use style "text". Examples:
 
-| var                     | description
-|--                       |--
-| `activity_text`         | Activity level - "None", "Light". "Moderate", "Brisk", "Active", "Extreme"
-| `bp_outer_armor_text`   | Item name and damage bars of armor/clothing worn on the given "bodypart"
-| `compass_legend_text`   | (_multiline_) A list of creatures visible by the player, corresponding to compass symbols
-| `compass_text`          | A compass direction (ex: NE), displaying visible creatures in that direction
-| `date_text`             | Current day within season, like "Summer, day 15"
-| `env_temp_text`         | Environment temperature, if thermometer is available
-| `mood_text`             | Avatar mood represented as an emoticon face
-| `move_mode_letter`      | Movement mode - "W": walking, "R": running, "C": crouching, "P": prone
-| `move_mode_text`        | Movement mode - "walking", "running", "crouching", "prone"
-| `overmap_loc_text`      | Overmap coordinates, same as shown in the lower corner of overmap screen
-| `overmap_text`          | (_multiline_) Colored text rendering of the local overmap; may define "width" and "height"
-| `pain_text`             | "Mild pain", "Distracting pain", "Intense pain", etc.
-| `place_text`            | Location place name
-| `power_text`            | Bionic power available
-| `safe_mode_text`        | Status of safe mode - "On" or "Off", with color for approaching turn limit
-| `style_text`            | Name of current martial arts style
-| `time_text`             | Current time - exact if clock is available, approximate otherwise
-| `veh_azimuth_text`      | Heading of vehicle in degrees
-| `veh_cruise_text`       | Target and actual cruising velocity, positive or negative
-| `veh_fuel_text`         | Percentage of fuel remaining for current vehicle engine
-| `weariness_text`        | Weariness level - "Fresh", "Light", "Moderate", "Weary" etc.
-| `weary_malus_text`      | Percentage penalty affecting speed due to weariness
-| `weather_text`          | Weather conditions - "Sunny", "Cloudy", "Drizzle", "Portal Storm" etc.
-| `wielding_text`         | Name of current weapon or wielded item
-| `wind_text`             | Wind direction and intensity
+| var                      | description
+|--                        |--
+| `activity_text`          | Activity level - "None", "Light". "Moderate", "Brisk", "Active", "Extreme"
+| `bp_outer_armor_text`    | Item name and damage bars of armor/clothing worn on the given "bodypart"
+| `compass_legend_text`    | (_multiline_) A list of creatures visible by the player, corresponding to compass symbols
+| `compass_text`           | A compass direction (ex: NE), displaying visible creatures in that direction
+| `date_text`              | Current day within season, like "Summer, day 15"
+| `env_temp_text`          | Environment temperature, if thermometer is available
+| `mood_text`              | Avatar mood represented as an emoticon face
+| `move_mode_letter`       | Movement mode - "W": walking, "R": running, "C": crouching, "P": prone
+| `move_mode_text`         | Movement mode - "walking", "running", "crouching", "prone"
+| `overmap_loc_text`       | Overmap coordinates, same as shown in the lower corner of overmap screen
+| `overmap_text`           | (_multiline_) Colored text rendering of the local overmap; may define "width" and "height"
+| `pain_text`              | "Mild pain", "Distracting pain", "Intense pain", etc.
+| `place_text`             | Location place name
+| `power_text`             | Bionic power available
+| `safe_mode_text`         | Status of safe mode - "On" or "Off", with color for approaching turn limit
+| `safe_mode_classic_text` | Status of safe mode - "SAFE", with color for approaching turn limit
+| `style_text`             | Name of current martial arts style
+| `time_text`              | Current time - exact if clock is available, approximate otherwise
+| `veh_azimuth_text`       | Heading of vehicle in degrees
+| `veh_cruise_text`        | Target and actual cruising velocity, positive or negative
+| `veh_fuel_text`          | Percentage of fuel remaining for current vehicle engine
+| `weariness_text`         | Weariness level - "Fresh", "Light", "Moderate", "Weary" etc.
+| `weary_malus_text`       | Percentage penalty affecting speed due to weariness
+| `weather_text`           | Weather conditions - "Sunny", "Cloudy", "Drizzle", "Portal Storm" etc.
+| `wielding_text`          | Name of current weapon or wielded item
+| `wind_text`              | Wind direction and intensity
 
 
 # Predefined widgets
@@ -1047,4 +1161,3 @@ few custom widgets, then using "copy-from" and "extend" on the custom sidebar ob
 
 These two extra widgets, "current_max_mana_nums_layout" and "mana_graph_layout", will be appended to
 the custom sidebar sections whenever a game with the Magiclysm mod is loaded.
-

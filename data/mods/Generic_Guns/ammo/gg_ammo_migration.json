@@ -195,7 +195,8 @@
       "762_m87",
       "8mm_bootleg",
       "8mm_civilian",
-      "8mm_jhp"
+      "8mm_jhp",
+      "30carbine"
     ],
     "type": "MIGRATION",
     "replace": "rifle_ball"
@@ -218,13 +219,25 @@
       "reloaded_4570_sp",
       "reloaded_545",
       "reloaded_762_54R",
-      "reloaded_762_m87"
+      "reloaded_762_m87",
+      "reloaded_30carbine"
     ],
     "type": "MIGRATION",
     "replace": "reloaded_rifle_ball"
   },
   {
-    "id": [ "bp_223", "bp_270win_jsp", "bp_300_winmag", "bp_3006", "bp_300blk", "bp_308", "bp_545", "bp_762_54R", "bp_762_m87" ],
+    "id": [
+      "bp_223",
+      "bp_270win_jsp",
+      "bp_300_winmag",
+      "bp_3006",
+      "bp_300blk",
+      "bp_308",
+      "bp_545",
+      "bp_762_54R",
+      "bp_762_m87",
+      "bp_30carbine"
+    ],
     "type": "MIGRATION",
     "replace": "bp_rifle_ball"
   },

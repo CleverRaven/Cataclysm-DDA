@@ -112,6 +112,7 @@ extern const flag_id flag_EXO_PSU;
 extern const flag_id flag_EXO_PSU_PLATE;
 extern const flag_id flag_EXO_SMALL_GADGET;
 extern const flag_id flag_EXO_TORSO_PLATE;
+extern const flag_id flag_EXO_UNDERLAYER;
 extern const flag_id flag_FAKE_MILL;
 extern const flag_id flag_FAKE_SMOKE;
 extern const flag_id flag_FANCY;

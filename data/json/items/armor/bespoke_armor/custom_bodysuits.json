@@ -9,14 +9,21 @@
     "price": 35000,
     "price_postapoc": 1750,
     "to_hit": -3,
-    "material": [ "lycra", "cotton" ],
+    "material": [ "lycra", "leather" ],
     "symbol": "[",
     "looks_like": "touring_suit",
     "color": "light_red",
     "armor": [
-      { "covers": [ "torso" ], "coverage": 90, "cover_melee": 95, "encumbrance": [ 8, 8 ] },
-      { "covers": [ "leg_l", "leg_r" ], "coverage": 97, "encumbrance": [ 10, 10 ] },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 93, "cover_melee": 95, "encumbrance": [ 6, 6 ] }
+      {
+        "material": [
+          { "type": "lycra", "covered_by_mat": 100, "thickness": 0.5 },
+          { "type": "leather", "covered_by_mat": 90, "thickness": 1.5 }
+        ],
+        "covers": [ "leg_l", "leg_r", "arm_l", "arm_r", "torso" ],
+        "coverage": 100,
+        "encumbrance": [ 6, 6 ],
+        "breathability": "GOOD"
+      }
     ],
     "pocket_data": [
       {
@@ -37,7 +44,7 @@
       }
     ],
     "warmth": 10,
-    "material_thickness": 4,
+    "material_thickness": 2,
     "valid_mods": [ "steel_padded" ],
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "mutations": [ "well_distributed" ] } ] },
     "environmental_protection": 1,
@@ -58,9 +65,16 @@
     "looks_like": "touring_suit",
     "color": "light_red",
     "armor": [
-      { "covers": [ "torso" ], "coverage": 90, "cover_melee": 95, "encumbrance": [ 8, 8 ] },
-      { "covers": [ "leg_l", "leg_r" ], "coverage": 97, "encumbrance": [ 10, 10 ] },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 93, "cover_melee": 95, "encumbrance": [ 6, 6 ] }
+      {
+        "material": [
+          { "type": "lycra", "covered_by_mat": 100, "thickness": 0.5 },
+          { "type": "leather", "covered_by_mat": 90, "thickness": 1.5 }
+        ],
+        "covers": [ "leg_l", "leg_r", "arm_l", "arm_r", "torso" ],
+        "coverage": 100,
+        "encumbrance": [ 6, 6 ],
+        "breathability": "GOOD"
+      }
     ],
     "pocket_data": [
       {
@@ -121,16 +135,12 @@
     "copy-from": "armor_nomad",
     "price": 29500,
     "price_postapoc": 1250,
-    "material": [ "cotton" ],
+    "material": [ "lycra" ],
     "color": "light_gray",
-    "armor": [
-      { "covers": [ "torso" ], "coverage": 90, "cover_melee": 95, "encumbrance": [ 6, 6 ] },
-      { "covers": [ "leg_l", "leg_r" ], "coverage": 97, "encumbrance": [ 8, 8 ] },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 93, "cover_melee": 95, "encumbrance": [ 5, 5 ] }
-    ],
+    "armor": [ { "covers": [ "leg_l", "leg_r", "arm_l", "arm_r", "torso" ], "coverage": 100, "encumbrance": [ 2, 2 ] } ],
     "proportional": { "weight": 0.5, "volume": 0.75, "warmth": 0.75 },
     "use_action": [  ],
-    "delete": { "flags": [ "STURDY" ] }
+    "material_thickness": 0.5
   },
   {
     "id": "lsurvivor_jumpsuit",

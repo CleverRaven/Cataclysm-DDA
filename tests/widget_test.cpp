@@ -255,17 +255,7 @@ TEST_CASE( "text widgets", "[widget][text]" )
         words._var_max = 10;
         REQUIRE( words._style == "text" );
 
-        CHECK( words.text( 0, 0, false ) == "Zero" );
-        CHECK( words.text( 1, 0, false ) == "One" );
-        CHECK( words.text( 2, 0, false ) == "Two" );
-        CHECK( words.text( 3, 0, false ) == "Three" );
-        CHECK( words.text( 4, 0, false ) == "Four" );
-        CHECK( words.text( 5, 0, false ) == "Five" );
-        CHECK( words.text( 6, 0, false ) == "Six" );
-        CHECK( words.text( 7, 0, false ) == "Seven" );
-        CHECK( words.text( 8, 0, false ) == "Eight" );
-        CHECK( words.text( 9, 0, false ) == "Nine" );
-        CHECK( words.text( 10, 0, false ) == "Ten" );
+        CHECK( words.text( 0, false ) == "Zero" );
     }
 }
 
@@ -2329,7 +2319,7 @@ TEST_CASE( "widget rows in columns", "[widget]" )
             brown_dot, brown_dot, brown_dot, "  MOVE: 0     STR: 8    \n",
             brown_dot, h_brown_dot, brown_dot, "  SPEED: 100  DEX: 8    \n",
             brown_dot, brown_dot, brown_dot, "  FOCUS: 100  INT: 8    \n",
-            "            MANA: 1000  PER: 8    "
+            "  MANA: 1000  PER: 8    "
         }, "" );
         widget wgt = widget_test_layout_rows_in_columns.obj();
         CHECK( wgt.layout( ava, 34 ) == expected );
@@ -2360,7 +2350,7 @@ TEST_CASE( "widget rows in columns", "[widget]" )
                 brown_dot,
                 "  FOCUS: 100  INT: 8   \n"
             }, "" ),
-            "                                               MANA: 1000  PER: 8   "
+            "                                     MANA: 1000  PER: 8   "
         }, "" );
         widget wgt = widget_test_layout_cols_in_cols.obj();
         CHECK( wgt.layout( ava, 68 ) == expected );

@@ -202,7 +202,7 @@
     "price": 425,
     "price_postapoc": 10,
     "material": [ "plastic" ],
-    "weight": "622 g",
+    "weight": "500 g",
     "volume": "500 ml",
     "flags": [ "OVERSIZE", "OUTER", "ALLOWS_NATURAL_ATTACKS", "SOFT" ],
     "warmth": 50,

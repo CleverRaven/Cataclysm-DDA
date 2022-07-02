@@ -211,6 +211,7 @@ std::string enum_to_string<m_flag>( m_flag data )
         case MF_ATTACK_UPPER: return "ATTACK_UPPER";
         case MF_ATTACK_LOWER: return "ATTACK_LOWER";
         case MF_DEADLY_VIRUS: return "DEADLY_VIRUS";
+        case MF_ALWAYS_VISIBLE: return "ALWAYS_VISIBLE";
         // *INDENT-ON*
         case m_flag::MF_MAX:
             break;
@@ -468,9 +469,19 @@ void MonsterGenerator::finalize_mtypes()
         if( !mon.weakpoints_deferred_inline.weakpoint_list.empty() ) {
             mon.weakpoints.add_from_set( mon.weakpoints_deferred_inline, true );
         }
+        for( const std::string &wp_del : mon.weakpoints_deferred_deleted ) {
+            for( auto iter = mon.weakpoints.weakpoint_list.begin();
+                 iter != mon.weakpoints.weakpoint_list.end(); ) {
+                if( iter->id == wp_del ) {
+                    iter = mon.weakpoints.weakpoint_list.erase( iter );
+                } else {
+                    iter++;
+                }
+            }
+        }
     }
 
-    for( const auto &mon : mon_templates->get_all() ) {
+    for( const mtype &mon : mon_templates->get_all() ) {
         if( !mon.has_flag( MF_NOT_HALLU ) ) {
             hallucination_monsters.push_back( mon.id );
         }
@@ -707,8 +718,8 @@ void mtype::load( const JsonObject &jo, const std::string &src )
 
     if( !was_loaded || jo.has_member( "symbol" ) ) {
         sym = jo.get_string( "symbol" );
-        if( utf8_wrapper( sym ).display_width() != 1 ) {
-            jo.throw_error( "monster symbol should be exactly one console cell width", "symbol" );
+        if( utf8_width( sym ) != 1 ) {
+            jo.throw_error_at( "symbol", "monster symbol should be exactly one console cell width" );
         }
     }
     if( was_loaded && jo.has_member( "copy-from" ) && looks_like.empty() ) {
@@ -753,67 +764,65 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     assign( jo, "armor_pure", armor_pure, strict, 0 );
     assign( jo, "armor_biological", armor_biological, strict, 0 );
 
-    if( !was_loaded || jo.has_array( "weakpoint_sets" ) || jo.has_array( "weakpoints" ) ) {
+    if( !was_loaded ) {
         weakpoints_deferred.clear();
         weakpoints_deferred_inline.clear();
     }
+    weakpoints_deferred_deleted.clear();
 
     // Load each set of weakpoints.
     // Each subsequent weakpoint set overwrites
     // matching weakpoints from the previous set.
     if( jo.has_array( "weakpoint_sets" ) ) {
+        weakpoints_deferred.clear();
         for( JsonValue jval : jo.get_array( "weakpoint_sets" ) ) {
             weakpoints_deferred.emplace_back( weakpoints_id( jval.get_string() ) );
-        }
-    } else {
-        if( jo.has_object( "extend" ) ) {
-            JsonObject tmp = jo.get_object( "extend" );
-            tmp.allow_omitted_members();
-            if( tmp.has_array( "weakpoint_sets" ) ) {
-                for( JsonValue jval : tmp.get_array( "weakpoint_sets" ) ) {
-                    weakpoints_deferred.emplace_back( jval.get_string() );
-                }
-            }
-        }
-        if( jo.has_object( "delete" ) ) {
-            JsonObject tmp = jo.get_object( "delete" );
-            tmp.allow_omitted_members();
-            if( tmp.has_array( "weakpoint_sets" ) ) {
-                for( JsonValue jval : tmp.get_array( "weakpoint_sets" ) ) {
-                    weakpoints_id set_id( jval.get_string() );
-                    auto iter = std::find( weakpoints_deferred.begin(), weakpoints_deferred.end(), set_id );
-                    if( iter != weakpoints_deferred.end() ) {
-                        weakpoints_deferred.erase( iter );
-                    }
-                }
-            }
         }
     }
 
     // Finally, inline weakpoints overwrite
     // any matching weakpoints from the previous sets.
     if( jo.has_array( "weakpoints" ) ) {
+        weakpoints_deferred_inline.clear();
         ::weakpoints tmp_wp;
         tmp_wp.load( jo.get_array( "weakpoints" ) );
         weakpoints_deferred_inline.add_from_set( tmp_wp, true );
-    } else {
-        if( jo.has_object( "extend" ) ) {
-            JsonObject tmp = jo.get_object( "extend" );
-            tmp.allow_omitted_members();
-            if( tmp.has_array( "weakpoints" ) ) {
-                ::weakpoints tmp_wp;
-                tmp_wp.load( jo.get_array( "weakpoints" ) );
-                weakpoints_deferred_inline.add_from_set( tmp_wp, true );
+    }
+
+    if( jo.has_object( "extend" ) ) {
+        JsonObject tmp = jo.get_object( "extend" );
+        tmp.allow_omitted_members();
+        if( tmp.has_array( "weakpoint_sets" ) ) {
+            for( JsonValue jval : tmp.get_array( "weakpoint_sets" ) ) {
+                weakpoints_deferred.emplace_back( jval.get_string() );
             }
         }
-        if( jo.has_object( "delete" ) ) {
-            JsonObject tmp = jo.get_object( "delete" );
-            tmp.allow_omitted_members();
-            if( tmp.has_array( "weakpoints" ) ) {
-                ::weakpoints tmp_wp;
-                tmp_wp.load( jo.get_array( "weakpoints" ) );
-                weakpoints_deferred_inline.del_from_set( tmp_wp );
+        if( tmp.has_array( "weakpoints" ) ) {
+            ::weakpoints tmp_wp;
+            tmp_wp.load( tmp.get_array( "weakpoints" ) );
+            weakpoints_deferred_inline.add_from_set( tmp_wp, true );
+        }
+    }
+
+    if( jo.has_object( "delete" ) ) {
+        JsonObject tmp = jo.get_object( "delete" );
+        tmp.allow_omitted_members();
+        if( tmp.has_array( "weakpoint_sets" ) ) {
+            for( JsonValue jval : tmp.get_array( "weakpoint_sets" ) ) {
+                weakpoints_id set_id( jval.get_string() );
+                auto iter = std::find( weakpoints_deferred.begin(), weakpoints_deferred.end(), set_id );
+                if( iter != weakpoints_deferred.end() ) {
+                    weakpoints_deferred.erase( iter );
+                }
             }
+        }
+        if( tmp.has_array( "weakpoints" ) ) {
+            ::weakpoints tmp_wp;
+            tmp_wp.load( tmp.get_array( "weakpoints" ) );
+            for( const weakpoint &wp_del : tmp_wp.weakpoint_list ) {
+                weakpoints_deferred_deleted.emplace( wp_del.id );
+            }
+            weakpoints_deferred_inline.del_from_set( tmp_wp );
         }
     }
 
@@ -1198,9 +1207,9 @@ mtype_special_attack MonsterGenerator::create_actor( const JsonObject &obj,
     const std::string attack_type = obj.get_string( "attack_type", type );
 
     if( type != "monster_attack" && attack_type != type ) {
-        obj.throw_error(
-            R"(Specifying "attack_type" is only allowed when "type" is "monster_attack" or not specified)",
-            "type" );
+        obj.throw_error_at(
+            "type",
+            R"(Specifying "attack_type" is only allowed when "type" is "monster_attack" or not specified)" );
     }
 
     std::unique_ptr<mattack_actor> new_attack;
@@ -1208,7 +1217,7 @@ mtype_special_attack MonsterGenerator::create_actor( const JsonObject &obj,
         const std::string id = obj.get_string( "id" );
         const auto &iter = attack_map.find( id );
         if( iter == attack_map.end() ) {
-            obj.throw_error( "Monster attacks must specify type and/or id", "type" );
+            obj.throw_error_at( "type", "Monster attacks must specify type and/or id" );
         }
 
         new_attack = iter->second->clone();
@@ -1223,7 +1232,7 @@ mtype_special_attack MonsterGenerator::create_actor( const JsonObject &obj,
     } else if( attack_type == "spell" ) {
         new_attack = std::make_unique<mon_spellcasting_actor>();
     } else {
-        obj.throw_error( "unknown monster attack", "attack_type" );
+        obj.throw_error_at( "attack_type", "unknown monster attack" );
     }
 
     new_attack->load( obj, src );

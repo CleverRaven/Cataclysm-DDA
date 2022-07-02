@@ -36,7 +36,10 @@ void AlmostNeverAutoCheck::registerMatchers( MatchFinder *Finder )
 {
     Finder->addMatcher(
         varDecl(
-            hasType( autoType() )
+            anyOf(
+                varDecl( hasType( autoType() ) ),
+                varDecl( hasType( references( autoType() ) ) )
+            )
         ).bind( "decl" ),
         this
     );
@@ -66,36 +69,60 @@ static void CheckDecl( AlmostNeverAutoCheck &Check,
         return;
     }
 
-    PrintingPolicy Policy( LangOptions{} );
-    Policy.adjustForCPlusPlus();
+    const FunctionDecl *ContainingFunc = getContainingFunction( Result, AutoVarDecl );
+    if( ContainingFunc &&
+        ContainingFunc->getTemplateSpecializationKind() == TSK_ImplicitInstantiation ) {
+        return;
+    }
+
+    QualType VarDeclType = AutoVarDecl->getType();
     const Expr *Initializer = AutoVarDecl->getAnyInitializer();
+
     if( !Initializer ) {
-        // This happens for one range for loop in CDDA (in test_statistics.h) and I'm not sure why
-        // it's different from the others.
+        // This happens for some range for loops in CDDA (e.g. test_statistics.h) and I'm not sure
+        // why they are different from the others.
+        if( VarDeclType.getTypePtr()->isDependentType() ) {
+            // Probably shouldn't replace this one.
+            return;
+        }
         Check.diag(
             RangeToReplace.getBegin(),
             "Avoid auto in declaration of %0."
         ) << AutoVarDecl;
         return;
     }
+
     QualType AutoTp = Initializer->getType();
-    bool WasConst = AutoVarDecl->getType().isLocalConstQualified();
-    AutoTp.removeLocalConst();
+    bool WasRRef = VarDeclType.getTypePtr()->isRValueReferenceType();
+    bool WasLRef = VarDeclType.getTypePtr()->isLValueReferenceType();
+    VarDeclType = VarDeclType.getNonReferenceType();
+    bool WasConst = VarDeclType.isLocalConstQualified();
+    bool IsConstexpr = AutoVarDecl->isConstexpr();
+    if( WasConst && !IsConstexpr ) {
+        AutoTp.addConst();
+    }
+
+    if( VarDeclType.getTypePtr()->isArrayType() ) {
+        return;
+    }
+
+    PrintingPolicy Policy( LangOptions{} );
+    Policy.adjustForCPlusPlus();
     std::string TypeStr = AutoTp.getAsString( Policy );
 
-    if( WasConst && AutoTp.getTypePtr()->isPointerType() ) {
-        // In the case of 'const auto' we need to bring the beginning forwards
-        // to the start of the 'const'.
-        RangeToReplace.setBegin( AutoVarDecl->getBeginLoc() );
-        AutoTp.addConst();
-        TypeStr = AutoTp.getAsString( Policy );
-        // In the case of 'auto const' we need to push the end back to the end
-        // of the 'const'.  Couldn't find a nice way to do that, so using this
-        // super hacky way.
-        std::string TextFromEnd( SM->getCharacterData( RangeToReplace.getEnd() ), 10 );
-        if( TextFromEnd == "auto const" ) {
-            RangeToReplace.setEnd( RangeToReplace.getEnd().getLocWithOffset( 10 ) );
-        }
+    // In the case of 'const auto' we need to bring the beginning forwards
+    // to the start of the 'const'.
+    SourceLocation MaybeNewBegin = RangeToReplace.getBegin().getLocWithOffset( -6 );
+    std::string TextBeforeBegin( SM->getCharacterData( MaybeNewBegin ), 10 );
+    if( TextBeforeBegin == "const auto" ) {
+        RangeToReplace.setBegin( MaybeNewBegin );
+    }
+    // In the case of 'auto const' we need to push the end back to the end
+    // of the 'const'.  Couldn't find a nice way to do that, so using this
+    // super hacky way.
+    std::string TextFromEnd( SM->getCharacterData( RangeToReplace.getEnd() ), 10 );
+    if( TextFromEnd == "auto const" ) {
+        RangeToReplace.setEnd( RangeToReplace.getEnd().getLocWithOffset( 10 ) );
     }
 
     if( TypeStr == "auto" ) {
@@ -114,7 +141,7 @@ static void CheckDecl( AlmostNeverAutoCheck &Check,
     // details) based on their names.  Skipping the first character of each
     // word to avoid worrying about capitalization.
     for( std::string Fragment : {
-             "terator", "nternal"
+             "terator", "nternal", "__"
          } ) {
         if( std::search( TypeStr.begin(), TypeStr.end(), Fragment.begin(), Fragment.end() ) !=
             TypeStr.end() ) {
@@ -122,10 +149,10 @@ static void CheckDecl( AlmostNeverAutoCheck &Check,
         }
     }
 
-    const FunctionDecl *ContainingFunc = getContainingFunction( Result, AutoVarDecl );
-    if( ContainingFunc &&
-        ContainingFunc->getTemplateSpecializationKind() == TSK_ImplicitInstantiation ) {
-        return;
+    if( WasLRef ) {
+        TypeStr += " &";
+    } else if( WasRRef ) {
+        TypeStr += " &&";
     }
 
     Check.diag(

@@ -7,6 +7,7 @@ find_package(Clang REQUIRED CONFIG)
 set(CataAnalyzerSrc
         AlmostNeverAutoCheck.cpp
         AssertCheck.cpp
+        AvoidAlternativeTokensCheck.cpp
         CataTidyModule.cpp
         CombineLocalsIntoPointCheck.cpp
         DeterminismCheck.cpp

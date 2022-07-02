@@ -52,7 +52,7 @@
     "type": "MONSTER",
     "name": { "str": "milspec searchlight" },
     "description": "A pylon boasting three high-powered searchlights with automated search AI, continually seeking targets.",
-    "default_faction": "military",
+    "default_faction": "passive_machine",
     "species": [ "ROBOT" ],
     "diff": 2,
     "volume": "92500 ml",

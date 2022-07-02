@@ -101,9 +101,9 @@ std::vector<std::vector<std::string>> query_popup::fold_query(
 
     int query_cnt = 0;
     int query_width = 0;
-    for( const auto &opt : options ) {
-        const auto &name = ctxt.get_action_name( opt.action );
-        const auto &desc = ctxt.get_desc( opt.action, name, opt.filter );
+    for( const query_popup::query_option &opt : options ) {
+        const std::string &name = ctxt.get_action_name( opt.action );
+        const std::string &desc = ctxt.get_desc( opt.action, name, opt.filter );
         const int this_query_width = utf8_width( desc, true ) + horz_padding;
         ++query_cnt;
         query_width += this_query_width;
@@ -237,7 +237,7 @@ void query_popup::show() const
 
     for( size_t ind = 0; ind < buttons.size(); ++ind ) {
         nc_color col = ind == cur ? hilite( c_white ) : c_white;
-        const auto &btn = buttons[ind];
+        const query_popup::button &btn = buttons[ind];
         print_colored_text( win, btn.pos + point( border_width, border_width ),
                             col, col, btn.text );
     }
@@ -283,7 +283,7 @@ query_popup::result query_popup::query_once()
         ctxt.register_action( "LEFT" );
         ctxt.register_action( "RIGHT" );
         ctxt.register_action( "CONFIRM" );
-        for( const auto &opt : options ) {
+        for( const query_popup::query_option &opt : options ) {
             ctxt.register_action( opt.action );
         }
         // Mouse movement and button

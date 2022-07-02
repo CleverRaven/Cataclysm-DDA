@@ -120,7 +120,7 @@ bool leap_actor::call( monster &z ) const
         bool blocked_path = false;
         // check if monster has a clear path to the proposed point
         std::vector<tripoint> line = here.find_clear_path( z.pos(), dest );
-        for( auto &i : line ) {
+        for( tripoint &i : line ) {
             if( here.impassable( i ) ) {
                 blocked_path = true;
                 break;
@@ -496,7 +496,7 @@ void gun_actor::load_internal( const JsonObject &obj, const std::string & )
 
     for( JsonArray mode : obj.get_array( "ranges" ) ) {
         if( mode.size() < 2 || mode.get_int( 0 ) > mode.get_int( 1 ) ) {
-            obj.throw_error( "incomplete or invalid range specified", "ranges" );
+            obj.throw_error_at( "ranges", "incomplete or invalid range specified" );
         }
         ranges.emplace( std::make_pair<int, int>( mode.get_int( 0 ), mode.get_int( 1 ) ),
                         gun_mode_id( mode.size() > 2 ? mode.get_string( 2 ) : "" ) );

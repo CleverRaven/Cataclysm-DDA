@@ -1459,10 +1459,10 @@ Example:
   "junk_threshold": "10 cent", // items below this price will be consumed completely regardless of matches below
   "rates": [ // lower entries override higher ones
       { "item": "hammer", "rate": 1 },
-      { 
+      {
         "item": "hammer",
         "rate": 10,
-        "condition": { "npc_has_var": "hammer_eater", "type": "bool", "context": "dinner", "value": "yes" } 
+        "condition": { "npc_has_var": "hammer_eater", "type": "bool", "context": "dinner", "value": "yes" }
       },
       { "category": "ammo", "rate": 10 },
       { "group": "EXODII_basic_trade", "rate": 100 }
@@ -1478,7 +1478,7 @@ Similar to `shopkeeper_consumption_rates`
   "type": "shopkeeper_blacklist",
   "id": "basic_blacklist",
   "entries": [
-      { 
+      {
         "item": "hammer",
         "condition": { "npc_has_var": "hammer_hater", "type": "bool", "context": "test", "value": "yes" },
         "message": "<npcname> hates this item"
@@ -1586,6 +1586,12 @@ A list of CBM ids that are implanted in the character.
 (optional, array of strings)
 
 A list of trait/mutation ids that are applied to the character.
+
+#### `requirement`
+
+(optional, an achievement ID)
+
+The achievement you need to do to access this profession
 
 ### Recipes
 
@@ -2399,7 +2405,7 @@ at level `2` to the item.
 },
 "wet_protection":[{ "part": "head", // Wet Protection on specific bodyparts
                     "good": 1 } ] // "neutral/good/ignored" // Good increases pos and cancels neg, neut cancels neg, ignored cancels both
-"vitamin_rates": [ [ "vitC", -1200 ] ], // How much extra vitamins do you consume per minute. Negative values mean production
+"vitamin_rates": [ [ "vitC", -1200 ] ], // How much extra vitamins do you consume, one point per this many seconds. Negative values mean production
 "vitamins_absorb_multi": [ [ "flesh", [ [ "vitA", 0 ], [ "vitB", 0 ], [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 0 ] ], [ "all", [ [ "vitA", 2 ], [ "vitB", 2 ], [ "vitC", 2 ], [ "calcium", 2 ], [ "iron", 2 ] ] ] ], // multiplier of vitamin absorption based on material. "all" is every material. supports multiple materials.
 "craft_skill_bonus": [ [ "electronics", -2 ], [ "tailor", -2 ], [ "mechanics", -2 ] ], // Skill affected by the mutation and their bonuses. Bonuses can be negative, a bonus of 4 is worth 1 full skill level.
 "restricts_gear" : [ "torso" ], //list of bodyparts that get restricted by this mutation
@@ -2461,7 +2467,8 @@ at level `2` to the item.
 "cardio_multiplier": 1.5, // Multiply total cardio fitness by this amount
 "healing_awake": 1.0, // Healing rate per turn while awake.
 "healing_resting": 0.5, // Healing rate per turn while resting.
-"mending_modifier": 1.2 // Multiplier on how fast your limbs mend - This value would make your limbs mend 20% faster
+"mending_modifier": 1.2, // Multiplier on how fast your limbs mend - This value would make your limbs mend 20% faster
+"spells_learned": [ [ "spell_slime_spray", 1 ] ], // spells learned and the level they're at after gaining the trait/mutation.
 "transform": { "target": "BIOLUM1", // Trait_id of the mutation this one will transform into
                "msg_transform": "You turn your photophore OFF.", // message displayed upon transformation
                "active": false , // Will the target mutation start powered ( turn ON ).
@@ -4818,6 +4825,12 @@ A list of allowed professions that can be chosen when using this scenario. The f
 (optional, string)
 
 Add a map special to the starting location, see JSON_FLAGS for the possible specials.
+
+#### `requirement`
+
+(optional, an achievement ID)
+
+The achievement you need to do to access this scenario
 
 ## `eocs`
 (optional, array of strings)

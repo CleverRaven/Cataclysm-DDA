@@ -305,6 +305,19 @@
   },
   {
     "type": "MONSTER",
+    "id": "mon_zanuqsaurus",
+    "name": { "str": "nanuqsaurus zombie" },
+    "copy-from": "mon_zaspletosaurus",
+    "looks_like": "mon_zyrannosaurus",
+    "color": "white",
+    "hp": 270,
+    "description": "Huge jaws with long sharp teeth drooling black liquid over white feathers, lifted by a huge but shuffling dinosaur corpse.",
+    "burn_into": "mon_zanuqsaurus_scorched",
+    "fungalize_into": "mon_zanuqsaurus_fungus",
+    "upgrades": { "half_life": 14, "into_group": "GROUP_zanuqsaurus_UPGRADE" }
+  },
+  {
+    "type": "MONSTER",
     "id": "mon_zaspletosaurus",
     "name": { "str": "daspletosaurus zombie" },
     "copy-from": "mon_zyrannosaurus",

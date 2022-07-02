@@ -123,7 +123,7 @@ void DynamicDataLoader::load_object( const JsonObject &jo, const std::string &sr
     const std::string type = jo.get_string( "type" );
     const t_type_function_map::iterator it = type_function_map.find( type );
     if( it == type_function_map.end() ) {
-        jo.throw_error( "unrecognized JSON object", "type" );
+        jo.throw_error_at( "type", "unrecognized JSON object" );
     }
     it->second( jo, src, base_path, full_path );
 }
