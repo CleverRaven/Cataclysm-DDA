@@ -454,7 +454,7 @@ timed_event *timed_event_manager::get( const timed_event_type type )
 
 timed_event *timed_event_manager::get( const timed_event_type type, std::string key )
 {
-    for( auto &e : events ) {
+    for( timed_event &e : events ) {
         if( e.type == type && e.key == key ) {
             return &e;
         }
@@ -469,7 +469,7 @@ std::list<timed_event> timed_event_manager::get_all() const
 
 void timed_event_manager::set_all( std::string key, time_duration time_in_future )
 {
-    for( auto &e : events ) {
+    for( timed_event &e : events ) {
         if( e.key == key ) {
             e.when = calendar::turn + time_in_future;
         }
