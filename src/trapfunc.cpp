@@ -55,12 +55,11 @@ static const itype_id itype_bullwhip( "bullwhip" );
 static const itype_id itype_grapnel( "grapnel" );
 static const itype_id itype_rope_30( "rope_30" );
 
+static const flag_id json_flag_LEVITATION( "LEVITATION" );
+
 static const json_character_flag json_flag_WALL_CLING( "WALL_CLING" );
 static const json_character_flag json_flag_WINGS_1( "WINGS_1" );
 static const json_character_flag json_flag_WINGS_2( "WINGS_2" );
-
-static const flag_id json_flag_LEVITATION( "LEVITATION" );
-
 
 static const material_id material_kevlar( "kevlar" );
 static const material_id material_steel( "steel" );
