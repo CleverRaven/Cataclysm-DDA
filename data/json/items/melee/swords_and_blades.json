@@ -1590,7 +1590,7 @@
     "to_hit": { "grip": "weapon", "length": "short", "surface": "line", "balance": "good" },
     "category": "weapons",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 10 ] ],
-    "weapon_category": [ "MEDIEVAL_SWORDS", "MEDIUM_SWORDS" ]
+    "weapon_category": [ "MEDIEVAL_SWORDS", "SHORT_SWORDS" ]
   },
       {
     "id": "kriegsmesser",
