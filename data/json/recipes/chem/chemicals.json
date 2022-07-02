@@ -234,30 +234,28 @@
   {
     "result": "scuba_tank",
     "type": "recipe",
-    "byproducts": [ [ "salt_water", 1 ] ],
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_CHEMICALS",
-    "skill_used": "chemistry",
+    "skill_used": "fabrication",
     "difficulty": 4,
     "time": "2 h 30 m",
     "book_learn": [ [ "textbook_chemistry", 4 ], [ "textbook_gaswarfare", 4 ], [ "atomic_survival", 3 ] ],
-    "tools": [ [ [ "gaspump", 120 ] ], [ [ "electrolyzer_makeshift", 6000 ] ], [ [ "nitrogen_generator", 300 ] ] ],
-    "components": [ [ [ "scuba_tank", 1 ] ], [ [ "water_clean", 6 ] ], [ [ "salt", 10 ] ] ]
+    "tools": [ [ [ "gaspump", 120 ], [ "air_compressor_tool", 120 ] ] ],
+    "components": [ [ [ "scuba_tank", 1 ] ] ]
   },
   {
     "result": "small_scuba_tank",
     "type": "recipe",
-    "byproducts": [ [ "salt_water", 1 ] ],
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_CHEMICALS",
-    "skill_used": "chemistry",
+    "skill_used": "fabrication",
     "difficulty": 4,
     "time": "2 h",
     "book_learn": [ [ "textbook_chemistry", 4 ], [ "textbook_gaswarfare", 4 ], [ "atomic_survival", 3 ] ],
-    "tools": [ [ [ "gaspump", 40 ] ], [ [ "electrolyzer_makeshift", 2000 ] ], [ [ "nitrogen_generator", 100 ] ] ],
-    "components": [ [ [ "small_scuba_tank", 1 ] ], [ [ "water_clean", 2 ] ], [ [ "salt", 10 ] ] ]
+    "tools": [ [ [ "gaspump", 40 ], [ "air_compressor_tool", 40 ] ] ],
+    "components": [ [ [ "small_scuba_tank", 1 ] ] ]
   },
   {
     "type": "recipe",

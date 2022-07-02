@@ -549,7 +549,7 @@
     "id": "gaspump",
     "type": "TOOL",
     "name": { "str": "gas pump" },
-    "description": "An appliance which is designed to refill all kinds of gas tanks with pressurized gas, with the option of mixing multiple gases as well.",
+    "description": "An appliance which is designed to refill all kinds of gas tanks with pressurized gas, with the option of mixing multiple gases or just filling a tank with compressed air.",
     "weight": "40 kg",
     "volume": "15 L",
     "longest_side": "60 cm",
