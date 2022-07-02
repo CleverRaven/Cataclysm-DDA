@@ -639,7 +639,7 @@
     "start_name": "Bottom of a mine",
     "allowed_locs": [ "sloc_mine_finale" ],
     "professions": [ "miner", "labtech", "security", "archaeologist" ],
-    "flags": [ "CITY_START", "LONE_START" ]
+    "flags": [ "CITY_START", "LONE_START", "CHALLENGE" ]
   },
   {
     "type": "scenario",
