@@ -539,7 +539,7 @@ void MonsterGroupManager::ClearMonsterGroups()
 
 static void check_group_def( const mongroup_id &g )
 {
-    for( const auto &m : g.obj().monsters ) {
+    for( const MonsterGroupEntry &m : g.obj().monsters ) {
         if( m.is_group() ) {
             if( !m.group.is_valid() ) {
                 debugmsg( "monster group %s contains unknown subgroup %s", g.c_str(), m.group.c_str() );
@@ -556,7 +556,7 @@ void MonsterGroupManager::check_group_definitions()
 {
     for( auto &e : monsterGroupMap ) {
         const MonsterGroup &mg = e.second;
-        for( const auto &mge : mg.monsters ) {
+        for( const MonsterGroupEntry &mge : mg.monsters ) {
             if( mge.is_group() ) {
                 if( !mge.group.is_valid() ) {
                     debugmsg( "monster group %s contains unknown subgroup %s", mg.name.c_str(), mge.group.c_str() );
@@ -573,11 +573,11 @@ void MonsterGroupManager::check_group_definitions()
 
 const mtype_id &MonsterGroupManager::GetRandomMonsterFromGroup( const mongroup_id &group_name )
 {
-    const auto &group = group_name.obj();
+    const MonsterGroup &group = group_name.obj();
     int spawn_chance = rng( 1, group.event_adjusted_freq_total() );
     std::string opt = get_option<std::string>( "EVENT_SPAWNS" );
     const bool can_spawn_events = opt == "monsters" || opt == "both";
-    for( const auto &monster_type : group.monsters ) {
+    for( const MonsterGroupEntry &monster_type : group.monsters ) {
         if( monster_type.event != holiday::none && ( !can_spawn_events ||
                 monster_type.event != get_holiday_from_time() ) ) {
             continue;

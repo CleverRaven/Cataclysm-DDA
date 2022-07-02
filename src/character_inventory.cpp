@@ -492,7 +492,7 @@ void Character::drop_invalid_inventory()
 void outfit::holster_opts( std::vector<dispose_option> &opts, item_location obj, Character &guy )
 {
 
-    for( auto &e : worn ) {
+    for( item &e : worn ) {
         // check for attachable subpockets first (the parent item may be defined as a holster)
         if( e.get_contents().has_additional_pockets() && e.can_contain( *obj ).success() ) {
             opts.emplace_back( dispose_option{
@@ -587,10 +587,10 @@ bool Character::dispose_item( item_location &&obj, const std::string &prompt )
     worn.holster_opts( opts, obj, *this );
 
     int w = utf8_width( menu.text, true ) + 4;
-    for( const auto &e : opts ) {
+    for( const dispose_option &e : opts ) {
         w = std::max( w, utf8_width( e.prompt, true ) + 4 );
     }
-    for( auto &e : opts ) {
+    for( dispose_option &e : opts ) {
         e.prompt += std::string( w - utf8_width( e.prompt, true ), ' ' );
     }
 
@@ -598,7 +598,7 @@ bool Character::dispose_item( item_location &&obj, const std::string &prompt )
     menu.text += std::string( w + 2 - utf8_width( menu.text, true ), ' ' );
     menu.text += _( " | Moves  " );
 
-    for( const auto &e : opts ) {
+    for( const dispose_option &e : opts ) {
         menu.addentry( -1, e.enabled, e.invlet, string_format( e.enabled ? "%s | %-7d" : "%s |",
                        e.prompt, e.moves ) );
     }

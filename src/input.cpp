@@ -239,7 +239,7 @@ void input_manager::init()
         add_input_for_action( action_id, context, input_event( a.first, input_event_t::keyboard_char ) );
     }
     // Unmap actions that are explicitly not mapped
-    for( const auto &elem : unbound_keymap ) {
+    for( const action_id &elem : unbound_keymap ) {
         const std::string action_id = action_ident( elem );
         actions[action_id].input_events.clear();
     }
@@ -426,7 +426,7 @@ void input_manager::save()
 
                 jsout.member( "bindings" );
                 jsout.start_array();
-                for( const auto &event : events ) {
+                for( const input_event &event : events ) {
                     jsout.start_object();
                     switch( event.type ) {
                         case input_event_t::keyboard_char:
@@ -872,7 +872,7 @@ void input_manager::add_input_for_action(
     const std::string &action_descriptor, const std::string &context, const input_event &event )
 {
     t_input_event_list &events = get_or_create_event_list( action_descriptor, context );
-    for( auto &events_a : events ) {
+    for( input_event &events_a : events ) {
         if( events_a == event ) {
             return;
         }
@@ -998,7 +998,7 @@ std::vector<input_event> input_context::keys_bound_to( const std::string &action
     std::vector<input_event> result;
     const std::vector<input_event> &events = inp_mngr.get_input_for_action( action_descriptor,
             category );
-    for( const auto &events_event : events ) {
+    for( const input_event &events_event : events ) {
         // Ignore non-keyboard input
         if( ( !restrict_to_keyboard || ( events_event.type == input_event_t::keyboard_char
                                          || events_event.type == input_event_t::keyboard_code ) )
@@ -1022,7 +1022,7 @@ std::string input_context::get_available_single_char_hotkeys( std::string reques
 
         const std::vector<input_event> &events = inp_mngr.get_input_for_action( registered_action,
                 category );
-        for( const auto &events_event : events ) {
+        for( const input_event &events_event : events ) {
             // Only consider keyboard events without modifiers
             if( events_event.type == input_event_t::keyboard_char && events_event.modifiers.empty() ) {
                 requested_keys.erase( std::remove_if( requested_keys.begin(), requested_keys.end(),
@@ -1119,7 +1119,7 @@ std::string input_context::get_desc(
     const auto &events = inp_mngr.get_input_for_action( action_descriptor, category );
 
     bool na = true;
-    for( const auto &evt : events ) {
+    for( const input_event &evt : events ) {
         if( is_event_type_enabled( evt.type ) && evt_filter( evt ) ) {
             na = false;
             if( ( evt.type == input_event_t::keyboard_char || evt.type == input_event_t::keyboard_code ) &&

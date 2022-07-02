@@ -389,7 +389,7 @@ void replay_buffered_debugmsg_prompts()
     if( buffered_prompts().empty() || !catacurses::stdscr ) {
         return;
     }
-    for( const auto &prompt : buffered_prompts() ) {
+    for( const buffered_prompt_info &prompt : buffered_prompts() ) {
         debug_error_prompt(
             prompt.filename.c_str(),
             prompt.line.c_str(),

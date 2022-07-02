@@ -319,6 +319,11 @@ bool Creature::sees( const Creature &critter ) const
     }
 
     map &here = get_map();
+
+    if( critter.has_flag( MF_ALWAYS_VISIBLE ) ) {
+        // You always see this
+        return true;
+    }
     // player can use mirrors, so `has_potential_los` cannot be used
     if( !is_avatar() && !here.has_potential_los( pos(), critter.pos() ) ) {
         return false;
@@ -513,7 +518,7 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
         // TODO: what about g->u?
         return false;
     } );
-    for( auto &m : targets ) {
+    for( Creature *&m : targets ) {
         if( !sees( *m ) ) {
             // can't see nor sense it
             if( is_fake() && in_veh ) {

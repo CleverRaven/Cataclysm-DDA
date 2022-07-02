@@ -849,7 +849,7 @@ int popup( const std::string &text, PopupFlags flags )
     }
 
     pop.context( "POPUP_WAIT" );
-    const auto &res = pop.query();
+    const query_popup::result &res = pop.query();
     if( res.evt.type == input_event_t::keyboard_char ) {
         return res.evt.get_first_input();
     } else {
@@ -970,7 +970,7 @@ std::string format_item_info( const std::vector<iteminfo> &vItemDisplay,
     std::string buffer;
     bool bIsNewLine = true;
 
-    for( const auto &i : vItemDisplay ) {
+    for( const iteminfo &i : vItemDisplay ) {
         if( i.sType == "DESCRIPTION" ) {
             // Always start a new line for sType == "DESCRIPTION"
             if( !bIsNewLine ) {
@@ -2442,7 +2442,7 @@ void scrollingcombattext::add( const point &pos, direction p_oDir,
                        p_oDir == ( iso_mode ? direction::WEST : direction::SOUTHEAST ) ) ) {
 
             //Message offset: multiple impacts in the same direction in short order overriding prior messages (mostly turrets)
-            for( auto &iter : vSCT ) {
+            for( scrollingcombattext::cSCT &iter : vSCT ) {
                 if( iter.getDirection() == p_oDir && ( iter.getStep() + iter.getStepOffset() ) == iCurStep ) {
                     ++iCurStep;
                     iter.advanceStepOffset();

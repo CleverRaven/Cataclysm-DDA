@@ -20,8 +20,12 @@ In `data/mods/Magiclysm` there is a template spell, copied here for your perusal
     "affected_body_parts": [ "head", "torso", "mouth", "eyes", "arm_l", "arm_r", "hand_r", "hand_l", "leg_l", "foot_l", "foot_r" ], // body parts affected by effects
     "flags": [ "SILENT", "LOUD", "SOMATIC", "VERBAL", "NO_HANDS", "NO_LEGS", "SPAWN_GROUP" ], // see "Spell Flags" below
     "spell_class": "NONE",                                    //
-    "base_casting_time": 100,                                 // this is the casting time (in moves)
-    "base_energy_cost": 10,                                   // the amount of energy (of the requisite type) to cast the spell
+    "base_casting_time": 1000,                                // this is the casting time (in moves)
+    "final_casting_time": 100,
+    "casting_time_increment": -50,
+    "base_energy_cost": 30,                                  // the amount of energy (of the requisite type) to cast the spell
+    "final_energy_cost": 100,
+    "energy_increment": -6,
     "energy_source": "MANA",                                  // the type of energy used to cast the spell. types are: MANA, BIONIC, HP, STAMINA, NONE (none will not use mana)
     "components": [requirement_id]                            // an id from a requirement, like the ones you use for crafting. spell components require to cast.
     "difficulty": 12,                                         // the difficulty to learn/cast the spell
@@ -424,7 +428,7 @@ Spell types:
     "effect": "target_attack",                           // effects are coded in C++. A list is provided in this document of possible effects that have been coded.
     "extra_effects": [ { "id": "sacrifice_spell", "hit_self": true }, { "id": "test_attack" } ],     // this allows you to cast multiple spells with only one spell
     "effect_str": "eff_test_note",                       // varies, see table of implemented effects in this document
-	  "min_aoe": 6,                                        // area of effect, or range of variance
+    "min_aoe": 6,                                        // area of effect, or range of variance
     "max_aoe": 6,
     "min_duration": 1,                                   // duration of spell effect in moves (if the spell has a special effect)
     "max_duration": 1

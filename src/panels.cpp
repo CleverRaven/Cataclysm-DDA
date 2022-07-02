@@ -496,7 +496,7 @@ void panel_manager::serialize( JsonOut &json )
 
         json.start_array();
 
-        for( const auto &panel : kv.second.panels() ) {
+        for( const window_panel &panel : kv.second.panels() ) {
             json.start_object();
 
             json.member( "name", panel.get_id() );

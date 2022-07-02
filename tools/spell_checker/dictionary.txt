@@ -1061,6 +1061,8 @@ microbians
 microbrewed
 microcentrifuge
 microcontrollers
+microgenerator
+microgenerators
 microlab
 micromonies
 microplane
@@ -1762,6 +1764,7 @@ thosun
 threose
 thrums
 thumbholes
+thyreophoran
 tileset
 tillable
 tindalos

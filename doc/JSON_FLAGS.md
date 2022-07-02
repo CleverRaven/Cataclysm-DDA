@@ -214,6 +214,8 @@ These are handled through `ammo_types.json`.  You can tag a weapon with these to
 
 - ```SONAR_DETECTABLE``` This trap can be identified with ground-penetrating SONAR.
 - ```CONVECTS_TEMPERATURE``` This trap convects temperature, like lava.
+- ```UNCONSUMED``` If this trap is a spell type it will not be removed after activation.
+- ```UNDODGEABLE``` This trap can't be dodged.
 
 ## Armor
 
@@ -977,6 +979,7 @@ Other monster flags.
 - ```ACIDPROOF``` Immune to acid.
 - ```ACIDTRAIL``` Leaves a trail of acid.
 - ```ACID_BLOOD``` Makes monster bleed acid. Does not automatically dissolve in a pool of acid on death.
+- ```ALWAYS_VISIBLE``` This monster can always be seen regardless of line of sight or light level.
 - ```ANIMAL``` Is an _animal_ for purposes of the `Animal Empathy` trait.
 - ```AQUATIC``` Confined to water.
 - ```ARTHROPOD_BLOOD``` Forces monster to bleed hemolymph.
