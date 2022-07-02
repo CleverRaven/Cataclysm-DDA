@@ -1610,136 +1610,18 @@ int worldfactory::show_worldgen_basic( WORLDPTR world )
 
     std::map<int, inclusive_rectangle<point>> btn_map;
     std::map<int, inclusive_rectangle<point>> slider_inc_map;
+    std::vector<option_slider_id> wg_sliders; // option sliders
+    std::vector<int> wg_slevels; // current slider levels
     std::string worldname = world->world_name;
     int sel_opt = 0;
 
-    struct world_slider_opt {
-        translation name;
-        translation desc;
-        std::map<std::string, float> opts;
-        world_slider_opt( translation _name, translation _desc, std::map<std::string, float> _opts ) :
-            name( _name ), desc( _desc ), opts( _opts ) {};
-    };
-
-    const std::vector<int> slider_defaults { 3, 3, 2 };
-    std::vector<int> slider_levels = slider_defaults;
-    //TODO: JSON-ify this
-    const std::vector<std::pair<std::string, std::vector<world_slider_opt>>> sliders {
-        {
-            translate_marker_context( "world option sliders", "Cities" ),
-            {
-                world_slider_opt( to_translation( "city size option", "Remote" ),
-                                  to_translation( "Cities are basically non-existent.  Expect rural-only areas." ),
-                { { "CITY_SIZE", 0 }, { "CITY_SPACING", 8 } } ),
-                world_slider_opt( to_translation( "city size option", "Rural" ),
-                                  to_translation( "Cities are twice as small and twice as far apart." ),
-                { { "CITY_SIZE", 4 }, { "CITY_SPACING", 8 } } ),
-                world_slider_opt( to_translation( "city size option", "Semirural" ),
-                                  to_translation( "Cities are 50% smaller and 50% farther apart." ),
-                { { "CITY_SIZE", 6 }, { "CITY_SPACING", 6 } } ),
-                world_slider_opt( to_translation( "city size option", "Suburbia (default)" ),
-                                  to_translation( "Cities use default size and distances." ),
-                { { "CITY_SIZE", 8 }, { "CITY_SPACING", 4 } } ),
-                world_slider_opt( to_translation( "city size option", "Townscape" ),
-                                  to_translation( "Cities are 50% larger." ),
-                { { "CITY_SIZE", 12 }, { "CITY_SPACING", 4 } } ),
-                world_slider_opt( to_translation( "city size option", "Cityscape" ),
-                                  to_translation( "Cities are twice as large and 25% closer to each other." ),
-                { { "CITY_SIZE", 16 }, { "CITY_SPACING", 3 } } ),
-                world_slider_opt( to_translation( "city size option", "Megacity" ),
-                                  to_translation( "Cities are twice as large with minimal distance between them." ),
-                { { "CITY_SIZE", 16 }, { "CITY_SPACING", 0 } } )
-            }
-        },
-        {
-            translate_marker_context( "world option sliders", "Difficulty" ),
-            {
-                world_slider_opt( to_translation( "world difficulty option", "Cakewalk?" ),
-                                  to_translation( "Monsters are much easier to deal with, and plenty of items can be found." ),
-                {
-                    { "MONSTER_SPEED", 90 },
-                    { "MONSTER_RESILIENCE", 75 },
-                    { "SPAWN_DENSITY", 0.8 },
-                    { "MONSTER_UPGRADE_FACTOR", 8 },
-                    { "ITEM_SPAWNRATE", 1.5 }
-                } ),
-                world_slider_opt( to_translation( "world difficulty option", "Be really nice to me" ),
-                                  to_translation( "Monsters evolve and spawn slower, and items are a bit easier to come by." ),
-                {
-                    { "MONSTER_SPEED", 95 },
-                    { "MONSTER_RESILIENCE", 85 },
-                    { "SPAWN_DENSITY", 0.9 },
-                    { "MONSTER_UPGRADE_FACTOR", 6 },
-                    { "ITEM_SPAWNRATE", 1.25 }
-                } ),
-                world_slider_opt( to_translation( "world difficulty option", "Be nice to me" ),
-                                  to_translation( "Monsters are a bit slower, and evolve at a slower rate." ),
-                {
-                    { "MONSTER_SPEED", 95 },
-                    { "MONSTER_RESILIENCE", 90 },
-                    { "SPAWN_DENSITY", 1 },
-                    { "MONSTER_UPGRADE_FACTOR", 5 },
-                    { "ITEM_SPAWNRATE", 1 }
-                } ),
-                world_slider_opt( to_translation( "world difficulty option", "Cataclysm (default)" ),
-                                  to_translation( "For the default monster hunting and item collecting experience." ),
-                {
-                    { "MONSTER_SPEED", 100 },
-                    { "MONSTER_RESILIENCE", 100 },
-                    { "SPAWN_DENSITY", 1 },
-                    { "MONSTER_UPGRADE_FACTOR", 4 },
-                    { "ITEM_SPAWNRATE", 1 }
-                } ),
-                world_slider_opt( to_translation( "world difficulty option", "Hurt me" ),
-                                  to_translation( "Monsters are a bit tougher and spawn 50% more." ),
-                {
-                    { "MONSTER_SPEED", 105 },
-                    { "MONSTER_RESILIENCE", 120 },
-                    { "SPAWN_DENSITY", 1.5 },
-                    { "MONSTER_UPGRADE_FACTOR", 4 },
-                    { "ITEM_SPAWNRATE", 1 }
-                } ),
-                world_slider_opt( to_translation( "world difficulty option", "Punish me" ),
-                                  to_translation( "Monsters are tougher, spawn more, and evolve faster.  Items are a bit rarer too." ),
-                {
-                    { "MONSTER_SPEED", 110 },
-                    { "MONSTER_RESILIENCE", 150 },
-                    { "SPAWN_DENSITY", 2 },
-                    { "MONSTER_UPGRADE_FACTOR", 3.5 },
-                    { "ITEM_SPAWNRATE", 0.8 }
-                } ),
-                world_slider_opt( to_translation( "world difficulty option", "Punish me more" ),
-                                  to_translation( "Monsters are 50% tougher, 20% faster, and spawn 3x more.  Items are half as likely to spawn." ),
-                {
-                    { "MONSTER_SPEED", 120 },
-                    { "MONSTER_RESILIENCE", 200 },
-                    { "SPAWN_DENSITY", 3 },
-                    { "MONSTER_UPGRADE_FACTOR", 3 },
-                    { "ITEM_SPAWNRATE", 0.5 }
-                } )
-            }
-        },
-        {
-            translate_marker_context( "world option sliders", "Random NPCs" ),
-            {
-                world_slider_opt( to_translation( "world NPC option", "Where is everyone?" ),
-                                  to_translation( "You are very unlikely to encounter random NPCs." ),
-                { { "NPC_SPAWNTIME", 12 } } ),
-                world_slider_opt( to_translation( "world NPC option", "Empty world" ),
-                                  to_translation( "You are half as likely to encounter random NPCs." ),
-                { { "NPC_SPAWNTIME", 8 } } ),
-                world_slider_opt( to_translation( "world NPC option", "Lonely (default)" ),
-                                  to_translation( "NPCs are rare, but as expected in this ruined world (default)." ),
-                { { "NPC_SPAWNTIME", 4 } } ),
-                world_slider_opt( to_translation( "world NPC option", "Party time" ),
-                                  to_translation( "You are twice as likely to encounter random NPCs." ),
-                { { "NPC_SPAWNTIME", 2 } } ),
-                world_slider_opt( to_translation( "world NPC option", "Crowded" ),
-                                  to_translation( "Random NPCs are fairly common.  Go meet some friends!" ),
-                { { "NPC_SPAWNTIME", 1 } } )
-            }
+    for( const option_slider &osl : option_slider::get_all() ) {
+        if( osl.context() == "WORLDGEN" ) {
+            wg_sliders.emplace_back( osl.id );
+            wg_slevels.emplace_back( osl.default_level() );
         }
-    };
+    }
+    const std::vector<int> wg_slvl_default = wg_slevels; // save default slider levels
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
         slider_inc_map.clear();
@@ -1768,13 +1650,12 @@ int worldfactory::show_worldgen_basic( WORLDPTR world )
 
         // Slider options
         int y = namebar_pos.y + 2;
-        for( int i = 0; static_cast<size_t>( i ) < sliders.size(); i++, y++ ) {
-            std::string sl_txt = get_opt_slider( win_width / 2 - 2, slider_levels[i],
-                                                 sliders[i].second.size() - 1,
+        for( int i = 0; static_cast<size_t>( i ) < wg_sliders.size(); i++, y++ ) {
+            std::string sl_txt = get_opt_slider( win_width / 2 - 2, wg_slevels[i],
+                                                 wg_sliders[i]->count() - 1,
                                                  i == sel_opt - 1, custom_opts );
-            const world_slider_opt &sel_sl = sliders[i].second[slider_levels[i]];
             trim_and_print( w_confirmation, point( 3, y++ ), win_width,
-                            c_white, _( sliders[i].first ) );
+                            c_white, wg_sliders[i]->name().translated() );
             trim_and_print( w_confirmation, point( 3, y ), win_width,
                             i == sel_opt - 1 ? hilite( c_white ) : c_white, sl_txt );
             if( i == sel_opt - 1 ) {
@@ -1785,7 +1666,7 @@ int worldfactory::show_worldgen_basic( WORLDPTR world )
             slider_inc_map.emplace( i * 2 + 1, inclusive_rectangle<point>( point( 2 + win_width / 2, y ),
                                     point( 2 + win_width / 2, y ) ) );
             mvwprintz( w_confirmation, point( 5 + win_width / 2, y++ ), c_white,
-                       custom_opts ? _( "Custom" ) : sel_sl.name.translated() );
+                       custom_opts ? _( "Custom" ) : wg_sliders[i]->level_name( wg_slevels[i] ).translated() );
             btn_map.emplace( 1 + i,
                              inclusive_rectangle<point>( point( 1, y - 1 ), point( 2 + win_width / 2, y - 1 ) ) );
         }
@@ -1795,31 +1676,31 @@ int worldfactory::show_worldgen_basic( WORLDPTR world )
         };
 
         // Finish button
-        nc_color acc_clr = get_clr( c_yellow, sel_opt == static_cast<int>( sliders.size() + 1 ) );
-        nc_color base_clr = get_clr( c_white, sel_opt == static_cast<int>( sliders.size() + 1 ) );
+        nc_color acc_clr = get_clr( c_yellow, sel_opt == static_cast<int>( wg_sliders.size() + 1 ) );
+        nc_color base_clr = get_clr( c_white, sel_opt == static_cast<int>( wg_sliders.size() + 1 ) );
         std::string btn_txt = string_format( "%s %s %s", colorize( "[", acc_clr ),
                                              _( "Finish" ), colorize( "]", acc_clr ) );
         const point finish_pos( win_width / 4 - utf8_width( btn_txt, true ) / 2, y );
         print_colored_text( w_confirmation, finish_pos, base_clr, base_clr, btn_txt );
-        btn_map.emplace( sliders.size() + 1,
+        btn_map.emplace( wg_sliders.size() + 1,
                          inclusive_rectangle<point>( finish_pos, finish_pos + point( utf8_width( btn_txt, true ), 0 ) ) );
         // Reset button
-        acc_clr = get_clr( c_yellow, sel_opt == static_cast<int>( sliders.size() + 2 ) );
-        base_clr = get_clr( c_white, sel_opt == static_cast<int>( sliders.size() + 2 ) );
+        acc_clr = get_clr( c_yellow, sel_opt == static_cast<int>( wg_sliders.size() + 2 ) );
+        base_clr = get_clr( c_white, sel_opt == static_cast<int>( wg_sliders.size() + 2 ) );
         btn_txt = string_format( "%s %s %s", colorize( "[", acc_clr ),
                                  _( "Reset" ), colorize( "]", acc_clr ) );
         const point reset_pos( win_width / 2 - utf8_width( btn_txt, true ) / 2, y );
         print_colored_text( w_confirmation, reset_pos, base_clr, base_clr, btn_txt );
-        btn_map.emplace( sliders.size() + 2,
+        btn_map.emplace( wg_sliders.size() + 2,
                          inclusive_rectangle<point>( reset_pos, reset_pos + point( utf8_width( btn_txt, true ), 0 ) ) );
         // Randomize button
-        acc_clr = get_clr( c_yellow, sel_opt == static_cast<int>( sliders.size() + 3 ) );
-        base_clr = get_clr( c_white, sel_opt == static_cast<int>( sliders.size() + 3 ) );
+        acc_clr = get_clr( c_yellow, sel_opt == static_cast<int>( wg_sliders.size() + 3 ) );
+        base_clr = get_clr( c_white, sel_opt == static_cast<int>( wg_sliders.size() + 3 ) );
         btn_txt = string_format( "%s %s %s", colorize( "[", acc_clr ),
                                  _( "Randomize" ), colorize( "]", acc_clr ) );
         const point rand_pos( ( win_width * 3 ) / 4 - utf8_width( btn_txt, true ) / 2, y++ );
         print_colored_text( w_confirmation, rand_pos, base_clr, base_clr, btn_txt );
-        btn_map.emplace( sliders.size() + 3,
+        btn_map.emplace( wg_sliders.size() + 3,
                          inclusive_rectangle<point>( rand_pos, rand_pos + point( utf8_width( btn_txt, true ), 0 ) ) );
 
         // Hint text
@@ -1830,8 +1711,8 @@ int worldfactory::show_worldgen_basic( WORLDPTR world )
                               "Press [<color_yellow>%s</color>] to see additional control information." ),
                            ctxt.get_desc( "PICK_RANDOM_WORLDNAME", 1U ), ctxt.get_desc( "CONFIRM", 1U ),
                            ctxt.get_desc( "HELP_KEYBINDINGS", 1U ) );
-        if( !custom_opts && sel_opt > 0 && sel_opt <= static_cast<int>( sliders.size() ) ) {
-            hint_txt = sliders.at( sel_opt - 1 ).second.at( slider_levels.at( sel_opt - 1 ) ).desc.translated();
+        if( !custom_opts && sel_opt > 0 && sel_opt <= static_cast<int>( wg_sliders.size() ) ) {
+            hint_txt = wg_sliders[sel_opt - 1]->level_desc( wg_slevels[sel_opt - 1] ).translated();
         }
         y += fold_and_print( w_confirmation, point( 2, y + 1 ), win_width, c_light_gray, hint_txt ) + 1;
 
@@ -1841,12 +1722,12 @@ int worldfactory::show_worldgen_basic( WORLDPTR world )
                                            ctxt.get_desc( "ADVANCED_SETTINGS", 1U ) );
         mvwprintz( w_confirmation, point( 2, win_height - 4 ), c_light_gray, _( "Advanced settings:" ) );
         print_colored_text( w_confirmation, point( 2, win_height - 3 ), dummy, c_light_gray, sctxt );
-        btn_map.emplace( sliders.size() + 4, inclusive_rectangle<point>( point( 2, win_height - 3 ),
+        btn_map.emplace( wg_sliders.size() + 4, inclusive_rectangle<point>( point( 2, win_height - 3 ),
                          point( 2 + utf8_width( sctxt, true ), win_height - 3 ) ) );
         sctxt = string_format( _( "[<color_yellow>%s</color>] - Open mod manager" ),
                                ctxt.get_desc( "PICK_MODS", 1U ) );
         print_colored_text( w_confirmation, point( 2, win_height - 2 ), dummy, c_light_gray, sctxt );
-        btn_map.emplace( sliders.size() + 5, inclusive_rectangle<point>( point( 2, win_height - 2 ),
+        btn_map.emplace( wg_sliders.size() + 5, inclusive_rectangle<point>( point( 2, win_height - 2 ),
                          point( 2 + utf8_width( sctxt, true ), win_height - 2 ) ) );
         wnoutrefresh( w_confirmation );
     } );
@@ -1865,9 +1746,9 @@ int worldfactory::show_worldgen_basic( WORLDPTR world )
                     sel_opt = p.first;
                 } ) > 0;
                 if( found && action == "SELECT" ) {
-                    if( sel_opt == static_cast<int>( sliders.size() + 4 ) ) {
+                    if( sel_opt == static_cast<int>( wg_sliders.size() + 4 ) ) {
                         action = "ADVANCED_SETTINGS";
-                    } else if( sel_opt == static_cast<int>( sliders.size() + 5 ) ) {
+                    } else if( sel_opt == static_cast<int>( wg_sliders.size() + 5 ) ) {
                         action = "PICK_MODS";
                     } else {
                         action = "CONFIRM";
@@ -1877,7 +1758,7 @@ int worldfactory::show_worldgen_basic( WORLDPTR world )
                         } );
                     }
                 }
-                if( sel_opt > static_cast<int>( sliders.size() + 3 ) ) {
+                if( sel_opt > static_cast<int>( wg_sliders.size() + 3 ) ) {
                     sel_opt = orig_opt;
                 }
             }
@@ -1896,7 +1777,7 @@ int worldfactory::show_worldgen_basic( WORLDPTR world )
                 if( !popup.canceled() ) {
                     world->world_name = worldname = message;
                 }
-            } else if( sel_opt == static_cast<int>( sliders.size() + 1 ) ) {
+            } else if( sel_opt == static_cast<int>( wg_sliders.size() + 1 ) ) {
                 // finish
                 if( worldname.empty() ) {
                     noname = true;
@@ -1916,57 +1797,48 @@ int worldfactory::show_worldgen_basic( WORLDPTR world )
                     world->world_name = worldname;
                     return 1;
                 }
-            } else if( sel_opt == static_cast<int>( sliders.size() + 2 ) &&
+            } else if( sel_opt == static_cast<int>( wg_sliders.size() + 2 ) &&
                        query_yn( _( "Are you sure you want to reset this world?" ) ) ) {
                 // reset
                 world->WORLD_OPTIONS = get_options().get_world_defaults();
                 world->world_saves.clear();
                 world->active_mod_order = world_generator->get_mod_manager().get_default_mods();
-                slider_levels = slider_defaults;
+                wg_slevels = wg_slvl_default;
                 custom_opts = false;
-            } else if( sel_opt == static_cast<int>( sliders.size() + 3 ) ) {
+            } else if( sel_opt == static_cast<int>( wg_sliders.size() + 3 ) ) {
                 // randomize
-                for( int i = 0; i < static_cast<int>( sliders.size() ); i++ ) {
-                    slider_levels[i] = rng( 0, sliders.at( i ).second.size() - 1 );
+                for( int i = 0; i < static_cast<int>( wg_sliders.size() ); i++ ) {
+                    wg_slevels[i] = wg_sliders[i]->random_level();
                 }
             }
         } else if( action == "UP" ) {
             sel_opt--;
             if( sel_opt < 0 ) {
-                sel_opt = sliders.size() + 2;
+                sel_opt = wg_sliders.size() + 2;
             }
         } else if( action == "DOWN" ) {
             sel_opt++;
-            if( sel_opt > static_cast<int>( sliders.size() + 2 ) ) {
+            if( sel_opt > static_cast<int>( wg_sliders.size() + 2 ) ) {
                 sel_opt = 0;
             }
         } else if( action == "LEFT" || action == "RIGHT" ) {
-            if( sel_opt > 0 && sel_opt <= static_cast<int>( sliders.size() ) ) {
+            if( sel_opt > 0 && sel_opt <= static_cast<int>( wg_sliders.size() ) ) {
                 if( custom_opts && query_yn( _( "Currently using customized advanced options.  "
                                                 "Reset world options to defaults?" ) ) ) {
                     world->WORLD_OPTIONS = get_options().get_world_defaults();
-                    slider_levels = slider_defaults;
+                    wg_slevels = wg_slvl_default;
                     custom_opts = false;
                     continue;
                 } else if( custom_opts ) {
                     continue;
                 }
-                int lvl = slider_levels.at( sel_opt - 1 ) + ( action == "LEFT" ? -1 : 1 );
-                slider_levels[sel_opt - 1] = clamp<int>( lvl, 0, sliders[sel_opt - 1].second.size() - 1 );
-                for( const auto &opt : sliders[sel_opt - 1].second[slider_levels[sel_opt - 1]].opts ) {
-                    auto iter = world->WORLD_OPTIONS.find( opt.first );
-                    if( iter != world->WORLD_OPTIONS.end() ) {
-                        if( iter->second.getType() == "float" ) {
-                            iter->second.setValue( opt.second );
-                        } else if( iter->second.getType() == "int" ) {
-                            iter->second.setValue( static_cast<int>( opt.second ) );
-                        }
-                    }
-                }
-            } else if( sel_opt > static_cast<int>( sliders.size() ) ) {
-                if( action == "LEFT" && sel_opt > static_cast<int>( sliders.size() + 1 ) ) {
+                int lvl = wg_slevels[sel_opt - 1] + ( action == "LEFT" ? -1 : 1 );
+                wg_slevels[sel_opt - 1] = clamp<int>( lvl, 0, wg_sliders[sel_opt - 1]->count() - 1 );
+                wg_sliders[sel_opt - 1]->apply_opts( wg_slevels[sel_opt - 1], world->WORLD_OPTIONS );
+            } else if( sel_opt > static_cast<int>( wg_sliders.size() ) ) {
+                if( action == "LEFT" && sel_opt > static_cast<int>( wg_sliders.size() + 1 ) ) {
                     sel_opt--;
-                } else if( action == "RIGHT" && sel_opt < static_cast<int>( sliders.size() + 3 ) ) {
+                } else if( action == "RIGHT" && sel_opt < static_cast<int>( wg_sliders.size() + 3 ) ) {
                     sel_opt++;
                 }
             }

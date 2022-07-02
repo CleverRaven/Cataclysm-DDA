@@ -19,6 +19,7 @@
 #include "filesystem.h"
 #include "game.h"
 #include "game_constants.h"
+#include "generic_factory.h"
 #include "input.h"
 #include "json.h"
 #include "line.h"
@@ -54,6 +55,128 @@
 
 std::map<std::string, std::string> TILESETS; // All found tilesets: <name, tileset_dir>
 std::map<std::string, std::string> SOUNDPACKS; // All found soundpacks: <name, soundpack_dir>
+
+namespace
+{
+
+generic_factory<option_slider> option_slider_factory( "option slider" );
+
+} // namespace
+
+/** @relates string_id */
+template<>
+const option_slider &string_id<option_slider>::obj() const
+{
+    return option_slider_factory.obj( *this );
+}
+
+/** @relates string_id */
+template<>
+bool string_id<option_slider>::is_valid() const
+{
+    return option_slider_factory.is_valid( *this );
+}
+
+void option_slider::reset()
+{
+    option_slider_factory.reset();
+}
+
+const std::vector<option_slider> &option_slider::get_all()
+{
+    return option_slider_factory.get_all();
+}
+
+void option_slider::load_option_sliders( const JsonObject &jo, const std::string &src )
+{
+    option_slider_factory.load( jo, src );
+}
+
+void option_slider::finalize_all()
+{
+    for( const option_slider &opt : option_slider::get_all() ) {
+        option_slider &o = const_cast<option_slider &>( opt );
+        o.reorder_opts();
+    }
+}
+
+void option_slider::check_consistency()
+{
+    for( const option_slider &opt : option_slider::get_all() ) {
+        opt.check();
+    }
+}
+
+void option_slider::load( const JsonObject &jo, const std::string & )
+{
+    mandatory( jo, was_loaded, "name", _name );
+    optional( jo, was_loaded, "default", _default_level, 0 );
+    optional( jo, was_loaded, "context", _context );
+    mandatory( jo, was_loaded, "levels", _levels );
+}
+
+void option_slider::option_slider_level::deserialize( const JsonObject &jo )
+{
+    mandatory( jo, false, "level", _level );
+    mandatory( jo, false, "name", _name );
+    optional( jo, false, "description", _desc );
+    _opts.clear();
+    for( JsonObject jobj : jo.get_array( "options" ) ) {
+        const std::string stype = jobj.get_string( "type" );
+        std::stringstream valss;
+        if( stype == "int" ) {
+            valss << jobj.get_int( "val" );
+        } else if( stype == "float" ) {
+            valss << jobj.get_float( "val" );
+        } else if( stype == "bool" ) {
+            valss << ( jobj.get_bool( "val" ) ? "true" : "false" );
+        } else if( stype == "string" ) {
+            valss << jobj.get_string( "val" );
+        }
+        _opts.emplace_back( jobj.get_string( "option" ), stype, valss.str() );
+    }
+}
+
+void option_slider::check() const
+{
+    std::set<int> lvls;
+    for( const option_slider_level &lvl : _levels ) {
+        if( lvl.level() < 0 || lvl.level() >= static_cast<int>( _levels.size() ) ) {
+            debugmsg( "Option slider level \"%s\" (from option slider \"%s\") has a numeric "
+                      "level of %d, but must be between 0 and %d (total number of levels minus 1)",
+                      lvl.name().translated().c_str(), id.c_str(), lvl.level(),
+                      static_cast<int>( _levels.size() ) - 1 );
+        }
+        lvls.emplace( lvl.level() );
+    }
+
+    if( lvls.size() != _levels.size() ) {
+        debugmsg( "Option slider \"%s\" has duplicate slider levels.  Each slider level must "
+                  "be unique, from 0 (zero) to %d (total number of levels minus 1)",
+                  id.c_str(), static_cast<int>( _levels.size() ) - 1 );
+    }
+
+    if( lvls.count( _default_level ) == 0 ) {
+        debugmsg( "Default slider level (%d) for option slider \"%s\" does not match any of the "
+                  "defined levels", _default_level, id.c_str() );
+    }
+}
+
+void option_slider::option_slider_level::apply_opts( options_manager::options_container &OPTIONS )
+const
+{
+    for( const opt_slider_option &opt : _opts ) {
+        auto iter = OPTIONS.find( opt._opt );
+        if( iter != OPTIONS.end() ) {
+            iter->second.setValue( opt._val );
+        }
+    }
+}
+
+int option_slider::random_level() const
+{
+    return rng( 0, _levels.size() - 1 );
+}
 
 // Map from old option name to pair of <new option name and map of old option value to new option value>
 // Options and values not listed here will not be changed.
