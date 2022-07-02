@@ -1456,7 +1456,7 @@
     "symbol": "/",
     "material": [ "wood" ],
     "techniques": [ "WBLOCK_2", "RAPID", "PRECISE" ],
-    "flags": [ "DURABLE_MELEE", "BELT_CLIP" ],
+    "flags": [ "BELT_CLIP" ],
     "weapon_category": [ "BATONS" ],
     "volume": "2 L",
     "bashing": 14,
