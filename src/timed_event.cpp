@@ -444,7 +444,7 @@ bool timed_event_manager::queued( const timed_event_type type ) const
 
 timed_event *timed_event_manager::get( const timed_event_type type )
 {
-    for( auto &e : events ) {
+    for( timed_event &e : events ) {
         if( e.type == type ) {
             return &e;
         }

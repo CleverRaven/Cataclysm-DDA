@@ -120,7 +120,7 @@ bool leap_actor::call( monster &z ) const
         bool blocked_path = false;
         // check if monster has a clear path to the proposed point
         std::vector<tripoint> line = here.find_clear_path( z.pos(), dest );
-        for( auto &i : line ) {
+        for( tripoint &i : line ) {
             if( here.impassable( i ) ) {
                 blocked_path = true;
                 break;

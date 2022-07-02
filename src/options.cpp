@@ -2817,8 +2817,9 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
         Page &page = pages_[iCurrentPage];
         auto &page_items = page.items_;
 
-        auto &cOPTIONS = ( ingame || world_options_only ) && iCurrentPage == iWorldOptPage ?
-                         ACTIVE_WORLD_OPTIONS : OPTIONS;
+        options_manager::options_container &cOPTIONS = ( ingame || world_options_only ) &&
+                iCurrentPage == iWorldOptPage ?
+                ACTIVE_WORLD_OPTIONS : OPTIONS;
 
         //Clear the lines
         for( int i = 0; i < iContentHeight; i++ ) {
@@ -2986,8 +2987,9 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
         Page &page = pages_[iCurrentPage];
         auto &page_items = page.items_;
 
-        auto &cOPTIONS = ( ingame || world_options_only ) && iCurrentPage == iWorldOptPage ?
-                         ACTIVE_WORLD_OPTIONS : OPTIONS;
+        options_manager::options_container &cOPTIONS = ( ingame || world_options_only ) &&
+                iCurrentPage == iWorldOptPage ?
+                ACTIVE_WORLD_OPTIONS : OPTIONS;
 
         std::string action = ctxt.handle_input();
 
@@ -3271,7 +3273,7 @@ void options_manager::serialize( JsonOut &json ) const
             }
             const auto iter = options.find( *opt_name );
             if( iter != options.end() ) {
-                const auto &opt = iter->second;
+                const options_manager::cOpt &opt = iter->second;
 
                 json.start_object();
 

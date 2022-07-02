@@ -171,7 +171,7 @@ void scenario::reset()
 
 void scenario::check_definitions()
 {
-    for( const auto &scen : all_scenarios.get_all() ) {
+    for( const scenario &scen : all_scenarios.get_all() ) {
         scen.check_definition();
     }
     sc_blacklist.finalize();

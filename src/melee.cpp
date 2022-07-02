@@ -233,7 +233,7 @@ bool Character::handle_melee_wear( item &shield, float wear_multiplier )
         // Items that should have no bearing on durability
         const std::set<itype_id> blacklist = { itype_rag, itype_leather, itype_fur };
 
-        for( auto &comp : shield.components ) {
+        for( item &comp : shield.components ) {
             if( blacklist.count( comp.typeId() ) <= 0 ) {
                 if( weak_chip > comp.chip_resistance() ) {
                     weak_chip = comp.chip_resistance();
@@ -291,7 +291,7 @@ bool Character::handle_melee_wear( item &shield, float wear_multiplier )
                                _( "<npcname>'s %s breaks apart!" ),
                                str );
 
-        for( auto &comp : temp.components ) {
+        for( item &comp : temp.components ) {
             int break_chance = comp.typeId() == weak_comp ? 2 : 8;
 
             if( one_in( break_chance ) ) {
@@ -599,16 +599,16 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
     }
 
     if( is_avatar() && move_cost > 1000 && calendar::turn > melee_warning_turn ) {
-        const auto &action = query_popup()
-                             .context( "CANCEL_ACTIVITY_OR_IGNORE_QUERY" )
-                             .message( _( "<color_light_red>Attacking with your %1$s will take a long time.  "
-                                          "Are you sure you want to continue?</color>" ),
-                                       cur_weapon->display_name() )
-                             .option( "YES" )
-                             .option( "NO" )
-                             .option( "IGNORE" )
-                             .query()
-                             .action;
+        const std::string &action = query_popup()
+                                    .context( "CANCEL_ACTIVITY_OR_IGNORE_QUERY" )
+                                    .message( _( "<color_light_red>Attacking with your %1$s will take a long time.  "
+                                              "Are you sure you want to continue?</color>" ),
+                                              cur_weapon->display_name() )
+                                    .option( "YES" )
+                                    .option( "NO" )
+                                    .option( "IGNORE" )
+                                    .query()
+                                    .action;
 
         if( action == "NO" ) {
             return false;
@@ -1866,7 +1866,7 @@ bool character_martial_arts::has_technique( const Character &guy, const matec_id
 static damage_unit &get_damage_unit( std::vector<damage_unit> &di, const damage_type dt )
 {
     static damage_unit nullunit( damage_type::NONE, 0, 0, 0, 0 );
-    for( auto &du : di ) {
+    for( damage_unit &du : di ) {
         if( du.type == dt && du.amount > 0 ) {
             return du;
         }
@@ -1943,7 +1943,7 @@ void Character::perform_technique( const ma_technique &technique, Creature &t, d
         if( technique.down_dur > 0 ) {
             if( t.get_throw_resist() == 0 ) {
                 t.add_effect( effect_downed, rng( 1_turns, time_duration::from_turns( technique.down_dur ) ) );
-                auto &bash = get_damage_unit( di.damage_units, damage_type::BASH );
+                damage_unit &bash = get_damage_unit( di.damage_units, damage_type::BASH );
                 if( bash.amount > 0 ) {
                     bash.amount += 3;
                 }
@@ -2264,7 +2264,7 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
     float total_damage = 0.0f;
     float damage_blocked = 0.0f;
 
-    for( auto &elem : dam.damage_units ) {
+    for( damage_unit &elem : dam.damage_units ) {
         total_damage += elem.amount;
 
         // block physical damage "normally"
@@ -2366,7 +2366,7 @@ void Character::perform_special_attacks( Creature &t, dealt_damage_instance &dea
     std::vector<special_attack> special_attacks = mutation_attacks( t );
 
     bool practiced = false;
-    for( const auto &att : special_attacks ) {
+    for( const special_attack &att : special_attacks ) {
         if( t.is_dead_state() ) {
             break;
         }

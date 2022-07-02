@@ -477,7 +477,7 @@ void body_part_type::finalize()
 void body_part_type::check_consistency()
 {
     for( const body_part bp : all_body_parts ) {
-        const auto &legacy_bp = convert_bp( bp );
+        const bodypart_str_id &legacy_bp = convert_bp( bp );
         if( !legacy_bp.is_valid() ) {
             debugmsg( "Mandatory body part %s was not loaded", legacy_bp.c_str() );
         }

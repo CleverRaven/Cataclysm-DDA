@@ -235,7 +235,7 @@ weather_type_id get_weather_at_point( const tripoint_abs_omt &pos )
     if( iter == weather_cache.end() ) {
         // TODO: fix point types
         const tripoint abs_ms_pos = project_to<coords::ms>( pos ).raw();
-        const auto &wgen = overmap_buffer.get_settings( pos ).weather;
+        const weather_generator &wgen = overmap_buffer.get_settings( pos ).weather;
         const auto weather = wgen.get_weather_conditions( abs_ms_pos, calendar::turn, g->get_seed() );
         iter = weather_cache.insert( std::make_pair( pos, weather ) ).first;
     }
@@ -276,7 +276,7 @@ static void draw_city_labels( const catacurses::window &w, const tripoint_abs_om
 
     const point screen_center_pos( win_x_max / 2, win_y_max / 2 );
 
-    for( const auto &element : overmap_buffer.get_cities_near(
+    for( const city_reference &element : overmap_buffer.get_cities_near(
              project_to<coords::sm>( center ), sm_radius ) ) {
         const point_abs_omt city_pos =
             project_to<coords::omt>( element.abs_sm_pos.xy() );
@@ -317,7 +317,7 @@ static void draw_camp_labels( const catacurses::window &w, const tripoint_abs_om
 
     const point screen_center_pos( win_x_max / 2, win_y_max / 2 );
 
-    for( const auto &element : overmap_buffer.get_camps_near(
+    for( const camp_reference &element : overmap_buffer.get_camps_near(
              project_to<coords::sm>( center ), sm_radius ) ) {
         const point_abs_omt camp_pos( element.camp->camp_omt_pos().xy() );
         const point screen_pos( ( camp_pos - center.xy() ).raw() + screen_center_pos );
@@ -551,10 +551,10 @@ static void draw_ascii(
 
     std::string sZoneName;
     tripoint_abs_omt tripointZone( -1, -1, -1 );
-    const auto &zones = zone_manager::get_manager();
+    const zone_manager &zones = zone_manager::get_manager();
 
     if( data.iZoneIndex != -1 ) {
-        const auto &zone = zones.get_zones()[data.iZoneIndex].get();
+        const zone_data &zone = zones.get_zones()[data.iZoneIndex].get();
         sZoneName = zone.get_name();
         // TODO: fix point types
         tripointZone = project_to<coords::omt>(
@@ -566,7 +566,7 @@ static void draw_ascii(
     std::vector<mongroup *> mgroups;
     if( uistate.overmap_debug_mongroup ) {
         mgroups = overmap_buffer.monsters_at( center );
-        for( const auto &mgp : mgroups ) {
+        for( mongroup * const &mgp : mgroups ) {
             mgroup = mgp;
             if( mgp->horde ) {
                 break;
@@ -689,7 +689,7 @@ static void draw_ascii(
         for( auto &elem : player_character.omt_path ) {
             player_path_route[ elem.xy() ] = elem.z();
         }
-        for( const auto &np : followers ) {
+        for( npc * const &np : followers ) {
             if( np->posz() != center.z() ) {
                 continue;
             }
@@ -943,7 +943,7 @@ static void draw_ascii(
         }
     }
 
-    for( auto &v : overmap_buffer.get_vehicle( center ) ) {
+    for( om_vehicle &v : overmap_buffer.get_vehicle( center ) ) {
         corner_text.emplace_back( c_white, v.name );
     }
 
@@ -1023,7 +1023,7 @@ static void draw_om_sidebar(
     std::vector<mongroup *> mgroups;
     if( uistate.overmap_debug_mongroup ) {
         mgroups = overmap_buffer.monsters_at( center );
-        for( const auto &mgp : mgroups ) {
+        for( mongroup * const &mgp : mgroups ) {
             if( mgp->horde ) {
                 break;
             }
@@ -1047,7 +1047,7 @@ static void draw_om_sidebar(
     if( center_seen ) {
         if( !mgroups.empty() ) {
             int line_number = 6;
-            for( const auto &mgroup : mgroups ) {
+            for( mongroup * const &mgroup : mgroups ) {
                 mvwprintz( wbar, point( 3, line_number++ ),
                            c_blue, "  Species: %s", mgroup->type.c_str() );
                 mvwprintz( wbar, point( 3, line_number++ ),
@@ -1143,7 +1143,7 @@ static void draw_om_sidebar(
     }
 
     //Show mission targets on this location
-    for( auto &mission : player_character.get_active_missions() ) {
+    for( mission *&mission : player_character.get_active_missions() ) {
         if( mission->get_target() == center ) {
             mvwprintz( wbar, point( 1, ++lines ), c_white, mission->name() );
         }
@@ -2009,7 +2009,7 @@ void ui::omap::setup_cities_menu( uilist &cities_menu, std::vector<city> &cities
         cities_menu.entries.emplace_back( entry_random_city );
         cities_menu.desc_enabled = true;
         cities_menu.title = _( "Select a starting city" );
-        for( const auto &c : cities_container ) {
+        for( const city &c : cities_container ) {
             uilist_entry entry( c.database_id, true, -1, c.name,
                                 string_format(
                                     _( "Location: <color_white>%s</color>:<color_white>%s</color>" ),

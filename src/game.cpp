@@ -450,7 +450,7 @@ void game::load_static_data()
 
 bool game::check_mod_data( const std::vector<mod_id> &opts, loading_ui &ui )
 {
-    auto &tree = world_generator->get_mod_manager().get_tree();
+    dependency_tree &tree = world_generator->get_mod_manager().get_tree();
 
     // deduplicated list of mods to check
     std::set<mod_id> check( opts.begin(), opts.end() );
@@ -935,7 +935,7 @@ bool game::start_game()
         }
 
     }
-    for( auto &e : u.inv_dump() ) {
+    for( item *&e : u.inv_dump() ) {
         e->set_owner( get_player_character() );
     }
     // Now that we're done handling coordinates, ensure the player's submap is in the center of the map
@@ -1162,7 +1162,7 @@ static int veh_lumi( vehicle &veh )
     auto lights = veh.lights( true );
 
     for( const vehicle_part *pt : lights ) {
-        const auto &vp = pt->info();
+        const vpart_info &vp = pt->info();
         if( vp.has_flag( VPFLAG_CONE_LIGHT ) ||
             vp.has_flag( VPFLAG_WIDE_CONE_LIGHT ) ) {
             veh_luminance += vp.bonus / iteration;
@@ -1333,20 +1333,20 @@ bool game::cancel_activity_or_ignore_query( const distraction_type type, const s
     const auto &allow_key = force_uc ? input_context::disallow_lower_case_or_non_modified_letters
                             : input_context::allow_all_keys;
 
-    const auto &action = query_popup()
-                         .preferred_keyboard_mode( keyboard_mode::keycode )
-                         .context( "CANCEL_ACTIVITY_OR_IGNORE_QUERY" )
-                         .message( force_uc && !is_keycode_mode_supported() ?
-                                   pgettext( "cancel_activity_or_ignore_query",
-                                           "<color_light_red>%s %s (Case Sensitive)</color>" ) :
-                                   pgettext( "cancel_activity_or_ignore_query",
-                                           "<color_light_red>%s %s</color>" ),
-                                   text, u.activity.get_stop_phrase() )
-                         .option( "YES", allow_key )
-                         .option( "NO", allow_key )
-                         .option( "IGNORE", allow_key )
-                         .query()
-                         .action;
+    const std::string &action = query_popup()
+                                .preferred_keyboard_mode( keyboard_mode::keycode )
+                                .context( "CANCEL_ACTIVITY_OR_IGNORE_QUERY" )
+                                .message( force_uc && !is_keycode_mode_supported() ?
+                                          pgettext( "cancel_activity_or_ignore_query",
+                                                  "<color_light_red>%s %s (Case Sensitive)</color>" ) :
+                                          pgettext( "cancel_activity_or_ignore_query",
+                                                  "<color_light_red>%s %s</color>" ),
+                                          text, u.activity.get_stop_phrase() )
+                                .option( "YES", allow_key )
+                                .option( "NO", allow_key )
+                                .option( "IGNORE", allow_key )
+                                .query()
+                                .action;
 
     if( action == "YES" ) {
         u.cancel_activity();
@@ -1354,7 +1354,7 @@ bool game::cancel_activity_or_ignore_query( const distraction_type type, const s
     }
     if( action == "IGNORE" ) {
         u.activity.ignore_distraction( type );
-        for( auto &activity : u.backlog ) {
+        for( player_activity &activity : u.backlog ) {
             activity.ignore_distraction( type );
         }
     }
@@ -1396,7 +1396,7 @@ bool game::portal_storm_query( const distraction_type type, const std::string &t
 
     // ensure it never happens again during this activity - shouldn't be an issue anyway
     u.activity.ignore_distraction( type );
-    for( auto &activity : u.backlog ) {
+    for( player_activity &activity : u.backlog ) {
         activity.ignore_distraction( type );
     }
 
@@ -1573,7 +1573,7 @@ static void update_faction_api( npc *guy )
 
 void game::validate_linked_vehicles()
 {
-    for( auto &veh : m.get_vehicles() ) {
+    for( wrapped_vehicle &veh : m.get_vehicles() ) {
         vehicle *v = veh.v;
         if( v->tow_data.other_towing_point != tripoint_zero ) {
             vehicle *other_v = veh_pointer_or_null( m.veh_at( v->tow_data.other_towing_point ) );
@@ -1624,7 +1624,7 @@ void game::validate_npc_followers()
         }
     }
     // Make sure that serialized player followers sync up with game list
-    for( const auto &temp_id : u.follower_ids ) {
+    for( const character_id &temp_id : u.follower_ids ) {
         add_npc_follower( temp_id );
     }
 }
@@ -2719,7 +2719,7 @@ bool game::load( const save_t &name )
     validate_camps();
     validate_linked_vehicles();
     update_map( u );
-    for( auto &e : u.inv_dump() ) {
+    for( item *&e : u.inv_dump() ) {
         e->set_owner( get_player_character() );
     }
     // legacy, needs to be here as we access the map.
@@ -2988,7 +2988,7 @@ bool game::save()
 std::vector<std::string> game::list_active_saves()
 {
     std::vector<std::string> saves;
-    for( auto &worldsave : world_generator->active_world->world_saves ) {
+    for( save_t &worldsave : world_generator->active_world->world_saves ) {
         saves.push_back( worldsave.decoded_name() );
     }
     return saves;
@@ -3189,7 +3189,7 @@ void game::disp_NPCs()
 // A little helper to draw footstep glyphs.
 static void draw_footsteps( const catacurses::window &window, const tripoint &offset )
 {
-    for( const auto &footstep : sounds::get_footstep_markers() ) {
+    for( const tripoint &footstep : sounds::get_footstep_markers() ) {
         char glyph = '?';
         if( footstep.z != offset.z ) { // Here z isn't an offset, but a coordinate
             glyph = footstep.z > offset.z ? '^' : 'v';
@@ -3419,7 +3419,7 @@ void game::draw_panels( bool force_draw )
     static int previous_turn = -1;
     const int current_turn = to_turns<int>( calendar::turn - calendar::turn_zero );
     const bool draw_this_turn = current_turn > previous_turn || force_draw;
-    auto &mgr = panel_manager::get_manager();
+    panel_manager &mgr = panel_manager::get_manager();
     int y = 0;
     const bool sidebar_right = get_option<std::string>( "SIDEBAR_POSITION" ) == "right";
     int spacer = get_option<bool>( "SIDEBAR_SPACERS" ) ? 1 : 0;
@@ -3887,7 +3887,7 @@ Creature *game::is_hostile_very_close( bool dangerous )
 
 Creature *game::is_hostile_within( int distance, bool dangerous )
 {
-    for( auto &critter : u.get_visible_creatures( distance ) ) {
+    for( Creature *&critter : u.get_visible_creatures( distance ) ) {
         if( u.attitude_to( *critter ) == Creature::Attitude::HOSTILE ) {
             if( dangerous ) {
                 if( critter->is_ranged_attacker() ) {
@@ -6295,7 +6295,7 @@ void game::zones_manager()
         ctxt.register_action( "CHANGE_FACTION" );
     }
 
-    auto &mgr = zone_manager::get_manager();
+    zone_manager &mgr = zone_manager::get_manager();
     int start_index = 0;
     int active_index = 0;
     bool blink = false;
@@ -6338,7 +6338,7 @@ void game::zones_manager()
         werase( w_zones_options );
 
         if( zone_cnt > 0 ) {
-            const auto &zone = zones[active_index].get();
+            const zone_data &zone = zones[active_index].get();
 
             if( zone.has_options() ) {
                 const auto &descriptions = zone.get_options().get_descriptions();
@@ -6457,7 +6457,7 @@ void game::zones_manager()
             for( auto &i : zones ) {
                 if( iNum >= start_index &&
                     iNum < start_index + ( ( max_rows > zone_cnt ) ? zone_cnt : max_rows ) ) {
-                    const auto &zone = i.get();
+                    const zone_data &zone = i.get();
 
                     nc_color colorLine = zone.get_enabled() ? c_white : c_light_gray;
 
@@ -6640,7 +6640,7 @@ void game::zones_manager()
                 stuff_changed = true;
 
             } else if( action == "CONFIRM" ) {
-                auto &zone = zones[active_index].get();
+                zone_data &zone = zones[active_index].get();
 
                 uilist as_m;
                 as_m.text = _( "What do you want to change:" );
@@ -6763,7 +6763,7 @@ void game::zones_manager()
                 bool zones_changed = false;
 
                 for( const auto &i : zones ) {
-                    auto &zone = i.get();
+                    zone_data &zone = i.get();
                     if( zone.get_enabled() ) {
                         continue;
                     }
@@ -6778,7 +6778,7 @@ void game::zones_manager()
                 bool zones_changed = false;
 
                 for( const auto &i : zones ) {
-                    auto &zone = i.get();
+                    zone_data &zone = i.get();
                     if( !zone.get_enabled() ) {
                         continue;
                     }
@@ -6794,7 +6794,7 @@ void game::zones_manager()
 
         if( zone_cnt > 0 ) {
             blink = !blink;
-            const auto &zone = zones[active_index].get();
+            const zone_data &zone = zones[active_index].get();
             zone_start = m.getlocal( zone.get_start_point() );
             zone_end = m.getlocal( zone.get_end_point() );
             ctxt.set_timeout( BLINK_SPEED );
@@ -6820,7 +6820,7 @@ void game::zones_manager()
     zone_cb = nullptr;
 
     if( stuff_changed ) {
-        auto &zones = zone_manager::get_manager();
+        zone_manager &zones = zone_manager::get_manager();
         if( !query_yn( _( "Save changes?" ) ) ) {
             zones.load_zones( "zmgr-temp" );
         }
@@ -7247,7 +7247,7 @@ std::vector<map_item_stack> game::find_nearby_items( int iRadius )
         return ret;
     }
 
-    for( auto &points_p_it : closest_points_first( u.pos(), iRadius ) ) {
+    for( tripoint &points_p_it : closest_points_first( u.pos(), iRadius ) ) {
         if( points_p_it.y >= u.posy() - iRadius && points_p_it.y <= u.posy() + iRadius &&
             u.sees( points_p_it ) &&
             m.sees_some_items( points_p_it, u ) ) {
@@ -8531,8 +8531,8 @@ static void add_salvagables( uilist &menu,
             const item &it = *stack.first;
 
             //~ Name and number of items listed for cutting up
-            const auto &msg = string_format( pgettext( "butchery menu", "Cut up %s (%d)" ),
-                                             it.tname(), stack.second );
+            const std::string &msg = string_format( pgettext( "butchery menu", "Cut up %s (%d)" ),
+                                                    it.tname(), stack.second );
             menu.addentry_col( menu_index++, true, hotkey, msg,
                                to_string_clipped( time_duration::from_turns( salvage_iuse.time_to_cut_up( it ) / 100 ) ) );
             hotkey = cata::nullopt;
@@ -8551,8 +8551,8 @@ static void add_disassemblables( uilist &menu,
             const item &it = *stack.first;
 
             //~ Name, number of items and time to complete disassembling
-            const auto &msg = string_format( pgettext( "butchery menu", "Disassemble %s (%d)" ),
-                                             it.tname(), stack.second );
+            const std::string &msg = string_format( pgettext( "butchery menu", "Disassemble %s (%d)" ),
+                                                    it.tname(), stack.second );
             recipe uncraft_recipe;
             if( it.typeId() == itype_disassembly ) {
                 uncraft_recipe = it.get_making();
@@ -10598,7 +10598,7 @@ bool game::grabbed_furn_move( const tripoint &dp )
                 m.i_at( fpos ).insert( *item_iter );
             }
             m.i_clear( fdest );
-            for( auto &cur_item : temp ) {
+            for( item &cur_item : temp ) {
                 m.i_at( fdest ).insert( cur_item );
             }
         } else {
@@ -11027,7 +11027,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
         }
 
         std::vector<tripoint> pts;
-        for( const auto &pt : here.points_in_radius( stairs, 1 ) ) {
+        for( const tripoint &pt : here.points_in_radius( stairs, 1 ) ) {
             if( here.passable( pt ) &&
                 here.has_floor_or_support( pt ) ) {
                 pts.push_back( pt );

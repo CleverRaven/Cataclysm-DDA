@@ -1121,7 +1121,7 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
         }
     }
 
-    for( auto &v : overmap_buffer.get_vehicle( center_abs_omt ) ) {
+    for( om_vehicle &v : overmap_buffer.get_vehicle( center_abs_omt ) ) {
         notes_window_text.emplace_back( c_white, v.name );
     }
 

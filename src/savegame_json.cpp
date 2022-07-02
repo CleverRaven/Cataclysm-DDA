@@ -2324,7 +2324,7 @@ void inventory::json_save_invcache( JsonOut &json ) const
         json.start_object();
         json.member( elem.first.str() );
         json.start_array();
-        for( const auto &_sym : elem.second ) {
+        for( const char &_sym : elem.second ) {
             json.write( static_cast<int>( _sym ) );
         }
         json.end_array();
@@ -2363,7 +2363,7 @@ void inventory::json_save_items( JsonOut &json ) const
 {
     json.start_array();
     for( const auto &elem : items ) {
-        for( const auto &elem_stack_iter : elem ) {
+        for( const item &elem_stack_iter : elem ) {
             elem_stack_iter.serialize( json );
         }
     }
@@ -4164,7 +4164,7 @@ void addiction::deserialize( const JsonObject &jo )
 void serialize( const recipe_subset &value, JsonOut &jsout )
 {
     jsout.start_array();
-    for( const auto &entry : value ) {
+    for( const recipe * const &entry : value ) {
         jsout.write( entry->ident() );
     }
     jsout.end_array();
@@ -4254,7 +4254,7 @@ void basecamp::serialize( JsonOut &json ) const
             json.start_object();
             json.member( "dir" );
             json.start_array();
-            for( const auto &miss_id : list ) {
+            for( const ui_mission_id &miss_id : list ) {
                 json.start_object();
                 json.member( "mission_id", string_of( miss_id.id ) );
                 json.end_object();
@@ -4301,13 +4301,13 @@ void basecamp::serialize( JsonOut &json ) const
         json.end_array();
         json.member( "salt_water_pipes" );
         json.start_array();
-        for( const auto &pipe : salt_water_pipes ) {
+        for( expansion_salt_water_pipe * const &pipe : salt_water_pipes ) {
             json.start_object();
             json.member( "expansion", pipe->expansion );
             json.member( "connection_direction", pipe->connection_direction );
             json.member( "segments" );
             json.start_array();
-            for( const auto &segment : pipe->segments ) {
+            for( const expansion_salt_water_pipe_segment &segment : pipe->segments ) {
                 json.start_object();
                 json.member( "point", segment.point );
                 json.member( "started", segment.started );
@@ -4672,7 +4672,7 @@ void submap::store( JsonOut &jsout ) const
     // Write out as array of arrays of single entries
     jsout.member( "cosmetics" );
     jsout.start_array();
-    for( const auto &cosm : cosmetics ) {
+    for( const submap::cosmetic_t &cosm : cosmetics ) {
         jsout.start_array();
         jsout.write( cosm.pos.x );
         jsout.write( cosm.pos.y );
@@ -4685,7 +4685,7 @@ void submap::store( JsonOut &jsout ) const
     // Output the spawn points
     jsout.member( "spawns" );
     jsout.start_array();
-    for( const auto &elem : spawns ) {
+    for( const spawn_point &elem : spawns ) {
         jsout.start_array();
         // TODO: json should know how to write string_ids
         jsout.write( elem.type.str() );
@@ -4718,7 +4718,7 @@ void submap::store( JsonOut &jsout ) const
         jsout.write( elem.second.counter );
         jsout.write( elem.second.id.id() );
         jsout.start_array();
-        for( const auto &it : elem.second.components ) {
+        for( const item &it : elem.second.components ) {
             jsout.write( it );
         }
         jsout.end_array();

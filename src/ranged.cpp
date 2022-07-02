@@ -3405,7 +3405,7 @@ void target_ui::draw_controls_list( int text_y )
     }
     if( mode == TargetMode::Fire ) {
         std::string aim_and_fire;
-        for( const auto &e : aim_types ) {
+        for( const aim_type &e : aim_types ) {
             if( e.has_threshold ) {
                 aim_and_fire += string_format( "[%s] ", bound_key( e.action ).short_description() );
             }

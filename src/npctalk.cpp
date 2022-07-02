@@ -598,8 +598,8 @@ void game::chat()
     std::vector<vehicle *> following_vehicles;
     std::vector<vehicle *> magic_vehicles;
     std::vector<vehicle *> magic_following_vehicles;
-    for( auto &veh : get_map().get_vehicles() ) {
-        auto &v = veh.v;
+    for( wrapped_vehicle &veh : get_map().get_vehicles() ) {
+        vehicle *&v = veh.v;
         if( v->has_engine_type( fuel_type_animal, false ) &&
             v->is_owned_by( player_character ) ) {
             animal_vehicles.push_back( v );
@@ -948,7 +948,7 @@ void avatar::talk_to( std::unique_ptr<talker> talk_with, bool radio_contact,
     d.by_radio = radio_contact;
     dialogue_by_radio = radio_contact;
     d.actor( true )->check_missions();
-    for( auto &mission : d.actor( true )->assigned_missions() ) {
+    for( mission *&mission : d.actor( true )->assigned_missions() ) {
         if( mission->get_assigned_player_id() == getID() ) {
             d.missions_assigned.push_back( mission );
         }
@@ -1004,7 +1004,7 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
     }
 
     // For compatibility
-    const auto &topic = the_topic.id;
+    const std::string &topic = the_topic.id;
     const auto iter = json_talk_topics.find( topic );
     if( iter != json_talk_topics.end() ) {
         const std::string line = iter->second.get_dynamic_line( *this );
@@ -1058,7 +1058,7 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
         if( miss == nullptr ) {
             return "mission_selected == nullptr; BUG!  (npctalk.cpp:dynamic_line)";
         }
-        const auto &type = miss->get_type();
+        const mission_type &type = miss->get_type();
         // TODO: make it a member of the mission class, maybe at mission instance specific data
         const std::string &ret = miss->dialogue_for_topic( topic );
         if( ret.empty() ) {
@@ -1138,7 +1138,7 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
 
 void dialogue::apply_speaker_effects( const talk_topic &the_topic )
 {
-    const auto &topic = the_topic.id;
+    const std::string &topic = the_topic.id;
     const auto iter = json_talk_topics.find( topic );
     if( iter == json_talk_topics.end() ) {
         return;
@@ -1267,7 +1267,7 @@ void dialogue::gen_responses( const talk_topic &the_topic )
             add_response( _( "Tell me about it." ), "TALK_MISSION_OFFER",
                           actor( true )->available_missions().front(), true );
         } else {
-            for( auto &mission : actor( true )->available_missions() ) {
+            for( mission *&mission : actor( true )->available_missions() ) {
                 add_response( mission->get_type().tname(), "TALK_MISSION_OFFER", mission, true );
             }
         }
@@ -1275,7 +1275,7 @@ void dialogue::gen_responses( const talk_topic &the_topic )
         if( missions_assigned.size() == 1 ) {
             add_response( _( "I have news." ), "TALK_MISSION_INQUIRE", missions_assigned.front() );
         } else {
-            for( auto &miss_it : missions_assigned ) {
+            for( mission *&miss_it : missions_assigned ) {
                 add_response( miss_it->get_type().tname(), "TALK_MISSION_INQUIRE", miss_it );
             }
         }
@@ -1446,7 +1446,7 @@ bool talk_trial::roll( dialogue &d ) const
 
 int topic_category( const talk_topic &the_topic )
 {
-    const auto &topic = the_topic.id;
+    const std::string &topic = the_topic.id;
     // TODO: ideally, this would be a property of the topic itself.
     // How this works: each category has a set of topics that belong to it, each set is checked
     // for the given topic and if a set contains, the category number is returned.
@@ -3727,7 +3727,7 @@ talk_topic talk_effect_t<T>::apply( T &d ) const
     ma.clear();
     if( d.has_beta ) {
         // Update the missions we can talk about (must only be current, non-complete ones)
-        for( auto &mission : d.actor( true )->assigned_missions() ) {
+        for( mission *&mission : d.actor( true )->assigned_missions() ) {
             if( mission->get_assigned_player_id() == d.actor( false )->getID() ) {
                 ma.push_back( mission );
             }
@@ -4628,7 +4628,7 @@ bool json_talk_topic::gen_responses( dialogue &d ) const
                 }
                 return it.type && it.type->category_force == category_id;
             } );
-            for( const auto &it : items_with ) {
+            for( item * const &it : items_with ) {
                 switch_done |= repeat.response.gen_repeat_response( d, it->typeId(), switch_done );
             }
         }
@@ -4734,7 +4734,7 @@ bool npc::item_name_whitelisted( const std::string &to_match )
         return true;
     }
 
-    auto &wlist = *rules.pickup_whitelist;
+    auto_pickup::npc_settings &wlist = *rules.pickup_whitelist;
     const rule_state rule = wlist.check_item( to_match );
     if( rule == rule_state::WHITELISTED ) {
         return true;

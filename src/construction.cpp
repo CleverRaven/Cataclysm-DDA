@@ -225,7 +225,7 @@ void standardize_construction_times( const int time )
         debugmsg( "standardize_construction_times called before finalization" );
         return;
     }
-    for( auto &c : constructions ) {
+    for( construction &c : constructions ) {
         c.time = time;
     }
 }
@@ -246,7 +246,7 @@ constructions_by_filter( std::function<bool( construction const & )> const &filt
         return {};
     }
     std::vector<construction *> result;
-    for( auto &constructions_a : constructions ) {
+    for( construction &constructions_a : constructions ) {
         if( filter( constructions_a ) ) {
             result.push_back( &constructions_a );
         }
@@ -265,7 +265,7 @@ static void load_available_constructions( std::vector<construction_group_str_id>
         return;
     }
     avatar &player_character = get_avatar();
-    for( auto &it : constructions ) {
+    for( construction &it : constructions ) {
         if( it.on_display && ( !hide_unconstructable ||
                                player_can_build( player_character, player_character.crafting_inventory(), it ) ) ) {
             bool already_have_it = false;
@@ -889,7 +889,7 @@ static std::vector<construction *> player_can_build_valid_constructions( Charact
     // check all with the same group to see if player can build any
     // if so, it will be added to the result
     std::vector<construction *> cons = constructions_by_group( group );
-    for( auto &con : cons ) {
+    for( construction *&con : cons ) {
         if( player_can_build( you, inv, *con ) ) {
             result.push_back( con );
         }
@@ -902,7 +902,7 @@ bool player_can_build( Character &you, const read_only_visitable &inv,
 {
     // check all with the same group to see if player can build any
     std::vector<construction *> cons = constructions_by_group( group );
-    for( auto &con : cons ) {
+    for( construction *&con : cons ) {
         if( player_can_build( you, inv, *con ) ) {
             return true;
         }
@@ -932,7 +932,7 @@ bool player_can_see_to_build( Character &you, const construction_group_str_id &g
         return true;
     }
     std::vector<construction *> cons = constructions_by_group( group );
-    for( auto &con : cons ) {
+    for( construction *&con : cons ) {
         if( con->dark_craftable ) {
             return true;
         }
@@ -1104,7 +1104,7 @@ void complete_construction( Character *you )
     // Friendly NPCs gain exp from assisting or watching...
     // TODO: NPCs watching other NPCs do stuff and learning from it
     if( you->is_avatar() ) {
-        for( auto &elem : get_avatar().get_crafting_helpers() ) {
+        for( npc *&elem : get_avatar().get_crafting_helpers() ) {
             if( elem->meets_skill_requirements( built ) ) {
                 add_msg( m_info, _( "%s assists you with the work…" ), elem->get_name() );
             } else {
@@ -2078,7 +2078,7 @@ int construction::adjusted_time() const
     int final_time = time;
     int assistants = 0;
 
-    for( auto &elem : get_avatar().get_crafting_helpers() ) {
+    for( npc *&elem : get_avatar().get_crafting_helpers() ) {
         if( elem->meets_skill_requirements( *this ) ) {
             assistants++;
         }

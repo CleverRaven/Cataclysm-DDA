@@ -305,14 +305,14 @@ void profession::reset()
 void profession::check_definitions()
 {
     item_substitutions.check_consistency();
-    for( const auto &prof : all_profs.get_all() ) {
+    for( const profession &prof : all_profs.get_all() ) {
         prof.check_definition();
     }
 }
 
 void profession::check_item_definitions( const itypedecvec &items ) const
 {
-    for( const auto &itd : items ) {
+    for( const profession::itypedec &itd : items ) {
         if( !item::type_is_defined( itd.type_id ) ) {
             debugmsg( "profession %s: item %s does not exist", id.str(), itd.type_id.str() );
         } else if( !itd.snip_id.is_null() ) {

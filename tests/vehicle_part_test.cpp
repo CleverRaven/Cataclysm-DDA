@@ -65,7 +65,7 @@ TEST_CASE( "vehicle_parts_seats_and_beds_have_beltable_flags", "[vehicle][vehicl
     // this checks all seats and beds either BELTABLE or NONBELTABLE but not both
 
     for( const auto &e : vpart_info::all() ) {
-        const auto &vp = e.second;
+        const vpart_info &vp = e.second;
 
         if( !vp.has_flag( "BED" ) && !vp.has_flag( "SEAT" ) ) {
             continue;
@@ -80,7 +80,7 @@ TEST_CASE( "vehicle_parts_boardable_openable_parts_have_door_flag", "[vehicle][v
     // this checks all BOARDABLE and OPENABLE parts have DOOR flag
 
     for( const auto &e : vpart_info::all() ) {
-        const auto &vp = e.second;
+        const vpart_info &vp = e.second;
 
         if( !vp.has_flag( "BOARDABLE" ) || !vp.has_flag( "OPENABLE" ) ) {
             continue;

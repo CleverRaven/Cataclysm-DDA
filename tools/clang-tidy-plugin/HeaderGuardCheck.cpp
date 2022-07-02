@@ -330,7 +330,7 @@ class HeaderGuardPPCallbacks : public PPCallbacks
                 // be code outside of the guarded area. Emit a plain warning without
                 // fix-its.
                 bool SeenMacro = false;
-                for( const auto &MacroEntry : Info.Macros ) {
+                for( const clang::tidy::cata::MacroInfo_ &MacroEntry : Info.Macros ) {
                     StringRef Name = MacroEntry.Tok.getIdentifierInfo()->getName();
                     SourceLocation DefineLoc = MacroEntry.Tok.getLocation();
                     if( Name == CPPVar &&

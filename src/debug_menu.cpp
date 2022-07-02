@@ -1074,7 +1074,7 @@ static void spawn_artifact()
     map &here = get_map();
     uilist relic_menu;
     std::vector<relic_procgen_id> relic_list;
-    for( auto &elem : relic_procgen_data::get_all() ) {
+    for( const relic_procgen_data &elem : relic_procgen_data::get_all() ) {
         relic_list.emplace_back( elem.id );
     }
     relic_menu.text = _( "Choose artifact data:" );
@@ -1653,7 +1653,7 @@ static void character_edit_menu()
              << string_format( _( "Altruism: %d" ), static_cast<int>( np->personality.altruism ) ) << std::endl;
 
         data << _( "Needs:" );
-        for( const auto &need : np->needs ) {
+        for( const npc_need &need : np->needs ) {
             data << " " << npc::get_need_str_id( need );
         }
         data << std::endl;
@@ -2464,7 +2464,7 @@ void debug()
             break;
 
         case debug_menu_index::REVEAL_MAP: {
-            auto &cur_om = g->get_cur_om();
+            overmap &cur_om = g->get_cur_om();
             for( int i = 0; i < OMAPX; i++ ) {
                 for( int j = 0; j < OMAPY; j++ ) {
                     for( int k = -OVERMAP_DEPTH; k <= OVERMAP_HEIGHT; k++ ) {
@@ -2788,10 +2788,10 @@ void debug()
                 const point offset {
                     player_character.view_offset.xy() + point( POSX - player_character.posx(), POSY - player_character.posy() )
                 };
-                for( const auto &sound : sounds_to_draw.first ) {
+                for( const tripoint &sound : sounds_to_draw.first ) {
                     mvwputch( g->w_terrain, offset + sound.xy(), c_yellow, '?' );
                 }
-                for( const auto &sound : sounds_to_draw.second ) {
+                for( const tripoint &sound : sounds_to_draw.second ) {
                     mvwputch( g->w_terrain, offset + sound.xy(), c_red, '?' );
                 }
             } );

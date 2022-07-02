@@ -522,7 +522,7 @@ cata::optional<zone_type_id> zone_manager::query_type( bool personal ) const
 
     size_t i = 0;
     for( const auto &pair : types_vec ) {
-        const auto &type = pair.second;
+        const zone_type &type = pair.second;
 
         as_m.addentry_desc( i++, true, MENU_AUTOASSIGN, type.name(), type.desc() );
     }
@@ -1019,7 +1019,7 @@ std::vector<zone_data> zone_manager::get_zones( const zone_type_id &type,
 {
     auto zones = std::vector<zone_data>();
 
-    for( const auto &zone : this->zones ) {
+    for( const zone_data &zone : this->zones ) {
         if( zone.get_type() == type && zone.get_faction() == fac ) {
             if( zone.has_inside( where ) ) {
                 zones.emplace_back( zone );
@@ -1056,7 +1056,7 @@ const zone_data *zone_manager::get_bottom_zone(
     const tripoint_abs_ms &where, const faction_id &fac ) const
 {
     for( auto it = zones.rbegin(); it != zones.rend(); ++it ) {
-        const auto &zone = *it;
+        const zone_data &zone = *it;
         if( zone.get_faction() != fac ) {
             continue;
         }
@@ -1242,7 +1242,7 @@ std::vector<zone_manager::ref_zone_data> zone_manager::get_zones( const faction_
 {
     auto zones = std::vector<ref_zone_data>();
 
-    for( auto &zone : this->zones ) {
+    for( zone_data &zone : this->zones ) {
         if( zone.get_faction() == fac ) {
             zones.emplace_back( zone );
         }
