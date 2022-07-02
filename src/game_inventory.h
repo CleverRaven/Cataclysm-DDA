@@ -100,7 +100,7 @@ drop_locations smoke_food( Character &you, units::volume total_capacity,
 * Consume an item via a custom menu.
 * If item_location is provided then consume only from the contents of that container.
 */
-item_location consume( avatar &you, const item_location loc = item_location() );
+item_location consume( avatar &you, item_location loc = item_location() );
 /** Consuming a food item via a custom menu. */
 item_location consume_food( avatar &you );
 /** Consuming a drink item via a custom menu. */

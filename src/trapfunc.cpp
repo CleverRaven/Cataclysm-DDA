@@ -50,6 +50,8 @@ static const efftype_id effect_ridden( "ridden" );
 static const efftype_id effect_slimed( "slimed" );
 static const efftype_id effect_tetanus( "tetanus" );
 
+static const flag_id json_flag_UNCONSUMED( "UNCONSUMED" );
+
 static const itype_id itype_bullwhip( "bullwhip" );
 static const itype_id itype_grapnel( "grapnel" );
 static const itype_id itype_rope_30( "rope_30" );
@@ -72,6 +74,8 @@ static const species_id species_ROBOT( "ROBOT" );
 
 static const trait_id trait_INFIMMUNE( "INFIMMUNE" );
 static const trait_id trait_INFRESIST( "INFRESIST" );
+
+
 
 // A pit becomes less effective as it fills with corpses.
 static float pit_effectiveness( const tripoint &p )
@@ -1446,11 +1450,16 @@ bool trapfunc::cast_spell( const tripoint &p, Creature *critter, item * )
         return false;
     }
     map &here = get_map();
-    const spell trap_spell = here.tr_at( p ).spell_data.get_spell( 0 );
+    trap tr = here.tr_at( p );
+    const spell trap_spell = tr.spell_data.get_spell( 0 );
     npc dummy;
-    trap_spell.cast_all_effects( dummy, critter->pos() );
-    trap_spell.make_sound( p, 20 );
     here.remove_trap( p );
+    // we remove the trap before casting the spell because otherwise if mapgen is invoked on our location it will retrigger the trap and create an infinite loop
+    trap_spell.cast_all_effects( dummy, critter->pos() );
+    trap_spell.make_sound( p );
+    if( tr.has_flag( json_flag_UNCONSUMED ) ) {
+        here.trap_set( p, tr.id );
+    }
     return true;
 }
 

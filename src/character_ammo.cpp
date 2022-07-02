@@ -27,7 +27,7 @@ int Character::ammo_count_for( const item &gun )
 
         const auto found_ammo = find_ammo( gun, true, -1 );
         int loose_ammo = 0;
-        for( const auto &ammo : found_ammo ) {
+        for( const item_location &ammo : found_ammo ) {
             if( ammo->is_magazine() ) {
                 has_mag = true;
                 total_ammo += ammo->ammo_remaining();
@@ -170,7 +170,7 @@ item::reload_option Character::select_ammo( const item &base,
         if( e.target == e.getParent() ) {
             return name;
         } else {
-            return name + " in " + e.getParent()->tname( 1, false, 0, false );
+            return string_format( _( "%s in %s" ), name, e.getParent()->tname( 1, false, 0, false ) );
         }
     } );
     // Pads elements to match longest member and return length
@@ -211,7 +211,7 @@ item::reload_option Character::select_ammo( const item &base,
     }
 
     auto draw_row = [&]( int idx ) {
-        const auto &sel = opts[ idx ];
+        const item::reload_option &sel = opts[ idx ];
         std::string row = string_format( "%s| %s | %s |", names[ idx ], where[ idx ], destination[ idx ] );
         row += string_format( ( sel.ammo->is_ammo() ||
                                 sel.ammo->is_ammo_container() ) ? " %-7d |" : "         |", sel.qty() );
@@ -400,7 +400,11 @@ item::reload_option Character::select_ammo( const item &base, bool prompt, bool 
     } );
 
     if( is_npc() ) {
-        return ammo_list[ 0 ];
+        if( ammo_list[0].ammo.get_item()->ammo_remaining() > 0 ) {
+            return ammo_list[0];
+        } else {
+            return item::reload_option();
+        }
     }
 
     if( !prompt && ammo_list.size() == 1 ) {

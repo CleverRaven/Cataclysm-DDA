@@ -22,6 +22,7 @@
         [ "egg_gorgosaurus", 1 ],
         [ "egg_albertosaurus", 1 ],
         [ "egg_qianzhousaurus", 1 ],
+        [ "egg_nanuqsaurus", 1 ],
         [ "egg_daspletosaurus", 1 ],
         [ "egg_gallimimus", 1 ],
         [ "egg_struthiomimus", 1 ],
@@ -30,6 +31,7 @@
         [ "egg_anzu", 1 ],
         [ "egg_deinonychus", 1 ],
         [ "egg_utahraptor", 1 ],
+        [ "egg_issi", 1 ],
         [ "egg_stegosaurus", 1 ],
         [ "egg_dyoplosaurus", 1 ],
         [ "egg_ankylosaurus", 1 ],
@@ -67,6 +69,7 @@
         [ "egg_stenonychosaurus", 1 ],
         [ "egg_eoraptor", 1 ],
         [ "egg_scutellosaurus", 1 ],
+        [ "egg_oryctodromeus", 1 ],
         [ "egg_pteranodon", 1 ]
       ]
     ]
@@ -86,8 +89,7 @@
         [ "egg_diplodocus", 1 ],
         [ "egg_camarasaurus", 1 ],
         [ "egg_brachiosaurus", 1 ],
-        [ "egg_alamosaurus", 1 ],
-        [ "egg_mosasaurus", 1 ]
+        [ "egg_alamosaurus", 1 ]
       ]
     ]
   }

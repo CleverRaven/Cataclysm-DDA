@@ -275,7 +275,7 @@
       },
       "furniture": { "C": "f_centrifuge" },
       "mapping": { "c": { "items": { "item": "chem_lab", "chance": 30 } }, "d": { "items": { "item": "office", "chance": 30 } } },
-      "monster": { "7": { "monster": "mon_turret_rifle" } },
+      "monster": { "7": { "monster": "mon_turret_rifle", "spawn_data": { "ammo": [ { "ammo_id": "556", "qty": [ 30, 90 ] } ] } } },
       "place_nested": [
         { "chunks": [ "lab_spawn_7x7_crossdoors" ], "x": 3, "y": 1 },
         { "chunks": [ "lab_spawn_7x7_crossdoors" ], "x": 14, "y": 1 }

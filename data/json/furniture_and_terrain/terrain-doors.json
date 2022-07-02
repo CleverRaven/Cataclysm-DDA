@@ -1638,7 +1638,7 @@
       "ter_set": "t_dirt",
       "items": [
         { "item": "sheet", "count": [ 0, 1 ] },
-        { "item": "rag", "count": [ 2, 5 ] },
+        { "item": "cotton_patchwork", "count": [ 2, 5 ] },
         { "item": "stick", "count": 1 },
         { "item": "withered", "count": [ 2, 12 ] }
       ]
@@ -1700,7 +1700,7 @@
       "ter_set": "t_dirt",
       "items": [
         { "item": "sheet", "count": [ 0, 1 ] },
-        { "item": "rag", "count": [ 2, 5 ] },
+        { "item": "cotton_patchwork", "count": [ 2, 5 ] },
         { "item": "stick", "count": 1 },
         { "item": "withered", "count": [ 2, 12 ] }
       ]

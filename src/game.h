@@ -273,9 +273,11 @@ class game
          */
         void vertical_move( int z, bool force, bool peeking = false );
         void start_hauling( const tripoint &pos );
-        /** Returns the other end of the stairs (if any). May query, affect u etc.  */
+        /** Returns the other end of the stairs (if any). May query, affect u etc.
+        * @param pos Disable queries and msgs if not the same position as player.
+        */
         cata::optional<tripoint> find_or_make_stairs( map &mp, int z_after, bool &rope_ladder,
-                bool peeking );
+                bool peeking, const tripoint &pos );
         /** Actual z-level movement part of vertical_move. Doesn't include stair finding, traps etc.
          *  Returns true if the z-level changed.
          */
@@ -352,7 +354,7 @@ class game
                                   cata::optional<time_duration> lifespan );
         /** Finds somewhere to spawn a monster. */
         bool find_nearby_spawn_point( const tripoint &target, const mtype_id &mt, int min_radius,
-                                      int max_radius, tripoint &point, bool outdoor_only );
+                                      int max_radius, tripoint &point, bool outdoor_only, bool open_air_allowed = false );
         /** Swaps positions of two creatures */
         bool swap_critters( Creature &, Creature & );
 
@@ -484,7 +486,7 @@ class game
         /** Asks if the player wants to cancel their activity and if so cancels it. Additionally checks
          *  if the player wants to ignore further distractions. */
         bool cancel_activity_or_ignore_query( distraction_type type, const std::string &text );
-        bool portal_storm_query( const distraction_type type, const std::string &text );
+        bool portal_storm_query( distraction_type type, const std::string &text );
         /** Handles players exiting from moving vehicles. */
         void moving_vehicle_dismount( const tripoint &dest_loc );
 
@@ -513,6 +515,7 @@ class game
     public:
         /** Unloads, then loads the NPCs */
         void reload_npcs();
+        void remove_npc( character_id const &id );
         const kill_tracker &get_kill_tracker() const;
         /** Add follower id to set of followers. */
         void add_npc_follower( const character_id &id );
@@ -1025,6 +1028,7 @@ class game
         void update_unique_npc_location( std::string id, point_abs_om loc );
         point_abs_om get_unique_npc_location( std::string id );
         bool unique_npc_exists( std::string id );
+        void unique_npc_despawn( std::string id );
         std::vector<effect_on_condition_id> inactive_global_effect_on_condition_vector;
         std::priority_queue<queued_eoc, std::vector<queued_eoc>, eoc_compare>
         queued_global_effect_on_conditions;

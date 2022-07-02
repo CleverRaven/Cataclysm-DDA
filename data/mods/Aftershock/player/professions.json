@@ -9,8 +9,9 @@
     "skills": [ { "level": 4, "name": "electronics" }, { "level": 2, "name": "launcher" } ],
     "items": {
       "both": {
-        "items": [ "hat_hard", "jumpsuit", "socks", "rope_30", "boots", "afs_herc_rig" ],
+        "items": [ "jumpsuit", "socks", "rope_30", "boots", "afs_herc_rig" ],
         "entries": [
+          { "item": "hat_hard", "variant": "blue_hat_hard" },
           { "item": "afs_foamgun", "ammo-item": "afs_foamcrete", "charges": 30 },
           { "item": "afs_foam_tank", "ammo-item": "afs_foamcrete", "charges": 30 }
         ]
@@ -30,8 +31,8 @@
     "skills": [ { "level": 3, "name": "electronics" }, { "level": 3, "name": "mechanics" } ],
     "items": {
       "both": {
-        "items": [ "hat_hard", "spacer_jumpsuit", "spacer_cap", "socks", "boots", "duct_tape", "screwdriver", "wristwatch" ],
-        "entries": [ { "item": "wrench", "container-item": "tool_belt" } ]
+        "items": [ "spacer_jumpsuit", "spacer_cap", "socks", "boots", "duct_tape", "screwdriver", "wristwatch" ],
+        "entries": [ { "item": "hat_hard", "variant": "orange_hat_hard" }, { "item": "wrench", "container-item": "tool_belt" } ]
       },
       "male": [ "briefs" ],
       "female": [ "sports_bra", "boy_shorts" ]

@@ -177,8 +177,8 @@
     "name": { "str": "garbage bag" },
     "looks_like": "bag_canvas",
     "description": "A hefty plastic bag, made to carry lots of trash.  It's sturdy and waterproof, and could easily be repurposed.",
-    "weight": "21 g",
-    "volume": "23 ml",
+    "weight": "40 g",
+    "volume": "42 ml",
     "price": 0,
     "price_postapoc": 0,
     "to_hit": -1,
@@ -608,6 +608,30 @@
     "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "145 ml", "max_contains_weight": "1 kg" } ]
   },
   {
+    "id": "box_snack",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "snack cardboard box", "str_pl": "snack cardboard boxes" },
+    "description": "A small cardboard box for housing snacks.  Sized so you can take it on the go.",
+    "weight": "12 g",
+    "volume": "550 ml",
+    "longest_side": "12 cm",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "540 ml",
+        "max_contains_weight": "500 g",
+        "max_item_length": "11 cm"
+      }
+    ],
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "cardboard" ],
+    "symbol": ")",
+    "color": "brown"
+  },
+  {
     "id": "box_small",
     "type": "GENERIC",
     "category": "container",
@@ -737,6 +761,17 @@
     "material": [ "cardboard" ],
     "symbol": ")",
     "color": "brown"
+  },
+  {
+    "id": "box_compact_wood",
+    "type": "GENERIC",
+    "name": { "str": "tiny wooden box", "str_pl": "tiny wooden boxes" },
+    "copy-from": "box_small_wood",
+    "description": "A small wooden box with cap and small handles.",
+    "weight": "200 g",
+    "volume": "6000 ml",
+    "longest_side": "22 cm",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "4000 ml", "max_contains_weight": "80 kg" } ]
   },
   {
     "id": "box_small_wood",

@@ -239,7 +239,7 @@
     "using": [ [ "sewing_standard", 100 ] ],
     "proficiencies": [ { "proficiency": "prof_leatherworking_basic" }, { "proficiency": "prof_leatherworking" } ],
     "components": [
-      [ [ "leather", 12 ], [ "tanned_hide", 2 ], [ "fur", 12 ], [ "tanned_pelt", 2 ] ],
+      [ [ "leather", 16 ], [ "tanned_hide", 2 ], [ "fur", 16 ], [ "tanned_pelt", 2 ] ],
       [ [ "cordage_superior", 2, "LIST" ] ]
     ]
   },
@@ -257,7 +257,7 @@
     "using": [ [ "sewing_standard", 100 ] ],
     "proficiencies": [ { "proficiency": "prof_leatherworking_basic" }, { "proficiency": "prof_leatherworking" } ],
     "components": [
-      [ [ "leather", 6 ], [ "tanned_hide", 1 ], [ "fur", 6 ], [ "tanned_pelt", 1 ] ],
+      [ [ "leather", 8 ], [ "tanned_hide", 1 ], [ "fur", 8 ], [ "tanned_pelt", 1 ] ],
       [ [ "2x4", 4 ] ],
       [ [ "rope_superior_short", 2, "LIST" ] ]
     ]

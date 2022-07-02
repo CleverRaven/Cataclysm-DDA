@@ -920,7 +920,7 @@ cata::optional<int> iuse::vaccine( Character *p, item *it, bool, const tripoint 
 {
     p->add_msg_if_player( _( "You inject the vaccine." ) );
     p->add_msg_if_player( m_good, _( "You feel tough." ) );
-    p->mod_healthy_mod( 200, 200 );
+    p->mod_daily_health( 200, 200 );
     p->mod_pain( 3 );
     item syringe( "syringe", it->birthday() );
     p->i_add_or_drop( syringe );
@@ -1113,8 +1113,8 @@ cata::optional<int> iuse::blech( Character *p, item *it, bool, const tripoint & 
         p->stomach.mod_nutr( -p->nutrition_for( *it ) * multiplier );
         p->mod_thirst( -it->get_comestible()->quench * multiplier );
         p->stomach.mod_quench( 20 ); //acidproof people can drink acids like diluted water.
-        p->mod_healthy_mod( it->get_comestible()->healthy * multiplier,
-                            it->get_comestible()->healthy * multiplier );
+        p->mod_daily_health( it->get_comestible()->healthy * multiplier,
+                             it->get_comestible()->healthy * multiplier );
         p->add_morale( MORALE_FOOD_BAD, it->get_comestible_fun() * multiplier, 60, 1_hours, 30_minutes,
                        false, it->type );
     } else if( it->has_flag( flag_ACID ) || it->has_flag( flag_CORROSIVE ) ) {
@@ -1160,8 +1160,8 @@ cata::optional<int> iuse::plantblech( Character *p, item *it, bool, const tripoi
         //reverses the harmful values of drinking fertilizer
         p->stomach.mod_nutr( p->nutrition_for( *it ) * multiplier );
         p->mod_thirst( -it->get_comestible()->quench * multiplier );
-        p->mod_healthy_mod( it->get_comestible()->healthy * multiplier,
-                            it->get_comestible()->healthy * multiplier );
+        p->mod_daily_health( it->get_comestible()->healthy * multiplier,
+                             it->get_comestible()->healthy * multiplier );
         p->add_morale( MORALE_FOOD_GOOD, -10 * multiplier, 60, 1_hours, 30_minutes, false, it->type );
         return it->type->charges_to_use();
     } else {
@@ -1558,7 +1558,7 @@ cata::optional<int> iuse::mycus( Character *p, item *it, bool, const tripoint & 
         p->mod_thirst( 10 );
         p->mod_fatigue( 5 );
         p->vomit(); // no hunger/quench benefit for you
-        p->mod_healthy_mod( -8, -50 );
+        p->mod_daily_health( -8, -50 );
     }
     return it->type->charges_to_use();
 }
@@ -1573,7 +1573,7 @@ cata::optional<int> iuse::petfood( Character *p, item *it, bool, const tripoint 
     const cata::optional<tripoint> pnt = choose_adjacent( string_format( _( "Put the %s where?" ),
                                          it->tname() ) );
     if( !pnt ) {
-        return cata::nullopt;;
+        return cata::nullopt;
     }
 
     creature_tracker &creatures = get_creature_tracker();
@@ -1611,12 +1611,10 @@ cata::optional<int> iuse::petfood( Character *p, item *it, bool, const tripoint 
         bool can_feed = false;
         const pet_food_data &petfood = mon->type->petfood;
         const std::set<std::string> &itemfood = it->get_comestible()->petfood;
-        if( !petfood.food.empty() ) {
-            for( const std::string &food : petfood.food ) {
-                if( itemfood.find( food ) != itemfood.end() ) {
-                    can_feed = true;
-                    break;
-                }
+        for( const std::string &food : petfood.food ) {
+            if( itemfood.find( food ) != itemfood.end() ) {
+                can_feed = true;
+                break;
             }
         }
 
@@ -2510,7 +2508,7 @@ cata::optional<int> iuse::radio_on( Character *p, item *it, bool t, const tripoi
                 const int old_frequency = it->frequency;
                 const radio_tower *lowest_tower = nullptr;
                 const radio_tower *lowest_larger_tower = nullptr;
-                for( auto &tref : overmap_buffer.find_all_radio_stations() ) {
+                for( radio_tower_reference &tref : overmap_buffer.find_all_radio_stations() ) {
                     const int new_frequency = tref.tower->frequency;
                     if( new_frequency == old_frequency ) {
                         continue;
@@ -2597,7 +2595,7 @@ cata::optional<int> iuse::emf_passive_on( Character *p, item *it, bool t, const 
             return it->type->charges_to_use();
         }
 
-        for( const auto &loc : closest_points_first( pos, max ) ) {
+        for( const tripoint &loc : closest_points_first( pos, max ) ) {
             const Creature *critter = creatures.creature_at( loc );
 
             // if the creature exists and is either a robot or electric
@@ -3359,14 +3357,14 @@ cata::optional<int> iuse::geiger( Character *p, item *it, bool t, const tripoint
             const tripoint &pnt = *pnt_;
             if( pnt == p->pos() ) {
                 p->add_msg_if_player( m_info, _( "Your radiation level: %d mSv (%d mSv from items)" ), p->get_rad(),
-                                      p->leak_level( flag_RADIOACTIVE ) );
+                                      static_cast<int>( p->leak_level() ) );
                 break;
             }
             if( npc *const person_ = creatures.creature_at<npc>( pnt ) ) {
                 npc &person = *person_;
                 p->add_msg_if_player( m_info, _( "%s's radiation level: %d mSv (%d mSv from items)" ),
                                       person.get_name(), person.get_rad(),
-                                      person.leak_level( flag_RADIOACTIVE ) );
+                                      static_cast<int>( person.leak_level() ) );
             }
             break;
         }
@@ -3660,7 +3658,7 @@ cata::optional<int> iuse::grenade_inc_act( Character *p, item *it, bool t, const
         for( int current_flame = 0; current_flame < num_flames; current_flame++ ) {
             tripoint dest( pos + point( rng( -5, 5 ), rng( -5, 5 ) ) );
             std::vector<tripoint> flames = line_to( pos, dest, 0, 0 );
-            for( auto &flame : flames ) {
+            for( tripoint &flame : flames ) {
                 here.add_field( flame, fd_fire, rng( 0, 2 ) );
             }
         }
@@ -4019,8 +4017,9 @@ void iuse::play_music( Character &p, const tripoint &source, const int volume,
     // the other characters around should be able to profit as well.
     const bool do_effects = p.can_hear( source, volume ) && !p.in_sleep_state();
     std::string sound = "music";
-    if( calendar::once_every( 5_minutes ) ) {
-        // Every 5 minutes, describe the music
+    if( calendar::once_every( time_duration::from_minutes(
+                                  get_option<int>( "DESCRIBE_MUSIC_FREQUENCY" ) ) ) ) {
+        // Every X minutes, describe the music
         const std::string music = get_music_description();
         if( !music.empty() ) {
             sound = music;
@@ -4616,14 +4615,14 @@ cata::optional<int> iuse::blood_draw( Character *p, item *it, bool, const tripoi
     item blood( "blood", calendar::turn );
     bool drew_blood = false;
     bool acid_blood = false;
-    float blood_temp = -1.0f;  //kelvins
+    units::temperature blood_temp = units::from_kelvin( -1.0f ); //kelvins
     for( item &map_it : get_map().i_at( point( p->posx(), p->posy() ) ) ) {
         if( map_it.is_corpse() &&
             query_yn( _( "Draw blood from %s?" ),
                       colorize( map_it.tname(), map_it.color_in_inventory() ) ) ) {
             p->add_msg_if_player( m_info, _( "You drew blood from the %s…" ), map_it.tname() );
             drew_blood = true;
-            blood_temp = map_it.temperature * 0.00001;
+            blood_temp = map_it.temperature ;
 
             if( map_it.get_mtype()->in_species( species_ZOMBIE ) ) {
                 blood.convert( itype_blood_tainted );
@@ -4641,7 +4640,7 @@ cata::optional<int> iuse::blood_draw( Character *p, item *it, bool, const tripoi
     if( !drew_blood && query_yn( _( "Draw your own blood?" ) ) ) {
         p->add_msg_if_player( m_info, _( "You drew your own blood…" ) );
         drew_blood = true;
-        blood_temp = 310.15f;
+        blood_temp = units::from_celcius( 37 );
         if( p->has_trait( trait_ACIDBLOOD ) ) {
             acid_blood = true;
         }
@@ -5246,6 +5245,7 @@ cata::optional<int> iuse::unfold_generic( Character *p, item *it, bool, const tr
     }
     map &here = get_map();
     vehicle *veh = here.add_vehicle( vehicle_prototype_none, p->pos(), 0_degrees, 0, 0, false );
+    veh->suspend_refresh();
     if( veh == nullptr ) {
         p->add_msg_if_player( m_info, _( "There's no room to unfold the %s." ), it->tname() );
         return cata::nullopt;
@@ -5272,7 +5272,7 @@ cata::optional<int> iuse::unfold_generic( Character *p, item *it, bool, const tr
             return 0;
         }
     }
-
+    veh->enable_refresh();
     here.add_vehicle_to_cache( veh );
 
     std::string unfold_msg = it->get_var( "unfold_msg" );
@@ -5303,7 +5303,7 @@ cata::optional<int> iuse::adrenaline_injector( Character *p, item *it, bool, con
     if( p->has_effect( effect_adrenaline ) ) {
         p->add_msg_if_player( m_bad, _( "Your heart spasms!" ) );
         // Note: not the mod, the health
-        p->mod_healthy( -20 );
+        p->mod_livestyle( -20 );
     }
 
     p->add_effect( effect_adrenaline, 20_minutes );
@@ -5864,7 +5864,7 @@ static bool einkpc_download_memory_card( Character &p, item &eink, item &mc )
         std::vector<const recipe *> candidates;
 
         for( const auto &e : recipe_dict ) {
-            const auto &r = e.second;
+            const recipe &r = e.second;
             if( r.never_learn || r.obsolete ) {
                 continue;
             }
@@ -5892,8 +5892,7 @@ static bool einkpc_download_memory_card( Character &p, item &eink, item &mc )
                 }
             }
 
-            for( auto rec = new_recipes.begin(); rec != new_recipes.end(); ++rec ) {
-                const recipe *r = *rec;
+            for( const recipe *r : new_recipes ) {
                 const recipe_id &rident = r->ident();
 
                 const auto old_recipes = eink.get_var( "EIPC_RECIPES" );
@@ -6165,7 +6164,7 @@ cata::optional<int> iuse::einktabletpc( Character *p, item *it, bool t, const tr
 
                 candidate_recipes.emplace_back( s );
 
-                const auto &recipe = *candidate_recipes.back();
+                const recipe &recipe = *candidate_recipes.back();
                 if( recipe ) {
                     rmenu.addentry( k++, true, -1, recipe.result_name( /*decorated=*/true ) );
                 }
@@ -7744,7 +7743,7 @@ cata::optional<int> iuse::radiocontrol( Character *p, item *it, bool t, const tr
         const flag_id signal( "RADIOSIGNAL_" + std::to_string( choice ) );
 
         auto item_list = p->get_radio_items();
-        for( auto &elem : item_list ) {
+        for( item *&elem : item_list ) {
             if( elem->has_flag( flag_BOMB ) && elem->has_flag( signal ) ) {
                 p->add_msg_if_player( m_warning,
                                       _( "The %s in your inventory would explode on this signal.  Place it down before sending the signal." ),
@@ -7757,18 +7756,16 @@ cata::optional<int> iuse::radiocontrol( Character *p, item *it, bool t, const tr
             return itm.has_flag( flag_RADIO_CONTAINER );
         } );
 
-        if( !radio_containers.empty() ) {
-            for( item *items : radio_containers ) {
-                item *itm = items->get_item_with( [&]( const item & c ) {
-                    return c.has_flag( flag_BOMB ) && c.has_flag( signal );
-                } );
+        for( item *items : radio_containers ) {
+            item *itm = items->get_item_with( [&]( const item & c ) {
+                return c.has_flag( flag_BOMB ) && c.has_flag( signal );
+            } );
 
-                if( itm != nullptr ) {
-                    p->add_msg_if_player( m_warning,
-                                          _( "The %1$s in your %2$s would explode on this signal.  Place it down before sending the signal." ),
-                                          itm->display_name(), items->display_name() );
-                    return cata::nullopt;
-                }
+            if( itm != nullptr ) {
+                p->add_msg_if_player( m_warning,
+                                      _( "The %1$s in your %2$s would explode on this signal.  Place it down before sending the signal." ),
+                                      itm->display_name(), items->display_name() );
+                return cata::nullopt;
             }
         }
 
@@ -7844,8 +7841,8 @@ static vehicle *pickveh( const tripoint &center, bool advanced )
     pmenu.title = _( "Select vehicle to access" );
     std::vector< vehicle * > vehs;
 
-    for( auto &veh : get_map().get_vehicles() ) {
-        auto &v = veh.v;
+    for( wrapped_vehicle &veh : get_map().get_vehicles() ) {
+        vehicle *&v = veh.v;
         if( rl_dist( center, v->global_pos3() ) < 40 &&
             v->fuel_left( itype_battery, true ) > 0 &&
             ( !empty( v->get_avail_parts( advctrl ) ) ||
@@ -8045,8 +8042,8 @@ cata::optional<int> iuse::multicooker( Character *p, item *it, bool t, const tri
             if( ( *recipe_id( it->get_var( "RECIPE" ) ) ).hot_result() ) {
                 meal.heat_up();
             } else {
-                meal.set_item_temperature( temp_to_kelvin( std::max( temperatures::cold,
-                                           get_weather().get_temperature( pos ) ) ) );
+                meal.set_item_temperature( std::max( temperatures::cold,
+                                                     units::from_fahrenheit( get_weather().get_temperature( pos ) ) ) );
             }
 
             it->active = false;
@@ -8218,7 +8215,7 @@ cata::optional<int> iuse::multicooker( Character *p, item *it, bool t, const tri
 
             int counter = 0;
 
-            for( const auto &r : get_avatar().get_learned_recipes().in_category( "CC_FOOD" ) ) {
+            for( const recipe * const &r : get_avatar().get_learned_recipes().in_category( "CC_FOOD" ) ) {
                 if( multicooked_subcats.count( r->subcategory ) > 0 ) {
                     dishes.push_back( r );
                     const bool can_make = r->deduped_requirements().can_make_with_inventory(
@@ -10031,6 +10028,28 @@ cata::optional<int> iuse::binder_manage_recipe( Character *p, item *binder, bool
     }
 
     return cata::nullopt;
+}
+
+cata::optional<int> iuse::voltmeter( Character *p, item *it, bool, const tripoint & )
+{
+    const cata::optional<tripoint> pnt_ = choose_adjacent( _( "Check voltage where?" ) );
+    if( !pnt_ ) {
+        return cata::nullopt;
+    }
+
+    const map &here = get_map();
+    const optional_vpart_position vp = here.veh_at( *pnt_ );
+
+    if( !vp ) {
+        p->add_msg_if_player( _( "There's nothing to measure there." ) );
+        return cata::nullopt;
+    }
+    if( vp->vehicle().fuel_left( itype_battery, true ) ) {
+        p->add_msg_if_player( _( "The %1$s has voltage." ), vp->vehicle().name );
+    } else {
+        p->add_msg_if_player( _( "The %1$s has no voltage." ), vp->vehicle().name );
+    }
+    return it->type->charges_to_use();
 }
 
 void use_function::dump_info( const item &it, std::vector<iteminfo> &dump ) const

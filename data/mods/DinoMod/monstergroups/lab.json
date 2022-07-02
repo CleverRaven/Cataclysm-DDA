@@ -99,7 +99,8 @@
       { "monster": "mon_zriceratops_bio_op", "weight": 25, "cost_multiplier": 40, "starts": "3 days" },
       { "monster": "mon_zriceratops_bio_op", "weight": 25, "cost_multiplier": 40, "starts": "7 days" },
       { "monster": "mon_zriceratops_bio_op", "weight": 25, "cost_multiplier": 40, "starts": "28 days" },
-      { "monster": "mon_zriceratops_bio_op", "weight": 25, "cost_multiplier": 40, "starts": "90 days" }
+      { "monster": "mon_zriceratops_bio_op", "weight": 25, "cost_multiplier": 40, "starts": "90 days" },
+      { "monster": "mon_oryctodromeus_bio_op", "weight": 100, "cost_multiplier": 20, "ends": "28 days" }
     ]
   }
 ]

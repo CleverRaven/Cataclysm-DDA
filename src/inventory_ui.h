@@ -353,7 +353,7 @@ class inventory_column
         void clear();
         void set_stack_favorite( std::vector<item_location> &locations, bool favorite );
 
-        void set_collapsed( inventory_entry &entry, const bool collapse );
+        void set_collapsed( inventory_entry &entry, bool collapse );
 
         /** Highlights the specified location. */
         bool highlight( const item_location &loc );
@@ -387,7 +387,7 @@ class inventory_column
         virtual void reset_width( const std::vector<inventory_column *> &all_columns );
         /** Returns next custom inventory letter. */
         int reassign_custom_invlets( const Character &p, int min_invlet, int max_invlet );
-        int reassign_custom_invlets( int cur_idx, const std::string pickup_chars );
+        int reassign_custom_invlets( int cur_idx, const std::string &pickup_chars );
         /** Reorder entries, repopulate titles, adjust to the new height. */
         virtual void prepare_paging( const std::string &filter = "" );
         /**
@@ -680,7 +680,7 @@ class inventory_selector
             units::mass weight_carried, units::mass weight_capacity,
             const units::volume &volume_carried, const units::volume &volume_capacity,
             const units::length &longest_length, const units::volume &largest_free_volume,
-            const units::volume &holster_volume, const int used_holsters, const int total_holsters );
+            const units::volume &holster_volume, int used_holsters, int total_holsters );
 
         /** Get stats to display in top right.
          *
@@ -717,7 +717,7 @@ class inventory_selector
          * Also called from on_input() on action EXAMINE_CONTENTS if sitem has no contents
          *
          * @param sitem the item to examine **/
-        void action_examine( const item_location sitem );
+        void action_examine( item_location sitem );
 
         virtual void reassign_custom_invlets();
         std::vector<inventory_column *> columns;
@@ -882,7 +882,7 @@ class inventory_multiselector : public inventory_selector
         size_t max_chosen_count;
         void set_chosen_count( inventory_entry &entry, size_t count );
         void deselect_contained_items();
-        void toggle_entries( int &count, const toggle_mode mode = toggle_mode::SELECTED );
+        void toggle_entries( int &count, toggle_mode mode = toggle_mode::SELECTED );
         std::vector<std::pair<item_location, int>> to_use;
         std::vector<item_location> usable_locs;
         bool allow_select_contained;

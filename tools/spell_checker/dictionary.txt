@@ -13,7 +13,6 @@ adze
 aerarium
 aerially
 aeterna
-afemode
 afterbirth
 afterimage
 afterlife
@@ -45,6 +44,7 @@ alkyl
 alleghaniensis
 allosaurusid
 allucination
+alnico
 altamente
 alternators
 alumentum
@@ -132,6 +132,7 @@ balefires
 balogna
 bananope
 bandolier
+bandoliers
 bandsaw
 bangin
 barbute
@@ -144,6 +145,7 @@ basecamps
 baselard
 bashable
 basidiocarp
+basswood
 batching
 batlike
 batrachian
@@ -509,6 +511,7 @@ editable
 edmontonia
 edmontosaurus
 eeds
+efault
 eidolon
 elderberries
 electrochemistry
@@ -518,6 +521,7 @@ electroreceptors
 elete
 elopements
 elytra
+emode
 emove
 emplate
 encumbering
@@ -556,6 +560,7 @@ eviscerations
 exchangeable
 exodii
 exosuit
+exosuits
 explodin
 explosivity
 extensible
@@ -857,16 +862,17 @@ interlayer
 intolerances
 intoxications
 intradimensional
+inulin
 invlet
 invlets
 ironshod
 irremovable
 isable
 isassembled
+issi
 issions
 itemname
 iterating
-ixed
 j
 jabberwock
 jabberwocks
@@ -917,6 +923,7 @@ km
 knapping
 knifehand
 knockback
+knotweed
 knowium
 knuckledusters
 knyf
@@ -1027,6 +1034,8 @@ massachusetite
 massproduced
 masterkey
 maxwellian
+mayapple
+mayapples
 mbie
 md
 mealgrub
@@ -1052,6 +1061,8 @@ microbians
 microbrewed
 microcentrifuge
 microcontrollers
+microgenerator
+microgenerators
 microlab
 micromonies
 microplane
@@ -1140,6 +1151,7 @@ nanomesh
 nanoprinted
 nanoribbon
 nanoskirt
+nanuqsaurus
 narry
 ncrease
 nd
@@ -1151,6 +1163,7 @@ nectivore
 needin
 needlelike
 neodays
+neonate
 neotenic
 neotheropod
 netkit
@@ -1161,6 +1174,7 @@ neutrite
 nevah
 newsbots
 newsweekly
+ngs
 nibblin
 nibelung
 nichrome
@@ -1212,11 +1226,11 @@ openable
 openair
 opengl
 openingly
-opy
 orichalcum
 ornithomimid
 ornithomimus
 orrery
+oryctodromeus
 otes
 otha
 otherland
@@ -1312,6 +1326,7 @@ poleaxe
 poleyns
 polyaramid
 polycarbonates
+polycrystalline
 polyhedrons
 polymorph
 polymorphed
@@ -1605,6 +1620,7 @@ spacebar
 spadelike
 spak
 spall
+spalling
 spasmically
 spearcat
 spearhand
@@ -1748,6 +1764,7 @@ thosun
 threose
 thrums
 thumbholes
+thyreophoran
 tileset
 tillable
 tindalos
@@ -1768,6 +1785,7 @@ toolmod
 toolset
 toolshelf
 topazes
+topickup
 toque
 toques
 toroids
@@ -1820,6 +1838,8 @@ uncoils
 underbarrel
 undercovering
 undergrown
+underlayer
+underlayers
 underprepared
 underslung
 undersuit
@@ -1853,6 +1873,7 @@ unselectable
 unsettlingly
 unsiatable
 unskillfully
+unspecialized
 unstocked
 untampered
 untargeted
@@ -1871,7 +1892,6 @@ usselves
 ustom
 utahraptor
 utilibot
-utopickup
 uttarasanga
 v
 vajra

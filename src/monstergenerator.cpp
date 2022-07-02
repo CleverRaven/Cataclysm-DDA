@@ -66,7 +66,7 @@ std::string enum_to_string<mon_trigger>( mon_trigger data )
         case mon_trigger::PLAYER_NEAR_BABY: return "PLAYER_NEAR_BABY";
         case mon_trigger::MATING_SEASON: return "MATING_SEASON";
         // *INDENT-ON*
-        case mon_trigger::_LAST:
+        case mon_trigger::LAST:
             break;
     }
     cata_fatal( "Invalid mon_trigger" );
@@ -211,6 +211,7 @@ std::string enum_to_string<m_flag>( m_flag data )
         case MF_ATTACK_UPPER: return "ATTACK_UPPER";
         case MF_ATTACK_LOWER: return "ATTACK_LOWER";
         case MF_DEADLY_VIRUS: return "DEADLY_VIRUS";
+        case MF_ALWAYS_VISIBLE: return "ALWAYS_VISIBLE";
         // *INDENT-ON*
         case m_flag::MF_MAX:
             break;
@@ -468,9 +469,19 @@ void MonsterGenerator::finalize_mtypes()
         if( !mon.weakpoints_deferred_inline.weakpoint_list.empty() ) {
             mon.weakpoints.add_from_set( mon.weakpoints_deferred_inline, true );
         }
+        for( const std::string &wp_del : mon.weakpoints_deferred_deleted ) {
+            for( auto iter = mon.weakpoints.weakpoint_list.begin();
+                 iter != mon.weakpoints.weakpoint_list.end(); ) {
+                if( iter->id == wp_del ) {
+                    iter = mon.weakpoints.weakpoint_list.erase( iter );
+                } else {
+                    iter++;
+                }
+            }
+        }
     }
 
-    for( const auto &mon : mon_templates->get_all() ) {
+    for( const mtype &mon : mon_templates->get_all() ) {
         if( !mon.has_flag( MF_NOT_HALLU ) ) {
             hallucination_monsters.push_back( mon.id );
         }
@@ -707,8 +718,8 @@ void mtype::load( const JsonObject &jo, const std::string &src )
 
     if( !was_loaded || jo.has_member( "symbol" ) ) {
         sym = jo.get_string( "symbol" );
-        if( utf8_wrapper( sym ).display_width() != 1 ) {
-            jo.throw_error( "monster symbol should be exactly one console cell width", "symbol" );
+        if( utf8_width( sym ) != 1 ) {
+            jo.throw_error_at( "symbol", "monster symbol should be exactly one console cell width" );
         }
     }
     if( was_loaded && jo.has_member( "copy-from" ) && looks_like.empty() ) {
@@ -753,67 +764,65 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     assign( jo, "armor_pure", armor_pure, strict, 0 );
     assign( jo, "armor_biological", armor_biological, strict, 0 );
 
-    if( !was_loaded || jo.has_array( "weakpoint_sets" ) || jo.has_array( "weakpoints" ) ) {
+    if( !was_loaded ) {
         weakpoints_deferred.clear();
         weakpoints_deferred_inline.clear();
     }
+    weakpoints_deferred_deleted.clear();
 
     // Load each set of weakpoints.
     // Each subsequent weakpoint set overwrites
     // matching weakpoints from the previous set.
     if( jo.has_array( "weakpoint_sets" ) ) {
+        weakpoints_deferred.clear();
         for( JsonValue jval : jo.get_array( "weakpoint_sets" ) ) {
             weakpoints_deferred.emplace_back( weakpoints_id( jval.get_string() ) );
-        }
-    } else {
-        if( jo.has_object( "extend" ) ) {
-            JsonObject tmp = jo.get_object( "extend" );
-            tmp.allow_omitted_members();
-            if( tmp.has_array( "weakpoint_sets" ) ) {
-                for( JsonValue jval : tmp.get_array( "weakpoint_sets" ) ) {
-                    weakpoints_deferred.emplace_back( jval.get_string() );
-                }
-            }
-        }
-        if( jo.has_object( "delete" ) ) {
-            JsonObject tmp = jo.get_object( "delete" );
-            tmp.allow_omitted_members();
-            if( tmp.has_array( "weakpoint_sets" ) ) {
-                for( JsonValue jval : tmp.get_array( "weakpoint_sets" ) ) {
-                    weakpoints_id set_id( jval.get_string() );
-                    auto iter = std::find( weakpoints_deferred.begin(), weakpoints_deferred.end(), set_id );
-                    if( iter != weakpoints_deferred.end() ) {
-                        weakpoints_deferred.erase( iter );
-                    }
-                }
-            }
         }
     }
 
     // Finally, inline weakpoints overwrite
     // any matching weakpoints from the previous sets.
     if( jo.has_array( "weakpoints" ) ) {
+        weakpoints_deferred_inline.clear();
         ::weakpoints tmp_wp;
         tmp_wp.load( jo.get_array( "weakpoints" ) );
         weakpoints_deferred_inline.add_from_set( tmp_wp, true );
-    } else {
-        if( jo.has_object( "extend" ) ) {
-            JsonObject tmp = jo.get_object( "extend" );
-            tmp.allow_omitted_members();
-            if( tmp.has_array( "weakpoints" ) ) {
-                ::weakpoints tmp_wp;
-                tmp_wp.load( jo.get_array( "weakpoints" ) );
-                weakpoints_deferred_inline.add_from_set( tmp_wp, true );
+    }
+
+    if( jo.has_object( "extend" ) ) {
+        JsonObject tmp = jo.get_object( "extend" );
+        tmp.allow_omitted_members();
+        if( tmp.has_array( "weakpoint_sets" ) ) {
+            for( JsonValue jval : tmp.get_array( "weakpoint_sets" ) ) {
+                weakpoints_deferred.emplace_back( jval.get_string() );
             }
         }
-        if( jo.has_object( "delete" ) ) {
-            JsonObject tmp = jo.get_object( "delete" );
-            tmp.allow_omitted_members();
-            if( tmp.has_array( "weakpoints" ) ) {
-                ::weakpoints tmp_wp;
-                tmp_wp.load( jo.get_array( "weakpoints" ) );
-                weakpoints_deferred_inline.del_from_set( tmp_wp );
+        if( tmp.has_array( "weakpoints" ) ) {
+            ::weakpoints tmp_wp;
+            tmp_wp.load( tmp.get_array( "weakpoints" ) );
+            weakpoints_deferred_inline.add_from_set( tmp_wp, true );
+        }
+    }
+
+    if( jo.has_object( "delete" ) ) {
+        JsonObject tmp = jo.get_object( "delete" );
+        tmp.allow_omitted_members();
+        if( tmp.has_array( "weakpoint_sets" ) ) {
+            for( JsonValue jval : tmp.get_array( "weakpoint_sets" ) ) {
+                weakpoints_id set_id( jval.get_string() );
+                auto iter = std::find( weakpoints_deferred.begin(), weakpoints_deferred.end(), set_id );
+                if( iter != weakpoints_deferred.end() ) {
+                    weakpoints_deferred.erase( iter );
+                }
             }
+        }
+        if( tmp.has_array( "weakpoints" ) ) {
+            ::weakpoints tmp_wp;
+            tmp_wp.load( tmp.get_array( "weakpoints" ) );
+            for( const weakpoint &wp_del : tmp_wp.weakpoint_list ) {
+                weakpoints_deferred_deleted.emplace( wp_del.id );
+            }
+            weakpoints_deferred_inline.del_from_set( tmp_wp );
         }
     }
 
@@ -902,7 +911,46 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     if( jo.has_array( "melee_damage" ) ) {
         melee_damage = load_damage_instance( jo.get_array( "melee_damage" ) );
     } else if( jo.has_object( "melee_damage" ) ) {
-        melee_damage = load_damage_instance( jo );
+        melee_damage = load_damage_instance( jo.get_object( "melee_damage" ) );
+    } else if( jo.has_object( "relative" ) ) {
+        cata::optional<damage_instance> tmp_dmg;
+        JsonObject rel = jo.get_object( "relative" );
+        rel.allow_omitted_members();
+        if( rel.has_array( "melee_damage" ) ) {
+            tmp_dmg = load_damage_instance( rel.get_array( "melee_damage" ) );
+        } else if( rel.has_object( "melee_damage" ) ) {
+            tmp_dmg = load_damage_instance( rel.get_object( "melee_damage" ) );
+        } else if( rel.has_int( "melee_damage" ) ) {
+            const int rel_amt = rel.get_int( "melee_damage" );
+            for( damage_unit &du : melee_damage ) {
+                du.amount += rel_amt;
+            }
+        }
+        if( !!tmp_dmg ) {
+            melee_damage.add( tmp_dmg.value() );
+        }
+    } else if( jo.has_object( "proportional" ) ) {
+        cata::optional<damage_instance> tmp_dmg;
+        JsonObject prop = jo.get_object( "proportional" );
+        prop.allow_omitted_members();
+        if( prop.has_array( "melee_damage" ) ) {
+            tmp_dmg = load_damage_instance( prop.get_array( "melee_damage" ) );
+        } else if( prop.has_object( "melee_damage" ) ) {
+            tmp_dmg = load_damage_instance( prop.get_object( "melee_damage" ) );
+        } else if( prop.has_float( "melee_damage" ) ) {
+            melee_damage.mult_damage( prop.get_float( "melee_damage" ), true );
+        }
+        if( !!tmp_dmg ) {
+            for( const damage_unit &du : tmp_dmg.value() ) {
+                auto iter = std::find_if( melee_damage.begin(),
+                melee_damage.end(), [&du]( const damage_unit & mdu ) {
+                    return mdu.type == du.type;
+                } );
+                if( iter != melee_damage.end() ) {
+                    iter->amount *= du.amount;
+                }
+            }
+        }
     }
 
     if( jo.has_array( "scents_tracked" ) ) {
@@ -915,12 +963,6 @@ void mtype::load( const JsonObject &jo, const std::string &src )
         for( const std::string line : jo.get_array( "scents_ignored" ) ) {
             scents_ignored.emplace( line );
         }
-    }
-
-    int bonus_cut = 0;
-    if( jo.has_int( "melee_cut" ) ) {
-        bonus_cut = jo.get_int( "melee_cut" );
-        melee_damage.add_damage( damage_type::CUT, bonus_cut );
     }
 
     if( jo.has_member( "death_drops" ) ) {
@@ -1073,7 +1115,8 @@ void mtype::load( const JsonObject &jo, const std::string &src )
         optional( jop, was_loaded, "allow_climb_stairs", path_settings.allow_climb_stairs, true );
         optional( jop, was_loaded, "avoid_sharp", path_settings.avoid_sharp, false );
     }
-    difficulty = ( melee_skill + 1 ) * melee_dice * ( bonus_cut + melee_sides ) * 0.04 +
+    float melee_dmg_total = melee_damage.total_damage();
+    difficulty = ( melee_skill + 1 ) * melee_dice * ( melee_dmg_total + melee_sides ) * 0.04 +
                  ( sk_dodge + 1 ) * ( 3 + armor_bash + armor_cut ) * 0.04 +
                  ( difficulty_base + special_attacks.size() + 8 * emit_fields.size() );
     difficulty *= ( hp + speed - attack_cost + ( morale + agro ) * 0.1 ) * 0.01 +
@@ -1164,9 +1207,9 @@ mtype_special_attack MonsterGenerator::create_actor( const JsonObject &obj,
     const std::string attack_type = obj.get_string( "attack_type", type );
 
     if( type != "monster_attack" && attack_type != type ) {
-        obj.throw_error(
-            R"(Specifying "attack_type" is only allowed when "type" is "monster_attack" or not specified)",
-            "type" );
+        obj.throw_error_at(
+            "type",
+            R"(Specifying "attack_type" is only allowed when "type" is "monster_attack" or not specified)" );
     }
 
     std::unique_ptr<mattack_actor> new_attack;
@@ -1174,7 +1217,7 @@ mtype_special_attack MonsterGenerator::create_actor( const JsonObject &obj,
         const std::string id = obj.get_string( "id" );
         const auto &iter = attack_map.find( id );
         if( iter == attack_map.end() ) {
-            obj.throw_error( "Monster attacks must specify type and/or id", "type" );
+            obj.throw_error_at( "type", "Monster attacks must specify type and/or id" );
         }
 
         new_attack = iter->second->clone();
@@ -1189,7 +1232,7 @@ mtype_special_attack MonsterGenerator::create_actor( const JsonObject &obj,
     } else if( attack_type == "spell" ) {
         new_attack = std::make_unique<mon_spellcasting_actor>();
     } else {
-        obj.throw_error( "unknown monster attack", "attack_type" );
+        obj.throw_error_at( "attack_type", "unknown monster attack" );
     }
 
     new_attack->load( obj, src );

@@ -125,6 +125,15 @@ static std::string GetCanonicalName( const CXXRecordDecl *Type, const StringRef 
         Result.erase( Result.begin(), Result.begin() + anon_prefix.size() );
     }
 
+    // Remove double underscores since they are reserved identifiers
+    while( true ) {
+        size_t double_underscores = Result.find( "__" );
+        if( double_underscores == std::string::npos ) {
+            break;
+        }
+        Result.erase( Result.begin() + double_underscores );
+    }
+
     return Result;
 }
 

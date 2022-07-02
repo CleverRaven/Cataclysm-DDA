@@ -110,7 +110,7 @@ sorted_bionics filtered_bionics( bionic_collection &all_bionics,
                                  bionic_tab_mode mode )
 {
     sorted_bionics filtered_entries;
-    for( auto &elem : all_bionics ) {
+    for( bionic &elem : all_bionics ) {
         if( ( mode == TAB_ACTIVE ) == elem.id->activated ) {
             filtered_entries.insert( &elem );
         }

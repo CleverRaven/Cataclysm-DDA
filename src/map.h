@@ -716,6 +716,9 @@ class map
         void clear_vehicle_point_from_cache( vehicle *veh, const tripoint &pt );
         // clears all vehicle level caches
         void clear_vehicle_level_caches();
+        void remove_vehicle_from_cache( vehicle *veh, int zmin = -OVERMAP_DEPTH,
+                                        int zmax = OVERMAP_HEIGHT );
+        void reset_vehicles_sm_pos();
         // clears and build vehicle level caches
         void rebuild_vehicle_level_caches();
         void clear_vehicle_list( int zlev );
@@ -1095,7 +1098,8 @@ class map
         // Optionally toggles instances $from->$to & $to->$from
         void translate_radius( const ter_id &from, const ter_id &to, float radi, const tripoint &p,
                                bool same_submap = false, bool toggle_between = false );
-        void transform_radius( const ter_furn_transform_id transform, float radi, const tripoint &p );
+        void transform_radius( ter_furn_transform_id transform, float radi,
+                               const tripoint_abs_ms &p );
         bool close_door( const tripoint &p, bool inside, bool check_only );
         bool open_door( Creature const &u, const tripoint &p, bool inside, bool check_only = false );
         // Destruction
@@ -1210,8 +1214,8 @@ class map
         void i_rem( const point &p, item *it ) {
             i_rem( tripoint( p, abs_sub.z() ), it );
         }
-        void spawn_artifact( const tripoint &p, const relic_procgen_id &id, const int max_attributes = 5,
-                             const int power_level = 1000, const int max_negative_power = -2000 );
+        void spawn_artifact( const tripoint &p, const relic_procgen_id &id, int max_attributes = 5,
+                             int power_level = 1000, int max_negative_power = -2000 );
         void spawn_item( const tripoint &p, const itype_id &type_id,
                          unsigned quantity = 1, int charges = 0,
                          const time_point &birthday = calendar::start_of_cataclysm, int damlevel = 0,
@@ -2072,7 +2076,11 @@ class map
         // !value || value->first != map::abs_sub means cache is invalid
         cata::optional<std::pair<tripoint_abs_sm, int>> max_populated_zlev = cata::nullopt;
 
+        // this is set for maps loaded in bounds of the main map (g->m)
+        bool _main_requires_cleanup = false;
+
     public:
+        void queue_main_cleanup();
         const level_cache &get_cache_ref( int zlev ) const {
             return get_cache( zlev );
         }
@@ -2115,7 +2123,7 @@ class map
                 size_t radiusz = 0 );
         /**returns positions of furnitures with matching flag in the specified radius*/
         std::list<tripoint> find_furnitures_with_flag_in_radius( const tripoint &center, size_t radius,
-                const ter_furn_flag flag,
+                ter_furn_flag flag,
                 size_t radiusz = 0 );
         /**returns creatures in specified radius*/
         std::list<Creature *> get_creatures_in_radius( const tripoint &center, size_t radius,

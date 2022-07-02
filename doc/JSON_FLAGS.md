@@ -214,6 +214,8 @@ These are handled through `ammo_types.json`.  You can tag a weapon with these to
 
 - ```SONAR_DETECTABLE``` This trap can be identified with ground-penetrating SONAR.
 - ```CONVECTS_TEMPERATURE``` This trap convects temperature, like lava.
+- ```UNCONSUMED``` If this trap is a spell type it will not be removed after activation.
+- ```UNDODGEABLE``` This trap can't be dodged.
 
 ## Armor
 
@@ -600,6 +602,7 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```DIGGABLE``` Digging monsters, seeding monster, digging with shovel, etc.
 - ```DOOR``` Can be opened (used for NPC path-finding).
 - ```EASY_DECONSTRUCT``` Player can deconstruct this without tools.
+- ```ELEVATOR``` Terrain with this flag will move player, NPCs, monsters, and items up and down when player activates nearby `elevator controls`.
 - ```FIRE_CONTAINER``` Stops fire from spreading (brazier, wood stove, etc).
 - ```FISHABLE``` You can try to catch fish here.
 - ```FLAMMABLE_ASH``` Burns to ash rather than rubble.
@@ -623,7 +626,7 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```LIQUID``` Blocks movement, but isn't a wall (lava, water, etc.)
 - ```MINEABLE``` Can be mined with a pickaxe/jackhammer.
 - ```MOUNTABLE``` Suitable for guns with the `MOUNTED_GUN` flag.
-- ```MURKY``` Water taker from tiles with this flag is badly poisoned (almost on par with sewage).
+- ```MURKY``` Liquid taken from tiles with this flag is badly poisoned (almost on par with sewage).
 - ```NOCOLLIDE``` Feature that simply doesn't collide with vehicles at all.
 - ```NOITEM``` Items cannot be added here but may overflow to adjacent tiles. See also `DESTROY_ITEM`.
 - ```NO_FLOOR``` Things should fall when placed on this tile.
@@ -662,6 +665,7 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```SWIMMABLE``` Player and monsters can swim through it.
 - ```THIN_OBSTACLE``` Passable by players and monsters; vehicles destroy it.
 - ```TINY``` Feature too short to collide with vehicle undercarriage. Vehicles drive over them with no damage, unless a wheel hits them.
+- ```TOILET_WATER``` Liquid taken from tiles with this flag is rather dirty and may poison you.
 - ```TRANSPARENT``` Players and monsters can see through/past it. Also sets ter_t.transparent.
 - ```TRANSPARENT_FLOOR``` This terrain allows light to the z-level below.
 - ```UNSTABLE``` Walking here cause the bouldering effect on the character.
@@ -975,6 +979,7 @@ Other monster flags.
 - ```ACIDPROOF``` Immune to acid.
 - ```ACIDTRAIL``` Leaves a trail of acid.
 - ```ACID_BLOOD``` Makes monster bleed acid. Does not automatically dissolve in a pool of acid on death.
+- ```ALWAYS_VISIBLE``` This monster can always be seen regardless of line of sight or light level.
 - ```ANIMAL``` Is an _animal_ for purposes of the `Animal Empathy` trait.
 - ```AQUATIC``` Confined to water.
 - ```ARTHROPOD_BLOOD``` Forces monster to bleed hemolymph.

@@ -16,6 +16,7 @@
       { "monster": "mon_appalachiosaurus", "weight": 4, "cost_multiplier": 35 },
       { "monster": "mon_gorgosaurus", "weight": 4, "cost_multiplier": 35 },
       { "monster": "mon_albertosaurus", "weight": 4, "cost_multiplier": 35 },
+      { "monster": "mon_nanuqsaurus", "weight": 4, "cost_multiplier": 35 },
       { "monster": "mon_daspletosaurus", "weight": 4, "cost_multiplier": 35 },
       { "monster": "mon_tyrannosaurus", "weight": 8, "cost_multiplier": 40 },
       { "monster": "mon_compsognathus", "weight": 20, "cost_multiplier": 0, "pack_size": [ 4, 12 ] },
@@ -31,6 +32,8 @@
       { "monster": "mon_dromaeosaurus", "weight": 15, "cost_multiplier": 10, "pack_size": [ 2, 4 ] },
       { "monster": "mon_stenonychosaurus", "weight": 5, "cost_multiplier": 30, "pack_size": [ 1, 2 ] },
       { "monster": "mon_eoraptor", "weight": 20, "cost_multiplier": 0, "pack_size": [ 4, 12 ] },
+      { "monster": "mon_issi", "weight": 5, "cost_multiplier": 25, "pack_size": [ 4, 12 ] },
+      { "monster": "mon_amargasaurus", "weight": 5, "cost_multiplier": 25, "pack_size": [ 4, 12 ] },
       { "monster": "mon_apatosaurus", "weight": 5, "cost_multiplier": 25, "pack_size": [ 4, 12 ] },
       { "monster": "mon_brontosaurus", "weight": 5, "cost_multiplier": 25, "pack_size": [ 4, 12 ] },
       { "monster": "mon_diplodocus", "weight": 10, "cost_multiplier": 20, "pack_size": [ 4, 12 ] },
@@ -54,6 +57,7 @@
       { "monster": "mon_pentaceratops", "weight": 3, "cost_multiplier": 30, "pack_size": [ 1, 2 ] },
       { "monster": "mon_torosaurus", "weight": 3, "cost_multiplier": 30, "pack_size": [ 1, 2 ] },
       { "monster": "mon_triceratops", "weight": 5, "cost_multiplier": 30, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_oryctodromeus", "weight": 5, "cost_multiplier": 30, "pack_size": [ 1, 2 ] },
       { "monster": "mon_dimorphodon", "weight": 20, "cost_multiplier": 0, "pack_size": [ 2, 4 ] },
       { "monster": "mon_pteranodon", "weight": 20, "cost_multiplier": 0, "pack_size": [ 2, 4 ] },
       { "monster": "mon_quetzalcoatlus", "weight": 5, "cost_multiplier": 0, "pack_size": [ 2, 4 ] }
@@ -72,7 +76,8 @@
       { "monster": "mon_scutellosaurus", "weight": 20, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
       { "monster": "mon_dyoplosaurus", "weight": 20, "cost_multiplier": 20, "pack_size": [ 1, 2 ] },
       { "monster": "mon_camptosaurus", "weight": 100, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
-      { "monster": "mon_pachycephalosaurus", "weight": 25, "cost_multiplier": 0, "pack_size": [ 1, 2 ] }
+      { "monster": "mon_pachycephalosaurus", "weight": 25, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_oryctodromeus", "weight": 5, "cost_multiplier": 30, "pack_size": [ 1, 2 ] }
     ]
   },
   {
@@ -103,6 +108,8 @@
       { "monster": "mon_albertonykus_hatchling", "weight": 10, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
       { "monster": "mon_nothronychus_hatchling", "weight": 5, "cost_multiplier": 25, "pack_size": [ 1, 2 ] },
       { "monster": "mon_eoraptor_hatchling", "weight": 10, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_issi_hatchling", "weight": 10, "cost_multiplier": 25, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_amargasaurus_hatchling", "weight": 10, "cost_multiplier": 25, "pack_size": [ 1, 2 ] },
       { "monster": "mon_apatosaurus_hatchling", "weight": 10, "cost_multiplier": 25, "pack_size": [ 1, 2 ] },
       { "monster": "mon_brontosaurus_hatchling", "weight": 10, "cost_multiplier": 25, "pack_size": [ 1, 2 ] },
       { "monster": "mon_diplodocus_hatchling", "weight": 10, "cost_multiplier": 20, "pack_size": [ 1, 2 ] },
@@ -125,7 +132,8 @@
       { "monster": "mon_pachyrhinosaurus_hatchling", "weight": 10, "cost_multiplier": 30, "pack_size": [ 1, 2 ] },
       { "monster": "mon_pentaceratops_hatchling", "weight": 10, "cost_multiplier": 30, "pack_size": [ 1, 2 ] },
       { "monster": "mon_torosaurus_hatchling", "weight": 10, "cost_multiplier": 30, "pack_size": [ 1, 2 ] },
-      { "monster": "mon_triceratops_hatchling", "weight": 10, "cost_multiplier": 30, "pack_size": [ 1, 2 ] }
+      { "monster": "mon_triceratops_hatchling", "weight": 10, "cost_multiplier": 30, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_oryctodromeus_hatchling", "weight": 10, "cost_multiplier": 30, "pack_size": [ 1, 2 ] }
     ]
   },
   {
@@ -144,6 +152,7 @@
       { "monster": "mon_appalachiosaurus_hatchling", "weight": 4, "cost_multiplier": 35, "pack_size": [ 1, 2 ] },
       { "monster": "mon_gorgosaurus_hatchling", "weight": 4, "cost_multiplier": 35, "pack_size": [ 1, 2 ] },
       { "monster": "mon_albertosaurus_hatchling", "weight": 4, "cost_multiplier": 35, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_nanuqsaurus_hatchling", "weight": 4, "cost_multiplier": 35, "pack_size": [ 1, 2 ] },
       { "monster": "mon_daspletosaurus_hatchling", "weight": 4, "cost_multiplier": 35, "pack_size": [ 1, 2 ] },
       { "monster": "mon_tyrannosaurus_hatchling", "weight": 8, "cost_multiplier": 40, "pack_size": [ 1, 2 ] },
       { "monster": "mon_anzu_hatchling", "weight": 15, "cost_multiplier": 10, "pack_size": [ 1, 2 ] },
@@ -194,6 +203,8 @@
     "type": "monstergroup",
     "name": "GROUP_DINOSAUR_MEGA_HERBIVORE",
     "monsters": [
+      { "monster": "mon_issi", "weight": 5, "cost_multiplier": 25, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_amargasaurus", "weight": 5, "cost_multiplier": 25, "pack_size": [ 1, 2 ] },
       { "monster": "mon_apatosaurus", "weight": 5, "cost_multiplier": 25, "pack_size": [ 1, 2 ] },
       { "monster": "mon_brontosaurus", "weight": 5, "cost_multiplier": 25, "pack_size": [ 1, 2 ] },
       { "monster": "mon_diplodocus", "weight": 10, "cost_multiplier": 20, "pack_size": [ 1, 2 ] },
@@ -226,6 +237,7 @@
       { "monster": "mon_appalachiosaurus", "weight": 200, "cost_multiplier": 35 },
       { "monster": "mon_gorgosaurus", "weight": 200, "cost_multiplier": 35 },
       { "monster": "mon_albertosaurus", "weight": 200, "cost_multiplier": 35 },
+      { "monster": "mon_nanuqsaurus", "weight": 200, "cost_multiplier": 35 },
       { "monster": "mon_daspletosaurus", "weight": 200, "cost_multiplier": 35 },
       { "monster": "mon_tyrannosaurus", "weight": 200, "cost_multiplier": 40 }
     ]
@@ -279,6 +291,8 @@
       { "monster": "mon_zorgosaurus", "cost_multiplier": 35, "starts": "7 days" },
       { "monster": "mon_albertosaurus", "cost_multiplier": 35, "starts": "3 days" },
       { "monster": "mon_zalbertosaurus", "cost_multiplier": 35, "starts": "7 days" },
+      { "monster": "mon_nanuqsaurus", "cost_multiplier": 35, "starts": "3 days" },
+      { "monster": "mon_zanuqsaurus", "cost_multiplier": 35, "starts": "7 days" },
       { "monster": "mon_daspletosaurus", "cost_multiplier": 35, "starts": "3 days" },
       { "monster": "mon_zaspletosaurus", "cost_multiplier": 35, "starts": "7 days" },
       { "monster": "mon_tyrannosaurus", "weight": 2, "cost_multiplier": 40, "starts": "3 days" },
@@ -332,6 +346,11 @@
     "type": "monstergroup",
     "name": "GROUP_DINOSAUR_SAUROPODS_WILDERNESS",
     "monsters": [
+      { "monster": "mon_issi", "weight": 10, "cost_multiplier": 10, "pack_size": [ 4, 12 ], "conditions": [ "DAY" ] },
+      { "monster": "mon_zissi", "weight": 2, "cost_multiplier": 30, "pack_size": [ 4, 12 ], "starts": "3 days" },
+      { "monster": "mon_zissi", "weight": 2, "cost_multiplier": 30, "pack_size": [ 4, 12 ], "starts": "7 days" },
+      { "monster": "mon_zissi", "weight": 2, "cost_multiplier": 30, "pack_size": [ 4, 12 ], "starts": "14 days" },
+      { "monster": "mon_zissi", "weight": 2, "cost_multiplier": 30, "pack_size": [ 4, 12 ], "starts": "28 days" },
       {
         "monster": "mon_amargasaurus",
         "weight": 10,

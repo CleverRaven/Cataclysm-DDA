@@ -279,7 +279,7 @@
     "relative": {
       "melee_dice": 1,
       "melee_dice_sides": 4,
-      "melee_cut": 2,
+      "melee_damage": 2,
       "armor_bash": 4,
       "armor_cut": 4,
       "armor_bullet": 3,

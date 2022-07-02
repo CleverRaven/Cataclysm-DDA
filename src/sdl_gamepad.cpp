@@ -99,8 +99,8 @@ void init()
         buttons_map[i] = JOY_0 + i;
     }
 
-    for( int i = 0; i < max_tasks; ++i ) {
-        all_tasks[i].counter = 0;
+    for( gamepad::task_t &task : all_tasks ) {
+        task.counter = 0;
     }
 
     int ret = SDL_Init( SDL_INIT_TIMER | SDL_INIT_GAMECONTROLLER );
@@ -324,7 +324,7 @@ void handle_button_event( SDL_Event &event )
 void handle_scheduler_event( SDL_Event &event )
 {
     Uint32 now = event.user.timestamp;
-    for( auto &task : all_tasks )
+    for( gamepad::task_t &task : all_tasks )
         if( task.counter && task.when <= now ) {
             send_input( task.button );
             task.counter += 1;

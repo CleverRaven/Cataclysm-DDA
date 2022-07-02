@@ -87,6 +87,7 @@
       { "item": "matches", "prob": 8, "charges": [ 1, 20 ] },
       { "item": "ref_matches", "prob": 8, "charges-min": 0, "charges-max": 32 },
       { "item": "lighter", "prob": 10, "charges": [ 0, 100 ] },
+      { "item": "small_lighter", "prob": 5, "charges": [ 0, 50 ] },
       { "item": "ref_lighter", "prob": 2, "charges": [ 0, 50 ] },
       { "group": "tobacco_products", "prob": 26 },
       { "item": "gum", "prob": 13, "charges": [ 1, 10 ] },

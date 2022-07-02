@@ -351,7 +351,7 @@ std::vector<basecamp_upgrade> basecamp::available_upgrades( const point &dir )
             basecamp_upgrade data;
             data.bldg = bldg;
             data.name = recp.blueprint_name();
-            const auto &reqs = recp.deduped_requirements();
+            const deduped_requirement_data &reqs = recp.deduped_requirements();
             data.avail = reqs.can_make_with_inventory( _inv, recp.get_component_filter(), 1 );
             data.in_progress = in_progress;
             ret_data.emplace_back( data );
@@ -648,7 +648,7 @@ void basecamp::form_crafting_inventory( map &target_map )
     _inv.clear();
     const tripoint_abs_ms &dump_spot = get_dumping_spot();
     const tripoint &origin = target_map.getlocal( dump_spot );
-    auto &mgr = zone_manager::get_manager();
+    zone_manager &mgr = zone_manager::get_manager();
     map &here = get_map();
     if( here.check_vehicle_zones( here.get_abs_sub().z() ) ) {
         mgr.cache_vzones();

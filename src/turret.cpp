@@ -313,7 +313,7 @@ void vehicle::turrets_aim_and_fire_single()
     std::vector<vehicle_part *> options;
 
     // Find all turrets that are ready to fire
-    for( auto &t : turrets() ) {
+    for( vehicle_part *&t : turrets() ) {
         turret_data data = turret_query( *t );
         if( data.query() == turret_data::status::ready ) {
             option_names.push_back( t->name() );
@@ -434,7 +434,7 @@ void vehicle::turrets_set_targeting()
     std::vector<vehicle_part *> turrets;
     std::vector<tripoint> locations;
 
-    for( auto &p : parts ) {
+    for( vehicle_part &p : parts ) {
         if( p.is_turret() ) {
             turrets.push_back( &p );
             locations.push_back( global_part_pos3( p ) );
@@ -452,7 +452,7 @@ void vehicle::turrets_set_targeting()
         menu.fselected = sel;
         menu.w_y_setup = 2;
 
-        for( auto &p : turrets ) {
+        for( vehicle_part *&p : turrets ) {
             menu.addentry( -1, has_part( global_part_pos3( *p ), "TURRET_CONTROLS" ), MENU_AUTOASSIGN,
                            "%s [%s]", p->name(), p->enabled ?
                            _( "auto -> manual" ) : has_part( global_part_pos3( *p ), "TURRET_CONTROLS" ) ?
@@ -490,7 +490,7 @@ void vehicle::turrets_set_mode()
     std::vector<vehicle_part *> turrets;
     std::vector<tripoint> locations;
 
-    for( auto &p : parts ) {
+    for( vehicle_part &p : parts ) {
         if( p.base.is_gun() ) {
             turrets.push_back( &p );
             locations.push_back( global_part_pos3( p ) );
@@ -508,7 +508,7 @@ void vehicle::turrets_set_mode()
         menu.fselected = sel;
         menu.w_y_setup = 2;
 
-        for( auto &p : turrets ) {
+        for( vehicle_part *&p : turrets ) {
             menu.addentry( -1, true, MENU_AUTOASSIGN, "%s [%s]",
                            p->name(), p->base.gun_current_mode().tname() );
         }

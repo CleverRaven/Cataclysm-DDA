@@ -6,5 +6,14 @@
     "time": "5 m",
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
     "components": [ [ [ "chem_sulphuric_acid", 13 ] ], [ [ "lead", 2247 ] ], [ [ "ceramic_shard", 3 ] ] ]
+  },
+  {
+    "result": "rock_large",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "fabrication",
+    "time": "5 m",
+    "tools": [ [ [ "pickaxe", -1 ], [ "bronze_pickaxe", -1 ], [ "jackhammer", 1 ], [ "elec_jackhammer", 50 ] ] ],
+    "components": [ [ [ "rock", 24 ] ] ]
   }
 ]
