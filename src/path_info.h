@@ -24,6 +24,7 @@ std::string autopickup();
 std::string autonote();
 std::string base_colors();
 std::string base_path();
+std::string cache_dir();
 std::string colors();
 std::string color_templates();
 std::string color_themes();

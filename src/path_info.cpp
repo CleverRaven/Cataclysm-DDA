@@ -159,6 +159,10 @@ std::string PATH_INFO::base_path()
 {
     return base_path_value;
 }
+std::string PATH_INFO::cache_dir()
+{
+    return datadir_value + "cache/";
+}
 std::string PATH_INFO::colors()
 {
     return datadir_value + "raw/" + "colors.json";
