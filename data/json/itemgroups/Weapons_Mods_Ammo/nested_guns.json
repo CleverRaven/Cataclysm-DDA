@@ -706,6 +706,18 @@
     ]
   },
   {
+    "id": "nested_m18",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "entries": [
+      { "item": "m18", "charges-min": 0, "charges-max": 17 },
+      { "item": "p320mag_17rd_9x19mm" },
+      { "item": "p320mag_17rd_9x19mm", "prob": 50 },
+      { "group": "on_hand_9mm" }
+    ]
+  },
+  {
     "id": "nested_glock_18c",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
@@ -2056,6 +2068,18 @@
       { "item": "ruger_57mag" },
       { "item": "ruger_57mag", "prob": 50 },
       { "group": "on_hand_57" }
+    ]
+  },
+  {
+    "id": "nested_m714",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "entries": [
+      { "item": "mauser_m714", "charges-min": 0, "charges-max": 20 },
+      { "item": "mausermag_20rd" },
+      { "item": "mausermag_20rd", "prob": 50 },
+      { "group": "on_hand_9mm" }
     ]
   },
   {

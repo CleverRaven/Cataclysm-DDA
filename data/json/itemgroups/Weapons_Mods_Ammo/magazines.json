@@ -52,7 +52,7 @@
     "type": "item_group",
     "id": "mags_military",
     "//": "_DEPRECATED_ Older military magazines still in service.",
-    "items": [ [ "m1911mag", 5 ], [ "m9mag", 15 ], [ "stanag30", 20 ], [ "stanag50", 5 ], [ "usp9mag", 15 ], [ "usp45mag", 5 ] ]
+    "items": [ [ "m1911mag", 5 ], [ "m9mag", 15 ], [ "stanag30", 20 ], [ "stanag50", 5 ], [ "usp45mag", 5 ] ]
   },
   {
     "type": "item_group",
@@ -164,7 +164,6 @@
       [ "p320mag_14rd_357sig", 10 ],
       [ "bhp9mag_13rd", 2 ],
       [ "bhp9mag_15rd", 1 ],
-      [ "p38mag", 1 ],
       [ "ppq9mag_10rd", 4 ],
       [ "ppq9mag_15rd", 2 ],
       [ "ppq9mag_17rd", 1 ],
@@ -229,6 +228,7 @@
       [ "kp32mag", 5 ],
       [ "fn1910mag", 2 ],
       { "item": "fnp90mag", "prob": 2, "charges": [ 0, 50 ] },
+      [ "p38mag", 1 ],
       [ "ppkmag", 15 ],
       [ "usp9mag_10rd", 5 ],
       [ "usp9mag_18rd", 5 ],
