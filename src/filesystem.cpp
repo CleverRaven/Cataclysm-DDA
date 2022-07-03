@@ -21,29 +21,53 @@
 
 bool assure_dir_exist( const std::string &path )
 {
+    return assure_dir_exist( fs::u8path( path ) );
+}
+
+bool assure_dir_exist( const fs::path &p )
+{
     std::error_code ec;
-    fs::path p( path );
     bool ret = fs::is_directory( p, ec ) || ( !fs::exists( p, ec ) && fs::create_directories( p, ec ) );
     return !ec && ret;
 }
 
 bool dir_exist( const std::string &path )
 {
+    return dir_exist( fs::u8path( path ) );
+}
+
+bool dir_exist( const fs::path &path )
+{
     return fs::is_directory( path );
 }
 
 bool file_exist( const std::string &path )
+{
+    return file_exist( fs::u8path( path ) );
+}
+
+bool file_exist( const fs::path &path )
 {
     return fs::exists( path ) && !fs::is_directory( path );
 }
 
 bool remove_file( const std::string &path )
 {
+    return remove_file( fs::u8path( path ) );
+}
+
+bool remove_file( const fs::path &path )
+{
     std::error_code ec;
     return fs::remove( path, ec );
 }
 
 bool rename_file( const std::string &old_path, const std::string &new_path )
+{
+    return rename_file( fs::u8path( old_path ), fs::u8path( new_path ) );
+}
+
+bool rename_file( const fs::path &old_path, const fs::path &new_path )
 {
     std::error_code ec;
     fs::rename( old_path, new_path, ec );
@@ -52,10 +76,20 @@ bool rename_file( const std::string &old_path, const std::string &new_path )
 
 std::string abs_path( const std::string &path )
 {
-    return fs::absolute( path ).generic_u8string();
+    return abs_path( fs::u8path( path ) ).generic_u8string();
+}
+
+fs::path abs_path( const fs::path &path )
+{
+    return fs::absolute( path );
 }
 
 bool remove_directory( const std::string &path )
+{
+    return remove_directory( fs::u8path( path ) );
+}
+
+bool remove_directory( const fs::path &path )
 {
     std::error_code ec;
     return fs::remove( path, ec );
@@ -77,6 +111,13 @@ const char *cata_files::eol()
 std::string read_entire_file( const std::string &path )
 {
     cata::ifstream infile( fs::u8path( path ), std::ifstream::in | std::ifstream::binary );
+    return std::string( std::istreambuf_iterator<char>( infile ),
+                        std::istreambuf_iterator<char>() );
+}
+
+std::string read_entire_file( const fs::path &path )
+{
+    cata::ifstream infile( path, std::ifstream::in | std::ifstream::binary );
     return std::string( std::istreambuf_iterator<char>( infile ),
                         std::istreambuf_iterator<char>() );
 }

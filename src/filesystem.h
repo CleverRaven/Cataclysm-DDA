@@ -25,6 +25,21 @@ std::string abs_path( const std::string &path );
 
 std::string read_entire_file( const std::string &path );
 
+// Overloads of the above that take fs::path directly.
+bool assure_dir_exist( const fs::path &path );
+bool dir_exist( const fs::path &path );
+bool file_exist( const fs::path &path );
+// Remove a file, does not remove folders,
+// returns true on success
+bool remove_file( const fs::path &path );
+bool remove_directory( const fs::path &path );
+// Rename a file, overriding the target!
+bool rename_file( const fs::path &old_path, const fs::path &new_path );
+
+fs::path abs_path( const fs::path &path );
+
+std::string read_entire_file( const fs::path &path );
+
 namespace cata_files
 {
 const char *eol();
