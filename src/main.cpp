@@ -42,6 +42,7 @@
 #include "memory_fast.h"
 #include "options.h"
 #include "output.h"
+#include "help.h"
 #include "ordered_static_globals.h"
 #include "path_info.h"
 #include "rng.h"
@@ -768,7 +769,7 @@ int main( int argc, const char *argv[] )
         return 0;
     }
 
-    global_init();
+    get_help().load();
 
     while( true ) {
         if( !cli.world.empty() ) {

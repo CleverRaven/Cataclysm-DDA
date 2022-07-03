@@ -13,8 +13,6 @@
 #include "point.h"
 #include "worldfactory.h"
 
-void global_init();
-
 class main_menu
 {
     public:

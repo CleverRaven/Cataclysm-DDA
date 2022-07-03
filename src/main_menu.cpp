@@ -527,11 +527,6 @@ void main_menu::load_char_templates()
     std::reverse( templates.begin(), templates.end() );
 }
 
-void global_init()
-{
-    get_help().load();
-}
-
 bool main_menu::opening_screen()
 {
     // set holiday based on local system time
