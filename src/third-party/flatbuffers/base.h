@@ -16,13 +16,7 @@
   #define new DEBUG_NEW
 #endif
 
-#if !defined(FLATBUFFERS_ASSERT)
-#include <assert.h>
-#define FLATBUFFERS_ASSERT assert
-#elif defined(FLATBUFFERS_ASSERT_INCLUDE)
-// Include file with forward declaration
-#include FLATBUFFERS_ASSERT_INCLUDE
-#endif
+#include "cata_flatbuffers_assert.h"
 
 #ifndef ARDUINO
 #include <cstdint>
