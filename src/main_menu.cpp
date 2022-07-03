@@ -513,6 +513,18 @@ void main_menu::display_text( const std::string &text, const std::string &title,
     wnoutrefresh( w_text );
 }
 
+static bool assure_essential_dirs_exist()
+{
+    using namespace PATH_INFO;
+    for( const std::string &path : std::vector<std::string> { { config_dir(), savedir(), templatedir(), user_font(), user_sound(), user_gfx() } } ) {
+        if( !assure_dir_exist( path ) ) {
+            popup( _( "Unable to make directory \"%s\".  Check permissions." ), path );
+            return false;
+        }
+    }
+    return true;
+}
+
 void main_menu::load_char_templates()
 {
     templates.clear();
@@ -531,37 +543,7 @@ bool global_init()
 {
     get_help().load();
 
-    if( !assure_dir_exist( PATH_INFO::config_dir() ) ) {
-        popup( _( "Unable to make config directory.  Check permissions." ) );
-        return false;
-    }
-
-    if( !assure_dir_exist( PATH_INFO::savedir() ) ) {
-        popup( _( "Unable to make save directory.  Check permissions." ) );
-        return false;
-    }
-
-    if( !assure_dir_exist( PATH_INFO::templatedir() ) ) {
-        popup( _( "Unable to make templates directory.  Check permissions." ) );
-        return false;
-    }
-
-    if( !assure_dir_exist( PATH_INFO::user_font() ) ) {
-        popup( _( "Unable to make fonts directory.  Check permissions." ) );
-        return false;
-    }
-
-    if( !assure_dir_exist( PATH_INFO::user_sound() ) ) {
-        popup( _( "Unable to make sound directory.  Check permissions." ) );
-        return false;
-    }
-
-    if( !assure_dir_exist( PATH_INFO::user_gfx() ) ) {
-        popup( _( "Unable to make graphics directory.  Check permissions." ) );
-        return false;
-    }
-
-    return true;
+    return assure_essential_dirs_exist();
 }
 
 bool main_menu::opening_screen()
