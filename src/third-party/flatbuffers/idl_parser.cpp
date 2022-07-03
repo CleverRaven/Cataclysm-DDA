@@ -131,13 +131,13 @@ void Parser::Message(const std::string &msg) {
   error_ += file_being_parsed_.length() ? AbsolutePath(file_being_parsed_) : "";
   // clang-format off
 
-  #ifdef _WIN32  // MSVC alike
-    error_ +=
-        "(" + NumToString(line_) + ", " + NumToString(CursorPosition()) + ")";
-  #else  // gcc alike
-    if (file_being_parsed_.length()) error_ += ":";
-    error_ += NumToString(line_) + ": " + NumToString(CursorPosition());
-  #endif
+  if (file_being_parsed_.length()) error_ += ":";
+  if (*cursor_) {
+    error_ += NumToString(line_) + ":" + NumToString(CursorPosition());
+  } else {
+    error_ += "EOF";
+  }
+
   // clang-format on
   error_ += ": " + msg;
 }
