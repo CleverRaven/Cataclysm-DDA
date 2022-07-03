@@ -37,6 +37,7 @@
 #include "item_factory.h"
 #include "itype.h"
 #include "json.h"
+#include "json_loader.h"
 #include "map.h"
 #include "map_extras.h"
 #include "map_memory.h"
@@ -639,7 +640,7 @@ void tileset_cache::loader::load( const std::string &tileset_id, const bool prec
     }
 
     dbg( D_INFO ) << "Attempting to Load JSON file " << json_path;
-    cata::optional<JsonValue> config_json = JsonValue::fromOpt( fs::u8path( json_path ) );
+    cata::optional<JsonValue> config_json = json_loader::from_path_opt( fs::u8path( json_path ) );
 
     if( !config_json.has_value() ) {
         throw std::runtime_error( std::string( "Failed to open tile info json: " ) + json_path );
@@ -686,7 +687,8 @@ void tileset_cache::loader::load( const std::string &tileset_id, const bool prec
             continue;
         }
         dbg( D_INFO ) << "Attempting to Load JSON file " << json_path;
-        cata::optional<JsonValue> mod_config_json_opt = JsonValue::fromOpt( fs::u8path( json_path ) );
+        cata::optional<JsonValue> mod_config_json_opt = json_loader::from_path_opt( fs::u8path(
+                    json_path ) );
 
         if( mod_config_json_opt.has_value() ) {
             throw std::runtime_error( std::string( "Failed to open tile info json: " ) +
@@ -747,7 +749,7 @@ void tileset_cache::loader::load( const std::string &tileset_id, const bool prec
 
     // set up layering data
     if( has_layering ) {
-        JsonValue layering_json = JsonValue::from( fs::u8path( layering_path ) );
+        JsonValue layering_json = json_loader::from_path( fs::u8path( layering_path ) );
         JsonObject layer_config = layering_json.get_object();
         layer_config.allow_omitted_members();
 
@@ -1210,7 +1212,7 @@ static std::map<tripoint, int> display_npc_attack_potential()
     std::ostringstream os;
     JsonOut jsout( os );
     jsout.write( you );
-    JsonValue jsin = JsonValue::fromString( os.str() );
+    JsonValue jsin = json_loader::from_string( os.str() );
     jsin.read( avatar_as_npc );
     avatar_as_npc.regen_ai_cache();
     avatar_as_npc.evaluate_best_weapon( nullptr );

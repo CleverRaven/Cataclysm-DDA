@@ -178,9 +178,10 @@ struct string_flexbuffer : parsed_flexbuffer {
 class flexbuffer_disk_cache
 {
     public:
-        static std::unique_ptr<flexbuffer_disk_cache> init_from_folder( const fs::path &cache_path ) {
+        static std::unique_ptr<flexbuffer_disk_cache> init_from_folder( const fs::path &cache_path,
+                const fs::path &root_path ) {
             // Private constructor, make_unique doesn't have access.
-            std::unique_ptr<flexbuffer_disk_cache> cache{ new flexbuffer_disk_cache( cache_path ) };
+            std::unique_ptr<flexbuffer_disk_cache> cache{ new flexbuffer_disk_cache( cache_path, root_path ) };
 
             std::string cache_path_string = cache_path.u8string();
             std::vector<std::string> all_cached_flexbuffers = get_files_from_path(
@@ -207,8 +208,7 @@ class flexbuffer_disk_cache
                         mtime_str.c_str() + 1,
                         nullptr, 0 ) ) );
 
-                fs::path original_json_path = cached_flexbuffer_path.lexically_relative(
-                                                  cache_path ).parent_path() / original_json_file_name;
+                fs::path original_json_path = root_path / original_json_file_name;
                 std::string original_json_path_string = original_json_path.u8string();
 
                 // Don't just blindly insert, we may end up in a situation with multiple flexbuffers for the same input json
@@ -242,13 +242,14 @@ class flexbuffer_disk_cache
             return {};
         }
 
-        std::shared_ptr<flexbuffer_mmap_storage> load_flexbuffer_if_not_stale( fs::path json_source_path ) {
+        std::shared_ptr<flexbuffer_mmap_storage> load_flexbuffer_if_not_stale(
+            const fs::path &json_source_path ) {
             std::shared_ptr<flexbuffer_mmap_storage> storage;
 
-            json_source_path = json_source_path.lexically_normal();
+            fs::path root_relative_source_path = json_source_path.lexically_relative( root_path_ );
 
             // Is there even a potential cached flexbuffer for this file.
-            auto disk_entry = cached_flexbuffers_.find( json_source_path.u8string() );
+            auto disk_entry = cached_flexbuffers_.find( root_relative_source_path.u8string() );
             if( disk_entry == cached_flexbuffers_.end() ) {
                 return storage;
             }
@@ -309,9 +310,11 @@ class flexbuffer_disk_cache
         }
 
     private:
-        explicit flexbuffer_disk_cache( fs::path cache_path ) : cache_path_{ std::move( cache_path ) } {}
+        explicit flexbuffer_disk_cache( fs::path cache_path, fs::path root_path ) : cache_path_{ std::move( cache_path ) },
+            root_path_{ std::move( root_path ) } {}
 
         fs::path cache_path_;
+        fs::path root_path_;
 
         struct disk_cache_entry {
             fs::path flexbuffer_path;
@@ -321,15 +324,11 @@ class flexbuffer_disk_cache
         std::unordered_map<std::string, disk_cache_entry> cached_flexbuffers_;
 };
 
-flexbuffer_cache &flexbuffer_cache::global_cache()
+flexbuffer_cache::flexbuffer_cache( const fs::path &cache_directory,
+                                    const fs::path &root_directory )
 {
-    static flexbuffer_cache cache{ fs::u8path( PATH_INFO::datadir() + "cache/" ) };
-    return cache;
-}
-
-flexbuffer_cache::flexbuffer_cache( const fs::path &cache_directory )
-{
-    disk_cache_ = flexbuffer_disk_cache::init_from_folder( cache_directory );
+    disk_cache_ = flexbuffer_disk_cache::init_from_folder( cache_directory,
+                  root_directory );
 }
 
 flexbuffer_cache::~flexbuffer_cache() = default;

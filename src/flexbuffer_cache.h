@@ -52,7 +52,7 @@ class flexbuffer_cache
         using shared_flexbuffer = std::shared_ptr<parsed_flexbuffer>;
 
     public:
-        explicit flexbuffer_cache( const fs::path &cache_directory );
+        explicit flexbuffer_cache( const fs::path &cache_directory, const fs::path &root_directory );
         ~flexbuffer_cache();
 
         size_t drop_cache() noexcept;
@@ -63,8 +63,6 @@ class flexbuffer_cache
                                            size_t offset = 0 ) noexcept( false ) ;
 
         static shared_flexbuffer parse_buffer( std::string buffer ) noexcept( false );
-
-        static flexbuffer_cache &global_cache();
 
     private:
         flexbuffer_cache( flexbuffer_cache && ) noexcept = default;

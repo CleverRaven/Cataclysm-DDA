@@ -129,46 +129,6 @@ std::string Json::str() const
     return ret;
 }
 
-cata::optional<JsonValue> JsonValue::fromOpt( fs::path source_file,
-        size_t offset ) noexcept( false )
-{
-    if( !file_exist( source_file ) ) {
-        return cata::nullopt;
-    }
-
-    std::shared_ptr<parsed_flexbuffer> buffer = flexbuffer_cache::global_cache().parse_and_cache(
-                source_file, offset );
-    if( !buffer ) {
-        return cata::nullopt;
-    }
-
-    flexbuffer buffer_root = flexbuffer_root_from_storage( buffer->get_storage() );
-    return JsonValue{ std::move( buffer ), buffer_root, nullptr, 0 };
-}
-
-JsonValue JsonValue::from( fs::path source_file, size_t offset ) noexcept( false )
-{
-    if( !file_exist( source_file ) ) {
-        throw JsonError( source_file.generic_u8string() + " does not exist." );
-    }
-    cata::optional<JsonValue> obj = fromOpt( source_file, offset );
-
-    if( !obj ) {
-        throw JsonError( "Json file " + source_file.generic_u8string() + " did not contain valid json" );
-    }
-    return std::move( *obj );
-}
-
-JsonValue JsonValue::fromString( const std::string &data ) noexcept( false )
-{
-    std::shared_ptr<parsed_flexbuffer> buffer = flexbuffer_cache::parse_buffer( data );
-    if( !buffer ) {
-        throw JsonError( "Failed to parse string into json" );
-    }
-
-    flexbuffer buffer_root = flexbuffer_root_from_storage( buffer->get_storage() );
-    return JsonValue{ std::move( buffer ), buffer_root, nullptr, 0 };
-}
 
 bool JsonValue::read( bool &b, bool throw_on_error ) const
 {

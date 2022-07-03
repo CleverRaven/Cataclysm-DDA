@@ -14,6 +14,7 @@
 #include "game_constants.h"
 #include "item.h"
 #include "json.h"
+#include "json_loader.h"
 #include "make_static.h"
 #include "mapdata.h"
 #include "point.h"
@@ -749,19 +750,19 @@ static std::string submap_cosmetic_ss(
 static_assert( SEEX == 12, "Reminder to update submap tests when SEEX changes." );
 static_assert( SEEY == 12, "Reminder to update submap tests when SEEY changes." );
 
-static JsonValue submap_empty = JsonValue::fromString( submap_empty_ss );
-static JsonValue submap_terrain_rle = JsonValue::fromString( submap_terrain_rle_ss );
-static JsonValue submap_furniture = JsonValue::fromString( submap_furniture_ss );
-static JsonValue submap_trap = JsonValue::fromString( submap_trap_ss );
-static JsonValue submap_rad = JsonValue::fromString( submap_rad_ss );
-static JsonValue submap_item = JsonValue::fromString( submap_item_ss );
-static JsonValue submap_field = JsonValue::fromString( submap_field_ss );
-static JsonValue submap_graffiti = JsonValue::fromString( submap_graffiti_ss );
-static JsonValue submap_spawns = JsonValue::fromString( submap_spawns_ss );
-static JsonValue submap_vehicle = JsonValue::fromString( submap_vehicle_ss );
-static JsonValue submap_construction = JsonValue::fromString( submap_construction_ss );
-static JsonValue submap_computer = JsonValue::fromString( submap_computer_ss );
-static JsonValue submap_cosmetic = JsonValue::fromString( submap_cosmetic_ss );
+static JsonValue submap_empty = json_loader::from_string( submap_empty_ss );
+static JsonValue submap_terrain_rle = json_loader::from_string( submap_terrain_rle_ss );
+static JsonValue submap_furniture = json_loader::from_string( submap_furniture_ss );
+static JsonValue submap_trap = json_loader::from_string( submap_trap_ss );
+static JsonValue submap_rad = json_loader::from_string( submap_rad_ss );
+static JsonValue submap_item = json_loader::from_string( submap_item_ss );
+static JsonValue submap_field = json_loader::from_string( submap_field_ss );
+static JsonValue submap_graffiti = json_loader::from_string( submap_graffiti_ss );
+static JsonValue submap_spawns = json_loader::from_string( submap_spawns_ss );
+static JsonValue submap_vehicle = json_loader::from_string( submap_vehicle_ss );
+static JsonValue submap_construction = json_loader::from_string( submap_construction_ss );
+static JsonValue submap_computer = json_loader::from_string( submap_computer_ss );
+static JsonValue submap_cosmetic = json_loader::from_string( submap_cosmetic_ss );
 
 static void load_from_jsin( submap &sm, const JsonValue &jsin )
 {

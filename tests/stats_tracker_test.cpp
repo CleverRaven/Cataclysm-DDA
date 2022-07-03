@@ -20,6 +20,7 @@
 #include "event_subscriber.h"
 #include "game_constants.h"
 #include "json.h"
+#include "json_loader.h"
 #include "optional.h"
 #include "options_helpers.h"
 #include "point.h"
@@ -974,7 +975,7 @@ TEST_CASE( "legacy_stats_tracker_save_loading", "[stats]" )
             "score_distance_walked"
         ]
     })";
-    JsonValue jsin = JsonValue::fromString( json_string );
+    JsonValue jsin = json_loader::from_string( json_string );
     stats_tracker s;
     s.deserialize( jsin.get_object() );
     CHECK( s.get_events( event_type::character_triggers_trap ).count() == 2 );

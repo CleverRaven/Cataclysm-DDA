@@ -8,6 +8,7 @@
 #include "debug_menu.h"
 #include "enum_conversions.h"
 #include "json.h"
+#include "json_loader.h"
 #include "point.h"
 #include "type_id.h"
 
@@ -102,7 +103,7 @@ TEST_CASE( "variant_serialization", "[variant]" )
 
 TEST_CASE( "variant_deserialization", "[variant]" )
 {
-    JsonValue jsin = JsonValue::fromString( R"(["mtype_id","zombie"])" );
+    JsonValue jsin = json_loader::from_string( R"(["mtype_id","zombie"])" );
     cata_variant v;
     v.deserialize( jsin );
     CHECK( v == cata_variant( zombie ) );

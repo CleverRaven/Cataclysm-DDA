@@ -14,6 +14,7 @@
 #include "event.h"
 #include "filesystem.h"
 #include "json.h"
+#include "json_loader.h"
 #include "memorial_logger.h"
 #include "output.h"
 #include "path_info.h"
@@ -113,7 +114,7 @@ void past_games_info::ensure_loaded()
     for( const std::pair<std::string, std::string> &filename_pair : sortable_filenames ) {
         const std::string &filename = filename_pair.second;
         try {
-            JsonValue jsin = JsonValue::from( fs::u8path( filename ) );
+            JsonValue jsin = json_loader::from_path( fs::u8path( filename ) );
             info_.emplace_back( jsin.get_object() );
         } catch( const JsonError &err ) {
             debugmsg( "Error reading memorial file %s: %s", filename, err.what() );

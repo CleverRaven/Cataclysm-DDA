@@ -9,6 +9,7 @@
 #include "debug.h"
 #include "filesystem.h"
 #include "json.h"
+#include "json_loader.h"
 #include "path_info.h"
 
 template<typename ColorType>
@@ -46,7 +47,7 @@ class color_loader
         }
 
         void load_colorfile( const std::string &path ) {
-            JsonValue jsin = JsonValue::from( fs::u8path( path ) );
+            JsonValue jsin = json_loader::from_path( fs::u8path( path ) );
             for( JsonObject jo : jsin.get_array() ) {
                 // This isn't actually read (here), so just ignore it
                 jo.get_string( "type" );

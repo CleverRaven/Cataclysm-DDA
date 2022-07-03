@@ -21,6 +21,7 @@
 #include "filesystem.h"
 #include "input.h"
 #include "json.h"
+#include "json_loader.h"
 #include "mod_manager.h"
 #include "name.h"
 #include "output.h"
@@ -731,7 +732,7 @@ void worldfactory::load_last_world_info()
         return;
     }
 
-    JsonValue jsin = JsonValue::from( fs::u8path( PATH_INFO::lastworld() ) );
+    JsonValue jsin = json_loader::from_path( fs::u8path( PATH_INFO::lastworld() ) );
     JsonObject data = jsin.get_object();
     last_world_name = data.get_string( "world_name" );
     last_character_name = data.get_string( "character_name" );

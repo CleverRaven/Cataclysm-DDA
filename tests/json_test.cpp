@@ -21,6 +21,7 @@
 #include "enum_bitset.h"
 #include "item.h"
 #include "json.h"
+#include "json_loader.h"
 #include "magic.h"
 #include "mutation.h"
 #include "optional.h"
@@ -60,7 +61,7 @@ void test_serialization( const T &val, const std::string &s )
     }
     {
         INFO( "test_deserialization" );
-        JsonValue jsin = JsonValue::fromString( s );
+        JsonValue jsin = json_loader::from_string( s );
         T read_val;
         CHECK( jsin.read( read_val ) );
         CHECK( val == read_val );
@@ -257,7 +258,7 @@ TEST_CASE( "serialize_set", "[json]" )
 template<typename Matcher>
 static void test_translation_text_style_check( Matcher &&matcher, const std::string &json )
 {
-    JsonValue jsin = JsonValue::fromString( json );
+    JsonValue jsin = json_loader::from_string( json );
     translation trans;
     const std::string dmsg = capture_debugmsg_during( [&]() {
         jsin.read( trans );
@@ -268,7 +269,7 @@ static void test_translation_text_style_check( Matcher &&matcher, const std::str
 template<typename Matcher>
 static void test_pl_translation_text_style_check( Matcher &&matcher, const std::string &json )
 {
-    JsonValue jsin = JsonValue::fromString( json );
+    JsonValue jsin = json_loader::from_string( json );
     translation trans( translation::plural_tag {} );
     const std::string dmsg = capture_debugmsg_during( [&]() {
         jsin.read( trans );
@@ -554,7 +555,7 @@ TEST_CASE( "translation_text_style_check_error_recovery", "[json][translation]" 
             R"(  "foo. bar.",)" "\n" // NOLINT(cata-text-style)
             R"(  "foobar")" "\n"
             R"(])" "\n";
-        JsonArray ja = JsonValue::fromString( json );
+        JsonArray ja = json_loader::from_string( json );
         translation trans;
         const std::string dmsg = capture_debugmsg_during( [&]() {
             ja.read_next( trans );
@@ -583,7 +584,7 @@ TEST_CASE( "translation_text_style_check_error_recovery", "[json][translation]" 
             R"(  { "str": "foo. bar." },)" "\n" // NOLINT(cata-text-style)
             R"(  "foobar")" "\n"
             R"(])" "\n";
-        JsonArray ja = JsonValue::fromString( json );
+        JsonArray ja = json_loader::from_string( json );
         JsonValue jv = ja.next_value();
         translation trans;
         const std::string dmsg = capture_debugmsg_during( [&]() {
@@ -611,7 +612,7 @@ TEST_CASE( "translation_text_style_check_error_recovery", "[json][translation]" 
 static void test_get_string( const std::string &str, const std::string &json )
 {
     CAPTURE( json );
-    JsonValue jsin = JsonValue::fromString( json );
+    JsonValue jsin = json_loader::from_string( json );
     CHECK( jsin.get_string() == str );
 }
 
@@ -620,7 +621,7 @@ static void test_get_string_throws_matches( Matcher &&matcher, const std::string
 {
     CAPTURE( json );
     CHECK_THROWS_MATCHES( ( [&] {
-        JsonValue jsin = JsonValue::fromString( json );
+        JsonValue jsin = json_loader::from_string( json );
         jsin.get_string();
     } )(), JsonError, matcher );
 }
@@ -631,7 +632,7 @@ static void test_string_error_throws_matches( Matcher &&matcher, const std::stri
 {
     CAPTURE( json );
     CAPTURE( offset );
-    JsonValue jsin = JsonValue::fromString( json );
+    JsonValue jsin = json_loader::from_string( json );
     CHECK_THROWS_MATCHES( jsin.string_error( offset, "<message>" ), JsonError, matcher );
 }
 
@@ -855,7 +856,7 @@ TEST_CASE( "item_colony_ser_deser", "[json][item]" )
             INFO( "should contain the number of items" );
             CHECK( json.find( "10" ) != std::string::npos );
         }
-        JsonValue jsin = JsonValue::fromString( json );
+        JsonValue jsin = json_loader::from_string( json );
         cata::colony<item> read_val;
         {
             INFO( "should be read successfully" );
@@ -887,7 +888,7 @@ TEST_CASE( "item_colony_ser_deser", "[json][item]" )
             INFO( "should not be compressed" );
             CHECK( count_occurences( json, "\"typeid\":\"test_rag" ) == 2 );
         }
-        JsonValue jsin = JsonValue::fromString( json );
+        JsonValue jsin = json_loader::from_string( json );
         cata::colony<item> read_val;
         {
             INFO( "should be read successfully" );
@@ -904,7 +905,7 @@ TEST_CASE( "item_colony_ser_deser", "[json][item]" )
         const char *json =
             R"([[{"typeid":"test_rag","item_vars":{"magazine_converted":"1"}}],)" "\n"
             R"(    {"typeid":"test_rag","item_vars":{"magazine_converted":"1"}}])";
-        JsonValue jsin = JsonValue::fromString( json );
+        JsonValue jsin = json_loader::from_string( json );
         cata::colony<item> read_val;
         {
             INFO( "should be read successfully" );

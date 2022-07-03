@@ -28,6 +28,7 @@
 #include "game.h"
 #include "help.h"
 #include "json.h"
+#include "json_loader.h"
 #include "map.h"
 #include "optional.h"
 #include "options.h"
@@ -261,7 +262,7 @@ static constexpr int current_keybinding_version = 2;
 
 void input_manager::load( const std::string &file_name, bool is_user_preferences )
 {
-    cata::optional<JsonValue> jsin_opt = JsonValue::fromOpt( fs::u8path( file_name ) );
+    cata::optional<JsonValue> jsin_opt = json_loader::from_path_opt( fs::u8path( file_name ) );
 
     if( !jsin_opt.has_value() ) {
         // Only throw if this is the first file to load, that file _must_ exist,

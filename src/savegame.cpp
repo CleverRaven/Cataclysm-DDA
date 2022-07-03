@@ -21,6 +21,7 @@
 #include "faction.h"
 #include "hash_utils.h"
 #include "json.h"
+#include "json_loader.h"
 #include "kill_tracker.h"
 #include "map.h"
 #include "messages.h"
@@ -205,7 +206,7 @@ void game::unserialize( std::istream &fin, const std::string &path )
     int tmprun = 0;
     tripoint_om_sm lev;
     point_abs_om com;
-    JsonValue jsin = JsonValue::from( fs::u8path( path ), json_file_offset );
+    JsonValue jsin = json_loader::from_path_at_offset( fs::u8path( path ), json_file_offset );
     try {
         JsonObject data = jsin.get_object();
 
@@ -311,7 +312,7 @@ void scent_map::deserialize( const std::string &data, bool is_type )
 ///// quick shortcuts
 void game::load_shortcuts( std::istream &fin, const std::string &path )
 {
-    JsonValue jsin = JsonValue::from( fs::u8path( path ) );
+    JsonValue jsin = json_loader::from_path( fs::u8path( path ) );
     try {
         JsonObject data = jsin.get_object();
 
@@ -520,7 +521,7 @@ void overmap::load_legacy_monstergroups( const JsonArray &jsin )
 void overmap::unserialize( const std::string &file_name, std::istream &fin )
 {
     size_t json_offset = chkversion( fin );
-    JsonValue jsin = JsonValue::from( fs::u8path( file_name ), json_offset );
+    JsonValue jsin = json_loader::from_path_at_offset( fs::u8path( file_name ), json_offset );
     unserialize( jsin.get_object() );
 }
 
@@ -934,7 +935,7 @@ static void unserialize_array_from_compacted_sequence( JsonArray &ja, MdArray &a
 void overmap::unserialize_view( const std::string &file_name, std::istream &fin )
 {
     size_t json_offset = chkversion( fin );
-    JsonValue jsin = JsonValue::from( fs::u8path( file_name ), json_offset );
+    JsonValue jsin = json_loader::from_path_at_offset( fs::u8path( file_name ), json_offset );
     unserialize_view( jsin.get_object() );
 }
 
@@ -1440,7 +1441,7 @@ void game::unserialize_master( const std::string &file_name, std::istream &fin )
     savegame_loading_version = 0;
     size_t json_offset = chkversion( fin );
     try {
-        JsonValue jv = JsonValue::from( fs::u8path( file_name ), json_offset );
+        JsonValue jv = json_loader::from_path_at_offset( fs::u8path( file_name ), json_offset );
         unserialize_master( jv );
     } catch( const JsonError &e ) {
         debugmsg( "error loading %s: %s", SAVE_MASTER, e.c_str() );

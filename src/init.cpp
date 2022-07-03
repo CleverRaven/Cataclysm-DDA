@@ -48,6 +48,7 @@
 #include "item_factory.h"
 #include "itype.h"
 #include "json.h"
+#include "json_loader.h"
 #include "loading_ui.h"
 #include "lru_cache.h"
 #include "magic.h"
@@ -500,7 +501,7 @@ void DynamicDataLoader::load_data_from_path( const std::string &path, const std:
         std::istringstream iss( read_entire_file( file ) );
         try {
             // parse it
-            JsonValue jsin = JsonValue::from( fs::u8path( file ) );
+            JsonValue jsin = json_loader::from_path( fs::u8path( file ) );
             load_all_from_json( jsin, src, ui, path, file );
         } catch( const JsonError &err ) {
             throw std::runtime_error( err.what() );

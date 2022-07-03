@@ -162,18 +162,6 @@ class JsonWithPath : protected Json
 class JsonValue : Json
 {
     public:
-        // Create a JsonValue from the given json source file, optionally starting parsing
-        // at the given offset in the file (eg. because it starts with some non-json
-        // content like a version header). Throws if the file cannot be found or fails to parse.
-        static JsonValue from( fs::path source_file, size_t offset = 0 ) noexcept( false );
-
-        // Like JsonValue::from, except does not throw if the file does not exist. It will still throw if the json cannot be parsed.
-        static cata::optional<JsonValue> fromOpt( fs::path source_file,
-                size_t offset = 0 ) noexcept( false );
-
-        // Like JsonValue::from, except instead of parsing data from a file, will parse data from a string in memory.
-        static JsonValue fromString( const std::string &data ) noexcept( false );
-
         JsonValue( std::shared_ptr<parsed_flexbuffer> root, flexbuffer json,
                    JsonPath const *parent_path, size_t path_index ) : Json(
                            std::move( root ),

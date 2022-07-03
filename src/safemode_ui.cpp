@@ -16,6 +16,7 @@
 #include "filesystem.h"
 #include "input.h"
 #include "json.h"
+#include "json_loader.h"
 #include "monstergenerator.h"
 #include "mtype.h"
 #include "options.h"
@@ -882,7 +883,7 @@ void safemode::load( const bool is_character_in )
 
     if( fin.good() ) {
         try {
-            JsonValue jsin = JsonValue::from( file_path );
+            JsonValue jsin = json_loader::from_path( file_path );
             deserialize( jsin.get_array() );
         } catch( const JsonError &e ) {
             debugmsg( "Error while loading safemode settings: %s", e.what() );

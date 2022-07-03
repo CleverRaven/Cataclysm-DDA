@@ -6,6 +6,7 @@
 #include "cata_utility.h"
 #include "cata_catch.h"
 #include "json.h"
+#include "json_loader.h"
 #include "math_defines.h"
 #include "options_helpers.h"
 #include "units.h"
@@ -47,7 +48,7 @@ TEST_CASE( "units_have_correct_ratios", "[units]" )
 
 static units::energy parse_energy_quantity( const std::string &json )
 {
-    JsonValue jsin = JsonValue::fromString( json );
+    JsonValue jsin = json_loader::from_string( json );
     return read_from_json_string<units::energy>( jsin, units::energy_units );
 }
 
@@ -71,7 +72,7 @@ TEST_CASE( "energy parsing from JSON", "[units]" )
 
 static time_duration parse_time_duration( const std::string &json )
 {
-    JsonValue jsin = JsonValue::fromString( json );
+    JsonValue jsin = json_loader::from_string( json );
     return read_from_json_string<time_duration>( jsin, time_duration::units );
 }
 
@@ -251,7 +252,7 @@ TEST_CASE( "convert_velocity", "[units][convert][velocity]" )
 
 static units::angle parse_angle( const std::string &json )
 {
-    JsonValue jsin = JsonValue::fromString( json );
+    JsonValue jsin = json_loader::from_string( json );
     return read_from_json_string<units::angle>( jsin, units::angle_units );
 }
 

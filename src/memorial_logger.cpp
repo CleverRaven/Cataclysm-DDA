@@ -32,6 +32,7 @@
 #include "item_factory.h"
 #include "itype.h"
 #include "json.h"
+#include "json_loader.h"
 #include "kill_tracker.h"
 #include "magic.h"
 #include "martialarts.h"
@@ -160,7 +161,7 @@ void memorial_logger::load( std::istream &fin )
         fin.seekg( 0, std::ios_base::beg );
         memorial_data.resize( size );
         fin.read( &memorial_data[0], size );
-        JsonValue jsin = JsonValue::fromString( memorial_data );
+        JsonValue jsin = json_loader::from_string( memorial_data );
         if( !jsin.read( log ) ) {
             debugmsg( "Error reading JSON memorial log" );
         }

@@ -1,5 +1,7 @@
 #include "font_loader.h"
 
+#include "json_loader.h"
+
 // Ensure that unifont is always loaded as a fallback font to prevent users from shooting themselves in the foot
 void ensure_unifont_loaded( std::vector<std::string> &font_list )
 {
@@ -12,7 +14,7 @@ void ensure_unifont_loaded( std::vector<std::string> &font_list )
 void font_loader::load_throws( const std::string &path )
 {
     try {
-        JsonValue json = JsonValue::from( fs::u8path( path ) );
+        JsonValue json = json_loader::from_path( fs::u8path( path ) );
         JsonObject config = json.get_object();
         if( config.has_string( "typeface" ) ) {
             typeface.emplace_back( config.get_string( "typeface" ) );
