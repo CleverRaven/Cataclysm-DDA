@@ -1462,11 +1462,10 @@ void zone_manager::load_zones( std::string const &suffix )
 {
     std::string const savefile = _savefile( suffix, true );
 
-    const auto reader = [this]( std::istream & fin ) {
-        JsonIn jsin( fin );
-        deserialize( jsin.get_value() );
+    const auto reader = [this]( const JsonValue & jv ) {
+        deserialize( jv );
     };
-    if( !read_from_file_optional( savefile, reader ) ) {
+    if( !read_from_file_optional_json( savefile, reader ) ) {
         // If no such file or failed to load, clear zones.
         zones.clear();
     }
@@ -1497,8 +1496,7 @@ void zone_manager::load_world_zones( std::string const &suffix )
 {
     std::string const savefile = _savefile( suffix, false );
     std::vector<zone_data> tmp;
-    read_from_file_optional( savefile, [&]( std::istream & fin ) {
-        JsonIn jsin( fin );
+    read_from_file_optional_json( savefile, [&]( const JsonValue & jsin ) {
         jsin.read( tmp );
         for( auto it = tmp.begin(); it != tmp.end(); ) {
             const zone_type_id zone_type = it->get_type();

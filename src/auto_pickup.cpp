@@ -1032,8 +1032,8 @@ void player_settings::load( const bool bCharacter )
         sFile = PATH_INFO::player_base_save_path() + ".apu.json";
     }
 
-    read_from_file_optional_json( sFile, [&]( JsonIn & jsin ) {
-        ( bCharacter ? character_rules : global_rules ).deserialize( jsin );
+    read_from_file_optional_json( sFile, [&]( const JsonValue & jv ) {
+        ( bCharacter ? character_rules : global_rules ).deserialize( jv );
     } ) ;
 
     invalidate();

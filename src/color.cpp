@@ -1089,7 +1089,7 @@ void color_manager::load_custom( const std::string &sPath )
 {
     const auto file = sPath.empty() ? PATH_INFO::custom_colors() : sPath;
 
-    read_from_file_optional_json( file, [this]( JsonIn & jsonin ) {
+    read_from_file_optional_json( file, [this]( const JsonValue & jsonin ) {
         deserialize( jsonin.get_array() );
     } );
     finalize(); // Need to finalize regardless of success

@@ -3579,7 +3579,8 @@ bool options_manager::save() const
 void options_manager::load()
 {
     const auto file = PATH_INFO::options();
-    read_from_file_optional_json( file, [&]( JsonIn & jsin ) {
+
+    read_from_file_optional_json( file, [&]( const JsonValue & jsin ) {
         deserialize( jsin.get_array() );
     } );
 

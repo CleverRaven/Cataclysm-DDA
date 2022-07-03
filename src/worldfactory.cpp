@@ -2107,7 +2107,7 @@ bool WORLD::load_options()
     WORLD_OPTIONS = get_options().get_world_defaults();
 
     const std::string path = folder_path() + "/" + PATH_INFO::worldoptions();
-    return read_from_file_optional_json( path, [this]( JsonIn & jsin ) {
+    return read_from_file_optional_json( path, [this]( const JsonValue & jsin ) {
         this->load_options( jsin );
     } );
 }
