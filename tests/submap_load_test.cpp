@@ -35,7 +35,7 @@ static const point corner_se( 0, SEEY - 1 );
 static const point corner_sw( SEEX - 1, SEEY - 1 );
 static const point random_pt( 4, 7 );
 
-static std::istringstream submap_empty_ss(
+static std::string submap_empty_ss(
     "{\n"
     "  \"version\": 32,\n"
     "  \"coordinates\": [ 0, 0, 0 ],\n"
@@ -54,7 +54,7 @@ static std::istringstream submap_empty_ss(
     "  \"computers\": [ ]\n"
     "}\n"
 );
-static std::istringstream submap_terrain_rle_ss(
+static std::string submap_terrain_rle_ss(
     "{\n"
     "  \"version\": 32,\n"
     "  \"coordinates\": [ 0, 0, 0 ],\n"
@@ -82,7 +82,7 @@ static std::istringstream submap_terrain_rle_ss(
     "  \"computers\": [ ]\n"
     "}\n"
 );
-static std::istringstream submap_furniture_ss(
+static std::string submap_furniture_ss(
     "{\n"
     "  \"version\": 32,\n"
     "  \"coordinates\": [ 0, 0, 0 ],\n"
@@ -107,7 +107,7 @@ static std::istringstream submap_furniture_ss(
     "  \"computers\": [ ]\n"
     "}\n"
 );
-static std::istringstream submap_trap_ss(
+static std::string submap_trap_ss(
     "{\n"
     "  \"version\": 32,\n"
     "  \"coordinates\": [ 0, 0, 0 ],\n"
@@ -132,7 +132,7 @@ static std::istringstream submap_trap_ss(
     "  \"computers\": [ ]\n"
     "}\n"
 );
-static std::istringstream submap_rad_ss(
+static std::string submap_rad_ss(
     "{\n"
     "  \"version\": 32,\n"
     "  \"coordinates\": [ 0, 0, 0 ],\n"
@@ -161,7 +161,7 @@ static std::istringstream submap_rad_ss(
     "  \"computers\": [ ]\n"
     "}\n"
 );
-static std::istringstream submap_item_ss(
+static std::string submap_item_ss(
     "{\n"
     "  \"version\": 32,\n"
     "  \"coordinates\": [ 0, 0, 0 ],\n"
@@ -293,7 +293,7 @@ static std::istringstream submap_item_ss(
     "  \"computers\": [ ]\n"
     "}\n"
 );
-static std::istringstream submap_field_ss(
+static std::string submap_field_ss(
     "{\n"
     "  \"version\": 32,\n"
     "  \"coordinates\": [ 0, 0, 0 ],\n"
@@ -319,7 +319,7 @@ static std::istringstream submap_field_ss(
     "  \"computers\": [ ]\n"
     "}\n"
 );
-static std::istringstream submap_graffiti_ss(
+static std::string submap_graffiti_ss(
     "{\n"
     "  \"version\": 32,\n"
     "  \"coordinates\": [ 0, 0, 0 ],\n"
@@ -345,7 +345,7 @@ static std::istringstream submap_graffiti_ss(
     "  \"computers\": [ ]\n"
     "}\n"
 );
-static std::istringstream submap_spawns_ss(
+static std::string submap_spawns_ss(
     "{\n"
     "  \"version\": 32,\n"
     "  \"coordinates\": [ 0, 0, 0 ],\n"
@@ -370,7 +370,7 @@ static std::istringstream submap_spawns_ss(
     "  \"computers\": [ ]\n"
     "}\n"
 );
-static std::istringstream submap_vehicle_ss(
+static std::string submap_vehicle_ss(
     "{\n"
     "  \"version\": 32,\n"
     "  \"coordinates\": [ 0, 0, 0 ],\n"
@@ -573,7 +573,7 @@ static std::istringstream submap_vehicle_ss(
     "  \"computers\": [ ]\n"
     "}\n"
 );
-static std::istringstream submap_construction_ss(
+static std::string submap_construction_ss(
     "{\n"
     "  \"version\": 32,\n"
     "  \"coordinates\": [ 0, 0, 0 ],\n"
@@ -669,7 +669,7 @@ static std::istringstream submap_construction_ss(
     "  \"computers\": [ ]\n"
     "}\n"
 );
-static std::istringstream submap_computer_ss(
+static std::string submap_computer_ss(
     "{\n"
     "  \"version\": 32,\n"
     "  \"coordinates\": [ 0, 0, 0 ],\n"
@@ -717,7 +717,7 @@ static std::istringstream submap_computer_ss(
     "  ]\n"
     "}\n"
 );
-static std::istringstream submap_cosmetic_ss(
+static std::string submap_cosmetic_ss(
     "{\n"
     "  \"version\": 32,\n"
     "  \"coordinates\": [ 0, 0, 0 ],\n"
@@ -749,32 +749,31 @@ static std::istringstream submap_cosmetic_ss(
 static_assert( SEEX == 12, "Reminder to update submap tests when SEEX changes." );
 static_assert( SEEY == 12, "Reminder to update submap tests when SEEY changes." );
 
-static JsonIn submap_empty( submap_empty_ss );
-static JsonIn submap_terrain_rle( submap_terrain_rle_ss );
-static JsonIn submap_furniture( submap_furniture_ss );
-static JsonIn submap_trap( submap_trap_ss );
-static JsonIn submap_rad( submap_rad_ss );
-static JsonIn submap_item( submap_item_ss );
-static JsonIn submap_field( submap_field_ss );
-static JsonIn submap_graffiti( submap_graffiti_ss );
-static JsonIn submap_spawns( submap_spawns_ss );
-static JsonIn submap_vehicle( submap_vehicle_ss );
-static JsonIn submap_construction( submap_construction_ss );
-static JsonIn submap_computer( submap_computer_ss );
-static JsonIn submap_cosmetic( submap_cosmetic_ss );
+static JsonValue submap_empty = JsonValue::fromString( submap_empty_ss );
+static JsonValue submap_terrain_rle = JsonValue::fromString( submap_terrain_rle_ss );
+static JsonValue submap_furniture = JsonValue::fromString( submap_furniture_ss );
+static JsonValue submap_trap = JsonValue::fromString( submap_trap_ss );
+static JsonValue submap_rad = JsonValue::fromString( submap_rad_ss );
+static JsonValue submap_item = JsonValue::fromString( submap_item_ss );
+static JsonValue submap_field = JsonValue::fromString( submap_field_ss );
+static JsonValue submap_graffiti = JsonValue::fromString( submap_graffiti_ss );
+static JsonValue submap_spawns = JsonValue::fromString( submap_spawns_ss );
+static JsonValue submap_vehicle = JsonValue::fromString( submap_vehicle_ss );
+static JsonValue submap_construction = JsonValue::fromString( submap_construction_ss );
+static JsonValue submap_computer = JsonValue::fromString( submap_computer_ss );
+static JsonValue submap_cosmetic = JsonValue::fromString( submap_cosmetic_ss );
 
-static void load_from_jsin( submap &sm, JsonIn &jsin )
+static void load_from_jsin( submap &sm, const JsonValue &jsin )
 {
     // Ensure that the JSON is up to date for our savegame version
     REQUIRE( savegame_version == 33 );
-    jsin.start_object();
     int version = 0;
-    while( !jsin.end_object() ) {
-        std::string name = jsin.get_member_name();
+    for( JsonMember member : jsin.get_object() ) {
+        std::string name = member.name();
         if( name == "version" ) {
-            version = jsin.get_int();
+            version = member.get_int();
         } else {
-            sm.load( jsin.get_value(), name, version );
+            sm.load( member, name, version );
         }
     }
 }

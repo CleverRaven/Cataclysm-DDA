@@ -974,8 +974,7 @@ TEST_CASE( "legacy_stats_tracker_save_loading", "[stats]" )
             "score_distance_walked"
         ]
     })";
-    std::istringstream is( json_string );
-    JsonIn jsin( is );
+    JsonValue jsin = JsonValue::fromString( json_string );
     stats_tracker s;
     s.deserialize( jsin.get_object() );
     CHECK( s.get_events( event_type::character_triggers_trap ).count() == 2 );

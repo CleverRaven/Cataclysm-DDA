@@ -60,8 +60,7 @@ void test_serialization( const T &val, const std::string &s )
     }
     {
         INFO( "test_deserialization" );
-        std::istringstream is( s );
-        JsonIn jsin( is );
+        JsonValue jsin = JsonValue::fromString( s );
         T read_val;
         CHECK( jsin.read( read_val ) );
         CHECK( val == read_val );
@@ -258,8 +257,7 @@ TEST_CASE( "serialize_set", "[json]" )
 template<typename Matcher>
 static void test_translation_text_style_check( Matcher &&matcher, const std::string &json )
 {
-    std::istringstream iss( json );
-    JsonIn jsin( iss );
+    JsonValue jsin = JsonValue::fromString( json );
     translation trans;
     const std::string dmsg = capture_debugmsg_during( [&]() {
         jsin.read( trans );
@@ -270,8 +268,7 @@ static void test_translation_text_style_check( Matcher &&matcher, const std::str
 template<typename Matcher>
 static void test_pl_translation_text_style_check( Matcher &&matcher, const std::string &json )
 {
-    std::istringstream iss( json );
-    JsonIn jsin( iss );
+    JsonValue jsin = JsonValue::fromString( json );
     translation trans( translation::plural_tag {} );
     const std::string dmsg = capture_debugmsg_during( [&]() {
         jsin.read( trans );
@@ -557,12 +554,10 @@ TEST_CASE( "translation_text_style_check_error_recovery", "[json][translation]" 
             R"(  "foo. bar.",)" "\n" // NOLINT(cata-text-style)
             R"(  "foobar")" "\n"
             R"(])" "\n";
-        std::istringstream iss( json );
-        JsonIn jsin( iss );
-        jsin.start_array();
+        JsonArray ja = JsonValue::fromString( json );
         translation trans;
         const std::string dmsg = capture_debugmsg_during( [&]() {
-            jsin.read( trans );
+            ja.read_next( trans );
         } );
         // check that the correct debug message is shown
         CHECK_THAT(
@@ -580,9 +575,6 @@ TEST_CASE( "translation_text_style_check_error_recovery", "[json][translation]" 
                 R"(        bar.",)" "\n"
                 R"(  "foobar")" "\n"
                 R"(])" "\n" ) );
-        // check that the stream is correctly restored to after the first string
-        CHECK( jsin.get_string() == "foobar" );
-        CHECK( jsin.end_array() );
     }
 
     SECTION( "object" ) {
@@ -591,12 +583,11 @@ TEST_CASE( "translation_text_style_check_error_recovery", "[json][translation]" 
             R"(  { "str": "foo. bar." },)" "\n" // NOLINT(cata-text-style)
             R"(  "foobar")" "\n"
             R"(])" "\n";
-        std::istringstream iss( json );
-        JsonIn jsin( iss );
-        jsin.start_array();
+        JsonArray ja = JsonValue::fromString( json );
+        JsonValue jv = ja.next_value();
         translation trans;
         const std::string dmsg = capture_debugmsg_during( [&]() {
-            jsin.read( trans );
+            jv.read( trans );
         } );
         // check that the correct debug message is shown
         CHECK_THAT(
@@ -614,17 +605,13 @@ TEST_CASE( "translation_text_style_check_error_recovery", "[json][translation]" 
                 R"(                 bar." },)" "\n"
                 R"(  "foobar")" "\n"
                 R"(])" "\n" ) );
-        // check that the stream is correctly restored to after the first string
-        CHECK( jsin.get_string() == "foobar" );
-        CHECK( jsin.end_array() );
     }
 }
 
 static void test_get_string( const std::string &str, const std::string &json )
 {
     CAPTURE( json );
-    std::istringstream iss( json );
-    JsonIn jsin( iss );
+    JsonValue jsin = JsonValue::fromString( json );
     CHECK( jsin.get_string() == str );
 }
 
@@ -632,9 +619,10 @@ template<typename Matcher>
 static void test_get_string_throws_matches( Matcher &&matcher, const std::string &json )
 {
     CAPTURE( json );
-    std::istringstream iss( json );
-    JsonIn jsin( iss );
-    CHECK_THROWS_MATCHES( jsin.get_string(), JsonError, matcher );
+    CHECK_THROWS_MATCHES( ( [&] {
+        JsonValue jsin = JsonValue::fromString( json );
+        jsin.get_string();
+    } )(), JsonError, matcher );
 }
 
 template<typename Matcher>
@@ -643,8 +631,7 @@ static void test_string_error_throws_matches( Matcher &&matcher, const std::stri
 {
     CAPTURE( json );
     CAPTURE( offset );
-    std::istringstream iss( json );
-    JsonIn jsin( iss );
+    JsonValue jsin = JsonValue::fromString( json );
     CHECK_THROWS_MATCHES( jsin.string_error( offset, "<message>" ), JsonError, matcher );
 }
 
@@ -881,8 +868,7 @@ TEST_CASE( "item_colony_ser_deser", "[json][item]" )
             INFO( "should contain the number of items" );
             CHECK( json.find( "10" ) != std::string::npos );
         }
-        std::istringstream is( json );
-        JsonIn jsin( is );
+        JsonValue jsin = JsonValue::fromString( json );
         cata::colony<item> read_val;
         {
             INFO( "should be read successfully" );
@@ -914,8 +900,7 @@ TEST_CASE( "item_colony_ser_deser", "[json][item]" )
             INFO( "should not be compressed" );
             CHECK( count_occurences( json, "\"typeid\":\"test_rag" ) == 2 );
         }
-        std::istringstream is( json );
-        JsonIn jsin( is );
+        JsonValue jsin = JsonValue::fromString( json );
         cata::colony<item> read_val;
         {
             INFO( "should be read successfully" );
@@ -929,10 +914,10 @@ TEST_CASE( "item_colony_ser_deser", "[json][item]" )
 
     SECTION( "incorrect items in json are skipped" ) {
         // first item is an array without the run length defined (illegal)
-        std::istringstream is(
+        const char *json =
             R"([[{"typeid":"test_rag","item_vars":{"magazine_converted":"1"}}],)" "\n"
-            R"(    {"typeid":"test_rag","item_vars":{"magazine_converted":"1"}}])" );
-        JsonIn jsin( is );
+            R"(    {"typeid":"test_rag","item_vars":{"magazine_converted":"1"}}])";
+        JsonValue jsin = JsonValue::fromString( json );
         cata::colony<item> read_val;
         {
             INFO( "should be read successfully" );
