@@ -54,7 +54,7 @@
 #include <string>
 
 std::map<std::string, cata_path> TILESETS; // All found tilesets: <name, tileset_dir>
-std::map<std::string, std::string> SOUNDPACKS; // All found soundpacks: <name, soundpack_dir>
+std::map<std::string, cata_path> SOUNDPACKS; // All found soundpacks: <name, soundpack_dir>
 
 namespace
 {

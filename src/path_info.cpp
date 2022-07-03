@@ -260,9 +260,9 @@ std::string PATH_INFO::debug()
 {
     return config_dir_value + "debug.log";
 }
-std::string PATH_INFO::defaultsounddir()
+cata_path PATH_INFO::defaultsounddir()
 {
-    return datadir_value + "sound";
+    return datadir_path_value / "sound";
 }
 std::string PATH_INFO::defaulttilejson()
 {
@@ -380,9 +380,9 @@ std::string PATH_INFO::user_moddir()
 {
     return user_dir_value + "mods/";
 }
-std::string PATH_INFO::user_sound()
+cata_path PATH_INFO::user_sound()
 {
-    return user_dir_value + "sound/";
+    return user_dir_path_value / "sound";
 }
 std::string PATH_INFO::worldoptions()
 {
@@ -428,9 +428,9 @@ std::string PATH_INFO::lang_file()
 {
     return "cataclysm-dda.mo";
 }
-std::string PATH_INFO::data_sound()
+cata_path PATH_INFO::data_sound()
 {
-    return datadir_value + "sound";
+    return datadir_path_value / "sound";
 }
 
 std::string PATH_INFO::credits()

@@ -427,7 +427,7 @@ extern std::map<std::string, cata_path> TILESETS;
  * Firsts string is soundpack NAME from config.
  * Second string is directory that contains soundpack.
  */
-extern std::map<std::string, std::string> SOUNDPACKS;
+extern std::map<std::string, cata_path> SOUNDPACKS;
 
 options_manager &get_options();
 
