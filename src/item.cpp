@@ -6375,7 +6375,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
     if( gunmod_find( itype_barrel_small ) ) {
         modtext += _( "sawn-off " );
     }
-    if( is_gun() && ( has_flag( flag_REMOVED_STOCK ) ) ) {
+    if( is_gun() && has_flag( flag_REMOVED_STOCK ) ) {
         modtext += _( "pistol " );
     }
     if( is_relic() && relic_data->max_charges() > 0 && relic_data->charges_per_use() > 0 ) {

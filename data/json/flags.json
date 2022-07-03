@@ -1172,9 +1172,9 @@
   },
   {
     "id": "REMOVED_STOCK",
-    "//": "for weapons that the stock has been cut off.",
+    "//": "for weapons whose stock has been cut off.",
     "type": "json_flag",
-    "info": "This items has had its stock removed it will be hard to shoot with."
+    "info": "This item has had its stock removed, it will be hard to shoot with."
   },
   {
     "id": "FOLDED_STOCK",

@@ -160,7 +160,7 @@
     "id": "stock_none",
     "type": "GUNMOD",
     "name": { "str": "sawn-off stock" },
-    "description": "A simple saw job cutting the original stock off this weapon.  Makes it much harder to handle but much smaller.",
+    "description": "A simple saw job cutting the original stock off this weapon.  Makes it much harder to handle, but much smaller.",
     "install_time": "5 m",
     "material": [ "wood" ],
     "symbol": ":",
