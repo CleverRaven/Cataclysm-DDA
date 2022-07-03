@@ -47,7 +47,6 @@ std::string legacy_fontdata();
 std::string memorialdir();
 std::string jsondir();
 std::string moddir();
-std::string options();
 std::string panel_options();
 std::string player_base_save_path();
 std::string safemode();
@@ -88,7 +87,7 @@ cata_path gfxdir_path();
 cata_path langdir_path();
 cata_path memorialdir_path();
 cata_path names();
-cata_path options_path();
+cata_path options();
 cata_path savedir_path();
 cata_path user_dir_path();
 

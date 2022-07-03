@@ -332,11 +332,7 @@ std::string PATH_INFO::moddir()
 {
     return datadir_value + "mods/";
 }
-std::string PATH_INFO::options()
-{
-    return options_value;
-}
-cata_path PATH_INFO::options_path()
+cata_path PATH_INFO::options()
 {
     return options_path_value;
 }

@@ -3564,7 +3564,7 @@ static void update_options_cache()
 
 bool options_manager::save() const
 {
-    const auto savefile = PATH_INFO::options();
+    const cata_path savefile = PATH_INFO::options();
 
     update_options_cache();
 
@@ -3578,7 +3578,7 @@ bool options_manager::save() const
 
 void options_manager::load()
 {
-    const auto file = PATH_INFO::options();
+    const cata_path file = PATH_INFO::options();
     read_from_file_optional_json( file, [&]( const JsonArray & jsin ) {
         deserialize( jsin );
     } );
