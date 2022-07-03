@@ -167,6 +167,10 @@ std::string PATH_INFO::color_templates()
 {
     return datadir_value + "raw/" + "color_templates/";
 }
+std::string PATH_INFO::color_themes()
+{
+    return datadir_value + "raw/" + "color_themes/";
+}
 std::string PATH_INFO::config_dir()
 {
     return config_dir_value;

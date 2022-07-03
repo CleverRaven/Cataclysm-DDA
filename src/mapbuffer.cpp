@@ -179,7 +179,7 @@ void mapbuffer::save_quad(
     offsets.push_back( point_south_east );
 
     bool all_uniform = true;
-    for( auto &offsets_offset : offsets ) {
+    for( point &offsets_offset : offsets ) {
         tripoint_abs_sm submap_addr = project_to<coords::sm>( om_addr );
         submap_addr += offsets_offset;
         submap_addrs.push_back( submap_addr );

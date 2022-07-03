@@ -2198,7 +2198,7 @@ void JsonOut::write( const std::string &val )
         write_separator();
     }
     stream->put( '"' );
-    for( const auto &i : val ) {
+    for( const char &i : val ) {
         unsigned char ch = i;
         if( ch == '"' ) {
             stream->write( "\\\"", 2 );
@@ -2243,7 +2243,7 @@ void JsonOut::write( const std::bitset<N> &b )
     }
     std::string converted = b.to_string();
     stream->put( '"' );
-    for( auto &i : converted ) {
+    for( char &i : converted ) {
         unsigned char ch = i;
         stream->put( ch );
     }

@@ -34,7 +34,7 @@ TEST_CASE( "zones_custom", "[zones]" )
         mapgen_place_zone( zone_loc, zone_groupbatt_end, zone_type_LOOT_ITEM_GROUP, your_fac, {},
                            "test_group_disp" );
 
-        auto &zmgr = zone_manager::get_manager();
+        zone_manager &zmgr = zone_manager::get_manager();
         REQUIRE( zmgr.get_near_zone_type_for_item( hammer, where ) == zone_type_LOOT_CUSTOM );
         REQUIRE( zmgr.get_near_zone_type_for_item( bow_saw, where ) == zone_type_LOOT_CUSTOM );
         REQUIRE( !zmgr.get_near_zone_type_for_item( item( "test_glaive" ), where ).is_valid() );

@@ -122,7 +122,8 @@
         [ "material_aluminium_ingot", 1 ],
         [ "aluminum_foil", 40 ],
         [ "chem_aluminium_powder", 15 ],
-        [ "can_drink", 2 ]
+        [ "can_drink", 2 ],
+        [ "scrap_aluminum", 1 ]
       ],
       [ [ "copper_scrap_equivalent", 2, "LIST" ] ]
     ]

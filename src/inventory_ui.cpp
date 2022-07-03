@@ -367,7 +367,7 @@ bool inventory_column::activatable() const
 
 inventory_entry *inventory_column::find_by_invlet( int invlet ) const
 {
-    for( const auto &elem : entries ) {
+    for( const inventory_entry &elem : entries ) {
         if( elem.is_item() && elem.get_invlet() == invlet ) {
             return const_cast<inventory_entry *>( &elem );
         }
@@ -806,11 +806,11 @@ void inventory_column::expand_to_fit( const inventory_entry &entry )
 
 void inventory_column::reset_width( const std::vector<inventory_column *> & )
 {
-    for( auto &elem : cells ) {
+    for( inventory_column::cell_t &elem : cells ) {
         elem = cell_t();
     }
     reserved_width = 0;
-    for( auto &elem : entries ) {
+    for( inventory_entry &elem : entries ) {
         expand_to_fit( elem );
     }
 }
@@ -880,7 +880,7 @@ void inventory_column::_get_entries( get_entries_t *res, entries_t const &ent,
                                      const ffilter_t &filter_func ) const
 {
     if( allows_selecting() ) {
-        for( const auto &elem : ent ) {
+        for( const inventory_entry &elem : ent ) {
             if( filter_func( elem ) ) {
                 res->push_back( const_cast<inventory_entry *>( &elem ) );
             }
@@ -1017,7 +1017,7 @@ inventory_entry *inventory_column::add_entry( const inventory_entry &entry )
 
 void inventory_column::_move_entries_to( entries_t const &ent, inventory_column &dest )
 {
-    for( const auto &elem : ent ) {
+    for( const inventory_entry &elem : ent ) {
         if( elem.is_item() &&
             // this column already has this entry, no need to try to add it again
             std::find( dest.entries.begin(), dest.entries.end(), elem ) == dest.entries.end() ) {
@@ -1203,7 +1203,7 @@ size_t inventory_column::get_entry_indent( const inventory_entry &entry ) const
 int inventory_column::reassign_custom_invlets( const Character &p, int min_invlet, int max_invlet )
 {
     int cur_invlet = min_invlet;
-    for( auto &elem : entries ) {
+    for( inventory_entry &elem : entries ) {
         // Only items on map/in vehicles: those that the player does not possess.
         if( elem.is_selectable() && !p.has_item( *elem.any_item() ) ) {
             elem.custom_invlet = cur_invlet <= max_invlet ? cur_invlet++ : '\0';
@@ -1214,7 +1214,7 @@ int inventory_column::reassign_custom_invlets( const Character &p, int min_invle
 
 int inventory_column::reassign_custom_invlets( int cur_idx, const std::string &pickup_chars )
 {
-    for( auto &elem : entries ) {
+    for( inventory_entry &elem : entries ) {
         // Only items on map/in vehicles: those that the player does not possess.
         if( elem.is_selectable() && elem.any_item()->invlet <= '\0' ) {
             elem.custom_invlet =
@@ -1664,7 +1664,7 @@ void inventory_selector::add_remote_map_items( tinymap *remote_map, const tripoi
 void inventory_selector::clear_items()
 {
     is_empty = true;
-    for( auto &column : columns ) {
+    for( inventory_column *&column : columns ) {
         column->clear();
     }
     own_inv_column.clear();
@@ -1759,7 +1759,7 @@ void inventory_selector::prepare_layout( size_t client_width, size_t client_heig
 {
     // This block adds categories and should go before any width evaluations
     const bool initial = get_active_column().get_highlighted_index() == static_cast<size_t>( -1 );
-    for( auto &elem : columns ) {
+    for( inventory_column *&elem : columns ) {
         elem->set_height( client_height );
         elem->reset_width( columns );
         elem->prepare_paging( filter );
@@ -2146,7 +2146,7 @@ void inventory_selector::draw_columns( const catacurses::window &w )
     size_t active_x = 0;
 
     rect_entry_map.clear();
-    for( const auto &elem : columns ) {
+    for( inventory_column * const &elem : columns ) {
         if( &elem == &columns.back() ) {
             x += gap_rounding_error;
         }
@@ -2363,7 +2363,7 @@ void inventory_selector::on_input( const inventory_input &input )
         }
         if( input.action == "SHOW_HIDE_CONTENTS" ) {
             shared_ptr_fast<ui_adaptor> current_ui = ui.lock();
-            for( auto const &col : columns ) {
+            for( inventory_column * const &col : columns ) {
                 col->invalidate_paging();
             }
             if( current_ui ) {
@@ -2377,7 +2377,7 @@ void inventory_selector::on_input( const inventory_input &input )
 
 void inventory_selector::on_change( const inventory_entry &entry )
 {
-    for( auto &elem : columns ) {
+    for( inventory_column *&elem : columns ) {
         elem->on_change( entry );
     }
     refresh_active_column(); // Columns can react to changes by losing their activation capacity
@@ -2541,7 +2541,7 @@ void inventory_selector::toggle_active_column( scroll_direction dir )
 void inventory_selector::toggle_navigation_mode()
 {
     mode = get_navigation_data( mode ).next_mode;
-    for( auto &elem : columns ) {
+    for( inventory_column *&elem : columns ) {
         elem->on_mode_change( mode );
     }
 }

@@ -301,7 +301,7 @@ SDL_Texture_Ptr CachedTTFFont::create_glyph( const SDL_Renderer_Ptr &renderer,
     static const Uint32 bmask = 0x00ff0000;
     static const Uint32 amask = 0xff000000;
 #endif
-    const int wf = utf8_wrapper( ch ).display_width();
+    const int wf = utf8_width( ch );
     // Note: bits per pixel must be 8 to be synchronized with the surface
     // that TTF_RenderGlyph above returns. This is important for SDL_BlitScaled
     SDL_Surface_Ptr surface = CreateRGBSurface( 0, width * wf, height, 32, rmask, gmask, bmask,
@@ -354,7 +354,7 @@ void CachedTTFFont::OutputChar( const SDL_Renderer_Ptr &renderer, const Geometry
     if( it == std::end( glyph_cache_map ) ) {
         cached_t new_entry {
             create_glyph( renderer, key.codepoints, key.color ),
-            static_cast<int>( width * utf8_wrapper( key.codepoints ).display_width() )
+            static_cast<int>( width * utf8_width( key.codepoints ) )
         };
         it = glyph_cache_map.insert( std::make_pair( std::move( key ), std::move( new_entry ) ) ).first;
     }
