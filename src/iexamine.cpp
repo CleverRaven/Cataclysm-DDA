@@ -6445,9 +6445,9 @@ void iexamine::workbench_internal( Character &you, const tripoint &examp,
     amenu.query();
 
     const option choice = static_cast<option>( amenu.ret );
+    bool in_shell = you.has_active_mutation( trait_SHELL2 ) ||
+                    you.has_active_mutation( trait_SHELL3 );
     switch( choice ) {
-            bool in_shell = you.has_active_mutation( trait_SHELL2 ) ||
-                            you.has_active_mutation( trait_SHELL3 );
         case start_craft: {
             if( in_shell ) {
                 you.add_msg_if_player( m_info, _( "You can't craft while you're in your shell." ) );
