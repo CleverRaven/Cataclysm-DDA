@@ -105,7 +105,7 @@ TEST_CASE( "variant_deserialization", "[variant]" )
     std::istringstream is( R"(["mtype_id","zombie"])" );
     JsonIn jsin( is );
     cata_variant v;
-    v.deserialize( jsin );
+    v.deserialize( jsin.get_value() );
     CHECK( v == cata_variant( zombie ) );
 }
 
