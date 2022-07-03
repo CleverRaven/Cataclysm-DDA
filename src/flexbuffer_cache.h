@@ -57,7 +57,7 @@ class flexbuffer_cache
 
         // Throw exceptions on IO and parse errors.
         static shared_flexbuffer parse( fs::path json_source_path, size_t offset = 0 ) noexcept( false );
-        shared_flexbuffer parse_and_cache( fs::path json_source_path,
+        shared_flexbuffer parse_and_cache( fs::path lexically_normal_json_source_path,
                                            size_t offset = 0 ) noexcept( false ) ;
 
         static shared_flexbuffer parse_buffer( std::string buffer ) noexcept( false );
@@ -68,7 +68,6 @@ class flexbuffer_cache
         struct ParsedBuffer;
 
         // Map of original json file path to disk serialized FlexBuffer path and mtime of input.
-
         std::unique_ptr<flexbuffer_disk_cache> disk_cache_;
 };
 
