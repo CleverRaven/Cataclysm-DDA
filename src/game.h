@@ -211,7 +211,7 @@ class game
         /** Saving and loading functions. */
         void serialize( std::ostream &fout ); // for save
         void unserialize( std::istream &fin, const std::string &path ); // for load
-        void unserialize_master( std::istream &fin ); // for load
+        void unserialize_master( const std::string &file_name, std::istream &fin ); // for load
         void unserialize_master( const JsonValue &jv ); // for load
 
         /** write statistics to stdout and @return true if successful */

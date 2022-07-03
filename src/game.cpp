@@ -2709,8 +2709,8 @@ void game::move_save_to_graveyard()
 void game::load_master()
 {
     const auto datafile = PATH_INFO::world_base_save_path() + "/" + SAVE_MASTER;
-    read_from_file_optional( datafile, [this]( std::istream & is ) {
-        unserialize_master( is );
+    read_from_file_optional( datafile, [this, &datafile]( std::istream & is ) {
+        unserialize_master( datafile, is );
     } );
 }
 
