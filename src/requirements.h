@@ -279,7 +279,7 @@ struct requirement_data {
          */
         static void load_requirement( const JsonObject &jsobj,
                                       const requirement_id &id = requirement_id::NULL_ID(),
-                                      const bool check_extend = false );
+                                      bool check_extend = false );
 
         /**
          * Store requirement data for future lookup

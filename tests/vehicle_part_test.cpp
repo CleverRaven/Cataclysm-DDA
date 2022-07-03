@@ -65,7 +65,7 @@ TEST_CASE( "vehicle_parts_seats_and_beds_have_beltable_flags", "[vehicle][vehicl
     // this checks all seats and beds either BELTABLE or NONBELTABLE but not both
 
     for( const auto &e : vpart_info::all() ) {
-        const auto &vp = e.second;
+        const vpart_info &vp = e.second;
 
         if( !vp.has_flag( "BED" ) && !vp.has_flag( "SEAT" ) ) {
             continue;
@@ -80,7 +80,7 @@ TEST_CASE( "vehicle_parts_boardable_openable_parts_have_door_flag", "[vehicle][v
     // this checks all BOARDABLE and OPENABLE parts have DOOR flag
 
     for( const auto &e : vpart_info::all() ) {
-        const auto &vp = e.second;
+        const vpart_info &vp = e.second;
 
         if( !vp.has_flag( "BOARDABLE" ) || !vp.has_flag( "OPENABLE" ) ) {
             continue;
@@ -237,7 +237,7 @@ static void check_part_ammo_capacity( vpart_id part_type, itype_id item_type, am
 TEST_CASE( "verify_vehicle_tank_refill", "[vehicle]" )
 {
     check_part_ammo_capacity( vpart_ap_fridge_test, itype_fridge_test, ammo_water, 1600 );
-    check_part_ammo_capacity( vpart_ap_fridge_test, itype_fridge_test, ammo_flammable, 400000 );
+    check_part_ammo_capacity( vpart_ap_fridge_test, itype_fridge_test, ammo_flammable, 444444 );
     check_part_ammo_capacity( vpart_tank_test, itype_metal_tank_test, ammo_water, 240 );
     check_part_ammo_capacity( vpart_tank_test, itype_metal_tank_test, ammo_flammable, 60000 );
 }

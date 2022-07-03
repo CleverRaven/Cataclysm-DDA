@@ -522,9 +522,9 @@ void talk_function::bionic_remove( npc &p )
             bionic_types.push_back( bio.info().itype() );
             if( item::type_is_defined( bio.info().itype() ) ) {
                 item tmp = item( bio.id.str(), calendar::turn_zero );
-                bionic_names.push_back( tmp.tname() + " - " + format_money( 50000 + ( tmp.price( true ) / 4 ) ) );
+                bionic_names.push_back( tmp.tname() + " - " + format_money( 5000 + ( tmp.price( true ) / 4 ) ) );
             } else {
-                bionic_names.push_back( bio.id.str() + " - " + format_money( 50000 ) );
+                bionic_names.push_back( bio.id.str() + " - " + format_money( 5000 ) );
             }
             bionics.push_back( &bio );
         }
@@ -540,9 +540,9 @@ void talk_function::bionic_remove( npc &p )
 
     signed int price;
     if( item::type_is_defined( bionic_types[bionic_index] ) ) {
-        price = 50000 + ( item( bionic_types[bionic_index], calendar::turn_zero ).price( true ) / 4 );
+        price = 5000 + ( item( bionic_types[bionic_index], calendar::turn_zero ).price( true ) / 4 );
     } else {
-        price = 50000;
+        price = 5000;
     }
     if( !npc_trading::pay_npc( p, price ) ) {
         return;
@@ -979,10 +979,10 @@ void talk_function::player_weapon_drop( npc &/*p*/ )
 
 void talk_function::lead_to_safety( npc &p )
 {
-    mission *reach_safety__mission = mission::reserve_new( mission_MISSION_REACH_SAFETY,
-                                     character_id() );
-    reach_safety__mission->assign( get_avatar() );
-    p.goal = reach_safety__mission->get_target();
+    mission *reach_safety_mission = mission::reserve_new( mission_MISSION_REACH_SAFETY,
+                                    character_id() );
+    reach_safety_mission->assign( get_avatar() );
+    p.goal = reach_safety_mission->get_target();
     p.set_attitude( NPCATT_LEAD );
 }
 

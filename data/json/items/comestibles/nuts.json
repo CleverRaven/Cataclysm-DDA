@@ -397,7 +397,7 @@
     "type": "COMESTIBLE",
     "id": "hickory_nut_ambrosia",
     "name": { "str": "hickory nut ambrosia" },
-    "weight": "254 g",
+    "weight": "64 g",
     "color": "brown",
     "spoils_in": "10 days 19 hours",
     "container": "bottle_plastic",
@@ -511,6 +511,41 @@
     "material": [ "nut" ],
     "vitamins": [ [ "calcium", 1 ], [ "iron", 2 ] ],
     "volume": "250 ml",
-    "milling": { "into": "flour_wheat_free", "conversion_rate": 7.5 }
+    "flags": [ "EDIBLE_FROZEN", "SMOKABLE" ],
+    "milling": { "into": "flour_wheat_free", "conversion_rate": 7.5 },
+    "smoking_result": "acorn_roasted"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "acorns_blanched",
+    "name": { "str_sp": "blanched acorns" },
+    "copy-from": "acorns",
+    "spoils_in": "5 days",
+    "description": "A handful of mushy blanched acorns.  No longer bitter, but not pleasant to eat in this state.",
+    "price": 90,
+    "price_postapoc": 200,
+    "flags": [ "EDIBLE_FROZEN", "SMOKABLE" ],
+    "smoking_result": "acorns_cooked",
+    "fun": -1
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "acorns_blanching",
+    "name": { "str_sp": "blanching acorns" },
+    "copy-from": "acorns",
+    "description": "A mix of water and hulled acorns, slowly leaching the tannins.  It'll take about a week before they're palatable.",
+    "price": 90,
+    "price_postapoc": 200,
+    "delete": { "flags": [ "EDIBLE_FROZEN" ] },
+    "charges": 1,
+    "phase": "liquid",
+    "use_action": {
+      "target": "acorns_blanched",
+      "msg": "After a week of changing water and taste-testing, the acorns are no longer bitter and ready to decant.",
+      "moves": 50,
+      "type": "delayed_transform",
+      "transform_age": 518400,
+      "not_ready_msg": "The acorns are still bitter."
+    }
   }
 ]

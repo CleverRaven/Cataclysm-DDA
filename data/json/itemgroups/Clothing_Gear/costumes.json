@@ -178,6 +178,12 @@
       { "item": "santa_hat", "prob": 25 },
       { "item": "hat_sombrero", "prob": 20 },
       { "item": "cowboy_hat", "prob": 20 },
+      { "item": "hat_hard", "prob": 10 },
+      { "item": "hat_hard_hooded", "prob": 1 },
+      { "item": "hat_hard", "variant": "skull_hat_hard", "prob": 10 },
+      { "item": "hat_hard_hooded", "variant": "skull_hat_hard", "prob": 1 },
+      { "item": "hat_hard", "variant": "steampunk_hat_hard", "prob": 10 },
+      { "item": "hat_hard_hooded", "variant": "steampunk_hat_hard", "prob": 1 },
       { "item": "clown_wig", "prob": 15 },
       { "item": "tricorne", "prob": 5 },
       { "item": "wizard_hat_costume", "prob": 25 },
@@ -290,6 +296,9 @@
     "entries": [
       { "item": "cheerleader_top", "prob": 25 },
       { "item": "cheerleader_top_short", "prob": 35 },
+      { "item": "rashguard", "variant": "lifeguard_rashguard_shirt", "prob": 10 },
+      { "item": "rashguard", "variant": "skull_rashguard_shirt", "prob": 10 },
+      { "item": "rashguard", "variant": "gothic_rashguard_shirt", "prob": 10 },
       { "item": "postman_shirt", "prob": 10 },
       { "item": "flag_shirt", "prob": 15 },
       { "item": "dress_shirt", "prob": 10 },
@@ -325,10 +334,13 @@
     "//": "undergarments for costumes, cosplay and costume parties",
     "subtype": "distribution",
     "entries": [
-      { "item": "bikini_top", "variant": "flag_bikini_top", "prob": 10 },
-      { "item": "bikini_bottom", "variant": "flag_bikini_bottom", "prob": 10 },
+      { "item": "bikini_top", "prob": 20 },
+      { "item": "bikini_bottom", "prob": 20 },
+      { "item": "bikini_top_short", "prob": 10 },
+      { "item": "bikini_bottom_short", "prob": 10 },
       { "item": "flag_swimsuit", "prob": 15 },
       { "item": "wetsuit_spring", "prob": 5 },
+      { "item": "wetsuit_spring_sleeveless", "prob": 5 },
       { "item": "corset", "prob": 20 },
       { "item": "corset_waist", "prob": 20 },
       { "item": "leotard", "prob": 10 },
@@ -337,7 +349,12 @@
       { "item": "stockings", "prob": 25 },
       { "item": "garter_belt", "prob": 25 },
       { "item": "bikini_top_fur", "prob": 5 },
-      { "item": "bikini_top_leather", "prob": 10 }
+      { "item": "bikini_top_leather", "prob": 10 },
+      { "item": "bikini_top", "variant": "maid_bikini_top", "prob": 5 },
+      { "item": "bikini_bottom", "variant": "maid_bikini_bottom", "prob": 5 },
+      { "item": "bikini_top", "variant": "skull_bikini_top", "prob": 5 },
+      { "item": "bikini_bottom", "variant": "skull_bikini_bottom", "prob": 5 },
+      { "item": "flag_swimsuit", "variant": "lifeguard_swimsuit", "prob": 10 }
     ]
   },
   {
@@ -351,7 +368,10 @@
       { "item": "flag_pants", "prob": 25 },
       { "item": "american_flag", "prob": 25 },
       { "group": "costume_independence_undergarments_women", "prob": 25 },
-      { "item": "mask_dust", "variant": "flag_mask_dust", "prob": 15 }
+      { "item": "rashguard", "variant": "flag_rashguard_shirt", "prob": 15 },
+      { "item": "mask_dust", "variant": "flag_mask_dust", "prob": 15 },
+      { "item": "hat_hard", "variant": "flag_hat_hard", "prob": 10 },
+      { "item": "hat_hard_hooded", "variant": "flag_hat_hard", "prob": 1 }
     ]
   },
   {
@@ -363,7 +383,7 @@
       { "item": "bikini_top", "variant": "flag_bikini_top", "prob": 40 },
       { "item": "bikini_bottom", "variant": "flag_bikini_bottom", "prob": 40 },
       { "item": "bodysuit_lycra", "variant": "flag_suit", "prob": 10 },
-      { "item": "flag_swimsuit", "prob": 10 }
+      { "item": "flag_swimsuit", "variant": "flag_swimsuit", "prob": 10 }
     ]
   },
   {

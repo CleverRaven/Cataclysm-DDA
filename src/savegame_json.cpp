@@ -700,8 +700,9 @@ void Character::load( const JsonObject &data )
     // npc activity on vehicles.
     data.read( "activity_vehicle_part_index", activity_vehicle_part_index );
     // health
-    data.read( "healthy", healthy );
-    data.read( "healthy_mod", healthy_mod );
+    data.read( "healthy", lifestyle );
+    data.read( "healthy_mod", daily_health );
+    data.read( "health_tally", health_tally );
 
     // Remove check after 0.F
     if( savegame_loading_version >= 30 ) {
@@ -1196,8 +1197,9 @@ void Character::store( JsonOut &json ) const
     json.member( "custom_profession", custom_profession );
 
     // health
-    json.member( "healthy", healthy );
-    json.member( "healthy_mod", healthy_mod );
+    json.member( "healthy", lifestyle );
+    json.member( "healthy_mod", daily_health );
+    json.member( "health_tally", health_tally );
 
     // needs
     json.member( "thirst", thirst );
@@ -2102,6 +2104,11 @@ void npc::load( const JsonObject &data )
         data.read( "myclass", classid );
         myclass = npc_class_id( classid );
     }
+    if( data.has_string( "idz" ) ) {
+        data.read( "idz", idz );
+    } else {
+        idz = myclass;
+    }
     data.read( "known_to_u", known_to_u );
     data.read( "personality", personality );
 
@@ -2191,10 +2198,8 @@ void npc::load( const JsonObject &data )
 
     std::vector<tripoint_abs_omt> companion_mission_pts;
     data.read( "companion_mission_points", companion_mission_pts );
-    if( !companion_mission_pts.empty() ) {
-        for( auto pt : companion_mission_pts ) {
-            companion_mission_points.push_back( pt );
-        }
+    for( auto pt : companion_mission_pts ) {
+        companion_mission_points.push_back( pt );
     }
 
     if( !data.read( "companion_mission_time", companion_mission_t ) ) {
@@ -2235,6 +2240,7 @@ void npc::load( const JsonObject &data )
         member.read( p );
         complaints.emplace( member.name(), p );
     }
+    data.read( "unique_id", unique_id );
 }
 
 /*
@@ -2257,6 +2263,7 @@ void npc::store( JsonOut &json ) const
     json.member( "dead", dead );
     json.member( "patience", patience );
     json.member( "myclass", myclass.str() );
+    json.member( "idz", idz.str() );
     json.member( "known_to_u", known_to_u );
     json.member( "personality", personality );
 
@@ -2302,6 +2309,7 @@ void npc::store( JsonOut &json ) const
     json.member( "restock", restock );
 
     json.member( "complaints", complaints );
+    json.member( "unique_id", unique_id );
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -2316,7 +2324,7 @@ void inventory::json_save_invcache( JsonOut &json ) const
         json.start_object();
         json.member( elem.first.str() );
         json.start_array();
-        for( const auto &_sym : elem.second ) {
+        for( const char &_sym : elem.second ) {
             json.write( static_cast<int>( _sym ) );
         }
         json.end_array();
@@ -2355,7 +2363,7 @@ void inventory::json_save_items( JsonOut &json ) const
 {
     json.start_array();
     for( const auto &elem : items ) {
-        for( const auto &elem_stack_iter : elem ) {
+        for( const item &elem_stack_iter : elem ) {
             elem_stack_iter.serialize( json );
         }
     }
@@ -2798,8 +2806,8 @@ void item::io( Archive &archive )
     archive.io( "faults", faults, io::empty_default_tag() );
     archive.io( "item_tags", item_tags, io::empty_default_tag() );
     archive.io( "components", components, io::empty_default_tag() );
-    archive.io( "specific_energy", specific_energy, -10 );
-    archive.io( "temperature", temperature, 0 );
+    archive.io( "specific_energy", specific_energy, units::from_joule_per_gram( -10.f ) );
+    archive.io( "temperature", temperature, units::from_kelvin( 0.f ) );
     archive.io( "recipe_charges", recipe_charges, 1 );
     // Legacy: remove flag check/unset after 0.F
     archive.io( "ethereal", ethereal, has_flag( flag_ETHEREAL_ITEM ) );
@@ -2853,6 +2861,15 @@ void item::io( Archive &archive )
     if( poison != 0 && irradiation == 0 && typeId() == itype_rad_badge ) {
         std::swap( irradiation, poison );
     }
+
+    // Compatibility with old 0.F saves
+    // Tempreature used to be saved as 0.00001 K integer.
+    // specific_energy used to be saved as 0.00001 J/g integer.
+    if( temperature > 100000_K ) {
+        temperature /= 100000;
+        specific_energy /= 100000;
+    }
+
 
     // erase all invalid flags (not defined in flags.json)
     // warning was generated earlier on load
@@ -3014,7 +3031,7 @@ void item::deserialize( const JsonObject &data )
     }
 
     // FIXME: batch_size migration from charges - remove after 0.G
-    if( is_craft() and craft_data_->batch_size == -1 ) {
+    if( is_craft() && craft_data_->batch_size <= 0 ) {
         craft_data_->batch_size = clamp( charges, 1, charges );
         charges = 0;
     }
@@ -3122,7 +3139,7 @@ void vehicle_part::deserialize( const JsonObject &data )
 
     // if we don't know what type of part it is, it'll cause problems later.
     if( !pid.is_valid() ) {
-        data.throw_error( "bad vehicle part", "id" );
+        data.throw_error_at( "id", "bad vehicle part" );
     }
     id = pid;
     if( variant.empty() ) {
@@ -3149,7 +3166,7 @@ void vehicle_part::deserialize( const JsonObject &data )
     if( data.has_int( "z_offset" ) ) {
         int z_offset = data.get_int( "z_offset" );
         if( std::abs( z_offset ) > 10 ) {
-            data.throw_error( "z_offset out of range", "z_offset" );
+            data.throw_error_at( "z_offset", "z_offset out of range" );
         }
         precalc[0].z = z_offset;
         precalc[1].z = z_offset;
@@ -3469,7 +3486,7 @@ void vehicle::serialize( JsonOut &json ) const
     json.member( "owner", owner );
     json.member( "old_owner", old_owner );
     json.member( "theft_time", theft_time );
-    json.member( "parts", parts );
+    json.member( "parts", real_parts() );
     json.member( "tags", tags );
     json.member( "fuel_remainder", fuel_remainder );
     json.member( "fuel_used_last_turn", fuel_used_last_turn );
@@ -3946,6 +3963,7 @@ void mm_region::serialize( JsonOut &jsout ) const
 {
     jsout.start_array();
     for( size_t y = 0; y < MM_REG_SIZE; y++ ) {
+        // NOLINTNEXTLINE(modernize-loop-convert)
         for( size_t x = 0; x < MM_REG_SIZE; x++ ) {
             const shared_ptr_fast<mm_submap> &sm = submaps[x][y];
             if( sm->is_empty() ) {
@@ -3962,6 +3980,7 @@ void mm_region::deserialize( JsonIn &jsin )
 {
     jsin.start_array();
     for( size_t y = 0; y < MM_REG_SIZE; y++ ) {
+        // NOLINTNEXTLINE(modernize-loop-convert)
         for( size_t x = 0; x < MM_REG_SIZE; x++ ) {
             shared_ptr_fast<mm_submap> &sm = submaps[x][y];
             sm = make_shared_fast<mm_submap>();
@@ -4145,7 +4164,7 @@ void addiction::deserialize( const JsonObject &jo )
 void serialize( const recipe_subset &value, JsonOut &jsout )
 {
     jsout.start_array();
-    for( const auto &entry : value ) {
+    for( const recipe * const &entry : value ) {
         jsout.write( entry->ident() );
     }
     jsout.end_array();
@@ -4235,7 +4254,7 @@ void basecamp::serialize( JsonOut &json ) const
             json.start_object();
             json.member( "dir" );
             json.start_array();
-            for( const auto &miss_id : list ) {
+            for( const ui_mission_id &miss_id : list ) {
                 json.start_object();
                 json.member( "mission_id", string_of( miss_id.id ) );
                 json.end_object();
@@ -4282,13 +4301,13 @@ void basecamp::serialize( JsonOut &json ) const
         json.end_array();
         json.member( "salt_water_pipes" );
         json.start_array();
-        for( const auto &pipe : salt_water_pipes ) {
+        for( expansion_salt_water_pipe * const &pipe : salt_water_pipes ) {
             json.start_object();
             json.member( "expansion", pipe->expansion );
             json.member( "connection_direction", pipe->connection_direction );
             json.member( "segments" );
             json.start_array();
-            for( const auto &segment : pipe->segments ) {
+            for( const expansion_salt_water_pipe_segment &segment : pipe->segments ) {
                 json.start_object();
                 json.member( "point", segment.point );
                 json.member( "started", segment.started );
@@ -4313,7 +4332,7 @@ void basecamp::deserialize( const JsonObject &data )
     data.read( "pos", omt_pos );
     data.read( "bb_pos", bb_pos );
     data.read( "dumping_spot", dumping_spot );
-    for( int tab_num = base_camps::TAB_MAIN; tab_num < base_camps::TAB_NW; tab_num++ ) {
+    for( int tab_num = base_camps::TAB_MAIN; tab_num <= base_camps::TAB_NW; tab_num++ ) {
         std::vector<ui_mission_id> temp;
         hidden_missions.push_back( temp );
     }
@@ -4653,7 +4672,7 @@ void submap::store( JsonOut &jsout ) const
     // Write out as array of arrays of single entries
     jsout.member( "cosmetics" );
     jsout.start_array();
-    for( const auto &cosm : cosmetics ) {
+    for( const submap::cosmetic_t &cosm : cosmetics ) {
         jsout.start_array();
         jsout.write( cosm.pos.x );
         jsout.write( cosm.pos.y );
@@ -4666,7 +4685,7 @@ void submap::store( JsonOut &jsout ) const
     // Output the spawn points
     jsout.member( "spawns" );
     jsout.start_array();
-    for( const auto &elem : spawns ) {
+    for( const spawn_point &elem : spawns ) {
         jsout.start_array();
         // TODO: json should know how to write string_ids
         jsout.write( elem.type.str() );
@@ -4699,7 +4718,7 @@ void submap::store( JsonOut &jsout ) const
         jsout.write( elem.second.counter );
         jsout.write( elem.second.id.id() );
         jsout.start_array();
-        for( const auto &it : elem.second.components ) {
+        for( const item &it : elem.second.components ) {
             jsout.write( it );
         }
         jsout.end_array();

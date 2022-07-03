@@ -235,10 +235,10 @@ enum npc_personality_type : int {
 
 struct npc_personality {
     // All values should be in the -10 to 10 range.
-    signed char aggression;
-    signed char bravery;
-    signed char collector;
-    signed char altruism;
+    int8_t aggression;
+    int8_t bravery;
+    int8_t collector;
+    int8_t altruism;
     npc_personality() {
         aggression = 0;
         bravery    = 0;
@@ -534,7 +534,7 @@ struct npc_follower_rules {
 
 struct dangerous_sound {
     tripoint abs_pos;
-    sounds::sound_t type = sounds::sound_t::_LAST;
+    sounds::sound_t type = sounds::sound_t::LAST;
     int volume = 0;
 };
 
@@ -944,8 +944,8 @@ class npc : public Character
         int minimum_item_value() const;
         // Find the worst value in our inventory
         void update_worst_item_value();
-        int value( const item &it ) const;
-        int value( const item &it, int market_price ) const;
+        double value( const item &it ) const;
+        double value( const item &it, double market_price ) const;
         bool wear_if_wanted( const item &it, std::string &reason );
         bool can_read( const item &book, std::vector<std::string> &fail_reasons );
         int time_to_read( const item &book, const Character &reader ) const;
@@ -978,9 +978,9 @@ class npc : public Character
         bool will_accept_from_player( const item &it ) const;
 
         bool wants_to_sell( const item &it ) const;
-        bool wants_to_sell( const item &/*it*/, int at_price, int market_price ) const;
+        ret_val<bool> wants_to_sell( const item &/*it*/, int at_price, int market_price ) const;
         bool wants_to_buy( const item &it ) const;
-        bool wants_to_buy( const item &/*it*/, int at_price, int /*market_price*/ ) const;
+        ret_val<bool> wants_to_buy( const item &/*it*/, int at_price, int /*market_price*/ ) const;
 
         bool will_exchange_items_freely() const;
         int max_credit_extended() const;
@@ -1297,8 +1297,7 @@ class npc : public Character
         // #############   VALUES   ################
         activity_id current_activity_id = activity_id::NULL_ID();
         npc_class_id myclass; // What's our archetype?
-        // A temp variable used to inform the game which npc json to use as a template
-        std::string idz;
+        npc_class_id idz; // actual npc template used
         // A temp variable used to link to the correct mission
         std::vector<mission_type_id> miss_ids;
         cata::optional<tripoint_abs_omt> assigned_camp = cata::nullopt;
@@ -1405,7 +1404,8 @@ class npc : public Character
         bool has_companion_mission() const;
         npc_companion_mission get_companion_mission() const;
         attitude_group get_attitude_group( npc_attitude att ) const;
-
+        void set_unique_id( std::string id );
+        std::string get_unique_id() const;
     protected:
         void store( JsonOut &json ) const;
         void load( const JsonObject &data );
@@ -1425,6 +1425,8 @@ class npc : public Character
         std::vector<sphere> find_dangerous_explosives() const;
 
         npc_companion_mission comp_mission;
+
+        std::string unique_id;
 };
 
 /** An NPC with standard stats */

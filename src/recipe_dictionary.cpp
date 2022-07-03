@@ -672,7 +672,7 @@ void recipe_subset::include( const recipe *r, int custom_difficulty )
 
 void recipe_subset::include( const recipe_subset &subset )
 {
-    for( const auto &elem : subset ) {
+    for( const recipe * const &elem : subset ) {
         include( elem, subset.get_custom_difficulty( elem ) );
     }
 }

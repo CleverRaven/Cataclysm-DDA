@@ -24,7 +24,7 @@ void run_activities( Character &u, int max_moves )
 {
     u.assign_activity( ACT_MULTIPLE_CONSTRUCTION );
     int turns = 0;
-    while( ( !u.activity.is_null() or u.is_auto_moving() ) and turns < max_moves ) {
+    while( ( !u.activity.is_null() || u.is_auto_moving() ) && turns < max_moves ) {
         u.set_moves( u.get_speed() );
         if( u.is_auto_moving() ) {
             u.setpos( get_map().getlocal( *u.destination_point ) );
@@ -33,7 +33,7 @@ void run_activities( Character &u, int max_moves )
         }
         u.activity.do_turn( u );
         // npc plz do your thing
-        if( u.is_npc() and u.activity.is_null() and !u.is_auto_moving() and !u.backlog.empty() and
+        if( u.is_npc() && u.activity.is_null() && !u.is_auto_moving() && !u.backlog.empty() &&
             u.backlog.back().id() == ACT_MULTIPLE_CONSTRUCTION ) {
             activity_handlers::resume_for_multi_activities( u );
         }
@@ -66,7 +66,7 @@ construction setup_testcase( Character &u, std::string const &constr, tripoint c
 {
     construction build = get_construction( constr );
 
-    auto &zmgr = zone_manager::get_manager();
+    zone_manager &zmgr = zone_manager::get_manager();
     shared_ptr_fast<blueprint_options> options =
         make_shared_fast<blueprint_options>( build.pre_terrain, build.group, build.id );
 
@@ -109,6 +109,7 @@ void run_test_case( Character &u )
     u.i_add( item( "test_multitool" ) );
     u.i_add( item( "hammer" ) );
     u.i_add( item( "bow_saw" ) );
+    u.i_add( item( "e_tool" ) );
 
     SECTION( "1-step construction activity with pre_terrain" ) {
         u.setpos( tripoint_zero );
@@ -220,6 +221,29 @@ void run_test_case( Character &u )
         construction const build =
             setup_testcase( u, "constr_door_peep", tri_door, { 0, PICKUP_RANGE * 2 + 1, 0 } );
         run_activities( u, build.time * 100 );
+        REQUIRE( here.ter( tri_door ) == ter_id( build.post_terrain ) );
+    }
+
+    SECTION( "multiple-step construction activity with prereq from a different group" ) {
+        u.setpos( tripoint_zero );
+        here.build_map_cache( u.pos().z );
+        tripoint const tri_door = tripoint_south;
+        construction const build =
+            setup_testcase( u, "constr_palisade_gate", tri_door, tripoint_south_east );
+        run_activities( u, build.time * 200 );
+        REQUIRE( here.ter( tri_door ) == ter_id( build.post_terrain ) );
+    }
+
+    SECTION( "multiple-step construction activity with partial of a recursive prerequisite" ) {
+        u.setpos( tripoint_zero );
+        here.build_map_cache( u.pos().z );
+        tripoint const tri_door = tripoint_south;
+        partial_con pc;
+        pc.id = get_construction( "constr_pit_shallow" ).id;
+        here.partial_con_set( tri_door, pc );
+        construction const build =
+            setup_testcase( u, "constr_palisade_gate", tri_door, tripoint_south_east );
+        run_activities( u, build.time * 200 );
         REQUIRE( here.ter( tri_door ) == ter_id( build.post_terrain ) );
     }
 }

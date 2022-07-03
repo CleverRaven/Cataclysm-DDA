@@ -822,7 +822,7 @@
   {
     "type": "item_action",
     "id": "MANAGE_EXOSUIT",
-    "name": { "str": "Manage exoskeleton modules" }
+    "name": { "str": "Manage exosuit modules" }
   },
   {
     "type": "item_action",
@@ -1098,5 +1098,10 @@
     "type": "item_action",
     "id": "CALORIES_INTAKE_TRACKER",
     "name": { "str": "Calories intake tracker" }
+  },
+  {
+    "type": "item_action",
+    "id": "VOLTMETER",
+    "name": { "str": "Test for voltage" }
   }
 ]

@@ -273,7 +273,8 @@ void uilist::init()
     disabled_color = c_dark_gray; // disabled menu entry
     allow_disabled = false;  // disallow selecting disabled options
     allow_anykey = false;    // do not return on unbound keys
-    allow_cancel = true;     // allow canceling with "QUIT" action
+    allow_cancel = true;     // allow canceling with "UILIST.QUIT" action
+    allow_confirm = true;     // allow confirming with confirm action
     allow_additional = false; // do not return on unhandled additional actions
     hilight_disabled =
         false; // if false, hitting 'down' onto a disabled entry will advance downward to the first enabled entry
@@ -295,7 +296,8 @@ void uilist::init()
 input_context uilist::create_main_input_context() const
 {
     input_context ctxt( input_category, keyboard_mode::keycode );
-    ctxt.register_updown();
+    ctxt.register_action( "UILIST.UP" );
+    ctxt.register_action( "UILIST.DOWN" );
     ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
     ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
     ctxt.register_action( "HOME", to_translation( "Go to first entry" ) );
@@ -303,11 +305,14 @@ input_context uilist::create_main_input_context() const
     ctxt.register_action( "SCROLL_UP" );
     ctxt.register_action( "SCROLL_DOWN" );
     if( allow_cancel ) {
-        ctxt.register_action( "QUIT" );
+        ctxt.register_action( "UILIST.QUIT" );
     }
-    ctxt.register_action( "SELECT" );
-    ctxt.register_action( "CONFIRM" );
-    ctxt.register_action( "FILTER" );
+    ctxt.register_action( "MOUSE_MOVE" );
+    if( allow_confirm ) {
+        ctxt.register_action( "CONFIRM" );
+        ctxt.register_action( "SELECT" );
+    }
+    ctxt.register_action( "UILIST.FILTER" );
     ctxt.register_action( "ANY_INPUT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     for( const auto &additional_action : additional_actions ) {
@@ -336,7 +341,8 @@ input_context uilist::create_filter_input_context() const
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "ANY_INPUT" );
     // uilist actions
-    ctxt.register_updown();
+    ctxt.register_action( "UILIST.UP" );
+    ctxt.register_action( "UILIST.DOWN" );
     ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
     ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
     ctxt.register_action( "HOME", to_translation( "Go to first entry" ) );
@@ -661,6 +667,7 @@ void uilist::setup()
     }
 
     started = true;
+    recalc_start = true;
 }
 
 void uilist::reposition( ui_adaptor &ui )
@@ -730,7 +737,9 @@ void uilist::show()
         estart += text_lines + 1; // +1 for the horizontal line.
     }
 
-    calcStartPos( vshift, fselected, vmax, fentries.size() );
+    if( recalc_start ) {
+        calcStartPos( vshift, fselected, vmax, fentries.size() );
+    }
 
     const int pad_size = std::max( 0, w_width - 2 - pad_left - pad_right );
     const std::string padspaces = std::string( pad_size, ' ' );
@@ -760,18 +769,18 @@ void uilist::show()
                 // activate the highlighting, it is used to override previous text there, but in both
                 // cases printing starts at pad_left+1, here it starts at pad_left+4, so 3 cells less
                 // to be used.
-                const utf8_wrapper entry = utf8_wrapper( ei == selected ? remove_color_tags( entries[ ei ].txt ) :
-                                           entries[ ei ].txt );
+                const std::string &entry = ei == selected ? remove_color_tags( entries[ ei ].txt ) :
+                                           entries[ ei ].txt;
                 point p( pad_left + 4, estart + si );
-                entries[ei].drawn_rect = inclusive_rectangle<point>( p, p + point( -1 + max_entry_len, 0 ) );
-                trim_and_print( window, p, max_entry_len,
-                                co, _color_error, "%s", entry.str() );
+                entries[ei].drawn_rect =
+                    inclusive_rectangle<point>( p + point( -3, 0 ), p + point( -4 + pad_size, 0 ) );
+                trim_and_print( window, p, max_entry_len, co, _color_error, "%s", entry );
 
                 if( max_column_len && !entries[ ei ].ctxt.empty() ) {
-                    const utf8_wrapper centry = utf8_wrapper( ei == selected ? remove_color_tags( entries[ ei ].ctxt ) :
-                                                entries[ ei ].ctxt );
+                    const std::string &centry = ei == selected ? remove_color_tags( entries[ ei ].ctxt ) :
+                                                entries[ ei ].ctxt;
                     trim_and_print( window, point( getmaxx( window ) - max_column_len - 2, estart + si ),
-                                    max_column_len, co, _color_error, "%s", centry.str() );
+                                    max_column_len, co, _color_error, "%s", centry );
                 }
             }
             mvwzstr menu_entry_extra_text = entries[ei].extratxt;
@@ -837,7 +846,7 @@ void uilist::show()
 int uilist::scroll_amount_from_action( const std::string &action )
 {
     const int scroll_rate = vmax > 20 ? 10 : 3;
-    if( action == "UP" ) {
+    if( action == "UILIST.UP" ) {
         return -1;
     } else if( action == "PAGE_UP" ) {
         return -scroll_rate;
@@ -847,7 +856,7 @@ int uilist::scroll_amount_from_action( const std::string &action )
         return -fselected;
     } else if( action == "END" ) {
         return fentries.size() - fselected - 1;
-    } else if( action == "DOWN" ) {
+    } else if( action == "UILIST.DOWN" ) {
         return 1;
     } else if( action == "PAGE_DOWN" ) {
         return scroll_rate;
@@ -1032,15 +1041,13 @@ void uilist::query( bool loop, int timeout )
         const input_event event = ctxt.get_raw_input();
         ret_evt = event;
         const auto iter = keymap.find( ret_evt );
+        recalc_start = false;
 
         if( scrollby( scroll_amount_from_action( ret_act ) ) ) {
-            /* nothing */
-        } else if( filtering && ret_act == "FILTER" ) {
+            recalc_start = true;
+        } else if( filtering && ret_act == "UILIST.FILTER" ) {
             inputfilter();
-        } else if( ret_act == "ANY_INPUT" && iter != keymap.end() ) {
-            // only handle "ANY_INPUT" since "HELP_KEYBINDINGS" is already
-            // handled by the input context and the caller might want to handle
-            // its custom actions
+        } else if( iter != keymap.end() ) {
             const auto it = std::find( fentries.begin(), fentries.end(), iter->second );
             if( it != fentries.end() ) {
                 const bool enabled = entries[*it].enabled;
@@ -1057,7 +1064,8 @@ void uilist::query( bool loop, int timeout )
                     }
                 }
             }
-        } else if( !fentries.empty() && ret_act == "SELECT" ) {
+            // Only check MOUSE_MOVE when looping internally
+        } else if( !fentries.empty() && ( ret_act == "SELECT" || ( loop && ret_act == "MOUSE_MOVE" ) ) ) {
             cata::optional<point> p = ctxt.get_coordinates_text( window );
             if( p && window_contains_point_relative( window, p.value() ) ) {
                 const int new_fselected = find_entry_by_coordinate( p.value() );
@@ -1068,20 +1076,22 @@ void uilist::query( bool loop, int timeout )
                         // function is called again.
                         fselected = new_fselected;
                         selected = fentries[fselected];
-                        if( enabled || allow_disabled ) {
-                            ret = entries[selected].retval;
-                        }
-                        if( callback != nullptr ) {
-                            callback->select( this );
+                        if( ret_act == "SELECT" ) {
+                            if( enabled || allow_disabled ) {
+                                ret = entries[selected].retval;
+                            }
+                            if( callback != nullptr ) {
+                                callback->select( this );
+                            }
                         }
                     }
                 }
             }
-        } else if( !fentries.empty() && ret_act == "CONFIRM" ) {
+        } else if( allow_confirm && !fentries.empty() && ret_act == "CONFIRM" ) {
             if( entries[ selected ].enabled || allow_disabled ) {
                 ret = entries[selected].retval;
             }
-        } else if( allow_cancel && ret_act == "QUIT" ) {
+        } else if( allow_cancel && ret_act == "UILIST.QUIT" ) {
             ret = UILIST_CANCEL;
         } else if( ret_act == "TIMEOUT" ) {
             ret = UILIST_TIMEOUT;
@@ -1091,6 +1101,7 @@ void uilist::query( bool loop, int timeout )
             if( unhandled && allow_anykey ) {
                 ret = UILIST_UNBOUND;
             } else if( unhandled && allow_additional ) {
+                recalc_start = true;
                 for( const auto &it : additional_actions ) {
                     if( it.first == ret_act ) {
                         ret = UILIST_ADDITIONAL;

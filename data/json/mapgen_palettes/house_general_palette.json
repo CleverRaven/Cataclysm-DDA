@@ -333,5 +333,12 @@
       "`": "t_concrete"
     },
     "furniture": { "!": "f_region_flower" }
+  },
+  {
+    "type": "palette",
+    "id": "standard_domestic_party_palette",
+    "//": "Intended to be used in conjunction with standard_domestic_palette. Load the domestic palette first, then this one to use open symbols for house party decorations.",
+    "terrain": { "?": "t_grass", "!": "t_grass", "%": [ "t_region_shrub", "t_region_shrub_fruit", "t_region_shrub_decorative" ] },
+    "furniture": { "?": "f_chair", "!": "f_table" }
   }
 ]

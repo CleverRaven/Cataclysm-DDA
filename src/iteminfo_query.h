@@ -21,6 +21,8 @@ enum class iteminfo_parts : size_t {
     BASE_TOHIT,
     BASE_MOVES,
     BASE_DPS,
+    BASE_STAMINA,
+    BASE_DPSTAM,
     BASE_REQUIREMENTS,
     BASE_MATERIAL,
     BASE_CONTENTS,
@@ -130,6 +132,7 @@ enum class iteminfo_parts : size_t {
     GUNMOD_LOCATION,
     GUNMOD_BLACKLIST_MOD,
 
+    ARMOR_BODYGRAPH,
     ARMOR_BODYPARTS,
     ARMOR_LAYER,
     ARMOR_COVERAGE,
@@ -138,6 +141,8 @@ enum class iteminfo_parts : size_t {
     ARMOR_ENCUMBRANCE,
     ARMOR_PROTECTION,
     ARMOR_BREATHABILITY,
+    ARMOR_MATERIALS,
+    ARMOR_ADDITIONAL_INFO,
 
     BOOK_SUMMARY,
     BOOK_REQUIREMENTS_BEGINNER,

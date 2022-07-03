@@ -125,7 +125,6 @@
         { "type": "LOOT_CLOTHING", "faction": "isolated_artisans", "x": [ 12, 12 ], "y": [ 9, 9 ] },
         { "type": "LOOT_WEAPONS", "faction": "isolated_artisans", "x": [ 12, 12 ], "y": [ 10, 10 ] },
         { "type": "LOOT_GUNS", "faction": "isolated_artisans", "x": [ 12, 12 ], "y": [ 11, 11 ] },
-        { "type": "LOOT_MANUALS", "faction": "isolated_artisans", "x": [ 17, 17 ], "y": [ 7, 7 ] },
         { "type": "LOOT_UNSORTED", "faction": "isolated_artisans", "x": [ 12, 12 ], "y": [ 8, 11 ] }
       ],
       "place_item": [ { "item": "blacksmith_prototypes", "chance": 100, "x": 17, "y": 7 } ],

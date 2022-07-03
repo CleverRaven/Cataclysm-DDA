@@ -45,10 +45,15 @@
 #include "ordered_static_globals.h"
 #include "path_info.h"
 #include "rng.h"
-#include "system_language.h"
+#include "system_locale.h"
 #include "translations.h"
 #include "type_id.h"
 #include "ui_manager.h"
+
+#if defined(PREFIX)
+#   undef PREFIX
+#   include "prefix.h"
+#endif
 
 class ui_adaptor;
 
@@ -590,9 +595,7 @@ int main( int argc, const char *argv[] )
 #else
     // Set default file paths
 #if defined(PREFIX)
-#define Q(STR) #STR
-#define QUOTE(STR) Q(STR)
-    PATH_INFO::init_base_path( std::string( QUOTE( PREFIX ) ) );
+    PATH_INFO::init_base_path( std::string( PREFIX ) );
 #else
     PATH_INFO::init_base_path( "" );
 #endif
@@ -741,7 +744,7 @@ int main( int argc, const char *argv[] )
 #endif
 
 #if defined(LOCALIZE)
-    if( get_option<std::string>( "USE_LANG" ).empty() && getSystemLanguage().empty() ) {
+    if( get_option<std::string>( "USE_LANG" ).empty() && !SystemLocale::Language().has_value() ) {
         select_language();
         set_language();
     }

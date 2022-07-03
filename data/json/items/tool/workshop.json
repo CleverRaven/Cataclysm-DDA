@@ -812,7 +812,28 @@
     "color": "dark_gray",
     "use_action": [ "PICKAXE" ],
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "SPEAR", "DURABLE_MELEE", "NONCONDUCTIVE", "DIG_TOOL", "SHEATH_AXE" ],
+    "flags": [ "STAB", "DURABLE_MELEE", "NONCONDUCTIVE", "DIG_TOOL", "SHEATH_AXE" ],
+    "weapon_category": [ "HOOKING_WEAPONRY" ]
+  },
+  {
+    "id": "bronze_pickaxe",
+    "type": "TOOL",
+    "name": { "str": "bronze pickaxe" },
+    "description": "A heavy-headed cast and worked tool with a pointed wedge on one side for breaking stone and flat wedge on the other for prying it out.  You could mine with this.",
+    "weight": "6 kg",
+    "volume": "3 L",
+    "longest_side": "91 cm",
+    "price": 16000,
+    "price_postapoc": 1250,
+    "to_hit": -2,
+    "bashing": 30,
+    "cutting": 12,
+    "material": [ "wood", "bronze" ],
+    "symbol": "/",
+    "color": "yellow",
+    "use_action": [ "PICKAXE" ],
+    "techniques": [ "WBLOCK_1" ],
+    "flags": [ "STAB", "DURABLE_MELEE", "NONCONDUCTIVE", "DIG_TOOL", "SHEATH_AXE" ],
     "weapon_category": [ "HOOKING_WEAPONRY" ]
   },
   {
@@ -984,7 +1005,7 @@
         "max_contains_volume": "1500 ml",
         "max_contains_weight": "3000 g",
         "max_item_length": "60 cm",
-        "item_restriction": [ "robofac_gun_ar", "robofac_gun_smg", "robofac_gun_dmr", "robofac_gun_shotgun" ]
+        "item_restriction": [ "robofac_gun_ar", "robofac_gun_smg", "robofac_gun_dmr", "robofac_gun_shotgun", "robofac_gun_exodii" ]
       }
     ]
   },
@@ -1276,7 +1297,7 @@
       [ "WRENCH_FINE", 1 ],
       [ "SCREW", 1 ],
       [ "SCREW_FINE", 1 ],
-      [ "CUT", 1 ],
+      [ "CUT", 2 ],
       [ "PRY", 1 ],
       [ "PRYING_NAIL", 1 ],
       [ "BUTCHER", -55 ]

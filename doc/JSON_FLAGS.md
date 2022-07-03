@@ -6,7 +6,7 @@
   - [TODO](#todo)
   - [Ammo](#ammo)
     - [Ammo type](#ammo-type)
-    - [Effects](#effects)
+    - [Effects](#ammo-effects)
     - [Flags](#flags)
   - [Armor](#armor)
     - [Covers](#covers)
@@ -21,6 +21,7 @@
     - [Addiction type](#addiction-type)
     - [Use action](#use-action)
     - [Flags](#flags-2)
+  - [Effects](#Effects)
   - [Furniture and Terrain](#furniture-and-terrain)
     - [Flags](#flags-3)
     - [Fungal Conversions Only](#fungal-conversions-only)
@@ -164,7 +165,7 @@ These are handled through `ammo_types.json`.  You can tag a weapon with these to
 - ```water``` Water
 - ```paper``` Paper
 
-### Effects
+### Ammo effects
 
 - ```ACIDBOMB``` Leaves a pool of acid on detonation.
 - ```BEANBAG``` Stuns the target.
@@ -214,6 +215,8 @@ These are handled through `ammo_types.json`.  You can tag a weapon with these to
 
 - ```SONAR_DETECTABLE``` This trap can be identified with ground-penetrating SONAR.
 - ```CONVECTS_TEMPERATURE``` This trap convects temperature, like lava.
+- ```UNCONSUMED``` If this trap is a spell type it will not be removed after activation.
+- ```UNDODGEABLE``` This trap can't be dodged.
 
 ## Armor
 
@@ -542,6 +545,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```NEGATIVE_MONOTONY_OK``` Allows ```negative_monotony``` property to lower comestible fun to negative values.
 - ```NO_AUTO_CONSUME``` Consumables with this flag would not get consumed in auto-eat/auto-drink zone.
 - ```NO_INGEST``` Administered by some means other than oral intake.
+- ```NUTRIENT_OVERRIDE``` When you craft an item, game checks if it's a comestible, and if it is, it stores the components the item was created from. The "NUTRIENT_OVERRIDE" flag will skip this step.
 - ```PKILL_1``` Minor painkiller.
 - ```PKILL_2``` Moderate painkiller.
 - ```PKILL_3``` Heavy painkiller.
@@ -555,6 +559,15 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```USE_ON_NPC``` Can be used on NPCs (not necessarily by them).
 - ```ZOOM``` Zoom items can increase your overmap sight range.
 
+
+## Effects
+Effect flags. These are checked by hardcode for monsters (introducing new flags will require C++ changes), but for characters are considered "character flags", meaning new ones can be implemented in JSON alone - see Character Flags.
+
+### Flags
+
+``DISABLE_FLIGHT`` Monsters affected by an effect with this flag will never count as flying (even if they have the `FLIES` flag).
+``EFFECT_IMPEDING`` Character affected by an effect with this flag can't move until they break free from the effect.  Breaking free requires a strength check: `x_in_y( STR * limb lifting score * limb grip score, 6 * get_effect_int( eff_id )`
+
 ## Furniture and Terrain
 
 List of known flags, used in both `terrain.json` and `furniture.json`.
@@ -565,6 +578,7 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```ALIGN_WORKBENCH``` (only for furniture) A hint to the tiles display that the sprite for this furniture should face toward any adjacent tile with a workbench quality.
 - ```ALLOW_FIELD_EFFECT``` Apply field effects to items inside `SEALED` terrain/furniture.
 - ```ALLOW_ON_OPEN_AIR``` Don't warn when this furniture is placed on `t_open_air` or similar 'open air' terrains which lack a floor.
+- ```AMMOTYPE_RELOAD``` Furniture reloads by ammotype so player can choose from more than one fuel type.
 - ```AUTO_WALL_SYMBOL``` (only for terrain) The symbol of this terrain will be one of the line drawings (corner, T-intersection, straight line etc.) depending on the adjacent terrains.
 
     Example: `-` and `|` are both terrain with the `CONNECT_TO_WALL` flag. `O` does not have the flag, while `X` and `Y` have the `AUTO_WALL_SYMBOL` flag.
@@ -598,6 +612,7 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```DIGGABLE``` Digging monsters, seeding monster, digging with shovel, etc.
 - ```DOOR``` Can be opened (used for NPC path-finding).
 - ```EASY_DECONSTRUCT``` Player can deconstruct this without tools.
+- ```ELEVATOR``` Terrain with this flag will move player, NPCs, monsters, and items up and down when player activates nearby `elevator controls`.
 - ```FIRE_CONTAINER``` Stops fire from spreading (brazier, wood stove, etc).
 - ```FISHABLE``` You can try to catch fish here.
 - ```FLAMMABLE_ASH``` Burns to ash rather than rubble.
@@ -621,7 +636,7 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```LIQUID``` Blocks movement, but isn't a wall (lava, water, etc.)
 - ```MINEABLE``` Can be mined with a pickaxe/jackhammer.
 - ```MOUNTABLE``` Suitable for guns with the `MOUNTED_GUN` flag.
-- ```MURKY``` Water taker from tiles with this flag is badly poisoned (almost on par with sewage).
+- ```MURKY``` Liquid taken from tiles with this flag is badly poisoned (almost on par with sewage).
 - ```NOCOLLIDE``` Feature that simply doesn't collide with vehicles at all.
 - ```NOITEM``` Items cannot be added here but may overflow to adjacent tiles. See also `DESTROY_ITEM`.
 - ```NO_FLOOR``` Things should fall when placed on this tile.
@@ -634,6 +649,7 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```PAINFUL``` May cause a small amount of pain.
 - ```PERMEABLE``` Permeable for gases.
 - ```PICKABLE``` This terrain/furniture could be picked with lockpicks.
+- ```PIT_FILLABLE``` This terrain can be filled with dirt like a shallow pit.
 - ```PLACE_ITEM``` Valid terrain for `place_item()` to put items on.
 - ```PLANT``` A 'furniture' that grows and fruits.
 - ```PLANTABLE``` This terrain or furniture can have seeds planted in it.
@@ -659,7 +675,9 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```SWIMMABLE``` Player and monsters can swim through it.
 - ```THIN_OBSTACLE``` Passable by players and monsters; vehicles destroy it.
 - ```TINY``` Feature too short to collide with vehicle undercarriage. Vehicles drive over them with no damage, unless a wheel hits them.
+- ```TOILET_WATER``` Liquid taken from tiles with this flag is rather dirty and may poison you.
 - ```TRANSPARENT``` Players and monsters can see through/past it. Also sets ter_t.transparent.
+- ```TRANSPARENT_FLOOR``` This terrain allows light to the z-level below.
 - ```UNSTABLE``` Walking here cause the bouldering effect on the character.
 - ```USABLE_FIRE``` This terrain or furniture counts as a nearby fire for crafting.
 - ```WALL``` This terrain is an upright obstacle. Used for fungal conversion, and also implies `CONNECT_TO_WALL`.
@@ -971,6 +989,7 @@ Other monster flags.
 - ```ACIDPROOF``` Immune to acid.
 - ```ACIDTRAIL``` Leaves a trail of acid.
 - ```ACID_BLOOD``` Makes monster bleed acid. Does not automatically dissolve in a pool of acid on death.
+- ```ALWAYS_VISIBLE``` This monster can always be seen regardless of line of sight or light level.
 - ```ANIMAL``` Is an _animal_ for purposes of the `Animal Empathy` trait.
 - ```AQUATIC``` Confined to water.
 - ```ARTHROPOD_BLOOD``` Forces monster to bleed hemolymph.

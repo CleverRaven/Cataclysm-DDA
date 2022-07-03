@@ -512,6 +512,12 @@ class overmap_special
         bool is_rotatable() const {
             return rotatable_;
         }
+        bool has_eoc() const {
+            return has_eoc_;
+        }
+        effect_on_condition_id get_eoc() const {
+            return eoc;
+        }
         bool can_spawn() const;
         /** Returns terrain at the given point. */
         const overmap_special_terrain &get_terrain_at( const tripoint &p ) const;
@@ -559,7 +565,8 @@ class overmap_special
         overmap_special_subtype subtype_;
         overmap_special_placement_constraints constraints_;
         shared_ptr_fast<const overmap_special_data> data_;
-
+        effect_on_condition_id eoc;
+        bool has_eoc_ = false;
         bool rotatable_ = true;
         overmap_special_spawns monster_spawns_;
         cata::flat_set<std::string> flags_;

@@ -77,7 +77,8 @@
       "place_vehicles": [
         { "vehicle": "golf_cart", "x": [ 1, 3 ], "y": [ 9, 11 ], "chance": 100, "rotation": 180 },
         { "vehicle": "golf_cart", "x": [ 1, 3 ], "y": [ 13, 15 ], "chance": 100, "rotation": 180 }
-      ]
+      ],
+      "place_loot": [ { "group": "cash_register_random", "x": [ 2, 3 ], "y": 3 } ]
     }
   },
   {
@@ -758,9 +759,9 @@
       "_": "t_pavement",
       "#": "t_brick_wall",
       "7": "t_region_tree_shade",
-      "Q": [ "t_region_groundcover_forest", "t_region_shrub_decorative" ],
-      "%": [ [ "t_region_groundcover", 450 ], [ "t_region_tree_shade", 3 ], [ "t_region_shrub", 210 ] ],
-      "/": [ [ "t_region_groundcover", 850 ], [ "t_region_tree_shade", 3 ], [ "t_region_shrub", 210 ] ],
+      "Q": "t_region_shrub_decorative",
+      "%": [ [ "t_region_groundcover", 450 ], [ "t_region_shrub", 21 ] ],
+      "/": [ [ "t_region_groundcover", 850 ], [ "t_region_shrub", 21 ] ],
       "+": "t_door_c",
       "=": "t_door_locked",
       "R": "t_metal_railing",

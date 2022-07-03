@@ -353,7 +353,7 @@ void Character::long_craft( const cata::optional<tripoint> &loc, const recipe_id
 
 bool Character::making_would_work( const recipe_id &id_to_make, int batch_size )
 {
-    const auto &making = *id_to_make;
+    const recipe &making = *id_to_make;
     if( !( making && crafting_allowed( *this, making ) ) ) {
         return false;
     }
@@ -471,7 +471,7 @@ static std::vector<const item *> get_eligible_containers_recursive( const item &
 
 void outfit::get_eligible_containers_for_crafting( std::vector<const item *> &conts ) const
 {
-    for( const auto &it : worn ) {
+    for( const item &it : worn ) {
         std::vector<const item *> eligible = get_eligible_containers_recursive( it, false );
         conts.insert( conts.begin(), eligible.begin(), eligible.end() );
     }
@@ -501,7 +501,7 @@ std::vector<const item *> Character::get_eligible_containers_for_crafting() cons
 
         if( const cata::optional<vpart_reference> vp = here.veh_at( loc ).part_with_feature( "CARGO",
                 true ) ) {
-            for( const auto &it : vp->vehicle().get_items( vp->part_index() ) ) {
+            for( const item &it : vp->vehicle().get_items( vp->part_index() ) ) {
                 std::vector<const item *> eligible = get_eligible_containers_recursive( it, true );
                 conts.insert( conts.begin(), eligible.begin(), eligible.end() );
             }
@@ -622,7 +622,7 @@ void Character::make_all_craft( const recipe_id &id_to_make, int batch_size,
 void Character::make_craft_with_command( const recipe_id &id_to_make, int batch_size, bool is_long,
         const cata::optional<tripoint> &loc )
 {
-    const auto &recipe_to_make = *id_to_make;
+    const recipe &recipe_to_make = *id_to_make;
 
     if( !recipe_to_make ) {
         return;
@@ -672,9 +672,9 @@ static cata::optional<item_location> wield_craft( Character &p, item &craft )
     return cata::nullopt;
 }
 
-static item *set_item_inventory( Character &p, item &newit )
+static item_location set_item_inventory( Character &p, item &newit )
 {
-    item *ret_val = nullptr;
+    item_location ret_val = item_location::nowhere;
     if( newit.made_of( phase_id::LIQUID ) ) {
         liquid_handler::handle_all_liquid( newit, PICKUP_RANGE );
     } else {
@@ -685,7 +685,7 @@ static item *set_item_inventory( Character &p, item &newit )
         } else if( !p.can_pickWeight( newit, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) ) {
             put_into_vehicle_or_drop( p, item_drop_reason::too_heavy, { newit } );
         } else {
-            ret_val = &p.i_add( newit );
+            ret_val = p.i_add( newit );
             add_msg( m_info, "%c - %s", ret_val->invlet == 0 ? ' ' : ret_val->invlet,
                      ret_val->tname() );
         }
@@ -1337,7 +1337,7 @@ void Character::complete_craft( item &craft, const cata::optional<tripoint> &loc
                 // forget byproducts below either when you fix this.
                 //
                 // Temperature is not functional for non-foods
-                food_contained.set_item_temperature( 293.15 );
+                food_contained.set_item_temperature( units::from_celcius( 20 ) );
             }
         }
 
@@ -1365,7 +1365,7 @@ void Character::complete_craft( item &craft, const cata::optional<tripoint> &loc
 
     if( making.has_byproducts() ) {
         std::vector<item> bps = making.create_byproducts( batch_size );
-        for( auto &bp : bps ) {
+        for( item &bp : bps ) {
             if( bp.has_temperature() ) {
                 if( bp.goes_bad() ) {
                     bp.set_relative_rot( relative_rot );
@@ -1373,7 +1373,7 @@ void Character::complete_craft( item &craft, const cata::optional<tripoint> &loc
                 if( should_heat ) {
                     bp.heat_up();
                 } else {
-                    bp.set_item_temperature( 293.15 );
+                    bp.set_item_temperature( units::from_celcius( 20 ) );
                 }
             }
             bp.set_owner( get_faction()->id );
@@ -1386,6 +1386,8 @@ void Character::complete_craft( item &craft, const cata::optional<tripoint> &loc
             }
         }
     }
+
+    recoil = MAX_RECOIL;
 
     inv->restack( *this );
 }
@@ -1579,7 +1581,7 @@ comp_selection<item_comp> Character::select_item_component( const std::vector<it
 
     comp_selection<item_comp> selected;
 
-    for( const auto &component : components ) {
+    for( const item_comp &component : components ) {
         itype_id type = component.type;
         int count = ( component.count > 0 ) ? component.count * batch : std::abs( component.count );
 
@@ -1836,7 +1838,7 @@ static void empty_buckets( Character &p )
     auto buckets = p.remove_items_with( [&p]( const item & it ) {
         return it.is_bucket_nonempty() && &it != &p.get_wielded_item();
     }, INT_MAX );
-    for( auto &it : buckets ) {
+    for( item &it : buckets ) {
         for( const item *in : it.all_items_top() ) {
             drop_or_handle( *in, p );
         }
@@ -2000,7 +2002,7 @@ Character::select_tool_component( const std::vector<tool_comp> &tools, int batch
     } else { // Variety of options, list them and pick one
         // Populate the list
         uilist tmenu;
-        for( auto &map_ha : map_has ) {
+        for( tool_comp &map_ha : map_has ) {
             if( item::find_type( map_ha.type )->maximum_charges() > 1 ) {
                 std::string tmpStr = string_format( _( "%s (%d/%d charges nearby)" ),
                                                     item::nname( map_ha.type ), calc_charges( map_ha, true ),
@@ -2011,7 +2013,7 @@ Character::select_tool_component( const std::vector<tool_comp> &tools, int batch
                 tmenu.addentry( tmpStr );
             }
         }
-        for( auto &player_ha : player_has ) {
+        for( tool_comp &player_ha : player_has ) {
             if( item::find_type( player_ha.type )->maximum_charges() > 1 ) {
                 std::string tmpStr = string_format( _( "%s (%d/%d charges on person)" ),
                                                     item::nname( player_ha.type ), calc_charges( player_ha, true ),
@@ -2021,7 +2023,7 @@ Character::select_tool_component( const std::vector<tool_comp> &tools, int batch
                 tmenu.addentry( item::nname( player_ha.type ) );
             }
         }
-        for( auto &both_ha : both_has ) {
+        for( tool_comp &both_ha : both_has ) {
             if( item::find_type( both_ha.type )->maximum_charges() > 1 ) {
                 std::string tmpStr = string_format( _( "%s (%d/%d charges nearby or on person)" ),
                                                     item::nname( both_ha.type ), calc_charges( both_ha, true ),
@@ -2244,10 +2246,10 @@ ret_val<bool> Character::can_disassemble( const item &obj, const read_only_visit
             }
         }
     }
-    const auto &dis = r.disassembly_requirements();
+    const requirement_data &dis = r.disassembly_requirements();
 
     for( const auto &opts : dis.get_qualities() ) {
-        for( const auto &qual : opts ) {
+        for( const quality_requirement &qual : opts ) {
             if( !qual.has( inv, return_true<item> ) ) {
                 // Here should be no dot at the end of the string as 'to_string()' provides it.
                 return ret_val<bool>::make_failure( _( "You need %s" ), qual.to_string() );
@@ -2287,8 +2289,8 @@ item_location Character::create_in_progress_disassembly( item_location target )
     if( target->typeId() == itype_disassembly ) {
         new_disassembly = item( orig_item );
     } else {
-        const auto &r = recipe_dictionary::get_uncraft( target->typeId() );
-        new_disassembly = item( &r, orig_item );
+        const recipe &r = recipe_dictionary::get_uncraft( target->typeId() );
+        new_disassembly = item( &r, activity.position, orig_item );
 
         // Remove any batteries, ammo, contents and mods first
         remove_ammo( orig_item, *this );
@@ -2299,8 +2301,6 @@ item_location Character::create_in_progress_disassembly( item_location target )
         if( orig_item.count_by_charges() ) {
             //subtract selected number of rounds to disassemble
             orig_item.charges -= activity.position;
-            new_disassembly.charges = activity.position;
-
         }
     }
     // remove the item, except when it's counted by charges and still has some
@@ -2341,8 +2341,8 @@ bool Character::disassemble( item_location target, bool interactive, bool disass
     }
 
     avatar &player_character = get_avatar();
-    const auto &r = ( obj.typeId() == itype_disassembly ) ? obj.get_making() :
-                    recipe_dictionary::get_uncraft( obj.typeId() );
+    const recipe &r = ( obj.typeId() == itype_disassembly ) ? obj.get_making() :
+                      recipe_dictionary::get_uncraft( obj.typeId() );
     if( !obj.is_owned_by( player_character, true ) ) {
         if( !query_yn( _( "Disassembling the %s may anger the people who own it, continue?" ),
                        obj.tname() ) ) {
@@ -2372,7 +2372,7 @@ bool Character::disassemble( item_location target, bool interactive, bool disass
     if( interactive && get_option<bool>( "QUERY_DISASSEMBLE" ) && obj.typeId() != itype_disassembly ) {
         std::string list;
         const auto components = obj.get_uncraft_components();
-        for( const auto &component : components ) {
+        for( const item_comp &component : components ) {
             list += "- " + component.to_string() + "\n";
         }
         if( !r.learn_by_disassembly.empty() && !knows_recipe( &r ) && can_decomp_learn( r ) ) {
@@ -2392,7 +2392,7 @@ bool Character::disassemble( item_location target, bool interactive, bool disass
     if( activity.id() != ACT_DISASSEMBLE ) {
         player_activity new_act;
         // When disassembling items with charges, prompt the player to specify amount
-        int num_dis = 0;
+        int num_dis = 1;
         if( obj.count_by_charges() ) {
             if( !disassemble_all && obj.charges > 1 ) {
                 string_input_popup popup_input;
@@ -2403,28 +2403,23 @@ bool Character::disassemble( item_location target, bool interactive, bool disass
                     add_msg( _( "Never mind." ) );
                     return false;
                 }
+                num_dis = std::min( num_dis, obj.charges );
             } else {
                 num_dis = obj.charges;
             }
         }
         if( obj.typeId() != itype_disassembly ) {
-            if( num_dis != 0 ) {
-                new_act = player_activity( disassemble_activity_actor( r.time_to_craft_moves( *this,
-                                           recipe_time_flag::ignore_proficiencies ) * num_dis ) );
-            } else {
-                new_act = player_activity( disassemble_activity_actor( r.time_to_craft_moves( *this,
-                                           recipe_time_flag::ignore_proficiencies ) ) );
-            }
+            new_act = player_activity( disassemble_activity_actor( r.time_to_craft_moves( *this,
+                                       recipe_time_flag::ignore_proficiencies ) * num_dis ) );
         } else {
             new_act = player_activity( disassemble_activity_actor( r.time_to_craft_moves( *this,
-                                       recipe_time_flag::ignore_proficiencies ) * std::max( obj.charges, 1 ) ) );
+                                       recipe_time_flag::ignore_proficiencies ) * obj.get_making_batch_size() ) );
         }
         new_act.targets.emplace_back( std::move( target ) );
 
         // index is used as a bool that indicates if we want recursive uncraft.
         new_act.index = false;
-        // Unused position attribute used to store ammo to disassemble
-        new_act.position = std::min( num_dis, obj.charges );
+        new_act.position = num_dis;
         new_act.values.push_back( disassemble_all );
         assign_activity( new_act );
     } else {
@@ -2525,6 +2520,7 @@ void Character::complete_disassemble( item_location target )
                 activity.set_to_null();
                 return;
             }
+            num_dis = std::min( num_dis, obj.charges );
         } else {
             num_dis = obj.charges;
         }
@@ -2534,7 +2530,7 @@ void Character::complete_disassemble( item_location target )
                                           recipe_time_flag::ignore_proficiencies ) * num_dis ) );
     new_act.targets = activity.targets;
     new_act.index = activity.index;
-    new_act.position = std::min( num_dis, obj.charges );
+    new_act.position = num_dis;
     assign_activity( new_act );
 }
 
@@ -2670,7 +2666,7 @@ void Character::complete_disassemble( item_location &target, const recipe &dis )
         item act_item = newit;
 
         if( act_item.has_temperature() ) {
-            act_item.set_item_temperature( temp_to_kelvin( get_weather().get_temperature( loc ) ) );
+            act_item.set_item_temperature( units::from_fahrenheit( get_weather().get_temperature( loc ) ) );
         }
 
         // Refitted clothing disassembles into refitted components (when applicable)
@@ -2753,7 +2749,7 @@ void Character::complete_disassemble( item_location &target, const recipe &dis )
 
 void remove_ammo( std::list<item> &dis_items, Character &p )
 {
-    for( auto &dis_item : dis_items ) {
+    for( item &dis_item : dis_items ) {
         remove_ammo( dis_item, p );
     }
 }
@@ -2771,7 +2767,7 @@ void drop_or_handle( const item &newit, Character &p )
 void remove_ammo( item &dis_item, Character &p )
 {
     dis_item.remove_items_with( [&p]( const item & it ) {
-        if( it.is_irremovable() || ( !it.is_gunmod() && !it.is_toolmod() ) ) {
+        if( it.is_irremovable() || !( it.is_gunmod() || it.is_toolmod() || it.is_magazine() ) ) {
             return false;
         }
         drop_or_handle( it, p );

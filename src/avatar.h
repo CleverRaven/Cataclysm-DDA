@@ -52,6 +52,8 @@ struct mtype;
 enum class pool_type;
 
 // Monster visible in different directions (safe mode & compass)
+// Suppressions due to a bug in clang-tidy 12
+// NOLINTNEXTLINE(bugprone-reserved-identifier,cert-dcl37-c,cert-dcl51-cpp)
 struct monster_visible_info {
     // New monsters visible from last update
     std::vector<shared_ptr_fast<monster>> new_seen_mon;
@@ -218,7 +220,7 @@ class avatar : public Character
         /**
          * Opens the targeting menu to pull a nearby creature towards the character.
          * @param name Name of the implement used to pull the creature. */
-        void longpull( const std::string name );
+        void longpull( std::string name );
 
         void wake_up() override;
         // Grab furniture / vehicle

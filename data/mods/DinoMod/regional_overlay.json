@@ -19,6 +19,7 @@
           "mx_nest_dromaeosaurus": 30,
           "mx_nest_dryptosaurus": 30,
           "mx_nest_gorgosaurus": 30,
+          "mx_nest_nanuqsaurus": 30,
           "mx_nest_siats": 30,
           "mx_nest_stenonychosaurus": 30,
           "mx_nest_torvosaurus": 30,
@@ -40,6 +41,7 @@
           "mx_nest_edmontonia": 30,
           "mx_nest_edmontosaurus": 30,
           "mx_nest_hadrosaurus": 30,
+          "mx_nest_issi": 30,
           "mx_nest_kosmoceratops": 30,
           "mx_nest_maiasaura": 30,
           "mx_nest_nodosaurus": 30,
@@ -52,7 +54,8 @@
           "mx_nest_torosaurus": 30,
           "mx_nest_triceratops": 30
         }
-      }
+      },
+      "field": { "chance": 6, "extras": { "mx_mass_grave_dino": 50 } }
     },
     "city": { "parks": { "dinozoo": 25 } }
   }

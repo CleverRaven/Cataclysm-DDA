@@ -283,6 +283,7 @@ enum class ter_furn_flag : int {
     TFLAG_NO_PICKUP_ON_EXAMINE,
     TFLAG_RUBBLE,
     TFLAG_DIGGABLE_CAN_DEEPEN,
+    TFLAG_PIT_FILLABLE,
     TFLAG_DIFFICULT_Z,
     TFLAG_ALIGN_WORKBENCH,
     TFLAG_NO_SPOIL,
@@ -296,6 +297,9 @@ enum class ter_furn_flag : int {
     TFLAG_NO_SELF_CONNECT,
     TFLAG_BURROWABLE,
     TFLAG_MURKY,
+    TFLAG_AMMOTYPE_RELOAD,
+    TFLAG_TRANSPARENT_FLOOR,
+    TFLAG_TOILET_WATER,
 
     NUM_TFLAG_FLAGS
 };
@@ -528,11 +532,11 @@ struct map_data_common_t {
             return bitflags[flag];
         }
 
-        void extraprocess_flags( const ter_furn_flag flag );
+        void extraprocess_flags( ter_furn_flag flag );
 
         void set_flag( const std::string &flag );
 
-        void set_flag( const ter_furn_flag flag );
+        void set_flag( ter_furn_flag flag );
 
         int connect_group = 0;
 

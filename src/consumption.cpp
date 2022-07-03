@@ -214,7 +214,7 @@ static std::map<vitamin_id, int> compute_default_effective_vitamins(
     std::map<vitamin_id, int> res = it.get_comestible()->default_nutrition.vitamins;
 
     for( const trait_id &trait : you.get_mutations() ) {
-        const auto &mut = trait.obj();
+        const mutation_branch &mut = trait.obj();
         // make sure to iterate over every material defined for vitamin absorption
         // TODO: put this loop into a function and utilize it again for bionics
         for( const auto &mat : mut.vitamin_absorb_multi ) {
@@ -264,6 +264,10 @@ nutrients Character::compute_effective_nutrients( const item &comest ) const
     // if item has components, will derive calories from that instead.
     if( !comest.components.empty() && !comest.has_flag( flag_NUTRIENT_OVERRIDE ) ) {
         nutrients tally{};
+        if( comest.recipe_charges == 0 ) {
+            // Avoid division by zero
+            return tally;
+        }
         for( const item &component : comest.components ) {
             nutrients component_value =
                 compute_effective_nutrients( component ) * component.charges;
@@ -492,7 +496,7 @@ time_duration Character::vitamin_rate( const vitamin_id &vit ) const
     time_duration res = vit.obj().rate();
 
     for( const auto &m : get_mutations() ) {
-        const auto &mut = m.obj();
+        const mutation_branch &mut = m.obj();
         auto iter = mut.vitamin_rates.find( vit );
         if( iter != mut.vitamin_rates.end() && iter->second != 0_turns ) {
             if( res != 0_turns ) {
@@ -1083,6 +1087,8 @@ static bool eat( item &food, Character &you, bool force )
         you.consumption_history.pop_front();
     }
 
+    you.recoil = MAX_RECOIL;
+
     return true;
 }
 
@@ -1091,7 +1097,7 @@ void Character::modify_health( const islot_comestible &comest )
     const int effective_health = comest.healthy;
     // Effectively no cap on health modifiers from food and meds
     const int health_cap = 200;
-    mod_healthy_mod( effective_health, effective_health >= 0 ? health_cap : -health_cap );
+    mod_daily_health( effective_health, effective_health >= 0 ? health_cap : -health_cap );
 }
 
 void Character::modify_stimulation( const islot_comestible &comest )
@@ -1400,7 +1406,7 @@ bool Character::consume_effects( item &food )
         return false;
     }
 
-    const auto &comest = *food.get_comestible();
+    const islot_comestible &comest = *food.get_comestible();
 
     // Rotten food causes health loss
     const float relative_rot = food.get_relative_rot();
@@ -1409,7 +1415,7 @@ bool Character::consume_effects( item &food )
         // ~-1 health per 1 nutrition at halfway-rotten-away, ~0 at "just got rotten"
         // But always round down
         int h_loss = -rottedness * comest.get_default_nutr();
-        mod_healthy_mod( h_loss, -200 );
+        mod_daily_health( h_loss, -200 );
         add_msg_debug( debugmode::DF_FOOD, "%d health from %0.2f%% rotten food", h_loss, rottedness );
     }
 
@@ -1742,7 +1748,7 @@ static bool consume_med( item &target, Character &you )
     // TODO: Get the target it was used on
     // Otherwise injecting someone will give us addictions etc.
     if( target.has_flag( flag_NO_INGEST ) ) {
-        const auto &comest = *target.get_comestible();
+        const islot_comestible &comest = *target.get_comestible();
         // Assume that parenteral meds don't spoil, so don't apply rot
         you.modify_health( comest );
         you.modify_stimulation( comest );

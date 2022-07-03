@@ -50,6 +50,8 @@ struct spawn_point {
 };
 
 template<int sx, int sy>
+// Suppression due to bug in clang-tidy 12
+// NOLINTNEXTLINE(bugprone-reserved-identifier,cert-dcl37-c,cert-dcl51-cpp)
 struct maptile_soa {
     ter_id             ter[sx][sy];  // Terrain on each square
     furn_id            frn[sx][sy];  // Furniture on each square
@@ -186,7 +188,7 @@ class submap : maptile_soa<SEEX, SEEY>
             // Have to scan through all items to be sure removing i will actually lower
             // the count below 255.
             int count = 0;
-            for( const auto &it : itm[p.x][p.y] ) {
+            for( const item &it : itm[p.x][p.y] ) {
                 if( it.is_emissive() ) {
                     count++;
                 }

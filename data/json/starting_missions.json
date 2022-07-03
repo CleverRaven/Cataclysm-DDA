@@ -1,0 +1,627 @@
+[
+  {
+    "id": "MISSION_ASSASSINATION",
+    "type": "mission_definition",
+    "name": { "str": "Finish your mission" },
+    "description": "Your mission required you to eliminate a certain high-ranking individual in hiding.  Your mark seems to have turned feral while escaping and the world appears to be ending, but not even that can stop you from finishing your mission.",
+    "goal": "MGOAL_KILL_MONSTER",
+    "difficulty": 4,
+    "start": {
+      "assign_mission_target": {
+        "om_terrain": "s_air_term",
+        "om_special": "o_airport",
+        "reveal_radius": 6,
+        "random": true,
+        "search_range": 90,
+        "min_distance": 15,
+        "z": 0
+      },
+      "update_mapgen": {
+        "place_monster": [
+          { "monster": "mon_feral_scientist_scalpel", "name": "The Target", "x": 11, "y": 11, "target": true },
+          { "monster": "mon_feral_labsecurity_9mm", "name": "The Guard", "x": 12, "y": 12 },
+          { "monster": "mon_feral_soldier", "name": "The Colaborator", "x": 9, "y": 9 },
+          { "monster": "mon_feral_fancy_rapier", "name": "The Aristocrat", "x": 13, "y": 13 },
+          { "monster": "mon_feral_maid_broom", "name": "The Servant", "x": 12, "y": 13 }
+        ]
+      }
+    },
+    "origins": [ "ORIGIN_GAME_START" ],
+    "value": 0,
+    "end": {
+      "effect": [
+        {
+          "u_add_morale": "morale_feeling_good",
+          "bonus": 20,
+          "max_bonus": 50,
+          "duration": "120 minutes",
+          "decay_start": "120 minutes"
+        }
+      ]
+    }
+  },
+  {
+    "id": "MISSION_ASSASSIN_CONVICT_PRISON",
+    "type": "mission_definition",
+    "name": { "str": "Kill your mark" },
+    "description": "Your employer could be no longer responding but you have decided to finish your mission.  Hunt down and kill your mark.",
+    "goal": "MGOAL_KILL_MONSTER",
+    "difficulty": 3,
+    "start": {
+      "assign_mission_target": { "om_terrain": "prison_1_3", "om_special": "Prison", "reveal_radius": 1, "search_range": 6, "min_distance": 1, "z": 0 },
+      "update_mapgen": {
+        "place_monster": [ { "monster": "mon_zombie_prisoner_brute", "name": "The Target", "x": 18, "y": 23, "target": true } ]
+      }
+    },
+    "origins": [ "ORIGIN_GAME_START" ],
+    "value": 0,
+    "end": {
+      "effect": [
+        {
+          "u_add_morale": "morale_feeling_good",
+          "bonus": 20,
+          "max_bonus": 50,
+          "duration": "60 minutes",
+          "decay_start": "60 minutes"
+        }
+      ]
+    }
+  },
+  {
+    "id": "MISSION_ASSASSIN_CONVICT_PRISON_ISLAND1",
+    "type": "mission_definition",
+    "name": { "str": "Kill your mark" },
+    "description": "Your employer could be no longer responding but you have decided to finish your mission.  Hunt down and kill your mark.",
+    "goal": "MGOAL_KILL_MONSTER",
+    "difficulty": 3,
+    "start": {
+      "assign_mission_target": {
+        "om_terrain": "prison_alcatraz_9",
+        "om_special": "Alcatraz Prison",
+        "reveal_radius": 1,
+        "search_range": 6,
+        "min_distance": 1,
+        "z": 0
+      },
+      "update_mapgen": {
+        "place_monster": [ { "monster": "mon_zombie_prisoner_brute", "name": "The Target", "x": 18, "y": 15, "target": true } ]
+      }
+    },
+    "origins": [ "ORIGIN_GAME_START" ],
+    "value": 0,
+    "end": {
+      "effect": [
+        {
+          "u_add_morale": "morale_feeling_good",
+          "bonus": 30,
+          "max_bonus": 50,
+          "duration": "60 minutes",
+          "decay_start": "60 minutes"
+        }
+      ]
+    }
+  },
+  {
+    "id": "MISSION_ASSASSIN_CONVICT_PRISON_ISLAND2",
+    "type": "mission_definition",
+    "name": { "str": "Kill your mark" },
+    "description": "Your employer could be no longer responding but you have decided to finish your mission.  Hunt down and kill your mark.",
+    "goal": "MGOAL_KILL_MONSTER",
+    "difficulty": 3,
+    "start": {
+      "assign_mission_target": {
+        "om_terrain": "prison_island_1_8",
+        "om_special": "Island prison",
+        "reveal_radius": 1,
+        "search_range": 6,
+        "min_distance": 1,
+        "z": 0
+      },
+      "update_mapgen": {
+        "place_monster": [ { "monster": "mon_zombie_prisoner_brute", "name": "The Target", "x": 18, "y": 10, "target": true } ]
+      }
+    },
+    "origins": [ "ORIGIN_GAME_START" ],
+    "value": 0,
+    "end": {
+      "effect": [
+        {
+          "u_add_morale": "morale_feeling_good",
+          "bonus": 40,
+          "max_bonus": 50,
+          "duration": "60 minutes",
+          "decay_start": "60 minutes"
+        }
+      ]
+    }
+  },
+  {
+    "id": "MISSION_PATIENT",
+    "type": "mission_definition",
+    "name": { "str": "Life vow" },
+    "description": "Live your life to the fullest, prove to yourself that you can survive this new obstacle in the same way that you have survived the last.",
+    "goal": "MGOAL_CONDITION",
+    "goal_condition": { "days_since_cataclysm": 7 },
+    "difficulty": 4,
+    "value": 0,
+    "end": {
+      "effect": [
+        {
+          "u_add_morale": "morale_feeling_good",
+          "bonus": 10,
+          "max_bonus": 50,
+          "duration": "24 hours",
+          "decay_start": "24 hours"
+        }
+      ]
+    },
+    "origins": [ "ORIGIN_GAME_START" ]
+  },
+  {
+    "id": "MISSION_CLOWN",
+    "type": "mission_definition",
+    "name": { "str": "Prepare for your next show" },
+    "description": "Become the best clown, make sure that your next show will make everyone laugh by training your social skills to perfection.",
+    "goal": "MGOAL_CONDITION",
+    "goal_condition": { "u_has_skill": { "skill": "speech", "level": 6 } },
+    "difficulty": 3,
+    "value": 0,
+    "end": {
+      "effect": [
+        {
+          "u_add_morale": "morale_feeling_good",
+          "bonus": 20,
+          "max_bonus": 50,
+          "duration": "120 minutes",
+          "decay_start": "120 minutes"
+        }
+      ]
+    },
+    "origins": [ "ORIGIN_GAME_START" ]
+  },
+  {
+    "id": "MISSION_LOST_SUB",
+    "type": "mission_definition",
+    "name": { "str": "Find a memory of your master" },
+    "description": "Find and wield a whip to remember your master even when separated.",
+    "goal": "MGOAL_CONDITION",
+    "goal_condition": { "u_has_wielded_with_flag": "WHIP" },
+    "difficulty": 3,
+    "value": 0,
+    "end": {
+      "effect": [
+        {
+          "u_add_morale": "morale_feeling_good",
+          "bonus": 20,
+          "max_bonus": 50,
+          "duration": "120 minutes",
+          "decay_start": "120 minutes"
+        }
+      ]
+    },
+    "origins": [ "ORIGIN_GAME_START" ]
+  },
+  {
+    "id": "MISSION_BLACK_BELT_GOAL",
+    "type": "mission_definition",
+    "name": { "str": "Obtain your black belt" },
+    "description": "You could have become a master in martial arts if you had the chance, so train until you achieve the level of a master in the old world, and find yourself a nice black belt to commemorate the occasion.",
+    "goal": "MGOAL_CONDITION",
+    "goal_condition": {
+      "and": [
+        { "u_has_skill": { "skill": "melee", "level": 5 } },
+        { "u_has_skill": { "skill": "dodge", "level": 5 } },
+        { "u_has_item": "judo_belt_black" }
+      ]
+    },
+    "difficulty": 4,
+    "value": 0,
+    "end": {
+      "effect": [
+        {
+          "u_add_morale": "morale_feeling_good",
+          "bonus": 20,
+          "max_bonus": 50,
+          "duration": "120 minutes",
+          "decay_start": "120 minutes"
+        }
+      ]
+    },
+    "origins": [ "ORIGIN_GAME_START" ]
+  },
+  {
+    "id": "MISSION_URBAN_SAMURAI",
+    "type": "mission_definition",
+    "name": { "str": "Find a real katana" },
+    "description": "The world has ended, but as an authentic samurai you lack a katana, you must find one, quickly.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "katana",
+    "difficulty": 4,
+    "value": 0,
+    "end": {
+      "effect": [
+        {
+          "u_add_morale": "morale_feeling_good",
+          "bonus": 20,
+          "max_bonus": 50,
+          "duration": "120 minutes",
+          "decay_start": "120 minutes"
+        }
+      ]
+    },
+    "origins": [ "ORIGIN_GAME_START" ]
+  },
+  {
+    "id": "MISSION_DOG_LOVER",
+    "type": "mission_definition",
+    "name": { "str": "Protect your canine friends" },
+    "description": "You have saved your dogs from the fall of the world, but they could still suffer from danger everywhere.  Police dogs used some Kevlar harnesses for protection…  Maybe your friends could use some too?",
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 2,
+    "item": "kevlar_harness",
+    "origins": [ "ORIGIN_GAME_START" ],
+    "value": 0,
+    "end": {
+      "effect": [
+        {
+          "u_add_morale": "morale_feeling_good",
+          "bonus": 10,
+          "max_bonus": 50,
+          "duration": "60 minutes",
+          "decay_start": "60 minutes"
+        }
+      ]
+    }
+  },
+  {
+    "id": "MISSION_HUNTER",
+    "type": "mission_definition",
+    "name": { "str": "Hunt big game" },
+    "description": "The end of the world could have arrived, but you still crave for that one big hunt.  Search and kill a black bear to remember the old days.",
+    "goal": "MGOAL_KILL_MONSTER_TYPE",
+    "monster_type": "mon_bear",
+    "monster_kill_goal": 1,
+    "difficulty": 3,
+    "value": 0,
+    "end": {
+      "effect": [
+        {
+          "u_add_morale": "morale_feeling_good",
+          "bonus": 15,
+          "max_bonus": 50,
+          "duration": "120 minutes",
+          "decay_start": "120 minutes"
+        }
+      ]
+    },
+    "origins": [ "ORIGIN_GAME_START" ]
+  },
+  {
+    "id": "MISSION_OTAKU",
+    "type": "mission_definition",
+    "name": { "str": "Become the protagonist" },
+    "description": "The world has become like an anime!  Zombies, mutants, the end of civilization as we know it…  You must become the protagonist if you want to survive, the plot armor will help you.  Go and kill 50 zombies to show your protagonist potential.",
+    "goal": "MGOAL_KILL_MONSTER_SPEC",
+    "monster_species": "ZOMBIE",
+    "monster_kill_goal": 50,
+    "difficulty": 4,
+    "value": 0,
+    "end": {
+      "effect": [
+        {
+          "u_add_morale": "morale_feeling_good",
+          "bonus": 30,
+          "max_bonus": 50,
+          "duration": "12 hours",
+          "decay_start": "12 hours"
+        }
+      ]
+    },
+    "origins": [ "ORIGIN_GAME_START" ]
+  },
+  {
+    "id": "MISSION_MAFIA_BOSS",
+    "type": "mission_definition",
+    "name": { "str": "Make the cops pay" },
+    "description": "They wanted to put you behind bars, but are now dead, make them pay with blood, unliving blood.",
+    "goal": "MGOAL_KILL_MONSTER_TYPE",
+    "monster_type": "mon_zombie_cop",
+    "monster_kill_goal": 10,
+    "difficulty": 4,
+    "value": 0,
+    "end": {
+      "effect": [
+        {
+          "u_add_morale": "morale_feeling_good",
+          "bonus": 20,
+          "max_bonus": 50,
+          "duration": "120 minutes",
+          "decay_start": "120 minutes"
+        }
+      ]
+    },
+    "origins": [ "ORIGIN_GAME_START" ]
+  },
+  {
+    "id": "MISSION_MUTANT_VOLUNTEER",
+    "type": "mission_definition",
+    "name": { "str": "Continue with your evolution" },
+    "description": "Your evolution to a more perfect form was interrupted by the Cataclysm.  Restart your transformation process whatever it costs.",
+    "goal": "MGOAL_CONDITION",
+    "goal_condition": { "u_has_trait": "CHANGING" },
+    "difficulty": 5,
+    "value": 0,
+    "end": {
+      "effect": [
+        {
+          "u_add_morale": "morale_feeling_good",
+          "bonus": 50,
+          "max_bonus": 50,
+          "duration": "24 hours",
+          "decay_start": "24 hours"
+        }
+      ]
+    },
+    "origins": [ "ORIGIN_GAME_START" ]
+  },
+  {
+    "id": "MISSION_PORTAL_TRAVELER",
+    "type": "mission_definition",
+    "name": { "str": "Recover a part of yourself" },
+    "description": "They took away something from you, something important.  You feel a connection with this weather, maybe you can recover some portion of what you lost in one of these storms.",
+    "goal": "MGOAL_CONDITION",
+    "goal_condition": { "u_has_trait": "REALITY_GRASP" },
+    "difficulty": 6,
+    "value": 0,
+    "end": {
+      "effect": [
+        {
+          "u_add_morale": "morale_feeling_good",
+          "bonus": 50,
+          "max_bonus": 50,
+          "duration": "24 hours",
+          "decay_start": "24 hours"
+        }
+      ]
+    },
+    "origins": [ "ORIGIN_GAME_START" ]
+  },
+  {
+    "id": "MISSION_SOCIAL_BUTTERFLY",
+    "type": "mission_definition",
+    "name": { "str": "Social butterfly" },
+    "description": "You have always had good social abilities.  Go and recruit 2 followers and establish your leadership among them.  Don't forget to order them to build a base of operations for you in the form of a survivor camp.",
+    "goal": "MGOAL_CONDITION",
+    "goal_condition": { "and": [ { "u_at_om_location": "FACTION_CAMP_ANY" }, { "npc_allies": 2 } ] },
+    "difficulty": 3,
+    "value": 0,
+    "end": {
+      "effect": [
+        {
+          "u_add_morale": "morale_feeling_good",
+          "bonus": 20,
+          "max_bonus": 50,
+          "duration": "120 minutes",
+          "decay_start": "120 minutes"
+        }
+      ]
+    },
+    "origins": [ "ORIGIN_GAME_START" ]
+  },
+  {
+    "id": "MISSION_NINJA",
+    "type": "mission_definition",
+    "name": { "str": "Kill your rivals" },
+    "description": "As a real ninja, you can't allow competitors for the night.  Kill 10 shady zombies and demonstrate who is the real ninja here.",
+    "goal": "MGOAL_KILL_MONSTER_TYPE",
+    "monster_type": "mon_zombie_shady",
+    "monster_kill_goal": 10,
+    "difficulty": 4,
+    "value": 0,
+    "end": {
+      "effect": [
+        {
+          "u_add_morale": "morale_feeling_good",
+          "bonus": 20,
+          "max_bonus": 50,
+          "duration": "120 minutes",
+          "decay_start": "120 minutes"
+        }
+      ]
+    },
+    "origins": [ "ORIGIN_GAME_START" ]
+  },
+  {
+    "id": "MISSION_COSPLAY",
+    "type": "mission_definition",
+    "name": { "str": "Find some cosplay suits" },
+    "description": "The world could have ended, but there are still some fantastic costumes out there, just waiting for you to wear them.  Search them until you find them.",
+    "goal": "MGOAL_CONDITION",
+    "goal_condition": {
+      "or": [
+        { "u_has_item": "flag_jumpsuit" },
+        { "u_has_item": "jumpsuit_skeleton" },
+        { "u_has_item": "mummy_jumpsuit" },
+        { "u_has_item": "bodysuit_lycra" },
+        { "u_has_item": "wolfsuit" },
+        { "u_has_item": "dragonsuit" },
+        { "u_has_item": "felinesuit" },
+        { "u_has_item": "dinosuit" },
+        { "u_has_item": "bondage_suit" },
+        { "u_has_item": "clown_suit" },
+        { "u_has_item": "zentai" }
+      ]
+    },
+    "difficulty": 2,
+    "value": 0,
+    "end": {
+      "effect": [
+        {
+          "u_add_morale": "morale_feeling_good",
+          "bonus": 10,
+          "max_bonus": 50,
+          "duration": "60 minutes",
+          "decay_start": "60 minutes"
+        }
+      ]
+    },
+    "origins": [ "ORIGIN_GAME_START" ]
+  },
+  {
+    "id": "MISSION_SKATES",
+    "type": "mission_definition",
+    "name": { "str": "Find some skates" },
+    "description": "You are a skater at heart, and as such you need some skates to drive by, any kind will suffice.",
+    "goal": "MGOAL_CONDITION",
+    "goal_condition": {
+      "or": [
+        { "u_has_item": "roller_shoes_off" },
+        { "u_has_item": "roller_shoes_on" },
+        { "u_has_item": "roller_blades" },
+        { "u_has_item": "rollerskates" }
+      ]
+    },
+    "difficulty": 2,
+    "value": 0,
+    "end": {
+      "effect": [
+        {
+          "u_add_morale": "morale_feeling_good",
+          "bonus": 10,
+          "max_bonus": 50,
+          "duration": "60 minutes",
+          "decay_start": "60 minutes"
+        }
+      ]
+    },
+    "origins": [ "ORIGIN_GAME_START" ]
+  },
+  {
+    "id": "MISSION_STYLISH",
+    "type": "mission_definition",
+    "name": { "str": "Dress with style" },
+    "description": "You need to always dress in style and fashion.  Find a gown or tuxedo for your personal use.",
+    "goal": "MGOAL_CONDITION",
+    "goal_condition": { "or": [ { "u_has_item": "gown" }, { "u_has_item": "sinister_gown" }, { "u_has_item": "tux" } ] },
+    "difficulty": 2,
+    "value": 0,
+    "end": {
+      "effect": [
+        {
+          "u_add_morale": "morale_feeling_good",
+          "bonus": 10,
+          "max_bonus": 50,
+          "duration": "60 minutes",
+          "decay_start": "60 minutes"
+        }
+      ]
+    },
+    "origins": [ "ORIGIN_GAME_START" ]
+  },
+  {
+    "id": "MISSION_GAME_MASTER",
+    "type": "mission_definition",
+    "name": { "str": "Find a tabletop game" },
+    "description": "As a Game Master, it's just unacceptable that you now lack your means to play.  Find any tabletop game to play with any survivors you could find, even a cards game will suffice.",
+    "goal": "MGOAL_CONDITION",
+    "goal_condition": {
+      "or": [
+        { "u_has_item": "dnd" },
+        { "u_has_item": "g_warhammer" },
+        { "u_has_item": "g_warhammer40k" },
+        { "u_has_item": "cards_magic" },
+        { "u_has_item": "deck_of_cards" },
+        { "u_has_item": "chess" },
+        { "u_has_item": "checkers" },
+        { "u_has_item": "pictionary" },
+        { "u_has_item": "catan" },
+        { "u_has_item": "battleship" },
+        { "u_has_item": "clue" },
+        { "u_has_item": "catan" }
+      ]
+    },
+    "difficulty": 1,
+    "value": 0,
+    "end": {
+      "effect": [
+        {
+          "u_add_morale": "morale_feeling_good",
+          "bonus": 10,
+          "max_bonus": 50,
+          "duration": "60 minutes",
+          "decay_start": "60 minutes"
+        }
+      ]
+    },
+    "origins": [ "ORIGIN_GAME_START" ]
+  },
+  {
+    "id": "MISSION_MANSION_START",
+    "type": "mission_definition",
+    "name": { "str": "Ready or Not" },
+    "description": "Survive all day from the crazy inhabitants of the mansion.",
+    "goal": "MGOAL_CONDITION",
+    "goal_condition": { "days_since_cataclysm": 1 },
+    "difficulty": 3,
+    "value": 0,
+    "end": {
+      "effect": [
+        {
+          "u_add_morale": "morale_feeling_good",
+          "bonus": 50,
+          "max_bonus": 50,
+          "duration": "60 minutes",
+          "decay_start": "60 minutes"
+        }
+      ]
+    },
+    "origins": [ "ORIGIN_GAME_START" ]
+  },
+  {
+    "id": "MISSION_INFECTED_START_FIND_ANTIBIOTICS",
+    "type": "mission_definition",
+    "name": { "str": "Find Antibiotics Before You Die!" },
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 1,
+    "value": 0,
+    "origins": [ "ORIGIN_GAME_START" ],
+    "item": "antibiotics"
+  },
+  {
+    "id": "MISSION_HELICOPTER_REFUEL",
+    "type": "mission_definition",
+    "name": { "str": "Refuel your helicopter." },
+    "description": "You were flying towards a nearby private airport before your forced landing.  You could still reach it by ground, and scavenge it for fuel.",
+    "goal": "MGOAL_GO_TO_TYPE",
+    "destination": "s_air_hangars",
+    "difficulty": 1,
+    "value": 0,
+    "start": {
+      "assign_mission_target": { "om_terrain": "s_air_hangars", "reveal_radius": 5, "om_special": "o_airport", "search_range": 120 }
+    },
+    "origins": [ "ORIGIN_GAME_START" ]
+  },
+  {
+    "id": "MISSION_LAST_DELIVERY",
+    "type": "mission_definition",
+    "name": { "str": "Reach The Mansion And Finish This Delivery" },
+    "goal": "MGOAL_GO_TO_TYPE",
+    "destination": "mansion_c3",
+    "difficulty": 1,
+    "value": 0,
+    "start": { "assign_mission_target": { "om_terrain": "mansion_c3", "om_special": "Mansion_Wild", "search_range": 200 } },
+    "origins": [ "ORIGIN_GAME_START" ]
+  },
+  {
+    "id": "MISSION_KILL_NEMESIS",
+    "type": "mission_definition",
+    "name": { "str": "Kill your pursuer" },
+    "description": "Since the start of the Cataclysm, something has been hunting you relentlessly.  You can outrun it but never truly escape it.  It won't end until one of you dies.",
+    "goal": "MGOAL_KILL_NEMESIS",
+    "difficulty": 5,
+    "value": 0,
+    "start": "kill_nemesis",
+    "end": { "effect": [ { "u_lose_trait": "HAS_NEMESIS" } ] },
+    "origins": [ "ORIGIN_GAME_START" ]
+  }
+]

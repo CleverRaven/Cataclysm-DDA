@@ -44,6 +44,7 @@ disp_overmap_cache::disp_overmap_cache()
 {
     _center = overmap::invalid_tripoint;
     _mission = overmap::invalid_tripoint;
+    _width = 0;
 }
 
 disp_bodygraph_cache::disp_bodygraph_cache()
@@ -210,29 +211,38 @@ std::string display::get_moon()
     }
 }
 
-std::string display::time_approx()
+std::string display::time_approx( const time_point &turn )
 {
-    const int iHour = hour_of_day<int>( calendar::turn );
-    if( iHour >= 23 || iHour <= 1 ) {
+    const int iHour = hour_of_day<int>( turn );
+    if( iHour >= 23 || iHour == 0 ) {
         return _( "Around midnight" );
-    } else if( iHour <= 4 ) {
-        return _( "Dead of night" );
-    } else if( iHour <= 6 ) {
+    } else if( is_dawn( turn ) ) {
         return _( "Around dawn" );
-    } else if( iHour <= 8 ) {
+    } else if( is_dusk( turn ) ) {
+        return _( "Around dusk" );
+    } else if( iHour <= 3 && is_night( turn ) ) {
+        return _( "Dead of night" );
+    } else if( is_night( turn ) ) {
+        return _( "Night" );
+    } else if( iHour <= 7 ) {
         return _( "Early morning" );
     } else if( iHour <= 10 ) {
         return _( "Morning" );
-    } else if( iHour <= 13 ) {
+    } else if( iHour <= 12 ) {
         return _( "Around noon" );
     } else if( iHour <= 16 ) {
         return _( "Afternoon" );
     } else if( iHour <= 18 ) {
         return _( "Early evening" );
     } else if( iHour <= 20 ) {
-        return _( "Around dusk" );
+        return _( "Evening" );
     }
     return _( "Night" );
+}
+
+std::string display::time_approx()
+{
+    return time_approx( calendar::turn );
 }
 
 std::string display::date_string()
@@ -584,8 +594,7 @@ std::pair<std::string, nc_color> display::activity_text_color( const Character &
 std::pair<std::string, nc_color> display::thirst_text_color( const Character &u )
 {
     // some delay from water in stomach is desired, but there needs to be some visceral response
-    int thirst = u.get_thirst() - std::max( units::to_milliliter<int>( u.stomach.get_water() ) / 10,
-                                            0 );
+    int thirst = u.get_instant_thirst();
     std::string hydration_string;
     nc_color hydration_color = c_white;
     if( thirst > 520 ) {
@@ -976,7 +985,7 @@ std::pair<std::string, nc_color> display::move_count_and_mode_text_color( const 
     return std::make_pair( count_and_mode, mode_pair.second );
 }
 
-std::pair<std::string, nc_color> display::overmap_note_symbol_color( const std::string note_text )
+std::pair<std::string, nc_color> display::overmap_note_symbol_color( const std::string &note_text )
 {
     std::string ter_sym = "N";
     nc_color ter_color = c_yellow;
@@ -1144,7 +1153,7 @@ std::string display::colorized_overmap_text( const avatar &u, const int width, c
     const tripoint_abs_omt &center_xyz = u.global_omt_location();
     const tripoint_abs_omt &mission_xyz = u.get_active_mission_target();
     // Retrieve cached string instead of constantly rebuilding it
-    if( disp_om_cache.is_valid_for( center_xyz, mission_xyz ) ) {
+    if( disp_om_cache.is_valid_for( center_xyz, mission_xyz, width ) ) {
         return disp_om_cache.get_val();
     }
 
@@ -1183,7 +1192,7 @@ std::string display::colorized_overmap_text( const avatar &u, const int width, c
     }
 
     // Rebuild the cache so we can reuse it if nothing changes
-    disp_om_cache.rebuild( center_xyz, mission_xyz, overmap_text );
+    disp_om_cache.rebuild( center_xyz, mission_xyz, width, overmap_text );
 
     return overmap_text;
 }

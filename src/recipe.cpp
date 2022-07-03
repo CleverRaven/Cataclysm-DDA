@@ -154,10 +154,11 @@ void recipe::load( const JsonObject &jo, const std::string &src )
     } else if( type == "practice" ) {
         ident_ = recipe_id( jo.get_string( "id" ) );
         if( jo.has_member( "result" ) ) {
-            jo.throw_error( "Practice recipes should not have result (use byproducts)", "result" );
+            jo.throw_error_at( "result", "Practice recipes should not have result (use byproducts)" );
         }
         if( jo.has_member( "difficulty" ) ) {
-            jo.throw_error( "Practice recipes should not have difficulty (use practice_data)", "difficulty" );
+            jo.throw_error_at( "difficulty",
+                               "Practice recipes should not have difficulty (use practice_data)" );
         }
     } else {
         if( !jo.read( "result", result_, true ) && !result_ ) {
@@ -168,7 +169,7 @@ void recipe::load( const JsonObject &jo, const std::string &src )
 
     if( type == "recipe" && jo.has_string( "id_suffix" ) ) {
         if( abstract ) {
-            jo.throw_error( "abstract recipe cannot specify id_suffix", "id_suffix" );
+            jo.throw_error_at( "id_suffix", "abstract recipe cannot specify id_suffix" );
         }
         ident_ = recipe_id( ident_.str() + "_" + jo.get_string( "id_suffix" ) );
     }
@@ -242,14 +243,15 @@ void recipe::load( const JsonObject &jo, const std::string &src )
 
     // Mandatory: This recipe's exertion level
     // TODO: Make this mandatory, no default or 'fake' exception
-    std::string exert = jo.get_string( "activity_level", "MODERATE_EXERCISE" );
+    optional( jo, was_loaded, "activity_level", exertion_str, "MODERATE_EXERCISE" );
     // For making scripting that needs to be broken up over multiple PRs easier
-    if( exert == "fake" ) {
-        exert = "MODERATE_EXERCISE";
+    if( exertion_str == "fake" ) {
+        exertion_str = "MODERATE_EXERCISE";
     }
-    const auto it = activity_levels_map.find( exert );
+    const auto it = activity_levels_map.find( exertion_str );
     if( it == activity_levels_map.end() ) {
-        jo.throw_error( string_format( "Invalid activity level %s", exert ), "activity_level" );
+        jo.throw_error_at(
+            "activity_level", string_format( "Invalid activity level %s", exertion_str ) );
     }
     exertion = it->second;
 
@@ -415,7 +417,7 @@ void recipe::load( const JsonObject &jo, const std::string &src )
     } else if( type == "uncraft" ) {
         reversible = true;
     } else {
-        jo.throw_error( "unknown recipe type", "type" );
+        jo.throw_error_at( "type", "unknown recipe type" );
     }
 
     const requirement_id req_id( "inline_" + type + "_" + ident_.str() );

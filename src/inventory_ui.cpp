@@ -35,6 +35,7 @@
 #include "trade_ui.h"
 #include "translations.h"
 #include "type_id.h"
+#include "uistate.h"
 #include "ui_manager.h"
 #include "units.h"
 #include "units_utility.h"
@@ -224,6 +225,48 @@ class selection_column_preset : public inventory_selector_preset
         }
 };
 
+struct inventory_selector_save_state {
+    public:
+        inventory_selector::uimode uimode = inventory_selector::uimode::categories;
+
+        void serialize( JsonOut &json ) const {
+            json.start_object();
+            json.member( "uimode", uimode );
+            json.end_object();
+        }
+        void deserialize( JsonObject const &jo ) {
+            jo.read( "uimode", uimode );
+        }
+};
+
+namespace io
+{
+template <>
+std::string enum_to_string<inventory_selector::uimode>( inventory_selector::uimode mode )
+{
+    switch( mode ) {
+        case inventory_selector::uimode::hierarchy:
+            return "hierarchy";
+        case inventory_selector::uimode::last:
+        case inventory_selector::uimode::categories:
+            break;
+    }
+    return "categories";
+}
+} // namespace io
+
+static inventory_selector_save_state inventory_ui_default_state;
+
+void save_inv_state( JsonOut &json )
+{
+    json.member( "inventory_ui_state", inventory_ui_default_state );
+}
+
+void load_inv_state( const JsonObject &jo )
+{
+    jo.read( "inventory_ui_state", inventory_ui_default_state );
+}
+
 static const selection_column_preset selection_preset{};
 
 bool inventory_entry::is_hidden() const
@@ -324,7 +367,7 @@ bool inventory_column::activatable() const
 
 inventory_entry *inventory_column::find_by_invlet( int invlet ) const
 {
-    for( const auto &elem : entries ) {
+    for( const inventory_entry &elem : entries ) {
         if( elem.is_item() && elem.get_invlet() == invlet ) {
             return const_cast<inventory_entry *>( &elem );
         }
@@ -508,7 +551,7 @@ std::string inventory_selector_preset::cell_t::get_text( const inventory_entry &
 
 bool inventory_holster_preset::is_shown( const item_location &contained ) const
 {
-    if( contained.eventually_contains( holster ) ) {
+    if( contained.eventually_contains( holster ) || holster.eventually_contains( contained ) ) {
         return false;
     }
     if( contained.where() != item_location::type::container
@@ -763,11 +806,11 @@ void inventory_column::expand_to_fit( const inventory_entry &entry )
 
 void inventory_column::reset_width( const std::vector<inventory_column *> & )
 {
-    for( auto &elem : cells ) {
+    for( inventory_column::cell_t &elem : cells ) {
         elem = cell_t();
     }
     reserved_width = 0;
-    for( auto &elem : entries ) {
+    for( inventory_entry &elem : entries ) {
         expand_to_fit( elem );
     }
 }
@@ -837,7 +880,7 @@ void inventory_column::_get_entries( get_entries_t *res, entries_t const &ent,
                                      const ffilter_t &filter_func ) const
 {
     if( allows_selecting() ) {
-        for( const auto &elem : ent ) {
+        for( const inventory_entry &elem : ent ) {
             if( filter_func( elem ) ) {
                 res->push_back( const_cast<inventory_entry *>( &elem ) );
             }
@@ -911,12 +954,9 @@ void inventory_column::on_input( const inventory_input &input )
         } else if( input.action == "TOGGLE_FAVORITE" ) {
             inventory_entry &selected = get_highlighted();
             set_stack_favorite( selected.locations, !selected.any_item()->is_favorite );
-        } else if( input.action == "HIDE_CONTENTS" ) {
+        } else if( input.action == "SHOW_HIDE_CONTENTS" ) {
             inventory_entry &selected = get_highlighted();
-            set_collapsed( selected, true );
-        } else if( input.action == "SHOW_CONTENTS" ) {
-            inventory_entry &selected = get_highlighted();
-            set_collapsed( selected, false );
+            selected.collapsed ? set_collapsed( selected, false ) : set_collapsed( selected, true );
         }
     }
 
@@ -951,18 +991,18 @@ inventory_entry *inventory_column::add_entry( const inventory_entry &entry )
             }
             item_location found_entry_item = entry.locations.front();
             // this would be much simpler if item::parent_item() didn't call debugmsg
-            return entry_item.where() == found_entry_item.where() and
-                   entry_item.position() == found_entry_item.position() and
-                   ( ( !entry_item.has_parent() and !found_entry_item.has_parent() ) ||
-                     ( entry_item.has_parent() and found_entry_item.has_parent() and
-                       entry_item.parent_item() == found_entry_item.parent_item() ) ) and
-                   entry_item->is_collapsed() == found_entry_item->is_collapsed() and
+            return entry_item.where() == found_entry_item.where() &&
+                   entry_item.position() == found_entry_item.position() &&
+                   ( ( !entry_item.has_parent() && !found_entry_item.has_parent() ) ||
+                     ( entry_item.has_parent() && found_entry_item.has_parent() &&
+                       entry_item.parent_item() == found_entry_item.parent_item() ) ) &&
+                   entry_item->is_collapsed() == found_entry_item->is_collapsed() &&
                    entry_item->display_stacked_with( *found_entry_item, preset.get_checking_components() );
         } );
         if( entry_with_loc != entries.end() ) {
             std::vector<item_location> locations = entry_with_loc->locations;
             locations.insert( locations.end(), entry.locations.begin(), entry.locations.end() );
-            inventory_entry nentry( locations, entry.get_category_ptr(), true, 0,
+            inventory_entry nentry( locations, entry.get_category_ptr(), entry.is_selectable(), 0,
                                     entry_with_loc->generation, entry_with_loc->topmost_parent,
                                     entry_with_loc->chevron );
             nentry.collapsed = entry_with_loc->collapsed;
@@ -977,7 +1017,7 @@ inventory_entry *inventory_column::add_entry( const inventory_entry &entry )
 
 void inventory_column::_move_entries_to( entries_t const &ent, inventory_column &dest )
 {
-    for( const auto &elem : ent ) {
+    for( const inventory_entry &elem : ent ) {
         if( elem.is_item() &&
             // this column already has this entry, no need to try to add it again
             std::find( dest.entries.begin(), dest.entries.end(), elem ) == dest.entries.end() ) {
@@ -1033,7 +1073,7 @@ bool inventory_column::indented_sort_compare( inventory_entry const &lhs,
         return path_lhs.size() < path_rhs.size();
     }
     // otherwise sort the entries below their lowest common ancestor
-    while( li < path_lhs.size() and path_lhs[li] != path_rhs[ri] ) {
+    while( li < path_lhs.size() && path_lhs[li] != path_rhs[ri] ) {
         p_lhs = path_lhs[li++];
         p_rhs = path_rhs[ri++];
     }
@@ -1065,9 +1105,9 @@ void inventory_column::prepare_paging( const std::string &filter )
         return !is_visible( it );
     };
 
-    // restore entries revealed by SHOW_CONTENTS or filter
+    // restore entries revealed by SHOW_HIDE_CONTENTS or filter
     move_if( entries_hidden, entries, is_visible );
-    // remove entries hidden by HIDE_CONTENTS
+    // remove entries hidden by SHOW_HIDE_CONTENTS
     move_if( entries, entries_hidden, is_not_visible );
 
     // Then sort them with respect to categories
@@ -1163,7 +1203,7 @@ size_t inventory_column::get_entry_indent( const inventory_entry &entry ) const
 int inventory_column::reassign_custom_invlets( const Character &p, int min_invlet, int max_invlet )
 {
     int cur_invlet = min_invlet;
-    for( auto &elem : entries ) {
+    for( inventory_entry &elem : entries ) {
         // Only items on map/in vehicles: those that the player does not possess.
         if( elem.is_selectable() && !p.has_item( *elem.any_item() ) ) {
             elem.custom_invlet = cur_invlet <= max_invlet ? cur_invlet++ : '\0';
@@ -1172,13 +1212,16 @@ int inventory_column::reassign_custom_invlets( const Character &p, int min_invle
     return cur_invlet;
 }
 
-int inventory_column::reassign_custom_invlets( int cur_idx, const std::string pickup_chars )
+int inventory_column::reassign_custom_invlets( int cur_idx, const std::string &pickup_chars )
 {
-    for( auto &elem : entries ) {
+    for( inventory_entry &elem : entries ) {
         // Only items on map/in vehicles: those that the player does not possess.
         if( elem.is_selectable() && elem.any_item()->invlet <= '\0' ) {
-            elem.custom_invlet = cur_idx < static_cast<int>( pickup_chars.size() ) ? pickup_chars[cur_idx] :
-                                 '\0';
+            elem.custom_invlet =
+                static_cast<uint8_t>(
+                    cur_idx < static_cast<int>( pickup_chars.size() ) ?
+                    pickup_chars[cur_idx] : '\0'
+                );
             cur_idx++;
         }
     }
@@ -1272,7 +1315,7 @@ void inventory_column::draw( const catacurses::window &win, const point &p,
                                    text_width; // Align either to the left or to the right
 
                 const std::string &hl_option = get_option<std::string>( "INVENTORY_HIGHLIGHT" );
-                if( cell_index == 0 and entry.chevron ) {
+                if( cell_index == 0 && entry.chevron ) {
                     trim_and_print( win, point( text_x - 1, yy ), 1, c_dark_gray,
                                     entry.collapsed ? "▶" : "▼" );
                 }
@@ -1535,12 +1578,17 @@ void inventory_selector::add_contained_ebooks( item_location &container )
 void inventory_selector::add_character_items( Character &character )
 {
     item &weapon = character.get_wielded_item();
+    bool const hierarchy = _uimode == uimode::hierarchy;
     if( !weapon.is_null() ) {
         item_location loc( character, &weapon );
-        add_entry_rec( own_gear_column, own_inv_column, loc, &item_category_WEAPON_HELD.obj() );
+        add_entry_rec( own_gear_column, hierarchy ? own_gear_column : own_inv_column, loc,
+                       &item_category_WEAPON_HELD.obj(),
+                       hierarchy ? &item_category_WEAPON_HELD.obj() : nullptr );
     }
     for( item_location &worn_item : character.top_items_loc() ) {
-        add_entry_rec( own_gear_column, own_inv_column, worn_item, &item_category_ITEMS_WORN.obj() );
+        add_entry_rec( own_gear_column, hierarchy ? own_gear_column : own_inv_column, worn_item,
+                       &item_category_ITEMS_WORN.obj(),
+                       hierarchy ? &item_category_ITEMS_WORN.obj() : nullptr );
     }
     own_inv_column.set_indent_entries_override( false );
 }
@@ -1616,7 +1664,7 @@ void inventory_selector::add_remote_map_items( tinymap *remote_map, const tripoi
 void inventory_selector::clear_items()
 {
     is_empty = true;
-    for( auto &column : columns ) {
+    for( inventory_column *&column : columns ) {
         column->clear();
     }
     own_inv_column.clear();
@@ -1711,7 +1759,7 @@ void inventory_selector::prepare_layout( size_t client_width, size_t client_heig
 {
     // This block adds categories and should go before any width evaluations
     const bool initial = get_active_column().get_highlighted_index() == static_cast<size_t>( -1 );
-    for( auto &elem : columns ) {
+    for( inventory_column *&elem : columns ) {
         elem->set_height( client_height );
         elem->reset_width( columns );
         elem->prepare_paging( filter );
@@ -1737,7 +1785,7 @@ void inventory_selector::prepare_layout( size_t client_width, size_t client_heig
 void inventory_selector::reassign_custom_invlets()
 {
     if( invlet_type_ == SELECTOR_INVLET_DEFAULT || invlet_type_ == SELECTOR_INVLET_NUMERIC ) {
-        int min_invlet = use_invlet ? '0' : '\0';
+        int min_invlet = static_cast<uint8_t>( use_invlet ? '0' : '\0' );
         for( inventory_column *elem : columns ) {
             elem->prepare_paging();
             min_invlet = elem->reassign_custom_invlets( u, min_invlet, use_invlet ? '9' : '\0' );
@@ -2098,7 +2146,7 @@ void inventory_selector::draw_columns( const catacurses::window &w )
     size_t active_x = 0;
 
     rect_entry_map.clear();
-    for( const auto &elem : columns ) {
+    for( inventory_column * const &elem : columns ) {
         if( &elem == &columns.back() ) {
             x += gap_rounding_error;
         }
@@ -2179,6 +2227,7 @@ inventory_selector::inventory_selector( Character &u, const inventory_selector_p
     , own_inv_column( preset )
     , own_gear_column( preset )
     , map_column( preset )
+    , _uimode( inventory_ui_default_state.uimode )
 {
     ctxt.register_action( "DOWN", to_translation( "Next item" ) );
     ctxt.register_action( "UP", to_translation( "Previous item" ) );
@@ -2199,10 +2248,10 @@ inventory_selector::inventory_selector( Character &u, const inventory_selector_p
     ctxt.register_action( "INVENTORY_FILTER" );
     ctxt.register_action( "RESET_FILTER" );
     ctxt.register_action( "EXAMINE" );
-    ctxt.register_action( "HIDE_CONTENTS", to_translation( "Hide contents" ) );
-    ctxt.register_action( "SHOW_CONTENTS", to_translation( "Show contents" ) );
+    ctxt.register_action( "SHOW_HIDE_CONTENTS", to_translation( "Show/hide contents" ) );
     ctxt.register_action( "EXAMINE_CONTENTS" );
     ctxt.register_action( "TOGGLE_SKIP_UNSELECTABLE" );
+    ctxt.register_action( "ORGANIZE_MENU" );
 
     append_column( own_inv_column );
     append_column( map_column );
@@ -2213,7 +2262,10 @@ inventory_selector::inventory_selector( Character &u, const inventory_selector_p
     }
 }
 
-inventory_selector::~inventory_selector() = default;
+inventory_selector::~inventory_selector()
+{
+    inventory_ui_default_state.uimode = _uimode;
+}
 
 bool inventory_selector::empty() const
 {
@@ -2309,9 +2361,9 @@ void inventory_selector::on_input( const inventory_input &input )
                 current_ui->mark_resize();
             }
         }
-        if( input.action == "HIDE_CONTENTS" || input.action == "SHOW_CONTENTS" ) {
+        if( input.action == "SHOW_HIDE_CONTENTS" ) {
             shared_ptr_fast<ui_adaptor> current_ui = ui.lock();
-            for( auto const &col : columns ) {
+            for( inventory_column * const &col : columns ) {
                 col->invalidate_paging();
             }
             if( current_ui ) {
@@ -2325,7 +2377,7 @@ void inventory_selector::on_input( const inventory_input &input )
 
 void inventory_selector::on_change( const inventory_entry &entry )
 {
-    for( auto &elem : columns ) {
+    for( inventory_column *&elem : columns ) {
         elem->on_change( entry );
     }
     refresh_active_column(); // Columns can react to changes by losing their activation capacity
@@ -2403,11 +2455,11 @@ void inventory_selector::toggle_categorize_contained()
     if( get_highlighted().is_item() ) {
         highlighted = get_highlighted().locations;
     }
-    if( _mode == uimode::hierarchy ) {
+    if( _uimode == uimode::hierarchy ) {
         inventory_column replacement_column;
         for( inventory_entry *entry : own_gear_column.get_entries( return_item, true ) ) {
             item_location const loc = entry->locations.front();
-            if( entry->any_item().where() == item_location::type::container and
+            if( entry->any_item().where() == item_location::type::container &&
                 !is_worn_ablative( loc.parent_item(), loc ) ) {
                 item_location ancestor = entry->any_item();
                 while( ancestor.has_parent() ) {
@@ -2430,7 +2482,7 @@ void inventory_selector::toggle_categorize_contained()
         own_gear_column.clear();
         replacement_column.move_entries_to( own_gear_column );
         own_inv_column.set_indent_entries_override( false );
-        _mode = uimode::categories;
+        _uimode = uimode::categories;
     } else {
         for( inventory_entry *entry : own_inv_column.get_entries( return_item, true ) ) {
             item_location ancestor = entry->any_item();
@@ -2452,7 +2504,7 @@ void inventory_selector::toggle_categorize_contained()
             ret->generation = entry->generation;
         }
         own_inv_column.clear();
-        _mode = uimode::hierarchy;
+        _uimode = uimode::hierarchy;
     }
     if( !highlighted.empty() ) {
         highlight_one_of( highlighted );
@@ -2489,7 +2541,7 @@ void inventory_selector::toggle_active_column( scroll_direction dir )
 void inventory_selector::toggle_navigation_mode()
 {
     mode = get_navigation_data( mode ).next_mode;
-    for( auto &elem : columns ) {
+    for( inventory_column *&elem : columns ) {
         elem->on_mode_change( mode );
     }
 }
@@ -2532,6 +2584,9 @@ item_location inventory_pick_selector::execute()
                 ui_manager::redraw();
             }
             return input.entry->any_item();
+        } else if( input.action == "ORGANIZE_MENU" ) {
+            u.worn.organize_items_menu();
+            return item_location();
         } else if( input.action == "QUIT" ) {
             return item_location();
         } else if( input.action == "CONFIRM" ) {
@@ -2654,7 +2709,7 @@ void inventory_multiselector::set_chosen_count( inventory_entry &entry, size_t c
     for( const item_location &loc : entry.locations ) {
         for( auto iter = to_use.begin(); iter != to_use.end(); ) {
             if( iter->first == loc ) {
-                to_use.erase( iter );
+                iter = to_use.erase( iter );
             } else {
                 ++iter;
             }
@@ -2952,7 +3007,7 @@ void inventory_multiselector::on_input( const inventory_input &input )
         count += input.ch - '0';
     } else if( input.action == "TOGGLE_ENTRY" ) { // Mark selected
         toggle_entries( count, toggle_mode::SELECTED );
-    } else if( input.action == "INCREASE_COUNT" or input.action == "DECREASE_COUNT" ) {
+    } else if( input.action == "INCREASE_COUNT" || input.action == "DECREASE_COUNT" ) {
         inventory_entry &entry = get_active_column().get_highlighted();
         size_t const count = entry.chosen_count;
         size_t const max = entry.get_available_count();
@@ -3287,7 +3342,7 @@ int inventory_examiner::execute()
             examine_window_scroll += scroll_item_info_lines;
         } else {
             ui->invalidate_ui(); //The player is probably doing something that requires updating the base window
-            if( input.action == "SHOW_CONTENTS" || input.action == "HIDE_CONTENTS" ) {
+            if( input.action == "SHOW_HIDE_CONTENTS" ) {
                 changes_made = true;
             }
             on_input( input );

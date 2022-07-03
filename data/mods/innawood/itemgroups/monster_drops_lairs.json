@@ -1,7 +1,7 @@
 [
   {
     "type": "item_group",
-    "id": "ant_food_innawood",
+    "id": "ant_food",
     "subtype": "distribution",
     "entries": [
       { "item": "meat", "prob": 50 },
@@ -52,7 +52,7 @@
   },
   {
     "type": "item_group",
-    "id": "spider_innawood",
+    "id": "spider",
     "magazine": 100,
     "subtype": "distribution",
     "entries": [
@@ -72,7 +72,6 @@
     "type": "item_group",
     "id": "hive",
     "subtype": "distribution",
-    "copy-from": "hive",
-    "extend": { "entries": [ { "item": "honeycomb", "prob": 100000 } ] }
+    "entries": [ { "item": "honeycomb", "prob": 10 } ]
   }
 ]

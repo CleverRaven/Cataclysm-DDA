@@ -99,6 +99,9 @@ void avatar::power_mutations()
     std::vector<trait_id> passive;
     std::vector<trait_id> active;
     for( std::pair<const trait_id, trait_data> &mut : my_mutations ) {
+        if( !mut.first->player_display ) {
+            continue;
+        }
         if( !mut.first->activated ) {
             passive.push_back( mut.first );
         } else {
@@ -106,7 +109,7 @@ void avatar::power_mutations()
         }
         // New mutations are initialized with no key at all, so we have to do this here.
         if( mut.second.key == ' ' ) {
-            for( const auto &letter : mutation_chars ) {
+            for( const char &letter : mutation_chars ) {
                 if( trait_by_invlet( letter ).is_null() ) {
                     mut.second.key = letter;
                     break;
@@ -293,14 +296,33 @@ void avatar::power_mutations()
                 mvwputch( wBio, point( second_column, list_start_y + i - scroll_position ),
                           type, td.key );
                 std::string mut_desc;
+                std::string resource_unit;
+                int number_of_resource = 0;
+                if( md.hunger ) {
+                    resource_unit += _( " kcal" );
+                    number_of_resource++;
+                }
+                if( md.thirst ) {
+                    if( number_of_resource > 0 ) {
+                        //~ Resources consumed by a mutation: "kcal & thirst & fatigue"
+                        resource_unit += _( " &" );
+                    }
+                    resource_unit += _( " thirst" );
+                    number_of_resource++;
+                }
+                if( md.fatigue ) {
+                    if( number_of_resource > 0 ) {
+                        //~ Resources consumed by a mutation: "kcal & thirst & fatigue"
+                        resource_unit += _( " &" );
+                    }
+                    resource_unit += _( " fatigue" );
+                }
                 mut_desc += md.name();
                 if( md.cost > 0 && md.cooldown > 0 ) {
-                    //~ RU means Resource Units
-                    mut_desc += string_format( _( " - %d RU / %d turns" ),
-                                               md.cost, md.cooldown );
+                    mut_desc += string_format( _( " - %d%s / %d turns" ),
+                                               md.cost, resource_unit, md.cooldown );
                 } else if( md.cost > 0 ) {
-                    //~ RU means Resource Units
-                    mut_desc += string_format( _( " - %d RU" ), md.cost );
+                    mut_desc += string_format( _( " - %d%s" ), md.cost, resource_unit );
                 } else if( md.cooldown > 0 ) {
                     mut_desc += string_format( _( " - %d turns" ), md.cooldown );
                 }

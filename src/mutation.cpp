@@ -47,8 +47,11 @@ static const activity_id ACT_TREE_COMMUNION( "ACT_TREE_COMMUNION" );
 
 static const itype_id itype_fake_burrowing( "fake_burrowing" );
 
+static const json_character_flag json_flag_CHLOROMORPH( "CHLOROMORPH" );
 static const json_character_flag json_flag_HUGE( "HUGE" );
 static const json_character_flag json_flag_LARGE( "LARGE" );
+static const json_character_flag json_flag_ROOTS2( "ROOTS2" );
+static const json_character_flag json_flag_ROOTS3( "ROOTS3" );
 static const json_character_flag json_flag_SMALL( "SMALL" );
 static const json_character_flag json_flag_TINY( "TINY" );
 
@@ -58,7 +61,6 @@ static const mutation_category_id mutation_category_ANY( "ANY" );
 
 static const trait_id trait_BURROW( "BURROW" );
 static const trait_id trait_BURROWLARGE( "BURROWLARGE" );
-static const trait_id trait_CHLOROMORPH( "CHLOROMORPH" );
 static const trait_id trait_DEBUG_BIONIC_POWER( "DEBUG_BIONIC_POWER" );
 static const trait_id trait_DEBUG_BIONIC_POWERGEN( "DEBUG_BIONIC_POWERGEN" );
 static const trait_id trait_DEX_ALPHA( "DEX_ALPHA" );
@@ -73,8 +75,6 @@ static const trait_id trait_M_FERTILE( "M_FERTILE" );
 static const trait_id trait_M_PROVENANCE( "M_PROVENANCE" );
 static const trait_id trait_NAUSEA( "NAUSEA" );
 static const trait_id trait_PER_ALPHA( "PER_ALPHA" );
-static const trait_id trait_ROOTS2( "ROOTS2" );
-static const trait_id trait_ROOTS3( "ROOTS3" );
 static const trait_id trait_SLIMESPAWNER( "SLIMESPAWNER" );
 static const trait_id trait_SNAIL_TRAIL( "SNAIL_TRAIL" );
 static const trait_id trait_STR_ALPHA( "STR_ALPHA" );
@@ -391,7 +391,7 @@ void Character::mutation_effect( const trait_id &mut, const bool worn_destroyed_
 
     recalculate_size();
 
-    const auto &branch = mut.obj();
+    const mutation_branch &branch = mut.obj();
     if( branch.hp_modifier.has_value() || branch.hp_modifier_secondary.has_value() ||
         branch.hp_adjustment.has_value() ) {
         recalc_hp();
@@ -482,7 +482,7 @@ void Character::mutation_loss_effect( const trait_id &mut )
 
     recalculate_size();
 
-    const auto &branch = mut.obj();
+    const mutation_branch &branch = mut.obj();
     if( branch.hp_modifier.has_value() || branch.hp_modifier_secondary.has_value() ||
         branch.hp_adjustment.has_value() ) {
         recalc_hp();
@@ -658,7 +658,7 @@ void Character::activate_mutation( const trait_id &mut )
         }
         if( mdata.hunger ) {
             // burn some energy
-            mod_stored_kcal( cost );
+            mod_stored_kcal( -cost );
         }
         if( mdata.thirst ) {
             mod_thirst( cost );
@@ -765,7 +765,8 @@ void Character::activate_mutation( const trait_id &mut )
             return;
         }
 
-        if( has_trait( trait_ROOTS2 ) || has_trait( trait_ROOTS3 ) || has_trait( trait_CHLOROMORPH ) ) {
+        if( has_flag( json_flag_ROOTS2 ) || has_flag( json_flag_ROOTS3 ) ||
+            has_flag( json_flag_CHLOROMORPH ) ) {
             add_msg_if_player( _( "You reach out to the trees with your roots." ) );
         } else {
             add_msg_if_player(
@@ -774,9 +775,10 @@ void Character::activate_mutation( const trait_id &mut )
 
         assign_activity( ACT_TREE_COMMUNION );
 
-        if( has_trait( trait_ROOTS2 ) || has_trait( trait_ROOTS3 ) || has_trait( trait_CHLOROMORPH ) ) {
-            const time_duration startup_time = ( has_trait( trait_ROOTS3 ) ||
-                                                 has_trait( trait_CHLOROMORPH ) ) ? rng( 15_minutes,
+        if( has_flag( json_flag_ROOTS2 ) || has_flag( json_flag_ROOTS3 ) ||
+            has_flag( json_flag_CHLOROMORPH ) ) {
+            const time_duration startup_time = ( has_flag( json_flag_ROOTS3 ) ||
+                                                 has_flag( json_flag_CHLOROMORPH ) ) ? rng( 15_minutes,
                                                          30_minutes ) : rng( 60_minutes, 90_minutes );
             activity.values.push_back( to_turns<int>( startup_time ) );
             return;
@@ -830,14 +832,12 @@ void Character::deactivate_mutation( const trait_id &mut )
         recalculate_enchantment_cache();
     }
 
-    if( !mut->deactivated_eocs.empty() ) {
-        for( const effect_on_condition_id &eoc : mut->deactivated_eocs ) {
-            dialogue d( get_talker_for( *this ), nullptr );
-            if( eoc->type == eoc_type::ACTIVATION ) {
-                eoc->activate( d );
-            } else {
-                debugmsg( "Must use an activation eoc for a mutation deactivation.  If you don't want the effect_on_condition to happen on its own (without the mutation being activated), remove the recurrence min and max.  Otherwise, create a non-recurring effect_on_condition for this mutation with its condition and effects, then have a recurring one queue it." );
-            }
+    for( const effect_on_condition_id &eoc : mut->deactivated_eocs ) {
+        dialogue d( get_talker_for( *this ), nullptr );
+        if( eoc->type == eoc_type::ACTIVATION ) {
+            eoc->activate( d );
+        } else {
+            debugmsg( "Must use an activation eoc for a mutation deactivation.  If you don't want the effect_on_condition to happen on its own (without the mutation being activated), remove the recurrence min and max.  Otherwise, create a non-recurring effect_on_condition for this mutation with its condition and effects, then have a recurring one queue it." );
         }
     }
 
@@ -948,11 +948,6 @@ void Character::mutate( const int &true_random_chance, const bool use_vitamins )
         for( const trait_id &traits_iter : mutations_category[cat] ) {
             const trait_id &base_mutation = traits_iter;
             const mutation_branch &base_mdata = traits_iter.obj();
-            bool thresh_save = base_mdata.threshold;
-            bool terminus_save = base_mdata.terminus;
-            bool prof_save = base_mdata.profession;
-            // are we unpurifiable? (saved from mutating away)
-            bool purify_save = !base_mdata.purifiable;
 
             // ...those we don't have are valid.
             if( base_mdata.valid && is_category_allowed( base_mdata.category ) ) {
@@ -962,40 +957,44 @@ void Character::mutate( const int &true_random_chance, const bool use_vitamins )
             // ...for those that we have...
             if( has_trait( base_mutation ) ) {
                 // ...consider the mutations that replace it.
+
                 for( const trait_id &mutation : base_mdata.replacements ) {
-                    if( mutation->valid && mutation_ok( mutation, force_good, force_bad, mut_vit, terminal ) ) {
+                    if( mutation->valid && mutation_ok( mutation, force_good, force_bad, mut_vit, terminal ) &&
+                        mutation_is_in_category( mutation, cat ) ) {
                         upgrades.push_back( mutation );
                     }
                 }
 
                 // ...consider the mutations that add to it.
                 for( const trait_id &mutation : base_mdata.additions ) {
-                    if( mutation->valid && mutation_ok( mutation, force_good, force_bad, mut_vit, terminal ) ) {
+                    if( mutation->valid && mutation_ok( mutation, force_good, force_bad, mut_vit, terminal ) &&
+                        mutation_is_in_category( mutation, cat ) ) {
                         upgrades.push_back( mutation );
                     }
                 }
+            }
+        }
 
-                // ...consider whether its in our current category
-                if( has_trait( base_mutation ) && !has_base_trait( base_mutation ) ) {
-                    // Starting traits don't count toward categories
-                    std::vector<trait_id> group = mutations_category[cat];
-                    bool in_cat = false;
-                    for( const trait_id &elem : group ) {
-                        if( elem == base_mutation ) {
-                            in_cat = true;
-                            break;
-                        }
-                    }
+        // Check whether any of our current mutations are candidates for
+        // removal. If the mutation doesn't belong to the current category and
+        // can be removed there is 1/4 chance of it being added to the removal
+        // candidates list.
+        for( const auto &mutations_iter : my_mutations ) {
+            const trait_id &mutation_id = mutations_iter.first;
+            const mutation_branch &base_mdata = mutation_id.obj();
+            if( has_base_trait( mutation_id ) || find( base_mdata.category.begin(), base_mdata.category.end(),
+                    cat ) != base_mdata.category.end() ) {
+                continue;
+            }
 
-                    // mark for removal
-                    // no removing Thresholds/Professions this way!
-                    // unpurifiable traits also cannot be purified
-                    // removing a Terminus trait is a definite no
-                    if( !in_cat && !thresh_save && !terminus_save && !prof_save && !purify_save ) {
-                        if( one_in( 4 ) ) {
-                            downgrades.push_back( base_mutation );
-                        }
-                    }
+            // mark for removal
+            // no removing Thresholds/Professions this way!
+            // unpurifiable traits also cannot be purified
+            // removing a Terminus trait is a definite no
+            if( !base_mdata.threshold && !base_mdata.terminus && !base_mdata.profession &&
+                base_mdata.purifiable ) {
+                if( one_in( 4 ) ) {
+                    downgrades.push_back( mutation_id );
                 }
             }
         }
@@ -1007,7 +1006,7 @@ void Character::mutate( const int &true_random_chance, const bool use_vitamins )
                 size_t roll = rng( 0, upgrades.size() + 4 );
                 if( roll < upgrades.size() ) {
                     // We got a valid upgrade index, so use it and return.
-                    mutate_towards( upgrades[roll], mut_vit );
+                    mutate_towards( upgrades[roll], cat );
                     return;
                 }
             }
@@ -1044,10 +1043,10 @@ void Character::mutate( const int &true_random_chance, const bool use_vitamins )
                 return;
             }
         } else {
-            if( mut_vit != vitamin_id::NULL_ID() and vitamin_get( mut_vit ) >= 2200 ) {
+            if( mut_vit != vitamin_id::NULL_ID() && vitamin_get( mut_vit ) >= 2200 ) {
                 test_crossing_threshold( cat );
             }
-            if( mutate_towards( valid, mut_vit, 2 ) ) {
+            if( mutate_towards( valid, cat, 2 ) ) {
                 add_msg_if_player( m_mixed, mutation_category_trait::get_category( cat ).mutagen_message() );
             }
             return;
@@ -1090,7 +1089,7 @@ void Character::mutate_category( const mutation_category_id &cat, const bool use
         }
     }
 
-    mutate_towards( valid, mut_vit, 2 );
+    mutate_towards( valid, cat, 2 );
 }
 
 void Character::mutate_category( const mutation_category_id &cat )
@@ -1114,13 +1113,13 @@ static std::vector<trait_id> get_all_mutation_prereqs( const trait_id &id )
     return ret;
 }
 
-bool Character::mutate_towards( std::vector<trait_id> muts, const vitamin_id &mut_vit,
+bool Character::mutate_towards( std::vector<trait_id> muts, const mutation_category_id &mut_cat,
                                 int num_tries )
 {
     while( !muts.empty() && num_tries > 0 ) {
         int i = rng( 0, muts.size() - 1 );
 
-        if( mutate_towards( muts[i], mut_vit ) ) {
+        if( mutate_towards( muts[i], mut_cat ) ) {
             return true;
         }
 
@@ -1131,22 +1130,27 @@ bool Character::mutate_towards( std::vector<trait_id> muts, const vitamin_id &mu
     return false;
 }
 
-bool Character::mutate_towards( const trait_id &mut, const vitamin_id &mut_vit )
+bool Character::mutate_towards( const trait_id &mut, const mutation_category_id &mut_cat )
 {
     if( has_child_flag( mut ) ) {
         remove_child_flag( mut );
         return true;
     }
     const mutation_branch &mdata = mut.obj();
-    bool has_prereqs = false;
-    bool prereq1 = false;
-    bool prereq2 = false;
+    // character has...
+    bool c_has_both_prereqs = false;
+    bool c_has_prereq1 = false;
+    bool c_has_prereq2 = false;
     std::vector<trait_id> canceltrait;
-    std::vector<trait_id> prereq = mdata.prereqs;
+    std::vector<trait_id> prereqs1 = mdata.prereqs;
     std::vector<trait_id> prereqs2 = mdata.prereqs2;
     std::vector<trait_id> cancel = mdata.cancels;
     std::vector<trait_id> same_type = get_mutations_in_types( mdata.types );
     std::vector<trait_id> all_prereqs = get_all_mutation_prereqs( mut );
+    // mutation has...
+    bool mut_has_prereq1 = !mdata.prereqs.empty();
+    bool mut_has_prereq2 = !mdata.prereqs2.empty();
+
 
     // Check mutations of the same type - except for the ones we might need for pre-reqs
     for( const auto &consider : same_type ) {
@@ -1186,50 +1190,70 @@ bool Character::mutate_towards( const trait_id &mut, const vitamin_id &mut_vit )
         }
     }
 
-    for( size_t i = 0; i < canceltrait.size(); i++ ) {
-        if( !purifiable( canceltrait[i] ) ) {
+    for( auto &m : canceltrait ) {
+        if( !purifiable( m ) ) {
             // We can't cancel unpurifiable mutations
             return false;
         }
     }
 
-    for( size_t i = 0; ( !prereq1 ) && i < prereq.size(); i++ ) {
-        if( has_trait( prereq[i] ) ) {
-            prereq1 = true;
+    for( size_t i = 0; ( !c_has_prereq1 ) && i < prereqs1.size(); i++ ) {
+        if( has_trait( prereqs1[i] ) ) {
+            c_has_prereq1 = true;
         }
     }
 
-    for( size_t i = 0; ( !prereq2 ) && i < prereqs2.size(); i++ ) {
+    for( size_t i = 0; ( !c_has_prereq2 ) && i < prereqs2.size(); i++ ) {
         if( has_trait( prereqs2[i] ) ) {
-            prereq2 = true;
+            c_has_prereq2 = true;
         }
     }
 
-    if( prereq1 && prereq2 ) {
-        has_prereqs = true;
+    if( c_has_prereq1 && c_has_prereq2 ) {
+        c_has_both_prereqs = true;
     }
 
-    if( !has_prereqs && ( !prereq.empty() || !prereqs2.empty() ) ) {
-        if( !prereq1 && !prereq.empty() ) {
-            return mutate_towards( prereq, mut_vit );
-        } else if( !prereq2 && !prereqs2.empty() ) {
-            return mutate_towards( prereqs2, mut_vit );
+    // Only mutate in-category prerequisites
+    if( mut_cat != mutation_category_ANY ) {
+        auto is_not_in_mut_cat = [&mut_cat]( const trait_id & p ) {
+            return !mutation_is_in_category( p, mut_cat );
+        };
+        prereqs1.erase( std::remove_if( prereqs1.begin(), prereqs1.end(), is_not_in_mut_cat ),
+                        prereqs1.end() );
+        prereqs2.erase( std::remove_if( prereqs2.begin(), prereqs2.end(), is_not_in_mut_cat ),
+                        prereqs2.end() );
+    }
+
+    // Mutation consistency check should prevent this from ever happening, but raise an error
+    // if it somehow does, because otherwise nobody will ever notice
+    if( ( mut_has_prereq1 && !c_has_prereq1 && prereqs1.empty() ) ||
+        ( mut_has_prereq2 && !c_has_prereq2 && prereqs2.empty() ) ) {
+        debugmsg( "Failed to mutate towards %s because a prerequisite is needed but none are available in category %s",
+                  mdata.id.c_str(), mut_cat.c_str() );
+        return false;
+    }
+
+    if( !c_has_both_prereqs && ( !prereqs1.empty() || !prereqs2.empty() ) ) {
+        if( !c_has_prereq1 && !prereqs1.empty() ) {
+            return mutate_towards( prereqs1, mut_cat );
+        } else if( !c_has_prereq2 && !prereqs2.empty() ) {
+            return mutate_towards( prereqs2, mut_cat );
         }
     }
 
     // Check for threshold mutation, if needed
-    bool threshold = mdata.threshold;
-    bool profession = mdata.profession;
-    bool has_threshreq = false;
+    bool mut_is_threshold = mdata.threshold;
+    bool c_has_threshreq = false;
+    bool mut_is_profession = mdata.profession;
     std::vector<trait_id> threshreq = mdata.threshreq;
 
     // It shouldn't pick a Threshold anyway--they're supposed to be non-Valid
     // and aren't categorized. This can happen if someone makes a threshold mutation into a prerequisite.
-    if( threshold ) {
+    if( mut_is_threshold ) {
         add_msg_if_player( _( "You feel something straining deep inside you, yearning to be free…" ) );
         return false;
     }
-    if( profession ) {
+    if( mut_is_profession ) {
         // Profession picks fail silently
         return false;
     }
@@ -1242,17 +1266,20 @@ bool Character::mutate_towards( const trait_id &mut, const vitamin_id &mut_vit )
         }
     }
 
-    for( size_t i = 0; !has_threshreq && i < threshreq.size(); i++ ) {
+    for( size_t i = 0; !c_has_threshreq && i < threshreq.size(); i++ ) {
         if( has_trait( threshreq[i] ) ) {
-            has_threshreq = true;
+            c_has_threshreq = true;
         }
     }
 
     // No crossing The Threshold by simply not having it
-    if( !has_threshreq && !threshreq.empty() ) {
+    if( !c_has_threshreq && !threshreq.empty() ) {
         add_msg_if_player( _( "You feel something straining deep inside you, yearning to be free…" ) );
         return false;
     }
+
+    const vitamin_id mut_vit = mut_cat == mutation_category_ANY ? vitamin_id::NULL_ID() :
+                               mutation_category_trait::get_category( mut_cat ).vitamin;
 
     if( mut_vit != vitamin_id::NULL_ID() ) {
         if( vitamin_get( mut_vit ) >= mdata.vitamin_cost ) {
@@ -1265,11 +1292,11 @@ bool Character::mutate_towards( const trait_id &mut, const vitamin_id &mut_vit )
 
     // Check if one of the prerequisites that we have TURNS INTO this one
     trait_id replacing = trait_id::NULL_ID();
-    prereq = mdata.prereqs; // Reset it
-    for( auto &elem : prereq ) {
+    prereqs1 = mdata.prereqs; // Reset it
+    for( auto &elem : prereqs1 ) {
         if( has_trait( elem ) ) {
             const trait_id &pre = elem;
-            const auto &p = pre.obj();
+            const mutation_branch &p = pre.obj();
             for( size_t j = 0; !replacing && j < p.replacements.size(); j++ ) {
                 if( p.replacements[j] == mut ) {
                     replacing = pre;
@@ -1280,11 +1307,11 @@ bool Character::mutate_towards( const trait_id &mut, const vitamin_id &mut_vit )
 
     // Loop through again for prereqs2
     trait_id replacing2 = trait_id::NULL_ID();
-    prereq = mdata.prereqs2; // Reset it
-    for( auto &elem : prereq ) {
+    prereqs1 = mdata.prereqs2; // Reset it
+    for( auto &elem : prereqs1 ) {
         if( has_trait( elem ) ) {
             const trait_id &pre2 = elem;
-            const auto &p = pre2.obj();
+            const mutation_branch &p = pre2.obj();
             for( size_t j = 0; !replacing2 && j < p.replacements.size(); j++ ) {
                 if( p.replacements[j] == mut ) {
                     replacing2 = pre2;
@@ -1298,7 +1325,7 @@ bool Character::mutate_towards( const trait_id &mut, const vitamin_id &mut_vit )
     game_message_type rating;
 
     if( replacing ) {
-        const auto &replace_mdata = replacing.obj();
+        const mutation_branch &replace_mdata = replacing.obj();
         if( mdata.mixed_effect || replace_mdata.mixed_effect ) {
             rating = m_mixed;
         } else if( replace_mdata.points - mdata.points < 0 ) {
@@ -1332,7 +1359,7 @@ bool Character::mutate_towards( const trait_id &mut, const vitamin_id &mut_vit )
         mutation_replaced = true;
     }
     if( replacing2 ) {
-        const auto &replace_mdata = replacing2.obj();
+        const mutation_branch &replace_mdata = replacing2.obj();
         if( mdata.mixed_effect || replace_mdata.mixed_effect ) {
             rating = m_mixed;
         } else if( replace_mdata.points - mdata.points < 0 ) {
@@ -1367,7 +1394,7 @@ bool Character::mutate_towards( const trait_id &mut, const vitamin_id &mut_vit )
         mutation_replaced = true;
     }
     for( const auto &i : canceltrait ) {
-        const auto &cancel_mdata = i.obj();
+        const mutation_branch &cancel_mdata = i.obj();
         if( mdata.mixed_effect || cancel_mdata.mixed_effect ) {
             rating = m_mixed;
         } else if( mdata.points < cancel_mdata.points ) {
@@ -1422,7 +1449,7 @@ bool Character::mutate_towards( const trait_id &mut, const vitamin_id &mut_vit )
 
 bool Character::mutate_towards( const trait_id &mut )
 {
-    return mutate_towards( mut, vitamin_id::NULL_ID() );
+    return mutate_towards( mut, mutation_category_ANY );
 }
 
 bool Character::has_conflicting_trait( const trait_id &flag ) const
@@ -1527,7 +1554,7 @@ std::string Character::get_category_dream( const mutation_category_id &cat,
 {
     std::vector<dream> valid_dreams;
     //Pull the list of dreams
-    for( auto &i : dreams ) {
+    for( dream &i : dreams ) {
         //Pick only the ones matching our desired category and strength
         if( ( i.category == cat ) && ( i.strength == strength ) ) {
             // Put the valid ones into our list
@@ -1543,13 +1570,13 @@ std::string Character::get_category_dream( const mutation_category_id &cat,
 
 void Character::remove_mutation( const trait_id &mut, bool silent )
 {
-    const auto &mdata = mut.obj();
+    const mutation_branch &mdata = mut.obj();
     // Check if there's a prerequisite we should shrink back into
     trait_id replacing = trait_id::NULL_ID();
     std::vector<trait_id> originals = mdata.prereqs;
     for( size_t i = 0; !replacing && i < originals.size(); i++ ) {
         trait_id pre = originals[i];
-        const auto &p = pre.obj();
+        const mutation_branch &p = pre.obj();
         for( size_t j = 0; !replacing && j < p.replacements.size(); j++ ) {
             if( p.replacements[j] == mut ) {
                 replacing = pre;
@@ -1561,7 +1588,7 @@ void Character::remove_mutation( const trait_id &mut, bool silent )
     std::vector<trait_id> originals2 = mdata.prereqs2;
     for( size_t i = 0; !replacing2 && i < originals2.size(); i++ ) {
         trait_id pre2 = originals2[i];
-        const auto &p = pre2.obj();
+        const mutation_branch &p = pre2.obj();
         for( size_t j = 0; !replacing2 && j < p.replacements.size(); j++ ) {
             if( p.replacements[j] == mut ) {
                 replacing2 = pre2;
@@ -1573,16 +1600,14 @@ void Character::remove_mutation( const trait_id &mut, bool silent )
     //Only if there's no prerequisite to shrink to, thus we're at the bottom of the trait line
     if( !replacing ) {
         //Check each mutation until we reach the end or find a trait to revert to
-        for( const auto &iter : mutation_branch::get_all() ) {
+        for( const mutation_branch &iter : mutation_branch::get_all() ) {
             //See if it's in our list of base traits but not active
             if( has_base_trait( iter.id ) && !has_trait( iter.id ) ) {
                 //See if that base trait cancels the mutation we are using
                 std::vector<trait_id> traitcheck = iter.cancels;
-                if( !traitcheck.empty() ) {
-                    for( size_t j = 0; !replacing && j < traitcheck.size(); j++ ) {
-                        if( traitcheck[j] == mut ) {
-                            replacing = ( iter.id );
-                        }
+                for( size_t j = 0; !replacing && j < traitcheck.size(); j++ ) {
+                    if( traitcheck[j] == mut ) {
+                        replacing = ( iter.id );
                     }
                 }
             }
@@ -1595,16 +1620,14 @@ void Character::remove_mutation( const trait_id &mut, bool silent )
     // Duplicated for prereq2
     if( !replacing2 ) {
         //Check each mutation until we reach the end or find a trait to revert to
-        for( const auto &iter : mutation_branch::get_all() ) {
+        for( const mutation_branch &iter : mutation_branch::get_all() ) {
             //See if it's in our list of base traits but not active
             if( has_base_trait( iter.id ) && !has_trait( iter.id ) ) {
                 //See if that base trait cancels the mutation we are using
                 std::vector<trait_id> traitcheck = iter.cancels;
-                if( !traitcheck.empty() ) {
-                    for( size_t j = 0; !replacing2 && j < traitcheck.size(); j++ ) {
-                        if( traitcheck[j] == mut && ( iter.id ) != replacing ) {
-                            replacing2 = ( iter.id );
-                        }
+                for( size_t j = 0; !replacing2 && j < traitcheck.size(); j++ ) {
+                    if( traitcheck[j] == mut && ( iter.id ) != replacing ) {
+                        replacing2 = ( iter.id );
                     }
                 }
             }
@@ -1627,7 +1650,7 @@ void Character::remove_mutation( const trait_id &mut, bool silent )
     game_message_type rating;
 
     if( replacing ) {
-        const auto &replace_mdata = replacing.obj();
+        const mutation_branch &replace_mdata = replacing.obj();
         // Don't print a message if both are invisible
         if( !mdata.player_display && !replace_mdata.player_display ) {
             silent = true;
@@ -1668,7 +1691,7 @@ void Character::remove_mutation( const trait_id &mut, bool silent )
         mutation_replaced = true;
     }
     if( replacing2 ) {
-        const auto &replace_mdata = replacing2.obj();
+        const mutation_branch &replace_mdata = replacing2.obj();
         // Don't print a message if both are invisible
         if( !mdata.player_display && !replace_mdata.player_display ) {
             silent = true;
@@ -1836,17 +1859,23 @@ void Character::give_all_mutations( const mutation_category_trait &category,
         set_mutation( category.threshold_mut );
     }
 
+    // Store current vitamin level, we fake it high to make sure we have enough, restore later
+    int v_store = vitamin_get( category.vitamin );
+
     for( const trait_id &mut : category_mutations ) {
         const mutation_branch &mut_data = *mut;
         if( !mut_data.threshold ) {
+            vitamin_set( category.vitamin, INT_MAX );
+
             // Try up to 10 times to mutate towards this trait
             int mutation_attempts = 10;
             while( mutation_attempts > 0 && mutation_ok( mut, false, false ) ) {
-                mutate_towards( mut );
+                mutate_towards( mut, category.id );
                 --mutation_attempts;
             }
         }
     }
+    vitamin_set( category.vitamin, v_store );
 }
 
 void Character::unset_all_mutations()
@@ -1934,7 +1963,7 @@ std::string Character::visible_mutations( const int visibility_cap ) const
     const std::vector<trait_id> &my_muts = get_mutations();
     const std::string trait_str = enumerate_as_string( my_muts.begin(), my_muts.end(),
     [visibility_cap ]( const trait_id & pr ) -> std::string {
-        const auto &mut_branch = pr.obj();
+        const mutation_branch &mut_branch = pr.obj();
         // Finally some use for visibility trait of mutations
         if( mut_branch.visibility > 0 && mut_branch.visibility >= visibility_cap )
         {

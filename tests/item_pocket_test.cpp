@@ -1862,7 +1862,7 @@ static void test_pickup_autoinsert_sub_sub( bool autopickup, bool wear, bool sof
 
     WHEN( "no nested, backpack autoinsert disabled" ) {
         WHEN( "space available in backpack" ) {
-            for( auto &pkts : pack->get_contents().get_all_contained_pockets() ) {
+            for( item_pocket *&pkts : pack->get_contents().get_all_contained_pockets() ) {
                 pkts->settings.set_disabled( true );
             }
             THEN( "pickup none" ) {
@@ -1871,7 +1871,7 @@ static void test_pickup_autoinsert_sub_sub( bool autopickup, bool wear, bool sof
         }
         WHEN( "no space available in backpack" ) {
             pack->fill_with( soft_obj, 60, false, false, true );
-            for( auto &pkts : pack->get_contents().get_all_contained_pockets() ) {
+            for( item_pocket *&pkts : pack->get_contents().get_all_contained_pockets() ) {
                 pkts->settings.set_disabled( true );
             }
             THEN( "pickup none" ) {
@@ -1903,10 +1903,10 @@ static void test_pickup_autoinsert_sub_sub( bool autopickup, bool wear, bool sof
     WHEN( "all autoinsert settings disabled" ) {
         WHEN( "space available in backpack" ) {
             item_location c = give_item_to_char( u, soft_nested ? cont2 : cont1 );
-            for( auto &pkts : pack->get_contents().get_all_contained_pockets() ) {
+            for( item_pocket *&pkts : pack->get_contents().get_all_contained_pockets() ) {
                 pkts->settings.set_disabled( true );
             }
-            for( auto &pkts : c->get_contents().get_all_contained_pockets() ) {
+            for( item_pocket *&pkts : c->get_contents().get_all_contained_pockets() ) {
                 pkts->settings.set_disabled( true );
             }
             THEN( "pickup none, nested empty" ) {
@@ -1916,10 +1916,10 @@ static void test_pickup_autoinsert_sub_sub( bool autopickup, bool wear, bool sof
         WHEN( "no space available in backpack" ) {
             pack->fill_with( soft_obj, soft_nested ? 59 : 44, false, false, true );
             item_location c = give_item_to_char( u, soft_nested ? cont2 : cont1 );
-            for( auto &pkts : pack->get_contents().get_all_contained_pockets() ) {
+            for( item_pocket *&pkts : pack->get_contents().get_all_contained_pockets() ) {
                 pkts->settings.set_disabled( true );
             }
-            for( auto &pkts : c->get_contents().get_all_contained_pockets() ) {
+            for( item_pocket *&pkts : c->get_contents().get_all_contained_pockets() ) {
                 pkts->settings.set_disabled( true );
             }
             THEN( "pickup none, nested empty" ) {
@@ -1931,7 +1931,7 @@ static void test_pickup_autoinsert_sub_sub( bool autopickup, bool wear, bool sof
     WHEN( "top container autoinsert settings disabled" ) {
         WHEN( "space available in backpack" ) {
             item_location c = give_item_to_char( u, soft_nested ? cont2 : cont1 );
-            for( auto &pkts : pack->get_contents().get_all_contained_pockets() ) {
+            for( item_pocket *&pkts : pack->get_contents().get_all_contained_pockets() ) {
                 pkts->settings.set_disabled( true );
             }
             THEN( "pickup all, nested filled" ) {
@@ -1941,7 +1941,7 @@ static void test_pickup_autoinsert_sub_sub( bool autopickup, bool wear, bool sof
         WHEN( "no space available in backpack" ) {
             pack->fill_with( soft_obj, soft_nested ? 59 : 44, false, false, true );
             item_location c = give_item_to_char( u, soft_nested ? cont2 : cont1 );
-            for( auto &pkts : pack->get_contents().get_all_contained_pockets() ) {
+            for( item_pocket *&pkts : pack->get_contents().get_all_contained_pockets() ) {
                 pkts->settings.set_disabled( true );
             }
             THEN( ( soft_nested ? "pickup none, nested empty" : "pickup all, nested filled" ) ) {
@@ -1957,7 +1957,7 @@ static void test_pickup_autoinsert_sub_sub( bool autopickup, bool wear, bool sof
     WHEN( "nested container autoinsert settings disabled" ) {
         WHEN( "space available in backpack" ) {
             item_location c = give_item_to_char( u, soft_nested ? cont2 : cont1 );
-            for( auto &pkts : c->get_contents().get_all_contained_pockets() ) {
+            for( item_pocket *&pkts : c->get_contents().get_all_contained_pockets() ) {
                 pkts->settings.set_disabled( true );
             }
             THEN( "pickup all, nested empty" ) {
@@ -1967,7 +1967,7 @@ static void test_pickup_autoinsert_sub_sub( bool autopickup, bool wear, bool sof
         WHEN( "no space available in backpack" ) {
             pack->fill_with( soft_obj, soft_nested ? 59 : 44, false, false, true );
             item_location c = give_item_to_char( u, soft_nested ? cont2 : cont1 );
-            for( auto &pkts : c->get_contents().get_all_contained_pockets() ) {
+            for( item_pocket *&pkts : c->get_contents().get_all_contained_pockets() ) {
                 pkts->settings.set_disabled( true );
             }
             THEN( "pickup none, nested empty" ) {
@@ -1979,7 +1979,7 @@ static void test_pickup_autoinsert_sub_sub( bool autopickup, bool wear, bool sof
     WHEN( "nested container whitelisting 1 item" ) {
         WHEN( "space available in backpack" ) {
             item_location c = give_item_to_char( u, soft_nested ? cont2 : cont1 );
-            for( auto &pkts : c->get_contents().get_all_contained_pockets() ) {
+            for( item_pocket *&pkts : c->get_contents().get_all_contained_pockets() ) {
                 pkts->settings.whitelist_item( obj1->typeId() );
                 REQUIRE( pkts->settings.get_item_whitelist().count( obj1->typeId() ) == 1 );
                 REQUIRE( pkts->settings.get_item_whitelist().count( obj2->typeId() ) == 0 );
@@ -1991,7 +1991,7 @@ static void test_pickup_autoinsert_sub_sub( bool autopickup, bool wear, bool sof
         WHEN( "no space available in backpack" ) {
             pack->fill_with( soft_obj, soft_nested ? 59 : 44, false, false, true );
             item_location c = give_item_to_char( u, soft_nested ? cont2 : cont1 );
-            for( auto &pkts : c->get_contents().get_all_contained_pockets() ) {
+            for( item_pocket *&pkts : c->get_contents().get_all_contained_pockets() ) {
                 pkts->settings.whitelist_item( obj1->typeId() );
                 REQUIRE( pkts->settings.get_item_whitelist().count( obj1->typeId() ) == 1 );
                 REQUIRE( pkts->settings.get_item_whitelist().count( obj2->typeId() ) == 0 );
@@ -2009,7 +2009,7 @@ static void test_pickup_autoinsert_sub_sub( bool autopickup, bool wear, bool sof
     WHEN( "nested container whitelisting 2 items" ) {
         WHEN( "space available in backpack" ) {
             item_location c = give_item_to_char( u, soft_nested ? cont2 : cont1 );
-            for( auto &pkts : c->get_contents().get_all_contained_pockets() ) {
+            for( item_pocket *&pkts : c->get_contents().get_all_contained_pockets() ) {
                 pkts->settings.whitelist_item( obj1->typeId() );
                 pkts->settings.whitelist_item( obj2->typeId() );
                 REQUIRE( pkts->settings.get_item_whitelist().count( obj1->typeId() ) == 1 );
@@ -2022,7 +2022,7 @@ static void test_pickup_autoinsert_sub_sub( bool autopickup, bool wear, bool sof
         WHEN( "no space available in backpack" ) {
             pack->fill_with( soft_obj, soft_nested ? 59 : 44, false, false, true );
             item_location c = give_item_to_char( u, soft_nested ? cont2 : cont1 );
-            for( auto &pkts : c->get_contents().get_all_contained_pockets() ) {
+            for( item_pocket *&pkts : c->get_contents().get_all_contained_pockets() ) {
                 pkts->settings.whitelist_item( obj1->typeId() );
                 pkts->settings.whitelist_item( obj2->typeId() );
                 REQUIRE( pkts->settings.get_item_whitelist().count( obj1->typeId() ) == 1 );
@@ -2076,7 +2076,7 @@ static void test_pickup_autoinsert_sub_sub( bool autopickup, bool wear, bool sof
         }
         item stack( "test_pine_nuts" );
         item_location c = give_item_to_char( u, soft_nested ? cont2 : cont1 );
-        for( auto &pkts : c->get_contents().get_all_contained_pockets() ) {
+        for( item_pocket *&pkts : c->get_contents().get_all_contained_pockets() ) {
             pkts->settings.blacklist_item( stack.typeId() );
             REQUIRE( pkts->settings.get_item_blacklist().count( stack.typeId() ) == 1 );
         }
@@ -2107,7 +2107,7 @@ static void test_pickup_autoinsert_sub_sub( bool autopickup, bool wear, bool sof
         }
         item stack( "test_pine_nuts" );
         item_location c = give_item_to_char( u, soft_nested ? cont2 : cont1 );
-        for( auto &pkts : c->get_contents().get_all_contained_pockets() ) {
+        for( item_pocket *&pkts : c->get_contents().get_all_contained_pockets() ) {
             pkts->settings.whitelist_item( obj2->typeId() );
             REQUIRE( pkts->settings.get_item_whitelist().count( obj2->typeId() ) == 1 );
             REQUIRE( pkts->settings.get_item_whitelist().count( stack.typeId() ) == 0 );
@@ -2126,6 +2126,78 @@ static void test_pickup_autoinsert_sub_sub( bool autopickup, bool wear, bool sof
                     test_pickup_autoinsert_results( u, wear, c, 61, 239, 0, true );
                 } else {
                     test_pickup_autoinsert_results( u, wear, c, 124, 176, 0, true );
+                }
+            }
+        }
+    }
+
+    WHEN( "nested container high priority" ) {
+        WHEN( "space available in backpack" ) {
+            item_location c = give_item_to_char( u, soft_nested ? cont2 : cont1 );
+            for( item_pocket *&pkts : c->get_contents().get_all_contained_pockets() ) {
+                pkts->settings.set_priority( 50 );
+                REQUIRE( pkts->settings.priority() == 50 );
+            }
+            for( item_pocket *&pkts : pack->get_contents().get_all_contained_pockets() ) {
+                pkts->settings.set_priority( 10 );
+                REQUIRE( pkts->settings.priority() == 10 );
+            }
+            THEN( "pickup all, nested filled" ) {
+                test_pickup_autoinsert_results( u, wear, c, 1, 1, 2 );
+            }
+        }
+        WHEN( "no space available in backpack" ) {
+            pack->fill_with( soft_obj, soft_nested ? 59 : 44, false, false, true );
+            item_location c = give_item_to_char( u, soft_nested ? cont2 : cont1 );
+            for( item_pocket *&pkts : c->get_contents().get_all_contained_pockets() ) {
+                pkts->settings.set_priority( 50 );
+                REQUIRE( pkts->settings.priority() == 50 );
+            }
+            for( item_pocket *&pkts : pack->get_contents().get_all_contained_pockets() ) {
+                pkts->settings.set_priority( 10 );
+                REQUIRE( pkts->settings.priority() == 10 );
+            }
+            THEN( ( soft_nested ? "pickup none, nested empty" : "pickup all, nested filled" ) ) {
+                if( soft_nested ) {
+                    test_pickup_autoinsert_results( u, wear, c, 3, 60, 0 );
+                } else {
+                    test_pickup_autoinsert_results( u, wear, c, 1, 45, 2 );
+                }
+            }
+        }
+    }
+
+    WHEN( "nested container same priority as top container" ) {
+        WHEN( "space available in backpack" ) {
+            item_location c = give_item_to_char( u, soft_nested ? cont2 : cont1 );
+            for( item_pocket *&pkts : c->get_contents().get_all_contained_pockets() ) {
+                pkts->settings.set_priority( 50 );
+                REQUIRE( pkts->settings.priority() == 50 );
+            }
+            for( item_pocket *&pkts : pack->get_contents().get_all_contained_pockets() ) {
+                pkts->settings.set_priority( 50 );
+                REQUIRE( pkts->settings.priority() == 50 );
+            }
+            THEN( "pickup all, nested empty" ) {
+                test_pickup_autoinsert_results( u, wear, c, 1, 3, 0 );
+            }
+        }
+        WHEN( "no space available in backpack" ) {
+            pack->fill_with( soft_obj, soft_nested ? 59 : 44, false, false, true );
+            item_location c = give_item_to_char( u, soft_nested ? cont2 : cont1 );
+            for( item_pocket *&pkts : c->get_contents().get_all_contained_pockets() ) {
+                pkts->settings.set_priority( 50 );
+                REQUIRE( pkts->settings.priority() == 50 );
+            }
+            for( item_pocket *&pkts : pack->get_contents().get_all_contained_pockets() ) {
+                pkts->settings.set_priority( 50 );
+                REQUIRE( pkts->settings.priority() == 50 );
+            }
+            THEN( ( soft_nested ? "pickup none, nested empty" : "pickup all, nested filled" ) ) {
+                if( soft_nested ) {
+                    test_pickup_autoinsert_results( u, wear, c, 3, 60, 0 );
+                } else {
+                    test_pickup_autoinsert_results( u, wear, c, 1, 45, 2 );
                 }
             }
         }
@@ -2199,7 +2271,7 @@ TEST_CASE( "multipocket liquid transfer test", "[pocket][item][liquid]" )
                 CHECK( jug_w_water->only_item().charges == 3 );
                 CHECK( suit->all_items_top().size() == 2 );
                 int total = 0;
-                for( auto &it : suit->all_items_top() ) {
+                for( item *&it : suit->all_items_top() ) {
                     CHECK( it->charges == 6 );
                     total += it->charges;
                 }
@@ -2227,7 +2299,7 @@ TEST_CASE( "multipocket liquid transfer test", "[pocket][item][liquid]" )
                 CHECK( jug_w_water->only_item().charges == 7 );
                 CHECK( suit->all_items_top().size() == 2 );
                 int total = 0;
-                for( auto &it : suit->all_items_top() ) {
+                for( item *&it : suit->all_items_top() ) {
                     CHECK( it->charges == 6 );
                     total += it->charges;
                 }
@@ -2279,7 +2351,7 @@ TEST_CASE( "multipocket liquid transfer test", "[pocket][item][liquid]" )
                 CHECK( jug_w_water->is_container_empty() );
                 CHECK( suit->all_items_top().size() == 2 );
                 int total = 0;
-                for( auto &it : suit->all_items_top() ) {
+                for( item *&it : suit->all_items_top() ) {
                     total += it->charges;
                     CHECK( it->charges > 0 );
                     CHECK( it->charges <= 6 );
@@ -2296,7 +2368,7 @@ TEST_CASE( "multipocket liquid transfer test", "[pocket][item][liquid]" )
             liquid_target.pos = suit.position();
             liquid_target.dest_opt = LD_ITEM;
             liquid_target.item_loc = jug_w_water;
-            for( auto &it : suit->all_items_top() ) {
+            for( item *&it : suit->all_items_top() ) {
                 u.moves = 100;
                 REQUIRE( it->charges == 6 );
                 liquid_handler::perform_liquid_transfer( *it, nullptr, nullptr, -1, nullptr, liquid_target );
@@ -2321,7 +2393,7 @@ TEST_CASE( "multipocket liquid transfer test", "[pocket][item][liquid]" )
             liquid_target.pos = suit.position();
             liquid_target.dest_opt = LD_ITEM;
             liquid_target.item_loc = jug_w_water;
-            for( auto &it : suit->all_items_top() ) {
+            for( item *&it : suit->all_items_top() ) {
                 u.moves = 100;
                 REQUIRE( it->charges == 6 );
                 liquid_handler::perform_liquid_transfer( *it, nullptr, nullptr, -1, nullptr, liquid_target );

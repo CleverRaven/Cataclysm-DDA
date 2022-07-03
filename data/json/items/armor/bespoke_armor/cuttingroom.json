@@ -227,7 +227,7 @@
     "material_thickness": 4,
     "valid_mods": [ "steel_padded" ],
     "environmental_protection": 10,
-    "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "RAINPROOF", "STURDY" ]
+    "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "RAINPROOF", "STURDY", "OBSOLETE" ]
   },
   {
     "id": "xl_fsurvivor_suit",
@@ -276,7 +276,7 @@
     "warmth": 15,
     "material_thickness": 6,
     "environmental_protection": 3,
-    "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "HOOD", "RAINPROOF", "STURDY" ]
+    "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "HOOD", "RAINPROOF", "STURDY", "OBSOLETE" ]
   },
   {
     "id": "xlhsurvivor_suit",
@@ -371,7 +371,7 @@
     "warmth": 15,
     "material_thickness": 4,
     "environmental_protection": 3,
-    "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "HOOD", "RAINPROOF", "STURDY" ]
+    "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "HOOD", "RAINPROOF", "STURDY", "OBSOLETE" ]
   },
   {
     "id": "xl_lsurvivor_suit",
@@ -410,7 +410,7 @@
     "material_thickness": 4,
     "valid_mods": [ "steel_padded" ],
     "environmental_protection": 3,
-    "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "HOOD", "RAINPROOF", "STURDY" ]
+    "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "HOOD", "RAINPROOF", "STURDY", "OBSOLETE" ]
   },
   {
     "id": "xlsurvivor_suit",
@@ -445,7 +445,7 @@
     "material_thickness": 4,
     "valid_mods": [ "steel_padded" ],
     "environmental_protection": 3,
-    "flags": [ "OVERSIZE", "VARSIZE", "WATERPROOF", "POCKETS", "HOOD", "RAINPROOF", "STURDY" ]
+    "flags": [ "OVERSIZE", "VARSIZE", "WATERPROOF", "POCKETS", "HOOD", "RAINPROOF", "STURDY", "OBSOLETE" ]
   },
   {
     "id": "wsurvivor_suit",
@@ -478,7 +478,7 @@
     "material_thickness": 5,
     "valid_mods": [ "steel_padded" ],
     "environmental_protection": 5,
-    "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "HOOD", "RAINPROOF", "STURDY" ]
+    "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "HOOD", "RAINPROOF", "STURDY", "OBSOLETE" ]
   },
   {
     "id": "xl_wsurvivor_suit",
@@ -543,6 +543,6 @@
     "warmth": 15,
     "material_thickness": 3,
     "environmental_protection": 10,
-    "flags": [ "VARSIZE", "WATER_FRIENDLY", "POCKETS", "HOOD", "RAINPROOF", "STURDY" ]
+    "flags": [ "VARSIZE", "WATER_FRIENDLY", "POCKETS", "HOOD", "RAINPROOF", "STURDY", "OBSOLETE" ]
   }
 ]

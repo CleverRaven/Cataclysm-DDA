@@ -217,7 +217,7 @@ class basecamp
         /// Takes all the food from the camp_food zone and increases the faction
         /// food_supply
         bool distribute_food();
-        std::string name_display_of( const mission_id miss_id );
+        std::string name_display_of( mission_id miss_id );
         void handle_hide_mission( const point &dir );
         void handle_reveal_mission( const point &dir );
         bool has_water();
@@ -311,12 +311,12 @@ class basecamp
         void start_crafting( const std::string &type, const mission_id &miss_id );
 
         /// Called when a companion is sent to cut logs
-        void start_cut_logs( const mission_id miss_id );
-        void start_clearcut( const mission_id miss_id );
-        void start_setup_hide_site( const mission_id miss_id );
-        void start_relay_hide_site( const mission_id miss_id );
+        void start_cut_logs( mission_id miss_id );
+        void start_clearcut( mission_id miss_id );
+        void start_setup_hide_site( mission_id miss_id );
+        void start_relay_hide_site( mission_id miss_id );
         /// Called when a companion is sent to start fortifications
-        void start_fortifications( const mission_id miss_id );
+        void start_fortifications( mission_id miss_id );
         /// Called when a companion is sent to start digging down salt water pipes
         bool common_salt_water_pipe_construction( const mission_id &miss_id,
                 expansion_salt_water_pipe *pipe,
@@ -324,16 +324,16 @@ class basecamp
         void start_salt_water_pipe( const mission_id &miss_id );
         void continue_salt_water_pipe( const mission_id &miss_id );
         void start_combat_mission( const mission_id &miss_id );
-        void start_farm_op( const tripoint_abs_omt &omt_tgt, const mission_id miss_id );
+        void start_farm_op( const tripoint_abs_omt &omt_tgt, mission_id miss_id );
         ///Display items listed in @ref equipment to let the player pick what to give the departing
         ///NPC, loops until quit or empty.
         std::vector<item *> give_equipment( std::vector<item *> equipment, const std::string &msg );
-        drop_locations give_equipment( Character *pc, const inventory_filter_preset preset,
-                                       const std::string &msg, const std::string title, units::volume &total_volume,
+        drop_locations give_equipment( Character *pc, inventory_filter_preset preset,
+                                       const std::string &msg, std::string title, units::volume &total_volume,
                                        units::mass &total_mass );
-        drop_locations get_equipment( tinymap *target_bay, const tripoint target, Character *pc,
-                                      const inventory_filter_preset preset,
-                                      const std::string &msg, const std::string title, units::volume &total_volume,
+        drop_locations get_equipment( tinymap *target_bay, tripoint target, Character *pc,
+                                      inventory_filter_preset preset,
+                                      const std::string &msg, std::string title, units::volume &total_volume,
                                       units::mass &total_mass );
 
         // mission return functions
@@ -351,15 +351,15 @@ class basecamp
         npc_ptr crafting_mission_return( const mission_id &miss_id, const std::string &return_msg,
                                          const std::string &skill, int difficulty );
         /// select a companion for any mission to return to base
-        npc_ptr emergency_recall( const mission_id miss_id );
+        npc_ptr emergency_recall( mission_id miss_id );
 
         /// Called to close upgrade missions, @ref miss is the name of the mission id
         /// and @ref dir is the direction of the location to be upgraded
         bool upgrade_return( const mission_id &miss_id );
 
         /// Choose which expansion you should start, called when a survey mission is completed
-        bool survey_return( const mission_id miss_id );
-        bool menial_return( const mission_id miss_id );
+        bool survey_return( mission_id miss_id );
+        bool menial_return( mission_id miss_id );
         /// Called when a companion completes a gathering @ref task mission
         bool gathering_return( const mission_id &miss_id, time_duration min_time );
         void recruit_return( const mission_id &miss_id, int score );
@@ -370,7 +370,7 @@ class basecamp
         * @param op whether to plow, plant, or harvest
         */
         bool farm_return( const mission_id &miss_id, const tripoint_abs_omt &omt_tgt );
-        void fortifications_return( const mission_id miss_id );
+        void fortifications_return( mission_id miss_id );
         bool salt_water_pipe_swamp_return( const mission_id &miss_id,
                                            const comp_list &npc_list );
         bool salt_water_pipe_return( const mission_id &miss_id,

@@ -1,0 +1,128 @@
+[
+  {
+    "type": "monstergroup",
+    "name": "GROUP_FOREST",
+    "//": "Current SPRING first DAY count is X.",
+    "is_animal": true,
+    "monsters": [
+      { "monster": "mon_sabcat", "weight": 5, "cost_multiplier": 0, "pack_size": [ 1, 1 ], "conditions": [  ] },
+      { "monster": "mon_cave_lion", "weight": 5, "cost_multiplier": 0, "pack_size": [ 1, 4 ], "conditions": [  ] },
+      { "monster": "mon_shortface", "weight": 5, "cost_multiplier": 0, "pack_size": [ 1, 1 ], "conditions": [  ] },
+      {
+        "monster": "mon_peccary_flathead",
+        "weight": 15,
+        "cost_multiplier": 0,
+        "pack_size": [ 5, 10 ],
+        "conditions": [  ]
+      },
+      {
+        "monster": "mon_peccary_longnose",
+        "weight": 12,
+        "cost_multiplier": 0,
+        "pack_size": [ 1, 1 ],
+        "conditions": [  ]
+      },
+      { "monster": "mon_mammoth", "weight": 10, "cost_multiplier": 0, "pack_size": [ 1, 5 ], "conditions": [  ] },
+      { "monster": "mon_mastodon", "weight": 10, "cost_multiplier": 0, "pack_size": [ 1, 5 ], "conditions": [  ] },
+      { "monster": "mon_direwolf", "weight": 5, "cost_multiplier": 0, "pack_size": [ 2, 6 ], "conditions": [  ] },
+      { "monster": "mon_stagmoose", "weight": 10, "cost_multiplier": 0, "pack_size": [ 1, 1 ], "conditions": [  ] },
+      { "monster": "mon_giant_beaver", "weight": 10, "cost_multiplier": 0, "pack_size": [ 1, 3 ], "conditions": [  ] },
+      {
+        "monster": "mon_large_claw_sloth",
+        "weight": 6,
+        "cost_multiplier": 0,
+        "pack_size": [ 1, 2 ],
+        "conditions": [  ]
+      },
+      { "monster": "mon_shrubox", "weight": 10, "cost_multiplier": 0, "pack_size": [ 3, 6 ], "conditions": [  ] },
+      { "monster": "mon_woodox", "weight": 12, "cost_multiplier": 0, "pack_size": [ 3, 6 ], "conditions": [  ] },
+      { "monster": "mon_bison", "weight": 10, "cost_multiplier": 0, "pack_size": [ 6, 12 ], "conditions": [  ] },
+      { "monster": "mon_scotts_horse", "weight": 10, "cost_multiplier": 0, "pack_size": [ 3, 8 ], "conditions": [  ] },
+      { "monster": "mon_camelops", "weight": 10, "cost_multiplier": 0, "pack_size": [ 1, 6 ], "conditions": [  ] }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_RIVER",
+    "//": "Current SPRING first DAY count is X.",
+    "is_animal": true,
+    "monsters": [
+      { "monster": "mon_sabcat", "weight": 5, "cost_multiplier": 0, "pack_size": [ 1, 1 ], "conditions": [  ] },
+      { "monster": "mon_cave_lion", "weight": 5, "cost_multiplier": 0, "pack_size": [ 1, 4 ], "conditions": [  ] },
+      { "monster": "mon_shortface", "weight": 5, "cost_multiplier": 0, "pack_size": [ 1, 1 ], "conditions": [  ] },
+      {
+        "monster": "mon_peccary_flathead",
+        "weight": 12,
+        "cost_multiplier": 0,
+        "pack_size": [ 5, 10 ],
+        "conditions": [  ]
+      },
+      {
+        "monster": "mon_peccary_longnose",
+        "weight": 10,
+        "cost_multiplier": 0,
+        "pack_size": [ 1, 1 ],
+        "conditions": [  ]
+      },
+      { "monster": "mon_mammoth", "weight": 10, "cost_multiplier": 0, "pack_size": [ 1, 5 ], "conditions": [  ] },
+      { "monster": "mon_mastodon", "weight": 10, "cost_multiplier": 0, "pack_size": [ 1, 5 ], "conditions": [  ] },
+      { "monster": "mon_direwolf", "weight": 5, "cost_multiplier": 0, "pack_size": [ 1, 6 ], "conditions": [  ] },
+      { "monster": "mon_stagmoose", "weight": 10, "cost_multiplier": 0, "pack_size": [ 1, 1 ], "conditions": [  ] },
+      { "monster": "mon_giant_beaver", "weight": 10, "cost_multiplier": 0, "pack_size": [ 1, 3 ], "conditions": [  ] },
+      {
+        "monster": "mon_large_claw_sloth",
+        "weight": 10,
+        "cost_multiplier": 0,
+        "pack_size": [ 1, 2 ],
+        "conditions": [  ]
+      },
+      { "monster": "mon_shrubox", "weight": 10, "cost_multiplier": 0, "pack_size": [ 3, 6 ], "conditions": [  ] },
+      { "monster": "mon_woodox", "weight": 12, "cost_multiplier": 0, "pack_size": [ 3, 6 ], "conditions": [  ] },
+      { "monster": "mon_bison", "weight": 10, "cost_multiplier": 0, "pack_size": [ 6, 12 ], "conditions": [  ] },
+      { "monster": "mon_scotts_horse", "weight": 12, "cost_multiplier": 0, "pack_size": [ 3, 8 ], "conditions": [  ] },
+      { "monster": "mon_camelops", "weight": 10, "cost_multiplier": 0, "pack_size": [ 1, 6 ], "conditions": [  ] }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_SWAMP",
+    "//": "Current SPRING first DAY count is X.",
+    "is_animal": true,
+    "monsters": [
+      { "monster": "mon_sabcat", "weight": 5, "cost_multiplier": 0, "pack_size": [ 1, 1 ], "conditions": [  ] },
+      { "monster": "mon_cave_lion", "weight": 5, "cost_multiplier": 0, "pack_size": [ 1, 4 ], "conditions": [  ] },
+      { "monster": "mon_shortface", "weight": 5, "cost_multiplier": 0, "pack_size": [ 1, 1 ], "conditions": [  ] },
+      {
+        "monster": "mon_peccary_flathead",
+        "weight": 10,
+        "cost_multiplier": 0,
+        "pack_size": [ 5, 10 ],
+        "conditions": [  ]
+      },
+      {
+        "monster": "mon_peccary_longnose",
+        "weight": 10,
+        "cost_multiplier": 0,
+        "pack_size": [ 1, 1 ],
+        "conditions": [  ]
+      },
+      { "monster": "mon_mammoth", "weight": 10, "cost_multiplier": 0, "pack_size": [ 1, 5 ], "conditions": [  ] },
+      { "monster": "mon_mastodon", "weight": 10, "cost_multiplier": 0, "pack_size": [ 1, 5 ], "conditions": [  ] },
+      { "monster": "mon_direwolf", "weight": 5, "cost_multiplier": 0, "pack_size": [ 1, 6 ], "conditions": [  ] },
+      { "monster": "mon_stagmoose", "weight": 10, "cost_multiplier": 0, "pack_size": [ 1, 1 ], "conditions": [  ] },
+      { "monster": "mon_giant_beaver", "weight": 10, "cost_multiplier": 0, "pack_size": [ 1, 3 ], "conditions": [  ] },
+      {
+        "monster": "mon_large_claw_sloth",
+        "weight": 10,
+        "cost_multiplier": 0,
+        "pack_size": [ 1, 2 ],
+        "conditions": [  ]
+      },
+      { "monster": "mon_shrubox", "weight": 10, "cost_multiplier": 0, "pack_size": [ 3, 6 ], "conditions": [  ] },
+      { "monster": "mon_woodox", "weight": 10, "cost_multiplier": 0, "pack_size": [ 3, 6 ], "conditions": [  ] },
+      { "monster": "mon_bison", "weight": 6, "cost_multiplier": 0, "pack_size": [ 6, 12 ], "conditions": [  ] },
+      { "monster": "mon_scotts_horse", "weight": 6, "cost_multiplier": 0, "pack_size": [ 3, 8 ], "conditions": [  ] },
+      { "monster": "mon_camelops", "weight": 6, "cost_multiplier": 0, "pack_size": [ 1, 6 ], "conditions": [  ] }
+    ]
+  }
+]

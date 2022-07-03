@@ -27,7 +27,7 @@ int Character::ammo_count_for( const item &gun )
 
         const auto found_ammo = find_ammo( gun, true, -1 );
         int loose_ammo = 0;
-        for( const auto &ammo : found_ammo ) {
+        for( const item_location &ammo : found_ammo ) {
             if( ammo->is_magazine() ) {
                 has_mag = true;
                 total_ammo += ammo->ammo_remaining();
@@ -109,17 +109,18 @@ bool Character::list_ammo( const item &base, std::vector<item::reload_option> &a
 }
 
 item::reload_option Character::select_ammo( const item &base,
-        std::vector<item::reload_option> opts ) const
+        std::vector<item::reload_option> opts, const std::string name_override ) const
 {
     if( opts.empty() ) {
         add_msg_if_player( m_info, _( "Never mind." ) );
         return item::reload_option();
     }
 
+    std::string name = name_override.empty() ? base.tname() : name_override;
     uilist menu;
     menu.text = string_format( base.is_watertight_container() ? _( "Refill %s" ) :
                                base.has_flag( flag_RELOAD_AND_SHOOT ) ? _( "Select ammo for %s" ) : _( "Reload %s" ),
-                               base.tname() );
+                               name );
 
     // Construct item names
     std::vector<std::string> names;
@@ -164,10 +165,12 @@ item::reload_option Character::select_ammo( const item &base,
     std::vector<std::string> destination;
     std::transform( opts.begin(), opts.end(),
     std::back_inserter( destination ), [&]( const item::reload_option & e ) {
+        name = name_override.empty() ? e.target->tname( 1, false, 0, false ) :
+               name_override;
         if( e.target == e.getParent() ) {
-            return e.target->tname( 1, false, 0, false );
+            return name;
         } else {
-            return e.target->tname( 1, false, 0, false ) + " in " + e.getParent()->tname( 1, false, 0, false );
+            return string_format( _( "%s in %s" ), name, e.getParent()->tname( 1, false, 0, false ) );
         }
     } );
     // Pads elements to match longest member and return length
@@ -203,18 +206,18 @@ item::reload_option Character::select_ammo( const item &base,
     menu.text += _( "| Moves   " );
 
     // We only show ammo statistics for guns and magazines
-    if( base.is_gun() || base.is_magazine() ) {
+    if( ( base.is_gun() || base.is_magazine() ) && !base.is_tool() ) {
         menu.text += _( "| Damage  | Pierce  " );
     }
 
     auto draw_row = [&]( int idx ) {
-        const auto &sel = opts[ idx ];
+        const item::reload_option &sel = opts[ idx ];
         std::string row = string_format( "%s| %s | %s |", names[ idx ], where[ idx ], destination[ idx ] );
         row += string_format( ( sel.ammo->is_ammo() ||
                                 sel.ammo->is_ammo_container() ) ? " %-7d |" : "         |", sel.qty() );
         row += string_format( " %-7d ", sel.moves() );
 
-        if( base.is_gun() || base.is_magazine() ) {
+        if( ( base.is_gun() || base.is_magazine() ) && !base.is_tool() ) {
             const itype *ammo = sel.ammo->is_ammo_container() ? sel.ammo->first_ammo().ammo_data() :
                                 sel.ammo->ammo_data();
             if( ammo ) {
@@ -397,7 +400,11 @@ item::reload_option Character::select_ammo( const item &base, bool prompt, bool 
     } );
 
     if( is_npc() ) {
-        return ammo_list[ 0 ];
+        if( ammo_list[0].ammo.get_item()->ammo_remaining() > 0 ) {
+            return ammo_list[0];
+        } else {
+            return item::reload_option();
+        }
     }
 
     if( !prompt && ammo_list.size() == 1 ) {

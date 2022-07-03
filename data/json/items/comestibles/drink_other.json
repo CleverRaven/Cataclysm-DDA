@@ -68,7 +68,7 @@
     "spoils_in": "6 days 16 hours",
     "charges": 16,
     "fun": -1,
-    "flags": [ "FREEZERBURN" ],
+    "flags": [ "FREEZERBURN", "NO_AUTO_CONSUME" ],
     "phase": "liquid",
     "freezing_point": -4
   },
@@ -92,6 +92,30 @@
     "spoils_in": 600,
     "charges": 16,
     "fun": -1,
+    "flags": [ "NO_AUTO_CONSUME" ],
+    "phase": "liquid"
+  },
+  {
+    "id": "barbecue_sauce",
+    "type": "COMESTIBLE",
+    "looks_like": "molasses",
+    "symbol": "~",
+    "color": "brown",
+    "name": { "str": "barbecue sauce" },
+    "description": "Invented in the American south, barbecue sauce is sweet, dark, and full of spices like garlic, pepper, and cayenne.  It's often used in meat dishes as a marinade or condiment.",
+    "price": 1875,
+    "price_postapoc": 100,
+    "material": [ "veggy", "junk" ],
+    "weight": "17 g",
+    "volume": "250 ml",
+    "comestible_type": "DRINK",
+    "container": "condiment_bottle_sealed",
+    "sealed": false,
+    "calories": 40,
+    "spoils_in": 1200,
+    "charges": 16,
+    "fun": -1,
+    "flags": [ "NO_AUTO_CONSUME" ],
     "phase": "liquid"
   },
   {
@@ -115,6 +139,7 @@
     "spoils_in": 600,
     "charges": 48,
     "phase": "liquid",
+    "flags": [ "NO_AUTO_CONSUME" ],
     "vitamins": [ [ "iron", 2 ] ]
   },
   {
@@ -158,6 +183,7 @@
     "phase": "liquid",
     "charges": 16,
     "fun": -4,
+    "flags": [ "NO_AUTO_CONSUME" ],
     "freezing_point": -2
   },
   {
@@ -181,7 +207,7 @@
     "phase": "liquid",
     "fun": -25,
     "use_action": [ "BLECH" ],
-    "flags": [ "NUTRIENT_OVERRIDE" ],
+    "flags": [ "NUTRIENT_OVERRIDE", "NO_AUTO_CONSUME" ],
     "vitamins": [  ],
     "freezing_point": -26
   },
@@ -192,7 +218,7 @@
     "copy-from": "cooking_oil",
     "description": "Thin yellow animal oil used for cooking.",
     "material": [ "flesh", "oil" ],
-    "flags": [  ]
+    "delete": { "flags": [ "NUTRIENT_OVERRIDE" ] }
   },
   {
     "type": "COMESTIBLE",
@@ -239,7 +265,7 @@
     "volume": "250 ml",
     "phase": "liquid",
     "charges": 10,
-    "flags": [ "EATEN_COLD" ],
+    "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
     "freezing_point": -16,
     "fun": 1
   },
@@ -262,6 +288,7 @@
     "calories": 30,
     "charges": 48,
     "fun": -20,
+    "flags": [ "NO_AUTO_CONSUME" ],
     "phase": "liquid"
   },
   {
@@ -289,6 +316,7 @@
     "volume": "250 ml",
     "phase": "liquid",
     "charges": 3,
+    "flags": [ "NO_AUTO_CONSUME" ],
     "fun": 6
   }
 ]

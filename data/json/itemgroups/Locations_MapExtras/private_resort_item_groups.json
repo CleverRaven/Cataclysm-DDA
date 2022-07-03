@@ -7,6 +7,10 @@
       {
         "distribution": [
           { "collection": [ { "item": "bondage_suit" }, { "item": "bondage_mask", "prob": 50 } ], "prob": 10 },
+          {
+            "collection": [ { "item": "bodysuit_lycra", "variant": "bondage_suit" }, { "item": "bondage_mask", "prob": 30 } ],
+            "prob": 10
+          },
           { "item": "bodysuit_lycra", "prob": 5 },
           {
             "collection": [
@@ -69,6 +73,8 @@
       [ "bikini_top", 30 ],
       [ "bikini_top_leather", 60 ],
       [ "bikini_top_fur", 60 ],
+      [ "bikini_top_short", 30 ],
+      { "item": "bikini_top", "variant": "maid_bikini_top", "prob": 15 },
       [ "corset", 20 ],
       [ "corset_waist", 10 ],
       [ "rope_6", 10 ]
@@ -93,6 +99,8 @@
     "items": [
       [ "panties", 30 ],
       [ "bikini_bottom", 30 ],
+      [ "bikini_bottom_short", 10 ],
+      { "item": "bikini_bottom", "variant": "maid_bikini_bottom", "prob": 15 },
       [ "hot_pants", 60 ],
       [ "hot_pants_leather", 60 ],
       [ "hot_pants_fur", 60 ]
@@ -261,7 +269,9 @@
       [ "maid_dress", 20 ],
       [ "maid_dress_short", 65 ],
       { "item": "apron_cotton", "variant": "maid_apron", "prob": 10 },
-      { "item": "waist_apron_short", "variant": "maid_apron", "prob": 5 }
+      { "item": "waist_apron_short", "variant": "maid_apron", "prob": 5 },
+      { "item": "bikini_top", "variant": "maid_bikini_top", "prob": 5 },
+      { "item": "bikini_bottom", "variant": "maid_bikini_bottom", "prob": 5 }
     ]
   }
 ]

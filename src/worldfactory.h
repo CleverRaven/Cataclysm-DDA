@@ -10,6 +10,7 @@
 #include <vector>
 #include <string>
 
+#include "cuboid_rectangle.h"
 #include "options.h"
 #include "pimpl.h"
 #include "type_id.h"
@@ -128,7 +129,8 @@ class worldfactory
          */
         void delete_world( const std::string &worldname, bool delete_folder );
 
-        static void draw_worldgen_tabs( const catacurses::window &w, size_t current );
+        static std::map<size_t, inclusive_rectangle<point>> draw_worldgen_tabs( const catacurses::window &w,
+                size_t current );
         void show_active_world_mods( const std::vector<mod_id> &world_mods );
 
     private:
@@ -137,25 +139,23 @@ class worldfactory
         void load_last_world_info();
 
         std::string pick_random_name();
-        int show_worldgen_tab_options( const catacurses::window &win, WORLDPTR world,
-                                       const std::function<bool()> &on_quit );
-        int show_worldgen_tab_modselection( const catacurses::window &win, WORLDPTR world,
-                                            const std::function<bool()> &on_quit );
-        int show_worldgen_tab_confirm( const catacurses::window &win, WORLDPTR world,
-                                       const std::function<bool()> &on_quit );
+        int show_worldgen_tab_options( const catacurses::window &win, WORLDPTR world, bool with_tabs );
+        int show_worldgen_tab_modselection( const catacurses::window &win, WORLDPTR world, bool with_tabs );
+        int show_worldgen_basic( WORLDPTR world );
+        int show_worldgen_advanced( WORLDPTR world );
 
         void draw_modselection_borders( const catacurses::window &win, const input_context &ctxtp );
-        void draw_mod_list( const catacurses::window &w, int &start, size_t cursor,
-                            const std::vector<mod_id> &mods, bool is_active_list, const std::string &text_if_empty,
-                            const catacurses::window &w_shift );
+        std::map<int, inclusive_rectangle<point>> draw_mod_list( const catacurses::window &w, int &start,
+                                               size_t cursor, const std::vector<mod_id> &mods,
+                                               bool is_active_list, const std::string &text_if_empty,
+                                               const catacurses::window &w_shift, bool recalc_start );
 
         WORLDPTR add_world( std::unique_ptr<WORLD> retworld );
 
         pimpl<mod_manager> mman;
         pimpl<mod_ui> mman_ui;
 
-        using worldgen_display = std::function<int ( const catacurses::window &, WORLDPTR,
-                                 std::function<bool()> )>;
+        using worldgen_display = std::function<int ( const catacurses::window &, WORLDPTR, bool )>;
 
         std::vector<worldgen_display> tabs;
 };

@@ -351,5 +351,23 @@
     "symbol": "@",
     "color": "brown",
     "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO" ]
+  },
+  {
+    "id": "pseudo_archery_target_box",
+    "type": "TOOL",
+    "name": { "str": "box archery target" },
+    "description": "This is a crafting_pseudo_item if you have it something is wrong.",
+    "symbol": "@",
+    "color": "brown",
+    "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO" ]
+  },
+  {
+    "id": "pseudo_archery_target_bale",
+    "type": "TOOL",
+    "name": { "str": "bale archery target" },
+    "description": "This is a crafting_pseudo_item if you have it something is wrong.",
+    "symbol": "@",
+    "color": "yellow",
+    "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO" ]
   }
 ]

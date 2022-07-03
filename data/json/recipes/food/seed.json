@@ -215,6 +215,54 @@
     "components": [ [ [ "raw_burdock", 4 ] ] ]
   },
   {
+    "result": "seed_japanese_knotweed",
+    "type": "recipe",
+    "copy-from": "seed_extraction_base",
+    "components": [ [ [ "japanese_knotweed_stem", 1 ] ] ]
+  },
+  {
+    "result": "seed_jerusalem_artichoke",
+    "type": "recipe",
+    "copy-from": "seed_extraction_cutting",
+    "components": [ [ [ "jerusalem_artichoke", 1 ] ] ]
+  },
+  {
+    "result": "seed_maianthemum_stellatum",
+    "type": "recipe",
+    "copy-from": "seed_extraction_cutting",
+    "components": [ [ [ "m_stellatum_berries", 1 ] ] ]
+  },
+  {
+    "result": "seed_wild_sarsaparilla",
+    "type": "recipe",
+    "copy-from": "seed_extraction_cutting",
+    "components": [ [ [ "wild_sarsaparilla_root", 1 ] ] ]
+  },
+  {
+    "result": "seed_mayapple",
+    "type": "recipe",
+    "copy-from": "seed_extraction_cutting",
+    "components": [ [ [ "mayapple", 1 ] ] ]
+  },
+  {
+    "result": "seed_wintergreen",
+    "type": "recipe",
+    "copy-from": "seed_extraction_cutting",
+    "components": [ [ [ "wintergreen_berry", 1 ] ] ]
+  },
+  {
+    "result": "seed_groundnut",
+    "type": "recipe",
+    "copy-from": "seed_extraction_cutting",
+    "components": [ [ [ "groundnut", 1 ] ] ]
+  },
+  {
+    "result": "seed_wild_garlic",
+    "type": "recipe",
+    "copy-from": "seed_extraction_cutting",
+    "components": [ [ [ "wild_garlic", 1 ] ] ]
+  },
+  {
     "result": "seed_rhubarb",
     "type": "recipe",
     "copy-from": "seed_extraction_cutting",

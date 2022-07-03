@@ -909,7 +909,7 @@
     "symbol": "/",
     "color": "brown",
     "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
-    "weapon_category": [ "HOOKING_WEAPONRY" ],
+    "weapon_category": [ "HOOKING_WEAPONRY", "GREAT_AXES", "GREAT_HAMMERS" ],
     "qualities": [ [ "AXE", 1 ], [ "BUTCHER", -20 ], [ "HAMMER", 1 ] ],
     "use_action": [
       { "type": "cast_spell", "spell_id": "lightning_bolt", "no_fail": true, "level": 7, "need_wielding": true },
@@ -975,6 +975,7 @@
     "symbol": "/",
     "material": [ "steel", "plastic" ],
     "techniques": [ "WBLOCK_1", "RAPID" ],
+    "weapon_category": [ "BATONS" ],
     "flags": [ "DURABLE_MELEE", "BELT_CLIP" ],
     "use_action": {
       "menu_text": "Extend to staff",
@@ -1001,6 +1002,7 @@
     "symbol": "/",
     "material": [ "steel", "plastic" ],
     "techniques": [ "WBLOCK_2", "RAPID", "SWEEP" ],
+    "weapon_category": [ "QUARTERSTAVES" ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SPEAR" ],
     "use_action": {
       "menu_text": "Retract to baton",
@@ -1017,11 +1019,11 @@
   },
   {
     "id": "grim_reaper_scythe",
-    "looks_like": "scythe_war",
+    "looks_like": "scythe_toy",
     "repairs_like": "rune_animist_weapon_adept",
     "type": "TOOL",
     "name": { "str": "grim reaper's scythe" },
-    "//": "Pretty similar to the war scythe, but with less weight, more cutting damage and a capable of casting a strong offensive spell.",
+    "//": "Pretty similar to the war scythe, but with less weight, more cutting damage and capable of casting a strong offensive spell.",
     "description": "This is a long and crooked tool used to reap souls, with a skull engraved in its blade.  Magically treated to reduce weight and enhance sharpness, this enchanted weapon is even capable of delivering a strong rupture attack.  Let the harvest begin.",
     "weight": "2750 g",
     "volume": "3550 ml",

@@ -248,8 +248,8 @@ void tileset::clear()
     memory_tile_values.clear();
     duplicate_ids.clear();
     tile_ids.clear();
-    for( int i = 0; i < season_type::NUM_SEASONS; ++i ) {
-        tile_ids_by_season[i].clear();
+    for( std::unordered_map<std::string, season_tile_value> &m : tile_ids_by_season ) {
+        m.clear();
     }
     item_layer_data.clear();
     field_layer_data.clear();
@@ -270,7 +270,7 @@ tileset::find_tile_type_by_season( const std::string &id, season_type season ) c
     if( iter == tile_ids_by_season[season].end() ) {
         return cata::nullopt;
     }
-    auto &res = iter->second;
+    const tileset::season_tile_value &res = iter->second;
     if( res.season_tile ) {
         return *res.season_tile;
     } else if( res.default_tile ) { // can skip this check, but just in case
@@ -485,6 +485,8 @@ static void extend_vector_by( std::vector<T> &vec, const size_t additional_size 
 
 void tileset_cache::loader::load_tileset( const std::string &img_path, const bool pump_events )
 {
+    cata_assert( sprite_width > 0 );
+    cata_assert( sprite_height > 0 );
     const SDL_Surface_Ptr tile_atlas = load_image( img_path.c_str() );
     cata_assert( tile_atlas );
     tile_atlas_width = tile_atlas->w;
@@ -726,7 +728,7 @@ void tileset_cache::loader::load( const std::string &tileset_id, const bool prec
     // loop through all tile ids and eliminate empty/invalid things
     for( auto it = ts.tile_ids.begin(); it != ts.tile_ids.end(); ) {
         // second is the tile_type describing that id
-        auto &td = it->second;
+        tile_type &td = it->second;
         process_variations_after_loading( td.fg );
         process_variations_after_loading( td.bg );
         // All tiles need at least foreground or background data, otherwise they are useless.
@@ -950,7 +952,7 @@ void tileset_cache::loader::load_ascii_set( const JsonObject &entry )
     // the other ASCII chars follow from there.
     const int in_image_offset = entry.get_int( "offset" );
     if( in_image_offset >= size ) {
-        entry.throw_error( "invalid offset (out of range)", "offset" );
+        entry.throw_error_at( "offset", "invalid offset (out of range)" );
     }
     // color, of the ASCII char. Can be -1 to indicate all/default colors.
     int FG = -1;
@@ -974,7 +976,7 @@ void tileset_cache::loader::load_ascii_set( const JsonObject &entry )
     } else if( scolor == "DEFAULT" ) {
         FG = -1;
     } else {
-        entry.throw_error( "invalid color for ASCII", "color" );
+        entry.throw_error_at( "color", "invalid color for ASCII" );
     }
     // Add an offset for bold colors (ncurses has this bold attribute,
     // this mimics it). bold does not apply to default color.
@@ -1152,7 +1154,7 @@ void tileset_cache::loader::load_tile_spritelists( const JsonObject &entry,
                 int weight = vo.get_int( "weight" );
                 // negative weight is invalid
                 if( weight < 0 ) {
-                    vo.throw_error( "Invalid weight for sprite variation (<0)", objname );
+                    vo.throw_error_at( objname, "Invalid weight for sprite variation (<0)" );
                 }
                 // int sprite means one sprite
                 if( vo.has_int( "sprite" ) ) {
@@ -1173,7 +1175,7 @@ void tileset_cache::loader::load_tile_spritelists( const JsonObject &entry,
                 if( v.size() != 1 &&
                     v.size() != 2 &&
                     v.size() != 4 ) {
-                    vo.throw_error( "Invalid number of sprites (not 1, 2, or 4)", objname );
+                    vo.throw_error_at( objname, "Invalid number of sprites (not 1, 2, or 4)" );
                 }
                 vs.add( v, weight );
             }
@@ -1577,12 +1579,12 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
         // for each of the drawing layers in order, back to front ...
         for( auto f : drawing_layers ) {
             // ... draw all the points we drew terrain for, in the same order
-            for( auto &p : draw_points ) {
+            for( tile_render_info &p : draw_points ) {
                 ( this->*f )( p.pos, p.ll, p.height_3d, p.invisible );
             }
         }
         // display number of monsters to spawn in mapgen preview
-        for( const auto &p : draw_points ) {
+        for( const tile_render_info &p : draw_points ) {
             const auto mon_override = monster_override.find( p.pos );
             if( mon_override != monster_override.end() ) {
                 const int count = std::get<1>( mon_override->second );
@@ -2099,7 +2101,12 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
             } else {
                 tmp = item( found_id, calendar::turn_zero );
             }
-            sym = tmp.symbol().empty() ? ' ' : tmp.symbol().front();
+            if( !variant.empty() ) {
+                tmp.set_itype_variant( variant );
+            } else {
+                tmp.clear_itype_variant();
+            }
+            sym = static_cast<uint8_t>( tmp.symbol().empty() ? ' ' : tmp.symbol().front() );
             col = tmp.color();
         } else if( category == TILE_CATEGORY::OVERMAP_TERRAIN ) {
             const oter_type_str_id tmp( id );
@@ -2112,7 +2119,7 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
                 col = tmp->color;
             }
         } else if( category == TILE_CATEGORY::OVERMAP_NOTE ) {
-            sym = id[5];
+            sym = static_cast<uint8_t>( id[5] );
             col = color_from_string( id.substr( 7, id.length() - 1 ) );
         }
         // Special cases for walls
@@ -2313,7 +2320,7 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
         default:
             // player
             if( string_starts_with( found_id, "player_" ) ) {
-                seed = get_player_character().name[0];
+                seed = std::hash<std::string> {}( get_player_character().name );
                 break;
             }
             // NPC
@@ -2724,7 +2731,7 @@ bool cata_tiles::draw_terrain( const tripoint &p, const lit_level ll, int &heigh
         }
     } else if( invisible[0] && has_terrain_memory_at( p ) ) {
         // try drawing memory if invisible and not overridden
-        const auto &t = get_terrain_memory_at( p );
+        const memorized_terrain_tile &t = get_terrain_memory_at( p );
         return draw_from_id_string(
                    t.tile, TILE_CATEGORY::TERRAIN, empty_string, p, t.subtile, t.rotation,
                    lit_level::MEMORIZED, nv_goggles_activated, height_3d );
@@ -2919,7 +2926,7 @@ bool cata_tiles::draw_furniture( const tripoint &p, const lit_level ll, int &hei
         }
     } else if( invisible[0] && has_furniture_memory_at( p ) ) {
         // try drawing memory if invisible and not overridden
-        const auto &t = get_furniture_memory_at( p );
+        const memorized_terrain_tile &t = get_furniture_memory_at( p );
         return draw_from_id_string(
                    t.tile, TILE_CATEGORY::FURNITURE, empty_string, p, t.subtile, t.rotation,
                    lit_level::MEMORIZED, nv_goggles_activated, height_3d );
@@ -2997,7 +3004,7 @@ bool cata_tiles::draw_trap( const tripoint &p, const lit_level ll, int &height_3
         }
     } else if( invisible[0] && has_trap_memory_at( p ) ) {
         // try drawing memory if invisible and not overridden
-        const auto &t = get_trap_memory_at( p );
+        const memorized_terrain_tile &t = get_trap_memory_at( p );
         return draw_from_id_string(
                    t.tile, TILE_CATEGORY::TRAP, empty_string, p, t.subtile, t.rotation,
                    lit_level::MEMORIZED, nv_goggles_activated, height_3d );
@@ -3042,9 +3049,9 @@ bool cata_tiles::draw_field_or_item( const tripoint &p, const lit_level ll, int 
                 auto has_field = [&]( field_type_id fld, const tripoint & q, const bool invis ) -> field_type_id {
                     // go through the fields and see if they are equal
                     field_type_id found = fd_null;
-                    for( std::map<field_type_id, field_entry>::iterator itt = here.field_at( q ).begin(); itt != here.field_at( q ).end(); ++itt )
+                    for( std::pair<const field_type_id, field_entry> &this_fld : here.field_at( q ) )
                     {
-                        if( itt->first == fld ) {
+                        if( this_fld.first == fld ) {
                             found = fld;
                         }
                     }
@@ -3396,7 +3403,7 @@ bool cata_tiles::draw_vpart( const tripoint &p, lit_level ll, int &height_3d,
         }
     } else if( invisible[0] && has_vpart_memory_at( p ) ) {
         // try drawing memory if invisible and not overridden
-        const auto &t = get_vpart_memory_at( p );
+        const memorized_terrain_tile &t = get_vpart_memory_at( p );
         return draw_from_id_string(
                    t.tile, TILE_CATEGORY::VEHICLE_PART, empty_string, p, t.subtile, t.rotation,
                    lit_level::MEMORIZED, nv_goggles_activated, height_3d );
@@ -4122,7 +4129,7 @@ void cata_tiles::draw_sct_frame( std::multimap<point, formatted_text> &overlay_s
                     player_to_screen( iD + point( direction_offset, 0 ) ),
                     formatted_text( sText, FG, direction ) );
             } else {
-                for( auto &it : sText ) {
+                for( char &it : sText ) {
                     const std::string generic_id = get_ascii_tile_id( it, FG, -1 );
 
                     if( tileset_ptr->find_tile_type( generic_id ) ) {

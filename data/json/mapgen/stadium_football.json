@@ -80,17 +80,17 @@
         { "monster": "GROUP_HOUSE", "x": [ 0, 23 ], "y": [ 0, 23 ], "density": 0.037 },
         { "monster": "GROUP_HOUSE", "x": [ 0, 23 ], "y": [ 24, 47 ], "density": 0.037 },
         { "monster": "GROUP_HOUSE", "x": [ 24, 47 ], "y": [ 0, 23 ], "density": 0.037 },
-        { "monster": "GROUP_HOUSE", "x": [ 0, 23 ], "y": [ 24, 47 ], "density": 0.037 },
+        { "monster": "GROUP_HOUSE", "x": [ 24, 47 ], "y": [ 24, 47 ], "density": 0.037 },
         { "monster": "GROUP_HOUSE", "x": [ 48, 71 ], "y": [ 0, 23 ], "density": 0.037 },
-        { "monster": "GROUP_HOUSE", "x": [ 0, 23 ], "y": [ 24, 47 ], "density": 0.037 },
+        { "monster": "GROUP_HOUSE", "x": [ 48, 71 ], "y": [ 24, 47 ], "density": 0.037 },
         { "monster": "GROUP_HOUSE", "x": [ 72, 95 ], "y": [ 0, 23 ], "density": 0.037 },
-        { "monster": "GROUP_HOUSE", "x": [ 0, 23 ], "y": [ 24, 47 ], "density": 0.037 },
+        { "monster": "GROUP_HOUSE", "x": [ 72, 95 ], "y": [ 24, 47 ], "density": 0.037 },
         { "monster": "GROUP_HOUSE", "x": [ 96, 119 ], "y": [ 0, 23 ], "density": 0.037 },
-        { "monster": "GROUP_HOUSE", "x": [ 0, 23 ], "y": [ 24, 47 ], "density": 0.037 },
+        { "monster": "GROUP_HOUSE", "x": [ 96, 119 ], "y": [ 24, 47 ], "density": 0.037 },
         { "monster": "GROUP_HOUSE", "x": [ 120, 143 ], "y": [ 0, 23 ], "density": 0.037 },
-        { "monster": "GROUP_HOUSE", "x": [ 0, 23 ], "y": [ 24, 47 ], "density": 0.037 },
+        { "monster": "GROUP_HOUSE", "x": [ 120, 143 ], "y": [ 24, 47 ], "density": 0.037 },
         { "monster": "GROUP_HOUSE", "x": [ 144, 167 ], "y": [ 0, 23 ], "density": 0.037 },
-        { "monster": "GROUP_HOUSE", "x": [ 0, 23 ], "y": [ 24, 47 ], "density": 0.037 }
+        { "monster": "GROUP_HOUSE", "x": [ 144, 167 ], "y": [ 24, 47 ], "density": 0.037 }
       ]
     }
   },
@@ -526,6 +526,18 @@
         "Ñ": { "furniture": "f_tourist_table", "items": { "item": "fast_table", "chance": 8 } }
       },
       "place_loot": [
+        { "group": "cash_register_random", "x": [ 7, 10 ], "y": 0 },
+        { "group": "cash_register_random", "x": [ 7, 10 ], "y": 11 },
+        { "group": "cash_register_random", "x": [ 10, 12 ], "y": 29 },
+        { "group": "cash_register_random", "x": [ 88, 91 ], "y": 6 },
+        { "group": "cash_register_random", "x": [ 153, 155 ], "y": 32 },
+        { "group": "cash_register_random", "x": [ 146, 150 ], "y": 48 },
+        { "group": "cash_register_random", "x": [ 8, 14 ], "y": 40, "repeat": [ 1, 2 ] },
+        { "group": "cash_register_random", "x": [ 12, 14 ], "y": 71 },
+        { "group": "cash_register_random", "x": 3, "y": [ 14, 16 ] },
+        { "group": "cash_register_random", "x": 15, "y": [ 31, 33 ] },
+        { "group": "cash_register_random", "x": 149, "y": [ 81, 82 ] },
+        { "group": "cash_register_random", "x": 117, "y": [ 19, 21 ] },
         { "item": "football", "x": 84, "y": 60 },
         { "item": "lawnmower", "x": 147, "y": 87 },
         { "item": "lawnmower", "x": 147, "y": 89 },
