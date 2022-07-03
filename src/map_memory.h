@@ -13,6 +13,7 @@ class JsonOut;
 class JsonIn;
 class JsonObject;
 class JsonOut;
+class JsonValue;
 
 struct memorized_terrain_tile {
     std::string tile;
@@ -83,6 +84,7 @@ struct mm_submap {
 
         void serialize( JsonOut &jsout ) const;
         void deserialize( JsonIn &jsin );
+        void deserialize( const JsonValue &ja );
 
     private:
         // NOLINTNEXTLINE(cata-serialize)

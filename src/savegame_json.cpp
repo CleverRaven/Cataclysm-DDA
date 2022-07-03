@@ -4047,9 +4047,14 @@ void mm_submap::serialize( JsonOut &jsout ) const
 
 void mm_submap::deserialize( JsonIn &jsin )
 {
-    jsin.start_array();
+    deserialize( jsin.get_value() );
+}
 
+void mm_submap::deserialize( const JsonValue &ja )
+{
     // Uses RLE for compression.
+
+    JsonArray sm_json = ja;
 
     mm_elem elem;
     size_t remaining = 0;
@@ -4059,15 +4064,17 @@ void mm_submap::deserialize( JsonIn &jsin )
             if( remaining > 0 ) {
                 remaining -= 1;
             } else {
-                jsin.start_array();
-                elem.tile.tile = jsin.get_string();
-                elem.tile.subtile = jsin.get_int();
-                elem.tile.rotation = jsin.get_int();
-                elem.symbol = jsin.get_int();
-                if( jsin.test_int() ) {
-                    remaining = jsin.get_int() - 1;
+                JsonArray elem_json = sm_json.next_array();
+                elem.tile.tile = elem_json.next_string();
+                elem.tile.subtile = elem_json.next_int();
+                elem.tile.rotation = elem_json.next_int();
+                elem.symbol = elem_json.next_int();
+                if( elem_json.size() > 4 ) {
+                    remaining = elem_json.next_int() - 1;
                 }
-                jsin.end_array();
+                if( elem_json.has_more() ) {
+                    elem_json.throw_error( "Too many values for RLE" );
+                }
             }
             point p( x, y );
             // Try to avoid assigning to save up on memory
@@ -4079,7 +4086,6 @@ void mm_submap::deserialize( JsonIn &jsin )
             }
         }
     }
-    jsin.end_array();
 }
 
 void mm_region::serialize( JsonOut &jsout ) const
