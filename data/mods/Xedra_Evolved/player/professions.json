@@ -172,7 +172,7 @@
     "skills": [
       { "level": 2, "name": "gun" },
       { "level": 2, "name": "stabbing" },
-      { "level": 1, "name": "devices" },
+      { "level": 1, "name": "traps" },
       { "level": 1, "name": "dodge" },
       { "level": 2, "name": "melee" },
       { "level": 2, "name": "deduction" },
