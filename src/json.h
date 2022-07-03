@@ -151,31 +151,6 @@ class JsonValue
         [[noreturn]] void throw_error_after( const std::string &err ) const;
 };
 
-
-namespace detail
-{
-// A c++11 compatible older compiler compatible implementation of void_t
-template<typename... Ts> struct make_void {
-    using type = void;
-};
-template<typename... Ts> using void_t = typename make_void<Ts...>::type;
-
-template<class, typename = void>
-struct IsJsonInDeserializable : std::false_type {};
-
-template<class T>
-struct IsJsonInDeserializable<T, void_t<decltype( std::declval<T>().deserialize( std::declval<JsonIn &>() ) )>> :
-std::true_type {};
-
-template<class, typename = void>
-struct IsJsonValueDeserializable : std::false_type {};
-
-template<class T>
-struct IsJsonValueDeserializable<T, void_t<decltype( std::declval<T>().deserialize( std::declval<const JsonValue &>() ) )>> :
-std::true_type {};
-} // namespace detail
-
-
 /* JsonIn
  * ======
  *
@@ -393,22 +368,7 @@ class JsonIn
             return true;
         }
 
-        /// Overload that calls a global function `deserialize(T&,JsonIn&)`, if available.
-        template<typename T>
-        auto read( T &v, bool throw_on_error = false ) ->
-        decltype( deserialize( v, *this ), true ) {
-            try {
-                deserialize( v, *this );
-                return true;
-            } catch( const JsonError & ) {
-                if( throw_on_error ) {
-                    throw;
-                }
-                return false;
-            }
-        }
-
-        /// Overload that calls a global function `deserialize(T&,const JsonValue&)`, if available.
+        /// Overload that calls a global function `deserialize(T&, const JsonValue&)`, if available.
         template<typename T>
         auto read( T &v, bool throw_on_error = false ) ->
         decltype( deserialize( v, std::declval<const JsonValue &>() ), true ) {
@@ -423,29 +383,10 @@ class JsonIn
             }
         }
 
-        /// Overload that calls a member function `T::deserialize(JsonIn&)`, if available.
-        /// And also that `T::deserialize(const JsonValue&)` is not available.
-        template<typename T>
-        auto read( T &v, bool throw_on_error = false ) -> typename std::enable_if <
-        detail::IsJsonInDeserializable<T>::value &&
-        !detail::IsJsonValueDeserializable<T>::value, bool >::type {
-            try {
-                v.deserialize( *this );
-                return true;
-            } catch( const JsonError & ) {
-                if( throw_on_error ) {
-                    throw;
-                }
-                return false;
-            }
-        }
-
         /// Overload that calls a member function `T::deserialize(const JsonValue&)`, if available.
-        /// But only if `T::deserialize(JsonIn&)` is not available.
         template<typename T>
-        auto read( T &v, bool throw_on_error = false ) -> typename std::enable_if <
-        !detail::IsJsonInDeserializable<T>::value &&
-        detail::IsJsonValueDeserializable<T>::value, bool >::type {
+        auto read( T &v, bool throw_on_error = false ) -> decltype( v.deserialize(
+                    std::declval<const JsonValue &>() ), true ) {
             try {
                 v.deserialize( this->get_value() );
                 return true;

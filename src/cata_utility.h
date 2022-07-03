@@ -377,17 +377,7 @@ inline std::string serialize( const T &obj )
     } );
 }
 
-template < typename T, std::enable_if_t < detail::IsJsonInDeserializable<T>::value &&
-           !detail::IsJsonValueDeserializable<T>::value > * = nullptr >
-inline void deserialize_from_string( T &obj, const std::string &data )
-{
-    deserialize_wrapper( [&obj]( JsonIn & jsin ) {
-        obj.deserialize( jsin.get_value() );
-    }, data );
-}
-
-template < typename T, std::enable_if_t < !detail::IsJsonInDeserializable<T>::value &&
-           detail::IsJsonValueDeserializable<T>::value > * = nullptr >
+template<typename T>
 inline void deserialize_from_string( T &obj, const std::string &data )
 {
     deserialize_wrapper( [&obj]( JsonIn & jsin ) {
