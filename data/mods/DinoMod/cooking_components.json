@@ -89,8 +89,7 @@
         [ "egg_diplodocus", 1 ],
         [ "egg_camarasaurus", 1 ],
         [ "egg_brachiosaurus", 1 ],
-        [ "egg_alamosaurus", 1 ],
-        [ "egg_mosasaurus", 1 ]
+        [ "egg_alamosaurus", 1 ]
       ]
     ]
   }

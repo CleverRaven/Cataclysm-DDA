@@ -2409,6 +2409,22 @@
   },
   {
     "type": "GENERIC",
+    "id": "mortar_lime",
+    "symbol": "%",
+    "color": "white",
+    "name": { "str_sp": "lime mortar" },
+    "description": "Some lime mortar, made from quicklime and aggregate and ready for building.",
+    "category": "spare_parts",
+    "container": "bag_canvas",
+    "price": 2000,
+    "price_postapoc": 15,
+    "material": [ "powder_nonflam" ],
+    "weight": "2340 g",
+    "volume": "1 L",
+    "bashing": 4
+  },
+  {
+    "type": "GENERIC",
     "id": "soft_adobe_brick",
     "category": "spare_parts",
     "symbol": ",",

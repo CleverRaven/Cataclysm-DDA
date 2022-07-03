@@ -96,7 +96,7 @@ class recipe_subset
          */
         template<class Predicate>
         void include_if( const recipe_subset &subset, Predicate pred ) {
-            for( const auto &elem : subset ) {
+            for( const recipe * const &elem : subset ) {
                 if( pred( *elem ) ) {
                     include( elem );
                 }

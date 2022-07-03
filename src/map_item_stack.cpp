@@ -89,7 +89,7 @@ int list_filter_high_priority( std::vector<map_item_stack> &stack, const std::st
     }
 
     int id = stack.size();
-    for( auto &elem : tempstack ) {
+    for( map_item_stack &elem : tempstack ) {
         stack.push_back( elem );
     }
     return id;
@@ -111,7 +111,7 @@ int list_filter_low_priority( std::vector<map_item_stack> &stack, const int star
     }
 
     int id = stack.size();
-    for( auto &elem : tempstack ) {
+    for( map_item_stack &elem : tempstack ) {
         stack.push_back( elem );
     }
     return id;

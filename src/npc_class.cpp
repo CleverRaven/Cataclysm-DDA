@@ -106,7 +106,7 @@ void apply_all_to_unassigned( T &skills )
     if( iter != skills.end() ) {
         distribution dis = iter->second;
         skills.erase( iter );
-        for( const auto &sk : Skill::skills ) {
+        for( const Skill &sk : Skill::skills ) {
             if( skills.count( sk.ident() ) == 0 ) {
                 skills[ sk.ident() ] = dis;
             }
@@ -117,7 +117,7 @@ void apply_all_to_unassigned( T &skills )
 void npc_class::finalize_all()
 {
     for( const npc_class &cl_const : npc_class_factory.get_all() ) {
-        auto &cl = const_cast<npc_class &>( cl_const );
+        npc_class &cl = const_cast<npc_class &>( cl_const );
         apply_all_to_unassigned( cl.skills );
         apply_all_to_unassigned( cl.bonus_skills );
 
@@ -384,7 +384,7 @@ const std::vector<npc_class> &npc_class::get_all()
 const npc_class_id &npc_class::random_common()
 {
     std::list<const npc_class_id *> common_classes;
-    for( const auto &pr : npc_class_factory.get_all() ) {
+    for( const npc_class &pr : npc_class_factory.get_all() ) {
         if( pr.common ) {
             common_classes.push_back( &pr.id );
         }

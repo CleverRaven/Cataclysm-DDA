@@ -91,6 +91,7 @@ class recipe
 
         int64_t time = 0; // in movement points (100 per turn)
 
+        std::string exertion_str;
         float exertion = 0.0f;
 
     public:
