@@ -155,7 +155,7 @@
           "failures": [ { "action": "alarm" } ]
         }
       },
-      "gaspumps": { "@": { "fuel": "gasoline", "amount": [ 10000, 50000 ] }, "$": { "fuel": "diesel", "amount": [ 10000, 50000 ] } },
+      "gaspumps": { "@": { "fuel": "gasoline", "amount": [ 0, 5000 ] }, "$": { "fuel": "diesel", "amount": [ 0, 5000 ] } },
       "vehicles": { "Ø": { "vehicle": "tatra_truck", "chance": 50, "fuel": 0, "status": 1 } },
       "nested": { "`": { "chunks": [ [ "mechanical_fluid", 10 ], [ "gasoline_diesel_motor_oil", 80 ], [ "null", 80 ] ] } }
     }
