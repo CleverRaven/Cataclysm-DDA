@@ -308,9 +308,9 @@ std::string PATH_INFO::keymap()
 {
     return keymap_value;
 }
-std::string PATH_INFO::lastworld()
+cata_path PATH_INFO::lastworld()
 {
-    return config_dir_value + "lastworld.json";
+    return config_dir_path_value / "lastworld.json";
 }
 cata_path PATH_INFO::legacy_fontdata()
 {

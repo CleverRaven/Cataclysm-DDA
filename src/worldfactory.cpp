@@ -726,13 +726,12 @@ void worldfactory::remove_world( const std::string &worldname )
 
 void worldfactory::load_last_world_info()
 {
-    cata::ifstream file( fs::u8path( PATH_INFO::lastworld() ),
-                         std::ifstream::in | std::ifstream::binary );
-    if( !file.good() ) {
+    cata_path lastworld_path = PATH_INFO::lastworld();
+    if( !file_exist( lastworld_path ) ) {
         return;
     }
 
-    JsonValue jsin = json_loader::from_path( fs::u8path( PATH_INFO::lastworld() ) );
+    JsonValue jsin = json_loader::from_path( lastworld_path );
     JsonObject data = jsin.get_object();
     last_world_name = data.get_string( "world_name" );
     last_character_name = data.get_string( "character_name" );
