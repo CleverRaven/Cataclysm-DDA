@@ -61,6 +61,10 @@ void leap_actor::load_internal( const JsonObject &obj, const std::string & )
     move_cost = obj.get_int( "move_cost", 150 );
     min_consider_range = obj.get_float( "min_consider_range", 0.0f );
     max_consider_range = obj.get_float( "max_consider_range", 200.0f );
+    optional( obj, was_loaded, "forbidden_effects_any", forbidden_effects_any );
+    optional( obj, was_loaded, "forbidden_effects_all", forbidden_effects_all );
+    optional( obj, was_loaded, "required_effects_any", required_effects_any );
+    optional( obj, was_loaded, "required_effects_all", required_effects_all );
 }
 
 std::unique_ptr<mattack_actor> leap_actor::clone() const
@@ -72,6 +76,46 @@ bool leap_actor::call( monster &z ) const
 {
     if( !z.has_dest() || !z.can_act() || !z.move_effects( false ) ) {
         return false;
+    }
+
+    if( !forbidden_effects_any.empty() ) {
+        for( const efftype_id &effect : forbidden_effects_any ) {
+            if( z.has_effect( effect ) ) {
+                return false;
+            }
+        }
+    }
+
+    if( !forbidden_effects_all.empty() ) {
+        bool failed = true;
+        for( const efftype_id &effect : forbidden_effects_all ) {
+            if( !z.has_effect( effect ) ) {
+                failed = false;
+            }
+        }
+        if( failed ) {
+            return false;
+        }
+    }
+
+    if( !required_effects_any.empty() ) {
+        bool failed = true;
+        for( const efftype_id &effect : required_effects_any ) {
+            if( z.has_effect( effect ) ) {
+                failed = false;
+            }
+        }
+        if( failed ) {
+            return false;
+        }
+    }
+
+    if( !required_effects_all.empty() ) {
+        for( const efftype_id &effect : required_effects_all ) {
+            if( !z.has_effect( effect ) ) {
+                return false;
+            }
+        }
     }
 
     std::vector<tripoint> options;
@@ -168,6 +212,11 @@ void mon_spellcasting_actor::load_internal( const JsonObject &obj, const std::st
               //~ "<Monster Display name> cast <Spell Name> on <Target name>!"
               to_translation( "%1$s casts %2$s at %3$s!" ) );
     spell_data.trigger_message = monster_message;
+    optional( obj, was_loaded, "forbidden_effects_any", forbidden_effects_any );
+    optional( obj, was_loaded, "forbidden_effects_all", forbidden_effects_all );
+    optional( obj, was_loaded, "required_effects_any", required_effects_any );
+    optional( obj, was_loaded, "required_effects_all", required_effects_all );
+
 }
 
 bool mon_spellcasting_actor::call( monster &mon ) const
@@ -179,6 +228,46 @@ bool mon_spellcasting_actor::call( monster &mon ) const
     if( !mon.attack_target() ) {
         // this is an attack. there is no reason to attack if there isn't a real target.
         return false;
+    }
+
+    if( !forbidden_effects_any.empty() ) {
+        for( const efftype_id &effect : forbidden_effects_any ) {
+            if( mon.has_effect( effect ) ) {
+                return false;
+            }
+        }
+    }
+
+    if( !forbidden_effects_all.empty() ) {
+        bool failed = true;
+        for( const efftype_id &effect : forbidden_effects_all ) {
+            if( !mon.has_effect( effect ) ) {
+                failed = false;
+            }
+        }
+        if( failed ) {
+            return false;
+        }
+    }
+
+    if( !required_effects_any.empty() ) {
+        bool failed = true;
+        for( const efftype_id &effect : required_effects_any ) {
+            if( mon.has_effect( effect ) ) {
+                failed = false;
+            }
+        }
+        if( failed ) {
+            return false;
+        }
+    }
+
+    if( !required_effects_all.empty() ) {
+        for( const efftype_id &effect : required_effects_all ) {
+            if( !mon.has_effect( effect ) ) {
+                return false;
+            }
+        }
     }
 
     const tripoint target = spell_data.self ? mon.pos() : mon.attack_target()->pos();
@@ -223,6 +312,10 @@ void melee_actor::load_internal( const JsonObject &obj, const std::string & )
     }
 
     optional( obj, was_loaded, "attack_chance", attack_chance, 100 );
+    optional( obj, was_loaded, "forbidden_effects_any", forbidden_effects_any );
+    optional( obj, was_loaded, "forbidden_effects_all", forbidden_effects_all );
+    optional( obj, was_loaded, "required_effects_any", required_effects_any );
+    optional( obj, was_loaded, "required_effects_all", required_effects_all );
     optional( obj, was_loaded, "accuracy", accuracy, INT_MIN );
     optional( obj, was_loaded, "min_mul", min_mul, 0.5f );
     optional( obj, was_loaded, "max_mul", max_mul, 1.0f );
@@ -300,6 +393,43 @@ bool melee_actor::call( monster &z ) const
 {
     if( attack_chance != 100 && !x_in_y( attack_chance, 100 ) ) {
         return false;
+    }
+
+
+    for( const efftype_id &effect : forbidden_effects_any ) {
+        if( z.has_effect( effect ) ) {
+            return false;
+        }
+    }
+
+    if( !forbidden_effects_all.empty() ) {
+        bool failed = true;
+        for( const efftype_id &effect : forbidden_effects_all ) {
+            if( !z.has_effect( effect ) ) {
+                failed = false;
+            }
+        }
+        if( failed ) {
+            return false;
+        }
+    }
+
+    if( !required_effects_any.empty() ) {
+        bool failed = true;
+        for( const efftype_id &effect : required_effects_any ) {
+            if( z.has_effect( effect ) ) {
+                failed = false;
+            }
+        }
+        if( failed ) {
+            return false;
+        }
+    }
+
+    for( const efftype_id &effect : required_effects_all ) {
+        if( !z.has_effect( effect ) ) {
+            return false;
+        }
     }
 
     Creature *target = find_target( z );
