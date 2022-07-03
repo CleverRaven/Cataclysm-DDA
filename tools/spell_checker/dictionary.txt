@@ -42,7 +42,8 @@ alkahest
 alkalis
 alkyl
 alleghaniensis
-allosaurusid
+allosaurus
+allosaurid
 allucination
 alnico
 altamente
@@ -1826,7 +1827,9 @@ turreted
 twere
 txt
 typologies
+tyrannosaurid
 tyrannosauroid
+tyrannosaurus
 tz
 uality
 uan
