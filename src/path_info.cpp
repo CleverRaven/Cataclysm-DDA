@@ -276,9 +276,9 @@ std::string PATH_INFO::defaulttilepng()
 {
     return "tinytile.png";
 }
-std::string PATH_INFO::fontdata()
+cata_path PATH_INFO::fontdata()
 {
-    return config_dir_value + "fonts.json";
+    return config_dir_path_value / "fonts.json";
 }
 std::string PATH_INFO::fontdir()
 {
@@ -312,9 +312,9 @@ std::string PATH_INFO::lastworld()
 {
     return config_dir_value + "lastworld.json";
 }
-std::string PATH_INFO::legacy_fontdata()
+cata_path PATH_INFO::legacy_fontdata()
 {
-    return datadir_value + "fontdata.json";
+    return datadir_path_value / "fontdata.json";
 }
 std::string PATH_INFO::memorialdir()
 {
