@@ -2994,6 +2994,18 @@
   },
   {
     "type": "effect_type",
+    "id": "genetics_damaged",
+    "name": [ "Mild Genetic Damage", "Genetic Damage", "Severe Genetic Damage" ],
+    "desc": [
+      "After some mutations, you feel slightly uncomfortable - and that's it.",
+      "After many mutations, you feel uncomfortable, and you know for sure - that your Genetics System is getting damaged.",
+      "After LOTS OF mutations, you feel REALLY unnerving, seems like you Genetics System is getting badly damaged now."
+    ],
+    "max_intensity": 1,
+    "rating": "bad"
+  },
+  {
+    "type": "effect_type",
     "id": "hypovolemia",
     "name": [ "Mild Hypovolemic Shock", "Moderate Hypovolemic Shock", "Advanced Hypovolemic Shock", "Severe Hypovolemic Shock" ],
     "desc": [
