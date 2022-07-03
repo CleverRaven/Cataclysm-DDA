@@ -115,7 +115,7 @@
       "vision_night": 1
     },
     "bleed_rate": 50,
-    "upgrades": {  },
+    "upgrades": { "half_life": 21, "into_group": "GROUP_zallosaurus_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
     "categories": [ "DINOSAUR" ]
@@ -139,7 +139,7 @@
       "vision_night": 1
     },
     "bleed_rate": 50,
-    "upgrades": {  },
+    "upgrades": { "half_life": 21, "into_group": "GROUP_zallosaurus_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
     "categories": [ "DINOSAUR" ]
@@ -163,7 +163,7 @@
       "vision_night": 1
     },
     "bleed_rate": 50,
-    "upgrades": {  },
+    "upgrades": { "half_life": 21, "into_group": "GROUP_zallosaurus_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
     "categories": [ "DINOSAUR" ]
@@ -3474,17 +3474,33 @@
   },
   {
     "type": "MONSTER",
-    "id": "mon_zyrannosaurus_hulk",
-    "name": { "str_sp": "Goliath Rex" },
-    "copy-from": "mon_zyrannosaurus_brute",
-    "looks_like": "mon_zyrannosaurus",
-    "description": "A hideously swollen zombified tyrannosaurid body towering into the sky.  Its massive body bulges with distended muscles and swollen, festering wounds.",
+    "id": "mon_zallosaurus_hulk",
+    "name": { "str_sp": "allosaurus hulk" },
+    "copy-from": "mon_zallosaurus_brute",
+    "looks_like": "mon_zallosaurus",
+    "description": "A hideously swollen zombified allosaurid theropod body towering into the sky.  Its massive body bulges with distended muscles and swollen, festering wounds.",
     "diff": 5,
     "color": "white_magenta",
     "proportional": { "hp": 4, "speed": 1.25 },
     "relative": { "melee_dice": 1, "melee_damage": -4, "armor_bash": 4, "armor_cut": 6, "armor_bullet": 5 },
     "bleed_rate": 0,
-    "special_attacks": [ [ "SMASH", 20 ] ]
+    "special_attacks": [ [ "SMASH", 20 ] ],
+    "upgrades": {  }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zyrannosaurus_hulk",
+    "name": { "str_sp": "Goliath Rex" },
+    "copy-from": "mon_zyrannosaurus_brute",
+    "looks_like": "mon_zyrannosaurus",
+    "description": "A hideously swollen zombified tyrannosaurid theropod body towering into the sky.  Its massive body bulges with distended muscles and swollen, festering wounds.",
+    "diff": 5,
+    "color": "white_magenta",
+    "proportional": { "hp": 4, "speed": 1.25 },
+    "relative": { "melee_dice": 1, "melee_damage": -4, "armor_bash": 4, "armor_cut": 6, "armor_bullet": 5 },
+    "bleed_rate": 0,
+    "special_attacks": [ [ "SMASH", 20 ] ],
+    "upgrades": {  }
   },
   {
     "type": "MONSTER",
@@ -3498,7 +3514,8 @@
     "proportional": { "hp": 4, "speed": 1.25 },
     "relative": { "melee_dice": 1, "melee_damage": -4, "armor_bash": 4, "armor_cut": 6, "armor_bullet": 5 },
     "bleed_rate": 0,
-    "special_attacks": [ [ "SMASH", 20 ] ]
+    "special_attacks": [ [ "SMASH", 20 ] ],
+    "upgrades": {  }
   },
   {
     "type": "MONSTER",
@@ -3512,7 +3529,8 @@
     "proportional": { "hp": 4, "speed": 1.25 },
     "relative": { "melee_dice": 1, "melee_damage": -4, "armor_bash": 4, "armor_cut": 6, "armor_bullet": 5 },
     "bleed_rate": 0,
-    "special_attacks": [ [ "SMASH", 20 ] ]
+    "special_attacks": [ [ "SMASH", 20 ] ],
+    "upgrades": {  }
   },
   {
     "type": "MONSTER",
@@ -3526,7 +3544,8 @@
     "proportional": { "hp": 4, "speed": 1.25 },
     "relative": { "melee_dice": 1, "melee_damage": -4, "armor_bash": 4, "armor_cut": 6, "armor_bullet": 5 },
     "bleed_rate": 0,
-    "special_attacks": [ [ "SMASH", 20 ] ]
+    "special_attacks": [ [ "SMASH", 20 ] ],
+    "upgrades": {  }
   },
   {
     "type": "MONSTER",
