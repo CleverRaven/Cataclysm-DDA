@@ -1643,15 +1643,14 @@ void faction_manager::deserialize( const JsonValue &jv )
     }
 }
 
-void creature_tracker::deserialize( JsonIn &jsin )
+void creature_tracker::deserialize( const JsonArray &ja )
 {
     monsters_list.clear();
     monsters_by_location.clear();
-    jsin.start_array();
-    while( !jsin.end_array() ) {
+    for( JsonValue jv : ja ) {
         // TODO: would be nice if monster had a constructor using JsonIn or similar, so this could be one statement.
         shared_ptr_fast<monster> mptr = make_shared_fast<monster>();
-        jsin.read( *mptr );
+        jv.read( *mptr );
         add( mptr );
     }
 }
