@@ -129,5 +129,25 @@
       },
       { "drop": "raptor_sample_single", "type": "mutagen_group" }
     ]
+  },
+  {
+    "id": "dissect_CBM_tyrannosaurid",
+    "type": "harvest",
+    "message": "Slicing carefully into this technologically enhanced dinosaur, you discover items that may be useful, and some potentially interesting samples",
+    "entries": [
+      {
+        "drop": "bio_power_storage_mkII",
+        "type": "bionic",
+        "flags": [ "NO_STERILE", "NO_PACKED" ],
+        "faults": [ "fault_bionic_salvaged" ]
+      },
+      {
+        "drop": "Zomborg_CBM_harvest",
+        "type": "bionic_group",
+        "flags": [ "NO_STERILE", "NO_PACKED" ],
+        "faults": [ "fault_bionic_salvaged" ]
+      },
+      { "drop": "tyrant_sample_large", "type": "mutagen_group" }
+    ]
   }
 ]
