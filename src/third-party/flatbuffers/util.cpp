@@ -50,12 +50,12 @@
 
 namespace flatbuffers {
 
-bool FileExistsRaw(const char *name) {
+static bool FileExistsRaw(const char *name) {
   std::ifstream ifs(name);
   return ifs.good();
 }
 
-bool LoadFileRaw(const char *name, bool binary, std::string *buf) {
+static bool LoadFileRaw(const char *name, bool binary, std::string *buf) {
   if (DirExists(name)) return false;
   std::ifstream ifs(name, binary ? std::ifstream::binary : std::ifstream::in);
   if (!ifs.is_open()) return false;

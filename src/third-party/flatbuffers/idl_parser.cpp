@@ -119,7 +119,7 @@ std::string MakeScreamingCamel(const std::string &in) {
   return s;
 }
 
-void DeserializeDoc(std::vector<std::string> &doc,
+static void DeserializeDoc(std::vector<std::string> &doc,
                     const Vector<Offset<String>> *documentation) {
   if (documentation == nullptr) return;
   for (uoffset_t index = 0; index < documentation->size(); index++)
