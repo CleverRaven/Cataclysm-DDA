@@ -738,27 +738,6 @@ void Creature::deal_melee_hit( Creature *source, int hit_spread, bool critical_h
                          hit_spread ) : *bp;
     block_hit( source, bp_hit, d );
 
-    // Stabbing effects
-    int stab_moves = rng( d.type_damage( damage_type::STAB ) / 2,
-                          d.type_damage( damage_type::STAB ) * 1.5 );
-    if( critical_hit ) {
-        stab_moves *= 1.5;
-    }
-    if( stab_moves >= 150 && !is_immune_effect( effect_downed ) ) {
-        if( is_avatar() ) {
-            source->add_msg_if_npc( m_bad, _( "<npcname> forces you to the ground!" ) );
-        } else {
-            source->add_msg_player_or_npc( m_good, _( "You force %s to the ground!" ),
-                                           _( "<npcname> forces %s to the ground!" ),
-                                           disp_name() );
-        }
-
-        add_effect( effect_source( source ), effect_downed, 1_turns );
-        mod_moves( -stab_moves / 2 );
-    } else {
-        mod_moves( -stab_moves );
-    }
-
     weakpoint_attack attack_copy = attack;
     attack_copy.is_crit = critical_hit;
     attack_copy.type = weakpoint_attack::type_of_melee_attack( d );
@@ -766,18 +745,6 @@ void Creature::deal_melee_hit( Creature *source, int hit_spread, bool critical_h
     on_hit( source, bp_hit ); // trigger on-gethit events
     dealt_dam = deal_damage( source, bp_hit, d, attack_copy );
     dealt_dam.bp_hit = bp_hit;
-
-    // Bashing critical
-    if( critical_hit && !is_immune_effect( effect_stunned ) &&
-        dealt_dam.type_damage( damage_type::BASH ) > 0 ) {
-        // check if raw bash damage is enough to stun
-        if( d.type_damage( damage_type::BASH ) * hit_spread > get_hp_max() ) {
-            add_effect( effect_source( source ), effect_stunned, 1_turns ); // 1 turn is enough
-            if( source->is_avatar() ) {
-                add_msg( m_good, _( "You stun %s with your blow." ), disp_name() );
-            }
-        }
-    }
 }
 
 double Creature::accuracy_projectile_attack( dealt_projectile_attack &attack ) const
