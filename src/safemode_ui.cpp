@@ -882,7 +882,7 @@ void safemode::load( const bool is_character_in )
     if( fin.good() ) {
         try {
             JsonIn jsin( fin );
-            deserialize( jsin );
+            deserialize( jsin.get_array() );
         } catch( const JsonError &e ) {
             debugmsg( "Error while loading safemode settings: %s", e.what() );
         }

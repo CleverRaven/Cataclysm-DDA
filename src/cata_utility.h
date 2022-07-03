@@ -382,7 +382,7 @@ template < typename T, std::enable_if_t < detail::IsJsonInDeserializable<T>::val
 inline void deserialize_from_string( T &obj, const std::string &data )
 {
     deserialize_wrapper( [&obj]( JsonIn & jsin ) {
-        obj.deserialize( jsin );
+        obj.deserialize( jsin.get_value() );
     }, data );
 }
 
