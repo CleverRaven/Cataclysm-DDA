@@ -98,7 +98,7 @@ const std::map<std::string, std::string> &get_mod_list_cat_tab()
     return mod_list_cat_tab;
 }
 
-void mod_manager::load_replacement_mods( const std::string &path )
+void mod_manager::load_replacement_mods( const cata_path &path )
 {
     read_from_file_optional_json( path, [&]( const JsonArray & jsin ) {
         for( JsonArray arr : jsin ) {
@@ -145,7 +145,7 @@ void mod_manager::refresh_mod_list()
 
     std::map<mod_id, std::vector<mod_id>> mod_dependency_map;
     load_mods_from( PATH_INFO::moddir() );
-    load_mods_from( PATH_INFO::user_moddir() );
+    load_mods_from( PATH_INFO::user_moddir_path() );
 
     if( file_exist( PATH_INFO::mods_dev_default() ) ) {
         load_mod_info( PATH_INFO::mods_dev_default() );
@@ -196,14 +196,14 @@ bool mod_manager::set_default_mods( const mod_id &ident )
     return true;
 }
 
-void mod_manager::load_mods_from( const std::string &path )
+void mod_manager::load_mods_from( const cata_path &path )
 {
-    for( auto &mod_file : get_files_from_path( MOD_SEARCH_FILE, path, true ) ) {
+    for( cata_path &mod_file : get_files_from_path( MOD_SEARCH_FILE, path, true ) ) {
         load_mod_info( mod_file );
     }
 }
 
-void mod_manager::load_modfile( const JsonObject &jo, const std::string &path )
+void mod_manager::load_modfile( const JsonObject &jo, const cata_path &path )
 {
     if( !jo.has_string( "type" ) || jo.get_string( "type" ) != "MOD_INFO" ) {
         // Ignore anything that is not a mod-info
@@ -249,8 +249,9 @@ void mod_manager::load_modfile( const JsonObject &jo, const std::string &path )
     modfile.name_ = m_name;
     modfile.category = p_cat;
 
-    if( assign( jo, "path", modfile.path ) ) {
-        modfile.path = path + "/" + modfile.path;
+    std::string mod_json_path;
+    if( assign( jo, "path", mod_json_path ) ) {
+        modfile.path = path / mod_json_path;
     } else {
         modfile.path = path;
     }
@@ -286,7 +287,7 @@ bool mod_manager::set_default_mods( const t_mod_list &mods )
 }
 
 bool mod_manager::copy_mod_contents( const t_mod_list &mods_to_copy,
-                                     const std::string &output_base_path )
+                                     const cata_path &output_base_path )
 {
     if( mods_to_copy.empty() ) {
         // nothing to copy, so technically we succeeded already!
@@ -305,19 +306,17 @@ bool mod_manager::copy_mod_contents( const t_mod_list &mods_to_copy,
 
     for( size_t i = 0; i < mods_to_copy.size(); ++i ) {
         const MOD_INFORMATION &mod = *mods_to_copy[i];
-        size_t start_index = mod.path.size();
 
         // now to get all of the json files inside of the mod and get them ready to copy
         auto input_files = get_files_from_path( ".json", mod.path, true, true );
         auto input_dirs  = get_directories_with( search_extensions, mod.path, true );
 
-        if( input_files.empty() && mod.path.find( MOD_SEARCH_FILE ) != std::string::npos ) {
+        cata_path mod_base_path = mod.path;
+
+        if( input_files.empty() && mod.path.get_relative_path().filename().u8string() == MOD_SEARCH_FILE ) {
             // Self contained mod, all data is inside the modinfo.json file
             input_files.push_back( mod.path );
-            start_index = mod.path.find_last_of( "/\\" );
-            if( start_index == std::string::npos ) {
-                start_index = 0;
-            }
+            mod_base_path = mod.path.parent_path();
         }
 
         if( input_files.empty() ) {
@@ -325,12 +324,13 @@ bool mod_manager::copy_mod_contents( const t_mod_list &mods_to_copy,
         }
 
         // create needed directories
-        const std::string cur_mod_dir = string_format( "%s/mod_%05d", output_base_path, i + 1 );
+        const cata_path cur_mod_dir = output_base_path / string_format( "mod_%05d", i + 1 );
 
-        std::queue<std::string> dir_to_make;
+        std::queue<cata_path> dir_to_make;
         dir_to_make.push( cur_mod_dir );
-        for( auto &input_dir : input_dirs ) {
-            dir_to_make.push( cur_mod_dir + "/" + input_dir.substr( start_index ) );
+        for( cata_path &input_dir : input_dirs ) {
+            dir_to_make.push( cur_mod_dir / input_dir.get_relative_path().lexically_relative(
+                                  mod_base_path.get_relative_path() ) );
         }
 
         while( !dir_to_make.empty() ) {
@@ -343,17 +343,18 @@ bool mod_manager::copy_mod_contents( const t_mod_list &mods_to_copy,
         }
 
         // trim file paths from full length down to just /data forward
-        for( auto &input_file : input_files ) {
-            std::string output_path = cur_mod_dir + input_file.substr( start_index );
+        for( cata_path &input_file : input_files ) {
+            cata_path output_path = cur_mod_dir / ( input_file.get_relative_path().lexically_relative(
+                    mod_base_path.get_relative_path() ) );
             copy_file( input_file, output_path );
         }
     }
     return true;
 }
 
-void mod_manager::load_mod_info( const std::string &info_file_path )
+void mod_manager::load_mod_info( const cata_path &info_file_path )
 {
-    const std::string main_path = info_file_path.substr( 0, info_file_path.find_last_of( "/\\" ) );
+    const cata_path main_path = info_file_path.parent_path();
     read_from_file_optional_json( info_file_path, [&]( const JsonValue & jsin ) {
         if( jsin.test_object() ) {
             // find type and dispatch single object

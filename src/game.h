@@ -206,6 +206,7 @@ class game
     protected:
         /** Loads dynamic data from the given directory. May throw. */
         void load_data_from_dir( const std::string &path, const std::string &src, loading_ui &ui );
+        void load_data_from_dir( const cata_path &path, const std::string &src, loading_ui &ui );
     public:
         void setup();
         /** Saving and loading functions. */

@@ -561,6 +561,11 @@ void game::load_data_from_dir( const std::string &path, const std::string &src, 
     DynamicDataLoader::get_instance().load_data_from_path( path, src, ui );
 }
 
+void game::load_data_from_dir( const cata_path &path, const std::string &src, loading_ui &ui )
+{
+    DynamicDataLoader::get_instance().load_data_from_path( path, src, ui );
+}
+
 #if !(defined(_WIN32) || defined(TILES))
 // in ncurses_def.cpp
 extern void check_encoding(); // NOLINT

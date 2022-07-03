@@ -328,9 +328,9 @@ std::string PATH_INFO::jsondir()
 {
     return datadir_value + "core/";
 }
-std::string PATH_INFO::moddir()
+cata_path PATH_INFO::moddir()
 {
-    return datadir_value + "mods/";
+    return datadir_path_value / "mods";
 }
 cata_path PATH_INFO::options()
 {
@@ -380,6 +380,10 @@ std::string PATH_INFO::user_moddir()
 {
     return user_dir_value + "mods/";
 }
+cata_path PATH_INFO::user_moddir_path()
+{
+    return user_dir_path_value / "mods";
+}
 cata_path PATH_INFO::user_sound()
 {
     return user_dir_path_value / "sound";
@@ -396,17 +400,17 @@ std::string PATH_INFO::tileset_conf()
 {
     return "tileset.txt";
 }
-std::string PATH_INFO::mods_replacements()
+cata_path PATH_INFO::mods_replacements()
 {
-    return datadir_value + "mods/" + "replacements.json";
+    return datadir_path_value / "mods" / "replacements.json";
 }
-std::string PATH_INFO::mods_dev_default()
+cata_path PATH_INFO::mods_dev_default()
 {
-    return datadir_value + "mods/" + "default.json";
+    return datadir_path_value / "mods" / "default.json";
 }
-std::string PATH_INFO::mods_user_default()
+cata_path PATH_INFO::mods_user_default()
 {
-    return config_dir_value + "user-default-mods.json";
+    return config_dir_path_value / "user-default-mods.json";
 }
 std::string PATH_INFO::soundpack_conf()
 {

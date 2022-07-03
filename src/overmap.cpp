@@ -3374,7 +3374,7 @@ void overmap::generate( const overmap *north, const overmap *east,
         get_option<std::string>( "OVERMAP_PREGENERATED_PATH" );
     if( !overmap_pregenerated_path.empty() ) {
         const std::string fpath = string_format( "%s/%s/overmap_%d_%d.omap.gz",
-                                  PATH_INFO::moddir(),
+                                  PATH_INFO::moddir().generic_u8string(),
                                   overmap_pregenerated_path, pos().x(), pos().y() );
         dbg( D_INFO ) << "trying" << fpath;
         if( !read_from_file_optional_json( fpath, [this, &fpath]( const JsonValue & jv ) {
