@@ -84,7 +84,7 @@
     "name": "Xedra Offworld Team: Jotunn Hunter",
     "description": "Part of Xedra's Offworld Aquisitions group, you specialized in tracking, killing and retrieving useful components from the cyborg tribes that seem to exist on some of the worlds Xedra had access to.   Do you feel guilt about bringing back the cybernetic components that are now inside you or your teammates?  Or do you worry that now they might be on this world hunting you?  Either way you better find some weapons soon.",
     "traits": [ "XEDRA_CYBORG", "PROF_FED" ],
-    "CBMs": [ "bio_armor_torso", "bio_cable", "bio_str_enhancer", "bio_tattoo_led", "bio_power_storage_mkI" ],
+    "CBMs": [ "bio_armor_torso", "bio_cable", "bio_str_enhancer", "bio_tattoo_led", "bio_power_storage" ],
     "points": 7,
     "proficiencies": [ "prof_wp_cyborg" ],
     "skills": [
@@ -122,7 +122,7 @@
     "name": "Xedra Offworld Team: Troll Slayer",
     "description": "Part of Xedra's Offworld Aquisitions team, you were sent to gather biological specimens, they often objected strenuously to being gathered.  You've got some CBMs in you but understand they probably came out of someone that might have friends.",
     "traits": [ "XEDRA_CYBORG", "PROF_FED" ],
-    "CBMs": [ "bio_claws", "bio_ears", "bio_cable", "bio_tattoo_led", "bio_dex_enhancer", "bio_power_storage_mkI" ],
+    "CBMs": [ "bio_claws", "bio_ears", "bio_cable", "bio_tattoo_led", "bio_dex_enhancer", "bio_power_storage" ],
     "points": 7,
     "proficiencies": [ "prof_wp_skeleton" ],
     "skills": [
@@ -168,11 +168,11 @@
     "traits": [ "XEDRA_CYBORG" ],
     "proficiencies": [ "prof_wp_syn_armored" ],
     "points": 6,
-    "CBMs": [ "bio_tattoo_led", "bio_cable", "bio_face_mask", "bio_power_storage_mkI" ],
+    "CBMs": [ "bio_tattoo_led", "bio_cable", "bio_face_mask", "bio_power_storage" ],
     "skills": [
       { "level": 2, "name": "gun" },
       { "level": 2, "name": "stabbing" },
-      { "level": 1, "name": "device" },
+      { "level": 1, "name": "devices" },
       { "level": 1, "name": "dodge" },
       { "level": 2, "name": "melee" },
       { "level": 2, "name": "deduction" },
