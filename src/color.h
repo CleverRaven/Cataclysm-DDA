@@ -326,6 +326,7 @@ enum color_id {
     num_colors
 };
 
+class JsonArray;
 class JsonIn;
 class JsonOut;
 
@@ -459,7 +460,7 @@ class color_manager
         void show_gui();
 
         void serialize( JsonOut &json ) const;
-        void deserialize( JsonIn &jsin );
+        void deserialize( const JsonArray &ja );
 };
 
 color_manager &get_all_colors();

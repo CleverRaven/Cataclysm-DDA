@@ -521,8 +521,13 @@ void panel_manager::serialize( JsonOut &json )
 
 void panel_manager::deserialize( JsonIn &jsin )
 {
-    jsin.start_array();
-    JsonObject joLayouts( jsin.get_object() );
+    JsonArray ja = jsin.get_array();
+    deserialize( ja );
+}
+
+void panel_manager::deserialize( const JsonArray &ja )
+{
+    JsonObject joLayouts = ja.get_object( 0 );
 
     current_layout_id = joLayouts.get_string( "current_layout_id" );
     if( layouts.find( current_layout_id ) == layouts.end() ) {
@@ -562,7 +567,9 @@ void panel_manager::deserialize( JsonIn &jsin )
             }
         }
     }
-    jsin.end_array();
+    if( ja.size() > 1 ) {
+        ja.throw_error( "panel_manager expects one object" );
+    }
 }
 
 // Dummy render pass to recalculate layout height

@@ -443,7 +443,7 @@ struct overmap_special_locations {
      * It's true if oter meets any of locations.
      */
     bool can_be_placed_on( const oter_id &oter ) const;
-    void deserialize( JsonIn &jsin );
+    void deserialize( const JsonArray &ja );
 };
 
 struct overmap_special_terrain : overmap_special_locations {
@@ -454,7 +454,7 @@ struct overmap_special_terrain : overmap_special_locations {
     oter_str_id terrain;
     std::set<std::string> flags;
 
-    void deserialize( JsonIn &jsin );
+    void deserialize( const JsonObject &om );
 };
 
 struct overmap_special_connection {

@@ -128,7 +128,7 @@ class activity_actor
 };
 
 void serialize( const cata::clone_ptr<activity_actor> &actor, JsonOut &jsout );
-void deserialize( cata::clone_ptr<activity_actor> &actor, JsonIn &jsin );
+void deserialize( cata::clone_ptr<activity_actor> &actor, const JsonValue &jsin );
 
 namespace activity_actors
 {

@@ -3508,11 +3508,9 @@ void options_manager::serialize( JsonOut &json ) const
     json.end_array();
 }
 
-void options_manager::deserialize( JsonIn &jsin )
+void options_manager::deserialize( const JsonArray &ja )
 {
-    jsin.start_array();
-    while( !jsin.end_array() ) {
-        JsonObject joOptions = jsin.get_object();
+    for( JsonObject joOptions : ja ) {
         joOptions.allow_omitted_members();
 
         const std::string name = migrateOptionName( joOptions.get_string( "name" ) );
@@ -3582,7 +3580,7 @@ void options_manager::load()
 {
     const auto file = PATH_INFO::options();
     read_from_file_optional_json( file, [&]( JsonIn & jsin ) {
-        deserialize( jsin );
+        deserialize( jsin.get_array() );
     } );
 
     update_global_locale();

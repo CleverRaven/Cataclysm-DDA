@@ -445,6 +445,7 @@ class mission
         // Serializes and unserializes all missions
         static void serialize_all( JsonOut &json );
         static void unserialize_all( JsonIn &jsin );
+        static void unserialize_all( const JsonArray &ja );
         /** Converts a vector mission ids to a vector of mission pointers. Invalid ids are skipped! */
         static std::vector<mission *> to_ptr_vector( const std::vector<int> &vec );
         static std::vector<int> to_uid_vector( const std::vector<mission *> &vec );

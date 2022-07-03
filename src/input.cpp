@@ -273,12 +273,11 @@ void input_manager::load( const std::string &file_name, bool is_user_preferences
     }
 
     JsonIn jsin( data_file, file_name );
+    JsonArray actions_json = jsin.get_array();
 
     //Crawl through once and create an entry for every definition
-    jsin.start_array();
-    while( !jsin.end_array() ) {
+    for( JsonObject action : actions_json ) {
         // JSON object representing the action
-        JsonObject action = jsin.get_object();
 
         int version = current_keybinding_version;
         if( is_user_preferences ) {

@@ -182,9 +182,8 @@ static void serialize( const weak_ptr_fast<monster> &obj, JsonOut &jsout )
     }
 }
 
-static void deserialize( weak_ptr_fast<monster> &obj, JsonIn &jsin )
+static void deserialize( weak_ptr_fast<monster> &obj, const JsonObject &data )
 {
-    JsonObject data = jsin.get_object();
     data.allow_omitted_members();
     tripoint_abs_ms temp_pos;
 
@@ -2422,6 +2421,11 @@ void inventory::json_save_invcache( JsonOut &json ) const
  */
 void inventory::json_load_invcache( JsonIn &jsin )
 {
+    json_load_invcache( jsin.get_value() );
+}
+
+void inventory::json_load_invcache( const JsonValue &jsin )
+{
     try {
         std::unordered_map<itype_id, std::string> map;
         for( JsonObject jo : jsin.get_array() ) {
@@ -2456,10 +2460,14 @@ void inventory::json_save_items( JsonOut &json ) const
 
 void inventory::json_load_items( JsonIn &jsin )
 {
-    jsin.start_array();
-    while( !jsin.end_array() ) {
+    json_load_items( jsin.get_array() );
+}
+
+void inventory::json_load_items( const JsonArray &ja )
+{
+    for( JsonObject jo : ja ) {
         item tmp;
-        tmp.deserialize( jsin.get_object() );
+        tmp.deserialize( jo );
         add_item( tmp, true, false );
     }
 }
@@ -4285,12 +4293,11 @@ void serialize( const recipe_subset &value, JsonOut &jsout )
     jsout.end_array();
 }
 
-void deserialize( recipe_subset &value, JsonIn &jsin )
+void deserialize( recipe_subset &value, const JsonArray &ja )
 {
     value.clear();
-    jsin.start_array();
-    while( !jsin.end_array() ) {
-        value.include( &recipe_id( jsin.get_string() ).obj() );
+    for( std::string && recipe_id_string : ja ) {
+        value.include( &recipe_id( std::move( recipe_id_string ) ).obj() );
     }
 }
 
@@ -4316,18 +4323,16 @@ static void serialize( const tool_comp &value, JsonOut &jsout )
     jsout.end_object();
 }
 
-static void deserialize( item_comp &value, JsonIn &jsin )
+static void deserialize( item_comp &value, const JsonObject &jo )
 {
-    JsonObject jo = jsin.get_object();
     jo.allow_omitted_members();
     jo.read( "type", value.type );
     jo.read( "count", value.count );
     jo.read( "recoverable", value.recoverable );
 }
 
-static void deserialize( tool_comp &value, JsonIn &jsin )
+static void deserialize( tool_comp &value, const JsonObject &jo )
 {
-    JsonObject jo = jsin.get_object();
     jo.allow_omitted_members();
     jo.read( "type", value.type );
     jo.read( "count", value.count );
@@ -4345,9 +4350,8 @@ static void serialize( const quality_requirement &value, JsonOut &jsout )
     jsout.end_object();
 }
 
-static void deserialize( quality_requirement &value, JsonIn &jsin )
+static void deserialize( quality_requirement &value, const JsonObject &jo )
 {
-    JsonObject jo = jsin.get_object();
     jo.allow_omitted_members();
     jo.read( "type", value.type );
     jo.read( "count", value.count );

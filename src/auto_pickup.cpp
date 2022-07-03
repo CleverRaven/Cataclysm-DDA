@@ -1066,12 +1066,17 @@ void rule::deserialize( const JsonObject &jo )
 
 void rule_list::deserialize( JsonIn &jsin )
 {
+    JsonArray ja = jsin.get_array();
+    deserialize( ja );
+}
+
+void rule_list::deserialize( const JsonArray &ja )
+{
     clear();
 
-    jsin.start_array();
-    while( !jsin.end_array() ) {
+    for( JsonObject jo : ja ) {
         rule tmp;
-        tmp.deserialize( jsin.get_object() );
+        tmp.deserialize( jo );
         push_back( tmp );
     }
 }
@@ -1094,9 +1099,9 @@ void npc_settings::serialize( JsonOut &jsout ) const
     rules.serialize( jsout );
 }
 
-void npc_settings::deserialize( JsonIn &jsin )
+void npc_settings::deserialize( const JsonArray &ja )
 {
-    rules.deserialize( jsin );
+    rules.deserialize( ja );
 }
 
 void npc_settings::refresh_map_items( cache &map_items ) const

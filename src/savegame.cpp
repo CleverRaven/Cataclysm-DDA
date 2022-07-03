@@ -1409,10 +1409,14 @@ void mongroup::deserialize_legacy( JsonIn &json )
 
 void mission::unserialize_all( JsonIn &jsin )
 {
-    jsin.start_array();
-    while( !jsin.end_array() ) {
+    unserialize_all( jsin.get_array() );
+}
+
+void mission::unserialize_all( const JsonArray &ja )
+{
+    for( JsonObject jo : ja ) {
         mission mis;
-        mis.deserialize( jsin.get_object() );
+        mis.deserialize( jo );
         add_existing( mis );
     }
 }
@@ -1464,7 +1468,11 @@ void mission::serialize_all( JsonOut &json )
 
 void weather_manager::unserialize_all( JsonIn &jsin )
 {
-    JsonObject w = jsin.get_object();
+    unserialize_all( jsin.get_object() );
+}
+
+void weather_manager::unserialize_all( const JsonObject &w )
+{
     w.read( "lightning", get_weather().lightning_active );
     w.read( "weather_id", get_weather().weather_id );
     w.read( "next_weather", get_weather().nextweather );
@@ -1599,15 +1607,15 @@ void timed_event_manager::serialize_all( JsonOut &jsout )
     jsout.end_array();
 }
 
-void faction_manager::deserialize( JsonIn &jsin )
+void faction_manager::deserialize( const JsonValue &jv )
 {
-    if( jsin.test_object() ) {
+    if( jv.test_object() ) {
         // whoops - this recovers factions saved under the wrong format.
-        jsin.start_object();
-        while( !jsin.end_object() ) {
+        JsonObject jo = jv;
+        for( JsonMember jm : jo ) {
             faction add_fac;
-            add_fac.id = faction_id( jsin.get_member_name() );
-            jsin.read( add_fac );
+            add_fac.id = faction_id( jm.name() );
+            jm.read( add_fac );
             faction *old_fac = get( add_fac.id, false );
             if( old_fac ) {
                 *old_fac = add_fac;
@@ -1617,12 +1625,12 @@ void faction_manager::deserialize( JsonIn &jsin )
                 factions[add_fac.id] = add_fac;
             }
         }
-    } else if( jsin.test_array() ) {
+    } else if( jv.test_array() ) {
         // how it should have been serialized.
-        jsin.start_array();
-        while( !jsin.end_array() ) {
+        JsonArray ja = jv;
+        for( JsonValue jav : ja ) {
             faction add_fac;
-            jsin.read( add_fac );
+            jav.read( add_fac );
             faction *old_fac = get( add_fac.id, false );
             if( old_fac ) {
                 *old_fac = add_fac;

@@ -916,13 +916,16 @@ void safemode::serialize( JsonOut &json ) const
 
 void safemode::deserialize( JsonIn &jsin )
 {
+    JsonArray ja = jsin.get_array();
+    deserialize( ja );
+}
+
+void safemode::deserialize( const JsonArray &ja )
+{
     auto &temp_rules = ( is_character ) ? character_rules : global_rules;
     temp_rules.clear();
 
-    jsin.start_array();
-    while( !jsin.end_array() ) {
-        JsonObject jo = jsin.get_object();
-
+    for( JsonObject jo : ja ) {
         const std::string rule = jo.get_string( "rule" );
         const bool active = jo.get_bool( "active" );
         const bool whitelist = jo.get_bool( "whitelist" );
