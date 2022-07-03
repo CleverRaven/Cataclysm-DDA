@@ -100,8 +100,8 @@ const std::map<std::string, std::string> &get_mod_list_cat_tab()
 
 void mod_manager::load_replacement_mods( const std::string &path )
 {
-    read_from_file_optional_json( path, [&]( const JsonValue & jsin ) {
-        for( JsonArray arr : jsin.get_array() ) {
+    read_from_file_optional_json( path, [&]( const FlexJsonArray & jsin ) {
+        for( FlexJsonArray arr : jsin ) {
             mod_replacements.emplace( mod_id( arr.get_string( 0 ) ),
                                       mod_id( arr.size() > 1 ? arr.get_string( 1 ) : "" ) );
         }
@@ -404,8 +404,8 @@ void mod_manager::load_mods_list( WORLD *world ) const
     std::vector<mod_id> &amo = world->active_mod_order;
     amo.clear();
     bool obsolete_mod_found = false;
-    read_from_file_optional_json( get_mods_list_file( world ), [&]( const JsonValue & jsin ) {
-        for( const std::string line : jsin.get_array() ) {
+    read_from_file_optional_json( get_mods_list_file( world ), [&]( const FlexJsonArray & jsin ) {
+        for( const std::string line : jsin ) {
             const mod_id mod( line );
             if( std::find( amo.begin(), amo.end(), mod ) != amo.end() ) {
                 continue;

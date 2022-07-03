@@ -420,6 +420,19 @@ bool read_from_file_json( const std::string &path,
     } );
 }
 
+bool read_from_file_json( const std::string &path,
+                          const std::function<void( const FlexJsonValue & )> &reader )
+{
+    try {
+        FlexJsonValue jo = FlexJsonValue::from( path );
+        reader( jo );
+        return true;
+    } catch( const std::exception &err ) {
+        debugmsg( _( "Failed to read from \"%1$s\": %2$s" ), path.c_str(), err.what() );
+        return false;
+    }
+}
+
 bool read_from_file_optional( const std::string &path,
                               const std::function<void( std::istream & )> &reader )
 {
@@ -445,6 +458,12 @@ bool read_from_file_optional_json( const std::string &path,
         JsonIn jsin( fin, path );
         reader( jsin.get_value() );
     } );
+}
+
+bool read_from_file_optional_json( const std::string &path,
+                                   const std::function<void( const FlexJsonValue & )> &reader )
+{
+    return file_exist( path ) && read_from_file_json( path, reader );
 }
 
 std::string obscure_message( const std::string &str, const std::function<char()> &f )

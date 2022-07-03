@@ -477,7 +477,7 @@ bool panel_manager::save()
 
 bool panel_manager::load()
 {
-    return read_from_file_optional_json( PATH_INFO::panel_options(), [&]( const JsonValue & jsin ) {
+    return read_from_file_optional_json( PATH_INFO::panel_options(), [&]( const FlexJsonArray & jsin ) {
         deserialize( jsin );
     } );
 }
@@ -519,9 +519,9 @@ void panel_manager::serialize( JsonOut &json )
     json.end_array();
 }
 
-void panel_manager::deserialize( const JsonArray &ja )
+void panel_manager::deserialize( const FlexJsonArray &ja )
 {
-    JsonObject joLayouts = ja.get_object( 0 );
+    FlexJsonObject joLayouts = ja.get_object( 0 );
 
     current_layout_id = joLayouts.get_string( "current_layout_id" );
     if( layouts.find( current_layout_id ) == layouts.end() ) {
@@ -532,7 +532,7 @@ void panel_manager::deserialize( const JsonArray &ja )
         return;
     }
 
-    for( JsonObject joLayout : joLayouts.get_array( "layouts" ) ) {
+    for( FlexJsonObject joLayout : joLayouts.get_array( "layouts" ) ) {
         std::string layout_id = joLayout.get_string( "layout_id" );
         const auto &cur_layout = layouts.find( layout_id );
         if( cur_layout == layouts.end() ) {
@@ -543,7 +543,7 @@ void panel_manager::deserialize( const JsonArray &ja )
         auto &layout = cur_layout->second.panels();
         auto it = layout.begin();
 
-        for( JsonObject joPanel : joLayout.get_array( "panels" ) ) {
+        for( FlexJsonObject joPanel : joLayout.get_array( "panels" ) ) {
             std::string id = joPanel.get_string( "name" );
             bool toggle = joPanel.get_bool( "toggle" );
 

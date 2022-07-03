@@ -1594,4 +1594,6 @@ void deserialize( cata::optional<T> &obj, const JsonValue &jsin )
     }
 }
 
+#include "flexbuffer_json.h"
+
 #endif // CATA_SRC_JSON_H

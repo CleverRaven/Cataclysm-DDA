@@ -3508,9 +3508,9 @@ void options_manager::serialize( JsonOut &json ) const
     json.end_array();
 }
 
-void options_manager::deserialize( const JsonArray &ja )
+void options_manager::deserialize( const FlexJsonArray &ja )
 {
-    for( JsonObject joOptions : ja ) {
+    for( FlexJsonObject joOptions : ja ) {
         joOptions.allow_omitted_members();
 
         const std::string name = migrateOptionName( joOptions.get_string( "name" ) );
@@ -3579,9 +3579,8 @@ bool options_manager::save() const
 void options_manager::load()
 {
     const auto file = PATH_INFO::options();
-
-    read_from_file_optional_json( file, [&]( const JsonValue & jsin ) {
-        deserialize( jsin.get_array() );
+    read_from_file_optional_json( file, [&]( const FlexJsonArray & jsin ) {
+        deserialize( jsin );
     } );
 
     update_global_locale();

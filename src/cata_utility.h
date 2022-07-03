@@ -17,6 +17,7 @@
 #include "enums.h"
 #include "json.h"
 
+class FlexJsonValue;
 class JsonIn;
 class JsonOut;
 class JsonValue;
@@ -323,6 +324,8 @@ bool read_from_file( const std::string &path, const std::function<void( std::ist
 bool read_from_file_json( const std::string &path, const std::function<void( JsonIn & )> &reader );
 bool read_from_file_json( const std::string &path,
                           const std::function<void( const JsonValue & )> &reader );
+bool read_from_file_json( const std::string &path,
+                          const std::function<void( const FlexJsonValue & )> &reader );
 
 bool read_from_file_optional( const std::string &path,
                               const std::function<void( std::istream & )> &reader );
@@ -330,6 +333,8 @@ bool read_from_file_optional_json( const std::string &path,
                                    const std::function<void( JsonIn & )> &reader );
 bool read_from_file_optional_json( const std::string &path,
                                    const std::function<void( const JsonValue & )> &reader );
+bool read_from_file_optional_json( const std::string &path,
+                                   const std::function<void( const FlexJsonValue & )> &reader );
 /**@}*/
 
 std::istream &safe_getline( std::istream &ins, std::string &str );

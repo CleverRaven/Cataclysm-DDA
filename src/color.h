@@ -326,7 +326,7 @@ enum color_id {
     num_colors
 };
 
-class JsonArray;
+class FlexJsonArray;
 class JsonOut;
 
 void init_colors();
@@ -459,7 +459,7 @@ class color_manager
         void show_gui();
 
         void serialize( JsonOut &json ) const;
-        void deserialize( const JsonArray &ja );
+        void deserialize( const FlexJsonArray &ja );
 };
 
 color_manager &get_all_colors();

@@ -1089,8 +1089,8 @@ void color_manager::load_custom( const std::string &sPath )
 {
     const auto file = sPath.empty() ? PATH_INFO::custom_colors() : sPath;
 
-    read_from_file_optional_json( file, [this]( const JsonValue & jsonin ) {
-        deserialize( jsonin.get_array() );
+    read_from_file_optional_json( file, [this]( const FlexJsonArray & jsonin ) {
+        deserialize( jsonin );
     } );
     finalize(); // Need to finalize regardless of success
 }
@@ -1113,9 +1113,9 @@ void color_manager::serialize( JsonOut &json ) const
     json.end_array();
 }
 
-void color_manager::deserialize( const JsonArray &ja )
+void color_manager::deserialize( const FlexJsonArray &ja )
 {
-    for( JsonObject joColors : ja ) {
+    for( FlexJsonObject joColors : ja ) {
         const std::string name = joColors.get_string( "name" );
         const std::string name_custom = joColors.get_string( "custom" );
         const std::string name_invert_custom = joColors.get_string( "invertcustom" );
