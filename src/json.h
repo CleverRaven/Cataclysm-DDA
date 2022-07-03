@@ -148,6 +148,7 @@ class JsonValue
         [[noreturn]] void string_error( int offset, const std::string &err ) const;
         [[noreturn]] void throw_error( const std::string &err ) const;
         [[noreturn]] void throw_error( int offset, const std::string &err ) const;
+        [[noreturn]] void throw_error_after( const std::string &err ) const;
 };
 
 
@@ -1445,6 +1446,7 @@ inline bool JsonValue::test_null() const
 {
     return seek().test_null();
 }
+
 inline std::string JsonValue::get_string() const
 {
     return seek().get_string();

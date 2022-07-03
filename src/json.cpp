@@ -99,6 +99,12 @@ void JsonValue::throw_error( int offset, const std::string &err ) const
     seek().error( offset, err );
 }
 
+void JsonValue::throw_error_after( const std::string &err ) const
+{
+    seek().skip_value();
+    jsin_.error( err );
+}
+
 /* class JsonObject
  * represents a JSON object,
  * providing access to the underlying data.
