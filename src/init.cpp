@@ -19,6 +19,7 @@
 #include "bodypart.h"
 #include "butchery_requirements.h"
 #include "cata_assert.h"
+#include "cata_scope_helpers.h"
 #include "cata_utility.h"
 #include "character_modifier.h"
 #include "clothing_mod.h"

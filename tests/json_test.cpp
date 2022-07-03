@@ -12,6 +12,7 @@
 
 #include "bodypart.h"
 #include "cached_options.h"
+#include "cata_scope_helpers.h"
 #include "cata_utility.h"
 #include "cata_catch.h"
 #include "colony.h"

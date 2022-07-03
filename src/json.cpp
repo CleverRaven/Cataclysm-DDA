@@ -19,6 +19,7 @@
 #include <vector>
 
 #include "cached_options.h"
+#include "cata_scope_helpers.h"
 #include "cata_utility.h"
 #include "debug.h"
 #include "output.h"
