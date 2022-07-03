@@ -915,9 +915,14 @@ class Builder FLATBUFFERS_FINAL_CLASS {
 
   /// @brief Get the serialized buffer (after you call `Finish()`).
   /// @return Returns a vector owned by this class.
-  const std::vector<uint8_t> &GetBuffer() const {
+  const std::vector<uint8_t> &GetBuffer() const& {
     Finished();
     return buf_;
+  }
+
+  std::vector<uint8_t> &&GetBuffer() && {
+    Finished();
+    return std::move(buf_);
   }
 
   // Size of the buffer. Does not include unfinished values.
