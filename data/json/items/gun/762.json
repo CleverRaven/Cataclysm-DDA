@@ -243,7 +243,7 @@
     "looks_like": "ar15",
     "type": "GUN",
     "name": { "str": "VZ infantry carbine" },
-    "description": "A cold war era Czechoslovak assault rifle with a fixed wood impregnated plastic buttstock, likely constructed stateside from a pre-1986 imported parts kit or brought back from a 3rd world war zone.  Externally similar to the AK family of rifles, this weapon nevertheless only shares the former’s 7.62x39mm chambering.  Featuring no parts interchangeability with its Russian doppelganger, this firearm makes use of a completely different internal operating system, is far more svelte than its other Warsaw Pact counterparts, and feeds from proprietary box magazines.",
+    "description": "A Cold War era Czech assault rifle with a fixed wood impregnated plastic buttstock, likely constructed stateside from a pre-1986 imported parts kit or brought back from a third world war zone.  Externally similar to the AK family of rifles, this weapon nevertheless only shares the former’s 7.62x39mm chambering.  Featuring no parts interchangeability with its Russian doppelganger, this firearm makes use of a completely different internal operating system, is far more svelte than its other Warsaw Pact counterparts, and feeds from proprietary box magazines.",
     "variant_type": "gun",
     "variants": [
       {
