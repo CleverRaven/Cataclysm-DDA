@@ -538,7 +538,7 @@
     "id": "potato_boiled",
     "name": { "str": "boiled potato", "str_pl": "boiled potatoes" },
     "weight": "150 g",
-    "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
+    "flags": [ "EATEN_HOT" ],
     "color": "brown",
     "spoils_in": "2 days",
     "comestible_type": "FOOD",
