@@ -261,9 +261,9 @@ static constexpr int current_keybinding_version = 2;
 
 void input_manager::load( const std::string &file_name, bool is_user_preferences )
 {
-    cata::ifstream data_file( fs::u8path( file_name ), std::ifstream::in | std::ifstream::binary );
+    cata::optional<JsonValue> jsin_opt = JsonValue::fromOpt( fs::u8path( file_name ) );
 
-    if( !data_file.good() ) {
+    if( !jsin_opt.has_value() ) {
         // Only throw if this is the first file to load, that file _must_ exist,
         // otherwise the keybindings can not be read at all.
         if( action_contexts.empty() ) {
@@ -272,8 +272,7 @@ void input_manager::load( const std::string &file_name, bool is_user_preferences
         return;
     }
 
-    JsonIn jsin( data_file, file_name );
-    JsonArray actions_json = jsin.get_array();
+    JsonArray actions_json = *jsin_opt;
 
     //Crawl through once and create an entry for every definition
     for( JsonObject action : actions_json ) {

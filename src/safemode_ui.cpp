@@ -877,11 +877,12 @@ void safemode::load( const bool is_character_in )
         file = PATH_INFO::player_base_save_path() + ".sfm.json";
     }
 
-    fin.open( fs::u8path( file ), std::ifstream::in | std::ifstream::binary );
+    fs::path file_path = fs::u8path( file );
+    fin.open( file_path, std::ifstream::in | std::ifstream::binary );
 
     if( fin.good() ) {
         try {
-            JsonIn jsin( fin );
+            JsonValue jsin = JsonValue::from( file_path );
             deserialize( jsin.get_array() );
         } catch( const JsonError &e ) {
             debugmsg( "Error while loading safemode settings: %s", e.what() );

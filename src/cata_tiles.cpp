@@ -639,15 +639,13 @@ void tileset_cache::loader::load( const std::string &tileset_id, const bool prec
     }
 
     dbg( D_INFO ) << "Attempting to Load JSON file " << json_path;
-    cata::ifstream config_file( fs::u8path( json_path ),
-                                std::ifstream::in | std::ifstream::binary );
+    cata::optional<JsonValue> config_json = JsonValue::fromOpt( fs::u8path( json_path ) );
 
-    if( !config_file.good() ) {
+    if( !config_json.has_value() ) {
         throw std::runtime_error( std::string( "Failed to open tile info json: " ) + json_path );
     }
 
-    JsonIn config_json( config_file );
-    JsonObject config = config_json.get_object();
+    JsonObject config = ( *config_json ).get_object();
     config.allow_omitted_members();
 
     // "tile_info" section must exist.
@@ -688,15 +686,14 @@ void tileset_cache::loader::load( const std::string &tileset_id, const bool prec
             continue;
         }
         dbg( D_INFO ) << "Attempting to Load JSON file " << json_path;
-        cata::ifstream mod_config_file( fs::u8path( json_path ), std::ifstream::in |
-                                        std::ifstream::binary );
+        cata::optional<JsonValue> mod_config_json_opt = JsonValue::fromOpt( fs::u8path( json_path ) );
 
-        if( !mod_config_file.good() ) {
+        if( mod_config_json_opt.has_value() ) {
             throw std::runtime_error( std::string( "Failed to open tile info json: " ) +
                                       json_path );
         }
 
-        JsonIn mod_config_json( mod_config_file );
+        JsonValue &mod_config_json = *mod_config_json_opt;
 
         const auto mark_visited = []( const JsonObject & jobj ) {
             // These fields have been visited in load_mod_tileset
@@ -750,7 +747,7 @@ void tileset_cache::loader::load( const std::string &tileset_id, const bool prec
 
     // set up layering data
     if( has_layering ) {
-        JsonIn layering_json( layering_file );
+        JsonValue layering_json = JsonValue::from( fs::u8path( layering_path ) );
         JsonObject layer_config = layering_json.get_object();
         layer_config.allow_omitted_members();
 
@@ -1213,8 +1210,7 @@ static std::map<tripoint, int> display_npc_attack_potential()
     std::ostringstream os;
     JsonOut jsout( os );
     jsout.write( you );
-    std::istringstream is( os.str() );
-    JsonIn jsin( is );
+    JsonValue jsin = JsonValue::fromString( os.str() );
     jsin.read( avatar_as_npc );
     avatar_as_npc.regen_ai_cache();
     avatar_as_npc.evaluate_best_weapon( nullptr );

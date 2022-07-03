@@ -46,8 +46,7 @@ class color_loader
         }
 
         void load_colorfile( const std::string &path ) {
-            cata::ifstream colorfile( fs::u8path( path ), std::ifstream::in | std::ifstream::binary );
-            JsonIn jsin( colorfile );
+            JsonValue jsin = JsonValue::from( fs::u8path( path ) );
             for( JsonObject jo : jsin.get_array() ) {
                 // This isn't actually read (here), so just ignore it
                 jo.get_string( "type" );

@@ -112,9 +112,8 @@ void past_games_info::ensure_loaded()
 
     for( const std::pair<std::string, std::string> &filename_pair : sortable_filenames ) {
         const std::string &filename = filename_pair.second;
-        std::istringstream iss( read_entire_file( filename ) );
         try {
-            JsonIn jsin( iss );
+            JsonValue jsin = JsonValue::from( fs::u8path( filename ) );
             info_.emplace_back( jsin.get_object() );
         } catch( const JsonError &err ) {
             debugmsg( "Error reading memorial file %s: %s", filename, err.what() );

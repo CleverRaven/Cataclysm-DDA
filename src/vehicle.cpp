@@ -7222,10 +7222,10 @@ bool vehicle::restore_folded_parts( const item &it )
     const std::string data = it.has_var( "folding_bicycle_parts" )
                              ? it.get_var( "folding_bicycle_parts" )
                              : it.get_var( "folded_parts" );
-    std::istringstream veh_data( data );
     try {
+        JsonValue json = JsonValue::fromString( data );
         parts.clear();
-        JsonIn( veh_data ).read( parts );
+        json.read( parts );
     } catch( const JsonError &e ) {
         debugmsg( "Error restoring folded vehicle parts: %s", e.c_str() );
         return false;

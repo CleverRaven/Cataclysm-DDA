@@ -2765,9 +2765,8 @@ bool game::load( const save_t &name )
     u.get_avatar_diary()->load();
 
     const std::string log_filename = worldpath + name.base_path() + SAVE_EXTENSION_LOG;
-    read_from_file_optional( log_filename,
-    [this, &log_filename]( std::istream & is ) {
-        memorial().load( is, log_filename );
+    read_from_file_optional( log_filename, [this]( std::istream & is ) {
+        memorial().load( is );
     } );
 
 #if defined(__ANDROID__)
