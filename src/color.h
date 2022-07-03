@@ -327,7 +327,6 @@ enum color_id {
 };
 
 class JsonArray;
-class JsonIn;
 class JsonOut;
 
 void init_colors();

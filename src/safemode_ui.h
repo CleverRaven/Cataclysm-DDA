@@ -12,7 +12,6 @@
 #include "enums.h"
 
 class JsonArray;
-class JsonIn;
 class JsonOut;
 
 class safemode
@@ -124,7 +123,6 @@ class safemode
         bool empty() const;
 
         void serialize( JsonOut &json ) const;
-        void deserialize( JsonIn &jsin );
         void deserialize( const JsonArray &ja );
 };
 

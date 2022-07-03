@@ -774,7 +774,7 @@ static void load_from_jsin( submap &sm, JsonIn &jsin )
         if( name == "version" ) {
             version = jsin.get_int();
         } else {
-            sm.load( jsin, name, version );
+            sm.load( jsin.get_value(), name, version );
         }
     }
 }

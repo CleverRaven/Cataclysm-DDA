@@ -19,7 +19,6 @@
 #include "to_string_id.h"
 #include "type_id.h"
 
-class JsonIn;
 class JsonOut;
 class JsonValue;
 template <typename E> struct enum_traits;

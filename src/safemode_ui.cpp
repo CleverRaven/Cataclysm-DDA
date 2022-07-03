@@ -914,12 +914,6 @@ void safemode::serialize( JsonOut &json ) const
     json.end_array();
 }
 
-void safemode::deserialize( JsonIn &jsin )
-{
-    JsonArray ja = jsin.get_array();
-    deserialize( ja );
-}
-
 void safemode::deserialize( const JsonArray &ja )
 {
     auto &temp_rules = ( is_character ) ? character_rules : global_rules;

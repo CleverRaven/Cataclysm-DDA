@@ -519,12 +519,6 @@ void panel_manager::serialize( JsonOut &json )
     json.end_array();
 }
 
-void panel_manager::deserialize( JsonIn &jsin )
-{
-    JsonArray ja = jsin.get_array();
-    deserialize( ja );
-}
-
 void panel_manager::deserialize( const JsonArray &ja )
 {
     JsonObject joLayouts = ja.get_object( 0 );

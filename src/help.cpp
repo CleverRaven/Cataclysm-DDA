@@ -40,12 +40,6 @@ void help::load()
     } );
 }
 
-void help::deserialize( JsonIn &jsin )
-{
-    JsonArray ja = jsin.get_array();
-    deserialize( ja );
-}
-
 void help::deserialize( const JsonArray &ja )
 {
     for( JsonObject jo : ja ) {

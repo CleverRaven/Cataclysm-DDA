@@ -1064,12 +1064,6 @@ void rule::deserialize( const JsonObject &jo )
     bExclude = jo.get_bool( "exclude" );
 }
 
-void rule_list::deserialize( JsonIn &jsin )
-{
-    JsonArray ja = jsin.get_array();
-    deserialize( ja );
-}
-
 void rule_list::deserialize( const JsonArray &ja )
 {
     clear();

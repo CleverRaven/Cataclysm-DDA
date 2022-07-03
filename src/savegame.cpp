@@ -1386,12 +1386,6 @@ void mongroup::serialize( JsonOut &json ) const
     const_cast<mongroup *>( this )->io( archive );
 }
 
-void mongroup::deserialize_legacy( JsonIn &json )
-{
-    JsonObject jo = json.get_object();
-    deserialize_legacy( jo );
-}
-
 void mongroup::deserialize_legacy( const JsonObject &jo )
 {
     for( JsonMember json : jo ) {
@@ -1430,11 +1424,6 @@ void mongroup::deserialize_legacy( const JsonObject &jo )
 
 ///////////////////////////////////////////////////////////////////////////////////////
 ///// SAVE_MASTER (i.e. master.gsav)
-
-void mission::unserialize_all( JsonIn &jsin )
-{
-    unserialize_all( jsin.get_array() );
-}
 
 void mission::unserialize_all( const JsonArray &ja )
 {
@@ -1491,11 +1480,6 @@ void mission::serialize_all( JsonOut &json )
     json.end_array();
 }
 
-void weather_manager::unserialize_all( JsonIn &jsin )
-{
-    unserialize_all( jsin.get_object() );
-}
-
 void weather_manager::unserialize_all( const JsonObject &w )
 {
     w.read( "lightning", get_weather().lightning_active );
@@ -1511,11 +1495,6 @@ void weather_manager::unserialize_all( const JsonObject &w )
 void global_variables::unserialize( JsonObject &jo )
 {
     jo.read( "global_vals", global_values );
-}
-
-void timed_event_manager::unserialize_all( JsonIn &jsin )
-{
-    unserialize_all( jsin.get_array() );
 }
 
 void timed_event_manager::unserialize_all( const JsonArray &ja )
@@ -1695,11 +1674,6 @@ void creature_tracker::serialize( JsonOut &jsout ) const
 void overmapbuffer::serialize_placed_unique_specials( JsonOut &json ) const
 {
     json.write_as_array( placed_unique_specials );
-}
-
-void overmapbuffer::deserialize_placed_unique_specials( JsonIn &jsin )
-{
-    deserialize_placed_unique_specials( jsin.get_value() );
 }
 
 void overmapbuffer::deserialize_placed_unique_specials( const JsonValue &jsin )

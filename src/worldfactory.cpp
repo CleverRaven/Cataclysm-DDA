@@ -2077,11 +2077,6 @@ bool worldfactory::valid_worldname( const std::string &name, bool automated ) co
     return false;
 }
 
-void WORLD::load_options( JsonIn &jsin )
-{
-    load_options( jsin.get_array() );
-}
-
 void WORLD::load_options( const JsonArray &options_json )
 {
     options_manager &opts = get_options();

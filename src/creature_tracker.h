@@ -18,7 +18,6 @@
 class Creature;
 class game;
 class JsonArray;
-class JsonIn;
 class JsonOut;
 class monster;
 class npc;

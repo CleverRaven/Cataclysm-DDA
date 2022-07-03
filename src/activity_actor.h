@@ -12,7 +12,6 @@
 #include "type_id.h"
 
 class Character;
-class JsonIn;
 class JsonOut;
 class JsonValue;
 class monster;

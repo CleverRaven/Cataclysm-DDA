@@ -589,7 +589,6 @@ class overmapbuffer
         /**
          * Reads placed unique specials from JSON and overwrites the global value.
          */
-        void deserialize_placed_unique_specials( JsonIn &jsin );
         void deserialize_placed_unique_specials( const JsonValue &jsin );
     private:
         /**

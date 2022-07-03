@@ -285,11 +285,6 @@ submap *mapbuffer::unserialize_submaps( const tripoint_abs_sm &p )
     return submaps[ p ].get();
 }
 
-void mapbuffer::deserialize( JsonIn &jsin )
-{
-    deserialize( jsin.get_array() );
-}
-
 void mapbuffer::deserialize( const JsonArray &ja )
 {
     for( JsonObject submap_json : ja ) {
