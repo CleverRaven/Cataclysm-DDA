@@ -3377,8 +3377,8 @@ void overmap::generate( const overmap *north, const overmap *east,
                                   PATH_INFO::moddir(),
                                   overmap_pregenerated_path, pos().x(), pos().y() );
         dbg( D_INFO ) << "trying" << fpath;
-        if( !read_from_file_optional( fpath, [this]( std::istream & is ) {
-        unserialize_omap( is );
+        if( !read_from_file_optional_json( fpath, [this, &fpath]( const JsonValue & jv ) {
+        unserialize_omap( jv, fpath );
         } ) ) {
             dbg( D_INFO ) << "failed" << fpath;
             int z = 0;
