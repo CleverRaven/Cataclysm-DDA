@@ -665,99 +665,86 @@ TEST_CASE( "jsonin_get_string", "[json]" )
     // empty json
     test_get_string_throws_matches(
         Catch::Message(
-            "Json error: <unknown source file>:EOF: couldn't find end of string, reached EOF." ),
+            "Json error: <unknown source file>:EOF: error: input file is empty" ),
         std::string() );
     // no starting quote
     test_get_string_throws_matches(
         Catch::Message(
-            R"(Json error: <unknown source file>:1:1: expected string but got 'a')" "\n"
-            R"()" "\n"
-            R"(a)" "\n"
-            R"(^)" "\n"
-            R"( bc)" "\n" ),
+            "Json error: <unknown source file>:EOF: error: cannot parse value starting with: abc" ),
         R"(abc)" );
     // no ending quote
     test_get_string_throws_matches(
         Catch::Message(
-            "Json error: <unknown source file>:EOF: couldn't find end of string, reached EOF." ),
+            "Json error: <unknown source file>:EOF: error: illegal character in string constant" ),
         R"(")" );
     test_get_string_throws_matches(
         Catch::Message(
-            "Json error: <unknown source file>:EOF: couldn't find end of string, reached EOF." ),
+            "Json error: <unknown source file>:EOF: error: illegal character in string constant" ),
         R"("foo)" );
     // incomplete escape sequence and no ending quote
     test_get_string_throws_matches(
         Catch::Message(
-            "Json error: <unknown source file>:EOF: couldn't find end of string, reached EOF." ),
+            "Json error: <unknown source file>:EOF: error: unknown escape code in string constant" ),
         R"("\)" );
     test_get_string_throws_matches(
         Catch::Message(
-            "Json error: <unknown source file>:EOF: couldn't find end of string, reached EOF." ),
+            R"(Json error: <unknown source file>:1:3: error: escape code must be followed by 4 hex digits)" "\n"
+            R"()" "\n"
+            R"("\u)" "\n"
+            R"(  ^)" "\n"
+            R"(   12)" "\n" ),
         R"("\u12)" );
     // incorrect escape sequence
     test_get_string_throws_matches(
         Catch::Message(
-            R"(Json error: <unknown source file>:1:3: invalid escape sequence)" "\n"
+            R"(Json error: <unknown source file>:1:2: error: unknown escape code in string constant)" "\n"
             R"()" "\n"
-            R"("\.)" "\n"
-            R"(  ^)" "\n"
-            R"(   ")" "\n" ),
+            R"("\)" "\n"
+            R"( ^)" "\n"
+            R"(  .")" "\n" ),
         R"("\.")" );
     test_get_string_throws_matches(
         Catch::Message(
-            R"(Json error: <unknown source file>:1:7: expected hex digit)" "\n"
+            R"(Json error: <unknown source file>:1:3: error: escape code must be followed by 4 hex digits)" "\n"
             R"()" "\n"
-            R"("\uDEFG)" "\n"
-            R"(      ^)" "\n"
-            R"(       ")" "\n" ),
+            R"("\u)" "\n"
+            R"(  ^)" "\n"
+            R"(   DEFG")" "\n" ),
         R"("\uDEFG")" );
     // not a valid utf8 sequence
     test_get_string_throws_matches(
         Catch::Message(
-            R"(Json error: <unknown source file>:1:2: invalid utf8 sequence)" "\n"
-            R"()" "\n"
-            "\"\x80\n"
-            R"( ^)" "\n"
-            R"(  ")" "\n" ),
+            "Json error: <unknown source file>:EOF: error: illegal UTF-8 sequence" ),
         "\"\x80\"" );
     test_get_string_throws_matches(
         Catch::Message(
-            R"(Json error: <unknown source file>:1:4: invalid utf8 sequence)" "\n"
-            R"()" "\n"
-            "\"\xFC\x80\"\n"
-            R"(   ^)" "\n" ),
+            "Json error: <unknown source file>:EOF: error: illegal UTF-8 sequence" ),
         "\"\xFC\x80\"" );
     test_get_string_throws_matches(
         Catch::Message(
-            R"(Json error: <unknown source file>:1:7: invalid unicode codepoint)" "\n"
-            R"()" "\n"
-            "\"\xFD\x80\x80\x80\x80\x80\n"
-            R"(      ^)" "\n"
-            R"(       ")" "\n" ),
+            R"(Json error: <unknown source file>:EOF: error: illegal UTF-8 sequence)" ),
         "\"\xFD\x80\x80\x80\x80\x80\"" );
     test_get_string_throws_matches(
         Catch::Message(
-            R"(Json error: <unknown source file>:1:7: invalid utf8 sequence)" "\n"
-            R"()" "\n"
-            "\"\xFC\x80\x80\x80\x80\xC0\n"
-            R"(      ^)" "\n"
-            R"(       ")" "\n" ),
+            R"(Json error: <unknown source file>:EOF: error: illegal UTF-8 sequence)" ),
         "\"\xFC\x80\x80\x80\x80\xC0\"" );
     // end of line
     test_get_string_throws_matches(
         Catch::Message(
-            R"(Json error: <unknown source file>:1:3: reached end of line without closing string)" "\n"
+            R"(Json error: <unknown source file>:1:2: error: illegal character in string constant)" "\n"
             R"()" "\n"
             R"("a)" "\n"
-            R"(  ^)" "\n"
+            R"( ^)" "\n"
+            "\n" // Embedded newline inside string
             R"(")" "\n" ),
         "\"a\n\"" );
     test_get_string_throws_matches(
         Catch::Message(
-            R"(Json error: <unknown source file>:1:3: reached end of line without closing string)" "\n"
+            R"(Json error: <unknown source file>:1:2: error: illegal character in string constant)" "\n"
             R"()" "\n"
             R"("b)" "\n"
-            R"(  ^)" "\n"
+            R"( ^)" "\n"
+            "\n" // \r gets translated to \n?
             R"(")" "\n" ),
         "\"b\r\"" ); // NOLINT(cata-text-style)
 

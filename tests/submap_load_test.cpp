@@ -768,11 +768,13 @@ static void load_from_jsin( submap &sm, const JsonValue &jsin )
     // Ensure that the JSON is up to date for our savegame version
     REQUIRE( savegame_version == 33 );
     int version = 0;
+    JsonObject sm_json = jsin.get_object();
+    if( sm_json.has_member( "version" ) ) {
+        version = sm_json.get_int( "version" );
+    }
     for( JsonMember member : jsin.get_object() ) {
         std::string name = member.name();
-        if( name == "version" ) {
-            version = member.get_int();
-        } else {
+        if( name != "version" ) {
             sm.load( member, name, version );
         }
     }
