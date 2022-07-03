@@ -53,7 +53,7 @@
 #include <sstream>
 #include <string>
 
-std::map<std::string, std::string> TILESETS; // All found tilesets: <name, tileset_dir>
+std::map<std::string, cata_path> TILESETS; // All found tilesets: <name, tileset_dir>
 std::map<std::string, std::string> SOUNDPACKS; // All found soundpacks: <name, soundpack_dir>
 
 namespace
@@ -1101,17 +1101,16 @@ static std::vector<options_manager::id_and_option> build_resource_list(
 }
 
 static std::vector<options_manager::id_and_option> build_resource_list(
-    std::map<std::string, std::string> &resource_option, const std::string &operation_name,
+    std::map<std::string, cata_path> &resource_option, const std::string &operation_name,
     const cata_path &dirname, const std::string &filename )
 {
     std::vector<options_manager::id_and_option> resource_names;
 
     resource_option.clear();
     const auto resource_dirs = get_directories_with( filename, dirname, true );
-    const std::string slash_filename = "/" + filename;
 
-    for( const std::string &resource_dir : resource_dirs ) {
-        read_from_file( resource_dir + slash_filename, [&]( std::istream & fin ) {
+    for( const cata_path &resource_dir : resource_dirs ) {
+        read_from_file( resource_dir / filename, [&]( std::istream & fin ) {
             std::string resource_name;
             std::string view_name;
             // should only have 2 values inside it, otherwise is going to only load the last 2 values
@@ -1140,7 +1139,7 @@ static std::vector<options_manager::id_and_option> build_resource_list(
                 debugmsg( "Found \"%s\" duplicate with name \"%s\" (new definition will be ignored)",
                           operation_name, resource_name );
             } else {
-                resource_option.insert( std::pair<std::string, std::string>( resource_name, resource_dir ) );
+                resource_option.insert( std::pair<std::string, cata_path>( resource_name, resource_dir ) );
             }
         } );
     }
@@ -1178,7 +1177,7 @@ void options_manager::search_resource(
 }
 
 void options_manager::search_resource(
-    std::map<std::string, std::string> &storage, std::vector<id_and_option> &option_list,
+    std::map<std::string, cata_path> &storage, std::vector<id_and_option> &option_list,
     const std::vector<cata_path> &search_paths, const std::string &resource_name,
     const std::string &resource_filename )
 {
@@ -1189,7 +1188,7 @@ void options_manager::search_resource(
     // Loop through each search path and add its resources.
     for( const cata_path &search_path : search_paths ) {
         // Get the resource list from the search path.
-        std::map<std::string, std::string> resources;
+        std::map<std::string, cata_path> resources;
         std::vector<id_and_option> resource_names = build_resource_list( resources, resource_name,
                 search_path, resource_filename );
 
@@ -1210,7 +1209,8 @@ std::vector<options_manager::id_and_option> options_manager::build_tilesets_list
 {
     std::vector<id_and_option> result;
 
-    search_resource( TILESETS, result, { PATH_INFO::user_gfx(), PATH_INFO::gfxdir() }, "tileset",
+    search_resource( TILESETS, result, { PATH_INFO::user_gfx(), PATH_INFO::gfxdir() },
+                     "tileset",
                      PATH_INFO::tileset_conf() );
 
     // Default values

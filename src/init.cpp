@@ -75,6 +75,7 @@
 #include "overmap.h"
 #include "overmap_connection.h"
 #include "overmap_location.h"
+#include "path_info.h"
 #include "profession.h"
 #include "proficiency.h"
 #include "recipe_dictionary.h"
@@ -467,7 +468,10 @@ void DynamicDataLoader::initialize()
     add( "widget", &widget::load_widget );
     add( "weakpoint_set", &weakpoints::load_weakpoint_sets );
 #if defined(TILES)
-    add( "mod_tileset", &load_mod_tileset );
+    add( "mod_tileset", []( const JsonObject & jsobj, const std::string & _,
+    const std::string & base_path, const std::string & full_path ) {
+        load_mod_tileset( jsobj, cata_path{ cata_path::root_path::unknown, base_path }, cata_path{ cata_path::root_path::unknown, full_path } );
+    } );
 #else
     // Dummy function
     add( "mod_tileset", load_ignored_type );

@@ -340,7 +340,7 @@ void cata_tiles::reinit()
     RenderClear( renderer );
 }
 
-static void get_tile_information( const std::string &config_path, std::string &json_path,
+static void get_tile_information( const cata_path &config_path, std::string &json_path,
                                   std::string &tileset_path, std::string &layering_path )
 {
     const std::string default_json = PATH_INFO::defaulttilejson();
@@ -483,11 +483,11 @@ static void extend_vector_by( std::vector<T> &vec, const size_t additional_size 
     vec.resize( vec.size() + additional_size );
 }
 
-void tileset_cache::loader::load_tileset( const std::string &img_path, const bool pump_events )
+void tileset_cache::loader::load_tileset( const cata_path &img_path, const bool pump_events )
 {
     cata_assert( sprite_width > 0 );
     cata_assert( sprite_height > 0 );
-    const SDL_Surface_Ptr tile_atlas = load_image( img_path.c_str() );
+    const SDL_Surface_Ptr tile_atlas = load_image( img_path.get_unrelative_path().u8string().c_str() );
     cata_assert( tile_atlas );
     tile_atlas_width = tile_atlas->w;
 
@@ -607,7 +607,7 @@ void tileset_cache::loader::load( const std::string &tileset_id, const bool prec
     std::string json_conf;
     std::string layering;
     std::string tileset_path;
-    std::string tileset_root;
+    cata_path tileset_root;
 
     bool has_layering = true;
 
@@ -616,7 +616,7 @@ void tileset_cache::loader::load( const std::string &tileset_id, const bool prec
         tileset_root = tset_iter->second;
         dbg( D_INFO ) << '"' << tileset_id << '"' << " tileset: found config file path: " <<
                       tileset_root;
-        get_tile_information( tileset_root + '/' + PATH_INFO::tileset_conf(),
+        get_tile_information( tileset_root / PATH_INFO::tileset_conf(),
                               json_conf, tileset_path, layering );
         dbg( D_INFO ) << "Current tileset is: " << tileset_id;
     } else {
@@ -626,12 +626,12 @@ void tileset_cache::loader::load( const std::string &tileset_id, const bool prec
         layering = PATH_INFO::defaultlayeringjson();
     }
 
-    std::string json_path = tileset_root + '/' + json_conf;
-    std::string img_path = tileset_root + '/' + tileset_path;
-    std::string layering_path = tileset_root + '/' + layering;
+    cata_path json_path = tileset_root / fs::u8path( json_conf );
+    cata_path img_path = tileset_root / fs::u8path( tileset_path );
+    cata_path layering_path = tileset_root / fs::u8path( layering );
 
     dbg( D_INFO ) << "Attempting to Load LAYERING file " << layering_path;
-    cata::ifstream layering_file( fs::u8path( layering_path ),
+    cata::ifstream layering_file( layering_path.get_unrelative_path(),
                                   std::ifstream::in | std::ifstream::binary );
 
     if( !layering_file.good() ) {
@@ -640,10 +640,11 @@ void tileset_cache::loader::load( const std::string &tileset_id, const bool prec
     }
 
     dbg( D_INFO ) << "Attempting to Load JSON file " << json_path;
-    cata::optional<JsonValue> config_json = json_loader::from_path_opt( fs::u8path( json_path ) );
+    cata::optional<JsonValue> config_json = json_loader::from_path_opt( json_path );
 
     if( !config_json.has_value() ) {
-        throw std::runtime_error( std::string( "Failed to open tile info json: " ) + json_path );
+        throw std::runtime_error( std::string( "Failed to open tile info json: " ) +
+                                  json_path.generic_u8string() );
     }
 
     JsonObject config = ( *config_json ).get_object();
@@ -687,12 +688,11 @@ void tileset_cache::loader::load( const std::string &tileset_id, const bool prec
             continue;
         }
         dbg( D_INFO ) << "Attempting to Load JSON file " << json_path;
-        cata::optional<JsonValue> mod_config_json_opt = json_loader::from_path_opt( fs::u8path(
-                    json_path ) );
+        cata::optional<JsonValue> mod_config_json_opt = json_loader::from_path_opt( json_path );
 
         if( mod_config_json_opt.has_value() ) {
             throw std::runtime_error( std::string( "Failed to open tile info json: " ) +
-                                      json_path );
+                                      json_path.generic_u8string() );
         }
 
         JsonValue &mod_config_json = *mod_config_json_opt;
@@ -749,7 +749,7 @@ void tileset_cache::loader::load( const std::string &tileset_id, const bool prec
 
     // set up layering data
     if( has_layering ) {
-        JsonValue layering_json = json_loader::from_path( fs::u8path( layering_path ) );
+        JsonValue layering_json = json_loader::from_path( layering_path );
         JsonObject layer_config = layering_json.get_object();
         layer_config.allow_omitted_members();
 
@@ -765,16 +765,15 @@ void tileset_cache::loader::load( const std::string &tileset_id, const bool prec
 }
 
 void tileset_cache::loader::load_internal( const JsonObject &config,
-        const std::string &tileset_root,
-        const std::string &img_path, const bool pump_events )
+        const cata_path &tileset_root,
+        const cata_path &img_path, const bool pump_events )
 {
     if( config.has_array( "tiles-new" ) ) {
         // new system, several entries
         // When loading multiple tileset images this defines where
         // the tiles from the most recently loaded image start from.
         for( const JsonObject tile_part_def : config.get_array( "tiles-new" ) ) {
-            const std::string tileset_image_path = tileset_root + '/' +
-                                                   tile_part_def.get_string( "file" );
+            const cata_path tileset_image_path = tileset_root / tile_part_def.get_string( "file" );
             R = -1;
             G = -1;
             B = -1;

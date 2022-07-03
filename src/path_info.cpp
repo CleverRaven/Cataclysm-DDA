@@ -368,9 +368,9 @@ cata_path PATH_INFO::user_dir_path()
 {
     return user_dir_path_value;
 }
-std::string PATH_INFO::user_gfx()
+cata_path PATH_INFO::user_gfx()
 {
-    return user_dir_value + "gfx/";
+    return user_dir_path_value / "gfx";
 }
 std::string PATH_INFO::user_keybindings()
 {
@@ -412,11 +412,7 @@ std::string PATH_INFO::soundpack_conf()
 {
     return "soundpack.txt";
 }
-std::string PATH_INFO::gfxdir()
-{
-    return gfxdir_value;
-}
-cata_path PATH_INFO::gfxdir_path()
+cata_path PATH_INFO::gfxdir()
 {
     return gfxdir_path_value;
 }

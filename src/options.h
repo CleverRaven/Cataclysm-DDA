@@ -43,7 +43,7 @@ class options_manager
             const std::vector<std::string> &search_paths, const std::string &resource_name,
             const std::string &resource_filename );
         static void search_resource(
-            std::map<std::string, std::string> &storage, std::vector<id_and_option> &option_list,
+            std::map<std::string, cata_path> &storage, std::vector<id_and_option> &option_list,
             const std::vector<cata_path> &search_paths, const std::string &resource_name,
             const std::string &resource_filename );
         static std::vector<id_and_option> build_tilesets_list();
@@ -422,7 +422,7 @@ bool use_narrow_sidebar(); // short-circuits to on if terminal is too small
  * Firsts string is tileset NAME from config.
  * Second string is directory that contain tileset.
  */
-extern std::map<std::string, std::string> TILESETS;
+extern std::map<std::string, cata_path> TILESETS;
 /** A mapping(string:string) that stores all soundpack values.
  * Firsts string is soundpack NAME from config.
  * Second string is directory that contains soundpack.
