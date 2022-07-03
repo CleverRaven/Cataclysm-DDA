@@ -1926,7 +1926,7 @@
     "autolearn": true,
     "qualities": [ { "id": "BOIL", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
-    "components": [ [ [ "potato", 1 ], [ "water", 1 ], [ "water_clean", 1 ] ] ]
+    "components": [ [ [ "potato", 1 ], [ "irradiated_potato", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
   },
   {
     "type": "recipe",
