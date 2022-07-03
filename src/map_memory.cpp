@@ -214,7 +214,7 @@ shared_ptr_fast<mm_submap> map_memory::load_submap( const tripoint &sm_pos )
     }
 
     mm_region mmr;
-    const auto loader = [&]( JsonIn & jsin ) {
+    const auto loader = [&]( const JsonValue & jsin ) {
         mmr.deserialize( jsin );
     };
 
