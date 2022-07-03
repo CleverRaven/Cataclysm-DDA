@@ -1229,6 +1229,7 @@
     "id": "jerusalem_artichoke_sauteed",
     "name": { "str": "sauteed Jerusalem artichoke" },
     "copy-from": "jerusalem_artichoke",
+    "comestible_type": "FOOD",
     "color": "brown",
     "spoils_in": "2 days",
     "description": "Most of its inulin has been converted into fructose after cooking and it now tastes pleasantly sweet.",
