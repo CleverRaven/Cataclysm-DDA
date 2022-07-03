@@ -24,6 +24,11 @@ bool assure_dir_exist( const std::string &path )
     return assure_dir_exist( fs::u8path( path ) );
 }
 
+bool assure_dir_exist( const cata_path &path )
+{
+    return assure_dir_exist( path.get_unrelative_path() );
+}
+
 bool assure_dir_exist( const fs::path &p )
 {
     std::error_code ec;
@@ -49,6 +54,12 @@ bool file_exist( const std::string &path )
 bool file_exist( const fs::path &path )
 {
     return fs::exists( path ) && !fs::is_directory( path );
+}
+
+bool file_exist( const cata_path &path )
+{
+    const fs::path unrelative_path = path.get_unrelative_path();
+    return fs::exists( unrelative_path ) && !fs::is_directory( unrelative_path );
 }
 
 bool remove_file( const std::string &path )
@@ -128,7 +139,7 @@ namespace
 // For non-empty path, call function for each file at path.
 //--------------------------------------------------------------------------------------------------
 template <typename Function>
-void for_each_dir_entry( const std::string &path, Function function )
+void for_each_dir_entry( const fs::path &path, Function &&function )
 {
     if( path.empty() ) {
         return;
@@ -138,12 +149,18 @@ void for_each_dir_entry( const std::string &path, Function function )
     auto dir_iter = fs::directory_iterator( path, ec );
     if( ec ) {
         std::string e_str = ec.message();
-        DebugLog( D_WARNING, D_MAIN ) << "opendir [" << path << "] failed with \"" << e_str << "\".";
+        DebugLog( D_WARNING, D_MAIN ) << "opendir [" << path.generic_u8string() << "] failed with \"" <<
+                                      e_str << "\".";
         return;
     }
     for( const ghc::filesystem::directory_entry &dir_entry : dir_iter ) {
         function( dir_entry );
     }
+}
+template <typename Function>
+void for_each_dir_entry( const std::string &path, Function &&function )
+{
+    for_each_dir_entry( fs::u8path( path ), std::forward < Function && > ( function ) );
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -158,6 +175,22 @@ bool is_directory( const fs::directory_entry &entry, const std::string &full_pat
     if( ec ) {
         std::string e_str = ec.message();
         DebugLog( D_WARNING, D_MAIN ) << "stat [" << full_path << "] failed with \"" << e_str << "\".";
+        return false;
+    }
+
+    return result;
+}
+
+bool is_directory( const fs::directory_entry &entry )
+{
+    // We do an extra dance here because directory_entry might not have a cached valid stat result.
+    std::error_code ec;
+    bool result = entry.is_directory( ec );
+
+    if( ec ) {
+        std::string e_str = ec.message();
+        DebugLog( D_WARNING, D_MAIN ) << "stat [" << entry.path().generic_u8string() << "] failed with \""
+                                      << e_str << "\".";
         return false;
     }
 
@@ -202,7 +235,7 @@ std::vector<std::string> find_file_if_bfs( const std::string &root_path,
     std::vector<std::string> results;
 
     while( !directories.empty() ) {
-        const auto path = std::move( directories.front() );
+        const fs::path path = std::move( directories.front() );
         directories.pop_front();
 
         const std::ptrdiff_t n_dirs    = static_cast<std::ptrdiff_t>( directories.size() );
@@ -242,11 +275,78 @@ std::vector<std::string> find_file_if_bfs( const std::string &root_path,
     return results;
 }
 
+template <typename Predicate>
+std::vector<cata_path> find_file_if_bfs( const cata_path &root_path,
+        const bool recursive_search,
+        Predicate predicate )
+{
+    cata_path norm_root_path = root_path.lexically_normal();
+    std::deque<fs::path>  directories{ norm_root_path.get_unrelative_path() };
+    std::vector<fs::path> results;
+
+    while( !directories.empty() ) {
+        const fs::path path = std::move( directories.front() );
+        directories.pop_front();
+
+        const std::ptrdiff_t n_dirs = static_cast<std::ptrdiff_t>( directories.size() );
+        const std::ptrdiff_t n_results = static_cast<std::ptrdiff_t>( results.size() );
+
+        // We could use fs::recursive_directory_iterator maybe
+        for_each_dir_entry( path, [&]( const fs::directory_entry & entry ) {
+            const fs::path &full_path = entry.path();
+
+            // don't add files ending in '~'.
+            fs::path filename = full_path.filename();
+            if( !filename.empty() && filename.generic_u8string().back() == '~' ) {
+                return;
+            }
+
+            // add sub directories to recursive_search if requested
+            const bool is_dir = is_directory( entry );
+            if( recursive_search && is_dir ) {
+                directories.emplace_back( full_path );
+            }
+
+            // check the file
+            if( !predicate( entry, is_dir ) ) {
+                return;
+            }
+
+            results.emplace_back( full_path );
+        } );
+
+        // Keep files and directories to recurse ordered consistently
+        // by sorting from the old end to the new end.
+        // NOLINTNEXTLINE(cata-use-localized-sorting)
+        std::sort( std::begin( directories ) + n_dirs, std::end( directories ) );
+        // NOLINTNEXTLINE(cata-use-localized-sorting)
+        std::sort( std::begin( results ) + n_results, std::end( results ) );
+    }
+
+    std::vector<cata_path> cps;
+    cps.reserve( results.size() );
+    for( const fs::path &result_path : results ) {
+        // Re-relativize paths against the root.
+        cps.emplace_back( norm_root_path.get_logical_root(),
+                          result_path.lexically_relative( norm_root_path.get_logical_root_path() ) );
+    }
+    return cps;
+}
+
+
 } //anonymous namespace
 
 //--------------------------------------------------------------------------------------------------
 std::vector<std::string> get_files_from_path( const std::string &pattern,
         const std::string &root_path, const bool recursive_search, const bool match_extension )
+{
+    return find_file_if_bfs( root_path, recursive_search, [&]( const fs::directory_entry & entry,
+    bool ) {
+        return name_contains( entry, pattern, match_extension );
+    } );
+}
+std::vector<cata_path> get_files_from_path( const std::string &pattern,
+        const cata_path &root_path, const bool recursive_search, const bool match_extension )
 {
     return find_file_if_bfs( root_path, recursive_search, [&]( const fs::directory_entry & entry,
     bool ) {
@@ -321,6 +421,18 @@ std::vector<std::string> get_directories_with( const std::vector<std::string> &p
 bool copy_file( const std::string &source_path, const std::string &dest_path )
 {
     cata::ifstream source_stream( fs::u8path( source_path ),
+                                  std::ifstream::in | std::ifstream::binary );
+    if( !source_stream ) {
+        return false;
+    }
+    return write_to_file( dest_path, [&]( std::ostream & dest_stream ) {
+        dest_stream << source_stream.rdbuf();
+    }, nullptr ) &&source_stream;
+}
+
+bool copy_file( const cata_path &source_path, const cata_path &dest_path )
+{
+    cata::ifstream source_stream( source_path.get_unrelative_path(),
                                   std::ifstream::in | std::ifstream::binary );
     if( !source_stream ) {
         return false;
