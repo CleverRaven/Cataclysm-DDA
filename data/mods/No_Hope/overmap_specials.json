@@ -26,5 +26,12 @@
     "city_sizes": [ 0, 12 ],
     "occurrences": [ 5, 100 ],
     "flags": [ "CLASSIC", "MAN_MADE", "UNIQUE" ]
+  },
+  {
+    "//": "Military base is grossly unbalanced gameplay-wise, so until it gets some work done on this matter, I'm removing it from the game",
+    "type": "overmap_special",
+    "id": "mil_base",
+    "overmaps": [  ],
+    "occurrences": [ 0, 0 ]
   }
 ]
