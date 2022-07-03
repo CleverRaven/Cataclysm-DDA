@@ -1325,7 +1325,7 @@ monster_attitude monster::attitude( const Character *u ) const
 
         for( const trait_id &mut : u->get_mutations() ) {
             const mutation_branch &branch = *mut;
-            if( branch.ignored_by.empty() && branch.anger_relations.empty() ) {
+            if( branch.ignored_by.empty() && branch.anger_relations.empty()  && branch.faction_relations.empty ) {
                 continue;
             }
             for( const species_id &spe : branch.ignored_by ) {
@@ -1335,6 +1335,11 @@ monster_attitude monster::attitude( const Character *u ) const
             }
             for( const std::pair<const species_id, int> &elem : branch.anger_relations ) {
                 if( type->in_species( elem.first ) ) {
+                    effective_anger += elem.second;
+                }
+            }
+            for (const std::pair<const mfaction_id, int>& elem : branch.faction_relations) {
+                if (type->in_faction(elem.first)) {
                     effective_anger += elem.second;
                 }
             }
