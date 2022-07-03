@@ -5,6 +5,7 @@
 
 #include "enums.h"
 #include "filesystem.h" // IWYU pragma: keep
+#include "make_static.h"
 #include "options.h"
 #include "rng.h"
 #include "system_locale.h"
@@ -40,6 +41,20 @@ static std::string options_value;
 static std::string memorialdir_value;
 static std::string langdir_value;
 
+
+static cata_path autopickup_path_value;
+static cata_path base_path_path_value;
+static cata_path config_dir_path_value;
+static cata_path datadir_path_value;
+static cata_path gfxdir_path_value;
+static cata_path keymap_path_value;
+static cata_path langdir_path_value;
+static cata_path memorialdir_path_value;
+static cata_path motd_path_value;
+static cata_path options_path_value;
+static cata_path savedir_path_value;
+static cata_path user_dir_path_value;
+
 void PATH_INFO::init_base_path( std::string path )
 {
     if( !path.empty() ) {
@@ -50,6 +65,7 @@ void PATH_INFO::init_base_path( std::string path )
     }
 
     base_path_value = path;
+    base_path_path_value = cata_path{ cata_path::root_path::base, fs::path{} };
 }
 
 void PATH_INFO::init_user_dir( std::string dir )
@@ -77,25 +93,37 @@ void PATH_INFO::init_user_dir( std::string dir )
     }
 
     user_dir_value = dir;
+    user_dir_path_value = cata_path{ cata_path::root_path::user, fs::path{} };
 }
 
 void PATH_INFO::set_standard_filenames()
 {
     // Special: data_dir and gfx_dir
     std::string prefix;
+    cata_path prefix_path;
     if( !base_path_value.empty() ) {
 #if defined(DATA_DIR_PREFIX)
         datadir_value = base_path_value + "share/cataclysm-dda/";
         prefix = datadir_value;
+        prefix_path = datadir_path_value;
 #else
         datadir_value = base_path_value + "data/";
         prefix = base_path_value;
+        prefix_path = base_path_path_value;
 #endif
     } else {
         datadir_value = "data/";
+        // Base path is empty here but everything else is still relative to base, which is empty.
+        prefix_path = base_path_path_value;
     }
+
+    // Data is always relative to itself. Also, the base path might not be writeable.
+    datadir_path_value = cata_path{ cata_path::root_path::data, fs::path{} };
+
     gfxdir_value = prefix + "gfx/";
+    gfxdir_path_value = prefix_path / "gfx";
     langdir_value = prefix + "lang/mo/";
+    langdir_path_value = prefix_path / "lang" / "mo";
 
     // Shared dirs
 
@@ -103,7 +131,10 @@ void PATH_INFO::set_standard_filenames()
     motd_value = datadir_value + "motd/" + "en.motd";
 
     savedir_value = user_dir_value + "save/";
+    // Special: savedir is always relative to itself even if in the user dir location.
+    savedir_path_value = cata_path{ cata_path::root_path::save, fs::path{} };
     memorialdir_value = user_dir_value + "memorial/";
+    memorialdir_path_value = user_dir_path_value / "memorial";
 
 #if defined(USE_XDG_DIR)
     const char *user_dir;
@@ -115,10 +146,13 @@ void PATH_INFO::set_standard_filenames()
         dir = std::string( user_dir ) + "/.config/cataclysm-dda/";
     }
     config_dir_value = dir;
+    config_dir_path_value = cata_path{ cata_path::rootpath::config, fs::path{} };
 #else
     config_dir_value = user_dir_value + "config/";
+    config_dir_path_value = user_dir_path_value / "config";
 #endif
     options_value = config_dir_value + "options.json";
+    options_path_value = config_dir_path_value / "options.json";
     keymap_value = config_dir_value + "keymap.txt";
     autopickup_value = config_dir_value + "auto_pickup.json";
     autonote_value = config_dir_value + "auto_note.json";
@@ -143,6 +177,7 @@ std::string find_translated_file( const std::string &base_path, const std::strin
 #endif
     return fallback;
 }
+
 std::string PATH_INFO::autopickup()
 {
     return autopickup_value;
@@ -158,6 +193,10 @@ std::string PATH_INFO::base_colors()
 std::string PATH_INFO::base_path()
 {
     return base_path_value;
+}
+cata_path PATH_INFO::base_path_path()
+{
+    return base_path_path_value;
 }
 std::string PATH_INFO::cache_dir()
 {
@@ -179,6 +218,10 @@ std::string PATH_INFO::config_dir()
 {
     return config_dir_value;
 }
+cata_path PATH_INFO::config_dir_path()
+{
+    return config_dir_path_value;
+}
 std::string PATH_INFO::custom_colors()
 {
     return config_dir_value + "custom_colors.json";
@@ -186,6 +229,10 @@ std::string PATH_INFO::custom_colors()
 std::string PATH_INFO::datadir()
 {
     return datadir_value;
+}
+cata_path PATH_INFO::datadir_path()
+{
+    return datadir_path_value;
 }
 std::string PATH_INFO::debug()
 {
@@ -251,6 +298,10 @@ std::string PATH_INFO::memorialdir()
 {
     return memorialdir_value;
 }
+cata_path PATH_INFO::memorialdir_path()
+{
+    return memorialdir_path_value;
+}
 std::string PATH_INFO::jsondir()
 {
     return datadir_value + "core/";
@@ -262,6 +313,10 @@ std::string PATH_INFO::moddir()
 std::string PATH_INFO::options()
 {
     return options_value;
+}
+cata_path PATH_INFO::options_path()
+{
+    return options_path_value;
 }
 std::string PATH_INFO::panel_options()
 {
@@ -275,6 +330,10 @@ std::string PATH_INFO::savedir()
 {
     return savedir_value;
 }
+cata_path PATH_INFO::savedir_path()
+{
+    return savedir_path_value;
+}
 std::string PATH_INFO::sokoban()
 {
     return datadir_value + "raw/" + "sokoban.txt";
@@ -286,6 +345,10 @@ std::string PATH_INFO::templatedir()
 std::string PATH_INFO::user_dir()
 {
     return user_dir_value;
+}
+cata_path PATH_INFO::user_dir_path()
+{
+    return user_dir_path_value;
 }
 std::string PATH_INFO::user_gfx()
 {
@@ -335,9 +398,17 @@ std::string PATH_INFO::gfxdir()
 {
     return gfxdir_value;
 }
+cata_path PATH_INFO::gfxdir_path()
+{
+    return gfxdir_path_value;
+}
 std::string PATH_INFO::langdir()
 {
     return langdir_value;
+}
+cata_path PATH_INFO::langdir_path()
+{
+    return langdir_path_value;
 }
 std::string PATH_INFO::lang_file()
 {
@@ -420,34 +491,44 @@ std::string PATH_INFO::names()
 void PATH_INFO::set_datadir( const std::string &datadir )
 {
     datadir_value = datadir;
+    datadir_path_value = cata_path{ cata_path::root_path::data, fs::path{} };
     // Shared dirs
     gfxdir_value = datadir_value + "gfx/";
+    gfxdir_path_value = datadir_path_value / "gfx";
 
     // Shared files
     motd_value = datadir_value + "motd/" + "en.motd";
+    motd_path_value = datadir_path_value / "motd" / "en.motd";
 }
 
 void PATH_INFO::set_config_dir( const std::string &config_dir )
 {
     config_dir_value = config_dir;
+    config_dir_path_value = cata_path{ cata_path::root_path::config, fs::path{} };
     options_value = config_dir_value + "options.json";
+    options_path_value = config_dir_path_value / "options.json";
     keymap_value = config_dir_value + "keymap.txt";
+    keymap_path_value = config_dir_path_value / "keymap.txt";
     autopickup_value = config_dir_value + "auto_pickup.json";
+    autopickup_path_value = config_dir_path_value / "auto_pickup.json";
 }
 
 void PATH_INFO::set_savedir( const std::string &savedir )
 {
     savedir_value = savedir;
+    savedir_path_value = cata_path{ cata_path::root_path::save, fs::path{} };
 }
 
 void PATH_INFO::set_memorialdir( const std::string &memorialdir )
 {
     memorialdir_value = memorialdir;
+    memorialdir_path_value = cata_path{ cata_path::root_path::memorial, fs::path{} };
 }
 
 void PATH_INFO::set_options( const std::string &options )
 {
     options_value = options;
+    options_path_value = cata_path{cata_path::root_path::unknown, options_value};
 }
 
 void PATH_INFO::set_keymap( const std::string &keymap )
@@ -463,4 +544,30 @@ void PATH_INFO::set_autopickup( const std::string &autopickup )
 void PATH_INFO::set_motd( const std::string &motd )
 {
     motd_value = motd;
+}
+
+fs::path cata_path::get_logical_root_path() const
+{
+    const std::string &path_value = ( []( cata_path::root_path root ) -> const std::string& {
+        switch( root )
+        {
+            case cata_path::root_path::base:
+                return base_path_value;
+            case cata_path::root_path::config:
+                return config_dir_value;
+            case cata_path::root_path::data:
+                return datadir_value;
+            case cata_path::root_path::memorial:
+                return memorialdir_value;
+            case cata_path::root_path::save:
+                return savedir_value;
+            case cata_path::root_path::user:
+                return user_dir_value;
+            case cata_path::root_path::unknown:
+            default: {
+                return STATIC( std::string() );
+            }
+        }
+    } )( logical_root_ );
+    return fs::path{ path_value };
 }

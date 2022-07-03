@@ -2,6 +2,8 @@
 #ifndef CATA_SRC_PATH_INFO_H
 #define CATA_SRC_PATH_INFO_H
 
+#include "cata_path.h"
+
 #include <string>
 
 enum class holiday : int;
@@ -16,6 +18,7 @@ static const std::string SAVE_EXTENSION_SHORTCUTS( ".shortcuts" );
 
 namespace PATH_INFO
 {
+
 void init_base_path( std::string path );
 void init_user_dir( std::string dir );
 void set_standard_filenames();
@@ -78,6 +81,16 @@ std::string credits();
 std::string motd();
 std::string title( holiday current_holiday );
 std::string names();
+
+cata_path base_path_path();
+cata_path config_dir_path();
+cata_path datadir_path();
+cata_path gfxdir_path();
+cata_path langdir_path();
+cata_path memorialdir_path();
+cata_path options_path();
+cata_path savedir_path();
+cata_path user_dir_path();
 
 void set_datadir( const std::string &datadir );
 void set_config_dir( const std::string &config_dir );
