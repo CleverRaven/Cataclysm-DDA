@@ -141,6 +141,8 @@ class JsonValue
         double get_float() const;
         JsonObject get_object() const;
         JsonArray get_array() const;
+        // Consumes null value in the underlying JsonIn.
+        void get_null() const;
 
         [[noreturn]] void string_error( const std::string &err ) const;
         [[noreturn]] void string_error( int offset, const std::string &err ) const;
@@ -396,6 +398,21 @@ class JsonIn
         decltype( deserialize( v, *this ), true ) {
             try {
                 deserialize( v, *this );
+                return true;
+            } catch( const JsonError & ) {
+                if( throw_on_error ) {
+                    throw;
+                }
+                return false;
+            }
+        }
+
+        /// Overload that calls a global function `deserialize(T&,const JsonValue&)`, if available.
+        template<typename T>
+        auto read( T &v, bool throw_on_error = false ) ->
+        decltype( deserialize( v, std::declval<const JsonValue &>() ), true ) {
+            try {
+                deserialize( v, this->get_value() );
                 return true;
             } catch( const JsonError & ) {
                 if( throw_on_error ) {
@@ -1452,6 +1469,10 @@ inline JsonArray JsonValue::get_array() const
 {
     return seek().get_array();
 }
+inline void JsonValue::get_null() const
+{
+    seek().skip_null();
+}
 
 class JsonArray::const_iterator
 {
@@ -1630,19 +1651,11 @@ void deserialize( cata::optional<T> &obj, const JsonValue &jsin )
 {
     if( jsin.test_null() ) {
         obj.reset();
+        // Temporary to manage internal mutable state correctly.
+        jsin.get_null();
     } else {
         obj.emplace();
         jsin.read( *obj, true );
-    }
-}
-
-template<typename T>
-void deserialize( cata::optional<T> &obj, JsonIn &jsin )
-{
-    if( jsin.read_null() ) {
-        obj.reset();
-    } else {
-        deserialize( obj, jsin.get_value() );
     }
 }
 
