@@ -50,6 +50,11 @@ bool rename_file( const std::string &old_path, const std::string &new_path )
     return !ec;
 }
 
+std::string abs_path( const std::string &path )
+{
+    return fs::absolute( path ).generic_u8string();
+}
+
 bool remove_directory( const std::string &path )
 {
     std::error_code ec;
