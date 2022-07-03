@@ -18,6 +18,7 @@
 
 #include "colony.h"
 #include "enum_conversions.h"
+#include "json_error.h"
 #include "int_id.h"
 #include "memory_fast.h"
 #include "string_id.h"
@@ -47,15 +48,6 @@ namespace cata
 template<typename T>
 class optional;
 } // namespace cata
-
-class JsonError : public std::runtime_error
-{
-    public:
-        explicit JsonError( const std::string &msg );
-        const char *c_str() const noexcept {
-            return what();
-        }
-};
 
 template<typename T, typename Enable = void>
 struct key_from_json_string;
