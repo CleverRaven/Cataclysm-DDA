@@ -296,13 +296,13 @@ std::string PATH_INFO::help()
 {
     return datadir_value + "help/" + "texts.json";
 }
-std::string PATH_INFO::keybindings()
+cata_path PATH_INFO::keybindings()
 {
-    return datadir_value + "raw/" + "keybindings.json";
+    return datadir_path_value / "raw" / "keybindings.json";
 }
-std::string PATH_INFO::keybindings_vehicle()
+cata_path PATH_INFO::keybindings_vehicle()
 {
-    return datadir_value + "raw/" + "keybindings/vehicle.json";
+    return datadir_path_value / "raw" / "keybindings" / "vehicle.json";
 }
 std::string PATH_INFO::keymap()
 {
@@ -372,9 +372,9 @@ cata_path PATH_INFO::user_gfx()
 {
     return user_dir_path_value / "gfx";
 }
-std::string PATH_INFO::user_keybindings()
+cata_path PATH_INFO::user_keybindings()
 {
-    return config_dir_value + "keybindings.json";
+    return config_dir_path_value / "keybindings.json";
 }
 std::string PATH_INFO::user_moddir()
 {

@@ -260,15 +260,15 @@ void input_manager::init()
 
 static constexpr int current_keybinding_version = 2;
 
-void input_manager::load( const std::string &file_name, bool is_user_preferences )
+void input_manager::load( const cata_path &file_name, bool is_user_preferences )
 {
-    cata::optional<JsonValue> jsin_opt = json_loader::from_path_opt( fs::u8path( file_name ) );
+    cata::optional<JsonValue> jsin_opt = json_loader::from_path_opt( file_name );
 
     if( !jsin_opt.has_value() ) {
         // Only throw if this is the first file to load, that file _must_ exist,
         // otherwise the keybindings can not be read at all.
         if( action_contexts.empty() ) {
-            throw std::runtime_error( std::string( "Could not read " ) + file_name );
+            throw std::runtime_error( std::string( "Could not read " ) + file_name.generic_u8string() );
         }
         return;
     }
@@ -289,7 +289,7 @@ void input_manager::load( const std::string &file_name, bool is_user_preferences
         const std::string type = action.get_string( "type", "keybinding" );
         if( type != "keybinding" ) {
             debugmsg( "Only objects of type 'keybinding' (not %s) should appear in the "
-                      "keybindings file '%s'", type, file_name );
+                      "keybindings file '%s'", type, file_name.generic_u8string() );
             continue;
         }
 
