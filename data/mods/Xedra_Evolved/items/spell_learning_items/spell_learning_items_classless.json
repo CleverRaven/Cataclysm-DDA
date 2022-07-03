@@ -28,5 +28,5 @@
   "symbol": "o",
   "color": "red",
   "use_action": { "type": "learn_spell", "spells": [ "fire_teleport" ] }
-},
+}
 ]
