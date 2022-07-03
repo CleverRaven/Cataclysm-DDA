@@ -159,7 +159,7 @@
   },
   {
     "id": "exo_plasmacut",
-	"name": "Exosuit Plasma Cut",
+    "name": "Exosuit Plasma Cut",
     "description": "A blinding light stabs out from the tip of the plasma torch.",
     "effect": "attack",
     "shape": "line",
@@ -176,6 +176,6 @@
     "min_aoe": 1,
     "max_aoe": 1,
     "aoe_increment": 1.0,
-	"damage_type": [ "heat", "cut" ]
+    "damage_type": [ "heat", "cut" ]
   }
 ]
