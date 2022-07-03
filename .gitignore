@@ -13,6 +13,7 @@
 /bindist/
 /build/
 /build-start-time
+/cache/
 /cmake-build-debug/
 /config/
 /data/*.template

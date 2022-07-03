@@ -327,8 +327,7 @@ class flexbuffer_disk_cache
 flexbuffer_cache::flexbuffer_cache( const fs::path &cache_directory,
                                     const fs::path &root_directory )
 {
-    disk_cache_ = flexbuffer_disk_cache::init_from_folder( cache_directory,
-                  root_directory );
+    disk_cache_ = flexbuffer_disk_cache::init_from_folder( cache_directory, root_directory );
 }
 
 flexbuffer_cache::~flexbuffer_cache() = default;

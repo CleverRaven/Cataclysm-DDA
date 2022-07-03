@@ -4,6 +4,7 @@
 
 #include <ghc/fs_std_fwd.hpp>
 
+#include "path_info.h"
 #include "flexbuffer_json.h"
 
 class json_loader
@@ -16,9 +17,16 @@ class json_loader
         static JsonValue from_path_at_offset( const fs::path &source_file,
                                               size_t offset = 0 ) noexcept( false );
 
+        static JsonValue from_path( const cata_path &source_file ) noexcept( false );
+        static JsonValue from_path_at_offset( const cata_path &source_file,
+                                              size_t offset = 0 ) noexcept( false );
+
         // Like json_loader::from_path, except does not throw if the file does not exist. It will still throw if the json cannot be parsed.
         static cata::optional<JsonValue> from_path_opt( fs::path source_file ) noexcept( false );
         static cata::optional<JsonValue> from_path_at_offset_opt( fs::path source_file,
+                size_t offset = 0 ) noexcept( false );
+        static cata::optional<JsonValue> from_path_opt( const cata_path &source_file ) noexcept( false );
+        static cata::optional<JsonValue> from_path_at_offset_opt( const cata_path &source_file,
                 size_t offset = 0 ) noexcept( false );
 
         // Like json_loader::from_path, except instead of parsing data from a file, will parse data from a string in memory.

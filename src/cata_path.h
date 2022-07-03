@@ -60,13 +60,9 @@ class cata_path
         // Returns an fs::path constructed by concatenating the 'actual' path
         // value for the logical root with the relative path stored in this.
         // path with root_path::unknown are returned as-is.
-        // If the contained path is not relative, simply returns the root path.
         inline fs::path get_unrelative_path() const {
             fs::path result = get_logical_root_path();
-            // TODO check for '..' components?
-            if( relative_path_.is_relative() ) {
-                result /= relative_path_;
-            }
+            result /= relative_path_;
             return result;
         }
 

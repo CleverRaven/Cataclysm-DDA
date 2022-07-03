@@ -55,10 +55,8 @@ class flexbuffer_cache
         explicit flexbuffer_cache( const fs::path &cache_directory, const fs::path &root_directory );
         ~flexbuffer_cache();
 
-        size_t drop_cache() noexcept;
-
         // Throw exceptions on IO and parse errors.
-        shared_flexbuffer parse( fs::path json_source_path, size_t offset = 0 ) noexcept( false );
+        static shared_flexbuffer parse( fs::path json_source_path, size_t offset = 0 ) noexcept( false );
         shared_flexbuffer parse_and_cache( fs::path json_source_path,
                                            size_t offset = 0 ) noexcept( false ) ;
 
