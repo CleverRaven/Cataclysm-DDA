@@ -4457,8 +4457,8 @@
     "prereqs": [ "WINGS_STUB" ],
     "category": [ "INSECT" ],
     "active": true,
-    "cost": 174,
-    "time": 10,
+    "cost": 3,
+    "time": 1,
     "fatigue": true,
     "kcal": true,
     "thirst": true,
@@ -8014,5 +8014,15 @@
     "category": [ "MEDICAL" ],
     "threshreq": [ "THRESH_MEDICAL" ],
     "hp_modifier_secondary": 0.3
+  },
+  {
+    "type": "mutation",
+    "id": "TAINTED_SHADOW",
+    "name": { "str": "Tainted Shadow" },
+    "description": "You shouldn't see this.  This makes you spawn tainted shadows.",
+    "points": 0,
+    "player_display": false,
+    "purifiable": false,
+    "valid": false
   }
 ]

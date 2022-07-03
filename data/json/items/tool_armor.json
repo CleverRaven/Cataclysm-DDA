@@ -787,6 +787,62 @@
     "armor": [ { "coverage": 15, "covers": [ "head" ] } ]
   },
   {
+    "id": "wearable_camera",
+    "type": "TOOL_ARMOR",
+    "category": "clothing",
+    "symbol": "[",
+    "color": "blue",
+    "name": { "str": "wearable camera" },
+    "description": "A point-and-shoot digital camera, with digital viewfinder, a backup 'iron-sight', and flash.  You can look at your photos on the digital screen, or transfer them with a memory card.  Takes conventional batteries.  This one can be worn over your neck.",
+    "price": 20000,
+    "price_postapoc": 50,
+    "material": [ "plastic", "steel" ],
+    "flags": [ "OVERSIZE", "BELTED", "ALLOWS_NATURAL_ATTACKS" ],
+    "weight": "520 g",
+    "volume": "500 ml",
+    "bashing": 1,
+    "charges_per_use": 5,
+    "ammo": "battery",
+    "use_action": [ "CAMERA" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
+        "default_magazine": "light_plus_battery_cell"
+      }
+    ],
+    "armor": [ { "coverage": 15, "covers": [ "head" ] } ]
+  },
+  {
+    "id": "wearable_camera_pro",
+    "type": "TOOL_ARMOR",
+    "category": "clothing",
+    "symbol": "[",
+    "color": "blue",
+    "name": { "str": "wearable professional camera" },
+    "description": "A 35mm digital SLR (single-lens reflex) camera, with optical and digital viewfinders, zoom lens with auto-focus and stabilizer, and flash.  You can view your photos on it or transfer them with a memory card; it runs on conventional batteries.  Before the Cataclysm, you could have taken professional-grade photos using this.  This one can be worn over your neck",
+    "price": 800000,
+    "price_postapoc": 100,
+    "material": [ "plastic", "steel" ],
+    "flags": [ "CAMERA_PRO", "ALWAYS_TWOHAND", "OVERSIZE", "BELTED", "ALLOWS_NATURAL_ATTACKS" ],
+    "weight": "520 g",
+    "volume": "500 ml",
+    "bashing": 1,
+    "charges_per_use": 5,
+    "ammo": "battery",
+    "use_action": [ "CAMERA" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
+        "default_magazine": "light_plus_battery_cell"
+      }
+    ],
+    "armor": [ { "coverage": 15, "covers": [ "head" ] } ]
+  },
+  {
     "id": "wearable_light_on",
     "copy-from": "wearable_light",
     "repairs_like": "wearable_light",
@@ -2704,7 +2760,7 @@
     "name": { "str": "riot helmet" },
     "description": "A helmet with a plastic shield that covers your entire face.  Activate to raise the face shield.",
     "use_action": { "type": "transform", "target": "helmet_riot_raised", "menu_text": "Raise visor", "msg": "You raise your visor." },
-    "weight": "2260 g",
+    "weight": "1450 g",
     "volume": "2250 ml",
     "price": 22000,
     "price_postapoc": 1000,
@@ -2722,7 +2778,7 @@
         ],
         "covers": [ "head" ],
         "coverage": 100,
-        "encumbrance": 20
+        "encumbrance_modifiers": [ "NONE" ]
       },
       {
         "material": [
@@ -2731,7 +2787,7 @@
         ],
         "covers": [ "eyes" ],
         "rigid_layer_only": true,
-        "coverage": 80,
+        "coverage": 100,
         "encumbrance": 5,
         "layers": [ "OUTER" ]
       },
@@ -2742,7 +2798,7 @@
         ],
         "covers": [ "mouth" ],
         "rigid_layer_only": true,
-        "coverage": 50,
+        "coverage": 100,
         "encumbrance": 2,
         "layers": [ "OUTER" ]
       }
@@ -2759,7 +2815,7 @@
     "name": { "str": "riot helmet (raised visor)", "str_pl": "riot helmets (raised visor)" },
     "description": "A riot helmet with a plastic face shield which is raised up.  Activate to lower the shield.",
     "use_action": { "type": "transform", "target": "helmet_riot", "menu_text": "Lower visor", "msg": "You put down your visor." },
-    "weight": "2260 g",
+    "weight": "1450 g",
     "volume": "2250 ml",
     "price": 22000,
     "price_postapoc": 1000,
@@ -2777,7 +2833,7 @@
         ],
         "covers": [ "head" ],
         "coverage": 100,
-        "encumbrance": 20
+        "encumbrance_modifiers": [ "NONE" ]
       }
     ],
     "environmental_protection": 2,

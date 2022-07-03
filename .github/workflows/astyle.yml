@@ -44,4 +44,4 @@ jobs:
 
     - name: Display Corrections
       if: failure()
-      run: git diff
+      run: git diff --color

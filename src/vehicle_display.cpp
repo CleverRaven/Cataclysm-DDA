@@ -335,7 +335,7 @@ void vehicle::print_vparts_descs( const catacurses::window &win, int max_y, int 
 std::vector<itype_id> vehicle::get_printable_fuel_types() const
 {
     std::set<itype_id> opts;
-    for( const auto &pt : parts ) {
+    for( const vehicle_part &pt : parts ) {
         if( !pt.has_flag( vehicle_part::carried_flag ) && pt.is_fuel_store() &&
             !pt.ammo_current().is_null() ) {
             opts.emplace( pt.ammo_current() );

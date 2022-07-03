@@ -568,7 +568,7 @@ static void draw_traits_tab( const catacurses::window &w_traits, const unsigned 
             line, is_current_tab );
 
     for( size_t i = range.first; i < static_cast<size_t>( range.second ); ++i ) {
-        const auto &mdata = traitslist[i].obj();
+        const mutation_branch &mdata = traitslist[i].obj();
         const nc_color color = mdata.get_display_color();
         trim_and_print( w_traits, point( 1, static_cast<int>( 1 + i - range.first ) ), width,
                         is_current_tab && i == line ? hilite( color ) : color, mdata.name() );
@@ -583,7 +583,7 @@ static void draw_traits_info( const catacurses::window &w_info, const unsigned l
 {
     werase( w_info );
     if( line < traitslist.size() ) {
-        const auto &mdata = traitslist[line].obj();
+        const mutation_branch &mdata = traitslist[line].obj();
         // NOLINTNEXTLINE(cata-use-named-point-constants)
         fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_light_gray, string_format(
                             "%s: %s", colorize( mdata.name(), mdata.get_display_color() ), traitslist[line]->desc() ) );
@@ -1276,7 +1276,7 @@ void Character::disp_info( bool customize_character )
                                          );
     }
 
-    for( auto &elem : addictions ) {
+    for( addiction &elem : addictions ) {
         if( elem.sated < 0_turns && elem.intensity >= MIN_ADDICTION_LEVEL ) {
             effect_name_and_text.emplace_back( elem.type->get_name().translated(),
                                                elem.type->get_description().translated() );
@@ -1305,7 +1305,7 @@ void Character::disp_info( bool customize_character )
 
     std::vector<HeaderSkill> skillslist;
     skill_displayType_id prev_type = skill_displayType_id::NULL_ID();
-    for( const auto &s : player_skill ) {
+    for( const Skill * const &s : player_skill ) {
         if( s->display_category() != prev_type ) {
             prev_type = s->display_category();
             skillslist.emplace_back( s, true );

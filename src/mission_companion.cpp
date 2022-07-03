@@ -829,9 +829,9 @@ bool talk_function::display_and_choose_opts(
 
     auto reset_cur_key_list = [&]() {
         cur_key_list = mission_key.entries[0];
-        for( const auto &k : mission_key.entries[1] ) {
+        for( const mission_entry &k : mission_key.entries[1] ) {
             bool has = false;
-            for( const auto &keys : cur_key_list ) {
+            for( const mission_entry &keys : cur_key_list ) {
                 if( is_equal( k.id, keys.id ) ) {
                     has = true;
                     break;
@@ -893,7 +893,7 @@ bool talk_function::display_and_choose_opts(
 
         std::vector<std::vector<std::string>> folded_names;
         size_t folded_names_lines = 0;
-        for( const auto &cur_key_entry : cur_key_list ) {
+        for( const mission_entry &cur_key_entry : cur_key_list ) {
             std::vector<std::string> f_name = foldstring( cur_key_entry.name_display, MAX_FAC_NAME_SIZE - 5,
                                               ' ' );
             folded_names_lines += f_name.size();
@@ -934,14 +934,14 @@ bool talk_function::display_and_choose_opts(
              current < cur_key_list.size(); current++ ) {
             nc_color col = ( current == sel ? h_white : c_white );
             //highlight important missions
-            for( const auto &k : mission_key.entries[0] ) {
+            for( const mission_entry &k : mission_key.entries[0] ) {
                 if( is_equal( cur_key_list[current].id, k.id ) ) {
                     col = ( current == sel ? h_white : c_yellow );
                     break;
                 }
             }
             //dull uncraftable items
-            for( const auto &k : mission_key.entries[10] ) {
+            for( const mission_entry &k : mission_key.entries[10] ) {
                 if( is_equal( cur_key_list[current].id, k.id ) ) {
                     col = ( current == sel ? h_white : c_dark_gray );
                     break;
@@ -1417,7 +1417,7 @@ int talk_function::combat_score( const std::vector<npc_ptr> &group )
 int talk_function::combat_score( const std::vector< monster * > &group )
 {
     int score = 0;
-    for( const auto &elem : group ) {
+    for( monster * const &elem : group ) {
         if( elem->get_hp() > 0 ) {
             score += elem->type->difficulty;
         }
@@ -1454,7 +1454,7 @@ void talk_function::field_plant( npc &p, const std::string &place )
 
     std::vector<itype_id> seed_types;
     std::vector<std::string> seed_names;
-    for( auto &seed : seed_inv ) {
+    for( item *&seed : seed_inv ) {
         if( std::find( seed_types.begin(), seed_types.end(), seed->typeId() ) == seed_types.end() ) {
             seed_types.push_back( seed->typeId() );
             seed_names.push_back( seed->tname() );
@@ -2213,7 +2213,7 @@ bool talk_function::force_on_force( const std::vector<npc_ptr> &defender,
     int def_init = 0;
     while( true ) {
         std::vector< monster * > remaining_mon;
-        for( const auto &elem : monsters_fighting ) {
+        for( monster * const &elem : monsters_fighting ) {
             if( elem->get_hp() > 0 ) {
                 remaining_mon.push_back( elem );
             }
@@ -2369,7 +2369,7 @@ void talk_function::companion_return( npc &comp )
     Character &player_character = get_player_character();
     map &here = get_map();
     for( size_t i = 0; i < comp.companion_mission_inv.size(); i++ ) {
-        for( const auto &it : comp.companion_mission_inv.const_stack( i ) ) {
+        for( const item &it : comp.companion_mission_inv.const_stack( i ) ) {
             if( !it.count_by_charges() || it.charges > 0 ) {
                 here.add_item_or_charges( player_character.pos(), it );
             }
@@ -2491,7 +2491,7 @@ std::vector<comp_rank> talk_function::companion_rank( const std::vector<npc_ptr>
     }
 
     std::vector<comp_rank> adjusted;
-    for( const auto &entry : raw ) {
+    for( const comp_rank &entry : raw ) {
         comp_rank r;
         r.combat = max_combat ? 100 * entry.combat / max_combat : 0;
         r.survival = max_survival ? 100 * entry.survival / max_survival : 0;
