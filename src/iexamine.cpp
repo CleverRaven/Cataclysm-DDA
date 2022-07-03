@@ -1159,9 +1159,9 @@ int _get_rot_delta( tripoint_abs_omt const &this_omt, tripoint_abs_omt const &th
 
 tripoint _rotate_point_sm( tripoint const &p, int erot, tripoint const &orig )
 {
-    tripoint const p_sm( p.xy() - orig.xy(), p.z );
+    tripoint const p_sm( p - orig.xy() );
     tripoint const rd = p_sm.rotate( erot, { SEEX * 2, SEEY * 2 } );
-    return tripoint{ rd.xy() + orig.xy(), rd.z };
+    return tripoint{ rd + orig.xy() };
 }
 
 int _choose_elevator_destz( tripoint const &examp, tripoint_abs_omt const &this_omt,
@@ -1185,6 +1185,37 @@ int _choose_elevator_destz( tripoint const &examp, tripoint_abs_omt const &this_
     choice.query();
     return choice.ret;
 }
+
+struct elevator_vehicles {
+    bool blocking = false;
+    std::vector<vehicle *> v;
+};
+
+elevator_vehicles _get_vehicles_on_elevator( std::vector<tripoint> const &elevator )
+{
+    std::vector<vehicle *> ret;
+    VehicleList const vehs = get_map().get_vehicles();
+    for( wrapped_vehicle const &v : vehs ) {
+        bool inbounds = true;
+        bool can_block = false;
+        for( const vpart_reference &vp : v.v->get_all_parts() ) {
+            tripoint const p = v.pos + vp.part().precalc[0];
+            auto const eit = std::find( elevator.cbegin(), elevator.cend(), p );
+            inbounds &= eit != elevator.cend();
+            if( !inbounds ) {
+                break;
+            }
+            can_block = true;
+        }
+        if( inbounds ) {
+            ret.emplace_back( v.v );
+        } else if( can_block ) {
+            return { true, { v.v } };
+        }
+    }
+
+    return { false, ret };
+}
 } // namespace
 
 void iexamine::elevator( Character &you, const tripoint &examp )
@@ -1199,6 +1230,13 @@ void iexamine::elevator( Character &you, const tripoint &examp )
             this_elevator.emplace_back( pos );
         }
     }
+
+    elevator_vehicles const vehs = _get_vehicles_on_elevator( this_elevator );
+    if( vehs.blocking ) {
+        popup( string_format( _( "The %s is blocking the elevator" ), vehs.v.front()->name ) );
+        return;
+    }
+
     int const movez = _choose_elevator_destz( examp, this_omt, sm_orig );
     if( movez < -OVERMAP_DEPTH ) {
         return;
@@ -1243,13 +1281,22 @@ void iexamine::elevator( Character &you, const tripoint &examp )
         move_item( items, src, that_elevator[i] );
     }
 
-    // finally, move along all creatures on the elevator
+    // move along all creatures on the elevator
     for( Creature &critter : g->all_creatures() ) {
         auto const eit = std::find( this_elevator.cbegin(), this_elevator.cend(), critter.pos() );
         if( eit != this_elevator.cend() ) {
             critter.setpos( that_elevator[ std::distance( this_elevator.cbegin(), eit ) ] );
         }
     }
+
+    for( vehicle *v : vehs.v ) {
+        tripoint const p = _rotate_point_sm( { v->global_pos3().xy(), movez }, erot, sm_orig );
+        here.displace_vehicle( *v, p - v->global_pos3() );
+        v->turn( erot * 90_degrees );
+        v->face = tileray( v->turn_dir );
+        v->precalc_mounts( 0, v->turn_dir, v->pivot_anchor[0] );
+    }
+    here.rebuild_vehicle_level_caches();
 }
 
 /**
