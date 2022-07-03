@@ -549,7 +549,6 @@
     "price_postapoc": 25,
     "material": [ "veggy" ],
     "volume": "250 ml",
-    "fun": 2,
     "vitamins": [ [ "vitC", 9 ], [ "calcium", 13 ], [ "iron", 8 ] ]
   },
   {
