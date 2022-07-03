@@ -513,18 +513,6 @@ void main_menu::display_text( const std::string &text, const std::string &title,
     wnoutrefresh( w_text );
 }
 
-static bool assure_essential_dirs_exist()
-{
-    using namespace PATH_INFO;
-    for( const std::string &path : std::vector<std::string> { { config_dir(), savedir(), templatedir(), user_font(), user_sound(), user_gfx() } } ) {
-        if( !assure_dir_exist( path ) ) {
-            popup( _( "Unable to make directory \"%s\".  Check permissions." ), path );
-            return false;
-        }
-    }
-    return true;
-}
-
 void main_menu::load_char_templates()
 {
     templates.clear();
@@ -539,11 +527,9 @@ void main_menu::load_char_templates()
     std::reverse( templates.begin(), templates.end() );
 }
 
-bool global_init()
+void global_init()
 {
     get_help().load();
-
-    return assure_essential_dirs_exist();
 }
 
 bool main_menu::opening_screen()

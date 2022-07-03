@@ -13,7 +13,7 @@
 #include "point.h"
 #include "worldfactory.h"
 
-bool global_init();
+void global_init();
 
 class main_menu
 {
