@@ -225,9 +225,11 @@ inline std::string IntToStringHex(int i, int xdigits) {
     ClassicLocale();
     ~ClassicLocale();
     locale_type locale_;
-    static ClassicLocale instance_;
   public:
-    static locale_type Get() { return instance_.locale_; }
+    static locale_type Get() {
+      static ClassicLocale instance_;
+      return instance_.locale_;
+    }
   };
 
   #ifdef _MSC_VER

@@ -220,9 +220,6 @@ std::string AbsolutePath(const std::string &filepath) {
     (FLATBUFFERS_LOCALE_INDEPENDENT > 0)
 
 // clang-format off
-// Allocate locale instance at startup of application.
-ClassicLocale ClassicLocale::instance_;
-
 #ifdef _MSC_VER
   ClassicLocale::ClassicLocale()
     : locale_(_create_locale(LC_ALL, "C")) {}
