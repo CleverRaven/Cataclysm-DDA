@@ -847,7 +847,7 @@
     "warmth": 15,
     "material_thickness": 4,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "WATERPROOF", "BLOCK_WHILE_WORN" ]
+    "flags": [ "VARSIZE", "WATERPROOF", "OUTER", "BLOCK_WHILE_WORN" ]
   },
   {
     "id": "plastron_cotton",
