@@ -25,8 +25,7 @@ struct advanced_inv_pane_save_state {
 
         bool in_vehicle = false;
 
-        template<typename JsonStream>
-        void serialize( JsonStream &json, const std::string &prefix ) const {
+        void serialize( JsonOut &json, const std::string &prefix ) const {
             json.member( prefix + "sort_idx", sort_idx );
             json.member( prefix + "filter", filter );
             json.member( prefix + "area_idx", area_idx );
@@ -57,8 +56,7 @@ struct advanced_inv_save_state {
         advanced_inv_pane_save_state pane;
         advanced_inv_pane_save_state pane_right;
 
-        template<typename JsonStream>
-        void serialize( JsonStream &json, const std::string &prefix ) const {
+        void serialize( JsonOut &json, const std::string &prefix ) const {
             json.member( prefix + "exit_code", exit_code );
             json.member( prefix + "re_enter_move_all", re_enter_move_all );
             json.member( prefix + "aim_all_location", aim_all_location );
@@ -186,8 +184,8 @@ class uistatedata
         }
 
         // nice little convenience function for serializing an array, regardless of amount. :^)
-        template<typename JsonStream, typename T>
-        void serialize_array( JsonStream &json, std::string name, T &data ) const {
+        template<typename T>
+        void serialize_array( JsonOut &json, std::string name, T &data ) const {
             json.member( name );
             json.start_array();
             for( const auto &d : data ) {
