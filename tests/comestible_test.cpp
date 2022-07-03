@@ -24,14 +24,44 @@
 #include "units.h"
 #include "value_ptr.h"
 
+static const item_category_id item_category_drugs( "drugs" );
+static const item_category_id item_category_mutagen( "mutagen" );
+static const itype_id itype_marloss_berry( "marloss_berry" );
+static const itype_id itype_marloss_gel( "marloss_gel" );
+static const itype_id itype_marloss_seed( "marloss_seed" );
+
 static const recipe_id recipe_veggy_wild_cooked( "veggy_wild_cooked" );
 
-static const item_category_id mutagen( "mutagen" );
-static const item_category_id drugs( "drugs" );
+static const vitamin_id vitamin_mutagen( "mutagen" );
+static const vitamin_id vitamin_mutagen_apha( "mutagen_apha" );
+static const vitamin_id vitamin_mutagen_batrachian( "mutagen_batrachian" );
+static const vitamin_id vitamin_mutagen_beast( "mutagen_beast" );
+static const vitamin_id vitamin_mutagen_bird( "mutagen_bird" );
+static const vitamin_id vitamin_mutagen_cattle( "mutagen_cattle" );
+static const vitamin_id vitamin_mutagen_cephalopod( "mutagen_cephalopod" );
+static const vitamin_id vitamin_mutagen_chimera( "mutagen_chimera" );
+static const vitamin_id vitamin_mutagen_elfa( "mutagen_elfa" );
+static const vitamin_id vitamin_mutagen_feline( "mutagen_feline" );
+static const vitamin_id vitamin_mutagen_fish( "mutagen_fish" );
+static const vitamin_id vitamin_mutagen_gastropod( "mutagen_gastropod" );
+static const vitamin_id vitamin_mutagen_human( "mutagen_human" );
+static const vitamin_id vitamin_mutagen_insect( "mutagen_insect" );
+static const vitamin_id vitamin_mutagen_lizard( "mutagen_lizard" );
+static const vitamin_id vitamin_mutagen_lupine( "mutagen_lupine" );
+static const vitamin_id vitamin_mutagen_medical( "mutagen_medical" );
+static const vitamin_id vitamin_mutagen_mouse( "mutagen_mouse" );
+static const vitamin_id vitamin_mutagen_plant( "mutagen_plant" );
+static const vitamin_id vitamin_mutagen_rabbit( "mutagen_rabbit" );
+static const vitamin_id vitamin_mutagen_raptor( "mutagen_raptor" );
+static const vitamin_id vitamin_mutagen_rat( "mutagen_rat" );
+static const vitamin_id vitamin_mutagen_slime( "mutagen_slime" );
+static const vitamin_id vitamin_mutagen_spider( "mutagen_spider" );
+static const vitamin_id vitamin_mutagen_troglobite( "mutagen_troglobite" );
+static const vitamin_id vitamin_mutagen_ursine( "mutagen_ursine" );
 
-static const std::vector<vitamin_id> mutagen_vit_list{ vitamin_id( "mutagen" ), vitamin_id( "mutagen_apha" ), vitamin_id( "mutagen_batrachian" ), vitamin_id( "mutagen_beast" ), vitamin_id( "mutagen_bird" ), vitamin_id( "mutagen_cattle" ), vitamin_id( "mutagen_cephalopod" ), vitamin_id( "mutagen_chimera" ), vitamin_id( "mutagen_elfa" ), vitamin_id( "mutagen_feline" ), vitamin_id( "mutagen_fish" ), vitamin_id( "mutagen_gastropod" ), vitamin_id( "mutagen_human" ), vitamin_id( "mutagen_insect" ), vitamin_id( "mutagen_lizard" ), vitamin_id( "mutagen_lupine" ), vitamin_id( "mutagen_medical" ), vitamin_id( "mutagen_mouse" ), vitamin_id( "mutagen_plant" ), vitamin_id( "mutagen_rabbit" ), vitamin_id( "mutagen_raptor" ), vitamin_id( "mutagen_rat" ), vitamin_id( "mutagen_slime" ), vitamin_id( "mutagen_spider" ), vitamin_id( "mutagen_troglobite" ), vitamin_id( "mutagen_ursine" ) };
+static const std::vector<vitamin_id> mutagen_vit_list{ vitamin_mutagen, vitamin_mutagen_apha, vitamin_mutagen_batrachian, vitamin_mutagen_beast, vitamin_mutagen_bird, vitamin_mutagen_cattle, vitamin_mutagen_cephalopod, vitamin_mutagen_chimera, vitamin_mutagen_elfa, vitamin_mutagen_feline, vitamin_mutagen_fish, vitamin_mutagen_gastropod, vitamin_mutagen_human, vitamin_mutagen_insect, vitamin_mutagen_lizard, vitamin_mutagen_lupine, vitamin_mutagen_medical, vitamin_mutagen_mouse, vitamin_mutagen_plant, vitamin_mutagen_rabbit, vitamin_mutagen_raptor, vitamin_mutagen_rat, vitamin_mutagen_slime, vitamin_mutagen_spider, vitamin_mutagen_troglobite, vitamin_mutagen_ursine };
 
-static const std::vector<itype_id> marloss_food{ itype_id( "marloss_berry" ), itype_id( "marloss_gel" ), itype_id( "marloss_seed" ) };
+static const std::vector<itype_id> marloss_food{ itype_marloss_berry, itype_marloss_gel, itype_marloss_seed };
 
 struct all_stats {
     statistics<int> calories;
@@ -132,13 +162,14 @@ static bool has_mutagen_vit( const islot_comestible &comest )
 TEST_CASE( "comestible_health_bounds", "[comestible]" )
 {
     for( const itype *it : item_controller->all() ) {
-        if( !it->comestible || it->category_force == mutagen || it->category_force == drugs ||
+        if( !it->comestible || it->category_force == item_category_mutagen ||
+            it->category_force == item_category_drugs ||
             std::count( marloss_food.begin(), marloss_food.end(), it->get_id() ) ) {
             continue;
         }
         const islot_comestible &comest = *it->comestible;
         const std::string &comest_type = comest.comesttype;
-        if( comest_type != "FOOD" && comest_type != "DRINK" || has_mutagen_vit( comest ) ) {
+        if( ( comest_type != "FOOD" && comest_type != "DRINK" ) || has_mutagen_vit( comest ) ) {
             continue;
         }
 
