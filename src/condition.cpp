@@ -119,8 +119,8 @@ int_or_var<T> get_int_or_var( const JsonObject &jo, std::string member, bool req
     int_or_var<T> ret_val;
     if( jo.has_array( member ) ) {
         JsonArray ja = jo.get_array( member );
-        ret_val.min = get_int_or_var_part<T>( ja.next(), member );
-        ret_val.max = get_int_or_var_part<T>( ja.next(), member );
+        ret_val.min = get_int_or_var_part<T>( ja.next_value(), member );
+        ret_val.max = get_int_or_var_part<T>( ja.next_value(), member );
         ret_val.pair = true;
     } else if( required ) {
         ret_val.min = get_int_or_var_part<T>( jo.get_member( member ), member, required, default_val );
@@ -172,8 +172,8 @@ duration_or_var<T> get_duration_or_var( const JsonObject &jo, std::string member
     duration_or_var<T> ret_val;
     if( jo.has_array( member ) ) {
         JsonArray ja = jo.get_array( member );
-        ret_val.min = get_duration_or_var_part<T>( ja.next(), member );
-        ret_val.max = get_duration_or_var_part<T>( ja.next(), member );
+        ret_val.min = get_duration_or_var_part<T>( ja.next_value(), member );
+        ret_val.max = get_duration_or_var_part<T>( ja.next_value(), member );
         ret_val.pair = true;
     } else if( required ) {
         ret_val.min = get_duration_or_var_part<T>( jo.get_member( member ), member, required, default_val );
@@ -1280,12 +1280,12 @@ void conditional_t<T>::set_compare_string( const JsonObject &jo, const std::stri
     }
 
     if( objects.has_object( 0 ) ) {
-        first = get_str_or_var<T>( objects.next(), member, true );
+        first = get_str_or_var<T>( objects.next_value(), member, true );
     } else {
         first.str_val = objects.next_string();
     }
     if( objects.has_object( 1 ) ) {
-        second = get_str_or_var<T>( objects.next(), member, true );
+        second = get_str_or_var<T>( objects.next_value(), member, true );
     } else {
         second.str_val = objects.next_string();
     }

@@ -561,10 +561,11 @@ void JsonArray::verify_index( const size_t i ) const
 
 /* iterative access */
 
-JsonValue JsonArray::next()
+JsonValue JsonArray::next_value()
 {
     verify_index( index );
-    return JsonValue( *jsin, positions[index++] );
+    jsin->seek( positions[index++] );
+    return jsin->get_value();
 }
 
 bool JsonArray::next_bool()
@@ -607,13 +608,6 @@ JsonObject JsonArray::next_object()
     verify_index( index );
     jsin->seek( positions[index++] );
     return jsin->get_object();
-}
-
-JsonValue JsonArray::next_value()
-{
-    verify_index( index );
-    jsin->seek( positions[ index++ ] );
-    return jsin->get_value();
 }
 
 void JsonArray::skip_value()

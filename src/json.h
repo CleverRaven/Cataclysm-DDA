@@ -1295,14 +1295,13 @@ class JsonArray
         [[noreturn]] void string_error( int idx, int offset, const std::string &err );
 
         // iterative access
-        JsonValue next();
+        JsonValue next_value();
         bool next_bool();
         int next_int();
         double next_float();
         std::string next_string();
         JsonArray next_array();
         JsonObject next_object();
-        JsonValue next_value();
         void skip_value(); // ignore whatever is next
 
         // static access

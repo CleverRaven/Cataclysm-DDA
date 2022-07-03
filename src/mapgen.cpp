@@ -3688,7 +3688,7 @@ void load_place_mapings_alternatively(
                 // Test if this is a string or object, and then just emplace it.
                 if( piece_and_count_jarr.test_string() || piece_and_count_jarr.test_object() ) {
                     try {
-                        alter->alternatives.emplace_back( piece_and_count_jarr.next() );
+                        alter->alternatives.emplace_back( piece_and_count_jarr.next_value() );
                     } catch( const std::runtime_error &err ) {
                         piece_and_count_jarr.throw_error( err.what() );
                     }
