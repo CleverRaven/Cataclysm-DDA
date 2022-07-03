@@ -77,6 +77,8 @@ WarningsAsErrors: '*'
 HeaderFilterRegex: '(src|test|tools).*'
 FormatStyle:     none
 CheckOptions:
+  - key: cata-large-inline-function.MaxStatements
+    value: 5
   - key: cata-text-style.EscapeUnicode
     value: 0
   - key: cert-oop54-cpp.WarnOnlyIfThisHasSuspiciousField

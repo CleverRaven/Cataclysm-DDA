@@ -7642,3 +7642,20 @@ bool vehicle_part_with_fakes_range::matches( const size_t part ) const
 {
     return this->with_inactive_fakes_ || this->vehicle().real_or_active_fake_part( part );
 }
+
+void MapgenRemovePartHandler::add_item_or_charges(
+    const tripoint &loc, item it, bool permit_oob )
+{
+    if( !m.inbounds( loc ) ) {
+        if( !permit_oob ) {
+            debugmsg( "Tried to put item %s on invalid tile %s during mapgen!",
+                      it.tname(), loc.to_string() );
+        }
+        tripoint copy = loc;
+        m.clip_to_bounds( copy );
+        cata_assert( m.inbounds( copy ) ); // prevent infinite recursion
+        add_item_or_charges( copy, std::move( it ), false );
+        return;
+    }
+    m.add_item_or_charges( loc, std::move( it ) );
+}
