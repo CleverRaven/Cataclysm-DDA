@@ -1495,9 +1495,12 @@ void global_variables::unserialize( JsonObject &jo )
 
 void timed_event_manager::unserialize_all( JsonIn &jsin )
 {
-    jsin.start_array();
-    while( !jsin.end_array() ) {
-        JsonObject jo = jsin.get_object();
+    unserialize_all( jsin.get_array() );
+}
+
+void timed_event_manager::unserialize_all( const JsonArray &ja )
+{
+    for( JsonObject jo : ja ) {
         int type;
         time_point when;
         int faction_id;

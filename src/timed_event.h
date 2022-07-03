@@ -99,6 +99,7 @@ class timed_event_manager
         void process();
         static void serialize_all( JsonOut &jsout );
         static void unserialize_all( JsonIn &jsin );
+        static void unserialize_all( const JsonArray &ja );
 };
 
 timed_event_manager &get_timed_events();
