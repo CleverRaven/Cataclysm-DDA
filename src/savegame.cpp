@@ -1369,13 +1369,18 @@ void mongroup::serialize( JsonOut &json ) const
 
 void mongroup::deserialize_legacy( JsonIn &json )
 {
-    json.start_object();
-    while( !json.end_object() ) {
-        std::string name = json.get_member_name();
+    JsonObject jo = json.get_object();
+    deserialize_legacy( jo );
+}
+
+void mongroup::deserialize_legacy( const JsonObject &jo )
+{
+    for( JsonMember json : jo ) {
+        std::string name = json.name();
         if( name == "type" ) {
             type = mongroup_id( json.get_string() );
         } else if( name == "abs_pos" ) {
-            abs_pos.deserialize( json.get_value() );
+            abs_pos.deserialize( json );
         } else if( name == "population" ) {
             population = json.get_int();
         } else if( name == "dying" ) {
@@ -1383,18 +1388,18 @@ void mongroup::deserialize_legacy( JsonIn &json )
         } else if( name == "horde" ) {
             horde = json.get_bool();
         } else if( name == "target" ) {
-            target.deserialize( json.get_value() );
+            target.deserialize( json );
         } else if( name == "nemesis_target" ) {
-            nemesis_target.deserialize( json.get_value() );
+            nemesis_target.deserialize( json );
         } else if( name == "interest" ) {
             interest = json.get_int();
         } else if( name == "horde_behaviour" ) {
             json.read( behaviour );
         } else if( name == "monsters" ) {
-            json.start_array();
-            while( !json.end_array() ) {
+            JsonArray ja = json;
+            for( JsonObject monster_json : ja ) {
                 monster new_monster;
-                new_monster.deserialize( json.get_object() );
+                new_monster.deserialize( monster_json );
                 monsters.push_back( new_monster );
             }
         }
