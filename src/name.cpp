@@ -84,7 +84,7 @@ static void load( const JsonArray &names_json )
     }
 }
 
-void load_from_file( const std::string &filename )
+void load_from_file( const cata_path &filename )
 {
     read_from_file_json( filename, []( const JsonArray & jsin ) {
         load( jsin );

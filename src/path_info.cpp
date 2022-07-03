@@ -26,6 +26,8 @@
  */
 static std::string find_translated_file( const std::string &path, const std::string &extension,
         const std::string &fallback );
+static cata_path find_translated_file( const cata_path &base_path, const std::string &extension,
+                                       const cata_path &fallback );
 
 static std::string motd_value;
 static std::string gfxdir_value;
@@ -174,6 +176,26 @@ std::string find_translated_file( const std::string &base_path, const std::strin
 #else
     ( void ) base_path;
     ( void ) extension;
+#endif
+    return fallback;
+}
+
+cata_path find_translated_file( const cata_path &base_path, const std::string &extension,
+                                const cata_path &fallback )
+{
+#if defined(LOCALIZE) && !defined(__CYGWIN__)
+    const std::string language_option = get_option<std::string>( "USE_LANG" );
+    const std::string loc_name = language_option.empty() ? SystemLocale::Language().value_or( "" ) :
+                                 language_option;
+    if( !loc_name.empty() ) {
+        cata_path local_path = base_path / loc_name / extension;
+        if( file_exist( local_path ) ) {
+            return local_path;
+        }
+    }
+#else
+    ( void )base_path;
+    ( void )extension;
 #endif
     return fallback;
 }
@@ -482,10 +504,10 @@ std::string PATH_INFO::title( const holiday current_holiday )
     return find_translated_file( theme_basepath, theme_extension, theme_fallback );
 }
 
-std::string PATH_INFO::names()
+cata_path PATH_INFO::names()
 {
-    return find_translated_file( datadir_value + "names/", ".json",
-                                 datadir_value + "names/" + "en.json" );
+    return find_translated_file( datadir_path_value / "names", ".json",
+                                 datadir_path_value / "names" / "en.json" );
 }
 
 void PATH_INFO::set_datadir( const std::string &datadir )

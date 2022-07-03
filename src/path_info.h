@@ -75,7 +75,6 @@ std::string soundpack_conf();
 std::string credits();
 std::string motd();
 std::string title( holiday current_holiday );
-std::string names();
 
 cata_path base_colors();
 cata_path base_path_path();
@@ -88,6 +87,7 @@ cata_path datadir_path();
 cata_path gfxdir_path();
 cata_path langdir_path();
 cata_path memorialdir_path();
+cata_path names();
 cata_path options_path();
 cata_path savedir_path();
 cata_path user_dir_path();
