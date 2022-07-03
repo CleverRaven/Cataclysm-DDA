@@ -38,6 +38,7 @@
 
 class Character;
 class creature_tracker;
+class JsonValue;
 class item;
 class location;
 class spell_events;
@@ -211,6 +212,7 @@ class game
         void serialize( std::ostream &fout ); // for save
         void unserialize( std::istream &fin, const std::string &path ); // for load
         void unserialize_master( std::istream &fin ); // for load
+        void unserialize_master( const JsonValue &jv ); // for load
 
         /** write statistics to stdout and @return true if successful */
         bool dump_stats( const std::string &what, dump_mode mode, const std::vector<std::string> &opts );

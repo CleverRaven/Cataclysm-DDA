@@ -1450,34 +1450,35 @@ void game::unserialize_master( std::istream &fin )
     savegame_loading_version = 0;
     chkversion( fin );
     try {
-        // single-pass parsing example
         JsonIn jsin( fin );
-        jsin.start_object();
-        while( !jsin.end_object() ) {
-            std::string name = jsin.get_member_name();
-            if( name == "next_mission_id" ) {
-                next_mission_id = jsin.get_int();
-            } else if( name == "next_npc_id" ) {
-                next_npc_id.deserialize( jsin.get_int() );
-            } else if( name == "active_missions" ) {
-                mission::unserialize_all( jsin );
-            } else if( name == "factions" ) {
-                jsin.read( *faction_manager_ptr );
-            } else if( name == "seed" ) {
-                jsin.read( seed );
-            } else if( name == "weather" ) {
-                weather_manager::unserialize_all( jsin );
-            } else if( name == "timed_events" ) {
-                timed_event_manager::unserialize_all( jsin );
-            } else if( name == "placed_unique_specials" ) {
-                overmap_buffer.deserialize_placed_unique_specials( jsin );
-            } else {
-                // silently ignore anything else
-                jsin.skip_value();
-            }
-        }
+        unserialize_master( jsin.get_value() );
     } catch( const JsonError &e ) {
         debugmsg( "error loading %s: %s", SAVE_MASTER, e.c_str() );
+    }
+}
+
+void game::unserialize_master( const JsonValue &jv )
+{
+    JsonObject game_json = jv;
+    for( JsonMember jsin : game_json ) {
+        std::string name = jsin.name();
+        if( name == "next_mission_id" ) {
+            next_mission_id = jsin.get_int();
+        } else if( name == "next_npc_id" ) {
+            next_npc_id.deserialize( jsin );
+        } else if( name == "active_missions" ) {
+            mission::unserialize_all( jsin );
+        } else if( name == "factions" ) {
+            jsin.read( *faction_manager_ptr );
+        } else if( name == "seed" ) {
+            jsin.read( seed );
+        } else if( name == "weather" ) {
+            weather_manager::unserialize_all( jsin );
+        } else if( name == "timed_events" ) {
+            timed_event_manager::unserialize_all( jsin );
+        } else if( name == "placed_unique_specials" ) {
+            overmap_buffer.deserialize_placed_unique_specials( jsin );
+        }
     }
 }
 
