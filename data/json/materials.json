@@ -1510,6 +1510,31 @@
   },
   {
     "type": "material",
+    "id": "plastic_pad",
+    "name": "Plastic Padding",
+    "//": "This is a catch-all for foam, or a mix of foam and hard plastic used in armor pads for sports or riding.",
+    "density": 1.0,
+    "specific_heat_liquid": 1.6,
+    "specific_heat_solid": 1.6,
+    "latent_heat": 50,
+    "bash_resist": 0.75,
+    "cut_resist": 0.5,
+    "bullet_resist": 0.5,
+    "acid_resist": 9,
+    "fire_resist": 1,
+    "chip_resist": 6,
+    "wind_resist": 90,
+    "dmg_adj": [ "scratched", "cut", "cracked", "shattered" ],
+    "bash_dmg_verb": "dented",
+    "cut_dmg_verb": "gouged",
+    "burn_data": [
+      { "fuel": 1, "smoke": 2, "burn": 1, "volume_per_turn": "750 ml" },
+      { "fuel": 1, "smoke": 3, "burn": 2 },
+      { "fuel": 1, "smoke": 5, "burn": 5 }
+    ]
+  },
+  {
+    "type": "material",
     "id": "powder",
     "name": "Powder",
     "density": 1,
