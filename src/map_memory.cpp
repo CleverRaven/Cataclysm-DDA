@@ -288,7 +288,7 @@ void map_memory::load( const tripoint &pos )
         const std::string legacy_file = find_legacy_mm_file();
         if( file_exist( legacy_file ) ) {
             try {
-                read_from_file_optional_json( legacy_file, [&]( JsonIn & jsin ) {
+                read_from_file_optional_json( legacy_file, [&]( const JsonValue & jsin ) {
                     this->load_legacy( jsin );
                 } );
             } catch( const std::exception &err ) {

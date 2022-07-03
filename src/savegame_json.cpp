@@ -4128,37 +4128,42 @@ void mm_region::deserialize( const JsonValue &ja )
 
 void map_memory::load_legacy( JsonIn &jsin )
 {
+    load_legacy( jsin.get_value() );
+}
+
+void map_memory::load_legacy( const JsonValue &jv )
+{
     struct mig_elem {
         int symbol;
         memorized_terrain_tile tile;
     };
     std::map<tripoint, mig_elem> elems;
 
-    jsin.start_array();
-    jsin.start_array();
-    while( !jsin.end_array() ) {
-        jsin.start_array();
+    JsonArray root_array = jv;
+    for( JsonArray elem_json : root_array.next_array() ) {
         tripoint p;
-        p.x = jsin.get_int();
-        p.y = jsin.get_int();
-        p.z = jsin.get_int();
+        p.x = elem_json.next_int();
+        p.y = elem_json.next_int();
+        p.z = elem_json.next_int();
         mig_elem &elem = elems[p];
-        elem.tile.tile = jsin.get_string();
-        elem.tile.subtile = jsin.get_int();
-        elem.tile.rotation = jsin.get_int();
-        jsin.end_array();
+        elem.tile.tile = elem_json.next_string();
+        elem.tile.subtile = elem_json.next_int();
+        elem.tile.rotation = elem_json.next_int();
+        if( elem_json.has_more() ) {
+            elem_json.throw_error( "Too many values for map memory entry" );
+        }
     }
-    jsin.start_array();
-    while( !jsin.end_array() ) {
-        jsin.start_array();
+
+    for( JsonArray symbols_json : root_array.next_array() ) {
         tripoint p;
-        p.x = jsin.get_int();
-        p.y = jsin.get_int();
-        p.z = jsin.get_int();
-        elems[p].symbol = jsin.get_int();
-        jsin.end_array();
+        p.x = symbols_json.next_int();
+        p.y = symbols_json.next_int();
+        p.z = symbols_json.next_int();
+        elems[p].symbol = symbols_json.next_int();
+        if( symbols_json.has_more() ) {
+            symbols_json.throw_error( "Too many values for map memory symbol" );
+        }
     }
-    jsin.end_array();
 
     for( const std::pair<const tripoint, mig_elem> &elem : elems ) {
         coord_pair cp( elem.first );

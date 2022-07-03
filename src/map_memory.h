@@ -140,6 +140,7 @@ class map_memory
 
         /** Load legacy memory file. TODO: remove after 0.F (or whatever BN will have instead). */
         void load_legacy( JsonIn &jsin );
+        void load_legacy( const JsonValue &jv );
 
         /** Save memorized submaps to disk, drop ones far from given global map square pos. */
         bool save( const tripoint &pos );
