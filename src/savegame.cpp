@@ -498,7 +498,7 @@ void overmap::load_monster_groups( JsonIn &jsin )
         jsin.start_array();
         tripoint_om_sm temp;
         while( !jsin.end_array() ) {
-            temp.deserialize( jsin );
+            temp.deserialize( jsin.get_value() );
             new_group.abs_pos = project_combine( pos(), temp );
             add_mon_group( new_group );
         }
@@ -661,7 +661,7 @@ void overmap::unserialize( std::istream &fin )
             while( !jsin.end_array() ) {
                 tripoint_om_sm monster_location;
                 monster new_monster;
-                monster_location.deserialize( jsin );
+                monster_location.deserialize( jsin.get_value() );
                 new_monster.deserialize( jsin.get_object(), project_combine( loc, monster_location ) );
                 monster_map.insert( std::make_pair( monster_location,
                                                     std::move( new_monster ) ) );
@@ -1375,7 +1375,7 @@ void mongroup::deserialize_legacy( JsonIn &json )
         if( name == "type" ) {
             type = mongroup_id( json.get_string() );
         } else if( name == "abs_pos" ) {
-            abs_pos.deserialize( json );
+            abs_pos.deserialize( json.get_value() );
         } else if( name == "population" ) {
             population = json.get_int();
         } else if( name == "dying" ) {
@@ -1383,9 +1383,9 @@ void mongroup::deserialize_legacy( JsonIn &json )
         } else if( name == "horde" ) {
             horde = json.get_bool();
         } else if( name == "target" ) {
-            target.deserialize( json );
+            target.deserialize( json.get_value() );
         } else if( name == "nemesis_target" ) {
-            nemesis_target.deserialize( json );
+            nemesis_target.deserialize( json.get_value() );
         } else if( name == "interest" ) {
             interest = json.get_int();
         } else if( name == "horde_behaviour" ) {

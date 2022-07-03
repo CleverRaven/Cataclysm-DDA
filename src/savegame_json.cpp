@@ -4166,12 +4166,13 @@ void map_memory::load_legacy( JsonIn &jsin )
     }
 }
 
-void point::deserialize( JsonIn &jsin )
+void point::deserialize( const JsonArray &jsin )
 {
-    jsin.start_array();
-    x = jsin.get_int();
-    y = jsin.get_int();
-    jsin.end_array();
+    x = jsin.get_int( 0 );
+    y = jsin.get_int( 1 );
+    if( jsin.size() > 2 ) {
+        jsin.throw_error( "Too many values for tripoint" );
+    }
 }
 
 void point::serialize( JsonOut &jsout ) const
@@ -4182,13 +4183,14 @@ void point::serialize( JsonOut &jsout ) const
     jsout.end_array();
 }
 
-void tripoint::deserialize( JsonIn &jsin )
+void tripoint::deserialize( const JsonArray &jsin )
 {
-    jsin.start_array();
-    x = jsin.get_int();
-    y = jsin.get_int();
-    z = jsin.get_int();
-    jsin.end_array();
+    x = jsin.get_int( 0 );
+    y = jsin.get_int( 1 );
+    z = jsin.get_int( 2 );
+    if( jsin.size() > 3 ) {
+        jsin.throw_error( "Too many values for tripoint" );
+    }
 }
 
 void tripoint::serialize( JsonOut &jsout ) const
