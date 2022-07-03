@@ -110,7 +110,7 @@
         "4": { "item": "military_standard_shotguns", "chance": 5 },
         "#": { "item": "SUS_utensils", "chance": 25, "repeat": [ 1, 3 ] },
         "t": { "item": "SUS_dishes", "chance": 50, "repeat": [ 1, 2 ] },
-        "[": { "item": "SUS_fridge", "chance": 5 },
+        "[": { "item": "SUS_fridge_healthy_vegan", "chance": 5 },
         "O": { "item": "SUS_oven", "chance": 5, "repeat": [ 0, 2 ] },
         "H": { "item": "SUS_spice_collection", "chance": 5 },
         "&": { "item": "SUS_toilet", "chance": 50 }

@@ -127,7 +127,7 @@
         "Ď": { "item": "SUS_junk_drawer_messy", "chance": 20 },
         "d": { "item": "SUS_office_desk", "chance": 20 },
         "F": { "item": "SUS_office_filing_cabinet", "chance": 20 },
-        "g": { "item": "SUS_fridge", "chance": 20 },
+        "g": { "item": "SUS_fridge_breakroom", "chance": 20 },
         "I": { "item": "SUS_dresser_mens", "chance": 20 },
         "l": { "item": "SUS_janitors_closet", "chance": 25 },
         "o": { "item": "SUS_oven", "chance": 20 },
