@@ -272,7 +272,7 @@ submap *mapbuffer::unserialize_submaps( const tripoint_abs_sm &p )
         }
     }
 
-    if( !read_from_file_optional_json( quad_path, [this]( JsonIn & jsin ) {
+    if( !read_from_file_optional_json( quad_path, [this]( const JsonValue & jsin ) {
     deserialize( jsin );
     } ) ) {
         // If it doesn't exist, trigger generating it.
@@ -287,23 +287,27 @@ submap *mapbuffer::unserialize_submaps( const tripoint_abs_sm &p )
 
 void mapbuffer::deserialize( JsonIn &jsin )
 {
-    jsin.start_array();
-    while( !jsin.end_array() ) {
+    deserialize( jsin.get_array() );
+}
+
+void mapbuffer::deserialize( const JsonArray &ja )
+{
+    for( JsonObject submap_json : ja ) {
         std::unique_ptr<submap> sm = std::make_unique<submap>();
         tripoint_abs_sm submap_coordinates;
-        jsin.start_object();
         int version = 0;
-        while( !jsin.end_object() ) {
-            std::string submap_member_name = jsin.get_member_name();
-            if( submap_member_name == "version" ) {
-                version = jsin.get_int();
-            } else if( submap_member_name == "coordinates" ) {
-                jsin.start_array();
-                tripoint_abs_sm loc{ jsin.get_int(), jsin.get_int(), jsin.get_int() };
-                jsin.end_array();
+        // We have to read version first because the iteration order of json members is undefined.
+        if( submap_json.has_int( "version" ) ) {
+            version = submap_json.get_int( "version" );
+        }
+        for( JsonMember submap_member : submap_json ) {
+            std::string submap_member_name = submap_member.name();
+            if( submap_member_name == "coordinates" ) {
+                JsonArray coords_array = submap_member;
+                tripoint_abs_sm loc{ coords_array.next_int(), coords_array.next_int(), coords_array.next_int() };
                 submap_coordinates = loc;
             } else {
-                sm->load( jsin, submap_member_name, version );
+                sm->load( submap_member, submap_member_name, version );
             }
         }
 

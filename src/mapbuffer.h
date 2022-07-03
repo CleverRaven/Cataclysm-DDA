@@ -10,6 +10,7 @@
 #include "coordinates.h"
 #include "point.h"
 
+class JsonArray;
 class JsonIn;
 class submap;
 
@@ -79,6 +80,7 @@ class mapbuffer
         void remove_submap( tripoint_abs_sm addr );
         submap *unserialize_submaps( const tripoint_abs_sm &p );
         void deserialize( JsonIn &jsin );
+        void deserialize( const JsonArray &ja );
         void save_quad(
             const std::string &dirname, const std::string &filename,
             const tripoint_abs_omt &om_addr, std::list<tripoint_abs_sm> &submaps_to_delete,
