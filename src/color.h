@@ -326,6 +326,7 @@ enum color_id {
     num_colors
 };
 
+class cata_path;
 class JsonArray;
 class JsonOut;
 
@@ -454,7 +455,7 @@ class color_manager
         nc_color highlight_from_names( const std::string &name, const std::string &bg_name ) const;
 
         void load_default();
-        void load_custom( const std::string &sPath = "" );
+        void load_custom( const cata_path &sPath );
 
         void show_gui();
 

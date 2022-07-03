@@ -186,9 +186,9 @@ std::string PATH_INFO::autonote()
 {
     return autonote_value;
 }
-std::string PATH_INFO::base_colors()
+cata_path PATH_INFO::base_colors()
 {
-    return config_dir_value + "base_colors.json";
+    return config_dir_path_value / "base_colors.json";
 }
 std::string PATH_INFO::base_path()
 {
@@ -202,17 +202,17 @@ std::string PATH_INFO::cache_dir()
 {
     return datadir_value + "cache/";
 }
-std::string PATH_INFO::colors()
+cata_path PATH_INFO::colors()
 {
-    return datadir_value + "raw/" + "colors.json";
+    return datadir_path_value / "raw" / "colors.json";
 }
-std::string PATH_INFO::color_templates()
+cata_path PATH_INFO::color_templates()
 {
-    return datadir_value + "raw/" + "color_templates/";
+    return datadir_path_value / "raw" / "color_templates";
 }
-std::string PATH_INFO::color_themes()
+cata_path PATH_INFO::color_themes()
 {
-    return datadir_value + "raw/" + "color_themes/";
+    return datadir_path_value / "raw" / "color_themes";
 }
 std::string PATH_INFO::config_dir()
 {
@@ -222,9 +222,9 @@ cata_path PATH_INFO::config_dir_path()
 {
     return config_dir_path_value;
 }
-std::string PATH_INFO::custom_colors()
+cata_path PATH_INFO::custom_colors()
 {
-    return config_dir_value + "custom_colors.json";
+    return config_dir_path_value / "custom_colors.json";
 }
 std::string PATH_INFO::datadir()
 {

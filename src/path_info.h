@@ -25,14 +25,9 @@ void set_standard_filenames();
 
 std::string autopickup();
 std::string autonote();
-std::string base_colors();
 std::string base_path();
 std::string cache_dir();
-std::string colors();
-std::string color_templates();
-std::string color_themes();
 std::string config_dir();
-std::string custom_colors();
 std::string datadir();
 std::string debug();
 std::string defaultsounddir();
@@ -82,8 +77,13 @@ std::string motd();
 std::string title( holiday current_holiday );
 std::string names();
 
+cata_path base_colors();
 cata_path base_path_path();
+cata_path color_templates();
+cata_path color_themes();
+cata_path colors();
 cata_path config_dir_path();
+cata_path custom_colors();
 cata_path datadir_path();
 cata_path gfxdir_path();
 cata_path langdir_path();
