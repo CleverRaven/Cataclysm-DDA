@@ -17,6 +17,7 @@
       { "group": "underwear", "damage": [ 1, 4 ] },
       { "group": "clothing_glasses", "prob": 5 },
       { "group": "clothing_watch", "prob": 5 },
+      { "group": "cop_pants_stuff" },
       { "group": "cop_armaments" },
       {
         "collection": [ { "item": "badge_deputy", "prob": 100 }, { "item": "badge_detective", "prob": 20 } ],
@@ -109,8 +110,8 @@
     "id": "cop_pants",
     "type": "item_group",
     "items": [
-      { "item": "pants", "prob": 75, "contents-group": "cop_pants_stuff" },
-      { "item": "pants_cargo", "prob": 70, "contents-group": "cop_pants_stuff" },
+      { "item": "pants", "prob": 75 },
+      { "item": "pants_cargo", "prob": 70 },
       { "item": "police_breeches", "prob": 20 }
     ]
   },
