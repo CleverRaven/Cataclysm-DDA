@@ -796,7 +796,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "airliner_2b", "airliner_2b_1", "airliner_2b_-1" ],
+    "id": [ "airliner_2b", "airliner_2b_1", "airliner_2b_-1", "airliner_2c_-1" ],
     "name": "crashed airliner",
     "sym": "A",
     "color": "red",
@@ -808,15 +808,6 @@
     "name": "open air",
     "sym": ".",
     "color": "blue",
-    "see_cost": 5
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "airliner_2c_-1",
-    "name": "solid rock",
-    "looks_like": "empty_rock",
-    "sym": "%",
-    "color": "dark_gray",
     "see_cost": 5
   },
   {

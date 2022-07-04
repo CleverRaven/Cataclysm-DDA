@@ -1,0 +1,87 @@
+[
+  {
+    "type": "npc",
+    "id": "ancilla_hq_guard",
+    "//": "Generic Mercenary Guard for the ancilla hq.",
+    "name_suffix": "mercenary",
+    "class": "NC_ANCILLA_GRUNT",
+    "attitude": 0,
+    "mission": 8,
+    "chat": "TALK_ANCILLA_HQ_GUARD",
+    "faction": "robofac_auxiliaries"
+  },
+  {
+    "id": [ "TALK_ANCILLA_HQ_GUARD", "TALK_ANCILLA_HQ_GUARD_AskJob", "TALK_ANCILLA_HQ_GUARD_AskJoin" ],
+    "type": "talk_topic",
+    "dynamic_line": {
+      "u_has_any_trait": [ "PROF_FED" ],
+      "yes": [
+        "We'll protect our own, marshal.",
+        "Make sure you don't get in trouble, officer.",
+        "Don't let me see you snooping around.",
+        "Stay out of trouble, right?",
+        "How do you like that boot, huh?"
+      ],
+      "no": {
+        "u_has_faction_trust": 15,
+        "yes": [
+          "Great to see you back in base.",
+          "Heres hoping I get out of guard duty soon.",
+          "Got anything good?",
+          "On an errand from the box?",
+          "Up and at them again?",
+          "Up for a drink when my shift ends?",
+          "Well I cant complain much, money and free food for standing around with a gun?\n\nSure looks like a steal nowadays."
+        ],
+        "no": {
+          "u_has_var": "first_meet",
+          "type": "dialogue",
+          "context": "ancilla_hq_guard",
+          "value": "yes",
+          "yes": [
+            "If you don't have any business here, you better get going.",
+            "Terminal is down there, please move along.",
+            "Please head right down, scavenger.",
+            "Are you here to do anything?"
+          ],
+          "no": "If you are looking for the Terminal, its first basement, right up the stairs and to the left."
+        }
+      }
+    },
+    "speaker_effect": { "effect": [ { "u_add_var": "barkeep", "type": "bool", "context": "ancilla", "value": "yes" } ] },
+    "responses": [
+      {
+        "text": "What's it you are doing here?",
+        "topic": "TALK_ANCILLA_HQ_GUARD_AskJob",
+        "condition": { "not": { "u_has_any_trait": [ "PROF_FED" ] } }
+      },
+      {
+        "text": "Is there any way I can join your team?",
+        "topic": "TALK_ANCILLA_HQ_GUARD_AskJoin",
+        "condition": { "not": { "or": [ { "u_has_any_trait": [ "PROF_FED" ] }, { "u_has_faction_trust": 15 } ] } }
+      },
+      { "text": "Is there any way I can join your group?", "topic": "TALK_FREE_MERCHANTS_MERCHANT_AskJoin" },
+      {
+        "truefalsetext": { "condition": { "u_has_faction_trust": 15 }, "true": "See you around.", "false": "Don't mind me…" },
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "id": "TALK_ANCILLA_HQ_GUARD_AskJob",
+    "type": "talk_topic",
+    "dynamic_line": [
+      "Me?  Just standing around, looking scary.  Even think Im doing a good job?\n\nDon't answer that.",
+      "Just making sure people don't ask stupid questions",
+      "I'm just on watch, move along.",
+      "Getting paid for standing around.  And you are getting in the way.",
+      "A few of us joined up to make this a safe house, and its just my turn watching the gates.",
+      "Just go down to the Terminal if you want in."
+    ]
+  },
+  {
+    "id": "TALK_ANCILLA_HQ_GUARD_AskJoin",
+    "type": "talk_topic",
+    "dynamic_line": "Well you certainly look like you could.  Try ringing the box in the bunker across the street, or see if someone in the Terminal has a need for help."
+  }
+]
