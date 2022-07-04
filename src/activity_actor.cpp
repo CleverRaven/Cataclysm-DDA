@@ -4063,10 +4063,23 @@ void reload_activity_actor::finish( player_activity &act, Character &who )
     }
 }
 
-void reload_activity_actor::canceled( player_activity &act, Character &/*who*/ )
+void reload_activity_actor::canceled( player_activity &act, Character &who )
 {
+    int moves_passed = act.moves_total - act.moves_left;
+
+    item &reloadable = *reload_targets[ 0 ];
+    int reload_time = reloadable.get_reload_time();
+
+    if (reload_time == 0) {
+        return;
+    }
+
+    quantity = moves_passed / reload_time;
+
     act.moves_total = 0;
     act.moves_left = 0;
+
+    finish( act, who );
 }
 
 void reload_activity_actor::serialize( JsonOut &jsout ) const
