@@ -148,5 +148,20 @@
     "max_aoe": 5,
     "aoe_increment": 0.12,
     "extra_effects": [ { "id": "railgun_sparks" } ]
+  },
+  {
+    "id": "railgun_sparks",
+    "type": "SPELL",
+    "name": "Railgun Sparks",
+    "description": "The spark portion of the Railgun spell.",
+    "valid_targets": [ "ground", "hostile", "ally" ],
+    "effect": "attack",
+    "shape": "line",
+    "min_aoe": 3,
+    "max_aoe": 3,
+    "field_id": "fd_electricity",
+    "min_field_intensity": 1,
+    "max_field_intensity": 1,
+    "field_chance": 2
   }
 ]
