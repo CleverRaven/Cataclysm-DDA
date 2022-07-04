@@ -20,7 +20,7 @@
   {
     "type": "SPELL",
     "id": "exo_flamethrower",
-	"name": "Exosuit Flamethrower",
+    "name": "Exosuit Flamethrower",
     "description": "A massive gout of flame leaps forward, igniting everything in it's path.",
     "effect": "attack",
     "shape": "cone",
@@ -37,19 +37,19 @@
     "min_aoe": 5,
     "max_aoe": 15,
     "aoe_increment": 5.0,
-	"damage_type": "heat",
-	"field_id": "fd_fire",
+    "damage_type": "heat",
+    "field_id": "fd_fire",
     "field_chance": 2,
     "min_field_intensity": 10,
     "max_field_intensity": 10,
     "field_intensity_increment": 1,
     "field_intensity_variance": 0.1,
-    "sound_description": "a loud woosh"   
+    "sound_description": "a loud woosh"
   },
   {
     "type": "SPELL",
     "id": "exo_sonic",
-	"name": "Exosuit Sonic Cannon",
+    "name": "Exosuit Sonic Cannon",
     "description": "Your teeth ache as the cannon fires and a ripple shoots through the air.",
     "effect": "attack",
     "shape": "cone",
@@ -66,14 +66,14 @@
     "min_aoe": 5,
     "max_aoe": 15,
     "aoe_increment": 5.0,
-	"damage_type": "heat",
-	"field_id": "fd_fire",
+    "damage_type": "heat",
+    "field_id": "fd_fire",
     "field_chance": 2,
     "min_field_intensity": 10,
     "max_field_intensity": 10,
     "field_intensity_increment": 1,
     "field_intensity_variance": 0.1,
-    "sound_description": "a loud woosh"   
+    "sound_description": "a loud woosh"
   },
   {
     "id": "exo_laserturret",
@@ -98,7 +98,7 @@
   {
     "type": "SPELL",
     "id": "exo_microwave",
-	"name": "Exosuit Microwave",
+    "name": "Exosuit Microwave",
     "description": "The air shimmers with invisible heat as the weapon fires.",
     "effect": "attack",
     "shape": "cone",
@@ -115,7 +115,7 @@
     "min_aoe": 5,
     "max_aoe": 15,
     "aoe_increment": 5.0,
-	"damage_type": "pure"
+    "damage_type": "pure",
     "sound_description": "a hiss of water vaporizing"
   }
-  ]
+]

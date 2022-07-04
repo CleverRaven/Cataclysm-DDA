@@ -4,7 +4,7 @@
     "type": "TOOL_ARMOR",
     "category": "exosuit",
     "name": { "str": "exosuit heavy flame unit" },
-    "description": "A bulky flamethrower unit, meant to be mounted on an exosuit.  An internal compressor adds extra range and spread to the flame compared to most handheld flame units.",
+    "description": "A bulky flamethrower unit mounted on the shoulder of an exosuit.  An internal compressor adds extra range and spread to the flame compared to most handheld flame units.",
     "weight": "2 kg",
     "volume": "5 L",
     "longest_side": "100 cm",
@@ -29,11 +29,16 @@
     "material": [ "qt_steel", "ceramic" ],
     "symbol": "f",
     "color": "light_gray",
-    "flags": [ "EXO_LARGE_GADGET", "CANT_WEAR", "RESTRICT_HANDS", "USE_UPS" ],
-    "charges_per_use": 30,
-    "ammo": "battery",
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "pressurized_tank" ] } ],
-    "use_action": { "type": "cast_spell", "spell_id": "exo_flamethrower", "no_fail": true, "level": 20 }
+    "flags": [ "EXO_LARGE_GADGET", "CANT_WEAR" ],
+    "power_draw": 40,
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "item_restriction": [ "afs_cartridge", "afs_compact_cartridge", "afs_bootleg_cartridge", "afs_archeotech_cartridge" ]
+      }
+    ],
+    "use_action": { "type": "cast_spell", "spell_id": "exo_sonic", "no_fail": true, "level": 20 }
   },
   {
     "type": "enchantment",
@@ -47,7 +52,7 @@
     "type": "TOOL_ARMOR",
     "category": "exosuit",
     "name": { "str": "exosuit shoulder-mounted laser" },
-    "description": "A small semi-autonomous laser on a flexible mount sits on the shoulder of the frame.  While active, it will fire on any hostiles that come within a limited range.",
+    "description": "A small semi-autonomous laser on a flexible mount sits on the shoulder of the exosuit.  While active, it will fire on any hostiles that come within a limited range.",
     "weight": "2 kg",
     "volume": "5 L",
     "longest_side": "100 cm",
@@ -61,9 +66,6 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "magazine_well": "75 ml",
         "item_restriction": [ "afs_cartridge", "afs_compact_cartridge", "afs_bootleg_cartridge", "afs_archeotech_cartridge" ]
       }
     ],
@@ -81,7 +83,7 @@
     "type": "TOOL_ARMOR",
     "copy-from": "exo_shoulder_turret",
     "name": { "str": "exosuit shoulder-mounted laser (on)", "str_pl": "exosuit shoulder-mounted lasers (on)" },
-    "power_draw": 50,
+    "power_draw": 25,
     "relic_data": { "passive_effects": [ { "id": "exolaser" } ] },
     "use_action": {
       "ammo_scale": 0,
@@ -97,16 +99,22 @@
     "type": "TOOL_ARMOR",
     "category": "exosuit",
     "name": { "str": "exosuit microwave cannon" },
-    "description": "A 'less-lethal' over the shoulder weapon made infamous after UICA forces used it to break up protests.  The effectiveness can be hard to predict due to variables like the moisture in the air and clothing worn by the target.",
+    "description": "A 'less-lethal' weapon mounted on the shoulder of an exosuit.  Infamous for it's use by UICA forces used it to break up protests, the effectiveness can be hard to predict due to variables like the moisture in the air and clothing worn by the target.",
     "weight": "2 kg",
     "volume": "5 L",
     "longest_side": "100 cm",
     "material": [ "qt_steel", "ceramic" ],
     "symbol": "f",
     "color": "light_gray",
-    "flags": [ "EXO_LARGE_GADGET", "CANT_WEAR", "USE_UPS" ],
-    "ups_charges": 60,
+    "flags": [ "EXO_LARGE_GADGET", "CANT_WEAR" ],
+    "power_draw": 50,
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "item_restriction": [ "afs_cartridge", "afs_compact_cartridge", "afs_bootleg_cartridge", "afs_archeotech_cartridge" ]
+      }
+    ],
     "use_action": { "type": "cast_spell", "spell_id": "exo_microwave", "no_fail": true, "level": 20 }
-    }
   }
 ]
