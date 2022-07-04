@@ -71,7 +71,7 @@
       [ "GRAB", 7 ],
       { "type": "bite", "cooldown": 5 },
       [ "BIO_OP_TAKEDOWN", 20 ],
-      [ "CBM_TRex_recording", 1600 ]
+      { "type": "spell", "spell_data": { "id": "CBM_TRex_recording" }, "cooldown": 1600 }
     ],
     "description": "The shuffling corpse of a bipedal dinosaur dotted with crackling bionics, tattered feathers, and black putrid liquid with glowing curved claws.",
     "special_when_hit": [ "ZAPBACK", 75 ],
