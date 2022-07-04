@@ -248,7 +248,7 @@
     "variants": [
       {
         "id": "vz58_p",
-        "name": { "str": "Samopal VZ 58 P" },
+        "name": { "str": "Samopal vz. 58 P" },
         "description": "This lightweight and relatively svelte cold war assault rifle was originally developed for use by the Czechoslovak army, in place of the various licenced Kalashnikov rifles which were then prevalent around eastern Europe.  Baring more than a passing resemblance to the AK-47, this weapon nevertheless features a completely different array of internals and possesses no parts interchangeability with its Russian counterpart.  Making use of proprietary magazines and a 15.4 inch barrel, the VZ. 58 was regarded by some to be the Kalashnikov’s lesser known superior.  Likely reconstructed from a pre-1986 imported parts kit, or brought back from a 3rd world war zone, this particular weapon features a removable wood impregnated plastic buttstock and a 'P' suffixed designation, which both mark it as an original infantry model.",
         "weight": 1
       }
