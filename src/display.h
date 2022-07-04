@@ -81,6 +81,8 @@ std::string time_approx( const time_point &turn );
 std::string time_approx();
 // Exact time if character has a watch, approx time if aboveground, "???" if unknown/underground
 std::string time_string( const Character &u );
+// Sundial representing the current time of day
+std::string sundial_text_color( const Character &u, int width = 0 );
 
 // Temperature at character location, if they have a thermometer
 std::string get_temp( const Character &u );
