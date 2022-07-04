@@ -4070,7 +4070,7 @@ void reload_activity_actor::canceled( player_activity &act, Character &who )
     item &reloadable = *reload_targets[ 0 ];
     int reload_time = reloadable.get_reload_time();
 
-    if (reload_time == 0) {
+    if( reload_time == 0 ) {
         return;
     }
 
