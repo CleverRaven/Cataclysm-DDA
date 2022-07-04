@@ -611,14 +611,8 @@ class body_part_set
             parts.clear();
         }
 
-        template<typename Stream>
-        void serialize( Stream &s ) const {
-            s.write( parts );
-        }
-        template<typename Value = JsonValue, std::enable_if_t<std::is_same<std::decay_t<Value>, JsonValue>::value>* = nullptr>
-        void deserialize( const Value &s ) {
-            s.read( parts );
-        }
+        void serialize( JsonOut &s ) const;
+        void deserialize( const JsonValue &s );
 };
 
 /** Returns the new id for old token */

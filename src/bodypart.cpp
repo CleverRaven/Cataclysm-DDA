@@ -762,6 +762,16 @@ void body_part_set::fill( const std::vector<bodypart_id> &bps )
     }
 }
 
+void body_part_set::serialize( JsonOut &s ) const
+{
+    s.write( parts );
+}
+
+void body_part_set::deserialize( const JsonValue &s )
+{
+    s.read( parts );
+}
+
 bodypart_id bodypart::get_id() const
 {
     return id;
