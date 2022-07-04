@@ -15,7 +15,6 @@
     "shape": "blast",
     "energy_source": "MANA",
     "spell_class": "DREAMSMITH",
-    "difficulty": 3,
     "max_level": 20,
     "base_casting_time": 150,
     "base_energy_cost": 100,
