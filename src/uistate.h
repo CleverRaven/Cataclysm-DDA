@@ -238,7 +238,7 @@ class uistatedata
 
             json.member( "input_history" );
             json.start_object();
-            for( auto &e : input_history ) {
+            for( const auto &e : input_history ) {
                 json.member( e.first );
                 const std::vector<std::string> &history = e.second;
                 json.start_array();
