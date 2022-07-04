@@ -2646,3 +2646,16 @@ TEST_CASE( "item cannot contain contents it already has", "[item][pocket]" )
     CHECK( backpack_loc->can_contain( water_item ).success() );
     CHECK( !backpack_loc->can_contain( water_item, false, false, true, bottle_loc ).success() );
 }
+
+TEST_CASE( "Sawed off fits in large holster", "[item][pocket]" )
+{
+    item double_barrel( "shotgun_d" );
+    item large_holster( "XL_holster" );
+
+    //add the mods
+    double_barrel.put_in( item( "stock_none", calendar::turn ), item_pocket::pocket_type::MOD );
+    double_barrel.put_in( item( "barrel_small", calendar::turn ), item_pocket::pocket_type::MOD );
+
+    CHECK( large_holster.can_contain( double_barrel ).success() );
+
+}
