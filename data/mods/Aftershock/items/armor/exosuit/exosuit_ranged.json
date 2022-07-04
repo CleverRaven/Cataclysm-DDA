@@ -1,9 +1,9 @@
 [
   {
-    "id": "exo_flame_unit",
+    "id": "exo_flame_thrower",
     "type": "TOOL_ARMOR",
     "category": "exosuit",
-    "name": { "str": "exosuit heavy flame unit" },
+    "name": { "str": "exosuit heavy flamethrower" },
     "description": "A bulky flamethrower unit mounted on the shoulder of an exosuit.  An internal compressor adds extra range and spread to the flame compared to most handheld flame units.",
     "weight": "2 kg",
     "volume": "5 L",
@@ -15,7 +15,7 @@
     "charges_per_use": 30,
     "ammo": "flammable",
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "pressurized_tank" ] } ],
-    "use_action": { "type": "cast_spell", "spell_id": "exo_flamethrower", "no_fail": true, "level": 20 }
+    "use_action": { "type": "cast_spell", "menu_text": "Fire flame cannon", "spell_id": "exo_flamethrower", "no_fail": true, "level": 20 }
   },
   {
     "id": "exo_sonic_unit",
@@ -39,7 +39,7 @@
         "item_restriction": [ "afs_cartridge", "afs_compact_cartridge", "afs_bootleg_cartridge", "afs_archeotech_cartridge" ]
       }
     ],
-    "use_action": { "type": "cast_spell", "spell_id": "exo_sonic", "no_fail": true, "level": 20 }
+    "use_action": { "type": "cast_spell", "menu_text": "Fire sonic cannon", "spell_id": "exo_sonic", "no_fail": true, "level": 20 }
   },
   {
     "id": "exo_microwave_cannon",
@@ -63,7 +63,13 @@
         "item_restriction": [ "afs_cartridge", "afs_compact_cartridge", "afs_bootleg_cartridge", "afs_archeotech_cartridge" ]
       }
     ],
-    "use_action": { "type": "cast_spell", "spell_id": "exo_microwave", "no_fail": true, "level": 20 }
+    "use_action": {
+      "type": "cast_spell",
+      "menu_text": "Fire microwave cannon",
+      "spell_id": "exo_microwave",
+      "no_fail": true,
+      "level": 20
+    }
   },
   {
     "id": "exo_electrolaser",
@@ -83,6 +89,12 @@
     "pocket_data": [
       { "pocket_type": "MAGAZINE_WELL", "holster": true, "item_restriction": [ "afs_cartridge", "afs_archeotech_cartridge" ] }
     ],
-    "use_action": { "type": "cast_spell", "spell_id": "exosuit_electrolaser", "no_fail": true, "level": 20 }
+    "use_action": {
+      "type": "cast_spell",
+      "menu_text": "Fire electrolaser",
+      "spell_id": "exosuit_electrolaser",
+      "no_fail": true,
+      "level": 20
+    }
   }
 ]
