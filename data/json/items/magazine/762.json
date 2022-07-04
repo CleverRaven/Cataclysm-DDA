@@ -108,7 +108,7 @@
     "looks_like": "stanag30",
     "type": "MAGAZINE",
     "name": { "str": "VZ 10-round magazine" },
-    "description": "A modified Czechoslovak rifle magazine which has been tweaked to only be capable of holding 10 rounds, in accordance with certain US magazine size restrictions.",
+    "description": "A modified Czechoslovak rifle magazine which has been tweaked to only be capable of holding ten rounds, in accordance with certain US magazine size restrictions.",
     "variant_type": "gun",
     "variants": [
       {
