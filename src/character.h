@@ -2824,15 +2824,14 @@ class Character : public Creature, public visitable
          */
         int vitamin_get( const vitamin_id &vit ) const;
         /**
-         * Sets level of a vitamin or returns false if id given in vit does not exist
+         * Sets level of a vitamin
          *
          * @note status effects are still set for deficiency/excess
          *
          * @param[in] vit ID of vitamin to adjust quantity for
          * @param[in] qty Quantity to set level to
-         * @returns false if given vitamin_id does not exist, otherwise true
          */
-        bool vitamin_set( const vitamin_id &vit, int qty );
+        void vitamin_set( const vitamin_id &vit, int qty );
         /**
           * Add or subtract vitamins from character storage pools
          * @param vit ID of vitamin to modify
