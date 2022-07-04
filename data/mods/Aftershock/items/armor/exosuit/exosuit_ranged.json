@@ -41,60 +41,6 @@
     "use_action": { "type": "cast_spell", "spell_id": "exo_sonic", "no_fail": true, "level": 20 }
   },
   {
-    "type": "enchantment",
-    "id": "exolaser",
-    "has": "WORN",
-    "condition": "ACTIVE",
-    "intermittent_activation": { "effects": [ { "frequency": "2 seconds", "spell_effects": [ { "id": "exo_laserturret" } ] } ] }
-  },
-  {
-    "id": "exo_shoulder_turret",
-    "type": "TOOL_ARMOR",
-    "category": "exosuit",
-    "name": { "str": "exosuit shoulder-mounted laser" },
-    "description": "A small semi-autonomous laser on a flexible mount sits on the shoulder of the exosuit.  While active, it will fire on any hostiles that come within a limited range.",
-    "weight": "5 kg",
-    "volume": "2500 ml",
-    "longest_side": "100 cm",
-    "material": [ "qt_steel", "ceramic" ],
-    "symbol": "f",
-    "color": "light_gray",
-    "flags": [ "EXO_MEDIUM_GADGET", "CANT_WEAR", "ONLY_ONE" ],
-    "charges_per_use": 30,
-    "ammo": "battery",
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "item_restriction": [ "afs_cartridge", "afs_compact_cartridge", "afs_bootleg_cartridge", "afs_archeotech_cartridge" ]
-      }
-    ],
-    "use_action": {
-      "type": "transform",
-      "menu_text": "Activate",
-      "msg": "You activate your %s.",
-      "target": "exo_shoulder_turret_on",
-      "active": true,
-      "need_charges_msg": "The %s's power cartridge is drained."
-    }
-  },
-  {
-    "id": "exo_shoulder_turret_on",
-    "type": "TOOL_ARMOR",
-    "copy-from": "exo_shoulder_turret",
-    "name": { "str": "exosuit shoulder-mounted laser (on)", "str_pl": "exosuit shoulder-mounted lasers (on)" },
-    "power_draw": 25,
-    "relic_data": { "passive_effects": [ { "id": "exolaser" } ] },
-    "use_action": {
-      "ammo_scale": 0,
-      "type": "transform",
-      "menu_text": "Deactivate",
-      "msg": "You deactivate your %s.",
-      "target": "exo_shoulder_turret",
-      "need_charges_msg": "The %s's power cartridge is drained."
-    }
-  },
-  {
     "id": "exo_microwave_cannon",
     "type": "TOOL_ARMOR",
     "category": "exosuit",
