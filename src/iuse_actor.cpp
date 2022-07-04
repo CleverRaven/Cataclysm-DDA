@@ -121,6 +121,7 @@ static const itype_id itype_barrel_small( "barrel_small" );
 static const itype_id itype_brazier( "brazier" );
 static const itype_id itype_char_smoker( "char_smoker" );
 static const itype_id itype_fire( "fire" );
+static const itype_id itype_stock_none( "stock_none" );
 static const itype_id itype_syringe( "syringe" );
 
 static const proficiency_id proficiency_prof_traps( "prof_traps" );
@@ -4091,6 +4092,75 @@ ret_val<bool> saw_barrel_actor::can_use_on( const Character &, const item &,
 std::unique_ptr<iuse_actor> saw_barrel_actor::clone() const
 {
     return std::make_unique<saw_barrel_actor>( *this );
+}
+
+void saw_stock_actor::load( const JsonObject &jo )
+{
+    assign( jo, "cost", cost );
+}
+
+//Todo: Make this consume charges if performed with a tool that uses charges.
+cata::optional<int> saw_stock_actor::use( Character &p, item &it, bool t, const tripoint & ) const
+{
+    if( t ) {
+        return cata::nullopt;
+    }
+
+    item_location loc = game_menus::inv::saw_stock( p, it );
+
+    if( !loc ) {
+        p.add_msg_if_player( _( "Never mind." ) );
+        return cata::nullopt;
+    }
+
+    item &obj = *loc.obtain( p );
+    p.add_msg_if_player( _( "You saw down the stock of your %s." ), obj.tname() );
+    obj.put_in( item( "stock_none", calendar::turn ), item_pocket::pocket_type::MOD );
+
+    return 0;
+}
+
+ret_val<bool> saw_stock_actor::can_use_on( const Character &, const item &,
+        const item &target ) const
+{
+    if( !target.is_gun() ) {
+        return ret_val<bool>::make_failure( _( "It's not a gun." ) );
+    }
+
+    if( target.gunmod_find( itype_stock_none ) ) {
+        return ret_val<bool>::make_failure( _( "The stock is already sawn-off." ) );
+    }
+
+    const auto gunmods = target.gunmods();
+    const bool modified_stock = std::any_of( gunmods.begin(), gunmods.end(),
+    []( const item * mod ) {
+        return mod->type->gunmod->location == gunmod_location( "stock" );
+    } );
+
+    const bool accessorized_stock = std::any_of( gunmods.begin(), gunmods.end(),
+    []( const item * mod ) {
+        return mod->type->gunmod->location == gunmod_location( "stock accessory" );
+    } );
+
+    if( target.get_free_mod_locations( gunmod_location( "stock mount" ) ) < 1 ) {
+        return ret_val<bool>::make_failure(
+                   _( "Can't cut off modern composite stocks (must have an empty stock mount)." ) );
+    }
+
+    if( modified_stock ) {
+        return ret_val<bool>::make_failure( _( "Can't cut off modified stocks." ) );
+    }
+
+    if( accessorized_stock ) {
+        return ret_val<bool>::make_failure( _( "Can't cut off accessorized stocks." ) );
+    }
+
+    return ret_val<bool>::make_success();
+}
+
+std::unique_ptr<iuse_actor> saw_stock_actor::clone() const
+{
+    return std::make_unique<saw_stock_actor>( *this );
 }
 
 void molle_attach_actor::load( const JsonObject &jo )
