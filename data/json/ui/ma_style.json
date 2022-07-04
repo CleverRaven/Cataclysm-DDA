@@ -567,7 +567,7 @@
         "text": "Viper's Rattle"
       }
     ],
-    "default_clause": { "text": "..." }
+    "default_clause": { "text": "---" }
   },
   {
     "//": "Displays players martial art buffes/debufs by name",
