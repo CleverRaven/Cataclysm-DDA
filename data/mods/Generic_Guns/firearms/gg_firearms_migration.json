@@ -215,6 +215,8 @@
       "sig_mcx_rattler_sbr",
       "rm51_assault_rifle",
       "an94",
+      "vz58_p",
+      "vz58_v",
       "rm88_battle_rifle"
     ],
     "type": "MIGRATION",
@@ -271,6 +273,7 @@
       "ar10",
       "1895sbl",
       "ak74",
+      "vz58ts",
       "kord",
       "ak47",
       "arx160",

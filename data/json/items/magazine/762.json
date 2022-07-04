@@ -113,8 +113,8 @@
     "variants": [
       {
         "id": "vz58mag10",
-        "name": { "str": "VZ. 58 10-round magazine" },
-        "description": "A surplus Czech military magazine for the VZ. 58 assault rifle, which has been modified to only be capable of holding 10 rounds in place of its standard capacity of 30 cartridges.",
+        "name": { "str": "vz. 58 10-round magazine" },
+        "description": "A surplus Czech military magazine for the vz. 58 assault rifle, which has been modified to only be capable of holding 10 rounds in place of its standard capacity of 30 cartridges.",
         "weight": 1
       }
     ],
@@ -139,8 +139,8 @@
     "variants": [
       {
         "id": "vz58mag30",
-        "name": { "str": "VZ. 58 30-round magazine" },
-        "description": "An original surplus Czechoslovak magazine, constructed out of lightweight aluminum and made for use within VZ. 58 pattern rifles and modern derivatives.  Despite strongly resembling standard Kalashnikov magazines, this curved box magazine is unsuitable for insertion into AK patten mag wells due to changes made in its follower assembly to facilitate a last-round-hold-open feature within the VZ. 58.",
+        "name": { "str": "vz. 58 30-round magazine" },
+        "description": "An original surplus Czechoslovak magazine, constructed out of lightweight aluminum and made for use within vz. 58 pattern rifles and modern derivatives.  Despite strongly resembling standard Kalashnikov magazines, this curved box magazine is unsuitable for insertion into AK patten mag wells due to changes made in its follower assembly to facilitate a last-round-hold-open feature within the vz. 58.",
         "weight": 1
       }
     ],
