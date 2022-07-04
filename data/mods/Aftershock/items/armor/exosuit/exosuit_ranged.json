@@ -22,7 +22,7 @@
     "type": "TOOL_ARMOR",
     "category": "exosuit",
     "name": { "str": "exosuit sonic cannon" },
-    "description": "A 'less-lethal' weapon mounted on the shoulder of an exosuit, it emmits an extremely loud high-frequency pulse in a wide arc.  Useful for discouraging crowds, less useful for stealthy operations.",
+    "description": "A 'less-lethal' weapon mounted on the shoulder of an exosuit, it emits an extremely loud high-frequency pulse in a wide arc.  Useful for discouraging crowds, less useful for stealthy operations.",
     "weight": "5 kg",
     "volume": "5 L",
     "longest_side": "100 cm",
@@ -122,7 +122,7 @@
     "type": "TOOL_ARMOR",
     "category": "exosuit",
     "name": { "str": "exosuit electrolaser" },
-    "description": "An extremely dangerous weapon only deployed for heavy combat, this is mounted on the shoulder of an exosuit. A laser creates a channel of ionized plasma which acts as a conduit for the follow-up massive energy charge. The result is a powerful explosion that can impact a large area. Requires significant energy reserves.",
+    "description": "An extremely dangerous weapon only deployed for heavy combat, this is mounted on the shoulder of an exosuit. A laser creates a channel of ionized plasma which acts as a conduit for the follow-up massive energy charge. The result is a powerful explosion that can impact a large area. Requires significant energy reserves, draining a standard power cartrige per shot.",
     "weight": "10 kg",
     "volume": "10 L",
     "longest_side": "100 cm",
@@ -130,12 +130,12 @@
     "symbol": "f",
     "color": "light_gray",
     "flags": [ "EXO_LARGE_GADGET", "CANT_WEAR", "ONLY_ONE" ],
-    "power_draw": 500,
+    "power_draw": 1500,
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
         "holster": true,
-        "item_restriction": [ "afs_cartridge", "afs_compact_cartridge", "afs_bootleg_cartridge", "afs_archeotech_cartridge" ]
+        "item_restriction": [ "afs_cartridge", "afs_archeotech_cartridge" ]
       }
     ],
     "use_action": { "type": "cast_spell", "spell_id": "exosuit_electrolaser", "no_fail": true, "level": 20 }

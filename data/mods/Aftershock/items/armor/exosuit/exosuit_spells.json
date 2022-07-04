@@ -52,6 +52,7 @@
     "name": "Exosuit Sonic Cannon",
     "description": "Your teeth ache as the cannon fires and a ripple shoots through the air.",
     "effect": "attack",
+	"effect_str": "stunned",
     "shape": "cone",
     "valid_targets": [ "hostile", "ground" ],
     "flags": "LOUD",
