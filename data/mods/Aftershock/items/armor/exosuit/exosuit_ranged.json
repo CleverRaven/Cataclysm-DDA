@@ -132,11 +132,7 @@
     "flags": [ "EXO_LARGE_GADGET", "CANT_WEAR", "ONLY_ONE" ],
     "power_draw": 1500,
     "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "item_restriction": [ "afs_cartridge", "afs_archeotech_cartridge" ]
-      }
+      { "pocket_type": "MAGAZINE_WELL", "holster": true, "item_restriction": [ "afs_cartridge", "afs_archeotech_cartridge" ] }
     ],
     "use_action": { "type": "cast_spell", "spell_id": "exosuit_electrolaser", "no_fail": true, "level": 20 }
   }
