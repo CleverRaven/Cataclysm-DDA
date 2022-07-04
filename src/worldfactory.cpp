@@ -1760,7 +1760,7 @@ int worldfactory::show_worldgen_basic( WORLDPTR world )
             hint_txt = wg_sliders[sel_opt - 1]->level_desc( wg_slevels[sel_opt - 1] ).translated();
         }
         y += fold_and_print( w_confirmation, point( 2, win_height - 9 ),
-                             win_width, c_light_gray, hint_txt ) + 1;
+                             win_width - 1, c_light_gray, hint_txt ) + 1;
 
         // Advanced settings legend
         nc_color dummy = c_light_gray;

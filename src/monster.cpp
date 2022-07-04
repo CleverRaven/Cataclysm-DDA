@@ -2708,6 +2708,15 @@ void monster::drop_items_on_death( item *corpse )
                                   calendar::start_of_cataclysm,
                                   spawn_flags::use_spawn_rate );
 
+    // for non corpses this is much simpler
+    if( !corpse ) {
+        for( item &it : new_items ) {
+            get_map().add_item_or_charges( pos(), it );
+        }
+        return;
+    }
+
+    // first put "on" things that are wearable
     for( item &it : new_items ) {
         if( has_flag( MF_FILTHY ) ) {
             if( ( it.is_armor() || it.is_pet_armor() ) && !it.is_gun() ) {
@@ -2715,10 +2724,34 @@ void monster::drop_items_on_death( item *corpse )
                 it.set_flag( STATIC( flag_id( "FILTHY" ) ) );
             }
         }
-        if( corpse ) {
+
+        // add stuff that could be worn or strapped to the creature
+        if( it.is_armor() ) {
             corpse->put_in( it, item_pocket::pocket_type::CONTAINER );
-        } else {
-            get_map().add_item_or_charges( pos(), it );
+        }
+    }
+
+    // then nest the rest in those "worn" items if possible
+    // TODO: disable the backup, only spawn items here that actually fit in something
+    for( item &it : new_items ) {
+        // add stuff that could be worn or strapped to the creature
+        if( !it.is_armor() ) {
+            std::pair<item_location, item_pocket *> current_best;
+            for( item *worn_it : corpse->all_items_top() ) {
+                item_location loc;
+                std::pair<item_location, item_pocket *> internal_pocket =
+                    worn_it->best_pocket( it, loc, nullptr, false, true );
+                if( internal_pocket.second != nullptr &&
+                    ( current_best.second == nullptr ||
+                      current_best.second->better_pocket( *internal_pocket.second, it ) ) ) {
+                    current_best = internal_pocket;
+                }
+            }
+            if( current_best.second != nullptr ) {
+                current_best.second->insert_item( it );
+            } else {
+                corpse->put_in( it, item_pocket::pocket_type::CONTAINER );
+            }
         }
     }
 }
