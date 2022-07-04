@@ -116,6 +116,36 @@
   },
   {
     "type": "terrain",
+    "id": "t_pit_BEM_human_sample",
+    "looks_like": "t_pit_shallow",
+    "name": "dead drop pit",
+    "description": "A seemingly innocuous shallow pit.  Careful inspection reveals a black canister half buried in the exposed soil.",
+    "symbol": "0",
+    "color": "yellow",
+    "move_cost": 8,
+    "flags": [ "TRANSPARENT" ],
+    "examine_action": {
+      "type": "effect_on_condition",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_BEM_human_sample_deliver",
+          "condition": {
+            "and": [ { "u_has_items": { "item": "human_sample", "count": 1 } }, { "u_has_mission": "BEM_human_sample_mission" } ]
+          },
+          "effect": [
+            { "u_adjust_var": "BEM_human_sample_reward_owed", "type": "counter", "context": "BEM", "adjustment": 1 },
+            { "u_message": "You prepare the drop as instructed", "popup": true },
+            { "u_consume_item": "human_sample", "count": 1 },
+            { "finish_mission": "BEM_human_sample_mission", "success": true }
+          ],
+          "false_effect": { "u_message": "You dont have anything to deliver.", "popup": true }
+        }
+      ]
+    },
+    "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 50, "str_max": 100, "str_min_supported": 100, "bash_below": true }
+  },
+  {
+    "type": "terrain",
     "id": "t_slime",
     "name": "slime",
     "description": "A disgusting and slippery mess that could be used to stash things because who'd want to touch it?",

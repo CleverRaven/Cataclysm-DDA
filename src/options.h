@@ -362,7 +362,7 @@ struct option_slider {
 
     public:
         option_slider_id id;
-        bool was_loaded;
+        bool was_loaded = false;
 
         static void load_option_sliders( const JsonObject &jo, const std::string &src );
         static void reset();

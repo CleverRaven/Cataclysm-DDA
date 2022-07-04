@@ -263,7 +263,8 @@ callsigns
 caltrop
 caltrops
 camarasaurus
-camptosaurus
+camarasaurus
+camphine
 camspy
 cannelured
 caparison

@@ -44,7 +44,7 @@
     "type": "TOOL",
     "name": { "str": "integrated multitool" },
     "flags": [ "TRADER_AVOID", "FIRESTARTER" ],
-    "use_action": [ "HAMMER", "CROWBAR" ],
+    "use_action": [ "CROWBAR" ],
     "qualities": [
       [ "SAW_W", 1 ],
       [ "SAW_M", 1 ],

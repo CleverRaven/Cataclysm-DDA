@@ -20,6 +20,7 @@
     "name": { "str": "Start a fire quickly" }
   },
   {
+    "//": "Remove after 0.G.",
     "type": "item_action",
     "id": "HAMMER",
     "name": { "str": "Pry crate, window, door or nails" }
@@ -243,6 +244,11 @@
     "type": "item_action",
     "id": "saw_barrel",
     "name": { "str": "Saw down barrel" }
+  },
+  {
+    "type": "item_action",
+    "id": "saw_stock",
+    "name": { "str": "Saw down stock" }
   },
   {
     "type": "item_action",

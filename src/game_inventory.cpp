@@ -1798,6 +1798,34 @@ class saw_barrel_inventory_preset: public weapon_inventory_preset
         const saw_barrel_actor &actor;
 };
 
+class saw_stock_inventory_preset : public weapon_inventory_preset
+{
+    public:
+        saw_stock_inventory_preset( const Character &you, const item &tool,
+                                    const saw_stock_actor &actor ) :
+            weapon_inventory_preset( you ), you( you ), tool( tool ), actor( actor ) {
+        }
+
+        bool is_shown( const item_location &loc ) const override {
+            return loc->is_gun();
+        }
+
+        std::string get_denial( const item_location &loc ) const override {
+            const auto ret = actor.can_use_on( you, tool, *loc );
+
+            if( !ret.success() ) {
+                return trim_trailing_punctuations( ret.str() );
+            }
+
+            return std::string();
+        }
+
+    private:
+        const Character &you;
+        const item &tool;
+        const saw_stock_actor &actor;
+};
+
 class attach_molle_inventory_preset : public inventory_selector_preset
 {
     public:
@@ -1894,6 +1922,25 @@ item_location game_menus::inv::saw_barrel( Character &you, item &tool )
 
     return inv_internal( you, saw_barrel_inventory_preset( you, tool, *actor ),
                          _( "Saw barrel" ), 1,
+                         _( "You don't have any guns." ),
+                         string_format( _( "Choose a weapon to use your %s on" ),
+                                        tool.tname( 1, false )
+                                      )
+                       );
+}
+
+item_location game_menus::inv::saw_stock( Character &you, item &tool )
+{
+    const saw_stock_actor *actor = dynamic_cast<const saw_stock_actor *>
+                                   ( tool.type->get_use( "saw_stock" )->get_actor_ptr() );
+
+    if( !actor ) {
+        debugmsg( "Tried to use a wrong item." );
+        return item_location();
+    }
+
+    return inv_internal( you, saw_stock_inventory_preset( you, tool, *actor ),
+                         _( "Saw stock" ), 1,
                          _( "You don't have any guns." ),
                          string_format( _( "Choose a weapon to use your %s on" ),
                                         tool.tname( 1, false )

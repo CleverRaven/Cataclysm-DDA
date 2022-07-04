@@ -1374,7 +1374,7 @@ static std::string append_line( const std::string &line, bool first_row, int max
     int txt_w = 0;
     std::string txt;
     if( !line.empty() ) {
-        txt = skip_pad ? trim( line ) : line;
+        txt = skip_pad ? ( trim( line ) + ( newline_fix == 1 ? "\n" : "" ) ) : line;
         txt_w = utf8_width( txt, true ) + newline_fix;
     }
 
