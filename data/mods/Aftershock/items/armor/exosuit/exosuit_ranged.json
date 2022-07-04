@@ -95,11 +95,11 @@
     }
   },
   {
-    "id": "exo_microwave_unit",
+    "id": "exo_microwave_cannon",
     "type": "TOOL_ARMOR",
     "category": "exosuit",
     "name": { "str": "exosuit microwave cannon" },
-    "description": "A 'less-lethal' weapon mounted on the shoulder of an exosuit. Causes a painful burning sensation as water molecules are turned to high temperature vapor.  Infamous for it's use by UICA forces used it to break up protests, the effectiveness can be hard to predict due to variables like the moisture in the air and protective layers on the target.",
+    "description": "A 'less-lethal' weapon mounted on the shoulder of an exosuit.  Causes a painful burning sensation as water molecules are turned to high temperature vapor.  Infamous for it's use by UICA forces used it to break up protests, the effectiveness can be hard to predict due to variables like the moisture in the air and protective layers on the target.",
     "weight": "5 kg",
     "volume": "5 L",
     "longest_side": "100 cm",
@@ -122,7 +122,7 @@
     "type": "TOOL_ARMOR",
     "category": "exosuit",
     "name": { "str": "exosuit electrolaser" },
-    "description": "An extremely dangerous weapon only deployed for heavy combat, this is mounted on the shoulder of an exosuit. A laser creates a channel of ionized plasma which acts as a conduit for the follow-up massive energy charge.  The result is a powerful explosion that can impact a large area. Requires significant energy reserves, draining a standard power cartrige per shot.",
+    "description": "An extremely dangerous weapon only deployed for heavy combat, this is mounted on the shoulder of an exosuit.  A laser creates a channel of ionized plasma which acts as a conduit for the follow-up massive energy charge.  The result is a powerful explosion that can impact a large area.  Requires significant energy reserves, draining a standard power cartrige per shot.",
     "weight": "10 kg",
     "volume": "10 L",
     "longest_side": "100 cm",
