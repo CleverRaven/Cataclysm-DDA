@@ -82,7 +82,7 @@
     "type": "profession",
     "id": "xe_jotunn_hunter",
     "name": "Xedra Offworld Team: Jotunn Hunter",
-    "description": "Part of Xedra's Offworld Aquisitions group, you specialized in tracking, killing and retrieving useful components from the cyborg tribes that seem to exist on some of the worlds Xedra had access to.   Do you feel guilt about bringing back the cybernetic components that are now inside you or your teammates?  Or do you worry that now they might be on this world hunting you?  Either way you better find some weapons soon.",
+    "description": "Part of Xedra's Offworld Aquisitions group, you specialized in tracking, killing and retrieving useful components from the cyborg tribes that seem to exist on some of the worlds Xedra had access to.  Do you feel guilt about bringing back the cybernetic components that are now inside you or your teammates?  Or do you worry that now they might be on this world hunting you?  Either way you better find some weapons soon.",
     "traits": [ "XEDRA_CYBORG", "PROF_FED" ],
     "CBMs": [ "bio_armor_torso", "bio_cable", "bio_str_enhancer", "bio_tattoo_led", "bio_power_storage" ],
     "points": 7,
