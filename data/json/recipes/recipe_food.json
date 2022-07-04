@@ -890,8 +890,7 @@
     "autolearn": true,
     "time": "16 m",
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 2 } ],
-    "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
-    "proficiencies": [
+    "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ], "proficiencies": [
       { "proficiency": "prof_food_prep" },
       { "proficiency": "prof_knife_skills" },
       { "proficiency": "prof_frying" },
@@ -1962,12 +1961,33 @@
     "subcategory": "CSC_FOOD_VEGGI",
     "skill_used": "cooking",
     "difficulty": 1,
-    "time": "10 m",
+    "time": "30 m",
     "autolearn": true,
-    "qualities": [ { "id": "OVEN", "level": 1 } ],
+    "//": "Carrot crudely chopped (so it cooks faster) and roasted on a skewer, the carrot needs some time to cook and soften up so batch-making these, aka having multiple batches of carrots roast simultaneously, is way more efficient",
+    "qualities": [ { "id": "COOK", "level": 1 }, { "id": "CUT", "level": 1 } ],
+    "batch_time_factors": [ 90, 1 ],
     "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
     "proficiencies": [ { "proficiency": "prof_food_prep" } ],
-    "components": [ [ [ "carrot", 1 ], [ "irradiated_carrot", 1 ] ] ]
+    "components": [ [ [ "carrot", 1 ], [ "irradiated_carrot", 1 ], [ "carrot_wild", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "carrot_glazed",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_VEGGI",
+    "skill_used": "cooking",
+    "difficulty": 1,
+    "time": "30 m",
+    "autolearn": true,
+    "qualities": [ { "id": "COOK", "level": 2 }, { "id": "CUT", "level": 1 } ],
+    "batch_time_factors": [ 90, 1 ],
+    "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
+    "components": [
+      [ [ "carrot", 1 ], [ "irradiated_carrot", 1 ], [ "carrot_wild", 1 ] ],
+      [ [ "wild_herbs", 10 ], [ "seasoning_italian", 5 ] ],
+      [ [ "any_butter_or_oil", 10, "LIST" ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -1979,7 +1999,7 @@
     "difficulty": 3,
     "time": "16 m",
     "autolearn": true,
-    "//": "Even assuming the crafter is reusing oil, some still gets absorbed into the potato.",
+    "//": "Even assuming the crafter is reusing oil, some still gets absorbed into the tuber.",
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ], [ [ "frying_oil", 1, "LIST" ] ] ],
     "proficiencies": [
@@ -4373,7 +4393,7 @@
     "components": [
       [ [ "eggs_bird", 2, "LIST" ], [ "egg_reptile", 2 ] ],
       [ [ "any_butter_or_oil", 2, "LIST" ] ],
-      [ [ "mushroom", 1 ], [ "mushroom_morel", 1 ], [ "garlic_clove", 1 ], [ "onion", 1 ] ],
+      [ [ "mushroom", 1 ], [ "mushroom_morel", 1 ], [ "garlic_clove", 1 ], [ "onion", 1 ], [ "groundnut", 1 ] ],
       [ [ "cheese_standard", 1, "LIST" ], [ "veggy_green", 1, "LIST" ] ],
       [ [ "salt", 2 ], [ "soysauce", 2 ], [ "seasoning_salt", 2 ], [ "pepper", 4 ] ],
       [ [ "condiment", 2, "LIST" ] ]
@@ -6844,7 +6864,8 @@
         [ "irradiated_onion", 2 ],
         [ "wild_garlic", 4 ],
         [ "garlic_clove", 12 ],
-        [ "irradiated_carrot", 4 ],
+        [ "carrot_wild", 4 ],
+        [ "irradiated_carrot", 6 ],
         [ "carrot", 4 ]
       ],
       [ [ "vinegar", 1 ] ]
@@ -8779,8 +8800,9 @@
         [ "irradiated_corn", 12 ],
         [ "onion", 12 ],
         [ "irradiated_onion", 12 ],
-        [ "wild_garlic", 24 ],
+        [ "wild_garlic", 32 ],
         [ "garlic_clove", 72 ],
+        [ "carrot_wild", 32 ],
         [ "irradiated_carrot", 24 ],
         [ "carrot", 24 ]
       ],
