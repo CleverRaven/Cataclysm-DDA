@@ -122,7 +122,7 @@
     "type": "TOOL_ARMOR",
     "category": "exosuit",
     "name": { "str": "exosuit electrolaser" },
-    "description": "An extremely dangerous weapon only deployed for heavy combat, this is mounted on the shoulder of an exosuit. A laser creates a channel of ionized plasma which acts as a conduit for the follow-up massive energy charge. The result is a powerful explosion that can impact a large area. Requires significant energy reserves, draining a standard power cartrige per shot.",
+    "description": "An extremely dangerous weapon only deployed for heavy combat, this is mounted on the shoulder of an exosuit. A laser creates a channel of ionized plasma which acts as a conduit for the follow-up massive energy charge.  The result is a powerful explosion that can impact a large area. Requires significant energy reserves, draining a standard power cartrige per shot.",
     "weight": "10 kg",
     "volume": "10 L",
     "longest_side": "100 cm",
