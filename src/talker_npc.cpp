@@ -113,7 +113,7 @@ std::vector<std::string> talker_npc::get_topics( bool radio_contact )
     avatar &player_character = get_avatar();
     std::vector<std::string> add_topics;
     // For each active mission we have, let the mission know we talked to this NPC.
-    for( auto &mission : player_character.get_active_missions() ) {
+    for( mission *&mission : player_character.get_active_missions() ) {
         mission->on_talk_with_npc( me_npc->getID() );
     }
 
@@ -128,8 +128,8 @@ std::vector<std::string> talker_npc::get_topics( bool radio_contact )
         add_topics.emplace_back( me_npc->chatbin.talk_stole_item );
     }
     int most_difficult_mission = 0;
-    for( auto &mission : me_npc->chatbin.missions ) {
-        const auto &type = mission->get_type();
+    for( mission *&mission : me_npc->chatbin.missions ) {
+        const mission_type &type = mission->get_type();
         if( type.urgent && type.difficulty > most_difficult_mission ) {
             add_topics.emplace_back( "TALK_MISSION_DESCRIBE_URGENT" );
             me_npc->chatbin.mission_selected = mission;
@@ -138,12 +138,12 @@ std::vector<std::string> talker_npc::get_topics( bool radio_contact )
     }
     most_difficult_mission = 0;
     bool chosen_urgent = false;
-    for( auto &mission : me_npc->chatbin.missions_assigned ) {
+    for( mission *&mission : me_npc->chatbin.missions_assigned ) {
         if( mission->get_assigned_player_id() != player_character.getID() ) {
             // Not assigned to the player that is currently talking to the npc
             continue;
         }
-        const auto &type = mission->get_type();
+        const mission_type &type = mission->get_type();
         if( ( type.urgent && !chosen_urgent ) || ( type.difficulty > most_difficult_mission &&
                 ( type.urgent || !chosen_urgent ) ) ) {
             chosen_urgent = type.urgent;

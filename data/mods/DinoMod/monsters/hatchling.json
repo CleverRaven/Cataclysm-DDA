@@ -123,6 +123,7 @@
     "copy-from": "mon_spinosaurus_hatchling",
     "name": "light red and white hatchling",
     "default_faction": "tyrannosaurus_hatchling",
+    "dissect": "dissect_tyrant_sample_single",
     "upgrades": { "age_grow": 30, "into": "mon_tyrannosaurus_juvenile" }
   },
   {

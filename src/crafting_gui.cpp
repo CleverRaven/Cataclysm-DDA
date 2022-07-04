@@ -972,7 +972,8 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
     const std::vector<npc *> helpers = player_character.get_crafting_helpers();
     std::string filterstring;
 
-    const auto &available_recipes = player_character.get_available_recipes( crafting_inv, &helpers );
+    const recipe_subset &available_recipes = player_character.get_available_recipes( crafting_inv,
+            &helpers );
     std::map<const recipe *, availability> availability_cache;
 
     const std::string new_recipe_str = pgettext( "crafting gui", "NEW!" );
@@ -1667,7 +1668,7 @@ std::string peek_related_recipe( const recipe *current, const recipe_subset &ava
     const itype_id tid = tmp.typeId();
     const std::set<const recipe *> &known_recipes =
         get_player_character().get_learned_recipes().of_component( tid );
-    for( const auto &b : known_recipes ) {
+    for( const recipe * const &b : known_recipes ) {
         if( available.contains( b ) ) {
             related_results.emplace_back( b->result(), b->result_name( /*decorated=*/true ) );
         }

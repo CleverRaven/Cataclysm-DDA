@@ -1510,6 +1510,31 @@
   },
   {
     "type": "material",
+    "id": "plastic_pad",
+    "name": "Plastic Padding",
+    "//": "This is a catch-all for foam, or a mix of foam and hard plastic used in armor pads for sports or riding.",
+    "density": 1.0,
+    "specific_heat_liquid": 1.6,
+    "specific_heat_solid": 1.6,
+    "latent_heat": 50,
+    "bash_resist": 0.75,
+    "cut_resist": 0.5,
+    "bullet_resist": 0.5,
+    "acid_resist": 9,
+    "fire_resist": 1,
+    "chip_resist": 6,
+    "wind_resist": 90,
+    "dmg_adj": [ "scratched", "cut", "cracked", "shattered" ],
+    "bash_dmg_verb": "dented",
+    "cut_dmg_verb": "gouged",
+    "burn_data": [
+      { "fuel": 1, "smoke": 2, "burn": 1, "volume_per_turn": "750 ml" },
+      { "fuel": 1, "smoke": 3, "burn": 2 },
+      { "fuel": 1, "smoke": 5, "burn": 5 }
+    ]
+  },
+  {
+    "type": "material",
     "id": "powder",
     "name": "Powder",
     "density": 1,
@@ -2710,5 +2735,35 @@
     "cut_dmg_verb": "damaged",
     "freezing_point": -77.73,
     "fuel_data": { "energy": 11.5 }
+  },
+  {
+    "type": "material",
+    "id": "turpentine",
+    "name": "Turpentine",
+    "density": 0.87,
+    "specific_heat_liquid": 1.72,
+    "specific_heat_solid": 1.8,
+    "latent_heat": 293,
+    "edible": false,
+    "bash_resist": 0,
+    "cut_resist": 0,
+    "bullet_resist": 0,
+    "acid_resist": 0,
+    "fire_resist": 0,
+    "conductive": true,
+    "chip_resist": 0,
+    "dmg_adj": [ "lightly damaged", "damaged", "very damaged", "thoroughly damaged" ],
+    "bash_dmg_verb": "damaged",
+    "cut_dmg_verb": "damaged",
+    "freezing_point": -55,
+    "fuel_data": {
+      "energy": 34.8,
+      "explosion_data": { "chance_hot": 5, "chance_cold": 1000, "factor": 0.2, "fiery": false, "size_factor": 0.1 }
+    },
+    "burn_data": [
+      { "fuel": 300, "smoke": 0, "burn": 1 },
+      { "fuel": 600, "smoke": 0, "burn": 2 },
+      { "fuel": 900, "smoke": 0, "burn": 3 }
+    ]
   }
 ]

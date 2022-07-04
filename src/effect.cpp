@@ -726,7 +726,7 @@ std::string effect::disp_desc( bool reduced ) const
     values.emplace_back( get_percentage( "SLEEP", val, reduced ), val, _( "blackouts" ),
                          _( "blackouts" ) );
 
-    for( auto &i : values ) {
+    for( desc_freq &i : values ) {
         if( i.val > 0 ) {
             // +50% chance, every other step
             if( i.chance >= 50.0 ) {

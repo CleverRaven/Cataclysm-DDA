@@ -5669,10 +5669,10 @@ void firstaid_activity_actor::finish( player_activity &act, Character &who )
     act.values.clear();
 
     // Return to first eat or consume meds menu activity in the backlog.
-    for( auto iter = who.backlog.begin(); iter != who.backlog.end(); ++iter ) {
-        if( iter->id() == ACT_EAT_MENU ||
-            iter->id() == ACT_CONSUME_MEDS_MENU ) {
-            iter->auto_resume = true;
+    for( player_activity &backlog_act : who.backlog ) {
+        if( backlog_act.id() == ACT_EAT_MENU ||
+            backlog_act.id() == ACT_CONSUME_MEDS_MENU ) {
+            backlog_act.auto_resume = true;
             break;
         }
     }

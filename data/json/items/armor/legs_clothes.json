@@ -112,7 +112,7 @@
     "repairs_like": "skirt",
     "type": "ARMOR",
     "name": { "str": "short cheerleader skirt" },
-    "description": "A very short, breezy and red cheerleader skirt.  Easy to move in, but you will probably need shorts underneath to practice cheerleading.",
+    "description": "A very short and breezy red cheerleader skirt.  Easy to move in, but you will probably need shorts underneath to safely practice cheerleading in this.",
     "weight": "70 g",
     "volume": "200 ml",
     "price": 6500,
@@ -166,7 +166,7 @@
     "repairs_like": "pants",
     "type": "ARMOR",
     "name": { "str_sp": "flag pants" },
-    "description": "A pair of pants embroidered with the pattern of an American flag.",
+    "description": "A pair of pants embroidered with an American flag pattern.",
     "weight": "399 g",
     "volume": "2 L",
     "price": 5500,
@@ -649,7 +649,7 @@
     "snippet_category": [
       {
         "id": "apants_UCP",
-        "text": "A tough pair of pants.  Favored by the military.  This pair came in a gray, green and tan camouflage.  The pattern is notable for its lack of black."
+        "text": "A tough pair of pants.  Favored by the military.  This pair sports the US Army's gray, green and tan Universal Camouflage Pattern.  The pattern is notable for its lack of black."
       },
       {
         "id": "apants_desert",
@@ -661,11 +661,11 @@
       },
       {
         "id": "apants_BDU",
-        "text": "A tough pair of military pants with a black, brown, green and tan camouflage pattern.  They look old."
+        "text": "A tough pair of military pants with the black, brown, green and tan Battle Dress camouflage pattern.  They look old."
       },
       {
         "id": "mil_pants_navy",
-        "text": "A tough pair of military pants with a predominantly dark blue camouflage.  Favored by the navy."
+        "text": "A tough pair of military pants with a predominantly dark blue camouflage.  Favored by the US Navy."
       }
     ],
     "warmth": 20,
@@ -954,7 +954,7 @@
     "repairs_like": "jeans",
     "type": "ARMOR",
     "name": { "str_sp": "police breeches" },
-    "description": "Pair of tight-fitting police breeches.  Offers lots of mobility for motorized officers.",
+    "description": "A pair of tight-fitting police breeches.  Offers lots of mobility for motorized officers.",
     "weight": "560 g",
     "volume": "1500 ml",
     "price": 4900,
@@ -1031,8 +1031,8 @@
   {
     "id": "santa_shorts",
     "type": "ARMOR",
-    "name": { "str_sp": "shorts" },
-    "description": "A pair of red shorts with a white trim.  For when Santa is on summer vacation.",
+    "name": { "str_sp": "santa shorts" },
+    "description": "A pair of red shorts with white trim.  For when Santa is on summer vacation.",
     "weight": "230 g",
     "volume": "1 L",
     "price": 2200,
@@ -1265,7 +1265,7 @@
     ],
     "snippet_category": [
       { "id": "denim_shorts1", "text": "A pair of stone wash denim shorts." },
-      { "id": "denim_shorts2", "text": "An old pair of denim jeans that have been cut down to shorts." },
+      { "id": "denim_shorts2", "text": "An old pair of denim jeans that have been cut down into shorts." },
       { "id": "denim_shorts3", "text": "A pair of brand-name black denim shorts." }
     ],
     "warmth": 5,

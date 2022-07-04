@@ -195,7 +195,7 @@ void dump_items( monster &z )
     std::string pet_name = z.get_name();
     Character &player_character = get_player_character();
     map &here = get_map();
-    for( auto &it : z.inv ) {
+    for( item &it : z.inv ) {
         here.add_item_or_charges( player_character.pos(), it );
     }
     z.inv.clear();

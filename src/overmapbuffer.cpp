@@ -132,7 +132,7 @@ void overmapbuffer::create_custom_overmap( const point_abs_om &p, overmap_specia
 void overmapbuffer::fix_mongroups( overmap &new_overmap )
 {
     for( auto it = new_overmap.zg.begin(); it != new_overmap.zg.end(); ) {
-        auto &mg = it->second;
+        mongroup &mg = it->second;
         // spawn related code simply sets population to 0 when they have been
         // transformed into spawn points on a submap, the group can then be removed
         if( mg.empty() ) {
@@ -439,7 +439,7 @@ void overmapbuffer::toggle_explored( const tripoint_abs_omt &p )
 
 bool overmapbuffer::has_horde( const tripoint_abs_omt &p )
 {
-    for( const auto &m : overmap_buffer.monsters_at( p ) ) {
+    for( mongroup * const &m : overmap_buffer.monsters_at( p ) ) {
         if( m->horde ) {
             return true;
         }
@@ -451,7 +451,7 @@ bool overmapbuffer::has_horde( const tripoint_abs_omt &p )
 int overmapbuffer::get_horde_size( const tripoint_abs_omt &p )
 {
     int horde_size = 0;
-    for( const auto &m : overmap_buffer.monsters_at( p ) ) {
+    for( mongroup * const &m : overmap_buffer.monsters_at( p ) ) {
         if( m->horde ) {
             if( !m->monsters.empty() ) {
                 horde_size += m->monsters.size();
@@ -479,7 +479,7 @@ bool overmapbuffer::has_camp( const tripoint_abs_omt &p )
         return false;
     }
 
-    for( const auto &v : om_loc.om->camps ) {
+    for( const basecamp &v : om_loc.om->camps ) {
         if( v.camp_omt_pos().xy() == p.xy() ) {
             return true;
         }
@@ -566,7 +566,7 @@ std::string overmapbuffer::get_vehicle_tile_id( const tripoint_abs_omt &omt )
 void overmapbuffer::signal_hordes( const tripoint_abs_sm &center, const int sig_power )
 {
     const int radius = sig_power;
-    for( auto &om : get_overmaps_near( center, radius ) ) {
+    for( overmap *&om : get_overmaps_near( center, radius ) ) {
         const point_abs_sm abs_pos_om = project_to<coords::sm>( om->pos() );
         const tripoint_rel_sm rel_pos = center - abs_pos_om;
         // overmap::signal_hordes expects a coordinate relative to the overmap, this is easier
@@ -599,7 +599,7 @@ void overmapbuffer::process_mongroups()
     // arbitrary radius to include nearby overmaps (aside from the current one)
     const int radius = MAPSIZE * 2;
     const tripoint_abs_sm center = get_player_character().global_sm_location();
-    for( auto &om : get_overmaps_near( center, radius ) ) {
+    for( overmap *&om : get_overmaps_near( center, radius ) ) {
         om->process_mongroups();
     }
 }
@@ -609,7 +609,7 @@ void overmapbuffer::move_hordes()
     // arbitrary radius to include nearby overmaps (aside from the current one)
     const int radius = MAPSIZE * 2;
     const tripoint_abs_sm center = get_player_character().global_sm_location();
-    for( auto &om : get_overmaps_near( center, radius ) ) {
+    for( overmap *&om : get_overmaps_near( center, radius ) ) {
         om->move_hordes();
     }
 }
@@ -1363,7 +1363,7 @@ std::vector<shared_ptr_fast<npc>> overmapbuffer::get_npcs_near( const tripoint_a
                                int radius )
 {
     std::vector<shared_ptr_fast<npc>> result;
-    for( auto &it : get_overmaps_near( p.xy(), radius ) ) {
+    for( overmap *&it : get_overmaps_near( p.xy(), radius ) ) {
         auto temp = it->get_npcs( [&]( const npc & guy ) {
             // Global position of NPC, in submap coordinates
             const tripoint_abs_sm pos = guy.global_sm_location();
@@ -1378,7 +1378,7 @@ std::vector<shared_ptr_fast<npc>> overmapbuffer::get_npcs_near_omt( const tripoi
                                int radius )
 {
     std::vector<shared_ptr_fast<npc>> result;
-    for( auto &it : get_overmaps_near( project_to<coords::sm>( p.xy() ), radius ) ) {
+    for( overmap *&it : get_overmaps_near( project_to<coords::sm>( p.xy() ), radius ) ) {
         auto temp = it->get_npcs( [&]( const npc & guy ) {
             // Global position of NPC, in submap coordinates
             tripoint_abs_omt pos = guy.global_omt_location();
@@ -1401,8 +1401,8 @@ static radio_tower_reference create_radio_tower_reference( const overmap &om, ra
 radio_tower_reference overmapbuffer::find_radio_station( const int frequency )
 {
     const tripoint_abs_sm center = get_player_character().global_sm_location();
-    for( auto &om : get_overmaps_near( center, RADIO_MAX_STRENGTH ) ) {
-        for( auto &tower : om->radios ) {
+    for( overmap *&om : get_overmaps_near( center, RADIO_MAX_STRENGTH ) ) {
+        for( radio_tower &tower : om->radios ) {
             const radio_tower_reference rref = create_radio_tower_reference( *om, tower, center );
             if( rref.signal_strength > 0 && tower.frequency == frequency ) {
                 return rref;
@@ -1419,8 +1419,8 @@ std::vector<radio_tower_reference> overmapbuffer::find_all_radio_stations()
     // perceived signal strength is distance (in submaps) - signal strength, so towers
     // further than RADIO_MAX_STRENGTH submaps away can never be received at all.
     const int radius = RADIO_MAX_STRENGTH;
-    for( auto &om : get_overmaps_near( center, radius ) ) {
-        for( auto &tower : om->radios ) {
+    for( overmap *&om : get_overmaps_near( center, radius ) ) {
+        for( radio_tower &tower : om->radios ) {
             const radio_tower_reference rref = create_radio_tower_reference( *om, tower, center );
             if( rref.signal_strength > 0 ) {
                 result.push_back( rref );
@@ -1533,7 +1533,7 @@ std::string overmapbuffer::get_description_at( const tripoint_abs_sm &where )
         return ter_name;
     }
 
-    const auto &closest_city = *closest_cref.city;
+    const struct city &closest_city = *closest_cref.city;
     const std::string closest_city_name = colorize( closest_city.name, c_yellow );
     const direction dir = direction_from( closest_cref.abs_sm_pos, where );
     const std::string dir_name = colorize( direction_name( dir ), c_light_gray );
@@ -1666,7 +1666,7 @@ overmapbuffer::t_extras_vector overmapbuffer::get_extras( int z, const std::stri
 
 bool overmapbuffer::is_safe( const tripoint_abs_omt &p )
 {
-    for( auto &mongrp : monsters_at( p ) ) {
+    for( mongroup *&mongrp : monsters_at( p ) ) {
         if( !mongrp->is_safe() ) {
             return false;
         }
@@ -1707,7 +1707,7 @@ bool overmapbuffer::place_special( const overmap_special_id &special_id,
     // First find the requested special. If it doesn't exist, we're done here.
     bool found = false;
     overmap_special special;
-    for( const auto &elem : overmap_specials::get_all() ) {
+    for( const overmap_special &elem : overmap_specials::get_all() ) {
         if( elem.id == special_id ) {
             special = elem;
             found = true;
@@ -1728,7 +1728,7 @@ bool overmapbuffer::place_special( const overmap_special_id &special_id,
     om_special_sectors sectors = get_sectors( longest_side );
 
     // Get all of the overmaps within the defined radius of the center.
-    for( const auto &om : get_overmaps_near(
+    for( overmap * const &om : get_overmaps_near(
              project_to<coords::sm>( center ), omt_to_sm_copy( radius ) ) ) {
 
         // Build an overmap_special_batch for the special on this overmap.
@@ -1764,7 +1764,7 @@ bool overmapbuffer::place_special( const overmap_special_id &special_id,
         }
 
         // Hasn't been erased, so lets check placement counts.
-        for( const auto &special_placement : batch ) {
+        for( const overmap_special_placement &special_placement : batch ) {
             if( special_placement.instances_placed > 0 ) {
                 // It was placed, lets get outta here.
                 return true;

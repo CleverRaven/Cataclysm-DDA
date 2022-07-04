@@ -1081,5 +1081,13 @@
     "description": "You all know who I am.  I'm the cook.  Say my name.",
     "requirements": [ { "event_statistic": "num_gains_chemistry_level_10", "is": ">=", "target": 1 } ],
     "hidden_by": [ "achievement_lvl_7_chemistry" ]
+  },
+  {
+    "id": "achievement_arcade_mode",
+    "type": "achievement",
+    "name": "Arcade Mode",
+    "//": "this is the achievement that lets you forever have meta progression disabled",
+    "description": "STOP HAND-HOLDING ME!!!",
+    "requirements": [  ]
   }
 ]

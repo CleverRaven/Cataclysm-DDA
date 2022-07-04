@@ -452,7 +452,7 @@ void sounds::process_sounds()
 {
     std::vector<centroid> sound_clusters = cluster_sounds( recent_sounds );
     const int weather_vol = get_weather().weather_id->sound_attn;
-    for( const auto &this_centroid : sound_clusters ) {
+    for( const centroid &this_centroid : sound_clusters ) {
         // Since monsters don't go deaf ATM we can just use the weather modified volume
         // If they later get physical effects from loud noises we'll have to change this
         // to use the unmodified volume for those effects.
@@ -758,7 +758,7 @@ std::pair<std::vector<tripoint>, std::vector<tripoint>> sounds::get_monster_soun
     }
     std::vector<tripoint> cluster_centroids;
     cluster_centroids.reserve( sound_clusters.size() );
-    for( const auto &sound : sound_clusters ) {
+    for( const centroid &sound : sound_clusters ) {
         cluster_centroids.emplace_back( static_cast<int>( sound.x ), static_cast<int>( sound.y ),
                                         static_cast<int>( sound.z ) );
     }
@@ -1489,7 +1489,7 @@ void sfx::do_danger_music()
     }
     audio_muted = false;
     int hostiles = 0;
-    for( auto &critter : player_character.get_visible_creatures( 40 ) ) {
+    for( Creature *&critter : player_character.get_visible_creatures( 40 ) ) {
         if( player_character.attitude_to( *critter ) == Creature::Attitude::HOSTILE ) {
             hostiles++;
         }

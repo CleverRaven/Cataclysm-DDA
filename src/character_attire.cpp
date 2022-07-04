@@ -76,7 +76,7 @@ ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) cons
 
     if( !it.has_flag( flag_OVERSIZE ) && !it.has_flag( flag_SEMITANGIBLE ) ) {
         for( const trait_id &mut : get_mutations() ) {
-            const auto &branch = mut.obj();
+            const mutation_branch &branch = mut.obj();
             if( branch.conflicts_with_item( it ) ) {
                 return ret_val<bool>::make_failure( is_avatar() ?
                                                     _( "Your %s mutation prevents you from wearing your %s." ) :
@@ -1433,7 +1433,7 @@ bool outfit::covered_with_flag( const flag_id &f, const body_part_set &parts ) c
 {
     body_part_set to_cover( parts );
 
-    for( const auto &elem : worn ) {
+    for( const item &elem : worn ) {
         if( !elem.has_flag( f ) ) {
             continue;
         }

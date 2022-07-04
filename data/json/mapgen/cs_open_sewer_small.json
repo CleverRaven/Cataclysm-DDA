@@ -4,7 +4,7 @@
     "name": "GROUP_ZOMBIE_SEWER",
     "monsters": [
       { "monster": "mon_zombie_technician", "weight": 850, "cost_multiplier": 3 },
-      { "monster": "mon_zombie_electric", "weight": 150, "cost_multiplier": 5 }
+      { "monster": "mon_zombie_static", "weight": 150, "cost_multiplier": 5 }
     ]
   },
   {
