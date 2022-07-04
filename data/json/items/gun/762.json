@@ -296,7 +296,7 @@
     "looks_like": "ar15",
     "type": "GUN",
     "name": { "str": "VZ tactical rifle" },
-    "description": "Inspired and built primarily  from older Czechoslovakian military combat rifles, this weapon bears an uncanny resemblance to the Kalashnikov despite sharing no components with it, including magazines.  Chambering the Soviet 7.62x39mm cartridge and featuring an American produced folding buttstock, receiver and barrel in order to have complied with US importation laws,, the weapon is equipped with a side mounted rail assembly as well as a detachable muzzle brake.  Despite the firearm’s Cold War design being nearly 80 years old, this modern iteration makes for a relatively portable and serviceable cataclysmic problem solver.",
+    "description": "Inspired and built primarily  from older Czechoslovakian military combat rifles, this weapon bears an uncanny resemblance to the Kalashnikov despite sharing no components with it, including magazines.  Chambering the Soviet 7.62x39mm cartridge and featuring an American produced folding buttstock, receiver and barrel in order to have complied with US importation laws, the weapon is equipped with a side mounted rail assembly as well as a detachable muzzle brake.  Despite the firearm’s Cold War design being nearly 80 years old, this modern iteration makes for a relatively portable and serviceable cataclysmic problem solver.",
     "variant_type": "gun",
     "variants": [
       {
