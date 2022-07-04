@@ -23,6 +23,7 @@
 #include "activity_actor_definitions.h"
 #include "activity_type.h"
 #include "avatar.h"
+#include "avatar_action.h"
 #include "bionics.h"
 #include "bodypart.h"
 #include "calendar.h"
@@ -2110,9 +2111,12 @@ class exosuit_interact
                     done = true;
                 } else if( action == "CONFIRM" ) {
                     scroll_pos = 0;
-                    int nmoves = insert_replace_mod(
+                    int nmoves = insert_replace_activate_mod(
                                      suit->get_all_contained_pockets()[cur_pocket], suit );
                     moves = moves > nmoves ? moves : nmoves;
+                    if( !get_player_character().activity.is_null() ) {
+                        done = true;
+                    }
                 } else if( action == "UP" ) {
                     cur_pocket--;
                     if( cur_pocket < 0 ) {
@@ -2135,7 +2139,7 @@ class exosuit_interact
             }
         }
 
-        int insert_replace_mod( item_pocket *pkt, item *it ) {
+        int insert_replace_activate_mod( item_pocket *pkt, item *it ) {
             Character &c = get_player_character();
             map &here = get_map();
             const std::set<flag_id> flags = pkt->get_pocket_data()->get_flag_restrictions();
@@ -2148,14 +2152,18 @@ class exosuit_interact
             // If pocket already contains a module, ask to unload or replace
             const bool not_empty = !pkt->empty();
             if( not_empty ) {
-                std::string mod_name = pkt->all_items_top().front()->tname();
+                item *mod_it = pkt->all_items_top().front();
+                std::string mod_name = mod_it->tname();
+                uilist amenu;
                 //~ Prompt the player to handle the module inside the modular exoskeleton
-                uilist amenu( _( "What to do with the existing module?" ), {
-                    string_format( _( "Unload the %s" ), mod_name ),
-                    string_format( _( "Replace the %s" ), mod_name )
-                } );
+                amenu.text = _( "What to do with the existing module?" );
+                amenu.addentry( -1, true, MENU_AUTOASSIGN, _( "Unload the %s" ), mod_name );
+                amenu.addentry( -1, true, MENU_AUTOASSIGN, _( "Replace the %s" ), mod_name );
+                amenu.addentry( -1, mod_it->has_relic_activation() || mod_it->type->has_use(), MENU_AUTOASSIGN,
+                                mod_it->active ? _( "Deactivate the %s" ) : _( "Activate the %s" ), mod_name );
+                amenu.query();
                 int ret = amenu.ret;
-                if( ret < 0 || ret > 1 ) {
+                if( ret < 0 || ret > 2 ) {
                     return 0;
                 } else if( ret == 0 ) {
                     // Unload existing module
@@ -2164,6 +2172,21 @@ class exosuit_interact
                         return true;
                     } );
                     return to_moves<int>( 5_seconds );
+                } else if( ret == 2 ) {
+                    item_location held = c.get_wielded_item();
+                    if( !!held && held->has_item( *mod_it ) ) {
+                        item_location loc( held, mod_it );
+                        avatar_action::use_item( get_avatar(), loc );
+                    } else {
+                        for( const item_location &loc : c.top_items_loc() ) {
+                            if( loc->has_item( *mod_it ) ) {
+                                item_location loc_it( loc, mod_it );
+                                avatar_action::use_item( get_avatar(), loc_it );
+                                break;
+                            }
+                        }
+                    }
+                    return 0;
                 }
             }
 
