@@ -188,7 +188,8 @@ map::map( int mapsize, bool zlev ) : my_MAPSIZE( mapsize ), zlevels( zlev )
 
 map::~map()
 {
-    if( _main_requires_cleanup ) {
+    if( ( _main_requires_cleanup && !_main_cleanup_override ) ||
+        ( _main_cleanup_override && *_main_cleanup_override ) ) {
         get_map().reset_vehicles_sm_pos();
         get_map().rebuild_vehicle_level_caches();
         g->load_npcs();
@@ -7217,6 +7218,9 @@ void map::loadn( const tripoint &grid, const bool update_vehicles, bool _actuali
     const int old_abs_z = abs_sub.z(); // Ugly, but necessary at the moment
     abs_sub.z() = grid.z;
 
+    bool const main_inbounds =
+        this != &get_map() && get_map().inbounds( project_to<coords::ms>( grid_abs_sub ) );
+
     submap *tmpsub = MAPBUFFER.lookup_submap( grid_abs_sub );
     if( tmpsub == nullptr ) {
         // It doesn't exist; we must generate it!
@@ -7239,7 +7243,9 @@ void map::loadn( const tripoint &grid, const bool update_vehicles, bool _actuali
             generate_uniform( grid_abs_sub_rounded, ter_t_soil );
         } else {
             tinymap tmp_map;
+            tmp_map.main_cleanup_override( false );
             tmp_map.generate( grid_abs_sub_rounded, calendar::turn );
+            _main_requires_cleanup = main_inbounds && tmp_map.is_main_cleanup_queued();
         }
 
         // This is the same call to MAPBUFFER as above!
@@ -7265,8 +7271,6 @@ void map::loadn( const tripoint &grid, const bool update_vehicles, bool _actuali
         get_cache( grid.z ).field_cache.set( grid.x + grid.y * MAPSIZE );
     }
 
-    bool const main_inbounds =
-        this != &get_map() && get_map().inbounds( project_to<coords::ms>( grid_abs_sub ) );
     // Destroy bugged no-part vehicles
     auto &veh_vec = tmpsub->vehicles;
     for( auto iter = veh_vec.begin(); iter != veh_vec.end(); ) {
@@ -9026,6 +9030,16 @@ void map::queue_main_cleanup()
     if( this != &get_map() ) {
         _main_requires_cleanup = true;
     }
+}
+
+bool map::is_main_cleanup_queued()
+{
+    return _main_requires_cleanup;
+}
+
+void map::main_cleanup_override( bool over )
+{
+    _main_cleanup_override = over;
 }
 
 const pathfinding_cache &map::get_pathfinding_cache_ref( int zlev ) const
