@@ -257,7 +257,6 @@ void reflex_activation_data::deserialize( const JsonObject &jo )
 
 void mutation_branch::load( const JsonObject &jo, const std::string & )
 {
-    mandatory( jo, was_loaded, "id", id );
     mandatory( jo, was_loaded, "name", raw_name );
     mandatory( jo, was_loaded, "description", raw_desc );
     mandatory( jo, was_loaded, "points", points );
