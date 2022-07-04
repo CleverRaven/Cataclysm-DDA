@@ -286,7 +286,9 @@
       "robofac50",
       "usc10mag",
       "usc15mag",
-      "usc20mag"
+      "usc20mag",
+      "m1carbinemag",
+      "m1carbinebigmag"
     ],
     "type": "MIGRATION",
     "replace": "rifle_mag"

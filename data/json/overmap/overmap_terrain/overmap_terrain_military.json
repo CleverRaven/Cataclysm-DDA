@@ -264,7 +264,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "silo", "silo_1", "silo_2", "silo_3", "silo_4", "silo_finale" ],
+    "id": [ "silo_roof", "silo", "silo_1", "silo_2", "silo_3", "silo_4", "silo_finale" ],
     "name": "missile silo",
     "sym": "0",
     "color": "red",

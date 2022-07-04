@@ -139,12 +139,10 @@ class worldfactory
         void load_last_world_info();
 
         std::string pick_random_name();
-        int show_worldgen_tab_options( const catacurses::window &win, WORLDPTR world,
-                                       const std::function<bool()> &on_quit );
-        int show_worldgen_tab_modselection( const catacurses::window &win, WORLDPTR world,
-                                            const std::function<bool()> &on_quit );
-        int show_worldgen_tab_confirm( const catacurses::window &win, WORLDPTR world,
-                                       const std::function<bool()> &on_quit );
+        int show_worldgen_tab_options( const catacurses::window &win, WORLDPTR world, bool with_tabs );
+        int show_worldgen_tab_modselection( const catacurses::window &win, WORLDPTR world, bool with_tabs );
+        int show_worldgen_basic( WORLDPTR world );
+        int show_worldgen_advanced( WORLDPTR world );
 
         void draw_modselection_borders( const catacurses::window &win, const input_context &ctxtp );
         std::map<int, inclusive_rectangle<point>> draw_mod_list( const catacurses::window &w, int &start,
@@ -157,8 +155,7 @@ class worldfactory
         pimpl<mod_manager> mman;
         pimpl<mod_ui> mman_ui;
 
-        using worldgen_display = std::function<int ( const catacurses::window &, WORLDPTR,
-                                 std::function<bool()> )>;
+        using worldgen_display = std::function<int ( const catacurses::window &, WORLDPTR, bool )>;
 
         std::vector<worldgen_display> tabs;
 };

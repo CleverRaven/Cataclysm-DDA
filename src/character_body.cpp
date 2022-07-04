@@ -1102,7 +1102,7 @@ bodypart_id Character::body_window( const std::string &menu_header,
             if( no_feeling ) {
                 hp_str = colorize( "==%==", c_blue );
             } else {
-                const auto &eff = get_effect( effect_mending, bp );
+                const effect &eff = get_effect( effect_mending, bp );
                 const int mend_perc = eff.is_null() ? 0.0 : 100 * eff.get_duration() / eff.get_max_duration();
 
                 const int num = mend_perc / 20;

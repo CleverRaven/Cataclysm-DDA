@@ -1098,7 +1098,8 @@ class map
         // Optionally toggles instances $from->$to & $to->$from
         void translate_radius( const ter_id &from, const ter_id &to, float radi, const tripoint &p,
                                bool same_submap = false, bool toggle_between = false );
-        void transform_radius( ter_furn_transform_id transform, float radi, const tripoint &p );
+        void transform_radius( ter_furn_transform_id transform, float radi,
+                               const tripoint_abs_ms &p );
         bool close_door( const tripoint &p, bool inside, bool check_only );
         bool open_door( Creature const &u, const tripoint &p, bool inside, bool check_only = false );
         // Destruction
@@ -2079,6 +2080,7 @@ class map
         bool _main_requires_cleanup = false;
 
     public:
+        void queue_main_cleanup();
         const level_cache &get_cache_ref( int zlev ) const {
             return get_cache( zlev );
         }

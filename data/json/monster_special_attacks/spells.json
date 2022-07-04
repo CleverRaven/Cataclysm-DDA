@@ -522,6 +522,23 @@
     "extra_effects": [ { "id": "boomer_claymore_suicide", "hit_self": true } ]
   },
   {
+    "id": "create_noise",
+    "type": "SPELL",
+    "name": { "str": "Do noise" },
+    "description": "Causes some noise",
+    "message": "The %s makes a deafening screech",
+    "sound_description": "a deafening screech",
+    "sound_type": "combat",
+    "sound_ambient": true,
+    "sound_id": "misc",
+    "sound_variant": "shockwave",
+    "min_damage": 50,
+    "max_damage": 50,
+    "valid_targets": [ "self" ],
+    "shape": "blast",
+    "effect": "noise"
+  },
+  {
     "id": "boomer_claymore_suicide",
     "type": "SPELL",
     "name": { "str": "Boomer Suicide Spell" },
@@ -591,5 +608,47 @@
       "max_radius": 5,
       "lifespan": [ "5 seconds", "10 seconds" ]
     }
+  },
+  {
+    "type": "SPELL",
+    "id": "mon_endless_hunger_revive",
+    "name": { "str": "Endless Hunger Revive" },
+    "description": "Revives the endless hunger.",
+    "valid_targets": [ "self", "ground" ],
+    "max_level": 1,
+    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS" ],
+    "base_casting_time": 75,
+    "min_range": 15,
+    "max_range": 15,
+    "shape": "blast",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_PORTAL_STORM_DUNGEON_ENDLESS_HUNGER_RESPAWN"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_STORM_DUNGEON_ENDLESS_HUNGER_RESPAWN",
+    "effect": [ { "queue_eocs": "EOC_PORTAL_STORM_DUNGEON_ENDLESS_HUNGER_SPAWN", "time_in_future": [ "30 seconds", "1 minutes" ] } ]
+  },
+  {
+    "type": "SPELL",
+    "id": "mon_tainted_shadow_revive",
+    "name": { "str": "Tainted Shadow Revive" },
+    "description": "Revives the tainted shadow.",
+    "valid_targets": [ "self", "ground" ],
+    "max_level": 1,
+    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS" ],
+    "base_casting_time": 75,
+    "min_range": 15,
+    "max_range": 15,
+    "shape": "blast",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_PORTAL_STORM_SHADOW_RESPAWN"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_STORM_SHADOW_RESPAWN",
+    "condition": { "x_in_y_chance": { "x": 8, "y": 10 } },
+    "effect": [ { "queue_eocs": "EOC_PORTAL_STORM_SHADOW_SPAWN", "time_in_future": [ "30 seconds", "1 minutes" ] } ],
+    "false_effect": [ { "u_lose_trait": "TAINTED_SHADOW" } ]
   }
 ]

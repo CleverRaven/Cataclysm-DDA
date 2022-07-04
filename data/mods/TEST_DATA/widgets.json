@@ -1443,7 +1443,7 @@
     "separator": ": ",
     "label": "CLAUSE",
     "style": "text",
-    "strings": [ "Zero", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten" ]
+    "string": "Zero"
   },
   {
     "id": "test_layout_list",

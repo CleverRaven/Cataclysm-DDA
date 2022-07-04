@@ -97,7 +97,7 @@ TEST_CASE( "default_overmap_generation_always_succeeds", "[overmap][slow]" )
         }
         overmap_special_batch test_specials = overmap_specials::get_default_batch( candidate_addr );
         overmap_buffer.create_custom_overmap( candidate_addr, test_specials );
-        for( const auto &special_placement : test_specials ) {
+        for( const overmap_special_placement &special_placement : test_specials ) {
             const overmap_special *special = special_placement.special_details;
             INFO( "In attempt #" << overmaps_to_construct
                   << " failed to place " << special->id.str() );
@@ -121,7 +121,7 @@ TEST_CASE( "default_overmap_generation_has_non_mandatory_specials_at_origin", "[
     // Get some specific overmap specials so we can assert their presence later.
     // This should probably be replaced with some custom specials created in
     // memory rather than tying this test to these, but it works for now...
-    for( const auto &elem : overmap_specials::get_all() ) {
+    for( const overmap_special &elem : overmap_specials::get_all() ) {
         if( elem.id == overmap_special_Cabin ) {
             optional = elem;
         } else if( elem.id == overmap_special_Lab ) {

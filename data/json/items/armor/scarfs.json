@@ -423,14 +423,14 @@
     "copy-from": "keffiyeh",
     "looks_like": "scarf",
     "name": { "str": "cyan scarf" },
-    "description": "A simple cloth scarf worn by Marloss Voices.  Wherever the Voices go, long sought peace soon follows, for better or for worse.",
+    "description": "A simple cloth scarf worn by Marloss Voices.  Wherever the Voices go, long-sought peace soon follows, for better or for worse.",
     "color": "cyan"
   },
   {
     "id": "grass_keffiyeh",
     "type": "ARMOR",
     "name": { "str": "grass keffiyeh" },
-    "description": "A grass sheet with cords to wear like a Middle-Eastern headdress.  It's a bit itchy, but can keep your head and mouth a bit warmer if there's nothing in the way.",
+    "description": "A grass sheet with cords to wear it like a Middle Eastern headdress.  It's a bit itchy, but can keep your head and mouth a bit warmer if there's nothing in the way.",
     "weight": "152 g",
     "volume": "1250 ml",
     "price": 10,

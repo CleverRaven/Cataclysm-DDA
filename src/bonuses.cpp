@@ -132,7 +132,7 @@ void bonus_container::load( const JsonArray &jarr, const bool mult )
 
         const affected_type at( as, dt );
 
-        auto &selected = mult ? bonuses_mult : bonuses_flat;
+        bonus_container::bonus_map &selected = mult ? bonuses_mult : bonuses_flat;
         selected[at].emplace_back( qualifiers );
     }
 }
@@ -171,7 +171,7 @@ float bonus_container::get_flat( const Character &u, affected_stat stat, damage_
     }
 
     float ret = 0.0f;
-    for( const auto &es : iter->second ) {
+    for( const effect_scaling &es : iter->second ) {
         ret += es.get( u );
     }
 
@@ -191,7 +191,7 @@ float bonus_container::get_mult( const Character &u, affected_stat stat, damage_
     }
 
     float ret = 1.0f;
-    for( const auto &es : iter->second ) {
+    for( const effect_scaling &es : iter->second ) {
         ret *= es.get( u );
     }
 
@@ -215,7 +215,7 @@ std::string bonus_container::get_description() const
                                   name_by_dt( boni.first.get_damage_type() ), type );
         }
 
-        for( const auto &sf : boni.second ) {
+        for( const effect_scaling &sf : boni.second ) {
             if( sf.stat ) {
                 //~ %1$s: bonus name, %2$d: bonus percentage, %3$s: stat name
                 dump += string_format( pgettext( "martial art bonus", "* %1$s: <stat>%2$d%%</stat> of %3$s" ),
@@ -238,7 +238,7 @@ std::string bonus_container::get_description() const
                                   name_by_dt( boni.first.get_damage_type() ), type );
         }
 
-        for( const auto &sf : boni.second ) {
+        for( const effect_scaling &sf : boni.second ) {
             if( sf.stat ) {
                 //~ %1$s: bonus name, %2$+d: bonus percentage, %3$s: stat name
                 dump += string_format( pgettext( "martial art bonus", "* %1$s: <stat>%2$+d%%</stat> of %3$s" ),
