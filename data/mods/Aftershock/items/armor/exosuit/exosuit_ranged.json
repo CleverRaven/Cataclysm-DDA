@@ -30,7 +30,8 @@
     "symbol": "f",
     "color": "light_gray",
     "flags": [ "EXO_LARGE_GADGET", "CANT_WEAR", "ONLY_ONE" ],
-    "power_draw": 40,
+    "ammo": "battery",
+    "charges_per_use": 80,
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -53,7 +54,8 @@
     "symbol": "f",
     "color": "light_gray",
     "flags": [ "EXO_LARGE_GADGET", "CANT_WEAR", "ONLY_ONE" ],
-    "power_draw": 50,
+    "ammo": "battery",
+    "charges_per_use": 100,
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -76,7 +78,8 @@
     "symbol": "f",
     "color": "light_gray",
     "flags": [ "EXO_LARGE_GADGET", "CANT_WEAR", "ONLY_ONE" ],
-    "power_draw": 1500,
+    "charges_per_use": 1500,
+    "ammo": "battery",
     "pocket_data": [
       { "pocket_type": "MAGAZINE_WELL", "holster": true, "item_restriction": [ "afs_cartridge", "afs_archeotech_cartridge" ] }
     ],
