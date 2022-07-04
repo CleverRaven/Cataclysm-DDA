@@ -77,7 +77,7 @@
       { "type": "bite", "cooldown": 5 },
       [ "LUNGE", 10 ],
       [ "BIO_OP_TAKEDOWN", 15 ],
-      [ "CBM_TRex_recording", 1600 ]
+      { "type": "spell", "spell_data": { "id": "CBM_TRex_recording" }, "cooldown": 1600 }
     ],
     "zombify_into": "mon_zyrannosaurus_bio_op",
     "description": "Enormous glowing teeth in a massive jaw, fierce eyes, and a powerful frame to drive it forward, short arms with large claws, with a feathered mullet and tail.  The entire body is studded with an intricate pattern of crackling bionics.",
