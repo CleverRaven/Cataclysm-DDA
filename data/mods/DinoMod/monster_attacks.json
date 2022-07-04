@@ -62,7 +62,7 @@
     "miss_msg_u": "The %s thrusts its long horns at you, but you evade!",
     "miss_msg_npc": "The %s's thrusts its long horns at <npcname>, but they dodge!"
   },
-    {
+  {
     "id": "CBM_TRex_recording",
     "type": "SPELL",
     "name": { "str": "T-Rex Bio-Operator recording" },
