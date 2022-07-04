@@ -43,8 +43,39 @@
     "min_field_intensity": 10,
     "max_field_intensity": 10,
     "field_intensity_increment": 1,
-    "field_intensity_variance": 0.1    
-  },{
+    "field_intensity_variance": 0.1,
+    "sound_description": "a loud woosh"   
+  },
+  {
+    "type": "SPELL",
+    "id": "exo_sonic",
+	"name": "Exosuit Sonic Cannon",
+    "description": "Your teeth ache as the cannon fires and a ripple shoots through the air.",
+    "effect": "attack",
+    "shape": "cone",
+    "valid_targets": [ "hostile", "ground" ],
+    "flags": "LOUD",
+    "message": "",
+    "max_level": 20,
+    "min_damage": 20,
+    "max_damage": 30,
+    "damage_increment": 5.0,
+    "min_range": 3,
+    "max_range": 7,
+    "range_increment": 0.25,
+    "min_aoe": 5,
+    "max_aoe": 15,
+    "aoe_increment": 5.0,
+	"damage_type": "heat",
+	"field_id": "fd_fire",
+    "field_chance": 2,
+    "min_field_intensity": 10,
+    "max_field_intensity": 10,
+    "field_intensity_increment": 1,
+    "field_intensity_variance": 0.1,
+    "sound_description": "a loud woosh"   
+  },
+  {
     "id": "exo_laserturret",
     "type": "SPELL",
     "name": "Exosuit Laser Turret",
@@ -63,5 +94,28 @@
     "max_aoe": 15,
     "damage_type": "heat",
     "sound_description": "a sharp crack"
+  },
+  {
+    "type": "SPELL",
+    "id": "exo_microwave",
+	"name": "Exosuit Microwave",
+    "description": "The air shimmers with invisible heat as the weapon fires.",
+    "effect": "attack",
+    "shape": "cone",
+    "valid_targets": [ "hostile", "ground" ],
+    "flags": "RANDOM_DAMAGE",
+    "message": "",
+    "max_level": 20,
+    "min_damage": 10,
+    "max_damage": 50,
+    "damage_increment": 5.0,
+    "min_range": 3,
+    "max_range": 7,
+    "range_increment": 0.25,
+    "min_aoe": 5,
+    "max_aoe": 15,
+    "aoe_increment": 5.0,
+	"damage_type": "pure"
+    "sound_description": "a hiss of water vaporizing"
   }
   ]
