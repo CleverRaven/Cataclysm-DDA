@@ -271,23 +271,21 @@ static const selection_column_preset selection_preset{};
 
 bool inventory_entry::is_hidden() const
 {
-    if( !is_item() ) {
+    // non-items and entries not added recursively (from a container) can't be hidden
+    if( !is_item() || topmost_parent == nullptr ) {
         return false;
     }
-    item_location it = locations.front();
-    bool hidden = false;
-    if( topmost_parent != nullptr ) {
-        while( it.has_parent() ) {
-            item_location const prnt = it.parent_item();
-            hidden |= prnt.get_item()->contained_where( *it )->settings.is_collapsed();
-            if( prnt.get_item() == topmost_parent ) {
-                break;
-            }
-            it = prnt;
-        }
-    }
 
-    return hidden;
+    item_location item = locations.front();
+    while( item.has_parent() ) {
+        item_location parent = item.parent_item();
+        if( parent.get_item()->contained_where( *item )->settings.is_collapsed() ) {
+            return true;
+        }
+        item = parent;
+    }
+    // no parent container was collapsed
+    return false;
 }
 
 int inventory_entry::get_total_charges() const
