@@ -594,8 +594,7 @@ std::pair<std::string, nc_color> display::activity_text_color( const Character &
 std::pair<std::string, nc_color> display::thirst_text_color( const Character &u )
 {
     // some delay from water in stomach is desired, but there needs to be some visceral response
-    int thirst = u.get_thirst() - std::max( units::to_milliliter<int>( u.stomach.get_water() ) / 10,
-                                            0 );
+    int thirst = u.get_instant_thirst();
     std::string hydration_string;
     nc_color hydration_color = c_white;
     if( thirst > 520 ) {

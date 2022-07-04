@@ -513,6 +513,7 @@ class Character : public Creature, public visitable
         int get_hunger() const;
         int get_starvation() const;
         virtual int get_thirst() const;
+        virtual int get_instant_thirst() const;
 
         int get_fatigue() const;
         int get_sleep_deprivation() const;

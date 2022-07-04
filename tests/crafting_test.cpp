@@ -1552,6 +1552,7 @@ TEST_CASE( "Unloading non-empty components", "[crafting]" )
 TEST_CASE( "Warn when using favorited component", "[crafting]" )
 {
     map &m = get_map();
+    clear_map();
     item pocketknife( itype_pockknife );
 
     GIVEN( "crafting 1 makeshift funnel" ) {
@@ -1561,7 +1562,9 @@ TEST_CASE( "Warn when using favorited component", "[crafting]" )
             clear_and_setup( c, m, pocketknife );
             REQUIRE( m.i_at( c.pos() ).empty() );
             c.i_add_or_drop( plastic_bottle, 3 );
-            REQUIRE( !m.i_at( c.pos() ).begin()->is_favorite );
+            map_stack items = m.i_at( c.pos() );
+            REQUIRE( !items.empty() );
+            REQUIRE( !items.begin()->is_favorite );
             THEN( "no warning" ) {
                 CHECK( c.can_start_craft( &*recipe_makeshift_funnel, recipe_filter_flags::none ) );
                 CHECK( c.can_start_craft( &*recipe_makeshift_funnel, recipe_filter_flags::no_favorite ) );
@@ -1574,7 +1577,9 @@ TEST_CASE( "Warn when using favorited component", "[crafting]" )
             clear_and_setup( c, m, pocketknife );
             REQUIRE( m.i_at( c.pos() ).empty() );
             c.i_add_or_drop( plastic_bottle, 3 );
-            REQUIRE( m.i_at( c.pos() ).begin()->is_favorite );
+            map_stack items = m.i_at( c.pos() );
+            REQUIRE( !items.empty() );
+            REQUIRE( items.begin()->is_favorite );
             THEN( "warning" ) {
                 CHECK( c.can_start_craft( &*recipe_makeshift_funnel, recipe_filter_flags::none ) );
                 CHECK( !c.can_start_craft( &*recipe_makeshift_funnel, recipe_filter_flags::no_favorite ) );
@@ -1586,8 +1591,10 @@ TEST_CASE( "Warn when using favorited component", "[crafting]" )
             clear_and_setup( c, m, pocketknife );
             REQUIRE( m.i_at( c.pos() ).empty() );
             c.i_add_or_drop( plastic_bottle, 3 );
-            m.i_at( c.pos() ).begin()->is_favorite = true;
-            REQUIRE( m.i_at( c.pos() ).begin()->is_favorite );
+            map_stack items = m.i_at( c.pos() );
+            REQUIRE( !items.empty() );
+            items.begin()->is_favorite = true;
+            REQUIRE( items.begin()->is_favorite );
             THEN( "warning" ) {
                 CHECK( c.can_start_craft( &*recipe_makeshift_funnel, recipe_filter_flags::none ) );
                 CHECK( !c.can_start_craft( &*recipe_makeshift_funnel, recipe_filter_flags::no_favorite ) );
@@ -1599,8 +1606,10 @@ TEST_CASE( "Warn when using favorited component", "[crafting]" )
             clear_and_setup( c, m, pocketknife );
             REQUIRE( m.i_at( c.pos() ).empty() );
             c.i_add_or_drop( plastic_bottle, 4 );
-            m.i_at( c.pos() ).begin()->is_favorite = true;
-            REQUIRE( m.i_at( c.pos() ).begin()->is_favorite );
+            map_stack items = m.i_at( c.pos() );
+            REQUIRE( !items.empty() );
+            items.begin()->is_favorite = true;
+            REQUIRE( items.begin()->is_favorite );
             THEN( "no warning" ) {
                 CHECK( c.can_start_craft( &*recipe_makeshift_funnel, recipe_filter_flags::none ) );
                 CHECK( c.can_start_craft( &*recipe_makeshift_funnel, recipe_filter_flags::no_favorite ) );

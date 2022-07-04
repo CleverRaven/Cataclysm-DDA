@@ -306,10 +306,10 @@ void TranslationPluralRulesEvaluator::UnwindStacks( std::stack<ExprNode *> &oper
         std::stack<ExprNode *> &operators,
         int precedence )
 {
-    while( not operators.empty() &&
+    while( !operators.empty() &&
            OperatorPrecedence( operators.top()->token.type ) >= precedence &&
            ( OperatorPrecedence( operators.top()->token.type ) > precedence ||
-             not IsTernaryToken( operators.top()->token.type ) ) ) {
+             !IsTernaryToken( operators.top()->token.type ) ) ) {
         if( IsUnaryToken( operators.top()->token.type ) ) {
             if( operands.empty() ) {
                 throw ParseError( "Insufficient operands" );

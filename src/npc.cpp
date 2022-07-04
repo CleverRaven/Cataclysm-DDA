@@ -535,7 +535,7 @@ void npc_template::reset()
 void npc_template::check_consistency()
 {
     for( const auto &e : npc_templates ) {
-        const auto &guy = e.second.guy;
+        const npc &guy = e.second.guy;
         if( !guy.myclass.is_valid() ) {
             debugmsg( "Invalid NPC class %s", guy.myclass.c_str() );
         }
@@ -721,13 +721,13 @@ void npc::randomize( const npc_class_id &type )
         myclass = type;
     }
 
-    const auto &the_class = myclass.obj();
+    const npc_class &the_class = myclass.obj();
     str_max = the_class.roll_strength();
     dex_max = the_class.roll_dexterity();
     int_max = the_class.roll_intelligence();
     per_max = the_class.roll_perception();
 
-    for( auto &skill : Skill::skills ) {
+    for( Skill &skill : Skill::skills ) {
         int level = myclass->roll_skill( skill.ident() );
 
         set_skill_level( skill.ident(), level );
@@ -875,7 +875,7 @@ void npc::set_fac( const faction_id &id )
 
 void npc::apply_ownership_to_inv()
 {
-    for( auto &e : inv_dump() ) {
+    for( item *&e : inv_dump() ) {
         e->set_owner( *this );
     }
 }
@@ -1036,7 +1036,7 @@ void starting_inv( npc &who, const npc_class_id &type )
     res.erase( std::remove_if( res.begin(), res.end(), [&]( const item & e ) {
         return e.has_flag( flag_TRADER_AVOID );
     } ), res.end() );
-    for( auto &it : res ) {
+    for( item &it : res ) {
         it.set_owner( who );
     }
     *who.inv += res;
@@ -1758,7 +1758,7 @@ void npc::on_attacked( const Creature &attacker )
 int npc::assigned_missions_value()
 {
     int ret = 0;
-    for( auto &m : chatbin.missions_assigned ) {
+    for( ::mission *m : chatbin.missions_assigned ) {
         ret += m->get_value();
     }
     return ret;
@@ -1815,7 +1815,7 @@ void npc::decide_needs()
 {
     const item &weapon = get_wielded_item();
     double needrank[num_needs];
-    for( auto &elem : needrank ) {
+    for( double &elem : needrank ) {
         elem = 20;
     }
     if( weapon.is_gun() ) {
@@ -2072,15 +2072,13 @@ void npc::shop_restock()
 
     // First, populate trade goods using rigid groups.
     // Rigid groups are always processed a single time, regardless of the shopkeeper's inventory size or desired total value of goods.
-    if( !rigid_groups.empty() ) {
-        for( const item_group_id &rg : rigid_groups ) {
-            item_group::ItemList rigid_items = item_group::items_from( rg, calendar::turn );
-            if( !rigid_items.empty() ) {
-                for( item &tmpit : rigid_items ) {
-                    if( !tmpit.is_null() ) {
-                        tmpit.set_owner( *this );
-                        ret.push_back( tmpit );
-                    }
+    for( const item_group_id &rg : rigid_groups ) {
+        item_group::ItemList rigid_items = item_group::items_from( rg, calendar::turn );
+        if( !rigid_items.empty() ) {
+            for( item &tmpit : rigid_items ) {
+                if( !tmpit.is_null() ) {
+                    tmpit.set_owner( *this );
+                    ret.push_back( tmpit );
                 }
             }
         }
@@ -2186,7 +2184,7 @@ double npc::value( const item &it, double market_price ) const
             ret += 0.2;
         }
     } else if( it.is_book() ) {
-        auto &book = *it.type->book;
+        islot_book &book = *it.type->book;
         ret += book.fun * 0.01;
         int const skill = get_knowledge_level( book.skill );
         if( book.skill && skill < book.level && skill >= book.req ) {
@@ -2546,7 +2544,7 @@ void npc::npc_dismount()
         return;
     }
     cata::optional<tripoint> pnt;
-    for( const auto &elem : get_map().points_in_radius( pos(), 1 ) ) {
+    for( const tripoint &elem : get_map().points_in_radius( pos(), 1 ) ) {
         if( g->is_empty( elem ) ) {
             pnt = elem;
             break;

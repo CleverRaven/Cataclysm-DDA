@@ -90,10 +90,10 @@ std::vector<item_location> Character::find_ammo( const item &obj, bool empty, in
     find_ammo_helper( const_cast<Character &>( *this ), obj, empty, std::back_inserter( res ), true );
 
     if( radius >= 0 ) {
-        for( auto &cursor : map_selector( pos(), radius ) ) {
+        for( map_cursor &cursor : map_selector( pos(), radius ) ) {
             find_ammo_helper( cursor, obj, empty, std::back_inserter( res ), false );
         }
-        for( auto &cursor : vehicle_selector( pos(), radius ) ) {
+        for( vehicle_cursor &cursor : vehicle_selector( pos(), radius ) ) {
             find_ammo_helper( cursor, obj, empty, std::back_inserter( res ), false );
         }
     }

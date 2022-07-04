@@ -16,7 +16,7 @@ const static flag_id json_flag_W_LABEL_NONE( "W_LABEL_NONE" );
 const static flag_id json_flag_W_NO_PADDING( "W_NO_PADDING" );
 
 // Default label separator for widgets.
-const static std::string default_separator = "DEFAULT";
+const static std::string default_separator = ": ";
 
 // Use generic factory wrappers for widgets to use standardized JSON loading methods
 namespace
@@ -350,7 +350,6 @@ nc_color widget_clause::get_color_for_id( const std::string &clause_id, const wi
 
 void widget::load( const JsonObject &jo, const std::string & )
 {
-    optional( jo, was_loaded, "strings", _strings );
     optional( jo, was_loaded, "width", _width, 1 );
     optional( jo, was_loaded, "height", _height_max, 1 );
     optional( jo, was_loaded, "symbols", _symbols, "-" );
@@ -365,10 +364,14 @@ void widget::load( const JsonObject &jo, const std::string & )
 
     if( _style == "sidebar" ) {
         mandatory( jo, was_loaded, "separator", _separator );
+        mandatory( jo, was_loaded, "padding", _padding );
         explicit_separator = true;
+        explicit_padding = true;
     } else {
+        explicit_separator = jo.has_string( "separator" );
+        explicit_padding = jo.has_string( "padding" );
         optional( jo, was_loaded, "separator", _separator, default_separator );
-        explicit_separator = ( _separator != default_separator );
+        optional( jo, was_loaded, "padding", _padding, 2 );
     }
     _height = _height_max;
     _label_width = _label.empty() ? 0 : utf8_width( _label.translated() );
@@ -412,7 +415,11 @@ void widget::load( const JsonObject &jo, const std::string & )
     if( jo.has_object( "default_clause" ) ) {
         _default_clause.load( jo.get_object( "default_clause" ) );
     }
-
+    if( _style == "text" && _clauses.empty() && _var == widget_var::last ) {
+        mandatory( jo, was_loaded, "string", _string );
+    } else {
+        optional( jo, was_loaded, "string", _string );
+    }
     optional( jo, was_loaded, "widgets", _widgets, string_id_reader<::widget> {} );
 }
 
@@ -456,8 +463,8 @@ int widget::finalize_label_width_recursive( const widget_id &id )
     return w->_label_width;
 }
 
-void widget::finalize_label_separator_recursive( const widget_id &id,
-        const std::string &label_separator )
+void widget::finalize_inherited_fields_recursive( const widget_id &id,
+        const std::string &label_separator, const int col_padding )
 {
     widget *w = nullptr;
     // Get the original widget from the widget factory.
@@ -469,28 +476,29 @@ void widget::finalize_label_separator_recursive( const widget_id &id,
     }
     if( w == nullptr ) {
         return;
-    } else if( w->_widgets.empty() ) {
-        if( !w->explicit_separator ) {
-            w->_separator = label_separator;
-            return;
-        } else {
-            return;
-        }
+    }
+    if( !w->explicit_separator ) {
+        w->_separator = label_separator;
+    }
+    if( !w->explicit_padding ) {
+        w->_padding = col_padding;
+    }
+    if( w->_widgets.empty() ) {
+        return;
     }
     // If we get here, we have a layout that contains nested widgets.
     for( const widget_id &wid : w->_widgets ) {
-        if( !w->explicit_separator ) {
-            w->_separator = label_separator;
-        }
-        widget::finalize_label_separator_recursive( wid, w->_separator );
+        widget::finalize_inherited_fields_recursive( wid,
+                w->explicit_separator ? w->_separator : label_separator,
+                w->explicit_padding ? w->_padding : col_padding );
     }
 }
 
 void widget::finalize()
 {
     for( const widget &wgt : widget::get_all() ) {
-        if( wgt.explicit_separator ) {
-            widget::finalize_label_separator_recursive( wgt.getId(), wgt._separator );
+        if( wgt.explicit_separator || wgt.explicit_padding ) {
+            widget::finalize_inherited_fields_recursive( wgt.getId(), wgt._separator, wgt._padding );
         }
         widget::finalize_label_width_recursive( wgt.getId() );
     }
@@ -1067,9 +1075,9 @@ std::string widget::value_string( int value, int width_max )
     if( _style == "graph" ) {
         ret += graph( value );
     } else if( _style == "text" ) {
-        ret += text( value, !_clauses.empty(), w );
+        ret += text( !_clauses.empty(), w );
     } else if( _style == "symbol" ) {
-        ret += sym( value, !_clauses.empty() );
+        ret += sym( !_clauses.empty() );
     } else if( _style == "legend" ) {
         ret += sym_text( !_clauses.empty(), w );
     } else if( _style == "number" ) {
@@ -1135,17 +1143,17 @@ std::string widget::number( int value, bool from_condition ) const
     return from_condition ? number_cond() : string_format( "%d", value );
 }
 
-std::string widget::text( int value, bool from_condition, int width )
+std::string widget::text( bool from_condition, int width )
 {
     if( from_condition ) {
         return text_cond( false, width );
     }
-    return _strings.at( value ).translated();
+    return _string.translated();
 }
 
-std::string widget::sym( int value, bool from_condition )
+std::string widget::sym( bool from_condition )
 {
-    return from_condition ? sym_cond() : text( value, from_condition );
+    return from_condition ? sym_cond() : text( from_condition, 0 );
 }
 
 std::string widget::sym_text( bool from_condition, int width )
@@ -1153,9 +1161,7 @@ std::string widget::sym_text( bool from_condition, int width )
     if( from_condition ) {
         return sym_text_cond( true, width );
     }
-    return enumerate_as_string( _strings.begin(), _strings.end(), []( const translation & t ) {
-        return t.translated();
-    }, enumeration_conjunction::none );
+    return _string.translated();
 }
 
 std::string widget::number_cond( enumeration_conjunction join_type ) const
@@ -1368,7 +1374,7 @@ static std::string append_line( const std::string &line, bool first_row, int max
     int txt_w = 0;
     std::string txt;
     if( !line.empty() ) {
-        txt = skip_pad ? trim( line ) : line;
+        txt = skip_pad ? ( trim( line ) + ( newline_fix == 1 ? "\n" : "" ) ) : line;
         txt_w = utf8_width( txt, true ) + newline_fix;
     }
 
@@ -1460,13 +1466,22 @@ std::string widget::layout( const avatar &ava, unsigned int max_width, int label
                 debugmsg( "widget layout has no widgets" );
             }
             // Number of spaces between columns
-            const int col_padding = 2;
+            const int col_padding = _padding;
             // Subtract column padding to get space available for widgets
             const int avail_width = max_width - col_padding * ( num_widgets - 1 );
             // Divide available width equally among all widgets
             const int child_width = avail_width / num_widgets;
+            // Total widget width w/o padding
+            const int total_widget_width = std::accumulate( _widgets.begin(), _widgets.end(), 0,
+            [child_width]( int sum, const widget_id & wid ) {
+                widget cur_child = wid.obj();
+                return sum + ( cur_child._style == "layout" &&
+                               cur_child._width > 1 ? cur_child._width : child_width );
+            } );
+            // Total widget width with padding
+            const int total_widget_padded_width = total_widget_width + col_padding * ( num_widgets - 1 );
             // Keep remainder to distribute
-            int remainder = avail_width % num_widgets;
+            int remainder = max_width - total_widget_padded_width;
             // Store the (potentially) multi-row text for each column
             std::vector<std::vector<std::string>> cols;
             std::vector<int> widths;

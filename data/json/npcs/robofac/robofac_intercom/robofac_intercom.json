@@ -667,7 +667,8 @@
       "TALK_ROBOFAC_INTERCOM_PORTAL_STORMS_2",
       "TALK_ROBOFAC_INTERCOM_PORTAL_STORMS_3",
       "TALK_ROBOFAC_INTERCOM_PORTAL_STORMS_4",
-      "TALK_ROBOFAC_INTERCOM_PORTAL_STORMS_5"
+      "TALK_ROBOFAC_INTERCOM_PORTAL_STORMS_5",
+      "TALK_ROBOFAC_INTERCOM_PORTAL_STORMS_6"
     ],
     "//": "These lines are being paraphrased mostly from written information, so repeating things or using distinct phrasing is fine",
     "type": "talk_topic",
@@ -684,6 +685,10 @@
         "topic": "TALK_ROBOFAC_INTERCOM_PORTAL_STORMS_4"
       },
       { "text": "How can you know all this?", "topic": "TALK_ROBOFAC_INTERCOM_PORTAL_STORMS_5" },
+      {
+        "text": "Is there anything useful I could find in one of these storms?",
+        "topic": "TALK_ROBOFAC_INTERCOM_PORTAL_STORMS_6"
+      },
       { "text": "Thank you for the information.", "topic": "TALK_ROBOFAC_INTERCOM_PORTAL_STORMS_END" }
     ]
   },
@@ -707,6 +712,12 @@
     "type": "talk_topic",
     "//": "this is lie of omission. Hub 01 is explicitly aware of XEDRA and the work they were doing, and the staff likely had an indication just before the Cataclysm hit that things were about to get really bad, leading them to back up a vast amount of online information before the internet was completely knocked out.",
     "dynamic_line": "We have a vested interest in determining how these events will influence the future of the planet - as should you.  Most of the equipment inside of this facility has remained in working order, and although the Internet no longer exists in a functional way, we still have a plethora of information that was stored locally prior to <the_cataclysm>.  We are monitoring and documenting these portal storms, and we will continue to do so for the foreseeable future."
+  },
+  {
+    "id": "TALK_ROBOFAC_INTERCOM_PORTAL_STORMS_6",
+    "type": "talk_topic",
+    "//": "A recording to give proof without requiring those who know the most about portal storms to risk their agents.",
+    "dynamic_line": "We recently acquired a recording taken outside during a portal storm.  It shown a particular entity that seemed to react to human presence by changing shape quicker than it already did.  This entity eventually reshaped itself in a small object, which the author of the video claimed had anomalous properties.  According to our observations, this kind of creature will only manifest itself if there's a living human outside during a portal storm and even there it seems to appear rarely.  We are not interested by risking ourselves to gather such objects but if you acquired some, we would eagerly buy them."
   },
   {
     "id": "TALK_ROBOFAC_INTERCOM_ARMOR_ASK",

@@ -517,7 +517,7 @@ class disassemble_inventory_preset : public inventory_selector_preset
             check_components = true;
 
             append_cell( [ this ]( const item_location & loc ) {
-                const auto &req = get_recipe( loc ).disassembly_requirements();
+                const requirement_data &req = get_recipe( loc ).disassembly_requirements();
                 if( req.is_empty() ) {
                     return std::string();
                 }
@@ -1347,7 +1347,7 @@ class read_inventory_preset: public pickup_inventory_preset
                 if( !is_known( loc ) ) {
                     return unknown;
                 }
-                const auto &book = get_book( loc );
+                const islot_book &book = get_book( loc );
                 if( book.skill ) {
                     const SkillLevel &skill = you.get_skill_level_object( book.skill );
                     if( skill.can_train() ) {
@@ -1363,7 +1363,7 @@ class read_inventory_preset: public pickup_inventory_preset
                 if( !is_known( loc ) ) {
                     return unknown;
                 }
-                const auto &book = get_book( loc );
+                const islot_book &book = get_book( loc );
                 const int unlearned = book.recipes.size() - get_known_recipes( book );
 
                 return unlearned > 0 ? std::to_string( unlearned ) : std::string();
@@ -1425,7 +1425,7 @@ class read_inventory_preset: public pickup_inventory_preset
                     return false;
                 }
 
-                const auto &book = get_book( e.any_item() );
+                const islot_book &book = get_book( e.any_item() );
                 if( book.skill && you.get_skill_level_object( book.skill ).can_train() ) {
                     return lcmatch( book.skill->name(), filter );
                 }
@@ -1444,8 +1444,8 @@ class read_inventory_preset: public pickup_inventory_preset
                 return ( !known_a && !known_b ) ? base_sort : !known_a;
             }
 
-            const auto &book_a = get_book( lhs.any_item() );
-            const auto &book_b = get_book( rhs.any_item() );
+            const islot_book &book_a = get_book( lhs.any_item() );
+            const islot_book &book_b = get_book( rhs.any_item() );
 
             if( !book_a.skill && !book_b.skill ) {
                 return ( book_a.fun == book_b.fun ) ? base_sort : book_a.fun > book_b.fun;
@@ -1478,7 +1478,7 @@ class read_inventory_preset: public pickup_inventory_preset
 
         int get_known_recipes( const islot_book &book ) const {
             int res = 0;
-            for( const auto &elem : book.recipes ) {
+            for( const islot_book::recipe_with_description_t &elem : book.recipes ) {
                 if( you.knows_recipe( elem.recipe ) ) {
                     ++res; // If the player knows it, they recognize it even if it's not clearly stated.
                 }
@@ -1738,41 +1738,13 @@ static bool valid_unload_container( const item_location &container )
         return false;
     }
 
-    // This item must not be a liquid, relies on containers
-    // only being able to store one liquid at a time
-    if( container->num_item_stacks() == 1 && container->only_item().made_of( phase_id::LIQUID ) ) {
+    // Not all contents should not be liquid, gas or plasma
+    if( container->contains_no_solids() ) {
         return false;
     }
 
     return true;
 }
-
-// Due to current item_location limitations, these won't work.
-// When item_location gets updated to get items inside containers outside the player inventory
-// uncomment this
-// static item_location unload_container_item( drop_location &droplc, item *it, avatar &you )
-// {
-//     switch( droplc.first.where() ) {
-//         case item_location::type::invalid:
-//             return item_location();
-//         case item_location::type::character:
-//             return item_location( you, it );
-//         case item_location::type::map:
-//             return item_location( map_cursor( droplc.first.position() ), it );
-//         case item_location::type::vehicle: {
-//             const cata::optional<vpart_reference> vp =
-//                 get_map().veh_at( droplc.first.position() ).part_with_feature( "CARGO", true );
-//             if( !vp ) {
-//                 return item_location();
-//             }
-//             return item_location( vehicle_cursor( vp->vehicle(), vp->part_index() ), it );
-//         }
-//         case item_location::type::container:
-//             return item_location( droplc.first, it );
-//         default:
-//             return item_location();
-//     }
-// }
 
 drop_locations game_menus::inv::unload_container( avatar &you )
 {
@@ -1781,9 +1753,7 @@ drop_locations game_menus::inv::unload_container( avatar &you )
     inventory_drop_selector insert_menu( you, unload_preset, _( "CONTAINERS TO UNLOAD" ),
                                          /*warn_liquid=*/false );
     insert_menu.add_character_items( you );
-    // When item_location gets updated to get items inside containers outside the player inventory
-    // uncomment this
-    //insert_menu.add_nearby_items( 1 );
+    insert_menu.add_nearby_items( 1 );
     insert_menu.set_display_stats( false );
 
     insert_menu.set_title( _( "Select containers to unload" ) );
@@ -1794,12 +1764,6 @@ drop_locations game_menus::inv::unload_container( avatar &you )
             // no liquids and no items marked as favorite
             if( !it->made_of( phase_id::LIQUID ) && !it->is_favorite ) {
                 dropped.emplace_back( item_location( droplc.first, it ), it->count() );
-                // When item_location gets updated to get items inside containers outside the player inventory
-                // uncomment this
-                // item_location iloc = unload_container_item( droplc, it, you );
-                // if( iloc ) {
-                //     dropped.emplace_back( iloc, it->count() );
-                // }
             }
         }
     }
@@ -2417,7 +2381,7 @@ class bionic_install_surgeon_preset : public inventory_selector_preset
         }
 
         bool is_shown( const item_location &loc ) const override {
-            return ( loc->is_owned_by( you ) or loc->is_owned_by( pa ) ) and loc->is_bionic();
+            return ( loc->is_owned_by( you ) || loc->is_owned_by( pa ) ) && loc->is_bionic();
         }
 
         std::string get_denial( const item_location &loc ) const override {

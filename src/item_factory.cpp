@@ -870,7 +870,7 @@ void Item_factory::finalize_post( itype &obj )
 
                 // need to account for varsize stuff here and double encumbrance if so
                 if( obj.has_flag( flag_VARSIZE ) ) {
-                    data.encumber = std::min( data.encumber * 2, data.encumber + 10 );;
+                    data.encumber = std::min( data.encumber * 2, data.encumber + 10 );
                 }
 
                 // Recalc max encumber as well
@@ -2284,7 +2284,7 @@ void Item_factory::check_definitions() const
             if( !m_templates.count( m.replace ) ) {
                 debugmsg( "Invalid migration target: %s", m.replace.c_str() );
             }
-            for( const auto &c : m.contents ) {
+            for( const migration::content &c : m.contents ) {
                 if( !m_templates.count( c.id ) ) {
                     debugmsg( "Invalid migration contents: %s", c.id.str() );
                 }

@@ -246,7 +246,7 @@
     "subcategory": "CSC_FOOD_OTHER",
     "skill_used": "cooking",
     "time": "20 m",
-    "tools": [ [ [ "bag_plastic", 2 ] ] ],
+    "tools": [ [ "bag_plastic" ] ],
     "book_learn": [ [ "mag_cooking", 0 ] ],
     "components": [
       [ [ "water_clean", 2 ] ],
@@ -281,7 +281,7 @@
     "//": "in real life, you can use some plastic bags with the correct materials and shake up to make ice cream!",
     "copy-from": "icecream_from_bags",
     "type": "recipe",
-    "tools": [ [ [ "bag_plastic", 2 ] ] ],
+    "tools": [ [ "bag_plastic" ] ],
     "book_learn": [ [ "mag_cooking", 0 ] ],
     "components": [
       [ [ "water_clean", 2 ] ],

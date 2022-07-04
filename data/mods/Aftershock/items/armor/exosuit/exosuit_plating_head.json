@@ -18,7 +18,7 @@
         "material": [ { "type": "qt_steel", "covered_by_mat": 100, "thickness": 6 } ],
         "covers": [ "head", "eyes", "mouth" ],
         "coverage": 100,
-        "encumbrance": 20
+        "encumbrance": 5
       }
     ]
   },
@@ -35,7 +35,7 @@
         "material": [ { "type": "qt_steel", "covered_by_mat": 100, "thickness": 3 } ],
         "covers": [ "head", "eyes", "mouth" ],
         "coverage": 85,
-        "encumbrance": 20
+        "encumbrance": 5
       }
     ]
   },
@@ -64,7 +64,7 @@
         "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 4.5 } ],
         "covers": [ "head", "eyes", "mouth" ],
         "coverage": 100,
-        "encumbrance": 15
+        "encumbrance": 5
       }
     ]
   },
@@ -81,7 +81,7 @@
         "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 2.25 } ],
         "covers": [ "head", "eyes", "mouth" ],
         "coverage": 85,
-        "encumbrance": 15
+        "encumbrance": 5
       }
     ]
   },
@@ -111,7 +111,7 @@
         "material": [ { "type": "vacuum_carbide", "covered_by_mat": 100, "thickness": 4 } ],
         "covers": [ "head", "eyes", "mouth" ],
         "coverage": 100,
-        "encumbrance": 25
+        "encumbrance": 5
       }
     ]
   },
@@ -132,7 +132,7 @@
         "material": [ { "type": "vacuum_carbide", "covered_by_mat": 100, "thickness": 2 } ],
         "covers": [ "head", "eyes", "mouth" ],
         "coverage": 85,
-        "encumbrance": 25
+        "encumbrance": 5
       }
     ]
   },

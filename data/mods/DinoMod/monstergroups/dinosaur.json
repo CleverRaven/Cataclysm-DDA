@@ -16,6 +16,7 @@
       { "monster": "mon_appalachiosaurus", "weight": 4, "cost_multiplier": 35 },
       { "monster": "mon_gorgosaurus", "weight": 4, "cost_multiplier": 35 },
       { "monster": "mon_albertosaurus", "weight": 4, "cost_multiplier": 35 },
+      { "monster": "mon_nanuqsaurus", "weight": 4, "cost_multiplier": 35 },
       { "monster": "mon_daspletosaurus", "weight": 4, "cost_multiplier": 35 },
       { "monster": "mon_tyrannosaurus", "weight": 8, "cost_multiplier": 40 },
       { "monster": "mon_compsognathus", "weight": 20, "cost_multiplier": 0, "pack_size": [ 4, 12 ] },
@@ -151,6 +152,7 @@
       { "monster": "mon_appalachiosaurus_hatchling", "weight": 4, "cost_multiplier": 35, "pack_size": [ 1, 2 ] },
       { "monster": "mon_gorgosaurus_hatchling", "weight": 4, "cost_multiplier": 35, "pack_size": [ 1, 2 ] },
       { "monster": "mon_albertosaurus_hatchling", "weight": 4, "cost_multiplier": 35, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_nanuqsaurus_hatchling", "weight": 4, "cost_multiplier": 35, "pack_size": [ 1, 2 ] },
       { "monster": "mon_daspletosaurus_hatchling", "weight": 4, "cost_multiplier": 35, "pack_size": [ 1, 2 ] },
       { "monster": "mon_tyrannosaurus_hatchling", "weight": 8, "cost_multiplier": 40, "pack_size": [ 1, 2 ] },
       { "monster": "mon_anzu_hatchling", "weight": 15, "cost_multiplier": 10, "pack_size": [ 1, 2 ] },
@@ -235,6 +237,7 @@
       { "monster": "mon_appalachiosaurus", "weight": 200, "cost_multiplier": 35 },
       { "monster": "mon_gorgosaurus", "weight": 200, "cost_multiplier": 35 },
       { "monster": "mon_albertosaurus", "weight": 200, "cost_multiplier": 35 },
+      { "monster": "mon_nanuqsaurus", "weight": 200, "cost_multiplier": 35 },
       { "monster": "mon_daspletosaurus", "weight": 200, "cost_multiplier": 35 },
       { "monster": "mon_tyrannosaurus", "weight": 200, "cost_multiplier": 40 }
     ]
@@ -288,6 +291,8 @@
       { "monster": "mon_zorgosaurus", "cost_multiplier": 35, "starts": "7 days" },
       { "monster": "mon_albertosaurus", "cost_multiplier": 35, "starts": "3 days" },
       { "monster": "mon_zalbertosaurus", "cost_multiplier": 35, "starts": "7 days" },
+      { "monster": "mon_nanuqsaurus", "cost_multiplier": 35, "starts": "3 days" },
+      { "monster": "mon_zanuqsaurus", "cost_multiplier": 35, "starts": "7 days" },
       { "monster": "mon_daspletosaurus", "cost_multiplier": 35, "starts": "3 days" },
       { "monster": "mon_zaspletosaurus", "cost_multiplier": 35, "starts": "7 days" },
       { "monster": "mon_tyrannosaurus", "weight": 2, "cost_multiplier": 40, "starts": "3 days" },

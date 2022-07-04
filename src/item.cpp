@@ -303,7 +303,7 @@ item::item( const itype *type, time_point turn, int qty ) : type( type ), bday( 
         }
     } else {
         auto const mag_filter = []( item_pocket const & pck ) {
-            return pck.is_type( item_pocket::pocket_type::MAGAZINE ) or
+            return pck.is_type( item_pocket::pocket_type::MAGAZINE ) ||
                    pck.is_type( item_pocket::pocket_type::MAGAZINE_WELL );
         };
         for( item_pocket *pocket : contents.get_pockets( mag_filter ) ) {
@@ -2256,7 +2256,7 @@ void item::debug_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
 }
 
 void item::med_info( const item *med_item, std::vector<iteminfo> &info, const iteminfo_query *parts,
-                     int batch, bool ) const
+                     int batch, bool debug ) const
 {
     const cata::value_ptr<islot_comestible> &med_com = med_item->get_comestible();
     if( med_com->quench != 0 && parts->test( iteminfo_parts::MED_QUENCH ) ) {
@@ -2292,6 +2292,8 @@ void item::med_info( const item *med_item, std::vector<iteminfo> &info, const it
     if( med_com->addict && parts->test( iteminfo_parts::DESCRIPTION_MED_ADDICTING ) ) {
         info.emplace_back( "DESCRIPTION", _( "* Consuming this item is <bad>addicting</bad>." ) );
     }
+
+    rot_info( med_item, info, parts, batch, debug );
 }
 
 void item::food_info( const item *food_item, std::vector<iteminfo> &info,
@@ -2456,10 +2458,18 @@ void item::food_info( const item *food_item, std::vector<iteminfo> &info,
                               "<neutral>hallucinogenic</neutral>." ) );
     }
 
+    rot_info( food_item, info, parts, batch, debug );
+}
+
+void item::rot_info( const item *const food_item, std::vector<iteminfo> &info,
+                     const iteminfo_query *const parts, const int /*batch*/, const bool /*debug*/ ) const
+{
+    Character &player_character = get_player_character();
+
     if( food_item->goes_bad() && parts->test( iteminfo_parts::FOOD_ROT ) ) {
         const std::string rot_time = to_string_clipped( food_item->get_shelf_life() );
         info.emplace_back( "DESCRIPTION",
-                           string_format( _( "* This food is <neutral>perishable</neutral>, "
+                           string_format( _( "* This item is <neutral>perishable</neutral>, "
                                              "and at room temperature has an estimated nominal "
                                              "shelf life of <info>%s</info>." ), rot_time ) );
 
@@ -2487,16 +2497,16 @@ void item::food_info( const item *food_item, std::vector<iteminfo> &info,
         if( food_item->rotten() ) {
             if( player_character.has_bionic( bio_digestion ) ) {
                 info.emplace_back( "DESCRIPTION",
-                                   _( "This food has started to <neutral>rot</neutral>, "
+                                   _( "This item has started to <neutral>rot</neutral>, "
                                       "but <info>your bionic digestion can tolerate "
                                       "it</info>." ) );
             } else if( player_character.has_flag( json_flag_IMMUNE_SPOIL ) ) {
                 info.emplace_back( "DESCRIPTION",
-                                   _( "This food has started to <neutral>rot</neutral>, "
+                                   _( "This item has started to <neutral>rot</neutral>, "
                                       "but <info>you can tolerate it</info>." ) );
             } else {
                 info.emplace_back( "DESCRIPTION",
-                                   _( "This food has started to <bad>rot</bad>. "
+                                   _( "This item has started to <bad>rot</bad>. "
                                       "<info>Eating</info> it would be a <bad>very bad "
                                       "idea</bad>." ) );
             }
@@ -4531,9 +4541,7 @@ void item::tool_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
         std::vector<const item *> book_list = ebooks();
         int total_ebooks = book_list.size();
 
-        for( auto iter = book_list.begin(); iter != book_list.end(); ++iter ) {
-            const item *ebook = *iter;
-
+        for( const item *ebook : book_list ) {
             const islot_book &book = *ebook->type->book;
             for( const islot_book::recipe_with_description_t &elem : book.recipes ) {
                 const bool knows_it = player_character.knows_recipe( elem.recipe );
@@ -4968,7 +4976,7 @@ void item::melee_combat_info( std::vector<iteminfo> &info, const iteminfo_query 
 
         if( base_stamina || base_dpstam ) {
             stam = player_character.get_total_melee_stamina_cost( this ) * -1;
-            stam_pct = truncf( stam * 1000.0 / player_character.get_stamina_max() ) / 10;
+            stam_pct = std::truncf( stam * 1000.0 / player_character.get_stamina_max() ) / 10;
         }
 
         if( base_dps || base_dpstam ) {
@@ -6545,7 +6553,7 @@ std::string item::display_name( unsigned int quantity ) const
 bool item::is_collapsed() const
 {
     return !contents.get_pockets( []( item_pocket const & pocket ) {
-        return pocket.settings.is_collapsed() and pocket.is_standard_type();
+        return pocket.settings.is_collapsed() && pocket.is_standard_type();
     } ).empty();
 }
 
@@ -7058,7 +7066,7 @@ bool item::has_own_flag( const flag_id &f ) const
     return item_tags.count( f );
 }
 
-bool item::has_flag( const flag_id &f ) const
+bool item::has_flag( const flag_id &f, bool ignore_inherit ) const
 {
     bool ret = false;
     if( !f.is_valid() ) {
@@ -7066,7 +7074,7 @@ bool item::has_flag( const flag_id &f ) const
         return false;
     }
 
-    if( f->inherit() ) {
+    if( !ignore_inherit && f->inherit() ) {
         for( const item *e : is_gun() ? gunmods() : toolmods() ) {
             // gunmods fired separately do not contribute to base gun flags
             if( !e->is_gun() && e->has_flag( f ) ) {
@@ -7811,12 +7819,10 @@ const armor_portion_data *item::portion_for_bodypart( const sub_bodypart_id &bod
         return nullptr;
     }
     for( const armor_portion_data &entry : t->sub_data ) {
-        if( !entry.sub_coverage.empty() ) {
-            for( const sub_bodypart_str_id &tmp : entry.sub_coverage ) {
-                const sub_bodypart_id &subpart = tmp;
-                if( subpart == bodypart ) {
-                    return &entry;
-                }
+        for( const sub_bodypart_str_id &tmp : entry.sub_coverage ) {
+            const sub_bodypart_id &subpart = tmp;
+            if( subpart == bodypart ) {
+                return &entry;
             }
         }
     }
@@ -9874,6 +9880,11 @@ bool item::can_unload_liquid() const
     return contents.can_unload_liquid();
 }
 
+bool item::contains_no_solids() const
+{
+    return contents.contains_no_solids();
+}
+
 bool item::allows_speedloader( const itype_id &speedloader_id ) const
 {
     return contents.allows_speedloader( speedloader_id );
@@ -10824,14 +10835,12 @@ itype_id item::ammo_default( bool conversion ) const
 
 itype_id item::common_ammo_default( bool conversion ) const
 {
-    if( !ammo_types( conversion ).empty() ) {
-        for( const ammotype &at : ammo_types( conversion ) ) {
-            const item *mag = magazine_current();
-            if( mag && mag->type->magazine->type.count( at ) ) {
-                itype_id res = at->default_ammotype();
-                if( !res.is_empty() ) {
-                    return res;
-                }
+    for( const ammotype &at : ammo_types( conversion ) ) {
+        const item *mag = magazine_current();
+        if( mag && mag->type->magazine->type.count( at ) ) {
+            itype_id res = at->default_ammotype();
+            if( !res.is_empty() ) {
+                return res;
             }
         }
     }

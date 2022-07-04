@@ -1,0 +1,37 @@
+[
+  {
+    "id": [ "BEM_HIREABLE_1" ],
+    "type": "talk_topic",
+    "dynamic_line": "I'm just looking for my next job.  So if you cant help with that, I rather we be on our own separate ways.",
+    "responses": [
+      { "text": "Well then, what does it cost to hire you.", "topic": "BEM_HIREABLE_2" },
+      { "text": "Ha I prefer the cheerful sort anyways.", "topic": "TALK_DONE" },
+      { "text": "Well whatever.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BEM_HIREABLE_2",
+    "type": "talk_topic",
+    "dynamic_line": "The mercenary's demeanor changes completely when they realize you aren't here to waste time.  \"Alright, tell you what.  Get me twelve coins and thats giving my skills away, just anything to be done with that voice on a box.",
+    "responses": [
+      { "text": "I might be back.", "topic": "TALK_DONE" },
+      {
+        "text": "[12 HGC] You have a deal.",
+        "topic": "BEM_HIREABLE_3",
+        "condition": { "u_has_items": { "item": "RobofacCoin", "count": 12 } },
+        "effect": { "u_consume_item": "RobofacCoin", "count": 12, "popup": true }
+      }
+    ]
+  },
+  {
+    "id": "BEM_HIREABLE_3",
+    "type": "talk_topic",
+    "dynamic_line": "I guess you're the boss.",
+    "responses": [
+      {
+        "text": "Glad to have you aboard.",
+        "success": { "effect": "follow", "opinion": { "trust": 1, "value": 1 }, "topic": "TALK_DONE" }
+      }
+    ]
+  }
+]

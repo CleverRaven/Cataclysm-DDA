@@ -131,6 +131,7 @@
     "style": "sidebar",
     "label": "labels",
     "separator": ": ",
+    "padding": 2,
     "width": 44,
     "widgets": [
       "ll_limbs_layout",

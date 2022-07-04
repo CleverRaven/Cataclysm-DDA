@@ -338,12 +338,12 @@ void effect_on_conditions::write_eocs_to_file( Character &you )
             you.queued_effect_on_conditions.pop();
         }
 
-        for( const auto &queue_entry : temp_queue ) {
+        for( const queued_eoc &queue_entry : temp_queue ) {
             time_duration temp = queue_entry.time - calendar::turn;
             testfile << queue_entry.eoc.c_str() << ";" << to_string( temp ) << std::endl;
         }
 
-        for( const auto &queued : temp_queue ) {
+        for( const queued_eoc &queued : temp_queue ) {
             you.queued_effect_on_conditions.push( queued );
         }
 
@@ -368,12 +368,12 @@ void effect_on_conditions::write_global_eocs_to_file( )
             g->queued_global_effect_on_conditions.pop();
         }
 
-        for( const auto &queue_entry : temp_queue ) {
+        for( const queued_eoc &queue_entry : temp_queue ) {
             time_duration temp = queue_entry.time - calendar::turn;
             testfile << queue_entry.eoc.c_str() << ";" << to_string( temp ) << std::endl;
         }
 
-        for( const auto &queued : temp_queue ) {
+        for( const queued_eoc &queued : temp_queue ) {
             g->queued_global_effect_on_conditions.push( queued );
         }
 

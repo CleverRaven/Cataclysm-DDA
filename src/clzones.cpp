@@ -198,7 +198,7 @@ shared_ptr_fast<zone_options> zone_options::create( const zone_type_id &type )
         return make_shared_fast<plot_options>();
     } else if( type == zone_type_CONSTRUCTION_BLUEPRINT ) {
         return make_shared_fast<blueprint_options>();
-    } else if( type == zone_type_LOOT_CUSTOM or type == zone_type_LOOT_ITEM_GROUP ) {
+    } else if( type == zone_type_LOOT_CUSTOM || type == zone_type_LOOT_ITEM_GROUP ) {
         return make_shared_fast<loot_options>();
     }
 
@@ -211,7 +211,7 @@ bool zone_options::is_valid( const zone_type_id &type, const zone_options &optio
         return dynamic_cast<const plot_options *>( &options ) != nullptr;
     } else if( type == zone_type_CONSTRUCTION_BLUEPRINT ) {
         return dynamic_cast<const blueprint_options *>( &options ) != nullptr;
-    } else if( type == zone_type_LOOT_CUSTOM or type == zone_type_LOOT_ITEM_GROUP ) {
+    } else if( type == zone_type_LOOT_CUSTOM || type == zone_type_LOOT_ITEM_GROUP ) {
         return dynamic_cast<const loot_options *>( &options ) != nullptr;
     }
 
@@ -522,7 +522,7 @@ cata::optional<zone_type_id> zone_manager::query_type( bool personal ) const
 
     size_t i = 0;
     for( const auto &pair : types_vec ) {
-        const auto &type = pair.second;
+        const zone_type &type = pair.second;
 
         as_m.addentry_desc( i++, true, MENU_AUTOASSIGN, type.name(), type.desc() );
     }
@@ -867,8 +867,8 @@ std::unordered_set<tripoint_abs_ms> zone_manager::get_near( const zone_type_id &
     for( const tripoint_abs_ms &point : point_set ) {
         if( point.z() == where.z() ) {
             if( square_dist( point, where ) <= range ) {
-                if( ( type != zone_type_LOOT_CUSTOM and type != zone_type_LOOT_ITEM_GROUP ) or
-                    ( it != nullptr and custom_loot_has( point, it, type, fac ) ) ) {
+                if( ( type != zone_type_LOOT_CUSTOM && type != zone_type_LOOT_ITEM_GROUP ) ||
+                    ( it != nullptr && custom_loot_has( point, it, type, fac ) ) ) {
                     near_point_set.insert( point );
                 }
             }
@@ -879,8 +879,8 @@ std::unordered_set<tripoint_abs_ms> zone_manager::get_near( const zone_type_id &
     for( const tripoint_abs_ms &point : vzone_set ) {
         if( point.z() == where.z() ) {
             if( square_dist( point, where ) <= range ) {
-                if( ( type != zone_type_LOOT_CUSTOM and type != zone_type_LOOT_ITEM_GROUP ) or
-                    ( it != nullptr and custom_loot_has( point, it, type, fac ) ) ) {
+                if( ( type != zone_type_LOOT_CUSTOM && type != zone_type_LOOT_ITEM_GROUP ) ||
+                    ( it != nullptr && custom_loot_has( point, it, type, fac ) ) ) {
                     near_point_set.insert( point );
                 }
             }
@@ -1019,7 +1019,7 @@ std::vector<zone_data> zone_manager::get_zones( const zone_type_id &type,
 {
     auto zones = std::vector<zone_data>();
 
-    for( const auto &zone : this->zones ) {
+    for( const zone_data &zone : this->zones ) {
         if( zone.get_type() == type && zone.get_faction() == fac ) {
             if( zone.has_inside( where ) ) {
                 zones.emplace_back( zone );
@@ -1034,8 +1034,8 @@ const zone_data *zone_manager::get_zone_at( const tripoint_abs_ms &where, bool l
         const faction_id &fac ) const
 {
     auto const check = [&fac, loot_only, &where]( zone_data const & z ) {
-        return z.get_faction() == fac and
-               ( !loot_only || z.get_type().str().substr( 0, 4 ) == "LOOT" ) and
+        return z.get_faction() == fac &&
+               ( !loot_only || z.get_type().str().substr( 0, 4 ) == "LOOT" ) &&
                z.has_inside( where );
     };
     for( auto it = zones.rbegin(); it != zones.rend(); ++it ) {
@@ -1056,7 +1056,7 @@ const zone_data *zone_manager::get_bottom_zone(
     const tripoint_abs_ms &where, const faction_id &fac ) const
 {
     for( auto it = zones.rbegin(); it != zones.rend(); ++it ) {
-        const auto &zone = *it;
+        const zone_data &zone = *it;
         if( zone.get_faction() != fac ) {
             continue;
         }
@@ -1108,7 +1108,7 @@ void zone_manager::add( const std::string &name, const zone_type_id &type, const
     // only non personal zones can be vehicle zones
     if( !personal ) {
         optional_vpart_position const vp = here.veh_at( here.getlocal( start ) );
-        if( vp and vp->vehicle().get_owner() == fac and vp.part_with_feature( "CARGO", false ) ) {
+        if( vp && vp->vehicle().get_owner() == fac && vp.part_with_feature( "CARGO", false ) ) {
             // TODO:Allow for loot zones on vehicles to be larger than 1x1
             if( start == end &&
                 ( silent || query_yn( _( "Bind this zone to the cargo part here?" ) ) ) ) {
@@ -1199,7 +1199,7 @@ void _rotate_zone( map &target_map, zone_data &zone, int turns )
     const tripoint z_start = target_map.getlocal( zone.get_start_point() );
     const tripoint z_end = target_map.getlocal( zone.get_end_point() );
     const inclusive_cuboid<tripoint> boundary( a_start, a_end );
-    if( boundary.contains( z_start ) and boundary.contains( z_end ) ) {
+    if( boundary.contains( z_start ) && boundary.contains( z_end ) ) {
         // don't rotate centered squares
         if( z_start.x == z_start.y && z_end.x == z_end.y &&
             z_start.x + z_end.x == a_end.x ) {
@@ -1242,7 +1242,7 @@ std::vector<zone_manager::ref_zone_data> zone_manager::get_zones( const faction_
 {
     auto zones = std::vector<ref_zone_data>();
 
-    for( auto &zone : this->zones ) {
+    for( zone_data &zone : this->zones ) {
         if( zone.get_faction() == fac ) {
             zones.emplace_back( zone );
         }
@@ -1428,7 +1428,7 @@ bool zone_manager::save_world_zones( std::string const &suffix )
 {
     std::string const savefile = _savefile( suffix, false );
     std::vector<zone_data> tmp;
-    std::copy_if( zones.begin(), zones.end(), std::back_inserter( tmp ), []( zone_data z ) {
+    std::copy_if( zones.begin(), zones.end(), std::back_inserter( tmp ), []( const zone_data & z ) {
         return z.get_faction() != faction_your_followers;
     } );
     return write_to_file( savefile, [&]( std::ostream & fout ) {
@@ -1503,7 +1503,7 @@ void mapgen_place_zone( tripoint const &start, tripoint const &end, zone_type_id
     auto options = zone_options::create( type );
     tripoint const s_ = std::min( start, end );
     tripoint const e_ = std::max( start, end );
-    if( type == zone_type_LOOT_CUSTOM or type == zone_type_LOOT_ITEM_GROUP ) {
+    if( type == zone_type_LOOT_CUSTOM || type == zone_type_LOOT_ITEM_GROUP ) {
         dynamic_cast<loot_options *>( &*options )->set_mark( filter );
     }
     mgr.add( name, type, fac, false, true, s_, e_, options, false, true, pmap );

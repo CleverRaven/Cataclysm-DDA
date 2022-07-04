@@ -56,6 +56,17 @@
   },
   {
     "type": "proficiency",
+    "id": "prof_wp_cyborg",
+    "category": "prof_weakpoint",
+    "name": { "str": "Cyborg Anatomy" },
+    "description": "You're somewhat familiar with cybernetic creatures.  You're able to find openings and gaps that aren't as hardened.",
+    "can_learn": true,
+    "time_to_learn": "19 h",
+    "default_weakpoint_bonus": 4,
+    "default_weakpoint_penalty": -4
+  },
+  {
+    "type": "proficiency",
     "id": "prof_wp_basic_bug",
     "category": "prof_weakpoint",
     "name": { "str": "Invertebrate Biology" },
@@ -63,8 +74,57 @@
     "can_learn": true,
     "time_to_learn": "8 h",
     "required_proficiencies": [ "prof_intro_biology" ],
-    "default_weakpoint_bonus": 4,
+    "default_weakpoint_bonus": 1,
     "default_weakpoint_penalty": 0
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_wp_beetle",
+    "category": "prof_weakpoint",
+    "name": { "str": "Beetle Anatomy" },
+    "description": "You are familiar with the anatomy of mutated beetles - bypassing their thick armor should be easier.",
+    "can_learn": true,
+    "time_to_learn": "12 h",
+    "required_proficiencies": [ "prof_wp_basic_bug" ],
+    "default_weakpoint_bonus": 4,
+    "default_weakpoint_penalty": -2
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_wp_centipede",
+    "category": "prof_weakpoint",
+    "name": { "str": "Centipede Anatomy" },
+    "description": "You are familiar with the anatomy of mutated centipedes, letting you target their less-deadly parts with ease.",
+    "can_learn": true,
+    "time_to_learn": "12 h",
+    "required_proficiencies": [ "prof_wp_basic_bug" ],
+    "default_weakpoint_bonus": 4,
+    "default_weakpoint_penalty": -2
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_wp_hymenoptera",
+    "category": "prof_weakpoint",
+    "//": "Technically Apocritan Anatomy would be sufficient, but let's not geek out too much",
+    "name": { "str": "Hymenopteran Anatomy" },
+    "description": "Familiarity with the comparative anatomy of mutant Hymenopterans - ants, bees, and wasps of all kinds.  You find it easier to exploit their weak points, and possibly disable their natural weaponry.",
+    "can_learn": true,
+    "time_to_learn": "12 h",
+    "required_proficiencies": [ "prof_wp_basic_bug" ],
+    "default_weakpoint_bonus": 4,
+    "default_weakpoint_penalty": -2
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_wp_spider",
+    "category": "prof_weakpoint",
+    "name": { "str": "Arachnid Anatomy" },
+    "description": "You are familiar with the anatomy of mutated spiders of all shapes and sizes.",
+    "can_learn": true,
+    "time_to_learn": "12 h",
+    "required_proficiencies": [ "prof_wp_basic_bug" ],
+    "default_weakpoint_bonus": 4,
+    "default_weakpoint_penalty": -2
   },
   {
     "type": "proficiency",
@@ -74,7 +134,7 @@
     "description": "Basic understanding of what's needed for certain creatures to fly, as well as ways of preventing it.",
     "can_learn": true,
     "time_to_learn": "6 h",
-    "default_weakpoint_bonus": 4,
+    "default_weakpoint_bonus": 1,
     "default_weakpoint_penalty": 0
   },
   {

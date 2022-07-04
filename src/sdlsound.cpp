@@ -755,7 +755,7 @@ void load_soundset()
     for( const sfx_args &preload : sfx_preload ) {
         const auto find_result = sfx_resources.sound_effects.find( preload );
         if( find_result != sfx_resources.sound_effects.end() ) {
-            for( const auto &sfx : find_result->second ) {
+            for( const sound_effect &sfx : find_result->second ) {
                 get_sfx_resource( sfx.resource_id );
             }
         }

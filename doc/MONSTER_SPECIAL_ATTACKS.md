@@ -174,6 +174,10 @@ The common type for JSON-defined attacks. Note, you don't have to declare it in 
 | `body_parts`			| List, If empty the regular melee roll body part selection is used. If non-empty, a body part is selected from the map to be
 |						| targeted with a chance proportional to the value.
 | `attack_chance`		| Integer, percent chance of the attack being successfully used if a monster attempts it. Default 100.
+| `forbidden_effects_any` | Array of effect ids, if the monster has any one the attack can't trigger.
+| `forbidden_effects_all` | Array of effect ids, if the monster has every effect the attack can't trigger.
+| `required_effects_any` | Array of effect ids, the monster needs any one for the attack to trigger.
+| `required_effects_all` | Array of effect ids, the monster needs every effect for the attack to trigger.
 | `attack_upper`		| Boolean, default true. If false the attack can't target any bodyparts with the `UPPER_LIMB` flag with the regular attack rolls(provided the bodypart is not explicitly targeted).
 | `range`       		| Integer, range of the attack in tiles (Default 1, this equals melee range). Melee attacks require unobstructed straight paths.
 | `hitsize_min`         | Integer, lower bound of limb size this attack can target ( if no bodypart targets are explicitly defined )
@@ -211,6 +215,10 @@ Makes the monster leap a few tiles. It supports the following additional propert
 | `move_cost`          | Turns needed to complete special attack. 100 move_cost with 100 speed is equal to 1 second/turn.
 | `min_consider_range` | Minimal range to consider for using specific attack.
 | `max_consider_range` | Maximal range to consider for using specific attack.
+| `forbidden_effects_any` | Array of effect ids, if the monster has any one the attack can't trigger.
+| `forbidden_effects_all` | Array of effect ids, if the monster has every effect the attack can't trigger.
+| `required_effects_any` | Array of effect ids, the monster needs any one for the attack to trigger.
+| `required_effects_all` | Array of effect ids, the monster needs every effect for the attack to trigger.
 
 
 ### "gun"

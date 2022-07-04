@@ -20,6 +20,7 @@
     "name": { "str": "Start a fire quickly" }
   },
   {
+    "//": "Remove after 0.G.",
     "type": "item_action",
     "id": "HAMMER",
     "name": { "str": "Pry crate, window, door or nails" }
