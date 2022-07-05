@@ -440,15 +440,20 @@ Spell types:
 
 #### Monsters
 
-You can assign a spell as a special attack for a monster.
+You can assign a spell as a special attack for a monster.  Spells with `target_self: true` will only target the monster itself, but will still only be cast if the monster has a hostile target.
 
-```json
-{ "type": "spell", "spell_id": "burning_hands", "spell_level": 10, "cooldown": 10 }
+```json 
+{ "type": "spell", "spell_data": { "id": "cone_cold", "min_level": 4 }, "monster_message": "%1$s casts %2$s at %3$s!", "cooldown": 25 }
 ```
 
-* spell_id: the id for the spell being cast.
-* spell_level: the level at which the spell is cast. Spells cast by monsters do not gain levels like player spells.
-* cooldown: how often the monster can cast this spell
+| `spell_data`            | List of spell properties for the attack.
+| `min_level`             | The level at which the spell is cast. Spells cast by monsters do not gain levels like player spells.
+| `cooldown `             | How often the monster can cast this spell
+| `monster_message`       | Message to print when the spell is cast, replacing the `message` in the spell definition. Dynamic fields correspond to `<Monster Display Name> / <Spell Name> / <Target name>`.
+| `forbidden_effects_any` | Array of effect ids, if the monster has any one the attack can't trigger.
+| `forbidden_effects_all` | Array of effect ids, if the monster has every effect the attack can't trigger.
+| `required_effects_any`  | Array of effect ids, the monster needs any one for the attack to trigger.
+| `required_effects_all`  | Array of effect ids, the monster needs every effect for the attack to trigger.
 
 ### Enchantments
 | Identifier                  | Description

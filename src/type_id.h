@@ -161,6 +161,9 @@ using npc_template_id = string_id<npc_template>;
 class faction;
 using faction_id = string_id<faction>;
 
+struct option_slider;
+using option_slider_id = string_id<option_slider>;
+
 struct oter_t;
 using oter_id = int_id<oter_t>;
 using oter_str_id = string_id<oter_t>;

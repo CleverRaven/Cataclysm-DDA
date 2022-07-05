@@ -760,5 +760,11 @@
     "id": "ammonia_liquid",
     "name": "ammonia",
     "default": "ammonia_liquid"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "turpentine",
+    "name": "turpentine",
+    "default": "chem_turpentine"
   }
 ]
