@@ -820,7 +820,7 @@ static std::pair<field, tripoint> spell_remove_field( const spell &sp,
 
     bool did_field_removal = false;
 
-    for( const auto &node : expander.area ) {
+    for( const area_expander::node &node : expander.area ) {
         if( node.from == node.position ) {
             continue;
         }
@@ -920,7 +920,7 @@ void spell_effect::area_pull( const spell &sp, Creature &caster, const tripoint 
     expander.run( center );
     expander.sort_ascending();
 
-    for( const auto &node : expander.area ) {
+    for( const area_expander::node &node : expander.area ) {
         if( node.from == node.position ) {
             continue;
         }
@@ -938,7 +938,7 @@ void spell_effect::area_push( const spell &sp, Creature &caster, const tripoint 
     expander.run( center );
     expander.sort_descending();
 
-    for( const auto &node : expander.area ) {
+    for( const area_expander::node &node : expander.area ) {
         if( node.from == node.position ) {
             continue;
         }

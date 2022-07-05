@@ -457,7 +457,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "pair of tire arm guards", "str_pl": "pairs of tire arm guards" },
-    "description": "A pair of arm guards made from thick chunks of tire secured by simple strings; the loose collection of plates provides decent but not the most convenient protection.",
+    "description": "A pair of arm guards made from thick chunks of tire secured by simple strings; the loose collection of rubber plates provides decent but not the most convenient protection.",
     "weight": "4800 g",
     "volume": "4750 ml",
     "price": 20000,
@@ -486,7 +486,7 @@
     "id": "xl_armguard_tire",
     "type": "ARMOR",
     "name": { "str": "pair of XL tire arm guards", "str_pl": "pairs of XL tire arm guards" },
-    "description": "A pair of oversized arm guards made from thick chunks of tire secured by simple strings; the loose collection of plates provides decent but not the most convenient protection.",
+    "description": "A pair of oversized arm guards made from thick chunks of tire secured by simple strings; the loose collection of rubber plates provides decent but not the most convenient protection.",
     "copy-from": "armguard_tire",
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
@@ -497,7 +497,7 @@
     "copy-from": "armguard_tire",
     "looks_like": "armguard_tire",
     "name": { "str": "pair of XS tire arm guards", "str_pl": "pairs of XS tire arm guards" },
-    "description": "A pair of undersized arm guards made from thick chunks of tire secured by simple strings; the loose collection of plates provides decent but not the most convenient protection.",
+    "description": "A pair of undersized arm guards made from thick chunks of tire secured by simple strings; the loose collection of rubber plates provides decent but not the most convenient protection.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
@@ -555,7 +555,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "pair of gambeson sleeves", "str_pl": "pairs of gambeson sleeves" },
-    "description": "A pair sleeves made from heavy quilted fabric.",
+    "description": "A pair of arm sleeves made from heavy quilted fabric.",
     "weight": "1380 g",
     "volume": "500 ml",
     "price": 1200,
@@ -575,7 +575,7 @@
     "id": "xl_gambeson_sleeve",
     "type": "ARMOR",
     "name": { "str": "pair of XL gambeson sleeves", "str_pl": "pairs of XL gambeson sleeves" },
-    "description": "A pair of extra large sleeves made from heavy quilted fabric.",
+    "description": "A pair of extra large arm sleeves made from heavy quilted fabric.",
     "copy-from": "gambeson_sleeve",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
@@ -584,7 +584,7 @@
     "id": "xs_gambeson_sleeve",
     "type": "ARMOR",
     "name": { "str": "pair of XS gambeson sleeves", "str_pl": "pairs of XS gambeson sleeves" },
-    "description": "A pair of extra small sleeves made from heavy quilted fabric.",
+    "description": "A pair of extra small arm sleeves made from heavy quilted fabric.",
     "copy-from": "gambeson_sleeve",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
@@ -594,7 +594,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "pair of Kevlar gambeson sleeves", "str_pl": "pairs of Kevlar gambeson sleeves" },
-    "description": "A pair sleeves made from aramid with strips of soft body armor sewn on top to simulate quilting.",
+    "description": "A pair arm sleeves made from aramid, with strips of soft body armor sewn on top to simulate quilting.",
     "weight": "986 g",
     "volume": "840 ml",
     "price": 1200,
@@ -636,7 +636,7 @@
     "id": "xl_k_gambeson_sleeve",
     "type": "ARMOR",
     "name": { "str": "pair of XL Kevlar gambeson sleeves", "str_pl": "pairs of XL Kevlar gambeson sleeves" },
-    "description": "A pair of extra large sleeves made from layers of Kevlar.",
+    "description": "A pair of extra large arm sleeves made from layers of Kevlar.",
     "copy-from": "k_gambeson_sleeve",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
@@ -645,7 +645,7 @@
     "id": "xs_k_gambeson_sleeve",
     "type": "ARMOR",
     "name": { "str": "pair of XS Kevlar gambeson sleeves", "str_pl": "pairs of XS Kevlar gambeson sleeves" },
-    "description": "A pair of extra small sleeves made from heavy quilted fabric and Kevlar.",
+    "description": "A pair of extra small arm sleeves made from heavy quilted fabric and Kevlar.",
     "copy-from": "k_gambeson_sleeve",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
@@ -655,7 +655,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "pair of chainmail sleeves", "str_pl": "pairs of chainmail sleeves" },
-    "description": "Customized chainmail arms.  The metal shows signs of rust and corrosion.  Each sleeve has straps to connect them with each other.  The lack of fingers makes them less cumbersome and allows them to be used with gloves.",
+    "description": "Customized chainmail arm protection.  The metal shows signs of rust and corrosion.  Both sleeves have straps to connect them with each other.  They don't cover the hands, making them less cumbersome and allowing them to be worn with gloves.",
     "weight": "2812 g",
     "volume": "750 ml",
     "price": 7500,
@@ -688,7 +688,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "pair of mild steel chainmail sleeves", "str_pl": "pairs of mild steel chainmail sleeves" },
-    "description": "Customized mild steel chainmail arms.  Each sleeve has straps to connect them with each other.  The lack of fingers makes them less cumbersome and allows them to be used with gloves.",
+    "description": "Customized mild steel chainmail arm protection.  Both sleeves have straps to connect them with each other.  They don't cover the hands, making them less cumbersome and allowing them to be worn with gloves.",
     "weight": "2812 g",
     "volume": "750 ml",
     "price": 7500,
@@ -720,7 +720,7 @@
     "type": "ARMOR",
     "copy-from": "lc_chainmail_arms",
     "name": { "str": "pair of XL mild steel chainmail sleeves", "str_pl": "pairs of XL mild steel chainmail sleeves" },
-    "description": "Customized mild steel chainmail arms.  Each sleeve has straps to connect them with each other.  The lack of fingers makes them less cumbersome and allows them to be used with gloves.  These are oversized.",
+    "description": "Customized mild steel chainmail arm protection.  Both sleeves have straps to connect them with each other.  They don't cover the hands, making them less cumbersome and allowing them to be worn with gloves.  These are oversized.",
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -729,7 +729,7 @@
     "type": "ARMOR",
     "copy-from": "lc_chainmail_arms",
     "name": { "str": "pair of XS mild steel chainmail sleeves", "str_pl": "pairs of XS mild steel chainmail sleeves" },
-    "description": "Customized mild steel chainmail arms.  Each sleeve has straps to connect them with each other.  The lack of fingers makes them less cumbersome and allows them to be used with gloves.  These are undersized.",
+    "description": "Customized mild steel chainmail arm protection.  Both sleeves have straps to connect them with each other.  They don't cover the hands, making them less cumbersome and allowing them to be worn with gloves.  These are undersized.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
@@ -739,7 +739,7 @@
     "copy-from": "lc_chainmail_arms",
     "material": [ "mc_steel_chain" ],
     "name": { "str": "pair of medium steel chainmail sleeves", "str_pl": "pairs of medium steel chainmail sleeves" },
-    "description": "Customized medium steel chainmail arms.  Each sleeve has straps to connect them with each other.  The lack of fingers makes them less cumbersome and allows them to be used with gloves.",
+    "description": "Customized medium steel chainmail arm protection.  Both sleeves have straps to connect them with each other.  They don't cover the hands, making them less cumbersome and allowing them to be worn with gloves.",
     "armor": [
       {
         "material": [ { "type": "mc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
@@ -761,7 +761,7 @@
     "type": "ARMOR",
     "copy-from": "mc_chainmail_arms",
     "name": { "str": "pair of XL medium steel chainmail sleeves", "str_pl": "pairs of XL medium steel chainmail sleeves" },
-    "description": "Customized medium steel chainmail arms.  Each sleeve has straps to connect them with each other.  The lack of fingers makes them less cumbersome and allows them to be used with gloves.  These are oversized.",
+    "description": "Customized medium steel chainmail arm protection.  Both sleeves have straps to connect them with each other.  They don't cover the hands, making them less cumbersome and allowing them to be worn with gloves.  These are oversized.",
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -770,7 +770,7 @@
     "type": "ARMOR",
     "copy-from": "mc_chainmail_arms",
     "name": { "str": "pair of XS medium steel chainmail sleeves", "str_pl": "pairs of XS medium steel chainmail sleeves" },
-    "description": "Customized medium steel chainmail arms.  Each sleeve has straps to connect them with each other.  The lack of fingers makes them less cumbersome and allows them to be used with gloves.  These are undersized.",
+    "description": "Customized medium steel chainmail arm protection.  Both sleeves have straps to connect them with each other.  They don't cover the hands, making them less cumbersome and allowing them to be worn with gloves.  These are undersized.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
@@ -780,7 +780,7 @@
     "copy-from": "lc_chainmail_arms",
     "material": [ "hc_steel_chain" ],
     "name": { "str": "pair of high steel chainmail sleeves", "str_pl": "pairs of high steel chainmail sleeves" },
-    "description": "Customized high steel chainmail arms.  Each sleeve has straps to connect them with each other.  The lack of fingers makes them less cumbersome and allows them to be used with gloves.",
+    "description": "Customized high steel chainmail arm protection.  Both sleeves have straps to connect them with each other.  They don't cover the hands, making them less cumbersome and allowing them to be worn with gloves.",
     "armor": [
       {
         "material": [ { "type": "hc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
@@ -802,7 +802,7 @@
     "type": "ARMOR",
     "copy-from": "hc_chainmail_arms",
     "name": { "str": "pair of XL high steel chainmail sleeves", "str_pl": "pairs of XL high steel chainmail sleeves" },
-    "description": "Customized high steel chainmail arms.  Each sleeve has straps to connect them with each other.  The lack of fingers makes them less cumbersome and allows them to be used with gloves.  These are oversized.",
+    "description": "Customized high steel chainmail arm protection.  Both sleeves have straps to connect them with each other.  They don't cover the hands, making them less cumbersome and allowing them to be worn with gloves.  These are oversized.",
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -811,7 +811,7 @@
     "type": "ARMOR",
     "copy-from": "hc_chainmail_arms",
     "name": { "str": "pair of XS high steel chainmail sleeves", "str_pl": "pairs of XS high steel chainmail sleeves" },
-    "description": "Customized high steel chainmail arms.  Each sleeve has straps to connect them with each other.  The lack of fingers makes them less cumbersome and allows them to be used with gloves.  These are undersized.",
+    "description": "Customized high steel chainmail arm protection.  Both sleeves have straps to connect them with each other.  They don't cover the hands, making them less cumbersome and allowing them to be worn with gloves.  These are undersized.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
@@ -821,7 +821,7 @@
     "copy-from": "lc_chainmail_arms",
     "material": [ "ch_steel_chain" ],
     "name": { "str": "pair of hardened steel chainmail sleeves", "str_pl": "pairs of hardened steel chainmail sleeves" },
-    "description": "Customized hardened steel chainmail arms.  Each sleeve has straps to connect them with each other.  The lack of fingers makes them less cumbersome and allows them to be used with gloves.",
+    "description": "Customized hardened steel chainmail arm protection.  Both sleeves have straps to connect them with each other.  They don't cover the hands, making them less cumbersome and allowing them to be worn with gloves.",
     "armor": [
       {
         "material": [ { "type": "ch_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
@@ -843,7 +843,7 @@
     "type": "ARMOR",
     "copy-from": "ch_chainmail_arms",
     "name": { "str": "pair of XL hardened steel chainmail sleeves", "str_pl": "pairs of XL hardened steel chainmail sleeves" },
-    "description": "Customized hardened steel chainmail arms.  Each sleeve has straps to connect them with each other.  The lack of fingers makes them less cumbersome and allows them to be used with gloves.  These are oversized.",
+    "description": "Customized hardened steel chainmail arm protection.  Both sleeves have straps to connect them with each other.  They don't cover the hands, making them less cumbersome and allowing them to be worn with gloves.  These are oversized.",
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -852,7 +852,7 @@
     "type": "ARMOR",
     "copy-from": "ch_chainmail_arms",
     "name": { "str": "pair of XS hardened steel chainmail sleeves", "str_pl": "pairs of XS hardened steel chainmail sleeves" },
-    "description": "Customized hardened steel chainmail arms.  Each sleeve has straps to connect them with each other.  The lack of fingers makes them less cumbersome and allows them to be used with gloves.  These are undersized.",
+    "description": "Customized hardened steel chainmail arm protection.  Both sleeves have straps to connect them with each other.  They don't cover the hands, making them less cumbersome and allowing them to be worn with gloves.  These are undersized.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
@@ -862,7 +862,7 @@
     "copy-from": "lc_chainmail_arms",
     "material": [ "qt_steel_chain" ],
     "name": { "str": "pair of tempered steel chainmail sleeves", "str_pl": "pairs of tempered steel chainmail sleeves" },
-    "description": "Customized tempered steel chainmail arms.  Each sleeve has straps to connect them with each other.  The lack of fingers makes them less cumbersome and allows them to be used with gloves.",
+    "description": "Customized tempered steel chainmail arm protection.  Both sleeves have straps to connect them with each other.  They don't cover the hands, making them less cumbersome and allowing them to be worn with gloves.",
     "armor": [
       {
         "material": [ { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
@@ -884,7 +884,7 @@
     "type": "ARMOR",
     "copy-from": "qt_chainmail_arms",
     "name": { "str": "pair of XL tempered steel chainmail sleeves", "str_pl": "pairs of XL tempered steel chainmail sleeves" },
-    "description": "Customized tempered steel chainmail arms.  Each sleeve has straps to connect them with each other.  The lack of fingers makes them less cumbersome and allows them to be used with gloves.  These are oversized.",
+    "description": "Customized tempered steel chainmail arm protection.  Both sleeves have straps to connect them with each other.  They don't cover the hands, making them less cumbersome and allowing them to be worn with gloves.  These are oversized.",
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -893,7 +893,7 @@
     "type": "ARMOR",
     "copy-from": "qt_chainmail_arms",
     "name": { "str": "pair of XS tempered steel chainmail sleeves", "str_pl": "pairs of XS tempered steel chainmail sleeves" },
-    "description": "Customized tempered steel chainmail arms.  Each sleeve has straps to connect them with each other.  The lack of fingers makes them less cumbersome and allows them to be used with gloves.  These are undersized.",
+    "description": "Customized tempered steel chainmail arm protection.  Both sleeves have straps to connect them with each other.  They don't cover the hands, making them less cumbersome and allowing them to be worn with gloves.  These are undersized.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
@@ -1009,7 +1009,7 @@
     "id": "xl_vambrace_larmor",
     "type": "ARMOR",
     "name": { "str": "pair of XL leather vambraces", "str_pl": "pairs of XL leather vambraces" },
-    "description": "Customized oversized leather vambraces, made for archery.",
+    "description": "Customized and oversized leather vambraces, made for archery.",
     "weight": "531 g",
     "volume": "1250 ml",
     "copy-from": "vambrace_larmor",
@@ -1030,7 +1030,7 @@
     "repairs_like": "armguard_soft",
     "type": "ARMOR",
     "name": { "str": "pair of cut-resistant arm sleeves", "str_pl": "pairs of cut-resistant arm sleeves" },
-    "description": "A long pair of cut resistant sleeves, with thumbholes.  Useful for chainsaw protection.",
+    "description": "A long pair of cut-resistant Kevlar sleeves with thumbholes.  Useful for chainsaw protection.",
     "weight": "113 g",
     "copy-from": "armguard_soft",
     "price": 1200,

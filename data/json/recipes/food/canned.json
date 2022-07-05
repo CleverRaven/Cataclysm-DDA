@@ -111,7 +111,7 @@
       [ [ "water", 11 ], [ "water_clean", 11 ] ],
       [ [ "jar_glass_sealed", 1 ] ],
       [ [ "meat_red_raw", 1, "LIST" ], [ "fish", 1 ], [ "lobster", 1 ] ],
-      [ [ "veggy", 1 ], [ "veggy_wild", 1 ] ]
+      [ [ "veggy_green", 1, "LIST" ] ]
     ]
   },
   {
@@ -139,7 +139,7 @@
       [ [ "scrap", 1 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
       [ [ "meat_red_raw", 1, "LIST" ], [ "fish", 1 ], [ "lobster", 1 ] ],
-      [ [ "veggy", 1 ], [ "veggy_wild", 1 ] ]
+      [ [ "veggy_green", 1, "LIST" ] ]
     ]
   },
   {
@@ -163,7 +163,7 @@
       [ [ "water", 16 ], [ "water_clean", 16 ] ],
       [ [ "jar_3l_glass_sealed", 1 ] ],
       [ [ "meat_red_raw", 6, "LIST" ], [ "fish", 6 ], [ "lobster", 6 ] ],
-      [ [ "veggy", 6 ], [ "veggy_wild", 6 ] ]
+      [ [ "veggy_green", 6, "LIST" ] ]
     ]
   },
   {

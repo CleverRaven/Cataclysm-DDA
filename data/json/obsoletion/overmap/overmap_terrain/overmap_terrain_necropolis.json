@@ -6,7 +6,7 @@
     "sym": "^",
     "see_cost": 5,
     "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
+    "flags": [ "SIDEWALK", "SHOULD_NOT_SPAWN" ]
   },
   {
     "type": "overmap_terrain",
@@ -67,7 +67,8 @@
     "copy-from": "generic_necropolis_surface_building",
     "name": "road",
     "color": "dark_gray",
-    "extras": "road"
+    "extras": "road",
+    "flags": [ "SHOULD_NOT_SPAWN" ]
   },
   {
     "type": "overmap_terrain",
@@ -318,7 +319,8 @@
     "name": "underground",
     "color": "yellow",
     "see_cost": 999,
-    "mondensity": 2
+    "mondensity": 2,
+    "flags": [ "SHOULD_NOT_SPAWN" ]
   },
   {
     "//": "xxx Bookmark for necropolis sewers",

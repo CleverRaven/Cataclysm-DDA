@@ -17,6 +17,7 @@
 #include <utility>
 #include <vector>
 
+#include "achievement.h"
 #include "addiction.h"
 #include "bionics.h"
 #include "cata_utility.h"
@@ -376,9 +377,9 @@ void avatar::randomize( const bool random_scenario, bool play_now )
     bool cities_enabled = world_generator->active_world->WORLD_OPTIONS["CITY_SIZE"].getValue() != "0";
     if( random_scenario ) {
         std::vector<const scenario *> scenarios;
-        for( const auto &scen : scenario::get_all() ) {
+        for( const scenario &scen : scenario::get_all() ) {
             if( !scen.has_flag( flag_CHALLENGE ) && !scen.scen_is_blacklisted() &&
-                ( !scen.has_flag( flag_CITY_START ) || cities_enabled ) ) {
+                ( !scen.has_flag( flag_CITY_START ) || cities_enabled ) && scen.can_pick().success() ) {
                 scenarios.emplace_back( &scen );
             }
         }
@@ -774,7 +775,7 @@ bool avatar::create( character_type type, const std::string &tempname )
 
     // Learn recipes
     for( const auto &e : recipe_dict ) {
-        const auto &r = e.second;
+        const recipe &r = e.second;
         if( !r.is_practice() && !r.has_flag( flag_SECRET ) && !knows_recipe( &r ) &&
             has_recipe_requirements( r ) ) {
             learn_recipe( &r );
@@ -839,7 +840,7 @@ bool avatar::create( character_type type, const std::string &tempname )
 
     // Activate some mutations right from the start.
     for( const trait_id &mut : get_mutations() ) {
-        const auto &branch = mut.obj();
+        const mutation_branch &branch = mut.obj();
         if( branch.starts_active ) {
             my_mutations[mut].powered = true;
         }
@@ -1255,8 +1256,7 @@ tab_direction set_traits( avatar &u, pool_type pool )
 
         bool is_hobby_locked_trait = false;
         for( const profession *hobby : u.hobbies ) {
-            is_hobby_locked_trait = hobby->is_locked_trait( traits_iter.id );
-            break;
+            is_hobby_locked_trait = is_hobby_locked_trait || hobby->is_locked_trait( traits_iter.id );
         }
 
         // We show all starting traits, even if we can't pick them, to keep the interface consistent.
@@ -2133,6 +2133,14 @@ static struct {
             return true;
         }
 
+        if( !a->can_pick().success() && b->can_pick().success() ) {
+            return false;
+        }
+
+        if( a->can_pick().success() && !b->can_pick().success() ) {
+            return true;
+        }
+
         if( sort_by_points ) {
             return a->point_cost() < b->point_cost();
         } else {
@@ -2153,14 +2161,16 @@ tab_direction set_profession( avatar &u, pool_type pool )
 
     ui_adaptor ui;
     catacurses::window w;
+    catacurses::window w_requirement;
     catacurses::window w_description;
     catacurses::window w_sorting;
     catacurses::window w_genderswap;
     catacurses::window w_items;
     const auto init_windows = [&]( ui_adaptor & ui ) {
-        iContentHeight = TERMY - 10;
+        iContentHeight = TERMY - 12;
         w = catacurses::newwin( TERMY, TERMX, point_zero );
-        w_description = catacurses::newwin( 4, TERMX - 2, point( 1, TERMY - 5 ) );
+        w_requirement = catacurses::newwin( 2, TERMX - 2, point( 1, TERMY - 5 ) );
+        w_description = catacurses::newwin( 4, TERMX - 2, point( 1, TERMY - 7 ) );
         w_sorting = catacurses::newwin( 1, 55, point( TERMX / 2, 5 ) );
         w_genderswap = catacurses::newwin( 1, 55, point( TERMX / 2, 6 ) );
         w_items = catacurses::newwin( iContentHeight - 3, 55, point( TERMX / 2, 8 ) );
@@ -2207,10 +2217,14 @@ tab_direction set_profession( avatar &u, pool_type pool )
 
         const bool cur_id_is_valid = cur_id >= 0 && static_cast<size_t>( cur_id ) < sorted_profs.size();
 
+        werase( w_requirement );
+
         werase( w_description );
         if( cur_id_is_valid ) {
             int netPointCost = sorted_profs[cur_id]->point_cost() - u.prof->point_cost();
-            bool can_pick = sorted_profs[cur_id]->can_pick( u, skill_points_left( u, pool ) );
+            ret_val<bool> can_afford = sorted_profs[cur_id]->can_afford( u, skill_points_left( u, pool ) );
+            ret_val<bool> can_pick = sorted_profs[cur_id]->can_pick();
+
             const std::string clear_line( getmaxx( w ) - 2, ' ' );
 
             // Clear the bottom of the screen and header.
@@ -2237,12 +2251,18 @@ tab_direction set_profession( avatar &u, pool_type pool )
             }
 
             int pMsg_length = utf8_width( remove_color_tags( pools_to_string( u, pool ) ) );
-            mvwprintz( w, point( pMsg_length + 9, 3 ), can_pick ? c_green : c_light_red, prof_msg_temp,
-                       sorted_profs[cur_id]->gender_appropriate_name( u.male ),
-                       pointsForProf );
+            mvwprintz( w, point( pMsg_length + 9, 3 ), can_afford.success() ? c_green : c_light_red,
+                       prof_msg_temp, sorted_profs[cur_id]->gender_appropriate_name( u.male ), pointsForProf );
 
-            fold_and_print( w_description, point_zero, TERMX - 2, c_green,
-                            sorted_profs[cur_id]->description( u.male ) );
+            if( !can_pick.success() ) {
+                fold_and_print( w_description, point_zero, TERMX - 2, c_red, can_pick.str() );
+                // NOLINTNEXTLINE(cata-use-named-point-constants)
+                fold_and_print( w_description, point( 0, 1 ), TERMX - 2, c_green,
+                                sorted_profs[cur_id]->description( u.male ) );
+            } else {
+                fold_and_print( w_description, point_zero, TERMX - 2, c_green,
+                                sorted_profs[cur_id]->description( u.male ) );
+            }
         }
 
         //Draw options
@@ -2255,7 +2275,16 @@ tab_direction set_profession( avatar &u, pool_type pool )
                        "                                             " ); // Clear the line
             nc_color col;
             if( u.prof != &sorted_profs[i].obj() ) {
-                col = ( cur_id_is_valid && sorted_profs[i] == sorted_profs[cur_id] ? COL_SELECT : c_light_gray );
+
+                if( cur_id_is_valid && sorted_profs[i] == sorted_profs[cur_id] &&
+                    !sorted_profs[i]->can_pick().success() ) {
+                    col = h_dark_gray;
+                } else if( cur_id_is_valid && sorted_profs[i] != sorted_profs[cur_id] &&
+                           !sorted_profs[i]->can_pick().success() ) {
+                    col = c_dark_gray;
+                } else {
+                    col = ( cur_id_is_valid && sorted_profs[i] == sorted_profs[cur_id] ? COL_SELECT : c_light_gray );
+                }
             } else {
                 col = ( cur_id_is_valid &&
                         sorted_profs[i] == sorted_profs[cur_id] ? hilite( c_light_green ) : COL_SKILL_USED );
@@ -2274,6 +2303,13 @@ tab_direction set_profession( avatar &u, pool_type pool )
         werase( w_genderswap );
         if( cur_id_is_valid ) {
             std::string buffer;
+
+            if( sorted_profs[cur_id]->get_requirement().has_value() ) {
+                buffer += colorize( _( "Requirements:" ), c_light_blue ) + "\n";
+                buffer += string_format( _( "Complete \"%s\"\n" ),
+                                         sorted_profs[cur_id]->get_requirement().value()->name() );
+            }
+
             // Profession addictions
             const auto prof_addictions = sorted_profs[cur_id]->addictions();
             buffer += colorize( _( "Addictions:" ), c_light_blue ) + "\n";
@@ -2322,7 +2358,7 @@ tab_direction set_profession( avatar &u, pool_type pool )
                 std::string buffer_wielded;
                 std::string buffer_worn;
                 std::string buffer_inventory;
-                for( const auto &it : prof_items ) {
+                for( const item &it : prof_items ) {
                     if( it.has_flag( json_flag_no_auto_equip ) ) { // NOLINT(bugprone-branch-clone)
                         buffer_inventory += it.display_name() + "\n";
                     } else if( it.has_flag( json_flag_auto_wield ) ) {
@@ -2353,7 +2389,7 @@ tab_direction set_profession( avatar &u, pool_type pool )
                 buffer += pgettext( "set_profession_bionic", "None" ) + std::string( "\n" );
             } else {
                 for( const auto &b : prof_CBMs ) {
-                    const auto &cbm = b.obj();
+                    const bionic_data &cbm = b.obj();
                     if( cbm.activated && cbm.has_flag( json_flag_BIONIC_TOGGLED ) ) {
                         buffer += string_format( _( "%s (toggled)" ), cbm.name ) + "\n";
                     } else if( cbm.activated ) {
@@ -2429,6 +2465,7 @@ tab_direction set_profession( avatar &u, pool_type pool )
         .apply( w );
 
         wnoutrefresh( w );
+        wnoutrefresh( w_requirement );
         wnoutrefresh( w_description );
         wnoutrefresh( w_items );
         wnoutrefresh( w_genderswap );
@@ -2520,6 +2557,13 @@ tab_direction set_profession( avatar &u, pool_type pool )
                 desc_offset++;
             }
         } else if( action == "CONFIRM" ) {
+            ret_val<bool> can_pick = sorted_profs[cur_id]->can_pick();
+
+            if( !can_pick.success() ) {
+                popup( can_pick.str() );
+                continue;
+            }
+
             // Remove traits from the previous profession
             for( const trait_id &old_trait : u.prof->get_locked_traits() ) {
                 u.toggle_trait_deps( old_trait );
@@ -2646,7 +2690,7 @@ tab_direction set_hobbies( avatar &u, pool_type pool )
         werase( w_description );
         if( cur_id_is_valid ) {
             int netPointCost = sorted_profs[cur_id]->point_cost() - u.prof->point_cost();
-            bool can_pick = sorted_profs[cur_id]->can_pick( u, skill_points_left( u, pool ) );
+            ret_val<bool> can_pick = sorted_profs[cur_id]->can_afford( u, skill_points_left( u, pool ) );
             const std::string clear_line( getmaxx( w ) - 2, ' ' );
 
             // Clear the bottom of the screen and header.
@@ -2673,9 +2717,8 @@ tab_direction set_hobbies( avatar &u, pool_type pool )
             }
 
             int pMsg_length = utf8_width( remove_color_tags( pools_to_string( u, pool ) ) );
-            mvwprintz( w, point( pMsg_length + 9, 3 ), can_pick ? c_green : c_light_red, prof_msg_temp,
-                       sorted_profs[cur_id]->gender_appropriate_name( u.male ),
-                       pointsForProf );
+            mvwprintz( w, point( pMsg_length + 9, 3 ), can_pick.success() ? c_green : c_light_red,
+                       prof_msg_temp, sorted_profs[cur_id]->gender_appropriate_name( u.male ), pointsForProf );
 
             fold_and_print( w_description, point_zero, TERMX - 2, c_green,
                             sorted_profs[cur_id]->description( u.male ) );
@@ -3092,7 +3135,7 @@ tab_direction set_skills( avatar &u, pool_type pool )
     ctxt.register_action( "QUIT" );
 
     std::map<skill_id, int> prof_skills;
-    const auto &pskills = u.prof->skills();
+    const profession::StartingSkillList &pskills = u.prof->skills();
 
     std::copy( pskills.begin(), pskills.end(),
                std::inserter( prof_skills, prof_skills.begin() ) );
@@ -3322,6 +3365,14 @@ static struct {
             }
         }
 
+        if( !a->can_pick().success() && b->can_pick().success() ) {
+            return false;
+        }
+
+        if( a->can_pick().success() && !b->can_pick().success() ) {
+            return true;
+        }
+
         if( !cities_enabled && a->has_flag( "CITY_START" ) != b->has_flag( "CITY_START" ) ) {
             return a->has_flag( "CITY_START" ) < b->has_flag( "CITY_START" );
         } else if( sort_by_points ) {
@@ -3344,6 +3395,7 @@ tab_direction set_scenario( avatar &u, pool_type pool )
     catacurses::window w;
     catacurses::window w_description;
     catacurses::window w_sorting;
+    catacurses::window w_requirement;
     catacurses::window w_profession;
     catacurses::window w_location;
     catacurses::window w_vehicle;
@@ -3358,6 +3410,7 @@ tab_direction set_scenario( avatar &u, pool_type pool )
         const int second_column_w = TERMX / 2 - 1;
         point origin = point( second_column_w + 1, 5 );
         const int w_sorting_h = 2;
+        const int w_requirement_h = 4;
         const int w_profession_h = 4;
         const int w_location_h = 3;
         const int w_vehicle_h = 3;
@@ -3368,6 +3421,9 @@ tab_direction set_scenario( avatar &u, pool_type pool )
                                           iContentHeight );
         w_sorting = catacurses::newwin( w_sorting_h, second_column_w, origin );
         origin += point( 0, w_sorting_h );
+
+        w_requirement = catacurses::newwin( w_requirement_h, second_column_w, origin );
+        origin += point( 0, w_requirement_h );
 
         w_profession = catacurses::newwin( w_profession_h, second_column_w, origin );
         origin += point( 0, w_profession_h );
@@ -3428,9 +3484,10 @@ tab_direction set_scenario( avatar &u, pool_type pool )
         werase( w_description );
         if( cur_id_is_valid ) {
             int netPointCost = sorted_scens[cur_id]->point_cost() - get_scenario()->point_cost();
-            bool can_pick = sorted_scens[cur_id]->can_pick(
-                                *get_scenario(),
-                                skill_points_left( u, pool ) );
+            ret_val<bool> can_afford = sorted_scens[cur_id]->can_afford(
+                                           *get_scenario(),
+                                           skill_points_left( u, pool ) );
+            ret_val<bool> can_pick = sorted_scens[cur_id]->can_pick();
             const std::string clear_line( getmaxx( w_description ), ' ' );
 
             // Clear the bottom of the screen and header.
@@ -3469,9 +3526,8 @@ tab_direction set_scenario( avatar &u, pool_type pool )
             }
 
             int pMsg_length = utf8_width( remove_color_tags( pools_to_string( u, pool ) ) );
-            mvwprintz( w, point( pMsg_length + 9, 3 ), can_pick ? c_green : c_light_red, scen_msg_temp,
-                       sorted_scens[cur_id]->gender_appropriate_name( u.male ),
-                       pointsForScen );
+            mvwprintz( w, point( pMsg_length + 9, 3 ), can_afford.success() ? c_green : c_light_red,
+                       scen_msg_temp, sorted_scens[cur_id]->gender_appropriate_name( u.male ), pointsForScen );
 
             const std::string scenDesc = sorted_scens[cur_id]->description( u.male );
 
@@ -3479,6 +3535,10 @@ tab_direction set_scenario( avatar &u, pool_type pool )
                 const std::string scenUnavailable =
                     _( "This scenario is not available in this world due to city size settings." );
                 fold_and_print( w_description, point_zero, TERMX - 2, c_red, scenUnavailable );
+                // NOLINTNEXTLINE(cata-use-named-point-constants)
+                fold_and_print( w_description, point( 0, 1 ), TERMX - 2, c_green, scenDesc );
+            } else if( !can_pick.success() ) {
+                fold_and_print( w_description, point_zero, TERMX - 2, c_red, can_pick.str() );
                 // NOLINTNEXTLINE(cata-use-named-point-constants)
                 fold_and_print( w_description, point( 0, 1 ), TERMX - 2, c_green, scenDesc );
             } else {
@@ -3497,10 +3557,12 @@ tab_direction set_scenario( avatar &u, pool_type pool )
             nc_color col;
             if( get_scenario() != sorted_scens[i] ) {
                 if( cur_id_is_valid && sorted_scens[i] == sorted_scens[cur_id] &&
-                    sorted_scens[i]->has_flag( "CITY_START" ) && !scenario_sorter.cities_enabled ) {
+                    ( ( sorted_scens[i]->has_flag( "CITY_START" ) && !scenario_sorter.cities_enabled ) ||
+                      !sorted_scens[i]->can_pick().success() ) ) {
                     col = h_dark_gray;
                 } else if( cur_id_is_valid && sorted_scens[i] != sorted_scens[cur_id] &&
-                           sorted_scens[i]->has_flag( "CITY_START" ) && !scenario_sorter.cities_enabled ) {
+                           ( ( sorted_scens[i]->has_flag( "CITY_START" ) && !scenario_sorter.cities_enabled ) ||
+                             !sorted_scens[i]->can_pick().success() ) ) {
                     col = c_dark_gray;
                 } else {
                     col = ( cur_id_is_valid && sorted_scens[i] == sorted_scens[cur_id] ? COL_SELECT : c_light_gray );
@@ -3520,6 +3582,7 @@ tab_direction set_scenario( avatar &u, pool_type pool )
         }
 
         werase( w_sorting );
+        werase( w_requirement );
         werase( w_profession );
         werase( w_location );
         werase( w_vehicle );
@@ -3529,6 +3592,13 @@ tab_direction set_scenario( avatar &u, pool_type pool )
 
         if( cur_id_is_valid ) {
             draw_sorting_indicator( w_sorting, ctxt, scenario_sorter );
+
+            if( sorted_scens[cur_id]->get_requirement().has_value() ) {
+                mvwprintz( w_requirement, point_zero, COL_HEADER, _( "\nRequirements:" ) );
+                wprintz( w_requirement, c_light_gray,
+                         string_format( _( "\nComplete \"%s\"\n\n" ),
+                                        sorted_scens[cur_id]->get_requirement().value()->name() ) );
+            }
 
             mvwprintz( w_profession, point_zero, COL_HEADER, _( "Professions:" ) );
             wprintz( w_profession, c_light_gray,
@@ -3632,6 +3702,7 @@ tab_direction set_scenario( avatar &u, pool_type pool )
         wnoutrefresh( w );
         wnoutrefresh( w_description );
         wnoutrefresh( w_sorting );
+        wnoutrefresh( w_requirement );
         wnoutrefresh( w_profession );
         wnoutrefresh( w_location );
         wnoutrefresh( w_vehicle );
@@ -3643,8 +3714,8 @@ tab_direction set_scenario( avatar &u, pool_type pool )
     do {
         if( recalc_scens ) {
             sorted_scens.clear();
-            auto &wopts = world_generator->active_world->WORLD_OPTIONS;
-            for( const auto &scen : scenario::get_all() ) {
+            options_manager::options_container &wopts = world_generator->active_world->WORLD_OPTIONS;
+            for( const scenario &scen : scenario::get_all() ) {
                 if( scen.scen_is_blacklisted() ) {
                     continue;
                 }
@@ -3719,6 +3790,14 @@ tab_direction set_scenario( avatar &u, pool_type pool )
         } else if( action == "END" ) {
             cur_id = scens_length - 1;
         } else if( action == "CONFIRM" ) {
+            // set arbitrarily high points and check if we have the achievment
+            ret_val<bool> can_pick = sorted_scens[cur_id]->can_pick();
+
+            if( !can_pick.success() ) {
+                popup( can_pick.str() );
+                continue;
+            }
+
             if( sorted_scens[cur_id]->has_flag( "CITY_START" ) && !scenario_sorter.cities_enabled ) {
                 continue;
             }
@@ -3941,7 +4020,7 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
     uilist_entry entry_random_start_location( RANDOM_START_LOC_ENTRY, true, -1,
             random_start_location_text );
     select_location.entries.emplace_back( entry_random_start_location );
-    for( const auto &loc : start_locations::get_all() ) {
+    for( const start_location &loc : start_locations::get_all() ) {
         if( get_scenario()->allowed_start( loc.id ) ) {
             std::string loc_name = loc.name();
             if( loc.targets_count() > 1 ) {
@@ -4043,7 +4122,7 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
             bool has_skills = false;
             profession::StartingSkillList list_skills = you.prof->skills();
 
-            for( auto &elem : skillslist ) {
+            for( const Skill *&elem : skillslist ) {
                 int level = you.get_skill_level( elem->ident() );
 
                 // Handle skills from professions
@@ -4109,7 +4188,7 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
                 mvwprintz( w_bionics, point( utf8_width( _( "Bionics:" ) ) + 1, 0 ), c_light_red, _( "None!" ) );
             } else {
                 for( const auto &b : prof_CBMs ) {
-                    const auto &cbm = b.obj();
+                    const bionic_data &cbm = b.obj();
 
                     if( cbm.activated && cbm.has_flag( json_flag_BIONIC_TOGGLED ) ) {
                         wprintz( w_bionics, c_light_gray, string_format( _( "\n%s (toggled)" ), cbm.name ) );
@@ -4524,7 +4603,7 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
             if( select_location.ret == RANDOM_START_LOC_ENTRY ) {
                 you.random_start_location = true;
             } else if( select_location.ret >= 0 ) {
-                for( const auto &loc : start_locations::get_all() ) {
+                for( const start_location &loc : start_locations::get_all() ) {
                     if( loc.id.id().to_i() == select_location.ret ) {
                         you.random_start_location = false;
                         you.start_location = loc.id;
@@ -4609,7 +4688,7 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
                     if( select_location.ret == RANDOM_START_LOC_ENTRY ) {
                         you.random_start_location = true;
                     } else if( select_location.ret >= 0 ) {
-                        for( const auto &loc : start_locations::get_all() ) {
+                        for( const start_location &loc : start_locations::get_all() ) {
                             if( loc.id.id().to_i() == select_location.ret ) {
                                 you.random_start_location = false;
                                 you.start_location = loc.id;
@@ -4820,7 +4899,7 @@ bool avatar::load_template( const std::string &template_name, pool_type &pool )
             const std::string jobj_start_location = jobj.get_string( "start_location", "" );
 
             // get_scenario()->allowed_start( loc.ident() ) is checked once scenario loads in avatar::load()
-            for( const auto &loc : start_locations::get_all() ) {
+            for( const class start_location &loc : start_locations::get_all() ) {
                 if( loc.id.str() == jobj_start_location ) {
                     random_start_location = false;
                     this->start_location = loc.id;

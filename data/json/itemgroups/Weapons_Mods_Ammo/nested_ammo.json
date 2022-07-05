@@ -441,6 +441,17 @@
     ]
   },
   {
+    "id": "on_hand_30carbine",
+    "type": "item_group",
+    "//": "a collection of ammo that would be found with a loaded gun.",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "30carbine", "prob": 100, "charges": [ 1, 50 ] },
+      { "item": "30carbine", "prob": 75, "charges": [ 55, 100 ] },
+      { "item": "30carbine", "prob": 30, "charges": [ 110, 200 ] }
+    ]
+  },
+  {
     "id": "on_hand_50",
     "type": "item_group",
     "//": "a collection of ammo that would be found with a loaded gun.",

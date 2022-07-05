@@ -238,7 +238,6 @@
     "spoils_in": "5 days",
     "comestible_type": "FOOD",
     "symbol": "%",
-    "healthy": 1,
     "calories": 70,
     "description": "A handful of sweet, brilliantly red colored berries of the wintergreen shrub.",
     "price": 400,

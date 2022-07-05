@@ -215,6 +215,8 @@ class widget
         int _label_width = 0;
         // Separator used to separate the label from the text. This is inherited from any parent widgets if none is found.
         std::string _separator;
+        // Amount of padding to put between the label and text, as well as this widget and other widgets.
+        int _padding;
         // Binding variable enum like stamina, bp_hp or stat_dex
         widget_var _var = widget_var::last;
         // Minimum meaningful var value, set by set_default_var_range
@@ -223,6 +225,8 @@ class widget
         int _var_max = INT_MAX;
         // True if this widget has an explicitly defined separator. False if it is inherited.
         bool explicit_separator;
+        // True if this widget has an explicitly defined padding. False if it is inherited.
+        bool explicit_padding;
 
         // Normal var range (low, high), set by set_default_var_range
         std::pair<int, int> _var_norm = std::make_pair( INT_MIN, INT_MAX );
@@ -239,7 +243,7 @@ class widget
         // Graph fill style ("bucket" or "pool")
         std::string _fill;
         // String values mapped to numeric values or ranges
-        std::vector<translation> _strings;
+        translation _string;
         // Colors mapped to values or ranges
         std::vector<nc_color> _colors;
         // Child widget ids for layout style
@@ -267,8 +271,8 @@ class widget
         // Recursively derive _label_width for nested layouts in this widget
         static int finalize_label_width_recursive( const widget_id &id );
         // Recursively derive _separator for nested layouts in this widget
-        static void finalize_label_separator_recursive( const widget_id &id,
-                const std::string &label_separator );
+        static void finalize_inherited_fields_recursive( const widget_id &id,
+                const std::string &label_separator, int col_padding );
         // Reset to defaults using generic widget_factory
         static void reset();
         // Get all widget instances from the factory
@@ -312,12 +316,12 @@ class widget
         std::string number( int value, bool from_condition ) const;
         // Return the numeric value(s) from all true conditional clauses in this widget
         std::string number_cond( enumeration_conjunction join_type = enumeration_conjunction::none ) const;
-        // Return the text clause mapped to a given value for "text" style
-        std::string text( int value, bool from_condition, int width = 0 );
+        // Return the text clause for "text" style
+        std::string text( bool from_condition, int width = 0 );
         // Return the text clause(s) from all true conditional clauses in this widget
         std::string text_cond( bool no_join = false, int width = 0 );
         // Return the symbol mapped to a given value for "symbol" style
-        std::string sym( int value, bool from_condition );
+        std::string sym( bool from_condition );
         // Return the symbol(s) from all true conditional clauses in this widget
         std::string sym_cond( bool no_join = true,
                               enumeration_conjunction join_type = enumeration_conjunction::none ) const;

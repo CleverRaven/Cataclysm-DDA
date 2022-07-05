@@ -238,7 +238,7 @@ void give_and_activate_bionic( Character &you, bionic_id const &bioid )
     // get bionic's index - might not be "last added" due to "integrated" ones
     int bioindex = -1;
     for( size_t i = 0; i < you.my_bionics->size(); i++ ) {
-        const auto &bio = ( *you.my_bionics )[ i ];
+        const bionic &bio = ( *you.my_bionics )[ i ];
         if( bio.id == bioid ) {
             bioindex = i;
         }

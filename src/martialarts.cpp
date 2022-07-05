@@ -446,7 +446,7 @@ bool string_id<martialart>::is_valid() const
 std::vector<matype_id> all_martialart_types()
 {
     std::vector<matype_id> result;
-    for( const auto &ma : martialarts.get_all() ) {
+    for( const martialart &ma : martialarts.get_all() ) {
         result.push_back( ma.id );
     }
     return result;
@@ -455,7 +455,7 @@ std::vector<matype_id> all_martialart_types()
 std::vector<matype_id> autolearn_martialart_types()
 {
     std::vector<matype_id> result;
-    for( const auto &ma : martialarts.get_all() ) {
+    for( const martialart &ma : martialarts.get_all() ) {
         if( ma.autolearn_skills.empty() ) {
             continue;
         }
@@ -493,7 +493,7 @@ static void check( const ma_requirements &req, const std::string &display_text )
 
 void check_martialarts()
 {
-    for( const auto &ma : martialarts.get_all() ) {
+    for( const martialart &ma : martialarts.get_all() ) {
         for( auto technique = ma.techniques.cbegin();
              technique != ma.techniques.cend(); ++technique ) {
             if( !technique->is_valid() ) {
@@ -509,10 +509,10 @@ void check_martialarts()
             }
         }
     }
-    for( const auto &t : ma_techniques.get_all() ) {
+    for( const ma_technique &t : ma_techniques.get_all() ) {
         ::check( t.reqs, string_format( "technique %s", t.id.c_str() ) );
     }
-    for( const auto &b : ma_buffs.get_all() ) {
+    for( const ma_buff &b : ma_buffs.get_all() ) {
         ::check( b.reqs, string_format( "buff %s", b.id.c_str() ) );
     }
 }
@@ -551,7 +551,7 @@ void finalize_martial_arts()
 {
     // This adds an effect type for each ma_buff, so we can later refer to it and don't need a
     // redundant definition of those effects in json.
-    for( const auto &buff : ma_buffs.get_all() ) {
+    for( const ma_buff &buff : ma_buffs.get_all() ) {
         const ma_buff_effect_type new_eff( buff );
         // Note the slicing here: new_eff is converted to a plain effect_type, but this doesn't
         // bother us because ma_buff_effect_type does not have any members that can be sliced.
@@ -1030,7 +1030,7 @@ static void simultaneous_add( Character &u, const std::vector<mabuff_id> &buffs 
             buffer.push_back( &buff );
         }
     }
-    for( auto &elem : buffer ) {
+    for( const ma_buff *&elem : buffer ) {
         elem->apply_buff( u );
     }
 }
@@ -1038,7 +1038,7 @@ static void simultaneous_add( Character &u, const std::vector<mabuff_id> &buffs 
 void martialart::remove_all_buffs( Character &u ) const
 {
     // Remove static buffs
-    for( auto &elem : static_buffs ) {
+    for( const auto &elem : static_buffs ) {
         const efftype_id eff_id = elem->get_effect_id();
         if( u.has_effect( eff_id ) && !elem->persists ) {
             u.remove_effect( eff_id );
@@ -1046,7 +1046,7 @@ void martialart::remove_all_buffs( Character &u ) const
     }
 
     // Remove onmove buffs
-    for( auto &elem : onmove_buffs ) {
+    for( const auto &elem : onmove_buffs ) {
         const efftype_id eff_id = elem->get_effect_id();
         if( u.has_effect( eff_id ) && !elem->persists ) {
             u.remove_effect( eff_id );
@@ -1054,7 +1054,7 @@ void martialart::remove_all_buffs( Character &u ) const
     }
 
     // Remove onpause buffs
-    for( auto &elem : onpause_buffs ) {
+    for( const auto &elem : onpause_buffs ) {
         const efftype_id eff_id = elem->get_effect_id();
         if( u.has_effect( eff_id ) && !elem->persists ) {
             u.remove_effect( eff_id );
@@ -1062,7 +1062,7 @@ void martialart::remove_all_buffs( Character &u ) const
     }
 
     // Remove onhit buffs
-    for( auto &elem : onhit_buffs ) {
+    for( const auto &elem : onhit_buffs ) {
         const efftype_id eff_id = elem->get_effect_id();
         if( u.has_effect( eff_id ) && !elem->persists ) {
             u.remove_effect( eff_id );
@@ -1070,7 +1070,7 @@ void martialart::remove_all_buffs( Character &u ) const
     }
 
     // Remove onattack buffs
-    for( auto &elem : onattack_buffs ) {
+    for( const auto &elem : onattack_buffs ) {
         const efftype_id eff_id = elem->get_effect_id();
         if( u.has_effect( eff_id ) && !elem->persists ) {
             u.remove_effect( eff_id );
@@ -1078,7 +1078,7 @@ void martialart::remove_all_buffs( Character &u ) const
     }
 
     // Remove ondodge buffs
-    for( auto &elem : ondodge_buffs ) {
+    for( const auto &elem : ondodge_buffs ) {
         const efftype_id eff_id = elem->get_effect_id();
         if( u.has_effect( eff_id ) && !elem->persists ) {
             u.remove_effect( eff_id );
@@ -1086,7 +1086,7 @@ void martialart::remove_all_buffs( Character &u ) const
     }
 
     // Remove onblock buffs
-    for( auto &elem : onblock_buffs ) {
+    for( const auto &elem : onblock_buffs ) {
         const efftype_id eff_id = elem->get_effect_id();
         if( u.has_effect( eff_id ) && !elem->persists ) {
             u.remove_effect( eff_id );
@@ -1094,7 +1094,7 @@ void martialart::remove_all_buffs( Character &u ) const
     }
 
     // Remove ongethit buffs
-    for( auto &elem : ongethit_buffs ) {
+    for( const auto &elem : ongethit_buffs ) {
         const efftype_id eff_id = elem->get_effect_id();
         if( u.has_effect( eff_id ) && !elem->persists ) {
             u.remove_effect( eff_id );
@@ -1102,7 +1102,7 @@ void martialart::remove_all_buffs( Character &u ) const
     }
 
     // Remove onmiss buffs
-    for( auto &elem : onmiss_buffs ) {
+    for( const auto &elem : onmiss_buffs ) {
         const efftype_id eff_id = elem->get_effect_id();
         if( u.has_effect( eff_id ) && !elem->persists ) {
             u.remove_effect( eff_id );
@@ -1110,7 +1110,7 @@ void martialart::remove_all_buffs( Character &u ) const
     }
 
     // Remove oncrit buffs
-    for( auto &elem : oncrit_buffs ) {
+    for( const auto &elem : oncrit_buffs ) {
         const efftype_id eff_id = elem->get_effect_id();
         if( u.has_effect( eff_id ) && !elem->persists ) {
             u.remove_effect( eff_id );
@@ -1118,7 +1118,7 @@ void martialart::remove_all_buffs( Character &u ) const
     }
 
     // Remove onkill buffs
-    for( auto &elem : onkill_buffs ) {
+    for( const auto &elem : onkill_buffs ) {
         const efftype_id eff_id = elem->get_effect_id();
         if( u.has_effect( eff_id ) && !elem->persists ) {
             u.remove_effect( eff_id );
@@ -1307,7 +1307,7 @@ std::vector<matec_id> character_martial_arts::get_all_techniques( const item &we
         const Character &u ) const
 {
     std::vector<matec_id> tecs;
-    const auto &style = style_selected.obj();
+    const martialart &style = style_selected.obj();
 
     // Grab individual item techniques if the style allows them
     if( !style.force_unarmed ) {
