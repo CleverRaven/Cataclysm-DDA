@@ -176,6 +176,6 @@
     "min_aoe": 1,
     "max_aoe": 1,
     "aoe_increment": 1.0,
-    "damage_type": [ "cut" ]
+    "damage_type": "cut"
   }
 ]
