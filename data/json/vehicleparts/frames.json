@@ -68,7 +68,7 @@
     "location": "structure",
     "standard_symbols": true,
     "durability": 250,
-    "description": "A metal framework, haphazardly welded together. It still provides support, but is much less durable than machined frame.",
+    "description": "A metal framework, haphazardly welded together.  It still provides support, but is much less durable than machined frame.",
     "breaks_into": "ig_vp_frame",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "20 m", "using": [ [ "welding_standard", 10 ] ] },
@@ -150,7 +150,7 @@
     "categories": [ "hull" ],
     "color": "dark_gray",
     "durability": 500,
-    "description": "A heavy metal framework, haphazardly welded together. It still provides support, but is much less durable than machined frame.  Increased mass makes it more resistant to damage in collisions.",
+    "description": "A heavy metal framework, haphazardly welded together.  It still provides support, but is much less durable than machined frame.  Increased mass makes it more resistant to damage in collisions.",
     "breaks_into": "ig_vp_hdframe",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 3 ] ], "time": "40 m", "using": [ [ "welding_standard", 20 ] ] },
@@ -190,7 +190,7 @@
     "categories": [ "hull" ],
     "color": "light_gray",
     "durability": 100,
-    "description": "A light metal framework, haphazardly welded together. It still provides support, but is much less durable than machined frame.",
+    "description": "A light metal framework, haphazardly welded together.  It still provides support, but is much less durable than machined frame.",
     "breaks_into": "ig_vp_xlframe",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "25 m", "using": [ [ "welding_alloys", 10 ] ] },
