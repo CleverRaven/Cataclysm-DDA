@@ -82,6 +82,7 @@ class player_morale;
 class proficiency_set;
 class recipe_subset;
 class spell;
+class ui_adaptor;
 class vpart_reference;
 class vehicle;
 struct bionic;
@@ -782,7 +783,7 @@ class Character : public Creature, public visitable
         units::mass get_weight() const override;
 
         // formats and prints encumbrance info to specified window
-        void print_encumbrance( const catacurses::window &win, int line = -1,
+        void print_encumbrance( ui_adaptor &ui, const catacurses::window &win, int line = -1,
                                 const item *selected_clothing = nullptr ) const;
         /** Returns true if the character is wearing power armor */
         bool is_wearing_power_armor( bool *hasHelmet = nullptr ) const;

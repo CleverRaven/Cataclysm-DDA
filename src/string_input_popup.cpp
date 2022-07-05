@@ -240,7 +240,8 @@ void string_input_popup::update_input_history( utf8_wrapper &ret, bool up )
     _position = ret.length();
 }
 
-void string_input_popup::draw( const utf8_wrapper &ret, const utf8_wrapper &edit ) const
+void string_input_popup::draw( ui_adaptor *const ui, const utf8_wrapper &ret,
+                               const utf8_wrapper &edit ) const
 {
     if( !custom_window ) {
         werase( w_full );
@@ -312,15 +313,25 @@ void string_input_popup::draw( const utf8_wrapper &ret, const utf8_wrapper &edit
     if( !edit.empty() ) {
         mvwprintz( w_title_and_entry, point( start_x_edit, _starty ), _cursor_color, "%s", edit.c_str() );
     }
+    wnoutrefresh( w_title_and_entry );
+
+    std::unique_ptr<on_out_of_scope> move_cursor_and_refresh;
+    if( ui ) {
+        ui->set_cursor( w_title_and_entry, cursor_pos );
+    } else {
+        // This ensures the cursor is set last for calling UIs to record and set
+        // for screen readers and IME preview
+        move_cursor_and_refresh = std::make_unique<on_out_of_scope>( [&]() {
+            wmove( w_title_and_entry, cursor_pos );
+            wnoutrefresh( w_title_and_entry );
+        } );
+    }
 
     //Draw scrolling description
     if( !custom_window && desc_view_ptr ) {
         desc_view_ptr->draw( _desc_color );
         wnoutrefresh( w_description );
     }
-    // Move curses cursor to text cursor for screen readers and IME preview positioning
-    wmove( w_title_and_entry, cursor_pos );
-    wnoutrefresh( w_title_and_entry );
 }
 
 void string_input_popup::query( const bool loop, const bool draw_only )
@@ -380,8 +391,8 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
             create_window();
             ui.position_from_window( w_full );
         } );
-        ui->on_redraw( [&]( const ui_adaptor & ) {
-            draw( ret, edit );
+        ui->on_redraw( [&]( ui_adaptor & ui ) {
+            draw( &ui, ret, edit );
         } );
     }
 
@@ -425,7 +436,7 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
         if( ui ) {
             ui_manager::redraw();
         } else {
-            draw( ret, edit );
+            draw( nullptr, ret, edit );
         }
 
         if( draw_only ) {

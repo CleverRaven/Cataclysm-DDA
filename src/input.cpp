@@ -1440,7 +1440,7 @@ action_id input_context::display_menu( const bool permit_execute_action )
     std::string action;
     int raw_input_char = 0;
 
-    const auto redraw = [&]( const ui_adaptor & ) {
+    const auto redraw = [&]( ui_adaptor & ui ) {
         werase( w_help );
         draw_border( w_help, BORDER_COLOR, _( "Keybindings" ), c_light_red );
         draw_scrollbar( w_help, scroll_offset, display_height,
@@ -1485,10 +1485,11 @@ action_id input_context::display_menu( const bool permit_execute_action )
             mvwprintz( w_help, point( 52, i + 10 ), col, "%s", get_desc( action_id ) );
         }
 
-        // spopup.query_string() will call wnoutrefresh( w_help ), and should
-        // be called last to position the cursor at the correct place in the curses build.
+        // spopup.query_string() will call wnoutrefresh( w_help )
         spopup.text( filter_phrase );
         spopup.query_string( false, true );
+        // Record cursor immediately after spopup drawing
+        ui.record_term_cursor();
     };
     ui.on_redraw( redraw );
 
