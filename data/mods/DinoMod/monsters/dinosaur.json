@@ -703,6 +703,27 @@
   },
   {
     "type": "MONSTER",
+    "id": "mon_saurornitholestes",
+    "name": { "str_sp": "saurornitholestes" },
+    "copy-from": "mon_velociraptor",
+    "default_faction": "saurornitholestes",
+    "volume": "10 L",
+    "weight": "10 kg",
+    "speed": 150,
+    "attack_cost": 150,
+    "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
+    "hp": 25,
+    "description": "A small bipedal dinosaur covered with feathers.  Small, hooked claws emerge from its feet and hands.",
+    "special_attacks": [
+      [ "EAT_FOOD", 20 ],
+      { "type": "leap", "cooldown": 15, "max_range": 5, "allow_no_target": true },
+      [ "GRAB", 30 ],
+      { "type": "bite", "cooldown": 20 }
+    ],
+    "reproduction": { "baby_egg": "egg_saurornitholestes", "baby_count": 3, "baby_timer": 18 }
+  },
+  {
+    "type": "MONSTER",
     "id": "mon_velociraptor",
     "name": { "str": "velociraptor" },
     "species": [ "DINOSAUR" ],
