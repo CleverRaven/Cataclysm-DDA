@@ -928,9 +928,8 @@ bool Character::roll_bad_mutation() const
     } else {
         //A curve that is 0 until I0, crosses 0.5 at I50, then slowly approaches 1
         float chance = std::max( 0.0f, 1 - std::pow( I0 / vitamin_get( vitamin_instability ), exp ) );
+        return rng_float( 0, 1 ) < chance;
     }
-
-    return rng_float( 0, 1 ) < chance;
 }
 
 void Character::mutate( const int &true_random_chance, const bool use_vitamins )
