@@ -144,8 +144,9 @@
         ";": "t_screen_door_c"
       },
       "furniture": {
-        ",": [ [ "f_cardboard_box", 35 ], [ "f_crate_o", 10 ] , [ "f_wardrobe", 20 ], [ "f_bookcase", 15 ], [ "f_null", 20 ] ],
-        "/": "f_region_flower" },
+        ",": [ [ "f_cardboard_box", 35 ], [ "f_crate_o", 10 ], [ "f_wardrobe", 20 ], [ "f_bookcase", 15 ], [ "f_null", 20 ] ],
+        "/": "f_region_flower"
+      },
       "items": { ",": { "item": "hoarder", "chance": 90, "repeat": [ 2, 4 ] } },
       "place_loot": [
         { "item": "hose", "x": 19, "y": 20, "chance": 35 },

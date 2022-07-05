@@ -259,7 +259,7 @@
         "/": "t_screen_door_c",
         "ɤ": "t_concrete"
       },
-      "place_item": [ 
+      "place_item": [
         { "item": "stereo", "x": 4, "y": 10, "chance": 100 },
         { "item": "television", "x": 5, "y": 10, "chance": 100 },
         { "item": "feces_dog", "x": [ 3, 21 ], "y": [ 5, 19 ], "chance": 15, "repeat": [ 5, 10 ] },
