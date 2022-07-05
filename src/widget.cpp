@@ -1571,6 +1571,10 @@ std::string widget::layout( const avatar &ava, unsigned int max_width, int label
         int row_num = 0;
         // For multi-line widgets, each line is separated by a '\n' character
         while( ( strpos = shown.find( '\n' ) ) != std::string::npos && row_num < _height ) {
+            if( _var == widget_var::overmap_text ) {
+                //The overmap becomes completely unreadable without spaces and destroys other widgets. Forcing an override here.
+                manual_align = false;
+            }
             // Process line, including '\n'
             ret += append_line( shown.substr( 0, strpos + 1 ), row_num == 0, max_width,
                                 has_flag( json_flag_W_LABEL_NONE ) ? translation() : _label,
