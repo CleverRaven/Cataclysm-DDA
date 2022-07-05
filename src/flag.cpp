@@ -273,6 +273,7 @@ const flag_id flag_REDUCED_WEIGHT( "REDUCED_WEIGHT" );
 const flag_id flag_RELOAD_AND_SHOOT( "RELOAD_AND_SHOOT" );
 const flag_id flag_RELOAD_EJECT( "RELOAD_EJECT" );
 const flag_id flag_RELOAD_ONE( "RELOAD_ONE" );
+const flag_id flag_REMOVED_STOCK( "REMOVED_STOCK" );
 const flag_id flag_REQUIRES_BALANCE( "REQUIRES_BALANCE" );
 const flag_id flag_REQUIRES_TINDER( "REQUIRES_TINDER" );
 const flag_id flag_RESTRICT_HANDS( "RESTRICT_HANDS" );

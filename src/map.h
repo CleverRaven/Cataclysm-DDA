@@ -2078,9 +2078,12 @@ class map
 
         // this is set for maps loaded in bounds of the main map (g->m)
         bool _main_requires_cleanup = false;
+        cata::optional<bool> _main_cleanup_override = cata::nullopt;
 
     public:
         void queue_main_cleanup();
+        bool is_main_cleanup_queued();
+        void main_cleanup_override( bool over );
         const level_cache &get_cache_ref( int zlev ) const {
             return get_cache( zlev );
         }

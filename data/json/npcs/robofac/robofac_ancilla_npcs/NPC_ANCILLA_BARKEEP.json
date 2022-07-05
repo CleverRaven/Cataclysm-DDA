@@ -1,0 +1,178 @@
+[
+  {
+    "type": "npc",
+    "id": "ancilla_barkeep",
+    "name_suffix": "Bartender",
+    "class": "NC_ANCILLA_BARTENDER",
+    "attitude": 0,
+    "mission": 3,
+    "chat": "TALK_ANCILLA_BARKEEP",
+    "mission_offered": "MISSION_RANCH_BARTENDER_1",
+    "faction": "robofac_auxiliaries"
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_ANCILLA_BARTENDER",
+    "name": { "str": "Bartender" },
+    "job_description": "I'm looking for new drink recipes.",
+    "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
+    "common": false,
+    "bonus_per": { "one_in": 4 },
+    "worn_override": "NC_ANCILLA_BARKEEP_worn",
+    "carry_override": "NC_ANCILLA_BARKEEP_carry",
+    "weapon_override": "NC_ANCILLA_BARKEEP_wield",
+    "shopkeeper_item_group": [ { "group": "NC_ANCILLA_BARKEEP_stock", "rigid": true } ],
+    "skills": [
+      {
+        "skill": "ALL",
+        "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "constant": -2 }, { "one_in": 4 } ] } ] }
+      },
+      { "skill": "speech", "bonus": { "rng": [ 2, 5 ] } }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_ANCILLA_BARKEEP_worn",
+    "subtype": "collection",
+    "items": [
+      { "item": "jeans" },
+      { "group": "NC_BOUNTY_HUNTER_coat" },
+      { "item": "boots_combat" },
+      { "item": "boxer_briefs" },
+      { "item": "tshirt" },
+      { "item": "apron_leather" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_ANCILLA_BARKEEP_carry",
+    "subtype": "collection",
+    "items": [  ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_ANCILLA_BARKEEP_wield",
+    "subtype": "collection",
+    "items": [ { "item": "rag" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_ANCILLA_BARKEEP_stock",
+    "subtype": "collection",
+    "entries": [
+      { "item": "water_clean", "prob": 100, "count": [ 4, 8 ] },
+      { "group": "beer", "prob": 100, "count": [ 4, 12 ] },
+      { "group": "mixed_alcoholic_drinks", "prob": 100, "count": [ 2, 4 ] },
+      { "group": "softdrinks_canned", "prob": 100, "count": [ 2, 4 ] },
+      { "group": "alcohol", "prob": 100, "count": [ 2, 10 ] },
+      { "group": "salty_snacks", "prob": 100, "count": [ 2, 10 ] },
+      { "group": "cannedfood", "prob": 100, "count": [ 4, 15 ] }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<ANCILLA_barkeep_suggestion>",
+    "text": [
+      "Ahh but if you want suggestions and are one for craft beers, I certainly suggest having some old world brew before it all goes flat or sour.",
+      "Speaking off, Cranberry here brought me a whole cask of Cabernet a few days ago.  So if red wines are your thing I can offer that by the gallon.",
+      "Just bought some of this new \"Free Whiskey\" from the caravaneer up above.  Its vile if you ask me, but it packs a good punch.  A real drink of the apocalypse I suppose.",
+      "The water I boiled from a pool by the rails, so I don't suggest you get some.",
+      "And you can also try chatting with some of the other patrons if networking is your thing.",
+      "Also have some old world sodas if alcohol isn't your kind of thing.",
+      "Not much fruit juice to make fancy drinks, but I can scrounge up some still.",
+      "Can also sell some dry foods if you want to stock for a trip somewhere.",
+      "Also good for a chat if you don't want anything."
+    ]
+  },
+  {
+    "id": [ "TALK_ANCILLA_BARKEEP", "TALK_ANCILLA_BEM_HUMAN_SAMPLE_REWARD" ],
+    "type": "talk_topic",
+    "dynamic_line": {
+      "u_has_faction_trust": 10,
+      "yes": [
+        "Ah great to see you around.",
+        "How goes the surface?  All dead and walkey still?.",
+        "Should hang around one of these days, help me out in the bar for a change, what do you say, eh?.",
+        "Oh, what can I do for you today?"
+      ],
+      "no": {
+        "u_has_var": "first_meet",
+        "type": "dialogue",
+        "context": "ancilla_barkeep",
+        "value": "yes",
+        "yes": "Feel free to lounge around, and ask if theres anything you need.",
+        "no": "Welcome to the Terminal, scavenger, longest standing underground bar in the state.  Feel free to ask if you need something."
+      }
+    },
+    "speaker_effect": {
+      "effect": [
+        { "u_add_var": "first_meet", "type": "dialogue", "context": "ancilla_barkeep", "value": "yes" },
+        { "npc_add_var": "barkeep", "type": "bool", "context": "ancilla", "value": "yes" }
+      ],
+      "sentinel": "bar_meet"
+    },
+    "responses": [
+      { "text": "Let me see what you keep behind the counter.", "topic": "TALK_ANCILLA_BARKEEP", "effect": "start_trade" },
+      { "text": "What do you have on tap?", "topic": "TALK_ANCILLA_BARKEEP_TAP" },
+      {
+        "text": "There should be a package for me here.",
+        "condition": { "u_compare_var": "BEM_human_sample_reward_owed", "type": "counter", "context": "BEM", "op": ">=", "value": 1 },
+        "topic": "TALK_ANCILLA_BEM_HUMAN_SAMPLE_REWARD"
+      },
+      { "text": "Any good rumours?", "topic": "TALK_ANCILLA_BARKEEP_INFORMATION" },
+      { "text": "I'll be going…", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ANCILLA_BARKEEP_INFORMATION",
+    "dynamic_line": "If what you want are jobs and opportunities, you'll probably be better off asking to my other patrons.  Have regulars from well across the state, im sure some can offer what you want.\"\n\n \"Really, I just tend the bar and don't ask many questions.  Things tend work out better that way.",
+    "responses": [ { "text": "I'll ask around, thank you.", "topic": "TALK_ANCILLA_BARKEEP" } ]
+  },
+  {
+    "id": "TALK_ANCILLA_BARKEEP_TAP",
+    "type": "talk_topic",
+    "dynamic_line": "Just the best spirits the whole of New England has to offer.  Well the best we have managed to loot so far at least.\n\n <ANCILLA_barkeep_suggestion>",
+    "responses": [
+      {
+        "//": "It is FREE? well just for regulars",
+        "truefalsetext": { "condition": { "u_has_faction_trust": 20 }, "true": "Just some water.", "false": "[$2] Just some water." },
+        "trial": { "type": "CONDITION", "condition": { "u_has_faction_trust": 20 } },
+        "success": { "effect": { "u_spawn_item": "water_clean", "container": "glass", "count": 2 }, "topic": "TALK_DONE" },
+        "failure": { "effect": { "u_buy_item": "water_clean", "container": "glass", "count": 2, "cost": 200 }, "topic": "TALK_DONE" }
+      },
+      {
+        "text": "[$3] I'll take a beer",
+        "topic": "TALK_DONE",
+        "effect": { "u_buy_item": "beer", "container": "glass", "count": 2, "cost": 300 }
+      },
+      {
+        "text": "[$3] Get me a cup of red wine",
+        "topic": "TALK_DONE",
+        "effect": { "u_buy_item": "wine_cabernet", "container": "wine_glass", "cost": 300 }
+      },
+      {
+        "text": "[$3] I'll take a shot of rum",
+        "topic": "TALK_DONE",
+        "effect": { "u_buy_item": "rum", "container": "glass", "cost": 300 }
+      },
+      {
+        "text": "[$3] I'll take a shot of whiskey",
+        "topic": "TALK_DONE",
+        "effect": { "u_buy_item": "whiskey", "container": "glass", "cost": 300 }
+      },
+      { "text": "On second thought, don't bother.", "topic": "TALK_ANCILLA_BARKEEP" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ANCILLA_BEM_HUMAN_SAMPLE_REWARD",
+    "dynamic_line": "Oh yes of course, think this should be all, well thats all there is anyhow.",
+    "speaker_effect": {
+      "effect": [
+        { "u_adjust_var": "BEM_human_sample_reward_owed", "type": "counter", "context": "BEM", "adjustment": -1 },
+        { "u_spawn_item": "RobofacCoin", "count": 2 }
+      ]
+    }
+  }
+]

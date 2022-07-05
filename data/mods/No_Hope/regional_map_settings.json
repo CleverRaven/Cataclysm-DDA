@@ -457,8 +457,8 @@
           "mx_exocrash_1": 1,
           "mx_exocrash_2": 1,
           "mx_bandits_ambush": 5,
-          "mx_bandits_grave": 1,
-          "mx_bandits_outpost": 1
+          "mx_bandits_grave": 2,
+          "mx_bandits_outpost": 2
         }
       },
       "forest_thick": {
@@ -494,9 +494,9 @@
           "mx_mass_grave": 5,
           "mx_exocrash_1": 1,
           "mx_exocrash_2": 1,
-          "mx_bandits_ambush": 1,
-          "mx_bandits_grave": 1,
-          "mx_bandits_outpost": 1
+          "mx_bandits_ambush": 5,
+          "mx_bandits_grave": 2,
+          "mx_bandits_outpost": 2
         }
       },
       "forest_water": {
@@ -525,9 +525,9 @@
           "mx_nest_dermatik": 50,
           "mx_exocrash_1": 1,
           "mx_exocrash_2": 1,
-          "mx_bandits_ambush": 1,
-          "mx_bandits_grave": 1,
-          "mx_bandits_outpost": 1
+          "mx_bandits_ambush": 5,
+          "mx_bandits_grave": 2,
+          "mx_bandits_outpost": 2
         }
       },
       "field": {

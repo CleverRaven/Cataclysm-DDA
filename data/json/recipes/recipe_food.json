@@ -1520,7 +1520,7 @@
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_knife_skills" } ],
     "components": [
       [ [ "meat_red", 1, "LIST" ], [ "fish", 1 ], [ "lobster", 1 ] ],
-      [ [ "veggy", 1 ], [ "veggy_wild", 1 ] ],
+      [ [ "veggy_green", 1, "LIST" ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ]
     ]
   },
@@ -8202,9 +8202,7 @@
         [ "potato", 5 ],
         [ "barley", 5 ],
         [ "raw_beans", 5 ],
-        [ "cabbage", 5 ],
-        [ "veggy_wild", 5 ],
-        [ "veggy", 5 ],
+        [ "veggy_green", 5, "LIST" ],
         [ "press_cake", 1 ]
       ]
     ]

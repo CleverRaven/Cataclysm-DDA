@@ -124,7 +124,7 @@ inline V random_entry( const C &container )
     if( container.empty() ) {
         return V();
     }
-    auto iter = container.begin();
+    typename C::const_iterator iter = container.begin();
     std::advance( iter, rng( 0, container.size() - 1 ) );
     return *iter;
 }
