@@ -80,7 +80,7 @@
     "method": "json",
     "om_terrain": [ "house_42" ],
     "//": "hoarder variant",
-    "weight": 5,
+    "weight": 1,
     "object": {
       "fill_ter": "t_floor",
       "rows": [

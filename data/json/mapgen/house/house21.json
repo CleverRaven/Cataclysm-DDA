@@ -64,7 +64,7 @@
     "om_terrain": "house_21",
     "//": "hoarder variant",
     "type": "mapgen",
-    "weight": 5,
+    "weight": 1,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
