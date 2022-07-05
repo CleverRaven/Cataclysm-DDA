@@ -589,7 +589,7 @@
     "dissect": "dissect_insect_sample_single",
     "anger_triggers": [ "PLAYER_CLOSE" ],
     "fear_triggers": [ "HURT" ],
-    "upgrades": { "half_life": 30, "into_group": "GROUP_CENTIPEDE_ADULT" }
+    "upgrades": { "age_grow": 30, "into_group": "GROUP_CENTIPEDE_ADULT" }
   },
   {
     "id": "mon_centipede_giant",
@@ -639,7 +639,7 @@
     "anger_triggers": [ "STALK", "PLAYER_CLOSE" ],
     "harvest": "arachnid_centipede",
     "dissect": "dissect_insect_sample_small",
-    "upgrades": { "half_life": 45, "into_group": "GROUP_CENTIPEDE_GIANT" },
+    "upgrades": { "age_grow": 45, "into_group": "GROUP_CENTIPEDE_GIANT" },
     "flags": [ "CLIMBS", "SEES", "SMELLS", "KEENNOSE", "HEARS", "GOODHEARING", "PATH_AVOID_FIRE" ]
   },
   {
@@ -685,7 +685,7 @@
     "dissect": "dissect_insect_sample_large",
     "reproduction": { "baby_monster": "mon_centipede_small", "baby_count": 2, "baby_timer": 10 },
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
-    "upgrades": { "half_life": 45, "into_group": "GROUP_CENTIPEDE_MOM" },
+    "upgrades": { "age_grow": 45, "into_group": "GROUP_CENTIPEDE_MOM" },
     "delete": { "flags": [ "KEENNOSE", "GOODHEARING" ] }
   },
   {
@@ -842,7 +842,7 @@
     "anger_triggers": [ "PLAYER_CLOSE" ],
     "fear_triggers": [ "HURT" ],
     "flags": [ "AQUATIC", "SEES", "WATER_CAMOUFLAGE" ],
-    "upgrades": { "half_life": 42, "into": "mon_dragonfly_giant" }
+    "upgrades": { "age_grow": 42, "into": "mon_dragonfly_giant" }
   },
   {
     "id": "mon_dragonfly_giant",
@@ -886,7 +886,7 @@
     "dissect": "dissect_insect_sample_single",
     "anger_triggers": [ "PLAYER_WEAK", "STALK" ],
     "fear_triggers": [ "HURT", "FIRE" ],
-    "upgrades": { "half_life": 40, "into": "mon_dragonfly_mega" },
+    "upgrades": { "age_grow": 60, "into": "mon_dragonfly_mega" },
     "flags": [ "SWARMS", "HEARS", "SEES", "FLIES", "PATH_AVOID_FIRE" ]
   },
   {
