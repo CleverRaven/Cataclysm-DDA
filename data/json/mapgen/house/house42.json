@@ -143,10 +143,7 @@
         "$": "t_screened_porch_wall",
         "/": "t_screen_door_c"
       },
-      "furniture": {
-        "0": "f_region_flower",
-        ":": [ "f_indoor_plant", "f_indoor_plant_y" ]
-      },
+      "furniture": { "0": "f_region_flower", ":": [ "f_indoor_plant", "f_indoor_plant_y" ] },
       "place_loot": [
         { "item": "hose", "x": 19, "y": 18, "chance": 35 },
         { "item": "television", "x": 16, "y": 5, "chance": 35 },
@@ -155,7 +152,7 @@
       "place_monster": [
         { "monster": "mon_large_cockroach", "x": [ 3, 21 ], "y": [ 6, 15 ], "chance": 100, "repeat": 8 },
         { "monster": "mon_giant_cockroach", "x": [ 3, 21 ], "y": [ 6, 15 ], "chance": 50, "repeat": 2 },
-        { "monster": "mon_plague_vector", "x": [ 3, 21 ], "y": [ 6, 15 ], "chance": 20}
+        { "monster": "mon_plague_vector", "x": [ 3, 21 ], "y": [ 6, 15 ], "chance": 20 }
       ]
     }
   },

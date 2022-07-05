@@ -108,7 +108,10 @@
         ",": "t_thconc_floor"
       },
       "furniture": { "/": "f_region_flower" },
-      "place_item": [ { "item": "stereo", "x": 4, "y": 11, "chance": 100 }, { "item": "feces_dog", "x": [ 4, 8 ], "y": [ 10, 20 ], "chance": 80, "repeat": [ 5, 10 ] } ],
+      "place_item": [
+        { "item": "stereo", "x": 4, "y": 11, "chance": 100 },
+        { "item": "feces_dog", "x": [ 4, 8 ], "y": [ 10, 20 ], "chance": 80, "repeat": [ 5, 10 ] }
+      ],
       "place_nested": [
         {
           "chunks": [ [ "null", 25 ], [ "playset_4x4_2", 25 ], [ "firepit_5x5_1", 25 ], [ "firepit_5x5_2", 25 ], [ "playset_4x4_1", 25 ] ],

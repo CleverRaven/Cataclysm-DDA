@@ -146,9 +146,7 @@
       "furniture": {
         ",": [ [ "f_cardboard_box", 35 ], [ "f_crate_o", 10 ] , [ "f_wardrobe", 20 ], [ "f_bookcase", 15 ], [ "f_null", 20 ] ],
         "/": "f_region_flower" },
-      "items": {
-        ",": { "item": "hoarder", "chance": 90, "repeat": [ 2, 4 ] }
-      },
+      "items": { ",": { "item": "hoarder", "chance": 90, "repeat": [ 2, 4 ] } },
       "place_loot": [
         { "item": "hose", "x": 19, "y": 20, "chance": 35 },
         { "item": "lawnmower", "x": 22, "y": 8, "chance": 35 },
@@ -158,7 +156,7 @@
       "place_monster": [
         { "monster": "mon_large_cockroach", "x": [ 3, 21 ], "y": [ 6, 15 ], "chance": 100, "repeat": 8 },
         { "monster": "mon_giant_cockroach", "x": [ 3, 21 ], "y": [ 6, 15 ], "chance": 50, "repeat": 2 },
-        { "monster": "mon_plague_vector", "x": [ 3, 21 ], "y": [ 6, 15 ], "chance": 20}
+        { "monster": "mon_plague_vector", "x": [ 3, 21 ], "y": [ 6, 15 ], "chance": 20 }
       ]
     }
   },

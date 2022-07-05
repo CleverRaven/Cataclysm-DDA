@@ -136,13 +136,9 @@
         ";": "t_chaingate_l",
         "!": "t_floor_waxed"
       },
-      "furniture": {
-        "0": "f_region_flower"
-      },
+      "furniture": { "0": "f_region_flower" },
       "place_item": [ { "item": "feces_dog", "x": [ 2, 22 ], "y": [ 3, 18 ], "chance": 80, "repeat": [ 8, 12 ] } ],
-      "place_monster": [
-        { "monster": "mon_zombie_dog", "x": [ 2, 22 ], "y": [ 3, 18 ], "chance": 80, "repeat": [ 6, 10 ] }
-      ]
+      "place_monster": [ { "monster": "mon_zombie_dog", "x": [ 2, 22 ], "y": [ 3, 18 ], "chance": 80, "repeat": [ 6, 10 ] } ]
     }
   },
   {

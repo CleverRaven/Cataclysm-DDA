@@ -136,17 +136,14 @@
         "S": "t_linoleum_white",
         "t": "t_linoleum_white"
       },
-      "furniture": {
-        "0": "f_region_flower",
-        ":": [ "f_indoor_plant", "f_indoor_plant_y" ]
-      },
+      "furniture": { "0": "f_region_flower", ":": [ "f_indoor_plant", "f_indoor_plant_y" ] },
       "place_loot": [
         { "item": "hose", "x": 9, "y": 22 },
         { "item": "television", "x": 16, "y": 14 },
         { "item": "stereo", "x": 15, "y": 14, "chance": 20 }
       ],
       "place_monster": [
-        { "monster": "mon_devourer", "x": [ 2, 7 ], "y": [ 4, 20 ], "chance": 100},
+        { "monster": "mon_devourer", "x": [ 2, 7 ], "y": [ 4, 20 ], "chance": 100 },
         { "monster": "mon_cat", "x": [ 9, 18 ], "y": [ 6, 15 ], "chance": 100, "repeat": 2 }
       ]
     }
