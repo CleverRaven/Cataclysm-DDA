@@ -71,7 +71,7 @@
     "description": "A burst of invisible laser pulses stab at the target.",
     "valid_targets": [ "hostile" ],
     "effect": "attack",
-    "shape": "line",
+    "shape": "blast",
     "max_level": 1,
     "min_damage": 5,
     "max_damage": 5,
