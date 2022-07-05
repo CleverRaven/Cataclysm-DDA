@@ -1614,7 +1614,6 @@ void salvage_actor::cut_up( Character &p, item_location &cut ) const
         if( curr.type->is_basic_component() )
         {
             int num_actual = static_cast<int>( num_adjusted );
-            num_actual += x_in_y( num_adjusted - num_actual, 1.0 );
             salvage[curr.typeId()] += num_actual;
             return;
         }
@@ -1667,8 +1666,7 @@ void salvage_actor::cut_up( Character &p, item_location &cut ) const
                     cut_up_component( next, num_adjusted );
                 } else {
                     item next = item( comp.type, calendar::turn );
-                    num_adjusted *= comp.count;
-                    cut_up_component( next, num_adjusted );
+                    cut_up_component( next, num_adjusted * comp.count );
                 }
             }
         } else
