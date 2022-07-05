@@ -1,0 +1,51 @@
+[
+  {
+    "id": "leather_journal",
+    "type": "TOOL",
+    "category": "tools",
+    "name": { "str": "leather journal" },
+    "looks_like": "book_nonf_soft_psych_cggamers",
+    "description": "A leather-back journal for preserving notes and maps, has a strap to keep loose pages contained.",
+    "volume": "300 ml",
+    "weight": "150 g",
+    "use_action": [ "CALORIES_INTAKE_TRACKER" ],
+    "flags": [ "TRADER_AVOID", "CALORIES_INTAKE" ],
+    "material": [ "leather" ],
+    "symbol": "*",
+    "color": "brown",
+    "pocket_data": [
+      {
+        "//": "Binding",
+        "pocket_type": "CONTAINER",
+        "rigid": false,
+        "max_contains_weight": "2 kg",
+        "max_contains_volume": "2500 ml",
+        "max_item_length": "300 mm",
+        "moves": 150,
+        "item_restriction": [
+          "paper",
+          "militarymap",
+          "survivormap",
+          "roadmap",
+          "subwaymap",
+          "trailmap",
+          "touristmap",
+          "restaurantmap",
+          "flyer",
+          "survnote",
+          "character_sheet",
+          "newest_newspaper",
+          "many_years_old_newspaper",
+          "years_old_newspaper",
+          "one_year_old_newspaper",
+          "months_old_newspaper",
+          "weeks_old_newspaper",
+          "necropolis_leaflet",
+          "death_note",
+          "note_mutant_alpha_boss",
+          "evac_pamphlet"
+        ]
+      }
+    ]
+  }
+]
