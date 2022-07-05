@@ -930,8 +930,7 @@
     "cancels": [ "NONADDICTIVE" ],
     "points": 2,
     "mixed_effect": true,
-    "description": "You have a unique history with stimulants (like coffee or amphetamines).  You can tolerate a lot more of them without overdosing, but if you indulge too much, you start seeing things…",
-    "category": [ "SPIDER" ]
+    "description": "You have a unique history with stimulants (like coffee or amphetamines).  You can tolerate a lot more of them without overdosing, but if you indulge too much, you start seeing things…"
   },
   {
     "type": "mutation",
