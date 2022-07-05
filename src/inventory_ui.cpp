@@ -277,7 +277,7 @@ bool inventory_entry::is_hidden() const
     }
 
     item_location item = locations.front();
-    while( item.has_parent() ) {
+    while( item.has_parent() && item.get_item() != topmost_parent ) {
         item_location parent = item.parent_item();
         if( parent.get_item()->contained_where( *item )->settings.is_collapsed() ) {
             return true;
