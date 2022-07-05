@@ -1087,10 +1087,6 @@ void inventory_column::prepare_paging( const std::string &filter )
         return;
     }
 
-    // Recalculate all the widths.
-    for( inventory_entry *e : get_entries( always_yes ) ) {
-        expand_to_fit( *e );
-    }
     const auto filter_fn = filter_from_string<inventory_entry>(
     filter, [this]( const std::string & filter ) {
         return preset.get_filter( filter );
@@ -1107,6 +1103,13 @@ void inventory_column::prepare_paging( const std::string &filter )
     move_if( entries_hidden, entries, is_visible );
     // remove entries hidden by SHOW_HIDE_CONTENTS
     move_if( entries, entries_hidden, is_not_visible );
+
+    // Recalculate all the widths.
+    // This must go AFTER moving the hidden entries so that
+    // cell widths are calculated with up-to-date visible entries
+    for( inventory_entry *e : get_entries( always_yes ) ) {
+        expand_to_fit( *e );
+    }
 
     // Then sort them with respect to categories
     std::stable_sort( entries.begin(), entries.end(),
