@@ -431,7 +431,7 @@ void diary::trait_changes()
                 if( std::find( currpage->traits.begin(), currpage->traits.end(),
                                elem ) == currpage->traits.end() ) {
                     if( flag ) {
-                        add_to_change_list( _( "Lost Mutation " ) );
+                        add_to_change_list( _( "Lost Mutation: " ) );
                         flag = false;
                     }
                     const mutation_branch &trait = elem.obj();

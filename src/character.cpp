@@ -11434,7 +11434,7 @@ bool Character::can_lift( const T &obj ) const
     // avoid comparing by weight as different objects use differing scales (grams vs kilograms etc)
     int str = get_lift_str();
     if( mounted_creature ) {
-        const auto mons = mounted_creature.get();
+        auto *const mons = mounted_creature.get();
         str = mons->mech_str_addition() == 0 ? str : mons->mech_str_addition();
     }
     const int npc_str = get_lift_assist();

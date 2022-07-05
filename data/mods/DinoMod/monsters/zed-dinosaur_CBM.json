@@ -66,7 +66,13 @@
     "melee_damage": [ { "damage_type": "electric", "amount": 4 } ],
     "vision_day": 50,
     "luminance": 4,
-    "special_attacks": [ [ "scratch", 10 ], [ "GRAB", 7 ], { "type": "bite", "cooldown": 5 }, [ "BIO_OP_TAKEDOWN", 20 ] ],
+    "special_attacks": [
+      [ "scratch", 10 ],
+      [ "GRAB", 7 ],
+      { "type": "bite", "cooldown": 5 },
+      [ "BIO_OP_TAKEDOWN", 20 ],
+      { "type": "spell", "spell_data": { "id": "CBM_TRex_recording" }, "cooldown": 1600 }
+    ],
     "description": "The shuffling corpse of a bipedal dinosaur dotted with crackling bionics, tattered feathers, and black putrid liquid with glowing curved claws.",
     "special_when_hit": [ "ZAPBACK", 75 ],
     "upgrades": {  },
