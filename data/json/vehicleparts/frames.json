@@ -60,7 +60,7 @@
     "categories": [ "hull" ],
     "damage_reduction": { "all": 20 }
   },
-   {
+  {
     "id": "jrframe",
     "type": "vehicle_part",
     "name": { "str": "jury-rigged frame" },
@@ -159,7 +159,7 @@
     },
     "flags": [ "MOUNTABLE", "INITIAL_PART" ],
     "damage_reduction": { "all": 20 }
-  },  
+  },
   {
     "id": "xlframe",
     "type": "vehicle_part",
@@ -179,7 +179,7 @@
     },
     "flags": [ "MOUNTABLE", "INITIAL_PART", "NO_INSTALL_PLAYER" ],
     "damage_reduction": { "all": 7 }
-  }, 
+  },
   {
     "id": "jrxlframe",
     "type": "vehicle_part",
