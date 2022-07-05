@@ -1004,6 +1004,18 @@ class saw_barrel_actor : public iuse_actor
         ret_val<bool> can_use_on( const Character &you, const item &it, const item &target ) const;
 };
 
+class saw_stock_actor : public iuse_actor
+{
+    public:
+        explicit saw_stock_actor( const std::string &type = "saw_stock" ) : iuse_actor( type ) {}
+
+        void load( const JsonObject &jo ) override;
+        cata::optional<int> use( Character &p, item &it, bool t, const tripoint &pnt ) const override;
+        std::unique_ptr<iuse_actor> clone() const override;
+
+        ret_val<bool> can_use_on( const Character &you, const item &it, const item &target ) const;
+};
+
 // this adds a pocket to a molle item
 class molle_attach_actor : public iuse_actor
 {

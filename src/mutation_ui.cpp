@@ -99,6 +99,9 @@ void avatar::power_mutations()
     std::vector<trait_id> passive;
     std::vector<trait_id> active;
     for( std::pair<const trait_id, trait_data> &mut : my_mutations ) {
+        if( !mut.first->player_display ) {
+            continue;
+        }
         if( !mut.first->activated ) {
             passive.push_back( mut.first );
         } else {
@@ -106,7 +109,7 @@ void avatar::power_mutations()
         }
         // New mutations are initialized with no key at all, so we have to do this here.
         if( mut.second.key == ' ' ) {
-            for( const auto &letter : mutation_chars ) {
+            for( const char &letter : mutation_chars ) {
                 if( trait_by_invlet( letter ).is_null() ) {
                     mut.second.key = letter;
                     break;

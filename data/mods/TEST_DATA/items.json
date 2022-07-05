@@ -91,7 +91,7 @@
     "id": "test_rag",
     "type": "TOOL",
     "category": "spare_parts",
-    "name": "TEST rag",
+    "name": "TEST cotton patchwork",
     "description": "This is a largish piece of cloth, useful in crafting and possibly for staunching bleeding.",
     "weight": "80 g",
     "volume": "250 ml",
@@ -100,7 +100,7 @@
     "symbol": ",",
     "color": "white",
     "use_action": [
-      { "type": "heal", "move_cost": 200, "used_up_item": { "id": "rag", "quantity": 1, "flags": [ "FILTHY" ] } },
+      { "type": "heal", "move_cost": 200, "used_up_item": { "id": "cotton_patchwork", "quantity": 1, "flags": [ "FILTHY" ] } },
       "WASH_HARD_ITEMS"
     ],
     "flags": [ "NO_SALVAGE" ]
@@ -110,7 +110,7 @@
     "type": "GENERIC",
     "category": "spare_parts",
     "name": "TEST rag bundle",
-    "description": "This is a bundle of 100 rags tied together with a piece of string.",
+    "description": "This is a bundle of 100 cotton patchwork pieces tied together with a piece of string.",
     "weight": "800 g",
     "volume": "2000 ml",
     "price": 0,
@@ -472,7 +472,7 @@
     "symbol": ";",
     "color": "dark_gray",
     "qualities": [ [ "PRY", 3 ], [ "HAMMER", 1 ], [ "PRYING_NAIL", 1 ] ],
-    "use_action": [ "HAMMER", "CROWBAR" ],
+    "use_action": [ "CROWBAR" ],
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "BELT_CLIP", "DURABLE_MELEE" ]
   },
@@ -493,7 +493,7 @@
     "symbol": ";",
     "color": "brown",
     "qualities": [ [ "HAMMER", 3 ], [ "PRY", 1 ], [ "HAMMER_FINE", 1 ], [ "PRYING_NAIL", 1 ] ],
-    "use_action": [ "HAMMER", "CROWBAR" ],
+    "use_action": [ "CROWBAR" ],
     "flags": [ "BELT_CLIP", "NONCONDUCTIVE" ],
     "weapon_category": [ "BATONS" ]
   },
@@ -703,7 +703,7 @@
     "color": "dark_gray",
     "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
     "qualities": [ [ "PRY", 4 ], [ "HAMMER", 2 ], [ "DIG", 1 ], [ "PRYING_NAIL", 1 ] ],
-    "use_action": [ "HAMMER", "CROWBAR" ],
+    "use_action": [ "CROWBAR" ],
     "flags": [ "DURABLE_MELEE", "BELT_CLIP" ]
   },
   {
@@ -1353,7 +1353,6 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": -2,
-    "healthy": 1,
     "calories": 202,
     "description": "A handful of tasty crunchy nuts from a pinecone.",
     "price": 136,
@@ -1432,7 +1431,6 @@
     "spoils_in": "7 days",
     "symbol": "o",
     "quench": 4,
-    "healthy": 1,
     "calories": 80,
     "price": 44,
     "price_postapoc": 50,
@@ -2211,7 +2209,6 @@
     "comestible_type": "DRINK",
     "symbol": "~",
     "quench": 25,
-    "healthy": 1,
     "calories": 132,
     "description": "You can only push a drink so far before it spoils.",
     "price": 38,
@@ -2258,7 +2255,6 @@
     "comestible_type": "DRINK",
     "symbol": "~",
     "quench": 10,
-    "healthy": -2,
     "addiction_potential": 3,
     "calories": 49,
     "description": "Cheap booze made from fermented tennis ball juice.  Tastes just like it sounds.",
@@ -3665,6 +3661,29 @@
         "coverage": 100,
         "encumbrance": 15
       }
+    ]
+  },
+  {
+    "id": "test_consolidate",
+    "repairs_like": "trenchcoat",
+    "type": "ARMOR",
+    "name": { "str": "Item that should be simpler" },
+    "description": "This item should have only 1 armor entry in game since these three are identical.",
+    "weight": "1000 g",
+    "volume": "1500 ml",
+    "price": 5000,
+    "price_postapoc": 50,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "robe",
+    "color": "white",
+    "warmth": 10,
+    "material_thickness": 0.5,
+    "flags": [ "VARSIZE", "STURDY" ],
+    "armor": [
+      { "covers": [ "torso" ], "specifically_covers": [ "torso_lower" ], "coverage": 100, "encumbrance": 10 },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": 10 },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": 10 }
     ]
   }
 ]

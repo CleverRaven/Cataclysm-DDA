@@ -49,8 +49,6 @@
 #  (for every .po file in lang/po)
 # Enable sanitizer (address, undefined, etc.)
 #  make SANITIZE=address
-# Change mapsize (reality bubble size)
-#  make MAPSIZE=<size>
 # Enable the string id debugging helper
 #  make STRING_ID_DEBUG=1
 # Adjust names of build artifacts (for example to allow easily toggling between build types).
@@ -263,7 +261,7 @@ W32ODIR = $(BUILD_PREFIX)objwin
 W32ODIRTILES = $(W32ODIR)/tiles
 
 ifdef AUTO_BUILD_PREFIX
-  BUILD_PREFIX = $(if $(RELEASE),release-)$(if $(DEBUG_SYMBOLS),symbol-)$(if $(TILES),tiles-)$(if $(SOUND),sound-)$(if $(LOCALIZE),local-)$(if $(BACKTRACE),back-$(if $(LIBBACKTRACE),libbacktrace-))$(if $(SANITIZE),sanitize-)$(if $(MAPSIZE),map-$(MAPSIZE)-)$(if $(USE_XDG_DIR),xdg-)$(if $(USE_HOME_DIR),home-)$(if $(DYNAMIC_LINKING),dynamic-)$(if $(MSYS2),msys2-)
+  BUILD_PREFIX = $(if $(RELEASE),release-)$(if $(DEBUG_SYMBOLS),symbol-)$(if $(TILES),tiles-)$(if $(SOUND),sound-)$(if $(LOCALIZE),local-)$(if $(BACKTRACE),back-$(if $(LIBBACKTRACE),libbacktrace-))$(if $(SANITIZE),sanitize-)$(if $(USE_XDG_DIR),xdg-)$(if $(USE_HOME_DIR),home-)$(if $(DYNAMIC_LINKING),dynamic-)$(if $(MSYS2),msys2-)
   export BUILD_PREFIX
 endif
 
@@ -613,10 +611,6 @@ ifeq ($(TARGETSYSTEM),WINDOWS)
   ifeq ($(NATIVE), win64)
     RFLAGS += -F pe-x86-64
   endif
-endif
-
-ifdef MAPSIZE
-    CXXFLAGS += -DMAPSIZE=$(MAPSIZE)
 endif
 
 ifeq ($(shell git rev-parse --is-inside-work-tree),true)

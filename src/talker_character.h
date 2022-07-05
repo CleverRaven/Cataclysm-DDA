@@ -41,6 +41,7 @@ class talker_character_const: public talker
         int posy() const override;
         int posz() const override;
         tripoint pos() const override;
+        tripoint_abs_ms global_pos() const override;
         tripoint_abs_omt global_omt_location() const override;
         int get_cur_hp( const bodypart_id &bp ) const override;
 
@@ -104,6 +105,7 @@ class talker_character_const: public talker
         int get_fatigue() const override;
         int get_hunger() const override;
         int get_thirst() const override;
+        int get_instant_thirst() const override;
         int get_stored_kcal() const override;
         bool is_in_control_of( const vehicle &veh ) const override;
 
@@ -201,7 +203,7 @@ class talker_character: public talker_character_const
 
         void set_fatigue( int amount ) override;
         void mod_pain( int amount ) override;
-        void mod_healthy_mod( int, int ) override;
+        void mod_daily_health( int, int ) override;
         void add_morale( const morale_type &new_morale, int bonus, int max_bonus, time_duration duration,
                          time_duration decay_started, bool capped ) override;
         void remove_morale( const morale_type &old_morale ) override;

@@ -59,7 +59,6 @@ bool harvestable_now( const tripoint &examp );
 void gaspump( Character &you, const tripoint &examp );
 void atm( Character &you, const tripoint &examp );
 void vending( Character &you, const tripoint &examp );
-void toilet( Character &, const tripoint &examp );
 void elevator( Character &you, const tripoint &examp );
 void nanofab( Character &you, const tripoint &examp );
 void controls_gate( Character &you, const tripoint &examp );

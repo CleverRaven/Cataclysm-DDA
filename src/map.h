@@ -716,6 +716,9 @@ class map
         void clear_vehicle_point_from_cache( vehicle *veh, const tripoint &pt );
         // clears all vehicle level caches
         void clear_vehicle_level_caches();
+        void remove_vehicle_from_cache( vehicle *veh, int zmin = -OVERMAP_DEPTH,
+                                        int zmax = OVERMAP_HEIGHT );
+        void reset_vehicles_sm_pos();
         // clears and build vehicle level caches
         void rebuild_vehicle_level_caches();
         void clear_vehicle_list( int zlev );
@@ -1095,7 +1098,8 @@ class map
         // Optionally toggles instances $from->$to & $to->$from
         void translate_radius( const ter_id &from, const ter_id &to, float radi, const tripoint &p,
                                bool same_submap = false, bool toggle_between = false );
-        void transform_radius( ter_furn_transform_id transform, float radi, const tripoint &p );
+        void transform_radius( ter_furn_transform_id transform, float radi,
+                               const tripoint_abs_ms &p );
         bool close_door( const tripoint &p, bool inside, bool check_only );
         bool open_door( Creature const &u, const tripoint &p, bool inside, bool check_only = false );
         // Destruction
@@ -2072,7 +2076,14 @@ class map
         // !value || value->first != map::abs_sub means cache is invalid
         cata::optional<std::pair<tripoint_abs_sm, int>> max_populated_zlev = cata::nullopt;
 
+        // this is set for maps loaded in bounds of the main map (g->m)
+        bool _main_requires_cleanup = false;
+        cata::optional<bool> _main_cleanup_override = cata::nullopt;
+
     public:
+        void queue_main_cleanup();
+        bool is_main_cleanup_queued();
+        void main_cleanup_override( bool over );
         const level_cache &get_cache_ref( int zlev ) const {
             return get_cache( zlev );
         }

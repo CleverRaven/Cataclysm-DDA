@@ -40,7 +40,7 @@ class item_contents
           * checks all items contained in every pocket
           * only checks CONTAINER pocket type
           */
-        std::pair<item_location, item_pocket *> best_pocket( const item &it, item_location &parent,
+        std::pair<item_location, item_pocket *> best_pocket( const item &it, item_location &this_loc,
                 const item *avoid = nullptr, bool allow_sealed = false, bool ignore_settings = false,
                 bool nested = false, bool ignore_rigidity = false );
 
@@ -67,6 +67,8 @@ class item_contents
         ret_val<bool> can_contain( const item &it, bool ignore_pkt_settings = true ) const;
         ret_val<bool> can_contain_rigid( const item &it, bool ignore_pkt_settings = true ) const;
         bool can_contain_liquid( bool held_or_ground ) const;
+
+        bool contains_no_solids() const;
 
         /**
          * returns whether any of the pockets can be reloaded with the specified item.
@@ -369,7 +371,7 @@ class item_contents
 class pocket_favorite_callback : public uilist_callback
 {
     private:
-        std::vector<std::pair<item_pocket *, int>> saved_pockets;
+        std::vector<std::tuple<item_pocket *, int, uilist_entry *>> saved_pockets;
         // whitelist or blacklist, for interactions
         bool whitelist = true;
         std::pair<item *, item_pocket *> item_to_move = { nullptr, nullptr };

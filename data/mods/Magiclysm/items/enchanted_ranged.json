@@ -137,6 +137,7 @@
     "barrel_volume": "500 ml",
     "valid_mod_locations": [ [ "mechanism", 1 ] ],
     "reload_noise": "chuk chuk.",
+    "weapon_category": [ "MEDIUM_SWORDS" ],
     "flags": [ "RELOAD_ONE", "PUMP_ACTION", "DURABLE_MELEE", "SHEATH_SWORD" ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 3 } } ]

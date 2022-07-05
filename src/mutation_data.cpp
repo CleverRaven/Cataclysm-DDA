@@ -257,7 +257,6 @@ void reflex_activation_data::deserialize( const JsonObject &jo )
 
 void mutation_branch::load( const JsonObject &jo, const std::string & )
 {
-    mandatory( jo, was_loaded, "id", id );
     mandatory( jo, was_loaded, "name", raw_name );
     mandatory( jo, was_loaded, "description", raw_desc );
     mandatory( jo, was_loaded, "points", points );
@@ -567,6 +566,39 @@ std::string mutation_branch::desc() const
     return raw_desc.translated();
 }
 
+static bool has_cyclic_dependency( const trait_id &mid, std::vector<trait_id> already_visited )
+{
+    if( contains_trait( already_visited, mid ) ) {
+        return true; // Circular dependency was found.
+    }
+
+    already_visited.push_back( mid );
+
+    // Perform Depth-first search
+    for( const trait_id &current_mutation : mid->prereqs ) {
+        if( has_cyclic_dependency( current_mutation->id, already_visited ) ) {
+            return true;
+        }
+    }
+
+    for( const trait_id &current_mutation : mid->prereqs2 ) {
+        if( has_cyclic_dependency( current_mutation->id, already_visited ) ) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+static void check_has_cyclic_dependency( const trait_id &mid )
+{
+    std::vector<trait_id> already_visited;
+    if( has_cyclic_dependency( mid, already_visited ) ) {
+        debugmsg( "mutation %s references itself in either of its prerequsition branches.  The program will crash if the player gains this mutation.",
+                  mid.c_str() );
+    }
+}
+
 static void check_consistency( const std::vector<trait_id> &mvec, const trait_id &mid,
                                const std::string &what )
 {
@@ -574,13 +606,18 @@ static void check_consistency( const std::vector<trait_id> &mvec, const trait_id
         if( !m.is_valid() ) {
             debugmsg( "mutation %s refers to undefined %s %s", mid.c_str(), what.c_str(), m.c_str() );
         }
+
+        if( m == mid ) {
+            debugmsg( "mutation %s refers to itself in %s context.  The program will crash if the player gains this mutation.",
+                      mid.c_str(), what.c_str() );
+        }
     }
 }
 
 void mutation_branch::check_consistency()
 {
-    for( const auto &mdata : get_all() ) {
-        const auto &mid = mdata.id;
+    for( const mutation_branch &mdata : get_all() ) {
+        const trait_id &mid = mdata.id;
         const cata::optional<scenttype_id> &s_id = mdata.scent_typeid;
         const std::map<species_id, int> &an_id = mdata.anger_relations;
         for( const auto &style : mdata.initial_ma_styles ) {
@@ -654,7 +691,14 @@ void mutation_branch::check_consistency()
             }
         }
 
-        ::check_consistency( mdata.prereqs, mid, "prereq" );
+        // We need to display active mutations in the UI.
+        if( mdata.activated && !mdata.player_display ) {
+            debugmsg( "mutation %s is not displayed but set as active" );
+        }
+
+        check_has_cyclic_dependency( mid );
+
+        ::check_consistency( mdata.prereqs, mid, "prereqs" );
         ::check_consistency( mdata.prereqs2, mid, "prereqs2" );
         ::check_consistency( mdata.threshreq, mid, "threshreq" );
         ::check_consistency( mdata.cancels, mid, "cancels" );
@@ -707,7 +751,7 @@ void mutation_branch::reset_all()
 std::vector<std::string> dream::messages() const
 {
     std::vector<std::string> ret;
-    for( const auto &msg : raw_messages ) {
+    for( const translation &msg : raw_messages ) {
         ret.push_back( msg.translated() );
     }
     return ret;
@@ -824,7 +868,7 @@ void mutation_branch::load_trait_group( const JsonObject &jsobj,
                                         const std::string &subtype )
 {
     if( subtype != "distribution" && subtype != "collection" && subtype != "old" ) {
-        jsobj.throw_error( "unknown trait group type", "subtype" );
+        jsobj.throw_error_at( "subtype", "unknown trait group type" );
     }
 
     Trait_group &tg = make_group_or_throw( gid, subtype == "collection" || subtype == "old" );
@@ -936,4 +980,10 @@ template<>
 bool string_id<mutation_category_trait>::is_valid() const
 {
     return mutation_category_traits.count( *this );
+}
+
+bool mutation_is_in_category( const trait_id &mut, const mutation_category_id &cat )
+{
+    return std::find( mutations_category[cat].begin(), mutations_category[cat].end(),
+                      mut ) != mutations_category[cat].end();
 }

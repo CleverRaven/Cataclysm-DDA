@@ -706,15 +706,13 @@ int item_pocket::remaining_ammo_capacity( const ammotype &ammo ) const
         return 0;
     }
     int ammo_count = 0;
-    if( !contents.empty() ) {
-        for( const item &it : contents ) {
-            if( it.has_flag( flag_CASING ) ) {
-                continue;
-            } else if( ammo != it.ammo_type() ) {
-                return 0;
-            }
-            ammo_count += it.count();
+    for( const item &it : contents ) {
+        if( it.has_flag( flag_CASING ) ) {
+            continue;
+        } else if( ammo != it.ammo_type() ) {
+            return 0;
         }
+        ammo_count += it.count();
     }
     return total_capacity - ammo_count;
 }
@@ -1834,11 +1832,11 @@ ret_val<item_pocket::contain_code> item_pocket::insert_item( const item &it )
     return ret;
 }
 
-item_pocket *item_pocket::best_pocket_in_contents(
-    item_location &parent, const item &it, const item *avoid,
+std::pair<item_location, item_pocket *> item_pocket::best_pocket_in_contents(
+    item_location &this_loc, const item &it, const item *avoid,
     const bool allow_sealed, const bool ignore_settings )
 {
-    item_pocket *ret = nullptr;
+    std::pair<item_location, item_pocket *> ret( this_loc, nullptr );
     // If the current pocket has restrictions or blacklists the item,
     // try the nested pocket regardless of whether it's soft or rigid.
     const bool ignore_rigidity =
@@ -1850,10 +1848,12 @@ item_pocket *item_pocket::best_pocket_in_contents(
         if( &contained_item == &it || &contained_item == avoid ) {
             continue;
         }
-        item_pocket *nested_pocket = contained_item.best_pocket( it, parent, avoid,
-                                     allow_sealed, ignore_settings, /*nested=*/true, ignore_rigidity ).second;
-        if( nested_pocket != nullptr &&
-            ( ret == nullptr || ret->better_pocket( *nested_pocket, it, /*nested=*/true ) ) ) {
+        item_location new_loc( this_loc, &contained_item );
+        std::pair<item_location, item_pocket *> nested_pocket = contained_item.best_pocket( it, new_loc,
+                avoid, allow_sealed, ignore_settings, /*nested=*/true, ignore_rigidity );
+        if( nested_pocket.second != nullptr &&
+            ( ret.second == nullptr ||
+              ret.second->better_pocket( *nested_pocket.second, it, /*nested=*/true ) ) ) {
             ret = nested_pocket;
         }
     }

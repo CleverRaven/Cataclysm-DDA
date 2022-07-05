@@ -180,12 +180,15 @@ void Character::print_encumbrance( const catacurses::window &win, const int line
                               ( highlighted ? c_green : c_light_gray );
         mvwprintz( win, point( 1, 1 + i ), limb_color, "%s", out );
         // accumulated encumbrance from clothing, plus extra encumbrance from layering
-        mvwprintz( win, point( 8, 1 + i ), display::encumb_color( e.encumbrance ), "%3d",
+        int column = std::max( 10, ( width / 2 ) - 3 ); //Ideally the encumbrance data is centred
+        mvwprintz( win, point( column, 1 + i ), display::encumb_color( e.encumbrance ), "%3d",
                    e.encumbrance - e.layer_penalty );
         // separator in low toned color
-        mvwprintz( win, point( 11, 1 + i ), c_light_gray, "+" );
+        column += 3; //Prepared for 3-digit encumbrance
+        mvwprintz( win, point( column, 1 + i ), c_light_gray, "+" );
+        column += 1; // "+"
         // take into account the new encumbrance system for layers
-        mvwprintz( win, point( 12, 1 + i ), display::encumb_color( e.encumbrance ), "%-3d",
+        mvwprintz( win, point( column, 1 + i ), display::encumb_color( e.encumbrance ), "%-3d",
                    e.layer_penalty );
         // print warmth, tethered to right hand side of the window
         mvwprintz( win, point( width - 6, 1 + i ), display::bodytemp_color( *this, bp ), "(% 3d)",
@@ -565,7 +568,7 @@ static void draw_traits_tab( const catacurses::window &w_traits, const unsigned 
             line, is_current_tab );
 
     for( size_t i = range.first; i < static_cast<size_t>( range.second ); ++i ) {
-        const auto &mdata = traitslist[i].obj();
+        const mutation_branch &mdata = traitslist[i].obj();
         const nc_color color = mdata.get_display_color();
         trim_and_print( w_traits, point( 1, static_cast<int>( 1 + i - range.first ) ), width,
                         is_current_tab && i == line ? hilite( color ) : color, mdata.name() );
@@ -580,7 +583,7 @@ static void draw_traits_info( const catacurses::window &w_info, const unsigned l
 {
     werase( w_info );
     if( line < traitslist.size() ) {
-        const auto &mdata = traitslist[line].obj();
+        const mutation_branch &mdata = traitslist[line].obj();
         // NOLINTNEXTLINE(cata-use-named-point-constants)
         fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_light_gray, string_format(
                             "%s: %s", colorize( mdata.name(), mdata.get_display_color() ), traitslist[line]->desc() ) );
@@ -1273,7 +1276,7 @@ void Character::disp_info( bool customize_character )
                                          );
     }
 
-    for( auto &elem : addictions ) {
+    for( addiction &elem : addictions ) {
         if( elem.sated < 0_turns && elem.intensity >= MIN_ADDICTION_LEVEL ) {
             effect_name_and_text.emplace_back( elem.type->get_name().translated(),
                                                elem.type->get_description().translated() );
@@ -1302,7 +1305,7 @@ void Character::disp_info( bool customize_character )
 
     std::vector<HeaderSkill> skillslist;
     skill_displayType_id prev_type = skill_displayType_id::NULL_ID();
-    for( const auto &s : player_skill ) {
+    for( const Skill * const &s : player_skill ) {
         if( s->display_category() != prev_type ) {
             prev_type = s->display_category();
             skillslist.emplace_back( s, true );

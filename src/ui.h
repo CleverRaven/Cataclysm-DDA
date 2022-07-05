@@ -475,6 +475,8 @@ class uilist // NOLINT(cata-xy)
 
         bool started = false;
 
+        bool recalc_start = false;
+
         int find_entry_by_coordinate( const point &p ) const;
 
     public:

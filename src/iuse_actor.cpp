@@ -121,6 +121,7 @@ static const itype_id itype_barrel_small( "barrel_small" );
 static const itype_id itype_brazier( "brazier" );
 static const itype_id itype_char_smoker( "char_smoker" );
 static const itype_id itype_fire( "fire" );
+static const itype_id itype_stock_none( "stock_none" );
 static const itype_id itype_syringe( "syringe" );
 
 static const proficiency_id proficiency_prof_traps( "prof_traps" );
@@ -162,8 +163,8 @@ void iuse_transform::load( const JsonObject &obj )
     obj.read( "container", container );
     obj.read( "sealed", sealed );
     if( obj.has_member( "target_charges" ) && obj.has_member( "rand_target_charges" ) ) {
-        obj.throw_error( "Transform actor specified both fixed and random target charges",
-                         "target_charges" );
+        obj.throw_error_at( "target_charges",
+                            "Transform actor specified both fixed and random target charges" );
     }
     obj.read( "target_charges", ammo_qty );
     if( obj.has_array( "rand_target_charges" ) ) {
@@ -171,7 +172,8 @@ void iuse_transform::load( const JsonObject &obj )
             random_ammo_qty.push_back( charge );
         }
         if( random_ammo_qty.size() < 2 ) {
-            obj.throw_error( "You must specify two or more values to choose between", "rand_target_charges" );
+            obj.throw_error_at( "rand_target_charges",
+                                "You must specify two or more values to choose between" );
         }
     }
     obj.read( "target_ammo", ammo_type );
@@ -179,14 +181,14 @@ void iuse_transform::load( const JsonObject &obj )
     obj.read( "countdown", countdown );
 
     if( !ammo_type.is_empty() && !container.is_empty() ) {
-        obj.throw_error( "Transform actor specified both ammo type and container type", "target_ammo" );
+        obj.throw_error_at( "target_ammo", "Transform actor specified both ammo type and container type" );
     }
 
     obj.read( "active", active );
 
     obj.read( "moves", moves );
     if( moves < 0 ) {
-        obj.throw_error( "transform actor specified negative moves", "moves" );
+        obj.throw_error_at( "moves", "transform actor specified negative moves" );
     }
 
     obj.read( "need_fire", need_fire );
@@ -543,7 +545,7 @@ static std::vector<tripoint> points_for_gas_cloud( const tripoint &center, int r
 {
     map &here = get_map();
     std::vector<tripoint> result;
-    for( const auto &p : closest_points_first( center, radius ) ) {
+    for( const tripoint &p : closest_points_first( center, radius ) ) {
         if( here.impassable( p ) ) {
             continue;
         }
@@ -621,7 +623,7 @@ cata::optional<int> explosion_iuse::use( Character &p, item &it, bool t, const t
     map &here = get_map();
     if( fields_radius >= 0 && fields_type.id() ) {
         std::vector<tripoint> gas_sources = points_for_gas_cloud( pos, fields_radius );
-        for( auto &gas_source : gas_sources ) {
+        for( tripoint &gas_source : gas_sources ) {
             const int field_intensity = rng( fields_min_intensity, fields_max_intensity );
             here.add_field( gas_source, fields_type, field_intensity, 1_turns );
         }
@@ -647,7 +649,7 @@ void explosion_iuse::info( const item &, std::vector<iteminfo> &dump ) const
     }
 
     dump.emplace_back( "TOOL", _( "Power at epicenter: " ), explosion.power );
-    const auto &sd = explosion.shrapnel;
+    const shrapnel_data &sd = explosion.shrapnel;
     if( sd.casing_mass > 0 ) {
         dump.emplace_back( "TOOL", _( "Casing mass: " ), sd.casing_mass );
         dump.emplace_back( "TOOL", _( "Fragment mass: " ), string_format( "%.2f",
@@ -2695,7 +2697,8 @@ cata::optional<int> ammobelt_actor::use( Character &p, item &, bool, const tripo
     std::vector<item_location> targets;
     if( opt ) {
         const int moves = opt.moves();
-        targets.emplace_back( p, &p.i_add( mag ) );
+        item_location loc = p.i_add( mag );
+        targets.emplace_back( loc );
         targets.push_back( std::move( opt.ammo ) );
         p.assign_activity( player_activity( reload_activity_actor( moves, opt.qty(), targets ) ) );
     }
@@ -2714,7 +2717,7 @@ void repair_item_actor::load( const JsonObject &obj )
     const std::string skill_string = obj.get_string( "skill" );
     used_skill = skill_id( skill_string );
     if( !used_skill.is_valid() ) {
-        obj.throw_error( "Invalid skill", "skill" );
+        obj.throw_error_at( "skill", "Invalid skill" );
     }
 
     cost_scaling = obj.get_float( "cost_scaling" );
@@ -2839,7 +2842,7 @@ bool repair_item_actor::handle_components( Character &pl, const item &fix,
             pl.add_msg_if_player( m_info, _( "Your %s is not made of any of:" ),
                                   fix.tname() );
             for( const auto &mat_name : materials ) {
-                const auto &mat = mat_name.obj();
+                const material_type &mat = mat_name.obj();
                 pl.add_msg_if_player( m_info, _( "%s (repaired using %s)" ), mat.name(),
                                       item::nname( mat.repaired_with(), 2 ) );
             }
@@ -3583,7 +3586,7 @@ int heal_actor::finish_using( Character &healer, Character &patient, item &it,
         add_msg( _( "%1$s finishes using the %2$s." ), healer.disp_name(), it.tname() );
     }
 
-    for( const auto &eff : effects ) {
+    for( const effect_data &eff : effects ) {
         patient.add_effect( eff.id, eff.duration, eff.bp, eff.permanent );
     }
 
@@ -3961,7 +3964,7 @@ cata::optional<int> place_trap_actor::use( Character &p, item &it, bool, const t
     if( could_bury && has_shovel && is_diggable ) {
         bury = query_yn( "%s", bury_question );
     }
-    const auto &data = bury ? buried_data : unburied_data;
+    const place_trap_actor::data &data = bury ? buried_data : unburied_data;
 
     p.add_msg_if_player( m_info, data.done_message.translated(), distance_to_trap_center );
     p.practice( skill_traps, data.practice );
@@ -4089,6 +4092,75 @@ ret_val<bool> saw_barrel_actor::can_use_on( const Character &, const item &,
 std::unique_ptr<iuse_actor> saw_barrel_actor::clone() const
 {
     return std::make_unique<saw_barrel_actor>( *this );
+}
+
+void saw_stock_actor::load( const JsonObject &jo )
+{
+    assign( jo, "cost", cost );
+}
+
+//Todo: Make this consume charges if performed with a tool that uses charges.
+cata::optional<int> saw_stock_actor::use( Character &p, item &it, bool t, const tripoint & ) const
+{
+    if( t ) {
+        return cata::nullopt;
+    }
+
+    item_location loc = game_menus::inv::saw_stock( p, it );
+
+    if( !loc ) {
+        p.add_msg_if_player( _( "Never mind." ) );
+        return cata::nullopt;
+    }
+
+    item &obj = *loc.obtain( p );
+    p.add_msg_if_player( _( "You saw down the stock of your %s." ), obj.tname() );
+    obj.put_in( item( "stock_none", calendar::turn ), item_pocket::pocket_type::MOD );
+
+    return 0;
+}
+
+ret_val<bool> saw_stock_actor::can_use_on( const Character &, const item &,
+        const item &target ) const
+{
+    if( !target.is_gun() ) {
+        return ret_val<bool>::make_failure( _( "It's not a gun." ) );
+    }
+
+    if( target.gunmod_find( itype_stock_none ) ) {
+        return ret_val<bool>::make_failure( _( "The stock is already sawn-off." ) );
+    }
+
+    const auto gunmods = target.gunmods();
+    const bool modified_stock = std::any_of( gunmods.begin(), gunmods.end(),
+    []( const item * mod ) {
+        return mod->type->gunmod->location == gunmod_location( "stock" );
+    } );
+
+    const bool accessorized_stock = std::any_of( gunmods.begin(), gunmods.end(),
+    []( const item * mod ) {
+        return mod->type->gunmod->location == gunmod_location( "stock accessory" );
+    } );
+
+    if( target.get_free_mod_locations( gunmod_location( "stock mount" ) ) < 1 ) {
+        return ret_val<bool>::make_failure(
+                   _( "Can't cut off modern composite stocks (must have an empty stock mount)." ) );
+    }
+
+    if( modified_stock ) {
+        return ret_val<bool>::make_failure( _( "Can't cut off modified stocks." ) );
+    }
+
+    if( accessorized_stock ) {
+        return ret_val<bool>::make_failure( _( "Can't cut off accessorized stocks." ) );
+    }
+
+    return ret_val<bool>::make_success();
+}
+
+std::unique_ptr<iuse_actor> saw_stock_actor::clone() const
+{
+    return std::make_unique<saw_stock_actor>( *this );
 }
 
 void molle_attach_actor::load( const JsonObject &jo )
@@ -4518,7 +4590,7 @@ void sew_advanced_actor::load( const JsonObject &obj )
     const std::string skill_string = obj.get_string( "skill" );
     used_skill = skill_id( skill_string );
     if( !used_skill.is_valid() ) {
-        obj.throw_error( "Invalid skill", "skill" );
+        obj.throw_error_at( "skill", "Invalid skill" );
     }
 }
 
@@ -4684,7 +4756,7 @@ cata::optional<int> sew_advanced_actor::use( Character &p, item &it, bool, const
     }
 
     // Get the id of the material used
-    const auto &repair_item = clothing_mods[choice].obj().item_string;
+    const itype_id &repair_item = clothing_mods[choice].obj().item_string;
 
     std::vector<item_comp> comps;
     comps.emplace_back( repair_item, items_needed );
@@ -4745,7 +4817,7 @@ void change_scent_iuse::load( const JsonObject &obj )
 {
     scenttypeid = scenttype_id( obj.get_string( "scent_typeid" ) );
     if( !scenttypeid.is_valid() ) {
-        obj.throw_error( "Invalid scent type id.", "scent_typeid" );
+        obj.throw_error_at( "scent_typeid", "Invalid scent type id." );
     }
     if( obj.has_array( "effects" ) ) {
         for( JsonObject e : obj.get_array( "effects" ) ) {
@@ -4771,7 +4843,7 @@ cata::optional<int> change_scent_iuse::use( Character &p, item &it, bool, const 
     add_msg( m_info, _( "You use the %s to mask your scent" ), it.tname() );
 
     // Apply the various effects.
-    for( const auto &eff : effects ) {
+    for( const effect_data &eff : effects ) {
         p.add_effect( eff.id, eff.duration, eff.bp, eff.permanent );
     }
     return charges_to_use;

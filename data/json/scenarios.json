@@ -340,6 +340,7 @@
       "CHITIN",
       "ELECTRORECEPTORS"
     ],
+    "requirement": "achievement_reach_lab_finale",
     "flags": [ "CHALLENGE", "CITY_START", "LONE_START" ]
   },
   {
@@ -351,6 +352,7 @@
     "start_name": "Locked Lab",
     "professions": [ "labtech", "security", "medic" ],
     "allowed_locs": [ "sloc_lab_random", "sloc_lab_escape_cells", "sloc_lab_finale", "sloc_ice_lab_stairs", "sloc_ice_lab_finale" ],
+    "requirement": "achievement_reach_lab_finale",
     "flags": [ "CHALLENGE", "CITY_START", "LONE_START" ]
   },
   {
@@ -396,7 +398,8 @@
     "flags": [ "LONE_START" ],
     "custom_initial_date": { "season": "winter" },
     "add_professions": true,
-    "professions": [ "sheltered_survivor", "sheltered_militia", "winter_scavenger", "winter_army" ]
+    "professions": [ "sheltered_survivor", "sheltered_militia", "winter_scavenger", "winter_army" ],
+    "requirement": "achievement_survive_91_days"
   },
   {
     "type": "scenario",
@@ -420,7 +423,8 @@
     "flags": [ "LONE_START" ],
     "custom_initial_date": { "season": "summer", "year": 2 },
     "add_professions": true,
-    "professions": [ "sheltered_survivor", "sheltered_militia", "winter_scavenger", "winter_army" ]
+    "professions": [ "sheltered_survivor", "sheltered_militia", "winter_scavenger", "winter_army" ],
+    "requirement": "achievement_survive_91_days"
   },
   {
     "type": "scenario",
@@ -635,7 +639,7 @@
     "start_name": "Bottom of a mine",
     "allowed_locs": [ "sloc_mine_finale" ],
     "professions": [ "miner", "labtech", "security", "archaeologist" ],
-    "flags": [ "CITY_START", "LONE_START" ]
+    "flags": [ "CITY_START", "LONE_START", "CHALLENGE" ]
   },
   {
     "type": "scenario",

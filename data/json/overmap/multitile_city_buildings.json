@@ -1606,14 +1606,19 @@
       { "point": [ 1, 1, 0 ], "overmap": "cemetery_4square_00_south" },
       { "point": [ 0, 1, 0 ], "overmap": "cemetery_4square_10_south" },
       { "point": [ 1, 0, 0 ], "overmap": "cemetery_4square_01_south" },
-      { "point": [ 0, 0, 0 ], "overmap": "cemetery_4square_11_south" }
+      { "point": [ 0, 0, 0 ], "overmap": "cemetery_4square_11_south" },
+      { "point": [ 0, 0, 1 ], "overmap": "cemetery_4square_11_roof_south" }
     ]
   },
   {
     "type": "city_building",
     "id": "cemetery_city",
     "locations": [ "land" ],
-    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "Cemetery_1a_north" }, { "point": [ 1, 0, 0 ], "overmap": "Cemetery_1b_north" } ]
+    "overmaps": [
+      { "point": [ 0, 0, 1 ], "overmap": "Cemetery_1a_roof_north" },
+      { "point": [ 0, 0, 0 ], "overmap": "Cemetery_1a_north" },
+      { "point": [ 1, 0, 0 ], "overmap": "Cemetery_1b_north" }
+    ]
   },
   {
     "type": "city_building",
@@ -1621,7 +1626,12 @@
     "locations": [ "land" ],
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "station_radio_north" },
-      { "point": [ 0, 0, 1 ], "overmap": "station_radio_roof_north" }
+      { "point": [ 0, 0, 1 ], "overmap": "station_radio_roof_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "station_radio_tower_even_north" },
+      { "point": [ 0, 0, 3 ], "overmap": "station_radio_tower_odd_north" },
+      { "point": [ 0, 0, 4 ], "overmap": "station_radio_tower_even_north" },
+      { "point": [ 0, 0, 5 ], "overmap": "station_radio_tower_odd_north" },
+      { "point": [ 0, 0, 6 ], "overmap": "station_radio_tower_top_north" }
     ]
   },
   {
@@ -1630,7 +1640,12 @@
     "locations": [ "land" ],
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "station_radio_1_north" },
-      { "point": [ 0, 0, 1 ], "overmap": "station_radio_roof_1_north" }
+      { "point": [ 0, 0, 1 ], "overmap": "station_radio_roof_1_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "station_radio_1_tower_even_north" },
+      { "point": [ 0, 0, 3 ], "overmap": "station_radio_1_tower_odd_north" },
+      { "point": [ 0, 0, 4 ], "overmap": "station_radio_1_tower_even_north" },
+      { "point": [ 0, 0, 5 ], "overmap": "station_radio_1_tower_odd_north" },
+      { "point": [ 0, 0, 6 ], "overmap": "station_radio_1_tower_top_north" }
     ]
   },
   {
@@ -4260,5 +4275,14 @@
     ],
     "locations": [ "land" ],
     "flags": [ "CLASSIC" ]
+  },
+  {
+    "type": "city_building",
+    "id": "skate_park_ramp",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "skate_park_up_north" },
+      { "point": [ 0, 0, -1 ], "overmap": "skate_park_down_north" }
+    ]
   }
 ]

@@ -926,7 +926,7 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
         line_furn( &m, f_sandbag_half, point( 9, 4 ), point( 9, 7 ) );
 
         //7.62x51mm casings left from m60 of the humvee
-        for( const auto &loc : m.points_in_radius( { 6, 4, abs_sub.z }, 3, 0 ) ) {
+        for( const tripoint &loc : m.points_in_radius( { 6, 4, abs_sub.z }, 3, 0 ) ) {
             if( one_in( 4 ) ) {
                 m.spawn_item( loc, itype_762_51_casing );
             }
@@ -943,7 +943,7 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
         line_furn( &m, f_sandbag_half, point( 20, 3 ), point( 20, 6 ) );
 
         //5.56x45mm casings left from a soldier
-        for( const auto &loc : m.points_in_radius( { 17, 4, abs_sub.z }, 2, 0 ) ) {
+        for( const tripoint &loc : m.points_in_radius( { 17, 4, abs_sub.z }, 2, 0 ) ) {
             if( one_in( 4 ) ) {
                 m.spawn_item( loc, itype_223_casing );
             }
@@ -960,7 +960,7 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
 
         //33% chance to spawn empty magazines used by soldiers
         std::vector<point> empty_magazines_locations = line_to( point( 15, 5 ), point( 20, 5 ) );
-        for( auto &i : empty_magazines_locations ) {
+        for( point &i : empty_magazines_locations ) {
             if( one_in( 3 ) ) {
                 m.spawn_item( { i, abs_sub.z }, itype_stanag30 );
             }
@@ -970,7 +970,7 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
         line( &m, t_fence_barbed, point( 3, 9 ), point( SEEX * 2 - 4, 9 ) );
 
         std::vector<point> barbed_wire = line_to( point( 3, 9 ), point( SEEX * 2 - 4, 9 ) );
-        for( auto &i : barbed_wire ) {
+        for( point &i : barbed_wire ) {
             //10% chance to spawn corpses of bloody people/zombies on every tile of barbed wire fence
             if( one_in( 10 ) ) {
                 m.add_corpse( { i, abs_sub.z } );
@@ -997,7 +997,7 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
                 //10% chance to spawn a corpse of dead people/zombie on a tile with blood
                 if( one_in( 10 ) ) {
                     m.add_corpse( { p2, abs_sub.z } );
-                    for( const auto &loc : m.points_in_radius( { p2, abs_sub.z }, 1 ) ) {
+                    for( const tripoint &loc : m.points_in_radius( { p2, abs_sub.z }, 1 ) ) {
                         //50% chance to spawn gibs in every tile around corpse in 1-tile radius
                         if( one_in( 2 ) ) {
                             m.add_field( { loc.xy(), abs_sub.z }, fd_gibs_flesh, rng( 1, 3 ) );
@@ -1028,7 +1028,7 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
         line( &m, t_fence_barbed, point( 3, 13 ), point( SEEX * 2 - 4, 13 ) );
 
         std::vector<point> barbed_wire = line_to( point( 3, 13 ), point( SEEX * 2 - 4, 13 ) );
-        for( auto &i : barbed_wire ) {
+        for( point &i : barbed_wire ) {
             //10% chance to spawn corpses of bloody people/zombies on every tile of barbed wire fence
             if( one_in( 10 ) ) {
                 m.add_corpse( { i, abs_sub.z } );
@@ -1041,7 +1041,7 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
         if( one_in( 2 ) ) {
             m.add_splatter_trail( fd_blood, { 9, 15, abs_sub.z }, { 11, 18, abs_sub.z } );
             m.add_splatter_trail( fd_blood, { 11, 18, abs_sub.z }, { 11, 21, abs_sub.z } );
-            for( const auto &loc : m.points_in_radius( { 11, 21, abs_sub.z }, 1 ) ) {
+            for( const tripoint &loc : m.points_in_radius( { 11, 21, abs_sub.z }, 1 ) ) {
                 //50% chance to spawn gibs in every tile around corpse in 1-tile radius
                 if( one_in( 2 ) ) {
                     m.add_field( { loc.xy(), abs_sub.z }, fd_gibs_flesh, rng( 1, 3 ) );
@@ -1054,14 +1054,14 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
         }
 
         //5.56x45mm casings left from a soldier
-        for( const auto &loc : m.points_in_radius( { 9, 15, abs_sub.z }, 2, 0 ) ) {
+        for( const tripoint &loc : m.points_in_radius( { 9, 15, abs_sub.z }, 2, 0 ) ) {
             if( one_in( 4 ) ) {
                 m.spawn_item( loc, itype_223_casing );
             }
         }
 
         //5.56x45mm casings left from another soldier
-        for( const auto &loc : m.points_in_radius( { 15, 15, abs_sub.z }, 2, 0 ) ) {
+        for( const tripoint &loc : m.points_in_radius( { 15, 15, abs_sub.z }, 2, 0 ) ) {
             if( one_in( 4 ) ) {
                 m.spawn_item( loc, itype_223_casing );
             }
@@ -1069,7 +1069,7 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
 
         //33% chance to spawn empty magazines used by soldiers
         std::vector<point> empty_magazines_locations = line_to( point( 5, 16 ), point( 18, 16 ) );
-        for( auto &i : empty_magazines_locations ) {
+        for( point &i : empty_magazines_locations ) {
             if( one_in( 3 ) ) {
                 m.spawn_item( { i, abs_sub.z }, itype_stanag30 );
             }
@@ -1100,7 +1100,7 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
                 //10% chance to spawn a corpse of dead people/zombie on a tile with blood
                 if( one_in( 10 ) ) {
                     m.add_corpse( { p4, abs_sub.z } );
-                    for( const auto &loc : m.points_in_radius( { p4, abs_sub.z }, 1 ) ) {
+                    for( const tripoint &loc : m.points_in_radius( { p4, abs_sub.z }, 1 ) ) {
                         //50% chance to spawn gibs in every tile around corpse in 1-tile radius
                         if( one_in( 2 ) ) {
                             m.add_field( { loc.xy(), abs_sub.z }, fd_gibs_flesh, rng( 1, 3 ) );
@@ -1147,7 +1147,7 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
         if( one_in( 3 ) ) {
             //Blood and gore
             std::vector<point> blood_track = line_to( point( 1, 6 ), point( 8, 6 ) );
-            for( auto &i : blood_track ) {
+            for( point &i : blood_track ) {
                 m.add_field( { i, abs_sub.z }, fd_blood, 1 );
             }
             m.add_field( { 1, 6, abs_sub.z }, fd_gibs_flesh, 1 );
@@ -1164,7 +1164,7 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
 
             //Spill sand from damaged sandbags
             std::vector<point> sandbag_positions = squares_in_direction( point( 10, 7 ), point( 11, 8 ) );
-            for( auto &i : sandbag_positions ) {
+            for( point &i : sandbag_positions ) {
                 m.spawn_item( { i, abs_sub.z }, itype_bag_canvas, rng( 5, 13 ) );
                 m.spawn_item( { i, abs_sub.z }, itype_material_sand, rng( 3, 8 ) );
             }
@@ -1173,7 +1173,7 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
             m.put_items_from_loc( Item_spawn_data_army_bed, { 1, 8, abs_sub.z } );
 
             //5.56x45mm casings left from a soldier
-            for( const auto &loc : m.points_in_radius( { 9, 8, abs_sub.z }, 2, 0 ) ) {
+            for( const tripoint &loc : m.points_in_radius( { 9, 8, abs_sub.z }, 2, 0 ) ) {
                 if( one_in( 4 ) ) {
                     m.spawn_item( loc, itype_223_casing );
                 }
@@ -1181,7 +1181,7 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
 
             //33% chance to spawn empty magazines used by soldiers
             std::vector<point> empty_magazines_locations = line_to( point( 9, 3 ), point( 9, 13 ) );
-            for( auto &i : empty_magazines_locations ) {
+            for( point &i : empty_magazines_locations ) {
                 if( one_in( 3 ) ) {
                     m.spawn_item( { i, abs_sub.z }, itype_stanag30 );
                 }
@@ -1205,7 +1205,7 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
         m.furn_set( { 1, 18, abs_sub.z }, f_chair );
 
         //5.56x45mm casings left from another soldier
-        for( const auto &loc : m.points_in_radius( { 9, 18, abs_sub.z }, 2, 0 ) ) {
+        for( const tripoint &loc : m.points_in_radius( { 9, 18, abs_sub.z }, 2, 0 ) ) {
             if( one_in( 4 ) ) {
                 m.spawn_item( loc, itype_223_casing );
             }
@@ -1213,14 +1213,14 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
 
         //33% chance to spawn empty magazines used by soldiers
         std::vector<point> empty_magazines_locations = line_to( point( 9, 16 ), point( 9, 20 ) );
-        for( auto &i : empty_magazines_locations ) {
+        for( point &i : empty_magazines_locations ) {
             if( one_in( 3 ) ) {
                 m.spawn_item( { i, abs_sub.z }, itype_stanag30 );
             }
         }
 
         std::vector<point> barbed_wire = line_to( point( 12, 3 ), point( 12, 20 ) );
-        for( auto &i : barbed_wire ) {
+        for( point &i : barbed_wire ) {
             //10% chance to spawn corpses of bloody people/zombies on every tile of barbed wire fence
             if( one_in( 10 ) ) {
                 m.add_corpse( { i, abs_sub.z } );
@@ -1247,7 +1247,7 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
                 //10% chance to spawn a corpse of dead people/zombie on a tile with blood
                 if( one_in( 10 ) ) {
                     m.add_corpse( { p6, abs_sub.z } );
-                    for( const auto &loc : m.points_in_radius( { p6, abs_sub.z }, 1 ) ) {
+                    for( const tripoint &loc : m.points_in_radius( { p6, abs_sub.z }, 1 ) ) {
                         //50% chance to spawn gibs in every tile around corpse in 1-tile radius
                         if( one_in( 2 ) ) {
                             m.add_field( { loc.xy(), abs_sub.z }, fd_gibs_flesh, rng( 1, 3 ) );
@@ -1287,7 +1287,7 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
         }
 
         //5.56x45mm casings left from soldiers
-        for( const auto &loc : m.points_in_radius( { 15, 5, abs_sub.z }, 2, 0 ) ) {
+        for( const tripoint &loc : m.points_in_radius( { 15, 5, abs_sub.z }, 2, 0 ) ) {
             if( one_in( 4 ) ) {
                 m.spawn_item( loc, itype_223_casing );
             }
@@ -1295,7 +1295,7 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
 
         //33% chance to spawn empty magazines used by soldiers
         std::vector<point> empty_magazines_locations = line_to( point( 15, 2 ), point( 15, 8 ) );
-        for( auto &i : empty_magazines_locations ) {
+        for( point &i : empty_magazines_locations ) {
             if( one_in( 3 ) ) {
                 m.spawn_item( { i, abs_sub.z }, itype_stanag30 );
             }
@@ -1336,7 +1336,7 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
             m.spawn_item( { 23, 13, abs_sub.z }, itype_splinter, rng( 5, 10 ) );
 
             //Spawn blood
-            for( const auto &loc : m.points_in_radius( { 23, 12, abs_sub.z }, 1, 0 ) ) {
+            for( const tripoint &loc : m.points_in_radius( { 23, 12, abs_sub.z }, 1, 0 ) ) {
                 if( one_in( 2 ) ) {
                     m.add_field( { loc.xy(), abs_sub.z }, fd_blood, rng( 1, 3 ) );
                 }
@@ -1386,7 +1386,7 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
                 //10% chance to spawn a corpse of dead people/zombie on a tile with blood
                 if( one_in( 10 ) ) {
                     m.add_corpse( { p8, abs_sub.z } );
-                    for( const auto &loc : m.points_in_radius( { p8, abs_sub.z }, 1 ) ) {
+                    for( const tripoint &loc : m.points_in_radius( { p8, abs_sub.z }, 1 ) ) {
                         //50% chance to spawn gibs in every tile around corpse in 1-tile radius
                         if( one_in( 2 ) ) {
                             m.add_field( { loc.xy(), abs_sub.z }, fd_gibs_flesh, rng( 1, 3 ) );
@@ -1437,7 +1437,7 @@ static void place_fumarole( map &m, const point &p1, const point &p2, std::set<p
     //std::set<point> ignited;
 
     std::vector<point> fumarole = line_to( p1, p2, 0 );
-    for( auto &i : fumarole ) {
+    for( point &i : fumarole ) {
         m.ter_set( i, t_lava );
 
         // Add all adjacent tiles (even on diagonals) for possible ignition
@@ -1476,7 +1476,7 @@ static bool mx_portal_in( map &m, const tripoint &abs_sub )
         case 1: {
             m.add_field( portal_location, fd_fatigue, 3 );
             fungal_effects fe;
-            for( const auto &loc : m.points_in_radius( portal_location, 5 ) ) {
+            for( const tripoint &loc : m.points_in_radius( portal_location, 5 ) ) {
                 if( one_in( 3 ) ) {
                     fe.marlossify( loc );
                 }
@@ -1488,7 +1488,7 @@ static bool mx_portal_in( map &m, const tripoint &abs_sub )
         //Netherworld monsters spawning around the portal
         case 2: {
             m.add_field( portal_location, fd_fatigue, 3 );
-            for( const auto &loc : m.points_in_radius( portal_location, 5 ) ) {
+            for( const tripoint &loc : m.points_in_radius( portal_location, 5 ) ) {
                 m.place_spawns( GROUP_NETHER_PORTAL, 15, loc.xy(), loc.xy(), 1, true );
             }
             break;
@@ -1499,7 +1499,7 @@ static bool mx_portal_in( map &m, const tripoint &abs_sub )
             for( int i = 0; i < rng( 1, 10 ); i++ ) {
                 tripoint end_location = { rng( 0, SEEX * 2 - 1 ), rng( 0, SEEY * 2 - 1 ), abs_sub.z };
                 std::vector<tripoint> failure = line_to( portal_location, end_location );
-                for( auto &i : failure ) {
+                for( tripoint &i : failure ) {
                     m.ter_set( { i.xy(), abs_sub.z }, t_pit );
                 }
             }
@@ -2370,7 +2370,7 @@ static bool mx_mayhem( map &m, const tripoint &abs_sub )
             m.add_corpse( { 16, 9, abs_sub.z } );
             m.add_field( { 16, 9, abs_sub.z }, fd_blood, rng( 1, 3 ) );
 
-            for( const auto &loc : m.points_in_radius( { 16, 3, abs_sub.z }, 1 ) ) {
+            for( const tripoint &loc : m.points_in_radius( { 16, 3, abs_sub.z }, 1 ) ) {
                 if( one_in( 2 ) ) {
                     m.spawn_item( loc, itype_9mm_casing );
                 }
@@ -2390,7 +2390,7 @@ static bool mx_mayhem( map &m, const tripoint &abs_sub )
 
             m.add_splatter_trail( fd_blood, { 16, 8, abs_sub.z }, { 16, 12, abs_sub.z } );
 
-            for( const auto &loc : m.points_in_radius( { 12, 11, abs_sub.z }, 2 ) ) {
+            for( const tripoint &loc : m.points_in_radius( { 12, 11, abs_sub.z }, 2 ) ) {
                 if( one_in( 3 ) ) {
                     m.spawn_item( loc, itype_223_casing );
                 }
@@ -2425,7 +2425,7 @@ static bool mx_mayhem( map &m, const tripoint &abs_sub )
                 m.add_splatter_trail( fd_gibs_flesh, { 16, 13, abs_sub.z }, { 16, 16, abs_sub.z } );
                 m.add_field( { 15, 15, abs_sub.z }, fd_gibs_flesh, rng( 1, 3 ) );
 
-                for( const auto &loc : m.points_in_radius( { 16, 15, abs_sub.z }, 1 ) ) {
+                for( const tripoint &loc : m.points_in_radius( { 16, 15, abs_sub.z }, 1 ) ) {
                     if( one_in( 2 ) ) {
                         m.spawn_item( loc, itype_9mm_casing );
                     }
@@ -2465,7 +2465,7 @@ static bool mx_casings( map &m, const tripoint &abs_sub )
         case 1: {
             const tripoint location = { rng( 1, SEEX * 2 - 2 ), rng( 1, SEEY * 2 - 2 ), abs_sub.z };
             //Spawn casings
-            for( const auto &loc : m.points_in_radius( location, rng( 1, 2 ) ) ) {
+            for( const tripoint &loc : m.points_in_radius( location, rng( 1, 2 ) ) ) {
                 if( one_in( 2 ) ) {
                     m.spawn_items( loc, items );
                 }
@@ -2527,7 +2527,7 @@ static bool mx_casings( map &m, const tripoint &abs_sub )
             const tripoint from = { rng( 1, SEEX * 2 - 2 ), rng( 1, SEEY * 2 - 2 ), abs_sub.z };
             const tripoint to = { rng( 1, SEEX * 2 - 2 ), rng( 1, SEEY * 2 - 2 ), abs_sub.z };
             std::vector<tripoint> casings = line_to( from, to );
-            for( auto &i : casings ) {
+            for( tripoint &i : casings ) {
                 if( one_in( 2 ) ) {
                     m.spawn_items( { i.xy(), abs_sub.z }, items );
                     if( one_in( 2 ) ) {
@@ -2562,12 +2562,12 @@ static bool mx_casings( map &m, const tripoint &abs_sub )
             const auto second_items =
                 item_group::items_from( Item_spawn_data_ammo_casings, calendar::turn );
 
-            for( const auto &loc : m.points_in_radius( first_loc, rng( 1, 2 ) ) ) {
+            for( const tripoint &loc : m.points_in_radius( first_loc, rng( 1, 2 ) ) ) {
                 if( one_in( 2 ) ) {
                     m.spawn_items( loc, first_items );
                 }
             }
-            for( const auto &loc : m.points_in_radius( second_loc, rng( 1, 2 ) ) ) {
+            for( const tripoint &loc : m.points_in_radius( second_loc, rng( 1, 2 ) ) ) {
                 if( one_in( 2 ) ) {
                     m.spawn_items( loc, second_items );
                 }
@@ -2645,7 +2645,7 @@ static bool mx_corpses( map &m, const tripoint &abs_sub )
             m.add_field( corpse_location, fd_blood, rng( 1, 3 ) );
             m.put_items_from_loc( Item_spawn_data_everyday_corpse, corpse_location );
             //50% chance to spawn blood in every tile around every corpse in 1-tile radius
-            for( const auto &loc : m.points_in_radius( corpse_location, 1 ) ) {
+            for( const tripoint &loc : m.points_in_radius( corpse_location, 1 ) ) {
                 if( one_in( 2 ) ) {
                     m.add_field( loc, fd_blood, rng( 1, 3 ) );
                 }
@@ -2661,7 +2661,7 @@ static bool mx_corpses( map &m, const tripoint &abs_sub )
         m.spawn_items( corpse_location, gibs );
         m.add_field( corpse_location, fd_gibs_flesh, rng( 1, 3 ) );
         //50% chance to spawn gibs and dogs in every tile around what's left of human corpse in 1-tile radius
-        for( const auto &loc : m.points_in_radius( corpse_location, 1 ) ) {
+        for( const tripoint &loc : m.points_in_radius( corpse_location, 1 ) ) {
             if( one_in( 2 ) ) {
                 m.add_field( { loc.xy(), abs_sub.z }, fd_gibs_flesh, rng( 1, 3 ) );
                 m.place_spawns( GROUP_STRAY_DOGS, 1, loc.xy(), loc.xy(), 1, true );

@@ -228,6 +228,25 @@
     "flags": [ "SEES", "SMELLS", "POISON", "STUMBLES", "BASHES", "DESTROYS", "NO_BREATHE", "FILTHY", "WARM" ]
   },
   {
+    "id": "mon_zanuqsaurus_fungus",
+    "type": "MONSTER",
+    "name": { "str": "fungal nanuqsaurus zombie" },
+    "description": "This was once a large, bipedal dinosaur with a long, sharp teeth.  Now fungal tendrils sprout from its mouth, eyes, and other orifices, holding together a shambling mass of mold-covered flesh.",
+    "copy-from": "mon_zanuqsaurus",
+    "default_faction": "fungus",
+    "species": [ "FUNGUS" ],
+    "diff": 2,
+    "proportional": { "hp": 0.75, "speed": 0.65 },
+    "color": "light_gray",
+    "relative": { "melee_skill": -1, "melee_dice": -1, "melee_dice_sides": 3, "armor_bash": 3 },
+    "bleed_rate": 0,
+    "vision_day": 5,
+    "vision_night": 5,
+    "special_attacks": [ [ "FUNGUS", 200 ], { "type": "bite", "cooldown": 5 }, [ "scratch", 20 ], [ "LUNGE", 10 ] ],
+    "upgrades": {  },
+    "flags": [ "SEES", "SMELLS", "POISON", "STUMBLES", "BASHES", "DESTROYS", "NO_BREATHE", "FILTHY", "WARM" ]
+  },
+  {
     "id": "mon_zaspletosaurus_fungus",
     "type": "MONSTER",
     "name": { "str": "fungal daspletosaurus zombie" },

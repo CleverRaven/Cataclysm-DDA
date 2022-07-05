@@ -53,6 +53,7 @@ Use the `Home` key to return to the top.
       - [`points`](#points)
       - [`addictions`](#addictions)
       - [`shopkeeper_consumption_rates`](#shopkeeper_consumption_rates)
+      - [`shopkeeper_blacklist`](#shopkeeper_blacklist)
       - [`skills`](#skills)
       - [`missions`](#missions)
       - [`proficiencies`](#proficiencies)
@@ -62,6 +63,7 @@ Use the `Home` key to return to the top.
       - [`flags`](#flags)
       - [`cbms`](#cbms)
       - [`traits`](#traits)
+      - [`requirement`](#requirement)
     - [Recipes](#recipes)
       - [Practice recipes](#practice-recipes)
       - [Recipe requirements](#recipe-requirements)
@@ -220,6 +222,7 @@ Use the `Home` key to return to the top.
   - [`start_name`](#start_name)
   - [`professions`](#professions)
   - [`map_special`](#map_special)
+      - [`requirement`](#requirement-1)
   - [`eocs`](#eocs)
   - [`missions`](#missions-1)
   - [`custom_initial_date`](#custom_initial_date)
@@ -237,6 +240,9 @@ Use the `Home` key to return to the top.
   - [`compatibility`](#compatibility)
   - [`tiles-new`](#tiles-new)
 - [Field types](#field-types)
+- [Option sliders](#option-sliders)
+  - [Option sliders - Fields](#option-sliders---fields)
+  - [Option sliders - Levels](#option-sliders---levels)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -1458,9 +1464,32 @@ Example:
   "junk_threshold": "10 cent", // items below this price will be consumed completely regardless of matches below
   "rates": [ // lower entries override higher ones
       { "item": "hammer", "rate": 1 },
+      {
+        "item": "hammer",
+        "rate": 10,
+        "condition": { "npc_has_var": "hammer_eater", "type": "bool", "context": "dinner", "value": "yes" }
+      },
       { "category": "ammo", "rate": 10 },
       { "group": "EXODII_basic_trade", "rate": 100 }
       { "group": "EXODII_basic_trade", "category": "ammo", "rate": 200 }
+  ]
+```
+`condition` is checked with avatar as alpha and npc as beta. See [Player or NPC conditions](NPCs.md#player-or-npc-conditions).
+
+#### `shopkeeper_blacklist`
+Similar to `shopkeeper_consumption_rates`
+
+```JSON
+  "type": "shopkeeper_blacklist",
+  "id": "basic_blacklist",
+  "entries": [
+      {
+        "item": "hammer",
+        "condition": { "npc_has_var": "hammer_hater", "type": "bool", "context": "test", "value": "yes" },
+        "message": "<npcname> hates this item"
+      },
+      { "category": "ammo" },
+      { "group": "EXODII_basic_trade" }
   ]
 ```
 
@@ -1562,6 +1591,12 @@ A list of CBM ids that are implanted in the character.
 (optional, array of strings)
 
 A list of trait/mutation ids that are applied to the character.
+
+#### `requirement`
+
+(optional, an achievement ID)
+
+The achievement you need to do to access this profession
 
 ### Recipes
 
@@ -2357,7 +2392,7 @@ at level `2` to the item.
 "purifiable": false, //Sets if the mutation be purified (default: true)
 "profession": true, //Trait is a starting profession special trait. (default: false)
 "debug": false,     //Trait is for debug purposes (default: false)
-"player_display": true, //Trait is displayed in the `@` player display menu
+"player_display": true, //Trait is displayed in the `@` player display menu and mutations screen
 "vanity": false, //Trait can be changed any time with no cost, like hair, eye color and skin color
 "category": ["MUTCAT_BIRD", "MUTCAT_INSECT"], // Categories containing this mutation
 // prereqs and prereqs2 specify prerequisites of the current mutation
@@ -2375,7 +2410,7 @@ at level `2` to the item.
 },
 "wet_protection":[{ "part": "head", // Wet Protection on specific bodyparts
                     "good": 1 } ] // "neutral/good/ignored" // Good increases pos and cancels neg, neut cancels neg, ignored cancels both
-"vitamin_rates": [ [ "vitC", -1200 ] ], // How much extra vitamins do you consume per minute. Negative values mean production
+"vitamin_rates": [ [ "vitC", -1200 ] ], // How much extra vitamins do you consume, one point per this many seconds. Negative values mean production
 "vitamins_absorb_multi": [ [ "flesh", [ [ "vitA", 0 ], [ "vitB", 0 ], [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 0 ] ], [ "all", [ [ "vitA", 2 ], [ "vitB", 2 ], [ "vitC", 2 ], [ "calcium", 2 ], [ "iron", 2 ] ] ] ], // multiplier of vitamin absorption based on material. "all" is every material. supports multiple materials.
 "craft_skill_bonus": [ [ "electronics", -2 ], [ "tailor", -2 ], [ "mechanics", -2 ] ], // Skill affected by the mutation and their bonuses. Bonuses can be negative, a bonus of 4 is worth 1 full skill level.
 "restricts_gear" : [ "torso" ], //list of bodyparts that get restricted by this mutation
@@ -2437,7 +2472,8 @@ at level `2` to the item.
 "cardio_multiplier": 1.5, // Multiply total cardio fitness by this amount
 "healing_awake": 1.0, // Healing rate per turn while awake.
 "healing_resting": 0.5, // Healing rate per turn while resting.
-"mending_modifier": 1.2 // Multiplier on how fast your limbs mend - This value would make your limbs mend 20% faster
+"mending_modifier": 1.2, // Multiplier on how fast your limbs mend - This value would make your limbs mend 20% faster
+"spells_learned": [ [ "spell_slime_spray", 1 ] ], // spells learned and the level they're at after gaining the trait/mutation.
 "transform": { "target": "BIOLUM1", // Trait_id of the mutation this one will transform into
                "msg_transform": "You turn your photophore OFF.", // message displayed upon transformation
                "active": false , // Will the target mutation start powered ( turn ON ).
@@ -4795,6 +4831,12 @@ A list of allowed professions that can be chosen when using this scenario. The f
 
 Add a map special to the starting location, see JSON_FLAGS for the possible specials.
 
+#### `requirement`
+
+(optional, an achievement ID)
+
+The achievement you need to do to access this scenario
+
 ## `eocs`
 (optional, array of strings)
 
@@ -5021,3 +5063,63 @@ Setting of sprite sheets. Same as `tiles-new` field in `tile_config`. Sprite fil
     }
   }
 ```
+
+# Option sliders
+
+```JSON
+{
+  "type": "option_slider",
+  "id": "world_difficulty",
+  "context": "WORLDGEN",
+  "name": "Difficulty",
+  "default": 3,
+  "levels": [
+    {
+      "level": 0,
+      "name": "Cakewalk?",
+      "description": "Monsters are much easier to deal with, and plenty of items can be found.",
+      "options": [
+        { "option": "MONSTER_SPEED", "type": "int", "val": 90 },
+        { "option": "MONSTER_RESILIENCE", "type": "int", "val": 75 },
+        { "option": "SPAWN_DENSITY", "type": "float", "val": 0.8 },
+        { "option": "MONSTER_UPGRADE_FACTOR", "type": "float", "val": 8 },
+        { "option": "ITEM_SPAWNRATE", "type": "float", "val": 1.5 }
+      ]
+    },
+    ...
+  ]
+}
+```
+
+## Option sliders - Fields
+
+| Field       | Description
+|---          |---
+| `"type"`    | _(mandatory)_ Always `"option_slider"`
+| `"id"`      | _(mandatory)_ Uniquely identifies this `option_slider`
+| `"context"` | The hardcoded context in which this `option_slider` is used (ex: the world creation menu shows option sliders in the `WORLDGEN` context)
+| `"name"`    | _(mandatory)_ The translated name of this `option_slider`
+| `"default"` | The default level for this `option_slider` (defaults to 0)
+| `"levels"`  | _(mandatory)_ A list of definitions for each level of this `option_slider`
+
+## Option sliders - Levels
+
+Each object in the `"levels"` field uses these fields:
+
+| Field | Description
+|--- |---
+| `"level"` | _(mandatory)_ The numeric index of this level in the slider.  Indexes start at 0 and increase sequentially.
+| `"name"` | _(mandatory)_ The name of this slider level, acts as a short descriptor for the selected level.
+| `"description"` | A longer description for the effects of this slider level.
+| `"options"` | _(mandatory)_ A list of option values to apply when selecting this slider level.
+
+Each option defines an `"option"` tag that corresponds to an option ID as listed in the
+`options_manager::add_options_*` functions in src/options.cpp. The `"type"` field determines
+how the `"val"` field is interpreted:
+
+| `type`     | `val`
+|---         |---
+| `"int"`    | An integer.  Ex: `"type": "int", "val": 5`
+| `"float"`  | A decimal number.  Ex: `"type": "float", "val": 0.8`
+| `"bool"`   | A boolean.  Ex: `"type": "bool", "val": false`
+| `"string"` | A text value.  Ex: `"type": "string", "val": "crops"`

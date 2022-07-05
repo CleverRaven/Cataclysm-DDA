@@ -132,6 +132,8 @@ void insert_items( avatar &you, item_location &holster );
 drop_locations unload_container( avatar &you );
 /** Choosing a gun to saw down it's barrel. */
 item_location saw_barrel( Character &you, item &tool );
+/** Choosing a gun to saw down its barrel. */
+item_location saw_stock( Character &you, item &tool );
 /** Choosing an item to attach to a load bearing vest. */
 item_location molle_attach( Character &you, item &tool );
 /** Choose item to wear. */

@@ -206,7 +206,7 @@ struct mutation_branch {
 
         /**Rate at which bmi above character_weight_category::normal increases the character max_hp*/
         float fat_to_max_hp = 0.0f;
-        /**How fast does healthy tends toward healthy_mod*/
+        /**How fast does lifetsyle tends toward daily_health*/
         float healthy_rate = 1.0f;
 
         /**maximum damage dealt by water every minute when wet. Can be negative and regen hit points.*/
@@ -513,6 +513,7 @@ bool mutation_category_is_valid( const mutation_category_id &cat );
 bool mutation_type_exists( const std::string &id );
 std::vector<trait_id> get_mutations_in_types( const std::set<std::string> &ids );
 std::vector<trait_id> get_mutations_in_type( const std::string &id );
+bool mutation_is_in_category( const trait_id &mut, const mutation_category_id &cat );
 bool trait_display_sort( const trait_id &a, const trait_id &b ) noexcept;
 bool trait_display_nocolor_sort( const trait_id &a, const trait_id &b ) noexcept;
 

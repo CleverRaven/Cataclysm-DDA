@@ -267,7 +267,7 @@ void mod_manager::load_modfile( const JsonObject &jo, const std::string &path )
 
     if( std::find( modfile.dependencies.begin(), modfile.dependencies.end(),
                    modfile.ident ) != modfile.dependencies.end() ) {
-        jo.throw_error( "mod specifies self as a dependency", "dependencies" );
+        jo.throw_error_at( "dependencies", "mod specifies self as a dependency" );
     }
 
     mod_map[modfile.ident] = std::move( modfile );

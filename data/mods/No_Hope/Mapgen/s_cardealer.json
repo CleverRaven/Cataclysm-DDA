@@ -56,7 +56,7 @@
         { "group": "office", "chance": 50, "x": [ 2, 2 ], "y": [ 21, 22 ] },
         { "group": "office_mess", "chance": 50, "x": [ 3, 8 ], "y": [ 18, 22 ] },
         { "group": "cleaning", "chance": 50, "x": [ 10, 10 ], "y": [ 21, 21 ] },
-        { "group": "vending_drink", "chance": 50, "x": [ 2, 2 ], "y": [ 18, 18 ] },
+        { "group": "vending_drink", "chance": 5, "x": [ 2, 2 ], "y": [ 18, 18 ] },
         { "group": "road", "chance": 50, "repeat": [ 2 ], "x": [ 14, 21 ], "y": [ 16, 22 ] },
         { "group": "road", "chance": 50, "repeat": [ 5 ], "x": [ 2, 21 ], "y": [ 2, 15 ] }
       ],

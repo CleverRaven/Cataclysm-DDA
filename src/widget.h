@@ -29,6 +29,7 @@ enum class widget_var : int {
     max_mana,       // Current maximum mana, integer
     morale_level,   // Current morale level, integer (may be negative)
     weariness_level, // Current weariness level, integer
+    weary_transition_level, // Current weariness level, integer
     stat_str,       // Base STR (strength) stat, integer
     stat_dex,       // Base DEX (dexterity) stat, integer
     stat_int,       // Base INT (intelligence) stat, integer
@@ -56,6 +57,7 @@ enum class widget_var : int {
     place_text,     // Place name in world where character is
     power_text,     // Remaining power from bionics, color string
     safe_mode_text, // Safe mode text, color string
+    safe_mode_classic_text, // Safe mode text, classic mode color string.
     style_text,     // Active martial arts style name
     time_text,      // Current time - exact if character has a watch, approximate otherwise
     veh_azimuth_text, // Azimuth or heading in degrees, string
@@ -175,7 +177,6 @@ struct widget_clause {
          * If a clause also has a "condition" field, that condition must also return true in order
          * for that clause to be usable.
          */
-
         static int get_val_for_id( const std::string &clause_id,
                                    const widget_id &wgt, bool skip_condition = false );
         static const translation &get_text_for_id( const std::string &clause_id,
@@ -197,7 +198,6 @@ class widget
         widget_id id;
         std::vector<std::pair<widget_id, mod_id>> src;
         bool was_loaded = false;
-
         const widget_clause *get_clause( const std::string &clause_id = "" ) const;
         std::vector<const widget_clause *> get_clauses() const;
 
@@ -213,12 +213,21 @@ class widget
         translation _label;
         // Width of the longest label within this layout's widgets (for "rows")
         int _label_width = 0;
+        // Separator used to separate the label from the text. This is inherited from any parent widgets if none is found.
+        std::string _separator;
+        // Amount of padding to put between the label and text, as well as this widget and other widgets.
+        int _padding;
         // Binding variable enum like stamina, bp_hp or stat_dex
         widget_var _var = widget_var::last;
         // Minimum meaningful var value, set by set_default_var_range
         int _var_min = INT_MIN;
         // Maximum meaningful var value, set by set_default_var_range
         int _var_max = INT_MAX;
+        // True if this widget has an explicitly defined separator. False if it is inherited.
+        bool explicit_separator;
+        // True if this widget has an explicitly defined padding. False if it is inherited.
+        bool explicit_padding;
+
         // Normal var range (low, high), set by set_default_var_range
         std::pair<int, int> _var_norm = std::make_pair( INT_MIN, INT_MAX );
         // Body part variable is linked to
@@ -234,7 +243,7 @@ class widget
         // Graph fill style ("bucket" or "pool")
         std::string _fill;
         // String values mapped to numeric values or ranges
-        std::vector<translation> _strings;
+        translation _string;
         // Colors mapped to values or ranges
         std::vector<nc_color> _colors;
         // Child widget ids for layout style
@@ -261,6 +270,9 @@ class widget
         static void finalize();
         // Recursively derive _label_width for nested layouts in this widget
         static int finalize_label_width_recursive( const widget_id &id );
+        // Recursively derive _separator for nested layouts in this widget
+        static void finalize_inherited_fields_recursive( const widget_id &id,
+                const std::string &label_separator, int col_padding );
         // Reset to defaults using generic widget_factory
         static void reset();
         // Get all widget instances from the factory
@@ -271,7 +283,8 @@ class widget
         // Layout this widget within max_width, including child widgets. Calling layout on a regular
         // (non-layout style) widget is the same as show(), but will pad with spaces inside the
         // label area, so the returned string is equal to max_width.
-        std::string layout( const avatar &ava, unsigned int max_width = 0, int label_width = 0 );
+        std::string layout( const avatar &ava, unsigned int max_width = 0, int label_width = 0,
+                            bool skip_pad = false );
         // Display labeled widget, with value (number, graph, or string) from an avatar
         std::string show( const avatar &ava, unsigned int max_width );
         // Return a window_panel for rendering this widget at given width (and possibly height)
@@ -303,12 +316,12 @@ class widget
         std::string number( int value, bool from_condition ) const;
         // Return the numeric value(s) from all true conditional clauses in this widget
         std::string number_cond( enumeration_conjunction join_type = enumeration_conjunction::none ) const;
-        // Return the text clause mapped to a given value for "text" style
-        std::string text( int value, bool from_condition, int width = 0 );
+        // Return the text clause for "text" style
+        std::string text( bool from_condition, int width = 0 );
         // Return the text clause(s) from all true conditional clauses in this widget
         std::string text_cond( bool no_join = false, int width = 0 );
         // Return the symbol mapped to a given value for "symbol" style
-        std::string sym( int value, bool from_condition );
+        std::string sym( bool from_condition );
         // Return the symbol(s) from all true conditional clauses in this widget
         std::string sym_cond( bool no_join = true,
                               enumeration_conjunction join_type = enumeration_conjunction::none ) const;

@@ -9,6 +9,14 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "unexplored",
+    "name": "Unexplored",
+    "sym": "#",
+    "color": "dark_gray",
+    "flags": [ "NO_ROTATE", "SHOULD_NOT_SPAWN" ]
+  },
+  {
+    "type": "overmap_terrain",
     "abstract": "generic_city_building_no_sidewalk",
     "name": "city building",
     "sym": "^",
@@ -183,7 +191,16 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "riverside_dwelling",
+    "id": [
+      "riverside_dwelling",
+      "riverside_dwelling1",
+      "riverside_dwelling2",
+      "riverside_dwelling3",
+      "riverside_dwelling_roof",
+      "riverside_dwelling1_roof",
+      "riverside_dwelling2_roof",
+      "riverside_dwelling3_roof"
+    ],
     "name": "riverside dwelling",
     "sym": "+",
     "color": "i_yellow",
@@ -268,13 +285,33 @@
       "cabin_roof_5",
       "cabin_roof_6",
       "cabin_roof_7",
-      "cabin_roof_lapin"
+      "cabin_roof_lapin",
+      "bandit_cabin_roof"
     ],
     "name": "cabin roof",
     "sym": "C",
     "color": "i_green",
     "see_cost": 5,
     "extras": "build"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "cabin_lakeside", "cabin_lakeside1", "cabin_lakeside2", "cabin_lakeside3", "cabin_lakeside4", "cabin_lakeside5" ],
+    "name": "lakeside cabin",
+    "copy-from": "cabin"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "cabin_lakeside_roof",
+      "cabin_lakeside1_roof",
+      "cabin_lakeside2_roof",
+      "cabin_lakeside3_roof",
+      "cabin_lakeside4_roof",
+      "cabin_lakeside5_roof"
+    ],
+    "name": "lakeside cabin roof",
+    "copy-from": "cabin_roof"
   },
   {
     "type": "overmap_terrain",
@@ -444,7 +481,16 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "bandit_camp_1", "bandit_camp_2", "bandit_camp_3", "bandit_camp_4" ],
+    "id": [
+      "bandit_camp_1",
+      "bandit_camp_2",
+      "bandit_camp_3",
+      "bandit_camp_4",
+      "bandit_camp_1_roof",
+      "bandit_camp_2_roof",
+      "bandit_camp_3_roof",
+      "bandit_camp_4_roof"
+    ],
     "name": "wooden fort",
     "sym": "+",
     "color": "brown",
@@ -609,7 +655,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "bandit_garage_1", "bandit_garage_2" ],
+    "id": [ "bandit_garage_1", "bandit_garage_2", "bandit_garage_1_roof", "bandit_garage_2_roof" ],
     "name": "garage",
     "sym": "O",
     "color": "white",
@@ -750,7 +796,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "airliner_2b", "airliner_2b_1", "airliner_2b_-1" ],
+    "id": [ "airliner_2b", "airliner_2b_1", "airliner_2b_-1", "airliner_2c_-1" ],
     "name": "crashed airliner",
     "sym": "A",
     "color": "red",
@@ -762,15 +808,6 @@
     "name": "open air",
     "sym": ".",
     "color": "blue",
-    "see_cost": 5
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "airliner_2c_-1",
-    "name": "solid rock",
-    "looks_like": "empty_rock",
-    "sym": "%",
-    "color": "dark_gray",
     "see_cost": 5
   },
   {

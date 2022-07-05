@@ -667,6 +667,7 @@ void uilist::setup()
     }
 
     started = true;
+    recalc_start = true;
 }
 
 void uilist::reposition( ui_adaptor &ui )
@@ -736,7 +737,9 @@ void uilist::show()
         estart += text_lines + 1; // +1 for the horizontal line.
     }
 
-    calcStartPos( vshift, fselected, vmax, fentries.size() );
+    if( recalc_start ) {
+        calcStartPos( vshift, fselected, vmax, fentries.size() );
+    }
 
     const int pad_size = std::max( 0, w_width - 2 - pad_left - pad_right );
     const std::string padspaces = std::string( pad_size, ' ' );
@@ -766,19 +769,18 @@ void uilist::show()
                 // activate the highlighting, it is used to override previous text there, but in both
                 // cases printing starts at pad_left+1, here it starts at pad_left+4, so 3 cells less
                 // to be used.
-                const utf8_wrapper entry = utf8_wrapper( ei == selected ? remove_color_tags( entries[ ei ].txt ) :
-                                           entries[ ei ].txt );
+                const std::string &entry = ei == selected ? remove_color_tags( entries[ ei ].txt ) :
+                                           entries[ ei ].txt;
                 point p( pad_left + 4, estart + si );
                 entries[ei].drawn_rect =
                     inclusive_rectangle<point>( p + point( -3, 0 ), p + point( -4 + pad_size, 0 ) );
-                trim_and_print( window, p, max_entry_len,
-                                co, _color_error, "%s", entry.str() );
+                trim_and_print( window, p, max_entry_len, co, _color_error, "%s", entry );
 
                 if( max_column_len && !entries[ ei ].ctxt.empty() ) {
-                    const utf8_wrapper centry = utf8_wrapper( ei == selected ? remove_color_tags( entries[ ei ].ctxt ) :
-                                                entries[ ei ].ctxt );
+                    const std::string &centry = ei == selected ? remove_color_tags( entries[ ei ].ctxt ) :
+                                                entries[ ei ].ctxt;
                     trim_and_print( window, point( getmaxx( window ) - max_column_len - 2, estart + si ),
-                                    max_column_len, co, _color_error, "%s", centry.str() );
+                                    max_column_len, co, _color_error, "%s", centry );
                 }
             }
             mvwzstr menu_entry_extra_text = entries[ei].extratxt;
@@ -1039,9 +1041,10 @@ void uilist::query( bool loop, int timeout )
         const input_event event = ctxt.get_raw_input();
         ret_evt = event;
         const auto iter = keymap.find( ret_evt );
+        recalc_start = false;
 
         if( scrollby( scroll_amount_from_action( ret_act ) ) ) {
-            /* nothing */
+            recalc_start = true;
         } else if( filtering && ret_act == "UILIST.FILTER" ) {
             inputfilter();
         } else if( iter != keymap.end() ) {
@@ -1098,6 +1101,7 @@ void uilist::query( bool loop, int timeout )
             if( unhandled && allow_anykey ) {
                 ret = UILIST_UNBOUND;
             } else if( unhandled && allow_additional ) {
+                recalc_start = true;
                 for( const auto &it : additional_actions ) {
                     if( it.first == ret_act ) {
                         ret = UILIST_ADDITIONAL;

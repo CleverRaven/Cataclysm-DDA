@@ -548,6 +548,20 @@
   },
   {
     "type": "keybinding",
+    "id": "SCROLL_ITEM_INFO_UP",
+    "category": "SORT_ARMOR",
+    "name": "Scroll item info up",
+    "bindings": [ { "input_method": "keyboard_char", "key": "<" }, { "input_method": "keyboard_code", "key": ",", "mod": [ "shift" ] } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "SCROLL_ITEM_INFO_DOWN",
+    "category": "SORT_ARMOR",
+    "name": "Scroll item info down",
+    "bindings": [ { "input_method": "keyboard_char", "key": ">" }, { "input_method": "keyboard_code", "key": ".", "mod": [ "shift" ] } ]
+  },
+  {
+    "type": "keybinding",
     "id": "EQUIP_ARMOR",
     "category": "SORT_ARMOR",
     "name": "Equip armor from inventory",
@@ -870,8 +884,36 @@
     "id": "WORLDGEN_CONFIRM.QUIT",
     "category": "WORLDGEN_CONFIRM_DIALOG",
     "name": "Exit worldgen screen",
-    "//2": "separate entry, because the global entry also has 'q' and 'Q' listed, which conflicts with the world name entry feature of this dialog",
-    "bindings": [ { "input_method": "keyboard_any", "key": "ESC" }, { "input_method": "mouse", "key": "MOUSE_RIGHT" } ]
+    "bindings": [
+      { "input_method": "keyboard_any", "key": "ESC" },
+      { "input_method": "keyboard_any", "key": "q" },
+      { "input_method": "keyboard_char", "key": "Q" },
+      { "input_method": "keyboard_code", "key": "q", "mod": [ "shift" ] },
+      { "input_method": "keyboard_any", "key": "SPACE" },
+      { "input_method": "mouse", "key": "MOUSE_RIGHT" }
+    ]
+  },
+  {
+    "type": "keybinding",
+    "id": "PICK_MODS",
+    "category": "WORLDGEN_CONFIRM_DIALOG",
+    "name": "Pick random world name",
+    "bindings": [
+      { "input_method": "keyboard_any", "key": "m" },
+      { "input_method": "keyboard_char", "key": "M" },
+      { "input_method": "keyboard_code", "key": "m", "mod": [ "shift" ] }
+    ]
+  },
+  {
+    "type": "keybinding",
+    "id": "ADVANCED_SETTINGS",
+    "category": "WORLDGEN_CONFIRM_DIALOG",
+    "name": "Pick random world name",
+    "bindings": [
+      { "input_method": "keyboard_any", "key": "s" },
+      { "input_method": "keyboard_char", "key": "S" },
+      { "input_method": "keyboard_code", "key": "s", "mod": [ "shift" ] }
+    ]
   },
   {
     "type": "keybinding",
@@ -3567,6 +3609,17 @@
   },
   {
     "type": "keybinding",
+    "id": "LOAD_BASE_COLORS",
+    "category": "COLORS",
+    "name": "Load base colors",
+    "bindings": [
+      { "input_method": "keyboard_any", "key": "c" },
+      { "input_method": "keyboard_char", "key": "C" },
+      { "input_method": "keyboard_code", "key": "c", "mod": [ "shift" ] }
+    ]
+  },
+  {
+    "type": "keybinding",
     "id": "YES",
     "category": "YESNO",
     "name": "Yes",
@@ -3856,7 +3909,7 @@
     "type": "keybinding",
     "id": "FAV_PRIORITY",
     "category": "INVENTORY",
-    "name": "Priority",
+    "name": "Set priority",
     "bindings": [ { "input_method": "keyboard_any", "key": "p" } ]
   },
   {
@@ -3877,35 +3930,35 @@
     "type": "keybinding",
     "id": "FAV_ITEM",
     "category": "INVENTORY",
-    "name": "Item",
+    "name": "Whitelist/blacklist item",
     "bindings": [ { "input_method": "keyboard_any", "key": "i" } ]
   },
   {
     "type": "keybinding",
     "id": "FAV_CATEGORY",
     "category": "INVENTORY",
-    "name": "Category",
+    "name": "Whitelist/blacklist category",
     "bindings": [ { "input_method": "keyboard_any", "key": "c" } ]
   },
   {
     "type": "keybinding",
     "id": "FAV_WHITELIST",
     "category": "INVENTORY",
-    "name": "Whitelist",
+    "name": "Switch to modifying whitelist",
     "bindings": [ { "input_method": "keyboard_any", "key": "w" } ]
   },
   {
     "type": "keybinding",
     "id": "FAV_BLACKLIST",
     "category": "INVENTORY",
-    "name": "Blacklist",
+    "name": "Switch to modifying blacklist",
     "bindings": [ { "input_method": "keyboard_any", "key": "b" } ]
   },
   {
     "type": "keybinding",
     "id": "FAV_CLEAR",
     "category": "INVENTORY",
-    "name": "Clear",
+    "name": "Clear entries",
     "bindings": [ { "input_method": "keyboard_any", "key": "x" } ]
   },
   {
