@@ -3050,7 +3050,7 @@
     "vision_night": 5,
     "harvest": "arachnid",
     "dissect": "dissect_troglobite_sample_single",
-    "upgrades": { "half_life": 42, "into": "mon_antlion_giant" },
+    "upgrades": { "age_grow": 42, "into": "mon_antlion_giant" },
     "anger_triggers": [ "PLAYER_WEAK", "PLAYER_CLOSE" ],
     "fear_triggers": [ "FIRE" ],
     "special_attacks": [
