@@ -645,7 +645,7 @@ std::pair<std::string, nc_color> display::hunger_text_color( const Character &u 
             std::forward_as_tuple( effect_hunger_famished, translate_marker( "Famished" ), c_light_red )
         }
     };
-    for( auto &hunger_state : hunger_states ) {
+    for( const auto &hunger_state : hunger_states ) {
         if( u.has_effect( std::get<0>( hunger_state ) ) ) {
             return std::make_pair( _( std::get<1>( hunger_state ) ), std::get<2>( hunger_state ) );
         }

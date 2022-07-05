@@ -91,6 +91,8 @@ class tripoint_range
         using pointer = typename point_generator::pointer;
         using reference = typename point_generator::reference;
         using iterator_category = typename point_generator::iterator_category;
+        using iterator = point_generator;
+        using const_iterator = point_generator;
 
         tripoint_range( const Tripoint &_minp, const Tripoint &_maxp,
                         const std::function<bool( const Tripoint & )> &pred ) :

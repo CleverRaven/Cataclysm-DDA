@@ -394,7 +394,7 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
                                 layer.state[index] = ASL_CLOSED;
                                 continue;
                             }
-                        } else if( trapavoid ) {
+                        } else {
                             // Otherwise it's walkable
                             newg += 500;
                         }

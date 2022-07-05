@@ -602,6 +602,11 @@ enum class item_filter_type : int {
 */
 void draw_item_filter_rules( const catacurses::window &win, int starty, int height,
                              item_filter_type type );
+/**
+ * Get the tips printed by `draw_item_filter_rules` as a string.
+ * @param type Filter to use when drawing
+ */
+std::string item_filter_rule_string( item_filter_type type );
 
 char rand_char();
 int special_symbol( int sym );
