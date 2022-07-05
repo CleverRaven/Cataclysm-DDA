@@ -15,7 +15,7 @@
     "charges_per_use": 30,
     "ammo": "flammable",
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "pressurized_tank" ] } ],
-    "use_action": { "type": "cast_spell", "menu_text": "Fire flame cannon", "spell_id": "exo_flamethrower", "no_fail": true, "level": 20 }
+    "use_action": { "type": "cast_spell", "spell_id": "exo_flamethrower", "no_fail": true, "level": 20 }
   },
   {
     "id": "exo_sonic_unit",
@@ -39,7 +39,7 @@
         "item_restriction": [ "afs_cartridge", "afs_compact_cartridge", "afs_bootleg_cartridge", "afs_archeotech_cartridge" ]
       }
     ],
-    "use_action": { "type": "cast_spell", "menu_text": "Fire sonic cannon", "spell_id": "exo_sonic", "no_fail": true, "level": 20 }
+    "use_action": { "type": "cast_spell", "spell_id": "exo_sonic", "no_fail": true, "level": 20 }
   },
   {
     "id": "exo_microwave_cannon",
@@ -65,7 +65,6 @@
     ],
     "use_action": {
       "type": "cast_spell",
-      "menu_text": "Fire microwave cannon",
       "spell_id": "exo_microwave",
       "no_fail": true,
       "level": 20
@@ -91,7 +90,6 @@
     ],
     "use_action": {
       "type": "cast_spell",
-      "menu_text": "Fire electrolaser",
       "spell_id": "exosuit_electrolaser",
       "no_fail": true,
       "level": 20
