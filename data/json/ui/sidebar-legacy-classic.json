@@ -64,8 +64,7 @@
     "arrange": "columns",
     "separator": " ",
     "height": 7,
-    "widgets": [ "lcla_health_overmap", "lcla_health_left_layout", "lcla_health_mid_layout", "lcla_health_right_layout" ],
-	"flags": [ "W_MANUAL_ALIGNMENT" ]
+    "widgets": [ "lcla_health_overmap", "lcla_health_left_layout", "lcla_health_mid_layout", "lcla_health_right_layout" ]
   },
   {
     "id": "lcla_vehicle_left_layout",
