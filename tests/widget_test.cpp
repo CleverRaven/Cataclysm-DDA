@@ -2357,7 +2357,7 @@ TEST_CASE( "widget rows in columns", "[widget]" )
     }
 }
 
-static void test_widget_flag_nopad( const bodypart_id &bid, int bleed_int, avatar &ava,
+static void test_widget_flag_manalign( const bodypart_id &bid, int bleed_int, avatar &ava,
                                     const widget_id &wgt, bool skip_pad )
 {
     const int width = 36;
@@ -2453,7 +2453,7 @@ static void test_widget_flag_nopad( const bodypart_id &bid, int bleed_int, avata
     }
 }
 
-TEST_CASE( "W_NO_PADDING widget flag", "[widget]" )
+TEST_CASE( "W_MANUAL_ALIGNMENT widget flag", "[widget]" )
 {
     avatar &ava = get_avatar();
     clear_avatar();
@@ -2467,11 +2467,11 @@ TEST_CASE( "W_NO_PADDING widget flag", "[widget]" )
 
     SECTION( "without flag" ) {
         const widget_id &wgt = widget_test_layout_nopad_noflag;
-        REQUIRE( !wgt->has_flag( "W_NO_PADDING" ) );
+        REQUIRE( !wgt->has_flag( "W_MANUAL_ALIGNMENT" ) );
 
         GIVEN( "left arm bleed intensity = 0" ) {
             REQUIRE( !ava.has_effect( effect_bleed, body_part_arm_l ) );
-            test_widget_flag_nopad( body_part_arm_l, 0, ava, wgt, false );
+            test_widget_flag_manalign( body_part_arm_l, 0, ava, wgt, false );
         }
 
         GIVEN( "left arm bleed intensity = 1" ) {
@@ -2479,7 +2479,7 @@ TEST_CASE( "W_NO_PADDING widget flag", "[widget]" )
             ava.get_effect( effect_bleed, body_part_arm_l ).set_intensity( 1 );
             REQUIRE( ava.has_effect( effect_bleed, body_part_arm_l ) );
             REQUIRE( ava.get_effect_int( effect_bleed, body_part_arm_l ) == 1 );
-            test_widget_flag_nopad( body_part_arm_l, 1, ava, wgt, false );
+            test_widget_flag_manalign( body_part_arm_l, 1, ava, wgt, false );
         }
 
         GIVEN( "left arm bleed intensity = 11" ) {
@@ -2487,7 +2487,7 @@ TEST_CASE( "W_NO_PADDING widget flag", "[widget]" )
             ava.get_effect( effect_bleed, body_part_arm_l ).set_intensity( 11 );
             REQUIRE( ava.has_effect( effect_bleed, body_part_arm_l ) );
             REQUIRE( ava.get_effect_int( effect_bleed, body_part_arm_l ) == 11 );
-            test_widget_flag_nopad( body_part_arm_l, 11, ava, wgt, false );
+            test_widget_flag_manalign( body_part_arm_l, 11, ava, wgt, false );
         }
 
         GIVEN( "left arm bleed intensity = 21" ) {
@@ -2495,17 +2495,17 @@ TEST_CASE( "W_NO_PADDING widget flag", "[widget]" )
             ava.get_effect( effect_bleed, body_part_arm_l ).set_intensity( 21 );
             REQUIRE( ava.has_effect( effect_bleed, body_part_arm_l ) );
             REQUIRE( ava.get_effect_int( effect_bleed, body_part_arm_l ) == 21 );
-            test_widget_flag_nopad( body_part_arm_l, 21, ava, wgt, false );
+            test_widget_flag_manalign( body_part_arm_l, 21, ava, wgt, false );
         }
     }
 
     SECTION( "with flag" ) {
         const widget_id &wgt = widget_test_layout_nopad;
-        REQUIRE( wgt->has_flag( "W_NO_PADDING" ) );
+        REQUIRE( wgt->has_flag( "W_MANUAL_ALIGNMENT" ) );
 
         GIVEN( "left arm bleed intensity = 0" ) {
             REQUIRE( !ava.has_effect( effect_bleed, body_part_arm_l ) );
-            test_widget_flag_nopad( body_part_arm_l, 0, ava, wgt, true );
+            test_widget_flag_manalign( body_part_arm_l, 0, ava, wgt, true );
         }
 
         GIVEN( "left arm bleed intensity = 1" ) {
@@ -2513,7 +2513,7 @@ TEST_CASE( "W_NO_PADDING widget flag", "[widget]" )
             ava.get_effect( effect_bleed, body_part_arm_l ).set_intensity( 1 );
             REQUIRE( ava.has_effect( effect_bleed, body_part_arm_l ) );
             REQUIRE( ava.get_effect_int( effect_bleed, body_part_arm_l ) == 1 );
-            test_widget_flag_nopad( body_part_arm_l, 1, ava, wgt, true );
+            test_widget_flag_manalign( body_part_arm_l, 1, ava, wgt, true );
         }
 
         GIVEN( "left arm bleed intensity = 11" ) {
@@ -2521,7 +2521,7 @@ TEST_CASE( "W_NO_PADDING widget flag", "[widget]" )
             ava.get_effect( effect_bleed, body_part_arm_l ).set_intensity( 11 );
             REQUIRE( ava.has_effect( effect_bleed, body_part_arm_l ) );
             REQUIRE( ava.get_effect_int( effect_bleed, body_part_arm_l ) == 11 );
-            test_widget_flag_nopad( body_part_arm_l, 11, ava, wgt, true );
+            test_widget_flag_manalign( body_part_arm_l, 11, ava, wgt, true );
         }
 
         GIVEN( "left arm bleed intensity = 21" ) {
@@ -2529,7 +2529,7 @@ TEST_CASE( "W_NO_PADDING widget flag", "[widget]" )
             ava.get_effect( effect_bleed, body_part_arm_l ).set_intensity( 21 );
             REQUIRE( ava.has_effect( effect_bleed, body_part_arm_l ) );
             REQUIRE( ava.get_effect_int( effect_bleed, body_part_arm_l ) == 21 );
-            test_widget_flag_nopad( body_part_arm_l, 21, ava, wgt, true );
+            test_widget_flag_manalign( body_part_arm_l, 21, ava, wgt, true );
         }
     }
 
