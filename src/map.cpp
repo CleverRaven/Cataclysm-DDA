@@ -121,6 +121,8 @@ static const item_group_id Item_spawn_data_default_zombie_items( "default_zombie
 static const itype_id itype_battery( "battery" );
 static const itype_id itype_nail( "nail" );
 
+static const flag_id json_flag_AVATAR_ONLY( "AVATAR_ONLY" );
+
 static const material_id material_glass( "glass" );
 
 static const mtype_id mon_zombie( "mon_zombie" );
@@ -8723,6 +8725,10 @@ void map::maybe_trigger_trap( const tripoint &pos, Creature &c, const bool may_a
 
     //Don't trigger benign traps like cots and funnels
     if( tr.is_benign() ) {
+        return;
+    }
+
+    if( tr.has_flag( json_flag_AVATAR_ONLY ) && !c.is_avatar() ) {
         return;
     }
 

@@ -1025,6 +1025,7 @@
     "difficulty": 99,
     "trap_radius": 2,
     "action": "spell",
+    "flags": [ "AVATAR_ONLY" ],
     "spell_data": { "id": "swirling_vortex" }
   },
   {
