@@ -13,7 +13,7 @@ const static flag_id json_flag_W_DISABLED_BY_DEFAULT( "W_DISABLED_BY_DEFAULT" );
 const static flag_id json_flag_W_DISABLED_WHEN_EMPTY( "W_DISABLED_WHEN_EMPTY" );
 const static flag_id json_flag_W_DYNAMIC_HEIGHT( "W_DYNAMIC_HEIGHT" );
 const static flag_id json_flag_W_LABEL_NONE( "W_LABEL_NONE" );
-const static flag_id json_flag_W_NO_PADDING( "W_NO_PADDING" );
+const static flag_id json_flag_W_MANUAL_ALIGNMENT( "W_MANUAL_ALIGNMENT" );
 
 // Default label separator for widgets.
 const static std::string default_separator = ": ";
@@ -814,7 +814,7 @@ static int custom_draw_func( const draw_args &args )
     }
 
     int height_diff = 0;
-    const bool skip_pad = wgt->has_flag( json_flag_W_NO_PADDING );
+    const bool skip_pad = wgt->has_flag( json_flag_W_MANUAL_ALIGNMENT );
 
     werase( w );
     if( wgt->_style == "sidebar" ) {
@@ -826,7 +826,7 @@ static int custom_draw_func( const draw_args &args )
                 widget row_widget = row_wid.obj();
 
                 const std::string txt = row_widget.layout( u, widt, wgt->_label_width,
-                                        skip_pad || row_wid->has_flag( json_flag_W_NO_PADDING ) );
+                                        skip_pad || row_wid->has_flag( json_flag_W_MANUAL_ALIGNMENT ) );
                 if( row_wid->has_flag( json_flag_W_DISABLED_WHEN_EMPTY ) && txt.empty() ) {
                     // reclaim the skipped height in the sidebar
                     height_diff -= row_widget._height;
@@ -1346,7 +1346,7 @@ std::string widget::graph( int value ) const
 // For widget::layout, process each row to append to the layout string
 static std::string append_line( const std::string &line, bool first_row, int max_width,
                                 const translation &label, int label_width, const std::string &_separator,
-                                widget_alignment text_align, widget_alignment label_align, bool skip_pad )
+                                widget_alignment text_align, widget_alignment label_align, bool manual_align )
 {
     // utf8_width subtracts 1 for each newline; add it back for multiline widgets
     const int newline_fix = !line.empty() && line.back() == '\n' ? 1 : 0;
@@ -1360,7 +1360,7 @@ static std::string append_line( const std::string &line, bool first_row, int max
         lbl.append( _separator );
     }
     // Don't process label width if label_width = 0 for empty labels
-    if( !skip_pad && ( label_width > 0 || !label.empty() ) ) {
+    if( !manual_align && ( label_width > 0 || !label.empty() ) ) {
         lbl_w += _separator.length();
         label_width += _separator.length();
         // Use empty spaces in place of label if none exist
@@ -1374,12 +1374,12 @@ static std::string append_line( const std::string &line, bool first_row, int max
     int txt_w = 0;
     std::string txt;
     if( !line.empty() ) {
-        txt = skip_pad ? ( trim( line ) + ( newline_fix == 1 ? "\n" : "" ) ) : line;
+        txt = manual_align ? ( line + ( newline_fix == 1 ? "\n" : "" ) ) : line;
         txt_w = utf8_width( txt, true ) + newline_fix;
     }
 
     // Label padding
-    if( !skip_pad && label_width > lbl_w ) {
+    if( !manual_align && label_width > lbl_w ) {
         const int lpad = label_width - lbl_w;
         // Left side
         int padding = 0;
@@ -1410,7 +1410,7 @@ static std::string append_line( const std::string &line, bool first_row, int max
     }
 
     // Text padding
-    if( !skip_pad && max_width - lbl_w > txt_w ) {
+    if( !manual_align && max_width - lbl_w > txt_w ) {
         const int tpad = ( max_width - lbl_w ) - txt_w;
         // Left side
         int padding = 0;
@@ -1432,7 +1432,7 @@ static std::string append_line( const std::string &line, bool first_row, int max
 
     // Final assembly
     std::string ret = lbl + txt;
-    if( !skip_pad && text_align == widget_alignment::RIGHT ) {
+    if( !manual_align && text_align == widget_alignment::RIGHT ) {
         const int leftover = max_width - ( lbl_w + txt_w );
         if( leftover > 0 ) {
             ret.insert( 0, leftover, ' ' );
@@ -1443,7 +1443,7 @@ static std::string append_line( const std::string &line, bool first_row, int max
 }
 
 std::string widget::layout( const avatar &ava, unsigned int max_width, int label_width,
-                            bool skip_pad )
+                            bool manual_align )
 {
     std::string ret;
     if( _style == "layout" ) {
@@ -1454,7 +1454,7 @@ std::string widget::layout( const avatar &ava, unsigned int max_width, int label
             for( const widget_id &wid : _widgets ) {
                 widget cur_child = wid.obj();
                 ret += sep + cur_child.layout( ava, max_width, label_width,
-                                               skip_pad || wid->has_flag( json_flag_W_NO_PADDING ) );
+                                               manual_align || wid->has_flag( json_flag_W_MANUAL_ALIGNMENT ) );
                 sep = "\n";
                 h += wid->_height < 0 ? 0 : wid->_height;
             }
@@ -1515,10 +1515,10 @@ std::string widget::layout( const avatar &ava, unsigned int max_width, int label
                 if( total_width > max_width ) {
                     debugmsg( "widget layout is wider than sidebar allows." );
                 }
-                const bool skip_pad_this = skip_pad || wid->has_flag( json_flag_W_NO_PADDING );
+                const bool manual_align_this = manual_align || wid->has_flag( json_flag_W_MANUAL_ALIGNMENT );
                 // Layout child in this column
-                const std::string txt = cur_child.layout( ava, skip_pad_this ? 0 : cur_width,
-                                        label_width, skip_pad_this );
+                const std::string txt = cur_child.layout( ava, manual_align_this ? 0 : cur_width,
+                                        label_width, manual_align_this );
                 // Store the resulting text for this column
                 cols.emplace_back( string_split( txt, '\n' ) );
                 widths.emplace_back( cur_width );
@@ -1532,7 +1532,7 @@ std::string widget::layout( const avatar &ava, unsigned int max_width, int label
                 std::string line;
                 for( size_t c = 0; c < cols.size(); c++ ) {
                     if( r >= cols[c].size() ) {
-                        if( !skip_pad ) {
+                        if( !manual_align ) {
                             // No row r for this column, pad with empty space
                             line += std::string( widths[c], ' ' );
                         }
@@ -1540,7 +1540,7 @@ std::string widget::layout( const avatar &ava, unsigned int max_width, int label
                         any_val = true;
                         line += cols[c][r];
                     }
-                    if( !skip_pad && c + 1 < cols.size() ) {
+                    if( !manual_align && c + 1 < cols.size() ) {
                         // Add padding between columns
                         line += std::string( col_padding, ' ' );
                     }
@@ -1574,7 +1574,7 @@ std::string widget::layout( const avatar &ava, unsigned int max_width, int label
             // Process line, including '\n'
             ret += append_line( shown.substr( 0, strpos + 1 ), row_num == 0, max_width,
                                 has_flag( json_flag_W_LABEL_NONE ) ? translation() : _label,
-                                0, _separator, _text_align, _label_align, skip_pad );
+                                0, _separator, _text_align, _label_align, manual_align );
             // Delete used token
             shown.erase( 0, strpos + 1 );
             row_num++;
@@ -1583,7 +1583,7 @@ std::string widget::layout( const avatar &ava, unsigned int max_width, int label
             // Process last line, or first for single-line widgets
             ret += append_line( shown, row_num == 0, max_width,
                                 has_flag( json_flag_W_LABEL_NONE ) ? translation() : _label,
-                                row_num == 0 ? label_width : 0, _separator, _text_align, _label_align, skip_pad );
+                                row_num == 0 ? label_width : 0, _separator, _text_align, _label_align, manual_align );
         }
     }
     return ret.find( '\n' ) != std::string::npos || max_width == 0 ?
