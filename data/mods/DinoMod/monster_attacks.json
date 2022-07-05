@@ -61,5 +61,22 @@
     "no_dmg_msg_npc": "The %1$s's horns hit <npcname>, but they glance off their armor!",
     "miss_msg_u": "The %s thrusts its long horns at you, but you evade!",
     "miss_msg_npc": "The %s's thrusts its long horns at <npcname>, but they dodge!"
+  },
+  {
+    "id": "CBM_TRex_recording",
+    "type": "SPELL",
+    "name": { "str": "T-Rex Bio-Operator recording" },
+    "description": "Causes some noise",
+    "message": "IF YOU CAN HEAR THIS RECORDING, PLEASE EXIT THE FACILITY.  THE TIGER IS LOOSE.",
+    "sound_description": "a recorded message",
+    "sound_type": "combat",
+    "sound_ambient": true,
+    "sound_id": "misc",
+    "sound_variant": "shockwave",
+    "min_damage": 0,
+    "max_damage": 0,
+    "valid_targets": [ "self" ],
+    "shape": "blast",
+    "effect": "noise"
   }
 ]

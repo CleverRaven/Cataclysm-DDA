@@ -574,7 +574,7 @@
     "volume": "2946 ml",
     "price": 39900,
     "price_postapoc": 2000,
-    "barrel_volume": "234 ml",
+    "barrel_volume": "980 ml",
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "barrel", 1 ],
@@ -608,7 +608,7 @@
     "dispersion": 210,
     "durability": 9,
     "clip_size": 1,
-    "barrel_volume": "117 ml",
+    "barrel_volume": "670 ml",
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "barrel", 1 ],

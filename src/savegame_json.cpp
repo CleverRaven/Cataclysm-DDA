@@ -1530,9 +1530,13 @@ void avatar::load( const JsonObject &data )
         data.read( "grab_type", fake );
     }
 
+    // On Visual Studio array iterators are not pointers, so prevent clang-tidy
+    // from converting this to a pointer type.
+    // NOLINTNEXTLINE(readability-qualified-auto)
     const auto iter = std::find( obj_type_name.begin(), obj_type_name.end(), grab_typestr );
     grab( iter == obj_type_name.end() ?
-          object_type::NONE : static_cast<object_type>( std::distance( obj_type_name.begin(), iter ) ),
+          object_type::NONE : static_cast<object_type>(
+              std::distance( obj_type_name.begin(), iter ) ),
           grab_point );
 
     data.read( "magic", magic );

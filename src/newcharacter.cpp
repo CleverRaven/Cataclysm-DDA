@@ -1241,8 +1241,7 @@ tab_direction set_traits( avatar &u, pool_type pool )
 
         bool is_hobby_locked_trait = false;
         for( const profession *hobby : u.hobbies ) {
-            is_hobby_locked_trait = hobby->is_locked_trait( traits_iter.id );
-            break;
+            is_hobby_locked_trait = is_hobby_locked_trait || hobby->is_locked_trait( traits_iter.id );
         }
 
         // We show all starting traits, even if we can't pick them, to keep the interface consistent.
