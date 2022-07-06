@@ -109,11 +109,7 @@
   {
     "id": "cop_pants",
     "type": "item_group",
-    "items": [
-      { "item": "pants", "prob": 75 },
-      { "item": "pants_cargo", "prob": 70 },
-      { "item": "police_breeches", "prob": 20 }
-    ]
+    "items": [ { "item": "pants", "prob": 75 }, { "item": "pants_cargo", "prob": 70 }, { "item": "police_breeches", "prob": 20 } ]
   },
   {
     "id": "cop_pants_stuff",
