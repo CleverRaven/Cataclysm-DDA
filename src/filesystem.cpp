@@ -383,6 +383,28 @@ std::vector<std::string> get_directories_with( const std::string &pattern,
     return files;
 }
 
+std::vector<cata_path> get_directories_with( const std::string &pattern,
+        const cata_path &root_path, const bool recursive_search )
+{
+    if( pattern.empty() ) {
+        return {};
+    }
+
+    auto files = find_file_if_bfs( root_path, recursive_search, [&]( const fs::directory_entry & entry,
+    bool ) {
+        return name_contains( entry, pattern, true );
+    } );
+
+    // Chop off the file names. Dir path MUST be splitted by '/'
+    for( cata_path &file : files ) {
+        file = file.parent_path();
+    }
+
+    files.erase( std::unique( std::begin( files ), std::end( files ) ), std::end( files ) );
+
+    return files;
+}
+
 /**
  *  Find directories which containing pattern.
  *  @param patterns Search patterns.
@@ -410,6 +432,34 @@ std::vector<std::string> get_directories_with( const std::vector<std::string> &p
     //chop off the file names
     for( auto &file : files ) {
         file.erase( file.rfind( '/' ), std::string::npos );
+    }
+
+    //remove resulting duplicates
+    files.erase( std::unique( std::begin( files ), std::end( files ) ), std::end( files ) );
+
+    return files;
+}
+
+std::vector<cata_path> get_directories_with( const std::vector<std::string> &patterns,
+        const cata_path &root_path, const bool recursive_search )
+{
+    if( patterns.empty() ) {
+        return {};
+    }
+
+    const auto ext_beg = std::begin( patterns );
+    const auto ext_end = std::end( patterns );
+
+    auto files = find_file_if_bfs( root_path, recursive_search, [&]( const fs::directory_entry & entry,
+    bool ) {
+        return std::any_of( ext_beg, ext_end, [&]( const std::string & ext ) {
+            return name_contains( entry, ext, true );
+        } );
+    } );
+
+    //chop off the file names
+    for( cata_path &file : files ) {
+        file = cata_path{ file.get_logical_root(), file.get_relative_path().parent_path() };
     }
 
     //remove resulting duplicates

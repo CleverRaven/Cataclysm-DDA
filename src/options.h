@@ -17,6 +17,7 @@
 #include "translations.h"
 #include "type_id.h"
 
+class cata_path;
 class JsonArray;
 class JsonOut;
 class JsonObject;
@@ -40,6 +41,10 @@ class options_manager
         static void search_resource(
             std::map<std::string, std::string> &storage, std::vector<id_and_option> &option_list,
             const std::vector<std::string> &search_paths, const std::string &resource_name,
+            const std::string &resource_filename );
+        static void search_resource(
+            std::map<std::string, std::string> &storage, std::vector<id_and_option> &option_list,
+            const std::vector<cata_path> &search_paths, const std::string &resource_name,
             const std::string &resource_filename );
         static std::vector<id_and_option> build_tilesets_list();
         static std::vector<id_and_option> build_soundpacks_list();

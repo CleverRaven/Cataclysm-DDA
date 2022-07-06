@@ -81,6 +81,12 @@ std::vector<std::string> get_directories_with( const std::vector<std::string> &p
 std::vector<std::string> get_directories_with( const std::string &pattern,
         const std::string &root_path = "", bool recursive_search = false );
 
+std::vector<cata_path> get_directories_with( const std::vector<std::string> &patterns,
+        const cata_path &root_path = {}, bool recursive_search = false );
+
+std::vector<cata_path> get_directories_with( const std::string &pattern,
+        const cata_path &root_path = {}, bool recursive_search = false );
+
 bool copy_file( const std::string &source_path, const std::string &dest_path );
 bool copy_file( const cata_path &source_path, const cata_path &dest_path );
 
