@@ -21,7 +21,7 @@
   },
   {
     "type": "json_flag",
-    "id": "W_MANUAL_ALIGNMENT",
+    "id": "W_NO_PADDING",
     "//": "Removes alignment padding from widgets and sub-widgets"
   }
 ]

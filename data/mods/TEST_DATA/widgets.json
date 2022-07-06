@@ -1588,7 +1588,7 @@
     "arrange": "columns",
     "separator": "",
     "widgets": [ "test_row_nopad", "test_row_nopad", "test_row_nopad" ],
-    "flags": [ "W_MANUAL_ALIGNMENT" ]
+    "flags": [ "W_NO_PADDING" ]
   },
   {
     "//": "use sidebar width = 36",

@@ -12,37 +12,37 @@
     "style": "layout",
     "arrange": "columns",
     "widgets": [ "bodypart_head_status_text", "lcom_spacer", "hp_head_graph_nolabel" ],
-    "flags": [ "W_MANUAL_ALIGNMENT" ]
+    "flags": [ "W_NO_PADDING" ]
   },
   {
     "id": "lcom_hpg_status_torso",
     "type": "widget",
     "copy-from": "status_hpg_layout_torso",
-    "flags": [ "W_MANUAL_ALIGNMENT" ]
+    "flags": [ "W_NO_PADDING" ]
   },
   {
     "id": "lcom_hpg_status_larm",
     "type": "widget",
     "copy-from": "status_hpg_layout_larm",
-    "flags": [ "W_MANUAL_ALIGNMENT" ]
+    "flags": [ "W_NO_PADDING" ]
   },
   {
     "id": "lcom_hpg_status_rarm",
     "type": "widget",
     "copy-from": "status_hpg_layout_rarm",
-    "flags": [ "W_MANUAL_ALIGNMENT" ]
+    "flags": [ "W_NO_PADDING" ]
   },
   {
     "id": "lcom_hpg_status_lleg",
     "type": "widget",
     "copy-from": "status_hpg_layout_lleg",
-    "flags": [ "W_MANUAL_ALIGNMENT" ]
+    "flags": [ "W_NO_PADDING" ]
   },
   {
     "id": "lcom_hpg_status_rleg",
     "type": "widget",
     "copy-from": "status_hpg_layout_rleg",
-    "flags": [ "W_MANUAL_ALIGNMENT" ]
+    "flags": [ "W_NO_PADDING" ]
   },
   {
     "id": "lcom_limbs_left_layout",
