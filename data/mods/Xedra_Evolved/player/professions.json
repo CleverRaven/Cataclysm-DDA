@@ -151,9 +151,7 @@
         ],
         "entries": [
           { "item": "water_clean", "ammo-item": "water_clean", "container-item": "canteen" },
-          { "item": "signal_flare", "ammo-item": "signal_flare", "count": 5 },
-          { "group": "MRE" },
-          { "item": "battery", "ammo-item": "battery", "count": 25 }
+          { "item": "signal_flare", "ammo-item": "signal_flare", "count": 5 }
         ]
       },
       "male": [ "boxer_shorts" ],
