@@ -991,6 +991,7 @@ Some vars refer to text descriptors. These must use style "text". Examples:
 | `safe_mode_text`         | Status of safe mode - "On" or "Off", with color for approaching turn limit
 | `safe_mode_classic_text` | Status of safe mode - "SAFE", with color for approaching turn limit
 | `style_text`             | Name of current martial arts style
+| `sundial_text`           | Current position of the Sun/Moon in the sky
 | `time_text`              | Current time - exact if clock is available, approximate otherwise
 | `veh_azimuth_text`       | Heading of vehicle in degrees
 | `veh_cruise_text`        | Target and actual cruising velocity, positive or negative

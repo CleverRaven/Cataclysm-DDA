@@ -144,7 +144,8 @@
       "weapon_style_layout",
       "vehicle_acf_label_layout",
       "compass_all_danger_layout",
-      "rad_badge_desc"
+      "rad_badge_desc",
+      "sundial_label_layout"
     ]
   }
 ]
