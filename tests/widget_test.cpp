@@ -2358,7 +2358,7 @@ TEST_CASE( "widget rows in columns", "[widget]" )
 }
 
 static void test_widget_flag_nopad( const bodypart_id &bid, int bleed_int, avatar &ava,
-                                       const widget_id &wgt, bool skip_pad )
+                                    const widget_id &wgt, bool skip_pad )
 {
     const int width = 36;
     const int max_hp = ava.get_part_hp_max( bid );
