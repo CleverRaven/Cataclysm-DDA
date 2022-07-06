@@ -2206,14 +2206,14 @@
   },
   {
     "type": "keybinding",
-    "name": "Eat",
+    "name": "Consume item (all items)",
     "category": "DEFAULTMODE",
     "id": "eat",
     "bindings": [ { "input_method": "keyboard_char", "key": "E" }, { "input_method": "keyboard_code", "key": "e", "mod": [ "shift" ] } ]
   },
   {
     "type": "keybinding",
-    "name": "Consume item",
+    "name": "Consume item (by type)",
     "category": "DEFAULTMODE",
     "id": "open_consume"
   },
