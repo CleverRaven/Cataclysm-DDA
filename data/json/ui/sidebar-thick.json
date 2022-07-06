@@ -57,6 +57,12 @@
     "separator": ": ",
     "padding": 2,
     "width": 66,
-    "widgets": [ "thick_side_by_side", "thick_side_by_side_2", "vehicle_acf_label_layout_columns", "compass_all_layout" ]
+    "widgets": [
+      "thick_side_by_side",
+      "thick_side_by_side_2",
+      "vehicle_acf_label_layout_columns",
+      "sundial_label_layout",
+      "compass_all_layout"
+    ]
   }
 ]
