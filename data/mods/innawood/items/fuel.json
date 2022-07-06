@@ -22,5 +22,5 @@
       "damage": { "damage_type": "heat", "amount": 2, "armor_penetration": 2 },
       "effects": [ "FLAME", "STREAM" ]
     }
-  ]
+]
   
