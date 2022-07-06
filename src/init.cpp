@@ -120,8 +120,8 @@ DynamicDataLoader &DynamicDataLoader::get_instance()
 }
 
 void DynamicDataLoader::load_object( const JsonObject &jo, const std::string &src,
-                                     const std::string &base_path,
-                                     const std::string &full_path )
+                                     const cata_path &base_path,
+                                     const cata_path &full_path )
 {
     const std::string type = jo.get_string( "type" );
     const t_type_function_map::iterator it = type_function_map.find( type );
@@ -194,7 +194,7 @@ static void load_ignored_type( const JsonObject &jo )
 }
 
 void DynamicDataLoader::add( const std::string &type,
-                             const std::function<void( const JsonObject &, const std::string &, const std::string &, const std::string & )>
+                             const std::function<void( const JsonObject &, const std::string &, const cata_path &, const cata_path & )>
                              &f )
 {
     const auto pair = type_function_map.emplace( type, f );
@@ -204,28 +204,31 @@ void DynamicDataLoader::add( const std::string &type,
 }
 
 void DynamicDataLoader::add( const std::string &type,
+                             const std::function<void( const JsonObject &, const std::string &, const std::string &, const std::string & )>
+                             &f )
+{
+    add( type, [f]( const JsonObject & obj, const std::string & src, const cata_path & base_path,
+    const cata_path & full_path ) {
+        f( obj, src, base_path.generic_u8string(), full_path.generic_u8string() );
+    } );
+}
+
+void DynamicDataLoader::add( const std::string &type,
                              const std::function<void( const JsonObject &, const std::string & )> &f )
 {
-    const auto pair = type_function_map.emplace( type, [f]( const JsonObject & obj,
-                      const std::string & src,
-    const std::string &, const std::string & ) {
+    add( type, [f]( const JsonObject & obj, const std::string & src, const cata_path &,
+    const cata_path & ) {
         f( obj, src );
     } );
-    if( !pair.second ) {
-        debugmsg( "tried to insert a second handler for type %s into the DynamicDataLoader", type.c_str() );
-    }
 }
 
 void DynamicDataLoader::add( const std::string &type,
                              const std::function<void( const JsonObject & )> &f )
 {
-    const auto pair = type_function_map.emplace( type, [f]( const JsonObject & obj, const std::string &,
-    const std::string &, const std::string & ) {
+    add( type, [f]( const JsonObject & obj, const std::string &,  const cata_path &,
+    const cata_path & ) {
         f( obj );
     } );
-    if( !pair.second ) {
-        debugmsg( "tried to insert a second handler for type %s into the DynamicDataLoader", type.c_str() );
-    }
 }
 
 void DynamicDataLoader::initialize()
@@ -468,10 +471,7 @@ void DynamicDataLoader::initialize()
     add( "widget", &widget::load_widget );
     add( "weakpoint_set", &weakpoints::load_weakpoint_sets );
 #if defined(TILES)
-    add( "mod_tileset", []( const JsonObject & jsobj, const std::string & _,
-    const std::string & base_path, const std::string & full_path ) {
-        load_mod_tileset( jsobj, cata_path{ cata_path::root_path::unknown, base_path }, cata_path{ cata_path::root_path::unknown, full_path } );
-    } );
+    add( "mod_tileset", &load_mod_tileset );
 #else
     // Dummy function
     add( "mod_tileset", load_ignored_type );
@@ -479,6 +479,11 @@ void DynamicDataLoader::initialize()
 }
 
 void DynamicDataLoader::load_data_from_path( const std::string &path, const std::string &src,
+        loading_ui &ui )
+{
+    load_data_from_path( cata_path{ cata_path::root_path::unknown, path }, src, ui );
+}
+void DynamicDataLoader::load_data_from_path( const cata_path &path, const std::string &src,
         loading_ui &ui )
 {
     cata_assert( !finalized &&
@@ -490,9 +495,9 @@ void DynamicDataLoader::load_data_from_path( const std::string &path, const std:
     // But not the other way round.
 
     // get a list of all files in the directory
-    str_vec files = get_files_from_path( ".json", path, true, true );
+    std::vector<cata_path> files = get_files_from_path( ".json", path, true, true );
     if( files.empty() ) {
-        cata::ifstream tmp( fs::u8path( path ), std::ios::in );
+        cata::ifstream tmp( path.get_unrelative_path(), std::ios::in );
         if( tmp ) {
             // path is actually a file, don't checking the extension,
             // assume we want to load this file anyway
@@ -500,12 +505,10 @@ void DynamicDataLoader::load_data_from_path( const std::string &path, const std:
         }
     }
     // iterate over each file
-    for( const std::string &file : files ) {
-        // and stuff it into ram
-        std::istringstream iss( read_entire_file( file ) );
+    for( const cata_path &file : files ) {
         try {
             // parse it
-            JsonValue jsin = json_loader::from_path( fs::u8path( file ) );
+            JsonValue jsin = json_loader::from_path( file );
             load_all_from_json( jsin, src, ui, path, file );
         } catch( const JsonError &err ) {
             throw std::runtime_error( err.what() );
@@ -514,8 +517,15 @@ void DynamicDataLoader::load_data_from_path( const std::string &path, const std:
 }
 
 void DynamicDataLoader::load_all_from_json( const JsonValue &jsin, const std::string &src,
-        loading_ui &,
+        loading_ui &ui,
         const std::string &base_path, const std::string &full_path )
+{
+    load_all_from_json( jsin, src, ui, cata_path{ cata_path::root_path::unknown, base_path }, cata_path{ cata_path::root_path::unknown, full_path } );
+}
+
+void DynamicDataLoader::load_all_from_json( const JsonValue &jsin, const std::string &src,
+        loading_ui &,
+        const cata_path &base_path, const cata_path &full_path )
 {
     if( jsin.test_object() ) {
         // find type and dispatch single object

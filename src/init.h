@@ -12,6 +12,7 @@
 #include <vector>
 
 #include "memory_fast.h"
+#include "path_info.h"
 
 class JsonObject;
 class JsonValue;
@@ -59,7 +60,7 @@ class DynamicDataLoader
     public:
         using type_string = std::string;
         using t_type_function_map =
-            std::map<type_string, std::function<void( const JsonObject &, const std::string &, const std::string &, const std::string & )>>;
+            std::map<type_string, std::function<void( const JsonObject &, const std::string &, const cata_path &, const cata_path & )>>;
         using str_vec = std::vector<std::string>;
 
         /**
@@ -87,6 +88,9 @@ class DynamicDataLoader
         void add( const std::string &type,
                   const std::function<void( const JsonObject &, const std::string &, const std::string &, const std::string & )>
                   &f );
+        void add( const std::string &type,
+                  const std::function<void( const JsonObject &, const std::string &, const cata_path &, const cata_path & )>
+                  &f );
         /**
          * Load all the types from that json data.
          * @param jsin Might contain single object,
@@ -98,6 +102,9 @@ class DynamicDataLoader
          */
         void load_all_from_json( const JsonValue &jsin, const std::string &src, loading_ui &ui,
                                  const std::string &base_path, const std::string &full_path );
+        void load_all_from_json( const JsonValue &jsin, const std::string &src,
+                                 loading_ui &,
+                                 const cata_path &base_path, const cata_path &full_path );
         /**
          * Load a single object from a json object.
          * @param jo The json object to load the C++-object from.
@@ -105,8 +112,8 @@ class DynamicDataLoader
          * @throws std::exception on all kind of errors.
          */
         void load_object( const JsonObject &jo, const std::string &src,
-                          const std::string &base_path = std::string(),
-                          const std::string &full_path = std::string() );
+                          const cata_path &base_path = cata_path{},
+                          const cata_path &full_path = cata_path{} );
 
         DynamicDataLoader();
         ~DynamicDataLoader();
@@ -138,6 +145,7 @@ class DynamicDataLoader
          */
         /*@{*/
         void load_data_from_path( const std::string &path, const std::string &src, loading_ui &ui );
+        void load_data_from_path( const cata_path &path, const std::string &src, loading_ui &ui );
         /*@}*/
         /**
          * Deletes and unloads all the data previously loaded with
