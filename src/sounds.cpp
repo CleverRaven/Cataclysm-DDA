@@ -1139,7 +1139,8 @@ void sfx::do_ambient()
           get_weather().weather_id->sound_category != weather_sound_category::silent && !is_deaf &&
           !is_channel_playing( channel::outdoors_snow_env ) &&
           !is_channel_playing( channel::outdoors_flurry_env ) &&
-          !is_channel_playing( channel::outdoors_thunderstorm_env ) &&
+          !is_channel_playing( channel::outdoors_thunderstorm_env) &&
+          !is_channel_playing( channel::outdoors_rainstorm_env) &&
           !is_channel_playing( channel::outdoors_rain_env ) &&
           !is_channel_playing( channel::outdoors_drizzle_env ) &&
           !is_channel_playing( channel::outdoor_blizzard ) &&
@@ -1161,10 +1162,15 @@ void sfx::do_ambient()
                                             indoors, night, heard_volume,
                                             channel::outdoors_rain_env, 1000 );
                 break;
-            case weather_sound_category::thunder:
-                play_ambient_variant_sound( "environment", "WEATHER_THUNDER", seas_str,
+            case weather_sound_category::rainstorm:
+                play_ambient_variant_sound("environment", "WEATHER_RAINSTORM", seas_str,
                                             indoors, night, heard_volume,
-                                            channel::outdoors_thunderstorm_env, 1000 );
+                                            channel::outdoors_rainstorm_env, 1000);
+                break;
+            case weather_sound_category::thunder:
+                play_ambient_variant_sound("environment", "WEATHER_THUNDER", seas_str,
+                                            indoors, night, heard_volume,
+                                            channel::outdoors_thunderstorm_env, 1000);
                 break;
             case weather_sound_category::flurries:
                 play_ambient_variant_sound( "environment", "WEATHER_FLURRIES", seas_str,
