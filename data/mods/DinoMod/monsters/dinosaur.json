@@ -1625,7 +1625,7 @@
     "petfood": { "food": [ "DINOFOOD_B" ] },
     "flags": [ "SEES", "SMELLS", "HEARS", "FLIES", "HIT_AND_RUN", "ANIMAL", "PATH_AVOID_DANGER_1", "CANPLAY" ],
     "harvest": "bird_small",
-    "dissect": "lizard_sample_single",
+    "dissect": "dissect_lizard_sample_single",
     "fear_triggers": [ "PLAYER_CLOSE", "FRIEND_DIED" ],
     "categories": [ "DINOSAUR", "WILDLIFE" ]
   },
@@ -1647,7 +1647,7 @@
     "anger_triggers": [ "PLAYER_WEAK", "HURT", "FRIEND_ATTACKED", "PLAYER_CLOSE" ],
     "fear_triggers": [ "FRIEND_DIED" ],
     "harvest": "dino_feather_leather",
-    "dissect": "lizard_sample_small",
+    "dissect": "dissect_lizard_sample_small",
     "special_attacks": [ [ "scratch", 10 ] ]
   },
   {
@@ -1671,7 +1671,7 @@
     "anger_triggers": [ "PLAYER_WEAK", "HURT", "FRIEND_ATTACKED", "PLAYER_CLOSE" ],
     "fear_triggers": [ "FRIEND_DIED" ],
     "harvest": "dino_feather_leather",
-    "dissect": "lizard_sample_small"
+    "dissect": "dissect_lizard_sample_small"
   },
   {
     "type": "MONSTER",
