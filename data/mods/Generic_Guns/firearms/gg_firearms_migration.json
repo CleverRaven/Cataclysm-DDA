@@ -212,6 +212,7 @@
       "m16_auto_rifle",
       "m231pfw",
       "scar_h",
+      "m1917lewis",
       "sig_mcx_rattler_sbr",
       "rm51_assault_rifle",
       "an94",
@@ -236,7 +237,7 @@
     "replace": "rifle_huge_hmg"
   },
   {
-    "id": [ "m134", "m249", "m240", "m60", "rm614_lmg", "rm298" ],
+    "id": [ "m134", "m249", "m240", "m60", "rm614_lmg", "rm298", "m1919a4", "m1919handheld" ],
     "type": "MIGRATION",
     "replace": "rifle_lmg"
   },
