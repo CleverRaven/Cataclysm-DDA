@@ -134,6 +134,7 @@ static const widget_id widget_test_status_sym_left_arm_text( "test_status_sym_le
 static const widget_id widget_test_status_sym_torso_text( "test_status_sym_torso_text" );
 static const widget_id widget_test_status_torso_text( "test_status_torso_text" );
 static const widget_id widget_test_str_color_num( "test_str_color_num" );
+static const widget_id widget_test_sundial_text( "test_sundial_text" );
 static const widget_id widget_test_text_widget( "test_text_widget" );
 static const widget_id widget_test_thirst_clause( "test_thirst_clause" );
 static const widget_id widget_test_torso_armor_outer_text( "test_torso_armor_outer_text" );
@@ -928,6 +929,392 @@ TEST_CASE( "widgets showing movement cost", "[widget][move_cost]" )
         REQUIRE( ava.run_cost( 100 ) == 167 );
         CHECK( cost_num_w.layout( ava ) == "MOVE COST: 167" );
     }
+}
+
+TEST_CASE( "widgets showing Sun and Moon position", "[widget]" )
+{
+    widget sundial_w = widget_test_sundial_text.obj();
+
+    avatar &ava = get_avatar();
+    clear_map();
+    clear_avatar();
+    const tripoint_abs_ms orig_pos = ava.get_location();
+
+    // 00:00
+    time_point tp( calendar::turn_zero );
+    set_time( tp );
+    sundial_w._width = 9;
+    CHECK( sundial_w.layout( ava ) ==
+           "SUN: [<color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white>C</color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color>]" );
+    sundial_w._width = 15;
+    CHECK( sundial_w.layout( ava ) ==
+           "SUN: [<color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white>C</color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color>]" );
+    sundial_w._width = 20;
+    CHECK( sundial_w.layout( ava ) ==
+           "SUN: [<color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white>C</color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color>]" );
+    ava.set_location( { 0, 0, -1 } );
+    CHECK( sundial_w.layout( ava ) ==
+           R"(SUN: [??????????????????])" );
+
+    // 02:00
+    ava.set_location( orig_pos );
+    tp += 2_hours;
+    set_time( tp );
+    sundial_w._width = 9;
+    CHECK( sundial_w.layout( ava ) ==
+           "SUN: [<color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color><color_c_light_blue>c</color>"
+           "<color_c_white> </color><color_c_white> </color>]" );
+    sundial_w._width = 15;
+    CHECK( sundial_w.layout( ava ) ==
+           "SUN: [<color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color><color_c_white> </color>"
+           "<color_c_light_blue>c</color><color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color>]" );
+    sundial_w._width = 20;
+    CHECK( sundial_w.layout( ava ) ==
+           "SUN: [<color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_light_blue>c</color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color>]" );
+    ava.set_location( { 0, 0, -1 } );
+    CHECK( sundial_w.layout( ava ) ==
+           R"(SUN: [??????????????????])" );
+
+    // 04:00
+    ava.set_location( orig_pos );
+    tp += 2_hours;
+    set_time( tp );
+    sundial_w._width = 9;
+    CHECK( sundial_w.layout( ava ) ==
+           "SUN: [<color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color><color_c_white> </color>"
+           "<color_c_blue>,</color><color_c_white> </color>]" );
+    sundial_w._width = 15;
+    CHECK( sundial_w.layout( ava ) ==
+           "SUN: [<color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color><color_c_blue>,</color>"
+           "<color_c_white> </color><color_c_white> </color>]" );
+    sundial_w._width = 20;
+    CHECK( sundial_w.layout( ava ) ==
+           "SUN: [<color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_blue>,</color><color_c_white> </color>"
+           "<color_c_white> </color>]" );
+    ava.set_location( { 0, 0, -1 } );
+    CHECK( sundial_w.layout( ava ) ==
+           R"(SUN: [??????????????????])" );
+
+    // 06:00
+    ava.set_location( orig_pos );
+    tp += 2_hours;
+    set_time( tp );
+    sundial_w._width = 9;
+    CHECK( sundial_w.layout( ava ) ==
+           "SUN: [<color_h_white> </color><color_h_white> </color>"
+           "<color_c_white> </color><color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color>]" );
+    sundial_w._width = 15;
+    CHECK( sundial_w.layout( ava ) ==
+           "SUN: [<color_h_white> </color><color_h_white> </color>"
+           "<color_h_white> </color><color_h_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color>]" );
+    sundial_w._width = 20;
+    CHECK( sundial_w.layout( ava ) ==
+           "SUN: [<color_h_white> </color><color_h_white> </color>"
+           "<color_h_white> </color><color_h_white> </color><color_h_white> </color>"
+           "<color_c_white> </color><color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color>]" );
+    ava.set_location( { 0, 0, -1 } );
+    CHECK( sundial_w.layout( ava ) ==
+           R"(SUN: [??????????????????])" );
+
+    // 08:00
+    ava.set_location( orig_pos );
+    tp += 2_hours;
+    set_time( tp );
+    sundial_w._width = 9;
+    CHECK( sundial_w.layout( ava ) ==
+           "SUN: [<color_h_red>_</color><color_h_white> </color>"
+           "<color_h_white> </color><color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color>]" );
+    sundial_w._width = 15;
+    CHECK( sundial_w.layout( ava ) ==
+           "SUN: [<color_h_red>_</color><color_h_white> </color>"
+           "<color_h_white> </color><color_h_white> </color><color_h_white> </color>"
+           "<color_h_white> </color><color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color>]" );
+    sundial_w._width = 20;
+    CHECK( sundial_w.layout( ava ) ==
+           "SUN: [<color_h_white> </color><color_h_red>_</color>"
+           "<color_h_white> </color><color_h_white> </color><color_h_white> </color>"
+           "<color_h_white> </color><color_h_white> </color><color_h_white> </color>"
+           "<color_h_white> </color><color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color>]" );
+    ava.set_location( { 0, 0, -1 } );
+    CHECK( sundial_w.layout( ava ) ==
+           R"(SUN: [??????????????????])" );
+
+    // 10:00
+    ava.set_location( orig_pos );
+    tp += 2_hours;
+    set_time( tp );
+    sundial_w._width = 9;
+    CHECK( sundial_w.layout( ava ) ==
+           "SUN: [<color_h_white> </color><color_h_brown>.</color>"
+           "<color_h_white> </color><color_h_white> </color><color_h_white> </color>"
+           "<color_c_white> </color><color_c_white> </color>]" );
+    sundial_w._width = 15;
+    CHECK( sundial_w.layout( ava ) ==
+           "SUN: [<color_h_white> </color><color_h_white> </color>"
+           "<color_h_brown>.</color><color_h_white> </color><color_h_white> </color>"
+           "<color_h_white> </color><color_h_white> </color><color_h_white> </color>"
+           "<color_h_white> </color><color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color>]" );
+    sundial_w._width = 20;
+    CHECK( sundial_w.layout( ava ) ==
+           "SUN: [<color_h_white> </color><color_h_white> </color>"
+           "<color_h_white> </color><color_h_white> </color><color_h_brown>.</color>"
+           "<color_h_white> </color><color_h_white> </color><color_h_white> </color>"
+           "<color_h_white> </color><color_h_white> </color><color_h_white> </color>"
+           "<color_h_white> </color><color_h_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color>]" );
+    ava.set_location( { 0, 0, -1 } );
+    CHECK( sundial_w.layout( ava ) ==
+           R"(SUN: [??????????????????])" );
+
+    // 12:00
+    ava.set_location( orig_pos );
+    tp += 2_hours;
+    set_time( tp );
+    sundial_w._width = 9;
+    CHECK( sundial_w.layout( ava ) ==
+           "SUN: [<color_h_white> </color><color_h_white> </color>"
+           "<color_h_yellow>+</color><color_h_white> </color><color_h_white> </color>"
+           "<color_h_white> </color><color_c_white> </color>]" );
+    sundial_w._width = 15;
+    CHECK( sundial_w.layout( ava ) ==
+           "SUN: [<color_h_white> </color><color_h_white> </color>"
+           "<color_h_white> </color><color_h_white> </color><color_h_white> </color>"
+           "<color_h_yellow>*</color><color_h_white> </color><color_h_white> </color>"
+           "<color_h_white> </color><color_h_white> </color><color_h_white> </color>"
+           "<color_h_white> </color><color_c_white> </color>]" );
+    sundial_w._width = 20;
+    CHECK( sundial_w.layout( ava ) ==
+           "SUN: [<color_h_white> </color><color_h_white> </color>"
+           "<color_h_white> </color><color_h_white> </color><color_h_white> </color>"
+           "<color_h_white> </color><color_h_white> </color><color_h_white> </color>"
+           "<color_h_yellow>*</color><color_h_white> </color><color_h_white> </color>"
+           "<color_h_white> </color><color_h_white> </color><color_h_white> </color>"
+           "<color_h_white> </color><color_h_white> </color><color_h_white> </color>"
+           "<color_h_white> </color>]" );
+    ava.set_location( { 0, 0, -1 } );
+    CHECK( sundial_w.layout( ava ) ==
+           R"(SUN: [??????????????????])" );
+
+    // 14:00
+    ava.set_location( orig_pos );
+    tp += 2_hours;
+    set_time( tp );
+    sundial_w._width = 9;
+    CHECK( sundial_w.layout( ava ) ==
+           "SUN: [<color_c_white> </color><color_h_white> </color>"
+           "<color_h_white> </color><color_h_white> </color><color_h_yellow>+</color>"
+           "<color_h_white> </color><color_h_white> </color>]" );
+    sundial_w._width = 15;
+    CHECK( sundial_w.layout( ava ) ==
+           "SUN: [<color_c_white> </color><color_c_white> </color>"
+           "<color_h_white> </color><color_h_white> </color><color_h_white> </color>"
+           "<color_h_white> </color><color_h_white> </color><color_h_white> </color>"
+           "<color_h_yellow>+</color><color_h_white> </color><color_h_white> </color>"
+           "<color_h_white> </color><color_h_white> </color>]" );
+    sundial_w._width = 20;
+    CHECK( sundial_w.layout( ava ) ==
+           "SUN: [<color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color><color_h_white> </color>"
+           "<color_h_white> </color><color_h_white> </color><color_h_white> </color>"
+           "<color_h_white> </color><color_h_white> </color><color_h_white> </color>"
+           "<color_h_white> </color><color_h_yellow>+</color><color_h_white> </color>"
+           "<color_h_white> </color><color_h_white> </color><color_h_white> </color>"
+           "<color_h_white> </color>]" );
+    ava.set_location( { 0, 0, -1 } );
+    CHECK( sundial_w.layout( ava ) ==
+           R"(SUN: [??????????????????])" );
+
+    // 16:00
+    ava.set_location( orig_pos );
+    tp += 2_hours;
+    set_time( tp );
+    sundial_w._width = 9;
+    CHECK( sundial_w.layout( ava ) ==
+           "SUN: [<color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_h_white> </color><color_h_white> </color>"
+           "<color_h_brown>.</color><color_h_white> </color>]" );
+    sundial_w._width = 15;
+    CHECK( sundial_w.layout( ava ) ==
+           "SUN: [<color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color><color_c_white> </color>"
+           "<color_h_white> </color><color_h_white> </color><color_h_white> </color>"
+           "<color_h_white> </color><color_h_white> </color><color_h_brown>.</color>"
+           "<color_h_white> </color><color_h_white> </color>]" );
+    sundial_w._width = 20;
+    CHECK( sundial_w.layout( ava ) ==
+           "SUN: [<color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color><color_c_white> </color>"
+           "<color_h_white> </color><color_h_white> </color><color_h_white> </color>"
+           "<color_h_white> </color><color_h_white> </color><color_h_white> </color>"
+           "<color_h_white> </color><color_h_brown>.</color><color_h_white> </color>"
+           "<color_h_white> </color>]" );
+    ava.set_location( { 0, 0, -1 } );
+    CHECK( sundial_w.layout( ava ) ==
+           R"(SUN: [??????????????????])" );
+
+    // 18:00
+    ava.set_location( orig_pos );
+    tp += 2_hours;
+    set_time( tp );
+    sundial_w._width = 9;
+    CHECK( sundial_w.layout( ava ) ==
+           "SUN: [<color_c_cyan>_</color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color><color_h_white> </color>"
+           "<color_h_white> </color><color_h_white> </color>]" );
+    sundial_w._width = 15;
+    CHECK( sundial_w.layout( ava ) ==
+           "SUN: [<color_c_cyan>_</color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color><color_c_white> </color>"
+           "<color_h_white> </color><color_h_white> </color><color_h_white> </color>"
+           "<color_h_white> </color><color_h_white> </color>]" );
+    sundial_w._width = 20;
+    CHECK( sundial_w.layout( ava ) ==
+           "SUN: [<color_c_cyan>_</color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_h_white> </color><color_h_white> </color>"
+           "<color_h_white> </color><color_h_white> </color><color_h_white> </color>"
+           "<color_h_white> </color>]" );
+    ava.set_location( { 0, 0, -1 } );
+    CHECK( sundial_w.layout( ava ) ==
+           R"(SUN: [??????????????????])" );
+
+    // 20:00
+    ava.set_location( orig_pos );
+    tp += 2_hours;
+    set_time( tp );
+    sundial_w._width = 9;
+    CHECK( sundial_w.layout( ava ) ==
+           "SUN: [<color_c_white> </color><color_c_blue>,</color>"
+           "<color_c_white> </color><color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color>]" );
+    sundial_w._width = 15;
+    CHECK( sundial_w.layout( ava ) ==
+           "SUN: [<color_c_white> </color><color_c_white> </color>"
+           "<color_c_blue>,</color><color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color>]" );
+    sundial_w._width = 20;
+    CHECK( sundial_w.layout( ava ) ==
+           "SUN: [<color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_blue>,</color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color>]" );
+    ava.set_location( { 0, 0, -1 } );
+    CHECK( sundial_w.layout( ava ) ==
+           R"(SUN: [??????????????????])" );
+
+    // 22:00
+    ava.set_location( orig_pos );
+    tp += 2_hours;
+    set_time( tp );
+    sundial_w._width = 9;
+    CHECK( sundial_w.layout( ava ) ==
+           "SUN: [<color_c_white> </color><color_c_white> </color>"
+           "<color_c_light_blue>c</color><color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color>]" );
+    sundial_w._width = 15;
+    CHECK( sundial_w.layout( ava ) ==
+           "SUN: [<color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color><color_c_light_blue>c</color>"
+           "<color_c_white> </color><color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color>]" );
+    sundial_w._width = 20;
+    CHECK( sundial_w.layout( ava ) ==
+           "SUN: [<color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_light_blue>c</color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color>]" );
+    ava.set_location( { 0, 0, -1 } );
+    CHECK( sundial_w.layout( ava ) ==
+           R"(SUN: [??????????????????])" );
+
+    // 00:00
+    ava.set_location( orig_pos );
+    tp += 2_hours;
+    set_time( tp );
+    sundial_w._width = 9;
+    CHECK( sundial_w.layout( ava ) ==
+           "SUN: [<color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white>C</color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color>]" );
+    sundial_w._width = 15;
+    CHECK( sundial_w.layout( ava ) ==
+           "SUN: [<color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white>C</color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color>]" );
+    sundial_w._width = 20;
+    CHECK( sundial_w.layout( ava ) ==
+           "SUN: [<color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white>C</color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color>]" );
+    ava.set_location( { 0, 0, -1 } );
+    CHECK( sundial_w.layout( ava ) ==
+           R"(SUN: [??????????????????])" );
 }
 
 // Bodypart status strings are pulled from a std::map, which is

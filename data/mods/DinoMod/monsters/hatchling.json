@@ -209,6 +209,14 @@
     "petfood": { "food": [ "DINOFOOD_A", "DINOFOOD_B", "DINOFOOD_C" ] }
   },
   {
+    "id": "mon_saurornitholestes_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_compsognathus_hatchling",
+    "name": "dark gray and yellow hatchling",
+    "default_faction": "saurornitholestes_hatchling",
+    "upgrades": { "age_grow": 20, "into": "mon_saurornitholestes" }
+  },
+  {
     "id": "mon_velociraptor_hatchling",
     "type": "MONSTER",
     "copy-from": "mon_compsognathus_hatchling",
