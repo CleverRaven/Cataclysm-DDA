@@ -305,6 +305,34 @@
     "components": [ [ [ "cotton_patchwork", 2 ] ] ]
   },
   {
+    "result": "50clothbelt3006",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_MAGAZINES",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "skills_required": [ "gun", 1 ],
+    "time": "1 h",
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 40 ], [ "3006_casehead", 1 ] ],
+    "components": [ [ [ "cotton_patchwork", 2 ] ] ]
+  },
+  {
+    "result": "250clothbelt3006",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_MAGAZINES",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "skills_required": [ "gun", 1 ],
+    "time": "5 h",
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 200 ], [ "3006_casehead", 1 ] ],
+    "components": [ [ [ "cotton_patchwork", 10 ] ] ]
+  },
+  {
     "result": "smg_40_mag",
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",

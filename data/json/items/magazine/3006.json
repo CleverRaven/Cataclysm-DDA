@@ -55,6 +55,110 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "magazine_well": "20 ml", "ammo_restriction": { "3006": 8 } } ]
   },
   {
+    "id": "lewismag_47rd",
+    "looks_like": "stanag30",
+    "type": "MAGAZINE",
+    "name": { "str": "Lewis 47-round pan magazine" },
+    "description": "An unusually shaped pan magazine for the .30-06 Lewis machine gun.",
+    "weight": "888 g",
+    "volume": "1 L",
+    "longest_side": "25 cm",
+    "price": 8500,
+    "price_postapoc": 250,
+    "material": [ "steel" ],
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": [ "3006" ],
+    "reload_time": 150,
+    "flags": [ "MAG_BULKY" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "3006": 47 } } ]
+  },
+  {
+    "id": "lewismag_97rd",
+    "looks_like": "stanag30",
+    "type": "MAGAZINE",
+    "name": { "str": "Lewis 97-round pan magazine" },
+    "description": "An unusually shaped extended-capacity pan magazine for the .30-06 Lewis machine gun, intended for use with aircraft-mounted guns.",
+    "weight": "1938 g",
+    "volume": "2250 ml",
+    "longest_side": "25 cm",
+    "price": 8500,
+    "price_postapoc": 250,
+    "material": [ "steel" ],
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": [ "3006" ],
+    "reload_time": 150,
+    "flags": [ "MAG_BULKY" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "3006": 97 } } ]
+  },
+  {
+    "id": "belt3006",
+    "copy-from": "magazine_belt",
+    "type": "MAGAZINE",
+    "name": { "str": ".30-06 ammo belt" },
+    "ammo_type": [ "3006" ],
+    "capacity": 500,
+    "count": 100,
+    "default_ammo": "3006",
+    "linkage": "ammolink3006",
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "3006": 500 } } ]
+  },
+  {
+    "id": "50clothbelt3006",
+    "type": "MAGAZINE",
+    "name": { "str": ".30-06 50-round cloth ammo belt" },
+    "description": "A non-disintegrating cloth ammo belt which can hold up to 50 .30-06 cartridges.  Notably less reliable than metal ammo belts.",
+    "weight": "200 g",
+    "volume": "500 ml",
+    "price": 1000,
+    "price_postapoc": 50,
+    "material": [ "cotton" ],
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": [ "3006" ],
+    "armor_data": {
+      "armor": [
+        {
+          "material": [ { "type": "cotton", "covered_by_mat": 100, "thickness": 1.0 } ],
+          "encumbrance": 10,
+          "coverage": 10,
+          "covers": [ "torso" ],
+          "specifically_covers": [ "torso_upper" ]
+        }
+      ]
+    },
+    "flags": [ "MAG_EJECT", "BELTED", "OVERSIZE", "WATER_FRIENDLY" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "3006": 50 } } ]
+  },
+  {
+    "id": "250clothbelt3006",
+    "type": "MAGAZINE",
+    "name": { "str": ".30-06 250-round cloth ammo belt" },
+    "description": "A non-disintegrating cloth ammo belt which can hold up to 250 .30-06 cartridges.  Notably less reliable than metal ammo belts.",
+    "weight": "1 kg",
+    "volume": "2500 ml",
+    "price": 1000,
+    "price_postapoc": 50,
+    "material": [ "cotton" ],
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": [ "3006" ],
+    "armor_data": {
+      "armor": [
+        {
+          "material": [ { "type": "cotton", "covered_by_mat": 100, "thickness": 1.0 } ],
+          "encumbrance": 25,
+          "coverage": 10,
+          "covers": [ "torso" ],
+          "specifically_covers": [ "torso_upper" ]
+        }
+      ]
+    },
+    "flags": [ "MAG_EJECT", "BELTED", "OVERSIZE", "WATER_FRIENDLY" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "3006": 250 } } ]
+  },
+  {
     "id": "m1918bigmag",
     "looks_like": "stanag30",
     "type": "MAGAZINE",

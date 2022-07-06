@@ -166,6 +166,28 @@
     "requirements": { "install": { "skills": [ [ "mechanics", 4 ], [ "rifle", 2 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {
+    "id": "mounted_m1919a4",
+    "copy-from": "turret",
+    "type": "vehicle_part",
+    "name": { "str": "mounted M1919A4 Browning" },
+    "item": "m1919a4",
+    "color": "cyan",
+    "broken_color": "cyan",
+    "breaks_into": [ { "item": "scrap", "count": 28 }, { "item": "steel_chunk", "count": 12 }, { "item": "steel_lump", "count": 7 } ],
+    "requirements": { "install": { "skills": [ [ "mechanics", 4 ], [ "rifle", 2 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
+  },
+  {
+    "id": "mounted_m1919handheld",
+    "copy-from": "turret",
+    "type": "vehicle_part",
+    "name": { "str": "mounted handheld M1919 Browning" },
+    "item": "m1919handheld",
+    "color": "cyan",
+    "broken_color": "cyan",
+    "breaks_into": [ { "item": "scrap", "count": 28 }, { "item": "steel_chunk", "count": 12 }, { "item": "steel_lump", "count": 7 } ],
+    "requirements": { "install": { "skills": [ [ "mechanics", 4 ], [ "rifle", 2 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
+  },
+  {
     "id": "mounted_m134",
     "copy-from": "turret",
     "type": "vehicle_part",

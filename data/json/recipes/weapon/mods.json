@@ -1142,6 +1142,23 @@
   {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
+    "result": "m1919semi",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_MODS",
+    "skill_used": "mechanics",
+    "skills_required": [ [ "rifle", 4 ] ],
+    "proficiencies": [ { "proficiency": "prof_welding_basic" } ],
+    "difficulty": 4,
+    "time": "5 h",
+    "book_learn": [ [ "manual_rifle", 6 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
+    "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 20 ] ],
+    "tools": [ [ [ "m1919a4", -1 ], [ "m1919handheld", -1 ] ], [ [ "small_repairkit", 40 ], [ "large_repairkit", 40 ] ] ],
+    "components": [ [ [ "sheet_metal_small", 6 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "m249semi",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MODS",

@@ -1642,6 +1642,26 @@
     "entries": [ { "item": "m60", "charges-min": 0, "charges-max": 100 }, { "group": "on_hand_308" } ]
   },
   {
+    "id": "nested_m1919a4",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "entries": [ { "item": "m1919a4", "charges-min": 0, "charges-max": 100 }, { "group": "on_hand_3006" } ]
+  },
+  {
+    "id": "nested_m1917lewis",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "entries": [
+      { "item": "m1917lewis", "charges-min": 0, "charges-max": 47 },
+      { "item": "lewismag_47rd" },
+      { "item": "lewismag_47rd", "prob": 50 },
+      { "item": "lewismag_97rd", "prob": 5 },
+      { "group": "on_hand_3006" }
+    ]
+  },
+  {
     "id": "nested_rm11b_sniper_rifle",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",

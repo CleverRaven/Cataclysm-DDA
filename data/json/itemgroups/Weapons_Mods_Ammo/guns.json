@@ -475,6 +475,7 @@
       { "group": "nested_m4_carbine", "prob": 45 },
       { "group": "nested_m1903", "prob": 15 },
       { "group": "nested_m1918", "prob": 30 },
+      { "group": "nested_m1919a4", "prob": 5 },
       { "group": "nested_mosin44_ebr", "prob": 10 },
       { "group": "nested_mosin91_30_ebr", "prob": 20 },
       { "group": "nested_remington_700", "prob": 20 },
@@ -563,6 +564,7 @@
     "items": [
       { "group": "nested_ak47", "prob": 100 },
       { "group": "nested_ak74", "prob": 60 },
+      { "group": "nested_m1917lewis", "prob": 50 },
       { "group": "nested_bh_m89", "prob": 20 },
       { "group": "nested_bfg50", "prob": 5 },
       { "group": "nested_carbine_flintlock", "prob": 140 },
