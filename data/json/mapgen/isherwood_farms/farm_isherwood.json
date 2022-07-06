@@ -11,7 +11,6 @@
     "object": {
       "faction_owner": [
         { "id": "isherwood_family", "x": [ 0, 23 ], "y": [ 0, 23 ] },
-        { "id": "isherwood_family", "x": [ 24, 47 ], "y": [ 0, 23 ] },
         { "id": "isherwood_family", "x": [ 48, 71 ], "y": [ 0, 23 ] },
         { "id": "isherwood_family", "x": [ 0, 23 ], "y": [ 24, 47 ] },
         { "id": "isherwood_family", "x": [ 24, 47 ], "y": [ 24, 47 ] },
@@ -117,6 +116,7 @@
     "om_terrain": [ [ "farm_isherwood_2" ] ],
     "weight": 250,
     "object": {
+      "faction_owner": [ { "id": "isherwood_family", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
       "rows": [
         "...,,........,,.........",
