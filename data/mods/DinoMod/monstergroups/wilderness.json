@@ -280,6 +280,13 @@
         "conditions": [ "WINTER" ]
       },
       {
+        "monster": "mon_saurornitholestes",
+        "weight": 150,
+        "cost_multiplier": 10,
+        "pack_size": [ 2, 4 ],
+        "conditions": [ "DAY" ]
+      },
+      {
         "monster": "mon_velociraptor",
         "weight": 150,
         "cost_multiplier": 10,

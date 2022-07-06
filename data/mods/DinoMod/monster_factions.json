@@ -353,6 +353,18 @@
   },
   {
     "type": "MONSTER_FACTION",
+    "name": "saurornitholestes",
+    "base_faction": "small_predator",
+    "friendly": [ "saurornitholestes_hatchling" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "saurornitholestes_hatchling",
+    "base_faction": "very_small_predator",
+    "friendly": [ "saurornitholestes" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
     "name": "velociraptor",
     "base_faction": "small_predator",
     "friendly": [ "velociraptor_hatchling" ]

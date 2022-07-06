@@ -366,7 +366,7 @@ void sfx::load_sound_effects( const JsonObject &jsobj )
         key.indoors = jsobj.get_bool( "is_indoors" );
     }
     if( jsobj.has_bool( "is_night" ) ) {
-        key.indoors = jsobj.get_bool( "is_night" );
+        key.night = jsobj.get_bool( "is_night" );
     }
     const int volume = jsobj.get_int( "volume", 100 );
     auto &effects = sfx_resources.sound_effects[ key ];
@@ -397,7 +397,7 @@ void sfx::load_sound_effect_preload( const JsonObject &jsobj )
             preload_key.indoors = aobj.get_bool( "is_indoors" );
         }
         if( aobj.has_bool( "is_night" ) ) {
-            preload_key.indoors = aobj.get_bool( "is_night" );
+            preload_key.night = aobj.get_bool( "is_night" );
         }
         sfx_preload.push_back( preload_key );
     }
