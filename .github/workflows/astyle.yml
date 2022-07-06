@@ -44,4 +44,10 @@ jobs:
 
     - name: Display Corrections
       if: failure()
-      run: git diff
+      run: git diff --color
+
+    - name: 'suggester / astyle'
+      uses: reviewdog/action-suggester@v1
+      if: failure()
+      with:
+        tool_name: 'astyle formatter'

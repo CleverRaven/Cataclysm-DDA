@@ -257,7 +257,6 @@ void reflex_activation_data::deserialize( const JsonObject &jo )
 
 void mutation_branch::load( const JsonObject &jo, const std::string & )
 {
-    mandatory( jo, was_loaded, "id", id );
     mandatory( jo, was_loaded, "name", raw_name );
     mandatory( jo, was_loaded, "description", raw_desc );
     mandatory( jo, was_loaded, "points", points );
@@ -617,8 +616,8 @@ static void check_consistency( const std::vector<trait_id> &mvec, const trait_id
 
 void mutation_branch::check_consistency()
 {
-    for( const auto &mdata : get_all() ) {
-        const auto &mid = mdata.id;
+    for( const mutation_branch &mdata : get_all() ) {
+        const trait_id &mid = mdata.id;
         const cata::optional<scenttype_id> &s_id = mdata.scent_typeid;
         const std::map<species_id, int> &an_id = mdata.anger_relations;
         for( const auto &style : mdata.initial_ma_styles ) {
@@ -752,7 +751,7 @@ void mutation_branch::reset_all()
 std::vector<std::string> dream::messages() const
 {
     std::vector<std::string> ret;
-    for( const auto &msg : raw_messages ) {
+    for( const translation &msg : raw_messages ) {
         ret.push_back( msg.translated() );
     }
     return ret;

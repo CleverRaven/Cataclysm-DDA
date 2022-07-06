@@ -335,7 +335,7 @@ bool mattack::eat_crop( monster *z )
     cata::optional<tripoint> target;
     int num_targets = 1;
     map &here = get_map();
-    for( const auto &p : here.points_in_radius( z->pos(), 1 ) ) {
+    for( const tripoint &p : here.points_in_radius( z->pos(), 1 ) ) {
         if( here.has_flag( ter_furn_flag::TFLAG_PLANT, p ) && one_in( num_targets ) ) {
             num_targets++;
             target = p;
@@ -437,7 +437,7 @@ bool mattack::absorb_items( monster *z )
 bool mattack::eat_food( monster *z )
 {
     map &here = get_map();
-    for( const auto &p : here.points_in_radius( z->pos(), 1 ) ) {
+    for( const tripoint &p : here.points_in_radius( z->pos(), 1 ) ) {
         //Protect crop seeds from carnivores, give omnivores eat_crop special also
         if( here.has_flag( ter_furn_flag::TFLAG_PLANT, p ) ) {
             continue;
@@ -447,7 +447,7 @@ bool mattack::eat_food( monster *z )
             continue;
         }
         map_stack items = here.i_at( p );
-        for( auto &item : items ) {
+        for( item &item : items ) {
             //Fun limit prevents scavengers from eating feces
             if( !item.is_food() || item.get_comestible_fun() < -20 ) {
                 continue;
@@ -474,7 +474,7 @@ bool mattack::antqueen( monster *z )
     map &here = get_map();
     creature_tracker &creatures = get_creature_tracker();
     // Count up all adjacent tiles the contain at least one egg.
-    for( const auto &dest : here.points_in_radius( z->pos(), 2 ) ) {
+    for( const tripoint &dest : here.points_in_radius( z->pos(), 2 ) ) {
         if( here.impassable( dest ) ) {
             continue;
         }
@@ -868,14 +868,14 @@ bool mattack::shockstorm( monster *z )
                    target->posz() );
     std::vector<tripoint> bolt = line_to( z->pos(), tarp, 0, 0 );
     // Fill the LOS with electricity
-    for( auto &i : bolt ) {
+    for( tripoint &i : bolt ) {
         if( !one_in( 4 ) ) {
             here.add_field( i, fd_electricity, rng( 1, 3 ) );
         }
     }
 
     // 3x3 cloud of electricity at the square hit
-    for( const auto &dest : here.points_in_radius( tarp, 1 ) ) {
+    for( const tripoint &dest : here.points_in_radius( tarp, 1 ) ) {
         if( one_in( 3 ) ) {
             here.add_field( dest, fd_electricity, rng( 4, 10 ) );
         }
@@ -996,7 +996,7 @@ bool mattack::boomer( monster *z )
     if( u_see ) {
         add_msg( m_warning, _( "The %s spews bile!" ), z->name() );
     }
-    for( auto &i : line ) {
+    for( tripoint &i : line ) {
         here.add_field( i, fd_bile, 1 );
         // If bile hit a solid tile, return.
         if( here.impassable( i ) ) {
@@ -1039,7 +1039,7 @@ bool mattack::boomer_glow( monster *z )
     if( u_see ) {
         add_msg( m_warning, _( "The %s spews bile!" ), z->name() );
     }
-    for( auto &i : line ) {
+    for( tripoint &i : line ) {
         here.add_field( i, fd_bile, 1 );
         if( here.impassable( i ) ) {
             here.add_field( i, fd_bile, 3 );
@@ -1529,7 +1529,7 @@ bool mattack::growplants( monster *z )
 {
     map &here = get_map();
     creature_tracker &creatures = get_creature_tracker();
-    for( const auto &p : here.points_in_radius( z->pos(), 3 ) ) {
+    for( const tripoint &p : here.points_in_radius( z->pos(), 3 ) ) {
 
         // Only affect natural, dirtlike terrain or trees.
         if( !( here.has_flag_ter( ter_furn_flag::TFLAG_DIGGABLE, p ) ||
@@ -2760,7 +2760,7 @@ bool mattack::ranged_pull( monster *z )
     std::vector<tripoint> line = here.find_clear_path( z->pos(), target->pos() );
     bool seen = get_player_view().sees( *z );
 
-    for( auto &i : line ) {
+    for( tripoint &i : line ) {
         // Player can't be pulled though bars, furniture, cars or creatures
         // TODO: Add bashing? Currently a window is enough to prevent grabbing
         if( !g->is_empty( i ) && i != z->pos() && i != target->pos() ) {
@@ -3536,7 +3536,7 @@ bool mattack::photograph( monster *z )
     }
 
     get_timed_events().add( timed_event_type::ROBOT_ATTACK, calendar::turn + rng( 15_turns, 30_turns ),
-                            0, player_character.global_sm_location() );
+                            0, player_character.get_location() );
     z->add_effect( effect_source::empty(), effect_eyebot_assisted, 6_hours );
     z->add_effect( effect_source::empty(), effect_eyebot_depleted, 1_minutes, true, 0 );
 
@@ -3829,7 +3829,7 @@ bool mattack::searchlight( monster *z )
         }
 
         if( !generator_ok ) {
-            for( auto &settings : z->inv ) {
+            for( item &settings : z->inv ) {
                 settings.set_var( "SL_POWER", "OFF" );
             }
 
@@ -3999,7 +3999,7 @@ void mattack::flame( monster *z, Creature *target )
         }
         std::vector<tripoint> traj = here.find_clear_path( z->pos(), target->pos() );
 
-        for( auto &i : traj ) {
+        for( tripoint &i : traj ) {
             // break out of attack if flame hits a wall
             // TODO: Z
             if( here.hit_with_fire( tripoint( i.xy(), z->posz() ) ) ) {
@@ -4022,7 +4022,7 @@ void mattack::flame( monster *z, Creature *target )
     }
     std::vector<tripoint> traj = here.find_clear_path( z->pos(), target->pos() );
 
-    for( auto &i : traj ) {
+    for( tripoint &i : traj ) {
         // break out of attack if flame hits a wall
         if( here.hit_with_fire( tripoint( i.xy(), z->posz() ) ) ) {
             add_msg_if_player_sees( i,  _( "The tongue of flame hits the %s!" ),
@@ -4404,7 +4404,7 @@ bool mattack::stretch_bite( monster *z )
     z->moves -= 150;
 
     map &here = get_map();
-    for( auto &pnt : here.find_clear_path( z->pos(), target->pos() ) ) {
+    for( tripoint &pnt : here.find_clear_path( z->pos(), target->pos() ) ) {
         if( here.impassable( pnt ) ) {
             z->add_effect( effect_stunned, 6_turns );
             target->add_msg_player_or_npc( _( "The %1$s stretches its head at you, but bounces off the %2$s" ),
@@ -4552,9 +4552,9 @@ bool mattack::absorb_meat( monster *z )
     Character &player_character = get_player_character();
     map &here = get_map();
     //Search surrounding tiles for meat
-    for( const auto &p : here.points_in_radius( z->pos(), 1 ) ) {
+    for( const tripoint &p : here.points_in_radius( z->pos(), 1 ) ) {
         map_stack items = here.i_at( p );
-        for( auto &current_item : items ) {
+        for( item &current_item : items ) {
             const material_id current_item_material = current_item.get_base_material().ident();
             if( current_item_material == material_flesh ||
                 current_item_material == material_hflesh ) {
@@ -4690,7 +4690,7 @@ bool mattack::longswipe( monster *z )
     }
     map &here = get_map();
     //Is there something impassable blocking the claw?
-    for( const auto &pnt : here.find_clear_path( z->pos(), target->pos() ) ) {
+    for( const tripoint &pnt : here.find_clear_path( z->pos(), target->pos() ) ) {
         if( here.impassable( pnt ) ) {
             //If we're here, it's an nonadjacent attack, which is only attempted 1/5 of the time.
             if( !one_in( 5 ) ) {
@@ -5145,7 +5145,7 @@ bool mattack::riotbot( monster *z )
         sounds::sound( z->pos(), 3, sounds::sound_t::combat, _( "fzzzzzt" ), false, "misc", "flash" );
 
         std::vector<tripoint> traj = line_to( z->pos(), dest, 0, 0 );
-        for( auto &elem : traj ) {
+        for( tripoint &elem : traj ) {
             if( !here.is_transparent( elem ) ) {
                 break;
             }
@@ -5990,7 +5990,7 @@ bool mattack::stretch_attack( monster *z )
 
     z->moves -= 100;
     map &here = get_map();
-    for( auto &pnt : here.find_clear_path( z->pos(), target->pos() ) ) {
+    for( tripoint &pnt : here.find_clear_path( z->pos(), target->pos() ) ) {
         if( here.impassable( pnt ) ) {
             target->add_msg_player_or_npc( _( "The %1$s thrusts its arm at you, but bounces off the %2$s." ),
                                            _( "The %1$s thrusts its arm at <npcname>, but bounces off the %2$s." ),
@@ -6205,7 +6205,7 @@ bool mattack::dsa_drone_scan( monster *z )
     if( summon_reinforcements ) {
         get_timed_events().add( timed_event_type::DSA_ALRP_SUMMON,
                                 calendar::turn + rng( 5_turns, 10_turns ),
-                                0, target->global_sm_location() );
+                                0, target->get_location() );
     }
     return true;
 }

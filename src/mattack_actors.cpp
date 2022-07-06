@@ -61,6 +61,10 @@ void leap_actor::load_internal( const JsonObject &obj, const std::string & )
     move_cost = obj.get_int( "move_cost", 150 );
     min_consider_range = obj.get_float( "min_consider_range", 0.0f );
     max_consider_range = obj.get_float( "max_consider_range", 200.0f );
+    optional( obj, was_loaded, "forbidden_effects_any", forbidden_effects_any );
+    optional( obj, was_loaded, "forbidden_effects_all", forbidden_effects_all );
+    optional( obj, was_loaded, "required_effects_any", required_effects_any );
+    optional( obj, was_loaded, "required_effects_all", required_effects_all );
 }
 
 std::unique_ptr<mattack_actor> leap_actor::clone() const
@@ -72,6 +76,46 @@ bool leap_actor::call( monster &z ) const
 {
     if( !z.has_dest() || !z.can_act() || !z.move_effects( false ) ) {
         return false;
+    }
+
+    if( !forbidden_effects_any.empty() ) {
+        for( const efftype_id &effect : forbidden_effects_any ) {
+            if( z.has_effect( effect ) ) {
+                return false;
+            }
+        }
+    }
+
+    if( !forbidden_effects_all.empty() ) {
+        bool failed = true;
+        for( const efftype_id &effect : forbidden_effects_all ) {
+            if( !z.has_effect( effect ) ) {
+                failed = false;
+            }
+        }
+        if( failed ) {
+            return false;
+        }
+    }
+
+    if( !required_effects_any.empty() ) {
+        bool failed = true;
+        for( const efftype_id &effect : required_effects_any ) {
+            if( z.has_effect( effect ) ) {
+                failed = false;
+            }
+        }
+        if( failed ) {
+            return false;
+        }
+    }
+
+    if( !required_effects_all.empty() ) {
+        for( const efftype_id &effect : required_effects_all ) {
+            if( !z.has_effect( effect ) ) {
+                return false;
+            }
+        }
     }
 
     std::vector<tripoint> options;
@@ -120,7 +164,7 @@ bool leap_actor::call( monster &z ) const
         bool blocked_path = false;
         // check if monster has a clear path to the proposed point
         std::vector<tripoint> line = here.find_clear_path( z.pos(), dest );
-        for( auto &i : line ) {
+        for( tripoint &i : line ) {
             if( here.impassable( i ) ) {
                 blocked_path = true;
                 break;
@@ -168,6 +212,11 @@ void mon_spellcasting_actor::load_internal( const JsonObject &obj, const std::st
               //~ "<Monster Display name> cast <Spell Name> on <Target name>!"
               to_translation( "%1$s casts %2$s at %3$s!" ) );
     spell_data.trigger_message = monster_message;
+    optional( obj, was_loaded, "forbidden_effects_any", forbidden_effects_any );
+    optional( obj, was_loaded, "forbidden_effects_all", forbidden_effects_all );
+    optional( obj, was_loaded, "required_effects_any", required_effects_any );
+    optional( obj, was_loaded, "required_effects_all", required_effects_all );
+
 }
 
 bool mon_spellcasting_actor::call( monster &mon ) const
@@ -179,6 +228,46 @@ bool mon_spellcasting_actor::call( monster &mon ) const
     if( !mon.attack_target() ) {
         // this is an attack. there is no reason to attack if there isn't a real target.
         return false;
+    }
+
+    if( !forbidden_effects_any.empty() ) {
+        for( const efftype_id &effect : forbidden_effects_any ) {
+            if( mon.has_effect( effect ) ) {
+                return false;
+            }
+        }
+    }
+
+    if( !forbidden_effects_all.empty() ) {
+        bool failed = true;
+        for( const efftype_id &effect : forbidden_effects_all ) {
+            if( !mon.has_effect( effect ) ) {
+                failed = false;
+            }
+        }
+        if( failed ) {
+            return false;
+        }
+    }
+
+    if( !required_effects_any.empty() ) {
+        bool failed = true;
+        for( const efftype_id &effect : required_effects_any ) {
+            if( mon.has_effect( effect ) ) {
+                failed = false;
+            }
+        }
+        if( failed ) {
+            return false;
+        }
+    }
+
+    if( !required_effects_all.empty() ) {
+        for( const efftype_id &effect : required_effects_all ) {
+            if( !mon.has_effect( effect ) ) {
+                return false;
+            }
+        }
     }
 
     const tripoint target = spell_data.self ? mon.pos() : mon.attack_target()->pos();
@@ -223,6 +312,10 @@ void melee_actor::load_internal( const JsonObject &obj, const std::string & )
     }
 
     optional( obj, was_loaded, "attack_chance", attack_chance, 100 );
+    optional( obj, was_loaded, "forbidden_effects_any", forbidden_effects_any );
+    optional( obj, was_loaded, "forbidden_effects_all", forbidden_effects_all );
+    optional( obj, was_loaded, "required_effects_any", required_effects_any );
+    optional( obj, was_loaded, "required_effects_all", required_effects_all );
     optional( obj, was_loaded, "accuracy", accuracy, INT_MIN );
     optional( obj, was_loaded, "min_mul", min_mul, 0.5f );
     optional( obj, was_loaded, "max_mul", max_mul, 1.0f );
@@ -240,21 +333,21 @@ void melee_actor::load_internal( const JsonObject &obj, const std::string & )
     optional( obj, was_loaded, "attack_upper", attack_upper, true );
 
     optional( obj, was_loaded, "miss_msg_u", miss_msg_u,
-              to_translation( "The %s lunges at you, but you dodge!" ) );
+              to_translation( "%s lunges at you, but you dodge!" ) );
     optional( obj, was_loaded, "no_dmg_msg_u", no_dmg_msg_u,
-              to_translation( "The %1$s bites your %2$s, but fails to penetrate armor!" ) );
+              to_translation( "%1$s bites your %2$s, but fails to penetrate armor!" ) );
     optional( obj, was_loaded, "hit_dmg_u", hit_dmg_u,
-              to_translation( "The %1$s bites your %2$s!" ) );
+              to_translation( "%1$s bites your %2$s!" ) );
     optional( obj, was_loaded, "miss_msg_npc", miss_msg_npc,
-              to_translation( "The %s lunges at <npcname>, but they dodge!" ) );
+              to_translation( "%s lunges at <npcname>, but they dodge!" ) );
     optional( obj, was_loaded, "no_dmg_msg_npc", no_dmg_msg_npc,
-              to_translation( "The %1$s bites <npcname>'s %2$s, but fails to penetrate armor!" ) );
+              to_translation( "%1$s bites <npcname>'s %2$s, but fails to penetrate armor!" ) );
     optional( obj, was_loaded, "hit_dmg_npc", hit_dmg_npc,
-              to_translation( "The %1$s bites <npcname>'s %2$s!" ) );
+              to_translation( "%1$s bites <npcname>'s %2$s!" ) );
     optional( obj, was_loaded, "throw_msg_u", throw_msg_u,
-              to_translation( "The force of the %s's attack sends you flying!" ) );
+              to_translation( "%s hits you with such a force that it sends you flying!" ) );
     optional( obj, was_loaded, "throw_msg_npc", throw_msg_npc,
-              to_translation( "The force of the %s's attack sends <npcname> flying!" ) );
+              to_translation( "%s hits <npcname> with such a force that it sends them flying!" ) );
 
     if( obj.has_array( "body_parts" ) ) {
         for( JsonArray sub : obj.get_array( "body_parts" ) ) {
@@ -302,6 +395,42 @@ bool melee_actor::call( monster &z ) const
         return false;
     }
 
+    for( const efftype_id &effect : forbidden_effects_any ) {
+        if( z.has_effect( effect ) ) {
+            return false;
+        }
+    }
+
+    if( !forbidden_effects_all.empty() ) {
+        bool failed = true;
+        for( const efftype_id &effect : forbidden_effects_all ) {
+            if( !z.has_effect( effect ) ) {
+                failed = false;
+            }
+        }
+        if( failed ) {
+            return false;
+        }
+    }
+
+    if( !required_effects_any.empty() ) {
+        bool failed = true;
+        for( const efftype_id &effect : required_effects_any ) {
+            if( z.has_effect( effect ) ) {
+                failed = false;
+            }
+        }
+        if( failed ) {
+            return false;
+        }
+    }
+
+    for( const efftype_id &effect : required_effects_all ) {
+        if( !z.has_effect( effect ) ) {
+            return false;
+        }
+    }
+
     Creature *target = find_target( z );
     if( target == nullptr ) {
         return false;
@@ -329,12 +458,15 @@ bool melee_actor::call( monster &z ) const
 
     bodypart_id bp_id = bodypart_id( bp_hit );
 
+    const std::string mon_name = get_player_character().sees( z.pos() ) ?
+                                 z.disp_name( false, true ) : _( "Something" );
+
     if( dodgeable ) {
         if( hitspread < 0 ) {
             game_message_type msg_type = target->is_avatar() ? m_warning : m_info;
             sfx::play_variant_sound( "mon_bite", "bite_miss", sfx::get_heard_volume( z.pos() ),
                                      sfx::get_heard_angle( z.pos() ) );
-            target->add_msg_player_or_npc( msg_type, miss_msg_u, miss_msg_npc, z.name(),
+            target->add_msg_player_or_npc( msg_type, miss_msg_u, miss_msg_npc, mon_name,
                                            body_part_name_accusative( bp_id ) );
             return true;
         }
@@ -364,15 +496,14 @@ bool melee_actor::call( monster &z ) const
     } else {
         sfx::play_variant_sound( "mon_bite", "bite_miss", sfx::get_heard_volume( z.pos() ),
                                  sfx::get_heard_angle( z.pos() ) );
-        target->add_msg_player_or_npc( m_neutral, no_dmg_msg_u, no_dmg_msg_npc, z.name(),
+        target->add_msg_player_or_npc( m_neutral, no_dmg_msg_u, no_dmg_msg_npc, mon_name,
                                        body_part_name_accusative( bp_id ) );
     }
     if( throw_strength > 0 ) {
-
         z.remove_effect( effect_grabbing );
         g->fling_creature( target, coord_to_angle( z.pos(), target->pos() ),
                            throw_strength );
-        target->add_msg_player_or_npc( m_bad, throw_msg_u, throw_msg_npc, z.name() );
+        target->add_msg_player_or_npc( m_bad, throw_msg_u, throw_msg_npc, mon_name );
 
         // Items strapped to you may fall off as you hit the ground
         // when you break out of a grab you have a chance to lose some things from your pockets
@@ -414,7 +545,9 @@ void melee_actor::on_damage( monster &z, Creature &target, dealt_damage_instance
                                  Creature::Attitude::FRIENDLY ?
                                  m_bad : m_neutral;
     const bodypart_id &bp = dealt.bp_hit ;
-    target.add_msg_player_or_npc( msg_type, hit_dmg_u, hit_dmg_npc, z.name(),
+    const std::string mon_name = get_player_character().sees( z.pos() ) ?
+                                 z.disp_name( false, true ) : _( "Something" );
+    target.add_msg_player_or_npc( msg_type, hit_dmg_u, hit_dmg_npc, mon_name,
                                   body_part_name_accusative( bp ) );
 
     for( const mon_effect_data &eff : effects ) {

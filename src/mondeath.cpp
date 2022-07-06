@@ -171,7 +171,7 @@ item *mdeath::splatter( monster &z )
     if( gibbable ) {
         float overflow_ratio = overflow_damage / max_hp + 1.0f;
         int gib_distance = std::round( rng( 2, 4 ) );
-        for( const auto &entry : *z.type->harvest ) {
+        for( const harvest_entry &entry : *z.type->harvest ) {
             // only flesh and bones survive.
             if( entry.type == harvest_drop_flesh || entry.type == harvest_drop_bone ) {
                 // the larger the overflow damage, the less you get

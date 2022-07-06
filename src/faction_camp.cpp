@@ -739,7 +739,7 @@ void talk_function::basecamp_mission( npc &p )
     bcp->set_by_radio( get_avatar().dialogue_by_radio );
     if( bcp->get_dumping_spot() == tripoint_abs_ms{} ) {
         map &here = get_map();
-        auto &mgr = zone_manager::get_manager();
+        zone_manager &mgr = zone_manager::get_manager();
         if( here.check_vehicle_zones( here.get_abs_sub().z() ) ) {
             mgr.cache_vzones();
         }
@@ -1483,7 +1483,7 @@ void basecamp::get_available_missions( mission_data &mission_key )
         }
 
         //  mission_key offsets its entries by 1, reserving 0 for high prio entries.
-        for( auto &entry : mission_key.entries[size_t( tab_num ) + 1] ) {
+        for( mission_entry &entry : mission_key.entries[size_t( tab_num ) + 1] ) {
             if( !entry.id.ret && entry.id.id.id != Camp_Reveal_Mission ) {
                 temp_ui_mission_keys[tab_num].push_back( entry.id );
             }
@@ -1925,7 +1925,7 @@ void basecamp::scan_pseudo_items()
                 const std::vector<std::pair<itype_id, int>> tools =
                             here.veh_at( pos )->part_displayed().value().get_tools();
 
-                for( auto &tool : tools ) {
+                for( const auto &tool : tools ) {
                     if( tool.first.obj().has_flag( flag_PSEUDO ) &&
                         tool.first.obj().has_flag( flag_ALLOWS_REMOTE_USE ) ) {
                         bool found = false;
@@ -3112,7 +3112,7 @@ static std::pair<size_t, std::string> farm_action( const tripoint_abs_omt &omt_t
                             plant_count *= farm_map.furn( pos )->plant->harvest_multiplier;
                             plant_count = std::min( std::max( plant_count, 1 ), 12 );
                             int seed_cnt = std::max( 1, rng( plant_count / 4, plant_count / 2 ) );
-                            for( auto &i : iexamine::get_harvest_items( *seed->type, plant_count,
+                            for( item &i : iexamine::get_harvest_items( *seed->type, plant_count,
                                     seed_cnt, true ) ) {
                                 here.add_item_or_charges( player_character.pos(), i );
                             }
@@ -3264,7 +3264,7 @@ void basecamp::finish_return( npc &comp, const bool fixed_time, const std::strin
     comp.companion_mission_time_ret = calendar::before_time_starts;
     if( !cancel ) {
         for( size_t i = 0; i < comp.companion_mission_inv.size(); i++ ) {
-            for( const auto &it : comp.companion_mission_inv.const_stack( i ) ) {
+            for( const item &it : comp.companion_mission_inv.const_stack( i ) ) {
                 if( !it.count_by_charges() || it.charges > 0 ) {
                     place_results( it );
                 }
@@ -4037,7 +4037,7 @@ bool basecamp::farm_return( const mission_id &miss_id, const tripoint_abs_omt &o
     Character &player_character = get_player_character();
     //Give any seeds the NPC didn't use back to you.
     for( size_t i = 0; i < comp->companion_mission_inv.size(); i++ ) {
-        for( const auto &it : comp->companion_mission_inv.const_stack( i ) ) {
+        for( const item &it : comp->companion_mission_inv.const_stack( i ) ) {
             if( it.charges > 0 ) {
                 player_character.i_add( it );
             }
@@ -4251,7 +4251,7 @@ int om_cutdown_trees( const tripoint_abs_omt &omt_tgt, int chance, bool estimate
             point dir( 3 * ( 2 * rng( 0, 1 ) - 1 ) + rng( -1, 1 ), 3 * rng( -1, 1 ) + rng( -1, 1 ) );
             tripoint to = p + tripoint( dir, omt_tgt.z() );
             std::vector<tripoint> tree = line_to( p, to, rng( 1, 8 ) );
-            for( auto &elem : tree ) {
+            for( tripoint &elem : tree ) {
                 target_bay.destroy( elem );
                 target_bay.ter_set( elem, t_trunk );
             }
@@ -4593,7 +4593,7 @@ std::vector<item *> basecamp::give_equipment( std::vector<item *> equipment,
     do {
         std::vector<std::string> names;
         names.reserve( equipment.size() );
-        for( auto &i : equipment ) {
+        for( item *&i : equipment ) {
             names.push_back( i->tname() + " [" + std::to_string( i->charges ) + "]" );
         }
 
@@ -4707,7 +4707,7 @@ drop_locations basecamp::get_equipment( tinymap *target_bay, const tripoint targ
 
 bool basecamp::validate_sort_points()
 {
-    auto &mgr = zone_manager::get_manager();
+    zone_manager &mgr = zone_manager::get_manager();
     map &here = get_map();
     if( here.check_vehicle_zones( here.get_abs_sub().z() ) ) {
         mgr.cache_vzones();
@@ -4983,7 +4983,7 @@ bool basecamp::distribute_food()
     }
 
     map &here = get_map();
-    auto &mgr = zone_manager::get_manager();
+    zone_manager &mgr = zone_manager::get_manager();
     if( here.check_vehicle_zones( here.get_abs_sub().z() ) ) {
         mgr.cache_vzones();
     }
@@ -5136,7 +5136,7 @@ std::string basecamp::name_display_of( const mission_id miss_id )
         case Camp_Upgrade:
             upgrades = available_upgrades( miss_id.dir.value() );
 
-            for( auto &upgrade : upgrades ) {
+            for( basecamp_upgrade &upgrade : upgrades ) {
                 if( upgrade.bldg == miss_id.parameters ) {
                     return mission_ui_activity_of( miss_id ) + upgrade.name;
                 }
@@ -5239,7 +5239,7 @@ void basecamp::place_results( const item &result )
         target_bay.save();
     } else {
         map &here = get_map();
-        auto &mgr = zone_manager::get_manager();
+        zone_manager &mgr = zone_manager::get_manager();
         if( here.check_vehicle_zones( here.get_abs_sub().z() ) ) {
             mgr.cache_vzones();
         }

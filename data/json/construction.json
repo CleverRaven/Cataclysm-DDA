@@ -752,17 +752,9 @@
     "required_skills": [ [ "fabrication", 3 ], [ "survival", 3 ] ],
     "time": "50 m",
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "HAMMER", "level": 1 } ],
+    "using": [ [ "daub_fill", 1 ] ],
     "components": [
       [ [ "2x4", 5 ], [ "stick", 10 ], [ "stick_long", 5 ] ],
-      [
-        [ "material_quicklime", 4 ],
-        [ "material_limestone", 4 ],
-        [ "clay_lump", 4 ],
-        [ "feces_manure", 2 ],
-        [ "feces_dog", 2 ],
-        [ "feces_cow", 1 ]
-      ],
-      [ [ "pebble", 10 ], [ "material_sand", 10 ] ],
       [ [ "straw_pile", 4 ], [ "cattail_stalk", 4 ], [ "dogbane", 4 ], [ "pine_bough", 4 ] ],
       [ [ "water", 5 ], [ "water_clean", 5 ] ]
     ],
@@ -778,17 +770,9 @@
     "required_skills": [ [ "fabrication", 3 ], [ "survival", 3 ] ],
     "time": "50 m",
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "HAMMER", "level": 1 } ],
+    "using": [ [ "daub_fill", 1 ] ],
     "components": [
       [ [ "2x4", 5 ], [ "stick", 10 ], [ "stick_long", 5 ] ],
-      [
-        [ "material_quicklime", 4 ],
-        [ "material_limestone", 4 ],
-        [ "clay_lump", 4 ],
-        [ "feces_manure", 2 ],
-        [ "feces_dog", 2 ],
-        [ "feces_cow", 1 ]
-      ],
-      [ [ "pebble", 10 ], [ "material_sand", 10 ] ],
       [ [ "straw_pile", 4 ], [ "cattail_stalk", 4 ], [ "dogbane", 4 ], [ "pine_bough", 4 ] ],
       [ [ "water", 5 ], [ "water_clean", 5 ] ]
     ],
@@ -804,17 +788,9 @@
     "required_skills": [ [ "fabrication", 3 ], [ "survival", 3 ] ],
     "time": "60 m",
     "qualities": [ [ { "id": "CUT", "level": 2 } ], [ { "id": "HAMMER", "level": 1 } ] ],
+    "using": [ [ "daub_fill", 1 ] ],
     "components": [
       [ [ "2x4", 5 ], [ "stick", 10 ], [ "stick_long", 5 ] ],
-      [
-        [ "material_quicklime", 4 ],
-        [ "material_limestone", 4 ],
-        [ "clay_lump", 4 ],
-        [ "feces_manure", 2 ],
-        [ "feces_dog", 2 ],
-        [ "feces_cow", 1 ]
-      ],
-      [ [ "pebble", 10 ], [ "material_sand", 10 ] ],
       [ [ "straw_pile", 8 ], [ "cattail_stalk", 8 ], [ "dogbane", 8 ], [ "pine_bough", 8 ] ],
       [ [ "water", 10 ], [ "water_clean", 10 ] ]
     ],
@@ -1069,7 +1045,7 @@
     "required_skills": [ [ "fabrication", 3 ] ],
     "time": "120 m",
     "qualities": [ [ { "id": "SMOOTH", "level": 2 } ] ],
-    "components": [ [ [ "brick", 15 ] ], [ [ "mortar_build", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ],
+    "components": [ [ [ "brick", 15 ] ], [ [ "mortar_build", 1 ], [ "mortar_lime", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ],
     "pre_terrain": "t_dirt",
     "post_terrain": "t_brick_wall_halfway"
   },
@@ -1082,7 +1058,7 @@
     "required_skills": [ [ "fabrication", 3 ] ],
     "time": "120 m",
     "qualities": [ [ { "id": "SMOOTH", "level": 2 } ] ],
-    "components": [ [ [ "brick", 15 ] ], [ [ "mortar_build", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ],
+    "components": [ [ [ "brick", 15 ] ], [ [ "mortar_build", 1 ], [ "mortar_lime", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ],
     "pre_terrain": "t_brick_wall_halfway",
     "post_terrain": "t_brick_wall"
   },
@@ -1485,7 +1461,7 @@
     "required_skills": [ [ "fabrication", 6 ], [ "survival", 2 ] ],
     "time": "180 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "DIG", "level": 2 } ] ],
-    "components": [ [ [ "rock", 12 ] ], [ [ "pebble", 50 ] ], [ [ "mortar_build", 1 ] ] ],
+    "components": [ [ [ "rock", 12 ] ], [ [ "pebble", 50 ] ], [ [ "mortar_build", 1 ], [ "mortar_lime", 1 ] ] ],
     "pre_special": "check_empty",
     "post_terrain": "t_rock_wall_half"
   },
@@ -1498,7 +1474,7 @@
     "required_skills": [ [ "fabrication", 6 ], [ "survival", 2 ] ],
     "time": "180 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "DIG", "level": 2 } ] ],
-    "components": [ [ [ "rock", 12 ] ], [ [ "mortar_build", 1 ] ] ],
+    "components": [ [ [ "rock", 12 ] ], [ [ "mortar_build", 1 ], [ "mortar_lime", 1 ] ] ],
     "pre_terrain": "t_rock_wall_half",
     "post_terrain": "t_rock_wall"
   },
@@ -1815,7 +1791,7 @@
     "required_skills": [ [ "fabrication", 3 ] ],
     "time": "120 m",
     "qualities": [ [ { "id": "SMOOTH", "level": 2 } ] ],
-    "components": [ [ [ "brick", 15 ] ], [ [ "mortar_build", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ],
+    "components": [ [ [ "brick", 15 ] ], [ [ "mortar_build", 1 ], [ "mortar_lime", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ],
     "pre_terrain": "t_brick_wall_halfway",
     "post_terrain": "t_embrasure_brick"
   },
@@ -1868,7 +1844,7 @@
     "required_skills": [ [ "fabrication", 6 ], [ "survival", 2 ] ],
     "time": "180 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "DIG", "level": 2 } ] ],
-    "components": [ [ [ "rock", 12 ] ], [ [ "mortar_build", 1 ] ] ],
+    "components": [ [ [ "rock", 12 ] ], [ [ "mortar_build", 1 ], [ "mortar_lime", 1 ] ] ],
     "pre_terrain": "t_rock_wall_half",
     "post_terrain": "t_embrasure_rock"
   },
@@ -4134,7 +4110,7 @@
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [
       [ [ "rock", 40 ] ],
-      [ [ "material_cement", 50 ], [ "mortar_build", 1 ], [ "clay_lump", 12 ] ],
+      [ [ "material_cement", 50 ], [ "mortar_build", 1 ], [ "mortar_lime", 1 ], [ "clay_lump", 12 ] ],
       [ [ "water", 2 ], [ "water_clean", 2 ] ]
     ],
     "pre_note": "Can be deconstructed without tools.",
@@ -4942,7 +4918,7 @@
       [ [ "motor_tiny", 1 ] ],
       [ [ "medium_storage_battery", 2 ] ],
       [ [ "frame", 1 ] ],
-      [ [ "mortar_build", 10 ] ]
+      [ [ "mortar_build", 10 ], [ "mortar_lime", 10 ] ]
     ],
     "pre_special": "check_empty",
     "post_terrain": "f_arcfurnace_empty"

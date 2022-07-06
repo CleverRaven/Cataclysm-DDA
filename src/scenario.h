@@ -52,6 +52,9 @@ class scenario
         std::vector<mission_type_id> _missions;
         std::vector<effect_on_condition_id> _eoc;
 
+        // does this scenario require a specific achiement to unlock
+        cata::optional<achievement_id> _requirement;
+
         bool _custom_start_date = false;
         int _start_hour = 8;
         int _start_day = 0;
@@ -91,6 +94,8 @@ class scenario
         std::string start_name() const;
         int start_location_count() const;
         int start_location_targets_count() const;
+
+        cata::optional<achievement_id> get_requirement() const;
 
         bool custom_start_date() const;
         bool is_random_hour() const;
@@ -132,9 +137,14 @@ class scenario
         bool has_flag( const std::string &flag ) const;
 
         /**
-         *
+         * Do you have the necessary achievement state
          */
-        bool can_pick( const scenario &current_scenario, int points ) const;
+        ret_val<bool> can_pick() const;
+
+        /**
+         * Do you have the points to afford swapping to this scenario
+         */
+        ret_val<bool> can_afford( const scenario &current_scenario, int points ) const;
 
         const std::vector<mission_type_id> &missions() const;
         const std::vector<effect_on_condition_id> &eoc() const;

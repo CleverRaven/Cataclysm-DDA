@@ -211,6 +211,7 @@ std::string enum_to_string<m_flag>( m_flag data )
         case MF_ATTACK_UPPER: return "ATTACK_UPPER";
         case MF_ATTACK_LOWER: return "ATTACK_LOWER";
         case MF_DEADLY_VIRUS: return "DEADLY_VIRUS";
+        case MF_ALWAYS_VISIBLE: return "ALWAYS_VISIBLE";
         // *INDENT-ON*
         case m_flag::MF_MAX:
             break;
@@ -480,7 +481,7 @@ void MonsterGenerator::finalize_mtypes()
         }
     }
 
-    for( const auto &mon : mon_templates->get_all() ) {
+    for( const mtype &mon : mon_templates->get_all() ) {
         if( !mon.has_flag( MF_NOT_HALLU ) ) {
             hallucination_monsters.push_back( mon.id );
         }
@@ -717,7 +718,7 @@ void mtype::load( const JsonObject &jo, const std::string &src )
 
     if( !was_loaded || jo.has_member( "symbol" ) ) {
         sym = jo.get_string( "symbol" );
-        if( utf8_wrapper( sym ).display_width() != 1 ) {
+        if( utf8_width( sym ) != 1 ) {
             jo.throw_error_at( "symbol", "monster symbol should be exactly one console cell width" );
         }
     }

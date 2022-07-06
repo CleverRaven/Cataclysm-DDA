@@ -517,7 +517,7 @@ class disassemble_inventory_preset : public inventory_selector_preset
             check_components = true;
 
             append_cell( [ this ]( const item_location & loc ) {
-                const auto &req = get_recipe( loc ).disassembly_requirements();
+                const requirement_data &req = get_recipe( loc ).disassembly_requirements();
                 if( req.is_empty() ) {
                     return std::string();
                 }
@@ -1185,7 +1185,7 @@ class activatable_inventory_preset : public pickup_inventory_preset
             if( consume_drug != nullptr ) { //its a drug)
                 const consume_drug_iuse *consume_drug_use = dynamic_cast<const consume_drug_iuse *>
                         ( consume_drug->get_actor_ptr() );
-                for( auto &tool : consume_drug_use->tools_needed ) {
+                for( const auto &tool : consume_drug_use->tools_needed ) {
                     const bool has = item::count_by_charges( tool.first )
                                      ? you.has_charges( tool.first, ( tool.second == -1 ) ? 1 : tool.second )
                                      : you.has_amount( tool.first, 1 );
@@ -1347,7 +1347,7 @@ class read_inventory_preset: public pickup_inventory_preset
                 if( !is_known( loc ) ) {
                     return unknown;
                 }
-                const auto &book = get_book( loc );
+                const islot_book &book = get_book( loc );
                 if( book.skill ) {
                     const SkillLevel &skill = you.get_skill_level_object( book.skill );
                     if( skill.can_train() ) {
@@ -1363,7 +1363,7 @@ class read_inventory_preset: public pickup_inventory_preset
                 if( !is_known( loc ) ) {
                     return unknown;
                 }
-                const auto &book = get_book( loc );
+                const islot_book &book = get_book( loc );
                 const int unlearned = book.recipes.size() - get_known_recipes( book );
 
                 return unlearned > 0 ? std::to_string( unlearned ) : std::string();
@@ -1425,7 +1425,7 @@ class read_inventory_preset: public pickup_inventory_preset
                     return false;
                 }
 
-                const auto &book = get_book( e.any_item() );
+                const islot_book &book = get_book( e.any_item() );
                 if( book.skill && you.get_skill_level_object( book.skill ).can_train() ) {
                     return lcmatch( book.skill->name(), filter );
                 }
@@ -1444,8 +1444,8 @@ class read_inventory_preset: public pickup_inventory_preset
                 return ( !known_a && !known_b ) ? base_sort : !known_a;
             }
 
-            const auto &book_a = get_book( lhs.any_item() );
-            const auto &book_b = get_book( rhs.any_item() );
+            const islot_book &book_a = get_book( lhs.any_item() );
+            const islot_book &book_b = get_book( rhs.any_item() );
 
             if( !book_a.skill && !book_b.skill ) {
                 return ( book_a.fun == book_b.fun ) ? base_sort : book_a.fun > book_b.fun;
@@ -1478,7 +1478,7 @@ class read_inventory_preset: public pickup_inventory_preset
 
         int get_known_recipes( const islot_book &book ) const {
             int res = 0;
-            for( const auto &elem : book.recipes ) {
+            for( const islot_book::recipe_with_description_t &elem : book.recipes ) {
                 if( you.knows_recipe( elem.recipe ) ) {
                     ++res; // If the player knows it, they recognize it even if it's not clearly stated.
                 }
@@ -1798,6 +1798,34 @@ class saw_barrel_inventory_preset: public weapon_inventory_preset
         const saw_barrel_actor &actor;
 };
 
+class saw_stock_inventory_preset : public weapon_inventory_preset
+{
+    public:
+        saw_stock_inventory_preset( const Character &you, const item &tool,
+                                    const saw_stock_actor &actor ) :
+            weapon_inventory_preset( you ), you( you ), tool( tool ), actor( actor ) {
+        }
+
+        bool is_shown( const item_location &loc ) const override {
+            return loc->is_gun();
+        }
+
+        std::string get_denial( const item_location &loc ) const override {
+            const auto ret = actor.can_use_on( you, tool, *loc );
+
+            if( !ret.success() ) {
+                return trim_trailing_punctuations( ret.str() );
+            }
+
+            return std::string();
+        }
+
+    private:
+        const Character &you;
+        const item &tool;
+        const saw_stock_actor &actor;
+};
+
 class attach_molle_inventory_preset : public inventory_selector_preset
 {
     public:
@@ -1894,6 +1922,25 @@ item_location game_menus::inv::saw_barrel( Character &you, item &tool )
 
     return inv_internal( you, saw_barrel_inventory_preset( you, tool, *actor ),
                          _( "Saw barrel" ), 1,
+                         _( "You don't have any guns." ),
+                         string_format( _( "Choose a weapon to use your %s on" ),
+                                        tool.tname( 1, false )
+                                      )
+                       );
+}
+
+item_location game_menus::inv::saw_stock( Character &you, item &tool )
+{
+    const saw_stock_actor *actor = dynamic_cast<const saw_stock_actor *>
+                                   ( tool.type->get_use( "saw_stock" )->get_actor_ptr() );
+
+    if( !actor ) {
+        debugmsg( "Tried to use a wrong item." );
+        return item_location();
+    }
+
+    return inv_internal( you, saw_stock_inventory_preset( you, tool, *actor ),
+                         _( "Saw stock" ), 1,
                          _( "You don't have any guns." ),
                          string_format( _( "Choose a weapon to use your %s on" ),
                                         tool.tname( 1, false )

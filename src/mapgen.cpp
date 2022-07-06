@@ -79,6 +79,7 @@
 #include "vpart_position.h"
 #include "vpart_range.h"
 #include "weighted_list.h"
+#include "creature_tracker.h"
 
 static const furn_str_id furn_f_console( "f_console" );
 static const furn_str_id furn_f_sign( "f_sign" );
@@ -242,7 +243,7 @@ void map::generate( const tripoint &p, const time_point &when )
         }
     }
 
-    const auto &spawns = terrain_type->get_static_spawns();
+    const overmap_static_spawns &spawns = terrain_type->get_static_spawns();
 
     float spawn_density = 1.0f;
     if( MonsterGroupManager::is_animal( spawns.group ) ) {
@@ -373,7 +374,7 @@ class mapgen_basic_container
             }
         }
         void check_consistency_with( const oter_t &ter ) const {
-            for( auto &mapgen_function_ptr : weights_ ) {
+            for( const auto &mapgen_function_ptr : weights_ ) {
                 mapgen_function_ptr.obj->check_consistent_with( ter );
             }
         }
@@ -521,7 +522,7 @@ void calculate_mapgen_weights()   // TODO: rename as it runs jsonfunction setup 
         }
     }
     for( auto &pr : update_mapgens ) {
-        for( auto &ptr : pr.second.funcs() ) {
+        for( const auto &ptr : pr.second.funcs() ) {
             ptr->setup();
             inp_mngr.pump_events();
         }
@@ -537,7 +538,7 @@ void calculate_mapgen_weights()   // TODO: rename as it runs jsonfunction setup 
         }
     }
     for( auto &pr : update_mapgens ) {
-        for( auto &ptr : pr.second.funcs() ) {
+        for( const auto &ptr : pr.second.funcs() ) {
             ptr->finalize_parameters();
             inp_mngr.pump_events();
         }
@@ -548,12 +549,12 @@ void check_mapgen_definitions()
 {
     oter_mapgen.check_consistency();
     for( auto &oter_definition : nested_mapgens ) {
-        for( auto &mapgen_function_ptr : oter_definition.second.funcs() ) {
+        for( const auto &mapgen_function_ptr : oter_definition.second.funcs() ) {
             mapgen_function_ptr.obj->check();
         }
     }
     for( auto &oter_definition : update_mapgens ) {
-        for( auto &mapgen_function_ptr : oter_definition.second.funcs() ) {
+        for( const auto &mapgen_function_ptr : oter_definition.second.funcs() ) {
             mapgen_function_ptr->check();
         }
     }
@@ -870,6 +871,7 @@ void mapgen_function_json_base::setup_setmap( const JsonArray &parray )
     setmap_opmap[ "furniture" ] = JMAPGEN_SETMAP_FURN;
     setmap_opmap[ "trap" ] = JMAPGEN_SETMAP_TRAP;
     setmap_opmap[ "trap_remove" ] = JMAPGEN_SETMAP_TRAP_REMOVE;
+    setmap_opmap[ "creature_remove" ] = JMAPGEN_SETMAP_CREATURE_REMOVE;
     setmap_opmap[ "item_remove" ] = JMAPGEN_SETMAP_ITEM_REMOVE;
     setmap_opmap[ "field_remove" ] = JMAPGEN_SETMAP_FIELD_REMOVE;
     setmap_opmap[ "radiation" ] = JMAPGEN_SETMAP_RADIATION;
@@ -925,7 +927,7 @@ void mapgen_function_json_base::setup_setmap( const JsonArray &parray )
         if( tmpop == JMAPGEN_SETMAP_RADIATION ) {
             tmp_i = jmapgen_int( pjo, "amount" );
         } else if( tmpop == JMAPGEN_SETMAP_BASH || tmpop == JMAPGEN_SETMAP_ITEM_REMOVE ||
-                   tmpop == JMAPGEN_SETMAP_FIELD_REMOVE ) {
+                   tmpop == JMAPGEN_SETMAP_FIELD_REMOVE || tmpop == JMAPGEN_SETMAP_CREATURE_REMOVE ) {
             //suppress warning
         } else if( tmpop == JMAPGEN_SETMAP_VARIABLE ) {
             string_val = "npctalk_var_" + pjo.get_string( "id" );
@@ -2763,10 +2765,10 @@ class jmapgen_computer : public jmapgen_piece
             computer *cpu =
                 dat.m.add_computer( tripoint( r, dat.m.get_abs_sub().z() ), name.translated(),
                                     security );
-            for( const auto &opt : options ) {
+            for( const computer_option &opt : options ) {
                 cpu->add_option( opt );
             }
-            for( const auto &opt : failures ) {
+            for( const computer_failure &opt : failures ) {
                 cpu->add_failure( opt );
             }
             if( target && dat.mission() ) {
@@ -3749,7 +3751,7 @@ void mapgen_palette::add( const mapgen_palette &rh, const add_palette_context &c
         these_placings.insert( these_placings.end(),
                                constrained_placings.begin(), constrained_placings.end() );
     }
-    for( const auto &placing : rh.keys_with_terrain ) {
+    for( const map_key &placing : rh.keys_with_terrain ) {
         keys_with_terrain.insert( placing );
     }
     parameters.check_and_merge( rh.parameters, actual_context );
@@ -3759,7 +3761,7 @@ mapgen_palette mapgen_palette::load_internal( const JsonObject &jo, const std::s
         const std::string &context, bool require_id, bool allow_recur )
 {
     mapgen_palette new_pal;
-    auto &format_placings = new_pal.format_placings;
+    mapgen_palette::placing_map &format_placings = new_pal.format_placings;
     auto &keys_with_terrain = new_pal.keys_with_terrain;
     if( require_id ) {
         new_pal.id = palette_id( jo.get_string( "id" ) );
@@ -3983,7 +3985,7 @@ bool mapgen_function_json_base::setup_common( const JsonObject &jo )
     if( jo.has_array( "rows" ) ) {
         mapgen_palette palette = mapgen_palette::load_temp( jo, "dda", context_ );
         auto &keys_with_terrain = palette.keys_with_terrain;
-        auto &format_placings = palette.format_placings;
+        mapgen_palette::placing_map &format_placings = palette.format_placings;
 
         if( palette.keys_with_terrain.empty() && !fallback_terrain_exists ) {
             return false;
@@ -4241,14 +4243,17 @@ mapgen_phase jmapgen_setmap::phase() const
             return mapgen_phase::furniture;
         case JMAPGEN_SETMAP_TRAP:
         case JMAPGEN_SETMAP_TRAP_REMOVE:
+        case JMAPGEN_SETMAP_CREATURE_REMOVE:
         case JMAPGEN_SETMAP_ITEM_REMOVE:
         case JMAPGEN_SETMAP_FIELD_REMOVE:
         case JMAPGEN_SETMAP_LINE_TRAP:
         case JMAPGEN_SETMAP_LINE_TRAP_REMOVE:
+        case JMAPGEN_SETMAP_LINE_CREATURE_REMOVE:
         case JMAPGEN_SETMAP_LINE_ITEM_REMOVE:
         case JMAPGEN_SETMAP_LINE_FIELD_REMOVE:
         case JMAPGEN_SETMAP_SQUARE_TRAP:
         case JMAPGEN_SETMAP_SQUARE_TRAP_REMOVE:
+        case JMAPGEN_SETMAP_SQUARE_CREATURE_REMOVE:
         case JMAPGEN_SETMAP_SQUARE_ITEM_REMOVE:
         case JMAPGEN_SETMAP_SQUARE_FIELD_REMOVE:
             return mapgen_phase::default_;
@@ -4312,6 +4317,14 @@ bool jmapgen_setmap::apply( const mapgendata &dat, const point &offset ) const
                 mremove_trap( &m, point( x_get(), y_get() ), trap_id( val.get() ).id() );
             }
             break;
+            case JMAPGEN_SETMAP_CREATURE_REMOVE: {
+                creature_tracker &creatures = get_creature_tracker();
+                Creature *tmp_critter = creatures.creature_at( tripoint( x_get(), y_get(), m.get_abs_sub().z() ) );
+                if( tmp_critter != nullptr ) {
+                    tmp_critter->die( nullptr );
+                }
+            }
+            break;
             case JMAPGEN_SETMAP_ITEM_REMOVE: {
                 m.i_clear( point( x_get(), y_get() ) );
             }
@@ -4354,6 +4367,18 @@ bool jmapgen_setmap::apply( const mapgendata &dat, const point &offset ) const
                 for( const point &i : line ) {
                     // TODO: the trap_id should be stored separately and not be wrapped in an jmapgen_int
                     mremove_trap( &m, i, trap_id( val.get() ).id() );
+                }
+            }
+            break;
+            case JMAPGEN_SETMAP_LINE_CREATURE_REMOVE: {
+                const std::vector<point> line = line_to( point( x_get(), y_get() ), point( x2_get(), y2_get() ),
+                                                0 );
+                for( const point &i : line ) {
+                    creature_tracker &creatures = get_creature_tracker();
+                    Creature *tmp_critter = creatures.creature_at( tripoint( i, m.get_abs_sub().z() ) );
+                    if( tmp_critter != nullptr ) {
+                        tmp_critter->die( nullptr );
+                    }
                 }
             }
             break;
@@ -4411,6 +4436,21 @@ bool jmapgen_setmap::apply( const mapgendata &dat, const point &offset ) const
                     for( int ty = c.y; ty <= cy2; ty++ ) {
                         // TODO: the trap_id should be stored separately and not be wrapped in an jmapgen_int
                         mremove_trap( &m, point( tx, ty ), trap_id( val.get() ).id() );
+                    }
+                }
+            }
+            break;
+            case JMAPGEN_SETMAP_SQUARE_CREATURE_REMOVE: {
+                const point c( x_get(), y_get() );
+                const int cx2 = x2_get();
+                const int cy2 = y2_get();
+                for( int tx = c.x; tx <= cx2; tx++ ) {
+                    for( int ty = c.y; ty <= cy2; ty++ ) {
+                        creature_tracker &creatures = get_creature_tracker();
+                        Creature *tmp_critter = creatures.creature_at( tripoint( tx, ty, m.get_abs_sub().z() ) );
+                        if( tmp_critter != nullptr ) {
+                            tmp_critter->die( nullptr );
+                        }
                     }
                 }
             }
@@ -6260,7 +6300,7 @@ void map::place_vending( const point &p, const item_group_id &type, bool reinfor
         if( lootable &&
             !one_in( std::max( to_days<int>( calendar::turn - calendar::start_of_cataclysm ), 0 ) + 4 ) ) {
             furn_set( p, f_vending_o );
-            for( const auto &loc : points_in_radius( { p, abs_sub.z() }, 1 ) ) {
+            for( const tripoint &loc : points_in_radius( { p, abs_sub.z() }, 1 ) ) {
                 if( one_in( 4 ) ) {
                     spawn_item( loc, "glass_shard", rng( 1, 25 ) );
                 }
@@ -6473,7 +6513,7 @@ vehicle *map::add_vehicle( const vproto_id &type, const tripoint &p, const units
         place_on_submap->is_uniform = false;
         invalidate_max_populated_zlev( p.z );
 
-        auto &ch = get_cache( placed_vehicle->sm_pos.z );
+        level_cache &ch = get_cache( placed_vehicle->sm_pos.z );
         ch.vehicle_list.insert( placed_vehicle );
         add_vehicle_to_cache( placed_vehicle );
 

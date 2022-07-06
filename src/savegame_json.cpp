@@ -1530,9 +1530,13 @@ void avatar::load( const JsonObject &data )
         data.read( "grab_type", fake );
     }
 
+    // On Visual Studio array iterators are not pointers, so prevent clang-tidy
+    // from converting this to a pointer type.
+    // NOLINTNEXTLINE(readability-qualified-auto)
     const auto iter = std::find( obj_type_name.begin(), obj_type_name.end(), grab_typestr );
     grab( iter == obj_type_name.end() ?
-          object_type::NONE : static_cast<object_type>( std::distance( obj_type_name.begin(), iter ) ),
+          object_type::NONE : static_cast<object_type>(
+              std::distance( obj_type_name.begin(), iter ) ),
           grab_point );
 
     data.read( "magic", magic );
@@ -2324,7 +2328,7 @@ void inventory::json_save_invcache( JsonOut &json ) const
         json.start_object();
         json.member( elem.first.str() );
         json.start_array();
-        for( const auto &_sym : elem.second ) {
+        for( const char &_sym : elem.second ) {
             json.write( static_cast<int>( _sym ) );
         }
         json.end_array();
@@ -2363,7 +2367,7 @@ void inventory::json_save_items( JsonOut &json ) const
 {
     json.start_array();
     for( const auto &elem : items ) {
-        for( const auto &elem_stack_iter : elem ) {
+        for( const item &elem_stack_iter : elem ) {
             elem_stack_iter.serialize( json );
         }
     }
@@ -3963,6 +3967,7 @@ void mm_region::serialize( JsonOut &jsout ) const
 {
     jsout.start_array();
     for( size_t y = 0; y < MM_REG_SIZE; y++ ) {
+        // NOLINTNEXTLINE(modernize-loop-convert)
         for( size_t x = 0; x < MM_REG_SIZE; x++ ) {
             const shared_ptr_fast<mm_submap> &sm = submaps[x][y];
             if( sm->is_empty() ) {
@@ -3979,6 +3984,7 @@ void mm_region::deserialize( JsonIn &jsin )
 {
     jsin.start_array();
     for( size_t y = 0; y < MM_REG_SIZE; y++ ) {
+        // NOLINTNEXTLINE(modernize-loop-convert)
         for( size_t x = 0; x < MM_REG_SIZE; x++ ) {
             shared_ptr_fast<mm_submap> &sm = submaps[x][y];
             sm = make_shared_fast<mm_submap>();
@@ -4162,7 +4168,7 @@ void addiction::deserialize( const JsonObject &jo )
 void serialize( const recipe_subset &value, JsonOut &jsout )
 {
     jsout.start_array();
-    for( const auto &entry : value ) {
+    for( const recipe * const &entry : value ) {
         jsout.write( entry->ident() );
     }
     jsout.end_array();
@@ -4252,7 +4258,7 @@ void basecamp::serialize( JsonOut &json ) const
             json.start_object();
             json.member( "dir" );
             json.start_array();
-            for( const auto &miss_id : list ) {
+            for( const ui_mission_id &miss_id : list ) {
                 json.start_object();
                 json.member( "mission_id", string_of( miss_id.id ) );
                 json.end_object();
@@ -4299,13 +4305,13 @@ void basecamp::serialize( JsonOut &json ) const
         json.end_array();
         json.member( "salt_water_pipes" );
         json.start_array();
-        for( const auto &pipe : salt_water_pipes ) {
+        for( expansion_salt_water_pipe * const &pipe : salt_water_pipes ) {
             json.start_object();
             json.member( "expansion", pipe->expansion );
             json.member( "connection_direction", pipe->connection_direction );
             json.member( "segments" );
             json.start_array();
-            for( const auto &segment : pipe->segments ) {
+            for( const expansion_salt_water_pipe_segment &segment : pipe->segments ) {
                 json.start_object();
                 json.member( "point", segment.point );
                 json.member( "started", segment.started );
@@ -4670,7 +4676,7 @@ void submap::store( JsonOut &jsout ) const
     // Write out as array of arrays of single entries
     jsout.member( "cosmetics" );
     jsout.start_array();
-    for( const auto &cosm : cosmetics ) {
+    for( const submap::cosmetic_t &cosm : cosmetics ) {
         jsout.start_array();
         jsout.write( cosm.pos.x );
         jsout.write( cosm.pos.y );
@@ -4683,7 +4689,7 @@ void submap::store( JsonOut &jsout ) const
     // Output the spawn points
     jsout.member( "spawns" );
     jsout.start_array();
-    for( const auto &elem : spawns ) {
+    for( const spawn_point &elem : spawns ) {
         jsout.start_array();
         // TODO: json should know how to write string_ids
         jsout.write( elem.type.str() );
@@ -4716,7 +4722,7 @@ void submap::store( JsonOut &jsout ) const
         jsout.write( elem.second.counter );
         jsout.write( elem.second.id.id() );
         jsout.start_array();
-        for( const auto &it : elem.second.components ) {
+        for( const item &it : elem.second.components ) {
             jsout.write( it );
         }
         jsout.end_array();

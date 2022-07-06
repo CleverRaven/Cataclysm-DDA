@@ -930,8 +930,7 @@
     "cancels": [ "NONADDICTIVE" ],
     "points": 2,
     "mixed_effect": true,
-    "description": "You have a unique history with stimulants (like coffee or amphetamines).  You can tolerate a lot more of them without overdosing, but if you indulge too much, you start seeing things…",
-    "category": [ "SPIDER" ]
+    "description": "You have a unique history with stimulants (like coffee or amphetamines).  You can tolerate a lot more of them without overdosing, but if you indulge too much, you start seeing things…"
   },
   {
     "type": "mutation",
@@ -3600,6 +3599,24 @@
   },
   {
     "type": "mutation",
+    "id": "BIRD_LEGS",
+    "name": { "str": "Avian Legs" },
+    "points": -1,
+    "visibility": 4,
+    "ugliness": 2,
+    "mixed_effect": true,
+    "description": "Your legs and feet have become bird-like.  Instead of toes you now have three long talons at the front and one at the back, ending in wicked claws and preventing you from wearing shoes.  Fortunately they don't impede your movement.",
+    "spells_learned": [ [ "spell_avian_leap", 1 ] ],
+    "types": [ "LEGS", "FEET" ],
+    "prereqs": [ "WINGS_BIRD" ],
+    "threshreq": [ "THRESH_BIRD" ],
+    "category": [ "BIRD" ],
+    "restricts_gear": [ "foot_l", "foot_r" ],
+    "destroys_gear": true,
+    "allowed_items": [ "ALLOWS_TALONS" ]
+  },
+  {
+    "type": "mutation",
     "id": "HOOVES",
     "name": { "str": "Hooves" },
     "points": -1,
@@ -4457,8 +4474,8 @@
     "prereqs": [ "WINGS_STUB" ],
     "category": [ "INSECT" ],
     "active": true,
-    "cost": 174,
-    "time": 10,
+    "cost": 3,
+    "time": 1,
     "fatigue": true,
     "kcal": true,
     "thirst": true,
@@ -8014,5 +8031,15 @@
     "category": [ "MEDICAL" ],
     "threshreq": [ "THRESH_MEDICAL" ],
     "hp_modifier_secondary": 0.3
+  },
+  {
+    "type": "mutation",
+    "id": "TAINTED_SHADOW",
+    "name": { "str": "Tainted Shadow" },
+    "description": "You shouldn't see this.  This makes you spawn tainted shadows.",
+    "points": 0,
+    "player_display": false,
+    "purifiable": false,
+    "valid": false
   }
 ]

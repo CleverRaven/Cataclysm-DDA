@@ -1879,7 +1879,7 @@ void Character::mend( int rate_multiplier )
         healing_factor *= bp->mend_rate;
 
         const time_duration dur_inc = 1_turns * roll_remainder( rate_multiplier * healing_factor );
-        auto &eff = get_effect( effect_mending, bp );
+        effect &eff = get_effect( effect_mending, bp );
         if( eff.is_null() ) {
             add_effect( effect_mending, dur_inc, bp, true );
             continue;
@@ -2095,7 +2095,7 @@ void Character::add_addiction( const addiction_id &type, int strength )
         timer = 6_hours;
     }
     //Update existing addiction
-    for( auto &i : addictions ) {
+    for( addiction &i : addictions ) {
         if( i.type != type ) {
             continue;
         }

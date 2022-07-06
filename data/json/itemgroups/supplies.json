@@ -62,7 +62,8 @@
       [ "p_paint", 45 ],
       [ "y_paint", 45 ],
       [ "chipper", 55 ],
-      [ "paint_brush", 55 ]
+      [ "paint_brush", 55 ],
+      { "item": "chem_turpentine", "prob": 45, "charges-min": 20 }
     ]
   },
   {
@@ -302,7 +303,8 @@
       [ "tarp", 15 ],
       [ "tempered_glass_sheet", 25 ],
       [ "rigid_plastic_sheet", 30 ],
-      [ "gas_forge", 15 ]
+      [ "gas_forge", 15 ],
+      { "item": "chem_turpentine", "prob": 20, "charges-min": 20 }
     ]
   },
   {
@@ -372,7 +374,8 @@
       { "item": "chem_ethanol", "prob": 10, "charges-min": 250 },
       [ "oxygen_cylinder", 8 ],
       { "item": "chem_citric_acid", "prob": 16, "charges-min": 100 },
-      { "item": "chem_ethanol", "prob": 10, "charges-min": 250 }
+      { "item": "chem_ethanol", "prob": 10, "charges-min": 250 },
+      { "item": "chem_turpentine", "prob": 10, "charges-min": 20 }
     ]
   },
   {

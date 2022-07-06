@@ -188,7 +188,7 @@ class submap : maptile_soa<SEEX, SEEY>
             // Have to scan through all items to be sure removing i will actually lower
             // the count below 255.
             int count = 0;
-            for( const auto &it : itm[p.x][p.y] ) {
+            for( const item &it : itm[p.x][p.y] ) {
                 if( it.is_emissive() ) {
                     count++;
                 }

@@ -807,7 +807,8 @@
     "name": { "str": "cooked piece of lung", "str_pl": "cooked pieces of lung" },
     "description": "Prepared in this way, it's a chewy grayish lump of flavorless connective tissue.  It doesn't look any tastier than it did raw, but the parasites are all cooked out.",
     "parasites": 0,
-    "extend": { "flags": [ "EATEN_HOT" ] }
+    "extend": { "flags": [ "EATEN_HOT" ] },
+    "delete": { "flags": [ "RAW" ] }
   },
   {
     "id": "mutant_lung",
@@ -825,7 +826,8 @@
     "type": "COMESTIBLE",
     "copy-from": "lung_cooked",
     "name": { "str": "cooked piece of mutant lung", "str_pl": "cooked pieces of mutant lung" },
-    "snippet_category": "cooked_mutant_lung_desc"
+    "snippet_category": "cooked_mutant_lung_desc",
+    "delete": { "flags": [ "RAW" ] }
   },
   {
     "id": "mutant_bug_lungs",
@@ -878,7 +880,8 @@
     "description": "Chock-full of A- and B-Vitamins!  Cooked liver isn't all that bad, depending on how you feel about the texture, but this is probably the least fancy way to do it.",
     "parasites": 0,
     "fun": 0,
-    "price_postapoc": 50
+    "price_postapoc": 50,
+    "delete": { "flags": [ "RAW" ] }
   },
   {
     "id": "mutant_liver",
@@ -991,7 +994,8 @@
     "price_postapoc": 25,
     "parasites": 0,
     "fun": -5,
-    "extend": { "flags": [ "EATEN_HOT" ] }
+    "extend": { "flags": [ "EATEN_HOT" ] },
+    "delete": { "flags": [ "RAW" ] }
   },
   {
     "id": "mutant_brain",
@@ -1010,7 +1014,8 @@
     "copy-from": "brain_cooked",
     "name": { "str_sp": "cooked mutant brains" },
     "snippet_category": "cooked_mutant_brain_desc",
-    "fun": -12
+    "fun": -12,
+    "delete": { "flags": [ "RAW" ] }
   },
   {
     "id": "kidney",
@@ -1052,7 +1057,8 @@
     "price_postapoc": 25,
     "quench": 0,
     "fun": -2,
-    "parasites": 0
+    "parasites": 0,
+    "delete": { "flags": [ "RAW" ] }
   },
   {
     "id": "mutant_kidney",
@@ -1071,7 +1077,8 @@
     "copy-from": "kidney_cooked",
     "name": { "str_sp": "cooked mutant kidney" },
     "snippet_category": "cooked_mutant_kidney_desc",
-    "fun": -12
+    "fun": -12,
+    "delete": { "flags": [ "RAW" ] }
   },
   {
     "id": "sweetbread",
@@ -1113,7 +1120,8 @@
     "price_postapoc": 50,
     "fun": -1,
     "description": "Normally a delicacy, it needs a little… something.",
-    "parasites": 0
+    "parasites": 0,
+    "delete": { "flags": [ "RAW" ] }
   },
   {
     "type": "COMESTIBLE",
@@ -1561,12 +1569,13 @@
     "weight": "1360 g",
     "color": "black_red",
     "symbol": "%",
-    "healthy": -5,
+    "healthy": -1,
     "calories": 217,
     "description": "A huge strip of muscle - all that remains of a putrid heart that has been sliced open and drained of blood.  It could be eaten if you're hungry, but looks *disgusting*.",
     "price": 1000,
     "price_postapoc": 25,
     "material": [ "flesh" ],
+    "use_action": [ "POISON" ],
     "volume": "250 ml",
     "fun": -30
   },
@@ -1584,7 +1593,7 @@
   {
     "id": "leech_flower",
     "type": "COMESTIBLE",
-    "comestible_type": "FOOD",
+    "comestible_type": "MED",
     "name": { "str": "leech flower" },
     "color": "blue",
     "weight": "10 g",
@@ -1696,7 +1705,8 @@
     "proportional": { "price": 1.5 },
     "parasites": 0,
     "fun": 0,
-    "extend": { "flags": [ "STRICT_HUMANITARIANISM" ] }
+    "extend": { "flags": [ "STRICT_HUMANITARIANISM" ] },
+    "delete": { "flags": [ "RAW" ] }
   },
   {
     "type": "COMESTIBLE",

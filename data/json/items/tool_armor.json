@@ -2760,7 +2760,7 @@
     "name": { "str": "riot helmet" },
     "description": "A helmet with a plastic shield that covers your entire face.  Activate to raise the face shield.",
     "use_action": { "type": "transform", "target": "helmet_riot_raised", "menu_text": "Raise visor", "msg": "You raise your visor." },
-    "weight": "2260 g",
+    "weight": "1450 g",
     "volume": "2250 ml",
     "price": 22000,
     "price_postapoc": 1000,
@@ -2778,7 +2778,7 @@
         ],
         "covers": [ "head" ],
         "coverage": 100,
-        "encumbrance": 20
+        "encumbrance_modifiers": [ "NONE" ]
       },
       {
         "material": [
@@ -2787,7 +2787,7 @@
         ],
         "covers": [ "eyes" ],
         "rigid_layer_only": true,
-        "coverage": 80,
+        "coverage": 100,
         "encumbrance": 5,
         "layers": [ "OUTER" ]
       },
@@ -2798,7 +2798,7 @@
         ],
         "covers": [ "mouth" ],
         "rigid_layer_only": true,
-        "coverage": 50,
+        "coverage": 100,
         "encumbrance": 2,
         "layers": [ "OUTER" ]
       }
@@ -2815,7 +2815,7 @@
     "name": { "str": "riot helmet (raised visor)", "str_pl": "riot helmets (raised visor)" },
     "description": "A riot helmet with a plastic face shield which is raised up.  Activate to lower the shield.",
     "use_action": { "type": "transform", "target": "helmet_riot", "menu_text": "Lower visor", "msg": "You put down your visor." },
-    "weight": "2260 g",
+    "weight": "1450 g",
     "volume": "2250 ml",
     "price": 22000,
     "price_postapoc": 1000,
@@ -2833,7 +2833,7 @@
         ],
         "covers": [ "head" ],
         "coverage": 100,
-        "encumbrance": 20
+        "encumbrance_modifiers": [ "NONE" ]
       }
     ],
     "environmental_protection": 2,

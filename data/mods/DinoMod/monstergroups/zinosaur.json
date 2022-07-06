@@ -154,8 +154,9 @@
     "name": "GROUP_zilophosaurus_UPGRADE",
     "monsters": [
       { "monster": "mon_silophosaurus", "weight": 400 },
-      { "monster": "mon_zilophosaurus_shady", "weight": 300 },
-      { "monster": "mon_zilophosaurus_brute", "weight": 300 }
+      { "monster": "mon_zilophosaurus_shady", "weight": 150 },
+      { "monster": "mon_zilophosaurus_brute", "weight": 250 },
+      { "monster": "mon_zilophosaurus_acid", "weight": 400 }
     ]
   },
   {
@@ -163,8 +164,9 @@
     "name": "GROUP_zeratosaurus_UPGRADE",
     "monsters": [
       { "monster": "mon_seratosaurus", "weight": 400 },
-      { "monster": "mon_zeratosaurus_shady", "weight": 300 },
-      { "monster": "mon_zeratosaurus_brute", "weight": 300 }
+      { "monster": "mon_zeratosaurus_shady", "weight": 150 },
+      { "monster": "mon_zeratosaurus_brute", "weight": 250 },
+      { "monster": "mon_zeratosaurus_acid", "weight": 400 }
     ]
   },
   {
@@ -475,6 +477,11 @@
     "type": "monstergroup",
     "name": "GROUP_zriceratops_UPGRADE",
     "monsters": [ { "monster": "mon_sriceratops", "weight": 600 }, { "monster": "mon_zriceratops_brute", "weight": 400 } ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_zallosaurus_BRUTE",
+    "monsters": [ { "monster": "mon_zallosaurus_hulk", "weight": 600 }, { "monster": "mon_zallosaurus_truck", "weight": 400 } ]
   },
   {
     "type": "monstergroup",

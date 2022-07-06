@@ -273,16 +273,10 @@ blueprint_options::query_con_result blueprint_options::query_con()
 
 loot_options::query_loot_result loot_options::query_loot()
 {
-    int w_height = TERMY / 2;
-
-    const int w_width = TERMX / 2;
-    const int w_y0 = ( TERMY > w_height ) ? ( TERMY - w_height ) / 4 : 0;
-    const int w_x0 = ( TERMX > w_width ) ? ( TERMX - w_width ) / 2 : 0;
-
-    catacurses::window w_con = catacurses::newwin( w_height, w_width, point( w_x0, w_y0 ) );
-    draw_item_filter_rules( w_con, 1, w_height - 1, item_filter_type::FILTER );
     string_input_popup()
     .title( _( "Filter:" ) )
+    .description( item_filter_rule_string( item_filter_type::FILTER ) + "\n\n" )
+    .desc_color( c_white )
     .width( 55 )
     .identifier( "item_filter" )
     .max_length( 256 )
@@ -502,7 +496,7 @@ cata::optional<zone_type_id> zone_manager::query_type( bool personal ) const
     std::vector<std::pair<zone_type_id, zone_type>> types_vec;
     // only add personal functioning zones for personal
     if( personal ) {
-        for( auto &tmp : types ) {
+        for( const auto &tmp : types ) {
             if( tmp.second.can_be_personal ) {
                 types_vec.emplace_back( tmp );
             }
@@ -522,7 +516,7 @@ cata::optional<zone_type_id> zone_manager::query_type( bool personal ) const
 
     size_t i = 0;
     for( const auto &pair : types_vec ) {
-        const auto &type = pair.second;
+        const zone_type &type = pair.second;
 
         as_m.addentry_desc( i++, true, MENU_AUTOASSIGN, type.name(), type.desc() );
     }
@@ -1019,7 +1013,7 @@ std::vector<zone_data> zone_manager::get_zones( const zone_type_id &type,
 {
     auto zones = std::vector<zone_data>();
 
-    for( const auto &zone : this->zones ) {
+    for( const zone_data &zone : this->zones ) {
         if( zone.get_type() == type && zone.get_faction() == fac ) {
             if( zone.has_inside( where ) ) {
                 zones.emplace_back( zone );
@@ -1056,7 +1050,7 @@ const zone_data *zone_manager::get_bottom_zone(
     const tripoint_abs_ms &where, const faction_id &fac ) const
 {
     for( auto it = zones.rbegin(); it != zones.rend(); ++it ) {
-        const auto &zone = *it;
+        const zone_data &zone = *it;
         if( zone.get_faction() != fac ) {
             continue;
         }
@@ -1242,7 +1236,7 @@ std::vector<zone_manager::ref_zone_data> zone_manager::get_zones( const faction_
 {
     auto zones = std::vector<ref_zone_data>();
 
-    for( auto &zone : this->zones ) {
+    for( zone_data &zone : this->zones ) {
         if( zone.get_faction() == fac ) {
             zones.emplace_back( zone );
         }

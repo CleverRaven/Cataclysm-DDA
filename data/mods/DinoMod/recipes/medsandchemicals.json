@@ -3,25 +3,29 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "mutagen_raptor",
+    "id_suffix": "from_sample",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_MUTAGEN",
     "skill_used": "chemistry",
     "skills_required": [ "firstaid", 1 ],
-    "difficulty": 9,
-    "time": 10000,
-    "book_learn": [ [ "recipe_raptor", 9 ] ],
+    "difficulty": 8,
+    "time": "45 m",
+    "book_learn": [ [ "recipe_raptor", 8 ] ],
     "qualities": [ { "id": "CHEM", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 25, "LIST" ] ] ],
     "components": [
       [ [ "mutagen", 1 ] ],
+      [ [ "raptor_sample", 1 ] ],
       [
-        [ "egg_velociraptor", 1 ],
-        [ "egg_deinonychus", 1 ],
-        [ "egg_utahraptor", 1 ],
-        [ "egg_dromaeosaurus", 1 ],
-        [ "egg_stenonychosaurus", 1 ]
+        [ "egg_saurornitholestes", 2 ],
+        [ "egg_velociraptor", 2 ],
+        [ "egg_deinonychus", 2 ],
+        [ "egg_utahraptor", 2 ],
+        [ "egg_dromaeosaurus", 2 ],
+        [ "egg_stenonychosaurus", 2 ],
+        [ "raptor_sample", 1 ]
       ],
-      [ [ "ammonia_liquid", 1 ], [ "lye_powder", 100 ] ]
+      [ [ "feather", 2 ], [ "raptor_sample", 1 ] ]
     ]
   },
   {
@@ -32,22 +36,24 @@
     "subcategory": "CSC_CHEM_MUTAGEN",
     "skill_used": "chemistry",
     "skills_required": [ "firstaid", 1 ],
-    "difficulty": 9,
-    "time": 10000,
-    "book_learn": [ [ "kiernans_notes", 9 ] ],
+    "difficulty": 8,
+    "time": "45 m",
+    "book_learn": [ [ "kiernans_notes", 8 ] ],
     "qualities": [ { "id": "CHEM", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 25, "LIST" ] ] ],
     "components": [
       [ [ "mutagen", 1 ] ],
+      [ [ "stego_sample", 1 ] ],
       [
         [ "egg_edmontonia", 1 ],
         [ "egg_nodosaurus", 1 ],
         [ "egg_ankylosaurus", 1 ],
         [ "egg_dyoplosaurus", 1 ],
         [ "egg_stegosaurus", 1 ],
-        [ "egg_scutellosaurus", 1 ]
+        [ "egg_scutellosaurus", 1 ],
+        [ "stego_sample", 1 ]
       ],
-      [ [ "ammonia_liquid", 1 ], [ "lye_powder", 100 ] ]
+      [ [ "bone", 1 ], [ "stego_sample", 1 ] ]
     ]
   },
   {
@@ -58,13 +64,14 @@
     "subcategory": "CSC_CHEM_MUTAGEN",
     "skill_used": "chemistry",
     "skills_required": [ "firstaid", 1 ],
-    "difficulty": 9,
-    "time": 10000,
-    "book_learn": [ [ "kiernans_notes", 9 ] ],
+    "difficulty": 8,
+    "time": "45 m",
+    "book_learn": [ [ "kiernans_notes", 8 ] ],
     "qualities": [ { "id": "CHEM", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 25, "LIST" ] ] ],
     "components": [
       [ [ "mutagen", 1 ] ],
+      [ [ "tyrant_sample", 1 ] ],
       [
         [ "egg_dryptosaurus", 1 ],
         [ "egg_appalachiosaurus", 1 ],
@@ -73,9 +80,10 @@
         [ "egg_qianzhousaurus", 1 ],
         [ "egg_nanuqsaurus", 1 ],
         [ "egg_daspletosaurus", 1 ],
-        [ "egg_tyrannosaurus", 1 ]
+        [ "egg_tyrannosaurus", 1 ],
+        [ "tyrant_sample", 1 ]
       ],
-      [ [ "ammonia_liquid", 1 ], [ "lye_powder", 100 ] ]
+      [ [ "feather", 2 ], [ "tyrant_sample", 1 ] ]
     ]
   },
   {
@@ -91,7 +99,7 @@
     "batch_time_factors": [ 20, 5 ],
     "book_learn": [ [ "kiernans_notes", 9 ] ],
     "using": [ [ "serum_production_standard", 37 ] ],
-    "components": [ [ [ "mutagen_tyrant", 2 ] ] ],
+    "components": [ [ [ "mutagen_tyrant", 2 ] ], [ [ "tyrant_sample", 1 ] ] ],
     "flags": [ "SECRET" ]
   },
   {
@@ -107,7 +115,24 @@
     "batch_time_factors": [ 20, 5 ],
     "book_learn": [ [ "kiernans_notes", 9 ] ],
     "using": [ [ "serum_production_standard", 37 ] ],
-    "components": [ [ [ "mutagen_stego", 2 ] ] ],
+    "components": [ [ [ "mutagen_stego", 2 ] ], [ [ "stego_sample", 1 ] ] ],
+    "flags": [ "SECRET" ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "iv_mutagen_raptor",
+    "id_suffix": "from_sample",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_MUTAGEN",
+    "skill_used": "chemistry",
+    "skills_required": [ "firstaid", 3 ],
+    "difficulty": 7,
+    "time": "2 h",
+    "batch_time_factors": [ 20, 5 ],
+    "book_learn": [ [ "kiernans_notes", 9 ] ],
+    "using": [ [ "serum_production_standard", 37 ] ],
+    "components": [ [ [ "mutagen_raptor", 2 ] ], [ [ "raptor_sample", 1 ] ] ],
     "flags": [ "SECRET" ]
   },
   {

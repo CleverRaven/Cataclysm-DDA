@@ -31,6 +31,7 @@
 #include "map.h"
 #include "mapdata.h"
 #include "mission.h"
+#include "mtype.h"
 #include "npc.h"
 #include "optional.h"
 #include "overmap.h"
@@ -89,10 +90,7 @@ int_or_var_part<T> get_int_or_var_part( const JsonValue &jv, std::string member,
             arith.set_arithmetic( jo, "arithmetic", true );
             ret_val.arithmetic_val = arith;
         } else {
-            var_info var = read_var_info( jo, true );
-            ret_val.type = var.type;
-            ret_val.var_val = var.name;
-            ret_val.default_val = stoi( var.default_val );
+            ret_val.var_val = read_var_info( jo, true );
         }
     } else if( required ) {
         jv.throw_error( "No valid value for " + member );
@@ -112,10 +110,6 @@ int_or_var<T> get_int_or_var( const JsonObject &jo, std::string member, bool req
         ret_val.min = get_int_or_var_part<T>( ja.next(), member );
         ret_val.max = get_int_or_var_part<T>( ja.next(), member );
         ret_val.pair = true;
-        if( ( ret_val.min.type == var_type::u && ret_val.max.type == var_type::npc ) ||
-            ( ret_val.min.type == var_type::npc && ret_val.max.type == var_type::u ) ) {
-            jo.throw_error( "int_or_var min and max cannot be of types u and npc at once." );
-        }
     } else if( required ) {
         ret_val.min = get_int_or_var_part<T>( jo.get_member( member ), member, required, default_val );
     } else {
@@ -134,7 +128,11 @@ duration_or_var_part<T> get_duration_or_var_part( const JsonValue &jv, std::stri
 {
     duration_or_var_part<T> ret_val;
     if( jv.test_string() ) {
-        ret_val.dur_val = read_from_json_string<time_duration>( jv, time_duration::units );
+        if( jv.get_string() == "infinite" ) {
+            ret_val.dur_val = time_duration::from_turns( calendar::INDEFINITELY_LONG );
+        } else {
+            ret_val.dur_val = read_from_json_string<time_duration>( jv, time_duration::units );
+        }
     } else if( jv.test_int() ) {
         ret_val.dur_val = time_duration::from_turns( jv.get_int() );
     } else if( jv.test_object() ) {
@@ -145,10 +143,7 @@ duration_or_var_part<T> get_duration_or_var_part( const JsonValue &jv, std::stri
             arith.set_arithmetic( jo, "arithmetic", true );
             ret_val.arithmetic_val = arith;
         } else {
-            var_info var = read_var_info( jo, true );
-            ret_val.type = var.type;
-            ret_val.var_val = var.name;
-            ret_val.default_val = time_duration::from_turns( stoi( var.default_val ) );
+            ret_val.var_val = read_var_info( jo, true );
         }
     } else if( required ) {
         jv.throw_error( "No valid value for " + member );
@@ -168,10 +163,6 @@ duration_or_var<T> get_duration_or_var( const JsonObject &jo, std::string member
         ret_val.min = get_duration_or_var_part<T>( ja.next(), member );
         ret_val.max = get_duration_or_var_part<T>( ja.next(), member );
         ret_val.pair = true;
-        if( ( ret_val.min.type == var_type::u && ret_val.max.type == var_type::npc ) ||
-            ( ret_val.min.type == var_type::npc && ret_val.max.type == var_type::u ) ) {
-            jo.throw_error( "int_or_var min and max cannot be of types u and npc at once." );
-        }
     } else if( required ) {
         ret_val.min = get_duration_or_var_part<T>( jo.get_member( member ), member, required, default_val );
     } else {
@@ -192,10 +183,7 @@ str_or_var<T> get_str_or_var( const JsonValue &jv, std::string member, bool requ
     if( jv.test_string() ) {
         ret_val.str_val = jv.get_string();
     } else if( jv.test_object() ) {
-        var_info var = read_var_info( jv.get_object(), true );
-        ret_val.type = var.type;
-        ret_val.var_val = var.name;
-        ret_val.default_val = var.default_val;
+        ret_val.var_val = read_var_info( jv.get_object(), true );
     } else if( required ) {
         jv.throw_error( "No valid value for " + member );
     } else {
@@ -205,22 +193,24 @@ str_or_var<T> get_str_or_var( const JsonValue &jv, std::string member, bool requ
 }
 
 template<class T>
-tripoint get_tripoint_from_var( talker *target, cata::optional<std::string> target_var,
-                                var_type vtype, const T &d )
+tripoint_abs_ms get_tripoint_from_var( cata::optional<var_info> var, const T &d )
 {
-    tripoint target_pos = get_map().getabs( target->pos() );
-    if( target_var.has_value() ) {
-        std::string value = read_var_value<T>( vtype, target_var.value(), d );
+    tripoint_abs_ms target_pos = get_map().getglobal( d.actor( false )->pos() );
+    if( var.has_value() ) {
+        std::string value = read_var_value<T>( var.value(), d );
         if( !value.empty() ) {
-            target_pos = tripoint::from_string( value );
+            target_pos = tripoint_abs_ms( tripoint::from_string( value ) );
         }
     }
     return target_pos;
 }
 
-var_info read_var_info( JsonObject jo, bool require_default )
+var_info read_var_info( const JsonObject &jo, bool require_default )
 {
     std::string default_val;
+    int_or_var<dialogue> empty;
+    var_type type;
+    std::string name;
     if( jo.has_string( "default_str" ) ) {
         default_val = jo.get_string( "default_str" );
     } else if( jo.has_string( "default" ) ) {
@@ -228,25 +218,50 @@ var_info read_var_info( JsonObject jo, bool require_default )
                                       ( jo.get_member( "default" ), time_duration::units ) ) );
     } else if( jo.has_int( "default" ) ) {
         default_val = std::to_string( jo.get_int( "default" ) );
+    } else if( jo.has_member( "default_time" ) ) {
+        time_duration max_time;
+        mandatory( jo, false, "default_time", max_time );
+        default_val = std::to_string( to_turns<int>( max_time ) );
     } else if( require_default ) {
         jo.throw_error( "No default value provided." );
     }
-    int_or_var<dialogue> empty;
+
+    if( jo.has_string( "var_name" ) ) {
+        const std::string &type_var = jo.get_string( "type", "" );
+        const std::string &var_context = jo.get_string( "context", "" );
+        name = "npctalk_var_" + type_var + ( type_var.empty() ? "" : "_" ) + var_context +
+               ( var_context.empty() ? "" : "_" )
+               + jo.get_string( "var_name" );
+    }
     if( jo.has_member( "u_val" ) ) {
-        return var_info( var_type::u, get_talk_varname( jo, "u_val", false, empty ), default_val );
+        type = var_type::u;
+        if( name.empty() ) {
+            name = get_talk_varname( jo, "u_val", false, empty );
+        }
     } else if( jo.has_member( "npc_val" ) ) {
-        return var_info( var_type::npc, get_talk_varname( jo, "npc_val", false, empty ), default_val );
+        type = var_type::npc;
+        if( name.empty() ) {
+            name = get_talk_varname( jo, "npc_val", false, empty );
+        }
     } else if( jo.has_member( "global_val" ) ) {
-        return var_info( var_type::global, get_talk_varname( jo, "global_val", false, empty ),
-                         default_val );
+        type = var_type::global;
+        if( name.empty() ) {
+            name = get_talk_varname( jo, "global_val", false, empty );
+        }
     } else if( jo.has_member( "faction_val" ) ) {
-        return var_info( var_type::faction, get_talk_varname( jo, "faction_val", false, empty ),
-                         default_val );
+        type = var_type::faction;
+        if( name.empty() ) {
+            name = get_talk_varname( jo, "faction_val", false, empty );
+        }
     } else if( jo.has_member( "party_val" ) ) {
-        return var_info( var_type::party, get_talk_varname( jo, "party_val", false, empty ), default_val );
+        type = var_type::party;
+        if( name.empty() ) {
+            name = get_talk_varname( jo, "party_val", false, empty );
+        }
     } else {
         jo.throw_error( "Invalid variable type." );
     }
+    return var_info( type, name, default_val );
 }
 
 void write_var_value( var_type type, std::string name, talker *talk, std::string value )
@@ -1200,29 +1215,29 @@ static std::string get_string_from_input( JsonArray objects, int index )
 }
 
 template<class T>
-static tripoint get_tripoint_from_string( std::string type, T &d )
+static tripoint_abs_ms get_tripoint_from_string( std::string type, T &d )
 {
     if( type == "u" ) {
-        return get_map().getabs( d.actor( false )->pos() );
+        return get_map().getglobal( d.actor( false )->pos() );
     } else if( type == "npc" ) {
-        return get_map().getabs( d.actor( true )->pos() );
+        return get_map().getglobal( d.actor( true )->pos() );
     } else if( type.find( "u_" ) == 0 ) {
-        return get_tripoint_from_var( d.actor( false ), type.substr( 2, type.size() - 2 ), var_type::u,
-                                      d );
+        var_info var = var_info( var_type::u, type.substr( 2, type.size() - 2 ) );
+        return get_tripoint_from_var( var, d );
     } else if( type.find( "npc_" ) == 0 ) {
-        return get_tripoint_from_var( d.actor( true ), type.substr( 4, type.size() - 4 ), var_type::npc,
-                                      d );
+        var_info var = var_info( var_type::npc, type.substr( 4, type.size() - 4 ) );
+        return get_tripoint_from_var( var, d );
     } else if( type.find( "global_" ) == 0 ) {
-        return get_tripoint_from_var( d.actor( false ), type.substr( 7, type.size() - 7 ),
-                                      var_type::global, d );
+        var_info var = var_info( var_type::global, type.substr( 7, type.size() - 7 ) );
+        return get_tripoint_from_var( var, d );
     } else if( type.find( "faction_" ) == 0 ) {
-        return get_tripoint_from_var( d.actor( false ), type.substr( 7, type.size() - 7 ),
-                                      var_type::faction, d );
+        var_info var = var_info( var_type::faction, type.substr( 7, type.size() - 7 ) );
+        return get_tripoint_from_var( var, d );
     } else if( type.find( "party_" ) == 0 ) {
-        return get_tripoint_from_var( d.actor( false ), type.substr( 7, type.size() - 7 ),
-                                      var_type::party, d );
+        var_info var = var_info( var_type::party, type.substr( 7, type.size() - 7 ) );
+        return get_tripoint_from_var( var, d );
     }
-    return tripoint();
+    return tripoint_abs_ms();
 }
 
 template<class T>
@@ -1441,15 +1456,17 @@ std::function<int( const T & )> conditional_t<T>::get_get_int( const JsonObject 
                 return target.is_null() ? -1 : target.get_intensity();
             };
         } else if( checked_value == "var" ) {
-            int_or_var<T> default_val;
-            const std::string var_name = get_talk_varname( jo, "var_name", false, default_val );
-            return [is_npc, var_name, is_global, default_val]( const T & d ) {
-                std::string var = read_var_value( is_npc ? var_type::npc : ( is_global ? var_type::global :
-                                                  var_type::u ), var_name, d );
+            var_info info = read_var_info( jo, false );
+            return [info]( const T & d ) {
+                std::string var = read_var_value( info, d );
                 if( !var.empty() ) {
                     return std::stoi( var );
                 } else {
-                    return default_val.evaluate( d );
+                    try {
+                        return std::stoi( info.default_val );
+                    } catch( const std::exception & ) {
+                        return 0;
+                    }
                 }
             };
         } else if( checked_value == "time_since_var" ) {
@@ -1708,6 +1725,41 @@ std::function<int( const T & )> conditional_t<T>::get_get_int( const JsonObject 
             return [is_npc]( const T & d ) {
                 return d.actor( is_npc )->get_npc_anger();
             };
+        } else if( checked_value == "monsters_nearby" ) {
+            cata::optional<var_info> target_var;
+            if( jo.has_object( "target_var" ) ) {
+                read_var_info( jo.get_member( "target_var" ), false );
+            }
+            str_or_var<T> id;
+            if( jo.has_member( "id" ) ) {
+                id = get_str_or_var<T>( jo.get_member( "id" ), "id", false, "" );
+            } else {
+                id.str_val = "";
+            }
+            int_or_var<T> radius_iov = get_int_or_var<T>( jo, "radius", false, 10000 );
+            int_or_var<T> number_iov = get_int_or_var<T>( jo, "number", false, 1 );
+            return [target_var, radius_iov, id, number_iov, is_npc]( const T & d ) {
+                tripoint_abs_ms loc;
+                if( target_var.has_value() ) {
+                    loc = get_tripoint_from_var( target_var, d );
+                } else {
+                    loc = d.actor( is_npc )->global_pos();
+                }
+
+                int radius = radius_iov.evaluate( d );
+                std::vector<Creature *> targets = g->get_creatures_if( [&radius, id, &d,
+                         loc]( const Creature & critter ) {
+                    if( critter.is_monster() ) {
+                        // friendly to the player, not a target for us
+                        return static_cast<const monster *>( &critter )->friendly == 0 &&
+                               radius >= rl_dist( critter.get_location(), loc ) &&
+                               ( id.evaluate( d ) == "" ||
+                                 static_cast<const monster *>( &critter )->type->id == mtype_id( id.evaluate( d ) ) );
+                    }
+                    return false;
+                } );
+                return targets.size();
+            };
         }
     } else if( jo.has_member( "moon" ) ) {
         return []( const T & ) {
@@ -1725,8 +1777,8 @@ std::function<int( const T & )> conditional_t<T>::get_get_int( const JsonObject 
         std::string first = get_string_from_input( objects, 0 );
         std::string second = get_string_from_input( objects, 1 );
         return [first, second]( const T & d ) {
-            tripoint first_point = get_tripoint_from_string( first, d );
-            tripoint second_point = get_tripoint_from_string( second, d );
+            tripoint_abs_ms first_point = get_tripoint_from_string( first, d );
+            tripoint_abs_ms second_point = get_tripoint_from_string( second, d );
             return rl_dist( first_point, second_point );
         };
     } else if( jo.has_array( "arithmetic" ) ) {
@@ -1734,7 +1786,8 @@ std::function<int( const T & )> conditional_t<T>::get_get_int( const JsonObject 
         arith.set_arithmetic( jo, "arithmetic", true );
         return [arith]( const T & d ) {
             arith( d );
-            std::string val = read_var_value( var_type::global, "temp_var", d );
+            var_info info = var_info( var_type::global, "temp_var" );
+            std::string val = read_var_value( info, d );
             if( !val.empty() ) {
                 return std::stoi( val );
             } else {
