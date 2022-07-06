@@ -159,6 +159,7 @@
         "0": "t_water_pump",
         "$": "t_region_groundcover_urban",
         "q": "t_dirtfloor",
+        "N": "t_dirtfloor",
         "[": "t_dirtfloor",
         "A": "t_dirtfloor",
         "/": "t_dirtfloor",
