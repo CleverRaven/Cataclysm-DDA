@@ -21,6 +21,7 @@
 #include "translations.h"
 #include "type_id.h"
 #include "viewer.h"
+#include "map_iterator.h"
 
 static const efftype_id effect_grabbed( "grabbed" );
 static const efftype_id effect_teleglow( "teleglow" );
