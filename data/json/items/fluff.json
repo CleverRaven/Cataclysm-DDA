@@ -351,7 +351,7 @@
     "name": { "str": "writ of trade", "str_pl": "writs of trade" },
     "description": "A short writ featuring the signed agreement of establishing a trade route.",
     "weight": "1 g",
-    "volume": "250 ml",
+    "volume": "5 ml",
     "price": 3000,
     "price_postapoc": 50,
     "bashing": 1,
