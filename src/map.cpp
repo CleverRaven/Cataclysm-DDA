@@ -112,6 +112,7 @@ static const efftype_id effect_crushed( "crushed" );
 
 static const field_type_str_id field_fd_clairvoyant( "fd_clairvoyant" );
 
+static const flag_id json_flag_AVATAR_ONLY( "AVATAR_ONLY" );
 static const flag_id json_flag_PRESERVE_SPAWN_OMT( "PRESERVE_SPAWN_OMT" );
 static const flag_id json_flag_UNDODGEABLE( "UNDODGEABLE" );
 
@@ -120,6 +121,7 @@ static const item_group_id Item_spawn_data_default_zombie_items( "default_zombie
 
 static const itype_id itype_battery( "battery" );
 static const itype_id itype_nail( "nail" );
+
 
 static const material_id material_glass( "glass" );
 
@@ -8816,6 +8818,10 @@ void map::maybe_trigger_trap( const tripoint &pos, Creature &c, const bool may_a
 
     //Don't trigger benign traps like cots and funnels
     if( tr.is_benign() ) {
+        return;
+    }
+
+    if( tr.has_flag( json_flag_AVATAR_ONLY ) && !c.is_avatar() ) {
         return;
     }
 
