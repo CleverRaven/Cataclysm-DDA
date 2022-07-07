@@ -436,7 +436,7 @@ const mod_manager::t_mod_list &mod_manager::get_default_mods() const
     return default_mods;
 }
 
-static inline bool compare_mod_by_name_and_category( const MOD_INFORMATION *const a,
+static bool compare_mod_by_name_and_category( const MOD_INFORMATION *const a,
         const MOD_INFORMATION *const b )
 {
     return localized_compare( std::make_pair( a->category, a->name() ),
