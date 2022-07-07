@@ -6150,7 +6150,14 @@
     "components": [
       [ [ "hotdogs_frozen", 1 ], [ "homemade_hotdogs", 1 ], [ "bratwurst_sausage", 1 ] ],
       [ [ "bread_sandwich", 2, "LIST" ] ],
-      [ [ "ketchup", 1 ], [ "barbecue_sauce", 1 ], [ "honey_mustard", 1 ], [ "mustard", 1 ], [ "horseradish", 1 ], [ "sauerkraut", 1 ] ],
+      [
+        [ "ketchup", 1 ],
+        [ "barbecue_sauce", 1 ],
+        [ "honey_mustard", 1 ],
+        [ "mustard", 1 ],
+        [ "horseradish", 1 ],
+        [ "sauerkraut", 1 ]
+      ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ]
     ]
   },
@@ -6169,7 +6176,14 @@
     "components": [
       [ [ "hotdogs_frozen", 1 ], [ "homemade_hotdogs", 1 ], [ "bratwurst_sausage", 1 ] ],
       [ [ "bread_sandwich_wheat_free", 2, "LIST" ] ],
-      [ [ "ketchup", 1 ], [ "barbecue_sauce", 1 ], [ "honey_mustard", 1 ], [ "mustard", 1 ], [ "horseradish", 1 ], [ "sauerkraut", 1 ] ],
+      [
+        [ "ketchup", 1 ],
+        [ "barbecue_sauce", 1 ],
+        [ "honey_mustard", 1 ],
+        [ "mustard", 1 ],
+        [ "horseradish", 1 ],
+        [ "sauerkraut", 1 ]
+      ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ]
     ]
   },
@@ -6666,7 +6680,7 @@
       [ [ "honey", 1 ] ],
       [ [ "mustard", 2 ] ],
       [ [ "vinegar", 1 ] ],
-      [ [ "mayonnaise", 1] ],
+      [ [ "mayonnaise", 1 ] ],
       [ [ "pepper", 1 ] ]
     ]
   },
