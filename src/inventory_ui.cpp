@@ -318,7 +318,7 @@ void uistatedata::serialize( JsonOut &json ) const
     json.member( "distraction_weather_change", distraction_weather_change );
     json.member( "distraction_hunger", distraction_hunger );
     json.member( "distraction_thirst", distraction_thirst );
-    
+
     json.member( "input_history" );
     json.start_object();
     for( const auto &e : input_history ) {
