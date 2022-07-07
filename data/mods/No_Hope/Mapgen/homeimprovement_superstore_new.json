@@ -170,7 +170,7 @@
         "d": { "item": "office", "chance": 45, "repeat": [ 1, 2 ] },
         "D": { "item": "hardware_trash", "chance": 40, "repeat": [ 1, 3 ] },
         "Q": { "item": "bed", "chance": 65, "repeat": [ 1, 2 ] },
-        "V": { "item": "vending_drink_home_impr", "chance": 85, "repeat": [ 5, 12 ] },
+        "V": { "item": "vending_drink_home_impr", "chance": 5, "repeat": [ 5, 12 ] },
         "1": { "item": "paint", "chance": 80, "repeat": [ 1, 8 ] },
         "2": { "item": "rug", "chance": 80, "repeat": [ 1, 8 ] },
         "3": [

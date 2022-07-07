@@ -36,6 +36,20 @@ static const trait_id trait_HORNS_POINTED( "HORNS_POINTED" );
 static const trait_id trait_SQUEAMISH( "SQUEAMISH" );
 static const trait_id trait_WOOLALLERGY( "WOOLALLERGY" );
 
+nc_color item_penalties::color_for_stacking_badness() const
+{
+    switch( badness() ) {
+        case 0:
+            return c_light_gray;
+        case 1:
+            return c_yellow;
+        case 2:
+            return c_light_red;
+    }
+    debugmsg( "Unexpected badness %d", badness() );
+    return c_light_gray;
+}
+
 units::mass get_selected_stack_weight( const item *i, const std::map<const item *, int> &without )
 {
     auto stack = without.find( i );
@@ -80,7 +94,7 @@ ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) cons
             if( branch.conflicts_with_item( it ) ) {
                 return ret_val<bool>::make_failure( is_avatar() ?
                                                     _( "Your %s mutation prevents you from wearing your %s." ) :
-                                                    _( "My %s mutation prevents me from wearing this %s." ), branch.name(),
+                                                    _( "My %s mutation prevents me from wearing this %s." ), mutation_name( mut ),
                                                     it.type_name() );
             }
         }

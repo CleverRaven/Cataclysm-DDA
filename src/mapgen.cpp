@@ -374,7 +374,7 @@ class mapgen_basic_container
             }
         }
         void check_consistency_with( const oter_t &ter ) const {
-            for( auto &mapgen_function_ptr : weights_ ) {
+            for( const auto &mapgen_function_ptr : weights_ ) {
                 mapgen_function_ptr.obj->check_consistent_with( ter );
             }
         }
@@ -522,7 +522,7 @@ void calculate_mapgen_weights()   // TODO: rename as it runs jsonfunction setup 
         }
     }
     for( auto &pr : update_mapgens ) {
-        for( auto &ptr : pr.second.funcs() ) {
+        for( const auto &ptr : pr.second.funcs() ) {
             ptr->setup();
             inp_mngr.pump_events();
         }
@@ -538,7 +538,7 @@ void calculate_mapgen_weights()   // TODO: rename as it runs jsonfunction setup 
         }
     }
     for( auto &pr : update_mapgens ) {
-        for( auto &ptr : pr.second.funcs() ) {
+        for( const auto &ptr : pr.second.funcs() ) {
             ptr->finalize_parameters();
             inp_mngr.pump_events();
         }
@@ -549,12 +549,12 @@ void check_mapgen_definitions()
 {
     oter_mapgen.check_consistency();
     for( auto &oter_definition : nested_mapgens ) {
-        for( auto &mapgen_function_ptr : oter_definition.second.funcs() ) {
+        for( const auto &mapgen_function_ptr : oter_definition.second.funcs() ) {
             mapgen_function_ptr.obj->check();
         }
     }
     for( auto &oter_definition : update_mapgens ) {
-        for( auto &mapgen_function_ptr : oter_definition.second.funcs() ) {
+        for( const auto &mapgen_function_ptr : oter_definition.second.funcs() ) {
             mapgen_function_ptr->check();
         }
     }

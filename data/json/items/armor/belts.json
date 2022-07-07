@@ -171,10 +171,21 @@
     "repairs_like": "tool_belt",
     "color": "brown",
     "pocket_data": [
-      { "max_contains_volume": "500 ml", "max_item_volume": "125 ml", "max_contains_weight": "1500 g", "moves": 100 },
-      { "max_contains_volume": "500 ml", "max_item_volume": "125 ml", "max_contains_weight": "1500 g", "moves": 100 },
-      { "max_contains_volume": "500 ml", "max_item_volume": "125 ml", "max_contains_weight": "1500 g", "moves": 100 },
-      { "max_contains_volume": "500 ml", "max_item_volume": "125 ml", "max_contains_weight": "1500 g", "moves": 100 },
+      {
+        "description": "flashlight storage",
+        "max_contains_volume": "500 ml",
+        "max_item_length": "40 cm",
+        "max_contains_weight": "1500 g",
+        "moves": 100
+      },
+      {
+        "description": "radio storage",
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "1500 g",
+        "moves": 100
+      },
+      { "max_contains_volume": "500 ml", "max_contains_weight": "1500 g", "moves": 100 },
+      { "max_contains_volume": "500 ml", "max_contains_weight": "1500 g", "moves": 100 },
       {
         "holster": true,
         "max_contains_volume": "2250 ml",
@@ -188,7 +199,7 @@
     "flags": [ "BELTED", "WATER_FRIENDLY" ],
     "armor": [
       {
-        "encumbrance": [ 2, 5 ],
+        "volume_encumber_modifier": 0.4,
         "coverage": 50,
         "covers": [ "torso" ],
         "specifically_covers": [ "torso_waist" ],

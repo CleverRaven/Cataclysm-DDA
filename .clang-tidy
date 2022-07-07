@@ -49,10 +49,8 @@ readability-*,\
 -bugprone-infinite-loop,\
 -bugprone-misplaced-widening-cast,\
 -bugprone-narrowing-conversions,\
--bugprone-redundant-branch-condition,\
 -clang-analyzer-core.CallAndMessage,\
 -clang-analyzer-deadcode.DeadStores,\
--misc-misplaced-const,\
 -misc-no-recursion,\
 -misc-non-private-member-variables-in-classes,\
 -modernize-avoid-bind,\
@@ -71,7 +69,6 @@ readability-*,\
 -readability-magic-numbers,\
 -readability-make-member-function-const,\
 -readability-named-parameter,\
--readability-qualified-auto,\
 -readability-redundant-access-specifiers,\
 -readability-use-anyofallof,\
 "
@@ -79,6 +76,8 @@ WarningsAsErrors: '*'
 HeaderFilterRegex: '(src|test|tools).*'
 FormatStyle:     none
 CheckOptions:
+  - key: cata-large-inline-function.MaxStatements
+    value: 5
   - key: cata-text-style.EscapeUnicode
     value: 0
   - key: cert-oop54-cpp.WarnOnlyIfThisHasSuspiciousField

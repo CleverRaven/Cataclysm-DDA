@@ -400,8 +400,8 @@ bool scenario::scenario_traits_conflict_with_profession_traits( const profession
         }
     }
 
-    for( auto &pt : p.get_locked_traits() ) {
-        if( is_forbidden_trait( pt ) ) {
+    for( trait_and_var &pt : p.get_locked_traits() ) {
+        if( is_forbidden_trait( pt.trait ) ) {
             return true;
         }
     }
@@ -409,9 +409,9 @@ bool scenario::scenario_traits_conflict_with_profession_traits( const profession
     //  check if:
     //  locked traits for scenario prevent taking locked traits for professions
     //  locked traits for professions prevent taking locked traits for scenario
-    for( const auto &st : get_locked_traits() ) {
-        for( auto &pt : p.get_locked_traits() ) {
-            if( are_conflicting_traits( st, pt ) || are_conflicting_traits( pt, st ) ) {
+    for( const trait_id &st : get_locked_traits() ) {
+        for( trait_and_var &pt : p.get_locked_traits() ) {
+            if( are_conflicting_traits( st, pt.trait ) || are_conflicting_traits( pt.trait, st ) ) {
                 return true;
             }
         }

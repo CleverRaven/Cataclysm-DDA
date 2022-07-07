@@ -1569,12 +1569,13 @@
     "weight": "1360 g",
     "color": "black_red",
     "symbol": "%",
-    "healthy": -5,
+    "healthy": -1,
     "calories": 217,
     "description": "A huge strip of muscle - all that remains of a putrid heart that has been sliced open and drained of blood.  It could be eaten if you're hungry, but looks *disgusting*.",
     "price": 1000,
     "price_postapoc": 25,
     "material": [ "flesh" ],
+    "use_action": [ "POISON" ],
     "volume": "250 ml",
     "fun": -30
   },
@@ -1592,7 +1593,7 @@
   {
     "id": "leech_flower",
     "type": "COMESTIBLE",
-    "comestible_type": "FOOD",
+    "comestible_type": "MED",
     "name": { "str": "leech flower" },
     "color": "blue",
     "weight": "10 g",

@@ -112,6 +112,7 @@ static const efftype_id effect_crushed( "crushed" );
 
 static const field_type_str_id field_fd_clairvoyant( "fd_clairvoyant" );
 
+static const flag_id json_flag_AVATAR_ONLY( "AVATAR_ONLY" );
 static const flag_id json_flag_PRESERVE_SPAWN_OMT( "PRESERVE_SPAWN_OMT" );
 static const flag_id json_flag_UNDODGEABLE( "UNDODGEABLE" );
 
@@ -120,6 +121,7 @@ static const item_group_id Item_spawn_data_default_zombie_items( "default_zombie
 
 static const itype_id itype_battery( "battery" );
 static const itype_id itype_nail( "nail" );
+
 
 static const material_id material_glass( "glass" );
 
@@ -188,7 +190,8 @@ map::map( int mapsize, bool zlev ) : my_MAPSIZE( mapsize ), zlevels( zlev )
 
 map::~map()
 {
-    if( _main_requires_cleanup ) {
+    if( ( _main_requires_cleanup && !_main_cleanup_override ) ||
+        ( _main_cleanup_override && *_main_cleanup_override ) ) {
         get_map().reset_vehicles_sm_pos();
         get_map().rebuild_vehicle_level_caches();
         g->load_npcs();
@@ -198,6 +201,82 @@ map::~map()
 map &map::operator=( map && ) = default;
 
 static submap null_submap;
+
+void map::set_transparency_cache_dirty( const int zlev )
+{
+    if( inbounds_z( zlev ) ) {
+        get_cache( zlev ).transparency_cache_dirty.set();
+        get_cache( zlev ).r_hor_cache->invalidate();
+        get_cache( zlev ).r_up_cache->invalidate();
+    }
+}
+
+void map::set_transparency_cache_dirty( const tripoint &p, bool field )
+{
+    if( inbounds( p ) ) {
+        const tripoint smp = ms_to_sm_copy( p );
+        get_cache( smp.z ).transparency_cache_dirty.set( smp.x * MAPSIZE + smp.y );
+        if( !field ) {
+            get_cache( smp.z ).r_hor_cache->invalidate( p.xy() );
+            get_cache( smp.z ).r_up_cache->invalidate( p.xy() );
+        }
+    }
+}
+
+void map::set_seen_cache_dirty( const tripoint &change_location )
+{
+    if( inbounds( change_location ) ) {
+        level_cache &cache = get_cache( change_location.z );
+        if( cache.seen_cache_dirty ) {
+            return;
+        }
+        if( cache.seen_cache[change_location.x][change_location.y] != 0.0 ||
+            cache.camera_cache[change_location.x][change_location.y] != 0.0 ) {
+            cache.seen_cache_dirty = true;
+        }
+    }
+}
+
+void map::set_seen_cache_dirty( const int zlevel )
+{
+    if( inbounds_z( zlevel ) ) {
+        level_cache &cache = get_cache( zlevel );
+        cache.seen_cache_dirty = true;
+    }
+}
+
+void map::set_outside_cache_dirty( const int zlev )
+{
+    if( inbounds_z( zlev ) ) {
+        get_cache( zlev ).outside_cache_dirty = true;
+    }
+}
+
+void map::set_floor_cache_dirty( const int zlev )
+{
+    if( inbounds_z( zlev ) ) {
+        get_cache( zlev ).floor_cache_dirty = true;
+    }
+}
+
+void map::set_memory_seen_cache_dirty( const tripoint &p )
+{
+    const int offset = p.x + p.y * MAPSIZE_Y;
+    if( offset >= 0 && offset < MAPSIZE_X * MAPSIZE_Y ) {
+        get_cache( p.z ).map_memory_seen_cache.reset( offset );
+    }
+}
+
+void map::invalidate_map_cache( const int zlev )
+{
+    if( inbounds_z( zlev ) ) {
+        level_cache &ch = get_cache( zlev );
+        ch.floor_cache_dirty = true;
+        ch.seen_cache_dirty = true;
+        ch.outside_cache_dirty = true;
+        set_transparency_cache_dirty( zlev );
+    }
+}
 
 maptile map::maptile_at( const tripoint &p ) const
 {
@@ -7217,6 +7296,9 @@ void map::loadn( const tripoint &grid, const bool update_vehicles, bool _actuali
     const int old_abs_z = abs_sub.z(); // Ugly, but necessary at the moment
     abs_sub.z() = grid.z;
 
+    bool const main_inbounds =
+        this != &get_map() && get_map().inbounds( project_to<coords::ms>( grid_abs_sub ) );
+
     submap *tmpsub = MAPBUFFER.lookup_submap( grid_abs_sub );
     if( tmpsub == nullptr ) {
         // It doesn't exist; we must generate it!
@@ -7239,7 +7321,9 @@ void map::loadn( const tripoint &grid, const bool update_vehicles, bool _actuali
             generate_uniform( grid_abs_sub_rounded, ter_t_soil );
         } else {
             tinymap tmp_map;
+            tmp_map.main_cleanup_override( false );
             tmp_map.generate( grid_abs_sub_rounded, calendar::turn );
+            _main_requires_cleanup = main_inbounds && tmp_map.is_main_cleanup_queued();
         }
 
         // This is the same call to MAPBUFFER as above!
@@ -7265,8 +7349,6 @@ void map::loadn( const tripoint &grid, const bool update_vehicles, bool _actuali
         get_cache( grid.z ).field_cache.set( grid.x + grid.y * MAPSIZE );
     }
 
-    bool const main_inbounds =
-        this != &get_map() && get_map().inbounds( project_to<coords::ms>( grid_abs_sub ) );
     // Destroy bugged no-part vehicles
     auto &veh_vec = tmpsub->vehicles;
     for( auto iter = veh_vec.begin(); iter != veh_vec.end(); ) {
@@ -7307,6 +7389,23 @@ void map::loadn( const tripoint &grid, const bool update_vehicles, bool _actuali
     }
 
     abs_sub.z() = old_abs_z;
+}
+
+void map::loadn( const point &grid, bool update_vehicles, bool _actualize )
+{
+    if( zlevels ) {
+        for( int gridz = -OVERMAP_DEPTH; gridz <= OVERMAP_HEIGHT; gridz++ ) {
+            loadn( tripoint( grid, gridz ), update_vehicles, _actualize );
+        }
+
+        // Note: we want it in a separate loop! It is a post-load cleanup
+        // Since we're adding roofs, we want it to go up (from lowest to highest)
+        for( int gridz = -OVERMAP_DEPTH; gridz <= OVERMAP_HEIGHT; gridz++ ) {
+            add_roofs( tripoint( grid, gridz ) );
+        }
+    } else {
+        loadn( tripoint( grid, abs_sub.z() ), update_vehicles, _actualize );
+    }
 }
 
 void map::rotten_item_spawn( const item &item, const tripoint &pnt )
@@ -8722,6 +8821,10 @@ void map::maybe_trigger_trap( const tripoint &pos, Creature &c, const bool may_a
         return;
     }
 
+    if( tr.has_flag( json_flag_AVATAR_ONLY ) && !c.is_avatar() ) {
+        return;
+    }
+
     if( !tr.has_flag( json_flag_UNDODGEABLE ) && may_avoid && c.avoid_trap( pos, tr ) ) {
         Character *const pl = c.as_character();
         if( !tr.is_always_invisible() && pl && !pl->knows_trap( pos ) ) {
@@ -9028,6 +9131,16 @@ void map::queue_main_cleanup()
     }
 }
 
+bool map::is_main_cleanup_queued()
+{
+    return _main_requires_cleanup;
+}
+
+void map::main_cleanup_override( bool over )
+{
+    _main_cleanup_override = over;
+}
+
 const pathfinding_cache &map::get_pathfinding_cache_ref( int zlev ) const
 {
     if( !inbounds_z( zlev ) ) {
@@ -9224,6 +9337,25 @@ void map::invalidate_max_populated_zlev( int zlev )
     if( max_populated_zlev && max_populated_zlev->second < zlev ) {
         max_populated_zlev->second = zlev;
     }
+}
+
+bool map::has_potential_los( const tripoint &from, const tripoint &to,
+                             bool bounds_check ) const
+{
+    if( bounds_check && ( !inbounds( from ) || !inbounds( to ) ) ) {
+        return false;
+    }
+    if( from.z == to.z ) {
+        level_cache &cache = get_cache( from.z );
+        return cache.r_hor_cache->has_potential_los( from.xy(), to.xy(), cache ) &&
+               cache.r_hor_cache->has_potential_los( to.xy(), from.xy(), cache ) ;
+    }
+    tripoint upper;
+    tripoint lower;
+    std::tie( upper, lower ) = from.z > to.z ? std::make_pair( from, to ) : std::make_pair( to, from );
+    // z-bounds depend on the invariant that both points are inbounds and their z are different
+    return get_cache( lower.z ).r_up_cache->has_potential_los(
+               lower.xy(), upper.xy(), get_cache( lower.z ), get_cache( lower.z + 1 ) );
 }
 
 // Get cache value for debug purposes

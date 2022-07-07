@@ -1925,7 +1925,7 @@ void basecamp::scan_pseudo_items()
                 const std::vector<std::pair<itype_id, int>> tools =
                             here.veh_at( pos )->part_displayed().value().get_tools();
 
-                for( auto &tool : tools ) {
+                for( const auto &tool : tools ) {
                     if( tool.first.obj().has_flag( flag_PSEUDO ) &&
                         tool.first.obj().has_flag( flag_ALLOWS_REMOTE_USE ) ) {
                         bool found = false;

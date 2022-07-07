@@ -2118,8 +2118,8 @@ bool Character::craft_consume_tools( item &craft, int multiplier, bool start_cra
                 case usage_from::player:
                     if( !has_charges( type, count ) ) {
                         add_msg_player_or_npc(
-                            _( "You have insufficient %s charges and can't continue crafting" ),
-                            _( "<npcname> has insufficient %s charges and can't continue crafting" ),
+                            _( "You have insufficient %s charges and can't continue crafting." ),
+                            _( "<npcname> has insufficient %s charges and can't continue crafting." ),
                             item::nname( type ) );
                         craft.set_tools_to_continue( false );
                         return false;
@@ -2128,8 +2128,8 @@ bool Character::craft_consume_tools( item &craft, int multiplier, bool start_cra
                 case usage_from::map:
                     if( !map_inv.has_charges( type, count ) ) {
                         add_msg_player_or_npc(
-                            _( "You have insufficient %s charges and can't continue crafting" ),
-                            _( "<npcname> has insufficient %s charges and can't continue crafting" ),
+                            _( "You have insufficient %s charges and can't continue crafting." ),
+                            _( "<npcname> has insufficient %s charges and can't continue crafting." ),
                             item::nname( type ) );
                         craft.set_tools_to_continue( false );
                         return false;
@@ -2138,8 +2138,8 @@ bool Character::craft_consume_tools( item &craft, int multiplier, bool start_cra
                 case usage_from::both:
                     if( !crafting_inventory().has_charges( type, count ) ) {
                         add_msg_player_or_npc(
-                            _( "You have insufficient %s charges and can't continue crafting" ),
-                            _( "<npcname> has insufficient %s charges and can't continue crafting" ),
+                            _( "You have insufficient %s charges and can't continue crafting." ),
+                            _( "<npcname> has insufficient %s charges and can't continue crafting." ),
                             item::nname( type ) );
                         craft.set_tools_to_continue( false );
                         return false;
@@ -2152,8 +2152,8 @@ bool Character::craft_consume_tools( item &craft, int multiplier, bool start_cra
         } else if( ( type != itype_id::NULL_ID() ) && !has_amount( type, 1 ) &&
                    !map_inv.has_tools( type, 1 ) ) {
             add_msg_player_or_npc(
-                _( "You no longer have a %s and can't continue crafting" ),
-                _( "<npcname> no longer has a %s and can't continue crafting" ),
+                _( "You no longer have a %s and can't continue crafting." ),
+                _( "<npcname> no longer has a %s and can't continue crafting." ),
                 item::nname( type ) );
             craft.set_tools_to_continue( false );
             return false;

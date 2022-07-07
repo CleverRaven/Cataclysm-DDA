@@ -1494,6 +1494,7 @@ void timed_event_manager::unserialize_all( JsonIn &jsin )
         tripoint_abs_ms map_square;
         tripoint_abs_sm map_point;
         std::string string_id;
+        std::string key;
         submap_revert revert;
         jo.read( "faction", faction_id );
         jo.read( "map_point", map_point );
@@ -1502,6 +1503,7 @@ void timed_event_manager::unserialize_all( JsonIn &jsin )
         jo.read( "string_id", string_id );
         jo.read( "type", type );
         jo.read( "when", when );
+        jo.read( "key", key );
         point pt;
         for( JsonObject jp : jo.get_array( "revert" ) ) {
             revert.set_furn( pt, furn_id( jp.get_string( "furn" ) ) );
@@ -1514,7 +1516,7 @@ void timed_event_manager::unserialize_all( JsonIn &jsin )
         }
         get_timed_events().add( static_cast<timed_event_type>( type ), when, faction_id, map_square,
                                 strength,
-                                string_id, revert );
+                                string_id, revert, key );
     }
 }
 
@@ -1578,6 +1580,7 @@ void timed_event_manager::serialize_all( JsonOut &jsout )
         jsout.member( "string_id", elem.string_id );
         jsout.member( "type", elem.type );
         jsout.member( "when", elem.when );
+        jsout.member( "key", elem.key );
         jsout.member( "revert" );
         jsout.start_array();
         for( int y = 0; y < SEEY; y++ ) {

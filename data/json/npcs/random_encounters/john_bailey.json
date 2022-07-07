@@ -27,7 +27,7 @@
     "weapon_override": "John_Bailey_wield",
     "traits": [
       { "trait": "SKIN_LIGHT" },
-      { "trait": "eye_brown" },
+      { "trait": "eye_color", "variant": "brown" },
       { "trait": "hair_brown_short" },
       { "trait": "DEFT" },
       { "trait": "OUTDOORSMAN" },

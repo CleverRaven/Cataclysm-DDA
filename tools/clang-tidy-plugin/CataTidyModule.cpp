@@ -10,6 +10,7 @@
 #include "DeterminismCheck.h"
 #include "HeaderGuardCheck.h"
 #include "JsonTranslationInputCheck.h"
+#include "LargeInlineFunctionCheck.h"
 #include "LargeStackObjectCheck.h"
 #include "NoLongCheck.h"
 #include "NoStaticTranslationCheck.h"
@@ -71,6 +72,7 @@ class CataModule : public ClangTidyModule
             CheckFactories.registerCheck<DeterminismCheck>( "cata-determinism" );
             CheckFactories.registerCheck<CataHeaderGuardCheck>( "cata-header-guard" );
             CheckFactories.registerCheck<JsonTranslationInputCheck>( "cata-json-translation-input" );
+            CheckFactories.registerCheck<LargeInlineFunctionCheck>( "cata-large-inline-function" );
             CheckFactories.registerCheck<LargeStackObjectCheck>( "cata-large-stack-object" );
             CheckFactories.registerCheck<NoLongCheck>( "cata-no-long" );
             CheckFactories.registerCheck<NoStaticTranslationCheck>( "cata-no-static-translation" );

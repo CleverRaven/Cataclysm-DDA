@@ -554,7 +554,7 @@ static void draw_encumbrance_info( const catacurses::window &w_info, const Chara
 }
 
 static void draw_traits_tab( const catacurses::window &w_traits, const unsigned line,
-                             const player_display_tab curtab, const std::vector<trait_id> &traitslist )
+                             const player_display_tab curtab, const std::vector<trait_and_var> &traitslist )
 {
     werase( w_traits );
     const bool is_current_tab = curtab == player_display_tab::traits;
@@ -568,10 +568,10 @@ static void draw_traits_tab( const catacurses::window &w_traits, const unsigned 
             line, is_current_tab );
 
     for( size_t i = range.first; i < static_cast<size_t>( range.second ); ++i ) {
-        const mutation_branch &mdata = traitslist[i].obj();
-        const nc_color color = mdata.get_display_color();
+        const trait_and_var &cur = traitslist[i];
+        const nc_color color = cur.trait->get_display_color();
         trim_and_print( w_traits, point( 1, static_cast<int>( 1 + i - range.first ) ), width,
-                        is_current_tab && i == line ? hilite( color ) : color, mdata.name() );
+                        is_current_tab && i == line ? hilite( color ) : color, cur.name() );
     }
     draw_scrollbar( w_traits, range.first, height, traitslist.size(), point( width + 1, 1 ), c_white,
                     true );
@@ -579,14 +579,14 @@ static void draw_traits_tab( const catacurses::window &w_traits, const unsigned 
 }
 
 static void draw_traits_info( const catacurses::window &w_info, const unsigned line,
-                              const std::vector<trait_id> &traitslist )
+                              const std::vector<trait_and_var> &traitslist )
 {
     werase( w_info );
     if( line < traitslist.size() ) {
-        const mutation_branch &mdata = traitslist[line].obj();
+        const trait_and_var &cur = traitslist[line];
         // NOLINTNEXTLINE(cata-use-named-point-constants)
-        fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_light_gray, string_format(
-                            "%s: %s", colorize( mdata.name(), mdata.get_display_color() ), traitslist[line]->desc() ) );
+        fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_light_gray, string_format( "%s: %s",
+                        colorize( cur.name(), cur.trait->get_display_color() ), cur.desc() ) );
     }
     wnoutrefresh( w_info );
 }
@@ -910,7 +910,7 @@ static void draw_speed_tab( const catacurses::window &w_speed,
 
 static void draw_info_window( const catacurses::window &w_info, const Character &you,
                               const unsigned line, const unsigned info_line, const player_display_tab curtab,
-                              const std::vector<trait_id> &traitslist,
+                              const std::vector<trait_and_var> &traitslist,
                               const std::vector<bionic> &bionicslist,
                               const std::vector<std::pair<std::string, std::string>> &effect_name_and_text,
                               const std::vector<HeaderSkill> &skillslist )
@@ -989,7 +989,7 @@ static bool handle_player_display_action( Character &you, unsigned int &line,
         const ui_adaptor &ui_info, const ui_adaptor &ui_stats, const ui_adaptor &ui_encumb,
         const ui_adaptor &ui_traits, const ui_adaptor &ui_bionics, const ui_adaptor &ui_effects,
         const ui_adaptor &ui_skills, const ui_adaptor &ui_proficiencies,
-        const std::vector<trait_id> &traitslist, const std::vector<bionic> &bionicslist,
+        std::vector<trait_and_var> &traitslist, const std::vector<bionic> &bionicslist,
         const std::vector<std::pair<std::string, std::string>> &effect_name_and_text,
         const std::vector<HeaderSkill> &skillslist, bool customize_character )
 {
@@ -1091,6 +1091,13 @@ static bool handle_player_display_action( Character &you, unsigned int &line,
         invalidate_tab( curtab );
         info_line = 0;
         ui_info.invalidate_ui();
+    } else if( action == "SELECT_TRAIT_VARIANT" ) {
+        if( curtab == player_display_tab::traits ) {
+            const mutation_variant *var = traitslist[line].trait->pick_variant_menu();
+            you.set_mut_variant( traitslist[line].trait, var );
+            const std::string &varid = var == nullptr ? "" : var->id;
+            traitslist[line].variant = varid;
+        }
     } else if( action == "QUIT" ) {
         done = true;
     } else if( action == "CONFIRM" ) {
@@ -1287,7 +1294,7 @@ void Character::disp_info( bool customize_character )
     const unsigned int proficiency_win_size_y_max = 1 + static_cast<unsigned>
             ( display_proficiencies().size() );
 
-    std::vector<trait_id> traitslist = get_mutations( false );
+    std::vector<trait_and_var> traitslist = get_mutations_variants( false );
     std::sort( traitslist.begin(), traitslist.end(), trait_display_sort );
     const unsigned int trait_win_size_y_max = 1 + static_cast<unsigned>( traitslist.size() );
 
@@ -1325,10 +1332,9 @@ void Character::disp_info( bool customize_character )
     // Unless you have a custom profession.
     std::string race;
     if( custom_profession.empty() && crossed_threshold() ) {
-        for( const trait_id &mut : get_mutations() ) {
-            const mutation_branch &mdata = mut.obj();
-            if( mdata.threshold ) {
-                race = mdata.name();
+        for( const trait_and_var &mut : get_mutations_variants() ) {
+            if( mut.trait->threshold ) {
+                race = mut.name();
                 break;
             }
         }
@@ -1346,6 +1352,7 @@ void Character::disp_info( bool customize_character )
     ctxt.register_action( "VIEW_BODYSTAT", to_translation( "View character's body status" ) );
     ctxt.register_action( "SCROLL_INFOBOX_UP", to_translation( "Scroll information box up" ) );
     ctxt.register_action( "SCROLL_INFOBOX_DOWN", to_translation( "Scroll information box down" ) );
+    ctxt.register_action( "SELECT_TRAIT_VARIANT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "MEDICAL_MENU" );
 
