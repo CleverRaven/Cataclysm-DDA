@@ -15,7 +15,6 @@
     "label": "movement",
     "arrange": "rows",
     "width": 56,
-    "height": 5,
     "widgets": [ "places_koordinates_block", "compass_block" ]
   },
   {
@@ -43,7 +42,6 @@
     "label": "movement",
     "arrange": "minimum_columns",
     "width": 56,
-    "height": 5,
     "widgets": [ "compass", "compass_legend" ]
   },
   {
