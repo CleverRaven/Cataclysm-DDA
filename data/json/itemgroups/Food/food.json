@@ -86,7 +86,7 @@
       { "item": "honey_mustard", "prob": 6, "charges-min": 1 },
       { "item": "honey_mustard", "prob": 1, "charges": 32, "container-item": "condiment_bottle_sealed" }
     ]
-  }, `
+  },
   {
     "type": "item_group",
     "id": "barbecue_sauce_sealed_rng",
