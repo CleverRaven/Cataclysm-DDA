@@ -1464,6 +1464,27 @@
   },
   {
     "type": "MONSTER",
+    "id": "mon_aquilops",
+    "name": { "str_sp": "aquilops" },
+    "copy-from": "mon_pachyrhinosaurus",
+    "volume": "1.5 L",
+    "weight": "1.5 kg",
+    "melee_skill": 4,
+    "aggression": -10,
+    "morale": 10,
+    "speed": 110,
+    "melee_dice": 2,
+    "melee_dice_sides": 6,
+    "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
+    "dodge": 5,
+    "hp": 5,
+    "description": "A small rhino-like dinosaur with a bony crest studded with small horns and a hooked beak.",
+    "reproduction": { "baby_egg": "egg_aquilops", "baby_count": 20, "baby_timer": 24 },
+    "special_attacks": [ [ "EAT_CROP", 30 ] ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CANPLAY" ]
+  },
+  {
+    "type": "MONSTER",
     "id": "mon_pachyrhinosaurus",
     "name": { "str_sp": "pachyrhinosaurus" },
     "copy-from": "mon_triceratops",
@@ -1625,7 +1646,6 @@
     "petfood": { "food": [ "DINOFOOD_B" ] },
     "flags": [ "SEES", "SMELLS", "HEARS", "FLIES", "HIT_AND_RUN", "ANIMAL", "PATH_AVOID_DANGER_1", "CANPLAY" ],
     "harvest": "bird_small",
-    "dissect": "dissect_lizard_sample_single",
     "fear_triggers": [ "PLAYER_CLOSE", "FRIEND_DIED" ],
     "categories": [ "DINOSAUR", "WILDLIFE" ]
   },
@@ -1647,7 +1667,6 @@
     "anger_triggers": [ "PLAYER_WEAK", "HURT", "FRIEND_ATTACKED", "PLAYER_CLOSE" ],
     "fear_triggers": [ "FRIEND_DIED" ],
     "harvest": "dino_feather_leather",
-    "dissect": "dissect_lizard_sample_small",
     "special_attacks": [ [ "scratch", 10 ] ]
   },
   {
@@ -1670,8 +1689,7 @@
     "petfood": { "food": [ "DINOFOOD_B" ] },
     "anger_triggers": [ "PLAYER_WEAK", "HURT", "FRIEND_ATTACKED", "PLAYER_CLOSE" ],
     "fear_triggers": [ "FRIEND_DIED" ],
-    "harvest": "dino_feather_leather",
-    "dissect": "dissect_lizard_sample_small"
+    "harvest": "dino_feather_leather"
   },
   {
     "type": "MONSTER",
@@ -1707,7 +1725,7 @@
     "special_attacks": [ [ "LUNGE", 10 ], [ "GRAB", 7 ], { "type": "bite", "cooldown": 10 } ],
     "flags": [ "SEES", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "DESTROYS", "WARM", "SWIMS", "AQUATIC", "PUSH_MON" ],
     "harvest": "dino_large_pred",
-    "dissect": "dissect_mosasaurus_large",
+    "dissect": "dissect_dino_large_pred",
     "anger_triggers": [ "PLAYER_WEAK", "HURT", "FRIEND_ATTACKED", "PLAYER_CLOSE" ],
     "categories": [ "DINOSAUR", "WILDLIFE" ]
   }
