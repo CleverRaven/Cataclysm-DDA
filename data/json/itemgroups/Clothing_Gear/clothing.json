@@ -602,13 +602,48 @@
     "//": "Protective helmets or headlamps often worn by technicians and tradesmen.",
     "subtype": "distribution",
     "entries": [
-      { "item": "hat_hard", "prob": 60 },
-      { "item": "hat_hard_hooded", "prob": 15 },
+      { "item": "hat_hard", "prob": 30 },
+      { "group": "hat_hard_modified", "prob": 30 },
+      { "item": "hat_hard_hooded", "prob": 10 },
+      { "group": "hat_hard_hooded_modified", "prob": 5 },
       { "item": "miner_hat", "prob": 10, "charges": [ 0, 100 ] },
       { "item": "wearable_light", "prob": 15, "charges": [ 0, 100 ] },
       { "item": "hat_hard", "variant": "flag_hat_hard", "prob": 70, "event": "independence_day" },
       { "item": "hat_hard_hooded", "variant": "flag_hat_hard", "prob": 20, "event": "independence_day" }
     ]
+  },
+  {
+    "id": "hat_hard_modified",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "hat_hard",
+    "items": [
+      { "group": "common_nape_protectors", "prob": 50 },
+      { "group": "common_face_shields", "prob": 15 },
+      { "item": "plastic_chin_guard", "prob": 10 },
+      { "item": "attachable_ear_muffs", "prob": 5 }
+    ]
+  },
+  {
+    "id": "hat_hard_hooded_modified",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "hat_hard_hooded",
+    "items": [ { "group": "common_nape_protectors", "prob": 50 }, { "item": "plastic_chin_guard", "prob": 10 } ]
+  },
+  {
+    "id": "common_nape_protectors",
+    "type": "item_group",
+    "//": "Common nape protectors for a hard hat or helmet.",
+    "subtype": "distribution",
+    "entries": [ { "item": "nape_protector", "prob": 6 }, { "item": "mesh_nape_protector", "prob": 4 } ]
+  },
+  {
+    "id": "common_face_shields",
+    "type": "item_group",
+    "//": "Common face shields for a hard hat.",
+    "subtype": "distribution",
+    "entries": [ { "item": "face_shield_plastic", "prob": 75 }, { "item": "face_shield", "prob": 25 } ]
   },
   {
     "id": "clothing_work_mask",
@@ -671,6 +706,11 @@
       [ "boots_steel", 40 ],
       [ "sneakers_steel", 28 ],
       [ "hat_hard", 40 ],
+      [ "mesh_nape_protector", 10 ],
+      [ "nape_protector", 10 ],
+      [ "face_shield_plastic", 10 ],
+      [ "sun_shield", 15 ],
+      [ "attachable_ear_muffs", 5 ],
       [ "mask_dust", 30 ],
       { "item": "mask_filter", "prob": 30, "charges": [ 0, 100 ] },
       [ "glasses_safety", 30 ],
@@ -2807,8 +2847,10 @@
       { "item": "gloves_work", "prob": 45 },
       { "item": "mask_filter", "prob": 30, "charges-min": 0 },
       { "item": "glasses_safety", "prob": 40 },
-      { "item": "hat_hard", "prob": 50 },
-      { "item": "hat_hard_hooded", "prob": 25 },
+      { "item": "hat_hard", "prob": 25 },
+      { "group": "hat_hard_modified", "prob": 25 },
+      { "item": "hat_hard_hooded", "prob": 15 },
+      { "group": "hat_hard_hooded_modified", "prob": 10 },
       { "item": "wearable_light", "prob": 5, "charges": [ 0, 100 ] },
       { "item": "ear_plugs", "prob": 50 },
       { "group": "ammo_any_batteries_full", "prob": 50 },
@@ -3492,7 +3534,8 @@
       {
         "distribution": [
           { "item": "helmet_motor", "prob": 20 },
-          { "item": "helmet_bike", "prob": 50 },
+          { "item": "helmet_bike", "prob": 40 },
+          { "group": "helmet_bike_modified", "prob": 10 },
           { "item": "headgear", "prob": 10 },
           { "item": "helmet_ball", "prob": 15 },
           { "item": "swim_cap", "prob": 10 },

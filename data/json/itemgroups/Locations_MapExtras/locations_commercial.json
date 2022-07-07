@@ -1147,7 +1147,10 @@
       },
       {
         "distribution": [
-          { "item": "helmet_bike", "prob": 35 },
+          { "item": "helmet_bike", "prob": 25 },
+          { "group": "helmet_bike_modified", "prob": 10 },
+          { "item": "plastic_chin_guard", "prob": 5 },
+          { "item": "shield_visor", "prob": 10 },
           { "item": "knee_pads", "prob": 35 },
           { "item": "elbow_pads", "prob": 35 },
           { "item": "gloves_leather", "prob": 35 },
