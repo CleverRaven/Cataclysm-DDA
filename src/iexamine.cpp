@@ -1445,9 +1445,13 @@ void iexamine::chainfence( Character &you, const tripoint &examp )
     }
 
     const item &weapon = you.get_wielded_item();
-    if( weapon.is_two_handed( you ) ) {
-        add_msg( m_info, _( "You can't climb because you have to wield %s with both hands." ),
-                 weapon.tname() );
+    if( weapon.is_two_handed( you ) &&
+        query_yn( _( "You can't climb because you have to wield a %s with both hands.\n\nPut it away?" ),
+                  weapon.tname() ) ) {
+        if( !you.unwield() ) {
+            return;
+        }
+    } else {
         return;
     }
 
