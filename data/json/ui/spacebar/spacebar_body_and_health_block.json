@@ -279,7 +279,7 @@
     "id": "spacebar_wetness_layout",
     "type": "widget",
     "style": "layout",
-    "label": "wetnes",
+    "label": "wetness",
     "arrange": "rows",
     "width": 2,
     "widgets": [
