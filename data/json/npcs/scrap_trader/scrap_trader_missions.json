@@ -46,8 +46,8 @@
       "rejected": "Someone's got to do it.",
       "inquire": "Do you have the charcoal?",
       "success": "Wonderful!  This should do for a while.",
-      "success_lie": "Where are they? I don't believe you.",
-      "failure": "That's unfortunate. I guess I'll do it myself."
+      "success_lie": "Where are they?  I don't believe you.",
+      "failure": "That's unfortunate.  I guess I'll do it myself."
     }
   },
   {
