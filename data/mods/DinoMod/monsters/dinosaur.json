@@ -1467,9 +1467,11 @@
     "id": "mon_aquilops",
     "name": { "str_sp": "aquilops" },
     "copy-from": "mon_pachyrhinosaurus",
+    "looks_like": "mon_eoraptor",
     "volume": "1.5 L",
     "weight": "1.5 kg",
     "melee_skill": 4,
+    "diff": 0,
     "aggression": -10,
     "morale": 10,
     "speed": 110,
@@ -1481,7 +1483,8 @@
     "description": "A small rhino-like dinosaur with a bony crest studded with small horns and a hooked beak.",
     "reproduction": { "baby_egg": "egg_aquilops", "baby_count": 20, "baby_timer": 24 },
     "special_attacks": [ [ "EAT_CROP", 30 ] ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CANPLAY" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CANPLAY" ],
+    "harvest": "mammal_tiny"
   },
   {
     "type": "MONSTER",
