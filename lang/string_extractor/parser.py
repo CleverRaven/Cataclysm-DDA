@@ -220,6 +220,7 @@ parsers = {
     "terrain": parse_terrain,
     "trait_blacklist": dummy_parser,
     "trait_group": dummy_parser,
+    "trait_migration": dummy_parser,
     "trap": parse_trap,
     "tool": parse_generic,
     "tool_armor": parse_generic,

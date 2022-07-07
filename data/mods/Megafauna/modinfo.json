@@ -2,7 +2,7 @@
   {
     "type": "MOD_INFO",
     "id": "megafauna",
-    "name": "[WIP] Megafauna",
+    "name": "Megafauna",
     "authors": [ "merrygin" ],
     "maintainers": [ "merrygin" ],
     "description": "Adds extinct pleistocene megafauna to the game, replacing modern day and introduced animals.",

@@ -255,6 +255,7 @@ std::string enum_to_string<ter_furn_flag>( ter_furn_flag data )
         case ter_furn_flag::TFLAG_AMMOTYPE_RELOAD: return "AMMOTYPE_RELOAD";
         case ter_furn_flag::TFLAG_TRANSPARENT_FLOOR: return "TRANSPARENT_FLOOR";
         case ter_furn_flag::TFLAG_TOILET_WATER: return "TOILET_WATER";
+        case ter_furn_flag::TFLAG_ELEVATOR: return "ELEVATOR";
 
         // *INDENT-ON*
         case ter_furn_flag::NUM_TFLAG_FLAGS:
