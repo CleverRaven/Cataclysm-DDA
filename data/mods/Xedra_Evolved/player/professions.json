@@ -128,7 +128,7 @@
           "molle_pack"
         ],
         "entries": [
-          { "group": "military_ballistic_vest_pristine" },
+          { "group": "military_ballistic_vest_light" },
           { "group": "torso_grenade_bandolier_jotunn" },
           { "item": "mgl", "ammo-item": "40x46mm_m433", "charges": 3, "contents-item": "shoulder_strap" }
         ]
@@ -173,7 +173,7 @@
         "entries": [
           { "item": "water_clean", "ammo-item": "water_clean", "container-item": "canteen" },
           { "item": "signal_flare", "ammo-item": "signal_flare", "count": 5 },
-          { "group": "military_ballistic_vest_pristine" },
+          { "group": "military_ballistic_vest_light" },
           {
             "item": "needlegun",
             "ammo-item": "5x50dart",
@@ -224,7 +224,7 @@
         ],
         "entries": [
           { "item": "water_clean", "ammo-item": "water_clean", "container-item": "canteen" },
-          { "group": "military_ballistic_vest_pristine" },
+          { "group": "military_ballistic_vest_light" },
           { "item": "needlepistol", "ammo-item": "5x50dart", "charges": 35, "contents-item": [ "holo_sight" ] },
           { "item": "legpouch_large", "contents-group": "xedra_mags_troll" }
         ]
