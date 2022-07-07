@@ -5,17 +5,16 @@ Adds 16 lorefriendly megafauna species especially suited for innawood playthroug
 
 At the same time, species introduced in modern times are removed! E.g.: wild boars, cows, cats, dogs, ... 
 
---------
 
-**Detailed Goals and Scope**
-The goal of the mod is to add extinct megafauna of the late Pleistocene and early holocene era (about 30.000-8.000 BCE), which the first humans setting foot on the area CDDA mostly uses as a real world counterpart, New England, have encountered.
+**Goals and Scope**
+The goal of the mod is to add extinct megafauna of the late Pleistocene and early holocene (about 30.000-8.000 BCE), that the first humans setting foot on the area CDDA mostly uses as a real world counterpart, New England, have encountered.
 
-The mod aims to provide a more realistic fauna for wilderness/stone age playthroughs, especially together with the innawood mod, or as a more mammal-focused addition together with the DinoMod (testing of compatibility not done yet, though!). Species encountered in New England today which are quite new additions to the biosphere (like the wild boar) will be replaced by species more fitting to the time frame. These animals can fill niches for human use, not only regarding meat, but also wool and milk, that are currently only covered by modern day farm animals (which are rare finds in the wild).
+The mod aims to provide a more realistic fauna for wilderness/stone age playthroughs, especially together with the innawood mod, or as a more mammal-focused addition together with the DinoMod (seems to work together, but might need tweaking). Part of that goal is that some species encountered in New England today which are quite new additions to the biosphere (like the wild boar) will be replaced by species more fitting to the time frame. These animals can fill niches for human use, not only regarding meat, but also wool and milk, that are currently only covered by modern day farm animals.
 
-Geographically, species from modern day New England are the focus, again for a more coherent, realistic feel. If evidence is found not too far away in not too different climates (e.g., Great Lakes) thats alright, too. If remains of a species have only been found in, e.g., New Mexiko and Texas, they *probably* wont feature here (although might be considered if cool enough).
+Geographically, species from modern day New England are the focus, again for a more coherent, realistic feel. If evidence is found not too far away in not too different climates (e.g., Great Lakes) thats alright too. If remains of a species have only been found in, e.g., New Mexiko and Texas, they probably wont feature here.
 
 **NOTE**
-This mod is still work-in-progress, but a basic set of 16 new Pleistocene-era animals is available, should spawn in new games and be generally useful especially for innawood players. They might be unbalanced, both statwise and spawnwise. Do ping me if you encounter any stuff like that! 
+This mod is still work-in-progress, but a basic set of 16 new Pleistocene-era animals is available, should spawn in new games and be generally useful especially for innawood players.
 
 **full list of new animals**
 - woolly mammoths
@@ -62,6 +61,7 @@ This mod is still work-in-progress, but a basic set of 16 new Pleistocene-era an
 - Equus Lambei (https://en.wikipedia.org/wiki/Equus_lambei)
 - Homotherium (https://en.wikipedia.org/wiki/Homotherium)
 - American Cheetah (https://en.wikipedia.org/wiki/American_cheetah)
+- Tapir veroensis https://en.wikipedia.org/wiki/Tapirus_veroensis 
 
 Possibly also some birds (Titanis/Paracrax/Aiolornis, Auk), if evidence exists and they are cool.
 Possibly some kind of goat, maybe extinct pronghorn species?
