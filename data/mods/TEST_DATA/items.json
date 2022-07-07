@@ -472,7 +472,7 @@
     "symbol": ";",
     "color": "dark_gray",
     "qualities": [ [ "PRY", 3 ], [ "HAMMER", 1 ], [ "PRYING_NAIL", 1 ] ],
-    "use_action": [ "HAMMER", "CROWBAR" ],
+    "use_action": [ "CROWBAR" ],
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "BELT_CLIP", "DURABLE_MELEE" ]
   },
@@ -493,7 +493,7 @@
     "symbol": ";",
     "color": "brown",
     "qualities": [ [ "HAMMER", 3 ], [ "PRY", 1 ], [ "HAMMER_FINE", 1 ], [ "PRYING_NAIL", 1 ] ],
-    "use_action": [ "HAMMER", "CROWBAR" ],
+    "use_action": [ "CROWBAR" ],
     "flags": [ "BELT_CLIP", "NONCONDUCTIVE" ],
     "weapon_category": [ "BATONS" ]
   },
@@ -703,7 +703,7 @@
     "color": "dark_gray",
     "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
     "qualities": [ [ "PRY", 4 ], [ "HAMMER", 2 ], [ "DIG", 1 ], [ "PRYING_NAIL", 1 ] ],
-    "use_action": [ "HAMMER", "CROWBAR" ],
+    "use_action": [ "CROWBAR" ],
     "flags": [ "DURABLE_MELEE", "BELT_CLIP" ]
   },
   {
@@ -1353,7 +1353,6 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": -2,
-    "healthy": 1,
     "calories": 202,
     "description": "A handful of tasty crunchy nuts from a pinecone.",
     "price": 136,
@@ -1432,7 +1431,6 @@
     "spoils_in": "7 days",
     "symbol": "o",
     "quench": 4,
-    "healthy": 1,
     "calories": 80,
     "price": 44,
     "price_postapoc": 50,
@@ -2211,7 +2209,6 @@
     "comestible_type": "DRINK",
     "symbol": "~",
     "quench": 25,
-    "healthy": 1,
     "calories": 132,
     "description": "You can only push a drink so far before it spoils.",
     "price": 38,
@@ -2258,7 +2255,6 @@
     "comestible_type": "DRINK",
     "symbol": "~",
     "quench": 10,
-    "healthy": -2,
     "addiction_potential": 3,
     "calories": 49,
     "description": "Cheap booze made from fermented tennis ball juice.  Tastes just like it sounds.",

@@ -1339,24 +1339,7 @@ struct itype {
             return count_by_charges() ? 0 : degrade_increments_;
         }
 
-        std::string get_item_type_string() const {
-            if( tool ) {
-                return "TOOL";
-            } else if( comestible ) {
-                return "FOOD";
-            } else if( armor ) {
-                return "ARMOR";
-            } else if( book ) {
-                return "BOOK";
-            } else if( gun ) {
-                return "GUN";
-            } else if( bionic ) {
-                return "BIONIC";
-            } else if( ammo ) {
-                return "AMMO";
-            }
-            return "misc";
-        }
+        std::string get_item_type_string() const;
 
         // Returns the name of the item type in the correct language and with respect to its grammatical number,
         // based on quantity (example: item type “anvil”, nname(4) would return “anvils” (as in “4 anvils”).
@@ -1371,16 +1354,7 @@ struct itype {
             return stackable_ || ammo || comestible;
         }
 
-        int charges_default() const {
-            if( tool ) {
-                return tool->def_charges;
-            } else if( comestible ) {
-                return comestible->def_charges;
-            } else if( ammo ) {
-                return ammo->def_charges;
-            }
-            return count_by_charges() ? 1 : 0;
-        }
+        int charges_default() const;
 
         int charges_to_use() const {
             if( tool ) {

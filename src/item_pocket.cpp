@@ -706,15 +706,13 @@ int item_pocket::remaining_ammo_capacity( const ammotype &ammo ) const
         return 0;
     }
     int ammo_count = 0;
-    if( !contents.empty() ) {
-        for( const item &it : contents ) {
-            if( it.has_flag( flag_CASING ) ) {
-                continue;
-            } else if( ammo != it.ammo_type() ) {
-                return 0;
-            }
-            ammo_count += it.count();
+    for( const item &it : contents ) {
+        if( it.has_flag( flag_CASING ) ) {
+            continue;
+        } else if( ammo != it.ammo_type() ) {
+            return 0;
         }
+        ammo_count += it.count();
     }
     return total_capacity - ammo_count;
 }

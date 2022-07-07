@@ -7,9 +7,38 @@
     "var": "time_text"
   },
   {
+    "id": "sundial_desc_no_label",
+    "type": "widget",
+    "label": "Sundial",
+    "style": "text",
+    "var": "sundial_text",
+    "width": 0,
+    "flags": [ "W_LABEL_NONE", "W_DISABLED_BY_DEFAULT" ]
+  },
+  {
     "id": "time_desc_no_label",
     "type": "widget",
     "copy-from": "time_desc_label",
     "flags": [ "W_LABEL_NONE" ]
+  },
+  {
+    "id": "sundial_label_text",
+    "type": "widget",
+    "style": "text",
+    "width": 6,
+    "flags": [ "W_LABEL_NONE" ],
+    "clauses": [
+      { "id": "sundial_sun", "text": "Sun: ", "color": "white", "condition": "is_day" },
+      { "id": "sundial_moon", "text": "Moon: ", "color": "white", "condition": { "not": "is_day" } }
+    ]
+  },
+  {
+    "id": "sundial_label_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Sundial",
+    "arrange": "minimum_columns",
+    "widgets": [ "sundial_label_text", "sundial_desc_no_label" ],
+    "flags": [ "W_LABEL_NONE", "W_DISABLED_BY_DEFAULT" ]
   }
 ]

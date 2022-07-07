@@ -352,7 +352,7 @@ void iexamine::nanofab( Character &you, const tripoint &examp )
     tripoint spawn_point;
     map &here = get_map();
     std::set<itype_id> allowed_template = here.ter( examp )->allowed_template_id;
-    for( const auto &valid_location : here.points_in_radius( examp, 1 ) ) {
+    for( const tripoint &valid_location : here.points_in_radius( examp, 1 ) ) {
         if( here.has_flag( ter_furn_flag::TFLAG_NANOFAB_TABLE, valid_location ) ) {
             spawn_point = valid_location;
             table_exists = true;
@@ -1147,35 +1147,121 @@ void iexamine::vending( Character &you, const tripoint &examp )
     }
 }
 
-/**
- * If underground, move 2 levels up else move 2 levels down. Stable movement between levels 0 and -2.
- */
+namespace
+{
+int _get_rot_delta( tripoint_abs_omt const &this_omt, tripoint_abs_omt const &that_omt )
+{
+    om_direction::type const this_dir = overmap_buffer.ter( that_omt )->get_dir();
+    om_direction::type const that_dir = overmap_buffer.ter( this_omt )->get_dir();
+    int const diff = static_cast<int>( this_dir ) - static_cast<int>( that_dir );
+    return diff >= 0 ? diff : 4 + diff;
+}
+
+tripoint _rotate_point_sm( tripoint const &p, int erot, tripoint const &orig )
+{
+    tripoint const p_sm( p - orig.xy() );
+    tripoint const rd = p_sm.rotate( erot, { SEEX * 2, SEEY * 2 } );
+    return tripoint{ rd + orig.xy() };
+}
+
+int _choose_elevator_destz( tripoint const &examp, tripoint_abs_omt const &this_omt,
+                            tripoint const &sm_orig )
+{
+    map &here = get_map();
+    uilist choice;
+    choice.title = _( "Select destination floor" );
+    for( int z = OVERMAP_HEIGHT; z >= -OVERMAP_DEPTH; z-- ) {
+        tripoint_abs_omt const that_omt( this_omt.xy(), z );
+        tripoint const zp =
+            _rotate_point_sm( { examp.xy(), z }, _get_rot_delta( this_omt, that_omt ), sm_orig );
+
+        if( here.ter( zp )->has_examine( iexamine::elevator ) ) {
+            std::string const omt_name = overmap_buffer.ter_existing( that_omt )->get_name();
+            std::string const name = string_format(
+                                         "%i %s%s", z, omt_name, z == examp.z ? _( " (this floor)" ) : std::string() );
+            choice.addentry( z, z != examp.z, MENU_AUTOASSIGN, name );
+        }
+    }
+    choice.query();
+    return choice.ret;
+}
+
+struct elevator_vehicles {
+    bool blocking = false;
+    std::vector<vehicle *> v;
+};
+
+elevator_vehicles _get_vehicles_on_elevator( std::vector<tripoint> const &elevator )
+{
+    std::vector<vehicle *> ret;
+    VehicleList const vehs = get_map().get_vehicles();
+    for( wrapped_vehicle const &v : vehs ) {
+        bool inbounds = true;
+        bool can_block = false;
+        for( const vpart_reference &vp : v.v->get_all_parts() ) {
+            tripoint const p = v.pos + vp.part().precalc[0];
+            auto const eit = std::find( elevator.cbegin(), elevator.cend(), p );
+            inbounds &= eit != elevator.cend();
+            if( !inbounds ) {
+                break;
+            }
+            can_block = true;
+        }
+        if( inbounds ) {
+            ret.emplace_back( v.v );
+        } else if( can_block ) {
+            return { true, { v.v } };
+        }
+    }
+
+    return { false, ret };
+}
+} // namespace
+
 void iexamine::elevator( Character &you, const tripoint &examp )
 {
     map &here = get_map();
-    if( !query_yn( _( "Use the %s?" ), here.tername( examp ) ) ) {
+    tripoint_abs_omt const this_omt = project_to<coords::omt>( here.getglobal( examp ) );
+    tripoint const sm_orig = here.getlocal( project_to<coords::ms>( this_omt ) );
+    std::vector<tripoint> this_elevator;
+
+    for( tripoint const &pos : closest_points_first( you.pos(), SEEX - 1 ) ) {
+        if( here.has_flag( ter_furn_flag::TFLAG_ELEVATOR, pos ) ) {
+            this_elevator.emplace_back( pos );
+        }
+    }
+
+    elevator_vehicles const vehs = _get_vehicles_on_elevator( this_elevator );
+    if( vehs.blocking ) {
+        popup( string_format( _( "The %s is blocking the elevator" ), vehs.v.front()->name ) );
         return;
     }
-    int movez = examp.z < 0 ? 2 : -2;
 
-    tripoint original_floor_omt = ms_to_omt_copy( here.getabs( examp ) );
-    tripoint new_floor_omt = original_floor_omt + tripoint( point_zero, movez );
+    int const movez = _choose_elevator_destz( examp, this_omt, sm_orig );
+    if( movez < -OVERMAP_DEPTH ) {
+        return;
+    }
+
+    tripoint_abs_omt const that_omt( this_omt.xy(), movez );
+    int const erot = _get_rot_delta( this_omt, that_omt );
+    std::vector<tripoint> that_elevator;
+    std::transform( this_elevator.begin(), this_elevator.end(), std::back_inserter( that_elevator ),
+    [&erot, &sm_orig, &movez]( tripoint const & p ) {
+        return _rotate_point_sm( { p.xy(), movez }, erot, sm_orig );
+    } );
 
     creature_tracker &creatures = get_creature_tracker();
     // first find critters in the destination elevator and move them out of the way
     for( Creature &critter : g->all_creatures() ) {
-        if( critter.is_avatar() ) {
-            continue;
-        } else if( here.has_flag( "ELEVATOR", critter.pos() ) ) {
-            tripoint critter_omt = ms_to_omt_copy( here.getabs( critter.pos() ) );
-            if( critter_omt == new_floor_omt ) {
-                for( const tripoint &candidate : closest_points_first( critter.pos(), 10 ) ) {
-                    if( !here.has_flag( "ELEVATOR", candidate ) &&
-                        here.passable( candidate ) &&
-                        !creatures.creature_at( candidate ) ) {
-                        critter.setpos( candidate );
-                        break;
-                    }
+        tripoint const cr_pos = here.getlocal( critter.get_location() );
+        auto const eit = std::find( that_elevator.cbegin(), that_elevator.cend(), cr_pos );
+        if( eit != that_elevator.cend() ) {
+            for( const tripoint &candidate : closest_points_first( *eit, 10 ) ) {
+                if( !here.has_flag( ter_furn_flag::TFLAG_ELEVATOR, candidate ) &&
+                    here.passable( candidate ) &&
+                    creatures.creature_at( candidate ) == nullptr ) {
+                    critter.setpos( candidate );
+                    break;
                 }
             }
         }
@@ -1188,47 +1274,29 @@ void iexamine::elevator( Character &you, const tripoint &examp )
         }
     };
 
-    const auto first_elevator_tile = [&]( const tripoint & pos ) -> tripoint {
-        for( const tripoint &candidate : closest_points_first( pos, 10 ) )
-        {
-            if( here.has_flag( "ELEVATOR", candidate ) ) {
-                return candidate;
-            }
-        }
-        return pos;
-    };
-
     // move along every item in the elevator
-    for( const tripoint &pos : closest_points_first( you.pos(), 10 ) ) {
-        if( here.has_flag( "ELEVATOR", pos ) ) {
-            map_stack items = here.i_at( pos );
-            tripoint dest = first_elevator_tile( pos + tripoint( 0, 0, movez ) );
-            move_item( items, pos, dest );
-        }
+    for( decltype( this_elevator )::size_type i = 0; i < this_elevator.size(); i++ ) {
+        tripoint const &src = this_elevator[i];
+        map_stack items = here.i_at( src );
+        move_item( items, src, that_elevator[i] );
     }
 
-    // move the player
-    g->vertical_move( movez, false );
-
-    // finally, bring along everyone who was in the elevator with the player
+    // move along all creatures on the elevator
     for( Creature &critter : g->all_creatures() ) {
-        if( critter.is_avatar() ) {
-            continue;
-        } else if( here.has_flag( "ELEVATOR", critter.pos() ) ) {
-            tripoint critter_omt = ms_to_omt_copy( here.getabs( critter.pos() ) );
-
-            if( critter_omt == original_floor_omt ) {
-                for( const tripoint &candidate : closest_points_first( you.pos(), 10 ) ) {
-                    if( here.has_flag( "ELEVATOR", candidate ) &&
-                        candidate != you.pos() &&
-                        !creatures.creature_at( candidate ) ) {
-                        critter.setpos( candidate );
-                        break;
-                    }
-                }
-            }
+        auto const eit = std::find( this_elevator.cbegin(), this_elevator.cend(), critter.pos() );
+        if( eit != this_elevator.cend() ) {
+            critter.setpos( that_elevator[ std::distance( this_elevator.cbegin(), eit ) ] );
         }
     }
+
+    for( vehicle *v : vehs.v ) {
+        tripoint const p = _rotate_point_sm( { v->global_pos3().xy(), movez }, erot, sm_orig );
+        here.displace_vehicle( *v, p - v->global_pos3() );
+        v->turn( erot * 90_degrees );
+        v->face = tileray( v->turn_dir );
+        v->precalc_mounts( 0, v->turn_dir, v->pivot_anchor[0] );
+    }
+    here.rebuild_vehicle_level_caches();
 }
 
 /**
@@ -1368,6 +1436,22 @@ void iexamine::chainfence( Character &you, const tripoint &examp )
     // If player is grabbed, trapped, or somehow otherwise movement-impeded, first try to break free
     if( !you.move_effects( false ) ) {
         you.moves -= 100;
+        return;
+    }
+
+    if( you.get_working_arm_count() < 1 ) {
+        add_msg( m_info, _( "You can't climb because your arms are too damaged or encumbered." ) );
+        return;
+    }
+
+    const item &weapon = you.get_wielded_item();
+    if( weapon.is_two_handed( you ) &&
+        query_yn( _( "You can't climb because you have to wield a %s with both hands.\n\nPut it away?" ),
+                  weapon.tname() ) ) {
+        if( !you.unwield() ) {
+            return;
+        }
+    } else {
         return;
     }
 
@@ -2582,7 +2666,7 @@ void iexamine::harvest_plant( Character &you, const tripoint &examp, bool from_a
         plant_count *= here.furn( examp )->plant->harvest_multiplier;
         plant_count = std::min( std::max( plant_count, 1 ), 12 );
         const int seedCount = std::max( 1, rng( plant_count / 4, plant_count / 2 ) );
-        for( auto &i : get_harvest_items( type, plant_count, seedCount, true ) ) {
+        for( item &i : get_harvest_items( type, plant_count, seedCount, true ) ) {
             if( from_activity ) {
                 i.set_var( "activity_var", you.name );
             }
@@ -2667,7 +2751,7 @@ itype_id iexamine::choose_fertilizer( Character &you, const std::string &pname,
 
     std::vector<itype_id> f_types;
     std::vector<std::string> f_names;
-    for( auto &f : f_inv ) {
+    for( const item *&f : f_inv ) {
         if( std::find( f_types.begin(), f_types.end(), f->typeId() ) == f_types.end() ) {
             f_types.push_back( f->typeId() );
             f_names.push_back( f->tname() );
@@ -3491,7 +3575,7 @@ void iexamine::keg( Character &you, const tripoint &examp )
         std::vector<itype_id> drink_types;
         std::vector<std::string> drink_names;
         std::vector<double> drink_rot;
-        for( auto &drink : drinks_inv ) {
+        for( item *&drink : drinks_inv ) {
             auto found_drink = std::find( drink_types.begin(), drink_types.end(), drink->typeId() );
             if( found_drink == drink_types.end() ) {
                 drink_types.push_back( drink->typeId() );
@@ -4048,12 +4132,6 @@ void iexamine::water_source( Character &, const tripoint &examp )
     liquid_handler::handle_liquid( water, nullptr, 0, &examp );
 }
 
-void iexamine::clean_water_source( Character &, const tripoint &examp )
-{
-    item water = item( "water_clean", calendar::turn_zero, item::INFINITE_CHARGES );
-    liquid_handler::handle_liquid( water, nullptr, 0, &examp );
-}
-
 void iexamine::finite_water_source( Character &, const tripoint &examp )
 {
     map_stack items = get_map().i_at( examp );
@@ -4092,7 +4170,7 @@ const itype *furn_t::crafting_ammo_item_type() const
 * */
 static int count_charges_in_list( const itype *type, const map_stack &items )
 {
-    for( const auto &candidate : items ) {
+    for( const item &candidate : items ) {
         if( candidate.type == type ) {
             return candidate.charges;
         }
@@ -4112,7 +4190,7 @@ static int count_charges_in_list( const itype *type, const map_stack &items )
 static int count_charges_in_list( const ammotype *ammotype, const map_stack &items,
                                   itype_id &item_type )
 {
-    for( const auto &candidate : items ) {
+    for( const item &candidate : items ) {
         if( candidate.is_ammo() && candidate.type->ammo->type == *ammotype ) {
             item_type = candidate.typeId();
             return candidate.charges;
@@ -4140,7 +4218,7 @@ static void reload_furniture( Character &you, const tripoint &examp, bool allow_
         if( you.query_yn( _( "The %1$s contains %2$d %3$s.  Unload?" ), f.name(), amount_in_furn,
                           ammo_itypeID->nname( amount_in_furn ) ) ) {
             map_stack items = here.i_at( examp );
-            for( auto &itm : items ) {
+            for( item &itm : items ) {
                 if( itm.typeId() == ammo_itypeID ) {
                     you.assign_activity( player_activity( pickup_activity_actor(
                     { item_location( map_cursor( examp ), &itm ) }, { 0 }, you.pos(), false ) ) );
@@ -4411,7 +4489,7 @@ static std::string str_to_illiterate_str( std::string s )
     if( !get_player_character().has_trait( trait_ILLITERATE ) ) {
         return s;
     } else {
-        for( auto &i : s ) {
+        for( char &i : s ) {
             i = i + rng( 0, 5 ) - rng( 0, 5 );
             if( i < ' ' ) {
                 // some control character, most likely not handled correctly be the print functions
@@ -4953,7 +5031,7 @@ static Character &player_on_couch( Character &you, const tripoint &autodoc_loc,
                                    bool &adjacent_couch, tripoint &couch_pos )
 {
     map &here = get_map();
-    for( const auto &couch_loc : here.points_in_radius( autodoc_loc, 1 ) ) {
+    for( const tripoint &couch_loc : here.points_in_radius( autodoc_loc, 1 ) ) {
         if( here.has_flag_furn( ter_furn_flag::TFLAG_AUTODOC_COUCH, couch_loc ) ) {
             adjacent_couch = true;
             couch_pos = couch_loc;
@@ -4974,7 +5052,7 @@ static Character &operator_present( Character &you, const tripoint &autodoc_loc,
                                     Character &null_patient )
 {
     map &here = get_map();
-    for( const auto &loc : here.points_in_radius( autodoc_loc, 1 ) ) {
+    for( const tripoint &loc : here.points_in_radius( autodoc_loc, 1 ) ) {
         if( !here.has_flag_furn( ter_furn_flag::TFLAG_AUTODOC_COUCH, loc ) ) {
             if( you.pos() == loc ) {
                 return you;
@@ -5873,7 +5951,7 @@ static void mill_load_food( Character &you, const tripoint &examp,
     }
     int count = 0;
     const item *what = entries[smenu.ret];
-    for( const auto &c : comps ) {
+    for( const item_comp &c : comps ) {
         if( c.type == what->typeId() ) {
             count = c.count;
         }
@@ -6581,7 +6659,6 @@ iexamine_functions iexamine_functions_from_string( const std::string &function_n
             { "tree_maple_tapped", &iexamine::tree_maple_tapped },
             { "shrub_wildveggies", &iexamine::shrub_wildveggies },
             { "water_source", &iexamine::water_source },
-            { "clean_water_source", &iexamine::clean_water_source },
             { "finite_water_source", &iexamine::finite_water_source },
             { "reload_furniture", &iexamine::reload_furniture },
             { "curtains", &iexamine::curtains },

@@ -4406,33 +4406,31 @@ void vehicle::set_owner( const Character &c )
 
 bool vehicle::handle_potential_theft( Character const &you, bool check_only, bool prompt )
 {
-    const bool is_owned_by_player = is_owned_by( you );
-    std::vector<npc *> witnesses;
-    for( npc &elem : g->all_npcs() ) {
-        if( rl_dist( elem.pos(), you.pos() ) < MAX_VIEW_DISTANCE && has_owner() &&
-            !is_owned_by_player && elem.sees( you.pos() ) ) {
-            witnesses.push_back( &elem );
-        }
-    }
+    const bool is_owned_by_player =
+        is_owned_by( you ) || ( you.is_npc() && is_owned_by( get_avatar() ) &&
+                                you.as_npc()->is_friendly( get_avatar() ) );
     // the vehicle is yours, that's fine.
-    if( is_owned_by_player ) { // NOLINT(bugprone-branch-clone)
+    if( is_owned_by_player ) {
         return true;
-        // if There is no owner
-        // handle transfer of ownership
-    } else if( !has_owner() ||
-               // if there is a marker for having been stolen, but 15 minutes have passed, then
-               // officially transfer ownership
-               ( witnesses.empty() && has_old_owner() && !is_old_owner( you ) && theft_time &&
-                 calendar::turn - *theft_time > 15_minutes ) ) {
-        set_owner( you.get_faction()->id );
-        remove_old_owner();
-        return true;
+    }
+    std::vector<Creature *> witnesses = g->get_creatures_if( [&you, this]( Creature const & cr ) {
+        Character const *const elem = cr.as_character();
+        return elem != nullptr && you.getID() != elem->getID() && is_owned_by( *elem ) &&
+               rl_dist( elem->pos(), you.pos() ) < MAX_VIEW_DISTANCE && elem->sees( you.pos() );
+    } );
+    if( !has_owner() || ( witnesses.empty() && ( has_old_owner() || you.is_npc() ) ) ) {
+        if( !has_owner() ||
+            // if there is a marker for having been stolen, but 15 minutes have passed, then
+            // officially transfer ownership
+            ( theft_time && calendar::turn - *theft_time > 15_minutes ) ) {
+            set_owner( you.get_faction()->id );
+            remove_old_owner();
+        }
         // No witnesses? then don't need to prompt, we assume the player is in process of stealing it.
         // Ownership transfer checking is handled above, and warnings handled below.
         // This is just to perform interaction with the vehicle without a prompt.
         // It will prompt first-time, even with no witnesses, to inform player it is owned by someone else
         // subsequently, no further prompts, the player should know by then.
-    } else if( witnesses.empty() && old_owner ) {
         return true;
     }
     // if we are just checking if we could continue without problems, then the rest is assumed false
@@ -4441,7 +4439,7 @@ bool vehicle::handle_potential_theft( Character const &you, bool check_only, boo
     }
     // if we got here, there's some theft occurring
     if( prompt ) {
-        if( !query_yn(
+        if( !you.query_yn(
                 _( "This vehicle belongs to: %s, there may be consequences if you are observed interacting with it, continue?" ),
                 _( get_owner_name() ) ) ) {
             return false;
@@ -4449,13 +4447,13 @@ bool vehicle::handle_potential_theft( Character const &you, bool check_only, boo
     }
     // set old owner so that we can restore ownership if there are witnesses.
     set_old_owner( get_owner() );
-    for( npc *elem : witnesses ) {
-        elem->say( "<witnessed_thievery>", 7 );
-    }
-    if( !witnesses.empty() ) {
-        if( you.add_faction_warning( get_owner() ) ) {
-            for( npc *elem : witnesses ) {
-                elem->make_angry();
+    bool const make_angry = !witnesses.empty() && you.add_faction_warning( get_owner() );
+    for( Creature *elem : witnesses ) {
+        if( elem->is_npc() ) {
+            npc &n = *elem->as_npc();
+            n.say( "<witnessed_thievery>", 7 );
+            if( make_angry ) {
+                n.make_angry();
             }
         }
         // remove the temporary marker for a successful theft, as it was witnessed.
@@ -4559,7 +4557,7 @@ int vehicle::engine_fuel_usage( int e ) const
     if( is_perpetual_type( e ) ) {
         return 0;
     }
-    const auto &info = part_info( engines[ e ] );
+    const vpart_info &info = part_info( engines[ e ] );
 
     int usage = info.energy_consumption;
     if( parts[ engines[ e ] ].has_fault_flag( "DOUBLE_FUEL_CONSUMPTION" ) ) {
@@ -6801,12 +6799,12 @@ int vehicle::break_off( map &here, int p, int dmg )
         // remove parts for which required flags are not present anymore
         if( !part_info( p ).get_flags().empty() ) {
             const std::vector<int> parts_here = parts_at_relative( position, false );
-            for( const auto &part : parts_here ) {
+            for( const int &part : parts_here ) {
                 bool remove = false;
                 for( const std::string &flag : part_info( part ).get_flags() ) {
                     if( !json_flag::get( flag ).requires_flag().empty() ) {
                         remove = true;
-                        for( const auto &elem : parts_here ) {
+                        for( const int &elem : parts_here ) {
                             if( part_info( elem ).has_flag( json_flag::get( flag ).requires_flag() ) ) {
                                 remove = false;
                                 continue;
@@ -7641,4 +7639,21 @@ bool vehicle_part_range::matches( const size_t part ) const
 bool vehicle_part_with_fakes_range::matches( const size_t part ) const
 {
     return this->with_inactive_fakes_ || this->vehicle().real_or_active_fake_part( part );
+}
+
+void MapgenRemovePartHandler::add_item_or_charges(
+    const tripoint &loc, item it, bool permit_oob )
+{
+    if( !m.inbounds( loc ) ) {
+        if( !permit_oob ) {
+            debugmsg( "Tried to put item %s on invalid tile %s during mapgen!",
+                      it.tname(), loc.to_string() );
+        }
+        tripoint copy = loc;
+        m.clip_to_bounds( copy );
+        cata_assert( m.inbounds( copy ) ); // prevent infinite recursion
+        add_item_or_charges( copy, std::move( it ), false );
+        return;
+    }
+    m.add_item_or_charges( loc, std::move( it ) );
 }

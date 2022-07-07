@@ -1573,7 +1573,7 @@ cata::optional<int> iuse::petfood( Character *p, item *it, bool, const tripoint 
     const cata::optional<tripoint> pnt = choose_adjacent( string_format( _( "Put the %s where?" ),
                                          it->tname() ) );
     if( !pnt ) {
-        return cata::nullopt;;
+        return cata::nullopt;
     }
 
     creature_tracker &creatures = get_creature_tracker();
@@ -1611,12 +1611,10 @@ cata::optional<int> iuse::petfood( Character *p, item *it, bool, const tripoint 
         bool can_feed = false;
         const pet_food_data &petfood = mon->type->petfood;
         const std::set<std::string> &itemfood = it->get_comestible()->petfood;
-        if( !petfood.food.empty() ) {
-            for( const std::string &food : petfood.food ) {
-                if( itemfood.find( food ) != itemfood.end() ) {
-                    can_feed = true;
-                    break;
-                }
+        for( const std::string &food : petfood.food ) {
+            if( itemfood.find( food ) != itemfood.end() ) {
+                can_feed = true;
+                break;
             }
         }
 
@@ -2510,7 +2508,7 @@ cata::optional<int> iuse::radio_on( Character *p, item *it, bool t, const tripoi
                 const int old_frequency = it->frequency;
                 const radio_tower *lowest_tower = nullptr;
                 const radio_tower *lowest_larger_tower = nullptr;
-                for( auto &tref : overmap_buffer.find_all_radio_stations() ) {
+                for( radio_tower_reference &tref : overmap_buffer.find_all_radio_stations() ) {
                     const int new_frequency = tref.tower->frequency;
                     if( new_frequency == old_frequency ) {
                         continue;
@@ -2597,7 +2595,7 @@ cata::optional<int> iuse::emf_passive_on( Character *p, item *it, bool t, const 
             return it->type->charges_to_use();
         }
 
-        for( const auto &loc : closest_points_first( pos, max ) ) {
+        for( const tripoint &loc : closest_points_first( pos, max ) ) {
             const Creature *critter = creatures.creature_at( loc );
 
             // if the creature exists and is either a robot or electric
@@ -3660,7 +3658,7 @@ cata::optional<int> iuse::grenade_inc_act( Character *p, item *it, bool t, const
         for( int current_flame = 0; current_flame < num_flames; current_flame++ ) {
             tripoint dest( pos + point( rng( -5, 5 ), rng( -5, 5 ) ) );
             std::vector<tripoint> flames = line_to( pos, dest, 0, 0 );
-            for( auto &flame : flames ) {
+            for( tripoint &flame : flames ) {
                 here.add_field( flame, fd_fire, rng( 0, 2 ) );
             }
         }
@@ -5866,7 +5864,7 @@ static bool einkpc_download_memory_card( Character &p, item &eink, item &mc )
         std::vector<const recipe *> candidates;
 
         for( const auto &e : recipe_dict ) {
-            const auto &r = e.second;
+            const recipe &r = e.second;
             if( r.never_learn || r.obsolete ) {
                 continue;
             }
@@ -5894,8 +5892,7 @@ static bool einkpc_download_memory_card( Character &p, item &eink, item &mc )
                 }
             }
 
-            for( auto rec = new_recipes.begin(); rec != new_recipes.end(); ++rec ) {
-                const recipe *r = *rec;
+            for( const recipe *r : new_recipes ) {
                 const recipe_id &rident = r->ident();
 
                 const auto old_recipes = eink.get_var( "EIPC_RECIPES" );
@@ -6167,7 +6164,7 @@ cata::optional<int> iuse::einktabletpc( Character *p, item *it, bool t, const tr
 
                 candidate_recipes.emplace_back( s );
 
-                const auto &recipe = *candidate_recipes.back();
+                const recipe &recipe = *candidate_recipes.back();
                 if( recipe ) {
                     rmenu.addentry( k++, true, -1, recipe.result_name( /*decorated=*/true ) );
                 }
@@ -7746,7 +7743,7 @@ cata::optional<int> iuse::radiocontrol( Character *p, item *it, bool t, const tr
         const flag_id signal( "RADIOSIGNAL_" + std::to_string( choice ) );
 
         auto item_list = p->get_radio_items();
-        for( auto &elem : item_list ) {
+        for( item *&elem : item_list ) {
             if( elem->has_flag( flag_BOMB ) && elem->has_flag( signal ) ) {
                 p->add_msg_if_player( m_warning,
                                       _( "The %s in your inventory would explode on this signal.  Place it down before sending the signal." ),
@@ -7759,18 +7756,16 @@ cata::optional<int> iuse::radiocontrol( Character *p, item *it, bool t, const tr
             return itm.has_flag( flag_RADIO_CONTAINER );
         } );
 
-        if( !radio_containers.empty() ) {
-            for( item *items : radio_containers ) {
-                item *itm = items->get_item_with( [&]( const item & c ) {
-                    return c.has_flag( flag_BOMB ) && c.has_flag( signal );
-                } );
+        for( item *items : radio_containers ) {
+            item *itm = items->get_item_with( [&]( const item & c ) {
+                return c.has_flag( flag_BOMB ) && c.has_flag( signal );
+            } );
 
-                if( itm != nullptr ) {
-                    p->add_msg_if_player( m_warning,
-                                          _( "The %1$s in your %2$s would explode on this signal.  Place it down before sending the signal." ),
-                                          itm->display_name(), items->display_name() );
-                    return cata::nullopt;
-                }
+            if( itm != nullptr ) {
+                p->add_msg_if_player( m_warning,
+                                      _( "The %1$s in your %2$s would explode on this signal.  Place it down before sending the signal." ),
+                                      itm->display_name(), items->display_name() );
+                return cata::nullopt;
             }
         }
 
@@ -7846,8 +7841,8 @@ static vehicle *pickveh( const tripoint &center, bool advanced )
     pmenu.title = _( "Select vehicle to access" );
     std::vector< vehicle * > vehs;
 
-    for( auto &veh : get_map().get_vehicles() ) {
-        auto &v = veh.v;
+    for( wrapped_vehicle &veh : get_map().get_vehicles() ) {
+        vehicle *&v = veh.v;
         if( rl_dist( center, v->global_pos3() ) < 40 &&
             v->fuel_left( itype_battery, true ) > 0 &&
             ( !empty( v->get_avail_parts( advctrl ) ) ||
@@ -8220,7 +8215,7 @@ cata::optional<int> iuse::multicooker( Character *p, item *it, bool t, const tri
 
             int counter = 0;
 
-            for( const auto &r : get_avatar().get_learned_recipes().in_category( "CC_FOOD" ) ) {
+            for( const recipe * const &r : get_avatar().get_learned_recipes().in_category( "CC_FOOD" ) ) {
                 if( multicooked_subcats.count( r->subcategory ) > 0 ) {
                     dishes.push_back( r );
                     const bool can_make = r->deduped_requirements().can_make_with_inventory(

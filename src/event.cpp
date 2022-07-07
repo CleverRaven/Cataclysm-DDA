@@ -210,4 +210,23 @@ event::fields_type event::get_fields( event_type type )
                type, std::make_integer_sequence<int, static_cast<int>( event_type::num_event_types )> {} );
 }
 
+cata_variant event::get_variant( const std::string &key ) const
+{
+    auto it = data_.find( key );
+    if( it == data_.end() ) {
+        cata_fatal( "No such key %s in event of type %s", key,
+                    io::enum_to_string( type_ ) );
+    }
+    return it->second;
+}
+
+cata_variant event::get_variant_or_void( const std::string &key ) const
+{
+    auto it = data_.find( key );
+    if( it == data_.end() ) {
+        return cata_variant();
+    }
+    return it->second;
+}
+
 } // namespace cata

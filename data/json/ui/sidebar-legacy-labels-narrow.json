@@ -125,6 +125,7 @@
     "style": "sidebar",
     "label": "labels narrow",
     "separator": ": ",
+    "padding": 2,
     "width": 32,
     "widgets": [
       "ln_limbs_layout",
@@ -137,7 +138,8 @@
       "weapon_style_layout",
       "vehicle_acf_label_layout",
       "compass_all_danger_layout",
-      "rad_badge_desc"
+      "rad_badge_desc",
+      "sundial_label_layout"
     ]
   }
 ]

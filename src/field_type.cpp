@@ -388,7 +388,7 @@ const std::vector<field_type> &field_types::get_all()
 
 field_type field_types::get_field_type_by_legacy_enum( int legacy_enum_id )
 {
-    for( const auto &ft : get_all_field_types().get_all() ) {
+    for( const field_type &ft : get_all_field_types().get_all() ) {
         if( legacy_enum_id == ft.legacy_enum_id ) {
             return ft;
         }

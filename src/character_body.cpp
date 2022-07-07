@@ -175,8 +175,8 @@ void Character::update_body()
 
 // Returns the number of multiples of tick_length we would "pass" on our way `from` to `to`
 // For example, if `tick_length` is 1 hour, then going from 0:59 to 1:01 should return 1
-static inline int ticks_between( const time_point &from, const time_point &to,
-                                 const time_duration &tick_length )
+static int ticks_between( const time_point &from, const time_point &to,
+                          const time_duration &tick_length )
 {
     return ( to_turn<int>( to ) / to_turns<int>( tick_length ) ) - ( to_turn<int>
             ( from ) / to_turns<int>( tick_length ) );
@@ -1102,7 +1102,7 @@ bodypart_id Character::body_window( const std::string &menu_header,
             if( no_feeling ) {
                 hp_str = colorize( "==%==", c_blue );
             } else {
-                const auto &eff = get_effect( effect_mending, bp );
+                const effect &eff = get_effect( effect_mending, bp );
                 const int mend_perc = eff.is_null() ? 0.0 : 100 * eff.get_duration() / eff.get_max_duration();
 
                 const int num = mend_perc / 20;

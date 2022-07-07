@@ -267,27 +267,155 @@ void load_inv_state( const JsonObject &jo )
     jo.read( "inventory_ui_state", inventory_ui_default_state );
 }
 
+void uistatedata::serialize( JsonOut &json ) const
+{
+    const unsigned int input_history_save_max = 25;
+    json.start_object();
+
+    transfer_save.serialize( json, "transfer_save_" );
+    save_inv_state( json );
+
+    /**** if you want to save whatever so it's whatever when the game is started next, declare here and.... ****/
+    // non array stuffs
+    json.member( "ags_pay_gas_selected_pump", ags_pay_gas_selected_pump );
+    json.member( "adv_inv_container_location", adv_inv_container_location );
+    json.member( "adv_inv_container_index", adv_inv_container_index );
+    json.member( "adv_inv_container_in_vehicle", adv_inv_container_in_vehicle );
+    json.member( "adv_inv_container_type", adv_inv_container_type );
+    json.member( "adv_inv_container_content_type", adv_inv_container_content_type );
+    json.member( "editmap_nsa_viewmode", editmap_nsa_viewmode );
+    json.member( "overmap_blinking", overmap_blinking );
+    json.member( "overmap_show_overlays", overmap_show_overlays );
+    json.member( "overmap_show_map_notes", overmap_show_map_notes );
+    json.member( "overmap_show_land_use_codes", overmap_show_land_use_codes );
+    json.member( "overmap_show_city_labels", overmap_show_city_labels );
+    json.member( "overmap_show_hordes", overmap_show_hordes );
+    json.member( "overmap_show_forest_trails", overmap_show_forest_trails );
+    json.member( "vmenu_show_items", vmenu_show_items );
+    json.member( "list_item_sort", list_item_sort );
+    json.member( "list_item_filter_active", list_item_filter_active );
+    json.member( "list_item_downvote_active", list_item_downvote_active );
+    json.member( "list_item_priority_active", list_item_priority_active );
+    json.member( "construction_filter", construction_filter );
+    json.member( "last_construction", last_construction );
+    json.member( "construction_tab", construction_tab );
+    json.member( "hidden_recipes", hidden_recipes );
+    json.member( "favorite_recipes", favorite_recipes );
+    json.member( "read_recipes", read_recipes );
+    json.member( "recent_recipes", recent_recipes );
+    json.member( "bionic_ui_sort_mode", bionic_sort_mode );
+    json.member( "overmap_debug_weather", overmap_debug_weather );
+    json.member( "overmap_visible_weather", overmap_visible_weather );
+    json.member( "overmap_debug_mongroup", overmap_debug_mongroup );
+
+    json.member( "input_history" );
+    json.start_object();
+    for( const auto &e : input_history ) {
+        json.member( e.first );
+        const std::vector<std::string> &history = e.second;
+        json.start_array();
+        int save_start = 0;
+        if( history.size() > input_history_save_max ) {
+            save_start = history.size() - input_history_save_max;
+        }
+        for( std::vector<std::string>::const_iterator hit = history.begin() + save_start;
+             hit != history.end(); ++hit ) {
+            json.write( *hit );
+        }
+        json.end_array();
+    }
+    json.end_object(); // input_history
+
+    json.member( "lastreload", lastreload );
+
+    json.end_object();
+}
+
+void uistatedata::deserialize( const JsonObject &jo )
+{
+    jo.allow_omitted_members();
+
+    transfer_save.deserialize( jo, "transfer_save_" );
+    load_inv_state( jo );
+    // the rest
+    jo.read( "ags_pay_gas_selected_pump", ags_pay_gas_selected_pump );
+    jo.read( "adv_inv_container_location", adv_inv_container_location );
+    jo.read( "adv_inv_container_index", adv_inv_container_index );
+    jo.read( "adv_inv_container_in_vehicle", adv_inv_container_in_vehicle );
+    jo.read( "adv_inv_container_type", adv_inv_container_type );
+    jo.read( "adv_inv_container_content_type", adv_inv_container_content_type );
+    jo.read( "editmap_nsa_viewmode", editmap_nsa_viewmode );
+    jo.read( "overmap_blinking", overmap_blinking );
+    jo.read( "overmap_show_overlays", overmap_show_overlays );
+    jo.read( "overmap_show_map_notes", overmap_show_map_notes );
+    jo.read( "overmap_show_land_use_codes", overmap_show_land_use_codes );
+    jo.read( "overmap_show_city_labels", overmap_show_city_labels );
+    jo.read( "overmap_show_hordes", overmap_show_hordes );
+    jo.read( "overmap_show_forest_trails", overmap_show_forest_trails );
+    jo.read( "hidden_recipes", hidden_recipes );
+    jo.read( "favorite_recipes", favorite_recipes );
+    jo.read( "read_recipes", read_recipes );
+    jo.read( "recent_recipes", recent_recipes );
+    jo.read( "bionic_ui_sort_mode", bionic_sort_mode );
+    jo.read( "overmap_debug_weather", overmap_debug_weather );
+    jo.read( "overmap_visible_weather", overmap_visible_weather );
+    jo.read( "overmap_debug_mongroup", overmap_debug_mongroup );
+
+    if( !jo.read( "vmenu_show_items", vmenu_show_items ) ) {
+        // This is an old save: 1 means view items, 2 means view monsters,
+        // -1 means uninitialized
+        vmenu_show_items = jo.get_int( "list_item_mon", -1 ) != 2;
+    }
+
+    jo.read( "list_item_sort", list_item_sort );
+    jo.read( "list_item_filter_active", list_item_filter_active );
+    jo.read( "list_item_downvote_active", list_item_downvote_active );
+    jo.read( "list_item_priority_active", list_item_priority_active );
+
+    jo.read( "construction_filter", construction_filter );
+    jo.read( "last_construction", last_construction );
+    jo.read( "construction_tab", construction_tab );
+
+    for( const JsonMember member : jo.get_object( "input_history" ) ) {
+        std::vector<std::string> &v = gethistory( member.name() );
+        v.clear();
+        for( const std::string line : member.get_array() ) {
+            v.push_back( line );
+        }
+    }
+    // fetch list_item settings from input_history
+    if( !gethistory( "item_filter" ).empty() ) {
+        list_item_filter = gethistory( "item_filter" ).back();
+    }
+    if( !gethistory( "list_item_downvote" ).empty() ) {
+        list_item_downvote = gethistory( "list_item_downvote" ).back();
+    }
+    if( !gethistory( "list_item_priority" ).empty() ) {
+        list_item_priority = gethistory( "list_item_priority" ).back();
+    }
+
+    jo.read( "lastreload", lastreload );
+}
+
 static const selection_column_preset selection_preset{};
 
 bool inventory_entry::is_hidden() const
 {
-    if( !is_item() ) {
+    // non-items and entries not added recursively (from a container) can't be hidden
+    if( !is_item() || topmost_parent == nullptr ) {
         return false;
     }
-    item_location it = locations.front();
-    bool hidden = false;
-    if( topmost_parent != nullptr ) {
-        while( it.has_parent() ) {
-            item_location const prnt = it.parent_item();
-            hidden |= prnt.get_item()->contained_where( *it )->settings.is_collapsed();
-            if( prnt.get_item() == topmost_parent ) {
-                break;
-            }
-            it = prnt;
-        }
-    }
 
-    return hidden;
+    item_location item = locations.front();
+    while( item.has_parent() && item.get_item() != topmost_parent ) {
+        item_location parent = item.parent_item();
+        if( parent.get_item()->contained_where( *item )->settings.is_collapsed() ) {
+            return true;
+        }
+        item = parent;
+    }
+    // no parent container was collapsed
+    return false;
 }
 
 int inventory_entry::get_total_charges() const
@@ -367,7 +495,7 @@ bool inventory_column::activatable() const
 
 inventory_entry *inventory_column::find_by_invlet( int invlet ) const
 {
-    for( const auto &elem : entries ) {
+    for( const inventory_entry &elem : entries ) {
         if( elem.is_item() && elem.get_invlet() == invlet ) {
             return const_cast<inventory_entry *>( &elem );
         }
@@ -806,11 +934,11 @@ void inventory_column::expand_to_fit( const inventory_entry &entry )
 
 void inventory_column::reset_width( const std::vector<inventory_column *> & )
 {
-    for( auto &elem : cells ) {
+    for( inventory_column::cell_t &elem : cells ) {
         elem = cell_t();
     }
     reserved_width = 0;
-    for( auto &elem : entries ) {
+    for( inventory_entry &elem : entries ) {
         expand_to_fit( elem );
     }
 }
@@ -880,7 +1008,7 @@ void inventory_column::_get_entries( get_entries_t *res, entries_t const &ent,
                                      const ffilter_t &filter_func ) const
 {
     if( allows_selecting() ) {
-        for( const auto &elem : ent ) {
+        for( const inventory_entry &elem : ent ) {
             if( filter_func( elem ) ) {
                 res->push_back( const_cast<inventory_entry *>( &elem ) );
             }
@@ -991,12 +1119,12 @@ inventory_entry *inventory_column::add_entry( const inventory_entry &entry )
             }
             item_location found_entry_item = entry.locations.front();
             // this would be much simpler if item::parent_item() didn't call debugmsg
-            return entry_item.where() == found_entry_item.where() and
-                   entry_item.position() == found_entry_item.position() and
-                   ( ( !entry_item.has_parent() and !found_entry_item.has_parent() ) ||
-                     ( entry_item.has_parent() and found_entry_item.has_parent() and
-                       entry_item.parent_item() == found_entry_item.parent_item() ) ) and
-                   entry_item->is_collapsed() == found_entry_item->is_collapsed() and
+            return entry_item.where() == found_entry_item.where() &&
+                   entry_item.position() == found_entry_item.position() &&
+                   ( ( !entry_item.has_parent() && !found_entry_item.has_parent() ) ||
+                     ( entry_item.has_parent() && found_entry_item.has_parent() &&
+                       entry_item.parent_item() == found_entry_item.parent_item() ) ) &&
+                   entry_item->is_collapsed() == found_entry_item->is_collapsed() &&
                    entry_item->display_stacked_with( *found_entry_item, preset.get_checking_components() );
         } );
         if( entry_with_loc != entries.end() ) {
@@ -1017,7 +1145,7 @@ inventory_entry *inventory_column::add_entry( const inventory_entry &entry )
 
 void inventory_column::_move_entries_to( entries_t const &ent, inventory_column &dest )
 {
-    for( const auto &elem : ent ) {
+    for( const inventory_entry &elem : ent ) {
         if( elem.is_item() &&
             // this column already has this entry, no need to try to add it again
             std::find( dest.entries.begin(), dest.entries.end(), elem ) == dest.entries.end() ) {
@@ -1073,7 +1201,7 @@ bool inventory_column::indented_sort_compare( inventory_entry const &lhs,
         return path_lhs.size() < path_rhs.size();
     }
     // otherwise sort the entries below their lowest common ancestor
-    while( li < path_lhs.size() and path_lhs[li] != path_rhs[ri] ) {
+    while( li < path_lhs.size() && path_lhs[li] != path_rhs[ri] ) {
         p_lhs = path_lhs[li++];
         p_rhs = path_rhs[ri++];
     }
@@ -1089,10 +1217,6 @@ void inventory_column::prepare_paging( const std::string &filter )
         return;
     }
 
-    // Recalculate all the widths.
-    for( inventory_entry *e : get_entries( always_yes ) ) {
-        expand_to_fit( *e );
-    }
     const auto filter_fn = filter_from_string<inventory_entry>(
     filter, [this]( const std::string & filter ) {
         return preset.get_filter( filter );
@@ -1109,6 +1233,13 @@ void inventory_column::prepare_paging( const std::string &filter )
     move_if( entries_hidden, entries, is_visible );
     // remove entries hidden by SHOW_HIDE_CONTENTS
     move_if( entries, entries_hidden, is_not_visible );
+
+    // Recalculate all the widths.
+    // This must go AFTER moving the hidden entries so that
+    // cell widths are calculated with up-to-date visible entries
+    for( inventory_entry *e : get_entries( always_yes ) ) {
+        expand_to_fit( *e );
+    }
 
     // Then sort them with respect to categories
     std::stable_sort( entries.begin(), entries.end(),
@@ -1203,7 +1334,7 @@ size_t inventory_column::get_entry_indent( const inventory_entry &entry ) const
 int inventory_column::reassign_custom_invlets( const Character &p, int min_invlet, int max_invlet )
 {
     int cur_invlet = min_invlet;
-    for( auto &elem : entries ) {
+    for( inventory_entry &elem : entries ) {
         // Only items on map/in vehicles: those that the player does not possess.
         if( elem.is_selectable() && !p.has_item( *elem.any_item() ) ) {
             elem.custom_invlet = cur_invlet <= max_invlet ? cur_invlet++ : '\0';
@@ -1214,7 +1345,7 @@ int inventory_column::reassign_custom_invlets( const Character &p, int min_invle
 
 int inventory_column::reassign_custom_invlets( int cur_idx, const std::string &pickup_chars )
 {
-    for( auto &elem : entries ) {
+    for( inventory_entry &elem : entries ) {
         // Only items on map/in vehicles: those that the player does not possess.
         if( elem.is_selectable() && elem.any_item()->invlet <= '\0' ) {
             elem.custom_invlet =
@@ -1315,7 +1446,7 @@ void inventory_column::draw( const catacurses::window &win, const point &p,
                                    text_width; // Align either to the left or to the right
 
                 const std::string &hl_option = get_option<std::string>( "INVENTORY_HIGHLIGHT" );
-                if( cell_index == 0 and entry.chevron ) {
+                if( cell_index == 0 && entry.chevron ) {
                     trim_and_print( win, point( text_x - 1, yy ), 1, c_dark_gray,
                                     entry.collapsed ? "▶" : "▼" );
                 }
@@ -1664,7 +1795,7 @@ void inventory_selector::add_remote_map_items( tinymap *remote_map, const tripoi
 void inventory_selector::clear_items()
 {
     is_empty = true;
-    for( auto &column : columns ) {
+    for( inventory_column *&column : columns ) {
         column->clear();
     }
     own_inv_column.clear();
@@ -1759,7 +1890,7 @@ void inventory_selector::prepare_layout( size_t client_width, size_t client_heig
 {
     // This block adds categories and should go before any width evaluations
     const bool initial = get_active_column().get_highlighted_index() == static_cast<size_t>( -1 );
-    for( auto &elem : columns ) {
+    for( inventory_column *&elem : columns ) {
         elem->set_height( client_height );
         elem->reset_width( columns );
         elem->prepare_paging( filter );
@@ -2146,7 +2277,7 @@ void inventory_selector::draw_columns( const catacurses::window &w )
     size_t active_x = 0;
 
     rect_entry_map.clear();
-    for( const auto &elem : columns ) {
+    for( inventory_column * const &elem : columns ) {
         if( &elem == &columns.back() ) {
             x += gap_rounding_error;
         }
@@ -2363,7 +2494,7 @@ void inventory_selector::on_input( const inventory_input &input )
         }
         if( input.action == "SHOW_HIDE_CONTENTS" ) {
             shared_ptr_fast<ui_adaptor> current_ui = ui.lock();
-            for( auto const &col : columns ) {
+            for( inventory_column * const &col : columns ) {
                 col->invalidate_paging();
             }
             if( current_ui ) {
@@ -2377,7 +2508,7 @@ void inventory_selector::on_input( const inventory_input &input )
 
 void inventory_selector::on_change( const inventory_entry &entry )
 {
-    for( auto &elem : columns ) {
+    for( inventory_column *&elem : columns ) {
         elem->on_change( entry );
     }
     refresh_active_column(); // Columns can react to changes by losing their activation capacity
@@ -2459,7 +2590,7 @@ void inventory_selector::toggle_categorize_contained()
         inventory_column replacement_column;
         for( inventory_entry *entry : own_gear_column.get_entries( return_item, true ) ) {
             item_location const loc = entry->locations.front();
-            if( entry->any_item().where() == item_location::type::container and
+            if( entry->any_item().where() == item_location::type::container &&
                 !is_worn_ablative( loc.parent_item(), loc ) ) {
                 item_location ancestor = entry->any_item();
                 while( ancestor.has_parent() ) {
@@ -2541,7 +2672,7 @@ void inventory_selector::toggle_active_column( scroll_direction dir )
 void inventory_selector::toggle_navigation_mode()
 {
     mode = get_navigation_data( mode ).next_mode;
-    for( auto &elem : columns ) {
+    for( inventory_column *&elem : columns ) {
         elem->on_mode_change( mode );
     }
 }
@@ -3007,7 +3138,7 @@ void inventory_multiselector::on_input( const inventory_input &input )
         count += input.ch - '0';
     } else if( input.action == "TOGGLE_ENTRY" ) { // Mark selected
         toggle_entries( count, toggle_mode::SELECTED );
-    } else if( input.action == "INCREASE_COUNT" or input.action == "DECREASE_COUNT" ) {
+    } else if( input.action == "INCREASE_COUNT" || input.action == "DECREASE_COUNT" ) {
         inventory_entry &entry = get_active_column().get_highlighted();
         size_t const count = entry.chosen_count;
         size_t const max = entry.get_available_count();

@@ -90,10 +90,10 @@ std::vector<item_location> Character::find_ammo( const item &obj, bool empty, in
     find_ammo_helper( const_cast<Character &>( *this ), obj, empty, std::back_inserter( res ), true );
 
     if( radius >= 0 ) {
-        for( auto &cursor : map_selector( pos(), radius ) ) {
+        for( map_cursor &cursor : map_selector( pos(), radius ) ) {
             find_ammo_helper( cursor, obj, empty, std::back_inserter( res ), false );
         }
-        for( auto &cursor : vehicle_selector( pos(), radius ) ) {
+        for( vehicle_cursor &cursor : vehicle_selector( pos(), radius ) ) {
             find_ammo_helper( cursor, obj, empty, std::back_inserter( res ), false );
         }
     }
@@ -151,16 +151,28 @@ void Character::gunmod_add( item &gun, item &mod )
         return;
     }
 
+    itype_id mod_type = mod.typeId();
+    std::string mod_name = mod.tname();
+
     if( !wield( gun ) ) {
         add_msg_if_player( _( "You can't wield the %1$s." ), gun.tname() );
         return;
     }
 
-    // Wielding can create a new item.
+    // Wielding will create a new gun and/or mod when the item changes location.
     item &wielded_gun = get_wielded_item();
+    std::vector<item *> mods = items_with( [&mod_type]( const item & it ) {
+        return it.typeId() == mod_type;
+    } );
 
+    if( mods.empty() ) {
+        add_msg_if_player( _( "You no longer have a %s and can't continue crafting." ), mod_name );
+        return;
+    }
+
+    item &moved_mod = *mods.front();
     // any (optional) tool charges that are used during installation
-    auto odds = gunmod_installation_odds( wielded_gun, mod );
+    auto odds = gunmod_installation_odds( wielded_gun, moved_mod );
     int roll = odds.first;
     int risk = odds.second;
 
@@ -169,7 +181,7 @@ void Character::gunmod_add( item &gun, item &mod )
 
     if( mod.is_irremovable() ) {
         if( !query_yn( _( "Permanently install your %1$s in your %2$s?" ),
-                       colorize( mod.tname(), mod.color_in_inventory() ),
+                       colorize( moved_mod.tname(), moved_mod.color_in_inventory() ),
                        colorize( wielded_gun.tname(), wielded_gun.color_in_inventory() ) ) ) {
             add_msg_if_player( _( "Never mind." ) );
             return; // player canceled installation
@@ -179,7 +191,7 @@ void Character::gunmod_add( item &gun, item &mod )
     // if chance of success <100% prompt user to continue
     if( roll < 100 ) {
         uilist prompt;
-        prompt.text = string_format( _( "Attach your %1$s to your %2$s?" ), mod.tname(),
+        prompt.text = string_format( _( "Attach your %1$s to your %2$s?" ), moved_mod.tname(),
                                      wielded_gun.tname() );
 
         std::vector<std::function<void()>> actions;
@@ -216,11 +228,11 @@ void Character::gunmod_add( item &gun, item &mod )
         actions[prompt.ret]();
     }
 
-    const int moves = !has_trait( trait_DEBUG_HS ) ? mod.type->gunmod->install_time : 0;
+    const int moves = !has_trait( trait_DEBUG_HS ) ? moved_mod.type->gunmod->install_time : 0;
 
     assign_activity( player_activity( gunmod_add_activity_actor( moves, tool ) ) );
     activity.targets.emplace_back( *this, &wielded_gun );
-    activity.targets.emplace_back( *this, &mod );
+    activity.targets.emplace_back( *this, &moved_mod );
     activity.values.push_back( 0 ); // dummy value
     activity.values.push_back( roll ); // chance of success (%)
     activity.values.push_back( risk ); // chance of damage (%)

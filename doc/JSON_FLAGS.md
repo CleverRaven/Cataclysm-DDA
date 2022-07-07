@@ -6,7 +6,7 @@
   - [TODO](#todo)
   - [Ammo](#ammo)
     - [Ammo type](#ammo-type)
-    - [Effects](#effects)
+    - [Effects](#ammo-effects)
     - [Flags](#flags)
   - [Armor](#armor)
     - [Covers](#covers)
@@ -21,6 +21,7 @@
     - [Addiction type](#addiction-type)
     - [Use action](#use-action)
     - [Flags](#flags-2)
+  - [Effects](#Effects)
   - [Furniture and Terrain](#furniture-and-terrain)
     - [Flags](#flags-3)
     - [Fungal Conversions Only](#fungal-conversions-only)
@@ -164,7 +165,7 @@ These are handled through `ammo_types.json`.  You can tag a weapon with these to
 - ```water``` Water
 - ```paper``` Paper
 
-### Effects
+### Ammo effects
 
 - ```ACIDBOMB``` Leaves a pool of acid on detonation.
 - ```BEANBAG``` Stuns the target.
@@ -214,6 +215,9 @@ These are handled through `ammo_types.json`.  You can tag a weapon with these to
 
 - ```SONAR_DETECTABLE``` This trap can be identified with ground-penetrating SONAR.
 - ```CONVECTS_TEMPERATURE``` This trap convects temperature, like lava.
+- ```UNCONSUMED``` If this trap is a spell type it will not be removed after activation.
+- ```AVATAR_ONLY``` Only the player character will trigger this trap.
+- ```UNDODGEABLE``` This trap can't be dodged.
 
 ## Armor
 
@@ -555,6 +559,15 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```USE_EAT_VERB``` "You drink your %s." or "You eat your %s."
 - ```USE_ON_NPC``` Can be used on NPCs (not necessarily by them).
 - ```ZOOM``` Zoom items can increase your overmap sight range.
+
+
+## Effects
+Effect flags. These are checked by hardcode for monsters (introducing new flags will require C++ changes), but for characters are considered "character flags", meaning new ones can be implemented in JSON alone - see Character Flags.
+
+### Flags
+
+``DISABLE_FLIGHT`` Monsters affected by an effect with this flag will never count as flying (even if they have the `FLIES` flag).
+``EFFECT_IMPEDING`` Character affected by an effect with this flag can't move until they break free from the effect.  Breaking free requires a strength check: `x_in_y( STR * limb lifting score * limb grip score, 6 * get_effect_int( eff_id )`
 
 ## Furniture and Terrain
 
@@ -977,6 +990,7 @@ Other monster flags.
 - ```ACIDPROOF``` Immune to acid.
 - ```ACIDTRAIL``` Leaves a trail of acid.
 - ```ACID_BLOOD``` Makes monster bleed acid. Does not automatically dissolve in a pool of acid on death.
+- ```ALWAYS_VISIBLE``` This monster can always be seen regardless of line of sight or light level.
 - ```ANIMAL``` Is an _animal_ for purposes of the `Animal Empathy` trait.
 - ```AQUATIC``` Confined to water.
 - ```ARTHROPOD_BLOOD``` Forces monster to bleed hemolymph.

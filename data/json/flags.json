@@ -1046,6 +1046,11 @@
     "//": "Chooses a spell at random to cast from extra_effects.  See MAGIC.md for details"
   },
   {
+    "id": "EXTRA_EFFECTS_FIRST",
+    "type": "json_flag",
+    "//": "A spell extra effects are cast before the main spell.  See MAGIC.md for details"
+  },
+  {
     "id": "PAIN_NORESIST",
     "type": "json_flag",
     "//": "pain altering spells can't be resisted (like with the deadened trait)"
@@ -1205,6 +1210,12 @@
     "id": "COLLAPSIBLE_STOCK",
     "//": "this is deprecated for the COLLAPSED_STOCK and FOLDED_STOCK, kept around for mod support",
     "type": "json_flag"
+  },
+  {
+    "id": "REMOVED_STOCK",
+    "//": "for weapons whose stock has been cut off.",
+    "type": "json_flag",
+    "info": "This item has had its stock removed, it will be hard to shoot with."
   },
   {
     "id": "FOLDED_STOCK",
@@ -1984,6 +1995,16 @@
     "type": "json_flag",
     "info": "Invalid when the target position is <bad>too far</bad> or <bad>too bright</bad>.",
     "name": "laser sight"
+  },
+  {
+    "id": "JETPACK",
+    "type": "json_flag",
+    "info": "This item is a jetpack."
+  },
+  {
+    "id": "LEVITATION",
+    "type": "json_flag",
+    "info": "Allows movement in open air."
   },
   {
     "id": "EXO_SMALL",

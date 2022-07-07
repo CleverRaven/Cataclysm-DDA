@@ -214,7 +214,7 @@ static std::map<vitamin_id, int> compute_default_effective_vitamins(
     std::map<vitamin_id, int> res = it.get_comestible()->default_nutrition.vitamins;
 
     for( const trait_id &trait : you.get_mutations() ) {
-        const auto &mut = trait.obj();
+        const mutation_branch &mut = trait.obj();
         // make sure to iterate over every material defined for vitamin absorption
         // TODO: put this loop into a function and utilize it again for bionics
         for( const auto &mat : mut.vitamin_absorb_multi ) {
@@ -496,7 +496,7 @@ time_duration Character::vitamin_rate( const vitamin_id &vit ) const
     time_duration res = vit.obj().rate();
 
     for( const auto &m : get_mutations() ) {
-        const auto &mut = m.obj();
+        const mutation_branch &mut = m.obj();
         auto iter = mut.vitamin_rates.find( vit );
         if( iter != mut.vitamin_rates.end() && iter->second != 0_turns ) {
             if( res != 0_turns ) {
@@ -719,7 +719,7 @@ ret_val<edible_rating> Character::can_eat( const item &food ) const
     if( consume_drug != nullptr ) { //its a drug)
         const consume_drug_iuse *consume_drug_use = dynamic_cast<const consume_drug_iuse *>
                 ( consume_drug->get_actor_ptr() );
-        for( auto &tool : consume_drug_use->tools_needed ) {
+        for( const auto &tool : consume_drug_use->tools_needed ) {
             const bool has = item::count_by_charges( tool.first )
                              ? has_charges( tool.first, ( tool.second == -1 ) ? 1 : tool.second )
                              : has_amount( tool.first, 1 );
@@ -1406,7 +1406,7 @@ bool Character::consume_effects( item &food )
         return false;
     }
 
-    const auto &comest = *food.get_comestible();
+    const islot_comestible &comest = *food.get_comestible();
 
     // Rotten food causes health loss
     const float relative_rot = food.get_relative_rot();
@@ -1748,7 +1748,7 @@ static bool consume_med( item &target, Character &you )
     // TODO: Get the target it was used on
     // Otherwise injecting someone will give us addictions etc.
     if( target.has_flag( flag_NO_INGEST ) ) {
-        const auto &comest = *target.get_comestible();
+        const islot_comestible &comest = *target.get_comestible();
         // Assume that parenteral meds don't spoil, so don't apply rot
         you.modify_health( comest );
         you.modify_stimulation( comest );

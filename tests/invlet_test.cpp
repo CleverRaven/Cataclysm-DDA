@@ -399,7 +399,7 @@ static void move_item( Character &you, const int id, const inventory_location fr
                     drop_at_feet( you, id );
                     break;
                 case INVENTORY:
-                    you.takeoff( item_location( you, &item_at( you, id, from ) ) );;
+                    you.takeoff( item_location( you, &item_at( you, id, from ) ) );
                     break;
                 case WORN:
                 case WIELDED_OR_WORN:

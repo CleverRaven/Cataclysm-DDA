@@ -743,14 +743,12 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
         }
     };
 
-    if( !bio.id->activated_eocs.empty() ) {
-        for( const effect_on_condition_id &eoc : bio.id->activated_eocs ) {
-            dialogue d( get_talker_for( *this ), nullptr );
-            if( eoc->type == eoc_type::ACTIVATION ) {
-                eoc->activate( d );
-            } else {
-                debugmsg( "Must use an activation eoc for a bionic activation.  If you don't want the effect_on_condition to happen on its own (without the bionic being activated), remove the recurrence min and max.  Otherwise, create a non-recurring effect_on_condition for this bionic with its condition and effects, then have a recurring one queue it." );
-            }
+    for( const effect_on_condition_id &eoc : bio.id->activated_eocs ) {
+        dialogue d( get_talker_for( *this ), nullptr );
+        if( eoc->type == eoc_type::ACTIVATION ) {
+            eoc->activate( d );
+        } else {
+            debugmsg( "Must use an activation eoc for a bionic activation.  If you don't want the effect_on_condition to happen on its own (without the bionic being activated), remove the recurrence min and max.  Otherwise, create a non-recurring effect_on_condition for this bionic with its condition and effects, then have a recurring one queue it." );
         }
     }
 
@@ -1261,14 +1259,12 @@ bool Character::deactivate_bionic( bionic &bio, bool eff_only )
     const item &w_weapon = get_wielded_item();
     // Deactivation effects go here
 
-    if( !bio.id->deactivated_eocs.empty() ) {
-        for( const effect_on_condition_id &eoc : bio.id->deactivated_eocs ) {
-            dialogue d( get_talker_for( *this ), nullptr );
-            if( eoc->type == eoc_type::ACTIVATION ) {
-                eoc->activate( d );
-            } else {
-                debugmsg( "Must use an activation eoc for a bionic deactivation.  If you don't want the effect_on_condition to happen on its own (without the bionic being activated), remove the recurrence min and max.  Otherwise, create a non-recurring effect_on_condition for this bionic with its condition and effects, then have a recurring one queue it." );
-            }
+    for( const effect_on_condition_id &eoc : bio.id->deactivated_eocs ) {
+        dialogue d( get_talker_for( *this ), nullptr );
+        if( eoc->type == eoc_type::ACTIVATION ) {
+            eoc->activate( d );
+        } else {
+            debugmsg( "Must use an activation eoc for a bionic deactivation.  If you don't want the effect_on_condition to happen on its own (without the bionic being activated), remove the recurrence min and max.  Otherwise, create a non-recurring effect_on_condition for this bionic with its condition and effects, then have a recurring one queue it." );
         }
     }
 
@@ -1814,14 +1810,12 @@ void Character::process_bionic( bionic &bio )
         }
     }
 
-    if( !bio.id->processed_eocs.empty() ) {
-        for( const effect_on_condition_id &eoc : bio.id->processed_eocs ) {
-            dialogue d( get_talker_for( *this ), nullptr );
-            if( eoc->type == eoc_type::ACTIVATION ) {
-                eoc->activate( d );
-            } else {
-                debugmsg( "Must use an activation eoc for a bionic process.  If you don't want the effect_on_condition to happen on its own (without the bionic being activated), remove the recurrence min and max.  Otherwise, create a non-recurring effect_on_condition for this bionic with its condition and effects, then have a recurring one queue it." );
-            }
+    for( const effect_on_condition_id &eoc : bio.id->processed_eocs ) {
+        dialogue d( get_talker_for( *this ), nullptr );
+        if( eoc->type == eoc_type::ACTIVATION ) {
+            eoc->activate( d );
+        } else {
+            debugmsg( "Must use an activation eoc for a bionic process.  If you don't want the effect_on_condition to happen on its own (without the bionic being activated), remove the recurrence min and max.  Otherwise, create a non-recurring effect_on_condition for this bionic with its condition and effects, then have a recurring one queue it." );
         }
     }
 
@@ -2675,11 +2669,9 @@ void Character::perform_install( const bionic_id &bid, bionic_uid upbio_uid, int
 
         add_bionic( bid );
 
-        if( !trait_to_rem.empty() ) {
-            for( const trait_id &tid : trait_to_rem ) {
-                if( has_trait( tid ) ) {
-                    remove_mutation( tid );
-                }
+        for( const trait_id &tid : trait_to_rem ) {
+            if( has_trait( tid ) ) {
+                remove_mutation( tid );
             }
         }
 

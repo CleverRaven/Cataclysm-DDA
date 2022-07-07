@@ -349,6 +349,10 @@ input_context uilist::create_filter_input_context() const
     ctxt.register_action( "END", to_translation( "Go to last entry" ) );
     ctxt.register_action( "SCROLL_UP" );
     ctxt.register_action( "SCROLL_DOWN" );
+    if( allow_confirm ) {
+        ctxt.register_action( "SELECT" );
+    }
+    ctxt.register_action( "MOUSE_MOVE" );
     return ctxt;
 }
 
@@ -413,20 +417,23 @@ void uilist::inputfilter()
     filter_popup->context( ctxt ).text( filter )
     .max_length( 256 )
     .window( window, point( 4, w_height - 1 ), w_width - 4 );
+    bool loop = true;
     do {
         ui_manager::redraw();
         filter = filter_popup->query_string( false );
-        if( !filter_popup->canceled() ) {
+        recalc_start = false;
+        if( !filter_popup->confirmed() ) {
             const std::string action = ctxt.input_to_action( ctxt.get_raw_input() );
-            if( filter_popup->handled() || !scrollby( scroll_amount_from_action( action ) ) ) {
+            if( filter_popup->handled() ) {
                 filterlist();
+                recalc_start = true;
+            } else if( scrollby( scroll_amount_from_action( action ) ) ) {
+                recalc_start = true;
+            } else if( handle_mouse( ctxt, action, true ) == handle_mouse_result_t::confirmed ) {
+                loop = false;
             }
         }
-    } while( !filter_popup->confirmed() && !filter_popup->canceled() );
-
-    if( filter_popup->canceled() ) {
-        filterlist();
-    }
+    } while( loop && !filter_popup->confirmed() && !filter_popup->canceled() );
 
     filter_popup.reset();
 }
@@ -769,19 +776,18 @@ void uilist::show()
                 // activate the highlighting, it is used to override previous text there, but in both
                 // cases printing starts at pad_left+1, here it starts at pad_left+4, so 3 cells less
                 // to be used.
-                const utf8_wrapper entry = utf8_wrapper( ei == selected ? remove_color_tags( entries[ ei ].txt ) :
-                                           entries[ ei ].txt );
+                const std::string &entry = ei == selected ? remove_color_tags( entries[ ei ].txt ) :
+                                           entries[ ei ].txt;
                 point p( pad_left + 4, estart + si );
                 entries[ei].drawn_rect =
                     inclusive_rectangle<point>( p + point( -3, 0 ), p + point( -4 + pad_size, 0 ) );
-                trim_and_print( window, p, max_entry_len,
-                                co, _color_error, "%s", entry.str() );
+                trim_and_print( window, p, max_entry_len, co, _color_error, "%s", entry );
 
                 if( max_column_len && !entries[ ei ].ctxt.empty() ) {
-                    const utf8_wrapper centry = utf8_wrapper( ei == selected ? remove_color_tags( entries[ ei ].ctxt ) :
-                                                entries[ ei ].ctxt );
+                    const std::string &centry = ei == selected ? remove_color_tags( entries[ ei ].ctxt ) :
+                                                entries[ ei ].ctxt;
                     trim_and_print( window, point( getmaxx( window ) - max_column_len - 2, estart + si ),
-                                    max_column_len, co, _color_error, "%s", centry.str() );
+                                    max_column_len, co, _color_error, "%s", centry );
                 }
             }
             mvwzstr menu_entry_extra_text = entries[ei].extratxt;
@@ -942,6 +948,41 @@ shared_ptr_fast<ui_adaptor> uilist::create_or_get_ui_adaptor()
     return current_ui;
 }
 
+uilist::handle_mouse_result_t uilist::handle_mouse( const input_context &ctxt,
+        const std::string &ret_act,
+        const bool loop )
+{
+    handle_mouse_result_t result = handle_mouse_result_t::unhandled;
+    // Only check MOUSE_MOVE when looping internally
+    if( !fentries.empty() && ( ret_act == "SELECT" || ( loop && ret_act == "MOUSE_MOVE" ) ) ) {
+        result = handle_mouse_result_t::handled;
+        const cata::optional<point> p = ctxt.get_coordinates_text( window );
+        if( p && window_contains_point_relative( window, p.value() ) ) {
+            const int new_fselected = find_entry_by_coordinate( p.value() );
+            if( new_fselected >= 0 && static_cast<size_t>( new_fselected ) < fentries.size() ) {
+                const bool enabled = entries[fentries[new_fselected]].enabled;
+                if( enabled || allow_disabled || hilight_disabled ) {
+                    // Change the selection to display correctly after this
+                    // function is called again.
+                    fselected = new_fselected;
+                    selected = fentries[fselected];
+                    if( ret_act == "SELECT" ) {
+                        if( enabled || allow_disabled ) {
+                            ret = entries[selected].retval;
+                            // Treating clicking during filtering as confirmation and stop filtering
+                            result = handle_mouse_result_t::confirmed;
+                        }
+                        if( callback != nullptr ) {
+                            callback->select( this );
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return result;
+}
+
 /**
  * Handle input and update display
  *
@@ -1065,29 +1106,8 @@ void uilist::query( bool loop, int timeout )
                     }
                 }
             }
-            // Only check MOUSE_MOVE when looping internally
-        } else if( !fentries.empty() && ( ret_act == "SELECT" || ( loop && ret_act == "MOUSE_MOVE" ) ) ) {
-            cata::optional<point> p = ctxt.get_coordinates_text( window );
-            if( p && window_contains_point_relative( window, p.value() ) ) {
-                const int new_fselected = find_entry_by_coordinate( p.value() );
-                if( new_fselected >= 0 && static_cast<size_t>( new_fselected ) < fentries.size() ) {
-                    const bool enabled = entries[fentries[new_fselected]].enabled;
-                    if( enabled || allow_disabled || hilight_disabled ) {
-                        // Change the selection to display correctly after this
-                        // function is called again.
-                        fselected = new_fselected;
-                        selected = fentries[fselected];
-                        if( ret_act == "SELECT" ) {
-                            if( enabled || allow_disabled ) {
-                                ret = entries[selected].retval;
-                            }
-                            if( callback != nullptr ) {
-                                callback->select( this );
-                            }
-                        }
-                    }
-                }
-            }
+        } else if( handle_mouse( ctxt, ret_act, loop ) != handle_mouse_result_t::unhandled ) {
+            // mouse handled, do nothing more
         } else if( allow_confirm && !fentries.empty() && ret_act == "CONFIRM" ) {
             if( entries[ selected ].enabled || allow_disabled ) {
                 ret = entries[selected].retval;

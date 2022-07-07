@@ -429,7 +429,7 @@ static void WinDestroy()
 }
 
 /// Converts a color from colorscheme to SDL_Color.
-static inline const SDL_Color &color_as_sdl( const unsigned char color )
+static const SDL_Color &color_as_sdl( const unsigned char color )
 {
     return windowsPalette[color];
 }
@@ -1121,7 +1121,7 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
         }
     }
 
-    for( auto &v : overmap_buffer.get_vehicle( center_abs_omt ) ) {
+    for( om_vehicle &v : overmap_buffer.get_vehicle( center_abs_omt ) ) {
         notes_window_text.emplace_back( c_white, v.name );
     }
 
@@ -1448,8 +1448,7 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
                 int full_text_length = 0;
                 const auto range = overlay_strings.equal_range( coord );
                 for( auto ri = range.first; ri != range.second; ++ri ) {
-                    utf8_wrapper rt( ri->second.text );
-                    full_text_length += rt.display_width();
+                    full_text_length += utf8_width( ri->second.text );
                 }
 
                 alignment_offset = 0;

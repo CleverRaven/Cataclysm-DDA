@@ -13,6 +13,7 @@
 #include "calendar.h"
 #include "character_id.h"
 #include "coordinates.h"
+#include "dialogue.h"
 #include "enums.h"
 #include "game_constants.h"
 #include "npc_favor.h"
@@ -139,6 +140,7 @@ struct mission_target_params {
     cata::optional<std::string> replaceable_overmap_terrain;
     cata::optional<overmap_special_id> overmap_special;
     cata::optional<int> reveal_radius;
+    cata::optional<var_info> target_var;
     int min_distance = 0;
 
     bool must_see = false;

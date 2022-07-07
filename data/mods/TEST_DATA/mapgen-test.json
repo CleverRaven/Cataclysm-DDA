@@ -64,12 +64,49 @@
   {
     "type": "mapgen",
     "method": "json",
+    "nested_mapgen_id": "test_nested_place_shopping_cart",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "set": [ { "point": "terrain", "id": "t_dirt", "x": 0, "y": 0 } ],
+      "place_vehicles": [ { "vehicle": "shopping_cart", "chance": 100, "x": 0, "y": 0 } ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
     "update_mapgen_id": "test_update_place_shopping_cart",
     "object": {
       "set": [ { "point": "terrain", "id": "t_dirt", "x": 0, "y": 0 } ],
       "place_vehicles": [ { "vehicle": "shopping_cart", "chance": 100, "x": 0, "y": 0 } ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "test_update_place_npc",
+    "object": {
+      "set": [ { "point": "terrain", "id": "t_dirt", "x": 0, "y": 0 } ],
+      "place_npcs": [ { "class": "test_npc_trader", "x": 0, "y": 0 } ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "test_update_place_npc_thug",
+    "object": {
+      "set": [ { "point": "terrain", "id": "t_dirt", "x": 1, "y": 0 } ],
+      "place_npcs": [ { "class": "thug", "x": 0, "y": 0 } ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "test_update_remove_npc",
+    "object": { "remove_npcs": [ { "class": "test_npc_trader", "x": 0, "y": 0 } ] }
   },
   {
     "type": "palette",

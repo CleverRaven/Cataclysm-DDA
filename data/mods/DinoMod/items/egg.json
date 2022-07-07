@@ -188,6 +188,13 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "egg_nanuqsaurus",
+    "name": "nanuqsaurus egg",
+    "copy-from": "egg_dino_theropod",
+    "rot_spawn": "GROUP_EGG_nanuqsaurus"
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "egg_daspletosaurus",
     "name": "daspletosaurus egg",
     "copy-from": "egg_dino_theropod",
@@ -248,6 +255,13 @@
     "name": "anzu egg",
     "copy-from": "egg_dino_theropod",
     "rot_spawn": "GROUP_EGG_anzu"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_saurornitholestes",
+    "name": "saurornitholestes egg",
+    "copy-from": "egg_dino_theropod_small",
+    "rot_spawn": "GROUP_EGG_saurornitholestes"
   },
   {
     "type": "COMESTIBLE",
@@ -503,13 +517,6 @@
   },
   {
     "type": "COMESTIBLE",
-    "id": "egg_mosasaurus",
-    "name": "mosasaurus egg",
-    "copy-from": "egg_dino_large",
-    "rot_spawn": "GROUP_EGG_mosasaurus"
-  },
-  {
-    "type": "COMESTIBLE",
     "id": "boiled_egg_dino_small",
     "name": { "str": "small boiled dinosaur egg" },
     "copy-from": "egg_dino_small",
@@ -546,7 +553,7 @@
     "color": "white",
     "symbol": "o",
     "quench": -15,
-    "description": "A large hard-boiled dinosaur egg, still in its shell.  Portable and nutritious!",
+    "description": "A large hard-boiled dinosaur egg, still in its shell.  It may be wise to disassemble it into two pieces to eat.",
     "price": 595,
     "price_postapoc": 300,
     "material": [ "egg" ],

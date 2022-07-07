@@ -66,6 +66,51 @@ int OVERMAP_LEGEND_WIDTH;
 
 scrollingcombattext SCT;
 
+std::string string_from_int( const catacurses::chtype ch )
+{
+    catacurses::chtype charcode = ch;
+    // LINE_NESW  - X for on, O for off
+    switch( ch ) {
+        case LINE_XOXO:
+            charcode = LINE_XOXO_C;
+            break;
+        case LINE_OXOX:
+            charcode = LINE_OXOX_C;
+            break;
+        case LINE_XXOO:
+            charcode = LINE_XXOO_C;
+            break;
+        case LINE_OXXO:
+            charcode = LINE_OXXO_C;
+            break;
+        case LINE_OOXX:
+            charcode = LINE_OOXX_C;
+            break;
+        case LINE_XOOX:
+            charcode = LINE_XOOX_C;
+            break;
+        case LINE_XXOX:
+            charcode = LINE_XXOX_C;
+            break;
+        case LINE_XXXO:
+            charcode = LINE_XXXO_C;
+            break;
+        case LINE_XOXX:
+            charcode = LINE_XOXX_C;
+            break;
+        case LINE_OXXX:
+            charcode = LINE_OXXX_C;
+            break;
+        case LINE_XXXX:
+            charcode = LINE_XXXX_C;
+            break;
+        default:
+            break;
+    }
+    char buffer[2] = { static_cast<char>( charcode ), '\0' };
+    return buffer;
+}
+
 // utf8 version
 std::vector<std::string> foldstring( const std::string &str, int width, const char split )
 {
@@ -849,7 +894,7 @@ int popup( const std::string &text, PopupFlags flags )
     }
 
     pop.context( "POPUP_WAIT" );
-    const auto &res = pop.query();
+    const query_popup::result &res = pop.query();
     if( res.evt.type == input_event_t::keyboard_char ) {
         return res.evt.get_first_input();
     } else {
@@ -919,8 +964,37 @@ std::string replace_colors( std::string text )
     return text;
 }
 
-void draw_item_filter_rules( const catacurses::window &win, int starty, int height,
-                             item_filter_type type )
+static const std::array<translation, 3> item_filter_rule_intros {
+    to_translation( "Type part of an item's name to filter it." ),
+    to_translation( "Type part of an item's name to move nearby items to the bottom." ),
+    to_translation( "Type part of an item's name to move nearby items to the top." )
+};
+
+std::string item_filter_rule_string( const item_filter_type type )
+{
+    std::ostringstream str;
+    const int tab_idx = static_cast<int>( type ) - static_cast<int>( item_filter_type::FIRST );
+    str << item_filter_rule_intros[tab_idx];
+    // NOLINTNEXTLINE(cata-text-style): literal comma
+    str << "\n\n" << _( "Separate multiple items with [<color_yellow>,</color>]." );
+    //~ An example of how to separate multiple items with a comma when filtering items.
+    str << "\n" << _( "Example: back,flash,aid, ,band" ); // NOLINT(cata-text-style): literal comma
+    str << "\n\n" << _( "Search [<color_yellow>c</color>]ategory, [<color_yellow>m</color>]aterial, "
+                        "[<color_yellow>q</color>]uality, [<color_yellow>n</color>]otes, "
+                        "[<color_yellow>s</color>]skill taught by books, "
+                        "[<color_yellow>d</color>]isassembled components, or "
+                        "items satisfying [<color_yellow>b</color>]oth conditions." );
+    //~ An example of how to filter items based on category or material.
+    str << "\n" << _( "Example: c:food,m:iron,q:hammering,n:toolshelf,d:pipe,s:devices,b:mre;sealed" );
+    str << "\n\n" << _( "To exclude items, place [<color_yellow>-</color>] in front.  "
+                        "Place [<color_yellow>--</color>] in front to include only matching items." );
+    //~ An example of how to exclude items with - when filtering items.
+    str << "\n" << _( "Example: steel,-chunk,--c:spare parts" );
+    return str.str();
+}
+
+void draw_item_filter_rules( const catacurses::window &win, const int starty, const int height,
+                             const item_filter_type type )
 {
     // Clear every row, but the leftmost/rightmost pixels intact.
     const int len = getmaxx( win ) - 2;
@@ -928,39 +1002,8 @@ void draw_item_filter_rules( const catacurses::window &win, int starty, int heig
         mvwprintz( win, point( 1, starty + i ), c_black, std::string( len, ' ' ) );
     }
 
-    // Not static so that language changes are correctly handled
-    const std::array<std::string, 3> intros = {{
-            _( "Type part of an item's name to filter it." ),
-            _( "Type part of an item's name to move nearby items to the bottom." ),
-            _( "Type part of an item's name to move nearby items to the top." )
-        }
-    };
-    const int tab_idx = static_cast<int>( type ) - static_cast<int>( item_filter_type::FIRST );
-    starty += 1 + fold_and_print( win, point( 1, starty ), len, c_white, intros[tab_idx] );
+    fold_and_print( win, point( 1, starty ), len, c_white, "%s", item_filter_rule_string( type ) );
 
-    starty += fold_and_print( win, point( 1, starty ), len, c_white,
-                              // NOLINTNEXTLINE(cata-text-style): literal comma
-                              _( "Separate multiple items with [<color_yellow>,</color>]." ) );
-    starty += 1 + fold_and_print( win, point( 1, starty ), len, c_white,
-                                  //~ An example of how to separate multiple items with a comma when filtering items.
-                                  _( "Example: back,flash,aid, ,band" ) ); // NOLINT(cata-text-style): literal comma
-
-    if( type == item_filter_type::FILTER ) {
-        starty += fold_and_print( win, point( 1, starty ), len, c_white,
-                                  _( "To exclude items, place [<color_yellow>-</color>] in front." ) );
-        starty += 1 + fold_and_print( win, point( 1, starty ), len, c_white,
-                                      //~ An example of how to exclude items with - when filtering items.
-                                      _( "Example: -pipe,-chunk,-steel" ) );
-    }
-
-    starty += fold_and_print( win, point( 1, starty ), len, c_white,
-                              _( "Search [<color_yellow>c</color>]ategory, [<color_yellow>m</color>]aterial, "
-                                 "[<color_yellow>q</color>]uality, [<color_yellow>n</color>]otes, "
-                                 "[<color_yellow>s</color>]skill taught by books or "
-                                 "[<color_yellow>d</color>]isassembled components." ) );
-    fold_and_print( win, point( 1, starty ), len, c_white,
-                    //~ An example of how to filter items based on category or material.
-                    _( "Examples: c:food,m:iron,q:hammering,n:toolshelf,d:pipe,s:devices" ) );
     wnoutrefresh( win );
 }
 
@@ -970,7 +1013,7 @@ std::string format_item_info( const std::vector<iteminfo> &vItemDisplay,
     std::string buffer;
     bool bIsNewLine = true;
 
-    for( const auto &i : vItemDisplay ) {
+    for( const iteminfo &i : vItemDisplay ) {
         if( i.sType == "DESCRIPTION" ) {
             // Always start a new line for sType == "DESCRIPTION"
             if( !bIsNewLine ) {
@@ -2442,7 +2485,7 @@ void scrollingcombattext::add( const point &pos, direction p_oDir,
                        p_oDir == ( iso_mode ? direction::WEST : direction::SOUTHEAST ) ) ) {
 
             //Message offset: multiple impacts in the same direction in short order overriding prior messages (mostly turrets)
-            for( auto &iter : vSCT ) {
+            for( scrollingcombattext::cSCT &iter : vSCT ) {
                 if( iter.getDirection() == p_oDir && ( iter.getStep() + iter.getStepOffset() ) == iCurStep ) {
                     ++iCurStep;
                     iter.advanceStepOffset();

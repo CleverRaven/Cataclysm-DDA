@@ -90,12 +90,12 @@ struct morale_mult {
     }
 };
 
-static inline double operator * ( double morale, const morale_mult &mult )
+static double operator * ( double morale, const morale_mult &mult )
 {
     return morale * ( ( morale >= 0.0 ) ? mult.good : mult.bad );
 }
 
-static inline int operator *= ( int &morale, const morale_mult &mult )
+static int operator *= ( int &morale, const morale_mult &mult )
 {
     morale = morale * mult;
     return morale;
@@ -297,7 +297,7 @@ void player_morale::add( const morale_type &type, int bonus, int max_bonus,
         return;
     }
 
-    for( auto &m : points ) {
+    for( player_morale::morale_point &m : points ) {
         if( m.matches( type, item_type ) ) {
             const int prev_bonus = m.get_net_bonus();
 
@@ -385,7 +385,7 @@ void player_morale::calculate_percentage()
     int sum_of_positive_squares = 0;
     int sum_of_negative_squares = 0;
 
-    for( auto &m : points ) {
+    for( player_morale::morale_point &m : points ) {
         const int bonus = m.get_net_bonus( mult );
         if( bonus > 0 ) {
             sum_of_positive_squares += std::pow( bonus, 2 );
@@ -394,7 +394,7 @@ void player_morale::calculate_percentage()
         }
     }
 
-    for( auto &m : points ) {
+    for( player_morale::morale_point &m : points ) {
         const int bonus = m.get_net_bonus( mult );
         if( bonus > 0 ) {
             m.set_percent_contribution( ( std::pow( bonus, 2 ) / sum_of_positive_squares ) * 100 );
@@ -791,7 +791,7 @@ void player_morale::display( int focus_eq, int pain_penalty, int fatigue_penalty
 bool player_morale::consistent_with( const player_morale &morale ) const
 {
     const auto test_points = []( const player_morale & lhs, const player_morale & rhs ) {
-        for( const auto &lhp : lhs.points ) {
+        for( const player_morale::morale_point &lhp : lhs.points ) {
             if( !lhp.is_permanent() ) {
                 continue;
             }

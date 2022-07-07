@@ -22,6 +22,7 @@
         [ "egg_gorgosaurus", 1 ],
         [ "egg_albertosaurus", 1 ],
         [ "egg_qianzhousaurus", 1 ],
+        [ "egg_nanuqsaurus", 1 ],
         [ "egg_daspletosaurus", 1 ],
         [ "egg_gallimimus", 1 ],
         [ "egg_struthiomimus", 1 ],
@@ -63,6 +64,7 @@
         [ "egg_coelophysis", 1 ],
         [ "egg_compsognathus", 1 ],
         [ "egg_albertonykus", 1 ],
+        [ "egg_saurornitholestes", 1 ],
         [ "egg_velociraptor", 1 ],
         [ "egg_dromaeosaurus", 1 ],
         [ "egg_stenonychosaurus", 1 ],
@@ -88,8 +90,7 @@
         [ "egg_diplodocus", 1 ],
         [ "egg_camarasaurus", 1 ],
         [ "egg_brachiosaurus", 1 ],
-        [ "egg_alamosaurus", 1 ],
-        [ "egg_mosasaurus", 1 ]
+        [ "egg_alamosaurus", 1 ]
       ]
     ]
   }

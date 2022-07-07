@@ -353,7 +353,7 @@ void Character::long_craft( const cata::optional<tripoint> &loc, const recipe_id
 
 bool Character::making_would_work( const recipe_id &id_to_make, int batch_size )
 {
-    const auto &making = *id_to_make;
+    const recipe &making = *id_to_make;
     if( !( making && crafting_allowed( *this, making ) ) ) {
         return false;
     }
@@ -471,7 +471,7 @@ static std::vector<const item *> get_eligible_containers_recursive( const item &
 
 void outfit::get_eligible_containers_for_crafting( std::vector<const item *> &conts ) const
 {
-    for( const auto &it : worn ) {
+    for( const item &it : worn ) {
         std::vector<const item *> eligible = get_eligible_containers_recursive( it, false );
         conts.insert( conts.begin(), eligible.begin(), eligible.end() );
     }
@@ -501,7 +501,7 @@ std::vector<const item *> Character::get_eligible_containers_for_crafting() cons
 
         if( const cata::optional<vpart_reference> vp = here.veh_at( loc ).part_with_feature( "CARGO",
                 true ) ) {
-            for( const auto &it : vp->vehicle().get_items( vp->part_index() ) ) {
+            for( const item &it : vp->vehicle().get_items( vp->part_index() ) ) {
                 std::vector<const item *> eligible = get_eligible_containers_recursive( it, true );
                 conts.insert( conts.begin(), eligible.begin(), eligible.end() );
             }
@@ -622,7 +622,7 @@ void Character::make_all_craft( const recipe_id &id_to_make, int batch_size,
 void Character::make_craft_with_command( const recipe_id &id_to_make, int batch_size, bool is_long,
         const cata::optional<tripoint> &loc )
 {
-    const auto &recipe_to_make = *id_to_make;
+    const recipe &recipe_to_make = *id_to_make;
 
     if( !recipe_to_make ) {
         return;
@@ -1365,7 +1365,7 @@ void Character::complete_craft( item &craft, const cata::optional<tripoint> &loc
 
     if( making.has_byproducts() ) {
         std::vector<item> bps = making.create_byproducts( batch_size );
-        for( auto &bp : bps ) {
+        for( item &bp : bps ) {
             if( bp.has_temperature() ) {
                 if( bp.goes_bad() ) {
                     bp.set_relative_rot( relative_rot );
@@ -1581,7 +1581,7 @@ comp_selection<item_comp> Character::select_item_component( const std::vector<it
 
     comp_selection<item_comp> selected;
 
-    for( const auto &component : components ) {
+    for( const item_comp &component : components ) {
         itype_id type = component.type;
         int count = ( component.count > 0 ) ? component.count * batch : std::abs( component.count );
 
@@ -1838,7 +1838,7 @@ static void empty_buckets( Character &p )
     auto buckets = p.remove_items_with( [&p]( const item & it ) {
         return it.is_bucket_nonempty() && &it != &p.get_wielded_item();
     }, INT_MAX );
-    for( auto &it : buckets ) {
+    for( item &it : buckets ) {
         for( const item *in : it.all_items_top() ) {
             drop_or_handle( *in, p );
         }
@@ -2002,7 +2002,7 @@ Character::select_tool_component( const std::vector<tool_comp> &tools, int batch
     } else { // Variety of options, list them and pick one
         // Populate the list
         uilist tmenu;
-        for( auto &map_ha : map_has ) {
+        for( tool_comp &map_ha : map_has ) {
             if( item::find_type( map_ha.type )->maximum_charges() > 1 ) {
                 std::string tmpStr = string_format( _( "%s (%d/%d charges nearby)" ),
                                                     item::nname( map_ha.type ), calc_charges( map_ha, true ),
@@ -2013,7 +2013,7 @@ Character::select_tool_component( const std::vector<tool_comp> &tools, int batch
                 tmenu.addentry( tmpStr );
             }
         }
-        for( auto &player_ha : player_has ) {
+        for( tool_comp &player_ha : player_has ) {
             if( item::find_type( player_ha.type )->maximum_charges() > 1 ) {
                 std::string tmpStr = string_format( _( "%s (%d/%d charges on person)" ),
                                                     item::nname( player_ha.type ), calc_charges( player_ha, true ),
@@ -2023,7 +2023,7 @@ Character::select_tool_component( const std::vector<tool_comp> &tools, int batch
                 tmenu.addentry( item::nname( player_ha.type ) );
             }
         }
-        for( auto &both_ha : both_has ) {
+        for( tool_comp &both_ha : both_has ) {
             if( item::find_type( both_ha.type )->maximum_charges() > 1 ) {
                 std::string tmpStr = string_format( _( "%s (%d/%d charges nearby or on person)" ),
                                                     item::nname( both_ha.type ), calc_charges( both_ha, true ),
@@ -2118,8 +2118,8 @@ bool Character::craft_consume_tools( item &craft, int multiplier, bool start_cra
                 case usage_from::player:
                     if( !has_charges( type, count ) ) {
                         add_msg_player_or_npc(
-                            _( "You have insufficient %s charges and can't continue crafting" ),
-                            _( "<npcname> has insufficient %s charges and can't continue crafting" ),
+                            _( "You have insufficient %s charges and can't continue crafting." ),
+                            _( "<npcname> has insufficient %s charges and can't continue crafting." ),
                             item::nname( type ) );
                         craft.set_tools_to_continue( false );
                         return false;
@@ -2128,8 +2128,8 @@ bool Character::craft_consume_tools( item &craft, int multiplier, bool start_cra
                 case usage_from::map:
                     if( !map_inv.has_charges( type, count ) ) {
                         add_msg_player_or_npc(
-                            _( "You have insufficient %s charges and can't continue crafting" ),
-                            _( "<npcname> has insufficient %s charges and can't continue crafting" ),
+                            _( "You have insufficient %s charges and can't continue crafting." ),
+                            _( "<npcname> has insufficient %s charges and can't continue crafting." ),
                             item::nname( type ) );
                         craft.set_tools_to_continue( false );
                         return false;
@@ -2138,8 +2138,8 @@ bool Character::craft_consume_tools( item &craft, int multiplier, bool start_cra
                 case usage_from::both:
                     if( !crafting_inventory().has_charges( type, count ) ) {
                         add_msg_player_or_npc(
-                            _( "You have insufficient %s charges and can't continue crafting" ),
-                            _( "<npcname> has insufficient %s charges and can't continue crafting" ),
+                            _( "You have insufficient %s charges and can't continue crafting." ),
+                            _( "<npcname> has insufficient %s charges and can't continue crafting." ),
                             item::nname( type ) );
                         craft.set_tools_to_continue( false );
                         return false;
@@ -2152,8 +2152,8 @@ bool Character::craft_consume_tools( item &craft, int multiplier, bool start_cra
         } else if( ( type != itype_id::NULL_ID() ) && !has_amount( type, 1 ) &&
                    !map_inv.has_tools( type, 1 ) ) {
             add_msg_player_or_npc(
-                _( "You no longer have a %s and can't continue crafting" ),
-                _( "<npcname> no longer has a %s and can't continue crafting" ),
+                _( "You no longer have a %s and can't continue crafting." ),
+                _( "<npcname> no longer has a %s and can't continue crafting." ),
                 item::nname( type ) );
             craft.set_tools_to_continue( false );
             return false;
@@ -2246,10 +2246,10 @@ ret_val<bool> Character::can_disassemble( const item &obj, const read_only_visit
             }
         }
     }
-    const auto &dis = r.disassembly_requirements();
+    const requirement_data &dis = r.disassembly_requirements();
 
     for( const auto &opts : dis.get_qualities() ) {
-        for( const auto &qual : opts ) {
+        for( const quality_requirement &qual : opts ) {
             if( !qual.has( inv, return_true<item> ) ) {
                 // Here should be no dot at the end of the string as 'to_string()' provides it.
                 return ret_val<bool>::make_failure( _( "You need %s" ), qual.to_string() );
@@ -2289,7 +2289,7 @@ item_location Character::create_in_progress_disassembly( item_location target )
     if( target->typeId() == itype_disassembly ) {
         new_disassembly = item( orig_item );
     } else {
-        const auto &r = recipe_dictionary::get_uncraft( target->typeId() );
+        const recipe &r = recipe_dictionary::get_uncraft( target->typeId() );
         new_disassembly = item( &r, activity.position, orig_item );
 
         // Remove any batteries, ammo, contents and mods first
@@ -2341,8 +2341,8 @@ bool Character::disassemble( item_location target, bool interactive, bool disass
     }
 
     avatar &player_character = get_avatar();
-    const auto &r = ( obj.typeId() == itype_disassembly ) ? obj.get_making() :
-                    recipe_dictionary::get_uncraft( obj.typeId() );
+    const recipe &r = ( obj.typeId() == itype_disassembly ) ? obj.get_making() :
+                      recipe_dictionary::get_uncraft( obj.typeId() );
     if( !obj.is_owned_by( player_character, true ) ) {
         if( !query_yn( _( "Disassembling the %s may anger the people who own it, continue?" ),
                        obj.tname() ) ) {
@@ -2372,7 +2372,7 @@ bool Character::disassemble( item_location target, bool interactive, bool disass
     if( interactive && get_option<bool>( "QUERY_DISASSEMBLE" ) && obj.typeId() != itype_disassembly ) {
         std::string list;
         const auto components = obj.get_uncraft_components();
-        for( const auto &component : components ) {
+        for( const item_comp &component : components ) {
             list += "- " + component.to_string() + "\n";
         }
         if( !r.learn_by_disassembly.empty() && !knows_recipe( &r ) && can_decomp_learn( r ) ) {
@@ -2749,7 +2749,7 @@ void Character::complete_disassemble( item_location &target, const recipe &dis )
 
 void remove_ammo( std::list<item> &dis_items, Character &p )
 {
-    for( auto &dis_item : dis_items ) {
+    for( item &dis_item : dis_items ) {
         remove_ammo( dis_item, p );
     }
 }

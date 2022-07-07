@@ -799,7 +799,7 @@ bool main_menu::opening_screen()
                         } );
                         g->gamemode = get_special_game( static_cast<special_game_type>( sel2 + 1 ) );
                         // check world
-                        WORLDPTR world = world_generator->make_new_world( static_cast<special_game_type>( sel2 + 1 ) );
+                        WORLD *world = world_generator->make_new_world( static_cast<special_game_type>( sel2 + 1 ) );
                         if( world == nullptr ) {
                             break;
                         }
@@ -899,7 +899,7 @@ bool main_menu::new_character_tab()
                     world_generator->set_active_world( nullptr );
                 } );
                 g->gamemode = nullptr;
-                WORLDPTR world = world_generator->pick_world();
+                WORLD *world = world_generator->pick_world();
                 if( world == nullptr ) {
                     continue;
                 }
@@ -936,7 +936,7 @@ bool main_menu::new_character_tab()
         // First load the mods, this is done by
         // loading the world.
         // Pick a world, suppressing prompts if it's "play now" mode.
-        WORLDPTR world = world_generator->pick_world( true, sel2 == 3 || sel2 == 4 );
+        WORLD *world = world_generator->pick_world( true, sel2 == 3 || sel2 == 4 );
         if( world == nullptr ) {
             return false;
         }
@@ -1015,7 +1015,7 @@ bool main_menu::load_character_tab( const std::string &worldname )
     } );
 
     g->gamemode = nullptr;
-    WORLDPTR world = world_generator->get_world( worldname );
+    WORLD *world = world_generator->get_world( worldname );
     world_generator->last_world_name = world->world_name;
     world_generator->last_character_name = savegames[opt_val].decoded_name();
     world_generator->save_last_world_info();

@@ -737,7 +737,7 @@ void hacking_activity_actor::finish( player_activity &act, Character &who )
                            "alarm" );
             if( examp.z > 0 && !get_timed_events().queued( timed_event_type::WANTED ) ) {
                 get_timed_events().add( timed_event_type::WANTED, calendar::turn + 30_minutes, 0,
-                                        who.global_sm_location() );
+                                        who.get_location() );
             }
             break;
         case hack_result::NOTHING:
@@ -2243,7 +2243,7 @@ void lockpick_activity_actor::finish( player_activity &act, Character &who )
                        "alarm" );
         if( !get_timed_events().queued( timed_event_type::WANTED ) ) {
             get_timed_events().add( timed_event_type::WANTED, calendar::turn + 30_minutes, 0,
-                                    who.global_sm_location() );
+                                    who.get_location() );
         }
     }
 
@@ -3410,8 +3410,16 @@ static std::list<item> obtain_activity_items(
             who.set_check_encumbrance( true );
         }
 
-        // Take off the item or remove it from the player's inventory
-        if( who.is_worn( *loc ) ) {
+        // Take off the item or remove it from where it's been
+        if( loc.where_recursive() == item_location::type::map ||
+            loc.where_recursive() == item_location::type::vehicle ) {
+            item copy( *loc );
+            if( loc->count_by_charges() && loc->count() > it->count() ) {
+                copy.charges -= it->count();
+            }
+            loc.remove_item();
+            res.push_back( copy );
+        } else if( who.is_worn( *loc ) ) {
             who.takeoff( loc, &res );
         } else if( loc->count_by_charges() ) {
             res.push_back( who.reduce_charges( &*loc, it->count() ) );
@@ -3722,8 +3730,10 @@ bool disable_activity_actor::can_disable_or_reprogram( const monster &monster )
 
 int disable_activity_actor::get_disable_turns()
 {
-    return 2000 / ( get_avatar().get_skill_level( skill_electronics ) + get_avatar().get_skill_level(
-                        skill_mechanics ) );
+    const int elec_skill = get_avatar().get_skill_level( skill_electronics );
+    const int mech_skill = get_avatar().get_skill_level( skill_mechanics );
+    const int time_scale = std::max( elec_skill + mech_skill, 1 );
+    return 2000 / time_scale;
 }
 
 void disable_activity_actor::serialize( JsonOut &jsout ) const
@@ -4958,7 +4968,7 @@ void prying_activity_actor::handle_prying( Character &who )
                        "alarm" );
         if( !get_timed_events().queued( timed_event_type::WANTED ) ) {
             get_timed_events().add( timed_event_type::WANTED, calendar::turn + 30_minutes, 0,
-                                    who.global_sm_location() );
+                                    who.get_location() );
         }
     }
 
@@ -5659,10 +5669,10 @@ void firstaid_activity_actor::finish( player_activity &act, Character &who )
     act.values.clear();
 
     // Return to first eat or consume meds menu activity in the backlog.
-    for( auto iter = who.backlog.begin(); iter != who.backlog.end(); ++iter ) {
-        if( iter->id() == ACT_EAT_MENU ||
-            iter->id() == ACT_CONSUME_MEDS_MENU ) {
-            iter->auto_resume = true;
+    for( player_activity &backlog_act : who.backlog ) {
+        if( backlog_act.id() == ACT_EAT_MENU ||
+            backlog_act.id() == ACT_CONSUME_MEDS_MENU ) {
+            backlog_act.auto_resume = true;
             break;
         }
     }

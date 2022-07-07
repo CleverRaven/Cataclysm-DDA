@@ -736,7 +736,7 @@
   {
     "type": "vehicle_part",
     "id": "dishwasher",
-    "name": { "str": "dishwasher" },
+    "name": { "str": "portable dishwasher" },
     "symbol": "d",
     "categories": [ "utility" ],
     "color": "light_blue",

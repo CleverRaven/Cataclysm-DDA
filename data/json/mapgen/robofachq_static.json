@@ -132,7 +132,7 @@
     ],
     "method": "json",
     "object": {
-      "fill_ter": "t_strconc_floor_no_roof",
+      "fill_ter": "t_strconc_floor",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,UUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,U_______,,,,,,,,,,,,,,,,,,_______U,,,,,,,,,,,,,,,",
@@ -184,7 +184,7 @@
         ",,,,,,,,,,,,,,,,,|,,,,|(((|22|(((|||||,,,,,,,,,,,,,,,,,,|||___________|||,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,$,,,,,$,,,,,|,,$$|^t^|  |^^^|6^ ||||||||||||||||||||||55555555555|||,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,|,,,,|?         (dh |^7777^|77| dh B||||||___________|||,,,,,,,,,,,,,,,,,,,,,,,",
-        ",,,,,,,,,,,,,,,,,|$$,,|? a       (d  5      5  |hd   | d  y___________|||,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,|$$,,|? a      0(d  5      5  |hd   | d  y___________|||,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,|||u||||||22||||||2|||||||||  |     |hd  y___________|||,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,|$,,,|;  |YY        2  YY  |  |(((([| d  y___________|||,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,|$,,,|i  +YY        2      |             y___________|||,,,,,,,,,,,,,,,,,,,,,,,",
@@ -488,7 +488,8 @@
         ]
       },
       "monster": { "T": { "monster": "mon_robofac_laserturret_mk1" } },
-      "npcs": { "G": { "class": "hub_security" }, "Q": { "class": "hub_security_head" } }
+      "npcs": { "G": { "class": "hub_security" }, "Q": { "class": "hub_security_head" } },
+      "liquids": { "W": { "liquid": "water_clean", "amount": [ 0, 80 ] } }
     }
   },
   {
@@ -606,7 +607,8 @@
           { "item": "lab_bookshelves", "chance": 55, "repeat": [ 1, 3 ] }
         ]
       },
-      "npcs": { "G": { "class": "hub_security" } }
+      "npcs": { "G": { "class": "hub_security" } },
+      "liquids": { "W": { "liquid": "water_clean", "amount": [ 0, 80 ] } }
     }
   },
   {
@@ -776,7 +778,7 @@
         "Y": "t_strconc_floor_olight",
         "S": "t_railroad_track",
         "C": "t_carpet_red",
-        ",": "t_rock_floor",
+        ",": "t_rock_floor_no_roof",
         "W": "t_bridge"
       },
       "furniture": { "w": "f_table", "F": "f_rack", "7": "f_machinery_light", "8": "f_machinery_heavy", "&": "f_machinery_electronic" },

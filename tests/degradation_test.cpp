@@ -615,7 +615,7 @@ static vehicle &unfold_and_check( int dmg, int deg )
     optional_vpart_position bike_part = m.veh_at( u.get_location() );
     REQUIRE( bike_part.has_value() );
     CHECK( bike_part->vehicle().get_all_parts().part_count() > 0 );
-    for( auto &part : bike_part->vehicle().get_all_parts() ) {
+    for( const vpart_reference &part : bike_part->vehicle().get_all_parts() ) {
         CAPTURE( part.part().name() );
         CHECK( part.part().damage() == dmg );
         CHECK( part.part().degradation() == deg );

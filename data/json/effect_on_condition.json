@@ -355,6 +355,19 @@
     "effect": [ { "u_mod_healthy": -1, "cap": -200 } ]
   },
   {
+    "id": "EOC_DEATH_PORTAL_DUNGEON",
+    "type": "effect_on_condition",
+    "eoc_type": "AVATAR_DEATH",
+    "condition": { "compare_int": [ { "global_val": "var", "var_name": "portal_dungeon_level" }, "!=", { "const": 0 } ] },
+    "effect": [
+      {
+        "u_message": "Your ultimate fate is hard to sum up in words but suffice to say, the thing that used to be you wishes it had hidden from the storm.",
+        "popup": true
+      },
+      { "run_eocs": "EOC_PORTAL_STORM_DUNGEON_EXIT" }
+    ]
+  },
+  {
     "id": "EOC_DEATH_SWITCH",
     "type": "effect_on_condition",
     "eoc_type": "AVATAR_DEATH",

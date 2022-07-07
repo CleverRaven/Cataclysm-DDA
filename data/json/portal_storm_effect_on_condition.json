@@ -190,6 +190,18 @@
           { "const": 1 }
         ]
       },
+      { "run_eocs": "EOC_PORTAL_STORM_MAPGEN" },
+      {
+        "set_string_var": [
+          "PORTAL_STORM_DUNGEON_ANGRY",
+          "PORTAL_STORM_DUNGEON_SCARED",
+          "PORTAL_STORM_DUNGEON_CURIOUS",
+          "PORTAL_STORM_DUNGEON_ALIEN",
+          "PORTAL_STORM_DUNGEON_FUTURE",
+          "PORTAL_STORM_DUNGEON_ENTICING"
+        ],
+        "target_var": { "global_val": "portal_storm_voice_mood" }
+      },
       {
         "queue_eocs": "EOC_CANCEL_PORTAL_STORM",
         "time_in_future": [
@@ -222,7 +234,9 @@
         "type": "good"
       },
       { "u_add_var": "u_witnessed_portal_storm", "type": "global", "context": "portal_storms", "value": "yes" },
-      { "run_eocs": "EOC_WORSEN_PORTAL_STORM" }
+      { "run_eocs": [ "EOC_WORSEN_PORTAL_STORM", "EOC_PORTAL_STORM_DUNGEON_EXIT" ] },
+      { "finish_mission": "MISSION_INVESTIGATE_PORTAL_DUNGEON", "success": false },
+      { "alter_timed_events": "portal_dungeon_entrance" }
     ]
   },
   {
@@ -264,14 +278,15 @@
     "deactivate_condition": { "not": { "is_weather": "portal_storm" } },
     "effect": {
       "weighted_list_eocs": [
-        [ "EOC_PORTAL_SHIFTING_MASS", { "const": 5 } ],
-        [ "EOC_PORTAL_IMPOSSIBLE_SHAPE", { "const": 1 } ],
-        [ "EOC_PORTAL_ABSENCE", { "const": 1 } ],
-        [ "EOC_PORTAL_PAIN", { "const": 1 } ],
-        [ "EOC_PORTAL_LIGHT", { "const": 2 } ],
-        [ "EOC_PORTAL_TELEPORT_STUCK_START", { "const": 3 } ],
-        [ "EOC_PORTAL_GRASS_CHANGE", { "const": 5 } ],
-        [ "EOC_PORTAL_MESSAGE", { "const": 5 } ]
+        [ "EOC_PORTAL_SHIFTING_MASS", { "const": 10 } ],
+        [ "EOC_PORTAL_IMPOSSIBLE_SHAPE", { "const": 2 } ],
+        [ "EOC_PORTAL_ABSENCE", { "const": 2 } ],
+        [ "EOC_PORTAL_PAIN", { "const": 2 } ],
+        [ "EOC_PORTAL_LIGHT", { "const": 4 } ],
+        [ "EOC_PORTAL_TELEPORT_STUCK_START", { "const": 6 } ],
+        [ "EOC_PORTAL_GRASS_CHANGE", { "const": 10 } ],
+        [ "EOC_PORTAL_MESSAGE", { "const": 10 } ],
+        [ "EOC_PORTAL_ARTIFACT_WEAK", { "const": 1 } ]
       ]
     }
   },
@@ -291,17 +306,18 @@
     "deactivate_condition": { "not": { "is_weather": "portal_storm" } },
     "effect": {
       "weighted_list_eocs": [
-        [ "EOC_PORTAL_SHIFTING_MASS", { "const": 1 } ],
-        [ "EOC_PORTAL_IMPOSSIBLE_SHAPE", { "const": 3 } ],
-        [ "EOC_PORTAL_ABSENCE", { "const": 1 } ],
-        [ "EOC_PORTAL_MEMORIES", { "const": 1 } ],
-        [ "EOC_PORTAL_SWARM_STRUCTURE", { "const": 2 } ],
-        [ "EOC_PORTAL_PAIN", { "const": 3 } ],
-        [ "EOC_PORTAL_LIGHT", { "const": 2 } ],
-        [ "EOC_PORTAL_GRASS_CHANGE", { "const": 1 } ],
-        [ "EOC_PORTAL_TELEPORT_STUCK_START", { "const": 2 } ],
-        [ "EOC_PORTAL_SMOKE", { "const": 2 } ],
-        [ "EOC_PORTAL_MESSAGE", { "const": 7 } ]
+        [ "EOC_PORTAL_SHIFTING_MASS", { "const": 2 } ],
+        [ "EOC_PORTAL_IMPOSSIBLE_SHAPE", { "const": 6 } ],
+        [ "EOC_PORTAL_ABSENCE", { "const": 2 } ],
+        [ "EOC_PORTAL_MEMORIES", { "const": 2 } ],
+        [ "EOC_PORTAL_SWARM_STRUCTURE", { "const": 4 } ],
+        [ "EOC_PORTAL_PAIN", { "const": 6 } ],
+        [ "EOC_PORTAL_LIGHT", { "const": 4 } ],
+        [ "EOC_PORTAL_GRASS_CHANGE", { "const": 2 } ],
+        [ "EOC_PORTAL_TELEPORT_STUCK_START", { "const": 4 } ],
+        [ "EOC_PORTAL_SMOKE", { "const": 4 } ],
+        [ "EOC_PORTAL_MESSAGE", { "const": 14 } ],
+        [ "EOC_PORTAL_ARTIFACT_MEDIUM", { "const": 1 } ]
       ]
     }
   },
@@ -320,15 +336,16 @@
     "deactivate_condition": { "not": { "is_weather": "portal_storm" } },
     "effect": {
       "weighted_list_eocs": [
-        [ "EOC_PORTAL_GIANT_APPENDAGE", { "const": 3 } ],
-        [ "EOC_PORTAL_SHIFTING_MASS", { "const": 1 } ],
-        [ "EOC_PORTAL_IMPOSSIBLE_SHAPE", { "const": 1 } ],
-        [ "EOC_PORTAL_ABSENCE", { "const": 2 } ],
-        [ "EOC_PORTAL_MEMORIES", { "const": 2 } ],
-        [ "EOC_PORTAL_SWARM_STRUCTURE", { "const": 2 } ],
-        [ "EOC_PORTAL_LIGHT", { "const": 2 } ],
-        [ "EOC_PORTAL_TELEPORT_STUCK_START", { "const": 1 } ],
-        [ "EOC_PORTAL_MESSAGE", { "const": 5 } ]
+        [ "EOC_PORTAL_GIANT_APPENDAGE", { "const": 6 } ],
+        [ "EOC_PORTAL_SHIFTING_MASS", { "const": 2 } ],
+        [ "EOC_PORTAL_IMPOSSIBLE_SHAPE", { "const": 2 } ],
+        [ "EOC_PORTAL_ABSENCE", { "const": 4 } ],
+        [ "EOC_PORTAL_MEMORIES", { "const": 4 } ],
+        [ "EOC_PORTAL_SWARM_STRUCTURE", { "const": 4 } ],
+        [ "EOC_PORTAL_LIGHT", { "const": 4 } ],
+        [ "EOC_PORTAL_TELEPORT_STUCK_START", { "const": 2 } ],
+        [ "EOC_PORTAL_MESSAGE", { "const": 10 } ],
+        [ "EOC_PORTAL_ARTIFACT_STRONG", { "const": 1 } ]
       ]
     }
   },
@@ -403,6 +420,60 @@
         "lifespan": [ "5 seconds", "2 minutes" ],
         "spawn_message": "Small gashes in reality open nearby, revealing an endless expanse of black water.  An alien being spills through before the portals close.",
         "spawn_message_plural": "Small gashes in reality open nearby, revealing an endless expanse of black water.  Several alien beings spill out before the portals close."
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_ARTIFACT_WEAK",
+    "condition": { "and": [ "u_is_outside", { "not": { "u_has_worn_with_flag": "PORTAL_PROOF" } } ] },
+    "effect": [
+      {
+        "u_spawn_monster": "mon_archunk_weak",
+        "real_count": 1,
+        "hallucination_count": 1,
+        "outdoor_only": true,
+        "min_radius": 3,
+        "max_radius": 20,
+        "lifespan": [ "7 minutes", "10 minutes" ],
+        "spawn_message": "A chunk of reality gets loose and falls on the ground.",
+        "spawn_message_plural": "Chunks of reality get loose and fall on the ground."
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_ARTIFACT_MEDIUM",
+    "condition": { "and": [ "u_is_outside", { "not": { "u_has_worn_with_flag": "PORTAL_PROOF" } } ] },
+    "effect": [
+      {
+        "u_spawn_monster": "mon_archunk_medium",
+        "real_count": 1,
+        "hallucination_count": 1,
+        "outdoor_only": true,
+        "min_radius": 3,
+        "max_radius": 20,
+        "lifespan": [ "7 minutes", "10 minutes" ],
+        "spawn_message": "Reality twists and deforms as a wriggling chunk of it falls on the ground.",
+        "spawn_message_plural": "Reality twists and deforms as wriggling chunks of it fall on the ground."
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_ARTIFACT_STRONG",
+    "condition": { "and": [ "u_is_outside", { "not": { "u_has_worn_with_flag": "PORTAL_PROOF" } } ] },
+    "effect": [
+      {
+        "u_spawn_monster": "mon_archunk_strong",
+        "real_count": 1,
+        "hallucination_count": 1,
+        "outdoor_only": true,
+        "min_radius": 3,
+        "max_radius": 20,
+        "lifespan": [ "7 minutes", "10 minutes" ],
+        "spawn_message": "A chunk of reality tears itself asunder and takes shape on the ground.",
+        "spawn_message_plural": "Chunks of reality tear themselves asunder and take shape on the ground."
       }
     ]
   },
@@ -516,7 +587,12 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_TELEPORT_STUCK",
-    "condition": { "not": "u_driving" },
+    "condition": {
+      "and": [
+        { "not": "u_driving" },
+        { "compare_int": [ { "global_val": "var", "var_name": "portal_dungeon_level" }, "==", { "const": 0 } ] }
+      ]
+    },
     "effect": [
       { "u_teleport": { "u_val": "stuck_teleport" }, "success_message": "You feel an intense sense of deja vu." },
       { "queue_eocs": "EOC_PORTAL_TELEPORT_STUCK_LOOP", "time_in_future": [ "3 seconds", "5 seconds" ] }
@@ -1029,7 +1105,7 @@
       { "u_location_variable": { "global_val": "cell_loc" }, "z_adjust": 6, "z_override": true },
       { "u_location_variable": { "global_val": "cell_roof_loc" }, "z_adjust": 7, "z_override": true },
       {
-        "arithmetic": [ { "u_val": "var", "var_name": "cell_time" }, "=", { "time": "30 seconds" }, "+", { "rand": 30 } ]
+        "arithmetic": [ { "u_val": "var", "var_name": "cell_time" }, "=", { "time": "3 minutes" }, "+", { "rand": 60 } ]
       },
       {
         "revert_location": { "global_val": "cell_loc" },
@@ -1069,14 +1145,183 @@
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_STORM_MAPGEN",
     "effect": [
-      { "u_location_variable": { "global_val": "portal_dungeon" } },
-      { "revert_location": { "global_val": "portal_dungeon" }, "time_in_future": [ "5 minutes", "5 minutes" ] },
-      { "mapgen_update": "portal_dungeon", "target_var": { "global_val": "portal_dungeon" } }
+      {
+        "u_location_variable": { "global_val": "portal_dungeon" },
+        "target_params": { "om_terrain": "field", "search_range": 20, "min_distance": 3, "z": 0 }
+      },
+      { "u_message": "You can feel the presence of something nearby, cracked in a way you can't put into words." },
+      { "assign_mission": "MISSION_INVESTIGATE_PORTAL_DUNGEON" },
+      {
+        "revert_location": { "global_val": "portal_dungeon" },
+        "time_in_future": "infinite",
+        "key": "portal_dungeon_entrance"
+      },
+      { "mapgen_update": "portal_dungeon_entrance", "target_var": { "global_val": "portal_dungeon" } }
     ]
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_PORTAL_STORM_MAPGEN_TRAP_CHANGE",
-    "effect": { "mapgen_update": "portal_dungeon_trap_change", "target_var": { "global_val": "portal_dungeon" } }
+    "id": "EOC_PORTAL_STORM_DUNGEON",
+    "effect": [
+      { "u_location_variable": { "global_val": "original_loc" } },
+      { "u_location_variable": { "global_val": "dungeon_loc" }, "z_adjust": 6, "z_override": true },
+      { "u_location_variable": { "global_val": "dungeon_roof_loc" }, "z_adjust": 7, "z_override": true },
+      { "revert_location": { "global_val": "dungeon_loc" }, "key": "portal_dungeon", "time_in_future": "infinite" },
+      {
+        "set_string_var": [ "Somewhere", "Nowhere", "Everywhere", "Yesterday", "Tomorrow" ],
+        "target_var": { "global_val": "place_name" }
+      },
+      {
+        "place_override": { "global_val": "place_name", "default_str": "Error" },
+        "key": "portal_dungeon",
+        "length": "infinite"
+      },
+      {
+        "revert_location": { "global_val": "dungeon_roof_loc" },
+        "time_in_future": "infinite",
+        "key": "portal_dungeon"
+      },
+      { "mapgen_update": "portal_dungeon_roof", "target_var": { "global_val": "dungeon_roof_loc" } },
+      { "mapgen_update": "portal_dungeon", "target_var": { "global_val": "dungeon_loc" } },
+      { "u_teleport": { "global_val": "dungeon_start" }, "fail_message": "Something is very wrong!", "force": true },
+      { "arithmetic": [ { "global_val": "var", "var_name": "portal_dungeon_level" }, "=", { "const": 1 } ] },
+      { "run_eocs": [ "EOC_PORTAL_STORM_DUNGEON_MONSTER_SPAWN", "EOC_PORTAL_STORM_DUNGEON_ENDLESS_HUNGER_SPAWN" ] },
+      { "queue_eocs": "EOC_PORTAL_STORM_DUNGEON_SHIFT", "time_in_future": [ "5 seconds", "15 seconds" ] },
+      { "u_message": "You are trapped in <global_val:place_name>!" },
+      { "u_message": { "global_val": "portal_storm_voice_mood", "default_str": "none" }, "snippet": true }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_STORM_DUNGEON_NEXT_LEVEL",
+    "effect": [
+      { "arithmetic": [ { "global_val": "var", "var_name": "portal_dungeon_level" }, "++" ] },
+      { "mapgen_update": "portal_dungeon_cleanup", "target_var": { "global_val": "dungeon_loc" } },
+      { "u_teleport": { "global_val": "dungeon_start" }, "fail_message": "Something is very wrong!", "force": true },
+      { "run_eocs": [ "EOC_PORTAL_STORM_DUNGEON_MONSTER_SPAWN", "EOC_PORTAL_STORM_DUNGEON_ENDLESS_HUNGER_SPAWN" ] },
+      { "mapgen_update": "portal_dungeon", "target_var": { "global_val": "dungeon_loc" } },
+      { "u_message": "Weren't you just here? It feel thicker somehow though." },
+      { "u_message": { "global_val": "portal_storm_voice_mood", "default_str": "none" }, "snippet": true }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_STORM_DUNGEON_SHIFT",
+    "condition": { "compare_int": [ { "global_val": "var", "var_name": "portal_dungeon_level" }, ">", { "const": 0 } ] },
+    "effect": [
+      { "mapgen_update": "portal_dungeon", "target_var": { "global_val": "dungeon_loc" } },
+      { "queue_eocs": "EOC_PORTAL_STORM_DUNGEON_SHIFT", "time_in_future": [ "5 seconds", "15 seconds" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_STORM_DUNGEON_MONSTER_SPAWN",
+    "effect": [
+      {
+        "u_spawn_monster": "mon_shifting_mass",
+        "real_count": { "arithmetic": [ { "global_val": "var", "var_name": "portal_dungeon_level" }, "*", { "const": 2 } ], "max": 15 },
+        "hallucination_count": { "arithmetic": [ { "global_val": "var", "var_name": "portal_dungeon_level" }, "*", { "const": 2 } ], "max": 15 },
+        "min_radius": 3,
+        "max_radius": 20,
+        "spawn_message": "A creature wanders in as if the walls weren't even there.",
+        "spawn_message_plural": "Creatures wander in as if the walls weren't even there."
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_STORM_DUNGEON_ENDLESS_HUNGER_SPAWN",
+    "global": true,
+    "condition": {
+      "and": [
+        { "compare_int": [ { "global_val": "var", "var_name": "portal_dungeon_level" }, ">", { "const": 0 } ] },
+        {
+          "compare_int": [
+            { "global_val": "monsters_nearby", "target_var": { "global_val": "dungeon_loc" }, "id": "mon_endless_hunger" },
+            "<",
+            { "const": 1 }
+          ]
+        }
+      ]
+    },
+    "effect": [
+      {
+        "u_spawn_monster": "mon_endless_hunger",
+        "real_count": 1,
+        "min_radius": 4,
+        "max_radius": 6,
+        "spawn_message": "Something you are spared from fully understanding appears.."
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_STORM_DUNGEON_EXIT",
+    "condition": { "compare_int": [ { "global_val": "var", "var_name": "portal_dungeon_level" }, "!=", { "const": 0 } ] },
+    "effect": [
+      { "mapgen_update": "portal_dungeon_cleanup", "target_var": { "global_val": "dungeon_loc" } },
+      {
+        "u_teleport": { "global_val": "original_loc" },
+        "success_message": "You are safely back in the apocalypse.",
+        "fail_message": "Something is very wrong!",
+        "force": true
+      },
+      { "run_eocs": "EOC_PORTAL_DUNGEON_REWARD" },
+      { "arithmetic": [ { "global_val": "var", "var_name": "portal_dungeon_level" }, "=", { "const": 0 } ] },
+      { "alter_timed_events": "portal_dungeon" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_STORM_SHADOW_SPAWN",
+    "global": true,
+    "condition": {
+      "and": [
+        { "u_has_trait": "TAINTED_SHADOW" },
+        { "compare_int": [ { "u_val": "monsters_nearby", "id": "mon_tainted_shadow" }, "<", { "const": 1 } ] }
+      ]
+    },
+    "effect": [
+      {
+        "u_spawn_monster": "mon_tainted_shadow",
+        "real_count": 1,
+        "min_radius": 2,
+        "max_radius": 3,
+        "friendly": true,
+        "spawn_message": "Your shadow is no longer attached to you."
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_DUNGEON_REWARD",
+    "effect": {
+      "run_eocs": [
+        {
+          "id": "EOC_PORTAL_DUNGEON_REWARD_1",
+          "condition": { "compare_int": [ { "global_val": "var", "var_name": "portal_dungeon_level" }, "<", { "const": 5 } ] },
+          "effect": { "u_add_effect": "weakened_inertia", "duration": "2 days" }
+        },
+        {
+          "id": "EOC_PORTAL_DUNGEON_REWARD_2",
+          "condition": {
+            "and": [
+              { "compare_int": [ { "global_val": "var", "var_name": "portal_dungeon_level" }, "<", { "const": 10 } ] },
+              { "compare_int": [ { "global_val": "var", "var_name": "portal_dungeon_level" }, ">=", { "const": 5 } ] }
+            ]
+          },
+          "effect": [ { "u_message": "A strange item comes back with you.", "popup": true }, { "u_spawn_item": "escape_stone" } ]
+        },
+        {
+          "id": "EOC_PORTAL_DUNGEON_REWARD_3",
+          "condition": { "compare_int": [ { "global_val": "var", "var_name": "portal_dungeon_level" }, ">=", { "const": 10 } ] },
+          "effect": [
+            { "u_message": "You feel a bit fractured." },
+            { "u_add_trait": "TAINTED_SHADOW" },
+            { "run_eocs": "EOC_PORTAL_STORM_SHADOW_SPAWN" }
+          ]
+        }
+      ]
+    }
   }
 ]

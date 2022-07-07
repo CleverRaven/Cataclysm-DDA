@@ -461,23 +461,20 @@ void body_part_type::reset()
     body_part_factory.reset();
 }
 
-
 void body_part_type::finalize_all()
 {
     body_part_factory.finalize();
 }
-
 
 void body_part_type::finalize()
 {
 
 }
 
-
 void body_part_type::check_consistency()
 {
     for( const body_part bp : all_body_parts ) {
-        const auto &legacy_bp = convert_bp( bp );
+        const bodypart_str_id &legacy_bp = convert_bp( bp );
         if( !legacy_bp.is_valid() ) {
             debugmsg( "Mandatory body part %s was not loaded", legacy_bp.c_str() );
         }
@@ -533,6 +530,36 @@ void body_part_type::check() const
     if( next != next->connected_to ) {
         debugmsg( "Loop in body part connectedness starting from %s", id.str() );
     }
+}
+
+float body_part_type::get_limb_score( const limb_score_id &id ) const
+{
+    for( const bp_limb_score &bpls : limb_scores ) {
+        if( bpls.id == id ) {
+            return bpls.score;
+        }
+    }
+    return 0.0f;
+}
+
+float body_part_type::get_limb_score_max( const limb_score_id &id ) const
+{
+    for( const bp_limb_score &bpls : limb_scores ) {
+        if( bpls.id == id ) {
+            return bpls.max;
+        }
+    }
+    return 0.0f;
+}
+
+bool body_part_type::has_limb_score( const limb_score_id &id ) const
+{
+    for( const bp_limb_score &bpls : limb_scores ) {
+        if( bpls.id == id ) {
+            return true;
+        }
+    }
+    return false;
 }
 
 float body_part_type::unarmed_damage( const damage_type &dt ) const
@@ -631,15 +658,14 @@ std::set<translation, localized_comparator> body_part_type::consolidate(
         }
 
         bool found = false;
-        for( std::vector<sub_bodypart_id>::iterator sbp_it = covered.begin(); sbp_it != covered.end();
-             ++sbp_it ) {
+        for( sub_bodypart_id &sbp_it : covered ) {
             // go through each body part and test if its partner is there as well
-            if( temp == *sbp_it ) {
+            if( temp == sbp_it ) {
                 // add the multiple name not the single
                 to_return.insert( sbp->name_multiple );
                 found = true;
                 // set the found part to a null value
-                *sbp_it = sub_body_part_sub_limb_debug;
+                sbp_it = sub_body_part_sub_limb_debug;
                 break;
             }
         }
@@ -683,6 +709,57 @@ std::set<translation, localized_comparator> body_part_type::consolidate(
     }
 
     return to_return;
+}
+
+bool encumbrance_data::add_sub_locations(
+    const layer_level level, const std::vector<sub_bodypart_id> &sub_parts )
+{
+    bool return_val = false;
+    for( const sub_bodypart_id &sbp : sub_parts ) {
+        bool found = false;
+        for( const sub_bodypart_id &layer_sbp : layer_penalty_details[static_cast<size_t>
+                ( level )].covered_sub_parts ) {
+            // if we find a location return true since we should add penalty
+            if( sbp == layer_sbp ) {
+                found = true;
+            }
+        }
+        // if we've found it already in the list mark our return value as true
+        if( found ) {
+            return_val = true;
+        }
+        // otherwise we should add it to the list
+        else {
+            layer_penalty_details[static_cast<size_t>( level )].covered_sub_parts.push_back( sbp );
+        }
+    }
+    return return_val;
+}
+
+bool encumbrance_data::add_sub_locations(
+    const layer_level level, const std::vector<sub_bodypart_str_id> &sub_parts )
+{
+    bool return_val = false;
+    for( const sub_bodypart_str_id &temp : sub_parts ) {
+        const sub_bodypart_id &sbp = temp;
+        bool found = false;
+        for( const sub_bodypart_id &layer_sbp : layer_penalty_details[static_cast<size_t>
+                ( level )].covered_sub_parts ) {
+            // if we find a location return true since we should add penalty
+            if( sbp == layer_sbp ) {
+                found = true;
+            }
+        }
+        // if we've found it already in the list mark our return value as true
+        if( found ) {
+            return_val = true;
+        }
+        // otherwise we should add it to the list
+        else {
+            layer_penalty_details[static_cast<size_t>( level )].covered_sub_parts.push_back( sbp );
+        }
+    }
+    return return_val;
 }
 
 std::string body_part_name( const bodypart_id &bp, int number )
@@ -761,6 +838,16 @@ void body_part_set::fill( const std::vector<bodypart_id> &bps )
     for( const bodypart_id &bp : bps ) {
         parts.insert( bp.id() );
     }
+}
+
+void body_part_set::serialize( JsonOut &s ) const
+{
+    s.write( parts );
+}
+
+void body_part_set::deserialize( const JsonValue &s )
+{
+    s.read( parts );
 }
 
 bodypart_id bodypart::get_id() const

@@ -248,8 +248,8 @@ void tileset::clear()
     memory_tile_values.clear();
     duplicate_ids.clear();
     tile_ids.clear();
-    for( int i = 0; i < season_type::NUM_SEASONS; ++i ) {
-        tile_ids_by_season[i].clear();
+    for( std::unordered_map<std::string, season_tile_value> &m : tile_ids_by_season ) {
+        m.clear();
     }
     item_layer_data.clear();
     field_layer_data.clear();
@@ -270,7 +270,7 @@ tileset::find_tile_type_by_season( const std::string &id, season_type season ) c
     if( iter == tile_ids_by_season[season].end() ) {
         return cata::nullopt;
     }
-    auto &res = iter->second;
+    const tileset::season_tile_value &res = iter->second;
     if( res.season_tile ) {
         return *res.season_tile;
     } else if( res.default_tile ) { // can skip this check, but just in case
@@ -728,7 +728,7 @@ void tileset_cache::loader::load( const std::string &tileset_id, const bool prec
     // loop through all tile ids and eliminate empty/invalid things
     for( auto it = ts.tile_ids.begin(); it != ts.tile_ids.end(); ) {
         // second is the tile_type describing that id
-        auto &td = it->second;
+        tile_type &td = it->second;
         process_variations_after_loading( td.fg );
         process_variations_after_loading( td.bg );
         // All tiles need at least foreground or background data, otherwise they are useless.
@@ -1579,12 +1579,12 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
         // for each of the drawing layers in order, back to front ...
         for( auto f : drawing_layers ) {
             // ... draw all the points we drew terrain for, in the same order
-            for( auto &p : draw_points ) {
+            for( tile_render_info &p : draw_points ) {
                 ( this->*f )( p.pos, p.ll, p.height_3d, p.invisible );
             }
         }
         // display number of monsters to spawn in mapgen preview
-        for( const auto &p : draw_points ) {
+        for( const tile_render_info &p : draw_points ) {
             const auto mon_override = monster_override.find( p.pos );
             if( mon_override != monster_override.end() ) {
                 const int count = std::get<1>( mon_override->second );
@@ -1954,12 +1954,26 @@ bool cata_tiles::find_overlay_looks_like( const bool male, const std::string &ov
         looks_like = overlay;
     }
 
-    draw_id.clear();
-    str_append( draw_id,
-                ( male ? "overlay_male_" : "overlay_female_" ), over_type, looks_like, "_var_",
-                variant );
-    if( tileset_ptr->find_tile_type( draw_id ) ) {
-        return true;
+    // Try to draw variants, then fall back to drawing the base
+    // We can potentially do this twice for a variant of an active mutation
+    for( int i = 0; i < 2; ++i ) {
+        draw_id.clear();
+        str_append( draw_id,
+                    ( male ? "overlay_male_" : "overlay_female_" ), over_type, looks_like, "_var_",
+                    variant );
+        if( tileset_ptr->find_tile_type( draw_id ) ) {
+            return true;
+        }
+        draw_id.clear();
+        str_append( draw_id, "overlay_", over_type, looks_like, "_var_", variant );
+        if( tileset_ptr->find_tile_type( draw_id ) ) {
+            return true;
+        }
+        if( string_starts_with( looks_like, "mutation_active_" ) ) {
+            looks_like = "mutation_" + looks_like.substr( 16 );
+            continue;
+        }
+        break;
     }
     for( int cnt = 0; cnt < 10 && !looks_like.empty(); cnt++ ) {
         draw_id.clear();
@@ -2731,7 +2745,7 @@ bool cata_tiles::draw_terrain( const tripoint &p, const lit_level ll, int &heigh
         }
     } else if( invisible[0] && has_terrain_memory_at( p ) ) {
         // try drawing memory if invisible and not overridden
-        const auto &t = get_terrain_memory_at( p );
+        const memorized_terrain_tile &t = get_terrain_memory_at( p );
         return draw_from_id_string(
                    t.tile, TILE_CATEGORY::TERRAIN, empty_string, p, t.subtile, t.rotation,
                    lit_level::MEMORIZED, nv_goggles_activated, height_3d );
@@ -2926,7 +2940,7 @@ bool cata_tiles::draw_furniture( const tripoint &p, const lit_level ll, int &hei
         }
     } else if( invisible[0] && has_furniture_memory_at( p ) ) {
         // try drawing memory if invisible and not overridden
-        const auto &t = get_furniture_memory_at( p );
+        const memorized_terrain_tile &t = get_furniture_memory_at( p );
         return draw_from_id_string(
                    t.tile, TILE_CATEGORY::FURNITURE, empty_string, p, t.subtile, t.rotation,
                    lit_level::MEMORIZED, nv_goggles_activated, height_3d );
@@ -3004,7 +3018,7 @@ bool cata_tiles::draw_trap( const tripoint &p, const lit_level ll, int &height_3
         }
     } else if( invisible[0] && has_trap_memory_at( p ) ) {
         // try drawing memory if invisible and not overridden
-        const auto &t = get_trap_memory_at( p );
+        const memorized_terrain_tile &t = get_trap_memory_at( p );
         return draw_from_id_string(
                    t.tile, TILE_CATEGORY::TRAP, empty_string, p, t.subtile, t.rotation,
                    lit_level::MEMORIZED, nv_goggles_activated, height_3d );
@@ -3049,9 +3063,9 @@ bool cata_tiles::draw_field_or_item( const tripoint &p, const lit_level ll, int 
                 auto has_field = [&]( field_type_id fld, const tripoint & q, const bool invis ) -> field_type_id {
                     // go through the fields and see if they are equal
                     field_type_id found = fd_null;
-                    for( std::map<field_type_id, field_entry>::iterator itt = here.field_at( q ).begin(); itt != here.field_at( q ).end(); ++itt )
+                    for( std::pair<const field_type_id, field_entry> &this_fld : here.field_at( q ) )
                     {
-                        if( itt->first == fld ) {
+                        if( this_fld.first == fld ) {
                             found = fld;
                         }
                     }
@@ -3403,7 +3417,7 @@ bool cata_tiles::draw_vpart( const tripoint &p, lit_level ll, int &height_3d,
         }
     } else if( invisible[0] && has_vpart_memory_at( p ) ) {
         // try drawing memory if invisible and not overridden
-        const auto &t = get_vpart_memory_at( p );
+        const memorized_terrain_tile &t = get_vpart_memory_at( p );
         return draw_from_id_string(
                    t.tile, TILE_CATEGORY::VEHICLE_PART, empty_string, p, t.subtile, t.rotation,
                    lit_level::MEMORIZED, nv_goggles_activated, height_3d );
@@ -4129,7 +4143,7 @@ void cata_tiles::draw_sct_frame( std::multimap<point, formatted_text> &overlay_s
                     player_to_screen( iD + point( direction_offset, 0 ) ),
                     formatted_text( sText, FG, direction ) );
             } else {
-                for( auto &it : sText ) {
+                for( char &it : sText ) {
                     const std::string generic_id = get_ascii_tile_id( it, FG, -1 );
 
                     if( tileset_ptr->find_tile_type( generic_id ) ) {

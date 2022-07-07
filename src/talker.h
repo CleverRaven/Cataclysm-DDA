@@ -90,6 +90,7 @@ class talker
             return 0;
         }
         virtual tripoint pos() const = 0;
+        virtual tripoint_abs_ms global_pos() const = 0;
         virtual tripoint_abs_omt global_omt_location() const = 0;
         virtual void set_pos( tripoint ) {}
         virtual std::string distance_to_goal() const {
@@ -409,6 +410,9 @@ class talker
             return 0;
         }
         virtual int get_thirst() const {
+            return 0;
+        }
+        virtual int get_instant_thirst() const {
             return 0;
         }
         virtual int get_stored_kcal() const {

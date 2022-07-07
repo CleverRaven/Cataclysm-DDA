@@ -21,6 +21,7 @@
 #include "translations.h"
 #include "type_id.h"
 #include "viewer.h"
+#include "map_iterator.h"
 
 static const efftype_id effect_grabbed( "grabbed" );
 static const efftype_id effect_teleglow( "teleglow" );
@@ -49,7 +50,7 @@ bool teleport::teleport( Creature &critter, int min_distance, int max_distance, 
 }
 
 bool teleport::teleport_to_point( Creature &critter, tripoint target, bool safe,
-                                  bool add_teleglow, bool display_message )
+                                  bool add_teleglow, bool display_message, bool force )
 {
     if( critter.pos() == target ) {
         return false;
@@ -58,8 +59,8 @@ bool teleport::teleport_to_point( Creature &critter, tripoint target, bool safe,
     const bool c_is_u = p != nullptr && p->is_avatar();
     map &here = get_map();
     //The teleportee is dimensionally anchored so nothing happens
-    if( p && ( p->worn_with_flag( json_flag_DIMENSIONAL_ANCHOR ) ||
-               p->has_effect_with_flag( json_flag_DIMENSIONAL_ANCHOR ) ) ) {
+    if( !force && p && ( p->worn_with_flag( json_flag_DIMENSIONAL_ANCHOR ) ||
+                         p->has_effect_with_flag( json_flag_DIMENSIONAL_ANCHOR ) ) ) {
         if( display_message ) {
             p->add_msg_if_player( m_warning, _( "You feel a strange, inwards force." ) );
         }
@@ -75,24 +76,32 @@ bool teleport::teleport_to_point( Creature &critter, tripoint target, bool safe,
     }
     //handles teleporting into solids.
     if( here.impassable( target ) ) {
-        if( safe ) {
-            if( c_is_u && display_message ) {
-                add_msg( m_bad, _( "You cannot teleport safely." ) );
+        if( force ) {
+            const cata::optional<tripoint> nt =
+                random_point( points_in_radius( target, 5 ),
+            []( const tripoint & el ) {
+                return get_map().passable( el );
+            } );
+            target = nt ? *nt : target;
+        } else {
+            if( safe ) {
+                if( c_is_u && display_message ) {
+                    add_msg( m_bad, _( "You cannot teleport safely." ) );
+                }
+                if( shifted ) {
+                    g->place_player_overmap( project_to<coords::omt>( avatar_pos ), false );
+                }
+                return false;
             }
-            if( shifted ) {
-                g->place_player_overmap( project_to<coords::omt>( avatar_pos ), false );
+            critter.apply_damage( nullptr, bodypart_id( "torso" ), 9999 );
+            if( c_is_u ) {
+                get_event_bus().send<event_type::teleports_into_wall>( p->getID(), here.obstacle_name( target ) );
+                if( display_message ) {
+                    add_msg( m_bad, _( "You die after teleporting into a solid." ) );
+                }
             }
-            return false;
+            critter.check_dead_state();
         }
-        critter.apply_damage( nullptr, bodypart_id( "torso" ), 9999 );
-        if( c_is_u ) {
-            get_event_bus().send<event_type::teleports_into_wall>( p->getID(), here.obstacle_name( target ) );
-            if( display_message ) {
-                add_msg( m_bad, _( "You die after teleporting into a solid." ) );
-            }
-        }
-        critter.check_dead_state();
-
     }
     //handles telefragging other creatures
     int tfrag_attempts = 5;
@@ -107,7 +116,10 @@ bool teleport::teleport_to_point( Creature &critter, tripoint target, bool safe,
             return false;
         }
         Character *const poor_player = dynamic_cast<Character *>( poor_soul );
-        if( safe ) {
+        if( force ) {
+            poor_soul->apply_damage( nullptr, bodypart_id( "torso" ), 9999 );
+            poor_soul->check_dead_state();
+        } else if( safe ) {
             if( c_is_u && display_message ) {
                 add_msg( m_bad, _( "You cannot teleport safely." ) );
             }

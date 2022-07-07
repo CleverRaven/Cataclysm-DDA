@@ -238,7 +238,8 @@
       { "item": "vac_pump", "prob": 3 },
       { "item": "recovery_pump", "prob": 3 },
       { "item": "filter_paper_qualitative", "prob": 5 },
-      { "item": "filter_paper_quantitative", "prob": 5 }
+      { "item": "filter_paper_quantitative", "prob": 5 },
+      { "item": "chem_turpentine", "prob": 20, "charges-min": 20 }
     ]
   },
   {
@@ -1125,7 +1126,8 @@
       { "item": "plunger_toilet", "prob": 30 },
       { "item": "plunger_futuristic", "prob": 15 },
       { "item": "toilet_paper", "prob": 10 },
-      { "item": "dish_towel", "prob": 20 }
+      { "item": "dish_towel", "prob": 20 },
+      { "item": "chem_turpentine", "prob": 10, "charges-min": 20 }
     ]
   },
   {
