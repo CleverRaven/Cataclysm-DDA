@@ -469,7 +469,7 @@ bool game::check_mod_data( const std::vector<mod_id> &opts, loading_ui &ui )
         world_generator->set_active_world( nullptr );
         world_generator->init();
         const std::vector<mod_id> mods_empty;
-        WORLDPTR test_world = world_generator->make_new_world( mods_empty );
+        WORLD *test_world = world_generator->make_new_world( mods_empty );
         world_generator->set_active_world( test_world );
 
         // if no loadable mods then test core data only
@@ -491,7 +491,7 @@ bool game::check_mod_data( const std::vector<mod_id> &opts, loading_ui &ui )
         world_generator->set_active_world( nullptr );
         world_generator->init();
         const std::vector<mod_id> mods_empty;
-        WORLDPTR test_world = world_generator->make_new_world( mods_empty );
+        WORLD *test_world = world_generator->make_new_world( mods_empty );
         world_generator->set_active_world( test_world );
 
         if( !e.is_valid() ) {
@@ -2637,7 +2637,7 @@ void game::load_master()
 bool game::load( const std::string &world )
 {
     world_generator->init();
-    const WORLDPTR wptr = world_generator->get_world( world );
+    WORLD *const wptr = world_generator->get_world( world );
     if( !wptr ) {
         return false;
     }
@@ -11945,7 +11945,7 @@ void game::quicksave()
 
 void game::quickload()
 {
-    const WORLDPTR active_world = world_generator->active_world;
+    const WORLD *active_world = world_generator->active_world;
     if( active_world == nullptr ) {
         return;
     }

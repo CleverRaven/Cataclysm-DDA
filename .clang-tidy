@@ -51,7 +51,6 @@ readability-*,\
 -bugprone-narrowing-conversions,\
 -clang-analyzer-core.CallAndMessage,\
 -clang-analyzer-deadcode.DeadStores,\
--misc-misplaced-const,\
 -misc-no-recursion,\
 -misc-non-private-member-variables-in-classes,\
 -modernize-avoid-bind,\
