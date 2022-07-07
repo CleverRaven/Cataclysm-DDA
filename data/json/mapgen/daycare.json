@@ -80,7 +80,11 @@
       "items": {
         "Y": { "item": "trash", "chance": 30, "repeat": [ 1, 4 ] },
         "C": [ { "item": "SUS_dishes", "chance": 100 }, { "item": "SUS_silverware", "chance": 100 } ],
-        "c": [ { "item": "SUS_breakfast_cupboard", "chance": 30 }, { "item": "SUS_coffee_cupboard", "chance": 50 } ],
+        "c": [
+          { "item": "SUS_breakfast_cupboard", "chance": 30 },
+          { "item": "SUS_coffee_cupboard", "chance": 50 },
+          { "item": "SUS_spice_collection", "chance": 100 }
+        ],
         "&": { "item": "SUS_toilet", "chance": 100 },
         "J": { "item": "SUS_oven", "chance": 100 },
         "A": { "item": "SUS_janitors_closet", "chance": 80 },

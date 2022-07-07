@@ -174,7 +174,8 @@
     "label": "Body Status",
     "style": "layout",
     "arrange": "columns",
-    "widgets": [ "body_graph", "hitpoint_graphs_vertical_layout" ]
+    "widgets": [ "body_graph", "hitpoint_graphs_vertical_layout" ],
+    "flags": [ "W_DISABLED_BY_DEFAULT" ]
   },
   {
     "id": "status_hpg_layout_head",

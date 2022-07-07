@@ -164,7 +164,7 @@
         "I": { "item": "cubical_office", "chance": 70, "repeat": [ 2, 4 ] },
         "S": { "item": "office_paper", "chance": 30, "repeat": [ 1, 2 ] },
         "R": { "item": "novels", "chance": 30, "repeat": [ 1, 2 ] },
-        "l": { "item": "vending_drink_items", "chance": 20 },
+        "l": { "item": "vending_drink_items", "chance": 5 },
         "Q": [
           { "item": "tools_construction", "chance": 10 },
           { "item": "tools_entry", "chance": 10 },
@@ -1384,8 +1384,8 @@
         "±": [ { "item": "SUS_tailoring_tool_drawer", "chance": 30 }, { "item": "SUS_tailoring_bookcase", "chance": 10 } ]
       },
       "place_items": [
-        { "item": "vending_drink", "x": 4, "y": 12, "chance": 60 },
-        { "item": "vending_food", "x": 4, "y": 13, "chance": 60 },
+        { "item": "vending_drink", "x": 4, "y": 12, "chance": 5 },
+        { "item": "vending_food", "x": 4, "y": 13, "chance": 5 },
         { "item": "SUS_fiction_bookcase", "x": [ 44, 47 ], "y": 18, "chance": 70, "repeat": [ 1, 3 ] },
         { "item": "SUS_fiction_bookcase", "x": [ 44, 47 ], "y": 19, "chance": 70, "repeat": [ 1, 3 ] },
         { "item": "SUS_field_manual_bookcase", "x": [ 44, 47 ], "y": 21, "chance": 70, "repeat": [ 1, 3 ] },
@@ -1823,7 +1823,7 @@
           { "item": "jewelry_back", "chance": 40, "repeat": [ 1, 3 ] },
           { "item": "tools_common", "chance": 40, "repeat": [ 1, 3 ] }
         ],
-        "u": { "item": "vending_drink", "chance": 40, "repeat": [ 2, 4 ] },
+        "u": { "item": "vending_drink", "chance": 5, "repeat": [ 2, 4 ] },
         "Y": { "item": "trash", "chance": 20, "repeat": [ 1, 2 ] },
         "*": { "item": "trash", "chance": 20, "repeat": [ 1, 2 ] },
         "S": { "item": "office_paper", "chance": 30, "repeat": [ 1, 2 ] },

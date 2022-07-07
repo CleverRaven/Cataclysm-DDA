@@ -1124,8 +1124,7 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
 }
 
 //Schraudolph's algorithm with John's constants
-static inline
-float fastexp( float x )
+static float fastexp( float x )
 {
     union {
         float f;
