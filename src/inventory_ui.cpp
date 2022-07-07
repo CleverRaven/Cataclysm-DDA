@@ -401,23 +401,21 @@ static const selection_column_preset selection_preset{};
 
 bool inventory_entry::is_hidden() const
 {
-    if( !is_item() ) {
+    // non-items and entries not added recursively (from a container) can't be hidden
+    if( !is_item() || topmost_parent == nullptr ) {
         return false;
     }
-    item_location it = locations.front();
-    bool hidden = false;
-    if( topmost_parent != nullptr ) {
-        while( it.has_parent() ) {
-            item_location const prnt = it.parent_item();
-            hidden |= prnt.get_item()->contained_where( *it )->settings.is_collapsed();
-            if( prnt.get_item() == topmost_parent ) {
-                break;
-            }
-            it = prnt;
-        }
-    }
 
-    return hidden;
+    item_location item = locations.front();
+    while( item.has_parent() && item.get_item() != topmost_parent ) {
+        item_location parent = item.parent_item();
+        if( parent.get_item()->contained_where( *item )->settings.is_collapsed() ) {
+            return true;
+        }
+        item = parent;
+    }
+    // no parent container was collapsed
+    return false;
 }
 
 int inventory_entry::get_total_charges() const
@@ -1219,10 +1217,6 @@ void inventory_column::prepare_paging( const std::string &filter )
         return;
     }
 
-    // Recalculate all the widths.
-    for( inventory_entry *e : get_entries( always_yes ) ) {
-        expand_to_fit( *e );
-    }
     const auto filter_fn = filter_from_string<inventory_entry>(
     filter, [this]( const std::string & filter ) {
         return preset.get_filter( filter );
@@ -1239,6 +1233,13 @@ void inventory_column::prepare_paging( const std::string &filter )
     move_if( entries_hidden, entries, is_visible );
     // remove entries hidden by SHOW_HIDE_CONTENTS
     move_if( entries, entries_hidden, is_not_visible );
+
+    // Recalculate all the widths.
+    // This must go AFTER moving the hidden entries so that
+    // cell widths are calculated with up-to-date visible entries
+    for( inventory_entry *e : get_entries( always_yes ) ) {
+        expand_to_fit( *e );
+    }
 
     // Then sort them with respect to categories
     std::stable_sort( entries.begin(), entries.end(),
