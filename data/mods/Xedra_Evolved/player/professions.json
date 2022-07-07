@@ -15,6 +15,21 @@
     "entries": [ { "item": "diazepam", "charges": 20, "container-item": "bottle_plastic_pill_prescription" } ]
   },
   {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "torso_grenade_bandolier_jotunn",
+    "entries": [ { "item": "torso_bandolier_grenade", "ammo-item": "40x46mm_m576", "charges": 3 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "xedra_mags_troll",
+    "entries": [
+      { "item": "5x50_50_mag", "ammo-item": "5x50dart", "charges": 50 },
+      { "item": "5x50_50_mag", "ammo-item": "5x50dart", "charges": 50 }
+    ]
+  },
+  {
     "type": "profession",
     "id": "zebra_investigator",
     "name": "Xedra Response Team Member",
@@ -82,10 +97,11 @@
     "type": "profession",
     "id": "xe_jotunn_hunter",
     "name": "Xedra Offworld Team: Jotunn Hunter",
-    "description": "Part of Xedra's Offworld Aquisitions group, you specialized in tracking, killing and retrieving useful components from the cyborg tribes that seem to exist on some of the worlds Xedra had access to.  Do you feel guilt about bringing back the cybernetic components that are now inside you or your teammates?  Or do you worry that now they might be on this world hunting you?  Either way you better find some weapons soon.",
+    "description": "Part of Xedra's Offworld Aquisitions group, you specialized in tracking, killing and retrieving useful components from the cyborg tribes that seem to exist on some of the worlds Xedra had access to.  Do you feel guilt about bringing back the cybernetic components that are now inside you or your teammates?  Or do you worry that now they might be on this world hunting you?  You've lost your sidearm and spent half of your heavy ordnance.  Worst of all, you're out of smokes.",
     "traits": [ "XEDRA_CYBORG", "PROF_FED" ],
     "CBMs": [ "bio_armor_torso", "bio_cable", "bio_str_enhancer", "bio_tattoo_led", "bio_power_storage" ],
     "points": 7,
+    "addictions": [ { "intensity": 20, "type": "nicotine" } ],
     "proficiencies": [ "prof_wp_cyborg" ],
     "skills": [
       { "level": 3, "name": "gun" },
@@ -100,18 +116,23 @@
         "items": [
           "under_armor",
           "under_armor_shorts",
-          "robofac_jumpsuit",
+          "xedra_jumpsuit",
           "tac_helmet",
           "glasses_bal",
           "gloves_tactical",
           "boots_combat",
           "holster",
-          "legrig",
           "tacvest",
           "socks",
-          "badge_zebra"
+          "badge_zebra",
+          "molle_pack"
         ]
       },
+      "entries": [
+        { "group": "military_ballistic_vest_pristine" },
+        { "group": "torso_grenade_bandolier_jotunn" },
+        { "item": "mgl", "ammo-item": "40x46mm_m433", "charges": 3, "contents-item": "shoulder_strap" }
+      ],
       "male": [ "boxer_shorts" ],
       "female": [ "sports_bra", "boxer_shorts" ]
     }
@@ -138,7 +159,7 @@
         "items": [
           "under_armor",
           "under_armor_shorts",
-          "robofac_jumpsuit",
+          "xedra_jumpsuit",
           "tac_helmet",
           "glasses_bal",
           "gloves_tactical",
@@ -151,7 +172,15 @@
         ],
         "entries": [
           { "item": "water_clean", "ammo-item": "water_clean", "container-item": "canteen" },
-          { "item": "signal_flare", "ammo-item": "signal_flare", "count": 5 }
+          { "item": "signal_flare", "ammo-item": "signal_flare", "count": 5 },
+          { "group": "military_ballistic_vest_pristine" },
+          {
+            "item": "needlegun",
+            "ammo-item": "5x50dart",
+            "charges": 35,
+            "contents-item": [ "shoulder_strap", "holo_sight" ]
+          },
+          { "item": "legpouch_large", "contents-group": "xedra_mags_troll" }
         ]
       },
       "male": [ "boxer_shorts" ],
@@ -182,7 +211,7 @@
         "items": [
           "under_armor",
           "under_armor_shorts",
-          "robofac_jumpsuit",
+          "xedra_jumpsuit",
           "tac_helmet",
           "glasses_bal",
           "gloves_tactical",
@@ -193,7 +222,12 @@
           "socks",
           "badge_zebra"
         ],
-        "entries": [ { "item": "water_clean", "ammo-item": "water_clean", "container-item": "canteen" }, { "group": "MRE" } ]
+        "entries": [
+          { "item": "water_clean", "ammo-item": "water_clean", "container-item": "canteen" },
+          { "group": "military_ballistic_vest_pristine" },
+          { "item": "needlepistol", "ammo-item": "5x50dart", "charges": 35, "contents-item": [ "holo_sight" ] },
+          { "item": "legpouch_large", "contents-group": "xedra_mags_troll" }
+        ]
       },
       "male": [ "boxer_shorts" ],
       "female": [ "sports_bra", "boxer_shorts" ]
