@@ -4051,6 +4051,12 @@
   },
   {
     "type": "keybinding",
+    "id": "SELECT_TRAIT_VARIANT",
+    "name": "Select variant for trait",
+    "bindings": [ { "input_method": "keyboard_char", "key": "S" }, { "input_method": "keyboard_code", "key": "s", "mod": [ "shift" ] } ]
+  },
+  {
+    "type": "keybinding",
     "id": "DELETE PAGE",
     "name": "Delete page",
     "category": "DIARY",

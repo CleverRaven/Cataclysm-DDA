@@ -1097,7 +1097,7 @@ static void sleep()
     for( auto &mut : player_character.get_mutations() ) {
         const mutation_branch &mdata = mut.obj();
         if( mdata.cost > 0 && player_character.has_active_mutation( mut ) ) {
-            active.push_back( mdata.name() );
+            active.push_back( player_character.mutation_name( mut ) );
         }
     }
 

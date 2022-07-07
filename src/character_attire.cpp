@@ -94,7 +94,7 @@ ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) cons
             if( branch.conflicts_with_item( it ) ) {
                 return ret_val<bool>::make_failure( is_avatar() ?
                                                     _( "Your %s mutation prevents you from wearing your %s." ) :
-                                                    _( "My %s mutation prevents me from wearing this %s." ), branch.name(),
+                                                    _( "My %s mutation prevents me from wearing this %s." ), mutation_name( mut ),
                                                     it.type_name() );
             }
         }

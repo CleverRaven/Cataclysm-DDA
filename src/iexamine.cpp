@@ -577,6 +577,7 @@ void iexamine::attunement_altar( Character &you, const tripoint & )
     uilist attunement_list;
     attunement_list.title = _( "Pick an Attunement to show the world your Worth." );
     for( const trait_id &attunement : attunements ) {
+        // There's no way for you to have this mutation, so a variant is pointless
         attunement_list.addentry( attunement->name() );
     }
     attunement_list.query();
@@ -587,9 +588,11 @@ void iexamine::attunement_altar( Character &you, const tripoint & )
     auto attunement_iter = attunements.begin();
     std::advance( attunement_iter, attunement_list.ret );
     const trait_id &attunement = *attunement_iter;
+    // There's no way for you to have this mutation, so a variant is pointless
     if( query_yn( string_format( _( "Are you sure you want to pick %s?  This selection is permanent." ),
                                  attunement->name() ) ) ) {
         you.toggle_trait( attunement );
+        // There's no way for you to have this mutation, so a variant is pointless
         you.add_msg_if_player( m_info, attunement->desc() );
     } else {
         you.add_msg_if_player( _( "Maybe later." ) );
