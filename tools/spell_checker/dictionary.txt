@@ -519,6 +519,7 @@ elderberries
 electrochemistry
 electrohack
 electrolaser
+electrolasers
 electroreceptors
 elete
 elopements
@@ -1960,6 +1961,7 @@ whitelist
 whitelisted
 whitelists
 whoda
+whoosh
 whud
 whuff
 whump
