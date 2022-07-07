@@ -160,7 +160,8 @@
       { "group": "used_ifak", "prob": 50 },
       { "group": "full_1st_aid", "prob": 50 },
       { "group": "used_1st_aid", "prob": 50 },
-      { "item": "homeopathic_pills", "prob": 50 }
+      { "item": "homeopathic_pills", "prob": 50 },
+      { "group": "full_ipok", "prob": 50 }
     ]
   },
   {

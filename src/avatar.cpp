@@ -54,6 +54,7 @@
 #include "morale.h"
 #include "morale_types.h"
 #include "move_mode.h"
+#include "mutation.h"
 #include "npc.h"
 #include "optional.h"
 #include "options.h"
@@ -1697,8 +1698,8 @@ void avatar::add_random_hobby( std::vector<profession_id> &choices )
     hobbies.insert( &*hobby );
 
     // Add or remove traits from hobby
-    for( const trait_id &trait : hobby->get_locked_traits() ) {
-        toggle_trait( trait );
+    for( const trait_and_var &cur : hobby->get_locked_traits() ) {
+        toggle_trait( cur.trait );
     }
 }
 

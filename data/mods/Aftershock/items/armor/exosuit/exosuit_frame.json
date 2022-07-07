@@ -57,6 +57,7 @@
         "rigid": true,
         "max_contains_volume": "4 L",
         "max_contains_weight": "15 kg",
+        "max_item_length": "60 cm",
         "flag_restriction": [ "EXO_LARGE_GADGET", "EXO_MEDIUM_GADGET", "EXO_SMALL_GADGET" ],
         "inherits_flags": true,
         "moves": 60
@@ -68,6 +69,7 @@
         "rigid": true,
         "max_contains_volume": "25 L",
         "max_contains_weight": "140 kg",
+        "max_item_length": "120 cm",
         "flag_restriction": [ "EXO_PSU", "EXO_LARGE_GADGET", "EXO_MEDIUM_GADGET", "EXO_SMALL_GADGET" ],
         "inherits_flags": true,
         "moves": 500

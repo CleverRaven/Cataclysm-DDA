@@ -332,7 +332,7 @@
       "str": "Chemistry for Kids: Awesome Science Experiments that Really Work",
       "str_pl": "copies of Chemistry for Kids: Awesome Science Experiments that Really Work"
     },
-    "description": "A book with comprehensive and accurate step-by-step illustrated instructions for many scientific experiments for young researchers and anyone else who want to delve into an amazing world of chemistry.",
+    "description": "A book with comprehensive and accurate step-by-step illustrated instructions for many scientific experiments, for young researchers and anyone else who wants to delve into the amazing world of chemistry.",
     "weight": "362 g",
     "volume": "500 ml",
     "price": 550,
@@ -352,7 +352,7 @@
     "type": "BOOK",
     "category": "manuals",
     "name": { "str": "Catalytic Cracking at Home for Solarpunks", "str_pl": "copies of Catalytic Cracking at Home for Solarpunks" },
-    "description": "A colorful textbook looking book that proclaims the ability to bootstrap kerosene and diesel production from waste products.",
+    "description": "A colorful textbook that proclaims to teach one how to bootstrap kerosene and diesel production from waste products.  Despite the hip title, the information contained within is highly advanced and technical.",
     "weight": "1200 g",
     "volume": "2 L",
     "price": 1500,

@@ -17,6 +17,7 @@
       [ [ "mutagen", 1 ] ],
       [ [ "raptor_sample", 1 ] ],
       [
+        [ "egg_saurornitholestes", 2 ],
         [ "egg_velociraptor", 2 ],
         [ "egg_deinonychus", 2 ],
         [ "egg_utahraptor", 2 ],

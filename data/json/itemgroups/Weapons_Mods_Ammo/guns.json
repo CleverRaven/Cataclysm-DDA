@@ -946,10 +946,63 @@
     "type": "item_group",
     "id": "longguns_cop",
     "items": [
-      { "item": "ar15", "prob": 20, "charges": [ 0, 30 ] },
-      { "item": "mossberg_500", "prob": 10, "charges": [ 0, 6 ] },
-      { "item": "remington_700", "prob": 5, "charges": [ 0, 4 ] },
-      { "item": "remington_870", "prob": 10, "charges": [ 0, 5 ] }
+      { "item": "ar15", "prob": 20, "charges": [ 0, 30 ], "contents-item": "shoulder_strap" },
+      { "item": "mossberg_500", "prob": 10, "charges": [ 0, 6 ], "contents-item": "shoulder_strap" },
+      { "item": "remington_700", "prob": 5, "charges": [ 0, 4 ], "contents-item": "shoulder_strap" },
+      { "item": "remington_870", "prob": 10, "charges": [ 0, 5 ], "contents-item": "shoulder_strap" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "longguns_cop_loaded",
+    "//": "loaded in the back of a trunk or something",
+    "items": [
+      { "group": "nested_ar15", "prob": 20 },
+      { "group": "nested_mossberg_500", "prob": 10 },
+      { "group": "nested_remington_700", "prob": 5 },
+      { "group": "nested_remington_870", "prob": 10 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "longguns_cop_in_field",
+    "//": "gun plus potential expended magazines",
+    "items": [
+      {
+        "collection": [ { "item": "ar15", "prob": 100, "charges": [ 0, 30 ], "contents-item": "shoulder_strap" }, { "group": "field_ar15" } ],
+        "prob": 20
+      },
+      {
+        "collection": [
+          { "item": "mossberg_500", "prob": 100, "charges": [ 0, 6 ], "contents-item": "shoulder_strap" },
+          { "group": "field_shotgun" }
+        ],
+        "prob": 10
+      },
+      {
+        "collection": [
+          { "item": "remington_700", "prob": 100, "charges": [ 0, 4 ], "contents-item": "shoulder_strap" },
+          { "group": "field_3006" }
+        ],
+        "prob": 5
+      },
+      {
+        "collection": [
+          { "item": "remington_870", "prob": 100, "charges": [ 0, 5 ], "contents-item": "shoulder_strap" },
+          { "group": "field_shotgun" }
+        ],
+        "prob": 10
+      }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "longguns_cop_in_field_no_gun",
+    "//": "guns lost but still have mags",
+    "items": [
+      { "group": "field_ar15", "prob": 20 },
+      { "group": "field_shotgun", "prob": 20 },
+      { "group": "field_3006", "prob": 5 }
     ]
   },
   {
@@ -963,6 +1016,49 @@
       { "item": "sig_40", "prob": 20, "charges": [ 0, 12 ] },
       { "item": "usp_45", "prob": 10, "charges": [ 0, 12 ] },
       { "item": "usp_9mm", "prob": 10, "charges": [ 0, 15 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "sidearms_cop_in_field",
+    "//": "gun plus potential expended magazines",
+    "items": [
+      { "collection": [ { "item": "fn57", "prob": 100, "charges": [ 0, 20 ] }, { "group": "field_fn57" } ], "prob": 20 },
+      {
+        "collection": [ { "item": "glock_19", "prob": 100, "charges": [ 0, 15 ] }, { "group": "field_glock_19" } ],
+        "prob": 15
+      },
+      {
+        "collection": [ { "item": "glock_22", "prob": 100, "charges": [ 0, 15 ] }, { "group": "field_glock_22" } ],
+        "prob": 20
+      },
+      { "collection": [ { "item": "m9", "prob": 100, "charges": [ 0, 15 ] }, { "group": "field_m9" } ], "prob": 5 },
+      {
+        "collection": [ { "item": "sig_40", "prob": 100, "charges": [ 0, 12 ] }, { "group": "field_sig_40" } ],
+        "prob": 20
+      },
+      {
+        "collection": [ { "item": "usp_45", "prob": 100, "charges": [ 0, 12 ] }, { "group": "field_usp_45" } ],
+        "prob": 10
+      },
+      {
+        "collection": [ { "item": "usp_9mm", "prob": 100, "charges": [ 0, 15 ] }, { "group": "field_usp_9mm" } ],
+        "prob": 10
+      }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "sidearms_cop_in_field_no_gun",
+    "//": "guns lost but still have mags",
+    "items": [
+      { "group": "field_fn57", "prob": 20 },
+      { "group": "field_glock_19", "prob": 15 },
+      { "group": "field_glock_22", "prob": 20 },
+      { "group": "field_m9", "prob": 5 },
+      { "group": "field_sig_40", "prob": 20 },
+      { "group": "field_usp_45", "prob": 10 },
+      { "group": "field_usp_9mm", "prob": 10 }
     ]
   },
   {

@@ -78,7 +78,7 @@
     "symbol": "/",
     "color": "brown",
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "STURDY" ],
+    "flags": [ "DURABLE_MELEE" ],
     "use_action": {
       "target": "mtorch_everburning_lit",
       "msg": "You light the torch.",
@@ -104,7 +104,7 @@
       }
     ],
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "FIRE", "LIGHT_240", "FLAMING", "TRADER_AVOID", "WATER_EXTINGUISH", "STURDY" ]
+    "extend": { "flags": [ "FIRE", "LIGHT_240", "FLAMING", "TRADER_AVOID", "WATER_EXTINGUISH" ] }
   },
   {
     "name": { "str": "endless flask" },

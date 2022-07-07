@@ -2230,20 +2230,7 @@ class MapgenRemovePartHandler : public RemovePartHandler
             // Ignored. Will almost certainly not be called anyway, because
             // there are no creatures that could have been mounted during mapgen.
         }
-        void add_item_or_charges( const tripoint &loc, item it, bool permit_oob ) override {
-            if( !m.inbounds( loc ) ) {
-                if( !permit_oob ) {
-                    debugmsg( "Tried to put item %s on invalid tile %s during mapgen!",
-                              it.tname(), loc.to_string() );
-                }
-                tripoint copy = loc;
-                m.clip_to_bounds( copy );
-                cata_assert( m.inbounds( copy ) ); // prevent infinite recursion
-                add_item_or_charges( copy, std::move( it ), false );
-                return;
-            }
-            m.add_item_or_charges( loc, std::move( it ) );
-        }
+        void add_item_or_charges( const tripoint &loc, item it, bool permit_oob ) override;
         void set_transparency_cache_dirty( const int /*z*/ ) override {
             // Ignored for now. We don't initialize the transparency cache in mapgen anyway.
         }
