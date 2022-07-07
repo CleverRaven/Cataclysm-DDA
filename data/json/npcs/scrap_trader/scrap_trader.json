@@ -84,7 +84,7 @@
     "id": "TALK_SCRAP_TRADER_BULK_SELL",
     "//": "this is all the dialogue related to buying bulk metal or scrap.",
     "type": "talk_topic",
-    "dynamic_line": [ "Sure thing. I've got a few things on hand, sold in batches of 10-piece each.  What'll ya have?" ],
+    "dynamic_line": [ "Sure thing.  I've got a few things on hand, sold in batches of 10-piece each.  What'll ya have?" ],
     "responses": [
       { "text": "Nevermind.", "topic": "TALK_NONE" },
       {
