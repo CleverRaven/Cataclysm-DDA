@@ -126,13 +126,13 @@
           "socks",
           "badge_zebra",
           "molle_pack"
+        ],
+        "entries": [
+          { "group": "military_ballistic_vest_pristine" },
+          { "group": "torso_grenade_bandolier_jotunn" },
+          { "item": "mgl", "ammo-item": "40x46mm_m433", "charges": 3, "contents-item": "shoulder_strap" }
         ]
       },
-      "entries": [
-        { "group": "military_ballistic_vest_pristine" },
-        { "group": "torso_grenade_bandolier_jotunn" },
-        { "item": "mgl", "ammo-item": "40x46mm_m433", "charges": 3, "contents-item": "shoulder_strap" }
-      ],
       "male": [ "boxer_shorts" ],
       "female": [ "sports_bra", "boxer_shorts" ]
     }
