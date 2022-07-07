@@ -110,7 +110,6 @@ void shrub_marloss( Character &you, const tripoint &examp );
 void tree_marloss( Character &you, const tripoint &examp );
 void shrub_wildveggies( Character &you, const tripoint &examp );
 void water_source( Character &, const tripoint &examp );
-void clean_water_source( Character &, const tripoint &examp );
 void finite_water_source( Character &, const tripoint &examp );
 void kiln_empty( Character &you, const tripoint &examp );
 void kiln_full( Character &you, const tripoint &examp );
