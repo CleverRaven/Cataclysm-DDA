@@ -142,49 +142,11 @@ class job_data
             { activity_id( "ACT_MULTIPLE_DIS" ), 0}
         };
     public:
-        bool set_task_priority( const activity_id &task, int new_priority ) {
-            auto it = task_priorities.find( task );
-            if( it != task_priorities.end() ) {
-                task_priorities[task] = new_priority;
-                return true;
-            }
-            return false;
-        }
-        void clear_all_priorities() {
-            for( auto &elem : task_priorities ) {
-                elem.second = 0;
-            }
-        }
-        bool has_job() const {
-            for( const auto &elem : task_priorities ) {
-                if( elem.second > 0 ) {
-                    return true;
-                }
-            }
-            return false;
-        }
-        int get_priority_of_job( const activity_id &req_job ) const {
-            auto it = task_priorities.find( req_job );
-            if( it != task_priorities.end() ) {
-                return it->second;
-            } else {
-                return 0;
-            }
-        }
-        std::vector<activity_id> get_prioritised_vector() const {
-            std::vector<std::pair<activity_id, int>> pairs( begin( task_priorities ), end( task_priorities ) );
-
-            std::vector<activity_id> ret;
-            sort( begin( pairs ), end( pairs ), []( const std::pair<activity_id, int> &a,
-            const std::pair<activity_id, int> &b ) {
-                return a.second > b.second;
-            } );
-            ret.reserve( pairs.size() );
-            for( const std::pair<activity_id, int> &elem : pairs ) {
-                ret.push_back( elem.first );
-            }
-            return ret;
-        }
+        bool set_task_priority( const activity_id &task, int new_priority );
+        void clear_all_priorities();
+        bool has_job() const;
+        int get_priority_of_job( const activity_id &req_job ) const;
+        std::vector<activity_id> get_prioritised_vector() const;
         void serialize( JsonOut &json ) const;
         void deserialize( const JsonValue &jv );
 };

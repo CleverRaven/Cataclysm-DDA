@@ -3105,7 +3105,7 @@ static cata::optional<tripoint> find_best_fire( const std::vector<tripoint> &fro
     return best_fire;
 }
 
-static inline bool has_clear_path_to_pickup_items( const tripoint &from, const tripoint &to )
+static bool has_clear_path_to_pickup_items( const tripoint &from, const tripoint &to )
 {
     map &here = get_map();
     return here.has_items( to ) &&

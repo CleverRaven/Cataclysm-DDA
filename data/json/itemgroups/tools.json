@@ -426,6 +426,18 @@
     ]
   },
   {
+    "id": "full_ipok",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "ipok",
+    "items": [
+      { "item": "medical_gauze", "charges": 3 },
+      { "item": "bandages", "charges": 1 },
+      { "item": "gloves_medical" },
+      { "item": "tourniquet_upper" }
+    ]
+  },
+  {
     "id": "used_1st_aid",
     "type": "item_group",
     "subtype": "collection",

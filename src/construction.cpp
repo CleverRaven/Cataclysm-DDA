@@ -1214,7 +1214,7 @@ bool construct::check_empty( const tripoint &p )
              here.i_at( p ).empty() && !here.veh_at( p ) );
 }
 
-static inline std::array<tripoint, 4> get_orthogonal_neighbors( const tripoint &p )
+static std::array<tripoint, 4> get_orthogonal_neighbors( const tripoint &p )
 {
     return {{
             p + point_north,

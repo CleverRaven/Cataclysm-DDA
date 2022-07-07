@@ -136,8 +136,8 @@ int incident_sunlight( const weather_type_id &wtype, const time_point &t )
     return std::max<float>( 0.0f, sun_light_at( t ) + wtype->light_modifier );
 }
 
-static inline void proc_weather_sum( const weather_type_id &wtype, weather_sum &data,
-                                     const time_point &t, const time_duration &tick_size )
+static void proc_weather_sum( const weather_type_id &wtype, weather_sum &data,
+                              const time_point &t, const time_duration &tick_size )
 {
     int amount = 0;
     if( wtype->rains ) {
