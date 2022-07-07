@@ -690,21 +690,7 @@ inline std::string quantity_to_string( const quantity<value_type, tag_type> &v )
     return os.str();
 }
 
-inline std::string display( const units::energy v )
-{
-    const int kj = units::to_kilojoule( v );
-    const int j = units::to_joule( v );
-    // at least 1 kJ and there is no fraction
-    if( kj >= 1 && static_cast<float>( j ) / kj == 1000 ) {
-        return std::to_string( kj ) + ' ' + pgettext( "energy unit: kilojoule", "kJ" );
-    }
-    const int mj = units::to_millijoule( v );
-    // at least 1 J and there is no fraction
-    if( j >= 1 && static_cast<float>( mj ) / j  == 1000 ) {
-        return std::to_string( j ) + ' ' + pgettext( "energy unit: joule", "J" );
-    }
-    return std::to_string( mj ) + ' ' + pgettext( "energy unit: millijoule", "mJ" );
-}
+std::string display( units::energy v );
 
 } // namespace units
 

@@ -125,7 +125,7 @@ worldfactory::worldfactory()
 
 worldfactory::~worldfactory() = default;
 
-WORLDPTR worldfactory::add_world( std::unique_ptr<WORLD> retworld )
+WORLD *worldfactory::add_world( std::unique_ptr<WORLD> retworld )
 {
     if( !retworld->save() ) {
         return nullptr;
@@ -133,21 +133,21 @@ WORLDPTR worldfactory::add_world( std::unique_ptr<WORLD> retworld )
     return ( all_worlds[ retworld->world_name ] = std::move( retworld ) ).get();
 }
 
-WORLDPTR worldfactory::make_new_world( const std::vector<mod_id> &mods )
+WORLD *worldfactory::make_new_world( const std::vector<mod_id> &mods )
 {
     std::unique_ptr<WORLD> retworld = std::make_unique<WORLD>();
     retworld->active_mod_order = mods;
     return add_world( std::move( retworld ) );
 }
 
-WORLDPTR worldfactory::make_new_world( const std::string &name, const std::vector<mod_id> &mods )
+WORLD *worldfactory::make_new_world( const std::string &name, const std::vector<mod_id> &mods )
 {
     std::unique_ptr<WORLD> retworld = std::make_unique<WORLD>( name );
     retworld->active_mod_order = mods;
     return add_world( std::move( retworld ) );
 }
 
-WORLDPTR worldfactory::make_new_world( bool show_prompt, const std::string &world_to_copy )
+WORLD *worldfactory::make_new_world( bool show_prompt, const std::string &world_to_copy )
 {
     // World to return after generating
     std::unique_ptr<WORLD> retworld = std::make_unique<WORLD>();
@@ -169,7 +169,7 @@ WORLDPTR worldfactory::make_new_world( bool show_prompt, const std::string &worl
     return add_world( std::move( retworld ) );
 }
 
-int worldfactory::show_worldgen_advanced( WORLDPTR world )
+int worldfactory::show_worldgen_advanced( WORLD *world )
 {
     // set up window
     catacurses::window wf_win;
@@ -225,7 +225,7 @@ int worldfactory::show_worldgen_advanced( WORLDPTR world )
     return curtab;
 }
 
-WORLDPTR worldfactory::make_new_world( special_game_type special_type )
+WORLD *worldfactory::make_new_world( special_game_type special_type )
 {
     std::string worldname;
     switch( special_type ) {
@@ -257,7 +257,7 @@ WORLDPTR worldfactory::make_new_world( special_game_type special_type )
     return ( all_worlds[worldname] = std::move( special_world ) ).get();
 }
 
-void worldfactory::set_active_world( WORLDPTR world )
+void worldfactory::set_active_world( WORLD *world )
 {
     world_generator->active_world = world;
     if( world ) {
@@ -303,7 +303,7 @@ bool WORLD::save( const bool is_conversion ) const
         }
     }
 
-    world_generator->get_mod_manager().save_mods_list( const_cast<WORLDPTR>( this ) );
+    world_generator->get_mod_manager().save_mods_list( this );
     return true;
 }
 
@@ -409,7 +409,7 @@ std::vector<std::string> worldfactory::all_worldnames() const
     return result;
 }
 
-WORLDPTR worldfactory::pick_world( bool show_prompt, bool empty_only )
+WORLD *worldfactory::pick_world( bool show_prompt, bool empty_only )
 {
     std::vector<std::string> world_names = all_worldnames();
 
@@ -694,7 +694,7 @@ void worldfactory::remove_world( const std::string &worldname )
 {
     auto it = all_worlds.find( worldname );
     if( it != all_worlds.end() ) {
-        WORLDPTR wptr = it->second.get();
+        WORLD *wptr = it->second.get();
         if( active_world == wptr ) {
             get_options().set_world_options( nullptr );
             active_world = nullptr;
@@ -734,7 +734,7 @@ std::string worldfactory::pick_random_name()
     return get_next_valid_worldname();
 }
 
-int worldfactory::show_worldgen_tab_options( const catacurses::window &, WORLDPTR world,
+int worldfactory::show_worldgen_tab_options( const catacurses::window &, WORLD *world,
         bool with_tabs )
 {
     get_options().set_world_options( &world->WORLD_OPTIONS );
@@ -1003,7 +1003,7 @@ void worldfactory::show_active_world_mods( const std::vector<mod_id> &world_mods
     }
 }
 
-int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win, WORLDPTR world,
+int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win, WORLD *world,
         bool with_tabs )
 {
     // Use active_mod_order of the world,
@@ -1573,7 +1573,7 @@ static std::string get_opt_slider( int width, int current, int max, bool no_colo
     return ret;
 }
 
-int worldfactory::show_worldgen_basic( WORLDPTR world )
+int worldfactory::show_worldgen_basic( WORLD *world )
 {
     catacurses::window w_confirmation;
 
@@ -2118,7 +2118,7 @@ mod_manager &worldfactory::get_mod_manager()
     return *mman;
 }
 
-WORLDPTR worldfactory::get_world( const std::string &name )
+WORLD *worldfactory::get_world( const std::string &name )
 {
     const auto iter = all_worlds.find( name );
     if( iter == all_worlds.end() ) {

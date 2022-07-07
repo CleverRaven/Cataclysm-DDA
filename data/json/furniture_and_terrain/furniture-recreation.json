@@ -151,19 +151,8 @@
     "coverage": 75,
     "required_str": 12,
     "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "arcade_machine" },
-    "flags": [ "BLOCKSDOOR", "TRANSPARENT" ],
-    "deconstruct": {
-      "items": [
-        { "item": "television", "count": 1 },
-        { "item": "plastic_chunk", "count": [ 3, 6 ] },
-        { "item": "circuit", "count": [ 4, 6 ] },
-        { "item": "2x4", "count": 8 },
-        { "item": "nail", "charges": [ 10, 16 ] },
-        { "item": "cable", "charges": [ 14, 20 ] },
-        { "item": "power_supply", "count": [ 1, 2 ] },
-        { "item": "RAM", "count": [ 2, 4 ] }
-      ]
-    },
+    "flags": [ "BLOCKSDOOR", "TRANSPARENT", "EASY_DECONSTRUCT" ],
+    "deconstruct": { "items": [ { "item": "arcade_machine", "count": 1 } ] },
     "bash": {
       "str_min": 6,
       "str_max": 35,

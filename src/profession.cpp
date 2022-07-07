@@ -21,6 +21,7 @@
 #include "json.h"
 #include "magic.h"
 #include "mission.h"
+#include "mutation.h"
 #include "options.h"
 #include "past_games_info.h"
 #include "pimpl.h"
@@ -255,7 +256,7 @@ void profession::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "CBMs", _starting_CBMs, string_id_reader<::bionic_data> {} );
     optional( jo, was_loaded, "proficiencies", _starting_proficiencies );
     // TODO: use string_id<mutation_branch> or so
-    optional( jo, was_loaded, "traits", _starting_traits, string_id_reader<::mutation_branch> {} );
+    optional( jo, was_loaded, "traits", _starting_traits );
     optional( jo, was_loaded, "forbidden_traits", _forbidden_traits,
               string_id_reader<::mutation_branch> {} );
     optional( jo, was_loaded, "flags", flags, auto_flags_reader<> {} );
@@ -364,9 +365,9 @@ void profession::check_definition() const
         }
     }
 
-    for( const auto &t : _starting_traits ) {
-        if( !t.is_valid() ) {
-            debugmsg( "trait %s for profession %s does not exist", t.c_str(), id.c_str() );
+    for( const trait_and_var &t : _starting_traits ) {
+        if( !t.trait.is_valid() ) {
+            debugmsg( "trait %s for profession %s does not exist", t.trait.str(), id.str() );
         }
     }
     for( const auto &elem : _starting_pets ) {
@@ -549,7 +550,7 @@ std::vector<proficiency_id> profession::proficiencies() const
     return _starting_proficiencies;
 }
 
-std::vector<trait_id> profession::get_locked_traits() const
+std::vector<trait_and_var> profession::get_locked_traits() const
 {
     return _starting_traits;
 }
@@ -605,8 +606,11 @@ ret_val<bool> profession::can_pick() const
 
 bool profession::is_locked_trait( const trait_id &trait ) const
 {
-    return std::find( _starting_traits.begin(), _starting_traits.end(), trait ) !=
-           _starting_traits.end();
+    auto pred = [&trait]( const trait_and_var & query ) {
+        return query.trait == trait;
+    };
+    return std::find_if( _starting_traits.begin(), _starting_traits.end(),
+                         pred ) != _starting_traits.end();
 }
 
 bool profession::is_forbidden_trait( const trait_id &trait ) const

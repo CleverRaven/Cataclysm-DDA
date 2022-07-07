@@ -1625,6 +1625,7 @@
     "petfood": { "food": [ "DINOFOOD_B" ] },
     "flags": [ "SEES", "SMELLS", "HEARS", "FLIES", "HIT_AND_RUN", "ANIMAL", "PATH_AVOID_DANGER_1", "CANPLAY" ],
     "harvest": "bird_small",
+    "dissect": "dissect_lizard_sample_single",
     "fear_triggers": [ "PLAYER_CLOSE", "FRIEND_DIED" ],
     "categories": [ "DINOSAUR", "WILDLIFE" ]
   },
@@ -1646,6 +1647,7 @@
     "anger_triggers": [ "PLAYER_WEAK", "HURT", "FRIEND_ATTACKED", "PLAYER_CLOSE" ],
     "fear_triggers": [ "FRIEND_DIED" ],
     "harvest": "dino_feather_leather",
+    "dissect": "dissect_lizard_sample_small",
     "special_attacks": [ [ "scratch", 10 ] ]
   },
   {
@@ -1668,7 +1670,8 @@
     "petfood": { "food": [ "DINOFOOD_B" ] },
     "anger_triggers": [ "PLAYER_WEAK", "HURT", "FRIEND_ATTACKED", "PLAYER_CLOSE" ],
     "fear_triggers": [ "FRIEND_DIED" ],
-    "harvest": "dino_feather_leather"
+    "harvest": "dino_feather_leather",
+    "dissect": "dissect_lizard_sample_small"
   },
   {
     "type": "MONSTER",
@@ -1704,7 +1707,7 @@
     "special_attacks": [ [ "LUNGE", 10 ], [ "GRAB", 7 ], { "type": "bite", "cooldown": 10 } ],
     "flags": [ "SEES", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "DESTROYS", "WARM", "SWIMS", "AQUATIC", "PUSH_MON" ],
     "harvest": "dino_large_pred",
-    "dissect": "dissect_dino_large_pred",
+    "dissect": "dissect_mosasaurus_large",
     "anger_triggers": [ "PLAYER_WEAK", "HURT", "FRIEND_ATTACKED", "PLAYER_CLOSE" ],
     "categories": [ "DINOSAUR", "WILDLIFE" ]
   }

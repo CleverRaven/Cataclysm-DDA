@@ -66,7 +66,10 @@
       [ "goggles_ski", 30 ],
       [ "mask_ski", 30 ],
       [ "hat_ball", 30 ],
-      [ "helmet_bike", 35 ],
+      [ "helmet_bike", 25 ],
+      { "group": "helmet_bike_modified", "prob": 10 },
+      [ "plastic_chin_guard", 10 ],
+      [ "shield_visor", 1 ],
       [ "helmet_ball", 45 ],
       [ "baseball", 35 ],
       [ "football", 35 ],
@@ -143,6 +146,13 @@
       [ "tourist_table", 30 ],
       [ "fitness_band", 5 ]
     ]
+  },
+  {
+    "id": "helmet_bike_modified",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "helmet_bike",
+    "items": [ { "item": "plastic_chin_guard", "prob": 50 }, { "item": "shield_visor", "prob": 10 } ]
   },
   {
     "type": "item_group",

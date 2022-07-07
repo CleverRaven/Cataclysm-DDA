@@ -99,7 +99,7 @@ static std::vector<sfx_args> sfx_preload;
 
 bool sounds::sound_enabled = false;
 
-static inline bool check_sound( const int volume = 1 )
+static bool check_sound( const int volume = 1 )
 {
     return sound_init_success && sounds::sound_enabled && volume > 0;
 }
@@ -324,7 +324,7 @@ static Mix_Chunk *load_chunk( const std::string &path )
 // Check to see if the resource has already been loaded
 // - Loaded: Return stored pointer
 // - Not Loaded: Load chunk from stored resource path
-static inline Mix_Chunk *get_sfx_resource( int resource_id )
+static Mix_Chunk *get_sfx_resource( int resource_id )
 {
     sound_effect_resource &resource = sfx_resources.resource[ resource_id ];
     if( !resource.chunk ) {
@@ -334,7 +334,7 @@ static inline Mix_Chunk *get_sfx_resource( int resource_id )
     return resource.chunk.get();
 }
 
-static inline int add_sfx_path( const std::string &path )
+static int add_sfx_path( const std::string &path )
 {
     auto find_result = unique_paths.find( path );
     if( find_result != unique_paths.end() ) {

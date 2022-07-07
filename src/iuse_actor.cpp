@@ -243,7 +243,7 @@ cata::optional<int> iuse_transform::use( Character &p, item &it, bool t, const t
                 const mutation_branch &branch = mut.obj();
                 if( branch.conflicts_with_item( tmp ) ) {
                     p.add_msg_if_player( m_info, _( "Your %1$s mutation prevents you from doing that." ),
-                                         branch.name() );
+                                         p.mutation_name( mut ) );
                     return cata::nullopt;
                 }
             }
