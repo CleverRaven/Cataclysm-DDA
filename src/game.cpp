@@ -11097,7 +11097,6 @@ void game::vertical_move( int movez, bool force, bool peeking )
     }
 
     if( climbing && slip_down( true ) ) {
-        wall_cling = false;
         return;
     }
 
