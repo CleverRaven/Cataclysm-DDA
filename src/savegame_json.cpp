@@ -93,6 +93,7 @@
 #include "morale.h"
 #include "morale_types.h"
 #include "mtype.h"
+#include "mutation.h"
 #include "npc.h"
 #include "npc_class.h"
 #include "optional.h"
@@ -142,8 +143,6 @@ static const itype_id itype_usb_drive( "usb_drive" );
 
 static const matype_id style_none( "style_none" );
 
-static const proficiency_id proficiency_prof_parkour( "prof_parkour" );
-
 static const relic_procgen_id relic_procgen_data_cult( "cult" );
 
 static const skill_id skill_chemistry( "chemistry" );
@@ -154,8 +153,6 @@ static const ter_str_id ter_t_pwr_sb_switchgear_l( "t_pwr_sb_switchgear_l" );
 static const ter_str_id ter_t_pwr_sb_switchgear_s( "t_pwr_sb_switchgear_s" );
 static const ter_str_id ter_t_rubble( "t_rubble" );
 static const ter_str_id ter_t_wreckage( "t_wreckage" );
-
-static const trait_id trait_PARKOUR( "PARKOUR" );
 
 static const vpart_id vpart_turret_mount( "turret_mount" );
 
@@ -524,6 +521,10 @@ void Character::trait_data::serialize( JsonOut &json ) const
     json.member( "charge", charge );
     json.member( "powered", powered );
     json.member( "show_sprite", show_sprite );
+    if( variant != nullptr ) {
+        json.member( "variant-parent", variant->parent );
+        json.member( "variant-id", variant->id );
+    }
     json.end_object();
 }
 
@@ -534,6 +535,19 @@ void Character::trait_data::deserialize( const JsonObject &data )
     data.read( "charge", charge );
     data.read( "powered", powered );
     data.read( "show_sprite", show_sprite );
+    if( data.has_member( "variant-parent" ) ) {
+        trait_id parent;
+        std::string variant_id;
+
+        data.read( "variant-parent", parent );
+        data.read( "variant-id", variant_id );
+
+        // No parent == nowhere to look up this variant. It's effectively lost
+        if( !parent.is_valid() ) {
+            return;
+        }
+        variant = parent->variant( variant_id );
+    }
 }
 
 void consumption_event::serialize( JsonOut &json ) const
@@ -742,36 +756,67 @@ void Character::load( const JsonObject &data )
     data.read( "underwater", underwater );
 
     data.read( "traits", my_traits );
+    // If a trait has been migrated, we'll need to add it.
+    // Queue them up to add at the end, because adding and removing at the same time is hard
+    std::set<trait_id> traits_to_add;
     for( auto it = my_traits.begin(); it != my_traits.end(); ) {
         const auto &tid = *it;
         if( tid.is_valid() ) {
             ++it;
-            // Remove after 0.G
-        } else if( tid == trait_PARKOUR ) {
-            it = my_traits.erase( it );
-            add_proficiency( proficiency_prof_parkour );
-        } else {
-            debugmsg( "character %s has invalid trait %s, it will be ignored", get_name(), tid.c_str() );
-            my_traits.erase( it++ );
+            continue;
         }
+
+        const trait_replacement &rules = mutation_branch::trait_migration( tid );
+        if( rules.prof ) {
+            add_proficiency( *rules.prof );
+        } else if( rules.trait ) {
+            traits_to_add.emplace( rules.trait->trait );
+        } else {
+            if( rules.error ) {
+                debugmsg( "character %s has invalid trait %s, it will be ignored", get_name(), tid.str() );
+            }
+        }
+        it = my_traits.erase( it );
+    }
+    for( const trait_id &add : traits_to_add ) {
+        my_traits.emplace( add );
     }
 
     data.read( "mutations", my_mutations );
 
+    // Hold onto the mutations to add at the end...
+    std::map<trait_id, trait_data> muts_to_add;
     for( auto it = my_mutations.begin(); it != my_mutations.end(); ) {
         const trait_id &mid = it->first;
         if( mid.is_valid() ) {
-            on_mutation_gain( mid );
-            cached_mutations.push_back( &mid.obj() );
             ++it;
-            // Remove after 0.G
-        } else if( mid == trait_PARKOUR ) {
-            it = my_mutations.erase( it );
-            add_proficiency( proficiency_prof_parkour );
-        } else {
-            debugmsg( "character %s has invalid mutation %s, it will be ignored", get_name(), mid.c_str() );
-            it = my_mutations.erase( it );
+            continue;
         }
+
+        const trait_replacement &rules = mutation_branch::trait_migration( mid );
+        if( rules.prof ) {
+            add_proficiency( *rules.prof );
+        } else if( rules.trait ) {
+            const trait_id &added = rules.trait->trait;
+            const std::string &added_var = rules.trait->variant;
+            auto add_it = muts_to_add.emplace( added, it->second ).first;
+            add_it->second.variant = added->variant( added_var );
+        } else {
+            if( rules.error ) {
+                debugmsg( "character %s has invalid mutation %s, it will be ignored", get_name(), mid.str() );
+            }
+        }
+        it = my_mutations.erase( it );
+    }
+    for( const std::pair<const trait_id, trait_data> &add : muts_to_add ) {
+        my_mutations.emplace( add.first, add.second );
+    }
+    // We need to ensure that my_mutations contains no invalid mutations before we do this
+    // As every time we add a mutation, we rebuild the enchantment cache, causing errors if
+    // we have invalid mutations.
+    for( const std::pair<const trait_id, trait_data> &mut : my_mutations ) {
+        on_mutation_gain( mut.first );
+        cached_mutations.push_back( &mut.first.obj() );
     }
     recalculate_size();
 

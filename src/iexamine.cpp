@@ -577,6 +577,7 @@ void iexamine::attunement_altar( Character &you, const tripoint & )
     uilist attunement_list;
     attunement_list.title = _( "Pick an Attunement to show the world your Worth." );
     for( const trait_id &attunement : attunements ) {
+        // There's no way for you to have this mutation, so a variant is pointless
         attunement_list.addentry( attunement->name() );
     }
     attunement_list.query();
@@ -587,9 +588,11 @@ void iexamine::attunement_altar( Character &you, const tripoint & )
     auto attunement_iter = attunements.begin();
     std::advance( attunement_iter, attunement_list.ret );
     const trait_id &attunement = *attunement_iter;
+    // There's no way for you to have this mutation, so a variant is pointless
     if( query_yn( string_format( _( "Are you sure you want to pick %s?  This selection is permanent." ),
                                  attunement->name() ) ) ) {
         you.toggle_trait( attunement );
+        // There's no way for you to have this mutation, so a variant is pointless
         you.add_msg_if_player( m_info, attunement->desc() );
     } else {
         you.add_msg_if_player( _( "Maybe later." ) );
@@ -1445,9 +1448,13 @@ void iexamine::chainfence( Character &you, const tripoint &examp )
     }
 
     const item &weapon = you.get_wielded_item();
-    if( weapon.is_two_handed( you ) ) {
-        add_msg( m_info, _( "You can't climb because you have to wield %s with both hands." ),
-                 weapon.tname() );
+    if( weapon.is_two_handed( you ) &&
+        query_yn( _( "You can't climb because you have to wield a %s with both hands.\n\nPut it away?" ),
+                  weapon.tname() ) ) {
+        if( !you.unwield() ) {
+            return;
+        }
+    } else {
         return;
     }
 
@@ -4128,12 +4135,6 @@ void iexamine::water_source( Character &, const tripoint &examp )
     liquid_handler::handle_liquid( water, nullptr, 0, &examp );
 }
 
-void iexamine::clean_water_source( Character &, const tripoint &examp )
-{
-    item water = item( "water_clean", calendar::turn_zero, item::INFINITE_CHARGES );
-    liquid_handler::handle_liquid( water, nullptr, 0, &examp );
-}
-
 void iexamine::finite_water_source( Character &, const tripoint &examp )
 {
     map_stack items = get_map().i_at( examp );
@@ -6661,7 +6662,6 @@ iexamine_functions iexamine_functions_from_string( const std::string &function_n
             { "tree_maple_tapped", &iexamine::tree_maple_tapped },
             { "shrub_wildveggies", &iexamine::shrub_wildveggies },
             { "water_source", &iexamine::water_source },
-            { "clean_water_source", &iexamine::clean_water_source },
             { "finite_water_source", &iexamine::finite_water_source },
             { "reload_furniture", &iexamine::reload_furniture },
             { "curtains", &iexamine::curtains },

@@ -2534,7 +2534,7 @@ bool Character::can_install_bionics( const itype &type, Character &installer, bo
     std::vector<std::string> conflicting_muts;
     for( const trait_id &mid : bioid->canceled_mutations ) {
         if( has_trait( mid ) ) {
-            conflicting_muts.push_back( mid->name() );
+            conflicting_muts.push_back( mutation_name( mid ) );
         }
     }
 

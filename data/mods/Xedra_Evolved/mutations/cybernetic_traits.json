@@ -1,0 +1,13 @@
+[
+  {
+    "type": "mutation",
+    "id": "XEDRA_CYBORG",
+    "name": { "str": "XEDRA Neurobionic Interface" },
+    "points": 0,
+    "description": "The compact bionic command and control interface interwoven with your nervous system had a previous life inside of a cybernetic tribesperson.  Best case scenario, none of them are on this Earth.",
+    "valid": false,
+    "purifiable": false,
+    "types": [ "Cybernetic" ],
+    "anger_relations": [ [ "CYBORG", 95 ] ]
+  }
+]

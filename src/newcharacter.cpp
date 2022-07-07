@@ -243,16 +243,17 @@ static int skill_points_left( const avatar &u, pool_type pool )
 }
 
 // Toggle this trait and all prereqs, removing upgrades on removal
-void Character::toggle_trait_deps( const trait_id &tr )
+void Character::toggle_trait_deps( const trait_id &tr, const std::string &variant )
 {
     static const int depth_max = 10;
     const mutation_branch &mdata = tr.obj();
     if( mdata.category.empty() || mdata.startingtrait ) {
-        toggle_trait( tr );
+        toggle_trait( tr, variant );
     } else if( !has_trait( tr ) ) {
         int rc = 0;
         while( !has_trait( tr ) && rc < depth_max ) {
-            mutate_towards( tr );
+            const mutation_variant *chosen_var = variant.empty() ? nullptr : tr->variant( variant );
+            mutate_towards( tr, chosen_var );
             rc++;
         }
     } else if( has_trait( tr ) ) {
@@ -1208,10 +1209,21 @@ tab_direction set_stats( avatar &u, pool_type pool )
 
 static struct {
     /** @related player */
-    bool operator()( const trait_id *a, const trait_id *b ) {
-        return std::abs( a->obj().points ) > std::abs( b->obj().points );
+    bool operator()( const trait_and_var *a, const trait_and_var *b ) {
+        return std::abs( a->trait->points ) > std::abs( b->trait->points );
     }
 } traits_sorter;
+
+static void add_trait( std::vector<trait_and_var> &to, const trait_id &trait )
+{
+    if( trait->variants.empty() ) {
+        to.emplace_back( trait_and_var( trait, "" ) );
+        return;
+    }
+    for( const std::pair<const std::string, mutation_variant> &var : trait->variants ) {
+        to.emplace_back( trait_and_var( trait, var.first ) );
+    }
+}
 
 tab_direction set_traits( avatar &u, pool_type pool )
 {
@@ -1223,7 +1235,7 @@ tab_direction set_traits( avatar &u, pool_type pool )
     // 0 -> traits that take points ( positive traits )
     // 1 -> traits that give points ( negative traits )
     // 2 -> neutral traits ( facial hair, skin color, etc )
-    std::vector<trait_id> vStartingTraits[3];
+    std::vector<trait_and_var> vStartingTraits[3];
 
     for( const mutation_branch &traits_iter : mutation_branch::get_all() ) {
         // Don't list blacklisted traits
@@ -1235,9 +1247,12 @@ tab_direction set_traits( avatar &u, pool_type pool )
         const bool is_scentrait = scentraits.find( traits_iter.id ) != scentraits.end();
 
         // Always show profession locked traits, regardless of if they are forbidden
-        const std::vector<trait_id> proftraits = u.prof->get_locked_traits();
-        const bool is_proftrait = std::find( proftraits.begin(), proftraits.end(),
-                                             traits_iter.id ) != proftraits.end();
+        const std::vector<trait_and_var> proftraits = u.prof->get_locked_traits();
+        auto pred = [&traits_iter]( const trait_and_var & query ) {
+            return query.trait == traits_iter.id;
+        };
+        const bool is_proftrait = std::find_if( proftraits.begin(), proftraits.end(),
+                                                pred ) != proftraits.end();
 
         bool is_hobby_locked_trait = false;
         for( const profession *hobby : u.hobbies ) {
@@ -1248,7 +1263,7 @@ tab_direction set_traits( avatar &u, pool_type pool )
         if( traits_iter.startingtrait || get_scenario()->traitquery( traits_iter.id ) || is_proftrait ||
             is_hobby_locked_trait ) {
             if( traits_iter.points > 0 ) {
-                vStartingTraits[0].push_back( traits_iter.id );
+                add_trait( vStartingTraits[0], traits_iter.id );
 
                 if( is_proftrait || is_scentrait ) {
                     continue;
@@ -1258,7 +1273,7 @@ tab_direction set_traits( avatar &u, pool_type pool )
                     num_good += traits_iter.points;
                 }
             } else if( traits_iter.points < 0 ) {
-                vStartingTraits[1].push_back( traits_iter.id );
+                add_trait( vStartingTraits[1], traits_iter.id );
 
                 if( is_proftrait || is_scentrait ) {
                     continue;
@@ -1268,7 +1283,7 @@ tab_direction set_traits( avatar &u, pool_type pool )
                     num_bad += traits_iter.points;
                 }
             } else {
-                vStartingTraits[2].push_back( traits_iter.id );
+                add_trait( vStartingTraits[2], traits_iter.id );
             }
         }
     }
@@ -1284,7 +1299,8 @@ tab_direction set_traits( avatar &u, pool_type pool )
     int iCurrentLine[3] = { 0, 0, 0 };
     size_t traits_size[3];
     bool recalc_traits = false;
-    std::vector<const trait_id *> sorted_traits[3];
+    // pointer for memory footprint reasons
+    std::vector<const trait_and_var *> sorted_traits[3];
     std::string filterstring;
 
     for( int i = 0; i < 3; i++ ) {
@@ -1433,22 +1449,22 @@ tab_direction set_traits( avatar &u, pool_type pool )
             int end = start + static_cast<int>( std::min( traits_size[iCurrentPage], iContentHeight ) );
 
             for( int i = start; i < end; i++ ) {
-                const trait_id &cur_trait = *sorted_traits[iCurrentPage][i];
-                const mutation_branch &mdata = cur_trait.obj();
+                const trait_and_var &cursor = *sorted_traits[iCurrentPage][i];
+                const trait_id &cur_trait = cursor.trait;
                 if( current == i && iCurrentPage == iCurWorkingPage ) {
-                    int points = mdata.points;
+                    int points = cur_trait->points;
                     bool negativeTrait = points < 0;
                     if( negativeTrait ) {
                         points *= -1;
                     }
                     mvwprintz( w, point( full_string_length + 3, 3 ), col_tr,
                                n_gettext( "%s %s %d point", "%s %s %d points", points ),
-                               mdata.name(),
+                               cursor.name(),
                                negativeTrait ? _( "earns" ) : _( "costs" ),
                                points );
                     fold_and_print( w_description, point_zero,
                                     TERMX - 2, col_tr,
-                                    mdata.desc() );
+                                    cursor.desc() );
                 }
 
                 nc_color cLine = col_off_pas;
@@ -1459,14 +1475,22 @@ tab_direction set_traits( avatar &u, pool_type pool )
                         if( u.has_conflicting_trait( cur_trait ) ) {
                             cLine = hilite( c_dark_gray );
                         } else if( u.has_trait( cur_trait ) ) {
-                            cLine = hi_on;
+                            if( !cur_trait->variants.empty() && !u.has_trait_variant( cursor ) ) {
+                                cLine = hilite( c_dark_gray );
+                            } else {
+                                cLine = hi_on;
+                            }
                         }
                     } else {
                         if( u.has_conflicting_trait( cur_trait ) || get_scenario()->is_forbidden_trait( cur_trait ) ) {
                             cLine = c_dark_gray;
 
                         } else if( u.has_trait( cur_trait ) ) {
-                            cLine = col_on_act;
+                            if( !cur_trait->variants.empty() && !u.has_trait_variant( cursor ) ) {
+                                cLine = c_dark_gray;
+                            } else {
+                                cLine = col_on_act;
+                            }
                         }
                     }
                 } else if( u.has_trait( cur_trait ) ) {
@@ -1479,7 +1503,7 @@ tab_direction set_traits( avatar &u, pool_type pool )
 
                 int cur_line_y = 5 + i - start;
                 int cur_line_x = 2 + iCurrentPage * page_width;
-                mvwprintz( w, point( cur_line_x, cur_line_y ), cLine, utf8_truncate( mdata.name(),
+                mvwprintz( w, point( cur_line_x, cur_line_y ), cLine, utf8_truncate( cursor.name(),
                            page_width - 2 ) );
             }
 
@@ -1507,12 +1531,12 @@ tab_direction set_traits( avatar &u, pool_type pool )
             }
 
             if( !filterstring.empty() ) {
-                for( std::vector<const trait_id *> &traits : sorted_traits ) {
+                for( std::vector<const trait_and_var *> &traits : sorted_traits ) {
                     const auto new_end_iter = std::remove_if(
                                                   traits.begin(),
                                                   traits.end(),
-                    [&filterstring]( const trait_id * trait ) {
-                        return !lcmatch( trait->obj().name(), filterstring );
+                    [&filterstring]( const trait_and_var * trait ) {
+                        return !lcmatch( trait->name(), filterstring );
                     } );
 
                     traits.erase( new_end_iter, traits.end() );
@@ -1592,7 +1616,8 @@ tab_direction set_traits( avatar &u, pool_type pool )
             iCurrentLine[iCurWorkingPage] = traits_size[iCurWorkingPage] - 1;
         } else if( action == "CONFIRM" ) {
             int inc_type = 0;
-            const trait_id cur_trait = *sorted_traits[iCurWorkingPage][iCurrentLine[iCurWorkingPage]];
+            const trait_id cur_trait = sorted_traits[iCurWorkingPage][iCurrentLine[iCurWorkingPage]]->trait;
+            const std::string variant = sorted_traits[iCurWorkingPage][iCurrentLine[iCurWorkingPage]]->variant;
             const mutation_branch &mdata = cur_trait.obj();
 
             // Look through the profession bionics, and see if any of them conflict with this trait
@@ -1619,11 +1644,16 @@ tab_direction set_traits( avatar &u, pool_type pool )
                                hobbies->gender_appropriate_name( u.male ) );
                     }
                 }
+                // Switch variant
+                if( !u.has_trait_variant( trait_and_var( cur_trait, variant ) ) ) {
+                    u.set_mut_variant( cur_trait, cur_trait->variant( variant ) );
+                    inc_type = 0;
+                }
             } else if( !conflicting_traits.empty() ) {
                 std::vector<std::string> conflict_names;
                 conflict_names.reserve( conflicting_traits.size() );
                 for( const trait_id &trait : conflicting_traits ) {
-                    conflict_names.emplace_back( trait->name() );
+                    conflict_names.emplace_back( u.mutation_name( trait ) );
                 }
                 popup( _( "You already picked some conflicting traits: %s." ),
                        enumerate_as_string( conflict_names ) );
@@ -1660,7 +1690,7 @@ tab_direction set_traits( avatar &u, pool_type pool )
 
             //inc_type is either -1 or 1, so we can just multiply by it to invert
             if( inc_type != 0 ) {
-                u.toggle_trait_deps( cur_trait );
+                u.toggle_trait_deps( cur_trait, variant );
                 if( iCurWorkingPage == 0 ) {
                     num_good += mdata.points * inc_type;
                 } else {
@@ -1900,8 +1930,8 @@ tab_direction set_profession( avatar &u, pool_type pool )
             if( prof_traits.empty() ) {
                 buffer += pgettext( "set_profession_trait", "None" ) + std::string( "\n" );
             } else {
-                for( const auto &t : prof_traits ) {
-                    buffer += mutation_branch::get_name( t ) + "\n";
+                for( const trait_and_var &t : prof_traits ) {
+                    buffer += t.name() + "\n";
                 }
             }
 
@@ -2137,21 +2167,21 @@ tab_direction set_profession( avatar &u, pool_type pool )
             }
 
             // Remove traits from the previous profession
-            for( const trait_id &old_trait : u.prof->get_locked_traits() ) {
-                u.toggle_trait_deps( old_trait );
+            for( const trait_and_var &old : u.prof->get_locked_traits() ) {
+                u.toggle_trait_deps( old.trait );
             }
 
             u.prof = &sorted_profs[cur_id].obj();
 
             // Remove pre-selected traits that conflict
             // with the new profession's traits
-            for( const trait_id &new_trait : u.prof->get_locked_traits() ) {
-                if( u.has_conflicting_trait( new_trait ) ) {
+            for( const trait_and_var &new_trait : u.prof->get_locked_traits() ) {
+                if( u.has_conflicting_trait( new_trait.trait ) ) {
                     for( const trait_id &suspect_trait : u.get_mutations() ) {
-                        if( are_conflicting_traits( new_trait, suspect_trait ) ) {
-                            u.toggle_trait_deps( suspect_trait );
+                        if( are_conflicting_traits( new_trait.trait, suspect_trait ) ) {
                             popup( _( "Your trait %1$s has been removed since it conflicts with the %2$s's %3$s trait." ),
-                                   suspect_trait->name(), u.prof->gender_appropriate_name( u.male ), new_trait->name() );
+                                   u.mutation_name( suspect_trait ), u.prof->gender_appropriate_name( u.male ), new_trait.name() );
+                            u.toggle_trait_deps( suspect_trait );
                         }
                     }
                 }
@@ -2345,8 +2375,8 @@ tab_direction set_hobbies( avatar &u, pool_type pool )
             if( prof_traits.empty() ) {
                 buffer += pgettext( "set_profession_trait", "None" ) + std::string( "\n" );
             } else {
-                for( const auto &t : prof_traits ) {
-                    buffer += mutation_branch::get_name( t ) + "\n";
+                for( const trait_and_var &t : prof_traits ) {
+                    buffer += t.name() + "\n";
                 }
             }
 
@@ -2510,14 +2540,14 @@ tab_direction set_hobbies( avatar &u, pool_type pool )
             // Do not allow selection of hobby if there's a trait conflict
             const profession *prof = &sorted_profs[cur_id].obj();
             bool conflict_found = false;
-            for( const trait_id &new_trait : prof->get_locked_traits() ) {
-                if( u.has_conflicting_trait( new_trait ) ) {
+            for( const trait_and_var &new_trait : prof->get_locked_traits() ) {
+                if( u.has_conflicting_trait( new_trait.trait ) ) {
                     for( const profession *hobby : u.hobbies ) {
-                        for( const trait_id &suspect_trait : hobby->get_locked_traits() ) {
-                            if( are_conflicting_traits( new_trait, suspect_trait ) ) {
+                        for( const trait_and_var &suspect : hobby->get_locked_traits() ) {
+                            if( are_conflicting_traits( new_trait.trait, suspect.trait ) ) {
                                 conflict_found = true;
-                                popup( _( "The trait [%1$s] conflicts with background [%2$s]'s trait [%3$s]." ), new_trait->name(),
-                                       hobby->gender_appropriate_name( u.male ), suspect_trait->name() );
+                                popup( _( "The trait [%1$s] conflicts with background [%2$s]'s trait [%3$s]." ), new_trait.name(),
+                                       hobby->gender_appropriate_name( u.male ), suspect.name() );
                             }
                         }
                     }
@@ -2539,7 +2569,8 @@ tab_direction set_hobbies( avatar &u, pool_type pool )
             }
 
             // Add or remove traits from hobby
-            for( const trait_id &trait : prof->get_locked_traits() ) {
+            for( const trait_and_var &cur : prof->get_locked_traits() ) {
+                const trait_id &trait = cur.trait;
                 if( enabling ) {
                     if( !u.has_trait( trait ) ) {
                         u.toggle_trait_deps( trait );
@@ -3666,15 +3697,15 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
 
         if( isWide ) {
             mvwprintz( w_traits, point_zero, COL_HEADER, _( "Traits: " ) );
-            std::vector<trait_id> current_traits = you.get_mutations();
+            std::vector<trait_and_var> current_traits = you.get_mutations_variants();
             std::sort( current_traits.begin(), current_traits.end(), trait_display_sort );
             if( current_traits.empty() ) {
                 wprintz( w_traits, c_light_red, _( "None!" ) );
             } else {
                 for( size_t i = 0; i < current_traits.size(); i++ ) {
-                    const auto current_trait = current_traits[i];
+                    const trait_and_var current_trait = current_traits[i];
                     trim_and_print( w_traits, point( 0, i + 1 ), getmaxx( w_traits ) - 1,
-                                    current_trait->get_display_color(), current_trait->name() );
+                                    current_trait.trait->get_display_color(), current_trait.name() );
                 }
             }
         }
@@ -4311,6 +4342,36 @@ std::vector<trait_id> Character::get_mutations( bool include_hidden,
     return result;
 }
 
+std::vector<trait_and_var> Character::get_mutations_variants( bool include_hidden,
+        bool ignore_enchantments ) const
+{
+    std::vector<trait_and_var> result;
+    result.reserve( my_mutations.size() + enchantment_cache->get_mutations().size() );
+    for( const std::pair<const trait_id, trait_data> &t : my_mutations ) {
+        if( include_hidden || t.first.obj().player_display ) {
+            const std::string &variant = t.second.variant != nullptr ? t.second.variant->id : "";
+            result.emplace_back( t.first, variant );
+        }
+    }
+    if( !ignore_enchantments ) {
+        for( const trait_id &ench_trait : enchantment_cache->get_mutations() ) {
+            if( include_hidden || ench_trait->player_display ) {
+                bool found = false;
+                for( const trait_and_var &exist : result ) {
+                    if( exist.trait == ench_trait ) {
+                        found = true;
+                        break;
+                    }
+                }
+                if( !found ) {
+                    result.emplace_back( ench_trait, "" );
+                }
+            }
+        }
+    }
+    return result;
+}
+
 void Character::clear_mutations()
 {
     while( !my_traits.empty() ) {
@@ -4336,9 +4397,9 @@ void Character::empty_skills()
 void Character::add_traits()
 {
     // TODO: get rid of using get_avatar() here, use `this` instead
-    for( const trait_id &tr : get_avatar().prof->get_locked_traits() ) {
-        if( !has_trait( tr ) ) {
-            toggle_trait_deps( tr );
+    for( const trait_and_var &tr : get_avatar().prof->get_locked_traits() ) {
+        if( !has_trait( tr.trait ) ) {
+            toggle_trait_deps( tr.trait );
         }
     }
     for( const trait_id &tr : get_scenario()->get_locked_traits() ) {

@@ -627,7 +627,7 @@
     "//2": "This group is for cupboard, drawer, or rack with spices.",
     "subtype": "collection",
     "entries": [
-      { "item": "salt" },
+      { "item": "salt", "count": [ 2, 4 ] },
       { "item": "pepper" },
       { "item": "cinnamon", "prob": 75 },
       { "item": "chilly-p", "prob": 75 },
@@ -636,8 +636,8 @@
       { "item": "curry_powder", "prob": 25 },
       { "item": "sprinkles", "prob": 10 },
       { "item": "thyme", "prob": 65 },
-      { "item": "seasoning_italian", "prob": 65 },
-      { "item": "seasoning_salt", "prob": 65 }
+      { "item": "seasoning_italian", "prob": 50 },
+      { "item": "seasoning_salt", "prob": 50 }
     ]
   },
   {
