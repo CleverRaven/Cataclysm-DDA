@@ -792,7 +792,7 @@ Here are the flags that can be included:
 | `W_DISABLED_BY_DEFAULT` | Makes this widget disabled by default (only applies to top-level widgets/layouts)
 | `W_DISABLED_WHEN_EMPTY` | Automatically hides this widget when the widget's text is empty
 | `W_DYNAMIC_HEIGHT`      | Allows certain multi-line widgets to dynamically adjust their height
-| `W_NO_PADDING`          | Removes extra padding added between columns for alignment (applies recursively to sub-widgets). This will remove all excess whitespace, including whitespace that is explicitly defined by the developer.
+| `W_NO_PADDING`          | Prevents the sidebar from doing any sort of whitespace-based alignment. All widgets are packed as tightly as possible. Use this flag only if you plan to align things yourself.
 
 
 # Clauses and conditions
