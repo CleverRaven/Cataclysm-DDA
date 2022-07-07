@@ -5372,7 +5372,7 @@
     "ugliness": 4,
     "description": "Your eyes bulge out several inches from your skull.  This does not affect your vision in any way.",
     "changes_to": [ "COMPOUND_EYES", "EYESTALKS1" ],
-    "category": [ "BATRACHIAN", "INSECT", "GASTROPOD", "LIZARD", "FISH" ]
+    "category": [ "BATRACHIAN", "INSECT", "GASTROPOD", "FISH" ]
   },
   {
     "type": "mutation",
