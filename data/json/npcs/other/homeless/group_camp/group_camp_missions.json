@@ -23,7 +23,7 @@
       "accepted": "I'll be here when you get back.",
       "rejected": "No problem.  I'm sure one of us will get to it anyway.",
       "inquire": "Are those slimes dead yet?",
-      "success": "Nice. I'll just take those off your hands.  Might be good for greasing the bike chains and door hinges around here even though it is a bit… abnormal.",
+      "success": "Nice.  I'll just take those off your hands.  Might be good for greasing the bike chains and door hinges around here even though it is a bit… abnormal.",
       "success_lie": "You don't look nearly as sticky as you're supposed to.  Get back to it.",
       "failure": "Did they give you the slip?  It's worse than I thought, then."
     }
@@ -53,7 +53,7 @@
       "accepted": "I'll be here when you get back.",
       "rejected": "Alright, I can understand that.",
       "inquire": "Do you have the meat?",
-      "success": "Nice. I'll get these cooked up.  Who knows, we might want some more in the future.",
+      "success": "Nice.  I'll get these cooked up.  Who knows, we might want some more in the future.",
       "success_lie": "You sure?  I don't see my meat anywhere.",
       "failure": "Ah, well.  It's no big deal."
     }
@@ -222,7 +222,7 @@
     "dialogue": {
       "describe": "I need some help.",
       "offer": "Turns out that ant meat you got us wasn't actually too bad.  A little tough, sure, but perfectly edible.  The problem now is we need a way of preserving it.  One of those portable charcoal smokers would be really great.  Heck, you might even wanna buy some.",
-      "advice": "Maybe try a farm? I bet those rural folks were pretty invested in preserving their food.",
+      "advice": "Maybe try a farm?  I bet those rural folks were pretty invested in preserving their food.",
       "accepted": "Thank you.  We'll be sure to compensate your efforts.",
       "rejected": "Alright, I can understand that.  I guess I'll have to get it myself.",
       "inquire": "Do you have the charcoal smoker?",
