@@ -318,7 +318,7 @@ void memorial_logger::write_text_memorial( std::ostream &file,
     //Traits
     file << _( "Traits:" ) << eol;
     for( const trait_id &mut : u.get_mutations() ) {
-        file << indent << mutation_branch::get_name( mut ) << eol;
+        file << indent << u.mutation_name( mut ) << eol;
     }
     if( u.get_mutations().empty() ) {
         file << indent << _( "(None)" ) << eol;
@@ -784,7 +784,7 @@ void memorial_logger::notify( const cata::event &e )
                 trait_id to = e.get<trait_id>( "to_trait" );
                 add( pgettext( "memorial_male", "'%s' mutation turned into '%s'" ),
                      pgettext( "memorial_female", "'%s' mutation turned into '%s'" ),
-                     from->name(), to->name() );
+                     get_avatar().mutation_name( from ), get_avatar().mutation_name( to ) );
             }
             break;
         }
@@ -848,7 +848,7 @@ void memorial_logger::notify( const cata::event &e )
                 trait_id trait = e.get<trait_id>( "trait" );
                 add( pgettext( "memorial_male", "Gained the mutation '%s'." ),
                      pgettext( "memorial_female", "Gained the mutation '%s'." ),
-                     trait->name() );
+                     get_avatar().mutation_name( trait ) );
             }
             break;
         }

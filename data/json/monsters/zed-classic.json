@@ -100,7 +100,7 @@
     "id": "mon_zombie_cop",
     "type": "MONSTER",
     "name": { "str": "zombie cop" },
-    "description": "A human body covered by a weather-beaten and badly damaged set of riot gear.",
+    "description": "A human body covered by a weather-beaten and badly damaged set of police gear.",
     "bodytype": "human",
     "default_faction": "zombie",
     "categories": [ "CLASSIC" ],
