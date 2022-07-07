@@ -1289,6 +1289,16 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "jerusalem_artichoke_boiled",
+    "name": { "str": "sauteed Jerusalem artichoke" },
+    "copy-from": "jerusalem_artichoke_sauteed",
+    "color": "brown",
+    "spoils_in": "2 days",
+    "description": "Still crunchy but much more palatable than raw.  Has a slight nutty taste.",
+    "calories": 100
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "cooked_bell_pepper",
     "name": { "str": "cooked bell pepper" },
     "copy-from": "bell_pepper",
