@@ -785,11 +785,5 @@
     "type": "recipe",
     "result": "pur_tablets",
     "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "chem_nitric_acid",
-    "id_suffix": "from_muriatic",
-    "obsolete": true
   }
 ]
