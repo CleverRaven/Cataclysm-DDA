@@ -541,6 +541,8 @@ class Character : public Creature, public visitable
 
     public:
 
+        void gravity_check();
+
         void mod_stat( const std::string &stat, float modifier ) override;
 
         int get_standard_stamina_cost( const item *thrown_item = nullptr ) const;
