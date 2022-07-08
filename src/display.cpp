@@ -822,13 +822,13 @@ std::pair<std::string, nc_color> display::fatigue_text_color( const Character &u
     int fatigue = u.get_fatigue();
     std::string fatigue_string;
     nc_color fatigue_color = c_white;
-    if( fatigue > fatigue_levels::EXHAUSTED ) {
+    if( fatigue >= fatigue_levels::EXHAUSTED ) {
         fatigue_color = c_red;
         fatigue_string = translate_marker( "Exhausted" );
-    } else if( fatigue > fatigue_levels::DEAD_TIRED ) {
+    } else if( fatigue >= fatigue_levels::DEAD_TIRED ) {
         fatigue_color = c_light_red;
         fatigue_string = translate_marker( "Dead Tired" );
-    } else if( fatigue > fatigue_levels::TIRED ) {
+    } else if( fatigue >= fatigue_levels::TIRED ) {
         fatigue_color = c_yellow;
         fatigue_string = translate_marker( "Tired" );
     }
