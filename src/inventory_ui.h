@@ -166,6 +166,10 @@ class inventory_entry
         size_t generation = 0;
         bool chevron = false;
 
+        void set_custom_category( const item_category *category ) {
+            custom_category = category;
+        }
+
     private:
         const item_category *custom_category = nullptr;
         bool enabled = true;
@@ -422,6 +426,10 @@ class inventory_column
 
         void set_indent_entries_override( bool entry_override ) {
             indent_entries_override = entry_override;
+        }
+
+        void clear_indent_entries_override() {
+            indent_entries_override = cata::nullopt;
         }
 
         void invalidate_paging() {
@@ -844,6 +852,9 @@ class inventory_selector
 
         uimode _uimode = uimode::categories;
 
+        void _categorize( inventory_column &col );
+        void _uncategorize( inventory_column &col );
+
     public:
         std::string action_bound_to_key( char key ) const;
 };
@@ -890,6 +901,7 @@ class inventory_multiselector : public inventory_selector
         void on_input( const inventory_input &input );
         int count = 0;
         stats get_raw_stats() const override;
+        void toggle_categorize_contained();
     private:
         std::unique_ptr<inventory_column> selection_col;
         GetStats get_stats;
