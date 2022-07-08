@@ -1,15 +1,10 @@
 #include "item_group_window.h"
 
-#include <algorithm>
 #include "format.h"
-#include "json.h"
-#include "item_group.h"
-#include "item.h"
 #include "item_factory.h"
 
 #include "QtWidgets/qheaderview.h"
-
-#include <sstream>
+#include <QtCore/QCoreApplication>
 
 
 creator::item_group_window::item_group_window( QWidget *parent, Qt::WindowFlags flags )
@@ -45,10 +40,12 @@ creator::item_group_window::item_group_window( QWidget *parent, Qt::WindowFlags 
     item_list_total_box.setParent( this );
     item_list_total_box.resize( QSize( default_text_box_width * 2, default_text_box_height * 10 ) );
     item_list_total_box.move( QPoint( col * default_text_box_width, row * default_text_box_height ) );
+    item_list_total_box.setDragEnabled( true );
     item_list_total_box.setToolTip( QString( _( "All items" ) ) );
+    //Only the item list has 'items' set to true so it distinguishes itself from the group listbox
+    //This is used when adding an item to entrieslist and color the bg based on this property
+    item_list_total_box.setProperty( "items", true );
     item_list_total_box.show();
-    QObject::connect( &item_list_total_box, &QListWidget::itemDoubleClicked, this, 
-            &item_group_window::selected_item_doubleclicked );
     row += 10;
     item_list_populate_filtered();
 
@@ -61,11 +58,10 @@ creator::item_group_window::item_group_window( QWidget *parent, Qt::WindowFlags 
     group_list_total_box.setParent( this );
     group_list_total_box.resize( QSize( default_text_box_width * 2, default_text_box_height * 10 ) );
     group_list_total_box.move( QPoint( col * default_text_box_width, row * default_text_box_height ) );
+    group_list_total_box.setDragEnabled( true );
     group_list_total_box.setToolTip( QString( _( "All groups" ) ) );
     group_list_total_box.show();
     group_list_populate_filtered();
-    QObject::connect( &group_list_total_box, &QListWidget::itemDoubleClicked, this,
-            &item_group_window::selected_group_doubleclicked);
     row += 10;
 
 
@@ -106,32 +102,17 @@ creator::item_group_window::item_group_window( QWidget *parent, Qt::WindowFlags 
     row = 0;
     col++;
 
+    entries_box = new QFrame( this );
+    entries_box->resize( QSize( 400, 200 ) );
+    entries_box->move( QPoint( col * default_text_box_width, row * default_text_box_height ) );
 
-    entries_box.setParent( this );
-    entries_box.resize( QSize( default_text_box_width * 4, default_text_box_height * 23 ) );
-    entries_box.move( QPoint( col * default_text_box_width, row * default_text_box_height ) );
-    entries_box.insertColumn( 0 );
-    entries_box.insertColumn( 0 );
-    entries_box.insertColumn( 0 );
-    entries_box.insertRow( 0 );
-    entries_box.setHorizontalHeaderLabels( QStringList{ "X", "Item", "Prob" } );
-    entries_box.verticalHeader()->setSectionResizeMode(QHeaderView::Fixed);
-    entries_box.verticalHeader()->setDefaultSectionSize(12);
-    entries_box.verticalHeader()->hide();
-    entries_box.horizontalHeader()->resizeSection( 0, default_text_box_width * 0.25 );
-    entries_box.horizontalHeader()->resizeSection( 1, default_text_box_width * 2.50 );
-    entries_box.horizontalHeader()->resizeSection( 2, default_text_box_width * 0.50 );
-    entries_box.setSelectionBehavior( QAbstractItemView::SelectionBehavior::SelectItems );
-    entries_box.setSelectionMode( QAbstractItemView::SelectionMode::SingleSelection );
-    entries_box.show();
-    QObject::connect( &entries_box, &QTableWidget::cellChanged, [&]() { write_json(); } );
-
+    creator::distributionCollection* dis = new creator::distributionCollection( entries_box );
 
     // =========================================================================================
     // Finalize
 
-    row += 24;
-    col += 3;
+    row += 26;
+    col += 4;
     max_row = std::max( max_row, row );
     max_col = std::max( max_col, col );
     this->resize( QSize( ( max_col + 1 ) * default_text_box_width,
@@ -148,8 +129,8 @@ void creator::item_group_window::write_json()
     jo.member( "type", "item_group" );
     jo.member( "id", id_box.text().toStdString() );
     jo.member( "subtype", "distribution" );
-
-    if(entries_box.rowCount() > 0){
+    /*
+    if( entries_box.rowCount() > 0 ){
         jo.member( "entries" );
         jo.start_array();
         for( int row = 0; row < entries_box.rowCount() - 0; row++ ) {
@@ -170,7 +151,7 @@ void creator::item_group_window::write_json()
             jo.end_object();
         }
         jo.end_array();
-    }
+    }*/
     jo.end_object();
 
     std::istringstream in_stream( stream.str() );
@@ -184,20 +165,6 @@ void creator::item_group_window::write_json()
     QString output_json{ window_out.str().c_str() };
 
     item_group_json.setText( output_json );
-}
-
-void creator::item_group_window::deleteEntriesLine()
-{
-    QWidget* w = qobject_cast<QWidget*>( sender()->parent() );
-
-    if( w ) {
-        int row = entries_box.indexAt( w->pos() ).row();
-        entries_box.removeRow(row);
-        if( entries_box.rowCount() < 1 ) {
-            entries_box.insertRow( 0 );
-        }
-    }
-    write_json();
 }
 
 void creator::item_group_window::items_search_return_pressed()
@@ -258,7 +225,7 @@ void creator::item_group_window::item_list_populate_filtered( std::string search
     }
 }
 
-void creator::item_group_window::set_item_tooltip(QListWidgetItem* new_item, item tmpItem)
+void creator::item_group_window::set_item_tooltip( QListWidgetItem* new_item, item tmpItem )
 {
     std::string tooltip = "id: ";
     tooltip += tmpItem.typeId().c_str();
@@ -267,57 +234,148 @@ void creator::item_group_window::set_item_tooltip(QListWidgetItem* new_item, ite
     new_item->setToolTip( QString( _( tooltip.c_str() ) ) );
 }
 
-void creator::item_group_window::entries_add_item( QListWidgetItem* cur_widget, bool group )
+bool creator::item_group_window::event( QEvent* event )
 {
-    const int last_row = entries_box.rowCount() - 1;
-    QAbstractItemModel* model = entries_box.model();
+    if( event->type() == item_group_changed::eventType ) {
+        write_json();
+        return true;
+    }
+    //call the event method of the base class for the events that aren't handled
+    return QMainWindow::event( event );
+}
+
+
+void creator::entriesList::add_item( QString itemText, bool group)
+{
+    const int last_row = this->rowCount() - 1;
+    QAbstractItemModel* model = this->model();
     QVariant item_text = model->data( model->index( last_row, 1 ), Qt::DisplayRole );
     QVariant prob_text = model->data( model->index( last_row, 2 ), Qt::DisplayRole );
 
     const bool last_row_empty = item_text.toString().isEmpty() && prob_text.toString().isEmpty();
-    if( !last_row_empty ) {
-        entries_box.insertRow( entries_box.rowCount() );
+    if ( !last_row_empty ) {
+        this->insertRow( this->rowCount() );
     }
 
     QWidget* pWidget = new QWidget();
     QPushButton* btnitem = new QPushButton();
     btnitem->setText( "X" );
-    connect( btnitem, &QPushButton::clicked, this, &item_group_window::deleteEntriesLine );
+    connect( btnitem, &QPushButton::clicked, this, &entriesList::deleteEntriesLine );
     QHBoxLayout* pLayout = new QHBoxLayout( pWidget );
     pLayout->addWidget( btnitem );
     pLayout->setAlignment( Qt::AlignCenter );
     pLayout->setContentsMargins( 0, 0, 0, 0 );
     pWidget->setLayout( pLayout );
-    entries_box.setCellWidget( entries_box.rowCount() - 1, 0, pWidget );
+    this->setCellWidget( this->rowCount() - 1, 0, pWidget );
 
     QTableWidgetItem* item = new QTableWidgetItem();
-    item->setText( cur_widget->text() );
-    if( group ) {
-        item->setBackgroundColor(Qt::yellow);
+    item->setText( itemText );
+    if ( group ) {
+        item->setBackgroundColor( Qt::yellow );
     }
-    entries_box.setItem(entries_box.rowCount() - 1, 1, item);
+    this->setItem( this->rowCount() - 1, 1, item );
 
     item = new QTableWidgetItem();
     item->setText( QString( "100" ) );
-    entries_box.setItem( entries_box.rowCount() - 1, 2, item );
-
-    delete cur_widget;
-
-    write_json();
+    this->setItem( this->rowCount() - 1, 2, item );
 }
 
-void creator::item_group_window::selected_group_doubleclicked()
+creator::entriesList::entriesList( QWidget* parent ) : QTableWidget( parent )
 {
-    if (group_list_total_box.selectedItems().length() > 0) {
-        QListWidgetItem* cur_widget = group_list_total_box.selectedItems().first();
-        entries_add_item(cur_widget, true);
+    setMinimumSize( 200, 200 );
+    setAcceptDrops( true );
+    setParent( parent );
+    resize( QSize( 400, 200 ) );
+    setAcceptDrops( true );
+    insertColumn( 0) ;
+    insertColumn( 0 );
+    insertColumn( 0 );
+    insertRow( 0 );
+    setHorizontalHeaderLabels( QStringList{ "X", "Item", "Prob" } );
+    verticalHeader()->setSectionResizeMode( QHeaderView::Fixed );
+    verticalHeader()->setDefaultSectionSize( 12 );
+    verticalHeader()->hide();
+    horizontalHeader()->resizeSection( 0, 50 );
+    horizontalHeader()->resizeSection( 1, 250 );
+    horizontalHeader()->resizeSection( 2, 50 );
+    setSelectionBehavior( QAbstractItemView::SelectionBehavior::SelectItems );
+    setSelectionMode( QAbstractItemView::SelectionMode::SingleSelection );
+    show();
+
+
+}
+
+creator::distributionCollection::distributionCollection( QWidget* parent ){
+    this->setObjectName( "distributionCollection" );
+    this->setParent( parent );
+    setMinimumSize( 200, 200 );
+    resize( QSize( 400, 200 ) );
+
+    const int margin_top = 30;
+    const int margin_left = 30;
+    creator::entriesList* entries_list = new creator::entriesList( this );
+    entries_list->move( QPoint( margin_left, margin_top ) );
+}
+
+void creator::entriesList::deleteEntriesLine()
+{
+    this->setObjectName( "entriesList" );
+    QWidget* w = qobject_cast<QWidget*>( sender()->parent() );
+    if( w ) {
+        int row = this->indexAt( w->pos() ).row();
+        this->removeRow( row );
+        if ( this->rowCount() < 1 ) {
+            this->insertRow ( 0 );
+        }
     }
 }
 
-void creator::item_group_window::selected_item_doubleclicked()
+void creator::entriesList::dragEnterEvent( QDragEnterEvent* event )
 {
-    if (item_list_total_box.selectedItems().length() > 0) {
-        QListWidgetItem* cur_widget = item_list_total_box.selectedItems().first();
-        entries_add_item(cur_widget, false);
+    if ( event->mimeData()->hasFormat( "text/plain" ) ){
+        event->acceptProposedAction();
     }
+}
+
+void creator::entriesList::dragMoveEvent( QDragMoveEvent* event )
+{
+    event->acceptProposedAction();
+}
+
+
+void creator::entriesList::dropEvent( QDropEvent* event )
+{
+    QString itemText = event->mimeData()->text();
+    QObject* sourceListOfItemsOrGroups = event->source();
+    //If the property 'items' is true, it's the list of items. Otherwise it's the list of groups. 
+    //The added item in add_item is marked as an item if "items" is true or a group if false
+    if( sourceListOfItemsOrGroups->property( "items" ).toBool() ) {
+        entriesList::add_item( itemText, false );
+    } else {
+        entriesList::add_item( itemText, true );
+    }
+
+    //Notify the item_group_window that the item group has changed
+    QObject* parent = this->parent();
+    while( parent != nullptr ) {
+        if( dynamic_cast<creator::item_group_window*>( parent ) == nullptr ) {
+            parent = parent->parent();
+        } else {
+            QEvent* myEvent = new QEvent( item_group_changed::eventType );
+            QCoreApplication::sendEvent( parent, myEvent );
+            break;
+        }
+    }
+    event->acceptProposedAction();
+}
+
+
+QEvent::Type creator::item_group_changed::eventType = QEvent::User;
+QEvent::Type creator::item_group_changed::registeredType()
+{
+    if( eventType == QEvent::None ) {
+        int generatedType = QEvent::registerEventType();
+        eventType = static_cast<QEvent::Type>(generatedType);
+    }
+    return eventType;
 }

@@ -20,7 +20,6 @@ namespace creator
 
     public:
         item_group_window( QWidget* parent = nullptr, Qt::WindowFlags flags = Qt::WindowFlags() );
-        void entries_box_content_changed();
 
         void show() {
             item_group_json.show();
