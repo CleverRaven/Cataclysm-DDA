@@ -1216,6 +1216,9 @@ void Character::modify_morale( item &food, const int nutr )
             add_msg_if_player( m_good, _( "You consume the sacred human flesh." ) );
             // Boosted because you understand the philosophical implications of your actions, and YOU LIKE THEM.
             add_morale( MORALE_CANNIBAL, 15, 200 );
+        } else if( sapiovore ) {
+            add_msg_if_player( m_good, _( "You devour the human meat." ) );
+            add_morale( MORALE_CANNIBAL, 15, 200 );
         } else if( cannibal ) {
             add_msg_if_player( m_good, _( "You indulge your shameful hunger." ) );
             add_morale( MORALE_CANNIBAL, 10, 50 );
@@ -1225,9 +1228,6 @@ void Character::modify_morale( item &food, const int nutr )
             add_morale( MORALE_CANNIBAL, 5, 50 );
         } else if( psycho ) {
             add_msg_if_player( _( "Meh.  You've eaten worse." ) );
-        } else if( sapiovore ) {
-            add_msg_if_player( _( m_good, "You devour the human meat." ) );
-            add_morale( MORALE_CANNIBAL, 15, 200 );
         } else if( spiritual ) {
             add_msg_if_player( m_bad,
                                _( "This is probably going to count against you if there's still an afterlife." ) );
