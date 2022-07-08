@@ -110,7 +110,7 @@ int get_local_windchill( double temperature_f, double humidity, double wind_mph 
 
 int get_local_humidity( double humidity, const weather_type_id &weather, bool sheltered = false );
 
-// Returns windspeed (0.01 mph) after being modified by local cover
+// Returns windspeed (mph) after being modified by local cover
 int get_local_windpower( int windpower, const oter_id &omter, const tripoint &location,
                          const int &winddirection,
                          bool sheltered = false );
