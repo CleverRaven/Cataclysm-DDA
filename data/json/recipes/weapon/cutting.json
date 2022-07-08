@@ -433,7 +433,7 @@
     "tools": [ [ [ "hotcut", -1 ] ] ],
     "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ], [ [ "fur", 1 ], [ "leather", 1 ] ] ]
   },
-    {
+  {
     "type": "recipe",
     "activity_level": "BRISK_EXERCISE",
     "result": "shortsword",
@@ -601,7 +601,7 @@
     "tools": [ [ [ "hotcut", -1 ] ] ],
     "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ], [ [ "fur", 1 ], [ "leather", 1 ] ] ]
   },
-    {
+  {
     "type": "recipe",
     "activity_level": "BRISK_EXERCISE",
     "result": "kriegsmesser",
@@ -622,7 +622,7 @@
     "tools": [ [ [ "hotcut", -1 ] ] ],
     "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ], [ [ "fur", 1 ], [ "leather", 1 ] ] ]
   },
-    {
+  {
     "type": "recipe",
     "activity_level": "BRISK_EXERCISE",
     "result": "falx",
