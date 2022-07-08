@@ -6600,6 +6600,18 @@ std::unique_ptr<vehicle> map::add_vehicle_to_map(
                     if( first_veh_parts.empty() || first_veh_parts.front()->is_fake ) {
                         continue;
                     }
+                    if( !inbounds( map_pos ) ) {
+                        debugmsg( "Existing vehicle %s (%s; origin %s; rot %g) and "
+                                  "new vehicle %s (%s; origin %s; rot %g) "
+                                  "out of map bounds at %s",
+                                  first_veh->name, first_veh->type.str(),
+                                  first_veh->global_square_location().to_string(),
+                                  to_degrees( first_veh->turn_dir ),
+                                  veh_to_add->name, veh_to_add->type.str(),
+                                  veh_to_add->global_square_location().to_string(),
+                                  to_degrees( veh_to_add->turn_dir ),
+                                  map_pos.to_string() );
+                    }
                     did_merge = true;
                     const point target_point = first_veh_parts.front()->mount;
                     const point source_point = parts_to_move.front()->mount;
