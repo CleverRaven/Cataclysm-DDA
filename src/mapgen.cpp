@@ -4431,10 +4431,18 @@ bool jmapgen_setmap::apply( const mapgendata &dat, const point &offset ) const
     const auto get = []( const jmapgen_int & v, int offset ) {
         return v.get() + offset;
     };
-    const auto x_get = std::bind( get, x, offset.x );
-    const auto y_get = std::bind( get, y, offset.y );
-    const auto x2_get = std::bind( get, x2, offset.x );
-    const auto y2_get = std::bind( get, y2, offset.y );
+    const auto x_get = [&]() {
+        return get( x, offset.x );
+    };
+    const auto y_get = [&]() {
+        return get( y, offset.y );
+    };
+    const auto x2_get = [&]() {
+        return get( x2, offset.x );
+    };
+    const auto y2_get = [&]() {
+        return get( y2, offset.y );
+    };
 
     map &m = dat.m;
     const int trepeat = repeat.get();
@@ -4648,10 +4656,18 @@ bool jmapgen_setmap::has_vehicle_collision( const mapgendata &dat, const point &
     const auto get = []( const jmapgen_int & v, int v_offset ) {
         return v.get() + v_offset;
     };
-    const auto x_get = std::bind( get, x, offset.x );
-    const auto y_get = std::bind( get, y, offset.y );
-    const auto x2_get = std::bind( get, x2, offset.x );
-    const auto y2_get = std::bind( get, y2, offset.y );
+    const auto x_get = [&]() {
+        return get( x, offset.x );
+    };
+    const auto y_get = [&]() {
+        return get( y, offset.y );
+    };
+    const auto x2_get = [&]() {
+        return get( x2, offset.x );
+    };
+    const auto y2_get = [&]() {
+        return get( y2, offset.y );
+    };
     const tripoint start = tripoint( x_get(), y_get(), 0 );
     tripoint end = start;
     switch( op ) {

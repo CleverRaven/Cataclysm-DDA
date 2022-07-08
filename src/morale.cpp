@@ -251,30 +251,54 @@ player_morale::player_morale() :
     stylish( false ),
     perceived_pain( 0 )
 {
-    using namespace std::placeholders;
     // Cannot use 'this' because the object is copyable
-    const auto set_optimist       = std::bind( &player_morale::set_permanent, _1, MORALE_PERM_OPTIMIST,
-                                    _2, nullptr );
-    const auto set_badtemper      = std::bind( &player_morale::set_permanent, _1, MORALE_PERM_BADTEMPER,
-                                    _2, nullptr );
-    const auto set_numb           = std::bind( &player_morale::set_permanent, _1, MORALE_PERM_NUMB,
-                                    _2, nullptr );
-    const auto set_stylish        = std::bind( &player_morale::set_stylish, _1, _2 );
-    const auto update_constrained = std::bind( &player_morale::update_constrained_penalty, _1 );
-    const auto update_masochist   = std::bind( &player_morale::update_masochist_bonus, _1 );
+    const auto set_optimist = []( player_morale * pm, int bonus ) {
+        pm->set_permanent( MORALE_PERM_OPTIMIST, bonus, nullptr );
+    };
+    const auto set_badtemper = []( player_morale * pm, int bonus ) {
+        pm->set_permanent( MORALE_PERM_BADTEMPER, bonus, nullptr );
+    };
+    const auto set_numb = []( player_morale * pm, int bonus ) {
+        pm->set_permanent( MORALE_PERM_NUMB, bonus, nullptr );
+    };
+    const auto set_stylish = []( player_morale * pm, bool new_stylish ) {
+        pm->set_stylish( new_stylish );
+    };
+    const auto update_constrained = []( player_morale * pm ) {
+        pm->update_constrained_penalty();
+    };
+    const auto update_masochist = []( player_morale * pm ) {
+        pm->update_masochist_bonus();
+    };
 
-    mutations[trait_OPTIMISTIC]    = mutation_data(
-                                         std::bind( set_optimist, _1, 9 ),
-                                         std::bind( set_optimist, _1, 0 ) );
-    mutations[trait_BADTEMPER]     = mutation_data(
-                                         std::bind( set_badtemper, _1, -9 ),
-                                         std::bind( set_badtemper, _1, 0 ) );
-    mutations[trait_NUMB]          = mutation_data(
-                                         std::bind( set_numb, _1, -1 ),
-                                         std::bind( set_numb, _1, 0 ) );
-    mutations[trait_STYLISH]       = mutation_data(
-                                         std::bind( set_stylish, _1, true ),
-                                         std::bind( set_stylish, _1, false ) );
+    mutations[trait_OPTIMISTIC] =
+    mutation_data( [set_optimist]( player_morale * pm ) {
+        return set_optimist( pm, 9 );
+    },
+    [set_optimist]( player_morale * pm ) {
+        return set_optimist( pm, 0 );
+    } );
+    mutations[trait_BADTEMPER] =
+    mutation_data( [set_badtemper]( player_morale * pm ) {
+        return set_badtemper( pm, -9 );
+    },
+    [set_badtemper]( player_morale * pm ) {
+        return set_badtemper( pm, 0 );
+    } );
+    mutations[trait_NUMB] =
+    mutation_data( [set_numb]( player_morale * pm ) {
+        return set_numb( pm, -1 );
+    },
+    [set_numb]( player_morale * pm ) {
+        return set_numb( pm, 0 );
+    } );
+    mutations[trait_STYLISH] =
+    mutation_data( [set_stylish]( player_morale * pm ) {
+        return set_stylish( pm, true );
+    },
+    [set_stylish]( player_morale * pm ) {
+        return set_stylish( pm, false );
+    } );
     mutations[trait_FLOWERS]       = mutation_data( update_constrained );
     mutations[trait_ROOTS1]        = mutation_data( update_constrained );
     mutations[trait_ROOTS2]        = mutation_data( update_constrained );

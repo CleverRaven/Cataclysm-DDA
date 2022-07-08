@@ -32,8 +32,6 @@
 #include "translations.h"
 #include "ui_manager.h"
 
-using namespace std::placeholders;
-
 // single instance of world generator
 std::unique_ptr<worldfactory> world_generator;
 
@@ -119,8 +117,14 @@ worldfactory::worldfactory()
     , mman_ui( *mman )
 {
     // prepare tab display order
-    tabs.emplace_back( std::bind( &worldfactory::show_worldgen_tab_modselection, this, _1, _2, _3 ) );
-    tabs.emplace_back( std::bind( &worldfactory::show_worldgen_tab_options, this, _1, _2, _3 ) );
+    tabs.emplace_back(
+    [this]( const catacurses::window & win, WORLD * w, bool b ) {
+        return show_worldgen_tab_modselection( win, w, b );
+    } );
+    tabs.emplace_back(
+    [this]( const catacurses::window & win, WORLD * w, bool b ) {
+        return show_worldgen_tab_options( win, w, b );
+    } );
 }
 
 worldfactory::~worldfactory() = default;
@@ -2062,7 +2066,6 @@ bool WORLD::load_options()
 {
     WORLD_OPTIONS = get_options().get_world_defaults();
 
-    using namespace std::placeholders;
     const std::string path = folder_path() + "/" + PATH_INFO::worldoptions();
     return read_from_file_optional_json( path, [this]( JsonIn & jsin ) {
         this->load_options( jsin );

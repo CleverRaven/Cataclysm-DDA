@@ -2629,9 +2629,10 @@ void game::move_save_to_graveyard()
 
 void game::load_master()
 {
-    using namespace std::placeholders;
     const auto datafile = PATH_INFO::world_base_save_path() + "/" + SAVE_MASTER;
-    read_from_file_optional( datafile, std::bind( &game::unserialize_master, this, _1 ) );
+    read_from_file_optional( datafile, [this]( std::istream & is ) {
+        unserialize_master( is );
+    } );
 }
 
 bool game::load( const std::string &world )
@@ -2666,8 +2667,6 @@ bool game::load( const save_t &name )
     ui_manager::redraw();
     refresh_display();
 
-    using namespace std::placeholders;
-
     const std::string worldpath = PATH_INFO::world_base_save_path() + "/";
     const std::string playerpath = worldpath + name.base_path();
 
@@ -2676,7 +2675,10 @@ bool game::load( const save_t &name )
     u = avatar();
     u.set_save_id( name.decoded_name() );
     const std::string save_filename = playerpath + SAVE_EXTENSION;
-    if( !read_from_file( save_filename, std::bind( &game::unserialize, this, _1, save_filename ) ) ) {
+    if( !read_from_file( save_filename,
+    [&]( std::istream & is ) {
+    unserialize( is, save_filename );
+    } ) ) {
         return false;
     }
 
@@ -2685,7 +2687,9 @@ bool game::load( const save_t &name )
 
     const std::string log_filename = worldpath + name.base_path() + SAVE_EXTENSION_LOG;
     read_from_file_optional( log_filename,
-                             std::bind( &memorial_logger::load, &memorial(), _1, log_filename ) );
+    [&]( std::istream & is ) {
+        memorial().load( is, log_filename );
+    } );
 
 #if defined(__ANDROID__)
     const std::string shortcuts_filename = worldpath + name.base_path() + SAVE_EXTENSION_SHORTCUTS;

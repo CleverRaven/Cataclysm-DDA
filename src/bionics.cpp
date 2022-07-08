@@ -2495,8 +2495,9 @@ ret_val<bool> Character::is_installable( const item_location &loc, const bool by
         return ret_val<bool>::make_failure( _( "No base version installed." ) );
     } else if( std::any_of( bid->available_upgrades.begin(),
                             bid->available_upgrades.end(),
-                            std::bind( &Character::has_bionic, this,
-                                       std::placeholders::_1 ) ) ) {
+    [this]( const bionic_id & b ) {
+    return has_bionic( b );
+    } ) ) {
         return ret_val<bool>::make_failure( _( "Superior version installed." ) );
     } else if( is_npc() && !bid->has_flag( json_flag_BIONIC_NPC_USABLE ) ) {
         return ret_val<bool>::make_failure( _( "CBM not compatible with patient." ) );
