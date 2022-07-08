@@ -81,6 +81,19 @@
     "monsters": [ { "monster": "mon_spider_web_small", "cost_multiplier": 0 } ]
   },
   {
+    "type": "monstergroup",
+    "name": "GROUP_SPIDER_CELLAR",
+    "default": "mon_spider_cellar_giant"
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_SPIDER_CELLAR_GIANT",
+    "monsters": [
+      { "monster": "mon_spider_cellar_giant", "cost_multiplier": 0, "weight": 7 },
+      { "monster": "mon_spider_cellar_mega", "cost_multiplier": 0, "weight": 3 }
+    ]
+  },
+  {
     "name": "GROUP_WASP_NEST",
     "type": "monstergroup",
     "monsters": [
