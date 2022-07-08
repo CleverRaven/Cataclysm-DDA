@@ -1094,10 +1094,8 @@ int Character::sight_range( float light_level ) const
      * log(LIGHT_AMBIENT_LOW / light_level) * (1 / LIGHT_TRANSPARENCY_OPEN_AIR) <= distance
      */
 
-    // Light values rounded down due to math being old and for integer light
-    light_level = std::floor( light_level );
-    int range = static_cast<int>( -std::log( get_vision_threshold( std::floor(
-                                      get_map().ambient_light_at( pos() ) ) ) / light_level ) / LIGHT_TRANSPARENCY_OPEN_AIR );
+    int range = static_cast<int>( -std::log( get_vision_threshold( get_map().ambient_light_at(
+                                      pos() ) ) / light_level ) / LIGHT_TRANSPARENCY_OPEN_AIR );
 
     // Clamp to [1, sight_max].
     return clamp( range, 1, sight_max );
