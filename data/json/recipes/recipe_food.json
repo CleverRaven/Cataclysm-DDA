@@ -5319,12 +5319,28 @@
     "//": "high-temperature acid hydrolysis, to extract edible wood sugars",
     "skill_used": "chemistry",
     "difficulty": 3,
-    "time": "1 h",
+    "time": "3 h",
     "batch_time_factors": [ 20, 1 ],
     "book_learn": [ [ "adv_chemistry", 7 ], [ "textbook_chemistry", 8 ], [ "recipe_labchem", 6 ] ],
     "qualities": [ { "id": "CHEM", "level": 2 }, { "id": "CUT", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 50, "LIST" ] ] ],
-    "components": [ [ [ "splinter", 16 ], [ "paper", 800 ], [ "cotton_ball", 40 ] ], [ [ "any_strong_acid", 1, "LIST" ] ] ]
+    "components": [
+      [
+        [ "splinter", 16 ],
+        [ "paper", 800 ],
+        [ "cardboard", 200 ],
+        [ "cotton_ball", 40 ],
+        [ "sheet_cotton", 25 ],
+        [ "cotton_patchwork", 175 ],
+        [ "scrap_cotton", 875 ],
+        [ "thread", 875 ],
+        [ "withered", 50 ],
+        [ "straw_pile", 50 ],
+        [ "leaves", 50 ]
+      ],
+      [ [ "chem_sulphuric_acid", 4 ] ],
+      [ [ "material_limestone", 10 ] ]
+    ]
   },
   {
     "type": "recipe",
