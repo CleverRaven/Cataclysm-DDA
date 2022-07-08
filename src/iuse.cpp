@@ -8935,7 +8935,6 @@ cata::optional<int> iuse::weather_tool( Character *p, item *it, bool, const trip
             vehwindspeed = std::abs( vp->vehicle().velocity / 100 ); // For mph
         }
         const oter_id &cur_om_ter = overmap_buffer.ter( p->global_omt_location() );
-        /* windpower defined in internal velocity units (=.01 mph) */
         const int windpower = get_local_windpower( weather.windspeed + vehwindspeed, cur_om_ter,
                               p->pos(), weather.winddirection, g->is_sheltered( p->pos() ) );
 
