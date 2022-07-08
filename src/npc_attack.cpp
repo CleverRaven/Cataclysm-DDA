@@ -5,6 +5,7 @@
 #include "creature_tracker.h"
 #include "flag.h"
 #include "item.h"
+#include "line.h"
 #include "magic.h"
 #include "magic_spell_effect_helpers.h"
 #include "map.h"
@@ -240,8 +241,26 @@ void npc_attack_melee::use( npc &source, const tripoint &location ) const
         if( rl_dist( source.pos(), location ) <= weapon.reach_range( source ) ) {
             add_msg_debug( debugmode::debug_filter::DF_NPC, "%s is attempting a reach attack",
                            source.disp_name() );
-            // TODO: Avoid friendly fire
-            source.reach_attack( location );
+            // check for friendlies in the line of fire
+            std::vector<tripoint> path = line_to( source.pos(), location );
+            path.pop_back(); // Last point is the target
+            bool can_attack = true;
+            for( const tripoint &path_point : path ) {
+                Creature *inter = get_creature_tracker().creature_at( path_point );
+                if( inter != nullptr && source.attitude_to( *inter ) == Creature::Attitude::FRIENDLY ) {
+                    add_msg_debug( debugmode::debug_filter::DF_NPC, "%s aborted a reach attack; ally in the way",
+                                   source.disp_name() );
+                    can_attack = false;
+                    break;
+                }
+            }
+            if( can_attack ) {
+                source.reach_attack( location );
+            } else if( can_move_melee( source ) ) {
+                source.avoid_friendly_fire();
+            } else {
+                source.look_for_player( get_player_character() );
+            }
         } else {
             source.update_path( location );
             if( source.path.size() > 1 ) {
