@@ -49,8 +49,6 @@ readability-*,\
 -bugprone-infinite-loop,\
 -bugprone-misplaced-widening-cast,\
 -bugprone-narrowing-conversions,\
--clang-analyzer-core.CallAndMessage,\
--clang-analyzer-deadcode.DeadStores,\
 -misc-no-recursion,\
 -misc-non-private-member-variables-in-classes,\
 -modernize-avoid-bind,\
@@ -58,7 +56,6 @@ readability-*,\
 -modernize-pass-by-value,\
 -modernize-return-braced-init-list,\
 -modernize-use-default-member-init,\
--modernize-use-override,\
 -performance-no-automatic-move,\
 -performance-trivially-destructible,\
 -performance-unnecessary-value-param,\

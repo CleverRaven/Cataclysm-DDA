@@ -178,6 +178,13 @@
         "conditions": [ "DUSK", "DAY", "DAWN", "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
+        "monster": "mon_aquilops",
+        "weight": 10,
+        "cost_multiplier": 0,
+        "pack_size": [ 1, 2 ],
+        "conditions": [ "DUSK", "DAY", "DAWN", "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
         "monster": "mon_pachyrhinosaurus",
         "weight": 20,
         "cost_multiplier": 20,
