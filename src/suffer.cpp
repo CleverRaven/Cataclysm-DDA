@@ -98,6 +98,7 @@ static const efftype_id effect_shakes( "shakes" );
 static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_took_antiasthmatic( "took_antiasthmatic" );
 static const efftype_id effect_took_thorazine( "took_thorazine" );
+static const efftype_id effect_took_xanax( "took_xanax" );
 static const efftype_id effect_valium( "valium" );
 static const efftype_id effect_visuals( "visuals" );
 static const efftype_id effect_weary_0( "weary_0" );
@@ -369,7 +370,7 @@ void suffer::while_awake( Character &you, const int current_stim )
         }
     }
 
-    if( you.has_flag( json_flag_NYCTOPHOBIA ) ) {
+    if( you.has_flag( json_flag_NYCTOPHOBIA ) && !you.has_effect( effect_took_xanax ) ) {
         suffer::from_nyctophobia( you );
     }
 

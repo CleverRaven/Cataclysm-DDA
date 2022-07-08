@@ -222,6 +222,7 @@ static const efftype_id effect_riding( "riding" );
 static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_tetanus( "tetanus" );
 static const efftype_id effect_tied( "tied" );
+static const efftype_id effect_took_xanax( "took_xanax" );
 static const efftype_id effect_winded( "winded" );
 
 static const faction_id faction_no_faction( "no_faction" );
@@ -9629,7 +9630,7 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
     // Allow players with nyctophobia to enter cloudy and dark tiles
     const float nyctophobia_threshold = LIGHT_AMBIENT_LIT - 3.0f;
 
-    if( u.has_flag( json_flag_NYCTOPHOBIA ) &&
+    if( u.has_flag( json_flag_NYCTOPHOBIA ) && !u.has_effect( effect_took_xanax ) &&
         // Forbid players from entering very dark tiles from lit, cloudy, and dark tiles
         dest_light_level < nyctophobia_threshold &&
         // But allow them to move in darkness if they are already standing in darkness
