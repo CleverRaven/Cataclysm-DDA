@@ -16,7 +16,7 @@
     "symbol": ";",
     "color": "dark_gray",
     "qualities": [ [ "PRY", 3 ], [ "HAMMER", 1 ], [ "PRYING_NAIL", 1 ] ],
-    "use_action": [ "HAMMER", "CROWBAR" ],
+    "use_action": [ "CROWBAR" ],
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "BELT_CLIP", "DURABLE_MELEE" ]
   },
@@ -140,6 +140,6 @@
     "bashing": 45,
     "price": 10000,
     "qualities": [ [ "HAMMER", 1 ], [ "PRY", 3 ], [ "COOK", 1 ] ],
-    "use_action": [ "HAMMER", "CROWBAR" ]
+    "use_action": [ "CROWBAR" ]
   }
 ]

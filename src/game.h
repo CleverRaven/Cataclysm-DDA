@@ -354,7 +354,7 @@ class game
                                   cata::optional<time_duration> lifespan );
         /** Finds somewhere to spawn a monster. */
         bool find_nearby_spawn_point( const tripoint &target, const mtype_id &mt, int min_radius,
-                                      int max_radius, tripoint &point, bool outdoor_only );
+                                      int max_radius, tripoint &point, bool outdoor_only, bool open_air_allowed = false );
         /** Swaps positions of two creatures */
         bool swap_critters( Creature &, Creature & );
 
@@ -515,6 +515,7 @@ class game
     public:
         /** Unloads, then loads the NPCs */
         void reload_npcs();
+        void remove_npc( character_id const &id );
         const kill_tracker &get_kill_tracker() const;
         /** Add follower id to set of followers. */
         void add_npc_follower( const character_id &id );

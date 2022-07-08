@@ -332,7 +332,7 @@
     },
     "forest_mapgen_settings": {
       "forest": {
-        "terrains": [ "forest" ],
+        "terrains": [ "forest", "special_forest" ],
         "sparseness_adjacency_factor": 3,
         "item_group": "forest",
         "item_group_chance": 60,
@@ -453,7 +453,7 @@
           "natural_spring_east",
           "natural_spring_west",
           "cave",
-          "special_forest"
+          "special_forest_thick"
         ],
         "sparseness_adjacency_factor": 4,
         "item_group": "forest",
@@ -974,7 +974,8 @@
         "volleyball_court": 30,
         "tennis_court": 30,
         "baskeball_court": 30,
-        "skate_park": 30,
+        "skate_park_ramp": 20,
+        "skate_park": 20,
         "park_maze": 10,
         "park_maze_2": 10,
         "small_wooded_trail": 30,

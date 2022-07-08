@@ -266,7 +266,7 @@
     },
     "forest_mapgen_settings": {
       "forest": {
-        "terrains": [ "forest" ],
+        "terrains": [ "forest", "special_forest" ],
         "sparseness_adjacency_factor": 3,
         "item_group": "forest",
         "item_group_chance": 60,
@@ -300,6 +300,7 @@
       "forest_thick": {
         "terrains": [
           "forest_thick",
+          "special_forest_thick",
           "forest_trail_isolated",
           "forest_trail_end_north",
           "forest_trail_end_east",

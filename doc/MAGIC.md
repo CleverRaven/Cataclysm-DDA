@@ -20,8 +20,12 @@ In `data/mods/Magiclysm` there is a template spell, copied here for your perusal
     "affected_body_parts": [ "head", "torso", "mouth", "eyes", "arm_l", "arm_r", "hand_r", "hand_l", "leg_l", "foot_l", "foot_r" ], // body parts affected by effects
     "flags": [ "SILENT", "LOUD", "SOMATIC", "VERBAL", "NO_HANDS", "NO_LEGS", "SPAWN_GROUP" ], // see "Spell Flags" below
     "spell_class": "NONE",                                    //
-    "base_casting_time": 100,                                 // this is the casting time (in moves)
-    "base_energy_cost": 10,                                   // the amount of energy (of the requisite type) to cast the spell
+    "base_casting_time": 1000,                                // this is the casting time (in moves)
+    "final_casting_time": 100,
+    "casting_time_increment": -50,
+    "base_energy_cost": 30,                                  // the amount of energy (of the requisite type) to cast the spell
+    "final_energy_cost": 100,
+    "energy_increment": -6,
     "energy_source": "MANA",                                  // the type of energy used to cast the spell. types are: MANA, BIONIC, HP, STAMINA, NONE (none will not use mana)
     "components": [requirement_id]                            // an id from a requirement, like the ones you use for crafting. spell components require to cast.
     "difficulty": 12,                                         // the difficulty to learn/cast the spell
@@ -424,7 +428,7 @@ Spell types:
     "effect": "target_attack",                           // effects are coded in C++. A list is provided in this document of possible effects that have been coded.
     "extra_effects": [ { "id": "sacrifice_spell", "hit_self": true }, { "id": "test_attack" } ],     // this allows you to cast multiple spells with only one spell
     "effect_str": "eff_test_note",                       // varies, see table of implemented effects in this document
-	  "min_aoe": 6,                                        // area of effect, or range of variance
+    "min_aoe": 6,                                        // area of effect, or range of variance
     "max_aoe": 6,
     "min_duration": 1,                                   // duration of spell effect in moves (if the spell has a special effect)
     "max_duration": 1
@@ -436,15 +440,20 @@ Spell types:
 
 #### Monsters
 
-You can assign a spell as a special attack for a monster.
+You can assign a spell as a special attack for a monster.  Spells with `target_self: true` will only target the monster itself, but will still only be cast if the monster has a hostile target.
 
-```json
-{ "type": "spell", "spell_id": "burning_hands", "spell_level": 10, "cooldown": 10 }
+```json 
+{ "type": "spell", "spell_data": { "id": "cone_cold", "min_level": 4 }, "monster_message": "%1$s casts %2$s at %3$s!", "cooldown": 25 }
 ```
 
-* spell_id: the id for the spell being cast.
-* spell_level: the level at which the spell is cast. Spells cast by monsters do not gain levels like player spells.
-* cooldown: how often the monster can cast this spell
+| `spell_data`            | List of spell properties for the attack.
+| `min_level`             | The level at which the spell is cast. Spells cast by monsters do not gain levels like player spells.
+| `cooldown `             | How often the monster can cast this spell
+| `monster_message`       | Message to print when the spell is cast, replacing the `message` in the spell definition. Dynamic fields correspond to `<Monster Display Name> / <Spell Name> / <Target name>`.
+| `forbidden_effects_any` | Array of effect ids, if the monster has any one the attack can't trigger.
+| `forbidden_effects_all` | Array of effect ids, if the monster has every effect the attack can't trigger.
+| `required_effects_any`  | Array of effect ids, the monster needs any one for the attack to trigger.
+| `required_effects_all`  | Array of effect ids, the monster needs every effect for the attack to trigger.
 
 ### Enchantments
 | Identifier                  | Description

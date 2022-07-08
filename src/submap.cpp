@@ -278,11 +278,11 @@ void submap::rotate( int turns )
 
     active_items.rotate_locations( turns, { SEEX, SEEY } );
 
-    for( auto &elem : cosmetics ) {
+    for( submap::cosmetic_t &elem : cosmetics ) {
         elem.pos = rotate_point( elem.pos );
     }
 
-    for( auto &elem : spawns ) {
+    for( spawn_point &elem : spawns ) {
         elem.pos = rotate_point( elem.pos );
     }
 
@@ -316,7 +316,7 @@ void submap::mirror( bool horizontally )
             }
         }
 
-        for( auto &elem : cosmetics ) {
+        for( submap::cosmetic_t &elem : cosmetics ) {
             elem.pos = point( -elem.pos.x, elem.pos.y ) + point( SEEX - 1, 0 );
         }
 
@@ -333,7 +333,7 @@ void submap::mirror( bool horizontally )
             }
         }
 
-        for( auto &elem : cosmetics ) {
+        for( submap::cosmetic_t &elem : cosmetics ) {
             elem.pos = point( elem.pos.x, -elem.pos.y ) + point( 0, SEEY - 1 );
         }
 

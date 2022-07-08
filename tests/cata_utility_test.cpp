@@ -306,3 +306,33 @@ TEST_CASE( "check_debug_menu_string_methods", "[debug_menu]" )
         CHECK( pair.first == joined );
     }
 }
+
+TEST_CASE( "lcmatch", "[utility]" )
+{
+    CHECK( lcmatch( "bo", "bo" ) == true );
+    CHECK( lcmatch( "Bo", "bo" ) == true );
+    CHECK( lcmatch( "Bo", "bö" ) == false );
+    CHECK( lcmatch( "Bo", "co" ) == false );
+
+    CHECK( lcmatch( "Bö", "bo" ) == true );
+    CHECK( lcmatch( "Bō", "bo" ) == true );
+    CHECK( lcmatch( "BÖ", "bo" ) == true );
+    CHECK( lcmatch( "BÖ", "bö" ) == true );
+    CHECK( lcmatch( "BÖ", "bö" ) == true );
+    CHECK( lcmatch( "BŌ", "bo" ) == true );
+    CHECK( lcmatch( "BŌ", "bō" ) == true );
+    CHECK( lcmatch( "BŌ", "bō" ) == true );
+    CHECK( lcmatch( "Bö", "co" ) == false );
+    CHECK( lcmatch( "Bö", "bō" ) == false );
+    CHECK( lcmatch( "Bō", "co" ) == false );
+    CHECK( lcmatch( "Bō", "bö" ) == false );
+    CHECK( lcmatch( "BÖ", "bō" ) == false );
+    CHECK( lcmatch( "BŌ", "bö" ) == false );
+
+    CHECK( lcmatch( "«101 борцовский приём»", "при" ) == true );
+    CHECK( lcmatch( "«101 борцовский приём»", "прИ" ) == true );
+    CHECK( lcmatch( "«101 борцовский приём»", "прб" ) == false );
+
+    CHECK( lcmatch( "無効", "無" ) == true );
+    CHECK( lcmatch( "無効", "無效" ) == false );
+}

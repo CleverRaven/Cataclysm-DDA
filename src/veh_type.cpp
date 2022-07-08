@@ -621,7 +621,7 @@ static bool type_can_contain( const itype &container, const itype_id &containee 
 void vpart_info::check()
 {
     for( auto &vp : vpart_info_all ) {
-        auto &part = vp.second;
+        vpart_info &part = vp.second;
 
         // add the base item to the installation requirements
         // TODO: support multiple/alternative base items
@@ -1307,7 +1307,7 @@ void vehicle_prototype::finalize()
         }
         blueprint.enable_refresh();
 
-        for( auto &i : proto.item_spawns ) {
+        for( vehicle_item_spawn &i : proto.item_spawns ) {
             if( cargo_spots.count( i.pos ) == 0 ) {
                 debugmsg( "Invalid spawn location (no CARGO vpart) in %s (%d, %d): %d%%",
                           proto.name, i.pos.x, i.pos.y, i.chance );

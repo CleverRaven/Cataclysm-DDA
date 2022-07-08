@@ -127,6 +127,7 @@
     "style": "sidebar",
     "label": "classic",
     "separator": ": ",
+    "padding": 2,
     "width": 44,
     "widgets": [
       "lcla_health_layout",
