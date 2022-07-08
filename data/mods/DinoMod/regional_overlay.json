@@ -7,7 +7,7 @@
       "forest_water": {
         "chance": 20,
         "extras": {
-          "mx_mass_grave_dino": 60,
+          "mx_mass_grave_dino": 30,
           "mx_nest_acrocanthosaurus": 30,
           "mx_nest_albertosaurus": 30,
           "mx_nest_allosaurus": 30,
@@ -47,6 +47,7 @@
           "mx_nest_maiasaura": 30,
           "mx_nest_nodosaurus": 30,
           "mx_nest_pachycephalosaurus": 30,
+          "mx_nest_aquilops": 30,
           "mx_nest_pachyrhinosaurus": 30,
           "mx_nest_parasaurolophus": 30,
           "mx_nest_pentaceratops": 30,
@@ -56,7 +57,7 @@
           "mx_nest_triceratops": 30
         }
       },
-      "field": { "chance": 6, "extras": { "mx_mass_grave_dino": 50 } }
+      "field": { "chance": 6, "extras": { "mx_mass_grave_dino": 30 } }
     },
     "city": { "parks": { "dinozoo": 25 } }
   }
