@@ -1226,8 +1226,8 @@ void Character::modify_morale( item &food, const int nutr )
         } else if( psycho ) {
             add_msg_if_player( _( "Meh.  You've eaten worse." ) );
         } else if( sapiovore ) {
-             add_msg_if_player( _( "You devour the human meat." ) );
-             add_morale( MORALE_CANNIBAL, 15, 200 );
+            add_msg_if_player( _( m_good, "You devour the human meat." ) );
+            add_morale( MORALE_CANNIBAL, 15, 200 );
         } else if( spiritual ) {
             add_msg_if_player( m_bad,
                                _( "This is probably going to count against you if there's still an afterlife." ) );
