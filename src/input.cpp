@@ -1086,7 +1086,7 @@ std::string input_context::get_desc( const std::string &action_descriptor,
     }
 
     if( inputs_to_show.empty() ) {
-        return pgettext( "keybinding", "Disabled" );
+        return pgettext( "keybinding", "None applicable" );
     }
 
     const std::string separator = inputs_to_show.size() > 2 ? _( ", or " ) : _( " or " );
@@ -1138,7 +1138,7 @@ std::string input_context::get_desc(
     }
 
     if( na ) {
-        //~ keybinding description for unbound or disabled keys
+        //~ keybinding description for unbound or non-applicable keys
         return string_format( separate_fmt, pgettext( "keybinding", "n/a" ), text );
     } else {
         return string_format( separate_fmt, get_desc( action_descriptor, 1, evt_filter ), text );
