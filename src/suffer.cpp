@@ -120,6 +120,7 @@ static const json_character_flag json_flag_GILLS( "GILLS" );
 static const json_character_flag json_flag_GLARE_RESIST( "GLARE_RESIST" );
 static const json_character_flag json_flag_MEND_ALL( "MEND_ALL" );
 static const json_character_flag json_flag_MEND_LIMB( "MEND_LIMB" );
+static const json_character_flag json_flag_NYCTOPHOBIA( "NYCTOPHOBIA" );
 static const json_character_flag json_flag_RAD_DETECT( "RAD_DETECT" );
 
 static const mtype_id mon_zombie( "mon_zombie" );
@@ -149,7 +150,6 @@ static const trait_id trait_M_SPORES( "M_SPORES" );
 static const trait_id trait_NARCOLEPTIC( "NARCOLEPTIC" );
 static const trait_id trait_NONADDICTIVE( "NONADDICTIVE" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
-static const trait_id trait_NYCTOPHOBIA( "NYCTOPHOBIA" );
 static const trait_id trait_PAINREC1( "PAINREC1" );
 static const trait_id trait_PAINREC2( "PAINREC2" );
 static const trait_id trait_PAINREC3( "PAINREC3" );
@@ -369,7 +369,7 @@ void suffer::while_awake( Character &you, const int current_stim )
         }
     }
 
-    if( you.has_trait( trait_NYCTOPHOBIA ) ) {
+    if( you.has_flag( json_flag_NYCTOPHOBIA ) ) {
         suffer::from_nyctophobia( you );
     }
 

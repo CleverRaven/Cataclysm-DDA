@@ -251,6 +251,7 @@ static const itype_id itype_towel_wet( "towel_wet" );
 
 static const json_character_flag json_flag_CLIMB_NO_LADDER( "CLIMB_NO_LADDER" );
 static const json_character_flag json_flag_HYPEROPIC( "HYPEROPIC" );
+static const json_character_flag json_flag_NYCTOPHOBIA( "NYCTOPHOBIA" );
 static const json_character_flag json_flag_WALL_CLING( "WALL_CLING" );
 static const json_character_flag json_flag_WEB_RAPPEL( "WEB_RAPPEL" );
 
@@ -293,7 +294,6 @@ static const trait_id trait_M_DEFENDER( "M_DEFENDER" );
 static const trait_id trait_M_IMMUNE( "M_IMMUNE" );
 static const trait_id trait_NPC_STARTING_NPC( "NPC_STARTING_NPC" );
 static const trait_id trait_NPC_STATIC_NPC( "NPC_STATIC_NPC" );
-static const trait_id trait_NYCTOPHOBIA( "NYCTOPHOBIA" );
 static const trait_id trait_PROF_CHURL( "PROF_CHURL" );
 static const trait_id trait_THICKSKIN( "THICKSKIN" );
 static const trait_id trait_VINES2( "VINES2" );
@@ -9629,7 +9629,7 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
     // Allow players with nyctophobia to enter cloudy and dark tiles
     const float nyctophobia_threshold = LIGHT_AMBIENT_LIT - 3.0f;
 
-    if( u.has_trait( trait_NYCTOPHOBIA ) &&
+    if( u.has_flag( json_flag_NYCTOPHOBIA ) &&
         // Forbid players from entering very dark tiles from lit, cloudy, and dark tiles
         dest_light_level < nyctophobia_threshold &&
         // But allow them to move in darkness if they are already standing in darkness
