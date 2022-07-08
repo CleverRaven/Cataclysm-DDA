@@ -3548,7 +3548,6 @@ std::map<bodypart_id, int> Character::get_wind_resistance( const std::map <bodyp
 
         int coverage = 0;
         float totalExposed = 1.0f;
-        int totalCoverage = 0;
         int penalty = 100;
 
         for( const item *it : on_bp.second ) {
@@ -3558,7 +3557,7 @@ std::map<bodypart_id, int> Character::get_wind_resistance( const std::map <bodyp
             totalExposed *= ( 1.0 - coverage / 100.0 ); // Coverage is between 0 and 1?
         }
 
-        ret[bp] = totalCoverage = 100 - totalExposed * 100;
+        ret[bp] = 100 - totalExposed * 100;
     }
 
     return ret;

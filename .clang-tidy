@@ -49,8 +49,6 @@ readability-*,\
 -bugprone-infinite-loop,\
 -bugprone-misplaced-widening-cast,\
 -bugprone-narrowing-conversions,\
--clang-analyzer-core.CallAndMessage,\
--clang-analyzer-deadcode.DeadStores,\
 -misc-no-recursion,\
 -misc-non-private-member-variables-in-classes,\
 -modernize-avoid-bind,\

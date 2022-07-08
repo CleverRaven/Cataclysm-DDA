@@ -1636,8 +1636,7 @@ void spell_effect::banishment( const spell &sp, Creature &caster, const tripoint
             continue;
         }
         // you can't banish npcs.
-        monster *mon = creatures.creature_at<monster>( potential_target );
-        if( mon != nullptr ) {
+        if( monster *mon = creatures.creature_at<monster>( potential_target ) ) {
             target_mons.push_back( mon );
         }
     }
@@ -1647,7 +1646,7 @@ void spell_effect::banishment( const spell &sp, Creature &caster, const tripoint
     }
 
     for( monster *mon : target_mons ) {
-        int overflow = -( total_dam -= mon->get_hp() );
+        int overflow = mon->get_hp() - total_dam;
         // reset overflow in case we have more monsters to do
         total_dam = 0;
         while( overflow > 0 ) {

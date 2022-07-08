@@ -2140,9 +2140,7 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
         // the boolean in this pair being true indicates the item is from a vehicle storage space
         auto items = std::vector<std::pair<item *, bool>>();
         vehicle *src_veh;
-        vehicle *dest_veh;
         int src_part;
-        int dest_part;
 
         //Check source for cargo part
         //map_stack and vehicle_stack are different types but inherit from item_stack
@@ -2206,15 +2204,6 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
                 ( mgr.has_near( zone_type_zone_strip, abspos, 1, _fac_id( you ) ) && it->first->is_corpse() ) ) {
                 if( dest_set.empty() && you.rate_action_unload( *it->first ) == hint_rating::good &&
                     !it->first->any_pockets_sealed() ) {
-                    //Check if on a cargo part
-                    if( const cata::optional<vpart_reference> vp = here.veh_at( src_loc ).part_with_feature( "CARGO",
-                            false ) ) {
-                        dest_veh = &vp->vehicle();
-                        dest_part = vp->part_index();
-                    } else {
-                        dest_veh = nullptr;
-                        dest_part = -1;
-                    }
                     for( item *contained : it->first->all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
                         // no liquids don't want to spill stuff
                         if( !contained->made_of( phase_id::LIQUID ) && !contained->made_of( phase_id::GAS ) ) {
@@ -2244,6 +2233,8 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
 
             for( const tripoint_abs_ms &dest : dest_set ) {
                 const tripoint &dest_loc = here.getlocal( dest );
+                vehicle *dest_veh;
+                int dest_part;
 
                 //Check destination for cargo part
                 if( const cata::optional<vpart_reference> vp =
