@@ -293,6 +293,7 @@ static const trait_id trait_M_DEFENDER( "M_DEFENDER" );
 static const trait_id trait_M_IMMUNE( "M_IMMUNE" );
 static const trait_id trait_NPC_STARTING_NPC( "NPC_STARTING_NPC" );
 static const trait_id trait_NPC_STATIC_NPC( "NPC_STATIC_NPC" );
+static const trait_id trait_NYCTOPHOBIA( "NYCTOPHOBIA" );
 static const trait_id trait_PROF_CHURL( "PROF_CHURL" );
 static const trait_id trait_THICKSKIN( "THICKSKIN" );
 static const trait_id trait_VINES2( "VINES2" );
@@ -9620,6 +9621,22 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
                 return false; // char's mount is too large for tight passages
             }
         }
+    }
+
+    const float u_light_level = get_map().ambient_light_at( u.pos() );
+    const float dest_light_level = get_map().ambient_light_at( dest_loc );
+
+    // Allow players with nyctophobia to enter cloudy and dark tiles
+    const float nyctophobia_threshold = LIGHT_AMBIENT_LIT - 3.0f;
+
+    if( u.has_trait( trait_NYCTOPHOBIA ) &&
+        // Forbid players from entering very dark tiles from lit, cloudy, and dark tiles
+        dest_light_level < nyctophobia_threshold &&
+        // But allow them to move in darkness if they are already standing in darkness
+        u_light_level >= nyctophobia_threshold ) {
+        add_msg( m_bad,
+                 _( "It's so dark and scary in there!  You can't overcome yourself and move into this tile." ) );
+        return false;
     }
 
     if( u.is_mounted() ) {
