@@ -1212,7 +1212,7 @@ void Character::modify_morale( item &food, const int nutr )
         } else if( cannibal && psycho ) {
             add_msg_if_player( m_good, _( "You feast upon the human flesh." ) );
             add_morale( MORALE_CANNIBAL, 15, 200 );
-        } else if( ( cannibal || sapiovore ) && spiritual ) {
+        } else if( cannibal && spiritual ) {
             add_msg_if_player( m_good, _( "You consume the sacred human flesh." ) );
             // Boosted because you understand the philosophical implications of your actions, and YOU LIKE THEM.
             add_morale( MORALE_CANNIBAL, 15, 200 );
