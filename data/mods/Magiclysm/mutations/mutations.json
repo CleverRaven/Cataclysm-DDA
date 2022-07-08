@@ -90,12 +90,6 @@
   },
   {
     "type": "mutation",
-    "id": "EYEBULGE",
-    "copy-from": "EYEBULGE",
-    "extend": { "category": [ "DRAGON_BLACK" ] }
-  },
-  {
-    "type": "mutation",
     "id": "MEMBRANE",
     "copy-from": "MEMBRANE",
     "extend": { "category": [ "DRAGON_BLACK" ] }
