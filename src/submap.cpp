@@ -371,3 +371,27 @@ submap_revert submap::get_revert_submap() const
     }
     return ret;
 }
+
+void submap::update_lum_rem( const point &p, const item &i )
+{
+    is_uniform = false;
+    if( !i.is_emissive() ) {
+        return;
+    } else if( lum[p.x][p.y] && lum[p.x][p.y] < 255 ) {
+        lum[p.x][p.y]--;
+        return;
+    }
+
+    // Have to scan through all items to be sure removing i will actually lower
+    // the count below 255.
+    int count = 0;
+    for( const item &it : itm[p.x][p.y] ) {
+        if( it.is_emissive() ) {
+            count++;
+        }
+    }
+
+    if( count <= 256 ) {
+        lum[p.x][p.y] = static_cast<uint8_t>( count - 1 );
+    }
+}

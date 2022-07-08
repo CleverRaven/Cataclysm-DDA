@@ -709,7 +709,7 @@ static void draw_header( const catacurses::window &w )
                             _( "<R>emove custom color" ) ) + 2;
     tmpx += shortcut_print( w, point( tmpx, 0 ), c_white, c_light_green,
                             _( "<Arrow Keys> To navigate" ) ) + 2;
-    tmpx += shortcut_print( w, point( tmpx, 0 ), c_white, c_light_green, _( "<Enter>-Edit" ) ) + 2;
+    shortcut_print( w, point( tmpx, 0 ), c_white, c_light_green, _( "<Enter>-Edit" ) );
     tmpx = 0;
     tmpx += shortcut_print( w, point( tmpx, 1 ), c_white, c_light_green,
                             _( "Load a <C>olor theme" ) ) + 2;

@@ -93,11 +93,13 @@ struct islot_comestible;
 struct item_comp;
 struct itype;
 struct mutation_branch;
+struct mutation_variant;
 struct needs_rates;
 struct pathfinding_settings;
 struct points_left;
 struct requirement_data;
 struct tool_comp;
+struct trait_and_var;
 struct trap;
 struct w_point;
 template <typename E> struct enum_traits;
@@ -540,6 +542,8 @@ class Character : public Creature, public visitable
         void set_stored_calories( int cal );
 
     public:
+
+        void gravity_check();
 
         void mod_stat( const std::string &stat, float modifier ) override;
 
@@ -1127,6 +1131,8 @@ class Character : public Creature, public visitable
         std::string get_category_dream( const mutation_category_id &cat, int strength ) const;
         /** Returns true if the player has the entered trait */
         bool has_trait( const trait_id &b ) const override;
+        /** Returns true if the player has the entered trait with the desired variant */
+        bool has_trait_variant( const trait_and_var & ) const;
         /** Returns true if the player has the entered starting trait */
         bool has_base_trait( const trait_id &b ) const;
         /** Returns true if player has a trait with a flag */
@@ -1143,14 +1149,16 @@ class Character : public Creature, public visitable
         trait_id trait_by_invlet( int ch ) const;
 
         /** Toggles a trait on the player and in their mutation list */
-        void toggle_trait( const trait_id & );
+        void toggle_trait( const trait_id &, const std::string & = "" );
         /** Add or removes a mutation on the player, but does not trigger mutation loss/gain effects. */
         void set_mutations( const std::vector<trait_id> &traits );
-        void set_mutation( const trait_id & );
+        void set_mutation( const trait_id &, const mutation_variant * = nullptr );
+        /** Switches the variant of the given mutation, if the player has that mutation */
+        void set_mut_variant( const trait_id &, const mutation_variant * );
     protected:
         // Set a mutation, but don't do any of the necessary updates
         // Only call this from one of the above two functions
-        void set_mutation_unsafe( const trait_id & );
+        void set_mutation_unsafe( const trait_id &, const mutation_variant * = nullptr );
     public:
         // Do the mutation updates necessary when adding a mutation (nonspecific cache updates)
         void do_mutation_updates();
@@ -1331,8 +1339,9 @@ class Character : public Creature, public visitable
         bool mutate_towards( std::vector<trait_id> muts, const mutation_category_id &mut_cat,
                              int num_tries = INT_MAX );
         /** Mutates toward the entered mutation, upgrading or removing conflicts if necessary */
-        bool mutate_towards( const trait_id &mut, const mutation_category_id &mut_cat );
-        bool mutate_towards( const trait_id &mut );
+        bool mutate_towards( const trait_id &mut, const mutation_category_id &mut_cat,
+                             const mutation_variant *chosen_var = nullptr );
+        bool mutate_towards( const trait_id &mut, const mutation_variant *chosen_var = nullptr );
         /** Removes a mutation, downgrading to the previous level if possible */
         void remove_mutation( const trait_id &mut, bool silent = false );
         /** Returns true if the player has the entered mutation child flag */
@@ -2286,6 +2295,8 @@ class Character : public Creature, public visitable
 
         std::string extended_description() const override;
 
+        std::string mutation_name( const trait_id &mut ) const;
+        std::string mutation_desc( const trait_id &mut ) const;
         // In newcharacter.cpp
         void empty_skills();
         /** Returns a random name from NAMES_* */
@@ -2295,13 +2306,16 @@ class Character : public Creature, public visitable
         /** Get the idents of all traits/mutations. */
         std::vector<trait_id> get_mutations( bool include_hidden = true,
                                              bool ignore_enchantment = false ) const;
+        /** Same as above, but also grab the variant ids (or empty string if none) */
+        std::vector<trait_and_var> get_mutations_variants( bool include_hidden = true,
+                bool ignore_enchantment = false ) const;
         const std::bitset<NUM_VISION_MODES> &get_vision_modes() const {
             return vision_mode_cache;
         }
         /** Empties the trait and mutations lists */
         void clear_mutations();
         /** Steps through the dependency chain for the given trait */
-        void toggle_trait_deps( const trait_id &tr );
+        void toggle_trait_deps( const trait_id &tr, const std::string &variant = "" );
         /**
          * Adds mandatory scenario and profession traits unless you already have them
          * And if you do already have them, refunds the points for the trait
@@ -3294,8 +3308,14 @@ class Character : public Creature, public visitable
 
             bool show_sprite = true;
 
+            /** A trait variant if it has one, or nullptr */
+            const mutation_variant *variant = nullptr;
+
             void serialize( JsonOut &json ) const;
             void deserialize( const JsonObject &data );
+
+            trait_data() = default;
+            explicit trait_data( const mutation_variant *chosen ) : variant( chosen ) {}
         };
 
         /** Bonuses to stats, calculated each turn */

@@ -97,7 +97,6 @@ struct special_game;
 template<typename Tripoint>
 class tripoint_range;
 
-using WORLDPTR = WORLD *;
 class live_view;
 class loading_ui;
 class overmap;

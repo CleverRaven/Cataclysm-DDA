@@ -82,6 +82,7 @@ Use the `Home` key to return to the top.
     - [Mood Face](#mood-face)
     - [Tool Qualities](#tool-qualities)
     - [Traits/Mutations](#traitsmutations)
+    - [Trait Migrations](#trait-migrations)
     - [Traps](#traps)
     - [Vehicle Groups](#vehicle-groups)
     - [Vehicle Parts](#vehicle-parts)
@@ -1338,6 +1339,7 @@ A Mutation Category identifies a set of interrelated mutations that as a whole e
 | `memorial_message` | The memorial message to display when a character crosses the associated mutation threshold.
 | `wip`              | A flag indicating that a mutation category is unfinished and shouldn't have consistency tests run on it. See tests/mutation_test.cpp.
 
+
 ### Names
 
 ```C++
@@ -2394,6 +2396,15 @@ at level `2` to the item.
 "debug": false,     //Trait is for debug purposes (default: false)
 "player_display": true, //Trait is displayed in the `@` player display menu and mutations screen
 "vanity": false, //Trait can be changed any time with no cost, like hair, eye color and skin color
+"variants": [ // Cosmetic variants of this mutation
+  {
+    "id": "red", // String (mandatory): id of the variant
+    "name": { "str": "Glass-Half-Full Optimist" } // Name displayed in place of the mutation name
+    "description": "You think the glass is half-full." // Description displayed in place of mutation description, unless append_desc is true.
+    "apped_desc": false // If true, append the description, instead of replacing.
+    "weight": 1 // Used to randomly select variant when this is mutated. Chance of being selected is weight/sum-of-all-weights. If no weight is specified or weight is 0, variant will not be selected.
+  }
+]
 "category": ["MUTCAT_BIRD", "MUTCAT_INSECT"], // Categories containing this mutation
 // prereqs and prereqs2 specify prerequisites of the current mutation
 // Both are optional, but if prereqs2 is specified prereqs must also be specified
@@ -2507,6 +2518,42 @@ at level `2` to the item.
 "mana_modifier": 100               // Positive or negative change to total mana pool
 
 ```
+
+### Trait Migrations
+
+A mutation migration can be used to migrate a mutation that formerly existed gracefully into a proficiency, another mutation (potentially a specific variant), or to simply remove it without noise.
+
+```json
+[
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "dead_trait1",
+    "trait": "new_trait",
+    "variant": "correct_variant"
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "trait_now_prof",
+    "proficiency": "prof_old_trait"
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "deleted_trait",
+    "remove": true
+  }
+]
+```
+
+| Identifier    | Description
+|---            |---
+| `type`        | Mandatory. String. Must be `"TRAIT_MIGRATION"`
+| `id`          | Mandatory. String. Id of the trait that has been removed.
+| `trait`       | Optional\*. String. Id of the trait this trait is being migrated to.
+| `variant`     | Optional. String. Can only be specified if `trait` is specified. Id of a variant of `trait` that this mutation will be set to.
+| `proficiency` | Optional\*. String. Id of proficiency that will replace this trait.
+| `remove`      | Optional\*. Boolean. If neither `trait` or `variant` are specified, this must be true.
+
+\*One of these three must be specified.
 
 ### Traps
 
@@ -4810,6 +4857,8 @@ A list of CBM ids that are implanted in the character.
 (optional, array of strings)
 
 Lists of trait/mutation ids. Traits in "forbidden_traits" are forbidden and can't be selected during the character creation. Traits in "forced_traits" are automatically added to character. Traits in "traits" enables them to be chosen, even if they are not starting traits.
+
+`forced_traits` can also be specified with a variant, as `{ "trait": "trait_id", "variant": "variant_id" }` (replacing just `"trait_id"`).
 
 ## `allowed_locs`
 (optional, array of strings)

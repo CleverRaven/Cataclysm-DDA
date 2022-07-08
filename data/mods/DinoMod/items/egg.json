@@ -258,6 +258,13 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "egg_saurornitholestes",
+    "name": "saurornitholestes egg",
+    "copy-from": "egg_dino_theropod_small",
+    "rot_spawn": "GROUP_EGG_saurornitholestes"
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "egg_velociraptor",
     "name": "velociraptor egg",
     "copy-from": "egg_dino_theropod_small",
@@ -444,6 +451,13 @@
     "name": "pachycephalosaurus egg",
     "copy-from": "egg_dino",
     "rot_spawn": "GROUP_EGG_pachycephalosaurus"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_aquilops",
+    "name": "aquilops egg",
+    "copy-from": "egg_dino_small",
+    "rot_spawn": "GROUP_EGG_aquilops"
   },
   {
     "type": "COMESTIBLE",

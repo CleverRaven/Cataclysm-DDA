@@ -13,6 +13,7 @@ set(CataAnalyzerSrc
         DeterminismCheck.cpp
         HeaderGuardCheck.cpp
         JsonTranslationInputCheck.cpp
+        LargeInlineFunctionCheck.cpp
         LargeStackObjectCheck.cpp
         NoLongCheck.cpp
         NoStaticTranslationCheck.cpp

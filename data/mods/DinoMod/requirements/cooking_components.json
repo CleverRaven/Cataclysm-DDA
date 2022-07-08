@@ -64,11 +64,13 @@
         [ "egg_coelophysis", 1 ],
         [ "egg_compsognathus", 1 ],
         [ "egg_albertonykus", 1 ],
+        [ "egg_saurornitholestes", 1 ],
         [ "egg_velociraptor", 1 ],
         [ "egg_dromaeosaurus", 1 ],
         [ "egg_stenonychosaurus", 1 ],
         [ "egg_eoraptor", 1 ],
         [ "egg_scutellosaurus", 1 ],
+        [ "egg_aquilops", 1 ],
         [ "egg_oryctodromeus", 1 ],
         [ "egg_pteranodon", 1 ]
       ]

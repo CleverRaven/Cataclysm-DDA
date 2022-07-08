@@ -142,7 +142,8 @@
       "wind_desc",
       "bodypart_armor_outer_layout",
       "compass_all_danger_layout",
-      "bodygraph_hp_layout"
+      "bodygraph_hp_layout",
+      "sundial_desc_no_label"
     ]
   }
 ]

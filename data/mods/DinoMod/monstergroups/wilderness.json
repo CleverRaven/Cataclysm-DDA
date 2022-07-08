@@ -178,6 +178,13 @@
         "conditions": [ "DUSK", "DAY", "DAWN", "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
+        "monster": "mon_aquilops",
+        "weight": 10,
+        "cost_multiplier": 0,
+        "pack_size": [ 1, 2 ],
+        "conditions": [ "DUSK", "DAY", "DAWN", "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
         "monster": "mon_pachyrhinosaurus",
         "weight": 20,
         "cost_multiplier": 20,
@@ -278,6 +285,13 @@
         "cost_multiplier": 0,
         "pack_size": [ 1, 2 ],
         "conditions": [ "WINTER" ]
+      },
+      {
+        "monster": "mon_saurornitholestes",
+        "weight": 150,
+        "cost_multiplier": 10,
+        "pack_size": [ 2, 4 ],
+        "conditions": [ "DAY" ]
       },
       {
         "monster": "mon_velociraptor",

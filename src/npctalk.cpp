@@ -3641,12 +3641,13 @@ void talk_effect_fun_t<T>::set_teleport( const JsonObject &jo, const std::string
     cata::optional<var_info> target_var = read_var_info( jo.get_object( member ), false );
     std::string fail_message = jo.get_string( "fail_message", "" );
     std::string success_message = jo.get_string( "success_message", "" );
-    function = [is_npc, target_var, fail_message, success_message]( const T & d ) {
+    bool force = jo.get_bool( "force", false );
+    function = [is_npc, target_var, fail_message, success_message, force]( const T & d ) {
         tripoint_abs_ms target_pos = get_tripoint_from_var<T>( target_var, d );
         Creature *teleporter = d.actor( is_npc )->get_creature();
         if( teleporter ) {
             if( teleport::teleport_to_point( *teleporter, get_map().getlocal( target_pos ), true, false,
-                                             false ) ) {
+                                             false, force ) ) {
                 teleporter->add_msg_if_player( _( success_message ) );
             } else {
                 teleporter->add_msg_if_player( _( fail_message ) );
