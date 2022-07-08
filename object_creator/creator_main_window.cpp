@@ -41,19 +41,6 @@ int creator::main_window::execute( QApplication &app )
     int max_row = 0;
     int max_col = 0;
 
-    // =========================================================================================
-    // second column of boxes
-    row = 0;
-    col++;
-
-    QMainWindow title_menu;
-    spell_window spell_editor( &title_menu );
-    item_group_window item_group_editor( &title_menu );
-
-    QPushButton item_group_button( _( "Item group Creator" ), &title_menu );
-    item_group_button.move( QPoint( col * default_text_box_width, row++ * default_text_box_height ) );
-    item_group_button.resize( default_text_box_size );
-    
     //Does nothing on it's own but once settings.setvalue() is called it will create
     //an ini file in C:\Users\User\AppData\Roaming\CleverRaven or equivalent directory
     QSettings settings( QSettings::IniFormat, QSettings::UserScope,
@@ -61,6 +48,11 @@ int creator::main_window::execute( QApplication &app )
 
     // =========================================================================================
     // first column of boxes
+    row = 0;
+
+    QMainWindow title_menu;
+    spell_window spell_editor( &title_menu );
+    item_group_window item_group_editor( &title_menu );
 
     QLabel mods_label;
     mods_label.setParent( &title_menu );
@@ -106,6 +98,13 @@ int creator::main_window::execute( QApplication &app )
         });
 
 
+    // =========================================================================================
+    // second column of boxes
+    col++;
+
+    QPushButton item_group_button(_("Item group Creator"), &title_menu);
+    item_group_button.move(QPoint(col * default_text_box_width, row++ * default_text_box_height));
+    item_group_button.resize(150, 30);
 
     QObject::connect( &item_group_button, &QPushButton::released,
     [&]() {
@@ -121,7 +120,7 @@ int creator::main_window::execute( QApplication &app )
     col += 6;
     max_row = std::max( max_row, row );
     max_col = std::max( max_col, col );
-    title_menu.resize( QSize( ( max_col + 1) * default_text_box_width,
+    title_menu.resize( QSize( ( max_col + 1 ) * default_text_box_width,
         ( max_row )*default_text_box_height ) );
 
 
