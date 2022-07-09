@@ -617,6 +617,10 @@ double default_daylight_level();
  *  For most situations you actually want to call the below function which also
  *  includes moonlight. */
 float sun_light_at( const time_point &p );
+
+/* Returns sun irradiance (W/m2) on a flat surface*/
+float sun_irradiance( const time_point &p );
+
 /** Returns the current sunlight plus moonlight level.
  *  Based entirely on astronomical circumstances; does not account for e.g.
  *  weather. */

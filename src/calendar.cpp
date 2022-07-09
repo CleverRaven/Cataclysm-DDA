@@ -392,6 +392,17 @@ float sun_light_at( const time_point &p )
     }
 }
 
+float sun_irradiance( const time_point &p )
+{
+    const units::angle solar_alt = sun_altitude( p );
+
+    if( solar_alt < astronomical_dawn ) {
+        return 0;
+    }
+    const float max_irradiance = 1000; // W/m2
+    return max_irradiance * sin( solar_alt );
+}
+
 float sun_moon_light_at( const time_point &p )
 {
     return sun_light_at( p ) + moon_light_at( p );
