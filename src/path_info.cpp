@@ -324,9 +324,9 @@ cata_path PATH_INFO::memorialdir_path()
 {
     return memorialdir_path_value;
 }
-std::string PATH_INFO::jsondir()
+cata_path PATH_INFO::jsondir()
 {
-    return datadir_value + "core/";
+    return datadir_path_value / "core";
 }
 cata_path PATH_INFO::moddir()
 {
