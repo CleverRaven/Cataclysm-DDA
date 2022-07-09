@@ -1321,9 +1321,9 @@ class Character : public Creature, public visitable
 
         bool has_active_mutation( const trait_id &b ) const;
 
-        int get_cost_timer( const trait_id &mut_id ) const;
-        void set_cost_timer( const trait_id &mut, int set );
-        void mod_cost_timer( const trait_id &mut, int mod );
+        time_duration get_cost_timer( const trait_id &mut_id ) const;
+        void set_cost_timer( const trait_id &mut, time_duration set );
+        void mod_cost_timer( const trait_id &mut, time_duration mod );
 
         /** Picks a random valid mutation and gives it to the Character, possibly removing/changing others along the way */
         void mutate( const int &true_random_chance, bool use_vitamins );
@@ -3304,7 +3304,7 @@ class Character : public Creature, public visitable
              * to its cost (@ref mutation_branch::cost). When those costs have been paid, this
              * is reset to @ref mutation_branch::cooldown.
              */
-            int charge = 0;
+            time_duration charge = 0_turns;
 
             bool show_sprite = true;
 
