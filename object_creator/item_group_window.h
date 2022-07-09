@@ -66,6 +66,9 @@ namespace creator
     {
     public:
         explicit entriesList( QWidget* parent = nullptr );
+        void get_json( JsonOut &jo );
+
+    private:
         void add_item( QString itemText, bool group );
         void deleteEntriesLine();
 
@@ -81,6 +84,7 @@ namespace creator
     {
     public:
         explicit distributionCollection( QWidget* parent = nullptr );
+        void get_json( JsonOut &jo );
     };
 
     class item_group_changed : public QEvent

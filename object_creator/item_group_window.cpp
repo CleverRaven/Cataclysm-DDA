@@ -129,29 +129,21 @@ void creator::item_group_window::write_json()
     jo.member( "type", "item_group" );
     jo.member( "id", id_box.text().toStdString() );
     jo.member( "subtype", "distribution" );
-    /*
-    if( entries_box.rowCount() > 0 ){
-        jo.member( "entries" );
-        jo.start_array();
-        for( int row = 0; row < entries_box.rowCount() - 0; row++ ) {
-            jo.start_object();
-            QAbstractItemModel* model = entries_box.model();
-            QVariant item_text = model->data( model->index( row, 1 ), Qt::DisplayRole );
-            QVariant prob_text = model->data( model->index( row, 2 ), Qt::DisplayRole );
 
-            //If the backgroundcolor is yellow, it's a group. Otherwise it's an item
-            QTableWidgetItem* item = entries_box.item(row, 1);
-            QBrush item_color = item->backgroundColor();
-            if( item_color == Qt::yellow ){
-                jo.member( "group", item_text.toString().toStdString() );
-            } else {
-                jo.member( "item", item_text.toString().toStdString() );
-            }
-            jo.member( "prob", prob_text.toInt() );
-            jo.end_object();
+    jo.member( "entries" );
+    jo.start_array();
+    QObjectList entriesChildren = entries_box->children();
+    for ( QObject* i : entriesChildren ) {
+        entriesList* lst = dynamic_cast<creator::entriesList*>( i );
+        if ( lst != nullptr ) {
+            lst->get_json( jo );
         }
-        jo.end_array();
-    }*/
+        distributionCollection* dis = dynamic_cast<creator::distributionCollection*>( i );
+        if ( dis != nullptr ) {
+            dis->get_json( jo );
+        }
+    }
+    jo.end_array();
     jo.end_object();
 
     std::istringstream in_stream( stream.str() );
@@ -183,8 +175,8 @@ void creator::item_group_window::group_list_populate_filtered( std::string searc
 {
     std::string groupID;
     group_list_total_box.clear();
-    if ( searchQuery == "" ) {
-        for (const item_group_id i : item_controller.get()->get_all_group_names()) {
+    if( searchQuery == "" ) {
+        for( const item_group_id i : item_controller.get()->get_all_group_names() ) {
             groupID = i.c_str();
             QListWidgetItem* new_item = new QListWidgetItem( QString( groupID.c_str() ) );
             group_list_total_box.addItem( new_item );
@@ -204,15 +196,15 @@ void creator::item_group_window::item_list_populate_filtered( std::string search
 {
     std::string itemID;
     item_list_total_box.clear();
-    if ( searchQuery == "" ) {
-        for (const itype* i : item_controller->all()) {
+    if( searchQuery == "" ) {
+        for( const itype* i : item_controller->all() ) {
             item tmpItem(i, calendar::turn_zero);
             QListWidgetItem* new_item = new QListWidgetItem( QString( tmpItem.typeId().c_str() ) );
             set_item_tooltip( new_item, tmpItem );
             item_list_total_box.addItem( new_item );
         }
     } else {
-        for ( const itype* i : item_controller->all() ) {
+        for( const itype* i : item_controller->all() ) {
             item tmpItem(i, calendar::turn_zero);
             itemID = tmpItem.typeId().c_str();
             if( itemID.find( searchQuery ) != std::string::npos ) {
@@ -278,6 +270,53 @@ void creator::entriesList::add_item( QString itemText, bool group)
     item = new QTableWidgetItem();
     item->setText( QString( "100" ) );
     this->setItem( this->rowCount() - 1, 2, item );
+}
+
+
+void creator::entriesList::get_json( JsonOut &jo ) {
+    if( this->rowCount() < 1) {
+        return;
+    }
+    for( int row = 0; row < this->rowCount() - 0; row++ ) {
+        jo.start_object();
+        QAbstractItemModel* model = this->model();
+        QVariant item_text = model->data( model->index( row, 1 ), Qt::DisplayRole );
+        QVariant prob_text = model->data( model->index( row, 2 ), Qt::DisplayRole );
+
+        //If the backgroundcolor is yellow, it's a group. Otherwise it's an item
+        QTableWidgetItem* item = this->item( row, 1 );
+        QBrush item_color = item->backgroundColor();
+        if( item_color == Qt::yellow ){
+            jo.member( "group", item_text.toString().toStdString() );
+        } else {
+            jo.member( "item", item_text.toString().toStdString() );
+        }
+        jo.member( "prob", prob_text.toInt() );
+        jo.end_object();
+    }
+}
+
+
+void creator::distributionCollection::get_json( JsonOut &jo ) {
+    QObjectList entriesChildren = this->children();
+    if( entriesChildren.length() < 1 ) {
+        return;
+    }
+    jo.start_object();
+    jo.member( "distribution" );
+    jo.start_array();
+    for( QObject* i : entriesChildren ) {
+        entriesList* lst = dynamic_cast<creator::entriesList*>( i );
+        if( lst != nullptr ) {
+            lst->get_json( jo );
+        }
+        distributionCollection* dis = dynamic_cast<creator::distributionCollection*>( i );
+        if( dis != nullptr ) {
+            dis->get_json( jo );
+        }
+    }
+    jo.end_array();
+    jo.end_object();
 }
 
 creator::entriesList::entriesList( QWidget* parent ) : QTableWidget( parent )
