@@ -1338,7 +1338,7 @@
       }
     ],
     "material_thickness": 0.1,
-    "flags": [ "BELTED", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY", "NOT_FOOTWEAR" ],
+    "flags": [ "BELTED", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY" ],
     "armor": [
       {
         "encumbrance": 1,
