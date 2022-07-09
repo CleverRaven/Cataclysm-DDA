@@ -11042,7 +11042,7 @@ ret_val<bool> item::is_gunmod_compatible( const item &mod ) const
         return ret_val<bool>::make_failure( _( "must be unloaded before installing this mod" ) );
 
     } else if( gunmod_find( itype_stock_none ) &&
-               mod.has_flag( json_flag_REQUIRES_INTACT_STOCK ) ) {
+               mod.type->gunmod->location.name() == "stock accessory" ) {
         return ret_val<bool>::make_failure( _( "doesn't have a stock to attach this mod" ) );
     }
 

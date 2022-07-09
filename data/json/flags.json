@@ -571,10 +571,6 @@
     "type": "json_flag"
   },
   {
-    "id": "REQUIRES_INTACT_STOCK",
-    "type": "json_flag"
-  },
-  {
     "id": "DISCOUNT_VALUE_1",
     "type": "json_flag"
   },
