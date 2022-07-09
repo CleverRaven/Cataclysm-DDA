@@ -7,7 +7,7 @@
     "occupied_bodyparts": [ [ "torso", 10 ] ],
     "fuel_options": [ "sunlight" ],
     "fuel_efficiency": 1.0,
-    "time": "1 s"
+    "time": "1 s",
     "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_TOGGLED" ]
   },
   {
@@ -83,7 +83,7 @@
     "available_upgrades": [ "bio_forcefield_bash_cut_medium", "bio_forcefield_bash_cut_heavy" ],
     "act_cost": "1 kJ",
     "react_cost": "1 kJ",
-    "time": "1 s"
+    "time": "1 s",
     "enchantments": [ "forcefield_bash_cut_weak" ],
     "flags": [ "BIONIC_TOGGLED" ]
   },
@@ -97,7 +97,7 @@
     "available_upgrades": [ "bio_forcefield_bash_cut_heavy" ],
     "act_cost": "5 kJ",
     "react_cost": "5 kJ",
-    "time": "1 s"
+    "time": "1 s",
     "enchantments": [ "forcefield_bash_cut_medium" ],
     "flags": [ "BIONIC_TOGGLED" ]
   },
@@ -110,7 +110,7 @@
     "upgraded_bionic": "bio_forcefield_bash_cut_medium",
     "act_cost": "10 kJ",
     "react_cost": "10 kJ",
-    "time": "1 s"
+    "time": "1 s",
     "enchantments": [ "forcefield_bash_cut_heavy" ],
     "flags": [ "BIONIC_TOGGLED" ]
   },
@@ -123,7 +123,7 @@
     "available_upgrades": [ "bio_forcefield_ballistic_medium", "bio_forcefield_ballistic_heavy" ],
     "act_cost": "1 kJ",
     "react_cost": "1 kJ",
-    "time": "1 s"
+    "time": "1 s",
     "enchantments": [ "forcefield_ballistic_piercing_weak" ],
     "flags": [ "BIONIC_TOGGLED" ]
   },
@@ -137,7 +137,7 @@
     "available_upgrades": [ "bio_forcefield_ballistic_heavy" ],
     "act_cost": "5 kJ",
     "react_cost": "5 kJ",
-    "time": "1 s"
+    "time": "1 s",
     "enchantments": [ "forcefield_ballistic_piercing_medium" ],
     "flags": [ "BIONIC_TOGGLED" ]
   },
@@ -150,7 +150,7 @@
     "upgraded_bionic": "bio_forcefield_ballistic_medium",
     "act_cost": "10 kJ",
     "react_cost": "10 kJ",
-    "time": "1 s"
+    "time": "1 s",
     "enchantments": [ "forcefield_ballistic_piercing_heavy" ],
     "flags": [ "BIONIC_TOGGLED" ]
   },
