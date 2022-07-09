@@ -4897,11 +4897,13 @@
       { "point": [ 0, 0, 0 ], "overmap": "ws_fire_lookout_tower_base_north" },
       { "point": [ 0, 0, 1 ], "overmap": "ws_fire_lookout_tower_f1_north" },
       { "point": [ 0, 0, 2 ], "overmap": "ws_fire_lookout_tower_f2_north" },
-      { "point": [ 0, 0, 3 ], "overmap": "ws_fire_lookout_tower_f3_north" }
+      { "point": [ 0, 0, 3 ], "overmap": "ws_fire_lookout_tower_f3_north" },
+      { "point": [ 0, 0, 4 ], "overmap": "ws_fire_lookout_tower_f4_north" },
+      { "point": [ 0, 0, 5 ], "overmap": "ws_fire_lookout_tower_f5_north" }
     ],
     "locations": [ "wilderness" ],
-    "city_distance": [ 20, 40 ],
-    "occurrences": [ 0, 5 ],
+    "city_distance": [ 30, -1 ],
+    "occurrences": [ 0, 2 ],
     "flags": [ "CLASSIC", "WILDERNESS", "MAN_MADE" ]
   },
   {
