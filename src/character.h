@@ -692,7 +692,7 @@ class Character : public Creature, public visitable
         ret_val<bool> can_takeoff( const item &it, const std::list<item> *res = nullptr );
 
         /** @return Odds for success (pair.first) and gunmod damage (pair.second) */
-        std::pair<int, int> gunmod_installation_odds( const item &gun, const item &mod ) const;
+        std::pair<int, int> gunmod_installation_odds( const item_location &gun, const item &mod ) const;
         /// called once per 24 hours to enforce the minimum of 1 hp healed per day
         /// @todo Move to Character once heal() is moved
         void enforce_minimum_healing();
@@ -900,11 +900,11 @@ class Character : public Creature, public visitable
         /** Checks for valid block abilities and reduces damage accordingly. Returns true if the player blocks */
         bool block_hit( Creature *source, bodypart_id &bp_hit, damage_instance &dam ) override;
         /** Returns the best item for blocking with */
-        item &best_shield();
+        item_location best_shield();
         /** Calculates melee weapon wear-and-tear through use, returns true if item is destroyed. */
-        bool handle_melee_wear( item &shield, float wear_multiplier = 1.0f );
+        bool handle_melee_wear( item_location shield, float wear_multiplier = 1.0f );
         /** Returns a random valid technique */
-        matec_id pick_technique( Creature &t, const item &weap,
+        matec_id pick_technique( Creature &t, const item_location &weap,
                                  bool crit, bool dodge_counter, bool block_counter );
         void perform_technique( const ma_technique &technique, Creature &t, damage_instance &di,
                                 int &move_cost, item &cur_weapon );
@@ -1768,8 +1768,8 @@ class Character : public Creature, public visitable
          * At the moment it's always @ref weapon or a reference to a null item.
          */
         /*@{*/
-        const item &used_weapon() const;
-        item &used_weapon();
+        item_location used_weapon() const;
+        item_location used_weapon();
         /*@}*/
 
         /**
@@ -1867,7 +1867,7 @@ class Character : public Creature, public visitable
         /**
          * Counts ammo and UPS charges (lower of) for a given gun on the character.
          */
-        int ammo_count_for( const item &gun );
+        int ammo_count_for( const item_location &gun );
 
         /**
          * Whether a tool or gun is potentially reloadable (optionally considering a specific ammo)
@@ -2368,8 +2368,9 @@ class Character : public Creature, public visitable
     private:
         item weapon;
     public:
-        const item &get_wielded_item() const;
-        item &get_wielded_item();
+        item_location get_wielded_item() const;
+        item_location get_wielded_item();
+        // This invalidates the item_location returned by get_wielded_item
         void set_wielded_item( const item &to_wield );
 
         int scent = 0;

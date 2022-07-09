@@ -155,11 +155,10 @@ std::vector<advanced_inv_listitem> avatar::get_AIM_inventory( const advanced_inv
     std::vector<advanced_inv_listitem> items = worn.get_AIM_inventory( item_index, *this, pane,
             square );
 
-    item &weapon = get_wielded_item();
-    if( weapon.is_container() ) {
-        for( const std::vector<item_location> &it_stack : item_list_to_stack(
-                 item_location( *this, &weapon ),
-                 weapon.all_items_top( item_pocket::pocket_type::CONTAINER ) ) ) {
+    item_location weapon = get_wielded_item();
+    if( weapon->is_container() ) {
+        for( const std::vector<item_location> &it_stack : item_list_to_stack( weapon,
+                weapon->all_items_top( item_pocket::pocket_type::CONTAINER ) ) ) {
             advanced_inv_listitem adv_it( it_stack, item_index++, square.id, false );
             if( !pane.is_filtered( *adv_it.items.front() ) ) {
                 square.volume += adv_it.volume;
@@ -205,9 +204,9 @@ void advanced_inventory_pane::add_items_from_area( advanced_inv_area &square,
         square.volume = 0_ml;
         square.weight = 0_gram;
 
-        item &weapon = u.get_wielded_item();
-        if( !weapon.is_null() ) {
-            advanced_inv_listitem it( item_location( u, &weapon ), 0, 1, square.id, false );
+        item_location weapon = u.get_wielded_item();
+        if( weapon ) {
+            advanced_inv_listitem it( weapon, 0, 1, square.id, false );
             if( !is_filtered( *it.items.front() ) ) {
                 square.volume += it.volume;
                 square.weight += it.weight;

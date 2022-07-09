@@ -213,11 +213,12 @@ bool good_for_pickup( const item &it, npc &who )
     auto weight_allowed = who.weight_capacity() - who.weight_carried();
     int min_value = who.minimum_item_value();
 
+    item &weap = who.get_wielded_item() ? *who.get_wielded_item() : null_item_reference();
     if( ( !it.made_of_from_type( phase_id::LIQUID ) ) &&
         ( ( !whitelisting && who.value( it ) > min_value ) || who.item_whitelisted( it ) ) &&
         ( it.weight() <= weight_allowed ) &&
         ( who.can_stash( it ) ||
-          who.weapon_value( it ) > who.weapon_value( who.get_wielded_item() ) ) ) {
+          who.weapon_value( it ) > who.weapon_value( weap ) ) ) {
         good = true;
     }
 
@@ -419,14 +420,11 @@ void npc::assess_danger()
     float highest_priority = 1.0f;
     int def_radius = rules.has_flag( ally_rule::follow_close ) ? follow_distance() : 6;
 
-    // Radius we can attack without moving
-    int max_range;
-    if( confident_range_cache ) {
-        max_range = *confident_range_cache;
-    } else {
+    if( !confident_range_cache ) {
         invalidate_range_cache();
-        max_range = *confident_range_cache;
     }
+    // Radius we can attack without moving
+    int max_range = *confident_range_cache;
     Character &player_character = get_player_character();
     const bool self_defense_only = rules.engagement == combat_engagement::NO_MOVE ||
                                    rules.engagement == combat_engagement::NONE;
@@ -701,9 +699,10 @@ float npc::character_danger( const Character &uc ) const
 {
     // TODO: Remove this when possible
     float ret = 0.0f;
-    bool u_gun = uc.get_wielded_item().is_gun();
-    bool my_gun = get_wielded_item().is_gun();
-    double u_weap_val = uc.weapon_value( uc.get_wielded_item() );
+    bool u_gun = uc.get_wielded_item() && uc.get_wielded_item()->is_gun();
+    bool my_gun = get_wielded_item() && get_wielded_item()->is_gun();
+    const item &u_weap = uc.get_wielded_item() ? *uc.get_wielded_item() : null_item_reference();
+    double u_weap_val = uc.weapon_value( u_weap );
     const double &my_weap_val = ai_cache.my_weapon_value;
     if( u_gun && !my_gun ) {
         u_weap_val *= 1.5f;
@@ -752,7 +751,8 @@ void npc::regen_ai_cache()
     ai_cache.can_heal.clear_all();
     ai_cache.danger = 0.0f;
     ai_cache.total_danger = 0.0f;
-    ai_cache.my_weapon_value = weapon_value( get_wielded_item() );
+    item &weapon = get_wielded_item() ? *get_wielded_item() : null_item_reference();
+    ai_cache.my_weapon_value = weapon_value( weapon );
     ai_cache.dangerous_explosives = find_dangerous_explosives();
 
     assess_danger();
@@ -802,13 +802,15 @@ void npc::move()
 
     npc_action action = npc_undecided;
 
-    const item &weapon = get_wielded_item();
+    const item_location weapon = get_wielded_item();
     static const std::string no_target_str = "none";
     const Creature *target = current_target();
     const std::string &target_name = target != nullptr ? target->disp_name() : no_target_str;
+    if( !confident_range_cache ) {
+        invalidate_range_cache();
+    }
     add_msg_debug( debugmode::DF_NPC, "NPC %s: target = %s, danger = %.1f, range = %d",
-                   get_name(), target_name, ai_cache.danger, weapon.is_gun() ? confident_shoot_range( weapon,
-                           recoil_total() ) : weapon.reach_range( *this ) );
+                   get_name(), target_name, ai_cache.danger, *confident_range_cache );
 
     Character &player_character = get_player_character();
     //faction opinion determines if it should consider you hostile
@@ -1061,7 +1063,10 @@ void npc::execute_action( npc_action action )
             worker_downtime();
             break;
         case npc_reload: {
-            do_reload( get_wielded_item() );
+            if( !get_wielded_item() ) {
+                debugmsg( "NPC tried to reload without weapon" );
+            }
+            do_reload( *get_wielded_item() );
         }
         break;
 
@@ -1182,7 +1187,10 @@ void npc::execute_action( npc_action action )
             break;
 
         case npc_shoot: {
-            gun_mode mode = get_wielded_item().gun_current_mode();
+            if( !get_wielded_item() ) {
+                debugmsg( "NPC tried to shoot without weapon" );
+            }
+            gun_mode mode = get_wielded_item()->gun_current_mode();
             if( !mode ) {
                 debugmsg( "NPC tried to shoot without valid mode" );
                 break;
@@ -1556,12 +1564,12 @@ const item &npc::find_reloadable() const
 
 bool npc::can_reload_current()
 {
-    const item &weapon = get_wielded_item();
-    if( !weapon.is_gun() || !wants_to_reload( *this, weapon ) ) {
+    const item_location weapon = get_wielded_item();
+    if( !weapon || !weapon->is_gun() || !wants_to_reload( *this, *weapon ) ) {
         return false;
     }
 
-    return static_cast<bool>( find_usable_ammo( weapon ) );
+    return static_cast<bool>( find_usable_ammo( *weapon ) );
 }
 
 item_location npc::find_usable_ammo( const item &weap )
@@ -2186,10 +2194,10 @@ bool npc::enough_time_to_reload( const item &gun ) const
     const float turns_til_reached = distance / target_speed;
     if( target->is_avatar() || target->is_npc() ) {
         const Character &c = dynamic_cast<const Character &>( *target );
-        const item weapon = c.get_wielded_item();
+        const item_location weapon = c.get_wielded_item();
         // TODO: Allow reloading if the player has a low accuracy gun
-        if( sees( c ) && weapon.is_gun() && rltime > 200 &&
-            weapon.gun_range( true ) > distance + turns_til_reloaded / target_speed ) {
+        if( sees( c ) && weapon && weapon->is_gun() && rltime > 200 &&
+            weapon->gun_range( true ) > distance + turns_til_reloaded / target_speed ) {
             // Don't take longer than 2 turns if player has a gun
             return false;
         }
@@ -2201,13 +2209,13 @@ bool npc::enough_time_to_reload( const item &gun ) const
 
 void npc::aim( Target_attributes target_attributes )
 {
-    const item &weapon = get_wielded_item();
-    double aim_amount = aim_per_move( weapon, recoil );
+    const item_location weapon = get_wielded_item();
+    double aim_amount = weapon ? aim_per_move( *weapon, recoil ) : 0.0;
     while( aim_amount > 0 && recoil > 0 && moves > 0 ) {
         moves--;
         recoil -= aim_amount;
         recoil = std::max( 0.0, recoil );
-        aim_amount = aim_per_move( weapon, recoil, target_attributes );
+        aim_amount = aim_per_move( *weapon, recoil, target_attributes );
     }
 }
 
@@ -2440,7 +2448,7 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
         }
     } else if( !no_bashing && smash_ability() > 0 && here.is_bashable( p ) &&
                here.bash_rating( smash_ability(), p ) > 0 ) {
-        moves -= !is_armed() ? 80 : get_wielded_item().attack_time() * 0.8;
+        moves -= !is_armed() ? 80 : get_wielded_item()->attack_time() * 0.8;
         here.bash( p, smash_ability() );
     } else {
         if( attitude == NPCATT_MUG ||
@@ -2728,7 +2736,7 @@ void npc::move_pause()
     }
     // NPCs currently always aim when using a gun, even with no target
     // This simulates them aiming at stuff just at the edge of their range
-    if( !get_wielded_item().is_gun() ) {
+    if( !get_wielded_item() || !get_wielded_item()->is_gun() ) {
         pause();
         return;
     }
@@ -3410,10 +3418,10 @@ bool npc::wield_better_weapon()
     bool can_use_gun = !is_player_ally() || rules.has_flag( ally_rule::use_guns );
     bool use_silent = is_player_ally() && rules.has_flag( ally_rule::use_silent );
 
-    item &weapon = get_wielded_item();
+    item_location weapon = get_wielded_item();
 
     // Check if there's something better to wield
-    item *best = &weapon;
+    item *best = &*weapon;
     double best_value = -100.0;
 
     const int ups_charges = available_ups();
@@ -3440,7 +3448,8 @@ bool npc::wield_better_weapon()
         }
     };
 
-    compare_weapon( weapon );
+    item &weap = weapon ? *weapon : null_item_reference();
+    compare_weapon( weap );
     // To prevent changing to barely better stuff
     best_value *= std::max<float>( 1.0f, ai_cache.danger_assessment / 10.0f );
 
@@ -3463,7 +3472,7 @@ bool npc::wield_better_weapon()
     // Needs to check reload speed, RELOAD_ONE etc.
     // Until then, the NPCs should reload the guns as a last resort
 
-    if( best == &weapon ) {
+    if( best == &*weapon ) {
         add_msg_debug( debugmode::DF_NPC, "Wielded %s is best at %.1f, not switching",
                        best->type->get_id().str(),
                        best_value );
@@ -3533,19 +3542,23 @@ bool npc::alt_attack()
     bool used_dangerous = false;
 
     // TODO: The active bomb with shortest fuse should be thrown first
-    const auto check_alt_item = [&used, &used_dangerous, dist, this]( item & it ) {
-        const bool dangerous = it.has_flag( flag_NPC_THROW_NOW );
+    const auto check_alt_item = [&used, &used_dangerous, dist, this]( item * it ) {
+        if( !it ) {
+            return;
+        }
+
+        const bool dangerous = it->has_flag( flag_NPC_THROW_NOW );
         if( !dangerous && used_dangerous ) {
             return;
         }
 
         // Not alt attack
-        if( !dangerous && !it.has_flag( flag_NPC_ALT_ATTACK ) ) {
+        if( !dangerous && !it->has_flag( flag_NPC_ALT_ATTACK ) ) {
             return;
         }
 
         // TODO: Non-thrown alt items
-        if( !dangerous && throw_range( it ) < dist ) {
+        if( !dangerous && throw_range( *it ) < dist ) {
             return;
         }
 
@@ -3554,17 +3567,17 @@ bool npc::alt_attack()
             return;
         }
 
-        used = &it;
+        used = it;
         used_dangerous = used_dangerous || dangerous;
     };
 
-    check_alt_item( get_wielded_item() );
+    check_alt_item( &*get_wielded_item() );
     const auto inv_all = items_with( []( const item & ) {
         return true;
     } );
     for( item *it : inv_all ) {
         // TODO: Cached values - an itype slot maybe?
-        check_alt_item( *it );
+        check_alt_item( it );
     }
 
     if( used == nullptr ) {

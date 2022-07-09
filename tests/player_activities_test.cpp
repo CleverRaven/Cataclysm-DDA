@@ -444,8 +444,8 @@ TEST_CASE( "shearing", "[activity][shearing][animals]" )
                     dummy.process_items();
                 }
 
-                CHECK( dummy.get_wielded_item().ammo_remaining() == 0 );
-                REQUIRE( dummy.get_wielded_item().typeId().str() == itype_test_shears_off.str() );
+                CHECK( dummy.get_wielded_item()->ammo_remaining() == 0 );
+                REQUIRE( dummy.get_wielded_item()->typeId().str() == itype_test_shears_off.str() );
 
                 CHECK( dummy.max_quality( qual_SHEAR ) <= 0 );
 
@@ -567,9 +567,9 @@ TEST_CASE( "boltcut", "[activity][boltcut]" )
         item it_boltcut( itype_test_boltcutter );
 
         dummy.wield( it_boltcut );
-        REQUIRE( dummy.get_wielded_item().typeId() == itype_test_boltcutter );
+        REQUIRE( dummy.get_wielded_item()->typeId() == itype_test_boltcutter );
 
-        return item_location{dummy, &dummy.get_wielded_item()};
+        return dummy.get_wielded_item();
     };
 
     auto setup_activity = [&dummy]( const item_location & torch ) -> void {
@@ -693,9 +693,9 @@ TEST_CASE( "boltcut", "[activity][boltcut]" )
             it_boltcut_elec.put_in( battery, item_pocket::pocket_type::MAGAZINE_WELL );
 
             dummy.wield( it_boltcut_elec );
-            REQUIRE( dummy.get_wielded_item().typeId() == itype_test_boltcutter_elec );
+            REQUIRE( dummy.get_wielded_item()->typeId() == itype_test_boltcutter_elec );
 
-            item_location boltcutter_elec{dummy, &dummy.get_wielded_item()};
+            item_location boltcutter_elec = dummy.get_wielded_item();
 
             setup_activity( boltcutter_elec );
             REQUIRE( dummy.activity.id() == ACT_BOLTCUTTING );
@@ -831,10 +831,10 @@ TEST_CASE( "hacksaw", "[activity][hacksaw]" )
         item it_hacksaw( itype_test_hacksaw );
 
         dummy.wield( it_hacksaw );
-        REQUIRE( dummy.get_wielded_item().typeId() == itype_test_hacksaw );
+        REQUIRE( dummy.get_wielded_item()->typeId() == itype_test_hacksaw );
         REQUIRE( dummy.max_quality( qual_SAW_M ) == 2 );
 
-        return item_location{dummy, &dummy.get_wielded_item()};
+        return dummy.get_wielded_item();
     };
 
     auto setup_activity = [&dummy]( const item_location & torch ) -> void {
@@ -958,10 +958,10 @@ TEST_CASE( "hacksaw", "[activity][hacksaw]" )
             it_hacksaw_elec.put_in( battery, item_pocket::pocket_type::MAGAZINE_WELL );
 
             dummy.wield( it_hacksaw_elec );
-            REQUIRE( dummy.get_wielded_item().typeId() == itype_test_hacksaw_elec );
+            REQUIRE( dummy.get_wielded_item()->typeId() == itype_test_hacksaw_elec );
             REQUIRE( dummy.max_quality( qual_SAW_M ) == 2 );
 
-            item_location hacksaw_elec{ dummy, &dummy.get_wielded_item() };
+            item_location hacksaw_elec = dummy.get_wielded_item();
 
             setup_activity( hacksaw_elec );
             REQUIRE( dummy.activity.id() == ACT_HACKSAW );
@@ -1098,10 +1098,10 @@ TEST_CASE( "oxytorch", "[activity][oxytorch]" )
         it_welding_torch.ammo_set( itype_oxyacetylene );
 
         dummy.wield( it_welding_torch );
-        REQUIRE( dummy.get_wielded_item().typeId() == itype_test_oxytorch );
+        REQUIRE( dummy.get_wielded_item()->typeId() == itype_test_oxytorch );
         REQUIRE( dummy.max_quality( qual_WELD ) == 10 );
 
-        return item_location{dummy, &dummy.get_wielded_item()};
+        return dummy.get_wielded_item();
     };
 
     auto setup_activity = [&dummy]( const item_location & torch ) -> void {
@@ -1357,15 +1357,15 @@ TEST_CASE( "prying", "[activity][prying]" )
         REQUIRE( dummy.has_quality( qual_PRY ) );
         if( need_nails )
         {
-            REQUIRE( dummy.get_wielded_item().typeId() == itype_test_halligan );
+            REQUIRE( dummy.get_wielded_item()->typeId() == itype_test_halligan );
             REQUIRE( dummy.has_quality( qual_PRYING_NAIL ) );
         } else
         {
-            REQUIRE( dummy.get_wielded_item().typeId() == itype_test_halligan_no_nails );
+            REQUIRE( dummy.get_wielded_item()->typeId() == itype_test_halligan_no_nails );
             REQUIRE( dummy.max_quality( qual_PRY ) == 999999 );
         }
 
-        return item_location{dummy, &dummy.get_wielded_item()};
+        return dummy.get_wielded_item();
     };
 
     auto setup_activity = [&dummy]( const item_location & tool,
