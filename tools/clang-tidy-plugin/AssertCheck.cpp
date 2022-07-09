@@ -1,7 +1,5 @@
 #include "AssertCheck.h"
 
-#include <unordered_set>
-
 #include "clang/Frontend/CompilerInstance.h"
 #include "clang/Lex/MacroArgs.h"
 #include "clang/Lex/PPCallbacks.h"
@@ -61,7 +59,7 @@ class AssertMacroCallbacks : public PPCallbacks
     private:
         Preprocessor *PP;
         AssertCheck *Check;
-        llvm::SmallPtrSet<SourceLocation, 10> CataAssertLocations;
+        llvm::SmallSet<SourceLocation, 10> CataAssertLocations;
 };
 
 void AssertCheck::registerPPCallbacks( const SourceManager &, Preprocessor *PP, Preprocessor * )
