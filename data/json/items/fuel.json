@@ -304,7 +304,7 @@
   {
     "id": "crude_lamp_oil",
     "type": "AMMO",
-    "name": { "str_sp": "lamp oil" },
+    "name": { "str_sp": "crude lamp oil" },
     "description": "A crude, natural oil made for use in pre-modern oil lamps.",
     "category": "fuel",
     "weight": "810 mg",
