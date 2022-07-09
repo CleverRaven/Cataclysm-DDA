@@ -140,7 +140,7 @@
     "type": "MONSTER",
     "copy-from": "mon_cat_kitten",
     "name": { "str": "viscous kitten" },
-    "description": "It is a universally accepted fact that cats are liquid but this kittens body seems to quiver ever so slighty while stumbling around and mewing.",
+    "description": "It is a universally accepted fact that cats are liquid, but this kitten's body seems to quiver ever so slightly while stumbling around and mewing.",
     "upgrades": { "age_grow": 120, "into": "mon_cat_liquid" }
   },
   {
@@ -148,7 +148,7 @@
     "type": "MONSTER",
     "copy-from": "mon_cat",
     "name": { "str": "liquid cat" },
-    "description": "It is universally known that cats are liquid but this cats body is actually quivering while it walks around.  It also enjoys resting while twisting its body in ways that would break a normal cats bones.",
+    "description": "It is universally known that cats are liquid, but this cat's body is actually quivering while it walks around.  It also enjoys resting while twisting its body in ways that would break a normal cat's bones.",
     "reproduction": { "baby_monster": "mon_cat_liquid_kitten", "baby_count": 8, "baby_timer": 80 }
   },
   {
@@ -165,7 +165,7 @@
     "type": "MONSTER",
     "copy-from": "mon_cat",
     "name": { "str": "void cat" },
-    "description": "Seeing how unnaturally dark this black cats fur is, you are certain this is no ordinary cat.  Its fur seems to absorb light from the surroundings.",
+    "description": "Seeing how unnaturally dark this black cat's fur is, you are certain this is no ordinary cat.  Its fur seems to absorb light from the surroundings.",
     "regenerates_in_dark": true,
     "reproduction": { "baby_monster": "mon_cat_void_kitten", "baby_count": 8, "baby_timer": 80 }
   },
