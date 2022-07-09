@@ -513,19 +513,6 @@ bool read_from_file( const std::string &path, const std::function<void( std::ist
     }
 }
 
-bool read_from_file_json( const fs::path &path,
-                          const std::function<void( const JsonValue & )> &reader )
-{
-    try {
-        JsonValue jo = json_loader::from_path( cata_path{ cata_path::root_path::unknown, path } );
-        reader( jo );
-        return true;
-    } catch( const std::exception &err ) {
-        debugmsg( _( "Failed to read from \"%1$s\": %2$s" ), path.c_str(), err.what() );
-        return false;
-    }
-}
-
 bool read_from_file_json( const cata_path &path,
                           const std::function<void( const JsonValue & )> &reader )
 {
@@ -563,14 +550,6 @@ bool read_from_file_optional( const cata_path &path,
 {
     return read_from_file_optional( path.get_unrelative_path(), reader );
 }
-
-
-bool read_from_file_optional_json( const fs::path &path,
-                                   const std::function<void( const JsonValue & )> &reader )
-{
-    return file_exist( path ) && read_from_file_json( path, reader );
-}
-
 
 bool read_from_file_optional_json( const cata_path &path,
                                    const std::function<void( const JsonValue & )> &reader )
