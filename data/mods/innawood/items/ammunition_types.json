@@ -1,8 +1,8 @@
 [
   {
     "type": "ammunition_type",
-    "id": "crude_lamp_oil",
+    "id": "ancient_lamp_oil",
     "name": "lamp oil",
-    "default": "crude_lamp_oil"
+    "default": "ancient_lamp_oil"
   }
 ]

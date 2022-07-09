@@ -10,12 +10,5 @@
     "id": "sloc_cave_underground_innawood",
     "name": "Cave - underground",
     "terrain": [ "cave_underground_innawood" ]
-  },
-  {
-    "type": "start_location",
-    "id": "sloc_desert_island",
-    "name": "Island",
-    "terrain": [ "island_forest", "island_forest_thick", "island_forest_water", "island_field" ],
-    "flags": [ "ALLOW_OUTSIDE" ]
   }
 ]

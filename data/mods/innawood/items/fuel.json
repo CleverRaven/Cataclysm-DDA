@@ -1,6 +1,6 @@
 [
   {
-    "id": "crude_lamp_oil",
+    "id": "ancient_lamp_oil",
     "type": "AMMO",
     "name": { "str_sp": "lamp oil" },
     "description": "A natural oil made for use in pre-modern oil lamps.",
@@ -16,8 +16,8 @@
     "sealed": false,
     "symbol": "=",
     "color": "yellow",
-    "material": [ "crude_lamp_oil" ],
-    "ammo_type": "crude_lamp_oil",
+    "material": [ "ancient_lamp_oil" ],
+    "ammo_type": "ancient_lamp_oil",
     "range": 6,
     "damage": { "damage_type": "heat", "amount": 2, "armor_penetration": 2 },
     "effects": [ "FLAME", "STREAM" ]
