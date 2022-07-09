@@ -292,9 +292,9 @@ std::string PATH_INFO::graveyarddir()
 {
     return user_dir_value + "graveyard/";
 }
-std::string PATH_INFO::help()
+cata_path PATH_INFO::help()
 {
-    return datadir_value + "help/" + "texts.json";
+    return datadir_path_value / "help" / "texts.json";
 }
 cata_path PATH_INFO::keybindings()
 {
