@@ -393,9 +393,9 @@ bool avatar::read( item_location &book, item_location ereader )
     }
 
     bool continuous = false;
-    const int time_taken = time_to_read( *book, *reader );
+    const time_duration time_taken = time_to_read( *book, *reader );
     add_msg_debug( debugmode::DF_ACT_READ, "avatar::read time_taken = %s",
-                   to_string_writable( time_duration::from_moves( time_taken ) ) );
+                   to_string_writable( time_taken ) );
 
     // If the player hasn't read this book before, skim it to get an idea of what's in it.
     if( !has_identified( book->typeId() ) ) {
@@ -407,7 +407,7 @@ bool avatar::read( item_location &book, item_location ereader )
         assign_activity(
             player_activity(
                 read_activity_actor(
-                    time_taken,
+                    to_moves<int>( time_taken ),
                     book,
                     ereader,
                     false
@@ -641,7 +641,7 @@ bool avatar::read( item_location &book, item_location ereader )
     assign_activity(
         player_activity(
             read_activity_actor(
-                time_taken,
+                to_moves<int>( time_taken ),
                 book,
                 ereader,
                 continuous,
@@ -742,11 +742,10 @@ void avatar::identify( const item &item )
         add_msg( m_info, _( "It would be easier to master if you'd have skill expertise in %s." ),
                  style_to_learn->primary_skill->name() );
         add_msg( m_info, _( "A training session with this book takes %s." ),
-                 to_string( time_duration::from_minutes( reading->time ) ) );
+                 to_string_clipped( reading->time ) );
     } else {
-        add_msg( m_info, n_gettext( "A chapter of this book takes %d minute to read.",
-                                    "A chapter of this book takes %d minutes to read.", reading->time ),
-                 reading->time );
+        add_msg( m_info, _( "A chapter of this book takes %s to read." ),
+                 to_string_clipped( reading->time ) );
     }
 
     std::vector<std::string> crafting_recipes;

@@ -2189,7 +2189,7 @@ class Character : public Creature, public visitable
          * @param reader the player/NPC who's reading to the caller
          * @param learner if not nullptr, assume that the caller and reader read at a pace that isn't too fast for him
          */
-        int time_to_read( const item &book, const Character &reader,
+        time_duration time_to_read( const item &book, const Character &reader,
                           const Character *learner = nullptr ) const;
 
         /** Calls Creature::normalize()
