@@ -4008,12 +4008,26 @@
     "type": "construction",
     "id": "constr_extract_sand",
     "group": "extract_sand",
+    "//": "Step 1 : extract sand",
     "category": "OTHER",
     "required_skills": [ [ "survival", 0 ] ],
     "time": "30 m",
     "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
     "byproducts": [ { "item": "material_sand", "charges": [ 300, 600 ] } ],
     "pre_terrain": "t_sand",
+    "post_special": "done_extract_maybe_revert_to_dirt"
+  },
+  {
+    "type": "construction",
+    "id": "constr_extract_sand_mound",
+    "group": "extract_sand",
+  	"//": "Step 2 : extract sand",
+    "category": "OTHER",
+    "required_skills": [ [ "survival", 0 ] ],
+    "time": "30 m",
+    "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
+    "byproducts": [ { "item": "material_sand", "charges": [ 300, 600 ] } ],
+    "pre_terrain": "t_sandmound",
     "post_special": "done_extract_maybe_revert_to_dirt"
   },
   {
