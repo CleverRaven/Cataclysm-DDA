@@ -401,7 +401,7 @@ bool talker_character_const::unarmed_attack() const
 
 bool talker_character_const::can_stash_weapon() const
 {
-    return me_chr_const->can_pickVolume( me_chr_const->get_wielded_item() );
+    return me_chr_const->can_pickVolume( *me_chr_const->get_wielded_item() );
 }
 
 bool talker_character_const::has_stolen_item( const talker &guy ) const
@@ -503,7 +503,7 @@ bool talker_character_const::worn_with_flag( const flag_id &flag, const bodypart
 
 bool talker_character_const::wielded_with_flag( const flag_id &flag ) const
 {
-    return me_chr_const->get_wielded_item().has_flag( flag );
+    return me_chr_const->get_wielded_item() && me_chr_const->get_wielded_item()->has_flag( flag );
 }
 
 bool talker_character_const::has_item_with_flag( const flag_id &flag ) const

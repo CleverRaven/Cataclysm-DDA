@@ -24,16 +24,17 @@ static void check_reload_time( std::string weapon, std::string ammo,
         shooter.i_add( item( ammo, calendar::turn_zero, 1 ) );
     }
 
+    REQUIRE( !!shooter.used_weapon() );
     // Spooky action at a distance to tell load_RAS_weapon where to find the ammo.
-    item::reload_option opt = shooter.select_ammo( shooter.used_weapon(), false );
+    item::reload_option opt = shooter.select_ammo( *shooter.used_weapon(), false );
     shooter.ammo_location = opt.ammo;
 
     CAPTURE( opt.moves() );
     CAPTURE( opt.ammo.obtain_cost( shooter, 1 ) );
-    CAPTURE( shooter.item_reload_cost( shooter.used_weapon(), *opt.ammo, 1 ) );
-    CAPTURE( shooter.used_weapon().get_reload_time() );
-    CAPTURE( shooter.item_handling_cost( shooter.used_weapon(), true, 0 ) );
-    CAPTURE( shooter.used_weapon().get_reload_time() );
+    CAPTURE( shooter.item_reload_cost( *shooter.used_weapon(), *opt.ammo, 1 ) );
+    CAPTURE( shooter.used_weapon()->get_reload_time() );
+    CAPTURE( shooter.item_handling_cost( *shooter.used_weapon(), true, 0 ) );
+    CAPTURE( shooter.used_weapon()->get_reload_time() );
     aim_activity_actor act = aim_activity_actor::use_wielded();
     int moves_before = shooter.moves;
     REQUIRE( act.load_RAS_weapon() );

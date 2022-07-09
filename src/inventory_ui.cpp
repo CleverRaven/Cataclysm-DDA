@@ -225,7 +225,7 @@ class selection_column_preset : public inventory_selector_preset
         nc_color get_color( const inventory_entry &entry ) const override {
             Character &player_character = get_player_character();
             if( entry.is_item() ) {
-                if( &*entry.any_item() == &player_character.get_wielded_item() ) {
+                if( entry.any_item() == player_character.get_wielded_item() ) {
                     return c_light_blue;
                 } else if( player_character.is_worn( *entry.any_item() ) ) {
                     return c_cyan;
@@ -1717,11 +1717,10 @@ void inventory_selector::add_contained_ebooks( item_location &container )
 
 void inventory_selector::add_character_items( Character &character )
 {
-    item &weapon = character.get_wielded_item();
+    item_location weapon = character.get_wielded_item();
     bool const hierarchy = _uimode == uimode::hierarchy;
-    if( !weapon.is_null() ) {
-        item_location loc( character, &weapon );
-        add_entry_rec( own_gear_column, hierarchy ? own_gear_column : own_inv_column, loc,
+    if( weapon ) {
+        add_entry_rec( own_gear_column, hierarchy ? own_gear_column : own_inv_column, weapon,
                        &item_category_WEAPON_HELD.obj(),
                        hierarchy ? &item_category_WEAPON_HELD.obj() : nullptr );
     }
@@ -2594,7 +2593,7 @@ void inventory_selector::_categorize( inventory_column &col )
         const item_category *custom_category = nullptr;
 
         // ensure top-level equipped entries don't lose their special categories
-        if( &*loc == &u.get_wielded_item() ) {
+        if( loc == u.get_wielded_item() ) {
             custom_category = &item_category_WEAPON_HELD.obj();
         } else if( u.is_worn( *loc ) ) {
             custom_category = &item_category_ITEMS_WORN.obj();
@@ -2621,7 +2620,7 @@ void inventory_selector::_uncategorize( inventory_column &col )
             const std::string name = to_upper_case( remove_color_tags( ancestor.describe() ) );
             const item_category map_cat( name, no_translation( name ), 100 );
             custom_category = naturalize_category( map_cat, ancestor.position() );
-        } else if( &*ancestor == &u.get_wielded_item() ) {
+        } else if( ancestor == u.get_wielded_item() ) {
             custom_category = &item_category_WEAPON_HELD.obj();
         } else if( u.is_worn( *ancestor ) ) {
             custom_category = &item_category_ITEMS_WORN.obj();

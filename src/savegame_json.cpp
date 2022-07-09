@@ -1094,9 +1094,9 @@ void Character::load( const JsonObject &data )
         }
     }
 
-    bool has_old_bionic_weapon = !is_using_bionic_weapon() &&
-                                 get_wielded_item().has_flag( flag_NO_UNWIELD ) &&
-                                 !get_wielded_item().ethereal;
+    item_location weapon = get_wielded_item();
+    bool has_old_bionic_weapon = !is_using_bionic_weapon() && weapon &&
+                                 weapon->has_flag( flag_NO_UNWIELD ) && !weapon->ethereal;
 
     const auto find_parent = [this]( bionic_id & bio_id ) {
         for( const bionic &bio : *this->my_bionics ) {
@@ -1111,7 +1111,7 @@ void Character::load( const JsonObject &data )
     // Migrations that depend on UIDs
     for( bionic &bio : *my_bionics ) {
         if( has_old_bionic_weapon && bio.powered && bio.has_weapon() &&
-            bio.get_weapon().typeId() == get_wielded_item().typeId() ) {
+            bio.get_weapon().typeId() == get_wielded_item()->typeId() ) {
             weapon_bionic_uid = bio.get_uid();
             has_old_bionic_weapon = false;
         }
