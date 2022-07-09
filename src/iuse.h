@@ -206,6 +206,7 @@ cata::optional<int> weak_antibiotic( Character *, item *, bool, const tripoint &
 cata::optional<int> weather_tool( Character *, item *, bool, const tripoint & );
 cata::optional<int> sextant( Character *, item *, bool, const tripoint & );
 cata::optional<int> lux_meter( Character *, item *, bool, const tripoint & );
+cata::optional<int> dbg_lux_meter( Character *, item *, bool, const tripoint & );
 cata::optional<int> calories_intake_tracker( Character *p, item *, bool, const tripoint & );
 
 // MACGUFFINS

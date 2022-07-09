@@ -101,7 +101,9 @@ struct weather_type {
         // Penalty to per-square visibility, applied in transparency map.
         float sight_penalty = 0.0f;
         // Modification to ambient light.
-        int light_modifier = 0;
+        int light_modifier = 1;
+        // Modification to radiation from Sun.
+        float sun_multiplier = 0;
         // Sound attenuation of a given weather type.
         int sound_attn = 0;
         // If true, our activity gets interrupted.

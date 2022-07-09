@@ -157,6 +157,10 @@ void glare( const weather_type_id &w );
 int incident_sunlight( const weather_type_id &wtype,
                        const time_point &t = calendar::turn );
 
+/* Amount of irradiance (W/m2) at ground after weather modifications */
+float incident_sun_irradiance( const weather_type_id &wtype,
+                               const time_point &t = calendar::turn );
+
 void weather_sound( const translation &sound_message, const std::string &sound_effect );
 
 class weather_manager
