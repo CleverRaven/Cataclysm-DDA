@@ -57,16 +57,5 @@
       { "fuel": 1, "smoke": 1, "burn": 1 },
       { "fuel": 1, "smoke": 1, "burn": 2 }
     ]
-  },
-  {
-    "type": "material",
-    "id": "crude_lamp_oil",
-    "density": 0.81,
-    "name": "Lamp oil",
-    "copy-from": "hydrocarbons",
-    "fuel_data": {
-      "energy": 26,
-      "explosion_data": { "chance_hot": 5, "chance_cold": 10, "factor": 0.2, "fiery": true, "size_factor": 0.1 }
-    }
   }
 ]
