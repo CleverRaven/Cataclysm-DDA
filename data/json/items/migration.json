@@ -1790,5 +1790,10 @@
     "type": "MIGRATION",
     "id": "ammonia",
     "replace": "ammonia_hydroxide"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "lamp_oil",
+    "replace": "kerosene"
   }
 ]
