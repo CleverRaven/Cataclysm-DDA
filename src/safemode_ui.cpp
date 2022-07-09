@@ -839,11 +839,11 @@ bool safemode::save_global()
 bool safemode::save( const bool is_character_in )
 {
     is_character = is_character_in;
-    auto file = PATH_INFO::safemode();
+    cata_path file = PATH_INFO::safemode();
 
     if( is_character ) {
-        file = PATH_INFO::player_base_save_path() + ".sfm.json";
-        if( !file_exist( PATH_INFO::player_base_save_path() + ".sav" ) ) {
+        file = PATH_INFO::player_base_save_path_path() + ".sfm.json";
+        if( !file_exist( PATH_INFO::player_base_save_path_path() + ".sav" ) ) {
             return true; //Character not saved yet.
         }
     }
@@ -873,17 +873,17 @@ void safemode::load( const bool is_character_in )
     is_character = is_character_in;
 
     cata::ifstream fin;
-    std::string file = PATH_INFO::safemode();
+    cata_path file = PATH_INFO::safemode();
     if( is_character ) {
-        file = PATH_INFO::player_base_save_path() + ".sfm.json";
+        file = PATH_INFO::player_base_save_path_path() + ".sfm.json";
     }
 
-    fs::path file_path = fs::u8path( file );
+    fs::path file_path = file.get_unrelative_path();
     fin.open( file_path, std::ifstream::in | std::ifstream::binary );
 
     if( fin.good() ) {
         try {
-            JsonValue jsin = json_loader::from_path( file_path );
+            JsonValue jsin = json_loader::from_path( file );
             deserialize( jsin.get_array() );
         } catch( const JsonError &e ) {
             debugmsg( "Error while loading safemode settings: %s", e.what() );

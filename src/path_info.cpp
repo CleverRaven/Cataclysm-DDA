@@ -342,9 +342,9 @@ std::string PATH_INFO::panel_options()
 {
     return config_dir_value + "panel_options.json";
 }
-std::string PATH_INFO::safemode()
+cata_path PATH_INFO::safemode()
 {
-    return config_dir_value + "safemode.json";
+    return config_dir_path_value / "safemode.json";
 }
 std::string PATH_INFO::savedir()
 {
