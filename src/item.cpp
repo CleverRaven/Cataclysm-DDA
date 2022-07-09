@@ -128,6 +128,8 @@ static const efftype_id effect_shakes( "shakes" );
 static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_weed_high( "weed_high" );
 
+static const flag_id json_flag_REQUIRES_INTACT_STOCK( "REQUIRES_INTACT_STOCK" );
+
 static const furn_str_id furn_f_metal_smoking_rack_active( "f_metal_smoking_rack_active" );
 static const furn_str_id furn_f_smoking_rack_active( "f_smoking_rack_active" );
 static const furn_str_id furn_f_water_mill_active( "f_water_mill_active" );
@@ -143,7 +145,6 @@ static const item_category_id item_category_spare_parts( "spare_parts" );
 static const item_category_id item_category_tools( "tools" );
 static const item_category_id item_category_weapons( "weapons" );
 
-
 static const itype_id itype_barrel_small( "barrel_small" );
 static const itype_id itype_battery( "battery" );
 static const itype_id itype_blood( "blood" );
@@ -158,6 +159,7 @@ static const itype_id itype_hand_crossbow( "hand_crossbow" );
 static const itype_id itype_joint_roach( "joint_roach" );
 static const itype_id itype_rad_badge( "rad_badge" );
 static const itype_id itype_rm13_armor( "rm13_armor" );
+static const itype_id itype_stock_none( "stock_none" );
 static const itype_id itype_tuned_mechanism( "tuned_mechanism" );
 static const itype_id itype_water( "water" );
 static const itype_id itype_water_clean( "water_clean" );
@@ -209,7 +211,6 @@ static const std::string flag_BLACKPOWDER_FOULING_DAMAGE( "BLACKPOWDER_FOULING_D
 static const std::string flag_SILENT( "SILENT" );
 
 constexpr units::volume armor_portion_data::volume_per_encumbrance;
-
 
 class npc_class;
 
@@ -11039,6 +11040,10 @@ ret_val<bool> item::is_gunmod_compatible( const item &mod ) const
                  mod.type->gunmod->location.name() == "mechanism" ) &&
                ( ammo_remaining() > 0 || magazine_current() ) ) {
         return ret_val<bool>::make_failure( _( "must be unloaded before installing this mod" ) );
+
+    } else if( gunmod_find( itype_stock_none ) &&
+               mod.has_flag( json_flag_REQUIRES_INTACT_STOCK ) ) {
+        return ret_val<bool>::make_failure( _( "doesn't have a stock to attach this mod" ) );
     }
 
     for( const gunmod_location &slot : mod.type->gunmod->blacklist_mod ) {
