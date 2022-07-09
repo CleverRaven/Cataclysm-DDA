@@ -950,7 +950,7 @@ std::list<item> outfit::get_visible_worn_items( const Character &guy ) const
 bool outfit::wearing_something_on( const bodypart_id &bp ) const
 {
     for( const item &i : worn ) {
-        if( i.covers( bp ) ) {
+        if( i.covers( bp ) && !i.has_flag( flag_INTEGRATED ) ) {
             return true;
         }
     }
