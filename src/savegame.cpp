@@ -518,10 +518,10 @@ void overmap::load_legacy_monstergroups( const JsonArray &jsin )
 }
 
 // throws std::exception
-void overmap::unserialize( const std::string &file_name, std::istream &fin )
+void overmap::unserialize( const cata_path &file_name, std::istream &fin )
 {
     size_t json_offset = chkversion( fin );
-    JsonValue jsin = json_loader::from_path_at_offset( fs::u8path( file_name ), json_offset );
+    JsonValue jsin = json_loader::from_path_at_offset( file_name, json_offset );
     unserialize( jsin.get_object() );
 }
 
@@ -795,7 +795,7 @@ void overmap::unserialize( const JsonObject &jsobj )
 }
 
 // throws std::exception
-void overmap::unserialize_omap( const JsonValue &jsin, const std::string &json_path )
+void overmap::unserialize_omap( const JsonValue &jsin, const cata_path &json_path )
 {
     JsonArray ja = jsin.get_array();
     JsonObject jo = ja.next_object();
@@ -816,7 +816,7 @@ void overmap::unserialize_omap( const JsonValue &jsin, const std::string &json_p
         std::unordered_map<tripoint_om_omt, std::string> needs_conversion;
         if( om_pos != pos() ) {
             debugmsg( "Loaded invalid overmap from omap file %s. Loaded %s, expected %s",
-                      json_path, om_pos.to_string(), pos().to_string() );
+                      json_path.generic_u8string(), om_pos.to_string(), pos().to_string() );
         } else {
             int count = 0;
             std::string tmp_ter;
@@ -932,10 +932,10 @@ static void unserialize_array_from_compacted_sequence( JsonArray &ja, MdArray &a
 }
 
 // throws std::exception
-void overmap::unserialize_view( const std::string &file_name, std::istream &fin )
+void overmap::unserialize_view( const cata_path &file_name, std::istream &fin )
 {
     size_t json_offset = chkversion( fin );
-    JsonValue jsin = json_loader::from_path_at_offset( fs::u8path( file_name ), json_offset );
+    JsonValue jsin = json_loader::from_path_at_offset( file_name, json_offset );
     unserialize_view( jsin.get_object() );
 }
 

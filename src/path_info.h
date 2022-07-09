@@ -84,6 +84,7 @@ cata_path mods_user_default();
 cata_path mods_replacements();
 cata_path names();
 cata_path options();
+cata_path player_base_save_path_path();
 cata_path savedir_path();
 cata_path user_dir_path();
 cata_path user_gfx();

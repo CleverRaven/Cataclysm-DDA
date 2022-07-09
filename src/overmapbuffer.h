@@ -145,8 +145,8 @@ class overmapbuffer
     public:
         overmapbuffer();
 
-        static std::string terrain_filename( const point_abs_om & );
-        static std::string player_filename( const point_abs_om & );
+        static cata_path terrain_filename( const point_abs_om & );
+        static cata_path player_filename( const point_abs_om & );
 
         /**
          * Uses overmap coordinates, that means x and y are directly
