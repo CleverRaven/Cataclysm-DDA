@@ -8985,12 +8985,14 @@ cata::optional<int> iuse::dbg_lux_meter( Character *p, item *, bool, const tripo
 {
 
     const units::angle altitude = sun_azimuth_altitude( calendar::turn ).second;
+    const float incident_light = incident_sunlight( current_weather( pos ), calendar::turn );
     const float nat_light = g->natural_light_level( pos.z );
     const float sunlight = sun_light_at( calendar::turn );
     const float sun_irrad = sun_irradiance( calendar::turn );
+    const float incident_irrad = incident_sun_irradiance( current_weather( pos ), calendar::turn );
     p->add_msg_if_player( m_neutral,
-                          "Natural light: %.1f\nSunlight: %.1f\nSun irradiance: %.1f",
-                          nat_light, sunlight, sun_irrad );
+                          "Incident light: %.1f\nNatural light: %.1f\nSunlight: %.1f\nSun irradiance: %.1f\nIncident irradiance %.1f",
+                          incident_light, nat_light, sunlight, sun_irrad, incident_irrad );
 
     return 0;
 }
