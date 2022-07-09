@@ -1032,7 +1032,7 @@
     "type": "material",
     "id": "crude_lamp_oil",
     "density": 0.81,
-    "name": "Lamp oil",
+    "name": "Crude lamp oil",
     "copy-from": "hydrocarbons",
     "fuel_data": {
       "energy": 24,

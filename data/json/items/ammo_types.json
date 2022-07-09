@@ -326,7 +326,7 @@
   {
     "type": "ammunition_type",
     "id": "crude_lamp_oil",
-    "name": "lamp oil",
+    "name": "crude lamp oil",
     "default": "crude_lamp_oil"
   },
   {
