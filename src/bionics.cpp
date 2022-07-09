@@ -629,7 +629,8 @@ void npc::check_or_use_weapon_cbm( const bionic_id &cbm_id )
     }
     bionic &bio = ( *my_bionics )[index];
 
-    item &weapon = get_wielded_item();
+    item_location weapon = get_wielded_item();
+    item weap = weapon ? *weapon : item();
     if( bio.info().has_flag( json_flag_BIONIC_GUN ) ) {
         if( !bio.has_weapon() ) {
             debugmsg( "NPC tried to activate gun bionic \"%s\" without fake_weapon",
@@ -644,22 +645,22 @@ void npc::check_or_use_weapon_cbm( const bionic_id &cbm_id )
             return;
         }
 
-        int ammo_count = weapon.ammo_remaining( this );
-        const int ups_drain = weapon.get_gun_ups_drain();
+        int ammo_count = weap.ammo_remaining( this );
+        const int ups_drain = weap.get_gun_ups_drain();
         if( ups_drain > 0 ) {
             ammo_count = ammo_count / ups_drain;
         }
         const int cbm_ammo = free_power /  bio.info().power_activate;
 
-        if( weapon_value( weapon, ammo_count ) < weapon_value( cbm_weapon, cbm_ammo ) ) {
+        if( weapon_value( weap, ammo_count ) < weapon_value( cbm_weapon, cbm_ammo ) ) {
             if( real_weapon.is_null() ) {
                 // Prevent replacing real weapon when migrating saves
-                real_weapon = weapon;
+                real_weapon = weap;
             }
             set_wielded_item( cbm_weapon );
             weapon_bionic_uid = bio.get_uid();
         }
-    } else if( bio.info().has_flag( json_flag_BIONIC_WEAPON ) && !weapon.has_flag( flag_NO_UNWIELD ) &&
+    } else if( bio.info().has_flag( json_flag_BIONIC_WEAPON ) && !weap.has_flag( flag_NO_UNWIELD ) &&
                free_power > bio.info().power_activate ) {
 
         if( !bio.has_weapon() ) {
@@ -669,7 +670,7 @@ void npc::check_or_use_weapon_cbm( const bionic_id &cbm_id )
         }
 
         if( is_armed() ) {
-            stow_item( weapon );
+            stow_item( *weapon );
         }
         add_msg_if_player_sees( pos(), m_info, _( "%s activates their %s." ),
                                 disp_name(), bio.info().name );
@@ -688,8 +689,6 @@ void npc::check_or_use_weapon_cbm( const bionic_id &cbm_id )
 // share functions....
 bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics_ui )
 {
-    item &weapon = get_wielded_item();
-
     const bool mounted = is_mounted();
     if( bio.incapacitated_time > 0_turns ) {
         add_msg( m_info, _( "Your %s is shorting out and can't be activated." ),
@@ -817,7 +816,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
         add_msg_activate();
 
         set_wielded_item( bio.get_weapon() );
-        get_wielded_item().invlet = '#';
+        get_wielded_item()->invlet = '#';
         weapon_bionic_uid = bio.get_uid();
     } else if( bio.id == bio_evap ) {
         add_msg_activate();
@@ -1256,7 +1255,7 @@ bool Character::deactivate_bionic( bionic &bio, bool eff_only )
         bio.powered = false;
         add_msg_if_player( m_neutral, _( "You deactivate your %s." ), bio.info().name );
     }
-    const item &w_weapon = get_wielded_item();
+
     // Deactivation effects go here
 
     for( const effect_on_condition_id &eoc : bio.id->deactivated_eocs ) {
@@ -1270,13 +1269,13 @@ bool Character::deactivate_bionic( bionic &bio, bool eff_only )
 
     if( bio.info().has_flag( json_flag_BIONIC_WEAPON ) ) {
         if( bio.get_uid() == get_weapon_bionic_uid() ) {
-            bio.set_weapon( get_wielded_item() );
-            add_msg_if_player( _( "You withdraw your %s." ), w_weapon.tname() );
+            bio.set_weapon( *get_wielded_item() );
+            add_msg_if_player( _( "You withdraw your %s." ), weapon.tname() );
             if( get_player_view().sees( pos() ) ) {
                 if( male ) {
-                    add_msg_if_npc( m_info, _( "<npcname> withdraws his %s." ), w_weapon.tname() );
+                    add_msg_if_npc( m_info, _( "<npcname> withdraws his %s." ), weapon.tname() );
                 } else {
-                    add_msg_if_npc( m_info, _( "<npcname> withdraws her %s." ), w_weapon.tname() );
+                    add_msg_if_npc( m_info, _( "<npcname> withdraws her %s." ), weapon.tname() );
                 }
             }
             set_wielded_item( item() );

@@ -922,53 +922,55 @@ bool mattack::pull_metal_weapon( monster *z )
     Character *foe = dynamic_cast< Character * >( target );
     if( foe != nullptr ) {
         // Wielded steel or iron items except for built-in things like bionic claws or monomolecular blade
-        const item &weapon = foe->get_wielded_item();
-        const int metal_portion = weapon.made_of( material_budget_steel ) +
-                                  weapon.made_of( material_ch_steel ) +
-                                  weapon.made_of( material_hc_steel ) +
-                                  weapon.made_of( material_iron ) +
-                                  weapon.made_of( material_lc_steel ) +
-                                  weapon.made_of( material_mc_steel ) +
-                                  weapon.made_of( material_qt_steel ) +
-                                  weapon.made_of( material_steel );
+        const item_location weapon = foe->get_wielded_item();
+        if( weapon ) {
+            const int metal_portion = weapon->made_of( material_budget_steel ) +
+                                      weapon->made_of( material_ch_steel ) +
+                                      weapon->made_of( material_hc_steel ) +
+                                      weapon->made_of( material_iron ) +
+                                      weapon->made_of( material_lc_steel ) +
+                                      weapon->made_of( material_mc_steel ) +
+                                      weapon->made_of( material_qt_steel ) +
+                                      weapon->made_of( material_steel );
 
-        // Take the total portion of metal in the item into account
-        const float metal_fraction = metal_portion / static_cast<float>( weapon.type->mat_portion_total );
-        if( !weapon.has_flag( flag_NO_UNWIELD ) && metal_portion ) {
-            const int wp_skill = foe->get_skill_level( skill_melee );
-            // It takes a while
-            z->moves -= att_cost_pull;
-            int success = 100;
-            ///\Grip strength increases resistance to pull_metal_weapon special attack
-            if( foe->str_cur > min_str ) {
-                ///\EFFECT_MELEE increases resistance to pull_metal_weapon special attack
-                success = std::max( ( 100 * metal_fraction ) - ( 6 * ( foe->str_cur - 6 ) * foe->get_limb_score(
-                                        limb_score_grip ) ) - ( 6 * wp_skill ),
-                                    0.0f );
-            }
-            game_message_type m_type = foe->is_avatar() ? m_bad : m_neutral;
-            if( rng( 1, 100 ) <= success ) {
-                item pulled_weapon = foe->remove_weapon();
-                projectile proj;
-                proj.speed  = 50;
-                proj.impact = damage_instance::physical( pulled_weapon.weight() / 250_gram, 0, 0, 0 );
-                // make the projectile stop one tile short to prevent hitting the monster
-                proj.range = rl_dist( foe->pos(), z->pos() ) - 1;
-                proj.proj_effects = { { "NO_ITEM_DAMAGE", "DRAW_AS_LINE", "NO_DAMAGE_SCALING", "JET" } };
-
-                dealt_projectile_attack dealt = projectile_attack( proj, foe->pos(), z->pos(), dispersion_sources { 0 },
-                                                z );
-                get_map().add_item( dealt.end_point, pulled_weapon );
-                target->add_msg_player_or_npc( m_type, _( "The %s is pulled away from your hands!" ),
-                                               _( "The %s is pulled away from <npcname>'s hands!" ), pulled_weapon.tname() );
-                if( foe->has_activity( ACT_RELOAD ) ) {
-                    foe->cancel_activity();
+            // Take the total portion of metal in the item into account
+            const float metal_fraction = metal_portion / static_cast<float>( weapon->type->mat_portion_total );
+            if( !weapon->has_flag( flag_NO_UNWIELD ) && metal_portion ) {
+                const int wp_skill = foe->get_skill_level( skill_melee );
+                // It takes a while
+                z->moves -= att_cost_pull;
+                int success = 100;
+                ///\Grip strength increases resistance to pull_metal_weapon special attack
+                if( foe->str_cur > min_str ) {
+                    ///\EFFECT_MELEE increases resistance to pull_metal_weapon special attack
+                    success = std::max( ( 100 * metal_fraction ) - ( 6 * ( foe->str_cur - 6 ) * foe->get_limb_score(
+                                            limb_score_grip ) ) - ( 6 * wp_skill ),
+                                        0.0f );
                 }
-                foe->recoil = MAX_RECOIL;
-            } else {
-                target->add_msg_player_or_npc( m_type,
-                                               _( "The %s unsuccessfully attempts to pull your weapon away." ),
-                                               _( "The %s unsuccessfully attempts to pull <npcname>'s weapon away." ), z->name() );
+                game_message_type m_type = foe->is_avatar() ? m_bad : m_neutral;
+                if( rng( 1, 100 ) <= success ) {
+                    item pulled_weapon = foe->remove_weapon();
+                    projectile proj;
+                    proj.speed = 50;
+                    proj.impact = damage_instance::physical( pulled_weapon.weight() / 250_gram, 0, 0, 0 );
+                    // make the projectile stop one tile short to prevent hitting the monster
+                    proj.range = rl_dist( foe->pos(), z->pos() ) - 1;
+                    proj.proj_effects = { { "NO_ITEM_DAMAGE", "DRAW_AS_LINE", "NO_DAMAGE_SCALING", "JET" } };
+
+                    dealt_projectile_attack dealt = projectile_attack( proj, foe->pos(), z->pos(), dispersion_sources{ 0 },
+                                                    z );
+                    get_map().add_item( dealt.end_point, pulled_weapon );
+                    target->add_msg_player_or_npc( m_type, _( "The %s is pulled away from your hands!" ),
+                                                   _( "The %s is pulled away from <npcname>'s hands!" ), pulled_weapon.tname() );
+                    if( foe->has_activity( ACT_RELOAD ) ) {
+                        foe->cancel_activity();
+                    }
+                    foe->recoil = MAX_RECOIL;
+                } else {
+                    target->add_msg_player_or_npc( m_type,
+                                                   _( "The %s unsuccessfully attempts to pull your weapon away." ),
+                                                   _( "The %s unsuccessfully attempts to pull <npcname>'s weapon away." ), z->name() );
+                }
             }
         }
     }
@@ -3408,6 +3410,7 @@ bool mattack::photograph( monster *z )
     }
 
     Character &player_character = get_player_character();
+    const item_location weapon = player_character.get_wielded_item();
     // Badges should NOT be swappable between roles.
     // Hence separate checking.
     // If you are in fact listed as a police officer
@@ -3497,7 +3500,7 @@ bool mattack::photograph( monster *z )
         }
     }
 
-    if( z->friendly || player_character.get_wielded_item().typeId() == itype_e_handcuffs ) {
+    if( z->friendly || ( weapon && weapon->typeId() == itype_e_handcuffs ) ) {
         // Friendly (hacked?) bot ignore the player. Arrested suspect ignored too.
         // TODO: might need to be revisited when it can target npcs.
         return false;
@@ -3515,10 +3518,10 @@ bool mattack::photograph( monster *z )
                    string_format( _( "a robotic voice boom, \"Citizen %s!\"" ), cname ), false, "speech",
                    z->type->id.str() );
 
-    if( player_character.get_wielded_item().is_gun() ) {
-        sounds::sound( z->pos(), 15, sounds::sound_t::alert, _( "\"Drop your gun!  Now!\"" ) );
-    } else if( player_character.is_armed() ) {
-        sounds::sound( z->pos(), 15, sounds::sound_t::alert, _( "\"Drop your weapon!  Now!\"" ) );
+    if( player_character.is_armed() ) {
+        std::string msg = string_format( _( "\"Drop your %s!  Now!\"" ),
+                                         weapon->is_gun() ? _( "gun" ) : _( "weapon" ) );
+        sounds::sound( z->pos(), 15, sounds::sound_t::alert, msg );
     }
     const SpeechBubble &speech = get_speech( z->type->id.str() );
     sounds::sound( z->pos(), speech.volume, sounds::sound_t::alert, speech.text.translated() );
@@ -3638,10 +3641,10 @@ void mattack::rifle( monster *z, Creature *target )
 
     tmp.set_wielded_item( item( "m4_carbine" ).ammo_set( ammo_type, z->ammo[ ammo_type ] ) );
 
-    item &weapon = tmp.get_wielded_item();
-    int burst = std::max( weapon.gun_get_mode( gun_mode_AUTO ).qty, 1 );
+    item_location weapon = tmp.get_wielded_item();
+    int burst = std::max( weapon->gun_get_mode( gun_mode_AUTO ).qty, 1 );
 
-    z->ammo[ ammo_type ] -= tmp.fire_gun( target->pos(), burst ) * weapon.ammo_required();
+    z->ammo[ ammo_type ] -= tmp.fire_gun( target->pos(), burst ) * weapon->ammo_required();
 
     if( target && target->is_avatar() ) {
         z->add_effect( effect_targeted, 3_turns );
@@ -3698,10 +3701,10 @@ void mattack::frag( monster *z, Creature *target ) // This is for the bots, not 
     add_msg_if_player_sees( *z, m_warning, _( "The %s's grenade launcher fires!" ), z->name() );
 
     tmp.set_wielded_item( item( "mgl" ).ammo_set( ammo_type, z->ammo[ ammo_type ] ) );
-    const item &weapon = tmp.get_wielded_item();
-    int burst = std::max( weapon.gun_get_mode( gun_mode_AUTO ).qty, 1 );
+    const item_location weapon = tmp.get_wielded_item();
+    int burst = std::max( weapon->gun_get_mode( gun_mode_AUTO ).qty, 1 );
 
-    z->ammo[ ammo_type ] -= tmp.fire_gun( target->pos(), burst ) * weapon.ammo_required();
+    z->ammo[ ammo_type ] -= tmp.fire_gun( target->pos(), burst ) * weapon->ammo_required();
 
     if( target && target->is_avatar() ) {
         z->add_effect( effect_targeted, 3_turns );
@@ -3756,10 +3759,10 @@ void mattack::tankgun( monster *z, Creature *target )
     }
     add_msg_if_player_sees( *z, m_warning, _( "The %s's 120mm cannon fires!" ), z->name() );
     tmp.set_wielded_item( item( "TANK" ).ammo_set( ammo_type, z->ammo[ ammo_type ] ) );
-    const item &weapon = tmp.get_wielded_item();
-    int burst = std::max( weapon.gun_get_mode( gun_mode_AUTO ).qty, 1 );
+    const item_location weapon = tmp.get_wielded_item();
+    int burst = std::max( weapon->gun_get_mode( gun_mode_AUTO ).qty, 1 );
 
-    z->ammo[ ammo_type ] -= tmp.fire_gun( target->pos(), burst ) * weapon.ammo_required();
+    z->ammo[ ammo_type ] -= tmp.fire_gun( target->pos(), burst ) * weapon->ammo_required();
 }
 
 bool mattack::searchlight( monster *z )
@@ -4046,7 +4049,8 @@ bool mattack::copbot( monster *z )
     // TODO: Make it recognize zeds as human, but ignore animals
     Character *foe = dynamic_cast<Character *>( target );
     bool sees_u = foe != nullptr && z->sees( *foe );
-    bool cuffed = foe != nullptr && foe->get_wielded_item().typeId() == itype_e_handcuffs;
+    bool cuffed = foe != nullptr && foe->get_wielded_item() &&
+                  foe->get_wielded_item()->typeId() == itype_e_handcuffs;
     // Taze first, then ask questions (simplifies later checks for non-humans)
     if( !cuffed && z->is_adjacent( target, true ) ) {
         taze( z, target );
@@ -4982,7 +4986,7 @@ bool mattack::riotbot( monster *z )
     // Already arrested?
     // And yes, if the player has no hands, we are not going to arrest them.
     if( foe != nullptr &&
-        ( foe->get_wielded_item().typeId() == itype_e_handcuffs || !foe->has_two_arms_lifting() ) ) {
+        ( foe->get_wielded_item()->typeId() == itype_e_handcuffs || !foe->has_two_arms_lifting() ) ) {
         z->anger = 0;
 
         if( calendar::once_every( 25_turns ) ) {
@@ -5520,7 +5524,7 @@ bool mattack::bio_op_takedown( monster *z )
             foe->add_effect( effect_downed, 3_turns );
         }
     } else if( ( !foe->is_armed() ||
-                 foe->martial_arts_data->selected_has_weapon( foe->get_wielded_item().typeId() ) ) ) {
+                 foe->martial_arts_data->selected_has_weapon( foe->get_wielded_item()->typeId() ) ) ) {
         // Saved by the tentacle-bracing! :)
         hit = bodypart_id( "torso" );
         dam = rng( 3, 9 );
@@ -5658,14 +5662,14 @@ bool mattack::bio_op_disarm( monster *z )
     their_roll += dice( 3, foe->get_skill_level( skill_melee ) );
     their_roll *= foe->get_limb_score( limb_score_reaction );
 
-    item &it = foe->get_wielded_item();
+    item_location it = foe->get_wielded_item();
 
-    target->add_msg_if_player( m_bad, _( "The zombie grabs your %s…" ), it.tname() );
+    target->add_msg_if_player( m_bad, _( "The zombie grabs your %s…" ), it->tname() );
 
-    if( my_roll >= their_roll && !it.has_flag( flag_NO_UNWIELD ) ) {
+    if( my_roll >= their_roll && !it->has_flag( flag_NO_UNWIELD ) ) {
         target->add_msg_if_player( m_bad, _( "and throws it to the ground!" ) );
         const tripoint tp = foe->pos() + tripoint( rng( -1, 1 ), rng( -1, 1 ), 0 );
-        get_map().add_item_or_charges( tp, foe->i_rem( &it ) );
+        get_map().add_item_or_charges( tp, foe->i_rem( &*it ) );
     } else {
         target->add_msg_if_player( m_good, _( "but you break its grip!" ) );
     }
@@ -6170,9 +6174,9 @@ bool mattack::dsa_drone_scan( monster *z )
     }
     target->set_value( timestamp_str, string_format( "%d", to_turn<int>( calendar::turn ) ) );
     if( weapons_count < 3 ) {
-        const item &weapon = target->get_wielded_item();
-        if( weapon.is_gun() ) {
-            const gun_type_type &guntype = weapon.gun_type();
+        const item_location weapon = target->get_wielded_item();
+        if( weapon && weapon->is_gun() ) {
+            const gun_type_type &guntype = weapon->gun_type();
             if( guntype == gun_type_type( "rifle" ) ||
                 guntype == gun_type_type( "shotgun" ) ||
                 guntype == gun_type_type( "launcher" ) ) {

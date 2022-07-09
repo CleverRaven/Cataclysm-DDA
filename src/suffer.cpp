@@ -491,11 +491,12 @@ void suffer::from_chemimbalance( Character &you )
 void suffer::from_schizophrenia( Character &you )
 {
     std::string i_name_w;
-    if( !you.get_wielded_item().is_null() ) {
-        i_name_w = you.get_wielded_item().has_var( "item_label" ) ?
-                   you.get_wielded_item().get_var( "item_label" ) :
+    item_location weap = you.get_wielded_item();
+    if( weap ) {
+        i_name_w = weap->has_var( "item_label" ) ?
+                   weap->get_var( "item_label" ) :
                    //~ %1$s: weapon name
-                   string_format( _( "your %1$s" ), you.get_wielded_item().type_name() );
+                   string_format( _( "your %1$s" ), weap->type_name() );
     }
     // Start with the effects that both NPCs and avatars can suffer from
     // Delusions
@@ -552,12 +553,11 @@ void suffer::from_schizophrenia( Character &you )
         return;
     }
     // Drop weapon
-    if( one_turn_in( 2_days ) && !you.get_wielded_item().is_null() ) {
+    if( one_turn_in( 2_days ) && weap ) {
         const translation snip = SNIPPET.random_from_category( "schizo_weapon_drop" ).value_or(
                                      translation() );
         you.add_msg_if_player( m_bad, "%s", uppercase_first_letter( string_format( snip, i_name_w ) ) );
-        item_location loc( you, &you.get_wielded_item() );
-        you.drop( loc, you.pos() );
+        you.drop( weap, you.pos() );
         return;
     }
     // Talk to self
@@ -632,14 +632,13 @@ void suffer::from_schizophrenia( Character &you )
     }
 
     // Talking weapon
-    if( !you.get_wielded_item().is_null() ) {
+    if( weap ) {
         // If player has a weapon, picks a message from said weapon
         // Weapon tells player to kill a monster if any are nearby
         // Weapon is concerned for player if bleeding
         // Weapon is concerned for itself if damaged
         // Otherwise random chit-chat
         std::vector<weak_ptr_fast<monster>> mons = g->all_monsters().items;
-        const item &weap = you.get_wielded_item();
 
         std::string i_talk_w;
         bool does_talk = false;
@@ -661,8 +660,8 @@ void suffer::from_schizophrenia( Character &you )
             i_talk_w = SNIPPET.random_from_category( "schizo_weapon_talk_bleeding" ).value_or(
                            translation() ).translated();
             does_talk = true;
-        } else if( weap.damage() >= ( weap.max_damage() - weap.damage_floor( false ) ) / 3 +
-                   weap.damage_floor( false ) && one_turn_in( 1_hours ) ) {
+        } else if( weap->damage() >= ( weap->max_damage() - weap->damage_floor( false ) ) / 3 +
+                   weap->damage_floor( false ) && one_turn_in( 1_hours ) ) {
             i_talk_w = SNIPPET.random_from_category( "schizo_weapon_talk_damaged" ).value_or(
                            translation() ).translated();
             does_talk = true;
@@ -970,7 +969,7 @@ void suffer::from_sunburn( Character &you, bool severe )
             }
             // If no UV-/glare-protection gear is worn the eyes should be treated as unprotected
             exposure = 1.0;
-        } else if( you.get_wielded_item().has_flag( flag_RAIN_PROTECT )
+        } else if( ( you.get_wielded_item() && you.get_wielded_item()->has_flag( flag_RAIN_PROTECT ) )
                    || ( ( bp == body_part_hand_l || bp == body_part_hand_r )
                         && you.worn_with_flag( flag_POCKETS )
                         && you.can_use_pockets() )
@@ -1341,14 +1340,14 @@ void suffer::from_bad_bionics( Character &you )
         you.moves -= 150;
         you.mod_power_level( -bio_dis_shock->power_trigger );
 
-        if( you.get_wielded_item().typeId() == itype_e_handcuffs && you.get_wielded_item().charges > 0 ) {
-            you.get_wielded_item().charges -= rng( 1, 3 ) * 50;
-            if( you.get_wielded_item().charges < 1 ) {
-                you.get_wielded_item().charges = 1;
+        if( you.get_wielded_item()->typeId() == itype_e_handcuffs && you.get_wielded_item()->charges > 0 ) {
+            you.get_wielded_item()->charges -= rng( 1, 3 ) * 50;
+            if( you.get_wielded_item()->charges < 1 ) {
+                you.get_wielded_item()->charges = 1;
             }
 
             you.add_msg_if_player( m_good, _( "The %s seems to be affected by the discharge." ),
-                                   you.get_wielded_item().tname() );
+                                   you.get_wielded_item()->tname() );
         }
         sfx::play_variant_sound( "bionics", "elec_discharge", 100 );
     }

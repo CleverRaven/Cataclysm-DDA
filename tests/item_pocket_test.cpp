@@ -1753,21 +1753,21 @@ static void test_pickup_autoinsert_results( Character &u, bool wear, const item_
         CHECK( m.i_at( u.pos() ).size() == on_ground );
     }
     if( !wear ) {
-        CHECK( !u.get_wielded_item().is_null() );
+        CHECK( !!u.get_wielded_item() );
         if( count_by_charges ) {
             size_t charges_in_top = -1;
-            for( item *it : u.get_wielded_item().all_items_top() ) {
+            for( item *it : u.get_wielded_item()->all_items_top() ) {
                 if( !nested || it->typeId() != nested->typeId() ) {
                     charges_in_top = it->charges;
                 }
             }
             CHECK( charges_in_top == in_top );
         } else {
-            CHECK( u.get_wielded_item().all_items_top().size() == in_top );
+            CHECK( u.get_wielded_item()->all_items_top().size() == in_top );
         }
         CHECK( u.top_items_loc().empty() );
     } else {
-        CHECK( u.get_wielded_item().is_null() );
+        CHECK( !u.get_wielded_item() );
         CHECK( u.top_items_loc().size() == 1 );
         if( count_by_charges ) {
             size_t charges_in_top = -1;
@@ -1791,7 +1791,7 @@ static void test_pickup_autoinsert_results( Character &u, bool wear, const item_
         } else {
             CHECK( nested->all_items_top().size() == in_nested );
         }
-        item *top_it = wear ? &u.worn.front() : &u.get_wielded_item();
+        item *top_it = wear ? &u.worn.front() : &*u.get_wielded_item();
         // top-level container still contains nested container
         CHECK( !!top_it->contained_where( *nested.get_item() ) );
     }
@@ -1833,16 +1833,16 @@ static void test_pickup_autoinsert_sub_sub( bool autopickup, bool wear, bool sof
         pack = item_location( u.top_items_loc().front() );
         REQUIRE( pack.get_item() != nullptr );
         REQUIRE( m.i_at( u.pos() ).size() == 4 );
-        REQUIRE( u.get_wielded_item().is_null() );
+        REQUIRE( !u.get_wielded_item() );
         REQUIRE( u.top_items_loc().size() == 1 );
         REQUIRE( u.top_items_loc().front()->all_items_top().empty() );
     } else {
         u.wield( cont_top_soft );
-        pack = item_location( u, &u.get_wielded_item() );
+        pack = u.get_wielded_item();
         REQUIRE( pack.get_item() != nullptr );
         REQUIRE( m.i_at( u.pos() ).size() == 4 );
-        REQUIRE( !u.get_wielded_item().is_null() );
-        REQUIRE( u.get_wielded_item().all_items_top().empty() );
+        REQUIRE( !!u.get_wielded_item() );
+        REQUIRE( u.get_wielded_item()->all_items_top().empty() );
         REQUIRE( u.top_items_loc().empty() );
     }
 
@@ -2464,7 +2464,7 @@ TEST_CASE( "best pocket for pocket-holster mix", "[pocket][item]" )
     GIVEN( "character wearing a tool belt" ) {
         clear_avatar();
         u.wield( flashlight );
-        item_location fl( u, &u.get_wielded_item() );
+        item_location fl = u.get_wielded_item();
         item_location tb( u, & **u.wear_item( tool_belt, false ) );
         REQUIRE( !!tb.get_item() );
         REQUIRE( tb->typeId() == tool_belt.typeId() );
