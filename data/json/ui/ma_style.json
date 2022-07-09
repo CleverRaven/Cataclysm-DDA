@@ -11,5 +11,573 @@
     "type": "widget",
     "copy-from": "style_desc",
     "flags": [ "W_LABEL_NONE" ]
+  },
+  {
+    "id": "ma_buff_indicator_template",
+    "type": "widget",
+    "style": "clause",
+    "clauses": [
+      {
+        "//": "Sōjutsu   ------------------------------------------",
+        "condition": { "u_has_effect": "mabuff:buff_sojutsu_static" },
+        "id": "buff_sojutsu_static",
+        "text": "Sōjutsu Stance"
+      },
+      {
+        "condition": { "u_has_effect": "mabuff:buff_sojutsu_onmove" },
+        "id": "buff_sojutsu_onmove",
+        "text": "Superior Positioning"
+      },
+      {
+        "//": "Bōjutsu   ------------------------------------------",
+        "condition": { "u_has_effect": "mabuff:buff_bojutsu_static" },
+        "id": "buff_bojutsu_static",
+        "text": "Bōjutsu Stance"
+      },
+      {
+        "condition": { "u_has_effect": "mabuff:buff_bojutsu_static2" },
+        "id": "buff_bojutsu_static2",
+        "text": "Skilled Striking"
+      },
+      {
+        "condition": { "u_has_effect": "mabuff:buff_bojutsu_onmove" },
+        "id": "buff_bojutsu_onmove",
+        "text": "Rolling Staff"
+      },
+      {
+        "//": "Muay Thai   ------------------------------------------",
+        "condition": { "u_has_effect": "mabuff:buff_muay_thai_static" },
+        "id": "buff_muay_thai_static",
+        "text": "Muay Thai Stance"
+      },
+      {
+        "condition": { "u_has_effect": "mabuff:buff_muay_thai_ongethit" },
+        "id": "buff_muay_thai_ongethit",
+        "text": "Determination"
+      },
+      {
+        "//": "Ninjutsu   ------------------------------------------",
+        "condition": { "u_has_effect": "mabuff:buff_ninjutsu_static1" },
+        "id": "buff_sojutsu_static",
+        "text": "Ninjutsu Stance"
+      },
+      {
+        "condition": { "u_has_effect": "mabuff:buff_ninjutsu_static2" },
+        "id": "buff_sojutsu_static",
+        "text": "Sneak Attack"
+      },
+      {
+        "condition": { "u_has_effect": "mabuff:buff_ninjutsu_onattack" },
+        "id": "buff_ninjutsu_onattack",
+        "text": "Loss of Surprise"
+      },
+      {
+        "condition": { "u_has_effect": "mabuff:buff_ninjutsu_onmove" },
+        "id": "buff_ninjutsu_onmove",
+        "text": "Momentum Shift"
+      },
+      {
+        "condition": { "u_has_effect": "mabuff:buff_ninjutsu_onkill" },
+        "id": "buff_ninjutsu_onkill",
+        "text": "Escape Plan"
+      },
+      {
+        "//": "Niten Ichi-Ryu   ------------------------------------------",
+        "condition": { "u_has_effect": "mabuff:buff_niten_static" },
+        "id": "buff_niten_static",
+        "text": "Niten Ichi-Ryu Stance"
+      },
+      {
+        "condition": { "u_has_effect": "mabuff:buff_niten_onmove" },
+        "id": "buff_niten_onmove",
+        "text": "Waning Moon"
+      },
+      {
+        "condition": { "u_has_effect": "mabuff:buff_niten_onattack" },
+        "id": "buff_niten_onattack",
+        "text": "Falling Leaf"
+      },
+      {
+        "condition": { "u_has_effect": "mabuff:buff_niten_ondodge" },
+        "id": "buff_niten_ondodge",
+        "text": "Moonlight"
+      },
+      {
+        "condition": { "u_has_effect": "mabuff:buff_niten_onpause" },
+        "id": "buff_niten_onpause",
+        "text": "Stillness"
+      },
+      {
+        "//": "Aikido   ------------------------------------------",
+        "condition": { "u_has_effect": "mabuff:buff_aikido_static1" },
+        "id": "buff_aikido_static1",
+        "text": "Aikido Stance"
+      },
+      {
+        "condition": { "u_has_effect": "mabuff:buff_aikido_static2" },
+        "id": "buff_aikido_static2",
+        "text": "Intermediate Aikido"
+      },
+      {
+        "condition": { "u_has_effect": "mabuff:buff_aikido_static3" },
+        "id": "buff_aikido_static3",
+        "text": "Advanced Aikido"
+      },
+      {
+        "condition": { "u_has_effect": "mabuff:buff_aikido_onblock" },
+        "id": "buff_aikido_onblock",
+        "text": "Fluid Blocking"
+      },
+      {
+        "condition": { "u_has_effect": "mabuff:buff_aikido_ondodge" },
+        "id": "buff_aikido_ondodge",
+        "text": "Fluid Dodging"
+      },
+      {
+        "//": "Brawling   ------------------------------------------",
+        "condition": { "u_has_effect": "mabuff:buff_brawling_block" },
+        "id": "buff_brawling_block",
+        "text": "Enhanced Blocking"
+      },
+      {
+        "//": "Barbaran Montante   ----------------------------------",
+        "condition": { "u_has_effect": "mabuff:buff_barbaran_static" },
+        "id": "buff_barbaran_static",
+        "text": "Barbaran Represa"
+      },
+      {
+        "condition": { "u_has_effect": "mabuff:buff_barbaran_onblock" },
+        "id": "buff_barbaran_onblock",
+        "text": "Reversing Destreza"
+      },
+      {
+        "condition": { "u_has_effect": "mabuff:buff_barbaran_onkill" },
+        "id": "buff_barbaran_onkill",
+        "text": "Movimiento Natural"
+      },
+      {
+        "condition": { "u_has_effect": "mabuff:buff_barbaran_onmove" },
+        "id": "buff_barbaran_onmove",
+        "text": "Ricasso Step"
+      },
+      {
+        "condition": { "u_has_effect": "mabuff:buff_barbaran_onpause" },
+        "id": "buff_barbaran_onpause",
+        "text": "Vulgar Preparation"
+      },
+      {
+        "//": "Boxing   ------------------------------------------",
+        "condition": { "u_has_effect": "mabuff:buff_boxing_static" },
+        "id": "buff_boxing_static",
+        "text": "Boxing Stance"
+      },
+      { "condition": { "u_has_effect": "mabuff:buff_boxing_onmove" }, "id": "buff_boxing_onmove", "text": "Footwork" },
+      {
+        "condition": { "u_has_effect": "mabuff:buff_boxing_ondodge" },
+        "id": "buff_boxing_ondodge",
+        "text": "Counter Chance"
+      },
+      {
+        "//": "Zui Quan   --------------- 10 -----------------------",
+        "condition": { "u_has_effect": "mabuff:buff_zuiquan_static" },
+        "id": "buff_zuiquan_static",
+        "text": "Zui Quan Stance"
+      },
+      {
+        "condition": { "u_has_effect": "mabuff:buff_zuiquan_onmove" },
+        "id": "buff_zuiquan_onmove",
+        "text": "Drunken Stumble"
+      },
+      {
+        "condition": { "u_has_effect": "mabuff:buff_zuiquan_ondodge" },
+        "id": "buff_zuiquan_ondodge",
+        "text": "Drunken Dodging"
+      },
+      {
+        "//": "Eskrima   -------------------- 20 -------------------",
+        "condition": { "u_has_effect": "mabuff:buff_eskrima_static" },
+        "id": "buff_eskrima_static",
+        "text": "Eskrima Stance"
+      },
+      {
+        "condition": { "u_has_effect": "mabuff:buff_eskrima_oncrit" },
+        "id": "buff_eskrima_oncrit",
+        "text": "Eskrima Combination"
+      },
+      {
+        "//": "Fencing   -------------------- 20 -------------------",
+        "condition": { "u_has_effect": "mabuff:buff_fencing_static" },
+        "id": "buff_fencing_static",
+        "text": "Fencing Stance"
+      },
+      {
+        "condition": { "u_has_effect": "mabuff:buff_fencing_onblock" },
+        "id": "buff_fencing_onblock",
+        "text": "Parry"
+      },
+      { "condition": { "u_has_effect": "mabuff:buff_fencing_onmiss" }, "id": "buff_fencing_onmiss", "text": "Remise" },
+      {
+        "condition": { "u_has_effect": "mabuff:buff_fencing_onpause" },
+        "id": "buff_fencing_onpause",
+        "text": "Counter Time"
+      },
+      {
+        "//": "Fior Di Battaglia   ----------------- 20 ----------------",
+        "condition": { "u_has_effect": "mabuff:buff_medievalpole_static" },
+        "id": "buff_medievalpole_static",
+        "text": "Stand Your Ground"
+      },
+      {
+        "condition": { "u_has_effect": "mabuff:buff_medievalpole_onmove" },
+        "id": "buff_medievalpole_onmove",
+        "text": "Tactical Retreat"
+      },
+      {
+        "condition": { "u_has_effect": "mabuff:buff_medievalpole_onmiss" },
+        "id": "buff_medievalpole_onmiss",
+        "text": "Tactical Feinting"
+      },
+      {
+        "condition": { "u_has_effect": "mabuff:buff_medievalpole_onblock" },
+        "id": "buff_medievalpole_onblock",
+        "text": "Defense Break"
+      },
+      {
+        "//": "Judo   -------------------- 20 -------------------",
+        "condition": { "u_has_effect": "mabuff:buff_judo_static" },
+        "id": "buff_judo_static",
+        "text": "Judo Stance"
+      },
+      {
+        "condition": { "u_has_effect": "mabuff:buff_judo_ondodge" },
+        "id": "buff_judo_ondodge",
+        "text": "Perfect Position"
+      },
+      {
+        "//": "Karate   -------------------- 20 -------------------",
+        "condition": { "u_has_effect": "mabuff:buff_karate_static" },
+        "id": "buff_karate_static",
+        "text": "Karate Stance"
+      },
+      {
+        "condition": { "u_has_effect": "mabuff:buff_karate_onhit" },
+        "id": "buff_karate_onhit",
+        "text": "Karate Kata"
+      },
+      {
+        "//": "Krav Maga   -------------------- 20 -------------------",
+        "condition": { "u_has_effect": "mabuff:buff_krav_maga_static" },
+        "id": "buff_krav_maga_static",
+        "text": "Krav Maga Stance"
+      },
+      {
+        "condition": { "u_has_effect": "mabuff:buff_krav_maga_onblock" },
+        "id": "buff_krav_maga_onblock",
+        "text": "Strike Vitals"
+      },
+      {
+        "//": "Medieval Swordsmanship   ------------- 20 ----------------",
+        "condition": { "u_has_effect": "mabuff:buff_swordsmanship_static" },
+        "id": "buff_swordsmanship_static",
+        "text": "Swordsman's Stance"
+      },
+      {
+        "condition": { "u_has_effect": "mabuff:buff_swordsmanship_onblock" },
+        "id": "buff_swordsmanship_onblock",
+        "text": "Mastercut"
+      },
+      {
+        "condition": { "u_has_effect": "mabuff:buff_swordsmanship_onhit" },
+        "id": "buff_swordsmanship_onhit",
+        "text": "Conserve Momentum"
+      },
+      {
+        "condition": { "u_has_effect": "mabuff:buff_swordsmanship_onpause" },
+        "id": "buff_swordsmanship_onpause",
+        "text": "Half Swording"
+      },
+      {
+        "//": "Capoeira   -------------------- 20 -------------------",
+        "condition": { "u_has_effect": "mabuff:buff_capoeira_static" },
+        "id": "buff_capoeira_static",
+        "text": "Capoeira Stance"
+      },
+      {
+        "condition": { "u_has_effect": "mabuff:buff_capoeira_onmiss" },
+        "id": "buff_capoeira_onmiss",
+        "text": "Capoeira Tempo"
+      },
+      {
+        "condition": { "u_has_effect": "mabuff:buff_capoeira_onmove" },
+        "id": "buff_capoeira_onmove",
+        "text": "Capoeira Momentum"
+      },
+      {
+        "//": "Pankration   -------------------- 20 -------------------",
+        "condition": { "u_has_effect": "mabuff:buff_pankration_ondodge" },
+        "id": "buff_pankration_ondodge",
+        "text": "Counter Chance"
+      },
+      {
+        "condition": { "u_has_effect": "mabuff:buff_pankration_oncrit" },
+        "id": "buff_pankration_oncrit",
+        "text": "Close Combat"
+      },
+      {
+        "//": "Silat   -------------------- 20 -------------------",
+        "condition": { "u_has_effect": "mabuff:buff_silat_static" },
+        "id": "buff_silat_static",
+        "text": "Silat Stance"
+      },
+      {
+        "condition": { "u_has_effect": "mabuff:buff_silat_ondodge" },
+        "id": "buff_silat_ondodge",
+        "text": "Silat Appraisal"
+      },
+      {
+        "condition": { "u_has_effect": "mabuff:buff_silat_onmove" },
+        "id": "buff_silat_onmove",
+        "text": "Silat Ambush"
+      },
+      {
+        "//": "Taekwondo   ---------------------- 30 ----------------",
+        "condition": { "u_has_effect": "mabuff:buff_taekwondo_static" },
+        "id": "buff_taekwondo_static",
+        "text": "Taekwondo Stance"
+      },
+      {
+        "condition": { "u_has_effect": "mabuff:buff_taekwondo_static2" },
+        "id": "buff_taekwondo_static2",
+        "text": "Unhindered"
+      },
+      {
+        "//": "Tai Chi   ---------------------- 30 ----------------",
+        "condition": { "u_has_effect": "mabuff:buff_tai_chi_static" },
+        "id": "buff_tai_chi_static",
+        "text": "Tai Chi Stance"
+      },
+      {
+        "condition": { "u_has_effect": "mabuff:buff_tai_chi_onblock" },
+        "id": "buff_tai_chi_onblock",
+        "text": "Repulse the Monkey"
+      },
+      {
+        "condition": { "u_has_effect": "mabuff:buff_tai_chi_onpause" },
+        "id": "buff_tai_chi_onpause",
+        "text": "Cross Hands"
+      },
+      {
+        "//": "Crane Kung Fu   -------------- 30 ----------------",
+        "condition": { "u_has_effect": "mabuff:buff_crane_static1" },
+        "id": "buff_crane_static1",
+        "text": "Crane's Precision"
+      },
+      {
+        "condition": { "u_has_effect": "mabuff:buff_crane_static2" },
+        "id": "buff_crane_static2",
+        "text": "Crane's Stance"
+      },
+      {
+        "condition": { "u_has_effect": "mabuff:buff_crane_static3" },
+        "id": "buff_crane_static3",
+        "text": "Crane's Grace"
+      },
+      {
+        "condition": { "u_has_effect": "mabuff:buff_crane_ondodge" },
+        "id": "buff_crane_ondodge",
+        "text": "Crane's Flight"
+      },
+      {
+        "//": "Dragon Kung Fu   -------------- 30 ----------------",
+        "condition": { "u_has_effect": "mabuff:buff_dragon_static" },
+        "id": "buff_dragon_static",
+        "text": "Dragon's Knowledge"
+      },
+      {
+        "condition": { "u_has_effect": "mabuff:buff_dragon_onblock" },
+        "id": "buff_dragon_onblock",
+        "text": "Dragon's Vortex"
+      },
+      {
+        "condition": { "u_has_effect": "mabuff:buff_dragon_ondodge" },
+        "id": "buff_dragon_ondodge",
+        "text": "Dragon Wing"
+      },
+      {
+        "condition": { "u_has_effect": "mabuff:buff_dragon_onpause" },
+        "id": "buff_dragon_onpause",
+        "text": "Dragon Power"
+      },
+      {
+        "//": "Leopard Kung Fu   -------------- 30 ----------------",
+        "condition": { "u_has_effect": "mabuff:buff_leopard_static1" },
+        "id": "buff_leopard_static1",
+        "text": "Leopard's Strategy"
+      },
+      {
+        "condition": { "u_has_effect": "mabuff:buff_leopard_static2" },
+        "id": "buff_leopard_static2",
+        "text": "Leopard's Ambush"
+      },
+      {
+        "condition": { "u_has_effect": "mabuff:buff_leopard_oncrit" },
+        "id": "buff_leopard_oncrit",
+        "text": "Leopard's Agility"
+      },
+      {
+        "//": "Snake Kung Fu   -------------- 30 ----------------",
+        "condition": { "u_has_effect": "mabuff:buff_snake_static" },
+        "id": "buff_snake_static",
+        "text": "Snake's Sight"
+      },
+      { "condition": { "u_has_effect": "mabuff:buff_snake_onhit" }, "id": "buff_snake_onhit", "text": "Snake Bite" },
+      { "condition": { "u_has_effect": "mabuff:buff_snake_oncrit" }, "id": "buff_snake_oncrit", "text": "Snake Fang" },
+      {
+        "condition": { "u_has_effect": "mabuff:buff_snake_onpause" },
+        "id": "buff_snake_onpause",
+        "text": "Snake's Coi"
+      },
+      {
+        "//": "Tiger Kung Fu   -------------- 30 ----------------",
+        "condition": { "u_has_effect": "mabuff:buff_tiger_static" },
+        "id": "buff_tiger_static",
+        "text": ""
+      },
+      { "condition": { "u_has_effect": "mabuff:buff_tiger_onhit" }, "id": "buff_tiger_onhit", "text": "Tiger Fury" },
+      {
+        "//": "Wing Chun   -------------- 30 ---------------------",
+        "condition": { "u_has_effect": "mabuff:buff_wingchun_static" },
+        "id": "buff_wingchun_static",
+        "text": "Chi-Sao Sensitivity"
+      },
+      {
+        "condition": { "u_has_effect": "mabuff:buff_wingchun_onhit" },
+        "id": "buff_wingchun_onhit",
+        "text": "Chain Punch"
+      },
+      {
+        "condition": { "u_has_effect": "mabuff:buff_wingchun_onpause" },
+        "id": "buff_wingchun_onpause",
+        "text": "Biu Ji"
+      },
+      {
+        "//": "Bionic Combatives   -------------- 30 ----------------",
+        "condition": { "u_has_effect": "mabuff:buff_biojutsu_static" },
+        "id": "buff_biojutsu_static",
+        "text": "Biojutsu Stance"
+      },
+      {
+        "condition": { "u_has_effect": "mabuff:buff_biojutsu_onblock" },
+        "id": "buff_biojutsu_onblock",
+        "text": "Binary Hardening"
+      },
+      {
+        "condition": { "u_has_effect": "mabuff:buff_biojutsu_onkill" },
+        "id": "buff_biojutsu_onkill",
+        "text": "Optimization"
+      },
+      {
+        "//": "Centipede Kung Fu   -------------- 30 ----------------",
+        "condition": { "u_has_effect": "mabuff:buff_centipede_onhit" },
+        "id": "buff_centipede_onhit",
+        "text": "Centipede's Frenzy"
+      },
+      {
+        "condition": { "u_has_effect": "mabuff:buff_centipede_oncrit" },
+        "id": "buff_centipede_oncrit",
+        "text": "Centipede's Venom"
+      },
+      {
+        "//": "Lizard Kung Fu   -------------------------------------",
+        "condition": { "u_has_effect": "mabuff:buff_lizard_static1" },
+        "id": "buff_lizard_static1",
+        "text": "Lizard's Cunning"
+      },
+      {
+        "condition": { "u_has_effect": "mabuff:buff_lizard_static2" },
+        "id": "buff_lizard_static2",
+        "text": "Lizard's Haven"
+      },
+      {
+        "condition": { "u_has_effect": "mabuff:buff_lizard_onmove" },
+        "id": "buff_lizard_onmove",
+        "text": "Lizard's Leap"
+      },
+      {
+        "condition": { "u_has_effect": "mabuff:buff_lizard_onpause1" },
+        "id": "buff_lizard_onpause1",
+        "text": "Lizard's Perch"
+      },
+      {
+        "condition": { "u_has_effect": "mabuff:buff_lizard_onpause2" },
+        "id": "buff_lizard_onpause2",
+        "text": "Lizard's Venom"
+      },
+      {
+        "//": "Scorpion Kung Fu   -------------------------------------",
+        "condition": { "u_has_effect": "mabuff:buff_scorpion_static" },
+        "id": "buff_scorpion_static",
+        "text": "Scorpion's Venom"
+      },
+      {
+        "condition": { "u_has_effect": "mabuff:buff_scorpion_onattack" },
+        "id": "buff_scorpion_onattack",
+        "text": "Scorpion's Intimidation"
+      },
+      {
+        "condition": { "u_has_effect": "mabuff:buff_scorpion_onmove" },
+        "id": "buff_scorpion_onmove",
+        "text": "Scorpion's Charge"
+      },
+      {
+        "//": "Toad Kung Fu   -------------------------------------",
+        "condition": { "u_has_effect": "mabuff:buff_toad_static" },
+        "id": "buff_toad_static",
+        "text": "Toad's Iron Skin"
+      },
+      {
+        "condition": { "u_has_effect": "mabuff:buff_toad_onmove" },
+        "id": "buff_toad_onmove",
+        "text": "Iron Skin Dissipation"
+      },
+      {
+        "condition": { "u_has_effect": "mabuff:buff_toad_onpause" },
+        "id": "buff_toad_onpause",
+        "text": "Toad's Meditation"
+      },
+      {
+        "condition": { "u_has_effect": "mabuff:buff_toad_ongethit" },
+        "id": "buff_toad_ongethit",
+        "text": "Toad's Venom"
+      },
+      {
+        "//": "Viper Kung Fu   -------------------------------------",
+        "condition": { "u_has_effect": "mabuff:buff_venom_snake_static" },
+        "id": "buff_venom_snake_static",
+        "text": "Viper's Patience"
+      },
+      {
+        "condition": { "u_has_effect": "mabuff:buff_venom_snake_oncrit" },
+        "id": "buff_venom_snake_oncrit",
+        "text": "Viper's Venom"
+      },
+      {
+        "condition": { "u_has_effect": "mabuff:buff_venom_snake_onhit" },
+        "id": "buff_venom_snake_onhit",
+        "text": "Viper's Rattle"
+      }
+    ],
+    "default_clause": { "text": "---" }
+  },
+  {
+    "//": "Displays players martial art buffes/debufs by name",
+    "id": "ma_buff_legend",
+    "type": "widget",
+    "style": "legend",
+    "copy-from": "ma_buff_indicator_template",
+    "width": 0,
+    "height": 4,
+    "text_align": "left",
+    "flags": [ "W_LABEL_NONE", "W_DYNAMIC_HEIGHT" ]
   }
 ]

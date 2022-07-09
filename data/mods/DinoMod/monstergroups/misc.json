@@ -30,6 +30,7 @@
       { "monster": "mon_albertonykus", "weight": 50, "pack_size": [ 1, 2 ] },
       { "monster": "mon_eoraptor", "weight": 20, "pack_size": [ 4, 12 ] },
       { "monster": "mon_scutellosaurus", "weight": 20, "pack_size": [ 2, 4 ] },
+      { "monster": "mon_aquilops", "weight": 20, "pack_size": [ 1, 2 ] },
       { "monster": "mon_oryctodromeus", "weight": 20, "pack_size": [ 1, 2 ] },
       { "monster": "mon_dimorphodon", "weight": 50, "pack_size": [ 2, 4 ] }
     ]
@@ -40,6 +41,7 @@
     "monsters": [
       { "monster": "mon_compsognathus", "weight": 100 },
       { "monster": "mon_anzu", "weight": 50 },
+      { "monster": "mon_saurornitholestes", "weight": 50 },
       { "monster": "mon_eoraptor", "weight": 100 },
       { "monster": "mon_dimorphodon", "weight": 100 }
     ]
@@ -50,6 +52,7 @@
     "is_animal": true,
     "monsters": [
       { "monster": "mon_compsognathus", "weight": 50 },
+      { "monster": "mon_saurornitholestes", "weight": 50 },
       { "monster": "mon_eoraptor", "weight": 50 },
       { "monster": "mon_dimorphodon", "weight": 50 }
     ]

@@ -92,6 +92,17 @@
     ]
   },
   {
+    "id": "dissect_mosasaurus_large",
+    "type": "harvest",
+    "message": "Slicing carefully into the mosasaurus body, you discover stomach contents and biological samples that may be useful",
+    "entries": [
+      { "drop": "spider", "type": "bionic_group" },
+      { "drop": "science", "type": "bionic_group" },
+      { "drop": "corpses", "type": "bionic_group" },
+      { "drop": "lizard_sample_huge", "type": "mutagen_group" }
+    ]
+  },
+  {
     "id": "dissect_CBM_DINO",
     "type": "harvest",
     "message": "Slicing carefully into this technologically enhanced dinosaur, you discover items that may be useful",

@@ -1,17 +1,10 @@
 [
   {
-    "id": "lcom_spacer",
-    "type": "widget",
-    "style": "text",
-    "string": ".",
-    "flags": [ "W_LABEL_NONE" ]
-  },
-  {
     "id": "lcom_hpg_status_head",
     "type": "widget",
     "style": "layout",
     "arrange": "columns",
-    "widgets": [ "bodypart_head_status_text", "lcom_spacer", "hp_head_graph_nolabel" ],
+    "widgets": [ "bodypart_head_status_text", "hp_head_graph_nolabel" ],
     "flags": [ "W_NO_PADDING" ]
   },
   {
@@ -206,7 +199,8 @@
       "lcom_vehicle_layout",
       "compass_all_danger_layout",
       "bodypart_armor_outer_layout",
-      "bodygraph_hp_layout"
+      "bodygraph_hp_layout",
+      "sundial_desc_no_label"
     ]
   }
 ]

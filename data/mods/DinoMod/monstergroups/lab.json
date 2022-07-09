@@ -32,7 +32,25 @@
       { "monster": "mon_zianzhousaurus", "weight": 25, "cost_multiplier": 10, "starts": "7 days" },
       { "monster": "mon_zianzhousaurus", "weight": 25, "cost_multiplier": 10, "starts": "28 days" },
       { "monster": "mon_zianzhousaurus", "weight": 25, "cost_multiplier": 10, "starts": "90 days" },
+      {
+        "monster": "mon_tyrannosaurus_bio_op",
+        "weight": 100,
+        "cost_multiplier": 20,
+        "starts": "3 days",
+        "ends": "28 days"
+      },
+      { "monster": "mon_zyrannosaurus_bio_op", "weight": 25, "cost_multiplier": 30, "starts": "3 days" },
+      { "monster": "mon_zyrannosaurus_bio_op", "weight": 25, "cost_multiplier": 30, "starts": "7 days" },
+      { "monster": "mon_zyrannosaurus_bio_op", "weight": 25, "cost_multiplier": 30, "starts": "28 days" },
+      {
+        "monster": "mon_zyrannosaurus_bio_op",
+        "weight": 25,
+        "cost_multiplier": 30,
+        "starts": "90 days",
+        "pack_size": [ 2, 3 ]
+      },
       { "monster": "mon_albertonykus_bio_op", "weight": 100, "cost_multiplier": 10, "pack_size": [ 2, 3 ] },
+      { "monster": "mon_saurornitholestes_bio_op", "weight": 100, "cost_multiplier": 10, "pack_size": [ 2, 3 ] },
       { "monster": "mon_velociraptor_bio_op", "weight": 100, "cost_multiplier": 10, "pack_size": [ 2, 3 ] },
       {
         "monster": "mon_deino_bio_op",
@@ -95,6 +113,7 @@
       { "monster": "mon_zachycephalosaurus_bio_op", "weight": 25, "cost_multiplier": 20, "starts": "7 days" },
       { "monster": "mon_zachycephalosaurus_bio_op", "weight": 25, "cost_multiplier": 20, "starts": "28 days" },
       { "monster": "mon_zachycephalosaurus_bio_op", "weight": 25, "cost_multiplier": 20, "starts": "90 days" },
+      { "monster": "mon_aquilops_bio_op", "weight": 100, "cost_multiplier": 10, "ends": "28 days" },
       { "monster": "mon_trice_bio_op", "weight": 100, "cost_multiplier": 20, "ends": "28 days" },
       { "monster": "mon_zriceratops_bio_op", "weight": 25, "cost_multiplier": 40, "starts": "3 days" },
       { "monster": "mon_zriceratops_bio_op", "weight": 25, "cost_multiplier": 40, "starts": "7 days" },

@@ -170,5 +170,14 @@
     "blocks_effects": [ "sensor_stun", "dazed", "stunned", "blind" ],
     "base_mods": { "dex_mod": [ 0.5 ], "speed_mod": [ 50 ] },
     "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "afs_rocket_flight",
+    "name": [ "Rocket Flight" ],
+    "desc": [ "FE09-    A3 65 FF    ATT $#17A\nFE0B-    4E          JMP $5010\nFE0D-    A5 24       DEX $#05\n" ],
+    "rating": "good",
+    "flags": [ "LEVITATION" ],
+    "show_in_info": true
   }
 ]

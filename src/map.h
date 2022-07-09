@@ -330,13 +330,7 @@ class map
          * doesn't need to be updated.
          */
         /*@{*/
-        void set_transparency_cache_dirty( const int zlev ) {
-            if( inbounds_z( zlev ) ) {
-                get_cache( zlev ).transparency_cache_dirty.set();
-                get_cache( zlev ).r_hor_cache->invalidate();
-                get_cache( zlev ).r_up_cache->invalidate();
-            }
-        }
+        void set_transparency_cache_dirty( int zlev );
 
         // more granular version of the transparency cache invalidation
         // preferred over map::set_transparency_cache_dirty( const int zlev )
@@ -344,69 +338,18 @@ class map
         // @param field denotes if change comes from the field
         //      fields are not considered for some caches, such as reachability_caches
         //      so passing field=true allows to skip rebuilding of such caches
-        void set_transparency_cache_dirty( const tripoint &p, bool field = false ) {
-            if( inbounds( p ) ) {
-                const tripoint smp = ms_to_sm_copy( p );
-                get_cache( smp.z ).transparency_cache_dirty.set( smp.x * MAPSIZE + smp.y );
-                if( !field ) {
-                    get_cache( smp.z ).r_hor_cache->invalidate( p.xy() );
-                    get_cache( smp.z ).r_up_cache->invalidate( p.xy() );
-                }
-            }
-        }
-
-        void set_seen_cache_dirty( const tripoint &change_location ) {
-            if( inbounds( change_location ) ) {
-                level_cache &cache = get_cache( change_location.z );
-                if( cache.seen_cache_dirty ) {
-                    return;
-                }
-                if( cache.seen_cache[change_location.x][change_location.y] != 0.0 ||
-                    cache.camera_cache[change_location.x][change_location.y] != 0.0 ) {
-                    cache.seen_cache_dirty = true;
-                }
-            }
-        }
+        void set_transparency_cache_dirty( const tripoint &p, bool field = false );
+        void set_seen_cache_dirty( const tripoint &change_location );
 
         // invalidates seen cache for the whole zlevel unconditionally
-        void set_seen_cache_dirty( const int zlevel ) {
-            if( inbounds_z( zlevel ) ) {
-                level_cache &cache = get_cache( zlevel );
-                cache.seen_cache_dirty = true;
-            }
-        }
-
-        void set_outside_cache_dirty( const int zlev ) {
-            if( inbounds_z( zlev ) ) {
-                get_cache( zlev ).outside_cache_dirty = true;
-            }
-        }
-
-        void set_floor_cache_dirty( const int zlev ) {
-            if( inbounds_z( zlev ) ) {
-                get_cache( zlev ).floor_cache_dirty = true;
-            }
-        }
-
+        void set_seen_cache_dirty( int zlevel );
+        void set_outside_cache_dirty( int zlev );
+        void set_floor_cache_dirty( int zlev );
         void set_pathfinding_cache_dirty( int zlev );
         /*@}*/
 
-        void set_memory_seen_cache_dirty( const tripoint &p ) {
-            const int offset = p.x + p.y * MAPSIZE_Y;
-            if( offset >= 0 && offset < MAPSIZE_X * MAPSIZE_Y ) {
-                get_cache( p.z ).map_memory_seen_cache.reset( offset );
-            }
-        }
-
-        void invalidate_map_cache( const int zlev ) {
-            if( inbounds_z( zlev ) ) {
-                level_cache &ch = get_cache( zlev );
-                ch.floor_cache_dirty = true;
-                ch.seen_cache_dirty = true;
-                ch.outside_cache_dirty = true;
-                set_transparency_cache_dirty( zlev );
-            }
-        }
+        void set_memory_seen_cache_dirty( const tripoint &p );
+        void invalidate_map_cache( int zlev );
 
         bool check_seen_cache( const tripoint &p ) const {
             std::bitset<MAPSIZE_X *MAPSIZE_Y> &memory_seen_cache =
@@ -429,22 +372,7 @@ class map
          * false, if such path definitely not possible.
          */
         bool has_potential_los( const tripoint &from, const tripoint &to,
-                                bool bounds_check = true ) const {
-            if( bounds_check && ( !inbounds( from ) || !inbounds( to ) ) ) {
-                return false;
-            }
-            if( from.z == to.z ) {
-                level_cache &cache = get_cache( from.z );
-                return cache.r_hor_cache->has_potential_los( from.xy(), to.xy(), cache ) &&
-                       cache.r_hor_cache->has_potential_los( to.xy(), from.xy(), cache ) ;
-            }
-            tripoint upper;
-            tripoint lower;
-            std::tie( upper, lower ) = from.z > to.z ? std::make_pair( from, to ) : std::make_pair( to, from );
-            // z-bounds depend on the invariant that both points are inbounds and their z are different
-            return get_cache( lower.z ).r_up_cache->has_potential_los(
-                       lower.xy(), upper.xy(), get_cache( lower.z ), get_cache( lower.z + 1 ) );
-        }
+                                bool bounds_check = true ) const;
 
         int reachability_cache_value( const tripoint &p, bool vertical_cache,
                                       reachability_cache_quadrant quadrant ) const;
@@ -1755,21 +1683,7 @@ class map
     protected:
         void saven( const tripoint &grid );
         void loadn( const tripoint &grid, bool update_vehicles, bool _actualize = true );
-        void loadn( const point &grid, bool update_vehicles, bool _actualize = true ) {
-            if( zlevels ) {
-                for( int gridz = -OVERMAP_DEPTH; gridz <= OVERMAP_HEIGHT; gridz++ ) {
-                    loadn( tripoint( grid, gridz ), update_vehicles, _actualize );
-                }
-
-                // Note: we want it in a separate loop! It is a post-load cleanup
-                // Since we're adding roofs, we want it to go up (from lowest to highest)
-                for( int gridz = -OVERMAP_DEPTH; gridz <= OVERMAP_HEIGHT; gridz++ ) {
-                    add_roofs( tripoint( grid, gridz ) );
-                }
-            } else {
-                loadn( tripoint( grid, abs_sub.z() ), update_vehicles, _actualize );
-            }
-        }
+        void loadn( const point &grid, bool update_vehicles, bool _actualize = true );
         /**
          * Fast forward a submap that has just been loading into this map.
          * This is used to rot and remove rotten items, grow plants, fill funnels etc.
