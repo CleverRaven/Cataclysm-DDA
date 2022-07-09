@@ -25,6 +25,11 @@
     "monsters": [
       { "group": "GROUP_PET_CATS", "weight": 95, "cost_multiplier": 0 },
       { "monster": "mon_cat_mutant_prism", "weight": 4, "cost_multiplier": 0 },
+      { "monster": "mon_cat_void", "weight": 10, "cost_multiplier": 0 },
+      { "monster": "mon_cat_void_kitten", "weight": 1, "cost_multiplier": 0 },
+      { "monster": "mon_cat_liquid", "weight": 10, "cost_multiplier": 0 },
+      { "monster": "mon_cat_liquid_kitten", "weight": 1, "cost_multiplier": 0 },
+      { "monster": "mon_cat_mutant_prism", "weight": 10, "cost_multiplier": 0 },
       { "monster": "mon_cat_mutant_kitten_prism", "weight": 1, "cost_multiplier": 0 }
     ]
   },
@@ -84,10 +89,12 @@
       { "monster": "mon_cat_bengal_kitten", "weight": 5, "cost_multiplier": 0 },
       { "monster": "mon_cat_devon_rex", "weight": 50, "cost_multiplier": 0 },
       { "monster": "mon_cat_devon_rex_kitten", "weight": 5, "cost_multiplier": 0 },
-      { "monster": "mon_cat_sphynx", "weight": 50, "cost_multiplier": 0 },
-      { "monster": "mon_cat_sphynx_kitten", "weight": 5, "cost_multiplier": 0 },
+      { "monster": "mon_cat_sphynx", "weight": 10, "cost_multiplier": 0 },
+      { "monster": "mon_cat_sphynx_kitten", "weight": 1, "cost_multiplier": 0 },
       { "monster": "mon_cat_chonker", "weight": 50, "cost_multiplier": 0 },
       { "monster": "mon_cat_chonker_kitten", "weight": 5, "cost_multiplier": 0 },
+      { "monster": "mon_cat_black", "weight": 50, "cost_multiplier": 0 },
+      { "monster": "mon_cat_black_kitten", "weight": 5, "cost_multiplier": 0 },
       { "monster": "mon_tiger", "weight": 1, "cost_multiplier": 30 }
     ]
   },

@@ -309,27 +309,14 @@
     "copy-from": "mon_cat",
     "name": { "str": "shorthair kitten" },
     "description": "A cuddly kitten meowing and scampering amidst the death.  Currently feral.",
-    "default_faction": "cat",
-    "bodytype": "dog",
-    "categories": [ "WILDLIFE" ],
-    "species": [ "MAMMAL" ],
-    "volume": "1000 ml",
-    "weight": "1 kg",
+    "volume": "400 ml",
+    "weight": "400 g",
     "hp": 6,
-    "material": [ "flesh" ],
-    "symbol": "c",
-    "color": "light_gray",
-    "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
+    "//": "Kittens do not have their full fur yet and are really sensitive to cold temperature",
+    "armor_cold": 0,
+    "melee_damage": [ { "damage_type": "cut", "amount": 1 } ],
     "dodge": 14,
     "special_attacks": [ { "id": "scratch", "attack_upper": false, "cooldown": 10 } ],
-    "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "FRIEND_ATTACKED" ],
-    "placate_triggers": [ "MEAT" ],
-    "harvest": "mammal_tiny",
-    "petfood": {
-      "food": [ "CATFOOD" ],
-      "feed": "The %s seems to like you!  Or maybe it just tolerates your presence better.  It's hard to tell with felines.",
-      "pet": "The %s softly purrs as you pet it.  It demands more."
-    },
     "flags": [
       "SEES",
       "HEARS",
@@ -367,6 +354,8 @@
     "melee_dice_sides": 2,
     "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
     "dodge": 8,
+    "//": "Their fur keeps them warm",
+    "armor_cold": 2,
     "vision_night": 20,
     "special_attacks": [ { "id": "scratch", "attack_upper": false, "cooldown": 10 } ],
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "FRIEND_ATTACKED" ],
@@ -400,6 +389,8 @@
     "description": "This cat's long fur appears difficult to groom, but it seems to manage despite the circumstances.",
     "volume": "6000 ml",
     "weight": "6 kg",
+    "//": "Longer fur, more cold protection",
+    "armor_cold": 4,
     "reproduction": { "baby_monster": "mon_cat_longhair_kitten", "baby_count": 4, "baby_timer": 60 }
   },
   {
@@ -408,6 +399,7 @@
     "copy-from": "mon_cat_kitten",
     "name": { "str": "longhair kitten" },
     "description": "Barely more than a ball of fluff with eyes, this kitten looks like a longhair breed.",
+    "armor_cold": 2,
     "upgrades": { "age_grow": 120, "into": "mon_cat_longhair" }
   },
   {
@@ -419,6 +411,7 @@
     "volume": "8000 ml",
     "weight": "9 kg",
     "hp": 16,
+    "armor_cold": 4,
     "reproduction": { "baby_monster": "mon_cat_maine_coon_kitten", "baby_count": 4, "baby_timer": 60 }
   },
   {
@@ -427,6 +420,7 @@
     "copy-from": "mon_cat_kitten",
     "name": { "str": "Maine coon kitten" },
     "description": "This young Maine coon has tufted ears and a striking pattern on its face.",
+    "armor_cold": 2,
     "upgrades": { "age_grow": 120, "into": "mon_cat_maine_coon" }
   },
   {
@@ -501,6 +495,8 @@
     "copy-from": "mon_cat",
     "name": { "str": "Sphynx cat" },
     "description": "The Sphynx cat has practically no fur on its body, exposing its curiously wrinkled skin.",
+    "//": "No fur, no cold protection",
+    "armor_cold": 0,
     "reproduction": { "baby_monster": "mon_cat_sphynx_kitten", "baby_count": 4, "baby_timer": 60 }
   },
   {
@@ -549,9 +545,13 @@
     "copy-from": "mon_cat",
     "name": { "str": "golden chonker" },
     "description": "Oh lawd, he comin'!  This impressive feline would once have been celebrated on internet cat forums for its chonkiness and majestic golden mane.  Appears surprisingly well-groomed for a feral cat.",
-    "volume": "8000 ml",
-    "weight": "10 kg",
+    "volume": "7500 ml",
+    "weight": "8 kg",
     "hp": 20,
+    "speed": 100,
+    "dodge": 5,
+    "//": "Fat helps keeping their body warm",
+    "armor_cold": 3,
     "reproduction": { "baby_monster": "mon_cat_chonker_kitten", "baby_count": 8, "baby_timer": 60 }
   },
   {
@@ -561,6 +561,22 @@
     "name": { "str": "yellow kitten" },
     "description": "This poor little kitten is starving!  You wonder if you have some cat food around…",
     "upgrades": { "age_grow": 120, "into": "mon_cat_chonker" }
+  },
+  {
+    "id": "mon_cat_black_kitten",
+    "type": "MONSTER",
+    "copy-from": "mon_cat_kitten",
+    "name": { "str": "black kitten" },
+    "description": "An adorable, little furry ball of darkness with pronounced green eyes.",
+    "upgrades": { "age_grow": 120, "into": "mon_cat_black" }
+  },
+  {
+    "id": "mon_cat_black",
+    "type": "MONSTER",
+    "copy-from": "mon_cat",
+    "name": { "str": "black cat" },
+    "description": "A black ball of fur with prominent green eyes staring right into your soul.",
+    "reproduction": { "baby_monster": "mon_cat_black_kitten", "baby_count": 8, "baby_timer": 60 }
   },
   {
     "id": "mon_chipmunk",

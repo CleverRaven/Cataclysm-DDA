@@ -271,6 +271,7 @@
       { "monster": "mon_cat_devon_rex", "weight": 1 },
       { "monster": "mon_cat_sphynx", "weight": 1 },
       { "monster": "mon_cat_chonker", "weight": 1 },
+      { "monster": "mon_cat_black", "weight": 1 },
       { "monster": "mon_dog", "weight": 1 },
       { "monster": "mon_dog_bull", "weight": 1 },
       { "monster": "mon_dog_auscattle", "weight": 1 },
