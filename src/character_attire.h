@@ -78,6 +78,7 @@ class outfit
         bool can_pickVolume( const item &it, bool ignore_pkt_settings = true ) const;
         side is_wearing_shoes( const bodypart_id &bp ) const;
         bool is_wearing_helmet() const;
+        bool is_barefoot() const;
         item item_worn_with_flag( const flag_id &f, const bodypart_id &bp ) const;
         item item_worn_with_flag( const flag_id &f ) const;
         cata::optional<const item *> item_worn_with_inv_let( char invlet ) const;
@@ -95,7 +96,6 @@ class outfit
         void item_encumb( std::map<bodypart_id, encumbrance_data> &vals, const item &new_item,
                           const Character &guy ) const;
         std::list<item> get_visible_worn_items( const Character &guy ) const;
-        double footwear_factor() const;
         int swim_modifier( int swim_skill ) const;
         bool natural_attack_restricted_on( const bodypart_id &bp ) const;
         bool natural_attack_restricted_on( const sub_bodypart_id &bp ) const;

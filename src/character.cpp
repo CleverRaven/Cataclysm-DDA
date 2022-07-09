@@ -5378,7 +5378,7 @@ bool Character::is_elec_immune() const
 bool Character::is_immune_effect( const efftype_id &eff ) const
 {
     if( eff == effect_downed ) {
-        return is_throw_immune() || ( has_trait( trait_LEG_TENT_BRACE ) && footwear_factor() == 0 );
+        return is_throw_immune() || ( has_trait( trait_LEG_TENT_BRACE ) && is_barefoot() );
     } else if( eff == effect_onfire ) {
         return is_immune_damage( damage_type::HEAT );
     } else if( eff == effect_deaf ) {
@@ -7924,10 +7924,9 @@ void Character::update_vitamins( const vitamin_id &vit )
 
 void Character::rooted_message() const
 {
-    bool wearing_shoes = footwear_factor() == 1.0;
     if( ( has_trait( trait_ROOTS2 ) || has_trait( trait_ROOTS3 ) || has_trait( trait_CHLOROMORPH ) ) &&
         get_map().has_flag( ter_furn_flag::TFLAG_PLOWABLE, pos() ) &&
-        !wearing_shoes ) {
+        !is_barefoot() ) {
         add_msg( m_info, _( "You sink your roots into the soil." ) );
     }
 }
@@ -7938,9 +7937,8 @@ void Character::rooted()
 // Thirst level -40 puts it right in the middle of the 'Hydrated' zone.
 // TODO: The rates for iron, calcium, and thirst should probably be pulled from the nutritional data rather than being hardcoded here, so that future balance changes don't break this.
 {
-    double shoe_factor = footwear_factor();
     if( ( has_trait( trait_ROOTS2 ) || has_trait( trait_ROOTS3 ) || has_trait( trait_CHLOROMORPH ) ) &&
-        get_map().has_flag( ter_furn_flag::TFLAG_PLOWABLE, pos() ) && shoe_factor != 1.0 ) {
+        get_map().has_flag( ter_furn_flag::TFLAG_PLOWABLE, pos() ) && is_barefoot() ) {
         int time_to_full = 43200; // 12 hours
         if( has_trait( trait_ROOTS3 ) || has_trait( trait_CHLOROMORPH ) ) {
             time_to_full += -14400;    // -4 hours
@@ -9243,7 +9241,7 @@ int Character::run_cost( int base_cost, bool diag ) const
         if( flatground ) {
             movecost *= mutation_value( "movecost_flatground_modifier" );
         }
-        if( has_trait( trait_PADDED_FEET ) && !footwear_factor() ) {
+        if( has_trait( trait_PADDED_FEET ) && is_barefoot() ) {
             movecost *= .9f;
         }
 
@@ -9305,7 +9303,7 @@ int Character::run_cost( int base_cost, bool diag ) const
 
         if( ( has_trait( trait_ROOTS3 ) || has_trait( trait_CHLOROMORPH ) ) &&
             here.has_flag( ter_furn_flag::TFLAG_DIGGABLE, pos() ) ) {
-            movecost += 10 * footwear_factor();
+            movecost += 10 * ( is_barefoot() ? 1 : 0 );
         }
 
         movecost = calculate_by_enchantment( movecost, enchant_vals::mod::MOVE_COST );

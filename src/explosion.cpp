@@ -619,8 +619,7 @@ void shockwave( const tripoint &p, int radius, int force, int stun, int dam_mult
     Character &player_character = get_player_character();
     if( rl_dist( player_character.pos(), p ) <= radius && !ignore_player &&
         ( !player_character.has_trait( trait_LEG_TENT_BRACE ) ||
-          player_character.footwear_factor() == 1 ||
-          ( player_character.footwear_factor() == .5 && one_in( 2 ) ) ) ) {
+          !player_character.is_barefoot() ) ) {
         add_msg( m_bad, _( "You're caught in the shockwave!" ) );
         g->knockback( p, player_character.pos(), force, stun, dam_mult );
     }

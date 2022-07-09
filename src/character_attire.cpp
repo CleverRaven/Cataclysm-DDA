@@ -33,6 +33,9 @@ static const trait_id trait_HORNS_POINTED( "HORNS_POINTED" );
 static const trait_id trait_SQUEAMISH( "SQUEAMISH" );
 static const trait_id trait_WOOLALLERGY( "WOOLALLERGY" );
 
+static const sub_bodypart_str_id sub_bodypart_foot_sole_l( "foot_sole_l" );
+static const sub_bodypart_str_id sub_bodypart_foot_sole_r( "foot_sole_r" );
+
 nc_color item_penalties::color_for_stacking_badness() const
 {
     switch( badness() ) {
@@ -470,6 +473,11 @@ bool Character::wearing_something_on( const bodypart_id &bp ) const
     return worn.wearing_something_on( bp );
 }
 
+bool Character::is_barefoot() const
+{
+    return worn.is_barefoot();
+}
+
 cata::optional<const item *> outfit::item_worn_with_inv_let( const char invlet ) const
 {
     for( const item &i : worn ) {
@@ -601,11 +609,6 @@ double Character::armwear_factor() const
         ret += .5;
     }
     return ret;
-}
-
-double Character::footwear_factor() const
-{
-    return worn.footwear_factor();
 }
 
 int Character::shoe_type_count( const itype_id &it ) const
@@ -952,6 +955,17 @@ bool outfit::wearing_something_on( const bodypart_id &bp ) const
         }
     }
     return false;
+}
+
+bool outfit::is_barefoot() const
+{
+    for( const item &i : worn ) {
+        if( ( i.covers( sub_bodypart_foot_sole_l ) && !i.has_flag( flag_INTEGRATED ) ) ||
+            ( i.covers( sub_bodypart_foot_sole_r ) && !i.has_flag( flag_INTEGRATED ) ) ) {
+            return false;
+        }
+    }
+    return true;
 }
 
 int outfit::swim_modifier( const int swim_skill ) const
@@ -1344,24 +1358,6 @@ bool outfit::takeoff( item_location loc, std::list<item> *res, Character &guy )
         res->push_back( takeoff_copy );
     }
     return true;
-}
-
-double outfit::footwear_factor() const
-{
-    double ret = 0;
-    for( const item &i : worn ) {
-        if( i.covers( body_part_foot_l ) && !i.has_flag( flag_NOT_FOOTWEAR ) ) {
-            ret += 0.5f;
-            break;
-        }
-    }
-    for( const item &i : worn ) {
-        if( i.covers( body_part_foot_r ) && !i.has_flag( flag_NOT_FOOTWEAR ) ) {
-            ret += 0.5f;
-            break;
-        }
-    }
-    return ret;
 }
 
 void outfit::damage_mitigate( const bodypart_id &bp, damage_unit &dam ) const

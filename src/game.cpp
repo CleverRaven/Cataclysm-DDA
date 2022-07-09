@@ -4480,8 +4480,7 @@ void game::knockback( std::vector<tripoint> &traj, int stun, int dam_mult )
                                  targ->get_name() );
                     }
                 } else if( u.posx() == traj_front.x && u.posy() == traj_front.y &&
-                           ( u.has_trait( trait_LEG_TENT_BRACE ) && ( !u.footwear_factor() ||
-                                   ( u.footwear_factor() == .5 && one_in( 2 ) ) ) ) ) {
+                           ( u.has_trait( trait_LEG_TENT_BRACE ) && ( u.is_barefoot() ) ) ) {
                     add_msg( _( "%s collided with you, and barely dislodges your tentacles!" ), targ->get_name() );
                 } else if( u.posx() == traj_front.x && u.posy() == traj_front.y ) {
                     add_msg( m_bad, _( "%s collided with you and sent you flying!" ), targ->get_name() );
@@ -10005,8 +10004,7 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
         }
     }
     if( !u.is_mounted() && u.has_trait( trait_LEG_TENT_BRACE ) &&
-        ( !u.footwear_factor() ||
-          ( u.footwear_factor() == .5 && one_in( 2 ) ) ) ) {
+        ( u.is_barefoot() ) ) {
         // DX and IN are long suits for Cephalopods,
         // so this shouldn't cause too much hardship
         // Presumed that if it's swimmable, they're
