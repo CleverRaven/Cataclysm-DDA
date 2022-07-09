@@ -352,7 +352,7 @@
     "entries": [
       { "drop": "mutant_meat", "type": "flesh", "mass_ratio": 0.38 },
       { "drop": "mutant_blood", "type": "blood", "mass_ratio": 0.1 },
-      { "drop": "liver", "type": "offal", "mass_ratio": 0.01 },
+      { "drop": "mutant_liver", "type": "offal", "mass_ratio": 0.01 },
       { "drop": "bone", "type": "bone", "mass_ratio": 0.1 }
     ]
   },
@@ -978,8 +978,8 @@
     "type": "harvest",
     "entries": [
       { "drop": "mutant_meat", "type": "flesh", "mass_ratio": 0.4 },
-      { "drop": "fat", "type": "flesh", "mass_ratio": 0.1 },
-      { "drop": "fat", "type": "offal", "mass_ratio": 0.1 }
+      { "drop": "mutant_fat", "type": "flesh", "mass_ratio": 0.1 },
+      { "drop": "mutant_fat", "type": "offal", "mass_ratio": 0.1 }
     ]
   },
   {
