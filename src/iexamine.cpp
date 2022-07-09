@@ -553,7 +553,7 @@ void iexamine::attunement_altar( Character &you, const tripoint & )
     }
     // remove the attunements the player has conflicts for
     for( auto iter = attunements.begin(); iter != attunements.end(); ) {
-        if( !you.has_opposite_trait( *iter ) && you.mutation_ok( *iter, false, false ) ) {
+        if( !you.has_opposite_trait( *iter ) && you.mutation_ok( *iter, true, true, true ) ) {
             ++iter;
         } else {
             iter = attunements.erase( iter );
