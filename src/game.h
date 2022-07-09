@@ -211,8 +211,8 @@ class game
         void setup();
         /** Saving and loading functions. */
         void serialize( std::ostream &fout ); // for save
-        void unserialize( std::istream &fin, const std::string &path ); // for load
-        void unserialize_master( const std::string &file_name, std::istream &fin ); // for load
+        void unserialize( std::istream &fin, const cata_path &path ); // for load
+        void unserialize_master( const cata_path &file_name, std::istream &fin ); // for load
         void unserialize_master( const JsonValue &jv ); // for load
 
         /** write statistics to stdout and @return true if successful */
@@ -796,7 +796,7 @@ class game
         bool load( const save_t &name ); // Load a player-specific save file
         void load_master(); // Load the master data file, with factions &c
 #if defined(__ANDROID__)
-        void load_shortcuts( std::istream &fin, const std::string &path );
+        void load_shortcuts( const cata_path &path );
 #endif
         bool start_game(); // Starts a new game in the active world
 

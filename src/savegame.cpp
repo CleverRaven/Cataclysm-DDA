@@ -198,7 +198,7 @@ static size_t chkversion( std::istream &fin )
 /*
  * Parse an open .sav file.
  */
-void game::unserialize( std::istream &fin, const std::string &path )
+void game::unserialize( std::istream &fin, const cata_path &path )
 {
     size_t json_file_offset = chkversion( fin );
     int tmpturn = 0;
@@ -206,7 +206,7 @@ void game::unserialize( std::istream &fin, const std::string &path )
     int tmprun = 0;
     tripoint_om_sm lev;
     point_abs_om com;
-    JsonValue jsin = json_loader::from_path_at_offset( fs::u8path( path ), json_file_offset );
+    JsonValue jsin = json_loader::from_path_at_offset( path, json_file_offset );
     try {
         JsonObject data = jsin.get_object();
 
@@ -310,10 +310,10 @@ void scent_map::deserialize( const std::string &data, bool is_type )
 
 #if defined(__ANDROID__)
 ///// quick shortcuts
-void game::load_shortcuts( std::istream &fin, const std::string &path )
+void game::load_shortcuts( const cata_path &path )
 {
-    JsonValue jsin = json_loader::from_path( fs::u8path( path ) );
     try {
+        JsonValue jsin = json_loader::from_path( path );
         JsonObject data = jsin.get_object();
 
         if( get_option<bool>( "ANDROID_SHORTCUT_PERSISTENCE" ) ) {
@@ -1436,12 +1436,12 @@ void mission::unserialize_all( const JsonArray &ja )
     }
 }
 
-void game::unserialize_master( const std::string &file_name, std::istream &fin )
+void game::unserialize_master( const cata_path &file_name, std::istream &fin )
 {
     savegame_loading_version = 0;
     size_t json_offset = chkversion( fin );
     try {
-        JsonValue jv = json_loader::from_path_at_offset( fs::u8path( file_name ), json_offset );
+        JsonValue jv = json_loader::from_path_at_offset( file_name, json_offset );
         unserialize_master( jv );
     } catch( const JsonError &e ) {
         debugmsg( "error loading %s: %s", SAVE_MASTER, e.c_str() );
