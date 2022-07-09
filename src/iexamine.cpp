@@ -1512,11 +1512,11 @@ void iexamine::chainfence( Character &you, const tripoint &examp )
             move_cost = 300; // Most common move cost for barricades pre-change.
         }
     } else if( you.has_trait( trait_ARACHNID_ARMS_OK ) &&
-               !you.wearing_something_on( bodypart_id( "torso" ) ) ) {
+               !you.wearing_fitting_on( bodypart_id( "torso" ) ) ) {
         add_msg( _( "Climbing this obstacle is trivial for one such as you." ) );
         move_cost = 75; // Yes, faster than walking.  6-8 limbs are impressive.
     } else if( you.has_trait( trait_INSECT_ARMS_OK ) &&
-               !you.wearing_something_on( bodypart_id( "torso" ) ) ) {
+               !you.wearing_fitting_on( bodypart_id( "torso" ) ) ) {
         add_msg( _( "You quickly scale the fence." ) );
         move_cost = 90;
     } else if( you.has_proficiency( proficiency_prof_parkour ) ) {

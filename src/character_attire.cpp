@@ -473,6 +473,11 @@ bool Character::wearing_something_on( const bodypart_id &bp ) const
     return worn.wearing_something_on( bp );
 }
 
+bool Character::wearing_fitting_on( const bodypart_id &bp ) const
+{
+    return worn.wearing_fitting_on( bp );
+}
+
 bool Character::is_barefoot() const
 {
     return worn.is_barefoot();
@@ -951,6 +956,16 @@ bool outfit::wearing_something_on( const bodypart_id &bp ) const
 {
     for( const item &i : worn ) {
         if( i.covers( bp ) && !i.has_flag( flag_INTEGRATED ) ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool outfit::wearing_fitting_on( const bodypart_id &bp ) const
+{
+    for( const item &i : worn ) {
+        if( i.covers( bp ) && ( !i.has_flag( flag_INTEGRATED ) && !i.has_flag( flag_OVERSIZE ) ) ) {
             return true;
         }
     }
