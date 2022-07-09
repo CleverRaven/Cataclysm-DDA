@@ -372,9 +372,9 @@ void mod_manager::load_mod_info( const cata_path &info_file_path )
     } );
 }
 
-std::string mod_manager::get_mods_list_file( const WORLD *world )
+cata_path mod_manager::get_mods_list_file( const WORLD *world )
 {
-    return world->folder_path() + "/mods.json";
+    return world->folder_path_path() / "mods.json";
 }
 
 void mod_manager::save_mods_list( const WORLD *world ) const
@@ -382,11 +382,11 @@ void mod_manager::save_mods_list( const WORLD *world ) const
     if( world == nullptr ) {
         return;
     }
-    const std::string path = get_mods_list_file( world );
+    const cata_path path = get_mods_list_file( world );
     if( world->active_mod_order.empty() ) {
         // If we were called from load_mods_list to prune the list,
         // and it's empty now, delete the file.
-        remove_file( path );
+        remove_file( path.get_unrelative_path() );
         return;
     }
     write_to_file( path, [&]( std::ostream & fout ) {

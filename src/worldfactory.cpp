@@ -101,6 +101,11 @@ std::string WORLD::folder_path() const
     return PATH_INFO::savedir() + world_name;
 }
 
+cata_path WORLD::folder_path_path() const
+{
+    return PATH_INFO::savedir_path() / world_name;
+}
+
 bool WORLD::save_exists( const save_t &name ) const
 {
     return std::find( world_saves.begin(), world_saves.end(), name ) != world_saves.end();
@@ -2101,7 +2106,7 @@ bool WORLD::load_options()
 {
     WORLD_OPTIONS = get_options().get_world_defaults();
 
-    const std::string path = folder_path() + "/" + PATH_INFO::worldoptions();
+    const cata_path path = folder_path_path() / PATH_INFO::worldoptions();
     return read_from_file_optional_json( path, [this]( const JsonValue & jsin ) {
         this->load_options( jsin );
     } );

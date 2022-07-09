@@ -57,6 +57,7 @@ struct WORLD {
          * changing that will also change the result of this function.
          */
         std::string folder_path() const;
+        cata_path folder_path_path() const;
 
         std::string world_name;
         options_manager::options_container WORLD_OPTIONS;
