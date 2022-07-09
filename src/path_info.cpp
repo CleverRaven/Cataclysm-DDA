@@ -44,6 +44,7 @@ static std::string memorialdir_value;
 static std::string langdir_value;
 
 
+static cata_path autonote_path_value;
 static cata_path autopickup_path_value;
 static cata_path base_path_path_value;
 static cata_path config_dir_path_value;
@@ -158,6 +159,7 @@ void PATH_INFO::set_standard_filenames()
     keymap_value = config_dir_value + "keymap.txt";
     autopickup_value = config_dir_value + "auto_pickup.json";
     autonote_value = config_dir_value + "auto_note.json";
+    autonote_path_value = config_dir_path_value / "auto_note.json";
 }
 
 std::string find_translated_file( const std::string &base_path, const std::string &extension,
@@ -204,9 +206,9 @@ cata_path PATH_INFO::autopickup()
 {
     return autopickup_path_value;
 }
-std::string PATH_INFO::autonote()
+cata_path PATH_INFO::autonote()
 {
-    return autonote_value;
+    return autonote_path_value;
 }
 cata_path PATH_INFO::base_colors()
 {

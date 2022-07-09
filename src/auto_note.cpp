@@ -22,9 +22,9 @@
 
 namespace auto_notes
 {
-std::string auto_note_settings::build_save_path() const
+cata_path auto_note_settings::build_save_path() const
 {
-    return PATH_INFO::player_base_save_path() + ".ano.json";
+    return PATH_INFO::player_base_save_path_path() + ".ano.json";
 }
 
 void auto_note_settings::clear()
@@ -38,7 +38,7 @@ bool auto_note_settings::save( bool bCharacter )
     if( bCharacter && !file_exist( PATH_INFO::player_base_save_path() + ".sav" ) ) {
         return true;
     }
-    std::string sGlobalFile = PATH_INFO::autonote();
+    cata_path sGlobalFile = PATH_INFO::autonote();
     return write_to_file( bCharacter ? build_save_path() : sGlobalFile, [ &,
     bCharacter]( std::ostream & fstr ) {
         JsonOut jout{ fstr, true };
@@ -146,7 +146,7 @@ void auto_note_settings::load( bool bCharacter )
             save( true );
         }
     } else {
-        std::string sGlobalFile = PATH_INFO::autonote();
+        cata_path sGlobalFile = PATH_INFO::autonote();
         read_from_file_optional_json( sGlobalFile, parseJson );
     }
 }

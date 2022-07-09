@@ -23,7 +23,6 @@ void init_base_path( std::string path );
 void init_user_dir( std::string dir );
 void set_standard_filenames();
 
-std::string autonote();
 std::string base_path();
 std::string cache_dir();
 std::string config_dir();
@@ -58,6 +57,7 @@ std::string motd();
 std::string title( holiday current_holiday );
 
 cata_path autopickup();
+cata_path autonote();
 cata_path base_colors();
 cata_path base_path_path();
 cata_path color_templates();
