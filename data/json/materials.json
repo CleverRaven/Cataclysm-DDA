@@ -1018,7 +1018,7 @@
   },
   {
     "type": "material",
-    "id": "lamp_oil",
+    "id": "kerosene",
     "density": 0.81,
     "name": "Kerosene",
     "copy-from": "hydrocarbons",

@@ -102,7 +102,7 @@
             "collection": [ { "item": "flintlock_pouch", "damage": [ 1, 4 ] }, { "item": "flintlock_ammo", "charges-min": 0, "charges-max": 14 } ],
             "prob": 30
           },
-          { "item": "lamp_oil", "charges": [ 0, 250 ], "container-item": "bottle_plastic_small", "prob": 10 }
+          { "item": "kerosene", "charges": [ 0, 250 ], "container-item": "bottle_plastic_small", "prob": 10 }
         ]
       }
     ]

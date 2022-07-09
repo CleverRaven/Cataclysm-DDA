@@ -319,9 +319,9 @@
   },
   {
     "type": "ammunition_type",
-    "id": "lamp_oil",
+    "id": "kerosene",
     "name": "kerosene",
-    "default": "lamp_oil"
+    "default": "kerosene"
   },
   {
     "type": "ammunition_type",

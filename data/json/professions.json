@@ -3729,7 +3729,7 @@
           { "item": "flintlock_pouch", "contents-group": "flintlock_pouch_reenactor" },
           { "item": "flintlock_ammo", "charges": 15 },
           { "item": "vinegar", "container-item": "bottle_plastic_small" },
-          { "item": "lamp_oil", "container-item": "bottle_plastic_small" },
+          { "item": "kerosene", "container-item": "bottle_plastic_small" },
           { "group": "charged_smart_phone" },
           { "group": "charged_matches" }
         ]

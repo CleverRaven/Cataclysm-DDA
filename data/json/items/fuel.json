@@ -147,7 +147,7 @@
     "effects": [ "FLAME", "STREAM", "INCENDIARY", "NEVER_MISFIRES" ]
   },
   {
-    "id": "lamp_oil",
+    "id": "kerosene",
     "type": "AMMO",
     "name": { "str_sp": "kerosene" },
     "description": "A thin and clean-burning oil made for use in oil lamps.",
@@ -163,8 +163,8 @@
     "sealed": false,
     "symbol": "=",
     "color": "yellow",
-    "material": [ "lamp_oil" ],
-    "ammo_type": "lamp_oil",
+    "material": [ "kerosene" ],
+    "ammo_type": "kerosene",
     "range": 6,
     "damage": { "damage_type": "heat", "amount": 2, "armor_penetration": 2 },
     "effects": [ "FLAME", "STREAM" ]
@@ -296,7 +296,7 @@
     "material": [ "turpentine" ],
     "symbol": "~",
     "color": "white",
-    "ammo_type": "lamp_oil",
+    "ammo_type": "kerosene",
     "range": 6,
     "damage": { "damage_type": "heat", "amount": 2, "armor_penetration": 2 },
     "effects": [ "FLAME", "STREAM" ]

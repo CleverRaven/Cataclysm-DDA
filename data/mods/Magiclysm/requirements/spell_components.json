@@ -71,7 +71,7 @@
     "id": "spell_components_nova_flare",
     "type": "requirement",
     "//": "Fire starting items suitable for the Nova Flare spell",
-    "components": [ [ [ "coal_lump", 30 ], [ "lamp_oil", 5 ] ] ]
+    "components": [ [ [ "coal_lump", 30 ], [ "kerosene", 5 ] ] ]
   },
   {
     "id": "spell_components_freezing_touch",

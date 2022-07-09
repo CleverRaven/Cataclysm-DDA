@@ -179,7 +179,7 @@
         "collection": [ { "item": "methed_alcohol", "prob": 70 }, { "item": "popcan_stove", "prob": 100 } ],
         "prob": 4
       },
-      { "collection": [ { "item": "oil_lamp", "prob": 100 }, { "item": "lamp_oil", "prob": 70 } ], "prob": 10 }
+      { "collection": [ { "item": "oil_lamp", "prob": 100 }, { "item": "kerosene", "prob": 70 } ], "prob": 10 }
     ]
   },
   {

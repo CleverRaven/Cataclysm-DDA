@@ -2924,7 +2924,7 @@
         { "id": "biodiesel", "fg": 2971 },
         { "id": "flamethrower_fuel", "fg": 2974 },
         { "id": "avgas", "fg": 2970 },
-        { "id": "lamp_oil", "fg": 2977 },
+        { "id": "kerosene", "fg": 2977 },
         { "id": "motor_oil", "fg": 2978 },
         { "id": "napalm", "fg": 2979 },
         { "id": "gelled_gasoline", "fg": 2976 },

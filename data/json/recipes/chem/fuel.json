@@ -54,14 +54,14 @@
         [ "edible_tallow_lard", 8, "LIST" ],
         [ "tallow_tainted", 8 ],
         [ "any_fat", 16, "LIST" ],
-        [ "lamp_oil", 1000 ],
+        [ "kerosene", 1000 ],
         [ "motor_oil", 1000 ]
       ]
     ],
     "flags": [ "ALLOW_ROTTEN" ]
   },
   {
-    "result": "lamp_oil",
+    "result": "kerosene",
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
     "category": "CC_CHEM",
