@@ -60,7 +60,7 @@
   },
   {
     "type": "material",
-    "id": "ancient_lamp_oil",
+    "id": "crude_lamp_oil",
     "density": 0.81,
     "name": "Lamp oil",
     "copy-from": "hydrocarbons",

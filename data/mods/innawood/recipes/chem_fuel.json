@@ -77,7 +77,7 @@
     "flags": [ "ALLOW_ROTTEN" ]
   },
   {
-    "result": "ancient_lamp_oil",
+    "result": "crude_lamp_oil",
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
     "category": "CC_CHEM",
