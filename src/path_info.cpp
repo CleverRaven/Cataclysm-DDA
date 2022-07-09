@@ -200,9 +200,9 @@ cata_path find_translated_file( const cata_path &base_path, const std::string &e
     return fallback;
 }
 
-std::string PATH_INFO::autopickup()
+cata_path PATH_INFO::autopickup()
 {
-    return autopickup_value;
+    return autopickup_path_value;
 }
 std::string PATH_INFO::autonote()
 {
