@@ -13,18 +13,11 @@ class json_loader
         // Create a JsonValue from the given json source file, optionally starting parsing
         // at the given offset in the file (eg. because it starts with some non-json
         // content like a version header). Throws if the file cannot be found or fails to parse.
-        static JsonValue from_path( const fs::path &source_file ) noexcept( false );
-        static JsonValue from_path_at_offset( const fs::path &source_file,
-                                              size_t offset = 0 ) noexcept( false );
-
         static JsonValue from_path( const cata_path &source_file ) noexcept( false );
         static JsonValue from_path_at_offset( const cata_path &source_file,
                                               size_t offset = 0 ) noexcept( false );
 
         // Like json_loader::from_path, except does not throw if the file does not exist. It will still throw if the json cannot be parsed.
-        static cata::optional<JsonValue> from_path_opt( fs::path source_file ) noexcept( false );
-        static cata::optional<JsonValue> from_path_at_offset_opt( fs::path source_file,
-                size_t offset = 0 ) noexcept( false );
         static cata::optional<JsonValue> from_path_opt( const cata_path &source_file ) noexcept( false );
         static cata::optional<JsonValue> from_path_at_offset_opt( const cata_path &source_file,
                 size_t offset = 0 ) noexcept( false );

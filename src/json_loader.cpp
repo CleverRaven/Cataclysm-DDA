@@ -178,26 +178,3 @@ JsonValue json_loader::from_string( std::string const &data ) noexcept( false )
     flexbuffers::Reference buffer_root = flexbuffer_root_from_storage( buffer->get_storage() );
     return JsonValue( std::move( buffer ), buffer_root, nullptr, 0 );
 }
-
-cata::optional<JsonValue> json_loader::from_path_at_offset_opt( fs::path source_file,
-        size_t offset ) noexcept( false )
-{
-    return from_path_at_offset_opt( cata_path{ cata_path::root_path::unknown, std::move( source_file ) },
-                                    offset );
-}
-
-cata::optional<JsonValue> json_loader::from_path_opt( fs::path source_file ) noexcept( false )
-{
-    return from_path_opt( cata_path{ cata_path::root_path::unknown, std::move( source_file ) } );
-}
-
-JsonValue json_loader::from_path_at_offset( const fs::path &source_file,
-        size_t offset ) noexcept( false )
-{
-    return from_path_at_offset( cata_path{ cata_path::root_path::unknown, source_file }, offset );
-}
-
-JsonValue json_loader::from_path( const fs::path &source_file ) noexcept( false )
-{
-    return from_path( cata_path{ cata_path::root_path::unknown, source_file } );
-}
