@@ -8,34 +8,34 @@
     "object": {
       "fill_ter": "t_region_groundcover_urban",
       "rows": [
-        "''''''''''''''''''''''''",
-        "''''''''''''''''''''''''",
-        "''''''''''''''''''''''''",
-        "''''''''''''''''''''''''",
-        "'''''''''''''t''''''''''",
-        "''''''t'''''''''gg''''''",
-        "''''''''''''''''gg''''''",
-        "''''''''''''''''''''''''",
-        "''''mmm'''''''''''''''''",
-        "''''mmm''''h'''''''bt'''",
-        "'''tmmm''''h'''''''b''''",
-        "'''''''''''h''''''''''''",
-        "'''''''''''h''''''''''''",
-        "''''''''''''''''''''''''",
-        "''''''''''''''''''''''''",
-        "''''''b''''''''''''t''''",
-        "'''''tb'''''''''''''''''",
-        "'''''''''bb&'''t''''''''",
-        "'''''''''t''''''''''''''",
-        "''''''''''''''''''''''''",
-        "''''''''''''''''''''''''",
-        "''''''''''''''''''''''''",
-        "''''''''''''''''''''''''",
-        "''''''''''''''''''''''''"
+        "‘‘‘‘‘‘‘‘‘‘‘‘‘‘‘‘‘‘‘‘‘‘‘‘",
+        "‘''''''''''''''''''''''‘",
+        "‘''''''''''''''''''''''‘",
+        "‘''''''''''''''''''''''‘",
+        "‘''''''''''''t'''''''''‘",
+        "‘'''''t'''''''''gg'''''‘",
+        "‘'''''''''''''''gg'''''‘",
+        "‘''''''''''''''''''''''‘",
+        "‘'''mmm''''''''''''''''‘",
+        "‘'''mmm''''h'''''''bt''‘",
+        "‘''tmmm''''h'''''''b'''‘",
+        "‘''''''''''h'''''''''''‘",
+        "‘''''''''''h'''''''''''‘",
+        "‘''''''''''''''''''''''‘",
+        "‘''''''''''''''''''''''‘",
+        "‘'''''b''''''''''''t'''‘",
+        "‘''''tb''''''''''''''''‘",
+        "‘''''''''bb&'''t'''''''‘",
+        "‘''''''''t'''''''''''''‘",
+        "‘''''''''''''''''''''''‘",
+        "‘''''''''''''''''''''''‘",
+        "‘''''''''''''''''''''''‘",
+        "‘''''''''''''''''''''''‘",
+        "‘‘‘‘‘‘‘‘‘‘‘‘‘‘‘‘‘‘‘‘‘‘‘‘"
       ],
       "palettes": [ "park_scenic_palette" ],
       "place_monster": [ { "group": "GROUP_PARK_PLAYGROUND", "x": [ 1, 23 ], "y": [ 1, 23 ], "repeat": [ 10, 20 ] } ],
-      "vehicles": { "'": { "vehicle": "park_playground_vehicles", "chance": 1 } }
+      "vehicles": { "'": { "vehicle": "park_playground_vehicles", "chance": 1, "rotation": [ 0, 90, 180, 270 ] } }
     }
   },
   {
@@ -163,7 +163,7 @@
     "object": {
       "fill_ter": "t_grass",
       "rows": [
-        "         ......         ",
+        "         pppppp         ",
         "  zzzzzzzz....zzzzzzzz  ",
         " z         ..         z ",
         " z    ,bTb,.. t **`** z ",
@@ -172,12 +172,12 @@
         " z ,,..,,  ..   *```* z ",
         " z bb.,,,  ..   **`** z ",
         " z TT.,,, ....    .   z ",
-        ".z bb.   .ssss.   . t z.",
-        ".. ,,.  .ss~~ss.  .   ..",
-        ".........s~~~~s.........",
-        ".........s~~~~s.........",
-        "..   .  .ss~~ss.  .   ..",
-        ".z   .   .ssss.   .   z.",
+        "pz bb.   .ssss.   . t zp",
+        "p. ,,.  .ss~~ss.  .   .p",
+        "p........s~~~~s........p",
+        "p........s~~~~s........p",
+        "p.   .  .ss~~ss.  .   .p",
+        "pz   .   .ssss.   .   zp",
         " z   .    ....    .   z ",
         " z t . t   ..     . b z ",
         " z   ..    ..    .. b z ",
@@ -186,12 +186,12 @@
         " z fsf     ..   bb  t z ",
         " z         ..         z ",
         "  zzzzzzzz....zzzzzzzz  ",
-        "         ......         "
+        "         pppppp         "
       ],
       "palettes": [ "park_scenic_palette" ],
       "place_item": [ { "item": "char_smoker", "x": 7, "y": 7 } ],
       "place_monster": [ { "group": "GROUP_PARK_SCENIC", "x": [ 1, 23 ], "y": [ 1, 23 ], "repeat": [ 10, 20 ] } ],
-      "vehicles": { ".": { "vehicle": "park_playground_vehicles", "chance": 1 } }
+      "vehicles": { ".": { "vehicle": "park_playground_vehicles", "chance": 1, "rotation": [ 0, 90, 180, 270 ] } }
     }
   },
   {
@@ -203,7 +203,7 @@
     "object": {
       "fill_ter": "t_grass",
       "rows": [
-        "   ,   z ...... z     , ",
+        "   ,   z pppppp z     , ",
         ",    zzz .o..o. zzz,    ",
         " , zzz  z......z  zzz   ",
         "  zz    b......b    zz, ",
@@ -212,12 +212,12 @@
         " z      z......z      z ",
         "zz  t   ........   t  zz",
         "  zbbbz..........zbbbz  ",
-        "..........ssss..........",
-        ".o.......ssffss.......o.",
-        ".........sfzzfs.........",
-        ".........sfzzfs.........",
-        ".o.......ssffss.......o.",
-        "..........ssss..........",
+        "p.........ssss.........p",
+        "po.......ssffss.......op",
+        "p........sfzzfs........p",
+        "p........sfzzfs........p",
+        "po.......ssffss.......op",
+        "p.........ssss.........p",
         "  zbbbz..........zbbbz  ",
         "zz  t   ........   t  zz",
         " z      z......z      z ",
@@ -226,11 +226,11 @@
         "  zz    b......b    zz ,",
         ",  zzz  z......z  zzz   ",
         "     zzz .o..o. zzz ,   ",
-        " , ,   z ...... z       "
+        " , ,   z pppppp z       "
       ],
       "palettes": [ "park_scenic_palette" ],
       "place_monster": [ { "group": "GROUP_PARK_SCENIC", "x": [ 1, 23 ], "y": [ 1, 23 ], "repeat": [ 10, 20 ] } ],
-      "vehicles": { ".": { "vehicle": "park_playground_vehicles", "chance": 1 } }
+      "vehicles": { ".": { "vehicle": "park_playground_vehicles", "chance": 1, "rotation": [ 0, 90, 180, 270 ] } }
     }
   },
   {
@@ -311,15 +311,15 @@
     "object": {
       "fill_ter": "t_region_groundcover_urban",
       "rows": [
-        "'ppppp''''''''''''''''''",
-        "'ppppp''''''''''''''''''",
-        "'pppppppppppppppp'''''''",
-        "'pppppppppppppppp'''''''",
-        "'PppppPppppPppppP''''u''",
-        "'PppppPppppPppppP'''''''",
-        "'PppppPppppPppppP'''''''",
-        "'PppppPppppPppppP'''''4'",
-        "'PppppPppppPppppP'''''''",
+        "'.....''''''''''''''''''",
+        "'.....''''''''''''''''''",
+        "'................'''''''",
+        "'................'''''''",
+        "'P..ppPppppPppppP''''u''",
+        "'P..ppPppppPppppP'''''''",
+        "'P..ppPppppPppppP'''''''",
+        "'P..ppPppppPppppP'''''4'",
+        "'P..ppPppppPppppP'''''''",
         "'''''''''''ss'''''''''''",
         "''''''&ssssssssss&''''e'",
         "''''''sBBBBssBBBBs''''C'",
@@ -355,7 +355,10 @@
         { "chance": 10, "item": "field", "x": 1, "y": 13 }
       ],
       "place_monster": [ { "group": "GROUP_PARK_SCENIC", "x": [ 1, 23 ], "y": [ 1, 23 ], "repeat": [ 10, 20 ] } ],
-      "vehicles": { "s": { "vehicle": "park_playground_vehicles", "chance": 1 }, "p": { "vehicle": "suburban_home", "chance": 1 } }
+      "vehicles": {
+        "s": { "vehicle": "park_playground_vehicles", "chance": 1, "rotation": [ 0, 90, 180, 270 ] },
+        "p": { "vehicle": "suburban_home", "chance": 1, "rotation": [ 0, 90, 180, 270 ] }
+      }
     }
   },
   {
@@ -367,30 +370,30 @@
     "object": {
       "fill_ter": "t_region_groundcover_urban",
       "rows": [
-        "''''_''''''''''''''''_''",
-        "'0ffffffff0'_0ffffffff0_",
-        "'||||||||||_'||||||||||'",
-        "'''''''_'''''''''''_''''",
-        "'bTTb''bTTb''bTTb''bTTb'",
-        "'bTTb''bTTb''bTTb''bTTb'",
-        "'bTTb''bTTb''bTTb''bTTb'",
-        "'bTTb''bTTb''bTTb''bTTb'",
-        "'bTTb''bTTb''bTTb''bTTb'",
-        "'''_'''''''''''''''''_''",
-        "''YY'&&'YY''''YY'&&'YY''",
-        "''''''''_'''''''''''''''",
-        "''''''''______'''''''__'",
-        "'''a'''''''__''''''d''__",
-        "'__'''''''''__'''d'''d''",
-        "''__''a''''''''''''d''d'",
-        "'t''a''bbb__'''d'''''d''",
-        "'''''''''____''''''d''''",
-        "'tu_''ut___'''''t'''u'''",
-        "''t''t'''''t'''u''u'''t'",
-        "'u''u'c'''u'''1'tu'tu''u",
-        "'_''_''ut''''c'''''uOt't",
+        "‘‘‘‘_‘‘‘‘‘‘‘‘‘‘‘‘‘‘‘‘_‘‘",
+        "‘0ffffffff0'_0ffffffff0_",
+        "‘||||||||||_'||||||||||‘",
+        "‘''''''_'''''''''''_'''‘",
+        "‘bTTb''bTTb''bTTb''bTTb‘",
+        "‘bTTb''bTTb''bTTb''bTTb‘",
+        "‘bTTb''bTTb''bTTb''bTTb‘",
+        "‘bTTb''bTTb''bTTb''bTTb‘",
+        "‘bTTb''bTTb''bTTb''bTTb‘",
+        "‘''_'''''''''''''''''_'‘",
+        "‘'YY'&&'YY''''YY'&&'YY'‘",
+        "‘'''''''_''''''''''''''‘",
+        "‘'''''''______'''''''__‘",
+        "‘''a'''''''__''''''d''__",
+        "‘__'''''''''__'''d'''d'‘",
+        "‘'__''a''''''''''''d''d‘",
+        "‘t''a''bbb__'''d'''''d'‘",
+        "‘''''''''____''''''d'''‘",
+        "‘tu_''ut___'''''t'''u''‘",
+        "‘'t''t'''''t'''u''u'''t‘",
+        "‘u''u'c'''u'''1'tu'tu''u",
+        "‘_''_''ut''''c'''''uOt't",
         "tu'1Ou'tu'c'u''u'tu1tu'u",
-        "'t'ut'_t''u't'ut'''u''t'"
+        "‘t‘ut‘_t‘‘u‘t‘ut‘‘‘u‘‘t‘"
       ],
       "palettes": [ "park_scenic_palette" ],
       "place_items": [
@@ -411,7 +414,7 @@
         { "chance": 5, "item": "forage_mushroom", "x": 3, "y": 21 }
       ],
       "place_monster": [ { "group": "GROUP_PARK_SCENIC", "x": [ 1, 23 ], "y": [ 1, 23 ], "repeat": [ 10, 20 ] } ],
-      "vehicles": { "'": { "vehicle": "park_playground_vehicles", "chance": 1 } }
+      "vehicles": { "'": { "vehicle": "park_playground_vehicles", "chance": 1, "rotation": [ 0, 90, 180, 270 ] } }
     }
   },
   {
@@ -423,30 +426,30 @@
     "object": {
       "fill_ter": "t_region_groundcover_urban",
       "rows": [
-        "''0'0'O'O'O'0'0''''''_''",
+        "‘‘0‘0‘O‘O‘O‘0‘0‘‘‘‘‘‘_‘‘",
         "_''''''$'$''_''''''''''_",
-        "___t'ggggggg$'''''q]]]]'",
-        "'''''ghhhhhg$'b_''q+:x]'",
-        "'''''ggggggg$'b'_'q]5X]'",
-        "'''_'ggggggg''b'_'q]]]]'",
-        "'''''ggggggg$'b'''q]5X]'",
-        "'t'''ghhhhhg'_b_''q+:x]'",
-        "_''''ggggggg$''''_q]]]]'",
-        "'_'''ggggggg$''''_''bb''",
-        "_''''gmgmmmg'__'''_'''''",
-        "'t't_gmgmgmg''$$'$$'_'''",
-        "'''''gmgmgmg$$ggggg'''''",
-        "''''_gmmmgmg''ggggg$'b'_",
-        "_''_'ggggggg$$ggggg''b''",
-        "'t'_'ggggggg$'ggggg$_b''",
+        "___t'ggggggg$'''''q]]]]‘",
+        "‘''''ghhhhhg$'b_''q+:x]‘",
+        "‘''''ggggggg$'b'_'q]5X]‘",
+        "‘''_'ggggggg''b'_'q]]]]‘",
+        "‘''''ggggggg$'b'''q]5X]‘",
+        "‘t'''ghhhhhg'_b_''q+:x]‘",
+        "_''''ggggggg$''''_q]]]]‘",
+        "‘_'''ggggggg$''''_''bb'‘",
+        "_''''gmgmmmg'__'''_''''‘",
+        "‘t't_gmgmgmg''$$'$$'_''‘",
+        "‘''''gmgmgmg$$ggggg''''‘",
+        "‘'''_gmmmgmg''ggggg$'b'_",
+        "_''_'ggggggg$$ggggg''b'‘",
+        "‘t'_'ggggggg$'ggggg$_b'‘",
         "t''''ggggggg''ggggg''''_",
-        "''t''''$'$'$''$'''$_'_''",
-        "'_'_t'''_'_''__''_'''''_",
-        "'tt'''tbbb'''t'bbb'''t''",
-        "t''''''''_t'''''''''''''",
-        "'''t't''''''''''''_'''_'",
-        "t''''''_t''''_'''''t''''",
-        "'t't''''''_'''t''_''''''"
+        "‘'t''''$'$'$''$'''$_'_'‘",
+        "‘_'_t'''_'_''__''_'''''_",
+        "‘tt'''tbbb'''t'bbb'''t'‘",
+        "t''''''''_t''''''''''''‘",
+        "‘''t't''''''''''''_'''_‘",
+        "t''''''_t''''_'''''t'''‘",
+        "‘t‘t‘‘‘‘‘‘_‘‘‘t‘‘_‘‘‘‘‘‘"
       ],
       "palettes": [ "park_scenic_palette" ],
       "place_items": [
@@ -460,7 +463,7 @@
       ],
       "place_toilets": [ { "x": 21, "y": 3 }, { "x": 21, "y": 5 } ],
       "place_monster": [ { "group": "GROUP_PARK_SCENIC", "x": [ 1, 23 ], "y": [ 1, 23 ], "repeat": [ 10, 20 ] } ],
-      "vehicles": { "'": { "vehicle": "park_playground_vehicles", "chance": 1 } }
+      "vehicles": { "'": { "vehicle": "park_playground_vehicles", "chance": 1, "rotation": [ 0, 90, 180, 270 ] } }
     }
   },
   {
@@ -472,7 +475,7 @@
     "object": {
       "fill_ter": "t_region_groundcover_urban",
       "rows": [
-        "'''sss'''''''Z'''''Z''''",
+        "'''SSS'''''''Z'''''Z''''",
         "'''sss'''f'''''''f'''''Z",
         "''''sss''''Z'c'u'''cu'''",
         "''''ssss''''''f'''''''''",
@@ -488,19 +491,19 @@
         "'':::::::'ssss'''''&c'''",
         "'':l:::l:_sssss'''''''''",
         "''0ll:ll0'ss_sss'''bbb''",
-        "'''0:::0'sss''ssssssssss",
-        "''''''''sss''''sssssssss",
+        "'''0:::0'sss''sssssssssS",
+        "''''''''sss''''ssssssssS",
         "'''''''ssss'''''sssd''''",
         "'''''''sss'''''''sss''d'",
         "''''sssss'''''c'''ss''''",
-        "sssssssss'dbbb'''dsss'''",
-        "sssssss''''''''d'''sss''",
-        "'''''''''''d''_''''sss''"
+        "Sssssssss'dbbb'''dsss'''",
+        "Sssssss''''''''d'''sss''",
+        "'''''''''''d''_''''SSS''"
       ],
       "palettes": [ "park_scenic_palette" ],
       "items": { "_": { "item": "forest", "chance": 4 } },
       "place_monster": [ { "group": "GROUP_PARK_SCENIC", "x": [ 1, 23 ], "y": [ 1, 23 ], "repeat": [ 10, 20 ] } ],
-      "vehicles": { "s": { "vehicle": "park_playground_vehicles", "chance": 1 } }
+      "vehicles": { "s": { "vehicle": "park_playground_vehicles", "chance": 1, "rotation": [ 0, 90, 180, 270 ] } }
     }
   },
   {
@@ -512,36 +515,36 @@
     "object": {
       "fill_ter": "t_grass",
       "rows": [
-        "ssssssssssssssssssssssss",
-        "ssssssssssssssssssssssss",
-        "sszzzzzzz''ss''zzzzzzzss",
-        "ssz||||||&'ss'&||||||zss",
-        "ssz|zzzzz''ss''zzzzz|zss",
-        "ssz|zbbb'''ss'''bbbz|zss",
-        "ssz|zb'''''ss'''''bz|zss",
-        "ssz|zb'''''ss'''''bz|zss",
-        "ssz|z'''tsssssst'''z|zss",
-        "ss'A''''sssOOsss''''A'ss",
-        "ss''''''ssO~~Oss''''''ss",
-        "sssssssssO~~~~Osssssssss",
-        "sssssssssO~~~~Osssssssss",
-        "ss''''''ssO~~Oss''''''ss",
-        "ss'A''''sssOOsss''''A'ss",
-        "ssz|z'''tsssssst'''z|zss",
-        "ssz|zb'''''ss'''''bz|zss",
-        "ssz|zb'''''ss'''''bz|zss",
-        "ssz|zbbb'''ss'''bbbz|zss",
-        "ssz|zzzzz''ss''zzzzz|zss",
-        "ssz||||||&'ss'&||||||zss",
-        "sszzzzzzz''ss''zzzzzzzss",
-        "ssssssssssssssssssssssss",
-        "ssssssssssssssssssssssss"
+        "SSSSSSSSSSSSSSSSSSSSSSSS",
+        "SssssssssssssssssssssssS",
+        "Sszzzzzzz''ss''zzzzzzzsS",
+        "Ssz||||||&'ss'&||||||zsS",
+        "Ssz|zzzzz''ss''zzzzz|zsS",
+        "Ssz|zbbb'''ss'''bbbz|zsS",
+        "Ssz|zb'''''ss'''''bz|zsS",
+        "Ssz|zb'''''ss'''''bz|zsS",
+        "Ssz|z'''tsssssst'''z|zsS",
+        "Ss'A''''sssOOsss''''A'sS",
+        "Ss''''''ssO~~Oss''''''sS",
+        "SssssssssO~~~~OssssssssS",
+        "SssssssssO~~~~OssssssssS",
+        "Ss''''''ssO~~Oss''''''sS",
+        "Ss'A''''sssOOsss''''A'sS",
+        "Ssz|z'''tsssssst'''z|zsS",
+        "Ssz|zb'''''ss'''''bz|zsS",
+        "Ssz|zb'''''ss'''''bz|zsS",
+        "Ssz|zbbb'''ss'''bbbz|zsS",
+        "Ssz|zzzzz''ss''zzzzz|zsS",
+        "Ssz||||||&'ss'&||||||zsS",
+        "Sszzzzzzz''ss''zzzzzzzsS",
+        "SssssssssssssssssssssssS",
+        "SSSSSSSSSSSSSSSSSSSSSSSS"
       ],
       "palettes": [ "park_scenic_palette" ],
       "terrain": { "O": "t_sidewalk" },
       "items": { "|": { "item": "stoner", "chance": 1 } },
       "place_monster": [ { "group": "GROUP_PARK_SCENIC", "x": [ 15, 17 ], "y": [ 15, 17 ], "repeat": [ 10, 20 ] } ],
-      "vehicles": { "s": { "vehicle": "park_playground_vehicles", "chance": 1 } }
+      "vehicles": { "s": { "vehicle": "park_playground_vehicles", "chance": 1, "rotation": [ 0, 90, 180, 270 ] } }
     }
   },
   {
@@ -553,7 +556,7 @@
     "object": {
       "fill_ter": "t_region_groundcover_urban",
       "rows": [
-        "''''''''''ssss''''''''''",
+        "''''''''''SSSS''''''''''",
         "''''''''''ssss''''''''''",
         "''u'''''''ssss''''''''''",
         "'uu'''''''ssssb''''''u''",
@@ -582,7 +585,7 @@
       "vendingmachines": { "v": { "item_group": "vending_drink", "lootable": true } },
       "items": { "X": [ { "item": "trash", "chance": 75, "repeat": [ 2, 7 ] }, { "item": "vending_drink_items", "chance": 25 } ] },
       "place_monster": [ { "group": "GROUP_PARK_SCENIC", "x": [ 1, 23 ], "y": [ 1, 23 ], "repeat": [ 10, 20 ] } ],
-      "vehicles": { "s": { "vehicle": "park_playground_vehicles", "chance": 1 } }
+      "vehicles": { "s": { "vehicle": "park_playground_vehicles", "chance": 1, "rotation": [ 0, 90, 180, 270 ] } }
     }
   }
 ]
