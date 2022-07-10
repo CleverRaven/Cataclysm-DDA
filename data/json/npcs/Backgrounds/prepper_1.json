@@ -40,7 +40,7 @@
       { "text": "Could you tell me that story again?", "topic": "BGSS_PREPPER_1_STORY1" },
       {
         "text": "We could go check out that shelter together if you like.  Might be better having another person to keep you safe?",
-        "condition": { "not": {"u_has_var": "prepper_1_accepted_quest", "type": "mission", "context": "BGSS", "value": "yes"} },
+        "condition": { "not": {"u_has_var": "prepper_1_accepted_quest", "type": "dialog", "context": "BGSS", "value": "yes"} },
         "trial": { "type": "PERSUADE", "difficulty": 50, "mod": [ [ "TRUST", 4 ], [ "VALUE", 2 ], [ "ANGER", -6 ] ] },
         "success": { "topic": "BGSS_PREPPER_1_SHELTERSUCCESS", "effect": [
           { "add_mission": "directions_prepper_1_SHELTER" },
@@ -74,7 +74,7 @@
     "value": 0,
     "start": {
       "assign_mission_target": { "om_special": "LMOE Shelter", "om_terrain": "lmoe", "reveal_radius": 3, "search_range": 400 },
-      "effect": { "u_add_var": "prepper_1_accepted_quest", "type": "mission", "context": "BGSS", "value": "yes" }
+      "effect": { "u_add_var": "prepper_1_accepted_quest", "type": "dialog", "context": "BGSS", "value": "yes" }
     },    
     "end": {"opinion": { "trust": 1 , "value": 1 }},
     "origins": [ "ORIGIN_SECONDARY" ],

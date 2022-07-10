@@ -28,12 +28,13 @@
   {
     "id": "BGSS_RURAL_1_STORY3",
     "type": "talk_topic",
-    "dynamic_line": "That was the first thing to really shake me out of it.  I didn't really have any very close friends, but there were people back in town I cared about a bit.  I had sent some texts, but I hadn't really twigged that they hadn't replied for days.  I got in my truck and tried to get back to town.  Didn't get far before I hit a <zombie> infested pileup blocking the highway, and that's when I started to put it all together.  Never did get to town.  Unfortunately I led the <zombies> back to my farm, and had to bug out of there.  Might go back and clear it out, someday.",
+    "dynamic_line": "That was the first thing to really shake me out of it.  I didn't really have any very close friends, but there were people back in town I cared about a bit.  I had sent some texts, but I hadn't really twigged that they hadn't replied for days.  I got in my truck and tried to get back to town.  Didn't get far before I hit a <zombie> infested pileup blocking the highway, and that's when I started to put it all together.  Never did get to town.  Unfortunately I led the <zombies> back to my farm, and had to bug out of there.  Might go back and clear it out, someday."
+      ,
     "//": "In the future this NPC should give you the map coordinates to the farm if you persuade.",
     "responses": [
       {
         "text": "I could help you clear out your farm if you wanted.  You just have to show me the way…",
-        "condition": { "not": {"u_has_var": "rural_1_accepted_quest", "type": "mission", "context": "BGSS", "value": "yes"} },
+        "condition": { "not": {"u_has_var": "rural_1_accepted_quest", "type": "dialog", "context": "BGSS", "value": "yes"} },
         "trial": { "type": "PERSUADE", "difficulty": 30, "mod": [ [ "TRUST", 6 ], [ "VALUE", 3 ], [ "ANGER", -6 ] ] },
         "success": { "topic": "BGSS_RURAL_1_FARMSUCCESS", "effect": [
           { "add_mission": "directions_rural_1_FARM" },
@@ -67,7 +68,7 @@
     "value": 0,
     "start": {
       "assign_mission_target": { "om_special": "Farm", "om_terrain": "farm_3", "reveal_radius": 3, "search_range": 400 },
-      "effect": { "u_add_var": "rural_1_accepted_quest", "type": "mission", "context": "BGSS", "value": "yes" }
+      "effect": { "u_add_var": "rural_1_accepted_quest", "type": "dialog", "context": "BGSS", "value": "yes" }
     },
     "end": {"opinion": { "trust": 2 , "value": 2 }},
     "origins": [ "ORIGIN_SECONDARY" ],
