@@ -1546,26 +1546,26 @@ void parse_tags( std::string &phrase, const Character &u, const Character &me,
             return;
         }
 
-        const item &u_weapon = u.get_wielded_item();
-        const item &me_weapon = me.get_wielded_item();
+        const item_location u_weapon = u.get_wielded_item();
+        const item_location me_weapon = me.get_wielded_item();
         // Special, dynamic tags go here
         if( tag == "<yrwp>" ) {
-            phrase.replace( fa, l, remove_color_tags( u_weapon.tname() ) );
+            phrase.replace( fa, l, remove_color_tags( u_weapon->tname() ) );
         } else if( tag == "<mywp>" ) {
             if( !me.is_armed() ) {
                 phrase.replace( fa, l, _( "fists" ) );
             } else {
-                phrase.replace( fa, l, remove_color_tags( me_weapon.tname() ) );
+                phrase.replace( fa, l, remove_color_tags( me_weapon->tname() ) );
             }
         } else if( tag == "<u_name>" ) {
             phrase.replace( fa, l, u.get_name() );
         } else if( tag == "<npc_name>" ) {
             phrase.replace( fa, l, me.get_name() );
         } else if( tag == "<ammo>" ) {
-            if( !me_weapon.is_gun() ) {
+            if( !me_weapon || !me_weapon->is_gun() ) {
                 phrase.replace( fa, l, _( "BADAMMO" ) );
             } else {
-                phrase.replace( fa, l, me_weapon.ammo_current()->nname( 1 ) );
+                phrase.replace( fa, l, me_weapon->ammo_current()->nname( 1 ) );
             }
         } else if( tag == "<current_activity>" ) {
             std::string activity_name;

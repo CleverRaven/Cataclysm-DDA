@@ -616,17 +616,17 @@ bool ma_requirements::is_valid_character( const Character &u ) const
     bool cqb = u.has_active_bionic( bio_cqb );
     // There are 4 different cases of "armedness":
     // Truly unarmed, unarmed weapon, style-allowed weapon, generic weapon
-    const item weapon = u.get_wielded_item();
+    const item_location weapon = u.get_wielded_item();
     bool melee_style = u.martial_arts_data->selected_strictly_melee();
     bool is_armed = u.is_armed();
-    bool unarmed_weapon = is_armed && u.used_weapon().has_flag( json_flag_UNARMED_WEAPON );
+    bool unarmed_weapon = is_armed && u.used_weapon()->has_flag( json_flag_UNARMED_WEAPON );
     bool forced_unarmed = u.martial_arts_data->selected_force_unarmed();
-    bool weapon_ok = is_valid_weapon( weapon );
-    bool style_weapon = u.martial_arts_data->selected_has_weapon( weapon.typeId() );
+    bool weapon_ok = melee_allowed && weapon && is_valid_weapon( *weapon );
+    bool style_weapon = weapon && u.martial_arts_data->selected_has_weapon( weapon->typeId() );
     bool all_weapons = u.martial_arts_data->selected_allow_all_weapons();
 
     bool unarmed_ok = !is_armed || ( unarmed_weapon && unarmed_weapons_allowed );
-    bool melee_ok = melee_allowed && weapon_ok && ( style_weapon || all_weapons );
+    bool melee_ok = weapon_ok && ( style_weapon || all_weapons );
 
     bool valid_unarmed = !melee_style && unarmed_allowed && unarmed_ok;
     bool valid_melee = !strictly_unarmed && ( forced_unarmed || melee_ok );
@@ -678,7 +678,7 @@ bool ma_requirements::is_valid_character( const Character &u ) const
     if( !weapon_categories_allowed.empty() ) {
         bool valid_weap_cat = false;
         for( const weapon_category_id &w_cat : weapon_categories_allowed ) {
-            if( u.used_weapon().typeId()->weapon_category.count( w_cat ) > 0 ) {
+            if( u.used_weapon() && u.used_weapon()->typeId()->weapon_category.count( w_cat ) > 0 ) {
                 valid_weap_cat = true;
             }
         }
@@ -1269,22 +1269,21 @@ bool martialart::has_weapon( const itype_id &itt ) const
     } );
 }
 
-bool martialart::weapon_valid( const item &it ) const
+bool martialart::weapon_valid( const item_location &it ) const
 {
     if( allow_all_weapons ) {
         return true;
     }
 
-    if( it.is_null() && !strictly_melee ) {
+    if( !it && !strictly_melee ) {
         return true;
     }
 
-    if( has_weapon( it.typeId() ) ) {
+    if( it && has_weapon( it->typeId() ) ) {
         return true;
     }
 
-    if( !strictly_unarmed && !strictly_melee && !it.is_null() &&
-        it.has_flag( json_flag_UNARMED_WEAPON ) ) {
+    if( !strictly_unarmed && !strictly_melee && it && it->has_flag( json_flag_UNARMED_WEAPON ) ) {
         return true;
     }
 
@@ -1303,15 +1302,15 @@ std::string martialart::get_initiate_npc_message() const
 // Player stuff
 
 // technique
-std::vector<matec_id> character_martial_arts::get_all_techniques( const item &weap,
+std::vector<matec_id> character_martial_arts::get_all_techniques( const item_location &weap,
         const Character &u ) const
 {
     std::vector<matec_id> tecs;
     const martialart &style = style_selected.obj();
 
     // Grab individual item techniques if the style allows them
-    if( !style.force_unarmed ) {
-        const auto &weapon_techs = weap.get_techniques();
+    if( weap && !style.force_unarmed ) {
+        const auto &weapon_techs = weap->get_techniques();
         tecs.insert( tecs.end(), weapon_techs.begin(), weapon_techs.end() );
     }
     // and martial art techniques
@@ -1778,8 +1777,7 @@ void character_martial_arts::martialart_use_message( const Character &owner ) co
         owner.add_msg_if_player( m_bad, _( "%s cannot be used with weapons." ), ma.name );
     } else {
         owner.add_msg_if_player( m_bad, _( "The %1$s is not a valid %2$s weapon." ),
-                                 owner.get_wielded_item().tname( 1,
-                                         false ), ma.name );
+                                 owner.get_wielded_item()->tname( 1, false ), ma.name );
     }
 }
 
@@ -2051,7 +2049,7 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
                     return it.typeId() == w;
                 } );
                 // Wielded weapon in cyan, weapons in player inventory in yellow
-                std::string wname = player.get_wielded_item().typeId() == w ?
+                std::string wname = player.get_wielded_item()->typeId() == w ?
                                     colorize( item::nname( w ) + _( " (wielded)" ), c_light_cyan ) :
                                     carrying ? colorize( item::nname( w ), c_yellow ) : item::nname( w );
                 bool cat_found = false;

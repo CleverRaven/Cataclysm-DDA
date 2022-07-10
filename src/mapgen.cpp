@@ -7405,16 +7405,25 @@ void map::create_anomaly( const tripoint &cp, artifact_natural_property prop, bo
             }
             break;
 
-        case ARTPROP_FRACTAL:
-            create_anomaly( c + point( -4, -4 ),
-                            static_cast<artifact_natural_property>( rng( ARTPROP_NULL + 1, ARTPROP_MAX - 1 ) ) );
-            create_anomaly( c + point( 4, -4 ),
-                            static_cast<artifact_natural_property>( rng( ARTPROP_NULL + 1, ARTPROP_MAX - 1 ) ) );
-            create_anomaly( c + point( -4, 4 ),
-                            static_cast<artifact_natural_property>( rng( ARTPROP_NULL + 1, ARTPROP_MAX - 1 ) ) );
-            create_anomaly( c + point( 4, -4 ),
-                            static_cast<artifact_natural_property>( rng( ARTPROP_NULL + 1, ARTPROP_MAX - 1 ) ) );
+        case ARTPROP_FRACTAL: {
+            // Want to choose a random anomaly type which isn't fractal
+            // (because nested fractal anomalies lead to out of bounds
+            // placement).  To be able to easily choose a random type excluding
+            // fractal we want ARTPROP_FRACTAL to be the last type in the enum.
+            // Verify that here with a static_assert.
+            static_assert( ARTPROP_FRACTAL + 1 == ARTPROP_MAX,
+                           "ARTPROP_FRACTAL should be the last type in the list before "
+                           "ARTPROP_MAX" );
+            auto random_type = []() {
+                return static_cast<artifact_natural_property>(
+                           rng( ARTPROP_NULL + 1, ARTPROP_FRACTAL - 1 ) );
+            };
+            create_anomaly( c + point( -4, -4 ), random_type() );
+            create_anomaly( c + point( 4, -4 ), random_type() );
+            create_anomaly( c + point( -4, 4 ), random_type() );
+            create_anomaly( c + point( 4, 4 ), random_type() );
             break;
+        }
         default:
             break;
     }

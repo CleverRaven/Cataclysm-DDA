@@ -1,0 +1,10 @@
+[
+  {
+    "copy-from": "leather_journal",
+    "type": "TOOL",
+    "name": { "str": "leather journal" },
+    "looks_like": "book_nonf_soft_psych_cggamers",
+    "use_action": [ "CALORIES_INTAKE_TRACKER" ],
+    "extend": { "flags": [ "TRADER_AVOID", "CALORIES_INTAKE" ] }
+  }
+]

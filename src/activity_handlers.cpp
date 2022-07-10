@@ -1598,19 +1598,29 @@ void activity_handlers::pulp_do_turn( player_activity *act, Character *you )
     map &here = get_map();
     const tripoint &pos = here.getlocal( act->placement );
 
-    const item &weapon = you->get_wielded_item();
+    const item_location weapon = you->get_wielded_item();
+    int weap_cut = 0;
+    int weap_stab = 0;
+    int weap_bash = 0;
+    int mess_radius = 1;
+
+    if( weapon ) {
+        weap_cut = weapon->damage_melee( damage_type::CUT );
+        weap_stab = weapon->damage_melee( damage_type::STAB );
+        weap_bash = weapon->damage_melee( damage_type::BASH );
+        if( weapon->has_flag( flag_MESSY ) ) {
+            mess_radius = 2;
+        }
+    }
+
     // Stabbing weapons are a lot less effective at pulping
-    const int cut_power = std::max( weapon.damage_melee( damage_type::CUT ),
-                                    weapon.damage_melee( damage_type::STAB ) / 2 );
+    const int cut_power = std::max( weap_cut, weap_stab / 2 );
 
     ///\EFFECT_STR increases pulping power, with diminishing returns
-    float pulp_power = std::sqrt( ( you->get_arm_str() + weapon.damage_melee( damage_type::BASH ) ) *
-                                  ( cut_power + 1.0f ) );
-    float pulp_effort = you->str_cur + weapon.damage_melee( damage_type::BASH );
+    float pulp_power = std::sqrt( ( you->get_arm_str() + weap_bash ) * ( cut_power + 1.0f ) );
+    float pulp_effort = you->str_cur + weap_bash;
     // Multiplier to get the chance right + some bonus for survival skill
     pulp_power *= 40 + you->get_skill_level( skill_survival ) * 5;
-
-    const int mess_radius = weapon.has_flag( flag_MESSY ) ? 2 : 1;
 
     int moves = 0;
     // use this to collect how many corpse are pulped

@@ -1856,10 +1856,26 @@ static void burned_ground_parser( map &m, const tripoint &loc )
     for( wrapped_vehicle vehicle : vehs ) {
         vehicles.push_back( vehicle.v );
         std::set<tripoint> occupied = vehicle.v->get_points();
-        for( const tripoint &t : occupied ) {
-            points.push_back( t );
+        // Important that this loop excludes fake parts, because those can be
+        // outside map bounds
+        for( const vpart_reference &vp : vehicle.v->get_all_parts() ) {
+            tripoint t = vp.pos();
+            if( m.inbounds( t ) ) {
+                points.push_back( t );
+            } else {
+                tripoint_abs_omt pos = project_to<coords::omt>( m.getglobal( loc ) );
+                oter_id terrain_type = overmap_buffer.ter( pos );
+                tripoint veh_origin = vehicle.v->global_pos3();
+                debugmsg( "burned_ground_parser: Vehicle %s (origin %s; rotation (%f,%f)) has "
+                          "out of bounds part at %s in terrain_type %s\n",
+                          vehicle.v->name, veh_origin.to_string(),
+                          vehicle.v->face_vec().x, vehicle.v->face_vec().y,
+                          t.to_string(), terrain_type->get_type_id().str() );
+            }
         }
     }
+    std::sort( points.begin(), points.end() );
+    points.erase( std::unique( points.begin(), points.end() ), points.end() );
     for( vehicle *vrem : vehicles ) {
         m.destroy_vehicle( vrem );
     }

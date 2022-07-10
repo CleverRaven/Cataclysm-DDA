@@ -317,7 +317,7 @@
       "effect": [
         { "u_spawn_item": "ruger_redhawk" },
         { "u_spawn_item": "44magnum", "count": 17 },
-        { "u_spawn_item": "holster" },
+        { "u_spawn_item": "western_holster" },
         { "u_spawn_item": "badge_marshal" },
         { "u_add_trait": "PROF_FED" }
       ]
