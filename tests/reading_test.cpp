@@ -215,9 +215,9 @@ TEST_CASE( "estimated reading time for a book", "[reading][book][time]" )
     REQUIRE( alpha->type->book );
 
     // Convert time to read from minutes to moves, for easier comparison later
-    int moves_child = child->type->book->time * to_moves<int>( 1_minutes );
-    int moves_western = western->type->book->time * to_moves<int>( 1_minutes );
-    int moves_alpha = alpha->type->book->time * to_moves<int>( 1_minutes );
+    time_duration moves_child = child->type->book->time;
+    time_duration moves_western = western->type->book->time;
+    time_duration moves_alpha = alpha->type->book->time;
 
     GIVEN( "some unidentified books and plenty of light" ) {
         REQUIRE_FALSE( dummy.has_identified( child->typeId() ) );
@@ -496,7 +496,7 @@ TEST_CASE( "reading a book with an ebook reader", "[reading][book][ereader]" )
 
             dummy.activity = player_activity(
                                  read_activity_actor(
-                                     dummy.time_to_read( *booklc, dummy ),
+                                     to_moves<int>( dummy.time_to_read( *booklc, dummy ) ),
                                      booklc,
                                      ereader,
                                      true

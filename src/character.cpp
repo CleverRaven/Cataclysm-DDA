@@ -3088,12 +3088,12 @@ std::string Character::enumerate_unmet_requirements( const item &it, const item 
     return enumerate_as_string( unmet_reqs );
 }
 
-int Character::read_speed( bool return_stat_effect ) const
+int Character::read_speed() const
 {
     // Stat window shows stat effects on based on current stat
     const int intel = get_int();
     /** @EFFECT_INT increases reading speed by 3s per level above 8*/
-    int ret = to_moves<int>( 1_minutes ) - to_moves<int>( 3_seconds ) * ( intel - 8 );
+    time_duration ret = 1_minutes - 3_seconds * ( intel - 8 );
 
     if( has_bionic( afs_bio_linguistic_coprocessor ) ) { // Aftershock
         ret *= .85;
@@ -3101,11 +3101,11 @@ int Character::read_speed( bool return_stat_effect ) const
 
     ret *= mutation_value( "reading_speed_multiplier" );
 
-    if( ret < to_moves<int>( 1_seconds ) ) {
-        ret = to_moves<int>( 1_seconds );
+    if( ret < 1_seconds ) {
+        ret = 1_seconds;
     }
     // return_stat_effect actually matters here
-    return return_stat_effect ? ret : ret * 100 / to_moves<int>( 1_minutes );
+    return ret * 100 / 1_minutes;
 }
 
 bool Character::meets_skill_requirements( const std::map<skill_id, int> &req,
@@ -10460,12 +10460,12 @@ time_duration Character::time_to_read( const item &book, const Character &reader
         reading_speed = std::max( reading_speed, learner->read_speed() );
     }
 
-    time_duration retval = type->time * reading_speed;
+    time_duration retval = type->time * reading_speed / 100;
     retval *= std::min( fine_detail_vision_mod(), reader.fine_detail_vision_mod() );
 
     const int effective_int = std::min( { get_int(), reader.get_int(), learner ? learner->get_int() : INT_MAX } );
     if( type->intel > effective_int && !reader.has_trait( trait_PROF_DICEMASTER ) ) {
-        retval += type->time * ( type->intel - effective_int ) * 100;
+        retval += type->time * ( type->intel - effective_int );
     }
     if( !has_identified( book.typeId() ) ) {
         //skimming

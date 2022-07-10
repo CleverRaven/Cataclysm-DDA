@@ -1340,11 +1340,11 @@ time_duration npc::time_to_read( const item &book, const Character &reader ) con
                                 reader.get_knowledge_level( skill ) < type->level;
     int reading_speed = try_understand ? std::max( reader.read_speed(), read_speed() ) : read_speed();
 
-    time_duration retval = type->time * reading_speed;
+    time_duration retval = type->time * reading_speed / 100;
     retval *= std::min( fine_detail_vision_mod(), reader.fine_detail_vision_mod() );
 
     if( type->intel > reader.get_int() && !reader.has_trait( trait_PROF_DICEMASTER ) ) {
-        retval += type->time * ( type->intel - reader.get_int() ) * 100;
+        retval += type->time * ( type->intel - reader.get_int() );
     }
     return retval;
 }

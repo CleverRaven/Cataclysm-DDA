@@ -2116,8 +2116,8 @@ class Character : public Creature, public visitable
         std::string enumerate_unmet_requirements( const item &it, const item &context = item() ) const;
 
         // Mental skills and stats
-        /** Returns the player's reading speed */
-        int read_speed( bool return_stat_effect = true ) const;
+        /** Returns the player's reading speed as a percentage*/
+        int read_speed() const;
         /** Returns a value used when attempting to convince NPC's of something */
         int talk_skill() const;
         /** Returns a value used when attempting to intimidate NPC's */
@@ -2190,7 +2190,7 @@ class Character : public Creature, public visitable
          * @param learner if not nullptr, assume that the caller and reader read at a pace that isn't too fast for him
          */
         time_duration time_to_read( const item &book, const Character &reader,
-                          const Character *learner = nullptr ) const;
+                                    const Character *learner = nullptr ) const;
 
         /** Calls Creature::normalize()
          *  nulls out the player's weapon

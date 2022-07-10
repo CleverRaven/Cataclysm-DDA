@@ -4197,12 +4197,17 @@ void item::book_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
                                iteminfo::show_plus, player_character.book_fun_for( *this, player_character ) );
         }
         if( parts->test( iteminfo_parts::BOOK_TIMEPERCHAPTER ) ) {
-            std::string fmt = string_format( _( "A chapter of this book takes <info>%s to "
-                                                "read</info>." ), to_string_clipped( book.time ) );
+            std::string fmt = n_gettext(
+                                  "A chapter of this book takes <num> <info>minute to "
+                                  "read</info>.",
+                                  "A chapter of this book takes <num> <info>minutes to "
+                                  "read</info>.", to_minutes<int>( book.time ) );
             if( type->use_methods.count( "MA_MANUAL" ) ) {
-                fmt = string_format( _(
-                                         "<info>A training session</info> with this book takes "
-                                         "<info>%s</info>." ), to_string_clipped( book.time ) );
+                fmt = n_gettext(
+                          "<info>A training session</info> with this book takes "
+                          "<num> <info>minute</info>.",
+                          "<info>A training session</info> with this book takes "
+                          "<num> <info>minutes</info>.", to_minutes<int>( book.time ) );
             }
             info.emplace_back( "BOOK", "", fmt,
                                iteminfo::lower_is_better, to_minutes<int>( book.time ) );
