@@ -100,14 +100,7 @@
     "time": "5 s",
     "batch_time_factors": [ 95, 5 ],
     "autolearn": true,
-    "components": [
-      [
-        [ "edible_tallow_lard", 2, "LIST" ],
-        [ "tallow_tainted", 2 ],
-        [ "cooking_oil", 16 ],
-        [ "cooking_oil2", 16 ]
-      ]
-    ],
+    "components": [ [ [ "edible_tallow_lard", 2, "LIST" ], [ "tallow_tainted", 2 ], [ "cooking_oil", 16 ], [ "cooking_oil2", 16 ] ] ],
     "flags": [ "ALLOW_ROTTEN" ]
   }
 ]
