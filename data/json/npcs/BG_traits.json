@@ -285,7 +285,7 @@
   {
     "type": "mutation",
     "id": "BGSS_Prepper_1",
-    "name": { "str": "Survivor Story" },
+    "name": { "str": "Survivor Story: Prepper" },
     "points": 0,
     "description": "This NPC could tell you about how they survived the Cataclysm.",
     "player_display": false,
@@ -357,7 +357,7 @@
   {
     "type": "mutation",
     "id": "BGSS_Rural_1",
-    "name": { "str": "Survivor Story" },
+    "name": { "str": "Survivor Story: Rural" },
     "points": 0,
     "description": "This NPC could tell you about how they survived the Cataclysm.",
     "player_display": false,
