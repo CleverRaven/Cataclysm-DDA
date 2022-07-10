@@ -4646,7 +4646,7 @@ needs_rates Character::calc_needs_rates() const
     rates.fatigue *= 1.0f + mutation_value( fatigue_modifier );
 
     if( asleep ) {
-        rates = calc_sleep_recovery_rate();
+        calc_sleep_recovery_rate( rates );
     } else {
         rates.recovery = 0;
     }
@@ -4678,10 +4678,9 @@ needs_rates Character::calc_needs_rates() const
     return rates;
 }
 
-needs_rates Character::calc_sleep_recovery_rate() const
+void Character::calc_sleep_recovery_rate( needs_rates &rates ) const
 {
     const effect &sleep = get_effect( effect_sleep );
-    needs_rates rates;
     static const std::string fatigue_regen_modifier( "fatigue_regen_modifier" );
     rates.recovery = 1.0f + mutation_value( fatigue_regen_modifier );
     if( !is_hibernating() ) {
@@ -4700,7 +4699,6 @@ needs_rates Character::calc_sleep_recovery_rate() const
         rates.thirst *= ( 2.0f / 7.0f );
     }
     rates.recovery -= static_cast<float>( get_perceived_pain() ) / 60;
-    return rates;
 }
 
 item Character::reduce_charges( item *it, int quantity )
