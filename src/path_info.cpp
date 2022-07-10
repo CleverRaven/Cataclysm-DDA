@@ -338,9 +338,9 @@ cata_path PATH_INFO::options()
 {
     return options_path_value;
 }
-std::string PATH_INFO::panel_options()
+cata_path PATH_INFO::panel_options()
 {
-    return config_dir_value + "panel_options.json";
+    return config_dir_path_value / "panel_options.json";
 }
 cata_path PATH_INFO::safemode()
 {
