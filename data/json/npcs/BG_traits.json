@@ -405,7 +405,7 @@
   {
     "type": "mutation",
     "id": "BGSS_Hospital_2",
-    "name": { "str": "Survivor Story: Hospital" },
+    "name": { "str": "Survivor Story" },
     "points": 0,
     "description": "This NPC could tell you about how they survived the Cataclysm.",
     "player_display": false,
