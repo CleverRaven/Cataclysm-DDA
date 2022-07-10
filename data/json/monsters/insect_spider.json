@@ -1038,6 +1038,7 @@
       }
     ],
     "bleed_rate": 60,
+    "upgrades": false,
     "extend": { "anger_triggers": [ "HOSTILE_SEEN" ], "flags": [ "BASHES" ] },
     "dissect": "dissect_spider_sample_large"
   },
@@ -1045,7 +1046,7 @@
     "id": "mon_spider_cellar_leg",
     "type": "MONSTER",
     "name": { "str": "detached spider leg" },
-    "description": "The strangely branching leg of a mutated cellar spider that…fell?  crawled?  off of the main body when hurt.  It now flails about blindly, irregular clawed appendeges grasping at anything that comes close.",
+    "description": "The strangely branching leg of a mutated cellar spider that…fell?  crawled?  off of the main body when hurt.  It now flails about blindly, irregular clawed appendages grasping at anything that comes close.",
     "color": "brown",
     "symbol": "7",
     "default_faction": "factionless",
@@ -1063,7 +1064,7 @@
     "melee_dice": 2,
     "melee_dice_sides": 3,
     "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
-    "special_attacks": [ [ "SUICIDE", 180 ] ],
+    "special_attacks": [ [ "SUICIDE", 180 ] , [ "GRAB", 5 ] ],
     "dodge": 7,
     "bleed_rate": 0,
     "death_function": { "corpse_type": "NO_CORPSE" },
