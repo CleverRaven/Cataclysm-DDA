@@ -59,6 +59,7 @@ std::string enum_to_string<relic_recharge_type>( relic_recharge_type type )
         case relic_recharge_type::NONE: return "none";
         case relic_recharge_type::PERIODIC: return "periodic";
         case relic_recharge_type::SOLAR_SUNNY: return "solar_sunny";
+        case relic_recharge_type::UNDERGROUND: return "underground";
         case relic_recharge_type::NUM: break;
     }
     // *INDENT-ON*
@@ -438,6 +439,12 @@ static bool can_recharge_solar( const item &it, Character *carrier, const tripoi
              carrier->is_worn( it ) || carrier->is_wielding( it ) );
 }
 
+static bool can_recharge_underground(const item& it, Character* carrier, const tripoint& pos) {
+
+    return get_map().is_underground( pos ) &&
+           ( carrier == nullptr ||
+             carrier->is_worn(it) || carrier->is_wielding(it));
+
 void relic::try_recharge( item &parent, Character *carrier, const tripoint &pos )
 {
     if( charge.regenerate_ammo && item_can_not_load_ammo( parent ) ) {
@@ -459,9 +466,16 @@ void relic::try_recharge( item &parent, Character *carrier, const tripoint &pos 
             return;
         }
         case relic_recharge_type::SOLAR_SUNNY: {
-            if( can_recharge_solar( parent, carrier, pos ) &&
-                get_weather().weather_id->light_modifier >= 0 ) {
-                charge.accumulate_charge( parent );
+            if (can_recharge_solar(parent, carrier, pos) &&
+                get_weather().weather_id->light_modifier >= 0) {
+                charge.accumulate_charge(parent);
+            }
+            return;
+        }
+        case relic_recharge_type::UNDERGROUND: {
+            if (can_recharge_underground(parent, carrier, pos) &&
+                OVERMAP_DEPTH >= 1 ) { 
+                charge.accumulate_charge(parent);
             }
             return;
         }
