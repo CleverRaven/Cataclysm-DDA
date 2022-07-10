@@ -475,7 +475,7 @@ void relic::try_recharge( item &parent, Character *carrier, const tripoint &pos 
             }
             return;
         }
-        case relic_recharge_typ::LUNAR : {
+        case relic_recharge_type::LUNAR : {
             if( can_recharge_lunar( parent, carrier, pos ) &&
                 get_moon_phase() == MOON_FULL ) {
                 charge.accumulate_charge( parent );
