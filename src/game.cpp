@@ -9624,17 +9624,14 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
         }
     }
 
-    const float u_light_level = get_map().ambient_light_at( u.pos() );
     const float dest_light_level = get_map().ambient_light_at( dest_loc );
 
-    // Allow players with nyctophobia to enter cloudy and dark tiles
+    // Allow players with nyctophobia to move freely through cloudy and dark tiles
     const float nyctophobia_threshold = LIGHT_AMBIENT_LIT - 3.0f;
 
+    // Forbid players from moving through very dark tiles, unless they are running or took xanax
     if( u.has_flag( json_flag_NYCTOPHOBIA ) && !u.has_effect( effect_took_xanax ) && !u.is_running() &&
-        // Forbid players from entering very dark tiles from lit, cloudy, and dark tiles
-        dest_light_level < nyctophobia_threshold &&
-        // But allow them to move in darkness if they are already standing in darkness
-        u_light_level >= nyctophobia_threshold ) {
+        dest_light_level < nyctophobia_threshold ) {
         add_msg( m_bad,
                  _( "It's so dark and scary in there!  You can't force yourself to walk into this tile.  Switch to running movement mode to move there." ) );
         return false;
