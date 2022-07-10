@@ -80,7 +80,7 @@
     "player_display": false,
     "valid": false,
     "purifiable": false,
-    "types": [ "BACKGROUND_SURVIVAL_STORY" ],
+    "types": [ "" ],
     "flags": [ "BG_SURVIVAL_STORY" ]
   },
   {
