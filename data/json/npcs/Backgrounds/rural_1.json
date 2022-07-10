@@ -31,6 +31,16 @@
     "dynamic_line": "That was the first thing to really shake me out of it.  I didn't really have any very close friends, but there were people back in town I cared about a bit.  I had sent some texts, but I hadn't really twigged that they hadn't replied for days.  I got in my truck and tried to get back to town.  Didn't get far before I hit a <zombie> infested pileup blocking the highway, and that's when I started to put it all together.  Never did get to town.  Unfortunately I led the <zombies> back to my farm, and had to bug out of there.  Might go back and clear it out, someday.",
     "//": "In the future this NPC should give you the map coordinates to the farm if you persuade.",
     "responses": [
+      {
+        "text": "I could check out that shelter for you, if you give me directions.  Maybe get your stuff back safely for you…",
+        "condition": { "not": {"u_has_var": "prepper_1_accepted_quest", "type": "mission", "context": "BGSS", "value": "yes"} },
+        "trial": { "type": "PERSUADE", "difficulty": 30, "mod": [ [ "TRUST", 5 ], [ "VALUE", 3 ], [ "ANGER", -6 ] ] },
+        "success": { "topic": "BGSS_PREPPER_1_SHELTERSUCCESS", "effect": [
+          { "add_mission": "directions_prepper_1_SHELTER" },
+          { "u_message": "<npc_name> marks the location of the LMOE shelter on your map.", "type": "good", "popup": true }
+        ] },
+        "failure": { "topic": "BGSS_PREPPER_1_SHELTERFAILURE", "opinion": { "trust": -1 } }
+      },
       { "text": "Thanks for telling me that.  <done_conversation_section>", "topic": "TALK_FRIEND" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
