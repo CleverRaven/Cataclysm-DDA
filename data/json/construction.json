@@ -4452,6 +4452,17 @@
     "post_terrain": "f_ground_cable"
   },
   {
+	"type": "construction",
+	"id": "app_wire",
+	"group": "lay_wiring",
+	"category": "APPLIANCE",
+	"required_skills": [ [ "fabrication", 2 ], ["electronics", 2] ],
+	"time": "5 m",
+	"components": [ [ [ "cable", 4] ] ],
+	"pre_special": "check_empty",
+	"post_special": "done_appliance"
+  },  
+  {
     "type": "construction",
     "id": "constr_pillow_fort",
     "group": "build_pillow_fort",
