@@ -58,7 +58,6 @@ std::string enum_to_string<relic_recharge_type>( relic_recharge_type type )
     switch( type ) {
         case relic_recharge_type::NONE: return "none";
         case relic_recharge_type::PERIODIC: return "periodic";
-        case relic_recharge_type::PERIODIC_COLD: return "periodic_cold";
         case relic_recharge_type::SOLAR_SUNNY: return "solar_sunny";
         case relic_recharge_type::SOLAR_CLOUDY: return "solar_cloudy";
         case relic_recharge_type::NUM: break;
@@ -457,13 +456,6 @@ void relic::try_recharge( item &parent, Character *carrier, const tripoint &pos 
         }
         case relic_recharge_type::PERIODIC: {
             charge.accumulate_charge( parent );
-            return;
-        }
-        case relic_recharge_type::PERIODIC_COLD: {
-            if( get_weather().get_temperature(
-                    pos.x, pos.y, pos.z ) < 0 ) {
-                charge.accumulate_charge( parent );
-            }
             return;
         }
         case relic_recharge_type::SOLAR_SUNNY: {
