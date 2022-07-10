@@ -648,7 +648,6 @@
         "                        "
       ],
       "palettes": [ "park_asphalt_palette" ],
-      "place_item": [ { "item": "indoor_volleyball", "x": 5, "y": 6 }, { "item": "indoor_volleyball", "x": 17, "y": 17 } ],
       "place_monster": [ { "group": "GROUP_PARK_SCENIC", "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 1, 10 ], "chance": 50 } ]
     }
   },
