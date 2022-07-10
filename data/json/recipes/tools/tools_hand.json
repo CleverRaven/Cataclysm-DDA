@@ -1593,7 +1593,7 @@
     "difficulty": 3,
     "time": "3 h",
     "autolearn": true,
-    "using": [ [ "forging_standard", 12 ], [ "steel_standard", 3 ] ],
+    "using": [ [ "forging_standard", 12 ], [ "steel_standard", 2 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
