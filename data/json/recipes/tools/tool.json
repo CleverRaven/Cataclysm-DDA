@@ -822,7 +822,12 @@
       { "id": "WRENCH", "level": 2 },
       { "id": "SAW_M", "level": 2 }
     ],
-    "components": [ [ [ "simple_crank", 1 ], [ "foot_crank", 1 ] ], [ [ "scrap", 8 ] ], [ [ "steel_chunk", 4 ] ], [ [ "steel_lump", 2 ] ] ]
+    "components": [ 
+      [ [ "simple_crank", 1 ], [ "foot_crank", 1 ] ],
+      [ [ "scrap", 8 ] ], 
+      [ [ "steel_chunk", 4 ] ], 
+      [ [ "steel_lump", 2 ] ] 
+    ]
   },
   {
     "type": "recipe",
