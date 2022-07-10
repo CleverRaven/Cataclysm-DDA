@@ -207,6 +207,20 @@
     "copy-from": "stereo"
   },
   {
+	"type": "vehicle_part",
+	"id": "ap_wire",
+	"name": { "str": "floorwiring" },
+	"symbol": "_",
+	"color": "yellow_white",
+	"categories": ["utility"],
+	"location": "structure",
+	"description": "Floorwiring, intended to conduct electricity.",
+	"item": "cable",
+	"durability": 80,
+	"flags": ["APPLIANCE"],
+	"breaks_into": [ { "item": "cable", "charges": [0,4] } ]  
+  },
+  {
     "type": "vehicle_part",
     "id": "ap_chemlab",
     "name": { "str": "chemistry lab" },
