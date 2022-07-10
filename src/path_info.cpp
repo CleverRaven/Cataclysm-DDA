@@ -362,6 +362,10 @@ std::string PATH_INFO::templatedir()
 {
     return user_dir_value + "templates/";
 }
+cata_path PATH_INFO::templatedir_path()
+{
+    return user_dir_path_value / "templates";
+}
 std::string PATH_INFO::user_dir()
 {
     return user_dir_value;

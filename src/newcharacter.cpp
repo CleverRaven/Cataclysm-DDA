@@ -4330,9 +4330,8 @@ void avatar::save_template( const std::string &name, pool_type pool )
 
 bool avatar::load_template( const std::string &template_name, pool_type &pool )
 {
-    return read_from_file_json( PATH_INFO::templatedir() + template_name +
-    ".template", [&]( const JsonValue & jv ) {
-
+    return read_from_file_json( PATH_INFO::templatedir_path() / ( template_name + ".template" ), [&](
+    const JsonValue & jv ) {
         // Legacy templates are an object. Current templates are an array of 0, 1, or 2 objects.
         JsonObject legacy_template;
         if( jv.test_array() ) {
