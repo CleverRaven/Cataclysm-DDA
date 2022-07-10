@@ -105,7 +105,7 @@
           { "item": "dining", "chance": 10 }
         ],
         "b": { "item": "homebooks", "chance": 30 },
-        "K": { "item": "SUS_fridge", "chance": 10 },
+        "K": { "item": "SUS_fridge_healthy_vegan", "chance": 10 },
         "Q": [
           { "item": "SUS_pantry", "chance": 5 },
           { "item": "SUS_breakfast_cupboard", "chance": 5 },

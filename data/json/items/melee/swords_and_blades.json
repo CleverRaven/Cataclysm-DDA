@@ -97,7 +97,22 @@
     "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 14 ] ],
     "techniques": [ "RAPID" ],
     "flags": [ "STAB" ],
-    "weapon_category": [ "KNIVES" ]
+    "weapon_category": [ "KNIVES" ],
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "switchblade_balisong",
+        "name": { "str": "balisong" },
+        "description": "A flashy knife with hinged handles that completely conceal the blade while folded.  Popular among movie gangbangers, and people who thought fidget spinners were too safe.",
+        "weight": 1
+      },
+      {
+        "id": "switchblade_generic",
+        "name": { "str": "switchblade" },
+        "description": "This is a long, thin knife with a spring-loaded blade that rests inside the handle while not in use.",
+        "weight": 3
+      }
+    ]
   },
   {
     "id": "knife_folding",

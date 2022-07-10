@@ -283,7 +283,7 @@
     "time": "30 m",
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "rag", 4 ] ], [ [ "scrap", 4 ] ] ]
+    "components": [ [ [ "cotton_patchwork", 4 ] ], [ [ "scrap", 4 ] ] ]
   },
   {
     "type": "recipe",
@@ -494,7 +494,7 @@
     "components": [
       [ [ "stick", 1 ] ],
       [ [ "steel_chunk", 1 ], [ "steel_lump", 1 ], [ "pipe_fittings", 1 ] ],
-      [ [ "rag", 1 ], [ "felt_patch", 1 ], [ "leather", 1 ], [ "fur", 1 ] ],
+      [ [ "cotton_patchwork", 1 ], [ "felt_patch", 1 ], [ "leather", 1 ], [ "fur", 1 ] ],
       [ [ "cordage", 1, "LIST" ], [ "duct_tape", 50 ] ]
     ]
   },

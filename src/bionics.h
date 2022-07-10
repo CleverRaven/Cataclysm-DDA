@@ -109,6 +109,8 @@ struct bionic_data {
     std::vector<effect_on_condition_id> deactivated_eocs;
     /** bionic enchantments */
     std::vector<enchantment_id> enchantments;
+    /** kown martial arts styles */
+    std::vector<matype_id> ma_styles;
 
     cata::value_ptr<fake_spell> spell_on_activate;
 

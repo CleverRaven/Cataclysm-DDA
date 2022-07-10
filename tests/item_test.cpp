@@ -196,9 +196,8 @@ TEST_CASE( "liquids at different temperatures", "[item][temperature][stack][comb
     liquid_filthy.cold_up(); // 3 C (276.15 K)
     liquid_filthy.set_flag( json_flag_FILTHY );
 
-    // Temperature is in terms of 0.000001 K
-    REQUIRE( std::floor( liquid_hot.temperature / 100000 ) == 333 );
-    REQUIRE( std::floor( liquid_cold.temperature / 100000 ) == 276 );
+    REQUIRE( units::to_kelvin( liquid_hot.temperature ) == Approx( 333.15 ) );
+    REQUIRE( units::to_kelvin( liquid_cold.temperature ) == Approx( 276.15 ) );
     REQUIRE( liquid_hot.has_flag( json_flag_HOT ) );
     REQUIRE( liquid_cold.has_flag( json_flag_COLD ) );
 
@@ -294,7 +293,7 @@ TEST_CASE( "items spawn in their default containers", "[item]" )
     check_spawning_in_container( "water" );
     check_spawning_in_container( "gunpowder" );
     check_spawning_in_container( "nitrox" );
-    check_spawning_in_container( "ammonia" );
+    check_spawning_in_container( "ammonia_hydroxide" );
     check_spawning_in_container( "detergent" );
     check_spawning_in_container( "pale_ale" );
     check_spawning_in_container( "single_malt_whiskey" );
@@ -516,7 +515,7 @@ TEST_CASE( "water affect items while swimming check", "[item][water][swimming]" 
 
             THEN( "should get wet from water" ) {
                 g->water_affect_items( guy );
-                CHECK( guy.get_wielded_item().wetness > 0 );
+                CHECK( guy.get_wielded_item()->wetness > 0 );
             }
         }
 
@@ -533,7 +532,7 @@ TEST_CASE( "water affect items while swimming check", "[item][water][swimming]" 
 
             THEN( "should get wet from water" ) {
                 g->water_affect_items( guy );
-                const item *test_item = guy.get_wielded_item().all_items_top().front();
+                const item *test_item = guy.get_wielded_item()->all_items_top().front();
                 REQUIRE( test_item->typeId() == itype_test_mp3 );
                 CHECK( test_item->wetness > 0 );
             }
@@ -552,7 +551,7 @@ TEST_CASE( "water affect items while swimming check", "[item][water][swimming]" 
 
             THEN( "should not be broken by water" ) {
                 g->water_affect_items( guy );
-                const item *test_item = guy.get_wielded_item().all_items_top().front();
+                const item *test_item = guy.get_wielded_item()->all_items_top().front();
                 REQUIRE( test_item->typeId() == itype_test_mp3 );
                 CHECK( test_item->wetness == 0 );
             }
@@ -573,7 +572,7 @@ TEST_CASE( "water affect items while swimming check", "[item][water][swimming]" 
 
             THEN( "should get wet from water" ) {
                 g->water_affect_items( guy );
-                const item *test_item = guy.get_wielded_item().all_items_top().front()->all_items_top().front();
+                const item *test_item = guy.get_wielded_item()->all_items_top().front()->all_items_top().front();
                 REQUIRE( test_item->typeId() == itype_test_mp3 );
                 CHECK( test_item->wetness > 0 );
             }
@@ -594,7 +593,7 @@ TEST_CASE( "water affect items while swimming check", "[item][water][swimming]" 
 
             THEN( "should not be broken by water" ) {
                 g->water_affect_items( guy );
-                const item *test_item = guy.get_wielded_item().all_items_top().front()->all_items_top().front();
+                const item *test_item = guy.get_wielded_item()->all_items_top().front()->all_items_top().front();
                 REQUIRE( test_item->typeId() == itype_test_mp3 );
                 CHECK( test_item->wetness == 0 );
             }
@@ -610,7 +609,7 @@ TEST_CASE( "water affect items while swimming check", "[item][water][swimming]" 
 
             THEN( "should be wet for around 8664 seconds" ) {
                 g->water_affect_items( guy );
-                CHECK( guy.get_wielded_item().wetness == Approx( 8664 ).margin( 20 ) );
+                CHECK( guy.get_wielded_item()->wetness == Approx( 8664 ).margin( 20 ) );
             }
         }
 
@@ -629,7 +628,7 @@ TEST_CASE( "water affect items while swimming check", "[item][water][swimming]" 
                 g->water_affect_items( guy );
                 g->water_affect_items( guy );
                 AND_THEN( "should be wet for around 43320 seconds" ) {
-                    CHECK( guy.get_wielded_item().wetness == Approx( 43320 ).margin( 100 ) );
+                    CHECK( guy.get_wielded_item()->wetness == Approx( 43320 ).margin( 100 ) );
                 }
             }
         }
@@ -744,4 +743,92 @@ TEST_CASE( "item_material_density_sanity_check", "[item][!mayfail]" )
             }
         }
     }
+}
+
+TEST_CASE( "armor_entry_consolidate_check", "[item][armor]" )
+{
+    item test_consolidate( "test_consolidate" );
+
+    //check this item has a single armor entry, not 3 like is written in the json explicitly
+
+    CHECK( test_consolidate.find_armor_data()->sub_data.size() == 1 );
+}
+
+TEST_CASE( "rigid_armor_compliance", "[item][armor]" )
+{
+    avatar &guy = get_avatar();
+    clear_avatar();
+    // check if you can swap a rigid armor
+    item test_armguard( "test_armguard" );
+    REQUIRE( guy.wield( test_armguard ) );
+
+    REQUIRE( guy.wear( guy.used_weapon(), false ) );
+
+    CHECK( guy.worn.top_items_loc( guy ).front().get_item()->get_side() == side::LEFT );
+
+    guy.change_side( *guy.worn.top_items_loc( guy ).front().get_item() );
+
+    CHECK( guy.worn.top_items_loc( guy ).front().get_item()->get_side() == side::RIGHT );
+
+
+    // check if you can't wear 3 rigid armors
+    clear_avatar();
+
+    item first_test_armguard( "test_armguard" );
+    REQUIRE( guy.wield( first_test_armguard ) );
+    REQUIRE( guy.wear( guy.used_weapon(), false ) );
+
+    item second_test_armguard( "test_armguard" );
+    REQUIRE( guy.wield( second_test_armguard ) );
+    REQUIRE( guy.wear( guy.used_weapon(), false ) );
+
+    item third_test_armguard( "test_armguard" );
+    REQUIRE( guy.wield( third_test_armguard ) );
+    REQUIRE( !guy.wear( guy.used_weapon(), false ) );
+}
+
+TEST_CASE( "rigid_splint_compliance", "[item][armor]" )
+{
+    avatar &guy = get_avatar();
+    clear_avatar();
+
+    item test_armguard( "test_armguard" );
+    item second_test_armguard( "test_armguard" );
+    item splint( "arm_splint" );
+    item second_splint( "arm_splint" );
+    item third_splint( "arm_splint" );
+
+    // check if you can wear a splint
+    clear_avatar();
+
+    guy.set_part_hp_cur( bodypart_id( "arm_r" ), 0 );
+    REQUIRE( guy.wield( splint ) );
+    REQUIRE( guy.wear( guy.used_weapon(), false ) );
+
+    // check if you cannot wear a splint if something rigid is on that arm
+    clear_avatar();
+
+    REQUIRE( guy.wield( test_armguard ) );
+    guy.set_part_hp_cur( bodypart_id( "arm_r" ), 0 );
+    REQUIRE( guy.wear( guy.used_weapon(), false ) );
+
+    CHECK( guy.worn.top_items_loc( guy ).front().get_item()->get_side() == side::LEFT );
+    // swap side to the broken arm side
+    guy.change_side( *guy.worn.top_items_loc( guy ).front().get_item() );
+    // should fail to wear
+    REQUIRE( guy.wield( second_splint ) );
+    REQUIRE( !guy.wear( guy.used_weapon(), false ) );
+
+    // check if you can wear a splint if nothing rigid is on that arm
+    clear_avatar();
+
+    REQUIRE( guy.wield( second_test_armguard ) );
+    guy.set_part_hp_cur( bodypart_id( "arm_r" ), 0 );
+    REQUIRE( guy.wear( guy.used_weapon(), false ) );
+
+    CHECK( guy.worn.top_items_loc( guy ).front().get_item()->get_side() == side::LEFT );
+
+    // should be able to wear the arm is open
+    REQUIRE( guy.wield( third_splint ) );
+    REQUIRE( guy.wear( guy.used_weapon(), false ) );
 }

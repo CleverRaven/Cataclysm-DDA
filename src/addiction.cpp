@@ -63,7 +63,7 @@ static bool alcohol_diazepam_add( Character &u, int in, bool is_alcohol )
     u.mod_per_bonus( -1 );
     u.mod_int_bonus( -1 );
     if( x_in_y( in, to_turns<int>( 2_hours ) ) ) {
-        u.mod_healthy_mod( -1, -in * 10 );
+        u.mod_daily_health( -1, -in * 10 );
         ret = true;
     }
     if( one_in( 20 ) && rng( 0, 20 ) < in ) {
@@ -168,7 +168,7 @@ static bool opiate_effect( Character &u, addiction &add )
         u.mod_pain( 1 );
     }
     if( one_in( 1200 - 30 * in ) ) {
-        u.mod_healthy_mod( -1, -in * 30 );
+        u.mod_daily_health( -1, -in * 30 );
     }
     if( one_in( 20 ) && dice( 2, 20 ) < in ) {
         u.add_msg_if_player( m_bad, _( "Your hands start shaking… you need some painkillers." ) );
@@ -195,7 +195,7 @@ static bool amphetamine_effect( Character &u, addiction &add )
         ret = true;
     }
     if( rng( 0, 150 ) <= in ) {
-        u.mod_healthy_mod( -1, -in );
+        u.mod_daily_health( -1, -in );
         ret = true;
     }
     if( dice( 2, 100 ) < in ) {

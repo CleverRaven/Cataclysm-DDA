@@ -74,7 +74,6 @@ static const trait_id trait_LUPINE_FUR( "LUPINE_FUR" );
 static const trait_id trait_M_DEPENDENT( "M_DEPENDENT" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_PYROMANIA( "PYROMANIA" );
-static const trait_id trait_RADIOGENIC( "RADIOGENIC" );
 static const trait_id trait_SLIMY( "SLIMY" );
 static const trait_id trait_URSINE_FUR( "URSINE_FUR" );
 
@@ -176,8 +175,8 @@ void Character::update_body()
 
 // Returns the number of multiples of tick_length we would "pass" on our way `from` to `to`
 // For example, if `tick_length` is 1 hour, then going from 0:59 to 1:01 should return 1
-static inline int ticks_between( const time_point &from, const time_point &to,
-                                 const time_duration &tick_length )
+static int ticks_between( const time_point &from, const time_point &to,
+                          const time_duration &tick_length )
 {
     return ( to_turn<int>( to ) / to_turns<int>( tick_length ) ) - ( to_turn<int>
             ( from ) / to_turns<int>( tick_length ) );
@@ -243,6 +242,37 @@ void Character::update_body( const time_point &from, const time_point &to )
         enforce_minimum_healing();
     }
 
+    // Cardio related health stuff
+    if( calendar::once_every( 1_days ) ) {
+        // not getting below half stamina even once in a whole day is not healthy
+        if( get_value( "got_to_half_stam" ).empty() ) {
+            mod_daily_health( -4, -200 );
+        } else {
+            remove_value( "got_to_half_stam" );
+        }
+        // reset counter for number of time going below quarter stamina
+        set_value( "quarter_stam_counter", "0" );
+
+        int cardio_accumultor = get_cardio_acc();
+        if( cardio_accumultor > 0 ) {
+            mod_daily_health( 1, 200 );
+            if( cardio_accumultor >= 10 ) {
+                mod_daily_health( 1, 200 );
+            }
+        }
+        if( cardio_accumultor < 0 ) {
+            mod_daily_health( -1, -200 );
+            if( cardio_accumultor <= -10 ) {
+                mod_daily_health( -1, -200 );
+            }
+        }
+        if( cardio_accumultor >= get_bmr() / 2 ) {
+            mod_daily_health( 2, 200 );
+        }
+    }
+
+
+
     for( const auto &v : vitamin::all() ) {
         const time_duration rate = vitamin_rate( v.first );
 
@@ -268,18 +298,17 @@ void Character::update_body( const time_point &from, const time_point &to )
             const double rda = 1_days / rate;
             const int &vit_quantity = vitamin_get( v.first );
             if( vit_quantity > 0.5 * rda ) {
-                mod_healthy_mod( 1, 200 );
+                mod_daily_health( 1, 200 );
             }
             if( vit_quantity > 0.90 * rda ) {
-                mod_healthy_mod( 1, 200 );
+                mod_daily_health( 1, 200 );
             }
         }
     }
 
     const int thirty_mins = ticks_between( from, to, 30_minutes );
     if( thirty_mins > 0 ) {
-        // Radiation kills health even at low doses
-        update_health( has_trait( trait_RADIOGENIC ) ? 0 : -get_rad() );
+        update_health();
         get_sick();
     }
 
@@ -1073,7 +1102,7 @@ bodypart_id Character::body_window( const std::string &menu_header,
             if( no_feeling ) {
                 hp_str = colorize( "==%==", c_blue );
             } else {
-                const auto &eff = get_effect( effect_mending, bp );
+                const effect &eff = get_effect( effect_mending, bp );
                 const int mend_perc = eff.is_null() ? 0.0 : 100 * eff.get_duration() / eff.get_max_duration();
 
                 const int num = mend_perc / 20;

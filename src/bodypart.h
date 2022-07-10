@@ -314,32 +314,9 @@ struct body_part_type {
         // Verifies that body parts make sense
         static void check_consistency();
 
-        float get_limb_score( const limb_score_id &id ) const {
-            for( const bp_limb_score &bpls : limb_scores ) {
-                if( bpls.id == id ) {
-                    return bpls.score;
-                }
-            }
-            return 0.0f;
-        }
-
-        float get_limb_score_max( const limb_score_id &id ) const {
-            for( const bp_limb_score &bpls : limb_scores ) {
-                if( bpls.id == id ) {
-                    return bpls.max;
-                }
-            }
-            return 0.0f;
-        }
-
-        bool has_limb_score( const limb_score_id &id ) const {
-            for( const bp_limb_score &bpls : limb_scores ) {
-                if( bpls.id == id ) {
-                    return true;
-                }
-            }
-            return false;
-        }
+        float get_limb_score( const limb_score_id &id ) const;
+        float get_limb_score_max( const limb_score_id &id ) const;
+        bool has_limb_score( const limb_score_id &id ) const;
 
         int bionic_slots() const {
             return bionic_slots_;
@@ -397,53 +374,9 @@ struct encumbrance_data {
     std::array<layer_details, static_cast<size_t>( layer_level::NUM_LAYER_LEVELS )>
     layer_penalty_details;
 
-    bool add_sub_locations( const layer_level level, const std::vector<sub_bodypart_id> &sub_parts ) {
-        bool return_val = false;
-        for( const sub_bodypart_id &sbp : sub_parts ) {
-            bool found = false;
-            for( const sub_bodypart_id &layer_sbp : layer_penalty_details[static_cast<size_t>
-                    ( level )].covered_sub_parts ) {
-                // if we find a location return true since we should add penalty
-                if( sbp == layer_sbp ) {
-                    found = true;
-                }
-            }
-            // if we've found it already in the list mark our return value as true
-            if( found ) {
-                return_val = true;
-            }
-            // otherwise we should add it to the list
-            else {
-                layer_penalty_details[static_cast<size_t>( level )].covered_sub_parts.push_back( sbp );
-            }
-        }
-        return return_val;
-    }
+    bool add_sub_locations( layer_level level, const std::vector<sub_bodypart_id> &sub_parts );
 
-    bool add_sub_locations( const layer_level level,
-                            const std::vector<sub_bodypart_str_id> &sub_parts ) {
-        bool return_val = false;
-        for( const sub_bodypart_str_id &temp : sub_parts ) {
-            const sub_bodypart_id &sbp = temp;
-            bool found = false;
-            for( const sub_bodypart_id &layer_sbp : layer_penalty_details[static_cast<size_t>
-                    ( level )].covered_sub_parts ) {
-                // if we find a location return true since we should add penalty
-                if( sbp == layer_sbp ) {
-                    found = true;
-                }
-            }
-            // if we've found it already in the list mark our return value as true
-            if( found ) {
-                return_val = true;
-            }
-            // otherwise we should add it to the list
-            else {
-                layer_penalty_details[static_cast<size_t>( level )].covered_sub_parts.push_back( sbp );
-            }
-        }
-        return return_val;
-    }
+    bool add_sub_locations( layer_level level, const std::vector<sub_bodypart_str_id> &sub_parts );
 
     void layer( const layer_level level, const int encumbrance, bool conflicts ) {
         layer_penalty_details[static_cast<size_t>( level )].layer( encumbrance, conflicts );
@@ -611,14 +544,8 @@ class body_part_set
             parts.clear();
         }
 
-        template<typename Stream>
-        void serialize( Stream &s ) const {
-            s.write( parts );
-        }
-        template<typename Value = JsonValue, std::enable_if_t<std::is_same<std::decay_t<Value>, JsonValue>::value>* = nullptr>
-        void deserialize( const Value &s ) {
-            s.read( parts );
-        }
+        void serialize( JsonOut &s ) const;
+        void deserialize( const JsonValue &s );
 };
 
 /** Returns the new id for old token */

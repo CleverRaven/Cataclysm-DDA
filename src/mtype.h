@@ -56,12 +56,12 @@ enum class mon_trigger : int {
     PLAYER_NEAR_BABY,   // Player/npc is near a baby monster of this type
     MATING_SEASON,      // It's the monster's mating season (defined by baby_flags)
 
-    _LAST               // This item must always remain last.
+    LAST               // This item must always remain last.
 };
 
 template<>
 struct enum_traits<mon_trigger> {
-    static constexpr mon_trigger last = mon_trigger::_LAST;
+    static constexpr mon_trigger last = mon_trigger::LAST;
 };
 
 // Feel free to add to m_flags.  Order shouldn't matter, just keep it tidy!
@@ -184,6 +184,7 @@ enum m_flag : int {
     MF_ATTACK_UPPER,        // This monster is capable of hitting upper limbs
     MF_ATTACK_LOWER,        // This monster is incapable of hitting upper limbs regardless of other factors
     MF_DEADLY_VIRUS,        // This monster can inflict the zombie_virus effect
+    MF_ALWAYS_VISIBLE,      // This monster can always be seen regardless of los or light or anything
     MF_MAX                  // Sets the length of the flags - obviously must be LAST
 };
 
@@ -352,6 +353,7 @@ struct mtype {
     private:
         std::vector<weakpoints_id> weakpoints_deferred;
         ::weakpoints weakpoints_deferred_inline;
+        std::set<std::string> weakpoints_deferred_deleted;
 
     public:
 
@@ -494,7 +496,7 @@ struct mtype {
         void set_strategy();
         void add_goal( const std::string &goal_id );
         const behavior::node_t *get_goals() const;
-        void faction_display( catacurses::window &w, const point &top_left, const int width ) const;
+        void faction_display( catacurses::window &w, const point &top_left, int width ) const;
 
         // Historically located in monstergenerator.cpp
         void load( const JsonObject &jo, const std::string &src );

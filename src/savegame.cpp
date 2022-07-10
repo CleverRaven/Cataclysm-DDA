@@ -294,7 +294,7 @@ void scent_map::deserialize( const std::string &data, bool is_type )
         int stmp = 0;
         int count = 0;
         for( auto &elem : grscent ) {
-            for( auto &val : elem ) {
+            for( int &val : elem ) {
                 if( count == 0 ) {
                     buffer >> stmp >> count;
                 }
@@ -467,7 +467,7 @@ void overmap::convert_terrain(
             ter_set( pos, oter_id( new_ + "_north" ) );
         }
 
-        for( const auto &conv : nearby ) {
+        for( const convert_nearby &conv : nearby ) {
             const auto x_it = needs_conversion.find( pos + point( conv.offset.x, 0 ) );
             const auto y_it = needs_conversion.find( pos + point( 0, conv.offset.y ) );
             if( x_it != needs_conversion.end() && x_it->second == conv.x_id &&
@@ -1263,7 +1263,7 @@ void overmap::serialize( std::ostream &fout ) const
 
     json.member( "camps" );
     json.start_array();
-    for( const auto &i : camps ) {
+    for( const basecamp &i : camps ) {
         json.write( i );
     }
     json.end_array();
@@ -1458,7 +1458,7 @@ void game::unserialize_master( std::istream &fin )
 void mission::serialize_all( JsonOut &json )
 {
     json.start_array();
-    for( auto &e : get_all_active() ) {
+    for( mission *&e : get_all_active() ) {
         e->serialize( json );
     }
     json.end_array();
@@ -1489,15 +1489,19 @@ void timed_event_manager::unserialize_all( JsonIn &jsin )
         time_point when;
         int faction_id;
         int strength;
-        tripoint_abs_sm where;
+        tripoint_abs_ms map_square;
+        tripoint_abs_sm map_point;
         std::string string_id;
+        std::string key;
         submap_revert revert;
         jo.read( "faction", faction_id );
-        jo.read( "map_point", where );
+        jo.read( "map_point", map_point );
+        jo.read( "map_square", map_square, false );
         jo.read( "strength", strength );
         jo.read( "string_id", string_id );
         jo.read( "type", type );
         jo.read( "when", when );
+        jo.read( "key", key );
         point pt;
         for( JsonObject jp : jo.get_array( "revert" ) ) {
             revert.set_furn( pt, furn_id( jp.get_string( "furn" ) ) );
@@ -1508,8 +1512,9 @@ void timed_event_manager::unserialize_all( JsonIn &jsin )
                 pt.y++;
             }
         }
-        get_timed_events().add( static_cast<timed_event_type>( type ), when, faction_id, where, strength,
-                                string_id, revert );
+        get_timed_events().add( static_cast<timed_event_type>( type ), when, faction_id, map_square,
+                                strength,
+                                string_id, revert, key );
     }
 }
 
@@ -1564,14 +1569,16 @@ void global_variables::serialize( JsonOut &jsout ) const
 void timed_event_manager::serialize_all( JsonOut &jsout )
 {
     jsout.start_array();
-    for( const auto &elem : get_timed_events().events ) {
+    for( const timed_event &elem : get_timed_events().events ) {
         jsout.start_object();
         jsout.member( "faction", elem.faction_id );
         jsout.member( "map_point", elem.map_point );
+        jsout.member( "map_square", elem.map_square );
         jsout.member( "strength", elem.strength );
         jsout.member( "string_id", elem.string_id );
         jsout.member( "type", elem.type );
         jsout.member( "when", elem.when );
+        jsout.member( "key", elem.key );
         jsout.member( "revert" );
         jsout.start_array();
         for( int y = 0; y < SEEY; y++ ) {

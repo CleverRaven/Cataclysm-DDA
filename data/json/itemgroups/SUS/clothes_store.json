@@ -105,11 +105,13 @@
     "subtype": "collection",
     "entries": [
       { "item": "thread", "count": [ 2, 7 ], "prob": 75 },
-      { "item": "rag", "count": [ 10, 40 ], "prob": 75 },
+      { "item": "cotton_patchwork", "count": [ 10, 40 ], "prob": 75 },
       { "item": "sheet_cotton", "count": [ 10, 35 ], "prob": 70 },
       { "item": "sheet_felt", "count": [ 10, 25 ], "prob": 40 },
       { "item": "sheet_lycra", "count": [ 10, 35 ], "prob": 20 },
       { "item": "sheet_nylon", "count": [ 10, 35 ], "prob": 20 },
+      { "item": "sheet_nomex", "count": [ 10, 35 ], "prob": 5 },
+      { "item": "sheet_kevlar", "count": [ 10, 35 ], "prob": 5 },
       { "item": "thread_nomex", "count": [ 2, 4 ], "prob": 10 },
       { "item": "thread_kevlar", "count": [ 1, 3 ], "prob": 5 }
     ]
@@ -122,7 +124,7 @@
     "subtype": "collection",
     "entries": [
       { "item": "thread", "count": [ 2, 7 ], "prob": 75 },
-      { "item": "rag", "count": [ 5, 15 ], "prob": 75 },
+      { "item": "cotton_patchwork", "count": [ 5, 15 ], "prob": 75 },
       { "item": "sheet_cotton", "count": [ 10, 25 ], "prob": 70 },
       { "item": "tanned_pelt", "count": [ 5, 35 ], "prob": 70 }
     ]

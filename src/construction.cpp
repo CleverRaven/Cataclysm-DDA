@@ -158,6 +158,7 @@ void done_wiring( const tripoint &, Character & );
 void done_deconstruct( const tripoint &, Character & );
 void done_digormine_stair( const tripoint &, bool, Character & );
 void done_dig_grave( const tripoint &p, Character & );
+void done_dig_grave_nospawn( const tripoint &p, Character & );
 void done_dig_stair( const tripoint &, Character & );
 void done_mine_downstair( const tripoint &, Character & );
 void done_mine_upstair( const tripoint &, Character & );
@@ -180,8 +181,9 @@ static std::vector<construction> constructions;
 static std::map<construction_str_id, construction_id> construction_id_map;
 
 // Helper functions, nobody but us needs to call these.
-static bool can_construct( const construction_group_str_id &group );
 static bool can_construct( const construction &con );
+static std::vector<construction *> player_can_build_valid_constructions( Character &you,
+        const read_only_visitable &inv, const construction_group_str_id &group );
 static bool player_can_build( Character &you, const read_only_visitable &inv,
                               const construction_group_str_id &group );
 static bool player_can_see_to_build( Character &you, const construction_group_str_id &group );
@@ -223,7 +225,7 @@ void standardize_construction_times( const int time )
         debugmsg( "standardize_construction_times called before finalization" );
         return;
     }
-    for( auto &c : constructions ) {
+    for( construction &c : constructions ) {
         c.time = time;
     }
 }
@@ -244,7 +246,7 @@ constructions_by_filter( std::function<bool( construction const & )> const &filt
         return {};
     }
     std::vector<construction *> result;
-    for( auto &constructions_a : constructions ) {
+    for( construction &constructions_a : constructions ) {
         if( filter( constructions_a ) ) {
             result.push_back( &constructions_a );
         }
@@ -263,10 +265,9 @@ static void load_available_constructions( std::vector<construction_group_str_id>
         return;
     }
     avatar &player_character = get_avatar();
-    for( auto &it : constructions ) {
+    for( construction &it : constructions ) {
         if( it.on_display && ( !hide_unconstructable ||
-                               ( can_construct( it ) &&
-                                 player_can_build( player_character, player_character.crafting_inventory(), it ) ) ) ) {
+                               player_can_build( player_character, player_character.crafting_inventory(), it ) ) ) {
             bool already_have_it = false;
             for( auto &avail_it : available ) {
                 if( avail_it == it.group ) {
@@ -304,19 +305,12 @@ static nc_color construction_color( const construction_group_str_id &group, bool
     Character &player_character = get_player_character();
     if( player_character.has_trait( trait_DEBUG_HS ) ) {
         col = c_white;
-    } else if( can_construct( group ) ) {
-        construction *con_first = nullptr;
-        std::vector<construction *> cons = constructions_by_group( group );
-        const inventory &total_inv = player_character.crafting_inventory();
-        for( auto &con : cons ) {
-            if( con->requirements->can_make_with_inventory( total_inv, is_crafting_component ) ) {
-                con_first = con;
-                break;
-            }
-        }
-        if( con_first != nullptr ) {
+    } else {
+        std::vector<construction *> cons = player_can_build_valid_constructions( player_character,
+                                           player_character.crafting_inventory(), group );
+        if( !cons.empty() ) {
             col = c_white;
-            for( const auto &pr : con_first->required_skills ) {
+            for( const auto &pr : cons.front()->required_skills ) {
                 int s_lvl = player_character.get_skill_level( pr.first );
                 if( s_lvl < pr.second ) {
                     col = c_red;
@@ -886,12 +880,29 @@ construction_id construction_menu( const bool blueprint )
     return ret;
 }
 
+static std::vector<construction *> player_can_build_valid_constructions( Character &you,
+        const read_only_visitable &inv,
+        const construction_group_str_id &group )
+{
+    std::vector<construction *> result;
+
+    // check all with the same group to see if player can build any
+    // if so, it will be added to the result
+    std::vector<construction *> cons = constructions_by_group( group );
+    for( construction *&con : cons ) {
+        if( player_can_build( you, inv, *con ) ) {
+            result.push_back( con );
+        }
+    }
+    return result;
+}
+
 bool player_can_build( Character &you, const read_only_visitable &inv,
                        const construction_group_str_id &group )
 {
     // check all with the same group to see if player can build any
     std::vector<construction *> cons = constructions_by_group( group );
-    for( auto &con : cons ) {
+    for( construction *&con : cons ) {
         if( player_can_build( you, inv, *con ) ) {
             return true;
         }
@@ -899,7 +910,8 @@ bool player_can_build( Character &you, const read_only_visitable &inv,
     return false;
 }
 
-bool player_can_build( Character &you, const read_only_visitable &inv, const construction &con )
+bool player_can_build( Character &you, const read_only_visitable &inv, const construction &con,
+                       const bool can_construct_skip )
 {
     if( you.has_trait( trait_DEBUG_HS ) ) {
         return true;
@@ -909,7 +921,9 @@ bool player_can_build( Character &you, const read_only_visitable &inv, const con
         return false;
     }
 
-    return con.requirements->can_make_with_inventory( inv, is_crafting_component );
+    // check for construction spot can be skipped by using can_construct_skip
+    return con.requirements->can_make_with_inventory( inv, is_crafting_component ) &&
+           ( can_construct_skip || can_construct( con ) );
 }
 
 bool player_can_see_to_build( Character &you, const construction_group_str_id &group )
@@ -920,18 +934,6 @@ bool player_can_see_to_build( Character &you, const construction_group_str_id &g
     std::vector<construction *> cons = constructions_by_group( group );
     for( construction *&con : cons ) {
         if( con->dark_craftable ) {
-            return true;
-        }
-    }
-    return false;
-}
-
-bool can_construct( const construction_group_str_id &group )
-{
-    // check all with the same group to see if player can build any
-    std::vector<construction *> cons = constructions_by_group( group );
-    for( auto &con : cons ) {
-        if( can_construct( *con ) ) {
             return true;
         }
     }
@@ -993,7 +995,7 @@ void place_construction( const construction_group_str_id &group )
     for( const tripoint &p : here.points_in_radius( player_character.pos(), 1 ) ) {
         for( const auto *con : cons ) {
             if( p != player_character.pos() && can_construct( *con, p ) &&
-                player_can_build( player_character, total_inv, *con ) ) {
+                player_can_build( player_character, total_inv, *con, true ) ) {
                 valid[ p ] = con;
             }
         }
@@ -1102,7 +1104,7 @@ void complete_construction( Character *you )
     // Friendly NPCs gain exp from assisting or watching...
     // TODO: NPCs watching other NPCs do stuff and learning from it
     if( you->is_avatar() ) {
-        for( auto &elem : get_avatar().get_crafting_helpers() ) {
+        for( npc *&elem : get_avatar().get_crafting_helpers() ) {
             if( elem->meets_skill_requirements( built ) ) {
                 add_msg( m_info, _( "%s assists you with the work…" ), elem->get_name() );
             } else {
@@ -1172,6 +1174,7 @@ void complete_construction( Character *you )
              built.group->name() );
     // clear the activity
     you->activity.set_to_null();
+    you->recoil = MAX_RECOIL;
 
     // This comes after clearing the activity, in case the function interrupts
     // activities
@@ -1211,7 +1214,7 @@ bool construct::check_empty( const tripoint &p )
              here.i_at( p ).empty() && !here.veh_at( p ) );
 }
 
-static inline std::array<tripoint, 4> get_orthogonal_neighbors( const tripoint &p )
+static std::array<tripoint, 4> get_orthogonal_neighbors( const tripoint &p )
 {
     return {{
             p + point_north,
@@ -1439,16 +1442,16 @@ void construct::done_wiring( const tripoint &p, Character &/*who*/ )
 
         bounding_box vehicle_box = veh->get_bounding_box( false );
         point size;
-        size.x = abs( ( vehicle_box.p2 - vehicle_box.p1 ).x ) + 1;
-        size.y = abs( ( vehicle_box.p2 - vehicle_box.p1 ).y ) + 1;
+        size.x = std::abs( ( vehicle_box.p2 - vehicle_box.p1 ).x ) + 1;
+        size.y = std::abs( ( vehicle_box.p2 - vehicle_box.p1 ).y ) + 1;
 
         vehicle &veh_target = vp->vehicle();
         if( &veh_target != veh && veh_target.has_tag( flag_WIRING ) ) {
             bounding_box target_vehicle_box = veh_target.get_bounding_box( false );
 
             point target_size;
-            target_size.x = abs( ( target_vehicle_box.p2 - target_vehicle_box.p1 ).x ) + 1;
-            target_size.y = abs( ( target_vehicle_box.p2 - target_vehicle_box.p1 ).y ) + 1;
+            target_size.x = std::abs( ( target_vehicle_box.p2 - target_vehicle_box.p1 ).x ) + 1;
+            target_size.y = std::abs( ( target_vehicle_box.p2 - target_vehicle_box.p1 ).y ) + 1;
 
             if( size.x + target_size.x <= MAX_WIRE_VEHICLE_SIZE &&
                 size.y + target_size.y <= MAX_WIRE_VEHICLE_SIZE ) {
@@ -1655,6 +1658,12 @@ void construct::done_dig_grave( const tripoint &p, Character &who )
     get_event_bus().send<event_type::exhumes_grave>( who.getID() );
 }
 
+void construct::done_dig_grave_nospawn( const tripoint &p, Character &who )
+{
+    get_map().furn_set( p, f_coffin_c );
+    get_event_bus().send<event_type::exhumes_grave>( who.getID() );
+}
+
 void construct::done_dig_stair( const tripoint &p, Character &who )
 {
     done_digormine_stair( p, true, who );
@@ -1841,9 +1850,9 @@ void load_construction( const JsonObject &jo )
     con.id = construction_id( -1 );
     con.str_id = construction_str_id( jo.get_string( "id" ) );
     if( con.str_id.is_null() ) {
-        jo.throw_error( "Null construction id specified", "id" );
+        jo.throw_error_at( "id", "Null construction id specified" );
     } else if( construction_id_map.find( con.str_id ) != construction_id_map.end() ) {
-        jo.throw_error( "Duplicate construction id", "id" );
+        jo.throw_error_at( "id", "Duplicate construction id" );
     }
 
     jo.get_member( "group" ).read( con.group );
@@ -1893,7 +1902,7 @@ void load_construction( const JsonObject &jo )
     }
 
     con.activity_level =
-        activity_levels_map.find( jo.get_string( "activity_level", "NO_EXERCISE" ) )->second;
+        activity_levels_map.find( jo.get_string( "activity_level", "MODERATE_EXERCISE" ) )->second;
 
     if( jo.has_member( "pre_flags" ) ) {
         con.pre_flags.clear();
@@ -1950,6 +1959,7 @@ void load_construction( const JsonObject &jo )
             { "done_wiring", construct::done_wiring },
             { "done_deconstruct", construct::done_deconstruct },
             { "done_dig_grave", construct::done_dig_grave },
+            { "done_dig_grave_nospawn", construct::done_dig_grave_nospawn },
             { "done_dig_stair", construct::done_dig_stair },
             { "done_mine_downstair", construct::done_mine_downstair },
             { "done_mine_upstair", construct::done_mine_upstair },
@@ -2068,7 +2078,7 @@ int construction::adjusted_time() const
     int final_time = time;
     int assistants = 0;
 
-    for( auto &elem : get_avatar().get_crafting_helpers() ) {
+    for( npc *&elem : get_avatar().get_crafting_helpers() ) {
         if( elem->meets_skill_requirements( *this ) ) {
             assistants++;
         }
@@ -2179,13 +2189,13 @@ build_reqs get_build_reqs_for_furn_ter_ids(
                 if( pre_build.category == construction_category_REPAIR ) {
                     continue;
                 }
-                if( ( pre_build.post_terrain.empty() or
-                      ( !pre_build.post_is_furniture and
-                        ter_id( pre_build.post_terrain ) != base_ter ) ) and
-                    ( pre_build.pre_terrain.empty() or
-                      ( pre_build.post_is_furniture and
-                        ter_id( pre_build.pre_terrain ) == base_ter ) ) and
-                    pre_build.post_terrain == build_pre_ter and
+                if( ( pre_build.post_terrain.empty() ||
+                      ( !pre_build.post_is_furniture &&
+                        ter_id( pre_build.post_terrain ) != base_ter ) ) &&
+                    ( pre_build.pre_terrain.empty() ||
+                      ( pre_build.post_is_furniture &&
+                        ter_id( pre_build.pre_terrain ) == base_ter ) ) &&
+                    pre_build.post_terrain == build_pre_ter &&
                     pre_build.pre_terrain != build.post_terrain ) {
                     if( total_builds.find( pre_build.id ) == total_builds.end() ) {
                         total_builds[pre_build.id] = 0;

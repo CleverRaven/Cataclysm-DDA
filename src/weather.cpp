@@ -136,8 +136,8 @@ int incident_sunlight( const weather_type_id &wtype, const time_point &t )
     return std::max<float>( 0.0f, sun_light_at( t ) + wtype->light_modifier );
 }
 
-static inline void proc_weather_sum( const weather_type_id &wtype, weather_sum &data,
-                                     const time_point &t, const time_duration &tick_size )
+static void proc_weather_sum( const weather_type_id &wtype, weather_sum &data,
+                              const time_point &t, const time_duration &tick_size )
 {
     int amount = 0;
     if( wtype->rains ) {
@@ -389,7 +389,7 @@ static void fill_funnels( int rain_depth_mm_per_hour, bool acid, const trap &tr 
  */
 static void fill_water_collectors( int mmPerHour, bool acid )
 {
-    for( const auto &e : trap::get_funnels() ) {
+    for( const trap * const &e : trap::get_funnels() ) {
         fill_funnels( mmPerHour, acid, *e );
     }
 }
@@ -408,9 +408,9 @@ static void fill_water_collectors( int mmPerHour, bool acid )
  */
 void wet_character( Character &target, int amount )
 {
-    if( amount <= 0 ||
-        target.has_trait( trait_FEATHERS ) ||
-        target.get_wielded_item().has_flag( json_flag_RAIN_PROTECT ) ||
+    item_location weapon = target.get_wielded_item();
+    if( amount <= 0 || target.has_trait( trait_FEATHERS ) ||
+        ( weapon && weapon->has_flag( json_flag_RAIN_PROTECT ) ) ||
         ( !one_in( 50 ) && target.worn_with_flag( json_flag_RAINPROOF ) ) ) {
         return;
     }
@@ -994,7 +994,8 @@ int weather_manager::get_temperature( const tripoint &location )
         temp_mod += get_convection_temperature( location );
     }
     //underground temperature = average New England temperature = 43F/6C rounded to int
-    const int temp = ( location.z < 0 ? AVERAGE_ANNUAL_TEMPERATURE : temperature ) +
+    const int temp = ( location.z < 0 ? units::to_fahrenheit( AVERAGE_ANNUAL_TEMPERATURE ) :
+                       temperature ) +
                      ( g->new_game ? 0 : get_map().get_temperature( location ) + temp_mod );
 
     temperature_cache.emplace( std::make_pair( location, temp ) );
@@ -1003,7 +1004,7 @@ int weather_manager::get_temperature( const tripoint &location )
 
 int weather_manager::get_temperature( const tripoint_abs_omt &location )
 {
-    return location.z() < 0 ? AVERAGE_ANNUAL_TEMPERATURE : temperature;
+    return location.z() < 0 ? units::to_fahrenheit( AVERAGE_ANNUAL_TEMPERATURE ) : temperature;
 }
 
 void weather_manager::clear_temp_cache()

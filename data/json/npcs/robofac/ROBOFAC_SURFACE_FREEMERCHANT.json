@@ -20,7 +20,7 @@
     "common": false,
     "bonus_int": { "one_in": 4 },
     "bonus_per": { "one_in": 4 },
-    "shopkeeper_item_group": "NC_ROBOFAC_FREE_MERCHANT_misc",
+    "shopkeeper_item_group": [ { "group": "NC_ROBOFAC_FREE_MERCHANT_misc", "rigid": true } ],
     "skills": [
       {
         "skill": "ALL",
@@ -81,7 +81,9 @@
       { "item": "fungicide", "prob": 20 },
       { "item": "insecticide", "prob": 20 },
       { "item": "antifungal", "prob": 20 },
-      { "item": "antiparasitic", "prob": 20 }
+      { "item": "antiparasitic", "prob": 20 },
+      { "group": "robofac_basic_trade", "count": [ 1, 5 ], "prob": 20 },
+      { "group": "robofac_armor_pieces", "count": [ 1, 2 ], "prob": 20 }
     ]
   },
   {

@@ -1,0 +1,50 @@
+[
+  {
+    "type": "mutation",
+    "id": "EGGSAC_SURVIVABLE",
+    "name": { "str": "Spider egg host" },
+    "points": 0,
+    "player_display": false,
+    "description": "You don't feel very well.  On an existential level."
+  },
+  {
+    "type": "mutation",
+    "id": "EGGSAC_FATAL",
+    "name": { "str": "Spider egg host" },
+    "points": 0,
+    "player_display": false,
+    "description": "You don't feel very well.  On an existential level."
+  },
+  {
+    "type": "mutation",
+    "id": "MANIFEST_DESTINY_GOBLIN",
+    "name": { "str": "Transforming into Goblin" },
+    "points": 0,
+    "player_display": false,
+    "description": "You don't feel very well.  On an existential level."
+  },
+  {
+    "type": "mutation",
+    "id": "MANIFESTED_DESTINY_GOBLIN",
+    "name": { "str": "Transformed into Goblin" },
+    "points": 0,
+    "player_display": false,
+    "description": "You don't feel very well.  On an existential level."
+  },
+  {
+    "type": "mutation",
+    "id": "NIGHTMARE_CHIMERAS",
+    "name": { "str": "Haunted by your dreams made flesh" },
+    "points": 0,
+    "player_display": false,
+    "description": "Your dreams can change reality."
+  },
+  {
+    "type": "mutation",
+    "id": "FRIENDLY_CHIMERAS",
+    "name": { "str": "Accompanied by your dreams made flesh" },
+    "points": 0,
+    "player_display": false,
+    "description": "Your dreams can change reality."
+  }
+]
