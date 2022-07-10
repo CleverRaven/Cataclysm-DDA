@@ -1680,6 +1680,10 @@ void suffer::from_nyctophobia( Character &you )
             you.add_msg_if_player( m_bad, _( "You feel a twinge of panic as darkness engulfs you." ) );
         }
 
+        if( one_in( 2 ) && one_turn_in( 30_seconds ) ) {
+            you.sound_hallu();
+        }
+
         if( one_in( 50 ) && !you.is_on_ground() ) {
             you.add_msg_if_player( m_bad,
                                    _( "Your fear of the dark is so intense that your trembling legs fail you, and you fall to the ground." ) );
