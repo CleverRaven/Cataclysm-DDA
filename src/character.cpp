@@ -910,8 +910,7 @@ double Character::fastest_aiming_method_speed( const item &gun, double recoil,
     if( !gun.has_flag( flag_DISABLE_SIGHTS ) ) {
         const int iron_sight_FOV = 480;
         int effective_iron_sight_dispersion = effective_dispersion( gun.type->gun->sight_dispersion );
-        double iron_sight_speed = gun.has_flag( flag_DISABLE_SIGHTS ) ? 0 :
-                                  modified_sight_speed( 0, effective_iron_sight_dispersion, recoil );
+        double iron_sight_speed = modified_sight_speed( 0, effective_iron_sight_dispersion, recoil );
         if( effective_iron_sight_dispersion < recoil && iron_sight_speed > aim_speed_modifier &&
             recoil <= iron_sight_FOV ) {
             aim_speed_modifier = iron_sight_speed;

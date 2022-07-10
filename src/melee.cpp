@@ -2136,9 +2136,9 @@ item_location Character::best_shield()
     // "BLOCK_WHILE_WORN" without a blocking tech need to be worn for the bonus
     best_value = best_value == 2 ? 0 : best_value;
     item_location best = best_value > 0 ? get_wielded_item() : item_location();
-    item_location best_worn( *this, worn.best_shield() );
+    item *best_worn = worn.best_shield();
     if( best_worn && melee::blocking_ability( *best_worn ) >= best_value ) {
-        best = best_worn;
+        best = item_location( *this, best_worn );
     }
 
     return best;
