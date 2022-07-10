@@ -439,359 +439,346 @@ static bool can_recharge_solar( const item &it, Character *carrier, const tripoi
              carrier->is_worn( it ) || carrier->is_wielding( it ) );
 }
 
-static bool can_recharge_underground(const item& it, Character* carrier, const tripoint& pos) {
+static bool can_recharge_underground( const item &it, Character *carrier, const tripoint &pos )
+{
 
     return get_map().is_underground( pos ) &&
            ( carrier == nullptr ||
-             carrier->is_worn(it) || carrier->is_wielding(it));
+             carrier->is_worn( it ) || carrier->is_wielding( it ) );
 
-void relic::try_recharge( item &parent, Character *carrier, const tripoint &pos )
-{
-    if( charge.regenerate_ammo && item_can_not_load_ammo( parent ) ) {
-        return;
-    }
-    if( !charge.regenerate_ammo && charge.charges >= charge.max_charges ) {
-        return;
-    }
-    if( !can_recharge( parent, carrier ) ) {
-        return;
-    }
-
-    switch( charge.type ) {
-        case relic_recharge_type::NONE: {
+    void relic::try_recharge( item & parent, Character * carrier, const tripoint & pos ) {
+        if( charge.regenerate_ammo && item_can_not_load_ammo( parent ) ) {
             return;
         }
-        case relic_recharge_type::PERIODIC: {
-            charge.accumulate_charge( parent );
+        if( !charge.regenerate_ammo && charge.charges >= charge.max_charges ) {
             return;
         }
-        case relic_recharge_type::SOLAR_SUNNY: {
-            if (can_recharge_solar(parent, carrier, pos) &&
-                get_weather().weather_id->light_modifier >= 0) {
-                charge.accumulate_charge(parent);
-            }
+        if( !can_recharge( parent, carrier ) ) {
             return;
         }
-        case relic_recharge_type::UNDERGROUND: {
-            if (can_recharge_underground(parent, carrier, pos) &&
-                OVERMAP_DEPTH >= 1 ) { 
-                charge.accumulate_charge(parent);
+
+        switch( charge.type ) {
+            case relic_recharge_type::NONE: {
+                return;
             }
-            return;
-        }
-        case relic_recharge_type::NUM: {
-            debugmsg( "Attempted to recharge relic with invalid recharge type" );
-            return;
-        }
-    }
-}
-
-bool relic::can_recharge( item &parent, Character *carrier )
-{
-
-    if( carrier == nullptr && charge.has != relic_recharge_has::NUM ) {
-        return false;
-    }
-
-    switch( charge.has ) {
-
-        case relic_recharge_has::HELD: {
-            return carrier->has_item( parent );
-        }
-
-        case relic_recharge_has::WORN: {
-            return carrier->is_worn( parent ) || carrier->is_wielding( parent );
-        }
-
-        case relic_recharge_has::WIELD: {
-            return carrier->is_wielding( parent );
-        }
-
-        case relic_recharge_has::NUM: {
-            return true;
-        }
-
-    }
-
-    return true;
-
-
-}
-
-void relic::overwrite_charge( const relic_charge_info &info )
-{
-    charge = info;
-}
-
-int relic::modify_value( const enchant_vals::mod value_type, const int value ) const
-{
-    int add_modifier = 0;
-    double multiply_modifier = 0.0;
-    for( const enchantment &ench : passive_effects ) {
-        add_modifier += ench.get_value_add( value_type );
-        multiply_modifier += ench.get_value_multiply( value_type );
-    }
-    multiply_modifier = std::max( multiply_modifier + 1.0, 0.0 );
-    int modified_value;
-    if( multiply_modifier < 1.0 ) {
-        modified_value = std::floor( multiply_modifier * value );
-    } else {
-        modified_value = std::ceil( multiply_modifier * value );
-    }
-    return modified_value + add_modifier;
-}
-
-std::string relic::name() const
-{
-    return item_name_override.translated();
-}
-
-std::vector<enchantment> relic::get_enchantments() const
-{
-    return passive_effects;
-}
-
-int relic::power_level( const relic_procgen_id &ruleset ) const
-{
-    int total_power_level = 0;
-    for( const enchantment &ench : passive_effects ) {
-        total_power_level += ruleset->power_level( ench );
-    }
-    for( const fake_spell &sp : active_effects ) {
-        total_power_level += ruleset->power_level( sp );
-    }
-    total_power_level += charge.power;
-    return total_power_level;
-}
-
-bool relic::has_activation() const
-{
-    return !active_effects.empty();
-}
-
-int relic_procgen_data::power_level( const enchantment &ench ) const
-{
-    int power = 0;
-
-    for( const weighted_object<int, relic_procgen_data::enchantment_value_passive<int>>
-         &add_val_passive : passive_add_procgen_values ) {
-        int val = ench.get_value_add( add_val_passive.obj.type );
-        if( val != 0 ) {
-            power += static_cast<float>( add_val_passive.obj.power_per_increment ) /
-                     static_cast<float>( add_val_passive.obj.increment ) * val;
+            case relic_recharge_type::PERIODIC: {
+                charge.accumulate_charge( parent );
+                return;
+            }
+            case relic_recharge_type::SOLAR_SUNNY: {
+                if( can_recharge_solar( parent, carrier, pos ) &&
+                    get_weather().weather_id->light_modifier >= 0 ) {
+                    charge.accumulate_charge( parent );
+                }
+                return;
+            }
+            case relic_recharge_type::UNDERGROUND: {
+                if( can_recharge_underground( parent, carrier, pos ) &&
+                    OVERMAP_DEPTH >= 1 ) {
+                    charge.accumulate_charge( parent );
+                }
+                return;
+            }
+            case relic_recharge_type::NUM: {
+                debugmsg( "Attempted to recharge relic with invalid recharge type" );
+                return;
+            }
         }
     }
 
-    for( const weighted_object<int, relic_procgen_data::enchantment_value_passive<float>>
-         &mult_val_passive : passive_mult_procgen_values ) {
-        float val = ench.get_value_multiply( mult_val_passive.obj.type );
-        if( val != 0.0f ) {
-            power += mult_val_passive.obj.power_per_increment / mult_val_passive.obj.increment * val;
+    bool relic::can_recharge( item & parent, Character * carrier ) {
+
+        if( carrier == nullptr && charge.has != relic_recharge_has::NUM ) {
+            return false;
         }
-    }
 
-    return power;
-}
+        switch( charge.has ) {
 
-int relic_procgen_data::power_level( const fake_spell &sp ) const
-{
-    for( const weighted_object<int, relic_procgen_data::enchantment_active> &vals :
-         active_procgen_values ) {
-        if( vals.obj.activated_spell == sp.id ) {
-            return vals.obj.calc_power( sp.level );
+            case relic_recharge_has::HELD: {
+                return carrier->has_item( parent );
+            }
+
+            case relic_recharge_has::WORN: {
+                return carrier->is_worn( parent ) || carrier->is_wielding( parent );
+            }
+
+            case relic_recharge_has::WIELD: {
+                return carrier->is_wielding( parent );
+            }
+
+            case relic_recharge_has::NUM: {
+                return true;
+            }
+
         }
-    }
-    return 0;
-}
 
-item relic_procgen_data::create_item( const relic_procgen_data::generation_rules &rules ) const
-{
-    const itype_id *it_id = item_weights.pick();
-    if( it_id == nullptr ) {
-        debugmsg( "ERROR: %s procgen data does not have items", id.c_str() );
-        return null_item_reference();
+        return true;
+
+
     }
 
-    item it( *it_id, calendar::turn );
+    void relic::overwrite_charge( const relic_charge_info & info ) {
+        charge = info;
+    }
 
-    it.overwrite_relic( generate( rules, *it_id ) );
+    int relic::modify_value( const enchant_vals::mod value_type, const int value ) const {
+        int add_modifier = 0;
+        double multiply_modifier = 0.0;
+        for( const enchantment &ench : passive_effects ) {
+            add_modifier += ench.get_value_add( value_type );
+            multiply_modifier += ench.get_value_multiply( value_type );
+        }
+        multiply_modifier = std::max( multiply_modifier + 1.0, 0.0 );
+        int modified_value;
+        if( multiply_modifier < 1.0 ) {
+            modified_value = std::floor( multiply_modifier * value );
+        } else {
+            modified_value = std::ceil( multiply_modifier * value );
+        }
+        return modified_value + add_modifier;
+    }
 
-    return it;
-}
+    std::string relic::name() const {
+        return item_name_override.translated();
+    }
 
-relic relic_procgen_data::generate( const relic_procgen_data::generation_rules &rules,
-                                    const itype_id &it_id ) const
-{
-    relic ret;
-    int num_attributes = 0;
-    int negative_attribute_power = 0;
-    const bool is_armor = item( it_id ).is_armor();
+    std::vector<enchantment> relic::get_enchantments() const {
+        return passive_effects;
+    }
 
-    while( rules.max_attributes > num_attributes && rules.power_level > ret.power_level( id ) ) {
-        switch( *type_weights.pick() ) {
-            case relic_procgen_data::type::active_enchantment: {
-                const relic_procgen_data::enchantment_active *active = active_procgen_values.pick();
-                if( active != nullptr ) {
-                    fake_spell active_sp;
-                    active_sp.id = active->activated_spell;
-                    active_sp.level = rng( active->min_level, active->max_level );
-                    int power = power_level( active_sp );
-                    if( power < 0 ) {
-                        if( rules.max_negative_power > negative_attribute_power ) {
+    int relic::power_level( const relic_procgen_id & ruleset ) const {
+        int total_power_level = 0;
+        for( const enchantment &ench : passive_effects ) {
+            total_power_level += ruleset->power_level( ench );
+        }
+        for( const fake_spell &sp : active_effects ) {
+            total_power_level += ruleset->power_level( sp );
+        }
+        total_power_level += charge.power;
+        return total_power_level;
+    }
+
+    bool relic::has_activation() const {
+        return !active_effects.empty();
+    }
+
+    int relic_procgen_data::power_level( const enchantment & ench ) const {
+        int power = 0;
+
+        for( const weighted_object<int, relic_procgen_data::enchantment_value_passive<int>>
+             &add_val_passive : passive_add_procgen_values ) {
+            int val = ench.get_value_add( add_val_passive.obj.type );
+            if( val != 0 ) {
+                power += static_cast<float>( add_val_passive.obj.power_per_increment ) /
+                         static_cast<float>( add_val_passive.obj.increment ) * val;
+            }
+        }
+
+        for( const weighted_object<int, relic_procgen_data::enchantment_value_passive<float>>
+             &mult_val_passive : passive_mult_procgen_values ) {
+            float val = ench.get_value_multiply( mult_val_passive.obj.type );
+            if( val != 0.0f ) {
+                power += mult_val_passive.obj.power_per_increment / mult_val_passive.obj.increment * val;
+            }
+        }
+
+        return power;
+    }
+
+    int relic_procgen_data::power_level( const fake_spell & sp ) const {
+        for( const weighted_object<int, relic_procgen_data::enchantment_active> &vals :
+             active_procgen_values ) {
+            if( vals.obj.activated_spell == sp.id ) {
+                return vals.obj.calc_power( sp.level );
+            }
+        }
+        return 0;
+    }
+
+    item relic_procgen_data::create_item( const relic_procgen_data::generation_rules & rules ) const {
+        const itype_id *it_id = item_weights.pick();
+        if( it_id == nullptr ) {
+            debugmsg( "ERROR: %s procgen data does not have items", id.c_str() );
+            return null_item_reference();
+        }
+
+        item it( *it_id, calendar::turn );
+
+        it.overwrite_relic( generate( rules, *it_id ) );
+
+        return it;
+    }
+
+    relic relic_procgen_data::generate( const relic_procgen_data::generation_rules & rules,
+                                        const itype_id & it_id ) const {
+        relic ret;
+        int num_attributes = 0;
+        int negative_attribute_power = 0;
+        const bool is_armor = item( it_id ).is_armor();
+
+        while( rules.max_attributes > num_attributes && rules.power_level > ret.power_level( id ) ) {
+            switch( *type_weights.pick() ) {
+                case relic_procgen_data::type::active_enchantment: {
+                    const relic_procgen_data::enchantment_active *active = active_procgen_values.pick();
+                    if( active != nullptr ) {
+                        fake_spell active_sp;
+                        active_sp.id = active->activated_spell;
+                        active_sp.level = rng( active->min_level, active->max_level );
+                        int power = power_level( active_sp );
+                        if( power < 0 ) {
+                            if( rules.max_negative_power > negative_attribute_power ) {
+                                break;
+                            }
+                            negative_attribute_power += power;
+                        }
+                        num_attributes++;
+                        ret.add_active_effect( active_sp );
+                    }
+                    break;
+                }
+                case relic_procgen_data::type::passive_enchantment_add: {
+                    const relic_procgen_data::enchantment_value_passive<int> *add = passive_add_procgen_values.pick();
+                    if( add != nullptr ) {
+                        enchantment ench;
+                        int value = rng( add->min_value, add->max_value );
+                        if( value == 0 ) {
                             break;
                         }
-                        negative_attribute_power += power;
-                    }
-                    num_attributes++;
-                    ret.add_active_effect( active_sp );
-                }
-                break;
-            }
-            case relic_procgen_data::type::passive_enchantment_add: {
-                const relic_procgen_data::enchantment_value_passive<int> *add = passive_add_procgen_values.pick();
-                if( add != nullptr ) {
-                    enchantment ench;
-                    int value = rng( add->min_value, add->max_value );
-                    if( value == 0 ) {
-                        break;
-                    }
-                    ench.add_value_add( add->type, value );
-                    int negative_ench_attribute = power_level( ench );
-                    if( negative_ench_attribute < 0 ) {
-                        if( rules.max_negative_power > negative_attribute_power ) {
-                            break;
+                        ench.add_value_add( add->type, value );
+                        int negative_ench_attribute = power_level( ench );
+                        if( negative_ench_attribute < 0 ) {
+                            if( rules.max_negative_power > negative_attribute_power ) {
+                                break;
+                            }
+                            negative_attribute_power += negative_ench_attribute;
                         }
-                        negative_attribute_power += negative_ench_attribute;
-                    }
-                    if( add->ench_has ) {
-                        ench.set_has( add->ench_has );
-                    } else if( is_armor ) {
-                        ench.set_has( enchantment::has::WORN );
-                    } else {
-                        ench.set_has( enchantment::has::WIELD );
-                    }
-                    num_attributes++;
-                    ret.add_passive_effect( ench );
-                }
-                break;
-            }
-            case relic_procgen_data::type::passive_enchantment_mult: {
-                const relic_procgen_data::enchantment_value_passive<float> *mult =
-                    passive_mult_procgen_values.pick();
-                if( mult != nullptr ) {
-                    enchantment ench;
-                    float value = rng( mult->min_value, mult->max_value );
-                    ench.add_value_mult( mult->type, value );
-                    int negative_ench_attribute = power_level( ench );
-                    if( negative_ench_attribute < 0 ) {
-                        if( rules.max_negative_power > negative_attribute_power ) {
-                            break;
+                        if( add->ench_has ) {
+                            ench.set_has( add->ench_has );
+                        } else if( is_armor ) {
+                            ench.set_has( enchantment::has::WORN );
+                        } else {
+                            ench.set_has( enchantment::has::WIELD );
                         }
-                        negative_attribute_power += negative_ench_attribute;
+                        num_attributes++;
+                        ret.add_passive_effect( ench );
                     }
-                    if( mult->ench_has ) {
-                        ench.set_has( mult->ench_has );
-                    } else if( is_armor ) {
-                        ench.set_has( enchantment::has::WORN );
-                    } else {
-                        ench.set_has( enchantment::has::WIELD );
-                    }
-                    num_attributes++;
-                    ret.add_passive_effect( ench );
+                    break;
                 }
-                break;
-            }
-            case relic_procgen_data::type::hit_me: {
-                const relic_procgen_data::enchantment_active *active = passive_hit_me.pick();
-                if( active != nullptr ) {
-                    fake_spell active_sp;
-                    active_sp.id = active->activated_spell;
-                    active_sp.level = rng( active->min_level, active->max_level );
-                    enchantment ench;
-                    ench.add_hit_me( active_sp );
-                    int power = power_level( ench );
-                    if( power < 0 ) {
-                        if( rules.max_negative_power > negative_attribute_power ) {
-                            break;
+                case relic_procgen_data::type::passive_enchantment_mult: {
+                    const relic_procgen_data::enchantment_value_passive<float> *mult =
+                        passive_mult_procgen_values.pick();
+                    if( mult != nullptr ) {
+                        enchantment ench;
+                        float value = rng( mult->min_value, mult->max_value );
+                        ench.add_value_mult( mult->type, value );
+                        int negative_ench_attribute = power_level( ench );
+                        if( negative_ench_attribute < 0 ) {
+                            if( rules.max_negative_power > negative_attribute_power ) {
+                                break;
+                            }
+                            negative_attribute_power += negative_ench_attribute;
                         }
-                        negative_attribute_power += power;
-                    }
-                    if( active->ench_has ) {
-                        ench.set_has( active->ench_has );
-                    } else if( is_armor ) {
-                        ench.set_has( enchantment::has::WORN );
-                    } else {
-                        ench.set_has( enchantment::has::WIELD );
-                    }
-                    num_attributes++;
-                    ret.add_passive_effect( ench );
-                }
-                break;
-            }
-            case relic_procgen_data::type::hit_you: {
-                const relic_procgen_data::enchantment_active *active = passive_hit_you.pick();
-                if( active != nullptr ) {
-                    fake_spell active_sp;
-                    active_sp.id = active->activated_spell;
-                    active_sp.level = rng( active->min_level, active->max_level );
-                    enchantment ench;
-                    ench.add_hit_you( active_sp );
-                    int power = power_level( ench );
-                    if( power < 0 ) {
-                        if( rules.max_negative_power > negative_attribute_power ) {
-                            break;
+                        if( mult->ench_has ) {
+                            ench.set_has( mult->ench_has );
+                        } else if( is_armor ) {
+                            ench.set_has( enchantment::has::WORN );
+                        } else {
+                            ench.set_has( enchantment::has::WIELD );
                         }
-                        negative_attribute_power += power;
+                        num_attributes++;
+                        ret.add_passive_effect( ench );
                     }
-                    if( active->ench_has ) {
-                        ench.set_has( active->ench_has );
-                    } else if( is_armor ) {
-                        ench.set_has( enchantment::has::WORN );
-                    } else {
-                        ench.set_has( enchantment::has::WIELD );
-                    }
-                    num_attributes++;
-                    ret.add_passive_effect( ench );
+                    break;
                 }
-                break;
-            }
-            case relic_procgen_data::type::last: {
-                debugmsg( "ERROR: invalid relic procgen type" );
-                break;
+                case relic_procgen_data::type::hit_me: {
+                    const relic_procgen_data::enchantment_active *active = passive_hit_me.pick();
+                    if( active != nullptr ) {
+                        fake_spell active_sp;
+                        active_sp.id = active->activated_spell;
+                        active_sp.level = rng( active->min_level, active->max_level );
+                        enchantment ench;
+                        ench.add_hit_me( active_sp );
+                        int power = power_level( ench );
+                        if( power < 0 ) {
+                            if( rules.max_negative_power > negative_attribute_power ) {
+                                break;
+                            }
+                            negative_attribute_power += power;
+                        }
+                        if( active->ench_has ) {
+                            ench.set_has( active->ench_has );
+                        } else if( is_armor ) {
+                            ench.set_has( enchantment::has::WORN );
+                        } else {
+                            ench.set_has( enchantment::has::WIELD );
+                        }
+                        num_attributes++;
+                        ret.add_passive_effect( ench );
+                    }
+                    break;
+                }
+                case relic_procgen_data::type::hit_you: {
+                    const relic_procgen_data::enchantment_active *active = passive_hit_you.pick();
+                    if( active != nullptr ) {
+                        fake_spell active_sp;
+                        active_sp.id = active->activated_spell;
+                        active_sp.level = rng( active->min_level, active->max_level );
+                        enchantment ench;
+                        ench.add_hit_you( active_sp );
+                        int power = power_level( ench );
+                        if( power < 0 ) {
+                            if( rules.max_negative_power > negative_attribute_power ) {
+                                break;
+                            }
+                            negative_attribute_power += power;
+                        }
+                        if( active->ench_has ) {
+                            ench.set_has( active->ench_has );
+                        } else if( is_armor ) {
+                            ench.set_has( enchantment::has::WORN );
+                        } else {
+                            ench.set_has( enchantment::has::WIELD );
+                        }
+                        num_attributes++;
+                        ret.add_passive_effect( ench );
+                    }
+                    break;
+                }
+                case relic_procgen_data::type::last: {
+                    debugmsg( "ERROR: invalid relic procgen type" );
+                    break;
+                }
             }
         }
-    }
 
-    if( ret.has_activation() ) {
-        const relic_charge_template *charge = charge_values.pick();
-        if( charge != nullptr ) {
-            ret.overwrite_charge( charge->generate() );
+        if( ret.has_activation() ) {
+            const relic_charge_template *charge = charge_values.pick();
+            if( charge != nullptr ) {
+                ret.overwrite_charge( charge->generate() );
+            }
         }
+
+        return ret;
     }
 
-    return ret;
-}
+    bool operator==( const relic & source_relic, const relic & target_relic ) {
+        bool is_the_same = true;
+        is_the_same &= ( source_relic.charges() == target_relic.charges() );
+        is_the_same &= ( source_relic.charges_per_use() == target_relic.charges_per_use() );
+        is_the_same &= ( source_relic.has_activation() == target_relic.has_activation() );
+        is_the_same &= ( source_relic.has_recharge() == target_relic.has_recharge() );
+        is_the_same &= ( source_relic.max_charges() == target_relic.max_charges() );
+        is_the_same &= ( source_relic.name() == target_relic.name() );
 
-bool operator==( const relic &source_relic, const relic &target_relic )
-{
-    bool is_the_same = true;
-    is_the_same &= ( source_relic.charges() == target_relic.charges() );
-    is_the_same &= ( source_relic.charges_per_use() == target_relic.charges_per_use() );
-    is_the_same &= ( source_relic.has_activation() == target_relic.has_activation() );
-    is_the_same &= ( source_relic.has_recharge() == target_relic.has_recharge() );
-    is_the_same &= ( source_relic.max_charges() == target_relic.max_charges() );
-    is_the_same &= ( source_relic.name() == target_relic.name() );
-
-    is_the_same &= ( source_relic.get_enchantments().size() == target_relic.get_enchantments().size() );
-    if( is_the_same ) {
-        for( std::size_t i = 0; i < source_relic.get_enchantments().size(); i++ ) {
-            is_the_same &= source_relic.get_enchantments()[i] == target_relic.get_enchantments()[i];
+        is_the_same &= ( source_relic.get_enchantments().size() == target_relic.get_enchantments().size() );
+        if( is_the_same ) {
+            for( std::size_t i = 0; i < source_relic.get_enchantments().size(); i++ ) {
+                is_the_same &= source_relic.get_enchantments()[i] == target_relic.get_enchantments()[i];
+            }
         }
+        return is_the_same;
     }
-    return is_the_same;
-}
 
-const std::vector<relic_procgen_data> &relic_procgen_data::get_all()
-{
-    return relic_procgen_data_factory.get_all();
-}
+    const std::vector<relic_procgen_data> &relic_procgen_data::get_all() {
+        return relic_procgen_data_factory.get_all();
+    }
