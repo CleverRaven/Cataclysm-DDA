@@ -465,7 +465,7 @@ void relic::try_recharge( item &parent, Character *carrier, const tripoint &pos 
             }
             return;
         }
-                                             case relic_recharge_type::SOLAR_CLOUDY: {
+        case relic_recharge_type::SOLAR_CLOUDY: {
             if( can_recharge_solar( parent, carrier, pos ) &&
                 get_weather().weather_id->light_modifier < 0 ) {
                 charge.accumulate_charge( parent );
