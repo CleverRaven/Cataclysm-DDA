@@ -71,13 +71,68 @@
     "arrange": "rows",
     "width": 12,
     "widgets": [
-      "status_hpg_layout_head",
-      "status_hpg_layout_torso",
-      "status_hpg_layout_larm",
-      "status_hpg_layout_rarm",
-      "status_hpg_layout_lleg",
-      "status_hpg_layout_rleg"
+      "spacebar_hp_head_graph",
+      "spacebar_hp_torso_graph",
+      "spacebar_hp_left_arm_graph",
+      "spacebar_hp_right_arm_graph",
+      "spacebar_hp_left_leg_graph",
+      "spacebar_hp_right_leg_graph"
     ]
+  },
+  {
+    "id": "spacebar_hitpoint_graph_no_label",
+    "type": "widget",
+    "label_align": "right",
+    "copy-from": "hitpoint_graph_label",
+    "symbols": ".oO"
+  },
+  {
+    "id": "spacebar_hp_head_graph",
+    "type": "widget",
+    "label": "HEAD ",
+    "var": "bp_hp",
+    "bodypart": "head",
+    "copy-from": "spacebar_hitpoint_graph_no_label"
+  },
+  {
+    "id": "spacebar_hp_torso_graph",
+    "type": "widget",
+    "label": "TORSO",
+    "var": "bp_hp",
+    "bodypart": "torso",
+    "copy-from": "spacebar_hitpoint_graph_no_label"
+  },
+  {
+    "id": "spacebar_hp_left_arm_graph",
+    "type": "widget",
+    "label": "L ARM",
+    "var": "bp_hp",
+    "bodypart": "arm_l",
+    "copy-from": "spacebar_hitpoint_graph_no_label"
+  },
+  {
+    "id": "spacebar_hp_right_arm_graph",
+    "type": "widget",
+    "label": "R ARM",
+    "var": "bp_hp",
+    "bodypart": "arm_r",
+    "copy-from": "spacebar_hitpoint_graph_no_label"
+  },
+  {
+    "id": "spacebar_hp_left_leg_graph",
+    "type": "widget",
+    "label": "L LEG",
+    "var": "bp_hp",
+    "bodypart": "leg_l",
+    "copy-from": "spacebar_hitpoint_graph_no_label"
+  },
+  {
+    "id": "spacebar_hp_right_leg_graph",
+    "type": "widget",
+    "label": "R LEG",
+    "var": "bp_hp",
+    "bodypart": "leg_r",
+    "copy-from": "spacebar_hitpoint_graph_no_label"
   },
   {
     "id": "spacebar_bodypart_status_list_layout",
