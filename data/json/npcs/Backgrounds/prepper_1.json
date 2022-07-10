@@ -39,7 +39,7 @@
     "responses": [
       { "text": "Could you tell me that story again?", "topic": "BGSS_PREPPER_1_STORY1" },
       {
-        "text": "I could go check out that shelter for you if you give me directions.  Get your stuff back safely for you…",
+        "text": "I could check out that shelter for you, if you give me directions.  Maybe get your stuff back safely for you…",
         "condition": { "not": {"u_has_var": "prepper_1_accepted_quest", "type": "mission", "context": "BGSS", "value": "yes"} },
         "trial": { "type": "PERSUADE", "difficulty": 30, "mod": [ [ "TRUST", 5 ], [ "VALUE", 3 ], [ "ANGER", -6 ] ] },
         "success": { "topic": "BGSS_PREPPER_1_SHELTERSUCCESS", "effect": [
