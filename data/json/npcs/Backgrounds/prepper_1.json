@@ -35,7 +35,6 @@
     "id": "BGSS_PREPPER_1_LMOE",
     "type": "talk_topic",
     "dynamic_line": "I still haven't made it there.  Every time I've tried I've been headed off by the <zombies>.  Who knows, maybe someday.",
-    "//": "In the future this NPC should give you the map coordinates to the LMOE shelter if you persuade.",
     "responses": [
       { "text": "Could you tell me that story again?", "topic": "BGSS_PREPPER_1_STORY1" },
       {
