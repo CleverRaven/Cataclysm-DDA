@@ -1,0 +1,27 @@
+# Max length of a line is 78 characters; the following line is for reference
+# Longer lines will be automatically folded
+##############################################################################
+<color_white> 原作者：</color>    <color_white> 專案管理員：</color>
+<color_yellow>Whales</color> (<color_dark_gray>退休</color>)    <color_yellow>KevinGranade</color>
+
+<color_white>目前主要開發者：</color>
+<color_yellow>mlangsdorf</color> - 載具，船隻，基地與模組指引。
+<color_yellow>I-am-Erk</color> - Ultica legacy lives on.
+<color_yellow>KorGgenT</color> - Not letting me know where to put my two-by-fours.
+
+<color_white>特別感謝：</color>
+<color_yellow>Aivean</color> - 負責傑出的效能表現。
+<color_yellow>anothersimulacrum </color> - 負責讓我心神勞累。
+<color_yellow>jbytheway</color> - For reducing Python flakiness, problem matching and consolidating blueprint requirements.
+<color_yellow>BrettDong</color> - 負責翻譯與其他任務。
+<color_yellow>Qrox</color> - 負責顯示地點與錯誤訊息。
+<color_yellow>LyleSY</color> - 負責恐龍龍龍龍。
+
+<color_white>特別感謝藝術貢獻：</color>
+<color_yellow>acepleiades</color>，<color_yellow>barsoosayque</color>，<color_yellow>Fris0uman</color>，<color_yellow>int-ua</color>，以及其他許多人。
+
+<color_white>所有貢獻者的完整清單請見：</color>
+<color_cyan>https://github.com/CleverRaven/Cataclysm-DDA/contributors</color>
+
+<color_light_cyan>Cataclysm</color>: <color_light_blue>Dark Days Ahead</color> is released under <color_white>CC-BY-SA 3.0</color>:
+<color_cyan>https://creativecommons.org/licenses/by-sa/3.0/</color>

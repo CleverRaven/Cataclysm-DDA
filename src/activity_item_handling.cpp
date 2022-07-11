@@ -91,6 +91,7 @@ static const activity_id ACT_VEHICLE_REPAIR( "ACT_VEHICLE_REPAIR" );
 
 static const efftype_id effect_incorporeal( "incorporeal" );
 
+static const flag_id json_flag_MOP( "MOP" );
 static const flag_id json_flag_NO_AUTO_CONSUME( "NO_AUTO_CONSUME" );
 
 static const itype_id itype_battery( "battery" );
@@ -98,7 +99,6 @@ static const itype_id itype_detergent( "detergent" );
 static const itype_id itype_disassembly( "disassembly" );
 static const itype_id itype_liquid_soap( "liquid_soap" );
 static const itype_id itype_log( "log" );
-static const itype_id itype_mop( "mop" );
 static const itype_id itype_soap( "soap" );
 static const itype_id itype_soldering_iron( "soldering_iron" );
 static const itype_id itype_water( "water" );
@@ -1202,7 +1202,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
         }
 
         if( you.has_item_with( []( const item & itm ) {
-        return itm.typeId() == itype_mop;
+        return itm.has_flag( json_flag_MOP );
         } ) ) {
             return activity_reason_info::ok( do_activity_reason::NEEDS_MOP );
         } else {

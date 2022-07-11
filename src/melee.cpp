@@ -595,7 +595,7 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
     set_activity_level( EXTRA_EXERCISE );
 
     item_location cur_weapon = allow_unarmed ? used_weapon() : get_wielded_item();
-    item &cur_weap = cur_weapon ? *cur_weapon : null_item_reference();
+    item cur_weap = cur_weapon ? *cur_weapon : null_item_reference();
 
     int move_cost = attack_speed( cur_weap );
 

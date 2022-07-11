@@ -107,7 +107,7 @@
       ],
       "place_vehicles": [
         { "vehicle": "military_cargo_truck", "x": [ 16, 17 ], "y": [ 19, 20 ], "chance": 25 },
-        { "vehicle": "trencher", "x": [ 19, 23 ], "y": [ 2, 13 ], "chance": 40, "rotation": [ 90, 270 ] }
+        { "vehicle": "trencher", "x": [ 19, 22 ], "y": [ 3, 13 ], "chance": 40, "rotation": [ 90, 270 ] }
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }

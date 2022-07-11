@@ -2224,7 +2224,8 @@ void remove_stale_inventory_quick_shortcuts()
                 }
                 if( !in_inventory ) {
                     // We couldn't find it in worn items either, check weapon held
-                    if( player_character.get_wielded_item().invlet == key ) {
+                    item_location wielded = player_character.get_wielded_item();
+                    if( wielded && wielded->invlet == key ) {
                         in_inventory = true;
                     }
                 }
@@ -2357,8 +2358,9 @@ void draw_quick_shortcuts()
                 }
                 if( hint_text == "none" ) {
                     // We couldn't find it in worn items either, must be weapon held
-                    if( player_character.get_wielded_item().invlet == key ) {
-                        hint_text = player_character.get_wielded_item().display_name();
+                    item_location wielded = player_character.get_wielded_item();
+                    if( wielded && wielded->invlet == key ) {
+                        hint_text = player_character.get_wielded_item()->display_name();
                     }
                 }
             } else {
@@ -2763,9 +2765,11 @@ static void CheckMessages()
                         actions.insert( ACTION_CYCLE_MOVE );
                     }
                     // Only prioritize fire weapon options if we're wielding a ranged weapon.
-                    if( player_character.get_wielded_item().is_gun() ||
-                        player_character.get_wielded_item().has_flag( flag_REACH_ATTACK ) ) {
-                        actions.insert( ACTION_FIRE );
+                    item_location wielded = player_character.get_wielded_item();
+                    if( wielded ) {
+                        if( wielded->is_gun() || wielded->has_flag( flag_REACH_ATTACK ) ) {
+                            actions.insert( ACTION_FIRE );
+                        }
                     }
                 }
 
