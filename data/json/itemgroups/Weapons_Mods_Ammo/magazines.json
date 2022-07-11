@@ -241,7 +241,6 @@
     "id": "mags_smg_common",
     "//": "Factory specification SMG magazines commonly owned by citizens.",
     "items": [
-      [ "a180mag", 10 ],
       [ "mac10mag", 10 ],
       [ "mac11mag", 5 ],
       [ "mp5mag", 10 ],
@@ -279,6 +278,7 @@
     "id": "mags_smg_rare",
     "//": "Aftermarket or otherwise uncommon SMG magazines excluding milspec.",
     "items": [
+      [ "a180mag", 1 ],
       [ "a180mag1", 1 ],
       [ "a180mag2", 1 ],
       [ "a180mag3", 1 ],
