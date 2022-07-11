@@ -365,6 +365,7 @@ void bionic_data::load( const JsonObject &jsobj, const std::string & )
     optional( jsobj, was_loaded, "coverage_power_gen_penalty", coverage_power_gen_penalty );
     optional( jsobj, was_loaded, "is_remote_fueled", is_remote_fueled );
 
+    optional( jsobj, was_loaded, "known_ma_styles", ma_styles );
     optional( jsobj, was_loaded, "learned_spells", learned_spells );
     optional( jsobj, was_loaded, "learned_proficiencies", proficiencies );
     optional( jsobj, was_loaded, "canceled_mutations", canceled_mutations );
@@ -628,7 +629,8 @@ void npc::check_or_use_weapon_cbm( const bionic_id &cbm_id )
     }
     bionic &bio = ( *my_bionics )[index];
 
-    item &weapon = get_wielded_item();
+    item_location weapon = get_wielded_item();
+    item weap = weapon ? *weapon : item();
     if( bio.info().has_flag( json_flag_BIONIC_GUN ) ) {
         if( !bio.has_weapon() ) {
             debugmsg( "NPC tried to activate gun bionic \"%s\" without fake_weapon",
@@ -643,22 +645,22 @@ void npc::check_or_use_weapon_cbm( const bionic_id &cbm_id )
             return;
         }
 
-        int ammo_count = weapon.ammo_remaining( this );
-        const int ups_drain = weapon.get_gun_ups_drain();
+        int ammo_count = weap.ammo_remaining( this );
+        const int ups_drain = weap.get_gun_ups_drain();
         if( ups_drain > 0 ) {
             ammo_count = ammo_count / ups_drain;
         }
         const int cbm_ammo = free_power /  bio.info().power_activate;
 
-        if( weapon_value( weapon, ammo_count ) < weapon_value( cbm_weapon, cbm_ammo ) ) {
+        if( weapon_value( weap, ammo_count ) < weapon_value( cbm_weapon, cbm_ammo ) ) {
             if( real_weapon.is_null() ) {
                 // Prevent replacing real weapon when migrating saves
-                real_weapon = weapon;
+                real_weapon = weap;
             }
             set_wielded_item( cbm_weapon );
             weapon_bionic_uid = bio.get_uid();
         }
-    } else if( bio.info().has_flag( json_flag_BIONIC_WEAPON ) && !weapon.has_flag( flag_NO_UNWIELD ) &&
+    } else if( bio.info().has_flag( json_flag_BIONIC_WEAPON ) && !weap.has_flag( flag_NO_UNWIELD ) &&
                free_power > bio.info().power_activate ) {
 
         if( !bio.has_weapon() ) {
@@ -668,7 +670,7 @@ void npc::check_or_use_weapon_cbm( const bionic_id &cbm_id )
         }
 
         if( is_armed() ) {
-            stow_item( weapon );
+            stow_item( *weapon );
         }
         add_msg_if_player_sees( pos(), m_info, _( "%s activates their %s." ),
                                 disp_name(), bio.info().name );
@@ -687,8 +689,6 @@ void npc::check_or_use_weapon_cbm( const bionic_id &cbm_id )
 // share functions....
 bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics_ui )
 {
-    item &weapon = get_wielded_item();
-
     const bool mounted = is_mounted();
     if( bio.incapacitated_time > 0_turns ) {
         add_msg( m_info, _( "Your %s is shorting out and can't be activated." ),
@@ -742,14 +742,12 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
         }
     };
 
-    if( !bio.id->activated_eocs.empty() ) {
-        for( const effect_on_condition_id &eoc : bio.id->activated_eocs ) {
-            dialogue d( get_talker_for( *this ), nullptr );
-            if( eoc->type == eoc_type::ACTIVATION ) {
-                eoc->activate( d );
-            } else {
-                debugmsg( "Must use an activation eoc for a bionic activation.  If you don't want the effect_on_condition to happen on its own (without the bionic being activated), remove the recurrence min and max.  Otherwise, create a non-recurring effect_on_condition for this bionic with its condition and effects, then have a recurring one queue it." );
-            }
+    for( const effect_on_condition_id &eoc : bio.id->activated_eocs ) {
+        dialogue d( get_talker_for( *this ), nullptr );
+        if( eoc->type == eoc_type::ACTIVATION ) {
+            eoc->activate( d );
+        } else {
+            debugmsg( "Must use an activation eoc for a bionic activation.  If you don't want the effect_on_condition to happen on its own (without the bionic being activated), remove the recurrence min and max.  Otherwise, create a non-recurring effect_on_condition for this bionic with its condition and effects, then have a recurring one queue it." );
         }
     }
 
@@ -818,7 +816,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
         add_msg_activate();
 
         set_wielded_item( bio.get_weapon() );
-        get_wielded_item().invlet = '#';
+        get_wielded_item()->invlet = '#';
         weapon_bionic_uid = bio.get_uid();
     } else if( bio.id == bio_evap ) {
         add_msg_activate();
@@ -985,7 +983,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
                     if( query_yn( _( "Extract water from the %s" ),
                                   colorize( it.tname(), it.color_in_inventory() ) ) ) {
                         item water( itype_water_clean, calendar::turn, avail );
-                        water.set_item_temperature( 0.00001 * it.temperature );
+                        water.set_item_temperature( it.temperature );
                         if( liquid_handler::consume_liquid( water ) ) {
                             add_msg_activate();
                             extracted = true;
@@ -1257,29 +1255,27 @@ bool Character::deactivate_bionic( bionic &bio, bool eff_only )
         bio.powered = false;
         add_msg_if_player( m_neutral, _( "You deactivate your %s." ), bio.info().name );
     }
-    const item &w_weapon = get_wielded_item();
+
     // Deactivation effects go here
 
-    if( !bio.id->deactivated_eocs.empty() ) {
-        for( const effect_on_condition_id &eoc : bio.id->deactivated_eocs ) {
-            dialogue d( get_talker_for( *this ), nullptr );
-            if( eoc->type == eoc_type::ACTIVATION ) {
-                eoc->activate( d );
-            } else {
-                debugmsg( "Must use an activation eoc for a bionic deactivation.  If you don't want the effect_on_condition to happen on its own (without the bionic being activated), remove the recurrence min and max.  Otherwise, create a non-recurring effect_on_condition for this bionic with its condition and effects, then have a recurring one queue it." );
-            }
+    for( const effect_on_condition_id &eoc : bio.id->deactivated_eocs ) {
+        dialogue d( get_talker_for( *this ), nullptr );
+        if( eoc->type == eoc_type::ACTIVATION ) {
+            eoc->activate( d );
+        } else {
+            debugmsg( "Must use an activation eoc for a bionic deactivation.  If you don't want the effect_on_condition to happen on its own (without the bionic being activated), remove the recurrence min and max.  Otherwise, create a non-recurring effect_on_condition for this bionic with its condition and effects, then have a recurring one queue it." );
         }
     }
 
     if( bio.info().has_flag( json_flag_BIONIC_WEAPON ) ) {
         if( bio.get_uid() == get_weapon_bionic_uid() ) {
-            bio.set_weapon( get_wielded_item() );
-            add_msg_if_player( _( "You withdraw your %s." ), w_weapon.tname() );
+            bio.set_weapon( *get_wielded_item() );
+            add_msg_if_player( _( "You withdraw your %s." ), weapon.tname() );
             if( get_player_view().sees( pos() ) ) {
                 if( male ) {
-                    add_msg_if_npc( m_info, _( "<npcname> withdraws his %s." ), w_weapon.tname() );
+                    add_msg_if_npc( m_info, _( "<npcname> withdraws his %s." ), weapon.tname() );
                 } else {
-                    add_msg_if_npc( m_info, _( "<npcname> withdraws her %s." ), w_weapon.tname() );
+                    add_msg_if_npc( m_info, _( "<npcname> withdraws her %s." ), weapon.tname() );
                 }
             }
             set_wielded_item( item() );
@@ -1813,14 +1809,12 @@ void Character::process_bionic( bionic &bio )
         }
     }
 
-    if( !bio.id->processed_eocs.empty() ) {
-        for( const effect_on_condition_id &eoc : bio.id->processed_eocs ) {
-            dialogue d( get_talker_for( *this ), nullptr );
-            if( eoc->type == eoc_type::ACTIVATION ) {
-                eoc->activate( d );
-            } else {
-                debugmsg( "Must use an activation eoc for a bionic process.  If you don't want the effect_on_condition to happen on its own (without the bionic being activated), remove the recurrence min and max.  Otherwise, create a non-recurring effect_on_condition for this bionic with its condition and effects, then have a recurring one queue it." );
-            }
+    for( const effect_on_condition_id &eoc : bio.id->processed_eocs ) {
+        dialogue d( get_talker_for( *this ), nullptr );
+        if( eoc->type == eoc_type::ACTIVATION ) {
+            eoc->activate( d );
+        } else {
+            debugmsg( "Must use an activation eoc for a bionic process.  If you don't want the effect_on_condition to happen on its own (without the bionic being activated), remove the recurrence min and max.  Otherwise, create a non-recurring effect_on_condition for this bionic with its condition and effects, then have a recurring one queue it." );
         }
     }
 
@@ -2539,7 +2533,7 @@ bool Character::can_install_bionics( const itype &type, Character &installer, bo
     std::vector<std::string> conflicting_muts;
     for( const trait_id &mid : bioid->canceled_mutations ) {
         if( has_trait( mid ) ) {
-            conflicting_muts.push_back( mid->name() );
+            conflicting_muts.push_back( mutation_name( mid ) );
         }
     }
 
@@ -2674,11 +2668,9 @@ void Character::perform_install( const bionic_id &bid, bionic_uid upbio_uid, int
 
         add_bionic( bid );
 
-        if( !trait_to_rem.empty() ) {
-            for( const trait_id &tid : trait_to_rem ) {
-                if( has_trait( tid ) ) {
-                    remove_mutation( tid );
-                }
+        for( const trait_id &tid : trait_to_rem ) {
+            if( has_trait( tid ) ) {
+                remove_mutation( tid );
             }
         }
 

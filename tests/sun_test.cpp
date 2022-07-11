@@ -17,13 +17,11 @@
 
 // The 24-hour solar cycle has four overlapping parts, as defined by four calendar.cpp functions:
 //
-// is_night : While the Sun is below the horizon
-// is_day   : While the Sun is above -12° altitude
-// is_dawn, is_dusk : While the Sun is near the horizon at the appropriate end
+// is_night : While the Sun is below -6° altitude
+// is_day   : While the Sun is above -1° altitude
+// is_dawn, is_dusk : While the Sun is in between -6° to -1° at the appropriate end
 //                    of the day
 //
-// Day and night overlap, and dawn and dusk both overlap with both day and
-// night.
 //
 // The times of sunrise and sunset will naturally depend on the current time of year; this aspect is
 // covered by the "sunrise and sunset" and solstice/equinox tests later in this file. Here we simply
@@ -56,7 +54,7 @@ TEST_CASE( "daily solar cycle", "[sun][night][dawn][day][dusk]" )
     SECTION( "Dawn" ) {
         CHECK_FALSE( is_night( today_sunrise ) );
         CHECK( is_dawn( today_sunrise - 1_seconds ) );
-        CHECK( is_dawn( today_sunrise - 30_minutes ) );
+        CHECK( is_dawn( today_sunrise - 20_minutes ) );
 
         // Dawn stops at 1 degrees
         CHECK_FALSE( is_dawn( today_sunrise + 7_minutes ) );
@@ -92,8 +90,7 @@ TEST_CASE( "daily solar cycle", "[sun][night][dawn][day][dusk]" )
     SECTION( "Dusk" ) {
         CHECK_FALSE( is_day( today_sunset + 1_seconds ) );
         CHECK( is_dusk( today_sunset + 1_seconds ) );
-        CHECK( is_dusk( today_sunset + 30_minutes ) );
-        CHECK( is_dusk( today_sunset + 1_hours - 1_seconds ) );
+        CHECK( is_dusk( today_sunset + 20_minutes ) );
     }
 
     SECTION( "Night again" ) {

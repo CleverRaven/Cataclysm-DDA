@@ -1235,6 +1235,7 @@
     "learn_difficulty": 5,
     "arm_block": 1,
     "leg_block": 3,
+    "force_unarmed": true,
     "prevent_weapon_blocking": true,
     "allow_all_weapons": true,
     "static_buffs": [

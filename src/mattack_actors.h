@@ -36,6 +36,12 @@ class leap_actor : public mattack_actor
         // Don't jump if distance to target is more than this
         float max_consider_range = 0.0f;
 
+        // See melee_actor
+        std::vector<efftype_id> forbidden_effects_any;
+        std::vector<efftype_id> forbidden_effects_all;
+        std::vector<efftype_id> required_effects_any;
+        std::vector<efftype_id> required_effects_all;
+
         leap_actor() = default;
         ~leap_actor() override = default;
 
@@ -48,6 +54,12 @@ class mon_spellcasting_actor : public mattack_actor
 {
     public:
         fake_spell spell_data;
+
+        // See melee_actor
+        std::vector<efftype_id> forbidden_effects_any;
+        std::vector<efftype_id> forbidden_effects_all;
+        std::vector<efftype_id> required_effects_any;
+        std::vector<efftype_id> required_effects_all;
 
         mon_spellcasting_actor() = default;
         ~mon_spellcasting_actor() override = default;
@@ -64,6 +76,12 @@ class melee_actor : public mattack_actor
         damage_instance damage_max_instance = damage_instance::physical( 9, 0, 0, 0 );
         // Percent chance for the attack to happen if the mob tries it
         int attack_chance = 100;
+        // Effects preventing the attack from to triggering
+        std::vector<efftype_id> forbidden_effects_any;
+        std::vector<efftype_id> forbidden_effects_all;
+        // Effects required for the attack to trigger
+        std::vector<efftype_id> required_effects_any;
+        std::vector<efftype_id> required_effects_all;
         // Minimum multiplier on damage above (rolled per attack)
         float min_mul = 0.5f;
         // Maximum multiplier on damage above (also per attack)

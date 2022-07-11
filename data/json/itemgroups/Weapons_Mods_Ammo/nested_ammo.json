@@ -303,8 +303,7 @@
       { "item": "38_fmj", "prob": 75, "charges": [ 44, 80 ] },
       { "item": "38_special", "prob": 75, "charges": [ 44, 80 ] },
       { "item": "38_fmj", "prob": 30, "charges": [ 88, 160 ] },
-      { "item": "38_special", "prob": 30, "charges": [ 88, 160 ] },
-      { "item": "38_super", "prob": 30, "charges": [ 1, 40 ] }
+      { "item": "38_special", "prob": 30, "charges": [ 88, 160 ] }
     ]
   },
   {
@@ -438,6 +437,17 @@
       { "item": "300blk", "prob": 100, "charges": [ 1, 30 ] },
       { "item": "300blk", "prob": 75, "charges": [ 33, 60 ] },
       { "item": "300blk", "prob": 30, "charges": [ 66, 120 ] }
+    ]
+  },
+  {
+    "id": "on_hand_30carbine",
+    "type": "item_group",
+    "//": "a collection of ammo that would be found with a loaded gun.",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "30carbine", "prob": 100, "charges": [ 1, 50 ] },
+      { "item": "30carbine", "prob": 75, "charges": [ 55, 100 ] },
+      { "item": "30carbine", "prob": 30, "charges": [ 110, 200 ] }
     ]
   },
   {

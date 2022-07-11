@@ -22,6 +22,7 @@
 #include "game.h"
 #include "game_constants.h"
 #include "item.h"
+#include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
@@ -50,10 +51,14 @@ static const efftype_id effect_ridden( "ridden" );
 static const efftype_id effect_slimed( "slimed" );
 static const efftype_id effect_tetanus( "tetanus" );
 
+static const flag_id json_flag_LEVITATION( "LEVITATION" );
+static const flag_id json_flag_UNCONSUMED( "UNCONSUMED" );
+
 static const itype_id itype_bullwhip( "bullwhip" );
 static const itype_id itype_grapnel( "grapnel" );
 static const itype_id itype_rope_30( "rope_30" );
 
+static const json_character_flag json_flag_WALL_CLING( "WALL_CLING" );
 static const json_character_flag json_flag_WINGS_1( "WINGS_1" );
 static const json_character_flag json_flag_WINGS_2( "WINGS_2" );
 
@@ -72,6 +77,8 @@ static const species_id species_ROBOT( "ROBOT" );
 
 static const trait_id trait_INFIMMUNE( "INFIMMUNE" );
 static const trait_id trait_INFRESIST( "INFRESIST" );
+
+
 
 // A pit becomes less effective as it fills with corpses.
 static float pit_effectiveness( const tripoint &p )
@@ -1165,6 +1172,11 @@ bool trapfunc::ledge( const tripoint &p, Creature *c, item * )
     if( m != nullptr && m->flies() ) {
         return false;
     }
+
+    if( c->has_effect_with_flag( json_flag_LEVITATION ) ) {
+        return false;
+    }
+
     map &here = get_map();
 
     int height = 0;
@@ -1218,6 +1230,15 @@ bool trapfunc::ledge( const tripoint &p, Creature *c, item * )
         return true;
     }
 
+    item jetpack = you->item_worn_with_flag( STATIC( flag_id( "JETPACK" ) ) );
+
+
+    if( you->has_flag( json_flag_WALL_CLING ) &&  get_map().is_wall_adjacent( p ) ) {
+        you->add_msg_player_or_npc( _( "You attach yourself to the nearby wall." ),
+                                    _( "<npcname> clings to the wall." ) );
+        return false;
+    }
+
     if( you->is_avatar() ) {
         add_msg( m_bad, n_gettext( "You fall down %d story!", "You fall down %d stories!", height ),
                  height );
@@ -1232,6 +1253,17 @@ bool trapfunc::ledge( const tripoint &p, Creature *c, item * )
     } else if( you->has_active_bionic( bio_shock_absorber ) ) {
         you->add_msg_if_player( m_info,
                                 _( "You hit the ground hard, but your grav chute handles the impact admirably!" ) );
+    } else if( !jetpack.is_null() ) {
+        if( jetpack.ammo_sufficient( you ) ) {
+            you->add_msg_player_or_npc( _( "You ignite your %s and use it to break the fall." ),
+                                        _( "<npcname> uses their %s to break the fall." ), jetpack.tname() );
+            you->use_charges( jetpack.typeId(), jetpack.type->charges_to_use() );
+        } else {
+            you->add_msg_if_player( m_bad,
+                                    _( "You attempt to break the fall with your %s but it is out of fuel!" ), jetpack.tname() );
+            you->impact( height * 30, where );
+
+        }
     } else {
         you->impact( height * 30, where );
     }
@@ -1446,11 +1478,16 @@ bool trapfunc::cast_spell( const tripoint &p, Creature *critter, item * )
         return false;
     }
     map &here = get_map();
-    const spell trap_spell = here.tr_at( p ).spell_data.get_spell( 0 );
+    trap tr = here.tr_at( p );
+    const spell trap_spell = tr.spell_data.get_spell( 0 );
     npc dummy;
-    trap_spell.cast_all_effects( dummy, critter->pos() );
-    trap_spell.make_sound( p, 20 );
     here.remove_trap( p );
+    // we remove the trap before casting the spell because otherwise if mapgen is invoked on our location it will retrigger the trap and create an infinite loop
+    trap_spell.cast_all_effects( dummy, critter->pos() );
+    trap_spell.make_sound( p );
+    if( tr.has_flag( json_flag_UNCONSUMED ) ) {
+        here.trap_set( p, tr.id );
+    }
     return true;
 }
 

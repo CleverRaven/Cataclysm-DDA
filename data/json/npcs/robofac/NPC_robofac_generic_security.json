@@ -27,7 +27,8 @@
       { "skill": "rifle", "bonus": { "rng": [ 2, 4 ] } }
     ],
     "carry_override": "NC_robofac_generic_security_misc",
-    "worn_override": "NC_robofac_generic_security_worn"
+    "worn_override": "NC_robofac_generic_security_worn",
+    "weapon_override": "NC_robofac_security_weapon"
   },
   {
     "type": "item_group",
@@ -36,13 +37,18 @@
     "entries": [
       { "item": "under_armor" },
       { "item": "under_armor_shorts" },
+      { "item": "socks" },
       { "item": "robofac_jumpsuit" },
       { "item": "tac_helmet" },
       { "group": "military_ballistic_vest_pristine" },
-      { "item": "gloves_tactical" },
-      { "item": "glasses_bal", "prob": 33 },
+      { "group": "clothing_watch" },
+      { "distribution": [ { "group": "clothing_glasses" }, { "item": "glasses_bal" } ] },
+      { "item": "gloves_tactical", "prob": 60 },
       { "item": "boots_combat" },
-      { "item": "holster", "prob": 50 },
+      { "group": "clothing_watch" },
+      { "item": "holster" },
+      { "item": "legrig" },
+      { "item": "legrig", "prob": 30 },
       { "item": "tacvest" }
     ]
   },
@@ -52,12 +58,31 @@
     "subtype": "collection",
     "entries": [
       { "item": "grenade_emp", "prob": 33 },
-      { "item": "grenade", "prob": 2 },
-      { "item": "PR24-extended" },
-      { "item": "flashlight" },
-      { "item": "glock_17", "charges": 21, "ammo-item": "9mmP" },
-      { "item": "glock17_22", "charges": 21, "ammo-item": "9mmP" },
-      { "item": "9mmP", "count": 6 }
+      {
+        "collection": [
+          { "item": "glock_17", "charges": 22, "ammo-item": "9mmP" },
+          { "item": "glock17_22", "charges": 22, "ammo-item": "9mmP", "count": [ 1, 2 ] },
+          { "item": "9mmP", "count": [ 1, 2 ] },
+          { "item": "stanag30", "charges": 30, "ammo-item": "556", "count": [ 1, 2 ] },
+          { "item": "556", "count": 2 }
+        ]
+      },
+      { "item": "grenade", "prob": 2 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_robofac_security_weapon",
+    "subtype": "collection",
+    "entries": [ { "item": "m27_assault_rifle", "variant": "m38dmr", "contents-group": "robofac_sec_weapon_mods", "charges": 30 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "robofac_sec_weapon_mods",
+    "subtype": "collection",
+    "entries": [
+      { "distribution": [ { "item": "holo_sight", "prob": 50 }, { "item": "acog_scope", "prob": 30 } ] },
+      { "item": "shoulder_strap" }
     ]
   },
   {

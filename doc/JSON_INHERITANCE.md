@@ -16,6 +16,17 @@ In the following condensed example ```556``` ammo is derived from ```223``` ammo
 },
 "extend": { "effects": [ "NEVER_MISFIRES" ] }
 ```
+In monsters it would look slightly different and has two options while still using ```copy-from```:
+```
+"relative": { "melee_dice": 1, "melee_dice_sides": 5, "armor_bash": 4, "melee_damage": 2, "armor_cut": 6, "armor_bullet": 5 },
+
+
+"//": "Relative usage",
+  "relative": { "melee_damage": [ { "damage_type": "cut", "amount": 2 } ] }
+"//": "or",
+  "relative": { "melee_damage": 2 },
+```
+
 The following rules apply to the above example:
 
 * Missing fields have the same value as the parent
@@ -49,6 +60,17 @@ Chained inheritance is possible; for example ```reloaded_556``` inherits from ``
 Numeric values may be specified ```proportional``` to the parent by via a decimal factor where ```0.5``` is 50% and ```2.0``` is 200%.
 
 Flags can be deleted via ```delete```. It is not an error if the deleted flag does not exist in the parent.
+
+As with relative in monsters it would look slightly different and has two options while still using ```copy-from```:
+```
+"proportional": { "hp": 1.5, "speed": 1.5, "attack_cost": 1.5, "melee_damage": 0.8 },
+
+
+"//": "Proportional usage",
+  "proportional": { "melee_damage": [ { "damage_type": "cut", "amount": 0.8 } ] },
+"//": "or",
+  "proportional": { "melee_damage": 0.8 },
+```
 
 It is possible to define an ```abstract``` type that exists only for other types to inherit from and cannot itself be used in game. In the following condensed example ```magazine_belt``` provides values common to all implemented ammo belts:
 ```

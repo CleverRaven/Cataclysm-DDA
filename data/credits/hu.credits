@@ -1,0 +1,27 @@
+# Max length of a line is 78 characters; the following line is for reference
+# Longer lines will be automatically folded
+##############################################################################
+<color_white>Eredeti szerző:</color>    <color_white>Projektmenedzser:</color>
+<color_yellow>Whales</color> (<color_dark_gray>visszavonult</color>)    <color_yellow>KevinGranade</color>
+
+<color_white>Jelenlegi fő fejlesztők:</color>
+<color_yellow>mlangsdorf</color> - Járművek, hajók, bázisok és moddolási útmutatók.
+<color_yellow>I-am-Erk</color> - UltiCa hagyatékának megőrzése.
+<color_yellow>KorGgenT</color> - Nem árulja el, hogy hova dugjam a...kisujjam.
+
+<color_white>Külön köszönet:</color>
+<color_yellow>Aivean</color> - A kiemelkedő teljesítményért.
+<color_yellow>anothersimulacrum </color> - Amiért mindig lefáraszt.
+<color_yellow>jbytheway</color> - A Python-ban felmerülő hibák csökkentéséért és egyeztetéséért, valamint a tervek egységesítéséért.
+<color_yellow>BrettDong</color> - fordítások segítéséért és egyebekért.
+<color_yellow>Qrox</color> - A hibaüzenetek helyének megmutatásáért.
+<color_yellow>LyleSY</color> - A dínókért.
+
+<color_white>Külön köszönet a művészi hozzájárulásokért::</color>
+<color_yellow>acepleiades</color>, <color_yellow>barsoosayque</color>, <color_yellow>Fris0uman</color>, <color_yellow>int-ua</color>, és sokan mások.
+
+<color_white>Az összes közreműködő listáját lásd itt:</color>
+<color_cyan>https://github.com/CleverRaven/Cataclysm-DDA/contributors</color>
+
+A <color_light_cyan>Cataclysm</color>: <color_light_blue>Dark Days Ahead</color> a <color_white>CC-BY-SA 3.0</color> licensz alatt jelenik meg:
+<color_cyan>https://creativecommons.org/licenses/by-sa/3.0/</color>

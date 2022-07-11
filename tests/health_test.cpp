@@ -9,80 +9,72 @@
 #include "enums.h"
 #include "npc.h"
 
-static void test_diet( const time_duration &dur, npc &dude,
-                       const std::array<int, 4> &hmod_changes_per_day, int min, int max )
+static const vitamin_id vitamin_calcium( "calcium" );
+static const vitamin_id vitamin_iron( "iron" );
+static const vitamin_id vitamin_vitC( "vitC" );
+
+static void daily_routine( npc &dude, int numb_stam_burn, int vitamin_amount,
+                           bool sleep_deprivation )
 {
-    std::vector<int> health_samples;
-    for( time_duration i = 0_turns; i < dur; i += 1_days ) {
-        const size_t index = to_days<int>( i ) % 4;
-        // They lightly correspond to breakfast, dinner, supper, night snack
-        // No, they don't. The correspond to one meal each day.
-        dude.mod_healthy_mod( hmod_changes_per_day[ index ],
-                              sgn( hmod_changes_per_day[ index ] ) * 200 );
-        dude.update_health();
-        health_samples.emplace_back( dude.get_healthy() );
+    // set to midnight
+    calendar::turn = calendar::turn_zero;
+    dude.update_body();
+
+    for( int i = 0; i < numb_stam_burn; i++ ) {
+        //Cardio: burn more than half stamina
+        dude.mod_stamina( -dude.get_stamina_max() );
+        dude.set_stamina( dude.get_stamina_max() );
     }
 
-    std::stringstream ss;
-    for( int i : health_samples ) {
-        ss << i << ", ";
+    //RDA: get some vitamins
+    dude.vitamin_mod( vitamin_iron, vitamin_amount );
+    dude.vitamin_mod( vitamin_vitC, vitamin_amount );
+    dude.vitamin_mod( vitamin_calcium, vitamin_amount );
+
+    if( sleep_deprivation ) {
+        dude.set_sleep_deprivation( static_cast<int>( SLEEP_DEPRIVATION_MASSIVE ) - 160 );
     }
-    INFO( "Health samples: " << ss.str() );
-    CHECK( dude.get_healthy() >= min );
-    CHECK( dude.get_healthy() <= max );
+
+
+    // set to next day
+    calendar::turn = calendar::turn_zero + 24_hours;
+    dude.update_body();
+    dude.update_health();
 }
 
-// Maximum possible health in feasible environment
-TEST_CASE( "max_healthy_mod_feasible", "[health]" )
+// Healthy lifetyle makes health go up
+TEST_CASE( "healthy_lifestyle", "[health]" )
 {
-    standard_npc dude( "healthy eater" );
-    // One pear is 3 healthy, 13 nutrition
-    // 288 nutrition per day / 13 per pear = ~22, let's round up to 24
-    // 6 pears per meal, +18 health
-    // This must result in health very close to maximum possible
-    // If it doesn't, maximum health isn't achievable outside debug
-    test_diet( calendar::year_length(), dude, {{ 18, 18, 18, 18 }}, 175, 200 );
+    standard_npc dude( "healthy lifestyle" );
+
+    int init_lifestyle = dude.get_lifestyle();
+    int init_daily_health = dude.get_daily_health();
+    for( int i = 0; i < 7; i++ ) {
+        daily_routine( dude, 5, 2000, false );
+    }
+
+    INFO( "Lifestyle value: " << dude.get_lifestyle() );
+    CHECK( dude.get_lifestyle() > init_lifestyle );
+
+    INFO( "Daily Health: " << dude.get_daily_health() );
+    CHECK( dude.get_daily_health() > init_daily_health );
 }
 
-// Terrible diet, worst feasible without hardcore drugs
-TEST_CASE( "junk_food_diet", "[health]" )
+// Unhealthy lifestyle makes health go down
+TEST_CASE( "unhealthy_lifestyle", "[health]" )
 {
-    standard_npc dude( "junk eater" );
-    // French fries are -1 healthy, 8 nutrition
-    // 300 / 8 = ~38 per day, round up to 40, for -10 health per meal
-    // Of course we're not skipping the night snack
-    // This should be in the bottom 25% of possible health
-    test_diet( calendar::year_length(), dude, {{ -10, -10, -10, -10 }}, -200, -100 );
+    standard_npc dude( "unhealthy lifestyle" );
+
+    int init_lifestyle = dude.get_lifestyle();
+    int init_daily_health = dude.get_daily_health();
+    for( int i = 0; i < 7; i++ ) {
+        daily_routine( dude, 0, 0, true );
+    }
+
+    INFO( "Lifestyle value: " << dude.get_lifestyle() );
+    CHECK( dude.get_lifestyle() < init_lifestyle );
+
+    INFO( "Daily Health: " << dude.get_daily_health() );
+    CHECK( dude.get_daily_health() < init_daily_health );
 }
 
-// Typical diet of an established character
-TEST_CASE( "oat_diet", "[health]" )
-{
-    standard_npc dude( "oat eater" );
-    // Oatmeal is 1 healthy, 48 nutriton
-    // 6 oats per day, we're skipping night snack
-    // Low, but above 0 (because oats are above 0)
-    test_diet( calendar::year_length(), dude, {{ 2, 2, 2, 0 }}, 0, 38 );
-}
-
-// A character that eats one meal per day, like that fad diet
-// But make the meal healthy
-TEST_CASE( "fasting_breakfast", "[health]" )
-{
-    standard_npc dude( "fasting eater" );
-    // Cooked buckwheats are 2 healthy / 50 nutrition
-    // 6 per day
-    // Noticeably healthy, but not overwhelming
-    test_diet( calendar::year_length(), dude, {{ 12, 0, 0, 0 }}, 50, 100 );
-}
-
-// A junk food junkie who switched to a healthy diet for a week
-TEST_CASE( "recovering_health", "[health]" )
-{
-    standard_npc dude( "recovering junk eater" );
-    dude.set_healthy( -100 );
-    // Beans and rice * 3 + broccoli = 3 * 1 + 2 healthy
-    // 3 meals per day
-    // Just a week should be enough to stop dying, but not enough to get healthy
-    test_diet( 7_days, dude, {{ 5, 5, 5, 0 }}, -50, 0 );
-}

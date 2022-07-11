@@ -98,7 +98,7 @@ class aim_activity_actor : public activity_actor
         void serialize( JsonOut &jsout ) const override;
         static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
 
-        item *get_weapon();
+        item_location get_weapon();
         void restore_view();
         // Load/unload a RELOAD_AND_SHOOT weapon
         bool load_RAS_weapon();
@@ -273,7 +273,7 @@ class hotwire_car_activity_actor : public activity_actor
         tripoint target;
 
         bool can_resume_with_internal( const activity_actor &other, const Character & ) const override {
-            const auto &a = static_cast<const hotwire_car_activity_actor &>( other );
+            const hotwire_car_activity_actor &a = static_cast<const hotwire_car_activity_actor &>( other );
             return target == a.target && moves_total == a.moves_total;
         }
 

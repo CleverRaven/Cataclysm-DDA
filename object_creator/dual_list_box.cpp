@@ -114,6 +114,12 @@ void creator::dual_list_box::include_selected()
     }
     excluded_box.clear();
     excluded_box.addItems( excluded );
+    if ( excluded.isEmpty() ) {
+        return;
+    }
+    if ( index > excluded_box.count() - 1 ) {
+        index = excluded_box.count() - 1;
+    }
     excluded_box.item( index )->setSelected( true );
 }
 
@@ -138,6 +144,12 @@ void creator::dual_list_box::exclude_selected()
     }
     included_box.clear();
     included_box.addItems( included );
+    if( included.isEmpty() ) {
+        return;
+    }
+    if( index > included_box.count() - 1 ) {
+        index = included_box.count() - 1;
+    }
     included_box.item( index )->setSelected( true );
 }
 
@@ -148,4 +160,22 @@ QStringList creator::dual_list_box::get_included() const
         ret.append( included_box.item( i )->text() );
     }
     return ret;
+}
+
+void creator::dual_list_box::set_included( const QStringList ret )
+{
+    if( included_box.count() > 0 ){
+        exclude_all();
+    }
+    for( int y = 0; y < ret.count(); y++ ) {
+
+        for( int i = 0; i < excluded_box.count(); i++ ) {
+            const QString excluded_single = excluded_box.item( i )->text();
+            if( excluded_single == ret[y] ) {
+                excluded_box.item( i )->setSelected( true );
+                break;
+            }
+        }
+        include_selected();
+    }
 }

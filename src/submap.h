@@ -50,6 +50,8 @@ struct spawn_point {
 };
 
 template<int sx, int sy>
+// Suppression due to bug in clang-tidy 12
+// NOLINTNEXTLINE(bugprone-reserved-identifier,cert-dcl37-c,cert-dcl51-cpp)
 struct maptile_soa {
     ter_id             ter[sx][sy];  // Terrain on each square
     furn_id            frn[sx][sy];  // Furniture on each square
@@ -174,28 +176,7 @@ class submap : maptile_soa<SEEX, SEEY>
             }
         }
 
-        void update_lum_rem( const point &p, const item &i ) {
-            is_uniform = false;
-            if( !i.is_emissive() ) {
-                return;
-            } else if( lum[p.x][p.y] && lum[p.x][p.y] < 255 ) {
-                lum[p.x][p.y]--;
-                return;
-            }
-
-            // Have to scan through all items to be sure removing i will actually lower
-            // the count below 255.
-            int count = 0;
-            for( const auto &it : itm[p.x][p.y] ) {
-                if( it.is_emissive() ) {
-                    count++;
-                }
-            }
-
-            if( count <= 256 ) {
-                lum[p.x][p.y] = static_cast<uint8_t>( count - 1 );
-            }
-        }
+        void update_lum_rem( const point &p, const item &i );
 
         // TODO: Replace this as it essentially makes itm public
         cata::colony<item> &get_items( const point &p ) {

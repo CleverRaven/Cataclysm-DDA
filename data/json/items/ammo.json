@@ -180,6 +180,7 @@
     "flags": [ "NO_SALVAGE" ],
     "volume": "250 ml",
     "weight": "1 g",
+    "//": "50 weight thread - 50m per gram. Each unit is .25m or roughly 10 inches.",
     "ammo_type": "thread",
     "count": 50,
     "stack_size": 200
@@ -777,7 +778,7 @@
     "name": { "str_sp": "lye powder" },
     "symbol": "=",
     "color": "white",
-    "description": "Powdered caustic soda.",
+    "description": "Pellets of caustic soda, also known as sodium hydroxide.",
     "container": "bottle_plastic_small",
     "material": [ "powder_nonflam" ],
     "volume": "250 ml",

@@ -157,25 +157,33 @@
     "type": "trait_group",
     "id": "Eye_light",
     "subtype": "distribution",
-    "traits": [ { "trait": "eye_blue", "prob": 55 }, { "trait": "eye_gray", "prob": 25 }, { "trait": "eye_green", "prob": 15 } ]
+    "traits": [
+      { "trait": "eye_color", "variant": "blue", "prob": 55 },
+      { "trait": "eye_color", "variant": "gray", "prob": 25 },
+      { "trait": "eye_color", "variant": "green", "prob": 15 }
+    ]
   },
   {
     "type": "trait_group",
     "id": "Eye_dark",
     "subtype": "distribution",
-    "traits": [ { "trait": "eye_brown", "prob": 60 }, { "trait": "eye_hazel", "prob": 20 }, { "trait": "eye_amber", "prob": 20 } ]
+    "traits": [
+      { "trait": "eye_color", "variant": "brown", "prob": 60 },
+      { "trait": "eye_color", "variant": "hazel", "prob": 20 },
+      { "trait": "eye_color", "variant": "amber", "prob": 20 }
+    ]
   },
   {
     "type": "trait_group",
     "id": "Eye_any",
     "subtype": "distribution",
     "traits": [
-      { "trait": "eye_brown", "prob": 70 },
-      { "trait": "eye_hazel", "prob": 9 },
-      { "trait": "eye_amber", "prob": 8 },
-      { "trait": "eye_blue", "prob": 8 },
-      { "trait": "eye_gray", "prob": 3 },
-      { "trait": "eye_green", "prob": 2 }
+      { "trait": "eye_color", "variant": "brown", "prob": 70 },
+      { "trait": "eye_color", "variant": "hazel", "prob": 9 },
+      { "trait": "eye_color", "variant": "amber", "prob": 8 },
+      { "trait": "eye_color", "variant": "blue", "prob": 8 },
+      { "trait": "eye_color", "variant": "gray", "prob": 3 },
+      { "trait": "eye_color", "variant": "green", "prob": 2 }
     ]
   },
   {

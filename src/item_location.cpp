@@ -223,17 +223,17 @@ class item_location::impl::item_on_map : public item_location::impl
 
             on_contents_changed();
             item obj = target()->split( qty );
-            const auto get_local_location = []( Character & ch, item * it ) {
+            const auto get_local_location = []( Character & ch, item_location it ) {
                 if( ch.has_item( *it ) ) {
-                    return item_location( ch, it );
+                    return item_location( ch, &*it );
                 } else {
                     return item_location{};
                 }
             };
             if( !obj.is_null() ) {
-                return get_local_location( ch, &ch.i_add( obj, should_stack ) );
+                return get_local_location( ch, ch.i_add( obj, should_stack ) );
             } else {
-                item *inv = &ch.i_add( *target(), should_stack, nullptr, target() );
+                item_location inv = ch.i_add( *target(), should_stack, nullptr, target() );
                 remove_item();
                 return get_local_location( ch, inv );
             }
@@ -369,11 +369,11 @@ class item_location::impl::item_on_person : public item_location::impl
 
             item obj = target()->split( qty );
             if( !obj.is_null() ) {
-                return item_location( ch, &ch.i_add( obj, should_stack ) );
+                return ch.i_add( obj, should_stack );
             } else {
-                item *inv = &ch.i_add( *target(), should_stack, nullptr, target() );
+                item_location inv = ch.i_add( *target(), should_stack, nullptr, target() );
                 remove_item();  // This also takes off the item from whoever wears it.
-                return item_location( ch, inv );
+                return inv;
             }
         }
 
@@ -488,11 +488,11 @@ class item_location::impl::item_on_vehicle : public item_location::impl
             on_contents_changed();
             item obj = target()->split( qty );
             if( !obj.is_null() ) {
-                return item_location( ch, &ch.i_add( obj, should_stack ) );
+                return ch.i_add( obj, should_stack );
             } else {
-                item *inv = &ch.i_add( *target(), should_stack, nullptr, target() );
+                item_location inv = ch.i_add( *target(), should_stack, nullptr, target() );
                 remove_item();
-                return item_location( ch, inv );
+                return inv;
             }
         }
 
@@ -630,20 +630,15 @@ class item_location::impl::item_in_container : public item_location::impl
             }
             const item obj = target()->split( qty );
             if( !obj.is_null() ) {
-                return item_location( ch, &ch.i_add( obj, should_stack,
-                                                     /*avoid=*/nullptr,
-                                                     nullptr,
-                                                     /*allow_drop=*/false ) );
+                return ch.i_add( obj, should_stack,/*avoid=*/nullptr, nullptr,/*allow_drop=*/false );
             } else {
-                item *const inv = &ch.i_add( *target(), should_stack,
-                                             /*avoid=*/nullptr,
-                                             target(),
-                                             /*allow_drop=*/false );
-                if( inv->is_null() ) {
+                item_location inv = ch.i_add( *target(), should_stack,/*avoid=*/nullptr,
+                                              target(), /*allow_drop=*/false );
+                if( inv == item_location::nowhere ) {
                     debugmsg( "failed to add item to character inventory while obtaining from container" );
                 }
                 remove_item();
-                return item_location( ch, inv );
+                return inv;
             }
         }
 

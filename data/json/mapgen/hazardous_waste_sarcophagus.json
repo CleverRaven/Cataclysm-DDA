@@ -107,6 +107,7 @@
         "v": "f_vent_pipe"
       },
       "toilets": { "&": {  } },
+      "liquids": { "W": { "liquid": "water_clean", "amount": [ 0, 80 ] } },
       "items": {
         "2": { "item": "coat_rack", "chance": 60, "repeat": 2 },
         "4": { "item": "toxic_dump_equipment", "chance": 85, "repeat": [ 1, 2 ] },
@@ -242,6 +243,7 @@
         "~": [ [ "f_null", 50 ], [ "f_wreckage", 50 ] ]
       },
       "toilets": { "&": {  } },
+      "liquids": { "W": { "liquid": "water_clean", "amount": [ 0, 80 ] } },
       "items": {
         "8": { "item": "mechanics", "chance": 60, "repeat": [ 1, 2 ] },
         "9": { "item": "sewage_plant", "chance": 60, "repeat": [ 1, 2 ] },

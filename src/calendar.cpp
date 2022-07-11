@@ -333,7 +333,7 @@ time_point daylight_time( const time_point &p )
 
 bool is_night( const time_point &p )
 {
-    return sun_altitude( p ) <= nautical_dawn;
+    return sun_altitude( p ) <= civil_dawn;
 }
 
 bool is_day( const time_point &p )
@@ -344,7 +344,7 @@ bool is_day( const time_point &p )
 static bool is_twilight( const time_point &p )
 {
     units::angle altitude = sun_altitude( p );
-    return altitude >= astronomical_dawn && altitude <= sunrise_angle;
+    return altitude >= civil_dawn && altitude <= sunrise_angle;
 }
 
 bool is_dusk( const time_point &p )
@@ -880,7 +880,7 @@ std::string get_diary_time_str( const time_point &turn, time_accuracy acc )
             //~ $4 = approximate time of day
             return string_format( _( "Year %1$d, %2$s, day %3$d, %4$s" ), year,
                                   calendar::name_season( season_of_year( turn ) ),
-                                  day, display::time_approx() );
+                                  day, display::time_approx( turn ) );
         default:
             DebugLog( DebugLevel::D_WARNING, DebugClass::D_GAME )
                     << "Unknown time_accuracy " << io::enum_to_string<time_accuracy>( acc );
