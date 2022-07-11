@@ -86,12 +86,37 @@
   {
     "id": "BGSS_HOSPITAL_2_STORY4",
     "type": "talk_topic",
-    "dynamic_line": "Well, I still didn't have any food.  Eventually I had to climb down the side of the building… so I did, as quietly as I could.  It was night, and I have pretty good nightvision.  Apparently the zombies don't, because I was able to slip right past them and steal a bicycle that was just laying on the side of the road.  I'd kind of scouted out my route from above… I'm not from a big city, the hospital was the tallest building around.  I avoided the major military blockades, and headed out of town towards a friend's old cabin.  I had to fight off a couple of the <zombies>, but I managed to avoid any big fuss, by some miracle.  I never made it to the cabin, but that's not important now.",
+    "dynamic_line": {
+      "u_has_var": "hospital_2_started_quest",
+      "type": "mission",
+      "context": "BGSS",
+      "value": "yes",
+      "no": "Well, I still didn't have any food.  Eventually I had to climb down the side of the building… so I did, as quietly as I could.  It was night, and I have pretty good nightvision.  Apparently the zombies don't, because I was able to slip right past them and steal a bicycle that was just laying on the side of the road.  I'd kind of scouted out my route from above… I'm not from a big city, the hospital was the tallest building around.  I avoided the major military blockades, and headed out of town towards a friend's old cabin.  I had to fight off a couple of the <zombies>, but I managed to avoid any big fuss, by some miracle.  I never made it to the cabin, but that's not important now.",
+      "yes": "Well, I still didn't have any food.  Eventually I had to climb down the side of the building… so I did, as quietly as I could.  It was night, and I have pretty good nightvision.  Apparently the zombies don't, because I was able to slip right past them and steal a bicycle that was just laying on the side of the road.  I'd kind of scouted out my route from above… I'm not from a big city, the hospital was the tallest building around.  I avoided the major military blockades, and headed out of town towards a friend's old cabin.  I had to fight off a couple of the <zombies>, but I managed to avoid any big fuss, by some miracle."
+    },
     "responses": [
       { "text": "What did you see, up there on the roof?", "topic": "BGSS_HOSPITAL_2_ROOF" },
       {
         "text": "Any chance you could point the way to that cabin for me?",
-        "condition": { "not": { "u_has_var": "hospital_2_quest", "type": "mission", "context": "BGSS", "value": "yes" } },
+        "condition": {
+          "and": [
+            { "not": { "u_has_var": "hospital_2_started_quest", "type": "mission", "context": "BGSS", "value": "yes" } },
+            {
+              "not": {
+                "and": [
+                  { "u_has_var": "hospital_2_asked_about_quest", "type": "general", "context": "BGSS", "value": "yes" },
+                  {
+                    "u_compare_time_since_var": "hospital_2_asked_about_quest",
+                    "type": "timer",
+                    "context": "timers",
+                    "op": "<",
+                    "time": "8 h"
+                  }
+                ]
+              }
+            }
+          ]
+        },
         "trial": { "type": "PERSUADE", "difficulty": 30, "mod": [ [ "TRUST", 5 ], [ "VALUE", 2 ], [ "ANGER", -6 ] ] },
         "success": {
           "topic": "BGSS_HOSPITAL_2_CABINSUCCESS",
@@ -100,7 +125,14 @@
             { "u_message": "<npc_name> marks the location of the cabin on your map.", "type": "good", "popup": true }
           ]
         },
-        "failure": { "topic": "BGSS_HOSPITAL_2_CABINFAILURE", "opinion": { "trust": -1 } }
+        "failure": {
+          "topic": "BGSS_HOSPITAL_2_CABINFAILURE",
+          "opinion": { "trust": -1 },
+          "effect": [
+            { "u_add_var": "hospital_2_asked_about_quest", "type": "timer", "context": "timers", "time": true },
+            { "u_add_var": "hospital_2_asked_about_quest", "type": "general", "context": "BGSS", "value": "yes" }
+          ]
+        }
       },
       { "text": "Thanks for telling me all that.  <done_conversation_section>", "topic": "TALK_FRIEND" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
@@ -138,7 +170,7 @@
     "value": 0,
     "start": {
       "assign_mission_target": { "om_terrain": "cabin", "reveal_radius": 3, "search_range": 400 },
-      "effect": { "u_add_var": "hospital_2_quest", "type": "mission", "context": "BGSS", "value": "yes" }
+      "effect": { "u_add_var": "hospital_2_started_quest", "type": "mission", "context": "BGSS", "value": "yes" }
     },
     "end": { "opinion": { "trust": 1, "value": 1 } },
     "origins": [ "ORIGIN_SECONDARY" ],
