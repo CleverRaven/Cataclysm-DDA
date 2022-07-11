@@ -1,40 +1,40 @@
 # Lines longer than 78 characters will be wrapped automatically
 # The following line is for reference
 ##############################################################################
-<color_white>방문하기:</color>
+<color_white>Bisitahin kami:</color>
 
-<color_light_gray>* 홈페이지:</color>    <color_cyan>https://cataclysmdda.org</color>
-<color_light_gray>* 위키:</color>        <color_cyan>https://cddawiki.chezzo.com/cdda_wiki</color>
+<color_light_gray>* Ang aming homepage:</color>    <color_cyan>https://cataclysmdda.org</color>
+<color_light_gray>* Wiki:</color>        <color_cyan>https://cddawiki.chezzo.com/cdda_wiki</color>
 
-<color_white>Report bugs, suggestion and follow the development at:</color>
+<color_white>Mag-report ng bugs, suwestiyon at I-follow ang development sa:</color>
 
 <color_light_gray>* Github: </color><color_light_cyan>https://github.com/CleverRaven/Cataclysm-DDA/issues</color>
 <color_light_gray>* e-mail: </color><color_light_cyan>kevin.granade@gmail.com</color>
 
-<color_white>Join the discussion on forums and chats:</color>
+<color_white>Sundin ang aming diskusyon sa aming forums at chats:</color>
 
 <color_light_gray>* Discourse:                 </color><color_cyan>https://discourse.cataclysmdda.org/</color>
 <color_light_gray>* Discord:                   </color><color_cyan>https://discord.gg/jFEc7Yp</color>
 <color_light_gray>* IRC:                       </color><color_cyan>#CataclysmDDA at libera.chat</color>
-<color_light_gray>* Reddit (unofficial):       </color><color_cyan>https://www.reddit.com/r/cataclysmdda/</color>
+<color_light_gray>* Reddit (hindi pa opisyal):       </color><color_cyan>https://www.reddit.com/r/cataclysmdda/</color>
 
-<color_light_gray>Other useful links are also available at our Homepage.</color>
+<color_light_gray>Mga iba pang links ay makikita rin sa aming homepage.</color>
 
-<color_light_gray>In game you can access the options via the main menu (<color_yellow>Esc</color>).</color>
+<color_light_gray>Sa loob ng laro ay pwede mong ma-access ang options via main menu (<color_yellow>Esc</color>).</color>
 
 <color_light_red>******************************************************************************</color>
-<color_light_red>    Disclaimer for the experimental builds:</color>
+Mahalagang paalala para sa mga experimental builds:
 <color_light_red>******************************************************************************</color>
 
-<color_white>Q: </color><color_yellow>What is an experimental build?</color>
+<color_white>T: </color><color_yellow>Ano po ba ang experimental build?</color>
 
-<color_white>A: </color><color_light_gray>The goal of the experimental builds is to be a second tier of quality control.  It's the frontline where new content is released to be tested and balanced after initial quality control.  Be aware that by choosing to play the latest experimental builds you are participating in the development process by literally playtesting the new content, and it is prone to bugs and underdeveloped features.</color>
+<color_white>S: </color><color_light_gray>Ang goal ng isang experimental build ay para maging isang second tier quality control. Isa itong frontline kung saan ang mga bagong content ay ni-rerelease para ma i-test at mai-balanse pagkatapos ng quality control. Maging mapanuri na kapag ikaw ay naglalaro ng experimental build ay sumasali ka sa develompment ng laro sa literal (I mean literal) na pag-tetest ng mga bagong content, at ito'y maaring puno ng bugs at hindi pa tapos na features .</color>
 
-<color_white>Q: </color><color_yellow>Why are experimental builds even a thing?</color>
+<color_white>T: </color><color_yellow>Bakit po ba may experimental build?</color>
 
-<color_white>A: </color><color_light_gray>Consider it like playing an alpha/beta version - bugs and underdeveloped features are part of it.  Due to continuous integration rigors, experimental builds are always in a state of a constant work in progress.  Experimental is a sandbox where the bug detecting and feature polishing takes place.  Big and small features are constantly released to those builds to be checked for overall stability and balance.  Because of that, experimentals are not under the rigor of guaranteeing balance and stability.  In fact, nothing is guaranteed in the experimental builds.</color>
+<color_white>S: </color><color_light_gray>I-consider mo itong parang isang alpha/beta version - mga bugs at hindi pa kompletong mga features ay kasama dito. Dahil sa pagtulong-tulong namin, ang experimental builds ay palaging nasa state of constant work and progress. Ang experimental ay isang sandbox kung saan ang bug detecting at feature polishing ay nangyayari. Malaki o maliliit na features ay palaging ini-rerelease sa mga nasabing builds para ito'y mai-check para sa overall na stability at balance. Dahil doon, ang mga experimentals ay hindi nasa-ilalim ng guaranteeing balance and stability. Sa katunayan, walang guaranteed sa isang experimental build.
 
-<color_white>Q: </color><color_yellow>Are experimental builds playable then?</color>
+<color_white>T: </color><color_yellow>Ang mga experimental builds po ba ay pwedeng malaro?</color>
 
 <color_white>A: </color><color_light_gray>Yes.  But while experimental builds overall are stable, it is also not guaranteed as features may be introduced in an underdeveloped state, in parts; and may introduce bugs, including severe ones that may crash the game or corrupt savegames.  It's rare, but due to the complexity of the game, the initial quality control before merging with experimental build may be inadequate, and there is always room for human error.  This is why experimental builds exist in the first place.</color>
 
