@@ -25,20 +25,11 @@ static const oter_str_id oter_cabin_west( "cabin_west" );
 
 static const oter_type_str_id oter_type_ants_lab( "ants_lab" );
 static const oter_type_str_id oter_type_ants_lab_stairs( "ants_lab_stairs" );
-static const oter_type_str_id oter_type_bunker_shop_b( "bunker_shop_b" );
-static const oter_type_str_id oter_type_bunker_shop_g( "bunker_shop_g" );
 static const oter_type_str_id oter_type_ravine( "ravine" );
 static const oter_type_str_id oter_type_ravine_edge( "ravine_edge" );
 static const oter_type_str_id oter_type_ravine_floor( "ravine_floor" );
 static const oter_type_str_id oter_type_ravine_floor_edge( "ravine_floor_edge" );
 static const oter_type_str_id oter_type_rock_border( "rock_border" );
-static const oter_type_str_id oter_type_s_gas_b11( "s_gas_b11" );
-static const oter_type_str_id oter_type_s_gas_b20( "s_gas_b20" );
-static const oter_type_str_id oter_type_s_gas_b21( "s_gas_b21" );
-static const oter_type_str_id oter_type_s_gas_g0( "s_gas_g0" );
-static const oter_type_str_id oter_type_s_gas_g0_roof( "s_gas_g0_roof" );
-static const oter_type_str_id oter_type_s_gas_g1( "s_gas_g1" );
-static const oter_type_str_id oter_type_s_gas_g1_roof( "s_gas_g1_roof" );
 static const oter_type_str_id oter_type_s_restaurant_deserted_test( "s_restaurant_deserted_test" );
 
 static const overmap_special_id overmap_special_Cabin( "Cabin" );
@@ -279,24 +270,16 @@ TEST_CASE( "overmap_terrain_coverage", "[overmap][slow]" )
     std::map<oter_type_id, omt_stats> stats;
     std::unordered_set<oter_type_id> yet_to_be_seen;
 
-    std::unordered_set<oter_type_id> whitelist = {
-        oter_type_ants_lab.id(), // ant lab is a very improbable spawn
-        oter_type_ants_lab_stairs.id(),
-        oter_type_bunker_shop_b.id(),
-        oter_type_bunker_shop_g.id(),
-        oter_type_ravine.id(), // ravine only in desert & Aftershock
-        oter_type_ravine_edge.id(),
-        oter_type_ravine_floor_edge.id(),
-        oter_type_ravine_floor.id(),
-        oter_type_rock_border.id(), // only in the bordered scenario
-        oter_type_s_gas_b11.id(),
-        oter_type_s_gas_b20.id(),
-        oter_type_s_gas_b21.id(),
-        oter_type_s_gas_g0.id(),
-        oter_type_s_gas_g0_roof.id(),
-        oter_type_s_gas_g1.id(),
-        oter_type_s_gas_g1_roof.id(),
-        oter_type_s_restaurant_deserted_test.id(), // only in the desert test region
+    // Certain oter_types are so rare that we don't attempt to find them
+    std::unordered_set<oter_type_str_id> whitelist = {
+        oter_type_ants_lab, // ant lab is a very improbable spawn
+        oter_type_ants_lab_stairs,
+        oter_type_ravine, // ravine only in desert & Aftershock
+        oter_type_ravine_edge,
+        oter_type_ravine_floor_edge,
+        oter_type_ravine_floor,
+        oter_type_rock_border, // only in the bordered scenario
+        oter_type_s_restaurant_deserted_test, // only in the desert test region
     };
 
     for( const oter_t &ter : overmap_terrains::get_all() ) {
