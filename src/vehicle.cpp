@@ -1777,6 +1777,11 @@ bool vehicle::remove_part( const int p, RemovePartHandler &handler )
 
     const tripoint part_loc = global_part_pos3( p );
 
+    if( !handler.get_map_ref().inbounds( part_loc ) ) {
+        debugmsg( "Removing out of bounds vehicle part at %s from vehicle %s (%s)",
+                  part_loc.to_string(), name, type.str() );
+    }
+
     // Unboard any entities standing on removed boardable parts
     if( part_flag( p, "BOARDABLE" ) && parts[p].has_flag( vehicle_part::passenger_flag ) ) {
         handler.unboard( part_loc );

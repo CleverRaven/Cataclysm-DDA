@@ -29,6 +29,7 @@
 #include "cuboid_rectangle.h"
 #include "debug.h"
 #include "drawing_primitives.h"
+#include "enum_conversions.h"
 #include "enums.h"
 #include "field_type.h"
 #include "game.h"
@@ -74,6 +75,7 @@
 #include "trap.h"
 #include "units.h"
 #include "value_ptr.h"
+#include "veh_type.h"
 #include "vehicle.h"
 #include "vehicle_group.h"
 #include "vpart_position.h"
@@ -2363,6 +2365,23 @@ class jmapgen_monster : public jmapgen_piece
         }
 };
 
+static inclusive_rectangle<point> vehicle_bounds( const vehicle_prototype &vp )
+{
+    point min( INT_MAX, INT_MAX );
+    point max( INT_MIN, INT_MIN );
+
+    cata_assert( !vp.parts.empty() );
+
+    for( const vehicle_prototype::part_def &part : vp.parts ) {
+        min.x = std::min( min.x, part.pos.x );
+        max.x = std::max( max.x, part.pos.x );
+        min.y = std::min( min.y, part.pos.y );
+        max.y = std::max( max.y, part.pos.y );
+    }
+
+    return { min, max };
+}
+
 /**
  * Place a vehicle.
  * "vehicle": id of the vehicle.
@@ -2419,10 +2438,132 @@ class jmapgen_vehicle : public jmapgen_piece
             return dat.m.veh_at( tripoint( p, dat.zlevel() ) ).has_value();
         }
 
-        void check( const std::string &oter_name, const mapgen_parameters &parameters,
-                    const jmapgen_int &/*x*/, const jmapgen_int &/*y*/
+        void check( const std::string &context, const mapgen_parameters &parameters,
+                    const jmapgen_int &x, const jmapgen_int &y
                   ) const override {
-            type.check( oter_name, parameters );
+            type.check( context, parameters );
+
+            if( x.val == -1 ) {
+                // We are in a palette, so no need to verify that the positions
+                // are valid
+                return;
+            }
+
+            // The rest of this function is devoted to ensuring that this
+            // vehicle placement does not lead to a vehicle overlapping an OMT
+            // boundary, because that causes issues (e.g. if the vehicle is
+            // damaged and tries to drop items during mapgen, they may drop on
+            // points outside the map).
+
+            point min( INT_MAX, INT_MAX );
+            point max( INT_MIN, INT_MIN );
+            vgroup_id min_x_vg;
+            vproto_id min_x_vp;
+            vgroup_id max_x_vg;
+            vproto_id max_x_vp;
+            vgroup_id min_y_vg;
+            vproto_id min_y_vp;
+            vgroup_id max_y_vg;
+            vproto_id max_y_vp;
+            for( const vgroup_id &vg_id : type.all_possible_results( parameters ) ) {
+                for( const vproto_id &vp_id : vg_id->all_possible_results() ) {
+                    inclusive_rectangle<point> bounds = vehicle_bounds( *vp_id );
+                    if( bounds.p_min.x < min.x ) {
+                        min_x_vg = vg_id;
+                        min_x_vp = vp_id;
+                        min.x = bounds.p_min.x;
+                    }
+                    if( bounds.p_max.x > max.x ) {
+                        max_x_vg = vg_id;
+                        max_x_vp = vp_id;
+                        max.x = bounds.p_max.x;
+                    }
+                    if( bounds.p_min.y < min.y ) {
+                        min_y_vg = vg_id;
+                        min_y_vp = vp_id;
+                        min.y = bounds.p_min.y;
+                    }
+                    if( bounds.p_max.y > max.y ) {
+                        max_y_vg = vg_id;
+                        max_y_vp = vp_id;
+                        max.y = bounds.p_max.y;
+                    }
+                }
+            }
+
+            for( units::angle rot : rotation ) {
+                int degrees = to_degrees( rot );
+                while( degrees < 0 ) {
+                    degrees += 360;
+                }
+                if( degrees % 90 != 0 ) {
+                    // TODO: support non-rectilinear vehicle placement
+                    continue;
+                }
+                int turns = degrees / 90;
+                point rotated_min = min.rotate( turns );
+                point rotated_max = max.rotate( turns );
+                point new_min( std::min( rotated_min.x, rotated_max.x ),
+                               std::min( rotated_min.y, rotated_max.y ) );
+                point new_max( std::max( rotated_min.x, rotated_max.x ),
+                               std::max( rotated_min.y, rotated_max.y ) );
+
+                new_min += point( x.val, y.val );
+                new_max += point( x.valmax, y.valmax );
+
+                cube_direction bad_rotated_direction = cube_direction::last;
+                std::string extreme_coord;
+
+                if( new_min.x < 0 ) {
+                    bad_rotated_direction = cube_direction::west;
+                    extreme_coord = string_format( "x = %d (should be at least 0)", new_min.x );
+                } else if( new_max.x >= 24 ) {
+                    bad_rotated_direction = cube_direction::east;
+                    extreme_coord = string_format( "x = %d (should be at most 23)", new_max.x );
+                } else if( new_min.y < 0 ) {
+                    extreme_coord = string_format( "y = %d (should be at least 0)", new_min.y );
+                    bad_rotated_direction = cube_direction::north;
+                } else if( new_max.y >= 24 ) {
+                    bad_rotated_direction = cube_direction::south;
+                    extreme_coord = string_format( "y = %d (should be at most 23)", new_max.y );
+                } else {
+                    continue;
+                }
+
+                cube_direction bad_direction = bad_rotated_direction - turns;
+
+                std::string bad_vehicle;
+                auto format_option = []( const vgroup_id & vg, const vproto_id & vp ) {
+                    return string_format(
+                               "[vgroup_id %s; vproto_id %s]", vg.str(), vp.str() );
+                };
+                switch( bad_direction ) {
+                    case cube_direction::north:
+                        bad_vehicle = format_option( min_y_vg, min_y_vp );
+                        break;
+                    case cube_direction::south:
+                        bad_vehicle = format_option( max_y_vg, max_y_vp );
+                        break;
+                    case cube_direction::east:
+                        bad_vehicle = format_option( max_x_vg, max_x_vp );
+                        break;
+                    case cube_direction::west:
+                        bad_vehicle = format_option( min_x_vg, min_x_vp );
+                        break;
+                    default:
+                        cata_fatal( "Invalid bad_direction %d", bad_direction );
+                }
+                debugmsg( "In %s, vehicle placement at x:[%d,%d], y:[%d,%d]: "
+                          "potential placement of vehicle out of bounds.  "
+                          "At rotation %d the vehicle %s extends too far %s, "
+                          "reaching coordinate %s",
+                          context, x.val, x.valmax, y.val, y.valmax, degrees,
+                          bad_vehicle, io::enum_to_string( bad_rotated_direction ),
+                          extreme_coord );
+                // Early exit because we don't want too much error spam
+                // from the same mapgen piece
+                return;
+            }
         }
 };
 /**
@@ -3634,7 +3775,7 @@ bool string_id<mapgen_palette>::is_valid() const
 void mapgen_palette::check()
 {
     std::string context = "palette " + id.str();
-    jmapgen_int fake_coord( 0 );
+    jmapgen_int fake_coord( -1 );
     mapgen_parameters no_parameters;
     for( const std::pair<const std::string, mapgen_parameter> &param : parameters.map ) {
         std::string this_context = string_format( "parameter %s in %s", param.first, context );
@@ -6599,6 +6740,18 @@ std::unique_ptr<vehicle> map::add_vehicle_to_map(
                     // This happens if this location is occupied by a fake part.
                     if( first_veh_parts.empty() || first_veh_parts.front()->is_fake ) {
                         continue;
+                    }
+                    if( !inbounds( map_pos ) ) {
+                        debugmsg( "Existing vehicle %s (%s; origin %s; rot %g) and "
+                                  "new vehicle %s (%s; origin %s; rot %g) "
+                                  "out of map bounds at %s",
+                                  first_veh->name, first_veh->type.str(),
+                                  first_veh->global_square_location().to_string(),
+                                  to_degrees( first_veh->turn_dir ),
+                                  veh_to_add->name, veh_to_add->type.str(),
+                                  veh_to_add->global_square_location().to_string(),
+                                  to_degrees( veh_to_add->turn_dir ),
+                                  map_pos.to_string() );
                     }
                     did_merge = true;
                     const point target_point = first_veh_parts.front()->mount;
