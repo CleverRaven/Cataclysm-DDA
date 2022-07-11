@@ -695,7 +695,7 @@
   },
   {
     "type": "furniture",
-    "id": "f_spiked_officer",
+    "id": "f_impaled_officer",
     "name": "impaled mercenary",
     "description": "A dead body encased in high tech armor hanging in the air.  Their form seems twisted and refracted in the light of the strange glowing crystal that has seeped out of the ground and impaled their body.",
     "symbol": "!",
@@ -719,12 +719,11 @@
           "id": "EOC_HAUNTING_BEGIN",
           "condition": { "u_has_effect": "medium" },
           "effect": [
-              { "queue_eocs": "EOC_HAUNTING", "time_in_future": [ "30 seconds" ] },
-              { "u_location_variable": { "global_val": "cell_loc" }, "z_adjust": 6, "z_override": true },
+              { "queue_eocs": "EOC_HAUNTING", "time_in_future": 20 },
+              { "u_location_variable": { "global_val": "return_loc" } },
               {
-                "mapgen_update": "You reach out as if compelled to.  The crystal feels like nothing but the corpse inside is screaming, it needs your help.",
-                "popup": true
-              },
+                "u_spawn_monster": "m_zombie", "real_count": 1, "min_radius": 40, "max_radius": 60
+              }
           ]
         },
         {
