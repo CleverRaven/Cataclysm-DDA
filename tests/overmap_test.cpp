@@ -273,24 +273,11 @@ TEST_CASE( "overmap_terrain_coverage", "[overmap][slow]" )
         tripoint_abs_omt first_observed;
         int count = 0;
     };
-    std::unordered_map<oter_type_id, omt_stats> stats;
-    point_abs_omt origin;
-    map &main_map = get_map();
 
-    for( const point_abs_omt &p : closest_points_first( origin, 0, 10 * OMAPX - 1 ) ) {
-        // We need to avoid OMTs that overlap with the 'main' map, so we start at a
-        // non-zero minimum radius and ensure that the 'main' map is inside that
-        // minimum radius.
-        if( main_map.inbounds( tripoint_abs_ms( project_to<coords::ms>( p ), 0 ) ) ) {
-            continue;
-        }
-        for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; ++z ) {
-            tripoint_abs_omt tp( p, z );
-            oter_type_id id = overmap_buffer.ter( tp )->get_type_id();
-            auto it = stats.emplace( id, tp ).first;
-            ++it->second.count;
-        }
-    }
+    // Not using unordered_map because we want ordering of the map to be
+    // predictable for the sake of test reproducibility across platforms
+    std::map<oter_type_id, omt_stats> stats;
+    std::unordered_set<oter_type_id> yet_to_be_seen;
 
     std::unordered_set<oter_type_id> whitelist = {
         oter_type_ants_lab.id(), // ant lab is a very improbable spawn
@@ -312,44 +299,57 @@ TEST_CASE( "overmap_terrain_coverage", "[overmap][slow]" )
         oter_type_s_restaurant_deserted_test.id(), // only in the desert test region
     };
 
-    std::unordered_set<oter_type_id> done;
-    std::vector<oter_type_id> missing;
-
-    global_variables &globvars = get_globals();
-    globvars.clear_global_values();
-
     for( const oter_t &ter : overmap_terrains::get_all() ) {
         oter_type_id id = ter.get_type_id();
         oter_type_str_id id_s = id.id();
         if( id_s.is_empty() || id_s.is_null() ) {
             continue;
         }
-        if( done.insert( id ).second ) {
-            CAPTURE( id );
-            auto it = stats.find( id );
-            const bool found = it != stats.end();
-            const bool should_be_found = !id->has_flag( oter_flags::should_not_spawn );
+        if( id->has_flag( oter_flags::should_not_spawn ) ) {
+            continue;
+        }
+        // We also want to skip any terrain that's the result of a faction
+        // camp construction recipe
+        const recipe_id recipe( id_s.c_str() );
+        if( recipe.is_valid() && recipe->is_blueprint() ) {
+            continue;
+        }
 
-            if( found == should_be_found ) {
-                continue;
-            }
+        if( whitelist.count( id_s ) ) {
+            continue;
+        }
 
-            // We also want to skip any terrain that's the result of a faction
-            // camp construction recipe
-            const recipe_id recipe( id_s.c_str() );
-            if( recipe.is_valid() && recipe->is_blueprint() ) {
-                continue;
-            }
+        yet_to_be_seen.insert( id );
+    }
 
-            if( found ) {
-                FAIL( "oter_type_id was found in map but had SHOULD_NOT_SPAWN flag" );
-            } else if( !whitelist.count( id ) ) {
-                missing.push_back( id );
+    point_abs_omt origin;
+    map &main_map = get_map();
+
+    for( const point_abs_omt &p : closest_points_first( origin, 0, 30 * OMAPX - 1 ) ) {
+        // We need to avoid OMTs that overlap with the 'main' map.
+        if( main_map.inbounds( tripoint_abs_ms( project_to<coords::ms>( p ), 0 ) ) ) {
+            continue;
+        }
+        for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; ++z ) {
+            tripoint_abs_omt tp( p, z );
+            oter_type_id id = overmap_buffer.ter( tp )->get_type_id();
+            auto it = stats.emplace( id, tp ).first;
+            if( ++it->second.count == 1 ) {
+                // The first time we see each oter_type, delete it from the
+                // to_be_seen list
+                yet_to_be_seen.erase( id );
             }
+        }
+        if( yet_to_be_seen.empty() ) {
+            break;
         }
     }
 
+    global_variables &globvars = get_globals();
+    globvars.clear_global_values();
+
     {
+        std::vector<oter_type_id> missing( yet_to_be_seen.begin(), yet_to_be_seen.end() );
         size_t num_missing = missing.size();
         CAPTURE( num_missing );
         constexpr size_t max_to_report = 100;
@@ -373,6 +373,10 @@ TEST_CASE( "overmap_terrain_coverage", "[overmap][slow]" )
     // with that.
     int num_generated_since_last_clear = 0;
     for( const std::pair<const oter_type_id, omt_stats> &p : stats ) {
+        const oter_type_id &id = p.first;
+        if( id->has_flag( oter_flags::should_not_spawn ) ) {
+            FAIL( "oter_type_id was found in map but had SHOULD_NOT_SPAWN flag" );
+        }
         const tripoint_abs_omt pos = p.second.first_observed;
         tinymap tm;
         tm.load( project_to<coords::sm>( pos ), false );
