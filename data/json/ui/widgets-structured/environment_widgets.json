@@ -5,7 +5,7 @@
     "label": "Date/Time/Moon",
     "style": "layout",
     "arrange": "columns",
-    "widgets": [ "date_desc_no_label", "ssb_time_layout", "ssb_moon_phase_graph" ]
+    "widgets": [ "date_desc_no_label", "ssb_time_layout", "moon_phase_graph" ]
   },
   {
     "id": "ssb_weather_layout",
