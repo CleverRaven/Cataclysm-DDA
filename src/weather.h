@@ -84,6 +84,7 @@ struct weather_sum {
     int rain_amount = 0;
     int acid_amount = 0;
     float sunlight = 0.0f;
+    float radiant_exposure = 0.0f; // J/m2
     int wind_amount = 0;
 };
 bool is_creature_outside( const Creature &target );
