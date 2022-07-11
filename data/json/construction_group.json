@@ -1040,9 +1040,9 @@
     "name": "Lay down decorative ground cable"
   },
   {
-	"type": "construction_group",
-	"id": "lay_wiring",
-	"name": "Lay down conductive cable"
+    "type": "construction_group",
+    "id": "lay_wiring",
+    "name": "Lay down conductive cable"
   },
   {
     "type": "construction_group",
