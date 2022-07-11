@@ -10465,7 +10465,7 @@ time_duration Character::time_to_read( const item &book, const Character &reader
 
     const int effective_int = std::min( { get_int(), reader.get_int(), learner ? learner->get_int() : INT_MAX } );
     if( type->intel > effective_int && !reader.has_trait( trait_PROF_DICEMASTER ) ) {
-        retval += type->time * ( type->intel - effective_int );
+        retval += type->time * ( time_duration::from_seconds( type->intel - effective_int ) / 1_minutes );
     }
     if( !has_identified( book.typeId() ) ) {
         //skimming
