@@ -383,7 +383,7 @@ class uilist // NOLINT(cata-xy)
         };
         handle_mouse_result_t handle_mouse( const input_context &ctxt,
                                             const std::string &ret_act,
-                                            const bool loop );
+                                            bool loop );
 
     public:
         // Parameters

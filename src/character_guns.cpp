@@ -101,7 +101,8 @@ std::vector<item_location> Character::find_ammo( const item &obj, bool empty, in
     return res;
 }
 
-std::pair<int, int> Character::gunmod_installation_odds( const item &gun, const item &mod ) const
+std::pair<int, int> Character::gunmod_installation_odds( const item_location &gun,
+        const item &mod ) const
 {
     // Mods with INSTALL_DIFFICULT have a chance to fail, potentially damaging the gun
     if( !mod.has_flag( flag_INSTALL_DIFFICULT ) || has_trait( trait_DEBUG_HS ) ) {
@@ -114,7 +115,7 @@ std::pair<int, int> Character::gunmod_installation_odds( const item &gun, const 
 
     for( const auto &e : mod.type->min_skills ) {
         // gain an additional chance for every level above the minimum requirement
-        skill_id sk = e.first.str() == "weapon" ? gun.gun_skill() : e.first;
+        skill_id sk = e.first.str() == "weapon" ? gun->gun_skill() : e.first;
         chances += std::max( get_skill_level( sk ) - e.second, 0 );
     }
     // cap success from skill alone to 1 in 5 (~83% chance)
@@ -125,11 +126,11 @@ std::pair<int, int> Character::gunmod_installation_odds( const item &gun, const 
     roll += ( get_dex() - 12 ) * 2;
     roll += ( get_int() - 12 ) * 2;
     // each level of damage to the base gun reduces success by 10%
-    roll -= std::max( gun.damage_level(), 0 ) * 10;
+    roll -= std::max( gun->damage_level(), 0 ) * 10;
     roll = std::min( std::max( roll, 0 ), 100 );
 
     // risk of causing damage on failure increases with less durable guns
-    risk = ( 100 - roll ) * ( ( 10.0 - std::min( gun.type->gun->durability, 9 ) ) / 10.0 );
+    risk = ( 100 - roll ) * ( ( 10.0 - std::min( gun->type->gun->durability, 9 ) ) / 10.0 );
 
     return std::make_pair( roll, risk );
 }
@@ -160,7 +161,7 @@ void Character::gunmod_add( item &gun, item &mod )
     }
 
     // Wielding will create a new gun and/or mod when the item changes location.
-    item &wielded_gun = get_wielded_item();
+    item_location wielded_gun = get_wielded_item();
     std::vector<item *> mods = items_with( [&mod_type]( const item & it ) {
         return it.typeId() == mod_type;
     } );
@@ -182,7 +183,7 @@ void Character::gunmod_add( item &gun, item &mod )
     if( mod.is_irremovable() ) {
         if( !query_yn( _( "Permanently install your %1$s in your %2$s?" ),
                        colorize( moved_mod.tname(), moved_mod.color_in_inventory() ),
-                       colorize( wielded_gun.tname(), wielded_gun.color_in_inventory() ) ) ) {
+                       colorize( wielded_gun->tname(), wielded_gun->color_in_inventory() ) ) ) {
             add_msg_if_player( _( "Never mind." ) );
             return; // player canceled installation
         }
@@ -192,7 +193,7 @@ void Character::gunmod_add( item &gun, item &mod )
     if( roll < 100 ) {
         uilist prompt;
         prompt.text = string_format( _( "Attach your %1$s to your %2$s?" ), moved_mod.tname(),
-                                     wielded_gun.tname() );
+                                     wielded_gun->tname() );
 
         std::vector<std::function<void()>> actions;
 
@@ -231,7 +232,7 @@ void Character::gunmod_add( item &gun, item &mod )
     const int moves = !has_trait( trait_DEBUG_HS ) ? moved_mod.type->gunmod->install_time : 0;
 
     assign_activity( player_activity( gunmod_add_activity_actor( moves, tool ) ) );
-    activity.targets.emplace_back( *this, &wielded_gun );
+    activity.targets.emplace_back( wielded_gun );
     activity.targets.emplace_back( *this, &moved_mod );
     activity.values.push_back( 0 ); // dummy value
     activity.values.push_back( roll ); // chance of success (%)

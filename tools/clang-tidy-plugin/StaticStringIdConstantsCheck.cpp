@@ -65,6 +65,7 @@ static std::string GetPrefixFor( const CXXRecordDecl *Type )
 {
     const ClassTemplateSpecializationDecl *CTSDecl =
         dyn_cast<ClassTemplateSpecializationDecl>( Type );
+    assert( CTSDecl ); // NOLINT(cata-assert)
     QualType ArgType = CTSDecl->getTemplateArgs()[0].getAsType();
     PrintingPolicy Policy( LangOptions{} );
     Policy.adjustForCPlusPlus();

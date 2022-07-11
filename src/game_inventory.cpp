@@ -1318,7 +1318,7 @@ class gunmod_inventory_preset : public inventory_selector_preset
     protected:
         /** @return Odds for successful installation (pair.first) and gunmod damage (pair.second) */
         std::pair<int, int> get_odds( const item_location &gun ) const {
-            return you.gunmod_installation_odds( *gun, gunmod );
+            return you.gunmod_installation_odds( gun, gunmod );
         }
 
     private:
@@ -1547,7 +1547,7 @@ class steal_inventory_preset : public pickup_inventory_preset
             pickup_inventory_preset( you ), victim( victim ) {}
 
         bool is_shown( const item_location &loc ) const override {
-            return !victim.is_worn( *loc ) && &victim.get_wielded_item() != &( *loc );
+            return !victim.is_worn( *loc ) && victim.get_wielded_item() != loc;
         }
 
     private:

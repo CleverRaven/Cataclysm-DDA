@@ -1,0 +1,27 @@
+# La massima lunghezza di una riga è 78 caratteri; la riga seguente fa da esempio
+# I caratteri in eccesso saranno automaticamente nascosti
+##############################################################################
+<color_white>Autore originale</color><color_white>Responsabile del Progetto</color>
+<color_yellow>Whales</color> (<color_dark_gray>ritirato</color>)    <color_yellow>KevinGranade</color>
+
+<color_white>Sviluppatori Principali Attuali:</color>
+<color_yellow>mlangsdorf</color> - Veicoli, barche, accampamenti e guide sul modding.
+<color_yellow>I-am-Erk</color> - L'eredità di Ultica vivrà per sempre.
+<color_yellow>KorGgenT</color> - Non so dove mettere le mie assi di legno.
+
+<color_white>Un ringraziamento speciale a:</color>
+<color_yellow>Aivean</color> - Per la performance straordinaria.
+<color_yellow>anothersimulacrum </color> - Per avermi stancato.
+<color_yellow>jbytheway</color> - Per aver snellito il codice in Python, risolto problemi e aver consolidato le blueprint.
+<color_yellow>BrettDong</color> - Per il progetto di traduzione e altro.
+<color_yellow>Qrox</color> - Per aver trovato e mostrato i messaggi d'errore.
+<color_yellow>LyleSY</color> - Per i dinosauri.
+
+<color_white>Ringraziamenti speciali in ambito artistico:</color>
+<color_yellow>acepleiades</color>, <color_yellow>barsoosayque</color>, <color_yellow>Fris0uman</color>, <color_yellow>int-ua</color>, e molti altri.
+
+<color_white>Per una lista completa dei contributori si prega di vedere:</color>
+<color_cyan>https://github.com/CleverRaven/Cataclysm-DDA/contributors</color>
+
+<color_light_cyan>Cataclysm</color>: <color_light_blue>Dark Days Ahead</color> è rilasciato sotto licenza  <color_white>CC-BY-SA 3.0</color>:
+<color_cyan>https://creativecommons.org/licenses/by-sa/3.0/</color>
