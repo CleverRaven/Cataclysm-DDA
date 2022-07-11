@@ -167,10 +167,10 @@ static void proc_weather_sum( const weather_type_id &wtype, weather_sum &data,
     }
 
     // TODO: Change this sunlight "sampling" here into a proper interpolation
-    const float tick_sunlight = incident_sunlight(wtype, t);
-    data.sunlight += tick_sunlight * to_turns<int>(tick_size);
-    const float tick_irradiance = incident_sun_irradiance(wtype, t);
-    data.radiant_exposure += tick_irradiance * to_seconds<int>(tick_size);
+    const float tick_sunlight = incident_sunlight( wtype, t );
+    data.sunlight += tick_sunlight * to_turns<int>( tick_size );
+    const float tick_irradiance = incident_sun_irradiance( wtype, t );
+    data.radiant_exposure += tick_irradiance * to_seconds<int>( tick_size );
 }
 
 weather_type_id current_weather( const tripoint &location, const time_point &t )
