@@ -1527,14 +1527,10 @@ bool salvage_actor::valid_to_cut_up( const Character *const p, const item &it ) 
     }
     if( p ) {
         // Softer warnings at the end so we don't ask permission and then tell them no.
-        if( &it == p->get_wielded_item() ) {
-            if( !query_yn( _( "You are wielding that, are you sure?" ) ) ) {
-                return false;
-            }
+        if( &it == p->get_wielded_item().get_item() ) {
+            return query_yn( _( "You are wielding that, are you sure?" ) );
         } else if( p->is_worn( it ) ) {
-            if( !query_yn( _( "You're wearing that, are you sure?" ) ) ) {
-                return false;
-            }
+            return query_yn( _( "You're wearing that, are you sure?" ) );
         }
     }
 
