@@ -8983,7 +8983,6 @@ cata::optional<int> iuse::lux_meter( Character *p, item *it, bool, const tripoin
 
 cata::optional<int> iuse::dbg_lux_meter( Character *p, item *, bool, const tripoint &pos )
 {
-
     const units::angle altitude = sun_azimuth_altitude( calendar::turn ).second;
     const float incident_light = incident_sunlight( current_weather( pos ), calendar::turn );
     const float nat_light = g->natural_light_level( pos.z );
