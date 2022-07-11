@@ -1,5 +1,13 @@
 [
   {
+    "id": "structured_all_weariness_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Weariness/Activity",
+    "arrange": "columns",
+    "widgets": [ "weariness_desc_no_label", "structured_weariness_transition_graph", "activity_desc_no_label", "weary_malus_desc_no_label" ]
+  },
+  {
     "id": "structured_sidebar",
     "type": "widget",
     "style": "sidebar",
@@ -14,7 +22,7 @@
       "ssb_separator",
       "ssb_health_layout",
       "ssb_separator",
-      "ssb_all_weariness_layout",
+      "structured_all_weariness_layout",
       "ssb_separator",
       "ssb_overmap_compass_9x9_layout",
       "ssb_overmap_compass_7x7_layout",
