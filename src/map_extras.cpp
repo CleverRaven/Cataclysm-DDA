@@ -2822,6 +2822,11 @@ void apply_function( const map_extra_id &id, map &m, const tripoint_abs_sm &abs_
 
     overmap_buffer.add_extra( project_to<coords::omt>( abs_sub ), id );
 
+    // Don't auto-note generated map extra if player hasn't already seen the OMT map extra was placed on
+    if( !overmap_buffer.seen( project_to<coords::omt>( abs_sub ) ) ) {
+        return;
+    }
+
     auto_notes::auto_note_settings &auto_note_settings = get_auto_notes_settings();
 
     // The player has discovered a map extra of this type.
