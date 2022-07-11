@@ -67,12 +67,7 @@
     "label": "Moon",
     "style": "text",
     "clauses": [
-      {
-        "id": "new_moon",
-        "text": " -- ",
-        "color": "white",
-        "condition": { "compare_int": [ "moon", "==", { "const": 0 } ] }
-      },
+      { "id": "new_moon", "text": " -- ", "color": "white", "condition": { "compare_int": [ "moon", "==", { "const": 0 } ] } },
       {
         "id": "waxing_crescent",
         "text": "   ) ↑",

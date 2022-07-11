@@ -6,7 +6,7 @@
     "label": "Separator",
     "arrange": "rows",
     "width": 1,
-    "widgets": []
+    "widgets": [  ]
   },
   {
     "id": "separator_disabled",

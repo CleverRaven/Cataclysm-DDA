@@ -23,7 +23,6 @@
     "arrange": "columns",
     "widgets": [ "structured_place_layout", "structured_sound_layout" ]
   },
-  
   {
     "id": "structured_time_layout",
     "type": "widget",
@@ -70,7 +69,6 @@
     "copy-from": "place_desc",
     "flags": [ "W_LABEL_NONE" ]
   },
-  
   {
     "id": "structured_health_layout",
     "type": "widget",
@@ -79,13 +77,13 @@
     "arrange": "columns",
     "separator": " ",
     "height": 7,
-    "widgets": [ 
-      "structured_body_graph_layout", 
-      "structured_health_left_layout", 
-      "structured_health_mid_layout", 
-      "structured_health_right_layout" ]
+    "widgets": [
+      "structured_body_graph_layout",
+      "structured_health_left_layout",
+      "structured_health_mid_layout",
+      "structured_health_right_layout"
+    ]
   },
-  
   {
     "id": "structured_body_graph_layout",
     "type": "widget",
@@ -133,14 +131,15 @@
     "style": "layout",
     "arrange": "rows",
     "width": 11,
-    "widgets": [ 
-      "structured_stats_label", 
-      "stats_no_label_layout", 
-      "wielding_desc_no_label", 
-      "style_desc_no_label", 
-      "env_temp_desc_no_label", 
-      "structured_mood_safe_mode_layout", 
-      "structured_stamina_graph" ]
+    "widgets": [
+      "structured_stats_label",
+      "stats_no_label_layout",
+      "wielding_desc_no_label",
+      "style_desc_no_label",
+      "env_temp_desc_no_label",
+      "structured_mood_safe_mode_layout",
+      "structured_stamina_graph"
+    ]
   },
   {
     "id": "structured_body_graph",
@@ -159,7 +158,7 @@
     "type": "widget",
     "style": "layout",
     "arrange": "columns",
-    "widgets": ["mood_desc_no_label", "structured_safe_mode_desc"]
+    "widgets": [ "mood_desc_no_label", "structured_safe_mode_desc" ]
   },
   {
     "id": "structured_safe_mode_desc",
@@ -203,7 +202,12 @@
     "style": "layout",
     "label": "Weariness/Activity",
     "arrange": "columns",
-    "widgets": [ "weariness_desc_no_label", "structured_weariness_transition_graph", "activity_desc_no_label", "weary_malus_desc_no_label" ]
+    "widgets": [
+      "weariness_desc_no_label",
+      "structured_weariness_transition_graph",
+      "activity_desc_no_label",
+      "weary_malus_desc_no_label"
+    ]
   },
   {
     "id": "structured_overmap_compass_9x9_layout",
@@ -231,7 +235,6 @@
     "widgets": [ "structured_overmap_5x5_layout", "structured_vehicle_compass_5x5_layout" ],
     "flags": [ "W_DISABLED_BY_DEFAULT" ]
   },
-  
   {
     "id": "structured_vehicle_compass_9x9_layout",
     "type": "widget",
@@ -338,7 +341,6 @@
     "arrange": "columns",
     "widgets": [ "structured_vehicle_cruise_layout", "structured_vehicle_fuel_layout" ]
   },
-  
   {
     "id": "structured_vehicle_cruise_layout",
     "type": "widget",
