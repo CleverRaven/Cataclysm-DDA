@@ -1,9 +1,0 @@
-[
-  {
-    "id": "structured_weariness_transition_graph",
-    "type": "widget",
-    "copy-from": "weariness_transition_graph",
-    "width": 9,
-    "flags": [ "W_LABEL_NONE" ]
-  }
-]
