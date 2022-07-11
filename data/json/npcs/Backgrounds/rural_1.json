@@ -66,14 +66,14 @@
             { "u_message": "<npc_name> marks the location of the farm on your map.", "type": "good", "popup": true }
           ]
         },
-        "failure": { 
-          "topic": "BGSS_RURAL_1_FARMFAILURE", 
+        "failure": {
+          "topic": "BGSS_RURAL_1_FARMFAILURE",
           "opinion": { "trust": -1 },
           "effect": [
             { "u_add_var": "rural_1_asked_about_quest", "type": "timer", "context": "timers", "time": true },
             { "u_add_var": "rural_1_asked_about_quest", "type": "general", "context": "BGSS", "value": "yes" }
           ]
-         }
+        }
       },
       { "text": "Thanks for telling me that.  <done_conversation_section>", "topic": "TALK_FRIEND" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
