@@ -52,31 +52,6 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [
-      "park",
-      "park_2",
-      "park_3",
-      "park_4",
-      "park_5",
-      "park_6",
-      "park_7",
-      "playground",
-      "playground_1",
-      "dog_park",
-      "volleyball_court",
-      "tennis_court",
-      "baskeball_court"
-    ],
-    "name": "park",
-    "sym": "O",
-    "color": "green",
-    "see_cost": 2,
-    "extras": "build",
-    "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
-  },
-  {
-    "type": "overmap_terrain",
     "id": [ "s_garage", "s_garage_1", "s_garage_2" ],
     "copy-from": "generic_city_building",
     "name": "garage",
