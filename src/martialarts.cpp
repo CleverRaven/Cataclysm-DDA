@@ -619,8 +619,8 @@ bool ma_requirements::is_valid_character( const Character &u ) const
     const item_location weapon = u.get_wielded_item();
     bool melee_style = u.martial_arts_data->selected_strictly_melee();
     bool is_armed = u.is_armed();
-    bool unarmed_weapon = is_armed && u.used_weapon()->has_flag( json_flag_UNARMED_WEAPON );
     bool forced_unarmed = u.martial_arts_data->selected_force_unarmed();
+    bool unarmed_weapon = is_armed && !forced_unarmed && weapon->has_flag( json_flag_UNARMED_WEAPON );
     bool weapon_ok = melee_allowed && weapon && is_valid_weapon( *weapon );
     bool style_weapon = weapon && u.martial_arts_data->selected_has_weapon( weapon->typeId() );
     bool all_weapons = u.martial_arts_data->selected_allow_all_weapons();
@@ -2049,7 +2049,7 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
                     return it.typeId() == w;
                 } );
                 // Wielded weapon in cyan, weapons in player inventory in yellow
-                std::string wname = player.get_wielded_item()->typeId() == w ?
+                std::string wname = player.get_wielded_item() && player.get_wielded_item()->typeId() == w ?
                                     colorize( item::nname( w ) + _( " (wielded)" ), c_light_cyan ) :
                                     carrying ? colorize( item::nname( w ), c_yellow ) : item::nname( w );
                 bool cat_found = false;

@@ -129,6 +129,13 @@
         "conditions": [ "DUSK", "DAY", "DAWN", "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
+        "monster": "mon_dryosaurus",
+        "weight": 20,
+        "cost_multiplier": 0,
+        "pack_size": [ 4, 12 ],
+        "conditions": [ "DUSK", "DAY", "DAWN", "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
         "monster": "mon_camptosaurus",
         "weight": 20,
         "cost_multiplier": 0,

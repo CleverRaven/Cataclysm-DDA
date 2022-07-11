@@ -1,0 +1,27 @@
+# Max length of a line is 78 characters; the following line is for reference
+# Longer lines will be automatically folded
+##############################################################################
+<color_white>Original author:</color>    <color_white>Project Manager:</color>
+<color_yellow>Whales</color> (<color_dark_gray>retired</color>)    <color_yellow>KevinGranade</color>
+
+<color_white>Current Main Developers:</color>
+<color_yellow>mlangsdorf</color> - Vehicles, boats, basecamps and modding guides.
+<color_yellow>I-am-Erk</color> - Ultica legacy lives on.
+<color_yellow>KorGgenT</color> - Not letting me know where to put my two-by-fours.
+
+<color_white>Special thanks to:</color>
+<color_yellow>Aivean</color> - For outstanding performance.
+<color_yellow>anothersimulacrum </color> - For making me weary.
+<color_yellow>jbytheway</color> - For reducing Python flakiness, problem matching and consolidating blueprint requirements.
+<color_yellow>BrettDong</color> - For translations and more.
+<color_yellow>Qrox</color> - For showing location of error messages.
+<color_yellow>LyleSY</color> - For dinosaurrrs.
+
+<color_white>Special thanks for art contributions:</color>
+<color_yellow>acepleiades</color>, <color_yellow>barsoosayque</color>, <color_yellow>Fris0uman</color>, <color_yellow>int-ua</color>, and many more.
+
+<color_white>For a full list of contributors please see:</color>
+<color_cyan>https://github.com/CleverRaven/Cataclysm-DDA/contributors</color>
+
+<color_light_cyan>Cataclysm</color>: <color_light_blue>Dark Days Ahead</color> is released under <color_white>CC-BY-SA 3.0</color>:
+<color_cyan>https://creativecommons.org/licenses/by-sa/3.0/</color>

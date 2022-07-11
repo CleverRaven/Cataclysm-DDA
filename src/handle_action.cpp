@@ -119,6 +119,8 @@ static const efftype_id effect_laserlocked( "laserlocked" );
 static const efftype_id effect_relax_gas( "relax_gas" );
 static const efftype_id effect_stunned( "stunned" );
 
+static const flag_id json_flag_MOP( "MOP" );
+
 static const gun_mode_id gun_mode_AUTO( "AUTO" );
 
 static const itype_id fuel_type_animal( "animal" );
@@ -1947,7 +1949,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
                 }
 
                 if( get_option<bool>( "AUTO_FEATURES" ) && get_option<bool>( "AUTO_MOPPING" ) &&
-                    weapon && weapon->typeId() == STATIC( itype_id( "mop" ) ) ) {
+                    weapon && weapon->has_flag( json_flag_MOP ) ) {
                     map &here = get_map();
                     const bool is_blind = player_character.is_blind();
                     for( const tripoint &point : here.points_in_radius( player_character.pos(), 1 ) ) {

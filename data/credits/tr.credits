@@ -1,0 +1,27 @@
+# Bir satırda en fazla 78 karakter olabilir; referans için sonraki çizgiye bakın
+# Daha uzun satırlar otomatik olarak katlanır
+##############################################################################
+<color_white>Original yapımcı:</color>    <color_white>Proje Müdürü:</color>
+<color_yellow>Whales</color> (<color_dark_gray>emekli</color>)    <color_yellow>KevinGranade</color>
+
+<color_white>Şimdiki Ana Geliştiriciler:</color>
+<color_yellow>mlangsdorf</color> - Araçlar tekneler kamplar ve modlama rehberleri.
+<color_yellow>I-am-Erk</color> - Ultica mirası hala yaşıyor.
+<color_yellow>KorGgenT</color> - Kalaslarımı nereye koyacağımı bilmeme izin vermiyor.
+
+<color_white>Özel teşekkürler:</color>
+<color_yellow>Aivean</color> - Sıradışı performansı için.
+<color_yellow>anothersimulacrum </color> - Beni yorduğu için.
+<color_yellow>jbytheway</color> - Python aksaklıklarını azaltmak, sorun eşleştirme ve taslak gereksinimlerini pekiştirmek için.
+<color_yellow>BrettDong</color> - Çeviriler ve daha nicesi.
+<color_yellow>Qrox</color> - Hata mesajlarının konumunu gösterdiği için.
+<color_yellow>LyleSY</color> - Dinazorrrrlar için.
+
+<color_white>Katkıda bulunan sanatçılara özel teşekkürler:</color>
+<color_yellow>acepleiades</color>, <color_yellow>barsoosayque</color>, <color_yellow>Fris0uman</color>, <color_yellow>int-ua</color>, ve niceleri.
+
+<color_white>Katkıda bulunanların tam listesini görmek için:</color>
+<color_cyan>https://github.com/CleverRaven/Cataclysm-DDA/contributors</color>
+
+<color_light_cyan>Cataclysm</color>: <color_light_blue>Dark Days Ahead</color> <color_white>CC-BY-SA 3.0</color> altında imzalandı.
+<color_cyan>https://creativecommons.org/licenses/by-sa/3.0/</color>
