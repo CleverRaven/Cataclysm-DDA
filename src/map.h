@@ -508,7 +508,9 @@ class map
         int move_cost( const point &p, const vehicle *ignored_vehicle = nullptr ) const {
             return move_cost( tripoint( p, abs_sub.z() ), ignored_vehicle );
         }
+        // TODO: fix point types (remove the first overload)
         bool impassable( const tripoint &p ) const;
+        bool impassable( const tripoint_bub_ms &p ) const;
         bool impassable( const point &p ) const {
             return !passable( p );
         }
@@ -672,8 +674,10 @@ class map
         *
         * @param p Tile to check for vehicle
         */
+        // TODO: fix point types (remove the first overload)
         optional_vpart_position veh_at( const tripoint &p ) const;
         optional_vpart_position veh_at( const tripoint_abs_ms &p ) const;
+        optional_vpart_position veh_at( const tripoint_bub_ms &p ) const;
         vehicle *veh_at_internal( const tripoint &p, int &part_num );
         const vehicle *veh_at_internal( const tripoint &p, int &part_num ) const;
         // Put player on vehicle at x,y
@@ -730,10 +734,14 @@ class map
         */
         std::string obstacle_name( const tripoint &p );
         bool has_furn( const tripoint &p ) const;
+        // TODO: fix point types (remove the first overload)
+        bool has_furn( const tripoint_bub_ms &p ) const;
         bool has_furn( const point &p ) const {
             return has_furn( tripoint( p, abs_sub.z() ) );
         }
+        // TODO: fix point types (remove the first overload)
         furn_id furn( const tripoint &p ) const;
+        furn_id furn( const tripoint_bub_ms &p ) const;
         furn_id furn( const point &p ) const {
             return furn( tripoint( p, abs_sub.z() ) );
         }
@@ -741,7 +749,10 @@ class map
         * furn_reset should be true if new_furniture is being set to f_null
         * when the player is grab-moving furniture
         */
+        // TODO: fix point types (remove the first overload)
         bool furn_set( const tripoint &p, const furn_id &new_furniture, bool furn_reset = false );
+        bool furn_set( const tripoint_bub_ms &p, const furn_id &new_furniture,
+                       bool furn_reset = false );
         bool furn_set( const point &p, const furn_id &new_furniture ) {
             return furn_set( tripoint( p, abs_sub.z() ), new_furniture );
         }
@@ -758,7 +769,9 @@ class map
         bool can_move_furniture( const tripoint &pos, Character *you = nullptr );
 
         // Terrain
+        // TODO: fix point types (remove the first overload)
         ter_id ter( const tripoint &p ) const;
+        ter_id ter( const tripoint_bub_ms &p ) const;
         ter_id ter( const point &p ) const {
             return ter( tripoint( p, abs_sub.z() ) );
         }
@@ -785,9 +798,15 @@ class map
         const std::set<std::string> &get_harvest_names( const tripoint &p ) const;
         ter_id get_ter_transforms_into( const tripoint &p ) const;
 
+        // TODO: fix point types (remove the first overload)
         bool ter_set( const tripoint &p, const ter_id &new_terrain );
+        bool ter_set( const tripoint_bub_ms &, const ter_id &new_terrain );
+        // TODO: fix point types (remove the first overload)
         bool ter_set( const point &p, const ter_id &new_terrain ) {
             return ter_set( tripoint( p, abs_sub.z() ), new_terrain );
+        }
+        bool ter_set( const point_bub_ms &p, const ter_id &new_terrain ) {
+            return ter_set( tripoint_bub_ms( p, abs_sub.z() ), new_terrain );
         }
 
         std::string tername( const tripoint &p ) const;
@@ -852,12 +871,16 @@ class map
             return features( tripoint( p, abs_sub.z() ) );
         }
         // Checks terrain, furniture and vehicles
+        // TODO: fix point types (remove the first overload)
         bool has_flag( const std::string &flag, const tripoint &p ) const;
+        bool has_flag( const std::string &flag, const tripoint_bub_ms &p ) const;
         bool has_flag( const std::string &flag, const point &p ) const {
             return has_flag( flag, tripoint( p, abs_sub.z() ) );
         }
         // True if items can be dropped in this tile
+        // TODO: fix point types (remove the first overload)
         bool can_put_items( const tripoint &p ) const;
+        bool can_put_items( const tripoint_bub_ms &p ) const;
         bool can_put_items( const point &p ) const {
             return can_put_items( tripoint( p, abs_sub.z() ) );
         }
@@ -883,7 +906,9 @@ class map
         }
         // Fast "oh hai it's update_scent/lightmap/draw/monmove/self/etc again, what about this one" flag checking
         // Checks terrain, furniture and vehicles
+        // TODO: fix point types (remove the first overload)
         bool has_flag( ter_furn_flag flag, const tripoint &p ) const;
+        bool has_flag( ter_furn_flag flag, const tripoint_bub_ms &p ) const;
         bool has_flag( ter_furn_flag flag, const point &p ) const {
             return has_flag( flag, tripoint( p, abs_sub.z() ) );
         }
@@ -1036,7 +1061,9 @@ class map
         /** Keeps bashing a square until it can't be bashed anymore */
         void destroy( const tripoint &p, bool silent = false );
         /** Keeps bashing a square until there is no more furniture */
+        // TODO: fix point types (remove the first overload)
         void destroy_furn( const tripoint &p, bool silent = false );
+        void destroy_furn( const tripoint_bub_ms &, bool silent = false );
         void crush( const tripoint &p );
         void shoot( const tripoint &p, projectile &proj, bool hit_items );
         /** Checks if a square should collapse, returns the X for the one_in(X) collapse chance */
@@ -1093,7 +1120,9 @@ class map
         // Signs
         std::string get_signage( const tripoint &p ) const;
         void set_signage( const tripoint &p, const std::string &message ) const;
+        // TODO: fix point types (remove the first overload)
         void delete_signage( const tripoint &p ) const;
+        void delete_signage( const tripoint_bub_ms &p ) const;
 
         // Radiation
         int get_radiation( const tripoint &p ) const;
@@ -1123,7 +1152,9 @@ class map
         // the list in map.  Used in tests.
         std::vector<tripoint_abs_sm> check_submap_active_item_consistency();
         // Accessor that returns a wrapped reference to an item stack for safe modification.
+        // TODO: fix point types (remove the first overload)
         map_stack i_at( const tripoint &p );
+        map_stack i_at( const tripoint_bub_ms &p );
         map_stack i_at( const point &p ) {
             return i_at( tripoint( p, abs_sub.z() ) );
         }
@@ -1188,7 +1219,9 @@ class map
          *  @return reference to dropped (and possibly stacked) item or null item on failure
          *  @warning function is relatively expensive and meant for user initiated actions, not mapgen
          */
+        // TODO: fix point types (remove the first overload)
         item &add_item_or_charges( const tripoint &pos, item obj, bool overflow = true );
+        item &add_item_or_charges( const tripoint_bub_ms &pos, item obj, bool overflow = true );
         item &add_item_or_charges( const point &p, const item &obj, bool overflow = true ) {
             return add_item_or_charges( tripoint( p, abs_sub.z() ), obj, overflow );
         }
@@ -1269,8 +1302,14 @@ class map
         * @param ammo percentage chance item will be filled with default ammo
         * @return vector containing all placed items
         */
+        // TODO: fix point types (remove the first overload)
         std::vector<item *> place_items(
             const item_group_id &group_id, int chance, const tripoint &p1, const tripoint &p2,
+            bool ongrass, const time_point &turn, int magazine = 0, int ammo = 0,
+            const std::string &faction = "" );
+        std::vector<item *> place_items(
+            const item_group_id &group_id, int chance,
+            const tripoint_bub_ms &p1, const tripoint_bub_ms &p2,
             bool ongrass, const time_point &turn, int magazine = 0, int ammo = 0,
             const std::string &faction = "" );
         std::vector<item *> place_items(
@@ -1293,7 +1332,10 @@ class map
             const time_point &turn = calendar::start_of_cataclysm );
 
         // Places a list of items, or nothing if the list is empty.
+        // TODO: fix point types (remove the first overload)
         std::vector<item *> spawn_items( const tripoint &p, const std::vector<item> &new_items );
+        std::vector<item *> spawn_items( const tripoint_bub_ms &p,
+                                         const std::vector<item> &new_items );
         void spawn_items( const point &p, const std::vector<item> &new_items ) {
             spawn_items( tripoint( p, abs_sub.z() ), new_items );
         }
@@ -1304,17 +1346,23 @@ class map
         }
 
         // Partial construction functions
-        void partial_con_set( const tripoint &p, const partial_con &con );
-        void partial_con_remove( const tripoint &p );
-        partial_con *partial_con_at( const tripoint &p );
+        void partial_con_set( const tripoint_bub_ms &p, const partial_con &con );
+        void partial_con_remove( const tripoint_bub_ms &p );
+        partial_con *partial_con_at( const tripoint_bub_ms &p );
         // Traps
+        // TODO: fix point types (remove the first overload)
         void trap_set( const tripoint &p, const trap_id &type );
+        void trap_set( const tripoint_bub_ms &p, const trap_id &type );
 
+        // TODO: fix point types (remove the first overload)
         const trap &tr_at( const tripoint &p ) const;
+        const trap &tr_at( const tripoint_bub_ms &p ) const;
         /// See @ref trap::can_see, which is called for the trap here.
         bool can_see_trap_at( const tripoint &p, const Character &c ) const;
 
+        // TODO: fix point types (remove the first overload)
         void remove_trap( const tripoint &p );
+        void remove_trap( const tripoint_bub_ms &p );
         const std::vector<tripoint> &get_furn_field_locations() const;
         const std::vector<tripoint> &get_ter_field_locations() const;
         const std::vector<tripoint> &trap_locations( const trap_id &type ) const;
@@ -1325,7 +1373,9 @@ class map
          * This functions assumes the character is either on top of the trap,
          * or adjacent to it.
          */
+        // TODO: fix point types (remove the first overload)
         void maybe_trigger_trap( const tripoint &pos, Creature &c, bool may_avoid );
+        void maybe_trigger_trap( const tripoint_bub_ms &pos, Creature &c, bool may_avoid );
 
         // Spawns byproducts from items destroyed in fire.
         void create_burnproducts( const tripoint &p, const item &fuel, const units::mass &burned_mass );
@@ -1603,8 +1653,12 @@ class map
          * Coordinates is in the system that is used by the ter/furn/i_at functions.
          * Output is in the same scale, but in global system.
          */
+        // TODO: fix point types (remove the first overload)
         tripoint getabs( const tripoint &p ) const;
+        tripoint getabs( const tripoint_bub_ms &p ) const;
+        // TODO: fix point types (remove the first overload)
         tripoint_abs_ms getglobal( const tripoint &p ) const;
+        tripoint_abs_ms getglobal( const tripoint_bub_ms &p ) const;
         point getabs( const point &p ) const {
             return getabs( tripoint( p, abs_sub.z() ) ).xy();
         }
@@ -1616,7 +1670,12 @@ class map
         point getlocal( const point &p ) const {
             return getlocal( tripoint( p, abs_sub.z() ) ).xy();
         }
+        // TODO: fix point types (remove the first overload)
+        tripoint_bub_ms bub_from_abs( const tripoint &p ) const;
+        tripoint_bub_ms bub_from_abs( const tripoint_abs_ms &p ) const;
+        // TODO: fix point types (remove the first overload)
         virtual bool inbounds( const tripoint &p ) const;
+        bool inbounds( const tripoint_bub_ms &p ) const;
         bool inbounds( const tripoint_abs_ms &p ) const;
         bool inbounds( const point &p ) const {
             return inbounds( tripoint( p, 0 ) );
@@ -1789,9 +1848,13 @@ class map
          * Get the submap pointer containing the specified position within the reality bubble.
          * (p) must be a valid coordinate, check with @ref inbounds.
          */
+        // TODO: fix point types (remove the first overload)
         inline submap *unsafe_get_submap_at( const tripoint &p ) const {
             cata_assert( inbounds( p ) );
             return get_submap_at_grid( { p.x / SEEX, p.y / SEEY, p.z } );
+        }
+        inline submap *unsafe_get_submap_at( const tripoint_bub_ms &p ) const {
+            return unsafe_get_submap_at( p.raw() );
         }
         submap *get_submap_at( const tripoint &p ) const;
         submap *get_submap_at( const point &p ) const {
@@ -1802,9 +1865,15 @@ class map
          * The same as other get_submap_at, (p) must be valid (@ref inbounds).
          * Also writes the position within the submap to offset_p
          */
+        // TODO: fix point types (remove the first overload)
         submap *unsafe_get_submap_at( const tripoint &p, point &offset_p ) const {
             offset_p.x = p.x % SEEX;
             offset_p.y = p.y % SEEY;
+            return unsafe_get_submap_at( p );
+        }
+        submap *unsafe_get_submap_at( const tripoint_bub_ms &p, point_sm_ms &offset_p ) const {
+            tripoint_bub_sm sm;
+            std::tie( sm, offset_p ) = project_remain<coords::sm>( p );
             return unsafe_get_submap_at( p );
         }
         submap *get_submap_at( const tripoint &p, point &offset_p ) const {
@@ -2018,8 +2087,11 @@ class map
         // Clips the area to map bounds
         tripoint_range<tripoint> points_in_rectangle(
             const tripoint &from, const tripoint &to ) const;
+        // TODO: fix point types (remove the first overload)
         tripoint_range<tripoint> points_in_radius(
             const tripoint &center, size_t radius, size_t radiusz = 0 ) const;
+        tripoint_range<tripoint_bub_ms> points_in_radius(
+            const tripoint_bub_ms &center, size_t radius, size_t radiusz = 0 ) const;
 
         /**
          * Yields a range of all points that are contained in the map and have the z-level of

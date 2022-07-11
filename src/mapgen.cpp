@@ -6549,6 +6549,15 @@ std::vector<item *> map::place_items(
     return res;
 }
 
+std::vector<item *> map::place_items(
+    const item_group_id &group_id, const int chance, const tripoint_bub_ms &p1,
+    const tripoint_bub_ms &p2, const bool ongrass, const time_point &turn, const int magazine,
+    const int ammo, const std::string &faction )
+{
+    return place_items( group_id, chance, p1.raw(), p2.raw(), ongrass, turn, magazine, ammo,
+                        faction );
+}
+
 std::vector<item *> map::put_items_from_loc( const item_group_id &group_id, const tripoint &p,
         const time_point &turn )
 {
