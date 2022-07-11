@@ -1125,6 +1125,40 @@ int avatar::free_upgrade_points() const
     return lvl - spent_upgrade_points;
 }
 
+bool avatar::is_escanor_hour_changed(int cur_hour) {
+    if (prev_hour_escanor != cur_hour) {
+        prev_hour_escanor = cur_hour;
+        return true;
+    }
+    else {
+        return false;
+    }
+}
+
+void avatar::change_strength_escanor(int cur_hour) {
+    if (str_origin == 0) {
+        str_origin = str_max;
+    }
+    // Workaround for save strength by any other way
+    if (str_max_prev != str_max && str_max_prev != 0 && is_escanor_hour_changed(cur_hour)) {
+        str_origin += str_max - str_max_prev;
+    }
+    // Escanor have +110% strength at 12am and only 30% at 0am
+    if (cur_hour < 12) {
+        str_max = (double)str_origin + (double)str_origin * (((pow(cur_hour,2) / 8) - 4) / 8) - (double)str_origin * 0.3;
+    }
+    else if (cur_hour >= 12) {
+        str_max = (double)str_origin + (double)str_origin * (((pow(cur_hour - 24, 2) / 8) - 4) / 8) - (double)str_origin * 0.3;
+    }
+    if (str_max_prev == 0) {
+        str_max_prev = str_max;
+    }
+    // Never drop max strenght less then 3
+    if (str_max < 3) {
+        str_max = 3;
+    }
+}
+
 void avatar::upgrade_stat_prompt( const character_stat &stat )
 {
     const int free_points = free_upgrade_points();

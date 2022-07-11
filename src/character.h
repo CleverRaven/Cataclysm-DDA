@@ -432,6 +432,13 @@ class Character : public Creature, public visitable
         // Level-up points spent on Stats through Kills
         int spent_upgrade_points = 0;
 
+        // Previous hour of calculate Escanor abilities
+        int prev_hour_escanor = 0;
+        // Start strength of player. Needed for Escanor abilities
+        int str_origin;
+        // Previous strength for calculate Escanor abilities
+        int str_max_prev;
+
         const profession *prof;
         std::set<const profession *> hobbies;
 

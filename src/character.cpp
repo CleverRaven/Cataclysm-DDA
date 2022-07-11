@@ -511,6 +511,10 @@ Character::Character() :
     last_climate_control_ret( false )
 {
     randomize_blood();
+    //Escanor str for calculating
+    str_origin = 0;
+    str_max_prev = 0;
+
     str_cur = 8;
     str_max = 8;
     dex_cur = 8;

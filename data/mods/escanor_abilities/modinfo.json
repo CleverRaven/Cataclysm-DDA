@@ -1,0 +1,19 @@
+[
+  {
+    "type": "MOD_INFO",
+    "id": "escanor_abilities",
+    "name": "Escanor abilities",
+    "authors": [ "LoganSan" ],
+    "maintainers": [ "LoganSan" ],
+    "description": "Allows you to be Escanor. Encrease your strength for +110% at 12am and cut it for 30% at midnigth. You have only 4-5 hours at day to be strong.",
+    "category": "rebalance",
+    "dependencies": [ "dda" ]
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "ESCANOR_ABILITIES",
+    "stype": "bool",
+    "value": true,
+	"info": "info"
+  }
+]

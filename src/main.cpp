@@ -54,7 +54,6 @@ class ui_adaptor;
 
 #if defined(TILES)
 #   if defined(_MSC_VER) && defined(USE_VCPKG)
-#      include <SDL2/SDL_version.h>
 #   else
 #      include <SDL_version.h>
 #   endif

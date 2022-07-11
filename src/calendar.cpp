@@ -619,6 +619,12 @@ std::string to_string_time_of_day( const time_point &p )
     const int second = to_seconds<int>( time_past_midnight( p ) ) % 60;
     const std::string format_type = get_option<std::string>( "24_HOUR" );
 
+    if (get_option<bool>("ESCANOR_ABILITIES")) {
+        if (get_avatar().is_escanor_hour_changed(hour)) {
+            get_avatar().change_strength_escanor(hour);
+        }
+    }
+
     if( format_type == "military" ) {
         return string_format( "%02d%02d.%02d", hour, minute, second );
     } else if( format_type == "24h" ) {

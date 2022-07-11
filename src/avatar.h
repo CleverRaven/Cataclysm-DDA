@@ -241,6 +241,8 @@ class avatar : public Character
         void upgrade_stat_prompt( const character_stat &stat_name );
         // how many points are available to upgrade via STK
         int free_upgrade_points() const;
+        bool is_escanor_hour_changed(int cur_hour);
+        void change_strength_escanor(int count);
         void power_bionics() override;
         void power_mutations() override;
         /** Returns the bionic with the given invlet, or NULL if no bionic has that invlet */
