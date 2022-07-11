@@ -35,6 +35,7 @@
 #include "debug.h"
 #include "debug_menu.h"
 #include "diary.h"
+#include "distraction_manager.h"
 #include "do_turn.h"
 #include "event.h"
 #include "event_bus.h"
@@ -2560,6 +2561,10 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
 
         case ACTION_SAFEMODE:
             get_safemode().show();
+            break;
+
+        case ACTION_DISTRACTION_MANAGER:
+            get_distraction_manager().show();
             break;
 
         case ACTION_COLOR:

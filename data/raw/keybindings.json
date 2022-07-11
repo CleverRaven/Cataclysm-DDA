@@ -2783,6 +2783,12 @@
   },
   {
     "type": "keybinding",
+    "name": "Distractions manager",
+    "category": "DEFAULTMODE",
+    "id": "open_distraction_manager"
+  },
+  {
+    "type": "keybinding",
     "name": "Color manager",
     "category": "DEFAULTMODE",
     "id": "open_color"
@@ -3768,6 +3774,17 @@
       { "input_method": "keyboard_char", "key": "I" },
       { "input_method": "keyboard_code", "key": "i", "mod": [ "shift" ] },
       { "input_method": "keyboard_any", "key": "i" }
+    ]
+  },
+  {
+    "type": "keybinding",
+    "id": "MANAGER",
+    "category": "CANCEL_ACTIVITY_OR_IGNORE_QUERY",
+    "name": "Open manager",
+    "bindings": [
+      { "input_method": "keyboard_char", "key": "M" },
+      { "input_method": "keyboard_code", "key": "m", "mod": [ "shift" ] },
+      { "input_method": "keyboard_any", "key": "m" }
     ]
   },
   {
