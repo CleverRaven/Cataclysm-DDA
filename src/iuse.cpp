@@ -8973,12 +8973,12 @@ cata::optional<int> iuse::sextant( Character *p, item *, bool, const tripoint &p
     return 0;
 }
 
-cata::optional<int> iuse::lux_meter( Character *p, item *, bool, const tripoint &pos )
+cata::optional<int> iuse::lux_meter( Character *p, item *it, bool, const tripoint &pos )
 {
     p->add_msg_if_player( m_neutral, _( "The illumination is %.1f." ),
                           g->natural_light_level( pos.z ) );
 
-    return 0;
+    return it->type->charges_to_use();
 }
 
 cata::optional<int> iuse::dbg_lux_meter( Character *p, item *, bool, const tripoint &pos )
