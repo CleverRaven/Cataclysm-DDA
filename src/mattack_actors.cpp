@@ -473,6 +473,9 @@ bool melee_actor::call( monster &z ) const
     add_msg_debug( debugmode::DF_MATTACK, "%s attempting to melee_attack %s", z.name(),
                    target->disp_name() );
 
+    const std::string mon_name = get_player_character().sees( z.pos() ) ?
+                                 z.disp_name( false, true ) : _( "Something" );
+
     // Add always-applied self effects
     for( const mon_effect_data &eff : self_effects_always ) {
         if( x_in_y( eff.chance, 100 ) ) {
@@ -494,9 +497,6 @@ bool melee_actor::call( monster &z ) const
                              *body_parts.pick();
 
     bodypart_id bp_id = bodypart_id( bp_hit );
-
-    const std::string mon_name = get_player_character().sees( z.pos() ) ?
-                                 z.disp_name( false, true ) : _( "Something" );
 
     if( uncanny_dodgeable && target->uncanny_dodge() ) {
         game_message_type msg_type = target->is_avatar() ? m_warning : m_info;
