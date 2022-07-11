@@ -1518,7 +1518,7 @@ std::string widget::layout( const avatar &ava, unsigned int max_width, int label
                 }
 
                 // for debug keep track of each and width
-                debug_widths = debug_widths + string_format( "%s: %d,", wid.str(), cur_width );
+                debug_widths.append( string_format( "%s: %d,", wid.str(), cur_width ) );
 
                 if( cur_width > 0 ) {
                     total_width += cur_width;
