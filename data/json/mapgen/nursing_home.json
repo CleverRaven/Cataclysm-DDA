@@ -214,7 +214,7 @@
   {
     "type": "mapgen",
     "method": "json",
-	"//": "Shady Hills Nursing Home"
+	"//": "Shady Hills Nursing Home",
     "om_terrain": [
       [ "nursing_home_sh1", "nursing_home_sh2", "nursing_home_sh3", "nursing_home_sh4" ],
       [ "nursing_home_sh5", "nursing_home_sh6", "nursing_home_sh7", "nursing_home_sh8" ],
