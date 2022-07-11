@@ -2738,7 +2738,7 @@ static bool mx_city_trap( map &/*m*/, const tripoint &abs_sub )
     return true;
 }
 
-FunctionMap builtin_functions = {
+static FunctionMap builtin_functions = {
     { map_extra_mx_null, mx_null },
     { map_extra_mx_crater, mx_crater },
     { map_extra_mx_roadworks, mx_roadworks },
@@ -2779,7 +2779,7 @@ map_extra_pointer get_function( const map_extra_id &name )
     return iter->second;
 }
 
-std::vector<map_extra_id> all_function_names;
+static std::vector<map_extra_id> all_function_names;
 std::vector<map_extra_id> get_all_function_names()
 {
     return all_function_names;

@@ -19,15 +19,15 @@ static const bionic_id bio_hydraulics( "bio_hydraulics" );
 namespace npc_attack_constants
 {
 // if you are attacking your target, multiply potential by this number
-const float target_modifier = 1.5f;
+static const float target_modifier = 1.5f;
 // if you kill the creature, multiply the potential by this number
-const float kill_modifier = 1.5f;
+static const float kill_modifier = 1.5f;
 // the amount of penalty if the npc has to change what it's wielding
 // update this number and comment when that is no longer a flat -15 moves
-const int base_time_penalty = 3;
+static const int base_time_penalty = 3;
 // we want this out of our hands, pronto.
 // give a large buff to the attack value so it prioritizes this
-const int base_throw_now = 10'000;
+static const int base_throw_now = 10'000;
 } // namespace npc_attack_constants
 
 // TODO: make a better, more generic "check if this projectile is blocked" function

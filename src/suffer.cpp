@@ -179,26 +179,26 @@ static const vitamin_id vitamin_vitC( "vitC" );
 
 namespace suffer
 {
-void from_sunburn( Character &you, bool severe );
-void in_sunlight( Character &you );
-void water_damage( Character &you, const trait_id &mut_id );
-void mutation_power( Character &you, const trait_id &mut_id );
-void while_underwater( Character &you );
-void while_grabbed( Character &you );
-void from_addictions( Character &you );
-void while_awake( Character &you, int current_stim );
-void from_chemimbalance( Character &you );
-void from_schizophrenia( Character &you );
-void from_asthma( Character &you, int current_stim );
-void from_item_dropping( Character &you );
-void from_other_mutations( Character &you );
-void from_radiation( Character &you );
-void from_bad_bionics( Character &you );
-void from_stimulants( Character &you, int current_stim );
-void from_exertion( Character &you );
-void without_sleep( Character &you, int sleep_deprivation );
-void from_tourniquet( Character &you );
-void from_pain( Character &you );
+static void from_sunburn( Character &you, bool severe );
+static void in_sunlight( Character &you );
+static void water_damage( Character &you, const trait_id &mut_id );
+static void mutation_power( Character &you, const trait_id &mut_id );
+static void while_underwater( Character &you );
+static void while_grabbed( Character &you );
+static void from_addictions( Character &you );
+static void while_awake( Character &you, int current_stim );
+static void from_chemimbalance( Character &you );
+static void from_schizophrenia( Character &you );
+static void from_asthma( Character &you, int current_stim );
+static void from_item_dropping( Character &you );
+static void from_other_mutations( Character &you );
+static void from_radiation( Character &you );
+static void from_bad_bionics( Character &you );
+static void from_stimulants( Character &you, int current_stim );
+static void from_exertion( Character &you );
+static void without_sleep( Character &you, int sleep_deprivation );
+static void from_tourniquet( Character &you );
+static void from_pain( Character &you );
 } // namespace suffer
 
 static float addiction_scaling( float at_min, float at_max, float add_lvl )
