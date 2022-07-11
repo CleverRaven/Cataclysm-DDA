@@ -234,8 +234,8 @@ item &null_item_reference()
 
 namespace item_internal
 {
-bool goes_bad_temp_cache = false;
-const item *goes_bad_temp_cache_for = nullptr;
+static bool goes_bad_temp_cache = false;
+static const item *goes_bad_temp_cache_for = nullptr;
 static bool goes_bad_cache_fetch()
 {
     return goes_bad_temp_cache;

@@ -132,49 +132,51 @@ static bool check_nothing( const tripoint & )
 {
     return true;
 }
-bool check_channel( const tripoint & ); // tile has adjacent flowing water
-bool check_empty_lite( const tripoint & );
-bool check_empty( const tripoint & ); // tile is empty
-bool check_support( const tripoint & ); // at least two orthogonal supports
-bool check_stable( const tripoint & ); // tile below has a flag SUPPORTS_ROOF
-bool check_empty_stable( const tripoint & ); // tile is empty, tile below has a flag SUPPORTS_ROOF
-bool check_nofloor_above( const tripoint & ); // tile above has a flag NO_FLOOR
-bool check_deconstruct( const tripoint & ); // either terrain or furniture must be deconstructible
-bool check_empty_up_OK( const tripoint & ); // tile is empty and below OVERMAP_HEIGHT
-bool check_up_OK( const tripoint & ); // tile is below OVERMAP_HEIGHT
-bool check_down_OK( const tripoint & ); // tile is above OVERMAP_DEPTH
-bool check_no_trap( const tripoint & );
-bool check_ramp_low( const tripoint & );
-bool check_ramp_high( const tripoint & );
-bool check_no_wiring( const tripoint & );
+static bool check_channel( const tripoint & ); // tile has adjacent flowing water
+static bool check_empty_lite( const tripoint & );
+static bool check_empty( const tripoint & ); // tile is empty
+static bool check_support( const tripoint & ); // at least two orthogonal supports
+static bool check_stable( const tripoint & ); // tile below has a flag SUPPORTS_ROOF
+static bool check_empty_stable( const tripoint
+                                & ); // tile is empty, tile below has a flag SUPPORTS_ROOF
+static bool check_nofloor_above( const tripoint & ); // tile above has a flag NO_FLOOR
+static bool check_deconstruct( const tripoint
+                               & ); // either terrain or furniture must be deconstructible
+static bool check_empty_up_OK( const tripoint & ); // tile is empty and below OVERMAP_HEIGHT
+static bool check_up_OK( const tripoint & ); // tile is below OVERMAP_HEIGHT
+static bool check_down_OK( const tripoint & ); // tile is above OVERMAP_DEPTH
+static bool check_no_trap( const tripoint & );
+static bool check_ramp_low( const tripoint & );
+static bool check_ramp_high( const tripoint & );
+static bool check_no_wiring( const tripoint & );
 
 // Special actions to be run post-terrain-mod
 static void done_nothing( const tripoint &, Character & ) {}
-void done_trunk_plank( const tripoint &, Character & );
-void done_grave( const tripoint &, Character & );
-void done_vehicle( const tripoint &, Character & );
-void done_appliance( const tripoint &, Character & );
-void done_wiring( const tripoint &, Character & );
-void done_deconstruct( const tripoint &, Character & );
-void done_digormine_stair( const tripoint &, bool, Character & );
-void done_dig_grave( const tripoint &p, Character & );
-void done_dig_grave_nospawn( const tripoint &p, Character & );
-void done_dig_stair( const tripoint &, Character & );
-void done_mine_downstair( const tripoint &, Character & );
-void done_mine_upstair( const tripoint &, Character & );
-void done_wood_stairs( const tripoint &, Character & );
-void done_window_curtains( const tripoint &, Character & );
-void done_extract_maybe_revert_to_dirt( const tripoint &, Character & );
-void done_mark_firewood( const tripoint &, Character & );
-void done_mark_practice_target( const tripoint &, Character & );
-void done_ramp_low( const tripoint &, Character & );
-void done_ramp_high( const tripoint &, Character & );
+static void done_trunk_plank( const tripoint &, Character & );
+static void done_grave( const tripoint &, Character & );
+static void done_vehicle( const tripoint &, Character & );
+static void done_appliance( const tripoint &, Character & );
+static void done_wiring( const tripoint &, Character & );
+static void done_deconstruct( const tripoint &, Character & );
+static void done_digormine_stair( const tripoint &, bool, Character & );
+static void done_dig_grave( const tripoint &p, Character & );
+static void done_dig_grave_nospawn( const tripoint &p, Character & );
+static void done_dig_stair( const tripoint &, Character & );
+static void done_mine_downstair( const tripoint &, Character & );
+static void done_mine_upstair( const tripoint &, Character & );
+static void done_wood_stairs( const tripoint &, Character & );
+static void done_window_curtains( const tripoint &, Character & );
+static void done_extract_maybe_revert_to_dirt( const tripoint &, Character & );
+static void done_mark_firewood( const tripoint &, Character & );
+static void done_mark_practice_target( const tripoint &, Character & );
+static void done_ramp_low( const tripoint &, Character & );
+static void done_ramp_high( const tripoint &, Character & );
 
-void do_turn_shovel( const tripoint &, Character & );
-void do_turn_exhume( const tripoint &, Character & );
+static void do_turn_shovel( const tripoint &, Character & );
+static void do_turn_exhume( const tripoint &, Character & );
 
-void failure_standard( const tripoint & );
-void failure_deconstruct( const tripoint & );
+static void failure_standard( const tripoint & );
+static void failure_deconstruct( const tripoint & );
 } // namespace construct
 
 static std::vector<construction> constructions;
