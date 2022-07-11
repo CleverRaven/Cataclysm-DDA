@@ -121,9 +121,11 @@ extern "C" {
             case SIGFPE:
                 msg = "SIGFPE: Arithmetical error";
                 break;
+#if defined(SIGBUS)
             case SIGBUS:
                 msg = "SIGBUS: Bus error";
                 break;
+#endif
             default:
                 return;
         }
@@ -183,7 +185,10 @@ void init_crash_handlers()
     remove( ( PATH_INFO::crash() + ".prompt" ).c_str() );
 #endif
     for( int sig : {
-             SIGSEGV, SIGILL, SIGABRT, SIGFPE, SIGBUS
+             SIGSEGV, SIGILL, SIGABRT, SIGFPE
+#if defined(SIGBUS)
+             , SIGBUS
+#endif
          } ) {
 
         std::signal( sig, signal_handler );
