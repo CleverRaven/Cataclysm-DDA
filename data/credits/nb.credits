@@ -1,0 +1,27 @@
+# Maksimum lengde av en linje er 78 karakterer; denne følgende linjen er for referanse
+# Lengre linjer blir automatisk bøyd
+##############################################################################
+<color_white>Original forfatter:</color> <color_white>Prosjektsjef:</color>
+<color_yellow>Whales</color> (<color_dark_gray>pensjonert</color>) <color_yellow>KevinGranade</color>
+
+<color_white>Nåværende hovedutviklere:</color>
+<color_yellow>mlangsdorf</color> - Kjøretøy, båter, leirer og modding-guider.
+<color_yellow>I-am-Erk</color> - Ultica legacy lives on.
+<color_yellow>KorGgenT</color> - Not letting me know where to put my two-by-fours.
+
+<color_white>En spesiell takk til:</color>
+<color_yellow>Aivean</color> - For outstanding performance.
+<color_yellow>anothersimulacrum </color> - For making me weary.
+<color_yellow>jbytheway</color> - For reducing Python flakiness, problem matching and consolidating blueprint requirements.
+<color_yellow>BrettDong</color> - For translations and more.
+<color_yellow>Qrox</color> - For showing location of error messages.
+<color_yellow>LyleSY</color> - For dinosaurrrs.
+
+<color_white>Special thanks for art contributions:</color>
+<color_yellow>acepleiades</color>, <color_yellow>barsoosayque</color>, <color_yellow>Fris0uman</color>, <color_yellow>int-ua</color>, and many more.
+
+<color_white>For en fullstendig liste over bidragsytere, se:</color>
+<color_cyan>https://github.com/CleverRaven/Cataclysm-DDA/contributors</color>
+
+<color_light_cyan>Cataclysm</color>: <color_light_blue>Dark Days Ahead</color> frigjøres under <color_white>CC-BY-SA 3.0</color>:
+<color_cyan>https://creativecommons.org/licenses/by-sa/3.0/</color>

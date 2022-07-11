@@ -264,13 +264,8 @@
     "type": "vehicle_group",
     "id": "parkinglot",
     "vehicles": [
-      [ "military_cargo_truck", 100 ],
       [ "humvee", 100 ],
       [ "humvee_gl", 50 ],
-      [ "apc", 100 ],
-      [ "apc-gl", 50 ],
-      [ "aapc-mg", 50 ],
-      [ "aapc-gl", 25 ],
       [ "rv", 200 ],
       [ "limousine", 100 ],
       [ "schoolbus", 200 ],
@@ -282,7 +277,6 @@
       [ "policesuv_k9", 1 ],
       [ "car_sports_electric", 100 ],
       [ "quad_bike", 100 ],
-      [ "truck_trailer", 500 ],
       [ "semi_truck", 500 ],
       [ "cube_van", 1000 ],
       [ "fridge_van", 800 ],
@@ -725,6 +719,27 @@
       [ "motorcycle_sidecart", 50 ],
       [ "car_sports", 30 ],
       [ "underlift_tow_truck", 10 ]
+    ]
+  },
+  {
+    "type": "vehicle_group",
+    "id": "parking_garage_short",
+    "//": "Like parking_garage, but excluding vehicles which extend more than 3 tiles backwards from the anchor point, for smaller parking spaces",
+    "vehicles": [
+      [ "car_sports_electric", 100 ],
+      [ "car_mini", 375 ],
+      [ "car_hybrid", 200 ],
+      [ "beetle", 750 ],
+      [ "car", 1500 ],
+      [ "car_hatch", 750 ],
+      [ "car_luxury", 500 ],
+      [ "car_anmlcmpt", 150 ],
+      [ "electric_car", 750 ],
+      [ "motorcycle", 500 ],
+      [ "motorcycle_enduro", 50 ],
+      [ "superbike", 50 ],
+      [ "motorcycle_sidecart", 50 ],
+      [ "car_sports", 30 ]
     ]
   },
   {

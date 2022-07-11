@@ -1,6 +1,6 @@
 {
   "tile_info": [
-    { "pixelscale": 1, "width": 32, "height": 32 }
+    { "pixelscale": 1, "width": 32, "height": 32, "iso": false }
   ],
   "tiles-new": [
     {

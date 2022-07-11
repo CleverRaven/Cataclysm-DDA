@@ -364,6 +364,13 @@
     "upgrades": { "age_grow": 30, "into": "mon_edmontonia_juvenile" }
   },
   {
+    "id": "mon_dryosaurus_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_scutellosaurus_hatchling",
+    "name": "light green and yellow hatchling",
+    "upgrades": { "age_grow": 30, "into": "mon_dryosaurus" }
+  },
+  {
     "id": "mon_camptosaurus_hatchling",
     "type": "MONSTER",
     "copy-from": "mon_dyoplosaurus_hatchling",
