@@ -3104,7 +3104,6 @@ int Character::read_speed() const
     if( ret < 1_seconds ) {
         ret = 1_seconds;
     }
-    // return_stat_effect actually matters here
     return ret * 100 / 1_minutes;
 }
 
