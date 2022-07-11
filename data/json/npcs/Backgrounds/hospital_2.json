@@ -117,7 +117,7 @@
             }
           ]
         },
-        "trial": { "type": "PERSUADE", "difficulty": 30, "mod": [ [ "TRUST", 5 ], [ "VALUE", 2 ], [ "ANGER", -6 ] ] },
+        "trial": { "type": "PERSUADE", "difficulty": 40, "mod": [ [ "TRUST", 5 ], [ "VALUE", 2 ], [ "ANGER", -6 ] ] },
         "success": {
           "topic": "BGSS_HOSPITAL_2_CABINSUCCESS",
           "effect": [

@@ -34,13 +34,38 @@
   {
     "id": "BGSS_PREPPER_1_LMOE",
     "type": "talk_topic",
-    "dynamic_line": "I still haven't made it there.  Every time I've tried I've been headed off by the <zombies>.  Who knows, maybe someday.",
+    "dynamic_line": {
+      "u_has_var": "prepper_1_started_quest",
+      "type": "mission",
+      "context": "BGSS",
+      "value": "yes",
+      "no": "I still haven't made it there.  Every time I've tried I've been headed off by the <zombies>.  Who knows, maybe someday.",
+      "yes": "The shelter's in your hands, at this point."
+    },
     "responses": [
       { "text": "Could you tell me that story again?", "topic": "BGSS_PREPPER_1_STORY1" },
       {
         "text": "We could go check out that shelter together if you like.  Might be better having another person to keep you safe?",
-        "condition": { "not": { "u_has_var": "prepper_1_quest", "type": "mission", "context": "BGSS", "value": "yes" } },
-        "trial": { "type": "PERSUADE", "difficulty": 50, "mod": [ [ "TRUST", 4 ], [ "VALUE", 2 ], [ "ANGER", -6 ] ] },
+        "condition": {
+          "and": [
+            { "not": { "u_has_var": "prepper_1_started_quest", "type": "mission", "context": "BGSS", "value": "yes" } },
+            {
+              "not": {
+                "and": [
+                  { "u_has_var": "prepper_1_asked_about_quest", "type": "general", "context": "BGSS", "value": "yes" },
+                  {
+                    "u_compare_time_since_var": "prepper_1_asked_about_quest",
+                    "type": "timer",
+                    "context": "timers",
+                    "op": "<",
+                    "time": "8 h"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "trial": { "type": "PERSUADE", "difficulty": 60, "mod": [ [ "TRUST", 4 ], [ "VALUE", 2 ], [ "ANGER", -6 ] ] },
         "success": {
           "topic": "BGSS_PREPPER_1_SHELTERSUCCESS",
           "effect": [
@@ -52,7 +77,14 @@
             }
           ]
         },
-        "failure": { "topic": "BGSS_PREPPER_1_SHELTERFAILURE", "opinion": { "trust": -2 } }
+        "failure": { 
+          "topic": "BGSS_PREPPER_1_SHELTERFAILURE", 
+          "opinion": { "trust": -2 },
+          "effect": [
+            { "u_add_var": "prepper_1_asked_about_quest", "type": "timer", "context": "timers", "time": true },
+            { "u_add_var": "prepper_1_asked_about_quest", "type": "general", "context": "BGSS", "value": "yes" }
+          ]
+         }
       },
       { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
@@ -80,7 +112,7 @@
     "value": 0,
     "start": {
       "assign_mission_target": { "om_special": "LMOE Shelter", "om_terrain": "lmoe", "reveal_radius": 3, "search_range": 400 },
-      "effect": { "u_add_var": "prepper_1_quest", "type": "mission", "context": "BGSS", "value": "yes" }
+      "effect": { "u_add_var": "prepper_1_started_quest", "type": "mission", "context": "BGSS", "value": "yes" }
     },
     "end": { "opinion": { "trust": 1, "value": 1 } },
     "origins": [ "ORIGIN_SECONDARY" ],
