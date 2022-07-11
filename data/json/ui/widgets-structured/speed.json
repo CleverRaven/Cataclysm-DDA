@@ -1,38 +1,38 @@
 [
   {
-    "id": "ssb_speed_layout",
+    "id": "structured_speed_layout",
     "type": "widget",
     "style": "layout",
     "label": "Speed",
     "arrange": "columns",
-    "widgets": [ "ssb_speed_num_layout", "ssb_move_count_mode_layout" ]
+    "widgets": [ "structured_speed_num_layout", "structured_move_count_mode_layout" ]
   },
   
   {
-    "id": "ssb_speed_num_layout",
+    "id": "structured_speed_num_layout",
     "type": "widget",
     "style": "layout",
     "arrange": "columns",
     "width": 5,
-    "widgets": [ "ssb_speed_num" ]
+    "widgets": [ "structured_speed_num" ]
   },
   {
-    "id": "ssb_move_count_mode_layout",
+    "id": "structured_move_count_mode_layout",
     "type": "widget",
     "style": "layout",
     "arrange": "columns",
     "width": 6,
-    "widgets": [ "ssb_move_count_mode" ]
+    "widgets": [ "structured_move_count_mode" ]
   },
   
   {
-    "id": "ssb_speed_num",
+    "id": "structured_speed_num",
     "type": "widget",
     "copy-from": "speed_num",
     "label": "S"
   },
   {
-    "id": "ssb_move_count_mode",
+    "id": "structured_move_count_mode",
     "type": "widget",
     "copy-from": "move_count_mode_desc",
     "flags": [ "W_LABEL_NONE" ]
