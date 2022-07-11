@@ -340,17 +340,7 @@ struct option_slider {
                     _opts.emplace_back( opt, type, val );
                 }
 
-                bool remove( const std::string &opt ) {
-                    auto iter = std::find_if( _opts.begin(), _opts.end(), [&opt]( const opt_slider_option & o ) {
-                        return o._opt == opt;
-                    } );
-                    if( iter == _opts.end() ) {
-                        return false;
-                    }
-                    _opts.erase( iter );
-                    return true;
-                }
-
+                bool remove( const std::string &opt );
                 void apply_opts( options_manager::options_container &OPTIONS ) const;
                 void deserialize( const JsonObject &jo );
         };

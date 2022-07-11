@@ -778,6 +778,14 @@
     "style": "number"
   },
   {
+    "id": "test_sundial_text",
+    "type": "widget",
+    "separator": ": ",
+    "label": "SUN",
+    "style": "text",
+    "var": "sundial_text"
+  },
+  {
     "id": "test_rad_badge_text",
     "type": "widget",
     "separator": ": ",

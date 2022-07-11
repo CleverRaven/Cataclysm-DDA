@@ -589,15 +589,13 @@ int Character::vitamin_get( const vitamin_id &vit ) const
     return v != vitamin_levels.end() ? v->second : 0;
 }
 
-bool Character::vitamin_set( const vitamin_id &vit, int qty )
+void Character::vitamin_set( const vitamin_id &vit, int qty )
 {
     auto v = vitamin_levels.find( vit );
     if( v == vitamin_levels.end() ) {
-        return false;
+        v = vitamin_levels.emplace( vit, 0 ).first;
     }
     vitamin_mod( vit, qty - v->second );
-
-    return true;
 }
 
 float Character::metabolic_rate_base() const
@@ -719,7 +717,7 @@ ret_val<edible_rating> Character::can_eat( const item &food ) const
     if( consume_drug != nullptr ) { //its a drug)
         const consume_drug_iuse *consume_drug_use = dynamic_cast<const consume_drug_iuse *>
                 ( consume_drug->get_actor_ptr() );
-        for( auto &tool : consume_drug_use->tools_needed ) {
+        for( const auto &tool : consume_drug_use->tools_needed ) {
             const bool has = item::count_by_charges( tool.first )
                              ? has_charges( tool.first, ( tool.second == -1 ) ? 1 : tool.second )
                              : has_amount( tool.first, 1 );

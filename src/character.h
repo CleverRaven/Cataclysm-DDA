@@ -93,11 +93,13 @@ struct islot_comestible;
 struct item_comp;
 struct itype;
 struct mutation_branch;
+struct mutation_variant;
 struct needs_rates;
 struct pathfinding_settings;
 struct points_left;
 struct requirement_data;
 struct tool_comp;
+struct trait_and_var;
 struct trap;
 struct w_point;
 template <typename E> struct enum_traits;
@@ -541,6 +543,8 @@ class Character : public Creature, public visitable
 
     public:
 
+        void gravity_check();
+
         void mod_stat( const std::string &stat, float modifier ) override;
 
         int get_standard_stamina_cost( const item *thrown_item = nullptr ) const;
@@ -688,7 +692,7 @@ class Character : public Creature, public visitable
         ret_val<bool> can_takeoff( const item &it, const std::list<item> *res = nullptr );
 
         /** @return Odds for success (pair.first) and gunmod damage (pair.second) */
-        std::pair<int, int> gunmod_installation_odds( const item &gun, const item &mod ) const;
+        std::pair<int, int> gunmod_installation_odds( const item_location &gun, const item &mod ) const;
         /// called once per 24 hours to enforce the minimum of 1 hp healed per day
         /// @todo Move to Character once heal() is moved
         void enforce_minimum_healing();
@@ -896,11 +900,11 @@ class Character : public Creature, public visitable
         /** Checks for valid block abilities and reduces damage accordingly. Returns true if the player blocks */
         bool block_hit( Creature *source, bodypart_id &bp_hit, damage_instance &dam ) override;
         /** Returns the best item for blocking with */
-        item &best_shield();
+        item_location best_shield();
         /** Calculates melee weapon wear-and-tear through use, returns true if item is destroyed. */
-        bool handle_melee_wear( item &shield, float wear_multiplier = 1.0f );
+        bool handle_melee_wear( item_location shield, float wear_multiplier = 1.0f );
         /** Returns a random valid technique */
-        matec_id pick_technique( Creature &t, const item &weap,
+        matec_id pick_technique( Creature &t, const item_location &weap,
                                  bool crit, bool dodge_counter, bool block_counter );
         void perform_technique( const ma_technique &technique, Creature &t, damage_instance &di,
                                 int &move_cost, item &cur_weapon );
@@ -1127,6 +1131,8 @@ class Character : public Creature, public visitable
         std::string get_category_dream( const mutation_category_id &cat, int strength ) const;
         /** Returns true if the player has the entered trait */
         bool has_trait( const trait_id &b ) const override;
+        /** Returns true if the player has the entered trait with the desired variant */
+        bool has_trait_variant( const trait_and_var & ) const;
         /** Returns true if the player has the entered starting trait */
         bool has_base_trait( const trait_id &b ) const;
         /** Returns true if player has a trait with a flag */
@@ -1143,14 +1149,16 @@ class Character : public Creature, public visitable
         trait_id trait_by_invlet( int ch ) const;
 
         /** Toggles a trait on the player and in their mutation list */
-        void toggle_trait( const trait_id & );
+        void toggle_trait( const trait_id &, const std::string & = "" );
         /** Add or removes a mutation on the player, but does not trigger mutation loss/gain effects. */
         void set_mutations( const std::vector<trait_id> &traits );
-        void set_mutation( const trait_id & );
+        void set_mutation( const trait_id &, const mutation_variant * = nullptr );
+        /** Switches the variant of the given mutation, if the player has that mutation */
+        void set_mut_variant( const trait_id &, const mutation_variant * );
     protected:
         // Set a mutation, but don't do any of the necessary updates
         // Only call this from one of the above two functions
-        void set_mutation_unsafe( const trait_id & );
+        void set_mutation_unsafe( const trait_id &, const mutation_variant * = nullptr );
     public:
         // Do the mutation updates necessary when adding a mutation (nonspecific cache updates)
         void do_mutation_updates();
@@ -1320,10 +1328,13 @@ class Character : public Creature, public visitable
         /** Picks a random valid mutation and gives it to the Character, possibly removing/changing others along the way */
         void mutate( const int &true_random_chance, bool use_vitamins );
         void mutate( );
-        /** Returns true if the player doesn't have the mutation or a conflicting one and it complies with the force typing */
-        bool mutation_ok( const trait_id &mutation, bool force_good, bool force_bad,
+        /** Returns true if the player doesn't have the mutation or a conflicting one and it complies with the allowed typing */
+        bool mutation_ok( const trait_id &mutation, bool allow_good, bool allow_bad, bool allow_neutral,
                           const vitamin_id &mut_vit, const bool &terminal ) const;
-        bool mutation_ok( const trait_id &mutation, bool force_good, bool force_bad ) const;
+        bool mutation_ok( const trait_id &mutation, bool allow_good, bool allow_bad,
+                          bool allow_neutral ) const;
+        /** Roll, based on instability, whether next mutation should be good or bad */
+        bool roll_bad_mutation() const;
         /** Picks a random valid mutation in a category and mutate_towards() it */
         void mutate_category( const mutation_category_id &mut_cat, bool use_vitamins );
         void mutate_category( const mutation_category_id &mut_cat );
@@ -1331,8 +1342,9 @@ class Character : public Creature, public visitable
         bool mutate_towards( std::vector<trait_id> muts, const mutation_category_id &mut_cat,
                              int num_tries = INT_MAX );
         /** Mutates toward the entered mutation, upgrading or removing conflicts if necessary */
-        bool mutate_towards( const trait_id &mut, const mutation_category_id &mut_cat );
-        bool mutate_towards( const trait_id &mut );
+        bool mutate_towards( const trait_id &mut, const mutation_category_id &mut_cat,
+                             const mutation_variant *chosen_var = nullptr );
+        bool mutate_towards( const trait_id &mut, const mutation_variant *chosen_var = nullptr );
         /** Removes a mutation, downgrading to the previous level if possible */
         void remove_mutation( const trait_id &mut, bool silent = false );
         /** Returns true if the player has the entered mutation child flag */
@@ -1756,8 +1768,8 @@ class Character : public Creature, public visitable
          * At the moment it's always @ref weapon or a reference to a null item.
          */
         /*@{*/
-        const item &used_weapon() const;
-        item &used_weapon();
+        item_location used_weapon() const;
+        item_location used_weapon();
         /*@}*/
 
         /**
@@ -1855,7 +1867,7 @@ class Character : public Creature, public visitable
         /**
          * Counts ammo and UPS charges (lower of) for a given gun on the character.
          */
-        int ammo_count_for( const item &gun );
+        int ammo_count_for( const item_location &gun );
 
         /**
          * Whether a tool or gun is potentially reloadable (optionally considering a specific ammo)
@@ -2286,6 +2298,8 @@ class Character : public Creature, public visitable
 
         std::string extended_description() const override;
 
+        std::string mutation_name( const trait_id &mut ) const;
+        std::string mutation_desc( const trait_id &mut ) const;
         // In newcharacter.cpp
         void empty_skills();
         /** Returns a random name from NAMES_* */
@@ -2295,13 +2309,16 @@ class Character : public Creature, public visitable
         /** Get the idents of all traits/mutations. */
         std::vector<trait_id> get_mutations( bool include_hidden = true,
                                              bool ignore_enchantment = false ) const;
+        /** Same as above, but also grab the variant ids (or empty string if none) */
+        std::vector<trait_and_var> get_mutations_variants( bool include_hidden = true,
+                bool ignore_enchantment = false ) const;
         const std::bitset<NUM_VISION_MODES> &get_vision_modes() const {
             return vision_mode_cache;
         }
         /** Empties the trait and mutations lists */
         void clear_mutations();
         /** Steps through the dependency chain for the given trait */
-        void toggle_trait_deps( const trait_id &tr );
+        void toggle_trait_deps( const trait_id &tr, const std::string &variant = "" );
         /**
          * Adds mandatory scenario and profession traits unless you already have them
          * And if you do already have them, refunds the points for the trait
@@ -2351,8 +2368,9 @@ class Character : public Creature, public visitable
     private:
         item weapon;
     public:
-        const item &get_wielded_item() const;
-        item &get_wielded_item();
+        item_location get_wielded_item() const;
+        item_location get_wielded_item();
+        // This invalidates the item_location returned by get_wielded_item
         void set_wielded_item( const item &to_wield );
 
         int scent = 0;
@@ -2821,15 +2839,14 @@ class Character : public Creature, public visitable
          */
         int vitamin_get( const vitamin_id &vit ) const;
         /**
-         * Sets level of a vitamin or returns false if id given in vit does not exist
+         * Sets level of a vitamin
          *
          * @note status effects are still set for deficiency/excess
          *
          * @param[in] vit ID of vitamin to adjust quantity for
          * @param[in] qty Quantity to set level to
-         * @returns false if given vitamin_id does not exist, otherwise true
          */
-        bool vitamin_set( const vitamin_id &vit, int qty );
+        void vitamin_set( const vitamin_id &vit, int qty );
         /**
           * Add or subtract vitamins from character storage pools
          * @param vit ID of vitamin to modify
@@ -3294,8 +3311,14 @@ class Character : public Creature, public visitable
 
             bool show_sprite = true;
 
+            /** A trait variant if it has one, or nullptr */
+            const mutation_variant *variant = nullptr;
+
             void serialize( JsonOut &json ) const;
             void deserialize( const JsonObject &data );
+
+            trait_data() = default;
+            explicit trait_data( const mutation_variant *chosen ) : variant( chosen ) {}
         };
 
         /** Bonuses to stats, calculated each turn */

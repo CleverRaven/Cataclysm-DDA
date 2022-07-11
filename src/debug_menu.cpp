@@ -505,7 +505,7 @@ static void spell_description(
 
     // Class: Spell Class
     description << string_format( _( "Class: %1$s" ), colorize( spl.spell_class() == trait_NONE ?
-                                  _( "Classless" ) : spl.spell_class()->name(),
+                                  _( "Classless" ) : chrc.mutation_name( spl.spell_class() ),
                                   yellow ) ) << "\n";
 
     // Spell description
@@ -1750,7 +1750,7 @@ static void character_edit_menu()
             } else if( !to_wear.is_null() ) {
                 you.set_wielded_item( to_wear );
                 get_event_bus().send<event_type::character_wields_item>( you.getID(),
-                        you.get_wielded_item().typeId() );
+                        you.get_wielded_item()->typeId() );
             }
         }
         break;

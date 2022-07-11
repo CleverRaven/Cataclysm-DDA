@@ -243,7 +243,7 @@ cata::optional<int> iuse_transform::use( Character &p, item &it, bool t, const t
                 const mutation_branch &branch = mut.obj();
                 if( branch.conflicts_with_item( tmp ) ) {
                     p.add_msg_if_player( m_info, _( "Your %1$s mutation prevents you from doing that." ),
-                                         branch.name() );
+                                         p.mutation_name( mut ) );
                     return cata::nullopt;
                 }
             }
@@ -1527,7 +1527,7 @@ bool salvage_actor::valid_to_cut_up( const Character *const p, const item &it ) 
     }
     if( p ) {
         // Softer warnings at the end so we don't ask permission and then tell them no.
-        if( &it == &p->get_wielded_item() ) {
+        if( &it == p->get_wielded_item() ) {
             if( !query_yn( _( "You are wielding that, are you sure?" ) ) ) {
                 return false;
             }

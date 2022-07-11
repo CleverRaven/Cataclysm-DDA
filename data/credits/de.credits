@@ -1,0 +1,27 @@
+# Die maximale Länge einer Zeile beträgt 78 Zeichen; Die folgende Zeile dient als Referenz
+# Längere Zeilen werden automatisch umgebrochen
+##############################################################################
+<color_white>Ursprünglicher Autor:</color>    <color_white>Projektmanager:</color>
+<color_yellow>Whales</color> (<color_dark_gray>im Ruhestand</color>)    <color_yellow>KevinGranade</color>
+
+<color_white>Aktuelle Hauptentwickler:</color>
+<color_yellow>mlangsdorf</color> - Fahrzeuge, Boote, Basislager und Modding Guides.
+<color_yellow>I-am-Erk</color> - Das UltiCa-Erbe lebt weiter.
+<color_yellow>KorGgenT</color> - Dafür, dass er mir nicht gesagt hat, wo ich meine Kanthölzer hinlegen soll.
+
+<color_white>Besonderer Dank an:</color>
+<color_yellow>Aivean</color> - Für herausragende Leistungen.
+<color_yellow>anothersimulacrum</color> - dafür, dass er mich müde gemacht hat.
+<color_yellow>jbytheway</color> - Für die Reduzierung von Python-Schwächen, Problemabgleichen und Konsolidierung von Designanforderungen.
+<color_yellow>BrettDong</color> - Für Übersetzungen und mehr.
+<color_yellow>Qrox</color> - Für das Aufzeigen der Position von Fehlermeldungen.
+<color_yellow>LyleSY</color> - Für Dinosaurrrier.
+
+<color_white>Besonderer Dank für die künstlerischen Beiträge:</color>
+<color_yellow>acepleiades</color>, <color_yellow>barsoosayque</color>, <color_yellow>Fris0uman</color>, <color_yellow>int-ua</color> und viele weitere.
+
+<color_white>Eine vollständige Liste der Mitwirkenden finden Du unter:</color>
+<color_cyan>https://github.com/CleverRaven/Cataclysm-DDA/contributors</color>
+
+<color_light_cyan>Cataclysm</color>: <color_light_blue>Dark Days Ahead</color> wird unter <color_white>CC-BY-SA 3.0</color> veröffentlicht:
+<color_cyan>https://creativecommons.org/licenses/by-sa/3.0/</color>

@@ -136,8 +136,8 @@ int incident_sunlight( const weather_type_id &wtype, const time_point &t )
     return std::max<float>( 0.0f, sun_light_at( t ) + wtype->light_modifier );
 }
 
-static inline void proc_weather_sum( const weather_type_id &wtype, weather_sum &data,
-                                     const time_point &t, const time_duration &tick_size )
+static void proc_weather_sum( const weather_type_id &wtype, weather_sum &data,
+                              const time_point &t, const time_duration &tick_size )
 {
     int amount = 0;
     if( wtype->rains ) {
@@ -408,9 +408,9 @@ static void fill_water_collectors( int mmPerHour, bool acid )
  */
 void wet_character( Character &target, int amount )
 {
-    if( amount <= 0 ||
-        target.has_trait( trait_FEATHERS ) ||
-        target.get_wielded_item().has_flag( json_flag_RAIN_PROTECT ) ||
+    item_location weapon = target.get_wielded_item();
+    if( amount <= 0 || target.has_trait( trait_FEATHERS ) ||
+        ( weapon && weapon->has_flag( json_flag_RAIN_PROTECT ) ) ||
         ( !one_in( 50 ) && target.worn_with_flag( json_flag_RAINPROOF ) ) ) {
         return;
     }

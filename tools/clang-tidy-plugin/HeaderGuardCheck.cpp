@@ -1,5 +1,6 @@
 #include "HeaderGuardCheck.h"
 
+#include <unordered_map>
 #include <unordered_set>
 
 #include <clang/Frontend/CompilerInstance.h>

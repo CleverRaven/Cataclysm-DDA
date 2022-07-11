@@ -1,6 +1,6 @@
 {
   "tile_info": [
-    { "pixelscale": 2, "width": 10, "height": 10 }
+    { "pixelscale": 2, "width": 10, "height": 10, "iso": false }
   ],
   "tiles-new": [
     {
@@ -8736,41 +8736,54 @@
     },
     {
       "file": "large.png",
-      "//": "range 3984 to 4623",
+      "//": "range 3984 to 4639",
       "sprite_width": 20,
       "sprite_height": 20,
       "sprite_offset_x": -5,
       "sprite_offset_y": -10,
       "tiles": [
         { "id": "t_tree_worm", "fg": [ { "weight": 1, "sprite": 3990 }, { "weight": 1, "sprite": 3991 } ] },
-        { "id": "mon_afs_headless_horror", "fg": 4013, "rotates": false },
-        { "id": "mon_claygolem", "fg": 4014, "rotates": false },
-        { "id": "mon_devourer", "fg": 4015, "rotates": false },
-        { "id": "mon_dragon_dummy", "fg": 4003, "rotates": false },
-        { "id": "mon_flesh_golem", "fg": 4016, "rotates": false },
-        { "id": "mon_fungaloid_queen", "fg": 4006 },
-        { "id": "mon_fungaloid_seeder", "fg": 4007 },
-        { "id": "mon_fungaloid_tower", "fg": 4008 },
-        { "id": "mon_irongolem", "fg": 4017, "rotates": false },
-        { "id": "mon_plasticgolem", "fg": 4018, "rotates": false },
-        { "id": "mon_skeleton_hulk", "fg": 4009, "rotates": false },
-        { "id": "mon_stonegolem", "fg": 4019, "rotates": false },
-        { "id": "mon_triceratops", "fg": 4005, "rotates": false },
-        { "id": "mon_tyrannosaurus", "fg": 4004, "rotates": false },
-        { "id": "mon_zombie_crushed_giant", "fg": 4012 },
-        { "id": "mon_zombie_hulk", "fg": 4011, "rotates": false },
-        { "id": "mon_zombie_hulk_pk", "fg": 4011, "rotates": false },
-        { "id": "mon_zombie_kevlar_2", "fg": 4010, "rotates": false },
-        { "id": "overlay_male_mutation_THRESH_CATTLE", "fg": 4022 },
-        { "id": "overlay_mutation_THRESH_CATTLE", "fg": 4021 },
-        { "id": "overlay_mutation_THRESH_LIZARD", "fg": 4023 },
-        { "id": "overlay_mutation_THRESH_URSINE", "fg": 4020 },
-        { "id": "mon_treent_green", "fg": 4072, "rotates": false },
-        { "id": "t_marloss_tree", "fg": 4073, "rotates": false },
-        { "id": [ "t_tree_apple", "t_tree_pear" ], "fg": 4074, "rotates": false },
-        { "id": "t_tree_birch_harvested_season_autumn", "fg": 4075, "rotates": false },
-        { "id": [ "t_tree_birch_harvested_season_spring", "t_tree_birch_harvested" ], "fg": 4076, "rotates": false },
-        { "id": "t_tree_birch_harvested_season_summer", "fg": 4077, "rotates": false },
+        { "id": "overlay_crouch", "bg": 3997 },
+        { "id": "overlay_effect_bleed", "bg": 3998 },
+        { "id": "overlay_prone", "bg": 4000 },
+        { "id": "overlay_run", "bg": 4001 },
+        {
+          "id": [
+            "overlay_hostile_sees_player",
+            "overlay_friendly_sees_player",
+            "overlay_neutral_sees_player",
+            "overlay_other_sees_player"
+          ],
+          "fg": 4002
+        },
+        { "id": "mon_afs_headless_horror", "fg": 4019, "rotates": false },
+        { "id": "mon_claygolem", "fg": 4020, "rotates": false },
+        { "id": "mon_devourer", "fg": 4021, "rotates": false },
+        { "id": "mon_dragon_dummy", "fg": 4009, "rotates": false },
+        { "id": "mon_flesh_golem", "fg": 4022, "rotates": false },
+        { "id": "mon_fungaloid_queen", "fg": 4012 },
+        { "id": "mon_fungaloid_seeder", "fg": 4013 },
+        { "id": "mon_fungaloid_tower", "fg": 4014 },
+        { "id": "mon_irongolem", "fg": 4023, "rotates": false },
+        { "id": "mon_plasticgolem", "fg": 4024, "rotates": false },
+        { "id": "mon_skeleton_hulk", "fg": 4015, "rotates": false },
+        { "id": "mon_stonegolem", "fg": 4025, "rotates": false },
+        { "id": "mon_triceratops", "fg": 4011, "rotates": false },
+        { "id": "mon_tyrannosaurus", "fg": 4010, "rotates": false },
+        { "id": "mon_zombie_crushed_giant", "fg": 4018 },
+        { "id": "mon_zombie_hulk", "fg": 4017, "rotates": false },
+        { "id": "mon_zombie_hulk_pk", "fg": 4017, "rotates": false },
+        { "id": "mon_zombie_kevlar_2", "fg": 4016, "rotates": false },
+        { "id": "overlay_male_mutation_THRESH_CATTLE", "fg": 4028 },
+        { "id": "overlay_mutation_THRESH_CATTLE", "fg": 4027 },
+        { "id": "overlay_mutation_THRESH_LIZARD", "fg": 4029 },
+        { "id": "overlay_mutation_THRESH_URSINE", "fg": 4026 },
+        { "id": "mon_treent_green", "fg": 4078, "rotates": false },
+        { "id": "t_marloss_tree", "fg": 4079, "rotates": false },
+        { "id": [ "t_tree_apple", "t_tree_pear" ], "fg": 4080, "rotates": false },
+        { "id": "t_tree_birch_harvested_season_autumn", "fg": 4081, "rotates": false },
+        { "id": [ "t_tree_birch_harvested_season_spring", "t_tree_birch_harvested" ], "fg": 4082, "rotates": false },
+        { "id": "t_tree_birch_harvested_season_summer", "fg": 4083, "rotates": false },
         {
           "id": [
             "t_tree_birch_harvested_season_winter",
@@ -8784,13 +8797,13 @@
             "t_tree_willow_season_winter",
             "t_tree_blackjack_season_winter"
           ],
-          "fg": 4078,
+          "fg": 4084,
           "rotates": false
         },
-        { "id": "t_tree_birch_season_autumn", "fg": 4079, "rotates": false },
-        { "id": [ "t_tree_birch_season_spring", "t_tree_birch" ], "fg": 4080, "rotates": false },
-        { "id": "t_tree_birch_season_summer", "fg": 4081, "rotates": false },
-        { "id": "t_tree_birch_season_winter", "fg": 4082, "rotates": false },
+        { "id": "t_tree_birch_season_autumn", "fg": 4085, "rotates": false },
+        { "id": [ "t_tree_birch_season_spring", "t_tree_birch" ], "fg": 4086, "rotates": false },
+        { "id": "t_tree_birch_season_summer", "fg": 4087, "rotates": false },
+        { "id": "t_tree_birch_season_winter", "fg": 4088, "rotates": false },
         {
           "id": [
             "t_tree_blackjack_harvested_season_winter",
@@ -8798,7 +8811,7 @@
             "mon_treent_green_season_winter",
             "t_tree_hickory_dead_season_winter"
           ],
-          "fg": 4083,
+          "fg": 4089,
           "rotates": false
         },
         {
@@ -8811,7 +8824,7 @@
             "t_tree_pecan_season_autumn",
             "t_tree_pecan_harvested_season_autumn"
           ],
-          "fg": 4084,
+          "fg": 4090,
           "rotates": false
         },
         {
@@ -8832,7 +8845,7 @@
             "t_tree_pecan_harvested_season_spring",
             "t_tree_pecan_harvested"
           ],
-          "fg": 4085,
+          "fg": 4091,
           "rotates": false
         },
         {
@@ -8846,18 +8859,18 @@
             "t_tree_peach_season_spring",
             "t_tree_apricot_season_spring"
           ],
-          "fg": 4087,
+          "fg": 4093,
           "rotates": false
         },
-        { "id": [ "t_tree_cherry", "t_tree_plum" ], "fg": 4086, "rotates": false },
-        { "id": "t_tree_dead", "fg": 4088, "rotates": false },
-        { "id": [ "t_tree_dead_season_winter", "t_tree_harvested_season_winter" ], "fg": 4089, "rotates": false },
-        { "id": "t_tree_deadpine", "fg": 4090, "rotates": false },
-        { "id": "t_tree_deadpine_season_winter", "fg": 4091, "rotates": false },
-        { "id": "t_tree_fungal", "fg": 4092, "rotates": false },
+        { "id": [ "t_tree_cherry", "t_tree_plum" ], "fg": 4092, "rotates": false },
+        { "id": "t_tree_dead", "fg": 4094, "rotates": false },
+        { "id": [ "t_tree_dead_season_winter", "t_tree_harvested_season_winter" ], "fg": 4095, "rotates": false },
+        { "id": "t_tree_deadpine", "fg": 4096, "rotates": false },
+        { "id": "t_tree_deadpine_season_winter", "fg": 4097, "rotates": false },
+        { "id": "t_tree_fungal", "fg": 4098, "rotates": false },
         {
           "id": [ "t_tree_harvested", "t_tree_season_summer", "t_tree_harvested_season_summer", "t_tree_harvested_season_spring" ],
-          "fg": 4093,
+          "fg": 4099,
           "rotates": false
         },
         {
@@ -8868,7 +8881,7 @@
             "t_tree_blackjack_harvested_season_autumn",
             "mon_treent"
           ],
-          "fg": 4094,
+          "fg": 4100,
           "rotates": false
         },
         {
@@ -8882,18 +8895,18 @@
             "t_tree_maple_season_summer",
             "t_tree_blackjack"
           ],
-          "fg": 4095,
+          "fg": 4101,
           "rotates": false
         },
-        { "id": "t_tree_maple_season_autumn", "fg": 4096, "rotates": false },
-        { "id": "t_tree_maple_tapped_season_autumn", "fg": 4098, "rotates": false },
-        { "id": "t_tree_maple_tapped_season_summer", "fg": 4099, "rotates": false },
-        { "id": "t_tree_maple_tapped_season_winter", "fg": 4100, "rotates": false },
-        { "id": [ "t_tree_maple_tapped", "t_tree_maple_tapped_season_spring" ], "fg": 4097, "rotates": false },
-        { "id": [ "t_tree_peach_harvested", "t_tree_apricot_harvested" ], "fg": 4102, "rotates": false },
-        { "id": [ "t_tree_peach", "t_tree_apricot" ], "fg": 4101, "rotates": false },
-        { "id": "t_tree_pine", "fg": 4103, "rotates": false },
-        { "id": "t_tree_pine_season_winter", "fg": 4104, "rotates": false },
+        { "id": "t_tree_maple_season_autumn", "fg": 4102, "rotates": false },
+        { "id": "t_tree_maple_tapped_season_autumn", "fg": 4104, "rotates": false },
+        { "id": "t_tree_maple_tapped_season_summer", "fg": 4105, "rotates": false },
+        { "id": "t_tree_maple_tapped_season_winter", "fg": 4106, "rotates": false },
+        { "id": [ "t_tree_maple_tapped", "t_tree_maple_tapped_season_spring" ], "fg": 4103, "rotates": false },
+        { "id": [ "t_tree_peach_harvested", "t_tree_apricot_harvested" ], "fg": 4108, "rotates": false },
+        { "id": [ "t_tree_peach", "t_tree_apricot" ], "fg": 4107, "rotates": false },
+        { "id": "t_tree_pine", "fg": 4109, "rotates": false },
+        { "id": "t_tree_pine_season_winter", "fg": 4110, "rotates": false },
         {
           "id": [
             "t_tree_season_autumn",
@@ -8903,7 +8916,7 @@
             "t_tree_peach_season_autumn",
             "t_tree_apricot_season_autumn"
           ],
-          "fg": 4105,
+          "fg": 4111,
           "rotates": false
         },
         {
@@ -8915,19 +8928,19 @@
             "t_tree_apple_harvested",
             "t_tree_pear_harvested"
           ],
-          "fg": 4106,
+          "fg": 4112,
           "rotates": false
         },
-        { "id": "t_tree_willow_harvested_season_autumn", "fg": 4107, "rotates": false },
-        { "id": [ "t_tree_willow_harvested_season_spring", "t_tree_willow_harvested" ], "fg": 4108, "rotates": false },
-        { "id": "t_tree_willow_harvested_season_summer", "fg": 4109, "rotates": false },
-        { "id": "t_tree_willow_harvested_season_winter", "fg": 4110, "rotates": false },
-        { "id": "t_tree_willow_season_autumn", "fg": 4111, "rotates": false },
-        { "id": [ "t_tree_willow_season_spring", "t_tree_willow" ], "fg": 4112, "rotates": false },
-        { "id": "t_tree_willow_season_summer", "fg": 4113, "rotates": false },
-        { "id": "overlay_female_wielded_RPG", "fg": 4265, "rotates": false },
-        { "id": "overlay_female_wielded_SPAS_12", "fg": 4261, "rotates": false },
-        { "id": "overlay_female_wielded_TDI", "fg": 4237, "rotates": false },
+        { "id": "t_tree_willow_harvested_season_autumn", "fg": 4113, "rotates": false },
+        { "id": [ "t_tree_willow_harvested_season_spring", "t_tree_willow_harvested" ], "fg": 4114, "rotates": false },
+        { "id": "t_tree_willow_harvested_season_summer", "fg": 4115, "rotates": false },
+        { "id": "t_tree_willow_harvested_season_winter", "fg": 4116, "rotates": false },
+        { "id": "t_tree_willow_season_autumn", "fg": 4117, "rotates": false },
+        { "id": [ "t_tree_willow_season_spring", "t_tree_willow" ], "fg": 4118, "rotates": false },
+        { "id": "t_tree_willow_season_summer", "fg": 4119, "rotates": false },
+        { "id": "overlay_female_wielded_RPG", "fg": 4271, "rotates": false },
+        { "id": "overlay_female_wielded_SPAS_12", "fg": 4267, "rotates": false },
+        { "id": "overlay_female_wielded_TDI", "fg": 4243, "rotates": false },
         {
           "id": [
             "overlay_female_wielded_ak74",
@@ -8936,10 +8949,10 @@
             "overlay_female_wielded_saiga_12",
             "overlay_female_wielded_saiga_410"
           ],
-          "fg": 4246,
+          "fg": 4252,
           "rotates": false
         },
-        { "id": [ "overlay_female_wielded_an94", "overlay_female_wielded_USAS_12" ], "fg": 4247, "rotates": false },
+        { "id": [ "overlay_female_wielded_an94", "overlay_female_wielded_USAS_12" ], "fg": 4253, "rotates": false },
         {
           "id": [
             "overlay_female_wielded_arming_sword",
@@ -8948,7 +8961,7 @@
             "overlay_female_wielded_kirpan",
             "overlay_female_wielded_knife_baselard"
           ],
-          "fg": 4290,
+          "fg": 4296,
           "rotates": false
         },
         {
@@ -8960,15 +8973,15 @@
             "overlay_female_wielded_tonfa_wood",
             "overlay_female_wielded_tonfa"
           ],
-          "fg": 4295,
+          "fg": 4301,
           "rotates": false
         },
         {
           "id": [ "overlay_female_wielded_baton", "overlay_female_wielded_PR24-retracted" ],
-          "fg": 4296,
+          "fg": 4302,
           "rotates": false
         },
-        { "id": "overlay_female_wielded_bio_shotgun_gun", "fg": 4255, "rotates": false },
+        { "id": "overlay_female_wielded_bio_shotgun_gun", "fg": 4261, "rotates": false },
         {
           "id": [
             "overlay_female_wielded_blackjack",
@@ -8977,7 +8990,7 @@
             "overlay_female_wielded_shillelagh_weighted",
             "overlay_female_wielded_shillelagh_fake"
           ],
-          "fg": 4298,
+          "fg": 4304,
           "rotates": false
         },
         {
@@ -8987,10 +9000,10 @@
             "overlay_female_wielded_sword_crude",
             "overlay_female_wielded_sword_wood"
           ],
-          "fg": 4299,
+          "fg": 4305,
           "rotates": false
         },
-        { "id": "overlay_female_wielded_bolas", "fg": 4280, "rotates": false },
+        { "id": "overlay_female_wielded_bolas", "fg": 4286, "rotates": false },
         {
           "id": [
             "overlay_female_wielded_broadsword",
@@ -8998,7 +9011,7 @@
             "overlay_female_wielded_cavalry_sabre",
             "overlay_female_wielded_wakizashi"
           ],
-          "fg": 4302,
+          "fg": 4308,
           "rotates": false
         },
         {
@@ -9009,23 +9022,23 @@
             "overlay_female_wielded_surv_hand_cannon",
             "overlay_female_wielded_colt_saa"
           ],
-          "fg": 4231,
+          "fg": 4237,
           "rotates": false
         },
         {
           "id": [ "overlay_female_wielded_compbow", "overlay_female_wielded_recurbow", "overlay_female_wielded_compgreatbow" ],
-          "fg": 4268,
+          "fg": 4274,
           "rotates": false
         },
-        { "id": "overlay_female_wielded_compcrossbow", "fg": 4273, "rotates": false },
+        { "id": "overlay_female_wielded_compcrossbow", "fg": 4279, "rotates": false },
         {
           "id": [ "overlay_female_wielded_compositebow", "overlay_female_wielded_reflexbow", "overlay_female_wielded_reflexrecurvebow" ],
-          "fg": 4270,
+          "fg": 4276,
           "rotates": false
         },
         {
           "id": [ "overlay_female_wielded_crossbow", "overlay_female_wielded_bullet_crossbow" ],
-          "fg": 4271,
+          "fg": 4277,
           "rotates": false
         },
         {
@@ -9035,11 +9048,11 @@
             "overlay_female_wielded_dao",
             "overlay_female_wielded_khopesh"
           ],
-          "fg": 4308,
+          "fg": 4314,
           "rotates": false
         },
-        { "id": "overlay_female_wielded_disc_golf", "fg": 4281, "rotates": false },
-        { "id": "overlay_female_wielded_draco", "fg": 4250, "rotates": false },
+        { "id": "overlay_female_wielded_disc_golf", "fg": 4287, "rotates": false },
+        { "id": "overlay_female_wielded_draco", "fg": 4256, "rotates": false },
         {
           "id": [
             "overlay_female_wielded_famas",
@@ -9047,52 +9060,52 @@
             "overlay_female_wielded_rm88_battle_rifle",
             "overlay_female_wielded_cx4"
           ],
-          "fg": 4212,
+          "fg": 4218,
           "rotates": false
         },
         {
           "id": [ "overlay_female_wielded_flamethrower", "overlay_female_wielded_rm451_flamethrower" ],
-          "fg": 4256,
+          "fg": 4262,
           "rotates": false
         },
-        { "id": "overlay_female_wielded_flaregun", "fg": 4263, "rotates": false },
-        { "id": [ "overlay_female_wielded_fn_fal", "overlay_female_wielded_hk_g3" ], "fg": 4209, "rotates": false },
-        { "id": "overlay_female_wielded_fn_p90", "fg": 4248, "rotates": false },
-        { "id": "overlay_female_wielded_frisbee", "fg": 4282, "rotates": false },
+        { "id": "overlay_female_wielded_flaregun", "fg": 4269, "rotates": false },
+        { "id": [ "overlay_female_wielded_fn_fal", "overlay_female_wielded_hk_g3" ], "fg": 4215, "rotates": false },
+        { "id": "overlay_female_wielded_fn_p90", "fg": 4254, "rotates": false },
+        { "id": "overlay_female_wielded_frisbee", "fg": 4288, "rotates": false },
         {
           "id": [ "overlay_female_wielded_glass_shiv", "overlay_female_wielded_glass_shard" ],
-          "fg": 4311,
+          "fg": 4317,
           "rotates": false
         },
-        { "id": "overlay_female_wielded_glock_17", "fg": 4202, "rotates": false },
-        { "id": "overlay_female_wielded_hand_crossbow", "fg": 4272, "rotates": false },
+        { "id": "overlay_female_wielded_glock_17", "fg": 4208, "rotates": false },
+        { "id": "overlay_female_wielded_hand_crossbow", "fg": 4278, "rotates": false },
         {
           "id": [ "overlay_female_wielded_hatchet", "overlay_female_wielded_hand_axe" ],
-          "fg": 4316,
+          "fg": 4322,
           "rotates": false
         },
         {
           "id": [ "overlay_female_wielded_hk417_13", "overlay_female_wielded_rm51_assault_rifle" ],
-          "fg": 4317,
+          "fg": 4323,
           "rotates": false
         },
-        { "id": "overlay_female_wielded_hk_g36", "fg": 4213, "rotates": false },
-        { "id": "overlay_female_wielded_hk_g80", "fg": 4230, "rotates": false },
-        { "id": "overlay_female_wielded_hk_mp5", "fg": 4201, "rotates": false },
-        { "id": "overlay_female_wielded_hk_mp5sd", "fg": 4251, "rotates": false },
-        { "id": [ "overlay_female_wielded_hk_mp7", "overlay_female_wielded_ksub2000" ], "fg": 4242, "rotates": false },
+        { "id": "overlay_female_wielded_hk_g36", "fg": 4219, "rotates": false },
+        { "id": "overlay_female_wielded_hk_g80", "fg": 4236, "rotates": false },
+        { "id": "overlay_female_wielded_hk_mp5", "fg": 4207, "rotates": false },
+        { "id": "overlay_female_wielded_hk_mp5sd", "fg": 4257, "rotates": false },
+        { "id": [ "overlay_female_wielded_hk_mp7", "overlay_female_wielded_ksub2000" ], "fg": 4248, "rotates": false },
         {
           "id": [ "overlay_female_wielded_hk_ump45", "overlay_female_wielded_hk_mp5k" ],
-          "fg": 4238,
+          "fg": 4244,
           "rotates": false
         },
-        { "id": "overlay_female_wielded_hybridbow", "fg": 4269, "rotates": false },
+        { "id": "overlay_female_wielded_hybridbow", "fg": 4275, "rotates": false },
         {
           "id": [ "overlay_female_wielded_i_staff", "overlay_female_wielded_shock_staff" ],
-          "fg": 4320,
+          "fg": 4326,
           "rotates": false
         },
-        { "id": "overlay_female_wielded_iwi_tavor_x95_300blk", "fg": 4218, "rotates": false },
+        { "id": "overlay_female_wielded_iwi_tavor_x95_300blk", "fg": 4224, "rotates": false },
         {
           "id": [
             "overlay_female_wielded_j22",
@@ -9102,12 +9115,12 @@
             "overlay_female_wielded_rugerlcp",
             "overlay_female_wielded_taurus_spectrum"
           ],
-          "fg": 4227,
+          "fg": 4233,
           "rotates": false
         },
         {
           "id": [ "overlay_female_wielded_katana", "overlay_female_wielded_estoc", "overlay_female_wielded_nodachi" ],
-          "fg": 4322,
+          "fg": 4328,
           "rotates": false
         },
         {
@@ -9122,7 +9135,7 @@
             "overlay_female_wielded_primitive_knife",
             "overlay_female_wielded_spike"
           ],
-          "fg": 4323,
+          "fg": 4329,
           "rotates": false
         },
         {
@@ -9133,32 +9146,32 @@
             "overlay_female_wielded_knife_hunting",
             "overlay_female_wielded_knife_rm42"
           ],
-          "fg": 4324,
+          "fg": 4330,
           "rotates": false
         },
-        { "id": [ "overlay_female_wielded_ksg", "overlay_female_wielded_ksg-25" ], "fg": 4262, "rotates": false },
+        { "id": [ "overlay_female_wielded_ksg", "overlay_female_wielded_ksg-25" ], "fg": 4268, "rotates": false },
         {
           "id": [
             "overlay_female_wielded_laser_rifle",
             "overlay_female_wielded_recon_mech_laser",
             "overlay_female_wielded_laser_cannon"
           ],
-          "fg": 4206,
+          "fg": 4212,
           "rotates": false
         },
         {
           "id": [ "overlay_female_wielded_launcher_simple", "overlay_female_wielded_surv_rocket_launcher" ],
-          "fg": 4234,
+          "fg": 4240,
           "rotates": false
         },
-        { "id": "overlay_female_wielded_longbow", "fg": 4267, "rotates": false },
+        { "id": "overlay_female_wielded_longbow", "fg": 4273, "rotates": false },
         {
           "id": [ "overlay_female_wielded_m1014", "overlay_female_wielded_mossberg_590", "overlay_female_wielded_mossberg_930" ],
-          "fg": 4259,
+          "fg": 4265,
           "rotates": false
         },
-        { "id": "overlay_female_wielded_m110a1", "fg": 4225, "rotates": false },
-        { "id": [ "overlay_female_wielded_m134", "overlay_female_wielded_bigun" ], "fg": 4226, "rotates": false },
+        { "id": "overlay_female_wielded_m110a1", "fg": 4231, "rotates": false },
+        { "id": [ "overlay_female_wielded_m134", "overlay_female_wielded_bigun" ], "fg": 4232, "rotates": false },
         {
           "id": [
             "overlay_female_wielded_m14ebr",
@@ -9168,16 +9181,16 @@
             "overlay_female_wielded_tac50",
             "overlay_female_wielded_bfg50"
           ],
-          "fg": 4243,
+          "fg": 4249,
           "rotates": false
         },
         {
           "id": [ "overlay_female_wielded_m16a4", "overlay_female_wielded_colt_ro635" ],
-          "fg": 4211,
+          "fg": 4217,
           "rotates": false
         },
-        { "id": [ "overlay_female_wielded_m1911", "overlay_female_wielded_deagle_44" ], "fg": 4203, "rotates": false },
-        { "id": "overlay_female_wielded_m1918", "fg": 4207, "rotates": false },
+        { "id": [ "overlay_female_wielded_m1911", "overlay_female_wielded_deagle_44" ], "fg": 4209, "rotates": false },
+        { "id": "overlay_female_wielded_m1918", "fg": 4213, "rotates": false },
         {
           "id": [
             "overlay_female_wielded_m1a",
@@ -9188,7 +9201,7 @@
             "overlay_female_wielded_carbine_flintlock",
             "overlay_female_wielded_rifle_flintlock"
           ],
-          "fg": 4221,
+          "fg": 4227,
           "rotates": false
         },
         {
@@ -9198,7 +9211,7 @@
             "overlay_female_wielded_atgm_launcher",
             "overlay_female_wielded_LAW"
           ],
-          "fg": 4249,
+          "fg": 4255,
           "rotates": false
         },
         {
@@ -9209,20 +9222,20 @@
             "overlay_female_wielded_rm298",
             "overlay_female_wielded_rm614_lmg"
           ],
-          "fg": 4214,
+          "fg": 4220,
           "rotates": false
         },
         {
           "id": [ "overlay_female_wielded_m24", "overlay_female_wielded_rm11b_sniper_rifle" ],
-          "fg": 4224,
+          "fg": 4230,
           "rotates": false
         },
-        { "id": "overlay_female_wielded_m2browning", "fg": 4244, "rotates": false },
-        { "id": "overlay_female_wielded_m2browning_sawn", "fg": 4245, "rotates": false },
-        { "id": "overlay_female_wielded_m320", "fg": 4235, "rotates": false },
-        { "id": [ "overlay_female_wielded_m4a1", "overlay_female_wielded_h&k416a5" ], "fg": 4210, "rotates": false },
-        { "id": "overlay_female_wielded_m79", "fg": 4205, "rotates": false },
-        { "id": [ "overlay_female_wielded_mac_10", "overlay_female_wielded_mac_11" ], "fg": 4233, "rotates": false },
+        { "id": "overlay_female_wielded_m2browning", "fg": 4250, "rotates": false },
+        { "id": "overlay_female_wielded_m2browning_sawn", "fg": 4251, "rotates": false },
+        { "id": "overlay_female_wielded_m320", "fg": 4241, "rotates": false },
+        { "id": [ "overlay_female_wielded_m4a1", "overlay_female_wielded_h&k416a5" ], "fg": 4216, "rotates": false },
+        { "id": "overlay_female_wielded_m79", "fg": 4211, "rotates": false },
+        { "id": [ "overlay_female_wielded_mac_10", "overlay_female_wielded_mac_11" ], "fg": 4239, "rotates": false },
         {
           "id": [
             "overlay_female_wielded_machete",
@@ -9234,7 +9247,7 @@
             "overlay_female_wielded_blade_scythe",
             "overlay_female_wielded_butterfly_swords"
           ],
-          "fg": 4330,
+          "fg": 4336,
           "rotates": false
         },
         {
@@ -9247,15 +9260,15 @@
             "overlay_female_wielded_colt_lightning",
             "overlay_female_wielded_bh_m89"
           ],
-          "fg": 4219,
+          "fg": 4225,
           "rotates": false
         },
-        { "id": [ "overlay_female_wielded_mgl", "overlay_female_wielded_rm802" ], "fg": 4236, "rotates": false },
-        { "id": "overlay_female_wielded_mk23", "fg": 4240, "rotates": false },
-        { "id": "overlay_female_wielded_model_10_revolver", "fg": 4232, "rotates": false },
-        { "id": "overlay_female_wielded_nailgun", "fg": 4229, "rotates": false },
-        { "id": "overlay_female_wielded_net", "fg": 4283, "rotates": false },
-        { "id": "overlay_female_wielded_paintballgun", "fg": 4258, "rotates": false },
+        { "id": [ "overlay_female_wielded_mgl", "overlay_female_wielded_rm802" ], "fg": 4242, "rotates": false },
+        { "id": "overlay_female_wielded_mk23", "fg": 4246, "rotates": false },
+        { "id": "overlay_female_wielded_model_10_revolver", "fg": 4238, "rotates": false },
+        { "id": "overlay_female_wielded_nailgun", "fg": 4235, "rotates": false },
+        { "id": "overlay_female_wielded_net", "fg": 4289, "rotates": false },
+        { "id": "overlay_female_wielded_paintballgun", "fg": 4264, "rotates": false },
         {
           "id": [
             "overlay_female_wielded_pipe",
@@ -9263,18 +9276,18 @@
             "overlay_female_wielded_spear_rebar",
             "overlay_female_wielded_tire_iron"
           ],
-          "fg": 4336,
+          "fg": 4342,
           "rotates": false
         },
-        { "id": "overlay_female_wielded_pistol_flintlock", "fg": 4257, "rotates": false },
-        { "id": "overlay_female_wielded_plasma_gun", "fg": 4274, "rotates": false },
-        { "id": "overlay_female_wielded_plasma_rifle", "fg": 4275, "rotates": false },
+        { "id": "overlay_female_wielded_pistol_flintlock", "fg": 4263, "rotates": false },
+        { "id": "overlay_female_wielded_plasma_gun", "fg": 4280, "rotates": false },
+        { "id": "overlay_female_wielded_plasma_rifle", "fg": 4281, "rotates": false },
         {
           "id": [ "overlay_female_wielded_pointy_stick", "overlay_female_wielded_stick_long" ],
-          "fg": 4337,
+          "fg": 4343,
           "rotates": false
         },
-        { "id": "overlay_female_wielded_ppsh", "fg": 4223, "rotates": false },
+        { "id": "overlay_female_wielded_ppsh", "fg": 4229, "rotates": false },
         {
           "id": [
             "overlay_female_wielded_raging_bull",
@@ -9283,7 +9296,7 @@
             "overlay_female_wielded_sw_500",
             "overlay_female_wielded_rm99_pistol"
           ],
-          "fg": 4241,
+          "fg": 4247,
           "rotates": false
         },
         {
@@ -9293,7 +9306,7 @@
             "overlay_female_wielded_fencing_epee",
             "overlay_female_wielded_fencing_sabre"
           ],
-          "fg": 4342,
+          "fg": 4348,
           "rotates": false
         },
         {
@@ -9304,16 +9317,16 @@
             "overlay_female_wielded_win70",
             "overlay_female_wielded_mosin91_30"
           ],
-          "fg": 4220,
+          "fg": 4226,
           "rotates": false
         },
         {
           "id": [ "overlay_female_wielded_remington700", "overlay_female_wielded_savage_111f", "overlay_female_wielded_bbgun" ],
-          "fg": 4222,
+          "fg": 4228,
           "rotates": false
         },
-        { "id": "overlay_female_wielded_remington_870", "fg": 4200, "rotates": false },
-        { "id": "overlay_female_wielded_remington_870_breacher", "fg": 4260, "rotates": false },
+        { "id": "overlay_female_wielded_remington_870", "fg": 4206, "rotates": false },
+        { "id": "overlay_female_wielded_remington_870_breacher", "fg": 4266, "rotates": false },
         {
           "id": [
             "overlay_female_wielded_rifle_223",
@@ -9329,12 +9342,12 @@
             "overlay_female_wielded_pipe_double_shotgun",
             "overlay_female_wielded_pipe_shotgun"
           ],
-          "fg": 4216,
+          "fg": 4222,
           "rotates": false
         },
         {
           "id": [ "overlay_female_wielded_ruger_lcr_38", "overlay_female_wielded_bond_410" ],
-          "fg": 4228,
+          "fg": 4234,
           "rotates": false
         },
         {
@@ -9349,30 +9362,30 @@
             "overlay_female_wielded_pencil",
             "overlay_female_wielded_scissors"
           ],
-          "fg": 4343,
+          "fg": 4349,
           "rotates": false
         },
-        { "id": [ "overlay_female_wielded_scar_l", "overlay_female_wielded_scar_h" ], "fg": 4344, "rotates": false },
+        { "id": [ "overlay_female_wielded_scar_l", "overlay_female_wielded_scar_h" ], "fg": 4350, "rotates": false },
         {
           "id": [ "overlay_female_wielded_scythe_war", "overlay_female_wielded_makeshift_scythe_war" ],
-          "fg": 4346,
+          "fg": 4352,
           "rotates": false
         },
         {
           "id": [ "overlay_female_wielded_selfbow", "overlay_female_wielded_shortbow" ],
-          "fg": 4266,
+          "fg": 4272,
           "rotates": false
         },
         {
           "id": [ "overlay_female_wielded_skorpion_61", "overlay_female_wielded_hk_mp5_semi_pistol" ],
-          "fg": 4208,
+          "fg": 4214,
           "rotates": false
         },
-        { "id": "overlay_female_wielded_sling", "fg": 4277, "rotates": false },
-        { "id": "overlay_female_wielded_slingshot", "fg": 4276, "rotates": false },
+        { "id": "overlay_female_wielded_sling", "fg": 4283, "rotates": false },
+        { "id": "overlay_female_wielded_slingshot", "fg": 4282, "rotates": false },
         {
           "id": [ "overlay_female_wielded_spear_copper", "overlay_female_wielded_spear_dory", "overlay_female_wielded_pike_copper" ],
-          "fg": 4347,
+          "fg": 4353,
           "rotates": false
         },
         {
@@ -9382,29 +9395,29 @@
             "overlay_female_wielded_homemade_halfpike",
             "overlay_female_wielded_spear_forked"
           ],
-          "fg": 4349,
+          "fg": 4355,
           "rotates": false
         },
         {
           "id": [ "overlay_female_wielded_spear_steel", "overlay_female_wielded_ji", "overlay_female_wielded_pike" ],
-          "fg": 4350,
+          "fg": 4356,
           "rotates": false
         },
         {
           "id": [ "overlay_female_wielded_spear_wood", "overlay_female_wielded_pike_wood" ],
-          "fg": 4351,
+          "fg": 4357,
           "rotates": false
         },
         {
           "id": [ "overlay_female_wielded_speargun", "overlay_female_wielded_airspeargun", "overlay_female_wielded_doublespeargun" ],
-          "fg": 4279,
+          "fg": 4285,
           "rotates": false
         },
-        { "id": "overlay_female_wielded_staff_sling", "fg": 4278, "rotates": false },
-        { "id": "overlay_female_wielded_sten", "fg": 4252, "rotates": false },
-        { "id": "overlay_female_wielded_steyr_aug", "fg": 4215, "rotates": false },
-        { "id": "overlay_female_wielded_surv_carbine_223", "fg": 4217, "rotates": false },
-        { "id": "overlay_female_wielded_sw_619", "fg": 4204, "rotates": false },
+        { "id": "overlay_female_wielded_staff_sling", "fg": 4284, "rotates": false },
+        { "id": "overlay_female_wielded_sten", "fg": 4258, "rotates": false },
+        { "id": "overlay_female_wielded_steyr_aug", "fg": 4221, "rotates": false },
+        { "id": "overlay_female_wielded_surv_carbine_223", "fg": 4223, "rotates": false },
+        { "id": "overlay_female_wielded_sw_619", "fg": 4210, "rotates": false },
         {
           "id": [
             "overlay_female_wielded_tec9",
@@ -9412,21 +9425,21 @@
             "overlay_female_wielded_mp40",
             "overlay_female_wielded_mp40semi"
           ],
-          "fg": 4253,
+          "fg": 4259,
           "rotates": false
         },
         {
           "id": [ "overlay_female_wielded_throwing_axe", "overlay_female_wielded_throwing_knife" ],
-          "fg": 4284,
+          "fg": 4290,
           "rotates": false
         },
-        { "id": "overlay_female_wielded_throwing_stick", "fg": 4285, "rotates": false },
-        { "id": "overlay_female_wielded_tommygun", "fg": 4239, "rotates": false },
-        { "id": "overlay_female_wielded_uzi", "fg": 4254, "rotates": false },
-        { "id": "overlay_female_wielded_v29", "fg": 4264, "rotates": false },
-        { "id": "overlay_male_wielded_RPG", "fg": 4179, "rotates": false },
-        { "id": "overlay_male_wielded_SPAS_12", "fg": 4175, "rotates": false },
-        { "id": "overlay_male_wielded_TDI", "fg": 4151, "rotates": false },
+        { "id": "overlay_female_wielded_throwing_stick", "fg": 4291, "rotates": false },
+        { "id": "overlay_female_wielded_tommygun", "fg": 4245, "rotates": false },
+        { "id": "overlay_female_wielded_uzi", "fg": 4260, "rotates": false },
+        { "id": "overlay_female_wielded_v29", "fg": 4270, "rotates": false },
+        { "id": "overlay_male_wielded_RPG", "fg": 4185, "rotates": false },
+        { "id": "overlay_male_wielded_SPAS_12", "fg": 4181, "rotates": false },
+        { "id": "overlay_male_wielded_TDI", "fg": 4157, "rotates": false },
         {
           "id": [
             "overlay_male_wielded_ak74",
@@ -9435,10 +9448,10 @@
             "overlay_male_wielded_saiga_12",
             "overlay_male_wielded_saiga_410"
           ],
-          "fg": 4160,
+          "fg": 4166,
           "rotates": false
         },
-        { "id": [ "overlay_male_wielded_an94", "overlay_male_wielded_USAS_12" ], "fg": 4161, "rotates": false },
+        { "id": [ "overlay_male_wielded_an94", "overlay_male_wielded_USAS_12" ], "fg": 4167, "rotates": false },
         {
           "id": [
             "overlay_male_wielded_arming_sword",
@@ -9447,7 +9460,7 @@
             "overlay_male_wielded_kirpan",
             "overlay_male_wielded_knife_baselard"
           ],
-          "fg": 4358,
+          "fg": 4364,
           "rotates": false
         },
         {
@@ -9459,15 +9472,15 @@
             "overlay_male_wielded_tonfa_wood",
             "overlay_male_wielded_tonfa"
           ],
-          "fg": 4363,
+          "fg": 4369,
           "rotates": false
         },
         {
           "id": [ "overlay_male_wielded_baton", "overlay_male_wielded_PR24-retracted" ],
-          "fg": 4364,
+          "fg": 4370,
           "rotates": false
         },
-        { "id": "overlay_male_wielded_bio_shotgun_gun", "fg": 4169, "rotates": false },
+        { "id": "overlay_male_wielded_bio_shotgun_gun", "fg": 4175, "rotates": false },
         {
           "id": [
             "overlay_male_wielded_blackjack",
@@ -9476,7 +9489,7 @@
             "overlay_male_wielded_shillelagh_weighted",
             "overlay_male_wielded_shillelagh_fake"
           ],
-          "fg": 4366,
+          "fg": 4372,
           "rotates": false
         },
         {
@@ -9486,10 +9499,10 @@
             "overlay_male_wielded_sword_crude",
             "overlay_male_wielded_sword_wood"
           ],
-          "fg": 4367,
+          "fg": 4373,
           "rotates": false
         },
-        { "id": "overlay_male_wielded_bolas", "fg": 4194, "rotates": false },
+        { "id": "overlay_male_wielded_bolas", "fg": 4200, "rotates": false },
         {
           "id": [
             "overlay_male_wielded_broadsword",
@@ -9497,7 +9510,7 @@
             "overlay_male_wielded_cavalry_sabre",
             "overlay_male_wielded_wakizashi"
           ],
-          "fg": 4370,
+          "fg": 4376,
           "rotates": false
         },
         {
@@ -9508,23 +9521,23 @@
             "overlay_male_wielded_surv_hand_cannon",
             "overlay_male_wielded_colt_saa"
           ],
-          "fg": 4145,
+          "fg": 4151,
           "rotates": false
         },
         {
           "id": [ "overlay_male_wielded_compbow", "overlay_male_wielded_recurbow", "overlay_male_wielded_compgreatbow" ],
-          "fg": 4182,
+          "fg": 4188,
           "rotates": false
         },
-        { "id": "overlay_male_wielded_compcrossbow", "fg": 4187, "rotates": false },
+        { "id": "overlay_male_wielded_compcrossbow", "fg": 4193, "rotates": false },
         {
           "id": [ "overlay_male_wielded_compositebow", "overlay_male_wielded_reflexbow", "overlay_male_wielded_reflexrecurvebow" ],
-          "fg": 4184,
+          "fg": 4190,
           "rotates": false
         },
         {
           "id": [ "overlay_male_wielded_crossbow", "overlay_male_wielded_bullet_crossbow" ],
-          "fg": 4185,
+          "fg": 4191,
           "rotates": false
         },
         {
@@ -9534,11 +9547,11 @@
             "overlay_male_wielded_dao",
             "overlay_male_wielded_khopesh"
           ],
-          "fg": 4376,
+          "fg": 4382,
           "rotates": false
         },
-        { "id": "overlay_male_wielded_disc_golf", "fg": 4195, "rotates": false },
-        { "id": "overlay_male_wielded_draco", "fg": 4164, "rotates": false },
+        { "id": "overlay_male_wielded_disc_golf", "fg": 4201, "rotates": false },
+        { "id": "overlay_male_wielded_draco", "fg": 4170, "rotates": false },
         {
           "id": [
             "overlay_male_wielded_famas",
@@ -9546,40 +9559,40 @@
             "overlay_male_wielded_rm88_battle_rifle",
             "overlay_male_wielded_cx4"
           ],
-          "fg": 4126,
+          "fg": 4132,
           "rotates": false
         },
         {
           "id": [ "overlay_male_wielded_flamethrower", "overlay_male_wielded_rm451_flamethrower" ],
-          "fg": 4170,
+          "fg": 4176,
           "rotates": false
         },
-        { "id": "overlay_male_wielded_flaregun", "fg": 4177, "rotates": false },
-        { "id": [ "overlay_male_wielded_fn_fal", "overlay_male_wielded_hk_g3" ], "fg": 4123, "rotates": false },
-        { "id": "overlay_male_wielded_fn_p90", "fg": 4162, "rotates": false },
-        { "id": "overlay_male_wielded_frisbee", "fg": 4196, "rotates": false },
+        { "id": "overlay_male_wielded_flaregun", "fg": 4183, "rotates": false },
+        { "id": [ "overlay_male_wielded_fn_fal", "overlay_male_wielded_hk_g3" ], "fg": 4129, "rotates": false },
+        { "id": "overlay_male_wielded_fn_p90", "fg": 4168, "rotates": false },
+        { "id": "overlay_male_wielded_frisbee", "fg": 4202, "rotates": false },
         {
           "id": [ "overlay_male_wielded_glass_shiv", "overlay_male_wielded_glass_shard" ],
-          "fg": 4379,
-          "rotates": false
-        },
-        { "id": "overlay_male_wielded_glock_17", "fg": 4116, "rotates": false },
-        { "id": "overlay_male_wielded_hand_crossbow", "fg": 4186, "rotates": false },
-        { "id": [ "overlay_male_wielded_hatchet", "overlay_male_wielded_hand_axe" ], "fg": 4384, "rotates": false },
-        {
-          "id": [ "overlay_male_wielded_hk417_13", "overlay_male_wielded_rm51_assault_rifle" ],
           "fg": 4385,
           "rotates": false
         },
-        { "id": "overlay_male_wielded_hk_g36", "fg": 4127, "rotates": false },
-        { "id": "overlay_male_wielded_hk_g80", "fg": 4144, "rotates": false },
-        { "id": "overlay_male_wielded_hk_mp5", "fg": 4115, "rotates": false },
-        { "id": "overlay_male_wielded_hk_mp5sd", "fg": 4165, "rotates": false },
-        { "id": [ "overlay_male_wielded_hk_mp7", "overlay_male_wielded_ksub2000" ], "fg": 4156, "rotates": false },
-        { "id": [ "overlay_male_wielded_hk_ump45", "overlay_male_wielded_hk_mp5k" ], "fg": 4152, "rotates": false },
-        { "id": "overlay_male_wielded_hybridbow", "fg": 4183, "rotates": false },
-        { "id": [ "overlay_male_wielded_i_staff", "overlay_male_wielded_shock_staff" ], "fg": 4388, "rotates": false },
-        { "id": "overlay_male_wielded_iwi_tavor_x95_300blk", "fg": 4132, "rotates": false },
+        { "id": "overlay_male_wielded_glock_17", "fg": 4122, "rotates": false },
+        { "id": "overlay_male_wielded_hand_crossbow", "fg": 4192, "rotates": false },
+        { "id": [ "overlay_male_wielded_hatchet", "overlay_male_wielded_hand_axe" ], "fg": 4390, "rotates": false },
+        {
+          "id": [ "overlay_male_wielded_hk417_13", "overlay_male_wielded_rm51_assault_rifle" ],
+          "fg": 4391,
+          "rotates": false
+        },
+        { "id": "overlay_male_wielded_hk_g36", "fg": 4133, "rotates": false },
+        { "id": "overlay_male_wielded_hk_g80", "fg": 4150, "rotates": false },
+        { "id": "overlay_male_wielded_hk_mp5", "fg": 4121, "rotates": false },
+        { "id": "overlay_male_wielded_hk_mp5sd", "fg": 4171, "rotates": false },
+        { "id": [ "overlay_male_wielded_hk_mp7", "overlay_male_wielded_ksub2000" ], "fg": 4162, "rotates": false },
+        { "id": [ "overlay_male_wielded_hk_ump45", "overlay_male_wielded_hk_mp5k" ], "fg": 4158, "rotates": false },
+        { "id": "overlay_male_wielded_hybridbow", "fg": 4189, "rotates": false },
+        { "id": [ "overlay_male_wielded_i_staff", "overlay_male_wielded_shock_staff" ], "fg": 4394, "rotates": false },
+        { "id": "overlay_male_wielded_iwi_tavor_x95_300blk", "fg": 4138, "rotates": false },
         {
           "id": [
             "overlay_male_wielded_j22",
@@ -9589,12 +9602,12 @@
             "overlay_male_wielded_rugerlcp",
             "overlay_male_wielded_taurus_spectrum"
           ],
-          "fg": 4141,
+          "fg": 4147,
           "rotates": false
         },
         {
           "id": [ "overlay_male_wielded_katana", "overlay_male_wielded_estoc", "overlay_male_wielded_nodachi" ],
-          "fg": 4390,
+          "fg": 4396,
           "rotates": false
         },
         {
@@ -9609,7 +9622,7 @@
             "overlay_male_wielded_primitive_knife",
             "overlay_male_wielded_spike"
           ],
-          "fg": 4391,
+          "fg": 4397,
           "rotates": false
         },
         {
@@ -9620,28 +9633,28 @@
             "overlay_male_wielded_knife_hunting",
             "overlay_male_wielded_knife_rm42"
           ],
-          "fg": 4392,
+          "fg": 4398,
           "rotates": false
         },
-        { "id": [ "overlay_male_wielded_ksg", "overlay_male_wielded_ksg-25" ], "fg": 4176, "rotates": false },
+        { "id": [ "overlay_male_wielded_ksg", "overlay_male_wielded_ksg-25" ], "fg": 4182, "rotates": false },
         {
           "id": [ "overlay_male_wielded_laser_rifle", "overlay_male_wielded_recon_mech_laser", "overlay_male_wielded_laser_cannon" ],
-          "fg": 4120,
+          "fg": 4126,
           "rotates": false
         },
         {
           "id": [ "overlay_male_wielded_launcher_simple", "overlay_male_wielded_surv_rocket_launcher" ],
-          "fg": 4148,
+          "fg": 4154,
           "rotates": false
         },
-        { "id": "overlay_male_wielded_longbow", "fg": 4181, "rotates": false },
+        { "id": "overlay_male_wielded_longbow", "fg": 4187, "rotates": false },
         {
           "id": [ "overlay_male_wielded_m1014", "overlay_male_wielded_mossberg_590", "overlay_male_wielded_mossberg_930" ],
-          "fg": 4173,
+          "fg": 4179,
           "rotates": false
         },
-        { "id": "overlay_male_wielded_m110a1", "fg": 4139, "rotates": false },
-        { "id": [ "overlay_male_wielded_m134", "overlay_male_wielded_bigun" ], "fg": 4140, "rotates": false },
+        { "id": "overlay_male_wielded_m110a1", "fg": 4145, "rotates": false },
+        { "id": [ "overlay_male_wielded_m134", "overlay_male_wielded_bigun" ], "fg": 4146, "rotates": false },
         {
           "id": [
             "overlay_male_wielded_m14ebr",
@@ -9651,12 +9664,12 @@
             "overlay_male_wielded_tac50",
             "overlay_male_wielded_bfg50"
           ],
-          "fg": 4157,
+          "fg": 4163,
           "rotates": false
         },
-        { "id": [ "overlay_male_wielded_m16a4", "overlay_male_wielded_colt_ro635" ], "fg": 4125, "rotates": false },
-        { "id": [ "overlay_male_wielded_m1911", "overlay_male_wielded_deagle_44" ], "fg": 4117, "rotates": false },
-        { "id": "overlay_male_wielded_m1918", "fg": 4121, "rotates": false },
+        { "id": [ "overlay_male_wielded_m16a4", "overlay_male_wielded_colt_ro635" ], "fg": 4131, "rotates": false },
+        { "id": [ "overlay_male_wielded_m1911", "overlay_male_wielded_deagle_44" ], "fg": 4123, "rotates": false },
+        { "id": "overlay_male_wielded_m1918", "fg": 4127, "rotates": false },
         {
           "id": [
             "overlay_male_wielded_m1a",
@@ -9667,7 +9680,7 @@
             "overlay_male_wielded_carbine_flintlock",
             "overlay_male_wielded_rifle_flintlock"
           ],
-          "fg": 4135,
+          "fg": 4141,
           "rotates": false
         },
         {
@@ -9677,7 +9690,7 @@
             "overlay_male_wielded_atgm_launcher",
             "overlay_male_wielded_LAW"
           ],
-          "fg": 4163,
+          "fg": 4169,
           "rotates": false
         },
         {
@@ -9688,20 +9701,20 @@
             "overlay_male_wielded_rm298",
             "overlay_male_wielded_rm614_lmg"
           ],
-          "fg": 4128,
+          "fg": 4134,
           "rotates": false
         },
         {
           "id": [ "overlay_male_wielded_m24", "overlay_male_wielded_rm11b_sniper_rifle" ],
-          "fg": 4138,
+          "fg": 4144,
           "rotates": false
         },
-        { "id": "overlay_male_wielded_m2browning", "fg": 4158, "rotates": false },
-        { "id": "overlay_male_wielded_m2browning_sawn", "fg": 4159, "rotates": false },
-        { "id": "overlay_male_wielded_m320", "fg": 4149, "rotates": false },
-        { "id": [ "overlay_male_wielded_m4a1", "overlay_male_wielded_h&k416a5" ], "fg": 4124, "rotates": false },
-        { "id": "overlay_male_wielded_m79", "fg": 4119, "rotates": false },
-        { "id": [ "overlay_male_wielded_mac_10", "overlay_male_wielded_mac_11" ], "fg": 4147, "rotates": false },
+        { "id": "overlay_male_wielded_m2browning", "fg": 4164, "rotates": false },
+        { "id": "overlay_male_wielded_m2browning_sawn", "fg": 4165, "rotates": false },
+        { "id": "overlay_male_wielded_m320", "fg": 4155, "rotates": false },
+        { "id": [ "overlay_male_wielded_m4a1", "overlay_male_wielded_h&k416a5" ], "fg": 4130, "rotates": false },
+        { "id": "overlay_male_wielded_m79", "fg": 4125, "rotates": false },
+        { "id": [ "overlay_male_wielded_mac_10", "overlay_male_wielded_mac_11" ], "fg": 4153, "rotates": false },
         {
           "id": [
             "overlay_male_wielded_machete",
@@ -9713,7 +9726,7 @@
             "overlay_male_wielded_blade_scythe",
             "overlay_male_wielded_butterfly_swords"
           ],
-          "fg": 4398,
+          "fg": 4404,
           "rotates": false
         },
         {
@@ -9726,15 +9739,15 @@
             "overlay_male_wielded_colt_lightning",
             "overlay_male_wielded_bh_m89"
           ],
-          "fg": 4133,
+          "fg": 4139,
           "rotates": false
         },
-        { "id": [ "overlay_male_wielded_mgl", "overlay_male_wielded_rm802" ], "fg": 4150, "rotates": false },
-        { "id": "overlay_male_wielded_mk23", "fg": 4154, "rotates": false },
-        { "id": "overlay_male_wielded_model_10_revolver", "fg": 4146, "rotates": false },
-        { "id": "overlay_male_wielded_nailgun", "fg": 4143, "rotates": false },
-        { "id": "overlay_male_wielded_net", "fg": 4197, "rotates": false },
-        { "id": "overlay_male_wielded_paintballgun", "fg": 4172, "rotates": false },
+        { "id": [ "overlay_male_wielded_mgl", "overlay_male_wielded_rm802" ], "fg": 4156, "rotates": false },
+        { "id": "overlay_male_wielded_mk23", "fg": 4160, "rotates": false },
+        { "id": "overlay_male_wielded_model_10_revolver", "fg": 4152, "rotates": false },
+        { "id": "overlay_male_wielded_nailgun", "fg": 4149, "rotates": false },
+        { "id": "overlay_male_wielded_net", "fg": 4203, "rotates": false },
+        { "id": "overlay_male_wielded_paintballgun", "fg": 4178, "rotates": false },
         {
           "id": [
             "overlay_male_wielded_pipe",
@@ -9742,18 +9755,18 @@
             "overlay_male_wielded_spear_rebar",
             "overlay_male_wielded_tire_iron"
           ],
-          "fg": 4404,
+          "fg": 4410,
           "rotates": false
         },
-        { "id": "overlay_male_wielded_pistol_flintlock", "fg": 4171, "rotates": false },
-        { "id": "overlay_male_wielded_plasma_gun", "fg": 4188, "rotates": false },
-        { "id": "overlay_male_wielded_plasma_rifle", "fg": 4189, "rotates": false },
+        { "id": "overlay_male_wielded_pistol_flintlock", "fg": 4177, "rotates": false },
+        { "id": "overlay_male_wielded_plasma_gun", "fg": 4194, "rotates": false },
+        { "id": "overlay_male_wielded_plasma_rifle", "fg": 4195, "rotates": false },
         {
           "id": [ "overlay_male_wielded_pointy_stick", "overlay_male_wielded_stick_long" ],
-          "fg": 4405,
+          "fg": 4411,
           "rotates": false
         },
-        { "id": "overlay_male_wielded_ppsh", "fg": 4137, "rotates": false },
+        { "id": "overlay_male_wielded_ppsh", "fg": 4143, "rotates": false },
         {
           "id": [
             "overlay_male_wielded_raging_bull",
@@ -9762,7 +9775,7 @@
             "overlay_male_wielded_sw_500",
             "overlay_male_wielded_rm99_pistol"
           ],
-          "fg": 4155,
+          "fg": 4161,
           "rotates": false
         },
         {
@@ -9772,7 +9785,7 @@
             "overlay_male_wielded_fencing_epee",
             "overlay_male_wielded_fencing_sabre"
           ],
-          "fg": 4410,
+          "fg": 4416,
           "rotates": false
         },
         {
@@ -9783,16 +9796,16 @@
             "overlay_male_wielded_win70",
             "overlay_male_wielded_mosin91_30"
           ],
-          "fg": 4134,
+          "fg": 4140,
           "rotates": false
         },
         {
           "id": [ "overlay_male_wielded_remington700", "overlay_male_wielded_savage_111f", "overlay_male_wielded_bbgun" ],
-          "fg": 4136,
+          "fg": 4142,
           "rotates": false
         },
-        { "id": "overlay_male_wielded_remington_870", "fg": 4114, "rotates": false },
-        { "id": "overlay_male_wielded_remington_870_breacher", "fg": 4174, "rotates": false },
+        { "id": "overlay_male_wielded_remington_870", "fg": 4120, "rotates": false },
+        { "id": "overlay_male_wielded_remington_870_breacher", "fg": 4180, "rotates": false },
         {
           "id": [
             "overlay_male_wielded_rifle_223",
@@ -9808,12 +9821,12 @@
             "overlay_male_wielded_pipe_double_shotgun",
             "overlay_male_wielded_pipe_shotgun"
           ],
-          "fg": 4130,
+          "fg": 4136,
           "rotates": false
         },
         {
           "id": [ "overlay_male_wielded_ruger_lcr_38", "overlay_male_wielded_bond_410" ],
-          "fg": 4142,
+          "fg": 4148,
           "rotates": false
         },
         {
@@ -9828,26 +9841,26 @@
             "overlay_male_wielded_pencil",
             "overlay_male_wielded_scissors"
           ],
-          "fg": 4411,
+          "fg": 4417,
           "rotates": false
         },
-        { "id": [ "overlay_male_wielded_scar_l", "overlay_male_wielded_scar_h" ], "fg": 4412, "rotates": false },
+        { "id": [ "overlay_male_wielded_scar_l", "overlay_male_wielded_scar_h" ], "fg": 4418, "rotates": false },
         {
           "id": [ "overlay_male_wielded_scythe_war", "overlay_male_wielded_makeshift_scythe_war" ],
-          "fg": 4414,
+          "fg": 4420,
           "rotates": false
         },
-        { "id": [ "overlay_male_wielded_selfbow", "overlay_male_wielded_shortbow" ], "fg": 4180, "rotates": false },
+        { "id": [ "overlay_male_wielded_selfbow", "overlay_male_wielded_shortbow" ], "fg": 4186, "rotates": false },
         {
           "id": [ "overlay_male_wielded_skorpion_61", "overlay_male_wielded_hk_mp5_semi_pistol" ],
-          "fg": 4122,
+          "fg": 4128,
           "rotates": false
         },
-        { "id": "overlay_male_wielded_sling", "fg": 4191, "rotates": false },
-        { "id": "overlay_male_wielded_slingshot", "fg": 4190, "rotates": false },
+        { "id": "overlay_male_wielded_sling", "fg": 4197, "rotates": false },
+        { "id": "overlay_male_wielded_slingshot", "fg": 4196, "rotates": false },
         {
           "id": [ "overlay_male_wielded_spear_copper", "overlay_male_wielded_spear_dory", "overlay_male_wielded_pike_copper" ],
-          "fg": 4415,
+          "fg": 4421,
           "rotates": false
         },
         {
@@ -9857,29 +9870,29 @@
             "overlay_male_wielded_homemade_halfpike",
             "overlay_male_wielded_spear_forked"
           ],
-          "fg": 4417,
+          "fg": 4423,
           "rotates": false
         },
         {
           "id": [ "overlay_male_wielded_spear_steel", "overlay_male_wielded_ji", "overlay_male_wielded_pike" ],
-          "fg": 4418,
+          "fg": 4424,
           "rotates": false
         },
         {
           "id": [ "overlay_male_wielded_spear_wood", "overlay_male_wielded_pike_wood" ],
-          "fg": 4419,
+          "fg": 4425,
           "rotates": false
         },
         {
           "id": [ "overlay_male_wielded_speargun", "overlay_male_wielded_airspeargun", "overlay_male_wielded_doublespeargun" ],
-          "fg": 4193,
+          "fg": 4199,
           "rotates": false
         },
-        { "id": "overlay_male_wielded_staff_sling", "fg": 4192, "rotates": false },
-        { "id": "overlay_male_wielded_sten", "fg": 4166, "rotates": false },
-        { "id": "overlay_male_wielded_steyr_aug", "fg": 4129, "rotates": false },
-        { "id": "overlay_male_wielded_surv_carbine_223", "fg": 4131, "rotates": false },
-        { "id": "overlay_male_wielded_sw_619", "fg": 4118, "rotates": false },
+        { "id": "overlay_male_wielded_staff_sling", "fg": 4198, "rotates": false },
+        { "id": "overlay_male_wielded_sten", "fg": 4172, "rotates": false },
+        { "id": "overlay_male_wielded_steyr_aug", "fg": 4135, "rotates": false },
+        { "id": "overlay_male_wielded_surv_carbine_223", "fg": 4137, "rotates": false },
+        { "id": "overlay_male_wielded_sw_619", "fg": 4124, "rotates": false },
         {
           "id": [
             "overlay_male_wielded_tec9",
@@ -9887,230 +9900,230 @@
             "overlay_male_wielded_mp40",
             "overlay_male_wielded_mp40semi"
           ],
-          "fg": 4167,
+          "fg": 4173,
           "rotates": false
         },
         {
           "id": [ "overlay_male_wielded_throwing_axe", "overlay_male_wielded_throwing_knife" ],
-          "fg": 4198,
+          "fg": 4204,
           "rotates": false
         },
-        { "id": "overlay_male_wielded_throwing_stick", "fg": 4199, "rotates": false },
-        { "id": "overlay_male_wielded_tommygun", "fg": 4153, "rotates": false },
-        { "id": "overlay_male_wielded_uzi", "fg": 4168, "rotates": false },
-        { "id": "overlay_male_wielded_v29", "fg": 4178, "rotates": false },
-        { "id": "overlay_female_worn_10gal_hat", "fg": 4532, "rotates": false },
-        { "id": "overlay_female_worn_balclava", "fg": 4533, "rotates": false },
-        { "id": "overlay_female_worn_bandana", "fg": 4534, "rotates": false },
-        { "id": "overlay_female_worn_beekeeping_hood", "fg": 4535, "rotates": false },
-        { "id": "overlay_female_worn_beret", "fg": 4536, "rotates": false },
-        { "id": "overlay_female_worn_beret_wool", "fg": 4537, "rotates": false },
-        { "id": "overlay_female_worn_blindfold", "fg": 4596, "rotates": false },
-        { "id": "overlay_female_worn_bowhat", "fg": 4538, "rotates": false },
-        { "id": "overlay_female_worn_chainmail_hood", "fg": 4539, "rotates": false },
-        { "id": "overlay_female_worn_clown_nose", "fg": 4540, "rotates": false },
-        { "id": "overlay_female_worn_clown_wig", "fg": 4541, "rotates": false },
-        { "id": "overlay_female_worn_cowboy_hat", "fg": 4542, "rotates": false },
-        { "id": "overlay_female_worn_crown_golden", "fg": 4543, "rotates": false },
-        { "id": "overlay_female_worn_drinking_hat", "fg": 4544, "rotates": false },
-        { "id": "overlay_female_worn_eboshi", "fg": 4545, "rotates": false },
-        { "id": "overlay_female_worn_fc_hairpin", "fg": 4614, "rotates": false },
-        { "id": "overlay_female_worn_fedora", "fg": 4603, "rotates": false },
-        { "id": "overlay_female_worn_fencing_mask", "fg": 4546, "rotates": false },
-        { "id": "overlay_female_worn_firehelmet", "fg": 4547, "rotates": false },
-        { "id": "overlay_female_worn_foodperson_mask", "fg": 4620, "rotates": false },
-        { "id": "overlay_female_worn_foodperson_mask_on", "fg": 4621, "rotates": false },
-        { "id": "overlay_female_worn_goggles_ir", "fg": 4612, "rotates": false },
-        { "id": "overlay_female_worn_goggles_ir_on", "fg": 4613, "rotates": false },
-        { "id": "overlay_female_worn_goggles_nv", "fg": 4610, "rotates": false },
-        { "id": "overlay_female_worn_goggles_nv_on", "fg": 4611, "rotates": false },
-        { "id": "overlay_female_worn_hat_ball", "fg": 4548, "rotates": false },
-        { "id": "overlay_female_worn_hat_boonie", "fg": 4549, "rotates": false },
-        { "id": "overlay_female_worn_hat_chef", "fg": 4550, "rotates": false },
-        { "id": "overlay_female_worn_hat_cotton", "fg": 4551, "rotates": false },
-        { "id": "overlay_female_worn_hat_fur", "fg": 4552, "rotates": false },
-        { "id": "overlay_female_worn_hat_golf", "fg": 4531, "rotates": false },
-        { "id": "overlay_female_worn_hat_hard", "fg": 4553, "rotates": false },
-        { "id": "overlay_female_worn_hat_hard_hooded", "fg": 4554, "rotates": false },
-        { "id": "overlay_female_worn_hat_hunting", "fg": 4555, "rotates": false },
-        { "id": "overlay_female_worn_hat_knit", "fg": 4556, "rotates": false },
-        { "id": "overlay_female_worn_hat_newsboy", "fg": 4557, "rotates": false },
-        { "id": "overlay_female_worn_hat_noise_cancelling", "fg": 4558, "rotates": false },
-        { "id": "overlay_female_worn_hat_sombrero", "fg": 4559, "rotates": false },
-        { "id": "overlay_female_worn_headgear", "fg": 4560, "rotates": false },
-        { "id": "overlay_female_worn_helmet_army", "fg": 4561, "rotates": false },
-        { "id": "overlay_female_worn_helmet_ball", "fg": 4562, "rotates": false },
-        { "id": "overlay_female_worn_helmet_barbute", "fg": 4563, "rotates": false },
-        { "id": "overlay_female_worn_helmet_bike", "fg": 4564, "rotates": false },
-        { "id": "overlay_female_worn_helmet_chitin", "fg": 4565, "rotates": false },
-        { "id": "overlay_female_worn_helmet_conical", "fg": 4566, "rotates": false },
-        { "id": "overlay_female_worn_helmet_corinthian", "fg": 4567, "rotates": false },
-        { "id": "overlay_female_worn_helmet_football", "fg": 4568, "rotates": false },
-        { "id": "overlay_female_worn_helmet_galea", "fg": 4569, "rotates": false },
-        { "id": "overlay_female_worn_helmet_kabuto", "fg": 4570, "rotates": false },
-        { "id": "overlay_female_worn_helmet_larmor", "fg": 4571, "rotates": false },
-        { "id": "overlay_female_worn_helmet_liner", "fg": 4572, "rotates": false },
-        { "id": "overlay_female_worn_helmet_lobster", "fg": 4573, "rotates": false },
-        { "id": "overlay_female_worn_helmet_motor", "fg": 4574, "rotates": false },
-        { "id": "overlay_female_worn_helmet_nasal", "fg": 4575, "rotates": false },
-        { "id": "overlay_female_worn_helmet_nomad", "fg": 4576, "rotates": false },
-        { "id": "overlay_female_worn_helmet_plate", "fg": 4577, "rotates": false },
-        { "id": "overlay_female_worn_helmet_riot", "fg": 4618, "rotates": false },
-        { "id": "overlay_female_worn_helmet_riot_raised", "fg": 4619, "rotates": false },
-        { "id": "overlay_female_worn_helmet_scavenger", "fg": 4578, "rotates": false },
-        { "id": "overlay_female_worn_helmet_scrap", "fg": 4579, "rotates": false },
-        { "id": "overlay_female_worn_helmet_skid", "fg": 4580, "rotates": false },
-        { "id": "overlay_female_worn_helmet_skull", "fg": 4581, "rotates": false },
-        { "id": "overlay_female_worn_hood_rain", "fg": 4582, "rotates": false },
-        { "id": "overlay_female_worn_hood_survivor", "fg": 4583, "rotates": false },
-        { "id": "overlay_female_worn_kippah", "fg": 4584, "rotates": false },
-        { "id": "overlay_female_worn_kufi", "fg": 4522, "rotates": false },
-        { "id": "overlay_female_worn_maid_hat", "fg": 4523, "rotates": false },
-        { "id": "overlay_female_worn_mask_bal", "fg": 4585, "rotates": false },
-        { "id": "overlay_female_worn_mask_bunker", "fg": 4609, "rotates": false },
-        { "id": "overlay_female_worn_mask_dust", "fg": 4586, "rotates": false },
-        { "id": "overlay_female_worn_mask_filter", "fg": 4607, "rotates": false },
-        { "id": "overlay_female_worn_mask_gas", "fg": 4608, "rotates": false },
-        { "id": "overlay_female_worn_mask_guy_fawkes", "fg": 4587, "rotates": false },
-        { "id": "overlay_female_worn_mask_hockey", "fg": 4588, "rotates": false },
-        { "id": "overlay_female_worn_mask_rioter", "fg": 4589, "rotates": false },
+        { "id": "overlay_male_wielded_throwing_stick", "fg": 4205, "rotates": false },
+        { "id": "overlay_male_wielded_tommygun", "fg": 4159, "rotates": false },
+        { "id": "overlay_male_wielded_uzi", "fg": 4174, "rotates": false },
+        { "id": "overlay_male_wielded_v29", "fg": 4184, "rotates": false },
+        { "id": "overlay_female_worn_10gal_hat", "fg": 4538, "rotates": false },
+        { "id": "overlay_female_worn_balclava", "fg": 4539, "rotates": false },
+        { "id": "overlay_female_worn_bandana", "fg": 4540, "rotates": false },
+        { "id": "overlay_female_worn_beekeeping_hood", "fg": 4541, "rotates": false },
+        { "id": "overlay_female_worn_beret", "fg": 4542, "rotates": false },
+        { "id": "overlay_female_worn_beret_wool", "fg": 4543, "rotates": false },
+        { "id": "overlay_female_worn_blindfold", "fg": 4602, "rotates": false },
+        { "id": "overlay_female_worn_bowhat", "fg": 4544, "rotates": false },
+        { "id": "overlay_female_worn_chainmail_hood", "fg": 4545, "rotates": false },
+        { "id": "overlay_female_worn_clown_nose", "fg": 4546, "rotates": false },
+        { "id": "overlay_female_worn_clown_wig", "fg": 4547, "rotates": false },
+        { "id": "overlay_female_worn_cowboy_hat", "fg": 4548, "rotates": false },
+        { "id": "overlay_female_worn_crown_golden", "fg": 4549, "rotates": false },
+        { "id": "overlay_female_worn_drinking_hat", "fg": 4550, "rotates": false },
+        { "id": "overlay_female_worn_eboshi", "fg": 4551, "rotates": false },
+        { "id": "overlay_female_worn_fc_hairpin", "fg": 4620, "rotates": false },
+        { "id": "overlay_female_worn_fedora", "fg": 4609, "rotates": false },
+        { "id": "overlay_female_worn_fencing_mask", "fg": 4552, "rotates": false },
+        { "id": "overlay_female_worn_firehelmet", "fg": 4553, "rotates": false },
+        { "id": "overlay_female_worn_foodperson_mask", "fg": 4626, "rotates": false },
+        { "id": "overlay_female_worn_foodperson_mask_on", "fg": 4627, "rotates": false },
+        { "id": "overlay_female_worn_goggles_ir", "fg": 4618, "rotates": false },
+        { "id": "overlay_female_worn_goggles_ir_on", "fg": 4619, "rotates": false },
+        { "id": "overlay_female_worn_goggles_nv", "fg": 4616, "rotates": false },
+        { "id": "overlay_female_worn_goggles_nv_on", "fg": 4617, "rotates": false },
+        { "id": "overlay_female_worn_hat_ball", "fg": 4554, "rotates": false },
+        { "id": "overlay_female_worn_hat_boonie", "fg": 4555, "rotates": false },
+        { "id": "overlay_female_worn_hat_chef", "fg": 4556, "rotates": false },
+        { "id": "overlay_female_worn_hat_cotton", "fg": 4557, "rotates": false },
+        { "id": "overlay_female_worn_hat_fur", "fg": 4558, "rotates": false },
+        { "id": "overlay_female_worn_hat_golf", "fg": 4537, "rotates": false },
+        { "id": "overlay_female_worn_hat_hard", "fg": 4559, "rotates": false },
+        { "id": "overlay_female_worn_hat_hard_hooded", "fg": 4560, "rotates": false },
+        { "id": "overlay_female_worn_hat_hunting", "fg": 4561, "rotates": false },
+        { "id": "overlay_female_worn_hat_knit", "fg": 4562, "rotates": false },
+        { "id": "overlay_female_worn_hat_newsboy", "fg": 4563, "rotates": false },
+        { "id": "overlay_female_worn_hat_noise_cancelling", "fg": 4564, "rotates": false },
+        { "id": "overlay_female_worn_hat_sombrero", "fg": 4565, "rotates": false },
+        { "id": "overlay_female_worn_headgear", "fg": 4566, "rotates": false },
+        { "id": "overlay_female_worn_helmet_army", "fg": 4567, "rotates": false },
+        { "id": "overlay_female_worn_helmet_ball", "fg": 4568, "rotates": false },
+        { "id": "overlay_female_worn_helmet_barbute", "fg": 4569, "rotates": false },
+        { "id": "overlay_female_worn_helmet_bike", "fg": 4570, "rotates": false },
+        { "id": "overlay_female_worn_helmet_chitin", "fg": 4571, "rotates": false },
+        { "id": "overlay_female_worn_helmet_conical", "fg": 4572, "rotates": false },
+        { "id": "overlay_female_worn_helmet_corinthian", "fg": 4573, "rotates": false },
+        { "id": "overlay_female_worn_helmet_football", "fg": 4574, "rotates": false },
+        { "id": "overlay_female_worn_helmet_galea", "fg": 4575, "rotates": false },
+        { "id": "overlay_female_worn_helmet_kabuto", "fg": 4576, "rotates": false },
+        { "id": "overlay_female_worn_helmet_larmor", "fg": 4577, "rotates": false },
+        { "id": "overlay_female_worn_helmet_liner", "fg": 4578, "rotates": false },
+        { "id": "overlay_female_worn_helmet_lobster", "fg": 4579, "rotates": false },
+        { "id": "overlay_female_worn_helmet_motor", "fg": 4580, "rotates": false },
+        { "id": "overlay_female_worn_helmet_nasal", "fg": 4581, "rotates": false },
+        { "id": "overlay_female_worn_helmet_nomad", "fg": 4582, "rotates": false },
+        { "id": "overlay_female_worn_helmet_plate", "fg": 4583, "rotates": false },
+        { "id": "overlay_female_worn_helmet_riot", "fg": 4624, "rotates": false },
+        { "id": "overlay_female_worn_helmet_riot_raised", "fg": 4625, "rotates": false },
+        { "id": "overlay_female_worn_helmet_scavenger", "fg": 4584, "rotates": false },
+        { "id": "overlay_female_worn_helmet_scrap", "fg": 4585, "rotates": false },
+        { "id": "overlay_female_worn_helmet_skid", "fg": 4586, "rotates": false },
+        { "id": "overlay_female_worn_helmet_skull", "fg": 4587, "rotates": false },
+        { "id": "overlay_female_worn_hood_rain", "fg": 4588, "rotates": false },
+        { "id": "overlay_female_worn_hood_survivor", "fg": 4589, "rotates": false },
+        { "id": "overlay_female_worn_kippah", "fg": 4590, "rotates": false },
+        { "id": "overlay_female_worn_kufi", "fg": 4528, "rotates": false },
+        { "id": "overlay_female_worn_maid_hat", "fg": 4529, "rotates": false },
+        { "id": "overlay_female_worn_mask_bal", "fg": 4591, "rotates": false },
+        { "id": "overlay_female_worn_mask_bunker", "fg": 4615, "rotates": false },
+        { "id": "overlay_female_worn_mask_dust", "fg": 4592, "rotates": false },
+        { "id": "overlay_female_worn_mask_filter", "fg": 4613, "rotates": false },
+        { "id": "overlay_female_worn_mask_gas", "fg": 4614, "rotates": false },
+        { "id": "overlay_female_worn_mask_guy_fawkes", "fg": 4593, "rotates": false },
+        { "id": "overlay_female_worn_mask_hockey", "fg": 4594, "rotates": false },
+        { "id": "overlay_female_worn_mask_rioter", "fg": 4595, "rotates": false },
         {
           "id": [ "overlay_female_worn_mask_ski", "overlay_female_worn_mask_ski_loose" ],
-          "fg": 4616,
+          "fg": 4622,
           "rotates": false
         },
-        { "id": "overlay_female_worn_miner_hat", "fg": 4597, "rotates": false },
-        { "id": "overlay_female_worn_miner_hat_on", "fg": 4598, "rotates": false },
-        { "id": "overlay_female_worn_nomex_hood", "fg": 4590, "rotates": false },
-        { "id": "overlay_female_worn_pickelhaube", "fg": 4591, "rotates": false },
-        { "id": "overlay_female_worn_porkpie", "fg": 4524, "rotates": false },
-        { "id": "overlay_female_worn_postman_hat", "fg": 4525, "rotates": false },
-        { "id": "overlay_female_worn_pot_helmet", "fg": 4592, "rotates": false },
-        { "id": "overlay_female_worn_pot_xlhelmet", "fg": 4593, "rotates": false },
+        { "id": "overlay_female_worn_miner_hat", "fg": 4603, "rotates": false },
+        { "id": "overlay_female_worn_miner_hat_on", "fg": 4604, "rotates": false },
+        { "id": "overlay_female_worn_nomex_hood", "fg": 4596, "rotates": false },
+        { "id": "overlay_female_worn_pickelhaube", "fg": 4597, "rotates": false },
+        { "id": "overlay_female_worn_porkpie", "fg": 4530, "rotates": false },
+        { "id": "overlay_female_worn_postman_hat", "fg": 4531, "rotates": false },
+        { "id": "overlay_female_worn_pot_helmet", "fg": 4598, "rotates": false },
+        { "id": "overlay_female_worn_pot_xlhelmet", "fg": 4599, "rotates": false },
         {
           "id": [ "overlay_female_worn_powered_earmuffs", "overlay_female_worn_powered_earmuffs_on" ],
-          "fg": 4617,
+          "fg": 4623,
           "rotates": false
         },
-        { "id": "overlay_female_worn_rebreather", "fg": 4606, "rotates": false },
-        { "id": "overlay_female_worn_straw_fedora", "fg": 4615, "rotates": false },
-        { "id": "overlay_female_worn_straw_hat", "fg": 4526, "rotates": false },
-        { "id": "overlay_female_worn_tac_fullhelmet", "fg": 4594, "rotates": false },
-        { "id": "overlay_female_worn_tac_helmet", "fg": 4595, "rotates": false },
-        { "id": "overlay_female_worn_thermal_mask", "fg": 4604, "rotates": false },
-        { "id": "overlay_female_worn_thermal_mask_on", "fg": 4605, "rotates": false },
-        { "id": "overlay_female_worn_tinfoil_hat", "fg": 4527, "rotates": false },
-        { "id": "overlay_female_worn_tophat", "fg": 4528, "rotates": false },
-        { "id": "overlay_female_worn_tricorne", "fg": 4529, "rotates": false },
-        { "id": "overlay_female_worn_turban", "fg": 4530, "rotates": false },
-        { "id": "overlay_female_worn_welding_mask", "fg": 4599, "rotates": false },
-        { "id": "overlay_female_worn_welding_mask_crude", "fg": 4601, "rotates": false },
-        { "id": "overlay_female_worn_welding_mask_crude_raised", "fg": 4602, "rotates": false },
-        { "id": "overlay_female_worn_welding_mask_raised", "fg": 4600, "rotates": false },
-        { "id": "overlay_male_worn_10gal_hat", "fg": 4432, "rotates": false },
-        { "id": "overlay_male_worn_balclava", "fg": 4433, "rotates": false },
-        { "id": "overlay_male_worn_bandana", "fg": 4434, "rotates": false },
-        { "id": "overlay_male_worn_beekeeping_hood", "fg": 4435, "rotates": false },
-        { "id": "overlay_male_worn_beret", "fg": 4436, "rotates": false },
-        { "id": "overlay_male_worn_beret_wool", "fg": 4437, "rotates": false },
-        { "id": "overlay_male_worn_blindfold", "fg": 4496, "rotates": false },
-        { "id": "overlay_male_worn_bowhat", "fg": 4438, "rotates": false },
-        { "id": "overlay_male_worn_chainmail_hood", "fg": 4439, "rotates": false },
-        { "id": "overlay_male_worn_clown_nose", "fg": 4440, "rotates": false },
-        { "id": "overlay_male_worn_clown_wig", "fg": 4441, "rotates": false },
-        { "id": "overlay_male_worn_cowboy_hat", "fg": 4442, "rotates": false },
-        { "id": "overlay_male_worn_crown_golden", "fg": 4443, "rotates": false },
-        { "id": "overlay_male_worn_drinking_hat", "fg": 4444, "rotates": false },
-        { "id": "overlay_male_worn_eboshi", "fg": 4445, "rotates": false },
-        { "id": "overlay_male_worn_fc_hairpin", "fg": 4514, "rotates": false },
-        { "id": "overlay_male_worn_fedora", "fg": 4503, "rotates": false },
-        { "id": "overlay_male_worn_fencing_mask", "fg": 4446, "rotates": false },
-        { "id": "overlay_male_worn_firehelmet", "fg": 4447, "rotates": false },
-        { "id": "overlay_male_worn_foodperson_mask", "fg": 4520, "rotates": false },
-        { "id": "overlay_male_worn_foodperson_mask_on", "fg": 4521, "rotates": false },
-        { "id": "overlay_male_worn_goggles_ir", "fg": 4512, "rotates": false },
-        { "id": "overlay_male_worn_goggles_ir_on", "fg": 4513, "rotates": false },
-        { "id": "overlay_male_worn_goggles_nv", "fg": 4510, "rotates": false },
-        { "id": "overlay_male_worn_goggles_nv_on", "fg": 4511, "rotates": false },
-        { "id": "overlay_male_worn_hat_ball", "fg": 4448, "rotates": false },
-        { "id": "overlay_male_worn_hat_boonie", "fg": 4449, "rotates": false },
-        { "id": "overlay_male_worn_hat_chef", "fg": 4450, "rotates": false },
-        { "id": "overlay_male_worn_hat_cotton", "fg": 4451, "rotates": false },
-        { "id": "overlay_male_worn_hat_fur", "fg": 4452, "rotates": false },
-        { "id": "overlay_male_worn_hat_golf", "fg": 4431, "rotates": false },
-        { "id": "overlay_male_worn_hat_hard", "fg": 4453, "rotates": false },
-        { "id": "overlay_male_worn_hat_hard_hooded", "fg": 4454, "rotates": false },
-        { "id": "overlay_male_worn_hat_hunting", "fg": 4455, "rotates": false },
-        { "id": "overlay_male_worn_hat_knit", "fg": 4456, "rotates": false },
-        { "id": "overlay_male_worn_hat_newsboy", "fg": 4457, "rotates": false },
-        { "id": "overlay_male_worn_hat_noise_cancelling", "fg": 4458, "rotates": false },
-        { "id": "overlay_male_worn_hat_sombrero", "fg": 4459, "rotates": false },
-        { "id": "overlay_male_worn_headgear", "fg": 4460, "rotates": false },
-        { "id": "overlay_male_worn_helmet_army", "fg": 4461, "rotates": false },
-        { "id": "overlay_male_worn_helmet_ball", "fg": 4462, "rotates": false },
-        { "id": "overlay_male_worn_helmet_barbute", "fg": 4463, "rotates": false },
-        { "id": "overlay_male_worn_helmet_bike", "fg": 4464, "rotates": false },
-        { "id": "overlay_male_worn_helmet_chitin", "fg": 4465, "rotates": false },
-        { "id": "overlay_male_worn_helmet_conical", "fg": 4466, "rotates": false },
-        { "id": "overlay_male_worn_helmet_corinthian", "fg": 4467, "rotates": false },
-        { "id": "overlay_male_worn_helmet_football", "fg": 4468, "rotates": false },
-        { "id": "overlay_male_worn_helmet_galea", "fg": 4469, "rotates": false },
-        { "id": "overlay_male_worn_helmet_kabuto", "fg": 4470, "rotates": false },
-        { "id": "overlay_male_worn_helmet_larmor", "fg": 4471, "rotates": false },
-        { "id": "overlay_male_worn_helmet_liner", "fg": 4472, "rotates": false },
-        { "id": "overlay_male_worn_helmet_lobster", "fg": 4473, "rotates": false },
-        { "id": "overlay_male_worn_helmet_motor", "fg": 4474, "rotates": false },
-        { "id": "overlay_male_worn_helmet_nasal", "fg": 4475, "rotates": false },
-        { "id": "overlay_male_worn_helmet_nomad", "fg": 4476, "rotates": false },
-        { "id": "overlay_male_worn_helmet_plate", "fg": 4477, "rotates": false },
-        { "id": "overlay_male_worn_helmet_riot", "fg": 4518, "rotates": false },
-        { "id": "overlay_male_worn_helmet_riot_raised", "fg": 4519, "rotates": false },
-        { "id": "overlay_male_worn_helmet_scavenger", "fg": 4478, "rotates": false },
-        { "id": "overlay_male_worn_helmet_scrap", "fg": 4479, "rotates": false },
-        { "id": "overlay_male_worn_helmet_skid", "fg": 4480, "rotates": false },
-        { "id": "overlay_male_worn_helmet_skull", "fg": 4481, "rotates": false },
-        { "id": "overlay_male_worn_hood_rain", "fg": 4482, "rotates": false },
-        { "id": "overlay_male_worn_hood_survivor", "fg": 4483, "rotates": false },
-        { "id": "overlay_male_worn_kippah", "fg": 4484, "rotates": false },
-        { "id": "overlay_male_worn_kufi", "fg": 4422, "rotates": false },
-        { "id": "overlay_male_worn_maid_hat", "fg": 4423, "rotates": false },
-        { "id": "overlay_male_worn_mask_bal", "fg": 4485, "rotates": false },
-        { "id": "overlay_male_worn_mask_bunker", "fg": 4509, "rotates": false },
-        { "id": "overlay_male_worn_mask_dust", "fg": 4486, "rotates": false },
-        { "id": "overlay_male_worn_mask_filter", "fg": 4507, "rotates": false },
-        { "id": "overlay_male_worn_mask_gas", "fg": 4508, "rotates": false },
-        { "id": "overlay_male_worn_mask_guy_fawkes", "fg": 4487, "rotates": false },
-        { "id": "overlay_male_worn_mask_hockey", "fg": 4488, "rotates": false },
-        { "id": "overlay_male_worn_mask_rioter", "fg": 4489, "rotates": false },
-        { "id": [ "overlay_male_worn_mask_ski", "overlay_male_worn_mask_ski_loose" ], "fg": 4516, "rotates": false },
-        { "id": "overlay_male_worn_miner_hat", "fg": 4497, "rotates": false },
-        { "id": "overlay_male_worn_miner_hat_on", "fg": 4498, "rotates": false },
-        { "id": "overlay_male_worn_nomex_hood", "fg": 4490, "rotates": false },
-        { "id": "overlay_male_worn_pickelhaube", "fg": 4491, "rotates": false },
-        { "id": "overlay_male_worn_porkpie", "fg": 4424, "rotates": false },
-        { "id": "overlay_male_worn_postman_hat", "fg": 4425, "rotates": false },
-        { "id": "overlay_male_worn_pot_helmet", "fg": 4492, "rotates": false },
-        { "id": "overlay_male_worn_pot_xlhelmet", "fg": 4493, "rotates": false },
+        { "id": "overlay_female_worn_rebreather", "fg": 4612, "rotates": false },
+        { "id": "overlay_female_worn_straw_fedora", "fg": 4621, "rotates": false },
+        { "id": "overlay_female_worn_straw_hat", "fg": 4532, "rotates": false },
+        { "id": "overlay_female_worn_tac_fullhelmet", "fg": 4600, "rotates": false },
+        { "id": "overlay_female_worn_tac_helmet", "fg": 4601, "rotates": false },
+        { "id": "overlay_female_worn_thermal_mask", "fg": 4610, "rotates": false },
+        { "id": "overlay_female_worn_thermal_mask_on", "fg": 4611, "rotates": false },
+        { "id": "overlay_female_worn_tinfoil_hat", "fg": 4533, "rotates": false },
+        { "id": "overlay_female_worn_tophat", "fg": 4534, "rotates": false },
+        { "id": "overlay_female_worn_tricorne", "fg": 4535, "rotates": false },
+        { "id": "overlay_female_worn_turban", "fg": 4536, "rotates": false },
+        { "id": "overlay_female_worn_welding_mask", "fg": 4605, "rotates": false },
+        { "id": "overlay_female_worn_welding_mask_crude", "fg": 4607, "rotates": false },
+        { "id": "overlay_female_worn_welding_mask_crude_raised", "fg": 4608, "rotates": false },
+        { "id": "overlay_female_worn_welding_mask_raised", "fg": 4606, "rotates": false },
+        { "id": "overlay_male_worn_10gal_hat", "fg": 4438, "rotates": false },
+        { "id": "overlay_male_worn_balclava", "fg": 4439, "rotates": false },
+        { "id": "overlay_male_worn_bandana", "fg": 4440, "rotates": false },
+        { "id": "overlay_male_worn_beekeeping_hood", "fg": 4441, "rotates": false },
+        { "id": "overlay_male_worn_beret", "fg": 4442, "rotates": false },
+        { "id": "overlay_male_worn_beret_wool", "fg": 4443, "rotates": false },
+        { "id": "overlay_male_worn_blindfold", "fg": 4502, "rotates": false },
+        { "id": "overlay_male_worn_bowhat", "fg": 4444, "rotates": false },
+        { "id": "overlay_male_worn_chainmail_hood", "fg": 4445, "rotates": false },
+        { "id": "overlay_male_worn_clown_nose", "fg": 4446, "rotates": false },
+        { "id": "overlay_male_worn_clown_wig", "fg": 4447, "rotates": false },
+        { "id": "overlay_male_worn_cowboy_hat", "fg": 4448, "rotates": false },
+        { "id": "overlay_male_worn_crown_golden", "fg": 4449, "rotates": false },
+        { "id": "overlay_male_worn_drinking_hat", "fg": 4450, "rotates": false },
+        { "id": "overlay_male_worn_eboshi", "fg": 4451, "rotates": false },
+        { "id": "overlay_male_worn_fc_hairpin", "fg": 4520, "rotates": false },
+        { "id": "overlay_male_worn_fedora", "fg": 4509, "rotates": false },
+        { "id": "overlay_male_worn_fencing_mask", "fg": 4452, "rotates": false },
+        { "id": "overlay_male_worn_firehelmet", "fg": 4453, "rotates": false },
+        { "id": "overlay_male_worn_foodperson_mask", "fg": 4526, "rotates": false },
+        { "id": "overlay_male_worn_foodperson_mask_on", "fg": 4527, "rotates": false },
+        { "id": "overlay_male_worn_goggles_ir", "fg": 4518, "rotates": false },
+        { "id": "overlay_male_worn_goggles_ir_on", "fg": 4519, "rotates": false },
+        { "id": "overlay_male_worn_goggles_nv", "fg": 4516, "rotates": false },
+        { "id": "overlay_male_worn_goggles_nv_on", "fg": 4517, "rotates": false },
+        { "id": "overlay_male_worn_hat_ball", "fg": 4454, "rotates": false },
+        { "id": "overlay_male_worn_hat_boonie", "fg": 4455, "rotates": false },
+        { "id": "overlay_male_worn_hat_chef", "fg": 4456, "rotates": false },
+        { "id": "overlay_male_worn_hat_cotton", "fg": 4457, "rotates": false },
+        { "id": "overlay_male_worn_hat_fur", "fg": 4458, "rotates": false },
+        { "id": "overlay_male_worn_hat_golf", "fg": 4437, "rotates": false },
+        { "id": "overlay_male_worn_hat_hard", "fg": 4459, "rotates": false },
+        { "id": "overlay_male_worn_hat_hard_hooded", "fg": 4460, "rotates": false },
+        { "id": "overlay_male_worn_hat_hunting", "fg": 4461, "rotates": false },
+        { "id": "overlay_male_worn_hat_knit", "fg": 4462, "rotates": false },
+        { "id": "overlay_male_worn_hat_newsboy", "fg": 4463, "rotates": false },
+        { "id": "overlay_male_worn_hat_noise_cancelling", "fg": 4464, "rotates": false },
+        { "id": "overlay_male_worn_hat_sombrero", "fg": 4465, "rotates": false },
+        { "id": "overlay_male_worn_headgear", "fg": 4466, "rotates": false },
+        { "id": "overlay_male_worn_helmet_army", "fg": 4467, "rotates": false },
+        { "id": "overlay_male_worn_helmet_ball", "fg": 4468, "rotates": false },
+        { "id": "overlay_male_worn_helmet_barbute", "fg": 4469, "rotates": false },
+        { "id": "overlay_male_worn_helmet_bike", "fg": 4470, "rotates": false },
+        { "id": "overlay_male_worn_helmet_chitin", "fg": 4471, "rotates": false },
+        { "id": "overlay_male_worn_helmet_conical", "fg": 4472, "rotates": false },
+        { "id": "overlay_male_worn_helmet_corinthian", "fg": 4473, "rotates": false },
+        { "id": "overlay_male_worn_helmet_football", "fg": 4474, "rotates": false },
+        { "id": "overlay_male_worn_helmet_galea", "fg": 4475, "rotates": false },
+        { "id": "overlay_male_worn_helmet_kabuto", "fg": 4476, "rotates": false },
+        { "id": "overlay_male_worn_helmet_larmor", "fg": 4477, "rotates": false },
+        { "id": "overlay_male_worn_helmet_liner", "fg": 4478, "rotates": false },
+        { "id": "overlay_male_worn_helmet_lobster", "fg": 4479, "rotates": false },
+        { "id": "overlay_male_worn_helmet_motor", "fg": 4480, "rotates": false },
+        { "id": "overlay_male_worn_helmet_nasal", "fg": 4481, "rotates": false },
+        { "id": "overlay_male_worn_helmet_nomad", "fg": 4482, "rotates": false },
+        { "id": "overlay_male_worn_helmet_plate", "fg": 4483, "rotates": false },
+        { "id": "overlay_male_worn_helmet_riot", "fg": 4524, "rotates": false },
+        { "id": "overlay_male_worn_helmet_riot_raised", "fg": 4525, "rotates": false },
+        { "id": "overlay_male_worn_helmet_scavenger", "fg": 4484, "rotates": false },
+        { "id": "overlay_male_worn_helmet_scrap", "fg": 4485, "rotates": false },
+        { "id": "overlay_male_worn_helmet_skid", "fg": 4486, "rotates": false },
+        { "id": "overlay_male_worn_helmet_skull", "fg": 4487, "rotates": false },
+        { "id": "overlay_male_worn_hood_rain", "fg": 4488, "rotates": false },
+        { "id": "overlay_male_worn_hood_survivor", "fg": 4489, "rotates": false },
+        { "id": "overlay_male_worn_kippah", "fg": 4490, "rotates": false },
+        { "id": "overlay_male_worn_kufi", "fg": 4428, "rotates": false },
+        { "id": "overlay_male_worn_maid_hat", "fg": 4429, "rotates": false },
+        { "id": "overlay_male_worn_mask_bal", "fg": 4491, "rotates": false },
+        { "id": "overlay_male_worn_mask_bunker", "fg": 4515, "rotates": false },
+        { "id": "overlay_male_worn_mask_dust", "fg": 4492, "rotates": false },
+        { "id": "overlay_male_worn_mask_filter", "fg": 4513, "rotates": false },
+        { "id": "overlay_male_worn_mask_gas", "fg": 4514, "rotates": false },
+        { "id": "overlay_male_worn_mask_guy_fawkes", "fg": 4493, "rotates": false },
+        { "id": "overlay_male_worn_mask_hockey", "fg": 4494, "rotates": false },
+        { "id": "overlay_male_worn_mask_rioter", "fg": 4495, "rotates": false },
+        { "id": [ "overlay_male_worn_mask_ski", "overlay_male_worn_mask_ski_loose" ], "fg": 4522, "rotates": false },
+        { "id": "overlay_male_worn_miner_hat", "fg": 4503, "rotates": false },
+        { "id": "overlay_male_worn_miner_hat_on", "fg": 4504, "rotates": false },
+        { "id": "overlay_male_worn_nomex_hood", "fg": 4496, "rotates": false },
+        { "id": "overlay_male_worn_pickelhaube", "fg": 4497, "rotates": false },
+        { "id": "overlay_male_worn_porkpie", "fg": 4430, "rotates": false },
+        { "id": "overlay_male_worn_postman_hat", "fg": 4431, "rotates": false },
+        { "id": "overlay_male_worn_pot_helmet", "fg": 4498, "rotates": false },
+        { "id": "overlay_male_worn_pot_xlhelmet", "fg": 4499, "rotates": false },
         {
           "id": [ "overlay_male_worn_powered_earmuffs", "overlay_male_worn_powered_earmuffs_on" ],
-          "fg": 4517,
+          "fg": 4523,
           "rotates": false
         },
-        { "id": "overlay_male_worn_rebreather", "fg": 4506, "rotates": false },
-        { "id": "overlay_male_worn_straw_fedora", "fg": 4515, "rotates": false },
-        { "id": "overlay_male_worn_straw_hat", "fg": 4426, "rotates": false },
-        { "id": "overlay_male_worn_tac_fullhelmet", "fg": 4494, "rotates": false },
-        { "id": "overlay_male_worn_tac_helmet", "fg": 4495, "rotates": false },
-        { "id": "overlay_male_worn_thermal_mask", "fg": 4504, "rotates": false },
-        { "id": "overlay_male_worn_thermal_mask_on", "fg": 4505, "rotates": false },
-        { "id": "overlay_male_worn_tinfoil_hat", "fg": 4427, "rotates": false },
-        { "id": "overlay_male_worn_tophat", "fg": 4428, "rotates": false },
-        { "id": "overlay_male_worn_tricorne", "fg": 4429, "rotates": false },
-        { "id": "overlay_male_worn_turban", "fg": 4430, "rotates": false },
-        { "id": "overlay_male_worn_welding_mask", "fg": 4499, "rotates": false },
-        { "id": "overlay_male_worn_welding_mask_crude", "fg": 4501, "rotates": false },
-        { "id": "overlay_male_worn_welding_mask_crude_raised", "fg": 4502, "rotates": false },
-        { "id": "overlay_male_worn_welding_mask_raised", "fg": 4500, "rotates": false },
+        { "id": "overlay_male_worn_rebreather", "fg": 4512, "rotates": false },
+        { "id": "overlay_male_worn_straw_fedora", "fg": 4521, "rotates": false },
+        { "id": "overlay_male_worn_straw_hat", "fg": 4432, "rotates": false },
+        { "id": "overlay_male_worn_tac_fullhelmet", "fg": 4500, "rotates": false },
+        { "id": "overlay_male_worn_tac_helmet", "fg": 4501, "rotates": false },
+        { "id": "overlay_male_worn_thermal_mask", "fg": 4510, "rotates": false },
+        { "id": "overlay_male_worn_thermal_mask_on", "fg": 4511, "rotates": false },
+        { "id": "overlay_male_worn_tinfoil_hat", "fg": 4433, "rotates": false },
+        { "id": "overlay_male_worn_tophat", "fg": 4434, "rotates": false },
+        { "id": "overlay_male_worn_tricorne", "fg": 4435, "rotates": false },
+        { "id": "overlay_male_worn_turban", "fg": 4436, "rotates": false },
+        { "id": "overlay_male_worn_welding_mask", "fg": 4505, "rotates": false },
+        { "id": "overlay_male_worn_welding_mask_crude", "fg": 4507, "rotates": false },
+        { "id": "overlay_male_worn_welding_mask_crude_raised", "fg": 4508, "rotates": false },
+        { "id": "overlay_male_worn_welding_mask_raised", "fg": 4506, "rotates": false },
         { "id": "f_geo_mox", "fg": 3984 },
         { "id": "f_geo_vent", "fg": 3985 },
         { "id": "f_moxie_tube", "fg": 3986 },
@@ -10122,146 +10135,147 @@
         { "id": "mon_apatosaurus", "fg": 3994 },
         { "id": "mon_torvosaurus", "fg": 3995 },
         { "id": "mon_zyrannosaurus", "fg": 3996 },
-        { "id": "f_street_light", "fg": 3997 },
-        { "id": "f_traffic_light", "fg": 3998 },
-        { "id": "f_utility_pole", "fg": 3999 },
-        { "id": "bundle_branch_long", "fg": 4000 },
-        { "id": "bundle_plank", "fg": 4001 },
-        { "id": "bundle_rebar", "fg": 4002 },
-        { "id": "overlay_female_mutation_hair_black_fro", "fg": 4024 },
-        { "id": "overlay_female_mutation_hair_black_mohawk", "fg": 4025 },
-        { "id": "overlay_male_mutation_hair_black_crewcut", "fg": 4026 },
-        { "id": "overlay_male_mutation_hair_black_fro", "fg": 4027 },
-        { "id": "overlay_male_mutation_hair_black_long", "fg": 4028 },
-        { "id": "overlay_male_mutation_hair_black_medium", "fg": 4029 },
-        { "id": "overlay_male_mutation_hair_black_mohawk", "fg": 4030 },
-        { "id": "overlay_male_mutation_hair_black_short", "fg": 4031 },
-        { "id": "overlay_female_mutation_hair_blond_fro", "fg": 4032 },
-        { "id": "overlay_female_mutation_hair_blond_mohawk", "fg": 4033 },
-        { "id": "overlay_male_mutation_hair_blond_crewcut", "fg": 4034 },
-        { "id": "overlay_male_mutation_hair_blond_fro", "fg": 4035 },
-        { "id": "overlay_male_mutation_hair_blond_long", "fg": 4036 },
-        { "id": "overlay_male_mutation_hair_blond_medium", "fg": 4037 },
-        { "id": "overlay_male_mutation_hair_blond_mohawk", "fg": 4038 },
-        { "id": "overlay_male_mutation_hair_blond_short", "fg": 4039 },
-        { "id": "overlay_female_mutation_hair_brown_fro", "fg": 4040 },
-        { "id": "overlay_female_mutation_hair_brown_mohawk", "fg": 4041 },
-        { "id": "overlay_male_mutation_hair_brown_crewcut", "fg": 4042 },
-        { "id": "overlay_male_mutation_hair_brown_fro", "fg": 4043 },
-        { "id": "overlay_male_mutation_hair_brown_long", "fg": 4044 },
-        { "id": "overlay_male_mutation_hair_brown_medium", "fg": 4045 },
-        { "id": "overlay_male_mutation_hair_brown_mohawk", "fg": 4046 },
-        { "id": "overlay_male_mutation_hair_brown_short", "fg": 4047 },
-        { "id": "overlay_female_mutation_hair_gray_fro", "fg": 4048 },
-        { "id": "overlay_female_mutation_hair_gray_mohawk", "fg": 4049 },
-        { "id": "overlay_male_mutation_hair_gray_crewcut", "fg": 4050 },
-        { "id": "overlay_male_mutation_hair_gray_fro", "fg": 4051 },
-        { "id": "overlay_male_mutation_hair_gray_long", "fg": 4052 },
-        { "id": "overlay_male_mutation_hair_gray_medium", "fg": 4053 },
-        { "id": "overlay_male_mutation_hair_gray_mohawk", "fg": 4054 },
-        { "id": "overlay_male_mutation_hair_gray_short", "fg": 4055 },
-        { "id": "overlay_female_mutation_hair_red_fro", "fg": 4056 },
-        { "id": "overlay_female_mutation_hair_red_mohawk", "fg": 4057 },
-        { "id": "overlay_male_mutation_hair_red_crewcut", "fg": 4058 },
-        { "id": "overlay_male_mutation_hair_red_fro", "fg": 4059 },
-        { "id": "overlay_male_mutation_hair_red_long", "fg": 4060 },
-        { "id": "overlay_male_mutation_hair_red_medium", "fg": 4061 },
-        { "id": "overlay_male_mutation_hair_red_mohawk", "fg": 4062 },
-        { "id": "overlay_male_mutation_hair_red_short", "fg": 4063 },
-        { "id": "overlay_female_mutation_hair_white_fro", "fg": 4064 },
-        { "id": "overlay_female_mutation_hair_white_mohawk", "fg": 4065 },
-        { "id": "overlay_male_mutation_hair_white_crewcut", "fg": 4066 },
-        { "id": "overlay_male_mutation_hair_white_fro", "fg": 4067 },
-        { "id": "overlay_male_mutation_hair_white_long", "fg": 4068 },
-        { "id": "overlay_male_mutation_hair_white_medium", "fg": 4069 },
-        { "id": "overlay_male_mutation_hair_white_mohawk", "fg": 4070 },
-        { "id": "overlay_male_mutation_hair_white_short", "fg": 4071 },
-        { "id": "overlay_female_wielded_2h_flail_steel", "fg": 4286 },
-        { "id": "overlay_female_wielded_2h_flail_wood", "fg": 4287 },
-        { "id": "overlay_female_wielded_2x4", "fg": 4288 },
-        { "id": "overlay_female_wielded_ar15", "fg": 4289 },
-        { "id": "overlay_female_wielded_ax", "fg": 4291 },
-        { "id": "overlay_female_wielded_bat", "fg": 4292 },
-        { "id": "overlay_female_wielded_bat_metal", "fg": 4293 },
-        { "id": "overlay_female_wielded_bat_nerf", "fg": 4294 },
-        { "id": "overlay_female_wielded_battleaxe", "fg": 4297 },
-        { "id": "overlay_female_wielded_bowling_axe", "fg": 4300 },
-        { "id": "overlay_female_wielded_bowling_pin", "fg": 4301 },
-        { "id": "overlay_female_wielded_bwirebat", "fg": 4303 },
-        { "id": "overlay_female_wielded_cane", "fg": 4304 },
-        { "id": "overlay_female_wielded_crowbar", "fg": 4305 },
-        { "id": "overlay_female_wielded_crutches", "fg": 4306 },
-        { "id": "overlay_female_wielded_cudgel", "fg": 4307 },
-        { "id": "overlay_female_wielded_fire_ax", "fg": 4309 },
-        { "id": "overlay_female_wielded_glass_macuahuitl", "fg": 4310 },
-        { "id": "overlay_female_wielded_golf_club", "fg": 4312 },
-        { "id": "overlay_female_wielded_halberd", "fg": 4313 },
-        { "id": "overlay_female_wielded_hammer", "fg": 4314 },
-        { "id": "overlay_female_wielded_hammer_sledge", "fg": 4315 },
-        { "id": "overlay_female_wielded_hockey_stick", "fg": 4318 },
-        { "id": "overlay_female_wielded_homewrecker", "fg": 4319 },
-        { "id": "overlay_female_wielded_iceaxe", "fg": 4321 },
-        { "id": "overlay_female_wielded_kukri", "fg": 4325 },
-        { "id": "overlay_female_wielded_long_pole", "fg": 4326 },
-        { "id": "overlay_female_wielded_longsword", "fg": 4327 },
-        { "id": "overlay_female_wielded_lucern_hammer", "fg": 4328 },
-        { "id": "overlay_female_wielded_mace", "fg": 4329 },
-        { "id": "overlay_female_wielded_makeshift_crowbar", "fg": 4331 },
-        { "id": "overlay_female_wielded_morningstar", "fg": 4332 },
-        { "id": "overlay_female_wielded_nailbat", "fg": 4333 },
-        { "id": "overlay_female_wielded_nailboard", "fg": 4334 },
-        { "id": "overlay_female_wielded_pickaxe", "fg": 4335 },
-        { "id": "overlay_female_wielded_poleaxe", "fg": 4338 },
-        { "id": "overlay_female_wielded_pool_cue", "fg": 4339 },
-        { "id": "overlay_female_wielded_primitive_axe", "fg": 4340 },
-        { "id": "overlay_female_wielded_q_staff", "fg": 4341 },
-        { "id": "overlay_female_wielded_scythe", "fg": 4345 },
-        { "id": "overlay_female_wielded_spear_pipe", "fg": 4348 },
-        { "id": "overlay_female_wielded_steel_pan", "fg": 4352 },
-        { "id": "overlay_female_wielded_stick", "fg": 4353 },
-        { "id": "overlay_male_wielded_2h_flail_steel", "fg": 4354 },
-        { "id": "overlay_male_wielded_2h_flail_wood", "fg": 4355 },
-        { "id": "overlay_male_wielded_2x4", "fg": 4356 },
-        { "id": "overlay_male_wielded_ar15", "fg": 4357 },
-        { "id": "overlay_male_wielded_ax", "fg": 4359 },
-        { "id": "overlay_male_wielded_bat", "fg": 4360 },
-        { "id": "overlay_male_wielded_bat_metal", "fg": 4361 },
-        { "id": "overlay_male_wielded_bat_nerf", "fg": 4362 },
-        { "id": "overlay_male_wielded_battleaxe", "fg": 4365 },
-        { "id": "overlay_male_wielded_bowling_axe", "fg": 4368 },
-        { "id": "overlay_male_wielded_bowling_pin", "fg": 4369 },
-        { "id": "overlay_male_wielded_bwirebat", "fg": 4371 },
-        { "id": "overlay_male_wielded_cane", "fg": 4372 },
-        { "id": "overlay_male_wielded_crowbar", "fg": 4373 },
-        { "id": "overlay_male_wielded_crutches", "fg": 4374 },
-        { "id": "overlay_male_wielded_cudgel", "fg": 4375 },
-        { "id": "overlay_male_wielded_fire_ax", "fg": 4377 },
-        { "id": "overlay_male_wielded_glass_macuahuitl", "fg": 4378 },
-        { "id": "overlay_male_wielded_golf_club", "fg": 4380 },
-        { "id": "overlay_male_wielded_halberd", "fg": 4381 },
-        { "id": "overlay_male_wielded_hammer", "fg": 4382 },
-        { "id": "overlay_male_wielded_hammer_sledge", "fg": 4383 },
-        { "id": "overlay_male_wielded_hockey_stick", "fg": 4386 },
-        { "id": "overlay_male_wielded_homewrecker", "fg": 4387 },
-        { "id": "overlay_male_wielded_iceaxe", "fg": 4389 },
-        { "id": "overlay_male_wielded_kukri", "fg": 4393 },
-        { "id": "overlay_male_wielded_long_pole", "fg": 4394 },
-        { "id": "overlay_male_wielded_longsword", "fg": 4395 },
-        { "id": "overlay_male_wielded_lucern_hammer", "fg": 4396 },
-        { "id": "overlay_male_wielded_mace", "fg": 4397 },
-        { "id": "overlay_male_wielded_makeshift_crowbar", "fg": 4399 },
-        { "id": "overlay_male_wielded_morningstar", "fg": 4400 },
-        { "id": "overlay_male_wielded_nailbat", "fg": 4401 },
-        { "id": "overlay_male_wielded_nailboard", "fg": 4402 },
-        { "id": "overlay_male_wielded_pickaxe", "fg": 4403 },
-        { "id": "overlay_male_wielded_poleaxe", "fg": 4406 },
-        { "id": "overlay_male_wielded_pool_cue", "fg": 4407 },
-        { "id": "overlay_male_wielded_primitive_axe", "fg": 4408 },
-        { "id": "overlay_male_wielded_q_staff", "fg": 4409 },
-        { "id": "overlay_male_wielded_scythe", "fg": 4413 },
-        { "id": "overlay_male_wielded_spear_pipe", "fg": 4416 },
-        { "id": "overlay_male_wielded_steel_pan", "fg": 4420 },
-        { "id": "overlay_male_wielded_stick", "fg": 4421 }
+        { "id": "overlay_effect_haslight", "fg": 3999 },
+        { "id": "f_street_light", "fg": 4003 },
+        { "id": "f_traffic_light", "fg": 4004 },
+        { "id": "f_utility_pole", "fg": 4005 },
+        { "id": "bundle_branch_long", "fg": 4006 },
+        { "id": "bundle_plank", "fg": 4007 },
+        { "id": "bundle_rebar", "fg": 4008 },
+        { "id": "overlay_female_mutation_hair_black_fro", "fg": 4030 },
+        { "id": "overlay_female_mutation_hair_black_mohawk", "fg": 4031 },
+        { "id": "overlay_male_mutation_hair_black_crewcut", "fg": 4032 },
+        { "id": "overlay_male_mutation_hair_black_fro", "fg": 4033 },
+        { "id": "overlay_male_mutation_hair_black_long", "fg": 4034 },
+        { "id": "overlay_male_mutation_hair_black_medium", "fg": 4035 },
+        { "id": "overlay_male_mutation_hair_black_mohawk", "fg": 4036 },
+        { "id": "overlay_male_mutation_hair_black_short", "fg": 4037 },
+        { "id": "overlay_female_mutation_hair_blond_fro", "fg": 4038 },
+        { "id": "overlay_female_mutation_hair_blond_mohawk", "fg": 4039 },
+        { "id": "overlay_male_mutation_hair_blond_crewcut", "fg": 4040 },
+        { "id": "overlay_male_mutation_hair_blond_fro", "fg": 4041 },
+        { "id": "overlay_male_mutation_hair_blond_long", "fg": 4042 },
+        { "id": "overlay_male_mutation_hair_blond_medium", "fg": 4043 },
+        { "id": "overlay_male_mutation_hair_blond_mohawk", "fg": 4044 },
+        { "id": "overlay_male_mutation_hair_blond_short", "fg": 4045 },
+        { "id": "overlay_female_mutation_hair_brown_fro", "fg": 4046 },
+        { "id": "overlay_female_mutation_hair_brown_mohawk", "fg": 4047 },
+        { "id": "overlay_male_mutation_hair_brown_crewcut", "fg": 4048 },
+        { "id": "overlay_male_mutation_hair_brown_fro", "fg": 4049 },
+        { "id": "overlay_male_mutation_hair_brown_long", "fg": 4050 },
+        { "id": "overlay_male_mutation_hair_brown_medium", "fg": 4051 },
+        { "id": "overlay_male_mutation_hair_brown_mohawk", "fg": 4052 },
+        { "id": "overlay_male_mutation_hair_brown_short", "fg": 4053 },
+        { "id": "overlay_female_mutation_hair_gray_fro", "fg": 4054 },
+        { "id": "overlay_female_mutation_hair_gray_mohawk", "fg": 4055 },
+        { "id": "overlay_male_mutation_hair_gray_crewcut", "fg": 4056 },
+        { "id": "overlay_male_mutation_hair_gray_fro", "fg": 4057 },
+        { "id": "overlay_male_mutation_hair_gray_long", "fg": 4058 },
+        { "id": "overlay_male_mutation_hair_gray_medium", "fg": 4059 },
+        { "id": "overlay_male_mutation_hair_gray_mohawk", "fg": 4060 },
+        { "id": "overlay_male_mutation_hair_gray_short", "fg": 4061 },
+        { "id": "overlay_female_mutation_hair_red_fro", "fg": 4062 },
+        { "id": "overlay_female_mutation_hair_red_mohawk", "fg": 4063 },
+        { "id": "overlay_male_mutation_hair_red_crewcut", "fg": 4064 },
+        { "id": "overlay_male_mutation_hair_red_fro", "fg": 4065 },
+        { "id": "overlay_male_mutation_hair_red_long", "fg": 4066 },
+        { "id": "overlay_male_mutation_hair_red_medium", "fg": 4067 },
+        { "id": "overlay_male_mutation_hair_red_mohawk", "fg": 4068 },
+        { "id": "overlay_male_mutation_hair_red_short", "fg": 4069 },
+        { "id": "overlay_female_mutation_hair_white_fro", "fg": 4070 },
+        { "id": "overlay_female_mutation_hair_white_mohawk", "fg": 4071 },
+        { "id": "overlay_male_mutation_hair_white_crewcut", "fg": 4072 },
+        { "id": "overlay_male_mutation_hair_white_fro", "fg": 4073 },
+        { "id": "overlay_male_mutation_hair_white_long", "fg": 4074 },
+        { "id": "overlay_male_mutation_hair_white_medium", "fg": 4075 },
+        { "id": "overlay_male_mutation_hair_white_mohawk", "fg": 4076 },
+        { "id": "overlay_male_mutation_hair_white_short", "fg": 4077 },
+        { "id": "overlay_female_wielded_2h_flail_steel", "fg": 4292 },
+        { "id": "overlay_female_wielded_2h_flail_wood", "fg": 4293 },
+        { "id": "overlay_female_wielded_2x4", "fg": 4294 },
+        { "id": "overlay_female_wielded_ar15", "fg": 4295 },
+        { "id": "overlay_female_wielded_ax", "fg": 4297 },
+        { "id": "overlay_female_wielded_bat", "fg": 4298 },
+        { "id": "overlay_female_wielded_bat_metal", "fg": 4299 },
+        { "id": "overlay_female_wielded_bat_nerf", "fg": 4300 },
+        { "id": "overlay_female_wielded_battleaxe", "fg": 4303 },
+        { "id": "overlay_female_wielded_bowling_axe", "fg": 4306 },
+        { "id": "overlay_female_wielded_bowling_pin", "fg": 4307 },
+        { "id": "overlay_female_wielded_bwirebat", "fg": 4309 },
+        { "id": "overlay_female_wielded_cane", "fg": 4310 },
+        { "id": "overlay_female_wielded_crowbar", "fg": 4311 },
+        { "id": "overlay_female_wielded_crutches", "fg": 4312 },
+        { "id": "overlay_female_wielded_cudgel", "fg": 4313 },
+        { "id": "overlay_female_wielded_fire_ax", "fg": 4315 },
+        { "id": "overlay_female_wielded_glass_macuahuitl", "fg": 4316 },
+        { "id": "overlay_female_wielded_golf_club", "fg": 4318 },
+        { "id": "overlay_female_wielded_halberd", "fg": 4319 },
+        { "id": "overlay_female_wielded_hammer", "fg": 4320 },
+        { "id": "overlay_female_wielded_hammer_sledge", "fg": 4321 },
+        { "id": "overlay_female_wielded_hockey_stick", "fg": 4324 },
+        { "id": "overlay_female_wielded_homewrecker", "fg": 4325 },
+        { "id": "overlay_female_wielded_iceaxe", "fg": 4327 },
+        { "id": "overlay_female_wielded_kukri", "fg": 4331 },
+        { "id": "overlay_female_wielded_long_pole", "fg": 4332 },
+        { "id": "overlay_female_wielded_longsword", "fg": 4333 },
+        { "id": "overlay_female_wielded_lucern_hammer", "fg": 4334 },
+        { "id": "overlay_female_wielded_mace", "fg": 4335 },
+        { "id": "overlay_female_wielded_makeshift_crowbar", "fg": 4337 },
+        { "id": "overlay_female_wielded_morningstar", "fg": 4338 },
+        { "id": "overlay_female_wielded_nailbat", "fg": 4339 },
+        { "id": "overlay_female_wielded_nailboard", "fg": 4340 },
+        { "id": "overlay_female_wielded_pickaxe", "fg": 4341 },
+        { "id": "overlay_female_wielded_poleaxe", "fg": 4344 },
+        { "id": "overlay_female_wielded_pool_cue", "fg": 4345 },
+        { "id": "overlay_female_wielded_primitive_axe", "fg": 4346 },
+        { "id": "overlay_female_wielded_q_staff", "fg": 4347 },
+        { "id": "overlay_female_wielded_scythe", "fg": 4351 },
+        { "id": "overlay_female_wielded_spear_pipe", "fg": 4354 },
+        { "id": "overlay_female_wielded_steel_pan", "fg": 4358 },
+        { "id": "overlay_female_wielded_stick", "fg": 4359 },
+        { "id": "overlay_male_wielded_2h_flail_steel", "fg": 4360 },
+        { "id": "overlay_male_wielded_2h_flail_wood", "fg": 4361 },
+        { "id": "overlay_male_wielded_2x4", "fg": 4362 },
+        { "id": "overlay_male_wielded_ar15", "fg": 4363 },
+        { "id": "overlay_male_wielded_ax", "fg": 4365 },
+        { "id": "overlay_male_wielded_bat", "fg": 4366 },
+        { "id": "overlay_male_wielded_bat_metal", "fg": 4367 },
+        { "id": "overlay_male_wielded_bat_nerf", "fg": 4368 },
+        { "id": "overlay_male_wielded_battleaxe", "fg": 4371 },
+        { "id": "overlay_male_wielded_bowling_axe", "fg": 4374 },
+        { "id": "overlay_male_wielded_bowling_pin", "fg": 4375 },
+        { "id": "overlay_male_wielded_bwirebat", "fg": 4377 },
+        { "id": "overlay_male_wielded_cane", "fg": 4378 },
+        { "id": "overlay_male_wielded_crowbar", "fg": 4379 },
+        { "id": "overlay_male_wielded_crutches", "fg": 4380 },
+        { "id": "overlay_male_wielded_cudgel", "fg": 4381 },
+        { "id": "overlay_male_wielded_fire_ax", "fg": 4383 },
+        { "id": "overlay_male_wielded_glass_macuahuitl", "fg": 4384 },
+        { "id": "overlay_male_wielded_golf_club", "fg": 4386 },
+        { "id": "overlay_male_wielded_halberd", "fg": 4387 },
+        { "id": "overlay_male_wielded_hammer", "fg": 4388 },
+        { "id": "overlay_male_wielded_hammer_sledge", "fg": 4389 },
+        { "id": "overlay_male_wielded_hockey_stick", "fg": 4392 },
+        { "id": "overlay_male_wielded_homewrecker", "fg": 4393 },
+        { "id": "overlay_male_wielded_iceaxe", "fg": 4395 },
+        { "id": "overlay_male_wielded_kukri", "fg": 4399 },
+        { "id": "overlay_male_wielded_long_pole", "fg": 4400 },
+        { "id": "overlay_male_wielded_longsword", "fg": 4401 },
+        { "id": "overlay_male_wielded_lucern_hammer", "fg": 4402 },
+        { "id": "overlay_male_wielded_mace", "fg": 4403 },
+        { "id": "overlay_male_wielded_makeshift_crowbar", "fg": 4405 },
+        { "id": "overlay_male_wielded_morningstar", "fg": 4406 },
+        { "id": "overlay_male_wielded_nailbat", "fg": 4407 },
+        { "id": "overlay_male_wielded_nailboard", "fg": 4408 },
+        { "id": "overlay_male_wielded_pickaxe", "fg": 4409 },
+        { "id": "overlay_male_wielded_poleaxe", "fg": 4412 },
+        { "id": "overlay_male_wielded_pool_cue", "fg": 4413 },
+        { "id": "overlay_male_wielded_primitive_axe", "fg": 4414 },
+        { "id": "overlay_male_wielded_q_staff", "fg": 4415 },
+        { "id": "overlay_male_wielded_scythe", "fg": 4419 },
+        { "id": "overlay_male_wielded_spear_pipe", "fg": 4422 },
+        { "id": "overlay_male_wielded_steel_pan", "fg": 4426 },
+        { "id": "overlay_male_wielded_stick", "fg": 4427 }
       ]
     },
     {

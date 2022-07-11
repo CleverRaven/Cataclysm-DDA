@@ -1520,7 +1520,7 @@
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_knife_skills" } ],
     "components": [
       [ [ "meat_red", 1, "LIST" ], [ "fish", 1 ], [ "lobster", 1 ] ],
-      [ [ "veggy", 1 ], [ "veggy_wild", 1 ] ],
+      [ [ "veggy_green", 1, "LIST" ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ]
     ]
   },
@@ -1912,6 +1912,21 @@
     "qualities": [ { "id": "OVEN", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 3, "LIST" ] ] ],
     "components": [ [ [ "potato", 1 ], [ "irradiated_potato", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "potato_boiled",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_VEGGI",
+    "skill_used": "cooking",
+    "difficulty": 1,
+    "time": "15 m",
+    "batch_time_factors": [ 80, 4 ],
+    "autolearn": true,
+    "qualities": [ { "id": "BOIL", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
+    "components": [ [ [ "potato", 1 ], [ "irradiated_potato", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -8202,9 +8217,7 @@
         [ "potato", 5 ],
         [ "barley", 5 ],
         [ "raw_beans", 5 ],
-        [ "cabbage", 5 ],
-        [ "veggy_wild", 5 ],
-        [ "veggy", 5 ],
+        [ "veggy_green", 5, "LIST" ],
         [ "press_cake", 1 ]
       ]
     ]

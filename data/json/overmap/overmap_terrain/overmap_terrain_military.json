@@ -273,7 +273,14 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "ws_fire_lookout_tower_base", "ws_fire_lookout_tower_f1", "ws_fire_lookout_tower_f2", "ws_fire_lookout_tower_f3" ],
+    "id": [
+      "ws_fire_lookout_tower_base",
+      "ws_fire_lookout_tower_f1",
+      "ws_fire_lookout_tower_f2",
+      "ws_fire_lookout_tower_f3",
+      "ws_fire_lookout_tower_f4",
+      "ws_fire_lookout_tower_f5"
+    ],
     "copy-from": "generic_city_building_no_sidewalk",
     "name": "fire lookout tower",
     "sym": "T",

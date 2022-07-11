@@ -623,14 +623,17 @@ void Character::randomize_height()
     init_height = clamp( x, Character::min_height(), Character::max_height() );
 }
 
-const item &Character::get_wielded_item() const
+item_location Character::get_wielded_item() const
 {
-    return weapon;
+    return const_cast<Character *>( this )->get_wielded_item();
 }
 
-item &Character::get_wielded_item()
+item_location Character::get_wielded_item()
 {
-    return weapon;
+    if( weapon.is_null() ) {
+        return item_location();
+    }
+    return item_location( *this, &weapon );
 }
 
 void Character::set_wielded_item( const item &to_wield )
@@ -907,8 +910,7 @@ double Character::fastest_aiming_method_speed( const item &gun, double recoil,
     if( !gun.has_flag( flag_DISABLE_SIGHTS ) ) {
         const int iron_sight_FOV = 480;
         int effective_iron_sight_dispersion = effective_dispersion( gun.type->gun->sight_dispersion );
-        double iron_sight_speed = gun.has_flag( flag_DISABLE_SIGHTS ) ? 0 :
-                                  modified_sight_speed( 0, effective_iron_sight_dispersion, recoil );
+        double iron_sight_speed = modified_sight_speed( 0, effective_iron_sight_dispersion, recoil );
         if( effective_iron_sight_dispersion < recoil && iron_sight_speed > aim_speed_modifier &&
             recoil <= iron_sight_FOV ) {
             aim_speed_modifier = iron_sight_speed;
@@ -1518,7 +1520,6 @@ bool Character::is_mounted() const
 
 void Character::forced_dismount()
 {
-    item &weapon = get_wielded_item();
     remove_effect( effect_riding );
     bool mech = false;
     if( mounted_creature ) {
@@ -1630,7 +1631,7 @@ void Character::dismount()
             add_msg( m_warning, _( "You cannot dismount there!" ) );
             return;
         }
-        item &weapon = get_wielded_item();
+
         remove_effect( effect_riding );
         monster *critter = mounted_creature.get();
         critter->mounted_player_id = character_id();
@@ -1687,7 +1688,7 @@ void Character::on_dodge( Creature *source, float difficulty )
     // Each avoided hit consumes an available dodge
     // When no more available we are likely to fail player::dodge_roll
     dodges_left--;
-    const item &weapon = get_wielded_item();
+
     // dodging throws of our aim unless we are either skilled at dodging or using a small weapon
     if( is_armed() && weapon.is_gun() ) {
         recoil += std::max( weapon.volume() / 250_ml - get_skill_level( skill_dodge ), 0 ) * rng( 0, 100 );
@@ -2621,7 +2622,6 @@ void Character::conduct_blood_analysis()
 
 int Character::get_standard_stamina_cost( const item *thrown_item ) const
 {
-    const item weapon = get_wielded_item();
     // Previously calculated as 2_gram * std::max( 1, str_cur )
     // using 16_gram normalizes it to 8 str. Same effort expenditure
     // for each strike, regardless of weight. This is compensated
@@ -2762,7 +2762,6 @@ units::mass Character::weight_carried_with_tweaks( const item_tweaks &tweaks ) c
     units::mass ret = worn.weight_carried_with_tweaks( without );
 
     // Wielded item
-    const item weapon = get_wielded_item();
     units::mass weaponweight = 0_gram;
     if( !without.count( &weapon ) ) {
         weaponweight += weapon.weight();
@@ -2807,7 +2806,6 @@ units::volume Character::volume_carried_with_tweaks( const item_tweaks &tweaks )
     units::volume ret = worn.contents_volume_with_tweaks( without );
 
     // Wielded item
-    const item weapon = get_wielded_item();
     if( !without.count( &weapon ) ) {
         ret += weapon.get_contents_volume_with_tweaks( without );
     }
@@ -2854,7 +2852,6 @@ units::mass Character::weight_capacity() const
 bool Character::can_pickVolume( const item &it, bool, const item *avoid,
                                 const bool ignore_pkt_settings ) const
 {
-    const item weapon = get_wielded_item();
     if( ( avoid == nullptr || &weapon != avoid ) &&
         weapon.can_contain( it, false, false, ignore_pkt_settings ).success() ) {
         return true;
@@ -2873,7 +2870,6 @@ bool Character::can_pickVolume_partial( const item &it, bool, const item *avoid,
         copy.charges = 1;
     }
 
-    const item weapon = get_wielded_item();
     if( ( avoid == nullptr || &weapon != avoid ) &&
         weapon.can_contain( copy, false, false, ignore_pkt_settings ).success() ) {
         return true;
@@ -2959,7 +2955,7 @@ bool Character::is_wielding( const item &target ) const
 std::vector<std::pair<std::string, std::string>> Character::get_overlay_ids() const
 {
     std::vector<std::pair<std::string, std::string>> rval;
-    std::multimap<int, std::string> mutation_sorting;
+    std::multimap<int, std::pair<std::string, std::string>> mutation_sorting;
     int order;
     std::string overlay_id;
 
@@ -2975,18 +2971,22 @@ std::vector<std::pair<std::string, std::string>> Character::get_overlay_ids() co
         }
         overlay_id = ( mut.second.powered ? "active_" : "" ) + mut.first.str();
         order = get_overlay_order_of_mutation( overlay_id );
-        mutation_sorting.insert( std::pair<int, std::string>( order, overlay_id ) );
+        std::string variant;
+        if( mut.second.variant != nullptr ) {
+            variant = mut.second.variant->id;
+        }
+        mutation_sorting.emplace( order, std::pair<std::string, std::string> { overlay_id, variant } );
     }
 
     // then get bionics
     for( const bionic &bio : *my_bionics ) {
         overlay_id = ( bio.powered ? "active_" : "" ) + bio.id.str();
         order = get_overlay_order_of_mutation( overlay_id );
-        mutation_sorting.insert( std::pair<int, std::string>( order, overlay_id ) );
+        mutation_sorting.emplace( order, std::pair<std::string, std::string> { overlay_id, "" } );
     }
 
     for( auto &mutorder : mutation_sorting ) {
-        rval.emplace_back( "mutation_" + mutorder.second, "" );
+        rval.emplace_back( "mutation_" + mutorder.second.first, mutorder.second.second );
     }
 
     // next clothing
@@ -3544,7 +3544,6 @@ std::map<bodypart_id, int> Character::get_wind_resistance( const std::map <bodyp
 
         int coverage = 0;
         float totalExposed = 1.0f;
-        int totalCoverage = 0;
         int penalty = 100;
 
         for( const item *it : on_bp.second ) {
@@ -3554,7 +3553,7 @@ std::map<bodypart_id, int> Character::get_wind_resistance( const std::map <bodyp
             totalExposed *= ( 1.0 - coverage / 100.0 ); // Coverage is between 0 and 1?
         }
 
-        ret[bp] = totalCoverage = 100 - totalExposed * 100;
+        ret[bp] = 100 - totalExposed * 100;
     }
 
     return ret;
@@ -7050,7 +7049,6 @@ ret_val<bool> Character::can_wield( const item &it ) const
                    _( "You can't wield this.  It looks like it has to be attached to a bionic." ) );
     }
 
-    const item weapon = get_wielded_item();
     if( is_armed() && !can_unwield( weapon ).success() ) {
         return ret_val<bool>::make_failure( _( "The %s is preventing you from wielding the %s." ),
                                             weapname(), it.tname() );
@@ -9579,6 +9577,14 @@ void Character::process_effects()
     Creature::process_effects();
 }
 
+void Character::gravity_check()
+{
+    if( get_map().tr_at( pos() ) == tr_ledge ) {
+        get_map().tr_at( pos() ).trigger( pos(), *this );
+        get_map().update_visibility_cache( pos().z );
+    }
+}
+
 double Character::vomit_mod()
 {
     double mod = mutation_value( "vomit_multiplier" );
@@ -11434,7 +11440,7 @@ bool Character::can_lift( const T &obj ) const
     // avoid comparing by weight as different objects use differing scales (grams vs kilograms etc)
     int str = get_lift_str();
     if( mounted_creature ) {
-        const auto mons = mounted_creature.get();
+        auto *const mons = mounted_creature.get();
         str = mons->mech_str_addition() == 0 ? str : mons->mech_str_addition();
     }
     const int npc_str = get_lift_assist();

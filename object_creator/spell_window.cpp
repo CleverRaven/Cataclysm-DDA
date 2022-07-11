@@ -55,7 +55,6 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
         _("Various spells, select one to see the details") ) );
     spell_items_box.show();
 
-    //TODO when we get_all() spells, make sure the spells from the magiclysm mod are included
     for( const spell_type& sp_t : spell_type::get_all() ) {
         QListWidgetItem* new_item = new QListWidgetItem(
             QString( sp_t.id.c_str() ) );

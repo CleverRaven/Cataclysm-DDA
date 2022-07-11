@@ -1,0 +1,27 @@
+# Το μέγιστο μήκος μιας γραμμής είναι 78 χαρακτήρες; η ακόλουθη γραμμή είναι για αναφορά
+# Οι μακρύτερες γραμμές θα διπλωθούν αυτόματα
+##############################################################################
+<color_white>Αρχικός συντάκτης:</color>    <color_white>Πρότζεκτ Μάνατζερ:</color>
+<color_yellow>Whales</color> (<color_dark_gray>Αναχώρησε</color>)    <color_yellow>KevinGranade</color>
+
+<color_white>Τρέχον Κύριοι Προγραμματιστές:</color>
+<color_yellow>mlangsdorf</color> - Οχήματα, βάρκες, βασικούς σταθμούς και οδηγούς τροποποίησης.
+<color_yellow>I-am-Erk</color> - Η κληρονομιά του Ultica συνεχίζει να είναι καρποφόρα.
+<color_yellow>KorGgenT</color> - Να μη με λέει που να βάζω τα δύο-επί-τέσσερά μου.
+
+<color_white>Ιδιαίτερες ευχαριστίες στους:</color>
+<color_yellow>Aivean</color> - Για την εξαιρετική επίδοση του.
+<color_yellow>anothersimulacrum </color> - Επειδή με κούρασε.
+<color_yellow>jbytheway</color> -Για τη βοήθεια του στο Python, συσχετισμούς προβλημάτων και συγκέντρωση των απαιτήσεων των κυανογραφημάτων.
+<color_yellow>BrettDong</color> - Για μεταφράσεις και πολλά άλλα.
+<color_yellow>Qrox</color> - Για τη βοήθειά του με τα διάφορα μυνήματα σφαλμάτων.
+<color_yellow>LyleSY</color> - Για τους δινόσαυρρρρρρους.
+
+<color_white>Ιδιαίτερες ευχαριστίες για τη τέχνη τους:</color>
+<color_yellow>acepleiades</color>, <color_yellow>barsoosayque</color>, <color_yellow>Fris0uman</color>, <color_yellow>int-ua</color>, και πολλοί άλλοι.
+
+<color_white>Για μια πλήρη λίστα των συντελεστών παρακαλώ δείτε:</color>
+<color_cyan>https://github.com/CleverRaven/Cataclysm-DDA/contributors</color>
+
+<color_light_cyan>Cataclysm</color>: <color_light_blue>Dark Days Ahead</color> is released under <color_white>CC-BY-SA 3.0</color>:
+<color_cyan>https://creativecommons.org/licenses/by-sa/3.0/</color>

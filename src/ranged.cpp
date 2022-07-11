@@ -403,7 +403,7 @@ target_handler::trajectory target_handler::mode_fire( avatar &you, aim_activity_
     ui.you = &you;
     ui.mode = target_ui::TargetMode::Fire;
     ui.activity = &activity;
-    ui.relevant = activity.get_weapon();
+    ui.relevant = &*activity.get_weapon();
     gun_mode gun = ui.relevant->gun_current_mode();
     ui.range = gun.target->gun_range( &you );
     ui.ammo = gun->ammo_data();
@@ -423,13 +423,13 @@ target_handler::trajectory target_handler::mode_throw( avatar &you, item &releva
     return ui.run();
 }
 
-target_handler::trajectory target_handler::mode_reach( avatar &you, item &weapon )
+target_handler::trajectory target_handler::mode_reach( avatar &you, item_location weapon )
 {
     target_ui ui = target_ui();
     ui.you = &you;
     ui.mode = target_ui::TargetMode::Reach;
-    ui.relevant = &weapon;
-    ui.range = weapon.current_reach_range( you );
+    ui.relevant = weapon.get_item();
+    ui.range = weapon ? weapon->current_reach_range( you ) : 1;
 
     return ui.run();
 }
@@ -745,7 +745,12 @@ void npc::pretend_fire( npc *source, int shots, item &gun )
 
 int Character::fire_gun( const tripoint &target, int shots )
 {
-    return fire_gun( target, shots, get_wielded_item() );
+    item_location gun = get_wielded_item();
+    if( !gun ) {
+        debugmsg( "%s doesn't have a gun to fire", get_name() );
+        return 0;
+    }
+    return fire_gun( target, shots, *gun );
 }
 
 int Character::fire_gun( const tripoint &target, int shots, item &gun )
@@ -2143,7 +2148,7 @@ double Character::gun_value( const item &weap, int ammo ) const
 
     // Penalty for dodging in melee makes the gun unusable in melee
     // Until NPCs get proper kiting, at least
-    int melee_penalty = get_wielded_item().volume() / 250_ml - get_skill_level( skill_dodge );
+    int melee_penalty = weap.volume() / 250_ml - get_skill_level( skill_dodge );
     if( melee_penalty <= 0 ) {
         // Dispersion matters less if you can just use the gun in melee
         total_dispersion = std::min<int>( total_dispersion / move_cost_factor, total_dispersion );
