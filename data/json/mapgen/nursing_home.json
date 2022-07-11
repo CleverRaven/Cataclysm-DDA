@@ -777,7 +777,10 @@
           { "item": "chem_lab", "chance": 75, "repeat": [ 0, 1 ] },
           { "item": "lab_glassware", "chance": 75, "repeat": [ 0, 1 ] }
         ],
-        "R": [ { "item": "lab_mutagen_ingredients_fridge", "chance": 100, "repeat": [ 0, 4 ] }, { "item": "mut_lab", "chance": 100, "repeat": [ 0, 4 ] } ],
+        "R": [
+          { "item": "lab_mutagen_ingredients_fridge", "chance": 100, "repeat": [ 0, 4 ] },
+          { "item": "mut_lab", "chance": 100, "repeat": [ 0, 4 ] }
+        ],
         "e": [
           { "item": "SUS_chemistry_bookcase", "chance": 50 },
           { "item": "lab_bookshelves", "chance": 50 },
