@@ -1,15 +1,15 @@
 [
   {
-    "id": "ssb_vehicle_layout",
+    "id": "structured_vehicle_layout",
     "type": "widget",
     "label": "Vehicle",
     "style": "layout",
     "arrange": "columns",
-    "widgets": [ "ssb_vehicle_cruise_layout", "ssb_vehicle_fuel_layout" ]
+    "widgets": [ "structured_vehicle_cruise_layout", "structured_vehicle_fuel_layout" ]
   },
   
   {
-    "id": "ssb_vehicle_cruise_layout",
+    "id": "structured_vehicle_cruise_layout",
     "type": "widget",
     "style": "layout",
     "arrange": "rows",
@@ -17,7 +17,7 @@
     "widgets": [ "vehicle_cruise_desc_label" ]
   },
   {
-    "id": "ssb_vehicle_fuel_layout",
+    "id": "structured_vehicle_fuel_layout",
     "type": "widget",
     "style": "layout",
     "arrange": "rows",

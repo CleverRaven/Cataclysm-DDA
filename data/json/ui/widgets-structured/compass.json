@@ -1,24 +1,24 @@
 [
   {
-    "id": "ssb_compass_9x9_layout",
+    "id": "structured_compass_9x9_layout",
     "type": "widget",
     "copy-from": "compass_all_danger_layout_alt",
     "width": 35
   },
   {
-    "id": "ssb_compass_7x7_layout",
+    "id": "structured_compass_7x7_layout",
     "type": "widget",
     "copy-from": "compass_all_danger_layout_alt",
     "width": 37
   },
   {
-    "id": "ssb_compass_5x5_layout",
+    "id": "structured_compass_5x5_layout",
     "type": "widget",
     "copy-from": "compass_all_danger_layout_alt",
     "width": 39
   },
   {
-    "id": "ssb_compass_layout",
+    "id": "structured_compass_layout",
     "type": "widget",
     "label": "Compass",
     "copy-from": "compass_all_danger_layout_alt",
