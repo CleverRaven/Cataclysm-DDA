@@ -1,0 +1,36 @@
+[
+  {
+    "id": "ssb_all_weariness_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Weariness/Activity",
+    "arrange": "columns",
+    "widgets": [ "ssb_weariness_desc_no_label", "ssb_weariness_transition_graph", "ssb_activity_desc", "ssb_weary_malus_desc" ]
+  },
+  
+  {
+    "id": "ssb_weariness_desc_no_label",
+    "type": "widget",
+    "copy-from": "weariness_desc",
+    "flags": [ "W_LABEL_NONE" ]
+  },
+  {
+    "id": "ssb_weariness_transition_graph",
+    "type": "widget",
+    "copy-from": "weariness_transition_graph",
+    "width": 9,
+    "flags": [ "W_LABEL_NONE" ]
+  },
+  {
+    "id": "ssb_activity_desc",
+    "type": "widget",
+    "copy-from": "activity_desc",
+    "flags": [ "W_LABEL_NONE" ]
+  },
+  {
+    "id": "ssb_weary_malus_desc",
+    "type": "widget",
+    "copy-from": "weary_malus_desc",
+    "flags": [ "W_LABEL_NONE" ]
+  }
+]

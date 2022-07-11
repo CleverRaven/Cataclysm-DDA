@@ -1,0 +1,53 @@
+[
+  {
+    "id": "ssb_overmap_compass_9x9_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Compass/Overmap 9x9",
+    "arrange": "columns",
+    "widgets": [ "ssb_overmap_9x9_layout", "ssb_vehicle_compass_9x9_layout" ],
+    "flags": [ "W_DISABLED_BY_DEFAULT" ]
+  },
+  {
+    "id": "ssb_overmap_compass_7x7_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Compass/Overmap 7x7",
+    "arrange": "columns",
+    "widgets": [ "ssb_overmap_7x7_layout", "ssb_vehicle_compass_7x7_layout" ]
+  },
+  {
+    "id": "ssb_overmap_compass_5x5_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Compass/Overmap 5x5",
+    "arrange": "columns",
+    "widgets": [ "ssb_overmap_5x5_layout", "ssb_vehicle_compass_5x5_layout" ],
+    "flags": [ "W_DISABLED_BY_DEFAULT" ]
+  },
+  
+  {
+    "id": "ssb_vehicle_compass_9x9_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "width": 35,
+    "widgets": [ "ssb_vehicle_layout", "ssb_compass_9x9_layout" ]
+  },
+  {
+    "id": "ssb_vehicle_compass_7x7_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "width": 37,
+    "widgets": [ "ssb_vehicle_layout", "ssb_compass_7x7_layout" ]
+  },
+  {
+    "id": "ssb_vehicle_compass_5x5_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "width": 39,
+    "widgets": [ "ssb_vehicle_layout", "ssb_compass_5x5_layout" ]
+  }
+]

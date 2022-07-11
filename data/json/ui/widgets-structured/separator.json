@@ -1,0 +1,17 @@
+[
+  {
+    "id": "ssb_separator",
+    "type": "widget",
+    "style": "layout",
+    "label": "Separator",
+    "arrange": "rows",
+    "width": 1,
+    "widgets": []
+  },
+  {
+    "id": "ssb_separator_disabled",
+    "type": "widget",
+    "copy-from": "ssb_separator",
+    "flags": [ "W_DISABLED_BY_DEFAULT" ]
+  }
+]

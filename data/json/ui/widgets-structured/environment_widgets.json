@@ -1,0 +1,74 @@
+[
+  {
+    "id": "ssb_time_moon_layout",
+    "type": "widget",
+    "label": "Date/Time/Moon",
+    "style": "layout",
+    "arrange": "columns",
+    "widgets": [ "date_desc_no_label", "ssb_time_layout", "ssb_moon_phase_graph" ]
+  },
+  {
+    "id": "ssb_weather_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Weather",
+    "arrange": "columns",
+    "widgets": [ "weather_desc_no_label", "ssb_lighting_layout", "ssb_wind_layout" ]
+  },
+  {
+    "id": "ssb_place_sound_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Place/Sound",
+    "arrange": "columns",
+    "widgets": [ "ssb_place_layout", "ssb_sound_layout" ]
+  },
+  
+  {
+    "id": "ssb_time_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "width": 10,
+    "widgets": [ "time_desc_no_label" ]
+  },
+  {
+    "id": "ssb_lighting_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "width": 10,
+    "widgets": [ "lighting_desc_no_label" ]
+  },
+  {
+    "id": "ssb_wind_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "width": 18,
+    "widgets": [ "wind_desc_no_label" ]
+  },
+  {
+    "id": "ssb_place_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "width": 26,
+    "widgets": [ "ssb_place_desc" ]
+  },
+  {
+    "id": "ssb_sound_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "width": 10,
+    "widgets": [ "sound_num" ]
+  },
+  
+  {
+    "id": "ssb_place_desc",
+    "type": "widget",
+    "copy-from": "place_desc",
+    "flags": [ "W_LABEL_NONE" ]
+  }
+]

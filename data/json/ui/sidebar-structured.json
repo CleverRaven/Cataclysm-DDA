@@ -1,0 +1,27 @@
+[
+  {
+    "id": "structured_sidebar",
+    "type": "widget",
+    "style": "sidebar",
+    "label": "structured",
+    "separator": ": ",
+    "width": 48,
+    "padding": 1,
+    "widgets": [
+      "ssb_time_moon_layout",
+      "ssb_weather_layout",
+      "ssb_place_sound_layout",
+      "ssb_separator",
+      "ssb_health_layout",
+      "ssb_separator",
+      "ssb_all_weariness_layout",
+      "ssb_separator",
+      "ssb_overmap_compass_9x9_layout",
+      "ssb_overmap_compass_7x7_layout",
+      "ssb_overmap_compass_5x5_layout",
+      "ssb_compass_layout",
+      "ssb_separator_disabled",
+      "ssb_separator_disabled"
+    ]
+  }
+]

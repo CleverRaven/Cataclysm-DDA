@@ -1,0 +1,146 @@
+[
+  {
+    "id": "ssb_health_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Health",
+    "arrange": "columns",
+    "separator": " ",
+    "height": 7,
+    "widgets": [ 
+      "ssb_body_graph_layout", 
+      "ssb_health_left_layout", 
+      "ssb_health_mid_layout", 
+      "ssb_health_right_layout" ]
+  },
+  
+  {
+    "id": "ssb_body_graph_layout",
+    "type": "widget",
+    "style": "layout",
+    "width": 8,
+    "arrange": "columns",
+    "widgets": [ "ssb_body_graph" ]
+  },
+  {
+    "id": "ssb_health_left_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "width": 10,
+    "widgets": [
+      "status_hpg_layout_head",
+      "status_hpg_layout_torso",
+      "status_hpg_layout_larm",
+      "status_hpg_layout_rarm",
+      "status_hpg_layout_lleg",
+      "status_hpg_layout_rleg",
+      "power_short_desc"
+    ]
+  },
+  {
+    "id": "ssb_health_mid_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "width": 12,
+    "//": "TODO - It is not currently possible to conditionally swap out widgets on the fly. When this is added, vehicle speed should replace speed when driving.",
+    "widgets": [
+      "pain_desc_no_label",
+      "hunger_desc_no_label",
+      "thirst_desc_no_label",
+      "fatigue_desc_no_label",
+      "body_temp_desc_no_label",
+      "focus_num",
+      "ssb_speed_layout"
+    ]
+  },
+  {
+    "id": "ssb_health_right_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "width": 11,
+    "//": "TODO - It is not currently possible to conditionally swap out widgets on the fly. When this is added, vehicle fuel should replace stats when driving.",
+    "widgets": [ 
+      "ssb_stats_label", 
+      "ssb_stats_layout", 
+      "wielding_desc_no_label", 
+      "style_desc_no_label", 
+      "env_temp_desc_no_label", 
+      "ssb_mood_safe_mode_layout", 
+      "ssb_stamina_graph" ]
+  },
+  
+  {
+    "id": "ssb_body_graph",
+    "type": "widget",
+    "copy-from": "body_graph",
+    "height": 7
+  },
+  {
+    "id": "ssb_stats_label",
+    "type": "widget",
+    "style": "text",
+    "string": "St De In Pe"
+  },
+  {
+    "id": "ssb_stats_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Stats",
+    "arrange": "columns",
+    "widgets": [ "ssb_str_num", "ssb_dex_num", "ssb_int_num", "ssb_per_num" ]
+  },
+  {
+    "id": "ssb_mood_safe_mode_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "columns",
+    "widgets": ["mood_desc_no_label", "ssb_safe_mode_desc"]
+  },
+  {
+    "id": "ssb_stamina_graph",
+    "type": "widget",
+    "copy-from": "stamina_widget",
+    "flags": [ "W_LABEL_NONE" ],
+    "style": "graph",
+    "width": 11,
+    "symbols": ".\\|"
+  },
+  
+  {
+    "id": "ssb_str_num",
+    "type": "widget",
+    "copy-from": "str_num",
+    "text_align": "right",
+    "flags": [ "W_LABEL_NONE" ]
+  },
+  {
+    "id": "ssb_dex_num",
+    "type": "widget",
+    "copy-from": "dex_num",
+    "text_align": "right",
+    "flags": [ "W_LABEL_NONE" ]
+  },
+  {
+    "id": "ssb_int_num",
+    "type": "widget",
+    "copy-from": "int_num",
+    "text_align": "right",
+    "flags": [ "W_LABEL_NONE" ]
+  },
+  {
+    "id": "ssb_per_num",
+    "type": "widget",
+    "copy-from": "per_num",
+    "text_align": "right",
+    "flags": [ "W_LABEL_NONE" ]
+  },
+  {
+    "id": "ssb_safe_mode_desc",
+    "type": "widget",
+    "text_align": "right",
+    "copy-from": "safe_mode_classic_desc"
+  }
+]
