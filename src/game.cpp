@@ -2676,7 +2676,7 @@ bool game::load( const save_t &name )
     u.set_save_id( name.decoded_name() );
     const std::string save_filename = playerpath + SAVE_EXTENSION;
     if( !read_from_file( save_filename,
-    [&]( std::istream & is ) {
+    [this, &save_filename]( std::istream & is ) {
     unserialize( is, save_filename );
     } ) ) {
         return false;
@@ -2687,7 +2687,7 @@ bool game::load( const save_t &name )
 
     const std::string log_filename = worldpath + name.base_path() + SAVE_EXTENSION_LOG;
     read_from_file_optional( log_filename,
-    [&]( std::istream & is ) {
+    [this, &log_filename]( std::istream & is ) {
         memorial().load( is, log_filename );
     } );
 

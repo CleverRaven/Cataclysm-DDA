@@ -4286,7 +4286,7 @@ ret_val<bool> install_bionic_actor::can_use( const Character &p, const item &it,
     } else {
         const bool downgrade =
             std::any_of( bid->available_upgrades.begin(), bid->available_upgrades.end(),
-        [&]( const bionic_id & b ) {
+        [&p]( const bionic_id & b ) {
             return p.has_bionic( b );
         } );
 
