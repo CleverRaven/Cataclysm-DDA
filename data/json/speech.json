@@ -2709,7 +2709,7 @@
   {
     "type": "speech",
     "speaker": [ "mon_feral_granny" ],
-    "sound": "\"You're looking feverish. Let grandma make you some soup.\"",
+    "sound": "\"You're looking feverish.  Let grandma make you some soup.\"",
     "volume": 20
   },
   {
@@ -2733,7 +2733,7 @@
   {
     "type": "speech",
     "speaker": [ "mon_feral_granny" ],
-    "sound": "\"That's my purse! I don't know you!\"",
+    "sound": "\"That's my purse!  I don't know you!\"",
     "volume": 20
   }
 ]
