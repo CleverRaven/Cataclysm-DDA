@@ -1105,7 +1105,7 @@
     "symbol": "[",
     "color": "dark_gray",
     "warmth": 5,
-    "material_thickness": 2.0
+    "material_thickness": 2.0,
     "environmental_protection": 10,
     "flags": [ "INTEGRATED", "UNBREAKABLE", "SKINTIGHT", "SOFT", "WATER_FRIENDLY", "SUN_GLASSES", "NO_REPAIR" ],
     "armor": [
