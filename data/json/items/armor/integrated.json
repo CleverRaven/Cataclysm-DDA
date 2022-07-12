@@ -781,7 +781,7 @@
         "cover_vitals": 75,
         "encumbrance": 0,
         "breathability": "POOR"
-      }},
+      },
       {
         "material": [
           { "type": "plastic", "covered_by_mat": 100, "thickness": 1.5 },
