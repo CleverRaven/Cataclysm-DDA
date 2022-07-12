@@ -415,9 +415,9 @@
     "volume": "250 ml",
     "charges": 2,
     "flags": [ "EDIBLE_FROZEN" ],
-    "vitamins": [ [ "calcium", 2 ], [ "iron", 15 ], [ "bad_food", 10 ] ],
+    "vitamins": [ [ "calcium", 2 ], [ "iron", 15 ] ],
     "stack_size": 20,
-    "fun": -4
+    "fun": -5
   },
   {
     "type": "COMESTIBLE",
@@ -436,9 +436,9 @@
     "volume": "250 ml",
     "charges": 2,
     "flags": [ "EDIBLE_FROZEN" ],
-    "vitamins": [ [ "calcium", 2 ], [ "iron", 15 ], [ "bad_food", 10 ] ],
+    "vitamins": [ [ "calcium", 2 ], [ "iron", 15 ] ],
     "stack_size": 20,
-    "fun": -1
+    "fun": -2
   },
   {
     "type": "COMESTIBLE",
