@@ -475,14 +475,14 @@ mission_data::mission_data()
 
 namespace talk_function
 {
-void scavenger_patrol( mission_data &mission_key, npc &p );
-void scavenger_raid( mission_data &mission_key, npc &p );
-void hospital_raid( mission_data &mission_key, npc &p );
-void commune_menial( mission_data &mission_key, npc &p );
-void commune_carpentry( mission_data &mission_key, npc &p );
-void commune_forage( mission_data &mission_key, npc &p );
-void commune_refuge_caravan( mission_data &mission_key, npc &p );
-bool handle_outpost_mission( const mission_entry &cur_key, npc &p );
+static void scavenger_patrol( mission_data &mission_key, npc &p );
+static void scavenger_raid( mission_data &mission_key, npc &p );
+static void hospital_raid( mission_data &mission_key, npc &p );
+static void commune_menial( mission_data &mission_key, npc &p );
+static void commune_carpentry( mission_data &mission_key, npc &p );
+static void commune_forage( mission_data &mission_key, npc &p );
+static void commune_refuge_caravan( mission_data &mission_key, npc &p );
+static bool handle_outpost_mission( const mission_entry &cur_key, npc &p );
 } // namespace talk_function
 
 void talk_function::companion_mission( npc &p )

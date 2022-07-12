@@ -405,6 +405,13 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "egg_dryosaurus",
+    "name": "dryosaurus egg",
+    "copy-from": "egg_dino_small",
+    "rot_spawn": "GROUP_EGG_dryosaurus"
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "egg_camptosaurus",
     "name": "camptosaurus egg",
     "copy-from": "egg_dino",
@@ -451,6 +458,13 @@
     "name": "pachycephalosaurus egg",
     "copy-from": "egg_dino",
     "rot_spawn": "GROUP_EGG_pachycephalosaurus"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_aquilops",
+    "name": "aquilops egg",
+    "copy-from": "egg_dino_small",
+    "rot_spawn": "GROUP_EGG_aquilops"
   },
   {
     "type": "COMESTIBLE",

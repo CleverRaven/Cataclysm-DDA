@@ -553,7 +553,7 @@ void iexamine::attunement_altar( Character &you, const tripoint & )
     }
     // remove the attunements the player has conflicts for
     for( auto iter = attunements.begin(); iter != attunements.end(); ) {
-        if( !you.has_opposite_trait( *iter ) && you.mutation_ok( *iter, false, false ) ) {
+        if( !you.has_opposite_trait( *iter ) && you.mutation_ok( *iter, true, true, true ) ) {
             ++iter;
         } else {
             iter = attunements.erase( iter );
@@ -1447,15 +1447,17 @@ void iexamine::chainfence( Character &you, const tripoint &examp )
         return;
     }
 
-    const item &weapon = you.get_wielded_item();
-    if( weapon.is_two_handed( you ) &&
-        query_yn( _( "You can't climb because you have to wield a %s with both hands.\n\nPut it away?" ),
-                  weapon.tname() ) ) {
-        if( !you.unwield() ) {
+    const item_location weapon = you.get_wielded_item();
+    if( weapon && weapon->is_two_handed( you ) ) {
+        if( query_yn(
+                _( "You can't climb because you have to wield a %s with both hands.\n\nPut it away?" ),
+                weapon->tname() ) ) {
+            if( !you.unwield() ) {
+                return;
+            }
+        } else {
             return;
         }
-    } else {
-        return;
     }
 
     // We're not going to do anything if we're already on that point.
@@ -5536,10 +5538,10 @@ void iexamine::autodoc( Character &you, const tripoint &examp )
 
 namespace sm_rack
 {
-const int MIN_CHARCOAL = 100;
-const int CHARCOAL_PER_LITER = 25;
-const units::volume MAX_FOOD_VOLUME = units::from_liter( 20 );
-const units::volume MAX_FOOD_VOLUME_PORTABLE = units::from_liter( 15 );
+static const int MIN_CHARCOAL = 100;
+static const int CHARCOAL_PER_LITER = 25;
+static const units::volume MAX_FOOD_VOLUME = units::from_liter( 20 );
+static const units::volume MAX_FOOD_VOLUME_PORTABLE = units::from_liter( 15 );
 } // namespace sm_rack
 
 static int get_charcoal_charges( units::volume food )

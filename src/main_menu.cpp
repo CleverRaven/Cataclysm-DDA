@@ -541,38 +541,7 @@ bool main_menu::opening_screen()
     world_generator->set_active_world( nullptr );
     world_generator->init();
 
-    get_help().load();
     init_strings();
-
-    if( !assure_dir_exist( PATH_INFO::config_dir() ) ) {
-        popup( _( "Unable to make config directory.  Check permissions." ) );
-        return false;
-    }
-
-    if( !assure_dir_exist( PATH_INFO::savedir() ) ) {
-        popup( _( "Unable to make save directory.  Check permissions." ) );
-        return false;
-    }
-
-    if( !assure_dir_exist( PATH_INFO::templatedir() ) ) {
-        popup( _( "Unable to make templates directory.  Check permissions." ) );
-        return false;
-    }
-
-    if( !assure_dir_exist( PATH_INFO::user_font() ) ) {
-        popup( _( "Unable to make fonts directory.  Check permissions." ) );
-        return false;
-    }
-
-    if( !assure_dir_exist( PATH_INFO::user_sound() ) ) {
-        popup( _( "Unable to make sound directory.  Check permissions." ) );
-        return false;
-    }
-
-    if( !assure_dir_exist( PATH_INFO::user_gfx() ) ) {
-        popup( _( "Unable to make graphics directory.  Check permissions." ) );
-        return false;
-    }
 
     load_char_templates();
 

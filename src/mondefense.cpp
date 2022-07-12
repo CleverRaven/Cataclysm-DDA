@@ -55,11 +55,11 @@ void mdefense::zapback( monster &m, Creature *const source,
             return;
         }
         // Players/NPCs can avoid the shock by using non-conductive weapons
-        if( !foe->get_wielded_item().conductive() ) {
+        if( foe->get_wielded_item() && !foe->get_wielded_item()->conductive() ) {
             if( foe->reach_attacking ) {
                 return;
             }
-            if( !foe->used_weapon().is_null() ) {
+            if( foe->used_weapon() ) {
                 return;
             }
         }
@@ -103,8 +103,8 @@ void mdefense::acidsplash( monster &m, Creature *const source,
         }
     } else {
         if( const Character *const foe = dynamic_cast<Character *>( source ) ) {
-            if( foe->get_wielded_item().is_melee( damage_type::CUT ) ||
-                foe->get_wielded_item().is_melee( damage_type::STAB ) ) {
+            const item_location weapon = foe->get_wielded_item();
+            if( weapon && ( weapon->is_melee( damage_type::CUT ) || weapon->is_melee( damage_type::STAB ) ) ) {
                 num_drops += rng( 3, 4 );
             }
             if( foe->unarmed_attack() ) {
@@ -156,7 +156,7 @@ void mdefense::return_fire( monster &m, Creature *source, const dealt_projectile
     const Character *const foe = dynamic_cast<Character *>( source );
     // No return fire for quiet or completely silent projectiles (bows, throwing etc).
     if( foe == nullptr ||
-        foe->get_wielded_item().gun_noise().volume < rl_dist( m.pos(), source->pos() ) ) {
+        foe->get_wielded_item()->gun_noise().volume < rl_dist( m.pos(), source->pos() ) ) {
         return;
     }
 
