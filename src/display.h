@@ -84,6 +84,8 @@ std::string time_approx();
 std::string time_string( const Character &u );
 // Sundial representing the current time of day
 std::string sundial_text_color( const Character &u, int width = 0 );
+// Sundial representing the current time of day, exact time if player has a watch, "???" if unknown/underground
+std::string sundial_time_text_color( const Character &u, int width );
 
 // Temperature at character location, if they have a thermometer
 std::string get_temp( const Character &u );

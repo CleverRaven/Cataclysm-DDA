@@ -151,6 +151,8 @@ std::string enum_to_string<widget_var>( widget_var data )
             return "style_text";
         case widget_var::sundial_text:
             return "sundial_text";
+        case widget_var::sundial_time_text:
+            return "sundial_time_text";
         case widget_var::time_text:
             return "time_text";
         case widget_var::veh_azimuth_text:
@@ -914,6 +916,7 @@ bool widget::uses_text_function()
         case widget_var::safe_mode_classic_text:
         case widget_var::style_text:
         case widget_var::sundial_text:
+        case widget_var::sundial_time_text:
         case widget_var::time_text:
         case widget_var::veh_azimuth_text:
         case widget_var::veh_cruise_text:
@@ -1009,6 +1012,10 @@ std::string widget::color_text_function_string( const avatar &ava, unsigned int 
             break;
         case widget_var::sundial_text:
             desc.first = display::sundial_text_color( ava, _width == 0 ? max_width : _width );
+            apply_color = false; // Already colorized
+            break;
+        case widget_var::sundial_time_text:
+            desc.first = display::sundial_time_text_color( ava, _width == 0 ? max_width : _width );
             apply_color = false; // Already colorized
             break;
         case widget_var::time_text:

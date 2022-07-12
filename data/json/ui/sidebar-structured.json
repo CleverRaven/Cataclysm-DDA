@@ -29,7 +29,7 @@
     "style": "layout",
     "arrange": "rows",
     "width": 10,
-    "widgets": [ "time_desc_no_label" ]
+    "widgets": [ "sundial_time_desc_no_label" ]
   },
   {
     "id": "structured_lighting_layout",

@@ -271,6 +271,19 @@ std::string display::time_string( const Character &u )
     }
 }
 
+std::string display::sundial_time_text_color( const Character &u, int width )
+{
+    // Return exact time if character has a watch, or approximate time if can see the sky
+    if( u.has_watch() ) {
+        return to_string_time_of_day( calendar::turn );
+    } else if( is_creature_outside( u ) ) {
+        return display::sundial_text_color( u, width );
+    } else {
+        // NOLINTNEXTLINE(cata-text-style): the question mark does not end a sentence
+        return _( "???" );
+    }
+}
+
 std::string display::sundial_text_color( const Character &u, int width )
 {
     const std::vector<std::pair<std::string, nc_color> > d_glyphs {
