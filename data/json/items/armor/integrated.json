@@ -756,7 +756,7 @@
     ],
     "material": [ "plastic", "superalloy", "qt_steel" ],
     "name": { "str_sp": "alloy plating - arms" },
-    "description": "A complex armor integrated into your arms and hands, made of lightweight metal encasing a chemical-resistant layer of synthetic skin.  Various service ports, CBM connectors, and dump points for sweat can be seen along its exterior.  It has steel pads on the elbows for protection.",
+    "description": "A complex armor integrated into your arms, made of lightweight metal encasing a chemical-resistant layer of synthetic skin.  Various service ports, CBM connectors, and dump points for sweat can be seen along its exterior.  It has steel pads on the elbows for protection.",
     "armor": [
       {
         "material": [
