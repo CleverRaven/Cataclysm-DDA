@@ -52,11 +52,11 @@ struct disp_bodygraph_cache {
         disp_bodygraph_cache();
 
         // Returns true if the stored map of current/max HP values differ from the character.
-        bool is_valid_for( const Character &u, const std::string graph_id ) const;
+        bool is_valid_for( const Character &u, std::string graph_id ) const;
 
         // Rebuild the cache using the bodypart HP values from the character and
         // store the resulting widget string.
-        void rebuild( const Character &u, const std::string graph_id, const std::string &bg_wgt_str );
+        void rebuild( const Character &u, std::string graph_id, const std::string &bg_wgt_str );
 
         // Retrieve the cached widget string
         const std::string &get_val() const {

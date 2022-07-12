@@ -56,7 +56,7 @@ disp_bodygraph_cache::disp_bodygraph_cache()
 
 bool disp_bodygraph_cache::is_valid_for( const Character &u, const std::string graph_id ) const
 {
-    if(graph_id != _graph_id) {
+    if( graph_id != _graph_id ) {
         return false;
     }
     std::vector<bodypart_id> cur_parts = u.get_all_body_parts( get_body_part_flags::only_main );
@@ -81,7 +81,8 @@ bool disp_bodygraph_cache::is_valid_for( const Character &u, const std::string g
     return true;
 }
 
-void disp_bodygraph_cache::rebuild( const Character &u, const std::string graph_id, const std::string &bg_wgt_str )
+void disp_bodygraph_cache::rebuild( const Character &u, const std::string graph_id,
+                                    const std::string &bg_wgt_str )
 {
     _bp_cur_max.clear();
     _graph_id = graph_id;
