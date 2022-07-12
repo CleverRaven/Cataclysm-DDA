@@ -232,12 +232,13 @@
     "fear_triggers": [ "SOUND", "FIRE" ],
     "placate_triggers": [ "PLAYER_WEAK" ],
     "harvest": "mammal_large_leather",
-    "starting_ammo": { "milk_raw": 4 },
+    "starting_ammo": { "milk_raw": 2 },
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 2 },
     "special_attacks": [ [ "EAT_CROP", 60 ] ],
     "reproduction": { "baby_monster": "mon_foal", "baby_count": 1, "baby_timer": 360 },
     "baby_flags": [ "AUTUMN" ],
     "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you!  It lets you pat its head and seems friendly." },
+    "mountable_weight_ratio": 0.35,
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PET_WONT_FOLLOW", "PET_MOUNTABLE", "PATH_AVOID_DANGER_1", "WARM", "MILKABLE" ]
   },
   {
