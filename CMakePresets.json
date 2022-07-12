@@ -43,6 +43,17 @@
       "hidden": true
     },
     {
+      "name": "mingw",
+      "description": "MinGW/Linux Build Configuration",
+      "toolchainFile": "${sourceDir}/build-scripts/MINGW.cmake",
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Linux"
+      },
+      "hidden": true
+    },
+    {
       "name": "MSVC",
       "inherits": [ "windows" ],
       "description": "Visual C++ Configuration",
@@ -55,6 +66,16 @@
       "description": "Link Statically",
       "cacheVariables": {
         "VCPKG_TARGET_TRIPLET": "x64-windows-static",
+        "DYNAMIC_LINKING": "False"
+      },
+      "hidden": true
+    },
+    {
+      "name": "x64-mingw-static",
+      "inherits": [ "base", "mingw" ],
+      "description": "Link Statically",
+      "cacheVariables": {
+        "VCPKG_TARGET_TRIPLET": "x64-mingw-static",
         "DYNAMIC_LINKING": "False"
       },
       "hidden": true
@@ -97,6 +118,20 @@
         "LOCALIZE": "True",
         "TILES": "False",
         "SOUND": "False"
+      }
+    },
+    {
+      "name": "windows-tiles-sounds-x64",
+      "inherits":  [ "base", "x64-mingw-static"],
+      "displayName": "x64 Release",
+      "description": "Target Windows (64-bit) with the MINGW development environment. (RelWithDebInfo)",
+      "cacheVariables": {
+        "CMAKE_PROJECT_INCLUDE_BEFORE": "${sourceDir}/build-scripts/windows-tiles-sounds-x64.cmake",
+        "CMAKE_BUILD_TYPE": "RelWithDebInfo",
+        "CURSES": "False",
+        "LOCALIZE": "True",
+        "TILES": "True",
+        "SOUND": "True"
       }
     }
   ],
