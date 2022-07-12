@@ -140,7 +140,7 @@
     "type": "BOOK",
     "category": "manuals",
     "name": { "str": "Augmentative Tech Review", "str_pl": "issues of Augmentative Tech Review" },
-    "description": "This annual publication covers the various ways in which people use technology to regain their lives.  There are a few in-depth and thoroughly illustrated articles on how people suffering from disabilties are benefiting from advanced prosthetics, though they tend to use too much jargon when explaining the technology behind it.",
+    "description": "This annual publication covers the various ways in which people use technology to regain their lives.  There are a few in-depth and thoroughly illustrated articles on how people suffering from disabilities are benefiting from advanced prosthetics, though they tend to use too much jargon when explaining the technology behind it.",
     "weight": "1909 g",
     "volume": "500 ml",
     "price": 3000,
