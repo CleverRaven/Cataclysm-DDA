@@ -240,11 +240,13 @@ void bionic::initialize_pseudo_items( bool create_weapon )
             }
         }
     }
-
+    //integrated armor uses pseudo item structure to be convenient but these should be visible in inventory
     for( const itype_id &id : bid.passive_pseudo_items ) {
         if( !id.is_empty() && id.is_valid() ) {
             item pseudo( id );
-            pseudo.set_flag( flag_PSEUDO );
+            if( !pseudo.has_flag( flag_INTEGRATED ) ) {
+                pseudo.set_flag( flag_PSEUDO );
+            }
             passive_pseudo_items.emplace_back( pseudo );
         }
     }
@@ -2931,6 +2933,13 @@ bionic_uid Character::add_bionic( const bionic_id &b, bionic_uid parent_uid )
         add_proficiency( learned );
     }
 
+    for( const itype_id &pseudo : b->passive_pseudo_items ) {
+        item tmparmor( pseudo );
+        if( tmparmor.has_flag( flag_INTEGRATED ) ) {
+            wear_item( tmparmor, false );
+        }
+    }
+
     update_bionic_power_capacity();
 
     calc_encumbrance();
@@ -3007,6 +3016,12 @@ void Character::remove_bionic( const bionic &bio )
 
     for( const proficiency_id &lost : bio.id->proficiencies ) {
         lose_proficiency( lost );
+    }
+
+    for( const itype_id &popped_armor : bio.id->passive_pseudo_items ) {
+        remove_worn_items_with( [&]( item & armor ) {
+            return armor.typeId() == popped_armor;
+        } );
     }
 
     const bool has_enchantments = !bio.id->enchantments.empty();
