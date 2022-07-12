@@ -4021,7 +4021,7 @@
     "type": "construction",
     "id": "constr_extract_sand_mound",
     "group": "extract_sand",
-  	"//": "Step 2 : extract sand",
+  	 "//": "Step 2 : extract sand",
     "category": "OTHER",
     "required_skills": [ [ "survival", 0 ] ],
     "time": "30 m",
