@@ -116,6 +116,18 @@
     "rate": "360 m"
   },
   {
+    "id": "bad_food",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Disgusting Diet" },
+    "excess": "bad_food_ennui",
+    "min": 0,
+    "max": 40,
+    "rate": "4 h",
+    "flags": [ "NO_DISPLAY" ],
+    "disease_excess": [ [ 10, 19 ], [ 20, 29 ], [ 30, 40 ] ]
+  },
+  {
     "id": "1st_aid",
     "type": "GENERIC",
     "category": "drugs",
