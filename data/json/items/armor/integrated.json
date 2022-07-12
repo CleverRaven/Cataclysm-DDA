@@ -983,10 +983,11 @@
     "warmth": 15,
     "environmental_protection": 10,
     "material_thickness": 4,
-    "flags": [ "INTEGRATED", "UNBREAKABLE", "SKINTIGHT", "NORMAL", "PADDED", "WATER_FRIENDLY", "SOFT", "NO_REPAIR", "WELL_SUPPORTED" ],
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "SKINTIGHT", "NORMAL", "PADDED", "WATER_FRIENDLY", "SOFT", "NO_REPAIR" ],
     "material": [ "plastic", "superalloy" ],
     "name": { "str_sp": "alloy plating - torso" },
-    "description": "A complex armor integrated into your torso, made of lightweight metal encasing a chemical-resistant layer of synthetic skin.  Various service ports, CBM connectors, and dump points for sweat can be seen along its exterior.  It is particularly thickly armored around your vital organs, but not too bulky to wear a coat or vest over it.",
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "mutations": [ "well_distributed" ] } ] },
+    "description": "A complex armor integrated into your torso, made of lightweight metal encasing a chemical-resistant layer of synthetic skin.  Various service ports, CBM connectors, and dump points for sweat can be seen along its exterior.  It is particularly thickly armored around your vital organs, but not too bulky to wear a coat or vest, and it helps reduce stress from carrying heavy loads.",
     "armor": [
       {
         "material": [
