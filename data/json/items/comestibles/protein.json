@@ -66,14 +66,14 @@
     "price_postapoc": 50,
     "flags": [ "EDIBLE_FROZEN" ],
     "healthy": -1,
-    "fun": -5,
+    "fun": -15,
     "quench": -9,
     "material": [ "fruit", "veggy" ],
     "symbol": "%",
     "color": "green",
     "container": "wrapper_pr",
     "calories": 400,
-    "vitamins": [ [ "calcium", 30 ], [ "iron", 30 ], [ "vitC", 30 ], [ "bad_food", 5 ] ]
+    "vitamins": [ [ "calcium", 30 ], [ "iron", 30 ], [ "vitC", 30 ] ]
   },
   {
     "id": "protein_shake",
