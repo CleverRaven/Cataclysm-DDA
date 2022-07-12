@@ -72,9 +72,10 @@
     "copy-from": "bionic_general_npc_usable",
     "type": "BIONIC_ITEM",
     "name": { "str": "Arms Alloy Plating CBM" },
-    "description": "An advanced protective mesh that weaves into the user's flesh.  Provides passive protection at the cost of mild encumbrance and can be used in conjunction with bionic martial arts.  A warning indicates that this CBM cannot be removed safely after being installed.",
+    "description": "An advanced, ergonomic armor that will integrate with the user's arms and hands, providing excellent protection both in combat and from the risk of infection posed by skin-breaching bionics.  Although it is primarily made of a lightweight alloy and synthetic \"skin\", it is mildly breathable as it can channel sweat from the user's glands to some extent.  The user will not be able to comfortably wear undergarments or inner clothing after installation, though coats and other outerwear will still fit.",
     "price": 350000,
     "difficulty": 6,
+    "weight": "2000 g",
     "installation_data": "AID_bio_armor_arms"
   },
   {
@@ -94,9 +95,9 @@
     "type": "BIONIC_ITEM",
     "name": { "str": "Head Alloy Plating CBM" },
     "looks_like": "bio_int_enhancer",
-    "description": "An advanced protective mesh that weaves into the user's flesh, protecting both their head and jaw regions at the cost of mild encumbrance.  A warning indicates that this CBM cannot be removed safely after being installed.",
+    "description": "An advanced, ergonomic armor that will integrate with the user's head, providing excellent protection both in combat and from the risk of infection posed by skin-breaching bionics, although it does not provide protection from airborne contaminants.  Although it is primarily made of a lightweight alloy and synthetic \"skin\", it is mildly breathable as it can channel sweat from the user's glands to some extent.  Helmets and hoods will still fit the user if the extra protection is needed.",
     "price": 350000,
-    "weight": "1000 g",
+    "weight": "2000 g",
     "difficulty": 6
   },
   {
@@ -105,8 +106,9 @@
     "type": "BIONIC_ITEM",
     "name": { "str": "Legs Alloy Plating CBM" },
     "looks_like": "bio_int_enhancer",
-    "description": "An advanced protective mesh that weaves into the user's flesh.  Provides passive protection at the cost of mild encumbrance and can be used in conjunction with bionic martial arts.  A warning indicates that this CBM cannot be removed safely after being installed.",
+    "description": "An advanced, ergonomic armor that will integrate with the user's legs and feet, providing excellent protection both in combat and from the risk of infection posed by skin-breaching bionics.  Although it is primarily made of a lightweight alloy and synthetic \"skin\", it is mildly breathable as it can channel sweat from the user's glands to some extent.  The user will not be able to comfortably wear undergarments or inner clothing after installation, though coats and other outerwear will still fit.",
     "price": 350000,
+    "weight": "3000 g",
     "difficulty": 6,
     "installation_data": "AID_bio_armor_legs"
   },
@@ -116,9 +118,9 @@
     "type": "BIONIC_ITEM",
     "name": { "str": "Torso Alloy Plating CBM" },
     "looks_like": "bio_int_enhancer",
-    "description": "An advanced protective mesh that weaves into the user's flesh, protecting it from physical trauma at the cost of mild encumbrance.  A warning indicates that this CBM cannot be removed safely after being installed.",
+    "description": "An advanced, ergonomic armor that will integrate with the user's torso, providing excellent protection both in combat and from the risk of infection posed by skin-breaching bionics.  Although it is primarily made of a lightweight alloy and synthetic \"skin\", it is mildly breathable as it can channel sweat from the user's glands to some extent.  The user will not be able to comfortably wear undergarments or inner clothing after installation, though coats and other outerwear will still fit.",
     "price": 350000,
-    "weight": "3000 g",
+    "weight": "5000 g",
     "difficulty": 6
   },
   {
