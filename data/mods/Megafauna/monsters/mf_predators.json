@@ -308,16 +308,6 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 1.0 } ],
     "dodge": 2,
     "upgrades": { "age_grow": 90, "into": "mon_bobcat" },
-    "flags": [
-      "NO_BREED",
-      "SEES",
-      "HEARS",
-      "GOODHEARING",
-      "SMELLS",
-      "ANIMAL",
-      "PATH_AVOID_DANGER_1",
-      "WARM",
-      "HIT_AND_RUN"
-    ]
+    "flags": [ "NO_BREED", "SEES", "HEARS", "GOODHEARING", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "HIT_AND_RUN" ]
   }
 ]
