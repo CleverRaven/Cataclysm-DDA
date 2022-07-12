@@ -45,17 +45,18 @@ struct disp_overmap_cache {
 struct disp_bodygraph_cache {
     private:
         std::map<bodypart_id, std::pair<int, int>> _bp_cur_max;
+        std::string _graph_id;
         std::string _graph_wgt_str;
 
     public:
         disp_bodygraph_cache();
 
         // Returns true if the stored map of current/max HP values differ from the character.
-        bool is_valid_for( const Character &u ) const;
+        bool is_valid_for( const Character &u, const std::string graph_id ) const;
 
         // Rebuild the cache using the bodypart HP values from the character and
         // store the resulting widget string.
-        void rebuild( const Character &u, const std::string &bg_wgt_str );
+        void rebuild( const Character &u, const std::string graph_id, const std::string &bg_wgt_str );
 
         // Retrieve the cached widget string
         const std::string &get_val() const {
