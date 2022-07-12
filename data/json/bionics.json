@@ -45,13 +45,8 @@
     "id": "bio_armor_arms",
     "type": "bionic",
     "name": { "str": "Arms Alloy Plating" },
-    "description": "An advanced protective meshwork has been woven into the flesh on your arms and hands, protecting them from physical trauma.",
+    "description": "Your arms and hands have been sealed inside an advanced integrated armor, protecting them from physical trauma.",
     "occupied_bodyparts": [ [ "arm_l", 4 ], [ "arm_r", 4 ], [ "hand_l", 1 ], [ "hand_r", 1 ] ],
-    "bash_protec": [ [ "arm_l", 3 ], [ "arm_r", 3 ], [ "hand_l", 3 ], [ "hand_r", 3 ] ],
-    "cut_protec": [ [ "arm_l", 3 ], [ "arm_r", 3 ], [ "hand_l", 3 ], [ "hand_r", 3 ] ],
-    "bullet_protec": [ [ "arm_l", 3 ], [ "arm_r", 3 ], [ "hand_l", 3 ], [ "hand_r", 3 ] ],
-    "encumbrance": [ [ "arm_l", 1 ], [ "arm_r", 1 ], [ "hand_l", 1 ], [ "hand_r", 1 ] ],
-    "cant_remove_reason": "The Alloy Plating is too thoroughly entwined to be removed safely.",
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
     "mutation_conflicts": [
       "THICKSKIN",
@@ -141,7 +136,8 @@
       "SLIME_SPRAY",
       "MUCUS_SECRETION",
       "MUCUS_SECRETION2"
-    ]
+    ],
+    "passive_pseudo_items": [ "armor_bio_arms", "armor_bio_hands" ]
   },
   {
     "id": "bio_armor_eyes",
@@ -149,25 +145,15 @@
     "name": { "str": "Protective Lenses" },
     "description": "Your eye sockets have been surgically sealed with highly protective mirrored lenses and your tear ducts have been re-routed to your mouth.  When you cry, you must spit out or swallow your tears.",
     "occupied_bodyparts": [ [ "eyes", 1 ] ],
-    "env_protec": [ [ "eyes", 7 ] ],
-    "bash_protec": [ [ "eyes", 3 ] ],
-    "cut_protec": [ [ "eyes", 3 ] ],
-    "bullet_protec": [ [ "eyes", 3 ] ],
-    "encumbrance": [ [ "eyes", 1 ] ],
     "mutation_conflicts": [ "COMPOUND_EYES", "CEPH_VISION", "CEPH_EYES", "EYEBULGE", "EYESTALKS1", "EYESTALKS2" ],
-    "social_modifiers": { "intimidate": 10 }
+    "social_modifiers": { "intimidate": 10 },
+    "passive_pseudo_items": [ "armor_bio_eyes" ]
   },
   {
     "id": "bio_armor_head",
     "type": "bionic",
     "name": { "str": "Head Alloy Plating" },
-    "description": "An advanced protective meshwork has been woven into the flesh on your head and jaw region, protecting your skull from physical trauma.",
-    "occupied_bodyparts": [ [ "head", 3 ], [ "mouth", 1 ] ],
-    "bash_protec": [ [ "head", 3 ], [ "mouth", 3 ] ],
-    "cut_protec": [ [ "head", 3 ], [ "mouth", 3 ] ],
-    "bullet_protec": [ [ "head", 3 ], [ "mouth", 3 ] ],
-    "encumbrance": [ [ "head", 1 ] ],
-    "cant_remove_reason": "The Alloy Plating is too thoroughly entwined to be removed safely.",
+    "description": "Your head has been sealed inside an advanced integrated armor, protecting your skull from physical trauma.",
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
     "mutation_conflicts": [
       "THICKSKIN",
@@ -273,19 +259,15 @@
       "MUCUS_SECRETION",
       "MUCUS_SECRETION2",
       "WIDE_MOUTH"
-    ]
+    ],
+    "passive_pseudo_items": [ "armor_bio_head", "armor_bio_mouth" ]
   },
   {
     "id": "bio_armor_legs",
     "type": "bionic",
     "name": { "str": "Legs Alloy Plating" },
-    "description": "An advanced protective meshwork has been woven into the flesh on your legs and feet, protecting them from physical trauma.",
-    "occupied_bodyparts": [ [ "leg_l", 6 ], [ "leg_r", 6 ], [ "foot_l", 1 ], [ "foot_r", 1 ] ],
-    "bash_protec": [ [ "leg_l", 3 ], [ "leg_r", 3 ], [ "foot_l", 3 ], [ "foot_r", 3 ] ],
-    "cut_protec": [ [ "leg_l", 3 ], [ "leg_r", 3 ], [ "foot_l", 3 ], [ "foot_r", 3 ] ],
-    "bullet_protec": [ [ "leg_l", 3 ], [ "leg_r", 3 ], [ "foot_l", 3 ], [ "foot_r", 3 ] ],
-    "encumbrance": [ [ "leg_l", 1 ], [ "leg_r", 1 ], [ "foot_l", 1 ], [ "foot_r", 1 ] ],
-    "cant_remove_reason": "The Alloy Plating is too thoroughly entwined to be removed safely.",
+    "description": "Your legs and feet have been sealed inside an advanced integrated armor, protecting them from physical trauma.",
+    "occupied_bodyparts": [ [ "leg_l", 6 ], [ "leg_r", 6 ], [ "foot_l", 2 ], [ "foot_r", 2 ] ],
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
     "mutation_conflicts": [
       "THICKSKIN",
@@ -370,20 +352,16 @@
       "GASTROPOD_BALANCE",
       "MUCUS_SECRETION",
       "MUCUS_SECRETION2"
-    ]
+    ],
+    "passive_pseudo_items": [ "armor_bio_legs" ]
   },
   {
     "id": "bio_armor_torso",
     "type": "bionic",
     "name": { "str": "Torso Alloy Plating" },
-    "description": "An advanced protective meshwork has been woven into the flesh on your torso, protecting it from physical trauma.",
+    "description": "Your torso has been sealed inside an advanced integrated armor, protecting it from physical trauma.",
     "occupied_bodyparts": [ [ "torso", 10 ] ],
-    "bash_protec": [ [ "torso", 3 ] ],
-    "cut_protec": [ [ "torso", 3 ] ],
-    "bullet_protec": [ [ "torso", 3 ] ],
-    "encumbrance": [ [ "torso", 1 ] ],
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
-    "cant_remove_reason": "The Alloy Plating is too thoroughly entwined to be removed safely.",
     "canceled_mutations": [ "VINES1", "VINES2", "VINES3" ],
     "mutation_conflicts": [
       "THICKSKIN",
@@ -459,7 +437,8 @@
       "MUCUS_SECRETION",
       "MUCUS_SECRETION2",
       "SHELL3"
-    ]
+    ],
+    "passive_pseudo_items": [ "armor_bio_torso" ]
   },
   {
     "id": "bio_batteries",
