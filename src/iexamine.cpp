@@ -5538,10 +5538,10 @@ void iexamine::autodoc( Character &you, const tripoint &examp )
 
 namespace sm_rack
 {
-const int MIN_CHARCOAL = 100;
-const int CHARCOAL_PER_LITER = 25;
-const units::volume MAX_FOOD_VOLUME = units::from_liter( 20 );
-const units::volume MAX_FOOD_VOLUME_PORTABLE = units::from_liter( 15 );
+static const int MIN_CHARCOAL = 100;
+static const int CHARCOAL_PER_LITER = 25;
+static const units::volume MAX_FOOD_VOLUME = units::from_liter( 20 );
+static const units::volume MAX_FOOD_VOLUME_PORTABLE = units::from_liter( 15 );
 } // namespace sm_rack
 
 static int get_charcoal_charges( units::volume food )

@@ -317,6 +317,17 @@ void uistatedata::serialize( JsonOut &json ) const
     json.member( "overmap_debug_weather", overmap_debug_weather );
     json.member( "overmap_visible_weather", overmap_visible_weather );
     json.member( "overmap_debug_mongroup", overmap_debug_mongroup );
+    json.member( "distraction_noise", distraction_noise );
+    json.member( "distraction_pain", distraction_pain );
+    json.member( "distraction_attack", distraction_attack );
+    json.member( "distraction_hostile_close", distraction_hostile_close );
+    json.member( "distraction_hostile_spotted", distraction_hostile_spotted );
+    json.member( "distraction_conversation", distraction_conversation );
+    json.member( "distraction_asthma", distraction_asthma );
+    json.member( "distraction_dangerous_field", distraction_dangerous_field );
+    json.member( "distraction_weather_change", distraction_weather_change );
+    json.member( "distraction_hunger", distraction_hunger );
+    json.member( "distraction_thirst", distraction_thirst );
 
     json.member( "input_history" );
     json.start_object();
@@ -370,6 +381,17 @@ void uistatedata::deserialize( const JsonObject &jo )
     jo.read( "overmap_debug_weather", overmap_debug_weather );
     jo.read( "overmap_visible_weather", overmap_visible_weather );
     jo.read( "overmap_debug_mongroup", overmap_debug_mongroup );
+    jo.read( "distraction_noise", distraction_noise );
+    jo.read( "distraction_pain", distraction_pain );
+    jo.read( "distraction_attack", distraction_attack );
+    jo.read( "distraction_hostile_close", distraction_hostile_close );
+    jo.read( "distraction_hostile_spotted", distraction_hostile_spotted );
+    jo.read( "distraction_conversation", distraction_conversation );
+    jo.read( "distraction_asthma", distraction_asthma );
+    jo.read( "distraction_dangerous_field", distraction_dangerous_field );
+    jo.read( "distraction_weather_change", distraction_weather_change );
+    jo.read( "distraction_hunger", distraction_hunger );
+    jo.read( "distraction_thirst", distraction_thirst );
 
     if( !jo.read( "vmenu_show_items", vmenu_show_items ) ) {
         // This is an old save: 1 means view items, 2 means view monsters,

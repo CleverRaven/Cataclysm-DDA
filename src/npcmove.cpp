@@ -3419,9 +3419,10 @@ bool npc::wield_better_weapon()
     bool use_silent = is_player_ally() && rules.has_flag( ally_rule::use_silent );
 
     item_location weapon = get_wielded_item();
+    item &weap = weapon ? *weapon : null_item_reference();
 
     // Check if there's something better to wield
-    item *best = &*weapon;
+    item *best = &weap;
     double best_value = -100.0;
 
     const int ups_charges = available_ups();
@@ -3448,7 +3449,6 @@ bool npc::wield_better_weapon()
         }
     };
 
-    item &weap = weapon ? *weapon : null_item_reference();
     compare_weapon( weap );
     // To prevent changing to barely better stuff
     best_value *= std::max<float>( 1.0f, ai_cache.danger_assessment / 10.0f );
@@ -3472,7 +3472,7 @@ bool npc::wield_better_weapon()
     // Needs to check reload speed, RELOAD_ONE etc.
     // Until then, the NPCs should reload the guns as a last resort
 
-    if( best == &*weapon ) {
+    if( best == &weap ) {
         add_msg_debug( debugmode::DF_NPC, "Wielded %s is best at %.1f, not switching",
                        best->type->get_id().str(),
                        best_value );

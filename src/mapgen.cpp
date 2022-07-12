@@ -574,10 +574,10 @@ void check_mapgen_definitions()
  */
 namespace mapgen_defer
 {
-std::string member;
-std::string message;
-bool defer;
-JsonObject jsi;
+static std::string member;
+static std::string message;
+static bool defer;
+static JsonObject jsi;
 } // namespace mapgen_defer
 
 static void set_mapgen_defer( const JsonObject &jsi, const std::string &member,

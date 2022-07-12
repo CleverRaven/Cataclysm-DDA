@@ -1217,7 +1217,7 @@ void Character::react_to_felt_pain( int intensity )
     if( intensity <= 0 ) {
         return;
     }
-    if( is_avatar() && intensity >= 2 ) {
+    if( uistate.distraction_pain && is_avatar() && intensity >= 2 ) {
         g->cancel_activity_or_ignore_query( distraction_type::pain, _( "Ouch, something hurts!" ) );
     }
     // Only a large pain burst will actually wake people while sleeping.
@@ -7572,7 +7572,7 @@ void Character::on_hurt( Creature *source, bool disturb /*= true*/ )
         if( has_effect( effect_sleep ) && !has_bionic( bio_sleep_shutdown ) ) {
             wake_up();
         }
-        if( !is_npc() && !has_effect( effect_narcosis ) ) {
+        if( uistate.distraction_attack && !is_npc() && !has_effect( effect_narcosis ) ) {
             if( source != nullptr ) {
                 if( sees( *source ) ) {
                     g->cancel_activity_or_ignore_query( distraction_type::attacked,

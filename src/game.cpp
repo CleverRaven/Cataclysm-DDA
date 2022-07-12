@@ -71,6 +71,7 @@
 #include "dependency_tree.h"
 #include "dialogue_chatbin.h"
 #include "diary.h"
+#include "distraction_manager.h"
 #include "editmap.h"
 #include "effect_on_condition.h"
 #include "enums.h"
@@ -1347,6 +1348,7 @@ bool game::cancel_activity_or_ignore_query( const distraction_type type, const s
                                 .option( "YES", allow_key )
                                 .option( "NO", allow_key )
                                 .option( "IGNORE", allow_key )
+                                .option( "MANAGER", allow_key )
                                 .query()
                                 .action;
 
@@ -1359,6 +1361,11 @@ bool game::cancel_activity_or_ignore_query( const distraction_type type, const s
         for( player_activity &activity : u.backlog ) {
             activity.ignore_distraction( type );
         }
+    }
+    if( action == "MANAGER" ) {
+        u.cancel_activity();
+        get_distraction_manager().show();
+        return true;
     }
 
     ui_manager::redraw();
@@ -2367,6 +2374,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "open_autopickup" );
     ctxt.register_action( "open_autonotes" );
     ctxt.register_action( "open_safemode" );
+    ctxt.register_action( "open_distraction_manager" );
     ctxt.register_action( "open_color" );
     ctxt.register_action( "open_world_mods" );
     ctxt.register_action( "debug" );
@@ -4164,7 +4172,7 @@ void game::mon_info_update( )
         }
     }
 
-    if( newseen > mostseen ) {
+    if( uistate.distraction_hostile_spotted && newseen > mostseen ) {
         if( newseen - mostseen == 1 ) {
             if( !new_seen_mon.empty() ) {
                 monster &critter = *new_seen_mon.back();
