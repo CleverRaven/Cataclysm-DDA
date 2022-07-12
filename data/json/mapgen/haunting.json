@@ -1,0 +1,7 @@
+[
+  {
+    "type": "ter_furn_transform",
+    "id": "merc_spike_transform",
+    "furniture": [ { "result": [ "f_empty_spike" ], "valid_furniture": [ "f_impaled_officer" ] } ]
+  }
+]

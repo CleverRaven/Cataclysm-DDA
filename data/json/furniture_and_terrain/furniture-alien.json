@@ -720,9 +720,18 @@
           "condition": { "u_has_effect": "medium" },
           "effect": [
               { "queue_eocs": "EOC_HAUNTING", "time_in_future": 20 },
-              { "u_location_variable": { "global_val": "return_loc" } },
               {
-                "u_spawn_monster": "m_zombie", "real_count": 1, "min_radius": 40, "max_radius": 60
+                "u_location_variable": { "global_val": "merc_area" },
+                "min_radius": 1,
+                "max_radius": 15
+              },
+              {
+                "u_spawn_monster": "mon_absence", "real_count": 1, "min_radius": 20, "max_radius": 45
+              },
+              {
+                "u_transform_radius": 10,
+                "ter_furn_transform": "merc_spike_transform",
+                "target_var": { "global_val": "merc_area" }
               }
           ]
         },
@@ -738,6 +747,39 @@
               "u_message": "FREE ME."
             },
             { "u_add_effect": "medium", "duration": 60 }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_empty_spike",
+    "name": "empty spike",
+    "description": "A strange otherworldly spike that refracts light in strange ways.  The body no longer rests on it.",
+    "symbol": "!",
+    "color": "black",
+    "move_cost_mod": -1,
+    "coverage": 100,
+    "flags": [ "TRANSPARENT", "ORGANIC" ],
+    "deconstruct": { "items": [ { "item": "glass", "count": 1000 } ] },
+    "required_str": -1,
+    "bash": {
+      "str_min": 100,
+      "str_max": 100,
+      "sound": "smash!",
+      "sound_fail": "an absence of sound.",
+      "items": [ { "item": "glass", "count": [ 1, 2 ] } ]
+    },
+    "examine_action": {
+      "type": "effect_on_condition",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_MISSING_BODY",
+          "effect": [
+            {
+              "u_message": "The body is gone but it can't have gone far, you need to destroy it."
+            }
           ]
         }
       ]
