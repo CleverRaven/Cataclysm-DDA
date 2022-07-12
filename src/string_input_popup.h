@@ -87,10 +87,12 @@ class string_input_popup // NOLINT(cata-xy)
 
         std::unique_ptr<input_context> ctxt_ptr;
         input_context *ctxt = nullptr;
+        std::vector<std::tuple<std::string, long, std::function<bool()>>> callbacks;
 
         bool _canceled = false;
         bool _confirmed = false;
         bool _handled = false;
+        bool _text_changed = false;
 
         void create_window();
         void create_context();
@@ -279,7 +281,11 @@ class string_input_popup // NOLINT(cata-xy)
         void edit( int &value );
         /**@}*/
 
-        std::map<long, std::function<bool()>> callbacks;
+        void add_callback( const std::string &action, const std::function<bool()> &callback_func );
+        void add_callback( int input, const std::function<bool()> &callback_func );
+
+        // Register additional actions
+        std::vector<std::pair<std::string, translation>> custom_actions;
 };
 
 #endif // CATA_SRC_STRING_INPUT_POPUP_H

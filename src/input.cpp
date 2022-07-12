@@ -1373,9 +1373,9 @@ action_id input_context::display_menu( const bool permit_execute_action )
     string_input_popup spopup;
     // ignore hardcoded keys in string input popup
     for( const std::pair<const fallback_action, int> &v : fallback_keys ) {
-        spopup.callbacks[v.second] = []() {
+        spopup.add_callback( v.second, []() {
             return true;
-        };
+        } );
     }
     const auto recalc_size = [&]( ui_adaptor & ui ) {
         int maxwidth = std::max( FULL_SCREEN_WIDTH, TERMX );
