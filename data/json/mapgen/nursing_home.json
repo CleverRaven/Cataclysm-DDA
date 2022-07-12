@@ -145,7 +145,7 @@
           { "item": "SUS_silverware", "chance": 40, "repeat": [ 0, 1 ] },
           { "item": "SUS_utensils", "chance": 40, "repeat": [ 0, 1 ] },
           { "item": "SUS_knife_drawer", "chance": 40, "repeat": [ 0, 1 ] }
-        ],
+             ],
         "j": [
           { "item": "cleaning", "chance": 50 },
           { "item": "hardware_trash", "chance": 75 },
@@ -210,7 +210,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "//": "Shady Hills Nursing Home",
+	"//": "Shady Hills Nursing Home",
     "om_terrain": [
       [ "nursing_home_sh1", "nursing_home_sh2", "nursing_home_sh3", "nursing_home_sh4" ],
       [ "nursing_home_sh5", "nursing_home_sh6", "nursing_home_sh7", "nursing_home_sh8" ],
@@ -326,9 +326,10 @@
         { "item": "television", "x": 68, "y": 28 },
         { "item": "television", "x": 68, "y": 33 },
         { "item": "coke", "x": 2, "y": 31 },
-        { "item": "frozen_dinner", "x": 62, "y": 2, "repeat": [ 3, 6 ] },
-        { "item": "frozen_dinner", "x": 62, "y": 3, "repeat": [ 3, 6 ] },
-        { "item": "frozen_dinner", "x": 62, "y": 4, "repeat": [ 3, 6 ] }
+		{ "item": "frozen_dinner", "x": 62, "y": 2, "repeat": [ 3, 6 ] },
+		{ "item": "frozen_dinner", "x": 62, "y": 3, "repeat": [ 3, 6 ] },
+		{ "item": "frozen_dinner", "x": 62, "y": 4, "repeat": [ 3, 6 ] }
+		
       ],
       "items": {
         "3": { "item": "bed", "chance": 80 },
@@ -777,10 +778,7 @@
           { "item": "chem_lab", "chance": 75, "repeat": [ 0, 1 ] },
           { "item": "lab_glassware", "chance": 75, "repeat": [ 0, 1 ] }
         ],
-        "R": [
-          { "item": "lab_mutagen_ingredients_fridge", "chance": 100, "repeat": [ 0, 4 ] },
-          { "item": "mut_lab", "chance": 100, "repeat": [ 0, 4 ] }
-        ],
+        "R": [ { "item": "lab_mutagen_ingredients_fridge", "chance": 100, "repeat": [ 0, 4 ] }, { "item": "mut_lab", "chance": 100, "repeat": [ 0, 4 ] } ],
         "e": [
           { "item": "SUS_chemistry_bookcase", "chance": 50 },
           { "item": "lab_bookshelves", "chance": 50 },
