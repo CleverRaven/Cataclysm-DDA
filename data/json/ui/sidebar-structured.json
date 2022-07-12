@@ -90,7 +90,7 @@
     "style": "layout",
     "width": 8,
     "arrange": "columns",
-    "widgets": [ "structured_body_graph" ]
+    "widgets": [ "compact_body_graph" ]
   },
   {
     "id": "structured_health_left_layout",
@@ -140,12 +140,6 @@
       "structured_mood_safe_mode_layout",
       "structured_stamina_graph"
     ]
-  },
-  {
-    "id": "structured_body_graph",
-    "type": "widget",
-    "copy-from": "body_graph",
-    "height": 7
   },
   {
     "id": "structured_stats_label",

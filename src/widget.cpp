@@ -359,6 +359,7 @@ void widget::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "label", _label, translation() );
     optional( jo, was_loaded, "style", _style, "number" );
     optional( jo, was_loaded, "arrange", _arrange, "columns" );
+    optional( jo, was_loaded, "body_graph", _body_graph, "full_body_widget" );
     optional( jo, was_loaded, "direction", _direction, cardinal_direction::num_cardinal_directions );
     optional( jo, was_loaded, "text_align", _text_align, widget_alignment::LEFT );
     optional( jo, was_loaded, "label_align", _label_align, widget_alignment::LEFT );
@@ -960,7 +961,7 @@ std::string widget::color_text_function_string( const avatar &ava, unsigned int 
             desc = display::activity_text_color( ava );
             break;
         case widget_var::body_graph:
-            desc.first = display::colorized_bodygraph_text( ava, "full_body_widget",
+            desc.first = display::colorized_bodygraph_text( ava, _body_graph,
                          _width == 0 ? max_width : _width, _height_max, _height );
             update_height = true; // Dynamically adjusted height
             apply_color = false; // Already colorized
