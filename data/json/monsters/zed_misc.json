@@ -1689,7 +1689,7 @@
     "id": "mon_zeriatric",
     "type": "MONSTER",
     "name": { "str": "zeriatric" },
-    "description": "A hunched, decrepit, geriatric zombie. Its dentures seem to be falling out.",
+    "description": "A hunched, decrepit, geriatric zombie.  Its dentures seem to be falling out.",
     "default_faction": "zombie",
     "bodytype": "human",
     "categories": [ "CLASSIC" ],
