@@ -731,36 +731,6 @@
     ]
   },
   {
-    "id": "integrated_chitin3_claws",
-    "type": "ARMOR",
-    "category": "armor",
-    "name": { "str_sp": "sclerotin claws" },
-    "description": "Useful for the hunt, suitable for maximum efficiency.",
-    "weight": "450 g",
-    "volume": "500 ml",
-    "price": 0,
-    "price_postapoc": 0,
-    "material": [ "sclerotin" ],
-    "symbol": ",",
-    "color": "brown",
-    "warmth": 5,
-    "bashing": 4,
-    "cutting": 8,
-    "to_hit": 1,
-    "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 4 ], [ "PRY", 1 ] ],
-    "environmental_protection": 1,
-    "techniques": [ "RAPID" ],
-    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNARMED_WEAPON", "UNBREAKABLE", "OUTER", "PADDED" ],
-    "armor": [
-      {
-        "material": [ { "type": "sclerotin", "covered_by_mat": 100, "thickness": 3.2 } ],
-        "covers": [ "hand_l", "hand_r" ],
-        "coverage": 80,
-        "encumbrance": 7
-      }
-    ]
-  },
-  {
     "id": "armor_bio_arms",
     "type": "ARMOR",
     "category": "armor",
@@ -1013,7 +983,7 @@
     "warmth": 15,
     "environmental_protection": 10,
     "material_thickness": 4,
-    "flags": [ "INTEGRATED", "UNBREAKABLE", "SKINTIGHT", "NORMAL", "PADDED", "WATER_FRIENDLY", "SOFT", "NO_REPAIR" ],
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "SKINTIGHT", "NORMAL", "PADDED", "WATER_FRIENDLY", "SOFT", "NO_REPAIR", "WELL_SUPPORTED" ],
     "material": [ "plastic", "superalloy" ],
     "name": { "str_sp": "alloy plating - torso" },
     "description": "A complex armor integrated into your torso, made of lightweight metal encasing a chemical-resistant layer of synthetic skin.  Various service ports, CBM connectors, and dump points for sweat can be seen along its exterior.  It is particularly thickly armored around your vital organs, but not too bulky to wear a coat or vest over it.",
