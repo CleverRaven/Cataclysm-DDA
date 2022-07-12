@@ -21,7 +21,7 @@
     "responses": [
       { "text": "RE: Ghosts!?", "topic": "COMP_NURSING_HOME_RECEP_GHOSTS" },
       { "text": "RE: Performance Evaluation", "topic": "COMP_NURSING_HOME_RECEP_EVAL" },
-      { "text": "RE: Mrs. Palmero", "topic": "COMP_NURSING_HOME_RECEP_PALMERO" },
+      { "text": "RE: Mrs.  Palmero", "topic": "COMP_NURSING_HOME_RECEP_PALMERO" },
       { "text": "RE: Housekeeping", "topic": "COMP_NURSING_HOME_RECEP_HOUSEKEEPING" },
       { "text": "RETURN TO MAIN PAGE", "topic": "COMP_NURSING_HOME_RECEPTIONIST" }
     ]
@@ -47,13 +47,13 @@
   {
     "type": "talk_topic",
     "id": "COMP_NURSING_HOME_RECEP_PALMERO",
-    "dynamic_line": "FROM: Connie Malackey, Receptionist\n TO: Joe Shert, Receptionist\n RE: Mrs. Palmero\n\n Hi Joe.\n So - you know how Mrs.  Palmero has been acting weird and constantly talking about baking cookies?\n I was talking to one of the nurses and they said that Mrs.  Palmero was prescribed this new medicine?\n It's this weird powder stuff.  Apparently the nurses aren't even qualified to give it to her - she needs a special doctor to come in every day!\n Crazy, right?  I wish all I had to worry about was baking cookies...",
+    "dynamic_line": "FROM: Connie Malackey, Receptionist\n TO: Joe Shert, Receptionist\n RE: Mrs.  Palmero\n\n Hi Joe.\n So - you know how Mrs.  Palmero has been acting weird and constantly talking about baking cookies?\n I was talking to one of the nurses and they said that Mrs.  Palmero was prescribed this new medicine?\n It's this weird powder stuff.  Apparently the nurses aren't even qualified to give it to her - she needs a special doctor to come in every day!\n Crazy, right?  I wish all I had to worry about was baking cookies…",
     "responses": [ { "text": "RETURN TO MESSAGES", "topic": "COMP_NURSING_HOME_RECEP_EMAILS" } ]
   },
   {
     "type": "talk_topic",
     "id": "COMP_NURSING_HOME_RECEP_TASKS",
-    "dynamic_line": "WARNING! ERROR A101; FAILURE DETECTED IN POWER SUPPLY.\n RESERVE POWER ACTIVATED.  CONTACT INFORMATION TECHNOLOGY DEPARTMENT IMMEDIATELY!\n\n WARNING!  ERROR C310; UNABLE TO CONNECT TO SCHEDULING SERVER.\n ERROR REFRESHING TASKS.  NOT ALL TASKS MAY BE DISPLAYED.\n REPORT COMPLETED TASKS DIRECTLY TO SUPERVISOR VIA MESSAGING SYSTEM.\n CONTACT INFORMATION TECHNOLOGY DEPARTMENT IMMEDIATELY!",
+    "dynamic_line": "WARNING!  ERROR A101; FAILURE DETECTED IN POWER SUPPLY.\n RESERVE POWER ACTIVATED.  CONTACT INFORMATION TECHNOLOGY DEPARTMENT IMMEDIATELY!\n\n WARNING!  ERROR C310; UNABLE TO CONNECT TO SCHEDULING SERVER.\n ERROR REFRESHING TASKS.  NOT ALL TASKS MAY BE DISPLAYED.\n REPORT COMPLETED TASKS DIRECTLY TO SUPERVISOR VIA MESSAGING SYSTEM.\n CONTACT INFORMATION TECHNOLOGY DEPARTMENT IMMEDIATELY!",
     "responses": [
       { "text": "New Assignments [1]", "topic": "COMP_NURSING_HOME_RECEP_NEWTASKS" },
       { "text": "Pending Assignments", "topic": "COMP_NURSING_HOME_RECEP_ERROR" },
@@ -94,7 +94,7 @@
   {
     "type": "talk_topic",
     "id": "COMP_NURSING_HOME_RECEP_MANAGER",
-    "dynamic_line": "Shady Hills Nursing Home.\n You are logged in as: Bryan Rooters, Reception Manager.\n\n WARNING! ERROR A101; FAILURE DETECTED IN POWER SUPPLY.\n RESERVE POWER ACTIVATED. CONTACT INFORMATION TECHNOLOGY DEPARTMENT IMMEDIATELY!",
+    "dynamic_line": "Shady Hills Nursing Home.\n You are logged in as: Bryan Rooters, Reception Manager.\n\n WARNING!  ERROR A101; FAILURE DETECTED IN POWER SUPPLY.\n RESERVE POWER ACTIVATED.  CONTACT INFORMATION TECHNOLOGY DEPARTMENT IMMEDIATELY!",
     "responses": [
       { "text": "Access Messages", "topic": "COMP_NURSING_HOME_MGR_EMAILS" },
       { "text": "Access Employee Files", "topic": "COMP_NURSING_HOME_MGR_RECORDS" },
@@ -104,7 +104,7 @@
   {
     "type": "talk_topic",
     "id": "COMP_NURSING_HOME_MGR_EMAILS",
-    "dynamic_line": "WARNING! ERROR A101; FAILURE DETECTED IN POWER SUPPLY.\n RESERVE POWER ACTIVATED.  CONTACT INFORMATION TECHNOLOGY DEPARTMENT IMMEDIATELY!\n\n WARNING! ERROR B231; UNABLE TO CONNECT TO MESSAGING SERVER.\n ERROR REFRESHING MESSAGES.  NOT ALL MESSAGES MAY BE DISPLAYED.\n CONTACT INFORMATION TECHNOLOGY DEPARTMENT IMMEDIATELY!",
+    "dynamic_line": "WARNING!  ERROR A101; FAILURE DETECTED IN POWER SUPPLY.\n RESERVE POWER ACTIVATED.  CONTACT INFORMATION TECHNOLOGY DEPARTMENT IMMEDIATELY!\n\n WARNING!  ERROR B231; UNABLE TO CONNECT TO MESSAGING SERVER.\n ERROR REFRESHING MESSAGES.  NOT ALL MESSAGES MAY BE DISPLAYED.\n CONTACT INFORMATION TECHNOLOGY DEPARTMENT IMMEDIATELY!",
     "responses": [
       { "text": "RE: Do Your Job", "topic": "COMP_NURSING_HOME_MGR_DOYOURJOB" },
       { "text": "RE: Performance Evaluation", "topic": "COMP_NURSING_HOME_MGR_EVAL" },
@@ -117,7 +117,7 @@
   {
     "type": "talk_topic",
     "id": "COMP_NURSING_HOME_MGR_DOYOURJOB",
-    "dynamic_line": "FROM: Kristi Gordee, SVP Operations\n TO: Bryan Rooters, Reception Manager\n RE: Do Your Job\n\n Bryan,\n Do you not conduct thorough background checks and reviews on new hires? Joe is related to the Mayor of Springfield. His 90 day New Employee evaluation is coming up.  Do your job.",
+    "dynamic_line": "FROM: Kristi Gordee, SVP Operations\n TO: Bryan Rooters, Reception Manager\n RE: Do Your Job\n\n Bryan,\n Do you not conduct thorough background checks and reviews on new hires?  Joe is related to the Mayor of Springfield. His 90 day New Employee evaluation is coming up.  Do your job.",
     "responses": [ { "text": "RETURN TO MESSAGES", "topic": "COMP_NURSING_HOME_MGR_EMAILS" } ]
   },
   {
@@ -232,7 +232,7 @@
   {
     "type": "talk_topic",
     "id": "COMP_NURSING_HOME_COO_EMAILS",
-    "dynamic_line": "Shady Hills Nursing Home.\n You are logged in as: Kristi Gordee, SVP Operations.\n\n WARNING! ERROR A101; FAILURE DETECTED IN POWER SUPPLY.\n RESERVE POWER ACTIVATED.  CONTACT INFORMATION TECHNOLOGY DEPARTMENT IMMEDIATELY!\n\n WARNING! ERROR B231; UNABLE TO CONNECT TO MESSAGING SERVER.\n ERROR REFRESHING MESSAGES.  NOT ALL MESSAGES MAY BE DISPLAYED.\n CONTACT INFORMATION TECHNOLOGY DEPARTMENT IMMEDIATELY!",
+    "dynamic_line": "Shady Hills Nursing Home.\n You are logged in as: Kristi Gordee, SVP Operations.\n\n WARNING!  ERROR A101; FAILURE DETECTED IN POWER SUPPLY.\n RESERVE POWER ACTIVATED.  CONTACT INFORMATION TECHNOLOGY DEPARTMENT IMMEDIATELY!\n\n WARNING!  ERROR B231; UNABLE TO CONNECT TO MESSAGING SERVER.\n ERROR REFRESHING MESSAGES.  NOT ALL MESSAGES MAY BE DISPLAYED.\n CONTACT INFORMATION TECHNOLOGY DEPARTMENT IMMEDIATELY!",
     "responses": [
       { "text": "RE: Thank you for your order", "topic": "COMP_NURSING_HOME_COO_THANKS" },
       { "text": "RE: Budget", "topic": "COMP_NURSING_HOME_COO_BUDGET" },
@@ -244,7 +244,7 @@
   {
     "type": "talk_topic",
     "id": "COMP_NURSING_HOME_COO_THANKS",
-    "dynamic_line": "FROM: Big Science Supply Depot\n TO: Kristi Gordee, SVP Operations\n RE: Thank you for your order\n\n Hi KRISTI GORDEE,\n\n We have received your order and will begin processing it immediately.\n 1x Jet Injector, RX12 by Rivtech\n\n You will receive an additional email when your order has shipped.\n Thank you for shopping BIG SCIENCE SUPPLY DEPOT!\n\n Please do not reply to this message as your reply will be routed to an unmonitored inbox.\n Questions? Contact customer service xxx-xxx-xxxx.",
+    "dynamic_line": "FROM: Big Science Supply Depot\n TO: Kristi Gordee, SVP Operations\n RE: Thank you for your order\n\n Hi KRISTI GORDEE,\n\n We have received your order and will begin processing it immediately.\n 1x Jet Injector, RX12 by Rivtech\n\n You will receive an additional email when your order has shipped.\n Thank you for shopping BIG SCIENCE SUPPLY DEPOT!\n\n Please do not reply to this message as your reply will be routed to an unmonitored inbox.\n Questions?  Contact customer service xxx-xxx-xxxx.",
     "responses": [ { "text": "RETURN TO MESSAGES", "topic": "COMP_NURSING_HOME_COO_EMAILS" } ]
   },
   {
@@ -265,19 +265,19 @@
   {
     "type": "talk_topic",
     "id": "COMP_NURSING_HOME_COO_ADVERT",
-    "dynamic_line": "FROM: Big Science Supply Depot\n TO: Kristi Gordee, SVP Operations\n RE: Kristi, Act Now and Save!\n\n Hi KRISTI GORDEE,\n\n We appreciate you choosing BIG SCIENCE SUPPLY DEPOT for all your laboratory needs!  Based on your purchase history, might we recommend some of the below items?\n Now on sale for !!15% off!!\n\n * Book: Advanced Physical Chemistry\n * 1,000pc Medical Gauze\n * Jumbo Chemistry Kit\n\n Thank you for shopping BIG SCIENCE SUPPLY DEPOT!\n\n Please do not reply to this message as your reply will be routed to an unmonitored inbox.\n Questions? Contact customer service xxx-xxx-xxxx.",
+    "dynamic_line": "FROM: Big Science Supply Depot\n TO: Kristi Gordee, SVP Operations\n RE: Kristi, Act Now and Save!\n\n Hi KRISTI GORDEE,\n\n We appreciate you choosing BIG SCIENCE SUPPLY DEPOT for all your laboratory needs!  Based on your purchase history, might we recommend some of the below items?\n Now on sale for 15% off!\n\n * Book: Advanced Physical Chemistry\n * 1,000pc Medical Gauze\n * Jumbo Chemistry Kit\n\n Thank you for shopping BIG SCIENCE SUPPLY DEPOT!\n\n Please do not reply to this message as your reply will be routed to an unmonitored inbox.\n Questions?  Contact customer service xxx-xxx-xxxx.",
     "responses": [ { "text": "RETURN TO MESSAGES", "topic": "COMP_NURSING_HOME_COO_EMAILS" } ]
   },
   {
     "type": "talk_topic",
     "id": "COMP_NURSING_HOME_COO_LAWSUIT",
-    "dynamic_line": "FROM: Leah Shepherds\n TO: Kristi Gordee, SVP Operations\n RE: I am going to sue you\n\n I don't know what kind of sick game your sham of a home is playing, but I am getting to the bottom of it.\n I've hired a lawyer and we are going to sue you.\n I should never have left grandpa in your care.\n How does a PERSON go missing from a NURSING HOME!? I have pictures of how dirty and disgusting that place is.\n You should be ashamed!",
+    "dynamic_line": "FROM: Leah Shepherds\n TO: Kristi Gordee, SVP Operations\n RE: I am going to sue you\n\n I don't know what kind of sick game your sham of a home is playing, but I am getting to the bottom of it.\n I've hired a lawyer and we are going to sue you.\n I should never have left grandpa in your care.\n How does a PERSON go missing from a NURSING HOME!?  I have pictures of how dirty and disgusting that place is.\n You should be ashamed!",
     "responses": [ { "text": "RETURN TO MESSAGES", "topic": "COMP_NURSING_HOME_COO_EMAILS" } ]
   },
   {
     "type": "talk_topic",
     "id": "COMP_NURSING_HOME_COO_MAIN",
-    "dynamic_line": "WARNING! ERROR A101; FAILURE DETECTED IN POWER SUPPLY.\n RESERVE POWER ACTIVATED.  CONTACT INFORMATION TECHNOLOGY DEPARTMENT IMMEDIATELY!\n\n WARNING!  ERROR D766; UNABLE TO CONNECT TO MAIN SERVER.\n ERROR REFRESHING DATABASE.  ONLY CACHED INFORMATION DISPLAYED. \n CONTACT INFORMATION TECHNOLOGY DEPARTMENT IMMEDIATELY!",
+    "dynamic_line": "WARNING!  ERROR A101; FAILURE DETECTED IN POWER SUPPLY.\n RESERVE POWER ACTIVATED.  CONTACT INFORMATION TECHNOLOGY DEPARTMENT IMMEDIATELY!\n\n WARNING!  ERROR D766; UNABLE TO CONNECT TO MAIN SERVER.\n ERROR REFRESHING DATABASE.  ONLY CACHED INFORMATION DISPLAYED.\n CONTACT INFORMATION TECHNOLOGY DEPARTMENT IMMEDIATELY!",
     "responses": [
       { "text": "Access Resident Records", "topic": "COMP_NURSING_HOME_COO_RESIDENTS" },
       { "text": "Access Employee Records", "topic": "COMP_NURSING_HOME_COO_ERROR" },
@@ -316,7 +316,7 @@
   {
     "type": "talk_topic",
     "id": "COMP_NURSING_HOME_COO_PABLO",
-    "dynamic_line": "RESIDENT NAME: Pablo Shepherds\n RESIDENT STATUS: Missing\n ASSIGNED ROOM: A01\n SOCIAL SECURITY NUMBER: xxx-xx-xxxx\n PAYMENT STATUS: Current\n PRIMARY PHYSICIAN: Peter St. Travers\n\n NOTES: Patient absent as of xx-xx-xxxx. ",
+    "dynamic_line": "RESIDENT NAME: Pablo Shepherds\n RESIDENT STATUS: Missing\n ASSIGNED ROOM: A01\n SOCIAL SECURITY NUMBER: xxx-xx-xxxx\n PAYMENT STATUS: Current\n PRIMARY PHYSICIAN: Peter St. Travers\n\n NOTES: Patient absent as of xx-xx-xxxx.",
     "responses": [
       { "text": "Access Resident Healthcare Records", "topic": "COMP_NURSING_HOME_COO_ERROR2" },
       { "text": "Access Resident Legal Records", "topic": "COMP_NURSING_HOME_COO_ERROR2" },
@@ -326,7 +326,7 @@
   {
     "type": "talk_topic",
     "id": "COMP_NURSING_HOME_COO_NINA",
-    "dynamic_line": "RESIDENT NAME: Nina Palmero\n RESIDENT STATUS: Resident\n ASSIGNED ROOM: B02\n SOCIAL SECURITY NUMBER: xxx-xx-xxxx\n PAYMENT STATUS: Current\n PRIMARY PHYSICIAN: Peter St. Travers\n\n NOTES: Patient has specialized prescription; must be administered by Primary Physician daily. ",
+    "dynamic_line": "RESIDENT NAME: Nina Palmero\n RESIDENT STATUS: Resident\n ASSIGNED ROOM: B02\n SOCIAL SECURITY NUMBER: xxx-xx-xxxx\n PAYMENT STATUS: Current\n PRIMARY PHYSICIAN: Peter St. Travers\n\n NOTES: Patient has specialized prescription; must be administered by Primary Physician daily.",
     "responses": [
       { "text": "Access Resident Healthcare Records", "topic": "COMP_NURSING_HOME_COO_ERROR2" },
       { "text": "Access Resident Legal Records", "topic": "COMP_NURSING_HOME_COO_ERROR2" },
@@ -352,7 +352,7 @@
   {
     "type": "talk_topic",
     "id": "COMP_NURSING_HOME_COO_LAWSUITS",
-    "dynamic_line": "WARNING!  ERROR A101; FAILURE DETECTED IN POWER SUPPLY.\n RESERVE POWER ACTIVATED.  CONTACT INFORMATION TECHNOLOGY DEPARTMENT IMMEDIATELY!\n\n WARNING!  ERROR D766; UNABLE TO CONNECT TO MAIN SERVER. \n ERROR REFRESHING DATABASE.  ONLY CACHED INFORMATION DISPLAYED.\n CONTACT INFORMATION TECHNOLOGY DEPARTMENT IMMEDIATELY!",
+    "dynamic_line": "WARNING!  ERROR A101; FAILURE DETECTED IN POWER SUPPLY.\n RESERVE POWER ACTIVATED.  CONTACT INFORMATION TECHNOLOGY DEPARTMENT IMMEDIATELY!\n\n WARNING!  ERROR D766; UNABLE TO CONNECT TO MAIN SERVER.\n ERROR REFRESHING DATABASE.  ONLY CACHED INFORMATION DISPLAYED.\n CONTACT INFORMATION TECHNOLOGY DEPARTMENT IMMEDIATELY!",
     "responses": [
       { "text": "Pending: Pablo Shepherds", "topic": "COMP_NURSING_HOME_COO_ERROR4" },
       { "text": "Pending: Vorm E. Thracks", "topic": "COMP_NURSING_HOME_COO_ERROR4" },
@@ -420,7 +420,7 @@
   {
     "type": "talk_topic",
     "id": "COMP_NURSING_HOME_SCI_BAD",
-    "dynamic_line": "FROM: Vincent Fuels, Researcher\n TO: Peter St. Travers, SVP Research & Development\n RE: This is bad!\n\n While you were gone last night, the old man started to wake up and become cranky.\n We had to give him another dose of that elephant tranquilizer!\n I think he might actually be strong enough to break out of his cell now.\n We really need to do something before he kills someone!\n I know this experiment meant a lot to you, but it isn't worth the risk anymore! ",
+    "dynamic_line": "FROM: Vincent Fuels, Researcher\n TO: Peter St. Travers, SVP Research & Development\n RE: This is bad!\n\n While you were gone last night, the old man started to wake up and become cranky.\n We had to give him another dose of that elephant tranquilizer!\n I think he might actually be strong enough to break out of his cell now.\n We really need to do something before he kills someone!\n I know this experiment meant a lot to you, but it isn't worth the risk anymore!",
     "responses": [ { "text": "RETURN TO MESSAGES", "topic": "COMP_NURSING_HOME_SCI_EMAILS" } ]
   },
   {
@@ -432,19 +432,19 @@
   {
     "type": "talk_topic",
     "id": "COMP_NURSING_HOME_SCI_RESULTS",
-    "dynamic_line": "FROM: Unknown Sender\n TO: Peter St. Travers, SVP Research & Development\n RE: Results\n\n Looking forward to your report at the next meeting.\n I put a lot on the line for you, don't disappoint me, Peter.\n Get me results. ",
+    "dynamic_line": "FROM: Unknown Sender\n TO: Peter St. Travers, SVP Research & Development\n RE: Results\n\n Looking forward to your report at the next meeting.\n I put a lot on the line for you, don't disappoint me, Peter.\n Get me results.",
     "responses": [ { "text": "RETURN TO MESSAGES", "topic": "COMP_NURSING_HOME_SCI_EMAILS" } ]
   },
   {
     "type": "talk_topic",
     "id": "COMP_NURSING_HOME_SCI_SECURITY",
-    "dynamic_line": "FROM: Will Higgins, VP Information Technology\n TO: Peter St. Travers, SVP Research & Development\n RE: Security\n\n Hello sir,\n I understand your concerns about security.  Rest assured, myself and my team take this very seriously.  I assure you that high-level encryption protects all of our systems.\n Nobody will be able to access any of our PCs without use of the owner's fingerprint authentication, even in the event that the main power supply is cut.\n Nobody unauthorized will ever be able to read our emails or documents. ",
+    "dynamic_line": "FROM: Will Higgins, VP Information Technology\n TO: Peter St. Travers, SVP Research & Development\n RE: Security\n\n Hello sir,\n I understand your concerns about security.  Rest assured, myself and my team take this very seriously.  I assure you that high-level encryption protects all of our systems.\n Nobody will be able to access any of our PCs without use of the owner's fingerprint authentication, even in the event that the main power supply is cut.\n Nobody unauthorized will ever be able to read our emails or documents.",
     "responses": [ { "text": "RETURN TO MESSAGES", "topic": "COMP_NURSING_HOME_SCI_EMAILS" } ]
   },
   {
     "type": "talk_topic",
     "id": "COMP_NURSING_HOME_SCI_PROJECTS",
-    "dynamic_line": "Shady Hills Corporation.\n You are logged in as: Peter St. Travers, SVP Research & Development.\n\n WARNING! ERROR A101; FAILURE DETECTED IN POWER SUPPLY.\n RESERVE POWER ACTIVATED.  CONTACT INFORMATION TECHNOLOGY DEPARTMENT IMMEDIATELY!\n\n ERROR D766; UNABLE TO CONNECT TO MAIN SERVER.\n ERROR REFRESHING DATABASE.  ONLY CACHED INFORMATION DISPLAYED.\n CONTACT INFORMATION TECHNOLOGY DEPARTMENT IMMEDIATELY!",
+    "dynamic_line": "Shady Hills Corporation.\n You are logged in as: Peter St. Travers, SVP Research & Development.\n\n WARNING!  ERROR A101; FAILURE DETECTED IN POWER SUPPLY.\n RESERVE POWER ACTIVATED.  CONTACT INFORMATION TECHNOLOGY DEPARTMENT IMMEDIATELY!\n\n ERROR D766; UNABLE TO CONNECT TO MAIN SERVER.\n ERROR REFRESHING DATABASE.  ONLY CACHED INFORMATION DISPLAYED.\n CONTACT INFORMATION TECHNOLOGY DEPARTMENT IMMEDIATELY!",
     "responses": [
       { "text": "Project Procedures", "topic": "COMP_NURSING_HOME_SCI_PROCEDURES" },
       { "text": "Pablo Shepherds", "topic": "COMP_NURSING_HOME_SCI_PROJECTA" },
@@ -476,7 +476,7 @@
   {
     "type": "talk_topic",
     "id": "COMP_NURSING_HOME_SCI_PROJECTA",
-    "dynamic_line": "PROJECT CODE NAME: 'Big Pappy'\n PROJECT RESIDENT: Pablo Shepherds\n PROJECT STATUS: Active\n PROJECT START DATE: xx-xx-xxxx\n\n Entry Log 1: Started subject on assigned dosage.  Will monitor over 7 days.\n Entry Log 2: Subject within expected parameters.  Subject will remain in general population.\n Entry Log 3: Subject within expected parameters.  Subject will remain in general population.\n Entry Log 4: Subject showing signs of severe dementia. Unexpected result. Following removal protocol.  Moving patient to Secure room for 2 day period.\n Entry log 5: Subject stabilizing.  Attempting RA21E dosage.\n Entry Log 6: Subject within expected parameters. Returning to general population.\n Entry Log 7: Subject within expected parameters. Attempting Mutagenic Serum dose. Following removal protocol.  Moving patient to Secure room for 2 day period.\n Entry Log 8: Subject has shown tremendous increase in girth and power. Reduction in cognitive decline. Symptoms of dementia nearly eliminated.\n Entry Log 9: Subject becoming belligerent. Unknown cause. Purifier Serum failing. Initiated sedation protocol. 15mg Carfentanil required.  Initiating Failsafe protocol; subject cannot be returned to general population.\n Entry Log 10: Subject remains sedated.  Maintaining Failsafe protocol.  Attempting purifier serum trial.",
+    "dynamic_line": "PROJECT CODE NAME: 'Big Pappy'\n PROJECT RESIDENT: Pablo Shepherds\n PROJECT STATUS: Active\n PROJECT START DATE: xx-xx-xxxx\n\n Entry Log 1: Started subject on assigned dosage.  Will monitor over 7 days.\n Entry Log 2: Subject within expected parameters.  Subject will remain in general population.\n Entry Log 3: Subject within expected parameters.  Subject will remain in general population.\n Entry Log 4: Subject showing signs of severe dementia.  Unexpected result.  Following removal protocol.  Moving patient to Secure room for 2 day period.\n Entry log 5: Subject stabilizing.  Attempting RA21E dosage.\n Entry Log 6: Subject within expected parameters.  Returning to general population.\n Entry Log 7: Subject within expected parameters.  Attempting Mutagenic Serum dose.  Following removal protocol.  Moving patient to Secure room for 2 day period.\n Entry Log 8: Subject has shown tremendous increase in girth and power.  Reduction in cognitive decline. Symptoms of dementia nearly eliminated.\n Entry Log 9: Subject becoming belligerent.  Unknown cause.  Purifier Serum failing. Initiated sedation protocol.  15mg Carfentanil required.  Initiating Failsafe protocol; subject cannot be returned to general population.\n Entry Log 10: Subject remains sedated.  Maintaining Failsafe protocol.  Attempting purifier serum trial.",
     "responses": [
       { "text": "Add Entry Log", "topic": "COMP_NURSING_HOME_SCI_ERROR3" },
       { "text": "View Patient Medical History", "topic": "COMP_NURSING_HOME_SCI_ERROR3" },
