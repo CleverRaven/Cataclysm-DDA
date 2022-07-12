@@ -1344,7 +1344,8 @@ time_duration npc::time_to_read( const item &book, const Character &reader ) con
     retval *= std::min( fine_detail_vision_mod(), reader.fine_detail_vision_mod() );
 
     if( type->intel > reader.get_int() && !reader.has_trait( trait_PROF_DICEMASTER ) ) {
-        retval += type->time * ( type->intel - reader.get_int() );
+        retval += type->time * ( time_duration::from_seconds( type->intel - reader.get_int() ) /
+                                 1_minutes );
     }
     return retval;
 }
