@@ -881,7 +881,17 @@
     "warmth": 15,
     "environmental_protection": 10,
     "material_thickness": 3,
-    "flags": [ "INTEGRATED", "UNBREAKABLE", "SKINTIGHT", "NORMAL", "PADDED", "WATER_FRIENDLY", "BLOCK_WHILE_WORN", "SOFT", "NO_REPAIR" ],
+    "flags": [
+      "INTEGRATED",
+      "UNBREAKABLE",
+      "SKINTIGHT",
+      "NORMAL",
+      "PADDED",
+      "WATER_FRIENDLY",
+      "BLOCK_WHILE_WORN",
+      "SOFT",
+      "NO_REPAIR"
+    ],
     "material": [ "plastic", "superalloy", "qt_steel" ],
     "name": { "str_sp": "alloy plating - legs" },
     "description": "A complex armor integrated into your legs, made of lightweight metal encasing a chemical-resistant layer of synthetic skin.  Various service ports, CBM connectors, and dump points for sweat can be seen along its exterior.  It has steel kneepads for protection.",
