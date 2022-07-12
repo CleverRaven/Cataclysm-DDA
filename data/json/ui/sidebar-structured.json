@@ -177,6 +177,14 @@
     "widgets": [ "structured_speed_num" ]
   },
   {
+    "id": "structured_speed_num",
+    "type": "widget",
+    "label": "S",
+    "var": "speed",
+    "style": "number",
+    "colors": [ "c_red", "c_light_red", "c_light_green", "c_green" ]
+  },
+  {
     "id": "structured_move_count_mode_layout",
     "type": "widget",
     "style": "layout",
@@ -191,6 +199,16 @@
     "flags": [ "W_LABEL_NONE" ]
   },
   {
+    "id": "structured_stamina_graph",
+    "type": "widget",
+    "var": "stamina",
+    "style": "graph",
+    "width": 11,
+    "symbols": ".\\|",
+    "colors": [ "c_red", "c_light_red", "c_yellow", "c_light_green", "c_green" ],
+    "flags": [ "W_LABEL_NONE" ]
+  },
+  {
     "id": "structured_all_weariness_layout",
     "type": "widget",
     "style": "layout",
@@ -202,6 +220,17 @@
       "activity_desc_no_label",
       "weary_malus_desc_no_label"
     ]
+  },
+  {
+    "id": "structured_weariness_transition_graph",
+    "type": "widget",
+    "label": "Transition",
+    "style": "graph",
+    "symbols": ".\\|",
+    "width": 9,
+    "colors": [ "c_red", "c_light_red", "c_yellow", "c_light_green", "c_green" ],
+    "var": "weary_transition_level",
+    "flags": [ "W_LABEL_NONE" ]
   },
   {
     "id": "structured_overmap_compass_9x9_layout",
