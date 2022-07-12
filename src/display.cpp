@@ -87,6 +87,7 @@ void disp_bodygraph_cache::rebuild( const Character &u, const std::string graph_
     _bp_cur_max.clear();
     _graph_id = graph_id;
     for( const bodypart_id &bp : u.get_all_body_parts( get_body_part_flags::only_main ) ) {
+        // TODO: use the actial variable values
         _bp_cur_max.emplace( bp, std::pair<int, int> { u.get_part_hp_cur( bp ), u.get_part_hp_max( bp ) } );
     }
     _graph_wgt_str = bg_wgt_str;
@@ -1474,7 +1475,7 @@ std::string display::colorized_compass_legend_text( int width, int max_height, i
 }
 
 static std::pair<std::string, nc_color> get_bodygraph_bp_sym_color( const Character &u,
-        const bodygraph_part &bgp )
+        const bodygraph_part &bgp, const bodygraph_var var )
 {
     const bodypart_id &bid = bgp.sub_bodyparts.empty() ?
                              bgp.bodyparts.front() : bgp.sub_bodyparts.front()->parent.id();
@@ -1496,8 +1497,8 @@ static std::pair<std::string, nc_color> get_bodygraph_bp_sym_color( const Charac
     return { bgp.sym, c_green };
 }
 
-std::string display::colorized_bodygraph_text( const Character &u, const std::string graph_id,
-        int width, int max_height, int &height )
+std::string display::colorized_bodygraph_text( const Character &u, const std::string graph_id, 
+        const bodygraph_var var, int width, int max_height, int &height )
 {
     if( disp_bg_cache.is_valid_for( u, graph_id ) ) {
         // Nothing changed, just retrieve from cache
@@ -1514,7 +1515,7 @@ std::string display::colorized_bodygraph_text( const Character &u, const std::st
         if( !bgp ) {
             return sym;
         }
-        std::pair<std::string, nc_color> sym_col = get_bodygraph_bp_sym_color( u, *bgp );
+        std::pair<std::string, nc_color> sym_col = get_bodygraph_bp_sym_color( u, *bgp, var );
         return colorize( sym_col.first, sym_col.second );
     };
 

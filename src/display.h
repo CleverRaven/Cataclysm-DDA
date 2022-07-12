@@ -6,6 +6,13 @@
 
 #include "widget.h"
 
+// These are the supported data variables for coloring bodygraphs.
+enum class bodygraph_var : int {
+    hp,          // hitpoints
+    temp,        // temperature
+    last // END OF ENUMS
+};
+
 class avatar;
 class Character;
 
@@ -151,8 +158,8 @@ std::string colorized_compass_text( cardinal_direction dir, int width );
 std::string colorized_compass_legend_text( int width, int max_height, int &height );
 
 // Get color-coded body graph representing body part HP
-std::string colorized_bodygraph_text( const Character &u, std::string graph_id, int width,
-                                      int max_height, int &height );
+std::string colorized_bodygraph_text( const Character &u, std::string graph_id, const bodygraph_var var,
+                                      int width, int max_height, int &height );
 
 // Define color for displaying the body temperature
 nc_color bodytemp_color( const Character &u, const bodypart_id &bp );
