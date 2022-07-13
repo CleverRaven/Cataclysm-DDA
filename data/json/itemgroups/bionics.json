@@ -92,7 +92,8 @@
       [ "bio_shotgun", 10 ],
       [ "bio_taste_blocker", 10 ],
       [ "bio_soporific", 10 ],
-      [ "bio_recoil", 10 ]
+      [ "bio_recoil", 10 ],
+      [ "bio_helicopter_pilot", 10 ]
     ]
   },
   {
@@ -183,7 +184,8 @@
       [ "bio_weight", 10 ],
       [ "bio_jointservo", 10 ],
       [ "bio_shotgun", 10 ],
-      [ "bio_recoil", 10 ]
+      [ "bio_recoil", 10 ],
+      [ "bio_helicopter_pilot", 10 ]
     ]
   }
 ]
