@@ -772,12 +772,11 @@
       {
         "material": [
           { "type": "plastic", "covered_by_mat": 100, "thickness": 1.5 },
-          { "type": "superalloy", "covered_by_mat": 100, "thickness": 1.0 },
-          { "type": "superalloy", "covered_by_mat": 90, "thickness": 0.75 },
+          { "type": "superalloy", "covered_by_mat": 100, "thickness": 1.9 },
           { "type": "qt_steel", "covered_by_mat": 95, "thickness": 1.0 }
         ],
         "covers": [ "arm_l", "arm_r" ],
-        "specifically_covers": [ "arm_elbow_l", "arm_shoulder_l" ],
+        "specifically_covers": [ "arm_elbow_l", "arm_elbow_r" ],
         "coverage": 100,
         "cover_vitals": 75,
         "encumbrance": 0,
@@ -786,11 +785,10 @@
       {
         "material": [
           { "type": "plastic", "covered_by_mat": 100, "thickness": 1.5 },
-          { "type": "superalloy", "covered_by_mat": 100, "thickness": 1.0 },
-          { "type": "superalloy", "covered_by_mat": 90, "thickness": 1.25 }
+          { "type": "superalloy", "covered_by_mat": 100, "thickness": 2.1 }
         ],
         "covers": [ "arm_l", "arm_r" ],
-        "specifically_covers": [ "arm_elbow_r", "arm_shoulder_r" ],
+        "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r" ],
         "coverage": 100,
         "cover_vitals": 75,
         "encumbrance": 0,
@@ -913,8 +911,7 @@
       {
         "material": [
           { "type": "plastic", "covered_by_mat": 100, "thickness": 1.5 },
-          { "type": "superalloy", "covered_by_mat": 100, "thickness": 1.0 },
-          { "type": "superalloy", "covered_by_mat": 90, "thickness": 0.75 },
+          { "type": "superalloy", "covered_by_mat": 100, "thickness": 1.9 },
           { "type": "qt_steel", "covered_by_mat": 95, "thickness": 1.0 }
         ],
         "covers": [ "leg_l", "leg_r" ],
@@ -994,7 +991,7 @@
     "warmth": 15,
     "environmental_protection": 10,
     "material_thickness": 4,
-    "flags": [ "INTEGRATED", "UNBREAKABLE", "SKINTIGHT", "NORMAL", "PADDED", "WATER_FRIENDLY", "SOFT", "NO_REPAIR" ],
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "SKINTIGHT", "NORMAL", "PADDED", "WATER_FRIENDLY", "SOFT", "NO_REPAIR", "MUNDANE" ],
     "material": [ "plastic", "superalloy" ],
     "name": { "str_sp": "alloy plating - torso" },
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "mutations": [ "well_distributed" ] } ] },
@@ -1009,7 +1006,7 @@
         "specifically_covers": [ "torso_lower" ],
         "coverage": 100,
         "encumbrance": 10,
-        "cover_vitals": 85,
+        "cover_vitals": 65,
         "breathability": "AVERAGE"
       },
       {
@@ -1021,7 +1018,7 @@
         "specifically_covers": [ "torso_upper" ],
         "coverage": 100,
         "encumbrance": 0,
-        "cover_vitals": 65,
+        "cover_vitals": 85,
         "breathability": "POOR"
       }
     ]
