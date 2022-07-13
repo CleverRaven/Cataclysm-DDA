@@ -475,7 +475,7 @@
     "color": "green",
     "description": "Some canola seeds.  You could press them into oil.",
     "charges": 2,
-    "seed_data": { "plant_name": "canola", "fruit": "seed_canola", "byproducts": [ "withered" ], "grow": "91 days" }
+    "seed_data": { "plant_name": "canola", "fruit": "canola", "seeds": false, "byproducts": [ "withered" ], "grow": "91 days" }
   },
   {
     "type": "COMESTIBLE",
