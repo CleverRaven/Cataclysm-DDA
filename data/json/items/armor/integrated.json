@@ -785,7 +785,8 @@
       {
         "material": [
           { "type": "plastic", "covered_by_mat": 100, "thickness": 1.5 },
-          { "type": "superalloy", "covered_by_mat": 90, "thickness": 2.0 }
+          { "type": "superalloy", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "superalloy", "covered_by_mat": 90, "thickness": 1.25 }
         ],
         "covers": [ "arm_l", "arm_r" ],
         "specifically_covers": [ "arm_elbow_r", "arm_shoulder_r" ],
