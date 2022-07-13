@@ -2,7 +2,6 @@
   {
     "//": "Extend the vanilla weight_desc widget to change the text descriptions",
     "id": "weight_desc",
-    "copy-from": "weight_desc",
     "type": "widget",
     "label": "Weight",
     "style": "text",
