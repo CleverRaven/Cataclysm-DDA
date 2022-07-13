@@ -72,6 +72,7 @@ bool disp_bodygraph_cache::is_valid_for( const Character &u, const std::string g
             // uncached bodypart
             return false;
         }
+        // TODO: use the actual variable values
         if( iter->second.first != u.get_part_hp_cur( bp ) ||
             iter->second.second != u.get_part_hp_max( bp ) ) {
             // values differ
@@ -87,7 +88,7 @@ void disp_bodygraph_cache::rebuild( const Character &u, const std::string graph_
     _bp_cur_max.clear();
     _graph_id = graph_id;
     for( const bodypart_id &bp : u.get_all_body_parts( get_body_part_flags::only_main ) ) {
-        // TODO: use the actial variable values
+        // TODO: use the actual variable values
         _bp_cur_max.emplace( bp, std::pair<int, int> { u.get_part_hp_cur( bp ), u.get_part_hp_max( bp ) } );
     }
     _graph_wgt_str = bg_wgt_str;
@@ -1482,22 +1483,35 @@ static std::pair<std::string, nc_color> get_bodygraph_bp_sym_color( const Charac
     if( !u.has_part( bid ) ) {
         return { " ", c_black }; // character is missing this part
     }
-    const int cur_hp = u.get_part_hp_cur( bid );
-    const int max_hp = u.get_part_hp_max( bid );
-    const float cur_hp_pcnt = cur_hp / static_cast<float>( max_hp );
-    if( cur_hp_pcnt < 0.125f ) {
-        return { bgp.sym, c_red };
-    } else if( cur_hp_pcnt < 0.375f ) {
-        return { bgp.sym, c_light_red };
-    } else if( cur_hp_pcnt < 0.625f ) {
-        return { bgp.sym, c_yellow };
-    } else if( cur_hp_pcnt < 0.875f ) {
-        return { bgp.sym, c_light_green };
+
+    switch( var ) {
+        case bodygraph_var::hp: {
+            const int cur_hp = u.get_part_hp_cur( bid );
+            const int max_hp = u.get_part_hp_max( bid );
+            const float cur_hp_pcnt = cur_hp / static_cast<float>( max_hp );
+            if( cur_hp_pcnt < 0.125f ) {
+                return { bgp.sym, c_red };
+            } else if( cur_hp_pcnt < 0.375f ) {
+                return { bgp.sym, c_light_red };
+            } else if( cur_hp_pcnt < 0.625f ) {
+                return { bgp.sym, c_yellow };
+            } else if( cur_hp_pcnt < 0.875f ) {
+                return { bgp.sym, c_light_green };
+            }
+            return { bgp.sym, c_green };
+        }
+        case bodygraph_var::temp: {
+            nc_color temp_color = display::bodytemp_color( u, bid );
+            return { bgp.sym, temp_color };
+        }
+        // Fall-through - invalid
+        case bodygraph_var::last:
+            break;
     }
-    return { bgp.sym, c_green };
+    cata_fatal( "Invalid widget_var" );
 }
 
-std::string display::colorized_bodygraph_text( const Character &u, const std::string graph_id, 
+std::string display::colorized_bodygraph_text( const Character &u, const std::string graph_id,
         const bodygraph_var var, int width, int max_height, int &height )
 {
     if( disp_bg_cache.is_valid_for( u, graph_id ) ) {
@@ -1511,7 +1525,7 @@ std::string display::colorized_bodygraph_text( const Character &u, const std::st
         return "";
     }
 
-    auto process_sym = [&u]( const bodygraph_part * bgp, const std::string & sym ) {
+    auto process_sym = [&u, var]( const bodygraph_part * bgp, const std::string & sym ) {
         if( !bgp ) {
             return sym;
         }
