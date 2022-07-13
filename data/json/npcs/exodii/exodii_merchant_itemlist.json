@@ -192,7 +192,8 @@
       [ "bio_membrane", 10 ],
       [ "bio_painkiller", 10 ],
       [ "bio_radscrubber", 10 ],
-      [ "bio_weight", 10 ]
+      [ "bio_weight", 10 ],
+      [ "bio_helicopter_pilot", 10 ]
     ]
   },
   {
