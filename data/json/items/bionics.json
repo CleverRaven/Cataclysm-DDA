@@ -680,6 +680,17 @@
     "difficulty": 8
   },
   {
+    "id": "bio_helicopter_pilot",
+    "copy-from": "bionic_general_npc_usable",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Aircraft Piloting Module CBM" },
+    "looks_like": "bio_int_enhancer",
+    "description": "A CBM that contains artificial memories sourced from Exodii pilots.  While implanted in your brain you will be able to fly helicopters and other aerial vehicles, although you cannot commit the skill to memory this way.  The knowledge isn't 1:1 with Earth aircraft, but it's close enough to be applicable in most cases.",
+    "price": 1000000,
+    "weight": "50 g",
+    "difficulty": 8
+  },
+  {
     "id": "bio_power_storage",
     "copy-from": "bionic_general_npc_usable",
     "type": "BIONIC_ITEM",
