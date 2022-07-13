@@ -1279,6 +1279,15 @@
     "trigger_cost": "2 kJ"
   },
   {
+    "id": "bio_helicopter_pilot",
+    "type": "bionic",
+    "name": { "str": "Aircraft Piloting Module" },
+    "description": "Implanted memories containing generational knowledge of the operation of many common aerial vehicles.",
+    "occupied_bodyparts": [ [ "head", 1 ] ],
+    "flags": [ "BIONIC_NPC_USABLE" ],
+    "learned_proficiencies": [ "prof_helicopter_pilot" ]
+  },
+  {
     "id": "bio_pokedeye",
     "type": "bionic",
     "name": { "str": "Bionic Visual Impairment" },
