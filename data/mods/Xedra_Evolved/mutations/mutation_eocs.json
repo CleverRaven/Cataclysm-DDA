@@ -141,7 +141,7 @@
       },
       {
         "run_eocs": {
-          "id": "destiny_goblin_removal",
+          "id": "destiny_goblin_spider",
           "condition": { "u_has_trait": "THRESH_SPIDER" },
           "effect": [ { "u_lose_trait": "MANIFESTED_DESTINY_SPIDER" } ]
         }
