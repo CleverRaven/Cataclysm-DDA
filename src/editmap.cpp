@@ -1648,9 +1648,9 @@ static int limited_shift( int var, int &shift, int min, int max )
     if( var + shift < min ) {
         shift = min - var;
     } else if( var + shift >= max ) {
-        shift = shift + ( max - 1 - ( var + shift ) );
+        shift = max - 1 - var;
     }
-    return var += shift;
+    return var + shift;
 }
 
 /*

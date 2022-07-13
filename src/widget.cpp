@@ -1493,6 +1493,7 @@ std::string widget::layout( const avatar &ava, unsigned int max_width, int label
             std::vector<std::vector<std::string>> cols;
             std::vector<int> widths;
             unsigned int total_width = 0;
+            std::string debug_widths;
             for( const widget_id &wid : _widgets ) {
                 widget cur_child = wid.obj();
                 int cur_width = child_width;
@@ -1516,11 +1517,16 @@ std::string widget::layout( const avatar &ava, unsigned int max_width, int label
                     }
                 }
 
+                // for debug keep track of each and width
+                debug_widths.append( string_format( "%s: %d,", wid.str(), cur_width ) );
+
                 if( cur_width > 0 ) {
                     total_width += cur_width;
                 }
                 if( total_width > max_width ) {
-                    debugmsg( "widget layout is wider than sidebar allows." );
+
+                    debugmsg( string_format( "widget layout is wider (%d) than sidebar allows (%d) for %s.",
+                                             total_width, max_width, debug_widths ) );
                 }
                 const bool skip_pad_this = skip_pad || wid->has_flag( json_flag_W_NO_PADDING );
                 // Layout child in this column

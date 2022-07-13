@@ -98,7 +98,7 @@ class aim_activity_actor : public activity_actor
         void serialize( JsonOut &jsout ) const override;
         static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
 
-        item *get_weapon();
+        item_location get_weapon();
         void restore_view();
         // Load/unload a RELOAD_AND_SHOOT weapon
         bool load_RAS_weapon();

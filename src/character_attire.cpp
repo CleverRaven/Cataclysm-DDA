@@ -1782,7 +1782,7 @@ void outfit::absorb_damage( Character &guy, damage_unit &elem, bodypart_id bp,
         if( outermost && elem.type == damage_type::HEAT && elem.amount >= 1.0f ) {
             // TODO: Different fire intensity values based on damage
             fire_data frd{ 2 };
-            destroy = armor.burn( frd );
+            destroy = !armor.has_flag( flag_INTEGRATED ) && armor.burn( frd );
             int fuel = roll_remainder( frd.fuel_produced );
             if( fuel > 0 ) {
                 guy.add_effect( effect_onfire, time_duration::from_turns( fuel + 1 ), bp, false, 0, false,

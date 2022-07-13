@@ -71,6 +71,7 @@
 #include "dependency_tree.h"
 #include "dialogue_chatbin.h"
 #include "diary.h"
+#include "distraction_manager.h"
 #include "editmap.h"
 #include "effect_on_condition.h"
 #include "enums.h"
@@ -1348,6 +1349,7 @@ bool game::cancel_activity_or_ignore_query( const distraction_type type, const s
                                 .option( "YES", allow_key )
                                 .option( "NO", allow_key )
                                 .option( "IGNORE", allow_key )
+                                .option( "MANAGER", allow_key )
                                 .query()
                                 .action;
 
@@ -1360,6 +1362,11 @@ bool game::cancel_activity_or_ignore_query( const distraction_type type, const s
         for( player_activity &activity : u.backlog ) {
             activity.ignore_distraction( type );
         }
+    }
+    if( action == "MANAGER" ) {
+        u.cancel_activity();
+        get_distraction_manager().show();
+        return true;
     }
 
     ui_manager::redraw();
@@ -1864,9 +1871,9 @@ int game::inventory_item_menu( item_location locThisItem,
         std::vector<iteminfo> vDummy;
 
         const bool bHPR = get_auto_pickup().has_rule( &oThisItem );
-        const hint_rating rate_drop_item = u.get_wielded_item().has_flag( flag_NO_UNWIELD ) ?
-                                           hint_rating::cant :
-                                           hint_rating::good;
+        const hint_rating rate_drop_item = u.get_wielded_item() &&
+                                           u.get_wielded_item()->has_flag( flag_NO_UNWIELD ) ?
+                                           hint_rating::cant : hint_rating::good;
 
         uilist action_menu;
         action_menu.allow_anykey = true;
@@ -2368,6 +2375,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "open_autopickup" );
     ctxt.register_action( "open_autonotes" );
     ctxt.register_action( "open_safemode" );
+    ctxt.register_action( "open_distraction_manager" );
     ctxt.register_action( "open_color" );
     ctxt.register_action( "open_world_mods" );
     ctxt.register_action( "debug" );
@@ -2498,7 +2506,7 @@ bool game::try_get_right_click_action( action_id &act, const tripoint &mouse_tar
             return false;
         }
 
-        if( !u.get_wielded_item().is_gun() ) {
+        if( !u.get_wielded_item() || !u.get_wielded_item()->is_gun() ) {
             add_msg( m_info, _( "You are not wielding a ranged weapon." ) );
             return false;
         }
@@ -4165,7 +4173,7 @@ void game::mon_info_update( )
         }
     }
 
-    if( newseen > mostseen ) {
+    if( uistate.distraction_hostile_spotted && newseen > mostseen ) {
         if( newseen - mostseen == 1 ) {
             if( !new_seen_mon.empty() ) {
                 monster &critter = *new_seen_mon.back();
@@ -4833,6 +4841,11 @@ bool game::is_empty( const tripoint &p )
 {
     return ( m.passable( p ) || m.has_flag( ter_furn_flag::TFLAG_LIQUID, p ) ) &&
            get_creature_tracker().creature_at( p ) == nullptr;
+}
+
+bool game::is_empty( const tripoint_bub_ms &p )
+{
+    return is_empty( p.raw() );
 }
 
 bool game::is_in_sunlight( const tripoint &p )
@@ -6033,7 +6046,8 @@ void game::print_trap_info( const tripoint &lp, const catacurses::window &w_look
 {
     const trap &tr = m.tr_at( lp );
     if( tr.can_see( lp, u ) ) {
-        partial_con *pc = m.partial_con_at( lp );
+        // TODO: fix point types
+        partial_con *pc = m.partial_con_at( tripoint_bub_ms( lp ) );
         std::string tr_name;
         if( pc && tr == tr_unfinished_construction ) {
             const construction &built = pc->id.obj();
@@ -8131,7 +8145,10 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
     } );
     ui.mark_resize();
 
-    const int max_gun_range = u.get_wielded_item().gun_range( &u );
+    int max_gun_range = 0;
+    if( u.get_wielded_item() ) {
+        max_gun_range = u.get_wielded_item()->gun_range( &u );
+    }
 
     const tripoint stored_view_offset = u.view_offset;
     u.view_offset = tripoint_zero;
@@ -9130,13 +9147,12 @@ void game::reload_item()
 
 void game::reload_wielded( bool prompt )
 {
-    item &weapon = u.get_wielded_item();
-    if( weapon.is_null() || !weapon.is_reloadable() ) {
+    item_location weapon = u.get_wielded_item();
+    if( !weapon || !weapon->is_reloadable() ) {
         add_msg( _( "You aren't holding something you can reload." ) );
         return;
     }
-    item_location item_loc = item_location( u, &weapon );
-    reload( item_loc, prompt );
+    reload( weapon, prompt );
 }
 
 void game::reload_weapon( bool try_everything )
@@ -9151,33 +9167,33 @@ void game::reload_weapon( bool try_everything )
     std::vector<item_location> reloadables = u.find_reloadables();
     std::sort( reloadables.begin(), reloadables.end(),
     [this]( const item_location & a, const item_location & b ) {
-        const item *ap = a.get_item();
-        const item *bp = b.get_item();
         // Non gun/magazines are sorted last and later ignored.
-        if( !ap->is_magazine() && !ap->is_gun() ) {
+        if( !a->is_magazine() && !a->is_gun() ) {
             return false;
         }
         // Current wielded weapon comes first.
-        if( this->u.is_wielding( *bp ) ) {
+        if( this->u.is_wielding( *b ) ) {
             return false;
         }
-        if( this->u.is_wielding( *ap ) ) {
+        if( this->u.is_wielding( *a ) ) {
             return true;
         }
         // Second sort by affiliation with wielded gun
-        const std::set<itype_id> compatible_magazines = this->u.get_wielded_item().magazine_compatible();
-        const bool mag_ap = this->u.get_wielded_item().is_compatible( *ap ).success();
-        const bool mag_bp = this->u.get_wielded_item().is_compatible( *bp ).success();
-        if( mag_ap != mag_bp ) {
-            return mag_ap;
+        item_location weapon = u.get_wielded_item();
+        if( weapon ) {
+            const bool mag_a = weapon->is_compatible( *a ).success();
+            const bool mag_b = weapon->is_compatible( *b ).success();
+            if( mag_a != mag_b ) {
+                return mag_a;
+            }
         }
         // Third sort by gun vs magazine,
-        if( ap->is_gun() != bp->is_gun() ) {
-            return ap->is_gun();
+        if( a->is_gun() != b->is_gun() ) {
+            return a->is_gun();
         }
         // Finally sort by speed to reload.
-        return ( ap->get_reload_time() * ap->remaining_ammo_capacity() ) <
-               ( bp->get_reload_time() * bp->remaining_ammo_capacity() );
+        return ( a->get_reload_time() * a->remaining_ammo_capacity() ) <
+               ( b->get_reload_time() * b->remaining_ammo_capacity() );
     } );
     for( item_location &candidate : reloadables ) {
         if( !candidate.get_item()->is_magazine() && !candidate.get_item()->is_gun() ) {
@@ -9218,8 +9234,8 @@ void game::wield( item_location loc )
         debugmsg( "ERROR: tried to wield null item" );
         return;
     }
-    const item &weapon = u.get_wielded_item();
-    if( &weapon != &*loc && weapon.has_item( *loc ) ) {
+    const item_location weapon = u.get_wielded_item();
+    if( weapon && weapon != loc && weapon->has_item( *loc ) ) {
         add_msg( m_info, _( "You need to put the bag away before trying to wield something from it." ) );
         return;
     }
@@ -11034,15 +11050,18 @@ void game::vertical_move( int movez, bool force, bool peeking )
             return;
         }
 
-        const item &weapon = u.get_wielded_item();
-        if( !here.has_flag( ter_furn_flag::TFLAG_LADDER, u.pos() ) && weapon.is_two_handed( u ) &&
-            query_yn( _( "You can't climb because you have to wield a %s with both hands.\n\nPut it away?" ),
-                      weapon.tname() ) ) {
-            if( !u.unwield() ) {
+        const item_location weapon = u.get_wielded_item();
+        if( !here.has_flag( ter_furn_flag::TFLAG_LADDER, u.pos() ) && weapon &&
+            weapon->is_two_handed( u ) ) {
+            if( query_yn(
+                    _( "You can't climb because you have to wield a %s with both hands.\n\nPut it away?" ),
+                    weapon->tname() ) ) {
+                if( !u.unwield() ) {
+                    return;
+                }
+            } else {
                 return;
             }
-        } else {
-            return;
         }
 
         std::vector<tripoint> pts;
@@ -11112,7 +11131,6 @@ void game::vertical_move( int movez, bool force, bool peeking )
     }
 
     if( climbing && slip_down( true ) ) {
-        wall_cling = false;
         return;
     }
 

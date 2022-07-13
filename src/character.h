@@ -692,7 +692,7 @@ class Character : public Creature, public visitable
         ret_val<bool> can_takeoff( const item &it, const std::list<item> *res = nullptr );
 
         /** @return Odds for success (pair.first) and gunmod damage (pair.second) */
-        std::pair<int, int> gunmod_installation_odds( const item &gun, const item &mod ) const;
+        std::pair<int, int> gunmod_installation_odds( const item_location &gun, const item &mod ) const;
         /// called once per 24 hours to enforce the minimum of 1 hp healed per day
         /// @todo Move to Character once heal() is moved
         void enforce_minimum_healing();
@@ -900,11 +900,11 @@ class Character : public Creature, public visitable
         /** Checks for valid block abilities and reduces damage accordingly. Returns true if the player blocks */
         bool block_hit( Creature *source, bodypart_id &bp_hit, damage_instance &dam ) override;
         /** Returns the best item for blocking with */
-        item &best_shield();
+        item_location best_shield();
         /** Calculates melee weapon wear-and-tear through use, returns true if item is destroyed. */
-        bool handle_melee_wear( item &shield, float wear_multiplier = 1.0f );
+        bool handle_melee_wear( item_location shield, float wear_multiplier = 1.0f );
         /** Returns a random valid technique */
-        matec_id pick_technique( Creature &t, const item &weap,
+        matec_id pick_technique( Creature &t, const item_location &weap,
                                  bool crit, bool dodge_counter, bool block_counter );
         void perform_technique( const ma_technique &technique, Creature &t, damage_instance &di,
                                 int &move_cost, item &cur_weapon );
@@ -1328,10 +1328,13 @@ class Character : public Creature, public visitable
         /** Picks a random valid mutation and gives it to the Character, possibly removing/changing others along the way */
         void mutate( const int &true_random_chance, bool use_vitamins );
         void mutate( );
-        /** Returns true if the player doesn't have the mutation or a conflicting one and it complies with the force typing */
-        bool mutation_ok( const trait_id &mutation, bool force_good, bool force_bad,
+        /** Returns true if the player doesn't have the mutation or a conflicting one and it complies with the allowed typing */
+        bool mutation_ok( const trait_id &mutation, bool allow_good, bool allow_bad, bool allow_neutral,
                           const vitamin_id &mut_vit, const bool &terminal ) const;
-        bool mutation_ok( const trait_id &mutation, bool force_good, bool force_bad ) const;
+        bool mutation_ok( const trait_id &mutation, bool allow_good, bool allow_bad,
+                          bool allow_neutral ) const;
+        /** Roll, based on instability, whether next mutation should be good or bad */
+        bool roll_bad_mutation() const;
         /** Picks a random valid mutation in a category and mutate_towards() it */
         void mutate_category( const mutation_category_id &mut_cat, bool use_vitamins );
         void mutate_category( const mutation_category_id &mut_cat );
@@ -1765,8 +1768,8 @@ class Character : public Creature, public visitable
          * At the moment it's always @ref weapon or a reference to a null item.
          */
         /*@{*/
-        const item &used_weapon() const;
-        item &used_weapon();
+        item_location used_weapon() const;
+        item_location used_weapon();
         /*@}*/
 
         /**
@@ -1864,7 +1867,7 @@ class Character : public Creature, public visitable
         /**
          * Counts ammo and UPS charges (lower of) for a given gun on the character.
          */
-        int ammo_count_for( const item &gun );
+        int ammo_count_for( const item_location &gun );
 
         /**
          * Whether a tool or gun is potentially reloadable (optionally considering a specific ammo)
@@ -2365,8 +2368,9 @@ class Character : public Creature, public visitable
     private:
         item weapon;
     public:
-        const item &get_wielded_item() const;
-        item &get_wielded_item();
+        item_location get_wielded_item() const;
+        item_location get_wielded_item();
+        // This invalidates the item_location returned by get_wielded_item
         void set_wielded_item( const item &to_wield );
 
         int scent = 0;
@@ -2835,15 +2839,14 @@ class Character : public Creature, public visitable
          */
         int vitamin_get( const vitamin_id &vit ) const;
         /**
-         * Sets level of a vitamin or returns false if id given in vit does not exist
+         * Sets level of a vitamin
          *
          * @note status effects are still set for deficiency/excess
          *
          * @param[in] vit ID of vitamin to adjust quantity for
          * @param[in] qty Quantity to set level to
-         * @returns false if given vitamin_id does not exist, otherwise true
          */
-        bool vitamin_set( const vitamin_id &vit, int qty );
+        void vitamin_set( const vitamin_id &vit, int qty );
         /**
           * Add or subtract vitamins from character storage pools
          * @param vit ID of vitamin to modify
@@ -3204,6 +3207,7 @@ class Character : public Creature, public visitable
 
         // see Creature::sees
         bool sees( const tripoint &t, bool is_avatar = false, int range_mod = 0 ) const override;
+        bool sees( const tripoint_bub_ms &t, bool is_avatar = false, int range_mod = 0 ) const override;
         // see Creature::sees
         bool sees( const Creature &critter ) const override;
         Attitude attitude_to( const Creature &other ) const override;

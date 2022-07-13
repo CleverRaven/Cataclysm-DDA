@@ -908,11 +908,44 @@
     "type": "keybinding",
     "id": "ADVANCED_SETTINGS",
     "category": "WORLDGEN_CONFIRM_DIALOG",
-    "name": "Pick random world name",
+    "name": "View advanced world settings",
     "bindings": [
       { "input_method": "keyboard_any", "key": "s" },
       { "input_method": "keyboard_char", "key": "S" },
       { "input_method": "keyboard_code", "key": "s", "mod": [ "shift" ] }
+    ]
+  },
+  {
+    "type": "keybinding",
+    "id": "FINALIZE",
+    "category": "WORLDGEN_CONFIRM_DIALOG",
+    "name": "Finalize world creation",
+    "bindings": [
+      { "input_method": "keyboard_any", "key": "f" },
+      { "input_method": "keyboard_char", "key": "F" },
+      { "input_method": "keyboard_code", "key": "f", "mod": [ "shift" ] }
+    ]
+  },
+  {
+    "type": "keybinding",
+    "id": "RANDOMIZE",
+    "category": "WORLDGEN_CONFIRM_DIALOG",
+    "name": "Randomize world settings",
+    "bindings": [
+      { "input_method": "keyboard_any", "key": "a" },
+      { "input_method": "keyboard_char", "key": "A" },
+      { "input_method": "keyboard_code", "key": "a", "mod": [ "shift" ] }
+    ]
+  },
+  {
+    "type": "keybinding",
+    "id": "RESET",
+    "category": "WORLDGEN_CONFIRM_DIALOG",
+    "name": "Reset world settings and mods",
+    "bindings": [
+      { "input_method": "keyboard_any", "key": "r" },
+      { "input_method": "keyboard_char", "key": "R" },
+      { "input_method": "keyboard_code", "key": "r", "mod": [ "shift" ] }
     ]
   },
   {
@@ -2783,6 +2816,12 @@
   },
   {
     "type": "keybinding",
+    "name": "Distractions manager",
+    "category": "DEFAULTMODE",
+    "id": "open_distraction_manager"
+  },
+  {
+    "type": "keybinding",
     "name": "Color manager",
     "category": "DEFAULTMODE",
     "id": "open_color"
@@ -3768,6 +3807,17 @@
       { "input_method": "keyboard_char", "key": "I" },
       { "input_method": "keyboard_code", "key": "i", "mod": [ "shift" ] },
       { "input_method": "keyboard_any", "key": "i" }
+    ]
+  },
+  {
+    "type": "keybinding",
+    "id": "MANAGER",
+    "category": "CANCEL_ACTIVITY_OR_IGNORE_QUERY",
+    "name": "Open manager",
+    "bindings": [
+      { "input_method": "keyboard_char", "key": "M" },
+      { "input_method": "keyboard_code", "key": "m", "mod": [ "shift" ] },
+      { "input_method": "keyboard_any", "key": "m" }
     ]
   },
   {

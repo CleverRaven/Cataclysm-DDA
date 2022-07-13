@@ -86,6 +86,7 @@ aquacultural
 aquaculture
 aquamarines
 aqueles
+aquilops
 aramid
 arborescent
 args
@@ -492,6 +493,8 @@ dragonscale
 draugr
 draugrs
 drawknife
+dreamdross
+dreamstuff
 driers
 drivetrain
 dromaeosaurid
@@ -499,6 +502,7 @@ dromaeosaurus
 dropoff
 droppers
 druidry
+dryosaurus
 dryptosaurus
 drywalled
 dunderfuck
@@ -1811,6 +1815,7 @@ transpositions
 travelpack
 traversal
 treelines
+tribesperson
 tribot
 tricorne
 trifacet
