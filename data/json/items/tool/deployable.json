@@ -371,7 +371,7 @@
   {
     "id": "folded_wheelchair",
     "type": "TOOL",
-    "name": { "str": "folded Foldable wheelchair" },
+    "name": { "str": "folded wheelchair" },
     "description": "A folded wheelchair.",
     "weight": "10586 g",
     "volume": "13500 ml",
