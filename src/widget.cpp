@@ -498,6 +498,8 @@ void widget::finalize_inherited_fields_recursive( const widget_id &id,
 
 void widget::finalize()
 {
+    widget_factory.finalize();
+
     for( const widget &wgt : widget::get_all() ) {
         if( wgt.explicit_separator || wgt.explicit_padding ) {
             widget::finalize_inherited_fields_recursive( wgt.getId(), wgt._separator, wgt._padding );
