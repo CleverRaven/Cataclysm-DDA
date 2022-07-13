@@ -1023,7 +1023,7 @@
   {
     "id": "mon_feral_big_pappy",
     "type": "MONSTER",
-    "name": { "str": "Big Pappy" },
+    "name": { "str": "Big Pappy", "str_pl": "Big Pappys" },
     "//": "Boss enemy for Shady Hills Nursing Home special",
     "description": "A gigantic, monstrous old man with a crazed, anguished face.  He carries a large cane, and seems intent to discipline you with it.",
     "default_faction": "zombie",
