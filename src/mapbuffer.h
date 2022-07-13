@@ -31,6 +31,13 @@ class mapbuffer
         /** Delete all buffered submaps. **/
         void clear();
 
+        /** Delete all buffered submaps except those inside the reality bubble.
+         *
+         * This exists for the sake of the tests to reduce their memory
+         * consumption; it's probably not sane to use in general gameplay.
+         */
+        void clear_outside_reality_bubble();
+
         /** Add a new submap to the buffer.
          *
          * @param p The absolute world position in submap coordinates.
