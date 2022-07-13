@@ -567,7 +567,7 @@ void overmap::unserialize( std::istream &fin )
                 t_regional_settings_map_citr rit = region_settings_map.find( new_region_id );
                 if( rit != region_settings_map.end() ) {
                     // TODO: optimize
-                    settings = pimpl<regional_settings>( rit->second );
+                    settings = &rit->second;
                 }
             }
         } else if( name == "mongroups" ) {

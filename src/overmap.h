@@ -413,7 +413,7 @@ class overmap
         // special, so that it can be queried later by mapgen
         std::unordered_map<om_pos_dir, std::string> joins_used;
 
-        pimpl<regional_settings> settings;
+        const regional_settings *settings;
 
         oter_id get_default_terrain( int z ) const;
 
