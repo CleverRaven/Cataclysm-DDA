@@ -353,7 +353,7 @@
       "MUCUS_SECRETION",
       "MUCUS_SECRETION2"
     ],
-    "passive_pseudo_items": [ "armor_bio_legs" ]
+    "passive_pseudo_items": [ "armor_bio_legs", "armor_bio_feet" ]
   },
   {
     "id": "bio_armor_torso",
