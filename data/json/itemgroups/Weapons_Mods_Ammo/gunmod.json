@@ -138,6 +138,13 @@
   },
   {
     "type": "item_group",
+    "id": "vz58v_mods",
+    "//": "Default mods for the vz. 58 V variant of the VZ combat rifle",
+    "subtype": "collection",
+    "entries": [ { "item": "folding_stock" } ]
+  },
+  {
+    "type": "item_group",
     "id": "sights_shotgun_readied",
     "subtype": "distribution",
     "//": "For non-static shotguns (not in stores, closets ).",

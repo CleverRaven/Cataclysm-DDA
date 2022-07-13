@@ -4284,5 +4284,32 @@
       { "point": [ 0, 0, 0 ], "overmap": "skate_park_up_north" },
       { "point": [ 0, 0, -1 ], "overmap": "skate_park_down_north" }
     ]
+  },
+  {
+    "type": "city_building",
+    "id": "playground",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "playground_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "playground_roof_north" }
+    ]
+  },
+  {
+    "type": "city_building",
+    "id": "park",
+    "locations": [ "land" ],
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "park_north" }, { "point": [ 0, 0, 1 ], "overmap": "park_roof_north" } ]
+  },
+  {
+    "type": "city_building",
+    "id": "park_5",
+    "locations": [ "land" ],
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "park_5_north" }, { "point": [ 0, 0, 1 ], "overmap": "park_5_roof_north" } ]
+  },
+  {
+    "type": "city_building",
+    "id": "park_7",
+    "locations": [ "land" ],
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "park_7_north" }, { "point": [ 0, 0, 1 ], "overmap": "park_7_roof_north" } ]
   }
 ]

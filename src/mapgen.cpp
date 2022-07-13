@@ -574,10 +574,10 @@ void check_mapgen_definitions()
  */
 namespace mapgen_defer
 {
-std::string member;
-std::string message;
-bool defer;
-JsonObject jsi;
+static std::string member;
+static std::string message;
+static bool defer;
+static JsonObject jsi;
 } // namespace mapgen_defer
 
 static void set_mapgen_defer( const JsonObject &jsi, const std::string &member,
@@ -6547,6 +6547,15 @@ std::vector<item *> map::place_items(
         e->set_owner( faction_id( faction ) );
     }
     return res;
+}
+
+std::vector<item *> map::place_items(
+    const item_group_id &group_id, const int chance, const tripoint_bub_ms &p1,
+    const tripoint_bub_ms &p2, const bool ongrass, const time_point &turn, const int magazine,
+    const int ammo, const std::string &faction )
+{
+    return place_items( group_id, chance, p1.raw(), p2.raw(), ongrass, turn, magazine, ammo,
+                        faction );
 }
 
 std::vector<item *> map::put_items_from_loc( const item_group_id &group_id, const tripoint &p,

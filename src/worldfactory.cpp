@@ -1589,6 +1589,9 @@ int worldfactory::show_worldgen_basic( WORLD *world )
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "PICK_MODS" );
     ctxt.register_action( "ADVANCED_SETTINGS" );
+    ctxt.register_action( "FINALIZE" );
+    ctxt.register_action( "RANDOMIZE" );
+    ctxt.register_action( "RESET" );
     ctxt.register_action( "SCROLL_UP" );
     ctxt.register_action( "SCROLL_DOWN" );
     ctxt.register_cardinal();
@@ -1704,27 +1707,33 @@ int worldfactory::show_worldgen_basic( WORLD *world )
         if( all_sliders_drawn && y <= content_height ) {
             // Finish button
             nc_color acc_clr = get_clr( c_yellow, sel_opt == static_cast<int>( wg_sliders.size() + 1 ) );
+            nc_color acc_clr2 = get_clr( c_light_green, sel_opt == static_cast<int>( wg_sliders.size() + 1 ) );
             nc_color base_clr = get_clr( c_white, sel_opt == static_cast<int>( wg_sliders.size() + 1 ) );
-            std::string btn_txt = string_format( "%s %s %s", colorize( "[", acc_clr ),
-                                                 _( "Finish" ), colorize( "]", acc_clr ) );
+            std::string btn_txt = string_format( "%s%s%s %s %s", colorize( "[", acc_clr ),
+                                                 colorize( ctxt.get_desc( "FINALIZE", 1U ), acc_clr2 ),
+                                                 colorize( "][", acc_clr ), _( "Finish" ), colorize( "]", acc_clr ) );
             const point finish_pos( win_width / 4 - utf8_width( btn_txt, true ) / 2, y );
             print_colored_text( w_confirmation, finish_pos, base_clr, base_clr, btn_txt );
             btn_map.emplace( wg_sliders.size() + 1,
                              inclusive_rectangle<point>( finish_pos, finish_pos + point( utf8_width( btn_txt, true ), 0 ) ) );
             // Reset button
             acc_clr = get_clr( c_yellow, sel_opt == static_cast<int>( wg_sliders.size() + 2 ) );
+            acc_clr2 = get_clr( c_light_green, sel_opt == static_cast<int>( wg_sliders.size() + 2 ) );
             base_clr = get_clr( c_white, sel_opt == static_cast<int>( wg_sliders.size() + 2 ) );
-            btn_txt = string_format( "%s %s %s", colorize( "[", acc_clr ),
-                                     _( "Reset" ), colorize( "]", acc_clr ) );
+            btn_txt = string_format( "%s%s%s %s %s", colorize( "[", acc_clr ),
+                                     colorize( ctxt.get_desc( "RESET", 1U ), acc_clr2 ),
+                                     colorize( "][", acc_clr ), _( "Reset" ), colorize( "]", acc_clr ) );
             const point reset_pos( win_width / 2 - utf8_width( btn_txt, true ) / 2, y );
             print_colored_text( w_confirmation, reset_pos, base_clr, base_clr, btn_txt );
             btn_map.emplace( wg_sliders.size() + 2,
                              inclusive_rectangle<point>( reset_pos, reset_pos + point( utf8_width( btn_txt, true ), 0 ) ) );
             // Randomize button
             acc_clr = get_clr( c_yellow, sel_opt == static_cast<int>( wg_sliders.size() + 3 ) );
+            acc_clr2 = get_clr( c_light_green, sel_opt == static_cast<int>( wg_sliders.size() + 3 ) );
             base_clr = get_clr( c_white, sel_opt == static_cast<int>( wg_sliders.size() + 3 ) );
-            btn_txt = string_format( "%s %s %s", colorize( "[", acc_clr ),
-                                     _( "Randomize" ), colorize( "]", acc_clr ) );
+            btn_txt = string_format( "%s%s%s %s %s", colorize( "[", acc_clr ),
+                                     colorize( ctxt.get_desc( "RANDOMIZE", 1U ), acc_clr2 ),
+                                     colorize( "][", acc_clr ), _( "Randomize" ), colorize( "]", acc_clr ) );
             const point rand_pos( ( win_width * 3 ) / 4 - utf8_width( btn_txt, true ) / 2, y++ );
             print_colored_text( w_confirmation, rand_pos, base_clr, base_clr, btn_txt );
             btn_map.emplace( wg_sliders.size() + 3,
@@ -1809,6 +1818,18 @@ int worldfactory::show_worldgen_basic( WORLD *world )
                     sel_opt = orig_opt;
                 }
             }
+        }
+
+        // Button shortcuts
+        if( action == "FINALIZE" ) {
+            action = "CONFIRM";
+            sel_opt = wg_sliders.size() + 1;
+        } else if( action == "RESET" ) {
+            action = "CONFIRM";
+            sel_opt = wg_sliders.size() + 2;
+        } else if( action == "RANDOMIZE" ) {
+            action = "CONFIRM";
+            sel_opt = wg_sliders.size() + 3;
         }
 
         // Handle other inputs

@@ -34,6 +34,7 @@
 #include "string_formatter.h"
 #include "teleport.h"
 #include "translations.h"
+#include "uistate.h"
 #include "units.h"
 #include "vitamin.h"
 #include "weather.h"
@@ -594,7 +595,7 @@ static void eff_fun_teleglow( Character &u, effect &it )
                 MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup(
                                                        GROUP_NETHER );
                 g->place_critter_at( spawn_details.name, dest );
-                if( player_character.sees( dest ) ) {
+                if( uistate.distraction_hostile_spotted && player_character.sees( dest ) ) {
                     g->cancel_activity_or_ignore_query( distraction_type::hostile_spotted_far,
                                                         _( "A monster appears nearby!" ) );
                     add_msg( m_warning, _( "A portal opens nearby, and a monster crawls through!" ) );
@@ -1302,7 +1303,7 @@ void Character::hardcoded_effects( effect &it )
                 MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup(
                                                        GROUP_NETHER );
                 g->place_critter_at( spawn_details.name, dest );
-                if( player_character.sees( dest ) ) {
+                if( uistate.distraction_hostile_spotted && player_character.sees( dest ) ) {
                     g->cancel_activity_or_ignore_query( distraction_type::hostile_spotted_far,
                                                         _( "A monster appears nearby!" ) );
                     add_msg_if_player( m_warning, _( "A portal opens nearby, and a monster crawls through!" ) );
