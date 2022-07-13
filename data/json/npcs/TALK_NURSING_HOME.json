@@ -488,7 +488,7 @@
   {
     "type": "talk_topic",
     "id": "COMP_NURSING_HOME_SCI_PROJECTB",
-    "dynamic_line": "PROJECT CODE NAME: 'Big Pappy'\n PROJECT RESIDENT: Nina Palmero\n PROJECT STATUS: Active\n PROJECT START DATE: xx-xx-xxxx\n\n Entry Log 1: Started subject on assigned dosage.  WIll monitor over 7 days.\n Entry Log 2: Subject added to growing list of recent residents that are rejecting the dosage due to an unknown cause.  Attempting supplement of benzoylmethylecgonine to study possible results.  Will monitor over 7 days.  Mainting subject in general population.\n Entry Log 3: Subject appears to have become obsessed with baked goods, unknown reason.",
+    "dynamic_line": "PROJECT CODE NAME: 'Big Pappy'\n PROJECT RESIDENT: Nina Palmero\n PROJECT STATUS: Active\n PROJECT START DATE: xx-xx-xxxx\n\n Entry Log 1: Started subject on assigned dosage.  Will monitor over 7 days.\n Entry Log 2: Subject added to growing list of recent residents that are rejecting the dosage due to an unknown cause.  Attempting supplement of benzoylmethylecgonine to study possible results.  Will monitor over 7 days.  Maintaining subject in general population.\n Entry Log 3: Subject appears to have become obsessed with baked goods, unknown reason.",
     "responses": [
       { "text": "Add Entry Log", "topic": "COMP_NURSING_HOME_SCI_ERROR4" },
       { "text": "View Patient Medical History", "topic": "COMP_NURSING_HOME_SCI_ERROR4" },
