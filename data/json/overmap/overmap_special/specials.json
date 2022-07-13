@@ -7789,7 +7789,7 @@
     ],
     "connections": [ { "point": [ 3, 3, 0 ], "terrain": "road", "connection": "local_road", "from": [ 3, 2, 0 ] } ],
     "city_distance": [ 0, 5 ],
-    "occurrences": [ 0, 3 ],
+    "occurrences": [ 0, 1 ],
     "flags": [ "GENERIC_LOOT" ]
   }
 ]
