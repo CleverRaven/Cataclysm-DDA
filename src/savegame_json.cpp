@@ -4761,9 +4761,9 @@ void submap::store( JsonOut &jsout ) const
     jsout.member( "partial_constructions" );
     jsout.start_array();
     for( const auto &elem : partial_constructions ) {
-        jsout.write( elem.first.x );
-        jsout.write( elem.first.y );
-        jsout.write( elem.first.z );
+        jsout.write( elem.first.x() );
+        jsout.write( elem.first.y() );
+        jsout.write( elem.first.z() );
         jsout.write( elem.second.counter );
         jsout.write( elem.second.id.id() );
         jsout.start_array();
@@ -5025,7 +5025,7 @@ void submap::load( JsonIn &jsin, const std::string &member_name, int version )
             int i = jsin.get_int();
             int j = jsin.get_int();
             int k = jsin.get_int();
-            tripoint pt = tripoint( i, j, k );
+            tripoint_sm_ms pt( i, j, k );
             pc.counter = jsin.get_int();
             if( jsin.test_int() ) {
                 // Oops, int id incorrectly saved by legacy code, just load it and hope for the best

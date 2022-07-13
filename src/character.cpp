@@ -9769,6 +9769,11 @@ bool Character::sees( const tripoint &t, bool, int ) const
     return can_see;
 }
 
+bool Character::sees( const tripoint_bub_ms &t, bool is_avatar, int range_mod ) const
+{
+    return sees( t.raw(), is_avatar, range_mod );
+}
+
 bool Character::sees( const Creature &critter ) const
 {
     // This handles only the player/npc specific stuff (monsters don't have traits or bionics).
