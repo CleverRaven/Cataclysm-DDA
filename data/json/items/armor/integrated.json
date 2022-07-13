@@ -743,6 +743,7 @@
     "warmth": 15,
     "environmental_protection": 10,
     "material_thickness": 3,
+    "bashing": 4,
     "flags": [
       "INTEGRATED",
       "UNBREAKABLE",
@@ -881,6 +882,7 @@
     "warmth": 15,
     "environmental_protection": 10,
     "material_thickness": 3,
+    "bashing": 4,
     "flags": [
       "INTEGRATED",
       "UNBREAKABLE",
@@ -936,6 +938,7 @@
     "warmth": 15,
     "environmental_protection": 10,
     "material_thickness": 3,
+    "bashing": 11,
     "flags": [ "INTEGRATED", "UNBREAKABLE", "NORMAL", "PADDED", "WATER_FRIENDLY", "SOFT", "NO_REPAIR" ],
     "material": [ "plastic", "superalloy", "qt_steel" ],
     "name": { "str_sp": "alloy plating - feet" },
