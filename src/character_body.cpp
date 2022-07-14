@@ -244,8 +244,8 @@ void Character::update_body( const time_point &from, const time_point &to )
 
     // Cardio related health stuff
     if( calendar::once_every( 1_days ) ) {
-        // reset counter for number of time going below half stamina
-        set_value( "thresh_stam_counter", "0" );
+        // reset timer on getting a bonus for reaching half stamina
+        half_thresh_not_reached = true;
 
         int cardio_accumultor = get_cardio_acc();
         if( cardio_accumultor > 0 ) {
