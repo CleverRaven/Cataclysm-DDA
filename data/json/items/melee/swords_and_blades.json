@@ -1797,5 +1797,6 @@
     "price": 20000,
     "price_postapoc": 250,
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 14 ] ]
-  }
+  },
+  //{
 ]
