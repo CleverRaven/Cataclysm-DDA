@@ -26,7 +26,7 @@ TEST_CASE( "map_coordinate_conversion_functions" )
     if( here.get_abs_sub().x() == 0 ) {
         here.shift( point_east );
     }
-    if( here.get_abs_sub().z() == 0 ) {
+    if( here.get_abs_sub().y() == 0 ) {
         here.shift( point_south );
     }
     here.vertical_shift( z );
