@@ -274,7 +274,7 @@ void Character::update_body( const time_point &from, const time_point &to )
         
         // We'll measure caloric expenditure in chunks of 600 kcal/day. Bear in mind that 1200 or so kcal
         // roughly what you'll spend for lying in bed breathing.  We'll cut that value right off the top.
-        const float activity_total = min( ( calorie_diary.front().spent - 1200.0f ) / 600.0f ), 0.0f );
+        const float activity_total = min( ( calorie_diary.front().spent - 1200.0f ) / 600.0f, 0.0f );
         
         if( activity_total > 2.0f ) {
             mod_daily_health( min( std::sqrt( activity_total ), 3 ), 200 );
