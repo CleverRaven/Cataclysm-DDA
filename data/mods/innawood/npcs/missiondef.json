@@ -367,7 +367,7 @@
         { "u_sell_item": "cattail_stalk", "count": 80 },
         { "npc_consume_item": "cattail_stalk", "count": 80 },
         { "u_learn_recipe": "cattail_jelly" },
-        { "u_spawn_item": "cattail_jelly", "container": "bag_zipper", "count": 7 }
+        { "u_spawn_item": "cattail_jelly", "container": "stomach_sealed", "count": 7 }
       ]
     },
     "dialogue": {
