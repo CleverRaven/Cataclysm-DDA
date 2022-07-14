@@ -364,8 +364,8 @@
       [
         [ "trenchcoat_leather", 1 ],
         [ "duster_leather", 1 ],
-        [ "trenchcoat_leather_sleeveless", 1 ],
-        [ "duster_leather_sleeveless", 1 ],
+        [ "sleeveless_trenchcoat_leather", 1 ],
+        [ "sleeveless_duster_leather", 1 ],
         [ "jacket_leather", 1 ],
         [ "leather_police_jacket", 1 ]
       ],
