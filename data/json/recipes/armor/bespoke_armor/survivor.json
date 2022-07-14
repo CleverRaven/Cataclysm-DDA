@@ -361,7 +361,14 @@
     "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_leatherworking_basic" } ],
     "components": [
-      [ [ "trenchcoat_leather", 1 ], [ "duster_leather", 1 ], [ "trenchcoat_leather_sleeveless", 1 ], [ "duster_leather_sleeveless", 1 ], [ "jacket_leather", 1 ], [ "leather_police_jacket", 1 ] ],
+      [
+        [ "trenchcoat_leather", 1 ],
+        [ "duster_leather", 1 ],
+        [ "trenchcoat_leather_sleeveless", 1 ],
+        [ "duster_leather_sleeveless", 1 ],
+        [ "jacket_leather", 1 ],
+        [ "leather_police_jacket", 1 ]
+      ],
       [ [ "rashguard", 1 ] ],
       [ [ "duct_tape", 120 ] ]
     ]
