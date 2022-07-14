@@ -1515,7 +1515,7 @@
     "name": { "str": "armored rashguard sleeves" },
     "description": "Armor made of combined pre-Cataclysm defensive clothing.  Sections from leather clothing are affixed to the sleeves of a rashguard shirt, excluding the joints.",
     "weight": "350 g",
-    "volume": "0.5 L",
+    "volume": "500 ml",
     "price": 5250,
     "price_postapoc": 100,
     "to_hit": -2,
