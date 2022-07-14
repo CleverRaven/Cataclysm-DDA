@@ -1512,7 +1512,7 @@
     "id": "survivor_rashguard_sleeves",
     "repairs_like": "longshirt",
     "type": "ARMOR",
-    "name": { "str": "armored rashguard sleeves" },
+    "name": { "str_sp": "armored rashguard sleeves" },
     "description": "Armor made of combined pre-Cataclysm defensive clothing.  Sections from leather clothing are affixed to the sleeves of a rashguard shirt, excluding the joints.",
     "weight": "350 g",
     "volume": "500 ml",
