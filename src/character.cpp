@@ -6192,20 +6192,22 @@ void Character::mod_stamina( int mod )
         return;
     }
 
+    float high_thresh = 0.75 * get_stamina_max();
     float half_thresh = 0.5 * get_stamina_max();
 
     std::string thresh_stam_counter_str = get_value( "thresh_stam_counter" );
     int thresh_stam_counter = thresh_stam_counter_str.empty() ? 0 : std::stoi(
                                    thresh_stam_counter_str );
 
-    if( stamina > half_thresh && stamina + mod < half_thresh ) {
-        set_value( "got_to_half_stam", "true" );
+    if( stamina > high_thresh && stamina + mod < high_thresh ) {
+        // You've had at least *some* stamina-lowering activity today.
+        set_value( "lowered_stam", "true" );
     }
 
-    if( stamina > half_thresh && stamina + mod < half_thresh && thresh_stam_counter_str < 5 ) {
+    if( stamina > half_thresh && stamina + mod < half_thresh && thresh_stam_counter_str < 1 ) {
         thresh_stam_counter++;
         set_value( "thresh_stam_counter", std::to_string( thresh_stam_counter ) );
-        mod_daily_health( 1, 2 );
+        mod_daily_health( 1, 1 );
     }
 
     stamina += mod;
