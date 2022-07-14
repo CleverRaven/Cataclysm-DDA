@@ -60,6 +60,7 @@ enum class widget_var : int {
     safe_mode_classic_text, // Safe mode text, classic mode color string.
     style_text,     // Active martial arts style name
     sundial_text,   // Sundial representing the time of day
+    sundial_time_text,   // Current time - exact if character has a watch, sundial otherwise
     time_text,      // Current time - exact if character has a watch, approximate otherwise
     veh_azimuth_text, // Azimuth or heading in degrees, string
     veh_cruise_text, // Current/target cruising speed in vehicle, color string
@@ -251,6 +252,8 @@ class widget
         std::vector<widget_id> _widgets;
         // Child widget layout arrangement / direction
         std::string _arrange;
+        // Id of body_graph to use for widget_var::body_graph
+        std::string _body_graph;
         // Compass direction corresponding to the indexed directions from avatar::get_mon_visible
         cardinal_direction _direction;
         // Flags for special widget behaviors
