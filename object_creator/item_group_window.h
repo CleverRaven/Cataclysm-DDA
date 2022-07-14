@@ -12,6 +12,7 @@
 #include <QtWidgets/qplaintextedit.h>
 #include <QtWidgets/qtablewidget.h>
 #include "QtWidgets/qpushbutton.h"
+#include <QtWidgets/QScrollArea>
 
 namespace creator
 {
@@ -41,20 +42,23 @@ namespace creator
         void group_list_populate_filtered( std::string searchQuery = "" );
         void item_list_populate_filtered( std::string searchQuery = "" );
         void set_item_tooltip( QListWidgetItem* new_item, item tmpItem );
+        void add_distribution();
 
-        QLabel id_label;
-        QLineEdit id_box;
+        QLabel* id_label;
+        QLineEdit* id_box;
 
-        QLabel item_search_label;
-        QLineEdit item_search_box;
-        ListWidget_Drag item_list_total_box;
+        QLabel* item_search_label;
+        QLineEdit* item_search_box;
+        ListWidget_Drag* item_list_total_box;
 
-        QLabel group_search_label;
-        QLineEdit group_search_box;
-        ListWidget_Drag group_list_total_box;
+        QLabel* group_search_label;
+        QLineEdit* group_search_box;
+        ListWidget_Drag* group_list_total_box;
 
         //Top-level frame to hold the distributionCollections and/or entrieslist
         QFrame* entries_box;
+        QVBoxLayout* verticalBox;
+        QScrollArea* scrollArea;
 
 
     protected:
@@ -71,6 +75,7 @@ namespace creator
     private:
         void add_item( QString itemText, bool group );
         void deleteEntriesLine();
+        void change_notify_top_parent();
 
     protected:
         void dragEnterEvent( QDragEnterEvent* event ) override;
@@ -85,6 +90,12 @@ namespace creator
     public:
         explicit distributionCollection( QWidget* parent = nullptr );
         void get_json( JsonOut &jo );
+    private:
+        void add_distribution();
+        void add_entries_list();
+        void delete_self();
+        QPushButton* btnItemList;
+        QVBoxLayout* verticalBox;
     };
 
     class item_group_changed : public QEvent
