@@ -20,8 +20,8 @@
     "trail": { "field_type": "fd_dazzling", "intensity_min": 1, "intensity_max": 1 }
   },
   {
-	"id": "SEISMIC_MAPPING",
-	"type": "ammo_effect",
-	"aoe": { "field_type": "fd_clairvoyant", "intensity_min": 10, "intensity_max": 10 }
+    "id": "SEISMIC_MAPPING",
+    "type": "ammo_effect",
+    "aoe": { "field_type": "fd_clairvoyant", "intensity_min": 10, "intensity_max": 10 }
   }
 ]
