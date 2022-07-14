@@ -1507,5 +1507,60 @@
     "copy-from": "armor_qt_heavyarmguard",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "survivor_rashguard_sleeves",
+    "repairs_like": "longshirt",
+    "type": "ARMOR",
+    "name": { "str": "armored rashguard sleeves" },
+    "description": "Armor made of combined pre-Cataclysm defensive clothing.  Sections from leather clothing are affixed to the sleeves of a rashguard shirt, excluding the joints.",
+    "weight": "250 g",
+    "volume": "2.5 L",
+    "price": 5250,
+    "price_postapoc": 100,
+    "to_hit": -2,
+    "material": [ "nylon", "lycra", "leather" ],
+    "symbol": "[",
+    "looks_like": "armguard_soft",
+    "color": "light_red",
+    "armor": [
+      {
+        "material": [
+          { "type": "lycra", "covered_by_mat": 100, "thickness": 0.2 },
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.8 },
+        ],
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r" ],
+        "coverage": 50,
+        "encumbrance": 0,
+        "breathability": "GOOD"
+      },
+      {
+        "material": [
+          { "type": "lycra", "covered_by_mat": 100, "thickness": 0.2 },
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.8 },
+        ],
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_elbow_l", "arm_elbow_r" ],
+        "coverage": 100,
+        "encumbrance": 0,
+        "breathability": "GOOD"
+      },
+      {
+        "material": [
+          { "type": "lycra", "covered_by_mat": 100, "thickness": 0.2 },
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.8 },
+          { "type": "leather", "covered_by_mat": 95, "thickness": 1.5 }
+        ],
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_upper_l", "arm_lower_l", "arm_upper_r", "arm_lower_r" ],
+        "coverage": 100,
+        "encumbrance": 8
+      }
+    ],
+    "warmth": 15,
+    "material_thickness": 2.5,
+    "environmental_protection": 2,
+    "flags": [ "VARSIZE", "WATER_FRIENDLY" ]
   }
 ]
