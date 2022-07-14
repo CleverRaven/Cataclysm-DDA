@@ -6192,21 +6192,20 @@ void Character::mod_stamina( int mod )
         return;
     }
 
-    float quarter_thresh = 0.25 * get_stamina_max();
     float half_thresh = 0.5 * get_stamina_max();
 
-    std::string quarter_stam_counter_str = get_value( "quarter_stam_counter" );
-    int quarter_stam_counter = quarter_stam_counter_str.empty() ? 0 : std::stoi(
-                                   quarter_stam_counter_str );
+    std::string thresh_stam_counter_str = get_value( "thresh_stam_counter" );
+    int thresh_stam_counter = thresh_stam_counter_str.empty() ? 0 : std::stoi(
+                                   thresh_stam_counter_str );
 
     if( stamina > half_thresh && stamina + mod < half_thresh ) {
         set_value( "got_to_half_stam", "true" );
     }
 
-    if( stamina > quarter_thresh && stamina + mod < quarter_thresh && quarter_stam_counter < 5 ) {
-        quarter_stam_counter++;
-        set_value( "quarter_stam_counter", std::to_string( quarter_stam_counter ) );
-        mod_daily_health( 1, 5 );
+    if( stamina > half_thresh && stamina + mod < half_thresh && thresh_stam_counter_str < 5 ) {
+        thresh_stam_counter++;
+        set_value( "thresh_stam_counter", std::to_string( thresh_stam_counter ) );
+        mod_daily_health( 1, 2 );
     }
 
     stamina += mod;
