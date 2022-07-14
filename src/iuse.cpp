@@ -2789,7 +2789,8 @@ cata::optional<int> iuse::dig( Character *p, item * /* it */, bool t, const trip
     auto build = std::find_if( cnstr.begin(), cnstr.end(), []( const construction & it ) {
         return it.str_id == construction_constr_pit;
     } );
-    bool const can_dig_pit = !points_in_radius_where( p->pos(), 1, [&build]( tripoint const & pt ) {
+    bool const can_dig_pit = !points_in_radius_where( p->pos_bub(),
+    1, [&build]( tripoint_bub_ms const & pt ) {
         return can_construct( *build, pt );
     } ).empty();
     if( !can_dig_pit ) {
@@ -7445,7 +7446,8 @@ cata::optional<int> iuse::ehandcuffs( Character *p, item *it, bool t, const trip
             it->unset_flag( flag_NO_UNWIELD );
             it->active = false;
 
-            if( p->has_item( *it ) && p->get_wielded_item().typeId() == itype_e_handcuffs ) {
+            if( p->has_item( *it ) && p->get_wielded_item() &&
+                p->get_wielded_item()->typeId() == itype_e_handcuffs ) {
                 add_msg( m_good, _( "%s on your wrists opened!" ), it->tname() );
             }
 
@@ -7477,7 +7479,8 @@ cata::optional<int> iuse::ehandcuffs( Character *p, item *it, bool t, const trip
         if( ( it->ammo_remaining() > it->type->maximum_charges() - 1000 ) && ( p2.x != pos.x ||
                 p2.y != pos.y ) ) {
 
-            if( p->has_item( *it ) && p->get_wielded_item().typeId() == itype_e_handcuffs ) {
+            if( p->has_item( *it ) && p->get_wielded_item() &&
+                p->get_wielded_item()->typeId() == itype_e_handcuffs ) {
 
                 if( p->is_elec_immune() ) {
                     if( one_in( 10 ) ) {
@@ -9442,7 +9445,7 @@ static item *wield_before_use( Character *const p, item *const it, const std::st
                 return nullptr;
             }
             // `it` is no longer the item we are using (note that `player::wielded` is a value).
-            return &p->get_wielded_item();
+            return &*p->get_wielded_item();
         } else {
             return nullptr;
         }

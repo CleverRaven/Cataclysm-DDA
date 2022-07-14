@@ -222,12 +222,12 @@ struct type {
     std::string suffix;
 };
 
-const std::array<std::string, 5> mapgen_suffixes = {{
+static const std::array<std::string, 5> mapgen_suffixes = {{
         "_straight", "_curved", "_end", "_tee", "_four_way"
     }
 };
 
-const std::array < type, 1 + om_direction::bits > all = {{
+static const std::array < type, 1 + om_direction::bits > all = {{
         { UTF8_getch( LINE_XXXX_S ), 4, unconnected,  0, "_isolated"  }, // 0  ----
         { UTF8_getch( LINE_XOXO_S ), 2, end_piece,    2, "_end_south" }, // 1  ---n
         { UTF8_getch( LINE_OXOX_S ), 2, end_piece,    1, "_end_west"  }, // 2  --e-
@@ -247,10 +247,10 @@ const std::array < type, 1 + om_direction::bits > all = {{
     }
 };
 
-const size_t size = all.size();
-const size_t invalid = 0;
+static const size_t size = all.size();
+static const size_t invalid = 0;
 
-constexpr size_t rotate( size_t line, om_direction::type dir )
+static constexpr size_t rotate( size_t line, om_direction::type dir )
 {
     if( dir == om_direction::type::invalid ) {
         return line;
@@ -260,7 +260,7 @@ constexpr size_t rotate( size_t line, om_direction::type dir )
              ( line >> ( om_direction::size - static_cast<size_t>( dir ) ) ) ) & om_direction::bits;
 }
 
-constexpr size_t set_segment( size_t line, om_direction::type dir )
+static constexpr size_t set_segment( size_t line, om_direction::type dir )
 {
     if( dir == om_direction::type::invalid ) {
         return line;
@@ -268,7 +268,7 @@ constexpr size_t set_segment( size_t line, om_direction::type dir )
     return line | 1 << static_cast<int>( dir );
 }
 
-constexpr bool has_segment( size_t line, om_direction::type dir )
+static constexpr bool has_segment( size_t line, om_direction::type dir )
 {
     if( dir == om_direction::type::invalid ) {
         return false;
@@ -276,7 +276,7 @@ constexpr bool has_segment( size_t line, om_direction::type dir )
     return static_cast<bool>( line & 1 << static_cast<int>( dir ) );
 }
 
-constexpr bool is_straight( size_t line )
+static constexpr bool is_straight( size_t line )
 {
     return line == 1
            || line == 2
@@ -738,7 +738,7 @@ static void load_overmap_terrain_mapgens( const JsonObject &jo, const std::strin
     if( jo.has_array( jsonkey ) ) {
         for( JsonObject jio : jo.get_array( jsonkey ) ) {
             // NOLINTNEXTLINE(cata-use-named-point-constants)
-            load_mapgen_function( jio, fmapkey, point_zero, point( 1, 1 ) );
+            load_and_add_mapgen_function( jio, fmapkey, point_zero, point( 1, 1 ) );
         }
     }
 }

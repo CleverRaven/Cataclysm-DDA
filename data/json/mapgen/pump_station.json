@@ -108,7 +108,7 @@
         { "monster": "GROUP_ZOMBIE", "x": [ 5, 21 ], "y": [ 8, 23 ], "chance": 3 },
         { "monster": "GROUP_ZOMBIE", "x": [ 4, 21 ], "y": [ 24, 37 ], "chance": 3 }
       ],
-      "place_vehicles": [ { "vehicle": "pump_station_vehicles", "x": [ 7, 9 ], "y": [ 4, 6 ], "chance": 20, "rotation": 90 } ]
+      "place_vehicles": [ { "vehicle": "pump_station_vehicles", "x": [ 7, 9 ], "y": 8, "chance": 20, "rotation": 90 } ]
     }
   },
   {

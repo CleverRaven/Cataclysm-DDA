@@ -493,6 +493,8 @@ dragonscale
 draugr
 draugrs
 drawknife
+dreamdross
+dreamstuff
 driers
 drivetrain
 dromaeosaurid
@@ -500,6 +502,7 @@ dromaeosaurus
 dropoff
 droppers
 druidry
+dryosaurus
 dryptosaurus
 drywalled
 dunderfuck

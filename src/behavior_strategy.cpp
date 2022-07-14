@@ -6,9 +6,9 @@
 
 namespace behavior
 {
-sequential_t default_sequential;
-fallback_t default_fallback;
-sequential_until_done_t default_until_done;
+static sequential_t default_sequential;
+static fallback_t default_fallback;
+static sequential_until_done_t default_until_done;
 
 std::unordered_map<std::string, const strategy_t *> strategy_map = {{
         { "sequential", &default_sequential },

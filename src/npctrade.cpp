@@ -120,13 +120,11 @@ std::vector<item_pricing> npc_trading::init_selling( npc &np )
         }
     }
 
-    item &weapon = np.get_wielded_item();
+    item_location weapon = np.get_wielded_item();
     if(
-        np.will_exchange_items_freely() &&
-        !weapon.is_null() &&
-        !weapon.has_flag( json_flag_NO_UNWIELD )
+        np.will_exchange_items_freely() && weapon && !weapon->has_flag( json_flag_NO_UNWIELD )
     ) {
-        result.emplace_back( np, weapon, np.value( weapon ), false );
+        result.emplace_back( np, *weapon, np.value( *weapon ), false );
     }
 
     return result;

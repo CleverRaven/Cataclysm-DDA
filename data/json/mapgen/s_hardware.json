@@ -76,7 +76,7 @@
         { "item": "office", "x": 6, "y": [ 17, 18 ], "chance": 50 },
         { "item": "cash_register_random", "x": [ 7, 9 ], "y": 10, "chance": 100 }
       ],
-      "vehicles": { "Á": { "vehicle": "parking_garage", "chance": 33, "rotation": 90 } }
+      "vehicles": { "Á": { "vehicle": "parking_garage_short", "chance": 33, "rotation": 90 } }
     }
   },
   {

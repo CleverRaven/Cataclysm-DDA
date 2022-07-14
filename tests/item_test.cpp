@@ -515,7 +515,7 @@ TEST_CASE( "water affect items while swimming check", "[item][water][swimming]" 
 
             THEN( "should get wet from water" ) {
                 g->water_affect_items( guy );
-                CHECK( guy.get_wielded_item().wetness > 0 );
+                CHECK( guy.get_wielded_item()->wetness > 0 );
             }
         }
 
@@ -532,7 +532,7 @@ TEST_CASE( "water affect items while swimming check", "[item][water][swimming]" 
 
             THEN( "should get wet from water" ) {
                 g->water_affect_items( guy );
-                const item *test_item = guy.get_wielded_item().all_items_top().front();
+                const item *test_item = guy.get_wielded_item()->all_items_top().front();
                 REQUIRE( test_item->typeId() == itype_test_mp3 );
                 CHECK( test_item->wetness > 0 );
             }
@@ -551,7 +551,7 @@ TEST_CASE( "water affect items while swimming check", "[item][water][swimming]" 
 
             THEN( "should not be broken by water" ) {
                 g->water_affect_items( guy );
-                const item *test_item = guy.get_wielded_item().all_items_top().front();
+                const item *test_item = guy.get_wielded_item()->all_items_top().front();
                 REQUIRE( test_item->typeId() == itype_test_mp3 );
                 CHECK( test_item->wetness == 0 );
             }
@@ -572,7 +572,7 @@ TEST_CASE( "water affect items while swimming check", "[item][water][swimming]" 
 
             THEN( "should get wet from water" ) {
                 g->water_affect_items( guy );
-                const item *test_item = guy.get_wielded_item().all_items_top().front()->all_items_top().front();
+                const item *test_item = guy.get_wielded_item()->all_items_top().front()->all_items_top().front();
                 REQUIRE( test_item->typeId() == itype_test_mp3 );
                 CHECK( test_item->wetness > 0 );
             }
@@ -593,7 +593,7 @@ TEST_CASE( "water affect items while swimming check", "[item][water][swimming]" 
 
             THEN( "should not be broken by water" ) {
                 g->water_affect_items( guy );
-                const item *test_item = guy.get_wielded_item().all_items_top().front()->all_items_top().front();
+                const item *test_item = guy.get_wielded_item()->all_items_top().front()->all_items_top().front();
                 REQUIRE( test_item->typeId() == itype_test_mp3 );
                 CHECK( test_item->wetness == 0 );
             }
@@ -609,7 +609,7 @@ TEST_CASE( "water affect items while swimming check", "[item][water][swimming]" 
 
             THEN( "should be wet for around 8664 seconds" ) {
                 g->water_affect_items( guy );
-                CHECK( guy.get_wielded_item().wetness == Approx( 8664 ).margin( 20 ) );
+                CHECK( guy.get_wielded_item()->wetness == Approx( 8664 ).margin( 20 ) );
             }
         }
 
@@ -628,7 +628,7 @@ TEST_CASE( "water affect items while swimming check", "[item][water][swimming]" 
                 g->water_affect_items( guy );
                 g->water_affect_items( guy );
                 AND_THEN( "should be wet for around 43320 seconds" ) {
-                    CHECK( guy.get_wielded_item().wetness == Approx( 43320 ).margin( 100 ) );
+                    CHECK( guy.get_wielded_item()->wetness == Approx( 43320 ).margin( 100 ) );
                 }
             }
         }
@@ -762,7 +762,7 @@ TEST_CASE( "rigid_armor_compliance", "[item][armor]" )
     item test_armguard( "test_armguard" );
     REQUIRE( guy.wield( test_armguard ) );
 
-    REQUIRE( guy.wear( item_location( *guy.as_character(), &guy.used_weapon() ), false ) );
+    REQUIRE( guy.wear( guy.used_weapon(), false ) );
 
     CHECK( guy.worn.top_items_loc( guy ).front().get_item()->get_side() == side::LEFT );
 
@@ -776,15 +776,15 @@ TEST_CASE( "rigid_armor_compliance", "[item][armor]" )
 
     item first_test_armguard( "test_armguard" );
     REQUIRE( guy.wield( first_test_armguard ) );
-    REQUIRE( guy.wear( item_location( *guy.as_character(), &guy.used_weapon() ), false ) );
+    REQUIRE( guy.wear( guy.used_weapon(), false ) );
 
     item second_test_armguard( "test_armguard" );
     REQUIRE( guy.wield( second_test_armguard ) );
-    REQUIRE( guy.wear( item_location( *guy.as_character(), &guy.used_weapon() ), false ) );
+    REQUIRE( guy.wear( guy.used_weapon(), false ) );
 
     item third_test_armguard( "test_armguard" );
     REQUIRE( guy.wield( third_test_armguard ) );
-    REQUIRE( !guy.wear( item_location( *guy.as_character(), &guy.used_weapon() ), false ) );
+    REQUIRE( !guy.wear( guy.used_weapon(), false ) );
 }
 
 TEST_CASE( "rigid_splint_compliance", "[item][armor]" )
@@ -803,32 +803,32 @@ TEST_CASE( "rigid_splint_compliance", "[item][armor]" )
 
     guy.set_part_hp_cur( bodypart_id( "arm_r" ), 0 );
     REQUIRE( guy.wield( splint ) );
-    REQUIRE( guy.wear( item_location( *guy.as_character(), &guy.used_weapon() ), false ) );
+    REQUIRE( guy.wear( guy.used_weapon(), false ) );
 
     // check if you cannot wear a splint if something rigid is on that arm
     clear_avatar();
 
     REQUIRE( guy.wield( test_armguard ) );
     guy.set_part_hp_cur( bodypart_id( "arm_r" ), 0 );
-    REQUIRE( guy.wear( item_location( *guy.as_character(), &guy.used_weapon() ), false ) );
+    REQUIRE( guy.wear( guy.used_weapon(), false ) );
 
     CHECK( guy.worn.top_items_loc( guy ).front().get_item()->get_side() == side::LEFT );
     // swap side to the broken arm side
     guy.change_side( *guy.worn.top_items_loc( guy ).front().get_item() );
     // should fail to wear
     REQUIRE( guy.wield( second_splint ) );
-    REQUIRE( !guy.wear( item_location( *guy.as_character(), &guy.used_weapon() ), false ) );
+    REQUIRE( !guy.wear( guy.used_weapon(), false ) );
 
     // check if you can wear a splint if nothing rigid is on that arm
     clear_avatar();
 
     REQUIRE( guy.wield( second_test_armguard ) );
     guy.set_part_hp_cur( bodypart_id( "arm_r" ), 0 );
-    REQUIRE( guy.wear( item_location( *guy.as_character(), &guy.used_weapon() ), false ) );
+    REQUIRE( guy.wear( guy.used_weapon(), false ) );
 
     CHECK( guy.worn.top_items_loc( guy ).front().get_item()->get_side() == side::LEFT );
 
     // should be able to wear the arm is open
     REQUIRE( guy.wield( third_splint ) );
-    REQUIRE( guy.wear( item_location( *guy.as_character(), &guy.used_weapon() ), false ) );
+    REQUIRE( guy.wear( guy.used_weapon(), false ) );
 }

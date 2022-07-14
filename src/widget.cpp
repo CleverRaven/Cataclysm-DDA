@@ -151,6 +151,8 @@ std::string enum_to_string<widget_var>( widget_var data )
             return "style_text";
         case widget_var::sundial_text:
             return "sundial_text";
+        case widget_var::sundial_time_text:
+            return "sundial_time_text";
         case widget_var::time_text:
             return "time_text";
         case widget_var::veh_azimuth_text:
@@ -359,6 +361,7 @@ void widget::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "label", _label, translation() );
     optional( jo, was_loaded, "style", _style, "number" );
     optional( jo, was_loaded, "arrange", _arrange, "columns" );
+    optional( jo, was_loaded, "body_graph", _body_graph, "full_body_widget" );
     optional( jo, was_loaded, "direction", _direction, cardinal_direction::num_cardinal_directions );
     optional( jo, was_loaded, "text_align", _text_align, widget_alignment::LEFT );
     optional( jo, was_loaded, "label_align", _label_align, widget_alignment::LEFT );
@@ -498,6 +501,8 @@ void widget::finalize_inherited_fields_recursive( const widget_id &id,
 
 void widget::finalize()
 {
+    widget_factory.finalize();
+
     for( const widget &wgt : widget::get_all() ) {
         if( wgt.explicit_separator || wgt.explicit_padding ) {
             widget::finalize_inherited_fields_recursive( wgt.getId(), wgt._separator, wgt._padding );
@@ -913,6 +918,7 @@ bool widget::uses_text_function()
         case widget_var::safe_mode_classic_text:
         case widget_var::style_text:
         case widget_var::sundial_text:
+        case widget_var::sundial_time_text:
         case widget_var::time_text:
         case widget_var::veh_azimuth_text:
         case widget_var::veh_cruise_text:
@@ -960,7 +966,7 @@ std::string widget::color_text_function_string( const avatar &ava, unsigned int 
             desc = display::activity_text_color( ava );
             break;
         case widget_var::body_graph:
-            desc.first = display::colorized_bodygraph_text( ava, "full_body_widget",
+            desc.first = display::colorized_bodygraph_text( ava, _body_graph,
                          _width == 0 ? max_width : _width, _height_max, _height );
             update_height = true; // Dynamically adjusted height
             apply_color = false; // Already colorized
@@ -1008,6 +1014,10 @@ std::string widget::color_text_function_string( const avatar &ava, unsigned int 
             break;
         case widget_var::sundial_text:
             desc.first = display::sundial_text_color( ava, _width == 0 ? max_width : _width );
+            apply_color = false; // Already colorized
+            break;
+        case widget_var::sundial_time_text:
+            desc.first = display::sundial_time_text_color( ava, _width == 0 ? max_width : _width );
             apply_color = false; // Already colorized
             break;
         case widget_var::time_text:
@@ -1493,6 +1503,7 @@ std::string widget::layout( const avatar &ava, unsigned int max_width, int label
             std::vector<std::vector<std::string>> cols;
             std::vector<int> widths;
             unsigned int total_width = 0;
+            std::string debug_widths;
             for( const widget_id &wid : _widgets ) {
                 widget cur_child = wid.obj();
                 int cur_width = child_width;
@@ -1516,11 +1527,16 @@ std::string widget::layout( const avatar &ava, unsigned int max_width, int label
                     }
                 }
 
+                // for debug keep track of each and width
+                debug_widths.append( string_format( "%s: %d,", wid.str(), cur_width ) );
+
                 if( cur_width > 0 ) {
                     total_width += cur_width;
                 }
                 if( total_width > max_width ) {
-                    debugmsg( "widget layout is wider than sidebar allows." );
+
+                    debugmsg( string_format( "widget layout is wider (%d) than sidebar allows (%d) for %s.",
+                                             total_width, max_width, debug_widths ) );
                 }
                 const bool skip_pad_this = skip_pad || wid->has_flag( json_flag_W_NO_PADDING );
                 // Layout child in this column

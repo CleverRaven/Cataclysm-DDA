@@ -102,5 +102,39 @@
     "ammo_type": [ "762" ],
     "flags": [ "MAG_BULKY" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "762": 75 } } ]
+  },
+  {
+    "id": "vz58mag10",
+    "looks_like": "stanag30",
+    "type": "MAGAZINE",
+    "name": { "str": "vz. 58 10-round magazine" },
+    "description": "A surplus Czech military magazine for the vz. 58 assault rifle, which has been modified to only be capable of holding 10 rounds in place of its standard capacity of 30 cartridges.",
+    "weight": "190 g",
+    "volume": "370 ml",
+    "price": 4000,
+    "price_postapoc": 100,
+    "material": [ "aluminum" ],
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": [ "762" ],
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "762": 10 } } ]
+  },
+  {
+    "id": "vz58mag30",
+    "looks_like": "stanag30",
+    "type": "MAGAZINE",
+    "name": { "str": "vz. 58 30-round magazine" },
+    "description": "An original surplus Czechoslovak magazine, constructed out of lightweight aluminum and made for use within vz. 58 pattern rifles and modern derivatives.  Despite strongly resembling standard Kalashnikov magazines, this curved box magazine is unsuitable for insertion into AK patten mag wells due to changes made in its follower assembly to facilitate a last-round-hold-open feature within the vz. 58.",
+    "weight": "190 g",
+    "volume": "370 ml",
+    "price": 3299,
+    "price_postapoc": 250,
+    "material": [ "aluminum" ],
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": [ "762" ],
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "762": 30 } } ]
   }
 ]

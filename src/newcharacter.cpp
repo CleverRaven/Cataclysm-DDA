@@ -3020,7 +3020,7 @@ tab_direction set_scenario( avatar &u, pool_type pool )
         const int w_initial_date_h = 6;
         const int w_flags_h = clamp<int>( 0,
                                           iContentHeight -
-                                          ( w_sorting_h + w_profession_h + w_location_h + w_vehicle_h + w_initial_date_h ),
+                                          ( w_sorting_h + w_profession_h + w_location_h + w_vehicle_h + w_initial_date_h + w_requirement_h ),
                                           iContentHeight );
         w_sorting = catacurses::newwin( w_sorting_h, second_column_w, origin );
         origin += point( 0, w_sorting_h );

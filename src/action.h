@@ -282,6 +282,8 @@ enum action_id : int {
     ACTION_COLOR,
     /** Open active world mods */
     ACTION_WORLD_MODS,
+    /** Open distraction manager */
+    ACTION_DISTRACTION_MANAGER,
     /**@}*/
 
     // Debug Functions
