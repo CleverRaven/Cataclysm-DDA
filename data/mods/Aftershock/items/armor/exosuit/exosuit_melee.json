@@ -60,7 +60,7 @@
     "to_hit": { "grip": "weapon", "length": "long", "surface": "any", "balance": "clumsy" },
     "material": [ "qt_steel", "carbide" ],
     "weapon_category": [ "MACES", "GREAT_HAMMERS" ],
-    "flags": [ "NONCONDUCTIVE", "DURABLE_MELEE", "REACH_ATTACK", "USE_UPS", "EXOSUIT_LARGE" ],
+    "flags": [ "NONCONDUCTIVE", "DURABLE_MELEE", "REACH_ATTACK", "USE_UPS", "EXO_LARGE_GADGET" ],
     "category": "weapons",
     "use_action": {
       "type": "transform",
@@ -91,7 +91,7 @@
     "bashing": 50,
     "cutting": 25,
     "qualities": [ [ "HAMMER", 1 ], [ "DIG", 3 ] ],
-    "flags": [ "NONCONDUCTIVE", "DURABLE_MELEE", "REACH_ATTACK", "USE_UPS", "DIG_TOOL", "POWERED", "EXOSUIT_LARGE" ],
+    "extend": { "flags": [ "POWERED", "EXO_LARGE_GADGET" ] },
     "to_hit": { "grip": "weapon", "length": "long", "surface": "every", "balance": "clumsy" },
     "power_draw": 1500,
     "revert_to": "heavy_drill",
@@ -114,7 +114,7 @@
     "symbol": "[",
     "color": "light_gray",
     "power_armor": true,
-    "flags": [ "WATER_FRIENDLY", "DURABLE_MELEE", "OVERSIZE", "OUTER", "EXOSUIT_MEDIUM" ],
+    "flags": [ "WATER_FRIENDLY", "DURABLE_MELEE", "OVERSIZE", "OUTER", "EXO_MEDIUM_GADGET" ],
     "armor": [
       {
         "material": [
@@ -145,7 +145,7 @@
     "charges_per_use": 1,
     "use_action": [ { "type": "cast_spell", "spell_id": "exo_plasmacut", "no_fail": true, "level": 20 }, "OXYTORCH" ],
     "qualities": [ [ "WELD", 3 ] ],
-    "flags": [ "ALLOWS_REMOTE_USE", "CANT_WEAR", "EXOSUIT_LARGE", "FRAGILE_MELEE" ],
+    "flags": [ "ALLOWS_REMOTE_USE", "CANT_WEAR", "EXO_LARGE_GADGET", "FRAGILE_MELEE" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -194,7 +194,7 @@
     ],
     "charges_per_use": 1,
     "use_action": { "target": "exosuit_power_cutter_on", "msg": "You rev up the power cutter!", "active": true, "type": "transform" },
-    "flags": [ "ALWAYS_TWOHAND", "NONCONDUCTIVE", "EXOSUIT_LARGE" ],
+    "flags": [ "ALWAYS_TWOHAND", "NONCONDUCTIVE", "EXO_LARGE_GADGET" ],
     "armor": [
       {
         "material": [
