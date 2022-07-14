@@ -517,6 +517,13 @@ class Character : public Creature, public visitable
         virtual int get_thirst() const;
         virtual int get_instant_thirst() const;
 
+        time_duration get_daily_sleep() const;
+        void mod_daily_sleep( time_duration mod );
+        void reset_daily_sleep();
+        time_duration get_continuous_sleep() const;
+        void mod_continuous_sleep( time_duration mod );
+        void reset_continuous_sleep();
+
         int get_fatigue() const;
         int get_sleep_deprivation() const;
 
@@ -730,6 +737,7 @@ class Character : public Creature, public visitable
         /** Increases hunger, thirst, fatigue and stimulants wearing off. `rate_multiplier` is for retroactive updates. */
         void update_needs( int rate_multiplier );
         needs_rates calc_needs_rates() const;
+        void calc_sleep_recovery_rate( needs_rates &rates ) const;
         /** Kills the player if too hungry, stimmed up etc., forces tired player to sleep and prints warnings. */
         void check_needs_extremes();
         /** Handles the chance to be infected by random diseases */
@@ -3496,6 +3504,9 @@ class Character : public Creature, public visitable
         float circulation;
         // Should remain fixed at 1.0 for now.
         float circulation_resistance = 1.0f;
+
+        time_duration daily_sleep = 0_turns;
+        time_duration continuous_sleep = 0_turns;
 
         int fatigue;
         int sleep_deprivation;

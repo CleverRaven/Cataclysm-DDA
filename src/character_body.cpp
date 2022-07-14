@@ -236,6 +236,31 @@ void Character::update_body( const time_point &from, const time_point &to )
         mend( five_mins * to_turns<int>( 5_minutes ) );
         activity_history.reset_activity_level();
     }
+    bool was_sleeping = get_value( "was_sleeping" ) == "true";
+    if( in_sleep_state() && was_sleeping ) {
+        needs_rates tmp_rates;
+        calc_sleep_recovery_rate( tmp_rates );
+        const int fatigue_regen_rate = tmp_rates.recovery;
+        const time_duration effective_time_slept = ( to - from ) * fatigue_regen_rate;
+        mod_daily_sleep( effective_time_slept );
+        mod_continuous_sleep( effective_time_slept );
+    }
+    if( was_sleeping && !in_sleep_state() ) {
+        if( get_continuous_sleep() >= 6_hours ) {
+            set_value( "sleep_health_mult", "2" );
+        }
+        reset_continuous_sleep();
+    }
+    if( calendar::once_every( 12_hours ) ) {
+        const int sleep_health_mult = get_value( "sleep_health_mult" ) == "2" ? 2 : 1;
+        mod_daily_health( sleep_health_mult * to_hours<int>( get_daily_sleep() ), 10 );
+        set_value( "sleep_health_mult", "1" );
+    }
+    if( calendar::once_every( 1_days ) ) {
+        reset_daily_sleep();
+    }
+    set_value( "was_sleeping", in_sleep_state() ? "true" : "false" );
+
 
     activity_history.new_turn( in_sleep_state() );
     if( ticks_between( from, to, 24_hours ) > 0 && !has_flag( json_flag_NO_MINIMAL_HEALING ) ) {

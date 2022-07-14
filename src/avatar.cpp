@@ -1203,9 +1203,10 @@ void avatar::rebuild_aim_cache()
         base_angle = base_angle + 2 * pi;
     }
 
+    // todo: this is not the correct weapon when aiming with fake items
+    item *weapon = get_wielded_item() ? &*get_wielded_item() : &null_item_reference();
     // calc steadiness with player recoil (like they are taking a regular shot not careful etc.
-    float range = 3.0f - 2.8f * calc_steadiness( *this, &*get_wielded_item(),
-                  last_target_pos.value(), recoil );
+    float range = 3.0f - 2.8f * calc_steadiness( *this, weapon, last_target_pos.value(), recoil );
 
     // pin between pi and negative pi
     float upper_bound = base_angle + range;

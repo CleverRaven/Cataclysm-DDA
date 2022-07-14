@@ -2953,7 +2953,8 @@ void avatar::disarm( npc &target )
     int hitspread = target.deal_melee_attack( this, hit_roll() );
     if( hitspread < 0 ) {
         add_msg( _( "You lunge for the %s, but miss!" ), it->tname() );
-        mod_moves( -100 - stumble( *this, weapon ) - attack_speed( *weapon ) );
+        item weap = get_wielded_item() ? *get_wielded_item() : null_item_reference();
+        mod_moves( -100 - stumble( *this, weapon ) - attack_speed( weap ) );
         target.on_attacked( *this );
         return;
     }
