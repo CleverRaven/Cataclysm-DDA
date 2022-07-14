@@ -732,21 +732,15 @@ lit_level map::apparent_light_at( const tripoint &p, const visibility_variables 
     const level_cache &map_cache = get_cache_ref( p.z );
     const apparent_light_info a = apparent_light_helper( map_cache, p );
 
-    // Cameras are based on their own positions.
-    if( ( dist > player_character.unimpaired_range() || a.obstructed ) &&
-        map_cache.camera_cache[p.x][p.y] > 0.0f ) {
-        if( map_cache.camera_cache[p.x][p.y] * map_cache.lm[p.x][p.y].max() * 0.6 > LIGHT_AMBIENT_LIT ) {
-            return lit_level::BRIGHT;
-        } else if( map_cache.camera_cache[p.x][p.y] * map_cache.lm[p.x][p.y].max() * 0.8 >
-                   LIGHT_AMBIENT_LIT ) {
-            return lit_level::LOW;
-        } else {
-            return lit_level::DARK;
+    // Unimpaired range is an override to strictly limit vision range based on various conditions,
+    // but the player can still see light sources
+    if( dist > player_character.unimpaired_range() && map_cache.camera_cache[p.x][p.y] == 0.0 ) {
+        if( !a.obstructed && map_cache.sm[p.x][p.y] > 0.0 ) {
+            return lit_level::BRIGHT_ONLY;
         }
-    }
-    if( dist > player_character.unimpaired_range() ) {
         return lit_level::BLANK;
     }
+
     if( a.obstructed ) {
         if( a.apparent_light > LIGHT_AMBIENT_LIT ) {
             if( a.apparent_light > cache.g_light_level ) {
