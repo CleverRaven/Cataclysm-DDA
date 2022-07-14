@@ -244,14 +244,14 @@ void Character::update_body( const time_point &from, const time_point &to )
 
     // Cardio related health stuff
     if( calendar::once_every( 1_days ) ) {
-        // not getting below half stamina even once in a whole day is not healthy
-        if( get_value( "got_to_half_stam" ).empty() ) {
-            mod_daily_health( -4, -200 );
+        // not getting below 75% stamina even once in a whole day is not healthy
+        if( get_value( "lowered_stam" ).empty() ) {
+            mod_daily_health( -1, -200 );
         } else {
-            remove_value( "got_to_half_stam" );
+            remove_value( "lowered_stam" );
         }
-        // reset counter for number of time going below quarter stamina
-        set_value( "quarter_stam_counter", "0" );
+        // reset counter for number of time going below half stamina
+        set_value( "thresh_stam_counter", "0" );
 
         int cardio_accumultor = get_cardio_acc();
         if( cardio_accumultor > 0 ) {
