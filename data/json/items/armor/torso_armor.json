@@ -1595,9 +1595,7 @@
         "breathability": "GOOD"
       },
       {
-        "material": [
-          { "type": "leather", "covered_by_mat": 95, "thickness": 1.5 }
-        ],
+        "material": [ { "type": "leather", "covered_by_mat": 95, "thickness": 1.5 } ],
         "covers": [ "arm_l", "arm_r" ],
         "specifically_covers": [ "arm_upper_l", "arm_lower_l", "arm_upper_r", "arm_lower_r" ],
         "coverage": 100,
