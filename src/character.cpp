@@ -5801,10 +5801,14 @@ float Character::healing_rate_medicine( float at_rest_quality, const bodypart_id
     }
 
     if( get_lifestyle() > 0.0f ) {
-        rate_medicine *= 1.0f + get_lifestyle() / 200.0f;
+        rate_medicine *= 1.0f + get_lifestyle() / 800.0f;
     } else {
-        rate_medicine *= 1.0f + get_lifestyle() / 400.0f;
+        rate_medicine *= 1.0f + get_lifestyle() / 600.0f;
     }
+    
+    float cardio_factor = min( get_cardiofit() / 4000.0f, 0.5 );
+    rate_medicine *= 1.0f + get_cardiofit();
+    
     float primary_hp_mod = mutation_value( "hp_modifier" );
     if( primary_hp_mod < 0.0f ) {
         // HP mod can't get below -1.0
