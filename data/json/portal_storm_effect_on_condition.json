@@ -272,7 +272,8 @@
     "condition": {
       "and": [
         { "is_weather": "portal_storm" },
-        { "compare_int": [ { "global_val": "var", "var_name": "ps_str" }, "<=", { "const": 2 } ] }
+        { "compare_int": [ { "global_val": "var", "var_name": "ps_str" }, "<=", { "const": 2 } ] },
+        { "compare_int": [ { "global_val": "var", "var_name": "portal_dungeon_level" }, "=", { "const": 0 } ] }
       ]
     },
     "deactivate_condition": { "not": { "is_weather": "portal_storm" } },
@@ -300,7 +301,8 @@
       "and": [
         { "is_weather": "portal_storm" },
         { "compare_int": [ { "global_val": "var", "var_name": "ps_str" }, ">", { "const": 2 } ] },
-        { "compare_int": [ { "global_val": "var", "var_name": "ps_str" }, "<=", { "const": 4 } ] }
+        { "compare_int": [ { "global_val": "var", "var_name": "ps_str" }, "<=", { "const": 4 } ] },
+        { "compare_int": [ { "global_val": "var", "var_name": "portal_dungeon_level" }, "=", { "const": 0 } ] }
       ]
     },
     "deactivate_condition": { "not": { "is_weather": "portal_storm" } },
@@ -330,7 +332,8 @@
     "condition": {
       "and": [
         { "is_weather": "portal_storm" },
-        { "compare_int": [ { "global_val": "var", "var_name": "ps_str" }, ">", { "const": 4 } ] }
+        { "compare_int": [ { "global_val": "var", "var_name": "ps_str" }, ">", { "const": 4 } ] },
+        { "compare_int": [ { "global_val": "var", "var_name": "portal_dungeon_level" }, "=", { "const": 0 } ] }
       ]
     },
     "deactivate_condition": { "not": { "is_weather": "portal_storm" } },
