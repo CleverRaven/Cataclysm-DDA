@@ -267,40 +267,25 @@ void Character::update_body( const time_point &from, const time_point &to )
         enforce_minimum_healing();
     }
 
-    // Cardio related health stuff
+    // Cardio and stamina related health stuff
     if( calendar::once_every( 1_days ) ) {
         // reset timer on getting a bonus for reaching half stamina
         set_value( "half_thresh_not_reached", "true" );
         
-        const int cardio_fit = get_cardiofit();
-        const int last_24h_kcal = calorie_diary.front().spent;
-
-        int cardio_check = 0;
-        if( cardio_fit > last_24h_kcal ) {
-            cardio_check = -std::sqrt( cardio_fit - last_24h_kcal );
-        } else if( last_24h_kcal > cardio_fit ) {
-            cardio_check = std::sqrt( last_24h_kcal - cardio_fit );
-        }
+        const float activity_total = calorie_diary.front().spent / 1000.0f;
         
-        if( cardio_check > 0 ) {
-            mod_daily_health( 1, 200 );
-            if( cardio_check >= 10 ) {
-                mod_daily_health( 1, 200 );
-            }
+        if( activity_total > 2.0f ) {
+            mod_daily_health( min( std::sqrt( activity_total ), 3 ), 200 );
         }
-        if( cardio_check < 0 ) {
-            mod_daily_health( -1, -200 );
+        if( activity_total <= 1.0f ) {
+            mod_daily_health( 0 - min( 1/std::sqrt( activity_total ), 3 ), -200 );
             // not getting below 75% stamina even once in a whole day is not healthy
-            // however if your cardio effect is positive we assume you still were physically active
+            // but we only figure this in if you're not using calories elsewhere
             if( get_value( "lowered_stam" ).empty() ) {
                 mod_daily_health( -1, -200 );
             } else {
                 remove_value( "lowered_stam" );
             }
-            if( cardio_check <= -10 ) {
-                mod_daily_health( -1, -200 );
-            }
-        }
     }
 
 
