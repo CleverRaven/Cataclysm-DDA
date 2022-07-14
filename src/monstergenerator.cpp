@@ -670,36 +670,33 @@ mon_effect_data::mon_effect_data() :
 
 void mon_effect_data::load( const JsonObject &jo )
 {
-    assign( jo, "id", id );
-
-    if( jo.has_float( "chance" ) ) {
-        assign( jo, "chance", chance, false, 0.0f, 100.0f );
-    }
-    if( jo.has_bool( "permanent" ) ) {
-        assign( jo, "permanent", permanent );
-    }
-    if( jo.has_bool( "affect_hit_bp" ) ) {
-        assign( jo, "affect_hit_bp", affect_hit_bp );
-    }
-    if( jo.has_string( "bp" ) ) {
-        assign( jo, "bp", bp );
-    }
-    if( jo.has_string( "message" ) ) {
-        assign( jo, "message", message );
-    }
-
+    mandatory( jo, false, "id", id );
+    optional( jo, false, "chance", chance, 100.f );
+    optional( jo, false, "permanent", permanent, false );
+    optional( jo, false, "affect_hit_bp", affect_hit_bp, false );
+    optional( jo, false, "bp", bp, body_part_bp_null );
+    optional( jo, false, "message", message );
     // Support shorthand for a single value.
     if( jo.has_int( "duration" ) ) {
-        int i = jo.get_int( "duration", 0 );
+        int i = 1;
+        mandatory( jo, false, "duration", i );
         duration = { i, i };
-    } else if( jo.has_array( "duration" ) ) {
-        assign( jo, "duration", duration );
+    } else {
+        optional( jo, false, "duration", duration, std::pair<int, int> { 1, 1 } );
     }
     if( jo.has_int( "intensity" ) ) {
-        int i = jo.get_int( "intensity", 0 );
+        int i = 1;
+        mandatory( jo, false, "intensity", i );
         intensity = { i, i };
-    } else if( jo.has_array( "intensity" ) ) {
-        assign( jo, "intensity", intensity );
+    } else {
+        optional( jo, false, "intensity", intensity, std::pair<int, int> { 1, 1 } );
+    }
+
+    if( chance > 100.f || chance < 0.f ) {
+        jo.throw_error_at( "chance",
+                           string_format( "\"chance\" is defined as %f, "
+                                          "but must be a decimal number between 0.0 and 100.0", chance ) );
+        chance = clamp<float>( chance, 0.f, 100.f );
     }
 }
 
@@ -926,6 +923,7 @@ void mtype::load( const JsonObject &jo, const std::string &src )
               mtype_id() );
 
     if( jo.has_array( "attack_effs" ) ) {
+        atk_effs.clear();
         for( const JsonObject effect_jo : jo.get_array( "attack_effs" ) ) {
             mon_effect_data effect;
             effect.load( effect_jo );
