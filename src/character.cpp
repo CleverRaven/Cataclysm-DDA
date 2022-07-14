@@ -4892,6 +4892,8 @@ void Character::check_needs_extremes()
                 mod_fatigue( 40 );
 
                 mod_daily_health( -2, -200 );
+            }
+            
             // else you pass out for 20 hours, guaranteed
 
             // Microsleeps are slightly worse if you're sleep deprived, but not by much. (chance: 1 in (75 + int_cur) at lethal sleep deprivation)
