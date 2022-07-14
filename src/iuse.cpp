@@ -9797,7 +9797,7 @@ cata::optional<int> iuse::ebookread( Character *p, item *it, bool t, const tripo
         return cata::nullopt;
     }
 
-    if( !it->active && it->is_transformable() ) {
+    if( p->fine_detail_vision_mod() > 4 && !it->active && it->is_transformable() ) {
         const use_function *readinglight = it->type->get_use( "transform" );
         if( readinglight ) {
             readinglight->call( *p, *it, it->active, p->pos() );
