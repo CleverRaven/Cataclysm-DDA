@@ -254,15 +254,16 @@ void Character::update_body( const time_point &from, const time_point &to )
                 mod_daily_health( 1, 200 );
             }
         }
-        if( cardio_accumultor < 10 ) {
+        if( cardio_accumultor < 0 ) {
             mod_daily_health( -1, -200 );
             // not getting below 75% stamina even once in a whole day is not healthy
+            // however if your cardio accumulator is positive we assume you still were physically active enough
             if( get_value( "lowered_stam" ).empty() ) {
                 mod_daily_health( -1, -200 );
             } else {
             remove_value( "lowered_stam" );
             }
-            if( cardio_accumultor <= -20 ) {
+            if( cardio_accumultor <= -10 ) {
                 mod_daily_health( -1, -200 );
             }
         }
