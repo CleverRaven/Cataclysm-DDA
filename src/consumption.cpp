@@ -1093,9 +1093,25 @@ static bool eat( item &food, Character &you, bool force )
 void Character::modify_health( const islot_comestible &comest )
 {
     const int effective_health = comest.healthy;
-    // Effectively no cap on health modifiers from food and meds
-    const int health_cap = 200;
-    mod_daily_health( effective_health, effective_health >= 0 ? health_cap : -health_cap );
+    int daily_food_health += effective_health;
+}
+
+void Character::get_daily_food_health( const islot_comestible &comest )
+{
+    const int effective_health = comest.healthy;
+    int daily_food_health += effective_health;
+    
+    if( calendar::once_every( 1_days ) ) {
+        if( daily_food_health < 0 ) {
+            const int food_health_penalty = max( sqrt( -daily_food_health ), -3 );
+            mod_daily_health( food_health_penalty, -health_cap );
+        }
+        if( daily_food_health > 0 ) {
+            const int food_health_bonus = min( sqrt( daily_food_health ), 3 );
+            mod_daily_health( food_health_bonus, health_cap );
+        }
+        daily_food_health = 0;
+    }
 }
 
 void Character::modify_stimulation( const islot_comestible &comest )
