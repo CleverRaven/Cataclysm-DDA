@@ -1000,7 +1000,6 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
     std::uninitialized_fill_n(
         &camera_cache[0][0], map_dimensions, light_transparency_solid );
 
-    const int avatar_sight_offset = std::max( 60 - get_avatar().unimpaired_range(), 0 );
     if( !fov_3d ) {
         for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
             level_cache &cur_cache = get_cache( z );
@@ -1013,7 +1012,7 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
             if( z == target_z ) {
                 seen_cache[origin.x][origin.y] = VISIBILITY_FULL;
                 castLightAll<float, float, sight_calc, sight_check, update_light, accumulate_transparency>(
-                    seen_cache, transparency_cache, origin.xy(), avatar_sight_offset );
+                    seen_cache, transparency_cache, origin.xy(), 0 );
             }
         }
     } else {
@@ -1039,7 +1038,7 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
         }
 
         cast_zlight<float, sight_calc, sight_check, accumulate_transparency>(
-            seen_caches, transparency_caches, floor_caches, origin, avatar_sight_offset, 1.0,
+            seen_caches, transparency_caches, floor_caches, origin, 0, 1.0,
             directions_to_cast );
     }
 
@@ -1108,7 +1107,7 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
         // don't cheat the light distance falloff.
         int offsetDistance;
         if( !is_camera ) {
-            offsetDistance = ( avatar_sight_offset + rl_dist( origin, mirror_pos ) * 4 ) * 2;
+            offsetDistance = rl_dist( origin, mirror_pos );
         } else {
             offsetDistance = 60 - veh->part_info( mirror ).bonus *
                              veh->part( mirror ).hp() / veh->part_info( mirror ).durability;
