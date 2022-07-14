@@ -1,0 +1,408 @@
+[
+  {
+    "id": "structured_time_moon_layout",
+    "type": "widget",
+    "label": "Date/Time/Moon",
+    "style": "layout",
+    "arrange": "columns",
+    "widgets": [ "date_desc_no_label", "structured_time_layout", "moon_phase_graph" ]
+  },
+  {
+    "id": "structured_weather_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Weather",
+    "arrange": "columns",
+    "widgets": [ "weather_desc_no_label", "structured_lighting_layout", "structured_wind_layout" ]
+  },
+  {
+    "id": "structured_place_sound_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Place/Sound",
+    "arrange": "columns",
+    "widgets": [ "structured_place_layout", "structured_sound_layout" ]
+  },
+  {
+    "id": "structured_time_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "width": 10,
+    "widgets": [ "sundial_time_desc_no_label" ]
+  },
+  {
+    "id": "structured_lighting_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "width": 10,
+    "widgets": [ "lighting_desc_no_label" ]
+  },
+  {
+    "id": "structured_wind_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "width": 18,
+    "widgets": [ "wind_desc_no_label" ]
+  },
+  {
+    "id": "structured_place_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "width": 26,
+    "widgets": [ "structured_place_desc" ]
+  },
+  {
+    "id": "structured_sound_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "width": 10,
+    "widgets": [ "sound_num" ]
+  },
+  {
+    "id": "structured_place_desc",
+    "type": "widget",
+    "copy-from": "place_desc",
+    "flags": [ "W_LABEL_NONE" ]
+  },
+  {
+    "id": "structured_health_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Health",
+    "arrange": "columns",
+    "separator": " ",
+    "height": 7,
+    "widgets": [
+      "structured_body_graph_layout",
+      "structured_health_left_layout",
+      "structured_health_mid_layout",
+      "structured_health_right_layout"
+    ]
+  },
+  {
+    "id": "structured_body_graph_layout",
+    "type": "widget",
+    "style": "layout",
+    "width": 8,
+    "arrange": "columns",
+    "widgets": [ "compact_body_graph" ]
+  },
+  {
+    "id": "structured_health_left_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "width": 10,
+    "widgets": [
+      "status_hpg_layout_head",
+      "status_hpg_layout_torso",
+      "status_hpg_layout_larm",
+      "status_hpg_layout_rarm",
+      "status_hpg_layout_lleg",
+      "status_hpg_layout_rleg",
+      "power_short_desc"
+    ]
+  },
+  {
+    "id": "structured_health_mid_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "width": 12,
+    "//": "TODO - It is not currently possible to conditionally swap out widgets on the fly. When this is added, vehicle speed should replace speed when driving.",
+    "widgets": [
+      "pain_desc_no_label",
+      "hunger_desc_no_label",
+      "thirst_desc_no_label",
+      "fatigue_desc_no_label",
+      "body_temp_desc_no_label",
+      "focus_num",
+      "structured_speed_layout"
+    ]
+  },
+  {
+    "id": "structured_health_right_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "width": 11,
+    "widgets": [
+      "structured_stats_label",
+      "stats_no_label_layout",
+      "wielding_desc_no_label",
+      "style_desc_no_label",
+      "env_temp_desc_no_label",
+      "structured_mood_safe_mode_layout",
+      "structured_stamina_graph"
+    ]
+  },
+  {
+    "id": "structured_stats_label",
+    "type": "widget",
+    "style": "text",
+    "string": "St De In Pe"
+  },
+  {
+    "id": "structured_mood_safe_mode_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "columns",
+    "widgets": [ "mood_desc_no_label", "structured_safe_mode_desc" ]
+  },
+  {
+    "id": "structured_safe_mode_desc",
+    "type": "widget",
+    "text_align": "right",
+    "copy-from": "safe_mode_classic_desc"
+  },
+  {
+    "id": "structured_speed_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Speed",
+    "arrange": "columns",
+    "widgets": [ "structured_speed_num_layout", "structured_move_count_mode_layout" ]
+  },
+  {
+    "id": "structured_speed_num_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "columns",
+    "width": 5,
+    "widgets": [ "structured_speed_num" ]
+  },
+  {
+    "id": "structured_speed_num",
+    "type": "widget",
+    "label": "S",
+    "var": "speed",
+    "style": "number",
+    "colors": [ "c_red", "c_light_red", "c_light_green", "c_green" ]
+  },
+  {
+    "id": "structured_move_count_mode_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "columns",
+    "width": 6,
+    "widgets": [ "structured_move_count_mode" ]
+  },
+  {
+    "id": "structured_move_count_mode",
+    "type": "widget",
+    "copy-from": "move_count_mode_desc",
+    "flags": [ "W_LABEL_NONE" ]
+  },
+  {
+    "id": "structured_stamina_graph",
+    "type": "widget",
+    "var": "stamina",
+    "style": "graph",
+    "width": 11,
+    "symbols": ".\\|",
+    "colors": [ "c_red", "c_light_red", "c_yellow", "c_light_green", "c_green" ],
+    "flags": [ "W_LABEL_NONE" ]
+  },
+  {
+    "id": "structured_all_weariness_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Weariness/Activity",
+    "arrange": "columns",
+    "widgets": [
+      "weariness_desc_no_label",
+      "structured_weariness_transition_graph",
+      "activity_desc_no_label",
+      "weary_malus_desc_no_label"
+    ]
+  },
+  {
+    "id": "structured_weariness_transition_graph",
+    "type": "widget",
+    "label": "Transition",
+    "style": "graph",
+    "symbols": ".\\|",
+    "width": 9,
+    "colors": [ "c_red", "c_light_red", "c_yellow", "c_light_green", "c_green" ],
+    "var": "weary_transition_level",
+    "flags": [ "W_LABEL_NONE" ]
+  },
+  {
+    "id": "structured_overmap_compass_9x9_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Compass/Overmap 9x9",
+    "arrange": "columns",
+    "widgets": [ "structured_overmap_9x9_layout", "structured_vehicle_compass_9x9_layout" ],
+    "flags": [ "W_DISABLED_BY_DEFAULT" ]
+  },
+  {
+    "id": "structured_overmap_compass_7x7_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Compass/Overmap 7x7",
+    "arrange": "columns",
+    "widgets": [ "structured_overmap_7x7_layout", "structured_vehicle_compass_7x7_layout" ]
+  },
+  {
+    "id": "structured_overmap_compass_5x5_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Compass/Overmap 5x5",
+    "arrange": "columns",
+    "widgets": [ "structured_overmap_5x5_layout", "structured_vehicle_compass_5x5_layout" ],
+    "flags": [ "W_DISABLED_BY_DEFAULT" ]
+  },
+  {
+    "id": "structured_vehicle_compass_9x9_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "width": 35,
+    "widgets": [ "structured_vehicle_layout", "structured_compass_9x9_layout" ]
+  },
+  {
+    "id": "structured_vehicle_compass_7x7_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "width": 37,
+    "widgets": [ "structured_vehicle_layout", "structured_compass_7x7_layout" ]
+  },
+  {
+    "id": "structured_vehicle_compass_5x5_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "width": 39,
+    "widgets": [ "structured_vehicle_layout", "structured_compass_5x5_layout" ]
+  },
+  {
+    "id": "structured_compass_9x9_layout",
+    "type": "widget",
+    "copy-from": "compass_all_danger_layout_alt",
+    "width": 35
+  },
+  {
+    "id": "structured_compass_7x7_layout",
+    "type": "widget",
+    "copy-from": "compass_all_danger_layout_alt",
+    "width": 37
+  },
+  {
+    "id": "structured_compass_5x5_layout",
+    "type": "widget",
+    "copy-from": "compass_all_danger_layout_alt",
+    "width": 39
+  },
+  {
+    "id": "structured_compass_layout",
+    "type": "widget",
+    "label": "Compass",
+    "copy-from": "compass_all_danger_layout_alt",
+    "flags": [ "W_DISABLED_BY_DEFAULT" ]
+  },
+  {
+    "id": "structured_overmap_9x9_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "columns",
+    "width": 9,
+    "widgets": [ "structured_overmap_9x9" ]
+  },
+  {
+    "id": "structured_overmap_7x7_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "columns",
+    "width": 9,
+    "widgets": [ "structured_overmap_7x7" ]
+  },
+  {
+    "id": "structured_overmap_5x5_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "columns",
+    "width": 7,
+    "widgets": [ "structured_overmap_5x5" ]
+  },
+  {
+    "id": "structured_overmap_9x9",
+    "type": "widget",
+    "label": "Overmap",
+    "var": "overmap_text",
+    "style": "text",
+    "width": 9,
+    "height": 9,
+    "text_align": "left",
+    "flags": [ "W_LABEL_NONE" ]
+  },
+  {
+    "id": "structured_overmap_7x7",
+    "type": "widget",
+    "copy-from": "structured_overmap_9x9",
+    "width": 7,
+    "height": 7
+  },
+  {
+    "id": "structured_overmap_5x5",
+    "type": "widget",
+    "copy-from": "structured_overmap_9x9",
+    "width": 5,
+    "height": 5
+  },
+  {
+    "id": "structured_vehicle_layout",
+    "type": "widget",
+    "label": "Vehicle",
+    "style": "layout",
+    "arrange": "columns",
+    "widgets": [ "structured_vehicle_cruise_layout", "structured_vehicle_fuel_layout" ]
+  },
+  {
+    "id": "structured_vehicle_cruise_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "width": 24,
+    "widgets": [ "vehicle_cruise_desc_label" ]
+  },
+  {
+    "id": "structured_vehicle_fuel_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "width": 10,
+    "widgets": [ "vehicle_fuel_desc_label" ]
+  },
+  {
+    "id": "structured_sidebar",
+    "type": "widget",
+    "style": "sidebar",
+    "label": "structured",
+    "separator": ": ",
+    "width": 48,
+    "padding": 1,
+    "widgets": [
+      "structured_time_moon_layout",
+      "structured_weather_layout",
+      "structured_place_sound_layout",
+      "separator",
+      "structured_health_layout",
+      "separator",
+      "structured_all_weariness_layout",
+      "separator",
+      "structured_overmap_compass_9x9_layout",
+      "structured_overmap_compass_7x7_layout",
+      "structured_overmap_compass_5x5_layout",
+      "structured_compass_layout",
+      "separator_disabled",
+      "separator_disabled"
+    ]
+  }
+]
