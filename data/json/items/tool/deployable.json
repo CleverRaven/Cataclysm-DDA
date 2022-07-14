@@ -333,6 +333,23 @@
     "flags": [ "DURABLE_MELEE" ]
   },
   {
+    "id": "screw_press",
+    "type": "TOOL",
+    "name": { "str": "screw press" },
+    "description": "A large screw press for the purpose of manually pressing oil out of fruit or seed paste.  Can be placed via the construction menu.",
+    "weight": "120000 g",
+    "volume": "9500 ml",
+    "longest_side": "150 cm",
+    "price": 100000,
+    "price_postapoc": 1500,
+    "to_hit": -5,
+    "bashing": 40,
+    "material": [ "wood" ],
+    "symbol": "T",
+    "color": "red",
+    "flags": [ "DURABLE_MELEE" ]
+  },
+  {
     "id": "beverly_shear",
     "type": "TOOL",
     "name": { "str": "Beverly shear" },
