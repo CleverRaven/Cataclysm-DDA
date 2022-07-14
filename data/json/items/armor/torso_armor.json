@@ -1608,7 +1608,6 @@
     "material_thickness": 2.5,
     "environmental_protection": 2,
     "flags": [ "VARSIZE", "WATER_FRIENDLY" ]
-    ]
   },
   {
     "id": "survivor_rashguard_torso",
@@ -1642,6 +1641,5 @@
     "material_thickness": 2.5,
     "environmental_protection": 2,
     "flags": [ "VARSIZE", "WATER_FRIENDLY" ]
-    ]
   }
 ]
