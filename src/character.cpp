@@ -4836,24 +4836,19 @@ void Character::check_needs_extremes()
                                    _( "Your mind feels foggy from a lack of good sleep, and your eyes keep trying to close against your will." ) );
                 mod_fatigue( 5 );
 
-                if( one_in( 10 ) ) {
-                    mod_daily_health( -1, -10 );
-                }
+                mod_daily_health( -1, -200 );
             } else if( sleep_deprivation < SLEEP_DEPRIVATION_MAJOR ) {
                 add_msg_if_player( m_bad,
                                    _( "Your mind feels weary, and you dread every wakeful minute that passes.  You crave sleep, and feel like you're about to collapse." ) );
                 mod_fatigue( 10 );
 
-                if( one_in( 5 ) ) {
-                    mod_daily_health( -2, -10 );
-                }
+                mod_daily_health( -1, -200 );
             } else if( sleep_deprivation < SLEEP_DEPRIVATION_MASSIVE ) {
                 add_msg_if_player( m_bad,
                                    _( "You haven't slept decently for so long that your whole body is screaming for mercy.  It's a miracle that you're still awake, but it feels more like a curse now." ) );
                 mod_fatigue( 40 );
 
-                mod_daily_health( -5, -10 );
-            }
+                mod_daily_health( -2, -200 );
             // else you pass out for 20 hours, guaranteed
 
             // Microsleeps are slightly worse if you're sleep deprived, but not by much. (chance: 1 in (75 + int_cur) at lethal sleep deprivation)
