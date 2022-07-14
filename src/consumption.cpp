@@ -1094,12 +1094,6 @@ void Character::modify_health( const islot_comestible &comest )
 {
     const int effective_health = comest.healthy;
     int daily_food_health += effective_health;
-}
-
-void Character::get_daily_food_health( const islot_comestible &comest )
-{
-    const int effective_health = comest.healthy;
-    int daily_food_health += effective_health;
     
     if( calendar::once_every( 1_days ) ) {
         if( daily_food_health < 0 ) {
