@@ -2789,7 +2789,8 @@ cata::optional<int> iuse::dig( Character *p, item * /* it */, bool t, const trip
     auto build = std::find_if( cnstr.begin(), cnstr.end(), []( const construction & it ) {
         return it.str_id == construction_constr_pit;
     } );
-    bool const can_dig_pit = !points_in_radius_where( p->pos(), 1, [&build]( tripoint const & pt ) {
+    bool const can_dig_pit = !points_in_radius_where( p->pos_bub(),
+    1, [&build]( tripoint_bub_ms const & pt ) {
         return can_construct( *build, pt );
     } ).empty();
     if( !can_dig_pit ) {

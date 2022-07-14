@@ -4842,6 +4842,11 @@ bool game::is_empty( const tripoint &p )
            get_creature_tracker().creature_at( p ) == nullptr;
 }
 
+bool game::is_empty( const tripoint_bub_ms &p )
+{
+    return is_empty( p.raw() );
+}
+
 bool game::is_in_sunlight( const tripoint &p )
 {
     const optional_vpart_position vp = m.veh_at( p );
@@ -6040,7 +6045,8 @@ void game::print_trap_info( const tripoint &lp, const catacurses::window &w_look
 {
     const trap &tr = m.tr_at( lp );
     if( tr.can_see( lp, u ) ) {
-        partial_con *pc = m.partial_con_at( lp );
+        // TODO: fix point types
+        partial_con *pc = m.partial_con_at( tripoint_bub_ms( lp ) );
         std::string tr_name;
         if( pc && tr == tr_unfinished_construction ) {
             const construction &built = pc->id.obj();
