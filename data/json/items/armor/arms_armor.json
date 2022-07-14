@@ -1527,7 +1527,7 @@
       {
         "material": [
           { "type": "lycra", "covered_by_mat": 100, "thickness": 0.2 },
-          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.8 },
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.8 }
         ],
         "covers": [ "arm_l", "arm_r" ],
         "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r" ],
@@ -1538,7 +1538,7 @@
       {
         "material": [
           { "type": "lycra", "covered_by_mat": 100, "thickness": 0.2 },
-          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.8 },
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.8 }
         ],
         "covers": [ "arm_l", "arm_r" ],
         "specifically_covers": [ "arm_elbow_l", "arm_elbow_r" ],
