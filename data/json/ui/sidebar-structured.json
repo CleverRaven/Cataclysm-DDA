@@ -136,10 +136,23 @@
       "stats_no_label_layout",
       "wielding_desc_no_label",
       "style_desc_no_label",
-      "env_temp_desc_no_label",
+      "structured_temp_extras_layout",
       "structured_mood_safe_mode_layout",
       "structured_stamina_graph"
     ]
+  },
+  {
+    "id": "structured_temp_extras_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "columns",
+    "widgets": [ "body_temp_delta_sym_no_label", "structured_env_temp" ]
+  },
+  {
+    "id": "structured_env_temp",
+    "type": "widget",
+    "text_align": "right",
+    "copy-from": "env_temp_desc_no_label"
   },
   {
     "id": "structured_stats_label",
