@@ -124,6 +124,34 @@ TEST_CASE( "Solar power", "[vehicle][power]" )
             CHECK( power == Approx( 182 ).margin( 1 ) );
         }
     }
+
+    SECTION( "2x 30 minutes produces same power as 1x 60 minutes" ) {
+        const tripoint solar_origin_2 = tripoint( 10, 10, 0 );
+        vehicle *veh_2_ptr = here.add_vehicle( vehicle_prototype_solar_panel_test, solar_origin_2,
+                                               0_degrees, 0,
+                                               0 );
+        REQUIRE( veh_ptr != nullptr );
+        REQUIRE( veh_2_ptr != nullptr );
+
+
+        calendar::turn = calendar::turn_zero + 1_days;
+        veh_ptr->update_time( calendar::turn );
+        veh_2_ptr->update_time( calendar::turn );
+
+        veh_ptr->discharge_battery( 100000 );
+        veh_2_ptr->discharge_battery( 100000 );
+        REQUIRE( veh_ptr->fuel_left( fuel_type_battery ) == 0 );
+        REQUIRE( veh_2_ptr->fuel_left( fuel_type_battery ) == 0 );
+
+        // Vehicle 1 does 2x 30 minutes while vehicle 2 does 1x 60 minutes
+        veh_ptr->update_time( calendar::turn + 30_minutes );
+        veh_ptr->update_time( calendar::turn + 60_minutes );
+        veh_2_ptr->update_time( calendar::turn + 60_minutes );
+
+        int power = veh_ptr->fuel_left( fuel_type_battery );
+        int power_2 = veh_2_ptr->fuel_left( fuel_type_battery );
+        CHECK( power == Approx( power_2 ).margin( 1 ) );
+    }
 }
 
 TEST_CASE( "Daily solar power", "[vehicle][power]" )
