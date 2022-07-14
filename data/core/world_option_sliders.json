@@ -9,8 +9,8 @@
       {
         "level": 0,
         "name": "Remote",
-        "description": "Cities are basically non-existent.  Expect rural-only areas.",
-        "options": [ { "option": "CITY_SIZE", "type": "int", "val": 0 }, { "option": "CITY_SPACING", "type": "int", "val": 8 } ]
+        "description": "Cities are basically non-existent.  Expect rural-only areas with rare tiny villages.",
+        "options": [ { "option": "CITY_SIZE", "type": "int", "val": 1 }, { "option": "CITY_SPACING", "type": "int", "val": 8 } ]
       },
       {
         "level": 1,
@@ -27,7 +27,7 @@
       {
         "level": 3,
         "name": "Suburbia",
-        "description": "Cities use default size and distances.",
+        "description": "Cities use default size and distances, with small to large cities separated by large rural areas.",
         "options": [ { "option": "CITY_SIZE", "type": "int", "val": 8 }, { "option": "CITY_SPACING", "type": "int", "val": 4 } ]
       },
       {
@@ -46,7 +46,7 @@
         "level": 6,
         "name": "Megacity",
         "description": "Cities are nearly continuous, with minimal distance between them.",
-        "options": [ { "option": "CITY_SIZE", "type": "int", "val": 16 }, { "option": "CITY_SPACING", "type": "int", "val": 0 } ]
+        "options": [ { "option": "CITY_SIZE", "type": "int", "val": 16 }, { "option": "CITY_SPACING", "type": "int", "val": 1 } ]
       }
     ]
   },
@@ -72,7 +72,7 @@
       {
         "level": 1,
         "name": "Be really nice to me",
-        "description": "Monsters evolve and spawn slower, and items are a bit easier to come by.",
+        "description": "Monsters are less tough; move, evolve and spawn slower; and items are a bit easier to come by.",
         "options": [
           { "option": "MONSTER_SPEED", "type": "int", "val": 95 },
           { "option": "MONSTER_RESILIENCE", "type": "int", "val": 85 },
@@ -96,7 +96,7 @@
       {
         "level": 3,
         "name": "Cataclysm",
-        "description": "For the default monster hunting and item collecting experience.",
+        "description": "The default monster hunting and item collecting experience.",
         "options": [
           { "option": "MONSTER_SPEED", "type": "int", "val": 100 },
           { "option": "MONSTER_RESILIENCE", "type": "int", "val": 100 },
@@ -108,7 +108,7 @@
       {
         "level": 4,
         "name": "Hurt me",
-        "description": "Monsters are a bit tougher and spawn 50% more.",
+        "description": "Monsters are a bit tougher and faster, and spawn 50% more.",
         "options": [
           { "option": "MONSTER_SPEED", "type": "int", "val": 105 },
           { "option": "MONSTER_RESILIENCE", "type": "int", "val": 120 },
@@ -120,7 +120,7 @@
       {
         "level": 5,
         "name": "Punish me",
-        "description": "Monsters are tougher, spawn more, and evolve faster.  Items are a bit rarer too.",
+        "description": "Monsters are significantly tougher and faster, spawn more, and evolve faster.  Items are a bit rarer too.",
         "options": [
           { "option": "MONSTER_SPEED", "type": "int", "val": 110 },
           { "option": "MONSTER_RESILIENCE", "type": "int", "val": 150 },
@@ -131,8 +131,8 @@
       },
       {
         "level": 6,
-        "name": "Punish me more",
-        "description": "Monsters are 50% tougher, 20% faster, and spawn 3x more.  Items are half as likely to spawn.",
+        "name": "Punish me more!",
+        "description": "Monsters are much tougher, extremely fast, and spawn 3x more.  Items are half as likely to spawn.",
         "options": [
           { "option": "MONSTER_SPEED", "type": "int", "val": 120 },
           { "option": "MONSTER_RESILIENCE", "type": "int", "val": 200 },
@@ -165,7 +165,7 @@
       {
         "level": 2,
         "name": "Lonely",
-        "description": "NPCs are rare, but as expected in this ruined world (default).",
+        "description": "The default: NPCs are rare, but as expected in this ruined world.",
         "options": [ { "option": "NPC_SPAWNTIME", "type": "float", "val": 4 } ]
       },
       {

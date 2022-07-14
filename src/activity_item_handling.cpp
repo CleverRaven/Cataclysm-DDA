@@ -822,15 +822,16 @@ std::vector<tripoint> route_best_workbench( const Character &you, const tripoint
 namespace
 {
 
-bool _can_construct( tripoint const &loc, construction_id const &idx, construction const &check,
-                     cata::optional<construction_id> const &part_con_idx )
+bool _can_construct(
+    tripoint_bub_ms const &loc, construction_id const &idx, construction const &check,
+    cata::optional<construction_id> const &part_con_idx )
 {
     return ( part_con_idx && *part_con_idx == check.id ) ||
            ( check.pre_terrain != idx->post_terrain && can_construct( check, loc ) );
 }
 
 construction const *
-_find_alt_construction( tripoint const &loc, construction_id const &idx,
+_find_alt_construction( tripoint_bub_ms const &loc, construction_id const &idx,
                         cata::optional<construction_id> const &part_con_idx,
                         std::function<bool( construction const & )> const &filter )
 {
@@ -850,7 +851,7 @@ ID _get_id( construction_id const &idx )
 }
 
 using checked_cache_t = std::vector<construction_id>;
-construction const *_find_prereq( tripoint const &loc, construction_id const &idx,
+construction const *_find_prereq( tripoint_bub_ms const &loc, construction_id const &idx,
                                   construction_id const &top_idx,
                                   cata::optional<construction_id> const &part_con_idx, checked_cache_t &checked_cache )
 {
@@ -891,7 +892,7 @@ construction const *_find_prereq( tripoint const &loc, construction_id const &id
 static activity_reason_info find_base_construction(
     Character &you,
     const inventory &inv,
-    const tripoint &loc,
+    const tripoint_bub_ms &loc,
     const cata::optional<construction_id> &part_con_idx,
     const construction_id &idx )
 {
@@ -1303,7 +1304,8 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
     if( act == ACT_MULTIPLE_CONSTRUCTION ) {
         zones = mgr.get_zones( zone_type_CONSTRUCTION_BLUEPRINT,
                                here.getglobal( src_loc ), _fac_id( you ) );
-        const partial_con *part_con = here.partial_con_at( src_loc );
+        // TODO: fix point types
+        const partial_con *part_con = here.partial_con_at( tripoint_bub_ms( src_loc ) );
         cata::optional<construction_id> part_con_idx;
         if( part_con ) {
             part_con_idx = part_con->id;
@@ -1324,7 +1326,9 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
             const blueprint_options &options = dynamic_cast<const blueprint_options &>
                                                ( zones.front().get_options() );
             const construction_id index = options.get_index();
-            return find_base_construction( you, pre_inv, src_loc, part_con_idx, index );
+            // TODO: fix point types
+            return find_base_construction( you, pre_inv, tripoint_bub_ms( src_loc ), part_con_idx,
+                                           index );
         }
     } else if( act == ACT_MULTIPLE_FARM ) {
         zones = mgr.get_zones( zone_type_FARM_PLOT, here.getglobal( src_loc ), _fac_id( you ) );
@@ -1784,7 +1788,8 @@ static bool construction_activity( Character &you, const zone_data * /*zone*/,
         used.splice( used.end(), tmp );
     }
     pc.components = used;
-    here.partial_con_set( src_loc, pc );
+    // TODO: fix point types
+    here.partial_con_set( tripoint_bub_ms( src_loc ), pc );
     for( const std::vector<tool_comp> &it : built_chosen.requirements->get_tools() ) {
         you.consume_tools( it );
     }
@@ -2512,7 +2517,8 @@ static std::unordered_set<tripoint_abs_ms> generic_multi_activity_locations(
         // multiple construction will form a list of targets based on blueprint zones and unfinished constructions
         if( act_id == ACT_MULTIPLE_CONSTRUCTION ) {
             for( const tripoint &elem : here.points_in_radius( localpos, ACTIVITY_SEARCH_DISTANCE ) ) {
-                partial_con *pc = here.partial_con_at( elem );
+                // TODO: fix point types
+                partial_con *pc = here.partial_con_at( tripoint_bub_ms( elem ) );
                 if( pc ) {
                     src_set.insert( here.getglobal( elem ) );
                 }
@@ -2603,7 +2609,8 @@ static requirement_check_result generic_multi_activity_check_requirement(
                                      act_id == ACT_MULTIPLE_MINE ||
                                      act_id == ACT_MULTIPLE_DIS ||
                                      ( act_id == ACT_MULTIPLE_CONSTRUCTION &&
-                                       !here.partial_con_at( src_loc ) );
+                                       // TODO: fix point types
+                                       !here.partial_con_at( tripoint_bub_ms( src_loc ) ) );
     // some activities require the target tile to be part of a zone.
     // tidy up activity doesn't - it wants things that may not be in a zone already - things that may have been left lying around.
     if( needs_to_be_in_zone && !zone ) {
@@ -2843,7 +2850,8 @@ static bool generic_multi_activity_do( Character &you, const activity_id &act_id
             return false;
         }
     } else if( reason == do_activity_reason::CAN_DO_CONSTRUCTION ) {
-        if( here.partial_con_at( src_loc ) ) {
+        // TODO: fix point types
+        if( here.partial_con_at( tripoint_bub_ms( src_loc ) ) ) {
             you.backlog.push_front( player_activity( act_id ) );
             you.assign_activity( ACT_BUILD );
             // TODO: fix point types
