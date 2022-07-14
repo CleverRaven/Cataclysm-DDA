@@ -352,7 +352,7 @@
         "fake_skills": [ [ "gun", 1 ], [ "pistol", 2 ] ],
         "fake_dex": 8,
         "fake_per": 10,
-        "ranges": [ [ 1, 14, "DEFAULT" ] ],
+        "ranges": [ [ 2, 14, "DEFAULT" ] ],
         "require_targeting_player": false,
         "description": "The feral security guard fires their Beretta M9A1!"
       }
@@ -477,7 +477,7 @@
         "fake_dex": 6,
         "fake_per": 6,
         "require_targeting_player": false,
-        "ranges": [ [ 1, 7, "DEFAULT" ] ],
+        "ranges": [ [ 2, 7, "DEFAULT" ] ],
         "description": "The feral human shoots its crossbow!"
       }
     ],
@@ -556,7 +556,7 @@
         "fake_skills": [ [ "gun", 0 ], [ "pistol", 0 ] ],
         "fake_dex": 8,
         "fake_per": 9,
-        "ranges": [ [ 1, 14, "DEFAULT" ], [ 10, 35, "DEFAULT" ] ],
+        "ranges": [ [ 2, 14, "DEFAULT" ], [ 10, 35, "DEFAULT" ] ],
         "require_targeting_player": false,
         "description": "The feral prepper haphazardly fires their firearm!"
       }
@@ -676,7 +676,7 @@
         "fake_skills": [ [ "gun", 2 ], [ "rifle", 2 ] ],
         "fake_dex": 8,
         "fake_per": 10,
-        "ranges": [ [ 1, 35, "DEFAULT" ] ],
+        "ranges": [ [ 2, 35, "DEFAULT" ] ],
         "require_targeting_player": false,
         "description": "The mad militiaman fires their rifle!"
       }
@@ -774,7 +774,7 @@
         "fake_dex": 8,
         "fake_per": 9,
         "//": "(ferals don't care about max-effective range.)",
-        "ranges": [ [ 1, 25, "DEFAULT" ] ],
+        "ranges": [ [ 2, 25, "DEFAULT" ] ],
         "require_targeting_player": false,
         "description": "The feral biker fires their shotgun!"
       }
@@ -997,7 +997,7 @@
         "fake_skills": [ [ "gun", 1 ], [ "pistol", 2 ] ],
         "fake_dex": 8,
         "fake_per": 10,
-        "ranges": [ [ 1, 14, "DEFAULT" ] ],
+        "ranges": [ [ 2, 14, "DEFAULT" ] ],
         "require_targeting_player": false,
         "description": "The feral officer fires their M18!"
       }
