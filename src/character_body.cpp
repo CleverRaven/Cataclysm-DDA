@@ -272,23 +272,29 @@ void Character::update_body( const time_point &from, const time_point &to )
         // reset timer on getting a bonus for reaching half stamina
         set_value( "half_thresh_not_reached", "true" );
         
-        const float activity_total = calorie_diary.front().spent / 1000.0f;
+        // We'll measure caloric expenditure in chunks of 600 kcal/day. Bear in mind that 1200 or so kcal
+        // roughly what you'll spend for lying in bed breathing.  We'll cut that value right off the top.
+        const float activity_total = min( ( calorie_diary.front().spent - 1200.0f ) / 600.0f ), 0.0f );
         
         if( activity_total > 2.0f ) {
             mod_daily_health( min( std::sqrt( activity_total ), 3 ), 200 );
-        }
-        if( activity_total <= 1.0f ) {
-            mod_daily_health( 0 - min( 1/std::sqrt( activity_total ), 3 ), -200 );
+        } else {
+            if( activity_total <= 1.0f && activity_total > 0.0f ) {
+                mod_daily_health( 0 - min( 1/std::sqrt( activity_total ), 3 ), -200 );
+            }
+            if( activity_total <= 0.0f ) {
+                // What have you even been doing all day?
+                mod_daily_health( -3, -200 );
+            }
             // not getting below 75% stamina even once in a whole day is not healthy
             // but we only figure this in if you're not using calories elsewhere
             if( get_value( "lowered_stam" ).empty() ) {
-                mod_daily_health( -1, -200 );
+                 mod_daily_health( -1, -200 );
             } else {
                 remove_value( "lowered_stam" );
             }
+        }
     }
-
-
 
     for( const auto &v : vitamin::all() ) {
         const time_duration rate = vitamin_rate( v.first );
