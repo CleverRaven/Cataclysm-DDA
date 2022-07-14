@@ -8673,7 +8673,7 @@ tripoint map::getabs( const tripoint &p ) const
 
 tripoint map::getabs( const tripoint_bub_ms &p ) const
 {
-    return ( project_to<coords::ms>( abs_sub ) + p.raw() ).raw();
+    return ( project_to<coords::ms>( abs_sub.xy() ) + p.raw() ).raw();
 }
 
 tripoint_abs_ms map::getglobal( const tripoint &p ) const
@@ -8683,7 +8683,7 @@ tripoint_abs_ms map::getglobal( const tripoint &p ) const
 
 tripoint_abs_ms map::getglobal( const tripoint_bub_ms &p ) const
 {
-    return project_to<coords::ms>( abs_sub ) + p.raw();
+    return project_to<coords::ms>( abs_sub.xy() ) + p.raw();
 }
 
 tripoint map::getlocal( const tripoint &p ) const
@@ -8706,7 +8706,7 @@ tripoint_bub_ms map::bub_from_abs( const tripoint &p ) const
 
 tripoint_bub_ms map::bub_from_abs( const tripoint_abs_ms &p ) const
 {
-    return tripoint_bub_ms() + ( p - project_to<coords::ms>( abs_sub ) );
+    return tripoint_bub_ms() + ( p - project_to<coords::ms>( abs_sub.xy() ) );
 }
 
 void map::set_abs_sub( const tripoint_abs_sm &p )
