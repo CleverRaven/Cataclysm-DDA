@@ -3849,7 +3849,7 @@
     "time": "45 m",
     "qualities": [ { "id": "HAMMER", "level": 2 }  ],
     "components": [ 
-      [ [ "screw_press", 1 ] ],
+      [ [ "screw_press_tool", 1 ] ],
       [ [ "rock_large", 2 ], [ "rock", 40 ] ],
       [
         [ "wood_panel", 1 ],

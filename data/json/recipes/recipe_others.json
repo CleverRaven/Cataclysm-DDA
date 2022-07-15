@@ -82,7 +82,7 @@
   {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
-    "result": "screw_press",
+    "result": "screw_press_tool",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",

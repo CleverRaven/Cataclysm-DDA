@@ -296,7 +296,6 @@
     "type": "furniture",
     "id": "f_screw_press",
     "name": "screw press",
-    "looks_like": "f_standing_tank",
     "description": "A large screw press for the purpose of manually pressing oil out of fruit or seed paste.  The paste gets placed in wetted bags and gets pressed down by the force of the screw mechanism.",
     "symbol": "T",
     "color": "light_red",
