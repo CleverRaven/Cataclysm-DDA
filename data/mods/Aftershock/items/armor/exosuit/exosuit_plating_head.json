@@ -55,7 +55,7 @@
     "copy-from": "exo_helmet_steel",
     "name": { "str": "plastic helmet plate (exosuit)", "str_pl": "plastic helmet plates (exosuit)" },
     "description": "Designed to attach to an exosuit's helmet, this is a plate of plastic.",
-    "weight": "1287 g",
+    "weight": "1250 g",
     "material": [ "plastic", "vacuum_carbide" ],
     "looks_like": "power_armor_helmet_basic",
     "non_functional": "damaged_exo_helmet_plastic_plate",
