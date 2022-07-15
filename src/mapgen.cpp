@@ -4468,7 +4468,6 @@ bool jmapgen_setmap::apply( const mapgendata &dat, const point &offset ) const
             }
             break;
             case JMAPGEN_SETMAP_CREATURE_REMOVE: {
-                creature_tracker &creatures = get_creature_tracker();
                 Creature *tmp_critter = get_creature_tracker().creature_at( tripoint_abs_ms( m.getabs( tripoint(
                                             x_get(), y_get(), m.get_abs_sub().z() ) ) ), true );
                 if( tmp_critter && !tmp_critter->is_avatar() ) {
@@ -4527,7 +4526,6 @@ bool jmapgen_setmap::apply( const mapgendata &dat, const point &offset ) const
                 const std::vector<point> line = line_to( point( x_get(), y_get() ), point( x2_get(), y2_get() ),
                                                 0 );
                 for( const point &i : line ) {
-                    creature_tracker &creatures = get_creature_tracker();
                     Creature *tmp_critter = get_creature_tracker().creature_at( tripoint_abs_ms( m.getabs( tripoint( i,
                                             m.get_abs_sub().z() ) ) ), true );
                     if( tmp_critter && !tmp_critter->is_avatar() ) {
@@ -4603,7 +4601,6 @@ bool jmapgen_setmap::apply( const mapgendata &dat, const point &offset ) const
                 const int cy2 = y2_get();
                 for( int tx = c.x; tx <= cx2; tx++ ) {
                     for( int ty = c.y; ty <= cy2; ty++ ) {
-                        creature_tracker &creatures = get_creature_tracker();
                         Creature *tmp_critter = get_creature_tracker().creature_at( tripoint_abs_ms( m.getabs( tripoint( tx,
                                                 ty, m.get_abs_sub().z() ) ) ), true );
                         if( tmp_critter && !tmp_critter->is_avatar() ) {
