@@ -273,7 +273,7 @@
     "copy-from": "armor_lightplate",
     "category": "CC_ANIMALS",
     "subcategory": "CSC_ANIMALS_EQUINE ARMOR",
-    "skills_required": [ "fabrication", 8 ],
+    "skills_required": [ "tailor", 3 ],
     "time": "96 h",
     "book_learn": [ [ "textbook_armwest", 7 ] ],
     "using": [ [ "blacksmithing_standard", 800 ], [ "steel_standard", 200 ], [ "fabric_leather_fur_hide", 30 ] ],
