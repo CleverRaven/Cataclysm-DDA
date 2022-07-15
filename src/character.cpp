@@ -4878,7 +4878,7 @@ void Character::check_needs_extremes()
                     mod_daily_health( -1, -200 );
                     sleep_deprivation_toggle = false;
                 } else {
-                   sleep_deprivation_toggle = true;
+                    sleep_deprivation_toggle = true;
                 }
             } else if( sleep_deprivation < SLEEP_DEPRIVATION_MAJOR ) {
                 add_msg_if_player( m_bad,
@@ -4893,7 +4893,7 @@ void Character::check_needs_extremes()
 
                 mod_daily_health( -2, -200 );
             }
-            
+
             // else you pass out for 20 hours, guaranteed
 
             // Microsleeps are slightly worse if you're sleep deprived, but not by much. (chance: 1 in (75 + int_cur) at lethal sleep deprivation)
@@ -5807,10 +5807,10 @@ float Character::healing_rate_medicine( float at_rest_quality, const bodypart_id
     } else {
         rate_medicine *= 1.0f + get_lifestyle() / 600.0f;
     }
-    
+
     float cardio_factor = min( get_cardiofit() / 4000.0f, 0.5 );
     rate_medicine *= 1.0f + get_cardiofit();
-    
+
     float primary_hp_mod = mutation_value( "hp_modifier" );
     if( primary_hp_mod < 0.0f ) {
         // HP mod can't get below -1.0
