@@ -41,6 +41,7 @@
         "volume_encumber_modifier": 0,
         "max_contains_volume": "1800 ml",
         "max_contains_weight": "5 kg",
+        "max_item_length": "33 cm"
         "moves": 800,
         "description": "Pocket for a large armor plate.",
         "//": "Should fit a medium ESAPI plate snugly",
@@ -52,6 +53,7 @@
         "volume_encumber_modifier": 0,
         "max_contains_volume": "1800 ml",
         "max_contains_weight": "5 kg",
+        "max_item_length": "33 cm"
         "moves": 800,
         "description": "Pocket for a large armor plate.",
         "flag_restriction": [ "ABLATIVE_LARGE" ]
@@ -62,6 +64,7 @@
         "volume_encumber_modifier": 0,
         "max_contains_volume": "800 ml",
         "max_contains_weight": "2 kg",
+        "max_item_length": "21 cm"
         "moves": 800,
         "description": "Pocket for a medium armor plate.",
         "flag_restriction": [ "ABLATIVE_MEDIUM" ]
@@ -72,6 +75,7 @@
         "volume_encumber_modifier": 0,
         "max_contains_volume": "800 ml",
         "max_contains_weight": "2 kg",
+        "max_item_length": "21 cm"
         "moves": 800,
         "description": "Pocket for a medium armor plate.",
         "flag_restriction": [ "ABLATIVE_MEDIUM" ]
@@ -330,6 +334,7 @@
         "volume_encumber_modifier": 0,
         "max_contains_volume": "1800 ml",
         "max_contains_weight": "5 kg",
+        "max_item_length": "33 cm"
         "moves": 800,
         "description": "Pocket for a large armor plate.",
         "flag_restriction": [ "ABLATIVE_LARGE" ]
@@ -340,6 +345,7 @@
         "volume_encumber_modifier": 0,
         "max_contains_volume": "1800 ml",
         "max_contains_weight": "5 kg",
+        "max_item_length": "33 cm"
         "moves": 800,
         "description": "Pocket for a large armor plate.",
         "flag_restriction": [ "ABLATIVE_LARGE" ]
@@ -350,6 +356,7 @@
         "volume_encumber_modifier": 0,
         "max_contains_volume": "800 ml",
         "max_contains_weight": "2 kg",
+        "max_item_length": "21 cm"
         "moves": 800,
         "description": "Pocket for a medium armor plate.",
         "flag_restriction": [ "ABLATIVE_MEDIUM" ]
@@ -360,6 +367,7 @@
         "volume_encumber_modifier": 0,
         "max_contains_volume": "800 ml",
         "max_contains_weight": "2 kg",
+        "max_item_length": "21 cm"
         "moves": 800,
         "description": "Pocket for a medium armor plate.",
         "flag_restriction": [ "ABLATIVE_MEDIUM" ]
@@ -550,6 +558,7 @@
         "volume_encumber_modifier": 0,
         "max_contains_volume": "1800 ml",
         "max_contains_weight": "5 kg",
+        "max_item_length": "33 cm"
         "moves": 800,
         "description": "Pocket for a large armor plate.",
         "flag_restriction": [ "ABLATIVE_LARGE" ]
@@ -560,6 +569,7 @@
         "volume_encumber_modifier": 0,
         "max_contains_volume": "1800 ml",
         "max_contains_weight": "5 kg",
+        "max_item_length": "33 cm"
         "moves": 800,
         "description": "Pocket for a large armor plate.",
         "flag_restriction": [ "ABLATIVE_LARGE" ]
@@ -655,6 +665,7 @@
         "volume_encumber_modifier": 0,
         "max_contains_volume": "1800 ml",
         "max_contains_weight": "5 kg",
+        "max_item_length": "33 cm"
         "moves": 800,
         "description": "Pocket for a large armor plate.",
         "flag_restriction": [ "ABLATIVE_LARGE" ]
@@ -665,6 +676,7 @@
         "volume_encumber_modifier": 0,
         "max_contains_volume": "1800 ml",
         "max_contains_weight": "5 kg",
+        "max_item_length": "33 cm"
         "moves": 800,
         "description": "Pocket for a large armor plate.",
         "flag_restriction": [ "ABLATIVE_LARGE" ]
@@ -749,6 +761,7 @@
         "volume_encumber_modifier": 0,
         "max_contains_volume": "1800 ml",
         "max_contains_weight": "5 kg",
+        "max_item_length": "33 cm"
         "moves": 800,
         "description": "Pocket for a large armor plate.",
         "flag_restriction": [ "ABLATIVE_LARGE" ]
@@ -759,6 +772,7 @@
         "volume_encumber_modifier": 0,
         "max_contains_volume": "1800 ml",
         "max_contains_weight": "5 kg",
+        "max_item_length": "33 cm"
         "moves": 800,
         "description": "Pocket for a large armor plate.",
         "flag_restriction": [ "ABLATIVE_LARGE" ]
@@ -981,6 +995,7 @@
         "volume_encumber_modifier": 0,
         "max_contains_volume": "1800 ml",
         "max_contains_weight": "5 kg",
+        "max_item_length": "33 cm"
         "moves": 800,
         "description": "Pocket for a large armor plate.",
         "flag_restriction": [ "ABLATIVE_LARGE" ]
@@ -991,6 +1006,7 @@
         "volume_encumber_modifier": 0,
         "max_contains_volume": "1800 ml",
         "max_contains_weight": "5 kg",
+        "max_item_length": "33 cm"
         "moves": 800,
         "description": "Pocket for a large armor plate.",
         "flag_restriction": [ "ABLATIVE_LARGE" ]
