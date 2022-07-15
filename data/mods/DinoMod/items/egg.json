@@ -512,21 +512,21 @@
     "type": "COMESTIBLE",
     "id": "egg_dimorphodon",
     "name": "dimorphodon egg",
-    "copy-from": "egg_dino_small",
+    "copy-from": "egg_reptile",
     "rot_spawn": "GROUP_EGG_dimorphodon"
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_pteranodon",
     "name": "pteranodon egg",
-    "copy-from": "egg_dino",
+    "copy-from": "egg_reptile",
     "rot_spawn": "GROUP_EGG_pteranodon"
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_quetzalcoatlus",
     "name": "quetzalcoatlus egg",
-    "copy-from": "egg_dino",
+    "copy-from": "egg_reptile",
     "rot_spawn": "GROUP_EGG_quetzalcoatlus"
   },
   {
