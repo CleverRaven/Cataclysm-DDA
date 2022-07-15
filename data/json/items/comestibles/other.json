@@ -1066,7 +1066,7 @@
     "symbol": "%",
     "color": "brown",
     "spoils_in": "3 days",
-    "calories": 200,
+    "calories": 100,
     "quench": -15,
     "fun": -15,
     "freezing_point": -274
@@ -1086,7 +1086,7 @@
     "symbol": "%",
     "color": "brown",
     "spoils_in": "3 days",
-    "calories": 200,
+    "calories": 100,
     "quench": -15,
     "fun": -15,
     "freezing_point": -274
