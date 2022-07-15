@@ -440,7 +440,7 @@
         "?": "f_sofa",
         "@": "f_bed",
         "A": "f_sink",
-        "B": "f_chair",
+        "B": "f_bench",
         "C": "f_desk",
         "D": "f_trashcan",
         "E": "f_cupboard",
