@@ -37,7 +37,6 @@ Note: Canon date of game start is in "YEAR", which equals the IRL year the game 
 
 #### YEAR -8
 - Melchior is developed. It is a useful research assistant using dimensional heuristics but nowhere near as intelligent as hoped, due to the prohibitive power requirements of anticipating more than a few minutes ahead in time. Its inability to plan in the long term is seen as a crippling defect, but it remains an overall success.
-- **June**: The first powered exoskeletons are OK'd for military use, in limited test deployments.  Although incredibly powerful against small arms fire, these "tank suits" are too large, expensive, and heavy to gain any advantages from their humanoid shape.  They do not see full scale production.
 
 #### YEAR -7
 *Big Picture*: Some government elements begin to notice that a few shell corporations have sprung up with access to DARPA-level technology.  They are hastily silenced and/or brought into the fold.
@@ -48,7 +47,6 @@ Note: Canon date of game start is in "YEAR", which equals the IRL year the game 
 - **May**: A mi-go scout arrives in orbit in response to the awakened signal of the mi-go in the ice. It does not make immediate contact with humans.
 
 #### YEAR -4
-- **July**: The first military grade heavy power armors are released for field testing.  Unlike the tank suits, these are light and small enough to allow close quarters maneuvering in urban environments, and remain almost impervious to all but the heaviest of conventional weaponry.  Development on smaller, less expensive suits becomes a priority.
 - **August**: Problems with China begin to brew as US intelligence suspects that China has access to portal technology, and may be ahead of the US in terms of exploiting and stabilizing portals.  Key DARPA researchers push the military to allow them to restart full portal research projects.
 
 #### YEAR -3
@@ -66,7 +64,6 @@ Note: Canon date of game start is in "YEAR", which equals the IRL year the game 
 - **December 18**: Sample XE-037 is brought back to Earth from the netherum. It is about thirty grams of blob matter. Standard decontamination protocols are observed. However, standard protocols do not take into account the possibility of malicious, intelligent molecular-scale contaminants. Microscopic particles of XE-037 migrate from the contamination filters onto the skin of scientists and escape containment. Soon after, the Blob enters the groundwater and begins to spread at extremely low concentrations.
 
 #### Year -1
-- **July**: Several smaller powered exoskeletons, including both the private defence contractor Rivtech's version and a US government one, are released for field use.
 - **November**: Laser weapons powered by new energy technology are made widely available to military procurement, albeit still in small numbers.
 
 #### Year 0 (the current IRL year +1)
