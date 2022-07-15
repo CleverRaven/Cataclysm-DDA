@@ -335,7 +335,7 @@
   {
     "id": "screw_press_tool",
     "type": "TOOL",
-    "name": { "str": "screw press" },
+    "name": { "str": "screw press", "str_pl": "screw presses" },
     "description": "A large screw press for the purpose of manually pressing oil out of fruit or seed paste.  Needs to be placed via the construction menu.",
     "weight": "120000 g",
     "volume": "9500 ml",
