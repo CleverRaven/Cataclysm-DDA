@@ -33,5 +33,47 @@
         "items": [ "cloak_leather", "footrags_leather", "chestwrap_leather", "loincloth_fur", "stone_chopper", "straw_basket" ]
       }
     }
+  },
+  {
+    "type": "profession",
+    "id": "medic",
+    "name": "Shaman",
+    "description": "You've trained in the medical arts, refining natural remedies into real cures for disease.  Your tribe would have lived long and healthy lives, were they still here.",
+    "points": 3,
+    "skills": [ { "level": 3, "name": "firstaid" }, { "level": 2, "name": "chemistry" }, { "level": 1, "name": "survival" } ],
+    "proficiencies": [ "prof_wound_care", "prof_wound_care_expert", "prof_intro_biology", "prof_physiology", "prof_burn_care" ],
+    "items": {
+      "both": {
+        "items": [
+          "straw_basket",
+          "grass_cloak",
+          "shirt_straw",
+          "skirt_grass",
+          "footrags_leather",
+          "grass_keffiyeh",
+          "primitive_knife",
+          "tourniquet_upper",
+          "arm_splint"
+        ],
+        "entries": [
+          { "item": "bandages_birchbark_adv", "count": 10 },
+          { "item": "cattail_jelly", "charges": 7, "container-item": "bowl_clay" }
+        ]
+      }
+    }
+  },
+  {
+    "type": "profession",
+    "id": "backpacker",
+    "name": "Backpacker",
+    "description": "For the past few years you've been traveling the world, sightseeing and living off tribal donations.  You came home to find your home abandoned, and the only thing between you and death is the open fields and your pack.",
+    "points": 2,
+    "skills": [ { "level": 1, "name": "survival" } ],
+    "items": {
+      "both": {
+        "items": [ "trapper_pack", "mocassins", "tunic", "footrags_leather" ],
+        "entries": [ { "item": "water_clean", "count": 6, "container-item": "waterskin" } ]
+      }
+    }
   }
 ]
