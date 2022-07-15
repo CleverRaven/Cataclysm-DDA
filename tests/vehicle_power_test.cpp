@@ -24,7 +24,6 @@ static const vproto_id vehicle_prototype_scooter_electric_test( "scooter_electri
 static const vproto_id vehicle_prototype_scooter_test( "scooter_test" );
 static const vproto_id vehicle_prototype_solar_panel_test( "solar_panel_test" );
 
-static const weather_type_id weather_sunny( "sunny" );
 
 // TODO: Move this into player_helpers to avoid character include.
 static void reset_player()
