@@ -5808,7 +5808,7 @@ float Character::healing_rate_medicine( float at_rest_quality, const bodypart_id
         rate_medicine *= 1.0f + get_lifestyle() / 600.0f;
     }
 
-    float cardio_factor = min( get_cardiofit() / 4000.0f, 0.5 );
+    float cardio_factor = std::min( get_cardiofit() / 4000.0f, 0.5 );
     rate_medicine *= 1.0f + get_cardiofit();
 
     float primary_hp_mod = mutation_value( "hp_modifier" );
