@@ -19,6 +19,7 @@
     "name": { "str_sp": "cotton scraps" },
     "description": "Oddly-shaped smallish bits of cotton, waste material from tailoring projects.  Not useful for much and usually disposed of, but can be recycled into some thread if you really want.",
     "volume": "1 ml",
+    "weight": "1 g",
     "price": 1,
     "price_postapoc": 5,
     "material": [ "cotton" ],
@@ -45,6 +46,7 @@
     "name": { "str_sp": "felt scraps" },
     "description": "Oddly-shaped smallish bits of felt, waste material from tailoring projects.  Not useful for much and usually disposed of, but can be recycled into some wool fiber if you really want.",
     "volume": "5 ml",
+    "weight": "1 g",
     "material": [ "wool" ]
   },
   {
@@ -100,6 +102,7 @@
     "description": "Oddly-shaped smallish bits of neoprene, waste material from tailoring projects.  Not useful for much and usually disposed of.",
     "price": 0,
     "volume": "6 ml",
+    "weight": "7 g",
     "material": [ "neoprene" ]
   },
   {
@@ -178,6 +181,7 @@
     "material": [ "wool" ],
     "flags": [ "NO_SALVAGE" ],
     "volume": "8 ml",
+    "weight": "1 g",
     "category": "spare_parts"
   },
   {
