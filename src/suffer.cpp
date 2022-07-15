@@ -1340,14 +1340,15 @@ void suffer::from_bad_bionics( Character &you )
         you.moves -= 150;
         you.mod_power_level( -bio_dis_shock->power_trigger );
 
-        if( you.get_wielded_item()->typeId() == itype_e_handcuffs && you.get_wielded_item()->charges > 0 ) {
-            you.get_wielded_item()->charges -= rng( 1, 3 ) * 50;
-            if( you.get_wielded_item()->charges < 1 ) {
-                you.get_wielded_item()->charges = 1;
+        item_location weapon = you.get_wielded_item();
+        if( weapon && weapon->typeId() == itype_e_handcuffs && weapon->charges > 0 ) {
+            weapon->charges -= rng( 1, 3 ) * 50;
+            if( weapon->charges < 1 ) {
+                weapon->charges = 1;
             }
 
             you.add_msg_if_player( m_good, _( "The %s seems to be affected by the discharge." ),
-                                   you.get_wielded_item()->tname() );
+                                   weapon->tname() );
         }
         sfx::play_variant_sound( "bionics", "elec_discharge", 100 );
     }

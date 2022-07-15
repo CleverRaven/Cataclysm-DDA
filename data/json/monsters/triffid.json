@@ -271,11 +271,7 @@
     "bleed_rate": 60,
     "harvest": "triffid_fungal_fighter",
     "dissect": "dissect_plant_sample_single",
-    "attack_effs": [
-      { "id": "paralyzepoison", "//": "applying this multiple times makes intensity go up by 3 instead of 1", "duration": 33 },
-      { "id": "paralyzepoison", "duration": 33 },
-      { "id": "paralyzepoison", "duration": 33 }
-    ],
+    "attack_effs": [ { "id": "paralyzepoison", "intensity": [ 3, 6 ], "duration": [ 20, 60 ] } ],
     "special_attacks": [ [ "PARA_STING", 10 ] ],
     "death_drops": { "subtype": "collection", "groups": [ [ "fungal_sting", 80 ] ], "//": "80% chance of an item from group fungal_sting" },
     "flags": [ "HEARS", "SMELLS", "NOHEAD", "CAN_DIG" ]

@@ -90,7 +90,7 @@
     ],
     "start_name": "In Town",
     "surround_groups": [ [ "GROUP_BLACK_ROAD", 70.0 ] ],
-    "flags": [ "CITY_START", "LONE_START" ]
+    "flags": [ "CITY_START", "LONE_START", "SUR_START" ]
   },
   {
     "type": "scenario",
