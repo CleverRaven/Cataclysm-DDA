@@ -29,8 +29,8 @@
     "valid": false,
     "profession": true,
     "purifiable": false,
-    "anger_relations": [ [ "DINOSAUR", 20 ], [ "REPTILE", 20 ], [ "MAMMAL", 20 ] ],
-    "ignored_by": [ [ "PLANT" ], [ "BIRD" ] ],
+    "anger_relations": [ [ "DINOSAUR", 20 ], [ "REPTILE", 20 ], [ "BIRD", 20 ], [ "MAMMAL", 20 ] ],
+    "ignored_by": [ "PLANT" ],
     "threshold": true
   },
   {
