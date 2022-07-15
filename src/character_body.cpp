@@ -274,13 +274,14 @@ void Character::update_body( const time_point &from, const time_point &to )
 
         // We'll measure caloric expenditure in chunks of half your bmr. Bear in mind that 1200 or so kcal
         // is roughly what you'll spend for lying in bed breathing.
-        const float activity_total = std::min( ( calorie_diary.front().spent - get_bmr() ) / (0.5f * get_bmr()), 0.0f );
+        const float activity_total = std::min( ( calorie_diary.front().spent - get_bmr() ) /
+                                               ( 0.5f * get_bmr() ), 0.0f );
 
         if( activity_total > 2.0f ) {
             mod_daily_health( std::min( std::sqrt( activity_total ), 3 ), 200 );
         } else {
             if( activity_total <= 1.0f && activity_total > 0.0f ) {
-                mod_daily_health( 0 - std:::min( 1 / std::sqrt( activity_total ), 3 ), -200 );
+                mod_daily_health( 0 - std::: min( 1 / std::sqrt( activity_total ), 3 ), -200 );
             }
             if( activity_total <= 0.0f ) {
                 // What have you even been doing all day?
