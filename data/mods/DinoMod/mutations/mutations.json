@@ -1,5 +1,16 @@
 [
   {
+    "type": "mutation",
+    "id": "THRESH_RAPTOR",
+    "name": { "str": "Raptor" },
+    "points": 1,
+    "description": "The chance to undo not one but TWO extinction events.  You're confident you'll do fine.",
+    "valid": false,
+    "purifiable": false,
+    "anger_relations": [ [ "DINOSAUR", -20 ], [ "PLANT", 20 ], [ "BIRD", -20 ], [ "MAMMAL", -20 ] ],
+    "threshold": true
+  },
+  {
     "type": "mutation_category",
     "id": "TYRANT",
     "name": "Tyrant",
@@ -17,6 +28,7 @@
     "valid": false,
     "profession": true,
     "purifiable": false,
+    "anger_relations": [ [ "DINOSAUR", -20 ], [ "PLANT", 20 ], [ "BIRD", 20 ], [ "MAMMAL", -20 ] ],
     "threshold": true
   },
   {
@@ -37,6 +49,7 @@
     "valid": false,
     "profession": true,
     "purifiable": false,
+    "anger_relations": [ [ "DINOSAUR", 20 ], [ "PLANT", -20 ], [ "BIRD", 20 ], [ "MAMMAL", 20 ] ],
     "threshold": true
   },
   {
