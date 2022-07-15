@@ -750,11 +750,12 @@ class map
         * when the player is grab-moving furniture
         */
         // TODO: fix point types (remove the first overload)
-        bool furn_set( const tripoint &p, const furn_id &new_furniture, bool furn_reset = false );
+        bool furn_set( const tripoint &p, const furn_id &new_furniture, bool furn_reset = false,
+                       bool avoid_creatures = false );
         bool furn_set( const tripoint_bub_ms &p, const furn_id &new_furniture,
-                       bool furn_reset = false );
-        bool furn_set( const point &p, const furn_id &new_furniture ) {
-            return furn_set( tripoint( p, abs_sub.z() ), new_furniture );
+                       bool furn_reset = false, bool avoid_creatures = false );
+        bool furn_set( const point &p, const furn_id &new_furniture, bool avoid_creatures = false ) {
+            return furn_set( tripoint( p, abs_sub.z() ), new_furniture, false, avoid_creatures );
         }
         void furn_clear( const tripoint &p ) {
             furn_set( p, f_clear );
@@ -1027,17 +1028,20 @@ class map
 
         void draw_line_ter( const ter_id &type, const point &p1, const point &p2,
                             bool avoid_creature = false );
-        void draw_line_furn( const furn_id &type, const point &p1, const point &p2 );
+        void draw_line_furn( const furn_id &type, const point &p1, const point &p2,
+                             bool avoid_creatures = false );
         void draw_fill_background( const ter_id &type );
         void draw_fill_background( ter_id( *f )() );
         void draw_fill_background( const weighted_int_list<ter_id> &f );
 
         void draw_square_ter( const ter_id &type, const point &p1, const point &p2,
                               bool avoid_creature = false );
-        void draw_square_furn( const furn_id &type, const point &p1, const point &p2 );
-        void draw_square_ter( ter_id( *f )(), const point &p1, const point &p2 );
+        void draw_square_furn( const furn_id &type, const point &p1, const point &p2,
+                               bool avoid_creatures = false );
+        void draw_square_ter( ter_id( *f )(), const point &p1, const point &p2,
+                              bool avoid_creatures = false );
         void draw_square_ter( const weighted_int_list<ter_id> &f, const point &p1,
-                              const point &p2 );
+                              const point &p2, bool avoid_creatures = false );
         void draw_rough_circle_ter( const ter_id &type, const point &p, int rad );
         void draw_rough_circle_furn( const furn_id &type, const point &p, int rad );
         void draw_circle_ter( const ter_id &type, const rl_vec2d &p, double rad );
