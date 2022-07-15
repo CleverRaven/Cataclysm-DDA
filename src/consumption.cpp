@@ -1097,11 +1097,11 @@ void Character::modify_health( const islot_comestible &comest )
 
     if( calendar::once_every( 1_days ) ) {
         if( daily_food_health < 0 ) {
-            const int food_health_penalty = max( sqrt( -daily_food_health ), -3 );
+            const int food_health_penalty = std::max( std::sqrt( -daily_food_health ), -3 );
             mod_daily_health( food_health_penalty, -health_cap );
         }
         if( daily_food_health > 0 ) {
-            const int food_health_bonus = min( sqrt( daily_food_health ), 3 );
+            const int food_health_bonus = std::min( std::sqrt( daily_food_health ), 3 );
             mod_daily_health( food_health_bonus, health_cap );
         }
         daily_food_health = 0;
