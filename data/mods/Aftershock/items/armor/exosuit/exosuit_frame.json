@@ -16,6 +16,8 @@
         "pocket_type": "CONTAINER",
         "name": "Exosuit Underlayer",
         "description": "A series of connections for an underlayer.",
+        "max_contains_volume": "2 L",
+        "max_contains_weight": "5 kg",
         "flag_restriction": [ "EXO_UNDERLAYER" ],
         "inherits_flags": true,
         "moves": 200
@@ -149,7 +151,7 @@
     "flags": [ "USE_UPS", "STURDY", "WATERPROOF", "ELECTRIC_IMMUNE", "COMBAT_TOGGLEABLE", "OUTER", "DEAF" ],
     "relic_data": {
       "passive_effects": [
-        { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "STRENGTH", "add": 10 }, { "value": "CARRY_WEIGHT", "add": 30 } ] }
+        { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "STRENGTH", "add": 10 }, { "value": "CARRY_WEIGHT", "add": 30000 } ] }
       ]
     },
     "use_action": [
@@ -186,7 +188,7 @@
     ],
     "relic_data": {
       "passive_effects": [
-        { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "STRENGTH", "add": 10 }, { "value": "CARRY_WEIGHT", "add": 30 } ] }
+        { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "STRENGTH", "add": 10 }, { "value": "CARRY_WEIGHT", "add": 30000 } ] }
       ]
     },
     "power_draw": 6173,
