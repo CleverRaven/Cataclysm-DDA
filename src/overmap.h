@@ -271,7 +271,7 @@ class overmap
         cata::optional<mapgen_arguments> *mapgen_args( const tripoint_om_omt & );
         std::string *join_used_at( const om_pos_dir & );
         std::vector<oter_id> predecessors( const tripoint_om_omt & );
-        bool &seen( const tripoint_om_omt &p );
+        void set_seen( const tripoint_om_omt &p, bool val );
         bool seen( const tripoint_om_omt &p ) const;
         bool &explored( const tripoint_om_omt &p );
         bool is_explored( const tripoint_om_omt &p ) const;
@@ -286,6 +286,7 @@ class overmap
         bool has_extra( const tripoint_om_omt &p ) const;
         const map_extra_id &extra( const tripoint_om_omt &p ) const;
         void add_extra( const tripoint_om_omt &p, const map_extra_id &id );
+        void add_extra_note( const tripoint_om_omt &p );
         void delete_extra( const tripoint_om_omt &p );
 
         /**
