@@ -52,7 +52,7 @@
     "profession": true,
     "purifiable": false,
     "anger_relations": [ [ "DINOSAUR", -20 ], [ "REPTILE", -20 ], [ "PLANT", 20 ], [ "MAMMAL", -20 ] ],
-    "ignored_by": [ [ "BIRD" ] ],
+    "ignored_by": [ "BIRD" ],
     "threshold": true
   },
   {
