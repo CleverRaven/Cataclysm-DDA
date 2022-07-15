@@ -1086,9 +1086,10 @@
     "symbol": "%",
     "color": "brown",
     "spoils_in": "3 days",
-    "calories": 100,
+    "calories": 200,
     "quench": -15,
     "fun": -15,
-    "freezing_point": -274
+    "freezing_point": -274,
+    "flags": [ "NUTRIENT_OVERRIDE" ]
   }
 ]
