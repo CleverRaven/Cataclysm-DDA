@@ -15,17 +15,7 @@
     "flags": [ "FRAGILE", "CANT_WEAR", "NO_UNLOAD", "NO_RELOAD", "RECHARGE", "WATERPROOF", "IS_UPS", "EXO_PSU", "ONLY_ONE" ],
     "armor": [ { "encumbrance": 0, "coverage": 20, "covers": [ "torso" ] } ],
     "pocket_data": [
-      { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 40000 } },
-      {
-        "pocket_type": "CONTAINER",
-        "description": "This is a mounting point for armor protecting the PSU.",
-        "rigid": true,
-        "ablative": true,
-        "max_contains_volume": "10 L",
-        "max_contains_weight": "145 kg",
-        "flag_restriction": [ "EXO_PSU_PLATE" ],
-        "moves": 120
-      }
+      { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 40000 } }
     ]
   },
   {
@@ -50,16 +40,6 @@
         "rigid": true,
         "watertight": true,
         "ammo_restriction": { "gasoline": 10000 }
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "description": "This is a mounting point for armor protecting the PSU.",
-        "ablative": true,
-        "rigid": true,
-        "max_contains_volume": "10 L",
-        "max_contains_weight": "145 kg",
-        "flag_restriction": [ "EXO_PSU_PLATE" ],
-        "moves": 120
       }
     ]
   },
@@ -96,16 +76,6 @@
           "conc_alcohol": 5000,
           "ammonia_liquid": 5000
         }
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "description": "This is a mounting point for armor protecting the PSU.",
-        "ablative": true,
-        "rigid": true,
-        "max_contains_volume": "10 L",
-        "max_contains_weight": "145 kg",
-        "flag_restriction": [ "EXO_PSU_PLATE" ],
-        "moves": 120
       }
     ]
   },
