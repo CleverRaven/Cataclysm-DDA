@@ -204,23 +204,25 @@
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 8,
     "value": 250000,
-    "item": "mushroom",
+    "item": "veggy_tainted",
     "start": {
       "effect": [ { "u_spawn_item": "rock" } ],
       "assign_mission_target": { "om_terrain": "forest", "reveal_radius": 3, "search_range": 120 },
-      "update_mapgen": { "place_item": [ { "item": "mushroom", "x": 14, "y": 15, "amount": [ 10, 20 ], "repeat": [ 1, 3 ], "chance": 20 } ] }
+      "update_mapgen": {
+        "place_item": [ { "item": "veggy_tainted", "x": 14, "y": 15, "amount": [ 10, 20 ], "repeat": [ 1, 3 ], "chance": 20 } ]
+      }
     },
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
-      "describe": "It could be very informative to perform an analysis of mushrooms…",
-      "offer": "I need someone to get a sample of mushrooms and bring it to me.",
-      "accepted": "Excellent.  Take this rock.  It will guide you.  Get me that mushroom.",
-      "rejected": "Are you sure?  The scientific value of that mushroom could be priceless…",
+      "describe": "It could be very informative to perform an analysis of these alien fungus chunks…",
+      "offer": "I need someone to get a sample of strange alien fungus chunks and bring it to me.",
+      "accepted": "Excellent.  Take this rock.  It will guide you.  Get me those nasty chunks.",
+      "rejected": "Are you sure?  The scientific value of those smelly chunks could be priceless…",
       "advice": "The rock is a bit technical; you might want to study up on the usage of rocks before completing that part.",
-      "inquire": "Well, do you have the mushroom yet?",
+      "inquire": "Well, do you have the disgusting chunks yet?",
       "success": "Excellent!  This may be the key to removing the infection.",
-      "success_lie": "Wait, you couldn't possibly have the mushroom!  Liar!",
-      "failure": "What a shame, that mushroom could have proved invaluable…"
+      "success_lie": "Wait, you couldn't possibly have the nasty chunks!  Liar!",
+      "failure": "What a shame, that horrible chunk could have proved invaluable…"
     }
   },
   {
