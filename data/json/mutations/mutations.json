@@ -1172,6 +1172,7 @@
     "name": { "str": "Strong Knees" },
     "points": 1,
     "description": "Your knees are strong and capable of angles that you couldn't imagine previously.  Moving over rough terrain will slow you down less than normal.",
+    "threshreq": [ "THRESH_BATRACHIAN" ],
     "category": [ "BATRACHIAN" ],
     "cancels": [ "BADKNEES" ],
     "movecost_obstacle_modifier": 0.9
@@ -5341,6 +5342,7 @@
     "ugliness": 3,
     "changes_to": [ "LONG_TONGUE2" ],
     "description": "Your tongue has lengthened and often extends far beyond your mouth.  This has no effect.",
+    "threshreq": [ "THRESH_BATRACHIAN" ],
     "category": [ "BATRACHIAN" ]
   },
   {
