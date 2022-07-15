@@ -45,8 +45,8 @@
     "type": "GENERIC",
     "name": { "str_sp": "felt scraps" },
     "description": "Oddly-shaped smallish bits of felt, waste material from tailoring projects.  Not useful for much and usually disposed of, but can be recycled into some wool fiber if you really want.",
-    "volume": "5 ml",
-    "weight": "1 g",
+    "volume": "8 ml",
+    "weight": "2 g",
     "material": [ "wool" ]
   },
   {
@@ -180,8 +180,8 @@
     "price_postapoc": 10,
     "material": [ "wool" ],
     "flags": [ "NO_SALVAGE" ],
-    "volume": "8 ml",
-    "weight": "1 g",
+    "volume": "16 ml",
+    "weight": "4 g",
     "category": "spare_parts"
   },
   {
