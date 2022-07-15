@@ -272,9 +272,9 @@ void Character::update_body( const time_point &from, const time_point &to )
         // reset timer on getting a bonus for reaching half stamina
         set_value( "half_thresh_not_reached", "true" );
 
-        // We'll measure caloric expenditure in chunks of 600 kcal/day. Bear in mind that 1200 or so kcal
-        // roughly what you'll spend for lying in bed breathing.  We'll cut that value right off the top.
-        const float activity_total = std::min( ( calorie_diary.front().spent - 1200.0f ) / 600.0f, 0.0f );
+        // We'll measure caloric expenditure in chunks of half your bmr. Bear in mind that 1200 or so kcal
+        // is roughly what you'll spend for lying in bed breathing.
+        const float activity_total = std::min( ( calorie_diary.front().spent - get_bmr() ) / (0.5f * get_bmr()), 0.0f );
 
         if( activity_total > 2.0f ) {
             mod_daily_health( std::min( std::sqrt( activity_total ), 3 ), 200 );
