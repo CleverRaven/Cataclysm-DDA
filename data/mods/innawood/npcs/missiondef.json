@@ -320,7 +320,7 @@
     "origins": [ "ORIGIN_SECONDARY" ],
     "start": {
       "assign_mission_target": { "om_terrain": "forest", "reveal_radius": 3 },
-      "update_mapgen": { "place_item": [ { "item": "seed_weed", "x": 14, "y": 15, "amount": [ 10, 20 ], "repeat": [ 1, 3 ], "chance": 20 } ] }
+      "update_mapgen": { "place_item": [ { "item": "seed_weed", "x": 14, "y": 15, "amount": [ 10, 20 ] } ] }
     },
     "dialogue": {
       "describe": "I need you to get my family seeds from the deep woods.",
@@ -391,12 +391,12 @@
       "effect": [ "follow_only", { "npc_first_topic": "MISSION_PYROMANIAC" } ],
       "assign_mission_target": { "om_terrain": "forest", "om_terrain_match_type": "PREFIX", "search_range": 75, "random": true, "z": 0 }
     },
-    "end": { "effect": [ "follow", { "u_consume_item": "stick" }, { "mapgen_update": "MISSION_PYROMANIAC_BURN" } ] },
+    "end": { "effect": [ "follow", { "u_consume_item": "tinder" }, { "mapgen_update": "MISSION_PYROMANIAC_BURN" } ] },
     "origins": [ "ORIGIN_OPENER_NPC" ],
     "dialogue": {
       "describe": "Oh man, I want to <swear> burn it so bad…",
       "offer": "I'm so <swear> infuriated!  I've got a tree that ruined my life, and now I want to get revenge!  I don't care about <the_cataclysm>, I just want to burn that tree!  Would you help me, <name_g>?",
-      "accepted": "Good.  Let's go to the tree and <swear> burn it down!  Oh, bring a stick so we can start the fire.",
+      "accepted": "Good.  Let's go to the tree and <swear> burn it down!  Oh, bring some tinder so we can start the fire.  I can make the sparks.",
       "rejected": "Seriously?  It's such an easy job…",
       "advice": "Maybe we can find a stick in the woods.",
       "inquire": "Are you ready, <name_g>?",
@@ -410,6 +410,9 @@
     "type": "mapgen",
     "update_mapgen_id": "MISSION_PYROMANIAC_BURN",
     "method": "json",
-    "object": { "place_fields": [ { "field": "fd_fire", "x": [ 5, 20 ], "y": [ 5, 20 ], "repeat": 40 } ] }
+    "object": {
+      "place_item": [ { "item": "tinder", "x": [ 5, 20 ], "y": [ 5, 20 ], "amount": 5, "repeat": 40 } ],
+      "place_fields": [ { "field": "fd_fire", "x": [ 5, 20 ], "y": [ 5, 20 ], "repeat": 40 } ]
+    }
   }
 ]
