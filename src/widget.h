@@ -41,6 +41,7 @@ enum class widget_var : int {
     mood,           // TODO
     cardio_fit,     // Cardio fitness, integer near BMR
     cardio_acc,     // Cardio accumulator, integer
+    carry_weight,   // Weight carried, relative to capacity, in % (0 - >100)
     // Text vars
     activity_text,  // Activity level text, color string
     body_graph,     // Body graph showing color-coded body part health

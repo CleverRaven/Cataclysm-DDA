@@ -118,6 +118,8 @@ std::string enum_to_string<widget_var>( widget_var data )
             return "cardio_fit";
         case widget_var::cardio_acc:
             return "cardio_acc";
+        case widget_var::carry_weight:
+            return "carry_weight";
         // Description functions
         case widget_var::activity_text:
             return "activity_text";
@@ -532,6 +534,10 @@ void widget::set_default_var_range( const avatar &ava )
             // Same maximum used by get_cardiofit - 3 x BMR, adjusted for mutations
             _var_max = 3 * ava.base_bmr() * ava.mutation_value( "cardio_multiplier" );
             break;
+        case widget_var::carry_weight:
+            _var_min = 0;
+            _var_max = 120;
+            break;
         case widget_var::fatigue:
             _var_min = 0;
             _var_max = 1000;
@@ -743,6 +749,9 @@ int widget::get_var_value( const avatar &ava ) const
             break;
         case widget_var::cardio_acc:
             value = ava.get_cardio_acc();
+            break;
+        case widget_var::carry_weight:
+            value = ( 100 * ava.weight_carried() ) / ava.weight_capacity();
             break;
 
         // TODO
