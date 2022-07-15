@@ -305,7 +305,13 @@
     "crafting_pseudo_item": "screw_press",
     "deconstruct": { "items": [ { "item": "screw_press", "count": 1 } ] },
     "flags": [ "TRANSPARENT", "NOITEM", "EASY_DECONSTRUCT" ],
-    "bash": { "str_min": 4, "str_max": 8, "sound": "crunch!", "sound_fail": "whump.", "items": [ { "item": "screw_press", "count": 1 } ] }
+    "bash": {
+      "str_min": 4,
+      "str_max": 8,
+      "sound": "crunch!",
+      "sound_fail": "whump.",
+      "items": [ { "item": "screw_press", "count": 1 } ]
+    }
   },
   {
     "type": "furniture",

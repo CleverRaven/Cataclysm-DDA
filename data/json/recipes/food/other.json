@@ -317,7 +317,7 @@
     "charges": 1,
     "autolearn": true,
     "tools": [ [ [ "clay_quern", -1 ], [ "rock_quern", -1 ] ] ],
-    "components": [ 
+    "components": [
       [
         [ "almond_shelled", 10 ],
         [ "peanut_shelled", 10 ],
@@ -330,7 +330,7 @@
         [ "cashews", 10 ],
         [ "beech_nuts", 10 ],
         [ "soybean", 5 ]
-      ] 
+      ]
     ]
   },
   {
@@ -346,7 +346,7 @@
     "charges": 1,
     "autolearn": true,
     "tools": [ [ [ "clay_quern", -1 ], [ "rock_quern", -1 ] ] ],
-    "components": [ 
+    "components": [
       [
         [ "soybean_seed", 50 ],
         [ "seed_cotton_boll", 50 ],
@@ -355,7 +355,7 @@
         [ "seed_canola", 50 ],
         [ "seed_grapes", 50 ],
         [ "seed_weed", 50 ]
-      ] 
+      ]
     ]
   }
 ]

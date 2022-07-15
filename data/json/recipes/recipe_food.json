@@ -642,13 +642,8 @@
     "proficiencies": [ { "proficiency": "prof_food_prep" } ],
     "components": [
       [ [ "bag_canvas_small", 5 ] ],
-      [ [ "water", 4 ],
-        [ "water_clean", 4 ]
-      ],
-      [
-        [ "paste_seed", 12 ],
-        [ "paste_nut", 12 ]
-      ]
+      [ [ "water", 4 ], [ "water_clean", 4 ] ],
+      [ [ "paste_seed", 12 ], [ "paste_nut", 12 ] ]
     ]
   },
   {

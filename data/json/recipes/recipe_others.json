@@ -93,15 +93,17 @@
     "decomp_learn": 2,
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_carpentry_basic" } ],
-    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 2 }, { "id": "CHISEL_WOOD", "level": 1 }, { "id": "CUT", "level": 2 }  ],
+    "qualities": [
+      { "id": "HAMMER", "level": 2 },
+      { "id": "SAW_W", "level": 2 },
+      { "id": "CHISEL_WOOD", "level": 1 },
+      { "id": "CUT", "level": 2 }
+    ],
     "components": [
       [ [ "wood_beam", 3 ] ],
       [ [ "wood_panel", 1 ] ],
       [ [ "2x4", 4 ] ],
-      [
-        [ "wood_panel", 1 ],
-        [ "sheet_metal", 1 ]
-      ],
+      [ [ "wood_panel", 1 ], [ "sheet_metal", 1 ] ],
       [ [ "giant_wood_screw", 1 ] ],
       [ [ "long_pole", 1 ] ]
     ]
