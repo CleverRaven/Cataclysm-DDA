@@ -49,11 +49,11 @@
     "deadline_high": 48,
     "dialogue": {
       "describe": "This infection is bad, <very> bad…",
-      "offer": "I'm infected.  Badly.  I need you to get some antibiotics for me…",
-      "accepted": "Oh, thank god, thank you so much!  I won't last more than a couple of days, so hurry…",
+      "offer": "I'm infected.  Badly.  I need you to get something antiseptic for me…",
+      "accepted": "Oh, thank god, thank you so much!  I won't last more than a couple of days, so hurry.  Get me some cattail jelly.  That should hopefully be good enough.",
       "rejected": "What?!  Please, <ill_die> without your help!",
-      "advice": "There's not a town nearby.  I think if you can pull cattail jelly out of some cattails from like a swamp or something, I can eat them.",
-      "inquire": "Find any antibiotics yet?",
+      "advice": "I think if you can pull cattail jelly out of some cattails from like a swamp or something, I can smear it on the wound.",
+      "inquire": "Find any jelly yet?",
       "success": "Oh thank god!  I'll be right as rain in no time.",
       "success_lie": "What?!  You're lying, I can tell!  Ugh, forget it!",
       "failure": "How am I not dead already?!"
