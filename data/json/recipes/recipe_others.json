@@ -92,6 +92,7 @@
     "reversible": true,
     "decomp_learn": 2,
     "autolearn": true,
+    "book_learn": [ [ "winemaking_beginner", 1 ], [ "distilling_cookbook", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_carpentry_basic" } ],
     "qualities": [
       { "id": "HAMMER", "level": 2 },
