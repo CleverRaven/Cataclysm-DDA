@@ -8989,7 +8989,7 @@ cata::optional<int> iuse::dbg_lux_meter( Character *p, item *, bool, const tripo
     const float sun_irrad = sun_irradiance( calendar::turn );
     const float incident_irrad = incident_sun_irradiance( current_weather( pos ), calendar::turn );
     p->add_msg_if_player( m_neutral,
-                          _("Incident light: %.1f\nNatural light: %.1f\nSunlight: %.1f\nSun irradiance: %.1f\nIncident irradiance %.1f"),
+                          _( "Incident light: %.1f\nNatural light: %.1f\nSunlight: %.1f\nSun irradiance: %.1f\nIncident irradiance %.1f" ),
                           incident_light, nat_light, sunlight, sun_irrad, incident_irrad );
 
     return 0;
