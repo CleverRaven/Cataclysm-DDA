@@ -152,3 +152,60 @@ TEST_CASE( "Using mon_null as mongroup default monster", "[mongroup]" )
     CHECK( test_group3->defaultMonster == mon_null );
     CHECK( test_group4->defaultMonster != mon_null );
 }
+
+TEST_CASE( "Nested monster groups spawn chance", "[mongroup]" )
+{
+    mongroup_id mg( "test_top_level_mongroup" );
+
+    const int iters = 10000;
+
+    // < result, < layer, expected prob, count > >
+    std::map<mtype_id, std::tuple<int, float, int>> results {
+        // top layer - 33.3%
+        { mon_test_CBM,                      { 0, 1.f / 3.f, 0 } },
+        { mon_test_bovine,                   { 0, 1.f / 3.f, 0 } },
+        // nested layer 1 - 15.9% (47.6%)
+        { mon_test_shearable,                { 1, ( 1.f / 3.f ) *( 50.f / 105.f ), 0 } },
+        { mon_test_non_shearable,            { 1, ( 1.f / 3.f ) *( 50.f / 105.f ), 0 } },
+        // nested layer 2 - 0.8% (2.4% (50%))
+        { mon_test_speed_desc_base,          { 2, ( ( 1.f / 3.f ) * ( 5.f / 105.f ) ) * 0.5f, 0 } },
+        { mon_test_speed_desc_base_immobile, { 2, ( ( 1.f / 3.f ) * ( 5.f / 105.f ) ) * 0.5f, 0 } }
+    };
+
+    // < layer, < expected prob, count > >
+    std::map<int, std::pair<float, int>> layers {
+        // top layer - 66.7%
+        { 0, { 2.f / 3.f, 0 } },
+        // nested layer 1 - 31.7% (95.2%)
+        { 1, { ( 1.f / 3.f ) *( 100.f / 105.f ), 0 } },
+        // nested layer 2 - 1.6% (4.8% (100%))
+        { 2, { ( 1.f / 3.f ) *( 5.f / 105.f ), 0 } }
+    };
+
+    calendar::turn += 1_turns;
+
+    for( int i = 0; i < iters; i++ ) {
+        int qty = 1;
+        bool monfound = false;
+        MonsterGroupResult res = MonsterGroupManager::GetResultFromGroup( mg, &qty, &monfound );
+        auto iter = results.find( res.name );
+        CAPTURE( res.name.c_str() );
+        REQUIRE( iter != results.end() );
+        if( iter != results.end() ) {
+            layers[std::get<0>( iter->second )].second++;
+            std::get<2>( results[res.name] )++;
+        }
+    }
+
+    for( const auto &lyr : layers ) {
+        INFO( string_format( "layer %d - expected vs. actual", lyr.first ) );
+        CHECK( lyr.second.first ==
+               Approx( static_cast<float>( lyr.second.second ) / iters ).epsilon( 0.5 ) );
+    }
+
+    for( const auto &res : results ) {
+        INFO( string_format( "monster %s - expected vs. actual", res.first.c_str() ) );
+        CHECK( std::get<1>( res.second ) ==
+               Approx( static_cast<float>( std::get<2>( res.second ) ) / iters ).epsilon( 0.5 ) );
+    }
+}
