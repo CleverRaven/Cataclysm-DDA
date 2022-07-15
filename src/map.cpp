@@ -1905,10 +1905,16 @@ bool map::is_harvestable( const tripoint &pos ) const
 /*
  * set terrain via string; this works for -any- terrain id
  */
-bool map::ter_set( const tripoint &p, const ter_id &new_terrain )
+bool map::ter_set( const tripoint &p, const ter_id &new_terrain, bool avoid_creatures )
 {
     if( !inbounds( p ) ) {
         return false;
+    }
+    if( avoid_creatures ) {
+        Creature *c = get_creature_tracker().creature_at( tripoint_abs_ms( getabs( p ) ), true );
+        if( c ) {
+            return false;
+        }
     }
 
     point l;
@@ -1999,9 +2005,9 @@ bool map::ter_set( const tripoint &p, const ter_id &new_terrain )
     return true;
 }
 
-bool map::ter_set( const tripoint_bub_ms &p, const ter_id &new_terrain )
+bool map::ter_set( const tripoint_bub_ms &p, const ter_id &new_terrain, bool avoid_creatures )
 {
-    return ter_set( p.raw(), new_terrain );
+    return ter_set( p.raw(), new_terrain, avoid_creatures );
 }
 
 std::string map::tername( const tripoint &p ) const
@@ -8771,10 +8777,11 @@ size_t map::get_nonant( const tripoint &gridp ) const
     }
 }
 
-void map::draw_line_ter( const ter_id &type, const point &p1, const point &p2 )
+void map::draw_line_ter( const ter_id &type, const point &p1, const point &p2,
+                         bool avoid_creatures )
 {
-    draw_line( [this, type]( const point & p ) {
-        this->ter_set( p, type );
+    draw_line( [this, type, avoid_creatures]( const point & p ) {
+        this->ter_set( p, type, avoid_creatures );
     }, p1, p2 );
 }
 
@@ -8816,10 +8823,11 @@ void map::draw_fill_background( const weighted_int_list<ter_id> &f )
     draw_square_ter( f, point_zero, point( SEEX * my_MAPSIZE - 1, SEEY * my_MAPSIZE - 1 ) );
 }
 
-void map::draw_square_ter( const ter_id &type, const point &p1, const point &p2 )
+void map::draw_square_ter( const ter_id &type, const point &p1, const point &p2,
+                           bool avoid_creatures )
 {
-    draw_square( [this, type]( const point & p ) {
-        this->ter_set( p, type );
+    draw_square( [this, type, avoid_creatures]( const point & p ) {
+        this->ter_set( p, type, avoid_creatures );
     }, p1, p2 );
 }
 

@@ -799,14 +799,14 @@ class map
         ter_id get_ter_transforms_into( const tripoint &p ) const;
 
         // TODO: fix point types (remove the first overload)
-        bool ter_set( const tripoint &p, const ter_id &new_terrain );
-        bool ter_set( const tripoint_bub_ms &, const ter_id &new_terrain );
+        bool ter_set( const tripoint &p, const ter_id &new_terrain, bool avoid_creatures = false );
+        bool ter_set( const tripoint_bub_ms &, const ter_id &new_terrain, bool avoid_creatures = false );
         // TODO: fix point types (remove the first overload)
-        bool ter_set( const point &p, const ter_id &new_terrain ) {
-            return ter_set( tripoint( p, abs_sub.z() ), new_terrain );
+        bool ter_set( const point &p, const ter_id &new_terrain, bool avoid_creatures = false ) {
+            return ter_set( tripoint( p, abs_sub.z() ), new_terrain, avoid_creatures );
         }
-        bool ter_set( const point_bub_ms &p, const ter_id &new_terrain ) {
-            return ter_set( tripoint_bub_ms( p, abs_sub.z() ), new_terrain );
+        bool ter_set( const point_bub_ms &p, const ter_id &new_terrain, bool avoid_creatures = false ) {
+            return ter_set( tripoint_bub_ms( p, abs_sub.z() ), new_terrain, avoid_creatures );
         }
 
         std::string tername( const tripoint &p ) const;
@@ -1025,13 +1025,15 @@ class map
         point random_outdoor_tile();
         // mapgen
 
-        void draw_line_ter( const ter_id &type, const point &p1, const point &p2 );
+        void draw_line_ter( const ter_id &type, const point &p1, const point &p2,
+                            bool avoid_creature = false );
         void draw_line_furn( const furn_id &type, const point &p1, const point &p2 );
         void draw_fill_background( const ter_id &type );
         void draw_fill_background( ter_id( *f )() );
         void draw_fill_background( const weighted_int_list<ter_id> &f );
 
-        void draw_square_ter( const ter_id &type, const point &p1, const point &p2 );
+        void draw_square_ter( const ter_id &type, const point &p1, const point &p2,
+                              bool avoid_creature = false );
         void draw_square_furn( const furn_id &type, const point &p1, const point &p2 );
         void draw_square_ter( ter_id( *f )(), const point &p1, const point &p2 );
         void draw_square_ter( const weighted_int_list<ter_id> &f, const point &p1,

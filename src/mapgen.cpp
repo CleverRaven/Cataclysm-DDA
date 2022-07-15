@@ -1474,6 +1474,7 @@ std::string enum_to_string<jmapgen_flags>( jmapgen_flags v )
         case jmapgen_flags::erase_all_before_placing_terrain:
             return "ERASE_ALL_BEFORE_PLACING_TERRAIN";
         case jmapgen_flags::no_underlying_rotate: return "NO_UNDERLYING_ROTATE";
+        case jmapgen_flags::avoid_creatures: return "AVOID_CREATURES";
         // *INDENT-ON*
         case jmapgen_flags::last:
             break;
@@ -4442,7 +4443,8 @@ bool jmapgen_setmap::apply( const mapgendata &dat, const point &offset ) const
         switch( op ) {
             case JMAPGEN_SETMAP_TER: {
                 // TODO: the ter_id should be stored separately and not be wrapped in an jmapgen_int
-                m.ter_set( point( x_get(), y_get() ), ter_id( val.get() ) );
+                m.ter_set( point( x_get(), y_get() ), ter_id( val.get() ),
+                           dat.has_flag( jmapgen_flags::avoid_creatures ) );
             }
             break;
             case JMAPGEN_SETMAP_FURN: {
@@ -4490,7 +4492,8 @@ bool jmapgen_setmap::apply( const mapgendata &dat, const point &offset ) const
             break;
             case JMAPGEN_SETMAP_LINE_TER: {
                 // TODO: the ter_id should be stored separately and not be wrapped in an jmapgen_int
-                m.draw_line_ter( ter_id( val.get() ), point( x_get(), y_get() ), point( x2_get(), y2_get() ) );
+                m.draw_line_ter( ter_id( val.get() ), point( x_get(), y_get() ), point( x2_get(), y2_get() ),
+                                 dat.has_flag( jmapgen_flags::avoid_creatures ) );
             }
             break;
             case JMAPGEN_SETMAP_LINE_FURN: {
@@ -4554,7 +4557,8 @@ bool jmapgen_setmap::apply( const mapgendata &dat, const point &offset ) const
             break;
             case JMAPGEN_SETMAP_SQUARE_TER: {
                 // TODO: the ter_id should be stored separately and not be wrapped in an jmapgen_int
-                m.draw_square_ter( ter_id( val.get() ), point( x_get(), y_get() ), point( x2_get(), y2_get() ) );
+                m.draw_square_ter( ter_id( val.get() ), point( x_get(), y_get() ), point( x2_get(), y2_get() ),
+                                   dat.has_flag( jmapgen_flags::avoid_creatures ) );
             }
             break;
             case JMAPGEN_SETMAP_SQUARE_FURN: {
