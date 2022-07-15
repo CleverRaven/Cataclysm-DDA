@@ -107,7 +107,7 @@ const MonsterGroup &MonsterGroupManager::GetUpgradedMonsterGroup( const mongroup
 
 //Quantity is adjusted directly as a side effect of this function
 MonsterGroupResult MonsterGroupManager::GetResultFromGroup(
-    const mongroup_id &group_name, int *quantity, bool *mon_found )
+    const mongroup_id &group_name, int *quantity, bool *mon_found, bool from_subgroup )
 {
     const MonsterGroup &group = GetUpgradedMonsterGroup( group_name );
     int spawn_chance = rng( 1, group.event_adjusted_freq_total() );
@@ -132,18 +132,14 @@ MonsterGroupResult MonsterGroupManager::GetResultFromGroup(
         }
 
         // Check for monsters within subgroup
+        bool found_in_subgroup = false;
+        int tmp_qty = !!quantity ? *quantity : 1;
+        MonsterGroupResult tmp_grp( group.defaultMonster, 1, spawn_data() );
         if( valid_entry && it->is_group() ) {
-            MonsterGroupResult tmp = GetResultFromGroup( it->group, quantity, &monster_found );
-            if( monster_found ) {
-                // Valid monster found within subgroup, break early
-                spawn_details = tmp;
-                break;
-            } else if( quantity ) {
-                // Nothing found in subgroup, reset quantity
-                ( *quantity )++;
-            }
-            continue;
+            tmp_grp = GetResultFromGroup( it->group, !!quantity ? &tmp_qty : nullptr,
+                                          &found_in_subgroup, true );
         }
+
         //Insure that the time is not before the spawn first appears or after it stops appearing
         valid_entry = valid_entry && ( calendar::start_of_cataclysm + it->starts < calendar::turn );
         valid_entry = valid_entry && ( it->lasts_forever() ||
@@ -205,15 +201,23 @@ MonsterGroupResult MonsterGroupManager::GetResultFromGroup(
         if( valid_entry ) {
             //If the monsters frequency is greater than the spawn_chance, select this spawn rule
             if( it->frequency >= spawn_chance ) {
-                if( it->pack_maximum > 1 ) {
-                    spawn_details = MonsterGroupResult( it->name, rng( it->pack_minimum, it->pack_maximum ), it->data );
+                if( found_in_subgroup ) {
+                    //If spawned from a subgroup, we've already obtained that data
+                    spawn_details = std::move( tmp_grp );
+                    if( !!quantity ) {
+                        ( *quantity ) = tmp_qty;
+                    }
                 } else {
-                    spawn_details = MonsterGroupResult( it->name, 1, it->data );
-                }
-                //And if a quantity pointer with remaining value was passed, will modify the external value as a side effect
-                //We will reduce it by the spawn rule's cost multiplier
-                if( quantity ) {
-                    *quantity -= std::max( 1, it->cost_multiplier * spawn_details.pack_size );
+                    if( it->pack_maximum > 1 ) {
+                        spawn_details = MonsterGroupResult( it->name, rng( it->pack_minimum, it->pack_maximum ), it->data );
+                    } else {
+                        spawn_details = MonsterGroupResult( it->name, 1, it->data );
+                    }
+                    //And if a quantity pointer with remaining value was passed, will modify the external value as a side effect
+                    //We will reduce it by the spawn rule's cost multiplier
+                    if( quantity ) {
+                        *quantity -= std::max( 1, it->cost_multiplier * spawn_details.pack_size );
+                    }
                 }
                 monster_found = true;
                 //Otherwise, subtract the frequency from spawn result for the next loop around
@@ -224,7 +228,7 @@ MonsterGroupResult MonsterGroupManager::GetResultFromGroup(
     }
 
     // Force quantity to decrement regardless of whether we found a monster.
-    if( quantity && !monster_found ) {
+    if( quantity && !monster_found && !from_subgroup ) {
         ( *quantity )--;
     }
     if( mon_found ) {
