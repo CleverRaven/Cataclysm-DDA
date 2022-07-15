@@ -79,7 +79,7 @@
     "id": "mon_zombie_flamer",
     "ammo": 50,
     "magazine": 100,
-    "entries": [ { "item": "flamethrower", "charges-min": 0, "charges-max": 500 } ]
+    "entries": [ { "item": "flamethrower", "prob": 100, "damage": [ 1, 4 ] } ]
   },
   {
     "type": "item_group",

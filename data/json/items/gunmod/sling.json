@@ -59,5 +59,34 @@
         }
       ]
     }
+  },
+  {
+    "id": "flamethrower_strap",
+    "type": "GUNMOD",
+    "name": { "str": "flamethrower strap" },
+    "description": "Integrally attached backpack-like straps and rigging which allow you to wear a man portable flamethrower unit.",
+    "weight": "100 g",
+    "volume": "250 ml",
+    "integral_volume": "5 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "install_time": "20 s",
+    "material": [ "cotton" ],
+    "symbol": ":",
+    "color": "green",
+    "location": "sling",
+    "mod_targets": [ "flamethrower", "rm451_flamethrower" ],
+    "flags": [ "IS_ARMOR", "BELTED", "OVERSIZE", "WATER_FRIENDLY" ],
+    "armor_data": {
+      "armor": [
+        {
+          "covers": [ "torso" ],
+          "coverage": 5,
+          "encumbrance": 0,
+          "volume_encumber_modifier": 0.33,
+          "specifically_covers": [ "torso_hanging_back" ]
+        }
+      ]
+    }
   }
 ]
