@@ -178,52 +178,59 @@
         "conditions": [ "DUSK", "DAY", "DAWN", "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
+        "monster": "mon_stegoceras",
+        "weight": 10,
+        "cost_multiplier": 0,
+        "pack_size": [ 4, 8 ],
+        "conditions": [ "DUSK", "DAY", "DAWN", "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
         "monster": "mon_pachycephalosaurus",
         "weight": 10,
         "cost_multiplier": 0,
-        "pack_size": [ 1, 2 ],
+        "pack_size": [ 4, 8 ],
         "conditions": [ "DUSK", "DAY", "DAWN", "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
         "monster": "mon_aquilops",
         "weight": 10,
         "cost_multiplier": 0,
-        "pack_size": [ 1, 2 ],
+        "pack_size": [ 4, 8 ],
         "conditions": [ "DUSK", "DAY", "DAWN", "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
         "monster": "mon_pachyrhinosaurus",
         "weight": 20,
         "cost_multiplier": 20,
-        "pack_size": [ 1, 2 ],
+        "pack_size": [ 4, 8 ],
         "conditions": [ "DUSK", "DAY", "DAWN", "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
         "monster": "mon_pentaceratops",
         "weight": 20,
         "cost_multiplier": 25,
-        "pack_size": [ 1, 2 ],
+        "pack_size": [ 4, 8 ],
         "conditions": [ "DUSK", "DAY", "DAWN", "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
         "monster": "mon_kosmoceratops",
         "weight": 20,
         "cost_multiplier": 25,
-        "pack_size": [ 1, 2 ],
+        "pack_size": [ 4, 8 ],
         "conditions": [ "DUSK", "DAY", "DAWN", "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
         "monster": "mon_torosaurus",
         "weight": 20,
         "cost_multiplier": 25,
-        "pack_size": [ 1, 2 ],
+        "pack_size": [ 4, 8 ],
         "conditions": [ "DUSK", "DAY", "DAWN", "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
         "monster": "mon_triceratops",
         "weight": 20,
         "cost_multiplier": 30,
-        "pack_size": [ 1, 2 ],
+        "pack_size": [ 4, 8 ],
         "conditions": [ "DUSK", "DAY", "DAWN", "SPRING", "SUMMER", "AUTUMN" ]
       }
     ]
