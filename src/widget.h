@@ -46,6 +46,7 @@ enum class widget_var : int {
     activity_text,  // Activity level text, color string
     body_graph,     // Body graph showing color-coded body part health
     bp_armor_outer_text, // Outermost armor on body part, with color/damage bars
+    carry_weight_text,   // Weight carried, relative to capacity, in %
     compass_text,   // Compass / visible threats by cardinal direction
     compass_legend_text, // Names of visible creatures that appear on the compass
     date_text,      // Current date, in terms of day within season
