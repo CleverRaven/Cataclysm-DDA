@@ -59,6 +59,7 @@ std::string enum_to_string<relic_recharge_type>( relic_recharge_type type )
         case relic_recharge_type::NONE: return "none";
         case relic_recharge_type::PERIODIC: return "periodic";
         case relic_recharge_type::SOLAR_SUNNY: return "solar_sunny";
+        case relic_recharge_type::LUNAR: return "lunar";
         case relic_recharge_type::SOLAR_CLOUDY: return "solar_cloudy";
         case relic_recharge_type::NUM: break;
     }
@@ -438,6 +439,16 @@ static bool can_recharge_solar( const item &it, Character *carrier, const tripoi
            ( carrier == nullptr ||
              carrier->is_worn( it ) || carrier->is_wielding( it ) );
 }
+
+// checks if the relic is in the appropriate location to be able to recharge from the weather.
+// does not check the weather type, that job is relegated to the switch in relic::try_recharge()
+static bool can_recharge_lunar( const item &it, Character *carrier, const tripoint &pos )
+{
+    return get_map().is_outside( pos ) && is_night( calendar::turn ) &&
+           ( carrier == nullptr ||
+             carrier->is_worn( it ) || carrier->is_wielding( it ) );
+}
+
 void relic::try_recharge( item &parent, Character *carrier, const tripoint &pos )
 {
     if( charge.regenerate_ammo && item_can_not_load_ammo( parent ) ) {
@@ -461,6 +472,13 @@ void relic::try_recharge( item &parent, Character *carrier, const tripoint &pos 
         case relic_recharge_type::SOLAR_SUNNY: {
             if( can_recharge_solar( parent, carrier, pos ) &&
                 get_weather().weather_id->light_modifier >= 0 ) {
+                charge.accumulate_charge( parent );
+            }
+            return;
+        }
+        case relic_recharge_type::LUNAR : {
+            if( can_recharge_lunar( parent, carrier, pos ) &&
+                get_moon_phase( calendar::turn ) == MOON_FULL ) {
                 charge.accumulate_charge( parent );
             }
             return;

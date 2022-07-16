@@ -152,15 +152,27 @@
     "name": "field",
     "sym": ".",
     "color": "brown",
+    "looks_like": "field",
     "see_cost": 1,
     "flags": [ "NO_ROTATE" ]
   },
   {
     "type": "overmap_terrain",
-    "id": [ "special_forest", "special_forest_thick" ],
+    "id": "special_forest",
     "name": "forest",
     "sym": "F",
     "color": "green",
+    "looks_like": "forest",
+    "see_cost": 1,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "special_forest_thick",
+    "name": "forest",
+    "sym": "F",
+    "color": "green",
+    "looks_like": "forest_thick",
     "see_cost": 1,
     "flags": [ "NO_ROTATE" ]
   },

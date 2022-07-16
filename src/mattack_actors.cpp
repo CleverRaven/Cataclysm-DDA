@@ -323,7 +323,9 @@ void melee_actor::load_internal( const JsonObject &obj, const std::string & )
     optional( obj, was_loaded, "range", range, 1 );
     optional( obj, was_loaded, "no_adjacent", no_adjacent, false );
     optional( obj, was_loaded, "dodgeable", dodgeable, true );
+    optional( obj, was_loaded, "uncanny_dodgeable", uncanny_dodgeable, dodgeable );
     optional( obj, was_loaded, "blockable", blockable, true );
+    optional( obj, was_loaded, "effects_require_dmg", effects_require_dmg, true );
 
     optional( obj, was_loaded, "range", range, 1 );
     optional( obj, was_loaded, "throw_strength", throw_strength, 0 );
@@ -359,7 +361,31 @@ void melee_actor::load_internal( const JsonObject &obj, const std::string & )
 
     if( obj.has_array( "effects" ) ) {
         for( JsonObject eff : obj.get_array( "effects" ) ) {
-            effects.push_back( load_mon_effect_data( eff ) );
+            mon_effect_data effect;
+            effect.load( eff );
+            effects.push_back( std::move( effect ) );
+        }
+    }
+
+    if( obj.has_array( "self_effects_always" ) ) {
+        for( JsonObject eff : obj.get_array( "self_effects_always" ) ) {
+            mon_effect_data effect;
+            effect.load( eff );
+            self_effects_always.push_back( std::move( effect ) );
+        }
+    }
+    if( obj.has_array( "self_effects_onhit" ) ) {
+        for( JsonObject eff : obj.get_array( "self_effects_onhit" ) ) {
+            mon_effect_data effect;
+            effect.load( eff );
+            self_effects_onhit.push_back( std::move( effect ) );
+        }
+    }
+    if( obj.has_array( "self_effects_ondmg" ) ) {
+        for( JsonObject eff : obj.get_array( "self_effects_ondmg" ) ) {
+            mon_effect_data effect;
+            effect.load( eff );
+            self_effects_ondmg.push_back( std::move( effect ) );
         }
     }
 }
@@ -447,7 +473,21 @@ bool melee_actor::call( monster &z ) const
     add_msg_debug( debugmode::DF_MATTACK, "%s attempting to melee_attack %s", z.name(),
                    target->disp_name() );
 
+    const std::string mon_name = get_player_character().sees( z.pos() ) ?
+                                 z.disp_name( false, true ) : _( "Something" );
+
+    // Add always-applied self effects
+    for( const mon_effect_data &eff : self_effects_always ) {
+        if( x_in_y( eff.chance, 100 ) ) {
+            z.add_effect( eff.id, time_duration::from_turns( rng( eff.duration.first, eff.duration.second ) ),
+                          eff.permanent,
+                          rng( eff.intensity.first, eff.intensity.second ) );
+            target->add_msg_if_player( m_mixed, eff.message, mon_name );
+        }
+    }
+
     // Dodge check
+
     const int acc = accuracy >= 0 ? accuracy : z.type->melee_skill;
     int hitspread = target->deal_melee_attack( &z, dice( acc, 10 ) );
 
@@ -458,8 +498,14 @@ bool melee_actor::call( monster &z ) const
 
     bodypart_id bp_id = bodypart_id( bp_hit );
 
-    const std::string mon_name = get_player_character().sees( z.pos() ) ?
-                                 z.disp_name( false, true ) : _( "Something" );
+    if( uncanny_dodgeable && target->uncanny_dodge() ) {
+        game_message_type msg_type = target->is_avatar() ? m_warning : m_info;
+        sfx::play_variant_sound( "mon_bite", "bite_miss", sfx::get_heard_volume( z.pos() ),
+                                 sfx::get_heard_angle( z.pos() ) );
+        target->add_msg_player_or_npc( msg_type, miss_msg_u, miss_msg_npc, z.name(),
+                                       body_part_name_accusative( bp_id ) );
+        return true;
+    }
 
     if( dodgeable ) {
         if( hitspread < 0 ) {
@@ -489,6 +535,16 @@ bool melee_actor::call( monster &z ) const
     // On hit effects
     target->on_hit( &z, bp_id );
 
+    // Apply onhit self effects
+    for( const mon_effect_data &eff : self_effects_onhit ) {
+        if( x_in_y( eff.chance, 100 ) ) {
+            z.add_effect( eff.id, time_duration::from_turns( rng( eff.duration.first, eff.duration.second ) ),
+                          eff.permanent,
+                          rng( eff.intensity.first, eff.intensity.second ) );
+            target->add_msg_if_player( m_mixed, eff.message, mon_name );
+        }
+    }
+
     int damage_total = dealt_damage.total_damage();
     add_msg_debug( debugmode::DF_MATTACK, "%s's melee_attack did %d damage", z.name(), damage_total );
     if( damage_total > 0 ) {
@@ -498,6 +554,16 @@ bool melee_actor::call( monster &z ) const
                                  sfx::get_heard_angle( z.pos() ) );
         target->add_msg_player_or_npc( m_neutral, no_dmg_msg_u, no_dmg_msg_npc, mon_name,
                                        body_part_name_accusative( bp_id ) );
+        if( !effects_require_dmg ) {
+            for( const mon_effect_data &eff : effects ) {
+                if( x_in_y( eff.chance, 100 ) ) {
+                    const bodypart_id affected_bp = eff.affect_hit_bp ? bp_id : eff.bp.id();
+                    target->add_effect( eff.id, time_duration::from_turns( rng( eff.duration.first,
+                                        eff.duration.second ) ), affected_bp, eff.permanent, rng( eff.intensity.first,
+                                                eff.intensity.second ) );
+                }
+            }
+        }
     }
     if( throw_strength > 0 ) {
         z.remove_effect( effect_grabbing );
@@ -553,7 +619,19 @@ void melee_actor::on_damage( monster &z, Creature &target, dealt_damage_instance
     for( const mon_effect_data &eff : effects ) {
         if( x_in_y( eff.chance, 100 ) ) {
             const bodypart_id affected_bp = eff.affect_hit_bp ? bp : eff.bp.id();
-            target.add_effect( eff.id, time_duration::from_turns( eff.duration ), affected_bp, eff.permanent );
+            target.add_effect( eff.id, time_duration::from_turns( rng( eff.duration.first,
+                               eff.duration.second ) ), affected_bp, eff.permanent, rng( eff.intensity.first,
+                                       eff.intensity.second ) );
+        }
+    }
+
+    // Apply ondmg self effects
+    for( const mon_effect_data &eff : self_effects_ondmg ) {
+        if( x_in_y( eff.chance, 100 ) ) {
+            z.add_effect( eff.id, time_duration::from_turns( rng( eff.duration.first, eff.duration.second ) ),
+                          eff.permanent,
+                          rng( eff.intensity.first, eff.intensity.second ) );
+            target.add_msg_if_player( m_mixed, eff.message, mon_name );
         }
     }
 }

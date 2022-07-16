@@ -51,10 +51,14 @@ disp_overmap_cache::disp_overmap_cache()
 disp_bodygraph_cache::disp_bodygraph_cache()
 {
     _bp_cur_max.clear();
+    _graph_id = "";
 }
 
-bool disp_bodygraph_cache::is_valid_for( const Character &u ) const
+bool disp_bodygraph_cache::is_valid_for( const Character &u, const std::string graph_id ) const
 {
+    if( graph_id != _graph_id ) {
+        return false;
+    }
     std::vector<bodypart_id> cur_parts = u.get_all_body_parts( get_body_part_flags::only_main );
     for( const auto &bp : _bp_cur_max ) {
         if( std::find( cur_parts.begin(), cur_parts.end(), bp.first ) == cur_parts.end() ) {
@@ -77,9 +81,11 @@ bool disp_bodygraph_cache::is_valid_for( const Character &u ) const
     return true;
 }
 
-void disp_bodygraph_cache::rebuild( const Character &u, const std::string &bg_wgt_str )
+void disp_bodygraph_cache::rebuild( const Character &u, const std::string graph_id,
+                                    const std::string &bg_wgt_str )
 {
     _bp_cur_max.clear();
+    _graph_id = graph_id;
     for( const bodypart_id &bp : u.get_all_body_parts( get_body_part_flags::only_main ) ) {
         _bp_cur_max.emplace( bp, std::pair<int, int> { u.get_part_hp_cur( bp ), u.get_part_hp_max( bp ) } );
     }
@@ -260,6 +266,19 @@ std::string display::time_string( const Character &u )
         return to_string_time_of_day( calendar::turn );
     } else if( is_creature_outside( u ) ) {
         return display::time_approx();
+    } else {
+        // NOLINTNEXTLINE(cata-text-style): the question mark does not end a sentence
+        return _( "???" );
+    }
+}
+
+std::string display::sundial_time_text_color( const Character &u, int width )
+{
+    // Return exact time if character has a watch, or approximate time if can see the sky
+    if( u.has_watch() ) {
+        return to_string_time_of_day( calendar::turn );
+    } else if( is_creature_outside( u ) ) {
+        return display::sundial_text_color( u, width );
     } else {
         // NOLINTNEXTLINE(cata-text-style): the question mark does not end a sentence
         return _( "???" );
@@ -1456,7 +1475,7 @@ static std::pair<std::string, nc_color> get_bodygraph_bp_sym_color( const Charac
 std::string display::colorized_bodygraph_text( const Character &u, const std::string graph_id,
         int width, int max_height, int &height )
 {
-    if( disp_bg_cache.is_valid_for( u ) ) {
+    if( disp_bg_cache.is_valid_for( u, graph_id ) ) {
         // Nothing changed, just retrieve from cache
         return disp_bg_cache.get_val();
     }
@@ -1487,7 +1506,7 @@ std::string display::colorized_bodygraph_text( const Character &u, const std::st
     }
 
     // Rebuild bodygraph text cache
-    disp_bg_cache.rebuild( u, ret );
+    disp_bg_cache.rebuild( u, graph_id, ret );
 
     return ret;
 }
