@@ -45,6 +45,44 @@
     "flags": [ "WATCH", "ALARMCLOCK" ]
   },
   {
+    "type": "TOOL",
+    "id": "butane_can",
+    "name": {
+      "str": "can of butane",
+      "str_pl": "cans of butane"
+    },
+    "description": "A non-refillable can of butane that can be used to fill a lighter.  It could be useful as a fuel, but also as a solvent or chemical reagent.",
+    "symbol": "!",
+    "color": "red",
+    "looks_like": "spray_can",
+    "weight": "120 g",
+    "volume": "300 ml",
+    "price": 1500,
+    "price_postapoc": 50,
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE",
+        "watertight": true,
+        "rigid": true,
+        "ammo_restriction": { "butane": 150 }
+      }
+    ],
+    "material": [
+      "steel"
+    ],
+    "flags": [
+      "NO_RELOAD",
+      "GAS_TANK"
+    ],
+    "explosion": {
+      "power": 4503,
+      "distance_factor": 0.1,
+      "fire": true,
+      "shrapnel": { "casing_mass": 50, "fragment_mass": 0.025, "recovery": 0 }
+    },
+    "explode_in_fire": true
+  },
+  {
     "id": "cow_bell",
     "type": "TOOL",
     "name": { "str": "cow bell" },
