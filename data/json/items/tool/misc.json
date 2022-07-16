@@ -64,7 +64,7 @@
         "pocket_type": "MAGAZINE",
         "watertight": true,
         "rigid": true,
-        "ammo_restriction": { "butane": 150 }
+        "ammo_restriction": { "butane": 30 }
       }
     ],
     "material": [
