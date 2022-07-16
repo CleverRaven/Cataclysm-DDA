@@ -1,0 +1,22 @@
+[
+  {
+    "type": "item_group",
+    "id": "female_underwear_top",
+    "items": [ [ "null", 80 ], [ "bikini_top_leather", 7 ], [ "bikini_top_fur", 5 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "female_underwear_bottom",
+    "items": [ [ "null", 80 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "male_underwear_top",
+    "items": [ [ "null", 80 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "male_underwear_bottom",
+    "items": [ [ "null", 80 ] ]
+  }
+]

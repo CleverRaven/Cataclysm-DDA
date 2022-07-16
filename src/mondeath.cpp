@@ -171,7 +171,7 @@ item *mdeath::splatter( monster &z )
     if( gibbable ) {
         float overflow_ratio = overflow_damage / max_hp + 1.0f;
         int gib_distance = std::round( rng( 2, 4 ) );
-        for( const auto &entry : *z.type->harvest ) {
+        for( const harvest_entry &entry : *z.type->harvest ) {
             // only flesh and bones survive.
             if( entry.type == harvest_drop_flesh || entry.type == harvest_drop_bone ) {
                 // the larger the overflow damage, the less you get
@@ -281,7 +281,7 @@ item *make_mon_corpse( monster &z, int damageLvl )
     // All corpses are at 37 C at time of death
     // This may not be true but anything better would be way too complicated
     if( z.is_warm() ) {
-        corpse.set_item_temperature( 310.15 );
+        corpse.set_item_temperature( units::from_celcius( 37 ) );
     }
     corpse.set_damage( damageLvl );
     if( z.has_effect( effect_no_ammo ) ) {

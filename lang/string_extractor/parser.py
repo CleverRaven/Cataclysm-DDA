@@ -35,6 +35,7 @@ from .parsers.mapgen import parse_mapgen
 from .parsers.mutation import parse_mutation
 from .parsers.npc import parse_npc
 from .parsers.npc_class import parse_npc_class
+from .parsers.option_slider import parse_option_slider
 from .parsers.overmap_terrain import parse_overmap_terrain
 from .parsers.palette import parse_palette
 from .parsers.profession import parse_profession
@@ -56,6 +57,7 @@ from .parsers.mutation_category import parse_mutation_category
 from .parsers.overmap_land_use_code import parse_overmap_land_use_code
 from .parsers.practice import parse_practice
 from .parsers.scenario import parse_scenario
+from .parsers.shop_blacklist import parse_shopkeeper_blacklist
 from .parsers.skill import parse_skill
 from .parsers.skill_display_type import parse_skill_display_type
 from .parsers.speech import parse_speech
@@ -171,6 +173,7 @@ parsers = {
     "npc": parse_npc,
     "npc_class": parse_npc_class,
     "obsolete_terrain": dummy_parser,
+    "option_slider": parse_option_slider,
     "overlay_order": dummy_parser,
     "overmap_connection": dummy_parser,
     "overmap_land_use_code": parse_overmap_land_use_code,
@@ -198,7 +201,7 @@ parsers = {
     "scenario_blacklist": dummy_parser,
     "scent_type": dummy_parser,
     "score": dummy_parser,
-    "shopkeeper_blacklist": dummy_parser,
+    "shopkeeper_blacklist": parse_shopkeeper_blacklist,
     "shopkeeper_consumption_rates": dummy_parser,
     "skill": parse_skill,
     "skill_boost": dummy_parser,
@@ -217,6 +220,7 @@ parsers = {
     "terrain": parse_terrain,
     "trait_blacklist": dummy_parser,
     "trait_group": dummy_parser,
+    "trait_migration": dummy_parser,
     "trap": parse_trap,
     "tool": parse_generic,
     "tool_armor": parse_generic,

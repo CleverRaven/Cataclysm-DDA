@@ -36,6 +36,20 @@ static const trait_id trait_HORNS_POINTED( "HORNS_POINTED" );
 static const trait_id trait_SQUEAMISH( "SQUEAMISH" );
 static const trait_id trait_WOOLALLERGY( "WOOLALLERGY" );
 
+nc_color item_penalties::color_for_stacking_badness() const
+{
+    switch( badness() ) {
+        case 0:
+            return c_light_gray;
+        case 1:
+            return c_yellow;
+        case 2:
+            return c_light_red;
+    }
+    debugmsg( "Unexpected badness %d", badness() );
+    return c_light_gray;
+}
+
 units::mass get_selected_stack_weight( const item *i, const std::map<const item *, int> &without )
 {
     auto stack = without.find( i );
@@ -54,7 +68,8 @@ ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) cons
     if( it.has_flag( flag_INTEGRATED ) ) {
         return ret_val<bool>::make_success();
     }
-    if( it.has_flag( flag_CANT_WEAR ) ) {
+    // need to ignore inherited flags for this because items in pockets likely have CANT_WEAR
+    if( it.has_flag( flag_CANT_WEAR, true ) ) {
         return ret_val<bool>::make_failure( _( "Can't be worn directly." ) );
     }
     if( has_effect( effect_incorporeal ) ) {
@@ -75,11 +90,11 @@ ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) cons
 
     if( !it.has_flag( flag_OVERSIZE ) && !it.has_flag( flag_SEMITANGIBLE ) ) {
         for( const trait_id &mut : get_mutations() ) {
-            const auto &branch = mut.obj();
+            const mutation_branch &branch = mut.obj();
             if( branch.conflicts_with_item( it ) ) {
                 return ret_val<bool>::make_failure( is_avatar() ?
                                                     _( "Your %s mutation prevents you from wearing your %s." ) :
-                                                    _( "My %s mutation prevents me from wearing this %s." ), branch.name(),
+                                                    _( "My %s mutation prevents me from wearing this %s." ), mutation_name( mut ),
                                                     it.type_name() );
             }
         }
@@ -1076,12 +1091,10 @@ ret_val<bool> outfit::power_armor_conflicts( const item &clothing ) const
         }
         if( !clothing.covers( body_part_torso ) ) {
             bool power_armor = false;
-            if( !worn.empty() ) {
-                for( const item &elem : worn ) {
-                    if( elem.is_power_armor() ) {
-                        power_armor = true;
-                        break;
-                    }
+            for( const item &elem : worn ) {
+                if( elem.is_power_armor() ) {
+                    power_armor = true;
+                    break;
                 }
             }
             if( !power_armor ) {
@@ -1434,7 +1447,7 @@ bool outfit::covered_with_flag( const flag_id &f, const body_part_set &parts ) c
 {
     body_part_set to_cover( parts );
 
-    for( const auto &elem : worn ) {
+    for( const item &elem : worn ) {
         if( !elem.has_flag( f ) ) {
             continue;
         }
@@ -1769,7 +1782,7 @@ void outfit::absorb_damage( Character &guy, damage_unit &elem, bodypart_id bp,
         if( outermost && elem.type == damage_type::HEAT && elem.amount >= 1.0f ) {
             // TODO: Different fire intensity values based on damage
             fire_data frd{ 2 };
-            destroy = armor.burn( frd );
+            destroy = !armor.has_flag( flag_INTEGRATED ) && armor.burn( frd );
             int fuel = roll_remainder( frd.fuel_produced );
             if( fuel > 0 ) {
                 guy.add_effect( effect_onfire, time_duration::from_turns( fuel + 1 ), bp, false, 0, false,

@@ -1,0 +1,116 @@
+# Lines longer than 78 characters will be wrapped automatically
+# The following line is for reference
+##############################################################################
+<color_white>Eredeti szerző:</color>    <color_white>Projektmenedzser:</color>
+<color_yellow>Whales</color> (<color_dark_gray>visszavonult</color>)    <color_yellow>KevinGranade</color>
+
+<color_white>Jelenlegi fő fejlesztők:</color>
+<color_yellow>mlangsdorf</color> - Járművek, hajók, bázisok és moddolási útmutatók.
+<color_yellow>I-am-Erk</color> - UltiCa hagyatékának megőrzése.
+<color_yellow>KorGgenT</color> - Nem árulja el, hogy hova dugjam a...kisujjam.
+
+<color_white>Külön köszönet:</color>
+<color_yellow>Aivean</color> - A kiemelkedő teljesítményért.
+<color_yellow>anothersimulacrum</color> - For making me weary.
+<color_yellow>jbytheway</color> - For making me achieve things.
+<color_yellow>BrettDong</color> - fordítások segítéséért és egyebekért.
+<color_yellow>Qrox</color> - A hibaüzenetek helyének megmutatásáért.
+<color_yellow>LyleSY</color> - A dínókért.
+
+<color_white>Külön köszönet a művészi hozzájárulásokért::</color>
+<color_yellow>acepleiades</color>, <color_yellow>barsoosayque</color>, <color_yellow>Fris0uman</color>, <color_yellow>int-ua</color>, és sokan mások.
+
+<color_white>Az összes közreműködő listáját lásd itt:</color>
+<color_cyan>https://github.com/CleverRaven/Cataclysm-DDA/contributors</color>
+
+A <color_light_cyan>Cataclysm</color>: <color_light_blue>Dark Days Ahead</color> a <color_white>CC-BY-SA 3.0</color> licensz alatt jelenik meg:
+<color_cyan>https://creativecommons.org/licenses/by-sa/3.0/</color>
+
+******************************************************************************
+
+<color_white>Main Developers (<color_cyan>0.E</color>):</color>
+<color_yellow>mlangsdorf</color> - Járművek, hajók, bázisok és moddolási útmutatók.
+<color_yellow>I-am-Erk</color> - Ultica, párbeszédek, NPC-k, és konyhai hulladék.
+<color_yellow>KorGgenT</color> - Magiclysm és hasfájás.
+
+<color_white>Special thanks to (<color_cyan>0.E</color>):</color>
+<color_yellow>Narc</color> - Az automata Jenkins build-bot elkészítéséért.
+<color_yellow>Rivet-the-Zombie</color> - Nap egy PR merge-eléséért.
+<color_yellow>BevapDin</color> - Kód review és refaktorálás.
+<color_yellow>BrettDong</color> - Fordítások megszervezése.
+<color_yellow>curstwist</color> - Tetők, térképgenerátorok, NPC-k és változások összeírása.
+<color_yellow>davidpwbrown</color> - Auto-utazás, auto-vezetés és lovaglás.
+<color_yellow>jbytheway</color> - A CI munkájáért
+<color_yellow>Hymore246</color> - A harcművészetek átírásáért.
+<color_yellow>Qrox</color> - Windows buildek olvasható backtrace-eiért.
+<color_yellow>ZhilkinSerg</color> - Mergetesztelésért.
+
+<color_white>For a full list of contributors please see the Git repo:</color>
+<color_cyan>https://github.com/CleverRaven/Cataclysm-DDA</color>
+
+******************************************************************************
+
+<color_white>Main Developers (<color_cyan>0.D</color>):</color>
+<color_yellow>KevinGranade</color>, <color_yellow>Rivet-the-Zombie</color>, <color_yellow>BevapDin</color>, <color_yellow>Coolthulu</color>, <color_yellow>i2amroy</color>
+
+<color_white>Special thanks to (<color_cyan>0.D</color>):</color>
+<color_yellow>Narc</color> - For setting up the automatic Jenkins build-bot.
+<color_yellow>Acidia</color> - For wonderful NPC, Quest and Location contributions.
+<color_yellow>Wuzzy</color> and <color_yellow>VlasovVitaly</color> - For herculean translation efforts.
+<color_yellow>HuXTUS</color> - For a huge amount of amazing content.
+
+******************************************************************************
+
+<color_white>Main Developers (<color_cyan>0.C</color>):</color>
+<color_yellow>KevinGranade</color>, <color_yellow>Rivet-the-Zombie</color>, <color_yellow>KA101</color>, <color_yellow>BevapDin</color>, <color_yellow>Coolthulu</color>, <color_yellow>i2amroy</color>
+
+<color_white>Special thanks to (<color_cyan>0.C</color>):</color>
+<color_yellow>Narc</color> - For setting up the automatic Jenkins build-bot.
+<color_yellow>Acidia</color> - For wonderful NPC, Quest and Location contributions.
+<color_yellow>Wuzzy</color> and <color_yellow>VlasovVitaly</color> - For herculean translation efforts.
+<color_yellow>HuXTUS</color> - For a huge amount of amazing content.
+
+******************************************************************************
+
+<color_white>Main Developers (<color_cyan>0.B</color>):</color>
+<color_yellow>KevinGranade</color>, <color_yellow>Rivet-the-Zombie</color>, <color_yellow>KA101</color>, <color_yellow>BevapDin</color>
+
+<color_white>Special thanks to (<color_cyan>0.B</color>):</color>
+<color_yellow>Narc</color> - For setting up the automatic Jenkins build-bot.
+<color_yellow>Acidia</color> - For wonderful NPC, Quest and Location contributions.
+<color_yellow>Wuzzy</color> and <color_yellow>VlasovVitaly</color> - For herculean translation efforts.
+<color_yellow>i2amroy</color> - For several large infrastructural overhauls.
+<color_yellow>HuXTUS</color> - For a huge amount of amazing content.
+
+******************************************************************************
+
+<color_white>Main Developers (<color_cyan>0.A</color>):</color>
+<color_yellow>KevinGranade</color>, <color_yellow>i2amroy</color>, <color_yellow>Rivet-the-Zombie</color>, <color_yellow>KA101</color>, <color_yellow>BevapDin</color>
+
+<color_white>Special thanks to (<color_cyan>0.A</color>):</color>
+<color_yellow>TheDarklingWolf</color> - For creating Cataclysm:DDA as we know it.
+<color_yellow>Narc</color> - For setting up the automatic Jenkins build-bot.
+<color_yellow>BevapDin</color> - For tireless bugfixing efforts.
+<color_yellow>dwarfkoala</color> - For a plethora of bug triage.
+<color_yellow>Ill-kun</color> - For countless UI cleanups.
+
+******************************************************************************
+
+<color_white>Main Developers (<color_cyan>0.9</color>):</color>
+<color_yellow>KevinGranade</color>, <color_yellow>GalenEvil</color>, <color_yellow>i2amroy</color>, <color_yellow>AtomicDryad</color>, <color_yellow>Ianestrachan</color>
+
+<color_white>Special thanks to (<color_cyan>0.9</color>):</color>
+<color_yellow>TheDarklingWolf</color> - For creating Cataclysm:DDA as we know it.
+<color_yellow>Narc</color> - For setting up the automatic Jenkins build-bot.
+<color_yellow>yobbobanana</color> - For working as liason between translators and GitHub.
+<color_yellow>Angela 'Rivet' Graves</color>, Constant Creator of Cataclysmic Content.
+
+******************************************************************************
+
+<color_white>Main Developers (<color_cyan>0.8</color>):</color>
+<color_yellow>Kevingranade</color>, <color_yellow>GalenEvil</color>, <color_yellow>i2amroy</color>, <color_yellow>AtomicDryad</color>, <color_yellow>Ozone</color>
+
+<color_white>Special thanks to (<color_cyan>0.8</color>):</color>
+<color_yellow>TheDarklingWolf</color> - For creating Cataclysm:DDA as we know it.
+<color_yellow>Narc</color> - For setting up the automatic Jenkins build-bot.
+<color_yellow>yobbobanana</color> - For working as liason between translators and GitHub.

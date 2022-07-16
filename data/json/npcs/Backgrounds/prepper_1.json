@@ -34,12 +34,98 @@
   {
     "id": "BGSS_PREPPER_1_LMOE",
     "type": "talk_topic",
-    "dynamic_line": "I still haven't made it there.  Every time I've tried I've been headed off by the <zombies>.  Who knows, maybe someday.",
-    "//": "In the future this NPC should give you the map coordinates to the LMOE shelter if you persuade.",
+    "dynamic_line": {
+      "u_has_var": "prepper_1_started_quest",
+      "type": "mission",
+      "context": "BGSS",
+      "value": "yes",
+      "no": "I still haven't made it there.  Every time I've tried I've been headed off by the <zombies>.  Who knows, maybe someday.",
+      "yes": "The shelter's in your hands, at this point."
+    },
     "responses": [
       { "text": "Could you tell me that story again?", "topic": "BGSS_PREPPER_1_STORY1" },
+      {
+        "text": "We could go check out that shelter together if you like.  Might be better having another person to keep you safe?",
+        "condition": {
+          "and": [
+            { "not": { "u_has_var": "prepper_1_started_quest", "type": "mission", "context": "BGSS", "value": "yes" } },
+            {
+              "not": {
+                "and": [
+                  { "u_has_var": "prepper_1_asked_about_quest", "type": "general", "context": "BGSS", "value": "yes" },
+                  {
+                    "u_compare_time_since_var": "prepper_1_asked_about_quest",
+                    "type": "timer",
+                    "context": "timers",
+                    "op": "<",
+                    "time": "8 h"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "trial": { "type": "PERSUADE", "difficulty": 60, "mod": [ [ "TRUST", 4 ], [ "VALUE", 2 ], [ "ANGER", -6 ] ] },
+        "success": {
+          "topic": "BGSS_PREPPER_1_SHELTERSUCCESS",
+          "effect": [
+            { "add_mission": "directions_prepper_1_SHELTER" },
+            {
+              "u_message": "<npc_name> marks the location of the LMOE shelter on your map.",
+              "type": "good",
+              "popup": true
+            }
+          ]
+        },
+        "failure": {
+          "topic": "BGSS_PREPPER_1_SHELTERFAILURE",
+          "opinion": { "trust": -2 },
+          "effect": [
+            { "u_add_var": "prepper_1_asked_about_quest", "type": "timer", "context": "timers", "time": true },
+            { "u_add_var": "prepper_1_asked_about_quest", "type": "general", "context": "BGSS", "value": "yes" }
+          ]
+        }
+      },
       { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
+  },
+  {
+    "id": "BGSS_PREPPER_1_SHELTERSUCCESS",
+    "type": "talk_topic",
+    "dynamic_line": "I marked the spot for you.  With everything I've seen out there, I suppose it's better to have someone on your side.  But I'll be watching to make sure you don't take anything…",
+    "responses": [ { "text": "Thanks for the directions.  Let's check it out.", "topic": "TALK_NONE" } ]
+  },
+  {
+    "id": "BGSS_PREPPER_1_SHELTERFAILURE",
+    "type": "talk_topic",
+    "dynamic_line": "I'd have to be absolutely <dumb> to give up the location of my stash to someone I barely know.  For all I know you'd just kill me and take it all for yourself!  Better luck next time, pal.",
+    "responses": [ { "text": "Okay, calm down…", "topic": "TALK_NONE" } ]
+  },
+  {
+    "id": "directions_prepper_1_SHELTER",
+    "type": "mission_definition",
+    "name": { "str": "Check out that LMOE shelter" },
+    "description": "Maybe there's something left in that LMOE shelter you heard about.",
+    "goal": "MGOAL_GO_TO",
+    "difficulty": 2,
+    "value": 0,
+    "start": {
+      "assign_mission_target": { "om_special": "LMOE Shelter", "om_terrain": "lmoe", "reveal_radius": 3, "search_range": 400 },
+      "effect": { "u_add_var": "prepper_1_started_quest", "type": "mission", "context": "BGSS", "value": "yes" }
+    },
+    "end": { "opinion": { "trust": 1, "value": 1 } },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "dialogue": {
+      "describe": "…",
+      "offer": "…",
+      "accepted": "…",
+      "rejected": "…",
+      "advice": "…",
+      "inquire": "Any luck finding the LMOE shelter?",
+      "success": "Thank you!  I'm so glad we made it.  I've tucked away some real loot back here.",
+      "success_lie": "Great!",
+      "failure": "Not that surprising."
+    }
   }
 ]

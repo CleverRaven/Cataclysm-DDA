@@ -363,7 +363,7 @@ static medical_column draw_health_summary( const int column_count, avatar *playe
             if( no_feeling ) {
                 hp_str = colorize( "==%==", c_blue );
             } else {
-                const auto &eff = player->get_effect( effect_mending, part );
+                const effect &eff = player->get_effect( effect_mending, part );
                 const int mend_perc = eff.is_null() ? 0.0 : 100 * eff.get_duration() / eff.get_max_duration();
 
                 const int num = mend_perc / 20;
@@ -552,7 +552,7 @@ static medical_column draw_effects_summary( const int column_count, avatar *play
                                         "The sunlight irritates you terribly.\n", max_width ) );
     }
 
-    for( auto &elem : player->addictions ) {
+    for( addiction &elem : player->addictions ) {
         if( elem.sated < 0_turns && elem.intensity >= MIN_ADDICTION_LEVEL ) {
             effects_column.add_column_line( selection_line( elem.type->get_name().translated(),
                                             elem.type->get_description().translated(), max_width ) );

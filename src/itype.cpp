@@ -64,6 +64,26 @@ std::string enum_to_string<itype_variant_kind>( itype_variant_kind data )
 }
 } // namespace io
 
+std::string itype::get_item_type_string() const
+{
+    if( tool ) {
+        return "TOOL";
+    } else if( comestible ) {
+        return "FOOD";
+    } else if( armor ) {
+        return "ARMOR";
+    } else if( book ) {
+        return "BOOK";
+    } else if( gun ) {
+        return "GUN";
+    } else if( bionic ) {
+        return "BIONIC";
+    } else if( ammo ) {
+        return "AMMO";
+    }
+    return "misc";
+}
+
 std::string itype::nname( unsigned int quantity ) const
 {
     // Always use singular form for liquids.
@@ -72,6 +92,18 @@ std::string itype::nname( unsigned int quantity ) const
         quantity = 1;
     }
     return name.translated( quantity );
+}
+
+int itype::charges_default() const
+{
+    if( tool ) {
+        return tool->def_charges;
+    } else if( comestible ) {
+        return comestible->def_charges;
+    } else if( ammo ) {
+        return ammo->def_charges;
+    }
+    return count_by_charges() ? 1 : 0;
 }
 
 int itype::charges_per_volume( const units::volume &vol ) const
@@ -251,6 +283,26 @@ int armor_portion_data::max_coverage( bodypart_str_id bp ) const
 
     // return the max of primary or hanging sublocations (this only matters for hanging items on chest)
     return std::max( primary_max_coverage, secondary_max_coverage );
+}
+
+bool armor_portion_data::should_consolidate( const armor_portion_data &l,
+        const armor_portion_data &r )
+{
+    //check if the following are equal:
+    return l.encumber == r.encumber &&
+           l.max_encumber == r.max_encumber &&
+           l.volume_encumber_modifier == r.volume_encumber_modifier &&
+           l.coverage == r.coverage &&
+           l.cover_melee == r.cover_melee &&
+           l.cover_ranged == r.cover_ranged &&
+           l.cover_vitals == r.cover_vitals &&
+           l.env_resist == r.env_resist &&
+           l.breathability == r.breathability &&
+           l.rigid == r.rigid &&
+           l.comfortable == r.comfortable &&
+           l.rigid_layer_only == r.rigid_layer_only &&
+           l.materials == r.materials &&
+           l.layers == r.layers;
 }
 
 int armor_portion_data::calc_encumbrance( units::mass weight, bodypart_id bp ) const

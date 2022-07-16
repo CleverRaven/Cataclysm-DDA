@@ -87,7 +87,7 @@ void map::add_light_from_items( const tripoint &p, const item_stack::iterator &b
 // TODO: Consider making this just clear the cache and dynamically fill it in as is_transparent() is called
 bool map::build_transparency_cache( const int zlev )
 {
-    auto &map_cache = get_cache( zlev );
+    level_cache &map_cache = get_cache( zlev );
     auto &transparent_cache_wo_fields = map_cache.transparent_cache_wo_fields;
     auto &transparency_cache = map_cache.transparency_cache;
     auto &outside_cache = map_cache.outside_cache;
@@ -192,7 +192,7 @@ bool map::build_transparency_cache( const int zlev )
 
 bool map::build_vision_transparency_cache( const int zlev )
 {
-    auto &map_cache = get_cache( zlev );
+    level_cache &map_cache = get_cache( zlev );
     auto &transparency_cache = map_cache.transparency_cache;
     auto &vision_transparency_cache = map_cache.vision_transparency_cache;
 
@@ -380,7 +380,7 @@ void map::build_sunlight_cache( int pzlev )
 
 void map::generate_lightmap( const int zlev )
 {
-    auto &map_cache = get_cache( zlev );
+    level_cache &map_cache = get_cache( zlev );
     auto &lm = map_cache.lm;
     auto &sm = map_cache.sm;
     auto &outside_cache = map_cache.outside_cache;
@@ -507,7 +507,7 @@ void map::generate_lightmap( const int zlev )
 
     // Apply any vehicle light sources
     VehicleList vehs = get_vehicles();
-    for( auto &vv : vehs ) {
+    for( wrapped_vehicle &vv : vehs ) {
         vehicle *v = vv.v;
 
         auto lights = v->lights( true );
@@ -608,7 +608,7 @@ lit_level map::light_at( const tripoint &p ) const
         return lit_level::DARK;    // Out of bounds
     }
 
-    const auto &map_cache = get_cache_ref( p.z );
+    const level_cache &map_cache = get_cache_ref( p.z );
     const auto &lm = map_cache.lm;
     const auto &sm = map_cache.sm;
     if( sm[p.x][p.y] >= LIGHT_SOURCE_BRIGHT ) {
@@ -729,7 +729,7 @@ lit_level map::apparent_light_at( const tripoint &p, const visibility_variables 
     if( cache.clairvoyance_field && field_at( p ).find_field( *cache.clairvoyance_field ) ) {
         return lit_level::BRIGHT;
     }
-    const auto &map_cache = get_cache_ref( p.z );
+    const level_cache &map_cache = get_cache_ref( p.z );
     const apparent_light_info a = apparent_light_helper( map_cache, p );
 
     // Cameras are based on their own positions.
@@ -781,7 +781,7 @@ bool map::pl_sees( const tripoint &t, const int max_range ) const
         return false;
     }
 
-    const auto &map_cache = get_cache_ref( t.z );
+    const level_cache &map_cache = get_cache_ref( t.z );
     if( map_cache.camera_cache[t.x][t.y] * map_cache.lm[t.x][t.y].max() * 0.8 >
         LIGHT_AMBIENT_LIT ) {
         return true;
@@ -805,7 +805,7 @@ bool map::pl_line_of_sight( const tripoint &t, const int max_range ) const
         return false;
     }
 
-    const auto &map_cache = get_cache_ref( t.z );
+    const level_cache &map_cache = get_cache_ref( t.z );
     if( map_cache.camera_cache[t.x][t.y] > 0.075f ) {
         return true;
     }
@@ -989,7 +989,7 @@ castLightAll<fragment_cloud, fragment_cloud, shrapnel_calc, shrapnel_check,
  */
 void map::build_seen_cache( const tripoint &origin, const int target_z )
 {
-    auto &map_cache = get_cache( target_z );
+    level_cache &map_cache = get_cache( target_z );
     float ( &transparency_cache )[MAPSIZE_X][MAPSIZE_Y] = map_cache.vision_transparency_cache;
     float ( &seen_cache )[MAPSIZE_X][MAPSIZE_Y] = map_cache.seen_cache;
     float ( &camera_cache )[MAPSIZE_X][MAPSIZE_Y] = map_cache.camera_cache;
@@ -1002,7 +1002,7 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
     const int avatar_sight_offset = std::max( 60 - get_avatar().unimpaired_range(), 0 );
     if( !fov_3d ) {
         for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
-            auto &cur_cache = get_cache( z );
+            level_cache &cur_cache = get_cache( z );
             if( z == target_z || cur_cache.seen_cache_dirty ) {
                 std::uninitialized_fill_n(
                     &cur_cache.seen_cache[0][0], map_dimensions, light_transparency_solid );
@@ -1022,7 +1022,7 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
         array_of_grids_of<const bool> floor_caches;
         vertical_direction directions_to_cast = vertical_direction::BOTH;
         for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
-            auto &cur_cache = get_cache( z );
+            level_cache &cur_cache = get_cache( z );
             transparency_caches[z + OVERMAP_DEPTH] = &cur_cache.vision_transparency_cache;
             seen_caches[z + OVERMAP_DEPTH] = &cur_cache.seen_cache;
             floor_caches[z + OVERMAP_DEPTH] = &cur_cache.floor_cache;
@@ -1124,8 +1124,7 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
 }
 
 //Schraudolph's algorithm with John's constants
-static inline
-float fastexp( float x )
+static float fastexp( float x )
 {
     union {
         float f;
@@ -1156,7 +1155,7 @@ static bool light_check( const float &transparency, const float &intensity )
 
 void map::apply_light_source( const tripoint &p, float luminance )
 {
-    auto &cache = get_cache( p.z );
+    level_cache &cache = get_cache( p.z );
     four_quadrants( &lm )[MAPSIZE_X][MAPSIZE_Y] = cache.lm;
     float ( &sm )[MAPSIZE_X][MAPSIZE_Y] = cache.sm;
     float ( &transparency_cache )[MAPSIZE_X][MAPSIZE_Y] = cache.transparency_cache;
@@ -1238,7 +1237,7 @@ void map::apply_directional_light( const tripoint &p, int direction, float lumin
 {
     const point p2( p.xy() );
 
-    auto &cache = get_cache( p.z );
+    level_cache &cache = get_cache( p.z );
     four_quadrants( &lm )[MAPSIZE_X][MAPSIZE_Y] = cache.lm;
     float ( &transparency_cache )[MAPSIZE_X][MAPSIZE_Y] = cache.transparency_cache;
 
@@ -1284,7 +1283,7 @@ void map::apply_light_arc( const tripoint &p, const units::angle &angle, float l
 
     const point p2( p.xy() );
 
-    auto &cache = get_cache( p.z );
+    level_cache &cache = get_cache( p.z );
     four_quadrants( &lm )[MAPSIZE_X][MAPSIZE_Y] = cache.lm;
     float( &transparency_cache )[MAPSIZE_X][MAPSIZE_Y] = cache.transparency_cache;
 

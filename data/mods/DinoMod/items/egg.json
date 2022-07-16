@@ -188,6 +188,13 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "egg_nanuqsaurus",
+    "name": "nanuqsaurus egg",
+    "copy-from": "egg_dino_theropod",
+    "rot_spawn": "GROUP_EGG_nanuqsaurus"
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "egg_daspletosaurus",
     "name": "daspletosaurus egg",
     "copy-from": "egg_dino_theropod",
@@ -248,6 +255,13 @@
     "name": "anzu egg",
     "copy-from": "egg_dino_theropod",
     "rot_spawn": "GROUP_EGG_anzu"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_saurornitholestes",
+    "name": "saurornitholestes egg",
+    "copy-from": "egg_dino_theropod_small",
+    "rot_spawn": "GROUP_EGG_saurornitholestes"
   },
   {
     "type": "COMESTIBLE",
@@ -391,6 +405,13 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "egg_dryosaurus",
+    "name": "dryosaurus egg",
+    "copy-from": "egg_dino_small",
+    "rot_spawn": "GROUP_EGG_dryosaurus"
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "egg_camptosaurus",
     "name": "camptosaurus egg",
     "copy-from": "egg_dino",
@@ -440,6 +461,13 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "egg_aquilops",
+    "name": "aquilops egg",
+    "copy-from": "egg_dino_small",
+    "rot_spawn": "GROUP_EGG_aquilops"
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "egg_pachyrhinosaurus",
     "name": "pachyrhinosaurus egg",
     "copy-from": "egg_dino",
@@ -475,31 +503,31 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "egg_oryctodromeus",
+    "name": "oryctodromeus egg",
+    "copy-from": "egg_dino_small",
+    "rot_spawn": "GROUP_EGG_oryctodromeus"
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "egg_dimorphodon",
     "name": "dimorphodon egg",
-    "copy-from": "egg_dino_small",
+    "copy-from": "egg_reptile",
     "rot_spawn": "GROUP_EGG_dimorphodon"
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_pteranodon",
     "name": "pteranodon egg",
-    "copy-from": "egg_dino",
+    "copy-from": "egg_reptile",
     "rot_spawn": "GROUP_EGG_pteranodon"
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_quetzalcoatlus",
     "name": "quetzalcoatlus egg",
-    "copy-from": "egg_dino",
+    "copy-from": "egg_reptile",
     "rot_spawn": "GROUP_EGG_quetzalcoatlus"
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "egg_mosasaurus",
-    "name": "mosasaurus egg",
-    "copy-from": "egg_dino_large",
-    "rot_spawn": "GROUP_EGG_mosasaurus"
   },
   {
     "type": "COMESTIBLE",
@@ -539,7 +567,7 @@
     "color": "white",
     "symbol": "o",
     "quench": -15,
-    "description": "A large hard-boiled dinosaur egg, still in its shell.  Portable and nutritious!",
+    "description": "A large hard-boiled dinosaur egg, still in its shell.  It may be wise to disassemble it into two pieces to eat.",
     "price": 595,
     "price_postapoc": 300,
     "material": [ "egg" ],

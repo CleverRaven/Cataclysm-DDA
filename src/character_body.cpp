@@ -74,7 +74,6 @@ static const trait_id trait_LUPINE_FUR( "LUPINE_FUR" );
 static const trait_id trait_M_DEPENDENT( "M_DEPENDENT" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_PYROMANIA( "PYROMANIA" );
-static const trait_id trait_RADIOGENIC( "RADIOGENIC" );
 static const trait_id trait_SLIMY( "SLIMY" );
 static const trait_id trait_URSINE_FUR( "URSINE_FUR" );
 
@@ -176,8 +175,8 @@ void Character::update_body()
 
 // Returns the number of multiples of tick_length we would "pass" on our way `from` to `to`
 // For example, if `tick_length` is 1 hour, then going from 0:59 to 1:01 should return 1
-static inline int ticks_between( const time_point &from, const time_point &to,
-                                 const time_duration &tick_length )
+static int ticks_between( const time_point &from, const time_point &to,
+                          const time_duration &tick_length )
 {
     return ( to_turn<int>( to ) / to_turns<int>( tick_length ) ) - ( to_turn<int>
             ( from ) / to_turns<int>( tick_length ) );
@@ -237,6 +236,31 @@ void Character::update_body( const time_point &from, const time_point &to )
         mend( five_mins * to_turns<int>( 5_minutes ) );
         activity_history.reset_activity_level();
     }
+    bool was_sleeping = get_value( "was_sleeping" ) == "true";
+    if( in_sleep_state() && was_sleeping ) {
+        needs_rates tmp_rates;
+        calc_sleep_recovery_rate( tmp_rates );
+        const int fatigue_regen_rate = tmp_rates.recovery;
+        const time_duration effective_time_slept = ( to - from ) * fatigue_regen_rate;
+        mod_daily_sleep( effective_time_slept );
+        mod_continuous_sleep( effective_time_slept );
+    }
+    if( was_sleeping && !in_sleep_state() ) {
+        if( get_continuous_sleep() >= 6_hours ) {
+            set_value( "sleep_health_mult", "2" );
+        }
+        reset_continuous_sleep();
+    }
+    if( calendar::once_every( 12_hours ) ) {
+        const int sleep_health_mult = get_value( "sleep_health_mult" ) == "2" ? 2 : 1;
+        mod_daily_health( sleep_health_mult * to_hours<int>( get_daily_sleep() ), 10 );
+        set_value( "sleep_health_mult", "1" );
+    }
+    if( calendar::once_every( 1_days ) ) {
+        reset_daily_sleep();
+    }
+    set_value( "was_sleeping", in_sleep_state() ? "true" : "false" );
+
 
     activity_history.new_turn( in_sleep_state() );
     if( ticks_between( from, to, 24_hours ) > 0 && !has_flag( json_flag_NO_MINIMAL_HEALING ) ) {
@@ -247,7 +271,7 @@ void Character::update_body( const time_point &from, const time_point &to )
     if( calendar::once_every( 1_days ) ) {
         // not getting below half stamina even once in a whole day is not healthy
         if( get_value( "got_to_half_stam" ).empty() ) {
-            mod_healthy_mod( -4, -200 );
+            mod_daily_health( -4, -200 );
         } else {
             remove_value( "got_to_half_stam" );
         }
@@ -256,19 +280,19 @@ void Character::update_body( const time_point &from, const time_point &to )
 
         int cardio_accumultor = get_cardio_acc();
         if( cardio_accumultor > 0 ) {
-            mod_healthy_mod( 1, 200 );
+            mod_daily_health( 1, 200 );
             if( cardio_accumultor >= 10 ) {
-                mod_healthy_mod( 1, 200 );
+                mod_daily_health( 1, 200 );
             }
         }
         if( cardio_accumultor < 0 ) {
-            mod_healthy_mod( -1, -200 );
+            mod_daily_health( -1, -200 );
             if( cardio_accumultor <= -10 ) {
-                mod_healthy_mod( -1, -200 );
+                mod_daily_health( -1, -200 );
             }
         }
         if( cardio_accumultor >= get_bmr() / 2 ) {
-            mod_healthy_mod( 2, 200 );
+            mod_daily_health( 2, 200 );
         }
     }
 
@@ -299,18 +323,17 @@ void Character::update_body( const time_point &from, const time_point &to )
             const double rda = 1_days / rate;
             const int &vit_quantity = vitamin_get( v.first );
             if( vit_quantity > 0.5 * rda ) {
-                mod_healthy_mod( 1, 200 );
+                mod_daily_health( 1, 200 );
             }
             if( vit_quantity > 0.90 * rda ) {
-                mod_healthy_mod( 1, 200 );
+                mod_daily_health( 1, 200 );
             }
         }
     }
 
     const int thirty_mins = ticks_between( from, to, 30_minutes );
     if( thirty_mins > 0 ) {
-        // Radiation kills health even at low doses
-        update_health( has_trait( trait_RADIOGENIC ) ? 0 : -get_rad() );
+        update_health();
         get_sick();
     }
 
@@ -386,8 +409,8 @@ void Character::update_bodytemp()
     }
     const oter_id &cur_om_ter = overmap_buffer.ter( global_omt_location() );
     bool sheltered = g->is_sheltered( pos() );
-    double total_windpower = get_local_windpower( weather_man.windspeed + vehwindspeed, cur_om_ter,
-                             pos(), weather_man.winddirection, sheltered );
+    int bp_windpower = get_local_windpower( weather_man.windspeed + vehwindspeed, cur_om_ter,
+                                            pos(), weather_man.winddirection, sheltered );
     // Let's cache this not to check it for every bodyparts
     const bool has_bark = has_trait( trait_BARK );
     const bool has_sleep = has_effect( effect_sleep );
@@ -462,7 +485,6 @@ void Character::update_bodytemp()
         // This adjusts the temperature scale to match the bodytemp scale,
         // it needs to be reset every iteration
         int adjusted_temp = Ctemperature - ambient_norm;
-        int bp_windpower = total_windpower;
         // Represents the fact that the body generates heat when it is cold.
         // TODO: : should this increase hunger?
         double scaled_temperature = logarithmic_range( BODYTEMP_VERY_COLD, BODYTEMP_VERY_HOT,
@@ -1104,7 +1126,7 @@ bodypart_id Character::body_window( const std::string &menu_header,
             if( no_feeling ) {
                 hp_str = colorize( "==%==", c_blue );
             } else {
-                const auto &eff = get_effect( effect_mending, bp );
+                const effect &eff = get_effect( effect_mending, bp );
                 const int mend_perc = eff.is_null() ? 0.0 : 100 * eff.get_duration() / eff.get_max_duration();
 
                 const int num = mend_perc / 20;

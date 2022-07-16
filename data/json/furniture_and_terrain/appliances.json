@@ -198,6 +198,16 @@
   },
   {
     "type": "vehicle_part",
+    "id": "ap_stereo",
+    "name": { "str": "Stereo System" },
+    "location": "structure",
+    "description": "A stereo system.  When turned on, it plays music, improving your mood.",
+    "item": "stereo",
+    "flags": [ "STEREO", "APPLIANCE", "ENABLED_DRAINS_EPOWER" ],
+    "copy-from": "stereo"
+  },
+  {
+    "type": "vehicle_part",
     "id": "ap_chemlab",
     "name": { "str": "chemistry lab" },
     "location": "structure",
@@ -516,7 +526,7 @@
     "type": "vehicle_part",
     "name": { "str": "makeshift ammonia machine reactor" },
     "item": "nitrogen_generator",
-    "description": "A huge appliance built from salvaged industrial equipment which produces ammonia via the Haber–Bosch process from hydrogen and nitrogen, with a power cord to connect it to an electric grid.",
+    "description": "A huge appliance built from salvaged industrial equipment which produces ammonia via the Haber-Bosch process from hydrogen and nitrogen, with a power cord to connect it to an electric grid.",
     "categories": [ "utility" ],
     "location": "structure",
     "symbol": "&",

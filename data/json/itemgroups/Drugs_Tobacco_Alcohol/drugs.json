@@ -170,7 +170,6 @@
         "charges-max": 9
       },
       { "item": "caff_gum", "prob": 10, "charges": [ 1, 10 ] },
-      { "item": "oxygen_tank", "prob": 20, "charges": [ 0, 24 ] },
       { "item": "smoxygen_tank", "prob": 5, "charges": [ 0, 12 ] },
       [ "eyedrops", 35 ],
       { "item": "shavingkit", "prob": 5, "charges": [ 0, 10 ] },

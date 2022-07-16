@@ -14,23 +14,26 @@ struct disp_overmap_cache {
         tripoint_abs_omt _center;
         tripoint_abs_omt _mission;
         std::string _om_wgt_str;
+        int _width;
 
     public:
         disp_overmap_cache();
 
         // Returns true if the stored overmap string can be used with the given
         // center (player) position and mission target.
-        bool is_valid_for( const tripoint_abs_omt &center, const tripoint_abs_omt &mission ) const {
-            return _center == center && _mission == mission;
+        bool is_valid_for( const tripoint_abs_omt &center,
+                           const tripoint_abs_omt &mission, int width ) const {
+            return _center == center && _mission == mission && _width == width;
         }
 
         // Rebuild the cache using the validation parameters "center" and "mission"
         // and store the associated widget string.
-        void rebuild( const tripoint_abs_omt &center, const tripoint_abs_omt &mission,
+        void rebuild( const tripoint_abs_omt &center, const tripoint_abs_omt &mission, int width,
                       const std::string &om_wgt_str ) {
             _center = center;
             _mission = mission;
             _om_wgt_str = om_wgt_str;
+            _width = width;
         }
 
         // Retrieve the cached widget string
@@ -42,17 +45,18 @@ struct disp_overmap_cache {
 struct disp_bodygraph_cache {
     private:
         std::map<bodypart_id, std::pair<int, int>> _bp_cur_max;
+        std::string _graph_id;
         std::string _graph_wgt_str;
 
     public:
         disp_bodygraph_cache();
 
         // Returns true if the stored map of current/max HP values differ from the character.
-        bool is_valid_for( const Character &u ) const;
+        bool is_valid_for( const Character &u, std::string graph_id ) const;
 
         // Rebuild the cache using the bodypart HP values from the character and
         // store the resulting widget string.
-        void rebuild( const Character &u, const std::string &bg_wgt_str );
+        void rebuild( const Character &u, std::string graph_id, const std::string &bg_wgt_str );
 
         // Retrieve the cached widget string
         const std::string &get_val() const {
@@ -78,6 +82,10 @@ std::string time_approx( const time_point &turn );
 std::string time_approx();
 // Exact time if character has a watch, approx time if aboveground, "???" if unknown/underground
 std::string time_string( const Character &u );
+// Sundial representing the current time of day
+std::string sundial_text_color( const Character &u, int width = 0 );
+// Sundial representing the current time of day, exact time if player has a watch, "???" if unknown/underground
+std::string sundial_time_text_color( const Character &u, int width );
 
 // Temperature at character location, if they have a thermometer
 std::string get_temp( const Character &u );

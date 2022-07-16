@@ -87,6 +87,8 @@
       { "item": "robofac20", "count": 5, "prob": 100 },
       { "item": "robofac10", "count": 5, "prob": 100 },
       { "item": "robofac50", "count": 2, "prob": 100 },
+      { "item": "robofacmultimag", "count": 5, "prob": 100 },
+      { "item": "robofac30", "count": 2, "prob": 100 },
       { "item": "robofac100", "count": 2, "prob": 100 }
     ]
   },
@@ -108,6 +110,8 @@
           { "item": "robofac_gun_smg", "prob": 100, "count": 1 },
           { "item": "robofac_gun_dmr", "prob": 100, "count": 1 },
           { "item": "robofac_gun_shotgun", "prob": 100, "count": 1 },
+          { "item": "robofac_gun_46", "prob": 100, "count": 1 },
+          { "item": "robofac_gun_57", "prob": 100, "count": 1 },
           { "item": "robofac_gun_kit", "prob": 100, "count": 1 }
         ],
         "prob": 25

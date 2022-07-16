@@ -154,7 +154,21 @@ bool is_mouse_enabled();
 bool is_keycode_mode_supported();
 std::string get_input_string_from_file( const std::string &fname = "input.txt" );
 
-enum mouse_buttons { MOUSE_BUTTON_LEFT = 1, MOUSE_BUTTON_RIGHT, SCROLLWHEEL_UP, SCROLLWHEEL_DOWN, MOUSE_MOVE };
+// Mouse buttons and movement input
+enum class MouseInput : int {
+
+    LeftButtonPressed = 1,
+    LeftButtonReleased,
+
+    RightButtonPressed,
+    RightButtonReleased,
+
+    ScrollWheelUp,
+    ScrollWheelDown,
+
+    Move
+
+};
 
 enum class input_event_t : int  {
     error,
@@ -211,12 +225,52 @@ struct input_event {
         : type( t ), edit_refresh( false ) {
         sequence.push_back( s );
     }
+
+    // overloaded function for a mouse input
+    // made for a cleaner code, to get rid of static_cast's from scoped enum to int
+    //
+    // Instead of:
+    //
+    //    input_event( static_cast<int>( MouseInput::Move ), ... )
+    //    input_event( static_cast<int>( MouseInput::LeftButtonPressed ), ... )
+    //    input_event( static_cast<int>( MouseInput::RightButtonPressed ), ... )
+    //
+    // we now can just use
+    //
+    //    input_event( MouseInput::Move, ... )
+    //    input_event( MouseInput::LeftButtonPressed, ... )
+    //    input_event( MouseInput::RightButtonPressed, ... )
+    //
+    input_event( const MouseInput s, input_event_t t )
+        : type( t ), edit_refresh( false ) {
+        sequence.push_back( static_cast<int>( s ) );
+    }
+
     input_event( const std::set<keymod_t> &mod, int s, input_event_t t );
 
     int get_first_input() const;
 
     void add_input( const int input ) {
         sequence.push_back( input );
+    }
+
+    // overloaded function for a mouse input
+    // made for a cleaner code, to get rid of static_cast's from scoped enum to int
+    //
+    // Instead of:
+    //
+    //    add_input( static_cast<int>( MouseInput::Move ) )
+    //    add_input( static_cast<int>( MouseInput::LeftButtonPressed ) )
+    //    add_input( static_cast<int>( MouseInput::RightButtonPressed ) )
+    //
+    // we now can just use
+    //
+    //    add_input( MouseInput::Move )
+    //    add_input( MouseInput::LeftButtonPressed )
+    //    add_input( MouseInput::RightButtonPressed )
+    //
+    void add_input( const MouseInput mouse_input ) {
+        sequence.push_back( static_cast<int>( mouse_input ) );
     }
 
     bool operator==( const input_event &other ) const {
@@ -425,8 +479,7 @@ class input_manager
         void add_keyboard_char_keycode_pair( int ch, const std::string &name );
         void add_keyboard_code_keycode_pair( int ch, const std::string &name );
         void add_gamepad_keycode_pair( int ch, const std::string &name );
-        void add_mouse_keycode_pair( int ch, const std::string &name );
-
+        void add_mouse_keycode_pair( MouseInput mouse_input, const std::string &name );
         /**
          * Load keybindings from a json file, override existing bindings.
          * Throws std::string on errors

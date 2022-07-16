@@ -10,24 +10,24 @@ static const character_modifier_id character_modifier_reloading_move_mod( "reloa
 static const itype_id itype_battery( "battery" );
 static const skill_id skill_gun( "gun" );
 
-int Character::ammo_count_for( const item &gun )
+int Character::ammo_count_for( const item_location &gun )
 {
     int ret = item::INFINITE_CHARGES;
-    if( !gun.is_gun() ) {
+    if( !gun || !gun->is_gun() ) {
         return ret;
     }
 
-    int required = gun.ammo_required();
+    int required = gun->ammo_required();
 
     if( required > 0 ) {
         int total_ammo = 0;
-        total_ammo += gun.ammo_remaining();
+        total_ammo += gun->ammo_remaining();
 
-        bool has_mag = gun.magazine_integral();
+        bool has_mag = gun->magazine_integral();
 
-        const auto found_ammo = find_ammo( gun, true, -1 );
+        const auto found_ammo = find_ammo( *gun, true, -1 );
         int loose_ammo = 0;
-        for( const auto &ammo : found_ammo ) {
+        for( const item_location &ammo : found_ammo ) {
             if( ammo->is_magazine() ) {
                 has_mag = true;
                 total_ammo += ammo->ammo_remaining();
@@ -43,7 +43,7 @@ int Character::ammo_count_for( const item &gun )
         ret = std::min( ret, total_ammo / required );
     }
 
-    int ups_drain = gun.get_gun_ups_drain();
+    int ups_drain = gun->get_gun_ups_drain();
     if( ups_drain > 0 ) {
         ret = std::min( ret, available_ups() / ups_drain );
     }
@@ -211,7 +211,7 @@ item::reload_option Character::select_ammo( const item &base,
     }
 
     auto draw_row = [&]( int idx ) {
-        const auto &sel = opts[ idx ];
+        const item::reload_option &sel = opts[ idx ];
         std::string row = string_format( "%s| %s | %s |", names[ idx ], where[ idx ], destination[ idx ] );
         row += string_format( ( sel.ammo->is_ammo() ||
                                 sel.ammo->is_ammo_container() ) ? " %-7d |" : "         |", sel.qty() );

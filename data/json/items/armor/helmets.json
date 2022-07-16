@@ -62,7 +62,59 @@
     "material_thickness": 9,
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "PADDED" ],
-    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 85, "covers": [ "head" ] } ]
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 85, "covers": [ "head" ] } ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "500 g",
+        "moves": 250,
+        "description": "Pocket for a face shield or a shield visor.",
+        "flag_restriction": [ "HELMET_FACE_SHIELD" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "400 g",
+        "moves": 250,
+        "description": "Pocket for an ear attachment.",
+        "flag_restriction": [ "HELMET_EAR_ATTACHMENT" ],
+        "inherits_flags": true
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "250 g",
+        "moves": 250,
+        "description": "Pocket for a nape protector.",
+        "flag_restriction": [ "HELMET_NAPE_PROTECTOR" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "400 g",
+        "moves": 250,
+        "description": "Pocket for a strapped mandible guard.",
+        "flag_restriction": [ "HELMET_MANDIBLE_GUARD_STRAPPED" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "400 ml",
+        "max_contains_weight": "400 g",
+        "moves": 250,
+        "description": "Pocket for a counterweight pouch.",
+        "flag_restriction": [ "HELMET_BACK_POUCH" ]
+      }
+    ]
   },
   {
     "id": "tac_fullhelmet",
@@ -113,7 +165,59 @@
     "material_thickness": 8,
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "PADDED" ],
-    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 95, "covers": [ "head" ] } ]
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 95, "covers": [ "head" ] } ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "500 g",
+        "moves": 250,
+        "description": "Pocket for a face shield or a shield visor.",
+        "flag_restriction": [ "HELMET_FACE_SHIELD" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "400 g",
+        "moves": 250,
+        "description": "Pocket for an ear attachment.",
+        "flag_restriction": [ "HELMET_EAR_ATTACHMENT" ],
+        "inherits_flags": true
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "250 g",
+        "moves": 250,
+        "description": "Pocket for a nape protector.",
+        "flag_restriction": [ "HELMET_NAPE_PROTECTOR" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "400 g",
+        "moves": 250,
+        "description": "Pocket for a mandible guard.",
+        "flag_restriction": [ "HELMET_MANDIBLE_GUARD" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "400 ml",
+        "max_contains_weight": "400 g",
+        "moves": 250,
+        "description": "Pocket for a counterweight pouch.",
+        "flag_restriction": [ "HELMET_BACK_POUCH" ]
+      }
+    ]
   },
   {
     "id": "firehelmet",
@@ -225,7 +329,29 @@
     "material_thickness": 4,
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "PADDED" ],
-    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 75, "covers": [ "head" ] } ]
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 75, "covers": [ "head" ] } ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "200 ml",
+        "max_contains_weight": "50 g",
+        "moves": 250,
+        "description": "Pocket for a shield visor.",
+        "flag_restriction": [ "HELMET_FACE_SHIELD" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "400 g",
+        "moves": 250,
+        "description": "Pocket for a strapped mandible guard.",
+        "flag_restriction": [ "HELMET_MANDIBLE_GUARD_STRAPPED" ]
+      }
+    ]
   },
   {
     "id": "helmet_chitin",
@@ -267,7 +393,7 @@
     "copy-from": "helmet_chitin",
     "looks_like": "helmet_chitin",
     "name": { "str": "XS chitinous helmet" },
-    "description": "A helmet made from the exoskeletons of insects.  Covers the entire head; very light and durable.",
+    "description": "A helmet made from the exoskeletons of insects.  Covering the entire head, it is very light and durable.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "flags": [ "WATERPROOF", "STURDY", "UNDERSIZE" ]
   },
@@ -497,7 +623,7 @@
     "id": "helmet_skull",
     "type": "ARMOR",
     "name": { "str": "large wolf skull" },
-    "description": "The top part of an unusually large wolf skull equipped with leather straps to secure it on your head.  Every inch of it has been carved with a maze of fine intertwined symbols that make your eyes water.",
+    "description": "The top part of an unusually large wolf skull, equipped with leather straps to secure it on your head.  Every inch of the skull has been carved with a maze of fine, intertwined symbols that make your eyes water.",
     "weight": "1 kg",
     "volume": "3 L",
     "price": 1400,
@@ -514,7 +640,7 @@
     "repairs_like": "balclava",
     "type": "ARMOR",
     "name": { "str": "helmet liner" },
-    "description": "This goes inside a helmet to help keep your head warm in cold climates.",
+    "description": "A cloth liner worn inside a helmet to help keep your head warm in cold climates.",
     "weight": "110 g",
     "volume": "250 ml",
     "price": 1000,
@@ -536,7 +662,7 @@
     "type": "TOOL_ARMOR",
     "category": "armor",
     "name": { "str": "motorcycle helmet" },
-    "description": "A helmet with covers for your head and chin, leaving space in-between for you to wear goggles.  Activate to raise the visor.",
+    "description": "A helmet with covers for the head and chin, leaving space in-between for you to wear goggles.  Activate to raise the visor.",
     "weight": "1587 g",
     "volume": "2250 ml",
     "price": 32500,
@@ -593,7 +719,7 @@
     "type": "TOOL_ARMOR",
     "category": "armor",
     "name": { "str": "motorcycle helmet (raised visor)", "str_pl": "motorcycle helmets (raised visor)" },
-    "description": "A helmet with covers for your head and chin, leaving space in-between for you to wear goggles.  The visor is raised.  Activate to put down the visor.",
+    "description": "A helmet with covers for the head and chin, leaving space in-between for you to wear goggles.  The visor is raised.  Activate to put down the visor.",
     "weight": "1587 g",
     "volume": "2250 ml",
     "price": 32500,
@@ -713,7 +839,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "kettle helmet" },
-    "description": "A wide brimmed helmet that looks somewhat like a metal cowboy hat.  Sadly, it won't help protect your eyes from the sun.",
+    "description": "A wide-brimmed helmet that looks somewhat like a metal cowboy hat.  Sadly, it won't help protect your eyes from the sun.",
     "weight": "2555 g",
     "volume": "2050 ml",
     "price": 30000,
@@ -735,7 +861,7 @@
     "type": "ARMOR",
     "copy-from": "helmet_kettle",
     "name": { "str": "XL kettle helmet" },
-    "description": "A wide brimmed helmet that looks somewhat like a metal cowboy hat.  Sadly, it won't help protect your eyes from the sun.  This one is larger than average.",
+    "description": "A wide-brimmed helmet that looks somewhat like a metal cowboy hat.  Sadly, it won't help protect your eyes from the sun.  This one is larger than average.",
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -831,7 +957,29 @@
     "warmth": 15,
     "material_thickness": 3,
     "flags": [ "STAB", "PADDED" ],
-    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 70, "covers": [ "head" ] } ]
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 70, "covers": [ "head" ] } ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "250 g",
+        "moves": 250,
+        "description": "Pocket for a nape protector.",
+        "flag_restriction": [ "HELMET_NAPE_PROTECTOR" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "400 g",
+        "moves": 250,
+        "description": "Pocket for a strapped mandible guard.",
+        "flag_restriction": [ "HELMET_MANDIBLE_GUARD_STRAPPED" ]
+      }
+    ]
   },
   {
     "id": "helmet_corinthian",
@@ -992,6 +1140,7 @@
     "copy-from": "lc_helm_close",
     "type": "ARMOR",
     "name": { "str": "mild steel close helm (raised)", "str_pl": "mild steel close helms (raised)" },
+    "description": "A type of helmet that was developed in the late 15th century.  Evolving from the sallet and armet, it includes a bevor to protect the neck.  Activate it to lower the visor.",
     "use_action": { "type": "transform", "msg": "You lower the helm's visor.", "target": "mc_helm_close", "menu_text": "Lower" },
     "looks_like": "helmet_barbute",
     "armor": [
@@ -1076,6 +1225,7 @@
     "copy-from": "mc_helm_close",
     "type": "ARMOR",
     "name": { "str": "medium steel close helm (raised)", "str_pl": "medium steel close helms (raised)" },
+    "description": "A type of helmet that was developed in the late 15th century.  Evolving from the sallet and armet, it includes a bevor to protect the neck.  Activate it to lower the visor.",
     "use_action": { "type": "transform", "msg": "You lower the helm's visor.", "target": "hc_helm_close", "menu_text": "Lower" },
     "looks_like": "helmet_barbute",
     "armor": [
@@ -1160,6 +1310,7 @@
     "copy-from": "hc_helm_close",
     "type": "ARMOR",
     "name": { "str": "high steel close helm (raised)", "str_pl": "high steel close helms (raised)" },
+    "description": "A type of helmet that was developed in the late 15th century.  Evolving from the sallet and armet, it includes a bevor to protect the neck.  Activate it to lower the visor.",
     "use_action": { "type": "transform", "msg": "You lower the helm's visor.", "target": "ch_helm_close", "menu_text": "Lower" },
     "looks_like": "helmet_barbute",
     "armor": [
@@ -1244,6 +1395,7 @@
     "copy-from": "ch_helm_close",
     "type": "ARMOR",
     "name": { "str": "hardened steel close helm (raised)", "str_pl": "hardened steel close helms (raised)" },
+    "description": "A type of helmet that was developed in the late 15th century.  Evolving from the sallet and armet, it includes a bevor to protect the neck.  Activate it to lower the visor.",
     "use_action": { "type": "transform", "msg": "You lower the helm's visor.", "target": "ch_helm_close", "menu_text": "Lower" },
     "looks_like": "helmet_barbute",
     "armor": [
@@ -1328,6 +1480,7 @@
     "copy-from": "qt_helm_close",
     "type": "ARMOR",
     "name": { "str": "tempered steel close helm (raised)", "str_pl": "tempered steel close helms (raised)" },
+    "description": "A type of helmet that was developed in the late 15th century.  Evolving from the sallet and armet, it includes a bevor to protect the neck.  Activate it to lower the visor.",
     "use_action": { "type": "transform", "msg": "You lower the helm's visor.", "target": "qt_helm_close", "menu_text": "Lower" },
     "looks_like": "helmet_barbute",
     "armor": [

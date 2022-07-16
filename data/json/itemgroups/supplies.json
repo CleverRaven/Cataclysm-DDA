@@ -27,6 +27,7 @@
       [ "lightstrip_inactive", 60 ],
       [ "compressor", 10 ],
       [ "hd_compressor", 2 ],
+      [ "magnet", 5 ],
       [ "motor_small", 10 ],
       [ "motor_tiny", 30 ],
       [ "motor_micro", 40 ],
@@ -61,7 +62,8 @@
       [ "p_paint", 45 ],
       [ "y_paint", 45 ],
       [ "chipper", 55 ],
-      [ "paint_brush", 55 ]
+      [ "paint_brush", 55 ],
+      { "item": "chem_turpentine", "prob": 45, "charges-min": 20 }
     ]
   },
   {
@@ -241,6 +243,7 @@
       [ "solder_wire", 20 ],
       [ "superglue", 30 ],
       [ "rubber_cement", 25 ],
+      [ "magnet", 10 ],
       [ "chain", 20 ],
       [ "rope_6", 4 ],
       [ "rope_30", 35 ],
@@ -300,7 +303,8 @@
       [ "tarp", 15 ],
       [ "tempered_glass_sheet", 25 ],
       [ "rigid_plastic_sheet", 30 ],
-      [ "gas_forge", 15 ]
+      [ "gas_forge", 15 ],
+      { "item": "chem_turpentine", "prob": 20, "charges-min": 20 }
     ]
   },
   {
@@ -318,6 +322,7 @@
       [ "oxy_powder", 10 ],
       [ "ash", 5 ],
       [ "lye", 5 ],
+      [ "lye_potassium", 5 ],
       { "item": "lye_powder", "prob": 10, "charges": [ 100, 200 ] },
       { "item": "magnesium", "prob": 10, "charges": [ 50, 100 ] },
       { "item": "charcoal", "prob": 10, "charges": [ 25, 50 ] },
@@ -326,6 +331,13 @@
       [ "chem_aluminium_powder", 10 ],
       [ "chem_aluminium_sulphate", 10 ],
       [ "chem_saltpetre", 10 ],
+      { "item": "bismuth", "prob": 5, "charges-min": 1 },
+      { "item": "chem_benzene", "prob": 10, "charges-min": 1 },
+      { "item": "chem_toluene", "prob": 10, "charges-min": 1 },
+      { "item": "chem_antimony_trichloride", "prob": 2, "charges-min": 1 },
+      { "item": "chem_ferric_chloride", "prob": 15, "charges-min": 1 },
+      { "item": "chem_nickel_powder", "prob": 5, "charges-min": 1 },
+      { "item": "chem_slaked_lime", "prob": 5, "charges-min": 1 },
       { "item": "chem_baking_soda", "prob": 10, "charges-min": 1 },
       { "item": "chem_washing_soda", "prob": 10, "charges-min": 1 },
       { "item": "chem_calcium_chloride", "prob": 5 },
@@ -362,7 +374,8 @@
       { "item": "chem_ethanol", "prob": 10, "charges-min": 250 },
       [ "oxygen_cylinder", 8 ],
       { "item": "chem_citric_acid", "prob": 16, "charges-min": 100 },
-      { "item": "chem_ethanol", "prob": 10, "charges-min": 250 }
+      { "item": "chem_ethanol", "prob": 10, "charges-min": 250 },
+      { "item": "chem_turpentine", "prob": 10, "charges-min": 20 }
     ]
   },
   {

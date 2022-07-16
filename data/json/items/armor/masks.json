@@ -32,7 +32,7 @@
     "id": "balaclava_cut_resistant",
     "type": "ARMOR",
     "name": { "str": "cut-resistant balaclava" },
-    "description": "A face covering garment that helps protect from slashes and cuts, in addition to the cold.",
+    "description": "A face covering that helps protect from slashes and cuts, in addition to the cold.",
     "copy-from": "balclava",
     "price": 7600,
     "material": [ "kevlar" ]
@@ -196,7 +196,7 @@
       {
         "id": "flower_mask_dust",
         "name": { "str": "flower dust mask" },
-        "description": "It's yellow and decorated in a pattern full of flowers.",
+        "description": "It's yellow and decorated with a flower pattern.",
         "color": "yellow",
         "weight": 6,
         "append": true
@@ -204,7 +204,7 @@
       {
         "id": "camo_mask_dust",
         "name": { "str": "camo dust mask" },
-        "description": "It's painted in camouflage dye.",
+        "description": "It's printed with a camouflage pattern.",
         "color": "green",
         "weight": 4,
         "append": true
@@ -212,7 +212,7 @@
       {
         "id": "mustache_mask_dust",
         "name": { "str": "mustache dust mask" },
-        "description": "It has a large mustache painted on it.",
+        "description": "It has a large mustache printed on it.",
         "symbol": "w",
         "color": "dark_gray",
         "weight": 2,
@@ -221,7 +221,7 @@
       {
         "id": "skull_mask_dust",
         "name": { "str": "skull dust mask" },
-        "description": "It's black and with a skull mouth decoration.",
+        "description": "It's black, with a skull mouth design.",
         "symbol": "S",
         "color": "dark_gray",
         "weight": 2,
@@ -230,7 +230,7 @@
       {
         "id": "cartoon_mask_dust",
         "name": { "str": "cartoon dust mask" },
-        "description": "It has cartoon characters painted on it.",
+        "description": "It has cartoon characters printed on it.",
         "color": "light_red",
         "weight": 2,
         "append": true
@@ -238,7 +238,7 @@
       {
         "id": "steampunk_mask_dust",
         "name": { "str": "steampunk dust mask" },
-        "description": "It's colored black and with a steampunk design.  Very fashionable.",
+        "description": "It's colored black, with a steampunk design.  Very fashionable.",
         "color": "dark_gray",
         "weight": 2,
         "append": true
@@ -246,7 +246,7 @@
       {
         "id": "flag_mask_dust",
         "name": { "str": "flag dust mask" },
-        "description": "It's embroidered with the pattern of an American flag.  Perfect for a real patriot.",
+        "description": "It's printed with an American flag pattern.  Perfect for a real patriot.",
         "color": "light_red",
         "weight": 2,
         "append": true
@@ -302,7 +302,7 @@
     "id": "mask_rioter",
     "type": "ARMOR",
     "name": { "str": "rioter mask" },
-    "description": "This is a t-shirt with sleeves tied on the back.  These are usually worn by rioters to hide their identity.",
+    "description": "A t-shirt with the sleeves tied behind the back of one's head.  These are usually worn by rioters to hide their identity.",
     "weight": "123 g",
     "volume": "500 ml",
     "price": 800,

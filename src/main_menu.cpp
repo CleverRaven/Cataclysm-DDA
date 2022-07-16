@@ -541,38 +541,7 @@ bool main_menu::opening_screen()
     world_generator->set_active_world( nullptr );
     world_generator->init();
 
-    get_help().load();
     init_strings();
-
-    if( !assure_dir_exist( PATH_INFO::config_dir() ) ) {
-        popup( _( "Unable to make config directory.  Check permissions." ) );
-        return false;
-    }
-
-    if( !assure_dir_exist( PATH_INFO::savedir() ) ) {
-        popup( _( "Unable to make save directory.  Check permissions." ) );
-        return false;
-    }
-
-    if( !assure_dir_exist( PATH_INFO::templatedir() ) ) {
-        popup( _( "Unable to make templates directory.  Check permissions." ) );
-        return false;
-    }
-
-    if( !assure_dir_exist( PATH_INFO::user_font() ) ) {
-        popup( _( "Unable to make fonts directory.  Check permissions." ) );
-        return false;
-    }
-
-    if( !assure_dir_exist( PATH_INFO::user_sound() ) ) {
-        popup( _( "Unable to make sound directory.  Check permissions." ) );
-        return false;
-    }
-
-    if( !assure_dir_exist( PATH_INFO::user_gfx() ) ) {
-        popup( _( "Unable to make graphics directory.  Check permissions." ) );
-        return false;
-    }
 
     load_char_templates();
 
@@ -799,7 +768,7 @@ bool main_menu::opening_screen()
                         } );
                         g->gamemode = get_special_game( static_cast<special_game_type>( sel2 + 1 ) );
                         // check world
-                        WORLDPTR world = world_generator->make_new_world( static_cast<special_game_type>( sel2 + 1 ) );
+                        WORLD *world = world_generator->make_new_world( static_cast<special_game_type>( sel2 + 1 ) );
                         if( world == nullptr ) {
                             break;
                         }
@@ -873,7 +842,7 @@ bool main_menu::new_character_tab()
             for( const std::string &tmpl : templates ) {
                 mmenu.entries.emplace_back( opt_val++, true, MENU_AUTOASSIGN, tmpl );
             }
-            mmenu.entries.emplace_back( opt_val, true, 'q', _( "<- Back to main menu" ), c_yellow, c_yellow );
+            mmenu.entries.emplace_back( opt_val, true, 'q', _( "<- Back to Main Menu" ), c_yellow, c_yellow );
             mmenu.query();
             opt_val = mmenu.ret;
             if( opt_val < 0 || static_cast<size_t>( opt_val ) >= templates.size() ) {
@@ -899,7 +868,7 @@ bool main_menu::new_character_tab()
                     world_generator->set_active_world( nullptr );
                 } );
                 g->gamemode = nullptr;
-                WORLDPTR world = world_generator->pick_world();
+                WORLD *world = world_generator->pick_world();
                 if( world == nullptr ) {
                     continue;
                 }
@@ -936,7 +905,7 @@ bool main_menu::new_character_tab()
         // First load the mods, this is done by
         // loading the world.
         // Pick a world, suppressing prompts if it's "play now" mode.
-        WORLDPTR world = world_generator->pick_world( true, sel2 == 3 || sel2 == 4 );
+        WORLD *world = world_generator->pick_world( true, sel2 == 3 || sel2 == 4 );
         if( world == nullptr ) {
             return false;
         }
@@ -1001,7 +970,7 @@ bool main_menu::load_character_tab( const std::string &worldname )
     for( const save_t &s : savegames ) {
         mmenu.entries.emplace_back( opt_val++, true, MENU_AUTOASSIGN, s.decoded_name() );
     }
-    mmenu.entries.emplace_back( opt_val, true, 'q', _( "<- Back to main menu" ), c_yellow, c_yellow );
+    mmenu.entries.emplace_back( opt_val, true, 'q', _( "<- Back to Main Menu" ), c_yellow, c_yellow );
     mmenu.query();
     opt_val = mmenu.ret;
     if( opt_val < 0 || static_cast<size_t>( opt_val ) >= savegames.size() ) {
@@ -1015,7 +984,7 @@ bool main_menu::load_character_tab( const std::string &worldname )
     } );
 
     g->gamemode = nullptr;
-    WORLDPTR world = world_generator->get_world( worldname );
+    WORLD *world = world_generator->get_world( worldname );
     world_generator->last_world_name = world->world_name;
     world_generator->last_character_name = savegames[opt_val].decoded_name();
     world_generator->save_last_world_info();
@@ -1051,7 +1020,7 @@ void main_menu::world_tab( const std::string &worldname )
         mmenu.entries.emplace_back( opt_val++, true, MENU_AUTOASSIGN,
                                     remove_color_tags( shortcut_text( c_white, it ) ) );
     }
-    mmenu.entries.emplace_back( opt_val, true, 'q', _( "<- Back to main menu" ), c_yellow, c_yellow );
+    mmenu.entries.emplace_back( opt_val, true, 'q', _( "<- Back to Main Menu" ), c_yellow, c_yellow );
     mmenu.query();
     opt_val = mmenu.ret;
     if( opt_val < 0 || static_cast<size_t>( opt_val ) >= vWorldSubItems.size() ) {

@@ -522,9 +522,9 @@ void talk_function::bionic_remove( npc &p )
             bionic_types.push_back( bio.info().itype() );
             if( item::type_is_defined( bio.info().itype() ) ) {
                 item tmp = item( bio.id.str(), calendar::turn_zero );
-                bionic_names.push_back( tmp.tname() + " - " + format_money( 50000 + ( tmp.price( true ) / 4 ) ) );
+                bionic_names.push_back( tmp.tname() + " - " + format_money( 5000 + ( tmp.price( true ) / 4 ) ) );
             } else {
-                bionic_names.push_back( bio.id.str() + " - " + format_money( 50000 ) );
+                bionic_names.push_back( bio.id.str() + " - " + format_money( 5000 ) );
             }
             bionics.push_back( &bio );
         }
@@ -540,9 +540,9 @@ void talk_function::bionic_remove( npc &p )
 
     signed int price;
     if( item::type_is_defined( bionic_types[bionic_index] ) ) {
-        price = 50000 + ( item( bionic_types[bionic_index], calendar::turn_zero ).price( true ) / 4 );
+        price = 5000 + ( item( bionic_types[bionic_index], calendar::turn_zero ).price( true ) / 4 );
     } else {
-        price = 50000;
+        price = 5000;
     }
     if( !npc_trading::pay_npc( p, price ) ) {
         return;
@@ -696,23 +696,24 @@ static void generic_barber( const std::string &mut_type )
     hair_menu.text = menu_text;
     int index = 0;
     hair_menu.addentry( index, true, 'q', _( "Actually…  I've changed my mind." ) );
-    std::vector<trait_id> hair_muts = get_mutations_in_type( mut_type );
+    std::vector<trait_and_var> hair_muts = mutations_var_in_type( mut_type );
     Character &player_character = get_player_character();
-    trait_id cur_hair;
-    for( const trait_id &elem : hair_muts ) {
-        if( player_character.has_trait( elem ) ) {
+    trait_and_var cur_hair;
+    for( const trait_and_var &elem : hair_muts ) {
+        if( player_character.has_trait_variant( elem ) ) {
             cur_hair = elem;
         }
         index += 1;
-        hair_menu.addentry( index, true, MENU_AUTOASSIGN, elem.obj().name() );
+        hair_menu.addentry( index, true, MENU_AUTOASSIGN, elem.name() );
     }
     hair_menu.query();
     int choice = hair_menu.ret;
     if( choice != 0 ) {
-        if( player_character.has_trait( cur_hair ) ) {
-            player_character.remove_mutation( cur_hair, true );
+        if( player_character.has_trait( cur_hair.trait ) ) {
+            player_character.remove_mutation( cur_hair.trait, true );
         }
-        player_character.set_mutation( hair_muts[ choice - 1 ] );
+        const trait_and_var &chosen = hair_muts[choice - 1];
+        player_character.set_mutation( chosen.trait, chosen.trait->variant( chosen.variant ) );
         add_msg( m_info, _( "You get a trendy new cut!" ) );
     }
 }

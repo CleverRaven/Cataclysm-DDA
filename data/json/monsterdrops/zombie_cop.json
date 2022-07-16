@@ -7,22 +7,22 @@
     "ammo": 40,
     "entries": [
       { "group": "cop_armor", "prob": 70, "damage": [ 0, 2 ] },
+      { "group": "cop_other_clothes", "prob": 70, "damage": [ 0, 2 ] },
       { "group": "cop_gear", "prob": 70, "damage": [ 0, 2 ] },
       { "group": "cop_gloves", "prob": 30, "damage": [ 1, 4 ] },
       { "group": "cop_helmet", "prob": 20, "damage": [ 1, 4 ] },
       { "group": "cop_pants", "damage": [ 1, 4 ] },
       { "group": "cop_shoes", "damage": [ 1, 4 ] },
       { "group": "cop_torso", "damage": [ 1, 4 ] },
-      { "group": "cop_weapons", "prob": 50, "damage": [ 0, 1 ], "dirt": [ 1500, 7050 ] },
-      { "group": "cop_holster", "damage": [ 1, 4 ] },
       { "group": "underwear", "damage": [ 1, 4 ] },
       { "group": "clothing_glasses", "prob": 5 },
       { "group": "clothing_watch", "prob": 5 },
+      { "group": "cop_pants_stuff" },
+      { "group": "cop_armaments" },
       {
         "collection": [ { "item": "badge_deputy", "prob": 100 }, { "item": "badge_detective", "prob": 20 } ],
         "prob": 10
-      },
-      { "group": "wallets", "damage": [ 1, 4 ] }
+      }
     ]
   },
   {
@@ -46,26 +46,55 @@
     ]
   },
   {
+    "id": "cop_armaments",
+    "type": "item_group",
+    "//": "this group sorts out what the cop has for storage that might influence other stuff",
+    "//2": "for example if the cop doesn't have a tacvest they can't have any additional magazines",
+    "subtype": "distribution",
+    "entries": [
+      {
+        "collection": [
+          { "item": "tacvest", "damage": [ 1, 4 ] },
+          {
+            "distribution": [
+              { "group": "longguns_cop_in_field", "prob": 10, "damage": [ 0, 1 ], "dirt": [ 1500, 7050 ] },
+              { "group": "longguns_cop_in_field_no_gun", "prob": 90 }
+            ],
+            "prob": 100
+          },
+          { "group": "cop_holster_field", "damage": [ 1, 4 ], "prob": 80 }
+        ],
+        "prob": 70
+      },
+      {
+        "collection": [
+          { "group": "longguns_cop", "prob": 10, "damage": [ 0, 1 ], "dirt": [ 1500, 7050 ] },
+          { "group": "cop_holster", "damage": [ 1, 4 ], "prob": 80 }
+        ],
+        "prob": 30
+      }
+    ]
+  },
+  {
     "type": "item_group",
     "id": "cop_gear",
+    "subtype": "collection",
+    "container-item": "police_belt",
+    "on_overflow": "discard",
     "items": [
-      { "group": "full_1st_aid", "prob": 30 },
-      [ "armor_riot", 20 ],
-      [ "airhorn", 5 ],
-      [ "bandages", 10 ],
-      { "item": "adhesive_bandages", "prob": 10, "count": [ 1, 20 ] },
-      [ "tacvest", 5 ],
-      { "item": "heavy_flashlight", "prob": 35, "charges": [ 0, 300 ] },
-      [ "kevlar", 35 ],
-      [ "armguard_cut_resistant", 2 ],
-      [ "legpouch_large", 5 ],
-      [ "pocket_firstaid", 10 ],
-      [ "police_belt", 20 ],
-      [ "rope_30", 5 ],
-      [ "sm_extinguisher", 5 ],
-      [ "two_way_radio", 30 ],
-      [ "whistle", 5 ]
+      { "item": "heavy_flashlight", "prob": 90, "charges": [ 0, 300 ] },
+      { "item": "two_way_radio", "prob": 90, "charges": [ 0, 300 ] },
+      { "item": "tazer", "prob": 50 },
+      { "item": "airhorn", "prob": 5 },
+      { "item": "rope_30", "prob": 5 },
+      { "item": "sm_extinguisher", "prob": 5 },
+      { "group": "cop_melee", "prob": 60 }
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "cop_other_clothes",
+    "items": [ [ "armguard_cut_resistant", 2 ], [ "legpouch_large", 5 ], [ "whistle", 5 ] ]
   },
   {
     "id": "cop_gloves",
@@ -75,12 +104,22 @@
   {
     "id": "cop_helmet",
     "type": "item_group",
-    "items": [ [ "cowboy_hat", 10 ], [ "helmet_riot", 100 ] ]
+    "items": [ [ "cowboy_hat", 10 ], [ "helmet_riot", 100 ], [ "hat_ball", 100 ] ]
   },
   {
     "id": "cop_pants",
     "type": "item_group",
-    "items": [ [ "pants", 75 ], [ "pants_cargo", 70 ], [ "leather_belt", 30 ], [ "police_breeches", 20 ] ]
+    "items": [ { "item": "pants", "prob": 75 }, { "item": "pants_cargo", "prob": 70 }, { "item": "police_breeches", "prob": 20 } ]
+  },
+  {
+    "id": "cop_pants_stuff",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "group": "wallets", "damage": [ 1, 4 ], "prob": 30 },
+      { "group": "default_zombie_items_pockets", "prob": 30 },
+      { "group": "full_ipok", "prob": 30 }
+    ]
   },
   {
     "id": "cop_shoes",
@@ -103,18 +142,28 @@
   {
     "id": "cop_melee",
     "type": "item_group",
-    "items": [ [ "baton", 50 ], [ "PR24-retracted", 30 ], [ "tazer", 20 ] ]
+    "items": [ [ "baton", 50 ], [ "PR24-retracted", 30 ] ]
   },
   {
     "id": "cop_weapons",
     "type": "item_group",
-    "items": [ { "group": "cop_melee", "prob": 60 }, { "group": "longguns_cop", "prob": 10, "contents-item": "shoulder_strap" } ]
+    "items": [ { "group": "longguns_cop", "prob": 10, "contents-item": "shoulder_strap" } ]
   },
   {
     "id": "cop_holster",
     "type": "item_group",
     "subtype": "distribution",
     "entries": [ { "item": "holster", "contents-group": "sidearms_cop", "prob": 20 }, { "item": "holster", "prob": 80 } ]
+  },
+  {
+    "id": "cop_holster_field",
+    "type": "item_group",
+    "subtype": "distribution",
+    "//": "same as above but with the assumption that you have storage for magazines",
+    "entries": [
+      { "collection": [ { "item": "holster" }, { "group": "sidearms_cop_in_field" } ], "prob": 20 },
+      { "collection": [ { "item": "holster" }, { "group": "sidearms_cop_in_field_no_gun" } ], "prob": 80 }
+    ]
   },
   {
     "id": "mon_zombie_swat_death_drops",

@@ -47,7 +47,7 @@
       {
         "id": "flag_bikini_bottom",
         "name": { "str": "flag bikini bottom" },
-        "description": "It's embroidered with the pattern of an American flag.",
+        "description": "It's printed with an American flag pattern.",
         "weight": 7,
         "append": true
       },
@@ -78,7 +78,7 @@
       {
         "id": "camo_bikini_bottom",
         "name": { "str": "camo bikini bottom" },
-        "description": "It has camouflage dye, perfect for those soldiers on a beach leave.",
+        "description": "It has a camouflage pattern, perfect for a soldier on beach leave.",
         "color": "green",
         "weight": 4,
         "append": true
@@ -86,7 +86,7 @@
       {
         "id": "skull_bikini_bottom",
         "name": { "str": "skull bikini bottom" },
-        "description": "It's colored black and with a skull pattern.  Works wonders to communicate your happiness on the beach.",
+        "description": "It's colored black and printed with a skull pattern.  Works wonders to communicate your happiness on the beach.",
         "symbol": "S",
         "color": "dark_gray",
         "weight": 2,
@@ -95,7 +95,7 @@
       {
         "id": "maid_bikini_bottom",
         "name": { "str": "maid bikini bottom" },
-        "description": "It's colored black and with white frilly decorations.  You are not sure that this is a common attire for the beach.",
+        "description": "It's colored black with white frilly decorations.  You are not sure that this is common attire for the beach.",
         "color": "dark_gray",
         "weight": 1,
         "append": true
@@ -118,7 +118,7 @@
     "repairs_like": "bikini_bottom",
     "type": "ARMOR",
     "name": { "str": "short bikini bottom" },
-    "description": "A very short bikini bottom, commonly called thong.",
+    "description": "A very short bikini bottom, commonly called a thong.",
     "weight": "15 g",
     "volume": "150 ml",
     "price": 1000,
@@ -174,7 +174,7 @@
       {
         "id": "flag_bikini_top",
         "name": { "str": "flag bikini top" },
-        "description": "It's embroidered with the pattern of an American flag.",
+        "description": "It's printed with an American flag pattern.",
         "weight": 7,
         "append": true
       },
@@ -205,7 +205,7 @@
       {
         "id": "camo_bikini_top",
         "name": { "str": "camo bikini top" },
-        "description": "It has camouflage dye, perfect for those soldiers on a beach leave.",
+        "description": "It has a camouflage pattern, perfect for a soldier on beach leave.",
         "color": "green",
         "weight": 4,
         "append": true
@@ -213,7 +213,7 @@
       {
         "id": "skull_bikini_top",
         "name": { "str": "skull bikini top" },
-        "description": "It's colored black and with a skull pattern.  Works wonders to communicate your happiness on the beach.",
+        "description": "It's colored black and printed with a skull pattern.  Works wonders to communicate your happiness on the beach.",
         "symbol": "S",
         "color": "dark_gray",
         "weight": 2,
@@ -222,7 +222,7 @@
       {
         "id": "maid_bikini_top",
         "name": { "str": "maid bikini top" },
-        "description": "It's colored black and with white frilly decorations.  You are not sure that this is a common attire for the beach.",
+        "description": "It's colored black with white frilly decorations.  You are not sure that this is common attire for the beach.",
         "color": "dark_gray",
         "weight": 1,
         "append": true
@@ -245,7 +245,7 @@
     "repairs_like": "bikini_top",
     "type": "ARMOR",
     "name": { "str": "short bikini top" },
-    "description": "A very short bikini top.  It doesn't cover much but was in fashion before the world ended.",
+    "description": "A very short bikini top.  It doesn't cover much, but was in fashion before the world ended.",
     "weight": "15 g",
     "volume": "150 ml",
     "price": 1800,
@@ -317,7 +317,7 @@
       {
         "id": "flag_swimsuit",
         "name": { "str": "flag swimsuit" },
-        "description": "It's embroidered with the pattern of an American flag.",
+        "description": "It's printed with an American flag pattern.",
         "weight": 7,
         "append": true
       },
@@ -356,7 +356,7 @@
       {
         "id": "camo_swimsuit",
         "name": { "str": "camo swimsuit" },
-        "description": "It has camouflage dye, perfect for those soldiers on a beach leave.",
+        "description": "It has a camouflage pattern, perfect for a soldier on beach leave.",
         "color": "green",
         "weight": 4,
         "append": true
@@ -364,7 +364,7 @@
       {
         "id": "lifeguard_swimsuit",
         "name": { "str": "lifeguard swimsuit" },
-        "description": "It's bright red and has a white cross with the words \"Lifeguard\" on the front.",
+        "description": "It's bright red and has a white cross with the word \"Lifeguard\" on the front.",
         "symbol": "+",
         "color": "red",
         "weight": 4,
@@ -432,7 +432,7 @@
       {
         "id": "flag_rashguard_shirt",
         "name": { "str": "flag rashguard shirt" },
-        "description": "It's embroidered with the pattern of an American flag.  You feel as if the flag itself protects your skin.",
+        "description": "It's printed with an American flag pattern.  You feel as if the flag itself protects your skin.",
         "weight": 10,
         "append": true
       },
@@ -463,7 +463,7 @@
       {
         "id": "jungle_rashguard_shirt",
         "name": { "str": "jungle rashguard shirt" },
-        "description": "It has jungle decorations and motifs of animals fighting between themselves.",
+        "description": "It has jungle decorations and motifs of animals fighting amongst themselves.",
         "color": "light_green",
         "weight": 5,
         "append": true
@@ -471,7 +471,7 @@
       {
         "id": "camo_rashguard_shirt",
         "name": { "str": "camo rashguard shirt" },
-        "description": "It has camouflage dye and outlines your muscles.",
+        "description": "It has a camouflage pattern and outlines your muscles.",
         "color": "green",
         "weight": 4,
         "append": true
@@ -479,7 +479,7 @@
       {
         "id": "lifeguard_rashguard_shirt",
         "name": { "str": "lifeguard rashguard shirt" },
-        "description": "It's bright red and has a white cross with the words \"Lifeguard\" on the front.",
+        "description": "It's bright red and has a white cross with the word \"Lifeguard\" on the front.",
         "symbol": "+",
         "color": "red",
         "weight": 4,
@@ -497,7 +497,7 @@
       {
         "id": "gothic_rashguard_shirt",
         "name": { "str": "gothic rashguard shirt" },
-        "description": "It has a jet black color with dark red decorations.  Looks creepy.",
+        "description": "It has a jet-black color with dark red decorations.  Looks creepy.",
         "weight": 1,
         "append": true
       }
@@ -508,7 +508,7 @@
     "repairs_like": "shorts",
     "type": "ARMOR",
     "name": { "str": "speedo" },
-    "description": "A pair of black and very short swim briefs.  Commonly used for male competitive swimming and bodybuilders.",
+    "description": "A pair of very short black swim briefs.  Commonly used by male competitive swimmers and bodybuilders.",
     "weight": "45 g",
     "volume": "250 ml",
     "price": 6000,
@@ -526,7 +526,7 @@
     "repairs_like": "shorts",
     "type": "ARMOR",
     "name": { "str_sp": "swim briefs" },
-    "description": "A pair of blue swim briefs.  Commonly used for male competitive swimming.",
+    "description": "A pair of blue swim briefs.  Commonly used by male competitive swimmers.",
     "weight": "75 g",
     "volume": "250 ml",
     "price": 6000,
@@ -706,7 +706,7 @@
     "repairs_like": "wetsuit",
     "type": "ARMOR",
     "name": { "str": "thick wetsuit" },
-    "description": "A full-body 5mm neoprene and nylon wetsuit.",
+    "description": "A full-body 5mm thick neoprene and nylon wetsuit.",
     "weight": "2200 g",
     "volume": "6 L",
     "price": 10000,
@@ -763,7 +763,7 @@
     "copy-from": "wetsuit_hood",
     "repairs_like": "wetsuit_hood",
     "name": { "str": "thick wetsuit hood" },
-    "description": "A 5mm neoprene hood, commonly worn by divers.",
+    "description": "A 5mm thick neoprene hood, commonly worn by divers.",
     "weight": "180 g",
     "warmth": 50,
     "material_thickness": 5,
@@ -853,7 +853,7 @@
     "repairs_like": "wetsuit",
     "type": "ARMOR",
     "name": { "str_sp": "wetsuit pants" },
-    "description": "A pair of light and stretch neoprene pants.  Good for surfing and other water sports.",
+    "description": "A pair of light and stretchy neoprene pants.  Good for surfing and other water sports.",
     "weight": "325 g",
     "volume": "2 L",
     "price": 6500,
@@ -874,7 +874,7 @@
     "repairs_like": "wetsuit",
     "type": "ARMOR",
     "name": { "str_sp": "wetsuit shorts" },
-    "description": "A pair of light and stretch neoprene shorts.  Good for use on the beach.",
+    "description": "A pair of light and stretchy neoprene shorts.  Good for use on the beach.",
     "weight": "220 g",
     "volume": "1 L",
     "price": 6500,
@@ -975,7 +975,7 @@
     "id": "shark_suit_faraday",
     "type": "ARMOR",
     "name": { "str": "faraday shark suit" },
-    "description": "A one piece chainmail suit used by scuba divers for protection against shark bites.  It has been conductively interconnected, protecting against electricity.",
+    "description": "A one-piece chainmail suit used by SCUBA divers for protection against shark bites.  It has been conductively interconnected, protecting against electricity.",
     "weight": "3250 g",
     "volume": "3500 ml",
     "price": 35000,
@@ -1001,7 +1001,7 @@
     "repairs_like": "shark_suit_faraday",
     "type": "ARMOR",
     "name": { "str": "shark suit" },
-    "description": "A one piece chainmail suit used by scuba divers for protection against shark bites.  It comes with attached plastic helmet and booties.",
+    "description": "A-one piece chainmail suit used by SCUBA divers for protection against shark bites.  It comes with attached plastic helmet and booties.",
     "weight": "3150 g",
     "volume": "3500 ml",
     "price": 35000,

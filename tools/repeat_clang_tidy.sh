@@ -61,7 +61,7 @@ do
     printf "%s" "$list_of_files" | \
         nice -15 xargs -P "$jobs" -n 1 \
         "$script_dir/repeat_clang_tidy_helper.sh" \
-        -quiet -fix ${plugin_opt:+"$plugin_opt"}
+        -quiet ${plugin_opt:+"$plugin_opt"}
     list_of_files="$(cat $temp_file)"
     if (( ++num_iterations >= 10 ))
     then

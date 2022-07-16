@@ -179,26 +179,26 @@ static const vitamin_id vitamin_vitC( "vitC" );
 
 namespace suffer
 {
-void from_sunburn( Character &you, bool severe );
-void in_sunlight( Character &you );
-void water_damage( Character &you, const trait_id &mut_id );
-void mutation_power( Character &you, const trait_id &mut_id );
-void while_underwater( Character &you );
-void while_grabbed( Character &you );
-void from_addictions( Character &you );
-void while_awake( Character &you, int current_stim );
-void from_chemimbalance( Character &you );
-void from_schizophrenia( Character &you );
-void from_asthma( Character &you, int current_stim );
-void from_item_dropping( Character &you );
-void from_other_mutations( Character &you );
-void from_radiation( Character &you );
-void from_bad_bionics( Character &you );
-void from_stimulants( Character &you, int current_stim );
-void from_exertion( Character &you );
-void without_sleep( Character &you, int sleep_deprivation );
-void from_tourniquet( Character &you );
-void from_pain( Character &you );
+static void from_sunburn( Character &you, bool severe );
+static void in_sunlight( Character &you );
+static void water_damage( Character &you, const trait_id &mut_id );
+static void mutation_power( Character &you, const trait_id &mut_id );
+static void while_underwater( Character &you );
+static void while_grabbed( Character &you );
+static void from_addictions( Character &you );
+static void while_awake( Character &you, int current_stim );
+static void from_chemimbalance( Character &you );
+static void from_schizophrenia( Character &you );
+static void from_asthma( Character &you, int current_stim );
+static void from_item_dropping( Character &you );
+static void from_other_mutations( Character &you );
+static void from_radiation( Character &you );
+static void from_bad_bionics( Character &you );
+static void from_stimulants( Character &you, int current_stim );
+static void from_exertion( Character &you );
+static void without_sleep( Character &you, int sleep_deprivation );
+static void from_tourniquet( Character &you );
+static void from_pain( Character &you );
 } // namespace suffer
 
 static float addiction_scaling( float at_min, float at_max, float add_lvl )
@@ -232,19 +232,19 @@ void suffer::water_damage( Character &you, const trait_id &mut_id )
 
 void suffer::mutation_power( Character &you, const trait_id &mut_id )
 {
-    if( you.get_cost_timer( mut_id ) > 0 ) {
+    if( you.get_cost_timer( mut_id ) > 0_turns ) {
         // Not ready to consume cost yet, the timer ticks on
-        you.mod_cost_timer( mut_id, -1 );
+        you.mod_cost_timer( mut_id, -1_turns );
     } else {
         // Ready to consume cost: pay the power cost and reset timer
-        if( mut_id->cooldown > 0 ) {
-            you.set_cost_timer( mut_id, mut_id->cooldown - 1 );
+        if( mut_id->cooldown > 0_turns ) {
+            you.set_cost_timer( mut_id, mut_id->cooldown - 1_turns );
         }
         if( mut_id->hunger ) {
             if( you.get_bmi() < character_weight_category::underweight ) {
                 you.add_msg_if_player( m_warning,
                                        _( "You're too malnourished to keep your %s going." ),
-                                       mut_id->name() );
+                                       you.mutation_name( mut_id ) );
                 you.deactivate_mutation( mut_id );
             } else {
                 // does not directly modify hunger, but burns kcal
@@ -256,7 +256,7 @@ void suffer::mutation_power( Character &you, const trait_id &mut_id )
             if( you.get_thirst() >= 260 ) {
                 you.add_msg_if_player( m_warning,
                                        _( "You're too dehydrated to keep your %s going." ),
-                                       mut_id->name() );
+                                       you.mutation_name( mut_id ) );
                 you.deactivate_mutation( mut_id );
             } else {
                 you.mod_thirst( mut_id->cost );
@@ -267,7 +267,7 @@ void suffer::mutation_power( Character &you, const trait_id &mut_id )
             if( you.get_fatigue() >= fatigue_levels::EXHAUSTED ) {
                 you.add_msg_if_player( m_warning,
                                        _( "You're too exhausted to keep your %s going." ),
-                                       mut_id->name() );
+                                       you.mutation_name( mut_id ) );
                 you.deactivate_mutation( mut_id );
             } else {
                 you.mod_fatigue( mut_id->cost );
@@ -491,11 +491,12 @@ void suffer::from_chemimbalance( Character &you )
 void suffer::from_schizophrenia( Character &you )
 {
     std::string i_name_w;
-    if( !you.get_wielded_item().is_null() ) {
-        i_name_w = you.get_wielded_item().has_var( "item_label" ) ?
-                   you.get_wielded_item().get_var( "item_label" ) :
+    item_location weap = you.get_wielded_item();
+    if( weap ) {
+        i_name_w = weap->has_var( "item_label" ) ?
+                   weap->get_var( "item_label" ) :
                    //~ %1$s: weapon name
-                   string_format( _( "your %1$s" ), you.get_wielded_item().type_name() );
+                   string_format( _( "your %1$s" ), weap->type_name() );
     }
     // Start with the effects that both NPCs and avatars can suffer from
     // Delusions
@@ -552,12 +553,11 @@ void suffer::from_schizophrenia( Character &you )
         return;
     }
     // Drop weapon
-    if( one_turn_in( 2_days ) && !you.get_wielded_item().is_null() ) {
+    if( one_turn_in( 2_days ) && weap ) {
         const translation snip = SNIPPET.random_from_category( "schizo_weapon_drop" ).value_or(
                                      translation() );
         you.add_msg_if_player( m_bad, "%s", uppercase_first_letter( string_format( snip, i_name_w ) ) );
-        item_location loc( you, &you.get_wielded_item() );
-        you.drop( loc, you.pos() );
+        you.drop( weap, you.pos() );
         return;
     }
     // Talk to self
@@ -632,14 +632,13 @@ void suffer::from_schizophrenia( Character &you )
     }
 
     // Talking weapon
-    if( !you.get_wielded_item().is_null() ) {
+    if( weap ) {
         // If player has a weapon, picks a message from said weapon
         // Weapon tells player to kill a monster if any are nearby
         // Weapon is concerned for player if bleeding
         // Weapon is concerned for itself if damaged
         // Otherwise random chit-chat
         std::vector<weak_ptr_fast<monster>> mons = g->all_monsters().items;
-        const item &weap = you.get_wielded_item();
 
         std::string i_talk_w;
         bool does_talk = false;
@@ -661,8 +660,8 @@ void suffer::from_schizophrenia( Character &you )
             i_talk_w = SNIPPET.random_from_category( "schizo_weapon_talk_bleeding" ).value_or(
                            translation() ).translated();
             does_talk = true;
-        } else if( weap.damage() >= ( weap.max_damage() - weap.damage_floor( false ) ) / 3 +
-                   weap.damage_floor( false ) && one_turn_in( 1_hours ) ) {
+        } else if( weap->damage() >= ( weap->max_damage() - weap->damage_floor( false ) ) / 3 +
+                   weap->damage_floor( false ) && one_turn_in( 1_hours ) ) {
             i_talk_w = SNIPPET.random_from_category( "schizo_weapon_talk_damaged" ).value_or(
                            translation() ).translated();
             does_talk = true;
@@ -743,7 +742,7 @@ void suffer::from_asthma( Character &you, const int current_stim )
                     you.wake_up();
                 }
             } else {
-                if( !you.is_npc() ) {
+                if( uistate.distraction_asthma && !you.is_npc() ) {
                     g->cancel_activity_or_ignore_query( distraction_type::asthma,
                                                         _( "You can't focus while choking!" ) );
                 }
@@ -781,7 +780,7 @@ void suffer::from_asthma( Character &you, const int current_stim )
         }
     } else {
         you.add_effect( effect_asthma, rng( 5_minutes, 20_minutes ) );
-        if( !you.is_npc() ) {
+        if( uistate.distraction_asthma && !you.is_npc() ) {
             g->cancel_activity_or_ignore_query( distraction_type::asthma,
                                                 _( "You can't focus while choking!" ) );
         }
@@ -970,7 +969,7 @@ void suffer::from_sunburn( Character &you, bool severe )
             }
             // If no UV-/glare-protection gear is worn the eyes should be treated as unprotected
             exposure = 1.0;
-        } else if( you.get_wielded_item().has_flag( flag_RAIN_PROTECT )
+        } else if( ( you.get_wielded_item() && you.get_wielded_item()->has_flag( flag_RAIN_PROTECT ) )
                    || ( ( bp == body_part_hand_l || bp == body_part_hand_r )
                         && you.worn_with_flag( flag_POCKETS )
                         && you.can_use_pockets() )
@@ -1225,7 +1224,7 @@ void suffer::from_radiation( Character &you )
 {
     map &here = get_map();
     // checking for radioactive items in inventory
-    const int item_radiation = you.leak_level( flag_RADIOACTIVE );
+    const float item_radiation = you.leak_level();
     const int map_radiation = here.get_radiation( you.pos() );
     float rads = map_radiation / 100.0f + item_radiation / 10.0f;
 
@@ -1312,12 +1311,7 @@ void suffer::from_radiation( Character &you )
     }
 
     if( !radiogenic && you.get_rad() > 0 ) {
-        // Even if you heal the radiation itself, the damage is done.
-        const int hmod = you.get_healthy_mod();
-        const int health_mod_cap = std::max( -200, 200 - you.get_rad() );
-        if( hmod > health_mod_cap ) {
-            you.set_healthy_mod( health_mod_cap );
-        }
+        you.mod_daily_health( -you.get_rad(), -200 );
     }
 
     if( you.get_rad() > 200 && calendar::once_every( 10_minutes ) && x_in_y( you.get_rad(), 1000 ) ) {
@@ -1346,14 +1340,15 @@ void suffer::from_bad_bionics( Character &you )
         you.moves -= 150;
         you.mod_power_level( -bio_dis_shock->power_trigger );
 
-        if( you.get_wielded_item().typeId() == itype_e_handcuffs && you.get_wielded_item().charges > 0 ) {
-            you.get_wielded_item().charges -= rng( 1, 3 ) * 50;
-            if( you.get_wielded_item().charges < 1 ) {
-                you.get_wielded_item().charges = 1;
+        item_location weapon = you.get_wielded_item();
+        if( weapon && weapon->typeId() == itype_e_handcuffs && weapon->charges > 0 ) {
+            weapon->charges -= rng( 1, 3 ) * 50;
+            if( weapon->charges < 1 ) {
+                weapon->charges = 1;
             }
 
             you.add_msg_if_player( m_good, _( "The %s seems to be affected by the discharge." ),
-                                   you.get_wielded_item().tname() );
+                                   weapon->tname() );
         }
         sfx::play_variant_sound( "bionics", "elec_discharge", 100 );
     }
@@ -1716,6 +1711,11 @@ void Character::suffer()
     }
     //Suffer from enchantments
     enchantment_cache->activate_passive( *this );
+    if( calendar::once_every( 30_minutes ) ) {
+        int healthy_mod = enchantment_cache->modify_value( enchant_vals::mod::MOD_HEALTH, 0 );
+        int healthy_mod_cap = enchantment_cache->modify_value( enchant_vals::mod::MOD_HEALTH_CAP, 0 );
+        mod_daily_health( healthy_mod, healthy_mod_cap );
+    }
 }
 
 bool Character::irradiate( float rads, bool bypass )
@@ -1838,7 +1838,7 @@ void Character::mend( int rate_multiplier )
     }
 
     // Being healthy helps.
-    healing_factor *= 1.0f + get_healthy() / 200.0f;
+    healing_factor *= 1.0f + get_lifestyle() / 200.0f;
 
     // Very hungry starts lowering the chance
     // square rooting the value makes the numbers drop off faster when below 1
@@ -1879,7 +1879,7 @@ void Character::mend( int rate_multiplier )
         healing_factor *= bp->mend_rate;
 
         const time_duration dur_inc = 1_turns * roll_remainder( rate_multiplier * healing_factor );
-        auto &eff = get_effect( effect_mending, bp );
+        effect &eff = get_effect( effect_mending, bp );
         if( eff.is_null() ) {
             add_effect( effect_mending, dur_inc, bp, true );
             continue;
@@ -2095,7 +2095,7 @@ void Character::add_addiction( const addiction_id &type, int strength )
         timer = 6_hours;
     }
     //Update existing addiction
-    for( auto &i : addictions ) {
+    for( addiction &i : addictions ) {
         if( i.type != type ) {
             continue;
         }
@@ -2157,11 +2157,4 @@ int Character::addiction_level( const addiction_id &type ) const
         return ad.type == type;
     } );
     return iter != addictions.end() ? iter->intensity : 0;
-}
-
-int  Character::leak_level( const flag_id &flag ) const
-{
-    int leak_level = 0;
-    leak_level = inv->leak_level( flag );
-    return leak_level;
 }

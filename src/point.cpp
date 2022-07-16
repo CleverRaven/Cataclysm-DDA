@@ -20,6 +20,23 @@ point point::from_string( const std::string &s )
     return result;
 }
 
+point point::rotate( int turns, const point &dim ) const
+{
+    cata_assert( turns >= 0 );
+    cata_assert( turns <= 4 );
+
+    switch( turns ) {
+        case 1:
+            return { dim.y - y - 1, x };
+        case 2:
+            return { dim.x - x - 1, dim.y - y - 1 };
+        case 3:
+            return { y, dim.x - x - 1 };
+    }
+
+    return *this;
+}
+
 std::string point::to_string() const
 {
     std::ostringstream os;

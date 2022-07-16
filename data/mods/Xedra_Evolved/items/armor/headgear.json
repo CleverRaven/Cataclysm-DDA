@@ -43,7 +43,7 @@
     "id": "bleeding_cap",
     "type": "SPELL",
     "name": "Bleeding Cap",
-    "description": "Blood starts seeping out of the cap, down your face",
+    "description": "Blood starts seeping out of the cap, down your face.",
     "valid_targets": [ "self" ],
     "flags": [ "NO_LEGS", "SILENT" ],
     "min_range": 0,

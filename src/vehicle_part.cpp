@@ -551,7 +551,7 @@ bool vehicle_part::is_engine() const
 
 bool vehicle_part::is_light() const
 {
-    const auto &vp = info();
+    const vpart_info &vp = info();
     return vp.has_flag( VPFLAG_CONE_LIGHT ) ||
            vp.has_flag( VPFLAG_WIDE_CONE_LIGHT ) ||
            vp.has_flag( VPFLAG_HALF_CIRCLE_LIGHT ) ||
@@ -694,7 +694,7 @@ bool vehicle::assign_seat( vehicle_part &pt, const npc &who )
     }
 
     // NPC's can only be assigned to one seat in the vehicle
-    for( auto &e : parts ) {
+    for( vehicle_part &e : parts ) {
         if( &e == &pt ) {
             // skip this part
             continue;

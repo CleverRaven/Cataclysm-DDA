@@ -986,7 +986,7 @@ static bool butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
             if( drop->phase == phase_id::LIQUID ) {
                 item obj( drop, calendar::turn, roll );
                 if( obj.has_temperature() ) {
-                    obj.set_item_temperature( 0.00001 * corpse_item->temperature );
+                    obj.set_item_temperature( corpse_item->temperature );
                     if( obj.goes_bad() ) {
                         obj.set_rot( corpse_item->get_rot() );
                     }
@@ -1008,7 +1008,7 @@ static bool butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
             } else if( drop->count_by_charges() ) {
                 item obj( drop, calendar::turn, roll );
                 if( obj.has_temperature() ) {
-                    obj.set_item_temperature( 0.00001 * corpse_item->temperature );
+                    obj.set_item_temperature( corpse_item->temperature );
                     if( obj.goes_bad() ) {
                         obj.set_rot( corpse_item->get_rot() );
                     }
@@ -1027,7 +1027,7 @@ static bool butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
                 item obj( drop, calendar::turn );
                 obj.set_mtype( &mt );
                 if( obj.has_temperature() ) {
-                    obj.set_item_temperature( 0.00001 * corpse_item->temperature );
+                    obj.set_item_temperature( corpse_item->temperature );
                     if( obj.goes_bad() ) {
                         obj.set_rot( corpse_item->get_rot() );
                     }
@@ -1077,7 +1077,7 @@ static bool butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
         if( item_charges > 0 ) {
             item ruined_parts( leftover_id, calendar::turn, item_charges );
             ruined_parts.set_mtype( &mt );
-            ruined_parts.set_item_temperature( 0.00001 * corpse_item->temperature );
+            ruined_parts.set_item_temperature( corpse_item->temperature );
             ruined_parts.set_rot( corpse_item->get_rot() );
             if( !you.backlog.empty() && you.backlog.front().id() == ACT_MULTIPLE_BUTCHER ) {
                 ruined_parts.set_var( "activity_var", you.name );
@@ -1361,9 +1361,9 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, Character *yo
         const int charges_per_second = std::max( 1, liquid.charges_per_volume( volume_per_second ) );
         liquid.charges = std::min( charges_per_second, liquid.charges );
         const int original_charges = liquid.charges;
-        if( liquid.has_temperature() && liquid.specific_energy < 0 ) {
-            liquid.set_item_temperature( temp_to_kelvin( std::max( get_weather().get_temperature( you->pos() ),
-                                         temperatures::cold ) ) );
+        if( liquid.has_temperature() && units::to_joule_per_gram( liquid.specific_energy ) < 0 ) {
+            liquid.set_item_temperature( std::max( units::from_fahrenheit( get_weather().get_temperature(
+                    you->pos() ) ), temperatures::cold ) );
         }
 
         // 2. Transfer charges.
@@ -1598,19 +1598,29 @@ void activity_handlers::pulp_do_turn( player_activity *act, Character *you )
     map &here = get_map();
     const tripoint &pos = here.getlocal( act->placement );
 
-    const item &weapon = you->get_wielded_item();
+    const item_location weapon = you->get_wielded_item();
+    int weap_cut = 0;
+    int weap_stab = 0;
+    int weap_bash = 0;
+    int mess_radius = 1;
+
+    if( weapon ) {
+        weap_cut = weapon->damage_melee( damage_type::CUT );
+        weap_stab = weapon->damage_melee( damage_type::STAB );
+        weap_bash = weapon->damage_melee( damage_type::BASH );
+        if( weapon->has_flag( flag_MESSY ) ) {
+            mess_radius = 2;
+        }
+    }
+
     // Stabbing weapons are a lot less effective at pulping
-    const int cut_power = std::max( weapon.damage_melee( damage_type::CUT ),
-                                    weapon.damage_melee( damage_type::STAB ) / 2 );
+    const int cut_power = std::max( weap_cut, weap_stab / 2 );
 
     ///\EFFECT_STR increases pulping power, with diminishing returns
-    float pulp_power = std::sqrt( ( you->get_arm_str() + weapon.damage_melee( damage_type::BASH ) ) *
-                                  ( cut_power + 1.0f ) );
-    float pulp_effort = you->str_cur + weapon.damage_melee( damage_type::BASH );
+    float pulp_power = std::sqrt( ( you->get_arm_str() + weap_bash ) * ( cut_power + 1.0f ) );
+    float pulp_effort = you->str_cur + weap_bash;
     // Multiplier to get the chance right + some bonus for survival skill
     pulp_power *= 40 + you->get_skill_level( skill_survival ) * 5;
-
-    const int mess_radius = weapon.has_flag( flag_MESSY ) ? 2 : 1;
 
     int moves = 0;
     // use this to collect how many corpse are pulped
@@ -3065,7 +3075,7 @@ void activity_handlers::plant_seed_finish( player_activity *act, Character *you 
 void activity_handlers::build_do_turn( player_activity *act, Character *you )
 {
     map &here = get_map();
-    partial_con *pc = here.partial_con_at( here.getlocal( act->placement ) );
+    partial_con *pc = here.partial_con_at( here.bub_from_abs( act->placement ) );
     // Maybe the player and the NPC are working on the same construction at the same time
     if( !pc ) {
         if( you->is_npc() ) {
@@ -3110,7 +3120,7 @@ void activity_handlers::build_do_turn( player_activity *act, Character *you )
 
     you->set_moves( 0 );
 
-    pc->id->do_turn_special( here.getlocal( act->placement ), *you );
+    pc->id->do_turn_special( here.bub_from_abs( act->placement ), *you );
     pc->counter = std::min( pc->counter, 10000000 );
     // If construction_progress has reached 100% or more
     if( pc->counter >= 10000000 ) {
@@ -3544,7 +3554,7 @@ void activity_handlers::spellcasting_finish( player_activity *act, Character *yo
             you ) : get_map().getlocal( act->coords.front() );
     if( target ) {
         // npcs check for target viability
-        if( !you->is_npc() || !spell_being_cast.is_valid_target( *you, *target ) ) {
+        if( !you->is_npc() || spell_being_cast.is_valid_target( *you, *target ) ) {
             // no turning back now. it's all said and done.
             bool success = act->get_value( 1 ) == 1 ||
                            rng_float( 0.0f, 1.0f ) >= spell_being_cast.spell_fail( *you );

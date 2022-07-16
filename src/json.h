@@ -142,8 +142,10 @@ class JsonValue
         JsonObject get_object() const;
         JsonArray get_array() const;
 
-        [[noreturn]] void string_error( const std::string &err, int offset = 0 ) const;
-        [[noreturn]] void throw_error( const std::string &err, int offset = 0 ) const;
+        [[noreturn]] void string_error( const std::string &err ) const;
+        [[noreturn]] void string_error( int offset, const std::string &err ) const;
+        [[noreturn]] void throw_error( const std::string &err ) const;
+        [[noreturn]] void throw_error( int offset, const std::string &err ) const;
 };
 
 
@@ -716,15 +718,17 @@ class JsonIn
 
         // error messages
         std::string line_number( int offset_modifier = 0 ); // for occasional use only
-        [[noreturn]] void error( const std::string &message, int offset = 0 ); // ditto
+        [[noreturn]] void error( const std::string &message ); // ditto
+        [[noreturn]] void error( int offset, const std::string &message ); // ditto
         // if the next element is a string, throw error after the `offset`th unicode
         // character in the parsed string. if `offset` is 0, throw error right after
         // the starting quotation mark.
-        [[noreturn]] void string_error( const std::string &message, int offset );
+        [[noreturn]] void string_error( int offset, const std::string &message );
 
         // If throw_, then call error( message, offset ), otherwise return
         // false
-        bool error_or_false( bool throw_, const std::string &message, int offset = 0 );
+        bool error_or_false( bool throw_, const std::string &message );
+        bool error_or_false( bool throw_, int offset, const std::string &message );
         void rewind( int max_lines = -1, int max_chars = -1 );
         std::string substr( size_t pos, size_t len = std::string::npos );
     private:
@@ -1107,8 +1111,7 @@ class JsonObject
         bool has_member( const std::string &name ) const; // true iff named member exists
         std::string str() const; // copy object json as string
         [[noreturn]] void throw_error( const std::string &err ) const;
-        [[noreturn]] void throw_error( const std::string &err, const std::string &name,
-                                       int offset = 0 ) const;
+        [[noreturn]] void throw_error_at( const std::string &name, const std::string &err ) const;
         // seek to a value and return a pointer to the JsonIn (member must exist)
         JsonIn *get_raw( const std::string &name ) const;
         JsonValue get_member( const std::string &name ) const;
@@ -1287,9 +1290,9 @@ class JsonArray
         bool empty();
         std::string str(); // copy array json as string
         [[noreturn]] void throw_error( const std::string &err ) const;
-        [[noreturn]] void throw_error( const std::string &err, int idx ) const;
+        [[noreturn]] void throw_error( int idx, const std::string &err ) const;
         // See JsonIn::string_error
-        [[noreturn]] void string_error( const std::string &err, int idx, int offset );
+        [[noreturn]] void string_error( int idx, int offset, const std::string &err );
 
         // iterative access
         JsonValue next();
@@ -1426,17 +1429,6 @@ inline bool JsonValue::test_null() const
 {
     return seek().test_null();
 }
-
-[[noreturn]] inline void JsonValue::string_error( const std::string &err, int offset ) const
-{
-    seek().string_error( err, offset );
-}
-
-[[noreturn]] inline void JsonValue::throw_error( const std::string &err, int offset ) const
-{
-    seek().error( err, offset );
-}
-
 inline std::string JsonValue::get_string() const
 {
     return seek().get_string();

@@ -106,7 +106,7 @@ void apply_all_to_unassigned( T &skills )
     if( iter != skills.end() ) {
         distribution dis = iter->second;
         skills.erase( iter );
-        for( const auto &sk : Skill::skills ) {
+        for( const Skill &sk : Skill::skills ) {
             if( skills.count( sk.ident() ) == 0 ) {
                 skills[ sk.ident() ] = dis;
             }
@@ -117,7 +117,7 @@ void apply_all_to_unassigned( T &skills )
 void npc_class::finalize_all()
 {
     for( const npc_class &cl_const : npc_class_factory.get_all() ) {
-        auto &cl = const_cast<npc_class &>( cl_const );
+        npc_class &cl = const_cast<npc_class &>( cl_const );
         apply_all_to_unassigned( cl.skills );
         apply_all_to_unassigned( cl.bonus_skills );
 
@@ -229,7 +229,7 @@ static distribution load_distribution( const JsonObject &jo, const std::string &
         return load_distribution( obj );
     }
 
-    jo.throw_error( "Invalid distribution type", name );
+    jo.throw_error_at( name, "Invalid distribution type" );
 }
 
 bool shopkeeper_item_group::can_sell( npc const &guy ) const
@@ -237,13 +237,22 @@ bool shopkeeper_item_group::can_sell( npc const &guy ) const
     dialogue const temp( get_talker_for( get_avatar() ), get_talker_for( guy ) );
     faction *const fac = guy.get_faction();
 
-    return ( fac == nullptr or trust <= guy.get_faction()->trusts_u ) and
-           ( !condition or condition( temp ) );
+    return ( fac == nullptr || trust <= guy.get_faction()->trusts_u ) &&
+           ( !condition || condition( temp ) );
 }
 
 bool shopkeeper_item_group::can_restock( npc const &guy ) const
 {
-    return !strict or can_sell( guy );
+    return !strict || can_sell( guy );
+}
+
+std::string shopkeeper_item_group::get_refusal() const
+{
+    if( refusal.empty() ) {
+        return _( "<npcname> does not trust you enough" );
+    }
+
+    return refusal;
 }
 
 void shopkeeper_item_group::deserialize( const JsonObject &jo )
@@ -252,6 +261,7 @@ void shopkeeper_item_group::deserialize( const JsonObject &jo )
     optional( jo, false, "trust", trust, 0 );
     optional( jo, false, "strict", strict, false );
     optional( jo, false, "rigid", rigid, false );
+    optional( jo, false, "refusal", refusal );
     if( jo.has_member( "condition" ) ) {
         read_condition<dialogue>( jo, "condition", condition, false );
     }
@@ -374,7 +384,7 @@ const std::vector<npc_class> &npc_class::get_all()
 const npc_class_id &npc_class::random_common()
 {
     std::list<const npc_class_id *> common_classes;
-    for( const auto &pr : npc_class_factory.get_all() ) {
+    for( const npc_class &pr : npc_class_factory.get_all() ) {
         if( pr.common ) {
             common_classes.push_back( &pr.id );
         }
