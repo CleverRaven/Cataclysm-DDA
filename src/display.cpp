@@ -1078,7 +1078,7 @@ std::pair<std::string, nc_color> display::carry_weight_text_color( const avatar 
 {
     int carry_wt = ( 100 * u.weight_carried() ) / u.weight_capacity();
     std::string weight_text = string_format( "%d%%", carry_wt );
-    
+
     nc_color weight_color = c_green;
     if( carry_wt > 100 ) {
         weight_color = c_white_red;
