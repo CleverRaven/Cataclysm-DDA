@@ -39,7 +39,7 @@
   {
     "id": "butane_lighter_and_fuel",
     "type": "item_group",
-    "//": "Processed weed and weed accessories",
+    "//": "Butane and lighter combo spawn",
     "items": [
       { "item": "ref_lighter_butane" },
       { "item": "butane_can", "count": [ 0, 2 ] }
