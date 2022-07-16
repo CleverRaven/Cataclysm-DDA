@@ -454,6 +454,13 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "egg_stegoceras",
+    "name": "stegoceras egg",
+    "copy-from": "egg_dino_small",
+    "rot_spawn": "GROUP_EGG_stegoceras"
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "egg_pachycephalosaurus",
     "name": "pachycephalosaurus egg",
     "copy-from": "egg_dino",
