@@ -19,8 +19,11 @@
 
 #if defined(__MINGW32__) || defined(__MINGW64__) || defined(__CYGWIN__) || \
     defined(__QNXNTO__)
+// No pragma GCC diagnostic push
+#  pragma GCC diagnostic ignored "-Wunused-macros"
 #  define _POSIX_C_SOURCE 200809L
 #  define _XOPEN_SOURCE 700L
+// No pragma GCC diagnostic pop
 #endif
 
 #ifdef _WIN32
