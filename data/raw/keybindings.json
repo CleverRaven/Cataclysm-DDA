@@ -870,6 +870,17 @@
   {
     "type": "keybinding",
     "id": "PICK_RANDOM_WORLDNAME",
+    "category": "STRING_INPUT",
+    "name": "Pick random world name",
+    "bindings": [
+      { "input_method": "keyboard_char", "key": "*" },
+      { "input_method": "keyboard_code", "key": "KEYPAD_MULTIPLY" },
+      { "input_method": "keyboard_code", "key": "8", "mod": [ "shift" ] }
+    ]
+  },
+  {
+    "type": "keybinding",
+    "id": "PICK_RANDOM_WORLDNAME",
     "category": "WORLDGEN_CONFIRM_DIALOG",
     "name": "Pick random world name",
     "bindings": [

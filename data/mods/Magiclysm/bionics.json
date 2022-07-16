@@ -9,7 +9,7 @@
     "fuel_capacity": 100,
     "fuel_efficiency": 0.6,
     "exothermic_power_gen": true,
-    "time": 6,
+    "time": "6 s",
     "flags": [ "BIONIC_TOGGLED", "BIONIC_POWER_SOURCE" ]
   }
 ]

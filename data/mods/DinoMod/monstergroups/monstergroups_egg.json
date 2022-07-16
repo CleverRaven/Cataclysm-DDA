@@ -18,9 +18,7 @@
       { "monster": "mon_pachyrhinosaurus_hatchling", "weight": 3 },
       { "monster": "mon_pentaceratops_hatchling", "weight": 3 },
       { "monster": "mon_torosaurus_hatchling", "weight": 3 },
-      { "monster": "mon_triceratops_hatchling", "weight": 3 },
-      { "monster": "mon_pteranodon_hatchling", "weight": 20 },
-      { "monster": "mon_quetzalcoatlus_hatchling", "weight": 5 }
+      { "monster": "mon_triceratops_hatchling", "weight": 3 }
     ]
   },
   {
@@ -31,8 +29,7 @@
       { "monster": "mon_scutellosaurus_hatchling", "weight": 5 },
       { "monster": "mon_dryosaurus_hatchling", "weight": 5 },
       { "monster": "mon_aquilops_hatchling", "weight": 5 },
-      { "monster": "mon_oryctodromeus_hatchling", "weight": 5 },
-      { "monster": "mon_dimorphodon_hatchling", "weight": 10 }
+      { "monster": "mon_oryctodromeus_hatchling", "weight": 5 }
     ]
   },
   {
@@ -398,5 +395,14 @@
     "name": "GROUP_EGG_quetzalcoatlus",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_quetzalcoatlus_hatchling" } ]
+  },
+  {
+    "name": "GROUP_EGG_SNAKE",
+    "type": "monstergroup",
+    "monsters": [
+      { "monster": "mon_dimorphodon_hatchling", "weight": 2 },
+      { "monster": "mon_pteranodon_hatchling" },
+      { "monster": "mon_quetzalcoatlus_hatchling" }
+    ]
   }
 ]

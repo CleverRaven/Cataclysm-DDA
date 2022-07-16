@@ -4820,8 +4820,8 @@ int vehicle::total_wind_epower_w() const
             continue;
         }
 
-        double windpower = get_local_windpower( weather.windspeed, cur_om_ter, global_part_pos3( part ),
-                                                weather.winddirection, false );
+        int windpower = get_local_windpower( weather.windspeed, cur_om_ter, global_part_pos3( part ),
+                                             weather.winddirection, false );
         if( windpower <= ( weather.windspeed / 10.0 ) ) {
             continue;
         }

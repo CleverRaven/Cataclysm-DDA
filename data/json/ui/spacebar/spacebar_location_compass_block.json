@@ -1,0 +1,67 @@
+[
+  {
+    "id": "places_compass_block",
+    "type": "widget",
+    "style": "layout",
+    "label": "6_compass block",
+    "arrange": "minimum_columns",
+    "width": 58,
+    "widgets": [ "spacebar_separator_2", "places_compass_block_tmp" ]
+  },
+  {
+    "id": "places_compass_block_tmp",
+    "type": "widget",
+    "style": "layout",
+    "label": "movement",
+    "arrange": "rows",
+    "width": 56,
+    "widgets": [ "places_koordinates_block", "compass_block" ]
+  },
+  {
+    "id": "separator_tmp",
+    "type": "widget",
+    "style": "layout",
+    "label": "compass",
+    "arrange": "minimum_columns",
+    "width": 58,
+    "widgets": [ "spacebar_separator_4", "spacebar_separator_42" ]
+  },
+  {
+    "id": "places_koordinates_block",
+    "type": "widget",
+    "style": "layout",
+    "label": "movement",
+    "arrange": "minimum_columns",
+    "width": 56,
+    "widgets": [ "place_desc", "overmap_location_desc" ]
+  },
+  {
+    "id": "compass_block",
+    "type": "widget",
+    "style": "layout",
+    "label": "movement",
+    "arrange": "minimum_columns",
+    "width": 56,
+    "widgets": [ "compass", "compass_legend" ]
+  },
+  {
+    "id": "compass",
+    "type": "widget",
+    "label": "Compass",
+    "style": "layout",
+    "width": 28,
+    "arrange": "rows",
+    "widgets": [ "compass_top_layout", "compass_middle_layout", "compass_bottom_layout" ],
+    "flags": [ "W_DISABLED_BY_DEFAULT" ]
+  },
+  {
+    "id": "compass_legend",
+    "type": "widget",
+    "label": "Compass",
+    "style": "layout",
+    "width": 28,
+    "arrange": "rows",
+    "widgets": [ "compass_legend_text" ],
+    "flags": [ "W_DISABLED_BY_DEFAULT" ]
+  }
+]
