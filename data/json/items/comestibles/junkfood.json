@@ -1442,6 +1442,7 @@
     "calories": 600,
     "weight": "115 g",
     "description": "A thick, dense bar of military chocolate.  While tough to chew and not very appetizing, it will provide almost a day's worth of calories in portable form.",
+    "comestible_type": "FOOD",
     "price": 250,
     "price_postapoc": 500,
     "material": [ "junk" ],
