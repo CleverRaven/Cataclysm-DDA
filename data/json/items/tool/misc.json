@@ -53,10 +53,10 @@
     },
     "description": "A non-refillable can of butane with an adapter for refilling lighters.  It could be useful as a fuel, but also as a solvent or chemical reagent.",
     "symbol": "!",
-    "color": "red",
+    "color": "dark_gray",
     "looks_like": "spray_can",
-    "weight": "120 g",
-    "volume": "300 ml",
+    "weight": "420 g",
+    "volume": "500 ml",
     "price": 1500,
     "price_postapoc": 50,
     "pocket_data": [
