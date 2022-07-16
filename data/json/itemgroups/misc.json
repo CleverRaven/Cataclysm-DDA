@@ -39,7 +39,6 @@
   {
     "id": "butane_lighter_and_fuel",
     "type": "item_group",
-    "//": "Butane and lighter combo spawn",
     "items": [
       { "item": "ref_lighter_butane" },
       { "item": "butane_can", "count": [ 0, 2 ] }
