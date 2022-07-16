@@ -403,8 +403,17 @@ void widget::load( const JsonObject &jo, const std::string & )
 
     if( jo.has_array( "colors" ) ) {
         _colors.clear();
+        _breaks.clear();
         for( const std::string color_name : jo.get_array( "colors" ) ) {
             _colors.emplace_back( get_all_colors().name_to_color( color_name ) );
+        }
+        if( jo.has_array( "breaks" ) ) {
+            for( const int value : jo.get_array( "breaks" ) ) {
+                _breaks.emplace_back( value );
+            }
+            if( _breaks.size() != _colors.size() - 1 ) {
+                debugmsg("Widget property 'breaks' must have one element less than 'colors'");
+            }
         }
     }
 
