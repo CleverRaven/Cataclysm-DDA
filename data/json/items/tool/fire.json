@@ -278,9 +278,7 @@
     "color": "white",
     "ammo": [ "butane" ],
     "charges_per_use": 1,
-    "pocket_data": [
-      { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "butane_can" ] }
-    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "butane_can" ] } ],
     "use_action": { "type": "firestarter", "moves": 50, "moves_slow": 500 },
     "flags": [ "FIRESTARTER" ]
   },

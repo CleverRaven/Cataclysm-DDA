@@ -39,10 +39,7 @@
   {
     "id": "butane_lighter_and_fuel",
     "type": "item_group",
-    "items": [
-      { "item": "ref_lighter_butane" },
-      { "item": "butane_can", "count": [ 0, 2 ] }
-    ]
+    "items": [ { "item": "ref_lighter_butane" }, { "item": "butane_can", "count": [ 0, 2 ] } ]
   },
   {
     "id": "silverware",

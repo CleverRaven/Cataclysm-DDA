@@ -47,10 +47,7 @@
   {
     "type": "TOOL",
     "id": "butane_can",
-    "name": {
-      "str": "can of butane",
-      "str_pl": "cans of butane"
-    },
+    "name": { "str": "can of butane", "str_pl": "cans of butane" },
     "description": "A non-refillable can of butane with an adapter for refilling lighters.  It could be useful as a fuel, but also as a solvent or chemical reagent.",
     "symbol": "!",
     "color": "dark_gray",
@@ -60,21 +57,9 @@
     "price": 1500,
     "price_postapoc": 250,
     "charges_per_use": 1,
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE",
-        "watertight": true,
-        "rigid": true,
-        "ammo_restriction": { "butane": 30 }
-      }
-    ],
-    "material": [
-      "steel"
-    ],
-    "flags": [
-      "NO_RELOAD",
-      "GAS_TANK"
-    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "watertight": true, "rigid": true, "ammo_restriction": { "butane": 30 } } ],
+    "material": [ "steel" ],
+    "flags": [ "NO_RELOAD", "GAS_TANK" ],
     "explosion": {
       "power": 4503,
       "distance_factor": 0.1,
