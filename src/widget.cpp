@@ -412,7 +412,7 @@ void widget::load( const JsonObject &jo, const std::string & )
                 _breaks.emplace_back( value );
             }
             if( _breaks.size() != _colors.size() - 1 ) {
-                debugmsg("Widget property 'breaks' must have one element less than 'colors'");
+                debugmsg( "Widget property 'breaks' must have one element less than 'colors'" );
             }
         }
     }
@@ -1131,9 +1131,9 @@ nc_color widget::value_color( int value )
 
     // Get range of values from min to max
     const int var_range = _var_max - _var_min;
-    
+
     if( ! _breaks.empty() ) {
-        const int value_offset = (100 * (value - _var_min)) / var_range;
+        const int value_offset = ( 100 * ( value - _var_min ) ) / var_range;
         for( int i = 0; i < color_max; i++ ) {
             if( value_offset < _breaks[i] ) {
                 return _colors[i];
@@ -1141,7 +1141,7 @@ nc_color widget::value_color( int value )
         }
         return _colors[color_max];
     }
-    
+
     // Convert value to a positive offset within the range
     const int value_offset = std::max( value - _var_min, 0 );
 
