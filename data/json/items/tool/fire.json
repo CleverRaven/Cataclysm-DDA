@@ -267,7 +267,7 @@
     "id": "ref_lighter_butane",
     "type": "TOOL",
     "name": { "str": "refillable butane lighter" },
-    "description": "This is a large lighter with a trigger and a safety. A lighter may be carried to use various drugs, like cigarettes, light explosives like Molotov cocktails, or light nearby items on fire.",
+    "description": "This is a large lighter with a trigger and a safety. It is reloaded by fitting a can of butane inside it. A lighter may be carried to use various drugs, like cigarettes, light explosives like Molotov cocktails, or light nearby items on fire.",
     "weight": "200 g",
     "volume": "176 ml",
     "longest_side": "15 cm",
@@ -279,13 +279,8 @@
     "ammo": [ "butane" ],
     "charges_per_use": 1,
     "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE",
-        "rigid": true,
-        "watertight": true,
-        "ammo_restriction": { "butane": 100 }
-      }
-    ],    
+      { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "butane_can" ] }
+    ],
     "use_action": { "type": "firestarter", "moves": 50, "moves_slow": 500 },
     "flags": [ "FIRESTARTER" ]
   },

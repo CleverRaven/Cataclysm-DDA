@@ -2847,12 +2847,10 @@
     "price_postapoc": 50,
     "pocket_data": [
       {
-        "pocket_type": "CONTAINER",
+        "pocket_type": "MAGAZINE",
         "watertight": true,
         "rigid": true,
-        "max_contains_weight": "200 mg",
-        "max_contains_volume": "200 ml",
-        "item_restriction": [ "butane" ]
+        "ammo_restriction": { "butane": 150 }
       }
     ],
     "material": [

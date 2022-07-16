@@ -42,7 +42,7 @@
     "//": "Processed weed and weed accessories",
     "items": [
       { "item": "ref_lighter_butane" },
-      { "item": "butane", "container-item": "butane_can", "count": [ 0, 2 ] }
+      { "item": "butane_can", "count": [ 0, 2 ] }
     ]
   },  
   {
