@@ -1076,9 +1076,8 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
         /* cache g->get_temperature( player location ) since it is used twice. No reason to recalc */
         weather_manager &weather = get_weather();
         const int player_local_temp = weather.get_temperature( player_character.pos() );
-        /* windpower defined in internal velocity units (=.01 mph) */
-        double windpower = 100.0f * get_local_windpower( weather.windspeed + vehwindspeed,
-                           cur_om_ter, pos(), weather.winddirection, g->is_sheltered( pos() ) );
+        const int windpower = get_local_windpower( weather.windspeed + vehwindspeed,
+                              cur_om_ter, pos(), weather.winddirection, g->is_sheltered( pos() ) );
         add_msg_if_player( m_info, _( "Temperature: %s." ), print_temperature( player_local_temp ) );
         const w_point weatherPoint = *weather.weather_precise;
         add_msg_if_player( m_info, _( "Relative Humidity: %s." ),
@@ -1088,12 +1087,12 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
         add_msg_if_player( m_info, _( "Pressure: %s." ),
                            print_pressure( static_cast<int>( weatherPoint.pressure ) ) );
         add_msg_if_player( m_info, _( "Wind Speed: %.1f %s." ),
-                           convert_velocity( static_cast<int>( windpower ), VU_WIND ),
+                           convert_velocity( windpower * 100, VU_WIND ),
                            velocity_units( VU_WIND ) );
         add_msg_if_player( m_info, _( "Feels Like: %s." ),
                            print_temperature(
                                get_local_windchill( weatherPoint.temperature, weatherPoint.humidity,
-                                       windpower / 100 ) + player_local_temp ) );
+                                       windpower ) + player_local_temp ) );
         std::string dirstring = get_dirstring( weather.winddirection );
         add_msg_if_player( m_info, _( "Wind Direction: From the %s." ), dirstring );
     } else if( bio.id == bio_remote ) {
@@ -1516,9 +1515,9 @@ void Character::burn_fuel( bionic &bio, const auto_toggle_bionic_result &result 
                     // vehicle velocity in mph
                     vehwindspeed = std::abs( vp->vehicle().velocity / 100 );
                 }
-                const double windpower = get_local_windpower( weather.windspeed + vehwindspeed,
-                                         overmap_buffer.ter( global_omt_location() ), pos(), weather.winddirection,
-                                         g->is_sheltered( pos() ) );
+                const int windpower = get_local_windpower( weather.windspeed + vehwindspeed,
+                                      overmap_buffer.ter( global_omt_location() ), pos(), weather.winddirection,
+                                      g->is_sheltered( pos() ) );
                 mod_power_level( units::from_kilojoule( result.fuel_energy ) * windpower *
                                  result.effective_efficiency );
             } else if( result.burnable_fuel_id == fuel_type_muscle ) {
@@ -1578,9 +1577,9 @@ void Character::passive_power_gen( const bionic &bio )
                 // vehicle velocity in mph
                 vehwindspeed = std::abs( vp->vehicle().velocity / 100 );
             }
-            const double windpower = get_local_windpower( weather.windspeed + vehwindspeed,
-                                     overmap_buffer.ter( global_omt_location() ), pos(), weather.winddirection,
-                                     g->is_sheltered( pos() ) );
+            const int windpower = get_local_windpower( weather.windspeed + vehwindspeed,
+                                  overmap_buffer.ter( global_omt_location() ), pos(), weather.winddirection,
+                                  g->is_sheltered( pos() ) );
             mod_power_level( units::from_kilojoule( fuel_energy ) * windpower * effective_passive_efficiency );
         } else {
             mod_power_level( units::from_kilojoule( fuel_energy ) * effective_passive_efficiency );

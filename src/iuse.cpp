@@ -8938,17 +8938,16 @@ cata::optional<int> iuse::weather_tool( Character *p, item *it, bool, const trip
             vehwindspeed = std::abs( vp->vehicle().velocity / 100 ); // For mph
         }
         const oter_id &cur_om_ter = overmap_buffer.ter( p->global_omt_location() );
-        /* windpower defined in internal velocity units (=.01 mph) */
-        const double windpower = 100 * get_local_windpower( weather.windspeed + vehwindspeed, cur_om_ter,
-                                 p->pos(), weather.winddirection, g->is_sheltered( p->pos() ) );
+        const int windpower = get_local_windpower( weather.windspeed + vehwindspeed, cur_om_ter,
+                              p->pos(), weather.winddirection, g->is_sheltered( p->pos() ) );
 
         p->add_msg_if_player( m_neutral, _( "Wind Speed: %.1f %s." ),
-                              convert_velocity( windpower, VU_WIND ),
+                              convert_velocity( windpower * 100, VU_WIND ),
                               velocity_units( VU_WIND ) );
         p->add_msg_if_player(
             m_neutral, _( "Feels Like: %s." ),
             print_temperature(
-                get_local_windchill( weatherPoint.temperature, weatherPoint.humidity, windpower / 100 ) +
+                get_local_windchill( weatherPoint.temperature, weatherPoint.humidity, windpower ) +
                 player_local_temp ) );
         std::string dirstring = get_dirstring( weather.winddirection );
         p->add_msg_if_player( m_neutral, _( "Wind Direction: From the %s." ), dirstring );
