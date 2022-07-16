@@ -202,8 +202,7 @@
     "armor": [
       {
         "material": [
-          { "type": "nylon", "covered_by_mat": 100, "thickness": 1.0 },
-          { "type": "qt_steel", "covered_by_mat": 100, "thickness": 4.5 }
+          { "type": "qt_steel", "covered_by_mat": 100, "thickness": 6.35 }
         ],
         "encumbrance": 2,
         "coverage": 45,
