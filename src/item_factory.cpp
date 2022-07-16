@@ -492,9 +492,19 @@ void Item_factory::finalize_pre( itype &obj )
                 if (!obj.mod->speedloader_adaptor.empty()) {
                    // crashes the game durring loading without creating a crash.log
                    magazine.allowed_speedloaders.insert(obj.mod->speedloader_adaptor.begin(), obj.mod->speedloader_adaptor.end());
+                migrate_ammo_map(magazine.ammo_restriction);
+                if (!obj.mod->speedloader_adaptor.empty()) {
+                    auto it = magazine.allowed_speedloaders.begin();
+                    auto itend = obj.mod->speedloader_adaptor.end();
+                    itype_id a = *it;
+                    magazine.allowed_speedloaders.insert(*it);
+                    //a.id;
+                    //for (auto it = obj.mod->speedloader_adaptor.begin(); it != obj.mod->speedloader_adaptor.end(); it++) {
+                    // crashes the game durring loading without creating a crash.log
+                    //magazine.allowed_speedloaders.insert(*it);
+                    //}
                 }
             }
-            migrate_ammo_map( magazine.ammo_restriction );
         }
 
         // TODO: add explicit action field to gun definitions
@@ -2895,11 +2905,14 @@ void Item_factory::load( islot_mod &slot, const JsonObject &jo, const std::strin
             slot.acceptable_ammo.insert( ammotype( e ) );
         }
     }
-    if( jo.has_array( "speedloader_adaptor" ) ) {
+    optional(jo, false, "speedloader_adaptor", slot.speedloader_adaptor);
+    /*if (jo.has_array("speedloader_adaptor")) {
         for( const std::string id : jo.get_array( "speedloader_adaptor" ) ) {
             slot.speedloader_adaptor.insert( itype_id( id ) );
         }
-    }
+    } else if ( jo.has_string("speedloader_adaptor" ) ) {
+        slot.speedloader_adaptor.insert( itype_id( jo.get_string( "speedloader_adaptor" ) ) );
+    }*/
 
     JsonArray mags = jo.get_array( "magazine_adaptor" );
     if( !mags.empty() ) {
