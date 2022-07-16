@@ -196,7 +196,7 @@
     "material": [ "qt_steel", "nylon" ],
     "symbol": ",",
     "color": "dark_gray",
-    "material_thickness": 5,
+    "material_thickness": 6.35,
     "flags": [ "ABLATIVE_LARGE", "CANT_WEAR" ],
     "armor": [
       {
