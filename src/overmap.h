@@ -21,6 +21,7 @@
 #include "enums.h"
 #include "game_constants.h"
 #include "mapgendata.h"
+#include "mdarray.h"
 #include "memory_fast.h"
 #include "mongroup.h"
 #include "monster.h"
@@ -127,9 +128,9 @@ struct radio_tower {
 };
 
 struct map_layer {
-    oter_id terrain[OMAPX][OMAPY];
-    bool visible[OMAPX][OMAPY];
-    bool explored[OMAPX][OMAPY];
+    cata::mdarray<oter_id, point_om_omt, OMAPX, OMAPY> terrain;
+    cata::mdarray<bool, point_om_omt, OMAPX, OMAPY> visible;
+    cata::mdarray<bool, point_om_omt, OMAPX, OMAPY> explored;
     std::vector<om_note> notes;
     std::vector<om_map_extra> extras;
 };
