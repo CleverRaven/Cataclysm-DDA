@@ -54,7 +54,7 @@
   },
   {
     "type": "profession",
-    "id": "medic",
+    "id": "shaman",
     "name": "Shaman",
     "description": "You've trained in the medical arts, refining natural remedies into real cures for disease.  Your tribe would have lived long and healthy lives, were they still here.",
     "points": 3,
@@ -89,8 +89,8 @@
     "skills": [ { "level": 1, "name": "survival" } ],
     "items": {
       "both": {
-        "items": [ "trapper_pack", "mocassins", "tunic", "footrags_leather" ],
-        "entries": [ { "item": "water_clean", "count": 6, "container-item": "waterskin" } ]
+        "items": [ "wicker_backpack", "mocassins", "tunic", "footrags_leather" ],
+        "entries": [ { "item": "water_clean", "charges": 6, "container-item": "waterskin" } ]
       }
     }
   },
@@ -145,7 +145,7 @@
     "skills": [
       { "level": 2, "name": "stabbing" },
       { "level": 2, "name": "melee" },
-      { "level": 2, "name": "swimming" },
+      { "level": 1, "name": "swimming" },
       { "level": 1, "name": "dodge" }
     ],
     "items": {
@@ -208,7 +208,7 @@
     "id": "fisher",
     "name": "Fisher",
     "description": "You spent most of your days fishing in the swamp, getting by quietly on your catch.  You found the buzzing of insects enjoyable, but recently they've gotten bigger and meaner.  Now their horrible noises have you spooked - you just hope the fish aren't as nasty.",
-    "points": 2,
+    "points": 3,
     "skills": [ { "level": 2, "name": "swimming" }, { "level": 2, "name": "survival" } ],
     "traits": [ "OUTDOORSMAN" ],
     "proficiencies": [ "prof_fibers" ],
