@@ -127,6 +127,9 @@ void string_input_popup::create_context()
     ctxt->register_action( "SCROLL_UP" );
     ctxt->register_action( "SCROLL_DOWN" );
     ctxt->register_action( "ANY_INPUT" );
+    for( const auto &act : custom_actions ) {
+        ctxt->register_action( act.first, act.second );
+    }
 }
 
 void string_input_popup::show_history( utf8_wrapper &ret )
@@ -365,6 +368,7 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
         create_context();
     }
 
+    _text_changed = false;
     utf8_wrapper ret( _text );
     utf8_wrapper edit( ctxt->get_edittext() );
     if( _position == -1 ) {
@@ -390,6 +394,10 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
     _canceled = false;
     _confirmed = false;
     do {
+        if( _text_changed ) {
+            ret = utf8_wrapper( _text );
+            _text_changed = false;
+        }
         if( _position < 0 ) {
             _position = 0;
         }
@@ -437,10 +445,18 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
         ch = ev.type == input_event_t::keyboard_char ? ev.get_first_input() : 0;
         _handled = true;
 
-        if( callbacks[ch] ) {
-            if( callbacks[ch]() ) {
-                continue;
+        bool next_loop = false;
+        for( const auto &cb : callbacks ) {
+            if( ( !std::get<0>( cb ).empty() && std::get<0>( cb ) == action ) ||
+                ( std::get<1>( cb ) != INT64_MIN && std::get<1>( cb ) == ch ) ) {
+                if( std::get<2>( cb )() ) {
+                    next_loop = true;
+                    break;
+                }
             }
+        }
+        if( next_loop ) {
+            continue;
         }
 
         if( action == "TEXT.QUIT" ) {
@@ -656,5 +672,18 @@ string_input_popup &string_input_popup::text( const std::string &value )
     if( _position < 0 || static_cast<size_t>( _position ) > u8size ) {
         _position = u8size;
     }
+    _text_changed = true;
     return *this;
+}
+
+
+void string_input_popup::add_callback( const std::string &action,
+                                       const std::function<bool()> &callback_func )
+{
+    callbacks.emplace_back( action, INT64_MIN, callback_func );
+}
+
+void string_input_popup::add_callback( int input, const std::function<bool()> &callback_func )
+{
+    callbacks.emplace_back( "", input, callback_func );
 }

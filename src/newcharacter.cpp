@@ -4404,9 +4404,9 @@ cata::optional<std::string> query_for_template_name()
     spop.description( desc );
     spop.width( FULL_SCREEN_WIDTH - utf8_width( title ) - 8 );
     for( int character : fname_char_blacklist ) {
-        spop.callbacks[character] = []() {
+        spop.add_callback( character, []() {
             return true;
-        };
+        } );
     }
 
     spop.query_string( true );

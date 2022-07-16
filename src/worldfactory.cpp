@@ -173,6 +173,26 @@ WORLD *worldfactory::make_new_world( bool show_prompt, const std::string &world_
     return add_world( std::move( retworld ) );
 }
 
+static cata::optional<std::string> prompt_world_name( const std::string &title,
+        const std::string &cur_worldname )
+{
+    string_input_popup popup;
+    popup.max_length( max_worldname_len ).title( title ).text( cur_worldname );
+
+    input_context ctxt( "STRING_INPUT" );
+    popup.description( string_format(
+                           _( "Press [<color_c_yellow>%s</color>] to randomize the world name." ),
+                           ctxt.get_desc( "PICK_RANDOM_WORLDNAME", 1U ) ) );
+
+    popup.custom_actions.emplace_back( "PICK_RANDOM_WORLDNAME", translation() );
+    popup.add_callback( "PICK_RANDOM_WORLDNAME", [&popup]() {
+        popup.text( get_next_valid_worldname() );
+        return true;
+    } );
+    std::string message = popup.query_string();
+    return !popup.canceled() ? cata::optional<std::string>( message ) : cata::optional<std::string>();
+}
+
 int worldfactory::show_worldgen_advanced( WORLD *world )
 {
     // set up window
@@ -203,23 +223,19 @@ int worldfactory::show_worldgen_advanced( WORLD *world )
             curtab += tabs[curtab]( wf_win, world, true );
         }
         if( curtab >= 0 ) {
-            string_input_popup str_input;
-            std::string nname = str_input
-                                .max_length( max_worldname_len )
-                                .title( _( "Choose a new name for this world." ) )
-                                .text( world->world_name )
-                                .query_string();
-            if( str_input.canceled() ) {
+            cata::optional<std::string> ret = prompt_world_name( _( "Choose a new name for this world." ),
+                                              world->world_name );
+            if( !ret.has_value() ) {
                 // return to settings tab
                 curtab = 1;
-            } else if( nname.empty() ) {
+            } else if( ret.value().empty() ) {
                 // no name entered
                 if( query_yn( _( "World name is empty.  Randomize the name?" ) ) ) {
                     world->world_name = pick_random_name();
                 }
             } else {
                 // done, generate world
-                world->world_name = nname;
+                world->world_name = ret.value();
                 done = true;
             }
         } else if( curtab < 0 ) {
@@ -1840,14 +1856,9 @@ int worldfactory::show_worldgen_basic( WORLD *world )
         if( action == "CONFIRM" ) {
             if( sel_opt == 0 ) {
                 // rename
-                string_input_popup popup;
-                std::string message = popup
-                                      .max_length( max_worldname_len )
-                                      .title( _( "World name:" ) )
-                                      .text( worldname )
-                                      .query_string();
-                if( !popup.canceled() ) {
-                    world->world_name = worldname = message;
+                cata::optional<std::string> ret = prompt_world_name( _( "World name:" ), worldname );
+                if( !ret.value_or( "" ).empty() ) {
+                    world->world_name = worldname = ret.value();
                 }
             } else if( sel_opt == static_cast<int>( wg_sliders.size() + 1 ) ) {
                 // finish
