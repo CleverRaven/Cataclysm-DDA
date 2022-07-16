@@ -243,21 +243,6 @@
     ]
   },
   {
-    "id": "mail",
-    "type": "item_group",
-    "subtype": "distribution",
-    "entries": [
-      { "group": "magazines", "prob": 515 },
-      { "group": "newspaper_recent", "prob": 200, "count-min": 3, "count-max": 5 },
-      { "item": "flyer", "prob": 80 },
-      { "item": "survnote", "prob": 3 },
-      { "item": "touristmap", "prob": 3 },
-      { "item": "trailmap", "prob": 3 },
-      { "item": "phonebook", "prob": 60 },
-      { "group": "religious_books", "prob": 4 }
-    ]
-  },
-  {
     "id": "nightstand",
     "type": "item_group",
     "subtype": "distribution",
