@@ -200,7 +200,7 @@
   {
     "id": "MISSION_GET_ZOMBIE_BLOOD_ANAL",
     "type": "mission_definition",
-    "name": { "str": "Analyze Mushroom" },
+    "name": { "str": "Analyze Alien Fungus" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 8,
     "value": 250000,
