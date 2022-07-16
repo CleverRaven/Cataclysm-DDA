@@ -51,7 +51,7 @@
       "str": "can of butane",
       "str_pl": "cans of butane"
     },
-    "description": "A non-refillable can of butane that can be used to fill a lighter.  It could be useful as a fuel, but also as a solvent or chemical reagent.",
+    "description": "A non-refillable can of butane with an adapter for refilling lighters.  It could be useful as a fuel, but also as a solvent or chemical reagent.",
     "symbol": "!",
     "color": "red",
     "looks_like": "spray_can",
