@@ -44,7 +44,7 @@
       { "item": "ref_lighter_butane" },
       { "item": "butane_can", "count": [ 0, 2 ] }
     ]
-  },  
+  },
   {
     "id": "silverware",
     "type": "item_group",
