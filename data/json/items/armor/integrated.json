@@ -732,6 +732,7 @@
   },
   {
     "id": "armor_bio_arms",
+    "//": "Superalloy represents real life magnesium-based alloys such as AZ80.  Plastic represents a flexible polymer that mimics skin.",
     "type": "ARMOR",
     "category": "armor",
     "weight": "1680 g",
@@ -799,7 +800,9 @@
   },
   {
     "id": "armor_bio_hands",
-    "type": "ARMOR",
+    "//": "Superalloy represents real life magnesium-based alloys such as AZ80.  Plastic represents a flexible polymer that mimics skin.",
+    "//": "The insides of the fingers and most of the palms are just polymer, so that your cyborg can still use their hands for complex stuff.  Ideally later you'll be able to augment them further to make them totally zombie-proof.",
+   "type": "ARMOR",
     "category": "armor",
     "weight": "280 g",
     "volume": "500 ml",
@@ -871,6 +874,7 @@
   },
   {
     "id": "armor_bio_legs",
+    "//": "Superalloy represents real life magnesium-based alloys such as AZ80.  Plastic represents a flexible polymer that mimics skin.",
     "type": "ARMOR",
     "category": "armor",
     "weight": "1900 g",
@@ -927,6 +931,8 @@
   },
   {
     "id": "armor_bio_feet",
+    "//": "Superalloy represents real life magnesium-based alloys such as AZ80.  Plastic represents a flexible polymer that mimics skin.",
+    "//": "These aren't as bulky as real shoes so they'll fit in boots, but just barely - encumbrance penalties for doubling up.",
     "type": "ARMOR",
     "category": "armor",
     "weight": "1100 g",
@@ -983,6 +989,8 @@
   },
   {
     "id": "armor_bio_torso",
+    "//": "Superalloy represents real life magnesium-based alloys such as AZ80.  Plastic represents a flexible polymer that mimics skin.",
+    "//": "This is your RoboCop-style armored chestplate, extra armor on your upper torso.  Not as bulletproof as its inspiration but it will blunt a 9mm pretty well.",
     "type": "ARMOR",
     "category": "armor",
     "weight": "4360 g",
@@ -1028,7 +1036,9 @@
   },
   {
     "id": "armor_bio_head",
-    "type": "ARMOR",
+    "//": "Superalloy represents real life magnesium-based alloys such as AZ80.  Plastic represents a flexible polymer that mimics skin.",
+    "//": "This will look like your old human head - lore explanation is that the Exodii ease you into becoming a full cyborg, as becoming an inhuman machine too fast will cause extreme dysmorphia potentially leading to suicide.  It's also a convenient way to avoid making it interfere with your hairstyle, as logically your steel-plated cranium would preclude that but it does not cancel the hairstyle traits in game.",
+   "type": "ARMOR",
     "category": "armor",
     "weight": "1810 g",
     "volume": "500 ml",
@@ -1073,6 +1083,8 @@
   },
   {
     "id": "armor_bio_mouth",
+    "//": "Superalloy represents real life magnesium-based alloys such as AZ80.  Plastic represents a flexible polymer that mimics skin.",
+    "//": "Your mouth is also mostly bare of metal, with just the polymer.  Rigid parts are still armored but you maintain full use of your mouth.  Doesn't have the environmental protection since it doesn't coat the inside of your mouth and it won't stop toxic fumes from messing with your weak fleshy lungs.",
     "type": "ARMOR",
     "category": "armor",
     "weight": "325 g",
@@ -1105,6 +1117,7 @@
   },
   {
     "id": "armor_bio_eyes",
+    "//": "These do not preclude wearing glasses, but you'll get double-up penalties.  If you really needed too you could likely still situate the lenses in front of them.  You should probably just augment your eyes though, if the flesh is weak.",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str_sp": "protective lenses" },
