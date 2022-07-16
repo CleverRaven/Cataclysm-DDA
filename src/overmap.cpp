@@ -4691,7 +4691,9 @@ void overmap::place_swamps()
     // Buffer our river terrains by a variable radius and increment a counter for the location each
     // time it's included in a buffer. It's a floodplain that we'll then intersect later with some
     // noise to adjust how frequently it occurs.
-    cata::mdarray<int, point_om_omt, OMAPX, OMAPY> floodplain( 0 );
+    std::unique_ptr<cata::mdarray<int, point_om_omt, OMAPX, OMAPY>> floodptr =
+                std::make_unique<cata::mdarray<int, point_om_omt, OMAPX, OMAPY>>( 0 );
+    cata::mdarray<int, point_om_omt, OMAPX, OMAPY> &floodplain = *floodptr;
     for( int x = 0; x < OMAPX; x++ ) {
         for( int y = 0; y < OMAPY; y++ ) {
             const tripoint_om_omt pos( x, y, 0 );
