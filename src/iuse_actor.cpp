@@ -4284,8 +4284,11 @@ ret_val<bool> install_bionic_actor::can_use( const Character &p, const item &it,
     } else if( bid->upgraded_bionic && !p.has_bionic( bid->upgraded_bionic ) ) {
         return ret_val<bool>::make_failure( _( "There is nothing to upgrade." ) );
     } else {
-        const bool downgrade = std::any_of( bid->available_upgrades.begin(), bid->available_upgrades.end(),
-                                            std::bind( &Character::has_bionic, &p, std::placeholders::_1 ) );
+        const bool downgrade =
+            std::any_of( bid->available_upgrades.begin(), bid->available_upgrades.end(),
+        [&p]( const bionic_id & b ) {
+            return p.has_bionic( b );
+        } );
 
         if( downgrade ) {
             return ret_val<bool>::make_failure( _( "You have a superior version installed." ) );
@@ -4311,8 +4314,12 @@ cata::optional<int> detach_gunmods_actor::use( Character &p, item &it, bool,
         const tripoint & ) const
 {
     auto filter_irremovable = []( std::vector<item *> &gunmods ) {
-        gunmods.erase( std::remove_if( gunmods.begin(), gunmods.end(), std::bind( &item::is_irremovable,
-                                       std::placeholders::_1 ) ), gunmods.end() );
+        gunmods.erase(
+            std::remove_if(
+        gunmods.begin(), gunmods.end(), []( const item * i ) {
+            return i->is_irremovable();
+        } ),
+        gunmods.end() );
     };
 
     item gun_copy = item( it );
@@ -4351,14 +4358,17 @@ cata::optional<int> detach_gunmods_actor::use( Character &p, item &it, bool,
 ret_val<bool> detach_gunmods_actor::can_use( const Character &p, const item &it, bool,
         const tripoint & ) const
 {
-    const auto mods = it.gunmods();
+    const std::vector<const item *> mods = it.gunmods();
 
     if( mods.empty() ) {
         return ret_val<bool>::make_failure( _( "Doesn't appear to be modded." ) );
     }
 
-    const bool no_removables = std::all_of( mods.begin(), mods.end(), std::bind( &item::is_irremovable,
-                                            std::placeholders::_1 ) );
+    const bool no_removables =
+        std::all_of( mods.begin(), mods.end(),
+    []( const item * mod ) {
+        return mod->is_irremovable();
+    } );
 
     if( no_removables ) {
         return ret_val<bool>::make_failure( _( "None of the mods can be removed." ) );
@@ -4422,14 +4432,16 @@ ret_val<bool> modify_gunmods_actor::can_use( const Character &p, const item &it,
     if( !p.is_wielding( it ) ) {
         return ret_val<bool>::make_failure( _( "Need to be wielding." ) );
     }
-    const auto mods = it.gunmods();
+    const std::vector<const item *> mods = it.gunmods();
 
     if( mods.empty() ) {
         return ret_val<bool>::make_failure( _( "Doesn't appear to be modded." ) );
     }
 
     const bool modifiables = std::any_of( mods.begin(), mods.end(),
-                                          std::bind( &item::is_transformable, std::placeholders::_1 ) );
+    []( const item * mod ) {
+        return mod->is_transformable();
+    } );
 
     if( !modifiables ) {
         return ret_val<bool>::make_failure( _( "None of the mods can be modified." ) );

@@ -910,7 +910,7 @@ class npc : public Character
         double value( const item &it, double market_price ) const;
         bool wear_if_wanted( const item &it, std::string &reason );
         bool can_read( const item &book, std::vector<std::string> &fail_reasons );
-        int time_to_read( const item &book, const Character &reader ) const;
+        time_duration time_to_read( const item &book, const Character &reader ) const;
         void do_npc_read();
         void stow_item( item &it );
         bool wield( item &it ) override;

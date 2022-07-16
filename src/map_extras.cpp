@@ -2824,31 +2824,6 @@ void apply_function( const map_extra_id &id, map &m, const tripoint_abs_sm &abs_
     }
 
     overmap_buffer.add_extra( project_to<coords::omt>( abs_sub ), id );
-
-    auto_notes::auto_note_settings &auto_note_settings = get_auto_notes_settings();
-
-    // The player has discovered a map extra of this type.
-    auto_note_settings.set_discovered( id );
-
-    if( get_option<bool>( "AUTO_NOTES" ) && get_option<bool>( "AUTO_NOTES_MAP_EXTRAS" ) ) {
-
-        // Only place note if the user has not disabled it via the auto note manager
-        if( !auto_note_settings.has_auto_note_enabled( id, true ) ) {
-            return;
-        }
-
-        const cata::optional<auto_notes::custom_symbol> &symbol =
-            auto_note_settings.get_custom_symbol( extra.id );
-        const std::string note_symbol = symbol ? ( *symbol ).get_symbol_string() : extra.get_symbol();
-        const nc_color note_color = symbol ? ( *symbol ).get_color() : extra.color;
-        const std::string mx_note =
-            string_format( "%s:%s;<color_yellow>%s</color>: <color_white>%s</color>",
-                           note_symbol,
-                           get_note_string_from_color( note_color ),
-                           extra.name(),
-                           extra.description() );
-        overmap_buffer.add_note( project_to<coords::omt>( abs_sub ), mx_note );
-    }
 }
 
 FunctionMap all_functions()

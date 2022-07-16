@@ -4985,17 +4985,20 @@ bool mattack::riotbot( monster *z )
 
     // Already arrested?
     // And yes, if the player has no hands, we are not going to arrest them.
-    if( foe != nullptr &&
-        ( foe->get_wielded_item()->typeId() == itype_e_handcuffs || !foe->has_two_arms_lifting() ) ) {
-        z->anger = 0;
+    if( foe != nullptr ) {
+        item_location foe_weapon = foe->get_wielded_item();
 
-        if( calendar::once_every( 25_turns ) ) {
-            sounds::sound( z->pos(), 10, sounds::sound_t::electronic_speech,
-                           _( "Halt and submit to arrest, citizen!  The police will be here any moment." ), false, "speech",
-                           z->type->id.str() );
+        if( foe_weapon && ( foe_weapon->typeId() == itype_e_handcuffs || !foe->has_two_arms_lifting() ) ) {
+            z->anger = 0;
+
+            if( calendar::once_every( 25_turns ) ) {
+                sounds::sound( z->pos(), 10, sounds::sound_t::electronic_speech,
+                               _( "Halt and submit to arrest, citizen!  The police will be here any moment." ), false, "speech",
+                               z->type->id.str() );
+            }
+
+            return true;
         }
-
-        return true;
     }
 
     if( z->anger < z->type->agro ) {
