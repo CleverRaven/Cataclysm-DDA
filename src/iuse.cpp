@@ -8693,7 +8693,7 @@ cata::optional<int> iuse::cable_attach( Character *p, item *it, bool, const trip
             vehicle *const target_veh = &target_vp->vehicle();
             if( source_veh == target_veh ) {
                 if( p != nullptr && p->has_item( *it ) ) {
-                    p->add_msg_if_player( m_warning, _( "The %s already has access to its own electric system!" ),
+                    p->add_msg_if_player( m_warning, _( "There is no need to connect the %s to itself." ),
                                           source_veh->name );
                 }
                 return 0;
@@ -8825,7 +8825,7 @@ cata::optional<int> iuse::cord_attach( Character *p, item *it, bool, const tripo
             vehicle *const target_veh = &target_vp->vehicle();
             if( source_veh == target_veh ) {
                 if( p != nullptr && p->has_item( *it ) ) {
-                    p->add_msg_if_player( m_warning, _( "The %s already has access to its own electric system!" ),
+                    p->add_msg_if_player( m_warning, _( "There is no need to connect the %s to itself." ),
                                           source_veh->name );
                 }
                 return 0;
