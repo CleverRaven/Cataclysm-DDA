@@ -3306,8 +3306,9 @@ void overmap::generate( const overmap *north, const overmap *east,
                                   PATH_INFO::moddir(),
                                   overmap_pregenerated_path, pos().x(), pos().y() );
         dbg( D_INFO ) << "trying" << fpath;
-        using namespace std::placeholders;
-        if( !read_from_file_optional( fpath, std::bind( &overmap::unserialize_omap, this, _1 ) ) ) {
+        if( !read_from_file_optional( fpath, [this]( std::istream & is ) {
+        unserialize_omap( is );
+        } ) ) {
             dbg( D_INFO ) << "failed" << fpath;
             int z = 0;
             const oter_id lake_surface( "lake_surface" );
@@ -6363,10 +6364,13 @@ void overmap::open( overmap_special_batch &enabled_specials )
 {
     const std::string terfilename = overmapbuffer::terrain_filename( loc );
 
-    using namespace std::placeholders;
-    if( read_from_file_optional( terfilename, std::bind( &overmap::unserialize, this, _1 ) ) ) {
+    if( read_from_file_optional( terfilename, [this]( std::istream & is ) {
+    unserialize( is );
+    } ) ) {
         const std::string plrfilename = overmapbuffer::player_filename( loc );
-        read_from_file_optional( plrfilename, std::bind( &overmap::unserialize_view, this, _1 ) );
+        read_from_file_optional( plrfilename, [this]( std::istream & is ) {
+            unserialize_view( is );
+        } );
     } else { // No map exists!  Prepare neighbors, and generate one.
         std::vector<const overmap *> pointers;
         // Fetch south and north
