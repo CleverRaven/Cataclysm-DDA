@@ -28,7 +28,7 @@
       }
     ],
     "warmth": 10,
-    "flags": [ "EXO_UNDERLAYER", "USE_UPS", "SKINTIGHT", "WATERPROOF", "POWERARMOR_COMPATIBLE", "SOFT" ],
+    "flags": [ "EXO_UNDERLAYER", "CANT_WEAR", "USE_UPS", "SKINTIGHT", "WATERPROOF", "POWERARMOR_COMPATIBLE", "SOFT" ],
     "relic_data": {
       "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "ITEM_ENCUMBRANCE", "add": -10 } ] } ]
     }
@@ -70,7 +70,7 @@
       }
     ],
     "warmth": 10,
-    "flags": [ "EXO_UNDERLAYER", "USE_UPS", "SKINTIGHT", "WATERPROOF", "POWERARMOR_COMPATIBLE", "SOFT" ],
+    "flags": [ "EXO_UNDERLAYER", "CANT_WEAR", "USE_UPS", "SKINTIGHT", "WATERPROOF", "POWERARMOR_COMPATIBLE", "SOFT" ],
     "relic_data": {
       "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "ITEM_ENCUMBRANCE", "add": -10 } ] } ]
     }
@@ -106,6 +106,7 @@
     "warmth": 10,
     "flags": [
       "EXO_UNDERLAYER",
+      "CANT_WEAR",
       "USE_UPS",
       "SKINTIGHT",
       "WATERPROOF",
@@ -158,6 +159,7 @@
     "warmth": 10,
     "flags": [
       "EXO_UNDERLAYER",
+      "CANT_WEAR",
       "USE_UPS",
       "SKINTIGHT",
       "WATERPROOF",
