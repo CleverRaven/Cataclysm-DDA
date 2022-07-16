@@ -201,9 +201,7 @@
     "flags": [ "ABLATIVE_LARGE", "CANT_WEAR" ],
     "armor": [
       {
-        "material": [
-          { "type": "qt_steel", "covered_by_mat": 100, "thickness": 6.35 }
-        ],
+        "material": [ { "type": "qt_steel", "covered_by_mat": 100, "thickness": 6.35 } ],
         "encumbrance": 2,
         "coverage": 45,
         "covers": [ "torso" ],
