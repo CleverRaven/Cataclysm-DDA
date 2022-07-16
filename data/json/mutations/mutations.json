@@ -4174,7 +4174,7 @@
       "THRESH_BATRACHIAN"
     ],
     "changes_to": [ "MUT_TOUGH2" ],
-    "category": [ "URSINE", "CATTLE", "CHIMERA", "BEAST", "LIZARD" ],
+    "category": [ "URSINE", "CATTLE", "CHIMERA", "BEAST", "LIZARD", "BATRACHIAN" ],
     "hp_modifier_secondary": 0.2
   },
   {
