@@ -4988,7 +4988,7 @@ bool mattack::riotbot( monster *z )
     if( foe != nullptr ) {
         item_location foe_weapon = foe->get_wielded_item();
 
-        if( foe_weapon && foe_weapon->typeId() == itype_e_handcuffs || !foe->has_two_arms_lifting() ) {
+        if( foe_weapon && ( foe_weapon->typeId() == itype_e_handcuffs || !foe->has_two_arms_lifting() ) ) {
             z->anger = 0;
 
             if( calendar::once_every( 25_turns ) ) {
