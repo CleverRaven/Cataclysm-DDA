@@ -45,30 +45,6 @@
     "flags": [ "WATCH", "ALARMCLOCK" ]
   },
   {
-    "type": "TOOL",
-    "id": "butane_can",
-    "name": { "str": "can of butane", "str_pl": "cans of butane" },
-    "description": "A typical can of butane that you would normally use to fill a lighter.  It could be useful as a fuel, but also as a solvent or chemical reagent.",
-    "symbol": "!",
-    "color": "dark_gray",
-    "looks_like": "spray_can",
-    "weight": "420 g",
-    "volume": "500 ml",
-    "price": 1500,
-    "price_postapoc": 250,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "butane": 30 }, "watertight": true, "rigid": true } ],
-    "charges_per_use": 1,
-    "material": [ "steel" ],
-    "flags": [  ],
-    "explosion": {
-      "power": 4503,
-      "distance_factor": 0.1,
-      "fire": true,
-      "shrapnel": { "casing_mass": 50, "fragment_mass": 0.025, "recovery": 0 }
-    },
-    "explode_in_fire": true
-  },
-  {
     "id": "cow_bell",
     "type": "TOOL",
     "name": { "str": "cow bell" },

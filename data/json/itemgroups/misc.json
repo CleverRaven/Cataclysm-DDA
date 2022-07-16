@@ -37,6 +37,15 @@
     "items": [ [ "joint", 100 ], [ "joint_roach", 20 ], [ "pipe_glass", 10 ] ]
   },
   {
+    "id": "butane_lighter_and_fuel",
+    "type": "item_group",
+    "//": "Processed weed and weed accessories",
+    "items": [
+      { "item": "ref_lighter_butane" },
+      { "item": "butane", "container-item": "butane_can", "count": [ 0, 2 ] }
+    ]
+  },  
+  {
     "id": "silverware",
     "type": "item_group",
     "//": "Forks, spoons, knives, etc.",

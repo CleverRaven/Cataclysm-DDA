@@ -24,6 +24,7 @@
     "name": { "str_sp": "butane" },
     "symbol": "~",
     "description": "A common flammable liquid used in lighters.",
+    "container": "butane_can",
     "volume": "1 ml",
     "weight": "1 mg",
     "color": "white",
