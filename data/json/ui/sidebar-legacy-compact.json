@@ -4,7 +4,7 @@
     "type": "widget",
     "style": "layout",
     "arrange": "columns",
-    "widgets": [ "bodypart_head_status_text", "hp_head_graph_nolabel" ],
+    "widgets": [ "bodypart_head_status_text", "hp_head_graph_no_label" ],
     "flags": [ "W_NO_PADDING" ]
   },
   {
@@ -42,7 +42,7 @@
     "type": "widget",
     "style": "layout",
     "arrange": "columns",
-    "widgets": [ "bodypart_head_status_text", "hp_head_num_nolabel" ],
+    "widgets": [ "bodypart_head_status_text", "hp_head_num_no_label" ],
     "flags": [ "W_NO_PADDING" ]
   },
   {
