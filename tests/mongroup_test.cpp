@@ -25,12 +25,12 @@ static void spawn_x_monsters( int x, const mongroup_id &grp, const std::vector<m
     std::set<mtype_id> rand_results;
     calendar::turn = time_point( 1 );
     for( int i = 0; i < x; i++ ) {
-        const mtype_id &tmp_get = MonsterGroupManager::GetRandomMonsterFromGroup( grp );
+        mtype_id tmp_get = MonsterGroupManager::GetRandomMonsterFromGroup( grp );
         if( !tmp_get.is_null() ) {
             rand_gets.emplace( tmp_get );
         }
 
-        const mtype_id &tmp_res = MonsterGroupManager::GetResultFromGroup( grp ).name;
+        mtype_id tmp_res = MonsterGroupManager::GetResultFromGroup( grp ).front().name;
         if( !tmp_res.is_null() ) {
             rand_results.emplace( tmp_res );
         }
@@ -185,9 +185,7 @@ TEST_CASE( "Nested monster groups spawn chance", "[mongroup]" )
     calendar::turn += 1_turns;
 
     for( int i = 0; i < iters; i++ ) {
-        int qty = 1;
-        bool monfound = false;
-        MonsterGroupResult res = MonsterGroupManager::GetResultFromGroup( mg, &qty, &monfound );
+        MonsterGroupResult res = MonsterGroupManager::GetResultFromGroup( mg ).front();
         auto iter = results.find( res.name );
         CAPTURE( res.name.c_str() );
         REQUIRE( iter != results.end() );
@@ -207,5 +205,47 @@ TEST_CASE( "Nested monster groups spawn chance", "[mongroup]" )
         INFO( string_format( "monster %s - expected vs. actual", res.first.c_str() ) );
         CHECK( std::get<1>( res.second ) ==
                Approx( static_cast<float>( std::get<2>( res.second ) ) / iters ).epsilon( 0.5 ) );
+    }
+}
+
+TEST_CASE( "Nested monster group pack size", "[mongroup]" )
+{
+    const int iters = 100;
+    calendar::turn += 1_turns;
+
+    SECTION( "Nested group pack size used as-is" ) {
+        mongroup_id mg( "test_top_level_no_packsize" );
+        for( int i = 0; i < iters; i++ ) {
+            bool found = false;
+            std::vector<MonsterGroupResult> res =
+                MonsterGroupManager::GetResultFromGroup( mg, nullptr, &found );
+            REQUIRE( found );
+
+            // pack_size == [2, 4] * 1
+            CHECK( res.size() == 1 );
+            int total = 0;
+            for( const MonsterGroupResult &mgr : res ) {
+                total += mgr.pack_size;
+            }
+            CHECK( total == Approx( 3 ).margin( 1 ) );
+        }
+    }
+
+    SECTION( "Nested group pack size multiplied by top level pack size" ) {
+        mongroup_id mg( "test_top_level_packsize" );
+        for( int i = 0; i < iters; i++ ) {
+            bool found = false;
+            std::vector<MonsterGroupResult> res =
+                MonsterGroupManager::GetResultFromGroup( mg, nullptr, &found );
+            REQUIRE( found );
+
+            // pack_size == [2, 4] * [4, 6]
+            CHECK( res.size() == Approx( 5 ).margin( 1 ) );
+            int total = 0;
+            for( const MonsterGroupResult &mgr : res ) {
+                total += mgr.pack_size;
+            }
+            CHECK( total == Approx( 16 ).margin( 8 ) );
+        }
     }
 }
