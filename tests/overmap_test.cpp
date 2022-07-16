@@ -308,7 +308,7 @@ TEST_CASE( "overmap_terrain_coverage", "[overmap][slow]" )
     point_abs_omt origin;
     map &main_map = get_map();
 
-    for( const point_abs_omt &p : closest_points_first( origin, 0, 30 * OMAPX - 1 ) ) {
+    for( const point_abs_omt &p : closest_points_first( origin, 0, 15 * OMAPX - 1 ) ) {
         // We need to avoid OMTs that overlap with the 'main' map.
         if( main_map.inbounds( tripoint_abs_ms( project_to<coords::ms>( p ), 0 ) ) ) {
             continue;
