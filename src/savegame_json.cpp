@@ -532,7 +532,13 @@ void Character::trait_data::deserialize( const JsonObject &data )
 {
     data.allow_omitted_members();
     data.read( "key", key );
-    data.read( "charge", charge );
+
+    //Remove after 0.G
+    if( data.has_int( "charge" ) ) {
+        charge = time_duration::from_turns( data.get_int( "charge" ) );
+    } else {
+        data.read( "charge", charge );
+    }
     data.read( "powered", powered );
     data.read( "show_sprite", show_sprite );
     if( data.has_member( "variant-parent" ) ) {
@@ -649,6 +655,10 @@ void Character::load( const JsonObject &data )
     data.read( "avg_nat_bpm", avg_nat_bpm );
 
     data.read( "custom_profession", custom_profession );
+
+    // sleep
+    data.read( "daily_sleep", daily_sleep );
+    data.read( "continuous_sleep", continuous_sleep );
 
     // needs
     data.read( "thirst", thirst );
@@ -1245,6 +1255,10 @@ void Character::store( JsonOut &json ) const
     json.member( "healthy", lifestyle );
     json.member( "healthy_mod", daily_health );
     json.member( "health_tally", health_tally );
+
+    //sleep
+    json.member( "daily_sleep", daily_sleep );
+    json.member( "continuous_sleep", continuous_sleep );
 
     // needs
     json.member( "thirst", thirst );
@@ -4761,9 +4775,9 @@ void submap::store( JsonOut &jsout ) const
     jsout.member( "partial_constructions" );
     jsout.start_array();
     for( const auto &elem : partial_constructions ) {
-        jsout.write( elem.first.x );
-        jsout.write( elem.first.y );
-        jsout.write( elem.first.z );
+        jsout.write( elem.first.x() );
+        jsout.write( elem.first.y() );
+        jsout.write( elem.first.z() );
         jsout.write( elem.second.counter );
         jsout.write( elem.second.id.id() );
         jsout.start_array();
@@ -5025,7 +5039,7 @@ void submap::load( JsonIn &jsin, const std::string &member_name, int version )
             int i = jsin.get_int();
             int j = jsin.get_int();
             int k = jsin.get_int();
-            tripoint pt = tripoint( i, j, k );
+            tripoint_sm_ms pt( i, j, k );
             pc.counter = jsin.get_int();
             if( jsin.test_int() ) {
                 // Oops, int id incorrectly saved by legacy code, just load it and hope for the best

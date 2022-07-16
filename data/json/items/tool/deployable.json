@@ -367,5 +367,23 @@
     "symbol": "7",
     "color": "yellow_red",
     "use_action": { "type": "deploy_furn", "furn_type": "f_manual_tire_changer" }
+  },
+  {
+    "id": "folded_wheelchair",
+    "type": "TOOL",
+    "name": { "str": "folded wheelchair" },
+    "description": "A folded wheelchair.",
+    "weight": "10586 g",
+    "volume": "13500 ml",
+    "longest_side": "92 cm",
+    "symbol": "/",
+    "color": "light_gray",
+    "flags": [ "NO_REPAIR" ],
+    "use_action": {
+      "type": "unfold_vehicle",
+      "vehicle_name": "wheelchair",
+      "unfold_msg": "You painstakingly unfold the wheelchair and make it ready to use.",
+      "moves": 500
+    }
   }
 ]

@@ -25,8 +25,8 @@
   },
   {
     "type": "mutation",
-    "id": "MANIFESTED_DESTINY_GOBLIN",
-    "name": { "str": "Transformed into Goblin" },
+    "id": "MANIFESTED_DESTINY_SPIDER",
+    "name": { "str": "Transformed into Spider" },
     "points": 0,
     "player_display": false,
     "description": "You don't feel very well.  On an existential level."

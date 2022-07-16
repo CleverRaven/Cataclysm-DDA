@@ -1150,6 +1150,11 @@ optional_vpart_position map::veh_at( const tripoint &p ) const
 
 }
 
+optional_vpart_position map::veh_at( const tripoint_bub_ms &p ) const
+{
+    return veh_at( p.raw() );
+}
+
 const vehicle *map::veh_at_internal( const tripoint &p, int &part_num ) const
 {
     // This function is called A LOT. Move as much out of here as possible.
@@ -1520,6 +1525,11 @@ bool map::has_furn( const tripoint &p ) const
     return furn( p ) != f_null;
 }
 
+bool map::has_furn( const tripoint_bub_ms &p ) const
+{
+    return has_furn( p.raw() );
+}
+
 furn_id map::furn( const tripoint &p ) const
 {
     if( !inbounds( p ) ) {
@@ -1536,13 +1546,24 @@ furn_id map::furn( const tripoint &p ) const
     return current_submap->get_furn( l );
 }
 
-bool map::furn_set( const tripoint &p, const furn_id &new_furniture, const bool furn_reset )
+furn_id map::furn( const tripoint_bub_ms &p ) const
+{
+    return furn( p.raw() );
+}
+
+bool map::furn_set( const tripoint &p, const furn_id &new_furniture, const bool furn_reset,
+                    bool avoid_creatures )
 {
     if( !inbounds( p ) ) {
         debugmsg( "map::furn_set %s out of bounds", p.to_string() );
         return false;
     }
-
+    if( avoid_creatures ) {
+        Creature *c = get_creature_tracker().creature_at( tripoint_abs_ms( getabs( p ) ), true );
+        if( c ) {
+            return false;
+        }
+    }
     point l;
     submap *const current_submap = unsafe_get_submap_at( p, l );
     if( current_submap == nullptr ) {
@@ -1635,6 +1656,12 @@ bool map::furn_set( const tripoint &p, const furn_id &new_furniture, const bool 
     return result;
 }
 
+bool map::furn_set( const tripoint_bub_ms &p, const furn_id &new_furniture, const bool furn_reset,
+                    bool avoid_creatures )
+{
+    return furn_set( p.raw(), new_furniture, furn_reset, avoid_creatures );
+}
+
 bool map::can_move_furniture( const tripoint &pos, Character *you )
 {
     if( !you ) {
@@ -1702,6 +1729,11 @@ ter_id map::ter( const tripoint &p ) const
     }
 
     return current_submap->get_ter( l );
+}
+
+ter_id map::ter( const tripoint_bub_ms &p ) const
+{
+    return ter( p.raw() );
 }
 
 uint8_t map::get_known_connections( const tripoint &p, int connect_group,
@@ -1880,10 +1912,16 @@ bool map::is_harvestable( const tripoint &pos ) const
 /*
  * set terrain via string; this works for -any- terrain id
  */
-bool map::ter_set( const tripoint &p, const ter_id &new_terrain )
+bool map::ter_set( const tripoint &p, const ter_id &new_terrain, bool avoid_creatures )
 {
     if( !inbounds( p ) ) {
         return false;
+    }
+    if( avoid_creatures ) {
+        Creature *c = get_creature_tracker().creature_at( tripoint_abs_ms( getabs( p ) ), true );
+        if( c ) {
+            return false;
+        }
     }
 
     point l;
@@ -1972,6 +2010,11 @@ bool map::ter_set( const tripoint &p, const ter_id &new_terrain )
     support_dirty( above );
 
     return true;
+}
+
+bool map::ter_set( const tripoint_bub_ms &p, const ter_id &new_terrain, bool avoid_creatures )
+{
+    return ter_set( p.raw(), new_terrain, avoid_creatures );
 }
 
 std::string map::tername( const tripoint &p ) const
@@ -2094,6 +2137,11 @@ int map::move_cost( const tripoint &p, const vehicle *ignored_vehicle ) const
 bool map::impassable( const tripoint &p ) const
 {
     return !passable( p );
+}
+
+bool map::impassable( const tripoint_bub_ms &p ) const
+{
+    return impassable( p.raw() );
 }
 
 bool map::passable( const tripoint &p ) const
@@ -2612,6 +2660,11 @@ bool map::can_put_items( const tripoint &p ) const
     return static_cast<bool>( vp.part_with_feature( "CARGO", true ) );
 }
 
+bool map::can_put_items( const tripoint_bub_ms &p ) const
+{
+    return can_put_items( p.raw() );
+}
+
 bool map::can_put_items_ter_furn( const tripoint &p ) const
 {
     return !has_flag( ter_furn_flag::TFLAG_NOITEM, p ) && !has_flag( ter_furn_flag::TFLAG_SEALED, p );
@@ -2647,6 +2700,11 @@ bool map::has_flag_ter_or_furn( const std::string &flag, const tripoint &p ) con
 bool map::has_flag( const ter_furn_flag flag, const tripoint &p ) const
 {
     return has_flag_ter_or_furn( flag, p ); // Does bound checking
+}
+
+bool map::has_flag( const ter_furn_flag flag, const tripoint_bub_ms &p ) const
+{
+    return has_flag( flag, p.raw() );
 }
 
 bool map::has_flag_ter( const ter_furn_flag flag, const tripoint &p ) const
@@ -3888,6 +3946,11 @@ void map::destroy_furn( const tripoint &p, const bool silent )
     }
 }
 
+void map::destroy_furn( const tripoint_bub_ms &p, const bool silent )
+{
+    destroy_furn( p.raw(), silent );
+}
+
 void map::batter( const tripoint &p, int power, int tries, const bool silent )
 {
     int count = 0;
@@ -4334,6 +4397,10 @@ void map::delete_signage( const tripoint &p ) const
 
     current_submap->delete_signage( l );
 }
+void map::delete_signage( const tripoint_bub_ms &p ) const
+{
+    delete_signage( p.raw() );
+}
 
 int map::get_radiation( const tripoint &p ) const
 {
@@ -4432,6 +4499,11 @@ map_stack map::i_at( const tripoint &p )
     return map_stack{ &current_submap->get_items( l ), p, this };
 }
 
+map_stack map::i_at( const tripoint_bub_ms &p )
+{
+    return i_at( p.raw() );
+}
+
 map_stack::iterator map::i_rem( const tripoint &p, const map_stack::const_iterator &it )
 {
     point l;
@@ -4506,6 +4578,11 @@ std::vector<item *> map::spawn_items( const tripoint &p, const std::vector<item>
     }
 
     return ret;
+}
+
+std::vector<item *> map::spawn_items( const tripoint_bub_ms &p, const std::vector<item> &new_items )
+{
+    return spawn_items( p.raw(), new_items );
 }
 
 void map::spawn_artifact( const tripoint &p, const relic_procgen_id &id,
@@ -4682,6 +4759,11 @@ item &map::add_item_or_charges( const tripoint &pos, item obj, bool overflow )
 
     // failed due to lack of space at target tile (+/- overflow tiles)
     return null_item_reference();
+}
+
+item &map::add_item_or_charges( const tripoint_bub_ms &pos, item obj, bool overflow )
+{
+    return add_item_or_charges( pos.raw(), obj, overflow );
 }
 
 item &map::add_item( const tripoint &p, item new_item )
@@ -5550,50 +5632,55 @@ const trap &map::tr_at( const tripoint &p ) const
     return current_submap->get_trap( l ).obj();
 }
 
-partial_con *map::partial_con_at( const tripoint &p )
+const trap &map::tr_at( const tripoint_bub_ms &p ) const
+{
+    return tr_at( p.raw() );
+}
+
+partial_con *map::partial_con_at( const tripoint_bub_ms &p )
 {
     if( !inbounds( p ) ) {
         return nullptr;
     }
-    point l;
+    point_sm_ms l;
     submap *const current_submap = unsafe_get_submap_at( p, l );
     if( current_submap == nullptr ) {
-        debugmsg( "Tried to get construction at (%d,%d) but the submap is not loaded", l.x, l.y );
+        debugmsg( "Tried to get construction at %s but the submap is not loaded", l.to_string() );
         return nullptr;
     }
-    auto it = current_submap->partial_constructions.find( tripoint( l, p.z ) );
+    auto it = current_submap->partial_constructions.find( tripoint_sm_ms( l, p.z() ) );
     if( it != current_submap->partial_constructions.end() ) {
         return &it->second;
     }
     return nullptr;
 }
 
-void map::partial_con_remove( const tripoint &p )
+void map::partial_con_remove( const tripoint_bub_ms &p )
 {
     if( !inbounds( p ) ) {
         return;
     }
-    point l;
+    point_sm_ms l;
     submap *const current_submap = unsafe_get_submap_at( p, l );
     if( current_submap == nullptr ) {
-        debugmsg( "Tried to remove construction at (%d,%d) but the submap is not loaded", l.x, l.y );
+        debugmsg( "Tried to remove construction at %s but the submap is not loaded", l.to_string() );
         return;
     }
-    current_submap->partial_constructions.erase( tripoint( l, p.z ) );
+    current_submap->partial_constructions.erase( tripoint_sm_ms( l, p.z() ) );
 }
 
-void map::partial_con_set( const tripoint &p, const partial_con &con )
+void map::partial_con_set( const tripoint_bub_ms &p, const partial_con &con )
 {
     if( !inbounds( p ) ) {
         return;
     }
-    point l;
+    point_sm_ms l;
     submap *const current_submap = unsafe_get_submap_at( p, l );
     if( current_submap == nullptr ) {
-        debugmsg( "Tried to set construction at (%d,%d) but the submap is not loaded", l.x, l.y );
+        debugmsg( "Tried to set construction at %s but the submap is not loaded", l.to_string() );
         return;
     }
-    if( !current_submap->partial_constructions.emplace( tripoint( l, p.z ), con ).second ) {
+    if( !current_submap->partial_constructions.emplace( tripoint_sm_ms( l, p.z() ), con ).second ) {
         debugmsg( "set partial con on top of terrain which already has a partial con" );
     }
 }
@@ -5629,6 +5716,11 @@ void map::trap_set( const tripoint &p, const trap_id &type )
     }
 }
 
+void map::trap_set( const tripoint_bub_ms &p, const trap_id &type )
+{
+    trap_set( p.raw(), type );
+}
+
 void map::remove_trap( const tripoint &p )
 {
     if( !inbounds( p ) ) {
@@ -5656,6 +5748,12 @@ void map::remove_trap( const tripoint &p )
         }
     }
 }
+
+void map::remove_trap( const tripoint_bub_ms &p )
+{
+    remove_trap( p.raw() );
+}
+
 /*
  * Get wrapper for all fields at xyz
  */
@@ -8110,6 +8208,11 @@ bool map::inbounds( const tripoint &p ) const
     return map_boundaries.contains( p );
 }
 
+bool map::inbounds( const tripoint_bub_ms &p ) const
+{
+    return inbounds( p.raw() );
+}
+
 bool tinymap::inbounds( const tripoint &p ) const
 {
     constexpr tripoint map_boundary_min( 0, 0, -OVERMAP_DEPTH );
@@ -8581,9 +8684,19 @@ tripoint map::getabs( const tripoint &p ) const
     return sm_to_ms_copy( abs_sub.xy().raw() ) + p;
 }
 
+tripoint map::getabs( const tripoint_bub_ms &p ) const
+{
+    return ( project_to<coords::ms>( abs_sub.xy() ) + p.raw() ).raw();
+}
+
 tripoint_abs_ms map::getglobal( const tripoint &p ) const
 {
     return tripoint_abs_ms( getabs( p ) );
+}
+
+tripoint_abs_ms map::getglobal( const tripoint_bub_ms &p ) const
+{
+    return project_to<coords::ms>( abs_sub.xy() ) + p.raw();
 }
 
 tripoint map::getlocal( const tripoint &p ) const
@@ -8596,6 +8709,17 @@ tripoint map::getlocal( const tripoint_abs_ms &p ) const
 {
     // TODO: fix point types
     return getlocal( p.raw() );
+}
+
+tripoint_bub_ms map::bub_from_abs( const tripoint &p ) const
+{
+    // TODO: fix point types
+    return bub_from_abs( tripoint_abs_ms( p ) );
+}
+
+tripoint_bub_ms map::bub_from_abs( const tripoint_abs_ms &p ) const
+{
+    return tripoint_bub_ms() + ( p - project_to<coords::ms>( abs_sub.xy() ) );
 }
 
 void map::set_abs_sub( const tripoint_abs_sm &p )
@@ -8660,17 +8784,19 @@ size_t map::get_nonant( const tripoint &gridp ) const
     }
 }
 
-void map::draw_line_ter( const ter_id &type, const point &p1, const point &p2 )
+void map::draw_line_ter( const ter_id &type, const point &p1, const point &p2,
+                         bool avoid_creatures )
 {
-    draw_line( [this, type]( const point & p ) {
-        this->ter_set( p, type );
+    draw_line( [this, type, avoid_creatures]( const point & p ) {
+        this->ter_set( p, type, avoid_creatures );
     }, p1, p2 );
 }
 
-void map::draw_line_furn( const furn_id &type, const point &p1, const point &p2 )
+void map::draw_line_furn( const furn_id &type, const point &p1, const point &p2,
+                          bool avoid_creatures )
 {
-    draw_line( [this, type]( const point & p ) {
-        this->furn_set( p, type );
+    draw_line( [this, type, avoid_creatures]( const point & p ) {
+        this->furn_set( p, type, avoid_creatures );
     }, p1, p2 );
 }
 
@@ -8705,33 +8831,35 @@ void map::draw_fill_background( const weighted_int_list<ter_id> &f )
     draw_square_ter( f, point_zero, point( SEEX * my_MAPSIZE - 1, SEEY * my_MAPSIZE - 1 ) );
 }
 
-void map::draw_square_ter( const ter_id &type, const point &p1, const point &p2 )
+void map::draw_square_ter( const ter_id &type, const point &p1, const point &p2,
+                           bool avoid_creatures )
 {
-    draw_square( [this, type]( const point & p ) {
-        this->ter_set( p, type );
+    draw_square( [this, type, avoid_creatures]( const point & p ) {
+        this->ter_set( p, type, avoid_creatures );
     }, p1, p2 );
 }
 
-void map::draw_square_furn( const furn_id &type, const point &p1, const point &p2 )
+void map::draw_square_furn( const furn_id &type, const point &p1, const point &p2,
+                            bool avoid_creatures )
 {
-    draw_square( [this, type]( const point & p ) {
-        this->furn_set( p, type );
+    draw_square( [this, type, avoid_creatures]( const point & p ) {
+        this->furn_set( p, type, avoid_creatures );
     }, p1, p2 );
 }
 
-void map::draw_square_ter( ter_id( *f )(), const point &p1, const point &p2 )
+void map::draw_square_ter( ter_id( *f )(), const point &p1, const point &p2, bool avoid_creatures )
 {
-    draw_square( [this, f]( const point & p ) {
-        this->ter_set( p, f() );
+    draw_square( [this, f, avoid_creatures]( const point & p ) {
+        this->ter_set( p, f(), avoid_creatures );
     }, p1, p2 );
 }
 
 void map::draw_square_ter( const weighted_int_list<ter_id> &f, const point &p1,
-                           const point &p2 )
+                           const point &p2, bool avoid_creatures )
 {
-    draw_square( [this, f]( const point & p ) {
+    draw_square( [this, f, avoid_creatures]( const point & p ) {
         const ter_id *tid = f.pick();
-        this->ter_set( p, tid != nullptr ? *tid : t_null );
+        this->ter_set( p, tid != nullptr ? *tid : t_null, avoid_creatures );
     }, p1, p2 );
 }
 
@@ -8839,6 +8967,11 @@ void map::maybe_trigger_trap( const tripoint &pos, Creature &c, const bool may_a
                                  tr.name() );
     }
     tr.trigger( c.pos(), c );
+}
+
+void map::maybe_trigger_trap( const tripoint_bub_ms &pos, Creature &c, const bool may_avoid )
+{
+    maybe_trigger_trap( pos.raw(), c, may_avoid );
 }
 
 template<typename Functor>
@@ -8965,6 +9098,19 @@ tripoint_range<tripoint> map::points_in_radius( const tripoint &center, size_t r
                         std::min<int>( SEEX * my_MAPSIZE - 1, center.y + radius ), clamp<int>( center.z + radiusz,
                                 -OVERMAP_DEPTH, OVERMAP_HEIGHT ) );
     return tripoint_range<tripoint>( min, max );
+}
+
+tripoint_range<tripoint_bub_ms> map::points_in_radius(
+    const tripoint_bub_ms &center, size_t radius, size_t radiusz ) const
+{
+    const tripoint_bub_ms min(
+        std::max<int>( 0, center.x() - radius ), std::max<int>( 0, center.y() - radius ),
+        clamp<int>( center.z() - radiusz, -OVERMAP_DEPTH, OVERMAP_HEIGHT ) );
+    const tripoint_bub_ms max(
+        std::min<int>( SEEX * my_MAPSIZE - 1, center.x() + radius ),
+        std::min<int>( SEEX * my_MAPSIZE - 1, center.y() + radius ),
+        clamp<int>( center.z() + radiusz, -OVERMAP_DEPTH, OVERMAP_HEIGHT ) );
+    return tripoint_range<tripoint_bub_ms>( min, max );
 }
 
 tripoint_range<tripoint> map::points_on_zlevel( const int z ) const

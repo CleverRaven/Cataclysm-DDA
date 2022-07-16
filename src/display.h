@@ -45,17 +45,18 @@ struct disp_overmap_cache {
 struct disp_bodygraph_cache {
     private:
         std::map<bodypart_id, std::pair<int, int>> _bp_cur_max;
+        std::string _graph_id;
         std::string _graph_wgt_str;
 
     public:
         disp_bodygraph_cache();
 
         // Returns true if the stored map of current/max HP values differ from the character.
-        bool is_valid_for( const Character &u ) const;
+        bool is_valid_for( const Character &u, std::string graph_id ) const;
 
         // Rebuild the cache using the bodypart HP values from the character and
         // store the resulting widget string.
-        void rebuild( const Character &u, const std::string &bg_wgt_str );
+        void rebuild( const Character &u, std::string graph_id, const std::string &bg_wgt_str );
 
         // Retrieve the cached widget string
         const std::string &get_val() const {
@@ -83,6 +84,8 @@ std::string time_approx();
 std::string time_string( const Character &u );
 // Sundial representing the current time of day
 std::string sundial_text_color( const Character &u, int width = 0 );
+// Sundial representing the current time of day, exact time if player has a watch, "???" if unknown/underground
+std::string sundial_time_text_color( const Character &u, int width );
 
 // Temperature at character location, if they have a thermometer
 std::string get_temp( const Character &u );

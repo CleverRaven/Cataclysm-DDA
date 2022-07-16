@@ -7,7 +7,7 @@
     "occupied_bodyparts": [ [ "torso", 10 ] ],
     "fuel_options": [ "sunlight" ],
     "fuel_efficiency": 1.0,
-    "time": 1,
+    "time": "1 s",
     "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_TOGGLED" ]
   },
   {
@@ -19,7 +19,7 @@
     "flags": [ "BIONIC_TOGGLED" ],
     "act_cost": "2 kJ",
     "react_cost": "2 kJ",
-    "time": 10
+    "time": "10 s"
   },
   {
     "id": "afs_bio_missiles",
@@ -48,7 +48,7 @@
     "flags": [ "BIONIC_TOGGLED", "BIONIC_SLEEP_FRIENDLY" ],
     "act_cost": "5 J",
     "react_cost": "5 J",
-    "time": 200
+    "time": "200 s"
   },
   {
     "id": "afs_bio_melee_counteraction",
@@ -60,7 +60,7 @@
     "enchantments": [ "melee_counteraction" ],
     "act_cost": "12 kJ",
     "react_cost": "12 kJ",
-    "time": 1
+    "time": "1 s"
   },
   {
     "id": "afs_bio_melee_optimization_unit",
@@ -72,7 +72,7 @@
     "enchantments": [ "melee_optimization" ],
     "act_cost": "12 kJ",
     "react_cost": "12 kJ",
-    "time": 1
+    "time": "1 s"
   },
   {
     "id": "bio_forcefield_bash_cut_weak",
@@ -83,7 +83,7 @@
     "available_upgrades": [ "bio_forcefield_bash_cut_medium", "bio_forcefield_bash_cut_heavy" ],
     "act_cost": "1 kJ",
     "react_cost": "1 kJ",
-    "time": 1,
+    "time": "1 s",
     "enchantments": [ "forcefield_bash_cut_weak" ],
     "flags": [ "BIONIC_TOGGLED" ]
   },
@@ -97,7 +97,7 @@
     "available_upgrades": [ "bio_forcefield_bash_cut_heavy" ],
     "act_cost": "5 kJ",
     "react_cost": "5 kJ",
-    "time": 1,
+    "time": "1 s",
     "enchantments": [ "forcefield_bash_cut_medium" ],
     "flags": [ "BIONIC_TOGGLED" ]
   },
@@ -110,7 +110,7 @@
     "upgraded_bionic": "bio_forcefield_bash_cut_medium",
     "act_cost": "10 kJ",
     "react_cost": "10 kJ",
-    "time": 1,
+    "time": "1 s",
     "enchantments": [ "forcefield_bash_cut_heavy" ],
     "flags": [ "BIONIC_TOGGLED" ]
   },
@@ -123,7 +123,7 @@
     "available_upgrades": [ "bio_forcefield_ballistic_medium", "bio_forcefield_ballistic_heavy" ],
     "act_cost": "1 kJ",
     "react_cost": "1 kJ",
-    "time": 1,
+    "time": "1 s",
     "enchantments": [ "forcefield_ballistic_piercing_weak" ],
     "flags": [ "BIONIC_TOGGLED" ]
   },
@@ -137,7 +137,7 @@
     "available_upgrades": [ "bio_forcefield_ballistic_heavy" ],
     "act_cost": "5 kJ",
     "react_cost": "5 kJ",
-    "time": 1,
+    "time": "1 s",
     "enchantments": [ "forcefield_ballistic_piercing_medium" ],
     "flags": [ "BIONIC_TOGGLED" ]
   },
@@ -150,7 +150,7 @@
     "upgraded_bionic": "bio_forcefield_ballistic_medium",
     "act_cost": "10 kJ",
     "react_cost": "10 kJ",
-    "time": 1,
+    "time": "1 s",
     "enchantments": [ "forcefield_ballistic_piercing_heavy" ],
     "flags": [ "BIONIC_TOGGLED" ]
   },
@@ -170,7 +170,7 @@
     "occupied_bodyparts": [ [ "torso", 10 ], [ "head", 2 ], [ "arm_l", 3 ], [ "arm_r", 3 ], [ "leg_l", 3 ], [ "leg_r", 3 ] ],
     "act_cost": "12 kJ",
     "spell_on_activation": { "id": "afs_translocation", "hit_self": true },
-    "time": 5
+    "time": "5 s"
   },
   {
     "id": "afs_bio_cranialbomb",
@@ -190,7 +190,7 @@
     "enchantments": [ "protect_cold" ],
     "act_cost": "1 kJ",
     "react_cost": "1 kJ",
-    "time": 10
+    "time": "10 s"
   },
   {
     "type": "bionic",

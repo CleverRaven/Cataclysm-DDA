@@ -1386,9 +1386,9 @@ class read_inventory_preset: public pickup_inventory_preset
                     return std::string();  // Just to make sure
                 }
                 // Actual reading time (in turns). Can be penalized.
-                const int actual_turns = you.time_to_read( *loc, *reader ) / to_moves<int>( 1_turns );
+                const int actual_turns = to_turns<int>( you.time_to_read( *loc, *reader ) );
                 // Theoretical reading time (in turns) based on the reader speed. Free of penalties.
-                const int normal_turns = get_book( loc ).time * reader->read_speed() / to_moves<int>( 1_turns );
+                const int normal_turns = to_turns<int>( get_book( loc ).time ) * reader->read_speed() / 100 ;
                 const std::string duration = to_string_approx( time_duration::from_turns( actual_turns ), false );
 
                 if( actual_turns > normal_turns ) { // Longer - complicated stuff.

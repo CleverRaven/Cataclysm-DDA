@@ -16,6 +16,7 @@
 #include <vector>
 
 #include "all_enum_values.h"
+#include "auto_note.h"
 #include "avatar.h"
 #include "assign.h"
 #include "cached_options.h"
@@ -2814,7 +2815,7 @@ overmap::overmap( const point_abs_om &p ) : loc( p )
         debugmsg( "overmap%s: can't find region '%s'", p.to_string(),
                   rsettings_id.c_str() ); // gonna die now =[
     }
-    settings = pimpl<regional_settings>( rsit->second );
+    settings = &rsit->second;
 
     init_layers();
 }
@@ -2833,7 +2834,7 @@ void overmap::populate( overmap_special_batch &enabled_specials )
 void overmap::populate()
 {
     overmap_special_batch enabled_specials = overmap_specials::get_default_batch( loc );
-    overmap_feature_flag_settings &overmap_feature_flag = settings->overmap_feature_flag;
+    const overmap_feature_flag_settings &overmap_feature_flag = settings->overmap_feature_flag;
 
     const bool should_blacklist = !overmap_feature_flag.blacklist.empty();
     const bool should_whitelist = !overmap_feature_flag.whitelist.empty();
@@ -2877,14 +2878,10 @@ void overmap::init_layers()
 {
     for( int k = 0; k < OVERMAP_LAYERS; ++k ) {
         const oter_id tid = get_default_terrain( k - OVERMAP_DEPTH );
-
-        for( int i = 0; i < OMAPX; ++i ) {
-            for( int j = 0; j < OMAPY; ++j ) {
-                layer[k].terrain[i][j] = tid;
-                layer[k].visible[i][j] = false;
-                layer[k].explored[i][j] = false;
-            }
-        }
+        map_layer &l = layer[k];
+        l.terrain.fill( tid );
+        l.visible.fill( false );
+        l.explored.fill( false );
     }
 }
 
@@ -2895,7 +2892,7 @@ void overmap::ter_set( const tripoint_om_omt &p, const oter_id &id )
         return;
     }
 
-    oter_id &val = layer[p.z() + OVERMAP_DEPTH].terrain[p.x()][p.y()];
+    oter_id &val = layer[p.z() + OVERMAP_DEPTH].terrain[p.xy()];
     if( id->has_flag( oter_flags::requires_predecessor ) ) {
         predecessors_[p].push_back( val );
     }
@@ -2914,7 +2911,7 @@ const oter_id &overmap::ter( const tripoint_om_omt &p ) const
 
 const oter_id &overmap::ter_unsafe( const tripoint_om_omt &p ) const
 {
-    return layer[p.z() + OVERMAP_DEPTH].terrain[p.x()][p.y()];
+    return layer[p.z() + OVERMAP_DEPTH].terrain[p.xy()];
 }
 
 cata::optional<mapgen_arguments> *overmap::mapgen_args( const tripoint_om_omt &p )
@@ -2944,13 +2941,15 @@ std::vector<oter_id> overmap::predecessors( const tripoint_om_omt &p )
     return it->second;
 }
 
-bool &overmap::seen( const tripoint_om_omt &p )
+void overmap::set_seen( const tripoint_om_omt &p, bool val )
 {
     if( !inbounds( p ) ) {
-        nullbool = false;
-        return nullbool;
+        return;
     }
-    return layer[p.z() + OVERMAP_DEPTH].visible[p.x()][p.y()];
+
+    layer[p.z() + OVERMAP_DEPTH].visible[p.xy()] = val;
+
+    add_extra_note( p );
 }
 
 bool overmap::seen( const tripoint_om_omt &p ) const
@@ -2958,7 +2957,7 @@ bool overmap::seen( const tripoint_om_omt &p ) const
     if( !inbounds( p ) ) {
         return false;
     }
-    return layer[p.z() + OVERMAP_DEPTH].visible[p.x()][p.y()];
+    return layer[p.z() + OVERMAP_DEPTH].visible[p.xy()];
 }
 
 bool &overmap::explored( const tripoint_om_omt &p )
@@ -2967,7 +2966,7 @@ bool &overmap::explored( const tripoint_om_omt &p )
         nullbool = false;
         return nullbool;
     }
-    return layer[p.z() + OVERMAP_DEPTH].explored[p.x()][p.y()];
+    return layer[p.z() + OVERMAP_DEPTH].explored[p.xy()];
 }
 
 bool overmap::is_explored( const tripoint_om_omt &p ) const
@@ -2975,7 +2974,7 @@ bool overmap::is_explored( const tripoint_om_omt &p ) const
     if( !inbounds( p ) ) {
         return false;
     }
-    return layer[p.z() + OVERMAP_DEPTH].explored[p.x()][p.y()];
+    return layer[p.z() + OVERMAP_DEPTH].explored[p.xy()];
 }
 
 bool overmap::mongroup_check( const mongroup &candidate ) const
@@ -3188,10 +3187,53 @@ void overmap::add_extra( const tripoint_om_omt &p, const map_extra_id &id )
 
     if( it == std::end( extras ) ) {
         extras.emplace_back( om_map_extra{ id, p.xy() } );
+        add_extra_note( p );
     } else if( !id.is_null() ) {
         it->id = id;
+        add_extra_note( p );
     } else {
         extras.erase( it );
+    }
+}
+
+void overmap::add_extra_note( const tripoint_om_omt &p )
+{
+    if( !seen( p ) ) {
+        return;
+    }
+
+    const std::vector<om_map_extra> &layer_extras = layer[p.z() + OVERMAP_DEPTH].extras;
+    auto extrait = std::find_if( layer_extras.begin(),
+    layer_extras.end(), [&p]( const om_map_extra & extra ) {
+        return extra.p == p.xy();
+    } );
+    if( extrait == layer_extras.end() ) {
+        return;
+    }
+    const map_extra_id &extra = extrait->id;
+
+    auto_notes::auto_note_settings &auto_note_settings = get_auto_notes_settings();
+
+    // The player has discovered a map extra of this type.
+    auto_note_settings.set_discovered( extra );
+
+    if( get_option<bool>( "AUTO_NOTES" ) && get_option<bool>( "AUTO_NOTES_MAP_EXTRAS" ) ) {
+        // Only place note if the user has not disabled it via the auto note manager
+        if( !auto_note_settings.has_auto_note_enabled( extra, true ) ) {
+            return;
+        }
+
+        const cata::optional<auto_notes::custom_symbol> &symbol =
+            auto_note_settings.get_custom_symbol( extra );
+        const std::string note_symbol = symbol ? ( *symbol ).get_symbol_string() : extra->get_symbol();
+        const nc_color note_color = symbol ? ( *symbol ).get_color() : extra->color;
+        const std::string mx_note =
+            string_format( "%s:%s;<color_yellow>%s</color>: <color_white>%s</color>",
+                           note_symbol,
+                           get_note_string_from_color( note_color ),
+                           extra->name(),
+                           extra->description() );
+        add_note( p, mx_note );
     }
 }
 
@@ -3260,8 +3302,9 @@ void overmap::generate( const overmap *north, const overmap *east,
                                   PATH_INFO::moddir(),
                                   overmap_pregenerated_path, pos().x(), pos().y() );
         dbg( D_INFO ) << "trying" << fpath;
-        using namespace std::placeholders;
-        if( !read_from_file_optional( fpath, std::bind( &overmap::unserialize_omap, this, _1 ) ) ) {
+        if( !read_from_file_optional( fpath, [this]( std::istream & is ) {
+        unserialize_omap( is );
+        } ) ) {
             dbg( D_INFO ) << "failed" << fpath;
             int z = 0;
             const oter_id lake_surface( "lake_surface" );
@@ -4648,7 +4691,7 @@ void overmap::place_swamps()
     // Buffer our river terrains by a variable radius and increment a counter for the location each
     // time it's included in a buffer. It's a floodplain that we'll then intersect later with some
     // noise to adjust how frequently it occurs.
-    std::vector<std::vector<int>> floodplain( OMAPX, std::vector<int>( OMAPY, 0 ) );
+    cata::mdarray<int, point_om_omt, OMAPX, OMAPY> floodplain( 0 );
     for( int x = 0; x < OMAPX; x++ ) {
         for( int y = 0; y < OMAPY; y++ ) {
             const tripoint_om_omt pos( x, y, 0 );
@@ -4662,7 +4705,7 @@ void overmap::place_swamps()
                     if( !inbounds( p ) ) {
                         continue;
                     }
-                    floodplain[p.x()][p.y()] += 1;
+                    floodplain[p] += 1;
                 }
             }
         }
@@ -6317,10 +6360,13 @@ void overmap::open( overmap_special_batch &enabled_specials )
 {
     const std::string terfilename = overmapbuffer::terrain_filename( loc );
 
-    using namespace std::placeholders;
-    if( read_from_file_optional( terfilename, std::bind( &overmap::unserialize, this, _1 ) ) ) {
+    if( read_from_file_optional( terfilename, [this]( std::istream & is ) {
+    unserialize( is );
+    } ) ) {
         const std::string plrfilename = overmapbuffer::player_filename( loc );
-        read_from_file_optional( plrfilename, std::bind( &overmap::unserialize_view, this, _1 ) );
+        read_from_file_optional( plrfilename, [this]( std::istream & is ) {
+            unserialize_view( is );
+        } );
     } else { // No map exists!  Prepare neighbors, and generate one.
         std::vector<const overmap *> pointers;
         // Fetch south and north
