@@ -537,7 +537,7 @@ bool Character::has_active_mutation( const trait_id &b ) const
     return iter != my_mutations.end() && iter->second.powered;
 }
 
-int Character::get_cost_timer( const trait_id &mut ) const
+time_duration Character::get_cost_timer( const trait_id &mut ) const
 {
     const auto iter = my_mutations.find( mut );
     if( iter != my_mutations.end() ) {
@@ -545,10 +545,10 @@ int Character::get_cost_timer( const trait_id &mut ) const
     } else {
         debugmsg( "Tried to get cost timer of %s but doesn't have this mutation.", mut.c_str() );
     }
-    return 0;
+    return 0_turns;
 }
 
-void Character::set_cost_timer( const trait_id &mut, int set )
+void Character::set_cost_timer( const trait_id &mut, time_duration set )
 {
     const auto iter = my_mutations.find( mut );
     if( iter != my_mutations.end() ) {
@@ -558,7 +558,7 @@ void Character::set_cost_timer( const trait_id &mut, int set )
     }
 }
 
-void Character::mod_cost_timer( const trait_id &mut, int mod )
+void Character::mod_cost_timer( const trait_id &mut, time_duration mod )
 {
     set_cost_timer( mut, get_cost_timer( mut ) + mod );
 }
@@ -673,13 +673,13 @@ void Character::activate_mutation( const trait_id &mut )
                            mutation_name( mut ) );
         return;
     }
-    if( tdata.powered && tdata.charge > 0 ) {
+    if( tdata.powered && tdata.charge > 0_turns ) {
         // Already-on units just lose a bit of charge
-        tdata.charge--;
+        tdata.charge -= 1_turns;
     } else {
         // Not-on units, or those with zero charge, have to pay the power cost
-        if( mdata.cooldown > 0 ) {
-            tdata.charge = mdata.cooldown - 1;
+        if( mdata.cooldown > 0_turns ) {
+            tdata.charge = mdata.cooldown - 1_turns;
         }
         if( mdata.hunger ) {
             // burn some energy

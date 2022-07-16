@@ -343,7 +343,7 @@ void bionic_data::load( const JsonObject &jsobj, const std::string & )
     assign( jsobj, "trigger_cost", power_trigger, false, 0_kJ );
     assign( jsobj, "power_trickle", power_trickle, false, 0_kJ );
 
-    optional( jsobj, was_loaded, "time", charge_time, 0 );
+    optional( jsobj, was_loaded, "time", charge_time, 0_turns );
 
     optional( jsobj, was_loaded, "flags", flags );
     optional( jsobj, was_loaded, "active_flags", active_flags );
@@ -471,7 +471,7 @@ void bionic_data::load( const JsonObject &jsobj, const std::string & )
 
     activated = has_flag( STATIC( json_character_flag( json_flag_BIONIC_TOGGLED ) ) ) ||
                 power_activate > 0_kJ ||
-                charge_time > 0;
+                charge_time > 0_turns;
 
     if( has_flag( STATIC( json_character_flag( "BIONIC_FAULTY" ) ) ) ) {
         faulty_bionics.push_back( id );
@@ -721,9 +721,9 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
         // We can actually activate now, do activation-y things
         mod_power_level( -bio.info().power_activate );
 
-        bio.powered = bio.info().has_flag( json_flag_BIONIC_TOGGLED ) || bio.info().charge_time > 0;
+        bio.powered = bio.info().has_flag( json_flag_BIONIC_TOGGLED ) || bio.info().charge_time > 0_turns;
 
-        if( bio.info().charge_time > 0 ) {
+        if( bio.info().charge_time > 0_turns ) {
             bio.charge_timer = bio.info().charge_time;
         }
         if( !bio.id->enchantments.empty() ) {
@@ -1779,13 +1779,13 @@ void Character::process_bionic( bionic &bio )
     }
 
     // These might be affected by environmental conditions, status effects, faulty bionics, etc.
-    int discharge_rate = 1;
+    time_duration discharge_rate = 1_turns;
 
     units::energy cost = 0_mJ;
 
-    bio.charge_timer = std::max( 0, bio.charge_timer - discharge_rate );
-    if( bio.charge_timer <= 0 ) {
-        if( bio.info().charge_time > 0 ) {
+    bio.charge_timer = std::max( 0_turns, bio.charge_timer - discharge_rate );
+    if( bio.charge_timer <= 0_turns ) {
+        if( bio.info().charge_time > 0_turns ) {
             if( bio.info().has_flag( STATIC( json_character_flag( "BIONIC_POWER_SOURCE" ) ) ) ) {
                 // Convert fuel to bionic power
                 burn_fuel( bio, result );
@@ -3312,7 +3312,14 @@ void bionic::deserialize( const JsonObject &jo )
     id = bionic_id( jo.get_string( "id" ) );
     invlet = jo.get_int( "invlet" );
     powered = jo.get_bool( "powered" );
-    charge_timer = jo.get_int( "charge" );
+
+    //Remove After 0.G
+    if( jo.has_int( "charge" ) ) {
+        charge_timer = time_duration::from_turns( jo.get_int( "charge" ) );
+    } else {
+        jo.read( "charge_timer", charge_timer );
+    }
+
 
     if( jo.has_int( "incapacitated_time" ) ) {
         incapacitated_time = 1_turns * jo.get_int( "incapacitated_time" );

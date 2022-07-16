@@ -2970,12 +2970,7 @@ void islot_book::load( const JsonObject &jo )
     optional( jo, was_loaded, "fun", fun, 0 );
     optional( jo, was_loaded, "intelligence", intel, 0 );
 
-    if( jo.has_int( "time" ) ) {
-        time = jo.get_int( "time" );
-    } else if( jo.has_string( "time" ) ) {
-        time = to_minutes<int>( read_from_json_string<time_duration>( jo.get_member( "time" ),
-                                time_duration::units ) );
-    }
+    optional( jo, was_loaded, "time", time, 0_turns );
 
     optional( jo, was_loaded, "skill", skill, skill_id::NULL_ID() );
     optional( jo, was_loaded, "martial_art", martial_art, matype_id::NULL_ID() );
