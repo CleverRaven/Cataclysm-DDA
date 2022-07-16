@@ -16,7 +16,7 @@
         "pocket_type": "CONTAINER",
         "name": "Exosuit Underlayer",
         "description": "A series of connections for an underlayer.",
-        "max_contains_volume": "2 L",
+        "max_contains_volume": "5 L",
         "max_contains_weight": "5 kg",
         "flag_restriction": [ "EXO_UNDERLAYER" ],
         "inherits_flags": true,
@@ -149,11 +149,7 @@
     ],
     "ammo": "battery",
     "flags": [ "USE_UPS", "STURDY", "WATERPROOF", "ELECTRIC_IMMUNE", "COMBAT_TOGGLEABLE", "OUTER", "DEAF" ],
-    "relic_data": {
-      "passive_effects": [
-        { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "STRENGTH", "add": 10 }, { "value": "CARRY_WEIGHT", "add": 30000 } ] }
-      ]
-    },
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "STRENGTH", "add": 10 } ] } ] },
     "use_action": [
       {
         "target": "modular_exosuit_on",
@@ -186,11 +182,8 @@
       "SUN_GLASSES",
       "FLASH_PROTECTION"
     ],
-    "relic_data": {
-      "passive_effects": [
-        { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "STRENGTH", "add": 10 }, { "value": "CARRY_WEIGHT", "add": 30000 } ] }
-      ]
-    },
+    "weight_capacity_bonus": "20 kg",
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "STRENGTH", "add": 10 } ] } ] },
     "power_draw": 6173,
     "revert_to": "modular_exosuit",
     "use_action": [
