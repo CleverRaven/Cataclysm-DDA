@@ -27,7 +27,7 @@
     "weapon_override": "John_Bailey_wield",
     "traits": [
       { "trait": "SKIN_LIGHT" },
-      { "trait": "eye_brown" },
+      { "trait": "eye_color", "variant": "brown" },
       { "trait": "hair_brown_short" },
       { "trait": "DEFT" },
       { "trait": "OUTDOORSMAN" },
@@ -174,7 +174,7 @@
     "type": "talk_topic",
     "id": "TALK_RC_John_Bailey_2",
     "dynamic_line": {
-      "and": [
+      "concatenate": [
         {
           "u_has_var": "John_Bailey_Convo",
           "context": "RC_John_Bailey_2",

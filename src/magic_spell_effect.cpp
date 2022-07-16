@@ -820,7 +820,7 @@ static std::pair<field, tripoint> spell_remove_field( const spell &sp,
 
     bool did_field_removal = false;
 
-    for( const auto &node : expander.area ) {
+    for( const area_expander::node &node : expander.area ) {
         if( node.from == node.position ) {
             continue;
         }
@@ -920,7 +920,7 @@ void spell_effect::area_pull( const spell &sp, Creature &caster, const tripoint 
     expander.run( center );
     expander.sort_ascending();
 
-    for( const auto &node : expander.area ) {
+    for( const area_expander::node &node : expander.area ) {
         if( node.from == node.position ) {
             continue;
         }
@@ -938,7 +938,7 @@ void spell_effect::area_push( const spell &sp, Creature &caster, const tripoint 
     expander.run( center );
     expander.sort_descending();
 
-    for( const auto &node : expander.area ) {
+    for( const area_expander::node &node : expander.area ) {
         if( node.from == node.position ) {
             continue;
         }
@@ -1119,7 +1119,7 @@ void spell_effect::recover_energy( const spell &sp, Creature &caster, const trip
             you->mod_pain( -healing );
         }
     } else if( energy_source == "HEALTH" ) {
-        you->mod_healthy( healing );
+        you->mod_livestyle( healing );
     } else {
         debugmsg( "Invalid effect_str %s for spell %s", energy_source, sp.name() );
     }
@@ -1223,7 +1223,8 @@ void spell_effect::spawn_summoned_vehicle( const spell &sp, Creature &caster,
         caster.add_msg_if_player( m_bad, _( "There is already a vehicle there." ) );
         return;
     }
-    if( vehicle *veh = here.add_vehicle( sp.summon_vehicle_id(), target, -90_degrees, 100, 0 ) ) {
+    if( vehicle *veh = here.add_vehicle( sp.summon_vehicle_id(), target, -90_degrees, 100, 0, false, "",
+                                         false ) ) {
         veh->magic = true;
         if( !sp.has_flag( spell_flag::PERMANENT ) ) {
             veh->summon_time_limit = sp.duration_turns();
@@ -1635,8 +1636,7 @@ void spell_effect::banishment( const spell &sp, Creature &caster, const tripoint
             continue;
         }
         // you can't banish npcs.
-        monster *mon = creatures.creature_at<monster>( potential_target );
-        if( mon != nullptr ) {
+        if( monster *mon = creatures.creature_at<monster>( potential_target ) ) {
             target_mons.push_back( mon );
         }
     }
@@ -1646,7 +1646,7 @@ void spell_effect::banishment( const spell &sp, Creature &caster, const tripoint
     }
 
     for( monster *mon : target_mons ) {
-        int overflow = -( total_dam -= mon->get_hp() );
+        int overflow = mon->get_hp() - total_dam;
         // reset overflow in case we have more monsters to do
         total_dam = 0;
         while( overflow > 0 ) {

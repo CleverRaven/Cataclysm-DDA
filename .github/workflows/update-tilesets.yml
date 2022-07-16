@@ -7,6 +7,7 @@ on:
 
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  TX_TOKEN: ${{ secrets.TX_TOKEN }}
 
 jobs:
   pull-updates:
@@ -14,11 +15,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Get current timestamp
-        id: get-timestamp
-        uses: nanzm/get-time-action@v1.1
+      - name: "Get current date"
+        uses: 1466587594/get-current-time@v2
+        id: current-date
         with:
-          format: 'YYYY-MM-DD'
+          format: 'DD MMMM YYYY'
       - name: "Update Tilesets"
         shell: bash
         run: |
@@ -36,13 +37,14 @@ jobs:
         uses: peter-evans/create-pull-request@v4
         with:
           commit-message: |
-            Routine Tileset updates on ${{ steps.get-timestamp.outputs.time }}
+            Routine Tileset updates on ${{ steps.current-date.outputs.formattedTime }}
           committer: casswedson <casswedson@users.noreply.github.com>
           author: casswedson <casswedson@users.noreply.github.com>
+          token: ${{ secrets.TX_PR_CREATOR }}
           branch: tileset-updates
           delete-branch: true
           base: master
-          title: Routine Tileset updates on ${{ steps.get-timestamp.outputs.time }}
+          title: Routine Tileset updates on ${{ steps.current-date.outputs.formattedTime }}
           body: |
             #### Summary
             None

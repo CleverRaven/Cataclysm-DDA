@@ -129,7 +129,7 @@
     "symbol": "!",
     "color": "red",
     "use_action": "DISASSEMBLE",
-    "flags": [ "NO_REPAIR" ]
+    "flags": [ "NO_REPAIR", "OBSOLETE" ]
   },
   {
     "id": "tool_rdx_charge",
@@ -151,7 +151,7 @@
       "shrapnel": { "casing_mass": 50000, "fragment_mass": 0.1, "drop": "scrap", "recovery": 1 },
       "//": "Fire exposure would destroy most of the RDX before the HMTD core triggered, resulting in a far smaller blast (relatively speaking)."
     },
-    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB" ]
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "OBSOLETE" ]
   },
   {
     "id": "tool_anfo_charge",
@@ -173,7 +173,7 @@
       "//": "Fire would burn away/degrade some of the ANFO before the detonator would trigger.",
       "shrapnel": 12600
     },
-    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB" ]
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "OBSOLETE" ]
   },
   {
     "type": "terrain",
@@ -184,7 +184,7 @@
     "color": "magenta",
     "move_cost": 0,
     "coverage": 30,
-    "flags": [ "TRANSPARENT", "PERMEABLE" ],
+    "flags": [ "TRANSPARENT", "PERMEABLE", "OBSOLETE" ],
     "bash": {
       "str_min": 3,
       "str_max": 45,
@@ -210,7 +210,7 @@
     "color": "light_green",
     "looks_like": "f_machinery_electronic",
     "move_cost": 0,
-    "flags": [ "TRANSPARENT", "NOITEM", "SEALED", "REDUCE_SCENT", "PERMEABLE" ],
+    "flags": [ "TRANSPARENT", "NOITEM", "SEALED", "REDUCE_SCENT", "PERMEABLE", "OBSOLETE" ],
     "bash": {
       "str_min": 50,
       "str_max": 400,
@@ -250,7 +250,7 @@
     "color": "dark_gray",
     "move_cost": 10,
     "coverage": 65,
-    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE", "PLACE_ITEM" ],
+    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE", "PLACE_ITEM", "OBSOLETE" ],
     "deconstruct": {
       "ter_set": "t_rock_floor",
       "items": [
@@ -294,7 +294,7 @@
     "color": "light_gray",
     "move_cost": 0,
     "coverage": 75,
-    "flags": [ "CONTAINER", "SEALED", "PLACE_ITEM" ],
+    "flags": [ "CONTAINER", "SEALED", "PLACE_ITEM", "OBSOLETE" ],
     "deconstruct": {
       "ter_set": "t_rock_floor",
       "items": [
@@ -344,7 +344,7 @@
     "color": "brown",
     "move_cost": 4,
     "coverage": 55,
-    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE", "PLACE_ITEM" ],
+    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE", "PLACE_ITEM", "OBSOLETE" ],
     "deconstruct": {
       "ter_set": "t_rock_floor",
       "items": [
@@ -392,7 +392,7 @@
     "color": "yellow",
     "move_cost": 8,
     "coverage": 55,
-    "flags": [ "TRANSPARENT", "CONTAINER", "SEALED", "FLAMMABLE", "PLACE_ITEM" ],
+    "flags": [ "TRANSPARENT", "CONTAINER", "SEALED", "FLAMMABLE", "PLACE_ITEM", "OBSOLETE" ],
     "deconstruct": {
       "ter_set": "t_rock_floor",
       "items": [
@@ -448,7 +448,7 @@
     "move_cost": 0,
     "coverage": 50,
     "roof": "t_flat_roof",
-    "flags": [ "TRANSPARENT", "NOITEM", "INDOORS", "SHORT", "PERMEABLE" ],
+    "flags": [ "TRANSPARENT", "NOITEM", "INDOORS", "SHORT", "PERMEABLE", "OBSOLETE" ],
     "deconstruct": {
       "ter_set": "t_floor",
       "items": [
@@ -495,7 +495,7 @@
     "coverage": 50,
     "light_emitted": 10,
     "roof": "t_flat_roof",
-    "flags": [ "TRANSPARENT", "CONSOLE", "NOITEM", "INDOORS", "SHORT", "PERMEABLE" ],
+    "flags": [ "TRANSPARENT", "CONSOLE", "NOITEM", "INDOORS", "SHORT", "PERMEABLE", "OBSOLETE" ],
     "deconstruct": {
       "ter_set": "t_floor",
       "items": [
@@ -541,7 +541,7 @@
     "looks_like": "f_machinery_old",
     "move_cost": 0,
     "coverage": 30,
-    "flags": [ "TRANSPARENT", "NOITEM", "REDUCE_SCENT", "MOUNTABLE", "PERMEABLE" ],
+    "flags": [ "TRANSPARENT", "NOITEM", "REDUCE_SCENT", "MOUNTABLE", "PERMEABLE", "OBSOLETE" ],
     "bash": {
       "str_min": 20,
       "str_max": 150,
@@ -600,7 +600,7 @@
         "item_restriction": [ "heavy_atomic_battery_cell" ]
       }
     ],
-    "flags": [ "IS_UPS" ]
+    "flags": [ "IS_UPS", "OBSOLETE" ]
   },
   {
     "type": "GENERIC",
@@ -613,6 +613,17 @@
     "symbol": ",",
     "material": [ "paper" ],
     "volume": "250 ml",
+    "price": 0,
+    "flags": [ "OBSOLETE" ]
+  },
+  {
+    "id": "rifle_case_xs_soft_leather",
+    "type": "ARMOR",
+    "copy-from": "rifle_case_soft_leather",
+    "looks_like": "rifle_case_soft_leather",
+    "name": { "str": "long leather rifle case" },
+    "description": "A long soft leather rifle case.  Provides storage for long arms and rifles.  Includes a small pocket, strap and handle.",
+    "flags": [ "WATER_FRIENDLY", "STURDY", "BELTED", "OVERSIZE", "UNDERSIZE", "OBSOLETE" ],
     "price": 0
   }
 ]

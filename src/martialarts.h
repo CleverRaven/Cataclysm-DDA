@@ -343,7 +343,7 @@ class martialart
         // determines if a weapon is valid for this style
         bool has_weapon( const itype_id & ) const;
         // Is this weapon OK with this art?
-        bool weapon_valid( const item &it ) const;
+        bool weapon_valid( const item_location &it ) const;
         // Getter for Character style change message
         std::string get_initiate_avatar_message() const;
         // Getter for NPC style change message

@@ -7,7 +7,7 @@
     "subcategory": "CSC_ELECTRONIC_COMPONENTS",
     "skill_used": "electronics",
     "difficulty": 8,
-    "time": 11000,
+    "time": "110 s",
     "book_learn": [ [ "textbook_robots", 4 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [

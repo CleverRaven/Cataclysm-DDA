@@ -17,7 +17,7 @@
     "difficulty": 0,
     "time": "5 m",
     "qualities": [ { "id": "CUT_FINE", "level": 1 } ],
-    "components": [ [ [ "thread", 10 ] ], [ [ "rag", 2 ] ] ]
+    "components": [ [ [ "thread", 10 ] ], [ [ "cotton_patchwork", 2 ] ] ]
   },
   {
     "result": "test_rag_bundle",
@@ -25,7 +25,7 @@
     "activity_level": "fake",
     "difficulty": 0,
     "time": "1 m",
-    "components": [ [ [ "string_36", 1 ] ], [ [ "rag", 100 ] ] ]
+    "components": [ [ [ "string_36", 1 ] ], [ [ "cotton_patchwork", 100 ] ] ]
   },
   {
     "result": "test_knotted_string_ball",

@@ -172,7 +172,7 @@
     "type": "LOOT_ZONE",
     "name": "Loot: Fuel",
     "can_be_personal": true,
-    "description": "Destination for gasoline, diesel, lamp oil and other substances used as a fuel."
+    "description": "Destination for gasoline, diesel, kerosene and other substances used as a fuel."
   },
   {
     "id": "LOOT_SEEDS",

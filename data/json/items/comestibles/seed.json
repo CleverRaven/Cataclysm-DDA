@@ -595,6 +595,98 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "seed_japanese_knotweed",
+    "copy-from": "seed",
+    "name": { "str_sp": "Japanese knotweed stems" },
+    "description": "Some Japanese knotweed stems, prepared for planting.",
+    "charges": 2,
+    "seed_data": {
+      "plant_name": "Japanese knotweed",
+      "fruit": "japanese_knotweed_stem",
+      "byproducts": [ "withered" ],
+      "grow": "91 days"
+    }
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "seed_jerusalem_artichoke",
+    "copy-from": "seed",
+    "name": { "str_sp": "Jerusalem artichoke seeds" },
+    "description": "Some Jerusalem artichoke seeds.",
+    "charges": 2,
+    "seed_data": { "plant_name": "Jerusalem artichoke", "fruit": "jerusalem_artichoke", "byproducts": [ "withered" ], "grow": "91 days" }
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "seed_maianthemum_stellatum",
+    "copy-from": "seed",
+    "name": { "str_sp": "starry false Solomon's seal seeds" },
+    "description": "Some starry false Solomon's seal seeds.",
+    "charges": 2,
+    "seed_data": {
+      "plant_name": "starry false Solomon's seal",
+      "fruit": "m_stellatum_berries",
+      "byproducts": [ "withered" ],
+      "grow": "91 days"
+    }
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "seed_wild_sarsaparilla",
+    "copy-from": "seed",
+    "name": { "str_sp": "wild sarsaparilla seeds" },
+    "description": "Some wild sarsaparilla seeds.",
+    "charges": 2,
+    "seed_data": {
+      "plant_name": "wild sarsaparilla",
+      "fruit": "wild_sarsaparilla_root",
+      "byproducts": [ "withered" ],
+      "grow": "91 days"
+    }
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "seed_mayapple",
+    "copy-from": "seed",
+    "name": { "str_sp": "mayapple seeds" },
+    "description": "Some mayapple seeds.",
+    "charges": 2,
+    "seed_data": { "plant_name": "mayapple", "fruit": "mayapple", "byproducts": [ "withered" ], "grow": "91 days" }
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "seed_wintergreen",
+    "copy-from": "seed",
+    "name": { "str_sp": "wintergreen seeds" },
+    "description": "Some wintergreen seeds.",
+    "charges": 2,
+    "seed_data": {
+      "plant_name": "wintergreen",
+      "fruit": "wintergreen_berry",
+      "byproducts": [ "wintergreen_leaves", "withered" ],
+      "grow": "91 days"
+    }
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "seed_groundnut",
+    "copy-from": "seed",
+    "name": { "str_sp": "groundnut seeds" },
+    "description": "Some groundnut seeds.",
+    "charges": 2,
+    "seed_data": { "plant_name": "groundnut", "fruit": "groundnut", "byproducts": [ "withered" ], "grow": "91 days" }
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "seed_wild_garlic",
+    "copy-from": "seed",
+    "name": { "str_sp": "wild garlic seeds" },
+    "description": "Some wild garlic seeds.",
+    "charges": 2,
+    "seed_data": { "plant_name": "wild garlic", "fruit": "wild_garlic", "byproducts": [ "withered" ], "grow": "91 days" }
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "seed_raw_bamboo",
     "copy-from": "seed",
     "name": { "str_sp": "bamboo seeds" },

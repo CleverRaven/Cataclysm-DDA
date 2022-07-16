@@ -28,6 +28,7 @@
 /objwin/
 /save/
 /src/version.h
+/src/prefix.h
 /sound/
 /templates/
 /tools/format/json_formatter.cgi
@@ -65,6 +66,7 @@ json_formatter
 /msvc-full-features/**/
 
 # Temporary CMakeFiles
+CMakeUserPresets.json
 out/
 
 # Visual Studio 2015

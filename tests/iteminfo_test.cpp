@@ -620,6 +620,74 @@ TEST_CASE( "weapon attack ratings and moves", "[iteminfo][weapon]" )
                "  Vs. Agile: <color_c_yellow>2.46</color>"
                "  Vs. Armored: <color_c_yellow>0.00</color>\n" );
     }
+
+    SECTION( "stamina per swing" ) {
+        // Stamina cost per swing is dynamically calculated based on many different
+        // factors, all outside the scope of these tests. Here we just hope they
+        // have the expected values in the item info summary.
+
+        std::vector<iteminfo_parts> stam = { iteminfo_parts::BASE_STAMINA };
+
+        CHECK( item_info_str( rock, stam ) ==
+               "--\n"
+               "<color_c_white>Stamina use</color>:"
+               " Costs about <color_c_yellow>1.00</color>%"
+               " stamina to swing.\n" );
+
+        CHECK( item_info_str( halligan, stam ) ==
+               "--\n"
+               "<color_c_white>Stamina use</color>:"
+               " Costs about <color_c_yellow>3.10</color>%"
+               " stamina to swing.\n" );
+
+        CHECK( item_info_str( mr_pointy, stam ) ==
+               "--\n"
+               "<color_c_white>Stamina use</color>:"
+               " Costs about <color_c_yellow>1.20</color>%"
+               " stamina to swing.\n" );
+
+        CHECK( item_info_str( arrow, stam ) ==
+               "--\n"
+               "<color_c_white>Stamina use</color>:"
+               " Costs about <color_c_yellow>0.70</color>%"
+               " stamina to swing.\n" );
+    }
+
+    SECTION( "base damage per stamina" ) {
+        // Damage per stamina is dynamically calculated based on many different factors,
+        // all outside the scope of these tests. Here we just hope they
+        // have the expected values in the item info summary.
+
+        std::vector<iteminfo_parts> dpstam = { iteminfo_parts::BASE_DPSTAM };
+
+        CHECK( item_info_str( rock, dpstam ) ==
+               "--\n"
+               "Typical damage per stamina:\n"
+               "Best: <color_c_yellow>5.41</color>"
+               "  Vs. Agile: <color_c_yellow>2.25</color>"
+               "  Vs. Armored: <color_c_yellow>0.16</color>\n" );
+
+        CHECK( item_info_str( halligan, dpstam ) ==
+               "--\n"
+               "Typical damage per stamina:\n"
+               "Best: <color_c_yellow>3.41</color>"
+               "  Vs. Agile: <color_c_yellow>2.09</color>"
+               "  Vs. Armored: <color_c_yellow>1.03</color>\n" );
+
+        CHECK( item_info_str( mr_pointy, dpstam ) ==
+               "--\n"
+               "Typical damage per stamina:\n"
+               "Best: <color_c_yellow>6.48</color>"
+               "  Vs. Agile: <color_c_yellow>3.02</color>"
+               "  Vs. Armored: <color_c_yellow>0.11</color>\n" );
+
+        CHECK( item_info_str( arrow, dpstam ) ==
+               "--\n"
+               "Typical damage per stamina:\n"
+               "Best: <color_c_yellow>7.21</color>"
+               "  Vs. Agile: <color_c_yellow>3.62</color>"
+               "  Vs. Armored: <color_c_yellow>0.00</color>\n" );
+    }
 }
 
 // Related JSON fields:
@@ -1850,7 +1918,7 @@ TEST_CASE( "food freshness and lifetime", "[iteminfo][food]" )
         REQUIRE( nuts.is_fresh() );
         CHECK( item_info_str( nuts, { iteminfo_parts::FOOD_ROT } ) ==
                "--\n"
-               "* This food is <color_c_yellow>perishable</color>, and at room temperature has"
+               "* This item is <color_c_yellow>perishable</color>, and at room temperature has"
                " an estimated nominal shelf life of <color_c_cyan>6 weeks</color>.\n"
                "* This food looks as <color_c_green>fresh</color> as it can be.\n" );
     }
@@ -1860,7 +1928,7 @@ TEST_CASE( "food freshness and lifetime", "[iteminfo][food]" )
         REQUIRE( nuts.is_going_bad() );
         CHECK( item_info_str( nuts, { iteminfo_parts::FOOD_ROT } ) ==
                "--\n"
-               "* This food is <color_c_yellow>perishable</color>, and at room temperature has"
+               "* This item is <color_c_yellow>perishable</color>, and at room temperature has"
                " an estimated nominal shelf life of <color_c_cyan>6 weeks</color>.\n"
                "* This food looks <color_c_red>old</color>.  It's on the brink of becoming inedible.\n" );
     }
@@ -2478,12 +2546,12 @@ TEST_CASE( "show available recipes with item as an ingredient", "[iteminfo][reci
 
     GIVEN( "character has a potassium iodide tablet and no skill" ) {
         player_character.worn.wear_item( player_character, item( "backpack" ), false, false );
-        item &iodine = player_character.i_add( item( "iodine" ) );
+        item_location iodine = player_character.i_add( item( "iodine" ) );
         player_character.empty_skills();
         REQUIRE( !player_character.knows_recipe( purtab ) );
 
         THEN( "nothing is craftable from it" ) {
-            CHECK( item_info_str( iodine, crafting ) ==
+            CHECK( item_info_str( *iodine, crafting ) ==
                    "--\nYou know of nothing you could craft with it.\n" );
         }
 
@@ -2492,7 +2560,7 @@ TEST_CASE( "show available recipes with item as an ingredient", "[iteminfo][reci
             REQUIRE( player_character.get_skill_level( purtab->skill_used ) == purtab->difficulty );
 
             THEN( "still nothing is craftable from it" ) {
-                CHECK( item_info_str( iodine, crafting ) ==
+                CHECK( item_info_str( *iodine, crafting ) ==
                        "--\nYou know of nothing you could craft with it.\n" );
             }
 
@@ -2501,7 +2569,7 @@ TEST_CASE( "show available recipes with item as an ingredient", "[iteminfo][reci
                 REQUIRE( player_character.knows_recipe( purtab ) );
 
                 THEN( "they can use potassium iodide tablets to craft it" ) {
-                    CHECK( item_info_str( iodine, crafting ) ==
+                    CHECK( item_info_str( *iodine, crafting ) ==
                            "--\n"
                            "You could use it to craft: "
                            "<color_c_dark_gray>water purification tablet</color>\n" );
@@ -2509,18 +2577,17 @@ TEST_CASE( "show available recipes with item as an ingredient", "[iteminfo][reci
             }
 
             WHEN( "they have the recipe in a book, but not memorized" ) {
-                item &textbook = player_character.i_add( item( "textbook_chemistry" ) );
-                player_character.identify( textbook );
+                item_location textbook = player_character.i_add( item( "textbook_chemistry" ) );
+                player_character.identify( *textbook );
                 REQUIRE( player_character.has_identified( itype_textbook_chemistry ) );
                 // update the crafting inventory cache
                 player_character.moves++;
 
                 THEN( "they can use potassium iodide tablets to craft it" ) {
-                    CHECK( item_info_str( iodine, crafting ) ==
+                    CHECK( item_info_str( *iodine, crafting ) ==
                            "--\n"
                            "You could use it to craft: "
-                           "<color_c_dark_gray>antiseptic powder</color>"
-                           " and <color_c_dark_gray>water purification tablet</color>\n" );
+                           "<color_c_dark_gray>water purification tablet</color>\n" );
                 }
             }
         }
