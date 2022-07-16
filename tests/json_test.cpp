@@ -644,7 +644,7 @@ static void test_string_error_throws_matches( Matcher &&matcher, const std::stri
     CAPTURE( offset );
     std::istringstream iss( json );
     JsonIn jsin( iss );
-    CHECK_THROWS_MATCHES( jsin.string_error( "<message>", offset ), JsonError, matcher );
+    CHECK_THROWS_MATCHES( jsin.string_error( offset, "<message>" ), JsonError, matcher );
 }
 
 TEST_CASE( "jsonin_get_string", "[json]" )

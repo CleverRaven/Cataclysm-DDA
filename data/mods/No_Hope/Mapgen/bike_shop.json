@@ -33,7 +33,7 @@
         "                        "
       ],
       "palettes": [ "bike_shop" ],
-      "vendingmachines": { "D": { "item_group": "vending_drink" }, "F": { "item_group": "vending_food" } },
+      "vendingmachines": { "D": { "item_group": "vending_drink", "lootable": true }, "F": { "item_group": "vending_food", "lootable": true } },
       "items": {
         "&": { "item": "trash", "chance": 70 },
         "@": { "item": "trash", "chance": 90 },
@@ -96,7 +96,7 @@
         "l": { "item": "jackets", "chance": 20 },
         "r": { "item": "bikeshop_tools", "chance": 20 }
       },
-      "vendingmachines": { "D": { "item_group": "vending_drink" }, "F": { "item_group": "vending_food" } },
+      "vendingmachines": { "D": { "item_group": "vending_drink", "lootable": true }, "F": { "item_group": "vending_food", "lootable": true } },
       "place_vehicles": [
         { "vehicle": "bikeshop", "x": 6, "y": 7, "chance": 60, "rotation": 270, "status": 1 },
         { "vehicle": "bikeshop", "x": 21, "y": 7, "chance": 90, "rotation": 270, "status": 1 },

@@ -39,7 +39,7 @@
     "autolearn": true,
     "using": [ [ "filament", 8 ] ],
     "qualities": [ { "id": "SEW", "level": 2 } ],
-    "components": [ [ [ "dragon_black_scale", 10 ] ], [ [ "rag", 3 ] ] ]
+    "components": [ [ [ "dragon_black_scale", 10 ] ], [ [ "cotton_patchwork", 3 ] ] ]
   },
   {
     "result": "bundle_black_hide",

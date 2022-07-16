@@ -1,0 +1,12 @@
+[
+  {
+    "type": "item_group",
+    "id": "milspec_arsenal_66_gun&mags",
+    "//": "have no idea how they contained due the lack of documentation, so left them as it is",
+    "subtype": "collection",
+    "items": [
+      { "item": "LAW_Packed", "prob": 60, "count": [ 1, 3 ] },
+      { "item": "m202_flash", "prob": 25, "count": 1, "charges-min": 4, "charges-max": 4 }
+    ]
+  }
+]

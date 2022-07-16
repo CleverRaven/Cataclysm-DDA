@@ -575,7 +575,7 @@
     "power_draw": 300,
     "revert_to": "smart_phone",
     "use_action": [ "MP3_ON", "PORTABLE_GAME", "EINKTABLETPC", "EBOOKSAVE", "EBOOKREAD" ],
-    "flags": [ "WATCH", "TRADER_AVOID", "ALARMCLOCK", "USE_UPS", "NO_UNLOAD", "NO_RELOAD", "WATER_BREAK" ]
+    "extend": { "effects": [ "TRADER_AVOID" ] }
   },
   {
     "id": "smart_phone_flashlight",
@@ -597,7 +597,7 @@
         "type": "transform"
       }
     ],
-    "flags": [ "WATCH", "LIGHT_20", "CHARGEDIM", "TRADER_AVOID", "ALARMCLOCK", "USE_UPS", "NO_UNLOAD", "NO_RELOAD", "WATER_BREAK" ]
+    "extend": { "effects": [ "LIGHT_20", "CHARGEDIM", "TRADER_AVOID" ] }
   },
   {
     "id": "UPS_off",

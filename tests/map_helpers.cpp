@@ -27,9 +27,9 @@
 #include "type_id.h"
 
 // Remove all vehicles from the map
-void clear_vehicles()
+void clear_vehicles( map *target )
 {
-    map &here = get_map();
+    map &here = target ? *target : get_map();
     for( wrapped_vehicle &veh : here.get_vehicles() ) {
         here.destroy_vehicle( veh.v );
     }
@@ -48,9 +48,9 @@ void clear_radiation()
     }
 }
 
-void wipe_map_terrain()
+void wipe_map_terrain( map *target )
 {
-    map &here = get_map();
+    map &here = target ? *target : get_map();
     const int mapsize = here.getmapsize() * SEEX;
     for( int z = -1; z <= OVERMAP_HEIGHT; ++z ) {
         ter_id terrain = z == 0 ? t_grass : z < 0 ? t_rock : t_open_air;
@@ -61,7 +61,7 @@ void wipe_map_terrain()
             }
         }
     }
-    clear_vehicles();
+    clear_vehicles( target );
     here.invalidate_map_cache( 0 );
     here.build_map_cache( 0, true );
 }
@@ -119,6 +119,7 @@ void clear_zones()
 
 void clear_map()
 {
+    map &here = get_map();
     // Clearing all z-levels is rather slow, so just clear the ones I know the
     // tests use for now.
     for( int z = -2; z <= 0; ++z ) {
@@ -128,7 +129,7 @@ void clear_map()
     wipe_map_terrain();
     clear_npcs();
     clear_creatures();
-    get_map().clear_traps();
+    here.clear_traps();
     for( int z = -2; z <= 0; ++z ) {
         clear_items( z );
     }
@@ -175,12 +176,23 @@ void player_add_headlamp()
     you.worn.wear_item( you, headlamp, false, true );
 }
 
+void set_time_to_day()
+{
+    time_point noon = calendar::turn - time_past_midnight( calendar::turn ) + 12_hours;
+    if( noon < calendar::turn ) {
+        noon = noon + 1_days;
+    }
+    set_time( noon );
+}
+
 // Set current time of day, and refresh map and caches for the new light level
 void set_time( const time_point &time )
 {
     calendar::turn = time;
     g->reset_light_level();
-    int z = get_player_character().posz();
+    Character &you = get_player_character();
+    int z = you.posz();
+    you.recalc_sight_limits();
     map &here = get_map();
     here.update_visibility_cache( z );
     here.invalidate_map_cache( z );

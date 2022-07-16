@@ -5,7 +5,7 @@
     "terrain": {
       " ": [ [ "t_region_groundcover", 750 ], "t_pit_shallow", "t_dirtmound" ],
       ";": "t_region_groundcover",
-      ",": "t_dirt",
+      ",": "t_region_soil",
       "N": "t_region_groundcover_barren",
       "}": "t_region_groundcover_barren",
       "x": [ [ "t_chainfence", 10 ], "t_chainfence_posts", "t_region_groundcover_barren" ],

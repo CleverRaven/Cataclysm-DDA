@@ -492,7 +492,7 @@
     "time": "10 m",
     "autolearn": true,
     "using": [ [ "filament", 50 ], [ "cordage_short", 1 ] ],
-    "components": [ [ [ "rag", 2 ] ] ]
+    "components": [ [ [ "cotton_patchwork", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -505,7 +505,22 @@
     "time": "50 m",
     "autolearn": true,
     "using": [ [ "filament", 300 ], [ "cordage", 1 ] ],
-    "components": [ [ [ "rag", 12 ] ] ]
+    "components": [ [ [ "cotton_patchwork", 12 ] ] ]
+  },
+  {
+    "result": "storage_line",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_CONTAINERS",
+    "skill_used": "tailor",
+    "difficulty": 1,
+    "time": "1 h",
+    "autolearn": true,
+    "using": [ [ "tailoring_nylon_patchwork", 2 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 2 } ],
+    "components": [ [ [ "scrap", 4 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_closures" } ]
   },
   {
     "type": "recipe",
@@ -649,7 +664,7 @@
     "book_learn": [ [ "plastics_book", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_plasticworking" } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
-    "components": [ [ [ "plastic_chunk", 6 ] ], [ [ "rag", 3 ], [ "leather", 3 ], [ "fur", 3 ] ] ]
+    "components": [ [ [ "plastic_chunk", 6 ] ], [ [ "cotton_patchwork", 3 ], [ "leather", 3 ], [ "fur", 3 ] ] ]
   },
   {
     "type": "recipe",
@@ -665,7 +680,7 @@
     "book_learn": [ [ "plastics_book", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_plasticworking" } ],
     "tools": [ [ [ "surface_heat", 15, "LIST" ] ] ],
-    "components": [ [ [ "plastic_chunk", 10 ] ], [ [ "rag", 3 ], [ "leather", 3 ], [ "fur", 3 ] ] ]
+    "components": [ [ [ "plastic_chunk", 10 ] ], [ [ "cotton_patchwork", 3 ], [ "leather", 3 ], [ "fur", 3 ] ] ]
   },
   {
     "type": "recipe",
@@ -873,7 +888,7 @@
     "components": [
       [ [ "2x4", 2 ] ],
       [ [ "wire", 1 ], [ "scrap", 2 ], [ "copper_scrap_equivalent", 1, "LIST" ] ],
-      [ [ "rag", 2 ], [ "felt_patch", 2 ], [ "leather", 2 ], [ "fur", 2 ] ]
+      [ [ "cotton_patchwork", 2 ], [ "felt_patch", 2 ], [ "leather", 2 ], [ "fur", 2 ] ]
     ]
   },
   {

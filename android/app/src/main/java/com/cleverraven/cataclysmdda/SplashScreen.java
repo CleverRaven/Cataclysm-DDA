@@ -20,6 +20,7 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.DialogInterface;
+import android.content.DialogInterface.OnShowListener;
 import android.content.pm.PackageInfo;
 import android.content.res.AssetManager;
 import android.net.Uri;
@@ -27,10 +28,14 @@ import android.os.*;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
+import com.cleverraven.cataclysmdda.CataclysmDDA_Helpers;
+
 public class SplashScreen extends Activity {
     private static final String TAG = "Splash";
     private static final int INSTALL_DIALOG_ID = 0;
     private ProgressDialog installDialog;
+
+    private AlertDialog accessibilityServicesAlert;
 
     public CharSequence[] mSettingsNames;
     public boolean[] mSettingsValues = { false, false, true, true };
@@ -90,10 +95,36 @@ public class SplashScreen extends Activity {
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        Log.e(TAG, "onCreate()");
-        super.onCreate(savedInstanceState);
+    protected void onStart() {
+        Log.e(TAG, "onStart()");
+        super.onStart();
+    }
 
+    @Override
+    protected void onPause() {
+        Log.e(TAG, "onPause()");
+        super.onPause();
+        accessibilityServicesAlert.dismiss();
+    }
+
+    @Override
+    protected void onResume() {
+        Log.e(TAG, "onResume()");
+        super.onResume();
+
+        Context context = getApplicationContext();
+        String service_names = CataclysmDDA_Helpers.getEnabledAccessibilityServiceNames(context);
+        accessibilityServicesAlert.setMessage( String.format( getString(R.string.accessibilityServicesMessage), service_names ) );
+        if (!service_names.isEmpty()) {
+            accessibilityServicesAlert.show();
+        } else {
+            SplashScreen.this.installOrRun();
+        }
+    }
+    
+    protected void installOrRun() {
+        Log.e(TAG, "onCreate()");
+        accessibilityServicesAlert.dismiss();
         // Start the game if already installed, otherwise start installing...
         if (getVersionName().equals(PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("installed", ""))) {
             // Show an alert box if the game crashed last time
@@ -108,6 +139,30 @@ public class SplashScreen extends Activity {
         else {
             new InstallProgramTask().execute();
         }
+        return;
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        Log.e(TAG, "onCreate()");
+        super.onCreate(savedInstanceState);
+
+        accessibilityServicesAlert = new AlertDialog.Builder(SplashScreen.this)
+            .setTitle(getString(R.string.accessibilityServicesTitle))
+            .setCancelable(false)
+            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    SplashScreen.this.installOrRun();
+                    return;
+                }
+            })
+            .setNeutralButton(getString(R.string.showAccessibilitySettings), new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        startActivityForResult(new Intent(android.provider.Settings.ACTION_ACCESSIBILITY_SETTINGS), 0);
+                        dialog.dismiss();
+                        return;
+                    }
+            }).create();
     }
 
     @Override

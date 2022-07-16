@@ -4,7 +4,7 @@
     "type": "ARMOR",
     "name": { "str": "bell cuirass", "str_pl": "bell cuirasses" },
     "category": "armor",
-    "description": "An ancient Greek breastplate, made of bronze.",
+    "description": "An ancient Greek breastplate made of bronze.",
     "weight": "5896 g",
     "volume": "6 L",
     "price": 50000,
@@ -43,7 +43,7 @@
     "type": "ARMOR",
     "name": { "str": "bronze cuirass", "str_pl": "bronze cuirasses" },
     "category": "armor",
-    "description": "A solid, single piece cuirass made from bronze.  It isn't particularly well designed, but it does it's job.",
+    "description": "A solid, single-piece cuirass made from bronze.  It isn't particularly well designed, but it does its job.",
     "weight": "4896 g",
     "volume": "6 L",
     "price": 40000,
@@ -187,7 +187,7 @@
     "id": "armor_thessalonian",
     "type": "ARMOR",
     "name": { "str": "cataphract armor", "str_pl": "suits of cataphract armor" },
-    "description": "This armor, made of interlocking plates of burnished bronze, appears to be either a high-quality recreation or a genuine artifact.  Despite having an ancient design, it is in mint condition aside from some battle damage.  It covers from head to waist and is of extremely high quality.",
+    "description": "This armor, made of interlocking plates of burnished bronze, appears to be either a high-quality recreation or a genuine artifact.  Despite having an ancient design, it is in mint condition aside from some battle damage.  It covers from the shoulders to the hips and is of extremely high quality.",
     "weight": "7286 g",
     "volume": "6 L",
     "price": 50000,
@@ -589,7 +589,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "tire cuirass", "str_pl": "tire cuirasses" },
-    "description": "A cuirass made from thick chunks of tire secured by simple strings; the loose collection of plates provides decent but not the most convenient protection.",
+    "description": "A cuirass made from thick chunks of tire secured by simple strings; the loose collection of rubber plates provides decent but not the most convenient protection.",
     "weight": "4800 g",
     "volume": "5750 ml",
     "price": 20000,
@@ -686,7 +686,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str_sp": "tire leather armor" },
-    "description": "A jacket reinforced with chunks of thick rubber tire on the shoulders, back and front.  Bulky and heavy, but thick and electric proof.",
+    "description": "A jacket reinforced with chunks of thick rubber tire on the shoulders, back and front.  Bulky and heavy, but thick and immune to electricity.",
     "weight": "6250 g",
     "volume": "7 L",
     "price": 11000,
@@ -811,31 +811,43 @@
   },
   {
     "id": "motorbike_armor",
-    "repairs_like": "survivor_suit",
+    "repairs_like": "under_armor",
     "type": "ARMOR",
     "name": { "str": "motorcycle armor" },
-    "description": "A suit of armor used by dirt bikers and motorcyclists.",
-    "weight": "2125 g",
-    "volume": "1 L",
+    "description": "A light jacket made of a stretch mesh covered in plastic pads meant for motorcyclists.  Made to be much more comfortable to wear than leather alternatives, but the underlying lycra isn't protective at all.",
+    "weight": "1066 g",
+    "volume": "2 L",
     "price": 15000,
     "price_postapoc": 1000,
-    "bashing": 8,
-    "material": [ "kevlar", "cotton" ],
+    "bashing": 2,
+    "material": [ "plastic_pad", "lycra" ],
     "symbol": "[",
     "looks_like": "jacket_leather",
     "color": "dark_gray",
     "armor": [
-      { "covers": [ "torso" ], "coverage": 95, "encumbrance": [ 28, 30 ] },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 95, "encumbrance": [ 28, 28 ] }
+      {
+        "material": [
+          { "type": "lycra", "covered_by_mat": 100, "thickness": 0.25 },
+          { "type": "plastic_pad", "covered_by_mat": 90, "thickness": 12 }
+        ],
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": 8
+      },
+      {
+        "material": [
+          { "type": "lycra", "covered_by_mat": 100, "thickness": 0.25 },
+          { "type": "plastic_pad", "covered_by_mat": 90, "thickness": 12 }
+        ],
+        "covers": [ "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": 8
+      }
     ],
-    "pocket_data": [
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 120 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 120 }
-    ],
-    "warmth": 35,
+    "warmth": 15,
     "material_thickness": 4,
-    "environmental_protection": 2,
-    "flags": [ "VARSIZE", "WATERPROOF" ]
+    "environmental_protection": 1,
+    "flags": [ "VARSIZE", "WATERPROOF", "OUTER", "BLOCK_WHILE_WORN" ]
   },
   {
     "id": "plastron_cotton",
@@ -941,7 +953,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "mild steel light chestplate" },
-    "description": "A light chestplate, 2 mm thick.  This one has been made with mild steel.",
+    "description": "A light chestplate, 2mm thick.  This one has been made with mild steel.",
     "weight": "7500 g",
     "volume": "8750 ml",
     "price": 60000,
@@ -992,7 +1004,7 @@
     "type": "ARMOR",
     "copy-from": "armor_lc_light_chestplate",
     "name": { "str": "medium steel light chestplate" },
-    "description": "A light chestplate, 2 mm thick.  Made with tougher medium steel, this offers solid protection.",
+    "description": "A light chestplate, 2mm thick.  Made with tougher medium steel, offering solid protection.",
     "armor": [
       {
         "material": [
@@ -1030,7 +1042,7 @@
     "type": "ARMOR",
     "copy-from": "armor_lc_light_chestplate",
     "name": { "str": "high steel light chestplate" },
-    "description": "A light chestplate, 2 mm thick.  Made with high carbon steel offering excellent protection.",
+    "description": "A light chestplate, 2mm thick.  Made with high carbon steel, offering excellent protection.",
     "armor": [
       {
         "material": [
@@ -1068,7 +1080,7 @@
     "type": "ARMOR",
     "copy-from": "armor_lc_light_chestplate",
     "name": { "str": "case hardened light chestplate" },
-    "description": "A light chestplate, 2 mm thick.  The mild steel has been case hardened, offering superior protection.",
+    "description": "A light chestplate, 2mm thick.  The mild steel has been case hardened, offering superior protection.",
     "armor": [
       {
         "material": [
@@ -1106,7 +1118,7 @@
     "type": "ARMOR",
     "copy-from": "armor_lc_light_chestplate",
     "name": { "str": "tempered light chestplate" },
-    "description": "A light chestplate, 2 mm thick.  The medium steel has been quenched and tempered, offering top of the line protection.",
+    "description": "A light chestplate, 2mm thick.  The medium steel has been quenched and tempered, offering top-of-the-line protection.",
     "armor": [
       {
         "material": [
@@ -1144,7 +1156,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "mild steel chestplate" },
-    "description": "A chestplate, 4 mm thick.  This one has been made with mild steel.",
+    "description": "A chestplate, 4mm thick.  This one has been made with mild steel.",
     "weight": "10 kg",
     "volume": "17500 ml",
     "price": 60000,
@@ -1195,7 +1207,7 @@
     "type": "ARMOR",
     "copy-from": "armor_lc_chestplate",
     "name": { "str": "medium steel chestplate" },
-    "description": "A chestplate, 4 mm thick.  Made with tougher medium steel, this offers solid protection.",
+    "description": "A chestplate, 4mm thick.  Made with tougher medium steel, offering solid protection.",
     "armor": [
       {
         "material": [
@@ -1233,7 +1245,7 @@
     "type": "ARMOR",
     "copy-from": "armor_lc_chestplate",
     "name": { "str": "high steel chestplate" },
-    "description": "A chestplate, 4 mm thick.  Made with high carbon steel offering excellent protection.",
+    "description": "A chestplate, 4mm thick.  Made with high carbon steel, offering excellent protection.",
     "armor": [
       {
         "material": [
@@ -1271,7 +1283,7 @@
     "type": "ARMOR",
     "copy-from": "armor_lc_chestplate",
     "name": { "str": "case hardened chestplate" },
-    "description": "A chestplate, 4 mm thick.  The mild steel has been case hardened, offering superior protection.",
+    "description": "A chestplate, 4mm thick.  The mild steel has been case hardened, offering superior protection.",
     "armor": [
       {
         "material": [
@@ -1309,7 +1321,7 @@
     "type": "ARMOR",
     "copy-from": "armor_lc_chestplate",
     "name": { "str": "tempered chestplate" },
-    "description": "A chestplate, 4 mm thick.  The medium steel has been quenched and tempered, offering top of the line protection.",
+    "description": "A chestplate, 4mm thick.  The medium steel has been quenched and tempered, offering top-of-the-line protection.",
     "armor": [
       {
         "material": [
@@ -1347,7 +1359,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "mild steel heavy chestplate" },
-    "description": "A heavy chestplate, 6 mm thick.  This one has been made with mild steel.",
+    "description": "A heavy chestplate, 6mm thick.  This one has been made with mild steel.",
     "weight": "17500 g",
     "volume": "17500 ml",
     "price": 60000,
@@ -1398,7 +1410,7 @@
     "type": "ARMOR",
     "copy-from": "armor_lc_heavy_chestplate",
     "name": { "str": "medium steel heavy chestplate" },
-    "description": "A heavy chestplate, 6 mm thick.  Made with tougher medium steel, this offers solid protection.",
+    "description": "A heavy chestplate, 6mm thick.  Made with tougher medium steel, offering solid protection.",
     "armor": [
       {
         "material": [
@@ -1436,7 +1448,7 @@
     "type": "ARMOR",
     "copy-from": "armor_lc_heavy_chestplate",
     "name": { "str": "high steel heavy chestplate" },
-    "description": "A heavy chestplate, 6 mm thick.  Made with high carbon steel offering excellent protection.",
+    "description": "A heavy chestplate, 6mm thick.  Made with high carbon steel, offering excellent protection.",
     "armor": [
       {
         "material": [
@@ -1474,7 +1486,7 @@
     "type": "ARMOR",
     "copy-from": "armor_lc_heavy_chestplate",
     "name": { "str": "case hardened heavy chestplate" },
-    "description": "A heavy chestplate, 6 mm thick.  The mild steel has been case hardened, offering superior protection.",
+    "description": "A heavy chestplate, 6mm thick.  The mild steel has been case hardened, offering superior protection.",
     "armor": [
       {
         "material": [
@@ -1512,7 +1524,7 @@
     "type": "ARMOR",
     "copy-from": "armor_lc_heavy_chestplate",
     "name": { "str": "tempered heavy chestplate" },
-    "description": "A heavy chestplate, 6 mm thick.  The medium steel has been quenched and tempered, offering top of the line protection.",
+    "description": "A heavy chestplate, 6mm thick.  The medium steel has been quenched and tempered, offering top-of-the-line protection.",
     "armor": [
       {
         "material": [

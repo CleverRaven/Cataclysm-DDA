@@ -30,6 +30,7 @@
 
 "Code: Tests":
   - tests/**/*
+  - data/mods/TEST_DATA/**/*
 
 "Character / World Generation":
   - src/newcharacter.cpp
@@ -42,13 +43,18 @@
   - "**/CMakeLists.txt"
   - "**/*.cmake"
 
+"Code: Infrastructure / Style / Static Analysis":
+  - .astylerc
+  - .clang-tidy
+  - .editorconfig
+  - .lgtm.yml
+
 "Crafting / Construction / Recipes":
   - "**/recipes/**/*"
   - data/json/construction.json
   - data/json/construction_category.json
   - data/json/construction_group.json
   - data/json/deconstruction.json
-
 
 "EOC: Effects On Condition":
   - "**/**effect_on_condition**"
@@ -62,7 +68,7 @@
   - "**/comestibles**"
 
 "NPC / Factions":
-  - "**/npc**"
+  - "**/**npc**/**/*"
 
 "Melee":
   - "**/melee**"
@@ -175,6 +181,9 @@
 "Mods: Dark Skies":
   - data/mods/Dark-Skies-Above/**/*
 
+"Mods: Desert Region":
+  - data/mods/desert_region/**/*
+
 "Mods: DinoMod":
   - data/mods/DinoMod/**/*
 
@@ -202,8 +211,12 @@
 "Mods: Tamable Wildlife":
   - data/mods/Tamable_Wildlife/**/*
 
+"Mods: Xedra Evolved":
+  - data/mods/Xedra_Evolved/**/*
+
 "Mods":
-  - data/mods/**/*
+  - any: [ 'data/mods/**/*' ]
+    all: [ '!data/mods/TEST_DATA/**/*' ]
 
 "Mechanics: Enchantments / Spells":
   - "**/enchantments**"

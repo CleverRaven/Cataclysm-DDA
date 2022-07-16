@@ -4,6 +4,7 @@
 
 #include <map>
 #include <string>
+#include "units.h"
 
 // Fixed window sizes.
 static constexpr int EVEN_MINIMUM_TERM_WIDTH = 80;
@@ -89,25 +90,25 @@ static constexpr int PLUTONIUM_CHARGES = 500;
 namespace temperatures
 {
 // temperature at which something starts is considered HOT.
-constexpr int hot = 100; // ~ 38 Celsius
+constexpr units::temperature hot = units::from_fahrenheit( 100 ); // ~ 38 Celsius
 
 // the "normal" temperature midpoint between cold and hot.
-constexpr int normal = 70; // ~ 21 Celsius
+constexpr units::temperature normal = units::from_fahrenheit( 70 ); // ~ 21 Celsius
 
 // Temperature inside an active fridge in Fahrenheit.
-constexpr int fridge = 37; // ~ 2.7 Celsius
+constexpr units::temperature fridge = units::from_fahrenheit( 37 ); // ~ 2.7 Celsius
 
 // Temperature at which things are considered "cold".
-constexpr int cold = 40; // ~4.4 C
+constexpr units::temperature cold = units::from_fahrenheit( 40 ); // ~4.4 C
 
 // Temperature inside an active freezer in Fahrenheit.
-constexpr int freezer = 23; // -5 Celsius
+constexpr units::temperature freezer = units::from_celcius( -5 ); // -5 Celsius
 
-// Temperature in which water freezes in Fahrenheit.
-constexpr int freezing = 32; // 0 Celsius
+// Temperature in which water freezes.
+constexpr units::temperature freezing = units::from_celcius( 0 ); // 0 Celsius
 
-// Temperature in which water boils in Fahrenheit.
-constexpr int boiling = 212; // 100 Celsius
+// Temperature in which water boils.
+constexpr units::temperature boiling = units::from_celcius( 100 ); // 100 Celsius
 } // namespace temperatures
 
 // Slowest speed at which a gun can be aimed.
@@ -146,7 +147,7 @@ static constexpr int HORDE_VISIBILITY_SIZE = 3;
  * Average annual temperature in F used for climate, weather and temperature calculation.
  * Average New England temperature = 43F/6C rounded to int.
 */
-static constexpr int AVERAGE_ANNUAL_TEMPERATURE = 43;
+static constexpr units::temperature AVERAGE_ANNUAL_TEMPERATURE = units::from_fahrenheit( 43 );
 
 /**
  * Base starting spring temperature in F used for climate, weather and temperature calculation.

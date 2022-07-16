@@ -201,6 +201,6 @@
     "city_distance": [ -1, 1000 ],
     "locations": [ "lake_surface" ],
     "occurrences": [ 75, 100 ],
-    "flags": [ "CLASSIC", "LAKE", "MAN_MADE", "UNIQUE", "MILITARY" ]
+    "flags": [ "LAKE", "MAN_MADE", "UNIQUE", "MILITARY" ]
   }
 ]

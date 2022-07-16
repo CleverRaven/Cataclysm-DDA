@@ -1,4 +1,4 @@
-NAME: Cuteclysm(Alpha)
-VIEW: Cuteclysm(Alpha)
+NAME: Cuteclysm
+VIEW: Cuteclysm
 JSON: tile_config.json
 TILESET: tiles.png

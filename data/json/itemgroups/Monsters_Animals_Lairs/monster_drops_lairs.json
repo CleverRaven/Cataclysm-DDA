@@ -240,6 +240,7 @@
       { "item": "m16a4", "prob": 6 },
       { "item": "m27_assault_rifle", "variant": "h&k416a5", "prob": 3 },
       { "item": "mossberg_930", "variant": "m1014", "prob": 1 },
+      { "item": "m26_mass_standalone", "prob": 1 },
       { "item": "steyr_aug", "prob": 6 },
       { "item": "v29", "prob": 1 },
       { "item": "flamethrower", "prob": 1 },
@@ -290,6 +291,16 @@
     "id": "dog_cop",
     "subtype": "distribution",
     "entries": [ { "item": "kevlar_harness", "prob": 1 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "dog_clothes",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "rubber_harness_dog", "prob": 50 },
+      { "item": "leather_harness_dog", "prob": 25 },
+      { "item": "kevlar_harness", "prob": 1 }
+    ]
   },
   {
     "type": "item_group",

@@ -2,7 +2,7 @@
 Leave the headings unless they don't apply to your PR.
 
 Please read carefully and don't delete the comments delimited by "< !--" and "-- >"
-Once a pull request is submitted automatic stylistic and consistency checks will be performed on the PR's changes.
+Once a pull request is submitted, automatic stylistic and consistency checks will be performed on the PR's changes.
 The results of these can be either seen under the "Files changed" section of a PR or in the check's details.
 
 NOTE: Please grant permission for repository maintainers to edit your PR.  It is EXTREMELY common for PRs to be held up due to trivial changes being requested and the author being unavailable to make them. -->

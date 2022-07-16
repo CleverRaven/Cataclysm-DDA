@@ -19,6 +19,7 @@
 #include "filesystem.h"
 #include "game.h"
 #include "game_constants.h"
+#include "generic_factory.h"
 #include "input.h"
 #include "json.h"
 #include "line.h"
@@ -32,6 +33,7 @@
 #include "sounds.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
+#include "system_locale.h"
 #include "translations.h"
 #include "try_parse_integer.h"
 #include "ui_manager.h"
@@ -53,6 +55,140 @@
 
 std::map<std::string, std::string> TILESETS; // All found tilesets: <name, tileset_dir>
 std::map<std::string, std::string> SOUNDPACKS; // All found soundpacks: <name, soundpack_dir>
+
+namespace
+{
+
+generic_factory<option_slider> option_slider_factory( "option slider" );
+
+} // namespace
+
+/** @relates string_id */
+template<>
+const option_slider &string_id<option_slider>::obj() const
+{
+    return option_slider_factory.obj( *this );
+}
+
+/** @relates string_id */
+template<>
+bool string_id<option_slider>::is_valid() const
+{
+    return option_slider_factory.is_valid( *this );
+}
+
+void option_slider::reset()
+{
+    option_slider_factory.reset();
+}
+
+const std::vector<option_slider> &option_slider::get_all()
+{
+    return option_slider_factory.get_all();
+}
+
+void option_slider::load_option_sliders( const JsonObject &jo, const std::string &src )
+{
+    option_slider_factory.load( jo, src );
+}
+
+void option_slider::finalize_all()
+{
+    for( const option_slider &opt : option_slider::get_all() ) {
+        option_slider &o = const_cast<option_slider &>( opt );
+        o.reorder_opts();
+    }
+}
+
+void option_slider::check_consistency()
+{
+    for( const option_slider &opt : option_slider::get_all() ) {
+        opt.check();
+    }
+}
+
+void option_slider::load( const JsonObject &jo, const std::string & )
+{
+    mandatory( jo, was_loaded, "name", _name );
+    optional( jo, was_loaded, "default", _default_level, 0 );
+    optional( jo, was_loaded, "context", _context );
+    mandatory( jo, was_loaded, "levels", _levels );
+}
+
+void option_slider::option_slider_level::deserialize( const JsonObject &jo )
+{
+    mandatory( jo, false, "level", _level );
+    mandatory( jo, false, "name", _name );
+    optional( jo, false, "description", _desc );
+    _opts.clear();
+    for( JsonObject jobj : jo.get_array( "options" ) ) {
+        const std::string stype = jobj.get_string( "type" );
+        std::stringstream valss;
+        if( stype == "int" ) {
+            valss << jobj.get_int( "val" );
+        } else if( stype == "float" ) {
+            valss << jobj.get_float( "val" );
+        } else if( stype == "bool" ) {
+            valss << ( jobj.get_bool( "val" ) ? "true" : "false" );
+        } else if( stype == "string" ) {
+            valss << jobj.get_string( "val" );
+        }
+        _opts.emplace_back( jobj.get_string( "option" ), stype, valss.str() );
+    }
+}
+
+void option_slider::check() const
+{
+    std::set<int> lvls;
+    for( const option_slider_level &lvl : _levels ) {
+        if( lvl.level() < 0 || lvl.level() >= static_cast<int>( _levels.size() ) ) {
+            debugmsg( "Option slider level \"%s\" (from option slider \"%s\") has a numeric "
+                      "level of %d, but must be between 0 and %d (total number of levels minus 1)",
+                      lvl.name().translated().c_str(), id.c_str(), lvl.level(),
+                      static_cast<int>( _levels.size() ) - 1 );
+        }
+        lvls.emplace( lvl.level() );
+    }
+
+    if( lvls.size() != _levels.size() ) {
+        debugmsg( "Option slider \"%s\" has duplicate slider levels.  Each slider level must "
+                  "be unique, from 0 (zero) to %d (total number of levels minus 1)",
+                  id.c_str(), static_cast<int>( _levels.size() ) - 1 );
+    }
+
+    if( lvls.count( _default_level ) == 0 ) {
+        debugmsg( "Default slider level (%d) for option slider \"%s\" does not match any of the "
+                  "defined levels", _default_level, id.c_str() );
+    }
+}
+
+bool option_slider::option_slider_level::remove( const std::string &opt )
+{
+    auto iter = std::find_if( _opts.begin(), _opts.end(), [&opt]( const opt_slider_option & o ) {
+        return o._opt == opt;
+    } );
+    if( iter == _opts.end() ) {
+        return false;
+    }
+    _opts.erase( iter );
+    return true;
+}
+
+void option_slider::option_slider_level::apply_opts( options_manager::options_container &OPTIONS )
+const
+{
+    for( const opt_slider_option &opt : _opts ) {
+        auto iter = OPTIONS.find( opt._opt );
+        if( iter != OPTIONS.end() ) {
+            iter->second.setValue( opt._val );
+        }
+    }
+}
+
+int option_slider::random_level() const
+{
+    return rng( 0, _levels.size() - 1 );
+}
 
 // Map from old option name to pair of <new option name and map of old option value to new option value>
 // Options and values not listed here will not be changed.
@@ -1415,12 +1551,13 @@ void options_manager::add_options_interface()
     add( "USE_METRIC_SPEEDS", "interface", to_translation( "Speed units" ),
          to_translation( "Switch between mph, km/h, and tiles/turn." ),
     { { "mph", to_translation( "mph" ) }, { "km/h", to_translation( "km/h" ) }, { "t/t", to_translation( "tiles/turn" ) } },
-    "mph"
+    ( SystemLocale::UseMetricSystem().value_or( false ) ? "km/h" : "mph" )
        );
 
     add( "USE_METRIC_WEIGHTS", "interface", to_translation( "Mass units" ),
          to_translation( "Switch between lbs and kg." ),
-    { { "lbs", to_translation( "lbs" ) }, { "kg", to_translation( "kg" ) } }, "lbs"
+    { { "lbs", to_translation( "lbs" ) }, { "kg", to_translation( "kg" ) } },
+    ( SystemLocale::UseMetricSystem().value_or( false ) ? "kg" : "lbs" )
        );
 
     add( "VOLUME_UNITS", "interface", to_translation( "Volume units" ),
@@ -1431,7 +1568,7 @@ void options_manager::add_options_interface()
     add( "DISTANCE_UNITS", "interface", to_translation( "Distance units" ),
          to_translation( "Switch between metric and imperial distance units." ),
     { { "metric", to_translation( "Metric" ) }, { "imperial", to_translation( "Imperial" ) } },
-    "imperial" );
+    ( SystemLocale::UseMetricSystem().value_or( false ) ? "metric" : "imperial" ) );
 
     add( "24_HOUR", "interface", to_translation( "Time format" ),
          to_translation( "12h: AM/PM, e.g. 7:31 AM - Military: 24h Military, e.g. 0731 - 24h: Normal 24h, e.g. 7:31" ),
@@ -1724,6 +1861,11 @@ void options_manager::add_options_interface()
     add( "ITEM_SYMBOLS", "interface", to_translation( "Show item symbols" ),
          to_translation( "If true, show item symbols in inventory and pick up menu." ),
          false
+       );
+
+    add( "ITEM_BODYGRAPH", "interface", to_translation( "Show armor coverage map" ),
+         to_translation( "If true, show a visual representation of armor coverage in the item info window." ),
+         true
        );
 
     add_empty_line();
@@ -2285,6 +2427,13 @@ void options_manager::add_options_world_default()
     { { "any", to_translation( "Any" ) }, { "multi_pool", to_translation( "Multi-pool only" ) }, { "no_freeform", to_translation( "No freeform" ) } },
     "any"
        );
+
+    add_empty_line();
+
+    add( "META_PROGRESS", "world_default", to_translation( "Meta Progression" ),
+         to_translation( "Will you need to complete certain achievements to enable certain scenarios and professions?  Achievements are tracked from your memorial file so characters from any world will be checked.  Disabling this will spoil factions and situations you may otherwise stumble upon naturally.  Some scenarios are frustrating for the uninitiated and some professions skip portions of the games content.  If new to the game meta progression will help you be introduced to mechanics at a reasonable pace." ),
+         true
+       );
 }
 
 void options_manager::add_options_debug()
@@ -2694,8 +2843,7 @@ static void draw_borders_internal( const catacurses::window &w, std::map<int, bo
     wnoutrefresh( w );
 }
 
-std::string options_manager::show( bool ingame, const bool world_options_only,
-                                   const std::function<bool()> &on_quit )
+std::string options_manager::show( bool ingame, const bool world_options_only, bool with_tabs )
 {
     const int iWorldOptPage = std::find_if( pages_.begin(), pages_.end(), [&]( const Page & p ) {
         return &p == &world_default_page_;
@@ -2713,6 +2861,10 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
         ingame = false;
     }
 
+    size_t sel_worldgen_tab = 1;
+    std::map<size_t, inclusive_rectangle<point>> worldgen_tab_map;
+    std::map<int, inclusive_rectangle<point>> opt_tab_map;
+    std::map<int, inclusive_rectangle<point>> opt_line_map;
     std::map<int, bool> mapLines;
     mapLines[4] = true;
     mapLines[60] = true;
@@ -2726,15 +2878,23 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
     ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
     ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
     ctxt.register_action( "QUIT" );
-    ctxt.register_action( "NEXT_TAB" );
-    ctxt.register_action( "PREV_TAB" );
+    if( with_tabs || !world_options_only ) {
+        ctxt.register_action( "NEXT_TAB" );
+        ctxt.register_action( "PREV_TAB" );
+    }
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
+    // for mouse selection
+    ctxt.register_action( "SELECT" );
+    ctxt.register_action( "MOUSE_MOVE" );
+    ctxt.register_action( "SCROLL_UP" );
+    ctxt.register_action( "SCROLL_DOWN" );
 
     const int iWorldOffset = world_options_only ? 2 : 0;
     int iMinScreenWidth = 0;
     const int iTooltipHeight = 6;
     int iContentHeight = 0;
+    bool recalc_startpos = false;
 
     catacurses::window w_options_border;
     catacurses::window w_options_tooltip;
@@ -2742,6 +2902,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
     catacurses::window w_options;
 
     const auto init_windows = [&]( ui_adaptor & ui ) {
+        recalc_startpos = true;
         if( OPTIONS.find( "TERMINAL_X" ) != OPTIONS.end() ) {
             if( OPTIONS_OLD.find( "TERMINAL_X" ) != OPTIONS_OLD.end() ) {
                 OPTIONS_OLD["TERMINAL_X"] = OPTIONS["TERMINAL_X"];
@@ -2779,8 +2940,15 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
     ui.on_screen_resize( init_windows );
     init_windows( ui );
     ui.on_redraw( [&]( const ui_adaptor & ) {
+        opt_line_map.clear();
+        opt_tab_map.clear();
         if( world_options_only ) {
-            worldfactory::draw_worldgen_tabs( w_options_border, 1 );
+            if( with_tabs ) {
+                worldgen_tab_map = worldfactory::draw_worldgen_tabs( w_options_border, sel_worldgen_tab );
+            } else {
+                werase( w_options_border );
+                draw_border( w_options_border );
+            }
         }
 
         draw_borders_external( w_options_border, iTooltipHeight + 1 + iWorldOffset, mapLines,
@@ -2790,8 +2958,9 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
         Page &page = pages_[iCurrentPage];
         auto &page_items = page.items_;
 
-        auto &cOPTIONS = ( ingame || world_options_only ) && iCurrentPage == iWorldOptPage ?
-                         ACTIVE_WORLD_OPTIONS : OPTIONS;
+        options_manager::options_container &cOPTIONS = ( ingame || world_options_only ) &&
+                iCurrentPage == iWorldOptPage ?
+                ACTIVE_WORLD_OPTIONS : OPTIONS;
 
         //Clear the lines
         for( int i = 0; i < iContentHeight; i++ ) {
@@ -2808,7 +2977,9 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
             }
         }
 
-        calcStartPos( iStartPos, iCurrentLine, iContentHeight, page_items.size() );
+        if( recalc_startpos ) {
+            calcStartPos( iStartPos, iCurrentLine, iContentHeight, page_items.size() );
+        }
 
         // where the column with the names starts
         const size_t name_col = 5;
@@ -2857,8 +3028,10 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
 
             const std::string value = utf8_truncate( current_opt.getValueName(), value_width );
             mvwprintz( w_options, point( value_col, line_pos ),
-                       iCurrentLine == i ? hilite( cLineColor ) : cLineColor,
-                       value );
+                       iCurrentLine == i ? hilite( cLineColor ) : cLineColor, value );
+
+            opt_line_map.emplace( i, inclusive_rectangle<point>( point( name_col, line_pos ),
+                                  point( value_col + value_width - 1, line_pos ) ) );
         }
 
         scrollbar()
@@ -2872,6 +3045,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
         wnoutrefresh( w_options_border );
 
         //Draw Tabs
+        int tab_x = 0;
         if( !world_options_only ) {
             mvwprintz( w_options_header, point( 7, 0 ), c_white, "" );
             for( int i = 0; i < static_cast<int>( pages_.size() ); i++ ) {
@@ -2885,6 +3059,11 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
                 }
                 wprintz( w_options_header, c_white, "]" );
                 wputch( w_options_header, BORDER_COLOR, LINE_OXOX );
+                tab_x++;
+                int tab_w = utf8_width( pages_[i].get().name_.translated(), true );
+                opt_tab_map.emplace( i, inclusive_rectangle<point>( point( 7 + tab_x, 0 ),
+                                     point( 6 + tab_x + tab_w, 0 ) ) );
+                tab_x += tab_w + 2;
             }
         }
 
@@ -2945,21 +3124,69 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
     while( true ) {
         ui_manager::redraw();
 
+        recalc_startpos = false;
         Page &page = pages_[iCurrentPage];
         auto &page_items = page.items_;
 
-        auto &cOPTIONS = ( ingame || world_options_only ) && iCurrentPage == iWorldOptPage ?
-                         ACTIVE_WORLD_OPTIONS : OPTIONS;
+        options_manager::options_container &cOPTIONS = ( ingame || world_options_only ) &&
+                iCurrentPage == iWorldOptPage ?
+                ACTIVE_WORLD_OPTIONS : OPTIONS;
+
+        std::string action = ctxt.handle_input();
+
+        if( world_options_only && ( action == "NEXT_TAB" || action == "PREV_TAB" || action == "QUIT" ) ) {
+            return action;
+        }
+
+        if( action == "MOUSE_MOVE" || action == "SELECT" ) {
+            bool found_opt = false;
+            sel_worldgen_tab = 1;
+            cata::optional<point> coord = ctxt.get_coordinates_text( w_options_border );
+            if( world_options_only && with_tabs && !!coord ) {
+                // worldgen tabs
+                found_opt = run_for_point_in<size_t, point>( worldgen_tab_map, *coord,
+                [&sel_worldgen_tab]( const std::pair<size_t, inclusive_rectangle<point>> &p ) {
+                    sel_worldgen_tab = p.first;
+                } ) > 0;
+                if( found_opt && action == "SELECT" && sel_worldgen_tab != 1 ) {
+                    return sel_worldgen_tab == 0 ? "PREV_TAB" : "NEXT_TAB";
+                }
+            }
+            if( !found_opt && !!coord ) {
+                // option category tabs
+                coord = ctxt.get_coordinates_text( w_options_header );
+                bool new_val = false;
+                const int psize = pages_.size();
+                found_opt = run_for_point_in<int, point>( opt_tab_map, *coord,
+                [&iCurrentPage, &new_val, &psize]( const std::pair<int, inclusive_rectangle<point>> &p ) {
+                    new_val = true;
+                    iCurrentPage = clamp<int>( p.first, 0, psize - 1 );
+                } ) > 0;
+                if( new_val ) {
+                    iCurrentLine = 0;
+                    iStartPos = 0;
+                    recalc_startpos = true;
+                    sfx::play_variant_sound( "menu_move", "default", 100 );
+                }
+            }
+            if( !found_opt ) {
+                // option lines
+                coord = ctxt.get_coordinates_text( w_options );
+                if( !!coord ) {
+                    const int psize = page_items.size();
+                    found_opt = run_for_point_in<int, point>( opt_line_map, *coord,
+                    [&iCurrentLine, &psize]( const std::pair<int, inclusive_rectangle<point>> &p ) {
+                        iCurrentLine = clamp<int>( p.first, 0, psize - 1 );
+                    } ) > 0;
+                    if( found_opt && action == "SELECT" ) {
+                        action = "CONFIRM";
+                    }
+                }
+            }
+        }
 
         const std::string &opt_name = *page_items[iCurrentLine];
         cOpt &current_opt = cOPTIONS[opt_name];
-
-        const std::string action = ctxt.handle_input();
-
-        if( world_options_only && ( action == "NEXT_TAB" || action == "PREV_TAB" ||
-                                    ( action == "QUIT" && ( !on_quit || on_quit() ) ) ) ) {
-            return action;
-        }
 
         bool hasPrerequisite = current_opt.hasPrerequisite();
         bool hasPrerequisiteFulfilled = current_opt.checkPrerequisite();
@@ -2973,20 +3200,22 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
         const int recmax = static_cast<int>( page_items.size() );
         const int scroll_rate = recmax > 20 ? 10 : 3;
 
-        if( action == "DOWN" ) {
+        if( action == "DOWN" || action == "SCROLL_DOWN" ) {
             do {
                 iCurrentLine++;
                 if( iCurrentLine >= recmax ) {
                     iCurrentLine = 0;
                 }
             } while( !page_items[iCurrentLine] );
-        } else if( action == "UP" ) {
+            recalc_startpos = true;
+        } else if( action == "UP" || action == "SCROLL_UP" ) {
             do {
                 iCurrentLine--;
                 if( iCurrentLine < 0 ) {
                     iCurrentLine = page_items.size() - 1;
                 }
             } while( !page_items[iCurrentLine] );
+            recalc_startpos = true;
         } else if( action == "PAGE_DOWN" ) {
             if( iCurrentLine == recmax - 1 ) {
                 iCurrentLine = 0;
@@ -2998,6 +3227,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
                     iCurrentLine++;
                 }
             }
+            recalc_startpos = true;
         } else if( action == "PAGE_UP" ) {
             if( iCurrentLine == 0 ) {
                 iCurrentLine = recmax - 1;
@@ -3009,13 +3239,17 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
                     iCurrentLine--;
                 }
             }
+            recalc_startpos = true;
         } else if( action == "RIGHT" ) {
             current_opt.setNext();
+            recalc_startpos = true;
         } else if( action == "LEFT" ) {
             current_opt.setPrev();
+            recalc_startpos = true;
         } else if( action == "NEXT_TAB" ) {
             iCurrentLine = 0;
             iStartPos = 0;
+            recalc_startpos = true;
             iCurrentPage++;
             if( iCurrentPage >= static_cast<int>( pages_.size() ) ) {
                 iCurrentPage = 0;
@@ -3024,6 +3258,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
         } else if( action == "PREV_TAB" ) {
             iCurrentLine = 0;
             iStartPos = 0;
+            recalc_startpos = true;
             iCurrentPage--;
             if( iCurrentPage < 0 ) {
                 iCurrentPage = pages_.size() - 1;
@@ -3178,7 +3413,7 @@ void options_manager::serialize( JsonOut &json ) const
             }
             const auto iter = options.find( *opt_name );
             if( iter != options.end() ) {
-                const auto &opt = iter->second;
+                const options_manager::cOpt &opt = iter->second;
 
                 json.start_object();
 
