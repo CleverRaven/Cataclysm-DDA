@@ -143,7 +143,7 @@
     "ammo": [ "battery" ],
     "flags": [ "FRAGILE", "CANT_WEAR", "WATERPROOF", "USE_UPS", "EXO_LARGE_GADGET" ],
     "relic_data": {
-      "passive_effects": [ { "has": "HELD", "condition": "ACTIVE", "values": [ { "value": "CARRY_WEIGHT", "add": 30000 } ] } ]
+      "passive_effects": [ { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "CARRY_WEIGHT", "add": 20000 } ] } ]
     },
     "use_action": {
       "target": "exo_large_carry_on",
@@ -170,9 +170,9 @@
     "ammo": [ "battery" ],
     "flags": [ "FRAGILE", "CANT_WEAR", "WATERPROOF", "USE_UPS", "EXO_LARGE_GADGET" ],
     "relic_data": {
-      "passive_effects": [ { "has": "HELD", "condition": "ACTIVE", "values": [ { "value": "CARRY_WEIGHT", "add": 30000 } ] } ]
+      "passive_effects": [ { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "CARRY_WEIGHT", "add": 20000 } ] } ]
     },
-    "power_draw": 1500,
+    "power_draw": 1000,
     "revert_to": "exo_large_carry",
     "use_action": {
       "ammo_scale": 0,
@@ -197,7 +197,7 @@
     "ammo": [ "battery" ],
     "flags": [ "FRAGILE", "CANT_WEAR", "WATERPROOF", "USE_UPS", "EXO_SMALL_GADGET" ],
     "relic_data": {
-      "passive_effects": [ { "has": "HELD", "condition": "ACTIVE", "values": [ { "value": "CARRY_WEIGHT", "add": 20000 } ] } ]
+      "passive_effects": [ { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "CARRY_WEIGHT", "add": 10000 } ] } ]
     },
     "use_action": {
       "target": "exo_small_carry_on",
@@ -224,9 +224,9 @@
     "ammo": [ "battery" ],
     "flags": [ "FRAGILE", "CANT_WEAR", "WATERPROOF", "USE_UPS", "EXO_SMALL_GADGET" ],
     "relic_data": {
-      "passive_effects": [ { "has": "HELD", "condition": "ACTIVE", "values": [ { "value": "CARRY_WEIGHT", "add": 20000 } ] } ]
+      "passive_effects": [ { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "CARRY_WEIGHT", "add": 10000 } ] } ]
     },
-    "power_draw": 1000,
+    "power_draw": 500,
     "revert_to": "exo_small_carry",
     "use_action": {
       "ammo_scale": 0,
