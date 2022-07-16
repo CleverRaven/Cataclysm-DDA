@@ -2878,14 +2878,10 @@ void overmap::init_layers()
 {
     for( int k = 0; k < OVERMAP_LAYERS; ++k ) {
         const oter_id tid = get_default_terrain( k - OVERMAP_DEPTH );
-
-        for( int i = 0; i < OMAPX; ++i ) {
-            for( int j = 0; j < OMAPY; ++j ) {
-                layer[k].terrain[i][j] = tid;
-                layer[k].visible[i][j] = false;
-                layer[k].explored[i][j] = false;
-            }
-        }
+        map_layer &l = layer[k];
+        l.terrain.fill( tid );
+        l.visible.fill( false );
+        l.explored.fill( false );
     }
 }
 
@@ -2896,7 +2892,7 @@ void overmap::ter_set( const tripoint_om_omt &p, const oter_id &id )
         return;
     }
 
-    oter_id &val = layer[p.z() + OVERMAP_DEPTH].terrain[p.x()][p.y()];
+    oter_id &val = layer[p.z() + OVERMAP_DEPTH].terrain[p.xy()];
     if( id->has_flag( oter_flags::requires_predecessor ) ) {
         predecessors_[p].push_back( val );
     }
@@ -2915,7 +2911,7 @@ const oter_id &overmap::ter( const tripoint_om_omt &p ) const
 
 const oter_id &overmap::ter_unsafe( const tripoint_om_omt &p ) const
 {
-    return layer[p.z() + OVERMAP_DEPTH].terrain[p.x()][p.y()];
+    return layer[p.z() + OVERMAP_DEPTH].terrain[p.xy()];
 }
 
 cata::optional<mapgen_arguments> *overmap::mapgen_args( const tripoint_om_omt &p )
@@ -2951,7 +2947,7 @@ void overmap::set_seen( const tripoint_om_omt &p, bool val )
         return;
     }
 
-    layer[p.z() + OVERMAP_DEPTH].visible[p.x()][p.y()] = val;
+    layer[p.z() + OVERMAP_DEPTH].visible[p.xy()] = val;
 
     add_extra_note( p );
 }
@@ -2961,7 +2957,7 @@ bool overmap::seen( const tripoint_om_omt &p ) const
     if( !inbounds( p ) ) {
         return false;
     }
-    return layer[p.z() + OVERMAP_DEPTH].visible[p.x()][p.y()];
+    return layer[p.z() + OVERMAP_DEPTH].visible[p.xy()];
 }
 
 bool &overmap::explored( const tripoint_om_omt &p )
@@ -2970,7 +2966,7 @@ bool &overmap::explored( const tripoint_om_omt &p )
         nullbool = false;
         return nullbool;
     }
-    return layer[p.z() + OVERMAP_DEPTH].explored[p.x()][p.y()];
+    return layer[p.z() + OVERMAP_DEPTH].explored[p.xy()];
 }
 
 bool overmap::is_explored( const tripoint_om_omt &p ) const
@@ -2978,7 +2974,7 @@ bool overmap::is_explored( const tripoint_om_omt &p ) const
     if( !inbounds( p ) ) {
         return false;
     }
-    return layer[p.z() + OVERMAP_DEPTH].explored[p.x()][p.y()];
+    return layer[p.z() + OVERMAP_DEPTH].explored[p.xy()];
 }
 
 bool overmap::mongroup_check( const mongroup &candidate ) const
@@ -4694,7 +4690,7 @@ void overmap::place_swamps()
     // Buffer our river terrains by a variable radius and increment a counter for the location each
     // time it's included in a buffer. It's a floodplain that we'll then intersect later with some
     // noise to adjust how frequently it occurs.
-    std::vector<std::vector<int>> floodplain( OMAPX, std::vector<int>( OMAPY, 0 ) );
+    cata::mdarray<int, point_om_omt, OMAPX, OMAPY> floodplain( 0 );
     for( int x = 0; x < OMAPX; x++ ) {
         for( int y = 0; y < OMAPY; y++ ) {
             const tripoint_om_omt pos( x, y, 0 );
@@ -4708,7 +4704,7 @@ void overmap::place_swamps()
                     if( !inbounds( p ) ) {
                         continue;
                     }
-                    floodplain[p.x()][p.y()] += 1;
+                    floodplain[p] += 1;
                 }
             }
         }

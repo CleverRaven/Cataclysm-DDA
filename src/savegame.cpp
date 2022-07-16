@@ -904,12 +904,14 @@ void overmap::unserialize_omap( std::istream &fin )
     }
 }
 
-static void unserialize_array_from_compacted_sequence( JsonIn &jsin, bool ( &array )[OMAPX][OMAPY] )
+template<typename MdArray>
+static void unserialize_array_from_compacted_sequence( JsonIn &jsin, MdArray &array )
 {
     int count = 0;
-    bool value = false;
-    for( int j = 0; j < OMAPY; j++ ) {
-        for( auto &array_col : array ) {
+    using Value = typename MdArray::value_type;
+    Value value;
+    for( size_t j = 0; j < MdArray::size_y; ++j ) {
+        for( size_t i = 0; i < MdArray::size_x; ++i ) {
             if( count == 0 ) {
                 jsin.start_array();
                 jsin.read( value );
@@ -917,7 +919,7 @@ static void unserialize_array_from_compacted_sequence( JsonIn &jsin, bool ( &arr
                 jsin.end_array();
             }
             count--;
-            array_col[j] = value;
+            array[i][j] = value;
         }
     }
 }
@@ -984,14 +986,17 @@ void overmap::unserialize_view( std::istream &fin )
     }
 }
 
-static void serialize_array_to_compacted_sequence( JsonOut &json,
-        const bool ( &array )[OMAPX][OMAPY] )
+template<typename MdArray>
+static void serialize_array_to_compacted_sequence( JsonOut &json, const MdArray &array )
 {
+    static_assert( std::is_same<typename MdArray::value_type, bool>::value,
+                   "This implementation assumes bool, in that the initial value of lastval has "
+                   "to not be a valid value of the content" );
     int count = 0;
     int lastval = -1;
-    for( int j = 0; j < OMAPY; j++ ) {
-        for( const auto &array_col : array ) {
-            const int value = array_col[j];
+    for( size_t j = 0; j < MdArray::size_y; ++j ) {
+        for( size_t i = 0; i < MdArray::size_x; ++i ) {
+            const int value = array[i][j];
             if( value != lastval ) {
                 if( count ) {
                     json.write( count );
