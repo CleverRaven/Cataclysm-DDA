@@ -4170,11 +4170,10 @@
       "THRESH_CHIMERA",
       "THRESH_MEDICAL",
       "THRESH_LIZARD",
-      "THRESH_BEAST",
-      "THRESH_BATRACHIAN"
+      "THRESH_BEAST"
     ],
     "changes_to": [ "MUT_TOUGH2" ],
-    "category": [ "URSINE", "CATTLE", "CHIMERA", "BEAST", "LIZARD", "BATRACHIAN" ],
+    "category": [ "URSINE", "CATTLE", "CHIMERA", "BEAST", "LIZARD" ],
     "hp_modifier_secondary": 0.2
   },
   {
