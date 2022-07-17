@@ -5121,7 +5121,7 @@ Fields can exist on top of terrain/furniture, and support different intensity le
             "max_duration": "5 minutes", // Effect duration randomized between min and max duration
             "intensity": 1, // Intensity of the effect to apply
             "body_part": "head", // Bodypart the effect gets applied to, default BP_NULL ("whole body")
-            "is_environmental": false, // If true the environmental effect roll is used to determine if the effect gets applied: <intensity>D3 > <target BP's armor/bionic env resist>D3
+            "is_environmental": false, // If true the environmental effect roll is used to determine if the effect gets applied: <intensity>d3 > <target BP's armor/bionic env resist>d3
             "immune_inside_vehicle": false, // If true being inside a vehicle protects from the effect
             "immune_outside_vehicle": false, // If true being *outside* a vehicle protects from the effect,
             "chance_in_vehicle": 2,
