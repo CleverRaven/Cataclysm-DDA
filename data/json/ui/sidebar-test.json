@@ -125,7 +125,7 @@
     "id": "body_graph_temp",
     "type": "widget",
     "label": "Body Graph",
-    "var": "body_graph_encumb",
+    "var": "body_graph_status",
     "style": "text",
     "body_graph": "compact_full_body_widget",
     "width": 0,

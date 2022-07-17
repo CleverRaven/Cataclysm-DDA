@@ -11,6 +11,7 @@ enum class bodygraph_var : int {
     hp = 0,      // hitpoints
     temp,        // temperature
     encumb,      // encumbrance
+    status,      // limb status (bite, bleeding, ...)
     last // END OF ENUMS
 };
 
