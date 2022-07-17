@@ -3,5 +3,36 @@
     "type": "ter_furn_transform",
     "id": "merc_spike_transform",
     "furniture": [ { "result": [ "f_empty_spike" ], "valid_furniture": [ "f_impaled_officer" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HAUNTING",
+    "condition": {
+       "or": [ { "u_has_var": "KILLED", "type": "XEDRA_OFFICER", "context": "state", "value": "dead" }, "u_is_outside" ]
+    },
+    "false_effect": [
+      { "u_spawn_monster": "mon_XEDRA_soldier", "real_count": [2, 3], "min_radius": 4, "max_radius": 10, "lifespan": [ "1 minutes", "2 minutes" ] },
+      { "u_message": "<XEDRA_OFFICER>", "snippet": true, "sound": true, "type": "bad" },
+      { "queue_eocs": "EOC_HAUNTING", "time_in_future": [ "30 seconds", "50 seconds" ] }
+    ],
+    "effect": [
+      { "u_add_var": "KILLED", "type": "XEDRA_OFFICER", "context": "state", "value": "seen" },
+      { "u_message": "The sound of footsteps fade.  It's no longer tracking you.", "type": "good" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HAUNTING_SPAWN",
+    "effect": [
+      { "u_spawn_monster": "mon_XEDRA_officer", "real_count": 1, "min_radius": 15, "max_radius": 30, "false_eocs": [ "EOC_HAUNTING_SPAWN" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HAUNTING_STOP",
+    "effect": [
+      { "npc_add_var": "KILLED", "type": "XEDRA_OFFICER", "context": "state", "value": "dead" }
+    ]
   }
+
 ]

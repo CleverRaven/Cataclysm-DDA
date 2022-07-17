@@ -3901,9 +3901,7 @@
     "apply_message": "It is reaching out to you, you need to be careful about touching it again.",
     "max_duration": "60 s",
     "rating": "bad",
-    "base_mods": {
-      "int_mod": [ -1 ]
-    },
+    "base_mods": { "int_mod": [ -1 ] },
     "show_in_info": true
   },
   {

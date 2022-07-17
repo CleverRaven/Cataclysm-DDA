@@ -1300,6 +1300,22 @@
     "copy-from": "mon_pale_reflection"
   },
   {
+    "id": "mon_XEDRA_officer",
+    "type": "MONSTER",
+    "name": { "str": "mercenary officer" },
+    "copy-from": "mon_zombie_bio_op",
+    "death_function": {
+      "effect": { "id": "mon_XEDRA_officer_banish", "hit_self": true },
+      "corpse_type": "NO_CORPSE"
+    }
+  },
+  {
+    "id": "mon_XEDRA_soldier",
+    "type": "MONSTER",
+    "name": { "str": "mercenary ghost" },
+    "copy-from": "mon_zombie_soldier_blackops_1"
+  },
+  {
     "id": "mon_tainted_shadow",
     "type": "MONSTER",
     "name": { "str": "tainted shadow" },

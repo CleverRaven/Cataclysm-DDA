@@ -504,6 +504,17 @@
   },
   {
     "type": "snippet",
+    "category": "<XEDRA_OFFICER>",
+    "text": [
+      "You hear an almost human voice saying \"Contact, clean this up.\"",
+      "You hear an almost human voice saying \"This is what we've trained for.\"",
+      "You hear an almost human voice saying \"I WONT LET YOU KILL ME!\"",
+      "You hear an almost human voice saying \"Flank him, quick.\"",
+      "You hear an almost human voice saying \"Get eyes on them.\""
+    ]
+  },
+  {
+    "type": "snippet",
     "category": "AMBIENT_LAB_SUBWAY",
     "text": [
       "<AMBIENT_SUBWAY>",

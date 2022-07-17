@@ -875,6 +875,21 @@
     "effect_str": "EOC_PORTAL_STORM_DUNGEON_REFLECTION_RESPAWN"
   },
   {
+    "type": "SPELL",
+    "id": "mon_XEDRA_officer_banish",
+    "name": { "str": "Officer banish" },
+    "description": "Stops the haunting.",
+    "valid_targets": [ "self", "ground" ],
+    "max_level": 1,
+    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS" ],
+    "base_casting_time": 75,
+    "min_range": 15,
+    "max_range": 15,
+    "shape": "blast",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_HAUNTING_STOP"
+  },
+  {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_STORM_DUNGEON_REFLECTION_RESPAWN",
     "effect": [ { "queue_eocs": "EOC_PORTAL_STORM_DUNGEON_REFLECTION_SPAWN", "time_in_future": [ "30 seconds", "1 minutes" ] } ]

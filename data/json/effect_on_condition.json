@@ -241,13 +241,6 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_HAUNTING",
-    "effect": [
-      { "u_spawn_monster": "mon_absence", "real_count": 1, "min_radius": 15, "max_radius": 40 }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
     "id": "bio_trip",
     "recurrence": [ "25 minutes", "1 hours 15 minutes" ],
     "condition": {
