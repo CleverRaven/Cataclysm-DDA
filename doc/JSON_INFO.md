@@ -5110,7 +5110,7 @@ Fields can exist on top of terrain/furniture, and support different intensity le
         "monster_spawn_radius": 15,
         "monster_spawn_group": "GROUP_NETHER", // 1-in-spawn_chance roll to spawn spawn_count entries from spawn_group monstergroup and place them in a spawn_radius radius around the field
         "light_emitted": 2.5, // light level emitted by this intensity
-        "light_override": 3.7 }, //light level on the tile occupied by this field will be set at 3.7 not matter the ambient light.
+        "light_override": 3.7 }, //light level on the tile occupied by this field will be set at 3.7 no matter the ambient light.
         "translucency": 2.0, // How much light the field blocks (higher numbers mean less light can penetrate through)
         "convection_temperature_mod": 12, // Heat given off by this level of intensity
         "effects":  // List of effects applied to any creatures within the field as long as they aren't immune to the effect or the field itself 
@@ -5144,12 +5144,12 @@ Fields can exist on top of terrain/furniture, and support different intensity le
     "underwater_age_speedup": "25 minutes", // Increase the field's age by this time every tick if it's on a terrain with the SWIMMABLE flag
     "outdoor_age_speedup": "20 minutes", // Increase the field's age by this duration if it's on an outdoor tile
     "accelerated_decay": true, // If the field should use a more simple decay calculation, used for cosmetic fields like gibs
-    "percent_spread": 90, // The field must succeed on a `rng(1, 100 - local windpower ) > percent_spread` roll to spread. The field must have a non-zero spread percent and the GAS phase to be eligable to spread in the first place
+    "percent_spread": 90, // The field must succeed on a `rng( 1, 100 - local windpower ) > percent_spread` roll to spread. The field must have a non-zero spread percent and the GAS phase to be eligible to spread in the first place
     "phase": "gas", // Phase of the field. Gases can spread after spawning and can be spawned out of emitters through impassable terrain with the PERMEABLE flag
     "apply_slime_factor": 10, // Intensity of slime to apply to creatures standing in this field (Why not use an effect? No idea.)
     "gas_absorption_factor": 15, // Amount of gasmask charges the field uses up per tick
     "is_splattering": true, // If splatters of this field should bloody vehicle parts
-    "dirty_transparency_cache": true, // Should the transparency cache be recalculated when the field is modified (used for intransparent, spreading fields)
+    "dirty_transparency_cache": true, // Should the transparency cache be recalculated when the field is modified (used for nontransparent, spreading fields)
     "has_fire": false, // Is this field a kind of fire (for immunity, monster avoidance and similar checks)
     "has_acid": false, // See has_fire
     "has_elec": false, // See has_fire
