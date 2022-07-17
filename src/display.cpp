@@ -64,7 +64,7 @@ bool disp_bodygraph_cache::is_valid_for( const Character &u, const std::string g
     if( graph_id != _graph_id ) {
         return false;
     }
-    std::vector<bodypart_id> cur_parts = u.get_all_body_parts( get_body_part_flags::only_main );
+    std::vector<bodypart_id> cur_parts = u.get_all_body_parts( get_body_part_flags::none );
     for( const auto &bp : _bp_cur_max ) {
         if( std::find( cur_parts.begin(), cur_parts.end(), bp.first ) == cur_parts.end() ) {
             // cached bodypart no longer on character
@@ -77,7 +77,6 @@ bool disp_bodygraph_cache::is_valid_for( const Character &u, const std::string g
             // uncached bodypart
             return false;
         }
-        // TODO: use the actual variable values
         if( prev_color->second != display::get_bodygraph_bp_color( u, bp, _var ).to_int() ) {
             // values differ
             return false;
@@ -91,8 +90,7 @@ void disp_bodygraph_cache::rebuild( const Character &u, const std::string graph_
 {
     _bp_cur_max.clear();
     _graph_id = graph_id;
-    for( const bodypart_id &bp : u.get_all_body_parts( get_body_part_flags::only_main ) ) {
-        // TODO: use the actual variable values
+    for( const bodypart_id &bp : u.get_all_body_parts( get_body_part_flags::none ) ) {
         _bp_cur_max.emplace( bp, display::get_bodygraph_bp_color( u, bp, _var ).to_int() );
     }
     _graph_wgt_str = bg_wgt_str;
