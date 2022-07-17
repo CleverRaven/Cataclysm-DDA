@@ -1485,7 +1485,7 @@
     "tools": [
       [ [ "pipe", -1 ] ],
       [ [ "surface_heat", 5, "LIST" ] ],
-      [ [ "butane_tank", 1 ], [ "butane_can", 1 ] ],
+      [ [ "butane_tank", 10 ], [ "butane_can", 10 ] ],
       [ [ "filter_paper_qualitative", 1 ] ],
       [ [ "filter_paper_quantitative", 1 ] ]
     ],
@@ -1527,7 +1527,7 @@
     "book_learn": [ [ "textbook_extraction", 4 ] ],
     "tools": [
       [ [ "pipe", -1 ] ],
-      [ [ "butane_tank", 1 ], [ "butane_can", 1 ] ],
+      [ [ "butane_tank", 10 ], [ "butane_can", 10 ] ],
       [ [ "vac_oven_small", 200 ] ],
       [ [ "filter_paper_qualitative", 2 ] ],
       [ [ "filter_paper_quantitative", 2 ] ],
