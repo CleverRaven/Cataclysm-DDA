@@ -207,12 +207,12 @@
     "id": "twig",
     "name": { "str": "twig" },
     "description": "A small and slender branch.  Makes passable firewood but is not useful for much else.",
-    "weight": "30 g",
+    "weight": "40 g",
     "color": "brown",
     "symbol": "/",
     "material": [ "wood" ],
-    "volume": "50 ml",
-    "flags": [ "TRADER_AVOID" ]
+    "volume": "100 ml",
+    "flags": [ "TRADER_AVOID", "FIREWOOD" ]
   },
   {
     "type": "GENERIC",
@@ -224,7 +224,7 @@
     "symbol": ",",
     "material": [ "veggy" ],
     "volume": "100 ml",
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID", "FIREWOOD" ]
   },
   {
     "type": "GENERIC",
