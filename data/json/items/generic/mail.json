@@ -73,8 +73,8 @@
     "variants": [
       {
         "id": "restaurant_gift_card",
-        "name": { "str": "gift card" },
-        "description": "A gift card for a local restaurant, it covers the cost for an entire meal.",
+        "name": { "str": "restaurant gift card" },
+        "description": "A gift card for a local restaurant, covering the cost for an entire meal.",
         "weight": 1
       },
       {
