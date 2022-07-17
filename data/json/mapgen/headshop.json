@@ -85,8 +85,8 @@
         { "item": "crackpipe", "repeat": [ 1, 2 ], "x": 4, "y": 10 },
         { "item": "pipe_glass", "repeat": [ 1, 4 ], "x": 4, "y": 10 },
         { "item": "pipe_glass", "repeat": [ 1, 4 ], "x": 7, "y": 10 },
-        { "item": "butane_can", "x": 3, "y": 10, "repeat": [ 0, 2 ], "chance": 75 },
-        { "item": "butane_can", "x": 9, "y": 10, "repeat": [ 0, 2 ], "chance": 75 },
+        { "item": "butane_can", "x": 3, "y": 10, "repeat": [ 0, 2 ], "chance": 55 },
+        { "item": "butane_can", "x": 9, "y": 10, "repeat": [ 0, 2 ], "chance": 55 },
         { "item": "pipe_glass", "repeat": [ 1, 4 ], "x": 18, "y": 10 },
         { "item": "crackpipe", "repeat": [ 1, 2 ], "x": 21, "y": 10 }
       ],
