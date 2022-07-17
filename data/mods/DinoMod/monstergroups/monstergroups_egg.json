@@ -28,6 +28,7 @@
       { "monster": "mon_eoraptor_hatchling", "weight": 20 },
       { "monster": "mon_scutellosaurus_hatchling", "weight": 5 },
       { "monster": "mon_dryosaurus_hatchling", "weight": 5 },
+      { "monster": "mon_stegoceras_hatchling", "weight": 5 },
       { "monster": "mon_aquilops_hatchling", "weight": 5 },
       { "monster": "mon_oryctodromeus_hatchling", "weight": 5 }
     ]
@@ -340,6 +341,11 @@
     "name": "GROUP_EGG_edmontosaurus",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_edmontosaurus_hatchling" } ]
+  },
+  {
+    "name": "GROUP_EGG_stegoceras",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_stegoceras_hatchling" } ]
   },
   {
     "name": "GROUP_EGG_pachycephalosaurus",
