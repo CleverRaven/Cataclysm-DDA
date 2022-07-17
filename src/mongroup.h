@@ -189,6 +189,7 @@ struct mongroup {
     void deserialize_legacy( const JsonObject &jo );
     void serialize( JsonOut &json ) const;
 };
+static_assert( sizeof( mongroup ) == 144, "" );
 
 template<>
 struct enum_traits<mongroup::horde_behaviour> {
