@@ -409,6 +409,13 @@
     "upgrades": { "age_grow": 50, "into": "mon_edmontosaurus_juvenile" }
   },
   {
+    "id": "mon_stegoceras_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_scutellosaurus_hatchling",
+    "name": "light green and yellow hatchling",
+    "upgrades": { "age_grow": 25, "into": "mon_stegoceras" }
+  },
+  {
     "id": "mon_pachycephalosaurus_hatchling",
     "type": "MONSTER",
     "copy-from": "mon_edmontosaurus_hatchling",
@@ -418,7 +425,7 @@
   {
     "id": "mon_aquilops_hatchling",
     "type": "MONSTER",
-    "copy-from": "mon_pachycephalosaurus_hatchling",
+    "copy-from": "mon_scutellosaurus_hatchling",
     "name": "light green and magenta hatchling",
     "upgrades": { "age_grow": 30, "into": "mon_aquilops" }
   },

@@ -51,7 +51,6 @@ readability-*,\
 -bugprone-narrowing-conversions,\
 -misc-no-recursion,\
 -misc-non-private-member-variables-in-classes,\
--modernize-avoid-bind,\
 -modernize-avoid-c-arrays,\
 -modernize-pass-by-value,\
 -modernize-return-braced-init-list,\

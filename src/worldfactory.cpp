@@ -32,8 +32,6 @@
 #include "translations.h"
 #include "ui_manager.h"
 
-using namespace std::placeholders;
-
 // single instance of world generator
 std::unique_ptr<worldfactory> world_generator;
 
@@ -119,8 +117,14 @@ worldfactory::worldfactory()
     , mman_ui( *mman )
 {
     // prepare tab display order
-    tabs.emplace_back( std::bind( &worldfactory::show_worldgen_tab_modselection, this, _1, _2, _3 ) );
-    tabs.emplace_back( std::bind( &worldfactory::show_worldgen_tab_options, this, _1, _2, _3 ) );
+    tabs.emplace_back(
+    [this]( const catacurses::window & win, WORLD * w, bool b ) {
+        return show_worldgen_tab_modselection( win, w, b );
+    } );
+    tabs.emplace_back(
+    [this]( const catacurses::window & win, WORLD * w, bool b ) {
+        return show_worldgen_tab_options( win, w, b );
+    } );
 }
 
 worldfactory::~worldfactory() = default;
@@ -169,6 +173,26 @@ WORLD *worldfactory::make_new_world( bool show_prompt, const std::string &world_
     return add_world( std::move( retworld ) );
 }
 
+static cata::optional<std::string> prompt_world_name( const std::string &title,
+        const std::string &cur_worldname )
+{
+    string_input_popup popup;
+    popup.max_length( max_worldname_len ).title( title ).text( cur_worldname );
+
+    input_context ctxt( "STRING_INPUT" );
+    popup.description( string_format(
+                           _( "Press [<color_c_yellow>%s</color>] to randomize the world name." ),
+                           ctxt.get_desc( "PICK_RANDOM_WORLDNAME", 1U ) ) );
+
+    popup.custom_actions.emplace_back( "PICK_RANDOM_WORLDNAME", translation() );
+    popup.add_callback( "PICK_RANDOM_WORLDNAME", [&popup]() {
+        popup.text( get_next_valid_worldname() );
+        return true;
+    } );
+    std::string message = popup.query_string();
+    return !popup.canceled() ? cata::optional<std::string>( message ) : cata::optional<std::string>();
+}
+
 int worldfactory::show_worldgen_advanced( WORLD *world )
 {
     // set up window
@@ -199,23 +223,19 @@ int worldfactory::show_worldgen_advanced( WORLD *world )
             curtab += tabs[curtab]( wf_win, world, true );
         }
         if( curtab >= 0 ) {
-            string_input_popup str_input;
-            std::string nname = str_input
-                                .max_length( max_worldname_len )
-                                .title( _( "Choose a new name for this world." ) )
-                                .text( world->world_name )
-                                .query_string();
-            if( str_input.canceled() ) {
+            cata::optional<std::string> ret = prompt_world_name( _( "Choose a new name for this world." ),
+                                              world->world_name );
+            if( !ret.has_value() ) {
                 // return to settings tab
                 curtab = 1;
-            } else if( nname.empty() ) {
+            } else if( ret.value().empty() ) {
                 // no name entered
                 if( query_yn( _( "World name is empty.  Randomize the name?" ) ) ) {
                     world->world_name = pick_random_name();
                 }
             } else {
                 // done, generate world
-                world->world_name = nname;
+                world->world_name = ret.value();
                 done = true;
             }
         } else if( curtab < 0 ) {
@@ -1589,6 +1609,9 @@ int worldfactory::show_worldgen_basic( WORLD *world )
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "PICK_MODS" );
     ctxt.register_action( "ADVANCED_SETTINGS" );
+    ctxt.register_action( "FINALIZE" );
+    ctxt.register_action( "RANDOMIZE" );
+    ctxt.register_action( "RESET" );
     ctxt.register_action( "SCROLL_UP" );
     ctxt.register_action( "SCROLL_DOWN" );
     ctxt.register_cardinal();
@@ -1704,27 +1727,33 @@ int worldfactory::show_worldgen_basic( WORLD *world )
         if( all_sliders_drawn && y <= content_height ) {
             // Finish button
             nc_color acc_clr = get_clr( c_yellow, sel_opt == static_cast<int>( wg_sliders.size() + 1 ) );
+            nc_color acc_clr2 = get_clr( c_light_green, sel_opt == static_cast<int>( wg_sliders.size() + 1 ) );
             nc_color base_clr = get_clr( c_white, sel_opt == static_cast<int>( wg_sliders.size() + 1 ) );
-            std::string btn_txt = string_format( "%s %s %s", colorize( "[", acc_clr ),
-                                                 _( "Finish" ), colorize( "]", acc_clr ) );
+            std::string btn_txt = string_format( "%s%s%s %s %s", colorize( "[", acc_clr ),
+                                                 colorize( ctxt.get_desc( "FINALIZE", 1U ), acc_clr2 ),
+                                                 colorize( "][", acc_clr ), _( "Finish" ), colorize( "]", acc_clr ) );
             const point finish_pos( win_width / 4 - utf8_width( btn_txt, true ) / 2, y );
             print_colored_text( w_confirmation, finish_pos, base_clr, base_clr, btn_txt );
             btn_map.emplace( wg_sliders.size() + 1,
                              inclusive_rectangle<point>( finish_pos, finish_pos + point( utf8_width( btn_txt, true ), 0 ) ) );
             // Reset button
             acc_clr = get_clr( c_yellow, sel_opt == static_cast<int>( wg_sliders.size() + 2 ) );
+            acc_clr2 = get_clr( c_light_green, sel_opt == static_cast<int>( wg_sliders.size() + 2 ) );
             base_clr = get_clr( c_white, sel_opt == static_cast<int>( wg_sliders.size() + 2 ) );
-            btn_txt = string_format( "%s %s %s", colorize( "[", acc_clr ),
-                                     _( "Reset" ), colorize( "]", acc_clr ) );
+            btn_txt = string_format( "%s%s%s %s %s", colorize( "[", acc_clr ),
+                                     colorize( ctxt.get_desc( "RESET", 1U ), acc_clr2 ),
+                                     colorize( "][", acc_clr ), _( "Reset" ), colorize( "]", acc_clr ) );
             const point reset_pos( win_width / 2 - utf8_width( btn_txt, true ) / 2, y );
             print_colored_text( w_confirmation, reset_pos, base_clr, base_clr, btn_txt );
             btn_map.emplace( wg_sliders.size() + 2,
                              inclusive_rectangle<point>( reset_pos, reset_pos + point( utf8_width( btn_txt, true ), 0 ) ) );
             // Randomize button
             acc_clr = get_clr( c_yellow, sel_opt == static_cast<int>( wg_sliders.size() + 3 ) );
+            acc_clr2 = get_clr( c_light_green, sel_opt == static_cast<int>( wg_sliders.size() + 3 ) );
             base_clr = get_clr( c_white, sel_opt == static_cast<int>( wg_sliders.size() + 3 ) );
-            btn_txt = string_format( "%s %s %s", colorize( "[", acc_clr ),
-                                     _( "Randomize" ), colorize( "]", acc_clr ) );
+            btn_txt = string_format( "%s%s%s %s %s", colorize( "[", acc_clr ),
+                                     colorize( ctxt.get_desc( "RANDOMIZE", 1U ), acc_clr2 ),
+                                     colorize( "][", acc_clr ), _( "Randomize" ), colorize( "]", acc_clr ) );
             const point rand_pos( ( win_width * 3 ) / 4 - utf8_width( btn_txt, true ) / 2, y++ );
             print_colored_text( w_confirmation, rand_pos, base_clr, base_clr, btn_txt );
             btn_map.emplace( wg_sliders.size() + 3,
@@ -1811,18 +1840,25 @@ int worldfactory::show_worldgen_basic( WORLD *world )
             }
         }
 
+        // Button shortcuts
+        if( action == "FINALIZE" ) {
+            action = "CONFIRM";
+            sel_opt = wg_sliders.size() + 1;
+        } else if( action == "RESET" ) {
+            action = "CONFIRM";
+            sel_opt = wg_sliders.size() + 2;
+        } else if( action == "RANDOMIZE" ) {
+            action = "CONFIRM";
+            sel_opt = wg_sliders.size() + 3;
+        }
+
         // Handle other inputs
         if( action == "CONFIRM" ) {
             if( sel_opt == 0 ) {
                 // rename
-                string_input_popup popup;
-                std::string message = popup
-                                      .max_length( max_worldname_len )
-                                      .title( _( "World name:" ) )
-                                      .text( worldname )
-                                      .query_string();
-                if( !popup.canceled() ) {
-                    world->world_name = worldname = message;
+                cata::optional<std::string> ret = prompt_world_name( _( "World name:" ), worldname );
+                if( !ret.value_or( "" ).empty() ) {
+                    world->world_name = worldname = ret.value();
                 }
             } else if( sel_opt == static_cast<int>( wg_sliders.size() + 1 ) ) {
                 // finish
@@ -2062,7 +2098,6 @@ bool WORLD::load_options()
 {
     WORLD_OPTIONS = get_options().get_world_defaults();
 
-    using namespace std::placeholders;
     const std::string path = folder_path() + "/" + PATH_INFO::worldoptions();
     return read_from_file_optional_json( path, [this]( JsonIn & jsin ) {
         this->load_options( jsin );

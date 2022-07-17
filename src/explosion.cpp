@@ -148,7 +148,7 @@ static float mass_to_area( const float mass )
 
 // Approximate Gurney constant for Composition B and C (in m/s instead of the usual km/s).
 // Source: https://en.wikipedia.org/wiki/Gurney_equations#Gurney_constant_and_detonation_velocity
-constexpr double TYPICAL_GURNEY_CONSTANT = 2700.0;
+static constexpr double TYPICAL_GURNEY_CONSTANT = 2700.0;
 static float gurney_spherical( const double charge, const double mass )
 {
     return static_cast<float>( std::pow( ( mass / charge ) + ( 3.0 / 5.0 ),
