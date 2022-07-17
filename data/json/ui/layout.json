@@ -66,7 +66,7 @@
     "id": "needs_desc_layout_no_label",
     "type": "widget",
     "style": "layout",
-    "label": "Needs",
+    "label": "Needs (self-aware)",
     "arrange": "rows",
     "widgets": [
       "hunger_desc_no_label",
