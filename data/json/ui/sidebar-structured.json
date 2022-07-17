@@ -171,6 +171,7 @@
     "style": "layout",
     "arrange": "rows",
     "width": 10,
+    "separator": " ",
     "widgets": [
       "status_hpg_layout_head",
       "status_hpg_layout_torso",
@@ -187,6 +188,7 @@
     "style": "layout",
     "arrange": "rows",
     "width": 12,
+    "separator": " ",
     "//": "TODO - It is not currently possible to conditionally swap out widgets on the fly. When this is added, vehicle speed should replace speed when driving.",
     "widgets": [
       "pain_desc_no_label",
