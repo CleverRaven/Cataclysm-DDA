@@ -110,8 +110,9 @@ void pocket_favorite_callback::add_pockets( item &i, uilist &pocket_selector,
     pocket_selector.addentry( -1, false, '\0', string_format( "%s%s", depth, i.display_name() ) );
     // pad list with empty entries for the items themselves
     saved_pockets.emplace_back( nullptr, 0, nullptr );
-    if( i.is_collapsed() || i.all_pockets_sealed() ) {
+    if( ( i.is_collapsed() && to_organize.size() != 1 ) || i.all_pockets_sealed() ) {
         //is collapsed, or all pockets are sealed skip its nested pockets
+        // only skip collapsed items if doing multi menu, for a single item this wouldn't make sense
         return;
     }
 
