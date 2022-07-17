@@ -53,7 +53,6 @@
     "id": "medieval",
     "subtype": "distribution",
     "entries": [
-      { "item": "shortsword", "prob": 15 },
       { "item": "katana", "prob": 2 },
       { "item": "katana_inferior", "prob": 2 },
       { "item": "cestus", "prob": 2 },
