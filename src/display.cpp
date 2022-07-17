@@ -39,7 +39,10 @@ static const itype_id fuel_type_muscle( "muscle" );
 // Cache for the overmap widget string
 static disp_overmap_cache disp_om_cache;
 // Cache for the bodygraph widget string
-static disp_bodygraph_cache disp_bg_cache = disp_bodygraph_cache( bodygraph_var::hp );
+static disp_bodygraph_cache disp_bg_cache[] = {
+    disp_bodygraph_cache( bodygraph_var::hp ),
+    disp_bodygraph_cache( bodygraph_var::temp )
+};
 
 disp_overmap_cache::disp_overmap_cache()
 {
@@ -1483,7 +1486,8 @@ static std::pair<std::string, nc_color> get_bodygraph_bp_sym_color( const Charac
     return { bgp.sym, display::get_bodygraph_bp_color( u, bid, var ) };
 }
 
-nc_color display::get_bodygraph_bp_color( const Character &u, const bodypart_id &bid, const bodygraph_var var )
+nc_color display::get_bodygraph_bp_color( const Character &u, const bodypart_id &bid,
+        const bodygraph_var var )
 {
     if( !u.has_part( bid ) ) {
         return c_black; // character is missing this part
@@ -1518,9 +1522,11 @@ nc_color display::get_bodygraph_bp_color( const Character &u, const bodypart_id 
 std::string display::colorized_bodygraph_text( const Character &u, const std::string graph_id,
         const bodygraph_var var, int width, int max_height, int &height )
 {
-    if( disp_bg_cache.is_valid_for( u, graph_id ) ) {
+    int var_idx = int( var );
+
+    if( disp_bg_cache[var_idx].is_valid_for( u, graph_id ) ) {
         // Nothing changed, just retrieve from cache
-        return disp_bg_cache.get_val();
+        return disp_bg_cache[var_idx].get_val();
     }
 
     bodygraph_id graph( graph_id );
@@ -1549,7 +1555,7 @@ std::string display::colorized_bodygraph_text( const Character &u, const std::st
     }
 
     // Rebuild bodygraph text cache
-    disp_bg_cache.rebuild( u, graph_id, ret );
+    disp_bg_cache[var_idx].rebuild( u, graph_id, ret );
 
     return ret;
 }

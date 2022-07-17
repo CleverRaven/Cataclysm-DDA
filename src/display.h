@@ -8,7 +8,7 @@
 
 // These are the supported data variables for coloring bodygraphs.
 enum class bodygraph_var : int {
-    hp,          // hitpoints
+    hp = 0,      // hitpoints
     temp,        // temperature
     last // END OF ENUMS
 };
@@ -163,7 +163,8 @@ std::string colorized_bodygraph_text( const Character &u, std::string graph_id,
                                       const bodygraph_var var, int width, int max_height, int &height );
 
 // Get color for bodygraph part
-nc_color get_bodygraph_bp_color( const Character &u, const bodypart_id &bid, const bodygraph_var var );
+nc_color get_bodygraph_bp_color( const Character &u, const bodypart_id &bid,
+                                 const bodygraph_var var );
 
 // Define color for displaying the body temperature
 nc_color bodytemp_color( const Character &u, const bodypart_id &bp );
