@@ -14,6 +14,7 @@
       "movement_layout",
       "stamina_activity_weary_layout",
       "needs_desc_layout_label",
+      "needs_desc_sa_layout_label",
       "safe_sound_layout",
       "power_desc",
       "rad_badge_desc",
