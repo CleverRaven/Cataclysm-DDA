@@ -7,6 +7,18 @@
     "style": "text",
     "width": 0,
     "height": 13,
+    "body_graph": "full_body_widget",
+    "flags": [ "W_LABEL_NONE", "W_DISABLED_BY_DEFAULT" ]
+  },
+  {
+    "id": "compact_body_graph",
+    "type": "widget",
+    "label": "Body Graph",
+    "var": "body_graph",
+    "style": "text",
+    "width": 0,
+    "height": 7,
+    "body_graph": "compact_full_body_widget",
     "flags": [ "W_LABEL_NONE", "W_DISABLED_BY_DEFAULT" ]
   }
 ]

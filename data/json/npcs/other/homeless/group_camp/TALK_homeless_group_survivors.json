@@ -1,0 +1,83 @@
+[
+  {
+    "type": "talk_topic",
+    "id": "TALK_NPC_HOMELESS_GROUP_SURVIVOR",
+    "dynamic_line": {
+      "npc_has_var": "talked_to_homeless",
+      "type": "dialogue",
+      "context": "first_meeting",
+      "value": "yes",
+      "yes": "Hello there.  Nice to see you again.",
+      "no": "Who are you, and what are you doing here?"
+    },
+    "speaker_effect": { "effect": { "npc_add_var": "talked_to_homeless", "type": "dialogue", "context": "first_meeting", "value": "yes" } },
+    "responses": [
+      {
+        "text": "Nice to meet you.  I mean no harm.",
+        "topic": "TALK_NPC_HOMELESS_GROUP_SURVIVOR_INTRO",
+        "condition": { "not": { "npc_has_var": "talked_to_homeless", "type": "dialogue", "context": "first_meeting", "value": "yes" } }
+      },
+      {
+        "text": "Hand over your stuff!  Don't make any sudden moves, or you die!",
+        "trial": { "type": "INTIMIDATE", "difficulty": 30 },
+        "success": { "topic": "TALK_WEAPON_DROPPED", "effect": "drop_weapon", "opinion": { "trust": 4, "fear": -3 } },
+        "failure": { "topic": "TALK_DONE", "effect": "hostile" },
+        "condition": { "not": { "npc_has_var": "talked_to_homeless", "type": "dialogue", "context": "first_meeting", "value": "yes" } }
+      },
+      {
+        "text": "Pleasure to see you again.",
+        "topic": "TALK_NPC_HOMELESS_GROUP_SURVIVOR_INTRO",
+        "condition": { "npc_has_var": "talked_to_homeless", "type": "dialogue", "context": "first_meeting", "value": "yes" }
+      },
+      { "text": "See ya.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_NPC_HOMELESS_GROUP_SURVIVOR_INTRO",
+    "dynamic_line": "So, what's up?",
+    "responses": [
+      { "text": "What are you doing here?", "topic": "TALK_NPC_HOMELESS_BROKER_STORY" },
+      {
+        "text": "Where might your friends be?",
+        "topic": "TALK_NPC_HOMELESS_GROUP_SURVIVOR_FRIENDS",
+        "condition": { "npc_has_var": "told_about_buddies", "type": "dialogue", "context": "first_meeting", "value": "yes" }
+      },
+      {
+        "text": "Can I stay here?",
+        "topic": "TALK_NPC_HOMELESS_BROKER_STAY",
+        "condition": { "npc_has_var": "told_about_buddies", "type": "dialogue", "context": "first_meeting", "value": "yes" }
+      },
+      {
+        "text": "What's with that guy in the tent?",
+        "topic": "TALK_NPC_HOMELESS_GROUP_SURVIVOR_BROKER",
+        "condition": { "npc_has_var": "told_about_buddies", "type": "dialogue", "context": "first_meeting", "value": "yes" }
+      },
+      { "text": "Want to trade?", "topic": "TALK_NPC_HOMELESS_GROUP_SURVIVOR_NOTRADE" },
+      {
+        "text": "Any jobs you need done?",
+        "condition": { "and": [ { "not": "has_assigned_mission" }, { "not": "has_many_assigned_missions" } ] },
+        "topic": "TALK_MISSION_LIST"
+      },
+      { "text": "I gotta go.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_NPC_HOMELESS_GROUP_SURVIVOR_FRIENDS",
+    "dynamic_line": "Oh, they're right over there, and one of us is in that tent over there.  They handle any stuff we manage to scavenge, so feel free to trade for what you want.",
+    "responses": [ { "text": "Alright.", "topic": "TALK_NONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_NPC_HOMELESS_GROUP_SURVIVOR_NOTRADE",
+    "dynamic_line": "Thanks for the offer, but I don't have anything to spare right now.  One of my buddies over in that tent handles stuff like this, though.  You might find something.",
+    "responses": [ { "text": "Alright.", "topic": "TALK_NONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_NPC_HOMELESS_GROUP_SURVIVOR_BROKER",
+    "dynamic_line": "Well, they were the brightest of us when all hell broke loose.  They managed to get us some food and weapons early on.  I guess that just kinda made them the leader.",
+    "responses": [ { "text": "Hmm.", "topic": "TALK_NONE" } ]
+  }
+]

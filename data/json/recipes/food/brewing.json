@@ -7,7 +7,7 @@
     "subcategory": "CSC_FOOD_BREW",
     "skill_used": "cooking",
     "difficulty": 3,
-    "time": 40000,
+    "time": "6 m 40 s",
     "autolearn": true,
     "//": "Should be taught by a flag/mutation rather than autolearned",
     "batch_time_factors": [ 80, 4 ],
@@ -23,7 +23,7 @@
     "subcategory": "CSC_FOOD_BREW",
     "skill_used": "cooking",
     "difficulty": 3,
-    "time": 40000,
+    "time": "6 m 40 s",
     "autolearn": true,
     "//": "Should be taught by a flag/mutation rather than autolearned",
     "batch_time_factors": [ 80, 4 ],
@@ -127,7 +127,7 @@
     "batch_time_factors": [ 50, 4 ],
     "autolearn": true,
     "book_learn": [ [ "brewing_cookbook", 6 ] ],
-    "tools": [ [ [ "rag", -1 ] ] ],
+    "tools": [ [ [ "cotton_patchwork", -1 ] ] ],
     "components": [ [ [ "sake_unfiltered", 1 ] ] ]
   },
   {

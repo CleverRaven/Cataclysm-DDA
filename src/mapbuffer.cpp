@@ -179,7 +179,7 @@ void mapbuffer::save_quad(
     offsets.push_back( point_south_east );
 
     bool all_uniform = true;
-    for( auto &offsets_offset : offsets ) {
+    for( point &offsets_offset : offsets ) {
         tripoint_abs_sm submap_addr = project_to<coords::sm>( om_addr );
         submap_addr += offsets_offset;
         submap_addrs.push_back( submap_addr );
@@ -264,8 +264,9 @@ submap *mapbuffer::unserialize_submaps( const tripoint_abs_sm &p )
         }
     }
 
-    using namespace std::placeholders;
-    if( !read_from_file_optional_json( quad_path, std::bind( &mapbuffer::deserialize, this, _1 ) ) ) {
+    if( !read_from_file_optional_json( quad_path, [this]( JsonIn & jsin ) {
+    deserialize( jsin );
+    } ) ) {
         // If it doesn't exist, trigger generating it.
         return nullptr;
     }

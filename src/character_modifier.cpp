@@ -314,6 +314,20 @@ float character_modifier::modifier( const Character &c, const skill_id &skill ) 
     return score;
 }
 
+std::string character_modifier::mod_type_str() const
+{
+    switch( modtype ) {
+        case ADD:
+            return "+";
+        case MULT:
+            return "x";
+        case NONE:
+        default:
+            break;
+    }
+    return std::string();
+}
+
 float Character::get_modifier( const character_modifier_id &mod, const skill_id &skill ) const
 {
     return mod->modifier( *this, skill );

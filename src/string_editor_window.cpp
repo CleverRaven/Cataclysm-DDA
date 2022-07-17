@@ -46,10 +46,10 @@ class folded_text
         std::vector<folded_line> lines;
 
     public:
-        folded_text( const std::string &str, const int line_width );
+        folded_text( const std::string &str, int line_width );
         const std::vector<folded_line> &get_lines() const;
         // get the display coordinates of the codepoint at index `cpt_idx`
-        point codepoint_coordinates( const int cpt_idx, const bool zero_x ) const;
+        point codepoint_coordinates( int cpt_idx, bool zero_x ) const;
 };
 
 struct ime_preview_range {
@@ -69,20 +69,17 @@ folded_text::folded_text( const std::string &str, const int line_width )
     int width = 0;
     // ... before current line start
     const char *src_start = src;
-    int bytes_start = bytes;
     int cpts_start = cpts;
     int width_start = width;
     // ... after the last word character
     const char *src_word = src_start;
     // ... at the last breaking position
     const char *src_break = src_start;
-    int bytes_break = bytes_start;
     int cpts_break = cpts_start;
     int width_break = width_start;
     while( bytes > 0 ) {
         // ... before current processed character
         const char *const src_curr = src;
-        const int bytes_curr = bytes;
         const int cpts_curr = cpts;
         const int width_curr = width;
         // ... after current processed character
@@ -97,7 +94,6 @@ folded_text::folded_text( const std::string &str, const int line_width )
             // break with at least one word character before
             && src_word > src_start ) {
             src_break = src_curr;
-            bytes_break = bytes_curr;
             cpts_break = cpts_curr;
             width_break = width_curr;
         }
@@ -110,7 +106,6 @@ folded_text::folded_text( const std::string &str, const int line_width )
                     std::string( src_start, src_break )
                 } );
                 src_start = src_break;
-                bytes_start = bytes_break;
                 cpts_start = cpts_break;
                 width_start = width_break;
             } else if( src_curr > src_start ) {
@@ -121,7 +116,6 @@ folded_text::folded_text( const std::string &str, const int line_width )
                     std::string( src_start, src_curr )
                 } );
                 src_start = src_curr;
-                bytes_start = bytes_curr;
                 cpts_start = cpts_curr;
                 width_start = width_curr;
             }
@@ -133,7 +127,6 @@ folded_text::folded_text( const std::string &str, const int line_width )
                 std::string( src_start, src )
             } );
             src_start = src;
-            bytes_start = bytes;
             cpts_start = cpts;
             width_start = width;
         }
@@ -145,7 +138,6 @@ folded_text::folded_text( const std::string &str, const int line_width )
             // break with at least one word character before
             && src_word > src_start ) {
             src_break = src;
-            bytes_break = bytes;
             cpts_break = cpts;
             width_break = width;
         }

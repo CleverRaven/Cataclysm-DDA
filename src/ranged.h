@@ -11,6 +11,7 @@ class avatar;
 class Character;
 class gun_mode;
 class item;
+class item_location;
 class map;
 class spell;
 class turret_data;
@@ -31,7 +32,7 @@ trajectory mode_fire( avatar &you, aim_activity_actor &activity );
 trajectory mode_throw( avatar &you, item &relevant, bool blind_throwing );
 
 /** Reach attacking */
-trajectory mode_reach( avatar &you, item &weapon );
+trajectory mode_reach( avatar &you, item_location weapon );
 
 /** Manually firing vehicle turret */
 trajectory mode_turret_manual( avatar &you, turret_data &turret );

@@ -60,6 +60,7 @@
       [ "m203", 30 ],
       [ "m320_mod", 10 ],
       [ "masterkey", 30 ],
+      [ "m26_mass", 35 ],
       [ "rm121aux", 10 ],
       [ "sword_bayonet", 10 ]
     ]
@@ -134,6 +135,13 @@
     "//": "Default mods for the m38dmr variant of the NATO assault rifle",
     "subtype": "collection",
     "entries": [ { "item": "suppressor" }, { "item": "rifle_scope" }, { "item": "bipod" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "vz58v_mods",
+    "//": "Default mods for the vz. 58 V variant of the VZ combat rifle",
+    "subtype": "collection",
+    "entries": [ { "item": "folding_stock" } ]
   },
   {
     "type": "item_group",

@@ -120,7 +120,6 @@ static const activity_id ACT_FERTILIZE_PLOT( "ACT_FERTILIZE_PLOT" );
 static const activity_id ACT_FETCH_REQUIRED( "ACT_FETCH_REQUIRED" );
 static const activity_id ACT_FIELD_DRESS( "ACT_FIELD_DRESS" );
 static const activity_id ACT_FILL_LIQUID( "ACT_FILL_LIQUID" );
-static const activity_id ACT_FILL_PIT( "ACT_FILL_PIT" );
 static const activity_id ACT_FIND_MOUNT( "ACT_FIND_MOUNT" );
 static const activity_id ACT_FISH( "ACT_FISH" );
 static const activity_id ACT_GAME( "ACT_GAME" );
@@ -263,7 +262,6 @@ activity_handlers::do_turn_functions = {
     { ACT_TIDY_UP, tidy_up_do_turn },
     { ACT_JACKHAMMER, jackhammer_do_turn },
     { ACT_FIND_MOUNT, find_mount_do_turn },
-    { ACT_FILL_PIT, fill_pit_do_turn },
     { ACT_MULTIPLE_CHOP_PLANKS, multiple_chop_planks_do_turn },
     { ACT_FERTILIZE_PLOT, fertilize_plot_do_turn },
     { ACT_OPERATION, operation_do_turn },
@@ -314,7 +312,6 @@ activity_handlers::finish_functions = {
     { ACT_VIEW_RECIPE, view_recipe_finish },
     { ACT_WASH, washing_finish },
     { ACT_JACKHAMMER, jackhammer_finish },
-    { ACT_FILL_PIT, fill_pit_finish },
     { ACT_ROBOT_CONTROL, robot_control_finish },
     { ACT_PULL_CREATURE, pull_creature_finish },
     { ACT_SPELLCASTING, spellcasting_finish },
@@ -989,7 +986,7 @@ static bool butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
             if( drop->phase == phase_id::LIQUID ) {
                 item obj( drop, calendar::turn, roll );
                 if( obj.has_temperature() ) {
-                    obj.set_item_temperature( 0.00001 * corpse_item->temperature );
+                    obj.set_item_temperature( corpse_item->temperature );
                     if( obj.goes_bad() ) {
                         obj.set_rot( corpse_item->get_rot() );
                     }
@@ -1011,7 +1008,7 @@ static bool butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
             } else if( drop->count_by_charges() ) {
                 item obj( drop, calendar::turn, roll );
                 if( obj.has_temperature() ) {
-                    obj.set_item_temperature( 0.00001 * corpse_item->temperature );
+                    obj.set_item_temperature( corpse_item->temperature );
                     if( obj.goes_bad() ) {
                         obj.set_rot( corpse_item->get_rot() );
                     }
@@ -1030,7 +1027,7 @@ static bool butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
                 item obj( drop, calendar::turn );
                 obj.set_mtype( &mt );
                 if( obj.has_temperature() ) {
-                    obj.set_item_temperature( 0.00001 * corpse_item->temperature );
+                    obj.set_item_temperature( corpse_item->temperature );
                     if( obj.goes_bad() ) {
                         obj.set_rot( corpse_item->get_rot() );
                     }
@@ -1080,7 +1077,7 @@ static bool butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
         if( item_charges > 0 ) {
             item ruined_parts( leftover_id, calendar::turn, item_charges );
             ruined_parts.set_mtype( &mt );
-            ruined_parts.set_item_temperature( 0.00001 * corpse_item->temperature );
+            ruined_parts.set_item_temperature( corpse_item->temperature );
             ruined_parts.set_rot( corpse_item->get_rot() );
             if( !you.backlog.empty() && you.backlog.front().id() == ACT_MULTIPLE_BUTCHER ) {
                 ruined_parts.set_var( "activity_var", you.name );
@@ -1303,9 +1300,11 @@ void activity_handlers::butcher_finish( player_activity *act, Character *you )
             break;
     }
 
+    you->recoil = MAX_RECOIL;
+
     // Ready to move on to the next item, if there is one (for example if multibutchering)
     act->index = true;
-    // if its mutli-tile butchering,then restart the backlog.
+    // if it's mutli-tile butchering, then restart the backlog.
     resume_for_multi_activities( *you );
 }
 
@@ -1362,9 +1361,9 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, Character *yo
         const int charges_per_second = std::max( 1, liquid.charges_per_volume( volume_per_second ) );
         liquid.charges = std::min( charges_per_second, liquid.charges );
         const int original_charges = liquid.charges;
-        if( liquid.has_temperature() && liquid.specific_energy < 0 ) {
-            liquid.set_item_temperature( temp_to_kelvin( std::max( get_weather().get_temperature( you->pos() ),
-                                         temperatures::cold ) ) );
+        if( liquid.has_temperature() && units::to_joule_per_gram( liquid.specific_energy ) < 0 ) {
+            liquid.set_item_temperature( std::max( units::from_fahrenheit( get_weather().get_temperature(
+                    you->pos() ) ), temperatures::cold ) );
         }
 
         // 2. Transfer charges.
@@ -1599,19 +1598,29 @@ void activity_handlers::pulp_do_turn( player_activity *act, Character *you )
     map &here = get_map();
     const tripoint &pos = here.getlocal( act->placement );
 
-    const item &weapon = you->get_wielded_item();
+    const item_location weapon = you->get_wielded_item();
+    int weap_cut = 0;
+    int weap_stab = 0;
+    int weap_bash = 0;
+    int mess_radius = 1;
+
+    if( weapon ) {
+        weap_cut = weapon->damage_melee( damage_type::CUT );
+        weap_stab = weapon->damage_melee( damage_type::STAB );
+        weap_bash = weapon->damage_melee( damage_type::BASH );
+        if( weapon->has_flag( flag_MESSY ) ) {
+            mess_radius = 2;
+        }
+    }
+
     // Stabbing weapons are a lot less effective at pulping
-    const int cut_power = std::max( weapon.damage_melee( damage_type::CUT ),
-                                    weapon.damage_melee( damage_type::STAB ) / 2 );
+    const int cut_power = std::max( weap_cut, weap_stab / 2 );
 
     ///\EFFECT_STR increases pulping power, with diminishing returns
-    float pulp_power = std::sqrt( ( you->get_arm_str() + weapon.damage_melee( damage_type::BASH ) ) *
-                                  ( cut_power + 1.0f ) );
-    float pulp_effort = you->str_cur + weapon.damage_melee( damage_type::BASH );
+    float pulp_power = std::sqrt( ( you->get_arm_str() + weap_bash ) * ( cut_power + 1.0f ) );
+    float pulp_effort = you->str_cur + weap_bash;
     // Multiplier to get the chance right + some bonus for survival skill
     pulp_power *= 40 + you->get_skill_level( skill_survival ) * 5;
-
-    const int mess_radius = weapon.has_flag( flag_MESSY ) ? 2 : 1;
 
     int moves = 0;
     // use this to collect how many corpse are pulped
@@ -1647,6 +1656,7 @@ void activity_handlers::pulp_do_turn( player_activity *act, Character *you )
             }
 
             you->mod_stamina( -pulp_effort );
+            you->recoil = MAX_RECOIL;
 
             if( one_in( 4 ) ) {
                 // Smashing may not be butchery, but it involves some zombie anatomy
@@ -3065,7 +3075,7 @@ void activity_handlers::plant_seed_finish( player_activity *act, Character *you 
 void activity_handlers::build_do_turn( player_activity *act, Character *you )
 {
     map &here = get_map();
-    partial_con *pc = here.partial_con_at( here.getlocal( act->placement ) );
+    partial_con *pc = here.partial_con_at( here.bub_from_abs( act->placement ) );
     // Maybe the player and the NPC are working on the same construction at the same time
     if( !pc ) {
         if( you->is_npc() ) {
@@ -3079,6 +3089,7 @@ void activity_handlers::build_do_turn( player_activity *act, Character *you )
                  you->disp_name() );
         return;
     }
+    you->set_activity_level( pc->id->activity_level );
     // if you ( or NPC ) are finishing someone else's started construction...
     const construction &built = pc->id.obj();
     if( !you->has_trait( trait_DEBUG_HS ) && !you->meets_skill_requirements( built ) ) {
@@ -3109,6 +3120,7 @@ void activity_handlers::build_do_turn( player_activity *act, Character *you )
 
     you->set_moves( 0 );
 
+    pc->id->do_turn_special( here.bub_from_abs( act->placement ), *you );
     pc->counter = std::min( pc->counter, 10000000 );
     // If construction_progress has reached 100% or more
     if( pc->counter >= 10000000 ) {
@@ -3241,33 +3253,6 @@ void activity_handlers::jackhammer_finish( player_activity *act, Character *you 
             elem.set_var( "activity_var", you->name );
         }
     }
-}
-
-void activity_handlers::fill_pit_do_turn( player_activity *act, Character * )
-{
-    sfx::play_activity_sound( "tool", "shovel", 100 );
-    if( calendar::once_every( 1_minutes ) ) {
-        //~ Sound of a shovel filling a pit or mound at work!
-        sounds::sound( act->placement, 10, sounds::sound_t::activity, _( "hsh!" ) );
-    }
-}
-
-void activity_handlers::fill_pit_finish( player_activity *act, Character *you )
-{
-    const tripoint &pos = act->placement;
-    map &here = get_map();
-    const ter_id ter = here.ter( pos );
-    const ter_id old_ter = ter;
-
-    if( ter == t_pit || ter == t_pit_spiked || ter == t_pit_glass ||
-        ter == t_pit_corpsed ) {
-        here.ter_set( pos, t_pit_shallow );
-    } else {
-        here.ter_set( pos, t_dirt );
-    }
-    you->add_msg_if_player( m_good, _( "You finish filling up %s." ), old_ter.obj().name() );
-
-    act->set_to_null();
 }
 
 template<typename fn>
@@ -3569,7 +3554,7 @@ void activity_handlers::spellcasting_finish( player_activity *act, Character *yo
             you ) : get_map().getlocal( act->coords.front() );
     if( target ) {
         // npcs check for target viability
-        if( !you->is_npc() || !spell_being_cast.is_valid_target( *you, *target ) ) {
+        if( !you->is_npc() || spell_being_cast.is_valid_target( *you, *target ) ) {
             // no turning back now. it's all said and done.
             bool success = act->get_value( 1 ) == 1 ||
                            rng_float( 0.0f, 1.0f ) >= spell_being_cast.spell_fail( *you );

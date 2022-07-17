@@ -527,6 +527,25 @@
     "flags": [ "NUTRIENT_OVERRIDE" ]
   },
   {
+    "id": "cooked_marrow",
+    "type": "COMESTIBLE",
+    "comestible_type": "FOOD",
+    "name": { "str_sp": "roasted bone marrow" },
+    "conditional_names": [ { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "marvin marrow" } } ],
+    "description": "Marrow extracted from bones that's been cooked.  Tasty!",
+    "symbol": "%",
+    "color": "red",
+    "weight": "60 g",
+    "volume": "50 ml",
+    "price": 500,
+    "price_postapoc": 50,
+    "material": [ "flesh" ],
+    "spoils_in": "1 day",
+    "calories": 471,
+    "fun": 5,
+    "vitamins": [ [ "iron", 17 ] ]
+  },
+  {
     "id": "offal",
     "copy-from": "meat",
     "type": "COMESTIBLE",
@@ -556,6 +575,7 @@
     "snippet_category": "bug_organs_desc",
     "description": "These organs came from a giant mutant bug.",
     "looks_like": "offal",
+    "cooks_like": "mutant_bug_organs_cooked",
     "proportional": { "price": 0.1, "calories": 0.65 },
     "vitamins": [ [ "mutant_toxin", 25 ] ],
     "extend": { "flags": [ "BAD_TASTE" ] }
@@ -569,7 +589,7 @@
     "description": "Cooked mutant bug organs.  It looks awful, but if you really eat it, you'll find -- it's worse than it looks.",
     "looks_like": "offal_cooked",
     "parasites": 0,
-    "delete": { "flags": [ "RAW" ] }
+    "delete": { "flags": [ "RAW", "NUTRIENT_OVERRIDE" ] }
   },
   {
     "id": "offal_pickled",
@@ -787,7 +807,8 @@
     "name": { "str": "cooked piece of lung", "str_pl": "cooked pieces of lung" },
     "description": "Prepared in this way, it's a chewy grayish lump of flavorless connective tissue.  It doesn't look any tastier than it did raw, but the parasites are all cooked out.",
     "parasites": 0,
-    "extend": { "flags": [ "EATEN_HOT" ] }
+    "extend": { "flags": [ "EATEN_HOT" ] },
+    "delete": { "flags": [ "RAW" ] }
   },
   {
     "id": "mutant_lung",
@@ -805,7 +826,8 @@
     "type": "COMESTIBLE",
     "copy-from": "lung_cooked",
     "name": { "str": "cooked piece of mutant lung", "str_pl": "cooked pieces of mutant lung" },
-    "snippet_category": "cooked_mutant_lung_desc"
+    "snippet_category": "cooked_mutant_lung_desc",
+    "delete": { "flags": [ "RAW" ] }
   },
   {
     "id": "mutant_bug_lungs",
@@ -858,7 +880,8 @@
     "description": "Chock-full of A- and B-Vitamins!  Cooked liver isn't all that bad, depending on how you feel about the texture, but this is probably the least fancy way to do it.",
     "parasites": 0,
     "fun": 0,
-    "price_postapoc": 50
+    "price_postapoc": 50,
+    "delete": { "flags": [ "RAW" ] }
   },
   {
     "id": "mutant_liver",
@@ -878,6 +901,56 @@
     "name": { "str": "cooked mutant liver" },
     "snippet_category": "cooked_mutant_liver_desc",
     "fun": -5
+  },
+  {
+    "id": "bone_marrow",
+    "copy-from": "flesh",
+    "type": "COMESTIBLE",
+    "name": { "str_sp": "bone marrow" },
+    "description": "A soft, spongy substance found in bones that is rich in fat.  Chock-full of good stuff and doesn't taste too bad even raw, but beware of parasites.",
+    "weight": "60 g",
+    "volume": "50 ml",
+    "price": 500,
+    "price_postapoc": 50,
+    "spoils_in": "1 day",
+    "calories": 471,
+    "fun": -3,
+    "vitamins": [ [ "iron", 17 ] ],
+    "flags": [ "RAW", "PREDATOR_FUN" ]
+  },
+  {
+    "id": "human_marrow",
+    "type": "COMESTIBLE",
+    "copy-from": "bone_marrow",
+    "name": { "str_sp": "human bone marrow" },
+    "description": "Soft, spongy marrow tissue from a human bone.",
+    "material": [ "hflesh" ]
+  },
+  {
+    "id": "demihuman_marrow",
+    "type": "COMESTIBLE",
+    "copy-from": "bone_marrow",
+    "name": { "str_sp": "demihuman bone marrow" },
+    "description": "Soft, spongy marrow tissue from a demihuman bone.",
+    "extend": { "flags": [ "STRICT_HUMANITARIANISM" ] }
+  },
+  {
+    "id": "mutant_marrow",
+    "type": "COMESTIBLE",
+    "copy-from": "bone_marrow",
+    "name": { "str_sp": "mutant bone marrow" },
+    "description": "Soft, spongy and oddly-colored marrow tissue from the bone of a heavily mutated animal.",
+    "proportional": { "price": 0.2, "calories": 0.5 },
+    "vitamins": [ [ "iron", 7 ], [ "mutant_toxin", 25 ] ],
+    "flags": [ "BAD_TASTE", "RAW", "PREDATOR_FUN" ]
+  },
+  {
+    "id": "mutant_human_marrow",
+    "type": "COMESTIBLE",
+    "copy-from": "mutant_marrow",
+    "name": { "str_sp": "mutant human bone marrow" },
+    "description": "Soft, spongy and oddly-colored marrow tissue from the bone of a heavily mutated creature that was unsettlingly humanoid in appearance.",
+    "material": [ "hflesh" ]
   },
   {
     "id": "brain",
@@ -921,7 +994,8 @@
     "price_postapoc": 25,
     "parasites": 0,
     "fun": -5,
-    "extend": { "flags": [ "EATEN_HOT" ] }
+    "extend": { "flags": [ "EATEN_HOT" ] },
+    "delete": { "flags": [ "RAW" ] }
   },
   {
     "id": "mutant_brain",
@@ -940,7 +1014,8 @@
     "copy-from": "brain_cooked",
     "name": { "str_sp": "cooked mutant brains" },
     "snippet_category": "cooked_mutant_brain_desc",
-    "fun": -12
+    "fun": -12,
+    "delete": { "flags": [ "RAW" ] }
   },
   {
     "id": "kidney",
@@ -982,7 +1057,8 @@
     "price_postapoc": 25,
     "quench": 0,
     "fun": -2,
-    "parasites": 0
+    "parasites": 0,
+    "delete": { "flags": [ "RAW" ] }
   },
   {
     "id": "mutant_kidney",
@@ -1001,7 +1077,8 @@
     "copy-from": "kidney_cooked",
     "name": { "str_sp": "cooked mutant kidney" },
     "snippet_category": "cooked_mutant_kidney_desc",
-    "fun": -12
+    "fun": -12,
+    "delete": { "flags": [ "RAW" ] }
   },
   {
     "id": "sweetbread",
@@ -1043,7 +1120,8 @@
     "price_postapoc": 50,
     "fun": -1,
     "description": "Normally a delicacy, it needs a little… something.",
-    "parasites": 0
+    "parasites": 0,
+    "delete": { "flags": [ "RAW" ] }
   },
   {
     "type": "COMESTIBLE",
@@ -1072,6 +1150,7 @@
     "color": "white",
     "symbol": "%",
     "description": "A bone from some creature or other.  Could be used to make some stuff, like needles.",
+    "comestible_type": "FOOD",
     "price": 0,
     "price_postapoc": 10,
     "material": [ "bone" ],
@@ -1233,6 +1312,26 @@
     "volume": "250 ml",
     "fun": -10,
     "flags": [ "NO_SALVAGE" ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "tainted_marrow",
+    "category": "other",
+    "name": { "str_sp": "tainted bone marrow" },
+    "weight": "60 g",
+    "color": "red",
+    "spoils_in": "4 hours",
+    "use_action": [ "POISON" ],
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "calories": 235,
+    "description": "A wet, green chunk of spongy goop extracted from a rotten bone.  You could eat it, but it will poison you.",
+    "price": 0,
+    "price_postapoc": 10,
+    "material": [ "flesh" ],
+    "volume": "50 ml",
+    "fun": -10,
+    "flags": [ "TRADER_AVOID", "RAW" ]
   },
   {
     "type": "GENERIC",
@@ -1471,12 +1570,13 @@
     "weight": "1360 g",
     "color": "black_red",
     "symbol": "%",
-    "healthy": -5,
+    "healthy": -1,
     "calories": 217,
     "description": "A huge strip of muscle - all that remains of a putrid heart that has been sliced open and drained of blood.  It could be eaten if you're hungry, but looks *disgusting*.",
     "price": 1000,
     "price_postapoc": 25,
     "material": [ "flesh" ],
+    "use_action": [ "POISON" ],
     "volume": "250 ml",
     "fun": -30
   },
@@ -1494,7 +1594,7 @@
   {
     "id": "leech_flower",
     "type": "COMESTIBLE",
-    "comestible_type": "FOOD",
+    "comestible_type": "MED",
     "name": { "str": "leech flower" },
     "color": "blue",
     "weight": "10 g",
@@ -1606,7 +1706,8 @@
     "proportional": { "price": 1.5 },
     "parasites": 0,
     "fun": 0,
-    "extend": { "flags": [ "STRICT_HUMANITARIANISM" ] }
+    "extend": { "flags": [ "STRICT_HUMANITARIANISM" ] },
+    "delete": { "flags": [ "RAW" ] }
   },
   {
     "type": "COMESTIBLE",

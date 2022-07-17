@@ -403,7 +403,7 @@ target_handler::trajectory target_handler::mode_fire( avatar &you, aim_activity_
     ui.you = &you;
     ui.mode = target_ui::TargetMode::Fire;
     ui.activity = &activity;
-    ui.relevant = activity.get_weapon();
+    ui.relevant = &*activity.get_weapon();
     gun_mode gun = ui.relevant->gun_current_mode();
     ui.range = gun.target->gun_range( &you );
     ui.ammo = gun->ammo_data();
@@ -423,13 +423,13 @@ target_handler::trajectory target_handler::mode_throw( avatar &you, item &releva
     return ui.run();
 }
 
-target_handler::trajectory target_handler::mode_reach( avatar &you, item &weapon )
+target_handler::trajectory target_handler::mode_reach( avatar &you, item_location weapon )
 {
     target_ui ui = target_ui();
     ui.you = &you;
     ui.mode = target_ui::TargetMode::Reach;
-    ui.relevant = &weapon;
-    ui.range = weapon.current_reach_range( you );
+    ui.relevant = weapon.get_item();
+    ui.range = weapon ? weapon->current_reach_range( you ) : 1;
 
     return ui.run();
 }
@@ -745,7 +745,12 @@ void npc::pretend_fire( npc *source, int shots, item &gun )
 
 int Character::fire_gun( const tripoint &target, int shots )
 {
-    return fire_gun( target, shots, get_wielded_item() );
+    item_location gun = get_wielded_item();
+    if( !gun ) {
+        debugmsg( "%s doesn't have a gun to fire", get_name() );
+        return 0;
+    }
+    return fire_gun( target, shots, *gun );
 }
 
 int Character::fire_gun( const tripoint &target, int shots, item &gun )
@@ -1692,7 +1697,7 @@ static int print_aim( Character &you, const catacurses::window &w, int line_numb
     };
 
     const double range = rl_dist( you.pos(), pos );
-    line_number = print_steadiness( w, line_number, steadiness );
+    line_number = print_steadiness( w, ++line_number, steadiness );
     return print_ranged_chance( you, w, line_number, target_ui::TargetMode::Fire, ctxt, *weapon,
                                 dispersion,
                                 confidence_config,
@@ -2143,7 +2148,7 @@ double Character::gun_value( const item &weap, int ammo ) const
 
     // Penalty for dodging in melee makes the gun unusable in melee
     // Until NPCs get proper kiting, at least
-    int melee_penalty = get_wielded_item().volume() / 250_ml - get_skill_level( skill_dodge );
+    int melee_penalty = weap.volume() / 250_ml - get_skill_level( skill_dodge );
     if( melee_penalty <= 0 ) {
         // Dispersion matters less if you can just use the gun in melee
         total_dispersion = std::min<int>( total_dispersion / move_cost_factor, total_dispersion );
@@ -2451,7 +2456,7 @@ void target_ui::init_window_and_input()
             height = 28;
         } else {
             // Go all out
-            height = 32;
+            height = 33;
         }
     }
 
@@ -3405,7 +3410,7 @@ void target_ui::draw_controls_list( int text_y )
     }
     if( mode == TargetMode::Fire ) {
         std::string aim_and_fire;
-        for( const auto &e : aim_types ) {
+        for( const aim_type &e : aim_types ) {
             if( e.has_threshold ) {
                 aim_and_fire += string_format( "[%s] ", bound_key( e.action ).short_description() );
             }
@@ -3771,7 +3776,8 @@ bool gunmode_checks_weapon( avatar &you, const map &m, std::vector<std::string> 
         // Workaround for guns that use ups and normal ammo at same time.
         // Remove once guns can support use of multiple ammo at once
         if( !gmode->ammo_default().is_null() &&
-            gmode->ammo_remaining( nullptr ) < gmode->ammo_required() ) {
+            gmode->ammo_remaining( nullptr ) < gmode->ammo_required() &&
+            !gmode->has_flag( flag_RELOAD_AND_SHOOT ) ) {
             result = false;
             messages.push_back( string_format( _( "Your %s is empty!" ), gmode->tname() ) );
         }

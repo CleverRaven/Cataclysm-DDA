@@ -258,6 +258,101 @@
   },
   {
     "type": "snippet",
+    "category": "PORTAL_STORM_DUNGEON_ANGRY",
+    "text": [
+      "You hear an angry voice shouting \"BEGONE!  YOU ARE TOO BLAND AND RIGID FOR THIS PARADISE!\"",
+      "You hear an angry voice shouting \"YOU DARE INTRUDE AND ASSERT YOUR CONCEPTS OF TIME AND SPACE?\"",
+      "You hear an angry voice shouting \"COMING HERE WAS A MISTAKE YOU WILL HAVE SEVERAL ETERNITIES TO REGRET!\"",
+      "You hear an angry voice shouting \"ENTRANCE TO THIS PLACE IS NOT TOLERATED FOR STATIC FORMS SUCH AS YOURS!\"",
+      "You hear an angry voice shouting \"YOU HAVE ALREADY LOST, YOUR FLAWED CONCEPTION OF TIME KEEPS YOU IGNORANT!\"",
+      "You hear an angry voice shouting \"BEGONE FOUL PEST!\"",
+      "You hear an angry voice shouting \"NO BEING FROM YOUR PATHETIC WORLD HAS EVER CONCEIVED EVEN A FRAGMENT OF THE SUFFERING YOU SHALL ENDURE!\"",
+      "You hear an angry voice shouting \"YOU POLLUTE THE PURITY OF THIS PLACE!\"",
+      "You hear an angry voice shouting \"PAIN WITHOUT END SHALL BE YOURS!\""
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "PORTAL_STORM_DUNGEON_SCARED",
+    "text": [
+      "You hear a scared voice saying \"Please leave, there is nothing of value for you here.\"",
+      "You hear a scared voice saying \"Invading our home is unneeded, you will come here more naturally in time.\"",
+      "You hear a scared voice saying \"There are many dangers here and no friends.  Just be smart and leave.\"",
+      "You hear a scared voice saying \"Everything worth taking from here was already looted long ago.\"",
+      "You hear a scared voice saying \"You will only find loss and torment here, flee while you can.\"",
+      "You hear a scared voice saying \"This place will damage you as it has damaged us, leave it.\"",
+      "You hear a scared voice saying \"Every moment you stay here your status as a physical object is damaged.  Leave while you are still real enough.\"",
+      "You hear a scared voice saying \"You can hurt us but not kill us in a way that matters.  We WILL win, save us the pain of destroying you.\""
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "PORTAL_STORM_DUNGEON_CURIOUS",
+    "text": [
+      "You hear a curious voice saying \"What has brought you here, so far from where you belong?\"",
+      "You hear a curious voice saying \"Do you find 3 a good number of spatial dimensions?\"",
+      "You hear a curious voice saying \"Do you hope to tame this place to escape your own?\"",
+      "You hear a curious voice saying \"Do you hope to speed up the decay of your world to spite its eater?\"",
+      "You hear a curious voice saying \"Do you hope to gain your eater's favor and become its finger?\"",
+      "You hear a curious voice saying \"You seem most interesting, please remain here so I can continue to study you.\"",
+      "You hear a curious voice saying \"Do you hope to damage the very fabric of yourself, in a way that you misperceive as beneficial?\"",
+      "You hear a curious voice saying \"Do you fear or covet us?\""
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "PORTAL_STORM_DUNGEON_ENTICING",
+    "text": [
+      "You hear a cheerful voice saying \"Coming here was a wise decision.  You will find wonders beyond anything of your home.\"",
+      "You hear a cheerful voice saying \"The farther you make it, the greater the reward!\"",
+      "You hear a cheerful voice saying \"Would you like to be friends?\"",
+      "You hear a cheerful voice saying \"Enjoy your newfound freedom, the shackles of reality are weakened here.\"",
+      "You hear a cheerful voice saying \"There is no need for you to ever leave.\"",
+      "You hear a cheerful voice saying \"Your world is dying, we can free you from the very concepts of beginnings and endings.\""
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "PORTAL_STORM_DUNGEON_FUTURE",
+    "text": [
+      "You hear your own voice screaming \"I'm you from the future, please leave now while we still can and let me cease to have been.\"",
+      "You hear your own voice saying \"I never learn do I?  I remember this, being you and hearing me telling me to stop this.  I didn't listen then so I guess we're doomed.\"",
+      "You hear your own voice whispering \"I understand why we did it.  I even think we could be at a kind of peace with the result, if only I remembered what we were.  Or would that hurt more?\"",
+      "You hear your own voice asking \"Did I really look like that?  Is that all we used to be, so small but solid?\"",
+      "You hear your own voice sadly saying \"I wish I could say it ends well, but we both know better.\"",
+      "You hear your own voice saying \"I wonder when it went wrong, at what point was it too late?\"",
+      "You hear your own voice saying \"It would have been better to be a puppet of the enemy back home than come here.\""
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "PORTAL_STORM_DUNGEON_ALIEN",
+    "text": [
+      "You hear an impossibly deep voice saying \"Threat level omega.  The third moon has crossed the horizon and all will be as never was.\"",
+      "You feel words without actually hearing them \"Decide how you wish to die.  All your remaining choices flow from that.\"",
+      "You hear a disaffected voice saying \"Now that testing is complete, we can discard this reality.  Mark it down as a routine failure.\"",
+      "You hear a quiet voice saying \"I don't think you are supposed to be here yet.  That can't be good.\"",
+      "You hear an intoxicated voice saying \"Man this stuff is even better than you promised.  I can feel what it's like to be some tiny single bodied organism incapable of even basic dimensional manipulation.\"",
+      "You hear a robotic voice saying \"Orange Harvest Gamma.  All evacuation waves consumed.\"",
+      "You hear an angry voice saying \"But it's not fair, this isn't when you promised the time loop would start.\"",
+      "You hear a faint voice saying \"We are broadcasting this as a warning.  If you can hear this, abandon all hope and flee.  No where is far enough but some whens are.\""
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "PORTAL_STORM_DUNGEON_MEMORIES",
+    "text": [
+      "You experience a false memory of your friend saying \"You need to stop this, you can't wake up if you keep going.\"",
+      "You experience a false memory of your parent saying \"No more, please why would you prefer a coma to waking up?\"",
+      "You experience a false memory of a policeman saying \"You won't get away with it, I know you can hear me.\"",
+      "You experience a false memory of a bland man saying \"All you need to do to end this dream is die in it.\"",
+      "You experience a false memory of a relative saying \"Please give up this dream, come back to us.\"",
+      "You experience a false memory of a doctor saying \"The body is perfectly healthy, they could wake up at any time or never.\"",
+      "You experience a false memory of a stranger saying \"Can you feel this?  Or this?  Ha ha maybe you aren't faking.  Of course it means you don't need this either, ha ha.\""
+    ]
+  },
+  {
+    "type": "snippet",
     "category": "PORTAL_STORM_POPUP",
     "text": [
       "Your legs move of their own accord.  You need to go outside.  NOW.",

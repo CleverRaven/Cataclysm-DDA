@@ -79,6 +79,41 @@ static float get_avg_melee_dmg( std::string clothing_id, bool infect_risk = fals
     return static_cast<float>( dam_acc ) / num_hits;
 }
 
+static float get_avg_melee_dmg( item cloth, bool infect_risk = false )
+{
+    monster zed( mon_manhack, mon_pos );
+    standard_npc dude( "TestCharacter", dude_pos, {}, 0, 8, 8, 8, 8 );
+    if( infect_risk ) {
+        cloth.set_flag( json_flag_FILTHY );
+    }
+    int dam_acc = 0;
+    int num_hits = 0;
+    for( int i = 0; i < num_iters; i++ ) {
+        clear_character( dude, true );
+        dude.setpos( dude_pos );
+        dude.wear_item( cloth, false );
+        dude.add_effect( effect_sleep, 1_hours );
+        if( zed.melee_attack( dude, 10000.0f ) ) {
+            num_hits++;
+        }
+        cloth.set_damage( cloth.min_damage() );
+        if( !infect_risk ) {
+            dam_acc += dude.get_hp_max() - dude.get_hp();
+        } else if( dude.has_effect( effect_bite ) ) {
+            dam_acc++;
+        }
+        if( dude.is_dead() ) {
+            break;
+        }
+    }
+    CAPTURE( dude.is_dead() );
+    const std::string ret_type = infect_risk ? "infections" : "damage total";
+    INFO( string_format( "%s landed %d hits on character, causing %d %s.", zed.get_name(), num_hits,
+                         dam_acc, ret_type ) );
+    num_hits = num_hits ? num_hits : 1;
+    return static_cast<float>( dam_acc ) / num_hits;
+}
+
 static float get_avg_bullet_dmg( std::string clothing_id )
 {
     clear_map();
@@ -181,3 +216,22 @@ TEST_CASE( "Proportional armor material resistances", "[material]" )
         check_not_near( "Average damage", dmg, base_line, 0.05f );
     }
 }
+
+TEST_CASE( "Ghost ablative vest", "[coverage]" )
+{
+    SECTION( "Ablative not covered" ) {
+        item full = item( "test_ghost_vest" );
+        full.force_insert_item( item( "test_plate" ), item_pocket::pocket_type::CONTAINER );
+        full.force_insert_item( item( "test_plate" ), item_pocket::pocket_type::CONTAINER );
+        item empty = item( "test_ghost_vest" );
+
+        // make sure vest only covers torso_upper when it has armor in it
+        REQUIRE( full.covers( sub_bodypart_id( "torso_upper" ) ) );
+        REQUIRE( !empty.covers( sub_bodypart_id( "torso_upper" ) ) );
+        const float dmg_full = get_avg_melee_dmg( full );
+        const float dmg_empty = get_avg_melee_dmg( empty );
+        // make sure the armor is counting even if the base vest doesn't do anything
+        check_not_near( "Average damage", dmg_full, dmg_empty, 0.5f );
+    }
+}
+

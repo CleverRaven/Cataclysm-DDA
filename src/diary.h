@@ -46,8 +46,8 @@ struct diary_page {
     int dexterity = 0;
     int intelligence = 0;
     int perception = 0;
-    /*traits id the character has*/
-    std::vector<trait_id> traits;
+    /*traits id the character has - as well as their variant ids (empty if none)*/
+    std::vector<trait_and_var> traits;
     /*spells id with level the character has*/
     std::map<spell_id, int> known_spells;
     /*bionics id`s the character has*/

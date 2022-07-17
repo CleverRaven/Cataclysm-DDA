@@ -1479,15 +1479,7 @@
       "sound_fail": "whump!",
       "ter_set": "t_rock_floor",
       "ter_set_bashed_from_above": "t_rock_floor_no_roof",
-      "items": [
-        { "item": "rock", "count": [ 17, 37 ] },
-        { "item": "rock_large", "count": [ 1, 3 ] },
-        { "item": "coal_lump", "charges": [ 250, 500 ], "prob": 10 },
-        { "item": "material_limestone", "charges": [ 10, 25 ], "prob": 80 },
-        { "item": "material_rocksalt", "count": [ 0, 1 ], "prob": 20 },
-        { "item": "material_rhodonite", "count": [ 0, 1 ], "prob": 3 },
-        { "item": "material_zincite", "count": [ 0, 5 ], "prob": 5 }
-      ]
+      "items": [ { "group": "mining_rock", "count": 1 } ]
     }
   },
   {

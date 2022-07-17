@@ -44,7 +44,7 @@
     "type": "TOOL",
     "name": { "str": "integrated multitool" },
     "flags": [ "TRADER_AVOID", "FIRESTARTER" ],
-    "use_action": [ "HAMMER", "CROWBAR" ],
+    "use_action": [ "CROWBAR" ],
     "qualities": [
       [ "SAW_W", 1 ],
       [ "SAW_M", 1 ],
@@ -350,6 +350,24 @@
     "description": "This is a crafting_pseudo_item if you have it something is wrong.",
     "symbol": "@",
     "color": "brown",
+    "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO" ]
+  },
+  {
+    "id": "pseudo_archery_target_box",
+    "type": "TOOL",
+    "name": { "str": "box archery target" },
+    "description": "This is a crafting_pseudo_item if you have it something is wrong.",
+    "symbol": "@",
+    "color": "brown",
+    "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO" ]
+  },
+  {
+    "id": "pseudo_archery_target_bale",
+    "type": "TOOL",
+    "name": { "str": "bale archery target" },
+    "description": "This is a crafting_pseudo_item if you have it something is wrong.",
+    "symbol": "@",
+    "color": "yellow",
     "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO" ]
   }
 ]

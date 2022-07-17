@@ -11,6 +11,7 @@
 #include "cata_catch.h"
 #include "localized_comparator.h"
 #include "translations.h"
+#include "unicode.h"
 
 TEST_CASE( "utf8_width", "[catacharset]" )
 {
@@ -85,4 +86,54 @@ TEST_CASE( "localized_compare", "[catacharset]" )
     CHECK( localized_compare( std::make_tuple( a, a, c ), std::make_tuple( a, B, a ) ) );
     CHECK( localized_compare( std::make_tuple( a, a, a ), std::make_tuple( a, a, B ) ) );
     std::locale::global( std::locale::classic() );
+}
+
+static void check_in_place_func( const std::function<void( char32_t & )> &func,
+                                 char32_t ch, char32_t expected )
+{
+    func( ch );
+    CHECK( ch == expected );
+}
+
+TEST_CASE( "u32_to_lowercase", "[catacharset]" )
+{
+    // Latin
+    check_in_place_func( u32_to_lowercase, U'a', U'a' );
+    check_in_place_func( u32_to_lowercase, U'A', U'a' );
+    check_in_place_func( u32_to_lowercase, U'é', U'é' );
+    check_in_place_func( u32_to_lowercase, U'É', U'é' );
+    check_in_place_func( u32_to_lowercase, U'ō', U'ō' );
+    check_in_place_func( u32_to_lowercase, U'Ō', U'ō' );
+
+    // Cyrillic
+    check_in_place_func( u32_to_lowercase, U'а', U'а' );
+    check_in_place_func( u32_to_lowercase, U'А', U'а' );
+    check_in_place_func( u32_to_lowercase, U'б', U'б' );
+    check_in_place_func( u32_to_lowercase, U'Б', U'б' );
+
+    // CJK
+    check_in_place_func( u32_to_lowercase, U'中', U'中' );
+    check_in_place_func( u32_to_lowercase, U'の', U'の' );
+
+    // Emoji
+    check_in_place_func( u32_to_lowercase, U'😅', U'😅' );
+}
+
+TEST_CASE( "remove_accent", "[catacharset]" )
+{
+    // Latin
+    check_in_place_func( remove_accent, U'o', U'o' );
+    check_in_place_func( remove_accent, U'ô', U'o' );
+    check_in_place_func( remove_accent, U'ö', U'o' );
+    check_in_place_func( remove_accent, U'ō', U'o' );
+
+    // Cyrillic
+    check_in_place_func( remove_accent, U'б', U'б' );
+
+    // CJK
+    check_in_place_func( remove_accent, U'中', U'中' );
+    check_in_place_func( remove_accent, U'の', U'の' );
+
+    // Emoji
+    check_in_place_func( remove_accent, U'😅', U'😅' );
 }

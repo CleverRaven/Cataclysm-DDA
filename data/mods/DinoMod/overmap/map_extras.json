@@ -67,6 +67,17 @@
     "flags": [ "CLASSIC" ]
   },
   {
+    "id": "mx_nest_aquilops",
+    "type": "map_extra",
+    "name": { "str": "aquilops nest" },
+    "description": "An aquilops nest.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_aquilops" },
+    "sym": "D",
+    "color": "light_green",
+    "autonote": true,
+    "flags": [ "CLASSIC" ]
+  },
+  {
     "id": "mx_nest_camptosaurus",
     "type": "map_extra",
     "name": { "str": "camptosaurus nest" },
@@ -155,6 +166,17 @@
     "flags": [ "CLASSIC" ]
   },
   {
+    "id": "mx_nest_dryosaurus",
+    "type": "map_extra",
+    "name": { "str": "dryosaurus nest" },
+    "description": "A dryosaurus nest.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_dryosaurus" },
+    "sym": "D",
+    "color": "light_green",
+    "autonote": true,
+    "flags": [ "CLASSIC" ]
+  },
+  {
     "id": "mx_nest_dryptosaurus",
     "type": "map_extra",
     "name": { "str": "dryptosaurus nest" },
@@ -232,6 +254,17 @@
     "flags": [ "CLASSIC" ]
   },
   {
+    "id": "mx_nest_issi",
+    "type": "map_extra",
+    "name": { "str": "issi nest" },
+    "description": "An issi nest.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_issi" },
+    "sym": "D",
+    "color": "light_green",
+    "autonote": true,
+    "flags": [ "CLASSIC" ]
+  },
+  {
     "id": "mx_nest_kosmoceratops",
     "type": "map_extra",
     "name": { "str": "kosmoceratops nest" },
@@ -250,6 +283,17 @@
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_maiasaura" },
     "sym": "D",
     "color": "light_green",
+    "autonote": true,
+    "flags": [ "CLASSIC" ]
+  },
+  {
+    "id": "mx_nest_nanuqsaurus",
+    "type": "map_extra",
+    "name": { "str": "nanuqsaurus nest" },
+    "description": "A nanuqsaurus nest.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_nanuqsaurus" },
+    "sym": "D",
+    "color": "yellow",
     "autonote": true,
     "flags": [ "CLASSIC" ]
   },
@@ -320,6 +364,17 @@
     "flags": [ "CLASSIC" ]
   },
   {
+    "id": "mx_nest_saurornitholestes",
+    "type": "map_extra",
+    "name": { "str": "saurornitholestes nest" },
+    "description": "A saurornitholestes nest.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_saurornitholestes" },
+    "sym": "D",
+    "color": "yellow",
+    "autonote": true,
+    "flags": [ "CLASSIC" ]
+  },
+  {
     "id": "mx_nest_scutellosaurus",
     "type": "map_extra",
     "name": { "str": "scutellosaurus nest" },
@@ -338,6 +393,17 @@
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_siats" },
     "sym": "D",
     "color": "yellow",
+    "autonote": true,
+    "flags": [ "CLASSIC" ]
+  },
+  {
+    "id": "mx_nest_stegoceras",
+    "type": "map_extra",
+    "name": { "str": "stegoceras nest" },
+    "description": "A stegoceras nest.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_stegoceras" },
+    "sym": "D",
+    "color": "light_green",
     "autonote": true,
     "flags": [ "CLASSIC" ]
   },

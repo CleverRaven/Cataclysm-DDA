@@ -40,7 +40,6 @@ static const activity_id ACT_CONSUME_FOOD_MENU( "ACT_CONSUME_FOOD_MENU" );
 static const activity_id ACT_CONSUME_FUEL_MENU( "ACT_CONSUME_FUEL_MENU" );
 static const activity_id ACT_CONSUME_MEDS_MENU( "ACT_CONSUME_MEDS_MENU" );
 static const activity_id ACT_EAT_MENU( "ACT_EAT_MENU" );
-static const activity_id ACT_FILL_PIT( "ACT_FILL_PIT" );
 static const activity_id ACT_FIRSTAID( "ACT_FIRSTAID" );
 static const activity_id ACT_FISH( "ACT_FISH" );
 static const activity_id ACT_GAME( "ACT_GAME" );
@@ -199,7 +198,6 @@ cata::optional<std::string> player_activity::get_progress_message( const avatar 
             type == ACT_JACKHAMMER ||
             type == ACT_PICKAXE ||
             type == ACT_VEHICLE ||
-            type == ACT_FILL_PIT ||
             type == ACT_CHOP_TREE ||
             type == ACT_CHOP_LOGS ||
             type == ACT_CHOP_PLANKS ||
@@ -211,7 +209,8 @@ cata::optional<std::string> player_activity::get_progress_message( const avatar 
         }
 
         if( type == ACT_BUILD ) {
-            partial_con *pc = get_map().partial_con_at( get_map().getlocal( u.activity.placement ) );
+            partial_con *pc =
+                get_map().partial_con_at( get_map().bub_from_abs( u.activity.placement ) );
             if( pc ) {
                 int counter = std::min( pc->counter, 10000000 );
                 const int percentage = counter / 100000;
@@ -488,7 +487,8 @@ std::map<distraction_type, std::string> player_activity::get_distractions()
     std::map < distraction_type, std::string > res;
     activity_id act_id = id();
     if( act_id != ACT_AIM && moves_left > 0 ) {
-        if( !is_distraction_ignored( distraction_type::hostile_spotted_near ) ) {
+        if( uistate.distraction_hostile_close &&
+            !is_distraction_ignored( distraction_type::hostile_spotted_near ) ) {
             Creature *hostile_critter = g->is_hostile_very_close( true );
             if( hostile_critter != nullptr ) {
                 res.emplace( distraction_type::hostile_spotted_near,
@@ -496,7 +496,8 @@ std::map<distraction_type, std::string> player_activity::get_distractions()
                                             g->is_hostile_very_close( true )->get_name() ) );
             }
         }
-        if( !is_distraction_ignored( distraction_type::dangerous_field ) ) {
+        if( uistate.distraction_dangerous_field &&
+            !is_distraction_ignored( distraction_type::dangerous_field ) ) {
             field_entry *field = g->is_in_dangerous_field();
             if( field != nullptr ) {
                 res.emplace( distraction_type::dangerous_field, string_format( _( "You stand in %s!" ),
@@ -507,12 +508,16 @@ std::map<distraction_type, std::string> player_activity::get_distractions()
         // If this is too bothersome, maybe a list of just ACT_CRAFT, ACT_DIG etc
         if( std::find( consuming.begin(), consuming.end(), act_id ) == consuming.end() ) {
             avatar &player_character = get_avatar();
-            if( !is_distraction_ignored( distraction_type::hunger ) ) {
-                if( player_character.get_hunger() >= 300 && player_character.get_starvation() > 2500 ) {
+            if( uistate.distraction_hunger &&
+                !is_distraction_ignored( distraction_type::hunger ) ) {
+                // Starvation value of 5300 equates to about 5kCal.
+                if( calendar::once_every( 2_hours ) && player_character.get_hunger() >= 300 &&
+                    player_character.get_starvation() > 5300 ) {
                     res.emplace( distraction_type::hunger, _( "You are at risk of starving!" ) );
                 }
             }
-            if( !is_distraction_ignored( distraction_type::thirst ) ) {
+            if( uistate.distraction_thirst &&
+                !is_distraction_ignored( distraction_type::thirst ) ) {
                 if( player_character.get_thirst() > 520 ) {
                     res.emplace( distraction_type::thirst, _( "You are dangerously dehydrated!" ) );
                 }

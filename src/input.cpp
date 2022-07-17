@@ -239,7 +239,7 @@ void input_manager::init()
         add_input_for_action( action_id, context, input_event( a.first, input_event_t::keyboard_char ) );
     }
     // Unmap actions that are explicitly not mapped
-    for( const auto &elem : unbound_keymap ) {
+    for( const action_id &elem : unbound_keymap ) {
         const std::string action_id = action_ident( elem );
         actions[action_id].input_events.clear();
     }
@@ -319,7 +319,7 @@ void input_manager::load( const std::string &file_name, bool is_user_preferences
             } else if( input_method == "mouse" ) {
                 new_events[0].type = input_event_t::mouse;
             } else {
-                keybinding.throw_error( "unknown input_method", "input_method" );
+                keybinding.throw_error_at( "input_method", "unknown input_method" );
             }
 
             if( keybinding.has_member( "mod" ) ) {
@@ -426,7 +426,7 @@ void input_manager::save()
 
                 jsout.member( "bindings" );
                 jsout.start_array();
-                for( const auto &event : events ) {
+                for( const input_event &event : events ) {
                     jsout.start_object();
                     switch( event.type ) {
                         case input_event_t::keyboard_char:
@@ -499,10 +499,10 @@ void input_manager::add_gamepad_keycode_pair( int ch, const std::string &name )
     gamepad_keyname_to_keycode[name] = ch;
 }
 
-void input_manager::add_mouse_keycode_pair( const int ch, const std::string &name )
+void input_manager::add_mouse_keycode_pair( const MouseInput mouse_input, const std::string &name )
 {
-    mouse_keycode_to_keyname[ch] = name;
-    mouse_keyname_to_keycode[name] = ch;
+    mouse_keycode_to_keyname[static_cast<int>( mouse_input )] = name;
+    mouse_keyname_to_keycode[name] = static_cast<int>( mouse_input );
 }
 
 static constexpr int char_key_beg = ' ';
@@ -654,11 +654,21 @@ void input_manager::init_keycode_mapping()
     add_gamepad_keycode_pair( JOY_29,        translate_marker_context( "key name", "JOY_29" ) );
     add_gamepad_keycode_pair( JOY_30,        translate_marker_context( "key name", "JOY_30" ) );
 
-    add_mouse_keycode_pair( MOUSE_BUTTON_LEFT,  translate_marker_context( "key name", "MOUSE_LEFT" ) );
-    add_mouse_keycode_pair( MOUSE_BUTTON_RIGHT, translate_marker_context( "key name", "MOUSE_RIGHT" ) );
-    add_mouse_keycode_pair( SCROLLWHEEL_UP,     translate_marker_context( "key name", "SCROLL_UP" ) );
-    add_mouse_keycode_pair( SCROLLWHEEL_DOWN,   translate_marker_context( "key name", "SCROLL_DOWN" ) );
-    add_mouse_keycode_pair( MOUSE_MOVE,         translate_marker_context( "key name", "MOUSE_MOVE" ) );
+    add_mouse_keycode_pair( MouseInput::LeftButtonPressed,
+                            translate_marker_context( "key name", "MOUSE_LEFT_PRESSED" ) );
+    add_mouse_keycode_pair( MouseInput::LeftButtonReleased,
+                            translate_marker_context( "key name", "MOUSE_LEFT" ) );
+    add_mouse_keycode_pair( MouseInput::RightButtonPressed,
+                            translate_marker_context( "key name", "MOUSE_RIGHT_PRESSED" ) );
+    add_mouse_keycode_pair( MouseInput::RightButtonReleased,
+                            translate_marker_context( "key name", "MOUSE_RIGHT" ) );
+    add_mouse_keycode_pair( MouseInput::ScrollWheelUp,
+                            translate_marker_context( "key name", "SCROLL_UP" ) );
+    add_mouse_keycode_pair( MouseInput::ScrollWheelDown,
+                            translate_marker_context( "key name", "SCROLL_DOWN" ) );
+    add_mouse_keycode_pair( MouseInput::Move,
+                            translate_marker_context( "key name", "MOUSE_MOVE" ) );
+
 }
 
 int input_manager::get_keycode( const input_event_t inp_type, const std::string &name ) const
@@ -872,7 +882,7 @@ void input_manager::add_input_for_action(
     const std::string &action_descriptor, const std::string &context, const input_event &event )
 {
     t_input_event_list &events = get_or_create_event_list( action_descriptor, context );
-    for( auto &events_a : events ) {
+    for( input_event &events_a : events ) {
         if( events_a == event ) {
             return;
         }
@@ -998,7 +1008,7 @@ std::vector<input_event> input_context::keys_bound_to( const std::string &action
     std::vector<input_event> result;
     const std::vector<input_event> &events = inp_mngr.get_input_for_action( action_descriptor,
             category );
-    for( const auto &events_event : events ) {
+    for( const input_event &events_event : events ) {
         // Ignore non-keyboard input
         if( ( !restrict_to_keyboard || ( events_event.type == input_event_t::keyboard_char
                                          || events_event.type == input_event_t::keyboard_code ) )
@@ -1022,7 +1032,7 @@ std::string input_context::get_available_single_char_hotkeys( std::string reques
 
         const std::vector<input_event> &events = inp_mngr.get_input_for_action( registered_action,
                 category );
-        for( const auto &events_event : events ) {
+        for( const input_event &events_event : events ) {
             // Only consider keyboard events without modifiers
             if( events_event.type == input_event_t::keyboard_char && events_event.modifiers.empty() ) {
                 requested_keys.erase( std::remove_if( requested_keys.begin(), requested_keys.end(),
@@ -1086,7 +1096,7 @@ std::string input_context::get_desc( const std::string &action_descriptor,
     }
 
     if( inputs_to_show.empty() ) {
-        return pgettext( "keybinding", "Disabled" );
+        return pgettext( "keybinding", "None applicable" );
     }
 
     const std::string separator = inputs_to_show.size() > 2 ? _( ", or " ) : _( " or " );
@@ -1119,7 +1129,7 @@ std::string input_context::get_desc(
     const auto &events = inp_mngr.get_input_for_action( action_descriptor, category );
 
     bool na = true;
-    for( const auto &evt : events ) {
+    for( const input_event &evt : events ) {
         if( is_event_type_enabled( evt.type ) && evt_filter( evt ) ) {
             na = false;
             if( ( evt.type == input_event_t::keyboard_char || evt.type == input_event_t::keyboard_code ) &&
@@ -1138,7 +1148,7 @@ std::string input_context::get_desc(
     }
 
     if( na ) {
-        //~ keybinding description for unbound or disabled keys
+        //~ keybinding description for unbound or non-applicable keys
         return string_format( separate_fmt, pgettext( "keybinding", "n/a" ), text );
     } else {
         return string_format( separate_fmt, get_desc( action_descriptor, 1, evt_filter ), text );
@@ -1373,9 +1383,9 @@ action_id input_context::display_menu( const bool permit_execute_action )
     string_input_popup spopup;
     // ignore hardcoded keys in string input popup
     for( const std::pair<const fallback_action, int> &v : fallback_keys ) {
-        spopup.callbacks[v.second] = []() {
+        spopup.add_callback( v.second, []() {
             return true;
-        };
+        } );
     }
     const auto recalc_size = [&]( ui_adaptor & ui ) {
         int maxwidth = std::max( FULL_SCREEN_WIDTH, TERMX );

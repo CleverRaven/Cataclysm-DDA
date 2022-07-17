@@ -116,14 +116,34 @@ here](https://apt.llvm.org/) to your `sources.list`, install the needed packages
 libclang-12-dev llvm-12-dev llvm-12-tools`), and build Cataclysm with CMake,
 adding `-DCATA_CLANG_TIDY_PLUGIN=ON`.
 
+#### Other Linux distributions
+
 On other distributions you will probably need to build `clang-tidy` yourself.
-* Check out the `llvm`, `clang`, and `clang-tools-extra` repositories in the
-  required layout (as described for example
-  [here](https://quuxplusone.github.io/blog/2018/04/16/building-llvm-from-source/).
+* Expect this process to take about 80GB of disk space.
+* Check out the `llvm` project, release 12 branch, with e.g.
+  `git clone --branch release/12.x --depth 1 https://github.com/llvm/llvm-project.git llvm-12`.
+* Enter the newly cloned repo `cd llvm-12`.
 * Patch in plugin support for `clang-tidy` using [this
   patch](https://github.com/jbytheway/clang-tidy-plugin-support/blob/master/plugin-support.patch).
+  `curl https://raw.githubusercontent.com/jbytheway/clang-tidy-plugin-support/master/plugin-support.patch | patch -p1`
 * Configure LLVM using CMake, including the
-  `-DCMAKE_EXE_LINKER_FLAGS="-rdynamic"` option.
+  `-DCMAKE_EXE_LINKER_FLAGS="-rdynamic"` option.  Some additional options below
+  are simply to reduce the amount of stuff that gets built.  These might nee to
+  be adjusted to your situation (e.g. if you're on another architecture then
+  choose that target instead of X86).
+  ```sh
+  mkdir build
+  cd build
+  cmake \
+    -DCMAKE_BUILD_TYPE=RelWithDebInfo \
+    -DCMAKE_EXE_LINKER_FLAGS="-rdynamic" \
+    -DLLVM_TARGETS_TO_BUILD=X86 \
+    -DLLVM_INCLUDE_TESTS=OFF \
+    -DLLVM_ENABLE_PROJECTS='clang;clang-tools-extra;compiler-rt' \
+    ../llvm
+  ```
+* Build LLVM `make -j$(nproc)`.  This can take a long time (maybe 6 core-hours
+  or more).
 * Add the `build/bin` directory to your path so that `clang-tidy` and
   `FileCheck` are found from there.
 
@@ -132,10 +152,10 @@ need to use the CMake version of the Cataclysm build rather than the `Makefile`
 build.  Add the following CMake options:
 ```sh
 -DCATA_CLANG_TIDY_PLUGIN=ON
--DCATA_CLANG_TIDY_INCLUDE_DIR="$extra_dir/clang-tidy"
--DCATA_CHECK_CLANG_TIDY="$extra_dir/test/clang-tidy/check_clang_tidy.py"
+-DCATA_CLANG_TIDY_INCLUDE_DIR="$llvm_dir/clang-tools-extra/clang-tidy"
+-DCATA_CHECK_CLANG_TIDY="$llvm_dir/clang-tools-extra/test/clang-tidy/check_clang_tidy.py"
 ```
-where `$extra_dir` is the location of your `clang-tools-extra` checkout.
+where `$llvm_dir` is the location of your LLVM source directory.
 
 To run `clang-tidy` with this plugin enabled add the
 `'-plugins=$build_dir/tools/clang-tidy-plugin/libCataAnalyzerPlugin.so'` option

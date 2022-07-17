@@ -145,8 +145,7 @@ struct overmap_spawns {
         }
 
     protected:
-        template<typename JsonObjectType>
-        void load( const JsonObjectType &jo ) {
+        void load( const JsonObject &jo ) {
             jo.read( "group", group );
             jo.read( "population", population );
         }
@@ -159,9 +158,8 @@ struct overmap_static_spawns : public overmap_spawns {
         return overmap_spawns::operator==( rhs ) && chance == rhs.chance;
     }
 
-    template<typename Value = JsonValue, std::enable_if_t<std::is_same<std::decay_t<Value>, JsonValue>::value>* = nullptr>
-    void deserialize( const Value &jsin ) {
-        auto jo = jsin.get_object();
+    void deserialize( const JsonValue &jsin ) {
+        JsonObject jo = jsin.get_object();
         overmap_spawns::load( jo );
         jo.read( "chance", chance );
     }
@@ -425,9 +423,8 @@ struct overmap_special_spawns : public overmap_spawns {
         return overmap_spawns::operator==( rhs ) && radius == rhs.radius;
     }
 
-    template<typename Value = JsonValue, std::enable_if_t<std::is_same<std::decay_t<Value>, JsonValue>::value>* = nullptr>
-    void deserialize( const Value &jsin ) {
-        auto jo = jsin.get_object();
+    void deserialize( const JsonValue &jsin ) {
+        JsonObject jo = jsin.get_object();
         overmap_spawns::load( jo );
         jo.read( "radius", radius );
     }
@@ -467,9 +464,8 @@ struct overmap_special_connection {
     string_id<overmap_connection> connection;
     bool existing = false;
 
-    template<typename Value = JsonValue, std::enable_if_t<std::is_same<std::decay_t<Value>, JsonValue>::value>* = nullptr>
-    void deserialize( const Value &jsin ) {
-        auto jo = jsin.get_object();
+    void deserialize( const JsonValue &jsin ) {
+        JsonObject jo = jsin.get_object();
         jo.read( "point", p );
         jo.read( "terrain", terrain );
         jo.read( "existing", existing );
