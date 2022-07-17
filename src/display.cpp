@@ -39,7 +39,7 @@ static const itype_id fuel_type_muscle( "muscle" );
 // Cache for the overmap widget string
 static disp_overmap_cache disp_om_cache;
 // Cache for the bodygraph widget string
-static disp_bodygraph_cache disp_bg_cache;
+static disp_bodygraph_cache disp_bg_cache = disp_bodygraph_cache( bodygraph_var::hp );
 
 disp_overmap_cache::disp_overmap_cache()
 {
@@ -48,8 +48,9 @@ disp_overmap_cache::disp_overmap_cache()
     _width = 0;
 }
 
-disp_bodygraph_cache::disp_bodygraph_cache()
+disp_bodygraph_cache::disp_bodygraph_cache( bodygraph_var var )
 {
+    _var = var;
     _bp_cur_max.clear();
     _graph_id = "";
 }
@@ -67,14 +68,13 @@ bool disp_bodygraph_cache::is_valid_for( const Character &u, const std::string g
         }
     }
     for( const bodypart_id &bp : cur_parts ) {
-        auto iter = _bp_cur_max.find( bp );
-        if( iter == _bp_cur_max.end() ) {
+        auto prev_color = _bp_cur_max.find( bp );
+        if( prev_color == _bp_cur_max.end() ) {
             // uncached bodypart
             return false;
         }
         // TODO: use the actual variable values
-        if( iter->second.first != u.get_part_hp_cur( bp ) ||
-            iter->second.second != u.get_part_hp_max( bp ) ) {
+        if( prev_color->second != display::get_bodygraph_bp_color( u, bp, _var ).to_int() ) {
             // values differ
             return false;
         }
@@ -89,7 +89,7 @@ void disp_bodygraph_cache::rebuild( const Character &u, const std::string graph_
     _graph_id = graph_id;
     for( const bodypart_id &bp : u.get_all_body_parts( get_body_part_flags::only_main ) ) {
         // TODO: use the actual variable values
-        _bp_cur_max.emplace( bp, std::pair<int, int> { u.get_part_hp_cur( bp ), u.get_part_hp_max( bp ) } );
+        _bp_cur_max.emplace( bp, display::get_bodygraph_bp_color( u, bp, _var ).to_int() );
     }
     _graph_wgt_str = bg_wgt_str;
 }
@@ -1480,8 +1480,13 @@ static std::pair<std::string, nc_color> get_bodygraph_bp_sym_color( const Charac
 {
     const bodypart_id &bid = bgp.sub_bodyparts.empty() ?
                              bgp.bodyparts.front() : bgp.sub_bodyparts.front()->parent.id();
+    return { bgp.sym, display::get_bodygraph_bp_color( u, bid, var ) };
+}
+
+nc_color display::get_bodygraph_bp_color( const Character &u, const bodypart_id &bid, const bodygraph_var var )
+{
     if( !u.has_part( bid ) ) {
-        return { " ", c_black }; // character is missing this part
+        return c_black; // character is missing this part
     }
 
     switch( var ) {
@@ -1490,19 +1495,18 @@ static std::pair<std::string, nc_color> get_bodygraph_bp_sym_color( const Charac
             const int max_hp = u.get_part_hp_max( bid );
             const float cur_hp_pcnt = cur_hp / static_cast<float>( max_hp );
             if( cur_hp_pcnt < 0.125f ) {
-                return { bgp.sym, c_red };
+                return c_red;
             } else if( cur_hp_pcnt < 0.375f ) {
-                return { bgp.sym, c_light_red };
+                return c_light_red;
             } else if( cur_hp_pcnt < 0.625f ) {
-                return { bgp.sym, c_yellow };
+                return c_yellow;
             } else if( cur_hp_pcnt < 0.875f ) {
-                return { bgp.sym, c_light_green };
+                return c_light_green;
             }
-            return { bgp.sym, c_green };
+            return c_green;
         }
         case bodygraph_var::temp: {
-            nc_color temp_color = display::bodytemp_color( u, bid );
-            return { bgp.sym, temp_color };
+            return display::bodytemp_color( u, bid );
         }
         // Fall-through - invalid
         case bodygraph_var::last:

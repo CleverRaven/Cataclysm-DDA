@@ -51,12 +51,13 @@ struct disp_overmap_cache {
 
 struct disp_bodygraph_cache {
     private:
-        std::map<bodypart_id, std::pair<int, int>> _bp_cur_max;
+        bodygraph_var _var;
+        std::map<bodypart_id, int> _bp_cur_max;
         std::string _graph_id;
         std::string _graph_wgt_str;
 
     public:
-        disp_bodygraph_cache();
+        disp_bodygraph_cache( bodygraph_var var );
 
         // Returns true if the stored map of current/max HP values differ from the character.
         bool is_valid_for( const Character &u, std::string graph_id ) const;
@@ -160,6 +161,9 @@ std::string colorized_compass_legend_text( int width, int max_height, int &heigh
 // Get color-coded body graph representing body part HP
 std::string colorized_bodygraph_text( const Character &u, std::string graph_id,
                                       const bodygraph_var var, int width, int max_height, int &height );
+
+// Get color for bodygraph part
+nc_color get_bodygraph_bp_color( const Character &u, const bodypart_id &bid, const bodygraph_var var );
 
 // Define color for displaying the body temperature
 nc_color bodytemp_color( const Character &u, const bodypart_id &bp );
