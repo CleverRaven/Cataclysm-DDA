@@ -250,6 +250,8 @@ class widget
         translation _string;
         // Colors mapped to values or ranges
         std::vector<nc_color> _colors;
+        // Optional color breaks in percent of the value's range; length = lenght(colors) - 1
+        std::vector<int> _breaks;
         // Child widget ids for layout style
         std::vector<widget_id> _widgets;
         // Child widget layout arrangement / direction
