@@ -1553,15 +1553,13 @@ void spell::cast_all_effects( Creature &source, const tripoint &target ) const
                 }
             }
         }
-    }
-    else {
-        if (has_flag(spell_flag::EXTRA_EFFECTS_FIRST)) {
-            cast_extra_spell_effects(source, target);
-            cast_spell_effect(source, target);
-        }
-        else {
-            cast_spell_effect(source, target);
-            cast_extra_spell_effects(source, target);
+    } else {
+        if( has_flag( spell_flag::EXTRA_EFFECTS_FIRST ) ) {
+            cast_extra_spell_effects( source, target );
+            cast_spell_effect( source, target );
+        } else {
+            cast_spell_effect( source, target );
+            cast_extra_spell_effects( source, target );
         }
     }
 }
