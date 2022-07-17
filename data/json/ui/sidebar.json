@@ -9,6 +9,7 @@
     "padding": 2,
     "widgets": [
       "hitpoints_all_narrow_graphs_layout",
+      "hitpoints_all_narrow_nums_layout",
       "stats_narrow_layout",
       "movement_layout",
       "stamina_activity_weary_layout",
