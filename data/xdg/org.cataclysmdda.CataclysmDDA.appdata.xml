@@ -27,6 +27,10 @@
       survive in this new environment and developing new skills.
     </p>
   </description>
+  <categories>
+    <category>Game</category>
+    <category>RolePlaying</category>
+  </categories>
   <content_rating type="oars-1.1">
     <content_attribute id="violence-fantasy">intense</content_attribute>
     <content_attribute id="violence-bloodshed">intense</content_attribute>
@@ -55,6 +59,12 @@
   </url>
   <url type="translate">
     https://www.transifex.com/cataclysm-dda-translators/cataclysm-dda/
+  </url>
+  <url type="vcs-browser">
+    https://github.com/CleverRaven/Cataclysm-DDA/
+  </url>
+  <url type="contribute">
+    https://cataclysmdda.org/contributions/
   </url>
   <launchable type="desktop-id">org.cataclysmdda.CataclysmDDA.desktop</launchable>
   <provides>
