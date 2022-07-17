@@ -66,7 +66,7 @@ namespace creator
     };
 
     //Holds the most detailed data, a list of items and spawn properties
-    class entriesList : public QTableWidget
+    class entriesList : public QFrame
     {
     public:
         explicit entriesList( QWidget* parent = nullptr );
@@ -75,7 +75,11 @@ namespace creator
     private:
         void add_item( QString itemText, bool group );
         void deleteEntriesLine();
+        void delete_self();
+        int depth();
+        item_group_window* top_parent();
         void change_notify_top_parent();
+        QTableWidget* itemList;
 
     protected:
         void dragEnterEvent( QDragEnterEvent* event ) override;
@@ -90,10 +94,15 @@ namespace creator
     public:
         explicit distributionCollection( QWidget* parent = nullptr );
         void get_json( JsonOut &jo );
+        void set_bg_color();
     private:
         void add_distribution();
         void add_entries_list();
+        void change_notify_top_parent( item_group_window* parent );
         void delete_self();
+        void update_size();
+        item_group_window* top_parent();
+        int depth();
         QPushButton* btnItemList;
         QVBoxLayout* verticalBox;
     };
