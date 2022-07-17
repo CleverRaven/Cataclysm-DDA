@@ -41,7 +41,8 @@ static disp_overmap_cache disp_om_cache;
 // Cache for the bodygraph widget string
 static disp_bodygraph_cache disp_bg_cache[] = {
     disp_bodygraph_cache( bodygraph_var::hp ),
-    disp_bodygraph_cache( bodygraph_var::temp )
+    disp_bodygraph_cache( bodygraph_var::temp ),
+    disp_bodygraph_cache( bodygraph_var::encumb )
 };
 
 disp_overmap_cache::disp_overmap_cache()
@@ -1511,6 +1512,10 @@ nc_color display::get_bodygraph_bp_color( const Character &u, const bodypart_id 
         }
         case bodygraph_var::temp: {
             return display::bodytemp_color( u, bid );
+        }
+        case bodygraph_var::encumb: {
+            int level = u.get_part_encumbrance_data( bid ).encumbrance;
+            return display::encumb_color( level );
         }
         // Fall-through - invalid
         case bodygraph_var::last:

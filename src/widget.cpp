@@ -127,6 +127,8 @@ std::string enum_to_string<widget_var>( widget_var data )
             return "body_graph";
         case widget_var::body_graph_temp:
             return "body_graph_temp";
+        case widget_var::body_graph_encumb:
+            return "body_graph_encumb";
         case widget_var::bp_armor_outer_text:
             return "bp_armor_outer_text";
         case widget_var::carry_weight_text:
@@ -925,6 +927,7 @@ bool widget::uses_text_function()
         case widget_var::activity_text:
         case widget_var::body_graph:
         case widget_var::body_graph_temp:
+        case widget_var::body_graph_encumb:
         case widget_var::bp_armor_outer_text:
         case widget_var::carry_weight_text:
         case widget_var::compass_text:
@@ -998,6 +1001,12 @@ std::string widget::color_text_function_string( const avatar &ava, unsigned int 
         case widget_var::body_graph_temp:
             desc.first = display::colorized_bodygraph_text( ava, _body_graph,
                          bodygraph_var::temp, _width == 0 ? max_width : _width, _height_max, _height );
+            update_height = true; // Dynamically adjusted height
+            apply_color = false; // Already colorized
+            break;
+        case widget_var::body_graph_encumb:
+            desc.first = display::colorized_bodygraph_text( ava, _body_graph,
+                         bodygraph_var::encumb, _width == 0 ? max_width : _width, _height_max, _height );
             update_height = true; // Dynamically adjusted height
             apply_color = false; // Already colorized
             break;

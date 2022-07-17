@@ -10,6 +10,7 @@
 enum class bodygraph_var : int {
     hp = 0,      // hitpoints
     temp,        // temperature
+    encumb,      // encumbrance
     last // END OF ENUMS
 };
 
