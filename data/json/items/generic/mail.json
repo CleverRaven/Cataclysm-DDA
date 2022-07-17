@@ -85,7 +85,7 @@
       },
       {
         "id": "barber_gift_card",
-        "name": { "str": "gift card" },
+        "name": { "str": "barbershop gift card" },
         "description": "This gift card could be exchanged for a free cut at a local barbershop.",
         "weight": 1
       },
