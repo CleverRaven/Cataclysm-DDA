@@ -1510,7 +1510,8 @@
       [ [ "butane_tank", 10 ], [ "butane_can", 10 ] ],
       [ [ "filter_paper_qualitative", 2 ] ],
       [ [ "filter_paper_quantitative", 2 ] ],
-      [ [ "gasket_plastic_set", 1 ] ]
+      [ [ "gasket_plastic_set", 1 ] ],
+      [ [ "aluminum_foil", 3 ] ]
     ],
     "components": [ [ [ "weed", 8 ] ] ]
   },
@@ -1533,7 +1534,8 @@
       [ [ "vac_oven_small", 200 ] ],
       [ [ "filter_paper_qualitative", 2 ] ],
       [ [ "filter_paper_quantitative", 2 ] ],
-      [ [ "gasket_plastic_set", 1 ] ]
+      [ [ "gasket_plastic_set", 1 ] ],
+      [ [ "aluminum_foil", 3 ] ]
     ],
     "components": [ [ [ "weed", 8 ] ] ]
   },
