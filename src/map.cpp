@@ -1551,13 +1551,19 @@ furn_id map::furn( const tripoint_bub_ms &p ) const
     return furn( p.raw() );
 }
 
-bool map::furn_set( const tripoint &p, const furn_id &new_furniture, const bool furn_reset )
+bool map::furn_set( const tripoint &p, const furn_id &new_furniture, const bool furn_reset,
+                    bool avoid_creatures )
 {
     if( !inbounds( p ) ) {
         debugmsg( "map::furn_set %s out of bounds", p.to_string() );
         return false;
     }
-
+    if( avoid_creatures ) {
+        Creature *c = get_creature_tracker().creature_at( tripoint_abs_ms( getabs( p ) ), true );
+        if( c ) {
+            return false;
+        }
+    }
     point l;
     submap *const current_submap = unsafe_get_submap_at( p, l );
     if( current_submap == nullptr ) {
@@ -1650,9 +1656,10 @@ bool map::furn_set( const tripoint &p, const furn_id &new_furniture, const bool 
     return result;
 }
 
-bool map::furn_set( const tripoint_bub_ms &p, const furn_id &new_furniture, const bool furn_reset )
+bool map::furn_set( const tripoint_bub_ms &p, const furn_id &new_furniture, const bool furn_reset,
+                    bool avoid_creatures )
 {
-    return furn_set( p.raw(), new_furniture, furn_reset );
+    return furn_set( p.raw(), new_furniture, furn_reset, avoid_creatures );
 }
 
 bool map::can_move_furniture( const tripoint &pos, Character *you )
@@ -1905,10 +1912,16 @@ bool map::is_harvestable( const tripoint &pos ) const
 /*
  * set terrain via string; this works for -any- terrain id
  */
-bool map::ter_set( const tripoint &p, const ter_id &new_terrain )
+bool map::ter_set( const tripoint &p, const ter_id &new_terrain, bool avoid_creatures )
 {
     if( !inbounds( p ) ) {
         return false;
+    }
+    if( avoid_creatures ) {
+        Creature *c = get_creature_tracker().creature_at( tripoint_abs_ms( getabs( p ) ), true );
+        if( c ) {
+            return false;
+        }
     }
 
     point l;
@@ -1999,9 +2012,9 @@ bool map::ter_set( const tripoint &p, const ter_id &new_terrain )
     return true;
 }
 
-bool map::ter_set( const tripoint_bub_ms &p, const ter_id &new_terrain )
+bool map::ter_set( const tripoint_bub_ms &p, const ter_id &new_terrain, bool avoid_creatures )
 {
-    return ter_set( p.raw(), new_terrain );
+    return ter_set( p.raw(), new_terrain, avoid_creatures );
 }
 
 std::string map::tername( const tripoint &p ) const
@@ -8771,17 +8784,19 @@ size_t map::get_nonant( const tripoint &gridp ) const
     }
 }
 
-void map::draw_line_ter( const ter_id &type, const point &p1, const point &p2 )
+void map::draw_line_ter( const ter_id &type, const point &p1, const point &p2,
+                         bool avoid_creatures )
 {
-    draw_line( [this, type]( const point & p ) {
-        this->ter_set( p, type );
+    draw_line( [this, type, avoid_creatures]( const point & p ) {
+        this->ter_set( p, type, avoid_creatures );
     }, p1, p2 );
 }
 
-void map::draw_line_furn( const furn_id &type, const point &p1, const point &p2 )
+void map::draw_line_furn( const furn_id &type, const point &p1, const point &p2,
+                          bool avoid_creatures )
 {
-    draw_line( [this, type]( const point & p ) {
-        this->furn_set( p, type );
+    draw_line( [this, type, avoid_creatures]( const point & p ) {
+        this->furn_set( p, type, avoid_creatures );
     }, p1, p2 );
 }
 
@@ -8816,33 +8831,35 @@ void map::draw_fill_background( const weighted_int_list<ter_id> &f )
     draw_square_ter( f, point_zero, point( SEEX * my_MAPSIZE - 1, SEEY * my_MAPSIZE - 1 ) );
 }
 
-void map::draw_square_ter( const ter_id &type, const point &p1, const point &p2 )
+void map::draw_square_ter( const ter_id &type, const point &p1, const point &p2,
+                           bool avoid_creatures )
 {
-    draw_square( [this, type]( const point & p ) {
-        this->ter_set( p, type );
+    draw_square( [this, type, avoid_creatures]( const point & p ) {
+        this->ter_set( p, type, avoid_creatures );
     }, p1, p2 );
 }
 
-void map::draw_square_furn( const furn_id &type, const point &p1, const point &p2 )
+void map::draw_square_furn( const furn_id &type, const point &p1, const point &p2,
+                            bool avoid_creatures )
 {
-    draw_square( [this, type]( const point & p ) {
-        this->furn_set( p, type );
+    draw_square( [this, type, avoid_creatures]( const point & p ) {
+        this->furn_set( p, type, avoid_creatures );
     }, p1, p2 );
 }
 
-void map::draw_square_ter( ter_id( *f )(), const point &p1, const point &p2 )
+void map::draw_square_ter( ter_id( *f )(), const point &p1, const point &p2, bool avoid_creatures )
 {
-    draw_square( [this, f]( const point & p ) {
-        this->ter_set( p, f() );
+    draw_square( [this, f, avoid_creatures]( const point & p ) {
+        this->ter_set( p, f(), avoid_creatures );
     }, p1, p2 );
 }
 
 void map::draw_square_ter( const weighted_int_list<ter_id> &f, const point &p1,
-                           const point &p2 )
+                           const point &p2, bool avoid_creatures )
 {
-    draw_square( [this, f]( const point & p ) {
+    draw_square( [this, f, avoid_creatures]( const point & p ) {
         const ter_id *tid = f.pick();
-        this->ter_set( p, tid != nullptr ? *tid : t_null );
+        this->ter_set( p, tid != nullptr ? *tid : t_null, avoid_creatures );
     }, p1, p2 );
 }
 

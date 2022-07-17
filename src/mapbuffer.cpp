@@ -264,8 +264,9 @@ submap *mapbuffer::unserialize_submaps( const tripoint_abs_sm &p )
         }
     }
 
-    using namespace std::placeholders;
-    if( !read_from_file_optional_json( quad_path, std::bind( &mapbuffer::deserialize, this, _1 ) ) ) {
+    if( !read_from_file_optional_json( quad_path, [this]( JsonIn & jsin ) {
+    deserialize( jsin );
+    } ) ) {
         // If it doesn't exist, trigger generating it.
         return nullptr;
     }

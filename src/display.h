@@ -131,6 +131,8 @@ std::pair<std::string, nc_color> morale_emotion( int morale_cur, const mood_face
 std::pair<std::string, nc_color> move_mode_letter_color( const Character &u );
 // Movement counter and mode letter, like "50(R)" or "100(W)"
 std::pair<std::string, nc_color> move_count_and_mode_text_color( const avatar &u );
+// Weight carried, relative to capacity, in %, like "90%"
+std::pair<std::string, nc_color> carry_weight_text_color( const avatar &u );
 
 std::pair<std::string, nc_color> temp_text_color( const Character &u,
         const bodypart_str_id &bp = bodypart_str_id::NULL_ID() );

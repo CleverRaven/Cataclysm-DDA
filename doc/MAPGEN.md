@@ -431,6 +431,7 @@ Currently the defined flags are as follows:
   either individually or together.  See the other entries below, such as
   `remove_all`.
   `NO_UNDERLYING_ROTATE` The map won't be rotated even if the underlying tile is.
+  `AVOID_CREATURES` If a creature is present terrain, furniture and traps won't be placed.
 
 ## Set terrain, furniture, or traps with a "set" array
 **optional** Specific commands to set terrain, furniture, traps, radiation, etc. Array is processed in order.

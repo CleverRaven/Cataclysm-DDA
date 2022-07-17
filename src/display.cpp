@@ -1073,6 +1073,28 @@ std::pair<std::string, nc_color> display::move_count_and_mode_text_color( const 
     return std::make_pair( count_and_mode, mode_pair.second );
 }
 
+// Weight carried, relative to capacity, in %, like "90%".
+std::pair<std::string, nc_color> display::carry_weight_text_color( const avatar &u )
+{
+    int carry_wt = ( 100 * u.weight_carried() ) / u.weight_capacity();
+    std::string weight_text = string_format( "%d%%", carry_wt );
+
+    nc_color weight_color = c_green;
+    if( carry_wt > 100 ) {
+        weight_color = c_white_red;
+    } else if( carry_wt > 75 ) {
+        weight_color = c_light_red;
+    } else if( carry_wt > 50 ) {
+        weight_color = c_yellow;
+    } else if( carry_wt > 25 ) {
+        weight_color = c_light_green;
+    } else {
+        weight_color = c_green;
+    }
+
+    return std::make_pair( weight_text, weight_color );
+}
+
 std::pair<std::string, nc_color> display::overmap_note_symbol_color( const std::string &note_text )
 {
     std::string ter_sym = "N";
@@ -1462,14 +1484,16 @@ static std::pair<std::string, nc_color> get_bodygraph_bp_sym_color( const Charac
     const int cur_hp = u.get_part_hp_cur( bid );
     const int max_hp = u.get_part_hp_max( bid );
     const float cur_hp_pcnt = cur_hp / static_cast<float>( max_hp );
-    if( cur_hp_pcnt < 0.25f ) {
+    if( cur_hp_pcnt < 0.125f ) {
         return { bgp.sym, c_red };
-    } else if( cur_hp_pcnt < 0.5f ) {
+    } else if( cur_hp_pcnt < 0.375f ) {
         return { bgp.sym, c_light_red };
-    } else if( cur_hp_pcnt < 0.75f ) {
+    } else if( cur_hp_pcnt < 0.625f ) {
         return { bgp.sym, c_yellow };
+    } else if( cur_hp_pcnt < 0.875f ) {
+        return { bgp.sym, c_light_green };
     }
-    return { bgp.sym, c_light_green };
+    return { bgp.sym, c_green };
 }
 
 std::string display::colorized_bodygraph_text( const Character &u, const std::string graph_id,

@@ -118,6 +118,8 @@ std::string enum_to_string<widget_var>( widget_var data )
             return "cardio_fit";
         case widget_var::cardio_acc:
             return "cardio_acc";
+        case widget_var::carry_weight:
+            return "carry_weight";
         // Description functions
         case widget_var::activity_text:
             return "activity_text";
@@ -125,6 +127,8 @@ std::string enum_to_string<widget_var>( widget_var data )
             return "body_graph";
         case widget_var::bp_armor_outer_text:
             return "bp_armor_outer_text";
+        case widget_var::carry_weight_text:
+            return "carry_weight_text";
         case widget_var::date_text:
             return "date_text";
         case widget_var::env_temp_text:
@@ -403,8 +407,17 @@ void widget::load( const JsonObject &jo, const std::string & )
 
     if( jo.has_array( "colors" ) ) {
         _colors.clear();
+        _breaks.clear();
         for( const std::string color_name : jo.get_array( "colors" ) ) {
             _colors.emplace_back( get_all_colors().name_to_color( color_name ) );
+        }
+        if( jo.has_array( "breaks" ) ) {
+            for( const int value : jo.get_array( "breaks" ) ) {
+                _breaks.emplace_back( value );
+            }
+            if( _breaks.size() != _colors.size() - 1 ) {
+                debugmsg( "Widget property 'breaks' must have one element less than 'colors'" );
+            }
         }
     }
 
@@ -531,6 +544,10 @@ void widget::set_default_var_range( const avatar &ava )
             _var_min = 0;
             // Same maximum used by get_cardiofit - 3 x BMR, adjusted for mutations
             _var_max = 3 * ava.base_bmr() * ava.mutation_value( "cardio_multiplier" );
+            break;
+        case widget_var::carry_weight:
+            _var_min = 0;
+            _var_max = 120;
             break;
         case widget_var::fatigue:
             _var_min = 0;
@@ -744,6 +761,9 @@ int widget::get_var_value( const avatar &ava ) const
         case widget_var::cardio_acc:
             value = ava.get_cardio_acc();
             break;
+        case widget_var::carry_weight:
+            value = ( 100 * ava.weight_carried() ) / ava.weight_capacity();
+            break;
 
         // TODO
         case widget_var::mood:
@@ -903,6 +923,7 @@ bool widget::uses_text_function()
         case widget_var::activity_text:
         case widget_var::body_graph:
         case widget_var::bp_armor_outer_text:
+        case widget_var::carry_weight_text:
         case widget_var::compass_text:
         case widget_var::compass_legend_text:
         case widget_var::date_text:
@@ -974,6 +995,9 @@ std::string widget::color_text_function_string( const avatar &ava, unsigned int 
         case widget_var::bp_armor_outer_text:
             desc.first = ava.worn.get_armor_display( only_bp() );
             apply_color = false; // Item name already colorized by tname
+            break;
+        case widget_var::carry_weight_text:
+            desc = display::carry_weight_text_color( ava );
             break;
         case widget_var::date_text:
             desc.first = display::date_string();
@@ -1122,6 +1146,17 @@ nc_color widget::value_color( int value )
 
     // Get range of values from min to max
     const int var_range = _var_max - _var_min;
+
+    if( ! _breaks.empty() ) {
+        const int value_offset = ( 100 * ( value - _var_min ) ) / var_range;
+        for( int i = 0; i < color_max; i++ ) {
+            if( value_offset < _breaks[i] ) {
+                return _colors[i];
+            }
+        }
+        return _colors[color_max];
+    }
+
     // Convert value to a positive offset within the range
     const int value_offset = std::max( value - _var_min, 0 );
 

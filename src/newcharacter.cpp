@@ -1130,7 +1130,7 @@ tab_direction set_stats( avatar &u, pool_type pool )
                     mvwprintz( w, point( iSecondColumn, 3 ), c_light_red,
                                _( "Increasing Int further costs 2 points" ) );
                 }
-                const int read_spd = u.read_speed( false );
+                const int read_spd = u.read_speed();
                 mvwprintz( w_description, point_zero, ( read_spd == 100 ? COL_STAT_NEUTRAL :
                                                         ( read_spd < 100 ? COL_STAT_BONUS : COL_STAT_PENALTY ) ),
                            _( "Read times: %d%%" ), read_spd );
@@ -4404,9 +4404,9 @@ cata::optional<std::string> query_for_template_name()
     spop.description( desc );
     spop.width( FULL_SCREEN_WIDTH - utf8_width( title ) - 8 );
     for( int character : fname_char_blacklist ) {
-        spop.callbacks[character] = []() {
+        spop.add_callback( character, []() {
             return true;
-        };
+        } );
     }
 
     spop.query_string( true );

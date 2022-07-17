@@ -2014,6 +2014,12 @@ void Item_factory::check_definitions() const
                     msg += string_format( "invalid tool property %s\n", type->comestible->tool.c_str() );
                 }
             }
+
+            // TODO: Remove invalid, just make those items not comestibles
+            static const std::set<std::string> allowed_ctypes = { "FOOD", "DRINK", "MED", "INVALID" };
+            if( allowed_ctypes.count( type->comestible->comesttype ) == 0 ) {
+                msg += string_format( "Invalid comestible type %s\n", type->comestible->comesttype );
+            }
         }
         if( type->brewable ) {
             if( type->brewable->time < 1_turns ) {
@@ -2964,12 +2970,7 @@ void islot_book::load( const JsonObject &jo )
     optional( jo, was_loaded, "fun", fun, 0 );
     optional( jo, was_loaded, "intelligence", intel, 0 );
 
-    if( jo.has_int( "time" ) ) {
-        time = jo.get_int( "time" );
-    } else if( jo.has_string( "time" ) ) {
-        time = to_minutes<int>( read_from_json_string<time_duration>( jo.get_member( "time" ),
-                                time_duration::units ) );
-    }
+    optional( jo, was_loaded, "time", time, 0_turns );
 
     optional( jo, was_loaded, "skill", skill, skill_id::NULL_ID() );
     optional( jo, was_loaded, "martial_art", martial_art, matype_id::NULL_ID() );
@@ -3010,7 +3011,9 @@ void Item_factory::load( islot_comestible &slot, const JsonObject &jo, const std
     relative.allow_omitted_members();
     proportional.allow_omitted_members();
 
-    assign( jo, "comestible_type", slot.comesttype, strict );
+    // !slot.comesttype.empty() for was_loaded - we don't have a proper was_loaded, but
+    // if it's been loaded before, this should have a value. If it's not, we'll catch it later.
+    mandatory( jo, !slot.comesttype.empty(), "comestible_type", slot.comesttype );
     assign( jo, "tool", slot.tool, strict );
     assign( jo, "charges", slot.def_charges, strict, 1 );
     assign( jo, "quench", slot.quench, strict );
