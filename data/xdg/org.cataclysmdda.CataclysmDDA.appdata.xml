@@ -140,14 +140,8 @@
           <li>Dinomod added many dino interactions, including farming, riding, butchering, cooking, and special attacks.</li>
           <li>Magiclysm added a huge content update including many new traits called Attunements that switch up gameplay at the endgame.</li>
         </ul>
-        <p>
-          Finally, see the changelog for the more complete (but still
-          not comprehensive) listing of new features and contents -
-          <a href="https://github.com/CleverRaven/Cataclysm-DDA/blob/0.F/data/changelog.txt">
-            https://github.com/CleverRaven/Cataclysm-DDA/blob/0.F/data/changelog.txt
-          </a>
-        </p>
       </description>
+      <url type="details">https://github.com/CleverRaven/Cataclysm-DDA/blob/0.F/data/changelog.txt</url>
     </release>
     <release version="0.E Ellison" date="2020-04-01">
       <description>
@@ -201,14 +195,8 @@
           <li>Crouching movement mode allows hiding.</li>
           <li>Magiclysm and Aftershock mods have first class support within the game.</li>
         </ul>
-        <p>
-          Finally, see the changelog for the more complete (but still
-          not comprehensive) listing of new features and contents -
-          <a href="https://github.com/CleverRaven/Cataclysm-DDA/blob/0.E/data/changelog.txt">
-            https://github.com/CleverRaven/Cataclysm-DDA/blob/0.E/data/changelog.txt
-          </a>
-        </p>
       </description>
+      <url type="details">https://github.com/CleverRaven/Cataclysm-DDA/blob/0.E/data/changelog.txt</url>
     </release>
     <release version="0.D Danny" date="2019-03-08">
       <description>
