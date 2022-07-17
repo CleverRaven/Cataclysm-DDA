@@ -800,12 +800,7 @@ static void draw_ascii(
             if( blink && uistate.overmap_debug_mongroup ) {
                 // Check if this tile is the target of the currently selected group
 
-                // Convert to position within overmap
-                point_abs_om abs_om;
-                point_om_omt omp_in_om;
-                std::tie( abs_om, omp_in_om ) = project_remain<coords::om>( omp.xy() );
-                if( mgroup && project_to<coords::omt>( mgroup->target.xy() ) ==
-                    omp_in_om ) {
+                if( mgroup && project_to<coords::omt>( mgroup->target ) == omp.xy() ) {
                     ter_color = c_red;
                     ter_sym = "x";
                 } else {

@@ -140,15 +140,13 @@ void overmapbuffer::fix_mongroups( overmap &new_overmap )
             continue;
         }
         // Inside the bounds of the overmap?
-        if( mg.pos.x() >= 0 && mg.pos.y() >= 0 && mg.pos.x() < OMAPX * 2 &&
-            mg.pos.y() < OMAPY * 2 ) {
+        point_abs_om omp;
+        point_om_sm sm_rem;
+        std::tie( omp, sm_rem ) = project_remain<coords::om>( mg.abs_pos.xy() );
+        if( omp == new_overmap.pos() ) {
             ++it;
             continue;
         }
-        point_abs_sm smabs = project_combine( new_overmap.pos(), mg.pos.xy() );
-        point_abs_om omp;
-        point_om_sm sm_rem;
-        std::tie( omp, sm_rem ) = project_remain<coords::om>( smabs );
         if( !has( omp ) ) {
             // Don't generate new overmaps, as this can be called from the
             // overmap-generating code.
@@ -156,7 +154,6 @@ void overmapbuffer::fix_mongroups( overmap &new_overmap )
             continue;
         }
         overmap &om = get( omp );
-        mg.pos = tripoint_om_sm( sm_rem, mg.pos.z() );
         om.spawn_mon_group( mg );
         new_overmap.zg.erase( it++ );
     }
@@ -174,19 +171,17 @@ void overmapbuffer::fix_nemesis( overmap &new_overmap )
             continue;
         }
 
+        point_abs_om omp;
+        point_om_sm sm_rem;
+        std::tie( omp, sm_rem ) = project_remain<coords::om>( mg.abs_pos.xy() );
         //if the nemesis's abs coordinates put it in this overmap, it belongs here
-        if( project_to<coords::om>( mg.abs_pos.xy() ) == new_overmap.pos() ) {
+        if( omp == new_overmap.pos() ) {
             ++it;
             continue;
         }
 
         //otherwise, place it in the overmap that corresponds to its abs_sm coords
-        point_abs_om omp;
-        point_om_sm sm_rem;
-        std::tie( omp, sm_rem ) = project_remain<coords::om>( mg.abs_pos.xy() );
-
         overmap &om = get( omp );
-        mg.pos = tripoint_om_sm( sm_rem, mg.pos.z() );
         om.spawn_mon_group( mg );
         new_overmap.zg.erase( it++ );
         //there should only be one nemesis, so we can break after finding it
