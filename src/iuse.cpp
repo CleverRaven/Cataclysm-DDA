@@ -5285,6 +5285,10 @@ cata::optional<int> iuse::unfold_generic( Character *p, item *it, bool, const tr
     veh->set_owner( *p );
     p->add_msg_if_player( m_neutral, unfold_msg, veh->name );
 
+    if( p->is_avatar() && it->get_var( "tracking", 0 ) == 1 ) {
+        veh->toggle_tracking(); // restore position tracking state
+    }
+
     p->moves -= it->get_var( "moves", to_turns<int>( 5_seconds ) );
     return 1;
 }
