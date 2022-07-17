@@ -1073,6 +1073,28 @@ std::pair<std::string, nc_color> display::move_count_and_mode_text_color( const 
     return std::make_pair( count_and_mode, mode_pair.second );
 }
 
+// Weight carried, relative to capacity, in %, like "90%".
+std::pair<std::string, nc_color> display::carry_weight_text_color( const avatar &u )
+{
+    int carry_wt = ( 100 * u.weight_carried() ) / u.weight_capacity();
+    std::string weight_text = string_format( "%d%%", carry_wt );
+
+    nc_color weight_color = c_green;
+    if( carry_wt > 100 ) {
+        weight_color = c_white_red;
+    } else if( carry_wt > 75 ) {
+        weight_color = c_light_red;
+    } else if( carry_wt > 50 ) {
+        weight_color = c_yellow;
+    } else if( carry_wt > 25 ) {
+        weight_color = c_light_green;
+    } else {
+        weight_color = c_green;
+    }
+
+    return std::make_pair( weight_text, weight_color );
+}
+
 std::pair<std::string, nc_color> display::overmap_note_symbol_color( const std::string &note_text )
 {
     std::string ter_sym = "N";

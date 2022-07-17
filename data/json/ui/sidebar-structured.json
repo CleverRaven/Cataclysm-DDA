@@ -136,10 +136,23 @@
       "stats_no_label_layout",
       "wielding_desc_no_label",
       "style_desc_no_label",
-      "env_temp_desc_no_label",
+      "structured_temp_extras_layout",
       "structured_mood_safe_mode_layout",
       "structured_stamina_graph"
     ]
+  },
+  {
+    "id": "structured_temp_extras_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "columns",
+    "widgets": [ "body_temp_delta_sym_no_label", "structured_env_temp" ]
+  },
+  {
+    "id": "structured_env_temp",
+    "type": "widget",
+    "text_align": "right",
+    "copy-from": "env_temp_desc_no_label"
   },
   {
     "id": "structured_stats_label",
@@ -209,16 +222,32 @@
     "flags": [ "W_LABEL_NONE" ]
   },
   {
-    "id": "structured_all_weariness_layout",
+    "id": "structured_all_weariness_graph_layout",
     "type": "widget",
     "style": "layout",
-    "label": "Weariness/Activity",
+    "label": "Weariness alt",
     "arrange": "columns",
     "widgets": [
       "weariness_desc_no_label",
       "structured_weariness_transition_graph",
       "activity_desc_no_label",
-      "weary_malus_desc_no_label"
+      "weary_malus_desc_no_label",
+      "structured_carry_weight_graph"
+    ],
+    "flags": [ "W_DISABLED_BY_DEFAULT" ]
+  },
+  {
+    "id": "structured_all_weariness_text_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Weariness",
+    "arrange": "columns",
+    "widgets": [
+      "weariness_desc_no_label",
+      "structured_weariness_transition_graph",
+      "activity_desc_no_label",
+      "weary_malus_desc_no_label",
+      "structured_carry_weight_text"
     ]
   },
   {
@@ -226,11 +255,26 @@
     "type": "widget",
     "label": "Transition",
     "style": "graph",
+    "var": "weary_transition_level",
     "symbols": ".\\|",
     "width": 9,
     "colors": [ "c_red", "c_light_red", "c_yellow", "c_light_green", "c_green" ],
-    "var": "weary_transition_level",
     "flags": [ "W_LABEL_NONE" ]
+  },
+  {
+    "id": "structured_carry_weight_graph",
+    "type": "widget",
+    "copy-from": "carry_weight_graph_label",
+    "label": "Wt",
+    "separator": " "
+  },
+  {
+    "id": "structured_carry_weight_text",
+    "type": "widget",
+    "copy-from": "carry_weight_text_label",
+    "label": "Wt",
+    "text_align": "right",
+    "separator": " "
   },
   {
     "id": "structured_overmap_compass_9x9_layout",
@@ -395,7 +439,8 @@
       "separator",
       "structured_health_layout",
       "separator",
-      "structured_all_weariness_layout",
+      "structured_all_weariness_text_layout",
+      "structured_all_weariness_graph_layout",
       "separator",
       "structured_overmap_compass_9x9_layout",
       "structured_overmap_compass_7x7_layout",
