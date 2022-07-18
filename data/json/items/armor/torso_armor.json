@@ -1564,7 +1564,7 @@
     "category": "armor",
     "name": { "str": "leather-padded shirt" },
     "description": "Armor made of combined pre-Cataclysm clothing.  Sections from leather clothing are tightened and affixed to a thick cotton shirt, excluding the joints.",
-    "weight": "1500 g",
+    "weight": "2000 g",
     "volume": "2500 ml",
     "price_postapoc": 3500,
     "to_hit": -2,
