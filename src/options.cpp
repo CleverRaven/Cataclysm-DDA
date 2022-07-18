@@ -2362,19 +2362,6 @@ void options_manager::add_options_world_default()
 
     add_empty_line();
 
-    add( "FOREST_AMOUNT", "world_default", to_translation( "Amount of forest" ),
-    to_translation( "Amount of forest. 'Default' leaves game and/or mod setting unaffected. All other values change forest amount, relative to the standard worldgen settings." ), {
-        { "default", to_translation( "Default" ) },
-        { "very_low", to_translation( "Very low" ) },
-        { "low", to_translation( "Low" ) },
-        { "normal", to_translation( "Normal" ) },
-        { "high", to_translation( "High" ) },
-        { "very_high", to_translation( "Very high" ) },
-    }, "default"
-       );
-
-    add_empty_line();
-
     add( "MONSTER_SPEED", "world_default", to_translation( "Monster speed" ),
          to_translation( "Determines the movement rate of monsters.  A higher value increases monster speed and a lower reduces it.  Requires world reset." ),
          1, 1000, 100, COPT_NO_HIDE, "%i%%"
@@ -2390,6 +2377,17 @@ void options_manager::add_options_world_default()
     add( "DEFAULT_REGION", "world_default", to_translation( "Default region type" ),
          to_translation( "(WIP feature) Determines terrain, shops, plants, and more." ),
     { { "default", to_translation( "default" ) } }, "default"
+       );
+
+    add( "FOREST_AMOUNT", "world_default", to_translation( "Amount of forest" ),
+    to_translation( "Amount of forest. 'default' leaves game and/or mod setting unaffected. All other values change the forest amount, relative to the region settings." ), {
+        { "default", to_translation( "default" ) },
+        { "very_low", to_translation( "very low" ) },
+        { "low", to_translation( "low" ) },
+        { "normal", to_translation( "normal" ) },
+        { "high", to_translation( "high" ) },
+        { "very_high", to_translation( "very high" ) },
+    }, "default"
        );
 
     add_empty_line();
