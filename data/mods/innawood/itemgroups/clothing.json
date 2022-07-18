@@ -18,7 +18,7 @@
   {
     "type": "item_group",
     "id": "male_underwear_top",
-    "items": [ [ "null", 80 ], [ "chestwrap_fur", 20 ], [ "chestwrap_leather" ], 20 ]
+    "items": [ [ "null", 80 ], [ "chestwrap_fur", 20 ], [ "chestwrap_leather", 20 ] ]
   },
   {
     "type": "item_group",
