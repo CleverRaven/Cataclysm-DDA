@@ -1485,6 +1485,7 @@
     "qualities": [ { "id": "CONTAIN", "level": 1 } ],
     "tools": [
       [ [ "pipe", -1 ] ],
+      [ [ "clamp", -1 ] ],
       [ [ "butane_tank", 10 ], [ "butane_can", 10 ] ],
       [ [ "gasket_plastic_set", 1 ] ],
       [ [ "filter_paper_qualitative", 1 ] ],
@@ -1533,6 +1534,7 @@
     "tools": [
       [ [ "hose", -1 ] ],
       [ [ "pipe", -1 ] ],
+      [ [ "clamp", -1 ] ],
       [ [ "butane_tank", 10 ], [ "butane_can", 10 ] ],
       [ [ "vac_oven_small", 200 ] ],
       [ [ "filter_paper_qualitative", 2 ] ],
@@ -1598,6 +1600,7 @@
     "tools": [
       [ [ "hose", -1 ] ],
       [ [ "pipe", -1 ] ],
+      [ [ "clamp", -1 ] ],
       [ [ "flask_glass", -1 ] ],
       [ [ "cotton_patchwork", -1 ] ],
       [ [ "surface_heat", 5, "LIST" ] ],
