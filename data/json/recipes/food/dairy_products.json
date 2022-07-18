@@ -103,7 +103,7 @@
     "qualities": [ { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_frying" }, { "proficiency": "prof_frying_bread" } ],
-    "components": [ [ [ "batter", 1 ], "LIST" ], [ [ "any_butter", 2, "LIST" ] ], [ [ "fry_oil", 1, "LIST" ] ] ]
+    "components": [ [ [ "batter", 1, "LIST" ] ], [ [ "any_butter", 2, "LIST" ] ], [ [ "fry_oil", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
