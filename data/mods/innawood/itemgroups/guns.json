@@ -28,11 +28,7 @@
     "type": "item_group",
     "id": "guns_pistol_improvised",
     "//": "Makeshift or otherwise poor quality pistols.",
-    "items": [
-      { "item": "ashot", "prob": 100 },
-      { "item": "surv_hand_cannon", "prob": 100, "charges-min": 0, "charges-max": 5 },
-      { "item": "surv_six_shooter", "prob": 100, "charges-min": 0, "charges-max": 6 }
-    ]
+    "items": [ { "item": "pistol_flintlock", "prob": 100 } ]
   },
   {
     "type": "item_group",
@@ -72,11 +68,7 @@
     "type": "item_group",
     "id": "guns_smg_improvised",
     "//": "Makeshift or otherwise poor quality SMGs.",
-    "items": [
-      { "item": "smg_40", "prob": 40, "charges": [ 0, 20 ] },
-      { "item": "smg_45", "prob": 40, "charges": [ 0, 20 ] },
-      { "item": "smg_9mm", "prob": 100, "charges": [ 0, 20 ] }
-    ]
+    "items": [ { "item": "null", "prob": 50 } ]
   },
   {
     "type": "item_group",
@@ -109,7 +101,12 @@
     "type": "item_group",
     "id": "guns_rifle_improvised",
     "//": "Makeshift or otherwise poor quality rifles.",
-    "items": [ { "item": "rifle_22", "prob": 60 }, { "item": "rifle_3006", "prob": 30 }, { "item": "rifle_9mm", "prob": 60 } ]
+    "items": [
+      { "item": "longrifle_flintlock", "prob": 30 },
+      { "item": "rifle_flintlock", "prob": 30 },
+      { "item": "carbine_flintlock", "prob": 30 },
+      { "item": "carbine_flintlock_double", "prob": 30 }
+    ]
   },
   {
     "type": "item_group",
@@ -161,14 +158,7 @@
     "type": "item_group",
     "id": "guns_shotgun_improvised",
     "//": "Makeshift or otherwise poor quality shotguns.",
-    "items": [
-      { "item": "blunderbuss", "prob": 70 },
-      { "item": "bigun", "prob": 10, "charges-min": 0, "charges-max": 6 },
-      { "item": "pipe_double_shotgun", "prob": 70, "charges-min": 0, "charges-max": 2 },
-      { "item": "pipe_shotgun", "prob": 100 },
-      { "item": "revolver_shotgun", "prob": 30, "charges-min": 0, "charges-max": 6 },
-      { "item": "lever_shotgun", "prob": 10, "charges-min": 0, "charges-max": 6 }
-    ]
+    "items": [ { "item": "blunderbuss", "prob": 70 } ]
   },
   {
     "type": "item_group",
@@ -198,10 +188,7 @@
     "type": "item_group",
     "id": "guns_launcher_improvised",
     "//": "Makeshift or otherwise poor quality grenade and rocket launchers",
-    "items": [
-      { "item": "launcher_simple", "prob": 100 },
-      { "item": "triple_launcher_simple", "prob": 15, "charges-min": 0, "charges-max": 3 }
-    ]
+    "items": [ { "item": "null", "prob": 50 } ]
   },
   {
     "type": "item_group",
