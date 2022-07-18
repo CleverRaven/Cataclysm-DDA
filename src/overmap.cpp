@@ -4386,6 +4386,30 @@ void overmap::place_forests()
 
     const om_noise::om_noise_layer_forest f( global_base_point(), g->get_seed() );
 
+    float threshold_forest = settings->overmap_forest.noise_threshold_forest;
+    float threshold_forest_thick = settings->overmap_forest.noise_threshold_forest_thick;
+
+    std::string forest_amount = get_option<std::string>( "FOREST_AMOUNT" );
+
+    if( forest_amount == "normal" ) {
+        threshold_forest = 0.2;
+        threshold_forest_thick = 0.25;
+    } else if( forest_amount == "low" ) {
+        threshold_forest = 0.25;
+        threshold_forest_thick = 0.3;
+    } else if( forest_amount == "very_low" ) {
+        threshold_forest = 0.35;
+        threshold_forest_thick = 0.4;
+    } else if( forest_amount == "high" ) {
+        threshold_forest = 0.15;
+        threshold_forest_thick = 0.2;
+    } else if( forest_amount == "very_high" ) {
+        threshold_forest = 0.1;
+        threshold_forest_thick = 0.15;
+    } else if( forest_amount != "default" ) {
+        debugmsg( "Unknown value '%s' for world option FOREST_AMOUNT", forest_amount );
+    }
+
     for( int x = 0; x < OMAPX; x++ ) {
         for( int y = 0; y < OMAPY; y++ ) {
             const tripoint_om_omt p( x, y, 0 );
@@ -4400,9 +4424,9 @@ void overmap::place_forests()
             const float n = f.noise_at( p.xy() );
 
             // If the noise here meets our threshold, turn it into a forest.
-            if( n > settings->overmap_forest.noise_threshold_forest_thick ) {
+            if( n > threshold_forest_thick ) {
                 ter_set( p, oter_forest_thick );
-            } else if( n > settings->overmap_forest.noise_threshold_forest ) {
+            } else if( n > threshold_forest ) {
                 ter_set( p, oter_forest );
             }
         }
