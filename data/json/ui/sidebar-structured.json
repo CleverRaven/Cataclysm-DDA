@@ -85,6 +85,22 @@
     ]
   },
   {
+    "id": "structured_health_sa_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Health (self-aware)",
+    "arrange": "columns",
+    "separator": " ",
+    "height": 7,
+    "widgets": [
+      "structured_body_graph_layout",
+      "structured_health_left_sa_layout",
+      "structured_health_mid_sa_layout",
+      "structured_health_right_layout"
+    ],
+    "flags": [ "W_DISABLED_BY_DEFAULT" ]
+  },
+  {
     "id": "structured_body_graph_layout",
     "type": "widget",
     "style": "layout",
@@ -117,6 +133,39 @@
     "//": "TODO - It is not currently possible to conditionally swap out widgets on the fly. When this is added, vehicle speed should replace speed when driving.",
     "widgets": [
       "pain_desc_no_label",
+      "hunger_desc_no_label",
+      "thirst_desc_no_label",
+      "fatigue_desc_no_label",
+      "body_temp_desc_no_label",
+      "focus_num",
+      "structured_speed_layout"
+    ]
+  },
+  {
+    "id": "structured_health_left_sa_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "width": 10,
+    "widgets": [
+      "status_hpn_layout_head",
+      "status_hpn_layout_torso",
+      "status_hpn_layout_larm",
+      "status_hpn_layout_rarm",
+      "status_hpn_layout_lleg",
+      "status_hpn_layout_rleg",
+      "power_short_desc"
+    ]
+  },
+  {
+    "id": "structured_health_mid_sa_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "width": 12,
+    "//": "TODO - It is not currently possible to conditionally swap out widgets on the fly. When this is added, vehicle speed should replace speed when driving.",
+    "widgets": [
+      "pain_num_label",
       "hunger_desc_no_label",
       "thirst_desc_no_label",
       "fatigue_desc_no_label",
@@ -438,6 +487,7 @@
       "structured_place_sound_layout",
       "separator",
       "structured_health_layout",
+      "structured_health_sa_layout",
       "separator",
       "structured_all_weariness_text_layout",
       "structured_all_weariness_graph_layout",

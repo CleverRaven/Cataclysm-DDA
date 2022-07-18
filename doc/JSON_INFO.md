@@ -5082,15 +5082,82 @@ The internal ID of the compatible tilesets. MOD tileset is only applied when bas
 Setting of sprite sheets. Same as `tiles-new` field in `tile_config`. Sprite files are loaded from the same folder json file exists.
 
 # Field types
+
+Fields can exist on top of terrain/furniture, and support different intensity levels. Each intensity level inherits its properties from the lower one, so any field not explicitly overwritten will carry over. They affect both characters and monsters, but a lot of fields have hardcoded effects that are potentially different for both (found in `map_field.cpp:creature_in_field`). Gaseous fields that have a chance to do so are spread depending on the local wind force when outside, preferring spreading down to on the same Z-level, which is preferred to spreading upwards. Indoors and by weak winds fields spread randomly. 
+
 ```C++
   {
     "type": "field_type", // this is a field type
     "id": "fd_gum_web", // id of the field
     "immune_mtypes": [ "mon_spider_gum" ], // list of monster immune to this field
-    "intensity_levels": [
+    "intensity_levels":  // The below fields are all tied to the specific intensity unless they got defined in the lower-level one 
+    [
       { "name": "shadow",  // name of this level of intensity
-        "light_override": 3.7 } //light level on the tile occupied by this field will be set at 3.7 not matter the ambient light.
-     ],
+        "sym": "{", // symbol of this level of intensity
+        "color":  "brown", // color of this level of intensity
+        "transparent": false, // default true, on false this intensity blocks vision
+        "dangerous": false, // is this level of intensity considered dangerous for monster avoidance and player warnings
+        "move_cost": 120, // Extra movement cost for moving through this level of intensity (on top of base terrain/furniture movement costs)
+        "extra_radiation_min": 1, 
+        "extra_radiation_max": 5, // This level of intensity will add a random amount of radiation between the min and the max value to its tile
+        "radiation_hurt_damage_min": 5,
+        "radiation_hurt_damage_max": 7, // When standing in this field hurt every limb for a random amount of damage between the min and max value. Requires extra_radiation_min > 0
+        "radiation_hurt_message": "Ouch", // String to print when you get hurt by radiation_hurt_damage
+        "intensity_upgrade_chance": 1,
+        "intensity_upgrade_duration": "1 days", // Every "upgrade_duration" a "1-in-upgrade_chance" roll is made. On success, increase the field intensity by 1
+        "monster_spawn_chance": 5,
+        "monster_spawn_count": 2,
+        "monster_spawn_radius": 15,
+        "monster_spawn_group": "GROUP_NETHER", // 1-in-spawn_chance roll to spawn spawn_count entries from spawn_group monstergroup and place them in a spawn_radius radius around the field
+        "light_emitted": 2.5, // light level emitted by this intensity
+        "light_override": 3.7 }, //light level on the tile occupied by this field will be set at 3.7 no matter the ambient light.
+        "translucency": 2.0, // How much light the field blocks (higher numbers mean less light can penetrate through)
+        "convection_temperature_mod": 12, // Heat given off by this level of intensity
+        "effects":  // List of effects applied to any creatures within the field as long as they aren't immune to the effect or the field itself 
+        [
+          {
+            "effect_id": "webbed", // Effect ID
+            "min_duration": "1 minutes",
+            "max_duration": "5 minutes", // Effect duration randomized between min and max duration
+            "intensity": 1, // Intensity of the effect to apply
+            "body_part": "head", // Bodypart the effect gets applied to, default BP_NULL ("whole body")
+            "is_environmental": false, // If true the environmental effect roll is used to determine if the effect gets applied: <intensity>d3 > <target BP's armor/bionic env resist>d3
+            "immune_inside_vehicle": false, // If true being inside a vehicle protects from the effect
+            "immune_outside_vehicle": false, // If true being *outside* a vehicle protects from the effect,
+            "chance_in_vehicle": 2,
+            "chance_inside_vehicle": 2,
+            "chance_outside_vehicle": 2, // 1-in-<chance> chance of the effect being applied when traversing a field in a vehicle, inside a vehicle (as in, under a roof), and outside a vehicle
+            "message": "You're debilitated!", // Message to print when the effect is applied to the player
+            "message_npc": "<npcname> is debilitated!", // Message to print when the effect is applied to an NPC
+            "message_type": "bad", // Type of the above messages - good/bad/mixed/neutral
+          }
+        ]
+        "scent_neutralization": 3, // Reduce scents at the field's position by this value        
+    ],
+    "npc_complain": { "chance": 20, "issue": "weed_smoke", "duration": "10 minutes", "speech": "<weed_smoke>" }, // NPCs in this field will complain about being in it once per <duration> if a 1-in-<chance> roll succeeds, giving off a <speech> bark that supports snippets
+    "immunity_data": { 
+      { "traits": [ "WEB_WALKER" ] },
+      { "body_part_env_resistance": [ [ "mouth", 15 ] ] }
+      }, // If the character in the field has the defined traits or env resistance on the bodypart they will be considered immune to the field
+    "decay_amount_factor": 2, // The field's rain decay amount is divided by this when processing the field, the rain decay is a function of the weather type's precipitation class: very_light = 5s, light = 15s, heavy = 45 s
+    "half_life": "3 minutes", // If above 0 the field will disappear after two half-lifes on average
+    "underwater_age_speedup": "25 minutes", // Increase the field's age by this time every tick if it's on a terrain with the SWIMMABLE flag
+    "outdoor_age_speedup": "20 minutes", // Increase the field's age by this duration if it's on an outdoor tile
+    "accelerated_decay": true, // If the field should use a more simple decay calculation, used for cosmetic fields like gibs
+    "percent_spread": 90, // The field must succeed on a `rng( 1, 100 - local windpower ) > percent_spread` roll to spread. The field must have a non-zero spread percent and the GAS phase to be eligible to spread in the first place
+    "phase": "gas", // Phase of the field. Gases can spread after spawning and can be spawned out of emitters through impassable terrain with the PERMEABLE flag
+    "apply_slime_factor": 10, // Intensity of slime to apply to creatures standing in this field (Why not use an effect? No idea.)
+    "gas_absorption_factor": 15, // Amount of gasmask charges the field uses up per tick
+    "is_splattering": true, // If splatters of this field should bloody vehicle parts
+    "dirty_transparency_cache": true, // Should the transparency cache be recalculated when the field is modified (used for nontransparent, spreading fields)
+    "has_fire": false, // Is this field a kind of fire (for immunity, monster avoidance and similar checks)
+    "has_acid": false, // See has_fire
+    "has_elec": false, // See has_fire
+    "has_fume": false, // See has_fire, non-breathing monsters are immune to this field
+    "display_items": true, // If the field should obscure items on this tile
+    "display_fields": true, // If the field should obscure other fields
+    "description_affix": "covered_in", // Description affix for items in this field, possible values are "in", "covered_in", "on", "under", and "illuminated_by"
+    "wandering_field": "fd_toxic_gas", // Spawns the defined field in an `intensity-1` radius, or increases the intensity of such fields until their intensity is the same as the parent field
     "decrease_intensity_on_contact": true, // Decrease the field intensity by one each time a character walk on it.
     "mopsafe": false, // field is safe to use in a mopping zone
     "bash": {
