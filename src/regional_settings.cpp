@@ -326,6 +326,7 @@ static void load_overmap_forest_settings(
                                     overmap_forest_settings.river_floodplain_buffer_distance_max, !overlay );
 
         if( overmap_forest_settings_jo.has_array( "noise_threshold_forest_options" ) ) {
+            overmap_forest_settings.noise_threshold_forest_options.clear();
             for( double t : overmap_forest_settings_jo.get_array( "noise_threshold_forest_options" ) ) {
                 overmap_forest_settings.noise_threshold_forest_options.emplace_back( t );
             }
@@ -335,6 +336,7 @@ static void load_overmap_forest_settings(
             }
         }
         if( overmap_forest_settings_jo.has_array( "noise_threshold_forest_thick_options" ) ) {
+            overmap_forest_settings.noise_threshold_forest_thick_options.clear();
             for( double t : overmap_forest_settings_jo.get_array( "noise_threshold_forest_thick_options" ) ) {
                 overmap_forest_settings.noise_threshold_forest_thick_options.emplace_back( t );
             }
