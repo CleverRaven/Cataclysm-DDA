@@ -106,11 +106,7 @@
   {
     "type": "item_group",
     "id": "npc_storage",
-    "entries": [
-      { "item": "null", "prob": 50 },
-      { "item": "backpack_leather", "prob": 20 },
-      { "item": "wicker_backpack", "prob": 30 }
-    ]
+    "entries": [ { "item": "null", "prob": 50 }, { "group": "pottery", "prob": 25 }, { "item": "wicker_backpack", "prob": 50 } ]
   },
   {
     "type": "item_group",
@@ -140,7 +136,7 @@
   {
     "type": "item_group",
     "id": "npc_archery",
-    "items": [ [ "null", 50 ] ]
+    "items": [ [ "selfbow", 50 ] ]
   },
   {
     "type": "item_group",
