@@ -41,7 +41,7 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "lime_juice",
-    "byproducts": [ [ "juice_pulp", 2 ] ],
+    "byproducts": [ [ "juice_pulp" ] ],
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
     "skill_used": "cooking",
