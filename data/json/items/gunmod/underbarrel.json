@@ -30,6 +30,73 @@
     "extend": { "flags": [ "PUMP_RAIL_COMPATIBLE" ] }
   },
   {
+    "id": "bipod_handguard",
+    "type": "GUNMOD",
+    "//": "based on stuff like the BLK LBL"
+    "name": { "str": "bipod handguard" },
+    "description": "Bipods are commonly used on rifles and machine guns to provide a forward rest and reduce motion.  Although they greatly improve handling of recoil, they are usable only on certain surfaces (or from the prone position).  This one is integrated into a high end hand guard, replacing the factory hand guard of your weapon, allowing for comfortable shooting with or without the bipod deployed.  Currently the bipod legs are stowed.",
+    "weight": "400 g",
+    "volume": "500 ml",
+    "price": 68000,
+    "price_postapoc": 500,
+    "install_time": "20 m",
+    "to_hit": -1,
+    "bashing": 10,
+    "material": [ "aluminum" ],
+    "symbol": ":",
+    "color": "brown",
+    "location": "underbarrel",
+    "mod_targets": [ "rifle" ],
+    "handling_modifier": 4,
+    "use_action": {
+      "type": "transform",
+      "msg": "You extend the bipod legs.",
+      "menu_text": "Fold out",
+      "target": "bipod_handguard_deployed",
+      "moves": 120
+    },
+    "min_skills": [ [ "weapon", 2 ] ]
+  },
+  {
+    "id": "bipod_handguard_deployed",
+    "type": "GUNMOD",
+    "name": { "str": "bipod handguard (deployed)" },
+    "description": "Bipods are commonly used on rifles and machine guns to provide a forward rest and reduce motion.  Although they greatly improve handling of recoil, they are usable only on certain surfaces (or from the prone position).  This one is integrated into a high end hand guard, replacing the factory hand guard of your weapon, allowing for comfortable shooting with or without the bipod deployed.  Currently the bipod legs are out and are ready for use.",
+    "copy-from": "bipod_handguard",
+    "handling_modifier": 18,
+    "min_skills": [ [ "weapon", 2 ] ],
+    "use_action": {
+      "type": "transform",
+      "msg": "You collapse and fold the bipod legs.",
+      "menu_text": "Put away",
+      "target": "bipod_handguard",
+      "moves": 120
+    },
+    "flags": [ "BIPOD", "SLOW_WIELD" ]
+  },
+  {
+    "id": "modern_handguard",
+    "type": "GUNMOD",
+    "//": "based on stuff like magpull and high end hand guards for AR-15s"
+    "name": { "str": "high end handguard" },
+    "description": "A nice comfortable high end handguard with a set of optional mounts for accessories and equipment.  When installed this replaces the original factory handguard for the weapon, cutting down on exessive rails and weight.  This allows for comfortable, controlled firing of a weapon while keeping a sleek profile and avoiding bulky foregrips.",
+    "weight": "220 g",
+    "volume": "500 ml",
+    "price": 68000,
+    "price_postapoc": 500,
+    "install_time": "20 m",
+    "to_hit": -1,
+    "bashing": 10,
+    "material": [ "aluminum", "plastic" ],
+    "symbol": ":",
+    "color": "brown",
+    "location": "underbarrel",
+    "mod_targets": [ "rifle" ],
+    "handling_modifier": 6,
+    "dispersion_modifier": -5,
+    "min_skills": [ [ "weapon", 2 ] ]
+  },
+  {
     "id": "combination_gun_shotgun",
     "type": "GUNMOD",
     "name": { "str": "combination gun shotgun" },
