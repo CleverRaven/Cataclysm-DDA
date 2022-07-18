@@ -1073,6 +1073,7 @@
       { "id": "FILE", "level": 2 }
     ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
+    "tools": [ [ [ "butane_tank", 30 ], [ "butane_can", 30 ] ] ],
     "components": [
       [ [ "jerrycan_big", 1 ], [ "metal_tank_little", 1 ] ],
       [ [ "pipe", 1 ] ],
@@ -1108,6 +1109,7 @@
       { "id": "FILE", "level": 2 }
     ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
+    "tools": [ [ [ "butane_tank", 30 ], [ "butane_can", 30 ] ] ],
     "components": [
       [ [ "30gal_drum", 1 ], [ "metal_tank", 1 ] ],
       [ [ "pipe", 3 ] ],
