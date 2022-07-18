@@ -1928,7 +1928,7 @@
     "id": "drink_bloody_mary",
     "looks_like": "tomato_juice",
     "name": { "str": "Bloody Mary cocktail" },
-	"conditional_names": [
+    "conditional_names": [
       { "type": "COMPONENT_ID", "condition": "tequila", "name": { "str_sp": "Bloody Maria cocktail" } },
       { "type": "COMPONENT_ID", "condition": "gin", "name": { "str_sp": "red snapper cocktail" } },
       { "type": "COMPONENT_ID", "condition": "sake_filtered", "name": { "str_sp": "Bloody Geisha cocktail" } },
@@ -1967,7 +1967,11 @@
       { "type": "COMPONENT_ID", "condition": "tequila", "name": { "str_sp": "'very' Bloody Maria cocktail" } },
       { "type": "COMPONENT_ID", "condition": "gin", "name": { "str_sp": "bloody snapper cocktail" } },
       { "type": "COMPONENT_ID", "condition": "sake_filtered", "name": { "str_sp": "'very' Bloody Geisha cocktail" } },
-      { "type": "COMPONENT_ID", "condition": "sake_unfiltered", "name": { "str_sp": "'very' Bloody Geisha cocktail" } },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "sake_unfiltered",
+        "name": { "str_sp": "'very' Bloody Geisha cocktail" }
+      },
       { "type": "COMPONENT_ID", "condition": "rum", "name": { "str_sp": "bloody cubanita cocktail" } }
     ],
     "weight": "252 g",

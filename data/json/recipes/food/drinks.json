@@ -327,11 +327,7 @@
     "time": "30 s",
     "autolearn": true,
     "flags": [ "BLIND_HARD" ],
-    "components": [
-      [ [ "triple_sec", 1 ] ],
-      [ [ "tequila", 1 ], [ "vodka", 1 ] ],
-      [ [ "lime_juice", 4 ] ]
-    ]
+    "components": [ [ [ "triple_sec", 1 ] ], [ [ "tequila", 1 ], [ "vodka", 1 ] ], [ [ "lime_juice", 4 ] ] ]
   },
   {
     "type": "recipe",
@@ -345,11 +341,7 @@
     "time": "30 s",
     "autolearn": true,
     "flags": [ "BLIND_HARD" ],
-    "components": [
-      [ [ "triple_sec", 1 ] ],
-      [ [ "brandy", 1 ], [ "gin", 1 ] ],
-      [ [ "lemon_juice", 4 ] ]
-    ]
+    "components": [ [ [ "triple_sec", 1 ] ], [ [ "brandy", 1 ], [ "gin", 1 ] ], [ [ "lemon_juice", 4 ] ] ]
   },
   {
     "type": "recipe",
@@ -363,12 +355,7 @@
     "time": "30 s",
     "autolearn": true,
     "flags": [ "BLIND_HARD" ],
-    "components": [
-      [ [ "triple_sec", 1 ] ],
-      [ [ "rum", 1 ] ],
-      [ [ "brandy", 1 ] ],
-      [ [ "lemon_juice", 6 ] ]
-    ]
+    "components": [ [ [ "triple_sec", 1 ] ], [ [ "rum", 1 ] ], [ [ "brandy", 1 ] ], [ [ "lemon_juice", 6 ] ] ]
   },
   {
     "type": "recipe",
@@ -394,11 +381,7 @@
     "time": "30 s",
     "autolearn": true,
     "flags": [ "BLIND_HARD" ],
-    "components": [
-      [ [ "tequila", 1 ] ],
-      [ [ "lime_juice", 1 ] ],
-      [ [ "pineapple_juice", 1 ] ]
-    ]
+    "components": [ [ [ "tequila", 1 ] ], [ [ "lime_juice", 1 ] ], [ [ "pineapple_juice", 1 ] ] ]
   },
   {
     "type": "recipe",

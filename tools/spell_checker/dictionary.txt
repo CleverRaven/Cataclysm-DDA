@@ -400,6 +400,7 @@ crystaltender
 ctivate
 ctivating
 ctulaly
+cubanita
 cuirasses
 curarines
 curasse
@@ -745,6 +746,7 @@ grinny
 grnd
 groundcover
 groundsheet
+grutze
 gt
 guayaba
 gunblade
@@ -1304,6 +1306,7 @@ photochemistry
 photochromic
 photodiode
 photophore
+phototoxic
 phthalocyanine
 phyle
 physicochemical

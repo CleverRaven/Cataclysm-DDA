@@ -9187,7 +9187,14 @@
     "flags": [ "BLIND_HARD" ],
     "components": [
       [ [ "tomato_juice", 1 ], [ "V8", 1 ] ],
-      [ [ "vodka", 1 ], [ "tequila", 1 ], [ "gin", 1 ], [ "sake_filtered", 1 ], [ "sake_unfiltered", 1 ], [ "rum", 1 ] ],
+      [
+        [ "vodka", 1 ],
+        [ "tequila", 1 ],
+        [ "gin", 1 ],
+        [ "sake_filtered", 1 ],
+        [ "sake_unfiltered", 1 ],
+        [ "rum", 1 ]
+      ],
       [ [ "salt", 1 ], [ "seasoning_salt", 1 ] ],
       [ [ "pepper", 1 ], [ "curry_powder", 1 ], [ "chilly-p", 1 ], [ "hot_sauce", 1 ] ],
       [ [ "salt", 1 ], [ "lemon_juice", 1 ] ]
@@ -9207,7 +9214,14 @@
     "flags": [ "BLIND_HARD" ],
     "components": [
       [ [ "edible_blood", 1, "LIST" ] ],
-      [ [ "vodka", 1 ], [ "tequila", 1 ], [ "gin", 1 ], [ "sake_filtered", 1 ], [ "sake_unfiltered", 1 ], [ "rum", 1 ] ],
+      [
+        [ "vodka", 1 ],
+        [ "tequila", 1 ],
+        [ "gin", 1 ],
+        [ "sake_filtered", 1 ],
+        [ "sake_unfiltered", 1 ],
+        [ "rum", 1 ]
+      ],
       [ [ "salt", 1 ], [ "seasoning_salt", 1 ] ],
       [ [ "pepper", 1 ], [ "curry_powder", 1 ], [ "chilly-p", 1 ], [ "hot_sauce", 1 ] ],
       [ [ "salt", 1 ], [ "lemon_juice", 1 ] ]
