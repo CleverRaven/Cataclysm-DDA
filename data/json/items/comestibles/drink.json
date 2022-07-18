@@ -1330,7 +1330,7 @@
     "description": "Water, the stuff of life, the best thirst-quencher available.  It would be safer to drink once purified.",
     "weight": "250 g",
     "volume": "250 ml",
-    "price": 50,
+    "price": 5,
     "symbol": "~",
     "color": "light_blue",
     "phase": "liquid",
