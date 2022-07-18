@@ -712,6 +712,9 @@ cata::optional<int> unfold_vehicle_iuse::use( Character &p, item &it, bool, cons
     if( !unfold_msg.empty() ) {
         p.add_msg_if_player( unfold_msg.translated(), it.tname() );
     }
+    if( p.is_avatar() && it.get_var( "tracking", 0 ) == 1 ) {
+        veh->toggle_tracking(); // restore position tracking state
+    }
     p.moves -= moves;
     // Restore HP of parts if we stashed them previously.
     if( it.has_var( "folding_bicycle_parts" ) ) {

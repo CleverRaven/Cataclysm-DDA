@@ -978,12 +978,12 @@ bool vehicle::fold_up()
         debugmsg( "Error storing vehicle: %s", e.c_str() );
     }
 
+    bicycle.set_var( "tracking", tracking_on ? 1 : 0 );
     if( can_be_folded ) {
         bicycle.set_var( "weight", to_milligram( total_mass() ) );
         bicycle.set_var( "volume", total_folded_volume() / units::legacy_volume_factor );
         bicycle.set_var( "name", string_format( _( "folded %s" ), name ) );
         bicycle.set_var( "vehicle_name", name );
-        bicycle.set_var( "tracking", tracking_on ? 1 : 0 );
         // TODO: a better description?
         bicycle.set_var( "description", string_format( _( "A folded %s." ), name ) );
     }
