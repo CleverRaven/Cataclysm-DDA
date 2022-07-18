@@ -436,8 +436,9 @@ struct event_spec<event_type::crosses_mycus_threshold> : event_spec_character {}
 
 template<>
 struct event_spec<event_type::custom_json_event> {
-    static constexpr std::array<std::pair<const char *, cata_variant_type>, 1> fields = {{
+    static constexpr std::array<std::pair<const char *, cata_variant_type>, 2> fields = {{
             { "id", cata_variant_type::string },
+            { "value", cata_variant_type::int_ }
         }
     };
 };
