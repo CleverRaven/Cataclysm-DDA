@@ -180,8 +180,7 @@
     "time": "8 h",
     "autolearn": true,
     "reversible": true,
-    "book_learn": [ [ "textbook_extraction", 3 ], [ "manual_mechanics" , 3 ], 
-    [ "textbook_mechanics", 2 ] ],
+    "book_learn": [ [ "textbook_extraction", 3 ], [ "manual_mechanics", 3 ], [ "textbook_mechanics", 2 ] ],
     "using": [ [ "welding_standard", 10 ], [ "blacksmithing_standard", 5 ] ],
     "qualities": [
       { "id": "HAMMER", "level": 3 },

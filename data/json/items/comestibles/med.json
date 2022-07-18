@@ -745,7 +745,7 @@
     "flags": [ "NO_INGEST" ],
     "use_action": {
       "type": "consume_drug",
-      "activation_message": "You take a dab of some CBD shatter.  It has a rich turpene flavor and you feel a slight tingle in your muscles as your pain subsides.",
+      "activation_message": "You take a dab of some CBD shatter.  It has a rich terpene flavor and you feel a slight tingle in your muscles as your pain subsides.",
       "effects": [
         { "id": "pkill1", "duration": "180 m" },
         { "id": "pkill2", "duration": "10 m" },
