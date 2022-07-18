@@ -631,6 +631,7 @@
       { "item": "pepper" },
       { "item": "cinnamon", "prob": 75 },
       { "item": "chilly-p", "prob": 75 },
+      { "item": "paprika", "prob": 50 },
       { "item": "sugar", "prob": 15 },
       { "item": "artificial_sweetener", "prob": 5 },
       { "item": "curry_powder", "prob": 25 },

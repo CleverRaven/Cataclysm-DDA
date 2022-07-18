@@ -133,6 +133,17 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "irradiated_lime",
+    "copy-from": "lemon",
+    "name": { "str": "irradiated lime" },
+    "description": "An irradiated lime.",
+    "proportional": { "price": 2.0 },
+    "spoils_in": "0 hours",
+    "container": "bag_plastic",
+    "extend": { "flags": [ "RAD_STERILIZED_EDIBLE_FOREVER" ] }
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "irradiated_grapefruit",
     "copy-from": "grapefruit",
     "name": { "str": "irradiated grapefruit" },

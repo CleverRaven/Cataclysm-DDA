@@ -8,6 +8,14 @@
     "color": "red"
   },
   {
+    "id": "paprika",
+    "copy-from": "spice",
+    "type": "COMESTIBLE",
+    "name": { "str_sp": "paprika powder" },
+    "description": "A spice made from dried and ground red peppers.  Unlike chili powder, it is made from peppers that are less spicy.",
+    "color": "red"
+  },
+  {
     "id": "hot_sauce",
     "container": "bottle_plastic_small",
     "type": "COMESTIBLE",

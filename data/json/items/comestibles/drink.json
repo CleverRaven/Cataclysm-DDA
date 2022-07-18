@@ -675,6 +675,28 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "lime_juice",
+    "copy-from": "juice",
+    "name": { "str_sp": "lime juice" },
+    "conditional_names": [  ],
+    "calories": 25,
+    "description": "Freshly-squeezed from real limes!  It does not have any sugar added, and so would be too sour for drinking.  It is useful for making cocktails, however.",
+    "vitamins": [ [ "vitC", 33 ], [ "calcium", 1 ] ],
+    "fun": -4
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "lemon_juice",
+    "copy-from": "juice",
+    "name": { "str_sp": "lemon juice" },
+    "conditional_names": [  ],
+    "calories": 22,
+    "description": "Freshly-squeezed from real lemons!  It does not have any sugar added, and so would be too sour for drinking.  It is useful for making cocktails, however.",
+    "vitamins": [ [ "vitC", 43 ] ],
+    "fun": -4
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "drink_pinitacolada",
     "looks_like": "drink_pinacolada",
     "name": { "str_sp": "pinita colada" },
@@ -828,6 +850,7 @@
     "id": "lemonade",
     "looks_like": "juice",
     "name": { "str_sp": "lemonade" },
+    "conditional_names": [ { "type": "COMPONENT_ID", "condition": "lime_juice", "name": { "str_sp": "limeade" } } ],
     "weight": "260 g",
     "color": "yellow",
     "container": "bottle_plastic",
