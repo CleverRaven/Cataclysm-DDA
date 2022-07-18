@@ -39,7 +39,12 @@ static const itype_id fuel_type_muscle( "muscle" );
 // Cache for the overmap widget string
 static disp_overmap_cache disp_om_cache;
 // Cache for the bodygraph widget string
-static disp_bodygraph_cache disp_bg_cache;
+static disp_bodygraph_cache disp_bg_cache[] = {
+    disp_bodygraph_cache( bodygraph_var::hp ),
+    disp_bodygraph_cache( bodygraph_var::temp ),
+    disp_bodygraph_cache( bodygraph_var::encumb ),
+    disp_bodygraph_cache( bodygraph_var::status )
+};
 
 disp_overmap_cache::disp_overmap_cache()
 {
@@ -48,8 +53,9 @@ disp_overmap_cache::disp_overmap_cache()
     _width = 0;
 }
 
-disp_bodygraph_cache::disp_bodygraph_cache()
+disp_bodygraph_cache::disp_bodygraph_cache( bodygraph_var var )
 {
+    _var = var;
     _bp_cur_max.clear();
     _graph_id = "";
 }
@@ -59,7 +65,7 @@ bool disp_bodygraph_cache::is_valid_for( const Character &u, const std::string g
     if( graph_id != _graph_id ) {
         return false;
     }
-    std::vector<bodypart_id> cur_parts = u.get_all_body_parts( get_body_part_flags::only_main );
+    std::vector<bodypart_id> cur_parts = u.get_all_body_parts( get_body_part_flags::none );
     for( const auto &bp : _bp_cur_max ) {
         if( std::find( cur_parts.begin(), cur_parts.end(), bp.first ) == cur_parts.end() ) {
             // cached bodypart no longer on character
@@ -67,13 +73,12 @@ bool disp_bodygraph_cache::is_valid_for( const Character &u, const std::string g
         }
     }
     for( const bodypart_id &bp : cur_parts ) {
-        auto iter = _bp_cur_max.find( bp );
-        if( iter == _bp_cur_max.end() ) {
+        auto prev_color = _bp_cur_max.find( bp );
+        if( prev_color == _bp_cur_max.end() ) {
             // uncached bodypart
             return false;
         }
-        if( iter->second.first != u.get_part_hp_cur( bp ) ||
-            iter->second.second != u.get_part_hp_max( bp ) ) {
+        if( prev_color->second != display::get_bodygraph_bp_color( u, bp, _var ).to_int() ) {
             // values differ
             return false;
         }
@@ -86,8 +91,8 @@ void disp_bodygraph_cache::rebuild( const Character &u, const std::string graph_
 {
     _bp_cur_max.clear();
     _graph_id = graph_id;
-    for( const bodypart_id &bp : u.get_all_body_parts( get_body_part_flags::only_main ) ) {
-        _bp_cur_max.emplace( bp, std::pair<int, int> { u.get_part_hp_cur( bp ), u.get_part_hp_max( bp ) } );
+    for( const bodypart_id &bp : u.get_all_body_parts( get_body_part_flags::none ) ) {
+        _bp_cur_max.emplace( bp, display::get_bodygraph_bp_color( u, bp, _var ).to_int() );
     }
     _graph_wgt_str = bg_wgt_str;
 }
@@ -1474,34 +1479,61 @@ std::string display::colorized_compass_legend_text( int width, int max_height, i
 }
 
 static std::pair<std::string, nc_color> get_bodygraph_bp_sym_color( const Character &u,
-        const bodygraph_part &bgp )
+        const bodygraph_part &bgp, const bodygraph_var var )
 {
     const bodypart_id &bid = bgp.sub_bodyparts.empty() ?
                              bgp.bodyparts.front() : bgp.sub_bodyparts.front()->parent.id();
+    return { bgp.sym, display::get_bodygraph_bp_color( u, bid, var ) };
+}
+
+nc_color display::get_bodygraph_bp_color( const Character &u, const bodypart_id &bid,
+        const bodygraph_var var )
+{
     if( !u.has_part( bid ) ) {
-        return { " ", c_black }; // character is missing this part
+        return c_black; // character is missing this part
     }
-    const int cur_hp = u.get_part_hp_cur( bid );
-    const int max_hp = u.get_part_hp_max( bid );
-    const float cur_hp_pcnt = cur_hp / static_cast<float>( max_hp );
-    if( cur_hp_pcnt < 0.125f ) {
-        return { bgp.sym, c_red };
-    } else if( cur_hp_pcnt < 0.375f ) {
-        return { bgp.sym, c_light_red };
-    } else if( cur_hp_pcnt < 0.625f ) {
-        return { bgp.sym, c_yellow };
-    } else if( cur_hp_pcnt < 0.875f ) {
-        return { bgp.sym, c_light_green };
+
+    switch( var ) {
+        case bodygraph_var::hp: {
+            const int cur_hp = u.get_part_hp_cur( bid );
+            const int max_hp = u.get_part_hp_max( bid );
+            const float cur_hp_pcnt = cur_hp / static_cast<float>( max_hp );
+            if( cur_hp_pcnt < 0.125f ) {
+                return c_red;
+            } else if( cur_hp_pcnt < 0.375f ) {
+                return c_light_red;
+            } else if( cur_hp_pcnt < 0.625f ) {
+                return c_yellow;
+            } else if( cur_hp_pcnt < 0.875f ) {
+                return c_light_green;
+            }
+            return c_green;
+        }
+        case bodygraph_var::temp: {
+            return display::bodytemp_color( u, bid );
+        }
+        case bodygraph_var::encumb: {
+            int level = u.get_part_encumbrance_data( bid ).encumbrance;
+            return display::encumb_color( level );
+        }
+        case bodygraph_var::status: {
+            return display::limb_color( u, bid, true, true, true );
+        }
+        // Fall-through - invalid
+        case bodygraph_var::last:
+            break;
     }
-    return { bgp.sym, c_green };
+    cata_fatal( "Invalid widget_var" );
 }
 
 std::string display::colorized_bodygraph_text( const Character &u, const std::string graph_id,
-        int width, int max_height, int &height )
+        const bodygraph_var var, int width, int max_height, int &height )
 {
-    if( disp_bg_cache.is_valid_for( u, graph_id ) ) {
+    int var_idx = int( var );
+
+    if( disp_bg_cache[var_idx].is_valid_for( u, graph_id ) ) {
         // Nothing changed, just retrieve from cache
-        return disp_bg_cache.get_val();
+        return disp_bg_cache[var_idx].get_val();
     }
 
     bodygraph_id graph( graph_id );
@@ -1510,11 +1542,11 @@ std::string display::colorized_bodygraph_text( const Character &u, const std::st
         return "";
     }
 
-    auto process_sym = [&u]( const bodygraph_part * bgp, const std::string & sym ) {
+    auto process_sym = [&u, var]( const bodygraph_part * bgp, const std::string & sym ) {
         if( !bgp ) {
             return sym;
         }
-        std::pair<std::string, nc_color> sym_col = get_bodygraph_bp_sym_color( u, *bgp );
+        std::pair<std::string, nc_color> sym_col = get_bodygraph_bp_sym_color( u, *bgp, var );
         return colorize( sym_col.first, sym_col.second );
     };
 
@@ -1530,7 +1562,7 @@ std::string display::colorized_bodygraph_text( const Character &u, const std::st
     }
 
     // Rebuild bodygraph text cache
-    disp_bg_cache.rebuild( u, graph_id, ret );
+    disp_bg_cache[var_idx].rebuild( u, graph_id, ret );
 
     return ret;
 }
