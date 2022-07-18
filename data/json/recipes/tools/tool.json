@@ -1167,7 +1167,6 @@
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
     "components": [
       [ [ "pipe", 2 ] ],
-      [ [ "jerrycan_big", 1 ], [ "box_medium_metal", 1 ], [ "30gal_drum", 1 ], [ "metal_tank", 1], [ "keg_steel", 1 ] ],
       [ [ "hose", 1 ] ],
       [ [ "motor_tiny", 1 ] ],
       [ [ "gasket_plastic", 2 ] ],
@@ -1283,6 +1282,7 @@
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
     "components": [
       [ [ "pipe", 2 ] ],
+      [ [ "jerrycan_big", 1 ], [ "box_medium_metal", 1 ], [ "30gal_drum", 1 ], [ "metal_tank", 1], [ "keg_steel", 1 ] ],
       [ [ "hose", 2 ] ],
       [ [ "vac_pump", 1 ] ],
       [ [ "element", 3 ], [ "crude_heating_element", 3 ] ],
