@@ -61,7 +61,7 @@
   {
     "type": "item_group",
     "id": "npc_coat",
-    "items": [ [ "null", 40 ], [ "jacket_leather", 10 ], [ "grass_cloak", 30 ], [ "cloak_leather", 10 ], [ "cloak_fur", 10 ] ]
+    "items": [ [ "null", 40 ], [ "grass_cloak", 30 ], [ "cloak_leather", 10 ], [ "cloak_fur", 10 ] ]
   },
   {
     "type": "item_group",
