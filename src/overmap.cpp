@@ -4389,25 +4389,26 @@ void overmap::place_forests()
     float threshold_forest = settings->overmap_forest.noise_threshold_forest;
     float threshold_forest_thick = settings->overmap_forest.noise_threshold_forest_thick;
 
-    std::string forest_amount = get_option<std::string>( "FOREST_AMOUNT" );
-
-    if( forest_amount == "normal" ) {
-        threshold_forest = 0.2;
-        threshold_forest_thick = 0.25;
-    } else if( forest_amount == "low" ) {
-        threshold_forest = 0.25;
-        threshold_forest_thick = 0.3;
-    } else if( forest_amount == "very_low" ) {
-        threshold_forest = 0.35;
-        threshold_forest_thick = 0.4;
-    } else if( forest_amount == "high" ) {
-        threshold_forest = 0.15;
-        threshold_forest_thick = 0.2;
-    } else if( forest_amount == "very_high" ) {
-        threshold_forest = 0.1;
-        threshold_forest_thick = 0.15;
-    } else if( forest_amount != "default" ) {
-        debugmsg( "Unknown value '%s' for world option FOREST_AMOUNT", forest_amount );
+    if( settings->overmap_forest.noise_threshold_forest_options.size() != 0 &&
+        settings->overmap_forest.noise_threshold_forest_thick_options.size() != 0 ) {
+        std::string forest_amount = get_option<std::string>( "FOREST_AMOUNT" );
+        int option_index = 2;
+        if( forest_amount == "very_low" ) {
+            option_index = 0;
+        } else if( forest_amount == "low" ) {
+            option_index = 1;
+        } else if( forest_amount == "normal" ) {
+            option_index = 2;
+        } else if( forest_amount == "high" ) {
+            option_index = 3;
+        } else if( forest_amount == "very_high" ) {
+            option_index = 4;
+        } else if( forest_amount != "default" ) {
+            debugmsg( "Unknown value '%s' for world option FOREST_AMOUNT", forest_amount );
+        }
+        threshold_forest = settings->overmap_forest.noise_threshold_forest_options[option_index];
+        threshold_forest_thick =
+            settings->overmap_forest.noise_threshold_forest_thick_options[option_index];
     }
 
     for( int x = 0; x < OMAPX; x++ ) {
