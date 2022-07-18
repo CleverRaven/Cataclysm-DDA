@@ -223,6 +223,7 @@ static const efftype_id effect_riding( "riding" );
 static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_tetanus( "tetanus" );
 static const efftype_id effect_tied( "tied" );
+static const efftype_id effect_took_xanax( "took_xanax" );
 static const efftype_id effect_winded( "winded" );
 
 static const faction_id faction_no_faction( "no_faction" );
@@ -252,6 +253,7 @@ static const itype_id itype_towel_wet( "towel_wet" );
 
 static const json_character_flag json_flag_CLIMB_NO_LADDER( "CLIMB_NO_LADDER" );
 static const json_character_flag json_flag_HYPEROPIC( "HYPEROPIC" );
+static const json_character_flag json_flag_NYCTOPHOBIA( "NYCTOPHOBIA" );
 static const json_character_flag json_flag_WALL_CLING( "WALL_CLING" );
 static const json_character_flag json_flag_WEB_RAPPEL( "WEB_RAPPEL" );
 
@@ -9640,6 +9642,19 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
                 return false; // char's mount is too large for tight passages
             }
         }
+    }
+
+    const float dest_light_level = get_map().ambient_light_at( dest_loc );
+
+    // Allow players with nyctophobia to move freely through cloudy and dark tiles
+    const float nyctophobia_threshold = LIGHT_AMBIENT_LIT - 3.0f;
+
+    // Forbid players from moving through very dark tiles, unless they are running or took xanax
+    if( u.has_flag( json_flag_NYCTOPHOBIA ) && !u.has_effect( effect_took_xanax ) && !u.is_running() &&
+        dest_light_level < nyctophobia_threshold ) {
+        add_msg( m_bad,
+                 _( "It's so dark and scary in there!  You can't force yourself to walk into this tile.  Switch to running movement mode to move there." ) );
+        return false;
     }
 
     if( u.is_mounted() ) {
