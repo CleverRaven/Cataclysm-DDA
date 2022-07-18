@@ -49,6 +49,7 @@
       [ "retool_ar15_300blk", 40 ],
       [ "acog_scope", 40 ],
       [ "holo_sight", 50 ],
+      [ "holo_magnifier", 30 ],
       [ "hybrid_sight_4x", 30 ],
       [ "rifle_scope_high_end_mount", 20 ],
       [ "modern_handguard", 20 ],
@@ -63,6 +64,7 @@
     "items": [
       [ "acog_scope", 100 ],
       [ "holo_sight", 100 ],
+      [ "holo_magnifier", 80 ],
       [ "hybrid_sight_4x", 100 ],
       [ "m203", 30 ],
       [ "m320_mod", 10 ],
