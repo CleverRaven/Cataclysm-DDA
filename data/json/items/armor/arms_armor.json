@@ -1532,9 +1532,7 @@
         "encumbrance": 0
       },
       {
-        "material": [
-          { "type": "cotton", "covered_by_mat": 100, "thickness": 1.0 }
-        ],
+        "material": [ { "type": "cotton", "covered_by_mat": 100, "thickness": 1.0 } ],
         "covers": [ "arm_l", "arm_r" ],
         "specifically_covers": [ "arm_elbow_l", "arm_elbow_r" ],
         "coverage": 100,
