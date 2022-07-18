@@ -86,7 +86,6 @@ Item_spawn_data_military_standard_sniper_rifles( "military_standard_sniper_rifle
 static const item_group_id Item_spawn_data_mine_equipment( "mine_equipment" );
 static const item_group_id
 Item_spawn_data_mon_zombie_soldier_death_drops( "mon_zombie_soldier_death_drops" );
-static const item_group_id Item_spawn_data_rare( "rare" );
 static const item_group_id Item_spawn_data_remains_human_generic( "remains_human_generic" );
 static const item_group_id Item_spawn_data_trash_cart( "trash_cart" );
 
@@ -125,7 +124,6 @@ static const map_extra_id map_extra_mx_crater( "mx_crater" );
 static const map_extra_id map_extra_mx_dead_vegetation( "mx_dead_vegetation" );
 static const map_extra_id map_extra_mx_grove( "mx_grove" );
 static const map_extra_id map_extra_mx_helicopter( "mx_helicopter" );
-static const map_extra_id map_extra_mx_house_spider( "mx_house_spider" );
 static const map_extra_id map_extra_mx_house_wasp( "mx_house_wasp" );
 static const map_extra_id map_extra_mx_jabberwock( "mx_jabberwock" );
 static const map_extra_id map_extra_mx_looters( "mx_looters" );
@@ -153,8 +151,6 @@ static const mongroup_id GROUP_WASP_QUEEN( "GROUP_WASP_QUEEN" );
 static const mtype_id mon_dermatik( "mon_dermatik" );
 static const mtype_id mon_jabberwock( "mon_jabberwock" );
 static const mtype_id mon_shia( "mon_shia" );
-static const mtype_id mon_spider_cellar_giant( "mon_spider_cellar_giant" );
-static const mtype_id mon_spider_widow_giant( "mon_spider_widow_giant" );
 static const mtype_id mon_turret_riot( "mon_turret_riot" );
 static const mtype_id mon_turret_searchlight( "mon_turret_searchlight" );
 static const mtype_id mon_turret_speaker( "mon_turret_speaker" );
