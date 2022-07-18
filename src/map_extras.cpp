@@ -354,42 +354,6 @@ static bool mx_house_wasp( map &m, const tripoint &loc )
     return true;
 }
 
-static bool mx_house_spider( map &m, const tripoint &loc )
-{
-    auto spider_type = mon_spider_widow_giant;
-    auto egg_type = f_egg_sackbw;
-    if( one_in( 2 ) ) {
-        spider_type = mon_spider_cellar_giant;
-        egg_type = f_egg_sackcs;
-    }
-    for( int i = 0; i < SEEX * 2; i++ ) {
-        for( int j = 0; j < SEEY * 2; j++ ) {
-            if( m.ter( point( i, j ) ) == t_floor ) {
-                if( one_in( 15 ) ) {
-                    m.add_spawn( spider_type, rng( 1, 2 ), tripoint( i, j, loc.z ) );
-                    for( int x = i - 1; x <= i + 1; x++ ) {
-                        for( int y = j - 1; y <= j + 1; y++ ) {
-                            if( m.ter( point( x, y ) ) == t_floor ) {
-                                madd_field( &m, point( x, y ), fd_web, rng( 2, 3 ) );
-                                if( one_in( 4 ) ) {
-                                    m.furn_set( point( i, j ), egg_type );
-                                    m.remove_field( {i, j, m.get_abs_sub().z()}, fd_web );
-                                }
-                            }
-                        }
-                    }
-                } else if( m.passable( point( i, j ) ) && one_in( 5 ) ) {
-                    madd_field( &m, point( i, j ), fd_web, 1 );
-                }
-            }
-        }
-    }
-    m.place_items( Item_spawn_data_rare, 60, point_zero, point( SEEX * 2 - 1, SEEY * 2 - 1 ),
-                   false, calendar::start_of_cataclysm );
-
-    return true;
-}
-
 static bool mx_helicopter( map &m, const tripoint &abs_sub )
 {
     point c( rng( 6, SEEX * 2 - 7 ), rng( 6, SEEY * 2 - 7 ) );
@@ -2752,7 +2716,6 @@ static FunctionMap builtin_functions = {
     { map_extra_mx_supplydrop, mx_supplydrop },
     { map_extra_mx_helicopter, mx_helicopter },
     { map_extra_mx_portal_in, mx_portal_in },
-    { map_extra_mx_house_spider, mx_house_spider },
     { map_extra_mx_house_wasp, mx_house_wasp },
     { map_extra_mx_shia, mx_shia },
     { map_extra_mx_jabberwock, mx_jabberwock },

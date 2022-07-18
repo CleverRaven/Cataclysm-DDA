@@ -1064,7 +1064,7 @@
     "melee_dice": 2,
     "melee_dice_sides": 3,
     "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
-    "special_attacks": [ [ "SUICIDE", 180 ] , [ "GRAB", 5 ] ],
+    "special_attacks": [ [ "SUICIDE", 180 ], [ "GRAB", 5 ] ],
     "dodge": 7,
     "bleed_rate": 0,
     "death_function": { "corpse_type": "NO_CORPSE" },
