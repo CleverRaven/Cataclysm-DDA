@@ -397,6 +397,17 @@
     "flags": [ "CLASSIC" ]
   },
   {
+    "id": "mx_nest_stegoceras",
+    "type": "map_extra",
+    "name": { "str": "stegoceras nest" },
+    "description": "A stegoceras nest.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_stegoceras" },
+    "sym": "D",
+    "color": "light_green",
+    "autonote": true,
+    "flags": [ "CLASSIC" ]
+  },
+  {
     "id": "mx_nest_stegosaurus",
     "type": "map_extra",
     "name": { "str": "stegosaurus nest" },

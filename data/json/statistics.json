@@ -551,6 +551,32 @@
     "field": "oter_type_id"
   },
   {
+    "id": "avatar_enters_overmap_special",
+    "type": "event_transformation",
+    "event_transformation": "avatar_enters_oter_type",
+    "new_fields": { "overmap_special_id": { "overmap_special_at": "pos" } }
+  },
+  {
+    "id": "last_overmap_special_avatar_entered",
+    "type": "event_statistic",
+    "stat_type": "last_value",
+    "event_transformation": "avatar_enters_overmap_special",
+    "field": "overmap_special_id"
+  },
+  {
+    "id": "avatar_enters_lab_finale",
+    "type": "event_transformation",
+    "event_transformation": "avatar_enters_oter_type",
+    "value_constraints": { "oter_type_id": { "equals_any": [ "oter_type_str_id", [ "central_lab_finale", "lab_finale" ] ] } }
+  },
+  {
+    "id": "num_avatar_enters_lab_finale",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_enters_lab_finale",
+    "description": { "str": "lab finale entered", "str_pl": "lab finales entered" }
+  },
+  {
     "id": "avatar_cuts_tree",
     "type": "event_transformation",
     "event_type": "cuts_tree",
@@ -625,7 +651,14 @@
     "type": "event_transformation",
     "event_type": "gains_mutation",
     "value_constraints": { "character": { "equals_statistic": "avatar_id" } },
-    "drop_fields": [ "character", "trait" ]
+    "drop_fields": [ "character" ]
+  },
+  {
+    "id": "avatar_last_gains_mutation",
+    "type": "event_statistic",
+    "stat_type": "last_value",
+    "event_transformation": "avatar_gains_mutation",
+    "field": "trait"
   },
   {
     "id": "num_gains_mutation",
