@@ -50,6 +50,7 @@ std::string enum_to_string<event_type>( event_type data )
         case event_type::crosses_marloss_threshold: return "crosses_marloss_threshold";
         case event_type::crosses_mutation_threshold: return "crosses_mutation_threshold";
         case event_type::crosses_mycus_threshold: return "crosses_mycus_threshold";
+        case event_type::custom_json_event: return "custom_json_event";
         case event_type::cuts_tree: return "cuts_tree";
         case event_type::dermatik_eggs_hatch: return "dermatik_eggs_hatch";
         case event_type::dermatik_eggs_injected: return "dermatik_eggs_injected";
@@ -155,6 +156,7 @@ DEFINE_EVENT_FIELDS( character_takes_damage )
 DEFINE_EVENT_FIELDS( character_triggers_trap )
 DEFINE_EVENT_FIELDS( character_wakes_up )
 DEFINE_EVENT_FIELDS( crosses_mutation_threshold )
+DEFINE_EVENT_FIELDS( custom_json_event )
 DEFINE_EVENT_FIELDS( dies_from_drug_overdose )
 DEFINE_EVENT_FIELDS( evolves_mutation )
 DEFINE_EVENT_FIELDS( fails_to_install_cbm )
