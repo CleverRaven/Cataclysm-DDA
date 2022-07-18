@@ -134,6 +134,20 @@
         "prob": 100,
         "container-item": "jar_glass_sealed",
         "sealed": false
+      },
+      {
+        "item": "hi_q_cbd_shatter",
+        "charges": [ 5, 140 ],
+        "prob": 100,
+        "container-item": "jar_glass_sealed",
+        "sealed": false
+      },
+      {
+        "item": "hi_q_cbd_wax",
+        "charges": [ 5, 140 ],
+        "prob": 100,
+        "container-item": "jar_glass_sealed",
+        "sealed": false
       }
     ]
   },
