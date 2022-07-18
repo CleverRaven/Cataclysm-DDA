@@ -10,6 +10,7 @@
 #include <utility>
 #include <vector>
 
+#include "ret_val.h"
 #include "translations.h"
 #include "type_id.h"
 
@@ -20,6 +21,8 @@ class item;
 class Character;
 template<typename T>
 class generic_factory;
+
+struct trait_and_var;
 
 class profession
 {
@@ -62,10 +65,14 @@ class profession
         item_group_id _starting_items_female = item_group_id( "EMPTY_GROUP" );
         itype_id no_bonus; // See profession::items and class json_item_substitution in profession.cpp
 
+        // does this profession require a specific achiement to unlock
+        cata::optional<achievement_id> _requirement;
+
+
         std::vector<addiction> _starting_addictions;
         std::vector<bionic_id> _starting_CBMs;
         std::vector<proficiency_id> _starting_proficiencies;
-        std::vector<trait_id> _starting_traits;
+        std::vector<trait_and_var> _starting_traits;
         std::set<trait_id> _forbidden_traits;
         std::vector<mtype_id> _starting_pets;
         vproto_id _starting_vehicle = vproto_id::NULL_ID();
@@ -114,6 +121,8 @@ class profession
         StartingSkillList skills() const;
         const std::vector<mission_type_id> &missions() const;
 
+        cata::optional<achievement_id> get_requirement() const;
+
         std::map<spell_id, int> spells() const;
         void learn_spells( avatar &you ) const;
 
@@ -130,10 +139,15 @@ class profession
          *
          * @return true, if player can pick profession. Otherwise - false.
          */
-        bool can_pick( const Character &you, int points ) const;
+        ret_val<bool> can_afford( const Character &you, int points ) const;
+
+        /**
+         * Do you have the necessary achievement state
+         */
+        ret_val<bool> can_pick() const;
         bool is_locked_trait( const trait_id &trait ) const;
         bool is_forbidden_trait( const trait_id &trait ) const;
-        std::vector<trait_id> get_locked_traits() const;
+        std::vector<trait_and_var> get_locked_traits() const;
         std::set<trait_id> get_forbidden_traits() const;
 
         bool is_hobby() const;

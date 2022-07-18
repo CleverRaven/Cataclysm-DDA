@@ -7,21 +7,21 @@
     "monsters": [
       {
         "monster": "mon_gallimimus",
-        "weight": 20,
+        "weight": 5,
         "cost_multiplier": 0,
         "pack_size": [ 4, 8 ],
         "conditions": [ "DUSK", "DAY", "DAWN" ]
       },
       {
         "monster": "mon_struthiomimus",
-        "weight": 20,
+        "weight": 5,
         "cost_multiplier": 0,
         "pack_size": [ 4, 8 ],
         "conditions": [ "DUSK", "DAY", "DAWN" ]
       },
       {
         "monster": "mon_ornithomimus",
-        "weight": 20,
+        "weight": 5,
         "cost_multiplier": 0,
         "pack_size": [ 4, 8 ],
         "conditions": [ "DUSK", "DAY", "DAWN" ]
@@ -92,14 +92,14 @@
       },
       {
         "monster": "mon_scutellosaurus",
-        "weight": 20,
+        "weight": 10,
         "cost_multiplier": 0,
         "pack_size": [ 2, 4 ],
         "conditions": [ "DUSK", "DAY", "DAWN", "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
         "monster": "mon_stegosaurus",
-        "weight": 20,
+        "weight": 10,
         "cost_multiplier": 20,
         "pack_size": [ 2, 4 ],
         "conditions": [ "DUSK", "DAY", "DAWN", "SPRING", "SUMMER", "AUTUMN" ]
@@ -129,87 +129,108 @@
         "conditions": [ "DUSK", "DAY", "DAWN", "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
+        "monster": "mon_dryosaurus",
+        "weight": 5,
+        "cost_multiplier": 0,
+        "pack_size": [ 4, 12 ],
+        "conditions": [ "DUSK", "DAY", "DAWN", "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
         "monster": "mon_camptosaurus",
-        "weight": 20,
+        "weight": 5,
         "cost_multiplier": 0,
         "pack_size": [ 4, 12 ],
         "conditions": [ "DUSK", "DAY", "DAWN", "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
         "monster": "mon_hadrosaurus",
-        "weight": 20,
+        "weight": 5,
         "cost_multiplier": 10,
         "pack_size": [ 4, 12 ],
         "conditions": [ "DUSK", "DAY", "DAWN", "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
         "monster": "mon_parasaurolophus",
-        "weight": 20,
+        "weight": 5,
         "cost_multiplier": 10,
         "pack_size": [ 4, 12 ],
         "conditions": [ "DUSK", "DAY", "DAWN", "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
         "monster": "mon_corythosaurus",
-        "weight": 20,
+        "weight": 5,
         "cost_multiplier": 10,
         "pack_size": [ 4, 12 ],
         "conditions": [ "DUSK", "DAY", "DAWN", "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
         "monster": "mon_maiasaura",
-        "weight": 20,
+        "weight": 5,
         "cost_multiplier": 10,
         "pack_size": [ 4, 12 ],
         "conditions": [ "DUSK", "DAY", "DAWN", "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
         "monster": "mon_edmontosaurus",
-        "weight": 20,
+        "weight": 5,
         "cost_multiplier": 10,
         "pack_size": [ 4, 12 ],
         "conditions": [ "DUSK", "DAY", "DAWN", "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
-        "monster": "mon_pachycephalosaurus",
-        "weight": 10,
+        "monster": "mon_stegoceras",
+        "weight": 3,
         "cost_multiplier": 0,
-        "pack_size": [ 1, 2 ],
+        "pack_size": [ 4, 8 ],
+        "conditions": [ "DUSK", "DAY", "DAWN", "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
+        "monster": "mon_pachycephalosaurus",
+        "weight": 3,
+        "cost_multiplier": 0,
+        "pack_size": [ 4, 8 ],
+        "conditions": [ "DUSK", "DAY", "DAWN", "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
+        "monster": "mon_aquilops",
+        "weight": 5,
+        "cost_multiplier": 0,
+        "pack_size": [ 4, 8 ],
         "conditions": [ "DUSK", "DAY", "DAWN", "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
         "monster": "mon_pachyrhinosaurus",
-        "weight": 20,
+        "weight": 5,
         "cost_multiplier": 20,
-        "pack_size": [ 1, 2 ],
+        "pack_size": [ 4, 8 ],
         "conditions": [ "DUSK", "DAY", "DAWN", "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
         "monster": "mon_pentaceratops",
-        "weight": 20,
+        "weight": 5,
         "cost_multiplier": 25,
-        "pack_size": [ 1, 2 ],
+        "pack_size": [ 4, 8 ],
         "conditions": [ "DUSK", "DAY", "DAWN", "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
         "monster": "mon_kosmoceratops",
-        "weight": 20,
+        "weight": 5,
         "cost_multiplier": 25,
-        "pack_size": [ 1, 2 ],
+        "pack_size": [ 4, 8 ],
         "conditions": [ "DUSK", "DAY", "DAWN", "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
         "monster": "mon_torosaurus",
-        "weight": 20,
+        "weight": 5,
         "cost_multiplier": 25,
-        "pack_size": [ 1, 2 ],
+        "pack_size": [ 4, 8 ],
         "conditions": [ "DUSK", "DAY", "DAWN", "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
         "monster": "mon_triceratops",
-        "weight": 20,
+        "weight": 5,
         "cost_multiplier": 30,
-        "pack_size": [ 1, 2 ],
+        "pack_size": [ 4, 8 ],
         "conditions": [ "DUSK", "DAY", "DAWN", "SPRING", "SUMMER", "AUTUMN" ]
       }
     ]
@@ -271,20 +292,6 @@
     "//": "Current SPRING first DAY count is 1000.",
     "is_animal": true,
     "monsters": [
-      {
-        "monster": "mon_coelophysis",
-        "weight": 100,
-        "cost_multiplier": 5,
-        "pack_size": [ 4, 8 ],
-        "conditions": [ "NIGHT", "SPRING", "SUMMER", "AUTUMN" ]
-      },
-      {
-        "monster": "mon_coelophysis",
-        "weight": 100,
-        "cost_multiplier": 5,
-        "pack_size": [ 4, 8 ],
-        "conditions": [ "WINTER" ]
-      },
       { "monster": "mon_compsognathus", "weight": 400, "cost_multiplier": 0, "pack_size": [ 4, 12 ] },
       {
         "monster": "mon_albertonykus",
@@ -294,25 +301,18 @@
         "conditions": [ "WINTER" ]
       },
       {
+        "monster": "mon_saurornitholestes",
+        "weight": 150,
+        "cost_multiplier": 10,
+        "pack_size": [ 2, 4 ],
+        "conditions": [ "DAY" ]
+      },
+      {
         "monster": "mon_velociraptor",
         "weight": 150,
         "cost_multiplier": 10,
         "pack_size": [ 2, 4 ],
         "conditions": [ "DAY" ]
-      },
-      {
-        "monster": "mon_deinonychus",
-        "weight": 100,
-        "cost_multiplier": 15,
-        "pack_size": [ 2, 3 ],
-        "conditions": [ "DAY" ]
-      },
-      {
-        "monster": "mon_dromaeosaurus",
-        "weight": 150,
-        "cost_multiplier": 10,
-        "pack_size": [ 2, 4 ],
-        "conditions": [ "NIGHT" ]
       },
       {
         "monster": "mon_stenonychosaurus",
@@ -335,6 +335,7 @@
         "pack_size": [ 4, 12 ],
         "conditions": [ "WINTER" ]
       },
+      { "monster": "mon_oryctodromeus", "weight": 150, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
       {
         "monster": "mon_dimorphodon",
         "weight": 500,

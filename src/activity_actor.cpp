@@ -261,7 +261,7 @@ void aim_activity_actor::do_turn( player_activity &act, Character &who )
     }
     avatar &you = get_avatar();
 
-    item *weapon = get_weapon();
+    item_location weapon = get_weapon();
     if( !weapon || !avatar_action::can_fire_weapon( you, get_map(), *weapon ) ) {
         aborted = true;
         act.moves_left = 0;
@@ -305,7 +305,7 @@ void aim_activity_actor::finish( player_activity &act, Character &who )
 {
     act.set_to_null();
     restore_view();
-    item *weapon = get_weapon();
+    item_location weapon = get_weapon();
     if( !weapon ) {
         return;
     }
@@ -377,16 +377,16 @@ std::unique_ptr<activity_actor> aim_activity_actor::deserialize( JsonValue &jsin
     return actor.clone();
 }
 
-item *aim_activity_actor::get_weapon()
+item_location aim_activity_actor::get_weapon()
 {
     if( fake_weapon.has_value() ) {
         // TODO: check if the player lost relevant bionic/mutation
-        return &fake_weapon.value();
+        return item_location( get_player_character(), &fake_weapon.value() );
     } else {
         // Check for lost gun (e.g. yanked by zombie technician)
         // TODO: check that this is the same gun that was used to start aiming
-        item &weapon = get_player_character().get_wielded_item();
-        return weapon.is_null() ? nullptr : &weapon;
+        return get_player_character().get_wielded_item();
+
     }
 }
 
@@ -405,7 +405,7 @@ bool aim_activity_actor::load_RAS_weapon()
 {
     // TODO: use activity for fetching ammo and loading weapon
     Character &you = get_avatar();
-    item *weapon = get_weapon();
+    item_location weapon = get_weapon();
     gun_mode gun = weapon->gun_current_mode();
     const auto ammo_location_is_valid = [&]() -> bool {
         if( !you.ammo_location )
@@ -422,8 +422,8 @@ bool aim_activity_actor::load_RAS_weapon()
         }
         return true;
     };
-    item::reload_option opt = ammo_location_is_valid() ? item::reload_option( &you, weapon,
-                              weapon, you.ammo_location ) : you.select_ammo( *gun );
+    item::reload_option opt = ammo_location_is_valid() ? item::reload_option( &you, &*weapon,
+                              &*weapon, you.ammo_location ) : you.select_ammo( *gun );
     if( !opt ) {
         // Menu canceled
         return false;
@@ -450,7 +450,7 @@ void aim_activity_actor::unload_RAS_weapon()
 {
     // Unload reload-and-shoot weapons to avoid leaving bows pre-loaded with arrows
     avatar &you = get_avatar();
-    item *weapon = get_weapon();
+    item_location weapon = get_weapon();
     if( !weapon ) {
         return;
     }
@@ -737,7 +737,7 @@ void hacking_activity_actor::finish( player_activity &act, Character &who )
                            "alarm" );
             if( examp.z > 0 && !get_timed_events().queued( timed_event_type::WANTED ) ) {
                 get_timed_events().add( timed_event_type::WANTED, calendar::turn + 30_minutes, 0,
-                                        who.global_sm_location() );
+                                        who.get_location() );
             }
             break;
         case hack_result::NOTHING:
@@ -1313,8 +1313,8 @@ void read_activity_actor::read_book( Character &learner,
     // Calculate experience gained
     /** @EFFECT_INT increases reading comprehension */
     // Enhanced Memory Banks modestly boosts experience
-    int min_ex = std::max( 1, islotbook->time / 10 + learner.get_int() / 4 );
-    int max_ex = islotbook->time / 5 + learner.get_int() / 2 - originalSkillLevel;
+    int min_ex = std::max( 1, to_minutes<int>( islotbook->time ) / 10 + learner.get_int() / 4 );
+    int max_ex = to_minutes<int>( islotbook->time ) / 5 + learner.get_int() / 2 - originalSkillLevel;
 
     min_ex = learner.enchantment_cache->modify_value( enchant_vals::mod::READING_EXP, min_ex );
 
@@ -1402,8 +1402,8 @@ bool read_activity_actor::player_read( avatar &you )
         book->mark_chapter_as_read( *learner );
         if( reading_for_skill ) {
             if( !learner->is_avatar() ) {
-                const int npc_read_time = you.time_to_read( *book, *reader, learner );
-                penalty = static_cast<double>( moves_total ) / npc_read_time;
+                const time_duration npc_read_time = you.time_to_read( *book, *reader, learner );
+                penalty = static_cast<double>( moves_total ) / to_moves<int>( npc_read_time );
             }
         } else {
             continue;   // reading for fun
@@ -1637,7 +1637,7 @@ void read_activity_actor::finish( player_activity &act, Character &who )
     }
 
     if( continuous ) {
-        int time_taken;
+        time_duration time_taken;
 
         // caller should check if npc can read first
         if( who.is_npc() ) {
@@ -1661,13 +1661,13 @@ void read_activity_actor::finish( player_activity &act, Character &who )
 
             time_taken = who.as_avatar()->time_to_read( *book, *reader );
             add_msg_debug( debugmode::DF_ACT_READ, "reading time = %s",
-                           to_string_writable( time_duration::from_moves( time_taken ) ) );
+                           to_string_writable( time_taken ) );
         }
 
         // restart the activity
-        moves_total = time_taken;
-        act.moves_total = time_taken;
-        act.moves_left = time_taken;
+        moves_total = to_moves<int>( time_taken );
+        act.moves_total = to_moves<int>( time_taken );
+        act.moves_left = to_moves<int>( time_taken );
         return;
     } else  {
         who.add_msg_if_player( m_info, _( "You finish reading." ) );
@@ -2243,7 +2243,7 @@ void lockpick_activity_actor::finish( player_activity &act, Character &who )
                        "alarm" );
         if( !get_timed_events().queued( timed_event_type::WANTED ) ) {
             get_timed_events().add( timed_event_type::WANTED, calendar::turn + 30_minutes, 0,
-                                    who.global_sm_location() );
+                                    who.get_location() );
         }
     }
 
@@ -2801,23 +2801,32 @@ void unload_activity_actor::unload( Character &who, item_location &target )
     if( it.is_container() ) {
         contents_change_handler handler;
         bool changed = false;
-        for( item *contained : it.all_items_top( item_pocket::pocket_type::CONTAINER, true ) ) {
-            int old_charges = contained->charges;
-            const bool consumed = who.add_or_drop_with_msg( *contained, true, &it, contained );
-            if( consumed || contained->charges != old_charges ) {
-                changed = true;
-                handler.unseal_pocket_containing( item_location( target, contained ) );
+
+        for( item_pocket::pocket_type ptype : {
+                 item_pocket::pocket_type::CONTAINER,
+                 item_pocket::pocket_type::MAGAZINE_WELL,
+                 item_pocket::pocket_type::MAGAZINE
+             } ) {
+
+            for( item *contained : it.all_items_top( ptype, true ) ) {
+                int old_charges = contained->charges;
+                const bool consumed = who.add_or_drop_with_msg( *contained, true, &it, contained );
+                if( consumed || contained->charges != old_charges ) {
+                    changed = true;
+                    handler.unseal_pocket_containing( item_location( target, contained ) );
+                }
+                if( consumed ) {
+                    it.remove_item( *contained );
+                }
             }
-            if( consumed ) {
-                it.remove_item( *contained );
+
+            if( changed ) {
+                it.on_contents_changed();
+                who.invalidate_weight_carried_cache();
+                handler.handle_by( who );
             }
         }
 
-        if( changed ) {
-            it.on_contents_changed();
-            who.invalidate_weight_carried_cache();
-            handler.handle_by( who );
-        }
         return;
     }
 
@@ -3401,8 +3410,16 @@ static std::list<item> obtain_activity_items(
             who.set_check_encumbrance( true );
         }
 
-        // Take off the item or remove it from the player's inventory
-        if( who.is_worn( *loc ) ) {
+        // Take off the item or remove it from where it's been
+        if( loc.where_recursive() == item_location::type::map ||
+            loc.where_recursive() == item_location::type::vehicle ) {
+            item copy( *loc );
+            if( loc->count_by_charges() && loc->count() > it->count() ) {
+                copy.charges -= it->count();
+            }
+            loc.remove_item();
+            res.push_back( copy );
+        } else if( who.is_worn( *loc ) ) {
             who.takeoff( loc, &res );
         } else if( loc->count_by_charges() ) {
             res.push_back( who.reduce_charges( &*loc, it->count() ) );
@@ -3713,8 +3730,10 @@ bool disable_activity_actor::can_disable_or_reprogram( const monster &monster )
 
 int disable_activity_actor::get_disable_turns()
 {
-    return 2000 / ( get_avatar().get_skill_level( skill_electronics ) + get_avatar().get_skill_level(
-                        skill_mechanics ) );
+    const int elec_skill = get_avatar().get_skill_level( skill_electronics );
+    const int mech_skill = get_avatar().get_skill_level( skill_mechanics );
+    const int time_scale = std::max( elec_skill + mech_skill, 1 );
+    return 2000 / time_scale;
 }
 
 void disable_activity_actor::serialize( JsonOut &jsout ) const
@@ -4003,7 +4022,7 @@ void reload_activity_actor::finish( player_activity &act, Character &who )
     }
 
     // Attempt to put item in another pocket before prompting
-    if( who.try_add( reloadable, nullptr, nullptr, false ) != nullptr ) {
+    if( who.try_add( reloadable, nullptr, nullptr, false ) != item_location::nowhere ) {
         // try_add copied the old item, so remove it now.
         loc.remove_item();
         return;
@@ -4016,7 +4035,7 @@ void reload_activity_actor::finish( player_activity &act, Character &who )
                                        reloadable_name );
     if( who.has_wield_conflicts( reloadable ) ) {
         reload_query.addentry( 1, wield_check, 'w',
-                               _( "Dispose of %s and wield %s" ), who.get_wielded_item().display_name(),
+                               _( "Dispose of %s and wield %s" ), who.get_wielded_item()->display_name(),
                                reloadable_name );
     } else {
         reload_query.addentry( 1, wield_check, 'w', _( "Wield %s" ), reloadable_name );
@@ -4102,7 +4121,7 @@ void milk_activity_actor::finish( player_activity &act, Character &who )
         return;
     }
     item milk( milked_item->first, calendar::turn, milked_item->second );
-    milk.set_item_temperature( 311.75 );
+    milk.set_item_temperature( units::from_celcius( 38.6 ) );
     if( liquid_handler::handle_liquid( milk, nullptr, 1, nullptr, nullptr, -1, source_mon ) ) {
         milked_item->second = 0;
         if( milk.charges > 0 ) {
@@ -4748,9 +4767,9 @@ time_duration prying_activity_actor::prying_time( const activity_data_common &da
 
     int difficulty = pdata.difficulty;
     difficulty -= tool->get_quality( qual_PRY ) - pdata.prying_level;
-    return time_duration::from_moves(
+    return time_duration::from_seconds(
                /** @ARM_STR speeds up crowbar prying attempts */
-               std::max( 20, 5 * ( 4 * difficulty - who.get_arm_str() ) ) );
+               std::max( 5, 2 * ( 4 * difficulty - who.get_arm_str() ) ) );
 }
 
 void prying_activity_actor::start( player_activity &act, Character &who )
@@ -4949,7 +4968,7 @@ void prying_activity_actor::handle_prying( Character &who )
                        "alarm" );
         if( !get_timed_events().queued( timed_event_type::WANTED ) ) {
             get_timed_events().add( timed_event_type::WANTED, calendar::turn + 30_minutes, 0,
-                                    who.global_sm_location() );
+                                    who.get_location() );
         }
     }
 
@@ -5650,10 +5669,10 @@ void firstaid_activity_actor::finish( player_activity &act, Character &who )
     act.values.clear();
 
     // Return to first eat or consume meds menu activity in the backlog.
-    for( auto iter = who.backlog.begin(); iter != who.backlog.end(); ++iter ) {
-        if( iter->id() == ACT_EAT_MENU ||
-            iter->id() == ACT_CONSUME_MEDS_MENU ) {
-            iter->auto_resume = true;
+    for( player_activity &backlog_act : who.backlog ) {
+        if( backlog_act.id() == ACT_EAT_MENU ||
+            backlog_act.id() == ACT_CONSUME_MEDS_MENU ) {
+            backlog_act.auto_resume = true;
             break;
         }
     }
@@ -5922,9 +5941,11 @@ void longsalvage_activity_actor::finish( player_activity &act, Character &who )
     }
 
     for( item &it : items ) {
-        if( actor->valid_to_cut_up( it ) ) {
+        // Check first and only if possible attempt it with player char
+        // This suppresses warnings unless it is an item the player wears
+        if( actor->valid_to_cut_up( nullptr, it ) ) {
             item_location item_loc( map_cursor( who.pos() ), &it );
-            actor->cut_up( who, *salvage_tool, item_loc );
+            actor->try_to_cut_up( who, *salvage_tool, item_loc );
             return;
         }
     }

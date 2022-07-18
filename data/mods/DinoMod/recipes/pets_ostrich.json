@@ -99,6 +99,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "skills_required": [ "tailor", 6 ],
     "time": "10 h 30 m",
+    "autolearn": true,
     "reversible": true,
     "using": [ [ "sewing_standard", 190 ], [ "surface_heat", 60 ], [ "clasps", 4 ] ],
     "components": [

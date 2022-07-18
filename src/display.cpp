@@ -13,6 +13,7 @@
 #include "mtype.h"
 #include "npc.h"
 #include "timed_event.h"
+#include "units_utility.h"
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "weather.h"
@@ -38,22 +39,33 @@ static const itype_id fuel_type_muscle( "muscle" );
 // Cache for the overmap widget string
 static disp_overmap_cache disp_om_cache;
 // Cache for the bodygraph widget string
-static disp_bodygraph_cache disp_bg_cache;
+static disp_bodygraph_cache disp_bg_cache[] = {
+    disp_bodygraph_cache( bodygraph_var::hp ),
+    disp_bodygraph_cache( bodygraph_var::temp ),
+    disp_bodygraph_cache( bodygraph_var::encumb ),
+    disp_bodygraph_cache( bodygraph_var::status )
+};
 
 disp_overmap_cache::disp_overmap_cache()
 {
     _center = overmap::invalid_tripoint;
     _mission = overmap::invalid_tripoint;
+    _width = 0;
 }
 
-disp_bodygraph_cache::disp_bodygraph_cache()
+disp_bodygraph_cache::disp_bodygraph_cache( bodygraph_var var )
 {
+    _var = var;
     _bp_cur_max.clear();
+    _graph_id = "";
 }
 
-bool disp_bodygraph_cache::is_valid_for( const Character &u ) const
+bool disp_bodygraph_cache::is_valid_for( const Character &u, const std::string graph_id ) const
 {
-    std::vector<bodypart_id> cur_parts = u.get_all_body_parts( get_body_part_flags::only_main );
+    if( graph_id != _graph_id ) {
+        return false;
+    }
+    std::vector<bodypart_id> cur_parts = u.get_all_body_parts( get_body_part_flags::none );
     for( const auto &bp : _bp_cur_max ) {
         if( std::find( cur_parts.begin(), cur_parts.end(), bp.first ) == cur_parts.end() ) {
             // cached bodypart no longer on character
@@ -61,13 +73,12 @@ bool disp_bodygraph_cache::is_valid_for( const Character &u ) const
         }
     }
     for( const bodypart_id &bp : cur_parts ) {
-        auto iter = _bp_cur_max.find( bp );
-        if( iter == _bp_cur_max.end() ) {
+        auto prev_color = _bp_cur_max.find( bp );
+        if( prev_color == _bp_cur_max.end() ) {
             // uncached bodypart
             return false;
         }
-        if( iter->second.first != u.get_part_hp_cur( bp ) ||
-            iter->second.second != u.get_part_hp_max( bp ) ) {
+        if( prev_color->second != display::get_bodygraph_bp_color( u, bp, _var ).to_int() ) {
             // values differ
             return false;
         }
@@ -75,11 +86,13 @@ bool disp_bodygraph_cache::is_valid_for( const Character &u ) const
     return true;
 }
 
-void disp_bodygraph_cache::rebuild( const Character &u, const std::string &bg_wgt_str )
+void disp_bodygraph_cache::rebuild( const Character &u, const std::string graph_id,
+                                    const std::string &bg_wgt_str )
 {
     _bp_cur_max.clear();
-    for( const bodypart_id &bp : u.get_all_body_parts( get_body_part_flags::only_main ) ) {
-        _bp_cur_max.emplace( bp, std::pair<int, int> { u.get_part_hp_cur( bp ), u.get_part_hp_max( bp ) } );
+    _graph_id = graph_id;
+    for( const bodypart_id &bp : u.get_all_body_parts( get_body_part_flags::none ) ) {
+        _bp_cur_max.emplace( bp, display::get_bodygraph_bp_color( u, bp, _var ).to_int() );
     }
     _graph_wgt_str = bg_wgt_str;
 }
@@ -262,6 +275,87 @@ std::string display::time_string( const Character &u )
         // NOLINTNEXTLINE(cata-text-style): the question mark does not end a sentence
         return _( "???" );
     }
+}
+
+std::string display::sundial_time_text_color( const Character &u, int width )
+{
+    // Return exact time if character has a watch, or approximate time if can see the sky
+    if( u.has_watch() ) {
+        return to_string_time_of_day( calendar::turn );
+    } else if( is_creature_outside( u ) ) {
+        return display::sundial_text_color( u, width );
+    } else {
+        // NOLINTNEXTLINE(cata-text-style): the question mark does not end a sentence
+        return _( "???" );
+    }
+}
+
+std::string display::sundial_text_color( const Character &u, int width )
+{
+    const std::vector<std::pair<std::string, nc_color> > d_glyphs {
+        { "*", c_yellow },
+        { "+", c_yellow },
+        { ".", c_brown },
+        { "_", c_red }
+    };
+    const std::vector<std::pair<std::string, nc_color> > n_glyphs {
+        { "C", c_white },
+        { "c", c_light_blue },
+        { ",", c_blue },
+        { "_", c_cyan }
+    };
+
+    auto get_glyph = []( int x, int w, int num_glyphs ) {
+        int hw = ( w / 2 ) > 0 ? w / 2 : 1;
+        return clamp<int>( ( std::abs( x - hw ) * num_glyphs ) / hw, 0, num_glyphs - 1 );
+    };
+
+    std::pair<units::angle, units::angle> sun_pos = sun_azimuth_altitude( calendar::turn );
+    const int h = hour_of_day<int>( calendar::turn );
+    const int h_dawn = hour_of_day<int>( sunset( calendar::turn ) ) - 12;
+    const float light = sun_light_at( calendar::turn );
+    float azm = to_degrees( normalize( sun_pos.first + 90_degrees ) );
+    if( azm > 270.f ) {
+        azm -= 360.f;
+    }
+
+    width -= 2;
+    const float scale = 180.f / width;
+    const int azm_pos = static_cast<int>( std::round( azm / scale ) ) - 1;
+    const int night_h = h >= h_dawn + 12 ? h - ( h_dawn + 12 ) : h + ( 12 - h_dawn );
+    std::string ret = "[";
+    if( g->is_sheltered( u.pos() ) ) {
+        ret += ( width > 0 ? std::string( width, '?' ) : "" );
+    } else {
+        for( int i = 0; i < width; i++ ) {
+            std::string ch = " ";
+            nc_color clr = c_white;
+            int i_dist = std::abs( i - azm_pos );
+            float f_dist = ( i_dist * 2 ) / static_cast<float>( width );
+            float l_dist = ( f_dist * f_dist * 80.f ) + 30.f;
+            if( h >= h_dawn && h < h_dawn + 12 ) {
+                // day
+                if( i_dist == 0 ) {
+                    int glyph = get_glyph( i, width, d_glyphs.size() );
+                    ch = d_glyphs[glyph].first;
+                    clr = d_glyphs[glyph].second;
+                }
+            } else {
+                // night
+                int n_dist = std::abs( ( night_h * width ) / 12 - i );
+                if( n_dist == 0 ) {
+                    int glyph = get_glyph( i, width, n_glyphs.size() );
+                    ch = n_glyphs[glyph].first;
+                    clr = n_glyphs[glyph].second;
+                }
+            }
+            if( light > l_dist ) {
+                clr = hilite( clr );
+            }
+            ret += colorize( ch, clr );
+        }
+    }
+    return ret + "]";
 }
 
 std::pair<std::string, nc_color> display::morale_face_color( const avatar &u )
@@ -593,8 +687,7 @@ std::pair<std::string, nc_color> display::activity_text_color( const Character &
 std::pair<std::string, nc_color> display::thirst_text_color( const Character &u )
 {
     // some delay from water in stomach is desired, but there needs to be some visceral response
-    int thirst = u.get_thirst() - std::max( units::to_milliliter<int>( u.stomach.get_water() ) / 10,
-                                            0 );
+    int thirst = u.get_instant_thirst();
     std::string hydration_string;
     nc_color hydration_color = c_white;
     if( thirst > 520 ) {
@@ -645,7 +738,7 @@ std::pair<std::string, nc_color> display::hunger_text_color( const Character &u 
             std::forward_as_tuple( effect_hunger_famished, translate_marker( "Famished" ), c_light_red )
         }
     };
-    for( auto &hunger_state : hunger_states ) {
+    for( const auto &hunger_state : hunger_states ) {
         if( u.has_effect( std::get<0>( hunger_state ) ) ) {
             return std::make_pair( _( std::get<1>( hunger_state ) ), std::get<2>( hunger_state ) );
         }
@@ -753,13 +846,13 @@ std::pair<std::string, nc_color> display::fatigue_text_color( const Character &u
     int fatigue = u.get_fatigue();
     std::string fatigue_string;
     nc_color fatigue_color = c_white;
-    if( fatigue > fatigue_levels::EXHAUSTED ) {
+    if( fatigue >= fatigue_levels::EXHAUSTED ) {
         fatigue_color = c_red;
         fatigue_string = translate_marker( "Exhausted" );
-    } else if( fatigue > fatigue_levels::DEAD_TIRED ) {
+    } else if( fatigue >= fatigue_levels::DEAD_TIRED ) {
         fatigue_color = c_light_red;
         fatigue_string = translate_marker( "Dead Tired" );
-    } else if( fatigue > fatigue_levels::TIRED ) {
+    } else if( fatigue >= fatigue_levels::TIRED ) {
         fatigue_color = c_yellow;
         fatigue_string = translate_marker( "Tired" );
     }
@@ -985,6 +1078,28 @@ std::pair<std::string, nc_color> display::move_count_and_mode_text_color( const 
     return std::make_pair( count_and_mode, mode_pair.second );
 }
 
+// Weight carried, relative to capacity, in %, like "90%".
+std::pair<std::string, nc_color> display::carry_weight_text_color( const avatar &u )
+{
+    int carry_wt = ( 100 * u.weight_carried() ) / u.weight_capacity();
+    std::string weight_text = string_format( "%d%%", carry_wt );
+
+    nc_color weight_color = c_green;
+    if( carry_wt > 100 ) {
+        weight_color = c_white_red;
+    } else if( carry_wt > 75 ) {
+        weight_color = c_light_red;
+    } else if( carry_wt > 50 ) {
+        weight_color = c_yellow;
+    } else if( carry_wt > 25 ) {
+        weight_color = c_light_green;
+    } else {
+        weight_color = c_green;
+    }
+
+    return std::make_pair( weight_text, weight_color );
+}
+
 std::pair<std::string, nc_color> display::overmap_note_symbol_color( const std::string &note_text )
 {
     std::string ter_sym = "N";
@@ -1153,7 +1268,7 @@ std::string display::colorized_overmap_text( const avatar &u, const int width, c
     const tripoint_abs_omt &center_xyz = u.global_omt_location();
     const tripoint_abs_omt &mission_xyz = u.get_active_mission_target();
     // Retrieve cached string instead of constantly rebuilding it
-    if( disp_om_cache.is_valid_for( center_xyz, mission_xyz ) ) {
+    if( disp_om_cache.is_valid_for( center_xyz, mission_xyz, width ) ) {
         return disp_om_cache.get_val();
     }
 
@@ -1192,7 +1307,7 @@ std::string display::colorized_overmap_text( const avatar &u, const int width, c
     }
 
     // Rebuild the cache so we can reuse it if nothing changes
-    disp_om_cache.rebuild( center_xyz, mission_xyz, overmap_text );
+    disp_om_cache.rebuild( center_xyz, mission_xyz, width, overmap_text );
 
     return overmap_text;
 }
@@ -1364,32 +1479,61 @@ std::string display::colorized_compass_legend_text( int width, int max_height, i
 }
 
 static std::pair<std::string, nc_color> get_bodygraph_bp_sym_color( const Character &u,
-        const bodygraph_part &bgp )
+        const bodygraph_part &bgp, const bodygraph_var var )
 {
     const bodypart_id &bid = bgp.sub_bodyparts.empty() ?
                              bgp.bodyparts.front() : bgp.sub_bodyparts.front()->parent.id();
+    return { bgp.sym, display::get_bodygraph_bp_color( u, bid, var ) };
+}
+
+nc_color display::get_bodygraph_bp_color( const Character &u, const bodypart_id &bid,
+        const bodygraph_var var )
+{
     if( !u.has_part( bid ) ) {
-        return { " ", c_black }; // character is missing this part
+        return c_black; // character is missing this part
     }
-    const int cur_hp = u.get_part_hp_cur( bid );
-    const int max_hp = u.get_part_hp_max( bid );
-    const float cur_hp_pcnt = cur_hp / static_cast<float>( max_hp );
-    if( cur_hp_pcnt < 0.25f ) {
-        return { bgp.sym, c_red };
-    } else if( cur_hp_pcnt < 0.5f ) {
-        return { bgp.sym, c_light_red };
-    } else if( cur_hp_pcnt < 0.75f ) {
-        return { bgp.sym, c_yellow };
+
+    switch( var ) {
+        case bodygraph_var::hp: {
+            const int cur_hp = u.get_part_hp_cur( bid );
+            const int max_hp = u.get_part_hp_max( bid );
+            const float cur_hp_pcnt = cur_hp / static_cast<float>( max_hp );
+            if( cur_hp_pcnt < 0.125f ) {
+                return c_red;
+            } else if( cur_hp_pcnt < 0.375f ) {
+                return c_light_red;
+            } else if( cur_hp_pcnt < 0.625f ) {
+                return c_yellow;
+            } else if( cur_hp_pcnt < 0.875f ) {
+                return c_light_green;
+            }
+            return c_green;
+        }
+        case bodygraph_var::temp: {
+            return display::bodytemp_color( u, bid );
+        }
+        case bodygraph_var::encumb: {
+            int level = u.get_part_encumbrance_data( bid ).encumbrance;
+            return display::encumb_color( level );
+        }
+        case bodygraph_var::status: {
+            return display::limb_color( u, bid, true, true, true );
+        }
+        // Fall-through - invalid
+        case bodygraph_var::last:
+            break;
     }
-    return { bgp.sym, c_light_green };
+    cata_fatal( "Invalid widget_var" );
 }
 
 std::string display::colorized_bodygraph_text( const Character &u, const std::string graph_id,
-        int width, int max_height, int &height )
+        const bodygraph_var var, int width, int max_height, int &height )
 {
-    if( disp_bg_cache.is_valid_for( u ) ) {
+    int var_idx = int( var );
+
+    if( disp_bg_cache[var_idx].is_valid_for( u, graph_id ) ) {
         // Nothing changed, just retrieve from cache
-        return disp_bg_cache.get_val();
+        return disp_bg_cache[var_idx].get_val();
     }
 
     bodygraph_id graph( graph_id );
@@ -1398,11 +1542,11 @@ std::string display::colorized_bodygraph_text( const Character &u, const std::st
         return "";
     }
 
-    auto process_sym = [&u]( const bodygraph_part * bgp, const std::string & sym ) {
+    auto process_sym = [&u, var]( const bodygraph_part * bgp, const std::string & sym ) {
         if( !bgp ) {
             return sym;
         }
-        std::pair<std::string, nc_color> sym_col = get_bodygraph_bp_sym_color( u, *bgp );
+        std::pair<std::string, nc_color> sym_col = get_bodygraph_bp_sym_color( u, *bgp, var );
         return colorize( sym_col.first, sym_col.second );
     };
 
@@ -1418,7 +1562,7 @@ std::string display::colorized_bodygraph_text( const Character &u, const std::st
     }
 
     // Rebuild bodygraph text cache
-    disp_bg_cache.rebuild( u, ret );
+    disp_bg_cache[var_idx].rebuild( u, graph_id, ret );
 
     return ret;
 }

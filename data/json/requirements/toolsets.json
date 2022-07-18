@@ -82,6 +82,13 @@
     "components": [ [ [ "filament_durable", 1, "LIST" ] ] ]
   },
   {
+    "id": "sewing_simple",
+    "type": "requirement",
+    "//": "Crafting or repair of fabric simple items where exact shape is not important, such as cloaks and blankets, includes roughly 10 inches of thread.",
+    "qualities": [ { "id": "SEW", "level": 1 }, { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "filament", 1, "LIST" ] ] ]
+  },
+  {
     "id": "welding_standard",
     "type": "requirement",
     "//": "Crafting of steel/iron items or installation of vehicle parts",
@@ -157,7 +164,7 @@
     "id": "mining_standard",
     "type": "requirement",
     "//": "mining",
-    "tools": [ [ [ "pickaxe", -1 ], [ "jackhammer", 300 ], [ "elec_jackhammer", 3500 ] ] ]
+    "tools": [ [ [ "pickaxe", -1 ], [ "bronze_pickaxe", -1 ], [ "jackhammer", 300 ], [ "elec_jackhammer", 3500 ] ] ]
   },
   {
     "id": "bronzesmithing_tools",
@@ -201,7 +208,13 @@
       { "id": "DIG", "level": 3 }
     ],
     "tools": [
-      [ [ "pickaxe", -1 ], [ "jackhammer", 140 ], [ "elec_jackhammer", 7000 ], [ "hammer_sledge", -1 ] ],
+      [
+        [ "pickaxe", -1 ],
+        [ "bronze_pickaxe", -1 ],
+        [ "jackhammer", 140 ],
+        [ "elec_jackhammer", 7000 ],
+        [ "hammer_sledge", -1 ]
+      ],
       [ [ "masonrysaw_off", 100 ] ],
       [ [ "cordless_drill", 200 ] ],
       [ [ "angle_grinder", 200 ] ]
@@ -230,7 +243,10 @@
     "type": "requirement",
     "//": "Tools for removing road / sidewalk",
     "qualities": [ { "id": "PRY", "level": 3 } ],
-    "tools": [ [ [ "pickaxe", -1 ], [ "jackhammer", 140 ], [ "elec_jackhammer", 7000 ] ], [ [ "masonrysaw_off", 100 ] ] ]
+    "tools": [
+      [ [ "pickaxe", -1 ], [ "bronze_pickaxe", -1 ], [ "jackhammer", 140 ], [ "elec_jackhammer", 7000 ] ],
+      [ [ "masonrysaw_off", 100 ] ]
+    ]
   },
   {
     "id": "metal_removal_standard",

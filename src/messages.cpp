@@ -772,23 +772,23 @@ void Messages::dialog::run()
 
 std::vector<std::string> Messages::dialog::filter_help_text( int width )
 {
-    const auto &help_fmt = _(
-                               "<color_light_gray>The default is to search the entire message log.  "
-                               "Use message-types as prefixes followed by (:) to filter more specific.\n"
-                               "Valid message-type values are:</color> %s\n"
-                               "\n"
-                               "<color_white>Examples:</color>\n"
-                               "  <color_light_green>good</color><color_white>:mutation\n"
-                               "  :you pick up: 1</color>\n"
-                               "  <color_light_red>bad</color><color_white>:</color>\n"
-                               "\n"
-                           );
+    const char *const &help_fmt = _(
+                                      "<color_light_gray>The default is to search the entire message log.  "
+                                      "Use message-types as prefixes followed by (:) to filter more specific.\n"
+                                      "Valid message-type values are:</color> %s\n"
+                                      "\n"
+                                      "<color_white>Examples:</color>\n"
+                                      "  <color_light_green>good</color><color_white>:mutation\n"
+                                      "  :you pick up: 1</color>\n"
+                                      "  <color_light_red>bad</color><color_white>:</color>\n"
+                                      "\n"
+                                  );
     std::string type_text;
     const auto &type_list = msg_type_and_names();
     for( auto it = type_list.begin(); it != type_list.end(); ++it ) {
         // Skip m_debug outside debug mode (but allow searching for it)
         if( debug_mode || it->first != m_debug ) {
-            const auto &col_name = get_all_colors().get_name( msgtype_to_color( it->first ) );
+            const std::string &col_name = get_all_colors().get_name( msgtype_to_color( it->first ) );
             auto next_it = std::next( it );
             // Skip m_debug outside debug mode
             if( !debug_mode && next_it != type_list.end() && next_it->first == m_debug ) {

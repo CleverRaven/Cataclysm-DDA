@@ -100,8 +100,8 @@ void trait_group::debug_spawn()
         std::map<std::string, int> traitnames;
         for( size_t a = 0; a < 100; a++ ) {
             const auto traits = traits_from( groups[index] );
-            for( const string_id<mutation_branch> &tr : traits ) {
-                traitnames[mutation_branch::get_name( tr )]++;
+            for( const trait_and_var &tr : traits ) {
+                traitnames[tr.name()]++;
             }
         }
         // Invert the map to get sorting!
@@ -131,14 +131,15 @@ Trait_group::Trait_group( int probability )
 {
 }
 
-Single_trait_creator::Single_trait_creator( const trait_id &id, int probability )
-    : Trait_creation_data( probability ), id( id )
+Single_trait_creator::Single_trait_creator( const trait_id &id, const std::string &var,
+        int probability )
+    : Trait_creation_data( probability ), id( id ), variant( var )
 {
 }
 
 Trait_list Single_trait_creator::create( RecursionList & /* rec */ ) const
 {
-    return Trait_list { id };
+    return Trait_list { { id, variant } };
 }
 
 void Single_trait_creator::check_consistency() const
@@ -205,9 +206,9 @@ bool Trait_group_creator::has_trait( const trait_id &tid ) const
     return mutation_branch::get_group( id )->has_trait( tid );
 }
 
-void Trait_group::add_trait_entry( const trait_id &tid, int probability )
+void Trait_group::add_trait_entry( const trait_id &tid, const std::string &var, int probability )
 {
-    add_entry( std::make_unique<Single_trait_creator>( tid, probability ) );
+    add_entry( std::make_unique<Single_trait_creator>( tid, var, probability ) );
 }
 
 void Trait_group::add_group_entry( const Trait_group_tag &gid, int probability )

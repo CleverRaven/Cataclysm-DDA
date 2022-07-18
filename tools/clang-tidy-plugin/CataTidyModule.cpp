@@ -3,12 +3,14 @@
 
 #include "AlmostNeverAutoCheck.h"
 #include "AssertCheck.h"
+#include "AvoidAlternativeTokensCheck.h"
 #include "ClangTidyModule.h"
 #include "ClangTidyModuleRegistry.h"
 #include "CombineLocalsIntoPointCheck.h"
 #include "DeterminismCheck.h"
 #include "HeaderGuardCheck.h"
 #include "JsonTranslationInputCheck.h"
+#include "LargeInlineFunctionCheck.h"
 #include "LargeStackObjectCheck.h"
 #include "NoLongCheck.h"
 #include "NoStaticTranslationCheck.h"
@@ -63,11 +65,14 @@ class CataModule : public ClangTidyModule
             }
             CheckFactories.registerCheck<AlmostNeverAutoCheck>( "cata-almost-never-auto" );
             CheckFactories.registerCheck<AssertCheck>( "cata-assert" );
+            CheckFactories.registerCheck<AvoidAlternativeTokensCheck>(
+                "cata-avoid-alternative-tokens" );
             CheckFactories.registerCheck<CombineLocalsIntoPointCheck>(
                 "cata-combine-locals-into-point" );
             CheckFactories.registerCheck<DeterminismCheck>( "cata-determinism" );
             CheckFactories.registerCheck<CataHeaderGuardCheck>( "cata-header-guard" );
             CheckFactories.registerCheck<JsonTranslationInputCheck>( "cata-json-translation-input" );
+            CheckFactories.registerCheck<LargeInlineFunctionCheck>( "cata-large-inline-function" );
             CheckFactories.registerCheck<LargeStackObjectCheck>( "cata-large-stack-object" );
             CheckFactories.registerCheck<NoLongCheck>( "cata-no-long" );
             CheckFactories.registerCheck<NoStaticTranslationCheck>( "cata-no-static-translation" );

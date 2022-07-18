@@ -59,10 +59,10 @@ void snippet_library::add_snippet_from_json( const std::string &category, const 
         snippet_id id;
         jo.read( "id", id );
         if( id.is_null() ) {
-            jo.throw_error( "Null snippet id specified", "id" );
+            jo.throw_error_at( "id", "Null snippet id specified" );
         }
         if( snippets_by_id.find( id ) != snippets_by_id.end() ) {
-            jo.throw_error( "Duplicate snippet id", "id" );
+            jo.throw_error_at( "id", "Duplicate snippet id" );
         }
         snippets_by_category[category].ids.emplace_back( id );
         snippets_by_id[id] = text;

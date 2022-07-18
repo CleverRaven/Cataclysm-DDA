@@ -117,7 +117,7 @@
     "id": "leather_belt",
     "type": "ARMOR",
     "name": { "str": "leather belt" },
-    "description": "A leather belt.  Useful for making your pair of pants fit.",
+    "description": "A leather belt.  Designed to look good and hold up a pair of pants, but you should be able to attach a small tool or weapon to one of the belt loops.",
     "weight": "102 g",
     "volume": "250 ml",
     "price": 9000,
@@ -159,7 +159,7 @@
     "id": "police_belt",
     "type": "ARMOR",
     "name": { "str": "police duty belt" },
-    "description": "Black leather belt used by police officers.  It has several pouches and a holder for a baton.",
+    "description": "A black leather belt used by police officers.  It has several pouches and a holder for a baton.",
     "weight": "250 g",
     "volume": "2 L",
     "price": 10000,
@@ -171,10 +171,21 @@
     "repairs_like": "tool_belt",
     "color": "brown",
     "pocket_data": [
-      { "max_contains_volume": "500 ml", "max_item_volume": "125 ml", "max_contains_weight": "1500 g", "moves": 100 },
-      { "max_contains_volume": "500 ml", "max_item_volume": "125 ml", "max_contains_weight": "1500 g", "moves": 100 },
-      { "max_contains_volume": "500 ml", "max_item_volume": "125 ml", "max_contains_weight": "1500 g", "moves": 100 },
-      { "max_contains_volume": "500 ml", "max_item_volume": "125 ml", "max_contains_weight": "1500 g", "moves": 100 },
+      {
+        "description": "flashlight storage",
+        "max_contains_volume": "500 ml",
+        "max_item_length": "40 cm",
+        "max_contains_weight": "1500 g",
+        "moves": 100
+      },
+      {
+        "description": "radio storage",
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "1500 g",
+        "moves": 100
+      },
+      { "max_contains_volume": "500 ml", "max_contains_weight": "1500 g", "moves": 100 },
+      { "max_contains_volume": "500 ml", "max_contains_weight": "1500 g", "moves": 100 },
       {
         "holster": true,
         "max_contains_volume": "2250 ml",
@@ -188,7 +199,7 @@
     "flags": [ "BELTED", "WATER_FRIENDLY" ],
     "armor": [
       {
-        "encumbrance": [ 2, 5 ],
+        "volume_encumber_modifier": 0.4,
         "coverage": 50,
         "covers": [ "torso" ],
         "specifically_covers": [ "torso_waist" ],

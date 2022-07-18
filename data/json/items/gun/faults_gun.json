@@ -28,7 +28,7 @@
               [ "ether", 125 ],
               [ "chem_DMSO", 125 ],
               [ "vinegar", 8 ],
-              [ "ammonia", 1 ],
+              [ "ammonia_hydroxide", 1 ],
               [ "bleach", 1 ],
               [ "soapy_water", 1 ]
             ],
@@ -59,7 +59,7 @@
               [ "ether", 125 ],
               [ "chem_DMSO", 125 ],
               [ "vinegar", 8 ],
-              [ "ammonia", 1 ],
+              [ "ammonia_hydroxide", 2 ],
               [ "bleach", 1 ],
               [ "soapy_water", 1 ]
             ],
@@ -141,7 +141,7 @@
               [ "ether", 125 ],
               [ "chem_DMSO", 125 ],
               [ "vinegar", 8 ],
-              [ "ammonia", 1 ],
+              [ "ammonia_hydroxide", 1 ],
               [ "bleach", 1 ],
               [ "soapy_water", 1 ]
             ],
@@ -172,7 +172,7 @@
               [ "ether", 125 ],
               [ "chem_DMSO", 125 ],
               [ "vinegar", 8 ],
-              [ "ammonia", 1 ],
+              [ "ammonia_hydroxide", 1 ],
               [ "bleach", 1 ],
               [ "soapy_water", 1 ]
             ],

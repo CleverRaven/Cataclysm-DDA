@@ -16,6 +16,7 @@ constexpr char const *VAR_TRADE_IGNORE = "trade_ignore";
 class Character;
 class item;
 class npc;
+struct faction_price_rule;
 class item_pricing
 {
     public:

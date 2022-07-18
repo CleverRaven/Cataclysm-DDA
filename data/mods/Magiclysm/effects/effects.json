@@ -350,6 +350,7 @@
     "apply_message": "This smells like home.",
     "remove_message": "Time to go.",
     "rating": "bad",
+    "max_duration": "1 d",
     "flags": [ "DIMENSIONAL_ANCHOR" ]
   },
   {

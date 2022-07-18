@@ -122,6 +122,10 @@
         ],
         "prob": 2
       },
+      {
+        "collection": [ { "item": "afs_jetpack", "prob": 50 }, { "item": "ammonia_liquid", "prob": 100, "count": [ 1, 2 ] } ],
+        "prob": 1
+      },
       { "item": "afs_imager", "prob": 10 },
       { "item": "UPS_off", "prob": 2 },
       { "item": "emf_detector", "prob": 5 },

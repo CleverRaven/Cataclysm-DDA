@@ -305,6 +305,19 @@
   },
   {
     "type": "MONSTER",
+    "id": "mon_zanuqsaurus",
+    "name": { "str": "nanuqsaurus zombie" },
+    "copy-from": "mon_zaspletosaurus",
+    "looks_like": "mon_zyrannosaurus",
+    "color": "white",
+    "hp": 270,
+    "description": "Huge jaws with long sharp teeth drooling black liquid over white feathers, lifted by a huge but shuffling dinosaur corpse.",
+    "burn_into": "mon_zanuqsaurus_scorched",
+    "fungalize_into": "mon_zanuqsaurus_fungus",
+    "upgrades": { "half_life": 14, "into_group": "GROUP_zanuqsaurus_UPGRADE" }
+  },
+  {
+    "type": "MONSTER",
     "id": "mon_zaspletosaurus",
     "name": { "str": "daspletosaurus zombie" },
     "copy-from": "mon_zyrannosaurus",
@@ -487,7 +500,7 @@
     "special_attacks": [ [ "scratch", 10 ], [ "GRAB", 10 ], { "type": "bite", "cooldown": 5 }, [ "LONGSWIPE", 30 ] ],
     "description": "The shuffling corpse of a large bipedal dinosaur covered with tattered feathers and black putrid liquid.  Long claws protrude from its hands.",
     "burn_into": "mon_zanzu_scorched",
-    "fungalize_into": "mon_zothronychus_fungus",
+    "fungalize_into": "mon_zanzu_fungus",
     "upgrades": { "half_life": 14, "into_group": "GROUP_zanzu_UPGRADE" }
   },
   {

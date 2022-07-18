@@ -513,10 +513,9 @@ class salvage_actor : public iuse_actor
             material_id( "wool" )
         };
 
-        bool try_to_cut_up( Character &p, item &it ) const;
-        int cut_up( Character &p, item &it, item_location &cut ) const;
+        cata::optional<int> try_to_cut_up( Character &p, item &cutter, item_location &cut ) const;
         int time_to_cut_up( const item &it ) const;
-        bool valid_to_cut_up( const item &it ) const;
+        bool valid_to_cut_up( const Character *p, const item &it ) const;
 
         explicit salvage_actor( const std::string &type = "salvage" ) : iuse_actor( type ) {}
 
@@ -524,6 +523,8 @@ class salvage_actor : public iuse_actor
         void load( const JsonObject &obj ) override;
         cata::optional<int> use( Character &, item &, bool, const tripoint & ) const override;
         std::unique_ptr<iuse_actor> clone() const override;
+    private:
+        void cut_up( Character &p, item_location &cut ) const;
 };
 
 /**
@@ -996,6 +997,18 @@ class saw_barrel_actor : public iuse_actor
 {
     public:
         explicit saw_barrel_actor( const std::string &type = "saw_barrel" ) : iuse_actor( type ) {}
+
+        void load( const JsonObject &jo ) override;
+        cata::optional<int> use( Character &p, item &it, bool t, const tripoint &pnt ) const override;
+        std::unique_ptr<iuse_actor> clone() const override;
+
+        ret_val<bool> can_use_on( const Character &you, const item &it, const item &target ) const;
+};
+
+class saw_stock_actor : public iuse_actor
+{
+    public:
+        explicit saw_stock_actor( const std::string &type = "saw_stock" ) : iuse_actor( type ) {}
 
         void load( const JsonObject &jo ) override;
         cata::optional<int> use( Character &p, item &it, bool t, const tripoint &pnt ) const override;

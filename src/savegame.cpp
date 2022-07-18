@@ -294,7 +294,7 @@ void scent_map::deserialize( const std::string &data, bool is_type )
         int stmp = 0;
         int count = 0;
         for( auto &elem : grscent ) {
-            for( auto &val : elem ) {
+            for( int &val : elem ) {
                 if( count == 0 ) {
                     buffer >> stmp >> count;
                 }
@@ -467,7 +467,7 @@ void overmap::convert_terrain(
             ter_set( pos, oter_id( new_ + "_north" ) );
         }
 
-        for( const auto &conv : nearby ) {
+        for( const convert_nearby &conv : nearby ) {
             const auto x_it = needs_conversion.find( pos + point( conv.offset.x, 0 ) );
             const auto y_it = needs_conversion.find( pos + point( 0, conv.offset.y ) );
             if( x_it != needs_conversion.end() && x_it->second == conv.x_id &&
@@ -567,7 +567,7 @@ void overmap::unserialize( std::istream &fin )
                 t_regional_settings_map_citr rit = region_settings_map.find( new_region_id );
                 if( rit != region_settings_map.end() ) {
                     // TODO: optimize
-                    settings = pimpl<regional_settings>( rit->second );
+                    settings = &rit->second;
                 }
             }
         } else if( name == "mongroups" ) {
@@ -904,12 +904,14 @@ void overmap::unserialize_omap( std::istream &fin )
     }
 }
 
-static void unserialize_array_from_compacted_sequence( JsonIn &jsin, bool ( &array )[OMAPX][OMAPY] )
+template<typename MdArray>
+static void unserialize_array_from_compacted_sequence( JsonIn &jsin, MdArray &array )
 {
     int count = 0;
-    bool value = false;
-    for( int j = 0; j < OMAPY; j++ ) {
-        for( auto &array_col : array ) {
+    using Value = typename MdArray::value_type;
+    Value value;
+    for( size_t j = 0; j < MdArray::size_y; ++j ) {
+        for( size_t i = 0; i < MdArray::size_x; ++i ) {
             if( count == 0 ) {
                 jsin.start_array();
                 jsin.read( value );
@@ -917,7 +919,7 @@ static void unserialize_array_from_compacted_sequence( JsonIn &jsin, bool ( &arr
                 jsin.end_array();
             }
             count--;
-            array_col[j] = value;
+            array[i][j] = value;
         }
     }
 }
@@ -984,14 +986,17 @@ void overmap::unserialize_view( std::istream &fin )
     }
 }
 
-static void serialize_array_to_compacted_sequence( JsonOut &json,
-        const bool ( &array )[OMAPX][OMAPY] )
+template<typename MdArray>
+static void serialize_array_to_compacted_sequence( JsonOut &json, const MdArray &array )
 {
+    static_assert( std::is_same<typename MdArray::value_type, bool>::value,
+                   "This implementation assumes bool, in that the initial value of lastval has "
+                   "to not be a valid value of the content" );
     int count = 0;
     int lastval = -1;
-    for( int j = 0; j < OMAPY; j++ ) {
-        for( const auto &array_col : array ) {
-            const int value = array_col[j];
+    for( size_t j = 0; j < MdArray::size_y; ++j ) {
+        for( size_t i = 0; i < MdArray::size_x; ++i ) {
+            const int value = array[i][j];
             if( value != lastval ) {
                 if( count ) {
                     json.write( count );
@@ -1263,7 +1268,7 @@ void overmap::serialize( std::ostream &fout ) const
 
     json.member( "camps" );
     json.start_array();
-    for( const auto &i : camps ) {
+    for( const basecamp &i : camps ) {
         json.write( i );
     }
     json.end_array();
@@ -1458,7 +1463,7 @@ void game::unserialize_master( std::istream &fin )
 void mission::serialize_all( JsonOut &json )
 {
     json.start_array();
-    for( auto &e : get_all_active() ) {
+    for( mission *&e : get_all_active() ) {
         e->serialize( json );
     }
     json.end_array();
@@ -1489,15 +1494,19 @@ void timed_event_manager::unserialize_all( JsonIn &jsin )
         time_point when;
         int faction_id;
         int strength;
-        tripoint_abs_sm where;
+        tripoint_abs_ms map_square;
+        tripoint_abs_sm map_point;
         std::string string_id;
+        std::string key;
         submap_revert revert;
         jo.read( "faction", faction_id );
-        jo.read( "map_point", where );
+        jo.read( "map_point", map_point );
+        jo.read( "map_square", map_square, false );
         jo.read( "strength", strength );
         jo.read( "string_id", string_id );
         jo.read( "type", type );
         jo.read( "when", when );
+        jo.read( "key", key );
         point pt;
         for( JsonObject jp : jo.get_array( "revert" ) ) {
             revert.set_furn( pt, furn_id( jp.get_string( "furn" ) ) );
@@ -1508,8 +1517,9 @@ void timed_event_manager::unserialize_all( JsonIn &jsin )
                 pt.y++;
             }
         }
-        get_timed_events().add( static_cast<timed_event_type>( type ), when, faction_id, where, strength,
-                                string_id, revert );
+        get_timed_events().add( static_cast<timed_event_type>( type ), when, faction_id, map_square,
+                                strength,
+                                string_id, revert, key );
     }
 }
 
@@ -1564,14 +1574,16 @@ void global_variables::serialize( JsonOut &jsout ) const
 void timed_event_manager::serialize_all( JsonOut &jsout )
 {
     jsout.start_array();
-    for( const auto &elem : get_timed_events().events ) {
+    for( const timed_event &elem : get_timed_events().events ) {
         jsout.start_object();
         jsout.member( "faction", elem.faction_id );
         jsout.member( "map_point", elem.map_point );
+        jsout.member( "map_square", elem.map_square );
         jsout.member( "strength", elem.strength );
         jsout.member( "string_id", elem.string_id );
         jsout.member( "type", elem.type );
         jsout.member( "when", elem.when );
+        jsout.member( "key", elem.key );
         jsout.member( "revert" );
         jsout.start_array();
         for( int y = 0; y < SEEY; y++ ) {

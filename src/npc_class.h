@@ -50,6 +50,7 @@ struct shopkeeper_item_group {
     item_group_id id = item_group_id( "EMPTY_GROUP" );
     int trust = 0;
     bool strict = false;
+    std::string refusal;
     std::function<bool( const dialogue & )> condition;
 
     // Rigid shopkeeper groups will be processed a single time. Default groups are not rigid, and will be processed until the shopkeeper has no more room or remaining value to populate goods with.
@@ -61,6 +62,7 @@ struct shopkeeper_item_group {
 
     bool can_sell( npc const &guy ) const;
     bool can_restock( npc const &guy ) const;
+    std::string get_refusal() const;
 
     void deserialize( const JsonObject &jo );
 };
@@ -85,6 +87,8 @@ class npc_class
         // first -> item group, second -> trust
         std::vector<shopkeeper_item_group> shop_item_groups;
         shopkeeper_cons_rates_id shop_cons_rates_id = shopkeeper_cons_rates_id::NULL_ID();
+        shopkeeper_blacklist_id shop_blacklist_id = shopkeeper_blacklist_id::NULL_ID();
+        time_duration restock_interval = 6_days;
 
     public:
         npc_class_id id;
@@ -118,6 +122,8 @@ class npc_class
 
         const std::vector<shopkeeper_item_group> &get_shopkeeper_items() const;
         const shopkeeper_cons_rates &get_shopkeeper_cons_rates() const;
+        const shopkeeper_blacklist &get_shopkeeper_blacklist() const;
+        const time_duration &get_shop_restock_interval() const;
 
         void load( const JsonObject &jo, const std::string &src );
 

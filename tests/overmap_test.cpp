@@ -58,7 +58,9 @@ static const oter_type_str_id oter_type_s_gas_b11( "s_gas_b11" );
 static const oter_type_str_id oter_type_s_gas_b20( "s_gas_b20" );
 static const oter_type_str_id oter_type_s_gas_b21( "s_gas_b21" );
 static const oter_type_str_id oter_type_s_gas_g0( "s_gas_g0" );
+static const oter_type_str_id oter_type_s_gas_g0_roof( "s_gas_g0_roof" );
 static const oter_type_str_id oter_type_s_gas_g1( "s_gas_g1" );
+static const oter_type_str_id oter_type_s_gas_g1_roof( "s_gas_g1_roof" );
 static const oter_type_str_id oter_type_s_restaurant_deserted_test( "s_restaurant_deserted_test" );
 
 static const overmap_special_id overmap_special_Cabin( "Cabin" );
@@ -95,7 +97,7 @@ TEST_CASE( "default_overmap_generation_always_succeeds", "[overmap][slow]" )
         }
         overmap_special_batch test_specials = overmap_specials::get_default_batch( candidate_addr );
         overmap_buffer.create_custom_overmap( candidate_addr, test_specials );
-        for( const auto &special_placement : test_specials ) {
+        for( const overmap_special_placement &special_placement : test_specials ) {
             const overmap_special *special = special_placement.special_details;
             INFO( "In attempt #" << overmaps_to_construct
                   << " failed to place " << special->id.str() );
@@ -119,7 +121,7 @@ TEST_CASE( "default_overmap_generation_has_non_mandatory_specials_at_origin", "[
     // Get some specific overmap specials so we can assert their presence later.
     // This should probably be replaced with some custom specials created in
     // memory rather than tying this test to these, but it works for now...
-    for( const auto &elem : overmap_specials::get_all() ) {
+    for( const overmap_special &elem : overmap_specials::get_all() ) {
         if( elem.id == overmap_special_Cabin ) {
             optional = elem;
         } else if( elem.id == overmap_special_Lab ) {
@@ -349,7 +351,9 @@ TEST_CASE( "overmap_terrain_coverage", "[overmap][slow]" )
         oter_type_s_gas_b20.id(),
         oter_type_s_gas_b21.id(),
         oter_type_s_gas_g0.id(),
+        oter_type_s_gas_g0_roof.id(),
         oter_type_s_gas_g1.id(),
+        oter_type_s_gas_g1_roof.id(),
         oter_type_s_restaurant_deserted_test.id(), // only in the desert test region
     };
 

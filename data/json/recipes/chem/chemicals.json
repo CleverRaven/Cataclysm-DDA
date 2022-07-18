@@ -34,7 +34,8 @@
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ], [ [ "thermometer", -1 ] ] ],
     "components": [
       [ [ "splinter", 3 ] ],
-      [ [ "lye_powder", 30 ], [ "lye", 1 ] ],
+      [ [ "lye_powder", 30 ], [ "lye", 1 ], [ "chem_potassium_hydroxide", 150 ], [ "lye_potassium", 1 ] ],
+      [ [ "chem_sulphuric_acid", 1 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
       [ [ "chem_glycerol", 20 ] ]
     ]
@@ -53,7 +54,26 @@
     "book_learn": [ [ "adv_chemistry", 4 ], [ "textbook_chemistry", 5 ], [ "recipe_labchem", 4 ], [ "atomic_survival", 4 ] ],
     "qualities": [ { "id": "CHEM", "level": 2 }, { "id": "DISTILL", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 30, "LIST" ] ] ],
-    "components": [ [ [ "chem_acetic_acid", 3 ] ], [ [ "material_limestone", 54 ], [ "material_quicklime", 24 ] ] ]
+    "components": [
+      [ [ "chem_acetic_acid", 3 ] ],
+      [ [ "material_limestone", 54 ], [ "material_quicklime", 24 ], [ "chem_slaked_lime", 240 ] ]
+    ]
+  },
+  {
+    "result": "chem_toluene",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_OTHER",
+    "skill_used": "chemistry",
+    "difficulty": 5,
+    "time": "20 m",
+    "batch_time_factors": [ 99, 1 ],
+    "book_learn": [ [ "adv_chemistry", 4 ] ],
+    "charges": 105,
+    "qualities": [ { "id": "CHEM", "level": 2 } ],
+    "tools": [ [ [ "surface_heat", 5, "LIST" ] ], [ [ "chem_citric_acid", -1 ] ] ],
+    "components": [ [ [ "chem_benzene", 90 ] ], [ [ "chem_methanol", 32 ] ] ]
   },
   {
     "type": "recipe",
@@ -108,6 +128,21 @@
   },
   {
     "type": "recipe",
+    "result": "chem_ferric_chloride",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_OTHER",
+    "skill_used": "chemistry",
+    "difficulty": 5,
+    "time": "1 h",
+    "book_learn": [ [ "adv_chemistry", 4 ] ],
+    "charges": 49,
+    "qualities": [ { "id": "CHEM", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
+    "tools": [ [ [ "electrolysis_kit", 50 ] ] ],
+    "components": [ [ [ "scrap", 1 ] ], [ [ "salt_water", 4 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "chem_calcium_chloride",
     "charges": 51,
     "activity_level": "NO_EXERCISE",
@@ -125,7 +160,7 @@
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
     "result": "chem_washing_soda",
-    "byproducts": [ [ "ammonia", 4 ], [ "chem_calcium_chloride", 51 ] ],
+    "byproducts": [ [ "ammonia_liquid", 4 ], [ "chem_calcium_chloride", 51 ] ],
     "charges": 41,
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_CHEMICALS",
@@ -136,7 +171,7 @@
     "book_learn": [ [ "adv_chemistry", 5 ], [ "textbook_chemistry", 6 ], [ "recipe_labchem", 5 ], [ "atomic_survival", 5 ] ],
     "qualities": [ { "id": "CHEM", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 25, "LIST" ] ] ],
-    "components": [ [ [ "salt_water", 3 ] ], [ [ "material_limestone", 8 ] ], [ [ "ammonia", 4 ] ] ]
+    "components": [ [ [ "salt_water", 3 ] ], [ [ "material_limestone", 8 ] ], [ [ "ammonia_liquid", 4 ] ] ]
   },
   {
     "type": "recipe",
@@ -224,7 +259,7 @@
     "tools": [ [ [ "surface_heat", 30, "LIST" ] ] ],
     "components": [
       [ [ "chem_sodium", 142 ] ],
-      [ [ "ammonia", 1 ] ],
+      [ [ "ammonia_liquid", 1 ] ],
       [ [ "chem_ammonium_nitrate", 238 ] ],
       [ [ "lead", 103 ] ],
       [ [ "chem_nitric_acid", 1 ] ]
@@ -233,7 +268,7 @@
   {
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
-    "result": "ammonia",
+    "result": "ammonia_liquid",
     "charges": 2,
     "byproducts": [ [ "salt_water", 1 ] ],
     "category": "CC_CHEM",

@@ -42,10 +42,11 @@
 #include "memory_fast.h"
 #include "options.h"
 #include "output.h"
+#include "help.h"
 #include "ordered_static_globals.h"
 #include "path_info.h"
 #include "rng.h"
-#include "system_language.h"
+#include "system_locale.h"
 #include "translations.h"
 #include "type_id.h"
 #include "ui_manager.h"
@@ -562,6 +563,18 @@ cli_opts parse_commandline( int argc, const char **argv )
     return result;
 }
 
+bool assure_essential_dirs_exist()
+{
+    using namespace PATH_INFO;
+    for( const std::string &path : std::vector<std::string> { { config_dir(), savedir(), templatedir(), user_font(), user_sound(), user_gfx() } } ) {
+        if( !assure_dir_exist( path ) ) {
+            popup( _( "Unable to make directory \"%s\".  Check permissions." ), path );
+            return false;
+        }
+    }
+    return true;
+}
+
 }  // namespace
 
 #if defined(USE_WINMAIN)
@@ -744,12 +757,19 @@ int main( int argc, const char *argv[] )
 #endif
 
 #if defined(LOCALIZE)
-    if( get_option<std::string>( "USE_LANG" ).empty() && getSystemLanguage().empty() ) {
+    if( get_option<std::string>( "USE_LANG" ).empty() && !SystemLocale::Language().has_value() ) {
         select_language();
         set_language();
     }
 #endif
     replay_buffered_debugmsg_prompts();
+
+    if( !assure_essential_dirs_exist() ) {
+        exit_handler( -999 );
+        return 0;
+    }
+
+    get_help().load();
 
     while( true ) {
         if( !cli.world.empty() ) {

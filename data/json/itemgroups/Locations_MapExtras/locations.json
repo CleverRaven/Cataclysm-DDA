@@ -1074,7 +1074,13 @@
       [ "pointy_stick", 50 ],
       [ "throwing_stick", 50 ],
       [ "copper_knife", 10 ],
+      [ "bronze_knife", 10 ],
+      [ "bronze_shears", 3 ],
       [ "copper_ax", 10 ],
+      [ "bronze_axe", 10 ],
+      [ "bronze_hoe", 5 ],
+      [ "bronze_sickle", 3 ],
+      [ "bronze_pickaxe", 2 ],
       [ "bone_flute", 10 ],
       [ "spear_stone", 50 ],
       [ "hand_axe", 50 ]
@@ -1227,7 +1233,7 @@
       [ "jar_glass_sealed", 80 ],
       { "item": "heroin", "prob": 1, "charges": [ 1, 4 ] },
       { "item": "bleach", "prob": 60, "charges-min": 10 },
-      { "item": "ammonia", "prob": 60, "charges-min": 10 },
+      { "item": "ammonia_liquid", "prob": 60, "charges-min": 10 },
       { "item": "chem_baking_soda", "prob": 60, "charges-min": 10 },
       [ "syringe", 30 ],
       [ "punch_dagger", 12 ],
@@ -2100,7 +2106,7 @@
       { "item": "water_clean", "prob": 90, "charges-min": 1, "container-item": "bottle_plastic", "sealed": false },
       { "item": "salt_water", "prob": 30, "charges-min": 1 },
       { "item": "bleach", "prob": 10, "charges-min": 6 },
-      { "item": "ammonia", "prob": 12, "charges-min": 6 },
+      { "item": "ammonia_liquid", "prob": 12, "charges-min": 6 },
       { "item": "chem_washing_soda", "prob": 10 },
       { "item": "chem_baking_soda", "prob": 10 },
       { "item": "chem_calcium_chloride", "prob": 2 },
@@ -2795,6 +2801,35 @@
       { "item": "exodiiminimag", "count": [ 2, 20 ], "ammo-item": "123ln", "charges": 10, "prob": 80 },
       { "item": "exodiiBRmag", "count": [ 2, 20 ], "ammo-item": "123ln", "charges": 60, "prob": 100 },
       { "item": "grenade", "count": [ 1, 10 ], "prob": 20 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "nursing_home_clothes",
+    "entries": [
+      {
+        "distribution": [
+          { "item": "jersey", "prob": 5 },
+          { "item": "linuxtshirt", "prob": 5 },
+          { "item": "longshirt", "prob": 20 },
+          { "item": "striped_shirt", "prob": 10 },
+          { "item": "sweater", "prob": 20 },
+          { "item": "sweatshirt", "prob": 20 },
+          { "item": "tshirt", "prob": 10 },
+          { "item": "polo_shirt", "prob": 10 }
+        ]
+      },
+      {
+        "distribution": [
+          { "item": "pants_checkered", "prob": 10 },
+          { "item": "pants", "prob": 40 },
+          { "item": "jeans", "prob": 20 },
+          { "item": "flag_pants", "prob": 5 },
+          { "item": "breeches", "prob": 25 }
+        ]
+      },
+      { "item": "slippers", "prob": 50 }
     ]
   }
 ]
