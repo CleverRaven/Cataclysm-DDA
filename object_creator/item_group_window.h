@@ -65,26 +65,20 @@ namespace creator
         bool event( QEvent* event ) override;
     };
 
-    //Holds the most detailed data, a list of items and spawn properties
-    class entriesList : public QFrame
+    //Holds the most detailed data, an item or group and it's property
+    class itemGroupEntry : public QFrame
     {
     public:
-        explicit entriesList( QWidget* parent = nullptr );
+        explicit itemGroupEntry( QWidget* parent, QString entryText, bool group );
         void get_json( JsonOut &jo );
+        QSize sizeHint() const;
+        QSize minimumSizeHint() const;
 
     private:
-        void add_item( QString itemText, bool group );
-        void deleteEntriesLine();
         void delete_self();
-        int depth();
-        item_group_window* top_parent();
-        void change_notify_top_parent();
-        QTableWidget* itemList;
-
-    protected:
-        void dragEnterEvent( QDragEnterEvent* event ) override;
-        void dragMoveEvent( QDragMoveEvent* event ) override;
-        void dropEvent( QDropEvent* event ) override;
+        void change_notify_parent();
+        QLabel* title_label;
+        QSpinBox* prob;
     };
 
     //Holds the properties for either a collection or a distribution
@@ -92,19 +86,29 @@ namespace creator
     class distributionCollection : public QFrame
     {
     public:
-        explicit distributionCollection( QWidget* parent = nullptr );
+        explicit distributionCollection( QWidget* parent = nullptr, 
+                    item_group_window* top_parent = nullptr );
         void get_json( JsonOut &jo );
         void set_bg_color();
+        void set_depth( int d );    
+        QSize sizeHint() const override;
+        QSize minimumSizeHint() const override;
     private:
         void add_distribution();
-        void add_entries_list();
-        void change_notify_top_parent( item_group_window* parent );
+        void add_entry( QString entryText, bool group );
+        void change_notify_top_parent( );
         void delete_self();
         void update_size();
-        item_group_window* top_parent();
-        int depth();
+        item_group_window* top_parent_widget;
+        int depth;
         QPushButton* btnItemList;
         QVBoxLayout* verticalBox;
+        
+    protected:
+        void dragEnterEvent( QDragEnterEvent* event ) override;
+        void dragMoveEvent( QDragMoveEvent* event ) override;
+        void dropEvent( QDropEvent* event ) override;
+        bool event( QEvent* event ) override;
     };
 
     class item_group_changed : public QEvent
