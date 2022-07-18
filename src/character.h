@@ -1329,9 +1329,9 @@ class Character : public Creature, public visitable
 
         bool has_active_mutation( const trait_id &b ) const;
 
-        int get_cost_timer( const trait_id &mut_id ) const;
-        void set_cost_timer( const trait_id &mut, int set );
-        void mod_cost_timer( const trait_id &mut, int mod );
+        time_duration get_cost_timer( const trait_id &mut_id ) const;
+        void set_cost_timer( const trait_id &mut, time_duration set );
+        void mod_cost_timer( const trait_id &mut, time_duration mod );
 
         /** Picks a random valid mutation and gives it to the Character, possibly removing/changing others along the way */
         void mutate( const int &true_random_chance, bool use_vitamins );
@@ -2127,8 +2127,8 @@ class Character : public Creature, public visitable
         std::string enumerate_unmet_requirements( const item &it, const item &context = item() ) const;
 
         // Mental skills and stats
-        /** Returns the player's reading speed */
-        int read_speed( bool return_stat_effect = true ) const;
+        /** Returns the player's reading speed as a percentage*/
+        int read_speed() const;
         /** Returns a value used when attempting to convince NPC's of something */
         int talk_skill() const;
         /** Returns a value used when attempting to intimidate NPC's */
@@ -2200,8 +2200,8 @@ class Character : public Creature, public visitable
          * @param reader the player/NPC who's reading to the caller
          * @param learner if not nullptr, assume that the caller and reader read at a pace that isn't too fast for him
          */
-        int time_to_read( const item &book, const Character &reader,
-                          const Character *learner = nullptr ) const;
+        time_duration time_to_read( const item &book, const Character &reader,
+                                    const Character *learner = nullptr ) const;
 
         /** Calls Creature::normalize()
          *  nulls out the player's weapon
@@ -3316,7 +3316,7 @@ class Character : public Creature, public visitable
              * to its cost (@ref mutation_branch::cost). When those costs have been paid, this
              * is reset to @ref mutation_branch::cooldown.
              */
-            int charge = 0;
+            time_duration charge = 0_turns;
 
             bool show_sprite = true;
 

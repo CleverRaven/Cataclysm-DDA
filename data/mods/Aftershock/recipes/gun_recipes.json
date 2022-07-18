@@ -8,7 +8,7 @@
     "skill_used": "electronics",
     "difficulty": 4,
     "byproducts": [ [ "afs_energy_storage_2" ] ],
-    "time": 300000,
+    "time": "50 m",
     "autolearn": [ [ "electronics", 6 ] ],
     "book_learn": [ [ "advanced_electronics", 3 ], [ "textbook_electronics", 3 ] ],
     "qualities": [ { "id": "SCREW_FINE", "level": 1 } ],

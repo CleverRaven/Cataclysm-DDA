@@ -13,6 +13,55 @@
 #include "point.h"
 #include "type_id.h"
 
+TEST_CASE( "map_coordinate_conversion_functions" )
+{
+    map &here = get_map();
+
+    tripoint test_point =
+        GENERATE( tripoint_zero, tripoint_south, tripoint_east, tripoint_above, tripoint_below );
+    tripoint_bub_ms test_bub( test_point );
+    int z = GENERATE( 0, 1, -1, OVERMAP_HEIGHT, -OVERMAP_DEPTH );
+
+    // Make sure we're not in the 'easy' case where abs_sub is zero
+    if( here.get_abs_sub().x() == 0 ) {
+        here.shift( point_east );
+    }
+    if( here.get_abs_sub().y() == 0 ) {
+        here.shift( point_south );
+    }
+    here.vertical_shift( z );
+
+    CAPTURE( here.get_abs_sub() );
+
+    REQUIRE( here.get_abs_sub().x() != 0 );
+    REQUIRE( here.get_abs_sub().y() != 0 );
+    REQUIRE( here.get_abs_sub().z() == z );
+
+    point_abs_ms map_origin_ms = project_to<coords::ms>( here.get_abs_sub().xy() );
+
+    tripoint_abs_ms test_abs = map_origin_ms + test_point;
+
+    if( test_abs.z() > OVERMAP_HEIGHT || test_abs.z() < -OVERMAP_DEPTH ) {
+        return;
+    }
+
+    CAPTURE( test_bub );
+    CAPTURE( test_abs );
+
+    // Verify consistency between different implementations
+    CHECK( here.getabs( test_bub ) == here.getabs( test_bub.raw() ) );
+    CHECK( here.getglobal( test_bub ) == here.getglobal( test_bub.raw() ) );
+    CHECK( here.getlocal( test_abs ) == here.getlocal( test_abs.raw() ) );
+    CHECK( here.bub_from_abs( test_abs ) == here.bub_from_abs( test_abs.raw() ) );
+
+    CHECK( here.getabs( test_bub ) == here.getglobal( test_bub ).raw() );
+    CHECK( here.getlocal( test_abs ) == here.bub_from_abs( test_abs ).raw() );
+
+    // Verify round-tripping
+    CHECK( here.getglobal( here.bub_from_abs( test_abs ) ) == test_abs );
+    CHECK( here.bub_from_abs( here.getglobal( test_point ) ).raw() == test_point );
+}
+
 TEST_CASE( "destroy_grabbed_furniture" )
 {
     clear_map();

@@ -20,7 +20,7 @@
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_BREAD",
     "skill_used": "cooking",
-    "time": 500,
+    "time": "5 s",
     "autolearn": true,
     "qualities": [ { "id": "CONTAIN", "level": 1 } ],
     "components": [ [ [ "afs_calorie_pill", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]

@@ -5683,5 +5683,29 @@
     "components": [ [ [ "rock", 30 ] ], [ [ "fire_brick", 10 ] ], [ [ "clay_lump", 15 ] ], [ [ "water", 2 ], [ "water_clean", 2 ] ] ],
     "pre_special": "check_empty",
     "post_terrain": "f_clay_oven"
+  },
+  {
+    "type": "construction",
+    "id": "constr_extract_sandmound",
+    "group": "extract_sand",
+    "category": "OTHER",
+    "required_skills": [ [ "survival", 0 ] ],
+    "time": "30 m",
+    "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
+    "byproducts": [ { "item": "material_sand", "charges": [ 300, 600 ] } ],
+    "pre_terrain": "t_sandmound",
+    "post_special": "done_extract_maybe_revert_to_dirt"
+  },
+  {
+    "type": "construction",
+    "id": "constr_extract_sand_underground",
+    "group": "extract_sand",
+    "category": "OTHER",
+    "required_skills": [ [ "survival", 0 ] ],
+    "time": "30 m",
+    "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
+    "byproducts": [ { "item": "material_sand", "charges": [ 300, 600 ] } ],
+    "pre_terrain": "t_sand_underground",
+    "post_special": "done_extract_maybe_revert_to_dirt"
   }
 ]
