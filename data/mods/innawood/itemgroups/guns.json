@@ -83,27 +83,27 @@
     "id": "guns_rifle_common",
     "//": "Rifles commonly owned by citizens and found in many locations.",
     "//2": "Making the assumption any loaded gun will have additional ammo and mags with it.",
-    "entries": [ { "group": "guns_rifle_improvised", "prob": 22 } ]
+    "items": [ { "group": "guns_rifle_improvised", "prob": 22 } ]
   },
   {
     "type": "item_group",
     "id": "guns_rifle_common_worn",
     "//": "Rifles commonly owned by citizens and found in many locations.",
     "//2": "This is for worn items so ammo should be handled elsewhere so that mods can be added directly.",
-    "entries": [ { "group": "guns_rifle_improvised", "prob": 22 } ]
+    "items": [ { "group": "guns_rifle_improvised", "prob": 22 } ]
   },
   {
     "type": "item_group",
     "id": "guns_rifle_rare",
     "//": "Less common rifles including those only used by police/paramilitary forces.",
-    "entries": [ { "group": "guns_rifle_improvised", "prob": 22 } ]
+    "items": [ { "group": "guns_rifle_improvised", "prob": 22 } ]
   },
   {
     "type": "item_group",
     "id": "guns_rifle_obscure",
     "subtype": "distribution",
     "//": "Imported or otherwise very obscure rifles.",
-    "entries": [ { "group": "guns_rifle_improvised", "prob": 22 } ]
+    "items": [ { "group": "guns_rifle_improvised", "prob": 22 } ]
   },
   {
     "type": "item_group",
@@ -115,20 +115,20 @@
     "type": "item_group",
     "id": "guns_shotgun_common",
     "//": "Shotguns commonly owned by citizens and found in many locations.",
-    "entries": [ { "group": "guns_shotgun_improvised", "prob": 22 } ]
+    "items": [ { "group": "guns_shotgun_improvised", "prob": 22 } ]
   },
   {
     "type": "item_group",
     "id": "guns_shotgun_common_worn",
     "//": "Shotguns commonly owned by citizens and found in many locations.",
-    "entries": [ { "group": "guns_shotgun_improvised", "prob": 22 } ]
+    "items": [ { "group": "guns_shotgun_improvised", "prob": 22 } ]
   },
   {
     "type": "item_group",
     "id": "guns_shotgun_rare",
     "//": "Uncommon or rare shotguns in civilian possession.",
     "subtype": "distribution",
-    "entries": [ { "group": "guns_shotgun_improvised", "prob": 22 } ]
+    "items": [ { "group": "guns_shotgun_improvised", "prob": 22 } ]
   },
   {
     "type": "item_group",
@@ -136,13 +136,13 @@
     "//": "Uncommon or rare shotguns in civilian possession.",
     "//2": "ammo handled elsewhere so these can be worn.",
     "subtype": "distribution",
-    "entries": [ { "group": "guns_shotgun_improvised", "prob": 22 } ]
+    "items": [ { "group": "guns_shotgun_improvised", "prob": 22 } ]
   },
   {
     "type": "item_group",
     "id": "guns_shotgun_rare_readied",
     "subtype": "distribution",
-    "entries": [ { "group": "guns_shotgun_improvised", "prob": 22 } ]
+    "items": [ { "group": "guns_shotgun_improvised", "prob": 22 } ]
   },
   {
     "type": "item_group",
