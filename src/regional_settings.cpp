@@ -324,6 +324,25 @@ static void load_overmap_forest_settings(
                                     overmap_forest_settings.river_floodplain_buffer_distance_min, !overlay );
         read_and_set_or_throw<int>( overmap_forest_settings_jo, "river_floodplain_buffer_distance_max",
                                     overmap_forest_settings.river_floodplain_buffer_distance_max, !overlay );
+
+        if( overmap_forest_settings_jo.has_array( "noise_threshold_forest_options" ) ) {
+            for( double t : overmap_forest_settings_jo.get_array( "noise_threshold_forest_options" ) ) {
+                overmap_forest_settings.noise_threshold_forest_options.emplace_back( t );
+            }
+            if( overmap_forest_settings.noise_threshold_forest_options.size() != 5 ) {
+                debugmsg( "Map settings reqiure 5 values for 'noise_threshold_forest_options' (%d given).",
+                          overmap_forest_settings.noise_threshold_forest_options.size() );
+            }
+        }
+        if( overmap_forest_settings_jo.has_array( "noise_threshold_forest_thick_options" ) ) {
+            for( double t : overmap_forest_settings_jo.get_array( "noise_threshold_forest_thick_options" ) ) {
+                overmap_forest_settings.noise_threshold_forest_thick_options.emplace_back( t );
+            }
+            if( overmap_forest_settings.noise_threshold_forest_thick_options.size() != 5 ) {
+                debugmsg( "Map settings reqiure 5 values for 'noise_threshold_forest_thick_options' (%d given).",
+                          overmap_forest_settings.noise_threshold_forest_thick_options.size() );
+            }
+        }
     }
 }
 

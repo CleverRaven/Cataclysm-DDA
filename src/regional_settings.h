@@ -180,6 +180,8 @@ struct overmap_forest_settings {
     double noise_threshold_swamp_isolated = 0.6;
     int river_floodplain_buffer_distance_min = 3;
     int river_floodplain_buffer_distance_max = 15;
+    std::vector<float> noise_threshold_forest_options;
+    std::vector<float> noise_threshold_forest_thick_options;
 
     overmap_forest_settings() = default;
 };

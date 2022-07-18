@@ -328,7 +328,9 @@
       "noise_threshold_swamp_adjacent_water": 0.3,
       "noise_threshold_swamp_isolated": 0.6,
       "river_floodplain_buffer_distance_min": 3,
-      "river_floodplain_buffer_distance_max": 15
+      "river_floodplain_buffer_distance_max": 15,
+      "noise_threshold_forest_options": [ 0.35, 0.25, 0.2, 0.15, 0.1 ],
+      "noise_threshold_forest_thick_options": [ 0.4, 0.3, 0.25, 0.2, 0.15 ]
     },
     "forest_mapgen_settings": {
       "forest": {
