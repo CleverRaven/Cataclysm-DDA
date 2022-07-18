@@ -7,8 +7,7 @@
       [ "bikini_top_leather", 7 ],
       [ "bikini_top_fur", 5 ],
       [ "chestwrap_fur", 20 ],
-      [ "chestwrap_leather" ],
-      20
+      [ "chestwrap_leather", 20 ]
     ]
   },
   {
