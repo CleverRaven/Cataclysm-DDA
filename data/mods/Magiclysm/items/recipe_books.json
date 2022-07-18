@@ -114,7 +114,7 @@
     "symbol": "?",
     "material": [ "paper" ],
     "volume": "1250 ml",
-    "time": 60,
+    "time": "1 h",
     "fun": 0,
     "skill": "fabrication",
     "price": 30000,

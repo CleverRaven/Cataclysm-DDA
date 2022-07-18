@@ -216,6 +216,7 @@ These are handled through `ammo_types.json`.  You can tag a weapon with these to
 - ```SONAR_DETECTABLE``` This trap can be identified with ground-penetrating SONAR.
 - ```CONVECTS_TEMPERATURE``` This trap convects temperature, like lava.
 - ```UNCONSUMED``` If this trap is a spell type it will not be removed after activation.
+- ```AVATAR_ONLY``` Only the player character will trigger this trap.
 - ```UNDODGEABLE``` This trap can't be dodged.
 
 ## Armor
@@ -733,6 +734,7 @@ These flags can be applied via JSON item definition to most items.  Not to be co
 - ```IS_PET_ARMOR``` ... Is armor for a pet monster, not armor for a person.
 - ```LEAK_ALWAYS``` ... Leaks (may be combined with `RADIOACTIVE`).
 - ```LEAK_DAM``` ... Leaks when damaged (may be combined with `RADIOACTIVE`).
+- ```MOP``` ... This item could be used to mop up spilled liquids like blood or water.
 - ```NEEDS_UNFOLD``` ... Has an additional time penalty upon wielding. For melee weapons and guns this is offset by the relevant skill. Stacks with `SLOW_WIELD`.
 - ```NO_PACKED``` ... This item is not protected against contamination and won't stay sterile.  Only applies to CBMs.
 - ```NO_REPAIR``` ... Prevents repairing of this item even if otherwise suitable tools exist.

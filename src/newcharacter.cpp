@@ -243,16 +243,17 @@ static int skill_points_left( const avatar &u, pool_type pool )
 }
 
 // Toggle this trait and all prereqs, removing upgrades on removal
-void Character::toggle_trait_deps( const trait_id &tr )
+void Character::toggle_trait_deps( const trait_id &tr, const std::string &variant )
 {
     static const int depth_max = 10;
     const mutation_branch &mdata = tr.obj();
     if( mdata.category.empty() || mdata.startingtrait ) {
-        toggle_trait( tr );
+        toggle_trait( tr, variant );
     } else if( !has_trait( tr ) ) {
         int rc = 0;
         while( !has_trait( tr ) && rc < depth_max ) {
-            mutate_towards( tr );
+            const mutation_variant *chosen_var = variant.empty() ? nullptr : tr->variant( variant );
+            mutate_towards( tr, chosen_var );
             rc++;
         }
     } else if( has_trait( tr ) ) {
@@ -1129,7 +1130,7 @@ tab_direction set_stats( avatar &u, pool_type pool )
                     mvwprintz( w, point( iSecondColumn, 3 ), c_light_red,
                                _( "Increasing Int further costs 2 points" ) );
                 }
-                const int read_spd = u.read_speed( false );
+                const int read_spd = u.read_speed();
                 mvwprintz( w_description, point_zero, ( read_spd == 100 ? COL_STAT_NEUTRAL :
                                                         ( read_spd < 100 ? COL_STAT_BONUS : COL_STAT_PENALTY ) ),
                            _( "Read times: %d%%" ), read_spd );
@@ -1208,10 +1209,21 @@ tab_direction set_stats( avatar &u, pool_type pool )
 
 static struct {
     /** @related player */
-    bool operator()( const trait_id *a, const trait_id *b ) {
-        return std::abs( a->obj().points ) > std::abs( b->obj().points );
+    bool operator()( const trait_and_var *a, const trait_and_var *b ) {
+        return std::abs( a->trait->points ) > std::abs( b->trait->points );
     }
 } traits_sorter;
+
+static void add_trait( std::vector<trait_and_var> &to, const trait_id &trait )
+{
+    if( trait->variants.empty() ) {
+        to.emplace_back( trait_and_var( trait, "" ) );
+        return;
+    }
+    for( const std::pair<const std::string, mutation_variant> &var : trait->variants ) {
+        to.emplace_back( trait_and_var( trait, var.first ) );
+    }
+}
 
 tab_direction set_traits( avatar &u, pool_type pool )
 {
@@ -1223,7 +1235,7 @@ tab_direction set_traits( avatar &u, pool_type pool )
     // 0 -> traits that take points ( positive traits )
     // 1 -> traits that give points ( negative traits )
     // 2 -> neutral traits ( facial hair, skin color, etc )
-    std::vector<trait_id> vStartingTraits[3];
+    std::vector<trait_and_var> vStartingTraits[3];
 
     for( const mutation_branch &traits_iter : mutation_branch::get_all() ) {
         // Don't list blacklisted traits
@@ -1235,9 +1247,12 @@ tab_direction set_traits( avatar &u, pool_type pool )
         const bool is_scentrait = scentraits.find( traits_iter.id ) != scentraits.end();
 
         // Always show profession locked traits, regardless of if they are forbidden
-        const std::vector<trait_id> proftraits = u.prof->get_locked_traits();
-        const bool is_proftrait = std::find( proftraits.begin(), proftraits.end(),
-                                             traits_iter.id ) != proftraits.end();
+        const std::vector<trait_and_var> proftraits = u.prof->get_locked_traits();
+        auto pred = [&traits_iter]( const trait_and_var & query ) {
+            return query.trait == traits_iter.id;
+        };
+        const bool is_proftrait = std::find_if( proftraits.begin(), proftraits.end(),
+                                                pred ) != proftraits.end();
 
         bool is_hobby_locked_trait = false;
         for( const profession *hobby : u.hobbies ) {
@@ -1248,7 +1263,7 @@ tab_direction set_traits( avatar &u, pool_type pool )
         if( traits_iter.startingtrait || get_scenario()->traitquery( traits_iter.id ) || is_proftrait ||
             is_hobby_locked_trait ) {
             if( traits_iter.points > 0 ) {
-                vStartingTraits[0].push_back( traits_iter.id );
+                add_trait( vStartingTraits[0], traits_iter.id );
 
                 if( is_proftrait || is_scentrait ) {
                     continue;
@@ -1258,7 +1273,7 @@ tab_direction set_traits( avatar &u, pool_type pool )
                     num_good += traits_iter.points;
                 }
             } else if( traits_iter.points < 0 ) {
-                vStartingTraits[1].push_back( traits_iter.id );
+                add_trait( vStartingTraits[1], traits_iter.id );
 
                 if( is_proftrait || is_scentrait ) {
                     continue;
@@ -1268,7 +1283,7 @@ tab_direction set_traits( avatar &u, pool_type pool )
                     num_bad += traits_iter.points;
                 }
             } else {
-                vStartingTraits[2].push_back( traits_iter.id );
+                add_trait( vStartingTraits[2], traits_iter.id );
             }
         }
     }
@@ -1284,7 +1299,8 @@ tab_direction set_traits( avatar &u, pool_type pool )
     int iCurrentLine[3] = { 0, 0, 0 };
     size_t traits_size[3];
     bool recalc_traits = false;
-    std::vector<const trait_id *> sorted_traits[3];
+    // pointer for memory footprint reasons
+    std::vector<const trait_and_var *> sorted_traits[3];
     std::string filterstring;
 
     for( int i = 0; i < 3; i++ ) {
@@ -1433,22 +1449,22 @@ tab_direction set_traits( avatar &u, pool_type pool )
             int end = start + static_cast<int>( std::min( traits_size[iCurrentPage], iContentHeight ) );
 
             for( int i = start; i < end; i++ ) {
-                const trait_id &cur_trait = *sorted_traits[iCurrentPage][i];
-                const mutation_branch &mdata = cur_trait.obj();
+                const trait_and_var &cursor = *sorted_traits[iCurrentPage][i];
+                const trait_id &cur_trait = cursor.trait;
                 if( current == i && iCurrentPage == iCurWorkingPage ) {
-                    int points = mdata.points;
+                    int points = cur_trait->points;
                     bool negativeTrait = points < 0;
                     if( negativeTrait ) {
                         points *= -1;
                     }
                     mvwprintz( w, point( full_string_length + 3, 3 ), col_tr,
                                n_gettext( "%s %s %d point", "%s %s %d points", points ),
-                               mdata.name(),
+                               cursor.name(),
                                negativeTrait ? _( "earns" ) : _( "costs" ),
                                points );
                     fold_and_print( w_description, point_zero,
                                     TERMX - 2, col_tr,
-                                    mdata.desc() );
+                                    cursor.desc() );
                 }
 
                 nc_color cLine = col_off_pas;
@@ -1459,14 +1475,22 @@ tab_direction set_traits( avatar &u, pool_type pool )
                         if( u.has_conflicting_trait( cur_trait ) ) {
                             cLine = hilite( c_dark_gray );
                         } else if( u.has_trait( cur_trait ) ) {
-                            cLine = hi_on;
+                            if( !cur_trait->variants.empty() && !u.has_trait_variant( cursor ) ) {
+                                cLine = hilite( c_dark_gray );
+                            } else {
+                                cLine = hi_on;
+                            }
                         }
                     } else {
                         if( u.has_conflicting_trait( cur_trait ) || get_scenario()->is_forbidden_trait( cur_trait ) ) {
                             cLine = c_dark_gray;
 
                         } else if( u.has_trait( cur_trait ) ) {
-                            cLine = col_on_act;
+                            if( !cur_trait->variants.empty() && !u.has_trait_variant( cursor ) ) {
+                                cLine = c_dark_gray;
+                            } else {
+                                cLine = col_on_act;
+                            }
                         }
                     }
                 } else if( u.has_trait( cur_trait ) ) {
@@ -1479,7 +1503,7 @@ tab_direction set_traits( avatar &u, pool_type pool )
 
                 int cur_line_y = 5 + i - start;
                 int cur_line_x = 2 + iCurrentPage * page_width;
-                mvwprintz( w, point( cur_line_x, cur_line_y ), cLine, utf8_truncate( mdata.name(),
+                mvwprintz( w, point( cur_line_x, cur_line_y ), cLine, utf8_truncate( cursor.name(),
                            page_width - 2 ) );
             }
 
@@ -1507,12 +1531,12 @@ tab_direction set_traits( avatar &u, pool_type pool )
             }
 
             if( !filterstring.empty() ) {
-                for( std::vector<const trait_id *> &traits : sorted_traits ) {
+                for( std::vector<const trait_and_var *> &traits : sorted_traits ) {
                     const auto new_end_iter = std::remove_if(
                                                   traits.begin(),
                                                   traits.end(),
-                    [&filterstring]( const trait_id * trait ) {
-                        return !lcmatch( trait->obj().name(), filterstring );
+                    [&filterstring]( const trait_and_var * trait ) {
+                        return !lcmatch( trait->name(), filterstring );
                     } );
 
                     traits.erase( new_end_iter, traits.end() );
@@ -1592,7 +1616,8 @@ tab_direction set_traits( avatar &u, pool_type pool )
             iCurrentLine[iCurWorkingPage] = traits_size[iCurWorkingPage] - 1;
         } else if( action == "CONFIRM" ) {
             int inc_type = 0;
-            const trait_id cur_trait = *sorted_traits[iCurWorkingPage][iCurrentLine[iCurWorkingPage]];
+            const trait_id cur_trait = sorted_traits[iCurWorkingPage][iCurrentLine[iCurWorkingPage]]->trait;
+            const std::string variant = sorted_traits[iCurWorkingPage][iCurrentLine[iCurWorkingPage]]->variant;
             const mutation_branch &mdata = cur_trait.obj();
 
             // Look through the profession bionics, and see if any of them conflict with this trait
@@ -1619,11 +1644,16 @@ tab_direction set_traits( avatar &u, pool_type pool )
                                hobbies->gender_appropriate_name( u.male ) );
                     }
                 }
+                // Switch variant
+                if( !u.has_trait_variant( trait_and_var( cur_trait, variant ) ) ) {
+                    u.set_mut_variant( cur_trait, cur_trait->variant( variant ) );
+                    inc_type = 0;
+                }
             } else if( !conflicting_traits.empty() ) {
                 std::vector<std::string> conflict_names;
                 conflict_names.reserve( conflicting_traits.size() );
                 for( const trait_id &trait : conflicting_traits ) {
-                    conflict_names.emplace_back( trait->name() );
+                    conflict_names.emplace_back( u.mutation_name( trait ) );
                 }
                 popup( _( "You already picked some conflicting traits: %s." ),
                        enumerate_as_string( conflict_names ) );
@@ -1660,7 +1690,7 @@ tab_direction set_traits( avatar &u, pool_type pool )
 
             //inc_type is either -1 or 1, so we can just multiply by it to invert
             if( inc_type != 0 ) {
-                u.toggle_trait_deps( cur_trait );
+                u.toggle_trait_deps( cur_trait, variant );
                 if( iCurWorkingPage == 0 ) {
                     num_good += mdata.points * inc_type;
                 } else {
@@ -1900,8 +1930,8 @@ tab_direction set_profession( avatar &u, pool_type pool )
             if( prof_traits.empty() ) {
                 buffer += pgettext( "set_profession_trait", "None" ) + std::string( "\n" );
             } else {
-                for( const auto &t : prof_traits ) {
-                    buffer += mutation_branch::get_name( t ) + "\n";
+                for( const trait_and_var &t : prof_traits ) {
+                    buffer += t.name() + "\n";
                 }
             }
 
@@ -2137,21 +2167,21 @@ tab_direction set_profession( avatar &u, pool_type pool )
             }
 
             // Remove traits from the previous profession
-            for( const trait_id &old_trait : u.prof->get_locked_traits() ) {
-                u.toggle_trait_deps( old_trait );
+            for( const trait_and_var &old : u.prof->get_locked_traits() ) {
+                u.toggle_trait_deps( old.trait );
             }
 
             u.prof = &sorted_profs[cur_id].obj();
 
             // Remove pre-selected traits that conflict
             // with the new profession's traits
-            for( const trait_id &new_trait : u.prof->get_locked_traits() ) {
-                if( u.has_conflicting_trait( new_trait ) ) {
+            for( const trait_and_var &new_trait : u.prof->get_locked_traits() ) {
+                if( u.has_conflicting_trait( new_trait.trait ) ) {
                     for( const trait_id &suspect_trait : u.get_mutations() ) {
-                        if( are_conflicting_traits( new_trait, suspect_trait ) ) {
-                            u.toggle_trait_deps( suspect_trait );
+                        if( are_conflicting_traits( new_trait.trait, suspect_trait ) ) {
                             popup( _( "Your trait %1$s has been removed since it conflicts with the %2$s's %3$s trait." ),
-                                   suspect_trait->name(), u.prof->gender_appropriate_name( u.male ), new_trait->name() );
+                                   u.mutation_name( suspect_trait ), u.prof->gender_appropriate_name( u.male ), new_trait.name() );
+                            u.toggle_trait_deps( suspect_trait );
                         }
                     }
                 }
@@ -2345,8 +2375,8 @@ tab_direction set_hobbies( avatar &u, pool_type pool )
             if( prof_traits.empty() ) {
                 buffer += pgettext( "set_profession_trait", "None" ) + std::string( "\n" );
             } else {
-                for( const auto &t : prof_traits ) {
-                    buffer += mutation_branch::get_name( t ) + "\n";
+                for( const trait_and_var &t : prof_traits ) {
+                    buffer += t.name() + "\n";
                 }
             }
 
@@ -2510,14 +2540,14 @@ tab_direction set_hobbies( avatar &u, pool_type pool )
             // Do not allow selection of hobby if there's a trait conflict
             const profession *prof = &sorted_profs[cur_id].obj();
             bool conflict_found = false;
-            for( const trait_id &new_trait : prof->get_locked_traits() ) {
-                if( u.has_conflicting_trait( new_trait ) ) {
+            for( const trait_and_var &new_trait : prof->get_locked_traits() ) {
+                if( u.has_conflicting_trait( new_trait.trait ) ) {
                     for( const profession *hobby : u.hobbies ) {
-                        for( const trait_id &suspect_trait : hobby->get_locked_traits() ) {
-                            if( are_conflicting_traits( new_trait, suspect_trait ) ) {
+                        for( const trait_and_var &suspect : hobby->get_locked_traits() ) {
+                            if( are_conflicting_traits( new_trait.trait, suspect.trait ) ) {
                                 conflict_found = true;
-                                popup( _( "The trait [%1$s] conflicts with background [%2$s]'s trait [%3$s]." ), new_trait->name(),
-                                       hobby->gender_appropriate_name( u.male ), suspect_trait->name() );
+                                popup( _( "The trait [%1$s] conflicts with background [%2$s]'s trait [%3$s]." ), new_trait.name(),
+                                       hobby->gender_appropriate_name( u.male ), suspect.name() );
                             }
                         }
                     }
@@ -2539,7 +2569,8 @@ tab_direction set_hobbies( avatar &u, pool_type pool )
             }
 
             // Add or remove traits from hobby
-            for( const trait_id &trait : prof->get_locked_traits() ) {
+            for( const trait_and_var &cur : prof->get_locked_traits() ) {
+                const trait_id &trait = cur.trait;
                 if( enabling ) {
                     if( !u.has_trait( trait ) ) {
                         u.toggle_trait_deps( trait );
@@ -2956,6 +2987,110 @@ static struct {
     }
 } scenario_sorter;
 
+static std::string assemble_scenario_details( const avatar &u, const input_context &ctxt,
+        const scenario *current_scenario )
+{
+    std::string assembled;
+    const char *g_switch_msg = u.male ?
+                               //~ Gender switch message. 1s - change key name, 2s - profession name.
+                               _( "Press <color_light_green>%1$s</color> to switch "
+                                  "to <color_magenta>%2$s</color> (<color_pink>female</color>)." ) :
+                               //~ Gender switch message. 1s - change key name, 2s - profession name.
+                               _( "Press <color_light_green>%1$s</color> to switch "
+                                  "to <color_magenta>%2$s</color> (<color_light_cyan>male</color>)." );
+    assembled += string_format( g_switch_msg, ctxt.get_desc( "CHANGE_GENDER" ),
+                                current_scenario->gender_appropriate_name( !u.male ) ) + "\n";
+
+    assembled += "\n" + colorize( _( "Scenario Story:" ), COL_HEADER ) + "\n";
+    assembled += colorize( current_scenario->description( u.male ), c_green ) + "\n";
+    const cata::optional<achievement_id> scenRequirement = current_scenario->get_requirement();
+
+    if( scenRequirement.has_value() ||
+        ( current_scenario->has_flag( "CITY_START" ) && !scenario_sorter.cities_enabled ) ) {
+        assembled += "\n" + colorize( _( "Scenario Requirements:" ), COL_HEADER ) + "\n";
+        if( current_scenario->has_flag( "CITY_START" ) && !scenario_sorter.cities_enabled ) {
+            const std::string scenUnavailable =
+                _( "This scenario is not available in this world due to city size settings." );
+            assembled += colorize( scenUnavailable, c_red ) + "\n";
+        }
+        if( scenRequirement.has_value() ) {
+            nc_color requirement_color = c_red;
+            if( current_scenario->can_pick().success() ) {
+                requirement_color = c_green;
+            }
+            assembled += colorize( string_format( _( "Complete \"%s\"" ), scenRequirement.value()->name() ),
+                                   requirement_color ) + "\n";
+        }
+    }
+
+    assembled += "\n" + colorize( _( "Scenario Professions:" ), COL_HEADER );
+    assembled += string_format( _( "\n%s" ), current_scenario->prof_count_str() );
+    assembled += _( ", default:\n" );
+
+    auto psorter = profession_sorter;
+    psorter.sort_by_points = true;
+    const auto permitted = current_scenario->permitted_professions();
+    const auto default_prof = *std::min_element( permitted.begin(), permitted.end(), psorter );
+    const int prof_points = default_prof->point_cost();
+
+    assembled += default_prof->gender_appropriate_name( u.male );
+    if( prof_points > 0 ) {
+        assembled += colorize( string_format( " (-%d)", prof_points ), c_red );
+    } else if( prof_points < 0 ) {
+        assembled += colorize( string_format( " (+%d)", -prof_points ), c_green );
+    }
+    assembled += "\n";
+
+    assembled += "\n" + colorize( _( "Scenario Location:" ), COL_HEADER ) + "\n";
+    assembled += string_format( _( "%s (%d locations, %d variants)" ),
+                                current_scenario->start_name(),
+                                current_scenario->start_location_count(),
+                                current_scenario->start_location_targets_count() ) + "\n";
+
+    if( current_scenario->vehicle() ) {
+        assembled += "\n" + colorize( _( "Scenario Vehicle:" ), COL_HEADER ) + "\n";
+        assembled += current_scenario->vehicle()->name + "\n";
+    }
+
+    assembled += "\n" + colorize( _( "Scenario calendar:" ), COL_HEADER ) + "\n";
+    if( current_scenario->custom_start_date() ) {
+        assembled += string_format( current_scenario->is_random_year() ?
+                                    _( "Year:   Random" ) : _( "Year:   %s" ),
+                                    current_scenario->start_year() ) + "\n";
+        assembled += string_format( _( "Season: %s" ),
+                                    calendar::name_season( current_scenario->start_season() ) ) + "\n";
+        assembled += string_format( current_scenario->is_random_day() ? _( "Day:    Random" ) :
+                                    _( "Day:    %d" ), current_scenario->day_of_season() ) + "\n";
+        assembled += string_format( current_scenario->is_random_hour() ? _( "Hour:   Random" ) :
+                                    _( "Hour:   %d" ), current_scenario->start_hour() ) + "\n";
+    } else {
+        assembled += _( "Default" );
+        assembled += "\n";
+    }
+
+    //TODO: Move this to JSON?
+    const std::vector<std::pair<std::string, std::string>> flag_descriptions = {
+        { "FIRE_START", translate_marker( "Fire nearby" ) },
+        { "SUR_START", translate_marker( "Zombies nearby" ) },
+        { "HELI_CRASH", translate_marker( "Various limb wounds" ) },
+        { "LONE_START", translate_marker( "No starting NPC" ) },
+        { "BORDERED", translate_marker( "Starting location is bordered by an immense wall" ) },
+    };
+
+    bool flag_header_added = false;
+    for( const std::pair<std::string, std::string> &flag_pair : flag_descriptions ) {
+        if( current_scenario->has_flag( std::get<0>( flag_pair ) ) ) {
+            if( !flag_header_added ) {
+                assembled += "\n" + colorize( _( "Scenario Flags:" ), COL_HEADER ) + "\n";
+                flag_header_added = true;
+            }
+            assembled += _( std::get<1>( flag_pair ) ) + "\n";
+        }
+    }
+
+    return assembled;
+}
+
 tab_direction set_scenario( avatar &u, pool_type pool )
 {
     int cur_id = 0;
@@ -2965,51 +3100,19 @@ tab_direction set_scenario( avatar &u, pool_type pool )
 
     ui_adaptor ui;
     catacurses::window w;
-    catacurses::window w_description;
-    catacurses::window w_sorting;
-    catacurses::window w_requirement;
-    catacurses::window w_profession;
-    catacurses::window w_location;
-    catacurses::window w_vehicle;
-    catacurses::window w_initial_date;
-    catacurses::window w_flags;
-    catacurses::window w_genderswap;
+    catacurses::window w_details_pane;
+    scrolling_text_view details_pane( w_details_pane );
+    std::string details_pane_text;
+    bool recalc_details_pane = true;
+    const int iHeaderHeight = 5;
+
     const auto init_windows = [&]( ui_adaptor & ui ) {
-        iContentHeight = TERMY - 10;
+        iContentHeight = TERMY - iHeaderHeight - 1;
         w = catacurses::newwin( TERMY, TERMX, point_zero );
-        w_description = catacurses::newwin( 4, TERMX - 2, point( 1, TERMY - 5 ) );
-        w_genderswap = catacurses::newwin( 1, 55, point( TERMX / 2, 6 ) );
         const int second_column_w = TERMX / 2 - 1;
-        point origin = point( second_column_w + 1, 5 );
-        const int w_sorting_h = 2;
-        const int w_requirement_h = 4;
-        const int w_profession_h = 4;
-        const int w_location_h = 3;
-        const int w_vehicle_h = 3;
-        const int w_initial_date_h = 6;
-        const int w_flags_h = clamp<int>( 0,
-                                          iContentHeight -
-                                          ( w_sorting_h + w_profession_h + w_location_h + w_vehicle_h + w_initial_date_h ),
-                                          iContentHeight );
-        w_sorting = catacurses::newwin( w_sorting_h, second_column_w, origin );
-        origin += point( 0, w_sorting_h );
-
-        w_requirement = catacurses::newwin( w_requirement_h, second_column_w, origin );
-        origin += point( 0, w_requirement_h );
-
-        w_profession = catacurses::newwin( w_profession_h, second_column_w, origin );
-        origin += point( 0, w_profession_h );
-
-        w_location = catacurses::newwin( w_location_h, second_column_w, origin );
-        origin += point( 0, w_location_h );
-
-        w_vehicle = catacurses::newwin( w_vehicle_h, second_column_w, origin );
-        origin += point( 0, w_vehicle_h );
-
-        w_initial_date = catacurses::newwin( w_initial_date_h, second_column_w, origin );
-        origin += point( 0, w_initial_date_h );
-
-        w_flags = catacurses::newwin( w_flags_h, second_column_w, origin );
+        point origin = point( second_column_w + 1, iHeaderHeight );
+        w_details_pane = catacurses::newwin( iContentHeight, second_column_w, origin );
+        recalc_details_pane = true;
         ui.position_from_window( w );
     };
     init_windows( ui );
@@ -3019,6 +3122,8 @@ tab_direction set_scenario( avatar &u, pool_type pool )
     ctxt.register_cardinal();
     ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
     ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
+    ctxt.register_action( "SCROLL_INFOBOX_UP" );
+    ctxt.register_action( "SCROLL_INFOBOX_DOWN" );
     ctxt.register_action( "HOME" );
     ctxt.register_action( "END" );
     ctxt.register_action( "CONFIRM" );
@@ -3039,31 +3144,32 @@ tab_direction set_scenario( avatar &u, pool_type pool )
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
         werase( w );
-        const int freeWidth = TERMX - FULL_SCREEN_WIDTH;
-        isWide = ( TERMX > FULL_SCREEN_WIDTH && freeWidth > 15 );
         draw_character_tabs( w, _( "SCENARIO" ) );
 
-        // Draw filter indicator
-        for( int i = 1; i < getmaxx( w ) - 1; i++ ) {
-            mvwputch( w, point( i, getmaxy( w ) - 1 ), BORDER_COLOR, LINE_OXOX );
-        }
-        const auto filter_indicator = filterstring.empty() ? _( "no filter" )
-                                      : filterstring;
-        mvwprintz( w, point( 2, getmaxy( w ) - 1 ), c_light_gray, "<%s>", filter_indicator );
+        // Draw filter and indicators
+        mvwputch( w, point( TERMX / 2, iHeaderHeight - 1 ), BORDER_COLOR,
+                  LINE_OXXX );// '^|^' Tee pointing down
+        mvwputch( w, point( TERMX / 2, TERMY - 1 ), BORDER_COLOR, LINE_XXOX );// '_|_' Tee pointing up
+        const auto filter_indicator = filterstring.empty() ? string_format( _( "[%s] filter" ),
+                                      colorize( ctxt.get_desc( "FILTER" ), c_green ) ) : filterstring;
+        const std::string sort_indicator = string_format( "[%1$s] %2$s: %3$s",
+                                           colorize( ctxt.get_desc( "SORT" ), c_green ), _( "sort" ),
+                                           scenario_sorter.sort_by_points ? _( "points" ) : _( "name" ) );
+        nc_color current_color = BORDER_COLOR;
+        print_colored_text( w, point( 2, getmaxy( w ) - 1 ), current_color, BORDER_COLOR,
+                            string_format( "<%1s>-<%2s>", filter_indicator, sort_indicator ) );
 
         const bool cur_id_is_valid = cur_id >= 0 && static_cast<size_t>( cur_id ) < sorted_scens.size();
 
-        werase( w_description );
         if( cur_id_is_valid ) {
+            if( recalc_details_pane ) {
+                details_pane_text = assemble_scenario_details( u, ctxt, sorted_scens[cur_id] );
+            }
             int netPointCost = sorted_scens[cur_id]->point_cost() - get_scenario()->point_cost();
             ret_val<bool> can_afford = sorted_scens[cur_id]->can_afford(
                                            *get_scenario(),
                                            skill_points_left( u, pool ) );
             ret_val<bool> can_pick = sorted_scens[cur_id]->can_pick();
-            const std::string clear_line( getmaxx( w_description ), ' ' );
-
-            // Clear the bottom of the screen and header.
-            mvwprintz( w, point( 1, 3 ), c_light_gray, clear_line );
 
             int pointsForScen = sorted_scens[cur_id]->point_cost();
             bool negativeScen = pointsForScen < 0;
@@ -3075,47 +3181,17 @@ tab_direction set_scenario( avatar &u, pool_type pool )
             draw_points( w, pool, u, netPointCost );
 
             const char *scen_msg_temp;
-            if( isWide ) {
-                if( negativeScen ) {
-                    //~ 1s - scenario name, 2d - current character points.
-                    scen_msg_temp = n_gettext( "Scenario %1$s earns %2$d point",
-                                               "Scenario %1$s earns %2$d points",
-                                               pointsForScen );
-                } else {
-                    //~ 1s - scenario name, 2d - current character points.
-                    scen_msg_temp = n_gettext( "Scenario %1$s costs %2$d point",
-                                               "Scenario %1$s costs %2$d points",
-                                               pointsForScen );
-                }
+            if( negativeScen ) {
+                scen_msg_temp = n_gettext( "Scenario earns %2$d point",
+                                           "Scenario earns %2$d points", pointsForScen );
             } else {
-                if( negativeScen ) {
-                    scen_msg_temp = n_gettext( "Scenario earns %2$d point",
-                                               "Scenario earns %2$d points", pointsForScen );
-                } else {
-                    scen_msg_temp = n_gettext( "Scenario costs %2$d point",
-                                               "Scenario costs %2$d points", pointsForScen );
-                }
+                scen_msg_temp = n_gettext( "Scenario costs %2$d point",
+                                           "Scenario costs %2$d points", pointsForScen );
             }
 
             int pMsg_length = utf8_width( remove_color_tags( pools_to_string( u, pool ) ) );
             mvwprintz( w, point( pMsg_length + 9, 3 ), can_afford.success() ? c_green : c_light_red,
                        scen_msg_temp, sorted_scens[cur_id]->gender_appropriate_name( u.male ), pointsForScen );
-
-            const std::string scenDesc = sorted_scens[cur_id]->description( u.male );
-
-            if( sorted_scens[cur_id]->has_flag( "CITY_START" ) && !scenario_sorter.cities_enabled ) {
-                const std::string scenUnavailable =
-                    _( "This scenario is not available in this world due to city size settings." );
-                fold_and_print( w_description, point_zero, TERMX - 2, c_red, scenUnavailable );
-                // NOLINTNEXTLINE(cata-use-named-point-constants)
-                fold_and_print( w_description, point( 0, 1 ), TERMX - 2, c_green, scenDesc );
-            } else if( !can_pick.success() ) {
-                fold_and_print( w_description, point_zero, TERMX - 2, c_red, can_pick.str() );
-                // NOLINTNEXTLINE(cata-use-named-point-constants)
-                fold_and_print( w_description, point( 0, 1 ), TERMX - 2, c_green, scenDesc );
-            } else {
-                fold_and_print( w_description, point_zero, TERMX - 2, c_green, scenDesc );
-            }
         }
 
         //Draw options
@@ -3124,8 +3200,6 @@ tab_direction set_scenario( avatar &u, pool_type pool )
                                           scens_length : iContentHeight );
         int i;
         for( i = iStartPos; i < end_pos; i++ ) {
-            mvwprintz( w, point( 2, 5 + i - iStartPos ), c_light_gray,
-                       "                                             " );
             nc_color col;
             if( get_scenario() != sorted_scens[i] ) {
                 if( cur_id_is_valid && sorted_scens[i] == sorted_scens[cur_id] &&
@@ -3147,120 +3221,6 @@ tab_direction set_scenario( avatar &u, pool_type pool )
                        sorted_scens[i]->gender_appropriate_name( u.male ) );
 
         }
-        //Clear rest of space in case stuff got filtered out
-        for( ; i < iStartPos + iContentHeight; ++i ) {
-            mvwprintz( w, point( 2, 5 + i - iStartPos ), c_light_gray,
-                       "                                             " ); // Clear the line
-        }
-
-        werase( w_sorting );
-        werase( w_requirement );
-        werase( w_profession );
-        werase( w_location );
-        werase( w_vehicle );
-        werase( w_initial_date );
-        werase( w_flags );
-        werase( w_genderswap );
-
-        if( cur_id_is_valid ) {
-            draw_sorting_indicator( w_sorting, ctxt, scenario_sorter );
-
-            if( sorted_scens[cur_id]->get_requirement().has_value() ) {
-                mvwprintz( w_requirement, point_zero, COL_HEADER, _( "\nRequirements:" ) );
-                wprintz( w_requirement, c_light_gray,
-                         string_format( _( "\nComplete \"%s\"\n\n" ),
-                                        sorted_scens[cur_id]->get_requirement().value()->name() ) );
-            }
-
-            mvwprintz( w_profession, point_zero, COL_HEADER, _( "Professions:" ) );
-            wprintz( w_profession, c_light_gray,
-                     string_format( _( "\n%s" ), sorted_scens[cur_id]->prof_count_str() ) );
-            wprintz( w_profession, c_light_gray, _( ", default:\n" ) );
-
-            auto psorter = profession_sorter;
-            psorter.sort_by_points = true;
-            const auto permitted = sorted_scens[cur_id]->permitted_professions();
-            const auto default_prof = *std::min_element( permitted.begin(), permitted.end(), psorter );
-            const int prof_points = default_prof->point_cost();
-            wprintz( w_profession, c_light_gray,
-                     default_prof->gender_appropriate_name( u.male ) );
-            if( prof_points > 0 ) {
-                wprintz( w_profession, c_red, " (-%d)", prof_points );
-            } else if( prof_points < 0 ) {
-                wprintz( w_profession, c_green, " (+%d)", -prof_points );
-            }
-
-            mvwprintz( w_location, point_zero, COL_HEADER, _( "Scenario Location:" ) );
-            wprintz( w_location, c_light_gray, "\n" );
-            wprintz( w_location, c_light_gray,
-                     string_format( _( "%s (%d locations, %d variants)" ),
-                                    sorted_scens[cur_id]->start_name(),
-                                    sorted_scens[cur_id]->start_location_count(),
-                                    sorted_scens[cur_id]->start_location_targets_count() ) );
-
-            mvwprintz( w_vehicle, point_zero, COL_HEADER, _( "Scenario Vehicle:" ) );
-            wprintz( w_vehicle, c_light_gray, "\n" );
-            if( sorted_scens[cur_id]->vehicle() ) {
-                wprintz( w_vehicle, c_light_gray, "%s", sorted_scens[cur_id]->vehicle()->name );
-            }
-
-            mvwprintz( w_initial_date, point_zero, COL_HEADER, _( "Scenario calendar:" ) );
-            wprintz( w_initial_date, c_light_gray, "\n" );
-            if( sorted_scens[cur_id]->custom_start_date() ) {
-                wprintz( w_initial_date, c_light_gray,
-                         sorted_scens[cur_id]->is_random_year() ? _( "Year:   Random" ) : _( "Year:   %s" ),
-                         sorted_scens[cur_id]->start_year() );
-                wprintz( w_initial_date, c_light_gray, "\n" );
-                wprintz( w_initial_date, c_light_gray, _( "Season: %s" ),
-                         calendar::name_season( sorted_scens[cur_id]->start_season() ) );
-                wprintz( w_initial_date, c_light_gray, "\n" );
-                wprintz( w_initial_date, c_light_gray,
-                         sorted_scens[cur_id]->is_random_day() ? _( "Day:    Random" ) : _( "Day:    %d" ),
-                         sorted_scens[cur_id]->day_of_season() );
-                wprintz( w_initial_date, c_light_gray, "\n" );
-                wprintz( w_initial_date, c_light_gray,
-                         sorted_scens[cur_id]->is_random_hour() ? _( "Hour:   Random" ) : _( "Hour:   %d" ),
-                         sorted_scens[cur_id]->start_hour() );
-                wprintz( w_initial_date, c_light_gray, "\n" );
-            } else {
-                wprintz( w_initial_date, c_light_gray, _( "Default" ) );
-                wprintz( w_initial_date, c_light_gray, "\n" );
-            }
-
-            mvwprintz( w_flags, point_zero, COL_HEADER, _( "Scenario Flags:" ) );
-            wprintz( w_flags, c_light_gray, "\n" );
-
-            if( sorted_scens[cur_id]->has_flag( "FIRE_START" ) ) {
-                wprintz( w_flags, c_light_gray, _( "Fire nearby" ) );
-                wprintz( w_flags, c_light_gray, "\n" );
-            }
-            if( sorted_scens[cur_id]->has_flag( "SUR_START" ) ) {
-                wprintz( w_flags, c_light_gray, _( "Zombies nearby" ) );
-                wprintz( w_flags, c_light_gray, "\n" );
-            }
-            if( sorted_scens[cur_id]->has_flag( "HELI_CRASH" ) ) {
-                wprintz( w_flags, c_light_gray, _( "Various limb wounds" ) );
-                wprintz( w_flags, c_light_gray, "\n" );
-            }
-            if( sorted_scens[cur_id]->has_flag( "LONE_START" ) ) {
-                wprintz( w_flags, c_light_gray, _( "No starting NPC" ) );
-                wprintz( w_flags, c_light_gray, "\n" );
-            }
-            if( sorted_scens[cur_id]->has_flag( "BORDERED" ) ) {
-                wprintz( w_flags, c_light_gray, _( "Starting location is bordered by an immense wall" ) );
-                wprintz( w_flags, c_light_gray, "\n" );
-            }
-            const char *g_switch_msg = u.male ?
-                                       //~ Gender switch message. 1s - change key name, 2s - profession name.
-                                       _( "Press <color_light_green>%1$s</color> to switch "
-                                          "to <color_magenta>%2$s</color> (<color_pink>female</color>)." ) :
-                                       //~ Gender switch message. 1s - change key name, 2s - profession name.
-                                       _( "Press <color_light_green>%1$s</color> to switch "
-                                          "to <color_magenta>%2$s</color> (<color_light_cyan>male</color>)." );
-            fold_and_print( w_genderswap, point_zero, ( TERMX / 2 ), c_light_gray, g_switch_msg,
-                            ctxt.get_desc( "CHANGE_GENDER" ),
-                            sorted_scens[cur_id]->gender_appropriate_name( !u.male ) );
-        }
 
         draw_scrollbar( w, cur_id, iContentHeight, scens_length, point( 0, 5 ) );
         scrollbar()
@@ -3271,16 +3231,13 @@ tab_direction set_scenario( avatar &u, pool_type pool )
         .viewport_size( iContentHeight )
         .apply( w );
 
+        if( recalc_details_pane ) {
+            details_pane.set_text( details_pane_text );
+            recalc_details_pane = false;
+        }
+
         wnoutrefresh( w );
-        wnoutrefresh( w_description );
-        wnoutrefresh( w_sorting );
-        wnoutrefresh( w_requirement );
-        wnoutrefresh( w_profession );
-        wnoutrefresh( w_location );
-        wnoutrefresh( w_vehicle );
-        wnoutrefresh( w_initial_date );
-        wnoutrefresh( w_flags );
-        wnoutrefresh( w_genderswap );
+        details_pane.draw( c_light_gray );
     } );
 
     do {
@@ -3331,6 +3288,7 @@ tab_direction set_scenario( avatar &u, pool_type pool )
         ui_manager::redraw();
         const std::string action = ctxt.handle_input();
         const int scroll_rate = scens_length > 20 ? 5 : 2;
+        const int id_for_curr_description = cur_id;
         if( action == "DOWN" ) {
             cur_id++;
             if( cur_id > scens_length - 1 ) {
@@ -3357,6 +3315,10 @@ tab_direction set_scenario( avatar &u, pool_type pool )
             } else {
                 cur_id += -scroll_rate;
             }
+        } else if( action == "SCROLL_INFOBOX_UP" ) {
+            details_pane.scroll_up();
+        } else if( action == "SCROLL_INFOBOX_DOWN" ) {
+            details_pane.scroll_down();
         } else if( action == "HOME" ) {
             cur_id = 0;
         } else if( action == "END" ) {
@@ -3380,6 +3342,7 @@ tab_direction set_scenario( avatar &u, pool_type pool )
             retval = tab_direction::FORWARD;
         } else if( action == "CHANGE_GENDER" ) {
             u.male = !u.male;
+            recalc_details_pane = true;
         } else if( action == "SORT" ) {
             scenario_sorter.sort_by_points = !scenario_sorter.sort_by_points;
             recalc_scens = true;
@@ -3399,6 +3362,10 @@ tab_direction set_scenario( avatar &u, pool_type pool )
             retval = tab_direction::QUIT;
         } else if( action == "RANDOMIZE" ) {
             cur_id = rng( 0, scens_length - 1 );
+        }
+
+        if( cur_id != id_for_curr_description || recalc_scens ) {
+            recalc_details_pane = true;
         }
     } while( retval == tab_direction::NONE );
 
@@ -3666,15 +3633,15 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
 
         if( isWide ) {
             mvwprintz( w_traits, point_zero, COL_HEADER, _( "Traits: " ) );
-            std::vector<trait_id> current_traits = you.get_mutations();
+            std::vector<trait_and_var> current_traits = you.get_mutations_variants();
             std::sort( current_traits.begin(), current_traits.end(), trait_display_sort );
             if( current_traits.empty() ) {
                 wprintz( w_traits, c_light_red, _( "None!" ) );
             } else {
                 for( size_t i = 0; i < current_traits.size(); i++ ) {
-                    const auto current_trait = current_traits[i];
+                    const trait_and_var current_trait = current_traits[i];
                     trim_and_print( w_traits, point( 0, i + 1 ), getmaxx( w_traits ) - 1,
-                                    current_trait->get_display_color(), current_trait->name() );
+                                    current_trait.trait->get_display_color(), current_trait.name() );
                 }
             }
         }
@@ -4311,6 +4278,36 @@ std::vector<trait_id> Character::get_mutations( bool include_hidden,
     return result;
 }
 
+std::vector<trait_and_var> Character::get_mutations_variants( bool include_hidden,
+        bool ignore_enchantments ) const
+{
+    std::vector<trait_and_var> result;
+    result.reserve( my_mutations.size() + enchantment_cache->get_mutations().size() );
+    for( const std::pair<const trait_id, trait_data> &t : my_mutations ) {
+        if( include_hidden || t.first.obj().player_display ) {
+            const std::string &variant = t.second.variant != nullptr ? t.second.variant->id : "";
+            result.emplace_back( t.first, variant );
+        }
+    }
+    if( !ignore_enchantments ) {
+        for( const trait_id &ench_trait : enchantment_cache->get_mutations() ) {
+            if( include_hidden || ench_trait->player_display ) {
+                bool found = false;
+                for( const trait_and_var &exist : result ) {
+                    if( exist.trait == ench_trait ) {
+                        found = true;
+                        break;
+                    }
+                }
+                if( !found ) {
+                    result.emplace_back( ench_trait, "" );
+                }
+            }
+        }
+    }
+    return result;
+}
+
 void Character::clear_mutations()
 {
     while( !my_traits.empty() ) {
@@ -4336,9 +4333,9 @@ void Character::empty_skills()
 void Character::add_traits()
 {
     // TODO: get rid of using get_avatar() here, use `this` instead
-    for( const trait_id &tr : get_avatar().prof->get_locked_traits() ) {
-        if( !has_trait( tr ) ) {
-            toggle_trait_deps( tr );
+    for( const trait_and_var &tr : get_avatar().prof->get_locked_traits() ) {
+        if( !has_trait( tr.trait ) ) {
+            toggle_trait_deps( tr.trait );
         }
     }
     for( const trait_id &tr : get_scenario()->get_locked_traits() ) {
@@ -4407,9 +4404,9 @@ cata::optional<std::string> query_for_template_name()
     spop.description( desc );
     spop.width( FULL_SCREEN_WIDTH - utf8_width( title ) - 8 );
     for( int character : fname_char_blacklist ) {
-        spop.callbacks[character] = []() {
+        spop.add_callback( character, []() {
             return true;
-        };
+        } );
     }
 
     spop.query_string( true );

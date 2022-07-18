@@ -1777,6 +1777,11 @@ bool vehicle::remove_part( const int p, RemovePartHandler &handler )
 
     const tripoint part_loc = global_part_pos3( p );
 
+    if( !handler.get_map_ref().inbounds( part_loc ) ) {
+        debugmsg( "Removing out of bounds vehicle part at %s from vehicle %s (%s)",
+                  part_loc.to_string(), name, type.str() );
+    }
+
     // Unboard any entities standing on removed boardable parts
     if( part_flag( p, "BOARDABLE" ) && parts[p].has_flag( vehicle_part::passenger_flag ) ) {
         handler.unboard( part_loc );
@@ -3434,30 +3439,10 @@ int vehicle::consumption_per_hour( const itype_id &ftype, int fuel_rate_w ) cons
     if( fuel_rate_w == 0 || fuel.has_flag( flag_PERPETUAL ) || !engine_on ) {
         return 0;
     }
-    // consume this fuel type's share of alternator load for 3600 seconds
-    int amount_pct = 3600 * alternator_load / 1000;
 
-    // calculate fuel consumption for the lower of safe speed or 70 mph
-    // or 0 if the vehicle is idling
-    if( is_moving() ) {
-        int target_v = std::min( safe_velocity(), 70 * 100 );
-        int vslowdown = slowdown( target_v );
-        // add 3600 seconds worth of fuel consumption for the engine
-        // HACK: engines consume 1 second worth of fuel per turn, even though a turn is 6 seconds
-        if( vslowdown > 0 ) {
-            int accel = acceleration( true, target_v );
-            if( accel == 0 ) {
-                // FIXME: Long-term plan is to change the fuel consumption
-                // computation entirely; for now just warn if this would
-                // otherwise have been division-by-zero
-                debugmsg( "Vehicle unexpectedly has zero acceleration" );
-            } else {
-                amount_pct += 3600 * vslowdown / accel;
-            }
-        }
-    }
-    int energy_j_per_mL = fuel.fuel_energy() * 1000;
-    return -amount_pct * fuel_rate_w / energy_j_per_mL;
+    // constant is 3600 sec/hr * 1/1000 J/kJ
+    // expression units are mL/hr
+    return -3.6 * fuel_rate_w / fuel.fuel_energy();
 }
 
 int vehicle::total_power_w( const bool fueled, const bool safe ) const
@@ -4406,33 +4391,31 @@ void vehicle::set_owner( const Character &c )
 
 bool vehicle::handle_potential_theft( Character const &you, bool check_only, bool prompt )
 {
-    const bool is_owned_by_player = is_owned_by( you );
-    std::vector<npc *> witnesses;
-    for( npc &elem : g->all_npcs() ) {
-        if( rl_dist( elem.pos(), you.pos() ) < MAX_VIEW_DISTANCE && has_owner() &&
-            !is_owned_by_player && elem.sees( you.pos() ) ) {
-            witnesses.push_back( &elem );
-        }
-    }
+    const bool is_owned_by_player =
+        is_owned_by( you ) || ( you.is_npc() && is_owned_by( get_avatar() ) &&
+                                you.as_npc()->is_friendly( get_avatar() ) );
     // the vehicle is yours, that's fine.
-    if( is_owned_by_player ) { // NOLINT(bugprone-branch-clone)
+    if( is_owned_by_player ) {
         return true;
-        // if There is no owner
-        // handle transfer of ownership
-    } else if( !has_owner() ||
-               // if there is a marker for having been stolen, but 15 minutes have passed, then
-               // officially transfer ownership
-               ( witnesses.empty() && has_old_owner() && !is_old_owner( you ) && theft_time &&
-                 calendar::turn - *theft_time > 15_minutes ) ) {
-        set_owner( you.get_faction()->id );
-        remove_old_owner();
-        return true;
+    }
+    std::vector<Creature *> witnesses = g->get_creatures_if( [&you, this]( Creature const & cr ) {
+        Character const *const elem = cr.as_character();
+        return elem != nullptr && you.getID() != elem->getID() && is_owned_by( *elem ) &&
+               rl_dist( elem->pos(), you.pos() ) < MAX_VIEW_DISTANCE && elem->sees( you.pos() );
+    } );
+    if( !has_owner() || ( witnesses.empty() && ( has_old_owner() || you.is_npc() ) ) ) {
+        if( !has_owner() ||
+            // if there is a marker for having been stolen, but 15 minutes have passed, then
+            // officially transfer ownership
+            ( theft_time && calendar::turn - *theft_time > 15_minutes ) ) {
+            set_owner( you.get_faction()->id );
+            remove_old_owner();
+        }
         // No witnesses? then don't need to prompt, we assume the player is in process of stealing it.
         // Ownership transfer checking is handled above, and warnings handled below.
         // This is just to perform interaction with the vehicle without a prompt.
         // It will prompt first-time, even with no witnesses, to inform player it is owned by someone else
         // subsequently, no further prompts, the player should know by then.
-    } else if( witnesses.empty() && old_owner ) {
         return true;
     }
     // if we are just checking if we could continue without problems, then the rest is assumed false
@@ -4441,7 +4424,7 @@ bool vehicle::handle_potential_theft( Character const &you, bool check_only, boo
     }
     // if we got here, there's some theft occurring
     if( prompt ) {
-        if( !query_yn(
+        if( !you.query_yn(
                 _( "This vehicle belongs to: %s, there may be consequences if you are observed interacting with it, continue?" ),
                 _( get_owner_name() ) ) ) {
             return false;
@@ -4449,13 +4432,13 @@ bool vehicle::handle_potential_theft( Character const &you, bool check_only, boo
     }
     // set old owner so that we can restore ownership if there are witnesses.
     set_old_owner( get_owner() );
-    for( npc *elem : witnesses ) {
-        elem->say( "<witnessed_thievery>", 7 );
-    }
-    if( !witnesses.empty() ) {
-        if( you.add_faction_warning( get_owner() ) ) {
-            for( npc *elem : witnesses ) {
-                elem->make_angry();
+    bool const make_angry = !witnesses.empty() && you.add_faction_warning( get_owner() );
+    for( Creature *elem : witnesses ) {
+        if( elem->is_npc() ) {
+            npc &n = *elem->as_npc();
+            n.say( "<witnessed_thievery>", 7 );
+            if( make_angry ) {
+                n.make_angry();
             }
         }
         // remove the temporary marker for a successful theft, as it was witnessed.
@@ -4817,8 +4800,8 @@ int vehicle::total_wind_epower_w() const
             continue;
         }
 
-        double windpower = get_local_windpower( weather.windspeed, cur_om_ter, global_part_pos3( part ),
-                                                weather.winddirection, false );
+        int windpower = get_local_windpower( weather.windspeed, cur_om_ter, global_part_pos3( part ),
+                                             weather.winddirection, false );
         if( windpower <= ( weather.windspeed / 10.0 ) ) {
             continue;
         }
@@ -7641,4 +7624,21 @@ bool vehicle_part_range::matches( const size_t part ) const
 bool vehicle_part_with_fakes_range::matches( const size_t part ) const
 {
     return this->with_inactive_fakes_ || this->vehicle().real_or_active_fake_part( part );
+}
+
+void MapgenRemovePartHandler::add_item_or_charges(
+    const tripoint &loc, item it, bool permit_oob )
+{
+    if( !m.inbounds( loc ) ) {
+        if( !permit_oob ) {
+            debugmsg( "Tried to put item %s on invalid tile %s during mapgen!",
+                      it.tname(), loc.to_string() );
+        }
+        tripoint copy = loc;
+        m.clip_to_bounds( copy );
+        cata_assert( m.inbounds( copy ) ); // prevent infinite recursion
+        add_item_or_charges( copy, std::move( it ), false );
+        return;
+    }
+    m.add_item_or_charges( loc, std::move( it ) );
 }

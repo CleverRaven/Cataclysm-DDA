@@ -104,7 +104,8 @@
     "color": "light_gray",
     "techniques": [ "WBLOCK_1" ],
     "weapon_category": [ "QUARTERSTAVES" ],
-    "use_action": [ "MOP" ]
+    "use_action": [ "MOP" ],
+    "flags": [ "MOP" ]
   },
   {
     "id": "mop_folded",
@@ -123,7 +124,7 @@
     "color": "light_gray",
     "looks_like": "mop",
     "weapon_category": [ "QUARTERSTAVES" ],
-    "flags": [ "FRAGILE_MELEE" ],
+    "flags": [ "FRAGILE_MELEE", "MOP" ],
     "use_action": [ "MOP" ]
   },
   {

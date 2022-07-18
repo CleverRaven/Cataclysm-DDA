@@ -261,7 +261,7 @@ void aim_activity_actor::do_turn( player_activity &act, Character &who )
     }
     avatar &you = get_avatar();
 
-    item *weapon = get_weapon();
+    item_location weapon = get_weapon();
     if( !weapon || !avatar_action::can_fire_weapon( you, get_map(), *weapon ) ) {
         aborted = true;
         act.moves_left = 0;
@@ -305,7 +305,7 @@ void aim_activity_actor::finish( player_activity &act, Character &who )
 {
     act.set_to_null();
     restore_view();
-    item *weapon = get_weapon();
+    item_location weapon = get_weapon();
     if( !weapon ) {
         return;
     }
@@ -377,16 +377,16 @@ std::unique_ptr<activity_actor> aim_activity_actor::deserialize( JsonValue &jsin
     return actor.clone();
 }
 
-item *aim_activity_actor::get_weapon()
+item_location aim_activity_actor::get_weapon()
 {
     if( fake_weapon.has_value() ) {
         // TODO: check if the player lost relevant bionic/mutation
-        return &fake_weapon.value();
+        return item_location( get_player_character(), &fake_weapon.value() );
     } else {
         // Check for lost gun (e.g. yanked by zombie technician)
         // TODO: check that this is the same gun that was used to start aiming
-        item &weapon = get_player_character().get_wielded_item();
-        return weapon.is_null() ? nullptr : &weapon;
+        return get_player_character().get_wielded_item();
+
     }
 }
 
@@ -405,7 +405,7 @@ bool aim_activity_actor::load_RAS_weapon()
 {
     // TODO: use activity for fetching ammo and loading weapon
     Character &you = get_avatar();
-    item *weapon = get_weapon();
+    item_location weapon = get_weapon();
     gun_mode gun = weapon->gun_current_mode();
     const auto ammo_location_is_valid = [&]() -> bool {
         if( !you.ammo_location )
@@ -422,8 +422,8 @@ bool aim_activity_actor::load_RAS_weapon()
         }
         return true;
     };
-    item::reload_option opt = ammo_location_is_valid() ? item::reload_option( &you, weapon,
-                              weapon, you.ammo_location ) : you.select_ammo( *gun );
+    item::reload_option opt = ammo_location_is_valid() ? item::reload_option( &you, &*weapon,
+                              &*weapon, you.ammo_location ) : you.select_ammo( *gun );
     if( !opt ) {
         // Menu canceled
         return false;
@@ -450,7 +450,7 @@ void aim_activity_actor::unload_RAS_weapon()
 {
     // Unload reload-and-shoot weapons to avoid leaving bows pre-loaded with arrows
     avatar &you = get_avatar();
-    item *weapon = get_weapon();
+    item_location weapon = get_weapon();
     if( !weapon ) {
         return;
     }
@@ -1313,8 +1313,8 @@ void read_activity_actor::read_book( Character &learner,
     // Calculate experience gained
     /** @EFFECT_INT increases reading comprehension */
     // Enhanced Memory Banks modestly boosts experience
-    int min_ex = std::max( 1, islotbook->time / 10 + learner.get_int() / 4 );
-    int max_ex = islotbook->time / 5 + learner.get_int() / 2 - originalSkillLevel;
+    int min_ex = std::max( 1, to_minutes<int>( islotbook->time ) / 10 + learner.get_int() / 4 );
+    int max_ex = to_minutes<int>( islotbook->time ) / 5 + learner.get_int() / 2 - originalSkillLevel;
 
     min_ex = learner.enchantment_cache->modify_value( enchant_vals::mod::READING_EXP, min_ex );
 
@@ -1402,8 +1402,8 @@ bool read_activity_actor::player_read( avatar &you )
         book->mark_chapter_as_read( *learner );
         if( reading_for_skill ) {
             if( !learner->is_avatar() ) {
-                const int npc_read_time = you.time_to_read( *book, *reader, learner );
-                penalty = static_cast<double>( moves_total ) / npc_read_time;
+                const time_duration npc_read_time = you.time_to_read( *book, *reader, learner );
+                penalty = static_cast<double>( moves_total ) / to_moves<int>( npc_read_time );
             }
         } else {
             continue;   // reading for fun
@@ -1637,7 +1637,7 @@ void read_activity_actor::finish( player_activity &act, Character &who )
     }
 
     if( continuous ) {
-        int time_taken;
+        time_duration time_taken;
 
         // caller should check if npc can read first
         if( who.is_npc() ) {
@@ -1661,13 +1661,13 @@ void read_activity_actor::finish( player_activity &act, Character &who )
 
             time_taken = who.as_avatar()->time_to_read( *book, *reader );
             add_msg_debug( debugmode::DF_ACT_READ, "reading time = %s",
-                           to_string_writable( time_duration::from_moves( time_taken ) ) );
+                           to_string_writable( time_taken ) );
         }
 
         // restart the activity
-        moves_total = time_taken;
-        act.moves_total = time_taken;
-        act.moves_left = time_taken;
+        moves_total = to_moves<int>( time_taken );
+        act.moves_total = to_moves<int>( time_taken );
+        act.moves_left = to_moves<int>( time_taken );
         return;
     } else  {
         who.add_msg_if_player( m_info, _( "You finish reading." ) );
@@ -4035,7 +4035,7 @@ void reload_activity_actor::finish( player_activity &act, Character &who )
                                        reloadable_name );
     if( who.has_wield_conflicts( reloadable ) ) {
         reload_query.addentry( 1, wield_check, 'w',
-                               _( "Dispose of %s and wield %s" ), who.get_wielded_item().display_name(),
+                               _( "Dispose of %s and wield %s" ), who.get_wielded_item()->display_name(),
                                reloadable_name );
     } else {
         reload_query.addentry( 1, wield_check, 'w', _( "Wield %s" ), reloadable_name );

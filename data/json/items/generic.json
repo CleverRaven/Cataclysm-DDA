@@ -206,25 +206,27 @@
     "type": "GENERIC",
     "id": "twig",
     "name": { "str": "twig" },
+    "looks_like": "stick",
     "description": "A small and slender branch.  Makes passable firewood but is not useful for much else.",
-    "weight": "30 g",
+    "weight": "40 g",
     "color": "brown",
     "symbol": "/",
     "material": [ "wood" ],
-    "volume": "50 ml",
-    "flags": [ "TRADER_AVOID" ]
+    "volume": "100 ml",
+    "flags": [ "TRADER_AVOID", "FIREWOOD" ]
   },
   {
     "type": "GENERIC",
     "id": "leaves",
     "name": { "str": "handful of leaves", "str_pl": "handfuls of leaves" },
+    "looks_like": "withered",
     "description": "Some ordinary, mostly dry leaves.  They have very few uses and are thus (almost) only good for burning.",
     "weight": "30 g",
     "color": "green",
     "symbol": ",",
     "material": [ "veggy" ],
     "volume": "100 ml",
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID", "FIREWOOD" ]
   },
   {
     "type": "GENERIC",
@@ -978,7 +980,7 @@
     "price": 10000,
     "price_postapoc": 50,
     "material": [ "steel", "iron" ],
-    "weight": "22680 g",
+    "weight": "28680 g",
     "volume": "6250 ml",
     "longest_side": "1 meter",
     "bashing": 6,

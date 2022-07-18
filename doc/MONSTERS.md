@@ -604,11 +604,13 @@ Each element of the array should be an object containing the following members:
 | field           | description
 | ---             | ---
 | `id`            | (string, required) The id of the effect that is to be applied.
-| `duration`      | (integer, optional) How long (in turns) the effect should last.
+| `duration`      | (integer or a pair of integers, optional) How long (in turns) the effect should last. When defined with a pair of values the duration will be randomized between those.
+| `intensity`     | ( integer or a pair of integers, optional) What intensity the effect should be applied at, when defined as a pair the intensity will be randomized between them. Can't overwrite effects that derive their intensity from their duration via `int_dur_factor`.
 | `affect_hit_bp` | (boolean, optional) Whether the effect should be applied to the hit body part instead of the one set below.
 | `bp`            | (string, optional) The body part that where the effect is applied. The default is to apply the effect to the whole body. Note that some effects may require a specific body part (e.g. "hot") and others may require the whole body (e.g. "meth").
 | `permanent`     | (boolean, optional) Whether the effect is permanent, in which case the "duration" will be ignored. The default is non-permanent.
 | `chance`        | (integer, optional) The chance of the effect getting applied.
+| `message`       | (string, optional) Message to print when the effect is applied to the player. Supports dynamic lines with the syntax `%s = <the monster's name>`.
 
 ## "path_settings"
 (object, optional)

@@ -29,6 +29,7 @@
 #include "cuboid_rectangle.h"
 #include "debug.h"
 #include "drawing_primitives.h"
+#include "enum_conversions.h"
 #include "enums.h"
 #include "field_type.h"
 #include "game.h"
@@ -74,6 +75,7 @@
 #include "trap.h"
 #include "units.h"
 #include "value_ptr.h"
+#include "veh_type.h"
 #include "vehicle.h"
 #include "vehicle_group.h"
 #include "vpart_position.h"
@@ -321,6 +323,9 @@ class mapgen_basic_container
     public:
         int add( const std::shared_ptr<mapgen_function> &ptr ) {
             cata_assert( ptr );
+            if( std::find( mapgens_.begin(), mapgens_.end(), ptr ) != mapgens_.end() ) {
+                debugmsg( "Adding duplicate mapgen to container!" );
+            }
             mapgens_.push_back( ptr );
             return mapgens_.size() - 1;
         }
@@ -569,10 +574,10 @@ void check_mapgen_definitions()
  */
 namespace mapgen_defer
 {
-std::string member;
-std::string message;
-bool defer;
-JsonObject jsi;
+static std::string member;
+static std::string message;
+static bool defer;
+static JsonObject jsi;
 } // namespace mapgen_defer
 
 static void set_mapgen_defer( const JsonObject &jsi, const std::string &member,
@@ -592,7 +597,6 @@ load_mapgen_function( const JsonObject &jio, const std::string &id_base, const p
                       const point &total )
 {
     int mgweight = jio.get_int( "weight", 1000 );
-    std::shared_ptr<mapgen_function> ret;
     if( mgweight <= 0 || jio.get_bool( "disabled", false ) ) {
         jio.allow_omitted_members();
         return nullptr; // nothing
@@ -600,8 +604,7 @@ load_mapgen_function( const JsonObject &jio, const std::string &id_base, const p
     const std::string mgtype = jio.get_string( "method" );
     if( mgtype == "builtin" ) {
         if( const building_gen_pointer ptr = get_mapgen_cfunction( jio.get_string( "name" ) ) ) {
-            ret = std::make_shared<mapgen_function_builtin>( ptr, mgweight );
-            oter_mapgen.add( id_base, ret );
+            return std::make_shared<mapgen_function_builtin>( ptr, mgweight );
         } else {
             jio.throw_error_at( "name", "function does not exist" );
         }
@@ -612,13 +615,20 @@ load_mapgen_function( const JsonObject &jio, const std::string &id_base, const p
         JsonObject jo = jio.get_object( "object" );
         const json_source_location jsrc = jo.get_source_location();
         jo.allow_omitted_members();
-        ret = std::make_shared<mapgen_function_json>(
-                  jsrc, mgweight, "mapgen " + id_base, offset, total );
-        oter_mapgen.add( id_base, ret );
+        return std::make_shared<mapgen_function_json>(
+                   jsrc, mgweight, "mapgen " + id_base, offset, total );
     } else {
         jio.throw_error_at( "method", R"(invalid value: must be "builtin" or "json")" );
     }
-    return ret;
+}
+
+void load_and_add_mapgen_function( const JsonObject &jio, const std::string &id_base,
+                                   const point &offset, const point &total )
+{
+    std::shared_ptr<mapgen_function> f = load_mapgen_function( jio, id_base, offset, total );
+    if( f ) {
+        oter_mapgen.add( id_base, f );
+    }
 }
 
 static void load_nested_mapgen( const JsonObject &jio, const nested_mapgen_id &id_base )
@@ -679,10 +689,7 @@ void load_mapgen( const JsonObject &jo )
             point total( ja.get_array( 0 ).size(), ja.size() );
             for( JsonArray row_items : ja ) {
                 for( const std::string mapgenid : row_items ) {
-                    const auto mgfunc = load_mapgen_function( jo, mapgenid, offset, total );
-                    if( mgfunc ) {
-                        oter_mapgen.add( mapgenid, mgfunc );
-                    }
+                    load_and_add_mapgen_function( jo, mapgenid, offset, total );
                     offset.x++;
                 }
                 offset.y++;
@@ -704,7 +711,7 @@ void load_mapgen( const JsonObject &jo )
             }
         }
     } else if( jo.has_string( "om_terrain" ) ) {
-        load_mapgen_function( jo, jo.get_string( "om_terrain" ), point_zero, point_one );
+        load_and_add_mapgen_function( jo, jo.get_string( "om_terrain" ), point_zero, point_one );
     } else if( jo.has_string( "nested_mapgen_id" ) ) {
         load_nested_mapgen( jo, nested_mapgen_id( jo.get_string( "nested_mapgen_id" ) ) );
     } else if( jo.has_string( "update_mapgen_id" ) ) {
@@ -1467,6 +1474,7 @@ std::string enum_to_string<jmapgen_flags>( jmapgen_flags v )
         case jmapgen_flags::erase_all_before_placing_terrain:
             return "ERASE_ALL_BEFORE_PLACING_TERRAIN";
         case jmapgen_flags::no_underlying_rotate: return "NO_UNDERLYING_ROTATE";
+        case jmapgen_flags::avoid_creatures: return "AVOID_CREATURES";
         // *INDENT-ON*
         case jmapgen_flags::last:
             break;
@@ -2363,6 +2371,23 @@ class jmapgen_monster : public jmapgen_piece
         }
 };
 
+static inclusive_rectangle<point> vehicle_bounds( const vehicle_prototype &vp )
+{
+    point min( INT_MAX, INT_MAX );
+    point max( INT_MIN, INT_MIN );
+
+    cata_assert( !vp.parts.empty() );
+
+    for( const vehicle_prototype::part_def &part : vp.parts ) {
+        min.x = std::min( min.x, part.pos.x );
+        max.x = std::max( max.x, part.pos.x );
+        min.y = std::min( min.y, part.pos.y );
+        max.y = std::max( max.y, part.pos.y );
+    }
+
+    return { min, max };
+}
+
 /**
  * Place a vehicle.
  * "vehicle": id of the vehicle.
@@ -2419,10 +2444,132 @@ class jmapgen_vehicle : public jmapgen_piece
             return dat.m.veh_at( tripoint( p, dat.zlevel() ) ).has_value();
         }
 
-        void check( const std::string &oter_name, const mapgen_parameters &parameters,
-                    const jmapgen_int &/*x*/, const jmapgen_int &/*y*/
+        void check( const std::string &context, const mapgen_parameters &parameters,
+                    const jmapgen_int &x, const jmapgen_int &y
                   ) const override {
-            type.check( oter_name, parameters );
+            type.check( context, parameters );
+
+            if( x.val == -1 ) {
+                // We are in a palette, so no need to verify that the positions
+                // are valid
+                return;
+            }
+
+            // The rest of this function is devoted to ensuring that this
+            // vehicle placement does not lead to a vehicle overlapping an OMT
+            // boundary, because that causes issues (e.g. if the vehicle is
+            // damaged and tries to drop items during mapgen, they may drop on
+            // points outside the map).
+
+            point min( INT_MAX, INT_MAX );
+            point max( INT_MIN, INT_MIN );
+            vgroup_id min_x_vg;
+            vproto_id min_x_vp;
+            vgroup_id max_x_vg;
+            vproto_id max_x_vp;
+            vgroup_id min_y_vg;
+            vproto_id min_y_vp;
+            vgroup_id max_y_vg;
+            vproto_id max_y_vp;
+            for( const vgroup_id &vg_id : type.all_possible_results( parameters ) ) {
+                for( const vproto_id &vp_id : vg_id->all_possible_results() ) {
+                    inclusive_rectangle<point> bounds = vehicle_bounds( *vp_id );
+                    if( bounds.p_min.x < min.x ) {
+                        min_x_vg = vg_id;
+                        min_x_vp = vp_id;
+                        min.x = bounds.p_min.x;
+                    }
+                    if( bounds.p_max.x > max.x ) {
+                        max_x_vg = vg_id;
+                        max_x_vp = vp_id;
+                        max.x = bounds.p_max.x;
+                    }
+                    if( bounds.p_min.y < min.y ) {
+                        min_y_vg = vg_id;
+                        min_y_vp = vp_id;
+                        min.y = bounds.p_min.y;
+                    }
+                    if( bounds.p_max.y > max.y ) {
+                        max_y_vg = vg_id;
+                        max_y_vp = vp_id;
+                        max.y = bounds.p_max.y;
+                    }
+                }
+            }
+
+            for( units::angle rot : rotation ) {
+                int degrees = to_degrees( rot );
+                while( degrees < 0 ) {
+                    degrees += 360;
+                }
+                if( degrees % 90 != 0 ) {
+                    // TODO: support non-rectilinear vehicle placement
+                    continue;
+                }
+                int turns = degrees / 90;
+                point rotated_min = min.rotate( turns );
+                point rotated_max = max.rotate( turns );
+                point new_min( std::min( rotated_min.x, rotated_max.x ),
+                               std::min( rotated_min.y, rotated_max.y ) );
+                point new_max( std::max( rotated_min.x, rotated_max.x ),
+                               std::max( rotated_min.y, rotated_max.y ) );
+
+                new_min += point( x.val, y.val );
+                new_max += point( x.valmax, y.valmax );
+
+                cube_direction bad_rotated_direction = cube_direction::last;
+                std::string extreme_coord;
+
+                if( new_min.x < 0 ) {
+                    bad_rotated_direction = cube_direction::west;
+                    extreme_coord = string_format( "x = %d (should be at least 0)", new_min.x );
+                } else if( new_max.x >= 24 ) {
+                    bad_rotated_direction = cube_direction::east;
+                    extreme_coord = string_format( "x = %d (should be at most 23)", new_max.x );
+                } else if( new_min.y < 0 ) {
+                    extreme_coord = string_format( "y = %d (should be at least 0)", new_min.y );
+                    bad_rotated_direction = cube_direction::north;
+                } else if( new_max.y >= 24 ) {
+                    bad_rotated_direction = cube_direction::south;
+                    extreme_coord = string_format( "y = %d (should be at most 23)", new_max.y );
+                } else {
+                    continue;
+                }
+
+                cube_direction bad_direction = bad_rotated_direction - turns;
+
+                std::string bad_vehicle;
+                auto format_option = []( const vgroup_id & vg, const vproto_id & vp ) {
+                    return string_format(
+                               "[vgroup_id %s; vproto_id %s]", vg.str(), vp.str() );
+                };
+                switch( bad_direction ) {
+                    case cube_direction::north:
+                        bad_vehicle = format_option( min_y_vg, min_y_vp );
+                        break;
+                    case cube_direction::south:
+                        bad_vehicle = format_option( max_y_vg, max_y_vp );
+                        break;
+                    case cube_direction::east:
+                        bad_vehicle = format_option( max_x_vg, max_x_vp );
+                        break;
+                    case cube_direction::west:
+                        bad_vehicle = format_option( min_x_vg, min_x_vp );
+                        break;
+                    default:
+                        cata_fatal( "Invalid bad_direction %d", bad_direction );
+                }
+                debugmsg( "In %s, vehicle placement at x:[%d,%d], y:[%d,%d]: "
+                          "potential placement of vehicle out of bounds.  "
+                          "At rotation %d the vehicle %s extends too far %s, "
+                          "reaching coordinate %s",
+                          context, x.val, x.valmax, y.val, y.valmax, degrees,
+                          bad_vehicle, io::enum_to_string( bad_rotated_direction ),
+                          extreme_coord );
+                // Early exit because we don't want too much error spam
+                // from the same mapgen piece
+                return;
+            }
         }
 };
 /**
@@ -3634,7 +3781,7 @@ bool string_id<mapgen_palette>::is_valid() const
 void mapgen_palette::check()
 {
     std::string context = "palette " + id.str();
-    jmapgen_int fake_coord( 0 );
+    jmapgen_int fake_coord( -1 );
     mapgen_parameters no_parameters;
     for( const std::pair<const std::string, mapgen_parameter> &param : parameters.map ) {
         std::string this_context = string_format( "parameter %s in %s", param.first, context );
@@ -4282,13 +4429,21 @@ bool jmapgen_setmap::apply( const mapgendata &dat, const point &offset ) const
         return true;
     }
 
-    const auto get = []( const jmapgen_int & v, int offset ) {
+    static const auto get = []( const jmapgen_int & v, int offset ) {
         return v.get() + offset;
     };
-    const auto x_get = std::bind( get, x, offset.x );
-    const auto y_get = std::bind( get, y, offset.y );
-    const auto x2_get = std::bind( get, x2, offset.x );
-    const auto y2_get = std::bind( get, y2, offset.y );
+    const auto x_get = [this, &offset]() {
+        return get( x, offset.x );
+    };
+    const auto y_get = [this, &offset]() {
+        return get( y, offset.y );
+    };
+    const auto x2_get = [this, &offset]() {
+        return get( x2, offset.x );
+    };
+    const auto y2_get = [this, &offset]() {
+        return get( y2, offset.y );
+    };
 
     map &m = dat.m;
     const int trepeat = repeat.get();
@@ -4296,17 +4451,20 @@ bool jmapgen_setmap::apply( const mapgendata &dat, const point &offset ) const
         switch( op ) {
             case JMAPGEN_SETMAP_TER: {
                 // TODO: the ter_id should be stored separately and not be wrapped in an jmapgen_int
-                m.ter_set( point( x_get(), y_get() ), ter_id( val.get() ) );
+                m.ter_set( point( x_get(), y_get() ), ter_id( val.get() ),
+                           dat.has_flag( jmapgen_flags::avoid_creatures ) );
             }
             break;
             case JMAPGEN_SETMAP_FURN: {
                 // TODO: the furn_id should be stored separately and not be wrapped in an jmapgen_int
-                m.furn_set( point( x_get(), y_get() ), furn_id( val.get() ) );
+                m.furn_set( point( x_get(), y_get() ), furn_id( val.get() ),
+                            dat.has_flag( jmapgen_flags::avoid_creatures ) );
             }
             break;
             case JMAPGEN_SETMAP_TRAP: {
                 // TODO: the trap_id should be stored separately and not be wrapped in an jmapgen_int
-                mtrap_set( &m, point( x_get(), y_get() ), trap_id( val.get() ) );
+                mtrap_set( &m, point( x_get(), y_get() ), trap_id( val.get() ),
+                           dat.has_flag( jmapgen_flags::avoid_creatures ) );
             }
             break;
             case JMAPGEN_SETMAP_RADIATION: {
@@ -4318,9 +4476,9 @@ bool jmapgen_setmap::apply( const mapgendata &dat, const point &offset ) const
             }
             break;
             case JMAPGEN_SETMAP_CREATURE_REMOVE: {
-                creature_tracker &creatures = get_creature_tracker();
-                Creature *tmp_critter = creatures.creature_at( tripoint( x_get(), y_get(), m.get_abs_sub().z() ) );
-                if( tmp_critter != nullptr ) {
+                Creature *tmp_critter = get_creature_tracker().creature_at( tripoint_abs_ms( m.getabs( tripoint(
+                                            x_get(), y_get(), m.get_abs_sub().z() ) ) ), true );
+                if( tmp_critter && !tmp_critter->is_avatar() ) {
                     tmp_critter->die( nullptr );
                 }
             }
@@ -4344,12 +4502,14 @@ bool jmapgen_setmap::apply( const mapgendata &dat, const point &offset ) const
             break;
             case JMAPGEN_SETMAP_LINE_TER: {
                 // TODO: the ter_id should be stored separately and not be wrapped in an jmapgen_int
-                m.draw_line_ter( ter_id( val.get() ), point( x_get(), y_get() ), point( x2_get(), y2_get() ) );
+                m.draw_line_ter( ter_id( val.get() ), point( x_get(), y_get() ), point( x2_get(), y2_get() ),
+                                 dat.has_flag( jmapgen_flags::avoid_creatures ) );
             }
             break;
             case JMAPGEN_SETMAP_LINE_FURN: {
                 // TODO: the furn_id should be stored separately and not be wrapped in an jmapgen_int
-                m.draw_line_furn( furn_id( val.get() ), point( x_get(), y_get() ), point( x2_get(), y2_get() ) );
+                m.draw_line_furn( furn_id( val.get() ), point( x_get(), y_get() ), point( x2_get(), y2_get() ),
+                                  dat.has_flag( jmapgen_flags::avoid_creatures ) );
             }
             break;
             case JMAPGEN_SETMAP_LINE_TRAP: {
@@ -4357,7 +4517,7 @@ bool jmapgen_setmap::apply( const mapgendata &dat, const point &offset ) const
                                                 0 );
                 for( const point &i : line ) {
                     // TODO: the trap_id should be stored separately and not be wrapped in an jmapgen_int
-                    mtrap_set( &m, i, trap_id( val.get() ) );
+                    mtrap_set( &m, i, trap_id( val.get() ), dat.has_flag( jmapgen_flags::avoid_creatures ) );
                 }
             }
             break;
@@ -4374,9 +4534,9 @@ bool jmapgen_setmap::apply( const mapgendata &dat, const point &offset ) const
                 const std::vector<point> line = line_to( point( x_get(), y_get() ), point( x2_get(), y2_get() ),
                                                 0 );
                 for( const point &i : line ) {
-                    creature_tracker &creatures = get_creature_tracker();
-                    Creature *tmp_critter = creatures.creature_at( tripoint( i, m.get_abs_sub().z() ) );
-                    if( tmp_critter != nullptr ) {
+                    Creature *tmp_critter = get_creature_tracker().creature_at( tripoint_abs_ms( m.getabs( tripoint( i,
+                                            m.get_abs_sub().z() ) ) ), true );
+                    if( tmp_critter && !tmp_critter->is_avatar() ) {
                         tmp_critter->die( nullptr );
                     }
                 }
@@ -4408,12 +4568,14 @@ bool jmapgen_setmap::apply( const mapgendata &dat, const point &offset ) const
             break;
             case JMAPGEN_SETMAP_SQUARE_TER: {
                 // TODO: the ter_id should be stored separately and not be wrapped in an jmapgen_int
-                m.draw_square_ter( ter_id( val.get() ), point( x_get(), y_get() ), point( x2_get(), y2_get() ) );
+                m.draw_square_ter( ter_id( val.get() ), point( x_get(), y_get() ), point( x2_get(), y2_get() ),
+                                   dat.has_flag( jmapgen_flags::avoid_creatures ) );
             }
             break;
             case JMAPGEN_SETMAP_SQUARE_FURN: {
                 // TODO: the furn_id should be stored separately and not be wrapped in an jmapgen_int
-                m.draw_square_furn( furn_id( val.get() ), point( x_get(), y_get() ), point( x2_get(), y2_get() ) );
+                m.draw_square_furn( furn_id( val.get() ), point( x_get(), y_get() ), point( x2_get(), y2_get() ),
+                                    dat.has_flag( jmapgen_flags::avoid_creatures ) );
             }
             break;
             case JMAPGEN_SETMAP_SQUARE_TRAP: {
@@ -4423,7 +4585,8 @@ bool jmapgen_setmap::apply( const mapgendata &dat, const point &offset ) const
                 for( int tx = c.x; tx <= cx2; tx++ ) {
                     for( int ty = c.y; ty <= cy2; ty++ ) {
                         // TODO: the trap_id should be stored separately and not be wrapped in an jmapgen_int
-                        mtrap_set( &m, point( tx, ty ), trap_id( val.get() ) );
+                        mtrap_set( &m, point( tx, ty ), trap_id( val.get() ),
+                                   dat.has_flag( jmapgen_flags::avoid_creatures ) );
                     }
                 }
             }
@@ -4446,9 +4609,9 @@ bool jmapgen_setmap::apply( const mapgendata &dat, const point &offset ) const
                 const int cy2 = y2_get();
                 for( int tx = c.x; tx <= cx2; tx++ ) {
                     for( int ty = c.y; ty <= cy2; ty++ ) {
-                        creature_tracker &creatures = get_creature_tracker();
-                        Creature *tmp_critter = creatures.creature_at( tripoint( tx, ty, m.get_abs_sub().z() ) );
-                        if( tmp_critter != nullptr ) {
+                        Creature *tmp_critter = get_creature_tracker().creature_at( tripoint_abs_ms( m.getabs( tripoint( tx,
+                                                ty, m.get_abs_sub().z() ) ) ), true );
+                        if( tmp_critter && !tmp_critter->is_avatar() ) {
                             tmp_critter->die( nullptr );
                         }
                     }
@@ -4499,13 +4662,21 @@ bool jmapgen_setmap::apply( const mapgendata &dat, const point &offset ) const
 
 bool jmapgen_setmap::has_vehicle_collision( const mapgendata &dat, const point &offset ) const
 {
-    const auto get = []( const jmapgen_int & v, int v_offset ) {
+    static const auto get = []( const jmapgen_int & v, int v_offset ) {
         return v.get() + v_offset;
     };
-    const auto x_get = std::bind( get, x, offset.x );
-    const auto y_get = std::bind( get, y, offset.y );
-    const auto x2_get = std::bind( get, x2, offset.x );
-    const auto y2_get = std::bind( get, y2, offset.y );
+    const auto x_get = [this, &offset]() {
+        return get( x, offset.x );
+    };
+    const auto y_get = [this, &offset]() {
+        return get( y, offset.y );
+    };
+    const auto x2_get = [this, &offset]() {
+        return get( x2, offset.x );
+    };
+    const auto y2_get = [this, &offset]() {
+        return get( y2, offset.y );
+    };
     const tripoint start = tripoint( x_get(), y_get(), 0 );
     tripoint end = start;
     switch( op ) {
@@ -6403,6 +6574,15 @@ std::vector<item *> map::place_items(
     return res;
 }
 
+std::vector<item *> map::place_items(
+    const item_group_id &group_id, const int chance, const tripoint_bub_ms &p1,
+    const tripoint_bub_ms &p2, const bool ongrass, const time_point &turn, const int magazine,
+    const int ammo, const std::string &faction )
+{
+    return place_items( group_id, chance, p1.raw(), p2.raw(), ongrass, turn, magazine, ammo,
+                        faction );
+}
+
 std::vector<item *> map::put_items_from_loc( const item_group_id &group_id, const tripoint &p,
         const time_point &turn )
 {
@@ -6599,6 +6779,18 @@ std::unique_ptr<vehicle> map::add_vehicle_to_map(
                     // This happens if this location is occupied by a fake part.
                     if( first_veh_parts.empty() || first_veh_parts.front()->is_fake ) {
                         continue;
+                    }
+                    if( !inbounds( map_pos ) ) {
+                        debugmsg( "Existing vehicle %s (%s; origin %s; rot %g) and "
+                                  "new vehicle %s (%s; origin %s; rot %g) "
+                                  "out of map bounds at %s",
+                                  first_veh->name, first_veh->type.str(),
+                                  first_veh->global_square_location().to_string(),
+                                  to_degrees( first_veh->turn_dir ),
+                                  veh_to_add->name, veh_to_add->type.str(),
+                                  veh_to_add->global_square_location().to_string(),
+                                  to_degrees( veh_to_add->turn_dir ),
+                                  map_pos.to_string() );
                     }
                     did_merge = true;
                     const point target_point = first_veh_parts.front()->mount;
@@ -7405,16 +7597,25 @@ void map::create_anomaly( const tripoint &cp, artifact_natural_property prop, bo
             }
             break;
 
-        case ARTPROP_FRACTAL:
-            create_anomaly( c + point( -4, -4 ),
-                            static_cast<artifact_natural_property>( rng( ARTPROP_NULL + 1, ARTPROP_MAX - 1 ) ) );
-            create_anomaly( c + point( 4, -4 ),
-                            static_cast<artifact_natural_property>( rng( ARTPROP_NULL + 1, ARTPROP_MAX - 1 ) ) );
-            create_anomaly( c + point( -4, 4 ),
-                            static_cast<artifact_natural_property>( rng( ARTPROP_NULL + 1, ARTPROP_MAX - 1 ) ) );
-            create_anomaly( c + point( 4, -4 ),
-                            static_cast<artifact_natural_property>( rng( ARTPROP_NULL + 1, ARTPROP_MAX - 1 ) ) );
+        case ARTPROP_FRACTAL: {
+            // Want to choose a random anomaly type which isn't fractal
+            // (because nested fractal anomalies lead to out of bounds
+            // placement).  To be able to easily choose a random type excluding
+            // fractal we want ARTPROP_FRACTAL to be the last type in the enum.
+            // Verify that here with a static_assert.
+            static_assert( ARTPROP_FRACTAL + 1 == ARTPROP_MAX,
+                           "ARTPROP_FRACTAL should be the last type in the list before "
+                           "ARTPROP_MAX" );
+            auto random_type = []() {
+                return static_cast<artifact_natural_property>(
+                           rng( ARTPROP_NULL + 1, ARTPROP_FRACTAL - 1 ) );
+            };
+            create_anomaly( c + point( -4, -4 ), random_type() );
+            create_anomaly( c + point( 4, -4 ), random_type() );
+            create_anomaly( c + point( -4, 4 ), random_type() );
+            create_anomaly( c + point( 4, 4 ), random_type() );
             break;
+        }
         default:
             break;
     }

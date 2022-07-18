@@ -74,7 +74,7 @@ TEST_CASE( "Glass portion breakability", "[material] [slow]" )
         REQUIRE( dude.wield( mostly_glass ) );
         int shatter_count = 0;
         for( int i = 0; i < num_iters; i++ ) {
-            dealt_projectile_attack atk = dude.throw_item( target_pos, dude.get_wielded_item() );
+            dealt_projectile_attack atk = dude.throw_item( target_pos, *dude.get_wielded_item() );
             if( atk.proj.proj_effects.find( "SHATTER_SELF" ) != atk.proj.proj_effects.end() ) {
                 shatter_count++;
             }
@@ -87,7 +87,7 @@ TEST_CASE( "Glass portion breakability", "[material] [slow]" )
         REQUIRE( dude.wield( mostly_steel ) );
         int shatter_count = 0;
         for( int i = 0; i < num_iters; i++ ) {
-            dealt_projectile_attack atk = dude.throw_item( target_pos, dude.get_wielded_item() );
+            dealt_projectile_attack atk = dude.throw_item( target_pos, *dude.get_wielded_item() );
             if( atk.proj.proj_effects.find( "SHATTER_SELF" ) != atk.proj.proj_effects.end() ) {
                 shatter_count++;
             }

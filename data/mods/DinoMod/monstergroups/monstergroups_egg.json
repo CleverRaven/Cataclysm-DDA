@@ -18,9 +18,7 @@
       { "monster": "mon_pachyrhinosaurus_hatchling", "weight": 3 },
       { "monster": "mon_pentaceratops_hatchling", "weight": 3 },
       { "monster": "mon_torosaurus_hatchling", "weight": 3 },
-      { "monster": "mon_triceratops_hatchling", "weight": 3 },
-      { "monster": "mon_pteranodon_hatchling", "weight": 20 },
-      { "monster": "mon_quetzalcoatlus_hatchling", "weight": 5 }
+      { "monster": "mon_triceratops_hatchling", "weight": 3 }
     ]
   },
   {
@@ -29,8 +27,10 @@
     "monsters": [
       { "monster": "mon_eoraptor_hatchling", "weight": 20 },
       { "monster": "mon_scutellosaurus_hatchling", "weight": 5 },
-      { "monster": "mon_oryctodromeus_hatchling", "weight": 5 },
-      { "monster": "mon_dimorphodon_hatchling", "weight": 10 }
+      { "monster": "mon_dryosaurus_hatchling", "weight": 5 },
+      { "monster": "mon_stegoceras_hatchling", "weight": 5 },
+      { "monster": "mon_aquilops_hatchling", "weight": 5 },
+      { "monster": "mon_oryctodromeus_hatchling", "weight": 5 }
     ]
   },
   {
@@ -308,6 +308,11 @@
     "monsters": [ { "monster": "mon_edmontonia_hatchling" } ]
   },
   {
+    "name": "GROUP_EGG_dryosaurus",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_dryosaurus_hatchling" } ]
+  },
+  {
     "name": "GROUP_EGG_camptosaurus",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_camptosaurus_hatchling" } ]
@@ -338,9 +343,19 @@
     "monsters": [ { "monster": "mon_edmontosaurus_hatchling" } ]
   },
   {
+    "name": "GROUP_EGG_stegoceras",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_stegoceras_hatchling" } ]
+  },
+  {
     "name": "GROUP_EGG_pachycephalosaurus",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_pachycephalosaurus_hatchling" } ]
+  },
+  {
+    "name": "GROUP_EGG_aquilops",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_aquilops_hatchling" } ]
   },
   {
     "name": "GROUP_EGG_pachyrhinosaurus",
@@ -386,5 +401,14 @@
     "name": "GROUP_EGG_quetzalcoatlus",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_quetzalcoatlus_hatchling" } ]
+  },
+  {
+    "name": "GROUP_EGG_SNAKE",
+    "type": "monstergroup",
+    "monsters": [
+      { "monster": "mon_dimorphodon_hatchling", "weight": 2 },
+      { "monster": "mon_pteranodon_hatchling" },
+      { "monster": "mon_quetzalcoatlus_hatchling" }
+    ]
   }
 ]

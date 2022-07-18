@@ -405,6 +405,13 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "egg_dryosaurus",
+    "name": "dryosaurus egg",
+    "copy-from": "egg_dino_small",
+    "rot_spawn": "GROUP_EGG_dryosaurus"
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "egg_camptosaurus",
     "name": "camptosaurus egg",
     "copy-from": "egg_dino",
@@ -447,10 +454,24 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "egg_stegoceras",
+    "name": "stegoceras egg",
+    "copy-from": "egg_dino_small",
+    "rot_spawn": "GROUP_EGG_stegoceras"
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "egg_pachycephalosaurus",
     "name": "pachycephalosaurus egg",
     "copy-from": "egg_dino",
     "rot_spawn": "GROUP_EGG_pachycephalosaurus"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_aquilops",
+    "name": "aquilops egg",
+    "copy-from": "egg_dino_small",
+    "rot_spawn": "GROUP_EGG_aquilops"
   },
   {
     "type": "COMESTIBLE",
@@ -498,21 +519,21 @@
     "type": "COMESTIBLE",
     "id": "egg_dimorphodon",
     "name": "dimorphodon egg",
-    "copy-from": "egg_dino_small",
+    "copy-from": "egg_reptile",
     "rot_spawn": "GROUP_EGG_dimorphodon"
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_pteranodon",
     "name": "pteranodon egg",
-    "copy-from": "egg_dino",
+    "copy-from": "egg_reptile",
     "rot_spawn": "GROUP_EGG_pteranodon"
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_quetzalcoatlus",
     "name": "quetzalcoatlus egg",
-    "copy-from": "egg_dino",
+    "copy-from": "egg_reptile",
     "rot_spawn": "GROUP_EGG_quetzalcoatlus"
   },
   {

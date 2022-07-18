@@ -162,6 +162,18 @@ void option_slider::check() const
     }
 }
 
+bool option_slider::option_slider_level::remove( const std::string &opt )
+{
+    auto iter = std::find_if( _opts.begin(), _opts.end(), [&opt]( const opt_slider_option & o ) {
+        return o._opt == opt;
+    } );
+    if( iter == _opts.end() ) {
+        return false;
+    }
+    _opts.erase( iter );
+    return true;
+}
+
 void option_slider::option_slider_level::apply_opts( options_manager::options_container &OPTIONS )
 const
 {

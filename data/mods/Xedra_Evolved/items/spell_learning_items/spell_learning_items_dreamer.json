@@ -1,0 +1,49 @@
+[
+  {
+    "id": "magick_8_ball",
+    "type": "GENERIC",
+    "category": "artifacts",
+    "name": { "str": "Magick 8-Ball" },
+    "description": "A fortune-telling device from the 1950s.  If you shake it and look at the bottom it will give you detailed step by step instructions on how to do… something.",
+    "weight": "40 g",
+    "volume": "150 ml",
+    "price": 1000,
+    "price_postapoc": 10,
+    "material": [ "forged_dreamstuff" ],
+    "symbol": "o",
+    "color": "white",
+    "use_action": { "type": "learn_spell", "spells": [ "dream_armor" ] }
+  },
+  {
+    "id": "glass_dagger_paperweight",
+    "type": "GENERIC",
+    "category": "artifacts",
+    "name": { "str": "glass dagger paperweight" },
+    "description": "This paperweight in the shape of a small glass dagger emits a wet wheeze like a punctured lung when held.",
+    "weight": "40 g",
+    "volume": "150 ml",
+    "longest_side": "12 cm",
+    "price": 1000,
+    "price_postapoc": 10,
+    "material": [ "forged_dreamstuff" ],
+    "symbol": "t",
+    "color": "white",
+    "use_action": { "type": "learn_spell", "spells": [ "dream_dagger" ] }
+  },
+  {
+    "id": "caravaggio_self_portrait",
+    "type": "GENERIC",
+    "category": "artifacts",
+    "name": { "str": "Caravaggio on his deathbed", "str_pl": "copies of Caravaggio on his deathbed" },
+    "description": "A previously unknown painting in Caravaggio's style of the artist himself lying prone on his deathbed as black ichor seeps from a sword wound in his side.  His own sword rests near his hand and his ever dying breath asks you to take up his blade.",
+    "weight": "40 g",
+    "volume": "150 ml",
+    "longest_side": "12 cm",
+    "price": 1000,
+    "price_postapoc": 10,
+    "material": [ "forged_dreamstuff" ],
+    "symbol": "C",
+    "color": "red_white",
+    "use_action": { "type": "learn_spell", "spells": [ "dream_blade" ] }
+  }
+]

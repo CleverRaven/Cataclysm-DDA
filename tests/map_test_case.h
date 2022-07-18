@@ -165,38 +165,21 @@ using tile_predicate = std::function<bool( map_test_case::tile )>;
  * `f` and `g` must have same signature.
  * Returns tile_predicate that always returns "true" for easier chaning.
  */
-static inline tile_predicate operator+(
+tile_predicate operator+(
     const std::function<void( map_test_case::tile )> &f,
-    const std::function<void( map_test_case::tile )> &g )
-{
-    return [ = ]( map_test_case::tile t ) {
-        f( t );
-        g( t );
-        return true;
-    };
-}
+    const std::function<void( map_test_case::tile )> &g );
 
 /**
  * Combines two boolean functions `f` and `g` into a single function that returns `f(tile) && g(tile)`.
  * Note, if `f` returns false, `g` is not invoked!  (&& semantics)
  */
-static inline tile_predicate operator&&( const tile_predicate &f, const tile_predicate &g )
-{
-    return [ = ]( map_test_case::tile t ) {
-        return f( t ) && g( t );
-    };
-}
+tile_predicate operator&&( const tile_predicate &f, const tile_predicate &g );
 
 /**
  * Combines two boolean functions `f` and `g` into a single function that returns `f(tile) || g(tile)`.
  * Note, if `f` returns true, `g` is not invoked!  (|| semantics)
  */
-static inline tile_predicate operator||( const tile_predicate &f, const tile_predicate &g )
-{
-    return [ = ]( map_test_case::tile t ) {
-        return f( t ) || g( t );
-    };
-}
+tile_predicate operator||( const tile_predicate &f, const tile_predicate &g );
 
 namespace tiles
 {
@@ -212,16 +195,7 @@ namespace tiles
  * @param f function to call when char matches
  * @return function that returns true when char is matched and false otherwise
  */
-static inline tile_predicate ifchar( char c, tile_predicate f )
-{
-    return [ = ]( map_test_case::tile t ) {
-        if( t.setup_c == c ) {
-            f( t );
-            return true;
-        }
-        return false;
-    };
-}
+tile_predicate ifchar( char c, tile_predicate f );
 
 /**
  * Returns the function that sets the map `ter` at the `map_test_case::tile` coords to the given ter_id
@@ -229,18 +203,10 @@ static inline tile_predicate ifchar( char c, tile_predicate f )
  * @param shift shift from the current tile coordinates (e.g. to have the ability to set tiles above)
  * @return function that sets tiles
  */
-static inline tile_predicate ter_set(
+tile_predicate ter_set(
     ter_str_id ter,
     tripoint shift = tripoint_zero
-)
-{
-    return [ = ]( map_test_case::tile t ) {
-        REQUIRE( ter.is_valid() );
-        tripoint p = t.p + shift;
-        get_map().ter_set( p, ter );
-        return true;
-    };
-}
+);
 
 /**
  * Function that prints encountered char and fails.

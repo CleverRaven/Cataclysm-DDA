@@ -110,7 +110,7 @@ static void randomly_fill_transparency(
     // we want, i.e. if we want 1/4 tiles to be set, produce numbers in the range 0-3,
     // with 0 indicating the bit is set.
     std::uniform_int_distribution<unsigned int> distribution( 0, denominator );
-    auto rng = std::bind( distribution, rng_get_engine() );
+    auto rng = [&distribution] { return distribution( rng_get_engine() ); };
 
     // Initialize the transparency value of each square to a random value.
     for( auto &inner : transparency_cache ) {

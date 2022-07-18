@@ -164,6 +164,7 @@ Spells may have any number of flags, for example:
 | Flag | Description
 | ---  | ---
 | `WONDER` | This alters the behavior of the parent spell drastically: The spell itself doesn't cast, but its damage and range information is used in order to cast the extra_effects.  N of the extra_effects will be chosen at random to be cast, where N is the current damage of the spell (stacks with RANDOM_DAMAGE flag) and the message of the spell cast by this spell will also be displayed.  If this spell's message is not wanted to be displayed, make sure the message is an empty string.
+| `EXTRA_EFFECTS_FIRST` | The spell extra effects will happen before the main spell effect.
 | `RANDOM_TARGET` | Forces the spell to choose a random valid target within range instead of the caster choosing the target. This also affects extra_effects.
 | `RANDOM_DURATION` | picks random number between min+increment*level and max instead of normal behavior
 | `RANDOM_DAMAGE` | picks random number between min+increment*level and max instead of normal behavior
