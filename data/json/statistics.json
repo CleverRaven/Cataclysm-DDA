@@ -564,6 +564,19 @@
     "field": "overmap_special_id"
   },
   {
+    "id": "avatar_enters_lab_finale",
+    "type": "event_transformation",
+    "event_transformation": "avatar_enters_oter_type",
+    "value_constraints": { "oter_type_id": { "equals_any": [ "oter_type_str_id", [ "central_lab_finale", "lab_finale" ] ] } }
+  },
+  {
+    "id": "num_avatar_enters_lab_finale",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_enters_lab_finale",
+    "description": { "str": "lab finale entered", "str_pl": "lab finales entered" }
+  },
+  {
     "id": "avatar_cuts_tree",
     "type": "event_transformation",
     "event_type": "cuts_tree",
