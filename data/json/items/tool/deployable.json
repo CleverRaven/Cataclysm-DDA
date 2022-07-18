@@ -295,8 +295,7 @@
     "looks_like": "f_wood_keg",
     "symbol": "u",
     "color": "light_gray",
-    "use_action": { "type": "deploy_furn", "furn_type": "f_butter_churn" },
-    "qualities": [ [ "CONTAIN", 1 ], [ "CHURN", 1 ] ]
+    "use_action": { "type": "deploy_furn", "furn_type": "f_butter_churn" }
   },
   {
     "id": "water_mill",
