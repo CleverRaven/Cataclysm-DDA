@@ -744,7 +744,7 @@
     "warmth": 5,
     "environmental_protection": 1,
     "material_thickness": 1,
-    "bashing": 4,
+    "bashing": 2,
     "flags": [
       "INTEGRATED",
       "UNBREAKABLE",
@@ -768,7 +768,7 @@
         "covers": [ "arm_l", "arm_r" ],
         "coverage": 100,
         "encumbrance": 2,
-        "breathability": "GOOD"
+        "breathability": "SECOND_SKIN"
       },
       {
         "material": [ { "type": "superalloy", "covered_by_mat": 100, "thickness": 1.0 } ],
@@ -822,16 +822,15 @@
         "coverage": 100,
         "cover_vitals": 60,
         "encumbrance": 1,
-        "breathability": "AVERAGE"
+        "breathability": "SECOND_SKIN"
       },
       {
-        "material": [ { "type": "superalloy", "covered_by_mat": 100, "thickness": 0.75 } ],
+        "material": [ { "type": "superalloy", "covered_by_mat": 100, "thickness": 1.0 } ],
         "covers": [ "hand_l", "hand_r" ],
         "specifically_covers": [ "hand_back_r", "hand_back_l", "hand_fingers_r", "hand_fingers_l" ],
         "coverage": 50,
         "cover_vitals": 30,
-        "encumbrance": 0,
-        "breathability": "AVERAGE"
+        "encumbrance": 0
       }
     ]
   },
@@ -849,7 +848,7 @@
     "warmth": 5,
     "environmental_protection": 10,
     "material_thickness": 1,
-    "bashing": 4,
+    "bashing": 2,
     "flags": [
       "INTEGRATED",
       "UNBREAKABLE",
@@ -860,7 +859,7 @@
       "SOFT",
       "NO_REPAIR"
     ],
-    "material": [ "plastic", "superalloy", "qt_steel" ],
+    "material": [ "superalloy" ],
     "name": { "str_sp": "alloy plating - legs" },
     "description": "Thin armor plating layered into your legs, with external plating in vital areas.  Helps protect your arms from deep cuts and impacts.",
     "armor": [
@@ -870,11 +869,11 @@
           { "type": "superalloy", "covered_by_mat": 50, "thickness": 0.5 },
           { "type": "superalloy", "covered_by_mat": 50, "thickness": 0.5 }
         ],
-        "covers": [ "leg_l", "leg_r" ]
+        "covers": [ "leg_l", "leg_r" ],
         "coverage": 100,
         "encumbrance": 2,
         "cover_vitals": 60,
-        "breathability": "GOOD"
+        "breathability": "SECOND_SKIN"
       },
       {
         "material": [ { "type": "superalloy", "covered_by_mat": 100, "thickness": 0.75 } ],
@@ -902,7 +901,7 @@
     "material_thickness": 0.5,
     "bashing": 11,
     "flags": [ "INTEGRATED", "UNBREAKABLE", "SKINTIGHT", "PADDED", "WATER_FRIENDLY", "SOFT", "NO_REPAIR" ],
-    "material": [ "plastic", "superalloy", "qt_steel" ],
+    "material": [ "superalloy" ],
     "name": { "str_sp": "alloy plating - feet" },
     "description": "Thin armor plating layered into your feet, with external plating in vital areas.  Helps protect your arms from deep cuts and impacts.",
     "armor": [
@@ -936,7 +935,7 @@
     "environmental_protection": 1,
     "material_thickness": 1,
     "flags": [ "INTEGRATED", "UNBREAKABLE", "SKINTIGHT", "NORMAL", "PADDED", "WATER_FRIENDLY", "SOFT", "NO_REPAIR" ],
-    "material": [ "plastic", "superalloy" ],
+    "material": [ "superalloy" ],
     "name": { "str_sp": "alloy plating - torso" },
     "description": "Thin armor plating layered into your torso, with external plating in vital areas.",
     "armor": [
@@ -951,7 +950,7 @@
         "coverage": 100,
         "encumbrance": 3,
         "cover_vitals": 65,
-        "breathability": "GOOD"
+        "breathability": "SECOND_SKIN"
       },
       {
         "material": [
@@ -980,7 +979,7 @@
     "environmental_protection": 1,
     "material_thickness": 1,
     "flags": [ "INTEGRATED", "UNBREAKABLE", "SKINTIGHT", "PADDED", "WATER_FRIENDLY", "HELMET_COMPAT", "SOFT", "NO_REPAIR" ],
-    "material": [ "plastic", "superalloy", "qt_steel" ],
+    "material": [ "superalloy" ],
     "name": { "str_sp": "alloy plating - head" },
     "description": "Thin armor plating layered into your torso, with external plating in vital areas.  Helps protect your arms from deep cuts and impacts.",
     "armor": [
@@ -994,7 +993,7 @@
         "coverage": 100,
         "cover_vitals": 65,
         "encumbrance": 2,
-        "breathability": "GOOD"
+        "breathability": "SECOND_SKIN"
       },
       {
         "material": [ { "type": "superalloy", "covered_by_mat": 100, "thickness": 1.0 } ],
@@ -1021,7 +1020,7 @@
     "environmental_protection": 1,
     "material_thickness": 1.0,
     "flags": [ "INTEGRATED", "UNBREAKABLE", "SKINTIGHT", "PADDED", "WATER_FRIENDLY", "SOFT", "NO_REPAIR" ],
-    "material": [ "plastic", "superalloy" ],
+    "material": [ "superalloy" ],
     "name": { "str_sp": "alloy plating - mouth" },
     "description": "Thin armor plating layered into your jaw, with external plating in vital areas.  Helps protect your arms from deep cuts and impacts.",
     "armor": [
