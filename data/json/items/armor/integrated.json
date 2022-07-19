@@ -745,16 +745,7 @@
     "environmental_protection": 1,
     "material_thickness": 1,
     "bashing": 2,
-    "flags": [
-      "INTEGRATED",
-      "UNBREAKABLE",
-      "SKINTIGHT",
-      "PADDED",
-      "WATER_FRIENDLY",
-      "BLOCK_WHILE_WORN",
-      "SOFT",
-      "NO_REPAIR"
-    ],
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "SKINTIGHT", "PADDED", "WATER_FRIENDLY", "BLOCK_WHILE_WORN", "SOFT", "NO_REPAIR" ],
     "material": [ "superalloy" ],
     "name": { "str_sp": "alloy plating - arms" },
     "description": "Thin armor plating layered into your torso, with external plating in vital areas.  Helps protect your arms from deep cuts and impacts.",
