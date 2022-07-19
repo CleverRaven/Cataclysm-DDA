@@ -1569,16 +1569,18 @@ static int print_ranged_chance( const target_ui &ui, const Character &you,
 
     for( const aim_type &type : aim_types ) {
         dispersion_sources current_dispersion = dispersion;
-        int threshold = MAX_RECOIL;
+        int threshold;
         std::string label = _( "Current" );
         std::string aim_l = _( "Aim" );
         if( type.has_threshold ) {
             label = type.name;
             threshold = type.threshold;
-            current_dispersion.add_range( threshold );
         } else {
-            current_dispersion.add_range( recoil );
+            const aim_type default_selected_type = ui.get_selected_aim_type();
+            label = default_selected_type.name;
+            threshold = default_selected_type.threshold;
         }
+        current_dispersion.add_range( threshold );
 
         int moves_to_fire;
         if( mode == target_ui::TargetMode::Throw || mode == target_ui::TargetMode::ThrowBlind ) {
