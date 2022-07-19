@@ -8052,7 +8052,7 @@
     "purifiable": false,
     "starting_trait": true,
     "flags": [ "NYCTOPHOBIA" ]
-  }, 
+  },
   {
     "type": "mutation",
     "id": "NO_OVERMAP",
