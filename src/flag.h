@@ -279,6 +279,7 @@ extern const flag_id flag_REDUCED_WEIGHT;
 extern const flag_id flag_RELOAD_AND_SHOOT;
 extern const flag_id flag_RELOAD_EJECT;
 extern const flag_id flag_RELOAD_ONE;
+extern const flag_id flag_REMOVED_STOCK;
 extern const flag_id flag_REQUIRES_BALANCE;
 extern const flag_id flag_REQUIRES_TINDER;
 extern const flag_id flag_RESTRICT_HANDS;

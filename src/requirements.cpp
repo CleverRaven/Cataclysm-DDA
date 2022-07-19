@@ -324,12 +324,12 @@ requirement_data requirement_data::operator*( unsigned scalar ) const
 {
     requirement_data res = *this;
     for( auto &group : res.components ) {
-        for( auto &e : group ) {
+        for( item_comp &e : group ) {
             e.count = std::max( e.count * static_cast<int>( scalar ), -1 );
         }
     }
     for( auto &group : res.tools ) {
-        for( auto &e : group ) {
+        for( tool_comp &e : group ) {
             e.count = std::max( e.count * static_cast<int>( scalar ), -1 );
         }
     }
@@ -677,7 +677,7 @@ void inline_requirements( std::vector<std::vector<T>> &list,
             }
             already_nested.insert( r );
 
-            const auto &req = r.obj();
+            const requirement_data &req = r.obj();
             const requirement_data multiplied = req * comp.count;
 
             const std::vector<std::vector<T>> &to_inline = getter( multiplied );
@@ -713,10 +713,10 @@ void requirement_data::finalize()
         []( const requirement_data & d ) -> const auto & {
             return d.get_components();
         } );
-        auto &vec = r.second.tools;
+        requirement_data::alter_tool_comp_vector &vec = r.second.tools;
         for( auto &list : vec ) {
             std::vector<tool_comp> new_list;
-            for( auto &comp : list ) {
+            for( tool_comp &comp : list ) {
                 const auto replacements = item_controller->subtype_replacement( comp.type );
                 for( const auto &replaced_type : replacements ) {
                     new_list.emplace_back( replaced_type, comp.count );
@@ -1029,7 +1029,7 @@ bool requirement_data::check_enough_materials( const read_only_visitable &crafti
     bool retval = true;
     for( const auto &component_choices : components ) {
         bool atleast_one_available = false;
-        for( const auto &comp : component_choices ) {
+        for( const item_comp &comp : component_choices ) {
             if( check_enough_materials( comp, crafting_inv, filter, batch ) ) {
                 atleast_one_available = true;
             }
@@ -1182,7 +1182,7 @@ requirement_data requirement_data::disassembly_requirements() const
     bool remove_fire = false;
     for( auto &it : ret.tools ) {
         bool replaced = false;
-        for( const auto &tool : it ) {
+        for( const tool_comp &tool : it ) {
             const itype_id &type = tool.type;
 
             // If crafting required a welder or forge then disassembly requires metal sawing
@@ -1234,7 +1234,7 @@ requirement_data requirement_data::disassembly_requirements() const
         //qualities with deconstruction equivalents
         for( auto &it : ret.qualities ) {
             bool replaced = false;
-            for( const auto &quality : it ) {
+            for( const quality_requirement &quality : it ) {
                 if( quality.type == qual_SEW ) {
                     replaced = true;
                     new_qualities.emplace_back( qual_CUT, 1, quality.level );

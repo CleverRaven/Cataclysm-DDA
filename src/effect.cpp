@@ -726,7 +726,7 @@ std::string effect::disp_desc( bool reduced ) const
     values.emplace_back( get_percentage( "SLEEP", val, reduced ), val, _( "blackouts" ),
                          _( "blackouts" ) );
 
-    for( auto &i : values ) {
+    for( desc_freq &i : values ) {
         if( i.val > 0 ) {
             // +50% chance, every other step
             if( i.chance >= 50.0 ) {
@@ -826,8 +826,8 @@ std::string effect::disp_short_desc( bool reduced ) const
 
 static bool effect_is_blocked( const efftype_id &e, const effects_map &eff_map )
 {
-    for( auto &eff_grp : eff_map ) {
-        for( auto &eff : eff_grp.second ) {
+    for( const auto &eff_grp : eff_map ) {
+        for( const auto &eff : eff_grp.second ) {
             for( const efftype_id &block : eff.second.get_blocks_effects() ) {
                 if( block == e ) {
                     return true;

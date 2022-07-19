@@ -37,6 +37,11 @@ tripoint talker_monster::pos() const
     return me_mon->pos();
 }
 
+tripoint_abs_ms talker_monster::global_pos() const
+{
+    return me_mon->get_location();
+}
+
 tripoint_abs_omt talker_monster::global_omt_location() const
 {
     return me_mon->global_omt_location();

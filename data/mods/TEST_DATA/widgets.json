@@ -778,6 +778,14 @@
     "style": "number"
   },
   {
+    "id": "test_sundial_text",
+    "type": "widget",
+    "separator": ": ",
+    "label": "SUN",
+    "style": "text",
+    "var": "sundial_text"
+  },
+  {
     "id": "test_rad_badge_text",
     "type": "widget",
     "separator": ": ",
@@ -1443,7 +1451,7 @@
     "separator": ": ",
     "label": "CLAUSE",
     "style": "text",
-    "strings": [ "Zero", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten" ]
+    "string": "Zero"
   },
   {
     "id": "test_layout_list",

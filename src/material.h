@@ -132,7 +132,7 @@ class material_type
          * salvaged into any items (e.g. for powder, liquids).
          * Or a valid id of the item type that this can be salvaged
          * into (e.g. clothes made of material leather can be salvaged
-         * into lather patches).
+         * into leather patches).
          */
         cata::optional<itype_id> salvaged_into() const;
         itype_id repaired_with() const;

@@ -690,21 +690,7 @@ inline std::string quantity_to_string( const quantity<value_type, tag_type> &v )
     return os.str();
 }
 
-inline std::string display( const units::energy v )
-{
-    const int kj = units::to_kilojoule( v );
-    const int j = units::to_joule( v );
-    // at least 1 kJ and there is no fraction
-    if( kj >= 1 && static_cast<float>( j ) / kj == 1000 ) {
-        return std::to_string( kj ) + ' ' + pgettext( "energy unit: kilojoule", "kJ" );
-    }
-    const int mj = units::to_millijoule( v );
-    // at least 1 J and there is no fraction
-    if( j >= 1 && static_cast<float>( mj ) / j  == 1000 ) {
-        return std::to_string( j ) + ' ' + pgettext( "energy unit: joule", "J" );
-    }
-    return std::to_string( mj ) + ' ' + pgettext( "energy unit: millijoule", "mJ" );
-}
+std::string display( units::energy v );
 
 } // namespace units
 
@@ -1026,7 +1012,7 @@ T read_from_json_string_common( const std::string &s,
         if( skip_spaces() ) {
             error( "invalid quantity string: missing unit", i );
         }
-        for( const auto &pair : units ) {
+        for( const std::pair<std::string, T> &pair : units ) {
             const std::string &unit = pair.first;
             if( s.size() >= unit.size() + i && s.compare( i, unit.size(), unit ) == 0 ) {
                 i += unit.size();
@@ -1086,7 +1072,7 @@ void dump_to_json_string( T t, JsonOut &jsout,
 {
     // deduplicate unit strings and choose the shortest representations
     std::map<T, std::string> sorted_units;
-    for( const auto &p : units ) {
+    for( const std::pair<std::string, T> &p : units ) {
         const auto it = sorted_units.find( p.second );
         if( it != sorted_units.end() ) {
             if( p.first.length() < it->second.length() ) {

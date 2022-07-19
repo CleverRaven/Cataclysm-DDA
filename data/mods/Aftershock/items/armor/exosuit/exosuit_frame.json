@@ -26,7 +26,6 @@
         "description": "This is a mounting point for helmet plating.",
         "ablative": true,
         "flag_restriction": [ "EXO_HELMET_PLATE" ],
-        "inherits_flags": true,
         "moves": 120
       },
       {
@@ -49,7 +48,6 @@
         "max_contains_volume": "10 L",
         "max_contains_weight": "80 kg",
         "flag_restriction": [ "EXO_TORSO_PLATE" ],
-        "inherits_flags": true,
         "moves": 120
       },
       {
@@ -59,6 +57,7 @@
         "rigid": true,
         "max_contains_volume": "4 L",
         "max_contains_weight": "15 kg",
+        "max_item_length": "60 cm",
         "flag_restriction": [ "EXO_LARGE_GADGET", "EXO_MEDIUM_GADGET", "EXO_SMALL_GADGET" ],
         "inherits_flags": true,
         "moves": 60
@@ -70,6 +69,7 @@
         "rigid": true,
         "max_contains_volume": "25 L",
         "max_contains_weight": "140 kg",
+        "max_item_length": "120 cm",
         "flag_restriction": [ "EXO_PSU", "EXO_LARGE_GADGET", "EXO_MEDIUM_GADGET", "EXO_SMALL_GADGET" ],
         "inherits_flags": true,
         "moves": 500
@@ -83,7 +83,6 @@
         "max_contains_volume": "12 L",
         "max_contains_weight": "80 kg",
         "flag_restriction": [ "EXO_ARM_PLATE" ],
-        "inherits_flags": true,
         "moves": 120
       },
       {
@@ -106,7 +105,6 @@
         "max_contains_volume": "12 L",
         "max_contains_weight": "80 kg",
         "flag_restriction": [ "EXO_LEG_PLATE" ],
-        "inherits_flags": true,
         "moves": 120
       },
       {
@@ -123,8 +121,19 @@
     ],
     "armor": [
       {
+        "material": [
+          { "type": "plastic", "covered_by_mat": 80, "thickness": 2 },
+          { "type": "rubber", "covered_by_mat": 20, "thickness": 2 },
+          { "type": "lvl4ballisticglass", "covered_by_mat": 100, "thickness": 2 }
+        ],
+        "covers": [ "eyes" ],
+        "coverage": 100,
+        "encumbrance": 100,
+        "layers": [ "OUTER" ]
+      },
+      {
         "material": [ { "type": "titanium", "covered_by_mat": 100, "thickness": 2 } ],
-        "covers": [ "head", "eyes", "mouth", "torso", "arm_l", "arm_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
+        "covers": [ "head", "mouth", "torso", "arm_l", "arm_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
         "coverage": 40,
         "encumbrance": 20,
         "layers": [ "OUTER" ]
@@ -137,7 +146,7 @@
       }
     ],
     "ammo": "battery",
-    "flags": [ "USE_UPS", "STURDY", "WATERPROOF", "ELECTRIC_IMMUNE", "COMBAT_TOGGLEABLE", "OUTER" ],
+    "flags": [ "USE_UPS", "STURDY", "WATERPROOF", "ELECTRIC_IMMUNE", "COMBAT_TOGGLEABLE", "OUTER", "DEAF" ],
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "STRENGTH", "add": 10 } ] } ] },
     "use_action": [
       {
@@ -159,7 +168,18 @@
     "type": "TOOL_ARMOR",
     "name": { "str": "exosuit frame (on)", "str_pl": "exosuit frames (on)" },
     "description": "This is a standard exosuit frame.  Designed to be modular, it can accept a variety of power supplies, defensive and offensive systems, and utility tools.  Slots exist for the torso, back, arms, and legs.  It is turned on and continually drawing power.  Use it to turn it off.",
-    "flags": [ "USE_UPS", "STURDY", "WATERPROOF", "ELECTRIC_IMMUNE", "COMBAT_TOGGLEABLE", "OUTER", "CLIMATE_CONTROL" ],
+    "flags": [
+      "USE_UPS",
+      "STURDY",
+      "WATERPROOF",
+      "ELECTRIC_IMMUNE",
+      "COMBAT_TOGGLEABLE",
+      "OUTER",
+      "CLIMATE_CONTROL",
+      "PARTIAL_DEAF",
+      "SUN_GLASSES",
+      "FLASH_PROTECTION"
+    ],
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "STRENGTH", "add": 10 } ] } ] },
     "power_draw": 6173,
     "revert_to": "modular_exosuit",
@@ -169,8 +189,19 @@
     ],
     "armor": [
       {
+        "material": [
+          { "type": "plastic", "covered_by_mat": 80, "thickness": 2 },
+          { "type": "rubber", "covered_by_mat": 20, "thickness": 2 },
+          { "type": "lvl4ballisticglass", "covered_by_mat": 100, "thickness": 2 }
+        ],
+        "covers": [ "eyes" ],
+        "coverage": 100,
+        "encumbrance": 5,
+        "layers": [ "OUTER" ]
+      },
+      {
         "material": [ { "type": "titanium", "covered_by_mat": 100, "thickness": 2 } ],
-        "covers": [ "head", "eyes", "mouth", "torso", "arm_l", "arm_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
+        "covers": [ "head", "mouth", "torso", "arm_l", "arm_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
         "coverage": 40,
         "encumbrance": 5,
         "layers": [ "OUTER" ]

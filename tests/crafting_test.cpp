@@ -717,20 +717,20 @@ static void verify_inventory( const std::vector<std::string> &has,
     for( const item *i : player_character.inv_dump() ) {
         os << "  " << i->typeId().str() << " (" << i->charges << ")\n";
     }
-    os << "Wielded:\n" << player_character.get_wielded_item().tname() << "\n";
+    os << "Wielded:\n" << player_character.get_wielded_item()->tname() << "\n";
     INFO( os.str() );
     for( const std::string &i : has ) {
         INFO( "expecting " << i );
         const bool has_item =
             player_has_item_of_type( i ) ||
-            player_character.get_wielded_item().type->get_id() == itype_id( i );
+            player_character.get_wielded_item()->type->get_id() == itype_id( i );
         REQUIRE( has_item );
     }
     for( const std::string &i : hasnt ) {
         INFO( "not expecting " << i );
         const bool hasnt_item =
             !player_has_item_of_type( i ) &&
-            !( player_character.get_wielded_item().type->get_id() == itype_id( i ) );
+            !( player_character.get_wielded_item()->type->get_id() == itype_id( i ) );
         REQUIRE( hasnt_item );
     }
 }
@@ -1552,6 +1552,7 @@ TEST_CASE( "Unloading non-empty components", "[crafting]" )
 TEST_CASE( "Warn when using favorited component", "[crafting]" )
 {
     map &m = get_map();
+    clear_map();
     item pocketknife( itype_pockknife );
 
     GIVEN( "crafting 1 makeshift funnel" ) {
@@ -1561,7 +1562,9 @@ TEST_CASE( "Warn when using favorited component", "[crafting]" )
             clear_and_setup( c, m, pocketknife );
             REQUIRE( m.i_at( c.pos() ).empty() );
             c.i_add_or_drop( plastic_bottle, 3 );
-            REQUIRE( !m.i_at( c.pos() ).begin()->is_favorite );
+            map_stack items = m.i_at( c.pos() );
+            REQUIRE( !items.empty() );
+            REQUIRE( !items.begin()->is_favorite );
             THEN( "no warning" ) {
                 CHECK( c.can_start_craft( &*recipe_makeshift_funnel, recipe_filter_flags::none ) );
                 CHECK( c.can_start_craft( &*recipe_makeshift_funnel, recipe_filter_flags::no_favorite ) );
@@ -1574,7 +1577,9 @@ TEST_CASE( "Warn when using favorited component", "[crafting]" )
             clear_and_setup( c, m, pocketknife );
             REQUIRE( m.i_at( c.pos() ).empty() );
             c.i_add_or_drop( plastic_bottle, 3 );
-            REQUIRE( m.i_at( c.pos() ).begin()->is_favorite );
+            map_stack items = m.i_at( c.pos() );
+            REQUIRE( !items.empty() );
+            REQUIRE( items.begin()->is_favorite );
             THEN( "warning" ) {
                 CHECK( c.can_start_craft( &*recipe_makeshift_funnel, recipe_filter_flags::none ) );
                 CHECK( !c.can_start_craft( &*recipe_makeshift_funnel, recipe_filter_flags::no_favorite ) );
@@ -1586,8 +1591,10 @@ TEST_CASE( "Warn when using favorited component", "[crafting]" )
             clear_and_setup( c, m, pocketknife );
             REQUIRE( m.i_at( c.pos() ).empty() );
             c.i_add_or_drop( plastic_bottle, 3 );
-            m.i_at( c.pos() ).begin()->is_favorite = true;
-            REQUIRE( m.i_at( c.pos() ).begin()->is_favorite );
+            map_stack items = m.i_at( c.pos() );
+            REQUIRE( !items.empty() );
+            items.begin()->is_favorite = true;
+            REQUIRE( items.begin()->is_favorite );
             THEN( "warning" ) {
                 CHECK( c.can_start_craft( &*recipe_makeshift_funnel, recipe_filter_flags::none ) );
                 CHECK( !c.can_start_craft( &*recipe_makeshift_funnel, recipe_filter_flags::no_favorite ) );
@@ -1599,8 +1606,10 @@ TEST_CASE( "Warn when using favorited component", "[crafting]" )
             clear_and_setup( c, m, pocketknife );
             REQUIRE( m.i_at( c.pos() ).empty() );
             c.i_add_or_drop( plastic_bottle, 4 );
-            m.i_at( c.pos() ).begin()->is_favorite = true;
-            REQUIRE( m.i_at( c.pos() ).begin()->is_favorite );
+            map_stack items = m.i_at( c.pos() );
+            REQUIRE( !items.empty() );
+            items.begin()->is_favorite = true;
+            REQUIRE( items.begin()->is_favorite );
             THEN( "no warning" ) {
                 CHECK( c.can_start_craft( &*recipe_makeshift_funnel, recipe_filter_flags::none ) );
                 CHECK( c.can_start_craft( &*recipe_makeshift_funnel, recipe_filter_flags::no_favorite ) );
@@ -1850,11 +1859,11 @@ TEST_CASE( "recipes inherit rot of components properly", "[crafting][rot]" )
             actually_test_craft( recipe_macaroni_cooked, INT_MAX, 10 );
 
             THEN( "it should have exactly 1 hour until it spoils" ) {
-                item mac_and_cheese = player_character.get_wielded_item();
+                item_location mac_and_cheese = player_character.get_wielded_item();
 
-                REQUIRE( mac_and_cheese.type->get_id() == recipe_macaroni_cooked->result() );
+                REQUIRE( mac_and_cheese->type->get_id() == recipe_macaroni_cooked->result() );
 
-                CHECK( mac_and_cheese.get_shelf_life() - mac_and_cheese.get_rot() == 1_hours );
+                CHECK( mac_and_cheese->get_shelf_life() - mac_and_cheese->get_rot() == 1_hours );
             }
         }
     }
@@ -1876,11 +1885,11 @@ TEST_CASE( "recipes inherit rot of components properly", "[crafting][rot]" )
             actually_test_craft( recipe_macaroni_cooked, INT_MAX, 10 );
 
             THEN( "it should have no rot" ) {
-                item mac_and_cheese = player_character.get_wielded_item();
+                item_location mac_and_cheese = player_character.get_wielded_item();
 
-                REQUIRE( mac_and_cheese.type->get_id() == recipe_macaroni_cooked->result() );
+                REQUIRE( mac_and_cheese->type->get_id() == recipe_macaroni_cooked->result() );
 
-                CHECK( mac_and_cheese.get_rot() == 0_turns );
+                CHECK( mac_and_cheese->get_rot() == 0_turns );
             }
         }
     }
@@ -1897,11 +1906,11 @@ TEST_CASE( "recipes inherit rot of components properly", "[crafting][rot]" )
             actually_test_craft( recipe_dry_meat, INT_MAX, 10 );
 
             THEN( "it should have 1 percent of its shelf life left" ) {
-                item dehydrated_meat = player_character.get_wielded_item();
+                item_location dehydrated_meat = player_character.get_wielded_item();
 
-                REQUIRE( dehydrated_meat.type->get_id() == recipe_dry_meat->result() );
+                REQUIRE( dehydrated_meat->type->get_id() == recipe_dry_meat->result() );
 
-                CHECK( dehydrated_meat.get_relative_rot() == 0.01 );
+                CHECK( dehydrated_meat->get_relative_rot() == 0.01 );
             }
         }
     }

@@ -28,18 +28,7 @@ struct item_penalties {
                !body_parts_with_out_of_order_penalty.empty();
     }
 
-    nc_color color_for_stacking_badness() const {
-        switch( badness() ) {
-            case 0:
-                return c_light_gray;
-            case 1:
-                return c_yellow;
-            case 2:
-                return c_light_red;
-        }
-        debugmsg( "Unexpected badness %d", badness() );
-        return c_light_gray;
-    }
+    nc_color color_for_stacking_badness() const;
 };
 
 struct layering_item_info {

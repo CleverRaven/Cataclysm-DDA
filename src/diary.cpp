@@ -390,25 +390,23 @@ void diary::trait_changes()
     if( prevpage == nullptr ) {
         if( !currpage->traits.empty() ) {
             add_to_change_list( _( "Mutations:" ) );
-            for( const trait_id &elem : currpage->traits ) {
-                const mutation_branch &trait = elem.obj();
-                add_to_change_list( colorize( trait.name(), trait.get_display_color() ), trait.desc() );
+            for( const trait_and_var &elem : currpage->traits ) {
+                add_to_change_list( colorize( elem.name(), elem.trait->get_display_color() ), elem.desc() );
             }
             add_to_change_list( "" );
         }
     } else {
         if( prevpage->traits.empty() && !currpage->traits.empty() ) {
             add_to_change_list( _( "Mutations:" ) );
-            for( const trait_id &elem : currpage->traits ) {
-                const mutation_branch &trait = elem.obj();
-                add_to_change_list( colorize( trait.name(), trait.get_display_color() ), trait.desc() );
+            for( const trait_and_var &elem : currpage->traits ) {
+                add_to_change_list( colorize( elem.name(), elem.trait->get_display_color() ), elem.desc() );
 
             }
             add_to_change_list( "" );
         } else {
 
             bool flag = true;
-            for( const trait_id &elem : currpage->traits ) {
+            for( const trait_and_var &elem : currpage->traits ) {
 
                 if( std::find( prevpage->traits.begin(), prevpage->traits.end(),
                                elem ) == prevpage->traits.end() ) {
@@ -416,8 +414,7 @@ void diary::trait_changes()
                         add_to_change_list( _( "Gained Mutation: " ) );
                         flag = false;
                     }
-                    const mutation_branch &trait = elem.obj();
-                    add_to_change_list( colorize( trait.name(), trait.get_display_color() ), trait.desc() );
+                    add_to_change_list( colorize( elem.name(), elem.trait->get_display_color() ), elem.desc() );
                 }
 
             }
@@ -426,16 +423,15 @@ void diary::trait_changes()
             }
 
             flag = true;
-            for( const trait_id &elem : prevpage->traits ) {
+            for( const trait_and_var &elem : prevpage->traits ) {
 
                 if( std::find( currpage->traits.begin(), currpage->traits.end(),
                                elem ) == currpage->traits.end() ) {
                     if( flag ) {
-                        add_to_change_list( _( "Lost Mutation " ) );
+                        add_to_change_list( _( "Lost Mutation: " ) );
                         flag = false;
                     }
-                    const mutation_branch &trait = elem.obj();
-                    add_to_change_list( colorize( trait.name(), trait.get_display_color() ), trait.desc() );
+                    add_to_change_list( colorize( elem.name(), elem.trait->get_display_color() ), elem.desc() );
                 }
             }
             if( !flag ) {
@@ -639,7 +635,7 @@ void diary::new_page()
     page->dexterity = u->get_dex_base();
     page->intelligence = u->get_int_base();
     page->perception = u->get_per_base();
-    page->traits = u->get_mutations( false );
+    page->traits = u->get_mutations_variants( false );
     const auto spells = u->magic->get_spells();
     for( const spell *spell : spells ) {
         const spell_id &id = spell->id();
@@ -681,8 +677,8 @@ void diary::export_to_txt( bool lastexport )
             myfile << remove_color_tags( str ) + "\n";
         }
         std::vector<std::string> folded_text = foldstring( page.m_text, 50 );
-        for( int i = 0; i < static_cast<int>( folded_text.size() ); i++ ) {
-            myfile << folded_text[i] + "\n";
+        for( const std::string &line : folded_text ) {
+            myfile << line + "\n";
         }
         myfile <<  "\n\n\n";
     }

@@ -183,10 +183,7 @@ void recipe::load( const JsonObject &jo, const std::string &src )
         return;
     }
 
-    if( jo.has_int( "time" ) ) {
-        // so we can specify moves that is not a multiple of 100
-        time = jo.get_int( "time" );
-    } else if( jo.has_string( "time" ) ) {
+    if( jo.has_string( "time" ) ) {
         time = to_moves<int>( read_from_json_string<time_duration>( jo.get_member( "time" ),
                               time_duration::units ) );
     }
@@ -243,15 +240,15 @@ void recipe::load( const JsonObject &jo, const std::string &src )
 
     // Mandatory: This recipe's exertion level
     // TODO: Make this mandatory, no default or 'fake' exception
-    std::string exert = jo.get_string( "activity_level", "MODERATE_EXERCISE" );
+    optional( jo, was_loaded, "activity_level", exertion_str, "MODERATE_EXERCISE" );
     // For making scripting that needs to be broken up over multiple PRs easier
-    if( exert == "fake" ) {
-        exert = "MODERATE_EXERCISE";
+    if( exertion_str == "fake" ) {
+        exertion_str = "MODERATE_EXERCISE";
     }
-    const auto it = activity_levels_map.find( exert );
+    const auto it = activity_levels_map.find( exertion_str );
     if( it == activity_levels_map.end() ) {
         jo.throw_error_at(
-            "activity_level", string_format( "Invalid activity level %s", exert ) );
+            "activity_level", string_format( "Invalid activity level %s", exertion_str ) );
     }
     exertion = it->second;
 
@@ -370,14 +367,9 @@ void recipe::load( const JsonObject &jo, const std::string &src )
                 blueprint_reqs = cata::make_value<build_reqs>();
                 const JsonObject jneeds = jo.get_object( "blueprint_needs" );
                 if( jneeds.has_member( "time" ) ) {
-                    if( jneeds.has_int( "time" ) ) {
-                        // so we can specify moves that is not a multiple of 100
-                        blueprint_reqs->time = jneeds.get_int( "time" );
-                    } else {
-                        blueprint_reqs->time =
-                            to_moves<int>( read_from_json_string<time_duration>(
-                                               jneeds.get_member( "time" ), time_duration::units ) );
-                    }
+                    blueprint_reqs->time =
+                        to_moves<int>( read_from_json_string<time_duration>(
+                                           jneeds.get_member( "time" ), time_duration::units ) );
                 }
                 if( jneeds.has_member( "skills" ) ) {
                     std::vector<std::pair<skill_id, int>> blueprint_skills;

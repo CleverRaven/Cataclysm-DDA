@@ -1331,6 +1331,7 @@
     "weight": "250 g",
     "volume": "250 ml",
     "price": 50,
+    "price_postapoc": 1,
     "symbol": "~",
     "color": "light_blue",
     "phase": "liquid",

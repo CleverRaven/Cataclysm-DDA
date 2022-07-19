@@ -64,6 +64,52 @@
     ]
   },
   {
+    "id": "exo_back_fuelcell",
+    "type": "TOOL_ARMOR",
+    "category": "exosuit",
+    "name": { "str": "exosuit turbine power supply", "str_pl": "exosuit turbine power supplies" },
+    "description": "Designed to attach to an exosuit's back, this is an adaptive gas turbine generator with an integrated UPS, capable of using nearly any fuel types.  This unit is large and occupies the rear hardpoints.",
+    "weight": "25 kg",
+    "volume": "25 L",
+    "material": [ "qt_steel", "plastic" ],
+    "symbol": "#",
+    "looks_like": "1cyl_combustion",
+    "color": "dark_gray",
+    "ammo": [ "gasoline", "diesel", "jp8", "avgas", "lamp_oil", "motor_oil", "propane", "conc_alcohol", "ammonia_liquid" ],
+    "flags": [ "FRAGILE", "CANT_WEAR", "WATERPROOF", "IS_UPS", "EXO_PSU", "ONLY_ONE" ],
+    "armor": [ { "encumbrance": 0, "coverage": 40, "covers": [ "torso" ] } ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE",
+        "description": "This is a tank for fuel.  Holds up to 5 liters.",
+        "rigid": true,
+        "watertight": true,
+        "airtight": true,
+        "ammo_restriction": {
+          "gasoline": 5000,
+          "diesel": 5000,
+          "jp8": 5000,
+          "avgas": 5000,
+          "lamp_oil": 5000,
+          "motor_oil": 5000,
+          "propane": 5000,
+          "conc_alcohol": 5000,
+          "ammonia_liquid": 5000
+        }
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "description": "This is a mounting point for armor protecting the PSU.",
+        "ablative": true,
+        "rigid": true,
+        "max_contains_volume": "10 L",
+        "max_contains_weight": "145 kg",
+        "flag_restriction": [ "EXO_PSU_PLATE" ],
+        "moves": 120
+      }
+    ]
+  },
+  {
     "id": "exo_large_aux_power",
     "type": "TOOL_ARMOR",
     "category": "exosuit",
@@ -427,8 +473,8 @@
     "flags": [ "CANT_WEAR", "EXO_LARGE_GADGET" ],
     "pocket_data": [
       {
-        "pocket_type": "CONTAINER",
-        "description": "This is a tank for pressurized ammonia.  Holds up to 5 liters.",
+        "pocket_type": "MAGAZINE",
+        "description": "This is the maneuvering unit's fuel tank.  Holds up to 10 liters of pressurized fuel.",
         "rigid": true,
         "watertight": true,
         "ammo_restriction": { "ammonia_liquid": 10 }
@@ -543,5 +589,45 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "ampoule": 4 } } ],
     "charges_per_use": 1,
     "use_action": [ "JET_INJECTOR" ]
+  },
+  {
+    "id": "exo_trickle_charger",
+    "type": "TOOL_ARMOR",
+    "category": "exosuit",
+    "name": { "str": "exosuit microgenerator" },
+    "description": "This is a compact radioactive power unit that attaches to an exosuit hardpoint.  While it charges slowly, the fuel source will last years.",
+    "weight": "5 kg",
+    "volume": "2500 ml",
+    "material": [ "plastic", "qt_steel" ],
+    "symbol": "=",
+    "looks_like": "storage_battery",
+    "color": "light_gray",
+    "ammo": "battery",
+    "flags": [ "FRAGILE", "CANT_WEAR", "WATERPROOF", "IS_UPS", "EXO_MEDIUM_GADGET", "LEAK_DAM", "RADIOACTIVE" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 1000 } } ],
+    "relic_data": { "charge_info": { "regenerate_ammo": true, "recharge_type": "periodic", "time": "60 s" } }
+  },
+  {
+    "id": "exo_cartridge_charger",
+    "type": "TOOL_ARMOR",
+    "category": "exosuit",
+    "name": { "str": "exosuit cartridge charger" },
+    "description": "This is a charging port designed to accept power cartridges.",
+    "weight": "500 g",
+    "volume": "500 ml",
+    "material": [ "plastic", "qt_steel" ],
+    "symbol": "=",
+    "looks_like": "storage_battery",
+    "color": "light_gray",
+    "flags": [ "CANT_WEAR", "USE_UPS", "EXO_SMALL_GADGET" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "max_contains_weight": "250 g",
+        "max_contains_volume": "250 ml",
+        "item_restriction": [ "afs_cartridge", "afs_compact_cartridge", "afs_bootleg_cartridge", "afs_archeotech_cartridge" ]
+      }
+    ]
   }
 ]

@@ -143,7 +143,7 @@ void shopkeeper_cons_rates::load( JsonObject const &jo, std::string const &/*src
 
 void shopkeeper_cons_rates::check() const
 {
-    for( auto const &rate : rates ) {
+    for( const shopkeeper_cons_rate_entry &rate : rates ) {
         if( !rate.itype.is_empty() &&
             ( !rate.category.is_empty() || !rate.item_group.is_empty() ) ) {
             debugmsg( "category/item_group filters are redundant when itype is specified in %s.",

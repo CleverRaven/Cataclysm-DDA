@@ -532,6 +532,8 @@ Character::Character() :
     thirst = 0;
     fatigue = 0;
     sleep_deprivation = 0;
+    daily_sleep = 0_turns;
+    continuous_sleep = 0_turns;
     set_rad( 0 );
     slow_rad = 0;
     set_stim( 0 );
@@ -623,14 +625,17 @@ void Character::randomize_height()
     init_height = clamp( x, Character::min_height(), Character::max_height() );
 }
 
-const item &Character::get_wielded_item() const
+item_location Character::get_wielded_item() const
 {
-    return weapon;
+    return const_cast<Character *>( this )->get_wielded_item();
 }
 
-item &Character::get_wielded_item()
+item_location Character::get_wielded_item()
 {
-    return weapon;
+    if( weapon.is_null() ) {
+        return item_location();
+    }
+    return item_location( *this, &weapon );
 }
 
 void Character::set_wielded_item( const item &to_wield )
@@ -907,8 +912,7 @@ double Character::fastest_aiming_method_speed( const item &gun, double recoil,
     if( !gun.has_flag( flag_DISABLE_SIGHTS ) ) {
         const int iron_sight_FOV = 480;
         int effective_iron_sight_dispersion = effective_dispersion( gun.type->gun->sight_dispersion );
-        double iron_sight_speed = gun.has_flag( flag_DISABLE_SIGHTS ) ? 0 :
-                                  modified_sight_speed( 0, effective_iron_sight_dispersion, recoil );
+        double iron_sight_speed = modified_sight_speed( 0, effective_iron_sight_dispersion, recoil );
         if( effective_iron_sight_dispersion < recoil && iron_sight_speed > aim_speed_modifier &&
             recoil <= iron_sight_FOV ) {
             aim_speed_modifier = iron_sight_speed;
@@ -1215,7 +1219,7 @@ void Character::react_to_felt_pain( int intensity )
     if( intensity <= 0 ) {
         return;
     }
-    if( is_avatar() && intensity >= 2 ) {
+    if( uistate.distraction_pain && is_avatar() && intensity >= 2 ) {
         g->cancel_activity_or_ignore_query( distraction_type::pain, _( "Ouch, something hurts!" ) );
     }
     // Only a large pain burst will actually wake people while sleeping.
@@ -1518,7 +1522,6 @@ bool Character::is_mounted() const
 
 void Character::forced_dismount()
 {
-    item &weapon = get_wielded_item();
     remove_effect( effect_riding );
     bool mech = false;
     if( mounted_creature ) {
@@ -1630,7 +1633,7 @@ void Character::dismount()
             add_msg( m_warning, _( "You cannot dismount there!" ) );
             return;
         }
-        item &weapon = get_wielded_item();
+
         remove_effect( effect_riding );
         monster *critter = mounted_creature.get();
         critter->mounted_player_id = character_id();
@@ -1687,7 +1690,7 @@ void Character::on_dodge( Creature *source, float difficulty )
     // Each avoided hit consumes an available dodge
     // When no more available we are likely to fail player::dodge_roll
     dodges_left--;
-    const item &weapon = get_wielded_item();
+
     // dodging throws of our aim unless we are either skilled at dodging or using a small weapon
     if( is_armed() && weapon.is_gun() ) {
         recoil += std::max( weapon.volume() / 250_ml - get_skill_level( skill_dodge ), 0 ) * rng( 0, 100 );
@@ -2621,7 +2624,6 @@ void Character::conduct_blood_analysis()
 
 int Character::get_standard_stamina_cost( const item *thrown_item ) const
 {
-    const item weapon = get_wielded_item();
     // Previously calculated as 2_gram * std::max( 1, str_cur )
     // using 16_gram normalizes it to 8 str. Same effort expenditure
     // for each strike, regardless of weight. This is compensated
@@ -2644,7 +2646,7 @@ std::vector<item_location> Character::nearby( const
         return VisitResponse::NEXT;
     } );
 
-    for( const auto &cur : map_selector( pos(), radius ) ) {
+    for( const map_cursor &cur : map_selector( pos(), radius ) ) {
         cur.visit_items( [&]( const item * e, const item * parent ) {
             if( func( e, parent ) ) {
                 res.emplace_back( cur, const_cast<item *>( e ) );
@@ -2653,7 +2655,7 @@ std::vector<item_location> Character::nearby( const
         } );
     }
 
-    for( const auto &cur : vehicle_selector( pos(), radius ) ) {
+    for( const vehicle_cursor &cur : vehicle_selector( pos(), radius ) ) {
         cur.visit_items( [&]( const item * e, const item * parent ) {
             if( func( e, parent ) ) {
                 res.emplace_back( cur, const_cast<item *>( e ) );
@@ -2762,7 +2764,6 @@ units::mass Character::weight_carried_with_tweaks( const item_tweaks &tweaks ) c
     units::mass ret = worn.weight_carried_with_tweaks( without );
 
     // Wielded item
-    const item weapon = get_wielded_item();
     units::mass weaponweight = 0_gram;
     if( !without.count( &weapon ) ) {
         weaponweight += weapon.weight();
@@ -2807,7 +2808,6 @@ units::volume Character::volume_carried_with_tweaks( const item_tweaks &tweaks )
     units::volume ret = worn.contents_volume_with_tweaks( without );
 
     // Wielded item
-    const item weapon = get_wielded_item();
     if( !without.count( &weapon ) ) {
         ret += weapon.get_contents_volume_with_tweaks( without );
     }
@@ -2854,7 +2854,6 @@ units::mass Character::weight_capacity() const
 bool Character::can_pickVolume( const item &it, bool, const item *avoid,
                                 const bool ignore_pkt_settings ) const
 {
-    const item weapon = get_wielded_item();
     if( ( avoid == nullptr || &weapon != avoid ) &&
         weapon.can_contain( it, false, false, ignore_pkt_settings ).success() ) {
         return true;
@@ -2873,7 +2872,6 @@ bool Character::can_pickVolume_partial( const item &it, bool, const item *avoid,
         copy.charges = 1;
     }
 
-    const item weapon = get_wielded_item();
     if( ( avoid == nullptr || &weapon != avoid ) &&
         weapon.can_contain( copy, false, false, ignore_pkt_settings ).success() ) {
         return true;
@@ -2909,7 +2907,7 @@ bool Character::can_use( const item &it, const item &context ) const
                                _( "<npcname> can't use anything while incorporeal." ) );
         return false;
     }
-    const auto &ctx = !context.is_null() ? context : it;
+    const item &ctx = !context.is_null() ? context : it;
 
     if( !meets_requirements( it, ctx ) ) {
         const std::string unmet( enumerate_unmet_requirements( it, ctx ) );
@@ -2959,7 +2957,7 @@ bool Character::is_wielding( const item &target ) const
 std::vector<std::pair<std::string, std::string>> Character::get_overlay_ids() const
 {
     std::vector<std::pair<std::string, std::string>> rval;
-    std::multimap<int, std::string> mutation_sorting;
+    std::multimap<int, std::pair<std::string, std::string>> mutation_sorting;
     int order;
     std::string overlay_id;
 
@@ -2975,18 +2973,22 @@ std::vector<std::pair<std::string, std::string>> Character::get_overlay_ids() co
         }
         overlay_id = ( mut.second.powered ? "active_" : "" ) + mut.first.str();
         order = get_overlay_order_of_mutation( overlay_id );
-        mutation_sorting.insert( std::pair<int, std::string>( order, overlay_id ) );
+        std::string variant;
+        if( mut.second.variant != nullptr ) {
+            variant = mut.second.variant->id;
+        }
+        mutation_sorting.emplace( order, std::pair<std::string, std::string> { overlay_id, variant } );
     }
 
     // then get bionics
     for( const bionic &bio : *my_bionics ) {
         overlay_id = ( bio.powered ? "active_" : "" ) + bio.id.str();
         order = get_overlay_order_of_mutation( overlay_id );
-        mutation_sorting.insert( std::pair<int, std::string>( order, overlay_id ) );
+        mutation_sorting.emplace( order, std::pair<std::string, std::string> { overlay_id, "" } );
     }
 
     for( auto &mutorder : mutation_sorting ) {
-        rval.emplace_back( "mutation_" + mutorder.second, "" );
+        rval.emplace_back( "mutation_" + mutorder.second.first, mutorder.second.second );
     }
 
     // next clothing
@@ -3084,12 +3086,12 @@ std::string Character::enumerate_unmet_requirements( const item &it, const item 
     return enumerate_as_string( unmet_reqs );
 }
 
-int Character::read_speed( bool return_stat_effect ) const
+int Character::read_speed() const
 {
     // Stat window shows stat effects on based on current stat
     const int intel = get_int();
     /** @EFFECT_INT increases reading speed by 3s per level above 8*/
-    int ret = to_moves<int>( 1_minutes ) - to_moves<int>( 3_seconds ) * ( intel - 8 );
+    time_duration ret = 1_minutes - 3_seconds * ( intel - 8 );
 
     if( has_bionic( afs_bio_linguistic_coprocessor ) ) { // Aftershock
         ret *= .85;
@@ -3097,11 +3099,10 @@ int Character::read_speed( bool return_stat_effect ) const
 
     ret *= mutation_value( "reading_speed_multiplier" );
 
-    if( ret < to_moves<int>( 1_seconds ) ) {
-        ret = to_moves<int>( 1_seconds );
+    if( ret < 1_seconds ) {
+        ret = 1_seconds;
     }
-    // return_stat_effect actually matters here
-    return return_stat_effect ? ret : ret * 100 / to_moves<int>( 1_minutes );
+    return ret * 100 / 1_minutes;
 }
 
 bool Character::meets_skill_requirements( const std::map<skill_id, int> &req,
@@ -3128,7 +3129,7 @@ bool Character::meets_stat_requirements( const item &it ) const
 
 bool Character::meets_requirements( const item &it, const item &context ) const
 {
-    const auto &ctx = !context.is_null() ? context : it;
+    const item &ctx = !context.is_null() ? context : it;
     return meets_stat_requirements( it ) && meets_skill_requirements( it.type->min_skills, ctx );
 }
 
@@ -3544,7 +3545,6 @@ std::map<bodypart_id, int> Character::get_wind_resistance( const std::map <bodyp
 
         int coverage = 0;
         float totalExposed = 1.0f;
-        int totalCoverage = 0;
         int penalty = 100;
 
         for( const item *it : on_bp.second ) {
@@ -3554,7 +3554,7 @@ std::map<bodypart_id, int> Character::get_wind_resistance( const std::map <bodyp
             totalExposed *= ( 1.0 - coverage / 100.0 ); // Coverage is between 0 and 1?
         }
 
-        ret[bp] = totalCoverage = 100 - totalExposed * 100;
+        ret[bp] = 100 - totalExposed * 100;
     }
 
     return ret;
@@ -4148,6 +4148,36 @@ void Character::set_sleep_deprivation( int nsleep_deprivation )
                                   nsleep_deprivation ) );
 }
 
+time_duration Character::get_daily_sleep() const
+{
+    return daily_sleep;
+}
+
+void Character::mod_daily_sleep( time_duration mod )
+{
+    daily_sleep += mod;
+}
+
+void Character::reset_daily_sleep()
+{
+    daily_sleep = 0_turns;
+}
+
+time_duration Character::get_continuous_sleep() const
+{
+    return continuous_sleep;
+}
+
+void Character::mod_continuous_sleep( time_duration mod )
+{
+    continuous_sleep += mod;
+}
+
+void Character::reset_continuous_sleep()
+{
+    continuous_sleep = 0_turns;
+}
+
 int Character::get_fatigue() const
 {
     return fatigue;
@@ -4183,7 +4213,7 @@ void Character::on_damage_of_type( int adjusted_damage, damage_type type, const 
                 // Unpowered bionics are protected from power surges.
                 continue;
             }
-            const auto &info = i.info();
+            const bionic_data &info = i.info();
             if( info.has_flag( STATIC( json_character_flag( "BIONIC_SHOCKPROOF" ) ) ) ||
                 info.has_flag( STATIC( json_character_flag( "BIONIC_FAULTY" ) ) ) ) {
                 continue;
@@ -4615,25 +4645,7 @@ needs_rates Character::calc_needs_rates() const
     rates.fatigue *= 1.0f + mutation_value( fatigue_modifier );
 
     if( asleep ) {
-        static const std::string fatigue_regen_modifier( "fatigue_regen_modifier" );
-        rates.recovery = 1.0f + mutation_value( fatigue_regen_modifier );
-        if( !is_hibernating() ) {
-            // Hunger and thirst advance more slowly while we sleep. This is the standard rate.
-            rates.hunger *= 0.5f;
-            rates.thirst *= 0.5f;
-            const int intense = sleep.is_null() ? 0 : sleep.get_intensity();
-            // Accelerated recovery capped to 2x over 2 hours
-            // After 16 hours of activity, equal to 7.25 hours of rest
-            const int accelerated_recovery_chance = 24 - intense + 1;
-            const float accelerated_recovery_rate = 1.0f / accelerated_recovery_chance;
-            rates.recovery += accelerated_recovery_rate;
-        } else {
-            // Hunger and thirst advance *much* more slowly whilst we hibernate.
-            rates.hunger *= ( 2.0f / 7.0f );
-            rates.thirst *= ( 2.0f / 7.0f );
-        }
-        rates.recovery -= static_cast<float>( get_perceived_pain() ) / 60;
-
+        calc_sleep_recovery_rate( rates );
     } else {
         rates.recovery = 0;
     }
@@ -4663,6 +4675,29 @@ needs_rates Character::calc_needs_rates() const
     rates.thirst = enchantment_cache->modify_value( enchant_vals::mod::THIRST, rates.thirst );
 
     return rates;
+}
+
+void Character::calc_sleep_recovery_rate( needs_rates &rates ) const
+{
+    const effect &sleep = get_effect( effect_sleep );
+    static const std::string fatigue_regen_modifier( "fatigue_regen_modifier" );
+    rates.recovery = 1.0f + mutation_value( fatigue_regen_modifier );
+    if( !is_hibernating() ) {
+        // Hunger and thirst advance more slowly while we sleep. This is the standard rate.
+        rates.hunger *= 0.5f;
+        rates.thirst *= 0.5f;
+        const int intense = sleep.is_null() ? 0 : sleep.get_intensity();
+        // Accelerated recovery capped to 2x over 2 hours
+        // After 16 hours of activity, equal to 7.25 hours of rest
+        const int accelerated_recovery_chance = 24 - intense + 1;
+        const float accelerated_recovery_rate = 1.0f / accelerated_recovery_chance;
+        rates.recovery += accelerated_recovery_rate;
+    } else {
+        // Hunger and thirst advance *much* more slowly whilst we hibernate.
+        rates.hunger *= ( 2.0f / 7.0f );
+        rates.thirst *= ( 2.0f / 7.0f );
+    }
+    rates.recovery -= static_cast<float>( get_perceived_pain() ) / 60;
 }
 
 item Character::reduce_charges( item *it, int quantity )
@@ -5180,7 +5215,7 @@ nc_color Character::symbol_color() const
         return cyan_background( basic );
     }
 
-    const auto &fields = get_map().field_at( pos() );
+    const field &fields = get_map().field_at( pos() );
 
     // Priority: electricity, fire, acid, gases
     bool has_elec = false;
@@ -6760,7 +6795,7 @@ void Character::vomit()
     mod_moves( -100 );
     for( auto &elem : *effects ) {
         for( auto &_effect_it : elem.second ) {
-            auto &it = _effect_it.second;
+            effect &it = _effect_it.second;
             if( it.get_id() == effect_foodpoison ) {
                 it.mod_duration( -30_minutes );
             } else if( it.get_id() == effect_drunk ) {
@@ -6803,7 +6838,7 @@ tripoint Character::adjacent_tile() const
         }
         // Only consider tile if unoccupied, passable and has no traps
         dangerous_fields = 0;
-        auto &tmpfld = here.field_at( p );
+        field &tmpfld = here.field_at( p );
         for( auto &fld : tmpfld ) {
             const field_entry &cur = fld.second;
             if( cur.is_dangerous() ) {
@@ -7050,7 +7085,6 @@ ret_val<bool> Character::can_wield( const item &it ) const
                    _( "You can't wield this.  It looks like it has to be attached to a bionic." ) );
     }
 
-    const item weapon = get_wielded_item();
     if( is_armed() && !can_unwield( weapon ).success() ) {
         return ret_val<bool>::make_failure( _( "The %s is preventing you from wielding the %s." ),
                                             weapname(), it.tname() );
@@ -7574,7 +7608,7 @@ void Character::on_hurt( Creature *source, bool disturb /*= true*/ )
         if( has_effect( effect_sleep ) && !has_bionic( bio_sleep_shutdown ) ) {
             wake_up();
         }
-        if( !is_npc() && !has_effect( effect_narcosis ) ) {
+        if( uistate.distraction_attack && !is_npc() && !has_effect( effect_narcosis ) ) {
             if( source != nullptr ) {
                 if( sees( *source ) ) {
                     g->cancel_activity_or_ignore_query( distraction_type::attacked,
@@ -9552,7 +9586,7 @@ void Character::process_effects()
 
     // Apply new effects from effect->effect chains
     while( !scheduled_effects.empty() ) {
-        const auto &effect = scheduled_effects.front();
+        const scheduled_effect_t &effect = scheduled_effects.front();
 
         add_effect( effect_source::empty(),
                     effect.eff_id,
@@ -9569,7 +9603,7 @@ void Character::process_effects()
     // Perform immediate effect removals
     while( !terminating_effects.empty() ) {
 
-        const auto &effect = terminating_effects.front();
+        const terminating_effect_t &effect = terminating_effects.front();
 
         remove_effect( effect.eff_id, effect.bp );
 
@@ -9577,6 +9611,14 @@ void Character::process_effects()
     }
 
     Creature::process_effects();
+}
+
+void Character::gravity_check()
+{
+    if( get_map().tr_at( pos() ) == tr_ledge ) {
+        get_map().tr_at( pos() ).trigger( pos(), *this );
+        get_map().update_visibility_cache( pos().z );
+    }
 }
 
 double Character::vomit_mod()
@@ -9679,7 +9721,7 @@ void Character::shift_destination( const point &shift )
         *next_expected_position += shift;
     }
 
-    for( auto &elem : auto_move_route ) {
+    for( tripoint &elem : auto_move_route ) {
         elem += shift;
     }
 }
@@ -9761,6 +9803,11 @@ bool Character::sees( const tripoint &t, bool, int ) const
     }
 
     return can_see;
+}
+
+bool Character::sees( const tripoint_bub_ms &t, bool is_avatar, int range_mod ) const
+{
+    return sees( t.raw(), is_avatar, range_mod );
 }
 
 bool Character::sees( const Creature &critter ) const
@@ -10393,7 +10440,7 @@ const Character *Character::get_book_reader( const item &book,
         return nullptr;
     }
 
-    int time_taken = INT_MAX;
+    time_duration time_taken = time_duration::from_minutes( INT_MAX );
     auto candidates = get_crafting_helpers();
 
     for( const npc *elem : candidates ) {
@@ -10424,7 +10471,7 @@ const Character *Character::get_book_reader( const item &book,
         } else if( elem->is_blind() ) {
             reasons.push_back( string_format( _( "%s is blind." ), elem->disp_name() ) );
         } else {
-            int proj_time = time_to_read( book, *elem );
+            time_duration proj_time = time_to_read( book, *elem );
             if( proj_time < time_taken ) {
                 reader = elem;
                 time_taken = proj_time;
@@ -10435,8 +10482,8 @@ const Character *Character::get_book_reader( const item &book,
     return reader;
 }
 
-int Character::time_to_read( const item &book, const Character &reader,
-                             const Character *learner ) const
+time_duration Character::time_to_read( const item &book, const Character &reader,
+                                       const Character *learner ) const
 {
     const auto &type = book.type->book;
     const skill_id &skill = type->skill;
@@ -10449,12 +10496,12 @@ int Character::time_to_read( const item &book, const Character &reader,
         reading_speed = std::max( reading_speed, learner->read_speed() );
     }
 
-    int retval = type->time * reading_speed;
+    time_duration retval = type->time * reading_speed / 100;
     retval *= std::min( fine_detail_vision_mod(), reader.fine_detail_vision_mod() );
 
     const int effective_int = std::min( { get_int(), reader.get_int(), learner ? learner->get_int() : INT_MAX } );
     if( type->intel > effective_int && !reader.has_trait( trait_PROF_DICEMASTER ) ) {
-        retval += type->time * ( type->intel - effective_int ) * 100;
+        retval += type->time * ( time_duration::from_seconds( type->intel - effective_int ) / 1_minutes );
     }
     if( !has_identified( book.typeId() ) ) {
         //skimming
@@ -11015,7 +11062,7 @@ void Character::process_items()
     if( !inv_use_ups.empty() ) {
         const int available_charges = available_ups();
         int ups_used = 0;
-        for( const auto &it : inv_use_ups ) {
+        for( item * const &it : inv_use_ups ) {
             // For powered armor, an armor-powering bionic should always be preferred over UPS usage.
             if( it->is_power_armor() && can_interface_armor() && has_power() ) {
                 // Bionic power costs are handled elsewhere
@@ -11409,7 +11456,7 @@ void Character::pause()
     if( in_vehicle && one_in( 8 ) ) {
         VehicleList vehs = here.get_vehicles();
         vehicle *veh = nullptr;
-        for( auto &v : vehs ) {
+        for( wrapped_vehicle &v : vehs ) {
             veh = v.v;
             if( veh && veh->is_moving() && veh->player_in_control( *this ) ) {
                 double exp_temp = 1 + veh->total_mass() / 400.0_kilogram +
@@ -11434,7 +11481,7 @@ bool Character::can_lift( const T &obj ) const
     // avoid comparing by weight as different objects use differing scales (grams vs kilograms etc)
     int str = get_lift_str();
     if( mounted_creature ) {
-        const auto mons = mounted_creature.get();
+        auto *const mons = mounted_creature.get();
         str = mons->mech_str_addition() == 0 ? str : mons->mech_str_addition();
     }
     const int npc_str = get_lift_assist();

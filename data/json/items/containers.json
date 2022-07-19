@@ -2664,6 +2664,35 @@
     ]
   },
   {
+    "id": "ipok",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "individual patrol officer kit" },
+    "//": "https://www.narescue.com/individual-patrol-officer-kit.html",
+    "looks_like": "mre_beef_box",
+    "description": ".",
+    "weight": "50 g",
+    "volume": "50 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "to_hit": -1,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "2000 ml",
+        "max_contains_weight": "1500 g",
+        "airtight": true,
+        "moves": 50,
+        "sealed_data": { "spoil_multiplier": 0.0 },
+        "watertight": true
+      }
+    ],
+    "material": [ "plastic" ],
+    "flags": [ "COLLAPSE_CONTENTS" ],
+    "symbol": ")",
+    "color": "light_gray"
+  },
+  {
     "id": "aquarium_medium",
     "type": "GENERIC",
     "category": "container",

@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <cstdlib>
 
+#include "achievement.h"
 #include "debug.h"
 #include "generic_factory.h"
 #include "json.h"
@@ -10,11 +11,14 @@
 #include "mission.h"
 #include "mutation.h"
 #include "options.h"
+#include "past_games_info.h"
 #include "profession.h"
 #include "rng.h"
 #include "start_location.h"
 #include "string_id.h"
 #include "translations.h"
+
+static const achievement_id achievement_achievement_arcade_mode( "achievement_arcade_mode" );
 
 namespace
 {
@@ -94,6 +98,8 @@ void scenario::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "map_extra", _map_extra, map_extra_id::NULL_ID() );
     optional( jo, was_loaded, "missions", _missions, string_id_reader<::mission_type> {} );
 
+    optional( jo, was_loaded, "requirement", _requirement );
+
     optional( jo, was_loaded, "eoc", _eoc, auto_flags_reader<effect_on_condition_id> {} );
 
     if( !was_loaded ) {
@@ -165,7 +171,7 @@ void scenario::reset()
 
 void scenario::check_definitions()
 {
-    for( const auto &scen : all_scenarios.get_all() ) {
+    for( const scenario &scen : all_scenarios.get_all() ) {
         scen.check_definition();
     }
     sc_blacklist.finalize();
@@ -394,8 +400,8 @@ bool scenario::scenario_traits_conflict_with_profession_traits( const profession
         }
     }
 
-    for( auto &pt : p.get_locked_traits() ) {
-        if( is_forbidden_trait( pt ) ) {
+    for( trait_and_var &pt : p.get_locked_traits() ) {
+        if( is_forbidden_trait( pt.trait ) ) {
             return true;
         }
     }
@@ -403,9 +409,9 @@ bool scenario::scenario_traits_conflict_with_profession_traits( const profession
     //  check if:
     //  locked traits for scenario prevent taking locked traits for professions
     //  locked traits for professions prevent taking locked traits for scenario
-    for( const auto &st : get_locked_traits() ) {
-        for( auto &pt : p.get_locked_traits() ) {
-            if( are_conflicting_traits( st, pt ) || are_conflicting_traits( pt, st ) ) {
+    for( const trait_id &st : get_locked_traits() ) {
+        for( trait_and_var &pt : p.get_locked_traits() ) {
+            if( are_conflicting_traits( st, pt.trait ) || are_conflicting_traits( pt.trait, st ) ) {
                 return true;
             }
         }
@@ -424,7 +430,7 @@ const profession *scenario::weighted_random_profession() const
 
     while( true ) {
         const string_id<profession> &candidate = random_entry_ref( choices );
-        if( x_in_y( 2, 2 + std::abs( candidate->point_cost() ) ) ) {
+        if( candidate->can_pick().success() && x_in_y( 2, 2 + std::abs( candidate->point_cost() ) ) ) {
             return &candidate.obj();
         }
     }
@@ -456,6 +462,11 @@ int scenario::start_location_targets_count() const
         cnt += sloc.obj().targets_count();
     }
     return cnt;
+}
+
+cata::optional<achievement_id> scenario::get_requirement() const
+{
+    return _requirement;
 }
 
 bool scenario::custom_start_date() const
@@ -541,10 +552,41 @@ bool scenario::allowed_start( const start_location_id &loc ) const
     return std::find( vec.begin(), vec.end(), loc ) != vec.end();
 }
 
-bool scenario::can_pick( const scenario &current_scenario, const int points ) const
+ret_val<bool> scenario::can_afford( const scenario &current_scenario, const int points ) const
 {
-    return point_cost() - current_scenario.point_cost() <= points;
+    if( point_cost() - current_scenario.point_cost() <= points ) {
+        return ret_val<bool>::make_success();
+
+    }
+
+    return ret_val<bool>::make_failure( _( "You don't have enough points" ) );
 }
+
+ret_val<bool> scenario::can_pick() const
+{
+    // if meta progression is disabled then skip this
+    if( get_past_games().achievement( achievement_achievement_arcade_mode ) ||
+        !get_option<bool>( "META_PROGRESS" ) ) {
+        return ret_val<bool>::make_success();
+    }
+
+    if( _requirement ) {
+        const achievement_completion_info *other_games = get_past_games().achievement(
+                    _requirement.value()->id );
+        if( !other_games ) {
+            return ret_val<bool>::make_failure(
+                       _( "You must complete the achievement \"%s\" to unlock this scenario." ),
+                       _requirement.value()->name() );
+        } else if( other_games->games_completed.empty() ) {
+            return ret_val<bool>::make_failure(
+                       _( "You must complete the achievement \"%s\" to unlock this scenario." ),
+                       _requirement.value()->name() );
+        }
+    }
+
+    return ret_val<bool>::make_success();
+}
+
 bool scenario::has_map_extra() const
 {
     return !_map_extra.is_null();

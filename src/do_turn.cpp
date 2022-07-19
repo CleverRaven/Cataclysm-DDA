@@ -553,7 +553,7 @@ void overmap_npc_move()
         }
     }
     bool npcs_need_reload = false;
-    for( auto &elem : travelling_npcs ) {
+    for( npc *&elem : travelling_npcs ) {
         if( elem->has_omt_destination() ) {
             if( !elem->omt_path.empty() ) {
                 if( rl_dist( elem->omt_path.back(), elem->global_omt_location() ) > 2 ) {
@@ -623,6 +623,10 @@ bool do_turn()
             veh->handle_potential_theft( dynamic_cast<Character &>( u ), false, false );
         }
     }
+
+    // Make sure players cant defy gravity by standing still, Looney tunes style.
+    u.gravity_check();
+
     // If riding a horse - chance to spook
     if( u.is_mounted() ) {
         u.check_mount_is_spooked();

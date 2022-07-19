@@ -54,6 +54,7 @@ mm_region::mm_region() : submaps {{ nullptr }} {}
 bool mm_region::is_empty() const
 {
     for( size_t y = 0; y < MM_REG_SIZE; y++ ) {
+        // NOLINTNEXTLINE(modernize-loop-convert)
         for( size_t x  = 0; x < MM_REG_SIZE; x++ ) {
             if( !submaps[x][y]->is_empty() ) {
                 return false;
