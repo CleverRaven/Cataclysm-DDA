@@ -913,6 +913,15 @@ window_panel widget::get_window_panel( const int width, const int req_height )
         for( const widget_id &wid : _widgets ) {
             height += wid->_height > 0 ? wid->_height : 1;
         }
+        for( const widget_clause &clause : _clauses ) {
+            int clause_height = 0;
+            for( const widget_id &wid : clause.widgets ) {
+                clause_height += wid->_height > 0 ? wid->_height : 1;
+            }
+            if( clause_height > height ) {
+                height = clause_height;
+            }
+        }
     } else if( _style == "widget" || _style == "text" ) {
         height = _height > 1 ? _height : req_height;
     }
