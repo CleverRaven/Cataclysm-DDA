@@ -849,16 +849,7 @@
     "environmental_protection": 10,
     "material_thickness": 1,
     "bashing": 2,
-    "flags": [
-      "INTEGRATED",
-      "UNBREAKABLE",
-      "SKINTIGHT",
-      "PADDED",
-      "WATER_FRIENDLY",
-      "BLOCK_WHILE_WORN",
-      "SOFT",
-      "NO_REPAIR"
-    ],
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "SKINTIGHT", "PADDED", "WATER_FRIENDLY", "BLOCK_WHILE_WORN", "SOFT", "NO_REPAIR" ],
     "material": [ "superalloy" ],
     "name": { "str_sp": "alloy plating - legs" },
     "description": "Thin armor plating layered into your legs, with external plating in vital areas.  Helps protect your arms from deep cuts and impacts.",
@@ -953,9 +944,7 @@
         "breathability": "SECOND_SKIN"
       },
       {
-        "material": [
-          { "type": "superalloy", "covered_by_mat": 100, "thickness": 1.5 }
-        ],
+        "material": [ { "type": "superalloy", "covered_by_mat": 100, "thickness": 1.5 } ],
         "covers": [ "torso" ],
         "specifically_covers": [ "torso_upper" ],
         "coverage": 85,
