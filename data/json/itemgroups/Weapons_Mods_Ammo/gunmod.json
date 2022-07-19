@@ -46,7 +46,15 @@
       [ "u_shotgun", 60 ],
       [ "suppressor", 60 ],
       [ "suppressor_compact", 40 ],
-      [ "retool_ar15_300blk", 40 ]
+      [ "retool_ar15_300blk", 40 ],
+      [ "acog_scope", 40 ],
+      [ "holo_sight", 50 ],
+      [ "holo_magnifier", 30 ],
+      [ "hybrid_sight_4x", 30 ],
+      [ "rifle_scope_high_end_mount", 20 ],
+      [ "modern_handguard", 20 ],
+      [ "bipod_handguard", 10 ],
+      [ "high_end_folding_stock", 10 ]
     ]
   },
   {
@@ -56,6 +64,7 @@
     "items": [
       [ "acog_scope", 100 ],
       [ "holo_sight", 100 ],
+      [ "holo_magnifier", 80 ],
       [ "hybrid_sight_4x", 100 ],
       [ "m203", 30 ],
       [ "m320_mod", 10 ],
@@ -79,6 +88,7 @@
       [ "acog_scope", 21 ],
       [ "hybrid_sight_4x", 15 ],
       [ "rifle_scope", 25 ],
+      [ "rifle_scope_high_end_mount", 10 ],
       [ "pistol_scope", 4 ]
     ]
   },
@@ -114,7 +124,8 @@
       [ "offset_sights", 6 ],
       [ "acog_scope", 21 ],
       [ "hybrid_sight_4x", 15 ],
-      [ "rifle_scope", 25 ]
+      [ "rifle_scope", 25 ],
+      [ "rifle_scope_high_end_mount", 10 ]
     ]
   },
   {
