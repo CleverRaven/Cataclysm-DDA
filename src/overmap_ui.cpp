@@ -49,6 +49,7 @@
 #include "map_iterator.h"
 #include "mapbuffer.h"
 #include "memory_fast.h"
+#include "messages.h"
 #include "mission.h"
 #include "mongroup.h"
 #include "npc.h"
@@ -82,6 +83,8 @@
 class character_id;
 
 static const activity_id ACT_TRAVELLING( "ACT_TRAVELLING" );
+
+static const json_character_flag json_flag_NO_OVERMAP( "NO_OVERMAP" );
 
 static const mongroup_id GROUP_FOREST( "GROUP_FOREST" );
 static const mongroup_id GROUP_NEMESIS( "GROUP_NEMESIS" );
@@ -1685,6 +1688,11 @@ static int overmap_zoom_level = DEFAULT_TILESET_ZOOM;
 static tripoint_abs_omt display( const tripoint_abs_omt &orig,
                                  const draw_data_t &data = draw_data_t() )
 {
+    if( get_player_character().has_flag( json_flag_NO_OVERMAP ) ) {
+        add_msg( m_info, _( "Due to your illness you can't use overmap." ) );
+        return overmap::invalid_tripoint;
+    }
+
     const int previous_zoom = g->get_zoom();
     g->set_zoom( overmap_zoom_level );
     on_out_of_scope reset_zoom( [&]() {
