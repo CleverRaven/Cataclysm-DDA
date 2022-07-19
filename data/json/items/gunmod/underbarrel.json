@@ -62,7 +62,7 @@
   {
     "id": "bipod_handguard_deployed",
     "type": "GUNMOD",
-    "name": { "str": "bipod hand guard (deployed)" },
+    "name": { "str": "bipod hand guard (deployed)", "str_pl": "bipod hand guards (deployed)" },
     "description": "Bipods are commonly used on rifles and machine guns to provide a forward rest and reduce motion.  Although they greatly improve handling of recoil, they are usable only on certain surfaces (or from the prone position).  This one is integrated into a high end hand guard, replacing the factory hand guard of your weapon, allowing for comfortable shooting with or without the bipod deployed.  Currently the bipod legs are out and are ready for use.",
     "copy-from": "bipod_handguard",
     "handling_modifier": 18,
