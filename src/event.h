@@ -61,7 +61,6 @@ enum class event_type : int {
     crosses_marloss_threshold,
     crosses_mutation_threshold,
     crosses_mycus_threshold,
-    custom_json_event,
     cuts_tree,
     dermatik_eggs_hatch,
     dermatik_eggs_injected,
@@ -171,7 +170,7 @@ struct event_spec_character_item {
     };
 };
 
-static_assert( static_cast<int>( event_type::num_event_types ) == 86,
+static_assert( static_cast<int>( event_type::num_event_types ) == 85,
                "This static_assert is to remind you to add a specialization for your new "
                "event_type below" );
 
@@ -433,14 +432,6 @@ struct event_spec<event_type::crosses_mutation_threshold> {
 
 template<>
 struct event_spec<event_type::crosses_mycus_threshold> : event_spec_character {};
-
-template<>
-struct event_spec<event_type::custom_json_event> {
-    static constexpr std::array<std::pair<const char *, cata_variant_type>, 1> fields = {{
-            { "id", cata_variant_type::string },
-        }
-    };
-};
 
 template<>
 struct event_spec<event_type::cuts_tree> : event_spec_character {};
