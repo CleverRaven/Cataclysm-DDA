@@ -67,7 +67,7 @@
         { "point": "terrain", "id": "t_wall_warped", "x": [ 2, 22 ], "y": [ 2, 22 ], "repeat": [ 65, 85 ] }
       ]
     }
-  },  
+  },
   {
     "type": "mapgen",
     "method": "json",
@@ -85,8 +85,7 @@
       "set": [
         { "square": "item_remove", "x": 0, "y": 0, "x2": 23, "y2": 23 },
         { "square": "trap_remove", "id": "tr_null", "x": 0, "y": 0, "x2": 23, "y2": 23 },
-        { "square": "creature_remove", "x": 0, "y": 0, "x2": 23, "y2": 23 },
-        { "square": "field_remove", "x": 0, "y": 0, "x2": 23, "y2": 23 }
+        { "square": "creature_remove", "x": 0, "y": 0, "x2": 23, "y2": 23 }
       ],
       "flags": [ "NO_UNDERLYING_ROTATE" ]
     }
