@@ -1722,7 +1722,7 @@
     "description": { "str_sp": "read a book" }
   },
   {
-    "id": "portal_storm_strength",
+    "id": "portal_storm_happened",
     "type": "event_transformation",
     "event_type": "u_var_changed",
     "value_constraints": { "var": {"equals": [ "string", "portal_storm_counter" ] }}
@@ -1731,7 +1731,7 @@
     "id": "witnessed_portal_storm",
     "type": "event_statistic",
     "stat_type": "count",
-    "event_transformation": "portal_storm_strength",
+    "event_transformation": "portal_storm_happened",
     "description": { "str_sp": "portal storms seen" }
   }
 ]
