@@ -2153,7 +2153,7 @@ void talk_effect_fun_t<T>::set_add_var( const JsonObject &jo, const std::string 
         } else {
             int index = rng( 0, possible_values.size() - 1 );
             actor->set_value( var_name, possible_values[index] );
-            get_event_bus().send<event_type::u_var_changed>(var_name, possible_values[index]);
+            get_event_bus().send<event_type::u_var_changed>( var_name, possible_values[index] );
         }
     };
 }
@@ -2185,7 +2185,7 @@ void talk_effect_fun_t<T>::set_adjust_var( const JsonObject &jo, const std::stri
         }
 
         d.actor( is_npc )->set_value( var_name, std::to_string( adjusted_value ) );
-        get_event_bus().send<event_type::u_var_changed>(var_name, std::to_string(adjusted_value));
+        get_event_bus().send<event_type::u_var_changed>( var_name, std::to_string( adjusted_value ) );
     };
 }
 
