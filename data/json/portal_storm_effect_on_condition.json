@@ -237,8 +237,7 @@
       { "run_eocs": [ "EOC_WORSEN_PORTAL_STORM", "EOC_PORTAL_STORM_DUNGEON_EXIT" ] },
       { "finish_mission": "MISSION_INVESTIGATE_PORTAL_DUNGEON", "success": false },
       { "alter_timed_events": "portal_dungeon_entrance" },
-	  { "u_adjust_var": "portal_storm_counter", "type": "counter", "context": "portal_storms", "adjustment": 1 }
-
+      { "u_adjust_var": "portal_storm_counter", "type": "counter", "context": "portal_storms", "adjustment": 1 }
     ]
   },
   {
