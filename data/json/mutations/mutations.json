@@ -971,7 +971,7 @@
     "points": 1,
     "description": "You're an excellent navigator and your ability to recognize distant landmarks is unmatched.  Your sight radius on the overmap extends beyond the normal range.",
     "category": [ "BIRD", "MOUSE" ],
-    "cancels": [ "UNOBSERVANT" ],
+    "cancels": [ "UNOBSERVANT", "NO_OVERMAP" ],
     "overmap_sight": 5
   },
   {
@@ -982,7 +982,7 @@
     "description": "Focal brain damage has rendered you incapable of recognizing landmarks and orienting yourself in your surroundings, severely crippling your sight radius on the overmap.",
     "valid": false,
     "starting_trait": true,
-    "cancels": [ "EAGLEEYED" ],
+    "cancels": [ "EAGLEEYED", "NO_OVERMAP" ],
     "overmap_sight": -10
   },
   {
@@ -8041,5 +8041,16 @@
     "player_display": false,
     "purifiable": false,
     "valid": false
+  },
+  {
+    "type": "mutation",
+    "id": "NO_OVERMAP",
+    "name": { "str": "Visuospatial dysgnosia" },
+    "points": -2,
+    "description": "Due to serious brain damage, you have significant troubles with determining your whereabouts.  You can barely navigate your immediate surroundings.  You don't understand maps, and you can't use overmap.",
+    "starting_trait": true,
+    "valid": false,
+    "cancels": [ "UNOBSERVANT", "EAGLEEYED" ],
+    "flags": [ "NO_OVERMAP" ]
   }
 ]
