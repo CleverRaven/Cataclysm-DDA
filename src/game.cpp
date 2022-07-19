@@ -252,6 +252,7 @@ static const itype_id itype_towel_wet( "towel_wet" );
 
 static const json_character_flag json_flag_CLIMB_NO_LADDER( "CLIMB_NO_LADDER" );
 static const json_character_flag json_flag_HYPEROPIC( "HYPEROPIC" );
+static const json_character_flag json_flag_NO_OVERMAP( "NO_OVERMAP" );
 static const json_character_flag json_flag_WALL_CLING( "WALL_CLING" );
 static const json_character_flag json_flag_WEB_RAPPEL( "WEB_RAPPEL" );
 
@@ -6192,7 +6193,9 @@ static void zones_manager_shortcuts( const catacurses::window &w_info, faction_i
     tmpx = 1;
     tmpx += shortcut_print( w_info, point( tmpx, 4 ), c_white, c_light_green,
                             _( "<S>how all / hide distant" ) ) + 2;
-    shortcut_print( w_info, point( tmpx, 4 ), c_white, c_light_green, _( "<M>ap" ) );
+    if( !get_player_character().has_flag( json_flag_NO_OVERMAP ) ) {
+        shortcut_print( w_info, point( tmpx, 4 ), c_white, c_light_green, _( "<M>ap" ) );
+    }
 
     if( debug_mode ) {
         shortcut_print( w_info, point( 1, 5 ), c_light_red, c_light_green,
