@@ -262,13 +262,13 @@
   {
     "type": "item_group",
     "id": "sidearms_cop",
-    "items": [ { "group": "null", "prob": 20 } ]
+    "items": [ { "item": "null", "prob": 20 } ]
   },
   {
     "type": "item_group",
     "id": "sidearms_cop_in_field",
     "//": "gun plus potential expended magazines",
-    "items": [ { "group": "null", "prob": 20 } ]
+    "items": [ { "item": "null", "prob": 20 } ]
   },
   {
     "type": "item_group",
