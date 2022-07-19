@@ -2703,8 +2703,9 @@ bool game::load( const save_t &name )
 
 #if defined(__ANDROID__)
     const std::string shortcuts_filename = worldpath + name.base_path() + SAVE_EXTENSION_SHORTCUTS;
-    read_from_file_optional( shortcuts_filename,
-                             std::bind( &game::load_shortcuts, this, _1, shortcuts_filename ) );
+    read_from_file_optional( shortcuts_filename, [this, &shortcuts_filename]( std::istream & is ) {
+        load_shortcuts( is, shortcuts_filename );
+    } );
 #endif
 
     // Now that the player's worn items are updated, their sight limits need to be
