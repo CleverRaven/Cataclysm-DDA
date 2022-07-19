@@ -4389,8 +4389,8 @@ void overmap::place_forests()
     float threshold_forest = settings->overmap_forest.noise_threshold_forest;
     float threshold_forest_thick = settings->overmap_forest.noise_threshold_forest_thick;
 
-    if( settings->overmap_forest.noise_threshold_forest_options.size() != 0 &&
-        settings->overmap_forest.noise_threshold_forest_thick_options.size() != 0 ) {
+    if( !settings->overmap_forest.noise_threshold_forest_options.empty() &&
+        !settings->overmap_forest.noise_threshold_forest_thick_options.empty() ) {
         std::string forest_amount = get_option<std::string>( "FOREST_AMOUNT" );
         int option_index = 2;
         if( forest_amount == "very_low" ) {

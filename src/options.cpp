@@ -2380,7 +2380,7 @@ void options_manager::add_options_world_default()
        );
 
     add( "FOREST_AMOUNT", "world_default", to_translation( "Amount of forest" ),
-    to_translation( "Amount of forest. 'default' leaves game and/or mod setting unaffected. All other values change the forest amount, relative to the region settings." ), {
+    to_translation( "Amount of forest.  'default' leaves game and/or mod setting unaffected.  All other values change the forest amount, relative to the region settings." ), {
         { "default", to_translation( "default" ) },
         { "very_low", to_translation( "very low" ) },
         { "low", to_translation( "low" ) },
