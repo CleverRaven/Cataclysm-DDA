@@ -2037,6 +2037,7 @@ Here are examples of each modification:
     // Each key is the field to which the constraint applies
     // The value specifies the constraint.
     // "equals" can be used to specify a constant cata_variant value the field must take.
+    // "equals_any" can be used to check for a value in a set of values
     // "equals_statistic" specifies that the value must match the value of some statistic (see below)
     "mount" : { "equals": [ "mtype_id", "mon_horse" ] }
 }
@@ -2049,6 +2050,14 @@ The parameter to `"equals"` is normally a length-two array specifying a
 `cata_variant_type` and a value.  As a short cut, you can simply specify an
 `int` or `bool` (e.g. `"equals": 7` or `"equals": true`) for fields which have
 those types.
+
+The parameter to `"equals_any"` will be a pair where the first element is a
+string `cata_variant_type` and the second is an array of values.  For example:
+```
+"value_constraints": {
+  "oter_type_id": { "equals_any": [ "oter_type_str_id", [ "central_lab_finale", "lab_finale" ] ] }
+}
+```
 
 Value constraints are type-checked, so you should see an error message at game
 data verification time if the variant type you have specified doesn't match the
