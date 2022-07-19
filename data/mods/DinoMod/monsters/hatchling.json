@@ -475,7 +475,7 @@
     "copy-from": "mon_dilophosaurus_hatchling",
     "name": "green and purple hatchling",
     "default_faction": "herbivore_young",
-    "color": "light_green_purple",
+    "color": "light_gray",
     "upgrades": { "age_grow": 20, "into": "mon_thescelosaurus_juvenile" },
     "death_function": { "effect": { "id": "death_guilt", "min_level": 3 } },
     "petfood": { "food": [ "DINOFOOD_A", "DINOFOOD_B", "DINOFOOD_C" ] },
