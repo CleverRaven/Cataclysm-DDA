@@ -5551,7 +5551,7 @@
     "types": [ "ATTRACTIVENESS" ],
     "prereqs": [ "PRETTY" ],
     "changes_to": [ "BEAUTIFUL2" ],
-    "category": [ "ALPHA", "ELFA" ]
+    "category": [ "ALPHA" ]
   },
   {
     "type": "mutation",
@@ -5564,7 +5564,8 @@
     "types": [ "ATTRACTIVENESS" ],
     "prereqs": [ "BEAUTIFUL" ],
     "changes_to": [ "BEAUTIFUL3" ],
-    "category": [ "ELFA", "ALPHA" ]
+    "category": [ "ALPHA" ],
+    "threshreq": [ "THRESH_ALPHA" ]
   },
   {
     "type": "mutation",
@@ -5575,9 +5576,7 @@
     "ugliness": -10,
     "description": "You are incredibly beautiful.  People cannot help themselves due to your charms, and will do whatever they can to please you.",
     "types": [ "ATTRACTIVENESS" ],
-    "prereqs": [ "BEAUTIFUL2" ],
-    "threshreq": [ "THRESH_ELFA" ],
-    "category": [ "ELFA" ]
+    "prereqs": [ "BEAUTIFUL2" ]
   },
   {
     "type": "mutation",
