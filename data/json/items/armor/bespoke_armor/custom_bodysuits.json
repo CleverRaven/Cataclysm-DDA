@@ -163,7 +163,7 @@
         "material": [
           { "type": "lycra", "covered_by_mat": 100, "thickness": 0.2 },
           { "type": "kevlar", "covered_by_mat": 100, "thickness": 1.0 },
-		      { "type": "kevlar", "covered_by_mat": 90, "thickness": 1.0 },
+          { "type": "kevlar", "covered_by_mat": 90, "thickness": 1.0 },
           { "type": "nylon", "covered_by_mat": 100, "thickness": 0.3 }
         ],
         "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
@@ -231,7 +231,7 @@
         "material": [
           { "type": "lycra", "covered_by_mat": 100, "thickness": 0.2 },
           { "type": "kevlar", "covered_by_mat": 100, "thickness": 1.7 },
-		      { "type": "nylon", "covered_by_mat": 100, "thickness": 0.3 },
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.3 },
           { "type": "kevlar", "covered_by_mat": 90, "thickness": 1.0 },
           { "type": "kevlar", "covered_by_mat": 90, "thickness": 1.0 }
         ],
@@ -300,7 +300,7 @@
         "material": [
           { "type": "lycra", "covered_by_mat": 100, "thickness": 0.2 },
           { "type": "kevlar", "covered_by_mat": 100, "thickness": 2.3 },
-		      { "type": "nylon", "covered_by_mat": 100, "thickness": 0.3 },
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.3 },
           { "type": "qt_steel", "covered_by_mat": 90, "thickness": 0.6 },
           { "type": "qt_steel", "covered_by_mat": 90, "thickness": 0.6 }
         ],
@@ -542,4 +542,5 @@
     "extend": { "flags": [ "OVERSIZE" ] }
   }
 ]
+
 
