@@ -970,14 +970,14 @@
         "damage_max_instance": [ { "damage_type": "cut", "amount": 10 }, { "damage_type": "stab", "amount": 8 } ],
         "forbidden_effects_any": [ "maimed_mandible" ],
         "cooldown": 3,
-        "effects": [ { "id": "venom_pain", "chance": 50, "duration": 350, "affect_hit_bp": true } ],
-        "required_effects_any": [ "maimed_leg" ]
+        "effects": [ { "id": "venom_pain", "chance": 50, "duration": 350, "affect_hit_bp": true } ]
       },
       {
         "type": "spell",
         "spell_data": { "id": "cellar_spider_leg_detach", "min_level": 1 },
         "monster_message": "The maimed legs start twitching erratically!",
-        "cooldown": 15
+        "cooldown": 15,
+        "required_effects_any": [ "maimed_leg" ]
       }
     ],
     "dodge": 6,
