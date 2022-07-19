@@ -316,7 +316,7 @@
     "type": "COMESTIBLE",
     "id": "milkcereal",
     "name": { "str_sp": "cereal with milk" },
-    "weight": "258 g",
+    "weight": "68 g",
     "color": "yellow",
     "spoils_in": "1 d",
     "container": "bowl_plastic",
@@ -350,7 +350,7 @@
     "color": "brown",
     "spoils_in": "3 days",
     "volume": "250 ml",
-    "weight": "70 g",
+    "weight": "68 g",
     "charges": 4,
     "flags": [ "EATEN_HOT" ],
     "calories": 413
