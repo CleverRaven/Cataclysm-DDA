@@ -112,16 +112,7 @@
     "description": "Thin armor plating has been layered into your legs and feet, protecting them from physical trauma.",
     "occupied_bodyparts": [ [ "leg_l", 6 ], [ "leg_r", 6 ], [ "foot_l", 2 ], [ "foot_r", 2 ] ],
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
-    "mutation_conflicts": [
-      "AMORPHOUS",
-      "BENDY2",
-      "BENDY3",
-      "LEG_TENTACLES",
-      "LEG_TENT_BRACE",
-      "HOOVES",
-      "GASTROPOD_FOOT",
-      "GASTROPOD_BALANCE"
-    ],
+    "mutation_conflicts": [ "AMORPHOUS", "BENDY2", "BENDY3", "LEG_TENTACLES", "LEG_TENT_BRACE", "HOOVES", "GASTROPOD_FOOT", "GASTROPOD_BALANCE" ],
     "passive_pseudo_items": [ "armor_bio_legs", "armor_bio_feet" ]
   },
   {
