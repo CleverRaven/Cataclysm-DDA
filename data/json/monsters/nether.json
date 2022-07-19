@@ -1252,6 +1252,7 @@
       "corpse_type": "NO_CORPSE",
       "message": "Something about the %s disappearing feels off.."
     },
+    "special_attacks": [ { "type": "spell", "spell_data": { "id": "mon_endless_hunger_attack", "min_level": 1 }, "cooldown": 6 } ],
     "flags": [ "SEES", "HEARS", "NO_BREATHE", "PUSH_MON", "ALWAYS_VISIBLE", "ALWAYS_SEES_YOU" ]
   },
   {

@@ -643,6 +643,42 @@
   },
   {
     "type": "SPELL",
+    "id": "mon_endless_hunger_attack",
+    "name": { "str": "Endless Hunger Action" },
+    "description": "Teleports and harms monsters.",
+    "valid_targets": [ "hostile" ],
+    "max_level": 1,
+    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS" ],
+    "base_casting_time": 75,
+    "min_range": 15,
+    "max_range": 15,
+    "extra_effects": [ { "id": "portal_hurt_self", "hit_self": true } ],
+    "shape": "blast",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_mon_endless_hunger_attack"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_mon_endless_hunger_attack",
+    "condition": {
+      "and": [
+        { "compare_int": [ { "distance": [ "u", "npc" ] }, ">", { "const": 2 } ] },
+        { "compare_int": [ { "distance": [ "u", "npc" ] }, "<", { "const": 8 } ] }
+      ]
+    },
+    "effect": [
+      { "u_message": "Despite the distance between you the endless hunger feeds on you and grows stronger." },
+      { "arithmetic": [ { "u_val": "fatigue" }, "+=", { "const": 5 } ] },
+      { "arithmetic": [ { "global_val": "var", "var_name": "endless_hunger" }, "++" ] }
+    ],
+    "false_effect": [
+      { "u_message": "The endless hunger feasts on your essence." },
+      { "arithmetic": [ { "u_val": "fatigue" }, "+=", { "global_val": "var", "var_name": "endless_hunger" } ] },
+      { "arithmetic": [ { "global_val": "var", "var_name": "endless_hunger" }, "+=", { "const": 3 } ] }
+    ]
+  },
+  {
+    "type": "SPELL",
     "id": "mon_endless_hunger_revive",
     "name": { "str": "Endless Hunger Revive" },
     "description": "Revives the endless hunger.",
