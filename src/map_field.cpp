@@ -742,17 +742,19 @@ static void field_processor_monster_spawn( const tripoint &p, field_entry &cur,
     int monster_spawn_count = int_level.monster_spawn_count;
     if( monster_spawn_count > 0 && monster_spawn_chance > 0 && one_in( monster_spawn_chance ) ) {
         for( ; monster_spawn_count > 0; monster_spawn_count-- ) {
-            MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup(
-                                                   int_level.monster_spawn_group, &monster_spawn_count );
-            if( !spawn_details.name ) {
-                continue;
-            }
-            if( const cata::optional<tripoint> spawn_point = random_point(
-                        points_in_radius( p, int_level.monster_spawn_radius ),
-            [&pd]( const tripoint & n ) {
-            return pd.here.passable( n );
-            } ) ) {
-                pd.here.add_spawn( spawn_details, *spawn_point );
+            std::vector<MonsterGroupResult> spawn_details =
+                MonsterGroupManager::GetResultFromGroup( int_level.monster_spawn_group, &monster_spawn_count );
+            for( const MonsterGroupResult &mgr : spawn_details ) {
+                if( !mgr.name ) {
+                    continue;
+                }
+                if( const cata::optional<tripoint> spawn_point =
+                        random_point( points_in_radius( p, int_level.monster_spawn_radius ),
+                [&pd]( const tripoint & n ) {
+                return pd.here.passable( n );
+                } ) ) {
+                    pd.here.add_spawn( mgr, *spawn_point );
+                }
             }
         }
     }
