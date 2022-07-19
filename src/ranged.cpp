@@ -3651,38 +3651,11 @@ void target_ui::panel_target_info( int &text_y, bool fill_with_blank_if_no_targe
 
 void target_ui::panel_fire_mode_aim( int &text_y )
 {
-    // TODO: saving & restoring pc.recoil may actually be unnecessary
-    double saved_pc_recoil = you->recoil;
-    you->recoil = predicted_recoil;
-
-    double predicted_recoil = you->recoil;
-    int predicted_delay = 0;
-    if( aim_mode->has_threshold && aim_mode->threshold < you->recoil ) {
-        do {
-            const double aim_amount = you->aim_per_move( *relevant, predicted_recoil,
-                                      Target_attributes( src, dst ) );
-            if( aim_amount > 0 ) {
-                predicted_delay++;
-                predicted_recoil = std::max( predicted_recoil - aim_amount, 0.0 );
-            }
-        } while( predicted_recoil > aim_mode->threshold &&
-                 predicted_recoil - sight_dispersion > 0 );
-    } else {
-        predicted_recoil = you->recoil;
-    }
-
     const double target_size = dst_critter ? dst_critter->ranged_target_size() :
                                occupied_tile_fraction( creature_size::medium );
 
     text_y = print_aim( *this, *you, w_target, text_y, ctxt, &*relevant->gun_current_mode(),
-                        target_size, dst, predicted_recoil );
-
-    if( aim_mode->has_threshold ) {
-        mvwprintw( w_target, point( 1, text_y++ ), _( "%s Delay: %i" ), aim_mode->name,
-                   predicted_delay );
-    }
-
-    you->recoil = saved_pc_recoil;
+                        target_size, dst, you->recoil );
 }
 
 void target_ui::panel_turret_list( int &text_y )
