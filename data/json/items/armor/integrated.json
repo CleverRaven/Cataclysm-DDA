@@ -732,140 +732,104 @@
   },
   {
     "id": "armor_bio_arms",
-    "//": "Superalloy represents real life magnesium-based alloys such as AZ80.  Plastic represents a flexible polymer that mimics skin.",
+    "//": "Superalloy represents real life magnesium-based alloys such as AZ80. Magnesium alloy is notable for being used in implants IRL due to good biocompatibility.",
     "type": "ARMOR",
     "category": "armor",
-    "weight": "1680 g",
-    "volume": "600 ml",
+    "weight": "500 g",
+    "volume": "400 ml",
     "price": 0,
     "price_postapoc": 0,
     "symbol": ",",
     "color": "brown",
-    "warmth": 15,
-    "environmental_protection": 10,
-    "material_thickness": 3,
+    "warmth": 5,
+    "environmental_protection": 1,
+    "material_thickness": 1,
     "bashing": 4,
     "flags": [
       "INTEGRATED",
       "UNBREAKABLE",
       "SKINTIGHT",
-      "NORMAL",
       "PADDED",
       "WATER_FRIENDLY",
       "BLOCK_WHILE_WORN",
       "SOFT",
       "NO_REPAIR"
     ],
-    "material": [ "plastic", "superalloy", "qt_steel" ],
+    "material": [ "superalloy" ],
     "name": { "str_sp": "alloy plating - arms" },
-    "description": "A complex armor integrated into your arms, made of lightweight metal encasing a chemical-resistant layer of synthetic skin.  Various service ports, CBM connectors, and dump points for sweat can be seen along its exterior.  It has steel pads on the elbows for protection.",
+    "description": "Thin armor plating layered into your torso, with external plating in vital areas.  Helps protect your arms from deep cuts and impacts.",
     "armor": [
       {
         "material": [
-          { "type": "plastic", "covered_by_mat": 100, "thickness": 1.5 },
-          { "type": "superalloy", "covered_by_mat": 100, "thickness": 2.0 }
+          { "type": "superalloy", "covered_by_mat": 50, "thickness": 0.5 },
+          { "type": "superalloy", "covered_by_mat": 50, "thickness": 0.5 },
+          { "type": "superalloy", "covered_by_mat": 50, "thickness": 0.5 }
         ],
+        "covers": [ "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": 2,
+        "breathability": "GOOD"
+      },
+      {
+        "material": [ { "type": "superalloy", "covered_by_mat": 100, "thickness": 1.0 } ],
         "covers": [ "arm_l", "arm_r" ],
         "specifically_covers": [ "arm_upper_l", "arm_lower_l", "arm_upper_r", "arm_lower_r" ],
-        "coverage": 100,
-        "encumbrance": 10,
-        "breathability": "AVERAGE"
-      },
-      {
-        "material": [
-          { "type": "plastic", "covered_by_mat": 100, "thickness": 1.5 },
-          { "type": "superalloy", "covered_by_mat": 100, "thickness": 1.9 },
-          { "type": "qt_steel", "covered_by_mat": 95, "thickness": 1.0 }
-        ],
-        "covers": [ "arm_l", "arm_r" ],
-        "specifically_covers": [ "arm_elbow_l", "arm_elbow_r" ],
-        "coverage": 100,
+        "coverage": 85,
         "cover_vitals": 75,
-        "encumbrance": 0,
-        "breathability": "POOR"
-      },
-      {
-        "material": [
-          { "type": "plastic", "covered_by_mat": 100, "thickness": 1.5 },
-          { "type": "superalloy", "covered_by_mat": 100, "thickness": 2.1 }
-        ],
-        "covers": [ "arm_l", "arm_r" ],
-        "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r" ],
-        "coverage": 100,
-        "cover_vitals": 75,
-        "encumbrance": 0,
-        "breathability": "AVERAGE"
+        "encumbrance": 0
       }
     ]
   },
   {
     "id": "armor_bio_hands",
-    "//": "Superalloy represents real life magnesium-based alloys such as AZ80.  Plastic represents a flexible polymer that mimics skin.  The insides of the fingers and most of the palms are just polymer, so that your cyborg can still use their hands for complex stuff.  Ideally later you'll be able to augment them further to make them totally zombie-proof.",
+    "//": "Superalloy represents real life magnesium-based alloys such as AZ80. Magnesium alloy is notable for being used in implants IRL due to good biocompatibility.",
     "type": "ARMOR",
     "category": "armor",
-    "weight": "280 g",
-    "volume": "500 ml",
+    "weight": "120 g",
+    "volume": "100 ml",
     "price": 0,
     "price_postapoc": 0,
     "symbol": ",",
     "color": "brown",
-    "warmth": 15,
-    "bashing": 7,
-    "cutting": 1,
+    "warmth": 5,
+    "bashing": 4,
     "to_hit": -1,
-    "environmental_protection": 10,
-    "material_thickness": 3,
+    "environmental_protection": 1,
+    "material_thickness": 0.5,
     "flags": [
       "INTEGRATED",
       "UNARMED_WEAPON",
       "UNBREAKABLE",
       "UNBREAKABLE_MELEE",
       "SKINTIGHT",
-      "NORMAL",
       "PADDED",
       "WATER_FRIENDLY",
       "SOFT",
       "ALLOWS_NATURAL_ATTACKS",
       "NO_REPAIR"
     ],
-    "material": [ "plastic", "superalloy", "qt_steel" ],
+    "material": [ "superalloy" ],
     "name": { "str_sp": "alloy plating - hands" },
-    "description": "A complex armor integrated into your hands, made of lightweight metal encasing a chemical-resistant layer of synthetic skin.  The knuckles are reinforced with steel for extra protection and striking power, while the inner hands are more bare to maintain grip and dexterity.",
+    "description": "Thin armor plating layered into your hands, with external plating in vital areas.  Helps protect your arms from deep cuts and impacts.",
     "armor": [
       {
         "material": [
-          { "type": "plastic", "covered_by_mat": 100, "thickness": 2.0 },
-          { "type": "superalloy", "covered_by_mat": 65, "thickness": 1.0 }
+          { "type": "superalloy", "covered_by_mat": 50, "thickness": 0.35 },
+          { "type": "superalloy", "covered_by_mat": 50, "thickness": 0.35 },
+          { "type": "superalloy", "covered_by_mat": 50, "thickness": 0.35 }
         ],
         "covers": [ "hand_l", "hand_r" ],
-        "specifically_covers": [ "hand_palm_r", "hand_wrist_r", "hand_palm_l", "hand_wrist_l" ],
         "coverage": 100,
         "cover_vitals": 60,
-        "encumbrance": 5,
+        "encumbrance": 1,
         "breathability": "AVERAGE"
       },
       {
-        "material": [
-          { "type": "plastic", "covered_by_mat": 100, "thickness": 2.0 },
-          { "type": "superalloy", "covered_by_mat": 75, "thickness": 1.0 },
-          { "type": "qt_steel", "covered_by_mat": 50, "thickness": 0.5 }
-        ],
+        "material": [ { "type": "superalloy", "covered_by_mat": 100, "thickness": 0.75 } ],
         "covers": [ "hand_l", "hand_r" ],
-        "specifically_covers": [ "hand_fingers_r", "hand_fingers_l" ],
-        "coverage": 100,
-        "cover_vitals": 60,
-        "encumbrance": 0,
-        "breathability": "AVERAGE"
-      },
-      {
-        "material": [
-          { "type": "plastic", "covered_by_mat": 100, "thickness": 1.5 },
-          { "type": "superalloy", "covered_by_mat": 100, "thickness": 1.25 }
-        ],
-        "covers": [ "hand_l", "hand_r" ],
-        "specifically_covers": [ "hand_back_r", "hand_back_l" ],
-        "coverage": 100,
-        "cover_vitals": 70,
+        "specifically_covers": [ "hand_back_r", "hand_back_l", "hand_fingers_r", "hand_fingers_l" ],
+        "coverage": 50,
+        "cover_vitals": 30,
         "encumbrance": 0,
         "breathability": "AVERAGE"
       }
@@ -873,24 +837,23 @@
   },
   {
     "id": "armor_bio_legs",
-    "//": "Superalloy represents real life magnesium-based alloys such as AZ80.  Plastic represents a flexible polymer that mimics skin.",
+    "//": "Superalloy represents real life magnesium-based alloys such as AZ80. Magnesium alloy is notable for being used in implants IRL due to good biocompatibility.",
     "type": "ARMOR",
     "category": "armor",
-    "weight": "1900 g",
-    "volume": "750 ml",
+    "weight": "650 g",
+    "volume": "500 ml",
     "price": 0,
     "price_postapoc": 0,
     "symbol": ",",
     "color": "brown",
-    "warmth": 15,
+    "warmth": 5,
     "environmental_protection": 10,
-    "material_thickness": 3,
+    "material_thickness": 1,
     "bashing": 4,
     "flags": [
       "INTEGRATED",
       "UNBREAKABLE",
       "SKINTIGHT",
-      "NORMAL",
       "PADDED",
       "WATER_FRIENDLY",
       "BLOCK_WHILE_WORN",
@@ -899,214 +862,181 @@
     ],
     "material": [ "plastic", "superalloy", "qt_steel" ],
     "name": { "str_sp": "alloy plating - legs" },
-    "description": "A complex armor integrated into your legs, made of lightweight metal encasing a chemical-resistant layer of synthetic skin.  Various service ports, CBM connectors, and dump points for sweat can be seen along its exterior.  It has steel kneepads for protection.",
+    "description": "Thin armor plating layered into your legs, with external plating in vital areas.  Helps protect your arms from deep cuts and impacts.",
     "armor": [
       {
         "material": [
-          { "type": "plastic", "covered_by_mat": 100, "thickness": 1.5 },
-          { "type": "superalloy", "covered_by_mat": 100, "thickness": 2.0 }
+          { "type": "superalloy", "covered_by_mat": 50, "thickness": 0.5 },
+          { "type": "superalloy", "covered_by_mat": 50, "thickness": 0.5 },
+          { "type": "superalloy", "covered_by_mat": 50, "thickness": 0.5 }
         ],
-        "covers": [ "leg_l", "leg_r" ],
-        "specifically_covers": [ "leg_upper_l", "leg_lower_l", "leg_upper_r", "leg_lower_r", "leg_hip_r", "leg_hip_l" ],
+        "covers": [ "leg_l", "leg_r" ]
         "coverage": 100,
-        "encumbrance": 10,
+        "encumbrance": 2,
         "cover_vitals": 60,
-        "breathability": "AVERAGE"
+        "breathability": "GOOD"
       },
       {
-        "material": [
-          { "type": "plastic", "covered_by_mat": 100, "thickness": 1.5 },
-          { "type": "superalloy", "covered_by_mat": 100, "thickness": 1.9 },
-          { "type": "qt_steel", "covered_by_mat": 95, "thickness": 1.0 }
-        ],
+        "material": [ { "type": "superalloy", "covered_by_mat": 100, "thickness": 0.75 } ],
         "covers": [ "leg_l", "leg_r" ],
-        "specifically_covers": [ "leg_knee_l", "leg_knee_r" ],
-        "coverage": 100,
-        "cover_vitals": 75,
-        "encumbrance": 0,
-        "breathability": "POOR"
+        "specifically_covers": [ "leg_upper_l", "leg_lower_l", "leg_upper_r", "leg_lower_r", "leg_hip_r", "leg_hip_l" ],
+        "coverage": 80,
+        "cover_vitals": 30,
+        "encumbrance": 0
       }
     ]
   },
   {
     "id": "armor_bio_feet",
-    "//": "Superalloy represents real life magnesium-based alloys such as AZ80.  Plastic represents a flexible polymer that mimics skin.  These aren't as bulky as real shoes so they'll fit in boots, but just barely - encumbrance penalties for doubling up.",
+    "//": "Superalloy represents real life magnesium-based alloys such as AZ80. Magnesium alloy is notable for being used in implants IRL due to good biocompatibility.",
     "type": "ARMOR",
     "category": "armor",
-    "weight": "1100 g",
+    "weight": "150 g",
     "volume": "600 ml",
     "price": 0,
     "price_postapoc": 0,
     "symbol": ",",
     "color": "brown",
-    "warmth": 15,
-    "environmental_protection": 10,
-    "material_thickness": 3,
+    "warmth": 5,
+    "environmental_protection": 1,
+    "material_thickness": 0.5,
     "bashing": 11,
-    "flags": [ "INTEGRATED", "UNBREAKABLE", "NORMAL", "PADDED", "WATER_FRIENDLY", "SOFT", "NO_REPAIR" ],
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "SKINTIGHT", "PADDED", "WATER_FRIENDLY", "SOFT", "NO_REPAIR" ],
     "material": [ "plastic", "superalloy", "qt_steel" ],
     "name": { "str_sp": "alloy plating - feet" },
-    "description": "A complex armor integrated into your feet, made of lightweight metal encasing a chemical-resistant layer of synthetic skin.  Comfortable to walk around in and it has steel toecaps for protection.  Resembles a more metallic version of those weird toe shoes athletes buy.",
+    "description": "Thin armor plating layered into your feet, with external plating in vital areas.  Helps protect your arms from deep cuts and impacts.",
     "armor": [
       {
         "covers": [ "foot_l", "foot_r" ],
-        "specifically_covers": [ "foot_ankle_r", "foot_ankle_l", "foot_heel_r", "foot_heel_l", "foot_arch_r", "foot_arch_l" ],
         "material": [
-          { "type": "plastic", "covered_by_mat": 100, "thickness": 1.5 },
-          { "type": "superalloy", "covered_by_mat": 100, "thickness": 2.0 }
+          { "type": "superalloy", "covered_by_mat": 50, "thickness": 0.35 },
+          { "type": "superalloy", "covered_by_mat": 50, "thickness": 0.35 },
+          { "type": "superalloy", "covered_by_mat": 50, "thickness": 0.35 },
+          { "type": "superalloy", "covered_by_mat": 40, "thickness": 0.85 }
         ],
-        "encumbrance": 10,
+        "encumbrance": 2,
         "coverage": 100,
         "cover_vitals": 60,
-        "breathability": "AVERAGE"
-      },
-      {
-        "covers": [ "foot_l", "foot_r" ],
-        "specifically_covers": [ "foot_toes_r", "foot_toes_l" ],
-        "material": [
-          { "type": "plastic", "covered_by_mat": 100, "thickness": 1.5 },
-          { "type": "superalloy", "covered_by_mat": 100, "thickness": 2.0 },
-          { "type": "qt_steel", "covered_by_mat": 100, "thickness": 0.75 }
-        ],
-        "coverage": 100,
-        "cover_vitals": 60,
-        "breathability": "POOR"
-      },
-      {
-        "covers": [ "foot_l", "foot_r" ],
-        "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
-        "material": [
-          { "type": "plastic", "covered_by_mat": 100, "thickness": 1.5 },
-          { "type": "superalloy", "covered_by_mat": 100, "thickness": 1.25 },
-          { "type": "rubber", "covered_by_mat": 100, "thickness": 2.5 }
-        ],
-        "coverage": 100,
-        "cover_vitals": 60
+        "breathability": "GOOD"
       }
     ]
   },
   {
     "id": "armor_bio_torso",
-    "//": "Superalloy represents real life magnesium-based alloys such as AZ80.  Plastic represents a flexible polymer that mimics skin.  This is your RoboCop-style armored chestplate, extra armor on your upper torso.  Not as bulletproof as its inspiration but it will blunt a 9mm pretty well.",
+    "//": "Superalloy represents real life magnesium-based alloys such as AZ80. Magnesium alloy is notable for being used in implants IRL due to good biocompatibility.",
     "type": "ARMOR",
     "category": "armor",
-    "weight": "4360 g",
-    "volume": "3200 ml",
+    "weight": "1200 g",
+    "volume": "1000 ml",
     "price": 0,
     "price_postapoc": 0,
     "symbol": ",",
     "color": "brown",
-    "warmth": 15,
-    "environmental_protection": 10,
-    "material_thickness": 4,
-    "flags": [ "INTEGRATED", "UNBREAKABLE", "SKINTIGHT", "NORMAL", "PADDED", "WATER_FRIENDLY", "SOFT", "NO_REPAIR", "MUNDANE" ],
+    "warmth": 5,
+    "environmental_protection": 1,
+    "material_thickness": 1,
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "SKINTIGHT", "NORMAL", "PADDED", "WATER_FRIENDLY", "SOFT", "NO_REPAIR" ],
     "material": [ "plastic", "superalloy" ],
     "name": { "str_sp": "alloy plating - torso" },
-    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "mutations": [ "well_distributed" ] } ] },
-    "description": "A complex armor integrated into your torso, made of lightweight metal encasing a chemical-resistant layer of synthetic skin.  Various service ports, CBM connectors, and dump points for sweat can be seen along its exterior.  It is particularly thickly armored around your vital organs, but not too bulky to wear a coat or vest, and it helps reduce stress from carrying heavy loads.",
+    "description": "Thin armor plating layered into your torso, with external plating in vital areas.",
     "armor": [
       {
         "material": [
-          { "type": "plastic", "covered_by_mat": 100, "thickness": 1.5 },
-          { "type": "superalloy", "covered_by_mat": 100, "thickness": 3.2 }
+          { "type": "superalloy", "covered_by_mat": 50, "thickness": 0.5 },
+          { "type": "superalloy", "covered_by_mat": 50, "thickness": 0.5 },
+          { "type": "superalloy", "covered_by_mat": 50, "thickness": 0.5 },
+          { "type": "superalloy", "covered_by_mat": 50, "thickness": 0.5 }
         ],
         "covers": [ "torso" ],
-        "specifically_covers": [ "torso_lower" ],
         "coverage": 100,
-        "encumbrance": 10,
+        "encumbrance": 3,
         "cover_vitals": 65,
-        "breathability": "AVERAGE"
+        "breathability": "GOOD"
       },
       {
         "material": [
-          { "type": "plastic", "covered_by_mat": 100, "thickness": 1.5 },
-          { "type": "superalloy", "covered_by_mat": 100, "thickness": 4.4 }
+          { "type": "superalloy", "covered_by_mat": 100, "thickness": 1.5 }
         ],
         "covers": [ "torso" ],
         "specifically_covers": [ "torso_upper" ],
-        "coverage": 100,
+        "coverage": 85,
         "encumbrance": 0,
-        "cover_vitals": 85,
-        "breathability": "POOR"
+        "cover_vitals": 65
       }
     ]
   },
   {
     "id": "armor_bio_head",
-    "//": "Superalloy represents real life magnesium-based alloys such as AZ80.  Plastic represents a flexible polymer that mimics skin.  This will look like your old human head - lore explanation is that the Exodii ease you into becoming a full cyborg, as becoming an inhuman machine too fast will cause extreme dysmorphia potentially leading to suicide.  It's also a convenient way to avoid making it interfere with your hairstyle, as logically your steel-plated cranium would preclude that but it does not cancel the hairstyle traits in game.",
+    "//": "Superalloy represents real life magnesium-based alloys such as AZ80. Magnesium alloy is notable for being used in implants IRL due to good biocompatibility.",
     "type": "ARMOR",
     "category": "armor",
-    "weight": "1810 g",
-    "volume": "700 ml",
+    "weight": "500 g",
+    "volume": "400 ml",
     "price": 0,
     "price_postapoc": 0,
     "symbol": ",",
     "color": "brown",
-    "warmth": 15,
-    "environmental_protection": 10,
-    "material_thickness": 3,
+    "warmth": 5,
+    "environmental_protection": 1,
+    "material_thickness": 1,
     "flags": [ "INTEGRATED", "UNBREAKABLE", "SKINTIGHT", "PADDED", "WATER_FRIENDLY", "HELMET_COMPAT", "SOFT", "NO_REPAIR" ],
     "material": [ "plastic", "superalloy", "qt_steel" ],
     "name": { "str_sp": "alloy plating - head" },
-    "description": "A complex armor integrated into your head, made of lightweight metal encasing a chemical-resistant layer of synthetic skin.  Various service ports, CBM connectors, and dump points for sweat can be seen along its exterior.  Has an additional steel layer around your cranium for protection and artificial hair to help maintain your sense of self and it more or less fits comfortably under a helmet.",
+    "description": "Thin armor plating layered into your torso, with external plating in vital areas.  Helps protect your arms from deep cuts and impacts.",
     "armor": [
       {
         "material": [
-          { "type": "plastic", "covered_by_mat": 100, "thickness": 1.5 },
-          { "type": "superalloy", "covered_by_mat": 100, "thickness": 2.0 }
+          { "type": "superalloy", "covered_by_mat": 50, "thickness": 0.5 },
+          { "type": "superalloy", "covered_by_mat": 50, "thickness": 0.5 },
+          { "type": "superalloy", "covered_by_mat": 50, "thickness": 0.5 }
         ],
         "covers": [ "head" ],
-        "specifically_covers": [ "head_crown", "head_nape", "head_throat", "head_ear_r", "head_ear_l" ],
         "coverage": 100,
         "cover_vitals": 65,
-        "encumbrance": 10,
-        "breathability": "AVERAGE"
+        "encumbrance": 2,
+        "breathability": "GOOD"
       },
       {
-        "material": [
-          { "type": "plastic", "covered_by_mat": 100, "thickness": 1.5 },
-          { "type": "superalloy", "covered_by_mat": 100, "thickness": 2.1 },
-          { "type": "qt_steel", "covered_by_mat": 100, "thickness": 0.75 }
-        ],
+        "material": [ { "type": "superalloy", "covered_by_mat": 100, "thickness": 1.0 } ],
         "covers": [ "head" ],
         "specifically_covers": [ "head_forehead" ],
-        "coverage": 100,
+        "coverage": 95,
         "cover_vitals": 85,
-        "encumbrance": 0,
-        "breathability": "POOR"
+        "encumbrance": 0
       }
     ]
   },
   {
     "id": "armor_bio_mouth",
-    "//": "Superalloy represents real life magnesium-based alloys such as AZ80.  Plastic represents a flexible polymer that mimics skin.  Your mouth is also mostly bare of metal, with just the polymer.  Rigid parts are still armored but you maintain full use of your mouth.  Doesn't have the environmental protection since it doesn't coat the inside of your mouth and it won't stop toxic fumes from messing with your weak fleshy lungs.",
+    "//": "Superalloy represents real life magnesium-based alloys such as AZ80. Magnesium alloy is notable for being used in implants IRL due to good biocompatibility.",
     "type": "ARMOR",
     "category": "armor",
-    "weight": "325 g",
-    "volume": "500 ml",
+    "weight": "150 g",
+    "volume": "100 ml",
     "price": 0,
     "price_postapoc": 0,
     "symbol": ",",
     "color": "brown",
-    "warmth": 10,
-    "environmental_protection": 2,
-    "material_thickness": 2.5,
+    "warmth": 5,
+    "environmental_protection": 1,
+    "material_thickness": 1.0,
     "flags": [ "INTEGRATED", "UNBREAKABLE", "SKINTIGHT", "PADDED", "WATER_FRIENDLY", "SOFT", "NO_REPAIR" ],
     "material": [ "plastic", "superalloy" ],
     "name": { "str_sp": "alloy plating - mouth" },
-    "description": "A complex armor integrated into your jaw, made of lightweight metal partially encasing a chemical-resistant layer of synthetic skin.",
+    "description": "Thin armor plating layered into your jaw, with external plating in vital areas.  Helps protect your arms from deep cuts and impacts.",
     "armor": [
       {
         "material": [
-          { "type": "plastic", "covered_by_mat": 100, "thickness": 2.0 },
-          { "type": "superalloy", "covered_by_mat": 75, "thickness": 1.0 },
-          { "type": "superalloy", "covered_by_mat": 50, "thickness": 0.5 }
+          { "type": "superalloy", "covered_by_mat": 50, "thickness": 0.4 },
+          { "type": "superalloy", "covered_by_mat": 50, "thickness": 0.4 },
+          { "type": "superalloy", "covered_by_mat": 50, "thickness": 0.4 },
+          { "type": "superalloy", "covered_by_mat": 40, "thickness": 0.8 }
         ],
         "covers": [ "mouth" ],
         "coverage": 100,
         "cover_vitals": 35,
         "encumbrance": 0,
-        "breathability": "AVERAGE"
+        "breathability": "GOOD"
       }
     ]
   },
@@ -1117,7 +1047,7 @@
     "category": "armor",
     "name": { "str_sp": "protective lenses" },
     "description": "Highly protective lenses which seal off your eyes from danger, routing your tear ducts to your mouth.",
-    "weight": "250 g",
+    "weight": "180 g",
     "volume": "250 ml",
     "price": 0,
     "price_postapoc": 0,
