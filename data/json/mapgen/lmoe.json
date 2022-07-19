@@ -266,20 +266,20 @@
       ],
       "palettes": [ "bunker_ext" ],
       "set": [
-        { "point": "trap", "id": "tr_spike_pit", "x": [ 7, 15 ], "y": 4 },
-        { "point": "trap", "id": "tr_spike_pit", "x": [ 3, 18 ], "y": 5 },
-        { "point": "trap", "id": "tr_spike_pit", "x": [ 4, 19 ], "y": 6 },
-        { "point": "trap", "id": "tr_spike_pit", "x": [ 4, 19 ], "y": 7 },
-        { "point": "trap", "id": "tr_spike_pit", "x": [ 3, 19 ], "y": 8 },
-        { "point": "trap", "id": "tr_spike_pit", "x": [ 3, 20 ], "y": 9 },
-        { "point": "trap", "id": "tr_spike_pit", "x": [ 3, 20 ], "y": 11 },
-        { "point": "trap", "id": "tr_spike_pit", "x": [ 4, 20 ], "y": 13 },
-        { "point": "trap", "id": "tr_spike_pit", "x": [ 4, 19 ], "y": 14 },
-        { "point": "trap", "id": "tr_spike_pit", "x": [ 3, 19 ], "y": 15 },
-        { "point": "trap", "id": "tr_spike_pit", "x": [ 5, 18 ], "y": 16 },
-        { "point": "trap", "id": "tr_spike_pit", "x": [ 7, 17 ], "y": 17 },
-        { "point": "trap", "id": "tr_spike_pit", "x": [ 8, 14 ], "y": 18 },
-        { "point": "trap", "id": "tr_spike_pit", "x": 11, "y": 17 }
+        { "point": "terrain", "id": "t_pit_spiked", "x": [ 7, 15 ], "y": 4 },
+        { "point": "terrain", "id": "t_pit_spiked", "x": [ 3, 18 ], "y": 5 },
+        { "point": "terrain", "id": "t_pit_spiked", "x": [ 4, 19 ], "y": 6 },
+        { "point": "terrain", "id": "t_pit_spiked", "x": [ 4, 19 ], "y": 7 },
+        { "point": "terrain", "id": "t_pit_spiked", "x": [ 3, 19 ], "y": 8 },
+        { "point": "terrain", "id": "t_pit_spiked", "x": [ 3, 20 ], "y": 9 },
+        { "point": "terrain", "id": "t_pit_spiked", "x": [ 3, 20 ], "y": 11 },
+        { "point": "terrain", "id": "t_pit_spiked", "x": [ 4, 20 ], "y": 13 },
+        { "point": "terrain", "id": "t_pit_spiked", "x": [ 4, 19 ], "y": 14 },
+        { "point": "terrain", "id": "t_pit_spiked", "x": [ 3, 19 ], "y": 15 },
+        { "point": "terrain", "id": "t_pit_spiked", "x": [ 5, 18 ], "y": 16 },
+        { "point": "terrain", "id": "t_pit_spiked", "x": [ 7, 17 ], "y": 17 },
+        { "point": "terrain", "id": "t_pit_spiked", "x": [ 8, 14 ], "y": 18 },
+        { "point": "terrain", "id": "t_pit_spiked", "x": 11, "y": 17 }
       ]
     }
   },
@@ -322,7 +322,7 @@
       "place_monsters": [ { "monster": "GROUP_PREPPER_HOUSE", "x": [ 4, 22 ], "y": [ 10, 19 ], "density": 0.3 } ],
       "set": [
         { "point": "trap", "id": "tr_beartrap", "x": 3, "y": 6 },
-        { "point": "trap", "id": "tr_spike_pit", "x": 7, "y": 3 },
+        { "point": "terrain", "id": "t_pit_spiked", "x": 7, "y": 3 },
         { "point": "trap", "id": "tr_shotgun_1", "x": 18, "y": 8 }
       ]
     }
