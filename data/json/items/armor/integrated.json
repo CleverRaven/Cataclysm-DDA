@@ -770,11 +770,13 @@
         "coverage": 100,
         "encumbrance": 0,
         "breathability": "SECOND_SKIN"
+      },
       {
         "material": [ { "type": "superalloy", "covered_by_mat": 100, "thickness": 1.0 } ],
         "covers": [ "arm_l", "arm_r" ],
         "coverage": 65,
         "encumbrance": 0
+      }
     ]
   },
   {
