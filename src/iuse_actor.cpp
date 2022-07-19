@@ -124,6 +124,8 @@ static const itype_id itype_fire( "fire" );
 static const itype_id itype_stock_none( "stock_none" );
 static const itype_id itype_syringe( "syringe" );
 
+static const json_character_flag json_flag_NO_OVERMAP( "NO_OVERMAP" );
+
 static const proficiency_id proficiency_prof_traps( "prof_traps" );
 static const proficiency_id proficiency_prof_trapsetting( "prof_trapsetting" );
 static const proficiency_id proficiency_prof_wound_care( "prof_wound_care" );
@@ -1208,6 +1210,11 @@ void reveal_map_actor::reveal_targets( const tripoint_abs_omt &center,
 
 cata::optional<int> reveal_map_actor::use( Character &p, item &it, bool, const tripoint & ) const
 {
+    if( p.has_flag( json_flag_NO_OVERMAP ) ) {
+        p.add_msg_if_player( _( "Due to your illness you don't understand maps." ) );
+        return cata::nullopt;
+    }
+
     if( it.already_used_by_player( p ) ) {
         p.add_msg_if_player( _( "There isn't anything new on the %s." ), it.tname() );
         return cata::nullopt;
