@@ -865,6 +865,7 @@ class repair_item_actor : public iuse_actor
         std::unique_ptr<iuse_actor> clone() const override;
 
         std::string get_name() const override;
+        std::string get_description() const override;
 };
 
 class heal_actor : public iuse_actor

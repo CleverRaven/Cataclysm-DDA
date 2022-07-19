@@ -712,6 +712,9 @@ cata::optional<int> unfold_vehicle_iuse::use( Character &p, item &it, bool, cons
     if( !unfold_msg.empty() ) {
         p.add_msg_if_player( unfold_msg.translated(), it.tname() );
     }
+    if( p.is_avatar() && it.get_var( "tracking", 0 ) == 1 ) {
+        veh->toggle_tracking(); // restore position tracking state
+    }
     p.moves -= moves;
     // Restore HP of parts if we stashed them previously.
     if( it.has_var( "folding_bicycle_parts" ) ) {
@@ -2486,11 +2489,7 @@ void cast_spell_actor::info( const item &, std::vector<iteminfo> &dump ) const
 
 std::string cast_spell_actor::get_name() const
 {
-    if( mundane ) {
-        return string_format( _( "Activate" ) );
-    }
-
-    return string_format( _( "Cast spell" ) );
+    return mundane ? _( "Activate" ) : _( "Cast spell" );
 }
 
 cata::optional<int> cast_spell_actor::use( Character &p, item &it, bool, const tripoint & ) const
@@ -3300,6 +3299,11 @@ std::string repair_item_actor::action_description( repair_item_actor::repair_typ
 }
 
 std::string repair_item_actor::get_name() const
+{
+    return _( "Repair" );
+}
+
+std::string repair_item_actor::get_description() const
 {
     const std::string mats = enumerate_as_string( materials.begin(), materials.end(),
     []( const material_id & mid ) {
