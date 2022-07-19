@@ -5,7 +5,7 @@
     "name": "dinosaur egg",
     "weight": "2 kg",
     "color": "green",
-    "spoils_in": "4 days",
+    "spoils_in": "32 days",
     "comestible_type": "FOOD",
     "symbol": "o",
     "quench": 4,
@@ -26,6 +26,7 @@
     "id": "egg_dino_small",
     "name": "small dinosaur egg",
     "copy-from": "egg_dino",
+    "spoils_in": "16 days",
     "weight": "57 g",
     "comestible_type": "FOOD",
     "quench": 4,
@@ -41,6 +42,7 @@
     "id": "egg_dino_large",
     "name": "large dinosaur egg",
     "copy-from": "egg_dino",
+    "spoils_in": "64 days",
     "weight": "4 kg",
     "comestible_type": "FOOD",
     "calories": 5200,
@@ -56,7 +58,7 @@
     "looks_like": "egg_dino",
     "weight": "2 kg",
     "color": "green",
-    "spoils_in": "4 days",
+    "spoils_in": "32 days",
     "comestible_type": "FOOD",
     "symbol": "O",
     "quench": 4,
@@ -507,6 +509,13 @@
     "name": "triceratops egg",
     "copy-from": "egg_dino",
     "rot_spawn": "GROUP_EGG_triceratops"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_thescelosaurus",
+    "name": "thescelosaurus egg",
+    "copy-from": "egg_dino",
+    "rot_spawn": "GROUP_EGG_thescelosaurus"
   },
   {
     "type": "COMESTIBLE",
