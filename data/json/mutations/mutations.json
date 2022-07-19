@@ -8058,7 +8058,7 @@
     "id": "NO_OVERMAP",
     "name": { "str": "Visuospatial dysgnosia" },
     "points": -2,
-    "description": "Due to serious brain damage, you have significant troubles with determining your whereabouts.  You can barely navigate your immediate surroundings.  You don't understand maps, and you can't use overmap.",
+    "description": "Due to serious brain damage, you have significant troubles with determining your whereabouts.  You can barely navigate your immediate surroundings.  You don't understand maps, and you can't use the overmap.",
     "starting_trait": true,
     "valid": false,
     "cancels": [ "UNOBSERVANT", "EAGLEEYED" ],
