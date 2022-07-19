@@ -44,7 +44,7 @@
       ],
       "terrain": { "X": "t_dirt" },
       "furniture": { "X": "f_egg_sackws" },
-      "monsters": { "X": { "monster": "GROUP_ZOMBIE_TEST", "chance": 1, "density": 1 } },
+      "monsters": { "X": { "monster": "GROUP_SPIDER", "chance": 1, "density": 1 } },
       "nested": { " ": { "chunks": [ [ "spider_webs", 10 ], [ "null", 1 ] ] } },
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
