@@ -2489,11 +2489,7 @@ void cast_spell_actor::info( const item &, std::vector<iteminfo> &dump ) const
 
 std::string cast_spell_actor::get_name() const
 {
-    if( mundane ) {
-        return string_format( _( "Activate" ) );
-    }
-
-    return string_format( _( "Cast spell" ) );
+    return mundane ? _( "Activate" ) : _( "Cast spell" );
 }
 
 cata::optional<int> cast_spell_actor::use( Character &p, item &it, bool, const tripoint & ) const
@@ -3303,6 +3299,11 @@ std::string repair_item_actor::action_description( repair_item_actor::repair_typ
 }
 
 std::string repair_item_actor::get_name() const
+{
+    return _( "Repair" );
+}
+
+std::string repair_item_actor::get_description() const
 {
     const std::string mats = enumerate_as_string( materials.begin(), materials.end(),
     []( const material_id & mid ) {
