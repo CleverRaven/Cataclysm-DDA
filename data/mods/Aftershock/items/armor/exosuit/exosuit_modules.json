@@ -619,7 +619,7 @@
     "id": "exo_large_holster",
     "type": "TOOL_ARMOR",
     "category": "exosuit",
-    "name": { "str": "exosuit quickdraw holster" },
+    "name": { "str": "exosuit quick draw holster" },
     "description": "This module holds a single sidearm and will recharge an energy weapon.  Automatically opens when the exosuit's pilot reaches for it, just like in that one movie.",
     "weight": "500 g",
     "volume": "2500 ml",
