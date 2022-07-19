@@ -257,7 +257,7 @@
     "type": "item_group",
     "id": "longguns_cop_in_field_no_gun",
     "//": "guns lost but still have mags",
-    "items": [ { "group": "null", "prob": 20 } ]
+    "items": [ { "item": "null", "prob": 20 } ]
   },
   {
     "type": "item_group",
