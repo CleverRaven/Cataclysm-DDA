@@ -294,6 +294,10 @@ class iuse_actor
          */
         virtual std::string get_name() const;
         /**
+         * Returns the translated description of the action. It is used for the item action menu.
+         */
+        virtual std::string get_description() const;
+        /**
          * Finalizes the actor. Must be called after all items are loaded.
          */
         virtual void finalize( const itype_id &/*my_item_type*/ ) { }
@@ -327,6 +331,8 @@ struct use_function {
         std::string get_type() const;
         /** @return See @ref iuse_actor::get_name */
         std::string get_name() const;
+        /** @return See @ref iuse_actor::get_description */
+        std::string get_description() const;
         /** @return Used by @ref item::info to get description of the actor */
         void dump_info( const item &, std::vector<iteminfo> & ) const;
 };

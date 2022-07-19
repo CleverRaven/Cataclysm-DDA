@@ -70,19 +70,74 @@
     "flags": [ "W_LABEL_NONE" ]
   },
   {
-    "id": "structured_health_layout",
+    "id": "structured_health_encumb_layout",
     "type": "widget",
     "style": "layout",
-    "label": "Health",
+    "label": "Health + Encumb Graph",
     "arrange": "columns",
     "separator": " ",
     "height": 7,
+    "widgets": [
+      "structured_body_graph_encumb_layout",
+      "structured_health_left_layout",
+      "structured_health_mid_layout",
+      "structured_health_right_layout"
+    ]
+  },
+  {
+    "id": "structured_health_hp_layout",
+    "type": "widget",
+    "copy-from": "structured_health_encumb_layout",
+    "label": "Health + HP Graph",
     "widgets": [
       "structured_body_graph_layout",
       "structured_health_left_layout",
       "structured_health_mid_layout",
       "structured_health_right_layout"
-    ]
+    ],
+    "flags": [ "W_DISABLED_BY_DEFAULT" ]
+  },
+  {
+    "id": "structured_health_temp_layout",
+    "type": "widget",
+    "copy-from": "structured_health_encumb_layout",
+    "label": "Health + Temp Graph",
+    "widgets": [
+      "structured_body_graph_temp_layout",
+      "structured_health_left_layout",
+      "structured_health_mid_layout",
+      "structured_health_right_layout"
+    ],
+    "flags": [ "W_DISABLED_BY_DEFAULT" ]
+  },
+  {
+    "id": "structured_health_status_layout",
+    "type": "widget",
+    "copy-from": "structured_health_encumb_layout",
+    "label": "Health + Status Graph",
+    "widgets": [
+      "structured_body_graph_status_layout",
+      "structured_health_left_layout",
+      "structured_health_mid_layout",
+      "structured_health_right_layout"
+    ],
+    "flags": [ "W_DISABLED_BY_DEFAULT" ]
+  },
+  {
+    "id": "structured_health_sa_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Health (self-aware)",
+    "arrange": "columns",
+    "separator": " ",
+    "height": 7,
+    "widgets": [
+      "structured_body_graph_layout",
+      "structured_health_left_sa_layout",
+      "structured_health_mid_sa_layout",
+      "structured_health_right_layout"
+    ],
+    "flags": [ "W_DISABLED_BY_DEFAULT" ]
   },
   {
     "id": "structured_body_graph_layout",
@@ -93,11 +148,30 @@
     "widgets": [ "compact_body_graph" ]
   },
   {
+    "id": "structured_body_graph_encumb_layout",
+    "type": "widget",
+    "copy-from": "structured_body_graph_layout",
+    "widgets": [ "compact_body_graph_encumb" ]
+  },
+  {
+    "id": "structured_body_graph_temp_layout",
+    "type": "widget",
+    "copy-from": "structured_body_graph_layout",
+    "widgets": [ "compact_body_graph_temp" ]
+  },
+  {
+    "id": "structured_body_graph_status_layout",
+    "type": "widget",
+    "copy-from": "structured_body_graph_layout",
+    "widgets": [ "compact_body_graph_status" ]
+  },
+  {
     "id": "structured_health_left_layout",
     "type": "widget",
     "style": "layout",
     "arrange": "rows",
     "width": 10,
+    "separator": " ",
     "widgets": [
       "status_hpg_layout_head",
       "status_hpg_layout_torso",
@@ -114,9 +188,43 @@
     "style": "layout",
     "arrange": "rows",
     "width": 12,
+    "separator": " ",
     "//": "TODO - It is not currently possible to conditionally swap out widgets on the fly. When this is added, vehicle speed should replace speed when driving.",
     "widgets": [
       "pain_desc_no_label",
+      "hunger_desc_no_label",
+      "thirst_desc_no_label",
+      "fatigue_desc_no_label",
+      "body_temp_desc_no_label",
+      "focus_num",
+      "structured_speed_layout"
+    ]
+  },
+  {
+    "id": "structured_health_left_sa_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "width": 10,
+    "widgets": [
+      "status_hpn_layout_head",
+      "status_hpn_layout_torso",
+      "status_hpn_layout_larm",
+      "status_hpn_layout_rarm",
+      "status_hpn_layout_lleg",
+      "status_hpn_layout_rleg",
+      "power_short_desc"
+    ]
+  },
+  {
+    "id": "structured_health_mid_sa_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "width": 12,
+    "//": "TODO - It is not currently possible to conditionally swap out widgets on the fly. When this is added, vehicle speed should replace speed when driving.",
+    "widgets": [
+      "pain_num_label",
       "hunger_desc_no_label",
       "thirst_desc_no_label",
       "fatigue_desc_no_label",
@@ -437,7 +545,11 @@
       "structured_weather_layout",
       "structured_place_sound_layout",
       "separator",
-      "structured_health_layout",
+      "structured_health_encumb_layout",
+      "structured_health_hp_layout",
+      "structured_health_status_layout",
+      "structured_health_temp_layout",
+      "structured_health_sa_layout",
       "separator",
       "structured_all_weariness_text_layout",
       "structured_all_weariness_graph_layout",

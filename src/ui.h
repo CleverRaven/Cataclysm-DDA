@@ -124,6 +124,16 @@ struct uilist_entry {
     * @param key hotkey character that when pressed will return this entry return value
     * @param txt string that will be displayed on the entry first column
     * @param desc entry description if menu desc_enabled is true
+    * @see uilist::desc_enabled
+    */
+    uilist_entry( int retval, bool enabled, const cata::optional<input_event> &key,
+                  const std::string &txt, const std::string &desc );
+    /**
+    * @param retval return value of this option when selected during menu query
+    * @param enable is entry enabled. disabled entries will be grayed out and won't be selectable
+    * @param key hotkey character that when pressed will return this entry return value
+    * @param txt string that will be displayed on the entry first column
+    * @param desc entry description if menu desc_enabled is true
     * @param column string that will be displayed on the entry second column
     * @see uilist::desc_enabled
     */
@@ -330,6 +340,17 @@ class uilist // NOLINT(cata-xy)
         * @see uilist::desc_enabled
         */
         void addentry_desc( int retval, bool enabled, int key, const std::string &txt,
+                            const std::string &desc );
+        /**
+        * @param retval return value of this option when selected during menu query
+        * @param enable is entry enabled. disabled entries will be grayed out and won't be selectable
+        * @param key hotkey character that when pressed will return this entry return value
+        * @param txt string that will be displayed on the entry first column
+        * @param desc entry description if menu desc_enabled is true
+        * @see uilist::desc_enabled
+        */
+        void addentry_desc( int retval, bool enabled, const cata::optional<input_event> &key,
+                            const std::string &txt,
                             const std::string &desc );
         /**
         * @param retval return value of this option when selected during menu query

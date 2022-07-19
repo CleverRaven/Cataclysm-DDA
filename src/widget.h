@@ -45,6 +45,9 @@ enum class widget_var : int {
     // Text vars
     activity_text,  // Activity level text, color string
     body_graph,     // Body graph showing color-coded body part health
+    body_graph_temp,     // Body graph showing color-coded body part temperature
+    body_graph_encumb,     // Body graph showing color-coded body part encumbrance
+    body_graph_status,     // Body graph showing color-coded body part status (bite, bleeding, ...)
     bp_armor_outer_text, // Outermost armor on body part, with color/damage bars
     carry_weight_text,   // Weight carried, relative to capacity, in %
     compass_text,   // Compass / visible threats by cardinal direction

@@ -6,6 +6,15 @@
 
 #include "widget.h"
 
+// These are the supported data variables for coloring bodygraphs.
+enum class bodygraph_var : int {
+    hp = 0,      // hitpoints
+    temp,        // temperature
+    encumb,      // encumbrance
+    status,      // limb status (bite, bleeding, ...)
+    last // END OF ENUMS
+};
+
 class avatar;
 class Character;
 
@@ -44,12 +53,13 @@ struct disp_overmap_cache {
 
 struct disp_bodygraph_cache {
     private:
-        std::map<bodypart_id, std::pair<int, int>> _bp_cur_max;
+        bodygraph_var _var;
+        std::map<bodypart_id, int> _bp_cur_max;
         std::string _graph_id;
         std::string _graph_wgt_str;
 
     public:
-        disp_bodygraph_cache();
+        explicit disp_bodygraph_cache( bodygraph_var var );
 
         // Returns true if the stored map of current/max HP values differ from the character.
         bool is_valid_for( const Character &u, std::string graph_id ) const;
@@ -151,8 +161,12 @@ std::string colorized_compass_text( cardinal_direction dir, int width );
 std::string colorized_compass_legend_text( int width, int max_height, int &height );
 
 // Get color-coded body graph representing body part HP
-std::string colorized_bodygraph_text( const Character &u, std::string graph_id, int width,
-                                      int max_height, int &height );
+std::string colorized_bodygraph_text( const Character &u, std::string graph_id,
+                                      bodygraph_var var, int width, int max_height, int &height );
+
+// Get color for bodygraph part
+nc_color get_bodygraph_bp_color( const Character &u, const bodypart_id &bid,
+                                 bodygraph_var var );
 
 // Define color for displaying the body temperature
 nc_color bodytemp_color( const Character &u, const bodypart_id &bp );
