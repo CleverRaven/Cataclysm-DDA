@@ -651,7 +651,7 @@
     ]
   },
   {
-    "id": "exo_large_holster",
+    "id": "exo_sheath",
     "type": "TOOL_ARMOR",
     "category": "exosuit",
     "name": { "str": "exosuit blade sheath" },
