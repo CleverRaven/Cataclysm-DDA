@@ -1638,7 +1638,7 @@
     "type": "widget"
   },
   { "id": "i_weight",           "width": 3, "text_align": "right",
-    "var": "carry_weight_label",
+    "var": "carry_weight_text",
     "style": "text",
     "type": "widget"
   },
@@ -1813,7 +1813,7 @@
     ],
     "type": "widget"
   },
-  { "id": "r_sidebar_row3",     "width": 41,
+  { "id": "r_sidebar_row3",     "width": 41,         "//": "TODO: rearrange everything here",
     "style": "layout", "arrange": "minimum_columns",
     "label": "! Compass and MA",
     "widgets": [
