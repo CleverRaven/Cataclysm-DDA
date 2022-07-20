@@ -190,8 +190,8 @@ TEST_CASE( "monster_throwing_sanity_test", "[throwing],[balance]" )
     you.setpos( target_location );
     const tripoint_abs_ms abs_target_location = you.get_location();
     reset_caches( target_location.z, target_location.z );
-    REQUIRE( g->natural_light_level( 0 ) > 50.0 );
-    CHECK( here.ambient_light_at( target_location ) > 50.0 );
+    REQUIRE( g->natural_light_level( 0 ) > light( 50.0f ) );
+    CHECK( here.ambient_light_at( target_location ) > light( 50.0f ) );
     const std::string monster_type = "mon_feral_human_pipe";
     for( int distance = 2; distance <= 5; ++distance ) {
         float expected_damage = expected_average_damage_at_range[ distance ];

@@ -14,6 +14,7 @@
 #include "reachability_cache.h"
 #include "shadowcasting.h"
 #include "value_ptr.h"
+#include "light.h"
 
 class vehicle;
 
@@ -34,10 +35,10 @@ struct level_cache {
         float sm[MAPSIZE_X][MAPSIZE_Y];
         // To prevent redundant ray casting into neighbors: precalculate bulk light source positions.
         // This is only valid for the duration of generate_lightmap
-        float light_source_buffer[MAPSIZE_X][MAPSIZE_Y];
+        light light_source_buffer[MAPSIZE_X][MAPSIZE_Y];
 
         // Cache of natural light level is useful if it needs to be in sync with the light cache.
-        float natural_light_level_cache;
+        light natural_light_level_cache;
 
         // if false, means tile is under the roof ("inside"), true means tile is "outside"
         // "inside" tiles are protected from sun, rain, etc. (see ter_furn_flag::TFLAG_INDOORS flag)

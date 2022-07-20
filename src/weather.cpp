@@ -131,9 +131,9 @@ void glare( const weather_type_id &w )
 
 ////// food vs weather
 
-int incident_sunlight( const weather_type_id &wtype, const time_point &t )
+light incident_sunlight( const weather_type_id &wtype, const time_point &t )
 {
-    return std::max<float>( 0.0f, sun_light_at( t ) + wtype->light_modifier );
+    return std::max( light( 0.0f ), sun_light_at( t ) + light( wtype->light_modifier ) );
 }
 
 static void proc_weather_sum( const weather_type_id &wtype, weather_sum &data,
@@ -162,7 +162,7 @@ static void proc_weather_sum( const weather_type_id &wtype, weather_sum &data,
     }
 
     // TODO: Change this sunlight "sampling" here into a proper interpolation
-    const float tick_sunlight = incident_sunlight( wtype, t );
+    const float tick_sunlight = incident_sunlight( wtype, t ).value;
     data.sunlight += tick_sunlight * to_turns<int>( tick_size );
 }
 

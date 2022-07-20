@@ -139,47 +139,47 @@ TEST_CASE( "sunlight and moonlight", "[sun][sunlight][moonlight]" )
 
     // Expected numbers below assume 110.0f maximum daylight level
     // (maximum daylight is different at other times of year - see [daylight] tests)
-    REQUIRE( 100.0f == default_daylight_level() );
+    REQUIRE( 100.0f == default_daylight_level().value );
 
     SECTION( "sunlight" ) {
         // Before dawn
-        CHECK( 1.0f == sun_moon_light_at( midnight ) );
+        CHECK( 1.0f == sun_moon_light_at( midnight ).value );
         // Dawn
-        CHECK( sun_moon_light_at( today_sunrise - 2_hours ) == 1.0f );
-        CHECK( sun_moon_light_at( today_sunrise - 1_hours ) == Approx( 5 ).margin( 2 ) );
-        CHECK( sun_moon_light_at( today_sunrise ) == Approx( 60 ).margin( 1 ) );
+        CHECK( sun_moon_light_at( today_sunrise - 2_hours ).value == 1.0f );
+        CHECK( sun_moon_light_at( today_sunrise - 1_hours ).value == Approx( 5 ).margin( 2 ) );
+        CHECK( sun_moon_light_at( today_sunrise ).value == Approx( 60 ).margin( 1 ) );
         // Light gets brighter towards noon
         CHECK( sun_moon_light_at( today_sunrise + 2_hours ) >
                sun_moon_light_at( today_sunrise + 1_hours ) );
         CHECK( sun_moon_light_at( today_sunrise + 3_hours ) >
                sun_moon_light_at( today_sunrise + 2_hours ) );
         // Noon
-        CHECK( sun_moon_light_at( noon ) == Approx( 110 ).margin( 10 ) );
+        CHECK( sun_moon_light_at( noon ).value == Approx( 110 ).margin( 10 ) );
         CHECK( sun_moon_light_at( noon + 1_hours ) <
                sun_moon_light_at( noon ) );
         CHECK( sun_moon_light_at( noon + 2_hours ) <
                sun_moon_light_at( noon + 1_hours ) );
         // Dusk begins
-        CHECK( sun_moon_light_at( today_sunset - 1_hours ) ==
-               Approx( sun_moon_light_at( today_sunrise + 1_hours ) ).margin( 1 ) );
-        CHECK( sun_moon_light_at( today_sunset ) ==
-               Approx( sun_moon_light_at( today_sunrise ) ).margin( 1 ) );
-        CHECK( sun_moon_light_at( today_sunset + 1_hours ) ==
-               Approx( sun_moon_light_at( today_sunrise - 1_hours ) ).margin( 1 ) );
+        CHECK( sun_moon_light_at( today_sunset - 1_hours ).value ==
+               Approx( sun_moon_light_at( today_sunrise + 1_hours ).value ).margin( 1 ) );
+        CHECK( sun_moon_light_at( today_sunset ).value ==
+               Approx( sun_moon_light_at( today_sunrise ).value ).margin( 1 ) );
+        CHECK( sun_moon_light_at( today_sunset + 1_hours ).value ==
+               Approx( sun_moon_light_at( today_sunrise - 1_hours ).value ).margin( 1 ) );
 
         // Eternal night
         calendar::set_eternal_night( true );
-        CHECK( sun_moon_light_at( midnight ) == 1.0f );
-        CHECK( sun_moon_light_at( today_sunset ) == 1.0f );
-        CHECK( sun_moon_light_at( today_sunrise ) == 1.0f );
-        CHECK( sun_moon_light_at( noon ) == 1.0f );
+        CHECK( sun_moon_light_at( midnight ).value == 1.0f );
+        CHECK( sun_moon_light_at( today_sunset ).value == 1.0f );
+        CHECK( sun_moon_light_at( today_sunrise ).value == 1.0f );
+        CHECK( sun_moon_light_at( noon ).value == 1.0f );
         calendar::set_eternal_night( false );
         // Eternal day
         calendar::set_eternal_day( true );
-        CHECK( sun_moon_light_at( midnight ) == Approx( 126 ).margin( 5 ) );
-        CHECK( sun_moon_light_at( today_sunset ) == Approx( 126 ).margin( 5 ) );
-        CHECK( sun_moon_light_at( today_sunrise ) == Approx( 126 ).margin( 5 ) );
-        CHECK( sun_moon_light_at( noon ) == Approx( 126 ).margin( 5 ) );
+        CHECK( sun_moon_light_at( midnight ).value == Approx( 126 ).margin( 5 ) );
+        CHECK( sun_moon_light_at( today_sunset ).value == Approx( 126 ).margin( 5 ) );
+        CHECK( sun_moon_light_at( today_sunrise ).value == Approx( 126 ).margin( 5 ) );
+        CHECK( sun_moon_light_at( noon ).value == Approx( 126 ).margin( 5 ) );
         calendar::set_eternal_day( false );
     }
 
@@ -196,14 +196,14 @@ TEST_CASE( "sunlight and moonlight", "[sun][sunlight][moonlight]" )
         WHEN( "the moon is new" ) {
             REQUIRE( get_moon_phase( new_moon ) == MOON_NEW );
             THEN( "moonlight is 1.0" ) {
-                CHECK( 1.0f == sun_moon_light_at( new_moon ) );
+                CHECK( 1.0f == sun_moon_light_at( new_moon ).value );
             }
         }
 
         WHEN( "the moon is full" ) {
             REQUIRE( get_moon_phase( full_moon_midnight ) == MOON_FULL );
             THEN( "moonlight is 7.0" ) {
-                CHECK( 7.0f == sun_moon_light_at( full_moon_midnight ) );
+                CHECK( 7.0f == sun_moon_light_at( full_moon_midnight ).value );
             }
         }
     }
@@ -219,38 +219,38 @@ TEST_CASE( "noon sunlight levels", "[sun][daylight][equinox][solstice]" )
     const time_point winter = autumn + one_season;
 
     SECTION( "baseline 110 daylight on the spring and autumn equinoxes" ) {
-        float spring_light = sun_light_at( spring + 12_hours );
+        float spring_light = sun_light_at( spring + 12_hours ).value;
         CHECK( spring_light == Approx( 110.0f ).margin( 10 ) );
-        CHECK( sun_light_at( autumn + 12_hours ) == Approx( spring_light ).margin( 1 ) );
+        CHECK( sun_light_at( autumn + 12_hours ).value == Approx( spring_light ).margin( 1 ) );
     }
 
     SECTION( "125 daylight on the summer solstice" ) {
-        CHECK( sun_light_at( summer + 12_hours ) == 125.0f );
+        CHECK( sun_light_at( summer + 12_hours ).value == 125.0f );
     }
 
     SECTION( "90 daylight on the winter solstice" ) {
-        CHECK( sun_light_at( winter + 12_hours ) == Approx( 87.0f ).margin( 10 ) );
+        CHECK( sun_light_at( winter + 12_hours ).value == Approx( 87.0f ).margin( 10 ) );
     }
 
     // Many other times of day have peak daylight level, but noon is for sure
     SECTION( "noon is peak daylight level" ) {
-        CHECK( sun_moon_light_at( spring + 12_hours ) ==
-               Approx( sun_moon_light_at_noon_near( spring ) ).margin( 3 ) );
-        CHECK( sun_moon_light_at( summer + 12_hours ) ==
-               Approx( sun_moon_light_at_noon_near( summer ) ).margin( 3 ) );
-        CHECK( sun_moon_light_at( autumn + 12_hours ) ==
-               Approx( sun_moon_light_at_noon_near( autumn ) ).margin( 3 ) );
-        CHECK( sun_moon_light_at( winter + 12_hours ) ==
-               Approx( sun_moon_light_at_noon_near( winter ) ).margin( 3 ) );
+        CHECK( sun_moon_light_at( spring + 12_hours ).value ==
+               Approx( sun_moon_light_at_noon_near( spring ).value ).margin( 3 ) );
+        CHECK( sun_moon_light_at( summer + 12_hours ).value ==
+               Approx( sun_moon_light_at_noon_near( summer ).value ).margin( 3 ) );
+        CHECK( sun_moon_light_at( autumn + 12_hours ).value ==
+               Approx( sun_moon_light_at_noon_near( autumn ).value ).margin( 3 ) );
+        CHECK( sun_moon_light_at( winter + 12_hours ).value ==
+               Approx( sun_moon_light_at_noon_near( winter ).value ).margin( 3 ) );
     }
 
     SECTION( "Eternal day" ) {
         // locked sunlight when eternal day id due
         calendar::set_eternal_day( true );
-        CHECK( sun_light_at( spring + 12_hours ) == 125.0f );
-        CHECK( sun_light_at( summer + 12_hours ) == 125.0f );
-        CHECK( sun_light_at( autumn + 12_hours ) == 125.0f );
-        CHECK( sun_light_at( winter + 12_hours ) == 125.0f );
+        CHECK( sun_light_at( spring + 12_hours ).value == 125.0f );
+        CHECK( sun_light_at( summer + 12_hours ).value == 125.0f );
+        CHECK( sun_light_at( autumn + 12_hours ).value == 125.0f );
+        CHECK( sun_light_at( winter + 12_hours ).value == 125.0f );
         calendar::set_eternal_day( false );
     }
 }

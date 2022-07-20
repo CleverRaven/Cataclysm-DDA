@@ -1335,10 +1335,10 @@ float firestarter_actor::light_mod( const tripoint &pos ) const
         return 1.0f;
     }
 
-    const float light_level = g->natural_light_level( pos.z );
+    const light light_level = g->natural_light_level( pos.z );
     if( get_weather().weather_id->sun_intensity >= sun_intensity_type::normal &&
-        light_level >= 60.0f && !get_map().has_flag( ter_furn_flag::TFLAG_INDOORS, pos ) ) {
-        return std::pow( light_level / 80.0f, 8 );
+        light_level >= light( 60.0f ) && !get_map().has_flag( ter_furn_flag::TFLAG_INDOORS, pos ) ) {
+        return std::pow( light_level / light( 80.0f ), 8 );
     }
 
     return 0.0f;
@@ -1401,7 +1401,7 @@ cata::optional<int> firestarter_actor::use( Character &p, item &it, bool t,
     p.assign_activity( ACT_START_FIRE, moves, potential_skill_gain,
                        0, it.tname() );
     p.activity.targets.emplace_back( p, &it );
-    p.activity.values.push_back( g->natural_light_level( pos.z ) );
+    p.activity.values.push_back( g->natural_light_level( pos.z ).value );
     p.activity.placement = pos;
     // charges to use are handled by the activity
     return 0;

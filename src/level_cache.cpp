@@ -11,7 +11,8 @@ level_cache::level_cache()
     constexpr four_quadrants four_zeros( 0.0f );
     std::fill_n( &lm[0][0], map_dimensions, four_zeros );
     std::fill_n( &sm[0][0], map_dimensions, 0.0f );
-    std::fill_n( &light_source_buffer[0][0], map_dimensions, 0.0f );
+    // TODO should be unnecessary due to default constructor
+    std::fill_n( &light_source_buffer[0][0], map_dimensions, light( 0.0f ) );
     std::fill_n( &outside_cache[0][0], map_dimensions, false );
     std::fill_n( &floor_cache[0][0], map_dimensions, false );
     std::fill_n( &transparency_cache[0][0], map_dimensions, 0.0f );

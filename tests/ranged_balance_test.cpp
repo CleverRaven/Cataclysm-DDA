@@ -129,7 +129,7 @@ static dispersion_sources get_dispersion( npc &shooter, const int aim_time, int 
     shooter.moves = aim_time;
     shooter.recoil = MAX_RECOIL;
     // Aim as well as possible within the provided time.
-    shooter.aim( Target_attributes( range, 0.5, 0.0f, true ) );
+    shooter.aim( Target_attributes( range, 0.5, light( 0.0f ), true ) );
     if( aim_time > 0 ) {
         REQUIRE( shooter.recoil < MAX_RECOIL );
     }

@@ -26,6 +26,7 @@
 #include "units_fwd.h"
 #include "value_ptr.h"
 #include "weakpoint.h"
+#include "light.h"
 
 class Character;
 class JsonObject;
@@ -171,7 +172,7 @@ class monster : public Creature
         bool swims() const;
         // Returns false if the monster is stunned, has 0 moves or otherwise wouldn't act this turn
         bool can_act() const;
-        int sight_range( int light_level ) const override;
+        int sight_range( light light_level ) const override;
         bool made_of( const material_id &m ) const override; // Returns true if it's made of m
         bool made_of_any( const std::set<material_id> &ms ) const override;
         bool made_of( phase_id p ) const; // Returns true if its phase is p

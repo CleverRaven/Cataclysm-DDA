@@ -855,7 +855,7 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
     const bool has_debug_vision = you.has_trait( trait_DEBUG_NIGHTVISION );
     // sight_points is hoisted for speed reasons.
     const int sight_points = !has_debug_vision ?
-                             you.overmap_sight_range( g->light_level( you.posz() ) ) :
+                             you.overmap_sight_range( g->incorrect_light_level( you.posz() ) ) :
                              100;
     const bool showhordes = uistate.overmap_show_hordes;
     const bool viewing_weather = uistate.overmap_debug_weather || uistate.overmap_visible_weather;

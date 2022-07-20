@@ -217,9 +217,9 @@ TEST_CASE( "moonlight at dawn and dusk", "[calendar][moon][moonlight][dawn][dusk
         time_point new_noon = new_midnight + 12_hours;
 
         // Daylight level should be ~100 at first new moon
-        float daylight_level = sun_moon_light_at( new_noon );
+        float daylight_level = sun_moon_light_at( new_noon ).value;
         CHECK( daylight_level == Approx( 110 ).margin( 10 ) );
-        float moonlight_level = 1.0f;
+        light moonlight_level = light( 1.0f );
 
         THEN( "at night, light is only moonlight" ) {
             CHECK( sun_moon_light_at( new_sunset + 2_hours ) == moonlight_level );
@@ -242,9 +242,9 @@ TEST_CASE( "moonlight at dawn and dusk", "[calendar][moon][moonlight][dawn][dusk
         time_point full_noon = full_midnight + 12_hours;
 
         // Daylight level is higher, later in the season (~104 at first full moon)
-        float daylight_level = sun_moon_light_at( full_noon );
+        float daylight_level = sun_moon_light_at( full_noon ).value;
         CHECK( daylight_level == Approx( 120 ).margin( 10 ) );
-        float moonlight_level = 7.0f;
+        light moonlight_level = light( 7.0f );
 
         THEN( "at night, light is only moonlight" ) {
             CHECK( sun_moon_light_at( full_sunset + 2_hours ) == moonlight_level );
@@ -295,7 +295,7 @@ static float phase_moonlight( const float phase_scale, const moon_phase expect_p
                expect_phase_enum ) );
 
     // Finally, get the amount of moonlight
-    return sun_moon_light_at( this_night );
+    return sun_moon_light_at( this_night ).value;
 }
 
 // Moonlight level varies with moon phase, from 1.0 at new moon to 10.0 at full moon.

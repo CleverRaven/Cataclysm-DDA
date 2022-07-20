@@ -999,7 +999,7 @@ static void eff_fun_sleep( Character &u, effect &it )
         here.is_outside( u.pos() ) ) {
         if( u.has_trait( trait_CHLOROMORPH ) ) {
             // Hunger and thirst fall before your Chloromorphic physiology!
-            if( g->natural_light_level( u.posz() ) >= 12 &&
+            if( g->natural_light_level( u.posz() ) >= light( 12.0f ) &&
                 get_weather().weather_id->sun_intensity >= sun_intensity_type::light ) {
                 if( u.has_active_mutation( trait_CHLOROMORPH ) && ( u.get_fatigue() <= 25 ) ) {
                     u.set_fatigue( 25 );
@@ -1082,7 +1082,7 @@ static void eff_fun_sleep( Character &u, effect &it )
         if( !u.has_flag( json_flag_SEESLEEP ) ) {
             if( u.has_trait( trait_HEAVYSLEEPER2 ) && !u.has_trait( trait_HIBERNATE ) ) {
                 // So you can too sleep through noon
-                if( ( tirednessVal * 1.25 ) < here.ambient_light_at( u.pos() ) && ( u.get_fatigue() < 10 ||
+                if( ( tirednessVal * 1.25 ) < here.ambient_light_at( u.pos() ).value && ( u.get_fatigue() < 10 ||
                         one_in( u.get_fatigue() / 2 ) ) ) {
                     u.add_msg_if_player( _( "It's too bright to sleep." ) );
                     // Set ourselves up for removal
@@ -1091,14 +1091,14 @@ static void eff_fun_sleep( Character &u, effect &it )
                 }
                 // Ursine hibernators would likely do so indoors.  Plants, though, might be in the sun.
             } else if( u.has_trait( trait_HIBERNATE ) ) {
-                if( ( tirednessVal * 5 ) < here.ambient_light_at( u.pos() ) && ( u.get_fatigue() < 10 ||
+                if( ( tirednessVal * 5 ) < here.ambient_light_at( u.pos() ).value && ( u.get_fatigue() < 10 ||
                         one_in( u.get_fatigue() / 2 ) ) ) {
                     u.add_msg_if_player( _( "It's too bright to sleep." ) );
                     // Set ourselves up for removal
                     it.set_duration( 0_turns );
                     woke_up = true;
                 }
-            } else if( tirednessVal < here.ambient_light_at( u.pos() ) && ( u.get_fatigue() < 10 ||
+            } else if( tirednessVal < here.ambient_light_at( u.pos() ).value && ( u.get_fatigue() < 10 ||
                        one_in( u.get_fatigue() / 2 ) ) ) {
                 u.add_msg_if_player( _( "It's too bright to sleep." ) );
                 // Set ourselves up for removal

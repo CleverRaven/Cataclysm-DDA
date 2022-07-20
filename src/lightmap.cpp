@@ -71,10 +71,10 @@ void map::add_light_from_items( const tripoint &p, const item_stack::iterator &b
                                 const item_stack::iterator &end )
 {
     for( auto itm_it = begin; itm_it != end; ++itm_it ) {
-        float ilum = 0.0f; // brightness
+        light ilum = light( 0.0f ); // brightness
         units::angle iwidth = 0_degrees; // 0-360 degrees. 0 is a circular light_source
         units::angle idir = 0_degrees;   // otherwise, it's a light_arc pointed in this direction
-        if( itm_it->getlight( ilum, iwidth, idir ) ) {
+        if( itm_it->getlight( ilum.value, iwidth, idir ) ) {
             if( iwidth > 0_degrees ) {
                 apply_light_arc( p, idir, ilum, iwidth );
             } else {
@@ -226,17 +226,18 @@ bool map::build_vision_transparency_cache( const int zlev )
 void map::apply_character_light( Character &p )
 {
     if( p.has_effect( effect_onfire ) ) {
-        apply_light_source( p.pos(), 8 );
+        apply_light_source( p.pos(), light( 8.0f ) );
     } else if( p.has_effect( effect_haslight ) ) {
-        apply_light_source( p.pos(), 4 );
+        apply_light_source( p.pos(), light( 4.0f ) );
     }
 
-    const float held_luminance = p.active_light();
+    const light held_luminance = p.active_light();
     if( held_luminance > LIGHT_AMBIENT_LOW ) {
         apply_light_source( p.pos(), held_luminance );
     }
 
-    if( held_luminance >= 4 && held_luminance > ambient_light_at( p.pos() ) - 0.5f ) {
+    if( held_luminance >= light( 4.0f ) &&
+        held_luminance > ambient_light_at( p.pos() ) - light( 0.5f ) ) {
         p.add_effect( effect_haslight, 1_turns );
     }
 }
@@ -272,14 +273,14 @@ void map::build_sunlight_cache( int pzlev )
         map_cache.natural_light_level_cache = g->natural_light_level( zlev );
         auto &lm = map_cache.lm;
         // Grab illumination at ground level.
-        const float outside_light_level = g->natural_light_level( 0 );
+        const light outside_light_level = g->natural_light_level( 0 );
         // TODO: if zlev < 0 is open to sunlight, this won't calculate correct light, but neither does g->natural_light_level()
-        const float inside_light_level = ( zlev >= 0 && outside_light_level > LIGHT_SOURCE_BRIGHT ) ?
+        const light inside_light_level = ( zlev >= 0 && outside_light_level > LIGHT_SOURCE_BRIGHT ) ?
                                          LIGHT_AMBIENT_DIM * 0.8 : LIGHT_AMBIENT_LOW;
 
         // all light was blocked before
         if( fully_inside ) {
-            std::fill_n( &lm[0][0], MAPSIZE_X * MAPSIZE_Y, four_quadrants( inside_light_level ) );
+            std::fill_n( &lm[0][0], MAPSIZE_X * MAPSIZE_Y, four_quadrants( inside_light_level.value ) );
             continue;
         }
 
@@ -287,7 +288,7 @@ void map::build_sunlight_cache( int pzlev )
         // for light to be blocked.
         if( fully_outside ) {
             //fill with full light
-            std::fill_n( &lm[0][0], MAPSIZE_X * MAPSIZE_Y, four_quadrants( outside_light_level ) );
+            std::fill_n( &lm[0][0], MAPSIZE_X * MAPSIZE_Y, four_quadrants( outside_light_level.value ) );
 
             const auto &this_floor_cache = map_cache.floor_cache;
             const auto &this_transparency_cache = map_cache.transparency_cache;
@@ -334,7 +335,7 @@ void map::build_sunlight_cache( int pzlev )
         fully_inside = true; // recalculate
 
         // Fall back to minimal light level if we don't find anything.
-        std::fill_n( &lm[0][0], MAPSIZE_X * MAPSIZE_Y, four_quadrants( inside_light_level ) );
+        std::fill_n( &lm[0][0], MAPSIZE_X * MAPSIZE_Y, four_quadrants( inside_light_level.value ) );
 
         for( int x = 0; x < MAPSIZE_X; ++x ) {
             for( int y = 0; y < MAPSIZE_Y; ++y ) {
@@ -360,14 +361,14 @@ void map::build_sunlight_cache( int pzlev )
                         !prev_floor_cache[prev.x][prev.y] &&
                         ( prev_light_max = prev_lm[prev.x][prev.y].max() ) > 0.0 ) {
                         const float light_level = clamp( prev_light_max * LIGHT_TRANSPARENCY_OPEN_AIR / prev_transparency,
-                                                         inside_light_level, prev_light_max );
+                                                         inside_light_level.value, prev_light_max );
 
                         if( i == 0 ) {
                             lm[x][y].fill( light_level );
-                            fully_inside &= light_level <= inside_light_level;
+                            fully_inside &= light_level <= inside_light_level.value;
                             break;
                         } else {
-                            fully_inside &= light_level <= inside_light_level;
+                            fully_inside &= light_level <= inside_light_level.value;
                             lm[x][y][dir_quadrants[i][0]] = light_level;
                             lm[x][y][dir_quadrants[i][1]] = light_level;
                         }
@@ -412,7 +413,7 @@ void map::generate_lightmap( const int zlev )
         }
     };
 
-    const float natural_light = g->natural_light_level( zlev );
+    const light natural_light = g->natural_light_level( zlev );
 
     build_sunlight_cache( zlev );
 
@@ -444,14 +445,14 @@ void map::generate_lightmap( const int zlev )
                                 && outside_cache[neighbour.x][neighbour.y] &&
                                 ( top_floor || !prev_floor_cache[neighbour.x][neighbour.y] )
                               ) {
-                                const float source_light =
-                                    std::min( natural_light, lm[neighbour.x][neighbour.y].max() );
+                                const light source_light =
+                                    std::min( natural_light, light( lm[neighbour.x][neighbour.y].max() ) );
                                 if( light_transparency( p ) > LIGHT_TRANSPARENCY_SOLID ) {
-                                    update_light_quadrants( lm[p.x][p.y], source_light, quadrant::default_ );
+                                    update_light_quadrants( lm[p.x][p.y], source_light.value, quadrant::default_ );
                                     apply_directional_light( p, dir_d[i], source_light );
                                 } else {
-                                    update_light_quadrants( lm[p.x][p.y], source_light, dir_quadrants[i][0] );
-                                    update_light_quadrants( lm[p.x][p.y], source_light, dir_quadrants[i][1] );
+                                    update_light_quadrants( lm[p.x][p.y], source_light.value, dir_quadrants[i][0] );
+                                    update_light_quadrants( lm[p.x][p.y], source_light.value, dir_quadrants[i][1] );
                                 }
                             }
                         }
@@ -464,17 +465,17 @@ void map::generate_lightmap( const int zlev )
 
                     const ter_id terrain = cur_submap->get_ter( { sx, sy } );
                     if( terrain->light_emitted > 0 ) {
-                        add_light_source( p, terrain->light_emitted );
+                        add_light_source( p, light( terrain->light_emitted ) );
                     }
                     const furn_id furniture = cur_submap->get_furn( {sx, sy } );
                     if( furniture->light_emitted > 0 ) {
-                        add_light_source( p, furniture->light_emitted );
+                        add_light_source( p, light( furniture->light_emitted ) );
                     }
 
                     for( const auto &fld : cur_submap->get_field( { sx, sy } ) ) {
                         const field_entry *cur = &fld.second;
-                        const int light_emitted = cur->get_intensity_level().light_emitted;
-                        if( light_emitted > 0 ) {
+                        const light light_emitted = light( cur->get_intensity_level().light_emitted );
+                        if( light_emitted > light( 0.0f ) ) {
                             add_light_source( p, light_emitted );
                         }
                         const float light_override = cur->get_intensity_level().local_light_override;
@@ -494,13 +495,13 @@ void map::generate_lightmap( const int zlev )
         const tripoint mp = critter.pos();
         if( inbounds( mp ) ) {
             if( critter.has_effect( effect_onfire ) ) {
-                apply_light_source( mp, 8 );
+                apply_light_source( mp, light( 8.0f ) );
             }
             // TODO: [lightmap] Attach natural light brightness to creatures
             // TODO: [lightmap] Allow creatures to have light attacks (i.e.: eyebot)
             // TODO: [lightmap] Allow creatures to have facing and arc lights
-            if( critter.type->luminance > 0 ) {
-                apply_light_source( mp, critter.type->luminance );
+            if( critter.type->luminance > 0.0f ) {
+                apply_light_source( mp, light( critter.type->luminance ) );
             }
         }
     }
@@ -512,14 +513,14 @@ void map::generate_lightmap( const int zlev )
 
         auto lights = v->lights( true );
 
-        float veh_luminance = 0.0f;
+        light veh_luminance = light( 0.0f );
         float iteration = 1.0f;
 
         for( const vehicle_part *pt : lights ) {
             const vpart_info &vp = pt->info();
             if( vp.has_flag( VPFLAG_CONE_LIGHT ) ||
                 vp.has_flag( VPFLAG_WIDE_CONE_LIGHT ) ) {
-                veh_luminance += vp.bonus / iteration;
+                veh_luminance += light( vp.bonus / iteration );
                 iteration = iteration * 1.1f;
             }
         }
@@ -534,21 +535,21 @@ void map::generate_lightmap( const int zlev )
 
             if( vp.has_flag( VPFLAG_CONE_LIGHT ) ) {
                 if( veh_luminance > lit_level::LIT ) {
-                    add_light_source( src, M_SQRT2 ); // Add a little surrounding light
+                    add_light_source( src, light( M_SQRT2 ) ); // Add a little surrounding light
                     apply_light_arc( src, v->face.dir() + pt->direction, veh_luminance,
                                      45_degrees );
                 }
 
             } else if( vp.has_flag( VPFLAG_WIDE_CONE_LIGHT ) ) {
                 if( veh_luminance > lit_level::LIT ) {
-                    add_light_source( src, M_SQRT2 ); // Add a little surrounding light
+                    add_light_source( src, light( M_SQRT2 ) ); // Add a little surrounding light
                     apply_light_arc( src, v->face.dir() + pt->direction, veh_luminance,
                                      90_degrees );
                 }
 
             } else if( vp.has_flag( VPFLAG_HALF_CIRCLE_LIGHT ) ) {
-                add_light_source( src, M_SQRT2 ); // Add a little surrounding light
-                apply_light_arc( src, v->face.dir() + pt->direction, vp.bonus, 180_degrees );
+                add_light_source( src, light( M_SQRT2 ) ); // Add a little surrounding light
+                apply_light_arc( src, v->face.dir() + pt->direction, light( vp.bonus ), 180_degrees );
 
             } else if( vp.has_flag( VPFLAG_CIRCLE_LIGHT ) ) {
                 const bool odd_turn = calendar::once_every( 2_turns );
@@ -556,11 +557,11 @@ void map::generate_lightmap( const int zlev )
                     ( !odd_turn && vp.has_flag( VPFLAG_EVENTURN ) ) ||
                     ( !( vp.has_flag( VPFLAG_EVENTURN ) || vp.has_flag( VPFLAG_ODDTURN ) ) ) ) {
 
-                    add_light_source( src, vp.bonus );
+                    add_light_source( src, light( vp.bonus ) );
                 }
 
             } else {
-                add_light_source( src, vp.bonus );
+                add_light_source( src, light( vp.bonus ) );
             }
         }
 
@@ -585,7 +586,7 @@ void map::generate_lightmap( const int zlev )
     const tripoint cache_start( 0, 0, zlev );
     const tripoint cache_end( LIGHTMAP_CACHE_X, LIGHTMAP_CACHE_Y, zlev );
     for( const tripoint &p : points_in_rectangle( cache_start, cache_end ) ) {
-        if( light_source_buffer[p.x][p.y] > 0.0 ) {
+        if( light_source_buffer[p.x][p.y] > light( 0.0f ) ) {
             apply_light_source( p, light_source_buffer[p.x][p.y] );
         }
     }
@@ -594,7 +595,7 @@ void map::generate_lightmap( const int zlev )
     }
 }
 
-void map::add_light_source( const tripoint &p, float luminance )
+void map::add_light_source( const tripoint &p, light luminance )
 {
     auto &light_source_buffer = get_cache( p.z ).light_source_buffer;
     light_source_buffer[p.x][p.y] = std::max( luminance, light_source_buffer[p.x][p.y] );
@@ -611,11 +612,11 @@ lit_level map::light_at( const tripoint &p ) const
     const level_cache &map_cache = get_cache_ref( p.z );
     const auto &lm = map_cache.lm;
     const auto &sm = map_cache.sm;
-    if( sm[p.x][p.y] >= LIGHT_SOURCE_BRIGHT ) {
+    if( light( sm[p.x][p.y] ) >= LIGHT_SOURCE_BRIGHT ) {
         return lit_level::BRIGHT;
     }
 
-    const float max_light = lm[p.x][p.y].max();
+    const light max_light = light( lm[p.x][p.y].max() );
     if( max_light >= LIGHT_AMBIENT_LIT ) {
         return lit_level::LIT;
     }
@@ -627,13 +628,13 @@ lit_level map::light_at( const tripoint &p ) const
     return lit_level::DARK;
 }
 
-float map::ambient_light_at( const tripoint &p ) const
+light map::ambient_light_at( const tripoint &p ) const
 {
     if( !inbounds( p ) ) {
-        return 0.0f;
+        return light( 0.0f );
     }
 
-    return get_cache_ref( p.z ).lm[p.x][p.y].max();
+    return light( get_cache_ref( p.z ).lm[p.x][p.y].max() );
 }
 
 bool map::is_transparent( const tripoint &p ) const
@@ -662,7 +663,7 @@ map::apparent_light_info map::apparent_light_helper( const level_cache &map_cach
     // possibly reduce view if aiming (also blocks light)
     if( get_avatar().recoil < MAX_RECOIL ) {
         if( get_avatar().cant_see( p ) ) {
-            return { true, 0.0 };
+            return { true, light( 0.0f ) };
         }
     }
 
@@ -714,7 +715,7 @@ map::apparent_light_info map::apparent_light_helper( const level_cache &map_cach
         // directions is equivalent
         apparent_light = vis * map_cache.lm[p.x][p.y].max();
     }
-    return { obstructed, apparent_light };
+    return { obstructed, light( apparent_light ) };
 }
 
 lit_level map::apparent_light_at( const tripoint &p, const visibility_variables &cache ) const
@@ -735,9 +736,10 @@ lit_level map::apparent_light_at( const tripoint &p, const visibility_variables 
     // Cameras are based on their own positions.
     if( ( dist > player_character.unimpaired_range() || a.obstructed ) &&
         map_cache.camera_cache[p.x][p.y] > 0.0f ) {
-        if( map_cache.camera_cache[p.x][p.y] * map_cache.lm[p.x][p.y].max() * 0.6 > LIGHT_AMBIENT_LIT ) {
+        if( map_cache.camera_cache[p.x][p.y] * light( map_cache.lm[p.x][p.y].max() ) * 0.6 >
+            LIGHT_AMBIENT_LIT ) {
             return lit_level::BRIGHT;
-        } else if( map_cache.camera_cache[p.x][p.y] * map_cache.lm[p.x][p.y].max() * 0.8 >
+        } else if( map_cache.camera_cache[p.x][p.y] * light( map_cache.lm[p.x][p.y].max() ) * 0.8 >
                    LIGHT_AMBIENT_LIT ) {
             return lit_level::LOW;
         } else {
@@ -749,7 +751,7 @@ lit_level map::apparent_light_at( const tripoint &p, const visibility_variables 
     }
     if( a.obstructed ) {
         if( a.apparent_light > LIGHT_AMBIENT_LIT ) {
-            if( a.apparent_light > cache.g_light_level ) {
+            if( a.apparent_light > light( cache.g_light_level ) ) {
                 // This represents too hazy to see detail,
                 // but enough light getting through to illuminate.
                 return lit_level::BRIGHT_ONLY;
@@ -768,7 +770,7 @@ lit_level map::apparent_light_at( const tripoint &p, const visibility_variables 
     if( a.apparent_light > LIGHT_AMBIENT_LIT ) {
         return lit_level::LIT;
     }
-    if( a.apparent_light >= cache.vision_threshold ) {
+    if( a.apparent_light >= light( cache.vision_threshold ) ) {
         return lit_level::LOW;
     } else {
         return lit_level::BLANK;
@@ -782,7 +784,7 @@ bool map::pl_sees( const tripoint &t, const int max_range ) const
     }
 
     const level_cache &map_cache = get_cache_ref( t.z );
-    if( map_cache.camera_cache[t.x][t.y] * map_cache.lm[t.x][t.y].max() * 0.8 >
+    if( map_cache.camera_cache[t.x][t.y] * light( map_cache.lm[t.x][t.y].max() ) * 0.8 >
         LIGHT_AMBIENT_LIT ) {
         return true;
     }
@@ -793,7 +795,8 @@ bool map::pl_sees( const tripoint &t, const int max_range ) const
     }
 
     const apparent_light_info a = apparent_light_helper( map_cache, t );
-    const float light_at_player = map_cache.lm[player_character.posx()][player_character.posy()].max();
+    const light light_at_player = light(
+                                      map_cache.lm[player_character.posx()][player_character.posy()].max() );
     return !a.obstructed &&
            ( a.apparent_light >= player_character.get_vision_threshold( light_at_player ) ||
              map_cache.sm[t.x][t.y] > 0.0 );
@@ -1150,28 +1153,28 @@ static float light_calc( const float &numerator, const float &transparency,
 
 static bool light_check( const float &transparency, const float &intensity )
 {
-    return transparency > LIGHT_TRANSPARENCY_SOLID && intensity > LIGHT_AMBIENT_LOW;
+    return transparency > LIGHT_TRANSPARENCY_SOLID && light( intensity ) > LIGHT_AMBIENT_LOW;
 }
 
-void map::apply_light_source( const tripoint &p, float luminance )
+void map::apply_light_source( const tripoint &p, light luminance )
 {
     level_cache &cache = get_cache( p.z );
     four_quadrants( &lm )[MAPSIZE_X][MAPSIZE_Y] = cache.lm;
     float ( &sm )[MAPSIZE_X][MAPSIZE_Y] = cache.sm;
     float ( &transparency_cache )[MAPSIZE_X][MAPSIZE_Y] = cache.transparency_cache;
-    float ( &light_source_buffer )[MAPSIZE_X][MAPSIZE_Y] = cache.light_source_buffer;
+    light( &light_source_buffer )[MAPSIZE_X][MAPSIZE_Y] = cache.light_source_buffer;
 
     const point p2( p.xy() );
 
     if( inbounds( p ) ) {
-        const float min_light = std::max( static_cast<float>( lit_level::LOW ), luminance );
+        const float min_light = std::max( static_cast<float>( lit_level::LOW ), luminance.value );
         lm[p2.x][p2.y] = elementwise_max( lm[p2.x][p2.y], min_light );
-        sm[p2.x][p2.y] = std::max( sm[p2.x][p2.y], luminance );
+        sm[p2.x][p2.y] = std::max( sm[p2.x][p2.y], luminance.value );
     }
     if( luminance <= lit_level::LOW ) {
         return;
     } else if( luminance <= lit_level::BRIGHT_ONLY ) {
-        luminance = 1.49f;
+        luminance = light( 1.49f );
     }
 
     /* If we're a 5 luminance fire , we skip casting rays into ey && sx if we have
@@ -1199,41 +1202,41 @@ void map::apply_light_source( const tripoint &p, float luminance )
     if( north ) {
         castLight < 1, 0, 0, -1, float, four_quadrants, light_calc, light_check,
                   update_light_quadrants, accumulate_transparency > (
-                      lm, transparency_cache, p2, 0, luminance );
+                      lm, transparency_cache, p2, 0, luminance.value );
         castLight < -1, 0, 0, -1, float, four_quadrants, light_calc, light_check,
                   update_light_quadrants, accumulate_transparency > (
-                      lm, transparency_cache, p2, 0, luminance );
+                      lm, transparency_cache, p2, 0, luminance.value );
     }
 
     if( east ) {
         castLight < 0, -1, 1, 0, float, four_quadrants, light_calc, light_check,
                   update_light_quadrants, accumulate_transparency > (
-                      lm, transparency_cache, p2, 0, luminance );
+                      lm, transparency_cache, p2, 0, luminance.value );
         castLight < 0, -1, -1, 0, float, four_quadrants, light_calc, light_check,
                   update_light_quadrants, accumulate_transparency > (
-                      lm, transparency_cache, p2, 0, luminance );
+                      lm, transparency_cache, p2, 0, luminance.value );
     }
 
     if( south ) {
         castLight<1, 0, 0, 1, float, four_quadrants, light_calc, light_check,
                   update_light_quadrants, accumulate_transparency>(
-                      lm, transparency_cache, p2, 0, luminance );
+                      lm, transparency_cache, p2, 0, luminance.value );
         castLight < -1, 0, 0, 1, float, four_quadrants, light_calc, light_check,
                   update_light_quadrants, accumulate_transparency > (
-                      lm, transparency_cache, p2, 0, luminance );
+                      lm, transparency_cache, p2, 0, luminance.value );
     }
 
     if( west ) {
         castLight<0, 1, 1, 0, float, four_quadrants, light_calc, light_check,
                   update_light_quadrants, accumulate_transparency>(
-                      lm, transparency_cache, p2, 0, luminance );
+                      lm, transparency_cache, p2, 0, luminance.value );
         castLight < 0, 1, -1, 0, float, four_quadrants, light_calc, light_check,
                   update_light_quadrants, accumulate_transparency > (
-                      lm, transparency_cache, p2, 0, luminance );
+                      lm, transparency_cache, p2, 0, luminance.value );
     }
 }
 
-void map::apply_directional_light( const tripoint &p, int direction, float luminance )
+void map::apply_directional_light( const tripoint &p, int direction, light luminance )
 {
     const point p2( p.xy() );
 
@@ -1244,35 +1247,35 @@ void map::apply_directional_light( const tripoint &p, int direction, float lumin
     if( direction == 90 ) {
         castLight < 1, 0, 0, -1, float, four_quadrants, light_calc, light_check,
                   update_light_quadrants, accumulate_transparency > (
-                      lm, transparency_cache, p2, 0, luminance );
+                      lm, transparency_cache, p2, 0, luminance.value );
         castLight < -1, 0, 0, -1, float, four_quadrants, light_calc, light_check,
                   update_light_quadrants, accumulate_transparency > (
-                      lm, transparency_cache, p2, 0, luminance );
+                      lm, transparency_cache, p2, 0, luminance.value );
     } else if( direction == 0 ) {
         castLight < 0, -1, 1, 0, float, four_quadrants, light_calc, light_check,
                   update_light_quadrants, accumulate_transparency > (
-                      lm, transparency_cache, p2, 0, luminance );
+                      lm, transparency_cache, p2, 0, luminance.value );
         castLight < 0, -1, -1, 0, float, four_quadrants, light_calc, light_check,
                   update_light_quadrants, accumulate_transparency > (
-                      lm, transparency_cache, p2, 0, luminance );
+                      lm, transparency_cache, p2, 0, luminance.value );
     } else if( direction == 270 ) {
         castLight<1, 0, 0, 1, float, four_quadrants, light_calc, light_check,
                   update_light_quadrants, accumulate_transparency>(
-                      lm, transparency_cache, p2, 0, luminance );
+                      lm, transparency_cache, p2, 0, luminance.value );
         castLight < -1, 0, 0, 1, float, four_quadrants, light_calc, light_check,
                   update_light_quadrants, accumulate_transparency > (
-                      lm, transparency_cache, p2, 0, luminance );
+                      lm, transparency_cache, p2, 0, luminance.value );
     } else if( direction == 180 ) {
         castLight<0, 1, 1, 0, float, four_quadrants, light_calc, light_check,
                   update_light_quadrants, accumulate_transparency>(
-                      lm, transparency_cache, p2, 0, luminance );
+                      lm, transparency_cache, p2, 0, luminance.value );
         castLight < 0, 1, -1, 0, float, four_quadrants, light_calc, light_check,
                   update_light_quadrants, accumulate_transparency > (
-                      lm, transparency_cache, p2, 0, luminance );
+                      lm, transparency_cache, p2, 0, luminance.value );
     }
 }
 
-void map::apply_light_arc( const tripoint &p, const units::angle &angle, float luminance,
+void map::apply_light_arc( const tripoint &p, const units::angle &angle, light luminance,
                            const units::angle &wideangle )
 {
     if( luminance <= LIGHT_SOURCE_LOCAL ) {
@@ -1300,42 +1303,42 @@ void map::apply_light_arc( const tripoint &p, const units::angle &angle, float l
             case 0:
                 castLight < 0, -1, -1, 0, float, four_quadrants, light_calc, light_check,
                           update_light_quadrants, accumulate_transparency > (
-                              lm, transparency_cache, p2, 0, luminance, 1, 1.0, tan( preangle ) );
+                              lm, transparency_cache, p2, 0, luminance.value, 1, 1.0, tan( preangle ) );
                 break;
             case 1:
                 castLight < -1, 0, 0, -1, float, four_quadrants, light_calc, light_check,
                           update_light_quadrants, accumulate_transparency > (
-                              lm, transparency_cache, p2, 0, luminance, 1, cot( preangle ), 0.0 );
+                              lm, transparency_cache, p2, 0, luminance.value, 1, cot( preangle ), 0.0 );
                 break;
             case 2:
                 castLight < 1, 0, 0, -1, float, four_quadrants, light_calc, light_check,
                           update_light_quadrants, accumulate_transparency > (
-                              lm, transparency_cache, p2, 0, luminance, 1, 1.0, -cot( preangle ) );
+                              lm, transparency_cache, p2, 0, luminance.value, 1, 1.0, -cot( preangle ) );
                 break;
             case 3:
                 castLight < 0, 1, -1, 0, float, four_quadrants, light_calc, light_check,
                           update_light_quadrants, accumulate_transparency > (
-                              lm, transparency_cache, p2, 0, luminance, 1, -tan( preangle ), 0.0 );
+                              lm, transparency_cache, p2, 0, luminance.value, 1, -tan( preangle ), 0.0 );
                 break;
             case 4:
                 castLight < 0, 1, 1, 0, float, four_quadrants, light_calc, light_check,
                           update_light_quadrants, accumulate_transparency >(
-                              lm, transparency_cache, p2, 0, luminance, 1, 1.0, tan( preangle ) );
+                              lm, transparency_cache, p2, 0, luminance.value, 1, 1.0, tan( preangle ) );
                 break;
             case 5:
                 castLight < 1, 0, 0, 1, float, four_quadrants, light_calc, light_check,
                           update_light_quadrants, accumulate_transparency >(
-                              lm, transparency_cache, p2, 0, luminance, 1, cot( preangle ), 0.0 );
+                              lm, transparency_cache, p2, 0, luminance.value, 1, cot( preangle ), 0.0 );
                 break;
             case 6:
                 castLight < -1, 0, 0, 1, float, four_quadrants, light_calc, light_check,
                           update_light_quadrants, accumulate_transparency > (
-                              lm, transparency_cache, p2, 0, luminance, 1, 1.0, -cot( preangle ) );
+                              lm, transparency_cache, p2, 0, luminance.value, 1, 1.0, -cot( preangle ) );
                 break;
             case 7:
                 castLight < 0, -1, 1, 0, float, four_quadrants, light_calc, light_check,
                           update_light_quadrants, accumulate_transparency > (
-                              lm, transparency_cache, p2, 0, luminance, 1, -tan( preangle ), 0.0 );
+                              lm, transparency_cache, p2, 0, luminance.value, 1, -tan( preangle ), 0.0 );
                 break;
         }
     }
@@ -1350,42 +1353,42 @@ void map::apply_light_arc( const tripoint &p, const units::angle &angle, float l
             case 0:
                 castLight < 0, -1, -1, 0, float, four_quadrants, light_calc, light_check,
                           update_light_quadrants, accumulate_transparency > (
-                              lm, transparency_cache, p2, 0, luminance );
+                              lm, transparency_cache, p2, 0, luminance.value );
                 break;
             case 1:
                 castLight < -1, 0, 0, -1, float, four_quadrants, light_calc, light_check,
                           update_light_quadrants, accumulate_transparency > (
-                              lm, transparency_cache, p2, 0, luminance );
+                              lm, transparency_cache, p2, 0, luminance.value );
                 break;
             case 2:
                 castLight < 1, 0, 0, -1, float, four_quadrants, light_calc, light_check,
                           update_light_quadrants, accumulate_transparency > (
-                              lm, transparency_cache, p2, 0, luminance );
+                              lm, transparency_cache, p2, 0, luminance.value );
                 break;
             case 3:
                 castLight < 0, 1, -1, 0, float, four_quadrants, light_calc, light_check,
                           update_light_quadrants, accumulate_transparency > (
-                              lm, transparency_cache, p2, 0, luminance );
+                              lm, transparency_cache, p2, 0, luminance.value );
                 break;
             case 4:
                 castLight < 0, 1, 1, 0, float, four_quadrants, light_calc, light_check,
                           update_light_quadrants, accumulate_transparency > (
-                              lm, transparency_cache, p2, 0, luminance );
+                              lm, transparency_cache, p2, 0, luminance.value );
                 break;
             case 5:
                 castLight < 1, 0, 0, 1, float, four_quadrants, light_calc, light_check,
                           update_light_quadrants, accumulate_transparency > (
-                              lm, transparency_cache, p2, 0, luminance );
+                              lm, transparency_cache, p2, 0, luminance.value );
                 break;
             case 6:
                 castLight < -1, 0, 0, 1, float, four_quadrants, light_calc, light_check,
                           update_light_quadrants, accumulate_transparency > (
-                              lm, transparency_cache, p2, 0, luminance );
+                              lm, transparency_cache, p2, 0, luminance.value );
                 break;
             case 7:
                 castLight < 0, -1, 1, 0, float, four_quadrants, light_calc, light_check,
                           update_light_quadrants, accumulate_transparency > (
-                              lm, transparency_cache, p2, 0, luminance );
+                              lm, transparency_cache, p2, 0, luminance.value );
                 break;
         }
     }
@@ -1397,42 +1400,42 @@ void map::apply_light_arc( const tripoint &p, const units::angle &angle, float l
         case 0:
             castLight < 0, -1, -1, 0, float, four_quadrants, light_calc, light_check,
                       update_light_quadrants, accumulate_transparency > (
-                          lm, transparency_cache, p2, 0, luminance, 1, tan( cangle ), tan( oangle ) );
+                          lm, transparency_cache, p2, 0, luminance.value, 1, tan( cangle ), tan( oangle ) );
             break;
         case 1:
             castLight < -1, 0, 0, -1, float, four_quadrants, light_calc, light_check,
                       update_light_quadrants, accumulate_transparency > (
-                          lm, transparency_cache, p2, 0, luminance, 1, cot( oangle ), cot( cangle ) );
+                          lm, transparency_cache, p2, 0, luminance.value, 1, cot( oangle ), cot( cangle ) );
             break;
         case 2:
             castLight < 1, 0, 0, -1, float, four_quadrants, light_calc, light_check,
                       update_light_quadrants, accumulate_transparency > (
-                          lm, transparency_cache, p2, 0, luminance, 1, -cot( cangle ), -cot( oangle ) );
+                          lm, transparency_cache, p2, 0, luminance.value, 1, -cot( cangle ), -cot( oangle ) );
             break;
         case 3:
             castLight < 0, 1, -1, 0, float, four_quadrants, light_calc, light_check,
                       update_light_quadrants, accumulate_transparency > (
-                          lm, transparency_cache, p2, 0, luminance, 1, -tan( oangle ), -tan( cangle ) );
+                          lm, transparency_cache, p2, 0, luminance.value, 1, -tan( oangle ), -tan( cangle ) );
             break;
         case 4:
             castLight < 0, 1, 1, 0, float, four_quadrants, light_calc, light_check,
                       update_light_quadrants, accumulate_transparency >(
-                          lm, transparency_cache, p2, 0, luminance, 1, tan( cangle ), tan( oangle ) );
+                          lm, transparency_cache, p2, 0, luminance.value, 1, tan( cangle ), tan( oangle ) );
             break;
         case 5:
             castLight < 1, 0, 0, 1, float, four_quadrants, light_calc, light_check,
                       update_light_quadrants, accumulate_transparency >(
-                          lm, transparency_cache, p2, 0, luminance, 1, cot( oangle ), cot( cangle ) );
+                          lm, transparency_cache, p2, 0, luminance.value, 1, cot( oangle ), cot( cangle ) );
             break;
         case 6:
             castLight < -1, 0, 0, 1, float, four_quadrants, light_calc, light_check,
                       update_light_quadrants, accumulate_transparency > (
-                          lm, transparency_cache, p2, 0, luminance, 1, -cot( cangle ), -cot( oangle ) );
+                          lm, transparency_cache, p2, 0, luminance.value, 1, -cot( cangle ), -cot( oangle ) );
             break;
         case 7:
             castLight < 0, -1, 1, 0, float, four_quadrants, light_calc, light_check,
                       update_light_quadrants, accumulate_transparency > (
-                          lm, transparency_cache, p2, 0, luminance, 1, -tan( oangle ), -tan( cangle ) );
+                          lm, transparency_cache, p2, 0, luminance.value, 1, -tan( oangle ), -tan( cangle ) );
             break;
     }
 }

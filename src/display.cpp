@@ -313,7 +313,7 @@ std::string display::sundial_text_color( const Character &u, int width )
     std::pair<units::angle, units::angle> sun_pos = sun_azimuth_altitude( calendar::turn );
     const int h = hour_of_day<int>( calendar::turn );
     const int h_dawn = hour_of_day<int>( sunset( calendar::turn ) ) - 12;
-    const float light = sun_light_at( calendar::turn );
+    const light light = sun_light_at( calendar::turn );
     float azm = to_degrees( normalize( sun_pos.first + 90_degrees ) );
     if( azm > 270.f ) {
         azm -= 360.f;
@@ -349,7 +349,7 @@ std::string display::sundial_text_color( const Character &u, int width )
                     clr = n_glyphs[glyph].second;
                 }
             }
-            if( light > l_dist ) {
+            if( light.value > l_dist ) {
                 clr = hilite( clr );
             }
             ret += colorize( ch, clr );
@@ -1247,7 +1247,7 @@ std::pair<std::string, nc_color> display::overmap_tile_symbol_color( const avata
     // Show hordes on minimap, leaving a one-tile space around the player
     if( std::abs( u_loc.x() - omt.x() ) > 1 || std::abs( u_loc.y() - omt.y() ) > 1 ) {
         const int horde_size = overmap_buffer.get_horde_size( omt );
-        const int sight_points = u.overmap_sight_range( g->light_level( u.posz() ) );
+        const int sight_points = u.overmap_sight_range( g->incorrect_light_level( u.posz() ) );
         if( horde_size >= HORDE_VISIBILITY_SIZE && overmap_buffer.seen( omt ) &&
             u.overmap_los( omt, sight_points ) ) {
             // Draw green Z or z

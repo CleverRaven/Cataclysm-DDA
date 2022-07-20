@@ -63,7 +63,7 @@ TEST_CASE( "light and fine_detail_vision_mod", "[character][sight][light][vision
         here.build_map_cache( 0, false );
         REQUIRE( g->is_in_sunlight( dummy.pos() ) );
         // ambient_light_at is ~100.0 at this time of day (this fails if lightmap cache is not built)
-        REQUIRE( here.ambient_light_at( dummy.pos() ) == Approx( 100.0f ).margin( 1 ) );
+        REQUIRE( here.ambient_light_at( dummy.pos() ).value == Approx( 100.0f ).margin( 1 ) );
 
         // 1.0 is LIGHT_AMBIENT_LIT or brighter
         CHECK( dummy.fine_detail_vision_mod() == Approx( 1.0f ) );
@@ -72,7 +72,7 @@ TEST_CASE( "light and fine_detail_vision_mod", "[character][sight][light][vision
     SECTION( "wielding a bright lamp" ) {
         item lamp( "atomic_lamp" );
         dummy.wield( lamp );
-        REQUIRE( dummy.active_light() == Approx( 15.0f ) );
+        REQUIRE( dummy.active_light().value == Approx( 15.0f ) );
 
         // 1.0 is LIGHT_AMBIENT_LIT or brighter
         CHECK( dummy.fine_detail_vision_mod() == Approx( 1.0f ) );
@@ -86,7 +86,7 @@ TEST_CASE( "light and fine_detail_vision_mod", "[character][sight][light][vision
         calendar::turn = calendar::turn_zero;
         here.build_map_cache( 0, false );
         REQUIRE_FALSE( g->is_in_sunlight( dummy.pos() ) );
-        REQUIRE( here.ambient_light_at( dummy.pos() ) == Approx( LIGHT_AMBIENT_MINIMAL ) );
+        REQUIRE( here.ambient_light_at( dummy.pos() ).value == Approx( LIGHT_AMBIENT_MINIMAL.value ) );
 
         // 7.3 is LIGHT_AMBIENT_MINIMAL, a dark cloudy night, unlit indoors
         CHECK( dummy.fine_detail_vision_mod() == Approx( 7.3f ) );
@@ -213,7 +213,7 @@ TEST_CASE( "ursine vision", "[character][ursine][vision]" )
     clear_map();
     g->reset_light_level();
 
-    float light_here = 0.0f;
+    light light_here = light( 0.0f );
 
     GIVEN( "character with ursine eyes and no eyeglasses" ) {
         dummy.toggle_trait( trait_URSINE_EYE );
@@ -226,13 +226,13 @@ TEST_CASE( "ursine vision", "[character][ursine][vision]" )
             calendar::turn = calendar::turn_zero;
             here.build_map_cache( 0, false );
             light_here = here.ambient_light_at( dummy.pos() );
-            REQUIRE( light_here == Approx( LIGHT_AMBIENT_MINIMAL ) );
+            REQUIRE( light_here.value == Approx( LIGHT_AMBIENT_MINIMAL.value ) );
 
-            THEN( "unimpaired sight, with 4 tiles of range" ) {
+            THEN( "unimpaired sight, with 7 tiles of range" ) {
                 dummy.recalc_sight_limits();
                 CHECK_FALSE( dummy.sight_impaired() );
                 CHECK( dummy.unimpaired_range() == 60 );
-                CHECK( dummy.sight_range( light_here ) == 4 );
+                CHECK( dummy.sight_range( light_here ) == 7 );
             }
         }
 
@@ -240,7 +240,7 @@ TEST_CASE( "ursine vision", "[character][ursine][vision]" )
             calendar::turn = calendar::turn_zero + 7_days;
             here.build_map_cache( 0, false );
             light_here = here.ambient_light_at( dummy.pos() );
-            REQUIRE( light_here == Approx( LIGHT_AMBIENT_DIM ).margin( 1.0f ) );
+            REQUIRE( light_here.value == Approx( LIGHT_AMBIENT_DIM.value ).margin( 1.0f ) );
 
             THEN( "unimpaired sight, with 8 tiles of range" ) {
                 dummy.recalc_sight_limits();
@@ -254,7 +254,7 @@ TEST_CASE( "ursine vision", "[character][ursine][vision]" )
             calendar::turn = calendar::turn_zero + 14_days;
             here.build_map_cache( 0, false );
             light_here = here.ambient_light_at( dummy.pos() );
-            REQUIRE( light_here == Approx( 7 ) );
+            REQUIRE( light_here.value == Approx( 7 ) );
 
             THEN( "unimpaired sight, with 27 tiles of range" ) {
                 dummy.recalc_sight_limits();
@@ -269,7 +269,7 @@ TEST_CASE( "ursine vision", "[character][ursine][vision]" )
             here.build_map_cache( 0, false );
             light_here = here.ambient_light_at( dummy.pos() );
             REQUIRE( g->is_in_sunlight( dummy.pos() ) );
-            REQUIRE( light_here == Approx( 100.0f ).margin( 1 ) );
+            REQUIRE( light_here.value == Approx( 100.0f ).margin( 1 ) );
 
             THEN( "impaired sight, with 12 tiles of range" ) {
                 dummy.recalc_sight_limits();

@@ -16,6 +16,7 @@
 #include "optional.h"
 #include "translations.h"
 #include "type_id.h"
+#include "light.h"
 
 class JsonObject;
 template <typename E> struct enum_traits;

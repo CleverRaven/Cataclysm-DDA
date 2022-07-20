@@ -542,7 +542,7 @@ static void draw_ascii(
     const bool has_debug_vision = player_character.has_trait( trait_DEBUG_NIGHTVISION );
     // sight_points is hoisted for speed reasons.
     const int sight_points = !has_debug_vision ?
-                             player_character.overmap_sight_range( g->light_level( player_character.posz() ) ) :
+                             player_character.overmap_sight_range( g->incorrect_light_level( player_character.posz() ) ) :
                              100;
     // Whether showing hordes is currently enabled
     const bool showhordes = uistate.overmap_show_hordes;
@@ -1012,7 +1012,7 @@ static void draw_om_sidebar(
     const bool has_debug_vision = player_character.has_trait( trait_DEBUG_NIGHTVISION );
     // sight_points is hoisted for speed reasons.
     const int sight_points = !has_debug_vision ?
-                             player_character.overmap_sight_range( g->light_level( player_character.posz() ) ) :
+                             player_character.overmap_sight_range( g->incorrect_light_level( player_character.posz() ) ) :
                              100;
     const bool center_seen = has_debug_vision || overmap_buffer.seen( center );
     const tripoint_abs_omt target = player_character.get_active_mission_target();

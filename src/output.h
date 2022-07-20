@@ -31,6 +31,7 @@
 #include "string_formatter.h"
 #include "translations.h"
 #include "units_fwd.h"
+#include "light.h"
 
 struct input_event;
 
@@ -612,7 +613,7 @@ std::pair<std::string, nc_color> get_hp_bar( int cur_hp, int max_hp, bool is_mon
 
 std::pair<std::string, nc_color> get_stamina_bar( int cur_stam, int max_stam );
 
-std::pair<std::string, nc_color> get_light_level( float light );
+std::pair<std::string, nc_color> get_light_level( light light );
 
 std::pair<std::string, nc_color> rad_badge_color( int rad );
 

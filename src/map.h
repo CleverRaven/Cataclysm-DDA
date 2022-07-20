@@ -41,6 +41,7 @@
 #include "type_id.h"
 #include "units.h"
 #include "value_ptr.h"
+#include "light.h"
 
 struct scent_block;
 
@@ -121,7 +122,7 @@ struct visibility_variables {
     // Cached values for map visibility calculations
     int g_light_level = 0;
     int u_clairvoyance = 0;
-    float vision_threshold = 0.0f;
+    light vision_threshold = light( 0.0f );
     cata::optional<field_type_id> clairvoyance_field;
 };
 
@@ -384,7 +385,7 @@ class map
 
         struct apparent_light_info {
             bool obstructed;
-            float apparent_light;
+            light apparent_light;
         };
         /** Helper function for light calculation; exposed here for map editor
          */
@@ -1628,7 +1629,7 @@ class map
         // Assumes 0,0 is light map center
         lit_level light_at( const tripoint &p ) const;
         // Raw values for tilesets
-        float ambient_light_at( const tripoint &p ) const;
+        light ambient_light_at( const tripoint &p ) const;
         /**
          * Returns whether the tile at `p` is transparent(you can look past it).
          */
@@ -1952,13 +1953,13 @@ class map
 
         int determine_wall_corner( const tripoint &p ) const;
         // apply a circular light pattern immediately, however it's best to use...
-        void apply_light_source( const tripoint &p, float luminance );
+        void apply_light_source( const tripoint &p, light luminance );
         // ...this, which will apply the light after at the end of generate_lightmap, and prevent redundant
         // light rays from causing massive slowdowns, if there's a huge amount of light.
-        void add_light_source( const tripoint &p, float luminance );
+        void add_light_source( const tripoint &p, light luminance );
         // Handle just cardinal directions and 45 deg angles.
-        void apply_directional_light( const tripoint &p, int direction, float luminance );
-        void apply_light_arc( const tripoint &p, const units::angle &angle, float luminance,
+        void apply_directional_light( const tripoint &p, int direction, light luminance );
+        void apply_light_arc( const tripoint &p, const units::angle &angle, light luminance,
                               const units::angle &wideangle = 30_degrees );
         void apply_light_ray( bool lit[MAPSIZE_X][MAPSIZE_Y],
                               const tripoint &s, const tripoint &e, float luminance );

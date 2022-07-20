@@ -57,6 +57,7 @@
 #include "visitable.h"
 #include "weakpoint.h"
 #include "weighted_list.h"
+#include "light.h"
 
 class Character;
 class JsonIn;
@@ -649,13 +650,13 @@ class Character : public Creature, public visitable
         float get_hit_base() const override;
 
         /** Returns the player's sight range */
-        int sight_range( int light_level ) const override;
+        int sight_range( light light_level ) const override;
         /** Returns the player maximum vision range factoring in mutations, diseases, and other effects */
         int  unimpaired_range() const;
         /** Returns true if overmap tile is within player line-of-sight */
         bool overmap_los( const tripoint_abs_omt &omt, int sight_points ) const;
         /** Returns the distance the player can see on the overmap */
-        int  overmap_sight_range( int light_level ) const;
+        int  overmap_sight_range( light light_level ) const;
         /** Returns the distance the player can see through walls */
         int  clairvoyance() const;
         /** Returns true if the player has some form of impaired sight */
@@ -806,7 +807,7 @@ class Character : public Creature, public visitable
         int visibility( bool check_color = false, int stillness = 0 ) const;
 
         /** Returns character luminosity based on the brightest active item they are carrying */
-        float active_light() const;
+        light active_light() const;
 
         bool sees_with_specials( const Creature &critter ) const;
 
@@ -880,7 +881,7 @@ class Character : public Creature, public visitable
          * This is adjusted by the light level at the *character's* position
          * to simulate glare, etc, night vision only works if you are in the dark.
          */
-        float get_vision_threshold( float light_level ) const;
+        light get_vision_threshold( light light_level ) const;
         /**
          * Flag encumbrance for updating.
         */

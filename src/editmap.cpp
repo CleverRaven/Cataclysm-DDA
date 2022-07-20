@@ -751,7 +751,7 @@ void editmap::update_view_with_help( const std::string &txt, const std::string &
     mvwprintw( w_info, point( 1, off++ ), _( "dist: %d u_see: %s veh: %s scent: %d" ),
                rl_dist( player_character.pos(), target ), u_see_msg, veh_msg, get_scent().get( target ) );
     mvwprintw( w_info, point( 1, off++ ), _( "sight_range: %d, noon_sight_range: %d," ),
-               player_character.sight_range( g->light_level( player_character.posz() ) ),
+               player_character.sight_range( g->incorrect_light_level( player_character.posz() ) ),
                player_character.sight_range( sun_moon_light_at_noon_near( calendar::turn ) ) );
     mvwprintw( w_info, point( 1, off++ ), _( "cache{transp:%.4f seen:%.4f cam:%.4f}" ),
                map_cache.transparency_cache[target.x][target.y],
@@ -769,7 +769,7 @@ void editmap::update_view_with_help( const std::string &txt, const std::string &
     mvwprintw( w_info, point( 1, off++ ), _( "light_at: %s" ),
                map_cache.lm[target.x][target.y].to_string() );
     mvwprintw( w_info, point( 1, off++ ), _( "apparent light: %.5f (%d)" ),
-               al.apparent_light, apparent_light );
+               al.apparent_light.value, apparent_light );
     std::string extras;
     if( vp ) {
         extras += _( " [vehicle]" );

@@ -1480,17 +1480,17 @@ Target_attributes::Target_attributes( tripoint src, tripoint target )
            target_critter->ranged_target_size() :
            get_map().ranged_target_size( target );
     size_in_moa = target_size_in_moa( range, size ) ;
-    light = get_map().ambient_light_at( target );
+    ilum = get_map().ambient_light_at( target );
     visible = shooter->sees( target );
 
 }
-Target_attributes::Target_attributes( int rng, double target_size, float light_target,
+Target_attributes::Target_attributes( int rng, double target_size, light light_target,
                                       bool can_see )
 {
     range = rng;
     size = target_size;
     size_in_moa = target_size_in_moa( range, size );
-    light = light_target;
+    ilum = light_target;
     visible = can_see;
 }
 

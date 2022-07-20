@@ -1520,11 +1520,11 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
 
             if( g->display_overlay_state( ACTION_DISPLAY_LIGHTING ) ) {
                 if( g->displaying_lighting_condition == 0 ) {
-                    const float light = here.ambient_light_at( {x, y, center.z} );
                     // note: lighting will be constrained in the [1.0, 11.0] range.
+                    const light amb_light = here.ambient_light_at( {x, y, center.z} );
                     int intensity =
-                        static_cast<int>( std::max( 1.0, LIGHT_AMBIENT_LIT - light + 1.0 ) ) - 1;
-                    draw_debug_tile( intensity, string_format( "%.1f", light ) );
+                        static_cast<int>( std::max( 1.0f, LIGHT_AMBIENT_LIT.value - amb_light.value + 1.0f ) ) - 1;
+                    draw_debug_tile( intensity, string_format( "%.1f", amb_light.value ) );
                 }
             }
 

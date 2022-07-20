@@ -20,9 +20,10 @@
 #include "translations.h"
 #include "units.h"
 #include "units_utility.h"
+#include "light.h"
 
 /** How much light moon provides per lit-up quarter (Full-moon light is four times this value) */
-static constexpr double moonlight_per_quarter = 1.5;
+static light moonlight_per_quarter = light( 1.5f );
 
 // Divided by 100 to prevent overflowing when converted to moves
 const int calendar::INDEFINITELY_LONG( std::numeric_limits<int>::max() / 100 );
@@ -44,9 +45,9 @@ static constexpr units::angle nautical_dawn = -12_degrees;
 static constexpr units::angle civil_dawn = -6_degrees;
 static constexpr units::angle sunrise_angle = -1_degrees;
 
-double default_daylight_level()
+light default_daylight_level()
 {
-    return 100.0;
+    return light( 100.0f );
 }
 
 time_duration lunar_month()
@@ -359,45 +360,47 @@ bool is_dawn( const time_point &p )
     return now < 12_hours && is_twilight( p );
 }
 
-static float moon_light_at( const time_point &p )
+static light moon_light_at( const time_point &p )
 {
     int current_phase = static_cast<int>( get_moon_phase( p ) );
     if( current_phase > static_cast<int>( MOON_PHASE_MAX ) / 2 ) {
         current_phase = static_cast<int>( MOON_PHASE_MAX ) - current_phase;
     }
 
-    return 1. + moonlight_per_quarter * current_phase;
+    return light( 1.0f ) + moonlight_per_quarter * current_phase;
 }
 
-float sun_light_at( const time_point &p )
+light sun_light_at( const time_point &p )
 {
     const units::angle solar_alt = sun_altitude( p );
 
     if( solar_alt < astronomical_dawn ) {
-        return 0;
+        return light( 0.0f );
     } else if( solar_alt <= nautical_dawn ) {
         // Sunlight rises exponentially from 0 to 3.7f as sun rises from -18° to -12°
-        return 3.7f * ( std::exp2( to_degrees( solar_alt - astronomical_dawn ) / 6.f ) - 1 );
+        return light( 3.7f * ( std::exp2( to_degrees( solar_alt - astronomical_dawn ) / 6.f ) - 1 ) );
     } else if( solar_alt <= civil_dawn ) {
         // Sunlight rises exponentially from 3.7f to 5.0f as sun rises from -12° to -6°
-        return ( 5.0f - 3.7f ) * ( std::exp2( to_degrees( solar_alt - nautical_dawn ) / 6.f ) - 1 ) + 3.7f;
+        return light( ( 5.0f - 3.7f ) * ( std::exp2( to_degrees( solar_alt - nautical_dawn ) / 6.f ) - 1 ) +
+                      3.7f );
     } else if( solar_alt <= sunrise_angle ) {
         // Sunlight rises exponentially from 5.0f to 60 as sun rises from -6° to -1°
-        return ( 60 - 5.0f ) * ( std::exp2( to_degrees( solar_alt - civil_dawn ) / 5.f ) - 1 ) + 5.0f;
+        return light( ( 60 - 5.0f ) * ( std::exp2( to_degrees( solar_alt - civil_dawn ) / 5.f ) - 1 ) +
+                      5.0f );
     } else if( solar_alt <= 60_degrees ) {
         // Linear increase from -1° to 60° degrees light increases from 60 to 125 brightness.
-        return ( 65.f / 61 ) * to_degrees( solar_alt ) + 65.f / 61  + 60;
+        return light( ( 65.f / 61 ) * to_degrees( solar_alt ) + 65.f / 61  + 60 );
     } else {
-        return 125.f;
+        return light( 125.f );
     }
 }
 
-float sun_moon_light_at( const time_point &p )
+light sun_moon_light_at( const time_point &p )
 {
     return sun_light_at( p ) + moon_light_at( p );
 }
 
-double sun_moon_light_at_noon_near( const time_point &p )
+light sun_moon_light_at_noon_near( const time_point &p )
 {
     const time_point solar_noon = solar_noon_near( p );
     return sun_moon_light_at( solar_noon );

@@ -200,7 +200,7 @@ void overmap_ui::draw_overmap_chunk( const catacurses::window &w_minimap, const 
     const int start_x = start_input.x;
     const point mid( width / 2, height / 2 );
     map &here = get_map();
-    const int sight_points = you.overmap_sight_range( g->light_level( you.posz() ) );
+    const int sight_points = you.overmap_sight_range( g->incorrect_light_level( you.posz() ) );
 
     // i scans across width, with 0 in the middle(ish)
     //     -(w/2) ... w-(w/2)-1

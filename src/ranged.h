@@ -5,6 +5,7 @@
 #include <vector>
 
 #include "point.h"
+#include "light.h"
 
 class aim_activity_actor;
 class avatar;
@@ -77,11 +78,11 @@ struct Target_attributes {
     int range = 1;
     double size = 0.5;
     double size_in_moa = 10800.0;
-    float light = 0.0f;
+    light ilum = light( 0.0f );
     bool visible = true;
     explicit Target_attributes() = default;
     explicit Target_attributes( tripoint src, tripoint target );
-    explicit Target_attributes( int rng, double size, float l, bool can_see );
+    explicit Target_attributes( int rng, double size, light, bool can_see );
 };
 
 #endif // CATA_SRC_RANGED_H

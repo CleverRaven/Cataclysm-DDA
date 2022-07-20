@@ -8987,10 +8987,11 @@ cata::optional<int> iuse::lux_meter( Character *p, item *, bool, const tripoint 
         const units::angle altitude = sun_azimuth_altitude( calendar::turn ).second;
         p->add_msg_if_player( m_neutral,
                               "The illumination is %.1f, Sun illumination %.1f, Sun altitude %.1f.",
-                              g->natural_light_level( pos.z ), sun_light_at( calendar::turn ), to_degrees( altitude ) );
+                              g->natural_light_level( pos.z ).value, sun_light_at( calendar::turn ).value,
+                              to_degrees( altitude ) );
     } else {
         p->add_msg_if_player( m_neutral, _( "The illumination is %.1f." ),
-                              g->natural_light_level( pos.z ) );
+                              g->natural_light_level( pos.z ).value );
     }
 
     return 0;

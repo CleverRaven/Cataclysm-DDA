@@ -923,9 +923,9 @@ double Character::fastest_aiming_method_speed( const item &gun, double recoil,
 
     // to check whether laser sights are available
     const int base_distance = 10;
-    const float light_limit = 120.0f;
+    const light light_limit = light( 120.0f );
     bool laser_light_available = target_attributes.range <= ( base_distance + per_cur ) * std::max(
-                                     1.0f - target_attributes.light / light_limit, 0.0f ) && target_attributes.visible;
+                                     1.0f - target_attributes.ilum / light_limit, 0.0f ) && target_attributes.visible;
     for( const item *e : gun.gunmods() ) {
         const islot_gunmod &mod = *e->type->gunmod;
         if( mod.sight_dispersion < 0 || mod.field_of_view <= 0 ) {
@@ -1081,9 +1081,9 @@ double Character::aim_per_move( const item &gun, double recoil,
     return std::min( aim_speed, recoil - limit );
 }
 
-int Character::sight_range( int light_level ) const
+int Character::sight_range( light light_level ) const
 {
-    if( light_level == 0 ) {
+    if( static_cast<int>( light_level.value ) == 0 ) {
         return 1;
     }
     /* Via Beer-Lambert we have:
@@ -1097,9 +1097,9 @@ int Character::sight_range( int light_level ) const
      * log(LIGHT_AMBIENT_LOW / light_level) <= LIGHT_TRANSPARENCY_OPEN_AIR * distance
      * log(LIGHT_AMBIENT_LOW / light_level) * (1 / LIGHT_TRANSPARENCY_OPEN_AIR) <= distance
      */
-    int range = static_cast<int>( -std::log( get_vision_threshold( static_cast<int>
-                                  ( get_map().ambient_light_at( pos() ) ) ) / static_cast<float>( light_level ) ) *
-                                  ( 1.0 / LIGHT_TRANSPARENCY_OPEN_AIR ) );
+    light threshold = get_vision_threshold( get_map().ambient_light_at( pos() ) );
+    int range = static_cast<int>( -std::log( threshold / light_level ) *
+                                  ( 1.0f / LIGHT_TRANSPARENCY_OPEN_AIR ) );
 
     // Clamp to [1, sight_max].
     return clamp( range, 1, sight_max );
@@ -1132,7 +1132,7 @@ bool Character::overmap_los( const tripoint_abs_omt &omt, int sight_points ) con
     return true;
 }
 
-int Character::overmap_sight_range( int light_level ) const
+int Character::overmap_sight_range( light light_level ) const
 {
     int sight = sight_range( light_level );
     if( sight < SEEX ) {
@@ -2304,20 +2304,19 @@ void Character::recalc_sight_limits()
 static float threshold_for_range( float range )
 {
     constexpr float epsilon = 0.01f;
-    return LIGHT_AMBIENT_MINIMAL / std::exp( range * LIGHT_TRANSPARENCY_OPEN_AIR ) - epsilon;
+    return LIGHT_AMBIENT_MINIMAL.value / std::exp( range * LIGHT_TRANSPARENCY_OPEN_AIR ) - epsilon;
 }
 
-float Character::get_vision_threshold( float light_level ) const
+light Character::get_vision_threshold( light light_level ) const
 {
     if( vision_mode_cache[DEBUG_NIGHTVISION] ) {
         // Debug vision always works with absurdly little light.
-        return 0.01;
+        return light( 0.01f );
     }
 
     // As light_level goes from LIGHT_AMBIENT_MINIMAL to LIGHT_AMBIENT_LIT,
     // dimming goes from 1.0 to 2.0.
-    const float dimming_from_light = 1.0 + ( ( static_cast<float>( light_level ) -
-                                     LIGHT_AMBIENT_MINIMAL ) /
+    const float dimming_from_light = 1.0f + ( ( light_level - LIGHT_AMBIENT_MINIMAL ) /
                                      ( LIGHT_AMBIENT_LIT - LIGHT_AMBIENT_MINIMAL ) );
 
     float range = get_per() / 3.0f;
@@ -2338,8 +2337,8 @@ float Character::get_vision_threshold( float light_level ) const
     // Clamp range to 1+, so that we can always see where we are
     range = std::max( 1.0f, range * get_limb_score( limb_score_night_vis ) );
 
-    return std::min( static_cast<float>( LIGHT_AMBIENT_LOW ),
-                     threshold_for_range( range ) * dimming_from_light );
+    return std::min( LIGHT_AMBIENT_LOW,
+                     light( threshold_for_range( range ) ) * dimming_from_light );
 }
 
 void Character::flag_encumbrance()
@@ -2502,13 +2501,13 @@ float Character::fine_detail_vision_mod( const tripoint &p ) const
     // Scale linearly as light level approaches LIGHT_AMBIENT_LIT.
     // If we're actually a source of light, assume we can direct it where we need it.
     // Therefore give a hefty bonus relative to ambient light.
-    float own_light = std::max( 1.0f, LIGHT_AMBIENT_LIT - active_light() - 2.0f );
+    light own_light = std::max( light( 1.0f ), LIGHT_AMBIENT_LIT - active_light() - light( 2.0f ) );
 
     // Same calculation as above, but with a result 3 lower.
-    float ambient_light = std::max( 1.0f,
-                                    LIGHT_AMBIENT_LIT - get_map().ambient_light_at( p == tripoint_zero ? pos() : p ) + 1.0f );
+    light ambient_light = std::max( light( 1.0f ),
+                                    LIGHT_AMBIENT_LIT - get_map().ambient_light_at( p == tripoint_zero ? pos() : p ) + light( 1.0f ) );
 
-    return std::min( own_light, ambient_light );
+    return std::min( own_light, ambient_light ).value;
 }
 
 units::energy Character::get_power_level() const
@@ -5448,10 +5447,8 @@ int Character::visibility( bool, int ) const
  * item.light.* is -unimplemented- for the moment, as it is a custom override for
  * applying light sources/arcs with specific angle and direction.
  */
-float Character::active_light() const
+light Character::active_light() const
 {
-    float lumination = 0.0f;
-
     int maxlum = 0;
     has_item_with( [&maxlum]( const item & it ) {
         const int lumit = it.getlight_emit();
@@ -5461,15 +5458,15 @@ float Character::active_light() const
         return false; // continue search, otherwise has_item_with would cancel the search
     } );
 
-    lumination = static_cast<float>( maxlum );
+    light lumination = light( static_cast<float>( maxlum ) );
 
-    float mut_lum = 0.0f;
+    light mut_lum = light( 0.0f );
     for( const trait_id &mut : get_mutations() ) {
-        float curr_lum = 0.0f;
+        light curr_lum = light( 0.0f );
         for( const std::pair<const bodypart_str_id, float> &elem : mut->lumination ) {
             const float lum_coverage = worn.coverage_with_flags_exclude( elem.first.id(),
             { flag_ALLOWS_NATURAL_ATTACKS, flag_SEMITANGIBLE, flag_PERSONAL } ) / 100.0f;
-            curr_lum += elem.second * ( 1 - lum_coverage );
+            curr_lum += light( elem.second * ( 1 - lum_coverage ) );
         }
         mut_lum += curr_lum;
     }
@@ -5477,10 +5474,11 @@ float Character::active_light() const
     lumination = std::max( lumination, mut_lum );
 
     lumination = std::max( lumination,
-                           static_cast<float>( enchantment_cache->modify_value( enchant_vals::mod::LUMINATION, 0 ) ) );
+                           light( static_cast<float>( enchantment_cache->modify_value( enchant_vals::mod::LUMINATION,
+                                   0 ) ) ) );
 
-    if( lumination < 5 && ( has_effect( effect_glowing ) || has_effect( effect_glowy_led ) ) ) {
-        lumination = 5;
+    if( has_effect( effect_glowing ) || has_effect( effect_glowy_led ) ) {
+        lumination = std::max( lumination, light( 5.0f ) );
     }
     return lumination;
 }

@@ -556,11 +556,12 @@ class game
         void fling_creature( Creature *c, const units::angle &dir, float flvel,
                              bool controlled = false );
 
-        float natural_light_level( int zlev ) const;
+        light natural_light_level( int zlev ) const;
         /** Returns coarse number-of-squares of visibility at the current light level.
          * Used by monster and NPC AI.
          */
-        unsigned char light_level( int zlev ) const;
+        light incorrect_light_level( int zlev ) const;
+        int light_level( int zlev ) const;
         void reset_light_level();
         character_id assign_npc_id();
         Creature *is_hostile_nearby();

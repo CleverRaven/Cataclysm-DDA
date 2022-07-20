@@ -1059,24 +1059,22 @@ bool monster::can_act() const
              ( !has_effect( effect_stunned ) && !has_effect( effect_downed ) && !has_effect( effect_webbed ) ) );
 }
 
-int monster::sight_range( const int light_level ) const
+int monster::sight_range( const light light_level ) const
 {
     // Non-aquatic monsters can't see much when submerged
     if( !can_see() || effect_cache[VISION_IMPAIRED] ||
         ( underwater && !swims() && !has_flag( MF_AQUATIC ) && !digging() ) ) {
         return 1;
     }
-    static const int default_daylight = default_daylight_level();
-    if( light_level == 0 ) {
+    static const light default_daylight = default_daylight_level();
+    if( static_cast<int>( light_level.value ) == 0 ) {
         return type->vision_night;
     } else if( light_level == default_daylight ) {
         return type->vision_day;
     }
-    int range = light_level * type->vision_day + ( default_daylight - light_level ) *
-                type->vision_night;
-    range /= default_daylight;
-
-    return range;
+    light range = light_level * type->vision_day + ( default_daylight - light_level ) *
+                  type->vision_night;
+    return range / default_daylight;
 }
 
 bool monster::made_of( const material_id &m ) const
@@ -2858,9 +2856,10 @@ void monster::process_effects()
     }
 
     if( type->regenerates_in_dark ) {
-        const float light = get_map().ambient_light_at( pos() );
+        const light light = get_map().ambient_light_at( pos() );
         // Magic number 10000 was chosen so that a floodlight prevents regeneration in a range of 20 tiles
-        if( heal( static_cast<int>( 50.0 *  std::exp( - light * light / 10000 ) )  > 0 && one_in( 2 ) ) ) {
+        if( heal( static_cast<int>( 50.0 *  std::exp( - light.value * light.value / 10000 ) )  > 0 &&
+                  one_in( 2 ) ) ) {
             add_msg_if_player_sees( *this, m_warning, _( "The %s uses the darkness to regenerate." ), name() );
         }
     }

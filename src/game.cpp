@@ -1161,7 +1161,7 @@ void game::create_starting_npcs()
 
 static int veh_lumi( vehicle &veh )
 {
-    float veh_luminance = 0.0f;
+    light veh_luminance = light( 0.0f );
     float iteration = 1.0f;
     auto lights = veh.lights( true );
 
@@ -1169,12 +1169,12 @@ static int veh_lumi( vehicle &veh )
         const vpart_info &vp = pt->info();
         if( vp.has_flag( VPFLAG_CONE_LIGHT ) ||
             vp.has_flag( VPFLAG_WIDE_CONE_LIGHT ) ) {
-            veh_luminance += vp.bonus / iteration;
+            veh_luminance += light( vp.bonus / iteration );
             iteration = iteration * 1.1f;
         }
     }
     // Calculation: see lightmap.cpp
-    return LIGHT_RANGE( ( veh_luminance * 3 ) );
+    return ( veh_luminance * 3 ).range_in_air();
 }
 
 void game::calc_driving_offset( vehicle *veh )
@@ -1183,8 +1183,7 @@ void game::calc_driving_offset( vehicle *veh )
         set_driving_view_offset( point_zero );
         return;
     }
-    const int g_light_level = static_cast<int>( light_level( u.posz() ) );
-    const int light_sight_range = u.sight_range( g_light_level );
+    const int light_sight_range = u.sight_range( incorrect_light_level( u.posz() ) );
     int sight = std::max( veh_lumi( *veh ), light_sight_range );
 
     // The maximal offset will leave at least this many tiles
@@ -3791,7 +3790,7 @@ void game::draw_minimap()
     }
 
     Character &player_character = get_player_character();
-    const int sight_points = player_character.overmap_sight_range( g->light_level(
+    const int sight_points = player_character.overmap_sight_range( g->incorrect_light_level(
                                  player_character.posz() ) );
     for( int i = -3; i <= 3; i++ ) {
         for( int j = -3; j <= 3; j++ ) {
@@ -3812,7 +3811,7 @@ void game::draw_minimap()
     wnoutrefresh( w_minimap );
 }
 
-float game::natural_light_level( const int zlev ) const
+light game::natural_light_level( const int zlev ) const
 {
     // ignore while underground or above limits
     if( zlev > OVERMAP_HEIGHT || zlev < 0 ) {
@@ -3821,19 +3820,17 @@ float game::natural_light_level( const int zlev ) const
 
     if( latest_lightlevels[zlev] > -std::numeric_limits<float>::max() ) {
         // Already found the light level for now?
-        return latest_lightlevels[zlev];
+        return light( latest_lightlevels[zlev] );
     }
 
-    float ret = LIGHT_AMBIENT_MINIMAL;
-
     // Sunlight/moonlight related stuff
-    ret = sun_moon_light_at( calendar::turn );
-    ret += get_weather().weather_id->light_modifier;
+    light ret = sun_moon_light_at( calendar::turn );
+    ret += light( get_weather().weather_id->light_modifier );
 
     // Artifact light level changes here. Even though some of these only have an effect
     // aboveground it is cheaper performance wise to simply iterate through the entire
     // list once instead of twice.
-    float mod_ret = -1;
+    light mod_ret = light( -1.0f );
     // Each artifact change does std::max(mod_ret, new val) since a brighter end value
     // will trump a lower one.
     if( const timed_event *e = timed_events.get( timed_event_type::DIM ) ) {
@@ -3841,37 +3838,43 @@ float game::natural_light_level( const int zlev ) const
         const time_duration left = e->when - calendar::turn;
         // timed_event_type::DIM has an occurrence date of turn + 50, so the first 25 dim it,
         if( left > 25_turns ) {
-            mod_ret = std::max( static_cast<double>( mod_ret ), ( ret * ( left - 25_turns ) ) / 25_turns );
+            mod_ret = std::max( mod_ret, light( ( ret.value * ( left - 25_turns ) ) / 25_turns ) );
             // and the last 25 scale back towards normal.
         } else {
-            mod_ret = std::max( static_cast<double>( mod_ret ), ( ret * ( 25_turns - left ) ) / 25_turns );
+            mod_ret = std::max( mod_ret, light( ( ret.value * ( 25_turns - left ) ) / 25_turns ) );
         }
     }
     if( timed_events.queued( timed_event_type::ARTIFACT_LIGHT ) ) {
         // timed_event_type::ARTIFACT_LIGHT causes everywhere to become as bright as day.
-        mod_ret = std::max<float>( ret, default_daylight_level() );
+        mod_ret = std::max( ret, default_daylight_level() );
     }
     if( const timed_event *e = timed_events.get( timed_event_type::CUSTOM_LIGHT_LEVEL ) ) {
-        mod_ret = e->strength;
+        mod_ret = light( e->strength );
     }
     // If we had a changed light level due to an artifact event then it overwrites
     // the natural light level.
-    if( mod_ret > -1 ) {
+    if( mod_ret.value > -1 ) {
         ret = mod_ret;
     }
 
     // Cap everything to our minimum light level
-    ret = std::max<float>( LIGHT_AMBIENT_MINIMAL, ret );
+    ret = std::max( LIGHT_AMBIENT_MINIMAL, ret );
 
-    latest_lightlevels[zlev] = ret;
+    latest_lightlevels[zlev] = ret.value;
 
     return ret;
 }
 
-unsigned char game::light_level( const int zlev ) const
+light game::incorrect_light_level( const int zlev ) const
 {
-    const float light = natural_light_level( zlev );
-    return LIGHT_RANGE( light );
+    const light nat_light = natural_light_level( zlev );
+    return light( nat_light.range_in_air() );
+}
+
+int game::light_level( const int zlev ) const
+{
+    const light light = natural_light_level( zlev );
+    return light.range_in_air();
 }
 
 void game::reset_light_level()
@@ -5955,8 +5958,8 @@ void game::print_terrain_info( const tripoint &lp, const catacurses::window &w_l
     }
 
     // Print light level on the selected tile.
-    std::pair<std::string, nc_color> ll = get_light_level( std::max( 1.0,
-                                          LIGHT_AMBIENT_LIT - m.ambient_light_at( lp ) + 1.0 ) );
+    std::pair<std::string, nc_color> ll = get_light_level( std::max( light( 1.0f ),
+                                          LIGHT_AMBIENT_LIT - m.ambient_light_at( lp ) + light( 1.0f ) ) );
     mvwprintz( w_look, point( column, ++line ), c_light_gray, _( "Lighting: " ) );
     mvwprintz( w_look, point( column + utf8_width( _( "Lighting: " ) ), line ), ll.second, ll.first );
 
@@ -11618,7 +11621,7 @@ point game::update_map( int &x, int &y, bool z_level_changed )
 void game::update_overmap_seen()
 {
     const tripoint_abs_omt ompos = u.global_omt_location();
-    const int dist = u.overmap_sight_range( light_level( u.posz() ) );
+    const int dist = u.overmap_sight_range( incorrect_light_level( u.posz() ) );
     const int dist_squared = dist * dist;
     // We can always see where we're standing
     overmap_buffer.set_seen( ompos, true );
