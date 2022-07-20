@@ -6494,9 +6494,9 @@
       [ [ "mil_plate", 6 ] ],
       [ [ "steel_plate", 6 ] ],
       [ [ "large_lcd_screen", 1 ] ],
-      [ [ "scrap", 15 ] ],
+      [ [ "scrap", 20 ] ],
       [ [ "cable", 15 ] ],
-      [ [ "lead", 20 ] ],
+      [ [ "lead", 100 ] ],
       [ [ "compact_ASRG", 1 ] ]
     ]
   }
