@@ -101,7 +101,7 @@ void mdeath::amigara( monster &z )
         }
         return false;
     } );
-    
+
     if( has_others ) {
         return;
     }
