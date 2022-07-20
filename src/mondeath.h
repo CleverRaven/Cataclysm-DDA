@@ -10,6 +10,8 @@ namespace mdeath
 {
 // Drop a body
 item *normal( monster &z );
+// Removes hypnosis and spawn an artifact if killed monster was the last one
+void amigara( monster &z );
 // Overkill splatter (also part of normal under conditions)
 item *splatter( monster &z );
 // Hallucination disappears
