@@ -547,7 +547,7 @@
     "name": { "str": "stepladder" },
     "description": "This is a wooden stepladder.  Use it to set it down.",
     "weight": "20000 g",
-    "volume": "50 L",
+    "volume": "10 L",
     "price": 2000,
     "price_postapoc": 100,
     "to_hit": -3,
