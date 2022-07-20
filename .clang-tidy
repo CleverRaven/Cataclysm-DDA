@@ -55,7 +55,6 @@ readability-*,\
 -modernize-return-braced-init-list,\
 -modernize-use-default-member-init,\
 -performance-no-automatic-move,\
--performance-trivially-destructible,\
 -performance-unnecessary-value-param,\
 -readability-convert-member-functions-to-static,\
 -readability-else-after-return,\
