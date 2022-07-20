@@ -407,6 +407,8 @@ bool aim_activity_actor::load_RAS_weapon()
     Character &you = get_avatar();
     item_location weapon = get_weapon();
     gun_mode gun = weapon->gun_current_mode();
+    // selected gun_mode might come from a gunmod
+    item_location used_gun = &*gun != &*weapon ? item_location( weapon, &*gun ) : weapon;
     const auto ammo_location_is_valid = [&]() -> bool {
         if( !you.ammo_location )
         {
@@ -422,8 +424,8 @@ bool aim_activity_actor::load_RAS_weapon()
         }
         return true;
     };
-    item::reload_option opt = ammo_location_is_valid() ? item::reload_option( &you, &*weapon,
-                              &*weapon, you.ammo_location ) : you.select_ammo( *gun );
+    item::reload_option opt = ammo_location_is_valid() ? item::reload_option( &you, weapon,
+                              you.ammo_location ) : you.select_ammo( used_gun );
     if( !opt ) {
         // Menu canceled
         return false;
@@ -4005,19 +4007,10 @@ void reload_activity_actor::finish( player_activity &act, Character &who )
 
     who.recoil = MAX_RECOIL;
 
-    // Volume change should only affect container that contains the "base" item
-    // For example a reloaded gun mod never "spills" from the gun
-    // It just affects the container that contains the gun
-    if( !reload_targets[0].has_parent() ) {
-        debugmsg( "item_location of item to be reloaded is not available" );
-        return;
-    }
-
-    item_location loc = reload_targets[0].parent_item();
+    item_location loc = reload_targets[0];
     // Reload may have caused the item to increase in size more than the pocket/location can contain.
     // We want to avoid this because items will be deleted on a save/load.
-    if( loc.volume_capacity() >= units::volume() &&
-        loc.weight_capacity() >= units::mass() ) {
+    if( loc.check_parent_capacity_recursive() ) {
         return;
     }
 
