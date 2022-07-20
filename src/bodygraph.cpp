@@ -118,9 +118,10 @@ void bodygraph::finalize()
         debugmsg( "body_graph \"%s\" defines more rows than the maximum (%d).", id.c_str(),
                   BPGRAPH_MAXROWS );
     }
-    
+
     if( !fill_rows.empty() &&  fill_rows.size() != rows.size() ) {
-        debugmsg( "body_graph \"%s\" defines a different number of fill_rows than rows (%d vs. %d).", id.c_str(),
+        debugmsg( "body_graph \"%s\" defines a different number of fill_rows than rows (%d vs. %d).",
+                  id.c_str(),
                   fill_rows.size(), rows.size() );
     }
 
@@ -139,23 +140,26 @@ void bodygraph::finalize()
                       BPGRAPH_MAXCOLS );
             w_warned = true;
         }
-        
+
         r.insert( r.begin(), ( BPGRAPH_MAXCOLS - w ) / 2, " " );
         r.insert( r.end(), BPGRAPH_MAXCOLS - r.size(), " " );
-        
+
         if( ! fill_rows.empty() ) {
             std::vector<std::string> &fr = fill_rows[i];
             if( fr.size() != r.size() ) {
-                debugmsg( "body_graph \"%s\" defines a different number of columns in fill_rows than in rows (%d vs. %d).", id.c_str(),
-                    fr.size(), w );
+                debugmsg( "body_graph \"%s\" defines a different number of columns in fill_rows than in rows (%d vs. %d).",
+                          id.c_str(),
+                          fr.size(), w );
             }
             fr.insert( fr.begin(), ( BPGRAPH_MAXCOLS - w ) / 2, " " );
             fr.insert( fr.end(), BPGRAPH_MAXCOLS - fr.size(), " " );
         }
-        
+
     }
-    
-    for( std::vector<std::vector<std::string>> temp_rows : {rows, fill_rows} ) {
+
+    for( std::vector<std::vector<std::string>> temp_rows : {
+             rows, fill_rows
+         } ) {
         if( !temp_rows.empty() ) {
             for( int i = ( BPGRAPH_MAXROWS - temp_rows.size() ) / 2; i > 0; i-- ) {
                 std::vector<std::string> r;
@@ -685,7 +689,7 @@ std::vector<std::string> get_bodygraph_lines( const Character &u,
                         missing_section = false;
                     }
                 }
-                sym = missing_section ? " " : (id->fill_rows.empty() ? iter->second.sym : id->fill_rows[i][j]);
+                sym = missing_section ? " " : ( id->fill_rows.empty() ? iter->second.sym : id->fill_rows[i][j] );
             }
             if( rid->rows[i][j] == " " ) {
                 sym = " ";
