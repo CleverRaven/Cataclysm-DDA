@@ -324,7 +324,7 @@
   {
     "type": "GENERIC",
     "id": "compact_ASRG_containment",
-    "name": { "str_pn": "Shielded Compact Advanced Sterling Radioisotope Generator" },
+    "name": { "str_sp": "Shielded Compact Advanced Sterling Radioisotope Generator" },
     "looks_like": "t_plut_generator",
     "description": "A really heavy brick of metal housing an ASRG, formerly used by NASA and repurposed by the military.  Will provide about 130w, basically forever as far as you're concerned.  Should be safe due to the large amount of shielding.  Although these were designed for spacecraft, the sheer amount of armor plating and lead means it is much more massive, so you probably shouldn't try to power a vehicle with it.",
     "weight": "650 kg",
@@ -343,7 +343,7 @@
   {
     "type": "GENERIC",
     "id": "compact_ASRG_containment",
-    "name": { "str_pn": "Unshielded Compact Advanced Sterling Radioisotope Generator" },
+    "name": { "str_sp": "Unshielded Compact Advanced Sterling Radioisotope Generator" },
     "looks_like": "t_plut_generator",
     "description": "A moderately heavy brick of metal housing an ASRG.  Most of the lead and steel plating has been salvaged off so it's a lot less bulky and heavy.  That means it's also fairly radioactive, but it will still provide low constant power all the same.",
     "weight": "75 kg",
