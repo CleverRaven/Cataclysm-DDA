@@ -752,10 +752,11 @@
     "armor": [
       {
         "material": [
+          { "type": "flesh", "covered_by_mat": 100, "thickness": 1.0 },
           { "type": "superalloy", "covered_by_mat": 50, "thickness": 0.5 },
           { "type": "superalloy", "covered_by_mat": 50, "thickness": 0.5 },
           { "type": "superalloy", "covered_by_mat": 50, "thickness": 0.5 },
-          { "type": "superalloy", "covered_by_mat": 65, "thickness": 1 }
+          { "type": "superalloy", "covered_by_mat": 45, "thickness": 1 }
         ],
         "covers": [ "arm_l", "arm_r" ],
         "coverage": 100,
@@ -800,6 +801,7 @@
     "armor": [
       {
         "material": [
+          { "type": "flesh", "covered_by_mat": 100, "thickness": 1.0 },
           { "type": "superalloy", "covered_by_mat": 50, "thickness": 0.35 },
           { "type": "superalloy", "covered_by_mat": 50, "thickness": 0.35 },
           { "type": "superalloy", "covered_by_mat": 50, "thickness": 0.35 },
@@ -836,6 +838,7 @@
     "armor": [
       {
         "material": [
+          { "type": "flesh", "covered_by_mat": 100, "thickness": 1.0 },
           { "type": "superalloy", "covered_by_mat": 50, "thickness": 0.5 },
           { "type": "superalloy", "covered_by_mat": 50, "thickness": 0.5 },
           { "type": "superalloy", "covered_by_mat": 50, "thickness": 0.5 },
@@ -846,7 +849,7 @@
         "encumbrance": 2,
         "//": "most of the plates are subdermal",
         "breathability": "GOOD",
-        "cover_vitals": 65
+        "cover_vitals": 55
       }
     ]
   },
@@ -872,6 +875,7 @@
     "armor": [
       {
         "material": [
+          { "type": "flesh", "covered_by_mat": 100, "thickness": 1.0 },
           { "type": "superalloy", "covered_by_mat": 50, "thickness": 0.35 },
           { "type": "superalloy", "covered_by_mat": 50, "thickness": 0.35 },
           { "type": "superalloy", "covered_by_mat": 50, "thickness": 0.35 },
@@ -907,6 +911,7 @@
     "armor": [
       {
         "material": [
+          { "type": "flesh", "covered_by_mat": 100, "thickness": 1.0 },
           { "type": "superalloy", "covered_by_mat": 50, "thickness": 0.5 },
           { "type": "superalloy", "covered_by_mat": 50, "thickness": 0.5 },
           { "type": "superalloy", "covered_by_mat": 50, "thickness": 0.5 },
@@ -943,6 +948,7 @@
     "armor": [
       {
         "material": [
+          { "type": "flesh", "covered_by_mat": 100, "thickness": 1.0 },
           { "type": "superalloy", "covered_by_mat": 50, "thickness": 0.5 },
           { "type": "superalloy", "covered_by_mat": 50, "thickness": 0.5 },
           { "type": "superalloy", "covered_by_mat": 50, "thickness": 0.5 },
@@ -979,6 +985,7 @@
     "armor": [
       {
         "material": [
+          { "type": "flesh", "covered_by_mat": 100, "thickness": 1.0 },
           { "type": "superalloy", "covered_by_mat": 50, "thickness": 0.4 },
           { "type": "superalloy", "covered_by_mat": 50, "thickness": 0.4 },
           { "type": "superalloy", "covered_by_mat": 50, "thickness": 0.4 },
