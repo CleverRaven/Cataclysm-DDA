@@ -57,20 +57,7 @@
       " 3 222 5                                ",
       "4  729  6                               ",
       "   7 9                                  ",
-      "  88 00                                 ",
-      "                                        ",
-      "                                        ",
-      "                                        ",
-      "                                        ",
-      "                                        ",
-      "                                        ",
-      "                                        ",
-      "                                        ",
-      "                                        ",
-      "                                        ",
-      "                                        ",
-      "                                        ",
-      "                                        "
+      "  88 00                                 "
     ],
     "parts": {
       "e": { "body_parts": [ "eyes" ] },
@@ -95,16 +82,18 @@
     "fill_sym": "#",
     "fill_color": "white",
     "rows": [
-      "  1                                     ",
+      " e1m                                    ",
       "43256                                   ",
       "87 90                                   "
     ],
     "fill_rows": [
-      "  O                                     ",
+      " °O.                                    ",
       "./#\\.                                   ",
       "_/ \\_                                   "
     ],
     "parts": {
+      "e": { "body_parts": [ "eyes" ] },
+      "m": { "body_parts": [ "mouth" ] },
       "1": { "body_parts": [ "head" ] },
       "2": { "body_parts": [ "torso" ] },
       "3": { "body_parts": [ "arm_r" ] },
