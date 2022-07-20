@@ -1,0 +1,52 @@
+[
+  {
+    "type": "MOD_INFO",
+    "id": "Mod_ID",
+    "name": "Standard combat tests",
+    "authors": [ "Venera3" ],
+    "description": "A set of standardized character loadouts, meant to aid in combat balance testing.  Disables all other professions/scenarios!",
+    "category": "misc_additions",
+    "dependencies": [ "dda" ]
+  },
+  {
+    "type": "scenario",
+    "id": "evacuee",
+    "name": "Evacuee",
+    "points": 0,
+    "description": "You have survived the initial wave of panic, and took the time to fabricate some improvised weaponry.  It will come in handy.",
+    "allowed_locs": [ "sloc_shelter_a" ],
+    "professions": [ "test_day1" ],
+    "start_name": "Evac Shelter",
+    "flags": [ "CITY_START", "LONE_START" ],
+    "eocs": "test_day1_start"
+  },
+  {
+    "type": "scenario",
+    "id": "test_mid",
+    "name": "Scavenger",
+    "points": 0,
+    "description": "You carved out a living in the Apocalypse, but are still far from thriving - your gear is scavenged from the old world instead of custom-made.",
+    "allowed_locs": [ "sloc_shelter_a" ],
+    "professions": [ "test_mid" ],
+    "start_name": "Evac Shelter",
+    "flags": [ "CITY_START", "LONE_START" ],
+    "eocs": "test_mid_start"
+  },
+  {
+    "type": "scenario",
+    "id": "test_late",
+    "name": "Survivor",
+    "points": 0,
+    "description": "You already forgot the world before - your gear is made with the horrors of the present in mind, and you have the skills to use it.",
+    "allowed_locs": [ "sloc_shelter_a" ],
+    "professions": [ "test_late" ],
+    "start_name": "Evac Shelter",
+    "flags": [ "CITY_START", "LONE_START" ],
+    "eocs": "test_lategame_start"
+  },
+  {
+    "type": "SCENARIO_BLACKLIST",
+    "subtype": "whitelist",
+    "scenario": [ "evacuee", "test_mid", "test_late" ]
+  }
+]
