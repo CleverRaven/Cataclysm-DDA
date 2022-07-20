@@ -9261,8 +9261,6 @@ pathfinding_cache::pathfinding_cache()
     dirty = true;
 }
 
-pathfinding_cache::~pathfinding_cache() = default;
-
 pathfinding_cache &map::get_pathfinding_cache( int zlev ) const
 {
     return *pathfinding_caches[zlev + OVERMAP_DEPTH];
