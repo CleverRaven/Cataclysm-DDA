@@ -951,7 +951,6 @@
           { "type": "superalloy", "covered_by_mat": 50, "thickness": 0.5 },
           { "type": "superalloy", "covered_by_mat": 50, "thickness": 0.5 },
           { "type": "superalloy", "covered_by_mat": 50, "thickness": 0.5 },
-          { "type": "superalloy", "covered_by_mat": 50, "thickness": 0.5 },
           { "type": "superalloy", "covered_by_mat": 40, "thickness": 1.0 }
         ],
         "covers": [ "head" ],
@@ -985,7 +984,6 @@
       {
         "material": [
           { "type": "nanotubes", "covered_by_mat": 100, "thickness": 0.5 },
-          { "type": "superalloy", "covered_by_mat": 50, "thickness": 0.4 },
           { "type": "superalloy", "covered_by_mat": 50, "thickness": 0.4 },
           { "type": "superalloy", "covered_by_mat": 50, "thickness": 0.4 },
           { "type": "superalloy", "covered_by_mat": 50, "thickness": 0.4 },
