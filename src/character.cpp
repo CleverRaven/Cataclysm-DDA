@@ -10440,7 +10440,7 @@ const Character *Character::get_book_reader( const item &book,
         return nullptr;
     }
 
-    time_duration time_taken = time_duration::from_minutes( INT_MAX );
+    time_duration time_taken = time_duration::from_turns( INT_MAX );
     auto candidates = get_crafting_helpers();
 
     for( const npc *elem : candidates ) {
