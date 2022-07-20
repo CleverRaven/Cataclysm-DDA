@@ -369,6 +369,7 @@ void widget::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "symbols", _symbols, "-" );
     optional( jo, was_loaded, "fill", _fill, "bucket" );
     optional( jo, was_loaded, "label", _label, translation() );
+    optional( jo, was_loaded, "description", _description, "" );
     optional( jo, was_loaded, "style", _style, "number" );
     optional( jo, was_loaded, "arrange", _arrange, "columns" );
     optional( jo, was_loaded, "body_graph", _body_graph, "full_body_widget" );
