@@ -41,7 +41,7 @@ Each plating has a minimum weight of 500 g to represent the connection points.  
 | Vaccum-cast Carbide  | 65.41 kg 
    
 ### Modules
-A variety of modules are available, ranging from sensor packages to batteries to load-bearing modules to jetpacks.  These are built in a swappable black box configuration, requiring only that the module be mounted on the suit's connection points. 
+A variety of modules are available, ranging from sensor packages to batteries to load-bearing modules to jetpacks.  These are built in a swappable black box configuration, requiring only that the module be mounted on the suit's connection points. Modules can be placed anywhere they fit on the frame, though some occupy (encumber) specific locations on the body while installed.
 
 Modules come in Small, Medium, Large, Helmet, and PSU. The helmet modules can only be mounted in the exosuit helmet, and the PSU has a unique slot off of the torso.  Modules cannot exceed the volume or weight of the module class. Small and medium modules can fit into larger module slots.
 
@@ -86,7 +86,7 @@ Modules come in Small, Medium, Large, Helmet, and PSU. The helmet modules can on
 | Small Pouch       | 1500 ml    | 5 kg       | Small  |  125 g | As item Leather Pouch
 | Large Ammo Pouch  | Multiple   | Multiple   | Large  | 1750 g | As item Tac Vest
 | Small Ammo Pouch  | 2 L        | 4 kg       | Medium | 1050 g | As item Drop Leg Pouches
-| Quickdraw Holster | 1500 ml    | 5 kg       | Medium |  500 g | Servo-assisted holster
+| Quickdraw Holster | 1500 ml    | 5 kg       | Medium |  500 g | Servo-assisted large holster
 | Quickdraw Sheath  | 1500 ml    | 5 kg       | Medium |  500 g | Servo-assisted sheath
 
 ### Operation
