@@ -25,6 +25,7 @@ concurrency:
 # - CMAKE=1
 # - LOCALIZE=0
 # - LTO=1
+# - LIBBACKTRACE=1 (on Linux and Windows)
 # - Tests with important mods enabled (Magiclysm)
 # - A clang-tidy run
 # - SANITIZE=address,undefined
@@ -85,7 +86,7 @@ jobs:
             cmake: 0
             localize: 1
             test-stage: 1
-            native: linux64           
+            native: linux64
             archive-success: basic-build
             dont_skip_data_only_changes: 1
             title: Basic Build and Test (Clang 6, Ubuntu, Curses)
@@ -103,6 +104,7 @@ jobs:
             localize: 1
             gold: 1
             lto: 1
+            libbacktrace: 1
             native: linux64
             title: GCC 9, Curses, LTO
             # ~850MB in a clean build
@@ -165,6 +167,7 @@ jobs:
             tiles: 1
             sound: 1
             localize: 1
+            libbacktrace: 1
             title: GCC 11, Ubuntu cross-compile to MinGW-Win64, Tiles, Sound
             ldflags: -static-libgcc -static-libstdc++
             mxe_target: x86_64-w64-mingw32.static.gcc11
@@ -209,6 +212,7 @@ jobs:
         NATIVE: ${{ matrix.native }}
         GOLD: ${{ matrix.gold }}
         LTO: ${{ matrix.lto }}
+        LIBBACKTRACE: ${{ matrix.libbacktrace }}
         RELEASE: ${{ matrix.release }}
         ARCHIVE_SUCCESS: ${{ matrix.archive-success }}
         CCACHE_LIMIT: ${{ matrix.ccache_limit }}

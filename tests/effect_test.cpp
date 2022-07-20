@@ -23,7 +23,6 @@
 
 class Creature;
 
-static const bodypart_str_id body_part_bp_null( "bp_null" );
 
 static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_debugged( "debugged" );

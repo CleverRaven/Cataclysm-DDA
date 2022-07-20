@@ -148,7 +148,7 @@ static float mass_to_area( const float mass )
 
 // Approximate Gurney constant for Composition B and C (in m/s instead of the usual km/s).
 // Source: https://en.wikipedia.org/wiki/Gurney_equations#Gurney_constant_and_detonation_velocity
-constexpr double TYPICAL_GURNEY_CONSTANT = 2700.0;
+static constexpr double TYPICAL_GURNEY_CONSTANT = 2700.0;
 static float gurney_spherical( const double charge, const double mass )
 {
     return static_cast<float>( std::pow( ( mass / charge ) + ( 3.0 / 5.0 ),
@@ -746,13 +746,13 @@ void emp_blast( const tripoint &p )
         }
         // TODO: More effects?
         //e-handcuffs effects
-        item &weapon = player_character.get_wielded_item();
-        if( weapon.typeId() == itype_e_handcuffs && weapon.charges > 0 ) {
-            weapon.unset_flag( STATIC( flag_id( "NO_UNWIELD" ) ) );
-            weapon.charges = 0;
-            weapon.active = false;
+        item_location weapon = player_character.get_wielded_item();
+        if( weapon && weapon->typeId() == itype_e_handcuffs && weapon->charges > 0 ) {
+            weapon->unset_flag( STATIC( flag_id( "NO_UNWIELD" ) ) );
+            weapon->charges = 0;
+            weapon->active = false;
             add_msg( m_good, _( "The %s on your wrists spark briefly, then release your hands!" ),
-                     weapon.tname() );
+                     weapon->tname() );
         }
     }
     // Drain any items of their battery charge
@@ -783,7 +783,6 @@ void resonance_cascade( const tripoint &p )
     Character &player_character = get_player_character();
     const time_duration maxglow = time_duration::from_turns( 100 - 5 * trig_dist( p,
                                   player_character.pos() ) );
-    MonsterGroupResult spawn_details;
     if( maxglow > 0_turns ) {
         const time_duration minglow = std::max( 0_turns, time_duration::from_turns( 60 - 5 * trig_dist( p,
                                                 player_character.pos() ) ) );
@@ -846,10 +845,14 @@ void resonance_cascade( const tripoint &p )
                     break;
                 case 13:
                 case 14:
-                case 15:
-                    spawn_details = MonsterGroupManager::GetResultFromGroup( GROUP_NETHER );
-                    g->place_critter_at( spawn_details.name, dest );
-                    break;
+                case 15: {
+                    std::vector<MonsterGroupResult> spawn_details =
+                        MonsterGroupManager::GetResultFromGroup( GROUP_NETHER );
+                    for( const MonsterGroupResult &mgr : spawn_details ) {
+                        g->place_critter_at( mgr.name, dest );
+                    }
+                }
+                break;
                 case 16:
                 case 17:
                 case 18:

@@ -52,31 +52,6 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [
-      "park",
-      "park_2",
-      "park_3",
-      "park_4",
-      "park_5",
-      "park_6",
-      "park_7",
-      "playground",
-      "playground_1",
-      "dog_park",
-      "volleyball_court",
-      "tennis_court",
-      "baskeball_court"
-    ],
-    "name": "park",
-    "sym": "O",
-    "color": "green",
-    "see_cost": 2,
-    "extras": "build",
-    "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
-  },
-  {
-    "type": "overmap_terrain",
     "id": [ "s_garage", "s_garage_1", "s_garage_2" ],
     "copy-from": "generic_city_building",
     "name": "garage",
@@ -177,15 +152,27 @@
     "name": "field",
     "sym": ".",
     "color": "brown",
+    "looks_like": "field",
     "see_cost": 1,
     "flags": [ "NO_ROTATE" ]
   },
   {
     "type": "overmap_terrain",
-    "id": [ "special_forest", "special_forest_thick" ],
+    "id": "special_forest",
     "name": "forest",
     "sym": "F",
     "color": "green",
+    "looks_like": "forest",
+    "see_cost": 1,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "special_forest_thick",
+    "name": "forest",
+    "sym": "F",
+    "color": "green",
+    "looks_like": "forest_thick",
     "see_cost": 1,
     "flags": [ "NO_ROTATE" ]
   },
@@ -935,5 +922,28 @@
     "sym": "0",
     "color": "light_gray",
     "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "chemical_lab_ocu", "chemical_lab_roof_ocu" ],
+    "name": "small cabin",
+    "sym": "C",
+    "color": "i_green",
+    "flags": [ "SOURCE_CONSTRUCTION", "SOURCE_FABRICATION" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "smallscrapyard_ocu" ],
+    "name": "scrap yard",
+    "sym": "s",
+    "color": "red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "lumbermill_0_0_ocu", "lumbermill_0_1_ocu", "lumbermill_1_0_ocu", "lumbermill_1_1_ocu" ],
+    "name": "lumbermill",
+    "sym": "L",
+    "color": "i_green",
+    "flags": [ "SOURCE_CONSTRUCTION", "SOURCE_FABRICATION" ]
   }
 ]

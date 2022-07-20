@@ -531,5 +531,121 @@
     "sym": "~",
     "color": "yellow",
     "see_cost": 1
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "nursing_home_sh1",
+      "nursing_home_sh2",
+      "nursing_home_sh3",
+      "nursing_home_sh5",
+      "nursing_home_sh6",
+      "nursing_home_sh7"
+    ],
+    "name": "nursing home",
+    "sym": "N",
+    "color": "white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "nursing_home_sh4",
+      "nursing_home_sh8",
+      "nursing_home_sh9",
+      "nursing_home_sh10",
+      "nursing_home_sh11",
+      "nursing_home_sh12"
+    ],
+    "name": "nursing home road",
+    "sym": "n",
+    "color": "light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "nursing_home_1", "nursing_home_2", "nursing_home_3", "nursing_home_5", "nursing_home_6", "nursing_home_7" ],
+    "name": "nursing home",
+    "sym": "N",
+    "color": "white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "nursing_home_4", "nursing_home_8", "nursing_home_9", "nursing_home_10", "nursing_home_11", "nursing_home_12" ],
+    "name": "nursing home road",
+    "sym": "n",
+    "color": "light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "nursing_home_1_roof",
+      "nursing_home_2_roof",
+      "nursing_home_3_roof",
+      "nursing_home_4_roof",
+      "nursing_home_5_roof",
+      "nursing_home_6_roof"
+    ],
+    "name": "nursing home roof",
+    "sym": "N",
+    "color": "white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "nursing_home_b1",
+      "nursing_home_b2",
+      "nursing_home_b3",
+      "nursing_home_b4",
+      "nursing_home_b5",
+      "nursing_home_b6",
+      "nursing_home_b7",
+      "nursing_home_b8",
+      "nursing_home_b9",
+      "nursing_home_b10",
+      "nursing_home_b11",
+      "nursing_home_b12"
+    ],
+    "name": "nursing home basement",
+    "sym": "N",
+    "color": "light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "nursing_home_bb1",
+      "nursing_home_bb2",
+      "nursing_home_bb3",
+      "nursing_home_bb4",
+      "nursing_home_bb5",
+      "nursing_home_bb6",
+      "nursing_home_bb7",
+      "nursing_home_bb8",
+      "nursing_home_bb9",
+      "nursing_home_bb10",
+      "nursing_home_bb11",
+      "nursing_home_bb12"
+    ],
+    "name": "nursing home basement",
+    "sym": "N",
+    "color": "light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "nursing_home_lab1",
+      "nursing_home_lab2",
+      "nursing_home_lab3",
+      "nursing_home_lab4",
+      "nursing_home_lab5",
+      "nursing_home_lab6",
+      "nursing_home_lab7",
+      "nursing_home_lab8",
+      "nursing_home_lab9",
+      "nursing_home_lab10",
+      "nursing_home_lab11",
+      "nursing_home_lab12"
+    ],
+    "name": "nursing home lab",
+    "sym": "N",
+    "color": "dark_gray"
   }
 ]

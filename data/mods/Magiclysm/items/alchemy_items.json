@@ -78,6 +78,7 @@
     "id": "potion_starter_superior",
     "copy-from": "chem_ethanol",
     "type": "COMESTIBLE",
+    "comestible_type": "DRINK",
     "name": "superior potion starter",
     "description": "Pure ethanol saturated with magical energy.  The sheer power concentrated within causes the surface of the potion to ripple continuously."
   },
@@ -168,6 +169,7 @@
     "color": "light_red",
     "name": "dragon essence",
     "description": "This is the magical essence from a dragon, distilled into a concentrated form.",
+    "comestible_type": "DRINK",
     "volume": "250 ml",
     "weight": "300 g",
     "flags": [ "TRADER_AVOID", "INEDIBLE" ],

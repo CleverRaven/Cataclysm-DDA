@@ -51,7 +51,7 @@ static std::string full_attack_details( const Character &dude )
     ss << "Details for " << dude.disp_name() << std::endl;
     ss << "get_hit() == " << dude.get_hit() << std::endl;
     ss << "get_melee_hit_base() == " << dude.get_melee_hit_base() << std::endl;
-    ss << "get_hit_weapon() == " << dude.get_hit_weapon( dude.get_wielded_item() ) << std::endl;
+    ss << "get_hit_weapon() == " << dude.get_hit_weapon( *dude.get_wielded_item() ) << std::endl;
     return ss.str();
 }
 

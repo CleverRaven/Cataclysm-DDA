@@ -50,6 +50,7 @@
       { "monster": "mon_zosmoceratops", "weight": 3, "cost_multiplier": 70, "starts": "3 days" },
       { "monster": "mon_zorosaurus", "weight": 10, "cost_multiplier": 50, "starts": "3 days", "pack_size": [ 1, 2 ] },
       { "monster": "mon_zriceratops", "weight": 30, "cost_multiplier": 60, "starts": "3 days", "pack_size": [ 1, 2 ] },
+      { "monster": "mon_zescelosaurus", "weight": 200, "starts": "3 days", "pack_size": [ 1, 2 ] },
       { "monster": "mon_zteranodon", "weight": 50, "starts": "3 days", "pack_size": [ 1, 2 ] }
     ]
   },
@@ -146,6 +147,7 @@
         "starts": "3 days",
         "pack_size": [ 1, 2 ]
       },
+      { "monster": "mon_zescelosaurus_scorched", "weight": 200, "starts": "3 days", "pack_size": [ 1, 2 ] },
       { "monster": "mon_zteranodon_scorched", "weight": 50, "starts": "3 days", "pack_size": [ 1, 2 ] }
     ]
   },
@@ -480,6 +482,15 @@
   },
   {
     "type": "monstergroup",
+    "name": "GROUP_zescelosaurus_UPGRADE",
+    "monsters": [
+      { "monster": "mon_sescelosaurus", "weight": 400 },
+      { "monster": "mon_zescelosaurus_shady", "weight": 300 },
+      { "monster": "mon_zescelosaurus_brute", "weight": 300 }
+    ]
+  },
+  {
+    "type": "monstergroup",
     "name": "GROUP_zallosaurus_BRUTE",
     "monsters": [ { "monster": "mon_zallosaurus_hulk", "weight": 600 }, { "monster": "mon_zallosaurus_truck", "weight": 400 } ]
   },
@@ -523,7 +534,8 @@
       { "monster": "mon_zyoplosaurus", "cost_multiplier": 40, "starts": "3 days" },
       { "monster": "mon_zankylosaurus", "cost_multiplier": 40, "starts": "3 days" },
       { "monster": "mon_zodosaurus", "cost_multiplier": 40, "starts": "3 days" },
-      { "monster": "mon_zedmontonia", "cost_multiplier": 40, "starts": "3 days" }
+      { "monster": "mon_zedmontonia", "cost_multiplier": 40, "starts": "3 days" },
+      { "monster": "mon_zescelosaurus", "starts": "3 days" }
     ]
   },
   {
