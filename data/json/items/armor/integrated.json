@@ -867,7 +867,6 @@
     "warmth": 5,
     "environmental_protection": 1,
     "material_thickness": 0.5,
-    "bashing": 11,
     "flags": [ "INTEGRATED", "UNBREAKABLE", "SKINTIGHT", "PADDED", "WATER_FRIENDLY", "SOFT", "NO_REPAIR" ],
     "material": [ "superalloy" ],
     "name": { "str_sp": "alloy plating - feet" },
