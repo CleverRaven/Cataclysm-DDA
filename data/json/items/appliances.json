@@ -333,7 +333,7 @@
     "volume": "500 L",
     "longest_side": "100 cm",
     "bashing": 5,
-    "//": "I don't know how much these were worth pre-Cataclysm but the pu-238 alone is worth about 5-6 million and hundreds of millions were spent on research.  After the apocalypse these should basically be valuable beyond compare though."
+    "//": "I don't know how much these were worth pre-Cataclysm but the pu-238 alone is worth about 5-6 million and hundreds of millions were spent on research.  After the apocalypse these should basically be valuable beyond compare though.",
     "price": 1000000000,
     "price_postapoc": 2500000,
     "symbol": "O",
@@ -352,7 +352,7 @@
     "volume": "150 L",
     "longest_side": "65 cm",
     "bashing": 5,
-    "//": "Most of the price is in the ASRG itself and not the shielding.  However a radioactive brick is much less tempting for other survivors."
+    "//": "Most of the price is in the ASRG itself and not the shielding.  However a radioactive brick is much less tempting for other survivors.",
     "price": 750000000,
     "price_postapoc": 0
     "symbol": "O",
