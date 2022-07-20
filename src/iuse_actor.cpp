@@ -2213,8 +2213,8 @@ cata::optional<int> musical_instrument_actor::use( Character &p, item &it, bool 
     }
     if( p.is_underwater() ) {
         p.add_msg_player_or_npc( m_bad,
-                                 _( "You can't play music underwater" ),
-                                 _( "<npcname> can't play music underwater" ) );
+                                 _( "You can't play music underwater." ),
+                                 _( "<npcname> can't play music underwater." ) );
         it.active = false;
         return cata::nullopt;
     }
@@ -2224,16 +2224,16 @@ cata::optional<int> musical_instrument_actor::use( Character &p, item &it, bool 
     if( p.has_effect( effect_sleep ) || p.has_effect( effect_stunned ) ||
         p.has_effect( effect_asthma ) ) {
         p.add_msg_player_or_npc( m_bad,
-                                 _( "You stop playing your %s" ),
-                                 _( "<npcname> stops playing their %s" ),
+                                 _( "You stop playing your %s." ),
+                                 _( "<npcname> stops playing their %s." ),
                                  it.display_name() );
         it.active = false;
         return cata::nullopt;
     }
 
     if( !t && it.active ) {
-        p.add_msg_player_or_npc( _( "You stop playing your %s" ),
-                                 _( "<npcname> stops playing their %s" ),
+        p.add_msg_player_or_npc( _( "You stop playing your %s." ),
+                                 _( "<npcname> stops playing their %s." ),
                                  it.display_name() );
         it.active = false;
         return cata::nullopt;
@@ -2244,8 +2244,8 @@ cata::optional<int> musical_instrument_actor::use( Character &p, item &it, bool 
     const int inv_pos = p.get_item_position( &it );
     if( inv_pos >= 0 || inv_pos == INT_MIN ) {
         p.add_msg_player_or_npc( m_bad,
-                                 _( "You need to hold or wear %s to play it" ),
-                                 _( "<npcname> needs to hold or wear %s to play it" ),
+                                 _( "You need to hold or wear %s to play it." ),
+                                 _( "<npcname> needs to hold or wear %s to play it." ),
                                  it.display_name() );
         it.active = false;
         return cata::nullopt;
@@ -2254,8 +2254,8 @@ cata::optional<int> musical_instrument_actor::use( Character &p, item &it, bool 
     // At speed this low you can't coordinate your actions well enough to play the instrument
     if( p.get_speed() <= 25 + speed_penalty ) {
         p.add_msg_player_or_npc( m_bad,
-                                 _( "You feel too weak to play your %s" ),
-                                 _( "<npcname> feels too weak to play their %s" ),
+                                 _( "You feel too weak to play your %s." ),
+                                 _( "<npcname> feels too weak to play their %s." ),
                                  it.display_name() );
         it.active = false;
         return cata::nullopt;
@@ -2268,8 +2268,8 @@ cata::optional<int> musical_instrument_actor::use( Character &p, item &it, bool 
 
     if( !it.active ) {
         p.add_msg_player_or_npc( m_good,
-                                 _( "You start playing your %s" ),
-                                 _( "<npcname> starts playing their %s" ),
+                                 _( "You start playing your %s." ),
+                                 _( "<npcname> starts playing their %s." ),
                                  it.display_name() );
         it.active = true;
     }
@@ -2293,9 +2293,9 @@ cata::optional<int> musical_instrument_actor::use( Character &p, item &it, bool 
     } else if( morale_effect < 0 && calendar::once_every( 1_minutes ) ) {
         // No musical skills = possible morale penalty
         if( p.is_avatar() ) {
-            desc = _( "You produce an annoying sound" );
+            desc = _( "You produce an annoying sound." );
         } else {
-            desc = string_format( _( "%s produces an annoying sound" ), p.disp_name( false ) );
+            desc = string_format( _( "%s produces an annoying sound." ), p.disp_name( false ) );
         }
     }
 
