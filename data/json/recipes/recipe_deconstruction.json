@@ -6496,7 +6496,7 @@
       [ [ "large_lcd_screen", 1 ] ],
       [ [ "scrap", 15 ] ],
       [ [ "cable", 15 ] ],
-      [ [ "lead", 1800 ] ],
+      [ [ "lead", 20 ] ],
       [ [ "compact_ASRG", 1 ] ]
     ]
   }
