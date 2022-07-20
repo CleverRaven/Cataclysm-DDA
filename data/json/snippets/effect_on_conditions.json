@@ -536,11 +536,21 @@
     "type": "snippet",
     "category": "play_piano",
     "text": [
+<<<<<<< HEAD
       "You play a short, light-hearted ditty.",
       "You play a deep, sonorous symphony.",
       "You play a short requiem.",
       "You play a few notes, but nothing comes to you.",
       "You want to be Mozart, but the best you can do is Schubert."
+=======
+      "You hear an almost human voice saying \"Contact, clean this up.\"",
+      "You hear an almost human voice saying \"This is what we've trained for.\"",
+      "You hear an almost human voice saying \"I WONT LET YOU KILL ME!\"",
+      "You hear an almost human voice saying \"Flank him, quick.\"",
+      "You hear an almost human voice saying \"Get eyes on them.\"",
+      "You hear an almost human voice saying \"I'm not going back.\"",
+      "You hear an almost human voice saying \"The breach must be contained.\""
+>>>>>>> bf4dfd7184 (styled and working)
     ]
   }
 ]
