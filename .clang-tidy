@@ -64,7 +64,6 @@ readability-*,\
 -readability-magic-numbers,\
 -readability-make-member-function-const,\
 -readability-named-parameter,\
--readability-redundant-access-specifiers,\
 -readability-use-anyofallof,\
 "
 WarningsAsErrors: '*'

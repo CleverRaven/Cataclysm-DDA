@@ -37,7 +37,6 @@ class ret_val
         struct default_success;
         struct default_failure;
 
-    public:
         ret_val() = delete;
 
         static ret_val make_success( T val = default_success::value ) {
