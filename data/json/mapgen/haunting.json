@@ -8,7 +8,7 @@
     "type": "effect_on_condition",
     "id": "EOC_HAUNTING",
     "condition": {
-       "or": [ "compare_int": [ { "global_val": "var", "var_name": "XEDRA_OFFICER_STATUS" }, "==", { "const": 1 } ], "u_is_outside" ]
+       "or": [ { "compare_int": [ { "global_val": "var", "var_name": "XEDRA_OFFICER_STATUS" }, "==", { "const": 1 } ] }, "u_is_outside" ]
     },
     "false_effect": [
       { "u_spawn_monster": "mon_XEDRA_soldier", "real_count": [2, 3], "min_radius": 4, "max_radius": 10, "lifespan": [ "1 minutes", "2 minutes" ] },
