@@ -470,6 +470,18 @@
     "upgrades": { "age_grow": 30, "into": "mon_oryctodromeus" }
   },
   {
+    "id": "mon_thescelosaurus_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_dilophosaurus_hatchling",
+    "name": "green and purple hatchling",
+    "default_faction": "herbivore_young",
+    "color": "light_gray",
+    "upgrades": { "age_grow": 20, "into": "mon_thescelosaurus_juvenile" },
+    "death_function": { "effect": { "id": "death_guilt", "min_level": 3 } },
+    "petfood": { "food": [ "DINOFOOD_A", "DINOFOOD_B", "DINOFOOD_C" ] },
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CANPLAY", "GUILT", "STUMBLES", "NO_BREED" ]
+  },
+  {
     "id": "mon_dimorphodon_hatchling",
     "type": "MONSTER",
     "copy-from": "mon_compsognathus_hatchling",
