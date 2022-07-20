@@ -6574,6 +6574,8 @@
     "mixed_effect": true,
     "description": "You have a low, croaking voice, like an aged grandparent.  Persuading NPCs will be easier, but threatening them will be more difficult.",
     "cancels": [ "SNARL" ],
+    "//": "TODO: Revert this once the breach power math has been updated to value the recent changes to the mutation-system.",
+    "threshreq": [ "THRESH_BATRACHIAN" ],
     "category": [ "BATRACHIAN" ],
     "social_modifiers": { "persuade": 10, "lie": 10, "intimidate": -10 }
   },
