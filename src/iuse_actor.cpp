@@ -2670,14 +2670,16 @@ cata::optional<int> ammobelt_actor::use( Character &p, item &, bool, const tripo
         return cata::nullopt;
     }
 
-    item::reload_option opt = p.select_ammo( mag, true );
+    item_location loc = p.i_add( mag );
+    item::reload_option opt = p.select_ammo( loc, true );
     std::vector<item_location> targets;
     if( opt ) {
         const int moves = opt.moves();
-        item_location loc = p.i_add( mag );
-        targets.emplace_back( loc );
+        targets.push_back( loc );
         targets.push_back( std::move( opt.ammo ) );
         p.assign_activity( player_activity( reload_activity_actor( moves, opt.qty(), targets ) ) );
+    } else {
+        loc.remove_item();
     }
 
     return 0;
