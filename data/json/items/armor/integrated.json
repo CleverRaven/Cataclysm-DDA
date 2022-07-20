@@ -752,7 +752,7 @@
     "armor": [
       {
         "material": [
-          { "type": "flesh", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "nanotubes", "covered_by_mat": 100, "thickness": 1.0 },
           { "type": "superalloy", "covered_by_mat": 50, "thickness": 0.5 },
           { "type": "superalloy", "covered_by_mat": 50, "thickness": 0.5 },
           { "type": "superalloy", "covered_by_mat": 50, "thickness": 0.5 },
@@ -801,7 +801,7 @@
     "armor": [
       {
         "material": [
-          { "type": "flesh", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "nanotubes", "covered_by_mat": 100, "thickness": 1.0 },
           { "type": "superalloy", "covered_by_mat": 50, "thickness": 0.35 },
           { "type": "superalloy", "covered_by_mat": 50, "thickness": 0.35 },
           { "type": "superalloy", "covered_by_mat": 50, "thickness": 0.35 },
@@ -838,7 +838,7 @@
     "armor": [
       {
         "material": [
-          { "type": "flesh", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "nanotubes", "covered_by_mat": 100, "thickness": 1.0 },
           { "type": "superalloy", "covered_by_mat": 50, "thickness": 0.5 },
           { "type": "superalloy", "covered_by_mat": 50, "thickness": 0.5 },
           { "type": "superalloy", "covered_by_mat": 50, "thickness": 0.5 },
@@ -875,7 +875,7 @@
     "armor": [
       {
         "material": [
-          { "type": "flesh", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "nanotubes", "covered_by_mat": 100, "thickness": 1.0 },
           { "type": "superalloy", "covered_by_mat": 50, "thickness": 0.35 },
           { "type": "superalloy", "covered_by_mat": 50, "thickness": 0.35 },
           { "type": "superalloy", "covered_by_mat": 50, "thickness": 0.35 },
@@ -911,7 +911,7 @@
     "armor": [
       {
         "material": [
-          { "type": "flesh", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "nanotubes", "covered_by_mat": 100, "thickness": 1.0 },
           { "type": "superalloy", "covered_by_mat": 50, "thickness": 0.5 },
           { "type": "superalloy", "covered_by_mat": 50, "thickness": 0.5 },
           { "type": "superalloy", "covered_by_mat": 50, "thickness": 0.5 },
@@ -948,7 +948,7 @@
     "armor": [
       {
         "material": [
-          { "type": "flesh", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "nanotubes", "covered_by_mat": 100, "thickness": 1.0 },
           { "type": "superalloy", "covered_by_mat": 50, "thickness": 0.5 },
           { "type": "superalloy", "covered_by_mat": 50, "thickness": 0.5 },
           { "type": "superalloy", "covered_by_mat": 50, "thickness": 0.5 },
@@ -985,7 +985,7 @@
     "armor": [
       {
         "material": [
-          { "type": "flesh", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "nanotubes", "covered_by_mat": 100, "thickness": 1.0 },
           { "type": "superalloy", "covered_by_mat": 50, "thickness": 0.4 },
           { "type": "superalloy", "covered_by_mat": 50, "thickness": 0.4 },
           { "type": "superalloy", "covered_by_mat": 50, "thickness": 0.4 },
