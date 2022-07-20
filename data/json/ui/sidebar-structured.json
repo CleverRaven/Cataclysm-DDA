@@ -285,27 +285,15 @@
     "id": "structured_speed_vehicle_layout",
     "type": "widget",
     "style": "layout",
-    "arrange": "rows",
+    "arrange": "columns",
     "clauses": [
-      {
-        "id": "driving",
-        "widgets": [ "vehicle_cruise_desc_no_label" ],
-        "condition": "u_driving"
-      },
+      { "id": "driving", "widgets": [ "vehicle_cruise_desc_no_label" ], "condition": "u_driving" },
       {
         "id": "not_driving",
-        "widgets": [ "structured_speed_layout" ],
+        "widgets": [ "structured_speed_num_layout", "structured_move_count_mode_layout" ],
         "condition": { "not": "u_driving" }
       }
     ]
-  },
-  {
-    "id": "structured_speed_layout",
-    "type": "widget",
-    "style": "layout",
-    "label": "Speed",
-    "arrange": "columns",
-    "widgets": [ "structured_speed_num_layout", "structured_move_count_mode_layout" ]
   },
   {
     "id": "structured_speed_num_layout",
