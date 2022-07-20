@@ -947,7 +947,7 @@
     "description": "A military-grade ASRG, minus the heavy plating that protected you from its radiation.  Provides constant power when plugged in, but it's pretty unsafe.",
     "epower": 130,
     "size": 1800,
-    "item": "compact_asrg",
+    "item": "compact_ASRG",
     "flags": [ "CARGO", "OBSTACLE", "LEAK_ALWAYS", "RADIOACTIVE", "COVERED", "ENABLED_DRAINS_EPOWER", "APPLIANCE" ],
     "breaks_into": [
       { "item": "scrap", "count": [ 4, 16 ] },
