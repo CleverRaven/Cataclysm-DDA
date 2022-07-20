@@ -1608,5 +1608,15 @@
     "type": "construction_group",
     "id": "build_clay_oven",
     "name": "Build Clay Oven"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_asrg_containment",
+    "name": "Place ASRG"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_asrg",
+    "name": "Place Unshielded ASRG"
   }
 ]
