@@ -748,7 +748,7 @@
     "flags": [ "INTEGRATED", "UNBREAKABLE", "SKINTIGHT", "PADDED", "WATER_FRIENDLY", "BLOCK_WHILE_WORN", "SOFT", "NO_REPAIR" ],
     "material": [ "superalloy" ],
     "name": { "str_sp": "alloy plating - arms" },
-    "description": "Thin armor plating layered into your torso, with external plating in vital areas.  Helps protect your arms from deep cuts and impacts.",
+    "description": "Thin armor plating layered into your arms, with external plating in vital areas.  Helps protect your arms from deep cuts and impacts.",
     "armor": [
       {
         "material": [
@@ -939,7 +939,7 @@
     "flags": [ "INTEGRATED", "UNBREAKABLE", "SKINTIGHT", "PADDED", "WATER_FRIENDLY", "HELMET_COMPAT", "SOFT", "NO_REPAIR" ],
     "material": [ "superalloy" ],
     "name": { "str_sp": "alloy plating - head" },
-    "description": "Thin armor plating layered into your torso, with external plating in vital areas.  Helps protect from deep cuts and impacts.",
+    "description": "Thin armor plating layered into your head, with external plating in vital areas.  Helps protect from deep cuts and impacts.",
     "armor": [
       {
         "material": [
