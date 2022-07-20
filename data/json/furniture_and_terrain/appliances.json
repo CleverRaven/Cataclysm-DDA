@@ -950,10 +950,10 @@
     "item": "ASRG_containment",
     "flags": [ "CARGO", "OBSTACLE", "LEAK_ALWAYS", "RADIOACTIVE", "COVERED", "ENABLED_DRAINS_EPOWER", "APPLIANCE" ],
     "breaks_into": [
-        { "item": "scrap", "count": [ 4, 16 ] },
-        { "item": "steel_chunk", "count": [ 1, 6 ] },
-        { "item": "plutonium", "charges": [ 0, 3 ] },
-        { "item": "lead", "charges": [ 12, 18 ] }
+      { "item": "scrap", "count": [ 4, 16 ] },
+      { "item": "steel_chunk", "count": [ 1, 6 ] },
+      { "item": "plutonium", "charges": [ 0, 3 ] },
+      { "item": "lead", "charges": [ 12, 18 ] }
     ],
     "damage_reduction": { "all": 15 }
   }
