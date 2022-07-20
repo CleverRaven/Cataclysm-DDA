@@ -1547,7 +1547,7 @@ std::string display::colorized_bodygraph_text( const Character &u, const std::st
             return sym;
         }
         std::pair<std::string, nc_color> sym_col = get_bodygraph_bp_sym_color( u, *bgp, var );
-        return colorize( sym_col.first, sym_col.second );
+        return colorize( sym, sym_col.second );
     };
 
     std::vector<std::string> rows = get_bodygraph_lines( u, process_sym, graph, width, max_height );
