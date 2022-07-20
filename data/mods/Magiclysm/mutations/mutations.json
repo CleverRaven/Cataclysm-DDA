@@ -181,7 +181,7 @@
     "valid": false,
     "types": [ "LEGS" ],
     "//": "This is a failsafe in case you've obtained webbed feet from elsewhere.  By normal means black dragons shouldn't obtain Webbed Feet to begin with.",
-    "cancels":  [ "WEBBED_FEET" ],
+    "cancels": [ "WEBBED_FEET" ],
     "category": [ "DRAGON_BLACK" ],
     "threshreq": [ "THRESH_DRAGON_BLACK" ],
     "restricts_gear": [ "foot_l", "foot_r" ],
