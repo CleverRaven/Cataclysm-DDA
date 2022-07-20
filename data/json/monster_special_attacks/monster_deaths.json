@@ -575,18 +575,6 @@
     "valid_targets": [ "ally", "hostile" ]
   },
   {
-    "id": "death_amigara",
-    "type": "SPELL",
-    "name": { "str": "Amigara Death" },
-    "valid_targets": [ "hostile", "ally", "ground" ],
-    "description": "Removes hypnosis.",
-    "effect": "remove_effect",
-    "effect_str": "amigara",
-    "min_range": 48,
-    "max_range": 48,
-    "shape": "blast"
-  },
-  {
     "id": "death_slimespring",
     "type": "SPELL",
     "name": { "str": "Slime Microbian Death" },
