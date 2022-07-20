@@ -998,23 +998,6 @@
   },
   {
     "type": "COMESTIBLE",
-    "id": "canola",
-    "name": { "str": "canola" },
-    "description": "A pretty stalk of canola.  Its seeds can be pressed into oil.",
-    "comestible_type": "FOOD",
-    "calories": 9,
-    "fun": -8,
-    "weight": "40 g",
-    "to_hit": -3,
-    "color": "magenta",
-    "symbol": ",",
-    "material": [ "veggy" ],
-    "volume": "250 ml",
-    "price": 0,
-    "price_postapoc": 25
-  },
-  {
-    "type": "COMESTIBLE",
     "id": "raw_beans",
     "name": { "str_sp": "raw beans" },
     "color": "brown",
