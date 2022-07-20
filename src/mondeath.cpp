@@ -110,7 +110,7 @@ void mdeath::amigara( monster &z )
     Character &player_character = get_player_character();
     if( player_character.has_effect( effect_amigara ) ) {
         player_character.remove_effect( effect_amigara );
-        add_msg( _( "Your obsession with the fault fades away…" ) );
+        add_msg( _( "Your obsession with the fault fades away." ) );
     }
 
     get_map().spawn_artifact( z.pos(), relic_procgen_id( "netherum_tunnels" ) );
