@@ -127,6 +127,7 @@
     "move_cost_mod": -1,
     "coverage": 80,
     "required_str": -1,
+    "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "compact_ASRG_containment" },
     "flags": [ "NOITEM", "SEALED", "REDUCE_SCENT", "PERMEABLE", "EASY_DECONSTRUCT" ],
     "bash": {
       "str_min": 70,
@@ -155,6 +156,7 @@
     "move_cost_mod": -1,
     "coverage": 50,
     "required_str": -1,
+    "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "compact_ASRG_containment" },
     "flags": [ "TRANSPARENT", "NOITEM", "SEALED", "REDUCE_SCENT", "PERMEABLE", "EASY_DECONSTRUCT" ],
     "emissions": [ "emit_rad_leak" ],
     "bash": {
