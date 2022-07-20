@@ -1284,10 +1284,10 @@ int Character::swim_speed() const
     /** @EFFECT_STR increases swim speed bonus from WEBBED and WEBBED_FEET */
     float webbing_factor = 60 + str_cur * 5;
     if( has_trait( trait_WEBBED ) ) {
-        ret -= hand_bonus_mult * webbing_factor * 0.7f;
+        ret -= hand_bonus_mult * webbing_factor * 0.5f;
     }
     if( has_trait( trait_WEBBED_FEET ) ) {
-        ret -= ( 1 - footwear_factor() ) * webbing_factor * 0.3f;
+        ret -= ( 1 - footwear_factor() ) * webbing_factor * 0.5f;
     }
     /** @EFFECT_SWIMMING increases swim speed */
     ret *= get_modifier( character_modifier_swim_mod );
