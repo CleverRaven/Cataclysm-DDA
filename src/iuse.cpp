@@ -5276,7 +5276,9 @@ cata::optional<int> iuse::unfold_generic( Character *p, item *it, bool, const tr
     veh->set_owner( *p );
     veh->enable_refresh();
     here.add_vehicle_to_cache( veh );
-    here.board_vehicle( p->pos(), p );
+    if( here.veh_at( p->pos() ).part_with_feature( VPFLAG_BOARDABLE, true ) ) {
+        here.board_vehicle( p->pos(), p ); // if boardable unbroken part is present -> get on it
+    }
 
     std::string unfold_msg = it->get_var( "unfold_msg" );
     if( unfold_msg.empty() ) {

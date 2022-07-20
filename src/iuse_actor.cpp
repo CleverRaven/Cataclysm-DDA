@@ -720,7 +720,9 @@ cata::optional<int> unfold_vehicle_iuse::use( Character &p, item &it, bool, cons
     veh->set_owner( p );
     veh->enable_refresh();
     here.add_vehicle_to_cache( veh );
-    here.board_vehicle( p.pos(), &p );
+    if( here.veh_at( p.pos() ).part_with_feature( "BOARDABLE", true ) ) {
+        here.board_vehicle( p.pos(), &p ); // if boardable unbroken part is present -> get on it
+    }
     // Restore HP of parts if we stashed them previously.
     if( it.has_var( "folding_bicycle_parts" ) ) {
         // Brand new, no HP stored
