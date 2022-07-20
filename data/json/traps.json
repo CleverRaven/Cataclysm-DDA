@@ -1025,7 +1025,7 @@
     "difficulty": 99,
     "trap_radius": 2,
     "action": "spell",
-    "flags": [ "AVATAR_ONLY" ],
+    "flags": [ "UNDODGEABLE", "AVATAR_ONLY" ],
     "spell_data": { "id": "swirling_vortex" }
   },
   {
@@ -1060,7 +1060,7 @@
     "difficulty": 99,
     "trap_radius": 2,
     "action": "spell",
-    "flags": [ "UNDODGEABLE" ],
+    "flags": [ "UNDODGEABLE", "AVATAR_ONLY" ],
     "spell_data": { "id": "portal_dungeon_entrance" }
   },
   {
@@ -1090,7 +1090,7 @@
     "difficulty": 99,
     "trap_radius": 2,
     "action": "spell",
-    "flags": [ "UNCONSUMED", "UNDODGEABLE" ],
+    "flags": [ "UNDODGEABLE", "AVATAR_ONLY" ],
     "spell_data": { "id": "portal_dungeon_exit" }
   },
   {
@@ -1120,7 +1120,7 @@
     "difficulty": 99,
     "trap_radius": 2,
     "action": "spell",
-    "flags": [ "UNCONSUMED", "UNDODGEABLE" ],
+    "flags": [ "UNDODGEABLE", "AVATAR_ONLY" ],
     "spell_data": { "id": "portal_dungeon_next_level" }
   },
   {

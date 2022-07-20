@@ -2802,5 +2802,34 @@
       { "item": "exodiiBRmag", "count": [ 2, 20 ], "ammo-item": "123ln", "charges": 60, "prob": 100 },
       { "item": "grenade", "count": [ 1, 10 ], "prob": 20 }
     ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "nursing_home_clothes",
+    "entries": [
+      {
+        "distribution": [
+          { "item": "jersey", "prob": 5 },
+          { "item": "linuxtshirt", "prob": 5 },
+          { "item": "longshirt", "prob": 20 },
+          { "item": "striped_shirt", "prob": 10 },
+          { "item": "sweater", "prob": 20 },
+          { "item": "sweatshirt", "prob": 20 },
+          { "item": "tshirt", "prob": 10 },
+          { "item": "polo_shirt", "prob": 10 }
+        ]
+      },
+      {
+        "distribution": [
+          { "item": "pants_checkered", "prob": 10 },
+          { "item": "pants", "prob": 40 },
+          { "item": "jeans", "prob": 20 },
+          { "item": "flag_pants", "prob": 5 },
+          { "item": "breeches", "prob": 25 }
+        ]
+      },
+      { "item": "slippers", "prob": 50 }
+    ]
   }
 ]

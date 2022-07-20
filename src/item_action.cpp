@@ -285,6 +285,7 @@ void game::item_action_menu( item_location loc )
     }
 
     uilist kmenu;
+    kmenu.desc_enabled = true;
     kmenu.text = _( "Execute which action?" );
     kmenu.input_category = "ITEM_ACTIONS";
     input_context ctxt( "ITEM_ACTIONS", keyboard_mode::keycode );
@@ -300,12 +301,11 @@ void game::item_action_menu( item_location loc )
         return iactions.find( action ) != iactions.end();
     };
 
-    std::vector<std::tuple<item_action_id, std::string, std::string>> menu_items;
+    std::vector<std::tuple<item_action_id, std::string, std::string, std::string>> menu_items;
     // Sorts menu items by action.
     using Iter = decltype( menu_items )::iterator;
     const auto sort_menu = []( Iter from, Iter to ) {
-        std::sort( from, to, []( const std::tuple<item_action_id, std::string, std::string> &lhs,
-        const std::tuple<item_action_id, std::string, std::string> &rhs ) {
+        std::sort( from, to, []( const auto & lhs, const auto & rhs ) {
             return std::get<1>( lhs ).compare( std::get<1>( rhs ) ) < 0;
         } );
     };
@@ -327,9 +327,9 @@ void game::item_action_menu( item_location loc )
 
         const use_function *method = elem.second->get_use( elem.first );
         if( method ) {
-            return std::make_tuple( method->get_type(), method->get_name(), ss );
+            return std::make_tuple( method->get_type(), method->get_name(), ss, method->get_description() );
         } else {
-            return std::make_tuple( errstring, std::string( "NO USE FUNCTION" ), ss );
+            return std::make_tuple( errstring, std::string( "NO USE FUNCTION" ), ss, std::string() );
         }
     } );
     // Sort mapped actions.
@@ -338,7 +338,7 @@ void game::item_action_menu( item_location loc )
         // Add unmapped but binded actions to the menu vector.
         for( const auto &elem : item_actions ) {
             if( key_bound_to( ctxt, elem.first ).has_value() && !assigned_action( elem.first ) ) {
-                menu_items.emplace_back( elem.first, gen.get_action_name( elem.first ), "-" );
+                menu_items.emplace_back( elem.first, gen.get_action_name( elem.first ), "-", std::string() );
             }
         }
     }
@@ -364,8 +364,9 @@ void game::item_action_menu( item_location loc )
 
         const cata::optional<input_event> bind = key_bound_to( ctxt, std::get<0>( elem ) );
         const bool enabled = assigned_action( std::get<0>( elem ) );
+        const std::string desc =  std::get<3>( elem ) ;
 
-        kmenu.addentry( num, enabled, bind, ss );
+        kmenu.addentry_desc( num, enabled, bind, ss, desc );
         num++;
     }
 
@@ -407,10 +408,24 @@ std::string iuse_actor::get_name() const
     return item_action_generator::generator().get_action_name( type );
 }
 
+std::string iuse_actor::get_description() const
+{
+    return std::string();
+}
+
 std::string use_function::get_name() const
 {
     if( actor ) {
         return actor->get_name();
+    } else {
+        return errstring;
+    }
+}
+
+std::string use_function::get_description() const
+{
+    if( actor ) {
+        return actor->get_description();
     } else {
         return errstring;
     }

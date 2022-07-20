@@ -17,7 +17,7 @@
     "act_cost": 10,
     "react_cost": 10,
     "trigger_cost": "25kJ",
-    "time": 1
+    "time": "1 s"
   },
   {
     "id": "bio_alarm",
@@ -29,7 +29,7 @@
     "act_cost": "1 J",
     "react_cost": "1 J",
     "trigger_cost": "25 kJ",
-    "time": 1
+    "time": "1 s"
   },
   {
     "id": "bio_ankles",
@@ -470,7 +470,7 @@
     "fuel_options": [ "battery" ],
     "fuel_efficiency": 1,
     "fuel_capacity": 2000,
-    "time": 1,
+    "time": "1 s",
     "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ]
   },
   {
@@ -527,7 +527,7 @@
     "description": "You have a complex port surgically mounted above your hip.  While active, it will recharge bionic power when connected to a power source via jumper cable.",
     "occupied_bodyparts": [ [ "torso", 7 ] ],
     "is_remote_fueled": true,
-    "time": 1,
+    "time": "1 s",
     "fuel_efficiency": 1,
     "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_SHOCKPROOF", "BIONIC_TOGGLED" ]
   },
@@ -638,7 +638,7 @@
     ],
     "act_cost": "100 J",
     "react_cost": "100 J",
-    "time": 1,
+    "time": "1 s",
     "flags": [ "BIONIC_TOGGLED" ],
     "active_flags": [ "CLIMATE_CONTROL" ]
   },
@@ -661,7 +661,7 @@
     ],
     "act_cost": "30 kJ",
     "react_cost": "30 kJ",
-    "time": 1,
+    "time": "1 s",
     "enchantments": [ { "condition": "ACTIVE", "ench_effects": [ { "effect": "invisibility", "intensity": 1 } ] } ],
     "flags": [ "BIONIC_TOGGLED" ]
   },
@@ -673,7 +673,7 @@
     "occupied_bodyparts": [ [ "head", 3 ] ],
     "act_cost": "20 J",
     "react_cost": "20 J",
-    "time": 1,
+    "time": "1 s",
     "known_ma_styles": [
       "style_aikido",
       "style_barbaran",
@@ -825,7 +825,7 @@
     "fuel_capacity": 400,
     "fuel_efficiency": 0.5,
     "exothermic_power_gen": true,
-    "time": 1,
+    "time": "1 s",
     "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF", "BIONIC_TOGGLED" ]
   },
   {
@@ -838,7 +838,7 @@
     "fuel_capacity": 750,
     "fuel_efficiency": 0.35,
     "exothermic_power_gen": true,
-    "time": 5,
+    "time": "5 s",
     "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF", "BIONIC_TOGGLED" ]
   },
   {
@@ -848,7 +848,7 @@
     "description": "This unit draws moisture from the surrounding air, which slowly trickles directly into your blood stream.  It may fail in very dry environments.",
     "occupied_bodyparts": [ [ "torso", 5 ] ],
     "react_cost": "60 J",
-    "time": 1,
+    "time": "1 s",
     "flags": [ "BIONIC_TOGGLED" ]
   },
   {
@@ -921,7 +921,7 @@
     "active_flags": [ "ELECTRIC_IMMUNE" ],
     "act_cost": "5 J",
     "react_cost": "5 J",
-    "time": 1
+    "time": "1 s"
   },
   {
     "id": "bio_fingerhack",
@@ -948,7 +948,7 @@
     "occupied_bodyparts": [ [ "head", 1 ] ],
     "act_cost": "3 J",
     "react_cost": "3 J",
-    "time": 1,
+    "time": "1 s",
     "flags": [ "BIONIC_TOGGLED" ],
     "enchantments": [ { "condition": "ACTIVE", "values": [ { "value": "LUMINATION", "add": 60 } ] } ]
   },
@@ -959,7 +959,7 @@
     "description": "A small LED display just beneath your dermal layer can be illuminated on command to show patterns of your choice at dim or bright luminosity.  It doesn't provide enough light to comfortably read or craft, but it can suffice if you have nothing else.",
     "act_cost": "1 J",
     "react_cost": "1 J",
-    "time": 1,
+    "time": "1 s",
     "flags": [ "BIONIC_TOGGLED" ],
     "enchantments": [ { "condition": "ACTIVE", "values": [ { "value": "LUMINATION", "add": 5 } ] } ]
   },
@@ -997,7 +997,7 @@
     "flags": [ "BIONIC_TOGGLED" ],
     "act_cost": "200 J",
     "react_cost": "200 J",
-    "time": 1
+    "time": "1 s"
   },
   {
     "id": "bio_heat_absorb",
@@ -1040,7 +1040,7 @@
     "active_flags": [ "HEATSINK" ],
     "act_cost": "1 kJ",
     "react_cost": "1 kJ",
-    "time": 1
+    "time": "1 s"
   },
   {
     "id": "bio_hydraulics",
@@ -1051,7 +1051,7 @@
     "flags": [ "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ],
     "act_cost": "10 kJ",
     "react_cost": "10 kJ",
-    "time": 1
+    "time": "1 s"
   },
   {
     "id": "bio_infrared",
@@ -1063,7 +1063,7 @@
     "active_flags": [ "INFRARED" ],
     "act_cost": "5 J",
     "react_cost": "5 J",
-    "time": 1
+    "time": "1 s"
   },
   {
     "id": "bio_int_enhancer",
@@ -1109,7 +1109,7 @@
     "flags": [ "BIONIC_TOGGLED", "BIONIC_SLEEP_FRIENDLY", "BIONIC_NPC_USABLE" ],
     "act_cost": "5 J",
     "react_cost": "5 J",
-    "time": 1,
+    "time": "1 s",
     "enchantments": [
       {
         "condition": "ACTIVE",
@@ -1166,7 +1166,7 @@
     "act_cost": "2 J",
     "react_cost": "2 J",
     "trigger_cost": "25 J",
-    "time": 1,
+    "time": "1 s",
     "enchantments": [
       {
         "condition": "ACTIVE",
@@ -1187,7 +1187,7 @@
     "occupied_bodyparts": [ [ "torso", 20 ] ],
     "fuel_options": [ "metabolism" ],
     "fuel_efficiency": 0.25,
-    "time": 1,
+    "time": "1 s",
     "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ]
   },
   {
@@ -1208,7 +1208,7 @@
     "flags": [ "BIONIC_TOGGLED", "BIONIC_NPC_USABLE", "BIONIC_SLEEP_FRIENDLY" ],
     "act_cost": "80 J",
     "react_cost": "40 J",
-    "time": 1
+    "time": "1 s"
   },
   {
     "id": "bio_night",
@@ -1226,7 +1226,7 @@
     ],
     "act_cost": "9 kJ",
     "react_cost": "9 kJ",
-    "time": 1
+    "time": "1 s"
   },
   {
     "id": "bio_night_vision",
@@ -1238,7 +1238,7 @@
     "active_flags": [ "NIGHT_VISION" ],
     "act_cost": "10 J",
     "react_cost": "10 J",
-    "time": 1
+    "time": "1 s"
   },
   {
     "id": "bio_noise",
@@ -1267,7 +1267,7 @@
     "act_cost": "10 kJ",
     "react_cost": "10 kJ",
     "trigger_cost": "1 kJ",
-    "time": 1
+    "time": "1 s"
   },
   {
     "id": "bio_painkiller",
@@ -1295,7 +1295,7 @@
     "occupied_bodyparts": [ [ "torso", 4 ], [ "head", 1 ] ],
     "flags": [ "BIONIC_ARMOR_INTERFACE", "BIONIC_TOGGLED" ],
     "react_cost": 1,
-    "time": 1
+    "time": "1 s"
   },
   {
     "id": "bio_power_armor_interface_mkII",
@@ -1305,7 +1305,7 @@
     "occupied_bodyparts": [ [ "torso", 3 ], [ "head", 2 ] ],
     "flags": [ "BIONIC_ARMOR_INTERFACE", "BIONIC_TOGGLED" ],
     "react_cost": 1,
-    "time": 2
+    "time": "2 s"
   },
   {
     "id": "bio_power_storage",
@@ -1343,7 +1343,7 @@
     "act_cost": "3 J",
     "react_cost": "3 J",
     "trigger_cost": "250 kJ",
-    "time": 1
+    "time": "1 s"
   },
   {
     "id": "bio_purifier",
@@ -1373,7 +1373,7 @@
     "act_cost": "1 kJ",
     "react_cost": "100 J",
     "trigger_cost": "10 kJ",
-    "time": 1
+    "time": "1 s"
   },
   {
     "id": "bio_razors",
@@ -1410,7 +1410,7 @@
     "occupied_bodyparts": [ [ "head", 2 ] ],
     "flags": [ "BIONIC_TOGGLED" ],
     "react_cost": 1,
-    "time": 24
+    "time": "24 s"
   },
   {
     "id": "bio_resonator",
@@ -1430,7 +1430,7 @@
     "active_flags": [ "NO_SCENT" ],
     "act_cost": 1,
     "react_cost": 1,
-    "time": 60
+    "time": "1 m"
   },
   {
     "id": "bio_shakes",
@@ -1451,7 +1451,7 @@
     "occupied_bodyparts": [ [ "head", 1 ], [ "torso", 1 ] ],
     "act_cost": 0,
     "react_cost": "1 kJ",
-    "time": 100
+    "time": "100 s"
   },
   {
     "id": "bio_shock",
@@ -1671,7 +1671,7 @@
     "act_cost": "6 J",
     "react_cost": "6 J",
     "trigger_cost": "75 kJ",
-    "time": 1
+    "time": "1 s"
   },
   {
     "id": "bio_ups",
@@ -1718,7 +1718,7 @@
     "fuel_capacity": 500,
     "fuel_efficiency": 0.25,
     "exothermic_power_gen": true,
-    "time": 1,
+    "time": "1 s",
     "flags": [ "BIONIC_TOGGLED", "BIONIC_POWER_SOURCE", "BIONIC_NPC_USABLE" ]
   },
   {

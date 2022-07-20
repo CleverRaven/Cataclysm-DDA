@@ -147,7 +147,7 @@
   {
     "id": "cop_weapons",
     "type": "item_group",
-    "items": [ { "group": "longguns_cop", "prob": 10, "contents-item": "shoulder_strap" } ]
+    "items": [ { "group": "longguns_cop", "prob": 10 } ]
   },
   {
     "id": "cop_holster",

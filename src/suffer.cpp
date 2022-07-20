@@ -83,6 +83,7 @@ static const efftype_id effect_deaf( "deaf" );
 static const efftype_id effect_disabled( "disabled" );
 static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_drunk( "drunk" );
+static const efftype_id effect_fearparalyze( "fearparalyze" );
 static const efftype_id effect_formication( "formication" );
 static const efftype_id effect_grabbed( "grabbed" );
 static const efftype_id effect_hallu( "hallu" );
@@ -97,6 +98,7 @@ static const efftype_id effect_shakes( "shakes" );
 static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_took_antiasthmatic( "took_antiasthmatic" );
 static const efftype_id effect_took_thorazine( "took_thorazine" );
+static const efftype_id effect_took_xanax( "took_xanax" );
 static const efftype_id effect_valium( "valium" );
 static const efftype_id effect_visuals( "visuals" );
 static const efftype_id effect_weary_0( "weary_0" );
@@ -119,6 +121,7 @@ static const json_character_flag json_flag_GILLS( "GILLS" );
 static const json_character_flag json_flag_GLARE_RESIST( "GLARE_RESIST" );
 static const json_character_flag json_flag_MEND_ALL( "MEND_ALL" );
 static const json_character_flag json_flag_MEND_LIMB( "MEND_LIMB" );
+static const json_character_flag json_flag_NYCTOPHOBIA( "NYCTOPHOBIA" );
 static const json_character_flag json_flag_RAD_DETECT( "RAD_DETECT" );
 
 static const mtype_id mon_zombie( "mon_zombie" );
@@ -179,26 +182,27 @@ static const vitamin_id vitamin_vitC( "vitC" );
 
 namespace suffer
 {
-void from_sunburn( Character &you, bool severe );
-void in_sunlight( Character &you );
-void water_damage( Character &you, const trait_id &mut_id );
-void mutation_power( Character &you, const trait_id &mut_id );
-void while_underwater( Character &you );
-void while_grabbed( Character &you );
-void from_addictions( Character &you );
-void while_awake( Character &you, int current_stim );
-void from_chemimbalance( Character &you );
-void from_schizophrenia( Character &you );
-void from_asthma( Character &you, int current_stim );
-void from_item_dropping( Character &you );
-void from_other_mutations( Character &you );
-void from_radiation( Character &you );
-void from_bad_bionics( Character &you );
-void from_stimulants( Character &you, int current_stim );
-void from_exertion( Character &you );
-void without_sleep( Character &you, int sleep_deprivation );
-void from_tourniquet( Character &you );
-void from_pain( Character &you );
+static void from_sunburn( Character &you, bool severe );
+static void in_sunlight( Character &you );
+static void water_damage( Character &you, const trait_id &mut_id );
+static void mutation_power( Character &you, const trait_id &mut_id );
+static void while_underwater( Character &you );
+static void while_grabbed( Character &you );
+static void from_addictions( Character &you );
+static void while_awake( Character &you, int current_stim );
+static void from_chemimbalance( Character &you );
+static void from_schizophrenia( Character &you );
+static void from_asthma( Character &you, int current_stim );
+static void from_item_dropping( Character &you );
+static void from_other_mutations( Character &you );
+static void from_radiation( Character &you );
+static void from_bad_bionics( Character &you );
+static void from_stimulants( Character &you, int current_stim );
+static void from_exertion( Character &you );
+static void without_sleep( Character &you, int sleep_deprivation );
+static void from_tourniquet( Character &you );
+static void from_pain( Character &you );
+static void from_nyctophobia( Character &you );
 } // namespace suffer
 
 static float addiction_scaling( float at_min, float at_max, float add_lvl )
@@ -232,13 +236,13 @@ void suffer::water_damage( Character &you, const trait_id &mut_id )
 
 void suffer::mutation_power( Character &you, const trait_id &mut_id )
 {
-    if( you.get_cost_timer( mut_id ) > 0 ) {
+    if( you.get_cost_timer( mut_id ) > 0_turns ) {
         // Not ready to consume cost yet, the timer ticks on
-        you.mod_cost_timer( mut_id, -1 );
+        you.mod_cost_timer( mut_id, -1_turns );
     } else {
         // Ready to consume cost: pay the power cost and reset timer
-        if( mut_id->cooldown > 0 ) {
-            you.set_cost_timer( mut_id, mut_id->cooldown - 1 );
+        if( mut_id->cooldown > 0_turns ) {
+            you.set_cost_timer( mut_id, mut_id->cooldown - 1_turns );
         }
         if( mut_id->hunger ) {
             if( you.get_bmi() < character_weight_category::underweight ) {
@@ -365,9 +369,15 @@ void suffer::while_awake( Character &you, const int current_stim )
             you.add_effect( effect_downed, 2_turns, false, 0, true );
         }
     }
+
+    if( you.has_flag( json_flag_NYCTOPHOBIA ) && !you.has_effect( effect_took_xanax ) ) {
+        suffer::from_nyctophobia( you );
+    }
+
     if( you.has_trait( trait_CHEMIMBALANCE ) ) {
         suffer::from_chemimbalance( you );
     }
+
     if( you.has_trait( trait_SCHIZOPHRENIC ) &&
         !you.has_effect( effect_took_thorazine ) ) {
         suffer::from_schizophrenia( you );
@@ -491,11 +501,12 @@ void suffer::from_chemimbalance( Character &you )
 void suffer::from_schizophrenia( Character &you )
 {
     std::string i_name_w;
-    if( !you.get_wielded_item().is_null() ) {
-        i_name_w = you.get_wielded_item().has_var( "item_label" ) ?
-                   you.get_wielded_item().get_var( "item_label" ) :
+    item_location weap = you.get_wielded_item();
+    if( weap ) {
+        i_name_w = weap->has_var( "item_label" ) ?
+                   weap->get_var( "item_label" ) :
                    //~ %1$s: weapon name
-                   string_format( _( "your %1$s" ), you.get_wielded_item().type_name() );
+                   string_format( _( "your %1$s" ), weap->type_name() );
     }
     // Start with the effects that both NPCs and avatars can suffer from
     // Delusions
@@ -552,12 +563,11 @@ void suffer::from_schizophrenia( Character &you )
         return;
     }
     // Drop weapon
-    if( one_turn_in( 2_days ) && !you.get_wielded_item().is_null() ) {
+    if( one_turn_in( 2_days ) && weap ) {
         const translation snip = SNIPPET.random_from_category( "schizo_weapon_drop" ).value_or(
                                      translation() );
         you.add_msg_if_player( m_bad, "%s", uppercase_first_letter( string_format( snip, i_name_w ) ) );
-        item_location loc( you, &you.get_wielded_item() );
-        you.drop( loc, you.pos() );
+        you.drop( weap, you.pos() );
         return;
     }
     // Talk to self
@@ -632,14 +642,13 @@ void suffer::from_schizophrenia( Character &you )
     }
 
     // Talking weapon
-    if( !you.get_wielded_item().is_null() ) {
+    if( weap ) {
         // If player has a weapon, picks a message from said weapon
         // Weapon tells player to kill a monster if any are nearby
         // Weapon is concerned for player if bleeding
         // Weapon is concerned for itself if damaged
         // Otherwise random chit-chat
         std::vector<weak_ptr_fast<monster>> mons = g->all_monsters().items;
-        const item &weap = you.get_wielded_item();
 
         std::string i_talk_w;
         bool does_talk = false;
@@ -661,8 +670,8 @@ void suffer::from_schizophrenia( Character &you )
             i_talk_w = SNIPPET.random_from_category( "schizo_weapon_talk_bleeding" ).value_or(
                            translation() ).translated();
             does_talk = true;
-        } else if( weap.damage() >= ( weap.max_damage() - weap.damage_floor( false ) ) / 3 +
-                   weap.damage_floor( false ) && one_turn_in( 1_hours ) ) {
+        } else if( weap->damage() >= ( weap->max_damage() - weap->damage_floor( false ) ) / 3 +
+                   weap->damage_floor( false ) && one_turn_in( 1_hours ) ) {
             i_talk_w = SNIPPET.random_from_category( "schizo_weapon_talk_damaged" ).value_or(
                            translation() ).translated();
             does_talk = true;
@@ -743,7 +752,7 @@ void suffer::from_asthma( Character &you, const int current_stim )
                     you.wake_up();
                 }
             } else {
-                if( !you.is_npc() ) {
+                if( uistate.distraction_asthma && !you.is_npc() ) {
                     g->cancel_activity_or_ignore_query( distraction_type::asthma,
                                                         _( "You can't focus while choking!" ) );
                 }
@@ -781,7 +790,7 @@ void suffer::from_asthma( Character &you, const int current_stim )
         }
     } else {
         you.add_effect( effect_asthma, rng( 5_minutes, 20_minutes ) );
-        if( !you.is_npc() ) {
+        if( uistate.distraction_asthma && !you.is_npc() ) {
             g->cancel_activity_or_ignore_query( distraction_type::asthma,
                                                 _( "You can't focus while choking!" ) );
         }
@@ -970,7 +979,7 @@ void suffer::from_sunburn( Character &you, bool severe )
             }
             // If no UV-/glare-protection gear is worn the eyes should be treated as unprotected
             exposure = 1.0;
-        } else if( you.get_wielded_item().has_flag( flag_RAIN_PROTECT )
+        } else if( ( you.get_wielded_item() && you.get_wielded_item()->has_flag( flag_RAIN_PROTECT ) )
                    || ( ( bp == body_part_hand_l || bp == body_part_hand_r )
                         && you.worn_with_flag( flag_POCKETS )
                         && you.can_use_pockets() )
@@ -1341,14 +1350,15 @@ void suffer::from_bad_bionics( Character &you )
         you.moves -= 150;
         you.mod_power_level( -bio_dis_shock->power_trigger );
 
-        if( you.get_wielded_item().typeId() == itype_e_handcuffs && you.get_wielded_item().charges > 0 ) {
-            you.get_wielded_item().charges -= rng( 1, 3 ) * 50;
-            if( you.get_wielded_item().charges < 1 ) {
-                you.get_wielded_item().charges = 1;
+        item_location weapon = you.get_wielded_item();
+        if( weapon && weapon->typeId() == itype_e_handcuffs && weapon->charges > 0 ) {
+            weapon->charges -= rng( 1, 3 ) * 50;
+            if( weapon->charges < 1 ) {
+                weapon->charges = 1;
             }
 
             you.add_msg_if_player( m_good, _( "The %s seems to be affected by the discharge." ),
-                                   you.get_wielded_item().tname() );
+                                   weapon->tname() );
         }
         sfx::play_variant_sound( "bionics", "elec_discharge", 100 );
     }
@@ -1642,6 +1652,61 @@ void suffer::from_pain( Character &you )
             you.mod_pain( -40 );
         } else if( you.has_trait( trait_PAINREC3 ) ) {
             you.mod_pain( -50 );
+        }
+    }
+}
+
+void suffer::from_nyctophobia( Character &you )
+{
+    std::vector<tripoint> dark_places;
+    const float nyctophobia_threshold = LIGHT_AMBIENT_LIT - 3.0f;
+
+    for( const tripoint &dark_place : points_in_radius( you.pos(), 5 ) ) {
+        if( !you.sees( dark_place ) || get_map().ambient_light_at( dark_place ) >= nyctophobia_threshold ) {
+            continue;
+        }
+        dark_places.push_back( dark_place );
+    }
+
+    const bool in_darkness = get_map().ambient_light_at( you.pos() ) < nyctophobia_threshold;
+    const int chance = in_darkness ? 10 : 50;
+
+    if( !dark_places.empty() && one_in( chance ) ) {
+        g->spawn_hallucination( random_entry( dark_places ) );
+    }
+
+    if( in_darkness ) {
+        if( one_turn_in( 5_minutes ) ) {
+            you.add_msg_if_player( m_bad, _( "You feel a twinge of panic as darkness engulfs you." ) );
+        }
+
+        if( one_in( 2 ) && one_turn_in( 30_seconds ) ) {
+            you.sound_hallu();
+        }
+
+        if( one_in( 50 ) && !you.is_on_ground() ) {
+            you.add_msg_if_player( m_bad,
+                                   _( "Your fear of the dark is so intense that your trembling legs fail you, and you fall to the ground." ) );
+            you.add_effect( effect_downed, rng( 1_minutes, 2_minutes ) );
+        }
+
+        if( one_in( 50 ) && !you.has_effect( effect_shakes ) ) {
+            you.add_msg_if_player( m_bad,
+                                   _( "Your fear of the dark is so intense that your hands start shaking uncontrollably." ) );
+            you.add_effect( effect_shakes, rng( 1_minutes, 2_minutes ) );
+        }
+
+        if( one_in( 50 ) ) {
+            you.add_msg_if_player( m_bad,
+                                   _( "Your fear of the dark is so intense that you start breathing rapidly, and you feel like your heart is ready to jump out of the chest." ) );
+            you.mod_stamina( -500 * rng( 1, 3 ) );
+        }
+
+        if( one_in( 50 ) && !you.has_effect( effect_fearparalyze ) ) {
+            you.add_msg_if_player( m_bad,
+                                   _( "Your fear of the dark is so intense that you stand paralyzed." ) );
+            you.add_effect( effect_fearparalyze, 5_turns );
+            you.mod_moves( -4 * you.get_speed() );
         }
     }
 }

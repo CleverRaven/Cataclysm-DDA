@@ -77,6 +77,7 @@
 #include "translation_gendered.h"
 #include "ui.h"
 #include "ui_manager.h"
+#include "uistate.h"
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vpart_position.h"
@@ -990,7 +991,8 @@ void avatar::talk_to( std::unique_ptr<talker> talk_with, bool radio_contact,
         return;
     }
 
-    if( !d.actor( true )->has_effect( effect_under_operation, bodypart_str_id::NULL_ID() ) ) {
+    if( uistate.distraction_conversation &&
+        !d.actor( true )->has_effect( effect_under_operation, bodypart_str_id::NULL_ID() ) ) {
         g->cancel_activity_or_ignore_query( distraction_type::talked_to,
                                             string_format( _( "%s talked to you." ),
                                                     d.actor( true )->disp_name() ) );
@@ -1546,26 +1548,26 @@ void parse_tags( std::string &phrase, const Character &u, const Character &me,
             return;
         }
 
-        const item &u_weapon = u.get_wielded_item();
-        const item &me_weapon = me.get_wielded_item();
+        const item_location u_weapon = u.get_wielded_item();
+        const item_location me_weapon = me.get_wielded_item();
         // Special, dynamic tags go here
         if( tag == "<yrwp>" ) {
-            phrase.replace( fa, l, remove_color_tags( u_weapon.tname() ) );
+            phrase.replace( fa, l, remove_color_tags( u_weapon->tname() ) );
         } else if( tag == "<mywp>" ) {
             if( !me.is_armed() ) {
                 phrase.replace( fa, l, _( "fists" ) );
             } else {
-                phrase.replace( fa, l, remove_color_tags( me_weapon.tname() ) );
+                phrase.replace( fa, l, remove_color_tags( me_weapon->tname() ) );
             }
         } else if( tag == "<u_name>" ) {
             phrase.replace( fa, l, u.get_name() );
         } else if( tag == "<npc_name>" ) {
             phrase.replace( fa, l, me.get_name() );
         } else if( tag == "<ammo>" ) {
-            if( !me_weapon.is_gun() ) {
+            if( !me_weapon || !me_weapon->is_gun() ) {
                 phrase.replace( fa, l, _( "BADAMMO" ) );
             } else {
-                phrase.replace( fa, l, me_weapon.ammo_current()->nname( 1 ) );
+                phrase.replace( fa, l, me_weapon->ammo_current()->nname( 1 ) );
             }
         } else if( tag == "<current_activity>" ) {
             std::string activity_name;
@@ -2457,6 +2459,8 @@ void talk_effect_fun_t<T>::set_location_variable( const JsonObject &jo, const st
     int_or_var<T> iov_min_radius = get_int_or_var<T>( jo, "min_radius", false, 0 );
     int_or_var<T> iov_max_radius = get_int_or_var<T>( jo, "max_radius", false, 0 );
     int_or_var<T> iov_z_adjust = get_int_or_var<T>( jo, "z_adjust", false, 0 );
+    int_or_var<T> iov_x_adjust = get_int_or_var<T>( jo, "x_adjust", false, 0 );
+    int_or_var<T> iov_y_adjust = get_int_or_var<T>( jo, "y_adjust", false, 0 );
     bool z_override = jo.get_bool( "z_override", false );
     const bool outdoor_only = jo.get_bool( "outdoor_only", false );
     cata::optional<mission_target_params> target_params;
@@ -2473,7 +2477,8 @@ void talk_effect_fun_t<T>::set_location_variable( const JsonObject &jo, const st
     std::vector<effect_on_condition_id> false_eocs = load_eoc_vector( jo, "false_eocs" );
 
     function = [iov_min_radius, iov_max_radius, var_name, outdoor_only, target_params,
-                    is_npc, type, iov_z_adjust, z_override, true_eocs, false_eocs]( const T & d ) {
+                                is_npc, type, iov_x_adjust, iov_y_adjust, iov_z_adjust, z_override, true_eocs,
+                    false_eocs]( const T & d ) {
         talker *target = d.actor( is_npc );
         tripoint talker_pos = get_map().getabs( target->pos() );
         tripoint target_pos = talker_pos;
@@ -2500,6 +2505,10 @@ void talk_effect_fun_t<T>::set_location_variable( const JsonObject &jo, const st
                 return;
             }
         }
+
+        // move the found value by the adjusts
+        target_pos = target_pos + tripoint( iov_x_adjust.evaluate( d ), iov_y_adjust.evaluate( d ), 0 );
+
         if( z_override ) {
             target_pos = tripoint( target_pos.xy(),
                                    iov_z_adjust.evaluate( d ) );

@@ -461,7 +461,9 @@ class game
         Creature *get_creature_if( const std::function<bool( const Creature & )> &pred );
 
         /** Returns true if there is no player, NPC, or monster on the tile and move_cost > 0. */
+        // TODO: fix point types (remove the first overload)
         bool is_empty( const tripoint &p );
+        bool is_empty( const tripoint_bub_ms &p );
         /** Returns true if p is outdoors and it is sunny. */
         bool is_in_sunlight( const tripoint &p );
         /** Returns true if p is indoors, underground, or in a car. */

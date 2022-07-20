@@ -566,6 +566,8 @@ class update_mapgen
  */
 std::shared_ptr<mapgen_function> load_mapgen_function( const JsonObject &jio,
         const std::string &id_base, const point &offset, const point &total );
+void load_and_add_mapgen_function(
+    const JsonObject &jio, const std::string &id_base, const point &offset, const point &total );
 /*
  * Load the above directly from a file via init, as opposed to riders attached to overmap_terrain. Added check
  * for oter_mapgen / oter_mapgen_weights key, multiple possible ( i.e., [ "house_w_1", "duplex" ] )

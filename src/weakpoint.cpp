@@ -223,9 +223,9 @@ void weakpoint_difficulty::load( const JsonObject &jo )
     float default_value = difficulty[static_cast<int>( attack_type::NONE )];
     float all = jo.get_float( "all", default_value );
     // Determine default values
-    float bash = all;
-    float cut = all;
-    float stab = all;
+    float bash;
+    float cut;
+    float stab;
     float ranged = all;
     // Support either "melee" shorthand or "broad"/"point" shorthand.
     if( jo.has_float( "melee" ) ) {

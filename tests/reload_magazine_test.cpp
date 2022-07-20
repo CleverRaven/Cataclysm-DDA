@@ -315,7 +315,7 @@ TEST_CASE( "reload_magazine", "[magazine] [visitable] [item] [item_location] [re
                     item_location another_mag = player_character.i_add( item( mag_id ) );
                     another_mag->ammo_set( ammo_id, mag_cap );
                     std::vector<item::reload_option> ammo_list;
-                    CHECK( player_character.list_ammo( *gun, ammo_list, false ) );
+                    CHECK( player_character.list_ammo( gun, ammo_list, false ) );
                     CHECK( !ammo_list.empty() );
                     bool ok = gun->reload( player_character, another_mag, 1 );
                     THEN( "the gun is now loaded with the full magazine" ) {

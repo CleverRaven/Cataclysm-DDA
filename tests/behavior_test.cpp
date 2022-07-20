@@ -35,9 +35,9 @@ namespace behavior
 {
 class oracle_t;
 
-extern sequential_t default_sequential;
-extern fallback_t default_fallback;
-extern sequential_until_done_t default_until_done;
+static sequential_t default_sequential;
+static fallback_t default_fallback;
+static sequential_until_done_t default_until_done;
 } // namespace behavior
 
 static behavior::node_t make_test_node( const std::string &goal, const behavior::status_t *status )

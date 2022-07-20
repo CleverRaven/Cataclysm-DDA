@@ -86,6 +86,7 @@ aquacultural
 aquaculture
 aquamarines
 aqueles
+aquilops
 aramid
 arborescent
 args
@@ -492,6 +493,8 @@ dragonscale
 draugr
 draugrs
 drawknife
+dreamdross
+dreamstuff
 driers
 drivetrain
 dromaeosaurid
@@ -499,6 +502,7 @@ dromaeosaurus
 dropoff
 droppers
 druidry
+dryosaurus
 dryptosaurus
 drywalled
 dunderfuck
@@ -649,6 +653,7 @@ foodcart
 foodplace
 footgear
 foregrip
+foregrips
 forestock
 forgemaster
 forgnottedn
@@ -1016,6 +1021,7 @@ macrophenotypic
 macuahuitl
 maculata
 mafuckin
+magnifiers
 magwells
 maiasaura
 makizushi
@@ -1669,6 +1675,8 @@ starrin
 std
 steeltoed
 steerable
+stegoceras
+stegosaurus
 stegosaurusfindsrobot
 stenonychosaurus
 stimulative
@@ -1764,6 +1772,7 @@ thawb
 thawbs
 thermochemistry
 thermoplastics
+thescelosaurus
 thonged
 thorned
 thosun
@@ -1811,6 +1820,7 @@ transpositions
 travelpack
 traversal
 treelines
+tribesperson
 tribot
 tricorne
 trifacet

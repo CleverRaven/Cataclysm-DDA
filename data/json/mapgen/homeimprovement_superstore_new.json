@@ -206,13 +206,12 @@
       "place_vehicles": [
         { "vehicle": "warehouse_vehicles", "x": [ 5, 12 ], "y": [ 42, 45 ], "chance": 100 },
         { "vehicle": "shopping_cart", "x": [ 37, 46 ], "y": [ 56, 57 ], "chance": 100, "repeat": [ 1, 8 ] },
-        { "vehicle": "parking_garage", "x": 42, "y": [ 62, 65 ], "chance": 15, "rotation": 270 },
-        { "vehicle": "parking_garage", "x": 37, "y": [ 62, 65 ], "chance": 15, "rotation": 270 },
-        { "vehicle": "parking_garage", "x": 32, "y": [ 62, 65 ], "chance": 15, "rotation": 270 },
-        { "vehicle": "parking_garage", "x": 27, "y": [ 62, 65 ], "chance": 15, "rotation": 270 },
-        { "vehicle": "parking_garage", "x": 22, "y": [ 62, 65 ], "chance": 15, "rotation": 270 },
-        { "vehicle": "parking_garage", "x": 17, "y": [ 62, 65 ], "chance": 15, "rotation": 270 },
-        { "vehicle": "parking_garage", "x": 12, "y": [ 62, 65 ], "chance": 15, "rotation": 270 }
+        { "vehicle": "parking_garage", "x": 42, "y": [ 62, 65 ], "chance": 17, "rotation": 270 },
+        { "vehicle": "parking_garage", "x": 37, "y": [ 62, 65 ], "chance": 17, "rotation": 270 },
+        { "vehicle": "parking_garage", "x": 32, "y": [ 62, 65 ], "chance": 17, "rotation": 270 },
+        { "vehicle": "parking_garage", "x": 27, "y": [ 62, 65 ], "chance": 17, "rotation": 270 },
+        { "vehicle": "parking_garage", "x": 17, "y": [ 62, 65 ], "chance": 17, "rotation": 270 },
+        { "vehicle": "parking_garage", "x": 12, "y": [ 62, 65 ], "chance": 17, "rotation": 270 }
       ]
     }
   },

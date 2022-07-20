@@ -106,6 +106,16 @@ bool always_yes( const inventory_entry & )
     return true;
 }
 
+bool return_item( const inventory_entry &entry )
+{
+    return entry.is_item();
+}
+
+bool is_container( const item_location &loc )
+{
+    return loc.where() == item_location::type::container;
+}
+
 } // namespace
 
 bool is_worn_ablative( item_location const &container, item_location const &child )
@@ -171,7 +181,7 @@ struct container_data {
 
 static int contained_offset( const item_location &loc )
 {
-    if( loc.where() != item_location::type::container ) {
+    if( !is_container( loc ) ) {
         return 0;
     }
     return 2 + contained_offset( loc.parent_item() );
@@ -215,7 +225,7 @@ class selection_column_preset : public inventory_selector_preset
         nc_color get_color( const inventory_entry &entry ) const override {
             Character &player_character = get_player_character();
             if( entry.is_item() ) {
-                if( &*entry.any_item() == &player_character.get_wielded_item() ) {
+                if( entry.any_item() == player_character.get_wielded_item() ) {
                     return c_light_blue;
                 } else if( player_character.is_worn( *entry.any_item() ) ) {
                     return c_cyan;
@@ -307,6 +317,17 @@ void uistatedata::serialize( JsonOut &json ) const
     json.member( "overmap_debug_weather", overmap_debug_weather );
     json.member( "overmap_visible_weather", overmap_visible_weather );
     json.member( "overmap_debug_mongroup", overmap_debug_mongroup );
+    json.member( "distraction_noise", distraction_noise );
+    json.member( "distraction_pain", distraction_pain );
+    json.member( "distraction_attack", distraction_attack );
+    json.member( "distraction_hostile_close", distraction_hostile_close );
+    json.member( "distraction_hostile_spotted", distraction_hostile_spotted );
+    json.member( "distraction_conversation", distraction_conversation );
+    json.member( "distraction_asthma", distraction_asthma );
+    json.member( "distraction_dangerous_field", distraction_dangerous_field );
+    json.member( "distraction_weather_change", distraction_weather_change );
+    json.member( "distraction_hunger", distraction_hunger );
+    json.member( "distraction_thirst", distraction_thirst );
 
     json.member( "input_history" );
     json.start_object();
@@ -360,6 +381,17 @@ void uistatedata::deserialize( const JsonObject &jo )
     jo.read( "overmap_debug_weather", overmap_debug_weather );
     jo.read( "overmap_visible_weather", overmap_visible_weather );
     jo.read( "overmap_debug_mongroup", overmap_debug_mongroup );
+    jo.read( "distraction_noise", distraction_noise );
+    jo.read( "distraction_pain", distraction_pain );
+    jo.read( "distraction_attack", distraction_attack );
+    jo.read( "distraction_hostile_close", distraction_hostile_close );
+    jo.read( "distraction_hostile_spotted", distraction_hostile_spotted );
+    jo.read( "distraction_conversation", distraction_conversation );
+    jo.read( "distraction_asthma", distraction_asthma );
+    jo.read( "distraction_dangerous_field", distraction_dangerous_field );
+    jo.read( "distraction_weather_change", distraction_weather_change );
+    jo.read( "distraction_hunger", distraction_hunger );
+    jo.read( "distraction_thirst", distraction_thirst );
 
     if( !jo.read( "vmenu_show_items", vmenu_show_items ) ) {
         // This is an old save: 1 means view items, 2 means view monsters,
@@ -682,8 +714,7 @@ bool inventory_holster_preset::is_shown( const item_location &contained ) const
     if( contained.eventually_contains( holster ) || holster.eventually_contains( contained ) ) {
         return false;
     }
-    if( contained.where() != item_location::type::container
-        && contained->made_of( phase_id::LIQUID ) ) {
+    if( !is_container( contained ) && contained->made_of( phase_id::LIQUID ) ) {
         // spilt liquid cannot be picked up
         return false;
     }
@@ -1708,11 +1739,10 @@ void inventory_selector::add_contained_ebooks( item_location &container )
 
 void inventory_selector::add_character_items( Character &character )
 {
-    item &weapon = character.get_wielded_item();
+    item_location weapon = character.get_wielded_item();
     bool const hierarchy = _uimode == uimode::hierarchy;
-    if( !weapon.is_null() ) {
-        item_location loc( character, &weapon );
-        add_entry_rec( own_gear_column, hierarchy ? own_gear_column : own_inv_column, loc,
+    if( weapon ) {
+        add_entry_rec( own_gear_column, hierarchy ? own_gear_column : own_inv_column, weapon,
                        &item_category_WEAPON_HELD.obj(),
                        hierarchy ? &item_category_WEAPON_HELD.obj() : nullptr );
     }
@@ -2577,73 +2607,100 @@ bool inventory_selector::is_overflown( size_t client_width ) const
     return get_columns_occupancy_ratio( client_width ) > 1.0;
 }
 
+void inventory_selector::_categorize( inventory_column &col )
+{
+    // Remove custom category and allow entries to categorize by their item's category
+    for( inventory_entry *entry : col.get_entries( return_item, true ) ) {
+        const item_location loc = entry->any_item();
+        const item_category *custom_category = nullptr;
+
+        // ensure top-level equipped entries don't lose their special categories
+        if( loc == u.get_wielded_item() ) {
+            custom_category = &item_category_WEAPON_HELD.obj();
+        } else if( u.is_worn( *loc ) ) {
+            custom_category = &item_category_ITEMS_WORN.obj();
+        }
+
+        entry->set_custom_category( custom_category );
+    }
+    col.set_indent_entries_override( false );
+    col.invalidate_paging();
+}
+
+void inventory_selector::_uncategorize( inventory_column &col )
+{
+    for( inventory_entry *entry : col.get_entries( return_item, true ) ) {
+        // find the topmost parent of the entry's item and categorize it by that
+        // to form the hierarchy
+        item_location ancestor = entry->any_item();
+        while( ancestor.has_parent() ) {
+            ancestor = ancestor.parent_item();
+        }
+
+        const item_category *custom_category = nullptr;
+        if( ancestor.where() != item_location::type::character ) {
+            const std::string name = to_upper_case( remove_color_tags( ancestor.describe() ) );
+            const item_category map_cat( name, no_translation( name ), 100 );
+            custom_category = naturalize_category( map_cat, ancestor.position() );
+        } else if( ancestor == u.get_wielded_item() ) {
+            custom_category = &item_category_WEAPON_HELD.obj();
+        } else if( u.is_worn( *ancestor ) ) {
+            custom_category = &item_category_ITEMS_WORN.obj();
+        }
+
+        entry->set_custom_category( custom_category );
+    }
+    col.clear_indent_entries_override();
+    col.invalidate_paging();
+}
+
 void inventory_selector::toggle_categorize_contained()
 {
-    const auto return_item = []( const inventory_entry & entry ) {
-        return entry.is_item();
-    };
     std::vector<item_location> highlighted;
     if( get_highlighted().is_item() ) {
         highlighted = get_highlighted().locations;
     }
+
     if( _uimode == uimode::hierarchy ) {
         inventory_column replacement_column;
-        for( inventory_entry *entry : own_gear_column.get_entries( return_item, true ) ) {
-            item_location const loc = entry->locations.front();
-            if( entry->any_item().where() == item_location::type::container &&
-                !is_worn_ablative( loc.parent_item(), loc ) ) {
-                item_location ancestor = entry->any_item();
-                while( ancestor.has_parent() ) {
-                    ancestor = ancestor.parent_item();
-                }
-                const item_category *custom_category = nullptr;
-                if( ancestor.where() != item_location::type::character ) {
-                    // might have been merged from the map column
-                    custom_category = entry->get_category_ptr();
-                }
-                inventory_entry *ret =
-                    add_entry( own_inv_column, std::move( entry->locations ), custom_category,
-                               entry->chosen_count, entry->topmost_parent, entry->chevron );
-                ret->generation = entry->generation;
 
-            } else {
-                replacement_column.add_entry( *entry );
-            }
+        // split entries into either worn/held gear or contained items
+        for( inventory_entry *entry : own_gear_column.get_entries( return_item, true ) ) {
+            const item_location loc = entry->any_item();
+            inventory_column *col = is_container( loc ) && !is_worn_ablative( loc.parent_item(), loc ) ?
+                                    &own_inv_column : &replacement_column;
+            col->add_entry( *entry );
         }
         own_gear_column.clear();
         replacement_column.move_entries_to( own_gear_column );
-        own_inv_column.set_indent_entries_override( false );
+
+        for( inventory_column *col : columns ) {
+            _categorize( *col );
+        }
         _uimode = uimode::categories;
     } else {
-        for( inventory_entry *entry : own_inv_column.get_entries( return_item, true ) ) {
-            item_location ancestor = entry->any_item();
-            while( ancestor.has_parent() ) {
-                ancestor = ancestor.parent_item();
-            }
-            const item_category *custom_category = nullptr;
-            if( ancestor.where() != item_location::type::character ) {
-                // might have been merged from the map column
-                custom_category = entry->get_category_ptr();
-            } else if( &*ancestor == &u.get_wielded_item() ) {
-                custom_category = &item_category_WEAPON_HELD.obj();
-            } else if( u.is_worn( *ancestor ) ) {
-                custom_category = &item_category_ITEMS_WORN.obj();
-            }
-            inventory_entry *ret =
-                add_entry( own_gear_column, std::move( entry->locations ), custom_category,
-                           entry->chosen_count, entry->topmost_parent, entry->chevron );
-            ret->generation = entry->generation;
+        // move all entries into one big gear column and turn into hierarchy
+        own_inv_column.move_entries_to( own_gear_column );
+        for( inventory_column *col : columns ) {
+            _uncategorize( *col );
         }
-        own_inv_column.clear();
         _uimode = uimode::hierarchy;
     }
+
     if( !highlighted.empty() ) {
         highlight_one_of( highlighted );
     }
 
+    // needs to be called now so that new invlets can be assigned
+    // and subclasses w/ selection columns can then re-populate entries
+    // using the new invlets
+    prepare_layout();
+
+    // invalidate, but dont mark resize, to avoid re-calling prepare_layout()
+    // and as a consequence reassign_custom_invlets()
     shared_ptr_fast<ui_adaptor> current_ui = ui.lock();
     if( current_ui ) {
-        current_ui->mark_resize();
+        current_ui->invalidate_ui();
     }
 }
 
@@ -2752,9 +2809,6 @@ void inventory_selector::action_examine( const item_location sitem )
 
 void inventory_selector::highlight()
 {
-    const auto return_item = []( const inventory_entry & entry ) {
-        return entry.is_item();
-    };
     const inventory_entry &selected = get_active_column().get_highlighted();
     if( !selected.is_item() ) {
         return;
@@ -3117,6 +3171,20 @@ void inventory_multiselector::deselect_contained_items()
     }
 }
 
+void inventory_multiselector::toggle_categorize_contained()
+{
+    selection_col->clear();
+    inventory_selector::toggle_categorize_contained();
+
+    for( inventory_column *col : get_all_columns() ) {
+        for( inventory_entry *entry : col->get_entries( return_item, true ) ) {
+            if( entry->chosen_count > 0 ) {
+                toggle_entry( *entry, entry->chosen_count );
+            }
+        }
+    }
+}
+
 void inventory_multiselector::on_input( const inventory_input &input )
 {
     bool const noMarkCountBound = ctxt.keys_bound_to( "MARK_WITH_COUNT" ).empty();
@@ -3146,6 +3214,8 @@ void inventory_multiselector::on_input( const inventory_input &input )
                                 ? count < max ? count + 1 : max
                                 : count > 1 ? count - 1 : 0;
         toggle_entry( entry, newcount );
+    } else if( input.action == "VIEW_CATEGORY_MODE" ) {
+        toggle_categorize_contained();
     } else {
         inventory_selector::on_input( input );
     }

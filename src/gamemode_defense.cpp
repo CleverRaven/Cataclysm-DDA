@@ -254,7 +254,7 @@ void defense_game::init_map()
         for( int y = 0; y < OMAPY; y++ ) {
             tripoint_om_omt p( x, y, 0 );
             starting_om.ter_set( p, oter_id( "field" ) );
-            starting_om.seen( p ) = true;
+            starting_om.set_seen( p, true );
         }
     }
 

@@ -124,6 +124,16 @@ struct uilist_entry {
     * @param key hotkey character that when pressed will return this entry return value
     * @param txt string that will be displayed on the entry first column
     * @param desc entry description if menu desc_enabled is true
+    * @see uilist::desc_enabled
+    */
+    uilist_entry( int retval, bool enabled, const cata::optional<input_event> &key,
+                  const std::string &txt, const std::string &desc );
+    /**
+    * @param retval return value of this option when selected during menu query
+    * @param enable is entry enabled. disabled entries will be grayed out and won't be selectable
+    * @param key hotkey character that when pressed will return this entry return value
+    * @param txt string that will be displayed on the entry first column
+    * @param desc entry description if menu desc_enabled is true
     * @param column string that will be displayed on the entry second column
     * @see uilist::desc_enabled
     */
@@ -336,6 +346,17 @@ class uilist // NOLINT(cata-xy)
         * @param enable is entry enabled. disabled entries will be grayed out and won't be selectable
         * @param key hotkey character that when pressed will return this entry return value
         * @param txt string that will be displayed on the entry first column
+        * @param desc entry description if menu desc_enabled is true
+        * @see uilist::desc_enabled
+        */
+        void addentry_desc( int retval, bool enabled, const cata::optional<input_event> &key,
+                            const std::string &txt,
+                            const std::string &desc );
+        /**
+        * @param retval return value of this option when selected during menu query
+        * @param enable is entry enabled. disabled entries will be grayed out and won't be selectable
+        * @param key hotkey character that when pressed will return this entry return value
+        * @param txt string that will be displayed on the entry first column
         * @param column string that will be displayed on the entry second column
         * @param desc entry description if menu desc_enabled is true
         * @see uilist::desc_enabled
@@ -383,7 +404,7 @@ class uilist // NOLINT(cata-xy)
         };
         handle_mouse_result_t handle_mouse( const input_context &ctxt,
                                             const std::string &ret_act,
-                                            const bool loop );
+                                            bool loop );
 
     public:
         // Parameters

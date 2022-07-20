@@ -1436,7 +1436,6 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
         for( const auto &iter : overlay_strings ) {
             const point coord = iter.first;
             const formatted_text ft = iter.second;
-            const utf8_wrapper text( ft.text );
 
             // Strings at equal coords are displayed sequentially.
             if( coord != prev_coord ) {
@@ -1460,7 +1459,7 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
             }
 
             int width = 0;
-            for( size_t i = 0; i < text.size(); ++i ) {
+            for( const char32_t ch : utf8_view( ft.text ) ) {
                 const point p0( win->pos.x * fontwidth, win->pos.y * fontheight );
                 const point p( coord + p0 + point( ( x_offset - alignment_offset + width ) * map_font->width, 0 ) );
 
@@ -1471,7 +1470,6 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
                 }
 
                 // TODO: draw with outline / BG color for better readability
-                const uint32_t ch = text.at( i );
                 map_font->OutputChar( renderer, geometry, utf32_to_utf8( ch ), p, ft.color );
                 width += mk_wcwidth( ch );
             }
@@ -2224,7 +2222,8 @@ void remove_stale_inventory_quick_shortcuts()
                 }
                 if( !in_inventory ) {
                     // We couldn't find it in worn items either, check weapon held
-                    if( player_character.get_wielded_item().invlet == key ) {
+                    item_location wielded = player_character.get_wielded_item();
+                    if( wielded && wielded->invlet == key ) {
                         in_inventory = true;
                     }
                 }
@@ -2357,8 +2356,9 @@ void draw_quick_shortcuts()
                 }
                 if( hint_text == "none" ) {
                     // We couldn't find it in worn items either, must be weapon held
-                    if( player_character.get_wielded_item().invlet == key ) {
-                        hint_text = player_character.get_wielded_item().display_name();
+                    item_location wielded = player_character.get_wielded_item();
+                    if( wielded && wielded->invlet == key ) {
+                        hint_text = player_character.get_wielded_item()->display_name();
                     }
                 }
             } else {
@@ -2763,9 +2763,11 @@ static void CheckMessages()
                         actions.insert( ACTION_CYCLE_MOVE );
                     }
                     // Only prioritize fire weapon options if we're wielding a ranged weapon.
-                    if( player_character.get_wielded_item().is_gun() ||
-                        player_character.get_wielded_item().has_flag( flag_REACH_ATTACK ) ) {
-                        actions.insert( ACTION_FIRE );
+                    item_location wielded = player_character.get_wielded_item();
+                    if( wielded ) {
+                        if( wielded->is_gun() || wielded->has_flag( flag_REACH_ATTACK ) ) {
+                            actions.insert( ACTION_FIRE );
+                        }
                     }
                 }
 
@@ -3223,26 +3225,37 @@ static void CheckMessages()
                     }
 
                     // Only monitor motion when cursor is visible
-                    last_input = input_event( MOUSE_MOVE, input_event_t::mouse );
+                    last_input = input_event( MouseInput::Move, input_event_t::mouse );
+                }
+                break;
+
+            case SDL_MOUSEBUTTONDOWN:
+                switch( ev.button.button ) {
+                    case SDL_BUTTON_LEFT:
+                        last_input = input_event( MouseInput::LeftButtonPressed, input_event_t::mouse );
+                        break;
+                    case SDL_BUTTON_RIGHT:
+                        last_input = input_event( MouseInput::RightButtonPressed, input_event_t::mouse );
+                        break;
                 }
                 break;
 
             case SDL_MOUSEBUTTONUP:
                 switch( ev.button.button ) {
                     case SDL_BUTTON_LEFT:
-                        last_input = input_event( MOUSE_BUTTON_LEFT, input_event_t::mouse );
+                        last_input = input_event( MouseInput::LeftButtonReleased, input_event_t::mouse );
                         break;
                     case SDL_BUTTON_RIGHT:
-                        last_input = input_event( MOUSE_BUTTON_RIGHT, input_event_t::mouse );
+                        last_input = input_event( MouseInput::RightButtonReleased, input_event_t::mouse );
                         break;
                 }
                 break;
 
             case SDL_MOUSEWHEEL:
                 if( ev.wheel.y > 0 ) {
-                    last_input = input_event( SCROLLWHEEL_UP, input_event_t::mouse );
+                    last_input = input_event( MouseInput::ScrollWheelUp, input_event_t::mouse );
                 } else if( ev.wheel.y < 0 ) {
-                    last_input = input_event( SCROLLWHEEL_DOWN, input_event_t::mouse );
+                    last_input = input_event( MouseInput::ScrollWheelDown, input_event_t::mouse );
                 }
                 break;
 

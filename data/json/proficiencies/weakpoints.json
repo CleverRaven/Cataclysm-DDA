@@ -141,7 +141,7 @@
     "type": "proficiency",
     "id": "prof_wp_skeleton",
     "category": "prof_weakpoint",
-    "name": { "str": "Natural Exoskeletons" },
+    "name": { "str": "Ossified Exoskeletons" },
     "description": "You're familiar with creatures presenting unsettling bones on their outer structure.",
     "can_learn": true,
     "time_to_learn": "6 h",
