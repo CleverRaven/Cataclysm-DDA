@@ -878,6 +878,10 @@ static int custom_draw_func( const draw_args &args )
                     row_num = widget::custom_draw_multiline( txt, w, margin, widt, row_num );
                 }
             }
+
+            if( wgt->has_flag( json_flag_W_DYNAMIC_HEIGHT ) ) {
+                wgt->_height = row_num;
+            }
             if( disable_empty && widgets.empty() ) {
                 // reclaim the skipped height in the sidebar
                 height_diff -= wgt->_height;
