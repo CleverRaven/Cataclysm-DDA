@@ -11949,10 +11949,10 @@ void game::quicksave()
     if( !moves_since_last_save ) {
         return;
     }
-    add_msg( m_info, _( "Saving game, this may take a while" ) );
+    add_msg( m_info, _( "Saving game, this may take a while." ) );
 
     static_popup popup;
-    popup.message( "%s", _( "Saving game, this may take a while" ) );
+    popup.message( "%s", _( "Saving game, this may take a while." ) );
     ui_manager::redraw();
     refresh_display();
 
