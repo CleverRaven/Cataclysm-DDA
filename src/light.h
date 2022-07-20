@@ -6,7 +6,7 @@
 #include <ostream>
 
 
-// Compacter representation
+// More compact representation
 enum class lit_level : int {
     DARK = 0,
     LOW, // Hard to see
