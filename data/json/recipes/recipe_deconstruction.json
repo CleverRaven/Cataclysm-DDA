@@ -6484,7 +6484,12 @@
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
     "time": "300 m",
-    "qualities": [ { "id": "SAW_M", "level": 2 }, { "id": "DRILL", "level": 2 }, { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 2 } ],
+    "qualities": [
+      { "id": "SAW_M", "level": 2 },
+      { "id": "DRILL", "level": 2 },
+      { "id": "SCREW", "level": 1 },
+      { "id": "WRENCH", "level": 2 }
+    ],
     "components": [
       [ [ "mil_plate", 6 ] ],
       [ [ "steel_plate", 6 ] ],
