@@ -2604,7 +2604,13 @@ void monster::load( const JsonObject &data )
     data.read( "morale", morale );
     data.read( "hallucination", hallucination );
     data.read( "fish_population", fish_population );
+    data.read( "lifespan_end ", lifespan_end );
+    //for older saves convert summon time limit to lifespan end
+    cata::optional<time_duration> summon_time_limit;
     data.read( "summon_time_limit", summon_time_limit );
+    if( summon_time_limit ) {
+        set_summon_time( *summon_time_limit );
+    }
 
     upgrades = data.get_bool( "upgrades", type->upgrades );
     upgrade_time = data.get_int( "upgrade_time", -1 );
@@ -2698,7 +2704,7 @@ void monster::store( JsonOut &json ) const
     json.member( "biosig_timer", biosig_timer );
     json.member( "udder_timer", udder_timer );
 
-    json.member( "summon_time_limit", summon_time_limit );
+    json.member( "lifespan_end", lifespan_end );
 
     if( horde_attraction > MHA_NULL && horde_attraction < NUM_MONSTER_HORDE_ATTRACTION ) {
         json.member( "horde_attraction", horde_attraction );

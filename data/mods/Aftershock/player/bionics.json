@@ -15,7 +15,7 @@
     "type": "bionic",
     "name": { "str": "Archeotech Grav Chute" },
     "description": "Pre-Discontinuity bionic module that was implanted into elite drop troops who could jump from their insertion vehicle during the radar disruption of reentry.  Clenching your fist allows you to activate what scientists call a grav chute that allows a safe fall; while active, the field will prevent damage to your body from severe impacts, at the cost of impaired movement.  It's best not to think about how many bodies this has been in before yours.",
-    "occupied_bodyparts": [ [ "TORSO", 2 ], [ "ARM_L", 1 ], [ "ARM_R", 1 ], [ "LEG_L", 2 ], [ "LEG_R", 2 ] ],
+    "occupied_bodyparts": [ [ "torso", 2 ], [ "arm_l", 1 ], [ "arm_r", 1 ], [ "leg_l", 2 ], [ "leg_r", 2 ] ],
     "flags": [ "BIONIC_TOGGLED" ],
     "act_cost": "2 kJ",
     "react_cost": "2 kJ",

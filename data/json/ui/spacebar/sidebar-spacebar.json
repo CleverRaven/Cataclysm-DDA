@@ -10,6 +10,7 @@
     "widgets": [
       "spacebar_separator",
       "player_health_and_stasistik_block",
+      "player_health_and_stasistik_block_sa",
       "spacebar_separator",
       "player_weariness_mood_block",
       "spacebar_separator",

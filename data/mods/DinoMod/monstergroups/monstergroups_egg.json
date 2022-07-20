@@ -18,7 +18,8 @@
       { "monster": "mon_pachyrhinosaurus_hatchling", "weight": 3 },
       { "monster": "mon_pentaceratops_hatchling", "weight": 3 },
       { "monster": "mon_torosaurus_hatchling", "weight": 3 },
-      { "monster": "mon_triceratops_hatchling", "weight": 3 }
+      { "monster": "mon_triceratops_hatchling", "weight": 3 },
+      { "monster": "mon_thescelosaurus_hatchling", "weight": 3 }
     ]
   },
   {
@@ -28,6 +29,7 @@
       { "monster": "mon_eoraptor_hatchling", "weight": 20 },
       { "monster": "mon_scutellosaurus_hatchling", "weight": 5 },
       { "monster": "mon_dryosaurus_hatchling", "weight": 5 },
+      { "monster": "mon_stegoceras_hatchling", "weight": 5 },
       { "monster": "mon_aquilops_hatchling", "weight": 5 },
       { "monster": "mon_oryctodromeus_hatchling", "weight": 5 }
     ]
@@ -342,6 +344,11 @@
     "monsters": [ { "monster": "mon_edmontosaurus_hatchling" } ]
   },
   {
+    "name": "GROUP_EGG_stegoceras",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_stegoceras_hatchling" } ]
+  },
+  {
     "name": "GROUP_EGG_pachycephalosaurus",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_pachycephalosaurus_hatchling" } ]
@@ -380,6 +387,11 @@
     "name": "GROUP_EGG_oryctodromeus",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_oryctodromeus_hatchling" } ]
+  },
+  {
+    "name": "GROUP_EGG_thescelosaurus",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_thescelosaurus_hatchling" } ]
   },
   {
     "name": "GROUP_EGG_dimorphodon",

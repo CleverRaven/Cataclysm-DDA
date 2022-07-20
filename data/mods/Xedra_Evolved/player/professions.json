@@ -31,6 +31,46 @@
   },
   {
     "type": "profession",
+    "id": "fbi_investigator",
+    "name": "FBI Paranormal Investigator",
+    "description": "Before the Cataclysm, you used to work for the Paranormal Investigation Department of the FBI.  You got used to jokes at your expense, as well as being constantly underfunded and disregarded by your superiors.  You were returning from yet another case with nothing but a bag of suspicious candies to show, when all hell broke loose.  Oh well, at least now you can be certain that everyone still alive will believe you that the truth is out there.",
+    "points": 3,
+    "skills": [
+      { "level": 2, "name": "gun" },
+      { "level": 2, "name": "pistol" },
+      { "level": 1, "name": "speech" },
+      { "level": 1, "name": "deduction" }
+    ],
+    "proficiencies": [ "prof_spotting" ],
+    "items": {
+      "both": {
+        "items": [
+          "pants",
+          "dress_shirt",
+          "tie_skinny",
+          "blazer",
+          "trenchcoat",
+          "gloves_light",
+          "wristwatch",
+          "socks",
+          "dress_shoes",
+          "cig"
+        ],
+        "entries": [
+          { "group": "charged_smart_phone" },
+          { "group": "charged_two_way_radio" },
+          { "group": "charged_ref_lighter" },
+          { "group": "army_mags_usp9" },
+          { "item": "usp_9mm", "ammo-item": "9mm", "charges": 15, "container-item": "shoulder_holster" },
+          { "item": "wyld_candy", "charges": 10, "container-item": "wrapper_wyld" }
+        ]
+      },
+      "male": [ "briefs" ],
+      "female": [ "bra", "panties" ]
+    }
+  },
+  {
+    "type": "profession",
     "id": "zebra_investigator",
     "name": "Xedra Response Team Member",
     "description": "Before Xedra recruited you, you probably worked for the ATF or a PMC like Kroll.  It was your job to investigate any cross-pollination incidents where alternate physics regions crossed over the Nether and reached our world.  Part exterminator part investigator, you made sure that any new resources and contaminants were accounted for, including any intelligent life trying to sneak into our world.  Local law enforcement and civilians called you 'Zebras' since your identification and badges only had a barcode instead of any name/rank/number.",
