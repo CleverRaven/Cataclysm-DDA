@@ -54,6 +54,8 @@ static const efftype_id effect_no_ammo( "no_ammo" );
 static const harvest_drop_type_id harvest_drop_bone( "bone" );
 static const harvest_drop_type_id harvest_drop_flesh( "flesh" );
 
+static const relic_procgen_id relic_procgen_data_netherum_tunnels( "netherum_tunnels" );
+
 static const species_id species_ZOMBIE( "ZOMBIE" );
 
 item *mdeath::normal( monster &z )
@@ -113,7 +115,7 @@ void mdeath::amigara( monster &z )
         add_msg( _( "Your obsession with the fault fades away." ) );
     }
 
-    get_map().spawn_artifact( z.pos(), relic_procgen_id( "netherum_tunnels" ) );
+    get_map().spawn_artifact( z.pos(), relic_procgen_data_netherum_tunnels );
 }
 
 static void scatter_chunks( const itype_id &chunk_name, int chunk_amt, monster &z, int distance,
