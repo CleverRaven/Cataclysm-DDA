@@ -509,14 +509,21 @@ void widget::finalize_inherited_fields_recursive( const widget_id &id,
     if( !w->explicit_padding ) {
         w->_padding = col_padding;
     }
-    if( w->_widgets.empty() ) {
-        return;
-    }
+
     // If we get here, we have a layout that contains nested widgets.
     for( const widget_id &wid : w->_widgets ) {
         widget::finalize_inherited_fields_recursive( wid,
                 w->explicit_separator ? w->_separator : label_separator,
                 w->explicit_padding ? w->_padding : col_padding );
+    }
+
+    // Also do it for widgets used in clauses
+    for( const widget_clause &clause : w->_clauses ) {
+        for( const widget_id &wid : clause.widgets ) {
+            widget::finalize_inherited_fields_recursive( wid,
+                    w->explicit_separator ? w->_separator : label_separator,
+                    w->explicit_padding ? w->_padding : col_padding );
+        }
     }
 }
 
