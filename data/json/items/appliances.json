@@ -342,7 +342,7 @@
   },
   {
     "type": "GENERIC",
-    "id": "compact_ASRG_containment",
+    "id": "compact_ASRG",
     "name": { "str_sp": "Unshielded Compact Advanced Sterling Radioisotope Generator" },
     "looks_like": "t_plut_generator",
     "description": "A moderately heavy brick of metal housing an ASRG.  Most of the lead and steel plating has been salvaged off so it's a lot less bulky and heavy.  That means it's also fairly radioactive, but it will still provide low constant power all the same.",
