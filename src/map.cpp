@@ -7518,8 +7518,10 @@ void map::rotten_item_spawn( const item &item, const tripoint &pnt )
     }
 
     if( rng( 0, 100 ) < comest->rot_spawn_chance ) {
-        MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup( mgroup );
-        add_spawn( spawn_details, pnt );
+        std::vector<MonsterGroupResult> spawn_details = MonsterGroupManager::GetResultFromGroup( mgroup );
+        for( const MonsterGroupResult &mgr : spawn_details ) {
+            add_spawn( mgr, pnt );
+        }
         if( get_player_view().sees( pnt ) ) {
             if( item.is_seed() ) {
                 add_msg( m_warning, _( "Something has crawled out of the %s plants!" ), item.get_plant_name() );
@@ -8019,18 +8021,21 @@ void map::spawn_monsters_submap_group( const tripoint &gp, mongroup &group,
     if( pop ) {
         // Populate the group from its population variable.
         for( int m = 0; m < pop; m++ ) {
-            MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup( group.type, &pop );
-            if( !spawn_details.name ) {
-                continue;
-            }
-            monster tmp( spawn_details.name );
+            std::vector<MonsterGroupResult> spawn_details =
+                MonsterGroupManager::GetResultFromGroup( group.type, &pop );
+            for( const MonsterGroupResult &mgr : spawn_details ) {
+                if( !mgr.name ) {
+                    continue;
+                }
+                monster tmp( mgr.name );
 
-            // If a monster came from a horde population, configure them to always be willing to rejoin a horde.
-            if( group.horde ) {
-                tmp.set_horde_attraction( MHA_ALWAYS );
-            }
-            for( int i = 0; i < spawn_details.pack_size; i++ ) {
-                group.monsters.push_back( tmp );
+                // If a monster came from a horde population, configure them to always be willing to rejoin a horde.
+                if( group.horde ) {
+                    tmp.set_horde_attraction( MHA_ALWAYS );
+                }
+                for( int i = 0; i < mgr.pack_size; i++ ) {
+                    group.monsters.push_back( tmp );
+                }
             }
         }
     }
