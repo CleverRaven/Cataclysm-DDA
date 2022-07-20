@@ -58,8 +58,7 @@
       { "monster": "mon_zombie_scorched", "weight": 25 },
       { "monster": "mon_zombie_hazmat", "weight": 25 },
       { "monster": "mon_zombie", "weight": 10 },
-      { "monster": "mon_feral_soldier", "weight": 15 },
-      { "monster": "mon_feral_soldier_flamer", "weight": 5 }
+      { "monster": "mon_feral_soldier", "weight": 15 }
     ]
   },
   {
