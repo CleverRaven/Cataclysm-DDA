@@ -10,11 +10,23 @@
     "dynamic_line": "Challenger, input command.",
     "responses": [
       {
+        "text": "ERROR PROVIDE OPPONENTS MARK",
+        "topic": "TALK_DONE",
+        "condition": { "not": { "u_has_items": { "item": "mark_neophyte", "count": 1 } } }
+      },
+      {
         "text": "> RETURN HOME",
         "topic": "TALK_DONE",
+        "condition": { "u_has_items": { "item": "mark_neophyte", "count": 1 } },
         "effect": [
-           { "u_teleport": { "global_val": "original_loc" }, "fail_message": "Your body doesn't move.", "success_message": "All at once, your body feels like it's being pulled in 1000 different directions." },
-           { "finish_mission": "Fighting", "success": true }
+          {
+            "u_teleport": { "global_val": "original_loc" },
+            "fail_message": "Your body doesn't move.",
+            "success_message": "All at once, your body feels like it's being pulled in 1000 different directions."
+          },
+          { "u_consume_item": "mark_neophyte", "count": 1, "popup": true },
+          { "finish_mission": "Fighting", "success": true },
+          { "queue_eocs": "eoc_give_neophyte_rewards", "time_in_future": "5 seconds" }
         ]
       },
       { "text": "> LOG OFF", "topic": "TALK_DONE" }

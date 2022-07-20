@@ -1,0 +1,11 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "eoc_give_neophyte_rewards",
+    "global": true,
+    "effect": [
+      { "u_message": "There is a clang as items drop down the chute.", "type": "good" },
+      { "mapgen_update": "rewards", "om_terrain": "compound_room" }
+    ]
+  }
+]

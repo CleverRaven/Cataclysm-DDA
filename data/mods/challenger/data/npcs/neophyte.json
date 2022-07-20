@@ -1,55 +1,54 @@
-[{
-  "type": "npc_class",
-  "id": "neophyte_class",
-  "name": { "str": "neophyte" },
-  "job_description": "Someone who's as scared as you are.",
-  "common": true,
-  "bonus_str": { "rng": [ -2, 2 ] },
-  "bonus_dex": { "rng": [ -2, 2 ] },
-  "bonus_int": { "rng": [ -2, 2 ] },
-  "bonus_per": { "rng": [ -2, 2 ] },
-  "worn_override": "neophyte_worn",
-  "carry_override": "neophyte_carry",
-  "weapon_override": "neophyte_weild",
-  "skills": [
-    { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "rng": [ 0, -4 ] } ] } ] } }
-  ]
-},
-{
-  "type": "npc",
-  "id": "neophyte",
-  "//": "very weak starting character like you.",
-  "name_suffix": "Neophyte",
-  "class": "neophyte_class",
-  "attitude": 10,
-  "mission": 8,
-  "chat": "TALK_DONE",
-  "faction": "challengers"
-},
-{
-  "type": "item_group",
-  "id": "neophyte_worn",
-  "subtype": "collection",
-  "entries": [
-    { "item": "mark_neophyte" },
-    { "item": "subsuit_xl" },
-    { "item": "socks" },
-    { "item": "sneakers" },
-    { "item": "briefs" }
+[
+  {
+    "type": "npc_class",
+    "id": "neophyte_class",
+    "name": { "str": "neophyte" },
+    "job_description": "Someone who's as scared as you are.",
+    "common": true,
+    "bonus_str": { "rng": [ -2, 2 ] },
+    "bonus_dex": { "rng": [ -2, 2 ] },
+    "bonus_int": { "rng": [ -2, 2 ] },
+    "bonus_per": { "rng": [ -2, 2 ] },
+    "worn_override": "neophyte_worn",
+    "carry_override": "neophyte_carry",
+    "weapon_override": "neophyte_weild",
+    "skills": [
+      { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "rng": [ 0, -4 ] } ] } ] } }
     ]
-},
-{
-  "type": "item_group",
-  "id": "neophyte_weild",
-  "subtype": "collection",
-  "items": [ { "item": "hammer" } ]
-},
-{
-  "type": "item_group",
-  "id": "neophyte_carry",
-  "subtype": "collection",
-  "items": [
-    { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] }
-  ]
-}
+  },
+  {
+    "type": "npc",
+    "id": "neophyte",
+    "//": "very weak starting character like you.",
+    "name_suffix": "Neophyte",
+    "class": "neophyte_class",
+    "attitude": 10,
+    "mission": 8,
+    "chat": "TALK_DONE",
+    "faction": "challengers"
+  },
+  {
+    "type": "item_group",
+    "id": "neophyte_worn",
+    "subtype": "collection",
+    "entries": [
+      { "item": "mark_neophyte" },
+      { "item": "subsuit_xl" },
+      { "item": "socks" },
+      { "item": "sneakers" },
+      { "item": "briefs" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "neophyte_weild",
+    "subtype": "distribution",
+    "items": [ { "item": "hammer" }, { "item": "screwdriver" }, { "item": "2x4" }, { "item": "xacto" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "neophyte_carry",
+    "subtype": "collection",
+    "items": [ { "group": "default_zombie_items_pockets" } ]
+  }
 ]

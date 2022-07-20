@@ -1,7 +1,9 @@
 {
   "id": "Fighting",
   "type": "mission_definition",
-  "name": { "str": "Be The Last Standing" },
+  "name": {
+    "str": "Be The Last Standing"
+  },
   "description": "You need to fight to get out.",
   "goal": "MGOAL_CONDITION",
   "difficulty": 5,
@@ -35,22 +37,27 @@
         "                        ",
         "                        "
       ],
-      "nested": {
-       "X": { "chunks": [ "arena_1v1_small", "arena_1v1_medium" ] }
-    }
+      "nested": { "X": { "chunks": [ "arena_1v1_small", "arena_1v1_medium" ] } }
     }
   },
-  "goal_condition": { "u_has_var": "seen_welcome_note", "type": "dialogue", "context": "gaoler", "value": "yes" },
-  "origins": [ "ORIGIN_SECONDARY" ],
+  "goal_condition": {
+    "u_has_var": "seen_welcome_note",
+    "type": "dialogue",
+    "context": "gaoler",
+    "value": "yes"
+  },
+  "origins": [
+    "ORIGIN_SECONDARY"
+  ],
   "dialogue": {
-    "describe": "We need help…",
-    "offer": "I don't like sending untested men into the field but if you have stayed alive so far you might have some skills.  There are at least a pair of bandits squatting in a local cabin, anyone who preys upon civilians meets a quick end… execute both of them for their crimes.  Complete this and the Old Guard will consider you an asset in the region.",
-    "accepted": "Contractor, I welcome you aboard.",
-    "rejected": "The States will remain a wasteland unless good men choose to save it.",
-    "advice": "They might suspect you are coming, keep an eye out for traps.",
-    "inquire": "Have you completed your mission?",
-    "success": "The Old Guard thanks you for eliminating the criminals.  You won't be forgotten.",
-    "success_lie": "What good does this do us?",
-    "failure": "It was a lost cause anyways…"
+    "describe": "You need to fight to get out.",
+    "offer": "Survive.",
+    "accepted": "Survive.",
+    "rejected": "You will starve.",
+    "advice": "Kill your opponent.",
+    "inquire": "Do you wish to leave?",
+    "success": "congrats challenger.",
+    "success_lie": "congrats challenger.",
+    "failure": "Goodbye."
   }
-},
+}

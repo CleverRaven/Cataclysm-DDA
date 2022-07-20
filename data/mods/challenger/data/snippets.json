@@ -1,13 +1,13 @@
 [
   {
-  "type": "snippet",
-  "category": "welcome_snip",
-  "text": [
-    {
-      "id": "note_from_failure",
-      "effect_on_examine": [ { "u_add_var": "seen_welcome_note", "type": "dialogue", "context": "gaoler", "value": "yes" } ],
-      "text": "A hastily scribbled note.  The text reads: \n\n\"it's too much blood, I killed him but a ghost walked away from the last fight.  Wont be long until someone else takes my spot.  You can ask it WHERE and WHY but it won't help you any.  To get food and water you need to tell it I WANT TO FIGHT.  Good luck\" - a failure"
-    }
-  ]
-}
+    "type": "snippet",
+    "category": "welcome_snip",
+    "text": [
+      {
+        "id": "note_from_failure",
+        "effect_on_examine": [ { "u_add_var": "seen_welcome_note", "type": "dialogue", "context": "gaoler", "value": "yes" } ],
+        "text": "A hastily scribbled note.  The text reads: \n\n\"it's too much blood, I killed him but a ghost walked away from the last fight.  Wont be long until someone else takes my spot.  You can ask it WHERE and WHY but it won't help you any.  To get food and water you need to tell it I WANT TO FIGHT.  Good luck\" - a failure"
+      }
+    ]
+  }
 ]

@@ -19,7 +19,8 @@
       ";": "t_secretdoor_metal_o",
       "~": "t_water_pump",
       "t": "t_metal_floor",
-      "ë": "t_linoleum_whitefloor_olight"
+      "ë": "t_linoleum_whitefloor_olight",
+      "8": "t_metal_floor"
     },
     "furniture": {
       "A": "f_air_filter",
@@ -55,13 +56,15 @@
       "Y": "f_curtain",
       "&": "f_trashcan",
       "{": "f_rack",
-      "}": "f_bookcase"
+      "}": "f_bookcase",
+      "8": "f_delivery_shute"
     },
     "items": {
       "C": { "item": "SUS_junk_drawer", "chance": 100 },
       "K": { "item": "SUS_kitchen_sink", "chance": 100 },
       "k": { "item": "SUS_bathroom_sink", "chance": 100 },
-      "e": { "item": "SUS_bathroom_medicine", "chance": 100 }
+      "e": { "item": "SUS_bathroom_medicine", "chance": 100 },
+      "8": { "item": "neophyte_rewards", "chance": 100 }
     },
     "item": { "X": { "item": "welcome_note", "chance": 100 } },
     "nested": { "6": { "chunks": [ "gaoler_computer" ] }, "7": { "chunks": [ "exit_computer" ] } }

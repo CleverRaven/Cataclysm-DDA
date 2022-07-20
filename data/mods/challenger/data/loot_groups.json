@@ -1,0 +1,8 @@
+[
+  {
+    "type": "item_group",
+    "id": "neophyte_rewards",
+    "subtype": "collection",
+    "items": [ { "group": "bugout_water", "count": 2 }, { "group": "bugout_food", "count": 2 } ]
+  }
+]
