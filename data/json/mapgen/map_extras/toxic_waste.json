@@ -6,17 +6,17 @@
       { "item": "plut_slurry", "container-item": "55gal_drum", "charges-min": 2, "charges-max": 28, "prob": 10 },
       { "item": "plut_slurry_dense", "container-item": "55gal_drum", "charges-min": 1, "charges-max": 45, "prob": 15 },
       { "item": "sewage", "container-item": "55gal_drum", "charges-min": 26, "charges-max": 126, "prob": 50 },
-      { "item": "fetid_goop", "container-item": "55gal_drum", "charges-min": 26, "charges-max": 200, "prob": 20 },
+      { "item": "fetid_goop", "container-item": "55gal_drum", "charges-min": 26, "charges-max": 200, "prob": 30 },
       {
         "item": "meat_mutant_tainted",
         "container-item": "55gal_drum",
         "charges-min": 3,
         "charges-max": 15,
-        "prob": 2
+        "prob": 1
       },
-      { "item": "veggy_tainted", "container-item": "55gal_drum", "charges-min": 3, "charges-max": 50, "prob": 3 },
+      { "item": "veggy_tainted", "container-item": "55gal_drum", "charges-min": 3, "charges-max": 50, "prob": 2 },
       { "item": "55gal_drum", "prob": 50 },
-      { "item": "canister_goo", "prob": 8 },
+      { "item": "canister_goo", "prob": 5 },
       { "item": "slime_scrap", "prob": 10 }
     ]
   },
@@ -29,6 +29,34 @@
       "place_fields": [ { "field": "fd_gas_vent", "x": 0, "y": 0, "intensity": 2, "age": 0 } ],
       "set": [ { "point": "terrain", "id": "t_pit", "x": 0, "y": 0 } ]
     }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "toxic_waste_fence",
+    "object": {
+      "mapgensize": [ 11, 11 ],
+      "rows": [
+         "|---------|",
+         "|         |",
+         "|         |",
+         "|         |",
+         "|         |",
+         "|         |",
+         "|         |",
+         "|         |",
+         "|         |",
+         "|---------|",
+         "           "
+      ],
+      "terrain": { "|": "t_chainfence", "-": "t_chainfence" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "toxic_waste_lab_corpses",
+    "object": { "mapgensize": [ 3, 3 ], "place_corpses": [ { "group": "GROUP_TOXIC_WASTE_CORPSES", "x": [ 0, 2 ], "y": [ 0, 2 ] } ] }
   },
   {
     "type": "monstergroup",
@@ -61,14 +89,14 @@
         "                        ",
         "                        ",
         "                        ",
-        "                        ",
-        "         ^--!           ",
-        "         ---~-          ",
+        "      #                 ",
+        "         ---!           ",
+        "         -%^~-          ",
         "        -~-~---^        ",
         "        -~~~~~--        ",
         "     !   -~~---         ",
-        "        -~----          ",
-        "       ----^--          ",
+        "        -~-%--          ",
+        "       --^----          ",
         "         -   !          ",
         "                        ",
         "                        ",
@@ -80,11 +108,49 @@
         "                        "
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "terrain": { "~": [ "t_sewage" ], "-": [ "t_sewage", "t_dirt" ] },
-      "nested": { "^": { "chunks": [ [ "toxic_gas_vent", 70 ], [ "null", 30 ] ] } },
+      "terrain": { "~": [ "t_sewage" ], "-": [ "t_sewage", "t_dirt", "t_grass_dead" ], "%": [ "t_dirt", "t_grass_dead" ] },
+      "furniture": { "~": [ "f_rubble_landfill", "f_rubble", [ "f_null", 3 ] ], "-": [ "f_rubble_landfill", "f_rubble", [ "f_null", 3 ] ] },
+      "nested": {
+        "^": { "chunks": [ [ "null", 70 ], [ "toxic_gas_vent", 30 ] ] },
+        "#": { "chunks": [ [ "null", 30 ], [ "toxic_waste_fence", 70 ] ] },
+        "%": { "chunks": [ [ "null", 95 ], [ "toxic_waste_lab_corpses", 5 ] ] }
+      },
+      "liquids": {
+        "-": [
+          { "liquid": "chem_acetic_acid", "amount": [ 1, 4 ], "chance": 100 },
+          { "liquid": "acetic_anhydride", "amount": [ 1, 4 ], "chance": 100 },
+          { "liquid": "chem_acetone", "amount": [ 1, 4 ], "chance": 100 },
+          { "liquid": "chem_formaldehyde", "amount": [ 1, 4 ], "chance": 140 },
+          { "liquid": "chem_muriatic_acid", "amount": [ 1, 4 ], "chance": 100 },
+          { "liquid": "chem_hydrogen_peroxide", "amount": [ 1, 4 ], "chance": 100 },
+          { "liquid": "chem_hydrogen_peroxide_conc", "amount": [ 1, 2 ], "chance": 100 },
+          { "liquid": "chem_nitric_acid", "amount": [ 1, 4 ], "chance": 100 },
+          { "liquid": "chem_sulphuric_acid", "amount": [ 1, 4 ], "chance": 100 },
+          { "liquid": "ammonia_liquid", "amount": [ 1, 4 ], "chance": 100 },
+          { "liquid": "ammonia_hydroxide", "amount": [ 1, 4 ], "chance": 100 },
+          { "liquid": "bleach", "amount": [ 1, 4 ], "chance": 100 },
+          { "liquid": "lye", "amount": [ 1, 4 ], "chance": 100 },
+          { "liquid": "lye_potassium", "amount": [ 1, 2 ], "chance": 150 },
+          { "liquid": "ether", "amount": [ 1, 2 ], "chance": 120 },
+          { "liquid": "chem_DMSO", "amount": [ 1, 4 ], "chance": 100 },
+          { "liquid": "chem_chloroform", "amount": [ 1, 2 ], "chance": 130 },
+          { "liquid": "chem_phenol", "amount": [ 1, 4 ], "chance": 100 },
+          { "liquid": "chem_benzene", "amount": [ 1, 4 ], "chance": 100 },
+          { "liquid": "chem_toluene", "amount": [ 1, 4 ], "chance": 100 },
+          { "liquid": "chem_glycerol", "amount": [ 1, 4 ], "chance": 100 },
+          { "liquid": "chem_ethanol", "amount": [ 1, 4 ], "chance": 100 },
+          { "liquid": "methed_alcohol", "amount": [ 1, 4 ], "chance": 100 },
+          { "liquid": "denat_alcohol", "amount": [ 1, 4 ], "chance": 100 },
+          { "liquid": "chem_methanol", "amount": [ 1, 4 ], "chance": 100 },
+          { "liquid": "diesel", "amount": [ 1, 4 ], "chance": 100 },
+          { "liquid": "motor_oil", "amount": [ 1, 4 ], "chance": 100 },
+          { "liquid": "chem_turpentine", "amount": [ 1, 4 ], "chance": 100 },
+          { "liquid": "camphine", "amount": [ 1, 4 ], "chance": 100 },
+          { "liquid": "gasoline", "amount": [ 1, 4 ], "chance": 100 }
+        ]
+      },
       "monsters": { "!": { "monster": "GROUP_TOXIC_WASTE", "density": 0.01, "chance": 3 } },
-      "place_corpses": [ { "group": "GROUP_TOXIC_WASTE_CORPSES", "x": [ 10, 14 ], "y": [ 9, 13 ] } ],
-      "place_loot": [ { "group": "toxic_waste_mx", "x": [ 11, 13 ], "y": [ 10, 12 ], "repeat": [ 1, 2 ] } ]
+      "place_loot": [ { "group": "toxic_waste_mx", "x": [ 10, 13 ], "y": [ 10, 12 ], "repeat": [ 1, 2 ] } ]
     }
   }
 ]
