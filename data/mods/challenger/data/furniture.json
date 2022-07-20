@@ -1,8 +1,8 @@
 [
   {
     "type": "furniture",
-    "id": "f_delivery_shute",
-    "name": "delivery shute",
+    "id": "f_delivery_chute",
+    "name": "delivery chute",
     "symbol": "{",
     "looks_like": "f_rack",
     "description": "A large slot with pneumatic tubes leading upwards deeper into the facility.  Above the slot on big bold letters is written \"DELIVERIES\"",

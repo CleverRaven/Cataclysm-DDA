@@ -57,7 +57,7 @@
       "&": "f_trashcan",
       "{": "f_rack",
       "}": "f_bookcase",
-      "8": "f_delivery_shute"
+      "8": "f_delivery_chute"
     },
     "items": {
       "C": { "item": "SUS_junk_drawer", "chance": 100 },
