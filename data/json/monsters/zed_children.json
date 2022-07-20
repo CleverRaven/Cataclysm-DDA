@@ -285,6 +285,8 @@
     "melee_dice_sides": 2,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "armor_elec": 1,
+    "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_child_body", "wps_humanoid_head_big" ],
+    "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_child" ],
     "dodge": 1,
     "vision_day": 20,
     "vision_night": 3,

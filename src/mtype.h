@@ -195,17 +195,23 @@ struct enum_traits<m_flag> {
 
 /** Used to store monster effects placed on attack */
 struct mon_effect_data {
+    // The type of the effect.
     efftype_id id;
-    int duration;
+    // The percent chance of causing the effect.
+    float chance;
+    // Whether the effect is permanent.
+    bool permanent;
     bool affect_hit_bp;
     bodypart_str_id bp;
-    bool permanent;
-    int chance;
+    // The range of the durations (in turns) of the effect.
+    std::pair<int, int> duration;
+    // The range of the intensities of the effect.
+    std::pair<int, int> intensity;
+    // The message to print, if the player causes the effect.
+    std::string message;
 
-    mon_effect_data( const efftype_id &nid, int dur, bool ahbp, bodypart_str_id nbp, bool perm,
-                     int nchance ) :
-        id( nid ), duration( dur ), affect_hit_bp( ahbp ), bp( nbp ), permanent( perm ),
-        chance( nchance ) {}
+    mon_effect_data();
+    void load( const JsonObject &jo );
 };
 
 /** Pet food data */
@@ -501,7 +507,5 @@ struct mtype {
         // Historically located in monstergenerator.cpp
         void load( const JsonObject &jo, const std::string &src );
 };
-
-mon_effect_data load_mon_effect_data( const JsonObject &e );
 
 #endif // CATA_SRC_MTYPE_H

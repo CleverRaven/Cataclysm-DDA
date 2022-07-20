@@ -58,7 +58,6 @@
 #   if defined(_WIN32)
 #       include <dbghelp.h>
 #       if defined(LIBBACKTRACE)
-#           include <backtrace.h>
 #           include <winnt.h>
 #       endif
 #   elif defined(__ANDROID__)
@@ -68,6 +67,10 @@
 #       include <execinfo.h>
 #       include <unistd.h>
 #   endif
+#endif
+
+#if defined(LIBBACKTRACE)
+#   include <backtrace.h>
 #endif
 
 #if defined(TILES)
@@ -806,7 +809,7 @@ static std::ostream &operator<<( std::ostream &out, DebugClass cl )
 }
 
 #if defined(BACKTRACE)
-#if !defined(_WIN32) && !defined(__CYGWIN__) && !defined(__ANDROID__)
+#if !defined(_WIN32) && !defined(__CYGWIN__) && !defined(__ANDROID__) && !defined(LIBBACKTRACE)
 // Verify that a string is safe for passing as an argument to addr2line.
 // In particular, we want to avoid any characters of significance to the shell.
 static bool debug_is_safe_string( const char *start, const char *finish )
@@ -913,7 +916,7 @@ static cata::optional<uintptr_t> debug_compute_load_offset(
 }
 #endif
 
-#if defined(_WIN32) && defined(LIBBACKTRACE)
+#if defined(LIBBACKTRACE)
 // wrap libbacktrace to use std::function instead of function pointers
 using bt_error_callback = std::function<void( const char *, int )>;
 using bt_full_callback = std::function<int( uintptr_t, const char *, int, const char * )>;
@@ -930,6 +933,27 @@ static backtrace_state *bt_create_state( const char *const filename, const int t
     const_cast<bt_error_callback *>( &cb ) );
 }
 
+#if !defined(_WIN32)
+static int bt_full( backtrace_state *const state, int skip, const bt_full_callback &cb_full,
+                    const bt_error_callback &cb_error )
+{
+    using cb_pair = std::pair<const bt_full_callback &, const bt_error_callback &>;
+    cb_pair cb { cb_full, cb_error };
+    return backtrace_full( state, skip,
+                           // backtrace callback
+                           []( void *const data, const uintptr_t pc, const char *const filename,
+    const int lineno, const char *const function ) -> int {
+        cb_pair &cb = *reinterpret_cast<cb_pair *>( data );
+        return cb.first( pc, filename, lineno, function );
+    },
+    // error callback
+    []( void *const data, const char *const msg, const int errnum ) {
+        cb_pair &cb = *reinterpret_cast<cb_pair *>( data );
+        cb.second( msg, errnum );
+    },
+    &cb );
+}
+#else
 static int bt_pcinfo( backtrace_state *const state, const uintptr_t pc,
                       const bt_full_callback &cb_full, const bt_error_callback &cb_error )
 {
@@ -970,6 +994,7 @@ static int bt_syminfo( backtrace_state *const state, const uintptr_t addr,
     &cb );
 }
 #endif
+#endif
 
 #if defined(_WIN32)
 class sym_init
@@ -1004,12 +1029,12 @@ struct backtrace_module_info_t {
 };
 static std::map<DWORD64, backtrace_module_info_t> bt_module_info_map;
 #endif
-#elif !defined(__ANDROID__)
+#elif !defined(__ANDROID__) && !defined(LIBBACKTRACE)
 static constexpr int bt_cnt = 20;
 static void *bt[bt_cnt];
 #endif
 
-#if !defined(_WIN32) && !defined(__ANDROID__)
+#if !defined(_WIN32) && !defined(__ANDROID__) && !defined(LIBBACKTRACE)
 static void write_demangled_frame( std::ostream &out, const char *frame )
 {
 #if defined(__linux__)
@@ -1062,6 +1087,23 @@ static void write_demangled_frame( std::ostream &out, const char *frame )
 #if !defined(__ANDROID__)
 void debug_write_backtrace( std::ostream &out )
 {
+#if defined(LIBBACKTRACE)
+    auto bt_full_print = [&out]( const uintptr_t pc, const char *const filename,
+    const int lineno, const char *const function ) -> int {
+        std::string file = filename ? filename : "[unknown src]";
+        size_t src = file.find( "/src/" );
+        if( src != std::string::npos )
+        {
+            file.erase( 0, src );
+            file = "…" + file;
+        }
+        out << "\n    0x" << std::hex << pc << std::dec
+            << "    " << file << ":" << lineno
+            << "    " << ( function ? demangle( function ) : "[unknown func]" );
+        return 0;
+    };
+#endif
+
 #if defined(_WIN32)
     if( !sym_init_ ) {
         sym_init_ = std::make_unique<sym_init>();
@@ -1143,18 +1185,8 @@ void debug_write_backtrace( std::ostream &out )
                     << ", msg = " << ( msg ? msg : "[no msg]" )
                     << "),";
             } );
-            bt_pcinfo( bt_module_info.state, de_aslr_pc,
-                       // backtrace callback
-                       [&out]( const uintptr_t pc, const char *const filename,
-            const int lineno, const char *const function ) -> int {
-                out << "\n    (libbacktrace: 0x" << std::hex << pc << std::dec
-                    << "    " << ( filename ? filename : "[unknown src]" )
-                    << ":" << lineno
-                    << "    " << ( function ? function : "[unknown func]" )
-                    << "),";
-                return 0;
-            },
-            // error callback
+            bt_pcinfo( bt_module_info.state, de_aslr_pc, bt_full_print,
+                       // error callback
             [&out]( const char *const msg, const int errnum ) {
                 out << "\n    (backtrace_pcinfo failed: errno = " << errnum
                     << ", msg = " << ( msg ? msg : "[no msg]" )
@@ -1165,7 +1197,18 @@ void debug_write_backtrace( std::ostream &out )
     }
     out << "\n";
 #else
-#   if defined(__CYGWIN__)
+#   if defined(LIBBACKTRACE)
+    auto bt_error = [&out]( const char *err_msg, int errnum ) {
+        out << "\n    libbacktrace error " << errnum << ": " << err_msg;
+    };
+    static backtrace_state *bt_state = bt_create_state( nullptr, 0, bt_error );
+    if( bt_state ) {
+        bt_full( bt_state, 0, bt_full_print, bt_error );
+        out << std::endl;
+    } else {
+        out << "\n\n    Failed to initialize libbacktrace\n";
+    }
+#   elif defined(__CYGWIN__)
     // BACKTRACE is not supported under CYGWIN!
     ( void ) out;
 #   else

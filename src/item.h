@@ -526,11 +526,10 @@ class item : public visitable
                 reload_option( const reload_option & );
                 reload_option &operator=( const reload_option & );
 
-                reload_option( const Character *who, const item *target, const item *parent,
-                               const item_location &ammo );
+                reload_option( const Character *who, const item_location &target, const item_location &ammo );
 
                 const Character *who = nullptr;
-                const item *target = nullptr;
+                item_location target;
                 item_location ammo;
 
                 int qty() const {
@@ -543,11 +542,9 @@ class item : public visitable
                 explicit operator bool() const {
                     return who && target && ammo && qty_ > 0;
                 }
-                const item *getParent() const;
             private:
                 int qty_ = 0;
                 int max_qty = INT_MAX;
-                const item *parent = nullptr;
         };
 
         /**

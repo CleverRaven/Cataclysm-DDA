@@ -1,6 +1,44 @@
 [
   {
     "type": "overmap_terrain",
+    "id": [ "park", "park_roof", "park_2", "park_3", "park_4", "park_5", "park_5_roof", "park_6", "park_7", "park_7_roof" ],
+    "copy-from": "generic_city_building",
+    "name": "park",
+    "sym": "O",
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "playground", "playground_roof", "playground_1" ],
+    "copy-from": "park",
+    "name": "playground"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "dog_park" ],
+    "copy-from": "park",
+    "name": "dog park"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "volleyball_court" ],
+    "copy-from": "park",
+    "name": "volleyball court"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "tennis_court" ],
+    "copy-from": "park",
+    "name": "tennis court"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "baskeball_court" ],
+    "copy-from": "park",
+    "name": "basketball court"
+  },
+  {
+    "type": "overmap_terrain",
     "id": [
       "pool",
       "pool_roof",

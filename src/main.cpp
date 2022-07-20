@@ -42,6 +42,7 @@
 #include "memory_fast.h"
 #include "options.h"
 #include "output.h"
+#include "help.h"
 #include "ordered_static_globals.h"
 #include "path_info.h"
 #include "rng.h"
@@ -562,6 +563,18 @@ cli_opts parse_commandline( int argc, const char **argv )
     return result;
 }
 
+bool assure_essential_dirs_exist()
+{
+    using namespace PATH_INFO;
+    for( const std::string &path : std::vector<std::string> { { config_dir(), savedir(), templatedir(), user_font(), user_sound(), user_gfx() } } ) {
+        if( !assure_dir_exist( path ) ) {
+            popup( _( "Unable to make directory \"%s\".  Check permissions." ), path );
+            return false;
+        }
+    }
+    return true;
+}
+
 }  // namespace
 
 #if defined(USE_WINMAIN)
@@ -750,6 +763,13 @@ int main( int argc, const char *argv[] )
     }
 #endif
     replay_buffered_debugmsg_prompts();
+
+    if( !assure_essential_dirs_exist() ) {
+        exit_handler( -999 );
+        return 0;
+    }
+
+    get_help().load();
 
     while( true ) {
         if( !cli.world.empty() ) {

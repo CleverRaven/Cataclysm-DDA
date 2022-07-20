@@ -1,0 +1,244 @@
+[
+  {
+    "type": "npc",
+    "id": "NPC_scrap_trader",
+    "class": "NC_SCAVENGER",
+    "name_suffix": "scrapper",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_NPC_SCRAP_TRADER",
+    "faction": "wasteland_scavengers",
+    "mission_offered": "MISSION_SCRAP_TRADER_GET_25_MAGNETRON"
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_NPC_SCRAP_TRADER",
+    "dynamic_line": {
+      "npc_has_var": "talked_to_trader",
+      "type": "dialogue",
+      "context": "first_meeting",
+      "value": "yes",
+      "yes": "Hello there.  Nice to see you, <name_g>.",
+      "no": "Haven't seen another face in quite a while.  Not a living one, at least.  State your business.  Maybe you got some use for some of this scrap metal?"
+    },
+    "speaker_effect": { "effect": { "npc_add_var": "talked_to_trader", "type": "dialogue", "context": "first_meeting", "value": "yes" } },
+    "responses": [
+      {
+        "text": "Nice to meet you.",
+        "topic": "TALK_NPC_SCRAP_TRADER_INTRO",
+        "condition": { "not": { "npc_has_var": "talked_to_trader", "type": "dialogue", "context": "first_meeting", "value": "yes" } }
+      },
+      {
+        "text": "Hands up, <name_b>!",
+        "trial": { "type": "INTIMIDATE", "difficulty": 30 },
+        "success": { "topic": "TALK_WEAPON_DROPPED", "effect": "drop_weapon", "opinion": { "trust": -4, "fear": 3 } },
+        "failure": { "topic": "TALK_DONE", "effect": "hostile" },
+        "condition": { "not": { "npc_has_var": "talked_to_trader", "type": "dialogue", "context": "first_meeting", "value": "yes" } }
+      },
+      {
+        "text": "Pleasure to see you again, <name_g>.",
+        "topic": "TALK_NPC_SCRAP_TRADER_INTRO",
+        "condition": { "npc_has_var": "talked_to_trader", "type": "dialogue", "context": "first_meeting", "value": "yes" }
+      },
+      { "text": "See ya.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_NPC_SCRAP_TRADER_INTRO",
+    "dynamic_line": "Do you need something?",
+    "responses": [
+      { "text": "What's your story?", "topic": "TALK_NPC_SCRAP_TRADER_STORY" },
+      { "text": "Why stay here of all places?", "topic": "TALK_NPC_SCRAP_TRADER_FORT" },
+      { "text": "Can I buy anything?", "topic": "TALK_SCRAP_TRADER_BULK_SELL" },
+      {
+        "text": "Any jobs you need done?",
+        "condition": { "and": [ { "not": "has_assigned_mission" }, { "not": "has_many_assigned_missions" } ] },
+        "topic": "TALK_MISSION_LIST"
+      },
+      { "text": "Nah, see ya.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_NPC_SCRAP_TRADER_STORY",
+    "dynamic_line": "Well, I held a modest job here as a scrap yard worker.  Business was fair most days, but when <the_cataclysm> hit, I was on a solo shift.  With all the craziness going on in the cities and whatnot, I decided to just stay here for while.  I figure someone might find a use for the leftover metal lying around, so I started selling it to anyone who passed by.",
+    "responses": [ { "text": "Hmm.", "topic": "TALK_NONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_NPC_SCRAP_TRADER_FORT",
+    "dynamic_line": "Like I said, I was already here when the dead got pissed off.  This place had some barbed wire, metalworking tools, and plenty of stuff to make weapons out of.  Even the walls are my own making.",
+    "responses": [
+      { "text": "Interesting.", "topic": "TALK_NONE" },
+      { "text": "Think I could stay here?", "topic": "TALK_NPC_SCRAP_TRADER_HOME_STAY" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_NPC_SCRAP_TRADER_HOME_STAY",
+    "dynamic_line": "Sure, I'm fine with it.  There's a spare bed over there for anyone who needs it.  Just don't hog it.  Someone else might come along.",
+    "responses": [ { "text": "Thanks, <name_g>.", "topic": "TALK_NPC_SCRAP_TRADER_INTRO" } ]
+  },
+  {
+    "id": "TALK_SCRAP_TRADER_BULK_SELL",
+    "//": "this is all the dialogue related to buying bulk metal or scrap.",
+    "type": "talk_topic",
+    "dynamic_line": [ "Sure thing.  I've got a few things on hand, sold in batches of 10-piece each.  What'll ya have?" ],
+    "responses": [
+      { "text": "Nevermind.", "topic": "TALK_NONE" },
+      {
+        "text": "I'd like some specialty metals.",
+        "topic": "TALK_SCRAP_TRADER_BULK_SELL_SPECIALTY",
+        "condition": { "npc_has_var": "specific_metal_tradeable", "type": "dialogue", "context": "trade", "value": "yes" }
+      },
+      {
+        "text": "[2$]  I'll buy some scrap fragments.",
+        "effect": [ { "u_buy_item": "scrap", "cost": 200, "count": 10 } ],
+        "topic": "TALK_SCRAP_TRADER_BULK_SELL_END"
+      },
+      {
+        "text": "[5$]  I'll buy some small sheet metal.",
+        "effect": [ { "u_buy_item": "sheet_metal_small", "cost": 500, "count": 10 } ],
+        "topic": "TALK_SCRAP_TRADER_BULK_SELL_END"
+      },
+      {
+        "text": "[10$]  I'll buy some steel chunks.",
+        "effect": [ { "u_buy_item": "steel_chunk", "cost": 1000, "count": 10 } ],
+        "topic": "TALK_SCRAP_TRADER_BULK_SELL_END"
+      },
+      {
+        "text": "[30$]  I'll buy some steel lumps.",
+        "effect": [ { "u_buy_item": "steel_lump", "cost": 3000, "count": 10 } ],
+        "topic": "TALK_SCRAP_TRADER_BULK_SELL_END"
+      },
+      {
+        "text": "[50$]  I'll buy some sheet metal.",
+        "effect": [ { "u_buy_item": "sheet_metal", "cost": 5000, "count": 10 } ],
+        "topic": "TALK_SCRAP_TRADER_BULK_SELL_END"
+      },
+      {
+        "text": "[60$]  I'll buy some low carbon steel.",
+        "effect": [ { "u_buy_item": "lc_steel_lump", "cost": 6000, "count": 10 } ],
+        "topic": "TALK_SCRAP_TRADER_BULK_SELL_END"
+      },
+      {
+        "text": "[80$]  I'll buy some medium carbon steel.",
+        "effect": [ { "u_buy_item": "mc_steel_lump", "cost": 8000, "count": 10 } ],
+        "topic": "TALK_SCRAP_TRADER_BULK_SELL_END"
+      },
+      {
+        "text": "[100$]  I'll buy some high carbon steel.",
+        "effect": [ { "u_buy_item": "hc_steel_lump", "cost": 10000, "count": 10 } ],
+        "topic": "TALK_SCRAP_TRADER_BULK_SELL_END"
+      }
+    ]
+  },
+  {
+    "id": "TALK_SCRAP_TRADER_BULK_SELL_END",
+    "type": "talk_topic",
+    "dynamic_line": [ "Anything else you need?" ],
+    "responses": [
+      { "text": "No, that's all.", "topic": "TALK_DONE" },
+      {
+        "text": "I'd like some specialty metals.",
+        "topic": "TALK_SCRAP_TRADER_BULK_SELL_SPECIALTY",
+        "condition": { "npc_has_var": "specific_metal_tradeable", "type": "dialogue", "context": "trade", "value": "yes" }
+      },
+      {
+        "text": "[2$]  I'll buy some scrap fragments.",
+        "effect": [ { "u_buy_item": "scrap", "cost": 200, "count": 10 } ],
+        "topic": "TALK_SCRAP_TRADER_BULK_SELL_END"
+      },
+      {
+        "text": "[5$]  I'll buy some small sheet metal.",
+        "effect": [ { "u_buy_item": "sheet_metal_small", "cost": 500, "count": 10 } ],
+        "topic": "TALK_SCRAP_TRADER_BULK_SELL_END"
+      },
+      {
+        "text": "[10$]  I'll buy some steel chunks.",
+        "effect": [ { "u_buy_item": "steel_chunk", "cost": 1000, "count": 10 } ],
+        "topic": "TALK_SCRAP_TRADER_BULK_SELL_END"
+      },
+      {
+        "text": "[30$]  I'll buy some steel lumps.",
+        "effect": [ { "u_buy_item": "steel_lump", "cost": 3000, "count": 10 } ],
+        "topic": "TALK_SCRAP_TRADER_BULK_SELL_END"
+      },
+      {
+        "text": "[50$]  I'll buy some sheet metal.",
+        "effect": [ { "u_buy_item": "sheet_metal", "cost": 5000, "count": 10 } ],
+        "topic": "TALK_SCRAP_TRADER_BULK_SELL_END"
+      },
+      {
+        "text": "[60$]  I'll buy some low carbon steel.",
+        "effect": [ { "u_buy_item": "lc_steel_lump", "cost": 6000, "count": 10 } ],
+        "topic": "TALK_SCRAP_TRADER_BULK_SELL_END"
+      },
+      {
+        "text": "[80$]  I'll buy some medium carbon steel.",
+        "effect": [ { "u_buy_item": "mc_steel_lump", "cost": 8000, "count": 10 } ],
+        "topic": "TALK_SCRAP_TRADER_BULK_SELL_END"
+      },
+      {
+        "text": "[100$]  I'll buy some high carbon steel.",
+        "effect": [ { "u_buy_item": "hc_steel_lump", "cost": 10000, "count": 10 } ],
+        "topic": "TALK_SCRAP_TRADER_BULK_SELL_END"
+      }
+    ]
+  },
+  {
+    "id": "TALK_SCRAP_TRADER_BULK_SELL_SPECIALTY",
+    "type": "talk_topic",
+    "dynamic_line": [ "I've got freshly sorted metals in some small containers ready to go.  What do you want?" ],
+    "//": "This is meant to be more costly due to the difficulty in obtaining them.",
+    "responses": [
+      { "text": "Nevermind.", "topic": "TALK_NONE" },
+      {
+        "text": "[10$]  I'll buy some bismuth.",
+        "effect": [ { "u_buy_item": "bismuth", "container": "bag_zipper", "cost": 1000, "count": 100 } ],
+        "topic": "TALK_SCRAP_TRADER_BULK_SELL_END"
+      },
+      {
+        "text": "[10$]  I'll buy some zinc.",
+        "effect": [ { "u_buy_item": "zinc_metal", "container": "jar_glass_sealed", "cost": 1000, "count": 100 } ],
+        "topic": "TALK_SCRAP_TRADER_BULK_SELL_END"
+      },
+      {
+        "text": "[12$]  I'll buy some lead.",
+        "effect": [ { "u_buy_item": "lead", "container": "bag_zipper", "cost": 1200, "count": 100 } ],
+        "topic": "TALK_SCRAP_TRADER_BULK_SELL_END"
+      },
+      {
+        "text": "[14$]  I'll buy some copper.",
+        "effect": [ { "u_buy_item": "scrap_copper", "cost": 1400, "count": 10 } ],
+        "topic": "TALK_SCRAP_TRADER_BULK_SELL_END"
+      },
+      {
+        "text": "[18$]  I'll buy some tin.",
+        "effect": [ { "u_buy_item": "tin", "container": "bag_zipper", "cost": 1800, "count": 100 } ],
+        "topic": "TALK_SCRAP_TRADER_BULK_SELL_END"
+      },
+      {
+        "text": "[20$]  I'll buy some magnesium.",
+        "effect": [ { "u_buy_item": "magnesium", "container": "bag_zipper", "cost": 2000, "count": 100 } ],
+        "topic": "TALK_SCRAP_TRADER_BULK_SELL_END"
+      },
+      {
+        "text": "[28$]  I'll buy some silver.",
+        "effect": [ { "u_buy_item": "silver_small", "container": "bag_zipper", "cost": 2800, "count": 100 } ],
+        "topic": "TALK_SCRAP_TRADER_BULK_SELL_END"
+      },
+      {
+        "text": "[100$]  I'll buy some gold.",
+        "effect": [ { "u_buy_item": "gold_small", "container": "bag_zipper", "cost": 10000, "count": 100 } ],
+        "topic": "TALK_SCRAP_TRADER_BULK_SELL_END"
+      },
+      {
+        "text": "[150$]  I'll buy some platinum.",
+        "effect": [ { "u_buy_item": "platinum_small", "container": "jar_glass_sealed", "cost": 15000, "count": 100 } ],
+        "topic": "TALK_SCRAP_TRADER_BULK_SELL_END"
+      }
+    ]
+  }
+]

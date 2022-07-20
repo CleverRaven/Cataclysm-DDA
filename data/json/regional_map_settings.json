@@ -822,6 +822,8 @@
         "2storyModern01": 5,
         "house_w_1": 50,
         "house_two_story_basement": 50,
+        "multi_unit_two_story_basement": 40,
+        "multi_unit_three_story_basement": 30,
         "house_crack1": 5,
         "house_crack2": 5,
         "house_crack3": 5,

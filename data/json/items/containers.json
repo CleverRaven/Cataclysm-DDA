@@ -2670,7 +2670,7 @@
     "name": { "str": "individual patrol officer kit" },
     "//": "https://www.narescue.com/individual-patrol-officer-kit.html",
     "looks_like": "mre_beef_box",
-    "description": ".",
+    "description": "A first aid kit designed for patrolling police officers, contents selected for dealing with hemorrhaging injuries such as gunshot wounds.  Comes in a sealed pouch.",
     "weight": "50 g",
     "volume": "50 ml",
     "price": 0,

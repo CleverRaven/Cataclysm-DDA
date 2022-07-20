@@ -212,6 +212,14 @@ struct achievement_requirement {
                       "a valid value of that type.",
                       id.str(), target.get_string(), io::enum_to_string( target.type() ) );
         }
+
+        if( comparison != achievement_comparison::anything &&
+            target.type() != statistic->type() ) {
+            debugmsg( "Achievement %s has a requirement comparing a value of type %s to a value "
+                      "of type %s.  Comparisons should be between values of the same type.",
+                      id.str(), io::enum_to_string( target.type() ),
+                      io::enum_to_string( statistic->type() ) );
+        }
     }
 
     bool satisfied_by( const cata_variant &v ) const {

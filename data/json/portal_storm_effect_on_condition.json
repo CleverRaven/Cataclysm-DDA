@@ -272,7 +272,8 @@
     "condition": {
       "and": [
         { "is_weather": "portal_storm" },
-        { "compare_int": [ { "global_val": "var", "var_name": "ps_str" }, "<=", { "const": 2 } ] }
+        { "compare_int": [ { "global_val": "var", "var_name": "ps_str" }, "<=", { "const": 2 } ] },
+        { "compare_int": [ { "global_val": "var", "var_name": "portal_dungeon_level" }, "=", { "const": 0 } ] }
       ]
     },
     "deactivate_condition": { "not": { "is_weather": "portal_storm" } },
@@ -300,7 +301,8 @@
       "and": [
         { "is_weather": "portal_storm" },
         { "compare_int": [ { "global_val": "var", "var_name": "ps_str" }, ">", { "const": 2 } ] },
-        { "compare_int": [ { "global_val": "var", "var_name": "ps_str" }, "<=", { "const": 4 } ] }
+        { "compare_int": [ { "global_val": "var", "var_name": "ps_str" }, "<=", { "const": 4 } ] },
+        { "compare_int": [ { "global_val": "var", "var_name": "portal_dungeon_level" }, "=", { "const": 0 } ] }
       ]
     },
     "deactivate_condition": { "not": { "is_weather": "portal_storm" } },
@@ -330,7 +332,8 @@
     "condition": {
       "and": [
         { "is_weather": "portal_storm" },
-        { "compare_int": [ { "global_val": "var", "var_name": "ps_str" }, ">", { "const": 4 } ] }
+        { "compare_int": [ { "global_val": "var", "var_name": "ps_str" }, ">", { "const": 4 } ] },
+        { "compare_int": [ { "global_val": "var", "var_name": "portal_dungeon_level" }, "=", { "const": 0 } ] }
       ]
     },
     "deactivate_condition": { "not": { "is_weather": "portal_storm" } },
@@ -570,7 +573,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_TELEPORT_STUCK_START",
-    "condition": { "not": "u_driving" },
+    "condition": { "and": [ { "not": { "u_has_worn_with_flag": "PORTAL_PROOF" } }, { "not": "u_driving" } ] },
     "effect": [
       { "u_location_variable": { "u_val": "stuck_teleport" }, "min_radius": 0, "max_radius": 0 },
       { "run_eocs": "EOC_PORTAL_TELEPORT_STUCK" },
@@ -590,6 +593,7 @@
     "condition": {
       "and": [
         { "not": "u_driving" },
+        { "not": { "u_has_worn_with_flag": "PORTAL_PROOF" } },
         { "compare_int": [ { "global_val": "var", "var_name": "portal_dungeon_level" }, "==", { "const": 0 } ] }
       ]
     },
@@ -1066,7 +1070,12 @@
     "id": "EOC_PORTAL_STORM_POPUP",
     "global": true,
     "condition": {
-      "and": [ { "not": "u_is_outside" }, { "not": { "u_has_effect": "sleep" } }, { "x_in_y_chance": { "x": 1, "y": 250 } } ]
+      "and": [
+        { "not": { "u_has_worn_with_flag": "PORTAL_PROOF" } },
+        { "not": "u_is_outside" },
+        { "not": { "u_has_effect": "sleep" } },
+        { "x_in_y_chance": { "x": 1, "y": 250 } }
+      ]
     },
     "effect": {
       "u_message": "PORTAL_STORM_POPUP",
@@ -1079,27 +1088,45 @@
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_STORM_INDOOR_MESSAGES_1",
     "global": true,
-    "condition": { "and": [ { "not": { "u_has_effect": "sleep" } }, { "x_in_y_chance": { "x": 1, "y": 30 } } ] },
+    "condition": {
+      "and": [
+        { "not": { "u_has_worn_with_flag": "PORTAL_PROOF" } },
+        { "not": { "u_has_effect": "sleep" } },
+        { "x_in_y_chance": { "x": 1, "y": 30 } }
+      ]
+    },
     "effect": { "u_message": "PORTAL_STORM_INDOOR_MESSAGES_1", "snippet": true }
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_STORM_INDOOR_MESSAGES_2",
     "global": true,
-    "condition": { "and": [ { "not": { "u_has_effect": "sleep" } }, { "x_in_y_chance": { "x": 1, "y": 30 } } ] },
+    "condition": {
+      "and": [
+        { "not": { "u_has_worn_with_flag": "PORTAL_PROOF" } },
+        { "not": { "u_has_effect": "sleep" } },
+        { "x_in_y_chance": { "x": 1, "y": 30 } }
+      ]
+    },
     "effect": { "u_message": "PORTAL_STORM_INDOOR_MESSAGES_2", "snippet": true }
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_STORM_INDOOR_MESSAGES_3",
     "global": true,
-    "condition": { "and": [ { "not": { "u_has_effect": "sleep" } }, { "x_in_y_chance": { "x": 1, "y": 30 } } ] },
+    "condition": {
+      "and": [
+        { "not": { "u_has_worn_with_flag": "PORTAL_PROOF" } },
+        { "not": { "u_has_effect": "sleep" } },
+        { "x_in_y_chance": { "x": 1, "y": 30 } }
+      ]
+    },
     "effect": { "u_message": "PORTAL_STORM_INDOOR_MESSAGES_3", "snippet": true }
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_STORM_CELL",
-    "condition": { "not": "u_driving" },
+    "condition": { "and": [ { "not": { "u_has_worn_with_flag": "PORTAL_PROOF" } }, { "not": "u_driving" } ] },
     "effect": [
       { "u_location_variable": { "global_val": "original_loc" } },
       { "u_location_variable": { "global_val": "cell_loc" }, "z_adjust": 6, "z_override": true },

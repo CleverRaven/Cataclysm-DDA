@@ -501,6 +501,16 @@
     "extend": { "flags": [ "CANPLAY", "NO_BREED" ] }
   },
   {
+    "id": "mon_thescelosaurus_juvenile",
+    "type": "MONSTER",
+    "name": "thescelosaurus juvenile",
+    "description": "A two-legged plant-eating dinosaur juvenile with strong arms and a long toothy beak.",
+    "copy-from": "mon_thescelosaurus",
+    "hp": 70,
+    "upgrades": { "age_grow": 60, "into": "mon_thescelosaurus" },
+    "extend": { "flags": [ "CANPLAY", "NO_BREED" ] }
+  },
+  {
     "id": "mon_pteranodon_juvenile",
     "type": "MONSTER",
     "name": "winged juvenile",

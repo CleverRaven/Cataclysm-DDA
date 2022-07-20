@@ -396,6 +396,7 @@
       { "group": "nested_sks", "prob": 1 },
       { "group": "nested_win70", "prob": 2 },
       { "group": "nested_1895sbl", "prob": 1 },
+      { "group": "nested_vz58ts", "prob": 1 },
       { "group": "nested_fn_ps90", "prob": 1 },
       { "group": "nested_aksemi", "prob": 2 },
       { "group": "nested_m1carbine", "prob": 1 }
@@ -424,6 +425,7 @@
       { "item": "ruger_mini", "prob": 1, "charges-min": 0, "charges-max": 5 },
       { "item": "sks", "prob": 1, "charges-min": 0, "charges-max": 10 },
       { "item": "win70", "prob": 2, "charges-min": 0, "charges-max": 3 },
+      { "item": "vz58ts", "prob": 1, "charges-min": 0, "charges-max": 30 },
       { "item": "fn_ps90", "prob": 1, "charges-min": 0, "charges-max": 50 },
       { "item": "1895sbl", "prob": 1, "charges-min": 0, "charges-max": 6 },
       { "item": "aksemi", "prob": 2, "charges-min": 0, "charges-max": 30 },
@@ -451,6 +453,7 @@
       { "item": "sharps", "prob": 10, "charges-min": 0, "charges-max": 0 },
       { "item": "sks", "prob": 20, "charges-min": 0, "charges-max": 0 },
       { "item": "m1a", "prob": 30, "charges-min": 0, "charges-max": 0 },
+      { "item": "vz58ts", "prob": 10, "charges-min": 0, "charges-max": 0 },
       { "item": "fn_ps90", "prob": 5, "charges-min": 0, "charges-max": 0 },
       { "item": "aksemi", "prob": 15, "charges-min": 0, "charges-max": 0 },
       { "item": "mk47", "prob": 10, "charges-min": 0, "charges-max": 0 }
@@ -573,6 +576,8 @@
       { "group": "nested_steyr_aug", "prob": 40 },
       { "group": "nested_trex_gun", "prob": 60 },
       { "group": "nested_arx160", "prob": 40 },
+      { "group": "nested_vz58p", "prob": 35 },
+      { "group": "nested_vz58v", "prob": 25 },
       { "group": "nested_iwi_tavor_x95_300blk", "prob": 10 },
       { "group": "nested_acr_300blk", "prob": 15 }
     ]
@@ -588,6 +593,8 @@
       { "item": "bfg50", "prob": 5, "charges-min": 0, "charges-max": 0 },
       { "item": "trex_gun", "prob": 5, "charges-min": 0, "charges-max": 0 },
       { "item": "ak74", "prob": 5, "charges-min": 0, "charges-max": 0 },
+      { "item": "vz58_p", "variant": "vz58_p", "prob": 5, "charges-min": 0, "charges-max": 0 },
+      { "item": "vz58_p", "variant": "vz58_v", "prob": 5, "charges-min": 0, "charges-max": 0 },
       { "item": "famas", "prob": 5, "charges-min": 0, "charges-max": 0 },
       { "item": "m60_semi", "prob": 5, "charges-min": 0, "charges-max": 0 },
       { "item": "oa93", "prob": 3, "charges-min": 0, "charges-max": 0 },

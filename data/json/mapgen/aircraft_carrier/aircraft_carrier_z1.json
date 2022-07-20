@@ -351,7 +351,7 @@
       "place_vehicles": [
         { "vehicle": "helicopter_apache_1a", "x": 44, "y": 34, "chance": 100, "rotation": 270, "status": 1 },
         { "vehicle": "helicopter_apache_1b", "x": 44, "y": 79, "chance": 100, "rotation": 270, "status": 1 },
-        { "vehicle": "helicopter_apache_1c", "x": 44, "y": 124, "chance": 100, "rotation": 270, "status": 1 },
+        { "vehicle": "helicopter_apache_1c", "x": 42, "y": 124, "chance": 100, "rotation": 270, "status": 1 },
         { "vehicle": "helicopter_apache_1b", "x": 44, "y": 184, "chance": 100, "rotation": 270, "status": 1 },
         { "vehicle": "helicopter_apache_1b", "x": 44, "y": 229, "chance": 100, "rotation": 270, "status": 1 },
         { "vehicle": "helicopter_osprey_2c", "x": 33, "y": 77, "chance": 100, "status": 1, "rotation": 270 },
