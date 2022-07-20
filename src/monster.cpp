@@ -2548,11 +2548,6 @@ void monster::die( Creature *nkiller )
 
     add_msg_if_player_sees( *this, m_good, type->mdeath_effect.death_message.translated(), name() );
 
-    // If we're amigara, process a hardcoded amigara death function
-    if( type->default_faction == STATIC( mfaction_str_id( "amigara" ) ) ) {
-        mdeath::amigara( *this );
-    }
-
     if( type->mdeath_effect.has_effect ) {
         //Not a hallucination, go process the death effects.
         spell death_spell = type->mdeath_effect.sp.get_spell();

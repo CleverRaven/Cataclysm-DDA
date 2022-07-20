@@ -48,13 +48,10 @@
 #include "value_ptr.h"
 #include "viewer.h"
 
-static const efftype_id effect_amigara( "amigara" );
 static const efftype_id effect_no_ammo( "no_ammo" );
 
 static const harvest_drop_type_id harvest_drop_bone( "bone" );
 static const harvest_drop_type_id harvest_drop_flesh( "flesh" );
-
-static const relic_procgen_id relic_procgen_data_netherum_tunnels( "netherum_tunnels" );
 
 static const species_id species_ZOMBIE( "ZOMBIE" );
 
@@ -93,29 +90,6 @@ item *mdeath::normal( monster &z )
         }
     }
     return nullptr;
-}
-
-void mdeath::amigara( monster &z )
-{
-    const bool has_others = g->get_creature_if( [&]( const Creature & critter ) {
-        if( const monster *const candidate = dynamic_cast<const monster *>( &critter ) ) {
-            return candidate->type == z.type;
-        }
-        return false;
-    } );
-
-    if( has_others ) {
-        return;
-    }
-
-    // We were the last!
-    Character &player_character = get_player_character();
-    if( player_character.has_effect( effect_amigara ) ) {
-        player_character.remove_effect( effect_amigara );
-        add_msg( _( "Your obsession with the fault fades away." ) );
-    }
-
-    get_map().spawn_artifact( z.pos(), relic_procgen_data_netherum_tunnels );
 }
 
 static void scatter_chunks( const itype_id &chunk_name, int chunk_amt, monster &z, int distance,
