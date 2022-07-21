@@ -226,13 +226,13 @@ bool dialogue_window::print_responses( const std::vector<talk_data> &responses )
     // amount is based on the number of lines *after* folding.
     folded_txt.clear();
     folded_heights.clear();
-    for( size_t i = 0; i < responses.size(); i++ ) {
+    for( const talk_data &response : responses ) {
         //~ %s: hotkey description
         const std::string hotkey_text = string_format( pgettext( "talk option", "%s: " ),
-                                        responses[i].hotkey_desc );
+                                        response.hotkey_desc );
         const int hotkey_width = utf8_width( hotkey_text );
         const int fold_width = xmid - responses_xoffset - hotkey_width - 1;
-        const std::vector<std::string> folded = foldstring( responses[i].text, fold_width );
+        const std::vector<std::string> folded = foldstring( response.text, fold_width );
         folded_heights.emplace_back( static_cast<int>( folded.size() ) );
         folded_txt.emplace_back( std::make_tuple( hotkey_text, folded ) );
         total_length += static_cast<int>( folded.size() );

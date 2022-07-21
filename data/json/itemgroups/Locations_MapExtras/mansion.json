@@ -852,7 +852,10 @@
       [ "basketball", 50 ],
       [ "beach_volleyball", 40 ],
       [ "indoor_volleyball", 40 ],
-      [ "helmet_bike", 25 ],
+      [ "helmet_bike", 15 ],
+      { "group": "helmet_bike_modified", "prob": 10 },
+      [ "plastic_chin_guard", 10 ],
+      [ "shield_visor", 5 ],
       [ "helmet_ball", 25 ],
       [ "headgear", 20 ],
       [ "mask_hockey", 25 ],
@@ -1278,7 +1281,8 @@
       { "item": "charcoal", "prob": 5, "container-item": "bag_canvas" },
       [ "toilet_paper", 30 ],
       [ "plunger_toilet", 10 ],
-      [ "plunger_futuristic", 25 ]
+      [ "plunger_futuristic", 25 ],
+      { "item": "chem_turpentine", "prob": 20, "charges-min": 20 }
     ]
   },
   {

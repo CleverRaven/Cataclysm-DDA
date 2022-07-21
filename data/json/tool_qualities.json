@@ -80,7 +80,7 @@
     "type": "tool_quality",
     "id": "SAW_W",
     "name": { "str": "wood sawing" },
-    "usages": [ [ 2, [ "LUMBER" ] ] ]
+    "usages": [ [ 2, [ "LUMBER", "saw_stock" ] ] ]
   },
   {
     "type": "tool_quality",

@@ -331,10 +331,12 @@
     "type": "vitamin",
     "vit_type": "counter",
     "name": { "str": "Instability" },
+    "excess": "genetics_damaged",
     "min": 0,
     "max": 8000,
     "flags": [ "NO_DISPLAY" ],
-    "rate": "1 d"
+    "rate": "1 d",
+    "disease_excess": [ [ 1, 799 ], [ 800, 2799 ], [ 2800, 8000 ] ]
   },
   {
     "id": "bad_food",

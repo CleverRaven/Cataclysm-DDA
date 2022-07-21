@@ -578,8 +578,8 @@ TEST_CASE( "auto pickup should not implicitly pickup corpses", "[autopickup][ite
 
     // wield body bag and store item reference
     they.set_wielded_item( item( itype_bag_body_bag ) );
-    item &body_bag = they.get_wielded_item();
-    REQUIRE_FALSE( body_bag.is_null() );
+    item_location body_bag = they.get_wielded_item();
+    REQUIRE_FALSE( !body_bag );
 
     GIVEN( "there is a generic corpse on the ground" ) {
         unique_item item_corpse = unique_item( itype_corpse );
@@ -589,13 +589,13 @@ TEST_CASE( "auto pickup should not implicitly pickup corpses", "[autopickup][ite
             add_autopickup_rule( item_corpse.get(), true );
             THEN( "the corpse should be picked up" ) {
                 simulate_auto_pickup( ground, they );
-                expect_to_find( body_bag, { &item_corpse } );
+                expect_to_find( *body_bag, { &item_corpse } );
             }
         }
         WHEN( "the corpse is NOT whitelisted in auto-pickup rules" ) {
             THEN( "the corpse should NOT be picked up" ) {
                 simulate_auto_pickup( ground, they );
-                expect_to_find( body_bag, {} );
+                expect_to_find( *body_bag, {} );
             }
             WHEN( "the corpse contains whitelisted items" ) {
                 unique_item item_cigarette = unique_item( itype_cig, 5 );
@@ -608,7 +608,7 @@ TEST_CASE( "auto pickup should not implicitly pickup corpses", "[autopickup][ite
                 add_autopickup_rules( { &item_cigarette, &item_rolling_paper }, true );
                 THEN( "whitelisted items should be picked up without the corpse" ) {
                     simulate_auto_pickup( ground, they );
-                    expect_to_find( body_bag, { &item_cigarette, &item_rolling_paper } );
+                    expect_to_find( *body_bag, { &item_cigarette, &item_rolling_paper } );
                 }
             }
         }

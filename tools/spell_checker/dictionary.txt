@@ -42,7 +42,8 @@ alkahest
 alkalis
 alkyl
 alleghaniensis
-allosaurusid
+allosaurus
+allosaurid
 allucination
 alnico
 altamente
@@ -85,6 +86,7 @@ aquacultural
 aquaculture
 aquamarines
 aqueles
+aquilops
 aramid
 arborescent
 args
@@ -102,6 +104,7 @@ aterial
 atire
 atompot
 attac
+attachable
 attery
 attunements
 attuning
@@ -263,7 +266,8 @@ callsigns
 caltrop
 caltrops
 camarasaurus
-camptosaurus
+camarasaurus
+camphine
 camspy
 cannelured
 caparison
@@ -489,6 +493,8 @@ dragonscale
 draugr
 draugrs
 drawknife
+dreamdross
+dreamstuff
 driers
 drivetrain
 dromaeosaurid
@@ -496,6 +502,7 @@ dromaeosaurus
 dropoff
 droppers
 druidry
+dryosaurus
 dryptosaurus
 drywalled
 dunderfuck
@@ -517,6 +524,7 @@ elderberries
 electrochemistry
 electrohack
 electrolaser
+electrolasers
 electroreceptors
 elete
 elopements
@@ -645,6 +653,7 @@ foodcart
 foodplace
 footgear
 foregrip
+foregrips
 forestock
 forgemaster
 forgnottedn
@@ -1012,6 +1021,7 @@ macrophenotypic
 macuahuitl
 maculata
 mafuckin
+magnifiers
 magwells
 maiasaura
 makizushi
@@ -1061,6 +1071,8 @@ microbians
 microbrewed
 microcentrifuge
 microcontrollers
+microgenerator
+microgenerators
 microlab
 micromonies
 microplane
@@ -1161,6 +1173,7 @@ nectivore
 needin
 needlelike
 neodays
+neonate
 neotenic
 neotheropod
 netkit
@@ -1519,6 +1532,8 @@ sandleather
 sapience
 sarracenia
 satirizes
+sauropod
+saurornitholestes
 sautered
 savetest
 sawblade
@@ -1660,6 +1675,8 @@ starrin
 std
 steeltoed
 steerable
+stegoceras
+stegosaurus
 stegosaurusfindsrobot
 stenonychosaurus
 stimulative
@@ -1755,12 +1772,14 @@ thawb
 thawbs
 thermochemistry
 thermoplastics
+thescelosaurus
 thonged
 thorned
 thosun
 threose
 thrums
 thumbholes
+thyreophoran
 tileset
 tillable
 tindalos
@@ -1801,6 +1820,7 @@ transpositions
 travelpack
 traversal
 treelines
+tribesperson
 tribot
 tricorne
 trifacet
@@ -1821,7 +1841,9 @@ turreted
 twere
 txt
 typologies
+tyrannosaurid
 tyrannosauroid
+tyrannosaurus
 tz
 uality
 uan
@@ -1950,6 +1972,7 @@ whitelist
 whitelisted
 whitelists
 whoda
+whoosh
 whud
 whuff
 whump

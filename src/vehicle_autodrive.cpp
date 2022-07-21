@@ -1204,7 +1204,7 @@ std::vector<std::tuple<point, int, std::string>> vehicle::get_debug_overlay_data
                 ret.emplace_back( pt, catacurses::white, "G" );
             }
         } else if( debug_str == "path" ) {
-            for( const auto &step : data.path ) {
+            for( const navigation_step &step : data.path ) {
                 ret.emplace_back( ( step.pos - veh_pos ).raw().xy(), 8 + catacurses::yellow,
                                   to_string( step.steering_dir ) );
             }

@@ -227,7 +227,7 @@
     "id": "diamond_ring",
     "type": "ARMOR",
     "name": { "str": "diamond and gold ring" },
-    "description": "A gold ring with a sparkling diamond mounted on top of it.  Back in the old days this could be worth a fortune.",
+    "description": "A gold ring with a sparkling diamond mounted on top of it.  Back in the old days, this could have been worth a fortune.",
     "weight": "12 g",
     "volume": "1 ml",
     "price": 190000,
@@ -285,7 +285,7 @@
     "id": "copper_bracelet",
     "type": "ARMOR",
     "name": { "str": "copper bracelet" },
-    "description": "An old-fashioned, copper bracelet.",
+    "description": "An old-fashioned copper bracelet.",
     "weight": "45 g",
     "volume": "5 ml",
     "price": 2500,
@@ -339,7 +339,7 @@
     "id": "copper_locket",
     "type": "ARMOR",
     "name": { "str": "copper locket" },
-    "description": "A circular, copper locket.  It's been tarnished with use, and has gained some dull green spots.",
+    "description": "A circular copper locket.  It's been tarnished with use, and has gained some dull green spots.",
     "weight": "45 g",
     "volume": "10 ml",
     "price": 1000,
@@ -501,7 +501,7 @@
     "copy-from": "garnet_gold_cufflinks",
     "type": "ARMOR",
     "name": { "str_sp": "tourmaline and gold cufflinks" },
-    "description": "A pair of cufflinks with inset tourmalines.",
+    "description": "A pair of cufflinks with inset tourmaline.",
     "color": "light_red"
   },
   {
@@ -517,7 +517,7 @@
     "copy-from": "garnet_gold_cufflinks",
     "type": "ARMOR",
     "name": { "str_sp": "blue topaz and gold cufflinks" },
-    "description": "A pair of cufflinks with inset blue topazes.",
+    "description": "A pair of cufflinks with inset blue topaz.",
     "color": "light_blue"
   },
   {
@@ -541,7 +541,7 @@
     "copy-from": "garnet_gold_cufflinks",
     "type": "ARMOR",
     "name": { "str_sp": "onyx and gold cufflinks" },
-    "description": "A pair of cufflinks with inset onyxes.",
+    "description": "A pair of cufflinks with inset onyx.",
     "color": "dark_gray"
   },
   {
@@ -643,7 +643,7 @@
     "copy-from": "garnet_silver_cufflinks",
     "type": "ARMOR",
     "name": { "str_sp": "tourmaline and silver cufflinks" },
-    "description": "A pair of cufflinks with inset tourmalines.",
+    "description": "A pair of cufflinks with inset tourmaline.",
     "color": "light_red"
   },
   {
@@ -659,7 +659,7 @@
     "copy-from": "garnet_silver_cufflinks",
     "type": "ARMOR",
     "name": { "str_sp": "blue topaz and silver cufflinks" },
-    "description": "A pair of cufflinks with inset blue topazes.",
+    "description": "A pair of cufflinks with inset blue topaz.",
     "color": "light_blue"
   },
   {
@@ -683,19 +683,19 @@
     "copy-from": "garnet_silver_cufflinks",
     "type": "ARMOR",
     "name": { "str_sp": "onyx and silver cufflinks" },
-    "description": "A pair of cufflinks with inset onyxes.",
+    "description": "A pair of cufflinks with inset onyx.",
     "variant_type": "generic",
     "variants": [
       {
         "id": "generic_onyx_silver_cufflinks",
         "name": { "str_sp": "onyx and silver cufflinks" },
-        "description": "A pair of cufflinks with inset onyxes.",
+        "description": "A pair of cufflinks with inset onyx.",
         "weight": 99
       },
       {
         "id": "dark_cufflinks",
         "name": { "str_sp": "dark cufflinks" },
-        "description": "A pair of cufflinks with inset onyxes and a couple of dark silver cat decorations.",
+        "description": "A pair of cufflinks with inset onyx and a couple of dark silver cat decorations.",
         "weight": 1
       }
     ],
@@ -785,7 +785,7 @@
     "copy-from": "garnet_platinum_cufflinks",
     "type": "ARMOR",
     "name": { "str_sp": "tourmaline and platinum cufflinks" },
-    "description": "A pair of cufflinks with inset tourmalines.",
+    "description": "A pair of cufflinks with inset tourmaline.",
     "color": "light_red"
   },
   {
@@ -801,7 +801,7 @@
     "copy-from": "garnet_platinum_cufflinks",
     "type": "ARMOR",
     "name": { "str_sp": "blue topaz and platinum cufflinks" },
-    "description": "A pair of cufflinks with inset blue topazes.",
+    "description": "A pair of cufflinks with inset blue topaz.",
     "color": "light_blue"
   },
   {
@@ -825,14 +825,14 @@
     "copy-from": "garnet_platinum_cufflinks",
     "type": "ARMOR",
     "name": { "str_sp": "onyx and platinum cufflinks" },
-    "description": "A pair of cufflinks with inset onyxes.",
+    "description": "A pair of cufflinks with inset onyx.",
     "color": "dark_gray"
   },
   {
     "id": "ear_spool",
     "type": "ARMOR",
     "name": { "str": "plug" },
-    "description": "Those round things people plug into their earlobes as earrings, also called \"ear plug\" or \"ear spool.\"",
+    "description": "One of those round things people plug into their earlobes as earrings, also called an \"ear plug\" or \"ear spool.\"",
     "weight": "5 g",
     "volume": "5 ml",
     "price": 1200,
@@ -915,7 +915,7 @@
     "id": "gold_locket",
     "type": "ARMOR",
     "name": { "str": "gold locket" },
-    "description": "A heart-shaped, gold locket with a frame inside to store photographs or small objects.",
+    "description": "A heart-shaped gold locket with a frame inside to store photographs or small objects.",
     "weight": "50 g",
     "volume": "25 ml",
     "price": 20000,
@@ -929,7 +929,7 @@
     "id": "gold_medal",
     "type": "ARMOR",
     "name": { "str": "gold medal" },
-    "description": "A medal awarded for achieving first place in some event.  Before everything fell apart, this could be a source of pride for its owner.  Now it's just another shiny bauble.",
+    "description": "A medal awarded for achieving first place in some event.  Before everything fell apart, this was likely a source of great pride for its owner.  Now it's just another shiny bauble.",
     "weight": "50 g",
     "volume": "25 ml",
     "price": 10000,
@@ -990,7 +990,7 @@
     "id": "tieclip",
     "type": "ARMOR",
     "name": { "str": "tie clip" },
-    "description": "A fancy silver tie clip, a great match for your skinny tie.",
+    "description": "A fancy silver tie clip, a great match for a necktie.",
     "weight": "12 g",
     "volume": "5 ml",
     "price": 28000,
@@ -1004,7 +1004,7 @@
     "id": "silver_watch",
     "type": "ARMOR",
     "name": { "str": "silver watch", "str_pl": "silver watches" },
-    "description": "An elegant silver watch, crafted from silver-plated stainless steel.  It's much cheaper than other metal watches, and more classy than an ordinary wristwatch.",
+    "description": "An elegant silver watch, crafted from silver-plated stainless steel.  It's much cheaper than other metal watches, but more classy than an ordinary wristwatch.",
     "weight": "130 g",
     "volume": "90 ml",
     "price": 18000,
@@ -1059,7 +1059,7 @@
     "type": "ARMOR",
     "name": { "str": "fancy watch", "str_pl": "fancy watches" },
     "//": "That's about the midpoint for a rolex.",
-    "description": "A rather large and expensively made wristwatch.  Tells the time in elegantly wrought gold with silver detailing.  It's really the only timepiece suitable for someone of your exquisitely discerning tastes.",
+    "description": "A rather large and expensively-made wristwatch.  Tells the time in elegantly wrought gold with silver detailing.  It's really the only timepiece suitable for someone of your exquisitely discerning tastes.",
     "weight": "150 g",
     "volume": "100 ml",
     "price": 2200000,
@@ -1076,7 +1076,7 @@
     "id": "small_relic",
     "type": "ARMOR",
     "name": { "str": "small relic" },
-    "description": "A small relic from a forgotten saint.  As extraordinary as the world has become it may have some power yet.",
+    "description": "A small relic from a forgotten saint.  As extraordinary as the world has become, it may have some power yet.",
     "weight": "60 g",
     "volume": "15 ml",
     "price": 1000,
@@ -1091,7 +1091,7 @@
     "id": "holy_symbol",
     "type": "ARMOR",
     "name": { "str": "holy symbol" },
-    "description": "A necklace made of fine gold chain bearing the symbol of a forgotten faith.",
+    "description": "A necklace made of fine gold chain, bearing the symbol of a forgotten faith.",
     "weight": "50 g",
     "volume": "25 ml",
     "price": 5000,
@@ -1135,7 +1135,7 @@
     "id": "pearl_collar",
     "type": "ARMOR",
     "name": { "str": "pearl collar" },
-    "description": "A collar made from round and lustrous pearls, its former owner must be a wealthy individual.",
+    "description": "A collar made from round and lustrous pearls, its former owner must have been a wealthy individual.",
     "weight": "200 g",
     "volume": "200 ml",
     "price": 590000,
@@ -1149,7 +1149,7 @@
     "id": "platinum_watch",
     "type": "ARMOR",
     "name": { "str": "platinum watch", "str_pl": "platinum watches" },
-    "description": "Flex on those gold-watch wearers with the rare, expensive and superior platinum watch.  This one is made from solid platinum.",
+    "description": "Flex on those gold-watch wearers with this rare, expensive, and superior platinum watch.  This one is made from solid platinum.",
     "weight": "180 g",
     "volume": "100 ml",
     "//": "far more expensive than gold watches, around $100,000 for most platinum watches ",
@@ -1242,7 +1242,7 @@
     "id": "platinum_necklace",
     "type": "ARMOR",
     "name": { "str": "platinum necklace" },
-    "description": "A platinum necklace, with a small, empty heart frame hanging from a chain.",
+    "description": "A platinum necklace, with a small, empty heart-shaped frame hanging from a chain.",
     "weight": "47 g",
     "volume": "25 ml",
     "price": 50000,
@@ -1272,7 +1272,7 @@
     "id": "ring_engagement",
     "type": "ARMOR",
     "name": { "str": "engagement ring" },
-    "description": "This ring is an intricate gold band, with a small cluster of diamonds set in the center.  Before the world broke down, this ring would've cost a small fortune.",
+    "description": "This ring is an intricate gold band with a small cluster of diamonds set in the center.  Before the world broke down, this ring would've cost a small fortune.",
     "weight": "14 g",
     "volume": "1 ml",
     "price": 100000,
@@ -1350,7 +1350,7 @@
     "id": "silver_hairpin",
     "type": "ARMOR",
     "name": { "str": "silver hairpin" },
-    "description": "A shiny, silver hairpin with a tiny bee engraved onto it.",
+    "description": "A shiny silver hairpin with a tiny bee engraved onto it.",
     "weight": "10 g",
     "volume": "2 ml",
     "price": 2000,
@@ -1364,7 +1364,7 @@
     "id": "silver_locket",
     "type": "ARMOR",
     "name": { "str": "silver locket" },
-    "description": "A small, silver locket with a frame inside to store photographs or small objects.",
+    "description": "A small silver locket with a frame inside to store photographs or small objects.",
     "weight": "30 g",
     "volume": "25 ml",
     "price": 4000,
@@ -1378,7 +1378,7 @@
     "id": "silver_medal",
     "type": "ARMOR",
     "name": { "str": "silver medal" },
-    "description": "A medal awarded for achieving second place in some event.  Before everything fell apart, this could be a source of pride for its owner.  Now it's just another shiny bauble.",
+    "description": "A medal awarded for achieving second place in some event.  Before everything fell apart, this was likely a source of pride for its owner.  Now it's just another shiny bauble.",
     "weight": "50 g",
     "volume": "25 ml",
     "price": 5000,
@@ -1525,7 +1525,7 @@
     "material": [ "plastic" ],
     "price_postapoc": 10,
     "weight": "10 g",
-    "description": "A star shaped badge.  On it, you can read \"Foodkid\" in bold letters.  This is Foodperson's trusty sidekick's badge."
+    "description": "A star-shaped plastic badge.  \"Foodkid\" is printed on it in bold letters.  This badge marks its wearer as Foodperson's trusty sidekick, and comes included with every kid's meal at Foodplace."
   },
   {
     "id": "fur_cat_ears",
@@ -1593,7 +1593,7 @@
     "type": "ARMOR",
     "copy-from": "fur_collar",
     "name": { "str": "faux fur kitty collar" },
-    "description": "A decorative 'collar' made out of faux fur.  Complete with a little bell hanging from the front.  Don't worry, it's silent.",
+    "description": "A decorative 'collar' made out of faux fur, complete with a little bell hanging from the front.  Don't worry, it's silent.",
     "material": [ "faux_fur" ],
     "color": "pink"
   },
@@ -2544,7 +2544,7 @@
     "copy-from": "garnet_gold_bracelet",
     "type": "ARMOR",
     "name": { "str": "tourmaline and gold bracelet" },
-    "description": "A gold bracelet with sparkling tourmalines.",
+    "description": "A gold bracelet with sparkling tourmaline.",
     "color": "light_red"
   },
   {
@@ -2560,7 +2560,7 @@
     "copy-from": "garnet_gold_bracelet",
     "type": "ARMOR",
     "name": { "str": "blue topaz and gold bracelet" },
-    "description": "A gold bracelet with sparkling blue topazes.",
+    "description": "A gold bracelet with sparkling blue topaz.",
     "color": "light_blue"
   },
   {
@@ -2568,7 +2568,7 @@
     "copy-from": "garnet_gold_bracelet",
     "type": "ARMOR",
     "name": { "str": "opal and gold bracelet" },
-    "description": "A gold bracelet with opals.",
+    "description": "A gold bracelet with beautiful opals.",
     "color": "white"
   },
   {
@@ -2576,7 +2576,7 @@
     "copy-from": "garnet_gold_bracelet",
     "type": "ARMOR",
     "name": { "str": "pearl and gold bracelet" },
-    "description": "A gold bracelet with pearls.",
+    "description": "A gold bracelet with beautiful pearls.",
     "color": "white"
   },
   {
@@ -2584,7 +2584,7 @@
     "copy-from": "garnet_gold_bracelet",
     "type": "ARMOR",
     "name": { "str": "onyx and gold bracelet" },
-    "description": "A gold bracelet with onyxes.",
+    "description": "A gold bracelet with striking onyx.",
     "color": "dark_gray"
   },
   {
@@ -2665,7 +2665,7 @@
       {
         "id": "vampire_bracelet",
         "name": { "str": "vampire bracelet" },
-        "description": "A dark silver bracelet with blood-red rubies in the shape of two sinister looking hearts.",
+        "description": "A dark silver bracelet with blood-red rubies in the shape of two sinister-looking hearts.",
         "weight": 1
       }
     ]
@@ -2691,7 +2691,7 @@
     "copy-from": "garnet_silver_bracelet",
     "type": "ARMOR",
     "name": { "str": "tourmaline and silver bracelet" },
-    "description": "A silver bracelet with sparkling tourmalines.",
+    "description": "A silver bracelet with sparkling tourmaline.",
     "color": "light_red"
   },
   {
@@ -2707,7 +2707,7 @@
     "copy-from": "garnet_silver_bracelet",
     "type": "ARMOR",
     "name": { "str": "blue topaz and silver bracelet" },
-    "description": "A silver bracelet with sparkling blue topazes.",
+    "description": "A silver bracelet with sparkling blue topaz.",
     "color": "light_blue"
   },
   {
@@ -2715,7 +2715,7 @@
     "copy-from": "garnet_silver_bracelet",
     "type": "ARMOR",
     "name": { "str": "opal and silver bracelet" },
-    "description": "A silver bracelet with opals.",
+    "description": "A silver bracelet with beautiful opals.",
     "color": "white"
   },
   {
@@ -2723,7 +2723,7 @@
     "copy-from": "garnet_silver_bracelet",
     "type": "ARMOR",
     "name": { "str": "pearl and silver bracelet" },
-    "description": "A silver bracelet with pearls.",
+    "description": "A silver bracelet with beautiful pearls.",
     "color": "white"
   },
   {
@@ -2731,13 +2731,13 @@
     "copy-from": "garnet_silver_bracelet",
     "type": "ARMOR",
     "name": { "str": "onyx and silver bracelet" },
-    "description": "A silver bracelet with onyxes.",
+    "description": "A silver bracelet with striking onyx.",
     "variant_type": "generic",
     "variants": [
       {
         "id": "generic_onyx_silver_bracelet",
         "name": { "str": "onyx and silver bracelet" },
-        "description": "A silver bracelet with onyxes.",
+        "description": "A silver bracelet with striking onyx.",
         "weight": 99
       },
       {
@@ -2838,7 +2838,7 @@
     "copy-from": "garnet_platinum_bracelet",
     "type": "ARMOR",
     "name": { "str": "tourmaline and platinum bracelet" },
-    "description": "A platinum bracelet with sparkling tourmalines.",
+    "description": "A platinum bracelet with sparkling tourmaline.",
     "color": "light_red"
   },
   {
@@ -2854,7 +2854,7 @@
     "copy-from": "garnet_platinum_bracelet",
     "type": "ARMOR",
     "name": { "str": "blue topaz and platinum bracelet" },
-    "description": "A platinum bracelet with sparkling blue topazes.",
+    "description": "A platinum bracelet with sparkling blue topaz.",
     "color": "light_blue"
   },
   {
@@ -2862,7 +2862,7 @@
     "copy-from": "garnet_platinum_bracelet",
     "type": "ARMOR",
     "name": { "str": "opal and platinum bracelet" },
-    "description": "A platinum bracelet with opals.",
+    "description": "A platinum bracelet with beautiful opals.",
     "color": "white"
   },
   {
@@ -2870,7 +2870,7 @@
     "copy-from": "garnet_platinum_bracelet",
     "type": "ARMOR",
     "name": { "str": "pearl and platinum bracelet" },
-    "description": "A platinum bracelet with pearls.",
+    "description": "A platinum bracelet with beautiful pearls.",
     "color": "white"
   },
   {
@@ -2878,7 +2878,7 @@
     "copy-from": "garnet_platinum_bracelet",
     "type": "ARMOR",
     "name": { "str": "onyx and platinum bracelet" },
-    "description": "A platinum bracelet with onyxes.",
+    "description": "A platinum bracelet with striking onyx.",
     "color": "dark_gray"
   },
   {
@@ -3378,7 +3378,7 @@
     "copy-from": "garnet_platinum_tiara",
     "type": "ARMOR",
     "name": { "str": "tourmaline and platinum tiara" },
-    "description": "A shiny, platinum tiara adorned with tourmalines.",
+    "description": "A shiny, platinum tiara adorned with tourmaline.",
     "color": "light_red"
   },
   {
@@ -3394,7 +3394,7 @@
     "copy-from": "garnet_platinum_tiara",
     "type": "ARMOR",
     "name": { "str": "blue topaz and platinum tiara" },
-    "description": "A shiny, platinum tiara adorned with blue topazes.",
+    "description": "A shiny, platinum tiara adorned with blue topaz.",
     "color": "light_blue"
   },
   {
@@ -3418,7 +3418,7 @@
     "copy-from": "garnet_platinum_tiara",
     "type": "ARMOR",
     "name": { "str": "onyx and platinum tiara" },
-    "description": "A shiny, platinum tiara adorned with onyxes.",
+    "description": "A shiny, platinum tiara adorned with onyx.",
     "color": "dark_gray"
   },
   {
@@ -3507,7 +3507,7 @@
     "copy-from": "garnet_gold_tiara",
     "type": "ARMOR",
     "name": { "str": "tourmaline and gold tiara" },
-    "description": "A shiny, gold tiara adorned with tourmalines.",
+    "description": "A shiny, gold tiara adorned with tourmaline.",
     "color": "light_red"
   },
   {
@@ -3523,7 +3523,7 @@
     "copy-from": "garnet_gold_tiara",
     "type": "ARMOR",
     "name": { "str": "blue topaz and gold tiara" },
-    "description": "A shiny, gold tiara adorned with blue topazes.",
+    "description": "A shiny, gold tiara adorned with blue topaz.",
     "color": "light_blue"
   },
   {
@@ -3547,7 +3547,7 @@
     "copy-from": "garnet_gold_tiara",
     "type": "ARMOR",
     "name": { "str": "onyx and gold tiara" },
-    "description": "A shiny, gold tiara adorned with onyxes.",
+    "description": "A shiny, gold tiara adorned with onyx.",
     "color": "dark_gray"
   },
   {
@@ -3651,7 +3651,7 @@
     "copy-from": "garnet_silver_tiara",
     "type": "ARMOR",
     "name": { "str": "tourmaline and silver tiara" },
-    "description": "A shiny, silver tiara adorned with tourmalines.",
+    "description": "A shiny, silver tiara adorned with tourmaline.",
     "color": "light_red"
   },
   {
@@ -3667,7 +3667,7 @@
     "copy-from": "garnet_silver_tiara",
     "type": "ARMOR",
     "name": { "str": "blue topaz and silver tiara" },
-    "description": "A shiny, silver tiara adorned with blue topazes.",
+    "description": "A shiny, silver tiara adorned with blue topaz.",
     "color": "light_blue"
   },
   {
@@ -3691,19 +3691,19 @@
     "copy-from": "garnet_silver_tiara",
     "type": "ARMOR",
     "name": { "str": "onyx and silver tiara" },
-    "description": "A shiny, silver tiara adorned with onyxes.",
+    "description": "A shiny, silver tiara adorned with onyx.",
     "variant_type": "generic",
     "variants": [
       {
         "id": "generic_onyx_silver_tiara",
         "name": { "str": "onyx and silver tiara" },
-        "description": "A shiny, silver tiara adorned with onyxes.",
+        "description": "A shiny, silver tiara adorned with onyx.",
         "weight": 99
       },
       {
         "id": "dark_tiara",
         "name": { "str": "dark tiara" },
-        "description": "A dark silver tiara adorned with onyxes.",
+        "description": "A dark silver tiara adorned with onyx.",
         "weight": 1
       }
     ],

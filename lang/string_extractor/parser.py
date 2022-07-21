@@ -35,6 +35,7 @@ from .parsers.mapgen import parse_mapgen
 from .parsers.mutation import parse_mutation
 from .parsers.npc import parse_npc
 from .parsers.npc_class import parse_npc_class
+from .parsers.option_slider import parse_option_slider
 from .parsers.overmap_terrain import parse_overmap_terrain
 from .parsers.palette import parse_palette
 from .parsers.profession import parse_profession
@@ -172,6 +173,7 @@ parsers = {
     "npc": parse_npc,
     "npc_class": parse_npc_class,
     "obsolete_terrain": dummy_parser,
+    "option_slider": parse_option_slider,
     "overlay_order": dummy_parser,
     "overmap_connection": dummy_parser,
     "overmap_land_use_code": parse_overmap_land_use_code,
@@ -218,6 +220,7 @@ parsers = {
     "terrain": parse_terrain,
     "trait_blacklist": dummy_parser,
     "trait_group": dummy_parser,
+    "trait_migration": dummy_parser,
     "trap": parse_trap,
     "tool": parse_generic,
     "tool_armor": parse_generic,

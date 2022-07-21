@@ -954,7 +954,7 @@ bool vehicle::fold_up()
     // Drop stuff in containers on ground
     for( const vpart_reference &vp : get_any_parts( "CARGO" ) ) {
         const size_t p = vp.part_index();
-        for( auto &elem : get_items( p ) ) {
+        for( item &elem : get_items( p ) ) {
             here.add_item_or_charges( player_character.pos(), elem );
         }
         while( !get_items( p ).empty() ) {
@@ -978,6 +978,7 @@ bool vehicle::fold_up()
         debugmsg( "Error storing vehicle: %s", e.c_str() );
     }
 
+    bicycle.set_var( "tracking", tracking_on ? 1 : 0 );
     if( can_be_folded ) {
         bicycle.set_var( "weight", to_milligram( total_mass() ) );
         bicycle.set_var( "volume", total_folded_volume() / units::legacy_volume_factor );
@@ -1452,7 +1453,7 @@ void vehicle::operate_reaper()
         // Secure the seed type before i_clear destroys the item.
         const itype &seed_type = *seed->type;
         here.i_clear( reaper_pos );
-        for( auto &i : iexamine::get_harvest_items(
+        for( item &i : iexamine::get_harvest_items(
                  seed_type, plant_produced, seed_produced, false ) ) {
             here.add_item_or_charges( reaper_pos, i );
         }
@@ -1663,7 +1664,7 @@ bool vehicle::can_close( int part_index, Character &who )
 void vehicle::open_all_at( int p )
 {
     std::vector<int> parts_here = parts_at_relative( parts[p].mount, true, true );
-    for( auto &elem : parts_here ) {
+    for( int &elem : parts_here ) {
         if( part_flag( elem, VPFLAG_OPENABLE ) ) {
             // Note that this will open multi-square and non-multipart parts in the tile. This
             // means that adjacent open multi-square openables can still have closed stuff
@@ -1744,7 +1745,7 @@ void vehicle::use_autoclave( int p )
         add_msg( m_bad, _( "You should put your CBMs in autoclave pouches to keep them sterile." ) );
     } else {
         parts[p].enabled = true;
-        for( auto &n : items ) {
+        for( item &n : items ) {
             n.set_age( 0_turns );
         }
 
@@ -1826,7 +1827,7 @@ void vehicle::use_washing_machine( int p )
         }
 
         parts[p].enabled = true;
-        for( auto &n : items ) {
+        for( item &n : items ) {
             n.set_age( 0_turns );
         }
 
@@ -1883,7 +1884,7 @@ void vehicle::use_dishwasher( int p )
         add_msg( m_bad, buffer );
     } else {
         parts[p].enabled = true;
-        for( auto &n : items ) {
+        for( item &n : items ) {
             n.set_age( 0_turns );
         }
 
@@ -2115,7 +2116,7 @@ void vpart_position::form_inventory( inventory &inv )
 
     if( vp_cargo ) {
         const vehicle_stack items = vehicle().get_items( vp_cargo->part_index() );
-        for( auto &it : items ) {
+        for( const item &it : items ) {
             if( it.empty_container() && it.is_watertight_container() ) {
                 const int count = it.count_by_charges() ? it.charges : 1;
                 inv.update_liq_container_count( it.typeId(), count );
@@ -2411,11 +2412,11 @@ void vehicle::interact_with( const vpart_position &vp, bool with_pickup )
             return;
         }
         case RELOAD_TURRET: {
-            item::reload_option opt = player_character.select_ammo( *turret.base(), true );
+            item::reload_option opt = player_character.select_ammo( turret.base(), true );
             std::vector<item_location> targets;
             if( opt ) {
                 const int moves = opt.moves();
-                targets.emplace_back( item_location( turret.base(), const_cast<item *>( opt.target ) ) );
+                targets.push_back( opt.target );
                 targets.push_back( std::move( opt.ammo ) );
                 player_character.assign_activity( player_activity( reload_activity_actor( moves, opt.qty(),
                                                   targets ) ) );

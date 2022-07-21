@@ -461,15 +461,15 @@ advanced_inv_area::itemstack advanced_inv_area::i_stacked( T items )
     // used to recall indices we stored `itype_id' item at in itemstack
     std::unordered_map<itype_id, std::set<int>> cache;
     // iterate through and create stacks
-    for( auto &elem : items ) {
+    for( item &elem : items ) {
         const auto id = elem.typeId();
         auto iter = cache.find( id );
         bool got_stacked = false;
         // cache entry exists
         if( iter != cache.end() ) {
             // check to see if it stacks with each item in a stack, not just front()
-            for( auto &idx : iter->second ) {
-                for( auto &it : stacks[idx] ) {
+            for( const int &idx : iter->second ) {
+                for( item *&it : stacks[idx] ) {
                     if( ( got_stacked = it->display_stacked_with( elem ) ) ) {
                         stacks[idx].push_back( &elem );
                         break;

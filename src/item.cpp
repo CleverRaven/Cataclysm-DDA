@@ -23,6 +23,7 @@
 #include "bionics.h"
 #include "bodygraph.h"
 #include "bodypart.h"
+#include "calendar.h"
 #include "cata_assert.h"
 #include "cata_utility.h"
 #include "catacharset.h"
@@ -143,7 +144,6 @@ static const item_category_id item_category_spare_parts( "spare_parts" );
 static const item_category_id item_category_tools( "tools" );
 static const item_category_id item_category_weapons( "weapons" );
 
-
 static const itype_id itype_barrel_small( "barrel_small" );
 static const itype_id itype_battery( "battery" );
 static const itype_id itype_blood( "blood" );
@@ -158,6 +158,7 @@ static const itype_id itype_hand_crossbow( "hand_crossbow" );
 static const itype_id itype_joint_roach( "joint_roach" );
 static const itype_id itype_rad_badge( "rad_badge" );
 static const itype_id itype_rm13_armor( "rm13_armor" );
+static const itype_id itype_stock_none( "stock_none" );
 static const itype_id itype_tuned_mechanism( "tuned_mechanism" );
 static const itype_id itype_water( "water" );
 static const itype_id itype_water_clean( "water_clean" );
@@ -210,7 +211,6 @@ static const std::string flag_SILENT( "SILENT" );
 
 constexpr units::volume armor_portion_data::volume_per_encumbrance;
 
-
 class npc_class;
 
 using npc_class_id = string_id<npc_class>;
@@ -235,23 +235,23 @@ item &null_item_reference()
 
 namespace item_internal
 {
-bool goes_bad_temp_cache = false;
-const item *goes_bad_temp_cache_for = nullptr;
-inline bool goes_bad_cache_fetch()
+static bool goes_bad_temp_cache = false;
+static const item *goes_bad_temp_cache_for = nullptr;
+static bool goes_bad_cache_fetch()
 {
     return goes_bad_temp_cache;
 }
-inline void goes_bad_cache_set( const item *i )
+static void goes_bad_cache_set( const item *i )
 {
     goes_bad_temp_cache = i->goes_bad();
     goes_bad_temp_cache_for = i;
 }
-inline void goes_bad_cache_unset()
+static void goes_bad_cache_unset()
 {
     goes_bad_temp_cache = false;
     goes_bad_temp_cache_for = nullptr;
 }
-inline bool goes_bad_cache_is_for( const item *i )
+static bool goes_bad_cache_is_for( const item *i )
 {
     return goes_bad_temp_cache_for == i;
 }
@@ -2256,7 +2256,7 @@ void item::debug_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
 }
 
 void item::med_info( const item *med_item, std::vector<iteminfo> &info, const iteminfo_query *parts,
-                     int batch, bool ) const
+                     int batch, bool debug ) const
 {
     const cata::value_ptr<islot_comestible> &med_com = med_item->get_comestible();
     if( med_com->quench != 0 && parts->test( iteminfo_parts::MED_QUENCH ) ) {
@@ -2292,6 +2292,8 @@ void item::med_info( const item *med_item, std::vector<iteminfo> &info, const it
     if( med_com->addict && parts->test( iteminfo_parts::DESCRIPTION_MED_ADDICTING ) ) {
         info.emplace_back( "DESCRIPTION", _( "* Consuming this item is <bad>addicting</bad>." ) );
     }
+
+    rot_info( med_item, info, parts, batch, debug );
 }
 
 void item::food_info( const item *food_item, std::vector<iteminfo> &info,
@@ -2456,10 +2458,18 @@ void item::food_info( const item *food_item, std::vector<iteminfo> &info,
                               "<neutral>hallucinogenic</neutral>." ) );
     }
 
+    rot_info( food_item, info, parts, batch, debug );
+}
+
+void item::rot_info( const item *const food_item, std::vector<iteminfo> &info,
+                     const iteminfo_query *const parts, const int /*batch*/, const bool /*debug*/ ) const
+{
+    Character &player_character = get_player_character();
+
     if( food_item->goes_bad() && parts->test( iteminfo_parts::FOOD_ROT ) ) {
         const std::string rot_time = to_string_clipped( food_item->get_shelf_life() );
         info.emplace_back( "DESCRIPTION",
-                           string_format( _( "* This food is <neutral>perishable</neutral>, "
+                           string_format( _( "* This item is <neutral>perishable</neutral>, "
                                              "and at room temperature has an estimated nominal "
                                              "shelf life of <info>%s</info>." ), rot_time ) );
 
@@ -2487,16 +2497,16 @@ void item::food_info( const item *food_item, std::vector<iteminfo> &info,
         if( food_item->rotten() ) {
             if( player_character.has_bionic( bio_digestion ) ) {
                 info.emplace_back( "DESCRIPTION",
-                                   _( "This food has started to <neutral>rot</neutral>, "
+                                   _( "This item has started to <neutral>rot</neutral>, "
                                       "but <info>your bionic digestion can tolerate "
                                       "it</info>." ) );
             } else if( player_character.has_flag( json_flag_IMMUNE_SPOIL ) ) {
                 info.emplace_back( "DESCRIPTION",
-                                   _( "This food has started to <neutral>rot</neutral>, "
+                                   _( "This item has started to <neutral>rot</neutral>, "
                                       "but <info>you can tolerate it</info>." ) );
             } else {
                 info.emplace_back( "DESCRIPTION",
-                                   _( "This food has started to <bad>rot</bad>. "
+                                   _( "This item has started to <bad>rot</bad>. "
                                       "<info>Eating</info> it would be a <bad>very bad "
                                       "idea</bad>." ) );
             }
@@ -4190,16 +4200,16 @@ void item::book_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
                                   "A chapter of this book takes <num> <info>minute to "
                                   "read</info>.",
                                   "A chapter of this book takes <num> <info>minutes to "
-                                  "read</info>.", book.time );
+                                  "read</info>.", to_minutes<int>( book.time ) );
             if( type->use_methods.count( "MA_MANUAL" ) ) {
                 fmt = n_gettext(
                           "<info>A training session</info> with this book takes "
                           "<num> <info>minute</info>.",
                           "<info>A training session</info> with this book takes "
-                          "<num> <info>minutes</info>.", book.time );
+                          "<num> <info>minutes</info>.", to_minutes<int>( book.time ) );
             }
             info.emplace_back( "BOOK", "", fmt,
-                               iteminfo::lower_is_better, book.time );
+                               iteminfo::lower_is_better, to_minutes<int>( book.time ) );
         }
 
         if( book.chapters > 0 && parts->test( iteminfo_parts::BOOK_NUMUNREADCHAPTERS ) ) {
@@ -4531,9 +4541,7 @@ void item::tool_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
         std::vector<const item *> book_list = ebooks();
         int total_ebooks = book_list.size();
 
-        for( auto iter = book_list.begin(); iter != book_list.end(); ++iter ) {
-            const item *ebook = *iter;
-
+        for( const item *ebook : book_list ) {
             const islot_book &book = *ebook->type->book;
             for( const islot_book::recipe_with_description_t &elem : book.recipes ) {
                 const bool knows_it = player_character.knows_recipe( elem.recipe );
@@ -6367,6 +6375,9 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
     if( gunmod_find( itype_barrel_small ) ) {
         modtext += _( "sawn-off " );
     }
+    if( is_gun() && has_flag( flag_REMOVED_STOCK ) ) {
+        modtext += _( "pistol " );
+    }
     if( is_relic() && relic_data->max_charges() > 0 && relic_data->charges_per_use() > 0 ) {
         tagtext += string_format( " (%d/%d)", relic_data->charges(), relic_data->max_charges() );
     }
@@ -6726,14 +6737,20 @@ units::length item::length() const
         units::length stock_accessory_length = 0_mm;
         for( const item *mod : mods ) {
             // stocks and accessories for stocks are added with whatever the longest thing on the front is
-            if( mod->type->gunmod->location.str() == "stock" ) {
+            // stock mount is added here for support for sawing off stocks
+            if( mod->type->gunmod->location.str() == "stock mount" ) {
+                if( has_flag( flag_REMOVED_STOCK ) ) {
+                    // stock has been removed so slightly more length removed about 26cm
+                    stock_length -= 26_cm;
+                }
+            } else if( mod->type->gunmod->location.str() == "stock" ) {
                 stock_length = mod->integral_length();
                 if( has_flag( flag_COLLAPSED_STOCK ) || has_flag( flag_FOLDED_STOCK ) ) {
                     // stock is folded so need to reduce length
 
                     // folded stock length is estimated at about 20 cm, LOP for guns should be about
                     // 13.5 inches and a folding stock folds past the trigger and isn't perfectly efficient
-                    stock_length = stock_length - 20_cm;
+                    stock_length -= 20_cm;
                 }
             } else if( mod->type->gunmod->location.str() == "stock accessory" ) {
                 stock_accessory_length = mod->integral_length();
@@ -6763,7 +6780,8 @@ units::volume item::collapsed_volume_delta() const
 
     // COLLAPSIBLE_STOCK is the legacy version of this just here for mod support
     // TODO Remove at some point
-    if( is_gun() && ( has_flag( flag_COLLAPSIBLE_STOCK ) || has_flag( flag_COLLAPSED_STOCK ) ) ) {
+    if( is_gun() && ( has_flag( flag_COLLAPSIBLE_STOCK ) || has_flag( flag_COLLAPSED_STOCK ) ||
+                      has_flag( flag_REMOVED_STOCK ) ) ) {
         // consider only the base size of the gun (without mods)
         int tmpvol = get_var( "volume",
                               ( type->volume - type->gun->barrel_volume ) / units::legacy_volume_factor );
@@ -7058,7 +7076,7 @@ bool item::has_own_flag( const flag_id &f ) const
     return item_tags.count( f );
 }
 
-bool item::has_flag( const flag_id &f ) const
+bool item::has_flag( const flag_id &f, bool ignore_inherit ) const
 {
     bool ret = false;
     if( !f.is_valid() ) {
@@ -7066,7 +7084,7 @@ bool item::has_flag( const flag_id &f ) const
         return false;
     }
 
-    if( f->inherit() ) {
+    if( !ignore_inherit && f->inherit() ) {
         for( const item *e : is_gun() ? gunmods() : toolmods() ) {
             // gunmods fired separately do not contribute to base gun flags
             if( !e->is_gun() && e->has_flag( f ) ) {
@@ -9872,6 +9890,11 @@ bool item::can_unload_liquid() const
     return contents.can_unload_liquid();
 }
 
+bool item::contains_no_solids() const
+{
+    return contents.contains_no_solids();
+}
+
 bool item::allows_speedloader( const itype_id &speedloader_id ) const
 {
     return contents.allows_speedloader( speedloader_id );
@@ -9905,6 +9928,7 @@ bool item::is_salvageable() const
     if( is_null() ) {
         return false;
     }
+    // None of the materials are salvageable or they turn into the original item
     const std::map<material_id, int> &mats = made_of();
     if( std::none_of( mats.begin(), mats.end(), [this]( const std::pair<material_id, int> &m ) {
     return m.first->salvaged_into().has_value() && m.first->salvaged_into().value() != type->get_id();
@@ -11016,6 +11040,10 @@ ret_val<bool> item::is_gunmod_compatible( const item &mod ) const
                  mod.type->gunmod->location.name() == "mechanism" ) &&
                ( ammo_remaining() > 0 || magazine_current() ) ) {
         return ret_val<bool>::make_failure( _( "must be unloaded before installing this mod" ) );
+
+    } else if( gunmod_find( itype_stock_none ) &&
+               mod.type->gunmod->location.name() == "stock accessory" ) {
+        return ret_val<bool>::make_failure( _( "doesn't have a stock to attach this mod" ) );
     }
 
     for( const gunmod_location &slot : mod.type->gunmod->blacklist_mod ) {
@@ -11178,9 +11206,9 @@ item::reload_option::reload_option( const reload_option & ) = default;
 
 item::reload_option &item::reload_option::operator=( const reload_option & ) = default;
 
-item::reload_option::reload_option( const Character *who, const item *target, const item *parent,
+item::reload_option::reload_option( const Character *who, const item_location &target,
                                     const item_location &ammo ) :
-    who( who ), target( target ), ammo( ammo ), parent( parent )
+    who( who ), target( target ), ammo( ammo )
 {
     if( this->target->is_ammo_belt() && this->target->type->magazine->linkage ) {
         max_qty = this->who->charges_of( * this->target->type->magazine->linkage );
@@ -11191,7 +11219,8 @@ item::reload_option::reload_option( const Character *who, const item *target, co
 int item::reload_option::moves() const
 {
     int mv = ammo.obtain_cost( *who, qty() ) + who->item_reload_cost( *target, *ammo, qty() );
-    if( parent != target ) {
+    if( target.has_parent() ) {
+        item_location parent = target.parent_item();
         if( parent->is_gun() && !target->is_gunmod() ) {
             mv += parent->get_reload_time() * 1.5;
         } else if( parent->is_tool() ) {
@@ -11244,10 +11273,6 @@ void item::reload_option::qty( int val )
     // always expect to reload at least one charge
     qty_ = std::max( qty_, 1 );
 
-}
-const item *item::reload_option::getParent() const
-{
-    return parent;
 }
 
 int item::casings_count() const
@@ -11633,7 +11658,8 @@ int item::get_remaining_capacity_for_liquid( const item &liquid, bool allow_buck
 int item::get_remaining_capacity_for_liquid( const item &liquid, const Character &p,
         std::string *err ) const
 {
-    const bool allow_bucket = this == &p.get_wielded_item() || !p.has_item( *this );
+    const bool allow_bucket = ( p.get_wielded_item() && this == &*p.get_wielded_item() ) ||
+                              !p.has_item( *this );
     int res = get_remaining_capacity_for_liquid( liquid, allow_bucket, err );
 
     if( res > 0 ) {
@@ -12872,7 +12898,8 @@ bool item::process_extinguish( map &here, Character *carrier, const tripoint &po
         extinguish = true;
     }
     if( !extinguish ||
-        ( in_inv && precipitation && carrier->get_wielded_item().has_flag( flag_RAIN_PROTECT ) ) ) {
+        ( in_inv && precipitation && carrier->get_wielded_item() &&
+          carrier->get_wielded_item()->has_flag( flag_RAIN_PROTECT ) ) ) {
         return false; //nothing happens
     }
     if( carrier != nullptr ) {

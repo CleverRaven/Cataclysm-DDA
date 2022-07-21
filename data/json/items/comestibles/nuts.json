@@ -284,6 +284,7 @@
     "description": "A handful of roasted nuts from a chestnut tree.",
     "price": 90,
     "flags": [ "EATEN_HOT", "EDIBLE_FROZEN" ],
+    "milling": { "into": "flour_wheat_free", "conversion_rate": 1.25 },
     "fun": 3
   },
   {
@@ -512,7 +513,7 @@
     "vitamins": [ [ "calcium", 1 ], [ "iron", 2 ] ],
     "volume": "250 ml",
     "flags": [ "EDIBLE_FROZEN", "SMOKABLE" ],
-    "milling": { "into": "flour_wheat_free", "conversion_rate": 7.5 },
+    "milling": { "into": "flour_wheat_free", "conversion_rate": 1.5 },
     "smoking_result": "acorn_roasted"
   },
   {

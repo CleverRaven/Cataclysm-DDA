@@ -1096,5 +1096,21 @@
     "bashing": 1,
     "ammo_type": "components",
     "count": 50
+  },
+  {
+    "type": "GENERIC",
+    "id": "scrap_aluminum",
+    "symbol": ",",
+    "color": "light_gray",
+    "name": { "str_sp": "scrap aluminum" },
+    "category": "spare_parts",
+    "description": "Some small pieces of aluminum, usable for crafting or repairs.",
+    "price": 1000,
+    "price_postapoc": 10,
+    "material": [ "aluminum" ],
+    "volume": "18 ml",
+    "weight": "50 g",
+    "bashing": 1,
+    "to_hit": -2
   }
 ]

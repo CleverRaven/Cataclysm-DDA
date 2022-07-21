@@ -95,9 +95,12 @@ int divide_round_down( int a, int b );
 bool isBetween( int test, int down, int up );
 
 /**
- * Perform case sensitive search for a query string inside a subject string.
+ * Perform case insensitive search for a query string inside a subject string.
  *
  * Searches for string given by qry inside a subject string given by str.
+ *
+ * Supports searching for accented letters with a non-accented search key, for example,
+ * search key 'bo' matches 'Bō', but search key 'bö' should not match with 'Bō' and only match with 'Bö' or 'BÖ'.
  *
  * @param str Subject to search for occurrence of the query string.
  * @param qry Query string to search for in str

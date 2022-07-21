@@ -106,13 +106,13 @@ const MonsterGroup &MonsterGroupManager::GetUpgradedMonsterGroup( const mongroup
 }
 
 //Quantity is adjusted directly as a side effect of this function
-MonsterGroupResult MonsterGroupManager::GetResultFromGroup(
-    const mongroup_id &group_name, int *quantity, bool *mon_found )
+std::vector<MonsterGroupResult> MonsterGroupManager::GetResultFromGroup(
+    const mongroup_id &group_name, int *quantity, bool *mon_found, bool from_subgroup )
 {
     const MonsterGroup &group = GetUpgradedMonsterGroup( group_name );
     int spawn_chance = rng( 1, group.event_adjusted_freq_total() );
     //Our spawn details specify, by default, a single instance of the default monster
-    MonsterGroupResult spawn_details = MonsterGroupResult( group.defaultMonster, 1, spawn_data() );
+    std::vector<MonsterGroupResult> spawn_details;
 
     bool monster_found = false;
     // Loop invariant values
@@ -131,19 +131,6 @@ MonsterGroupResult MonsterGroupManager::GetResultFromGroup(
             valid_entry = false;
         }
 
-        // Check for monsters within subgroup
-        if( valid_entry && it->is_group() ) {
-            MonsterGroupResult tmp = GetResultFromGroup( it->group, quantity, &monster_found );
-            if( monster_found ) {
-                // Valid monster found within subgroup, break early
-                spawn_details = tmp;
-                break;
-            } else if( quantity ) {
-                // Nothing found in subgroup, reset quantity
-                ( *quantity )++;
-            }
-            continue;
-        }
         //Insure that the time is not before the spawn first appears or after it stops appearing
         valid_entry = valid_entry && ( calendar::start_of_cataclysm + it->starts < calendar::turn );
         valid_entry = valid_entry && ( it->lasts_forever() ||
@@ -201,19 +188,34 @@ MonsterGroupResult MonsterGroupManager::GetResultFromGroup(
             valid_entry = false;
         }
 
+        const int pack_size = it->pack_maximum > 1 ? rng( it->pack_minimum, it->pack_maximum ) : 1;
+
+        // Check for monsters within subgroup
+        bool found_in_subgroup = false;
+        int tmp_qty = !!quantity ? *quantity : 1;
+        std::vector<MonsterGroupResult> tmp_grp_list;
+        if( valid_entry && it->is_group() ) {
+            for( int i = 0; i < pack_size; i++ ) {
+                std::vector<MonsterGroupResult> tmp_grp =
+                    GetResultFromGroup( it->group, !!quantity ? &tmp_qty : nullptr, &found_in_subgroup, true );
+                tmp_grp_list.insert( tmp_grp_list.end(), tmp_grp.begin(), tmp_grp.end() );
+            }
+        }
+
         //If the entry was valid, check to see if we actually spawn it
         if( valid_entry ) {
             //If the monsters frequency is greater than the spawn_chance, select this spawn rule
             if( it->frequency >= spawn_chance ) {
-                if( it->pack_maximum > 1 ) {
-                    spawn_details = MonsterGroupResult( it->name, rng( it->pack_minimum, it->pack_maximum ), it->data );
+                if( found_in_subgroup ) {
+                    //If spawned from a subgroup, we've already obtained that data
+                    spawn_details = tmp_grp_list;
                 } else {
-                    spawn_details = MonsterGroupResult( it->name, 1, it->data );
-                }
-                //And if a quantity pointer with remaining value was passed, will modify the external value as a side effect
-                //We will reduce it by the spawn rule's cost multiplier
-                if( quantity ) {
-                    *quantity -= std::max( 1, it->cost_multiplier * spawn_details.pack_size );
+                    spawn_details.emplace_back( MonsterGroupResult( it->name, pack_size, it->data ) );
+                    //And if a quantity pointer with remaining value was passed, will modify the external value as a side effect
+                    //We will reduce it by the spawn rule's cost multiplier
+                    if( quantity ) {
+                        *quantity -= std::max( 1, it->cost_multiplier * pack_size );
+                    }
                 }
                 monster_found = true;
                 //Otherwise, subtract the frequency from spawn result for the next loop around
@@ -224,11 +226,15 @@ MonsterGroupResult MonsterGroupManager::GetResultFromGroup(
     }
 
     // Force quantity to decrement regardless of whether we found a monster.
-    if( quantity && !monster_found ) {
+    if( quantity && !monster_found && !from_subgroup ) {
         ( *quantity )--;
     }
     if( mon_found ) {
         ( *mon_found ) = monster_found;
+    }
+
+    if( !from_subgroup && spawn_details.empty() ) {
+        spawn_details.emplace_back( MonsterGroupResult( group.defaultMonster, 1, spawn_data() ) );
     }
 
     return spawn_details;
@@ -539,7 +545,7 @@ void MonsterGroupManager::ClearMonsterGroups()
 
 static void check_group_def( const mongroup_id &g )
 {
-    for( const auto &m : g.obj().monsters ) {
+    for( const MonsterGroupEntry &m : g.obj().monsters ) {
         if( m.is_group() ) {
             if( !m.group.is_valid() ) {
                 debugmsg( "monster group %s contains unknown subgroup %s", g.c_str(), m.group.c_str() );
@@ -556,7 +562,7 @@ void MonsterGroupManager::check_group_definitions()
 {
     for( auto &e : monsterGroupMap ) {
         const MonsterGroup &mg = e.second;
-        for( const auto &mge : mg.monsters ) {
+        for( const MonsterGroupEntry &mge : mg.monsters ) {
             if( mge.is_group() ) {
                 if( !mge.group.is_valid() ) {
                     debugmsg( "monster group %s contains unknown subgroup %s", mg.name.c_str(), mge.group.c_str() );
@@ -573,11 +579,11 @@ void MonsterGroupManager::check_group_definitions()
 
 const mtype_id &MonsterGroupManager::GetRandomMonsterFromGroup( const mongroup_id &group_name )
 {
-    const auto &group = group_name.obj();
+    const MonsterGroup &group = group_name.obj();
     int spawn_chance = rng( 1, group.event_adjusted_freq_total() );
     std::string opt = get_option<std::string>( "EVENT_SPAWNS" );
     const bool can_spawn_events = opt == "monsters" || opt == "both";
-    for( const auto &monster_type : group.monsters ) {
+    for( const MonsterGroupEntry &monster_type : group.monsters ) {
         if( monster_type.event != holiday::none && ( !can_spawn_events ||
                 monster_type.event != get_holiday_from_time() ) ) {
             continue;

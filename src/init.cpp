@@ -247,6 +247,7 @@ void DynamicDataLoader::initialize()
     // Static Function Access
     add( "WORLD_OPTION", &load_world_option );
     add( "EXTERNAL_OPTION", &load_external_option );
+    add( "option_slider", &option_slider::load_option_sliders );
     add( "json_flag", &json_flag::load_all );
     add( "fault", &fault::load_fault );
     add( "relic_procgen_data", &relic_procgen_data::load_relic_procgen_data );
@@ -421,6 +422,10 @@ void DynamicDataLoader::initialize()
         mutation_branch::load_trait_blacklist( jo );
     } );
 
+    add( "TRAIT_MIGRATION", []( const JsonObject & jo ) {
+        mutation_branch::load_trait_migration( jo );
+    } );
+
     // loaded earlier.
     add( "colordef", &load_ignored_type );
     // mod information, ignored, handled by the mod manager
@@ -591,6 +596,7 @@ void DynamicDataLoader::unload_data()
     mutations_category.clear();
     npc_class::reset_npc_classes();
     npc_template::reset();
+    option_slider::reset();
     overmap_connections::reset();
     overmap_land_use_codes::reset();
     overmap_locations::reset();
@@ -671,6 +677,7 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
     using named_entry = std::pair<std::string, std::function<void()>>;
     const std::vector<named_entry> entries = {{
             { _( "Flags" ), &json_flag::finalize_all },
+            { _( "Option sliders" ), &option_slider::finalize_all },
             { _( "Body parts" ), &body_part_type::finalize_all },
             { _( "Sub body parts" ), &sub_body_part_type::finalize_all },
             { _( "Body graphs" ), &bodygraph::finalize_all },
@@ -755,6 +762,7 @@ void DynamicDataLoader::check_consistency( loading_ui &ui )
     using named_entry = std::pair<std::string, std::function<void()>>;
     const std::vector<named_entry> entries = {{
             { _( "Flags" ), &json_flag::check_consistency },
+            { _( "Option sliders" ), &option_slider::check_consistency },
             {
                 _( "Crafting requirements" ), []()
                 {

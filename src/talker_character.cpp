@@ -62,6 +62,11 @@ tripoint talker_character_const::pos() const
     return me_chr_const->pos();
 }
 
+tripoint_abs_ms talker_character_const::global_pos() const
+{
+    return me_chr_const->get_location();
+}
+
 tripoint_abs_omt talker_character_const::global_omt_location() const
 {
     return me_chr_const->global_omt_location();
@@ -396,14 +401,14 @@ bool talker_character_const::unarmed_attack() const
 
 bool talker_character_const::can_stash_weapon() const
 {
-    return me_chr_const->can_pickVolume( me_chr_const->get_wielded_item() );
+    return me_chr_const->can_pickVolume( *me_chr_const->get_wielded_item() );
 }
 
 bool talker_character_const::has_stolen_item( const talker &guy ) const
 {
     const Character *owner = guy.get_character();
     if( owner ) {
-        for( auto &elem : me_chr_const->inv_dump() ) {
+        for( const item *&elem : me_chr_const->inv_dump() ) {
             if( elem->is_old_owner( *owner, true ) ) {
                 return true;
             }
@@ -498,7 +503,7 @@ bool talker_character_const::worn_with_flag( const flag_id &flag, const bodypart
 
 bool talker_character_const::wielded_with_flag( const flag_id &flag ) const
 {
-    return me_chr_const->get_wielded_item().has_flag( flag );
+    return me_chr_const->get_wielded_item() && me_chr_const->get_wielded_item()->has_flag( flag );
 }
 
 bool talker_character_const::has_item_with_flag( const flag_id &flag ) const
@@ -595,7 +600,7 @@ int talker_character_const::get_addiction_intensity( const addiction_id &add_id 
 
 int talker_character_const::get_addiction_turns( const addiction_id &add_id ) const
 {
-    for( const auto &add : me_chr_const->addictions ) {
+    for( const addiction &add : me_chr_const->addictions ) {
         if( add.type == add_id ) {
             return to_turns<int>( add.sated );
         }

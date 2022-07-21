@@ -311,6 +311,42 @@
     "show_in_info": true
   },
   {
+    "type": "effect_type",
+    "id": "maimed_shell",
+    "name": [ "Cracked Shell" ],
+    "//": "Exposes certain weakpoints",
+    "desc": [ "You feel exposed -and pretty buggy- without your shell." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "maimed_mandible",
+    "name": [ "Maimed Mandibles" ],
+    "//": "Given by weakpoints, used to disable bites if specified in the bite def",
+    "desc": [ "Your mandibles are unusable.  What, you don't have mandibles?  Then it must be a bug if you have it." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "maimed_leg",
+    "name": [ "Maimed Legs" ],
+    "desc": [ "Your bugged legs are maimed beyond recognition.  How will you leap now?" ],
+    "base_mods": { "speed_mod": [ -20 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "maimed_stinger",
+    "name": [ "Maimed Stinger" ],
+    "//": "Same as maimed_mandible, no effect unless specified in the attack's definition",
+    "desc": [ "Your beautiful stinger is broken!  That must be a bug, right?" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "maimed_wings",
+    "name": [ "Maimed Wings" ],
+    "//": "Hardcoded effect handled by monster::flies via effect flag",
+    "desc": [ "Your wings are useless, robbing you of unlimited flight." ],
+    "flags": [ "DISABLE_FLIGHT" ]
+  },
+  {
     "//": "ACTUAL PLAYER EFFECTS START HERE",
     "type": "effect_type",
     "id": "downed",
@@ -319,7 +355,8 @@
     "apply_message": "You're knocked to the floor!",
     "rating": "bad",
     "resist_traits": [ "GASTROPOD_FOOT" ],
-    "show_in_info": true
+    "show_in_info": true,
+    "flags": [ "DISABLE_FLIGHT" ]
   },
   {
     "type": "effect_type",
@@ -380,7 +417,8 @@
     "desc": [ "Your movement is randomized." ],
     "apply_message": "You're stunned!",
     "rating": "bad",
-    "show_in_info": true
+    "show_in_info": true,
+    "flags": [ "DISABLE_FLIGHT" ]
   },
   {
     "type": "effect_type",
@@ -2956,6 +2994,18 @@
   },
   {
     "type": "effect_type",
+    "id": "genetics_damaged",
+    "name": [ "Mild Genetic Damage", "Genetic Damage", "Severe Genetic Damage" ],
+    "desc": [
+      "After some mutations, you feel slightly uncomfortable - and that's it.",
+      "After many mutations, you feel uncomfortable, and you know for sure - that your Genetics System is getting damaged.",
+      "After LOTS OF mutations, you feel REALLY unnerving, seems like you Genetics System is getting badly damaged now."
+    ],
+    "max_intensity": 3,
+    "rating": "bad"
+  },
+  {
+    "type": "effect_type",
     "id": "hypovolemia",
     "name": [ "Mild Hypovolemic Shock", "Moderate Hypovolemic Shock", "Advanced Hypovolemic Shock", "Severe Hypovolemic Shock" ],
     "desc": [
@@ -3504,5 +3554,16 @@
     "id": "eyebot_depleted",
     "int_add_val": 1,
     "max_intensity": 10
+  },
+  {
+    "id": "weakened_inertia",
+    "type": "effect_type",
+    "name": [ "Weakened Inertia" ],
+    "desc": [ "Your body moves strangely easily, as if it weighted less." ],
+    "apply_message": "Reality as you know it is damaged, but for a change the outcome seems suspiciously beneficial.",
+    "remove_message": "Reality reasserts itself and your inertia returns to normal.",
+    "rating": "good",
+    "show_intensity": false,
+    "base_mods": { "dex_mod": [ 4, 0 ] }
   }
 ]

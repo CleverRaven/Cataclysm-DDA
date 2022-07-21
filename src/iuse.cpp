@@ -1212,7 +1212,7 @@ cata::optional<int> iuse::purify_smart( Character *p, item *it, bool, const trip
             p->purifiable( traits_iter.id ) ) {
             //Looks for active mutation
             valid.push_back( traits_iter.id );
-            valid_names.push_back( traits_iter.id->name() );
+            valid_names.push_back( p->mutation_name( traits_iter.id ) );
         }
     }
     if( valid.empty() ) {
@@ -2508,7 +2508,7 @@ cata::optional<int> iuse::radio_on( Character *p, item *it, bool t, const tripoi
                 const int old_frequency = it->frequency;
                 const radio_tower *lowest_tower = nullptr;
                 const radio_tower *lowest_larger_tower = nullptr;
-                for( auto &tref : overmap_buffer.find_all_radio_stations() ) {
+                for( radio_tower_reference &tref : overmap_buffer.find_all_radio_stations() ) {
                     const int new_frequency = tref.tower->frequency;
                     if( new_frequency == old_frequency ) {
                         continue;
@@ -2595,7 +2595,7 @@ cata::optional<int> iuse::emf_passive_on( Character *p, item *it, bool t, const 
             return it->type->charges_to_use();
         }
 
-        for( const auto &loc : closest_points_first( pos, max ) ) {
+        for( const tripoint &loc : closest_points_first( pos, max ) ) {
             const Creature *critter = creatures.creature_at( loc );
 
             // if the creature exists and is either a robot or electric
@@ -2789,7 +2789,8 @@ cata::optional<int> iuse::dig( Character *p, item * /* it */, bool t, const trip
     auto build = std::find_if( cnstr.begin(), cnstr.end(), []( const construction & it ) {
         return it.str_id == construction_constr_pit;
     } );
-    bool const can_dig_pit = !points_in_radius_where( p->pos(), 1, [&build]( tripoint const & pt ) {
+    bool const can_dig_pit = !points_in_radius_where( p->pos_bub(),
+    1, [&build]( tripoint_bub_ms const & pt ) {
         return can_construct( *build, pt );
     } ).empty();
     if( !can_dig_pit ) {
@@ -3658,7 +3659,7 @@ cata::optional<int> iuse::grenade_inc_act( Character *p, item *it, bool t, const
         for( int current_flame = 0; current_flame < num_flames; current_flame++ ) {
             tripoint dest( pos + point( rng( -5, 5 ), rng( -5, 5 ) ) );
             std::vector<tripoint> flames = line_to( pos, dest, 0, 0 );
-            for( auto &flame : flames ) {
+            for( tripoint &flame : flames ) {
                 here.add_field( flame, fd_fire, rng( 0, 2 ) );
             }
         }
@@ -5284,6 +5285,10 @@ cata::optional<int> iuse::unfold_generic( Character *p, item *it, bool, const tr
     veh->set_owner( *p );
     p->add_msg_if_player( m_neutral, unfold_msg, veh->name );
 
+    if( p->is_avatar() && it->get_var( "tracking", 0 ) == 1 ) {
+        veh->toggle_tracking(); // restore position tracking state
+    }
+
     p->moves -= it->get_var( "moves", to_turns<int>( 5_seconds ) );
     return 1;
 }
@@ -5864,7 +5869,7 @@ static bool einkpc_download_memory_card( Character &p, item &eink, item &mc )
         std::vector<const recipe *> candidates;
 
         for( const auto &e : recipe_dict ) {
-            const auto &r = e.second;
+            const recipe &r = e.second;
             if( r.never_learn || r.obsolete ) {
                 continue;
             }
@@ -5892,8 +5897,7 @@ static bool einkpc_download_memory_card( Character &p, item &eink, item &mc )
                 }
             }
 
-            for( auto rec = new_recipes.begin(); rec != new_recipes.end(); ++rec ) {
-                const recipe *r = *rec;
+            for( const recipe *r : new_recipes ) {
                 const recipe_id &rident = r->ident();
 
                 const auto old_recipes = eink.get_var( "EIPC_RECIPES" );
@@ -6165,7 +6169,7 @@ cata::optional<int> iuse::einktabletpc( Character *p, item *it, bool t, const tr
 
                 candidate_recipes.emplace_back( s );
 
-                const auto &recipe = *candidate_recipes.back();
+                const recipe &recipe = *candidate_recipes.back();
                 if( recipe ) {
                     rmenu.addentry( k++, true, -1, recipe.result_name( /*decorated=*/true ) );
                 }
@@ -7446,7 +7450,8 @@ cata::optional<int> iuse::ehandcuffs( Character *p, item *it, bool t, const trip
             it->unset_flag( flag_NO_UNWIELD );
             it->active = false;
 
-            if( p->has_item( *it ) && p->get_wielded_item().typeId() == itype_e_handcuffs ) {
+            if( p->has_item( *it ) && p->get_wielded_item() &&
+                p->get_wielded_item()->typeId() == itype_e_handcuffs ) {
                 add_msg( m_good, _( "%s on your wrists opened!" ), it->tname() );
             }
 
@@ -7478,7 +7483,8 @@ cata::optional<int> iuse::ehandcuffs( Character *p, item *it, bool t, const trip
         if( ( it->ammo_remaining() > it->type->maximum_charges() - 1000 ) && ( p2.x != pos.x ||
                 p2.y != pos.y ) ) {
 
-            if( p->has_item( *it ) && p->get_wielded_item().typeId() == itype_e_handcuffs ) {
+            if( p->has_item( *it ) && p->get_wielded_item() &&
+                p->get_wielded_item()->typeId() == itype_e_handcuffs ) {
 
                 if( p->is_elec_immune() ) {
                     if( one_in( 10 ) ) {
@@ -7744,7 +7750,7 @@ cata::optional<int> iuse::radiocontrol( Character *p, item *it, bool t, const tr
         const flag_id signal( "RADIOSIGNAL_" + std::to_string( choice ) );
 
         auto item_list = p->get_radio_items();
-        for( auto &elem : item_list ) {
+        for( item *&elem : item_list ) {
             if( elem->has_flag( flag_BOMB ) && elem->has_flag( signal ) ) {
                 p->add_msg_if_player( m_warning,
                                       _( "The %s in your inventory would explode on this signal.  Place it down before sending the signal." ),
@@ -7842,8 +7848,8 @@ static vehicle *pickveh( const tripoint &center, bool advanced )
     pmenu.title = _( "Select vehicle to access" );
     std::vector< vehicle * > vehs;
 
-    for( auto &veh : get_map().get_vehicles() ) {
-        auto &v = veh.v;
+    for( wrapped_vehicle &veh : get_map().get_vehicles() ) {
+        vehicle *&v = veh.v;
         if( rl_dist( center, v->global_pos3() ) < 40 &&
             v->fuel_left( itype_battery, true ) > 0 &&
             ( !empty( v->get_avail_parts( advctrl ) ) ||
@@ -8216,7 +8222,7 @@ cata::optional<int> iuse::multicooker( Character *p, item *it, bool t, const tri
 
             int counter = 0;
 
-            for( const auto &r : get_avatar().get_learned_recipes().in_category( "CC_FOOD" ) ) {
+            for( const recipe * const &r : get_avatar().get_learned_recipes().in_category( "CC_FOOD" ) ) {
                 if( multicooked_subcats.count( r->subcategory ) > 0 ) {
                     dishes.push_back( r );
                     const bool can_make = r->deduped_requirements().can_make_with_inventory(
@@ -8691,7 +8697,7 @@ cata::optional<int> iuse::cable_attach( Character *p, item *it, bool, const trip
             vehicle *const target_veh = &target_vp->vehicle();
             if( source_veh == target_veh ) {
                 if( p != nullptr && p->has_item( *it ) ) {
-                    p->add_msg_if_player( m_warning, _( "The %s already has access to its own electric system!" ),
+                    p->add_msg_if_player( m_warning, _( "There is no need to connect the %s to itself." ),
                                           source_veh->name );
                 }
                 return 0;
@@ -8823,7 +8829,7 @@ cata::optional<int> iuse::cord_attach( Character *p, item *it, bool, const tripo
             vehicle *const target_veh = &target_vp->vehicle();
             if( source_veh == target_veh ) {
                 if( p != nullptr && p->has_item( *it ) ) {
-                    p->add_msg_if_player( m_warning, _( "The %s already has access to its own electric system!" ),
+                    p->add_msg_if_player( m_warning, _( "There is no need to connect the %s to itself." ),
                                           source_veh->name );
                 }
                 return 0;
@@ -8936,17 +8942,16 @@ cata::optional<int> iuse::weather_tool( Character *p, item *it, bool, const trip
             vehwindspeed = std::abs( vp->vehicle().velocity / 100 ); // For mph
         }
         const oter_id &cur_om_ter = overmap_buffer.ter( p->global_omt_location() );
-        /* windpower defined in internal velocity units (=.01 mph) */
-        const double windpower = 100 * get_local_windpower( weather.windspeed + vehwindspeed, cur_om_ter,
-                                 p->pos(), weather.winddirection, g->is_sheltered( p->pos() ) );
+        const int windpower = get_local_windpower( weather.windspeed + vehwindspeed, cur_om_ter,
+                              p->pos(), weather.winddirection, g->is_sheltered( p->pos() ) );
 
         p->add_msg_if_player( m_neutral, _( "Wind Speed: %.1f %s." ),
-                              convert_velocity( windpower, VU_WIND ),
+                              convert_velocity( windpower * 100, VU_WIND ),
                               velocity_units( VU_WIND ) );
         p->add_msg_if_player(
             m_neutral, _( "Feels Like: %s." ),
             print_temperature(
-                get_local_windchill( weatherPoint.temperature, weatherPoint.humidity, windpower / 100 ) +
+                get_local_windchill( weatherPoint.temperature, weatherPoint.humidity, windpower ) +
                 player_local_temp ) );
         std::string dirstring = get_dirstring( weather.winddirection );
         p->add_msg_if_player( m_neutral, _( "Wind Direction: From the %s." ), dirstring );
@@ -9443,7 +9448,7 @@ static item *wield_before_use( Character *const p, item *const it, const std::st
                 return nullptr;
             }
             // `it` is no longer the item we are using (note that `player::wielded` is a value).
-            return &p->get_wielded_item();
+            return &*p->get_wielded_item();
         } else {
             return nullptr;
         }
