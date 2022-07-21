@@ -958,7 +958,17 @@
     "epower": 130,
     "size": 1800,
     "item": "compact_ASRG",
-    "flags": [ "CARGO", "OBSTACLE", "LEAK_ALWAYS", "RADIOACTIVE", "COVERED", "ENABLED_DRAINS_EPOWER", "APPLIANCE", "PERPETUAL", "REACTOR" ],
+    "flags": [
+      "CARGO",
+      "OBSTACLE",
+      "LEAK_ALWAYS",
+      "RADIOACTIVE",
+      "COVERED",
+      "ENABLED_DRAINS_EPOWER",
+      "APPLIANCE",
+      "PERPETUAL",
+      "REACTOR"
+    ],
     "breaks_into": [
       { "item": "scrap", "count": [ 4, 16 ] },
       { "item": "steel_chunk", "count": [ 1, 6 ] },
