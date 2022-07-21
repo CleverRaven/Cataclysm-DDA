@@ -165,7 +165,16 @@
     "price": 0,
     "price_postapoc": 0,
     "to_hit": -1,
-    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "6 L", "max_contains_weight": "10 kg", "moves": 400 } ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+		"open_container": true,
+        "max_contains_volume": "6 L",
+        "max_contains_weight": "10 kg",
+        "moves": 400
+      }
+    ],
     "material": [ "plastic" ],
     "symbol": ")",
     "color": "light_gray"
@@ -182,7 +191,16 @@
     "price": 0,
     "price_postapoc": 0,
     "to_hit": -1,
-    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "110 L", "max_contains_weight": "10 kg", "moves": 400 } ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+		"open_container": true,
+        "max_contains_volume": "110 L",
+        "max_contains_weight": "10 kg",
+        "moves": 400
+      }
+    ],
     "material": [ "plastic" ],
     "symbol": ")",
     "color": "black"
