@@ -928,6 +928,7 @@
           { "item": "tonfa", "prob": 15, "damage": [ 1, 2 ] }
         ]
       },
+      { "item": "whistle", "damage": [ 0, 1 ], "prob": 100 },
       { "group": "cop_armor", "prob": 98, "damage": [ 0, 2 ] },
       { "group": "cop_other_clothes", "prob": 98, "damage": [ 0, 2 ] },
       { "group": "cop_gear", "prob": 95, "damage": [ 0, 2 ] },
