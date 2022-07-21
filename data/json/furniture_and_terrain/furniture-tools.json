@@ -1571,7 +1571,7 @@
     "id": "f_hoist_pulley",
     "name": "rope and tackle hoist",
     "looks_like": "f_hoist_rope",
-    "description": "A loop of rope hangs here, looped through a quality tackle to give a significant mechanical advatage while lifting heavy objects.",
+    "description": "A loop of rope hangs here, looped through a quality tackle to give a significant mechanical advantage while lifting heavy objects.",
     "symbol": "|",
     "color": "black_white",
     "required_str": -1,
