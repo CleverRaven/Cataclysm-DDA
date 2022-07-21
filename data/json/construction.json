@@ -5683,5 +5683,38 @@
     "components": [ [ [ "rock", 30 ] ], [ [ "fire_brick", 10 ] ], [ [ "clay_lump", 15 ] ], [ [ "water", 2 ], [ "water_clean", 2 ] ] ],
     "pre_special": "check_empty",
     "post_terrain": "f_clay_oven"
+  },
+  {
+    "type": "construction",
+    "id": "constr_rope_hoist",
+    "group": "build_hoist",
+    "category": "FURN",
+    "time": "30 s,
+    "components": [ [ [ "rope_30", 1 ] ] ],
+    "pre_flags": [ "SUPPORTS_ROOF", "TREE" ],
+    "post_terrain": "f_hoist_rope"
+  },
+  {
+    "type": "construction",
+    "id": "constr_rope_tackle_hoist",
+    "group": "build_hoist",
+    "category": "FURN",
+    "time": "10 m,
+    "qualities": [ [ { "id": "HAMMER", "level": 1 } ] ],
+    "components": [ [ [ "rope_30", 1 ] ], [ [ "block_and_tackle", 1 ] ], [ [ "spike", 1 ] ] ],
+    "pre_flags": [ "SUPPORTS_ROOF", "INDOORS" ],
+    "post_terrain": "f_hoist_pulley"
+  },
+  {
+    "type": "construction",
+    "id": "constr_chain_hoist",
+    "group": "build_hoist",
+    "category": "FURN",
+    "time": "20 m,
+    "qualities": [ [ { "id": "DRILL", "level": 1 } ], [ { "id": "WRENCH", "level": 2 } ] ],
+    "components": [ [ [ "chain", 1 ] ], [ [ "block_and_tackle", 1 ] ], [ [ "nuts_bolts", 2 ] ] ],
+    "pre_special": "check_support",   
+    "pre_flags": [ "SUPPORTS_ROOF", "INDOORS" ],
+    "post_terrain": "f_hoist_chain"
   }
 ]
