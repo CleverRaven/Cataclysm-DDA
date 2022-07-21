@@ -4820,6 +4820,22 @@ bool mattack::parrot_at_danger( monster *parrot )
     return false;
 }
 
+bool mattack::blow_whistle( monster *z )
+{
+    if( z->friendly ) {
+        // TODO: handle friendly monsters
+        return false;
+    }
+    // Only blow whistle if we can see you!
+    if( !z->sees( get_player_character() ) ) {
+        return false;
+    }
+    add_msg( m_warning, _( "The %1$s loudly blows their whistle!" ) );
+    sounds::sound( z->pos(), 40, sounds::sound_t::alarm, _( "FWEEEET!" ), false, "misc", "whistle" );
+
+    return true;
+}
+
 bool mattack::darkman( monster *z )
 {
     if( z->friendly ) {
@@ -6108,7 +6124,8 @@ bool mattack::doot( monster *z )
             continue;
         }
     }
-    sounds::sound( z->pos(), 200, sounds::sound_t::music, _( "DOOT." ), false, "music_instrument",
+    .
+        sound( z->pos(), 200, sounds::sound_t::music, _( "DOOT." ), false, "music_instrument",
                    "trumpet" );
     return true;
 }
