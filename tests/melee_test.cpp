@@ -276,21 +276,3 @@ TEST_CASE( "Incapacited character can't dodge" )
         CHECK( dodges_left == dude.dodges_left );
     }
 }
-
-TEST_CASE( "Technique expends ammo" )
-{
-    standard_npc dude( "TestCharacter", dude_pos, {}, 0, 8, 8, 8, 8 );
-    item disorder( "pulverizer" );
-
-    monster zed( mon_zombie );
-
-    dude.clear_effects();
-    REQUIRE( dude.wield( disorder ) );
-
-
-    // should expend a shell
-    dude.melee_attack_abstract( zed, false, matec_id( "SWEETSPOT" ) );
-
-    CHECK( dude.get_wielded_item()->get_contents().all_items_top().front()->typeId() ==
-           itype_id( "22_casing" ) );
-}
