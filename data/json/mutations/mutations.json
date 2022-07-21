@@ -1963,10 +1963,10 @@
     "id": "URSINE_EYE",
     "name": { "str": "Ursine Vision" },
     "points": 1,
-    "description": "Your visual processing has shifted: though you can see better in the dark, you're nearsighted in the light.  Maybe glasses would help.  Activate to toggle NV-visible areas on or off.  Surprisingly, frogs' vision works exactly the same.",
+    "description": "Your visual processing has shifted: though you can see better in the dark, you're nearsighted in the light.  Maybe glasses would help.  Activate to toggle NV-visible areas on or off.",
     "types": [ "EYES", "VISION" ],
     "cancels": [ "MYOPIC" ],
-    "category": [ "URSINE", "BATRACHIAN" ],
+    "category": [ "URSINE" ],
     "flags": [ "MYOPIC_IN_LIGHT" ],
     "active": true,
     "starts_active": true
@@ -2166,8 +2166,25 @@
     "ugliness": 2,
     "description": "You have a set of clear lenses which lower over your eyes while underwater, allowing you to see as though you were wearing goggles.  Slightly decreases wet penalties.",
     "prereqs": [ "EYEBULGE" ],
-    "category": [ "LIZARD", "FISH", "BATRACHIAN" ],
+    "category": [ "LIZARD", "FISH" ],
     "flags": [ "EYE_MEMBRANE" ],
+    "wet_protection": [ { "part": "eyes", "neutral": 1 } ]
+  },
+  {
+    "type": "mutation",
+    "id": "FROG_EYES",
+    "//": "Currently without the NV from URSINE_EYE",
+    "name": { "str": "Frog Eyes" },
+    "points": 1,
+    "visibility": 8,
+    "ugliness": 4,
+    "description": "Your eyes bulge noticeably out of your face, and you are able to move them much more freely than before.  You can see movement and close objects clearly, but you have trouble picking up distant details in the light.",
+    "prereqs": [ "EYEBULGE" ],
+    "category": [ "BATRACHIAN" ],
+    "flags": [ "EYE_MEMBRANE", "MYOPIC_IN_LIGHT" ],
+    "types": [ "EYES", "VISION" ],
+    "cancels": [ "MEMBRANE", "MYOPIC", "URSINE_EYE" ],
+    "threshreq": [ "THRESH_BATRACHIAN" ],
     "wet_protection": [ { "part": "eyes", "neutral": 1 } ]
   },
   {
@@ -5356,7 +5373,7 @@
     "ugliness": 4,
     "description": "Your eyes bulge out several inches from your skull.  This does not affect your vision in any way.",
     "leads_to": [ "MEMBRANE" ],
-    "changes_to": [ "COMPOUND_EYES", "EYESTALKS1" ],
+    "changes_to": [ "COMPOUND_EYES", "EYESTALKS1", "FROG_EYES" ],
     "category": [ "BATRACHIAN", "INSECT", "GASTROPOD", "LIZARD", "FISH" ]
   },
   {
@@ -6574,8 +6591,6 @@
     "mixed_effect": true,
     "description": "You have a low, croaking voice, like an aged grandparent.  Persuading NPCs will be easier, but threatening them will be more difficult.",
     "cancels": [ "SNARL" ],
-    "//": "TODO: Revert this once the breach power math has been updated to value the recent changes to the mutation-system.",
-    "threshreq": [ "THRESH_BATRACHIAN" ],
     "category": [ "BATRACHIAN" ],
     "social_modifiers": { "persuade": 10, "lie": 10, "intimidate": -10 }
   },
