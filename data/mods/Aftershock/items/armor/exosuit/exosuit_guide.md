@@ -32,13 +32,13 @@ Exosuits typically use a single large power supply unit, attached to the back.  
 
 
 ### Plating
-Each plating has a minimum weight of 500 g to represent the connection points.  The steel and plastic are based on 6mm thickness, while the VCC is 4mm thick to keep weight managable.  Exosuits can accept a wide range of plating.  Plastic, steel, and vaccum-cast carbide are common.  Improvised armor has been found on frontiers and in the underworld.  The plates are rounded, using a ball-and-joint system somewhat resembling a hard diving or EVA suit.
+Each plating has a minimum weight of 500 g to represent the connection points.  Production armor types range from 12mm thick plastic, the 6mm thick tempered steel, to the 4mm thick VCC plate to keep weight managable.  Exosuits can accept a wide range of plating.  Plastic, steel, and vaccum-cast carbide are common.  Improvised armor has been found on frontiers and in the underworld.  The plates are rounded, using a ball-and-joint system somewhat resembling a hard diving or EVA suit.
 
 | Plating              | Weight   
 | ---                  | ---
-| Plastic              | 11.01 kg
-| Tempered Steel       | 44.05 kg
-| Vaccum-cast Carbide  | 65.41 kg 
+| Plastic              | 15.25 kg
+| Tempered Steel       | 57.00 kg
+| Vaccum-cast Carbide  | 71.63 kg 
    
 ### Modules
 A variety of modules are available, ranging from sensor packages to batteries to load-bearing modules to jetpacks.  These are built in a swappable black box configuration, requiring only that the module be mounted on the suit's connection points. Modules can be placed anywhere they fit on the frame, though some occupy (encumber) specific locations on the body while installed.

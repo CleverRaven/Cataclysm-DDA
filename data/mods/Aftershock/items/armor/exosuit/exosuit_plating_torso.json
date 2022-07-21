@@ -70,19 +70,18 @@
     "copy-from": "exo_torso_steel",
     "name": { "str": "plastic torso plate (exosuit)", "str_pl": "plastic torso plates (exosuit)" },
     "description": "Designed to attach to an exosuit's torso, this is a plate of plastic.",
-    "weight": "5 kg",
-    "volume": "15 L",
+    "weight": "6250 g",
     "material": [ "plastic" ],
     "non_functional": "damaged_exo_torso_plastic",
     "armor": [
       {
-        "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 4.5 } ],
+        "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 12 } ],
         "covers": [ "torso" ],
         "coverage": 100,
         "encumbrance": 5
       },
       {
-        "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 4.5 } ],
+        "material": [ { "type": "plastic", "covered_by_mat": 100, "thickness": 6 } ],
         "covers": [ "leg_l", "leg_r", "arm_l", "arm_r" ],
         "specifically_covers": [ "arm_shoulder_r", "arm_shoulder_l", "leg_hip_l", "leg_hip_r" ],
         "coverage": 100,
@@ -130,8 +129,7 @@
     "copy-from": "exo_torso_steel",
     "name": { "str": "carbide torso plate (exosuit)", "str_pl": "carbide torso plates (exosuit)" },
     "description": "Designed to attach to an exosuit's torso, this is a sturdy plate of vacuum-cast carbide.",
-    "weight": "40 kg",
-    "volume": "15 L",
+    "weight": "37500 kg",
     "material": [ "vacuum_carbide" ],
     "non_functional": "damaged_exo_torso_vcc_plate",
     "armor": [
@@ -158,7 +156,6 @@
     "name": { "str": "damaged carbide torso plate (exosuit)", "str_pl": "damaged carbide torso plates (exosuit)" },
     "description": "The remains of a carbide torso plate after taking a strong impact.",
     "weight": "44000 g",
-    "volume": "8 L",
     "material": [ "vacuum_carbide" ],
     "non_functional": "destroyed_exo_torso_vcc_plate",
     "armor": [
