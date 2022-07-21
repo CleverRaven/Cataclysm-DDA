@@ -2140,7 +2140,7 @@ void talk_effect_fun_t<T>::set_add_var( const JsonObject &jo, const std::string 
 {
     int_or_var<dialogue> empty;
     const std::string var_name = get_talk_varname<dialogue>( jo, member, false, empty );
-    const std::string var_base_name = get_talk_var_basename( jo, member, false, empty );
+    const std::string var_base_name = get_talk_var_basename( jo, member, false );
     const bool time_check = jo.has_member( "time" ) && jo.get_bool( "time" );
     std::vector<std::string> possible_values = jo.get_string_array( "possible_values" );
     if( possible_values.empty() ) {
@@ -2176,7 +2176,7 @@ void talk_effect_fun_t<T>::set_adjust_var( const JsonObject &jo, const std::stri
 {
     int_or_var<dialogue> empty;
     const std::string var_name = get_talk_varname<dialogue>( jo, member, false, empty );
-    const std::string var_base_name = get_talk_var_basename( jo, member, false, empty );
+    const std::string var_base_name = get_talk_var_basename( jo, member, false );
     int_or_var<T> iov = get_int_or_var<T>( jo, "adjustment" );
     function = [is_npc, var_base_name, var_name, iov]( const T & d ) {
         int adjusted_value = iov.evaluate( d );
