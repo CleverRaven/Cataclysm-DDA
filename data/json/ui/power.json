@@ -13,5 +13,27 @@
     "label": "Power",
     "style": "text",
     "var": "power_text"
+  },
+  {
+    "id": "power_graph_label",
+    "type": "widget",
+    "style": "graph",
+    "var": "power_percentage",
+    "label": "Power",
+    "width": 5,
+    "symbols": ".\\|",
+    "fill": "bucket",
+    "colors": [ "c_red", "c_light_red", "c_yellow", "c_light_green", "c_green" ]
+  },
+  {
+    "id": "power_graph_no_label",
+    "type": "widget",
+    "style": "graph",
+    "var": "power_percentage",
+    "width": 5,
+    "symbols": ".\\|",
+    "fill": "bucket",
+    "colors": [ "c_red", "c_light_red", "c_yellow", "c_light_green", "c_green" ],
+    "flags": [ "W_LABEL_NONE" ]
   }
 ]

@@ -89,6 +89,8 @@ std::string enum_to_string<widget_var>( widget_var data )
             return "mana";
         case widget_var::max_mana:
             return "max_mana";
+        case widget_var::power_percentage:
+            return "power_percentage";
         case widget_var::morale_level:
             return "morale_level";
         // Compass
@@ -590,6 +592,10 @@ void widget::set_default_var_range( const avatar &ava )
             // What could "max max mana" mean? Use 2x current max because why not
             _var_max = 2 * ava.magic->max_mana( ava );
             break;
+        case widget_var::power_percentage:
+            _var_min = 0;
+            _var_max = 100;
+            break;
         case widget_var::mood:
             break; // TODO
         case widget_var::morale_level:
@@ -709,6 +715,10 @@ int widget::get_var_value( const avatar &ava ) const
             break;
         case widget_var::max_mana:
             value = ava.magic->max_mana( ava );
+            break;
+        case widget_var::power_percentage:
+            value = ava.has_max_power() ? ( 100 * ava.get_power_level().value() ) /
+                    ava.get_max_power_level().value() : 0;
             break;
         case widget_var::morale_level:
             value = ava.get_morale_level();
