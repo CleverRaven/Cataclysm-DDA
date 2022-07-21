@@ -240,7 +240,7 @@ void avatar::toggle_map_memory()
 
 bool avatar::should_show_map_memory()
 {
-    if( const timed_event *e = get_timed_events().get( timed_event_type::OVERRIDE_PLACE ) ) {
+    if( get_timed_events().get( timed_event_type::OVERRIDE_PLACE ) ) {
         return false;
     }
     return show_map_memory;
