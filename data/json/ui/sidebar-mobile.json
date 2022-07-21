@@ -971,24 +971,6 @@
     "colors": [ "c_white" ],
     "type": "widget"
   },
-  { "id": "i_time",             "width": 9,         "//": "TODO: add clause (when it will work) to show only if wears WATCH",
-    "style": "text",
-    "var": "time_text",
-    "clauses": [
-      { "id": "hide", "condition": "is_day" },
-      { "id": "show", "condition": { "not": "is_day" } }
-    ],
-    "type": "widget"
-  },
-  { "id": "i_time_alt",         "width": 9,         "//": "TODO: add clause (when it will work) to show if no WATCH weared",
-    "style": "text",
-    "var": "sundial_text",
-    "clauses": [
-      { "id": "hide", "condition": "is_day" },
-      { "id": "show", "condition": { "not": "is_day" } }
-    ],
-    "type": "widget"
-  },
   { "id": "i_light_sym",        "width": 5,
     "style": "text",
     "clauses": [
@@ -1045,7 +1027,7 @@
     "style": "layout",  "arrange": "minimum_columns",
     "widgets": [
       "l_time",
-      "i_time"
+      "sundial_time_desc_no_label"
     ],
     "type": "widget"
   },
