@@ -878,5 +878,9 @@ bool do_turn()
     // reset player noise
     u.volume = 0;
 
+    // Calculate bionic power balance
+    u.power_balance = u.get_power_level().value() - u.power_prev_turn;
+    u.power_prev_turn = u.get_power_level().value();
+
     return false;
 }
