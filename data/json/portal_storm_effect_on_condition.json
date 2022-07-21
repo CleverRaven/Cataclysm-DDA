@@ -1215,8 +1215,8 @@
       { "mapgen_update": "portal_dungeon", "target_var": { "global_val": "dungeon_loc" } },
       { "u_teleport": { "global_val": "dungeon_start" }, "fail_message": "Something is very wrong!", "force": true },
       { "arithmetic": [ { "global_val": "var", "var_name": "portal_dungeon_level" }, "=", { "const": 1 } ] },
-      { "run_eocs": "EOC_PORTAL_STORM_DUNGEON_ENDLESS_HUNGER_SPAWN" },
       { "queue_eocs": "EOC_PORTAL_STORM_DUNGEON_SHIFT", "time_in_future": [ "5 seconds", "15 seconds" ] },
+      { "run_eocs": [ "EOC_PORTAL_STORM_DUNGEON_MONSTER_SPAWN", "EOC_PORTAL_STORM_DUNGEON_ENDLESS_HUNGER_SPAWN" ] },
       { "u_message": "You are trapped in <global_val:place_name>!" },
       { "u_message": { "global_val": "portal_storm_voice_mood", "default_str": "none" }, "snippet": true }
     ]
@@ -1241,6 +1241,21 @@
     "effect": [
       { "mapgen_update": "portal_dungeon", "target_var": { "global_val": "dungeon_loc" } },
       { "queue_eocs": "EOC_PORTAL_STORM_DUNGEON_SHIFT", "time_in_future": [ "5 seconds", "15 seconds" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_STORM_DUNGEON_MONSTER_SPAWN",
+    "effect": [
+      {
+        "u_spawn_monster": "mon_shifting_mass",
+        "real_count": { "arithmetic": [ { "global_val": "var", "var_name": "portal_dungeon_level" }, "*", { "const": 2 } ], "max": 15 },
+        "hallucination_count": { "arithmetic": [ { "global_val": "var", "var_name": "portal_dungeon_level" }, "*", { "const": 2 } ], "max": 15 },
+        "min_radius": 3,
+        "max_radius": 20,
+        "spawn_message": "A creature wanders in as if the walls weren't even there.",
+        "spawn_message_plural": "Creatures wander in as if the walls weren't even there."
+      }
     ]
   },
   {
