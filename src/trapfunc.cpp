@@ -1481,13 +1481,13 @@ bool trapfunc::cast_spell( const tripoint &p, Creature *critter, item * )
     trap tr = here.tr_at( p );
     const spell trap_spell = tr.spell_data.get_spell( 0 );
     npc dummy;
-    here.remove_trap( p );
-    // we remove the trap before casting the spell because otherwise if mapgen is invoked on our location it will retrigger the trap and create an infinite loop
+    if( !tr.has_flag( json_flag_UNCONSUMED ) ) {
+        here.remove_trap( p );
+    }
+    // we remove the trap before casting the spell because otherwise if we teleport we might be elsewhere at the end and p is no longer valid
     trap_spell.cast_all_effects( dummy, critter->pos() );
     trap_spell.make_sound( p );
-    if( tr.has_flag( json_flag_UNCONSUMED ) ) {
-        here.trap_set( p, tr.id );
-    }
+
     return true;
 }
 

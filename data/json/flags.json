@@ -472,6 +472,10 @@
     "type": "json_flag"
   },
   {
+    "id": "MOP",
+    "type": "json_flag"
+  },
+  {
     "id": "OUTER",
     "type": "json_flag",
     "//": "Outer garment layer.",

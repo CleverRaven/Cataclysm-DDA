@@ -303,6 +303,8 @@
     "valid_targets": [ "hostile", "ally", "ground" ],
     "flags": [ "SILENT" ],
     "shape": "blast",
+    "min_damage": 1,
+    "max_damage": 1,
     "effect": "noise"
   },
   {
@@ -312,7 +314,9 @@
     "valid_targets": [ "ally", "ground", "hostile" ],
     "description": "1/10 chance to burst into flames.",
     "flags": [ "WONDER" ],
-    "effect": "none",
+    "effect": "noise",
+    "min_damage": 1,
+    "max_damage": 1,
     "shape": "blast",
     "extra_effects": [
       { "id": "death_fakespell" },

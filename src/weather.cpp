@@ -408,9 +408,9 @@ static void fill_water_collectors( int mmPerHour, bool acid )
  */
 void wet_character( Character &target, int amount )
 {
-    if( amount <= 0 ||
-        target.has_trait( trait_FEATHERS ) ||
-        target.get_wielded_item().has_flag( json_flag_RAIN_PROTECT ) ||
+    item_location weapon = target.get_wielded_item();
+    if( amount <= 0 || target.has_trait( trait_FEATHERS ) ||
+        ( weapon && weapon->has_flag( json_flag_RAIN_PROTECT ) ) ||
         ( !one_in( 50 ) && target.worn_with_flag( json_flag_RAINPROOF ) ) ) {
         return;
     }
@@ -815,8 +815,8 @@ int get_local_humidity( double humidity, const weather_type_id &weather, bool sh
     return tmphumidity;
 }
 
-double get_local_windpower( double windpower, const oter_id &omter, const tripoint &location,
-                            const int &winddirection, bool sheltered )
+int get_local_windpower( int windpower, const oter_id &omter, const tripoint &location,
+                         const int &winddirection, bool sheltered )
 {
     /**
     *  A player is sheltered if he is underground, in a car, or indoors.
@@ -825,21 +825,20 @@ double get_local_windpower( double windpower, const oter_id &omter, const tripoi
         return 0;
     }
     rl_vec2d windvec = convert_wind_to_coord( winddirection );
-    int tmpwind = static_cast<int>( windpower );
     tripoint triblocker( location + point( windvec.x, windvec.y ) );
     // Over map terrain may modify the effect of wind.
     if( ( omter->get_type_id() == oter_type_forest ) ||
         ( omter->get_type_id() == oter_type_forest_water ) ) {
-        tmpwind = tmpwind / 2;
+        windpower = windpower / 2;
     }
     if( location.z > 0 ) {
-        tmpwind = tmpwind + ( location.z * std::min( 5, tmpwind ) );
+        windpower = windpower + ( location.z * std::min( 5, windpower ) );
     }
     // An adjacent wall will block wind
     if( is_wind_blocker( triblocker ) ) {
-        tmpwind = tmpwind / 10;
+        windpower = windpower / 10;
     }
-    return static_cast<double>( tmpwind );
+    return windpower;
 }
 
 bool is_wind_blocker( const tripoint &location )
@@ -950,7 +949,8 @@ void weather_manager::update_weather()
         lightning_active = false;
         nextweather = calendar::turn + rng( weather_id->duration_min, weather_id->duration_max );
         map &here = get_map();
-        if( weather_id != old_weather && weather_id->dangerous &&
+        if( uistate.distraction_weather_change &&
+            weather_id != old_weather && weather_id->dangerous &&
             here.get_abs_sub().z() >= 0 && here.is_outside( player_character.pos() )
             && !player_character.has_activity( ACT_WAIT_WEATHER ) ) {
             g->cancel_activity_or_ignore_query( distraction_type::weather_change,

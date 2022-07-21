@@ -37,22 +37,6 @@
     "count": 150
   },
   {
-    "id": "moon_tear_ingot",
-    "type": "GENERIC",
-    "category": "spare_parts",
-    "name": "moon tears ingot",
-    "description": "An ingot of moon tears.  About 3cm by 7cm by 12cm in size, ready to be used for various blacksmithing tasks.",
-    "//": "not really sure how to convert density to weight in our system look at it later.",
-    "weight": "683 g",
-    "volume": "253 ml",
-    "price": 6399,
-    "bashing": 6,
-    "to_hit": -3,
-    "material": [ "moon_tears" ],
-    "symbol": "=",
-    "color": "light_blue"
-  },
-  {
     "id": "9x21mm",
     "type": "AMMO",
     "name": { "str_sp": "9x21mm Gyurza SP-10 (7N29)" },

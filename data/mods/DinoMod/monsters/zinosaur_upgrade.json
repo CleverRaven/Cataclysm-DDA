@@ -1117,6 +1117,31 @@
   },
   {
     "type": "MONSTER",
+    "id": "mon_zescelosaurus_brute",
+    "name": { "str_sp": "Godlike Goliath" },
+    "copy-from": "mon_zescelosaurus",
+    "description": "The shuffling corpse of a beaked bipedal dinosaur covered with tattered feathers and black, putrid liquid.  Its entire body bulges with distended muscles and swollen, festering wounds.",
+    "diff": 2,
+    "color": "red",
+    "proportional": { "hp": 1.5, "speed": 1.5 },
+    "attack_cost": 180,
+    "relative": {
+      "melee_dice": 1,
+      "melee_dice_sides": 5,
+      "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
+      "armor_bash": 4,
+      "armor_cut": 6,
+      "armor_bullet": 5,
+      "vision_night": 1
+    },
+    "bleed_rate": 50,
+    "upgrades": {  },
+    "special_attacks": [ [ "SMASH", 30 ] ],
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
+    "categories": [ "DINOSAUR" ]
+  },
+  {
+    "type": "MONSTER",
     "id": "mon_zteranodon_brute",
     "name": { "str": "Winged Horror" },
     "copy-from": "mon_zteranodon",
@@ -1778,6 +1803,30 @@
   },
   {
     "type": "MONSTER",
+    "id": "mon_zescelosaurus_shady",
+    "name": { "str": "shady thescelosaurus zombie" },
+    "copy-from": "mon_zallimimus_shady",
+    "looks_like": "mon_zallimimus_shady",
+    "volume": "250 L",
+    "weight": "250 kg",
+    "speed": 120,
+    "attack_cost": 120,
+    "melee_skill": 4,
+    "melee_dice": 2,
+    "melee_dice_sides": 6,
+    "melee_damage": [ { "damage_type": "stab", "amount": 1 } ],
+    "armor_bash": 5,
+    "armor_cut": 7,
+    "armor_bullet": 3,
+    "families": [ "prof_intro_biology", "prof_wp_zombie" ],
+    "weakpoint_sets": [ "wps_dinosaur_body" ],
+    "hp": 135,
+    "burn_into": "mon_zescelosaurus_scorched",
+    "fungalize_into": "mon_zescelosaurus_fungus",
+    "upgrades": { "half_life": 15, "into": "mon_zescelosaurus_nightstalker" }
+  },
+  {
+    "type": "MONSTER",
     "id": "mon_zilophosaurus_nightstalker",
     "name": { "str_sp": "dilophosaurus nightstalker" },
     "copy-from": "mon_zilophosaurus_shady",
@@ -2310,6 +2359,30 @@
     "copy-from": "mon_zankylosaurus_shady",
     "looks_like": "mon_zankylosaurus_shady",
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a large, heavily-armored, four-legged dinosaur with a spiked tail.",
+    "diff": 2,
+    "proportional": { "hp": 1.5, "speed": 1.5 },
+    "relative": {
+      "melee_dice": 1,
+      "melee_dice_sides": 5,
+      "melee_damage": [ { "damage_type": "stab", "amount": 2 } ],
+      "armor_bash": 4,
+      "armor_cut": 6,
+      "armor_bullet": 5,
+      "vision_night": 1
+    },
+    "bleed_rate": 50,
+    "special_attacks": [ [ "SMASH", 30 ] ],
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
+    "upgrades": {  },
+    "categories": [ "DINOSAUR" ]
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zescelosaurus_nightstalker",
+    "name": { "str_sp": "thescelosaurus nightstalker" },
+    "copy-from": "mon_zescelosaurus_shady",
+    "looks_like": "mon_zescelosaurus_shady",
+    "description": "An uncanny shadow envelops this creature.  You can make out the outline of a bulky bipedal dinosaur with feathery edges and a beak",
     "diff": 2,
     "proportional": { "hp": 1.5, "speed": 1.5 },
     "relative": {
@@ -3278,6 +3351,23 @@
   },
   {
     "type": "MONSTER",
+    "id": "mon_sescelosaurus",
+    "name": { "str_sp": "skeletal thescelosaurus" },
+    "copy-from": "mon_sallimimus",
+    "description": "Monstrous columns of dense bone covering beak, feathers, and strong arms, cracks dripping black goo.",
+    "volume": "250 L",
+    "weight": "250 kg",
+    "speed": 118,
+    "attack_cost": 118,
+    "hp": 60,
+    "melee_skill": 3,
+    "melee_dice": 2,
+    "melee_dice_sides": 7,
+    "melee_damage": [ { "damage_type": "bash", "amount": 6 } ],
+    "upgrades": { "half_life": 15, "into": "mon_sescelosaurus_brute" }
+  },
+  {
+    "type": "MONSTER",
     "id": "mon_zallosaurus_truck",
     "name": { "str_sp": "Allosaurus Le Truck" },
     "copy-from": "mon_zallosaurus_brute",
@@ -3965,6 +4055,56 @@
     "relative": {
       "melee_dice": 1,
       "melee_damage": [ { "damage_type": "cut", "amount": 5 } ],
+      "armor_bash": 8,
+      "armor_cut": 15,
+      "armor_bullet": 6
+    },
+    "bleed_rate": 0,
+    "special_attacks": [
+      { "id": "smash", "throw_strength": 54 },
+      { "id": "stretch_attack" },
+      { "id": "longswipe" },
+      { "id": "cut_throat" },
+      { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 23, "armor_multiplier": 0.8 } ] }
+    ],
+    "volume": "1000 L",
+    "weight": "1000 kg"
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_sescelosaurus_brute",
+    "name": { "str": "skeletal thescelosaurus brute" },
+    "copy-from": "mon_sallimimus",
+    "description": "Distorted outgrowths of calcified bone plates cover this dinosaur's beak and feathers.  Joints and cracks around its body ooze with black goo.",
+    "proportional": { "hp": 5 },
+    "relative": {
+      "melee_dice": -1,
+      "melee_dice_sides": 2,
+      "melee_damage": [ { "damage_type": "bash", "amount": 6 } ],
+      "armor_bash": 12,
+      "armor_cut": 15,
+      "armor_bullet": 6,
+      "vision_day": 35,
+      "vision_night": 3
+    },
+    "bleed_rate": 0,
+    "upgrades": { "half_life": 12, "into": "mon_sescelosaurus_hulk" },
+    "special_attacks": [
+      { "id": "smash", "throw_strength": 56, "cooldown": 45 },
+      { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 15, "armor_multiplier": 0.6 } ] }
+    ]
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_sescelosaurus_hulk",
+    "name": { "str_sp": "skeletal beaked juggernaut" },
+    "copy-from": "mon_sallimimus_brute",
+    "description": "This hideous colossus of plated bones and misshapen flesh drags its heavy, pointed limbs behind it.  Already strong and dangerous, bones grew around its form to protect it - only, they kept growing.  The shape and twisting pointed beak suggest some kind of beaked, two legged dinosaur.",
+    "diff": 5,
+    "proportional": { "hp": 2.5 },
+    "relative": {
+      "melee_dice": 1,
+      "melee_damage": [ { "damage_type": "stab", "amount": 5 } ],
       "armor_bash": 8,
       "armor_cut": 15,
       "armor_bullet": 6

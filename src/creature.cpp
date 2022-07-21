@@ -158,6 +158,11 @@ tripoint Creature::pos() const
     return get_map().getlocal( location );
 }
 
+tripoint_bub_ms Creature::pos_bub() const
+{
+    return get_map().bub_from_abs( location );
+}
+
 void Creature::setpos( const tripoint &p )
 {
     const tripoint_abs_ms old_loc = get_location();
@@ -453,6 +458,11 @@ bool Creature::sees( const tripoint &t, bool is_avatar, int range_mod ) const
     } else {
         return false;
     }
+}
+
+bool Creature::sees( const tripoint_bub_ms &t, bool is_avatar, int range_mod ) const
+{
+    return sees( t.raw(), is_avatar, range_mod );
 }
 
 // Helper function to check if potential area of effect of a weapon overlaps vehicle
