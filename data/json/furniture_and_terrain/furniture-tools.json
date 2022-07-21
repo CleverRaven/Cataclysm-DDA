@@ -1576,7 +1576,7 @@
     "color": "black_white",
     "required_str": -1,
     "flags": [ "TRANSPARENT" ],
-    "deconstruct": { "items": [ { "item": "block_and_tackle", "count": 1 }, { "item": "rope_30", "count": 1 } ] },
+    "deconstruct": { "items": [ { "item": "block_and_tackle", "count": 1 }, { "item": "rope_30", "count": 1 }, { "item": "spike", "count": 1 }  ] },
     "crafting_pseudo_item": "fake_lift_medium"
   },
   {
@@ -1589,7 +1589,7 @@
     "color": "black_blue",
     "required_str": -1,
     "flags": [ "TRANSPARENT" ],
-    "deconstruct": { "items": [ { "item": "chain", "count": 1 }, { "item": "block_and_tackle", "count": 1 } ] },
+    "deconstruct": { "items": [ { "item": "chain", "count": 1 }, { "item": "block_and_tackle", "count": 1 }, { "item": "nuts_and_bolts", "count": 2 } ] },
     "crafting_pseudo_item": "fake_lift_heavy"
   }
 ]
