@@ -124,7 +124,7 @@
     "ammo": "battery",
     "flags": [ "FRAGILE", "CANT_WEAR", "WATERPROOF", "IS_UPS", "EXO_LARGE_GADGET", "LEAK_DAM", "RADIOACTIVE" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 10000 } } ],
-    "relic_data": { "charge_info": { "regenerate_ammo": true, "recharge_type": "periodic", "time": "30 s" } }
+    "relic_data": { "charge_info": { "regenerate_ammo": true, "recharge_type": "periodic", "time": "8 s" } }
   },
   {
     "id": "exo_large_aux_power",
