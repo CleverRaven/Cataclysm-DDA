@@ -1167,7 +1167,7 @@
     "dissect": "dissect_human_sample_single",
     "special_attacks": [ [ "PARROT_AT_DANGER", 18 ], [ "BLOW_WHISTLE", 8 ] ],
     "death_drops": "mon_feral_cop_death_drops",
-    "fungalize_into": "mon_feral_cop_fungus",
+    "fungalize_into": "mon_feral_cop_fungal_infected",
     "flags": [
       "SEES",
       "HEARS",
