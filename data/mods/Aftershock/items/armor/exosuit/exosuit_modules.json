@@ -110,7 +110,7 @@
     ]
   },
   {
-	"id": "exo_asrg",
+    "id": "exo_asrg",
     "type": "TOOL_ARMOR",
     "category": "exosuit",
     "name": { "str": "exosuit ASRG", "str_pl": "exosuit ASRGs" },
