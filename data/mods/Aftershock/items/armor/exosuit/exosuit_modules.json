@@ -110,6 +110,23 @@
     ]
   },
   {
+	"id": "exo_asrg",
+    "type": "TOOL_ARMOR",
+    "category": "exosuit",
+    "name": { "str": "exosuit ASRG", "str_pl": "exosuit ASRGs" },
+    "description": "This is a prototype Compact advanced Sterling Radioisotope Generator, intended to power an exosuit indefinitely. The layered shielding saves weight but due to the complexities of manufacturing, cannot be repaired, only replaced. While labeled 'Compact', this only just fits on the exosuit frame."
+    "weight": "75 kg",
+    "volume": "75 L",
+    "material": [ "qt_steel", "plastic", "graphene_weave", "nanoprinted_alloy" ],
+    "symbol": "=",
+    "looks_like": "storage_battery",
+    "color": "dark_gray",
+    "ammo": "battery",
+    "flags": [ "FRAGILE", "CANT_WEAR", "WATERPROOF", "IS_UPS", "EXO_LARGE_GADGET", "LEAK_DAM", "RADIOACTIVE" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 10000 } } ],
+    "relic_data": { "charge_info": { "regenerate_ammo": true, "recharge_type": "periodic", "time": "30 s" } }
+  },
+  {
     "id": "exo_large_aux_power",
     "type": "TOOL_ARMOR",
     "category": "exosuit",
