@@ -3089,7 +3089,7 @@
     }
   },
   {
-    "id": "armor_chitin",
+    "id": "test_armor_chitin",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "chitinous armor" },
@@ -3107,16 +3107,10 @@
     "warmth": 10,
     "longest_side": "60 cm",
     "material_thickness": 4,
+    "environmental_protection": 6,
+    "environmental_protection_with_filter": 10,
     "flags": [ "STURDY", "OUTER" ],
-    "armor": [
-      { "covers": [ "torso" ], "coverage": 90, "encumbrance": 10 },
-      {
-        "covers": [ "leg_l", "leg_r" ],
-        "coverage": 90,
-        "encumbrance": 5,
-        "specifically_covers": [ "leg_upper_r", "leg_upper_l" ]
-      }
-    ]
+    "armor": [ { "encumbrance": 10, "coverage": 90, "covers": [ "torso", "leg_l", "leg_r" ] } ]
   },
   {
     "id": "test_armor_chitin_copy",
