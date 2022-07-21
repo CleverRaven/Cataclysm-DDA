@@ -1200,6 +1200,13 @@
     "var": "power_text", 
     "type": "widget"
   },  
+  { "id": "i_bpower_graph",     "width": 5,         "//": "TODO: remove.",
+    "style": "graph",
+    "fill": "bucket",
+    "symbols": "▒",
+    "var": "power_text",
+    "type": "widget"
+  },
 
   { "id": "l_mpower",           "width": 4,
     "style": "text",
@@ -1763,7 +1770,6 @@
   { "id": "a_ma",               "width": 13,
     "style": "layout", "arrange": "rows",
     "widgets": [
-      "wielding_desc_no_label",
       "style_desc_no_label",
       "ma_buff_legend"
     ],
@@ -1779,8 +1785,16 @@
     ],
     "type": "widget"
   },
+  { "id": "a_compass_ma",       "width": 41,
+    "style": "layout", "arrange": "minimum_columns",
+    "widgets": [
+      "w_compass",
+      "a_ma"
+    ],
+    "type": "widget"
+  },
   
-  { "id": "r_sidebar_row1",
+  { "id": "r_1",
     "style": "layout",  "arrange": "minimum_columns",
     "label": "! Location info",
     "widgets": [
@@ -1792,7 +1806,7 @@
     ],
     "type": "widget"
   },
-  { "id": "r_sidebar_row2",
+  { "id": "r_2",
     "style": "layout",  "arrange": "rows",
     "label": "! Player status",
     "widgets": [
@@ -1803,7 +1817,7 @@
     ],
     "type": "widget"
   },
-  { "id": "r_sidebar_row2_alt", "width": 41,
+  { "id": "r_2_alt",            "width": 41,
     "style": "layout", "arrange": "minimum_columns",
     "label": "! Alt Player status",
     "widgets": [
@@ -1813,24 +1827,33 @@
     ],
     "type": "widget"
   },
-  { "id": "r_sidebar_row3",     "width": 41,         "//": "TODO: rearrange everything here",
-    "style": "layout", "arrange": "minimum_columns",
-    "label": "! Compass and MA",
+  { "id": "r_separator-space",  "width": 41,         "//": "TODO: rearrange everything here",
+    "style": "layout", "arrange": "rows",
+    "label": "separator-space",
     "widgets": [
-      "w_compass",
-      "a_ma"
+      "l_space"
     ],
     "type": "widget"
   },
-  { "id": "!_sidebar",          "width": 76,         "//": "TODO: change to actual width after padding will work",
+  { "id": "r_3",                "width": 41,         "//": "TODO: rearrange everything here",
+    "style": "layout", "arrange": "rows",
+    "label": "! MA, buffs, compass",
+    "widgets": [
+      "wielding_desc_no_label",
+      "a_compass_ma"
+    ],
+    "type": "widget"
+  },
+  { "id": "sidebar-mobile",     "width": 76,         "//": "TODO: change to actual width after padding will work",
     "style": "sidebar",
     "separator": ": ",
     "padding": 0,
-    "label": { "str": "!_custom", "ctxt": "UI sidebar" },
+    "label": { "str": "mobile", "ctxt": "UI sidebar" },
     "widgets": [
-      "r_sidebar_row1",
-      "r_sidebar_row2",
-      "r_sidebar_row3"
+      "r_1",
+      "r_2",
+      "r_separator-space",
+      "r_3"
     ],
     "type": "widget"
   }
