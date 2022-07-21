@@ -1138,7 +1138,7 @@
     "id": "mon_feral_cop",
     "type": "MONSTER",
     "name": { "str": "feral cop" },
-    "description": "Another of the crazed humans among the dead.  This former police officer mutters to themselves with a crazed look, wandering about with a truncheon in hand in search of someone to brutalize.",
+    "description": "Another of the crazed humans among the dead.  This police officer angrily mutters to themselves, wandering about with a truncheon in hand in search of someone to brutalize.",
     "bodytype": "human",
     "default_faction": "feral_cop",
     "species": [ "HUMAN" ],
