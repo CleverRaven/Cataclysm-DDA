@@ -113,7 +113,7 @@
     "id": "exo_asrg",
     "type": "TOOL_ARMOR",
     "category": "exosuit",
-    "name": { "str": "exosuit ASRG", "str_pl": "exosuit ASRGs" },
+    "name": { "str": "exosuit ASRG" },
     "description": "This is a prototype Compact Advanced Sterling Radioisotope Generator, intended to power an exosuit indefinitely.  The layered shielding saves space but is quite heavy, and while labeled 'Compact', this only just fits on the exosuit frame.  Due to the complexities of manufacturing, cannot be repaired, only replaced.",
     "weight": "50 kg",
     "volume": "25 L",
