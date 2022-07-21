@@ -1586,7 +1586,8 @@
     "time": "60 m",
     "components": [
       [ [ "rope_makeshift_30", 1 ], [ "rope_30", 1 ], [ "vine_30", 1 ] ],
-      [ [ "stick", 8 ], [ "stick_long", 4 ], [ "2x4", 8 ] ]
+      [ [ "stick", 8 ], [ "stick_long", 4 ], [ "2x4", 8 ] ],
+      [ [ "block_and_tackle", 1 ] ]
     ],
     "pre_note": "Can be deconstructed without tools.  Must be adjacent to a palisade wall that is itself adjacent to a palisade gate in order to open said gate.",
     "pre_special": "check_empty",
