@@ -208,6 +208,9 @@ void write_var_value( var_type type, std::string name, talker *talk, std::string
 template<class T>
 std::string get_talk_varname( const JsonObject &jo, const std::string &member,
                               bool check_value, int_or_var<T> &default_val );
+template<class T>
+std::string get_talk_var_basename( const JsonObject &jo, const std::string &member,
+                                   bool check_value, int_or_var<T> &default_val );
 // the truly awful declaration for the conditional_t loading helper_function
 template<class T>
 void read_condition( const JsonObject &jo, const std::string &member_name,

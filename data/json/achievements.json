@@ -1085,9 +1085,9 @@
   {
     "id": "achievement_witnessed_portal_storm",
     "type": "achievement",
-    "name": "Portal storm",
-    "description": "Pending",
-    "requirements": [ { "event_statistic": "witnessed_portal_storm", "is": "anything" } ]
+    "name": "Reality is falling apart",
+    "description": "You will be baked, and then there will be cake.",
+    "requirements": [ { "event_statistic": "witnessed_portal_storm", "is": ">=", "target": 1, "description": "Survive a portal storm" } ]
   },
   {
     "id": "achievement_arcade_mode",
