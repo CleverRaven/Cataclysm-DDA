@@ -1052,6 +1052,7 @@
   {
     "type": "trap",
     "id": "tr_portal_dungeon_entrance",
+    "name": "swirling vortex",
     "color": "green",
     "action": "spell",
     "copy-from": "tr_swirling_vortex",
