@@ -2565,6 +2565,20 @@ void talk_effect_fun_t<T>::set_transform_radius( const JsonObject &jo, const std
 }
 
 template<class T>
+void talk_effect_fun_t<T>::set_transform_line( const JsonObject &jo, const std::string &member )
+{
+    ter_furn_transform_id transform = ter_furn_transform_id( jo.get_string( member ) );
+    var_info first = read_var_info( jo.get_object( "first" ), false );
+    var_info second = read_var_info( jo.get_object( "second" ), false );
+
+    function = [transform, first, second]( const T & d ) {
+        get_map().transform_line( transform, get_tripoint_from_var<T>( first, d ),
+                                  get_tripoint_from_var<T>( second, d ) );
+        get_map().invalidate_map_cache( get_tripoint_from_var<T>( first, d ).z() );
+    };
+}
+
+template<class T>
 void talk_effect_fun_t<T>::set_place_override( const JsonObject &jo, const std::string &member )
 {
     str_or_var<T> new_place = get_str_or_var<T>( jo.get_member( member ), member );
@@ -3945,6 +3959,8 @@ void talk_effect_t<T>::parse_sub_effect( const JsonObject &jo )
         subeffect_fun.set_transform_radius( jo, "u_transform_radius", false );
     } else if( jo.has_object( "npc_transform_radius" ) || jo.has_int( "npc_transform_radius" ) ) {
         subeffect_fun.set_transform_radius( jo, "npc_transform_radius", true );
+    } else if( jo.has_string( "transform_line" ) ) {
+        subeffect_fun.set_transform_line( jo, "transform_line" );
     } else if( jo.has_object( "u_location_variable" ) ) {
         subeffect_fun.set_location_variable( jo, "u_location_variable", false );
     } else if( jo.has_object( "npc_location_variable" ) ) {
