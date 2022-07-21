@@ -6125,8 +6125,8 @@ bool mattack::doot( monster *z )
         }
     }
     .
-        sound( z->pos(), 200, sounds::sound_t::music, _( "DOOT." ), false, "music_instrument",
-                   "trumpet" );
+    sound( z->pos(), 200, sounds::sound_t::music, _( "DOOT." ), false, "music_instrument",
+           "trumpet" );
     return true;
 }
 
