@@ -75,9 +75,8 @@ std::string get_talk_varname( const JsonObject &jo, const std::string &member,
             + var_context ) + "_" + var_basename;
 }
 
-template<class T>
 std::string get_talk_var_basename( const JsonObject &jo, const std::string &member,
-                                   bool check_value, int_or_var<T> &default_val )
+                                   bool check_value )
 {
     if( check_value && !( jo.has_string( "value" ) || jo.has_member( "time" ) ||
                           jo.has_array( "possible_values" ) ) ) {
@@ -2899,9 +2898,6 @@ template void read_condition<dialogue>( const JsonObject &jo, const std::string 
 template duration_or_var<dialogue> get_duration_or_var( const JsonObject &jo, std::string member,
         bool required, time_duration default_val );
 template std::string get_talk_varname<dialogue>( const JsonObject &jo, const std::string &member,
-        bool check_value, int_or_var<dialogue> &default_val );
-template std::string get_talk_var_basename<dialogue>( const JsonObject &jo,
-        const std::string &member,
         bool check_value, int_or_var<dialogue> &default_val );
 #if !defined(MACOSX)
 template struct conditional_t<mission_goal_condition_context>;
