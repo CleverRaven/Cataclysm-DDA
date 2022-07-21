@@ -5686,7 +5686,7 @@
   },
   {
     "type": "construction",
-    "id": "constr_rope_hoist",
+    "id": "constr_rope_hoist_tree",
     "group": "build_rope_hoist",
     "category": "TOOL",
     "time": "30 s",
@@ -5696,7 +5696,7 @@
   },
   {
     "type": "construction",
-    "id": "constr_rope_hoist",
+    "id": "constr_rope_hoist_ceiling",
     "group": "build_rope_hoist",
     "category": "TOOL",
     "time": "5 m",
@@ -5707,7 +5707,7 @@
   },
   {
     "type": "construction",
-    "id": "constr_rope_tackle_hoist",
+    "id": "constr_rope_tackle_hoist_tree",
     "group": "build_rope_tackle_hoist",
     "category": "TOOL",
     "time": "10 m",
@@ -5718,18 +5718,18 @@
   },
   {
     "type": "construction",
-    "id": "constr_rope_tackle_hoist",
+    "id": "constr_rope_tackle_hoist_supported",
     "group": "build_rope_tackle_hoist",
     "category": "TOOL",
     "time": "10 m",
     "qualities": [ [ { "id": "HAMMER", "level": 1 } ] ],
-    "components": [ [ [ "rope_30", 1 ] ], [ [ "block_and_tackle", 1 ] ], [ [ "spike", 1 ] ] ],
+    "components": [ [ [ "rope_30", 1 ] ], [ [ "block_and_tackle", 1 ] ], [ [ "spike", 1 ] ], [ [ "nail", 6 ] ], [ [ "2x4", 2 ] ] ],
     "pre_special": "check_support",
     "post_terrain": "f_hoist_pulley"
   },
   {
     "type": "construction",
-    "id": "constr_rope_tackle_hoist",
+    "id": "constr_rope_tackle_hoist_ceiling",
     "group": "build_rope_tackle_hoist",
     "category": "TOOL",
     "time": "10 m",
@@ -5740,15 +5740,38 @@
   },
   {
     "type": "construction",
-    "id": "constr_chain_hoist",
+    "id": "constr_chain_hoist_thconc",
     "group": "build_chain_hoist",
     "category": "TOOL",
     "time": "30 m",
     "required_skills": [ [ "fabrication", 2 ] ],
-    "qualities": [ [ { "id": "DRILL", "level": 1 } ], [ { "id": "WRENCH", "level": 2 } ], [ { "id": "HAMMER", "level": 1 } ] ],
-    "components": [ [ [ "chain", 1 ] ], [ [ "block_and_tackle", 1 ] ], [ [ "nuts_bolts", 2 ] ], [ [ "nail", 12 ] ], [ [ "2x4", 2 ] ] ],
-    "pre_special": "check_support",   
-    "pre_flags": [ "SUPPORTS_ROOF", "INDOORS" ],
+    "qualities": [ [ { "id": "DRILL", "level": 2 } ], [ { "id": "WRENCH", "level": 2 } ] ],
+    "components": [ [ [ "chain", 1 ] ], [ [ "block_and_tackle", 1 ] ], [ [ "nuts_bolts", 2 ] ] ],
+    "pre_terrain": "t_thconc_floor",
+    "post_terrain": "f_hoist_chain"
+  },
+  {
+    "type": "construction",
+    "id": "constr_chain_hoist_strconc",
+    "group": "build_chain_hoist",
+    "category": "TOOL",
+    "time": "30 m",
+    "required_skills": [ [ "fabrication", 2 ] ],
+    "qualities": [ [ { "id": "DRILL", "level": 3 } ], [ { "id": "WRENCH", "level": 2 } ] ],
+    "components": [ [ [ "chain", 1 ] ], [ [ "block_and_tackle", 1 ] ], [ [ "nuts_bolts", 2 ] ] ],
+    "pre_terrain": "t_strconc_floor",
+    "post_terrain": "f_hoist_chain"
+  },
+  {
+    "type": "construction",
+    "id": "constr_chain_hoist_metal",
+    "group": "build_chain_hoist",
+    "category": "TOOL",
+    "time": "30 m",
+    "required_skills": [ [ "fabrication", 2 ] ],
+    "qualities": [ [ { "id": "DRILL", "level": 3 } ], [ { "id": "WRENCH", "level": 2 } ] ],
+    "components": [ [ [ "chain", 1 ] ], [ [ "block_and_tackle", 1 ] ], [ [ "nuts_bolts", 2 ] ] ],
+    "pre_terrain": "t_metal_floor",
     "post_terrain": "f_hoist_chain"
   },
   {
