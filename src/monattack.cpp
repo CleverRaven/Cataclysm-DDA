@@ -4781,6 +4781,22 @@ bool mattack::longswipe( monster *z )
     return true;
 }
 
+bool mattack::blow_whistle( monster *z )
+{
+    if( z->friendly ) {
+        // TODO: handle friendly monsters
+        return false;
+    }
+    // Only blow whistle if we can see you!
+    if( !z->sees( get_player_character() ) ) {
+        return false;
+    }
+    add_msg( m_warning, _( "The %1$s loudly blows their whistle!" ) );
+    sounds::sound( z->pos(), 40, sounds::sound_t::alarm, _( "FWEEEET!" ), false, "misc", "whistle" );
+
+    return true;
+}
+
 static void parrot_common( monster *parrot )
 {
     // It takes a while
@@ -4818,22 +4834,6 @@ bool mattack::parrot_at_danger( monster *parrot )
     }
 
     return false;
-}
-
-bool mattack::blow_whistle( monster *z )
-{
-    if( z->friendly ) {
-        // TODO: handle friendly monsters
-        return false;
-    }
-    // Only blow whistle if we can see you!
-    if( !z->sees( get_player_character() ) ) {
-        return false;
-    }
-    add_msg( m_warning, _( "The %1$s loudly blows their whistle!" ) );
-    sounds::sound( z->pos(), 40, sounds::sound_t::alarm, _( "FWEEEET!" ), false, "misc", "whistle" );
-
-    return true;
 }
 
 bool mattack::darkman( monster *z )
