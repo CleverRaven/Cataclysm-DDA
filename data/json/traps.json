@@ -1061,6 +1061,7 @@
   {
     "type": "SPELL",
     "id": "portal_dungeon_entrance",
+    "name": "portal dungeon entrance",
     "copy-from": "trap_base",
     "effect_str": "EOC_PORTAL_STORM_DUNGEON"
   },
@@ -1076,6 +1077,7 @@
   {
     "type": "SPELL",
     "id": "portal_dungeon_exit",
+    "name": "portal dungeon exit",
     "copy-from": "trap_base",
     "effect_str": "EOC_PORTAL_STORM_DUNGEON_EXIT"
   },
@@ -1091,6 +1093,7 @@
   {
     "type": "SPELL",
     "id": "portal_dungeon_next_level",
+    "name": "portal dungeon next level",
     "copy-from": "trap_base",
     "effect_str": "EOC_PORTAL_STORM_DUNGEON_NEXT_LEVEL"
   }
