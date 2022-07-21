@@ -364,6 +364,23 @@ void avatar::on_mission_finished( mission &cur_mission )
     }
 }
 
+void avatar::remove_active_mission( mission &cur_mission )
+{
+    const auto iter = std::find( active_missions.begin(), active_missions.end(), &cur_mission );
+    if( iter == active_missions.end() ) {
+        debugmsg( "removed mission %d was not in the active_missions list", cur_mission.get_id() );
+    } else {
+        active_missions.erase( iter );
+    }
+    if( &cur_mission == active_mission ) {
+        if( active_missions.empty() ) {
+            active_mission = nullptr;
+        } else {
+            active_mission = active_missions.front();
+        }
+    }
+}
+
 diary *avatar::get_avatar_diary()
 {
     if( a_diary == nullptr ) {

@@ -637,29 +637,50 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_mon_endless_hunger_attack",
-    "condition": {
-      "and": [
-        { "compare_int": [ { "distance": [ "u", "npc" ] }, ">", { "const": 2 } ] },
-        { "compare_int": [ { "distance": [ "u", "npc" ] }, "<", { "const": 8 } ] }
+    "effect": {
+      "run_eocs": [
+        {
+          "id": "EOC_mon_endless_hunger_attack_close",
+          "condition": { "and": [ { "compare_int": [ { "distance": [ "u", "npc" ] }, "<=", { "const": 2 } ] } ] },
+          "effect": [
+            { "u_message": "The endless hunger feasts directly on your essence." },
+            { "arithmetic": [ { "u_val": "fatigue" }, "+=", { "global_val": "var", "var_name": "endless_hunger" } ] },
+            { "arithmetic": [ { "global_val": "var", "var_name": "endless_hunger" }, "+=", { "const": 3 } ] }
+          ]
+        },
+        {
+          "id": "EOC_mon_endless_hunger_attack_medium",
+          "condition": {
+            "and": [
+              { "compare_int": [ { "distance": [ "u", "npc" ] }, ">", { "const": 2 } ] },
+              { "compare_int": [ { "distance": [ "u", "npc" ] }, "<", { "const": 8 } ] }
+            ]
+          },
+          "effect": [
+            { "u_message": "The endless hunger uses your bond to feast on your essence." },
+            { "arithmetic": [ { "u_val": "fatigue" }, "+=", { "global_val": "var", "var_name": "endless_hunger" } ] },
+            { "arithmetic": [ { "global_val": "var", "var_name": "endless_hunger" }, "++" ] }
+          ]
+        },
+        {
+          "id": "EOC_mon_endless_hunger_attack_far",
+          "condition": {
+            "and": [ { "compare_int": [ { "distance": [ "u", "npc" ] }, ">=", { "const": 8 } ] }, { "x_in_y_chance": { "x": 1, "y": 3 } } ]
+          },
+          "effect": [
+            { "u_message": "The endless hunger uses some of the energy it stole from you to clear the way." },
+            { "arithmetic": [ { "global_val": "var", "var_name": "endless_hunger" }, "--" ] },
+            { "u_location_variable": { "global_val": "first" }, "min_radius": 1, "max_radius": 1 },
+            { "npc_location_variable": { "global_val": "second" }, "min_radius": 1, "max_radius": 1 },
+            {
+              "transform_line": "clear_portal_walls",
+              "first": { "global_val": "first" },
+              "second": { "global_val": "second" }
+            }
+          ]
+        }
       ]
-    },
-    "effect": [
-      { "u_message": "The endless hunger uses your energy to clear the way." },
-      { "arithmetic": [ { "u_val": "fatigue" }, "+=", { "const": 5 } ] },
-      { "arithmetic": [ { "global_val": "var", "var_name": "endless_hunger" }, "++" ] },
-      { "u_location_variable": { "global_val": "first" }, "min_radius": 1, "max_radius": 1 },
-      { "npc_location_variable": { "global_val": "second" }, "min_radius": 1, "max_radius": 1 },
-      {
-        "transform_line": "clear_portal_walls",
-        "first": { "global_val": "first" },
-        "second": { "global_val": "second" }
-      }
-    ],
-    "false_effect": [
-      { "u_message": "The endless hunger feasts on your essence." },
-      { "arithmetic": [ { "u_val": "fatigue" }, "+=", { "global_val": "var", "var_name": "endless_hunger" } ] },
-      { "arithmetic": [ { "global_val": "var", "var_name": "endless_hunger" }, "+=", { "const": 3 } ] }
-    ]
+    }
   },
   {
     "type": "ter_furn_transform",

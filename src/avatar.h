@@ -178,6 +178,8 @@ class avatar : public Character
          */
         void on_mission_finished( mission &cur_mission );
 
+        void remove_active_mission( mission &cur_mission );
+
         //return avatar diary
         diary *get_avatar_diary();
 

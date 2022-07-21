@@ -3173,9 +3173,9 @@ void talk_effect_fun_t<T>::set_finish_mission( const JsonObject &jo, const std::
     }
     function = [mission_name, success, step]( const T & ) {
         avatar &player_character = get_avatar();
-
         const mission_type_id &mission_type = mission_type_id( mission_name );
         std::vector<mission *> missions = player_character.get_active_missions();
+
         for( mission *mission : missions ) {
             if( mission->mission_id() == mission_type ) {
                 if( step.has_value() ) {
@@ -3185,6 +3185,24 @@ void talk_effect_fun_t<T>::set_finish_mission( const JsonObject &jo, const std::
                 } else {
                     mission->fail();
                 }
+                break;
+            }
+        }
+    };
+}
+
+template<class T>
+void talk_effect_fun_t<T>::set_remove_active_mission( const JsonObject &jo,
+        const std::string &member )
+{
+    std::string mission_name = jo.get_string( member );
+    function = [mission_name]( const T & ) {
+        avatar &player_character = get_avatar();
+        const mission_type_id &mission_type = mission_type_id( mission_name );
+        std::vector<mission *> missions = player_character.get_active_missions();
+        for( mission *mission : missions ) {
+            if( mission->mission_id() == mission_type ) {
+                player_character.remove_active_mission( *mission );
                 break;
             }
         }
@@ -3997,6 +4015,8 @@ void talk_effect_t<T>::parse_sub_effect( const JsonObject &jo )
         subeffect_fun.set_assign_mission( jo, "assign_mission" );
     } else if( jo.has_string( "finish_mission" ) ) {
         subeffect_fun.set_finish_mission( jo, "finish_mission" );
+    } else if( jo.has_string( "remove_active_mission" ) ) {
+        subeffect_fun.set_remove_active_mission( jo, "remove_active_mission" );
     } else if( jo.has_array( "offer_mission" ) || jo.has_string( "offer_mission" ) ) {
         subeffect_fun.set_offer_mission( jo, "offer_mission" );
     } else if( jo.has_member( "u_make_sound" ) ) {
