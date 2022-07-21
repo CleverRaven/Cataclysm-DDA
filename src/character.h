@@ -696,7 +696,7 @@ class Character : public Creature, public visitable
          * Check player capable of taking off an item.
          * @param it Thing to be taken off
          */
-        ret_val<bool> can_takeoff( const item &it, const std::list<item> *res = nullptr );
+        ret_val<void> can_takeoff( const item &it, const std::list<item> *res = nullptr );
 
         /** @return Odds for success (pair.first) and gunmod damage (pair.second) */
         std::pair<int, int> gunmod_installation_odds( const item_location &gun, const item &mod ) const;
@@ -1028,7 +1028,7 @@ class Character : public Creature, public visitable
          * Check player capable of wielding an item.
          * @param it Thing to be wielded
          */
-        ret_val<bool> can_wield( const item &it ) const;
+        ret_val<void> can_wield( const item &it ) const;
 
         bool unwield();
 
@@ -1440,7 +1440,7 @@ class Character : public Creature, public visitable
         void process_bionic( bionic &bio );
         /** Checks if bionic can be deactivated (e.g. it's not incapacitated and power level is sufficient)
          *  returns either success or failure with log message */
-        ret_val<bool> can_deactivate_bionic( bionic &bio, bool eff_only = false ) const;
+        ret_val<void> can_deactivate_bionic( bionic &bio, bool eff_only = false ) const;
         /** Handles bionic deactivation effects of the entered bionic, returns if anything
          *  deactivated */
         bool deactivate_bionic( bionic &bio, bool eff_only = false );
@@ -1484,8 +1484,7 @@ class Character : public Creature, public visitable
         bool can_install_bionics( const itype &type, Character &installer, bool autodoc = false,
                                   int skill_level = -1 );
         /** Is this bionic elligible to be installed in the player? */
-        // Should be ret_val<void>, but ret_val.h doesn't like it
-        ret_val<bool> is_installable( const item_location &loc, bool by_autodoc ) const;
+        ret_val<void> is_installable( const item_location &loc, bool by_autodoc ) const;
         std::map<bodypart_id, int> bionic_installation_issues( const bionic_id &bioid ) const;
         /** Initialize all the values needed to start the operation player_activity */
         bool install_bionics( const itype &type, Character &installer, bool autodoc = false,
@@ -2027,7 +2026,7 @@ class Character : public Creature, public visitable
          * @param it Thing to be worn
          * @param with_equip_change If true returns if it could be worn if things were taken off
          */
-        ret_val<bool> can_wear( const item &it, bool with_equip_change = false ) const;
+        ret_val<void> can_wear( const item &it, bool with_equip_change = false ) const;
         /**
          * Returns true if the character is wielding something.
          * Note: this item may not actually be used to attack.
@@ -2050,12 +2049,12 @@ class Character : public Creature, public visitable
          * Check player capable of unwielding an item.
          * @param it Thing to be unwielded
          */
-        ret_val<bool> can_unwield( const item &it ) const;
+        ret_val<void> can_unwield( const item &it ) const;
         /**
          * Check player capable of dropping an item.
          * @param it Thing to be unwielded
          */
-        ret_val<bool> can_drop( const item &it ) const;
+        ret_val<void> can_drop( const item &it ) const;
 
         void drop_invalid_inventory();
         // this cache is for checking if items in the character's inventory can't actually fit into other items they are inside of
@@ -3126,7 +3125,7 @@ class Character : public Creature, public visitable
          * @param obj Object to check for disassembly
          * @param inv current crafting inventory
          */
-        ret_val<bool> can_disassemble( const item &obj, const read_only_visitable &inv ) const;
+        ret_val<void> can_disassemble( const item &obj, const read_only_visitable &inv ) const;
         item_location create_in_progress_disassembly( item_location target );
 
         bool disassemble();

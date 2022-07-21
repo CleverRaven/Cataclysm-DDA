@@ -1977,17 +1977,17 @@ bool npc::wants_to_sell( const item &it ) const
     return wants_to_sell( it, value( it, market_price ), market_price ).success();
 }
 
-ret_val<bool> npc::wants_to_sell( const item &it, int at_price, int /*market_price*/ ) const
+ret_val<void> npc::wants_to_sell( const item &it, int at_price, int /*market_price*/ ) const
 {
     if( will_exchange_items_freely() ) {
-        return ret_val<bool>::make_success();
+        return ret_val<void>::make_success();
     }
 
     // Keep items that we never want to trade and the ones we don't want to trade while in use.
     if( it.has_flag( flag_TRADER_KEEP ) ||
         ( ( !myclass->sells_belongings || it.has_flag( flag_TRADER_KEEP_EQUIPPED ) ) && ( is_worn( it ) ||
                 is_wielding( it ) ) ) ) {
-        return ret_val<bool>::make_failure( _( "<npcname> will never sell this" ) );
+        return ret_val<void>::make_failure( _( "<npcname> will never sell this" ) );
     }
 
     for( const shopkeeper_item_group &ig : myclass->get_shopkeeper_items() ) {
@@ -1995,12 +1995,12 @@ ret_val<bool> npc::wants_to_sell( const item &it, int at_price, int /*market_pri
             continue;
         }
         if( item_group::group_contains_item( ig.id, it.typeId() ) ) {
-            return ret_val<bool>::make_failure( ig.get_refusal() );
+            return ret_val<void>::make_failure( ig.get_refusal() );
         }
     }
 
     // TODO: Base on inventory
-    return at_price >= 0 ? ret_val<bool>::make_success() : ret_val<bool>::make_failure();
+    return at_price >= 0 ? ret_val<void>::make_success() : ret_val<void>::make_failure();
 }
 
 bool npc::wants_to_buy( const item &it ) const
@@ -2009,27 +2009,27 @@ bool npc::wants_to_buy( const item &it ) const
     return wants_to_buy( it, value( it, market_price ), market_price ).success();
 }
 
-ret_val<bool> npc::wants_to_buy( const item &it, int at_price, int /*market_price*/ ) const
+ret_val<void> npc::wants_to_buy( const item &it, int at_price, int /*market_price*/ ) const
 {
     if( will_exchange_items_freely() ) {
-        return ret_val<bool>::make_success();
+        return ret_val<void>::make_success();
     }
 
     if( it.has_flag( flag_TRADER_AVOID ) || it.has_var( VAR_TRADE_IGNORE ) ) {
-        return ret_val<bool>::make_failure( _( "<npcname> will never buy this" ) );
+        return ret_val<void>::make_failure( _( "<npcname> will never buy this" ) );
     }
 
     if( mission != NPC_MISSION_SHOPKEEP && has_trait( trait_SQUEAMISH ) && it.is_filthy() ) {
-        return ret_val<bool>::make_failure( _( "<npcname> will not buy filthy items" ) );
+        return ret_val<void>::make_failure( _( "<npcname> will not buy filthy items" ) );
     }
 
     icg_entry const *bl = myclass->get_shopkeeper_blacklist().matches( it, *this );
     if( bl != nullptr ) {
-        return ret_val<bool>::make_failure( bl->message );
+        return ret_val<void>::make_failure( bl->message );
     }
 
     // TODO: Base on inventory
-    return at_price >= 0 ? ret_val<bool>::make_success() : ret_val<bool>::make_failure();
+    return at_price >= 0 ? ret_val<void>::make_success() : ret_val<void>::make_failure();
 }
 
 // Will the NPC freely exchange items with the player?

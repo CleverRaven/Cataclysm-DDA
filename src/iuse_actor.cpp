@@ -344,11 +344,11 @@ cata::optional<int> iuse_transform::use( Character &p, item &it, bool t, const t
     return result;
 }
 
-ret_val<bool> iuse_transform::can_use( const Character &p, const item &, bool,
+ret_val<void> iuse_transform::can_use( const Character &p, const item &, bool,
                                        const tripoint & ) const
 {
     if( qualities_needed.empty() ) {
-        return ret_val<bool>::make_success();
+        return ret_val<void>::make_success();
     }
 
     std::map<quality_id, int> unmet_reqs;
@@ -361,13 +361,13 @@ ret_val<bool> iuse_transform::can_use( const Character &p, const item &, bool,
         }
     }
     if( unmet_reqs.empty() ) {
-        return ret_val<bool>::make_success();
+        return ret_val<void>::make_success();
     }
     std::string unmet_reqs_string = enumerate_as_string( unmet_reqs.begin(), unmet_reqs.end(),
     [&]( const std::pair<quality_id, int> &unmet_req ) {
         return string_format( "%s %d", unmet_req.first.obj().name, unmet_req.second );
     } );
-    return ret_val<bool>::make_failure( n_gettext( "You need a tool with %s.",
+    return ret_val<void>::make_failure( n_gettext( "You need a tool with %s.",
                                         "You need tools with %s.",
                                         unmet_reqs.size() ), unmet_reqs_string );
 }
@@ -502,14 +502,14 @@ cata::optional<int> countdown_actor::use( Character &p, item &it, bool t,
     return 0;
 }
 
-ret_val<bool> countdown_actor::can_use( const Character &, const item &it, bool,
+ret_val<void> countdown_actor::can_use( const Character &, const item &it, bool,
                                         const tripoint & ) const
 {
     if( it.active ) {
-        return ret_val<bool>::make_failure( _( "It's already been triggered." ) );
+        return ret_val<void>::make_failure( _( "It's already been triggered." ) );
     }
 
-    return ret_val<bool>::make_success();
+    return ret_val<void>::make_success();
 }
 
 std::string countdown_actor::get_name() const
@@ -1311,22 +1311,22 @@ void firestarter_actor::resolve_firestarter_use( Character &p, const tripoint &p
     }
 }
 
-ret_val<bool> firestarter_actor::can_use( const Character &p, const item &it, bool,
+ret_val<void> firestarter_actor::can_use( const Character &p, const item &it, bool,
         const tripoint & ) const
 {
     if( p.is_underwater() ) {
-        return ret_val<bool>::make_failure( _( "You can't do that while underwater." ) );
+        return ret_val<void>::make_failure( _( "You can't do that while underwater." ) );
     }
 
     if( !it.ammo_sufficient( &p ) ) {
-        return ret_val<bool>::make_failure( _( "This tool doesn't have enough charges." ) );
+        return ret_val<void>::make_failure( _( "This tool doesn't have enough charges." ) );
     }
 
     if( need_sunlight && light_mod( p.pos() ) <= 0.0f ) {
-        return ret_val<bool>::make_failure( _( "You need direct sunlight to light a fire with this." ) );
+        return ret_val<void>::make_failure( _( "You need direct sunlight to light a fire with this." ) );
     }
 
-    return ret_val<bool>::make_success();
+    return ret_val<void>::make_success();
 }
 
 float firestarter_actor::light_mod( const tripoint &pos ) const
@@ -1967,7 +1967,7 @@ cata::optional<int> cauterize_actor::use( Character &p, item &it, bool t, const 
     }
 }
 
-ret_val<bool> cauterize_actor::can_use( const Character &p, const item &it, bool,
+ret_val<void> cauterize_actor::can_use( const Character &p, const item &it, bool,
                                         const tripoint & ) const
 {
     if( !p.has_effect( effect_bite ) &&
@@ -1976,30 +1976,30 @@ ret_val<bool> cauterize_actor::can_use( const Character &p, const item &it, bool
         !p.has_trait( trait_MASOCHIST_MED ) &&
         !p.has_trait( trait_CENOBITE ) ) {
 
-        return ret_val<bool>::make_failure(
+        return ret_val<void>::make_failure(
                    _( "You are not bleeding or bitten, there is no need to cauterize yourself." ) );
     }
     if( p.is_mounted() ) {
-        return ret_val<bool>::make_failure( _( "You cannot cauterize while mounted." ) );
+        return ret_val<void>::make_failure( _( "You cannot cauterize while mounted." ) );
     }
 
     if( flame ) {
         if( !p.has_charges( itype_fire, 4 ) ) {
-            return ret_val<bool>::make_failure(
+            return ret_val<void>::make_failure(
                        _( "You need a source of flame (4 charges worth) before you can cauterize yourself." ) );
         }
     } else {
         if( !it.ammo_sufficient( &p ) ) {
-            return ret_val<bool>::make_failure( _( "You need at least %d charges to cauterize wounds." ),
+            return ret_val<void>::make_failure( _( "You need at least %d charges to cauterize wounds." ),
                                                 it.ammo_required() );
         }
     }
 
     if( p.is_underwater() ) {
-        return ret_val<bool>::make_failure( _( "You can't do that while underwater." ) );
+        return ret_val<void>::make_failure( _( "You can't do that while underwater." ) );
     }
 
-    return ret_val<bool>::make_success();
+    return ret_val<void>::make_success();
 }
 
 void fireweapon_off_actor::load( const JsonObject &obj )
@@ -2047,18 +2047,18 @@ cata::optional<int> fireweapon_off_actor::use( Character &p, item &it, bool t,
     return it.type->charges_to_use();
 }
 
-ret_val<bool> fireweapon_off_actor::can_use( const Character &p, const item &it, bool,
+ret_val<void> fireweapon_off_actor::can_use( const Character &p, const item &it, bool,
         const tripoint & ) const
 {
     if( it.charges < it.type->charges_to_use() ) {
-        return ret_val<bool>::make_failure( _( "This tool doesn't have enough charges." ) );
+        return ret_val<void>::make_failure( _( "This tool doesn't have enough charges." ) );
     }
 
     if( p.is_underwater() ) {
-        return ret_val<bool>::make_failure( _( "You can't do that while underwater." ) );
+        return ret_val<void>::make_failure( _( "You can't do that while underwater." ) );
     }
 
-    return ret_val<bool>::make_success();
+    return ret_val<void>::make_success();
 }
 
 void fireweapon_on_actor::load( const JsonObject &obj )
@@ -2146,14 +2146,14 @@ cata::optional<int> manualnoise_actor::use( Character &p, item &it, bool t, cons
     return it.type->charges_to_use();
 }
 
-ret_val<bool> manualnoise_actor::can_use( const Character &, const item &it, bool,
+ret_val<void> manualnoise_actor::can_use( const Character &, const item &it, bool,
         const tripoint & ) const
 {
     if( it.charges < it.type->charges_to_use() ) {
-        return ret_val<bool>::make_failure( _( "This tool doesn't have enough charges." ) );
+        return ret_val<void>::make_failure( _( "This tool doesn't have enough charges." ) );
     }
 
-    return ret_val<bool>::make_success();
+    return ret_val<void>::make_success();
 }
 
 std::unique_ptr<iuse_actor> musical_instrument_actor::clone() const
@@ -2301,18 +2301,18 @@ cata::optional<int> musical_instrument_actor::use( Character &p, item &it, bool 
     return 0;
 }
 
-ret_val<bool> musical_instrument_actor::can_use( const Character &p, const item &, bool,
+ret_val<void> musical_instrument_actor::can_use( const Character &p, const item &, bool,
         const tripoint & ) const
 {
     // TODO: (maybe): Mouth encumbrance? Smoke? Lack of arms? Hand encumbrance?
     if( p.is_underwater() ) {
-        return ret_val<bool>::make_failure( _( "You can't do that while underwater." ) );
+        return ret_val<void>::make_failure( _( "You can't do that while underwater." ) );
     }
     if( p.is_mounted() ) {
-        return ret_val<bool>::make_failure( _( "You can't do that while mounted." ) );
+        return ret_val<void>::make_failure( _( "You can't do that while mounted." ) );
     }
 
-    return ret_val<bool>::make_success();
+    return ret_val<void>::make_success();
 }
 
 std::unique_ptr<iuse_actor> learn_spell_actor::clone() const
@@ -2558,7 +2558,7 @@ bool holster_actor::store( Character &you, item &holster, item &obj ) const
         return false;
     }
 
-    const ret_val<bool> contain = holster.can_contain( obj );
+    const ret_val<void> contain = holster.can_contain( obj );
     if( !contain.success() ) {
         you.add_msg_if_player( m_bad, contain.str(), holster.tname(), obj.tname() );
     }
@@ -4045,19 +4045,19 @@ cata::optional<int> saw_barrel_actor::use( Character &p, item &it, bool t, const
     return 0;
 }
 
-ret_val<bool> saw_barrel_actor::can_use_on( const Character &, const item &,
+ret_val<void> saw_barrel_actor::can_use_on( const Character &, const item &,
         const item &target ) const
 {
     if( !target.is_gun() ) {
-        return ret_val<bool>::make_failure( _( "It's not a gun." ) );
+        return ret_val<void>::make_failure( _( "It's not a gun." ) );
     }
 
     if( target.type->gun->barrel_volume <= 0_ml ) {
-        return ret_val<bool>::make_failure( _( "The barrel is too small." ) );
+        return ret_val<void>::make_failure( _( "The barrel is too small." ) );
     }
 
     if( target.gunmod_find( itype_barrel_small ) ) {
-        return ret_val<bool>::make_failure( _( "The barrel is already sawn-off." ) );
+        return ret_val<void>::make_failure( _( "The barrel is already sawn-off." ) );
     }
 
     const auto gunmods = target.gunmods();
@@ -4067,10 +4067,10 @@ ret_val<bool> saw_barrel_actor::can_use_on( const Character &, const item &,
     } );
 
     if( modified_barrel ) {
-        return ret_val<bool>::make_failure( _( "Can't saw off modified barrels." ) );
+        return ret_val<void>::make_failure( _( "Can't saw off modified barrels." ) );
     }
 
-    return ret_val<bool>::make_success();
+    return ret_val<void>::make_success();
 }
 
 std::unique_ptr<iuse_actor> saw_barrel_actor::clone() const
@@ -4104,15 +4104,15 @@ cata::optional<int> saw_stock_actor::use( Character &p, item &it, bool t, const 
     return 0;
 }
 
-ret_val<bool> saw_stock_actor::can_use_on( const Character &, const item &,
+ret_val<void> saw_stock_actor::can_use_on( const Character &, const item &,
         const item &target ) const
 {
     if( !target.is_gun() ) {
-        return ret_val<bool>::make_failure( _( "It's not a gun." ) );
+        return ret_val<void>::make_failure( _( "It's not a gun." ) );
     }
 
     if( target.gunmod_find( itype_stock_none ) ) {
-        return ret_val<bool>::make_failure( _( "The stock is already sawn-off." ) );
+        return ret_val<void>::make_failure( _( "The stock is already sawn-off." ) );
     }
 
     const auto gunmods = target.gunmods();
@@ -4127,19 +4127,19 @@ ret_val<bool> saw_stock_actor::can_use_on( const Character &, const item &,
     } );
 
     if( target.get_free_mod_locations( gunmod_location( "stock mount" ) ) < 1 ) {
-        return ret_val<bool>::make_failure(
+        return ret_val<void>::make_failure(
                    _( "Can't cut off modern composite stocks (must have an empty stock mount)." ) );
     }
 
     if( modified_stock ) {
-        return ret_val<bool>::make_failure( _( "Can't cut off modified stocks." ) );
+        return ret_val<void>::make_failure( _( "Can't cut off modified stocks." ) );
     }
 
     if( accessorized_stock ) {
-        return ret_val<bool>::make_failure( _( "Can't cut off accessorized stocks." ) );
+        return ret_val<void>::make_failure( _( "Can't cut off accessorized stocks." ) );
     }
 
-    return ret_val<bool>::make_success();
+    return ret_val<void>::make_success();
 }
 
 std::unique_ptr<iuse_actor> saw_stock_actor::clone() const
@@ -4237,36 +4237,36 @@ cata::optional<int> install_bionic_actor::use( Character &p, item &it, bool,
     }
 }
 
-ret_val<bool> install_bionic_actor::can_use( const Character &p, const item &it, bool,
+ret_val<void> install_bionic_actor::can_use( const Character &p, const item &it, bool,
         const tripoint & ) const
 {
     if( !it.is_bionic() ) {
-        return ret_val<bool>::make_failure();
+        return ret_val<void>::make_failure();
     }
     const bionic_id &bid = it.type->bionic->id;
     if( p.is_mounted() ) {
-        return ret_val<bool>::make_failure( _( "You can't install bionics while mounted." ) );
+        return ret_val<void>::make_failure( _( "You can't install bionics while mounted." ) );
     }
     if( !p.has_trait( trait_DEBUG_BIONICS ) ) {
         if( bid->installation_requirement.is_empty() ) {
-            return ret_val<bool>::make_failure( _( "You can't self-install this CBM." ) );
+            return ret_val<void>::make_failure( _( "You can't self-install this CBM." ) );
         } else  if( it.has_flag( flag_FILTHY ) ) {
-            return ret_val<bool>::make_failure( _( "You can't install a filthy CBM!" ) );
+            return ret_val<void>::make_failure( _( "You can't install a filthy CBM!" ) );
         } else if( it.has_flag( flag_NO_STERILE ) ) {
-            return ret_val<bool>::make_failure( _( "This CBM is not sterile, you can't install it." ) );
+            return ret_val<void>::make_failure( _( "This CBM is not sterile, you can't install it." ) );
         } else if( it.has_fault( fault_bionic_salvaged ) ) {
-            return ret_val<bool>::make_failure(
+            return ret_val<void>::make_failure(
                        _( "This CBM is already deployed.  You need to reset it to factory state." ) );
         } else if( units::energy( std::numeric_limits<int>::max(), units::energy::unit_type{} ) -
                    p.get_max_power_level() < bid->capacity ) {
-            return ret_val<bool>::make_failure( _( "Max power capacity already reached" ) );
+            return ret_val<void>::make_failure( _( "Max power capacity already reached" ) );
         }
     }
 
     if( p.has_bionic( bid ) && !bid->dupes_allowed ) {
-        return ret_val<bool>::make_failure( _( "You have already installed this bionic." ) );
+        return ret_val<void>::make_failure( _( "You have already installed this bionic." ) );
     } else if( bid->upgraded_bionic && !p.has_bionic( bid->upgraded_bionic ) ) {
-        return ret_val<bool>::make_failure( _( "There is nothing to upgrade." ) );
+        return ret_val<void>::make_failure( _( "There is nothing to upgrade." ) );
     } else {
         const bool downgrade =
             std::any_of( bid->available_upgrades.begin(), bid->available_upgrades.end(),
@@ -4275,11 +4275,11 @@ ret_val<bool> install_bionic_actor::can_use( const Character &p, const item &it,
         } );
 
         if( downgrade ) {
-            return ret_val<bool>::make_failure( _( "You have a superior version installed." ) );
+            return ret_val<void>::make_failure( _( "You have a superior version installed." ) );
         }
     }
 
-    return ret_val<bool>::make_success();
+    return ret_val<void>::make_success();
 }
 
 std::unique_ptr<iuse_actor> install_bionic_actor::clone() const
@@ -4339,13 +4339,13 @@ cata::optional<int> detach_gunmods_actor::use( Character &p, item &it, bool,
     return cata::nullopt;
 }
 
-ret_val<bool> detach_gunmods_actor::can_use( const Character &p, const item &it, bool,
+ret_val<void> detach_gunmods_actor::can_use( const Character &p, const item &it, bool,
         const tripoint & ) const
 {
     const std::vector<const item *> mods = it.gunmods();
 
     if( mods.empty() ) {
-        return ret_val<bool>::make_failure( _( "Doesn't appear to be modded." ) );
+        return ret_val<void>::make_failure( _( "Doesn't appear to be modded." ) );
     }
 
     const bool no_removables =
@@ -4355,15 +4355,15 @@ ret_val<bool> detach_gunmods_actor::can_use( const Character &p, const item &it,
     } );
 
     if( no_removables ) {
-        return ret_val<bool>::make_failure( _( "None of the mods can be removed." ) );
+        return ret_val<void>::make_failure( _( "None of the mods can be removed." ) );
     }
 
     if( p.is_worn(
             it ) ) { // Prevent removal of shoulder straps and thereby making the gun un-wearable again.
-        return ret_val<bool>::make_failure( _( "Has to be taken off first." ) );
+        return ret_val<void>::make_failure( _( "Has to be taken off first." ) );
     }
 
-    return ret_val<bool>::make_success();
+    return ret_val<void>::make_success();
 }
 
 std::unique_ptr<iuse_actor> detach_gunmods_actor::detach_gunmods_actor::clone() const
@@ -4410,16 +4410,16 @@ cata::optional<int> modify_gunmods_actor::use( Character &p, item &it, bool,
     return cata::nullopt;
 }
 
-ret_val<bool> modify_gunmods_actor::can_use( const Character &p, const item &it, bool,
+ret_val<void> modify_gunmods_actor::can_use( const Character &p, const item &it, bool,
         const tripoint & ) const
 {
     if( !p.is_wielding( it ) ) {
-        return ret_val<bool>::make_failure( _( "Need to be wielding." ) );
+        return ret_val<void>::make_failure( _( "Need to be wielding." ) );
     }
     const std::vector<const item *> mods = it.gunmods();
 
     if( mods.empty() ) {
-        return ret_val<bool>::make_failure( _( "Doesn't appear to be modded." ) );
+        return ret_val<void>::make_failure( _( "Doesn't appear to be modded." ) );
     }
 
     const bool modifiables = std::any_of( mods.begin(), mods.end(),
@@ -4428,15 +4428,15 @@ ret_val<bool> modify_gunmods_actor::can_use( const Character &p, const item &it,
     } );
 
     if( !modifiables ) {
-        return ret_val<bool>::make_failure( _( "None of the mods can be modified." ) );
+        return ret_val<void>::make_failure( _( "None of the mods can be modified." ) );
     }
 
     if( p.is_worn(
             it ) ) { // I don't know if modifying really needs this but its for future proofing.
-        return ret_val<bool>::make_failure( _( "Has to be taken off first." ) );
+        return ret_val<void>::make_failure( _( "Has to be taken off first." ) );
     }
 
-    return ret_val<bool>::make_success();
+    return ret_val<void>::make_success();
 }
 
 std::unique_ptr<iuse_actor> modify_gunmods_actor::modify_gunmods_actor::clone() const

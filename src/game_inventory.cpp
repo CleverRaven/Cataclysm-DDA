@@ -395,7 +395,7 @@ class take_off_inventory_preset: public armor_inventory_preset
         }
 
         std::string get_denial( const item_location &loc ) const override {
-            const ret_val<bool> ret = you.can_takeoff( *loc );
+            const ret_val<void> ret = you.can_takeoff( *loc );
 
             if( !ret.success() ) {
                 return trim_trailing_punctuations( ret.str() );
@@ -2345,7 +2345,7 @@ class bionic_install_preset: public inventory_selector_preset
 
         std::string get_denial( const item_location &loc ) const override {
 
-            const ret_val<bool> installable = pa.is_installable( loc, true );
+            const ret_val<void> installable = pa.is_installable( loc, true );
             if( installable.success() && !you.has_enough_anesth( *loc.get_item()->type, pa ) ) {
                 const int weight = units::to_kilogram( pa.bodyweight() ) / 10;
                 const int duration = loc.get_item()->type->bionic->difficulty * 2;
@@ -2434,13 +2434,13 @@ class bionic_install_surgeon_preset : public inventory_selector_preset
         std::string get_denial( const item_location &loc ) const override {
             if( you.is_npc() ) {
                 int const price = npc_trading::bionic_install_price( you, pa, loc );
-                ret_val<bool> const refusal =
+                ret_val<void> const refusal =
                     you.as_npc()->wants_to_sell( *loc, price, loc->price( true ) );
                 if( !refusal.success() ) {
                     return you.replace_with_npc_name( refusal.str() );
                 }
             }
-            const ret_val<bool> installable = pa.is_installable( loc, false );
+            const ret_val<void> installable = pa.is_installable( loc, false );
             return installable.str();
         }
 
