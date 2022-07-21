@@ -659,30 +659,46 @@ void MonsterGenerator::load_monster( const JsonObject &jo, const std::string &sr
     mon_templates->load( jo, src );
 }
 
-mon_effect_data load_mon_effect_data( const JsonObject &e )
-{
-    return mon_effect_data( efftype_id( e.get_string( "id" ) ), e.get_int( "duration", 0 ),
-                            e.get_bool( "affect_hit_bp", false ),
-                            bodypart_str_id( e.get_string( "bp", "bp_null" ) ),
-                            e.get_bool( "permanent", false ),
-                            e.get_int( "chance", 100 ) );
-}
 
-class mon_attack_effect_reader : public generic_typed_reader<mon_attack_effect_reader>
+mon_effect_data::mon_effect_data() :
+    chance( 100.0f ),
+    permanent( false ),
+    affect_hit_bp( false ),
+    bp( body_part_bp_null ),
+    duration( 1, 1 ),
+    intensity( 0, 0 ) {}
+
+void mon_effect_data::load( const JsonObject &jo )
 {
-    public:
-        mon_effect_data get_next( JsonValue &jv ) const {
-            JsonObject e = jv.get_object();
-            return load_mon_effect_data( e );
-        }
-        template<typename C>
-        void erase_next( std::string &&eff_str, C &container ) const {
-            const efftype_id id = efftype_id( std::move( eff_str ) );
-            reader_detail::handler<C>().erase_if( container, [&id]( const mon_effect_data & e ) {
-                return e.id == id;
-            } );
-        }
-};
+    mandatory( jo, false, "id", id );
+    optional( jo, false, "chance", chance, 100.f );
+    optional( jo, false, "permanent", permanent, false );
+    optional( jo, false, "affect_hit_bp", affect_hit_bp, false );
+    optional( jo, false, "bp", bp, body_part_bp_null );
+    optional( jo, false, "message", message );
+    // Support shorthand for a single value.
+    if( jo.has_int( "duration" ) ) {
+        int i = 1;
+        mandatory( jo, false, "duration", i );
+        duration = { i, i };
+    } else {
+        optional( jo, false, "duration", duration, std::pair<int, int> { 1, 1 } );
+    }
+    if( jo.has_int( "intensity" ) ) {
+        int i = 1;
+        mandatory( jo, false, "intensity", i );
+        intensity = { i, i };
+    } else {
+        optional( jo, false, "intensity", intensity, std::pair<int, int> { 1, 1 } );
+    }
+
+    if( chance > 100.f || chance < 0.f ) {
+        jo.throw_error_at( "chance",
+                           string_format( "\"chance\" is defined as %f, "
+                                          "but must be a decimal number between 0.0 and 100.0", chance ) );
+        chance = clamp<float>( chance, 0.f, 100.f );
+    }
+}
 
 void mtype::load( const JsonObject &jo, const std::string &src )
 {
@@ -897,7 +913,6 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "starting_ammo", starting_ammo );
     optional( jo, was_loaded, "luminance", luminance, 0 );
     optional( jo, was_loaded, "revert_to_itype", revert_to_itype, itype_id() );
-    optional( jo, was_loaded, "attack_effs", atk_effs, mon_attack_effect_reader{} );
     optional( jo, was_loaded, "mech_weapon", mech_weapon, itype_id() );
     optional( jo, was_loaded, "mech_str_bonus", mech_str_bonus, 0 );
     optional( jo, was_loaded, "mech_battery", mech_battery, itype_id() );
@@ -906,6 +921,15 @@ void mtype::load( const JsonObject &jo, const std::string &src )
               mtype_id() );
     optional( jo, was_loaded, "fungalize_into", fungalize_into, string_id_reader<::mtype> {},
               mtype_id() );
+
+    if( jo.has_array( "attack_effs" ) ) {
+        atk_effs.clear();
+        for( const JsonObject effect_jo : jo.get_array( "attack_effs" ) ) {
+            mon_effect_data effect;
+            effect.load( effect_jo );
+            atk_effs.push_back( std::move( effect ) );
+        }
+    }
 
     // TODO: make this work with `was_loaded`
     if( jo.has_array( "melee_damage" ) ) {

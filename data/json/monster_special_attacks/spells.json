@@ -383,6 +383,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_shifting_mass_attack",
+    "condition": { "not": { "u_has_worn_with_flag": "PORTAL_PROOF" } },
     "effect": [
       {
         "arithmetic": [

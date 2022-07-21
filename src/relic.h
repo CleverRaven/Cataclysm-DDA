@@ -147,6 +147,7 @@ enum class relic_recharge_has : int {
 enum class relic_recharge_type : int {
     NONE,
     PERIODIC,
+    LUNAR,
     SOLAR_SUNNY,
     SOLAR_CLOUDY,
     NUM

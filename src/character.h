@@ -517,6 +517,13 @@ class Character : public Creature, public visitable
         virtual int get_thirst() const;
         virtual int get_instant_thirst() const;
 
+        time_duration get_daily_sleep() const;
+        void mod_daily_sleep( time_duration mod );
+        void reset_daily_sleep();
+        time_duration get_continuous_sleep() const;
+        void mod_continuous_sleep( time_duration mod );
+        void reset_continuous_sleep();
+
         int get_fatigue() const;
         int get_sleep_deprivation() const;
 
@@ -730,6 +737,7 @@ class Character : public Creature, public visitable
         /** Increases hunger, thirst, fatigue and stimulants wearing off. `rate_multiplier` is for retroactive updates. */
         void update_needs( int rate_multiplier );
         needs_rates calc_needs_rates() const;
+        void calc_sleep_recovery_rate( needs_rates &rates ) const;
         /** Kills the player if too hungry, stimmed up etc., forces tired player to sleep and prints warnings. */
         void check_needs_extremes();
         /** Handles the chance to be infected by random diseases */
@@ -1321,9 +1329,9 @@ class Character : public Creature, public visitable
 
         bool has_active_mutation( const trait_id &b ) const;
 
-        int get_cost_timer( const trait_id &mut_id ) const;
-        void set_cost_timer( const trait_id &mut, int set );
-        void mod_cost_timer( const trait_id &mut, int mod );
+        time_duration get_cost_timer( const trait_id &mut_id ) const;
+        void set_cost_timer( const trait_id &mut, time_duration set );
+        void mod_cost_timer( const trait_id &mut, time_duration mod );
 
         /** Picks a random valid mutation and gives it to the Character, possibly removing/changing others along the way */
         void mutate( const int &true_random_chance, bool use_vitamins );
@@ -1579,7 +1587,7 @@ class Character : public Creature, public visitable
          */
         void mend_item( item_location &&obj, bool interactive = true );
 
-        bool list_ammo( const item &base, std::vector<item::reload_option> &ammo_list,
+        bool list_ammo( const item_location &base, std::vector<item::reload_option> &ammo_list,
                         bool empty = true ) const;
         /**
          * Select suitable ammo with which to reload the item
@@ -1587,11 +1595,11 @@ class Character : public Creature, public visitable
          * @param prompt force display of the menu even if only one choice
          * @param empty allow selection of empty magazines
          */
-        item::reload_option select_ammo( const item &base, bool prompt = false,
+        item::reload_option select_ammo( const item_location &base, bool prompt = false,
                                          bool empty = true ) const;
 
         /** Select ammo from the provided options */
-        item::reload_option select_ammo( const item &base, std::vector<item::reload_option> opts,
+        item::reload_option select_ammo( const item_location &base, std::vector<item::reload_option> opts,
                                          std::string name_override = std::string() ) const;
 
         void process_items();
@@ -2119,8 +2127,8 @@ class Character : public Creature, public visitable
         std::string enumerate_unmet_requirements( const item &it, const item &context = item() ) const;
 
         // Mental skills and stats
-        /** Returns the player's reading speed */
-        int read_speed( bool return_stat_effect = true ) const;
+        /** Returns the player's reading speed as a percentage*/
+        int read_speed() const;
         /** Returns a value used when attempting to convince NPC's of something */
         int talk_skill() const;
         /** Returns a value used when attempting to intimidate NPC's */
@@ -2192,8 +2200,8 @@ class Character : public Creature, public visitable
          * @param reader the player/NPC who's reading to the caller
          * @param learner if not nullptr, assume that the caller and reader read at a pace that isn't too fast for him
          */
-        int time_to_read( const item &book, const Character &reader,
-                          const Character *learner = nullptr ) const;
+        time_duration time_to_read( const item &book, const Character &reader,
+                                    const Character *learner = nullptr ) const;
 
         /** Calls Creature::normalize()
          *  nulls out the player's weapon
@@ -3207,6 +3215,7 @@ class Character : public Creature, public visitable
 
         // see Creature::sees
         bool sees( const tripoint &t, bool is_avatar = false, int range_mod = 0 ) const override;
+        bool sees( const tripoint_bub_ms &t, bool is_avatar = false, int range_mod = 0 ) const override;
         // see Creature::sees
         bool sees( const Creature &critter ) const override;
         Attitude attitude_to( const Creature &other ) const override;
@@ -3307,7 +3316,7 @@ class Character : public Creature, public visitable
              * to its cost (@ref mutation_branch::cost). When those costs have been paid, this
              * is reset to @ref mutation_branch::cooldown.
              */
-            int charge = 0;
+            time_duration charge = 0_turns;
 
             bool show_sprite = true;
 
@@ -3495,6 +3504,9 @@ class Character : public Creature, public visitable
         float circulation;
         // Should remain fixed at 1.0 for now.
         float circulation_resistance = 1.0f;
+
+        time_duration daily_sleep = 0_turns;
+        time_duration continuous_sleep = 0_turns;
 
         int fatigue;
         int sleep_deprivation;

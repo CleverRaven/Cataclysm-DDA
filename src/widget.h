@@ -41,10 +41,15 @@ enum class widget_var : int {
     mood,           // TODO
     cardio_fit,     // Cardio fitness, integer near BMR
     cardio_acc,     // Cardio accumulator, integer
+    carry_weight,   // Weight carried, relative to capacity, in % (0 - >100)
     // Text vars
     activity_text,  // Activity level text, color string
     body_graph,     // Body graph showing color-coded body part health
+    body_graph_temp,     // Body graph showing color-coded body part temperature
+    body_graph_encumb,     // Body graph showing color-coded body part encumbrance
+    body_graph_status,     // Body graph showing color-coded body part status (bite, bleeding, ...)
     bp_armor_outer_text, // Outermost armor on body part, with color/damage bars
+    carry_weight_text,   // Weight carried, relative to capacity, in %
     compass_text,   // Compass / visible threats by cardinal direction
     compass_legend_text, // Names of visible creatures that appear on the compass
     date_text,      // Current date, in terms of day within season
@@ -60,6 +65,7 @@ enum class widget_var : int {
     safe_mode_classic_text, // Safe mode text, classic mode color string.
     style_text,     // Active martial arts style name
     sundial_text,   // Sundial representing the time of day
+    sundial_time_text,   // Current time - exact if character has a watch, sundial otherwise
     time_text,      // Current time - exact if character has a watch, approximate otherwise
     veh_azimuth_text, // Azimuth or heading in degrees, string
     veh_cruise_text, // Current/target cruising speed in vehicle, color string
@@ -247,10 +253,14 @@ class widget
         translation _string;
         // Colors mapped to values or ranges
         std::vector<nc_color> _colors;
+        // Optional color breaks in percent of the value's range; length = lenght(colors) - 1
+        std::vector<int> _breaks;
         // Child widget ids for layout style
         std::vector<widget_id> _widgets;
         // Child widget layout arrangement / direction
         std::string _arrange;
+        // Id of body_graph to use for widget_var::body_graph
+        std::string _body_graph;
         // Compass direction corresponding to the indexed directions from avatar::get_mon_visible
         cardinal_direction _direction;
         // Flags for special widget behaviors

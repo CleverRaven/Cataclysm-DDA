@@ -390,15 +390,15 @@
     "qualities": [ [ "GLARE", 1 ] ],
     "flags": [ "SUN_GLASSES", "FLASH_PROTECTION" ],
     "armor": [
-      { "encumbrance": 60, "coverage": 90, "covers": [ "head" ] },
-      { "encumbrance": 60, "coverage": 90, "covers": [ "eyes", "mouth" ], "rigid_layer_only": true }
+      { "encumbrance": 20, "coverage": 90, "covers": [ "head" ] },
+      { "encumbrance": 40, "coverage": 90, "covers": [ "eyes", "mouth" ], "rigid_layer_only": true }
     ]
   },
   {
     "id": "welding_mask_crude",
     "type": "ARMOR",
     "name": { "str": "crude welding mask" },
-    "description": "A crude welding mask made from shaped steel.  It's less dark than a proper welding mask, and therefore less difficult to see in, but also less protective when welding.  Activate it to push it up your head.",
+    "description": "A crude welding mask made from shaped steel.  It will keep your face safe while welding but it's a bit less comfortable than the real deal.  Activate it to push it up your head.",
     "weight": "4 kg",
     "volume": "4 L",
     "price": 1000,
@@ -419,8 +419,8 @@
     "qualities": [ [ "GLARE", 1 ] ],
     "flags": [ "SUN_GLASSES", "FLASH_PROTECTION" ],
     "armor": [
-      { "encumbrance": 60, "coverage": 90, "covers": [ "head" ] },
-      { "encumbrance": 60, "coverage": 90, "covers": [ "eyes", "mouth" ], "rigid_layer_only": true }
+      { "encumbrance": 25, "coverage": 90, "covers": [ "head" ] },
+      { "encumbrance": 45, "coverage": 90, "covers": [ "eyes", "mouth" ], "rigid_layer_only": true }
     ]
   },
   {
@@ -444,7 +444,7 @@
     "color": "dark_gray",
     "warmth": 8,
     "material_thickness": 2,
-    "armor": [ { "encumbrance": 60, "coverage": 30, "covers": [ "head" ] } ]
+    "armor": [ { "encumbrance": 25, "coverage": 30, "covers": [ "head" ] } ]
   },
   {
     "id": "welding_mask_raised",
@@ -467,7 +467,7 @@
     "color": "dark_gray",
     "warmth": 6,
     "material_thickness": 3,
-    "armor": [ { "encumbrance": 60, "coverage": 30, "covers": [ "head" ] } ]
+    "armor": [ { "encumbrance": 20, "coverage": 30, "covers": [ "head" ] } ]
   },
   {
     "type": "TOOL_ARMOR",

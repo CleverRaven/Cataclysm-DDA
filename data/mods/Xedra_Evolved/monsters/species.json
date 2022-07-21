@@ -4,5 +4,10 @@
     "id": "CHANGELING",
     "description": "a creature from under the hill",
     "fear_triggers": [ "HURT" ]
+  },
+  {
+    "type": "SPECIES",
+    "id": "NIGHTMARE",
+    "description": "creatures made from dreams, technically not alive"
   }
 ]

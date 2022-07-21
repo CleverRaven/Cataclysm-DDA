@@ -1137,77 +1137,98 @@ void sfx::do_ambient()
         play_ambient_variant_sound( "environment", "indoors_rain", seas_str, indoors,
                                     night, heard_volume, channel::indoors_rain_env, 1000 );
     }
-    if( ( !is_sheltered &&
-          get_weather().weather_id->sound_category != weather_sound_category::silent && !is_deaf &&
-          !is_channel_playing( channel::outdoors_snow_env ) &&
-          !is_channel_playing( channel::outdoors_flurry_env ) &&
-          !is_channel_playing( channel::outdoors_thunderstorm_env ) &&
-          !is_channel_playing( channel::outdoors_rain_env ) &&
-          !is_channel_playing( channel::outdoors_drizzle_env ) &&
-          !is_channel_playing( channel::outdoor_blizzard ) &&
-          !is_channel_playing( channel::outdoors_clear_env ) &&
-          !is_channel_playing( channel::outdoors_sunny_env )  &&
-          !is_channel_playing( channel::outdoors_cloudy_env ) )
-        || ( !is_sheltered &&
-             weather_changed  && !is_deaf ) ) {
-        fade_audio_group( group::weather, 1000 );
-        // We are outside and there is precipitation
-        switch( get_weather().weather_id->sound_category ) {
-            case weather_sound_category::drizzle:
-                play_ambient_variant_sound( "environment", "WEATHER_DRIZZLE", seas_str,
-                                            indoors, night, heard_volume,
-                                            channel::outdoors_drizzle_env, 1000 );
-                break;
-            case weather_sound_category::rainy:
-                play_ambient_variant_sound( "environment", "WEATHER_RAINY", seas_str,
-                                            indoors, night, heard_volume,
-                                            channel::outdoors_rain_env, 1000 );
-                break;
-            case weather_sound_category::thunder:
-                play_ambient_variant_sound( "environment", "WEATHER_THUNDER", seas_str,
-                                            indoors, night, heard_volume,
-                                            channel::outdoors_thunderstorm_env, 1000 );
-                break;
-            case weather_sound_category::flurries:
-                play_ambient_variant_sound( "environment", "WEATHER_FLURRIES", seas_str,
-                                            indoors, night, heard_volume,
-                                            channel::outdoors_flurry_env, 1000 );
-                break;
-            case weather_sound_category::snowstorm:
-                play_ambient_variant_sound( "environment", "WEATHER_SNOWSTORM", seas_str,
-                                            indoors, night, heard_volume,
-                                            channel::outdoor_blizzard, 1000 );
-                break;
-            case weather_sound_category::snow:
-                play_ambient_variant_sound( "environment", "WEATHER_SNOW", seas_str,
-                                            indoors, night, heard_volume,
-                                            channel::outdoors_snow_env, 1000 );
-                break;
-            case weather_sound_category::silent:
-                break;
-            case weather_sound_category::portal_storm:
-                play_ambient_variant_sound( "environment", "WEATHER_PORTAL_STORM", seas_str,
-                                            indoors, night, heard_volume,
-                                            channel::outdoors_portal_storm_env, 1000 );
-                break;
-            case weather_sound_category::clear:
-                play_ambient_variant_sound( "environment", "WEATHER_CLEAR", seas_str,
-                                            indoors, night, heard_volume,
-                                            channel::outdoors_clear_env, 1000 );
-                break;
-            case weather_sound_category::sunny:
-                play_ambient_variant_sound( "environment", "WEATHER_SUNNY", seas_str,
-                                            indoors, night, heard_volume,
-                                            channel::outdoors_sunny_env, 1000 );
-                break;
-            case weather_sound_category::cloudy:
-                play_ambient_variant_sound( "environment", "WEATHER_CLOUDY", seas_str,
-                                            indoors, night, heard_volume,
-                                            channel::outdoors_cloudy_env, 1000 );
-                break;
-            case weather_sound_category::last:
-                debugmsg( "Invalid weather sound category." );
-                break;
+    auto outdoor_playing = []( bool first_only ) {
+        static const std::set<channel> outdoor_channels {
+            channel::outdoors_snow_env,
+            channel::outdoors_flurry_env,
+            channel::outdoors_thunderstorm_env,
+            channel::outdoors_rain_env,
+            channel::outdoors_drizzle_env,
+            channel::outdoor_blizzard,
+            channel::outdoors_clear_env,
+            channel::outdoors_sunny_env,
+            channel::outdoors_cloudy_env
+        };
+        std::set<channel> active_channels;
+        for( const channel &ch : outdoor_channels ) {
+            if( is_channel_playing( ch ) ) {
+                active_channels.emplace( ch );
+                if( first_only ) {
+                    return active_channels;
+                }
+            }
+        }
+        return active_channels;
+    };
+    if( !is_sheltered && !is_deaf &&
+        get_weather().weather_id->sound_category != weather_sound_category::silent ) {
+        if( weather_changed || outdoor_playing( true ).empty() ) {
+            fade_audio_group( group::weather, 1000 );
+            // We are outside and there is audible weather
+            switch( get_weather().weather_id->sound_category ) {
+                case weather_sound_category::drizzle:
+                    play_ambient_variant_sound( "environment", "WEATHER_DRIZZLE", seas_str,
+                                                indoors, night, heard_volume,
+                                                channel::outdoors_drizzle_env, 1000 );
+                    break;
+                case weather_sound_category::rainy:
+                    play_ambient_variant_sound( "environment", "WEATHER_RAINY", seas_str,
+                                                indoors, night, heard_volume,
+                                                channel::outdoors_rain_env, 1000 );
+                    break;
+                case weather_sound_category::thunder:
+                    play_ambient_variant_sound( "environment", "WEATHER_THUNDER", seas_str,
+                                                indoors, night, heard_volume,
+                                                channel::outdoors_thunderstorm_env, 1000 );
+                    break;
+                case weather_sound_category::flurries:
+                    play_ambient_variant_sound( "environment", "WEATHER_FLURRIES", seas_str,
+                                                indoors, night, heard_volume,
+                                                channel::outdoors_flurry_env, 1000 );
+                    break;
+                case weather_sound_category::snowstorm:
+                    play_ambient_variant_sound( "environment", "WEATHER_SNOWSTORM", seas_str,
+                                                indoors, night, heard_volume,
+                                                channel::outdoor_blizzard, 1000 );
+                    break;
+                case weather_sound_category::snow:
+                    play_ambient_variant_sound( "environment", "WEATHER_SNOW", seas_str,
+                                                indoors, night, heard_volume,
+                                                channel::outdoors_snow_env, 1000 );
+                    break;
+                case weather_sound_category::silent:
+                    break;
+                case weather_sound_category::portal_storm:
+                    play_ambient_variant_sound( "environment", "WEATHER_PORTAL_STORM", seas_str,
+                                                indoors, night, heard_volume,
+                                                channel::outdoors_portal_storm_env, 1000 );
+                    break;
+                case weather_sound_category::clear:
+                    play_ambient_variant_sound( "environment", "WEATHER_CLEAR", seas_str,
+                                                indoors, night, heard_volume,
+                                                channel::outdoors_clear_env, 1000 );
+                    break;
+                case weather_sound_category::sunny:
+                    play_ambient_variant_sound( "environment", "WEATHER_SUNNY", seas_str,
+                                                indoors, night, heard_volume,
+                                                channel::outdoors_sunny_env, 1000 );
+                    break;
+                case weather_sound_category::cloudy:
+                    play_ambient_variant_sound( "environment", "WEATHER_CLOUDY", seas_str,
+                                                indoors, night, heard_volume,
+                                                channel::outdoors_cloudy_env, 1000 );
+                    break;
+                case weather_sound_category::last:
+                    debugmsg( "Invalid weather sound category." );
+                    break;
+            }
+        }
+    } else {
+        // Sheltered, deaf, or silent weather.
+        // Don't play outdoor weather, fade out active audio channels
+        std::set<channel> outdoor_active = outdoor_playing( false );
+        for( const channel &ch : outdoor_active ) {
+            fade_audio_channel( ch, 1000 );
         }
     }
     // Keep track of weather to compare for next iteration
