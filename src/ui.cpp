@@ -109,6 +109,13 @@ uilist_entry::uilist_entry( const int retval, const bool enabled, const int key,
 {
 }
 
+uilist_entry::uilist_entry( const int retval, const bool enabled,
+                            const cata::optional<input_event> &key, const std::string &txt, const std::string &desc )
+    : retval( retval ), enabled( enabled ), hotkey( key ), txt( txt ),
+      desc( desc ), text_color( c_red_red )
+{
+}
+
 uilist_entry::uilist_entry( const int retval, const bool enabled, const int key,
                             const std::string &txt, const std::string &desc,
                             const std::string &column )
@@ -1181,6 +1188,12 @@ void uilist::addentry_desc( const std::string &txt, const std::string &desc )
 
 void uilist::addentry_desc( int retval, bool enabled, int key, const std::string &txt,
                             const std::string &desc )
+{
+    entries.emplace_back( retval, enabled, key, txt, desc );
+}
+
+void uilist::addentry_desc( int retval, bool enabled, const cata::optional<input_event> &key,
+                            const std::string &txt, const std::string &desc )
 {
     entries.emplace_back( retval, enabled, key, txt, desc );
 }

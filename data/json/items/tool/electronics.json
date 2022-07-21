@@ -575,7 +575,7 @@
     "power_draw": 300,
     "revert_to": "smart_phone",
     "use_action": [ "MP3_ON", "PORTABLE_GAME", "EINKTABLETPC", "EBOOKSAVE", "EBOOKREAD" ],
-    "extend": { "effects": [ "TRADER_AVOID" ] }
+    "extend": { "flags": [ "TRADER_AVOID" ] }
   },
   {
     "id": "smart_phone_flashlight",
@@ -597,7 +597,7 @@
         "type": "transform"
       }
     ],
-    "extend": { "effects": [ "LIGHT_20", "CHARGEDIM", "TRADER_AVOID" ] }
+    "extend": { "flags": [ "LIGHT_20", "CHARGEDIM", "TRADER_AVOID" ] }
   },
   {
     "id": "UPS_off",

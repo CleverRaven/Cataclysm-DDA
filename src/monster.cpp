@@ -2350,18 +2350,16 @@ void monster::explode()
 
 void monster::set_summon_time( const time_duration &length )
 {
-    summon_time_limit = length;
+    lifespan_end = calendar::turn + length;
 }
 
 void monster::decrement_summon_timer()
 {
-    if( !summon_time_limit ) {
+    if( !lifespan_end ) {
         return;
     }
-    if( *summon_time_limit <= 0_turns ) {
+    if( lifespan_end.value() <= calendar::turn ) {
         die( nullptr );
-    } else {
-        *summon_time_limit -= 1_turns;
     }
 }
 
@@ -2542,7 +2540,7 @@ void monster::die( Creature *nkiller )
     mission::on_creature_death( *this );
 
     // Also, perform our death function
-    if( is_hallucination() || summon_time_limit ) {
+    if( is_hallucination() || lifespan_end ) {
         //Hallucinations always just disappear
         mdeath::disappear( *this );
         return;
@@ -3295,6 +3293,9 @@ void monster::set_horde_attraction( monster_horde_attraction mha )
 bool monster::will_join_horde( int size )
 {
     const monster_horde_attraction mha = get_horde_attraction();
+    if( this->has_flag( MF_IMMOBILE ) ) {
+        return false; //immobile monsters should never join a horde.
+    }
     if( mha == MHA_NEVER ) {
         return false;
     }

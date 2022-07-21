@@ -13,7 +13,8 @@
       { "monster": "mon_scotts_horse", "weight": 10, "cost_multiplier": 0, "pack_size": [ 3, 8 ] },
       { "monster": "mon_camelops", "weight": 10, "cost_multiplier": 0, "pack_size": [ 1, 6 ] },
       { "monster": "mon_mammoth", "weight": 10, "cost_multiplier": 0, "pack_size": [ 1, 5 ] },
-      { "monster": "mon_mastodon", "weight": 10, "cost_multiplier": 0, "pack_size": [ 1, 5 ] }
+      { "monster": "mon_mastodon", "weight": 10, "cost_multiplier": 0, "pack_size": [ 1, 5 ] },
+      { "monster": "mon_giant_horse", "weight": 10, "pack_size": [ 3, 8 ] }
     ]
   },
   {
@@ -57,7 +58,8 @@
       { "monster": "mon_sewer_rat", "weight": 10 },
       { "monster": "mon_black_rat", "weight": 10 },
       { "monster": "mon_rattlesnake", "weight": 10 },
-      { "monster": "mon_lemming", "weight": 10 }
+      { "monster": "mon_lemming", "weight": 10 },
+      { "monster": "mon_giant_horse", "weight": 10 }
     ]
   }
 ]

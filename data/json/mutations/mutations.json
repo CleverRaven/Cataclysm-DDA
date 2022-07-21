@@ -8041,5 +8041,16 @@
     "player_display": false,
     "purifiable": false,
     "valid": false
+  },
+  {
+    "type": "mutation",
+    "id": "NYCTOPHOBIA",
+    "name": { "str": "Nyctophobia" },
+    "points": -3,
+    "description": "You are terribly afraid of the dark.  You refuse to enter very dark areas.  If you somehow still happen to stay in dark areas, you suffer from various detrimental mental and physical effects.",
+    "valid": false,
+    "purifiable": false,
+    "starting_trait": true,
+    "flags": [ "NYCTOPHOBIA" ]
   }
 ]

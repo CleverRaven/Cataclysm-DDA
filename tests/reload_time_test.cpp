@@ -26,7 +26,7 @@ static void check_reload_time( std::string weapon, std::string ammo,
 
     REQUIRE( !!shooter.used_weapon() );
     // Spooky action at a distance to tell load_RAS_weapon where to find the ammo.
-    item::reload_option opt = shooter.select_ammo( *shooter.used_weapon(), false );
+    item::reload_option opt = shooter.select_ammo( shooter.used_weapon(), false );
     shooter.ammo_location = opt.ammo;
 
     CAPTURE( opt.moves() );

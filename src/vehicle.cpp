@@ -3439,30 +3439,10 @@ int vehicle::consumption_per_hour( const itype_id &ftype, int fuel_rate_w ) cons
     if( fuel_rate_w == 0 || fuel.has_flag( flag_PERPETUAL ) || !engine_on ) {
         return 0;
     }
-    // consume this fuel type's share of alternator load for 3600 seconds
-    int amount_pct = 3600 * alternator_load / 1000;
 
-    // calculate fuel consumption for the lower of safe speed or 70 mph
-    // or 0 if the vehicle is idling
-    if( is_moving() ) {
-        int target_v = std::min( safe_velocity(), 70 * 100 );
-        int vslowdown = slowdown( target_v );
-        // add 3600 seconds worth of fuel consumption for the engine
-        // HACK: engines consume 1 second worth of fuel per turn, even though a turn is 6 seconds
-        if( vslowdown > 0 ) {
-            int accel = acceleration( true, target_v );
-            if( accel == 0 ) {
-                // FIXME: Long-term plan is to change the fuel consumption
-                // computation entirely; for now just warn if this would
-                // otherwise have been division-by-zero
-                debugmsg( "Vehicle unexpectedly has zero acceleration" );
-            } else {
-                amount_pct += 3600 * vslowdown / accel;
-            }
-        }
-    }
-    int energy_j_per_mL = fuel.fuel_energy() * 1000;
-    return -amount_pct * fuel_rate_w / energy_j_per_mL;
+    // constant is 3600 sec/hr * 1/1000 J/kJ
+    // expression units are mL/hr
+    return -3.6 * fuel_rate_w / fuel.fuel_energy();
 }
 
 int vehicle::total_power_w( const bool fueled, const bool safe ) const

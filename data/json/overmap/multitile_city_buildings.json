@@ -361,6 +361,29 @@
   },
   {
     "type": "city_building",
+    "id": "multi_unit_two_story_basement",
+    "locations": [ "land", "swamp" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "multi_unit_first_floor_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "multi_unit_top_floor_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "multi_unit_roof_north" },
+      { "point": [ 0, 0, -1 ], "overmap": "multi_unit_basement_north" }
+    ]
+  },
+  {
+    "type": "city_building",
+    "id": "multi_unit_three_story_basement",
+    "locations": [ "land", "swamp" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "multi_unit_first_floor_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "multi_unit_second_floor_of_three_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "multi_unit_top_floor_north" },
+      { "point": [ 0, 0, 3 ], "overmap": "multi_unit_roof_north" },
+      { "point": [ 0, 0, -1 ], "overmap": "multi_unit_basement_north" }
+    ]
+  },
+  {
+    "type": "city_building",
     "id": "garden_house_1",
     "locations": [ "land", "swamp" ],
     "overmaps": [
