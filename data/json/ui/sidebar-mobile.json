@@ -911,16 +911,21 @@
     ],
     "type": "widget"
   },
-  { "id": "w_moon_phase",       "width": 7,        "//": "TODO: add clause (when it will work) to show only at night",
+  { "id": "w_moon_phase",       "width": 7,      
     "style": "layout", "arrange": "minimum_columns",
-    "widgets": [
-      "l_moon_phase_left",
-      "i_moon_phase_text",
-      "l_moon_phase_right"
-    ],
     "clauses": [
-      { "id": "hide", "condition": "is_day" },
-      { "id": "show", "condition": { "not": "is_day" } }
+      { "id": "hide",
+        "condition": "is_day",
+        "widgets": [ "l_space" ]
+      },
+      { "id": "show",
+        "condition": { "not": "is_day" },
+        "widgets": [
+          "l_moon_phase_left",
+          "i_moon_phase_text",
+          "l_moon_phase_right"
+        ]        
+      }
     ],
     "type": "widget"
   },
@@ -1036,7 +1041,7 @@
     "widgets": [
       "w_time",
       "l_space",
-      "i_moon_phase_text"
+      "w_moon_phase"
     ],
     "type": "widget"
   },
