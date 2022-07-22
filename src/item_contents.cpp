@@ -440,8 +440,8 @@ bool pocket_favorite_callback::key( const input_context &ctxt, const input_event
         const std::vector<input_event> evlist = inp_mngr.get_input_for_action( ev, "INVENTORY" );
         if( cmenu.ret >= 0 && cmenu.ret <= 8 && !evlist.empty() ) {
             return key( ctxt, evlist.front(), -1, menu );
-
         }
+        return true;
     }
 
     return false;
