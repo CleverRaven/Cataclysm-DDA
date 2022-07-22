@@ -2926,8 +2926,8 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
         info.emplace_back( "GUN", _( "<bold>Base aim speed</bold>: " ), "<num>", iteminfo::no_flags,
                            player_character.aim_per_move( *mod, MAX_RECOIL ) );
         for( const aim_type &type : player_character.get_aim_types( *mod ) ) {
-            // Nameless aim levels don't get an entry.
-            if( type.name.empty() ) {
+            // Nameless and immediate aim levels don't get an entry.
+            if( type.name.empty() || type.threshold == static_cast<int>( MAX_RECOIL ) ) {
                 continue;
             }
             // For item comparison to work correctly each info object needs a
