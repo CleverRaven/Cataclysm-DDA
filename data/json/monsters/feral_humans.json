@@ -1140,7 +1140,7 @@
     "name": { "str": "feral cop" },
     "description": "Another of the crazed humans among the dead.  This police officer angrily mutters to themselves, wandering about with a truncheon in hand in search of someone to brutalize.",
     "bodytype": "human",
-    "default_faction": "feral_cop",
+    "default_faction": "feral_police",
     "species": [ "HUMAN" ],
     "volume": "62500 ml",
     "weight": "81500 g",
