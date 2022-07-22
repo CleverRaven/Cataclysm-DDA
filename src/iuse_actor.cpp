@@ -689,12 +689,13 @@ cata::optional<int> unfold_vehicle_iuse::use( Character &p, item &it, bool, cons
         }
     }
 
-    vehicle *veh = get_map().add_vehicle( vehicle_id, p.pos(), 0_degrees, 0, 0, false );
+    map &here = get_map();
+    vehicle *veh = here.add_vehicle( vehicle_id, p.pos(), 0_degrees, 0, 0, false );
     if( veh == nullptr ) {
         p.add_msg_if_player( m_info, _( "There's no room to unfold the %s." ), it.tname() );
         return cata::nullopt;
     }
-    veh->set_owner( p );
+    veh->suspend_refresh();
     // Set damage and degradation based on source item.
     // This is to preserve the item's state if it has
     // never been unfolded (no saved parts data).
@@ -716,6 +717,12 @@ cata::optional<int> unfold_vehicle_iuse::use( Character &p, item &it, bool, cons
         veh->toggle_tracking(); // restore position tracking state
     }
     p.moves -= moves;
+    veh->set_owner( p );
+    veh->enable_refresh();
+    here.add_vehicle_to_cache( veh );
+    if( here.veh_at( p.pos() ).part_with_feature( "BOARDABLE", true ) ) {
+        here.board_vehicle( p.pos(), &p ); // if boardable unbroken part is present -> get on it
+    }
     // Restore HP of parts if we stashed them previously.
     if( it.has_var( "folding_bicycle_parts" ) ) {
         // Brand new, no HP stored

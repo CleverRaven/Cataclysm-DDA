@@ -5246,11 +5246,11 @@ cata::optional<int> iuse::unfold_generic( Character *p, item *it, bool, const tr
     }
     map &here = get_map();
     vehicle *veh = here.add_vehicle( vehicle_prototype_none, p->pos(), 0_degrees, 0, 0, false );
-    veh->suspend_refresh();
     if( veh == nullptr ) {
         p->add_msg_if_player( m_info, _( "There's no room to unfold the %s." ), it->tname() );
         return cata::nullopt;
     }
+    veh->suspend_refresh();
     veh->name = it->get_var( "vehicle_name" );
     if( !veh->restore( it->get_var( "folding_bicycle_parts" ) ) ) {
         here.destroy_vehicle( veh );
@@ -5273,8 +5273,12 @@ cata::optional<int> iuse::unfold_generic( Character *p, item *it, bool, const tr
             return 0;
         }
     }
+    veh->set_owner( *p );
     veh->enable_refresh();
     here.add_vehicle_to_cache( veh );
+    if( here.veh_at( p->pos() ).part_with_feature( VPFLAG_BOARDABLE, true ) ) {
+        here.board_vehicle( p->pos(), p ); // if boardable unbroken part is present -> get on it
+    }
 
     std::string unfold_msg = it->get_var( "unfold_msg" );
     if( unfold_msg.empty() ) {
@@ -5282,7 +5286,6 @@ cata::optional<int> iuse::unfold_generic( Character *p, item *it, bool, const tr
     } else {
         unfold_msg = _( unfold_msg );
     }
-    veh->set_owner( *p );
     p->add_msg_if_player( m_neutral, unfold_msg, veh->name );
 
     if( p->is_avatar() && it->get_var( "tracking", 0 ) == 1 ) {
