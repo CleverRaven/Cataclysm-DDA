@@ -4,8 +4,8 @@
     "type": "talk_topic",
     "dynamic_line": "&Whatever is actually happening your mind perceives you sitting as a judge in a courtroom.  Before you a prisoner awaits judgement.",
     "responses": [
-      { "text": "Declare them guilty", "topic": "TALK_NETHER_JUDGE_GUILTY" },
-      { "text": "Declare them innocent", "topic": "TALK_NETHER_JUDGE_INNOCENT" },
+      { "text": "Declare them guilty.", "topic": "TALK_NETHER_JUDGE_GUILTY" },
+      { "text": "Declare them innocent.", "topic": "TALK_NETHER_JUDGE_INNOCENT" },
       { "text": "Declare a mistrial.", "topic": "TALK_NETHER_JUDGE_MISTRIAL" }
     ]
   },
@@ -14,9 +14,9 @@
     "type": "talk_topic",
     "dynamic_line": "&The prisoner looks at you with a an expression of resigned sadness and quietly says \"I suppose it was naive to hope for justice from one such as you.\".  As they are sent away to die, your attendant asks what you would like to do next.",
     "responses": [
-      { "text": "Order lunch", "topic": "TALK_NETHER_JUDGE_GUILTY_LUNCH" },
-      { "text": "Send in the next case", "topic": "TALK_NETHER_JUDGE_GUILTY_NEXT" },
-      { "text": "Take a quick break to clear your head", "topic": "TALK_NETHER_JUDGE_GUILTY_BREAK" }
+      { "text": "Order lunch.", "topic": "TALK_NETHER_JUDGE_GUILTY_LUNCH" },
+      { "text": "Send in the next case.", "topic": "TALK_NETHER_JUDGE_GUILTY_NEXT" },
+      { "text": "Take a quick break to clear your head.", "topic": "TALK_NETHER_JUDGE_GUILTY_BREAK" }
     ]
   },
   {
@@ -24,9 +24,9 @@
     "type": "talk_topic",
     "dynamic_line": "&As always the chef is a genius and it is a lunch to die for.  In this case literally.  You can feel your life draining quickly away, with time for a last action.",
     "responses": [
-      { "text": "Accuse the chef of poisoning you and order him killed", "topic": "TALK_DONE" },
-      { "text": "See it as a divine judgement on your actions and humbly accept this death", "topic": "TALK_DONE" },
-      { "text": "Loudly cry out for a doctor", "topic": "TALK_DONE" }
+      { "text": "Accuse the chef of poisoning you and order him killed.", "topic": "TALK_DONE" },
+      { "text": "See it as a divine judgement on your actions and humbly accept this death.", "topic": "TALK_DONE" },
+      { "text": "Loudly cry out for a doctor.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -34,9 +34,9 @@
     "type": "talk_topic",
     "dynamic_line": "&You do your best to pay attention to the details of the new case but there are a lot of them and some slip by.  In the end you are uncertain as to the actual truth but the crowds desired outcome is clear.",
     "responses": [
-      { "text": "Go with the crowds opinion", "topic": "TALK_DONE" },
-      { "text": "Go against the crowd", "topic": "TALK_DONE" },
-      { "text": "Pass the case off to a higher authority", "topic": "TALK_DONE" }
+      { "text": "Go with the crowds opinion.", "topic": "TALK_DONE" },
+      { "text": "Go against the crowd.", "topic": "TALK_DONE" },
+      { "text": "Pass the case off to a higher authority.", "topic": "TALK_DONE" }
     ]
   },
   {
