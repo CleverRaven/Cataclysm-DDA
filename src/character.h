@@ -3445,7 +3445,6 @@ class Character : public Creature, public visitable
         /** Processes human-specific effects of an effect. */
         void process_one_effect( effect &it, bool is_new ) override;
 
-    public:
         /**
          * Map body parts to their total exposure, from 0.0 (fully covered) to 1.0 (buck naked).
          * Clothing layers are multiplied, ex. two layers of 50% coverage will leave only 25% exposed.
