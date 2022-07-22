@@ -37,7 +37,8 @@
       { "monster": "mon_zombie_bio_op", "weight": 50, "cost_multiplier": 5 },
       { "monster": "mon_zombie_bio_op2", "weight": 25, "cost_multiplier": 5, "starts": "60 days" },
       { "monster": "mon_zombie_armored", "weight": 10, "cost_multiplier": 5 },
-      { "monster": "mon_feral_soldier", "weight": 15 }
+      { "monster": "mon_feral_soldier", "weight": 15 },
+      { "monster": "mon_feral_soldier_flamer", "weight": 7, "starts": "20 days" }
     ]
   },
   {
@@ -57,7 +58,8 @@
       { "monster": "mon_zombie_scorched", "weight": 25 },
       { "monster": "mon_zombie_hazmat", "weight": 25 },
       { "monster": "mon_zombie", "weight": 10 },
-      { "monster": "mon_feral_soldier", "weight": 15 }
+      { "monster": "mon_feral_soldier", "weight": 15 },
+      { "monster": "mon_feral_soldier_flamer", "weight": 7, "starts": "20 days" }
     ]
   },
   {
@@ -90,7 +92,8 @@
       { "monster": "mon_zombie_milbase_personnel", "weight": 50 },
       { "monster": "mon_zombie_military_pilot", "weight": 5 },
       { "monster": "mon_zombie_flamer", "weight": 1, "cost_multiplier": 30 },
-      { "monster": "mon_feral_soldier", "weight": 75 }
+      { "monster": "mon_feral_soldier", "weight": 75 },
+      { "monster": "mon_feral_soldier_flamer", "weight": 37, "starts": "20 days" }
     ]
   },
   {
@@ -124,7 +127,8 @@
       { "monster": "mon_zombie_military_pilot", "weight": 20 },
       { "monster": "mon_zombie_flamer", "weight": 1, "cost_multiplier": 30 },
       { "monster": "mon_zombie_scientist", "weight": 100 },
-      { "monster": "mon_feral_soldier", "weight": 75 }
+      { "monster": "mon_feral_soldier", "weight": 75 },
+      { "monster": "mon_feral_soldier_flamer", "weight": 37, "starts": "20 days" }
     ]
   },
   {
