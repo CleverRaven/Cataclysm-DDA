@@ -282,8 +282,8 @@ std::string trim_by_length( const std::string  &text, int width )
         for( size_t i = 0; i < color_segments.size() ; ++i ) {
             std::string seg = color_segments[i];
             if( seg == "" ) {
-                //TODO: Check is required right now because, for a fully-color-tagged string, split_by_color
-                //returns an empty string first
+                // TODO: Check is required right now because, for a fully-color-tagged string, split_by_color
+                // returns an empty string first
                 continue;
             }
             sColor.clear();
@@ -310,21 +310,21 @@ std::string trim_by_length( const std::string  &text, int width )
             int pos = 0;
             bool trimmed = false;
             if( iLength > width || ( iLength == width && i + 1 < color_segments.size() ) ) {
-                //This segment won't fit OR
-                //This segment just fits and there's another segment coming
+                // This segment won't fit OR
+                // This segment just fits and there's another segment coming
                 cursorx_to_position( sTempText.c_str(), iTempLen - ( iLength - width ) - 1, &pos, -1 );
                 sTempText = sColor + sTempText.substr( 0, pos ) + sEllipses + sColorClose;
                 trimmed = true;
             } else if( iLength + next_char_width >= width ) {
-                //This segments fits, but the next segment starts with a wide character
+                // This segments fits, but the next segment starts with a wide character
                 sTempText = sColor + sTempText + sColorClose + sEllipses;
                 trimmed = true;
             }
 
             if( trimmed ) {
-                sText += sTempText;//Color tags were handled when the segment was trimmed
+                sText += sTempText; // Color tags were handled when the segment was trimmed
                 break;
-            } else { //This segment fits, and the next one has room to start
+            } else { // This segment fits, and the next one has room to start
                 sText += sColor + sTempText + sColorClose;
             }
         }
