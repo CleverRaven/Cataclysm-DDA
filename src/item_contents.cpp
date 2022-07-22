@@ -201,10 +201,6 @@ void pocket_favorite_callback::move_item( uilist *menu, item_pocket *selected_po
                 // move through the pockets as you process entries
                 ++itt;
             }
-
-
-
-
         }
     } else {
         // storage should mimick character inserting
