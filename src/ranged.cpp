@@ -1641,7 +1641,7 @@ static int print_ranged_chance( const catacurses::window &w, int line_number,
                                 const std::vector<aim_type_prediction> &aim_chances )
 {
     std::vector<aim_type_prediction> sorted = aim_chances;
-    
+
     // Sort aim types so that 'current' mode is placed at the current probability it provides
     // TODO: consider removing it, but for now it demonstrates the odds changing pretty well
     std::sort( sorted.begin(), sorted.end(),
@@ -1649,14 +1649,102 @@ static int print_ranged_chance( const catacurses::window &w, int line_number,
         return lhs.chance_to_hit <= rhs.chance_to_hit;
     } );
 
-    const int width = getmaxx( w ) - 2; // window width minus borders
+    int width = getmaxx( w ) - 2; // window width minus borders
+    const int bars_pad = 3;
     bool display_numbers = get_option<std::string>( "ACCURACY_DISPLAY" ) == "numbers";
     std::string panel_type = panel_manager::get_manager().get_current_layout_id();
     nc_color col = c_light_gray;
-    
+
     // Start printing by panel type, inside each branch whether to output numbers or "bars"
     if( panel_type == "legacy_labels_narrow_sidebar" ) {
-    } else if (panel_type == "legacy_compact_sidebar") {
+        // TODO: who uses this? this is broken likely since work started
+        // on sidebar widgets and yet nobody complains...
+        std::vector<std::string> t_aims( 4 );
+        std::vector<std::string> t_confidence( 20 );
+        int aim_iter = 0;
+        int conf_iter = 0;
+        if( !display_numbers ) {
+            width -= bars_pad;
+            int column_number = 1;
+            for( const confidence_rating &cr : aim_chances.front().ratings ) {
+                std::string label = pgettext( "aim_confidence", cr.label.c_str() );
+                std::string symbols = string_format( "<color_%s>%s</color> = %s", cr.color, cr.symbol, label );
+                int line_len = utf8_width( label ) + 5; // 5 for '# = ' and whitespace at end
+                if( ( width + bars_pad - column_number ) < line_len ) {
+                    column_number = 1;
+                    line_number++;
+                }
+                print_colored_text( w, point( column_number, line_number ), col, col, symbols );
+                column_number += line_len;
+            }
+            line_number++;
+        } else {
+            std::string symbols = _( " <color_green>Great</color> <color_light_gray>Normal</color>"
+                                     " <color_magenta>Graze</color> <color_dark_gray>Miss</color> <color_light_blue>Moves</color>" );
+            fold_and_print( w, point( 1, line_number++ ), width + bars_pad,
+                            c_dark_gray, symbols );
+            int len = utf8_width( symbols ) - 121; // to subtract color codes
+            if( len > width + bars_pad ) {
+                line_number++;
+            }
+            for( int i = 0; i < width; i++ ) {
+                mvwprintw( w, point( i + 1, line_number ), "-" );
+            }
+        }
+        for( const aim_type_prediction &out : sorted ) {
+            std::string label = _( "Current" );
+            std::string aim_l = _( "Aim" );
+
+            if( display_numbers ) {
+                t_aims[aim_iter] = string_format( "<color_dark_gray>%s:</color>", label );
+                t_confidence[( aim_iter * 5 ) + 4] = string_format( "<color_light_blue>%d</color>", out.moves );
+            } else {
+                print_colored_text( w, point( 1, line_number ), col, col, string_format( _( "%s %s:" ), label,
+                                    aim_l ) );
+                right_print( w, line_number++, 1, c_light_blue, _( "Moves" ) );
+                right_print( w, line_number, 1, c_light_blue, string_format( "%d", out.moves ) );
+            }
+
+            double confidence = out.confidence;
+
+            if( display_numbers ) {
+                int last_chance = 0;
+                conf_iter = 0;
+                for( const confidence_rating &cr : aim_chances.front().ratings ) {
+                    int chance = std::min<int>( 100, 100.0 * ( cr.aim_level ) * confidence ) - last_chance;
+                    last_chance += chance;
+                    t_confidence[conf_iter + ( aim_iter * 5 )] = string_format( "<color_%s>%3d%%</color>", cr.color,
+                            chance );
+                    conf_iter++;
+                    if( conf_iter == 3 ) {
+                        t_confidence[conf_iter + ( aim_iter * 5 )] = string_format( "<color_%s>%3d%%</color>", "dark_gray",
+                                100 - last_chance );
+                    }
+                }
+                aim_iter++;
+            } else {
+                std::vector<std::tuple<double, char, std::string>> confidence_ratings;
+                std::transform( out.ratings.begin(), out.ratings.end(), std::back_inserter( confidence_ratings ),
+                [&]( const confidence_rating & config ) {
+                    return std::make_tuple( config.aim_level, config.symbol, config.color );
+                } );
+
+                print_colored_text( w, point( 1, line_number++ ), col, col,
+                                    get_colored_bar( confidence, width, "", confidence_ratings.begin(), confidence_ratings.end() ) );
+            }
+        }
+
+        // Draw tables for compact Numbers display
+        if( display_numbers ) {
+            const std::string divider = "|";
+            int left_pad = 8;
+            int columns = 5;
+            insert_table( w, left_pad, ++line_number, columns, c_light_gray, divider, true, t_confidence );
+            insert_table( w, 0, line_number, 1, c_light_gray, "", false, t_aims );
+            line_number = line_number + 4; // 4 to account for the tables
+        }
+        return line_number;
+    } else if( panel_type == "legacy_compact_sidebar" ) {
     } else { // there's more legacy sidebars but appear to not be used
         for( const aim_type_prediction &out : sorted ) {
             std::string desc;
