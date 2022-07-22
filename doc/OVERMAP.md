@@ -343,11 +343,12 @@ each normal special has a very high chance of being placed at least once per ove
 quirks of the code (most notably, the number of specials is only slightly more than the number of slots per
 overmap, specials that failed placement don't get disqualified and can be rolled for again, and placement iterates
 until all sectors are occupied). For specials that are not common enough to warrant appearing more
-than once per overmap please use the "UNIQUE" flag.
+than once per overmap please use the "UNIQUE" flag. For specials that should only have one instance
+per world use "GLOBALLY_UNIQUE".
 
-### Occurrences ( UNIQUE )
+### Occurrences ( UNIQUE, GLOBALLY_UNIQUE )
 
-When the special has the "UNIQUE" flag, instead of defining the minimum and maximum number placed
+When the special has the "UNIQUE" or "GLOBALLY_UNIQUE" flag, instead of defining the minimum and maximum number placed.
 the occurrences field defines the chance of the special to be included in any one given overmap.
 Before any placement rolls, all specials with this flag have to succeed in an x_in_y (first value, second
 value) roll to be included in the `overmap_special_batch` for the currently generated overmap;
