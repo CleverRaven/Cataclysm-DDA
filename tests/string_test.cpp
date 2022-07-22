@@ -27,7 +27,7 @@ static void output_string_trimming_results( const std::string &inputString )
 {
     std::cout << "Segments: " << std::endl;
     std::vector<std::string> testSegments = split_by_color( inputString );
-    for( std::string seg : testSegments ) {
+    for( const std::string &seg : testSegments ) {
         std::cout << seg << std::endl;
     }
     std::cout << "Fit test: " << std::endl;
@@ -60,8 +60,8 @@ TEST_CASE( "trim_by_length", "[string_trimming]" )
                            36 ) == "MRE 主菜（鸡肉意大利香蒜沙司通心粉…" );
 
     // Check handling of empty strings, 0-width (leaving … on 0-width tells the user that something should be there)
-    CHECK( trim_by_length( "", 5 ) == "" );
-    CHECK( trim_by_length( "", 0 ) == "" );
+    CHECK( trim_by_length( "", 5 ).empty() );
+    CHECK( trim_by_length( "", 0 ).empty() );
     CHECK( trim_by_length( "test string", 0 ) == "…" );
 
     // Check trimming at color tag breaks

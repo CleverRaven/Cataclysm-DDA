@@ -270,18 +270,20 @@ void trim_and_print( const catacurses::window &w, const point &begin,
 std::string trim_by_length( const std::string  &text, int width )
 {
     std::string sText;
+    sText.reserve( width );
     if( utf8_width( remove_color_tags( text ) ) > width ) {
 
         int iLength = 0;
         std::string sTempText;
+        sTempText.reserve( width );
         std::string sColor;
         std::string sColorClose;
-        std::string sEllipses = "\u2026";
+        std::string sEllipsis = "\u2026";
 
         const std::vector<std::string> color_segments = split_by_color( text );
         for( size_t i = 0; i < color_segments.size() ; ++i ) {
             std::string seg = color_segments[i];
-            if( seg == "" ) {
+            if( seg.empty() ) {
                 // TODO: Check is required right now because, for a fully-color-tagged string, split_by_color
                 // returns an empty string first
                 continue;
@@ -313,11 +315,11 @@ std::string trim_by_length( const std::string  &text, int width )
                 // This segment won't fit OR
                 // This segment just fits and there's another segment coming
                 cursorx_to_position( sTempText.c_str(), iTempLen - ( iLength - width ) - 1, &pos, -1 );
-                sTempText = sColor + sTempText.substr( 0, pos ) + sEllipses + sColorClose;
+                sTempText = sColor.append( sTempText.substr( 0, pos ) ).append( sEllipsis ).append( sColorClose );
                 trimmed = true;
             } else if( iLength + next_char_width >= width ) {
                 // This segments fits, but the next segment starts with a wide character
-                sTempText = sColor + sTempText + sColorClose + sEllipses;
+                sTempText = sColor.append( sTempText ).append( sColorClose ).append( sEllipsis );
                 trimmed = true;
             }
 
@@ -325,7 +327,7 @@ std::string trim_by_length( const std::string  &text, int width )
                 sText += sTempText; // Color tags were handled when the segment was trimmed
                 break;
             } else { // This segment fits, and the next one has room to start
-                sText += sColor + sTempText + sColorClose;
+                sText += sColor.append( sTempText ).append( sColorClose );
             }
         }
     } else {
