@@ -732,7 +732,7 @@
   },
   {
     "id": "armor_bio_eyes",
-    "//": "These do not preclude wearing glasses, but you'll get double-up penalties.  If you really needed too you could likely still situate the lenses in front of them.  You should probably just augment your eyes though.",
+    "//": "These do not preclude wearing glasses, but you'll get double-up penalties.  If you really needed to you could likely still situate the lenses in front of them.  You should probably just augment your eyes though.",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str_sp": "protective lenses" },
@@ -764,7 +764,7 @@
     ]
   },
   {
-    "id": "armor_bio_nanotube_filament",
+    "id": "armor_bio_carbon_filament",
     "type": "ARMOR",
     "category": "armor",
     "weight": "500 g",
@@ -777,7 +777,7 @@
     "environmental_protection": 1,
     "material_thickness": 1.25,
     "flags": [ "INTEGRATED", "UNBREAKABLE", "PERSONAL", "PADDED", "WATER_FRIENDLY", "SOFT", "NO_REPAIR", "ALLOWS_NATURAL_ATTACKS" ],
-    "material": [ "superalloy" ],
+    "material": [ "nanotubes" ],
     "name": { "str_sp": "subdermal carbon filament" },
     "description": "A layer of thin carbon nanotubes implanted in your skin.  Helps protect your vitals from laceration.",
     "armor": [
