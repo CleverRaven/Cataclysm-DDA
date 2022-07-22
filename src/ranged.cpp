@@ -1537,9 +1537,10 @@ static recoil_prediction predict_recoil( const Character &you, const item &weapo
         return { start_recoil, 0 };
     }
 
-    double predicted_recoil = you.recoil;
+    double predicted_recoil = start_recoil;
     int predicted_delay = 0;
 
+    // next loop simulates aiming until either aim mode threshold or sight_dispersion is reached
     do {
         double aim_amount = you.aim_per_move( weapon, predicted_recoil, target );
         if( aim_amount > 0 ) {
