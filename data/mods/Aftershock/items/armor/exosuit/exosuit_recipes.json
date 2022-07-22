@@ -24,7 +24,7 @@
     "type": "recipe",
     "activity_level": "BRISK_EXERCISE",
     "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_HEAD",
+    "subcategory": "CSC_ARMOR_TORSO",
     "skill_used": "fabrication",
     "difficulty": 9,
     "time": "1 d",
@@ -44,7 +44,7 @@
     "type": "recipe",
     "activity_level": "BRISK_EXERCISE",
     "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_HEAD",
+    "subcategory": "CSC_ARMOR_ARM",
     "skill_used": "fabrication",
     "difficulty": 9,
     "time": "16 h",
@@ -64,7 +64,7 @@
     "type": "recipe",
     "activity_level": "BRISK_EXERCISE",
     "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_HEAD",
+    "subcategory": "CSC_ARMOR_LEG",
     "skill_used": "fabrication",
     "difficulty": 9,
     "time": "16 h",
@@ -78,5 +78,24 @@
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_quenching", "fail_multiplier": 2 }
     ]
+  },
+  {
+    "result": "exo_helmet_plastic_plate",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "fabrication",
+    "difficulty": 7,
+    "book_learn": [ [ "plastics_book", 7 ] ],
+    "skills_required": [ [ "tailor", 2 ] ],
+    "time": "260 m",
+    "using": [
+      [ "plastic_molding", 4 ],
+      [ "soldering_standard", 10 ],
+      [ "surface_heat", 10 ],
+      [ "damaged_exo_helmet_plastic_plate", 1 ]
+    ],
+    "proficiencies": [ { "proficiency": "prof_plasticworking" } ]
   }
 ]
