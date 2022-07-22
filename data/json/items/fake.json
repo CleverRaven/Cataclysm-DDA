@@ -375,7 +375,7 @@
     "copy-from": "fake_item",
     "type": "TOOL",
     "name": { "str": "light hoist" },
-    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO" ],
     "qualities": [ [ "LIFT", 2 ] ]
   },
   {
@@ -383,7 +383,7 @@
     "copy-from": "fake_item",
     "type": "TOOL",
     "name": { "str": "sturdy hoist" },
-    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO" ],
     "qualities": [ [ "LIFT", 8 ] ]
   },
   {
@@ -391,7 +391,7 @@
     "copy-from": "fake_item",
     "type": "TOOL",
     "name": { "str": "heavy-duty hoist" },
-    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO" ],
     "qualities": [ [ "LIFT", 40 ] ]
   }
 ]
