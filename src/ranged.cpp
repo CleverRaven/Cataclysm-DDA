@@ -1506,9 +1506,10 @@ struct aim_type_prediction {
 
     std::string name;
     std::string hotkey;
-    std::vector<aim_confidence> configs;
+    std::vector<aim_confidence> chances;
     bool is_default;
     int moves;
+    int chance_to_hit; // all hit probabilities summed up for sorting
     double steadiness;
 };
 
@@ -1585,6 +1586,13 @@ static std::vector<aim_type_prediction> calculate_ranged_chances(
         const recoil_prediction aim_to_selected = predict_recoil( you, weapon, target,
                 ui.get_sight_dispersion(), ui.get_selected_aim_type(), you.recoil );
 
+        // if the default method is "behind" the selected; e.g. you are in immediate
+        // firing mode with almost close no chances of hitting, but UI has selected
+        // "precise" this will "catch up" the default method adding the required moves
+        // and steadiness that it will gain if player presses fire, so pressing fire
+        // hotkey in this case will actually use 'precise' aim mode.
+        // in case where it already surpassed the UI selected mode this should be a
+        // no-op.
         if( prediction.is_default ) {
             prediction.moves += aim_to_selected.moves;
             prediction.steadiness = calc_steadiness( you, weapon, pos, aim_to_selected.recoil );
@@ -1592,41 +1600,39 @@ static std::vector<aim_type_prediction> calculate_ranged_chances(
             prediction.steadiness = calc_steadiness( you, weapon, pos, aim_to_type.recoil );
         }
 
-        // adjust given dispersion and calculate confidence estimates
+        // make a copy of the given dispersion, apply the aiming and calculate hit confidence
         dispersion_sources current_dispersion = dispersion;
         current_dispersion.add_range( aim_type.has_threshold ? aim_type.threshold :
                                       aim_to_selected.recoil );
         const double confidence = confidence_estimate( target, current_dispersion );
 
-        int chances_sum = 0;
         for( const confidence_rating &rating : confidence_ratings ) {
-            const int chance = std::min<int>( 100, 100 * rating.aim_level * confidence ) - chances_sum;
-            prediction.configs.push_back( {rating.label, rating.color, chance} );
-            chances_sum += chance;
+            const int chance = std::min<int>( 100, 100 * rating.aim_level * confidence )
+                               - prediction.chance_to_hit;
+            prediction.chances.push_back( {rating.label, rating.color, chance} );
+            prediction.chance_to_hit += chance;
         }
+
         // The missing odds are the "misses"
-        prediction.configs.push_back( { _( "Miss" ), "light_gray", 100 - chances_sum } );
+        prediction.chances.push_back( { _( "Miss" ), "light_gray", 100 - prediction.chance_to_hit } );
 
         aim_outputs.push_back( prediction );
     }
     return aim_outputs;
 }
 
-static int print_ranged_chance( const target_ui &ui, const Character &you,
-                                const catacurses::window &w, int &line_number,
-                                target_ui::TargetMode mode, const input_context &ctxt, const item &weapon,
-                                const dispersion_sources &dispersion, const std::vector<confidence_rating> &confidence_config,
-                                const Target_attributes &target, std::vector<aim_type_prediction> aim_chances, const tripoint &pos )
+static int print_ranged_chance( const catacurses::window &w, int line_number,
+                                const std::vector<aim_type_prediction> &aim_chances )
 {
     nc_color col = c_light_gray;
+    std::vector<aim_type_prediction> sorted = aim_chances;
 
-    // sort so that 'current' mode is properly sorted in
-    std::sort( aim_chances.begin(), aim_chances.end(), []( const auto & lhs, const auto & rhs ) {
-        // sort by "normal" hit chance, highest numbers for better odds of tie breaker
-        return lhs.configs[1].chance <= rhs.configs[1].chance;
+    // sort aim types so that 'current' mode is placed at the current probability it provides
+    std::sort( sorted.begin(), sorted.end(), []( const auto & lhs, const auto & rhs ) {
+        return lhs.chance_to_hit <= rhs.chance_to_hit;
     } );
 
-    for( const aim_type_prediction &out : aim_chances ) {
+    for( const aim_type_prediction &out : sorted ) {
         std::string desc;
         if( out.is_default ) {
             desc = string_format( "<color_white>[%s] %s %s</color> %s: <color_light_green>%3d</color> %s: <color_light_green>%3d</color>",
@@ -1642,7 +1648,7 @@ static int print_ranged_chance( const target_ui &ui, const Character &you,
 
         print_colored_text( w, point( 1, line_number++ ), col, col, desc );
 
-        const std::string line = enumerate_as_string( out.configs.cbegin(), out.configs.cend(),
+        const std::string line = enumerate_as_string( out.chances.cbegin(), out.chances.cend(),
         []( const aim_type_prediction::aim_confidence & conf ) {
             const std::string label_loc = pgettext( "aim_confidence", conf.label.c_str() );
             return string_format( "%s: <color_%s>%3d%%</color>", label_loc, conf.color, conf.chance );
@@ -1663,7 +1669,7 @@ static bool pl_sees( const Creature &cr )
 }
 
 static int print_aim( const target_ui &ui, Character &you, const catacurses::window &w,
-                      int &line_number, input_context &ctxt, const item &weapon, double target_size,
+                      int line_number, input_context &ctxt, const item &weapon, double target_size,
                       const tripoint &pos )
 {
     // This is absolute accuracy for the player.
@@ -1686,8 +1692,7 @@ static int print_aim( const target_ui &ui, Character &you, const catacurses::win
             target_ui::TargetMode::Fire, ctxt, weapon, dispersion, confidence_config,
             Target_attributes( you.pos(), pos ), pos );
 
-    return print_ranged_chance( ui, you, w, line_number, target_ui::TargetMode::Fire, ctxt, weapon,
-                                dispersion, confidence_config, Target_attributes( you.pos(), pos ), aim_chances, pos );
+    return print_ranged_chance( w, line_number, aim_chances );
 }
 
 static void draw_throw_aim( const target_ui &ui, const Character &you, const catacurses::window &w,
@@ -1726,8 +1731,7 @@ static void draw_throw_aim( const target_ui &ui, const Character &you, const cat
     const std::vector<aim_type_prediction> aim_chances = calculate_ranged_chances( ui, you,
             throwing_target_mode, ctxt, weapon, dispersion, confidence_config, attributes, target_pos );
 
-    text_y = print_ranged_chance( ui, you, w, text_y, throwing_target_mode, ctxt, weapon, dispersion,
-                                  confidence_config, attributes, aim_chances, target_pos );
+    text_y = print_ranged_chance( w, text_y, aim_chances );
 }
 
 std::vector<aim_type> Character::get_aim_types( const item &gun ) const
