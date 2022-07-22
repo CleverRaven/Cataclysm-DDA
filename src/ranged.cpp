@@ -1497,6 +1497,10 @@ Target_attributes::Target_attributes( int rng, double target_size, float light_t
     visible = can_see;
 }
 
+/*
+* struct used to hold the information on entire aim_type prediction;
+* all the properties and odds for every 'confidence' outcome
+*/
 struct aim_type_prediction {
     struct aim_confidence {
         std::string label;
@@ -1513,11 +1517,18 @@ struct aim_type_prediction {
     double steadiness;
 };
 
+// struct used for returning values from predict_recoil()
+// recoil is the either the sight dispersion or the aim mode's threshold
+// moves it the amount of moves it'll take to reach that aim state
 struct recoil_prediction {
     double recoil;
     int moves;
 };
 
+/*
+* This method tries to estimate the amount of moves required to reach
+* the aim mode's recoil threshold or the sight's dispersion value
+*/
 static recoil_prediction predict_recoil( const Character &you, const item &weapon,
         const Target_attributes &target, int sight_dispersion,
         const aim_type &aim_mode, double start_recoil )
@@ -1535,17 +1546,17 @@ static recoil_prediction predict_recoil( const Character &you, const item &weapo
             predicted_delay++;
             predicted_recoil = std::max( predicted_recoil - aim_amount, 0.0 );
         }
-    } while( predicted_recoil > aim_mode.threshold && predicted_recoil - sight_dispersion > 0 );
+    } while( predicted_recoil > aim_mode.threshold && predicted_recoil > sight_dispersion );
 
     return { predicted_recoil, predicted_delay };
 }
 
 /*
-* This method takes a bunch of parameters in and calculates the ranged chances
-* These can then be used to draw a UI, the returned vector contains all the
+* This method calculates the ranged to-hit chances, split by
+* confidence ratings for UI display purposes.
+* The returned vector contains all the
 * a mapping of all weapon aiming modes to their chance predictions.
-*
-* Inside each prediction there is also a vector of "confidences";
+* Inside each prediction there is a vector of "confidences";
 * they represent the great/hit/graze/miss chances.
 */
 static std::vector<aim_type_prediction> calculate_ranged_chances(
@@ -1558,7 +1569,7 @@ static std::vector<aim_type_prediction> calculate_ranged_chances(
     std::vector<aim_type_prediction> aim_outputs;
 
     if( mode != target_ui::TargetMode::Throw && mode != target_ui::TargetMode::ThrowBlind ) {
-        aim_types = you.get_aim_types( weapon ); // if not throwing get full list of aim types
+        aim_types = you.get_aim_types( weapon );
     }
 
     for( const aim_type &aim_type : aim_types ) {
@@ -1604,8 +1615,9 @@ static std::vector<aim_type_prediction> calculate_ranged_chances(
         dispersion_sources current_dispersion = dispersion;
         current_dispersion.add_range( aim_type.has_threshold ? aim_type.threshold :
                                       aim_to_selected.recoil );
-        const double confidence = confidence_estimate( target, current_dispersion );
 
+        // this loop fills in the "confidence" values; the chances of great/good/graze outcomes
+        const double confidence = confidence_estimate( target, current_dispersion );
         for( const confidence_rating &rating : confidence_ratings ) {
             const int chance = std::min<int>( 100, 100 * rating.aim_level * confidence )
                                - prediction.chance_to_hit;
@@ -1613,7 +1625,7 @@ static std::vector<aim_type_prediction> calculate_ranged_chances(
             prediction.chance_to_hit += chance;
         }
 
-        // The missing odds are the "misses"
+        // Adds the "miss" outcome
         prediction.chances.push_back( { _( "Miss" ), "light_gray", 100 - prediction.chance_to_hit } );
 
         aim_outputs.push_back( prediction );
@@ -1627,7 +1639,8 @@ static int print_ranged_chance( const catacurses::window &w, int line_number,
     nc_color col = c_light_gray;
     std::vector<aim_type_prediction> sorted = aim_chances;
 
-    // sort aim types so that 'current' mode is placed at the current probability it provides
+    // Sort aim types so that 'current' mode is placed at the current probability it provides
+    // TODO: consider removing it, but for now it demonstrates the odds changing pretty well
     std::sort( sorted.begin(), sorted.end(), []( const auto & lhs, const auto & rhs ) {
         return lhs.chance_to_hit <= rhs.chance_to_hit;
     } );
