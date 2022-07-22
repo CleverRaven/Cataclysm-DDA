@@ -218,6 +218,8 @@ class widget
         std::string _style;
         // Displayed label in the UI
         translation _label;
+        // Description and help displayed in the UI
+        std::string _description;
         // Width of the longest label within this layout's widgets (for "rows")
         int _label_width = 0;
         // Separator used to separate the label from the text. This is inherited from any parent widgets if none is found.

@@ -1,6 +1,7 @@
 [
   {
     "id": "structured_time_moon_layout",
+    "description": "Shows date, time and moon phase.",
     "type": "widget",
     "label": "Date/Time/Moon",
     "style": "layout",
@@ -12,6 +13,7 @@
     "type": "widget",
     "style": "layout",
     "label": "Weather",
+    "description": "Shows weather, light and wind.",
     "arrange": "columns",
     "widgets": [ "weather_desc_no_label", "structured_lighting_layout", "structured_wind_layout" ]
   },
@@ -20,6 +22,7 @@
     "type": "widget",
     "style": "layout",
     "label": "Place/Sound",
+    "description": "Shows the current location and sound emitted.",
     "arrange": "columns",
     "widgets": [ "structured_place_layout", "structured_sound_layout" ]
   },
@@ -537,6 +540,7 @@
     "type": "widget",
     "style": "sidebar",
     "label": "structured",
+    "description": "A compact, structured sidebar for\nplaying with large font size or\nsmall resolution.",
     "separator": ": ",
     "width": 48,
     "padding": 1,
