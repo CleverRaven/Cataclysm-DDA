@@ -1344,5 +1344,10 @@
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_DUNGEON_REWARD_ESCAPE_STONE",
     "effect": [ { "u_message": "A strange item comes back with you.", "popup": true }, { "u_spawn_item": "escape_stone" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_STORM_DUNGEON_CONVERSATION",
+    "effect": { "open_dialogue": { "topic": "TALK_NETHER_CROSSROADS" } }
   }
 ]

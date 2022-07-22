@@ -1852,7 +1852,7 @@ talk_topic dialogue::opt( dialogue_window &d_win, const talk_topic &topic )
     generate_response_lines();
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
-        d_win.draw( actor( true )->disp_name(), response_lines );
+        d_win.draw( d_win.is_not_conversation ? "" : actor( true )->disp_name(), response_lines );
     } );
 
     size_t response_ind = response_hotkeys.size();
