@@ -1510,10 +1510,12 @@ struct aim_type_prediction {
 
     std::string name;
     std::string hotkey;
+    std::vector<confidence_rating> ratings; // this is read back in UI
     std::vector<aim_confidence> chances;
     bool is_default;
     int moves;
     int chance_to_hit; // all hit probabilities summed up for sorting
+    double confidence;
     double steadiness;
 };
 
@@ -1618,10 +1620,11 @@ static std::vector<aim_type_prediction> calculate_ranged_chances(
                                       aim_to_selected.recoil );
 
         // this loop fills in the "confidence" values; the chances of great/good/graze outcomes
-        const double confidence = confidence_estimate( target, current_dispersion );
+        prediction.confidence = confidence_estimate( target, current_dispersion );
         for( const confidence_rating &rating : confidence_ratings ) {
-            const int chance = std::min<int>( 100, 100 * rating.aim_level * confidence )
+            const int chance = std::min<int>( 100, 100 * rating.aim_level * prediction.confidence )
                                - prediction.chance_to_hit;
+            prediction.ratings.push_back( rating );
             prediction.chances.push_back( {rating.label, rating.color, chance} );
             prediction.chance_to_hit += chance;
         }
@@ -1637,39 +1640,48 @@ static std::vector<aim_type_prediction> calculate_ranged_chances(
 static int print_ranged_chance( const catacurses::window &w, int line_number,
                                 const std::vector<aim_type_prediction> &aim_chances )
 {
-    nc_color col = c_light_gray;
     std::vector<aim_type_prediction> sorted = aim_chances;
-
+    
     // Sort aim types so that 'current' mode is placed at the current probability it provides
     // TODO: consider removing it, but for now it demonstrates the odds changing pretty well
-    std::sort( sorted.begin(), sorted.end(), []( const auto & lhs, const auto & rhs ) {
+    std::sort( sorted.begin(), sorted.end(),
+    []( const auto & lhs, const auto & rhs ) {
         return lhs.chance_to_hit <= rhs.chance_to_hit;
     } );
 
-    for( const aim_type_prediction &out : sorted ) {
-        std::string desc;
-        if( out.is_default ) {
-            desc = string_format( "<color_white>[%s] %s %s</color> %s: <color_light_green>%3d</color> %s: <color_light_green>%3d</color>",
-                                  out.hotkey, out.name, _( "Aim" ),
-                                  _( "Moves" ), out.moves,
-                                  _( "Steadiness" ), ( int )( 100 * out.steadiness ) );
-        } else {
-            desc = string_format( "<color_dark_gray>[%s] %s %s</color> %s: <color_light_blue>%3d</color> %s: <color_light_blue>%3d</color>",
-                                  out.hotkey, out.name, _( "Aim" ),
-                                  _( "Moves" ), out.moves,
-                                  _( "Steadiness" ), ( int )( 100 * out.steadiness ) );
+    const int width = getmaxx( w ) - 2; // window width minus borders
+    bool display_numbers = get_option<std::string>( "ACCURACY_DISPLAY" ) == "numbers";
+    std::string panel_type = panel_manager::get_manager().get_current_layout_id();
+    nc_color col = c_light_gray;
+    
+    // Start printing by panel type, inside each branch whether to output numbers or "bars"
+    if( panel_type == "legacy_labels_narrow_sidebar" ) {
+    } else if (panel_type == "legacy_compact_sidebar") {
+    } else { // there's more legacy sidebars but appear to not be used
+        for( const aim_type_prediction &out : sorted ) {
+            std::string desc;
+            if( out.is_default ) {
+                desc = string_format( "<color_white>[%s] %s %s</color> %s: <color_light_green>%3d</color> %s: <color_light_green>%3d</color>",
+                                      out.hotkey, out.name, _( "Aim" ),
+                                      _( "Moves" ), out.moves,
+                                      _( "Steadiness" ), ( int )( 100 * out.steadiness ) );
+            } else {
+                desc = string_format( "<color_dark_gray>[%s] %s %s</color> %s: <color_light_blue>%3d</color> %s: <color_light_blue>%3d</color>",
+                                      out.hotkey, out.name, _( "Aim" ),
+                                      _( "Moves" ), out.moves,
+                                      _( "Steadiness" ), ( int )( 100 * out.steadiness ) );
+            }
+
+            print_colored_text( w, point( 1, line_number++ ), col, col, desc );
+
+            const std::string line = enumerate_as_string( out.chances.cbegin(), out.chances.cend(),
+            []( const aim_type_prediction::aim_confidence & conf ) {
+                const std::string label_loc = pgettext( "aim_confidence", conf.label.c_str() );
+                return string_format( "%s: <color_%s>%3d%%</color>", label_loc, conf.color, conf.chance );
+            }, enumeration_conjunction::none );
+
+            line_number += fold_and_print_from( w, point( 1, line_number ), width, 0, c_dark_gray, line );
         }
-
-        print_colored_text( w, point( 1, line_number++ ), col, col, desc );
-
-        const std::string line = enumerate_as_string( out.chances.cbegin(), out.chances.cend(),
-        []( const aim_type_prediction::aim_confidence & conf ) {
-            const std::string label_loc = pgettext( "aim_confidence", conf.label.c_str() );
-            return string_format( "%s: <color_%s>%3d%%</color>", label_loc, conf.color, conf.chance );
-        }, enumeration_conjunction::none );
-
-        const int width = getmaxx( w ) - 2; // window width minus borders
-        line_number += fold_and_print_from( w, point( 1, line_number ), width, 0, c_dark_gray, line );
     }
 
     return line_number;
