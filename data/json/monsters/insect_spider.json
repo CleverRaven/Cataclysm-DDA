@@ -928,6 +928,7 @@
     "volume": "625 L",
     "weight": "815 kg",
     "melee_dice": 2,
+    "zombify_into": "mon_meat_cocoon_small",
     "dodge": 2,
     "dissect": "dissect_spider_sample_large",
     "special_attacks": [ [ "GRAB", 5 ] ],

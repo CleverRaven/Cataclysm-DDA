@@ -303,8 +303,7 @@
       "HUMAN",
       "CAN_OPEN_DOORS",
       "PATH_AVOID_DANGER_1",
-      "DROPS_AMMO",
-      "CBM_SCI"
+      "DROPS_AMMO"
     ]
   },
   {
@@ -1116,6 +1115,7 @@
     "vision_night": 3,
     "path_settings": { "max_dist": 30, "allow_climb_stairs": false, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
     "special_attacks": [ [ "PARROT", 15 ], [ "GRAB", 10 ], [ "SHRIEK", 70 ] ],
+    "death_function": { "effect": { "id": "death_guilt", "min_level": 6 } },
     "death_drops": "feral_granny",
     "zombify_into": "mon_zombie_crawler",
     "fungalize_into": "mon_zombie_fungus",
@@ -1130,7 +1130,6 @@
       "HUMAN",
       "CAN_OPEN_DOORS",
       "PATH_AVOID_DANGER_1",
-      "GUILT",
       "GRABS"
     ]
   }
