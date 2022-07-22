@@ -579,12 +579,12 @@
     "type": "SPELL",
     "name": { "str": "Amigara Death" },
     "valid_targets": [ "hostile", "ally", "ground" ],
-    "description": "Removes hypnosis.",
-    "effect": "remove_effect",
-    "effect_str": "amigara",
+    "description": "Spawns an artifact and removes hypnosis if this is the last amigara.",
     "min_range": 48,
     "max_range": 48,
-    "shape": "blast"
+    "shape": "blast",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_last_amigara_death"
   },
   {
     "id": "death_slimespring",
