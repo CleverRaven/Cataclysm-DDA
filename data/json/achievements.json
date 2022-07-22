@@ -1083,6 +1083,13 @@
     "hidden_by": [ "achievement_lvl_7_chemistry" ]
   },
   {
+    "id": "achievement_witnessed_portal_storm",
+    "type": "achievement",
+    "name": "Reality is falling apart",
+    "description": "You will be baked, and then there will be cake.",
+    "requirements": [ { "event_statistic": "witnessed_portal_storm", "is": ">=", "target": 1, "description": "Survive a portal storm" } ]
+  },
+  {
     "id": "achievement_arcade_mode",
     "type": "achievement",
     "name": "Arcade Mode",
