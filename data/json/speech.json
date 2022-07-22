@@ -2765,5 +2765,17 @@
     "speaker": [ "mon_feral_cop" ],
     "sound": "\"Stop in the name of the law!\"",
     "volume": 25
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_cop" ],
+    "sound": "\"You are under arrest!\"",
+    "volume": 25
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_cop" ],
+    "sound": "\"Stop resisting!\"",
+    "volume": 25
   }
 ]
