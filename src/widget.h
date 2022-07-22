@@ -62,6 +62,7 @@ enum class widget_var : int {
     pain_text,      // Pain description text, color string
     place_text,     // Place name in world where character is
     power_text,     // Remaining power from bionics, color string
+    power_balance_text, // Power balance during the last turn
     safe_mode_text, // Safe mode text, color string
     safe_mode_classic_text, // Safe mode text, classic mode color string.
     style_text,     // Active martial arts style name

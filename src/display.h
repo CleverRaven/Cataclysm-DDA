@@ -147,6 +147,7 @@ std::pair<std::string, nc_color> carry_weight_text_color( const avatar &u );
 std::pair<std::string, nc_color> temp_text_color( const Character &u,
         const bodypart_str_id &bp = bodypart_str_id::NULL_ID() );
 std::pair<std::string, nc_color> power_text_color( const Character &u );
+std::pair<std::string, nc_color> power_balance_text_color( const avatar &u );
 std::pair<std::string, nc_color> mana_text_color( const Character &you );
 std::pair<std::string, nc_color> str_text_color( const Character &p );
 std::pair<std::string, nc_color> dex_text_color( const Character &p );

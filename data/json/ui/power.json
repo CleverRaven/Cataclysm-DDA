@@ -35,5 +35,19 @@
     "fill": "bucket",
     "colors": [ "c_red", "c_light_red", "c_yellow", "c_light_green", "c_green" ],
     "flags": [ "W_LABEL_NONE" ]
+  },
+  {
+    "id": "power_balance_short_desc",
+    "type": "widget",
+    "label": "PwBal",
+    "style": "text",
+    "var": "power_balance_text"
+  },
+  {
+    "id": "power_balance_desc_no_label",
+    "type": "widget",
+    "style": "text",
+    "var": "power_balance_text",
+    "flags": [ "W_LABEL_NONE" ]
   }
 ]

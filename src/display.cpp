@@ -558,6 +558,47 @@ std::pair<std::string, nc_color> display::power_text_color( const Character &u )
     return std::make_pair( s_pwr, c_pwr );
 }
 
+std::pair<std::string, nc_color> display::power_balance_text_color( const avatar &u )
+{
+    nc_color c_pwr = c_red;
+    std::string s_pwr;
+
+    units::energy balance = u.power_balance;
+    units::energy abs_balance = units::from_millijoule( std::abs( balance.value() ) );
+
+    if( balance < -1_kJ ) {
+        c_pwr = c_red;
+    } else if( balance < -10_J ) {
+        c_pwr = c_light_red;
+    } else if( balance < 0_J ) {
+        c_pwr = c_yellow;
+    } else if( balance < 10_J ) {
+        c_pwr = c_light_green;
+    } else if( balance < 1_kJ ) {
+        c_pwr = c_green;
+    } else {
+        c_pwr = c_blue;
+    }
+
+    std::string suffix = "";
+    if( balance > 0_kJ ) {
+        suffix = "+";
+    }
+
+    if( abs_balance < 1_J ) {
+        s_pwr = suffix + std::to_string( units::to_millijoule( balance ) ) +
+                pgettext( "energy unit: millijoule", "mJ" );
+    } else if( abs_balance < 1_kJ ) {
+        s_pwr = suffix + std::to_string( units::to_joule( balance ) ) +
+                pgettext( "energy unit: joule", "J" );
+    } else {
+        s_pwr = suffix + std::to_string( units::to_kilojoule( balance ) ) +
+                pgettext( "energy unit: kilojoule", "kJ" );
+    }
+
+    return std::make_pair( s_pwr, c_pwr );
+}
+
 std::pair<std::string, nc_color> display::mana_text_color( const Character &you )
 {
     nc_color c_mana = c_red;

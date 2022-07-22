@@ -879,8 +879,8 @@ bool do_turn()
     u.volume = 0;
 
     // Calculate bionic power balance
-    u.power_balance = u.get_power_level().value() - u.power_prev_turn;
-    u.power_prev_turn = u.get_power_level().value();
+    u.power_balance = u.get_power_level() - u.power_prev_turn;
+    u.power_prev_turn = u.get_power_level();
 
     return false;
 }

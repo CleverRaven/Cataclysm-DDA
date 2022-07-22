@@ -357,9 +357,9 @@ class avatar : public Character
         int movecounter = 0;
 
         // bionic power in the last turn
-        int power_prev_turn = 0;
+        units::energy power_prev_turn = 0_kJ;
         // balance/net power generation/loss during the last turn
-        int power_balance = 0;
+        units::energy power_balance = 0_kJ;
 
         // amount of turns since last check for pocket noise
         time_point last_pocket_noise = time_point( 0 );
