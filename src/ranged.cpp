@@ -1565,7 +1565,7 @@ static std::vector<aim_type_prediction> calculate_ranged_chances(
         const std::vector<input_event> keys = ctxt.keys_bound_to( aim_type.action.empty() ? "FIRE" :
                                               aim_type.action, /*maximum_modifier_count=*/1 );
 
-        aim_type_prediction prediction;
+        aim_type_prediction prediction = {};
         prediction.name = aim_type.has_threshold ? aim_type.name : _( "Current" );
         prediction.is_default = aim_type.action.empty(); // default mode defaults to FIRE hotkey
         prediction.hotkey = ( keys.empty() ? input_event() : keys.front() ).short_description();
