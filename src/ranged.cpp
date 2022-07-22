@@ -394,7 +394,6 @@ class target_ui
         void panel_recoil( int &text_y );
         void panel_spell_info( int &text_y );
         void panel_target_info( int &text_y, bool fill_with_blank_if_no_target );
-        void panel_fire_mode_aim( int &text_y );
         void panel_turret_list( int &text_y );
 
         // On-selected-as-target checks that act as if they are on-hit checks.
@@ -1841,12 +1840,12 @@ static int print_ranged_chance( const catacurses::window &w, int line_number,
                 desc = string_format( "<color_white>[%s] %s %s</color> %s: <color_light_green>%3d</color> %s: <color_light_green>%3d</color>",
                                       out.hotkey, out.name, _( "Aim" ),
                                       _( "Moves" ), out.moves,
-                                      _( "Steadiness" ), ( int )( 100 * out.steadiness ) );
+                                      _( "Steadiness" ), static_cast<int>( 100 * out.steadiness ) );
             } else {
                 desc = string_format( "<color_dark_gray>[%s] %s %s</color> %s: <color_light_blue>%3d</color> %s: <color_light_blue>%3d</color>",
                                       out.hotkey, out.name, _( "Aim" ),
                                       _( "Moves" ), out.moves,
-                                      _( "Steadiness" ), ( int )( 100 * out.steadiness ) );
+                                      _( "Steadiness" ), static_cast<int>( 100 * out.steadiness ) );
             }
 
             print_colored_text( w, point( 1, line_number++ ), col, col, desc );
@@ -1872,8 +1871,7 @@ static bool pl_sees( const Creature &cr )
 }
 
 static int print_aim( const target_ui &ui, Character &you, const catacurses::window &w,
-                      int line_number, input_context &ctxt, const item &weapon, double target_size,
-                      const tripoint &pos )
+                      int line_number, input_context &ctxt, const item &weapon, const tripoint &pos )
 {
     // This is absolute accuracy for the player.
     // TODO: push the calculations duplicated from Creature::deal_projectile_attack() and
@@ -3489,7 +3487,7 @@ void target_ui::draw_ui_window()
     } else if( status == Status::Good ) {
         // TODO: these are old, consider refactoring
         if( mode == TargetMode::Fire ) {
-            panel_fire_mode_aim( text_y );
+            text_y = print_aim( *this, *you, w_target, text_y, ctxt, *relevant->gun_current_mode(), dst );
         } else if( mode == TargetMode::Throw || mode == TargetMode::ThrowBlind ) {
             bool blind = mode == TargetMode::ThrowBlind;
             draw_throw_aim( *this, *you, w_target, text_y, ctxt, *relevant, dst, blind );
@@ -3844,16 +3842,6 @@ void target_ui::panel_target_info( int &text_y, bool fill_with_blank_if_no_targe
         text_y += max_lines;
         // TODO: print info about tile?
     }
-}
-
-void target_ui::panel_fire_mode_aim( int &text_y )
-{
-    double target_size = dst_critter
-                         ? dst_critter->ranged_target_size()
-                         : occupied_tile_fraction( creature_size::medium );
-
-    text_y = print_aim( *this, *you, w_target, text_y, ctxt, *relevant->gun_current_mode(),
-                        target_size, dst );
 }
 
 void target_ui::panel_turret_list( int &text_y )
