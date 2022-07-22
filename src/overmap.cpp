@@ -1314,6 +1314,14 @@ struct fixed_overmap_special_data : overmap_special_data {
     void finalize_mapgen_parameters( mapgen_parameters &params,
                                      const std::string &context ) const override {
         for( const overmap_special_terrain &t : terrains ) {
+            if( !t.terrain.is_valid() ) {
+                if( oter_str_id( t.terrain.str() + "_north" ).is_valid() ) {
+                    debugmsg( "In %s, terrain \"%s\" rotates, but is specified without a "
+                              "rotation.", context, t.terrain.str() );
+                } else {
+                    debugmsg( "In %s, terrain \"%s\" is invalid.", context, t.terrain.str() );
+                }
+            }
             std::string mapgen_id = t.terrain->get_mapgen_id();
             params.check_and_merge( get_map_special_params( mapgen_id ), context );
         }
@@ -1330,6 +1338,8 @@ struct fixed_overmap_special_data : overmap_special_data {
                 if( !invalid_terrains.count( oter ) ) {
                     // Not a huge fan of the the direct id manipulation here, but I don't know
                     // how else to do this
+                    // Because we try to access all the terrains in the finalization,
+                    // this is a little redundant, but whatever
                     oter_str_id invalid( oter.str() + "_north" );
                     if( invalid.is_valid() ) {
                         debugmsg( "In %s, terrain \"%s\" rotates, but is specified without a "
