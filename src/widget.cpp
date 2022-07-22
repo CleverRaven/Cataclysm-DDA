@@ -91,6 +91,8 @@ std::string enum_to_string<widget_var>( widget_var data )
             return "max_mana";
         case widget_var::power_percentage:
             return "power_percentage";
+        case widget_var::log_power_balance:
+            return "log_power_balance";
         case widget_var::morale_level:
             return "morale_level";
         // Compass
@@ -598,6 +600,11 @@ void widget::set_default_var_range( const avatar &ava )
             _var_min = 0;
             _var_max = 100;
             break;
+        case widget_var::log_power_balance:
+            _var_min = 0;
+            _var_max = 1200;
+            _var_norm = std::make_pair( 600, 600 );
+            break;
         case widget_var::mood:
             break; // TODO
         case widget_var::morale_level:
@@ -722,6 +729,17 @@ int widget::get_var_value( const avatar &ava ) const
             value = ava.has_max_power() ? ( 100 * ava.get_power_level().value() ) /
                     ava.get_max_power_level().value() : 0;
             break;
+        case widget_var::log_power_balance: {
+            int value_abs = std::abs( ava.power_balance.value() );
+            if( value_abs < 500 ) {
+                value = 0;
+            } else {
+                int sign = ava.power_balance.value() > 0 ? 1 : -1;
+                value = ( sign * 100.0 * std::log10( value_abs / 500.0 ) );
+            }
+            value += 600;
+            break;
+        }
         case widget_var::morale_level:
             value = ava.get_morale_level();
             break;

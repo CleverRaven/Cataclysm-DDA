@@ -570,8 +570,10 @@ std::pair<std::string, nc_color> display::power_balance_text_color( const avatar
         c_pwr = c_red;
     } else if( balance < -10_J ) {
         c_pwr = c_light_red;
-    } else if( balance < 0_J ) {
+    } else if( balance < -1_mJ ) {
         c_pwr = c_yellow;
+    } else if( balance < 1_mJ ) {
+        c_pwr = c_white;
     } else if( balance < 10_J ) {
         c_pwr = c_light_green;
     } else if( balance < 1_kJ ) {
