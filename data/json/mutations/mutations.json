@@ -2177,14 +2177,16 @@
     "points": 1,
     "visibility": 8,
     "ugliness": 4,
-    "description": "Your eyes bulge noticeably out of your face, and you are able to move them much more freely than before.  You can see movement and close objects clearly, but you have trouble picking up distant details in the light.",
+    "description": "Your eyes bulge noticeably out of your face, and you are able to move them much more freely than before.  You can see movement and close objects clearly, but you have trouble picking up distant details in the light.  Instead of eyelids they are covered by a translucent, protective membrane that blocks irritants and water.  It allows you to sleep with your eyes open!  Activate to cause the approach of hostile creatures to wake you up.",
     "prereqs": [ "EYEBULGE" ],
     "category": [ "BATRACHIAN" ],
-    "flags": [ "EYE_MEMBRANE", "MYOPIC_IN_LIGHT" ],
+    "flags": [ "EYE_MEMBRANE", "SEESLEEP", "MYOPIC_IN_LIGHT" ],
     "types": [ "EYES", "VISION" ],
     "cancels": [ "MEMBRANE", "MYOPIC", "URSINE_EYE" ],
     "threshreq": [ "THRESH_BATRACHIAN" ],
-    "wet_protection": [ { "part": "eyes", "neutral": 1 } ]
+    "wet_protection": [ { "part": "eyes", "neutral": 1 } ],
+    "armor": [ { "parts": "eyes", "cut": 3, "bash": 1 } ],
+    "active": true
   },
   {
     "type": "mutation",
@@ -7259,8 +7261,8 @@
     "visibility": 3,
     "ugliness": 4,
     "description": "Like a true fish, your eyes lack eyelids, and are instead covered by a translucent, protective membrane that blocks irritants and water, and provides minor armor.  It also allows you to sleep with your eyes open!  Activate to cause the approach of hostile creatures to wake you up.",
-    "category": [ "FISH", "BATRACHIAN" ],
-    "threshreq": [ "THRESH_FISH", "THRESH_BATRACHIAN" ],
+    "category": [ "FISH" ],
+    "threshreq": [ "THRESH_FISH" ],
     "armor": [ { "parts": "eyes", "cut": 3, "bash": 1 } ],
     "flags": [ "EYE_MEMBRANE", "SEESLEEP" ],
     "active": true
@@ -7271,7 +7273,7 @@
     "name": { "str": "Aqueous Repose" },
     "points": 1,
     "description": "Falling asleep underwater is easy for you, and you spend less time asleep when you rest there.  You can also eat underwater, though you can't drink.",
-    "prereqs": [ "SEESLEEP" ],
+    "prereqs": [ "SEESLEEP", "FROG_EYES" ],
     "category": [ "FISH", "BATRACHIAN" ],
     "threshreq": [ "THRESH_FISH", "THRESH_BATRACHIAN" ]
   },
