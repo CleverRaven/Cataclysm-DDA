@@ -541,7 +541,7 @@ std::pair<std::string, nc_color> display::power_text_color( const Character &u )
         } else if( u.get_power_level() >= u.get_max_power_level() / 3 ) {
             c_pwr = c_yellow;
         } else if( u.get_power_level() >= u.get_max_power_level() / 4 ) {
-            c_pwr = c_red;
+            c_pwr = c_light_red;
         }
 
         if( u.get_power_level() < 1_J ) {
@@ -568,18 +568,18 @@ std::pair<std::string, nc_color> display::power_balance_text_color( const avatar
 
     if( balance < -1_kJ ) {
         c_pwr = c_red;
-    } else if( balance < -10_J ) {
+    } else if( balance <= -10_J ) {
         c_pwr = c_light_red;
-    } else if( balance < -1_mJ ) {
+    } else if( balance <= -1_mJ ) {
         c_pwr = c_yellow;
-    } else if( balance < 1_mJ ) {
+    } else if( balance <= 1_mJ ) {
         c_pwr = c_white;
     } else if( balance < 10_J ) {
         c_pwr = c_light_green;
     } else if( balance < 1_kJ ) {
         c_pwr = c_green;
     } else {
-        c_pwr = c_blue;
+        c_pwr = c_light_blue;
     }
 
     std::string suffix = "";
