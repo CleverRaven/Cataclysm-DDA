@@ -620,6 +620,7 @@ static vehicle &unfold_and_check( int dmg, int deg )
         CHECK( part.part().damage() == dmg );
         CHECK( part.part().degradation() == deg );
     }
+    bike_part->vehicle().unboard_all();
     return bike_part->vehicle();
 }
 

@@ -63,36 +63,36 @@ units::mass get_selected_stack_weight( const item *i, const std::map<const item 
     return 0_gram;
 }
 
-ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) const
+ret_val<void> Character::can_wear( const item &it, bool with_equip_change ) const
 {
     if( it.has_flag( flag_INTEGRATED ) ) {
-        return ret_val<bool>::make_success();
+        return ret_val<void>::make_success();
     }
     // need to ignore inherited flags for this because items in pockets likely have CANT_WEAR
     if( it.has_flag( flag_CANT_WEAR, true ) ) {
-        return ret_val<bool>::make_failure( _( "Can't be worn directly." ) );
+        return ret_val<void>::make_failure( _( "Can't be worn directly." ) );
     }
     if( has_effect( effect_incorporeal ) ) {
-        return ret_val<bool>::make_failure( _( "You can't wear anything while incorporeal." ) );
+        return ret_val<void>::make_failure( _( "You can't wear anything while incorporeal." ) );
     }
     if( !it.is_armor() ) {
-        return ret_val<bool>::make_failure( _( "Putting on a %s would be tricky." ), it.tname() );
+        return ret_val<void>::make_failure( _( "Putting on a %s would be tricky." ), it.tname() );
     }
 
     if( has_trait( trait_WOOLALLERGY ) && ( it.made_of( material_wool ) ||
                                             it.has_own_flag( flag_wooled ) ) ) {
-        return ret_val<bool>::make_failure( _( "Can't wear that, it's made of wool!" ) );
+        return ret_val<void>::make_failure( _( "Can't wear that, it's made of wool!" ) );
     }
 
     if( it.is_filthy() && has_trait( trait_SQUEAMISH ) ) {
-        return ret_val<bool>::make_failure( _( "Can't wear that, it's filthy!" ) );
+        return ret_val<void>::make_failure( _( "Can't wear that, it's filthy!" ) );
     }
 
     if( !it.has_flag( flag_OVERSIZE ) && !it.has_flag( flag_SEMITANGIBLE ) ) {
         for( const trait_id &mut : get_mutations() ) {
             const mutation_branch &branch = mut.obj();
             if( branch.conflicts_with_item( it ) ) {
-                return ret_val<bool>::make_failure( is_avatar() ?
+                return ret_val<void>::make_failure( is_avatar() ?
                                                     _( "Your %s mutation prevents you from wearing your %s." ) :
                                                     _( "My %s mutation prevents me from wearing this %s." ), mutation_name( mut ),
                                                     it.type_name() );
@@ -103,7 +103,7 @@ ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) cons
             !it.made_of( material_nomex ) && !it.made_of( material_leather ) &&
             ( has_trait( trait_HORNS_POINTED ) || has_trait( trait_ANTENNAE ) ||
               has_trait( trait_ANTLERS ) ) ) {
-            return ret_val<bool>::make_failure( _( "Cannot wear a helmet over %s." ),
+            return ret_val<void>::make_failure( _( "Cannot wear a helmet over %s." ),
                                                 ( has_trait( trait_HORNS_POINTED ) ? _( "horns" ) :
                                                   ( has_trait( trait_ANTENNAE ) ? _( "antennae" ) : _( "antlers" ) ) ) );
         }
@@ -121,7 +121,7 @@ ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) cons
             }
         }
         if( !need_splint ) {
-            return ret_val<bool>::make_failure( is_avatar() ?
+            return ret_val<void>::make_failure( is_avatar() ?
                                                 _( "You don't have any broken limbs this could help." )
                                                 : _( "%s doesn't have any broken limbs this could help." ), get_name() );
         }
@@ -147,22 +147,22 @@ ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) cons
             } else {
                 msg = string_format( _( "%s doesn't need a tourniquet to stop the bleeding." ), get_name() );
             }
-            return ret_val<bool>::make_failure( msg );
+            return ret_val<void>::make_failure( msg );
         }
     }
 
     if( it.has_flag( flag_RESTRICT_HANDS ) && !has_min_manipulators() ) {
-        return ret_val<bool>::make_failure( ( is_avatar() ? _( "You don't have enough arms to wear that." )
+        return ret_val<void>::make_failure( ( is_avatar() ? _( "You don't have enough arms to wear that." )
                                               : string_format( _( "%s doesn't have enough arms to wear that." ), get_name() ) ) );
     }
 
     //Everything checked after here should be something that could be solved by changing equipment
     if( with_equip_change ) {
-        return ret_val<bool>::make_success();
+        return ret_val<void>::make_success();
     }
 
     {
-        const ret_val<bool> power_armor_conflicts = worn.power_armor_conflicts( it );
+        const ret_val<void> power_armor_conflicts = worn.power_armor_conflicts( it );
         if( !power_armor_conflicts.success() ) {
             return power_armor_conflicts;
         }
@@ -171,12 +171,12 @@ ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) cons
     // Check if we don't have both hands available before wearing a briefcase, shield, etc. Also occurs if we're already wearing one.
     if( it.has_flag( flag_RESTRICT_HANDS ) && ( worn_with_flag( flag_RESTRICT_HANDS ) ||
             weapon.is_two_handed( *this ) ) ) {
-        return ret_val<bool>::make_failure( ( is_avatar() ? _( "You don't have a hand free to wear that." )
+        return ret_val<void>::make_failure( ( is_avatar() ? _( "You don't have a hand free to wear that." )
                                               : string_format( _( "%s doesn't have a hand free to wear that." ), get_name() ) ) );
     }
 
     {
-        ret_val<bool> conflict = worn.only_one_conflicts( it );
+        ret_val<void> conflict = worn.only_one_conflicts( it );
         if( !conflict.success() ) {
             return conflict;
         }
@@ -184,18 +184,18 @@ ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) cons
 
     // if the item is rigid make sure other rigid items aren't already equipped
     if( it.is_rigid() ) {
-        ret_val<bool> conflict = worn.check_rigid_conflicts( it );
+        ret_val<void> conflict = worn.check_rigid_conflicts( it );
         if( !conflict.success() ) {
             return conflict;
         }
     }
 
     if( amount_worn( it.typeId() ) >= MAX_WORN_PER_TYPE ) {
-        return ret_val<bool>::make_failure( _( "Can't wear %1$i or more %2$s at once." ),
+        return ret_val<void>::make_failure( _( "Can't wear %1$i or more %2$s at once." ),
                                             MAX_WORN_PER_TYPE + 1, it.tname( MAX_WORN_PER_TYPE + 1 ) );
     }
 
-    return ret_val<bool>::make_success();
+    return ret_val<void>::make_success();
 }
 
 cata::optional<std::list<item>::iterator>
@@ -387,29 +387,29 @@ int Character::item_wear_cost( const item &it ) const
     return mv;
 }
 
-ret_val<bool> Character::can_takeoff( const item &it, const std::list<item> *res )
+ret_val<void> Character::can_takeoff( const item &it, const std::list<item> *res )
 {
     if( !worn.is_worn( it ) ) {
-        return ret_val<bool>::make_failure( !is_npc() ? _( "You are not wearing that item." ) :
+        return ret_val<void>::make_failure( !is_npc() ? _( "You are not wearing that item." ) :
                                             _( "<npcname> is not wearing that item." ) );
     }
 
     if( it.has_flag( flag_INTEGRATED ) ) {
-        return ret_val<bool>::make_failure( !is_npc() ?
+        return ret_val<void>::make_failure( !is_npc() ?
                                             _( "You can't remove a part of your body." ) :
                                             _( "<npcname> can't remove a part of their body." ) );
     }
     if( res == nullptr && !get_dependent_worn_items( it ).empty() ) {
-        return ret_val<bool>::make_failure( !is_npc() ?
+        return ret_val<void>::make_failure( !is_npc() ?
                                             _( "You can't take off power armor while wearing other power armor components." ) :
                                             _( "<npcname> can't take off power armor while wearing other power armor components." ) );
     }
     if( it.has_flag( flag_NO_TAKEOFF ) ) {
-        return ret_val<bool>::make_failure( !is_npc() ?
+        return ret_val<void>::make_failure( !is_npc() ?
                                             _( "You can't take that item off." ) :
                                             _( "<npcname> can't take that item off." ) );
     }
-    return ret_val<bool>::make_success();
+    return ret_val<void>::make_success();
 }
 
 bool Character::takeoff( item_location loc, std::list<item> *res )
@@ -1080,13 +1080,13 @@ const
     return ret;
 }
 
-ret_val<bool> outfit::power_armor_conflicts( const item &clothing ) const
+ret_val<void> outfit::power_armor_conflicts( const item &clothing ) const
 {
     if( clothing.is_power_armor() ) {
         for( const item &elem : worn ) {
             if( elem.get_covered_body_parts().make_intersection( clothing.get_covered_body_parts() ).any() &&
                 !elem.has_flag( flag_POWERARMOR_COMPATIBLE ) ) {
-                return ret_val<bool>::make_failure( _( "Can't wear power armor over other gear!" ) );
+                return ret_val<void>::make_failure( _( "Can't wear power armor over other gear!" ) );
             }
         }
         if( !clothing.covers( body_part_torso ) ) {
@@ -1098,14 +1098,14 @@ ret_val<bool> outfit::power_armor_conflicts( const item &clothing ) const
                 }
             }
             if( !power_armor ) {
-                return ret_val<bool>::make_failure(
+                return ret_val<void>::make_failure(
                            _( "You can only wear power armor components with power armor!" ) );
             }
         }
 
         for( const item &i : worn ) {
             if( i.is_power_armor() && i.typeId() == clothing.typeId() ) {
-                return ret_val<bool>::make_failure( _( "Can't wear more than one %s!" ), clothing.tname() );
+                return ret_val<void>::make_failure( _( "Can't wear more than one %s!" ), clothing.tname() );
             }
         }
     } else {
@@ -1115,10 +1115,10 @@ ret_val<bool> outfit::power_armor_conflicts( const item &clothing ) const
         if( !clothing.has_flag( flag_POWERARMOR_COMPATIBLE ) && ( is_wearing_power_armor( &has_helmet ) &&
                 ( has_helmet || !( clothing.covers( body_part_head ) || clothing.covers( body_part_mouth ) ||
                                    clothing.covers( body_part_eyes ) ) ) ) ) {
-            return ret_val<bool>::make_failure( _( "Can't wear %s with power armor!" ), clothing.tname() );
+            return ret_val<void>::make_failure( _( "Can't wear %s with power armor!" ), clothing.tname() );
         }
     }
-    return ret_val<bool>::make_success();
+    return ret_val<void>::make_success();
 }
 
 bool outfit::is_wearing_power_armor( bool *has_helmet ) const
@@ -1162,7 +1162,7 @@ bool outfit::is_wearing_active_optcloak() const
     return false;
 }
 
-ret_val<bool> outfit::only_one_conflicts( const item &clothing ) const
+ret_val<void> outfit::only_one_conflicts( const item &clothing ) const
 {
     const bool this_restricts_only_one = clothing.has_flag( json_flag_ONE_PER_LAYER );
 
@@ -1184,20 +1184,20 @@ ret_val<bool> outfit::only_one_conflicts( const item &clothing ) const
 
     for( const item &i : worn ) {
         if( i.has_flag( flag_ONLY_ONE ) && i.typeId() == clothing.typeId() ) {
-            return ret_val<bool>::make_failure( _( "Can't wear more than one %s!" ), clothing.tname() );
+            return ret_val<void>::make_failure( _( "Can't wear more than one %s!" ), clothing.tname() );
         }
 
         if( this_restricts_only_one || i.has_flag( json_flag_ONE_PER_LAYER ) ) {
             cata::optional<side> overlaps = clothing.covers_overlaps( i );
             if( overlaps && sidedness_conflicts( *overlaps ) ) {
-                return ret_val<bool>::make_failure( _( "%1$s conflicts with %2$s!" ), clothing.tname(), i.tname() );
+                return ret_val<void>::make_failure( _( "%1$s conflicts with %2$s!" ), clothing.tname(), i.tname() );
             }
         }
     }
-    return ret_val<bool>::make_success();
+    return ret_val<void>::make_success();
 }
 
-ret_val<bool> outfit::check_rigid_conflicts( const item &clothing, side s ) const
+ret_val<void> outfit::check_rigid_conflicts( const item &clothing, side s ) const
 {
 
     std::vector<sub_bodypart_id> to_test;
@@ -1245,29 +1245,29 @@ ret_val<bool> outfit::check_rigid_conflicts( const item &clothing, side s ) cons
             }
 
             if( i.is_bp_rigid( sbp ) ) {
-                return ret_val<bool>::make_failure( _( "Can't wear more than one rigid item on %s!" ), sbp->name );
+                return ret_val<void>::make_failure( _( "Can't wear more than one rigid item on %s!" ), sbp->name );
             }
         }
     }
 
-    return ret_val<bool>::make_success();
+    return ret_val<void>::make_success();
 }
 
-ret_val<bool> outfit::check_rigid_conflicts( const item &clothing ) const
+ret_val<void> outfit::check_rigid_conflicts( const item &clothing ) const
 {
     if( !clothing.is_sided() ) {
         return check_rigid_conflicts( clothing, side::BOTH );
     }
 
-    ret_val<bool> ls = check_rigid_conflicts( clothing, side::LEFT );
-    ret_val<bool> rs = check_rigid_conflicts( clothing, side::RIGHT );
+    ret_val<void> ls = check_rigid_conflicts( clothing, side::LEFT );
+    ret_val<void> rs = check_rigid_conflicts( clothing, side::RIGHT );
 
 
     if( !ls.success() && !rs.success() ) {
         return ls;
     }
 
-    return ret_val<bool>::make_success();
+    return ret_val<void>::make_success();
 }
 
 

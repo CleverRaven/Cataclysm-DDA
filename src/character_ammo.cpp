@@ -67,48 +67,48 @@ bool Character::can_reload( const item &it, const item *ammo ) const
     return true;
 }
 
-bool Character::list_ammo( const item &base, std::vector<item::reload_option> &ammo_list,
+bool Character::list_ammo( const item_location &base, std::vector<item::reload_option> &ammo_list,
                            bool empty ) const
 {
     // Associate the destination with "parent"
     // Useful for handling gun mods with magazines
-    std::vector<std::pair<const item *, const item *>> opts;
-    opts.emplace_back( std::make_pair( &base, &base ) );
+    std::vector<item_location> opts;
+    opts.emplace_back( base );
 
-    if( base.magazine_current() ) {
-        opts.emplace_back( std::make_pair( base.magazine_current(), &base ) );
+    if( base->magazine_current() ) {
+        opts.emplace_back( base, const_cast<item *>( base->magazine_current() ) );
     }
 
-    for( const item *mod : base.gunmods() ) {
-        opts.emplace_back( std::make_pair( mod, mod ) );
+    for( const item *mod : base->gunmods() ) {
+        item_location mod_loc( base, const_cast<item *>( mod ) );
+        opts.emplace_back( mod_loc );
         if( mod->magazine_current() ) {
-            opts.emplace_back( std::make_pair( mod->magazine_current(), mod ) );
+            opts.emplace_back( mod_loc, const_cast<item *>( mod->magazine_current() ) );
         }
     }
 
     bool ammo_match_found = false;
     int ammo_search_range = is_mounted() ? -1 : 1;
-    for( auto  p : opts ) {
-        for( item_location &ammo : find_ammo( *p.first, empty, ammo_search_range ) ) {
-
-            if( p.first->can_reload_with( *ammo.get_item(), false ) ) {
+    for( item_location &p : opts ) {
+        for( item_location &ammo : find_ammo( *p, empty, ammo_search_range ) ) {
+            if( p->can_reload_with( *ammo.get_item(), false ) ) {
                 // Record that there's a matching ammo type,
                 // even if something is preventing reloading at the moment.
                 ammo_match_found = true;
-            } else if( ammo->has_flag( flag_SPEEDLOADER ) && p.first->allows_speedloader( ammo->typeId() ) &&
-                       ammo->ammo_remaining() > 1 && p.first->ammo_remaining() < 1 ) {
+            } else if( ammo->has_flag( flag_SPEEDLOADER ) && p->allows_speedloader( ammo->typeId() ) &&
+                       ammo->ammo_remaining() > 1 && p->ammo_remaining() < 1 ) {
                 // Again, this is "are they compatible", later check handles "can we do it now".
-                ammo_match_found = p.first->can_reload_with( *ammo.get_item(), false );
+                ammo_match_found = p->can_reload_with( *ammo.get_item(), false );
             }
-            if( can_reload( *p.first, ammo.get_item() ) ) {
-                ammo_list.emplace_back( this, p.first, p.second, std::move( ammo ) );
+            if( can_reload( *p, ammo.get_item() ) ) {
+                ammo_list.emplace_back( this, p, std::move( ammo ) );
             }
         }
     }
     return ammo_match_found;
 }
 
-item::reload_option Character::select_ammo( const item &base,
+item::reload_option Character::select_ammo( const item_location &base,
         std::vector<item::reload_option> opts, const std::string name_override ) const
 {
     if( opts.empty() ) {
@@ -116,10 +116,10 @@ item::reload_option Character::select_ammo( const item &base,
         return item::reload_option();
     }
 
-    std::string name = name_override.empty() ? base.tname() : name_override;
+    std::string name = name_override.empty() ? base->tname() : name_override;
     uilist menu;
-    menu.text = string_format( base.is_watertight_container() ? _( "Refill %s" ) :
-                               base.has_flag( flag_RELOAD_AND_SHOOT ) ? _( "Select ammo for %s" ) : _( "Reload %s" ),
+    menu.text = string_format( base->is_watertight_container() ? _( "Refill %s" ) :
+                               base->has_flag( flag_RELOAD_AND_SHOOT ) ? _( "Select ammo for %s" ) : _( "Reload %s" ),
                                name );
 
     // Construct item names
@@ -167,10 +167,10 @@ item::reload_option Character::select_ammo( const item &base,
     std::back_inserter( destination ), [&]( const item::reload_option & e ) {
         name = name_override.empty() ? e.target->tname( 1, false, 0, false ) :
                name_override;
-        if( e.target == e.getParent() ) {
-            return name;
+        if( ( e.target->is_gunmod() || e.target->is_magazine() ) && e.target.has_parent() ) {
+            return string_format( _( "%s in %s" ), name, e.target.parent_item()->tname( 1, false, 0, false ) );
         } else {
-            return string_format( _( "%s in %s" ), name, e.getParent()->tname( 1, false, 0, false ) );
+            return name;
         }
     } );
     // Pads elements to match longest member and return length
@@ -206,7 +206,7 @@ item::reload_option Character::select_ammo( const item &base,
     menu.text += _( "| Moves   " );
 
     // We only show ammo statistics for guns and magazines
-    if( ( base.is_gun() || base.is_magazine() ) && !base.is_tool() ) {
+    if( ( base->is_gun() || base->is_magazine() ) && !base->is_tool() ) {
         menu.text += _( "| Damage  | Pierce  " );
     }
 
@@ -217,7 +217,7 @@ item::reload_option Character::select_ammo( const item &base,
                                 sel.ammo->is_ammo_container() ) ? " %-7d |" : "         |", sel.qty() );
         row += string_format( " %-7d ", sel.moves() );
 
-        if( ( base.is_gun() || base.is_magazine() ) && !base.is_tool() ) {
+        if( ( base->is_gun() || base->is_magazine() ) && !base->is_tool() ) {
             const itype *ammo = sel.ammo->is_ammo_container() ? sel.ammo->first_ammo().ammo_data() :
                                 sel.ammo->ammo_data();
             if( ammo ) {
@@ -231,7 +231,7 @@ item::reload_option Character::select_ammo( const item &base,
         return row;
     };
 
-    const ammotype base_ammotype( base.ammo_default().str() );
+    const ammotype base_ammotype( base->ammo_default().str() );
     itype_id last = uistate.lastreload[ base_ammotype ];
     // We keep the last key so that pressing the key twice (for example, r-r for reload)
     // will always pick the first option on the list.
@@ -330,7 +330,7 @@ item::reload_option Character::select_ammo( const item &base,
                 }
                 return false;
             }
-    } cb( opts, draw_row, last_key, default_to, !base.has_flag( flag_RELOAD_ONE ) );
+    } cb( opts, draw_row, last_key, default_to, !base->has_flag( flag_RELOAD_ONE ) );
     menu.callback = &cb;
 
     menu.query();
@@ -347,38 +347,43 @@ item::reload_option Character::select_ammo( const item &base,
     return opts[ menu.ret ];
 }
 
-item::reload_option Character::select_ammo( const item &base, bool prompt, bool empty ) const
+item::reload_option Character::select_ammo( const item_location &base, bool prompt,
+        bool empty ) const
 {
+    if( !base ) {
+        return item::reload_option();
+    }
+
     std::vector<item::reload_option> ammo_list;
     bool ammo_match_found = list_ammo( base, ammo_list, empty );
 
     if( ammo_list.empty() ) {
         if( !is_npc() ) {
-            if( !base.magazine_integral() && !base.magazine_current() ) {
+            if( !base->magazine_integral() && !base->magazine_current() ) {
                 add_msg_if_player( m_info, _( "You need a compatible magazine to reload the %s!" ),
-                                   base.tname() );
+                                   base->tname() );
 
             } else if( ammo_match_found ) {
                 add_msg_if_player( m_info, _( "You can't reload anything with the ammo you have on hand." ) );
             } else {
                 std::string name;
-                if( base.ammo_data() ) {
-                    name = base.ammo_data()->nname( 1 );
-                } else if( base.is_watertight_container() ) {
-                    name = base.is_container_empty() ? "liquid" : base.legacy_front().tname();
+                if( base->ammo_data() ) {
+                    name = base->ammo_data()->nname( 1 );
+                } else if( base->is_watertight_container() ) {
+                    name = base->is_container_empty() ? "liquid" : base->legacy_front().tname();
                 } else {
-                    const std::set<ammotype> types_of_ammo = base.ammo_types();
+                    const std::set<ammotype> types_of_ammo = base->ammo_types();
                     name = enumerate_as_string( types_of_ammo.begin(),
                     types_of_ammo.end(), []( const ammotype & at ) {
                         return at->name();
                     }, enumeration_conjunction::none );
                 }
-                if( base.is_magazine_full() ) {
+                if( base->is_magazine_full() ) {
                     add_msg_if_player( m_info, _( "The %s is already full!" ),
-                                       base.tname() );
+                                       base->tname() );
                 } else {
                     add_msg_if_player( m_info, _( "You don't have any %s to reload your %s!" ),
-                                       name, base.tname() );
+                                       name, base->tname() );
                 }
             }
         }

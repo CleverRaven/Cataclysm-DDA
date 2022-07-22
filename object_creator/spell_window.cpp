@@ -50,19 +50,21 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
     // first column of boxes (just the spell list)
     spell_items_box.setParent( this );
     spell_items_box.resize( QSize( default_text_box_width * 2, default_text_box_height * 30 ) );
-    spell_items_box.move( QPoint( col * default_text_box_width, row * default_text_box_height) );
+    spell_items_box.move( QPoint( col * default_text_box_width, row * default_text_box_height ) );
     spell_items_box.setToolTip( QString(
-        _("Various spells, select one to see the details") ) );
+                                    _( "Various spells, select one to see the details" ) ) );
     spell_items_box.show();
 
-    for( const spell_type& sp_t : spell_type::get_all() ) {
-        QListWidgetItem* new_item = new QListWidgetItem(
+    for( const spell_type &sp_t : spell_type::get_all() ) {
+        QListWidgetItem *new_item = new QListWidgetItem(
             QString( sp_t.id.c_str() ) );
         spell_items_box.addItem( new_item );
     }
     //When the user selects a spell from the spell list, populate the fields in the form.
     QObject::connect( &spell_items_box, &QListWidget::itemSelectionChanged,
-        [&]() { spell_window::populate_fields(); } );
+    [&]() {
+        spell_window::populate_fields();
+    } );
 
 
     // =========================================================================================
@@ -153,7 +155,7 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
 
     QObject::connect( &learn_spells_box, &QTableWidget::cellChanged, [&]() {
         {
-            if( learn_spells_box.selectedItems().length() > 0 ){
+            if( learn_spells_box.selectedItems().length() > 0 ) {
                 QTableWidgetItem *cur_widget = learn_spells_box.selectedItems().first();
                 const int cur_row = learn_spells_box.row( cur_widget );
                 QAbstractItemModel *model = learn_spells_box.model();
@@ -349,7 +351,7 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
     casting_time_label.show();
 
     duration_label.setParent( this );
-    duration_label.setText( QString("duration") );
+    duration_label.setText( QString( "duration" ) );
     duration_label.resize( default_text_box_size );
     duration_label.move( QPoint( col * default_text_box_width, row++ * default_text_box_height ) );
     duration_label.show();
@@ -602,17 +604,17 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
 
     min_duration_box.setParent( this );
     min_duration_box.resize( default_text_box_size );
-    min_duration_box.move( QPoint( col* default_text_box_width, row++* default_text_box_height ) );
+    min_duration_box.move( QPoint( col * default_text_box_width, row++* default_text_box_height ) );
     min_duration_box.setToolTip( QString( _( "The duration of the spell at level 0" ) ) );
     min_duration_box.setMaximum( INT_MAX );
     min_duration_box.show();
     QObject::connect( &min_duration_box, &QSpinBox::textChanged,
-        [&]() {
-            editable_spell.min_duration = min_duration_box.value();
-            max_duration_box.setValue(std::max(max_duration_box.value(), editable_spell.min_duration));
-            editable_spell.min_duration = max_duration_box.value();
-            write_json();
-        } );
+    [&]() {
+        editable_spell.min_duration = min_duration_box.value();
+        max_duration_box.setValue( std::max( max_duration_box.value(), editable_spell.min_duration ) );
+        editable_spell.min_duration = max_duration_box.value();
+        write_json();
+    } );
 
     energy_source_box.setParent( this );
     energy_source_box.resize( default_text_box_size );
@@ -729,7 +731,7 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
     [&]() {
         std::string selected = components_box.currentText().toStdString();
         requirement_id rq_components;
-        if( selected == "NONE") {
+        if( selected == "NONE" ) {
             editable_spell.spell_components = rq_components;
         } else {
             editable_spell.spell_components = requirement_id( selected );
@@ -962,16 +964,18 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
 
     duration_increment_box.setParent( this );
     duration_increment_box.resize( default_text_box_size );
-    duration_increment_box.move( QPoint( col* default_text_box_width, row++* default_text_box_height ) );
-    duration_increment_box.setToolTip( QString( _( "Amount of dot increased per level of the spell" ) ) );
+    duration_increment_box.move( QPoint( col * default_text_box_width,
+                                         row++* default_text_box_height ) );
+    duration_increment_box.setToolTip( QString(
+                                           _( "Amount of dot increased per level of the spell" ) ) );
     duration_increment_box.setMaximum( INT_MAX );
     duration_increment_box.setMinimum( INT_MIN );
     duration_increment_box.show();
     QObject::connect( &duration_increment_box, &QDoubleSpinBox::textChanged,
-        [&]() {
-            editable_spell.duration_increment = duration_increment_box.value();
-            write_json();
-        } );
+    [&]() {
+        editable_spell.duration_increment = duration_increment_box.value();
+        write_json();
+    } );
 
 
     affected_bps_label.setParent( this );
@@ -1158,18 +1162,18 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
 
     max_duration_box.setParent( this );
     max_duration_box.resize( default_text_box_size );
-    max_duration_box.move( QPoint( col* default_text_box_width, row++* default_text_box_height ) );
+    max_duration_box.move( QPoint( col * default_text_box_width, row++* default_text_box_height ) );
     max_duration_box.setToolTip( QString( _( "The maximum duration the spell can achieve" ) ) );
     max_duration_box.setMaximum( INT_MAX );
     max_duration_box.setMinimum( INT_MIN );
     max_duration_box.show();
     QObject::connect( &max_duration_box, &QSpinBox::textChanged,
-        [&]() {
-            editable_spell.max_duration = max_duration_box.value();
-            min_duration_box.setValue( std::min( min_duration_box.value(), max_duration_box.value() ) );
-            editable_spell.min_duration = min_duration_box.value();
-            write_json();
-        } );
+    [&]() {
+        editable_spell.max_duration = max_duration_box.value();
+        min_duration_box.setValue( std::min( min_duration_box.value(), max_duration_box.value() ) );
+        editable_spell.min_duration = min_duration_box.value();
+        write_json();
+    } );
 
     affected_bps_box.setParent( this );
     affected_bps_box.resize( QSize( default_text_box_width, default_text_box_height * 4 ) );
@@ -1325,20 +1329,21 @@ void creator::spell_window::write_json()
 
 void creator::spell_window::populate_fields()
 {
-    QListWidgetItem* editItem = spell_items_box.currentItem();
-    const QString& s = editItem->text();
+    QListWidgetItem *editItem = spell_items_box.currentItem();
+    const QString &s = editItem->text();
 
-    for( const spell_type& sp_t : spell_type::get_all() ) {
+    for( const spell_type &sp_t : spell_type::get_all() ) {
         if( sp_t.id.c_str() == s ) {
 
-            editable_spell.targeted_monster_ids = sp_t.targeted_monster_ids; //Need to set this first to output the right json later
-            
-            id_box.setText ( QString( sp_t.id.c_str() ) );
+            editable_spell.targeted_monster_ids =
+                sp_t.targeted_monster_ids; //Need to set this first to output the right json later
+
+            id_box.setText( QString( sp_t.id.c_str() ) );
             name_box.setText( QString( sp_t.name.translated().c_str() ) );
             description_box.setPlainText( QString( sp_t.description.translated().c_str() ) );
 
             int index = effect_box.findText( sp_t.effect_name.c_str() );
-            if ( index != -1 ) {
+            if( index != -1 ) {
                 effect_box.setCurrentIndex( index );
             }
             effect_str_box.setText( QString( sp_t.effect_str.c_str() ) );
@@ -1356,7 +1361,7 @@ void creator::spell_window::populate_fields()
             }
 
             for( int i = 0; i < static_cast<int>( spell_flag::LAST ); i++ ) {
-                if( sp_t.spell_tags.test(static_cast<spell_flag>( i ) ) ) {
+                if( sp_t.spell_tags.test( static_cast<spell_flag>( i ) ) ) {
                     spell_flags_box.item( i )->setCheckState( Qt::Checked );
                 } else {
                     spell_flags_box.item( i )->setCheckState( Qt::Unchecked );
@@ -1366,16 +1371,16 @@ void creator::spell_window::populate_fields()
 
             editable_spell.learn_spells.clear();
             learn_spells_box.clearContents();
-            learn_spells_box.setRowCount(1);
+            learn_spells_box.setRowCount( 1 );
             std::map<std::string, int> l_spells = sp_t.learn_spells;
             if( !l_spells.empty() ) {
                 for( std::map<std::string, int>::iterator it = l_spells.begin();
-                    it != l_spells.end(); ++it ) {
+                     it != l_spells.end(); ++it ) {
                     learn_spells_box.insertRow( 0 );
                     int learn_at_level = it->second;
                     const std::string learn_spell_id = it->first;
 
-                    QTableWidgetItem* item = new QTableWidgetItem();
+                    QTableWidgetItem *item = new QTableWidgetItem();
                     item->setText( QString( learn_spell_id.c_str() ) );
                     learn_spells_box.setCurrentItem( item );
                     learn_spells_box.setItem( 0, 0, item );
@@ -1386,7 +1391,7 @@ void creator::spell_window::populate_fields()
                     learn_spells_box.setItem( 0, 1, item );
                 }
             }
-            
+
 
             base_energy_cost_box.setValue( sp_t.base_energy_cost );
             final_energy_cost_box.setValue( sp_t.final_energy_cost );
@@ -1411,13 +1416,15 @@ void creator::spell_window::populate_fields()
 
 
 
-            index = energy_source_box.findText( QString( io::enum_to_string<magic_energy_type>( sp_t.energy_source ).c_str() ) );
-            if ( index != -1 ) {
+            index = energy_source_box.findText( QString( io::enum_to_string<magic_energy_type>
+                                                ( sp_t.energy_source ).c_str() ) );
+            if( index != -1 ) {
                 energy_source_box.setCurrentIndex( index );
             }
 
-            index = dmg_type_box.findText( QString( io::enum_to_string<damage_type>( sp_t.dmg_type ).c_str() ) );
-            if ( index != -1 ) {
+            index = dmg_type_box.findText( QString( io::enum_to_string<damage_type>
+                                                    ( sp_t.dmg_type ).c_str() ) );
+            if( index != -1 ) {
                 dmg_type_box.setCurrentIndex( index );
             }
 
@@ -1425,17 +1432,17 @@ void creator::spell_window::populate_fields()
             std::string cls = sp_t.spell_class.c_str();
             if( cls != "" ) {
                 index = spell_class_box.findText( QString( cls.c_str() ) );
-                if ( index != -1 ) {
+                if( index != -1 ) {
                     spell_class_box.setCurrentIndex( index );
                 }
             } else {
                 index = spell_class_box.findText( QString( "NONE" ) );
-                if ( index != -1 ) {
+                if( index != -1 ) {
                     spell_class_box.setCurrentIndex( index );
                 }
             }
 
-            
+
             difficulty_box.setValue( sp_t.difficulty );
             max_level_box.setValue( sp_t.max_level );
             spell_message_box.setText( QString( sp_t.message.translated().c_str() ) );
@@ -1444,7 +1451,7 @@ void creator::spell_window::populate_fields()
             std::string cmp = sp_t.spell_components.c_str();
             if( cmp != "" ) {
                 index = components_box.findText( QString( cmp.c_str() ) );
-                if ( index != -1 ) {
+                if( index != -1 ) {
                     components_box.setCurrentIndex( index );
                 }
             } else {
@@ -1457,7 +1464,7 @@ void creator::spell_window::populate_fields()
             std::string skill = sp_t.skill.c_str();
             if( skill != "" ) {
                 index = skill_box.findText( QString( skill.c_str() ) );
-                if ( index != -1 ) {
+                if( index != -1 ) {
                     skill_box.setCurrentIndex( index );
                 }
             } else {
@@ -1472,7 +1479,7 @@ void creator::spell_window::populate_fields()
             field_id_box.setCurrentIndex( field_id_box.findText( QString( "NONE" ) ) );
             if( sp_t.field ) {
                 index = field_id_box.findText( QString( field.c_str() ) );
-                if ( index != -1 ) {
+                if( index != -1 ) {
                     field_id_box.setCurrentIndex( index );
                 }
             }
@@ -1482,11 +1489,11 @@ void creator::spell_window::populate_fields()
             min_field_intensity_box.setValue( sp_t.min_field_intensity );
             max_field_intensity_box.setValue( sp_t.max_field_intensity );
             field_intensity_variance_box.setValue( sp_t.field_intensity_variance );
-            
+
 
 
             for( int row = 0; row < affected_bps_box.count(); row++ ) {
-                QListWidgetItem* editItem = affected_bps_box.item( row );
+                QListWidgetItem *editItem = affected_bps_box.item( row );
                 bodypart_str_id bpid = bodypart_str_id( editItem->text().toStdString() );
                 if( sp_t.affected_bps.test( bpid ) ) {
                     editItem->setCheckState( Qt::Checked );
@@ -1508,9 +1515,9 @@ void creator::spell_window::populate_fields()
                 sound_ambient_box.setCheckState( Qt::Checked );
             }
 
-            
+
             QStringList mon_ids;
-            for( const mtype_id& mon_id : sp_t.targeted_monster_ids ) {
+            for( const mtype_id &mon_id : sp_t.targeted_monster_ids ) {
                 mon_ids.append( mon_id->id.c_str() );
             }
             targeted_monster_ids_box.set_included( mon_ids );

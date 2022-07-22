@@ -124,6 +124,7 @@ linked sections:
 | separator               | string                | The string used to separate the label from the widget data. Children will inherit if this is not defined. Mandatory if style is "sidebar".
 | padding                 | int                   | Amount of padding between columns for this widget. Children will inherit if this is not defined. Mandatory if style is "sidebar".
 | [colors](#colors)       | list of strings       | Color names in a spectrum across variable range
+| [breaks](#breaks)       | list of integers      | Color breaks as percentages in the variable range. Optional, overwrites default algorithm.                                                 |
 | [direction](#direction) | string                | Cardinal compass direction like "N" or "SE"
 | [fill](#fill)           | string                | For [graph style](#graph-style), fill using ike "bucket" or "pool"
 | [flags](#flags)         |                       | list of strings | Optional toggles
@@ -768,6 +769,31 @@ The number of colors you use is arbitrary; the [range of possible values](#varia
 mapped as closely as possible to the spectrum of colors, with one exception - variables with a
 "normal" value or range always use white (`c_white`) when the value is within normal.
 
+The color scale can be further customized using [`breaks`](#breaks)
+
+## breaks
+
+Color scales for widgets with "number" or "graph" style can be further customized by defining `breaks`.
+There must be one break less than the number of colors.
+
+For example, you may want the stamina bar to turn red at much higher values already, as a warning sign:
+
+```json
+{
+  "id": "stamina_graph_classic",
+  "type": "widget",
+  "label": "Stam",
+  "var": "stamina",
+  "style": "graph",
+  "width": 5,
+  "symbols": ".\\|",
+  "colors": [ "c_red", "c_light_red", "c_yellow", "c_light_green", "c_green" ],
+  "breaks":[ 50, 70, 90, 95 ]
+}
+```
+
+Breaks are percentages in the spectrum across the widget's values (`var_min` to `var_max`).
+So, 0 stands for `var_min` and 100 for `var_max`. Values <0 and >100 are allowed.
 
 ## flags
 
@@ -823,6 +849,7 @@ which provides text and color definitions for different bodypart status conditio
 | `sym`       | A shortened symbol representing the text.
 | `color`     | Defines the color for the text derived from this "clause".
 | `value`     | A numeric value for this "clause", which may be interpreted differently based on the context of the parent widget.
+| `widgets`   | For "layout" style widgets, the child widgets used for this "clause".
 | `condition` | A dialogue condition (see [Dialogue conditions](NPCs.md#dialogue-conditions)) that dictates whether this clause will be used or not. If the condition is true (or when no condition is defined), the clause can be used to its text/symbol/color in the widget's value.
 
 

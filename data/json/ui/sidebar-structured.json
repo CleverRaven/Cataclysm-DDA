@@ -1,6 +1,7 @@
 [
   {
     "id": "structured_time_moon_layout",
+    "description": "Shows date, time and moon phase.",
     "type": "widget",
     "label": "Date/Time/Moon",
     "style": "layout",
@@ -12,6 +13,7 @@
     "type": "widget",
     "style": "layout",
     "label": "Weather",
+    "description": "Shows weather, light and wind.",
     "arrange": "columns",
     "widgets": [ "weather_desc_no_label", "structured_lighting_layout", "structured_wind_layout" ]
   },
@@ -20,6 +22,7 @@
     "type": "widget",
     "style": "layout",
     "label": "Place/Sound",
+    "description": "Shows the current location and sound emitted.",
     "arrange": "columns",
     "widgets": [ "structured_place_layout", "structured_sound_layout" ]
   },
@@ -70,19 +73,74 @@
     "flags": [ "W_LABEL_NONE" ]
   },
   {
-    "id": "structured_health_layout",
+    "id": "structured_health_encumb_layout",
     "type": "widget",
     "style": "layout",
-    "label": "Health",
+    "label": "Health + Encumb Graph",
     "arrange": "columns",
     "separator": " ",
     "height": 7,
+    "widgets": [
+      "structured_body_graph_encumb_layout",
+      "structured_health_left_layout",
+      "structured_health_mid_layout",
+      "structured_health_right_layout"
+    ]
+  },
+  {
+    "id": "structured_health_hp_layout",
+    "type": "widget",
+    "copy-from": "structured_health_encumb_layout",
+    "label": "Health + HP Graph",
     "widgets": [
       "structured_body_graph_layout",
       "structured_health_left_layout",
       "structured_health_mid_layout",
       "structured_health_right_layout"
-    ]
+    ],
+    "flags": [ "W_DISABLED_BY_DEFAULT" ]
+  },
+  {
+    "id": "structured_health_temp_layout",
+    "type": "widget",
+    "copy-from": "structured_health_encumb_layout",
+    "label": "Health + Temp Graph",
+    "widgets": [
+      "structured_body_graph_temp_layout",
+      "structured_health_left_layout",
+      "structured_health_mid_layout",
+      "structured_health_right_layout"
+    ],
+    "flags": [ "W_DISABLED_BY_DEFAULT" ]
+  },
+  {
+    "id": "structured_health_status_layout",
+    "type": "widget",
+    "copy-from": "structured_health_encumb_layout",
+    "label": "Health + Status Graph",
+    "widgets": [
+      "structured_body_graph_status_layout",
+      "structured_health_left_layout",
+      "structured_health_mid_layout",
+      "structured_health_right_layout"
+    ],
+    "flags": [ "W_DISABLED_BY_DEFAULT" ]
+  },
+  {
+    "id": "structured_health_sa_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Health (self-aware)",
+    "arrange": "columns",
+    "separator": " ",
+    "height": 7,
+    "widgets": [
+      "structured_body_graph_layout",
+      "structured_health_left_sa_layout",
+      "structured_health_mid_sa_layout",
+      "structured_health_right_layout"
+    ],
+    "flags": [ "W_DISABLED_BY_DEFAULT" ]
   },
   {
     "id": "structured_body_graph_layout",
@@ -93,11 +151,30 @@
     "widgets": [ "compact_body_graph" ]
   },
   {
+    "id": "structured_body_graph_encumb_layout",
+    "type": "widget",
+    "copy-from": "structured_body_graph_layout",
+    "widgets": [ "compact_body_graph_encumb" ]
+  },
+  {
+    "id": "structured_body_graph_temp_layout",
+    "type": "widget",
+    "copy-from": "structured_body_graph_layout",
+    "widgets": [ "compact_body_graph_temp" ]
+  },
+  {
+    "id": "structured_body_graph_status_layout",
+    "type": "widget",
+    "copy-from": "structured_body_graph_layout",
+    "widgets": [ "compact_body_graph_status" ]
+  },
+  {
     "id": "structured_health_left_layout",
     "type": "widget",
     "style": "layout",
     "arrange": "rows",
     "width": 10,
+    "separator": " ",
     "widgets": [
       "status_hpg_layout_head",
       "status_hpg_layout_torso",
@@ -114,6 +191,7 @@
     "style": "layout",
     "arrange": "rows",
     "width": 12,
+    "separator": " ",
     "//": "TODO - It is not currently possible to conditionally swap out widgets on the fly. When this is added, vehicle speed should replace speed when driving.",
     "widgets": [
       "pain_desc_no_label",
@@ -122,7 +200,40 @@
       "fatigue_desc_no_label",
       "body_temp_desc_no_label",
       "focus_num",
-      "structured_speed_layout"
+      "structured_speed_vehicle_layout"
+    ]
+  },
+  {
+    "id": "structured_health_left_sa_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "width": 10,
+    "widgets": [
+      "status_hpn_layout_head",
+      "status_hpn_layout_torso",
+      "status_hpn_layout_larm",
+      "status_hpn_layout_rarm",
+      "status_hpn_layout_lleg",
+      "status_hpn_layout_rleg",
+      "power_short_desc"
+    ]
+  },
+  {
+    "id": "structured_health_mid_sa_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "width": 12,
+    "//": "TODO - It is not currently possible to conditionally swap out widgets on the fly. When this is added, vehicle speed should replace speed when driving.",
+    "widgets": [
+      "pain_num_label",
+      "hunger_desc_no_label",
+      "thirst_desc_no_label",
+      "fatigue_desc_no_label",
+      "body_temp_desc_no_label",
+      "focus_num",
+      "structured_speed_vehicle_layout"
     ]
   },
   {
@@ -136,10 +247,23 @@
       "stats_no_label_layout",
       "wielding_desc_no_label",
       "style_desc_no_label",
-      "env_temp_desc_no_label",
+      "structured_temp_extras_layout",
       "structured_mood_safe_mode_layout",
       "structured_stamina_graph"
     ]
+  },
+  {
+    "id": "structured_temp_extras_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "columns",
+    "widgets": [ "body_temp_delta_sym_no_label", "structured_env_temp" ]
+  },
+  {
+    "id": "structured_env_temp",
+    "type": "widget",
+    "text_align": "right",
+    "copy-from": "env_temp_desc_no_label"
   },
   {
     "id": "structured_stats_label",
@@ -161,12 +285,18 @@
     "copy-from": "safe_mode_classic_desc"
   },
   {
-    "id": "structured_speed_layout",
+    "id": "structured_speed_vehicle_layout",
     "type": "widget",
     "style": "layout",
-    "label": "Speed",
     "arrange": "columns",
-    "widgets": [ "structured_speed_num_layout", "structured_move_count_mode_layout" ]
+    "clauses": [
+      { "id": "driving", "widgets": [ "vehicle_cruise_desc_no_label" ], "condition": "u_driving" },
+      {
+        "id": "not_driving",
+        "widgets": [ "structured_speed_num_layout", "structured_move_count_mode_layout" ],
+        "condition": { "not": "u_driving" }
+      }
+    ]
   },
   {
     "id": "structured_speed_num_layout",
@@ -209,16 +339,32 @@
     "flags": [ "W_LABEL_NONE" ]
   },
   {
-    "id": "structured_all_weariness_layout",
+    "id": "structured_all_weariness_graph_layout",
     "type": "widget",
     "style": "layout",
-    "label": "Weariness/Activity",
+    "label": "Weariness alt",
     "arrange": "columns",
     "widgets": [
       "weariness_desc_no_label",
       "structured_weariness_transition_graph",
       "activity_desc_no_label",
-      "weary_malus_desc_no_label"
+      "weary_malus_desc_no_label",
+      "structured_carry_weight_graph"
+    ],
+    "flags": [ "W_DISABLED_BY_DEFAULT" ]
+  },
+  {
+    "id": "structured_all_weariness_text_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Weariness",
+    "arrange": "columns",
+    "widgets": [
+      "weariness_desc_no_label",
+      "structured_weariness_transition_graph",
+      "activity_desc_no_label",
+      "weary_malus_desc_no_label",
+      "structured_carry_weight_text"
     ]
   },
   {
@@ -226,11 +372,26 @@
     "type": "widget",
     "label": "Transition",
     "style": "graph",
+    "var": "weary_transition_level",
     "symbols": ".\\|",
     "width": 9,
     "colors": [ "c_red", "c_light_red", "c_yellow", "c_light_green", "c_green" ],
-    "var": "weary_transition_level",
     "flags": [ "W_LABEL_NONE" ]
+  },
+  {
+    "id": "structured_carry_weight_graph",
+    "type": "widget",
+    "copy-from": "carry_weight_graph_label",
+    "label": "Wt",
+    "separator": " "
+  },
+  {
+    "id": "structured_carry_weight_text",
+    "type": "widget",
+    "copy-from": "carry_weight_text_label",
+    "label": "Wt",
+    "text_align": "right",
+    "separator": " "
   },
   {
     "id": "structured_overmap_compass_9x9_layout",
@@ -238,7 +399,7 @@
     "style": "layout",
     "label": "Compass/Overmap 9x9",
     "arrange": "columns",
-    "widgets": [ "structured_overmap_9x9_layout", "structured_vehicle_compass_9x9_layout" ],
+    "widgets": [ "structured_overmap_9x9_layout", "structured_compass_9x9_layout" ],
     "flags": [ "W_DISABLED_BY_DEFAULT" ]
   },
   {
@@ -247,7 +408,7 @@
     "style": "layout",
     "label": "Compass/Overmap 7x7",
     "arrange": "columns",
-    "widgets": [ "structured_overmap_7x7_layout", "structured_vehicle_compass_7x7_layout" ]
+    "widgets": [ "structured_overmap_7x7_layout", "structured_compass_7x7_layout" ]
   },
   {
     "id": "structured_overmap_compass_5x5_layout",
@@ -255,32 +416,8 @@
     "style": "layout",
     "label": "Compass/Overmap 5x5",
     "arrange": "columns",
-    "widgets": [ "structured_overmap_5x5_layout", "structured_vehicle_compass_5x5_layout" ],
+    "widgets": [ "structured_overmap_5x5_layout", "structured_compass_5x5_layout" ],
     "flags": [ "W_DISABLED_BY_DEFAULT" ]
-  },
-  {
-    "id": "structured_vehicle_compass_9x9_layout",
-    "type": "widget",
-    "style": "layout",
-    "arrange": "rows",
-    "width": 35,
-    "widgets": [ "structured_vehicle_layout", "structured_compass_9x9_layout" ]
-  },
-  {
-    "id": "structured_vehicle_compass_7x7_layout",
-    "type": "widget",
-    "style": "layout",
-    "arrange": "rows",
-    "width": 37,
-    "widgets": [ "structured_vehicle_layout", "structured_compass_7x7_layout" ]
-  },
-  {
-    "id": "structured_vehicle_compass_5x5_layout",
-    "type": "widget",
-    "style": "layout",
-    "arrange": "rows",
-    "width": 39,
-    "widgets": [ "structured_vehicle_layout", "structured_compass_5x5_layout" ]
   },
   {
     "id": "structured_compass_9x9_layout",
@@ -357,34 +494,11 @@
     "height": 5
   },
   {
-    "id": "structured_vehicle_layout",
-    "type": "widget",
-    "label": "Vehicle",
-    "style": "layout",
-    "arrange": "columns",
-    "widgets": [ "structured_vehicle_cruise_layout", "structured_vehicle_fuel_layout" ]
-  },
-  {
-    "id": "structured_vehicle_cruise_layout",
-    "type": "widget",
-    "style": "layout",
-    "arrange": "rows",
-    "width": 24,
-    "widgets": [ "vehicle_cruise_desc_label" ]
-  },
-  {
-    "id": "structured_vehicle_fuel_layout",
-    "type": "widget",
-    "style": "layout",
-    "arrange": "rows",
-    "width": 10,
-    "widgets": [ "vehicle_fuel_desc_label" ]
-  },
-  {
     "id": "structured_sidebar",
     "type": "widget",
     "style": "sidebar",
     "label": "structured",
+    "description": "A compact, structured sidebar for\nplaying with large font size or\nsmall resolution.",
     "separator": ": ",
     "width": 48,
     "padding": 1,
@@ -393,9 +507,14 @@
       "structured_weather_layout",
       "structured_place_sound_layout",
       "separator",
-      "structured_health_layout",
+      "structured_health_encumb_layout",
+      "structured_health_hp_layout",
+      "structured_health_status_layout",
+      "structured_health_temp_layout",
+      "structured_health_sa_layout",
       "separator",
-      "structured_all_weariness_layout",
+      "structured_all_weariness_text_layout",
+      "structured_all_weariness_graph_layout",
       "separator",
       "structured_overmap_compass_9x9_layout",
       "structured_overmap_compass_7x7_layout",
