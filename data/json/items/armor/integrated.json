@@ -776,7 +776,7 @@
     "warmth": 0,
     "environmental_protection": 1,
     "material_thickness": 1.25,
-    "flags": [ "INTEGRATED", "UNBREAKABLE", "PERSONAL", "PADDED", "WATER_FRIENDLY", "SOFT", "NO_REPAIR" ],
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "PERSONAL", "PADDED", "WATER_FRIENDLY", "SOFT", "NO_REPAIR", "ALLOWS_NATURAL_ATTACKS" ],
     "material": [ "superalloy" ],
     "name": { "str_sp": "subdermal carbon filament" },
     "description": "A layer of thin carbon nanotubes implanted in your skin.  Helps protect your vitals from laceration.",
