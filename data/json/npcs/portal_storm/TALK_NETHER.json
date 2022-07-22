@@ -1,0 +1,102 @@
+[
+  {
+    "id": "TALK_NETHER_SCHOOL",
+    "type": "talk_topic",
+    "dynamic_line": "&Whatever is actually happening your mind perceives you in school taking a test.  You aren't sure you've ever learned this subject before, what do you do?",
+    "responses": [
+      { "text": "Flee", "effect": { "u_message": "flee" }, "topic": "TALK_DONE" },
+      { "text": "Try your best", "effect": { "u_message": "best" }, "topic": "TALK_DONE" },
+      { "text": "Cheat", "effect": { "u_message": "cheat" }, "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_NETHER_TABLE",
+    "type": "talk_topic",
+    "dynamic_line": "&Whatever is actually happening your mind perceives you standing before a table.  On the table are a sword, a book and a set of keys.",
+    "responses": [
+      { "text": "Take the sword", "effect": { "u_message": "sword" }, "topic": "TALK_DONE" },
+      { "text": "Take the book", "effect": { "u_message": "book" }, "topic": "TALK_DONE" },
+      { "text": "Take the set of keys", "effect": { "u_message": "keys" }, "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_NETHER_CLOWN",
+    "type": "talk_topic",
+    "dynamic_line": "&Whatever is actually happening your mind perceives you attending a circus.  You see a clown approaching several smiling children with a sinister grin.",
+    "responses": [
+      { "text": "Attack the clown", "effect": { "u_message": "attack" }, "topic": "TALK_DONE" },
+      { "text": "Convince the children to flee", "effect": { "u_message": "flee" }, "topic": "TALK_DONE" },
+      { "text": "Watch.", "effect": { "u_message": "watch" }, "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_NETHER_FEAST",
+    "type": "talk_topic",
+    "dynamic_line": "&Whatever is actually happening your mind perceives you sitting before a massive feast made from human flesh.",
+    "responses": [
+      { "text": "Eat an eye", "effect": { "u_message": "eye" }, "topic": "TALK_DONE" },
+      { "text": "Eat the brain", "effect": { "u_message": "brain" }, "topic": "TALK_DONE" },
+      { "text": "Eat the stomach", "effect": { "u_message": "stomach" }, "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_NETHER_FIGHT",
+    "type": "talk_topic",
+    "dynamic_line": "&Whatever is actually happening your mind perceives you watching two people fight to the death.",
+    "responses": [
+      { "text": "Help the smaller one", "effect": { "u_message": "small" }, "topic": "TALK_DONE" },
+      { "text": "Help the larger one", "effect": { "u_message": "large" }, "topic": "TALK_DONE" },
+      { "text": "Watch", "effect": { "u_message": "watch" }, "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_NETHER_MIRRORS",
+    "type": "talk_topic",
+    "dynamic_line": "&Whatever is actually happening your mind perceives you looking at funhouse mirrors.",
+    "responses": [
+      { "text": "Gaze in the one which makes you taller", "effect": { "u_message": "tall" }, "topic": "TALK_DONE" },
+      { "text": "Gaze in the one that makes you fatter", "effect": { "u_message": "fatter" }, "topic": "TALK_DONE" },
+      { "text": "Gaze in the normal one", "effect": { "u_message": "normal" }, "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_NETHER_HOUSE",
+    "type": "talk_topic",
+    "dynamic_line": "&Whatever is actually happening your mind perceives you finishing building a house, it lacks only the top piece.",
+    "responses": [
+      { "text": "Finish it with an ordinary brick", "effect": { "u_message": "brick" }, "topic": "TALK_DONE" },
+      { "text": "Finish it with a gargoyle", "effect": { "u_message": "gargoyle" }, "topic": "TALK_DONE" },
+      { "text": "Finish it with a statue of yourself", "effect": { "u_message": "you" }, "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_NETHER_LINE",
+    "type": "talk_topic",
+    "dynamic_line": "&Whatever is actually happening your mind perceives yourself waiting in a long line.",
+    "responses": [
+      { "text": "Attempt to skip places", "effect": { "u_message": "skip" }, "topic": "TALK_DONE" },
+      { "text": "Continue to wait", "effect": { "u_message": "wait" }, "topic": "TALK_DONE" },
+      { "text": "Leave the line", "effect": { "u_message": "leave" }, "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_NETHER_FARMER",
+    "type": "talk_topic",
+    "dynamic_line": "&Whatever is actually happening your mind perceives you as a farmer looking at their cattle.",
+    "responses": [
+      { "text": "Milk the cattle", "effect": { "u_message": "milk" }, "topic": "TALK_DONE" },
+      { "text": "Butcher the cattle", "effect": { "u_message": "butcher" }, "topic": "TALK_DONE" },
+      { "text": "Free the cattle", "effect": { "u_message": "free" }, "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_NETHER_GOD",
+    "type": "talk_topic",
+    "dynamic_line": "&Whatever is actually happening your mind perceives you as a god creating a species.",
+    "responses": [
+      { "text": "Grant them intelligence", "effect": { "u_message": "intelligence" }, "topic": "TALK_DONE" },
+      { "text": "Grant them vast numbers", "effect": { "u_message": "numbers" }, "topic": "TALK_DONE" },
+      { "text": "Grant them strength", "effect": { "u_message": "strength" }, "topic": "TALK_DONE" }
+    ]
+  }
+]

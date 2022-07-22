@@ -1,0 +1,141 @@
+[
+  {
+    "id": "TALK_NETHER_JUDGE",
+    "type": "talk_topic",
+    "dynamic_line": "&Whatever is actually happening your mind perceives you sitting as a judge in a courtroom.  Before you a prisoner awaits judgement.",
+    "responses": [
+      { "text": "Declare them guilty", "topic": "TALK_NETHER_JUDGE_GUILTY" },
+      { "text": "Declare them innocent", "topic": "TALK_NETHER_JUDGE_INNOCENT" },
+      { "text": "Declare a mistrial.", "topic": "TALK_NETHER_JUDGE_MISTRIAL" }
+    ]
+  },
+  {
+    "id": "TALK_NETHER_JUDGE_GUILTY",
+    "type": "talk_topic",
+    "dynamic_line": "&The prisoner looks at you with a an expression of resigned sadness and quietly says \"I suppose it was naive to hope for justice from one such as you.\".  As they are sent away to die, your attendant asks what you would like to do next.",
+    "responses": [
+      { "text": "Order lunch", "topic": "TALK_NETHER_JUDGE_GUILTY_LUNCH" },
+      { "text": "Send in the next case", "topic": "TALK_NETHER_JUDGE_GUILTY_NEXT" },
+      { "text": "Take a quick break to clear your head", "topic": "TALK_NETHER_JUDGE_GUILTY_BREAK" }
+    ]
+  },
+  {
+    "id": "TALK_NETHER_JUDGE_GUILTY_LUNCH",
+    "type": "talk_topic",
+    "dynamic_line": "&As always the chef is a genius and it is a lunch to die for.  In this case literally.  You can feel your life draining quickly away, with time for a last action.",
+    "responses": [
+      { "text": "Accuse the chef of poisoning you and order him killed", "topic": "TALK_DONE" },
+      { "text": "See it as a divine judgement on your actions and humbly accept this death", "topic": "TALK_DONE" },
+      { "text": "Loudly cry out for a doctor", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_NETHER_JUDGE_GUILTY_NEXT",
+    "type": "talk_topic",
+    "dynamic_line": "&You do your best to pay attention to the details of the new case but there are a lot of them and some slip by.  In the end you are uncertain as to the actual truth but the crowds desired outcome is clear.",
+    "responses": [
+      { "text": "Go with the crowds opinion", "topic": "TALK_DONE" },
+      { "text": "Go against the crowd", "topic": "TALK_DONE" },
+      { "text": "Pass the case off to a higher authority", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_NETHER_JUDGE_GUILTY_BREAK",
+    "type": "talk_topic",
+    "dynamic_line": "&Alone in your office you contemplate your options.  You look around at all your vast legal tomes, contrasted by the various pieces of art you keep to showcase your wealth.",
+    "responses": [
+      { "text": "Vow to be a better judge. Then return to court.", "topic": "TALK_DONE" },
+      {
+        "text": "Vow to enjoy life while it lasts. Then abandon court to engage in debauchery.",
+        "topic": "TALK_DONE"
+      },
+      { "text": "Vow to find a job you are better suited for. Then leave to seek it.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_NETHER_JUDGE_INNOCENT",
+    "type": "talk_topic",
+    "dynamic_line": "&The prisoner looks at you with a confident smile and walks over to shake your hand.  They whisper \"You were worth every cent.  Thanks again.\".",
+    "responses": [
+      { "text": "Enjoy your ill gotten gains.", "topic": "TALK_NETHER_JUDGE_INNOCENT_ENJOY" },
+      { "text": "Plot the demise of the prisoner.", "topic": "TALK_NETHER_JUDGE_INNOCENT_DEMISE" },
+      {
+        "text": "Decide to use the profits to save more lives than it cost.",
+        "topic": "TALK_NETHER_JUDGE_INNOCENT_UTILITARIAN"
+      }
+    ]
+  },
+  {
+    "id": "TALK_NETHER_JUDGE_INNOCENT_ENJOY",
+    "type": "talk_topic",
+    "dynamic_line": "&You leave court early to enjoy your new wealth.  So many things you could do.",
+    "responses": [
+      { "text": "Go shopping for things to show off your wealth.", "topic": "TALK_DONE" },
+      { "text": "Seek out drugs and pleasures of the flesh.", "topic": "TALK_DONE" },
+      { "text": "Go fill a vat with gold coins to dive into.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_NETHER_JUDGE_INNOCENT_DEMISE",
+    "type": "talk_topic",
+    "dynamic_line": "&Taking that scums money and then using some of it to see justice done is a clear win win.",
+    "responses": [
+      { "text": "Hire someone to kill the prisoner.", "topic": "TALK_DONE" },
+      { "text": "Wait till the prisoner is alone and strangle them.", "topic": "TALK_DONE" },
+      { "text": "Frame the prisoner for a different crime.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_NETHER_JUDGE_INNOCENT_UTILITARIAN",
+    "type": "talk_topic",
+    "dynamic_line": "&It is a good thing to let one guilty person go free in order to prevent many other deaths with the profits.",
+    "responses": [
+      { "text": "Feed the starving.", "topic": "TALK_DONE" },
+      { "text": "Cure the sick.", "topic": "TALK_DONE" },
+      { "text": "Influence the government to help its citizens more.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_NETHER_JUDGE_MISTRIAL",
+    "type": "talk_topic",
+    "dynamic_line": "&The prisoner glares at you and says \"Coward!  You could not even do me the decency of a quick death, now I must rot even longer to be free one way or another.\".  A quick look around reveals that most of the crowd agrees with the sentiment.",
+    "responses": [
+      { "text": "Defend your ruling.", "topic": "TALK_NETHER_JUDGE_MISTRIAL_DEFEND" },
+      { "text": "Attempt to slink away.", "topic": "TALK_NETHER_JUDGE_MISTRIAL_SLINK" },
+      { "text": "Ignore the ramblings of your inferiors.", "topic": "TALK_NETHER_JUDGE_MISTRIAL_IGNORE" }
+    ]
+  },
+  {
+    "id": "TALK_NETHER_JUDGE_MISTRIAL_DEFEND",
+    "type": "talk_topic",
+    "dynamic_line": "&You didn't get to be a judge without knowing how to work a courtroom.  One long, winding, arguably mostly honest speech later and enough people are convinced you were right for it to be ok.",
+    "responses": [
+      { "text": "Ok isn't good enough.  Keep going till everyones on your side.", "topic": "TALK_DONE" },
+      { "text": "Leave well enough alone and try to move past this.", "topic": "TALK_DONE" },
+      {
+        "text": "Make sure to ask your attendant to ask around and make certain this is behind you.",
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "id": "TALK_NETHER_JUDGE_MISTRIAL_SLINK",
+    "type": "talk_topic",
+    "dynamic_line": "&A door opens loudly and while everyone is looking you escape into your chambers.  Surely this will all blow over.",
+    "responses": [
+      { "text": "Relax and take a nap to pass the time.", "topic": "TALK_DONE" },
+      { "text": "See if you can listen through the door.", "topic": "TALK_DONE" },
+      { "text": "Sneak out a window and head home.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_NETHER_JUDGE_MISTRIAL_IGNORE",
+    "type": "talk_topic",
+    "dynamic_line": "&After a few minutes the noise dies down and order is restored.  You have a full slate of other cases awaiting judgement.",
+    "responses": [
+      { "text": "Do your best.", "topic": "TALK_DONE" },
+      { "text": "Mistrials for all.", "topic": "TALK_DONE" },
+      { "text": "Flip a coin for each.", "topic": "TALK_DONE" }
+    ]
+  }
+]

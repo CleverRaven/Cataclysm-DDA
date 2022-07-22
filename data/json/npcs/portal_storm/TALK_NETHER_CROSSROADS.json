@@ -1,0 +1,132 @@
+[
+  {
+    "id": "TALK_NETHER_CROSSROADS",
+    "type": "talk_topic",
+    "dynamic_line": "&Whatever is actually happening, your mind perceives you walking up to an intersection.  There are 3 roads, one flat barren and empty, one dark, damaged and mountainous, and one the way you came from.",
+    "responses": [
+      { "text": "Take the flat road", "topic": "TALK_NETHER_CROSSROADS_FLAT" },
+      { "text": "Take the mountainous road", "topic": "TALK_NETHER_CROSSROADS_MOUNTAIN" },
+      { "text": "Return the way you came", "topic": "TALK_NETHER_CROSSROADS_RETURN" }
+    ]
+  },
+  {
+    "id": "TALK_NETHER_CROSSROADS_FLAT",
+    "type": "talk_topic",
+    "dynamic_line": "&You walk for what feels like weeks without seeing a single landmark or change of scenery.",
+    "responses": [
+      { "text": "Stay the course", "topic": "TALK_NETHER_CROSSROADS_FLAT_STAY" },
+      { "text": "Abandon the road", "topic": "TALK_NETHER_CROSSROADS_FLAT_ABANDON" },
+      { "text": "Go back", "topic": "TALK_NETHER_CROSSROADS_FLAT_BACK" }
+    ]
+  },
+  {
+    "id": "TALK_NETHER_CROSSROADS_FLAT_STAY",
+    "type": "talk_topic",
+    "dynamic_line": "&Years pass, maybe decades and still nothing changes.  Nothing that is but you.",
+    "responses": [
+      { "text": "Persistence is its own reward", "effect": { "u_message": "persist" }, "topic": "TALK_DONE" },
+      { "text": "Distance is an illusion", "effect": { "u_message": "mountain" }, "topic": "TALK_DONE" },
+      { "text": "Time spent is different than time lived", "effect": { "u_message": "came" }, "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_NETHER_CROSSROADS_FLAT_ABANDON",
+    "type": "talk_topic",
+    "dynamic_line": "&Without the road as a contrast it is impossible to say anything at all about where you go.  After a long time some dormant sense begins to feel slight resonances.",
+    "responses": [
+      { "text": "Follow the strongest resonance", "effect": { "u_message": "flat" }, "topic": "TALK_DONE" },
+      { "text": "Follow the safest seeming resonance", "effect": { "u_message": "mountain" }, "topic": "TALK_DONE" },
+      { "text": "Follow the faintest resonance", "effect": { "u_message": "came" }, "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_NETHER_CROSSROADS_FLAT_BACK",
+    "type": "talk_topic",
+    "dynamic_line": "&You walk back for what feels like several times longer than it took you to get here.  When you finally get back the sun seems to be setting.",
+    "responses": [
+      { "text": "Prepare to sleep through the night", "effect": { "u_message": "flat" }, "topic": "TALK_DONE" },
+      { "text": "Prepare to make a fire and stay alert", "effect": { "u_message": "mountain" }, "topic": "TALK_DONE" },
+      { "text": "Travel through the night", "effect": { "u_message": "came" }, "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_NETHER_CROSSROADS_MOUNTAIN",
+    "type": "talk_topic",
+    "dynamic_line": "&You climb the mountainous road.  It is a harsh journey but you are relentless and eventually reach a beautiful lookout.",
+    "responses": [
+      { "text": "Rest and enjoy the view", "topic": "TALK_NETHER_CROSSROADS_MOUNTAIN_REST" },
+      { "text": "Continue on the road", "topic": "TALK_NETHER_CROSSROADS_MOUNTAIN_CONTINUE" },
+      { "text": "Head back the way you came", "topic": "TALK_NETHER_CROSSROADS_MOUNTAIN_BACK" }
+    ]
+  },
+  {
+    "id": "TALK_NETHER_CROSSROADS_MOUNTAIN_REST",
+    "type": "talk_topic",
+    "dynamic_line": "&You relax and recover your stamina while gazing on a beautiful valley.",
+    "responses": [
+      { "text": "Abandon the climb and descend into the valley", "effect": { "u_message": "flat" }, "topic": "TALK_DONE" },
+      { "text": "Continue on the road reinvigorated", "effect": { "u_message": "mountain" }, "topic": "TALK_DONE" },
+      { "text": "Make camp here", "effect": { "u_message": "came" }, "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_NETHER_CROSSROADS_MOUNTAIN_CONTINUE",
+    "type": "talk_topic",
+    "dynamic_line": "&You continue to follow the road, it grows harder and you are weary but you do not stop.  It grows dark and howls can be heard in the distance.",
+    "responses": [
+      { "text": "Attempt to make a fire and remain alert", "effect": { "u_message": "flat" }, "topic": "TALK_DONE" },
+      { "text": "Attempt to find a place to hide", "effect": { "u_message": "mountain" }, "topic": "TALK_DONE" },
+      { "text": "Continue on the road", "effect": { "u_message": "came" }, "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_NETHER_CROSSROADS_MOUNTAIN_BACK",
+    "type": "talk_topic",
+    "dynamic_line": "&You climb back down the mountainous road.  It is a much easier journey and you find quickly find yourself at your starting spot.  As you arrive you are suprised to learn you are not alone, several indistinct figures suddenly appear.",
+    "responses": [
+      { "text": "Attack the figures", "effect": { "u_message": "flat" }, "topic": "TALK_DONE" },
+      { "text": "Flee from the figures", "effect": { "u_message": "mountain" }, "topic": "TALK_DONE" },
+      { "text": "Greet the figures", "effect": { "u_message": "came" }, "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_NETHER_CROSSROADS_RETURN",
+    "type": "talk_topic",
+    "dynamic_line": "&You turn around and leave before you arrive.  You're not sure where you came from or why you left but it must be better than here.  After a journey you can't quite recall, you arrive at your home.  Several figures that must be family are present and welcome you.",
+    "responses": [
+      { "text": "Attack them", "topic": "TALK_NETHER_CROSSROADS_RETURN_ATTACK" },
+      { "text": "Embrace them", "topic": "TALK_NETHER_CROSSROADS_RETURN_EMBRACE" },
+      { "text": "Flee them", "topic": "TALK_NETHER_CROSSROADS_RETURN_FLEE" }
+    ]
+  },
+  {
+    "id": "TALK_NETHER_CROSSROADS_RETURN_ATTACK",
+    "type": "talk_topic",
+    "dynamic_line": "&You attack the figures before they can ambush you.  You quickly kill several before the others surrender.",
+    "responses": [
+      { "text": "Take no prisoners", "effect": { "u_message": "flat" }, "topic": "TALK_DONE" },
+      { "text": "Capture the rest", "effect": { "u_message": "mountain" }, "topic": "TALK_DONE" },
+      { "text": "Apologize for the attack and release them", "effect": { "u_message": "came" }, "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_NETHER_CROSSROADS_RETURN_EMBRACE",
+    "type": "talk_topic",
+    "dynamic_line": "&You embrace the figures and feel an incredibly tight and unyielding grip.",
+    "responses": [
+      { "text": "Endure the love of your family", "effect": { "u_message": "flat" }, "topic": "TALK_DONE" },
+      { "text": "Attempt to flee the strangers ambush", "effect": { "u_message": "mountain" }, "topic": "TALK_DONE" },
+      { "text": "Succumb to oblivion", "effect": { "u_message": "came" }, "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_NETHER_CROSSROADS_RETURN_FLEE",
+    "type": "talk_topic",
+    "dynamic_line": "&You can't be sure of the intentions of these people so you flee.  You pass numerous buildings that you half remember looking for shelter.",
+    "responses": [
+      { "text": "The library looks empty", "effect": { "u_message": "flat" }, "topic": "TALK_DONE" },
+      { "text": "No one will check the outhouse", "effect": { "u_message": "mountain" }, "topic": "TALK_DONE" },
+      { "text": "The tavern will let you blend in", "effect": { "u_message": "came" }, "topic": "TALK_DONE" }
+    ]
+  }
+]
