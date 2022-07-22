@@ -236,7 +236,8 @@
       { "u_add_var": "u_witnessed_portal_storm", "type": "global", "context": "portal_storms", "value": "yes" },
       { "run_eocs": [ "EOC_WORSEN_PORTAL_STORM", "EOC_PORTAL_STORM_DUNGEON_EXIT" ] },
       { "finish_mission": "MISSION_INVESTIGATE_PORTAL_DUNGEON", "success": false },
-      { "alter_timed_events": "portal_dungeon_entrance" }
+      { "alter_timed_events": "portal_dungeon_entrance" },
+      { "u_adjust_var": "portal_storm_counter", "type": "counter", "adjustment": 1 }
     ]
   },
   {

@@ -2211,10 +2211,10 @@ void Character::consume_tools( const std::vector<tool_comp> &tools, int batch )
     consume_tools( select_tool_component( tools, batch, map_inv ), batch );
 }
 
-ret_val<bool> Character::can_disassemble( const item &obj, const read_only_visitable &inv ) const
+ret_val<void> Character::can_disassemble( const item &obj, const read_only_visitable &inv ) const
 {
     if( !obj.is_disassemblable() ) {
-        return ret_val<bool>::make_failure( _( "You cannot disassemble this." ) );
+        return ret_val<void>::make_failure( _( "You cannot disassemble this." ) );
     }
 
     const recipe &r = recipe_dictionary::get_uncraft( ( obj.typeId() == itype_disassembly ) ?
@@ -2222,18 +2222,18 @@ ret_val<bool> Character::can_disassemble( const item &obj, const read_only_visit
 
     // check sufficient light
     if( lighting_craft_speed_multiplier( r ) == 0.0f ) {
-        return ret_val<bool>::make_failure( _( "You can't see to craft!" ) );
+        return ret_val<void>::make_failure( _( "You can't see to craft!" ) );
     }
 
     // refuse to disassemble rotten items
     if( obj.goes_bad() && obj.rotten() ) {
-        return ret_val<bool>::make_failure( _( "It's rotten, I'm not taking that apart." ) );
+        return ret_val<void>::make_failure( _( "It's rotten, I'm not taking that apart." ) );
     }
 
     // refuse to disassemble items containing monsters/pets
     std::string monster = obj.get_var( "contained_name" );
     if( !monster.empty() ) {
-        return ret_val<bool>::make_failure( _( "You must remove the %s before you can disassemble this." ),
+        return ret_val<void>::make_failure( _( "You must remove the %s before you can disassemble this." ),
                                             monster );
     }
 
@@ -2244,7 +2244,7 @@ ret_val<bool> Character::can_disassemble( const item &obj, const read_only_visit
             if( obj.charges < qty ) {
                 const char *msg = n_gettext( "You need at least %d charge of %s.",
                                              "You need at least %d charges of %s.", qty );
-                return ret_val<bool>::make_failure( msg, qty, obj.tname() );
+                return ret_val<void>::make_failure( msg, qty, obj.tname() );
             }
         }
     }
@@ -2254,7 +2254,7 @@ ret_val<bool> Character::can_disassemble( const item &obj, const read_only_visit
         for( const quality_requirement &qual : opts ) {
             if( !qual.has( inv, return_true<item> ) ) {
                 // Here should be no dot at the end of the string as 'to_string()' provides it.
-                return ret_val<bool>::make_failure( _( "You need %s" ), qual.to_string() );
+                return ret_val<void>::make_failure( _( "You need %s" ), qual.to_string() );
             }
         }
     }
@@ -2269,11 +2269,11 @@ ret_val<bool> Character::can_disassemble( const item &obj, const read_only_visit
         if( !found ) {
             const tool_comp &tool_required = opts.front();
             if( tool_required.count <= 0 ) {
-                return ret_val<bool>::make_failure( _( "You need %s." ),
+                return ret_val<void>::make_failure( _( "You need %s." ),
                                                     item::nname( tool_required.type ) );
             } else {
                 //~ %1$s: tool name, %2$d: needed charges
-                return ret_val<bool>::make_failure( n_gettext( "You need a %1$s with %2$d charge.",
+                return ret_val<void>::make_failure( n_gettext( "You need a %1$s with %2$d charge.",
                                                     "You need a %1$s with %2$d charges.", tool_required.count ),
                                                     item::nname( tool_required.type ),
                                                     tool_required.count );
@@ -2281,7 +2281,7 @@ ret_val<bool> Character::can_disassemble( const item &obj, const read_only_visit
         }
     }
 
-    return ret_val<bool>::make_success();
+    return ret_val<void>::make_success();
 }
 
 item_location Character::create_in_progress_disassembly( item_location target )

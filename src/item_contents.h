@@ -55,7 +55,7 @@ class item_contents
          * Ignores mod, migration, corpse pockets
          * @param it the item being put in
          */
-        ret_val<bool> is_compatible( const item &it ) const;
+        ret_val<void> is_compatible( const item &it ) const;
 
         /**
          * returns whether an item can be physically stored within these item contents.
@@ -64,8 +64,8 @@ class item_contents
          * @param it the item being put in
          * @param ignore_pkt_settings whether to ignore pocket autoinsert settings
          */
-        ret_val<bool> can_contain( const item &it, bool ignore_pkt_settings = true ) const;
-        ret_val<bool> can_contain_rigid( const item &it, bool ignore_pkt_settings = true ) const;
+        ret_val<void> can_contain( const item &it, bool ignore_pkt_settings = true ) const;
+        ret_val<void> can_contain_rigid( const item &it, bool ignore_pkt_settings = true ) const;
         bool can_contain_liquid( bool held_or_ground ) const;
 
         bool contains_no_solids() const;

@@ -1722,7 +1722,6 @@ class map
         void mirror( bool mirror_horizontal, bool mirror_vertical );
 
         // Monster spawning:
-    public:
         /**
          * Spawn monsters from submap spawn points and from the overmap.
          * @param ignore_sight If true, monsters may spawn in the view of the player

@@ -255,6 +255,7 @@ void overmapbuffer::clear()
 {
     overmaps.clear();
     known_non_existing.clear();
+    placed_unique_specials.clear();
     last_requested_overmap = nullptr;
 }
 
@@ -1084,6 +1085,19 @@ bool overmapbuffer::check_overmap_special_type( const overmap_special_id &id,
 {
     const overmap_with_local_coords om_loc = get_om_global( loc );
     return om_loc.om->check_overmap_special_type( id, om_loc.local );
+}
+
+void overmapbuffer::add_unique_special( const overmap_special_id &id )
+{
+    if( contains_unique_special( id ) ) {
+        debugmsg( "Unique overmap special placed more than once: %s", id.str() );
+    }
+    placed_unique_specials.emplace( id );
+}
+
+bool overmapbuffer::contains_unique_special( const overmap_special_id &id ) const
+{
+    return placed_unique_specials.find( id ) != placed_unique_specials.end();
 }
 
 static omt_find_params assign_params(
