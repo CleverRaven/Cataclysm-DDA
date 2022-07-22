@@ -87,7 +87,7 @@ class string_input_popup // NOLINT(cata-xy)
 
         std::unique_ptr<input_context> ctxt_ptr;
         input_context *ctxt = nullptr;
-        std::vector<std::tuple<std::string, long, std::function<bool()>>> callbacks;
+        std::vector<std::tuple<std::string, int, std::function<bool()>>> callbacks;
 
         bool _canceled = false;
         bool _confirmed = false;
