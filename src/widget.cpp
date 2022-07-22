@@ -277,6 +277,8 @@ void widget_clause::load( const JsonObject &jo )
         read_condition<dialogue>( jo, "condition", condition, false );
         has_condition = true;
     }
+
+    optional( jo, false, "widgets", widgets, string_id_reader<::widget> {} );
 }
 
 bool widget_clause::meets_condition( const std::string &opt_var ) const
@@ -508,14 +510,21 @@ void widget::finalize_inherited_fields_recursive( const widget_id &id,
     if( !w->explicit_padding ) {
         w->_padding = col_padding;
     }
-    if( w->_widgets.empty() ) {
-        return;
-    }
+
     // If we get here, we have a layout that contains nested widgets.
     for( const widget_id &wid : w->_widgets ) {
         widget::finalize_inherited_fields_recursive( wid,
                 w->explicit_separator ? w->_separator : label_separator,
                 w->explicit_padding ? w->_padding : col_padding );
+    }
+
+    // Also do it for widgets used in clauses
+    for( const widget_clause &clause : w->_clauses ) {
+        for( const widget_id &wid : clause.widgets ) {
+            widget::finalize_inherited_fields_recursive( wid,
+                    w->explicit_separator ? w->_separator : label_separator,
+                    w->explicit_padding ? w->_padding : col_padding );
+        }
     }
 }
 
@@ -855,8 +864,9 @@ static int custom_draw_func( const draw_args &args )
     } else if( wgt->_style == "layout" ) {
         if( wgt->_arrange == "rows" ) {
             // Layout widgets in rows
+            std::vector<string_id<widget>> widgets = wgt->widgets( !wgt->_clauses.empty() );
             int row_num = 0;
-            for( const widget_id &row_wid : wgt->_widgets ) {
+            for( const widget_id &row_wid : widgets ) {
                 widget row_widget = row_wid.obj();
 
                 const std::string txt = row_widget.layout( u, widt, wgt->_label_width,
@@ -868,6 +878,14 @@ static int custom_draw_func( const draw_args &args )
                     // draw normally
                     row_num = widget::custom_draw_multiline( txt, w, margin, widt, row_num );
                 }
+            }
+
+            if( wgt->has_flag( json_flag_W_DYNAMIC_HEIGHT ) ) {
+                wgt->_height = row_num;
+            }
+            if( disable_empty && widgets.empty() ) {
+                // reclaim the skipped height in the sidebar
+                height_diff -= wgt->_height;
             }
         } else {
             // Layout widgets in columns
@@ -910,6 +928,15 @@ window_panel widget::get_window_panel( const int width, const int req_height )
         height = 0;
         for( const widget_id &wid : _widgets ) {
             height += wid->_height > 0 ? wid->_height : 1;
+        }
+        for( const widget_clause &clause : _clauses ) {
+            int clause_height = 0;
+            for( const widget_id &wid : clause.widgets ) {
+                clause_height += wid->_height > 0 ? wid->_height : 1;
+            }
+            if( clause_height > height ) {
+                height = clause_height;
+            }
         }
     } else if( _style == "widget" || _style == "text" ) {
         height = _height > 1 ? _height : req_height;
@@ -1244,6 +1271,14 @@ std::string widget::sym_text( bool from_condition, int width )
     return _string.translated();
 }
 
+std::vector<string_id<widget>> widget::widgets( bool from_condition )
+{
+    if( from_condition ) {
+        return widgets_cond();
+    }
+    return _widgets;
+}
+
 std::string widget::number_cond( enumeration_conjunction join_type ) const
 {
     std::vector<const widget_clause *> wplist = get_clauses();
@@ -1331,6 +1366,19 @@ std::string widget::sym_text_cond( bool no_join, int width )
         set_height_for_widget( id, h );
     }
     return ret;
+}
+
+std::vector<string_id<widget>> widget::widgets_cond()
+{
+    std::vector<const widget_clause *> wplist = get_clauses();
+    if( wplist.empty() ) {
+        return _default_clause.widgets;
+    }
+    std::vector<string_id<widget>> widgets;
+    for( const widget_clause *wp : wplist ) {
+        widgets.insert( widgets.end(), wp->widgets.begin(), wp->widgets.end() );
+    }
+    return widgets;
 }
 
 const widget_clause *widget::get_clause( const std::string &clause_id ) const
@@ -1527,11 +1575,13 @@ std::string widget::layout( const avatar &ava, unsigned int max_width, int label
 {
     std::string ret;
     if( _style == "layout" ) {
+        std::vector<string_id<widget>> wgts = widgets( !_clauses.empty() );
+
         if( _arrange == "rows" ) {
             std::string sep;
             int h = 0;
             // Stack rows vertically into a multiline widget
-            for( const widget_id &wid : _widgets ) {
+            for( const widget_id &wid : wgts ) {
                 widget cur_child = wid.obj();
                 ret += sep + cur_child.layout( ava, max_width, label_width,
                                                skip_pad || wid->has_flag( json_flag_W_NO_PADDING ) );
@@ -1541,7 +1591,7 @@ std::string widget::layout( const avatar &ava, unsigned int max_width, int label
             // Set height for the final layout
             set_height_for_widget( id, h );
         } else { // columns
-            const int num_widgets = _widgets.size();
+            const int num_widgets = wgts.size();
             if( num_widgets == 0 ) {
                 debugmsg( "widget layout has no widgets" );
             }
@@ -1552,7 +1602,7 @@ std::string widget::layout( const avatar &ava, unsigned int max_width, int label
             // Divide available width equally among all widgets
             const int child_width = avail_width / num_widgets;
             // Total widget width w/o padding
-            const int total_widget_width = std::accumulate( _widgets.begin(), _widgets.end(), 0,
+            const int total_widget_width = std::accumulate( wgts.begin(), wgts.end(), 0,
             [child_width]( int sum, const widget_id & wid ) {
                 widget cur_child = wid.obj();
                 return sum + ( cur_child._style == "layout" &&
@@ -1567,7 +1617,7 @@ std::string widget::layout( const avatar &ava, unsigned int max_width, int label
             std::vector<int> widths;
             unsigned int total_width = 0;
             std::string debug_widths;
-            for( const widget_id &wid : _widgets ) {
+            for( const widget_id &wid : wgts ) {
                 widget cur_child = wid.obj();
                 int cur_width = child_width;
                 // determine spacing based on type of column
@@ -1576,7 +1626,7 @@ std::string widget::layout( const avatar &ava, unsigned int max_width, int label
                         cur_width = cur_child._width;
                     }
                     // if last widget make it take the remaining space
-                    if( wid == _widgets.back() ) {
+                    if( wid == wgts.back() ) {
                         cur_width = avail_width - total_width;
                     }
                 } else { //columns

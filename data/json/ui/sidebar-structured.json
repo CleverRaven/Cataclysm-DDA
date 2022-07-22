@@ -200,7 +200,7 @@
       "fatigue_desc_no_label",
       "body_temp_desc_no_label",
       "focus_num",
-      "structured_speed_layout"
+      "structured_speed_vehicle_layout"
     ]
   },
   {
@@ -233,7 +233,7 @@
       "fatigue_desc_no_label",
       "body_temp_desc_no_label",
       "focus_num",
-      "structured_speed_layout"
+      "structured_speed_vehicle_layout"
     ]
   },
   {
@@ -285,12 +285,18 @@
     "copy-from": "safe_mode_classic_desc"
   },
   {
-    "id": "structured_speed_layout",
+    "id": "structured_speed_vehicle_layout",
     "type": "widget",
     "style": "layout",
-    "label": "Speed",
     "arrange": "columns",
-    "widgets": [ "structured_speed_num_layout", "structured_move_count_mode_layout" ]
+    "clauses": [
+      { "id": "driving", "widgets": [ "vehicle_cruise_desc_no_label" ], "condition": "u_driving" },
+      {
+        "id": "not_driving",
+        "widgets": [ "structured_speed_num_layout", "structured_move_count_mode_layout" ],
+        "condition": { "not": "u_driving" }
+      }
+    ]
   },
   {
     "id": "structured_speed_num_layout",
@@ -393,7 +399,7 @@
     "style": "layout",
     "label": "Compass/Overmap 9x9",
     "arrange": "columns",
-    "widgets": [ "structured_overmap_9x9_layout", "structured_vehicle_compass_9x9_layout" ],
+    "widgets": [ "structured_overmap_9x9_layout", "structured_compass_9x9_layout" ],
     "flags": [ "W_DISABLED_BY_DEFAULT" ]
   },
   {
@@ -402,7 +408,7 @@
     "style": "layout",
     "label": "Compass/Overmap 7x7",
     "arrange": "columns",
-    "widgets": [ "structured_overmap_7x7_layout", "structured_vehicle_compass_7x7_layout" ]
+    "widgets": [ "structured_overmap_7x7_layout", "structured_compass_7x7_layout" ]
   },
   {
     "id": "structured_overmap_compass_5x5_layout",
@@ -410,32 +416,8 @@
     "style": "layout",
     "label": "Compass/Overmap 5x5",
     "arrange": "columns",
-    "widgets": [ "structured_overmap_5x5_layout", "structured_vehicle_compass_5x5_layout" ],
+    "widgets": [ "structured_overmap_5x5_layout", "structured_compass_5x5_layout" ],
     "flags": [ "W_DISABLED_BY_DEFAULT" ]
-  },
-  {
-    "id": "structured_vehicle_compass_9x9_layout",
-    "type": "widget",
-    "style": "layout",
-    "arrange": "rows",
-    "width": 35,
-    "widgets": [ "structured_vehicle_layout", "structured_compass_9x9_layout" ]
-  },
-  {
-    "id": "structured_vehicle_compass_7x7_layout",
-    "type": "widget",
-    "style": "layout",
-    "arrange": "rows",
-    "width": 37,
-    "widgets": [ "structured_vehicle_layout", "structured_compass_7x7_layout" ]
-  },
-  {
-    "id": "structured_vehicle_compass_5x5_layout",
-    "type": "widget",
-    "style": "layout",
-    "arrange": "rows",
-    "width": 39,
-    "widgets": [ "structured_vehicle_layout", "structured_compass_5x5_layout" ]
   },
   {
     "id": "structured_compass_9x9_layout",
@@ -510,30 +492,6 @@
     "copy-from": "structured_overmap_9x9",
     "width": 5,
     "height": 5
-  },
-  {
-    "id": "structured_vehicle_layout",
-    "type": "widget",
-    "label": "Vehicle",
-    "style": "layout",
-    "arrange": "columns",
-    "widgets": [ "structured_vehicle_cruise_layout", "structured_vehicle_fuel_layout" ]
-  },
-  {
-    "id": "structured_vehicle_cruise_layout",
-    "type": "widget",
-    "style": "layout",
-    "arrange": "rows",
-    "width": 24,
-    "widgets": [ "vehicle_cruise_desc_label" ]
-  },
-  {
-    "id": "structured_vehicle_fuel_layout",
-    "type": "widget",
-    "style": "layout",
-    "arrange": "rows",
-    "width": 10,
-    "widgets": [ "vehicle_fuel_desc_label" ]
   },
   {
     "id": "structured_sidebar",
