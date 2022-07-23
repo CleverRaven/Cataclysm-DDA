@@ -136,7 +136,7 @@ std::string talk_trial::name() const
     return texts[type].empty() ? std::string() : _( texts[type] );
 }
 
-static void run_eoc_vector( std::vector<effect_on_condition_id> eocs, const dialogue &d )
+static void run_eoc_vector( const std::vector<effect_on_condition_id> &eocs, const dialogue &d )
 {
     dialogue newDialog = copy_dialogue( d );
     for( const effect_on_condition_id &eoc : eocs ) {
@@ -145,7 +145,7 @@ static void run_eoc_vector( std::vector<effect_on_condition_id> eocs, const dial
 }
 
 static std::vector<effect_on_condition_id> load_eoc_vector( const JsonObject &jo,
-        std::string member )
+        const std::string &member )
 {
     std::vector<effect_on_condition_id> eocs;
     if( jo.has_array( member ) ) {
@@ -352,7 +352,7 @@ static int npc_select_menu( const std::vector<npc *> &npc_list, const std::strin
 
 std::vector<int> npcs_select_menu( const std::vector<Character *> &npc_list,
                                    const std::string &prompt,
-                                   std::function<bool( const Character * )> exclude_func )
+                                   const std::function<bool( const Character * )> &exclude_func )
 {
     std::vector<int> picked;
     if( npc_list.empty() ) {
@@ -4466,7 +4466,7 @@ dynamic_line_t::dynamic_line_t( const JsonObject &jo )
             }
             std::string tmp = "I can start a new camp as a ";
             tmp += enumerate_as_string( sites.begin(), sites.end(),
-            []( const std::pair<recipe_id, translation> site ) {
+            []( const std::pair<recipe_id, translation> &site ) {
                 return site.second.translated();
             },
             enumeration_conjunction::or_ );

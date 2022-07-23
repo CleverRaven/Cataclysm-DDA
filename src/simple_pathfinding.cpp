@@ -40,7 +40,7 @@ struct point_node {
 } // namespace
 
 directed_path<point> greedy_path( const point &source, const point &dest, const point &max,
-                                  two_node_scoring_fn<point> scorer )
+                                  const two_node_scoring_fn<point> &scorer )
 {
     using Node = point_node;
     const auto inbounds = [ max ]( const point & p ) {
@@ -275,7 +275,7 @@ omt_score::omt_score( int node_cost, bool allow_z_change ) : node_cost( node_cos
     allow_z_change( allow_z_change ) {}
 
 simple_path<tripoint_abs_omt> find_overmap_path( const tripoint_abs_omt &source,
-        const tripoint_abs_omt &dest, const int radius, omt_scoring_fn scorer,
+        const tripoint_abs_omt &dest, const int radius, const omt_scoring_fn &scorer,
         cata::optional<int> max_cost )
 {
     simple_path<tripoint_abs_omt> ret;

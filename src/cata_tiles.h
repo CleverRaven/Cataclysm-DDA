@@ -88,7 +88,8 @@ class texture
         SDL_Rect srcrect = { 0, 0, 0, 0 };
 
     public:
-        texture( std::shared_ptr<SDL_Texture> ptr, const SDL_Rect &rect ) : sdl_texture_ptr( ptr ),
+        texture( std::shared_ptr<SDL_Texture> ptr,
+                 const SDL_Rect &rect ) : sdl_texture_ptr( std::move( ptr ) ),
             srcrect( rect ) { }
         texture() = default;
 

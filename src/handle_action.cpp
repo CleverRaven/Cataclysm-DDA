@@ -1577,7 +1577,7 @@ static void cast_spell()
 
 // returns true if the spell was assigned
 bool Character::cast_spell( spell &sp, bool fake_spell,
-                            const cata::optional<tripoint> target = cata::nullopt )
+                            const cata::optional<tripoint> &target = cata::nullopt )
 {
     if( is_armed() && !sp.has_flag( spell_flag::NO_HANDS ) &&
         !get_wielded_item()->has_flag( flag_MAGIC_FOCUS ) && !sp.check_if_component_in_hand( *this ) ) {

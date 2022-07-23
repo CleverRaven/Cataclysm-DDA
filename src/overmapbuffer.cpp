@@ -1015,7 +1015,8 @@ bool overmapbuffer::reveal_route( const tripoint_abs_omt &source, const tripoint
     }
 
     const pf::two_node_scoring_fn<point_rel_omt> estimate =
-    [&]( pf::directed_node<point_rel_omt> cur, cata::optional<pf::directed_node<point_rel_omt>> ) {
+        [&]( pf::directed_node<point_rel_omt> cur,
+    const cata::optional<pf::directed_node<point_rel_omt>> & ) {
         int cost = 0;
         const oter_id oter = get_ter_at( cur.pos );
         if( !connection->has( oter ) ) {
@@ -1276,7 +1277,7 @@ shared_ptr_fast<npc> overmapbuffer::find_npc( character_id id )
     return nullptr;
 }
 
-shared_ptr_fast<npc> overmapbuffer::find_npc_by_unique_id( std::string unique_id )
+shared_ptr_fast<npc> overmapbuffer::find_npc_by_unique_id( const std::string &unique_id )
 {
     point_abs_om loc = g->get_unique_npc_location( unique_id );
     return get( loc ).find_npc_by_unique_id( unique_id );

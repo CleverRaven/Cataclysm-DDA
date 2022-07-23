@@ -87,7 +87,8 @@ std::string get_talk_var_basename( const JsonObject &jo, const std::string &memb
 }
 
 template<class T>
-int_or_var_part<T> get_int_or_var_part( const JsonValue &jv, std::string member, bool required,
+int_or_var_part<T> get_int_or_var_part( const JsonValue &jv, const std::string &member,
+                                        bool required,
                                         int default_val )
 {
     int_or_var_part<T> ret_val;
@@ -134,7 +135,7 @@ int_or_var<T> get_int_or_var( const JsonObject &jo, std::string member, bool req
 }
 
 template<class T>
-duration_or_var_part<T> get_duration_or_var_part( const JsonValue &jv, std::string member,
+duration_or_var_part<T> get_duration_or_var_part( const JsonValue &jv, const std::string &member,
         bool required, time_duration default_val )
 {
     duration_or_var_part<T> ret_val;
@@ -187,8 +188,8 @@ duration_or_var<T> get_duration_or_var( const JsonObject &jo, std::string member
 }
 
 template<class T>
-str_or_var<T> get_str_or_var( const JsonValue &jv, std::string member, bool required,
-                              std::string default_val )
+str_or_var<T> get_str_or_var( const JsonValue &jv, const std::string &member, bool required,
+                              const std::string &default_val )
 {
     str_or_var<T> ret_val;
     if( jv.test_string() ) {
@@ -275,7 +276,8 @@ var_info read_var_info( const JsonObject &jo, bool require_default )
     return var_info( type, name, default_val );
 }
 
-void write_var_value( var_type type, std::string name, talker *talk, std::string value )
+void write_var_value( var_type type, const std::string &name, talker *talk,
+                      const std::string &value )
 {
     global_variables &globvars = get_globals();
     switch( type ) {
@@ -1200,7 +1202,7 @@ void conditional_t<T>::set_has_faction_trust( const JsonObject &jo, const std::s
     };
 }
 
-static std::string get_string_from_input( JsonArray objects, int index )
+static std::string get_string_from_input( const JsonArray &objects, int index )
 {
     if( objects.has_string( index ) ) {
         std::string type = objects.get_string( index );
@@ -1226,7 +1228,7 @@ static std::string get_string_from_input( JsonArray objects, int index )
 }
 
 template<class T>
-static tripoint_abs_ms get_tripoint_from_string( std::string type, T &d )
+static tripoint_abs_ms get_tripoint_from_string( const std::string &type, T &d )
 {
     if( type == "u" ) {
         return get_map().getglobal( d.actor( false )->pos() );
@@ -1814,7 +1816,7 @@ std::function<int( const T & )> conditional_t<T>::get_get_int( const JsonObject 
 }
 
 template<class T>
-std::function<int( const T & )> conditional_t<T>::get_get_int( std::string value,
+std::function<int( const T & )> conditional_t<T>::get_get_int( const std::string &value,
         const JsonObject &jo )
 {
     if( value == "moon" ) {

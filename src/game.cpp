@@ -1556,7 +1556,7 @@ npc *game::find_npc( character_id id )
     return overmap_buffer.find_npc( id ).get();
 }
 
-npc *game::find_npc_by_unique_id( std::string unique_id )
+npc *game::find_npc_by_unique_id( const std::string &unique_id )
 {
     return overmap_buffer.find_npc_by_unique_id( unique_id ).get();
 }
@@ -2940,12 +2940,12 @@ memorial_logger &game::memorial()
     return *memorial_logger_ptr;
 }
 
-void game::update_unique_npc_location( std::string id, point_abs_om loc )
+void game::update_unique_npc_location( const std::string &id, point_abs_om loc )
 {
     unique_npcs[id] = loc;
 }
 
-point_abs_om game::get_unique_npc_location( std::string id )
+point_abs_om game::get_unique_npc_location( const std::string &id )
 {
     if( unique_npc_exists( id ) ) {
         return unique_npcs[id];
@@ -2955,12 +2955,12 @@ point_abs_om game::get_unique_npc_location( std::string id )
     }
 }
 
-bool game::unique_npc_exists( std::string id )
+bool game::unique_npc_exists( const std::string &id )
 {
     return unique_npcs.count( id ) > 0;
 }
 
-void game::unique_npc_despawn( std::string id )
+void game::unique_npc_despawn( const std::string &id )
 {
     unique_npcs.erase( id );
 }

@@ -4372,7 +4372,7 @@ trait_id Character::get_random_trait( const std::function<bool( const mutation_b
     return random_entry( vTraits );
 }
 
-void Character::randomize_cosmetic_trait( std::string mutation_type )
+void Character::randomize_cosmetic_trait( const std::string &mutation_type )
 {
     trait_id trait = get_random_trait( [mutation_type]( const mutation_branch & mb ) {
         return mb.points == 0 && mb.types.count( mutation_type );

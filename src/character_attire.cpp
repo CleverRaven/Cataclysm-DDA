@@ -1926,7 +1926,7 @@ void outfit::fire_options( Character &guy, std::vector<std::string> &options,
     }
 }
 
-void outfit::insert_item_at_index( item clothing, int index )
+void outfit::insert_item_at_index( const item &clothing, int index )
 {
     if( static_cast<size_t>( index ) >= worn.size() || index == INT_MIN ) {
         index = worn.size() - 1;

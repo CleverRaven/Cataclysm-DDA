@@ -1308,7 +1308,7 @@ void mtype::add_special_attack( const JsonObject &obj, const std::string &src )
     special_attacks_names.push_back( new_attack->id );
 }
 
-void mtype::add_special_attack( JsonArray inner, const std::string & )
+void mtype::add_special_attack( const JsonArray &inner, const std::string & )
 {
     MonsterGenerator &gen = MonsterGenerator::generator();
     const std::string name = inner.get_string( 0 );
@@ -1365,7 +1365,7 @@ void mtype::remove_special_attacks( const JsonObject &jo, const std::string &mem
     }
 }
 
-void mtype::add_regeneration_modifier( JsonArray inner, const std::string & )
+void mtype::add_regeneration_modifier( const JsonArray &inner, const std::string & )
 {
     const std::string effect_name = inner.get_string( 0 );
     const efftype_id effect( effect_name );

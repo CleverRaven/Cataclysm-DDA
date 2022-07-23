@@ -262,7 +262,7 @@ static std::vector<std::string> recipe_info(
     const recipe &recp,
     const availability &avail,
     Character &guy,
-    const std::string qry_comps,
+    const std::string &qry_comps,
     const int batch_size,
     const int fold_width,
     const nc_color &color )
@@ -703,7 +703,7 @@ struct recipe_info_cache {
 };
 
 static const std::vector<std::string> &cached_recipe_info( recipe_info_cache &info_cache,
-        const recipe &recp, const availability &avail, Character &guy, const std::string qry_comps,
+        const recipe &recp, const availability &avail, Character &guy, const std::string &qry_comps,
         const int batch_size, const int fold_width, const nc_color &color )
 {
     if( info_cache.recp != &recp ||

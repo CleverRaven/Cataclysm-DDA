@@ -1,9 +1,9 @@
 #include "item.h"
 
-#include <clocale>
-#include <cctype>
 #include <algorithm>
 #include <array>
+#include <cctype>
+#include <clocale>
 #include <cmath>
 #include <cstdio>
 #include <cstdlib>
@@ -16,6 +16,7 @@
 #include <string>
 #include <tuple>
 #include <unordered_set>
+#include <utility>
 
 #include "ammo.h"
 #include "ascii_art.h"
@@ -454,8 +455,8 @@ item::item( const recipe *rec, int qty, std::list<item> items, std::vector<item_
     craft_data_->making = rec;
     craft_data_->disassembly = false;
     craft_data_->batch_size = qty;
-    components = items;
-    craft_data_->comps_used = selections;
+    components = std::move( items );
+    craft_data_->comps_used = std::move( selections );
 
     if( has_temperature() ) {
         active = true;
@@ -991,7 +992,7 @@ const std::array<bodypart_str_id, 4> &right_side_parts()
 } // namespace
 
 void item::iterate_covered_sub_body_parts_internal( const side s,
-        std::function<void( const sub_bodypart_str_id & )> cb ) const
+        const std::function<void( const sub_bodypart_str_id & )> &cb ) const
 {
     const islot_armor *armor = find_armor_data();
     if( armor == nullptr ) {
@@ -1016,7 +1017,7 @@ void item::iterate_covered_sub_body_parts_internal( const side s,
 }
 
 void item::iterate_covered_body_parts_internal( const side s,
-        std::function<void( const bodypart_str_id & )> cb ) const
+        const std::function<void( const bodypart_str_id & )> &cb ) const
 {
 
     const islot_armor *armor = find_armor_data();

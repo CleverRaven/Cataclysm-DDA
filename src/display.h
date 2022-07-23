@@ -62,11 +62,11 @@ struct disp_bodygraph_cache {
         explicit disp_bodygraph_cache( bodygraph_var var );
 
         // Returns true if the stored map of current/max HP values differ from the character.
-        bool is_valid_for( const Character &u, std::string graph_id ) const;
+        bool is_valid_for( const Character &u, const std::string &graph_id ) const;
 
         // Rebuild the cache using the bodypart HP values from the character and
         // store the resulting widget string.
-        void rebuild( const Character &u, std::string graph_id, const std::string &bg_wgt_str );
+        void rebuild( const Character &u, const std::string &graph_id, const std::string &bg_wgt_str );
 
         // Retrieve the cached widget string
         const std::string &get_val() const {
@@ -161,7 +161,7 @@ std::string colorized_compass_text( cardinal_direction dir, int width );
 std::string colorized_compass_legend_text( int width, int max_height, int &height );
 
 // Get color-coded body graph representing body part HP
-std::string colorized_bodygraph_text( const Character &u, std::string graph_id,
+std::string colorized_bodygraph_text( const Character &u, const std::string &graph_id,
                                       bodygraph_var var, int width, int max_height, int &height );
 
 // Get color for bodygraph part
