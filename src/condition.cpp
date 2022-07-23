@@ -75,6 +75,17 @@ std::string get_talk_varname( const JsonObject &jo, const std::string &member,
             + var_context ) + "_" + var_basename;
 }
 
+std::string get_talk_var_basename( const JsonObject &jo, const std::string &member,
+                                   bool check_value )
+{
+    if( check_value && !( jo.has_string( "value" ) || jo.has_member( "time" ) ||
+                          jo.has_array( "possible_values" ) ) ) {
+        jo.throw_error( "invalid " + member + " condition in " + jo.str() );
+    }
+    const std::string &var_basename = jo.get_string( member );
+    return var_basename;
+}
+
 template<class T>
 int_or_var_part<T> get_int_or_var_part( const JsonValue &jv, std::string member, bool required,
                                         int default_val )

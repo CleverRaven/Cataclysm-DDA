@@ -904,7 +904,7 @@ class item : public visitable
         /**
          * Puts the given item into this one.
          */
-        ret_val<bool> put_in( const item &payload, item_pocket::pocket_type pk_type,
+        ret_val<void> put_in( const item &payload, item_pocket::pocket_type pk_type,
                               bool unseal_pockets = false );
         void force_insert_item( const item &it, item_pocket::pocket_type pk_type );
 
@@ -1527,7 +1527,7 @@ class item : public visitable
          * Only checks CONTAINER, MAGAZINE and MAGAZINE WELL pockets
          * @param it the item being put in
          */
-        ret_val<bool> is_compatible( const item &it ) const;
+        ret_val<void> is_compatible( const item &it ) const;
 
         /**
          * Can the pocket contain the specified item?
@@ -1536,7 +1536,7 @@ class item : public visitable
          * @param ignore_pkt_settings whether to ignore pocket autoinsert settings
          */
         /*@{*/
-        ret_val<bool> can_contain( const item &it, bool nested = false,
+        ret_val<void> can_contain( const item &it, bool nested = false,
                                    bool ignore_rigidity = false,
                                    bool ignore_pkt_settings = true,
                                    const item_location &parent_it = item_location() ) const;
@@ -2360,7 +2360,7 @@ class item : public visitable
          * Checks if mod can be applied to this item considering any current state (jammed, loaded etc.)
          * @param msg message describing reason for any incompatibility
          */
-        ret_val<bool> is_gunmod_compatible( const item &mod ) const;
+        ret_val<void> is_gunmod_compatible( const item &mod ) const;
 
         /** Get all possible modes for this gun inclusive of any attached gunmods */
         std::map<gun_mode_id, gun_mode> gun_all_modes() const;

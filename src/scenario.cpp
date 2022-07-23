@@ -552,39 +552,39 @@ bool scenario::allowed_start( const start_location_id &loc ) const
     return std::find( vec.begin(), vec.end(), loc ) != vec.end();
 }
 
-ret_val<bool> scenario::can_afford( const scenario &current_scenario, const int points ) const
+ret_val<void> scenario::can_afford( const scenario &current_scenario, const int points ) const
 {
     if( point_cost() - current_scenario.point_cost() <= points ) {
-        return ret_val<bool>::make_success();
+        return ret_val<void>::make_success();
 
     }
 
-    return ret_val<bool>::make_failure( _( "You don't have enough points" ) );
+    return ret_val<void>::make_failure( _( "You don't have enough points" ) );
 }
 
-ret_val<bool> scenario::can_pick() const
+ret_val<void> scenario::can_pick() const
 {
     // if meta progression is disabled then skip this
     if( get_past_games().achievement( achievement_achievement_arcade_mode ) ||
         !get_option<bool>( "META_PROGRESS" ) ) {
-        return ret_val<bool>::make_success();
+        return ret_val<void>::make_success();
     }
 
     if( _requirement ) {
         const achievement_completion_info *other_games = get_past_games().achievement(
                     _requirement.value()->id );
         if( !other_games ) {
-            return ret_val<bool>::make_failure(
+            return ret_val<void>::make_failure(
                        _( "You must complete the achievement \"%s\" to unlock this scenario." ),
                        _requirement.value()->name() );
         } else if( other_games->games_completed.empty() ) {
-            return ret_val<bool>::make_failure(
+            return ret_val<void>::make_failure(
                        _( "You must complete the achievement \"%s\" to unlock this scenario." ),
                        _requirement.value()->name() );
         }
     }
 
-    return ret_val<bool>::make_success();
+    return ret_val<void>::make_success();
 }
 
 bool scenario::has_map_extra() const

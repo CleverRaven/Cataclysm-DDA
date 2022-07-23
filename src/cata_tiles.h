@@ -557,7 +557,7 @@ class cata_tiles
         void void_monster_override();
 
         bool has_draw_override( const tripoint &p ) const;
-    public:
+
         /**
          * Initialize the current tileset (load tile images, load mapping), using the current
          * tileset as it is set in the options.
