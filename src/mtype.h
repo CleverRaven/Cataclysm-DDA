@@ -270,7 +270,7 @@ struct mtype {
         void remove_special_attacks( const JsonObject &jo, const std::string &member_name,
                                      const std::string &src );
 
-        void add_special_attack( JsonArray inner, const std::string &src );
+        void add_special_attack( const JsonArray &inner, const std::string &src );
         void add_special_attack( const JsonObject &obj, const std::string &src );
 
         void add_regeneration_modifiers( const JsonObject &jo, const std::string &member_name,
@@ -278,7 +278,7 @@ struct mtype {
         void remove_regeneration_modifiers( const JsonObject &jo, const std::string &member_name,
                                             const std::string &src );
 
-        void add_regeneration_modifier( JsonArray inner, const std::string &src );
+        void add_regeneration_modifier( const JsonArray &inner, const std::string &src );
 
     public:
         mtype_id id;

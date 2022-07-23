@@ -60,7 +60,7 @@ disp_bodygraph_cache::disp_bodygraph_cache( bodygraph_var var )
     _graph_id = "";
 }
 
-bool disp_bodygraph_cache::is_valid_for( const Character &u, const std::string graph_id ) const
+bool disp_bodygraph_cache::is_valid_for( const Character &u, const std::string &graph_id ) const
 {
     if( graph_id != _graph_id ) {
         return false;
@@ -86,7 +86,7 @@ bool disp_bodygraph_cache::is_valid_for( const Character &u, const std::string g
     return true;
 }
 
-void disp_bodygraph_cache::rebuild( const Character &u, const std::string graph_id,
+void disp_bodygraph_cache::rebuild( const Character &u, const std::string &graph_id,
                                     const std::string &bg_wgt_str )
 {
     _bp_cur_max.clear();
@@ -1526,7 +1526,7 @@ nc_color display::get_bodygraph_bp_color( const Character &u, const bodypart_id 
     cata_fatal( "Invalid widget_var" );
 }
 
-std::string display::colorized_bodygraph_text( const Character &u, const std::string graph_id,
+std::string display::colorized_bodygraph_text( const Character &u, const std::string &graph_id,
         const bodygraph_var var, int width, int max_height, int &height )
 {
     int var_idx = int( var );

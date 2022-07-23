@@ -11,6 +11,7 @@
 #include <string>
 #include <type_traits>
 #include <unordered_map>
+#include <utility>
 
 #include "active_item_cache.h"
 #include "ammo.h"
@@ -4763,7 +4764,7 @@ item &map::add_item_or_charges( const tripoint &pos, item obj, bool overflow )
 
 item &map::add_item_or_charges( const tripoint_bub_ms &pos, item obj, bool overflow )
 {
-    return add_item_or_charges( pos.raw(), obj, overflow );
+    return add_item_or_charges( pos.raw(), std::move( obj ), overflow );
 }
 
 item &map::add_item( const tripoint &p, item new_item )

@@ -1365,7 +1365,7 @@ class npc : public Character
         bool has_companion_mission() const;
         npc_companion_mission get_companion_mission() const;
         attitude_group get_attitude_group( npc_attitude att ) const;
-        void set_unique_id( std::string id );
+        void set_unique_id( const std::string &id );
         std::string get_unique_id() const;
     protected:
         void store( JsonOut &json ) const;

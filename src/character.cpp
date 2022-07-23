@@ -1,8 +1,8 @@
 #include "character.h"
 
-#include <cctype>
 #include <algorithm>
 #include <array>
+#include <cctype>
 #include <climits>
 #include <cmath>
 #include <cstddef>
@@ -14,6 +14,7 @@
 #include <ostream>
 #include <tuple>
 #include <type_traits>
+#include <utility>
 #include <vector>
 
 #include "action.h"
@@ -8648,7 +8649,7 @@ void Character::add_moncam( std::pair<mtype_id, int> moncam )
 
 void Character::set_moncams( std::map<mtype_id, int> nmoncams )
 {
-    moncams = nmoncams;
+    moncams = std::move( nmoncams );
 }
 
 std::map<mtype_id, int> Character::get_moncams() const

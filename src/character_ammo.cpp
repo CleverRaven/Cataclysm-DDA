@@ -1,4 +1,7 @@
 #include "ammo.h"
+
+#include <utility>
+
 #include "character.h"
 #include "character_modifier.h"
 #include "flag.h"
@@ -297,7 +300,7 @@ item::reload_option Character::select_ammo( const item_location &base,
             reload_callback( std::vector<item::reload_option> &_opts,
                              std::function<std::string( int )> _draw_row,
                              int _last_key, int _default_to, bool _can_partial_reload ) :
-                opts( _opts ), draw_row( _draw_row ),
+                opts( _opts ), draw_row( std::move( _draw_row ) ),
                 last_key( _last_key ), default_to( _default_to ),
                 can_partial_reload( _can_partial_reload )
             {}

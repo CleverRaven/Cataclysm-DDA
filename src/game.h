@@ -501,7 +501,7 @@ class game
         /** Find the npc with the given ID. Returns NULL if the npc could not be found. Searches all loaded overmaps. */
         npc *find_npc( character_id id );
         /** Find the npc with the given unique ID. Returns NULL if the npc could not be found. Searches all loaded overmaps. */
-        npc *find_npc_by_unique_id( std::string unique_id );
+        npc *find_npc_by_unique_id( const std::string &unique_id );
         /** Makes any nearby NPCs on the overmap active. */
         void load_npcs();
     private:
@@ -1025,10 +1025,10 @@ class game
         global_variables global_variables_instance;
         std::unordered_map<std::string, point_abs_om> unique_npcs;
     public:
-        void update_unique_npc_location( std::string id, point_abs_om loc );
-        point_abs_om get_unique_npc_location( std::string id );
-        bool unique_npc_exists( std::string id );
-        void unique_npc_despawn( std::string id );
+        void update_unique_npc_location( const std::string &id, point_abs_om loc );
+        point_abs_om get_unique_npc_location( const std::string &id );
+        bool unique_npc_exists( const std::string &id );
+        void unique_npc_despawn( const std::string &id );
         std::vector<effect_on_condition_id> inactive_global_effect_on_condition_vector;
         std::priority_queue<queued_eoc, std::vector<queued_eoc>, eoc_compare>
         queued_global_effect_on_conditions;

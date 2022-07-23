@@ -1062,7 +1062,7 @@ static std::string get_consume_needs_hint( Character &you )
     return hint;
 }
 
-item_location game_menus::inv::consume( avatar &you, const item_location loc )
+item_location game_menus::inv::consume( avatar &you, const item_location &loc )
 {
     static item_location container_location;
     if( !you.has_activity( ACT_EAT_MENU ) ) {
@@ -1996,7 +1996,7 @@ drop_locations game_menus::inv::multidrop( avatar &you )
 }
 
 drop_locations game_menus::inv::pickup( avatar &you,
-                                        const cata::optional<tripoint> &target, std::vector<drop_location> selection )
+                                        const cata::optional<tripoint> &target, const std::vector<drop_location> &selection )
 {
     const pickup_inventory_preset preset( you, /*skip_wield_check=*/true );
 

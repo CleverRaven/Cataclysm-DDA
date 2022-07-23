@@ -289,7 +289,7 @@ std::string action_of( mission_kind kind )
     return miss_info[kind].action.translated();
 }
 
-bool is_equal( mission_id first, mission_id second )
+bool is_equal( const mission_id &first, const mission_id &second )
 {
     return first.id == second.id &&
            first.parameters == second.parameters &&
@@ -317,7 +317,7 @@ std::string string_of( mission_id miss_id )
     }
 }
 
-mission_id mission_id_of( std::string str )
+mission_id mission_id_of( const std::string &str )
 {
     mission_id result = { No_Mission, "", cata::nullopt };
     size_t id_size = str.length();
@@ -453,7 +453,7 @@ mission_id mission_id_of( std::string str )
     return result;
 }
 
-bool is_equal( ui_mission_id first, ui_mission_id second )
+bool is_equal( const ui_mission_id &first, const ui_mission_id &second )
 {
     return first.ret == second.ret &&
            is_equal( first.id, second.id );
