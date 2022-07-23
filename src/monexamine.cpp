@@ -195,7 +195,7 @@ void dump_items( monster &z )
     std::string pet_name = z.get_name();
     Character &player_character = get_player_character();
     map &here = get_map();
-    for( auto &it : z.inv ) {
+    for( item &it : z.inv ) {
         here.add_item_or_charges( player_character.pos(), it );
     }
     z.inv.clear();
@@ -497,7 +497,7 @@ void remove_battery( monster &z )
 void insert_battery( monster &z )
 {
     if( z.battery_item ) {
-        // already has a battery, shouldn't be called with one, but just incase.
+        // already has a battery, shouldn't be called with one, but just in case.
         return;
     }
     Character &player_character = get_player_character();
@@ -697,9 +697,9 @@ bool monexamine::pet_menu( monster &z )
         }
         amenu.addentry( check_bat, false, 'c', _( "%s battery level is %d%%" ), z.get_name(),
                         static_cast<int>( charge_percent ) );
-        if( player_character.get_wielded_item().is_null() && z.battery_item ) {
+        if( !player_character.get_wielded_item() && z.battery_item ) {
             amenu.addentry( mount, true, 'r', _( "Climb into the mech and take control" ) );
-        } else if( !player_character.get_wielded_item().is_null() ) {
+        } else if( player_character.get_wielded_item() ) {
             amenu.addentry( mount, false, 'r', _( "You cannot pilot the mech whilst wielding something" ) );
         } else if( !z.battery_item ) {
             amenu.addentry( mount, false, 'r', _( "This mech has a dead battery and won't turn on" ) );

@@ -70,10 +70,28 @@
       { "item": "rock", "prob": 40 },
       { "item": "rock_large", "prob": 5 },
       { "item": "stick", "prob": 95 },
-      { "item": "bio_metabolics", "prob": 10 },
       { "item": "survivormap", "prob": 1 },
       { "item": "miner_hat", "prob": 10 },
       { "item": "honey_ant", "prob": 30 },
+      { "item": "tool_small_primitive_fragmentation_device", "prob": 1 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "kraken_food",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "meat", "prob": 50 },
+      { "item": "fish", "prob": 80 },
+      { "item": "meat_tainted", "prob": 60 },
+      { "item": "arm", "prob": 4 },
+      { "item": "leg", "prob": 4 },
+      { "item": "rock", "prob": 40 },
+      { "item": "razorclaw_roe", "prob": 5 },
+      { "item": "stick", "prob": 95 },
+      { "item": "survivormap", "prob": 1 },
+      { "item": "wetsuit", "prob": 10, "damage": [ 2, 4 ] },
+      { "item": "wetsuit_thick", "prob": 10, "damage": [ 2, 4 ] },
       { "item": "tool_small_primitive_fragmentation_device", "prob": 1 }
     ]
   },
@@ -166,6 +184,7 @@
       { "item": "coke", "prob": 8 },
       { "item": "adrenaline_injector", "prob": 4 },
       { "item": "wrapper", "prob": 50 },
+      { "item": "wrapper_foil", "prob": 5 },
       { "group": "wallets_science", "prob": 2 },
       { "item": "laptop", "prob": 5, "charges": [ 0, 500 ] },
       { "item": "atomic_light", "prob": 10 },
@@ -221,6 +240,7 @@
       { "item": "m16a4", "prob": 6 },
       { "item": "m27_assault_rifle", "variant": "h&k416a5", "prob": 3 },
       { "item": "mossberg_930", "variant": "m1014", "prob": 1 },
+      { "item": "m26_mass_standalone", "prob": 1 },
       { "item": "steyr_aug", "prob": 6 },
       { "item": "v29", "prob": 1 },
       { "item": "flamethrower", "prob": 1 },
@@ -238,10 +258,6 @@
       { "item": "bot_flashbang_hack", "prob": 1 },
       { "item": "bot_gasbomb_hack", "prob": 1 },
       { "item": "UPS_off", "prob": 8 },
-      { "item": "bio_power_storage", "prob": 10 },
-      { "item": "bio_flashlight", "prob": 10 },
-      { "item": "bio_lighter", "prob": 10 },
-      { "item": "bio_shotgun", "prob": 10 },
       { "item": "arrow_cf", "prob": 5 },
       { "item": "spray_can", "prob": 50 },
       { "item": "tac_helmet", "prob": 5 },
@@ -260,7 +276,8 @@
       { "item": "pur_tablets", "prob": 10 },
       { "item": "pastaextruder", "prob": 10 },
       { "item": "can_sealer", "prob": 10 },
-      { "item": "remotevehcontrol", "prob": 8 }
+      { "item": "remotevehcontrol", "prob": 8 },
+      { "item": "mk47", "prob": 4 }
     ]
   },
   {
@@ -274,6 +291,16 @@
     "id": "dog_cop",
     "subtype": "distribution",
     "entries": [ { "item": "kevlar_harness", "prob": 1 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "dog_clothes",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "rubber_harness_dog", "prob": 50 },
+      { "item": "leather_harness_dog", "prob": 25 },
+      { "item": "kevlar_harness", "prob": 1 }
+    ]
   },
   {
     "type": "item_group",
@@ -390,8 +417,10 @@
       { "item": "laptop", "prob": 20, "charges": [ 0, 500 ] },
       { "item": "eink_tablet_pc", "prob": 8, "charges": [ 0, 500 ] },
       { "item": "mobile_memory_card", "prob": 16 },
-      { "item": "camera", "prob": 5, "charges": [ 0, 150 ] },
-      { "item": "camera_pro", "prob": 2, "charges": [ 0, 150 ] },
+      { "item": "camera", "prob": 3, "charges": [ 0, 150 ] },
+      { "item": "camera", "container-item": "camera_bag", "prob": 2, "charges": [ 0, 150 ] },
+      { "item": "camera_pro", "prob": 1, "charges": [ 0, 150 ] },
+      { "item": "camera_pro", "container-item": "camera_bag", "prob": 1, "charges": [ 0, 150 ] },
       { "item": "screwdriver", "prob": 40 },
       { "item": "screwdriver_set", "prob": 10 },
       { "group": "ammo_pocket_batteries_full", "prob": 50 },

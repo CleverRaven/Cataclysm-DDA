@@ -254,6 +254,7 @@ class Tileset:
         self.sprite_width = 16
         self.sprite_height = 16
         self.pixelscale = 1
+        self.iso = False
         self.info = [{}]
 
         if not os.access(info_path, os.R_OK):
@@ -264,6 +265,7 @@ class Tileset:
             self.sprite_width = self.info[0].get('width', self.sprite_width)
             self.sprite_height = self.info[0].get('height', self.sprite_height)
             self.pixelscale = self.info[0].get('pixelscale', self.pixelscale)
+            self.iso = self.info[0].get('iso', self.iso)
 
     def determine_conffile(self) -> str:
         '''
@@ -385,6 +387,11 @@ class Tileset:
         for sheet in sheet_configs:
             if sheet.is_fallback:
                 fallback_name = sheet.name
+                if not sheet.is_standard():
+                    FALLBACK['sprite_width'] = sheet.sprite_width
+                    FALLBACK['sprite_height'] = sheet.sprite_height
+                    FALLBACK['sprite_offset_x'] = sheet.offset_x
+                    FALLBACK['sprite_offset_y'] = sheet.offset_y
                 continue
             if sheet.is_filler and not main_finished:
                 create_tile_entries_for_unused(
@@ -436,6 +443,7 @@ class Tileset:
                 'pixelscale': self.pixelscale,
                 'width': self.sprite_width,
                 'height': self.sprite_height,
+                'iso': self.iso,
             }],
             'tiles-new': tiles_new
         }
@@ -528,21 +536,21 @@ class Tilesheet:
         '''
         Find and process all JSON and PNG files within sheet directory
         '''
-        all_files = sorted(os.walk(self.subdir_path), key=lambda d: d[0])
-        excluded_paths = [  # TODO: dict by parent dirs
-            self.subdir_path.joinpath(ignored_path)
-            for ignored_path in self.exclude
-        ]
-        mode = all_files if no_tqdm or run_silent else tqdm(all_files)
+
+        def filtered_tree(excluded):
+            for root, dirs, filenames in os.walk(self.subdir_path):
+                # replace dirs in-place to prevent walking down excluded paths
+                dirs[:] = [d for d in dirs
+                           if Path(root).joinpath(d) not in excluded]
+                yield [root, dirs, filenames]
+
+        sorted_files = sorted(
+            filtered_tree(list(map(self.subdir_path.joinpath, self.exclude))),
+            key=lambda d: d[0]
+        )
+        mode = sorted_files if no_tqdm or run_silent else tqdm(sorted_files)
         for subdir_fpath, dirs, filenames in mode:
             subdir_fpath = Path(subdir_fpath)
-            if excluded_paths:
-                # replace dirs in-place to prevent walking down excluded paths
-                dirs[:] = [
-                    d for d in dirs
-                    if subdir_fpath.joinpath(d) not in excluded_paths
-                ]
-
             for filename in sorted(filenames):
                 filepath = subdir_fpath.joinpath(filename)
 

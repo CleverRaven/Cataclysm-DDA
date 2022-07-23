@@ -4,7 +4,7 @@
     "name": "invader_alien",
     "base_faction": "nether",
     "neutral": [ "alien_carnivore", "alien_herbivore", "stray" ],
-    "by_mood": "animal"
+    "by_mood": [ "animal" ]
   },
   {
     "type": "MONSTER_FACTION",
@@ -18,8 +18,8 @@
     "name": "alien_carnivore",
     "base_faction": "mutant",
     "neutral": [ "invader_alien", "stray" ],
-    "by_mood": "alien_carnivore",
-    "hate": [ "alien_herbivore" ]
+    "hate": [ "alien_herbivore" ],
+    "by_mood": [ "alien_carnivore" ]
   },
   {
     "type": "MONSTER_FACTION",
@@ -38,7 +38,7 @@
     "name": "lurker",
     "base_faction": "gator",
     "hate": [ "fish", "aquatic_predator" ],
-    "by_mood": "gator"
+    "by_mood": [ "gator" ]
   },
   {
     "type": "MONSTER_FACTION",
@@ -50,12 +50,12 @@
     "type": "MONSTER_FACTION",
     "name": "dog",
     "copy-from": "dog",
-    "by_mood": "bileworm"
+    "by_mood": [ "bileworm" ]
   },
   {
     "type": "MONSTER_FACTION",
     "name": "gator",
     "copy-from": "gator",
-    "by_mood": "lurker"
+    "by_mood": [ "lurker" ]
   }
 ]

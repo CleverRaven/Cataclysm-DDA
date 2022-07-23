@@ -99,7 +99,7 @@
   {
     "type": "scenario",
     "id": "afs_nurseratchet",
-    "name": "CHALLENGE - Abnormal Augmentations",
+    "name": "Challenge - Abnormal Augmentations",
     "start_name": "Augmentation Clinic",
     "flags": [ "LONE_START", "CHALLENGE" ],
     "traits": [

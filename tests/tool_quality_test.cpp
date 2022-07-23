@@ -164,42 +164,42 @@ TEST_CASE( "battery-powered tool qualities", "[tool][battery][quality]" )
 
         // Use i_add to place everything in the avatar's inventory (backpack)
         // so the UPS power will be available to the cordless drill after modding
-        item &drill = they.i_add( item( "test_cordless_drill" ) );
-        item &bat_cell = they.i_add( item( "heavy_battery_cell" ) );
-        item &ups_mod = they.i_add( item( "battery_ups" ) );
-        item &ups = they.i_add( item( "UPS_off" ) );
+        item_location drill = they.i_add( item( "test_cordless_drill" ) );
+        item_location bat_cell = they.i_add( item( "heavy_battery_cell" ) );
+        item_location ups_mod = they.i_add( item( "battery_ups" ) );
+        item_location ups = they.i_add( item( "UPS_off" ) );
 
         GIVEN( "UPS has battery with enough charge, equal to drill's charges_per_use" ) {
             // Charge the battery
-            int bat_charges = drill.type->charges_to_use();
+            int bat_charges = drill->type->charges_to_use();
             REQUIRE( bat_charges > 0 );
-            bat_cell.ammo_set( bat_cell.ammo_default(), bat_charges );
-            REQUIRE( bat_cell.ammo_remaining() == bat_charges );
+            bat_cell->ammo_set( bat_cell->ammo_default(), bat_charges );
+            REQUIRE( bat_cell->ammo_remaining() == bat_charges );
             // Install heavy battery into UPS
-            REQUIRE( ups.put_in( bat_cell, item_pocket::pocket_type::MAGAZINE_WELL ).success() );
-            REQUIRE( ups.ammo_remaining( &they ) == bat_charges );
+            REQUIRE( ups->put_in( *bat_cell, item_pocket::pocket_type::MAGAZINE_WELL ).success() );
+            REQUIRE( ups->ammo_remaining( &they ) == bat_charges );
 
             WHEN( "UPS battery mod is installed into the drill" ) {
                 // Ensure drill currently has no mods
-                REQUIRE( drill.toolmods().empty() );
-                REQUIRE( drill.tname() == "test cordless drill" );
+                REQUIRE( drill->toolmods().empty() );
+                REQUIRE( drill->tname() == "test cordless drill" );
                 // Install the UPS mod and ensure it worked
-                drill.put_in( ups_mod, item_pocket::pocket_type::MOD );
-                REQUIRE_FALSE( drill.toolmods().empty() );
-                REQUIRE( drill.tname() == "test cordless drill+1 (UPS)" );
+                drill->put_in( *ups_mod, item_pocket::pocket_type::MOD );
+                REQUIRE_FALSE( drill->toolmods().empty() );
+                REQUIRE( drill->tname() == "test cordless drill+1 (UPS)" );
                 // Ensure avatar actually has the drill and UPS in possession
-                CHECK( they.has_item( drill ) );
-                CHECK( they.has_item( ups ) );
+                CHECK( they.has_item( *drill ) );
+                CHECK( they.has_item( *ups ) );
 
                 THEN( "the drill has the same charge as the UPS" ) {
-                    CHECK( drill.ammo_remaining( &they ) == bat_charges );
+                    CHECK( drill->ammo_remaining( &they ) == bat_charges );
                 }
                 THEN( "inherent qualities of the drill can be used" ) {
-                    CHECK( drill.has_quality( qual_SCREW, 1, 1 ) );
+                    CHECK( drill->has_quality( qual_SCREW, 1, 1 ) );
                 }
                 // Regression test for #54471
                 THEN( "charged qualities of the drill can be used" ) {
-                    CHECK( drill.has_quality( qual_DRILL, 3, 1 ) );
+                    CHECK( drill->has_quality( qual_DRILL, 3, 1 ) );
                 }
             }
         }

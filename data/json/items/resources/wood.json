@@ -99,17 +99,17 @@
     "description": "A narrow, thick plank of wood, like a 2 by 4 or similar piece of dimensional lumber.  Makes a decent melee weapon, and can be used for all kinds construction.",
     "category": "spare_parts",
     "weight": "2600 g",
-    "to_hit": 1,
     "color": "brown",
     "symbol": "/",
     "material": [ "wood" ],
     "techniques": [ "WBLOCK_1" ],
     "volume": "4400 ml",
     "longest_side": "130 cm",
-    "bashing": 10,
+    "bashing": 26,
+    "to_hit": { "grip": "none", "length": "long", "surface": "any", "balance": "uneven" },
     "price": 1000,
     "price_postapoc": 10,
-    "flags": [ "FIREWOOD" ]
+    "flags": [ "FRAGILE_MELEE", "FIREWOOD" ]
   },
   {
     "type": "GENERIC",

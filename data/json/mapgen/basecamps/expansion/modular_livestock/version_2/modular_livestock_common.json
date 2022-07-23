@@ -9,7 +9,7 @@
       "f": "t_chickenwire_fence",
       ";": "t_dirt"
     },
-    "furniture": { "b": "f_bench", "t": "f_table", "r": "f_rack", ";": "f_clear" }
+    "furniture": { "b": "f_bench", "t": "f_table", "r": "f_rack", ";": "f_clear", "w": "f_spinwheel" }
   },
   {
     "type": "mapgen",
@@ -147,7 +147,7 @@
       "rows": [
         "rrr",
         "  t",
-        "  r"
+        "  w"
       ],
       "palettes": [ "fbml_2_common_palette" ]
     }

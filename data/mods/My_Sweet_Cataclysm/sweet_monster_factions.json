@@ -50,7 +50,7 @@
       "chewgum"
     ],
     "neutral": [ "small_animal", "insect", "fish" ],
-    "by_mood": "bee"
+    "by_mood": [ "bee" ]
   },
   {
     "type": "MONSTER_FACTION",

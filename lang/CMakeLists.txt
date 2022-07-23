@@ -5,10 +5,21 @@ message(STATUS "Process LANGUAGES variable --")
 find_package(Gettext)
 
 if (NOT GETTEXT_FOUND)
-    message(FATAL_ERROR
-            "Gettext not found. Install gettext package or disable \
-             localization with \"-DLOCALIZE=OFF\". \
-             See doc/COMPILING/COMPILING-CMAKE.md for details and more info.")
+    if (MSVC)
+        unset(GETTEXT_MSGFMT_EXECUTABLE)
+        find_program(GETTEXT_MSGFMT_EXECUTABLE
+            msgfmt.exe
+            HINTS
+                  C:\\msys64\\usr\\bin
+                  C:\\Prorogram\ Files\\Git\\mingw64\\bin
+        )
+    endif(MSVC)
+    if(NOT GETTEXT_MSGFMT_EXECUTABLE)
+        message(FATAL_ERROR
+                "Gettext not found. Install gettext package or disable \
+                 localization with \"-DLOCALIZE=OFF\". \
+                 See doc/COMPILING/COMPILING-CMAKE.md for details and more info.")
+    endif()
 endif ()
 
 foreach (LANG ${LANGUAGES})
@@ -21,10 +32,20 @@ add_custom_target(
         COMMAND python3 lang/extract_json_strings.py
         WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
 
+cmake_path(GET GETTEXT_MSGFMT_EXECUTABLE PARENT_PATH _path)
+find_program(XGETTEXT_MSGFMT_EXECUTABLE
+    xgettext
+    HINTS
+        ${_path}
+)
+if(NOT ${XGETTEXT_MSGFMT_EXECUTABLE})
+    set(XGETTEXT_MSGFMT_EXECUTABLE xgettext)
+endif()
+
 # Generate cataclysm-dda.pot
 add_custom_target(
         translations
-        COMMAND xgettext --default-domain="cataclysm-dda"
+        COMMAND ${XGETTEXT_MSGFMT_EXECUTABLE} --default-domain="cataclysm-dda"
                          --sort-by-file
                          --add-comments="~"
                          --output="${CMAKE_SOURCE_DIR}/lang/po/cataclysm-dda.pot"
@@ -70,7 +91,7 @@ foreach (LANG ${LANGUAGES})
                     -o ${CMAKE_SOURCE_DIR}/lang/mo/${LANG}/LC_MESSAGES/cataclysm-dda.mo
             WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
     if (RELEASE)
-        if (${CMAKE_SYSTEM_NAME} MATCHES Windows)
+        if ("${CMAKE_SYSTEM_NAME}" MATCHES "Windows")
             #install(DIRECTORY ${CMAKE_SOURCE_DIR}/lang/mo/${LANG} DESTINATION ${DATA_PREFIX})
         else ()
             install(DIRECTORY ${CMAKE_SOURCE_DIR}/lang/mo/${LANG} DESTINATION ${LOCALE_DIR})

@@ -13,6 +13,7 @@ class advanced_inv_area;
 class avatar;
 class npc;
 class player_morale;
+struct bodygraph_info;
 
 using drop_location = std::pair<item_location, int>;
 using drop_locations = std::list<drop_location>;
@@ -27,18 +28,7 @@ struct item_penalties {
                !body_parts_with_out_of_order_penalty.empty();
     }
 
-    nc_color color_for_stacking_badness() const {
-        switch( badness() ) {
-            case 0:
-                return c_light_gray;
-            case 1:
-                return c_yellow;
-            case 2:
-                return c_light_red;
-        }
-        debugmsg( "Unexpected badness %d", badness() );
-        return c_light_gray;
-    }
+    nc_color color_for_stacking_badness() const;
 };
 
 struct layering_item_info {
@@ -86,21 +76,21 @@ class outfit
         // will someone get shocked by zapback
         bool hands_conductive() const;
         bool in_climate_control() const;
-        bool can_pickVolume( const item &it ) const;
+        bool can_pickVolume( const item &it, bool ignore_pkt_settings = true ) const;
         side is_wearing_shoes( const bodypart_id &bp ) const;
         bool is_wearing_helmet() const;
         item item_worn_with_flag( const flag_id &f, const bodypart_id &bp ) const;
         item item_worn_with_flag( const flag_id &f ) const;
-        cata::optional<const item *> item_worn_with_inv_let( const char invlet ) const;
+        cata::optional<const item *> item_worn_with_inv_let( char invlet ) const;
         // get the best blocking value with the flag that allows worn.
         item *best_shield();
-        // find the best clothing weapon when unarmed modifies the cur_weapon that is passed in directly
-        item *current_unarmed_weapon( const std::string &attack_vector, item *cur_weapon );
+        // find the best clothing weapon when unarmed modifies
+        item *current_unarmed_weapon( const std::string &attack_vector );
         item_location first_item_covering_bp( Character &guy, bodypart_id bp );
         void inv_dump( std::vector<item *> &ret );
         void inv_dump( std::vector<const item *> &ret ) const;
         /** Applies encumbrance from items only
-         * If new_item is not null, then calculate under the asumption that it
+         * If new_item is not null, then calculate under the assumption that it
          * is added to existing work items.
          */
         void item_encumb( std::map<bodypart_id, encumbrance_data> &vals, const item &new_item,
@@ -135,13 +125,17 @@ class outfit
         std::map<bodypart_id, int> warmth( const Character &guy ) const;
         int get_env_resist( bodypart_id bp ) const;
         int sum_filthy_cover( bool ranged, bool melee, bodypart_id bp ) const;
-        ret_val<bool> power_armor_conflicts( const item &clothing ) const;
+        ret_val<void> power_armor_conflicts( const item &clothing ) const;
         bool is_wearing_power_armor( bool *has_helmet = nullptr ) const;
         bool is_wearing_active_power_armor() const;
         bool is_wearing_active_optcloak() const;
-        ret_val<bool> only_one_conflicts( const item &clothing ) const;
+        ret_val<void> only_one_conflicts( const item &clothing ) const;
         bool one_per_layer_change_side( item &it, const Character &guy ) const;
         void one_per_layer_sidedness( item &clothing ) const;
+        ret_val<void> check_rigid_conflicts( const item &clothing, side s ) const;
+        ret_val<void> check_rigid_conflicts( const item &clothing ) const;
+        bool check_rigid_change_side( item &it, const Character &guy ) const;
+        void check_rigid_sidedness( item &clothing ) const;
         int amount_worn( const itype_id &clothing ) const;
         int worn_guns() const;
         int clatter_sound() const;
@@ -155,6 +149,8 @@ class outfit
                           item::cover_type cover_type = item::cover_type::COVER_DEFAULT ) const;
         void bodypart_exposure( std::map<bodypart_id, float> &bp_exposure,
                                 const std::vector<bodypart_id> &all_body_parts ) const;
+        void prepare_bodymap_info( bodygraph_info &info, const bodypart_id &bp,
+                                   const std::set<sub_bodypart_id> &sub_parts, const Character &person ) const;
         // concatenates to @overlay_ids
         void get_overlay_ids( std::vector<std::pair<std::string, std::string>> &overlay_ids ) const;
         body_part_set exclusive_flag_coverage( body_part_set bps, const flag_id &flag ) const;
@@ -164,11 +160,14 @@ class outfit
         std::list<item> remove_worn_items_with( const std::function<bool( item & )> &filter,
                                                 Character &guy );
         bool takeoff( item_location loc, std::list<item> *res, Character &guy );
-        std::list<item> use_amount( const itype_id &it, int quantity,
-                                    std::list<item> &used, const std::function<bool( const item & )> filter, Character &wearer );
+        std::list<item> use_amount(
+            const itype_id &it, int quantity, std::list<item> &used,
+            const std::function<bool( const item & )> &filter, Character &wearer );
         std::list<item>::iterator position_to_wear_new_item( const item &new_item );
         cata::optional<std::list<item>::iterator> wear_item( Character &guy, const item &to_wear,
-                bool interactive, bool do_calc_encumbrance, bool do_sort_items = true );
+                bool interactive, bool do_calc_encumbrance, bool do_sort_items = true, bool quiet = false );
+        /** Calculate and return any bodyparts that are currently uncomfortable. */
+        std::unordered_set<bodypart_id> where_discomfort() const;
         // used in game::wield
         void insert_item_at_index( item clothing, int index );
         void append_radio_items( std::list<item *> &rc_items );
@@ -232,6 +231,8 @@ class outfit
         VisitResponse visit_items( const std::function<VisitResponse( item *, item * )> &func ) const;
         std::list<item> remove_items_with( Character &guy,
                                            const std::function<bool( const item & )> &filter, int &count );
+
+        void organize_items_menu();
 
         void serialize( JsonOut &json ) const;
         void deserialize( const JsonObject &jo );

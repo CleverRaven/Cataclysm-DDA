@@ -504,6 +504,13 @@ struct vehicle_prototype {
         itype_id fuel = itype_id::NULL_ID();
     };
 
+    struct zone_def {
+        zone_type_id zone_type;
+        std::string name;
+        std::string filter;
+        point pt;
+    };
+
     vehicle_prototype();
     vehicle_prototype( vehicle_prototype && ) noexcept;
     ~vehicle_prototype();
@@ -513,6 +520,7 @@ struct vehicle_prototype {
     translation name;
     std::vector<part_def> parts;
     std::vector<vehicle_item_spawn> item_spawns;
+    std::vector<zone_def> zone_defs;
 
     std::unique_ptr<vehicle> blueprint;
 

@@ -507,7 +507,7 @@
   {
     "id": [ "TALK_SIZE_UP", "TALK_LOOK_AT", "TALK_OPINION", "TALK_SHOUT" ],
     "type": "talk_topic",
-    "responses": [ { "text": "Okay", "topic": "TALK_NONE" } ]
+    "responses": [ { "text": "Okay.", "topic": "TALK_NONE" } ]
   },
   {
     "id": "TALK_DELIVER_ASK",

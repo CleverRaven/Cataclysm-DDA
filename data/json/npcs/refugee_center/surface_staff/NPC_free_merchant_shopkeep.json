@@ -278,6 +278,7 @@
   {
     "id": "TALK_EVAC_MERCHANT",
     "type": "talk_topic",
+    "speaker_effect": { "effect": [ { "u_add_var": "found_refugee_center", "value": "yes" } ] },
     "dynamic_line": { "u_is_wearing": "badge_marshal", "yes": "Welcome marshal…", "no": "Welcome…" }
   },
   {
@@ -474,30 +475,30 @@
     "dynamic_line": "Hmm.  Most of the people downstairs aren't willing to come up for things like that.  If you sweeten the pot a bit, we could get a few folks I'm sure.",
     "responses": [
       {
-        "text": "How about five Merch to do it?",
+        "text": "How about five merch to do it?",
         "condition": { "u_has_items": { "item": "FMCNote", "count": 5 } },
         "effect": { "u_adjust_var": "Boris_mission_1", "type": "mission", "context": "cleanup_promises", "adjustment": 1 },
         "topic": "TALK_EVAC_MERCHANT_Boris_Mission_1b"
       },
       {
-        "text": "How about ten Merch to do it?",
+        "text": "How about ten merch to do it?",
         "condition": { "u_has_items": { "item": "FMCNote", "count": 10 } },
         "effect": { "u_adjust_var": "Boris_mission_1", "type": "mission", "context": "cleanup_promises", "adjustment": 3 },
         "topic": "TALK_EVAC_MERCHANT_Boris_Mission_1c"
       },
-      { "text": "I might come back with some more Merch then…", "topic": "TALK_EVAC_MERCHANT" }
+      { "text": "I might come back with some more merch then…", "topic": "TALK_EVAC_MERCHANT" }
     ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_EVAC_MERCHANT_Boris_Mission_1b",
-    "dynamic_line": "Sure.  Five Merch is definitely enough to get someone off guard duty to help you out.",
+    "dynamic_line": "Sure.  Five merch is definitely enough to get someone off guard duty to help you out.",
     "speaker_effect": { "effect": { "npc_add_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" } }
   },
   {
     "type": "talk_topic",
     "id": "TALK_EVAC_MERCHANT_Boris_Mission_1c",
-    "dynamic_line": "Woah, you're really intent hey?  Okay, if you feel so strongly, ten Merch is enough to get a couple people out of guard duty to help, and you know what?  If you feel that strongly about it, I'll come help out in my down time too.  I respect someone putting their money where their mouth is.",
+    "dynamic_line": "Woah, you're really intent hey?  Okay, if you feel so strongly, ten merch is enough to get a couple people out of guard duty to help, and you know what?  If you feel that strongly about it, I'll come help out in my down time too.  I respect someone putting their money where their mouth is.",
     "speaker_effect": { "effect": { "npc_add_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" } }
   }
 ]

@@ -302,5 +302,57 @@
       }
     ],
     "flags": [ "FIRE", "LIGHT_310", "CHARGEDIM", "FLAMING", "DURABLE_MELEE", "TRADER_AVOID", "WATER_EXTINGUISH" ]
+  },
+  {
+    "id": "flu_shot",
+    "copy-from": "flu_shot",
+    "type": "COMESTIBLE",
+    "comestible_type": "MED",
+    "name": { "str": "flu shot" },
+    "vitamins": [ [ "mutagen", 2000 ], [ "mutagen_batrachian", 2300 ] ],
+    "delete": { "flags": [ "NO_INGEST" ] },
+    "extend": { "flags": [ "NUTRIENT_OVERRIDE" ] }
+  },
+  {
+    "id": "family_photo",
+    "copy-from": "family_photo",
+    "type": "GENERIC",
+    "category": "other",
+    "name": { "str": "blurry picture of a scowling cartoon ape" },
+    "description": "Allegedly very important.",
+    "price": 2000000000,
+    "price_postapoc": 0
+  },
+  {
+    "id": "old_key",
+    "copy-from": "old_key",
+    "type": "GENERIC",
+    "category": "other",
+    "name": { "str": "penultimate key" },
+    "description": "This opens the Blob Door.  Better hold on to it.",
+    "weight": "25 kg",
+    "material": [ "monolith" ],
+    "symbol": "p",
+    "color": "dark_gray"
+  },
+  {
+    "type": "GENERIC",
+    "id": "bread_sword",
+    "symbol": "/",
+    "color": "brown",
+    "name": { "str": "Excalibread" },
+    "description": "A French baguette, sharpened into a blade and toasted for durability.  Truly, the best weapon to smite the gluten-intolerant.",
+    "material": [ "wheat" ],
+    "volume": "2450 ml",
+    "weight": "250 g",
+    "longest_side": "100 cm",
+    "bashing": 4,
+    "cutting": 8,
+    "to_hit": { "grip": "solid", "length": "long", "surface": "line", "balance": "uneven" },
+    "price_postapoc": 250,
+    "flags": [ "BELT_CLIP", "NONCONDUCTIVE" ],
+    "weapon_category": [ "CONSTRUCTED_SWORDS", "MEDIUM_SWORDS" ],
+    "qualities": [ [ "BUTCHER", -50 ] ],
+    "techniques": [ "WBLOCK_1" ]
   }
 ]

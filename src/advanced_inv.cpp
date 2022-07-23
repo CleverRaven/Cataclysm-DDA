@@ -628,12 +628,12 @@ void advanced_inventory::recalc_pane( side p )
     advanced_inventory_pane &pane = panes[p];
     pane.recalc = false;
     pane.items.clear();
+    advanced_inventory_pane &there = panes[-p + 1];
+    advanced_inv_area &other = squares[there.get_area()];
     // Add items from the source location or in case of all 9 surrounding squares,
     // add items from several locations.
     if( pane.get_area() == AIM_ALL ) {
         advanced_inv_area &alls = squares[AIM_ALL];
-        advanced_inventory_pane &there = panes[-p + 1];
-        advanced_inv_area &other = squares[there.get_area()];
         alls.volume = 0_ml;
         alls.weight = 0_gram;
         for( advanced_inv_area &s : squares ) {
@@ -668,6 +668,30 @@ void advanced_inventory::recalc_pane( side p )
     } else {
         pane.add_items_from_area( squares[pane.get_area()] );
     }
+
+    // Prevent same container item appearing in this pane when other pane is the container view.
+    if( there.get_area() == AIM_CONTAINER ) {
+        item_location loc = other.get_container();
+        std::vector<advanced_inv_listitem>::iterator outer_iter = pane.items.begin();
+        while( outer_iter != pane.items.end() ) {
+            if( !outer_iter->items.empty() ) {
+                std::vector<item_location>::iterator iter = outer_iter->items.begin();
+                while( iter != outer_iter->items.end() ) {
+                    if( loc == *iter ) {
+                        iter = outer_iter->items.erase( iter );
+                    } else {
+                        iter++;
+                    }
+                }
+            }
+            if( outer_iter->items.empty() ) {
+                outer_iter = pane.items.erase( outer_iter );
+            } else {
+                outer_iter++;
+            }
+        }
+    }
+
     // Sort all items
     std::stable_sort( pane.items.begin(), pane.items.end(), advanced_inv_sorter( pane.sortby ) );
 }
@@ -1039,7 +1063,8 @@ bool advanced_inventory::move_all_items()
             player_character.assign_activity( player_activity( pickup_activity_actor(
                                                   target_items,
                                                   quantities,
-                                                  cata::optional<tripoint>( player_character.pos() )
+                                                  cata::optional<tripoint>( player_character.pos() ),
+                                                  false
                                               ) ) );
 
         } else {
@@ -1310,7 +1335,8 @@ void advanced_inventory::start_activity(
         player_character.assign_activity( player_activity( pickup_activity_actor(
                                               target_items,
                                               quantities,
-                                              from_vehicle ? cata::nullopt : cata::optional<tripoint>( player_character.pos() )
+                                              from_vehicle ? cata::nullopt : cata::optional<tripoint>( player_character.pos() ),
+                                              false
                                           ) ) );
     } else {
         // Stash the destination

@@ -27,7 +27,7 @@ std::vector<std::string> diary::get_pages_list()
 {
     std::vector<std::string> result;
     for( std::unique_ptr<diary_page> &n : pages ) {
-        result.push_back( to_string( n->turn ) );
+        result.push_back( get_diary_time_str( n->turn, n->time_acc ) );
     }
     return result;
 }
@@ -390,25 +390,23 @@ void diary::trait_changes()
     if( prevpage == nullptr ) {
         if( !currpage->traits.empty() ) {
             add_to_change_list( _( "Mutations:" ) );
-            for( const trait_id &elem : currpage->traits ) {
-                const mutation_branch &trait = elem.obj();
-                add_to_change_list( colorize( trait.name(), trait.get_display_color() ), trait.desc() );
+            for( const trait_and_var &elem : currpage->traits ) {
+                add_to_change_list( colorize( elem.name(), elem.trait->get_display_color() ), elem.desc() );
             }
             add_to_change_list( "" );
         }
     } else {
         if( prevpage->traits.empty() && !currpage->traits.empty() ) {
             add_to_change_list( _( "Mutations:" ) );
-            for( const trait_id &elem : currpage->traits ) {
-                const mutation_branch &trait = elem.obj();
-                add_to_change_list( colorize( trait.name(), trait.get_display_color() ), trait.desc() );
+            for( const trait_and_var &elem : currpage->traits ) {
+                add_to_change_list( colorize( elem.name(), elem.trait->get_display_color() ), elem.desc() );
 
             }
             add_to_change_list( "" );
         } else {
 
             bool flag = true;
-            for( const trait_id &elem : currpage->traits ) {
+            for( const trait_and_var &elem : currpage->traits ) {
 
                 if( std::find( prevpage->traits.begin(), prevpage->traits.end(),
                                elem ) == prevpage->traits.end() ) {
@@ -416,8 +414,7 @@ void diary::trait_changes()
                         add_to_change_list( _( "Gained Mutation: " ) );
                         flag = false;
                     }
-                    const mutation_branch &trait = elem.obj();
-                    add_to_change_list( colorize( trait.name(), trait.get_display_color() ), trait.desc() );
+                    add_to_change_list( colorize( elem.name(), elem.trait->get_display_color() ), elem.desc() );
                 }
 
             }
@@ -426,16 +423,15 @@ void diary::trait_changes()
             }
 
             flag = true;
-            for( const trait_id &elem : prevpage->traits ) {
+            for( const trait_and_var &elem : prevpage->traits ) {
 
                 if( std::find( currpage->traits.begin(), currpage->traits.end(),
                                elem ) == currpage->traits.end() ) {
                     if( flag ) {
-                        add_to_change_list( _( "Lost Mutation " ) );
+                        add_to_change_list( _( "Lost Mutation: " ) );
                         flag = false;
                     }
-                    const mutation_branch &trait = elem.obj();
-                    add_to_change_list( colorize( trait.name(), trait.get_display_color() ), trait.desc() );
+                    add_to_change_list( colorize( elem.name(), elem.trait->get_display_color() ), elem.desc() );
                 }
             }
             if( !flag ) {
@@ -584,26 +580,12 @@ std::string diary::get_head_text()
 
     if( !pages.empty() ) {
         const diary_page *prevpageptr = get_page_ptr( -1 );
+        const diary_page *currpageptr = get_page_ptr();
         const time_point prev_turn = ( prevpageptr != nullptr ) ? prevpageptr->turn : calendar::turn_zero;
-        const time_duration turn_diff = get_page_ptr()->turn - prev_turn;
-        const int days = to_days<int>( turn_diff );
-        const int hours = to_hours<int>( turn_diff ) % 24;
-        const int minutes = to_minutes<int>( turn_diff ) % 60;
+        const time_duration turn_diff = currpageptr->turn - prev_turn;
         std::string time_diff_text;
         if( opened_page != 0 ) {
-            std::string days_text;
-            std::string hours_text;
-            std::string minutes_text;
-            if( days > 0 ) {
-                days_text = string_format( n_gettext( "%d day, ", "%d days, ", days ), days );
-            }
-            if( hours > 0 ) {
-                hours_text = string_format( n_gettext( "%d hour, ", "%d hours, ", hours ), hours );
-            }
-            minutes_text = string_format( n_gettext( "%d minute", "%d minutes", minutes ), minutes );
-            //~ %1$s is xx days, %2$s is xx hours, %3$s is xx minutes
-            time_diff_text = string_format( _( "%1$s%2$s%3$s since last entry" ),
-                                            days_text, hours_text, minutes_text );
+            time_diff_text = get_diary_time_since_str( turn_diff, currpageptr->time_acc );
         }
         //~ Head text of a diary page
         //~ %1$d is the current page number, %2$d is the number of pages in total
@@ -611,7 +593,7 @@ std::string diary::get_head_text()
         //~ %4$s is time relative to the previous page
         return string_format( _( "Entry: %1$d/%2$d, %3$s, %4$s" ),
                               opened_page + 1, pages.size(),
-                              to_string( get_page_ptr()->turn ),
+                              get_diary_time_str( currpageptr->turn, currpageptr->time_acc ),
                               time_diff_text );
     }
     return "";
@@ -638,11 +620,13 @@ void diary::set_page_text( std::string text )
 void diary::new_page()
 {
     std::unique_ptr<diary_page> page( new diary_page() );
-    page -> m_text = " ";
+    page -> m_text = std::string();
     page -> turn = calendar::turn;
     page -> kills = g ->get_kill_tracker().kills;
     page -> npc_kills = g->get_kill_tracker().npc_kills;
     avatar *u = &get_avatar();
+    page -> time_acc = u->has_watch() ? time_accuracy::FULL :
+                       is_creature_outside( *u ) ? time_accuracy::PARTIAL : time_accuracy::NONE;
     page -> mission_completed = mission::to_uid_vector( u->get_completed_missions() );
     page -> mission_active = mission::to_uid_vector( u->get_active_missions() );
     page -> mission_failed = mission::to_uid_vector( u->get_failed_missions() );
@@ -651,7 +635,7 @@ void diary::new_page()
     page->dexterity = u->get_dex_base();
     page->intelligence = u->get_int_base();
     page->perception = u->get_per_base();
-    page->traits = u->get_mutations( false );
+    page->traits = u->get_mutations_variants( false );
     const auto spells = u->magic->get_spells();
     for( const spell *spell : spells ) {
         const spell_id &id = spell->id();
@@ -693,8 +677,8 @@ void diary::export_to_txt( bool lastexport )
             myfile << remove_color_tags( str ) + "\n";
         }
         std::vector<std::string> folded_text = foldstring( page.m_text, 50 );
-        for( int i = 0; i < static_cast<int>( folded_text.size() ); i++ ) {
-            myfile << folded_text[i] + "\n";
+        for( const std::string &line : folded_text ) {
+            myfile << line + "\n";
         }
         myfile <<  "\n\n\n";
     }
@@ -728,6 +712,7 @@ void diary::serialize( JsonOut &jsout )
         jsout.start_object();
         jsout.member( "text", n->m_text );
         jsout.member( "turn", n->turn );
+        jsout.member( "time_accuracy", n->time_acc );
         jsout.member( "completed", n->mission_completed );
         jsout.member( "active", n->mission_active );
         // TODO: migrate "faild" to "failed"?
@@ -781,6 +766,7 @@ void diary::deserialize( JsonIn &jsin )
             std::unique_ptr<diary_page> page( new diary_page() );
             page->m_text = elem.get_string( "text" );
             elem.read( "turn", page->turn );
+            elem.read( "time_accuracy", page->time_acc );
             elem.read( "active", page->mission_active );
             elem.read( "completed", page->mission_completed );
             // TODO: migrate "faild" to "failed"?

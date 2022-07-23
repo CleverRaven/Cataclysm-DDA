@@ -118,8 +118,6 @@ If you want to compile localization files for specific languages, you can add th
 
 You can get the language ID from the filenames of `*.po` in `lang/po` directory. Setting `LOCALIZE=1` only may not tell `make` to compile those localization files for you.
 
-Special note for MinGW: due to a [libintl bug](https://savannah.gnu.org/bugs/index.php?58006), using English without a `.mo` file would cause significant slow down on MinGW targets. In such case you can compile a `.mo` file for English using `make LANGUAGES="en"`. `make LANGUAGE="all"` also compiles a `.mo` file for English in addition to other languages.
-
 # Accelerating Linux builds with llama
 
 [llama](https://github.com/nelhage/llama) is a CLI tool for outsourcing computation to AWS Lambda.  If you want your builds to run faster and are willing to pay Amazon for the privilege, then you may be able to use it to accelerate your builds.  See [../../tools/llama/README.md](our llama README) for more details.
@@ -129,6 +127,17 @@ Special note for MinGW: due to a [libintl bug](https://savannah.gnu.org/bugs/ind
 Instructions for compiling on a Debian-based system. The package names here are valid for Ubuntu 12.10 and may or may not work on your system.
 
 The building instructions below always assume you are running them from the Cataclysm:DDA source directory.
+
+# Gentoo
+If you want sound and graphics, make sure to emerge with the following:
+
+`USE="flac fluidsynth mad midi mod modplug mp3 playtools vorbis wav png" emerge -1va emerge media-libs/libsdl2 media-libs/sdl2-gfx media-libs/sdl2-image media-libs/sdl2-mixer media-libs/sdl2-ttf`
+
+It may also be possible to get away with fewer dependencies, but this set has been tested.
+
+Once the above libraries are installed, compile with:
+
+`make -j$(nproc) TILES=1 SOUND=1 RELEASE=1`
 
 ## Linux (native) ncurses builds
 
@@ -326,7 +335,7 @@ The Gradle project lives in the repository under `android/`. You can build it vi
   * SDL2_mixer (tested with 2.0.2)
   * SDL2_image (tested with 2.0.3)
 
-The Gradle build process automatically installs dependencies from [deps.zip](android/app/deps.zip).
+The Gradle build process automatically installs dependencies from [deps.zip](/android/app/deps.zip).
 
 ### Setup
 
@@ -352,7 +361,7 @@ Export Android environment variables (you can add these to the end of `~/.bashrc
     export PATH=$PATH:$ANDROID_SDK_ROOT/tools
     export PATH=$PATH:$ANDROID_NDK_ROOT
 
-You can also use these additional variables if you want to use `ccache` to speed up subsequnt builds:
+You can also use these additional variables if you want to use `ccache` to speed up subsequent builds:
 
     export USE_CCACHE=1
     export NDK_CCACHE=/usr/local/bin/ccache
@@ -388,7 +397,7 @@ The app stores data files on the device in `/sdcard/Android/data/com.cleverraven
 
 # Mac OS X
 
-To build Cataclysm on Mac you'll need [Command Line Tools for Xcode](https://developer.apple.com/downloads/) and the [Homebrew](http://brew.sh) package manager. With Homebrew, you can easily install or build Cataclysm using the [cataclysm](https://formulae.brew.sh/formula/cataclysm) forumla.
+To build Cataclysm on Mac you'll need [Command Line Tools for Xcode](https://developer.apple.com/downloads/) and the [Homebrew](http://brew.sh) package manager. With Homebrew, you can easily install or build Cataclysm using the [cataclysm](https://formulae.brew.sh/formula/cataclysm) formula.
 
 ## Simple build using Homebrew
 

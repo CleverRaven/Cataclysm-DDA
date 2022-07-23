@@ -200,7 +200,7 @@
     "id": "fungicide",
     "type": "SPELL",
     "name": "Kill Fungus",
-    "description": "Kills fungus affected areas",
+    "description": "Kills fungus affected areas.",
     "valid_targets": [ "ground", "hostile" ],
     "effect": "ter_transform",
     "effect_str": "fungicide",

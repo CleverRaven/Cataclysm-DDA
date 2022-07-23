@@ -29,13 +29,15 @@
         "..#cccccccc|b     |||#..",
         "..#            |+||dd#..",
         "..#+||+||+|||+||  + so..",
-        "..# b| b| b|t S|LL|D$#..",
+        "..# b| b| b|t_S|LL|D$#..",
         "..####################..",
         "....................4..."
       ],
       "palettes": [ "standard_building_palette", "clothes_store_palette" ],
+      "terrain": { "t": "t_linoleum_white", "S": "t_linoleum_white", "_": "t_linoleum_white" },
       "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 0, 0 ], "y": [ 23, 23 ], "chance": 2, "repeat": [ 2, 3 ] } ],
-      "vehicles": { " ": { "vehicle": "shopping_cart", "chance": 1, "status": 0 } }
+      "vehicles": { " ": { "vehicle": "shopping_cart", "chance": 1, "status": 0 } },
+      "place_loot": [ { "group": "cash_register_random", "x": 16, "y": [ 5, 7 ] } ]
     }
   },
   {
@@ -106,7 +108,7 @@
         "...#c & &c|   |c&c & #..",
         "...#||||+||   ||||||+#..",
         "...#  b| &        c  #..",
-        "...o   |          %  #..",
+        "...o   |          c  #..",
         "...# h +          c  #..",
         "...#b  |b         cs #..",
         "...#||||h  & &  y|||+#..",
@@ -117,14 +119,16 @@
         "...#||||         | hd#..",
         "...#b  +    hhb y|  b#..",
         "...# h ||+||||||||[  #..",
-        "...o   |S |d[]b f|dh o..",
-        "...#  b|t |dh    +   ;..",
+        "...o   |S_|d[]b f|dh o..",
+        "...#  b|t_|dh    +   ;..",
         "...######o####o#######..",
-        "....4..ppp...ppp........",
+        "....4...ppp..ppp........",
         "........................",
         "........................"
       ],
-      "palettes": [ "standard_building_palette", "tailor_palette" ]
+      "palettes": [ "standard_building_palette", "tailor_palette" ],
+      "terrain": { "t": "t_linoleum_white", "S": "t_linoleum_white", "_": "t_linoleum_white" },
+      "place_loot": [ { "group": "cash_register_random", "x": 18, "y": [ 6, 9 ] } ]
     }
   },
   {
@@ -193,7 +197,7 @@
         "..p--#JJ|&      &#......",
         "..p--#  |        #......",
         "..p--#+||b  yA  y#......",
-        "..p--# %c       h#......",
+        "..p--# [c       h#......",
         "..p--#  c       h#......",
         "..p--#  c  ccc  h#......",
         "..p--#  c       b#......",
@@ -202,8 +206,8 @@
         "..p--# [[[ |   s%#......",
         "..p--#  h  |     #......",
         "..p--;   h |+||||#......",
-        ".....0  [[   +   #......",
-        "....z#|+||i|||bSt#......",
+        ".....0  [[   +___#......",
+        "....z#|+||i|||_St#......",
         "....z#d |    #####......",
         "....z#dh|LLLL#4zzz......",
         "....z##0######z.........",
@@ -211,7 +215,9 @@
         "........................",
         "........................"
       ],
-      "palettes": [ "standard_building_palette", "furs_palette" ]
+      "palettes": [ "standard_building_palette", "furs_palette" ],
+      "terrain": { "t": "t_linoleum_white", "S": "t_linoleum_white", "_": "t_linoleum_white" },
+      "place_loot": [ { "group": "cash_register_random", "x": 7, "y": 7 } ]
     }
   },
   {
@@ -278,9 +284,9 @@
         "~~~~~~~~~~~~~~~~~~~~~~~~",
         "~~~~11~~~~1111~~~11~~~~~",
         "***|===::----==::==|****",
-        "***|]....%.|##...#@|****",
+        "***|]....#.|##...#@|****",
         "***|]....#.|.......|****",
-        "***|]......|%#.....|****",
+        "***|]......|##.....|****",
         "***|]..]..]|.#....U|****",
         "***|]..]..]|&#....U|****",
         "***|]..]..]|.......|****",
@@ -292,7 +298,7 @@
         "***|dd|o.......+..]|****",
         "***|.h|o..TTh.F|---|****",
         "***O..|o..hh..}|ust|****",
-        "***|..+........+...O****",
+        "***|..+........+___O****",
         "***|--|--O-+---|---|****",
         "******4***~~~***********",
         "**********~~~***********",
@@ -304,6 +310,10 @@
         "+": "t_door_c",
         "-": "t_wall_w",
         ".": "t_floor",
+        "u": "t_linoleum_white",
+        "s": "t_linoleum_white",
+        "t": "t_linoleum_white",
+        "_": "t_linoleum_white",
         ":": "t_door_glass_c",
         "=": "t_wall_glass",
         "O": "t_window",
@@ -315,14 +325,13 @@
       },
       "sealed_item": { "1": { "item": { "item": "seed_rose" }, "furniture": "f_planter_harvest" } },
       "furniture": {
-        "%": "f_console_broken",
         "#": "f_counter",
         "&": "f_counter_gate_c",
         "@": "f_mannequin",
         "F": "f_fridge",
         "T": "f_table",
         "U": "f_bigmirror",
-        "]": "f_rack",
+        "]": "f_clothing_rail",
         "d": "f_desk",
         "h": "f_chair",
         "o": "f_sofa",
@@ -345,7 +354,9 @@
         { "item": "livingroom", "x": 14, "y": 17, "chance": 30 },
         { "item": "office", "x": [ 4, 5 ], "y": 15, "chance": 50 },
         { "item": "cleaning", "x": 18, "y": 15, "chance": 50 },
-        { "item": "trash", "x": 16, "y": 17, "chance": 75 }
+        { "item": "trash", "x": 16, "y": 17, "chance": 75 },
+        { "item": "cash_register_random", "x": 9, "y": [ 4, 5 ], "chance": 100 },
+        { "item": "cash_register_random", "x": 13, "y": [ 6, 8 ], "chance": 100 }
       ]
     }
   },
@@ -415,8 +426,8 @@
         ".#:::::**::::::**:::::#.",
         ".#cy@c   c@y@ c   c@y@#.",
         ".#           sc       #.",
-        ".#||||   c    c    @c #.",
-        ".#b  |   cccc%c       #.",
+        ".#||||   c s  c    @c #.",
+        ".#b  |   cccccc       #.",
         ".#   +           [@  R#.",
         ".o h |  @@       [@  R#.",
         ".#||||  [[  RRR      R#.",
@@ -424,8 +435,8 @@
         ".# h +           [@  R#.",
         ".#b  |RRRRRRRR       R#.",
         ".###########||||+|||+|#.",
-        ".zzzz4zzzzz#<|dd  ]| S#.",
-        "..........z#+|h   ]| t#.",
+        ".zzzz4zzzzz#<|dd  ]|_S#.",
+        "..........z#+|h   ]|_t#.",
         "..........z#      ]|||#.",
         "-----------+  ff   + L#.",
         "..........z#####o######.",
@@ -434,7 +445,9 @@
         "........................",
         "........................"
       ],
-      "palettes": [ "standard_building_palette", "tailor_palette" ]
+      "palettes": [ "standard_building_palette", "tailor_palette" ],
+      "terrain": { "t": "t_linoleum_white", "S": "t_linoleum_white", "_": "t_linoleum_white" },
+      "place_loot": [ { "group": "cash_register_random", "repeat": 2, "x": [ 10, 13 ], "y": 7 } ]
     }
   },
   {
@@ -559,9 +572,9 @@
         "*|[..........@....|h.h|*",
         "*|[...............+...|*",
         "*|--+|-+|..@...@..|d..O*",
-        "*|h..|u.|.........|dh.|*",
-        "*|...|s.|..@...@..|]..|*",
-        "*|U..|t.|........y|]..|*",
+        "*|h..|u_|.........|dh.|*",
+        "*|...|s_|..@...@..|]..|*",
+        "*|U..|t_|........y|]..|*",
         "*|-O-|--|::-|.----|--.|*",
         "*zrzrzrzr~~r|.[[[[[[[.|*",
         "*********~~z|.........|4",
@@ -580,6 +593,10 @@
         "+": "t_door_c",
         "-": "t_brick_wall",
         ".": "t_floor",
+        "_": "t_linoleum_gray",
+        "u": "t_linoleum_gray",
+        "s": "t_linoleum_gray",
+        "t": "t_linoleum_gray",
         "0": "t_window_alarm",
         ":": "t_door_glass_c",
         ";": "t_door_locked",
@@ -587,9 +604,9 @@
         "H": "t_sidewalk",
         "O": "t_window",
         "T": "t_sidewalk",
-        "^": "t_region_tree",
+        "^": "t_region_tree_fruit",
         "r": "t_region_groundcover_urban",
-        "z": "t_region_shrub",
+        "z": "t_region_shrub_decorative",
         "|": "t_brick_wall",
         "~": "t_sidewalk",
         "R": "t_region_groundcover_urban",
@@ -603,7 +620,7 @@
         "T": "f_table",
         "&": "f_birdbath",
         "U": "f_bigmirror",
-        "[": "f_rack",
+        "[": "f_clothing_rail",
         "]": "f_bookcase",
         "d": "f_desk",
         "f": "f_indoor_plant",
@@ -707,7 +724,7 @@
         "..#                  #..",
         "..#J  W          W  K#..",
         "..#J  W   cccc   W  K#..",
-        "..#J  W   c  %   W  T#..",
+        "..#J  W   c  c   W  T#..",
         "..oc      c sc      T#..",
         "..#U  &   c cc   M  I#..",
         "..#U  M          M  I#..",
@@ -716,15 +733,17 @@
         "..#y                b#..",
         "..#   b [[&         y#..",
         "..#+|||||||||+||+||+|#..",
-        "..#        l| h| h| D#..",
-        ".4#   h[[h l|  |  |  #..",
+        "..#        l| h| h|_D#..",
+        ".4#   h[[h l|  |  |__#..",
         "..#n        |b |b |St#..",
         "..#####o###+#######o##..",
         "...........-............",
         "...........-............",
         "...........-............"
       ],
-      "palettes": [ "standard_building_palette", "clothes_store_palette" ]
+      "palettes": [ "standard_building_palette", "clothes_store_palette" ],
+      "terrain": { "t": "t_linoleum_white", "S": "t_linoleum_white", "_": "t_linoleum_white", "D": "t_linoleum_white" },
+      "place_loot": [ { "group": "cash_register_random", "x": [ 10, 13 ], "y": 7 } ]
     }
   },
   {

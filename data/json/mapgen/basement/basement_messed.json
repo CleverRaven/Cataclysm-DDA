@@ -72,6 +72,7 @@
           { "item": "livingroom", "chance": 30 },
           { "item": "bedroom", "chance": 30 },
           { "item": "allclothes", "chance": 50 },
+          { "item": "costume_all", "chance": 15 },
           { "item": "kitchen_appliances", "chance": 20 },
           { "item": "pawn", "chance": 5 },
           { "item": "musicstore_showpiece", "chance": 10 },

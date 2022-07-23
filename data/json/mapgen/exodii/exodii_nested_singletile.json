@@ -118,7 +118,7 @@
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "exodii_generic_machinery",
-    "//": "Chooses some machinery that looks good in an exodii base",
+    "//": "Chooses some machinery that looks good in an Exodii base",
     "object": {
       "mapgensize": [ 1, 1 ],
       "rows": [ "X" ],
@@ -141,7 +141,7 @@
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "exodii_botrack_1",
-    "//": "An exodii bot rack containing frames for not-yet-active bots.",
+    "//": "An Exodii bot rack containing frames for not-yet-active bots.",
     "object": {
       "mapgensize": [ 1, 1 ],
       "rows": [ "X" ],

@@ -12,6 +12,8 @@
     "avoidance": 99999,
     "difficulty": 99,
     "action": "ledge",
-    "vehicle_data": { "is_falling": true }
+    "vehicle_data": { "is_falling": true },
+    "trigger_message_u": "You fell down a ledge!",
+    "trigger_message_npc": "<npcname> fell down a ledge!"
   }
 ]

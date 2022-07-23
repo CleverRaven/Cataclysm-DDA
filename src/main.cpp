@@ -32,6 +32,7 @@
 #include "do_turn.h"
 #include "filesystem.h"
 #include "game.h"
+#include "game_constants.h"
 #include "game_ui.h"
 #include "get_version.h"
 #include "input.h"
@@ -41,12 +42,19 @@
 #include "memory_fast.h"
 #include "options.h"
 #include "output.h"
+#include "help.h"
+#include "ordered_static_globals.h"
 #include "path_info.h"
 #include "rng.h"
-#include "system_language.h"
+#include "system_locale.h"
 #include "translations.h"
 #include "type_id.h"
 #include "ui_manager.h"
+
+#if defined(PREFIX)
+#   undef PREFIX
+#   include "prefix.h"
+#endif
 
 class ui_adaptor;
 
@@ -555,6 +563,18 @@ cli_opts parse_commandline( int argc, const char **argv )
     return result;
 }
 
+bool assure_essential_dirs_exist()
+{
+    using namespace PATH_INFO;
+    for( const std::string &path : std::vector<std::string> { { config_dir(), savedir(), templatedir(), user_font(), user_sound(), user_gfx() } } ) {
+        if( !assure_dir_exist( path ) ) {
+            popup( _( "Unable to make directory \"%s\".  Check permissions." ), path );
+            return false;
+        }
+    }
+    return true;
+}
+
 }  // namespace
 
 #if defined(USE_WINMAIN)
@@ -569,6 +589,7 @@ extern "C" int SDL_main( int argc, char **argv ) {
 int main( int argc, const char *argv[] )
 {
 #endif
+    ordered_static_globals();
     init_crash_handlers();
     reset_floating_point_mode();
 
@@ -587,9 +608,7 @@ int main( int argc, const char *argv[] )
 #else
     // Set default file paths
 #if defined(PREFIX)
-#define Q(STR) #STR
-#define QUOTE(STR) Q(STR)
-    PATH_INFO::init_base_path( std::string( QUOTE( PREFIX ) ) );
+    PATH_INFO::init_base_path( std::string( PREFIX ) );
 #else
     PATH_INFO::init_base_path( "" );
 #endif
@@ -677,8 +696,8 @@ int main( int argc, const char *argv[] )
     if( !test_mode ) {
         try {
             // set minimum FULL_SCREEN sizes
-            FULL_SCREEN_WIDTH = 80;
-            FULL_SCREEN_HEIGHT = 24;
+            FULL_SCREEN_WIDTH = EVEN_MINIMUM_TERM_WIDTH;
+            FULL_SCREEN_HEIGHT = EVEN_MINIMUM_TERM_HEIGHT;
             catacurses::init_interface();
         } catch( const std::exception &err ) {
             // can't use any curses function as it has not been initialized
@@ -738,12 +757,19 @@ int main( int argc, const char *argv[] )
 #endif
 
 #if defined(LOCALIZE)
-    if( get_option<std::string>( "USE_LANG" ).empty() && getSystemLanguage().empty() ) {
+    if( get_option<std::string>( "USE_LANG" ).empty() && !SystemLocale::Language().has_value() ) {
         select_language();
         set_language();
     }
 #endif
     replay_buffered_debugmsg_prompts();
+
+    if( !assure_essential_dirs_exist() ) {
+        exit_handler( -999 );
+        return 0;
+    }
+
+    get_help().load();
 
     while( true ) {
         if( !cli.world.empty() ) {

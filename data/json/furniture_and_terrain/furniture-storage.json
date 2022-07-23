@@ -84,7 +84,7 @@
         { "item": "2x4", "count": 12 },
         { "item": "nail", "charges": [ 12, 24 ] },
         { "item": "wood_panel", "count": [ 0, 1 ] },
-        { "item": "rag", "count": [ 15, 20 ] }
+        { "item": "cotton_patchwork", "count": [ 15, 20 ] }
       ]
     },
     "max_volume": "875 L",
@@ -102,7 +102,7 @@
         { "item": "2x4", "count": [ 1, 5 ] },
         { "item": "splinter", "count": [ 2, 6 ] },
         { "item": "nail", "charges": [ 2, 10 ] },
-        { "item": "rag", "count": [ 8, 12 ] }
+        { "item": "cotton_patchwork", "count": [ 8, 12 ] }
       ]
     }
   },
@@ -122,7 +122,7 @@
         { "item": "2x4", "count": 12 },
         { "item": "nail", "charges": [ 12, 24 ] },
         { "item": "wood_panel", "count": [ 0, 1 ] },
-        { "item": "rag", "count": [ 15, 20 ] }
+        { "item": "cotton_patchwork", "count": [ 15, 20 ] }
       ]
     },
     "max_volume": "875 L",
@@ -135,7 +135,7 @@
         { "item": "2x4", "count": [ 1, 5 ] },
         { "item": "splinter", "count": [ 2, 6 ] },
         { "item": "nail", "charges": [ 2, 10 ] },
-        { "item": "rag", "count": [ 8, 12 ] }
+        { "item": "cotton_patchwork", "count": [ 8, 12 ] }
       ]
     }
   },
@@ -221,7 +221,7 @@
       "str_max": 15,
       "sound": "crumple!",
       "sound_fail": "thud.",
-      "items": [ { "item": "cardboard", "charges": [ 50, 100 ] } ]
+      "items": [ { "item": "cardboard", "charges": [ 150, 180 ] } ]
     }
   },
   {
@@ -231,6 +231,7 @@
     "symbol": "X",
     "description": "A large box made of a brown paper-based material that was doubled up for extra strength.  Could contain a number of things, or even be hidden inside.  Considering it only has two small flaps for carrying, it's very hard to see out of, and won't do anything to protect you if you're found.",
     "color": "brown",
+    "looks_like": "f_cardboard_box",
     "move_cost_mod": 7,
     "coverage": 90,
     "comfort": 1,
@@ -238,7 +239,7 @@
     "required_str": 3,
     "deconstruct": { "items": [ { "item": "box_large_reinforced", "count": 1 } ] },
     "max_volume": "324 L",
-    "deployed_item": "box_large",
+    "deployed_item": "box_large_reinforced",
     "examine_action": "deployed_furniture",
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC", "EASY_DECONSTRUCT", "HIDE_PLACE", "NO_SIGHT", "CONTAINER" ],
     "bash": {
@@ -246,7 +247,7 @@
       "str_max": 16,
       "sound": "crumple!",
       "sound_fail": "thud.",
-      "items": [ { "item": "cardboard", "charges": [ 100, 200 ] } ]
+      "items": [ { "item": "cardboard", "charges": [ 300, 360 ] } ]
     }
   },
   {
@@ -1277,7 +1278,7 @@
     "name": "riveted metal crate",
     "looks_like": "f_metal_crate_c",
     "description": "This huge box is made of a dull metal, riveted together.  There is no obvious opening mechanism, and the rivets don't match any of your tools.  The only way in would be to smash it.",
-    "//": "To-do: There should be an exodii riveting tool that can convert this to f_metal_crate_c",
+    "//": "To-do: There should be an Exodii riveting tool that can convert this to f_metal_crate_c",
     "symbol": "X",
     "color": "light_gray",
     "move_cost_mod": 5,

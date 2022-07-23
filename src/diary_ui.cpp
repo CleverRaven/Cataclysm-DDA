@@ -10,7 +10,9 @@
 #include "debug.h"
 #include "diary.h"
 #include "input.h"
+#include "options.h"
 #include "output.h"
+#include "popup.h"
 #include "string_editor_window.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
@@ -23,7 +25,8 @@ namespace
 {
 /**print list scrollable, printed std::vector<std::string> as list with scrollbar*/
 void print_list_scrollable( catacurses::window *win, std::vector<std::string> list, int *selection,
-                            int entries_per_page, int xoffset, int width, bool active, bool border )
+                            int entries_per_page, int xoffset, int width, bool active, bool border,
+                            const report_color_error color_error )
 {
     if( *selection < 0 && !list.empty() ) {
         *selection = static_cast<int>( list.size() ) - 1;
@@ -36,16 +39,22 @@ void print_list_scrollable( catacurses::window *win, std::vector<std::string> li
 
     const int top_of_page = entries_per_page * ( *selection / entries_per_page );
 
-    const int bottom_of_page =
-        std::min( top_of_page + entries_per_page, static_cast<int>( list.size() ) );
+    const int bottom_of_page = std::min<int>( top_of_page + entries_per_page, list.size() );
+
+    const int line_width = width - 1 - borderspace;
 
     for( int i = top_of_page; i < bottom_of_page; i++ ) {
 
         const nc_color col = c_white;
         const int y = i - top_of_page;
-        trim_and_print( *win, point( xoffset + 1, y + borderspace ), width - 1 - borderspace,
-                        ( static_cast<int>( *selection ) == i && active ) ? hilite( col ) : col,
-                        ( static_cast<int>( *selection ) == i && active ) ? remove_color_tags( list[i] ) : list[i] );
+        const bool highlight = *selection == i && active;
+        const nc_color line_color = highlight ? hilite( col ) : col;
+        std::string line_str = list[i];
+        if( highlight ) {
+            line_str = left_justify( remove_color_tags( line_str ), line_width );
+        }
+        trim_and_print( *win, point( xoffset + 1, y + borderspace ), line_width,
+                        line_color, line_str, color_error );
     }
     if( border ) {
         draw_border( *win );
@@ -58,23 +67,28 @@ void print_list_scrollable( catacurses::window *win, std::vector<std::string> li
 }
 
 void print_list_scrollable( catacurses::window *win, std::vector<std::string> list, int *selection,
-                            bool active, bool border )
+                            bool active, bool border, const report_color_error color_error )
 {
-    print_list_scrollable( win, list, selection, getmaxy( *win ), 0, getmaxx( *win ), active, border );
+    print_list_scrollable( win, list, selection, getmaxy( *win ), 0, getmaxx( *win ), active, border,
+                           color_error );
 }
 
 void print_list_scrollable( catacurses::window *win, std::string text, int *selection,
-                            int entries_per_page, int xoffset, int width, bool active, bool border )
+                            int entries_per_page, int xoffset, int width, bool active, bool border,
+                            const report_color_error color_error )
 {
     int borderspace = border ? 1 : 0;
-    std::vector<std::string> list = foldstring( text, width - 1 - borderspace * 2 );
-    print_list_scrollable( win, list, selection, entries_per_page, xoffset, width, active, border );
+    // -1 on the left for scroll bar and another -1 on the right reserved for cursor
+    std::vector<std::string> list = foldstring( text, width - 2 - borderspace * 2 );
+    print_list_scrollable( win, list, selection, entries_per_page, xoffset, width, active, border,
+                           color_error );
 }
 
 void print_list_scrollable( catacurses::window *win, std::string text, int *selection, bool active,
-                            bool border )
+                            bool border, const report_color_error color_error )
 {
-    print_list_scrollable( win, text, selection, getmaxy( *win ), 0, getmaxx( *win ), active, border );
+    print_list_scrollable( win, text, selection, getmaxy( *win ), 0, getmaxx( *win ), active, border,
+                           color_error );
 }
 
 void draw_diary_border( catacurses::window *win, const nc_color &color = c_white )
@@ -130,6 +144,14 @@ void draw_diary_border( catacurses::window *win, const nc_color &color = c_white
 }
 } // namespace
 
+static std::pair<point, point> diary_window_position()
+{
+    return {
+        point( TERMX / 4, TERMY / 4 ),
+        point( TERMX / 2, TERMY / 2 )
+    };
+}
+
 void diary::show_diary_ui( diary *c_diary )
 {
     catacurses::window w_diary;
@@ -156,93 +178,117 @@ void diary::show_diary_ui( diary *c_diary )
     ctxt.register_action( "EXPORT_DIARY" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
 
-    ui_adaptor ui;
-    ui.on_screen_resize( [&]( ui_adaptor & ui ) {
-        w_diary = new_centered_win( TERMY / 2, TERMX / 2 );
-        const point max( getmaxx( w_diary ), getmaxy( w_diary ) );
-        const point beg( getbegx( w_diary ), getbegy( w_diary ) );
-        int midx = max.x / 2;
+    ui_adaptor ui_diary;
+    ui_diary.on_screen_resize( [&]( ui_adaptor & ui ) {
+        const std::pair<point, point> beg_and_max = diary_window_position();
+        const point &beg = beg_and_max.first;
+        const point &max = beg_and_max.second;
+        const int midx = max.x / 2;
 
-        w_pages = catacurses::newwin( max.y + 5, max.x * 3 / 10, point( beg.x - 5 - max.x * 3 / 10,
-                                      beg.y - 2 ) );
         w_changes = catacurses::newwin( max.y - 3, midx - 1, beg + point( 0, 3 ) );
-        w_text = catacurses::newwin( max.y - 3, midx - 2, beg + point( 2 + midx, 3 ) );
+        w_text = catacurses::newwin( max.y - 3, max.x - midx - 1, beg + point( 2 + midx, 3 ) );
         w_border = catacurses::newwin( max.y + 5, max.x + 9, beg + point( -4, -2 ) );
-        w_desc = catacurses::newwin( 3, max.x * 3 / 10 + max.x + 10, point( beg.x - 5 - max.x * 3 / 10,
-                                     beg.y - 6 ) );
         w_head = catacurses::newwin( 1, max.x, beg + point_south );
-        w_info = catacurses::newwin( ( max.y / 2 - 4 > 7 ) ? 7 : max.y / 2 - 4, max.x + 9, beg + point( -4,
-                                     4 + max.y ) );
 
-
-        ui.position_from_window( w_diary );
+        ui.position_from_window( w_border );
     } );
-    ui.mark_resize();
-
-    ui.on_redraw( [&]( const ui_adaptor & ) {
-        werase( w_diary );
-        werase( w_pages );
+    ui_diary.mark_resize();
+    ui_diary.on_redraw( [&]( const ui_adaptor & ) {
         werase( w_changes );
         werase( w_text );
         werase( w_border );
-        werase( w_desc );
         werase( w_head );
-        werase( w_info );
 
-
-        draw_border( w_diary );
-        draw_border( w_desc );
-        draw_border( w_info );
         draw_diary_border( &w_border );
 
+        print_list_scrollable( &w_changes, c_diary->get_change_list(), &selected[window_mode::CHANGE_WIN],
+                               currwin == window_mode::CHANGE_WIN, false, report_color_error::yes );
+        print_list_scrollable( &w_text, c_diary->get_page_text(), &selected[window_mode::TEXT_WIN],
+                               currwin == window_mode::TEXT_WIN, false, report_color_error::no );
 
+        trim_and_print( w_head, point_south_east, getmaxx( w_head ) - 2, c_white,
+                        c_diary->get_head_text() );
+
+        wnoutrefresh( w_border );
+        wnoutrefresh( w_head );
+        wnoutrefresh( w_changes );
+        wnoutrefresh( w_text );
+    } );
+
+    ui_adaptor ui_pages;
+    ui_pages.on_screen_resize( [&]( ui_adaptor & ui ) {
+        const std::pair<point, point> beg_and_max = diary_window_position();
+        const point &beg = beg_and_max.first;
+        const point &max = beg_and_max.second;
+
+        w_pages = catacurses::newwin( max.y + 5, max.x * 3 / 10, point( beg.x - 5 - max.x * 3 / 10,
+                                      beg.y - 2 ) );
+
+        ui.position_from_window( w_pages );
+    } );
+    ui_pages.mark_resize();
+    ui_pages.on_redraw( [&]( const ui_adaptor & ) {
+        werase( w_pages );
+
+        print_list_scrollable( &w_pages, c_diary->get_pages_list(), &selected[window_mode::PAGE_WIN],
+                               currwin == window_mode::PAGE_WIN, true, report_color_error::yes );
+        center_print( w_pages, 0, c_light_gray, string_format( _( "pages: %d" ),
+                      c_diary->get_pages_list().size() ) );
+
+        wnoutrefresh( w_pages );
+    } );
+
+    ui_adaptor ui_desc;
+    ui_desc.on_screen_resize( [&]( ui_adaptor & ui ) {
+        const std::pair<point, point> beg_and_max = diary_window_position();
+        const point &beg = beg_and_max.first;
+        const point &max = beg_and_max.second;
+
+        w_desc = catacurses::newwin( 3, max.x * 3 / 10 + max.x + 10, point( beg.x - 5 - max.x * 3 / 10,
+                                     beg.y - 6 ) );
+
+        ui.position_from_window( w_desc );
+    } );
+    ui_desc.mark_resize();
+    ui_desc.on_redraw( [&]( const ui_adaptor & ) {
+        werase( w_desc );
+
+        draw_border( w_desc );
         center_print( w_desc, 0, c_light_gray, string_format( _( "%s´s Diary" ), c_diary->owner ) );
-        center_print( w_info, 0, c_light_gray, string_format( _( "Info" ) ) );
-
         std::string desc = string_format( _( "%s, %s, %s, %s" ),
-                                          ctxt.get_desc( "NEW_PAGE", "new page", input_context::allow_all_keys ),
-                                          ctxt.get_desc( "CONFIRM", "Edit text", input_context::allow_all_keys ),
-                                          ctxt.get_desc( "DELETE PAGE", "Delete page", input_context::allow_all_keys ),
-                                          ctxt.get_desc( "EXPORT_DIARY", "Export diary", input_context::allow_all_keys )
+                                          ctxt.get_desc( "NEW_PAGE", _( "New page" ), input_context::allow_all_keys ),
+                                          ctxt.get_desc( "CONFIRM", _( "Edit text" ), input_context::allow_all_keys ),
+                                          ctxt.get_desc( "DELETE PAGE", _( "Delete page" ), input_context::allow_all_keys ),
+                                          ctxt.get_desc( "EXPORT_DIARY", _( "Export diary" ), input_context::allow_all_keys )
                                         );
         center_print( w_desc, 1,  c_white, desc );
 
-        selected[window_mode::PAGE_WIN] = c_diary->set_opened_page( selected[window_mode::PAGE_WIN] );
-        print_list_scrollable( &w_pages, c_diary->get_pages_list(), &selected[window_mode::PAGE_WIN],
-                               currwin == window_mode::PAGE_WIN, true );
-        print_list_scrollable( &w_changes, c_diary->get_change_list(), &selected[window_mode::CHANGE_WIN],
-                               currwin == window_mode::CHANGE_WIN, false );
-        print_list_scrollable( &w_text, c_diary->get_page_text(), &selected[window_mode::TEXT_WIN],
-                               currwin == window_mode::TEXT_WIN, false );
-        trim_and_print( w_head, point_south_east, getmaxx( w_head ) - 2, c_white,
-                        c_diary->get_head_text() );
+        wnoutrefresh( w_desc );
+    } );
+
+    ui_adaptor ui_info;
+    ui_info.on_screen_resize( [&]( ui_adaptor & ui ) {
+        const std::pair<point, point> beg_and_max = diary_window_position();
+        const point &beg = beg_and_max.first;
+        const point &max = beg_and_max.second;
+
+        w_info = catacurses::newwin( ( max.y / 2 - 4 > 7 ) ? 7 : max.y / 2 - 4, max.x + 9, beg + point( -4,
+                                     4 + max.y ) );
+
+        ui.position_from_window( w_info );
+    } );
+    ui_info.mark_resize();
+    ui_info.on_redraw( [&]( const ui_adaptor & ) {
+        werase( w_info );
+
+        draw_border( w_info );
+        center_print( w_info, 0, c_light_gray, string_format( _( "Info" ) ) );
         if( currwin == window_mode::CHANGE_WIN || currwin == window_mode::TEXT_WIN ) {
             fold_and_print( w_info, point_south_east, getmaxx( w_info ) - 2, c_white, string_format( "%s",
                             c_diary->get_desc_map()[selected[window_mode::CHANGE_WIN]] ) );
         }
-        bool debug = false;
-        if( debug ) {
-            if( currwin == window_mode::TEXT_WIN ) {
-                auto text = c_diary->get_page_text();
-                auto folded = foldstring( text, getmaxy( w_text ) - 1 );
-                fold_and_print( w_info, point_south_east, getmaxx( w_info ) - 2, c_white,
-                                string_format( "size: %s and wight: %s", folded[selected[window_mode::TEXT_WIN]].size(),
-                                               utf8_wrapper( folded[selected[window_mode::TEXT_WIN]] ).display_width() ) );
-            }
-        }
 
-        center_print( w_pages, 0, c_light_gray, string_format( _( "pages: %d" ),
-                      c_diary->get_pages_list().size() ) );
-
-        wnoutrefresh( w_diary );
-        wnoutrefresh( w_border );
-        wnoutrefresh( w_head );
-        wnoutrefresh( w_pages );
-        wnoutrefresh( w_changes );
-        wnoutrefresh( w_text );
-        wnoutrefresh( w_desc );
         wnoutrefresh( w_info );
-
     } );
 
     while( true ) {
@@ -252,7 +298,12 @@ void diary::show_diary_ui( diary *c_diary )
             ( c_diary->pages.empty() && selected[window_mode::PAGE_WIN] != 0 ) ) {
             selected[window_mode::PAGE_WIN] = 0;
         }
-        ui_manager::redraw();
+        selected[window_mode::PAGE_WIN] = c_diary->set_opened_page( selected[window_mode::PAGE_WIN] );
+        ui_diary.invalidate_ui();
+        ui_pages.invalidate_ui();
+        ui_desc.invalidate_ui();
+        ui_info.invalidate_ui();
+        ui_manager::redraw_invalidated();
         const std::string action = ctxt.handle_input();
         if( action == "RIGHT" ) {
             currwin = static_cast<window_mode>( static_cast<int>( currwin ) + 1 );
@@ -279,7 +330,9 @@ void diary::show_diary_ui( diary *c_diary )
 
         } else if( action == "CONFIRM" ) {
             if( !c_diary->pages.empty() ) {
-                c_diary->edit_page_ui( w_text );
+                c_diary->edit_page_ui( [&]() {
+                    return w_text;
+                } );
             }
         } else if( action == "NEW_PAGE" ) {
             c_diary->new_page();
@@ -305,66 +358,42 @@ void diary::show_diary_ui( diary *c_diary )
 
     }
 }
-//isn´t needed anymore, because of string_editor_window edition
-void diary::edit_page_ui()
+
+void diary::edit_page_ui( const std::function<catacurses::window()> &create_window )
 {
-    std::string title = _( "Text:" );
-    static constexpr int max_note_length = 20000;
+    // Modify the stored text so the new text is displayed after exiting from
+    // the editor window and before confirming or canceling the y/n query.
+    std::string &new_text = get_page_ptr()->m_text;
+    const std::string old_text = new_text;
 
-    const std::string old_text = get_page_ptr()->m_text;
-    std::string new_text = old_text;
-
-    bool esc_pressed = false;
-    string_input_popup input_popup;
-    input_popup
-    .title( title )
-    .width( max_note_length )
-    .text( new_text )
-    .description( "What happened today?" )
-    .title_color( c_white )
-    .desc_color( c_light_gray )
-    .string_color( c_yellow )
-    .identifier( "diary" );
-
+    string_editor_window ed( create_window, new_text );
 
     do {
-        new_text = input_popup.query_string( false );
-        if( input_popup.canceled() ) {
+        const std::pair<bool, std::string> result = ed.query_string();
+        new_text = result.second;
+
+        // Confirmed or unchanged
+        if( result.first || old_text == new_text ) {
+            break;
+        }
+
+        const bool force_uc = get_option<bool>( "FORCE_CAPITAL_YN" );
+        const auto &allow_key = force_uc ? input_context::disallow_lower_case_or_non_modified_letters
+                                : input_context::allow_all_keys;
+        const std::string action = query_popup()
+                                   .context( "YESNOQUIT" )
+                                   .message( "%s", _( "Save entry?" ) )
+                                   .option( "YES", allow_key )
+                                   .option( "NO", allow_key )
+                                   .allow_cancel( true )
+                                   .default_color( c_light_red )
+                                   .query()
+                                   .action;
+        if( action == "YES" ) {
+            break;
+        } else if( action == "NO" ) {
             new_text = old_text;
-            esc_pressed = true;
-            break;
-        } else if( input_popup.confirmed() ) {
             break;
         }
-
     } while( true );
-
-    if( !esc_pressed && new_text.empty() && !old_text.empty() ) {
-        if( query_yn( _( "Really delete note?" ) ) ) {
-            get_page_ptr()->m_text = "";
-        }
-    } else if( !esc_pressed && old_text != new_text ) {
-        get_page_ptr()->m_text = new_text;
-    }
-
-}
-
-void diary::edit_page_ui( catacurses::window &win )
-{
-    const std::string old_text = get_page_ptr()->m_text;
-    std::string new_text = old_text;
-
-    string_editor_window ed = string_editor_window( win, get_page_ptr()->m_text );
-
-    new_text = ed.query_string( true );
-
-    if( new_text.empty() && !old_text.empty() ) {
-        if( query_yn( _( "Really delete note?" ) ) ) {
-            get_page_ptr()->m_text = "";
-        }
-    } else if( old_text != new_text ) {
-        if( query_yn( _( "Save entry?" ) ) ) {
-            get_page_ptr()->m_text = new_text;
-        }
-    }
 }

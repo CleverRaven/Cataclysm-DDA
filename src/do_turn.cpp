@@ -37,6 +37,7 @@
 #include "worldfactory.h"
 
 static const activity_id ACT_AUTODRIVE( "ACT_AUTODRIVE" );
+static const activity_id ACT_FIRSTAID( "ACT_FIRSTAID" );
 static const activity_id ACT_OPERATION( "ACT_OPERATION" );
 
 static const bionic_id bio_alarm( "bio_alarm" );
@@ -552,7 +553,7 @@ void overmap_npc_move()
         }
     }
     bool npcs_need_reload = false;
-    for( auto &elem : travelling_npcs ) {
+    for( npc *&elem : travelling_npcs ) {
         if( elem->has_omt_destination() ) {
             if( !elem->omt_path.empty() ) {
                 if( rl_dist( elem->omt_path.back(), elem->global_omt_location() ) > 2 ) {
@@ -622,6 +623,10 @@ bool do_turn()
             veh->handle_potential_theft( dynamic_cast<Character &>( u ), false, false );
         }
     }
+
+    // Make sure players cant defy gravity by standing still, Looney tunes style.
+    u.gravity_check();
+
     // If riding a horse - chance to spook
     if( u.is_mounted() ) {
         u.check_mount_is_spooked();
@@ -687,6 +692,7 @@ bool do_turn()
                         sounds::process_sound_markers( &guy );
                     }
                 }
+                explosion_handler::process_explosions();
                 sounds::process_sound_markers( &u );
                 if( !u.activity && g->uquit != QUIT_WATCH
                     && ( !u.has_distant_destination() || calendar::once_every( 10_seconds ) ) ) {
@@ -774,6 +780,7 @@ bool do_turn()
     // Apply sounds from previous turn to monster and NPC AI.
     sounds::process_sounds();
     const int levz = m.get_abs_sub().z();
+    u.process_turn();
     // Update vision caches for monsters. If this turns out to be expensive,
     // consider a stripped down cache just for monsters.
     m.build_map_cache( levz, true );
@@ -796,7 +803,6 @@ bool do_turn()
         }
     }
     g->mon_info_update();
-    u.process_turn();
     if( u.moves < 0 && get_option<bool>( "FORCE_REDRAW" ) ) {
         ui_manager::redraw();
         refresh_display();
@@ -822,6 +828,8 @@ bool do_turn()
         }
         if( u.activity.id() == ACT_AUTODRIVE ) {
             wait_refresh_rate = 1_turns;
+        } else if( u.activity.id() == ACT_FIRSTAID ) {
+            wait_refresh_rate = 5_turns;
         } else {
             wait_refresh_rate = 5_minutes;
         }

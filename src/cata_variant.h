@@ -15,7 +15,6 @@
 #include "debug.h"
 #include "enum_conversions.h"
 #include "hash_utils.h"
-#include "pldata.h"
 #include "point.h"
 #include "to_string_id.h"
 #include "type_id.h"
@@ -37,7 +36,7 @@ enum class debug_menu_index : int;
 enum class cata_variant_type : int {
     void_, // Special type for empty variants
     achievement_id,
-    add_type,
+    addiction_id,
     bionic_id,
     body_part,
     bool_,
@@ -64,6 +63,7 @@ enum class cata_variant_type : int {
     npc_template_id,
     oter_id,
     oter_type_str_id,
+    overmap_special_id,
     palette_id,
     point,
     profession_id,
@@ -187,7 +187,7 @@ struct convert_enum {
 };
 
 // These are the specializations of convert for each value type.
-static_assert( static_cast<int>( cata_variant_type::num_types ) == 46,
+static_assert( static_cast<int>( cata_variant_type::num_types ) == 47,
                "This assert is a reminder to add conversion support for any new types to the "
                "below specializations" );
 
@@ -203,7 +203,7 @@ template<>
 struct convert<cata_variant_type::achievement_id> : convert_string_id<achievement_id> {};
 
 template<>
-struct convert<cata_variant_type::add_type> : convert_enum<add_type> {};
+struct convert<cata_variant_type::addiction_id> : convert_string_id<addiction_id> {};
 
 template<>
 struct convert<cata_variant_type::bionic_id> : convert_string_id<bionic_id> {};
@@ -332,6 +332,9 @@ struct convert<cata_variant_type::oter_id> : convert_int_id<oter_id> {};
 
 template<>
 struct convert<cata_variant_type::oter_type_str_id> : convert_string_id<oter_type_str_id> {};
+
+template<>
+struct convert<cata_variant_type::overmap_special_id> : convert_string_id<overmap_special_id> {};
 
 template<>
 struct convert<cata_variant_type::palette_id> : convert_string_id<palette_id> {};

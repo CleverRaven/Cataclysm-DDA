@@ -21,6 +21,8 @@
 
 template <typename E> struct enum_traits;
 
+static const achievement_id achievement_achievement_arcade_mode( "achievement_arcade_mode" );
+
 // Some details about how achievements work
 // ========================================
 //
@@ -209,6 +211,14 @@ struct achievement_requirement {
             debugmsg( "Achievement %s has a requirement target %s of type %s, but that is not "
                       "a valid value of that type.",
                       id.str(), target.get_string(), io::enum_to_string( target.type() ) );
+        }
+
+        if( comparison != achievement_comparison::anything &&
+            target.type() != statistic->type() ) {
+            debugmsg( "Achievement %s has a requirement comparing a value of type %s to a value "
+                      "of type %s.  Comparisons should be between values of the same type.",
+                      id.str(), io::enum_to_string( target.type() ),
+                      io::enum_to_string( statistic->type() ) );
         }
     }
 
@@ -449,6 +459,11 @@ void achievement::check() const
         if( !req.becomes_false ) {
             all_requirements_become_false = false;
         }
+    }
+
+    // handled with debug mode
+    if( id == achievement_achievement_arcade_mode ) {
+        all_requirements_become_false = false;
     }
 
     if( all_requirements_become_false && !is_conduct() ) {
@@ -806,6 +821,11 @@ achievement_completion achievements_tracker::is_completed( const achievement_id 
 
 bool achievements_tracker::is_hidden( const achievement *ach ) const
 {
+    // hard code for arcade mode achievement
+    if( ach->id == achievement_achievement_arcade_mode ) {
+        return true;
+    }
+
     achievement_completion end_state =
         ach->is_conduct() ? achievement_completion::failed : achievement_completion::completed;
     if( is_completed( ach->id ) == end_state ) {

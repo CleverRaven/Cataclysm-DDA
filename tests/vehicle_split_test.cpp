@@ -4,11 +4,13 @@
 #include "cata_catch.h"
 #include "character.h"
 #include "map.h"
+#include "map_helpers.h"
 #include "point.h"
 #include "type_id.h"
 #include "units.h"
 #include "vehicle.h"
 
+static const vproto_id vehicle_prototype_car( "car" );
 static const vproto_id vehicle_prototype_circle_split_test( "circle_split_test" );
 static const vproto_id vehicle_prototype_cross_split_test( "cross_split_test" );
 
@@ -22,13 +24,10 @@ TEST_CASE( "vehicle_split_section" )
         player_character.setpos( test_origin );
         tripoint vehicle_origin = tripoint( 10, 10, 0 );
         VehicleList vehs = here.get_vehicles();
-        vehicle *veh_ptr;
-        for( auto &vehs_v : vehs ) {
-            veh_ptr = vehs_v.v;
-            here.destroy_vehicle( veh_ptr );
-        }
+        clear_vehicles();
         REQUIRE( here.get_vehicles().empty() );
-        veh_ptr = here.add_vehicle( vehicle_prototype_cross_split_test, vehicle_origin, dir, 0, 0 );
+        vehicle *veh_ptr = here.add_vehicle( vehicle_prototype_cross_split_test,
+                                             vehicle_origin, dir, 0, 0 );
         REQUIRE( veh_ptr != nullptr );
         std::set<tripoint> original_points = veh_ptr->get_points( true );
 
@@ -81,4 +80,53 @@ TEST_CASE( "vehicle_split_section" )
             CHECK( vehs[ 0 ].v->part_count() == 38 );
         }
     }
+}
+
+TEST_CASE( "conjoined_vehicles", "[vehicle]" )
+{
+    map &here = get_map();
+    here.add_vehicle( vehicle_prototype_car, { 40, 40 }, 0_degrees );
+    here.add_vehicle( vehicle_prototype_car, { 42, 42 }, 0_degrees );
+    here.add_vehicle( vehicle_prototype_car, { 44, 44 }, 45_degrees );
+    here.add_vehicle( vehicle_prototype_car, { 48, 44 }, 45_degrees );
+}
+
+TEST_CASE( "crater_crash", "[vehicle]" )
+{
+    tinymap here;
+    tripoint_abs_sm map_location( 60, 60, 0 );
+    here.load( map_location, true );
+    here.add_vehicle( vehicle_prototype_car, { 14, 11 }, 45_degrees );
+    const tripoint end{ 20, 20, 0 };
+    for( tripoint cursor = { 14, 4, 0 }; cursor.y < end.y; cursor.y++ ) {
+        for( cursor.x = 4; cursor.x < end.x; cursor.x++ ) {
+            here.destroy( cursor, true );
+        }
+    }
+}
+
+TEST_CASE( "split_vehicle_during_mapgen" )
+{
+    clear_map();
+    map &here = get_map();
+    clear_vehicles();
+    REQUIRE( here.get_vehicles().empty() );
+
+    tinymap tm;
+    // Wherever the main map is, create this tinymap outside its bounds.
+    tm.load( here.get_abs_sub() + tripoint( 20, 20, 0 ), false );
+    wipe_map_terrain( &tm );
+    REQUIRE( tm.get_vehicles().empty() );
+    tripoint vehicle_origin{ 14, 14, 0 };
+    vehicle *veh_ptr = tm.add_vehicle( vehicle_prototype_cross_split_test,
+                                       vehicle_origin, 0_degrees, 0, 0 );
+    REQUIRE( veh_ptr != nullptr );
+    REQUIRE( !tm.get_vehicles().empty() );
+    tm.destroy( vehicle_origin );
+    CHECK( tm.get_vehicles().size() == 4 );
+    for( wrapped_vehicle &veh : here.get_vehicles() ) {
+        WARN( veh.v->sm_pos );
+    }
+    CHECK( here.get_vehicles().empty() );
+    clear_vehicles();
 }

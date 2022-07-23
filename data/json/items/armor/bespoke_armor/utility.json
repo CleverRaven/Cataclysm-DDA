@@ -84,8 +84,8 @@
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Store item", "holster_msg": "You put your %1$s in your %2$s" },
-    "flags": [ "WATER_FRIENDLY", "STURDY", "WAIST" ],
-    "armor": [ { "encumbrance": [ 2, 6 ], "coverage": 15, "covers": [ "torso" ] } ]
+    "flags": [ "WATER_FRIENDLY", "STURDY", "BELTED" ],
+    "armor": [ { "encumbrance": [ 2, 6 ], "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
   },
   {
     "id": "survivor_goggles",
@@ -97,7 +97,7 @@
     "price": 7500,
     "price_postapoc": 3000,
     "to_hit": -2,
-    "material": [ "kevlar_layered", "leather" ],
+    "material": [ "kevlar", "leather" ],
     "symbol": "[",
     "looks_like": "glasses_bal",
     "color": "dark_gray",
@@ -105,7 +105,7 @@
     "material_thickness": 4,
     "environmental_protection": 15,
     "flags": [ "WATER_FRIENDLY", "SUN_GLASSES", "OVERSIZE", "VARSIZE", "STURDY" ],
-    "armor": [ { "encumbrance": 20, "coverage": 100, "covers": [ "eyes" ] } ]
+    "armor": [ { "encumbrance": 20, "coverage": 100, "covers": [ "eyes" ], "rigid_layer_only": true } ]
   },
   {
     "id": "survivor_vest",
@@ -123,7 +123,7 @@
     "material_thickness": 2,
     "pocket_data": [
       {
-        "description": "rifle sling",
+        "description": "Rifle sling.",
         "pocket_type": "CONTAINER",
         "holster": true,
         "min_item_volume": "1000 ml",
@@ -176,7 +176,7 @@
     "name": { "str": "XL survivor harness", "str_pl": "XL survivor harnesses" },
     "description": "A custom-built light harness covered with pouches and including an integral tactical sling for a small rifle or other such weapon.  Durable and carefully crafted to be comfortable to wear and fitting the largest forms.  Activate to holster/draw your weapon.",
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
-    "flags": [ "WATER_FRIENDLY", "BELTED", "STURDY", "OVERSIZE" ]
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "xs_survivor_vest",
@@ -186,6 +186,6 @@
     "name": { "str": "XS survivor harness", "str_pl": "XS survivor harnesses" },
     "description": "A custom-built light harness covered with pouches and including an integral tactical sling for a small rifle or other such weapon.  Durable and carefully crafted to be comfortable to wear for those with small stature.  Activate to holster/draw your weapon.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "WATER_FRIENDLY", "STURDY", "BELTED", "UNDERSIZE" ]
+    "extend": { "flags": [ "UNDERSIZE" ] }
   }
 ]

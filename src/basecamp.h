@@ -13,6 +13,7 @@
 
 #include "coordinates.h"
 #include "craft_command.h"
+#include "game_inventory.h"
 #include "inventory.h"
 #include "memory_fast.h"
 #include "mission_companion.h"
@@ -36,6 +37,7 @@ class tinymap;
 
 struct expansion_data {
     std::string type;
+    std::vector<itype_id> available_pseudo_items;
     std::map<std::string, int> provides;
     std::map<std::string, int> in_progress;
     tripoint_abs_omt pos;
@@ -165,6 +167,7 @@ class basecamp
 
         std::string board_name() const;
         std::vector<point> directions; // NOLINT(cata-serialize)
+        std::vector<std::vector<ui_mission_id>> hidden_missions;
         std::vector<tripoint_abs_omt> fortifications;
         std::vector<expansion_salt_water_pipe *> salt_water_pipes;
         std::string name;
@@ -174,6 +177,7 @@ class basecamp
         void set_name( const std::string &new_name );
         void query_new_name();
         void abandon_camp();
+        void scan_pseudo_items();
         void add_expansion( const std::string &terrain, const tripoint_abs_omt &new_pos );
         void add_expansion( const std::string &bldg, const tripoint_abs_omt &new_pos,
                             const point &dir );
@@ -213,6 +217,9 @@ class basecamp
         /// Takes all the food from the camp_food zone and increases the faction
         /// food_supply
         bool distribute_food();
+        std::string name_display_of( mission_id miss_id );
+        void handle_hide_mission( const point &dir );
+        void handle_reveal_mission( const point &dir );
         bool has_water();
 
         // recipes, gathering, and craft support functions
@@ -304,12 +311,12 @@ class basecamp
         void start_crafting( const std::string &type, const mission_id &miss_id );
 
         /// Called when a companion is sent to cut logs
-        void start_cut_logs( const mission_id miss_id );
-        void start_clearcut( const mission_id miss_id );
-        void start_setup_hide_site( const mission_id miss_id );
-        void start_relay_hide_site( const mission_id miss_id );
+        void start_cut_logs( mission_id miss_id );
+        void start_clearcut( mission_id miss_id );
+        void start_setup_hide_site( mission_id miss_id );
+        void start_relay_hide_site( mission_id miss_id );
         /// Called when a companion is sent to start fortifications
-        void start_fortifications( const mission_id miss_id );
+        void start_fortifications( mission_id miss_id );
         /// Called when a companion is sent to start digging down salt water pipes
         bool common_salt_water_pipe_construction( const mission_id &miss_id,
                 expansion_salt_water_pipe *pipe,
@@ -317,10 +324,17 @@ class basecamp
         void start_salt_water_pipe( const mission_id &miss_id );
         void continue_salt_water_pipe( const mission_id &miss_id );
         void start_combat_mission( const mission_id &miss_id );
-        void start_farm_op( const tripoint_abs_omt &omt_tgt, const mission_id miss_id );
+        void start_farm_op( const tripoint_abs_omt &omt_tgt, mission_id miss_id );
         ///Display items listed in @ref equipment to let the player pick what to give the departing
         ///NPC, loops until quit or empty.
         std::vector<item *> give_equipment( std::vector<item *> equipment, const std::string &msg );
+        drop_locations give_equipment( Character *pc, inventory_filter_preset preset,
+                                       const std::string &msg, std::string title, units::volume &total_volume,
+                                       units::mass &total_mass );
+        drop_locations get_equipment( tinymap *target_bay, tripoint target, Character *pc,
+                                      inventory_filter_preset preset,
+                                      const std::string &msg, std::string title, units::volume &total_volume,
+                                      units::mass &total_mass );
 
         // mission return functions
         /// called to select a companion to return to the base
@@ -337,15 +351,15 @@ class basecamp
         npc_ptr crafting_mission_return( const mission_id &miss_id, const std::string &return_msg,
                                          const std::string &skill, int difficulty );
         /// select a companion for any mission to return to base
-        npc_ptr emergency_recall( const mission_id miss_id );
+        npc_ptr emergency_recall( mission_id miss_id );
 
         /// Called to close upgrade missions, @ref miss is the name of the mission id
         /// and @ref dir is the direction of the location to be upgraded
         bool upgrade_return( const mission_id &miss_id );
 
         /// Choose which expansion you should start, called when a survey mission is completed
-        bool survey_return( const mission_id miss_id );
-        bool menial_return( const mission_id miss_id );
+        bool survey_return( mission_id miss_id );
+        bool menial_return( mission_id miss_id );
         /// Called when a companion completes a gathering @ref task mission
         bool gathering_return( const mission_id &miss_id, time_duration min_time );
         void recruit_return( const mission_id &miss_id, int score );
@@ -356,7 +370,7 @@ class basecamp
         * @param op whether to plow, plant, or harvest
         */
         bool farm_return( const mission_id &miss_id, const tripoint_abs_omt &omt_tgt );
-        void fortifications_return( const mission_id miss_id );
+        void fortifications_return( mission_id miss_id );
         bool salt_water_pipe_swamp_return( const mission_id &miss_id,
                                            const comp_list &npc_list );
         bool salt_water_pipe_return( const mission_id &miss_id,
@@ -367,6 +381,9 @@ class basecamp
         void add_assignee( character_id id );
         void remove_assignee( character_id id );
         std::vector<npc_ptr> get_npcs_assigned();
+        void hide_mission( ui_mission_id id );
+        void reveal_mission( ui_mission_id id );
+        bool is_hidden( ui_mission_id id );
         // Save/load
         void serialize( JsonOut &json ) const;
         void deserialize( const JsonObject &data );
@@ -392,6 +409,7 @@ class basecamp
         std::set<itype_id> fuel_types; // NOLINT(cata-serialize)
         std::vector<basecamp_fuel> fuels; // NOLINT(cata-serialize)
         std::vector<basecamp_resource> resources; // NOLINT(cata-serialize)
+        std::vector<std::vector<ui_mission_id>> temp_ui_mission_keys;   // NOLINT(cata-serialize)
         inventory _inv; // NOLINT(cata-serialize)
         bool by_radio = false; // NOLINT(cata-serialize)
 };

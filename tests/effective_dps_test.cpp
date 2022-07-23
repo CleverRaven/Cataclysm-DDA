@@ -47,7 +47,8 @@ static double weapon_dps_trials( avatar &attacker, monster &defender, item &weap
             clear_character( attacker );
             attacker.wield( weapon );
             // Verify that wielding worked (and not e.g. using martial arts instead)
-            REQUIRE( attacker.used_weapon().type == weapon.type );
+            REQUIRE( !!attacker.used_weapon() );
+            REQUIRE( attacker.used_weapon()->type == weapon.type );
 
             int before_moves = attacker.get_moves();
 
@@ -271,7 +272,7 @@ static void check_staves( const std::function<Approx( const std::string & )> &ca
 {
     SECTION( "staves" ) { // typical value around 18
         CHECK( calc_expected_dps( "i_staff" ) == 20.62 );
-        CHECK( calc_expected_dps( "staff_sling" ) == 12.15 );
+        CHECK( calc_expected_dps( "staff_sling" ) == 11.56 );
         CHECK( calc_expected_dps( "q_staff" ) == 14.11 );
         CHECK( calc_expected_dps( "l-stick_on" ) == 17.5 );
         CHECK( calc_expected_dps( "l-stick" ) == 17.5 );
@@ -381,7 +382,7 @@ static void check_fist_weapons( const std::function<Approx( const std::string & 
 static void check_axes( const std::function<Approx( const std::string & )> &calc_expected_dps )
 {
     SECTION( "axes" ) { // expected value around 27 but no dedicated weapons
-        CHECK( calc_expected_dps( "hatchet" ) == 24.0 );
+        CHECK( calc_expected_dps( "hatchet" ) == 18.0 );
         CHECK( calc_expected_dps( "crash_axe" ) == 24.0 );
         CHECK( calc_expected_dps( "iceaxe" ) == 19.0 );
         CHECK( calc_expected_dps( "throwing_axe" ) == 14.0 );
@@ -401,18 +402,18 @@ static void check_clubs( const std::function<Approx( const std::string & )> &cal
         CHECK( calc_expected_dps( "morningstar" ) == 23.0 );
         CHECK( calc_expected_dps( "shillelagh_weighted" ) == 22.0 );
         CHECK( calc_expected_dps( "bwirebat" ) == 22.0 );
-        CHECK( calc_expected_dps( "baton-extended" ) == 21.0 );
+        CHECK( calc_expected_dps( "baton-extended" ) == 12.0 );
         CHECK( calc_expected_dps( "bat_metal" ) == 21.0 );
         CHECK( calc_expected_dps( "nailbat" ) == 21.0 );
         CHECK( calc_expected_dps( "bat" ) == 20.0 );
         CHECK( calc_expected_dps( "shillelagh" ) == 20.0 );
         CHECK( calc_expected_dps( "bokken" ) == 20.0 );
-        CHECK( calc_expected_dps( "PR24-extended" ) == 20.0 );
+        CHECK( calc_expected_dps( "PR24-extended" ) == 13.0 );
         CHECK( calc_expected_dps( "mace_inferior" ) == 18.5 );
-        CHECK( calc_expected_dps( "tonfa" ) == 17.0 );
-        CHECK( calc_expected_dps( "tonfa_wood" ) == 16.0 );
-        CHECK( calc_expected_dps( "shocktonfa_off" ) == 16.0 );
-        CHECK( calc_expected_dps( "shocktonfa_on" ) == 16.0 );
+        CHECK( calc_expected_dps( "tonfa" ) == 12.0 );
+        CHECK( calc_expected_dps( "tonfa_wood" ) == 11.0 );
+        CHECK( calc_expected_dps( "shocktonfa_off" ) == 11.0 );
+        CHECK( calc_expected_dps( "shocktonfa_on" ) == 11.0 );
         CHECK( calc_expected_dps( "crowbar" ) == 15.0 );
         CHECK( calc_expected_dps( "morningstar_inferior" ) == 15.0 );
         CHECK( calc_expected_dps( "bokken_inferior" ) == 14.0 );
@@ -421,8 +422,8 @@ static void check_clubs( const std::function<Approx( const std::string & )> &cal
         CHECK( calc_expected_dps( "claw_bar" ) == 11.0 );
         CHECK( calc_expected_dps( "shovel" ) == 10.25 );
         CHECK( calc_expected_dps( "e_tool" ) == 11.0 );
-        CHECK( calc_expected_dps( "sword_nail" ) == 11.0 );
-        CHECK( calc_expected_dps( "sword_wood" ) == 10.5 );
+        CHECK( calc_expected_dps( "sword_nail" ) == 10.25 );
+        CHECK( calc_expected_dps( "sword_wood" ) == 8.5 );
         CHECK( calc_expected_dps( "cane" ) == 10.5 );
         CHECK( calc_expected_dps( "cudgel" ) == 10.5 );
         CHECK( calc_expected_dps( "primitive_hammer" ) == 10.0 );
@@ -445,16 +446,16 @@ static void check_two_handed_swords( const std::function<Approx( const std::stri
         CHECK( calc_expected_dps( "nodachi" ) == 26.5 );
         CHECK( calc_expected_dps( "zweihander" ) == 27.0 );
         CHECK( calc_expected_dps( "estoc" ) == 27.0 );
-        CHECK( calc_expected_dps( "longsword" ) == 24.25 );
+        CHECK( calc_expected_dps( "longsword" ) == 25 );
         CHECK( calc_expected_dps( "katana" ) == 25.0 );
-        CHECK( calc_expected_dps( "longsword_inferior" ) == 18.5 );
+        CHECK( calc_expected_dps( "longsword_inferior" ) == 15.5 );
         CHECK( calc_expected_dps( "zweihander_inferior" ) == 15.5 );
         CHECK( calc_expected_dps( "katana_inferior" ) == 13.5 );
         CHECK( calc_expected_dps( "nodachi_inferior" ) == 16.25 );
         CHECK( calc_expected_dps( "estoc_inferior" ) == 15.5 );
         CHECK( calc_expected_dps( "estoc_fake" ) == 10.0 );
         CHECK( calc_expected_dps( "zweihander_fake" ) == 9.5 );
-        CHECK( calc_expected_dps( "longsword_fake" ) == 9.0 );
+        CHECK( calc_expected_dps( "longsword_fake" ) == 6.25 );
         CHECK( calc_expected_dps( "nodachi_fake" ) == 8.5 );
         CHECK( calc_expected_dps( "katana_fake" ) == 7.0 );
     }
@@ -498,7 +499,7 @@ static void check_shortswords( const std::function<Approx( const std::string & )
         CHECK( calc_expected_dps( "sword_cane" ) == 17.5 );
         CHECK( calc_expected_dps( "cutlass_inferior" ) == 17.5 );
         CHECK( calc_expected_dps( "scimitar_inferior" ) == 14.5 );
-        CHECK( calc_expected_dps( "sword_crude" ) == 14.0 );
+        CHECK( calc_expected_dps( "sword_crude" ) == 9.5 );
         CHECK( calc_expected_dps( "wakizashi_inferior" ) == 15.0 );
         CHECK( calc_expected_dps( "makeshift_machete" ) == 11.0 );
         CHECK( calc_expected_dps( "cavalry_sabre_fake" ) == 7.5 );
@@ -528,10 +529,10 @@ static void check_knives( const std::function<Approx( const std::string & )> &ca
         CHECK( calc_expected_dps( "knife_hunting" ) == 11.0 );
         CHECK( calc_expected_dps( "kirpan_cheap" ) == 10.5 );
         CHECK( calc_expected_dps( "switchblade" ) == 10.5 );
-        CHECK( calc_expected_dps( "knife_meat_cleaver" ) == 8.5 );
+        CHECK( calc_expected_dps( "knife_meat_cleaver" ) == 14.5 );
         CHECK( calc_expected_dps( "diveknife" ) == 8.0 );
         CHECK( calc_expected_dps( "copper_knife" ) == 8.0 );
-        CHECK( calc_expected_dps( "knife_butcher" ) == 7.5 );
+        CHECK( calc_expected_dps( "knife_butcher" ) == 10 );
         CHECK( calc_expected_dps( "throwing_knife" ) == 7.0 );
         CHECK( calc_expected_dps( "tanto_fake" ) == 7.5 );
         CHECK( calc_expected_dps( "pockknife" ) == 4.5 );

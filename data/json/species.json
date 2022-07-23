@@ -42,6 +42,13 @@
   },
   {
     "type": "SPECIES",
+    "id": "KRAKEN",
+    "description": "a squid-like mutant",
+    "fear_triggers": [ "HURT", "FRIEND_ATTACKED" ],
+    "bleeds": "fd_blood"
+  },
+  {
+    "type": "SPECIES",
     "id": "MUTANT",
     "description": "a mutant"
   },

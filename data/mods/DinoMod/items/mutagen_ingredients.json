@@ -1,0 +1,47 @@
+[
+  {
+    "type": "GENERIC",
+    "id": "raptor_sample",
+    "symbol": "q",
+    "color": "light_green",
+    "name": { "str": "raptor sample" },
+    "description": "A sample of tissues and liquids from a living dromaeosaurid, popularly called a 'raptor', a flightless feathered predatory dinosaur popularized by an American film.",
+    "price": 1000,
+    "price_postapoc": 10,
+    "material": [ "flesh" ],
+    "flags": [ "NO_SALVAGE" ],
+    "weight": "114 g",
+    "volume": "250 ml",
+    "category": "spare_parts"
+  },
+  {
+    "type": "GENERIC",
+    "id": "tyrant_sample",
+    "symbol": "q",
+    "color": "light_red",
+    "name": { "str": "tyrant sample" },
+    "description": "A sample of tissues and liquids from a living tyrannosauroid, one of many carnivorous three-toed predator dinosaurs known for being very big.",
+    "price": 1000,
+    "price_postapoc": 10,
+    "material": [ "flesh" ],
+    "flags": [ "NO_SALVAGE" ],
+    "weight": "114 g",
+    "volume": "250 ml",
+    "category": "spare_parts"
+  },
+  {
+    "type": "GENERIC",
+    "id": "stego_sample",
+    "symbol": "q",
+    "color": "light_blue",
+    "name": { "str": "stegosaurus sample" },
+    "description": "A sample of tissues and liquids from a living thyreophoran, one of many plant eating dinosaurs with natural protective armor.",
+    "price": 1000,
+    "price_postapoc": 10,
+    "material": [ "flesh" ],
+    "flags": [ "NO_SALVAGE" ],
+    "weight": "114 g",
+    "volume": "250 ml",
+    "category": "spare_parts"
+  }
+]

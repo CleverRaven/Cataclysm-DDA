@@ -412,7 +412,7 @@
   {
     "type": "npc_class",
     "id": "NC_CITY_COP",
-    "name": { "str": "former cop" },
+    "name": { "str": "Former Cop" },
     "job_description": "I used to be a police officer, but I'm just a survivor now.",
     "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
     "common": false,

@@ -94,7 +94,7 @@
   {
     "id": "MISSION_COWBOYT_SHOTGUN",
     "type": "mission_definition",
-    "name": { "str": "Obtain a Remington 870 express shotgun" },
+    "name": { "str": "Obtain a Remington 870 Express shotgun" },
     "goal": "MGOAL_FIND_ITEM",
     "item": "remington_870_express",
     "difficulty": 2,

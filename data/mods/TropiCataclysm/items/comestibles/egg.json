@@ -301,7 +301,7 @@
     "quench": 18,
     "healthy": -1,
     "calories": 35,
-    "description": "A strange green pod produced by a triffid.  Based on observation it may be the closest thing to triffid seeds( or eggs?).",
+    "description": "A strange green pod produced by a triffid.  Based on observation it may be the closest thing to triffid seeds (or eggs?).",
     "price": 0,
     "price_postapoc": 10,
     "material": [ "veggy" ],
@@ -309,5 +309,34 @@
     "flags": [ "SMOKABLE", "RAW" ],
     "smoking_result": "dry_veggy",
     "rot_spawn": "GROUP_EGG_TRIFFID"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "fungal_pod",
+    "name": { "str": "fungal pod" },
+    "weight": "278 g",
+    "color": "light_gray",
+    "spoils_in": "3 days 8 hours",
+    "//": "Copied from Fungal Fluid Sac which is also based on Wild Vegetables.",
+    "comestible_type": "FOOD",
+    "symbol": "o",
+    "quench": 18,
+    "healthy": -1,
+    "calories": 35,
+    "description": "A strange gray pod that was dropped by one of the giant fungus.  It may be the closest thing to a fungal egg.",
+    "price": 0,
+    "price_postapoc": 10,
+    "material": [ "veggy" ],
+    "volume": "250 ml",
+    "flags": [ "SMOKABLE", "RAW" ],
+    "smoking_result": "dry_veggy",
+    "rot_spawn": "GROUP_EGG_FUNGUS"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_fish_alien",
+    "name": "alien roe",
+    "copy-from": "egg_fish",
+    "description": "Common roe from an unknown alien creature."
   }
 ]

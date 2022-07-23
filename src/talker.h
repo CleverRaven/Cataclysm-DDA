@@ -90,6 +90,7 @@ class talker
             return 0;
         }
         virtual tripoint pos() const = 0;
+        virtual tripoint_abs_ms global_pos() const = 0;
         virtual tripoint_abs_omt global_omt_location() const = 0;
         virtual void set_pos( tripoint ) {}
         virtual std::string distance_to_goal() const {
@@ -135,6 +136,10 @@ class talker
         virtual void set_dex_max( int ) {}
         virtual void set_int_max( int ) {}
         virtual void set_per_max( int ) {}
+        virtual void set_str_bonus( int ) {}
+        virtual void set_dex_bonus( int ) {}
+        virtual void set_int_bonus( int ) {}
+        virtual void set_per_bonus( int ) {}
         virtual int get_str_max() const {
             return 0;
         }
@@ -145,6 +150,18 @@ class talker
             return 0;
         }
         virtual int get_per_max() const {
+            return 0;
+        }
+        virtual int get_str_bonus() const {
+            return 0;
+        }
+        virtual int get_dex_bonus() const {
+            return 0;
+        }
+        virtual int get_int_bonus() const {
+            return 0;
+        }
+        virtual int get_per_bonus() const {
             return 0;
         }
         virtual int get_skill_level( const skill_id & ) const {
@@ -251,7 +268,15 @@ class talker
         virtual bool has_charges( const itype_id &, int ) const {
             return false;
         }
+        // bool = match tool containing charges of itype_id
+        virtual bool has_charges( const itype_id &, int, bool ) const {
+            return false;
+        }
         virtual std::list<item> use_charges( const itype_id &, int ) {
+            return {};
+        }
+        // bool = match tool containing charges of itype_id
+        virtual std::list<item> use_charges( const itype_id &, int, bool ) {
             return {};
         }
         virtual bool has_amount( const itype_id &, int ) const {
@@ -304,8 +329,10 @@ class talker
         virtual bool buy_from( int ) {
             return false;
         }
-        virtual void buy_monster( talker &, const mtype_id &, int, int, bool,
-                                  const translation & ) {}
+        virtual bool buy_monster( talker &, const mtype_id &, int, int, bool,
+                                  const translation & ) {
+            return false;
+        }
 
         // missions
         virtual std::vector<mission *> available_missions() const {
@@ -385,12 +412,22 @@ class talker
         virtual int get_thirst() const {
             return 0;
         }
+        virtual int get_instant_thirst() const {
+            return 0;
+        }
         virtual int get_stored_kcal() const {
             return 0;
         }
         virtual int get_stim() const {
             return 0;
         }
+        virtual int get_addiction_intensity( const addiction_id & ) const {
+            return 0;
+        }
+        virtual int get_addiction_turns( const addiction_id & ) const {
+            return 0;
+        }
+        virtual void set_addiction_turns( const addiction_id &, int ) {}
         virtual void set_stored_kcal( int ) {}
         virtual void set_stim( int ) {}
         virtual void set_thirst( int ) {}
@@ -441,7 +478,7 @@ class talker
             return 0;
         }
         virtual void set_mana_cur( int ) {}
-        virtual void mod_healthy_mod( int, int ) {}
+        virtual void mod_daily_health( int, int ) {}
         virtual int morale_cur() const {
             return 0;
         }
@@ -486,6 +523,22 @@ class talker
         }
         virtual void set_height( int ) {}
         virtual int get_height() const {
+            return 0;
+        }
+        virtual void set_npc_trust( int ) {}
+        virtual int get_npc_trust() const {
+            return 0;
+        }
+        virtual void set_npc_fear( int ) {}
+        virtual int get_npc_fear() const {
+            return 0;
+        }
+        virtual void set_npc_value( int ) {}
+        virtual int get_npc_value() const {
+            return 0;
+        }
+        virtual void set_npc_anger( int ) {}
+        virtual int get_npc_anger() const {
             return 0;
         }
         virtual int get_bmi_permil() const {

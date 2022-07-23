@@ -31,31 +31,17 @@
         "|x         xx         x|",
         "|----------++----------|"
       ],
+      "fill_ter": "t_thconc_floor",
       "terrain": {
-        " ": [ "t_grass_dead", "t_grass", "t_grass_long", "t_dirt", "t_grass_tall" ],
-        "x": [ "t_grass_dead", "t_grass", "t_grass_long", "t_dirt", "t_grass_tall" ],
-        ".": "t_floor",
-        "!": "t_floor",
-        "&": "t_floor",
-        "1": "t_floor",
-        "l": "t_floor",
-        "c": "t_floor",
-        "t": "t_floor",
-        "r": "t_floor",
-        "L": "t_floor",
-        "b": "t_floor",
-        "S": "t_floor",
-        "T": "t_floor",
-        "C": "t_floor",
-        "X": "t_floor",
+        " ": "t_region_groundcover",
+        "x": "t_region_groundcover",
         "-": "t_chainfence",
         "|": "t_chainfence",
         "/": "t_concrete_wall",
         "+": "t_chaingate_l",
         "*": "t_door_c",
         "=": "t_door_locked",
-        ";": "t_door_metal_c",
-        "p": "t_plut_generator"
+        ";": "t_door_metal_c"
       },
       "furniture": {
         "t": "f_table",
@@ -69,7 +55,8 @@
         "l": "f_locker",
         "L": "f_locker",
         "b": "f_bunkbed",
-        "T": "f_trashcan"
+        "T": "f_trashcan",
+        "p": "f_compact_ASRG_containment"
       },
       "items": {
         "b": { "item": "army_bed", "chance": 60 },
@@ -122,7 +109,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "outpost" ],
+    "om_terrain": [ "outpost_cross" ],
     "weight": 10000,
     "object": {
       "rows": [
@@ -151,33 +138,17 @@
         "|x         xx         x|",
         "|----------++----------|"
       ],
+      "fill_ter": "t_thconc_floor",
       "terrain": {
-        " ": [ "t_grass_dead", "t_grass", "t_grass_long", "t_dirt", "t_grass_tall" ],
-        "x": [ "t_grass_dead", "t_grass", "t_grass_long", "t_dirt", "t_grass_tall" ],
-        ".": "t_floor",
-        "!": "t_floor",
-        "&": "t_floor",
-        "1": "t_floor",
-        "l": "t_floor",
-        "c": "t_floor",
-        "d": "t_floor",
-        "t": "t_floor",
-        "r": "t_floor",
-        "f": "t_floor",
-        "L": "t_floor",
-        "b": "t_floor",
-        "S": "t_floor",
-        "T": "t_floor",
-        "C": "t_floor",
-        "X": "t_floor",
+        " ": "t_region_groundcover",
+        "x": "t_region_groundcover",
         "-": "t_chainfence",
         "|": "t_chainfence",
         "/": "t_concrete_wall",
         "+": "t_chaingate_l",
         "*": "t_door_c",
         "=": "t_door_locked",
-        ";": "t_door_metal_c",
-        "p": "t_plut_generator"
+        ";": "t_door_metal_c"
       },
       "furniture": {
         "t": "f_table",
@@ -193,12 +164,13 @@
         "b": "f_bunkbed",
         "d": "f_desk",
         "f": "f_fridge",
-        "T": "f_trashcan"
+        "T": "f_trashcan",
+        "p": "f_compact_ASRG_containment"
       },
       "items": {
         "b": { "item": "army_bed", "chance": 60 },
         "d": { "item": "office", "chance": 50 },
-        "f": { "item": "fridge", "chance": 30 },
+        "f": { "item": "SUS_fridge_breakroom", "chance": 30 },
         "r": { "item": "mil_food", "chance": 60 },
         "t": { "item": "dining", "chance": 45 },
         "1": { "item": "cleaning", "chance": 70 },

@@ -11,7 +11,9 @@
 #include "type_id.h"
 
 static const mtype_id debug_mon( "debug_mon" );
+static const mtype_id mon_test_weakpoint_mon( "mon_test_weakpoint_mon" );
 static const mtype_id mon_test_zombie_cop( "mon_test_zombie_cop" );
+static const mtype_id mon_zombie( "mon_zombie" );
 
 struct weakpoint_report_item {
     std::string weakpoint;
@@ -199,5 +201,60 @@ TEST_CASE( "Check damage from weakpoint sets", "[monster][weakpoint]" )
             CHECK( wr1.PercHits( "" ) == Approx( 0.14f ).epsilon( 0.20f ) );
             CHECK( wr1.AveDam( "" ) == Approx( 100.0f ).epsilon( 0.020f ) );
         }
+    }
+}
+
+TEST_CASE( "Check deferred weakpoint set loading", "[monster][weakpoint]" )
+{
+    weakpoints wplist = mon_zombie->weakpoints;
+    CHECK( wplist.weakpoint_list.size() == 2 );
+
+    std::map<std::string, bool> wp_found {
+        { "test_wp1", false },
+        { "test_wp2", false }
+    };
+
+    std::list<std::string> unk;
+    for( const weakpoint &wp : wplist.weakpoint_list ) {
+        auto iter = wp_found.find( wp.id );
+        if( iter != wp_found.end() ) {
+            wp_found[wp.id] = true;
+        } else {
+            unk.emplace_back( wp.id );
+        }
+    }
+
+    CHECK( unk.empty() );
+    for( const auto &found : wp_found ) {
+        CHECK( found.second == true );
+    }
+}
+
+TEST_CASE( "Check copy-from inheritance between sets and inline weakpoints",
+           "[monster][weakpoint]" )
+{
+    weakpoints wplist = mon_test_weakpoint_mon->weakpoints;
+    CHECK( wplist.weakpoint_list.size() == 2 );
+
+    // { weakpoint_id, { found, coverage } }
+    std::map<std::string, std::pair<bool, int>> wp_found {
+        { "test_eye", { false, 0 } },
+        { "test_arm", { false, 5 } }
+    };
+
+    std::list<std::string> unk;
+    for( const weakpoint &wp : wplist.weakpoint_list ) {
+        auto iter = wp_found.find( wp.id );
+        if( iter != wp_found.end() &&
+            iter->second.second == static_cast<int>( std::round( wp.coverage ) ) ) {
+            wp_found[wp.id].first = true;
+        } else {
+            unk.emplace_back( wp.id );
+        }
+    }
+
+    CHECK( unk.empty() );
+    for( const auto &found : wp_found ) {
+        CHECK( found.second.first == true );
     }
 }

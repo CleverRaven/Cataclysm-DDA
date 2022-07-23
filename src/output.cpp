@@ -23,6 +23,7 @@
 #include "color.h"
 #include "cursesport.h" // IWYU pragma: keep
 #include "cursesdef.h"
+#include "game_constants.h"
 #include "input.h"
 #include "item.h"
 #include "line.h"
@@ -35,6 +36,7 @@
 #include "string_formatter.h"
 #include "string_input_popup.h"
 #include "ui_manager.h"
+#include "unicode.h"
 #include "units_utility.h"
 #include "wcwidth.h"
 
@@ -63,6 +65,51 @@ int OVERMAP_WINDOW_TERM_HEIGHT;
 int OVERMAP_LEGEND_WIDTH;
 
 scrollingcombattext SCT;
+
+std::string string_from_int( const catacurses::chtype ch )
+{
+    catacurses::chtype charcode = ch;
+    // LINE_NESW  - X for on, O for off
+    switch( ch ) {
+        case LINE_XOXO:
+            charcode = LINE_XOXO_C;
+            break;
+        case LINE_OXOX:
+            charcode = LINE_OXOX_C;
+            break;
+        case LINE_XXOO:
+            charcode = LINE_XXOO_C;
+            break;
+        case LINE_OXXO:
+            charcode = LINE_OXXO_C;
+            break;
+        case LINE_OOXX:
+            charcode = LINE_OOXX_C;
+            break;
+        case LINE_XOOX:
+            charcode = LINE_XOOX_C;
+            break;
+        case LINE_XXOX:
+            charcode = LINE_XXOX_C;
+            break;
+        case LINE_XXXO:
+            charcode = LINE_XXXO_C;
+            break;
+        case LINE_XOXX:
+            charcode = LINE_XOXX_C;
+            break;
+        case LINE_OXXX:
+            charcode = LINE_OXXX_C;
+            break;
+        case LINE_XXXX:
+            charcode = LINE_XXXX_C;
+            break;
+        default:
+            break;
+    }
+    char buffer[2] = { static_cast<char>( charcode ), '\0' };
+    return buffer;
+}
 
 // utf8 version
 std::vector<std::string> foldstring( const std::string &str, int width, const char split )
@@ -362,6 +409,9 @@ void scrollable_text( const std::function<catacurses::window()> &init_window,
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
+    // mouse
+    ctxt.register_action( "SCROLL_UP" );
+    ctxt.register_action( "SCROLL_DOWN" );
 
     catacurses::window w;
     int width = 0;
@@ -390,7 +440,7 @@ void scrollable_text( const std::function<catacurses::window()> &init_window,
     ui.on_screen_resize( screen_resize_cb );
     ui.on_redraw( [&]( const ui_adaptor & ) {
         werase( w );
-        draw_border( w, BORDER_COLOR, title, c_black_white );
+        draw_border( w, BORDER_COLOR, title );
         for( int line = beg_line, pos_y = text2.y; line < std::min<int>( beg_line + text_h, lines.size() );
              ++line, ++pos_y ) {
             nc_color dummy = c_white;
@@ -406,11 +456,11 @@ void scrollable_text( const std::function<catacurses::window()> &init_window,
         ui_manager::redraw();
 
         action = ctxt.handle_input();
-        if( action == "UP" ) {
+        if( action == "UP" || action == "SCROLL_UP" ) {
             if( beg_line > 0 ) {
                 --beg_line;
             }
-        } else if( action == "DOWN" ) {
+        } else if( action == "DOWN" || action == "SCROLL_DOWN" ) {
             if( beg_line < max_beg_line ) {
                 ++beg_line;
             }
@@ -429,17 +479,57 @@ void scrollable_text( const std::function<catacurses::window()> &init_window,
     } while( action != "CONFIRM" && action != "QUIT" );
 }
 
-// returns single string with left aligned name and right aligned value
-std::string name_and_value( const std::string &name, const std::string &value, int field_width )
+/*If name and value fit in field_width, should add a single string equivalent to trimmed_name_and_value
+ *If the name would not fit, it is folded, preserving an empty column for values, and
+ *The resulting vector of strings is returned
+ */
+void add_folded_name_and_value( std::vector<std::string> &current_vector, const std::string &name,
+                                const std::string &value, const int field_width )
 {
-    const int text_width = utf8_width( name ) + utf8_width( value );
-    const int spacing = std::max( field_width, text_width ) - text_width;
-    return name + std::string( spacing, ' ' ) + value;
+    const int name_width = utf8_width( name );
+    const int value_width = utf8_width( value );
+    if( name_width + value_width + 1 >= field_width ) {
+        if( value_width >= field_width ) {
+            debugmsg( "Unable to fit name (%s) and value (%s) in available space (%i)", name, value,
+                      field_width );
+        } else {
+            std::vector<std::string> new_lines;
+            new_lines = foldstring( name, field_width - value_width );
+            const int spacing = field_width - utf8_width( new_lines.back() ) - value_width;
+            new_lines.back() = new_lines.back() + std::string( spacing, ' ' ) + value;
+            current_vector.insert( current_vector.end(), new_lines.begin(), new_lines.end() );
+        }
+    } else {
+        const int spacing = field_width - name_width - value_width;
+        current_vector.emplace_back( name + std::string( spacing, ' ' ) + value );
+    }
 }
 
-std::string name_and_value( const std::string &name, int value, int field_width )
+void add_folded_name_and_value( std::vector<std::string> &current_vector, const std::string &name,
+                                const int value, const int field_width )
 {
-    return name_and_value( name, string_format( "%d", value ), field_width );
+    add_folded_name_and_value( current_vector, name, string_format( "%d", value ), field_width );
+}
+
+// returns single string with left aligned name and right aligned value
+std::string trimmed_name_and_value( const std::string &name, const std::string &value,
+                                    const int field_width )
+{
+    const int text_width = utf8_width( name ) + utf8_width( value );
+    if( text_width >= field_width ) {
+        //Since it's easier to abbreviate a string than a number, try to preserve the value
+        std::string trimmed_name = trim_by_length( name, field_width - utf8_width( value ) - 1 );
+        return trimmed_name + " " + value;
+    } else {
+        const int spacing = field_width - text_width;
+        return name + std::string( spacing, ' ' ) + value;
+    }
+}
+
+std::string trimmed_name_and_value( const std::string &name, int const value,
+                                    const int field_width )
+{
+    return trimmed_name_and_value( name, string_format( "%d", value ), field_width );
 }
 
 void center_print( const catacurses::window &w, const int y, const nc_color &FG,
@@ -804,7 +894,7 @@ int popup( const std::string &text, PopupFlags flags )
     }
 
     pop.context( "POPUP_WAIT" );
-    const auto &res = pop.query();
+    const query_popup::result &res = pop.query();
     if( res.evt.type == input_event_t::keyboard_char ) {
         return res.evt.get_first_input();
     } else {
@@ -874,8 +964,37 @@ std::string replace_colors( std::string text )
     return text;
 }
 
-void draw_item_filter_rules( const catacurses::window &win, int starty, int height,
-                             item_filter_type type )
+static const std::array<translation, 3> item_filter_rule_intros {
+    to_translation( "Type part of an item's name to filter it." ),
+    to_translation( "Type part of an item's name to move nearby items to the bottom." ),
+    to_translation( "Type part of an item's name to move nearby items to the top." )
+};
+
+std::string item_filter_rule_string( const item_filter_type type )
+{
+    std::ostringstream str;
+    const int tab_idx = static_cast<int>( type ) - static_cast<int>( item_filter_type::FIRST );
+    str << item_filter_rule_intros[tab_idx];
+    // NOLINTNEXTLINE(cata-text-style): literal comma
+    str << "\n\n" << _( "Separate multiple items with [<color_yellow>,</color>]." );
+    //~ An example of how to separate multiple items with a comma when filtering items.
+    str << "\n" << _( "Example: back,flash,aid, ,band" ); // NOLINT(cata-text-style): literal comma
+    str << "\n\n" << _( "Search [<color_yellow>c</color>]ategory, [<color_yellow>m</color>]aterial, "
+                        "[<color_yellow>q</color>]uality, [<color_yellow>n</color>]otes, "
+                        "[<color_yellow>s</color>]skill taught by books, "
+                        "[<color_yellow>d</color>]isassembled components, or "
+                        "items satisfying [<color_yellow>b</color>]oth conditions." );
+    //~ An example of how to filter items based on category or material.
+    str << "\n" << _( "Example: c:food,m:iron,q:hammering,n:toolshelf,d:pipe,s:devices,b:mre;sealed" );
+    str << "\n\n" << _( "To exclude items, place [<color_yellow>-</color>] in front.  "
+                        "Place [<color_yellow>--</color>] in front to include only matching items." );
+    //~ An example of how to exclude items with - when filtering items.
+    str << "\n" << _( "Example: steel,-chunk,--c:spare parts" );
+    return str.str();
+}
+
+void draw_item_filter_rules( const catacurses::window &win, const int starty, const int height,
+                             const item_filter_type type )
 {
     // Clear every row, but the leftmost/rightmost pixels intact.
     const int len = getmaxx( win ) - 2;
@@ -883,39 +1002,8 @@ void draw_item_filter_rules( const catacurses::window &win, int starty, int heig
         mvwprintz( win, point( 1, starty + i ), c_black, std::string( len, ' ' ) );
     }
 
-    // Not static so that language changes are correctly handled
-    const std::array<std::string, 3> intros = {{
-            _( "Type part of an item's name to filter it." ),
-            _( "Type part of an item's name to move nearby items to the bottom." ),
-            _( "Type part of an item's name to move nearby items to the top." )
-        }
-    };
-    const int tab_idx = static_cast<int>( type ) - static_cast<int>( item_filter_type::FIRST );
-    starty += 1 + fold_and_print( win, point( 1, starty ), len, c_white, intros[tab_idx] );
+    fold_and_print( win, point( 1, starty ), len, c_white, "%s", item_filter_rule_string( type ) );
 
-    starty += fold_and_print( win, point( 1, starty ), len, c_white,
-                              // NOLINTNEXTLINE(cata-text-style): literal comma
-                              _( "Separate multiple items with [<color_yellow>,</color>]." ) );
-    starty += 1 + fold_and_print( win, point( 1, starty ), len, c_white,
-                                  //~ An example of how to separate multiple items with a comma when filtering items.
-                                  _( "Example: back,flash,aid, ,band" ) ); // NOLINT(cata-text-style): literal comma
-
-    if( type == item_filter_type::FILTER ) {
-        starty += fold_and_print( win, point( 1, starty ), len, c_white,
-                                  _( "To exclude items, place [<color_yellow>-</color>] in front." ) );
-        starty += 1 + fold_and_print( win, point( 1, starty ), len, c_white,
-                                      //~ An example of how to exclude items with - when filtering items.
-                                      _( "Example: -pipe,-chunk,-steel" ) );
-    }
-
-    starty += fold_and_print( win, point( 1, starty ), len, c_white,
-                              _( "Search [<color_yellow>c</color>]ategory, [<color_yellow>m</color>]aterial, "
-                                 "[<color_yellow>q</color>]uality, [<color_yellow>n</color>]otes, "
-                                 "[<color_yellow>s</color>]skill taught by books or "
-                                 "[<color_yellow>d</color>]isassembled components." ) );
-    fold_and_print( win, point( 1, starty ), len, c_white,
-                    //~ An example of how to filter items based on category or material.
-                    _( "Examples: c:food,m:iron,q:hammering,n:toolshelf,d:pipe,s:devices" ) );
     wnoutrefresh( win );
 }
 
@@ -925,7 +1013,7 @@ std::string format_item_info( const std::vector<iteminfo> &vItemDisplay,
     std::string buffer;
     bool bIsNewLine = true;
 
-    for( const auto &i : vItemDisplay ) {
+    for( const iteminfo &i : vItemDisplay ) {
         if( i.sType == "DESCRIPTION" ) {
             // Always start a new line for sType == "DESCRIPTION"
             if( !bIsNewLine ) {
@@ -1168,6 +1256,11 @@ int special_symbol( int sym )
     }
 }
 
+int special_symbol( char sym )
+{
+    return special_symbol( static_cast<uint8_t>( sym ) );
+}
+
 template<typename Prep>
 std::string trim( const std::string &s, Prep prep )
 {
@@ -1207,17 +1300,10 @@ std::string trim_trailing_punctuations( const std::string &s )
 using char_t = std::string::value_type;
 std::string to_upper_case( const std::string &s )
 {
-    if( std::locale().name() != "en_US.UTF-8" && std::locale().name() != "C" ) {
-        const auto &f = std::use_facet<std::ctype<wchar_t>>( std::locale() );
-        std::wstring wstr = utf8_to_wstr( s );
-        f.toupper( &wstr[0], &wstr[0] + wstr.size() );
-        return wstr_to_utf8( wstr );
-    }
-    std::string res;
-    std::transform( s.begin(), s.end(), std::back_inserter( res ), []( char_t ch ) {
-        return std::use_facet<std::ctype<char_t>>( std::locale() ).toupper( ch );
-    } );
-    return res;
+    const auto &f = std::use_facet<std::ctype<wchar_t>>( std::locale() );
+    std::wstring wstr = utf8_to_wstr( s );
+    f.toupper( &wstr[0], &wstr[0] + wstr.size() );
+    return wstr_to_utf8( wstr );
 }
 
 // find the position of each non-printing tag in a string
@@ -1284,7 +1370,7 @@ std::string word_rewrap( const std::string &in, int width, const uint32_t split 
 
         x += mk_wcwidth( uc );
 
-        if( uc == split || uc >= 0x2E80 ) { // param split (default ' ') or CJK characters
+        if( uc == split || is_cjk_or_emoji( uc ) ) {
             if( x <= width ) {
                 lastwb = j; // break after character
             } else {
@@ -1320,14 +1406,20 @@ std::string word_rewrap( const std::string &in, int width, const uint32_t split 
 
 void draw_tab( const catacurses::window &w, int iOffsetX, const std::string &sText, bool bSelected )
 {
-    int iOffsetXRight = iOffsetX + utf8_width( sText ) + 1;
+    int iOffsetXRight = iOffsetX + utf8_width( sText, true ) + 1;
 
     mvwputch( w, point( iOffsetX, 0 ),      c_light_gray, LINE_OXXO ); // |^
     mvwputch( w, point( iOffsetXRight, 0 ), c_light_gray, LINE_OOXX ); // ^|
     mvwputch( w, point( iOffsetX, 1 ),      c_light_gray, LINE_XOXO ); // |
     mvwputch( w, point( iOffsetXRight, 1 ), c_light_gray, LINE_XOXO ); // |
 
-    mvwprintz( w, point( iOffsetX + 1, 1 ), bSelected ? h_white : c_light_gray, sText );
+    nc_color selected = h_white;
+    nc_color not_selected = c_light_gray;
+    if( bSelected ) {
+        print_colored_text( w, point( iOffsetX + 1, 1 ), selected, selected, sText );
+    } else {
+        print_colored_text( w, point( iOffsetX + 1, 1 ), not_selected, not_selected, sText );
+    }
 
     for( int i = iOffsetX + 1; i < iOffsetXRight; i++ ) {
         mvwputch( w, point( i, 0 ), c_light_gray, LINE_OXOX );  // -
@@ -1377,9 +1469,11 @@ void draw_subtab( const catacurses::window &w, int iOffsetX, const std::string &
     }
 }
 
-void draw_tabs( const catacurses::window &w, const std::vector<std::string> &tab_texts,
-                size_t current_tab )
+std::map<size_t, inclusive_rectangle<point>> draw_tabs( const catacurses::window &w,
+        const std::vector<std::string> &tab_texts, size_t current_tab )
 {
+    std::map<size_t, inclusive_rectangle<point>> tab_map;
+
     int width = getmaxx( w );
     for( int i = 0; i < width; i++ ) {
         mvwputch( w, point( i, 2 ), BORDER_COLOR, LINE_OXOX ); // -
@@ -1393,16 +1487,136 @@ void draw_tabs( const catacurses::window &w, const std::vector<std::string> &tab
     for( size_t i = 0; i < tab_texts.size(); ++i ) {
         const std::string &tab_text = tab_texts[i];
         draw_tab( w, x, tab_text, i == current_tab );
-        x += utf8_width( tab_text ) + tab_step;
+        const int txt_width = utf8_width( tab_text, true );
+        tab_map.emplace( i, inclusive_rectangle<point>( point( x, 1 ), point( x + txt_width, 1 ) ) );
+        x += txt_width + tab_step;
     }
+
+    return tab_map;
 }
 
-void draw_tabs( const catacurses::window &w, const std::vector<std::string> &tab_texts,
-                const std::string &current_tab )
+std::map<std::string, inclusive_rectangle<point>> draw_tabs( const catacurses::window &w,
+        const std::vector<std::string> &tab_texts, const std::string &current_tab )
 {
     auto it = std::find( tab_texts.begin(), tab_texts.end(), current_tab );
     cata_assert( it != tab_texts.end() );
-    draw_tabs( w, tab_texts, it - tab_texts.begin() );
+    std::map<size_t, inclusive_rectangle<point>> tab_map =
+                draw_tabs( w, tab_texts, it - tab_texts.begin() );
+    std::map<std::string, inclusive_rectangle<point>> ret_map;
+    for( size_t i = 0; i < tab_texts.size(); i++ ) {
+        if( tab_map.count( i ) > 0 ) {
+            ret_map.emplace( tab_texts.at( i ), tab_map.at( i ) );
+        }
+    }
+    return ret_map;
+}
+
+best_fit find_best_fit_in_size( const std::vector<int> &size_of_items_to_fit, const int &selected,
+                                const int &allowed_size, const int &spacer_size, const int &continuation_marker_size )
+{
+    int best_fit_length = 0;
+    best_fit returnVal;
+    returnVal.start = 0;
+    returnVal.length = 0;
+    int adjusted_allowed_size = allowed_size;
+    for( int num_fitting = static_cast<int>( size_of_items_to_fit.size() ); num_fitting > 0;
+         --num_fitting ) {
+        //Iterate through all possible places the list can start
+        for( int start_index = 0;
+             start_index <= static_cast<int>( size_of_items_to_fit.size() ) - num_fitting; ++start_index ) {
+            int space_required = 0;
+            int cont_marker_allowance = 0;
+            bool selected_response_included = false;
+            for( int i = start_index; i < ( num_fitting + start_index ); ++i ) {
+                space_required += size_of_items_to_fit[i] + spacer_size;
+                if( i == selected ) {
+                    selected_response_included = true;
+                }
+            }
+            //Check if this selection fits, accounting for an indicator that the list continues at the front if necessary
+            if( start_index != 0 &&
+                start_index + num_fitting != static_cast<int>( size_of_items_to_fit.size() ) ) {
+                cont_marker_allowance = spacer_size + continuation_marker_size;
+            }
+            if( space_required < ( adjusted_allowed_size - cont_marker_allowance ) &&
+                selected_response_included ) {
+                if( space_required > best_fit_length ) {
+                    returnVal.start = start_index;
+                    returnVal.length = num_fitting;
+                    best_fit_length = space_required;
+                }
+            }
+        }
+        //If a fitting option has been found, don't move to fewer entries in the list
+        if( best_fit_length > 0 ) {
+            break;
+            //If not everything fits, need at least one continuation indicator
+        } else if( num_fitting == static_cast<int>( size_of_items_to_fit.size() ) ) {
+            adjusted_allowed_size -= spacer_size + continuation_marker_size;
+        }
+    }
+    return returnVal;
+}
+
+std::vector<std::string> simple_fit_tabs_to_width( const size_t max_width,
+        const std::string &current_tab,
+        const std::map<std::string, std::string> &tab_names,
+        const std::vector<std::string> &original_tab_list, bool translate )
+{
+    std::pair<std::vector<std::string>, size_t> placeholder_result;
+    placeholder_result = fit_tabs_to_width( max_width, current_tab, tab_names,
+                                            original_tab_list, translate );
+    return placeholder_result.first;
+}
+
+std::pair<std::vector<std::string>, size_t> fit_tabs_to_width( const size_t max_width,
+        const std::string &current_tab, const std::map<std::string, std::string> &tab_names,
+        const std::vector<std::string> &original_tab_list,  bool translate )
+{
+    const int tab_step = 3; // Step between tabs, two for tab border
+    size_t available_width = max_width - 1;
+    std::pair<std::vector<std::string>, size_t> tab_list_and_index;
+    std::vector<int> tab_width;
+    tab_width.resize( original_tab_list.size() );
+
+    for( size_t i = 0; i < original_tab_list.size(); ++i ) {
+        auto tab_name_it = tab_names.find( original_tab_list[i] );
+        cata_assert( tab_name_it != tab_names.end() );
+        tab_width[i] = utf8_width( ( *tab_name_it ).second, true );
+        if( original_tab_list[i] == current_tab ) {
+            tab_list_and_index.second = i;
+        }
+    }
+
+    best_fit tabs_to_print = find_best_fit_in_size( tab_width, tab_list_and_index.second,
+                             available_width, tab_step, 1 );
+
+    //Assemble list to return
+    if( tabs_to_print.start != 0 ) { //Signify that the list continues left
+        tab_list_and_index.first.emplace_back( "<" );
+    }
+    for( int i = tabs_to_print.start; i < static_cast<int>( original_tab_list.size() ); ++i ) {
+        if( i < tabs_to_print.start + tabs_to_print.length ) {
+            //Update tab_list_and_index to suit new list:
+            if( i == static_cast<int>( tab_list_and_index.second ) ) {
+                tab_list_and_index.second = tab_list_and_index.first.size();
+            }
+            //Assemble the string vector
+            if( translate ) {
+                auto tab_name_it = tab_names.find( original_tab_list[i] );
+                cata_assert( tab_name_it != tab_names.end() );
+                tab_list_and_index.first.push_back( ( *tab_name_it ).second );
+            } else {
+                tab_list_and_index.first.push_back( original_tab_list[i] );
+            }
+        }
+    }
+    if( tabs_to_print.start + tabs_to_print.length != static_cast<int>( original_tab_list.size() ) ) {
+        //Signify that the list continues right
+        tab_list_and_index.first.emplace_back( ">" );
+    }
+
+    return tab_list_and_index;
 }
 
 /**
@@ -1896,14 +2110,16 @@ void replace_keybind_tag( std::string &input )
 void replace_substring( std::string &input, const std::string &substring,
                         const std::string &replacement, bool all )
 {
-    if( all ) {
-        while( input.find( substring ) != std::string::npos ) {
-            replace_substring( input, substring, replacement, false );
+    std::size_t find_after = 0;
+    std::size_t pos = 0;
+    const std::size_t pattern_length = substring.length();
+    const std::size_t replacement_length = replacement.length();
+    while( ( pos = input.find( substring, find_after ) ) != std::string::npos ) {
+        input.replace( pos, pattern_length, replacement );
+        find_after = pos + replacement_length;
+        if( !all ) {
+            break;
         }
-    } else {
-        size_t len = substring.length();
-        size_t offset = input.find( substring );
-        input.replace( offset, len, replacement );
     }
 }
 
@@ -2269,7 +2485,7 @@ void scrollingcombattext::add( const point &pos, direction p_oDir,
                        p_oDir == ( iso_mode ? direction::WEST : direction::SOUTHEAST ) ) ) {
 
             //Message offset: multiple impacts in the same direction in short order overriding prior messages (mostly turrets)
-            for( auto &iter : vSCT ) {
+            for( scrollingcombattext::cSCT &iter : vSCT ) {
                 if( iter.getDirection() == p_oDir && ( iter.getStep() + iter.getStepOffset() ) == iCurStep ) {
                     ++iCurStep;
                     iter.advanceStepOffset();
@@ -2591,7 +2807,7 @@ std::string format_volume( const units::volume &volume, int width, bool *out_tru
 int get_terminal_width()
 {
     int width = get_option<int>( "TERMINAL_X" );
-    return width < FULL_SCREEN_WIDTH ? FULL_SCREEN_WIDTH : width;
+    return width < EVEN_MINIMUM_TERM_WIDTH ? EVEN_MINIMUM_TERM_WIDTH : width;
 }
 
 int get_terminal_height()

@@ -1,5 +1,7 @@
 #include <string>
 
+#include "cata_utility.h"
+#include "get_version.h"
 #include "name.h"
 #include "path_info.h"
 #include "translations.h"
@@ -25,7 +27,7 @@ int detail::get_current_language_version()
 
 #if defined(LOCALIZE)
 #include "options.h"
-#include "system_language.h"
+#include "system_locale.h"
 #include "ui.h"
 
 void select_language()
@@ -71,7 +73,7 @@ std::string locale_dir()
 void set_language()
 {
 #if defined(LOCALIZE)
-    const std::string system_lang = getSystemLanguageOrEnglish();
+    const std::string system_lang = SystemLocale::Language().value_or( "en" );
     std::string lang_opt = get_option<std::string>( "USE_LANG" ).empty() ? system_lang :
                            get_option<std::string>( "USE_LANG" );
     DebugLog( D_INFO, D_MAIN ) << "Setting language to: '" << lang_opt << '\'';
@@ -93,4 +95,6 @@ void set_language()
 #endif // LOCALIZE
 
     reload_names();
+
+    set_title( string_format( _( "Cataclysm: Dark Days Ahead - %s" ), getVersionString() ) );
 }

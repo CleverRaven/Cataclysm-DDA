@@ -41,13 +41,13 @@
 #include "npc.h"
 #include "options.h"
 #include "pickup.h"
-#include "pldata.h"
 #include "recipe.h"
 #include "recipe_dictionary.h"
 #include "requirements.h"
 #include "rng.h"
 #include "stomach.h"
 #include "string_formatter.h"
+#include "text_snippets.h"
 #include "translations.h"
 #include "units.h"
 #include "value_ptr.h"
@@ -58,6 +58,7 @@ static const std::string comesttype_DRINK( "DRINK" );
 static const std::string comesttype_FOOD( "FOOD" );
 
 static const bionic_id bio_digestion( "bio_digestion" );
+static const bionic_id bio_faulty_grossfood( "bio_faulty_grossfood" );
 static const bionic_id bio_taste_blocker( "bio_taste_blocker" );
 
 static const efftype_id effect_bloodworms( "bloodworms" );
@@ -213,7 +214,7 @@ static std::map<vitamin_id, int> compute_default_effective_vitamins(
     std::map<vitamin_id, int> res = it.get_comestible()->default_nutrition.vitamins;
 
     for( const trait_id &trait : you.get_mutations() ) {
-        const auto &mut = trait.obj();
+        const mutation_branch &mut = trait.obj();
         // make sure to iterate over every material defined for vitamin absorption
         // TODO: put this loop into a function and utilize it again for bionics
         for( const auto &mat : mut.vitamin_absorb_multi ) {
@@ -263,6 +264,10 @@ nutrients Character::compute_effective_nutrients( const item &comest ) const
     // if item has components, will derive calories from that instead.
     if( !comest.components.empty() && !comest.has_flag( flag_NUTRIENT_OVERRIDE ) ) {
         nutrients tally{};
+        if( comest.recipe_charges == 0 ) {
+            // Avoid division by zero
+            return tally;
+        }
         for( const item &component : comest.components ) {
             nutrients component_value =
                 compute_effective_nutrients( component ) * component.charges;
@@ -331,9 +336,9 @@ std::pair<nutrients, nutrients> Character::compute_nutrient_range(
         tally_max += this_max;
     }
 
-    for( const std::pair<const itype_id, int> &byproduct : rec.byproducts ) {
-        item byproduct_it( byproduct.first, calendar::turn, byproduct.second );
-        nutrients byproduct_nutr = compute_default_effective_nutrients( byproduct_it, *this );
+    std::vector<item> byproducts = rec.create_byproducts();
+    for( const item &byproduct : byproducts ) {
+        nutrients byproduct_nutr = compute_default_effective_nutrients( byproduct, *this );
         tally_min -= byproduct_nutr;
         tally_max -= byproduct_nutr;
     }
@@ -473,6 +478,10 @@ std::pair<int, int> Character::fun_for( const item &comest, bool ignore_already_
         }
     }
 
+    if( has_bionic( bio_faulty_grossfood ) && comest.is_food() ) {
+        fun = fun - 13;
+    }
+
     if( has_active_bionic( bio_taste_blocker ) &&
         get_power_level() > units::from_kilojoule( std::abs( comest.get_comestible_fun() ) ) &&
         fun < 0 ) {
@@ -487,7 +496,7 @@ time_duration Character::vitamin_rate( const vitamin_id &vit ) const
     time_duration res = vit.obj().rate();
 
     for( const auto &m : get_mutations() ) {
-        const auto &mut = m.obj();
+        const mutation_branch &mut = m.obj();
         auto iter = mut.vitamin_rates.find( vit );
         if( iter != mut.vitamin_rates.end() && iter->second != 0_turns ) {
             if( res != 0_turns ) {
@@ -580,15 +589,13 @@ int Character::vitamin_get( const vitamin_id &vit ) const
     return v != vitamin_levels.end() ? v->second : 0;
 }
 
-bool Character::vitamin_set( const vitamin_id &vit, int qty )
+void Character::vitamin_set( const vitamin_id &vit, int qty )
 {
     auto v = vitamin_levels.find( vit );
     if( v == vitamin_levels.end() ) {
-        return false;
+        v = vitamin_levels.emplace( vit, 0 ).first;
     }
     vitamin_mod( vit, qty - v->second );
-
-    return true;
 }
 
 float Character::metabolic_rate_base() const
@@ -689,7 +696,7 @@ ret_val<edible_rating> Character::can_eat( const item &food ) const
                 return ret_val<edible_rating>::make_failure( _( "That doesn't look edible in its current form." ) );
             }
         }
-        // For all those folks who loved eating marloss berries.  D:< mwuhahaha
+        // For all those folks who loved eating Marloss berries.  D:< mwuhahaha
         if( has_trait( trait_M_DEPENDENT ) && !food.has_flag( flag_MYCUS_OK ) ) {
             return ret_val<edible_rating>::make_failure( INEDIBLE_MUTATION,
                     _( "We can't eat that.  It's not right for us." ) );
@@ -710,7 +717,7 @@ ret_val<edible_rating> Character::can_eat( const item &food ) const
     if( consume_drug != nullptr ) { //its a drug)
         const consume_drug_iuse *consume_drug_use = dynamic_cast<const consume_drug_iuse *>
                 ( consume_drug->get_actor_ptr() );
-        for( auto &tool : consume_drug_use->tools_needed ) {
+        for( const auto &tool : consume_drug_use->tools_needed ) {
             const bool has = item::count_by_charges( tool.first )
                              ? has_charges( tool.first, ( tool.second == -1 ) ? 1 : tool.second )
                              : has_amount( tool.first, 1 );
@@ -1078,6 +1085,8 @@ static bool eat( item &food, Character &you, bool force )
         you.consumption_history.pop_front();
     }
 
+    you.recoil = MAX_RECOIL;
+
     return true;
 }
 
@@ -1086,7 +1095,7 @@ void Character::modify_health( const islot_comestible &comest )
     const int effective_health = comest.healthy;
     // Effectively no cap on health modifiers from food and meds
     const int health_cap = 200;
-    mod_healthy_mod( effective_health, effective_health >= 0 ? health_cap : -health_cap );
+    mod_daily_health( effective_health, effective_health >= 0 ? health_cap : -health_cap );
 }
 
 void Character::modify_stimulation( const islot_comestible &comest )
@@ -1102,25 +1111,14 @@ void Character::modify_stimulation( const islot_comestible &comest )
                 -1 ) );
     }
     if( has_trait( trait_STIMBOOST ) && ( current_stim > 30 ) &&
-        ( ( comest.add == add_type::CAFFEINE ) || ( comest.add == add_type::SPEED ) ||
-          ( comest.add == add_type::COKE ) || ( comest.add == add_type::CRACK ) ) ) {
+        ( comest.add == STATIC( addiction_id( "caffeine" ) ) ||
+          comest.add == STATIC( addiction_id( "amphetamine" ) ) ||
+          comest.add == STATIC( addiction_id( "cocaine" ) ) ||
+          comest.add == STATIC( addiction_id( "crack" ) ) ) ) {
         int hallu_duration = ( current_stim - comest.stim < 30 ) ? current_stim - 30 : comest.stim;
         add_effect( effect_visuals, hallu_duration * 30_minutes );
-        std::vector<std::string> stimboost_msg{ _( "The shadows are getting ever closer." ),
-                                                _( "You have a bad feeling about this." ),
-                                                _( "A powerful sense of dread comes over you." ),
-                                                _( "Your skin starts crawling." ),
-                                                _( "They're coming to get you." ),
-                                                _( "This might've been a bad idea…" ),
-                                                _( "You've really done it this time, haven't you?" ),
-                                                _( "You have to stay vigilant.  They're always watching…" ),
-                                                _( "mistake mistake mistake mistake mistake" ),
-                                                _( "Just gotta stay calm, and you'll make it through this." ),
-                                                _( "You're starting to feel very jumpy." ),
-                                                _( "Something is twitching at the edge of your vision." ),
-                                                _( "They know what you've done…" ),
-                                                _( "You're feeling even more paranoid than usual." ) };
-        add_msg_if_player( m_bad, random_entry_ref( stimboost_msg ) );
+        add_msg_if_player( m_bad, SNIPPET.random_from_category( "comest_stimulant" ).value_or(
+                               translation() ).translated() );
     }
 }
 
@@ -1137,8 +1135,8 @@ void Character::modify_radiation( const islot_comestible &comest )
 void Character::modify_addiction( const islot_comestible &comest )
 {
     add_addiction( comest.add, comest.addict );
-    if( addiction_craving( comest.add ) != MORALE_NULL ) {
-        rem_morale( addiction_craving( comest.add ) );
+    if( !comest.add.is_null() && comest.add->get_craving_morale() != MORALE_NULL ) {
+        rem_morale( comest.add->get_craving_morale() );
     }
 }
 
@@ -1304,11 +1302,8 @@ void Character::modify_morale( item &food, const int nutr )
     }
     if( food.has_flag( flag_URSINE_HONEY ) && ( !crossed_threshold() ||
             has_trait( trait_THRESH_URSINE ) ) &&
-        mutation_category_level[mutation_category_URSINE] > 40 ) {
-        // Need at least 5 bear mutations for effect to show, to filter out mutations in common with other categories
-        int honey_fun = has_trait( trait_THRESH_URSINE ) ?
-                        std::min( mutation_category_level[mutation_category_URSINE] / 8, 20 ) :
-                        mutation_category_level[mutation_category_URSINE] / 12;
+        mutation_category_level[mutation_category_URSINE] > 20 ) {
+        int honey_fun = std::min( mutation_category_level[mutation_category_URSINE] / 5, 20 );
         if( honey_fun < 10 ) {
             add_msg_if_player( m_good, _( "You find the sweet taste of honey surprisingly palatable." ) );
         } else {
@@ -1409,7 +1404,7 @@ bool Character::consume_effects( item &food )
         return false;
     }
 
-    const auto &comest = *food.get_comestible();
+    const islot_comestible &comest = *food.get_comestible();
 
     // Rotten food causes health loss
     const float relative_rot = food.get_relative_rot();
@@ -1418,7 +1413,7 @@ bool Character::consume_effects( item &food )
         // ~-1 health per 1 nutrition at halfway-rotten-away, ~0 at "just got rotten"
         // But always round down
         int h_loss = -rottedness * comest.get_default_nutr();
-        mod_healthy_mod( h_loss, -200 );
+        mod_daily_health( h_loss, -200 );
         add_msg_debug( debugmode::DF_FOOD, "%d health from %0.2f%% rotten food", h_loss, rottedness );
     }
 
@@ -1751,7 +1746,7 @@ static bool consume_med( item &target, Character &you )
     // TODO: Get the target it was used on
     // Otherwise injecting someone will give us addictions etc.
     if( target.has_flag( flag_NO_INGEST ) ) {
-        const auto &comest = *target.get_comestible();
+        const islot_comestible &comest = *target.get_comestible();
         // Assume that parenteral meds don't spoil, so don't apply rot
         you.modify_health( comest );
         you.modify_stimulation( comest );

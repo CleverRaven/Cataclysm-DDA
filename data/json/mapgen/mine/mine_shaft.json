@@ -89,7 +89,8 @@
         "S": { "item": "mine_equipment", "chance": 80 }
       },
       "place_vehicles": [ { "vehicle": "trolley", "x": 10, "y": 16, "chance": 100, "status": 0 } ],
-      "monsters": { " ": { "monster": "GROUP_MINER", "chance": 1, "density": 0.0005 } }
+      "monsters": { " ": { "monster": "GROUP_MINER", "chance": 1, "density": 0.0005 } },
+      "place_nested": [ { "chunks": [ "mine_tunnel_entrance" ], "joins": { "west": "tunnel_entrance_to_tunnels" }, "x": 0, "y": 11 } ]
     }
   }
 ]

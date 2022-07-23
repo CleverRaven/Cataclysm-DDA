@@ -2,7 +2,7 @@
 
 #if !defined(TILES)
 
-void reinitialize_framebuffer()
+void reinitialize_framebuffer( const bool /*force_invalidate*/ )
 {
 }
 

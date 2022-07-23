@@ -126,7 +126,7 @@ struct weakpoint {
     std::array<float, static_cast<int>( damage_type::NUM )> armor_penalty;
     // Damage multipliers. Applied after armor.
     std::array<float, static_cast<int>( damage_type::NUM )> damage_mult;
-    // Critical damage multiplers. Applied after armor instead of damage_mult, if the attack is a crit.
+    // Critical damage multipliers. Applied after armor instead of damage_mult, if the attack is a crit.
     std::array<float, static_cast<int>( damage_type::NUM )>crit_mult;
     // A list of required effects.
     std::vector<efftype_id> required_effects;
@@ -140,7 +140,7 @@ struct weakpoint {
     weakpoint();
     // Apply the armor multipliers and offsets to a set of resistances.
     void apply_to( resistances &resistances ) const;
-    // Apply the damage multiplers to a set of damage values.
+    // Apply the damage multipliers to a set of damage values.
     void apply_to( damage_instance &damage, bool is_crit ) const;
     void apply_effects( Creature &target, int total_damage, const weakpoint_attack &attack ) const;
     // Return the change of the creature hitting the weakpoint.

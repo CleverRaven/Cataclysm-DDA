@@ -24,7 +24,8 @@
         "max_contains_weight": "2000 kg",
         "max_item_volume": "150 L",
         "max_item_length": "60 meter",
-        "rigid": false
+        "rigid": false,
+        "transparent": true
       }
     ]
   },
@@ -34,12 +35,12 @@
     "symbol": "%",
     "color": "white",
     "name": { "str": "desiccated corpse" },
-    "description": "A dead body, badly mangled and desiccated.  It seems whatever killed him did so with a gigantic claw.",
+    "description": "A badly mangled human body.  A giant puncture wound is visible on its upper chest, and something has drained most of the moisture from the carcass, leaving it desiccated and making it impossible to determine the body's age.",
     "category": "other",
     "material": [ "hflesh" ],
     "price": 0,
-    "volume": "7500 ml",
-    "weight": "81500 g",
+    "volume": "27 L",
+    "weight": "32 kg",
     "flags": [ "TRADER_AVOID" ]
   },
   {

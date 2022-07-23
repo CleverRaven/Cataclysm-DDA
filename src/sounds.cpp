@@ -38,6 +38,7 @@
 #include "string_formatter.h"
 #include "translations.h"
 #include "type_id.h"
+#include "uistate.h"
 #include "units.h"
 #include "veh_type.h" // IWYU pragma: keep
 #include "vehicle.h"
@@ -71,6 +72,8 @@ static auto end_sfx_timestamp = std::chrono::high_resolution_clock::now();
 static auto sfx_time = end_sfx_timestamp - start_sfx_timestamp;
 static activity_id act;
 static std::pair<std::string, std::string> engine_external_id_and_variant;
+
+static const bionic_id bio_sleep_shutdown( "bio_sleep_shutdown" );
 
 static const efftype_id effect_alarm_clock( "alarm_clock" );
 static const efftype_id effect_deaf( "deaf" );
@@ -222,7 +225,7 @@ std::string enum_to_string<sounds::sound_t>( sounds::sound_t data )
     case sounds::sound_t::combat: return "combat";
     case sounds::sound_t::alert: return "alert";
     case sounds::sound_t::order: return "order";
-    case sounds::sound_t::_LAST: break;
+    case sounds::sound_t::LAST: break;
     }
     cata_fatal( "Invalid valid_target" );
 }
@@ -238,7 +241,7 @@ static std::vector<std::pair<tripoint, sound_event>> sounds_since_last_turn;
 static std::unordered_map<tripoint, sound_event> sound_markers;
 
 // This is an attempt to handle attenuation of sound for underground areas.
-// The main issue it adresses is that you can hear activity
+// The main issue it addresses is that you can hear activity
 // relatively deep underground while on the surface.
 // My research indicates that attenuation through soil-like materials is as
 // high as 100x the attenuation through air, plus vertical distances are
@@ -287,14 +290,14 @@ static bool is_provocative( sounds::sound_t category )
         case sounds::sound_t::destructive_activity:
         case sounds::sound_t::alarm:
         case sounds::sound_t::combat:
-            return false;
         case sounds::sound_t::movement:
+            return false;
         case sounds::sound_t::speech:
         case sounds::sound_t::electronic_speech:
         case sounds::sound_t::alert:
         case sounds::sound_t::order:
             return true;
-        case sounds::sound_t::_LAST:
+        case sounds::sound_t::LAST:
             break;
     }
     cata_fatal( "Invalid sound_t category" );
@@ -450,7 +453,7 @@ void sounds::process_sounds()
 {
     std::vector<centroid> sound_clusters = cluster_sounds( recent_sounds );
     const int weather_vol = get_weather().weather_id->sound_attn;
-    for( const auto &this_centroid : sound_clusters ) {
+    for( const centroid &this_centroid : sound_clusters ) {
         // Since monsters don't go deaf ATM we can just use the weather modified volume
         // If they later get physical effects from loud noises we'll have to change this
         // to use the unmodified volume for those effects.
@@ -485,7 +488,7 @@ static bool describe_sound( sounds::sound_t category, bool from_player_position 
 {
     if( from_player_position ) {
         switch( category ) {
-            case sounds::sound_t::_LAST:
+            case sounds::sound_t::LAST:
                 debugmsg( "ERROR: Incorrect sound category" );
                 return false;
             case sounds::sound_t::background:
@@ -520,7 +523,7 @@ static bool describe_sound( sounds::sound_t category, bool from_player_position 
             case sounds::sound_t::alert:
             case sounds::sound_t::order:
                 return true;
-            case sounds::sound_t::_LAST:
+            case sounds::sound_t::LAST:
                 debugmsg( "ERROR: Incorrect sound category" );
                 return false;
         }
@@ -605,7 +608,8 @@ void sounds::process_sound_markers( Character *you )
                        you->has_trait( trait_HEAVYSLEEPER2 ) ) && dice( 2, 15 ) < heard_volume ) ||
                   ( you->has_trait( trait_HEAVYSLEEPER ) && dice( 3, 15 ) < heard_volume ) ||
                   ( you->has_trait( trait_HEAVYSLEEPER2 ) && dice( 6, 15 ) < heard_volume ) ) &&
-                !you->has_effect( effect_narcosis ) ) {
+                !you->has_effect( effect_narcosis ) &&
+                !you->has_bionic( bio_sleep_shutdown ) ) {
                 //Not kidding about sleep-through-firefight
                 you->wake_up();
                 add_msg( m_warning, _( "Something is making noise." ) );
@@ -628,7 +632,8 @@ void sounds::process_sound_markers( Character *you )
 
         // don't print our own noise or things without descriptions
         if( !sound.ambient && ( pos != you->pos() ) && !get_map().pl_sees( pos, distance_to_sound ) ) {
-            if( !you->activity.is_distraction_ignored( distraction_type::noise ) &&
+            if( uistate.distraction_noise &&
+                !you->activity.is_distraction_ignored( distraction_type::noise ) &&
                 !get_safemode().is_sound_safe( sound.description, distance_to_sound, you->controlling_vehicle ) ) {
                 const std::string query = string_format( _( "Heard %s!" ),
                                           trim_trailing_punctuations( description ) );
@@ -755,7 +760,7 @@ std::pair<std::vector<tripoint>, std::vector<tripoint>> sounds::get_monster_soun
     }
     std::vector<tripoint> cluster_centroids;
     cluster_centroids.reserve( sound_clusters.size() );
-    for( const auto &sound : sound_clusters ) {
+    for( const centroid &sound : sound_clusters ) {
         cluster_centroids.emplace_back( static_cast<int>( sound.x ), static_cast<int>( sound.y ),
                                         static_cast<int>( sound.z ) );
     }
@@ -1132,77 +1137,98 @@ void sfx::do_ambient()
         play_ambient_variant_sound( "environment", "indoors_rain", seas_str, indoors,
                                     night, heard_volume, channel::indoors_rain_env, 1000 );
     }
-    if( ( !is_sheltered &&
-          get_weather().weather_id->sound_category != weather_sound_category::silent && !is_deaf &&
-          !is_channel_playing( channel::outdoors_snow_env ) &&
-          !is_channel_playing( channel::outdoors_flurry_env ) &&
-          !is_channel_playing( channel::outdoors_thunderstorm_env ) &&
-          !is_channel_playing( channel::outdoors_rain_env ) &&
-          !is_channel_playing( channel::outdoors_drizzle_env ) &&
-          !is_channel_playing( channel::outdoor_blizzard ) &&
-          !is_channel_playing( channel::outdoors_clear_env ) &&
-          !is_channel_playing( channel::outdoors_sunny_env )  &&
-          !is_channel_playing( channel::outdoors_cloudy_env ) )
-        || ( !is_sheltered &&
-             weather_changed  && !is_deaf ) ) {
-        fade_audio_group( group::weather, 1000 );
-        // We are outside and there is precipitation
-        switch( get_weather().weather_id->sound_category ) {
-            case weather_sound_category::drizzle:
-                play_ambient_variant_sound( "environment", "WEATHER_DRIZZLE", seas_str,
-                                            indoors, night, heard_volume,
-                                            channel::outdoors_drizzle_env, 1000 );
-                break;
-            case weather_sound_category::rainy:
-                play_ambient_variant_sound( "environment", "WEATHER_RAINY", seas_str,
-                                            indoors, night, heard_volume,
-                                            channel::outdoors_rain_env, 1000 );
-                break;
-            case weather_sound_category::thunder:
-                play_ambient_variant_sound( "environment", "WEATHER_THUNDER", seas_str,
-                                            indoors, night, heard_volume,
-                                            channel::outdoors_thunderstorm_env, 1000 );
-                break;
-            case weather_sound_category::flurries:
-                play_ambient_variant_sound( "environment", "WEATHER_FLURRIES", seas_str,
-                                            indoors, night, heard_volume,
-                                            channel::outdoors_flurry_env, 1000 );
-                break;
-            case weather_sound_category::snowstorm:
-                play_ambient_variant_sound( "environment", "WEATHER_SNOWSTORM", seas_str,
-                                            indoors, night, heard_volume,
-                                            channel::outdoor_blizzard, 1000 );
-                break;
-            case weather_sound_category::snow:
-                play_ambient_variant_sound( "environment", "WEATHER_SNOW", seas_str,
-                                            indoors, night, heard_volume,
-                                            channel::outdoors_snow_env, 1000 );
-                break;
-            case weather_sound_category::silent:
-                break;
-            case weather_sound_category::portal_storm:
-                play_ambient_variant_sound( "environment", "WEATHER_PORTAL_STORM", seas_str,
-                                            indoors, night, heard_volume,
-                                            channel::outdoors_portal_storm_env, 1000 );
-                break;
-            case weather_sound_category::clear:
-                play_ambient_variant_sound( "environment", "WEATHER_CLEAR", seas_str,
-                                            indoors, night, heard_volume,
-                                            channel::outdoors_clear_env, 1000 );
-                break;
-            case weather_sound_category::sunny:
-                play_ambient_variant_sound( "environment", "WEATHER_SUNNY", seas_str,
-                                            indoors, night, heard_volume,
-                                            channel::outdoors_sunny_env, 1000 );
-                break;
-            case weather_sound_category::cloudy:
-                play_ambient_variant_sound( "environment", "WEATHER_CLOUDY", seas_str,
-                                            indoors, night, heard_volume,
-                                            channel::outdoors_cloudy_env, 1000 );
-                break;
-            case weather_sound_category::last:
-                debugmsg( "Invalid weather sound category." );
-                break;
+    auto outdoor_playing = []( bool first_only ) {
+        static const std::set<channel> outdoor_channels {
+            channel::outdoors_snow_env,
+            channel::outdoors_flurry_env,
+            channel::outdoors_thunderstorm_env,
+            channel::outdoors_rain_env,
+            channel::outdoors_drizzle_env,
+            channel::outdoor_blizzard,
+            channel::outdoors_clear_env,
+            channel::outdoors_sunny_env,
+            channel::outdoors_cloudy_env
+        };
+        std::set<channel> active_channels;
+        for( const channel &ch : outdoor_channels ) {
+            if( is_channel_playing( ch ) ) {
+                active_channels.emplace( ch );
+                if( first_only ) {
+                    return active_channels;
+                }
+            }
+        }
+        return active_channels;
+    };
+    if( !is_sheltered && !is_deaf &&
+        get_weather().weather_id->sound_category != weather_sound_category::silent ) {
+        if( weather_changed || outdoor_playing( true ).empty() ) {
+            fade_audio_group( group::weather, 1000 );
+            // We are outside and there is audible weather
+            switch( get_weather().weather_id->sound_category ) {
+                case weather_sound_category::drizzle:
+                    play_ambient_variant_sound( "environment", "WEATHER_DRIZZLE", seas_str,
+                                                indoors, night, heard_volume,
+                                                channel::outdoors_drizzle_env, 1000 );
+                    break;
+                case weather_sound_category::rainy:
+                    play_ambient_variant_sound( "environment", "WEATHER_RAINY", seas_str,
+                                                indoors, night, heard_volume,
+                                                channel::outdoors_rain_env, 1000 );
+                    break;
+                case weather_sound_category::thunder:
+                    play_ambient_variant_sound( "environment", "WEATHER_THUNDER", seas_str,
+                                                indoors, night, heard_volume,
+                                                channel::outdoors_thunderstorm_env, 1000 );
+                    break;
+                case weather_sound_category::flurries:
+                    play_ambient_variant_sound( "environment", "WEATHER_FLURRIES", seas_str,
+                                                indoors, night, heard_volume,
+                                                channel::outdoors_flurry_env, 1000 );
+                    break;
+                case weather_sound_category::snowstorm:
+                    play_ambient_variant_sound( "environment", "WEATHER_SNOWSTORM", seas_str,
+                                                indoors, night, heard_volume,
+                                                channel::outdoor_blizzard, 1000 );
+                    break;
+                case weather_sound_category::snow:
+                    play_ambient_variant_sound( "environment", "WEATHER_SNOW", seas_str,
+                                                indoors, night, heard_volume,
+                                                channel::outdoors_snow_env, 1000 );
+                    break;
+                case weather_sound_category::silent:
+                    break;
+                case weather_sound_category::portal_storm:
+                    play_ambient_variant_sound( "environment", "WEATHER_PORTAL_STORM", seas_str,
+                                                indoors, night, heard_volume,
+                                                channel::outdoors_portal_storm_env, 1000 );
+                    break;
+                case weather_sound_category::clear:
+                    play_ambient_variant_sound( "environment", "WEATHER_CLEAR", seas_str,
+                                                indoors, night, heard_volume,
+                                                channel::outdoors_clear_env, 1000 );
+                    break;
+                case weather_sound_category::sunny:
+                    play_ambient_variant_sound( "environment", "WEATHER_SUNNY", seas_str,
+                                                indoors, night, heard_volume,
+                                                channel::outdoors_sunny_env, 1000 );
+                    break;
+                case weather_sound_category::cloudy:
+                    play_ambient_variant_sound( "environment", "WEATHER_CLOUDY", seas_str,
+                                                indoors, night, heard_volume,
+                                                channel::outdoors_cloudy_env, 1000 );
+                    break;
+                case weather_sound_category::last:
+                    debugmsg( "Invalid weather sound category." );
+                    break;
+            }
+        }
+    } else {
+        // Sheltered, deaf, or silent weather.
+        // Don't play outdoor weather, fade out active audio channels
+        std::set<channel> outdoor_active = outdoor_playing( false );
+        for( const channel &ch : outdoor_active ) {
+            fade_audio_channel( ch, 1000 );
         }
     }
     // Keep track of weather to compare for next iteration
@@ -1334,10 +1360,10 @@ sfx::sound_thread::sound_thread( const tripoint &source, const tripoint &target,
         vol_src = std::max( heard_volume - 30, 0 );
         vol_targ = std::max( heard_volume - 20, 0 );
     }
-    const item weapon = you.get_wielded_item();
+    const item_location weapon = you.get_wielded_item();
     ang_targ = get_heard_angle( target );
-    weapon_skill = weapon.melee_skill();
-    weapon_volume = weapon.volume() / units::legacy_volume_factor;
+    weapon_skill = weapon ? weapon->melee_skill() : skill_id::NULL_ID();
+    weapon_volume = weapon ? weapon->volume() / units::legacy_volume_factor : 0;
 }
 
 // Operator overload required for thread API.
@@ -1486,7 +1512,7 @@ void sfx::do_danger_music()
     }
     audio_muted = false;
     int hostiles = 0;
-    for( auto &critter : player_character.get_visible_creatures( 40 ) ) {
+    for( Creature *&critter : player_character.get_visible_creatures( 40 ) ) {
         if( player_character.attitude_to( *critter ) == Creature::Attitude::HOSTILE ) {
             hostiles++;
         }

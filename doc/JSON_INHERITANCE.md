@@ -16,6 +16,17 @@ In the following condensed example ```556``` ammo is derived from ```223``` ammo
 },
 "extend": { "effects": [ "NEVER_MISFIRES" ] }
 ```
+In monsters it would look slightly different and has two options while still using ```copy-from```:
+```
+"relative": { "melee_dice": 1, "melee_dice_sides": 5, "armor_bash": 4, "melee_damage": 2, "armor_cut": 6, "armor_bullet": 5 },
+
+
+"//": "Relative usage",
+  "relative": { "melee_damage": [ { "damage_type": "cut", "amount": 2 } ] }
+"//": "or",
+  "relative": { "melee_damage": 2 },
+```
+
 The following rules apply to the above example:
 
 * Missing fields have the same value as the parent
@@ -49,6 +60,17 @@ Chained inheritance is possible; for example ```reloaded_556``` inherits from ``
 Numeric values may be specified ```proportional``` to the parent by via a decimal factor where ```0.5``` is 50% and ```2.0``` is 200%.
 
 Flags can be deleted via ```delete```. It is not an error if the deleted flag does not exist in the parent.
+
+As with relative in monsters it would look slightly different and has two options while still using ```copy-from```:
+```
+"proportional": { "hp": 1.5, "speed": 1.5, "attack_cost": 1.5, "melee_damage": 0.8 },
+
+
+"//": "Proportional usage",
+  "proportional": { "melee_damage": [ { "damage_type": "cut", "amount": 0.8 } ] },
+"//": "or",
+  "proportional": { "melee_damage": 0.8 },
+```
 
 It is possible to define an ```abstract``` type that exists only for other types to inherit from and cannot itself be used in game. In the following condensed example ```magazine_belt``` provides values common to all implemented ammo belts:
 ```
@@ -101,12 +123,12 @@ To find out if a type supports copy-from, you need to know if it has implemented
 * Use this in [the search bar on github](https://github.com/CleverRaven/Cataclysm-DDA/search?q=%22gates%3A%3Aload%22&unscoped_q=%22gates%3A%3Aload%22&type=Code) to find the file that contains *gates::load* (Note, you cannot search for ":" in file finder.  The search will simply ignore this symbol.)
 * In the search results you find [gates.cpp](https://github.com/CleverRaven/Cataclysm-DDA/tree/master/src/gates.cpp). open it.
 * In gates.cpp, find the generic_factory line, it looks like this: `generic_factory<gate_data> gates_data( "gate type", "handle", "other_handles" );`
-* Since the generic_factory line is present, you can now conclude that it supports copy-from. 
+* Since the generic_factory line is present, you can now conclude that it supports copy-from.
 * If you don't find generic_factory present, it does not support copy-from, as is the case for type vitamin (repeat the above steps and find that [vitamin.cpp](https://github.com/CleverRaven/Cataclysm-DDA/tree/master/src/vitamin.cpp) does not contain generic_factory)
 
 ## Guidelines
 
-Contributors are encouraged to not overuse copy-from, as it can decrease the human readability of the JSON.  Chained inheritance is especially likely to become unwieldy, essentially recreating the level of redundancy we'd like to eliminate. 
+Contributors are encouraged to not overuse copy-from, as it can decrease the human readability of the JSON.  Chained inheritance is especially likely to become unwieldy, essentially recreating the level of redundancy we'd like to eliminate.
 
 In general, there are two situations where copy-from should be used in the core game:
 
