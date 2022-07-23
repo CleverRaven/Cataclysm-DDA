@@ -800,12 +800,7 @@ static void draw_ascii(
             if( blink && uistate.overmap_debug_mongroup ) {
                 // Check if this tile is the target of the currently selected group
 
-                // Convert to position within overmap
-                point_abs_om abs_om;
-                point_om_omt omp_in_om;
-                std::tie( abs_om, omp_in_om ) = project_remain<coords::om>( omp.xy() );
-                if( mgroup && project_to<coords::omt>( mgroup->target.xy() ) ==
-                    omp_in_om ) {
+                if( mgroup && project_to<coords::omt>( mgroup->target ) == omp.xy() ) {
                     ter_color = c_red;
                     ter_sym = "x";
                 } else {
@@ -1094,6 +1089,8 @@ static void draw_om_sidebar(
     }
 
     if( ( data.debug_editor && center_seen ) || data.debug_info ) {
+        mvwprintz( wbar, point( 1, ++lines ), c_white,
+                   "abs_omt: %s", center.to_string() );
         const oter_t &oter = overmap_buffer.ter( center ).obj();
         mvwprintz( wbar, point( 1, ++lines ), c_white, "oter: %s (rot %d)", oter.id.str(),
                    oter.get_rotation() );
@@ -1123,6 +1120,15 @@ static void draw_om_sidebar(
                 mvwprintz( wbar, point( 1, ++lines ), c_white, "join %s: %s",
                            io::enum_to_string( dir ), *join );
             }
+        }
+
+        for( const mongroup *mg : overmap_buffer.monsters_at( center ) ) {
+            mvwprintz( wbar, point( 1, ++lines ), c_red, "mongroup %s (%zu/%u), %s %s%s%s",
+                       mg->type.str(), mg->monsters.size(), mg->population,
+                       mg->horde_behaviour,
+                       mg->dying ? "x" : "", mg->horde ? "h" : "", mg->diffuse ? "d" : "" );
+            mvwprintz( wbar, point( 1, ++lines ), c_red, "target: %s (%d)",
+                       project_to<coords::omt>( mg->target ).to_string(), mg->interest );
         }
     }
 
