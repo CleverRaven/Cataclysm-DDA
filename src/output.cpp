@@ -1126,7 +1126,7 @@ input_event draw_item_info( const std::function<catacurses::window()> &init_wind
         if( *data.ptr_selected < 0 || height < 0 ||
             folded.size() < static_cast<size_t>( height ) ) {
             *data.ptr_selected = 0;
-        } else if( static_cast<size_t>( *data.ptr_selected + height ) >= folded.size() ) {
+        } else if( static_cast<size_t>( *data.ptr_selected ) + height >= folded.size() ) {
             *data.ptr_selected = static_cast<int>( folded.size() ) - height;
         }
     };
@@ -1192,7 +1192,7 @@ input_event draw_item_info( const std::function<catacurses::window()> &init_wind
             }
         } else if( data.handle_scrolling && action == "PAGE_DOWN" ) {
             if( *data.ptr_selected < 0 ||
-                ( height > 0 && static_cast<size_t>( *data.ptr_selected + height ) < folded.size() ) ) {
+                ( height > 0 && static_cast<size_t>( *data.ptr_selected ) + height < folded.size() ) ) {
                 ++*data.ptr_selected;
             }
         } else if( action == "CONFIRM" || action == "QUIT" ||

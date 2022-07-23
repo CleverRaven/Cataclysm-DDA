@@ -145,9 +145,9 @@ expansion_data basecamp::parse_expansion( const std::string &terrain,
         const tripoint_abs_omt &new_pos )
 {
     expansion_data e;
-    int last_bar = terrain.find_last_of( '_' );
-    e.type = terrain.substr( base_camps::prefix_len, size_t( last_bar - base_camps::prefix_len ) );
-    e.cur_level = std::stoi( terrain.substr( size_t( last_bar + 1 ) ) );
+    size_t last_bar = terrain.find_last_of( '_' );
+    e.type = terrain.substr( base_camps::prefix_len, last_bar - base_camps::prefix_len );
+    e.cur_level = std::stoi( terrain.substr( last_bar + 1 ) );
     e.pos = new_pos;
     return e;
 }

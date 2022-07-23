@@ -46,7 +46,6 @@ modernize-*,\
 performance-*,\
 readability-*,\
 -readability-braces-around-statements,\
--bugprone-misplaced-widening-cast,\
 -bugprone-narrowing-conversions,\
 -misc-no-recursion,\
 -misc-non-private-member-variables-in-classes,\
