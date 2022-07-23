@@ -730,8 +730,9 @@ void mutation_branch::check_consistency()
                 found = found ||
                         std::find( mdata.category.begin(), mdata.category.end(), cat ) != mdata.category.end();
             }
-            if ( !found ) {
-                debugmsg( "categories in mutation %s don't match any category present in additive mutation %s", mid.c_str(), addition.c_str() );
+            if( !found ) {
+                debugmsg( "categories in mutation %s don't match any category present in additive mutation %s",
+                          mid.c_str(), addition.c_str() );
             }
         }
 
