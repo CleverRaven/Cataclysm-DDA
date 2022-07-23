@@ -1101,11 +1101,23 @@ std::set<ammotype> item_contents::ammo_types() const
 
 item &item_contents::first_ammo()
 {
+    if( empty() ) {
+        debugmsg( "Error: Contents has no pockets" );
+        return null_item_reference();
+    }
     for( item_pocket &pocket : contents ) {
         if( pocket.is_type( item_pocket::pocket_type::MAGAZINE_WELL ) ) {
             return pocket.front().first_ammo();
         }
         if( !pocket.is_type( item_pocket::pocket_type::MAGAZINE ) || pocket.empty() ) {
+            continue;
+        }
+        if( pocket.front().has_flag( json_flag_CASING ) ) {
+            for( item *i : pocket.all_items_top() ) {
+                if( !i->has_flag( json_flag_CASING ) ) {
+                    return *i;
+                }
+            }
             continue;
         }
         return pocket.front();
@@ -1137,6 +1149,7 @@ const item &item_contents::first_ammo() const
         }
         return pocket.front();
     }
+    debugmsg( "Error: Tried to get first ammo in container not containing ammo" );
     return null_item_reference();
 }
 
