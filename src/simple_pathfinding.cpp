@@ -62,7 +62,7 @@ directed_path<point> greedy_path( const point &source, const point &dest, const 
                 cata::nullopt ).node_cost < 0 ) {
         return res;
     }
-    const size_t map_size = static_cast<size_t>( max.x * max.y );
+    const size_t map_size = static_cast<size_t>( max.x ) * max.y;
     std::vector<bool> closed( map_size, false );
     std::vector<int> open( map_size, 0 );
     std::vector<short> dirs( map_size, 0 );

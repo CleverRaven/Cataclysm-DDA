@@ -176,9 +176,9 @@ map::map( int mapsize, bool zlev ) : my_MAPSIZE( mapsize ), zlevels( zlev )
 {
 
     if( zlevels ) {
-        grid.resize( static_cast<size_t>( my_MAPSIZE * my_MAPSIZE * OVERMAP_LAYERS ), nullptr );
+        grid.resize( static_cast<size_t>( my_MAPSIZE ) * my_MAPSIZE * OVERMAP_LAYERS, nullptr );
     } else {
-        grid.resize( static_cast<size_t>( my_MAPSIZE * my_MAPSIZE ), nullptr );
+        grid.resize( static_cast<size_t>( my_MAPSIZE ) * my_MAPSIZE, nullptr );
     }
 
     for( auto &ptr : pathfinding_caches ) {
@@ -5933,8 +5933,8 @@ bool map::add_field( const tripoint &p, const field_type_id &type_id, int intens
     if( current_submap->get_field( l ).add_field( converted_type_id, intensity, age ) ) {
         //Only adding it to the count if it doesn't exist.
         if( !current_submap->field_count++ ) {
-            get_cache( p.z ).field_cache.set( static_cast<size_t>( p.x / SEEX + ( (
-                                                  p.y / SEEX ) * MAPSIZE ) ) );
+            get_cache( p.z ).field_cache.set(
+                static_cast<size_t>( p.x / SEEX ) + ( ( p.y / SEEX ) * MAPSIZE ) );
         }
     }
 
@@ -5971,8 +5971,8 @@ void map::on_field_modified( const tripoint &p, const field_type &fd_type )
 {
     invalidate_max_populated_zlev( p.z );
 
-    get_cache( p.z ).field_cache.set( static_cast<size_t>( p.x / SEEX + ( (
-                                          p.y / SEEX ) * MAPSIZE ) ) );
+    get_cache( p.z ).field_cache.set(
+        static_cast<size_t>( p.x / SEEX ) + ( ( p.y / SEEX ) * MAPSIZE ) );
 
     // Dirty the transparency cache now that field processing doesn't always do it
     if( fd_type.dirty_transparency_cache || !fd_type.is_transparent() ) {

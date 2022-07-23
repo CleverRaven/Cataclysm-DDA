@@ -1037,7 +1037,7 @@ bool talk_function::display_and_choose_opts(
                     reset_cur_key_list();
                 } else {
                     tab_mode = static_cast<base_camps::tab_mode>( tab_mode + 1 );
-                    cur_key_list = mission_key.entries[size_t( tab_mode + 1 )];
+                    cur_key_list = mission_key.entries[tab_mode + 1];
                 }
             } while( cur_key_list.empty() );
         } else if( action == "PREV_TAB" && role_id == role_id_faction_camp ) {
@@ -1054,7 +1054,7 @@ bool talk_function::display_and_choose_opts(
                 if( tab_mode == base_camps::TAB_MAIN ) {
                     reset_cur_key_list();
                 } else {
-                    cur_key_list = mission_key.entries[size_t( tab_mode + 1 )];
+                    cur_key_list = mission_key.entries[size_t( tab_mode ) + 1];
                 }
             } while( cur_key_list.empty() );
         } else if( action == "QUIT" ) {
@@ -1299,9 +1299,9 @@ void talk_function::caravan_return( npc &p, const std::string &dest, const missi
     int time = 200 + distance * 100;
     int experience = rng( 10, time / 300 );
 
-    const int rand_bandit_size = rng( 1, 3 );
-    bandit_party.reserve( size_t( rand_bandit_size * 2 ) );
-    for( int i = 0; i < rand_bandit_size * 2; i++ ) {
+    const size_t rand_bandit_size = rng( 1, 3 );
+    bandit_party.reserve( rand_bandit_size * 2 );
+    for( size_t i = 0; i < rand_bandit_size * 2; i++ ) {
         bandit_party.push_back( temp_npc( npc_template_bandit ) );
         bandit_party.push_back( temp_npc( npc_template_thug ) );
     }
@@ -2807,5 +2807,5 @@ void mission_data::add( const ui_mission_id &id, const std::string &name_display
     }
     const point direction = id.id.dir ? *id.id.dir : base_camps::base_dir;
     const int tab_order = base_camps::all_directions.at( direction ).tab_order;
-    entries[size_t( tab_order + 1 )].emplace_back( miss );
+    entries[tab_order + 1].emplace_back( miss );
 }

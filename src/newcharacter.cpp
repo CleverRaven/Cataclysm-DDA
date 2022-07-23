@@ -1595,7 +1595,7 @@ tab_direction set_traits( avatar &u, pool_type pool )
         } else if( action == "PAGE_DOWN" ) {
             if( static_cast<size_t>( iCurrentLine[iCurWorkingPage] ) == traits_size[iCurWorkingPage] - 1 ) {
                 iCurrentLine[iCurWorkingPage] = 0;
-            } else if( static_cast<size_t>( iCurrentLine[iCurWorkingPage] + 10 ) >=
+            } else if( static_cast<size_t>( iCurrentLine[iCurWorkingPage] ) + 10 >=
                        traits_size[iCurWorkingPage] ) {
                 iCurrentLine[iCurWorkingPage] = traits_size[iCurWorkingPage] - 1;
             } else {
