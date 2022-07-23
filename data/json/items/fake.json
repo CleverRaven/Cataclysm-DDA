@@ -369,5 +369,29 @@
     "symbol": "@",
     "color": "yellow",
     "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO" ]
+  },
+  {
+    "id": "fake_lift_light",
+    "copy-from": "fake_item",
+    "type": "TOOL",
+    "name": { "str": "light hoist" },
+    "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO" ],
+    "qualities": [ [ "LIFT", 2 ] ]
+  },
+  {
+    "id": "fake_lift_medium",
+    "copy-from": "fake_item",
+    "type": "TOOL",
+    "name": { "str": "sturdy hoist" },
+    "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO" ],
+    "qualities": [ [ "LIFT", 8 ] ]
+  },
+  {
+    "id": "fake_lift_heavy",
+    "copy-from": "fake_item",
+    "type": "TOOL",
+    "name": { "str": "heavy-duty hoist" },
+    "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO" ],
+    "qualities": [ [ "LIFT", 40 ] ]
   }
 ]
