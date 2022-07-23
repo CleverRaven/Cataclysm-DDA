@@ -562,6 +562,7 @@ bool main_menu::opening_screen()
     // for the menu shortcuts
     ctxt.register_action( "ANY_INPUT" );
     bool start = false;
+    bool load_game = false;
 
     avatar &player_character = get_avatar();
     player_character = avatar();
@@ -784,6 +785,9 @@ bool main_menu::opening_screen()
                         }
                         cleanup.cancel();
                         start = true;
+                        if( g->gametype() == special_game_type::TUTORIAL ) {
+                            load_game = true;
+                        }
                     }
                     break;
                 case main_menu_opts::SETTINGS:
@@ -808,6 +812,9 @@ bool main_menu::opening_screen()
                 case main_menu_opts::LOADCHAR:
                     if( static_cast<std::size_t>( sel2 ) < world_generator->all_worldnames().size() ) {
                         start = load_character_tab( world_generator->all_worldnames().at( sel2 ) );
+                        if( start ) {
+                            load_game = true;
+                        }
                     } else {
                         popup( _( "No world to load." ) );
                     }
@@ -822,7 +829,7 @@ bool main_menu::opening_screen()
             }
         }
     }
-    if( start && get_scenario() ) {
+    if( start && !load_game && get_scenario() ) {
         add_msg( get_scenario()->description( player_character.male ) );
     }
     return true;
