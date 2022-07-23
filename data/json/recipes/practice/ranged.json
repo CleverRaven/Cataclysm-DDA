@@ -143,8 +143,8 @@
     "time": "1 h",
     "practice_data": { "min_difficulty": 0, "max_difficulty": 2, "skill_limit": 3 },
     "autolearn": [ [ "pistol", 0 ] ],
-    "qualities": [ { "id": "PISTOL", "level": 1 } ],
-    "tools": [ [ "aim_game" ] ]
+    "tools": [ [ [ "aim_game", 50 ] ] ],
+    "qualities": [ { "id": "PISTOL", "level": 1 } ]
   },
   {
     "id": "prac_rifles_beg",
@@ -159,8 +159,8 @@
     "time": "1 h",
     "practice_data": { "min_difficulty": 0, "max_difficulty": 2, "skill_limit": 3 },
     "autolearn": [ [ "rifle", 0 ] ],
-    "qualities": [ { "id": "RIFLE", "level": 1 } ],
-    "tools": [ [ "aim_game" ] ]
+    "tools": [ [ [ "aim_game", 50 ] ] ],
+    "qualities": [ { "id": "RIFLE", "level": 1 } ]
   },
   {
     "id": "prac_shotgun_beg",
@@ -175,8 +175,8 @@
     "time": "1 h",
     "practice_data": { "min_difficulty": 0, "max_difficulty": 2, "skill_limit": 3 },
     "autolearn": [ [ "shotgun", 0 ] ],
-    "qualities": [ { "id": "SHOTGUN", "level": 1 } ],
-    "tools": [ [ "aim_game" ] ]
+    "tools": [ [ [ "aim_game", 50 ] ] ],
+    "qualities": [ { "id": "SHOTGUN", "level": 1 } ]
   },
   {
     "id": "prac_smg_beg",
@@ -191,7 +191,7 @@
     "time": "1 h",
     "practice_data": { "min_difficulty": 0, "max_difficulty": 2, "skill_limit": 3 },
     "autolearn": [ [ "smg", 0 ] ],
-    "qualities": [ { "id": "SMG", "level": 1 } ],
-    "tools": [ [ "aim_game" ] ]
+    "tools": [ [ [ "aim_game", 50 ] ] ],
+    "qualities": [ { "id": "SMG", "level": 1 } ]
   }
 ]
