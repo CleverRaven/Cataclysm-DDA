@@ -471,13 +471,26 @@ VisitResponse map_cursor::visit_items(
     const std::function<VisitResponse( item *, item * )> &func ) const
 {
     map &here = get_map();
+    tripoint p = pos();
+
+    // check furniture pseudo items
+    if( here.furn( p ) != f_null ) {
+        itype_id it_id = here.furn( p )->crafting_pseudo_item;
+        if( it_id.is_valid() ) {
+            item it( it_id );
+            if( visit_internal( func, &it ) == VisitResponse::ABORT ) {
+                return VisitResponse::ABORT;
+            }
+        }
+    }
+
     // skip inaccessible items
-    if( here.has_flag( ter_furn_flag::TFLAG_SEALED, pos() ) &&
-        !here.has_flag( ter_furn_flag::TFLAG_LIQUIDCONT, pos() ) ) {
+    if( here.has_flag( ter_furn_flag::TFLAG_SEALED, p ) &&
+        !here.has_flag( ter_furn_flag::TFLAG_LIQUIDCONT, p ) ) {
         return VisitResponse::NEXT;
     }
 
-    for( item &e : here.i_at( pos() ) ) {
+    for( item &e : here.i_at( p ) ) {
         if( visit_internal( func, &e ) == VisitResponse::ABORT ) {
             return VisitResponse::ABORT;
         }
