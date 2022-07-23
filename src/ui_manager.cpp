@@ -135,6 +135,66 @@ void ui_adaptor::on_screen_resize( const screen_resize_callback_t &fun )
     screen_resized_cb = fun;
 }
 
+void ui_adaptor::set_cursor( const catacurses::window &w, const point &pos )
+{
+#if !defined( TILES )
+    cursor_type = cursor::custom;
+    cursor_pos = point( getbegx( w ), getbegy( w ) ) + pos;
+#else
+    // Unimplemented
+    cursor_type = cursor::disabled;
+    static_cast<void>( w );
+    static_cast<void>( pos );
+#endif
+}
+
+void ui_adaptor::record_cursor( const catacurses::window &w )
+{
+#if !defined( TILES )
+    cursor_type = cursor::custom;
+    cursor_pos = point( getbegx( w ) + getcurx( w ), getbegy( w ) + getcury( w ) );
+#else
+    // Unimplemented
+    cursor_type = cursor::disabled;
+    static_cast<void>( w );
+#endif
+}
+
+void ui_adaptor::record_term_cursor()
+{
+#if !defined( TILES )
+    cursor_type = cursor::custom;
+    cursor_pos = point( getcurx( catacurses::newscr ), getcury( catacurses::newscr ) );
+#else
+    // Unimplemented
+    cursor_type = cursor::disabled;
+#endif
+}
+
+void ui_adaptor::default_cursor()
+{
+#if !defined( TILES )
+    cursor_type = cursor::last;
+#else
+    // Unimplemented
+    cursor_type = cursor::disabled;
+#endif
+}
+
+void ui_adaptor::disable_cursor()
+{
+    cursor_type = cursor::disabled;
+}
+
+static void restore_cursor( const point &p )
+{
+#if !defined( TILES )
+    wmove( catacurses::newscr, p );
+#else
+    static_cast<void>( p );
+#endif
+}
+
 void ui_adaptor::mark_resize() const
 {
     deferred_resize = true;
@@ -341,16 +401,28 @@ void ui_adaptor::redraw_invalidated()
                 first_enabled = ui_stack_copy->begin() + ( first_enabled - ui_stack_orig->begin() );
                 ui_stack_orig = &*ui_stack_copy;
             }
+            cata::optional<point> cursor_pos;
             for( auto it = first_enabled; !restart_redrawing && it != ui_stack_orig->end(); ++it ) {
-                const ui_adaptor &ui = *it;
+                ui_adaptor &ui = *it;
                 if( ui.invalidated ) {
                     if( ui.redraw_cb ) {
+                        ui.default_cursor();
                         ui.redraw_cb( ui );
+                        if( ui.cursor_type == cursor::last ) {
+                            ui.record_term_cursor();
+                            cata_assert( ui.cursor_type != cursor::last );
+                        }
+                        if( ui.cursor_type == cursor::custom ) {
+                            cursor_pos = ui.cursor_pos;
+                        }
                     }
                     if( !restart_redrawing ) {
                         ui.invalidated = false;
                     }
                 }
+            }
+            if( !restart_redrawing && cursor_pos.has_value() ) {
+                restore_cursor( cursor_pos.value() );
             }
         }
     } while( restart_redrawing );
