@@ -798,9 +798,9 @@ float item::damage_scaling( bool to_self ) const
 {
     float scale = damage_level() * .125f;
     // caps the scale if this is a hit to the player vs the item itself
-    // reinforce only effects the item
-    scale = to_self ? std::min( scale, 0.0f ) : std::max( scale, 0.0f );
-    return 100.0f - scale;
+    scale = 100.0f - scale;
+    // reinforce only effects damage to the item proper otherwise max scaling is 100f
+    return to_self ? scale : std::min( scale, 100.0f );
 }
 
 int item::damage_floor( bool allow_negative ) const
