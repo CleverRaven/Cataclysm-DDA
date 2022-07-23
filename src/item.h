@@ -1299,6 +1299,11 @@ class item : public visitable
         int damage_level( int dmg = INT_MIN ) const;
 
         /**
+        * Returns a scaling value for armor values based on damage taken
+        */
+        float damage_scaling( bool to_self = false ) const;
+
+        /**
          * Get the minimum possible damage this item can be repaired to,
          * accounting for degradation.
          * @param allow_negative If true, get the damage floor for reinforcement
