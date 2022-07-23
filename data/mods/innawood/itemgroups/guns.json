@@ -68,7 +68,7 @@
     "type": "item_group",
     "id": "guns_smg_improvised",
     "//": "Makeshift or otherwise poor quality SMGs.",
-    "items": [ { "item": "null", "prob": 50 } ]
+    "items": [ { "group": "archery", "prob": 50 } ]
   },
   {
     "type": "item_group",
@@ -164,31 +164,31 @@
     "type": "item_group",
     "id": "guns_launcher_flame",
     "//": "Factory manufactured incendiary liquid projectors (excludes improvised weapons)",
-    "items": [ { "item": "null", "prob": 50 } ]
+    "items": [ { "group": "archery", "prob": 50 } ]
   },
   {
     "type": "item_group",
     "id": "guns_launcher_grenade",
     "//": "Factory manufactured grenade launchers (excludes improvised weapons)",
-    "items": [ { "item": "null", "prob": 50 } ]
+    "items": [ { "group": "archery", "prob": 50 } ]
   },
   {
     "type": "item_group",
     "id": "guns_launcher_rocket",
     "//": "Factory manufactured rocket launchers (excludes improvised weapons)",
-    "items": [ { "item": "null", "prob": 50 } ]
+    "items": [ { "group": "archery", "prob": 50 } ]
   },
   {
     "type": "item_group",
     "id": "guns_launcher_milspec",
     "//": "Factory manufactured grenade and rocket launchers (excludes improvised weapons)",
-    "items": [ { "item": "null", "prob": 50 } ]
+    "items": [ { "group": "archery", "prob": 50 } ]
   },
   {
     "type": "item_group",
     "id": "guns_launcher_improvised",
     "//": "Makeshift or otherwise poor quality grenade and rocket launchers",
-    "items": [ { "item": "null", "prob": 50 } ]
+    "items": [ { "group": "archery", "prob": 50 } ]
   },
   {
     "type": "item_group",
@@ -233,7 +233,8 @@
     "items": [
       { "group": "guns_pistol_improvised", "prob": 80 },
       { "group": "guns_rifle_improvised", "prob": 100 },
-      { "group": "guns_shotgun_improvised", "prob": 100 }
+      { "group": "guns_shotgun_improvised", "prob": 100 },
+      { "group": "archery", "prob": 50 }
     ]
   },
   {
@@ -257,24 +258,24 @@
     "type": "item_group",
     "id": "longguns_cop_in_field_no_gun",
     "//": "guns lost but still have mags",
-    "items": [ { "item": "null", "prob": 20 } ]
+    "items": [ { "group": "archery", "prob": 50 } ]
   },
   {
     "type": "item_group",
     "id": "sidearms_cop",
-    "items": [ { "item": "null", "prob": 20 } ]
+    "items": [ { "group": "archery", "prob": 50 } ]
   },
   {
     "type": "item_group",
     "id": "sidearms_cop_in_field",
     "//": "gun plus potential expended magazines",
-    "items": [ { "item": "null", "prob": 20 } ]
+    "items": [ { "group": "archery", "prob": 50 } ]
   },
   {
     "type": "item_group",
     "id": "sidearms_cop_in_field_no_gun",
     "//": "guns lost but still have mags",
-    "items": [ { "item": "null", "prob": 20 } ]
+    "items": [ { "group": "archery", "prob": 50 } ]
   },
   {
     "type": "item_group",
@@ -293,5 +294,18 @@
     "id": "guns_survival",
     "//": "Guns typically carried by survivors, either improvised or thematically appropriate.",
     "items": [ { "group": "guns_improvised", "prob": 50 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "archery",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "crossbow", "prob": 70 },
+      { "item": "bullet_crossbow", "prob": 10 },
+      { "item": "hand_crossbow", "prob": 10 },
+      { "item": "bow_sling", "prob": 10 },
+      { "item": "longbow", "prob": 40 },
+      { "item": "shortbow", "prob": 20 }
+    ]
   }
 ]
