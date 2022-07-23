@@ -391,8 +391,8 @@ class pocket_favorite_callback : public uilist_callback
         void refresh( uilist *menu ) override;
         bool key( const input_context &, const input_event &event, int entnum, uilist *menu ) override;
 
-        const std::string title = _( "Modify pocket settings and move items between pockets.\n" );
-
+        const std::string title =
+            _( "Modify pocket settings and move items between pockets.  [<color_yellow>RETURN</color>] Context menu\n" );
 };
 
 #endif // CATA_SRC_ITEM_CONTENTS_H

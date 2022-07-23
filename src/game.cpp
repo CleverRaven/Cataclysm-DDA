@@ -1912,7 +1912,7 @@ int game::inventory_item_menu( item_location locThisItem,
             if( oThisItem.num_item_stacks() > 0 ) {
                 addentry( 'o', pgettext( "action", "open" ), hint_rating::good );
             }
-            addentry( 'v', pgettext( "action", "pocket auto pickup settings" ), hint_rating::good );
+            addentry( 'v', pgettext( "action", "pocket settings" ), hint_rating::good );
         }
 
         if( oThisItem.is_favorite ) {
