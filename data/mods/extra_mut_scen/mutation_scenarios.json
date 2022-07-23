@@ -273,7 +273,7 @@
     "name": "Mutant - Batrachian Threshold",
     "description": "Start as a post-threshold Batrachian Mutant",
     "forced_traits": "THRESH_BATRACHIAN",
-    "extend": { 
+    "extend": {
       "traits": [
         "AMPHIBIAN",
         "COLDBLOOD4",
