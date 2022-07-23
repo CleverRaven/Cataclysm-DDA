@@ -263,13 +263,13 @@
   {
     "type": "item_group",
     "id": "sidearms_cop",
-    "items": [ { "group": "archery", "prob": 50 } ]
+    "items": [ { "item": "null", "prob": 50 } ]
   },
   {
     "type": "item_group",
     "id": "sidearms_cop_in_field",
     "//": "gun plus potential expended magazines",
-    "items": [ { "group": "archery", "prob": 50 } ]
+    "items": [ { "item": "null", "prob": 50 } ]
   },
   {
     "type": "item_group",
