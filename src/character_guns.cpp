@@ -61,7 +61,7 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
                     out = item_location( src, node );
                 }
             }
-                return VisitResponse::SKIP;
+            return VisitResponse::SKIP;
         }
 
         if( obj.can_reload_with( *node, true ) ) {
