@@ -1220,7 +1220,8 @@
         "cs_sex_shop": 100,
         "cs_tire_shop": 100,
         "homeless_shelter": 100,
-        "parking_garage": 200
+        "parking_garage": 200,
+        "salon": 500
       }
     },
     "weather": {
