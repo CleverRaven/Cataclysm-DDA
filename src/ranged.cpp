@@ -3529,7 +3529,7 @@ void target_ui::panel_gun_info( int &text_y )
     if( status == Status::OutOfAmmo ) {
         mvwprintz( w_target, point( 1, text_y++ ), c_red, _( "OUT OF AMMO" ) );
     } else if( ammo ) {
-        bool is_favorite = relevant->get_contents().first_ammo().is_favorite;
+        bool is_favorite = relevant->is_ammo_container() && relevant->first_ammo().is_favorite;
         str = string_format( m->ammo_remaining() ? _( "Ammo: %s%s (%d/%d)" ) : _( "Ammo: %s%s" ),
                              colorize( ammo->nname( std::max( m->ammo_remaining(), 1 ) ), ammo->color ),
                              colorize( is_favorite ? " *" : "", ammo->color ), m->ammo_remaining(),
