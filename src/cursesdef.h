@@ -89,6 +89,7 @@ enum base_color : short {
 using chtype = int;
 using attr_t = unsigned short;
 
+extern window newscr;
 extern window stdscr;
 
 window newwin( int nlines, int ncols, const point &begin );

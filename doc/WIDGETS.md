@@ -849,6 +849,7 @@ which provides text and color definitions for different bodypart status conditio
 | `sym`       | A shortened symbol representing the text.
 | `color`     | Defines the color for the text derived from this "clause".
 | `value`     | A numeric value for this "clause", which may be interpreted differently based on the context of the parent widget.
+| `widgets`   | For "layout" style widgets, the child widgets used for this "clause".
 | `condition` | A dialogue condition (see [Dialogue conditions](NPCs.md#dialogue-conditions)) that dictates whether this clause will be used or not. If the condition is true (or when no condition is defined), the clause can be used to its text/symbol/color in the widget's value.
 
 

@@ -1204,32 +1204,32 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
     return true;
 }
 
-ret_val<bool> Character::can_deactivate_bionic( bionic &bio, bool eff_only ) const
+ret_val<void> Character::can_deactivate_bionic( bionic &bio, bool eff_only ) const
 {
 
     if( bio.incapacitated_time > 0_turns ) {
-        return ret_val<bool>::make_failure( _( "Your %s is shorting out and can't be deactivated." ),
+        return ret_val<void>::make_failure( _( "Your %s is shorting out and can't be deactivated." ),
                                             bio.info().name );
     }
 
     if( !eff_only ) {
         if( !bio.powered ) {
             // It's already off!
-            return ret_val<bool>::make_failure();
+            return ret_val<void>::make_failure();
         }
         if( !bio.info().has_flag( json_flag_BIONIC_TOGGLED ) ) {
             // It's a fire-and-forget bionic, we can't turn it off but have to wait for
             //it to run out of charge
-            return ret_val<bool>::make_failure( _( "You can't deactivate your %s manually!" ),
+            return ret_val<void>::make_failure( _( "You can't deactivate your %s manually!" ),
                                                 bio.info().name );
         }
         if( get_power_level() < bio.info().power_deactivate ) {
-            return ret_val<bool>::make_failure( _( "You don't have the power to deactivate your %s." ),
+            return ret_val<void>::make_failure( _( "You don't have the power to deactivate your %s." ),
                                                 bio.info().name );
         }
     }
 
-    return ret_val<bool>::make_success();
+    return ret_val<void>::make_success();
 }
 
 bool Character::deactivate_bionic( bionic &bio, bool eff_only )
@@ -2458,7 +2458,7 @@ bool Character::uninstall_bionic( const bionic &bio, monster &installer, Charact
     return false;
 }
 
-ret_val<bool> Character::is_installable( const item_location &loc, const bool by_autodoc ) const
+ret_val<void> Character::is_installable( const item_location &loc, const bool by_autodoc ) const
 {
     const item *it = loc.get_item();
     const itype *itemtype = it->type;
@@ -2472,37 +2472,37 @@ ret_val<bool> Character::is_installable( const item_location &loc, const bool by
         // NOLINTNEXTLINE(cata-text-style): single space after the period for symmetry
         const std::string msg = by_autodoc ? _( "/!\\ CBM is highly contaminated. /!\\" ) :
                                 _( "CBM is filthy." );
-        return ret_val<bool>::make_failure( msg );
+        return ret_val<void>::make_failure( msg );
     } else if( it->has_flag( flag_NO_STERILE ) ) {
         const std::string msg = by_autodoc ?
                                 // NOLINTNEXTLINE(cata-text-style): single space after the period for symmetry
                                 _( "/!\\ CBM is not sterile. /!\\ Please use autoclave to sterilize." ) :
                                 _( "CBM is not sterile." );
-        return ret_val<bool>::make_failure( msg );
+        return ret_val<void>::make_failure( msg );
     } else if( it->has_fault( fault_bionic_salvaged ) ) {
-        return ret_val<bool>::make_failure( _( "CBM already deployed.  Please reset to factory state." ) );
+        return ret_val<void>::make_failure( _( "CBM already deployed.  Please reset to factory state." ) );
     } else if( has_bionic( bid ) && !bid->dupes_allowed ) {
-        return ret_val<bool>::make_failure( _( "CBM is already installed." ) );
+        return ret_val<void>::make_failure( _( "CBM is already installed." ) );
     } else if( !can_install_cbm_on_bp( get_occupied_bodyparts( bid ) ) ) {
-        return ret_val<bool>::make_failure( _( "CBM not compatible with patient's body." ) );
+        return ret_val<void>::make_failure( _( "CBM not compatible with patient's body." ) );
     } else if( std::any_of( bid->mutation_conflicts.begin(), bid->mutation_conflicts.end(),
                             has_trait_lambda ) ) {
-        return ret_val<bool>::make_failure( _( "CBM not compatible with patient's body." ) );
+        return ret_val<void>::make_failure( _( "CBM not compatible with patient's body." ) );
     } else if( bid->upgraded_bionic &&
                !has_bionic( bid->upgraded_bionic ) &&
                it->is_upgrade() ) {
-        return ret_val<bool>::make_failure( _( "No base version installed." ) );
+        return ret_val<void>::make_failure( _( "No base version installed." ) );
     } else if( std::any_of( bid->available_upgrades.begin(),
                             bid->available_upgrades.end(),
     [this]( const bionic_id & b ) {
     return has_bionic( b );
     } ) ) {
-        return ret_val<bool>::make_failure( _( "Superior version installed." ) );
+        return ret_val<void>::make_failure( _( "Superior version installed." ) );
     } else if( is_npc() && !bid->has_flag( json_flag_BIONIC_NPC_USABLE ) ) {
-        return ret_val<bool>::make_failure( _( "CBM not compatible with patient." ) );
+        return ret_val<void>::make_failure( _( "CBM not compatible with patient." ) );
     }
 
-    return ret_val<bool>::make_success( std::string() );
+    return ret_val<void>::make_success( std::string() );
 }
 
 bool Character::can_install_bionics( const itype &type, Character &installer, bool autodoc,

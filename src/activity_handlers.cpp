@@ -3337,7 +3337,7 @@ void activity_handlers::fertilize_plot_do_turn( player_activity *act, Character 
 
     const auto reject_tile = [&]( const tripoint & tile ) {
         check_fertilizer();
-        ret_val<bool> can_fert = iexamine::can_fertilize( *you, tile, fertilizer );
+        ret_val<void> can_fert = iexamine::can_fertilize( *you, tile, fertilizer );
         return !can_fert.success();
     };
 

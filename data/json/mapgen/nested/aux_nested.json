@@ -234,5 +234,11 @@
         { "field": "fd_gibs_flesh", "x": 0, "y": 0, "intensity": 1, "age": 10 }
       ]
     }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "amigara_death",
+    "object": { "place_items": [ { "item": "amigara_drops", "x": 11, "y": 12, "chance": 100 } ] }
   }
 ]

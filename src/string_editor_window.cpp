@@ -10,6 +10,7 @@
 #include "options.h"
 #endif
 
+#include "ui_manager.h"
 #include "unicode.h"
 #include "wcwidth.h"
 
@@ -207,7 +208,7 @@ point string_editor_window::get_line_and_position( const int position, const boo
     return _folded->codepoint_coordinates( position, zero_x );
 }
 
-void string_editor_window::print_editor()
+void string_editor_window::print_editor( ui_adaptor &ui )
 {
     const point focus = _ime_preview_range ? _ime_preview_range->display_last : _cursor_display;
     const int ftsize = _folded->get_lines().size();
@@ -227,7 +228,6 @@ void string_editor_window::print_editor()
         }
     }
 
-    cata::optional<point> cursor_pos;
     for( int i = topoflist; i < bottomoflist; i++ ) {
         const int y = i - topoflist;
         const folded_line &line = _folded->get_lines()[i];
@@ -248,8 +248,9 @@ void string_editor_window::print_editor()
                 || is_linebreak( c_cursor ) || mk_wcwidth( c_cursor ) < 1 ) {
                 c_cursor = ' ';
             }
-            cursor_pos = point( _cursor_display.x + 1, y );
-            mvwprintz( _win, cursor_pos.value(), h_white, "%s", utf32_to_utf8( c_cursor ) );
+            const point cursor_pos( _cursor_display.x + 1, y );
+            mvwprintz( _win, cursor_pos, h_white, "%s", utf32_to_utf8( c_cursor ) );
+            ui.set_cursor( _win, cursor_pos );
         }
         if( _ime_preview_range && i >= _ime_preview_range->display_first.y
             && i <= _ime_preview_range->display_last.y ) {
@@ -263,7 +264,8 @@ void string_editor_window::print_editor()
         }
     }
     if( _ime_preview_range ) {
-        cursor_pos = _ime_preview_range->display_last + point( 1, -topoflist );
+        const point cursor_pos = _ime_preview_range->display_last + point( 1, -topoflist );
+        ui.set_cursor( _win, cursor_pos );
     }
 
     if( ftsize > _max.y ) {
@@ -272,11 +274,6 @@ void string_editor_window::print_editor()
         .viewport_pos( topoflist )
         .viewport_size( _max.y )
         .apply( _win );
-    }
-
-    if( cursor_pos ) {
-        wmove( _win, cursor_pos.value() );
-        wnoutrefresh( _win );
     }
 }
 
@@ -372,7 +369,7 @@ std::pair<bool, std::string> string_editor_window::query_string()
         ui.position_from_window( _win );
     } );
     ui.mark_resize();
-    ui.on_redraw( [&]( const ui_adaptor & ) {
+    ui.on_redraw( [&]( ui_adaptor & ui ) {
         if( refold ) {
             utf8_wrapper text = _utext;
             if( !edit.empty() ) {
@@ -398,7 +395,7 @@ std::pair<bool, std::string> string_editor_window::query_string()
             reposition = false;
         }
         werase( _win );
-        print_editor();
+        print_editor( ui );
         wnoutrefresh( _win );
     } );
 

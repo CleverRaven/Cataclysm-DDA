@@ -767,7 +767,7 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
 
         // Handles effects as well; not done in melee_affect_*
         if( technique.id != tec_none ) {
-            perform_technique( technique, t, d, move_cost, cur_weap );
+            perform_technique( technique, t, d, move_cost, cur_weapon );
         }
 
         //player has a very small chance, based on their intelligence, to learn a style whilst using the CQB bionic
@@ -1904,7 +1904,7 @@ static void print_damage_info( const damage_instance &di )
 }
 
 void Character::perform_technique( const ma_technique &technique, Creature &t, damage_instance &di,
-                                   int &move_cost, item &cur_weapon )
+                                   int &move_cost, item_location &cur_weapon )
 {
     add_msg_debug( debugmode::DF_MELEE, "dmg before tec:" );
     print_damage_info( di );
@@ -1976,16 +1976,16 @@ void Character::perform_technique( const ma_technique &technique, Creature &t, d
     }
 
     if( technique.needs_ammo ) {
-        const itype_id current_ammo = cur_weapon.ammo_current();
+        const itype_id current_ammo = cur_weapon.get_item()->ammo_current();
         // if the weapon needs ammo we now expend it
-        cur_weapon.ammo_consume( 1, pos(), this );
+        cur_weapon.get_item()->ammo_consume( 1, pos(), this );
         // thing going off should be as loud as the ammo
         sounds::sound( pos(), current_ammo->ammo->loudness, sounds::sound_t::combat, _( "Crack!" ), true );
         const itype_id casing = *current_ammo->ammo->casing;
-        if( cur_weapon.has_flag( flag_RELOAD_EJECT ) ) {
-            cur_weapon.force_insert_item( item( casing ).set_flag( flag_CASING ),
-                                          item_pocket::pocket_type::MAGAZINE );
-            cur_weapon.on_contents_changed();
+        if( cur_weapon.get_item()->has_flag( flag_RELOAD_EJECT ) ) {
+            cur_weapon.get_item()->force_insert_item( item( casing ).set_flag( flag_CASING ),
+                    item_pocket::pocket_type::MAGAZINE );
+            cur_weapon.get_item()->on_contents_changed();
         }
     }
 

@@ -822,6 +822,9 @@ bool main_menu::opening_screen()
             }
         }
     }
+    if( start && get_scenario() ) {
+        add_msg( get_scenario()->description( player_character.male ) );
+    }
     return true;
 }
 
