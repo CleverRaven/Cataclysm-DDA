@@ -3814,7 +3814,7 @@ void target_ui::panel_spell_info( int &text_y )
 
 void target_ui::panel_target_info( int &text_y, bool fill_with_blank_if_no_target )
 {
-    int max_lines = 4;
+    int max_lines = 6;
     if( dst_critter ) {
         if( you->sees( *dst_critter ) ) {
             // FIXME: print_info doesn't really care about line limit
