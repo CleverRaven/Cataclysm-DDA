@@ -4,6 +4,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "glock_17", "charges-min": 0, "charges-max": 15 },
       { "item": "glock17_17" },
@@ -16,6 +17,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "glock_19", "charges-min": 0, "charges-max": 15 },
       { "item": "glockmag" },
@@ -28,6 +30,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "glock_20", "variant": "glock_20", "charges-min": 0, "charges-max": 15 },
       { "item": "glock_20mag" },
@@ -40,6 +43,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "glock_21", "charges-min": 0, "charges-max": 15 },
       { "item": "glock_21mag" },
@@ -52,6 +56,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "hk_usc45", "charges-min": 0, "charges-max": 20 },
       { "item": "usc20mag" },
@@ -64,6 +69,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "glock_22", "charges-min": 0, "charges-max": 15 },
       { "item": "glock40mag" },
@@ -76,6 +82,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "glock_29", "charges-min": 0, "charges-max": 10 },
       { "item": "glock_29mag" },
@@ -88,6 +95,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "glock_31", "charges-min": 0, "charges-max": 15 },
       { "item": "glock40mag" },
@@ -100,6 +108,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "glock_20", "variant": "glock_40", "charges-min": 0, "charges-max": 15 },
       { "item": "glock_20mag" },
@@ -112,6 +121,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "m1911", "charges-min": 0, "charges-max": 7 },
       { "item": "m1911mag" },
@@ -124,6 +134,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "m1911", "variant": "m1911_MEU", "charges-min": 0, "charges-max": 7 },
       { "item": "m1911mag" },
@@ -136,6 +147,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "m1911_10", "charges-min": 0, "charges-max": 7 },
       { "item": "m1911_10mag" },
@@ -148,6 +160,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "m9", "charges-min": 0, "charges-max": 15 },
       { "item": "m9mag" },
@@ -160,6 +173,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "px4", "charges-min": 0, "charges-max": 15 },
       { "item": "px4mag" },
@@ -172,6 +186,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "px4_40", "charges-min": 0, "charges-max": 15 },
       { "item": "px4_40mag" },
@@ -184,6 +199,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [ { "item": "ruger_lcr_38", "charges-min": 0, "charges-max": 5 }, { "group": "on_hand_38" } ]
   },
   {
@@ -191,6 +207,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "sig_mosquito", "charges-min": 0, "charges-max": 10 },
       { "item": "mosquitomag" },
@@ -203,6 +220,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "sw_22", "charges-min": 0, "charges-max": 10 },
       { "item": "sw22mag" },
@@ -215,6 +233,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [ { "item": "sw_610", "charges-min": 0, "charges-max": 6 }, { "group": "on_hand_10mm" } ]
   },
   {
@@ -222,6 +241,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [ { "item": "sw_619", "charges-min": 0, "charges-max": 7 }, { "group": "on_hand_38" } ]
   },
   {
@@ -229,6 +249,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [ { "item": "model_10_revolver", "charges-min": 0, "charges-max": 6 }, { "group": "on_hand_38" } ]
   },
   {
@@ -236,6 +257,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [ { "item": "model_10_revolver", "charges-min": 0, "charges-max": 6 }, { "group": "on_hand_38" } ]
   },
   {
@@ -243,6 +265,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "taurus_spectrum", "charges-min": 0, "charges-max": 6 },
       { "item": "taurus_spectrum_mag" },
@@ -255,6 +278,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "p220_10", "charges-min": 0, "charges-max": 8 },
       { "item": "p220_10_mag" },
@@ -267,6 +291,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "p226_357sig", "charges-min": 0, "charges-max": 12 },
       { "item": "p226mag_12rd_357sig" },
@@ -279,6 +304,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "p320_357sig", "charges-min": 0, "charges-max": 13 },
       { "item": "p320mag_13rd_357sig" },
@@ -291,6 +317,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "kp32", "charges-min": 0, "charges-max": 7 },
       { "item": "kp32mag" },
@@ -303,6 +330,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "kp3at", "charges-min": 0, "charges-max": 6 },
       { "item": "kp3atmag" },
@@ -315,6 +343,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "rugerlcp", "charges-min": 0, "charges-max": 6 },
       { "item": "rugerlcpmag" },
@@ -327,6 +356,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "kpf9", "charges-min": 0, "charges-max": 7 },
       { "item": "kpf9mag" },
@@ -339,6 +369,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "hi_power_9mm", "charges-min": 0, "charges-max": 15 },
       { "item": "bhp9mag_13rd" },
@@ -351,6 +382,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "hi_power_40", "charges-min": 0, "charges-max": 10 },
       { "item": "bhp40mag" },
@@ -363,6 +395,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "walther_p38", "charges-min": 0, "charges-max": 8 },
       { "item": "p38mag" },
@@ -375,6 +408,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "walther_ppq_9mm", "charges-min": 0, "charges-max": 17 },
       { "item": "ppq9mag_10rd" },
@@ -387,6 +421,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "walther_ppq_40", "charges-min": 0, "charges-max": 14 },
       { "item": "ppq40mag_10rd" },
@@ -399,6 +434,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "walther_ppq_45", "charges-min": 0, "charges-max": 12 },
       { "item": "ppq45mag" },
@@ -411,6 +447,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "hptc9", "charges-min": 0, "charges-max": 15 },
       { "item": "hptc9mag_8rd" },
@@ -423,6 +460,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "hptcf380", "charges-min": 0, "charges-max": 10 },
       { "item": "hptcf380mag_8rd" },
@@ -435,6 +473,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "hptjcp", "charges-min": 0, "charges-max": 10 },
       { "item": "hptjcpmag" },
@@ -447,6 +486,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "hptjhp", "charges-min": 0, "charges-max": 9 },
       { "item": "hptjhpmag" },
@@ -459,6 +499,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "xd_10", "charges-min": 0, "charges-max": 15 },
       { "item": "xd_10_mag" },
@@ -471,6 +512,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "cz75", "charges-min": 0, "charges-max": 26 },
       { "item": "cz75mag_12rd" },
@@ -483,6 +525,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "witness_10", "charges-min": 0, "charges-max": 14 },
       { "item": "witness_mag_10" },
@@ -495,6 +538,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "walther_ccp", "charges-min": 0, "charges-max": 8 },
       { "item": "ccpmag_9rd" },
@@ -507,6 +551,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "walther_p22", "charges-min": 0, "charges-max": 10 },
       { "item": "wp22mag" },
@@ -519,6 +564,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "90two", "charges-min": 0, "charges-max": 15 },
       { "item": "m9mag_17rd" },
@@ -531,6 +577,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "90two40", "charges-min": 0, "charges-max": 12 },
       { "item": "90two40mag" },
@@ -543,6 +590,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [ { "item": "bond_410", "charges-min": 0, "charges-max": 2 }, { "group": "on_hand_45colt" } ]
   },
   {
@@ -550,6 +598,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "deagle_44", "charges-min": 0, "charges-max": 2 },
       { "item": "deaglemag" },
@@ -562,6 +611,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "m1911a1_38super", "charges-min": 0, "charges-max": 9 },
       { "item": "m1911mag_10rd_38super" },
@@ -574,6 +624,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "fn57", "charges-min": 0, "charges-max": 20 },
       { "item": "fn57mag" },
@@ -586,6 +637,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [ { "item": "ruger_lcr_22", "charges-min": 0, "charges-max": 8 }, { "group": "on_hand_22" } ]
   },
   {
@@ -593,6 +645,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [ { "item": "ruger_redhawk", "charges-min": 0, "charges-max": 6 }, { "group": "on_hand_44" } ]
   },
   {
@@ -600,6 +653,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "sig_40", "charges-min": 0, "charges-max": 12 },
       { "item": "sig40mag" },
@@ -612,6 +666,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "sig_40", "charges-min": 0, "charges-max": 12 },
       { "item": "sig40mag" },
@@ -624,6 +679,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "sig_p230", "charges-min": 0, "charges-max": 8 },
       { "item": "sigp230mag" },
@@ -636,6 +692,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [ { "item": "sw_500", "charges-min": 0, "charges-max": 5 }, { "group": "on_hand_500" } ]
   },
   {
@@ -643,6 +700,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [ { "item": "sw629", "charges-min": 0, "charges-max": 6 }, { "group": "on_hand_44" } ]
   },
   {
@@ -650,6 +708,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "usp_45", "charges-min": 0, "charges-max": 12 },
       { "item": "usp45mag" },
@@ -662,6 +721,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "usp_9mm", "charges-min": 0, "charges-max": 15 },
       { "item": "usp9mag" },
@@ -674,6 +734,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "TDI_10", "charges-min": 0, "charges-max": 30 },
       { "item": "tdi_10mm_mag" },
@@ -686,6 +747,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "draco", "charges-min": 0, "charges-max": 30 },
       { "item": "akmag10" },
@@ -698,6 +760,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "m17", "charges-min": 0, "charges-max": 17 },
       { "item": "p320mag_17rd_9x19mm" },
@@ -722,6 +785,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "glock_18c", "charges-min": 0, "charges-max": 17 },
       { "item": "glock17_17" },
@@ -734,6 +798,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "usp_45", "variant": "mk23", "contents-group": "mk23_mods", "charges-min": 0, "charges-max": 12 },
       { "item": "usp45mag" },
@@ -746,6 +811,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "needlepistol", "charges-min": 0, "charges-max": 50 },
       { "item": "5x50_50_mag" },
@@ -758,6 +824,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [ { "item": "bfr" }, { "group": "on_hand_4570" } ]
   },
   {
@@ -765,6 +832,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [ { "item": "mauser_c96" }, { "group": "on_hand_9mm" } ]
   },
   {
@@ -772,6 +840,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [ { "item": "moss_brownie" }, { "group": "on_hand_22" } ]
   },
   {
@@ -779,6 +848,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [ { "item": "p08" }, { "item": "p08mag_8rd" }, { "item": "p08mag_32rd", "prob": 50 }, { "group": "on_hand_9mm" } ]
   },
   {
@@ -786,6 +856,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [ { "item": "raging_bull" }, { "group": "on_hand_454" } ]
   },
   {
@@ -793,6 +864,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [ { "item": "raging_judge" }, { "group": "on_hand_454" } ]
   },
   {
@@ -800,6 +872,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [ { "item": "tokarev" }, { "item": "tokarevmag" }, { "item": "tokarevmag", "prob": 50 }, { "group": "on_hand_762x25" } ]
   },
   {
@@ -807,6 +880,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [ { "item": "walther_ppk" }, { "item": "ppkmag" }, { "item": "ppkmag", "prob": 50 }, { "group": "on_hand_32" } ]
   },
   {
@@ -814,6 +888,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "rm103a_pistol" },
       { "item": "8x40_10_mag" },
@@ -826,6 +901,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "af2011a1_38super" },
       { "item": "af2011a1mag" },
@@ -838,6 +914,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [ { "item": "cop_38", "charges-min": 0, "charges-max": 4 }, { "group": "on_hand_38" } ]
   },
   {
@@ -845,6 +922,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "m1911-460", "charges-min": 0, "charges-max": 7 },
       { "item": "m1911mag" },
@@ -857,6 +935,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [ { "item": "lemat_revolver", "charges-min": 0, "charges-max": 9 }, { "group": "on_hand_44paper" } ]
   },
   {
@@ -864,6 +943,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "makarov", "charges-min": 0, "charges-max": 8 },
       { "item": "makarovmag" },
@@ -876,6 +956,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [ { "item": "pistol_flintlock" }, { "group": "on_hand_flintlock" } ]
   },
   {
@@ -883,6 +964,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [ { "item": "colt_saa", "charges-min": 0, "charges-max": 6 }, { "group": "on_hand_45colt" } ]
   },
   {
@@ -890,6 +972,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "mp40semi", "charges-min": 0, "charges-max": 32 },
       { "item": "mp40mag_32rd" },
@@ -902,6 +985,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "hk_mp5_semi_pistol", "charges-min": 0, "charges-max": 30 },
       { "item": "mp5mag_10rd" },
@@ -914,6 +998,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "calico", "charges-min": 0, "charges-max": 50 },
       { "item": "calicomag" },
@@ -926,6 +1011,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "fn_p90", "charges-min": 0, "charges-max": 50 },
       { "item": "fnp90mag" },
@@ -938,6 +1024,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "mp40", "charges-min": 0, "charges-max": 32 },
       { "item": "mp40mag_32rd" },
@@ -950,6 +1037,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "tommygun", "charges-min": 0, "charges-max": 20 },
       { "item": "thompson_mag" },
@@ -962,6 +1050,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "sten", "charges-min": 0, "charges-max": 32 },
       { "item": "stenmag" },
@@ -974,6 +1063,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "uzi", "charges-min": 0, "charges-max": 32 },
       { "item": "uzimag" },
@@ -986,6 +1076,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "hk_mp5", "charges-min": 0, "charges-max": 30 },
       { "item": "mp5mag" },
@@ -998,6 +1089,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "hk_mp5", "charges-min": 0, "charges-max": 30 },
       { "item": "mp5mag" },
@@ -1010,6 +1102,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "hk_ump45", "charges-min": 0, "charges-max": 25 },
       { "item": "ump45mag" },
@@ -1022,6 +1115,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "mac_10", "charges-min": 0, "charges-max": 30 },
       { "item": "mac10mag" },
@@ -1034,6 +1128,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "mac_11", "charges-min": 0, "charges-max": 32 },
       { "item": "mac11mag" },
@@ -1046,6 +1141,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "TDI", "charges-min": 0, "charges-max": 30 },
       { "item": "tdi_mag" },
@@ -1058,6 +1154,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "american_180", "charges-min": 0, "charges-max": 100 },
       { "item": "a180mag" },
@@ -1070,6 +1167,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "briefcase_smg", "charges-min": 0, "charges-max": 30 },
       { "item": "mp5mag_10rd" },
@@ -1082,6 +1180,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "tec9", "charges-min": 0, "charges-max": 30 },
       { "item": "tec9mag" },
@@ -1094,6 +1193,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "hk_mp7", "charges-min": 0, "charges-max": 20 },
       { "item": "hk46mag" },
@@ -1106,6 +1206,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "needlegun", "charges-min": 0, "charges-max": 50 },
       { "item": "5x50_50_mag" },
@@ -1118,6 +1219,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "rm2000_smg", "charges-min": 0, "charges-max": 10 },
       { "item": "8x40_10_mag" },
@@ -1130,6 +1232,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "hk_mp5k", "charges-min": 0, "charges-max": 30 },
       { "item": "mp5mag" },
@@ -1142,6 +1245,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "browning_blr", "charges-min": 0, "charges-max": 4 },
       { "item": "blrmag" },
@@ -1154,6 +1258,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "ar_pistol", "charges-min": 0, "charges-max": 30 },
       { "item": "stanag10" },
@@ -1166,6 +1271,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "garand", "charges-min": 0, "charges-max": 8 },
       { "item": "garandclip" },
@@ -1178,6 +1284,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "garand", "charges-min": 0, "charges-max": 20 },
       { "item": "ar10mag_20rd" },
@@ -1190,6 +1297,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "ar15", "charges-min": 0, "charges-max": 30 },
       { "item": "stanag10" },
@@ -1202,6 +1310,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "cx4", "charges-min": 0, "charges-max": 15 },
       { "item": "m9mag" },
@@ -1214,6 +1323,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "ksub2000", "charges-min": 0, "charges-max": 15 },
       { "item": "glockmag" },
@@ -1226,6 +1336,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "m1a", "charges-min": 0, "charges-max": 5 },
       { "item": "m14smallmag" },
@@ -1238,6 +1349,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [ { "item": "marlin_9a", "charges-min": 0, "charges-max": 19 }, { "group": "on_hand_22" } ]
   },
   {
@@ -1245,6 +1357,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [ { "item": "mosin44", "charges-min": 0, "charges-max": 5 }, { "group": "on_hand_762R" } ]
   },
   {
@@ -1252,6 +1365,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [ { "item": "mosin91_30", "charges-min": 0, "charges-max": 5 }, { "group": "on_hand_762R" } ]
   },
   {
@@ -1259,6 +1373,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [ { "item": "remington700_270", "charges-min": 0, "charges-max": 4 }, { "group": "on_hand_270win" } ]
   },
   {
@@ -1266,6 +1381,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [ { "item": "remington_700", "charges-min": 0, "charges-max": 4 }, { "group": "on_hand_3006" } ]
   },
   {
@@ -1273,6 +1389,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "ruger_1022", "charges-min": 0, "charges-max": 10 },
       { "item": "ruger1022mag" },
@@ -1285,6 +1402,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "ruger_mini", "charges-min": 0, "charges-max": 5 },
       { "item": "ruger10" },
@@ -1297,6 +1415,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [ { "item": "sks", "charges-min": 0, "charges-max": 10 }, { "group": "on_hand_762" } ]
   },
   {
@@ -1304,6 +1423,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [ { "item": "win70", "charges-min": 0, "charges-max": 3 }, { "group": "on_hand_300" } ]
   },
   {
@@ -1311,6 +1431,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [ { "item": "1895sbl", "charges-min": 0, "charges-max": 6 }, { "group": "on_hand_4570" } ]
   },
   {
@@ -1318,6 +1439,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "1895sbl", "charges-min": 0, "charges-max": 30 },
       { "item": "akmag10" },
@@ -1330,6 +1452,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "m16_auto_rifle", "variant": "acr", "charges-min": 0, "charges-max": 30 },
       { "item": "stanag10" },
@@ -1342,6 +1465,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [ { "item": "colt_lightning", "charges-min": 0, "charges-max": 14 }, { "group": "on_hand_45colt" } ]
   },
   {
@@ -1349,6 +1473,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "fn_fal", "charges-min": 0, "charges-max": 20 },
       { "item": "falmag" },
@@ -1361,6 +1486,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "fs2000", "charges-min": 0, "charges-max": 30 },
       { "group": "stanag_30_random" },
@@ -1373,6 +1499,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [ { "item": "m249_semi", "charges-min": 0, "charges-max": 100 }, { "group": "on_hand_223" } ]
   },
   {
@@ -1380,6 +1507,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "hk_g3", "charges-min": 0, "charges-max": 20 },
       { "item": "g3mag" },
@@ -1392,6 +1520,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "hk_g36", "charges-min": 0, "charges-max": 30 },
       { "item": "g36mag_30rd" },
@@ -1404,6 +1533,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [ { "item": "henry_big_boy", "charges-min": 0, "charges-max": 10 }, { "group": "on_hand_44" } ]
   },
   {
@@ -1411,6 +1541,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "m14ebr", "charges-min": 0, "charges-max": 20 },
       { "item": "m14mag" },
@@ -1423,6 +1554,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [ { "item": "M24", "charges-min": 0, "charges-max": 5 }, { "group": "on_hand_308" } ]
   },
   {
@@ -1430,6 +1562,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "m4_carbine", "variant": "m4a1", "charges-min": 0, "charges-max": 30 },
       { "item": "stanag30" },
@@ -1442,6 +1575,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [ { "item": "m1903", "charges-min": 0, "charges-max": 5 }, { "group": "on_hand_3006" } ]
   },
   {
@@ -1449,6 +1583,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "m1918", "charges-min": 0, "charges-max": 20 },
       { "item": "m1918mag" },
@@ -1461,6 +1596,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [ { "item": "mosin44_ebr", "charges-min": 0, "charges-max": 5 }, { "group": "on_hand_762R" } ]
   },
   {
@@ -1468,6 +1604,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [ { "item": "mosin91_30_ebr", "charges-min": 0, "charges-max": 5 }, { "group": "on_hand_762R" } ]
   },
   {
@@ -1475,6 +1612,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [ { "item": "savage_111f", "charges-min": 0, "charges-max": 3 }, { "group": "on_hand_308" } ]
   },
   {
@@ -1482,6 +1620,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [ { "item": "savage_111f", "charges-min": 0, "charges-max": 3 }, { "group": "on_hand_308" } ]
   },
   {
@@ -1489,6 +1628,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [ { "item": "sharps", "charges-min": 0, "charges-max": 1 }, { "group": "on_hand_4570" } ]
   },
   {
@@ -1496,6 +1636,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [ { "item": "sharps", "charges-min": 0, "charges-max": 1 }, { "group": "on_hand_4570" } ]
   },
   {
@@ -1503,6 +1644,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [ { "item": "weatherby_5", "charges-min": 0, "charges-max": 3 }, { "group": "on_hand_300" } ]
   },
   {
@@ -1510,6 +1652,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "hk417_13", "charges-min": 0, "charges-max": 20 },
       { "item": "hk417mag_20rd" },
@@ -1522,6 +1665,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "ar15_retool_300blk", "charges-min": 0, "charges-max": 30 },
       { "item": "stanag30" },
@@ -1534,6 +1678,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "iwi_tavor_x95_300blk", "charges-min": 0, "charges-max": 30 },
       { "group": "stanag_30_random" },
@@ -1546,6 +1691,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "m27_assault_rifle", "variant": "h&k416a5", "charges-min": 0, "charges-max": 30 },
       { "item": "stanag30" },
@@ -1558,6 +1704,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "m27_assault_rifle", "variant": "m27iar", "charges-min": 0, "charges-max": 30 },
       { "item": "stanag30" },
@@ -1570,6 +1717,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "m27_assault_rifle", "variant": "scar_l", "charges-min": 0, "charges-max": 30 },
       { "group": "stanag_30_random" },
@@ -1582,6 +1730,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "m107a1", "charges-min": 0, "charges-max": 10 },
       { "item": "m107a1mag" },
@@ -1594,6 +1743,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [ { "item": "m134", "charges-min": 0, "charges-max": 100 }, { "group": "on_hand_308" } ]
   },
   {
@@ -1601,6 +1751,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "tac50", "charges-min": 0, "charges-max": 5 },
       { "item": "tac50mag" },
@@ -1613,6 +1764,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "m2010", "charges-min": 0, "charges-max": 5 },
       { "item": "m2010mag" },
@@ -1625,6 +1777,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [ { "item": "m240", "charges-min": 0, "charges-max": 100 }, { "group": "on_hand_308" } ]
   },
   {
@@ -1632,6 +1785,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [ { "item": "m249", "charges-min": 0, "charges-max": 100 }, { "group": "on_hand_223" } ]
   },
   {
@@ -1639,6 +1793,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [ { "item": "m60", "charges-min": 0, "charges-max": 100 }, { "group": "on_hand_308" } ]
   },
   {
@@ -1646,6 +1801,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "rm11b_sniper_rifle", "charges-min": 0, "charges-max": 10 },
       { "item": "8x40_10_mag" },
@@ -1658,6 +1814,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "rm298", "charges-min": 0, "charges-max": 100 },
       { "item": "8x40_250_mag" },
@@ -1670,6 +1827,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "rm51_assault_rifle", "charges-min": 0, "charges-max": 50 },
       { "item": "8x40_50_mag" },
@@ -1682,6 +1840,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "rm614_lmg", "charges-min": 0, "charges-max": 100 },
       { "item": "8x40_250_mag" },
@@ -1694,6 +1853,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "rm88_battle_rifle", "charges-min": 0, "charges-max": 50 },
       { "item": "8x40_50_mag" },
@@ -1706,6 +1866,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "sig_assault_rifle", "charges-min": 0, "charges-max": 30 },
       { "item": "stanag30" },
@@ -1718,6 +1879,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "scar_h", "charges-min": 0, "charges-max": 20 },
       { "item": "scarhmag" },
@@ -1730,6 +1892,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "m110a1", "charges-min": 0, "charges-max": 20 },
       { "item": "hk417mag_20rd" },
@@ -1742,6 +1905,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "acr_300blk", "charges-min": 0, "charges-max": 30 },
       { "item": "stanag30" },
@@ -1754,6 +1918,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "ak47", "charges-min": 0, "charges-max": 30 },
       { "item": "akmag10" },
@@ -1766,6 +1931,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "ak74", "charges-min": 0, "charges-max": 30 },
       { "item": "ak74mag" },
@@ -1778,6 +1944,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [ { "item": "bh_m89", "charges-min": 0, "charges-max": 7 }, { "group": "on_hand_500" } ]
   },
   {
@@ -1785,6 +1952,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [ { "item": "bh_m89", "charges-min": 0, "charges-max": 1 }, { "group": "on_hand_50" } ]
   },
   {
@@ -1792,6 +1960,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [ { "item": "carbine_flintlock", "charges-min": 0, "charges-max": 1 }, { "group": "on_hand_flintlock" } ]
   },
   {
@@ -1799,6 +1968,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "famas", "charges-min": 0, "charges-max": 25 },
       { "item": "famasmag" },
@@ -1811,6 +1981,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [ { "item": "m60_semi", "charges-min": 0, "charges-max": 100 }, { "group": "on_hand_308" } ]
   },
   {
@@ -1818,6 +1989,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [ { "item": "rifle_flintlock" }, { "group": "on_hand_flintlock" } ]
   },
   {
@@ -1825,6 +1997,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "oa93", "charges-min": 0, "charges-max": 30 },
       { "group": "stanag_10_random" },
@@ -1837,6 +2010,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "steyr_aug", "charges-min": 0, "charges-max": 30 },
       { "item": "augmag_10rd" },
@@ -1849,6 +2023,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [ { "item": "trex_gun", "charges-min": 0, "charges-max": 1 }, { "group": "on_hand_700nx" } ]
   },
   {
@@ -1856,6 +2031,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "arx160", "charges-min": 0, "charges-max": 30 },
       { "item": "akmag10" },
@@ -1868,6 +2044,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [ { "item": "mossberg_500", "charges-min": 0, "charges-max": 6 }, { "group": "on_hand_shot" } ]
   },
   {
@@ -1875,6 +2052,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [ { "item": "remington_870", "charges-min": 0, "charges-max": 5 }, { "group": "on_hand_shot" } ]
   },
   {
@@ -1882,6 +2060,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "mossberg_500", "variant": "mossberg_500_security", "charges-min": 0, "charges-max": 6 },
       { "group": "on_hand_shot" }
@@ -1892,6 +2071,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [ { "item": "remington_870_express", "charges-min": 0, "charges-max": 6 }, { "group": "on_hand_shot" } ]
   },
   {
@@ -1899,6 +2079,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "remington_870", "variant": "browning_a5", "charges-min": 0, "charges-max": 5 },
       { "group": "on_hand_shot" }
@@ -1909,6 +2090,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "remington_870", "variant": "remington_1100", "charges-min": 0, "charges-max": 5 },
       { "group": "on_hand_shot" }
@@ -1919,6 +2101,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [ { "item": "mossberg_930", "charges-min": 0, "charges-max": 6 }, { "group": "on_hand_shot" } ]
   },
   {
@@ -1926,6 +2109,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [ { "item": "shotgun_410", "charges-min": 0, "charges-max": 1 }, { "group": "on_hand_410shot" } ]
   },
   {
@@ -1933,6 +2117,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [ { "item": "shotgun_d", "charges-min": 0, "charges-max": 2 }, { "group": "on_hand_shot" } ]
   },
   {
@@ -1940,6 +2125,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [ { "item": "shotgun_s", "charges-min": 0, "charges-max": 1 }, { "group": "on_hand_shot" } ]
   },
   {
@@ -1947,6 +2133,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [ { "item": "ksg", "charges-min": 0, "charges-max": 7 }, { "group": "on_hand_shot" } ]
   },
   {
@@ -1954,6 +2141,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [ { "item": "ksg", "charges-min": 0, "charges-max": 12 }, { "group": "on_hand_shot" } ]
   },
   {
@@ -1961,6 +2149,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [ { "item": "tavor_12", "charges-min": 0, "charges-max": 5 }, { "group": "on_hand_shot" } ]
   },
   {
@@ -1968,6 +2157,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [ { "item": "mossberg_930", "variant": "m1014", "charges-min": 0, "charges-max": 8 }, { "group": "on_hand_shot" } ]
   },
   {
@@ -1975,6 +2165,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [ { "item": "mossberg_590", "variant": "SPAS_12", "charges-min": 0, "charges-max": 9 }, { "group": "on_hand_shot" } ]
   },
   {
@@ -1982,6 +2173,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "rm20", "charges-min": 0, "charges-max": 20 },
       { "item": "20x66_20_mag" },
@@ -1994,6 +2186,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [ { "item": "mossberg_590", "charges-min": 0, "charges-max": 9 }, { "group": "on_hand_shot" } ]
   },
   {
@@ -2001,6 +2194,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [ { "item": "remington_870_breacher", "charges-min": 0, "charges-max": 4 }, { "group": "on_hand_shot" } ]
   },
   {
@@ -2008,6 +2202,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "saiga_12", "charges-min": 0, "charges-max": 10 },
       { "item": "saiga10mag" },
@@ -2020,6 +2215,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [ { "item": "streetsweeper", "charges-min": 0, "charges-max": 12 }, { "group": "on_hand_shot" } ]
   },
   {
@@ -2027,6 +2223,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "saiga_410", "charges-min": 0, "charges-max": 10 },
       { "item": "saiga410mag_10rd" },
@@ -2039,6 +2236,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "p50", "charges-min": 0, "charges-max": 50 },
       { "item": "fnp90mag" },
@@ -2051,6 +2249,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "fn_ps90", "charges-min": 0, "charges-max": 50 },
       { "item": "fnp90mag" },
@@ -2063,6 +2262,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "ruger_57", "charges-min": 0, "charges-max": 20 },
       { "item": "ruger_57mag" },
@@ -2123,6 +2323,7 @@
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
+    "ammo": 100,
     "entries": [
       { "item": "m1carbine", "charges-min": 0, "charges-max": 15 },
       { "item": "m1carbinemag" },

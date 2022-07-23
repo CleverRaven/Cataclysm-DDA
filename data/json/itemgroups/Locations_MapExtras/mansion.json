@@ -713,7 +713,8 @@
       { "item": "wizard_cane_cheap", "prob": 5, "charges": [ 0, 100 ] },
       { "item": "wizard_cane", "prob": 10, "charges": [ 50, 100 ] },
       [ "sinister_cane", 10 ],
-      [ "scythe_toy", 10 ]
+      [ "scythe_toy", 10 ],
+      [ "aim_game", 10 ]
     ]
   },
   {
@@ -881,7 +882,8 @@
       [ "plastron_plastic", 10 ],
       [ "gauntlet_fencing", 9 ],
       [ "gauntlet_fencing_l", 1 ],
-      [ "iceaxe", 4 ]
+      [ "iceaxe", 4 ],
+      [ "aim_game", 5 ]
     ]
   },
   {

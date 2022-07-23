@@ -156,7 +156,7 @@ static const trait_id trait_VINES2( "VINES2" );
 static const trait_id trait_VINES3( "VINES3" );
 
 static void player_hit_message( Character *attacker, const std::string &message,
-                                Creature &t, int dam, bool crit = false, bool technique = false, std::string wp_hit = {} );
+                                Creature &t, int dam, bool crit = false, bool technique = false, const std::string &wp_hit = {} );
 static int stumble( Character &u, const item_location &weap );
 static std::string melee_message( const ma_technique &tec, Character &p,
                                   const dealt_damage_instance &ddi );
@@ -423,7 +423,8 @@ std::string Character::get_miss_reason()
 }
 
 void Character::roll_all_damage( bool crit, damage_instance &di, bool average,
-                                 const item &weap, std::string attack_vector, const Creature *target, const bodypart_id &bp ) const
+                                 const item &weap, const std::string &attack_vector, const Creature *target,
+                                 const bodypart_id &bp ) const
 {
     float crit_mod = 1.f;
     if( target != nullptr ) {
@@ -767,7 +768,7 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
 
         // Handles effects as well; not done in melee_affect_*
         if( technique.id != tec_none ) {
-            perform_technique( technique, t, d, move_cost, cur_weap );
+            perform_technique( technique, t, d, move_cost, cur_weapon );
         }
 
         //player has a very small chance, based on their intelligence, to learn a style whilst using the CQB bionic
@@ -1203,7 +1204,7 @@ float Character::bonus_damage( bool random ) const
 }
 
 void Character::roll_bash_damage( bool crit, damage_instance &di, bool average,
-                                  const item &weap, std::string attack_vector, float crit_mod ) const
+                                  const item &weap, const std::string &attack_vector, float crit_mod ) const
 {
     float bash_dam = 0.0f;
     bool unarmed = attack_vector != "WEAPON";
@@ -1364,7 +1365,7 @@ void Character::roll_bash_damage( bool crit, damage_instance &di, bool average,
 }
 
 void Character::roll_cut_damage( bool crit, damage_instance &di, bool average,
-                                 const item &weap, std::string attack_vector, float crit_mod ) const
+                                 const item &weap, const std::string &attack_vector, float crit_mod ) const
 {
     float cut_dam = mabuff_damage_bonus( damage_type::CUT ) + weap.damage_melee( damage_type::CUT );
     float cut_mul = 1.0f;
@@ -1472,7 +1473,7 @@ void Character::roll_cut_damage( bool crit, damage_instance &di, bool average,
 }
 
 void Character::roll_stab_damage( bool crit, damage_instance &di, bool average,
-                                  const item &weap, std::string attack_vector, float crit_mod ) const
+                                  const item &weap, const std::string &attack_vector, float crit_mod ) const
 {
     float stab_dam = mabuff_damage_bonus( damage_type::STAB ) + weap.damage_melee( damage_type::STAB );
     bool unarmed = attack_vector != "WEAPON";
@@ -1585,7 +1586,7 @@ void Character::roll_stab_damage( bool crit, damage_instance &di, bool average,
 }
 
 void Character::roll_other_damage( bool /*crit*/, damage_instance &di, bool /*average*/,
-                                   const item &weap, std::string attack_vector, float /*crit_mod*/ ) const
+                                   const item &weap, const std::string &attack_vector, float /*crit_mod*/ ) const
 {
     std::map<std::string, damage_type> dt_map = get_dt_map();
     bool unarmed = attack_vector != "WEAPON";
@@ -1904,7 +1905,7 @@ static void print_damage_info( const damage_instance &di )
 }
 
 void Character::perform_technique( const ma_technique &technique, Creature &t, damage_instance &di,
-                                   int &move_cost, item &cur_weapon )
+                                   int &move_cost, item_location &cur_weapon )
 {
     add_msg_debug( debugmode::DF_MELEE, "dmg before tec:" );
     print_damage_info( di );
@@ -1976,16 +1977,16 @@ void Character::perform_technique( const ma_technique &technique, Creature &t, d
     }
 
     if( technique.needs_ammo ) {
-        const itype_id current_ammo = cur_weapon.ammo_current();
+        const itype_id current_ammo = cur_weapon.get_item()->ammo_current();
         // if the weapon needs ammo we now expend it
-        cur_weapon.ammo_consume( 1, pos(), this );
+        cur_weapon.get_item()->ammo_consume( 1, pos(), this );
         // thing going off should be as loud as the ammo
         sounds::sound( pos(), current_ammo->ammo->loudness, sounds::sound_t::combat, _( "Crack!" ), true );
         const itype_id casing = *current_ammo->ammo->casing;
-        if( cur_weapon.has_flag( flag_RELOAD_EJECT ) ) {
-            cur_weapon.force_insert_item( item( casing ).set_flag( flag_CASING ),
-                                          item_pocket::pocket_type::MAGAZINE );
-            cur_weapon.on_contents_changed();
+        if( cur_weapon.get_item()->has_flag( flag_RELOAD_EJECT ) ) {
+            cur_weapon.get_item()->force_insert_item( item( casing ).set_flag( flag_CASING ),
+                    item_pocket::pocket_type::MAGAZINE );
+            cur_weapon.get_item()->on_contents_changed();
         }
     }
 
@@ -2757,7 +2758,7 @@ std::string melee_message( const ma_technique &tec, Character &p, const dealt_da
 
 // display the hit message for an attack
 void player_hit_message( Character *attacker, const std::string &message,
-                         Creature &t, int dam, bool crit, bool technique, std::string wp_hit )
+                         Creature &t, int dam, bool crit, bool technique, const std::string &wp_hit )
 {
     std::string msg;
     game_message_type msgtype = m_good;

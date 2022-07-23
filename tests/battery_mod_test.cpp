@@ -150,7 +150,7 @@ TEST_CASE( "battery tool mod test", "[battery][mod]" )
 
             WHEN( "medium battery is installed" ) {
                 item med_battery( "medium_battery_cell" );
-                ret_val<bool> result = flashlight.put_in( med_battery, item_pocket::pocket_type::MAGAZINE_WELL );
+                ret_val<void> result = flashlight.put_in( med_battery, item_pocket::pocket_type::MAGAZINE_WELL );
 
                 THEN( "battery installation succeeds" ) {
                     CHECK( result.success() );
@@ -339,7 +339,7 @@ TEST_CASE( "installing battery in tool", "[battery][tool][install]" )
 
         // Put battery in flashlight
         REQUIRE( flashlight.has_pocket_type( item_pocket::pocket_type::MAGAZINE_WELL ) );
-        ret_val<bool> result = flashlight.put_in( bat_cell, item_pocket::pocket_type::MAGAZINE_WELL );
+        ret_val<void> result = flashlight.put_in( bat_cell, item_pocket::pocket_type::MAGAZINE_WELL );
         CHECK( result.success() );
         CHECK( flashlight.magazine_current() );
 
@@ -354,7 +354,7 @@ TEST_CASE( "installing battery in tool", "[battery][tool][install]" )
 
         // Put battery in flashlight
         REQUIRE( flashlight.has_pocket_type( item_pocket::pocket_type::MAGAZINE_WELL ) );
-        ret_val<bool> result = flashlight.put_in( bat_cell, item_pocket::pocket_type::MAGAZINE_WELL );
+        ret_val<void> result = flashlight.put_in( bat_cell, item_pocket::pocket_type::MAGAZINE_WELL );
         CHECK( result.success() );
         CHECK( flashlight.magazine_current() );
 
@@ -368,7 +368,7 @@ TEST_CASE( "installing battery in tool", "[battery][tool][install]" )
         // Should fail to install the magazine
         REQUIRE( flashlight.has_pocket_type( item_pocket::pocket_type::MAGAZINE_WELL ) );
         std::string dmsg = capture_debugmsg_during( [&flashlight, &med_bat_cell]() {
-            ret_val<bool> result = flashlight.put_in( med_bat_cell, item_pocket::pocket_type::MAGAZINE_WELL );
+            ret_val<void> result = flashlight.put_in( med_bat_cell, item_pocket::pocket_type::MAGAZINE_WELL );
             CHECK_FALSE( result.success() );
         } );
         CHECK_THAT( dmsg, Catch::EndsWith( "holster does not accept this item type or form factor" ) );

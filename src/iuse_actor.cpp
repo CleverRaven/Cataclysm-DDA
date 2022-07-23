@@ -344,11 +344,11 @@ cata::optional<int> iuse_transform::use( Character &p, item &it, bool t, const t
     return result;
 }
 
-ret_val<bool> iuse_transform::can_use( const Character &p, const item &, bool,
+ret_val<void> iuse_transform::can_use( const Character &p, const item &, bool,
                                        const tripoint & ) const
 {
     if( qualities_needed.empty() ) {
-        return ret_val<bool>::make_success();
+        return ret_val<void>::make_success();
     }
 
     std::map<quality_id, int> unmet_reqs;
@@ -361,13 +361,13 @@ ret_val<bool> iuse_transform::can_use( const Character &p, const item &, bool,
         }
     }
     if( unmet_reqs.empty() ) {
-        return ret_val<bool>::make_success();
+        return ret_val<void>::make_success();
     }
     std::string unmet_reqs_string = enumerate_as_string( unmet_reqs.begin(), unmet_reqs.end(),
     [&]( const std::pair<quality_id, int> &unmet_req ) {
         return string_format( "%s %d", unmet_req.first.obj().name, unmet_req.second );
     } );
-    return ret_val<bool>::make_failure( n_gettext( "You need a tool with %s.",
+    return ret_val<void>::make_failure( n_gettext( "You need a tool with %s.",
                                         "You need tools with %s.",
                                         unmet_reqs.size() ), unmet_reqs_string );
 }
@@ -502,14 +502,14 @@ cata::optional<int> countdown_actor::use( Character &p, item &it, bool t,
     return 0;
 }
 
-ret_val<bool> countdown_actor::can_use( const Character &, const item &it, bool,
+ret_val<void> countdown_actor::can_use( const Character &, const item &it, bool,
                                         const tripoint & ) const
 {
     if( it.active ) {
-        return ret_val<bool>::make_failure( _( "It's already been triggered." ) );
+        return ret_val<void>::make_failure( _( "It's already been triggered." ) );
     }
 
-    return ret_val<bool>::make_success();
+    return ret_val<void>::make_success();
 }
 
 std::string countdown_actor::get_name() const
@@ -689,12 +689,13 @@ cata::optional<int> unfold_vehicle_iuse::use( Character &p, item &it, bool, cons
         }
     }
 
-    vehicle *veh = get_map().add_vehicle( vehicle_id, p.pos(), 0_degrees, 0, 0, false );
+    map &here = get_map();
+    vehicle *veh = here.add_vehicle( vehicle_id, p.pos(), 0_degrees, 0, 0, false );
     if( veh == nullptr ) {
         p.add_msg_if_player( m_info, _( "There's no room to unfold the %s." ), it.tname() );
         return cata::nullopt;
     }
-    veh->set_owner( p );
+    veh->suspend_refresh();
     // Set damage and degradation based on source item.
     // This is to preserve the item's state if it has
     // never been unfolded (no saved parts data).
@@ -712,7 +713,16 @@ cata::optional<int> unfold_vehicle_iuse::use( Character &p, item &it, bool, cons
     if( !unfold_msg.empty() ) {
         p.add_msg_if_player( unfold_msg.translated(), it.tname() );
     }
+    if( p.is_avatar() && it.get_var( "tracking", 0 ) == 1 ) {
+        veh->toggle_tracking(); // restore position tracking state
+    }
     p.moves -= moves;
+    veh->set_owner( p );
+    veh->enable_refresh();
+    here.add_vehicle_to_cache( veh );
+    if( here.veh_at( p.pos() ).part_with_feature( "BOARDABLE", true ) ) {
+        here.board_vehicle( p.pos(), &p ); // if boardable unbroken part is present -> get on it
+    }
     // Restore HP of parts if we stashed them previously.
     if( it.has_var( "folding_bicycle_parts" ) ) {
         // Brand new, no HP stored
@@ -1308,22 +1318,22 @@ void firestarter_actor::resolve_firestarter_use( Character &p, const tripoint &p
     }
 }
 
-ret_val<bool> firestarter_actor::can_use( const Character &p, const item &it, bool,
+ret_val<void> firestarter_actor::can_use( const Character &p, const item &it, bool,
         const tripoint & ) const
 {
     if( p.is_underwater() ) {
-        return ret_val<bool>::make_failure( _( "You can't do that while underwater." ) );
+        return ret_val<void>::make_failure( _( "You can't do that while underwater." ) );
     }
 
     if( !it.ammo_sufficient( &p ) ) {
-        return ret_val<bool>::make_failure( _( "This tool doesn't have enough charges." ) );
+        return ret_val<void>::make_failure( _( "This tool doesn't have enough charges." ) );
     }
 
     if( need_sunlight && light_mod( p.pos() ) <= 0.0f ) {
-        return ret_val<bool>::make_failure( _( "You need direct sunlight to light a fire with this." ) );
+        return ret_val<void>::make_failure( _( "You need direct sunlight to light a fire with this." ) );
     }
 
-    return ret_val<bool>::make_success();
+    return ret_val<void>::make_success();
 }
 
 float firestarter_actor::light_mod( const tripoint &pos ) const
@@ -1420,7 +1430,7 @@ std::unique_ptr<iuse_actor> salvage_actor::clone() const
     return std::make_unique<salvage_actor>( *this );
 }
 
-cata::optional<int> salvage_actor::use( Character &p, item &it, bool t, const tripoint & ) const
+cata::optional<int> salvage_actor::use( Character &p, item &cutter, bool t, const tripoint & ) const
 {
     if( t ) {
         return cata::nullopt;
@@ -1432,16 +1442,30 @@ cata::optional<int> salvage_actor::use( Character &p, item &it, bool t, const tr
         return cata::nullopt;
     }
 
-    if( !try_to_cut_up( p, *item_loc.get_item() ) ) {
+    return salvage_actor::try_to_cut_up( p, cutter, item_loc );
+}
+
+cata::optional<int> salvage_actor::try_to_cut_up
+( Character &p, item &cutter, item_location &cut ) const
+{
+    if( !valid_to_cut_up( &p, *cut.get_item() ) ) {
         // Messages should have already been displayed.
         return cata::nullopt;
     }
 
-    return cut_up( p, it, item_loc );
+    if( &cutter == cut.get_item() ) {
+        add_msg( m_info, _( "You can not cut the %s with itself." ), cutter.tname() );
+        return cata::nullopt;
+    }
+
+    salvage_actor::cut_up( p, cut );
+    // Return used charges from cutter
+    return cost >= 0 ? cost : cutter.ammo_required();
 }
 
 // Helper to visit instances of all the sub-materials of an item.
-static void visit_salvage_products( const item &it, std::function<void( const item & )> func )
+static void visit_salvage_products( const item &it,
+                                    const std::function<void( const item & )> &func )
 {
     for( const auto &material : it.made_of() ) {
         if( const cata::optional<itype_id> id = material.first->salvaged_into() ) {
@@ -1477,241 +1501,209 @@ int salvage_actor::time_to_cut_up( const item &it ) const
     return moves_per_part * count;
 }
 
-bool salvage_actor::valid_to_cut_up( const item &it ) const
+// If p is a nullptr, it does not print messages or query for confirmation
+// it here is the item that is a candidate for being cut up.
+bool salvage_actor::valid_to_cut_up( const Character *const p, const item &it ) const
 {
-    if( it.is_null() ) {
-        return false;
-    }
     // There must be some historical significance to these items.
     if( !it.is_salvageable() ) {
-        return false;
-    }
-    if( !it.only_made_of( material_whitelist ) ) {
-        return false;
-    }
-    if( !it.empty() ) {
-        return false;
-    }
-    if( it.weight() < minimal_weight_to_cut( it ) ) {
-        return false;
-    }
-
-    return true;
-}
-
-// it here is the item that is a candidate for being chopped up.
-// This is the former valid_to_cut_up with all the messages and queries
-bool salvage_actor::try_to_cut_up( Character &p, item &it ) const
-{
-    bool isWearing = p.is_worn( it );
-
-    if( it.is_null() ) {
-        add_msg( m_info, _( "You do not have that item." ) );
-        return false;
-    }
-    // There must be some historical significance to these items.
-    if( !it.is_salvageable() ) {
-        add_msg( m_info, _( "Can't salvage anything from %s." ), it.tname() );
+        if( p ) {
+            add_msg( m_info, _( "Can't salvage anything from %s." ), it.tname() );
+        }
         if( it.is_disassemblable() ) {
-            add_msg( m_info, _( "Try disassembling the %s instead." ), it.tname() );
+            if( p ) {
+                add_msg( m_info, _( "Try disassembling the %s instead." ), it.tname() );
+            }
         }
         return false;
     }
 
     if( !it.only_made_of( material_whitelist ) ) {
-        add_msg( m_info, _( "The %s is made of material that cannot be cut up." ), it.tname() );
+        if( p ) {
+            add_msg( m_info, _( "The %s is made of material that cannot be cut up." ), it.tname() );
+        }
         return false;
     }
     if( !it.empty() ) {
-        add_msg( m_info, _( "Please empty the %s before cutting it up." ), it.tname() );
+        if( p ) {
+            add_msg( m_info, _( "Please empty the %s before cutting it up." ), it.tname() );
+        }
         return false;
     }
     if( it.weight() < minimal_weight_to_cut( it ) ) {
-        add_msg( m_info, _( "The %s is too small to salvage material from." ), it.tname() );
+        if( p ) {
+            add_msg( m_info, _( "The %s is too small to salvage material from." ), it.tname() );
+        }
         return false;
     }
-    // Softer warnings at the end so we don't ask permission and then tell them no.
-    if( &it == &*p.get_wielded_item() ) {
-        if( !query_yn( _( "You are wielding that, are you sure?" ) ) ) {
-            return false;
-        }
-    } else if( isWearing ) {
-        if( !query_yn( _( "You're wearing that, are you sure?" ) ) ) {
-            return false;
+    if( p ) {
+        // Softer warnings at the end so we don't ask permission and then tell them no.
+        if( &it == p->get_wielded_item().get_item() ) {
+            return query_yn( _( "You are wielding that, are you sure?" ) );
+        } else if( p->is_worn( it ) ) {
+            return query_yn( _( "You're wearing that, are you sure?" ) );
         }
     }
 
     return true;
 }
 
-// function returns charges from it during the cutting process of the *cut.
-// it cuts
-// cut gets cut
-int salvage_actor::cut_up( Character &p, item &it, item_location &cut ) const
+// Find a recipe that can be used to craft item x. Searches craft and uncraft recipes
+// Used only by salvage_actor::cut_up
+static cata::optional<recipe> find_uncraft_recipe( item x )
 {
-    const std::map<material_id, int> cut_material_components = cut.get_item()->made_of();
-    const bool filthy = cut.get_item()->is_filthy();
-    float remaining_weight = 1;
+    auto is_valid_uncraft = [&x]( const recipe & curr ) -> bool {
+        return !( curr.obsolete || curr.result() != x.typeId()
+                  || curr.makes_amount() > 1 || curr.is_null() );
+    };
 
-    // Keep the codes below, use it to calculate component loss
+    // Check uncraft first, then crafting recipes if none was found
+    recipe uncraft = recipe_dictionary::get_uncraft( x.typeId() );
+    if( is_valid_uncraft( uncraft ) ) {
+        return uncraft;
+    }
 
-    // Chance of us losing a material component to entropy.
+    auto iter = std::find_if( recipe_dict.begin(), recipe_dict.end(),
+    [&]( const std::pair<const recipe_id, recipe> &curr ) {
+        return is_valid_uncraft( curr.second );
+    } );
+    if( iter != recipe_dict.end() ) {
+        return iter->second;
+    }
+    return cata::nullopt;
+}
+
+void salvage_actor::cut_up( Character &p, item_location &cut ) const
+{
+    // Map of salvaged items (id, count)
+    std::map<itype_id, int> salvage;
+    std::map<material_id, units::mass> mat_to_weight;
+    std::set<material_id> mat_set;
+    for( std::pair<material_id, int> mat : cut.get_item()->made_of() ) {
+        mat_set.insert( mat.first );
+    }
+
+    // Calculate efficiency losses
+    float efficiency = 1.0;
+    // Higher fabrication, less chance of entropy, but still a chance.
     /** @EFFECT_FABRICATION reduces chance of losing components when cutting items up */
-    int entropy_threshold = std::max( 5, 10 - p.get_skill_level( skill_fabrication ) );
-
-    // What materials do we salvage (ids and counts).
-    std::map<itype_id, int> materials_salvaged;
-
-    // Final just in case check (that perhaps was not done elsewhere);
-    if( cut.get_item() == &it ) {
-        add_msg( m_info, _( "You can not cut the %s with itself." ), it.tname() );
-        return 0;
+    int entropy_threshold = std::max( 0, 5 - p.get_skill_level( skill_fabrication ) );
+    if( rng( 1, 10 ) <= entropy_threshold ) {
+        efficiency *= 0.9;
     }
-    if( !cut.get_item()->empty() ) {
-        // Should have been ensured by try_to_cut_up
-        debugmsg( "tried to cut a non-empty item %s", cut.get_item()->tname() );
-        return 0;
+
+    // Fail dex roll, potentially lose more parts.
+    /** @EFFECT_DEX randomly reduces component loss when cutting items up */
+    if( dice( 3, 4 ) > p.dex_cur ) {
+        efficiency *= 0.95;
     }
+
+    // If the item being cut is damaged, additional losses will be incurred.
+    // Reinforcing does not decrease losses.
+    efficiency *= std::min( std::pow( 0.8, cut.get_item()->damage_level() ), 1.0 );
+
+    auto distribute_uniformly = [&mat_to_weight]( const item & x, float num_adjusted ) -> void {
+        const float mat_total = std::max( x.type->mat_portion_total, 1 );
+        for( const auto &type : x.made_of() )
+        {
+            mat_to_weight[type.first] += x.weight() * ( static_cast<float>( type.second ) / mat_total ) *
+            num_adjusted;
+        }
+    };
+
+    // efficiency is decreased every time the ingredients of a recipe have more mass than the output
+    // num_adjusted represents the number of items and efficiency in one value
+    std::function<void( item, float )> cut_up_component =
+        [&salvage, &mat_set, &distribute_uniformly, &cut_up_component]
+    ( const item & curr, float num_adjusted ) -> void {
+
+        // If it is one of the basic components, add it into the list
+        if( curr.type->is_basic_component() )
+        {
+            int num_actual = static_cast<int>( num_adjusted );
+            salvage[curr.typeId()] += num_actual;
+            return;
+        }
+
+        // Discard invalid component
+        // Non-salvageable items are discarded even if made of appropriate material
+        if( !curr.made_of_any( mat_set ) || !curr.is_salvageable() )
+        {
+            return;
+        }
+
+        // Items count by charges are not always smaller than base materials
+        // Necessary for e.g. bones -> bone splinters
+        if( curr.count_by_charges() )
+        {
+            distribute_uniformly( curr, num_adjusted );
+            return;
+        }
+
+        // All intact components are also cut up and destroyed
+        if( !curr.components.empty() )
+        {
+            for( const item &iter : curr.components ) {
+                cut_up_component( iter, num_adjusted );
+            }
+            return;
+        }
+
+        // Try to find an available recipe and "restore" its components
+        cata::optional<recipe> uncraft = find_uncraft_recipe( curr );
+        if( uncraft )
+        {
+            const requirement_data requirements = uncraft->simple_requirements();
+
+            units::mass ingredient_weight = 0_gram;
+            for( const auto &altercomps : requirements.get_components() ) {
+                if( !altercomps.empty() && altercomps.front().type ) {
+                    ingredient_weight += altercomps.front().type->weight * altercomps.front().count;
+                }
+            }
+            // We decrease efficiency so on avg no more mass is salvaged than the original item weighed
+            num_adjusted *= std::min( 1.0f, static_cast<float>( curr.weight().value() )
+                                      / static_cast<float>( ingredient_weight.value() ) );
+
+            // Find default components set from recipe
+            for( const auto &altercomps : requirements.get_components() ) {
+                const item_comp &comp = altercomps.front();
+                if( comp.type->count_by_charges() ) {
+                    item next = item( comp.type, calendar::turn, comp.count );
+                    cut_up_component( next, num_adjusted );
+                } else {
+                    item next = item( comp.type, calendar::turn );
+                    cut_up_component( next, num_adjusted * comp.count );
+                }
+            }
+        } else
+        {
+            // No recipe was found so we guess and distribute the weight uniformly.
+            // This is imprecise but it can't be exploited as no recipe exists for the item
+            distribute_uniformly( curr, num_adjusted );
+        }
+    };
+
+    // Decompose the item into irreducible parts
+    cut_up_component( *cut.get_item(), efficiency );
+
 
     // Not much practice, and you won't get very far ripping things up.
     p.practice( skill_fabrication, rng( 0, 5 ), 1 );
 
-    // Higher fabrication, less chance of entropy, but still a chance.
-    if( rng( 1, 10 ) <= entropy_threshold ) {
-        remaining_weight *= 0.99;
-    }
-    // Fail dex roll, potentially lose more parts.
-    /** @EFFECT_DEX randomly reduces component loss when cutting items up */
-    if( dice( 3, 4 ) > p.dex_cur ) {
-        remaining_weight *= 0.95;
-    }
-    // If more than 1 material component can still be salvaged,
-    // chance of losing more components if the item is damaged.
-    // If the item being cut is not damaged, no additional losses will be incurred.
-    if( cut.get_item()->damage() > 0 ) {
-        float component_success_chance = std::min( std::pow( 0.8, cut.get_item()->damage_level() ),
-                                         1.0 );
-        remaining_weight *= component_success_chance;
-    }
-
-    std::vector<item> stack{ *cut.get_item() }; /* working stack */
-    std::map<itype_id, int> salvage_to; /* outcome */
-    std::map<material_id, units::mass> mat_to_weight;
-    // Decompose the item into irreducible parts
-    while( !stack.empty() ) {
-        item temp = stack.back();
-        stack.pop_back();
-
-        // If it is one of the basic components, add it into the list
-        if( temp.type->is_basic_component() ) {
-            salvage_to[temp.typeId()] ++;
-            continue;
-        }
-        // Discard invalid component
-        std::set<material_id> mat_set;
-        for( std::pair<material_id, int> mat : cut_material_components ) {
-            mat_set.insert( mat.first );
-        }
-        if( !temp.made_of_any( mat_set ) ) {
-            continue;
-        }
-        //items count by charges should be even smaller than base materials
-        if( !temp.is_salvageable() || temp.count_by_charges() ) {
-            const float mat_total = temp.type->mat_portion_total == 0 ? 1 : temp.type->mat_portion_total;
-            // non-salvageable items but made of appropriate material, disrtibute uniformly in to all materials
-            for( const auto &type : temp.made_of() ) {
-                mat_to_weight[type.first] += ( temp.weight() * remaining_weight / temp.made_of().size() ) *
-                                             ( static_cast<float>( type.second ) / mat_total );
-            }
-            continue;
-        }
-        //check if there are components defined
-        if( !temp.components.empty() ) {
-            // push components into stack
-            for( const item &iter : temp.components ) {
-                stack.push_back( iter );
-            }
-            continue;
-        }
-        // No available components
-        // Try to find an available recipe and "restore" its components
-        recipe un_craft;
-        auto iter = std::find_if( recipe_dict.begin(),
-        recipe_dict.end(), [&]( const std::pair<const recipe_id, recipe> &curr ) {
-            if( curr.second.obsolete || curr.second.result() != temp.typeId() ||
-                curr.second.makes_amount() > 1 ) {
-                return false;
-            }
-            units::mass weight = 0_gram;
-            for( const auto &altercomps : curr.second.simple_requirements().get_components() ) {
-                if( !altercomps.empty() && altercomps.front().type ) {
-                    weight += ( altercomps.front().type->weight ) * altercomps.front().count;
-                }
-            }
-            return weight <= temp.weight();
-        } );
-        // No crafting recipe available
-        if( iter == recipe_dict.end() ) {
-            // Check disassemble recipe too
-            const float mat_total = temp.type->mat_portion_total == 0 ? 1 : temp.type->mat_portion_total;
-            un_craft = recipe_dictionary::get_uncraft( temp.typeId() );
-            if( un_craft.is_null() ) {
-                // No recipes found, count weight and go next
-                for( const auto &type : temp.made_of() ) {
-                    mat_to_weight[type.first] += ( temp.weight() * remaining_weight / temp.made_of().size() ) *
-                                                 ( static_cast<float>( type.second ) / mat_total );
-                }
-                continue;
-            }
-            // Found disassemble recipe, check if it is valid
-            units::mass weight = 0_gram;
-            for( const auto &altercomps : un_craft.simple_requirements().get_components() ) {
-                weight += ( altercomps.front().type->weight ) * altercomps.front().count;
-            }
-            if( weight > temp.weight() ) {
-                // Bad disassemble recipe.  Count weight and go next
-                for( const auto &type : temp.made_of() ) {
-                    mat_to_weight[type.first] += ( temp.weight() * remaining_weight / temp.made_of().size() ) *
-                                                 ( static_cast<float>( type.second ) / mat_total );
-                }
-                continue;
-            }
-        } else {
-            //take the chosen crafting recipe
-            un_craft = iter->second;
-        }
-        // If we get here it means we found a recipe
-        const requirement_data requirements = un_craft.simple_requirements();
-        // find default components set from recipe, push them into stack
-        for( const auto &altercomps : requirements.get_components() ) {
-            const item_comp &comp = altercomps.front();
-            // if count by charges
-            if( comp.type->count_by_charges() ) {
-                stack.emplace_back( comp.type, calendar::turn, comp.count );
-            } else {
-                for( int i = 0; i < comp.count; i++ ) {
-                    stack.emplace_back( comp.type, calendar::turn );
-                }
-            }
-        }
-    }
-
-    // Apply propotional item loss.
-    for( auto &iter : salvage_to ) {
-        iter.second *= remaining_weight;
-    }
-    // Item loss for weight was applied before(only round once).
+    // Add the uniformly distributed mass to the relevant salvage items
     for( const auto &iter : mat_to_weight ) {
         if( const cata::optional<itype_id> id = iter.first->salvaged_into() ) {
-            salvage_to[*id] += ( iter.second / id->obj().weight );
+            salvage[*id] += iter.second / id->obj().weight;
         }
     }
 
     add_msg( m_info, _( "You try to salvage materials from the %s." ),
              cut.get_item()->tname() );
 
-    item_location::type cut_type = cut.where();
-    tripoint pos = cut.position();
+    const item_location::type cut_type = cut.where();
+    const tripoint pos = cut.position();
+    const bool filthy = cut.get_item()->is_filthy();
 
     // Clean up before removing the item.
     remove_ammo( *cut.get_item(), p );
@@ -1721,10 +1713,9 @@ int salvage_actor::cut_up( Character &p, item &it, item_location &cut ) const
     p.calc_encumbrance();
 
     map &here = get_map();
-    for( const auto &salvaged : salvage_to ) {
-        itype_id mat_name = salvaged.first;
-        int amount = salvaged.second;
-        item result( mat_name, calendar::turn );
+    for( const auto &salvaged_mat : salvage ) {
+        item result( salvaged_mat.first, calendar::turn );
+        int amount = salvaged_mat.second;
         if( amount > 0 ) {
             // Time based on number of components.
             p.moves -= moves_per_part;
@@ -1748,8 +1739,6 @@ int salvage_actor::cut_up( Character &p, item &it, item_location &cut ) const
             add_msg( m_bad, _( "Could not salvage a %s." ), result.display_name() );
         }
     }
-    // No matter what, cutting has been done by the time we get here.
-    return cost >= 0 ? cost : it.ammo_required();
 }
 
 void inscribe_actor::load( const JsonObject &obj )
@@ -1986,7 +1975,7 @@ cata::optional<int> cauterize_actor::use( Character &p, item &it, bool t, const 
     }
 }
 
-ret_val<bool> cauterize_actor::can_use( const Character &p, const item &it, bool,
+ret_val<void> cauterize_actor::can_use( const Character &p, const item &it, bool,
                                         const tripoint & ) const
 {
     if( !p.has_effect( effect_bite ) &&
@@ -1995,30 +1984,30 @@ ret_val<bool> cauterize_actor::can_use( const Character &p, const item &it, bool
         !p.has_trait( trait_MASOCHIST_MED ) &&
         !p.has_trait( trait_CENOBITE ) ) {
 
-        return ret_val<bool>::make_failure(
+        return ret_val<void>::make_failure(
                    _( "You are not bleeding or bitten, there is no need to cauterize yourself." ) );
     }
     if( p.is_mounted() ) {
-        return ret_val<bool>::make_failure( _( "You cannot cauterize while mounted." ) );
+        return ret_val<void>::make_failure( _( "You cannot cauterize while mounted." ) );
     }
 
     if( flame ) {
         if( !p.has_charges( itype_fire, 4 ) ) {
-            return ret_val<bool>::make_failure(
+            return ret_val<void>::make_failure(
                        _( "You need a source of flame (4 charges worth) before you can cauterize yourself." ) );
         }
     } else {
         if( !it.ammo_sufficient( &p ) ) {
-            return ret_val<bool>::make_failure( _( "You need at least %d charges to cauterize wounds." ),
+            return ret_val<void>::make_failure( _( "You need at least %d charges to cauterize wounds." ),
                                                 it.ammo_required() );
         }
     }
 
     if( p.is_underwater() ) {
-        return ret_val<bool>::make_failure( _( "You can't do that while underwater." ) );
+        return ret_val<void>::make_failure( _( "You can't do that while underwater." ) );
     }
 
-    return ret_val<bool>::make_success();
+    return ret_val<void>::make_success();
 }
 
 void fireweapon_off_actor::load( const JsonObject &obj )
@@ -2066,18 +2055,18 @@ cata::optional<int> fireweapon_off_actor::use( Character &p, item &it, bool t,
     return it.type->charges_to_use();
 }
 
-ret_val<bool> fireweapon_off_actor::can_use( const Character &p, const item &it, bool,
+ret_val<void> fireweapon_off_actor::can_use( const Character &p, const item &it, bool,
         const tripoint & ) const
 {
     if( it.charges < it.type->charges_to_use() ) {
-        return ret_val<bool>::make_failure( _( "This tool doesn't have enough charges." ) );
+        return ret_val<void>::make_failure( _( "This tool doesn't have enough charges." ) );
     }
 
     if( p.is_underwater() ) {
-        return ret_val<bool>::make_failure( _( "You can't do that while underwater." ) );
+        return ret_val<void>::make_failure( _( "You can't do that while underwater." ) );
     }
 
-    return ret_val<bool>::make_success();
+    return ret_val<void>::make_success();
 }
 
 void fireweapon_on_actor::load( const JsonObject &obj )
@@ -2165,14 +2154,14 @@ cata::optional<int> manualnoise_actor::use( Character &p, item &it, bool t, cons
     return it.type->charges_to_use();
 }
 
-ret_val<bool> manualnoise_actor::can_use( const Character &, const item &it, bool,
+ret_val<void> manualnoise_actor::can_use( const Character &, const item &it, bool,
         const tripoint & ) const
 {
     if( it.charges < it.type->charges_to_use() ) {
-        return ret_val<bool>::make_failure( _( "This tool doesn't have enough charges." ) );
+        return ret_val<void>::make_failure( _( "This tool doesn't have enough charges." ) );
     }
 
-    return ret_val<bool>::make_success();
+    return ret_val<void>::make_success();
 }
 
 std::unique_ptr<iuse_actor> musical_instrument_actor::clone() const
@@ -2213,8 +2202,8 @@ cata::optional<int> musical_instrument_actor::use( Character &p, item &it, bool 
     }
     if( p.is_underwater() ) {
         p.add_msg_player_or_npc( m_bad,
-                                 _( "You can't play music underwater" ),
-                                 _( "<npcname> can't play music underwater" ) );
+                                 _( "You can't play music underwater." ),
+                                 _( "<npcname> can't play music underwater." ) );
         it.active = false;
         return cata::nullopt;
     }
@@ -2224,16 +2213,16 @@ cata::optional<int> musical_instrument_actor::use( Character &p, item &it, bool 
     if( p.has_effect( effect_sleep ) || p.has_effect( effect_stunned ) ||
         p.has_effect( effect_asthma ) ) {
         p.add_msg_player_or_npc( m_bad,
-                                 _( "You stop playing your %s" ),
-                                 _( "<npcname> stops playing their %s" ),
+                                 _( "You stop playing your %s." ),
+                                 _( "<npcname> stops playing their %s." ),
                                  it.display_name() );
         it.active = false;
         return cata::nullopt;
     }
 
     if( !t && it.active ) {
-        p.add_msg_player_or_npc( _( "You stop playing your %s" ),
-                                 _( "<npcname> stops playing their %s" ),
+        p.add_msg_player_or_npc( _( "You stop playing your %s." ),
+                                 _( "<npcname> stops playing their %s." ),
                                  it.display_name() );
         it.active = false;
         return cata::nullopt;
@@ -2244,8 +2233,8 @@ cata::optional<int> musical_instrument_actor::use( Character &p, item &it, bool 
     const int inv_pos = p.get_item_position( &it );
     if( inv_pos >= 0 || inv_pos == INT_MIN ) {
         p.add_msg_player_or_npc( m_bad,
-                                 _( "You need to hold or wear %s to play it" ),
-                                 _( "<npcname> needs to hold or wear %s to play it" ),
+                                 _( "You need to hold or wear %s to play it." ),
+                                 _( "<npcname> needs to hold or wear %s to play it." ),
                                  it.display_name() );
         it.active = false;
         return cata::nullopt;
@@ -2254,8 +2243,8 @@ cata::optional<int> musical_instrument_actor::use( Character &p, item &it, bool 
     // At speed this low you can't coordinate your actions well enough to play the instrument
     if( p.get_speed() <= 25 + speed_penalty ) {
         p.add_msg_player_or_npc( m_bad,
-                                 _( "You feel too weak to play your %s" ),
-                                 _( "<npcname> feels too weak to play their %s" ),
+                                 _( "You feel too weak to play your %s." ),
+                                 _( "<npcname> feels too weak to play their %s." ),
                                  it.display_name() );
         it.active = false;
         return cata::nullopt;
@@ -2268,8 +2257,8 @@ cata::optional<int> musical_instrument_actor::use( Character &p, item &it, bool 
 
     if( !it.active ) {
         p.add_msg_player_or_npc( m_good,
-                                 _( "You start playing your %s" ),
-                                 _( "<npcname> starts playing their %s" ),
+                                 _( "You start playing your %s." ),
+                                 _( "<npcname> starts playing their %s." ),
                                  it.display_name() );
         it.active = true;
     }
@@ -2293,9 +2282,9 @@ cata::optional<int> musical_instrument_actor::use( Character &p, item &it, bool 
     } else if( morale_effect < 0 && calendar::once_every( 1_minutes ) ) {
         // No musical skills = possible morale penalty
         if( p.is_avatar() ) {
-            desc = _( "You produce an annoying sound" );
+            desc = _( "You produce an annoying sound." );
         } else {
-            desc = string_format( _( "%s produces an annoying sound" ), p.disp_name( false ) );
+            desc = string_format( _( "%s produces an annoying sound." ), p.disp_name( false ) );
         }
     }
 
@@ -2320,18 +2309,18 @@ cata::optional<int> musical_instrument_actor::use( Character &p, item &it, bool 
     return 0;
 }
 
-ret_val<bool> musical_instrument_actor::can_use( const Character &p, const item &, bool,
+ret_val<void> musical_instrument_actor::can_use( const Character &p, const item &, bool,
         const tripoint & ) const
 {
     // TODO: (maybe): Mouth encumbrance? Smoke? Lack of arms? Hand encumbrance?
     if( p.is_underwater() ) {
-        return ret_val<bool>::make_failure( _( "You can't do that while underwater." ) );
+        return ret_val<void>::make_failure( _( "You can't do that while underwater." ) );
     }
     if( p.is_mounted() ) {
-        return ret_val<bool>::make_failure( _( "You can't do that while mounted." ) );
+        return ret_val<void>::make_failure( _( "You can't do that while mounted." ) );
     }
 
-    return ret_val<bool>::make_success();
+    return ret_val<void>::make_success();
 }
 
 std::unique_ptr<iuse_actor> learn_spell_actor::clone() const
@@ -2508,11 +2497,7 @@ void cast_spell_actor::info( const item &, std::vector<iteminfo> &dump ) const
 
 std::string cast_spell_actor::get_name() const
 {
-    if( mundane ) {
-        return string_format( _( "Activate" ) );
-    }
-
-    return string_format( _( "Cast spell" ) );
+    return mundane ? _( "Activate" ) : _( "Cast spell" );
 }
 
 cata::optional<int> cast_spell_actor::use( Character &p, item &it, bool, const tripoint & ) const
@@ -2581,7 +2566,7 @@ bool holster_actor::store( Character &you, item &holster, item &obj ) const
         return false;
     }
 
-    const ret_val<bool> contain = holster.can_contain( obj );
+    const ret_val<void> contain = holster.can_contain( obj );
     if( !contain.success() ) {
         you.add_msg_if_player( m_bad, contain.str(), holster.tname(), obj.tname() );
     }
@@ -2693,14 +2678,16 @@ cata::optional<int> ammobelt_actor::use( Character &p, item &, bool, const tripo
         return cata::nullopt;
     }
 
-    item::reload_option opt = p.select_ammo( mag, true );
+    item_location loc = p.i_add( mag );
+    item::reload_option opt = p.select_ammo( loc, true );
     std::vector<item_location> targets;
     if( opt ) {
         const int moves = opt.moves();
-        item_location loc = p.i_add( mag );
-        targets.emplace_back( loc );
+        targets.push_back( loc );
         targets.push_back( std::move( opt.ammo ) );
         p.assign_activity( player_activity( reload_activity_actor( moves, opt.qty(), targets ) ) );
+    } else {
+        loc.remove_item();
     }
 
     return 0;
@@ -3322,6 +3309,11 @@ std::string repair_item_actor::action_description( repair_item_actor::repair_typ
 }
 
 std::string repair_item_actor::get_name() const
+{
+    return _( "Repair" );
+}
+
+std::string repair_item_actor::get_description() const
 {
     const std::string mats = enumerate_as_string( materials.begin(), materials.end(),
     []( const material_id & mid ) {
@@ -4061,19 +4053,19 @@ cata::optional<int> saw_barrel_actor::use( Character &p, item &it, bool t, const
     return 0;
 }
 
-ret_val<bool> saw_barrel_actor::can_use_on( const Character &, const item &,
+ret_val<void> saw_barrel_actor::can_use_on( const Character &, const item &,
         const item &target ) const
 {
     if( !target.is_gun() ) {
-        return ret_val<bool>::make_failure( _( "It's not a gun." ) );
+        return ret_val<void>::make_failure( _( "It's not a gun." ) );
     }
 
     if( target.type->gun->barrel_volume <= 0_ml ) {
-        return ret_val<bool>::make_failure( _( "The barrel is too small." ) );
+        return ret_val<void>::make_failure( _( "The barrel is too small." ) );
     }
 
     if( target.gunmod_find( itype_barrel_small ) ) {
-        return ret_val<bool>::make_failure( _( "The barrel is already sawn-off." ) );
+        return ret_val<void>::make_failure( _( "The barrel is already sawn-off." ) );
     }
 
     const auto gunmods = target.gunmods();
@@ -4083,10 +4075,10 @@ ret_val<bool> saw_barrel_actor::can_use_on( const Character &, const item &,
     } );
 
     if( modified_barrel ) {
-        return ret_val<bool>::make_failure( _( "Can't saw off modified barrels." ) );
+        return ret_val<void>::make_failure( _( "Can't saw off modified barrels." ) );
     }
 
-    return ret_val<bool>::make_success();
+    return ret_val<void>::make_success();
 }
 
 std::unique_ptr<iuse_actor> saw_barrel_actor::clone() const
@@ -4120,15 +4112,15 @@ cata::optional<int> saw_stock_actor::use( Character &p, item &it, bool t, const 
     return 0;
 }
 
-ret_val<bool> saw_stock_actor::can_use_on( const Character &, const item &,
+ret_val<void> saw_stock_actor::can_use_on( const Character &, const item &,
         const item &target ) const
 {
     if( !target.is_gun() ) {
-        return ret_val<bool>::make_failure( _( "It's not a gun." ) );
+        return ret_val<void>::make_failure( _( "It's not a gun." ) );
     }
 
     if( target.gunmod_find( itype_stock_none ) ) {
-        return ret_val<bool>::make_failure( _( "The stock is already sawn-off." ) );
+        return ret_val<void>::make_failure( _( "The stock is already sawn-off." ) );
     }
 
     const auto gunmods = target.gunmods();
@@ -4143,19 +4135,19 @@ ret_val<bool> saw_stock_actor::can_use_on( const Character &, const item &,
     } );
 
     if( target.get_free_mod_locations( gunmod_location( "stock mount" ) ) < 1 ) {
-        return ret_val<bool>::make_failure(
+        return ret_val<void>::make_failure(
                    _( "Can't cut off modern composite stocks (must have an empty stock mount)." ) );
     }
 
     if( modified_stock ) {
-        return ret_val<bool>::make_failure( _( "Can't cut off modified stocks." ) );
+        return ret_val<void>::make_failure( _( "Can't cut off modified stocks." ) );
     }
 
     if( accessorized_stock ) {
-        return ret_val<bool>::make_failure( _( "Can't cut off accessorized stocks." ) );
+        return ret_val<void>::make_failure( _( "Can't cut off accessorized stocks." ) );
     }
 
-    return ret_val<bool>::make_success();
+    return ret_val<void>::make_success();
 }
 
 std::unique_ptr<iuse_actor> saw_stock_actor::clone() const
@@ -4253,36 +4245,36 @@ cata::optional<int> install_bionic_actor::use( Character &p, item &it, bool,
     }
 }
 
-ret_val<bool> install_bionic_actor::can_use( const Character &p, const item &it, bool,
+ret_val<void> install_bionic_actor::can_use( const Character &p, const item &it, bool,
         const tripoint & ) const
 {
     if( !it.is_bionic() ) {
-        return ret_val<bool>::make_failure();
+        return ret_val<void>::make_failure();
     }
     const bionic_id &bid = it.type->bionic->id;
     if( p.is_mounted() ) {
-        return ret_val<bool>::make_failure( _( "You can't install bionics while mounted." ) );
+        return ret_val<void>::make_failure( _( "You can't install bionics while mounted." ) );
     }
     if( !p.has_trait( trait_DEBUG_BIONICS ) ) {
         if( bid->installation_requirement.is_empty() ) {
-            return ret_val<bool>::make_failure( _( "You can't self-install this CBM." ) );
+            return ret_val<void>::make_failure( _( "You can't self-install this CBM." ) );
         } else  if( it.has_flag( flag_FILTHY ) ) {
-            return ret_val<bool>::make_failure( _( "You can't install a filthy CBM!" ) );
+            return ret_val<void>::make_failure( _( "You can't install a filthy CBM!" ) );
         } else if( it.has_flag( flag_NO_STERILE ) ) {
-            return ret_val<bool>::make_failure( _( "This CBM is not sterile, you can't install it." ) );
+            return ret_val<void>::make_failure( _( "This CBM is not sterile, you can't install it." ) );
         } else if( it.has_fault( fault_bionic_salvaged ) ) {
-            return ret_val<bool>::make_failure(
+            return ret_val<void>::make_failure(
                        _( "This CBM is already deployed.  You need to reset it to factory state." ) );
         } else if( units::energy( std::numeric_limits<int>::max(), units::energy::unit_type{} ) -
                    p.get_max_power_level() < bid->capacity ) {
-            return ret_val<bool>::make_failure( _( "Max power capacity already reached" ) );
+            return ret_val<void>::make_failure( _( "Max power capacity already reached" ) );
         }
     }
 
     if( p.has_bionic( bid ) && !bid->dupes_allowed ) {
-        return ret_val<bool>::make_failure( _( "You have already installed this bionic." ) );
+        return ret_val<void>::make_failure( _( "You have already installed this bionic." ) );
     } else if( bid->upgraded_bionic && !p.has_bionic( bid->upgraded_bionic ) ) {
-        return ret_val<bool>::make_failure( _( "There is nothing to upgrade." ) );
+        return ret_val<void>::make_failure( _( "There is nothing to upgrade." ) );
     } else {
         const bool downgrade =
             std::any_of( bid->available_upgrades.begin(), bid->available_upgrades.end(),
@@ -4291,11 +4283,11 @@ ret_val<bool> install_bionic_actor::can_use( const Character &p, const item &it,
         } );
 
         if( downgrade ) {
-            return ret_val<bool>::make_failure( _( "You have a superior version installed." ) );
+            return ret_val<void>::make_failure( _( "You have a superior version installed." ) );
         }
     }
 
-    return ret_val<bool>::make_success();
+    return ret_val<void>::make_success();
 }
 
 std::unique_ptr<iuse_actor> install_bionic_actor::clone() const
@@ -4355,13 +4347,13 @@ cata::optional<int> detach_gunmods_actor::use( Character &p, item &it, bool,
     return cata::nullopt;
 }
 
-ret_val<bool> detach_gunmods_actor::can_use( const Character &p, const item &it, bool,
+ret_val<void> detach_gunmods_actor::can_use( const Character &p, const item &it, bool,
         const tripoint & ) const
 {
     const std::vector<const item *> mods = it.gunmods();
 
     if( mods.empty() ) {
-        return ret_val<bool>::make_failure( _( "Doesn't appear to be modded." ) );
+        return ret_val<void>::make_failure( _( "Doesn't appear to be modded." ) );
     }
 
     const bool no_removables =
@@ -4371,15 +4363,15 @@ ret_val<bool> detach_gunmods_actor::can_use( const Character &p, const item &it,
     } );
 
     if( no_removables ) {
-        return ret_val<bool>::make_failure( _( "None of the mods can be removed." ) );
+        return ret_val<void>::make_failure( _( "None of the mods can be removed." ) );
     }
 
     if( p.is_worn(
             it ) ) { // Prevent removal of shoulder straps and thereby making the gun un-wearable again.
-        return ret_val<bool>::make_failure( _( "Has to be taken off first." ) );
+        return ret_val<void>::make_failure( _( "Has to be taken off first." ) );
     }
 
-    return ret_val<bool>::make_success();
+    return ret_val<void>::make_success();
 }
 
 std::unique_ptr<iuse_actor> detach_gunmods_actor::detach_gunmods_actor::clone() const
@@ -4426,16 +4418,16 @@ cata::optional<int> modify_gunmods_actor::use( Character &p, item &it, bool,
     return cata::nullopt;
 }
 
-ret_val<bool> modify_gunmods_actor::can_use( const Character &p, const item &it, bool,
+ret_val<void> modify_gunmods_actor::can_use( const Character &p, const item &it, bool,
         const tripoint & ) const
 {
     if( !p.is_wielding( it ) ) {
-        return ret_val<bool>::make_failure( _( "Need to be wielding." ) );
+        return ret_val<void>::make_failure( _( "Need to be wielding." ) );
     }
     const std::vector<const item *> mods = it.gunmods();
 
     if( mods.empty() ) {
-        return ret_val<bool>::make_failure( _( "Doesn't appear to be modded." ) );
+        return ret_val<void>::make_failure( _( "Doesn't appear to be modded." ) );
     }
 
     const bool modifiables = std::any_of( mods.begin(), mods.end(),
@@ -4444,15 +4436,15 @@ ret_val<bool> modify_gunmods_actor::can_use( const Character &p, const item &it,
     } );
 
     if( !modifiables ) {
-        return ret_val<bool>::make_failure( _( "None of the mods can be modified." ) );
+        return ret_val<void>::make_failure( _( "None of the mods can be modified." ) );
     }
 
     if( p.is_worn(
             it ) ) { // I don't know if modifying really needs this but its for future proofing.
-        return ret_val<bool>::make_failure( _( "Has to be taken off first." ) );
+        return ret_val<void>::make_failure( _( "Has to be taken off first." ) );
     }
 
-    return ret_val<bool>::make_success();
+    return ret_val<void>::make_success();
 }
 
 std::unique_ptr<iuse_actor> modify_gunmods_actor::modify_gunmods_actor::clone() const

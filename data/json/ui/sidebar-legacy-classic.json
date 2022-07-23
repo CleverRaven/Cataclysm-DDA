@@ -16,6 +16,22 @@
     ]
   },
   {
+    "id": "lcla_health_sa_left_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "width": 12,
+    "widgets": [
+      "status_hpn_layout_head",
+      "status_hpn_layout_torso",
+      "status_hpn_layout_larm",
+      "status_hpn_layout_rarm",
+      "status_hpn_layout_lleg",
+      "status_hpn_layout_rleg",
+      "power_short_desc"
+    ]
+  },
+  {
     "id": "lcla_health_mid_layout",
     "type": "widget",
     "style": "layout",
@@ -29,6 +45,15 @@
       "fatigue_desc_no_label",
       "body_temp_desc_no_label"
     ]
+  },
+  {
+    "id": "lcla_health_sa_mid_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "width": 12,
+    "//": "TODO - It is not currently possible to conditionally swap out widgets on the fly. When this is added, vehicle speed should replace speed when driving.",
+    "widgets": [ "pain_num_label", "hunger_desc_no_label", "thirst_desc_no_label", "fatigue_desc_no_label", "body_temp_desc_no_label" ]
   },
   {
     "id": "lcla_mood_desc",
@@ -65,6 +90,17 @@
     "separator": " ",
     "height": 7,
     "widgets": [ "lcla_health_overmap", "lcla_health_left_layout", "lcla_health_mid_layout", "lcla_health_right_layout" ]
+  },
+  {
+    "id": "lcla_health_sa_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Health (self-aware)",
+    "arrange": "columns",
+    "separator": " ",
+    "height": 7,
+    "widgets": [ "lcla_health_overmap", "lcla_health_sa_left_layout", "lcla_health_sa_mid_layout", "lcla_health_right_layout" ],
+    "flags": [ "W_DISABLED_BY_DEFAULT" ]
   },
   {
     "id": "lcla_vehicle_left_layout",
@@ -131,6 +167,7 @@
     "width": 44,
     "widgets": [
       "lcla_health_layout",
+      "lcla_health_sa_layout",
       "ll_movement_layout",
       "lcla_vehicle_layout",
       "all_weariness_layout",

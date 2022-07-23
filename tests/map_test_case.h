@@ -195,7 +195,7 @@ namespace tiles
  * @param f function to call when char matches
  * @return function that returns true when char is matched and false otherwise
  */
-tile_predicate ifchar( char c, tile_predicate f );
+tile_predicate ifchar( char c, const tile_predicate &f );
 
 /**
  * Returns the function that sets the map `ter` at the `map_test_case::tile` coords to the given ter_id

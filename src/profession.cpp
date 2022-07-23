@@ -570,38 +570,38 @@ bool profession::has_flag( const std::string &flag ) const
     return flags.count( flag ) != 0;
 }
 
-ret_val<bool> profession::can_afford( const Character &you, const int points ) const
+ret_val<void> profession::can_afford( const Character &you, const int points ) const
 {
     if( point_cost() - you.prof->point_cost() <= points ) {
-        return ret_val<bool>::make_success();
+        return ret_val<void>::make_success();
     }
 
-    return ret_val<bool>::make_failure( _( "You don't have enough points" ) );
+    return ret_val<void>::make_failure( _( "You don't have enough points" ) );
 }
 
-ret_val<bool> profession::can_pick() const
+ret_val<void> profession::can_pick() const
 {
     // if meta progression is disabled then skip this
     if( get_past_games().achievement( achievement_achievement_arcade_mode ) ||
         !get_option<bool>( "META_PROGRESS" ) ) {
-        return ret_val<bool>::make_success();
+        return ret_val<void>::make_success();
     }
 
     if( _requirement ) {
         const achievement_completion_info *other_games = get_past_games().achievement(
                     _requirement.value()->id );
         if( !other_games ) {
-            return ret_val<bool>::make_failure(
+            return ret_val<void>::make_failure(
                        _( "You must complete the achievement \"%s\" to unlock this profession." ),
                        _requirement.value()->name() );
         } else if( other_games->games_completed.empty() ) {
-            return ret_val<bool>::make_failure(
+            return ret_val<void>::make_failure(
                        _( "You must complete the achievement \"%s\" to unlock this profession." ),
                        _requirement.value()->name() );
         }
     }
 
-    return ret_val<bool>::make_success();
+    return ret_val<void>::make_success();
 }
 
 bool profession::is_locked_trait( const trait_id &trait ) const

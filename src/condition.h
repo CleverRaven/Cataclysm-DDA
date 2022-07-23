@@ -184,13 +184,13 @@ struct duration_or_var {
     }
 };
 template<class T>
-str_or_var<T> get_str_or_var( const JsonValue &jv, std::string member, bool required = true,
-                              std::string default_val = "" );
+str_or_var<T> get_str_or_var( const JsonValue &jv, const std::string &member, bool required = true,
+                              const std::string &default_val = "" );
 template<class T>
 int_or_var<T> get_int_or_var( const JsonObject &jo, std::string member, bool required = true,
                               int default_val = 0 );
 template<class T>
-int_or_var_part<T> get_int_or_var_part( const JsonValue &jv, std::string member,
+int_or_var_part<T> get_int_or_var_part( const JsonValue &jv, const std::string &member,
                                         bool required = true,
                                         int default_val = 0 );
 template<class T>
@@ -198,16 +198,19 @@ duration_or_var<T> get_duration_or_var( const JsonObject &jo, std::string member
                                         bool required = true,
                                         time_duration default_val = 0_seconds );
 template<class T>
-duration_or_var_part<T> get_duration_or_var_part( const JsonValue &jv, std::string member,
+duration_or_var_part<T> get_duration_or_var_part( const JsonValue &jv, const std::string &member,
         bool required = true,
         time_duration default_val = 0_seconds );
 template<class T>
 tripoint_abs_ms get_tripoint_from_var( cata::optional<var_info> var, const T &d );
 var_info read_var_info( const JsonObject &jo, bool require_default );
-void write_var_value( var_type type, std::string name, talker *talk, std::string value );
+void write_var_value( var_type type, const std::string &name, talker *talk,
+                      const std::string &value );
 template<class T>
 std::string get_talk_varname( const JsonObject &jo, const std::string &member,
                               bool check_value, int_or_var<T> &default_val );
+std::string get_talk_var_basename( const JsonObject &jo, const std::string &member,
+                                   bool check_value );
 // the truly awful declaration for the conditional_t loading helper_function
 template<class T>
 void read_condition( const JsonObject &jo, const std::string &member_name,
@@ -319,7 +322,8 @@ struct conditional_t {
         void set_compare_string( const JsonObject &jo, const std::string &member );
         void set_compare_int( const JsonObject &jo, const std::string &member );
         static std::function<int( const T & )> get_get_int( const JsonObject &jo );
-        static std::function<int( const T & )> get_get_int( std::string value, const JsonObject &jo );
+        static std::function<int( const T & )> get_get_int( const std::string &value,
+                const JsonObject &jo );
         bool operator()( const T &d ) const {
             if( !condition ) {
                 return false;

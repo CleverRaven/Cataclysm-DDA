@@ -17,6 +17,7 @@
 #include <tuple>
 #include <unordered_map>
 #include <unordered_set>
+#include <utility>
 
 #include "activity_type.h"
 #include "avatar.h"
@@ -2098,7 +2099,7 @@ bool vehicle::find_and_split_vehicles( map &here, int exclude )
 bool vehicle::find_and_split_vehicles( map &here, std::set<int> exclude )
 {
     std::vector<int> valid_parts = all_parts_at_location( part_location_structure );
-    std::set<int> checked_parts = exclude;
+    std::set<int> checked_parts = std::move( exclude );
 
     std::vector<std::vector <int>> all_vehicles;
 
@@ -7586,12 +7587,12 @@ tripoint vehicle::exhaust_dest( int part ) const
     return global_pos3() + tripoint( q, 0 );
 }
 
-void vehicle::add_tag( std::string tag )
+void vehicle::add_tag( const std::string &tag )
 {
     tags.insert( tag );
 }
 
-bool vehicle::has_tag( std::string tag ) const
+bool vehicle::has_tag( const std::string &tag ) const
 {
     return tags.count( tag ) > 0;
 }

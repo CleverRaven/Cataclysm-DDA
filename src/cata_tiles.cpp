@@ -3573,8 +3573,13 @@ bool cata_tiles::draw_critter_at( const tripoint &p, lit_level ll, int &height_3
     } else {
         // invisible
         const Creature *critter = creatures.creature_at( p, true );
-        if( critter && ( you.sees_with_infrared( *critter ) ||
-                         you.sees_with_specials( *critter ) ) ) {
+        if( !critter ) {
+            return false;
+        }
+        // scope_is_blocking is true if player is aiming and aim FOV limits obscure that position
+        const bool scope_is_blocking = you.is_avatar() && you.as_avatar()->cant_see( p );
+        const bool sees_with_infrared = !scope_is_blocking && you.sees_with_infrared( *critter );
+        if( sees_with_infrared || you.sees_with_specials( *critter ) ) {
             // try drawing infrared creature if invisible and not overridden
             // return directly without drawing overlay
             return draw_from_id_string( "infrared_creature", TILE_CATEGORY::NONE, empty_string, p,

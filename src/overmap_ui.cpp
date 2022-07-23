@@ -521,7 +521,7 @@ static bool get_and_assign_los( int &los, avatar &player_character, const tripoi
 }
 
 static void draw_ascii(
-    const catacurses::window &w, const tripoint_abs_omt &center,
+    ui_adaptor &ui, const catacurses::window &w, const tripoint_abs_omt &center,
     const tripoint_abs_omt &orig, bool blink, bool show_explored, bool /* fast_scroll */,
     input_context * /* inp_ctxt */, const draw_data_t &data )
 {
@@ -800,12 +800,7 @@ static void draw_ascii(
             if( blink && uistate.overmap_debug_mongroup ) {
                 // Check if this tile is the target of the currently selected group
 
-                // Convert to position within overmap
-                point_abs_om abs_om;
-                point_om_omt omp_in_om;
-                std::tie( abs_om, omp_in_om ) = project_remain<coords::om>( omp.xy() );
-                if( mgroup && project_to<coords::omt>( mgroup->target.xy() ) ==
-                    omp_in_om ) {
+                if( mgroup && project_to<coords::omt>( mgroup->target ) == omp.xy() ) {
                     ter_color = c_red;
                     ter_sym = "x";
                 } else {
@@ -998,8 +993,9 @@ static void draw_ascii(
         mvwputch( w, point( om_half_width + 1, om_half_height + 1 ), c_light_gray, LINE_XOOX );
     }
     // Done with all drawing!
-    wmove( w, point( om_half_width, om_half_height ) );
     wnoutrefresh( w );
+    // Set cursor for screen readers
+    ui.set_cursor( w, point( om_half_width, om_half_height ) );
 }
 
 static void draw_om_sidebar(
@@ -1093,6 +1089,8 @@ static void draw_om_sidebar(
     }
 
     if( ( data.debug_editor && center_seen ) || data.debug_info ) {
+        mvwprintz( wbar, point( 1, ++lines ), c_white,
+                   "abs_omt: %s", center.to_string() );
         const oter_t &oter = overmap_buffer.ter( center ).obj();
         mvwprintz( wbar, point( 1, ++lines ), c_white, "oter: %s (rot %d)", oter.id.str(),
                    oter.get_rotation() );
@@ -1122,6 +1120,15 @@ static void draw_om_sidebar(
                 mvwprintz( wbar, point( 1, ++lines ), c_white, "join %s: %s",
                            io::enum_to_string( dir ), *join );
             }
+        }
+
+        for( const mongroup *mg : overmap_buffer.monsters_at( center ) ) {
+            mvwprintz( wbar, point( 1, ++lines ), c_red, "mongroup %s (%zu/%u), %s %s%s%s",
+                       mg->type.str(), mg->monsters.size(), mg->population,
+                       mg->horde_behaviour,
+                       mg->dying ? "x" : "", mg->horde ? "h" : "", mg->diffuse ? "d" : "" );
+            mvwprintz( wbar, point( 1, ++lines ), c_red, "target: %s (%d)",
+                       project_to<coords::omt>( mg->target ).to_string(), mg->interest );
         }
     }
 
@@ -1205,7 +1212,7 @@ tiles_redraw_info redraw_info;
 #endif
 
 static void draw(
-    const tripoint_abs_omt &center, const tripoint_abs_omt &orig,
+    ui_adaptor &ui, const tripoint_abs_omt &center, const tripoint_abs_omt &orig,
     bool blink, bool show_explored, bool fast_scroll,
     input_context *inp_ctxt, const draw_data_t &data )
 {
@@ -1219,7 +1226,7 @@ static void draw(
         return;
     }
 #endif // TILES
-    draw_ascii( g->w_overmap, center, orig, blink, show_explored, fast_scroll, inp_ctxt, data );
+    draw_ascii( ui, g->w_overmap, center, orig, blink, show_explored, fast_scroll, inp_ctxt, data );
 }
 
 static void create_note( const tripoint_abs_omt &curs )
@@ -1767,8 +1774,8 @@ static tripoint_abs_omt display( const tripoint_abs_omt &orig,
     cata::optional<tripoint> mouse_pos;
     std::chrono::time_point<std::chrono::steady_clock> last_blink = std::chrono::steady_clock::now();
 
-    ui.on_redraw( [&]( const ui_adaptor & ) {
-        draw( curs, orig, uistate.overmap_show_overlays,
+    ui.on_redraw( [&]( ui_adaptor & ui ) {
+        draw( ui, curs, orig, uistate.overmap_show_overlays,
               show_explored, fast_scroll, &ictxt, data );
     } );
 
@@ -2029,7 +2036,6 @@ cata::optional<city> ui::omap::select_city( uilist &cities_menu,
     if( random ) {
         ret_val = random_entry( cities_container );
     } else {
-        cities_menu.show();
         cities_menu.query();
         if( cities_menu.ret == RANDOM_CITY_ENTRY ) {
             ret_val = random_entry( cities_container );

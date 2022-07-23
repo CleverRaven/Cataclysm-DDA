@@ -84,7 +84,7 @@
     "max_damage": 30,
     "damage_increment": 0.5,
     "effect": "spawn_item",
-    "effect_str": "scrap_dream_dross",
+    "effect_str": "scrap_dreamdross",
     "shape": "blast",
     "base_casting_time": 5000,
     "base_energy_cost": 1000,

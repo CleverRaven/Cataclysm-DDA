@@ -90,6 +90,7 @@ class item_location::impl
         virtual item_location obtain( Character &, int ) = 0;
         virtual units::volume volume_capacity() const = 0;
         virtual units::mass weight_capacity() const = 0;
+        virtual bool check_parent_capacity_recursive() const = 0;
         virtual int obtain_cost( const Character &, int ) const = 0;
         virtual void remove_item() = 0;
         virtual void on_contents_changed() = 0;
@@ -178,6 +179,10 @@ class item_location::impl::nowhere : public item_location::impl
 
         units::mass weight_capacity() const override {
             return units::mass();
+        }
+
+        bool check_parent_capacity_recursive() const override {
+            return false;
         }
 };
 
@@ -274,6 +279,10 @@ class item_location::impl::item_on_map : public item_location::impl
 
         units::mass weight_capacity() const override {
             return units::mass_max;
+        }
+
+        bool check_parent_capacity_recursive() const override {
+            return volume_capacity() >= 0_ml && weight_capacity() >= 0_gram;
         }
 };
 
@@ -431,6 +440,10 @@ class item_location::impl::item_on_person : public item_location::impl
         units::mass weight_capacity() const override {
             return units::mass_max;
         }
+
+        bool check_parent_capacity_recursive() const override {
+            return true;
+        }
 };
 
 class item_location::impl::item_on_vehicle : public item_location::impl
@@ -536,6 +549,10 @@ class item_location::impl::item_on_vehicle : public item_location::impl
 
         units::mass weight_capacity() const override {
             return units::mass_max;
+        }
+
+        bool check_parent_capacity_recursive() const override {
+            return volume_capacity() >= 0_ml && weight_capacity() >= 0_gram;
         }
 };
 
@@ -683,6 +700,11 @@ class item_location::impl::item_in_container : public item_location::impl
 
         units::mass weight_capacity() const override {
             return container->contained_where( *target() )->remaining_weight();
+        }
+
+        bool check_parent_capacity_recursive() const override {
+            return volume_capacity() >= 0_ml && weight_capacity() >= 0_gram &&
+                   container.check_parent_capacity_recursive();
         }
 };
 
@@ -938,6 +960,11 @@ units::volume item_location::volume_capacity() const
 units::mass item_location::weight_capacity() const
 {
     return ptr->weight_capacity();
+}
+
+bool item_location::check_parent_capacity_recursive() const
+{
+    return ptr->check_parent_capacity_recursive();
 }
 
 bool item_location::protected_from_liquids() const

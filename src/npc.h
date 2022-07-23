@@ -940,9 +940,9 @@ class npc : public Character
         bool will_accept_from_player( const item &it ) const;
 
         bool wants_to_sell( const item &it ) const;
-        ret_val<bool> wants_to_sell( const item &/*it*/, int at_price, int market_price ) const;
+        ret_val<void> wants_to_sell( const item &/*it*/, int at_price, int market_price ) const;
         bool wants_to_buy( const item &it ) const;
-        ret_val<bool> wants_to_buy( const item &/*it*/, int at_price, int /*market_price*/ ) const;
+        ret_val<void> wants_to_buy( const item &/*it*/, int at_price, int /*market_price*/ ) const;
 
         bool will_exchange_items_freely() const;
         int max_credit_extended() const;
@@ -1100,18 +1100,17 @@ class npc : public Character
         /** Can reload currently wielded gun? */
         bool can_reload_current();
         /** Has a gun or magazine that can be reloaded */
-        const item &find_reloadable() const;
-        item &find_reloadable();
+        item_location find_reloadable();
         /** Finds ammo the NPC could use to reload a given object */
-        item_location find_usable_ammo( const item &weap );
-        item_location find_usable_ammo( const item &weap ) const;
+        item_location find_usable_ammo( const item_location &weap );
+        item_location find_usable_ammo( const item_location &weap ) const;
 
         bool dispose_item( item_location &&obj, const std::string &prompt = std::string() ) override;
 
         void update_cardio_acc() override {};
 
         void aim( Target_attributes target_attributes );
-        void do_reload( const item &it );
+        void do_reload( const item_location &it );
 
         // Physical movement from one tile to the next
         /**
@@ -1366,7 +1365,7 @@ class npc : public Character
         bool has_companion_mission() const;
         npc_companion_mission get_companion_mission() const;
         attitude_group get_attitude_group( npc_attitude att ) const;
-        void set_unique_id( std::string id );
+        void set_unique_id( const std::string &id );
         std::string get_unique_id() const;
     protected:
         void store( JsonOut &json ) const;

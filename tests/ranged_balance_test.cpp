@@ -440,9 +440,9 @@ TEST_CASE( "synthetic_range_test", "[.]" )
     }
 }
 
-static void shoot_monster( std::string gun_type, const std::vector<std::string> &mods,
-                           std::string ammo_type, int range,
-                           int expected_damage, std::string monster_type )
+static void shoot_monster( const std::string &gun_type, const std::vector<std::string> &mods,
+                           const std::string &ammo_type, int range,
+                           int expected_damage, const std::string &monster_type )
 {
     clear_map();
     statistics<int> damage;
