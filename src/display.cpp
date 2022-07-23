@@ -582,7 +582,7 @@ std::pair<std::string, nc_color> display::power_balance_text_color( const avatar
         c_pwr = c_light_blue;
     }
 
-    std::string suffix = "";
+    std::string suffix;
     if( balance > 0_kJ ) {
         suffix = "+";
     }
