@@ -995,51 +995,37 @@ Other monster flags.
 - ```ANIMAL``` Is an _animal_ for purposes of the `Animal Empathy` trait.
 - ```AQUATIC``` Confined to water.
 - ```ARTHROPOD_BLOOD``` Forces monster to bleed hemolymph.
-- ```ATTACKMON``` Attacks other monsters.
+- ```ATTACKMON``` Attacks other monsters regardless of faction relations when pathing through their space.
 - ```ATTACK_UPPER``` Even though this monster is small in size it can attack upper limbs.
 - ```ATTACK_LOWER``` Even though this monster is large in size it can't attack upper limbs.
 - ```BADVENOM``` Attack may **severely** poison the player.
 - ```BASHES``` Bashes down doors.
 - ```BILE_BLOOD``` Makes monster bleed bile.
-- ```BIRDFOOD``` Becomes friendly / tamed with bird food.
-- ```BONES``` May produce bones and sinews when butchered. If combined with `POISON` flag, tainted bones, if combined with `HUMAN`, human bones.
 - ```BORES``` Tunnels through just about anything (15x bash multiplier: dark wyrms' bash skill 12->180).
 - ```CAN_DIG``` Can dig _and_ walk.
 - ```CAN_OPEN_DOORS``` Can open doors on its path.
 - ```CAMOUFLAGE``` Stays invisible up to (current Perception, + base Perception if the character has the Spotting proficiency) tiles away, even in broad daylight. Monsters see it from the lower of `vision_day` and `vision_night` ranges.
 - ```CANPLAY``` This creature can be played with if it's a pet.
-- ```CATFOOD``` Becomes friendly / tamed with cat food.
-- ```CATTLEFODDER``` Becomes friendly / tamed with cattle fodder.
-- ```CBM_CIV``` May produce a common and a power CBM when butchered.
-- ```CBM_OP``` May produce a CBM or two from 'bionics_op' item group when butchered.
-- ```CBM_POWER``` May produce a power CBM when butchered, independent of other CBMs.
-- ```CBM_SCI``` May produce a CBM from 'bionics_sci' item group when butchered.
-- ```CBM_SUBS``` May produce a CBM or two from bionics_subs and a power CBM when butchered.
-- ```CBM_TECH``` May produce a CBM or two from 'bionics_tech' item group and a power CBM when butchered.
-- ```CHITIN``` May produce chitin when butchered.
 - ```CLIMBS``` Can climb over fences or similar obstacles quickly.
 - ```COLDPROOF``` Immune to cold damage.
 - ```DESTROYS``` Bashes down walls and more. (2.5x bash multiplier, where base is the critter's max melee bashing)
 - ```DIGS``` Digs through the ground.
-- ```DOGFOOD``` Becomes friendly / tamed with dog food.
+- ```DOGFOOD``` Can be ordered to attack with a dog whistle.
 - ```DRIPS_GASOLINE``` Occasionally drips gasoline on move.
 - ```DRIPS_NAPALM``` Occasionally drips napalm on move.
 - ```DROPS_AMMO``` This monster drops ammo. Should not be set for monsters that use pseudo ammo.
 - ```ELECTRIC``` Shocks unarmed attackers.
 - ```ELECTRIC_FIELD``` This monster is surrounded by an electrical field that ignites flammable liquids near it.
 - ```ELECTRONIC``` e.g. a robot; affected by emp blasts and other stuff.
-- ```FAT``` May produce fat when butchered. If combined with `POISON` flag, tainted fat.
 - ```FILTHY``` Any clothing it drops will be filthy.  The squeamish trait prevents wearing clothing with this flag, one can't craft anything from filthy components, and wearing filthy clothes may result in infection if hit in melee.
 - ```FIREPROOF``` Immune to fire.
 - ```FIREY``` Burns stuff and is immune to fire.
 - ```FLAMMABLE``` Monster catches fire, burns, and spreads fire to nearby objects.
 - ```FLIES``` Can fly (over water, etc.)
-- ```FUR``` May produce fur when butchered.
 - ```GOODHEARING``` Pursues sounds more than most monsters.
 - ```GRABS``` Its attacks may grab you!
 - ```GROUP_BASH``` Gets help from monsters around it when bashing, adding their strength together.
 - ```GROUP_MORALE``` More courageous when near friends.
-- ```GUILT``` You feel guilty for killing it.
 - ```HARDTOSHOOT``` It's one size smaller for ranged attacks, no less than the `TINY` flag.
 - ```HEARS``` It can hear you.
 - ```HIT_AND_RUN``` Flee for several turns after a melee attack.
@@ -1051,7 +1037,6 @@ Other monster flags.
 - ```INTERIOR_AMMO``` Monster contains ammo inside itself, no need to load on launch. Prevents ammo from being dropped on disable.
 - ```KEENNOSE``` Keen sense of smell.
 - ```LARVA``` Creature is a larva. Currently used for gib and blood handling.
-- ```LEATHER``` May produce leather when butchered.
 - ```LOUDMOVES``` Makes move noises as if ~2 sizes louder, even if flying.
 - ```MECH_RECON_VISION``` This mech grants you night-vision and enhanced overmap sight radius when piloted.
 - ```MECH_DEFENSIVE``` This mech can protect you thoroughly when piloted.
@@ -1105,7 +1090,6 @@ Other monster flags.
 - ```WARM``` Warm blooded.
 - ```WATER_CAMOUFLAGE``` If in water, stays invisible up to (current Perception, + base Perception if the character has the Spotting proficiency) tiles away, even in broad daylight. Monsters see it from the lower of `vision_day` and `vision_night` ranges. Can also make it harder to see in deep water or across Z-levels if it is underwater and the viewer is not.
 - ```WEBWALK``` Doesn't destroy webs and won't get caught in them.
-- ```WOOL``` May produce wool when butchered.
 
 ### Sizes
 
