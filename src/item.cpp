@@ -8082,7 +8082,7 @@ float item::bash_resist( bool to_self, const bodypart_id &bp, int roll ) const
         resist /= total;
     }
 
-    return ( resist + mod ) * damage_scale;
+    return ( resist * avg_thickness + mod ) * damage_scale;
 }
 
 float item::bash_resist( const sub_bodypart_id &bp, bool to_self, int roll ) const
@@ -8124,7 +8124,7 @@ float item::bash_resist( const sub_bodypart_id &bp, bool to_self, int roll ) con
         resist /= total;
     }
 
-    return ( resist + mod ) * damage_scale;
+    return ( resist * avg_thickness + mod ) * damage_scale;
 
 }
 
@@ -8171,7 +8171,7 @@ float item::cut_resist( bool to_self, const bodypart_id &bp, int roll ) const
         resist /= total;
     }
 
-    return ( resist + mod ) * damage_scale;
+    return ( resist * avg_thickness + mod ) * damage_scale;
 }
 
 float item::cut_resist( const sub_bodypart_id &bp, bool to_self, int roll ) const
@@ -8213,7 +8213,7 @@ float item::cut_resist( const sub_bodypart_id &bp, bool to_self, int roll ) cons
         resist /= total;
     }
 
-    return ( resist + mod ) * damage_scale;
+    return ( resist * avg_thickness + mod ) * damage_scale;
 
 }
 
@@ -8276,7 +8276,7 @@ float item::bullet_resist( bool to_self, const bodypart_id &bp, int roll ) const
         resist /= total;
     }
 
-    return ( resist + mod ) * damage_scale;
+    return ( resist * avg_thickness + mod ) * damage_scale;
 }
 
 float item::bullet_resist( const sub_bodypart_id &bp, bool to_self, int roll ) const
@@ -8318,7 +8318,7 @@ float item::bullet_resist( const sub_bodypart_id &bp, bool to_self, int roll ) c
         resist /= total;
     }
 
-    return ( resist + mod ) * damage_scale;
+    return ( resist * avg_thickness + mod ) * damage_scale;
 
 }
 
@@ -8365,7 +8365,7 @@ float item::biological_resist( bool to_self, const bodypart_id &bp, int roll ) c
         resist /= total;
     }
 
-    return ( resist + mod ) * damage_scale;
+    return ( resist * avg_thickness + mod ) * damage_scale;
 }
 
 float item::biological_resist( const sub_bodypart_id &bp, bool to_self, int roll ) const
@@ -8407,7 +8407,7 @@ float item::biological_resist( const sub_bodypart_id &bp, bool to_self, int roll
         resist /= total;
     }
 
-    return ( resist + mod ) * damage_scale;
+    return ( resist * avg_thickness + mod ) * damage_scale;
 
 }
 
@@ -8454,7 +8454,7 @@ float item::electric_resist( bool to_self, const bodypart_id &bp, int roll ) con
         resist /= total;
     }
 
-    return ( resist + mod ) * damage_scale;
+    return ( resist * avg_thickness + mod ) * damage_scale;
 }
 
 float item::electric_resist( const sub_bodypart_id &bp, bool to_self, int roll ) const
@@ -8496,7 +8496,7 @@ float item::electric_resist( const sub_bodypart_id &bp, bool to_self, int roll )
         resist /= total;
     }
 
-    return ( resist + mod ) * damage_scale;
+    return ( resist * avg_thickness + mod ) * damage_scale;
 
 }
 
@@ -8543,7 +8543,7 @@ float item::cold_resist( bool to_self, const bodypart_id &bp, int roll ) const
         resist /= total;
     }
 
-    return ( resist + mod ) * damage_scale;
+    return ( resist * avg_thickness + mod ) * damage_scale;
 }
 
 float item::cold_resist( const sub_bodypart_id &bp, bool to_self, int roll ) const
@@ -8585,7 +8585,7 @@ float item::cold_resist( const sub_bodypart_id &bp, bool to_self, int roll ) con
         resist /= total;
     }
 
-    return ( resist + mod ) * damage_scale;
+    return ( resist * avg_thickness + mod ) * damage_scale;
 
 }
 
