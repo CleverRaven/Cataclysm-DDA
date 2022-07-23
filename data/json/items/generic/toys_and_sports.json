@@ -236,6 +236,22 @@
   },
   {
     "type": "GENERIC",
+    "id": "aim_game",
+    "//": "lazerlyte trainer target was used as a reference",
+    "symbol": "*",
+    "color": "white",
+    "name": { "str": "aim game target practice kit" },
+    "category": "other",
+    "description": "A collection of lasers, and targets designed to help you practice shooting.  Where you shoot is dispayed on the targets.",
+    "price": 1000,
+    "price_postapoc": 10,
+    "material": [ "plastic", "aluminum" ],
+    "//2": "670 grams for the target with a bit extra for the generic laser + connectors",
+    "weight": "800 g",
+    "volume": "3500 ml"
+  },
+  {
+    "type": "GENERIC",
     "id": "beach_volleyball",
     "symbol": "*",
     "color": "green",

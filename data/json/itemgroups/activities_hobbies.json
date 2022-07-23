@@ -144,7 +144,8 @@
       [ "halter_top", 30 ],
       [ "iceaxe", 30 ],
       [ "tourist_table", 30 ],
-      [ "fitness_band", 5 ]
+      [ "fitness_band", 5 ],
+      [ "aim_game", 5 ]
     ]
   },
   {
