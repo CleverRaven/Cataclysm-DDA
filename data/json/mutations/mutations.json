@@ -749,7 +749,7 @@
     "id": "VOMITSTOMACH",
     "name": { "str": "Stomach Cleanse" },
     "points": 1,
-    "description": "You have gained the ability to invert your stomach outside your body to quickly eliminate toxins, and are more likely to throw up from food poisoning, alcohol, etc.  If you throw up because of this this, you won't suffer any residual nausea.",
+    "description": "You have gained the ability to invert your stomach outside your body to quickly eliminate toxins, and are more likely to throw up from food poisoning, alcohol, etc.  If you throw up because of this, you won't suffer any residual nausea.",
     "starting_trait": false,
     "vomit_multiplier": 1.5,
     "//": "Create an effect on condition that reduces nausea quickly whenever it occurs by one intensity per vomit?",
@@ -4189,8 +4189,7 @@
       "THRESH_CHIMERA",
       "THRESH_MEDICAL",
       "THRESH_LIZARD",
-      "THRESH_BEAST",
-      "THRESH_BATRACHIAN"
+      "THRESH_BEAST"
     ],
     "changes_to": [ "MUT_TOUGH2" ],
     "category": [ "URSINE", "CATTLE", "CHIMERA", "BEAST", "LIZARD" ],
