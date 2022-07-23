@@ -1701,13 +1701,11 @@ static int print_ranged_chance( const catacurses::window &w, int line_number,
                 right_print( w, line_number, 1, c_light_blue, string_format( "%d", out.moves ) );
             }
 
-            double confidence = out.confidence;
-
             if( display_numbers ) {
                 int last_chance = 0;
                 conf_iter = 0;
                 for( const confidence_rating &cr : aim_chances.front().ratings ) {
-                    int chance = std::min<int>( 100, 100.0 * ( cr.aim_level ) * confidence ) - last_chance;
+                    int chance = std::min<int>( 100, 100.0 * ( cr.aim_level ) * out.confidence ) - last_chance;
                     last_chance += chance;
                     t_confidence[conf_iter + ( aim_iter * 5 )] = string_format( "<color_%s>%3d%%</color>", cr.color,
                             chance );
@@ -1725,8 +1723,8 @@ static int print_ranged_chance( const catacurses::window &w, int line_number,
                     return std::make_tuple( config.aim_level, config.symbol, config.color );
                 } );
 
-                print_colored_text( w, point( 1, line_number++ ), col, col,
-                                    get_colored_bar( confidence, width, "", confidence_ratings.begin(), confidence_ratings.end() ) );
+                print_colored_text( w, point( 1, line_number++ ), col, col, get_colored_bar( out.confidence, width,
+                                    "", confidence_ratings.begin(), confidence_ratings.end() ) );
             }
         }
 
@@ -1786,13 +1784,11 @@ static int print_ranged_chance( const catacurses::window &w, int line_number,
                 right_print( w, line_number, 1, c_light_blue, string_format( "%d", out.moves ) );
             }
 
-            double confidence = out.confidence;
-
             if( display_numbers ) {
                 int last_chance = 0;
                 conf_iter = 0;
                 for( const confidence_rating &cr : out.ratings ) {
-                    int chance = std::min<int>( 100, 100.0 * ( cr.aim_level ) * confidence ) - last_chance;
+                    int chance = std::min<int>( 100, 100.0 * ( cr.aim_level ) * out.confidence ) - last_chance;
                     last_chance += chance;
                     t_confidence[conf_iter + ( aim_iter * 5 )] = string_format( "<color_%s>%3d%%</color>", cr.color,
                             chance );
@@ -1810,8 +1806,8 @@ static int print_ranged_chance( const catacurses::window &w, int line_number,
                     return std::make_tuple( config.aim_level, config.symbol, config.color );
                 } );
 
-                print_colored_text( w, point( 1, line_number++ ), col, col,
-                                    get_colored_bar( confidence, width, "", confidence_ratings.begin(), confidence_ratings.end() ) );
+                print_colored_text( w, point( 1, line_number++ ), col, col, get_colored_bar( out.confidence, width,
+                                    "", confidence_ratings.begin(), confidence_ratings.end() ) );
             }
         }
 
@@ -1843,12 +1839,12 @@ static int print_ranged_chance( const catacurses::window &w, int line_number,
                 desc = string_format( "<color_white>[%s] %s %s</color> %s: <color_light_green>%3d</color>%s",
                                       out.hotkey, out.name, _( "Aim" ),
                                       _( "Moves" ), out.moves,
-                                      get_numeric_steadiness_string(out) );
+                                      get_numeric_steadiness_string( out ) );
             } else {
                 desc = string_format( "<color_dark_gray>[%s] %s %s</color> %s: <color_light_blue>%3d</color>%s",
                                       out.hotkey, out.name, _( "Aim" ),
                                       _( "Moves" ), out.moves,
-                                      get_numeric_steadiness_string(out) );
+                                      get_numeric_steadiness_string( out ) );
             }
 
             print_colored_text( w, point( 1, line_number++ ), col, col, desc );
