@@ -1790,5 +1790,10 @@
     "type": "MIGRATION",
     "id": "ammonia",
     "replace": "ammonia_hydroxide"
+  },
+  {
+    "id": "canola",
+    "type": "MIGRATION",
+    "replace": "seed_canola"
   }
 ]

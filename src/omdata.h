@@ -218,7 +218,6 @@ struct oter_type_t {
     public:
         static const oter_type_t null_type;
 
-    public:
         string_id<oter_type_t> id;
         std::vector<std::pair<string_id<oter_type_t>, mod_id>> src;
         translation name;

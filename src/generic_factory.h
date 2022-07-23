@@ -1214,7 +1214,6 @@ class typed_flag_reader : public generic_typed_reader<typed_flag_reader<T>>
     private:
         using map_t = std::unordered_map<std::string, T>;
 
-    private:
         const map_t &flag_map;
         const std::string flag_type;
 

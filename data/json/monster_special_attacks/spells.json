@@ -218,6 +218,37 @@
   },
   {
     "type": "SPELL",
+    "id": "cellar_spider_leg_detach",
+    "name": { "str": "Detatch Leg" },
+    "description": "The hurt leg of the cellar spider wriggles loose.  Ew.",
+    "flags": [ "HOSTILE_SUMMON", "NO_PROJECTILE", "RANDOM_TARGET" ],
+    "effect": "effect_on_condition",
+    "valid_targets": [ "self" ],
+    "base_casting_time": 10,
+    "min_range": 1,
+    "min_aoe": 3,
+    "shape": "blast",
+    "effect_str": "EOC_cellar_spider_leg",
+    "extra_effects": [ { "id": "frog_mother_hurt_self", "hit_self": true }, { "id": "frog_mother_hurt_self", "hit_self": true } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_cellar_spider_leg",
+    "condition": { "one_in_chance": 2 },
+    "effect": [
+      {
+        "u_spawn_monster": "mon_spider_cellar_leg",
+        "real_count": [ 1, 4 ],
+        "min_radius": 1,
+        "max_radius": 3,
+        "spawn_message": "The maimed leg wriggles loose!",
+        "spawn_message_plural": "The maimed legs wriggle loose!"
+      },
+      { "u_lose_effect": "maimed_leg" }
+    ]
+  },
+  {
+    "type": "SPELL",
     "id": "centipede_mom_summon",
     "name": { "str": "Summon Centipede" },
     "description": "Summons a small, pissed off centipede.",
