@@ -1,6 +1,6 @@
 [
   {
-    "id": "exo_helmet_steel",
+    "id": "exo_helmet_steel_plate",
     "type": "ARMOR",
     "category": "exosuit",
     "name": { "str": "steel helmet plate (exosuit)", "str_pl": "steel helmet plates (exosuit)" },
@@ -49,7 +49,7 @@
     "extend": { "flags": [ "NO_REPAIR" ] }
   },
   {
-    "id": "exo_helmet_plastic",
+    "id": "exo_helmet_plastic_plate",
     "type": "ARMOR",
     "category": "exosuit",
     "copy-from": "exo_helmet_steel",
@@ -95,7 +95,7 @@
     "extend": { "flags": [ "NO_REPAIR" ] }
   },
   {
-    "id": "exo_helmet_vcc",
+    "id": "exo_helmet_vcc_plate",
     "type": "ARMOR",
     "category": "exosuit",
     "copy-from": "exo_helmet_steel",

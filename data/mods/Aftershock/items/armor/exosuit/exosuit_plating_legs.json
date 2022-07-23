@@ -1,6 +1,6 @@
 [
   {
-    "id": "exo_leg_steel",
+    "id": "exo_leg_steel_plate",
     "type": "ARMOR",
     "category": "exosuit",
     "name": { "str": "steel leg plate (exosuit)", "str_pl": "steel leg plates (exosuit)" },
@@ -48,7 +48,7 @@
     "looks_like": "exo_leg_steel"
   },
   {
-    "id": "exo_leg_plastic",
+    "id": "exo_leg_plastic_plate",
     "type": "ARMOR",
     "category": "exosuit",
     "copy-from": "exo_leg_steel",
@@ -92,7 +92,7 @@
     "looks_like": "exo_leg_plastic"
   },
   {
-    "id": "exo_leg_vcc",
+    "id": "exo_leg_vcc_plate",
     "type": "ARMOR",
     "category": "exosuit",
     "copy-from": "exo_leg_steel",

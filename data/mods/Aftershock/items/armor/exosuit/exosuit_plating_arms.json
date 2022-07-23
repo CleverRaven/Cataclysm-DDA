@@ -1,6 +1,6 @@
 [
   {
-    "id": "exo_arm_steel",
+    "id": "exo_arm_steel_plate",
     "type": "ARMOR",
     "category": "exosuit",
     "name": { "str": "steel arm plate (exosuit)", "str_pl": "steel arm plates (exosuit)" },
@@ -64,7 +64,7 @@
     "extend": { "flags": [ "NO_REPAIR" ] }
   },
   {
-    "id": "exo_arm_plastic",
+    "id": "exo_arm_plastic_plate",
     "type": "ARMOR",
     "category": "exosuit",
     "copy-from": "exo_arm_steel",
@@ -122,7 +122,7 @@
     "looks_like": "exo_arm_plastic"
   },
   {
-    "id": "exo_arm_vcc",
+    "id": "exo_arm_vcc_plate",
     "type": "ARMOR",
     "category": "exosuit",
     "copy-from": "exo_arm_steel",

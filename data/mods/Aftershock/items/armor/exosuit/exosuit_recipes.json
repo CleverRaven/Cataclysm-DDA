@@ -9,7 +9,8 @@
     "difficulty": 9,
     "time": "6 h",
     "book_learn": [ [ "textbook_armwest", 7 ], [ "welding_book", 7 ] ],
-    "using": [ [ "damaged_exo_helmet_steel_plate", 1 ], [ "blacksmithing_standard", 16 ], [ "mc_steel_standard", 6 ] ],
+    "using": [ [ "blacksmithing_standard", 16 ], [ "mc_steel_standard", 6 ] ],
+    "components": [ [ [ "damaged_exo_helmet_steel_plate", 1 ] ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ] ] ],
     "proficiencies": [
@@ -29,7 +30,8 @@
     "difficulty": 9,
     "time": "1 d",
     "book_learn": [ [ "textbook_armwest", 7 ], [ "welding_book", 7 ] ],
-    "using": [ [ "damaged_exo_torso_steel_plate", 1 ], [ "blacksmithing_standard", 32 ], [ "mc_steel_standard", 10 ] ],
+    "using": [ [ "blacksmithing_standard", 32 ], [ "mc_steel_standard", 10 ] ],
+    "components": [ [ [ "damaged_exo_torso_steel_plate", 1 ] ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ] ] ],
     "proficiencies": [
@@ -49,7 +51,8 @@
     "difficulty": 9,
     "time": "8 h",
     "book_learn": [ [ "textbook_armwest", 7 ], [ "welding_book", 7 ] ],
-    "using": [ [ "damaged_exo_arm_steel_plate", 1 ], [ "blacksmithing_standard", 24 ], [ "mc_steel_standard", 9 ] ],
+    "using": [ [ "blacksmithing_standard", 24 ], [ "mc_steel_standard", 9 ] ],
+    "components": [ [ [ "damaged_exo_arm_steel_plate", 1 ] ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ] ] ],
     "proficiencies": [
@@ -69,7 +72,8 @@
     "difficulty": 9,
     "time": "8 h",
     "book_learn": [ [ "textbook_armwest", 7 ], [ "welding_book", 7 ] ],
-    "using": [ [ "damaged_exo_leg_steel_plate", 1 ], [ "blacksmithing_standard", 24 ], [ "mc_steel_standard", 9 ] ],
+    "using": [ [ "blacksmithing_standard", 24 ], [ "mc_steel_standard", 9 ] ],
+    "components": [ [ [ "damaged_exo_leg_steel_plate", 1 ] ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ] ] ],
     "proficiencies": [
@@ -89,12 +93,8 @@
     "difficulty": 7,
     "book_learn": [ [ "plastics_book", 7 ] ],
     "time": "2 h",
-    "using": [
-      [ "plastic_molding", 4 ],
-      [ "soldering_standard", 10 ],
-      [ "surface_heat", 10 ],
-      [ "damaged_exo_helmet_plastic_plate", 1 ]
-    ],
+    "using": [ [ "plastic_molding", 4 ], [ "soldering_standard", 10 ], [ "surface_heat", 10 ] ],
+    "components": [ [ [ "damaged_exo_helmet_plastic_plate", 1 ] ] ],
     "proficiencies": [ { "proficiency": "prof_plasticworking" } ]
   },
   {
@@ -107,12 +107,8 @@
     "difficulty": 7,
     "book_learn": [ [ "plastics_book", 7 ] ],
     "time": "8 h",
-    "using": [
-      [ "plastic_molding", 8 ],
-      [ "soldering_standard", 20 ],
-      [ "surface_heat", 20 ],
-      [ "damaged_exo_torso_plastic_plate", 1 ]
-    ],
+    "using": [ [ "plastic_molding", 8 ], [ "soldering_standard", 20 ], [ "surface_heat", 20 ] ],
+    "components": [ [ [ "damaged_exo_torso_plastic_plate", 1 ] ] ],
     "proficiencies": [ { "proficiency": "prof_plasticworking" } ]
   },
   {
@@ -125,12 +121,8 @@
     "difficulty": 7,
     "book_learn": [ [ "plastics_book", 7 ] ],
     "time": "6 h",
-    "using": [
-      [ "plastic_molding", 6 ],
-      [ "soldering_standard", 15 ],
-      [ "surface_heat", 15 ],
-      [ "damaged_exo_arm_plastic_plate", 1 ]
-    ],
+    "using": [ [ "plastic_molding", 6 ], [ "soldering_standard", 15 ], [ "surface_heat", 15 ] ],
+    "components": [ [ [ "damaged_exo_arm_plastic_plate", 1 ] ] ],
     "proficiencies": [ { "proficiency": "prof_plasticworking" } ]
   },
   {
@@ -143,12 +135,8 @@
     "difficulty": 7,
     "book_learn": [ [ "plastics_book", 7 ] ],
     "time": "6 h",
-    "using": [
-      [ "plastic_molding", 6 ],
-      [ "soldering_standard", 15 ],
-      [ "surface_heat", 15 ],
-      [ "damaged_exo_leg_plastic_plate", 1 ]
-    ],
+    "using": [ [ "plastic_molding", 6 ], [ "soldering_standard", 15 ], [ "surface_heat", 15 ] ],
+    "components": [ [ [ "damaged_exo_leg_plastic_plate", 1 ] ] ],
     "proficiencies": [ { "proficiency": "prof_plasticworking" } ]
   }
 ]

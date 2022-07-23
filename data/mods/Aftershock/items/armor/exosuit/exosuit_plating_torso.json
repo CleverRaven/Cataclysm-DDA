@@ -1,6 +1,6 @@
 [
   {
-    "id": "exo_torso_steel",
+    "id": "exo_torso_steel_plate",
     "type": "ARMOR",
     "category": "exosuit",
     "name": { "str": "steel torso plate (exosuit)", "str_pl": "steel torso plates (exosuit)" },
@@ -64,7 +64,7 @@
     "extend": { "flags": [ "NO_REPAIR" ] }
   },
   {
-    "id": "exo_torso_plastic",
+    "id": "exo_torso_plastic_plate",
     "type": "ARMOR",
     "category": "exosuit",
     "copy-from": "exo_torso_steel",
@@ -123,7 +123,7 @@
     "extend": { "flags": [ "NO_REPAIR" ] }
   },
   {
-    "id": "exo_torso_vcc",
+    "id": "exo_torso_vcc_plate",
     "type": "ARMOR",
     "category": "exosuit",
     "copy-from": "exo_torso_steel",
