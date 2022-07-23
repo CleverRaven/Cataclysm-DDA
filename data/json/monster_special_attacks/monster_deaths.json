@@ -421,6 +421,21 @@
     "max_aoe": 2
   },
   {
+    "type": "SPELL",
+    "id": "death_spider_cellar_mom",
+    "name": { "str": "Mommy Long Legs Death" },
+    "description": "Spawns a bunch of small spiders.",
+    "valid_targets": [ "self", "ground" ],
+    "min_damage": 3,
+    "max_damage": 8,
+    "flags": [ "RANDOM_DAMAGE", "HOSTILE_SUMMON", "PERMANENT", "SPAWN_WITH_DEATH_DROPS", "SILENT" ],
+    "shape": "blast",
+    "effect": "summon",
+    "effect_str": "mon_spider_cellar_small",
+    "min_aoe": 2,
+    "max_aoe": 2
+  },
+  {
     "id": "death_boomer",
     "type": "SPELL",
     "name": { "str": "Boomer Death" },
