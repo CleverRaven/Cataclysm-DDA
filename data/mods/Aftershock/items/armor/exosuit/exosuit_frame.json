@@ -18,6 +18,7 @@
         "description": "A series of connections for an underlayer.",
         "max_contains_volume": "5 L",
         "max_contains_weight": "5 kg",
+        "ablative": true,
         "flag_restriction": [ "EXO_UNDERLAYER" ],
         "inherits_flags": true,
         "moves": 200
