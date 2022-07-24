@@ -1122,7 +1122,6 @@ item &item_contents::first_ammo()
         }
         return pocket.front();
     }
-    debugmsg( "Error: Tried to get first ammo in container not containing ammo" );
     return null_item_reference();
 }
 
@@ -1149,7 +1148,6 @@ const item &item_contents::first_ammo() const
         }
         return pocket.front();
     }
-    debugmsg( "Error: Tried to get first ammo in container not containing ammo" );
     return null_item_reference();
 }
 
