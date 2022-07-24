@@ -8450,19 +8450,19 @@ bool Character::use_charges_if_avail( const itype_id &it, int quantity )
     return false;
 }
 
-int Character::available_ups() const
+units::energy Character::available_ups() const
 {
-    int available_charges = 0;
+    units::energy available_charges = 0_kJ;
     if( is_mounted() && mounted_creature.get()->has_flag( MF_RIDEABLE_MECH ) ) {
         auto *mons = mounted_creature.get();
-        available_charges += mons->battery_item->ammo_remaining();
+        available_charges += units::from_kilojoule( mons->battery_item->ammo_remaining() );
     }
     if( has_active_bionic( bio_ups ) ) {
-        available_charges += units::to_kilojoule( get_power_level() );
+        available_charges += get_power_level();
     }
 
     for( const item *i : all_items_with_flag( flag_IS_UPS ) ) {
-        available_charges += i->ammo_remaining();
+        available_charges += units::from_kilojoule( i->ammo_remaining() );
     }
 
     return available_charges;
@@ -8476,10 +8476,8 @@ units::energy Character::consume_ups( units::energy qty, const int radius )
     if( qty != 0_kJ && is_mounted() && mounted_creature.get()->has_flag( MF_RIDEABLE_MECH ) &&
         mounted_creature.get()->battery_item ) {
         auto *mons = mounted_creature.get();
-        units::energy power_drain = std::min( units::from_kilojoule( mons->battery_item->ammo_remaining() ),
-                                              qty );
-        mons->use_mech_power( -power_drain );
-        qty -= std::min( qty, power_drain );
+        units::energy power_drain = mons->use_mech_power( -qty );
+        qty -= power_drain;
     }
 
     // UPS from bionic
@@ -8491,8 +8489,8 @@ units::energy Character::consume_ups( units::energy qty, const int radius )
 
     // UPS from inventory
     if( qty != 0_kJ ) {
-        int qty_kj = units::to_kilojoule( qty )
-                     std::vector<const item *> ups_items = all_items_with_flag( flag_IS_UPS );
+        int qty_kj = units::to_kilojoule( qty );
+        std::vector<const item *> ups_items = all_items_with_flag( flag_IS_UPS );
         for( const item *i : ups_items ) {
             qty_kj -= const_cast<item *>( i )->ammo_consume( qty_kj, tripoint_zero, nullptr );
         }
@@ -8503,8 +8501,8 @@ units::energy Character::consume_ups( units::energy qty, const int radius )
     if( qty != 0_kJ && radius > 0 ) {
         inventory inv = crafting_inventory( pos(), radius, true );
 
-        units::energy ups = units::from_kilojoule( inv.charges_of( itype_UPS, qty ) );
-        if( ups > 0 ) {
+        units::energy ups = units::from_kilojoule( inv.charges_of( itype_UPS ) );
+        if( ups > 0_kJ ) {
             qty -= get_map().consume_ups( pos(), radius, ups );
         }
     }
@@ -11065,7 +11063,7 @@ void Character::process_items()
     } );
     if( !inv_use_ups.empty() ) {
         const units::energy available_charges = available_ups();
-        units::energy ups_used = 0;
+        units::energy ups_used = 0_kJ;
         for( item * const &it : inv_use_ups ) {
             // For powered armor, an armor-powering bionic should always be preferred over UPS usage.
             if( it->is_power_armor() && can_interface_armor() && has_power() ) {

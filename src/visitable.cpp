@@ -934,7 +934,7 @@ int Character::charges_of( const itype_id &what, int limit,
                            const std::function<void( int )> &visitor, bool in_tools ) const
 {
     if( what == itype_UPS ) {
-        int ups_power = available_ups();
+        int ups_power = units::to_kilojoule( available_ups() );
         if( has_active_bionic( bio_ups ) ) {
             ups_power -= units::to_kilojoule( get_power_level() );
         }

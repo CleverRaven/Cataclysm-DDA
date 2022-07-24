@@ -258,7 +258,7 @@ class item : public visitable
          * @param qty energy quantity to add (can be negative)
          * @return 0 valued energy quantity on success
          */
-        units::energy set_energy( const units::energy &qty );
+        units::energy mod_energy( const units::energy &qty );
 
         /**
          * Filter setting the ammo for this instance
