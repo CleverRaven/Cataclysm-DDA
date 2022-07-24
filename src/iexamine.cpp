@@ -1328,7 +1328,7 @@ bool iexamine::try_start_hacking( Character &you, const tripoint &examp )
     }
     you.use_charges( itype_electrohack, 25 );
     you.assign_activity( player_activity( hacking_activity_actor() ) );
-    you.activity.placement = examp;
+    you.activity.placement = get_map().getglobal( examp );
     return true;
 }
 
@@ -1429,7 +1429,7 @@ void iexamine::rubble( Character &you, const tripoint &examp )
         return;
     }
     you.assign_activity( player_activity( clear_rubble_activity_actor( moves ) ) );
-    you.activity.placement = examp;
+    you.activity.placement = here.getglobal( examp );
 }
 
 /**
@@ -2506,7 +2506,7 @@ int iexamine::query_seed( const std::vector<seed_tuple> &seed_entries )
 void iexamine::plant_seed( Character &you, const tripoint &examp, const itype_id &seed_id )
 {
     player_activity act( ACT_PLANT_SEED, to_moves<int>( 30_seconds ) );
-    act.placement = get_map().getabs( examp );
+    act.placement = get_map().getglobal( examp );
     act.str_values.emplace_back( seed_id );
     you.assign_activity( act );
 }
@@ -4047,7 +4047,7 @@ void iexamine::shrub_wildveggies( Character &you, const tripoint &examp )
     ///\EFFECT_PER randomly speeds up foraging
     move_cost /= rng( std::max( 4, you.per_cur ), 4 + you.per_cur * 2 );
     you.assign_activity( player_activity( forage_activity_actor( move_cost ) ) );
-    you.activity.placement = here.getabs( examp );
+    you.activity.placement = here.getglobal( examp );
     you.activity.auto_resume = true;
 }
 
@@ -4086,7 +4086,7 @@ void trap::examine( const tripoint &examp ) const
             }
         } else {
             player_character.assign_activity( ACT_BUILD );
-            player_character.activity.placement = here.getabs( examp );
+            player_character.activity.placement = here.getglobal( examp );
         }
         return;
     }

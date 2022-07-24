@@ -1109,7 +1109,7 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
             for( point &i : blood_track ) {
                 m.add_field( { i, abs_sub.z }, fd_blood, 1 );
             }
-            m.add_field( { 1, 6, abs_sub.z }, fd_gibs_flesh, 1 );
+            m.add_field( tripoint_bub_ms{ 1, 6, abs_sub.z }, fd_gibs_flesh, 1 );
 
             //Add the culprit
             m.add_vehicle( vehicle_prototype_car_fbi, point( 7, 7 ), 0_degrees, 70, 1 );
@@ -1288,7 +1288,7 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
             m.put_items_from_loc( Item_spawn_data_mon_zombie_soldier_death_drops,
             { 23, 12, abs_sub.z } );
             m.add_item_or_charges( tripoint{ 23, 12, abs_sub.z }, body );
-            m.add_field( { 23, 12, abs_sub.z }, fd_gibs_flesh, rng( 1, 3 ) );
+            m.add_field( tripoint_bub_ms{ 23, 12, abs_sub.z }, fd_gibs_flesh, rng( 1, 3 ) );
 
             //Spawn broken bench and splintered wood
             m.furn_set( tripoint{ 23, 13, abs_sub.z }, f_null );
@@ -2322,7 +2322,7 @@ static bool mx_mayhem( map &m, const tripoint &abs_sub )
 
             m.spawn_item( { 16, 10, abs_sub.z }, itype_shot_hull );
             m.add_corpse( { 16, 9, abs_sub.z } );
-            m.add_field( { 16, 9, abs_sub.z }, fd_blood, rng( 1, 3 ) );
+            m.add_field( tripoint_bub_ms{ 16, 9, abs_sub.z }, fd_blood, rng( 1, 3 ) );
 
             for( const tripoint &loc : m.points_in_radius( tripoint{ 16, 3, abs_sub.z }, 1 ) ) {
                 if( one_in( 2 ) ) {
@@ -2365,7 +2365,7 @@ static bool mx_mayhem( map &m, const tripoint &abs_sub )
                 }
             }
 
-            m.add_field( { 16, 15, abs_sub.z }, fd_blood, rng( 1, 3 ) );
+            m.add_field( tripoint_bub_ms{ 16, 15, abs_sub.z }, fd_blood, rng( 1, 3 ) );
 
             m.spawn_item( { 16, 16, abs_sub.z }, itype_wheel, 1, 0, calendar::start_of_cataclysm, 4 );
             m.spawn_item( { 16, 16, abs_sub.z }, itype_lug_wrench );
@@ -2377,7 +2377,7 @@ static bool mx_mayhem( map &m, const tripoint &abs_sub )
             } else { //Wolves charged to the poor guy...
                 m.add_corpse( { 16, 15, abs_sub.z } );
                 m.add_splatter_trail( fd_gibs_flesh, { 16, 13, abs_sub.z }, { 16, 16, abs_sub.z } );
-                m.add_field( { 15, 15, abs_sub.z }, fd_gibs_flesh, rng( 1, 3 ) );
+                m.add_field( tripoint_bub_ms{ 15, 15, abs_sub.z }, fd_gibs_flesh, rng( 1, 3 ) );
 
                 for( const tripoint &loc : m.points_in_radius( tripoint{ 16, 15, abs_sub.z }, 1 ) ) {
                     if( one_in( 2 ) ) {

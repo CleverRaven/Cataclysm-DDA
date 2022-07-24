@@ -505,7 +505,9 @@ class map
         * 0         | Impassable. Use `passable`/`impassable` to check for this.
         * n > 0     | x*n turns to move past this
         */
+        // TODO: fix point types (remove the first overload)
         int move_cost( const tripoint &p, const vehicle *ignored_vehicle = nullptr ) const;
+        int move_cost( const tripoint_bub_ms &p, const vehicle *ignored_vehicle = nullptr ) const;
         int move_cost( const point &p, const vehicle *ignored_vehicle = nullptr ) const {
             return move_cost( tripoint( p, abs_sub.z() ), ignored_vehicle );
         }
@@ -515,7 +517,9 @@ class map
         bool impassable( const point &p ) const {
             return !passable( p );
         }
+        // TODO: fix point types (remove the first overload)
         bool passable( const tripoint &p ) const;
+        bool passable( const tripoint_bub_ms &p ) const;
         bool passable( const point &p ) const {
             return passable( tripoint( p, abs_sub.z() ) );
         }
@@ -594,7 +598,10 @@ class map
          * 2. That moving over the line of sight would have a move_cost between
          *    `cost_min` and `cost_max`.
          */
+        // TODO: fix point types (remove the first overload)
         bool clear_path( const tripoint &f, const tripoint &t, int range,
+                         int cost_min, int cost_max ) const;
+        bool clear_path( const tripoint_bub_ms &f, const tripoint_bub_ms &t, int range,
                          int cost_min, int cost_max ) const;
 
         /**
@@ -621,7 +628,9 @@ class map
          * Check whether the player can access the items located @p. Certain furniture/terrain
          * may prevent that (e.g. a locked safe).
          */
+        // TODO: fix point types (remove the first overload)
         bool accessible_items( const tripoint &t ) const;
+        bool accessible_items( const tripoint_bub_ms &t ) const;
         /**
          * Calculate next search points surrounding the current position.
          * Points closer to the target come first.
@@ -637,8 +646,12 @@ class map
          * @param settings Structure describing pathfinding parameters.
          * @param pre_closed Never path through those points. They can still be the source or the destination.
          */
+        // TODO: fix point types (remove the first overload)
         std::vector<tripoint> route( const tripoint &f, const tripoint &t,
                                      const pathfinding_settings &settings,
+        const std::set<tripoint> &pre_closed = {{ }} ) const;
+        std::vector<tripoint_bub_ms> route( const tripoint_bub_ms &f, const tripoint_bub_ms &t,
+                                            const pathfinding_settings &settings,
         const std::set<tripoint> &pre_closed = {{ }} ) const;
 
         // Vehicles: Common to 2D and 3D
@@ -724,7 +737,9 @@ class map
             furn_set( p, new_furniture );
             ter_set( p, new_terrain );
         }
+        // TODO: fix point types (remove the first overload)
         std::string name( const tripoint &p );
+        std::string name( const tripoint_bub_ms &p );
         std::string name( const point &p ) {
             return name( tripoint( p, abs_sub.z() ) );
         }
@@ -764,7 +779,9 @@ class map
         void furn_clear( const point &p ) {
             furn_clear( tripoint( p, abs_sub.z() ) );
         }
+        // TODO: fix point types (remove the first overload)
         std::string furnname( const tripoint &p );
+        std::string furnname( const tripoint_bub_ms &p );
         std::string furnname( const point &p ) {
             return furnname( tripoint( p, abs_sub.z() ) );
         }
@@ -824,7 +841,7 @@ class map
          * Check whether a table/workbench/vehicle kitchen or other flat
          * surface is nearby that could be used for crafting or eating.
          */
-        bool has_nearby_table( const tripoint &p, int radius = 1 ) const;
+        bool has_nearby_table( const tripoint_bub_ms &p, int radius = 1 ) const;
         /**
          * Check whether a chair or vehicle seat is nearby.
          */
@@ -853,7 +870,9 @@ class map
         /**
          * Checks for existence of items. Faster than i_at(p).empty
          */
+        // TODO: fix point types (remove the first overload)
         bool has_items( const tripoint &p ) const;
+        bool has_items( const tripoint_bub_ms &p ) const;
 
         /**
          * Calls the examine function of furniture or terrain at given tile, for given character.
@@ -887,7 +906,9 @@ class map
             return can_put_items( tripoint( p, abs_sub.z() ) );
         }
         // True if items can be placed in this tile
+        // TODO: fix point types (remove the first overload)
         bool can_put_items_ter_furn( const tripoint &p ) const;
+        bool can_put_items_ter_furn( const tripoint_bub_ms &p ) const;
         bool can_put_items_ter_furn( const point &p ) const {
             return can_put_items_ter_furn( tripoint( p, abs_sub.z() ) );
         }
@@ -897,7 +918,9 @@ class map
             return has_flag_ter( flag, tripoint( p, abs_sub.z() ) );
         }
         // Checks furniture
+        // TODO: fix point types (remove the first overload)
         bool has_flag_furn( const std::string &flag, const tripoint &p ) const;
+        bool has_flag_furn( const std::string &flag, const tripoint_bub_ms &p ) const;
         bool has_flag_furn( const std::string &flag, const point &p ) const {
             return has_flag_furn( flag, tripoint( p, abs_sub.z() ) );
         }
@@ -920,12 +943,16 @@ class map
             return has_flag_ter( flag, tripoint( p, abs_sub.z() ) );
         }
         // Checks furniture
+        // TODO: fix point types (remove the first overload)
         bool has_flag_furn( ter_furn_flag flag, const tripoint &p ) const;
+        bool has_flag_furn( ter_furn_flag flag, const tripoint_bub_ms &p ) const;
         bool has_flag_furn( ter_furn_flag flag, const point &p ) const {
             return has_flag_furn( flag, tripoint( p, abs_sub.z() ) );
         }
         // Checks terrain or furniture
+        // TODO: fix point types (remove the first overload)
         bool has_flag_ter_or_furn( ter_furn_flag flag, const tripoint &p ) const;
+        bool has_flag_ter_or_furn( ter_furn_flag flag, const tripoint_bub_ms &p ) const;
         bool has_flag_ter_or_furn( ter_furn_flag flag, const point &p ) const {
             return has_flag_ter_or_furn( flag, tripoint( p, abs_sub.z() ) );
         }
@@ -1021,9 +1048,13 @@ class map
          * @param p tile to check
          * @param threshold Fuel threshold (lower means worse fuels are accepted).
          */
+        // TODO: fix point types (remove the first overload)
         bool flammable_items_at( const tripoint &p, int threshold = 0 );
+        bool flammable_items_at( const tripoint_bub_ms &p, int threshold = 0 );
         /** Returns true if there is a flammable item or field or the furn/terrain is flammable at p */
+        // TODO: fix point types (remove the first overload)
         bool is_flammable( const tripoint &p );
+        bool is_flammable( const tripoint_bub_ms &p );
         point random_outdoor_tile() const;
         // mapgen
 
@@ -1062,7 +1093,9 @@ class map
                                const tripoint_abs_ms &p );
         void transform_line( ter_furn_transform_id transform, const tripoint_abs_ms &first,
                              const tripoint_abs_ms &second );
+        // TODO: fix point types (remove the first overload)
         bool close_door( const tripoint &p, bool inside, bool check_only );
+        bool close_door( const tripoint_bub_ms &p, bool inside, bool check_only );
         bool open_door( Creature const &u, const tripoint &p, bool inside, bool check_only = false );
         // Destruction
         /** bash a square for a set number of times at set power.  Does not destroy */
@@ -1113,13 +1146,13 @@ class map
          * @param p the location
          * @return true if anything is moppable here, false otherwise.
          */
-        bool terrain_moppable( const tripoint &p );
+        bool terrain_moppable( const tripoint_bub_ms &p );
         /**
          * Remove moppable fields/items at this location
          * @param p the location
          * @return true if anything moppable was there, false otherwise.
          */
-        bool mop_spills( const tripoint &p );
+        bool mop_spills( const tripoint_bub_ms &p );
         /**
          * Moved here from weather.cpp for speed. Decays fire, washable fields and scent.
          * Washable fields are decayed only by 1/3 of the amount fire is.
@@ -1178,7 +1211,9 @@ class map
         map_stack::iterator i_rem( const point &location, const map_stack::const_iterator &it ) {
             return i_rem( tripoint( location, abs_sub.z() ), it );
         }
+        // TODO: fix point types (remove the first overload)
         void i_rem( const tripoint &p, item *it );
+        void i_rem( const tripoint_bub_ms &p, item *it );
         void i_rem( const point &p, item *it ) {
             i_rem( tripoint( p, abs_sub.z() ), it );
         }
@@ -1217,7 +1252,9 @@ class map
                         variant, faction );
         }
         units::volume max_volume( const tripoint &p );
+        // TODO: fix point types (remove the first overload)
         units::volume free_volume( const tripoint &p );
+        units::volume free_volume( const tripoint_bub_ms &p );
         units::volume stored_volume( const tripoint &p );
 
         /**
@@ -1415,12 +1452,16 @@ class map
         /**
          * Gets fields that are here. Both for querying and edition.
          */
+        // TODO: fix point types (remove the first overload)
         field &field_at( const tripoint &p );
+        field &field_at( const tripoint_bub_ms &p );
         /**
          * Get the age of a field entry (@ref field_entry::age), if there is no
          * field of that type, returns `-1_turns`.
          */
+        // TODO: fix point types (remove the first overload)
         time_duration get_field_age( const tripoint &p, const field_type_id &type ) const;
+        time_duration get_field_age( const tripoint_bub_ms &p, const field_type_id &type ) const;
         /**
          * Get the intensity of a field entry (@ref field_entry::intensity),
          * if there is no field of that type, returns 0.
@@ -1470,9 +1511,15 @@ class map
          * Get field of specific type at point.
          * @return NULL if there is no such field entry at that place.
          */
+        // TODO: fix point types (remove the first overload)
         field_entry *get_field( const tripoint &p, const field_type_id &type );
+        field_entry *get_field( const tripoint_bub_ms &p, const field_type_id &type );
+        // TODO: fix point types (remove the first overload)
         const field_entry *get_field( const tripoint &p, const field_type_id &type ) const;
+        const field_entry *get_field( const tripoint_bub_ms &p, const field_type_id &type ) const;
+        // TODO: fix point types (remove the first overload)
         bool dangerous_field_at( const tripoint &p );
+        bool dangerous_field_at( const tripoint_bub_ms &p );
 
         // Check if player can move on top of it during mopping zone activity
         bool mopsafe_field_at( const tripoint &p );
@@ -1481,12 +1528,18 @@ class map
          * Add field entry at point, or set intensity if present
          * @return false if the field could not be created (out of bounds), otherwise true.
          */
+        // TODO: fix point types (remove the first overload)
         bool add_field( const tripoint &p, const field_type_id &type_id, int intensity = INT_MAX,
                         const time_duration &age = 0_turns, bool hit_player = true );
+        bool add_field(
+            const tripoint_bub_ms &p, const field_type_id &type_id, int intensity = INT_MAX,
+            const time_duration &age = 0_turns, bool hit_player = true );
         /**
          * Remove field entry at xy, ignored if the field entry is not present.
          */
+        // TODO: fix point types (remove the first overload)
         void remove_field( const tripoint &p, const field_type_id &field_to_remove );
+        void remove_field( const tripoint_bub_ms &p, const field_type_id &field_to_remove );
         /**
          * Remove all field entries at location.
          */

@@ -337,6 +337,7 @@ void player_activity::serialize( JsonOut &json ) const
         json.member( "name", name );
         json.member( "targets", targets );
         json.member( "placement", placement );
+        json.member( "relative_placement", relative_placement );
         json.member( "values", values );
         json.member( "str_values", str_values );
         json.member( "auto_resume", auto_resume );
@@ -397,6 +398,7 @@ void player_activity::deserialize( const JsonObject &data )
     data.read( "name", name );
     data.read( "targets", targets );
     data.read( "placement", placement );
+    data.read( "relative_placement", relative_placement );
     values = data.get_int_array( "values" );
     str_values = data.get_string_array( "str_values" );
     data.read( "auto_resume", auto_resume );

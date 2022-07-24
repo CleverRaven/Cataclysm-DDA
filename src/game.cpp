@@ -2472,12 +2472,12 @@ void game::setremoteveh( vehicle *veh )
     u.set_value( "remote_controlling_vehicle", remote_veh_string.str() );
 }
 
-bool game::try_get_left_click_action( action_id &act, const tripoint &mouse_target )
+bool game::try_get_left_click_action( action_id &act, const tripoint_bub_ms &mouse_target )
 {
     bool new_destination = true;
     if( !destination_preview.empty() ) {
         auto &final_destination = destination_preview.back();
-        if( final_destination.x == mouse_target.x && final_destination.y == mouse_target.y ) {
+        if( final_destination.xy() == mouse_target.xy() ) {
             // Second click
             new_destination = false;
             u.set_destination( destination_preview );
@@ -2492,7 +2492,7 @@ bool game::try_get_left_click_action( action_id &act, const tripoint &mouse_targ
     }
 
     if( new_destination ) {
-        destination_preview = m.route( u.pos(), mouse_target, u.get_pathfinding_settings(),
+        destination_preview = m.route( u.pos_bub(), mouse_target, u.get_pathfinding_settings(),
                                        u.get_path_avoid() );
         return false;
     }
@@ -2500,7 +2500,7 @@ bool game::try_get_left_click_action( action_id &act, const tripoint &mouse_targ
     return true;
 }
 
-bool game::try_get_right_click_action( action_id &act, const tripoint &mouse_target )
+bool game::try_get_right_click_action( action_id &act, const tripoint_bub_ms &mouse_target )
 {
     const bool cleared_destination = !destination_preview.empty();
     u.clear_destination();
@@ -2513,8 +2513,8 @@ bool game::try_get_right_click_action( action_id &act, const tripoint &mouse_tar
         return false;
     }
 
-    const bool is_adjacent = square_dist( mouse_target.xy(), point( u.posx(), u.posy() ) ) <= 1;
-    const bool is_self = square_dist( mouse_target.xy(), point( u.posx(), u.posy() ) ) <= 0;
+    const bool is_adjacent = square_dist( mouse_target.xy(), u.pos_bub().xy() ) <= 1;
+    const bool is_self = square_dist( mouse_target.xy(), u.pos_bub().xy() ) <= 0;
     if( const monster *const mon = get_creature_tracker().creature_at<monster>( mouse_target ) ) {
         if( !u.sees( *mon ) ) {
             add_msg( _( "Nothing relevant here." ) );
@@ -2530,8 +2530,8 @@ bool game::try_get_right_click_action( action_id &act, const tripoint &mouse_tar
 
         act = ACTION_FIRE;
     } else if( is_adjacent &&
-               m.close_door( tripoint( mouse_target.xy(), u.posz() ), !m.is_outside( u.pos() ),
-                             true ) ) {
+               m.close_door( tripoint_bub_ms( mouse_target.xy(), u.posz() ),
+                             !m.is_outside( u.pos() ), true ) ) {
         act = ACTION_CLOSE;
     } else if( is_self ) {
         act = ACTION_PICKUP;
@@ -3580,11 +3580,13 @@ void game::draw_ter( const tripoint &center, const bool looking, const bool draw
 
     if( !destination_preview.empty() && u.view_offset.z == 0 ) {
         // Draw auto move preview trail
-        const tripoint &final_destination = destination_preview.back();
-        tripoint line_center = u.pos() + u.view_offset;
+        const tripoint_bub_ms &final_destination = destination_preview.back();
+        tripoint_bub_ms line_center = u.pos_bub() + u.view_offset;
         draw_line( final_destination, line_center, destination_preview, true );
-        mvwputch( w_terrain, final_destination.xy() - u.view_offset.xy() + point( POSX - u.posx(),
-                  POSY - u.posy() ), c_white, 'X' );
+        // TODO: fix point types
+        mvwputch( w_terrain,
+                  final_destination.xy().raw() - u.view_offset.xy() +
+                  point( POSX - u.posx(), POSY - u.posy() ), c_white, 'X' );
     }
 
     if( u.controlling_vehicle && !looking ) {
@@ -6886,9 +6888,9 @@ cata::optional<tripoint> game::look_around()
 
 //look_around_result game::look_around( const bool show_window, tripoint &center,
 //                                      const tripoint &start_point, bool has_first_point, bool select_zone, bool peeking )
-look_around_result game::look_around( const bool show_window, tripoint &center,
-                                      const tripoint &start_point, bool has_first_point, bool select_zone, bool peeking,
-                                      bool is_moving_zone, const tripoint &end_point )
+look_around_result game::look_around(
+    const bool show_window, tripoint &center, const tripoint &start_point, bool has_first_point,
+    bool select_zone, bool peeking, bool is_moving_zone, const tripoint &end_point )
 {
     bVMonsterLookFire = false;
     // TODO: Make this `true`
@@ -6896,10 +6898,11 @@ look_around_result game::look_around( const bool show_window, tripoint &center,
 
     temp_exit_fullscreen();
 
-    tripoint lp = is_moving_zone ? ( start_point + end_point ) / 2 : start_point; // cursor
-    int &lx = lp.x;
-    int &ly = lp.y;
-    int &lz = lp.z;
+    // TODO: fix point types
+    tripoint_bub_ms lp( is_moving_zone ? ( start_point + end_point ) / 2 : start_point ); // cursor
+    int &lx = lp.x();
+    int &ly = lp.y();
+    int &lz = lp.z();
 
     int soffset = get_option<int>( "FAST_SCROLL_OFFSET" );
     bool fast_scroll = false;
@@ -7019,12 +7022,14 @@ look_around_result game::look_around( const bool show_window, tripoint &center,
 
             int first_line = 1;
             const int last_line = getmaxy( w_info ) - 2;
-            pre_print_all_tile_info( lp, w_info, first_line, last_line, cache );
+            // TODO: fix point types
+            pre_print_all_tile_info( lp.raw(), w_info, first_line, last_line, cache );
 
             wnoutrefresh( w_info );
         } );
         ter_indicator_cb = make_shared_fast<draw_callback_t>( [&]() {
-            draw_look_around_cursor( lp, cache );
+            // TODO: fix point types
+            draw_look_around_cursor( lp.raw(), cache );
         } );
         add_draw_callback( ter_indicator_cb );
     }
@@ -7052,9 +7057,11 @@ look_around_result game::look_around( const bool show_window, tripoint &center,
         if( select_zone ) {
             if( has_first_point ) {
                 zone_start = start_point;
-                zone_end = lp;
+                // TODO: fix point types
+                zone_end = lp.raw();
             } else {
-                zone_start = lp;
+                // TODO: fix point types
+                zone_start = lp.raw();
                 zone_end = cata::nullopt;
             }
             // Actually accessed from the terrain overlay callback `zone_cb` in the
@@ -7064,8 +7071,10 @@ look_around_result game::look_around( const bool show_window, tripoint &center,
         }
 
         if( is_moving_zone ) {
-            zone_start = lp - ( start_point + end_point ) / 2 + start_point;
-            zone_end = lp - ( start_point + end_point ) / 2 + end_point;
+            // TODO: fix point types
+            zone_start = lp.raw() - ( start_point + end_point ) / 2 + start_point;
+            // TODO: fix point types
+            zone_end = lp.raw() - ( start_point + end_point ) / 2 + end_point;
             // Actually accessed from the terrain overlay callback `zone_cb` in the
             // call to `ui_manager::redraw`.
             //NOLINTNEXTLINE(clang-analyzer-deadcode.DeadStores)
@@ -7124,7 +7133,7 @@ look_around_result game::look_around( const bool show_window, tripoint &center,
                 continue;
             }
 
-            auto route = m.route( u.pos(), lp, u.get_pathfinding_settings(), u.get_path_avoid() );
+            auto route = m.route( u.pos_bub(), lp, u.get_pathfinding_settings(), u.get_path_avoid() );
             if( route.size() > 1 ) {
                 route.pop_back();
                 u.set_destination( route );
@@ -7159,7 +7168,8 @@ look_around_result game::look_around( const bool show_window, tripoint &center,
         } else if( action == "debug_hour_timer" ) {
             toggle_debug_hour_timer();
         } else if( action == "EXTENDED_DESCRIPTION" ) {
-            extended_description( lp );
+            // TODO: fix point types
+            extended_description( lp.raw() );
         } else if( action == "CHANGE_MONSTER_NAME" ) {
             creature_tracker &creatures = get_creature_tracker();
             monster *const mon = creatures.creature_at<monster>( lp, true );
@@ -7172,7 +7182,7 @@ look_around_result game::look_around( const bool show_window, tripoint &center,
             }
         } else if( action == "CENTER" ) {
             center = u.pos();
-            lp = u.pos();
+            lp = u.pos_bub();
             u.view_offset.z = 0;
         } else if( action == "MOUSE_MOVE" || action == "TIMEOUT" ) {
             // This block is structured this way so that edge scroll can work
@@ -7202,13 +7212,15 @@ look_around_result game::look_around( const bool show_window, tripoint &center,
         } else if( action == "throw_blind" ) {
             result.peek_action = PA_BLIND_THROW;
         } else if( action == "zoom_in" ) {
-            center.x = lp.x;
-            center.y = lp.y;
+            // TODO: fix point types
+            center.x = lp.x();
+            center.y = lp.y();
             zoom_in();
             mark_main_ui_adaptor_resize();
         } else if( action == "zoom_out" ) {
-            center.x = lp.x;
-            center.y = lp.y;
+            // TODO: fix point types
+            center.x = lp.x();
+            center.y = lp.y();
             zoom_out();
             mark_main_ui_adaptor_resize();
         }
@@ -7230,7 +7242,8 @@ look_around_result game::look_around( const bool show_window, tripoint &center,
     bVMonsterLookFire = true;
 
     if( action == "CONFIRM" || action == "SELECT" ) {
-        result.position = is_moving_zone ? zone_start : lp;
+        // TODO: fix point types
+        result.position = is_moving_zone ? zone_start : lp.raw();
     }
 
 #if defined(TILES)
@@ -7955,8 +7968,8 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
             if( !u.sees( u.pos() + active_pos ) ) {
                 add_msg( _( "You can't see that destination." ) );
             }
-            auto route = m.route( u.pos(), u.pos() + active_pos, u.get_pathfinding_settings(),
-                                  u.get_path_avoid() );
+            auto route = m.route( u.pos_bub(), u.pos_bub() + active_pos,
+                                  u.get_pathfinding_settings(), u.get_path_avoid() );
             if( route.size() > 1 ) {
                 route.pop_back();
                 u.set_destination( route );
@@ -10152,7 +10165,7 @@ point game::place_player( const tripoint &dest_loc )
                         }
 
                         u.assign_activity( ACT_PULP, calendar::INDEFINITELY_LONG, 0 );
-                        u.activity.placement = m.getabs( pos );
+                        u.activity.placement = m.getglobal( pos );
                         u.activity.auto_resume = true;
                         u.activity.str_values.emplace_back( "auto_pulp_no_acid" );
                         return;
@@ -12182,7 +12195,7 @@ std::string PATH_INFO::world_base_save_path()
 
 void game::shift_destination_preview( const point &delta )
 {
-    for( tripoint &p : destination_preview ) {
+    for( tripoint_bub_ms &p : destination_preview ) {
         p += delta;
     }
 }

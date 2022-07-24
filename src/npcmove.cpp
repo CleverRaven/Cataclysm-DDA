@@ -936,15 +936,16 @@ void npc::move()
             }
             return;
         }
-        std::vector<tripoint> activity_route = get_auto_move_route();
+        std::vector<tripoint_bub_ms> activity_route = get_auto_move_route();
         if( !activity_route.empty() && !has_destination_activity() ) {
-            tripoint final_destination;
+            tripoint_bub_ms final_destination;
             if( destination_point ) {
-                final_destination = here.getlocal( *destination_point );
+                final_destination = here.bub_from_abs( *destination_point );
             } else {
                 final_destination = activity_route.back();
             }
-            update_path( final_destination );
+            // TODO: fix point types
+            update_path( final_destination.raw() );
             if( !path.empty() ) {
                 move_to_next();
                 return;
@@ -2379,15 +2380,16 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
             np->move_away_from( pos(), true, realnomove );
             // if we moved NPC, readjust their path, so NPCs don't jostle each other out of their activity paths.
             if( np->attitude == NPCATT_ACTIVITY ) {
-                std::vector<tripoint> activity_route = np->get_auto_move_route();
+                std::vector<tripoint_bub_ms> activity_route = np->get_auto_move_route();
                 if( !activity_route.empty() && !np->has_destination_activity() ) {
-                    tripoint final_destination;
+                    tripoint_bub_ms final_destination;
                     if( destination_point ) {
-                        final_destination = here.getlocal( *destination_point );
+                        final_destination = here.bub_from_abs( *destination_point );
                     } else {
                         final_destination = activity_route.back();
                     }
-                    np->update_path( final_destination );
+                    // TODO: fix point types
+                    np->update_path( final_destination.raw() );
                 }
             }
         }
@@ -3363,7 +3365,7 @@ bool npc::do_pulp()
     // TODO: Don't recreate the activity every time
     int old_moves = moves;
     assign_activity( ACT_PULP, calendar::INDEFINITELY_LONG, 0 );
-    activity.placement = pulp_location->raw();
+    activity.placement = *pulp_location;
     activity.do_turn( *this );
     return moves != old_moves;
 }

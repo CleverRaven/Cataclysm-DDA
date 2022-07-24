@@ -894,8 +894,8 @@ cata::optional<int> iuse::meth( Character *p, item *it, bool, const tripoint & )
         map &here = get_map();
         // breathe out some smoke
         for( int i = 0; i < 3; i++ ) {
-            here.add_field( {p->posx() + static_cast<int>( rng( -2, 2 ) ), p->posy() + static_cast<int>( rng( -2, 2 ) ), p->posz()},
-                            field_type_id( "fd_methsmoke" ), 2 );
+            point offset( rng( -2, 2 ), rng( -2, 2 ) );
+            here.add_field( p->pos_bub() + offset, field_type_id( "fd_methsmoke" ), 2 );
         }
     } else {
         p->add_msg_if_player( _( "You snort some crystal meth." ) );
@@ -2825,7 +2825,7 @@ cata::optional<int> iuse::makemound( Character *p, item *it, bool t, const tripo
         !here.has_flag( ter_furn_flag::TFLAG_PLANT, pnt ) ) {
         p->add_msg_if_player( _( "You start churning up the earth here." ) );
         p->assign_activity( player_activity( churn_activity_actor( 18000, item_location( *p, it ) ) ) );
-        p->activity.placement = here.getabs( pnt );
+        p->activity.placement = here.getglobal( pnt );
         return it->type->charges_to_use();
     } else {
         p->add_msg_if_player( _( "You can't churn up this ground." ) );
@@ -2936,7 +2936,7 @@ cata::optional<int> iuse::clear_rubble( Character *p, item *it, bool, const trip
         add_msg( m_info, _( "%s helps with this task…" ), helpers[i]->get_name() );
     }
     p->assign_activity( player_activity( clear_rubble_activity_actor( moves / bonus ) ) );
-    p->activity.placement = pnt;
+    p->activity.placement = get_map().getglobal( pnt );
     return it->type->charges_to_use();
 }
 
@@ -3228,7 +3228,7 @@ cata::optional<int> iuse::jackhammer( Character *p, item *it, bool, const tripoi
 
     p->assign_activity( ACT_JACKHAMMER, moves );
     p->activity.targets.emplace_back( *p, it );
-    p->activity.placement = here.getabs( pnt );
+    p->activity.placement = here.getglobal( pnt );
 
     // You can mine either furniture or terrain, and furniture goes first,
     // according to @ref map::bash_ter_furn()
@@ -3345,7 +3345,7 @@ cata::optional<int> iuse::pickaxe( Character *p, item *it, bool, const tripoint 
 
     p->assign_activity( ACT_PICKAXE, moves, -1 );
     p->activity.targets.emplace_back( *p, it );
-    p->activity.placement = here.getabs( pnt );
+    p->activity.placement = here.getglobal( pnt );
 
     // You can mine either furniture or terrain, and furniture goes first,
     // according to @ref map::bash_ter_furn()
@@ -4748,7 +4748,7 @@ void iuse::cut_log_into_planks( Character &p )
     p.add_msg_if_player( _( "You cut the log into planks." ) );
 
     p.assign_activity( player_activity( chop_planks_activity_actor( moves ) ) );
-    p.activity.placement = get_map().getabs( p.pos() );
+    p.activity.placement = get_map().getglobal( p.pos() );
 }
 
 cata::optional<int> iuse::lumber( Character *p, item *it, bool t, const tripoint & )
@@ -4840,7 +4840,7 @@ cata::optional<int> iuse::chop_tree( Character *p, item *it, bool t, const tripo
         add_msg( m_info, _( "%s helps with this task…" ), helpers[i]->get_name() );
     }
     p->assign_activity( player_activity( chop_tree_activity_actor( moves, item_location( *p, it ) ) ) );
-    p->activity.placement = here.getabs( pnt );
+    p->activity.placement = here.getglobal( pnt );
 
     return it->type->charges_to_use();
 }
@@ -4883,7 +4883,7 @@ cata::optional<int> iuse::chop_logs( Character *p, item *it, bool t, const tripo
         add_msg( m_info, _( "%s helps with this task…" ), helpers[i]->get_name() );
     }
     p->assign_activity( player_activity( chop_logs_activity_actor( moves, item_location( *p, it ) ) ) );
-    p->activity.placement = here.getabs( pnt );
+    p->activity.placement = here.getglobal( pnt );
 
     return it->type->charges_to_use();
 }
@@ -5030,7 +5030,8 @@ cata::optional<int> iuse::mop( Character *p, item *it, bool, const tripoint & )
     }
     map &here = get_map();
     const std::function<bool( const tripoint & )> f = [&here]( const tripoint & pnt ) {
-        return here.terrain_moppable( pnt );
+        // TODO: fix point types
+        return here.terrain_moppable( tripoint_bub_ms( pnt ) );
     };
 
     const cata::optional<tripoint> pnt_ = choose_adjacent_highlight(
@@ -5038,9 +5039,11 @@ cata::optional<int> iuse::mop( Character *p, item *it, bool, const tripoint & )
     if( !pnt_ ) {
         return cata::nullopt;
     }
-    const tripoint &pnt = *pnt_;
-    if( !f( pnt ) ) {
-        if( pnt == p->pos() ) {
+    // TODO: fix point types
+    const tripoint_bub_ms pnt( *pnt_ );
+    // TODO: fix point types
+    if( !f( pnt.raw() ) ) {
+        if( pnt == p->pos_bub() ) {
             p->add_msg_if_player( m_info, _( "You mop yourself up." ) );
             p->add_msg_if_player( m_info, _( "The universe implodes and reforms around you." ) );
         } else {

@@ -877,9 +877,8 @@ cata::optional<int> consume_drug_iuse::use( Character &p, item &it, bool, const 
     for( const auto &field : fields_produced ) {
         const field_type_id fid = field_type_id( field.first );
         for( int i = 0; i < 3; i++ ) {
-            here.add_field( {p.posx() + static_cast<int>( rng( -2, 2 ) ), p.posy() + static_cast<int>( rng( -2, 2 ) ), p.posz()},
-                            fid,
-                            field.second );
+            point offset( rng( -2, 2 ), rng( -2, 2 ) );
+            here.add_field( p.pos_bub() + offset, fid, field.second );
         }
     }
 
@@ -1251,17 +1250,18 @@ std::unique_ptr<iuse_actor> firestarter_actor::clone() const
     return std::make_unique<firestarter_actor>( *this );
 }
 
-bool firestarter_actor::prep_firestarter_use( const Character &p, tripoint &pos )
+bool firestarter_actor::prep_firestarter_use( const Character &p, tripoint_bub_ms &pos )
 {
     // checks for fuel are handled by use and the activity, not here
-    if( pos == p.pos() ) {
+    if( pos == p.pos_bub() ) {
         if( const cata::optional<tripoint> pnt_ = choose_adjacent( _( "Light where?" ) ) ) {
-            pos = *pnt_;
+            // TODO: fix point types
+            pos = tripoint_bub_ms( *pnt_ );
         } else {
             return false;
         }
     }
-    if( pos == p.pos() ) {
+    if( pos == p.pos_bub() ) {
         p.add_msg_if_player( m_info, _( "You would set yourself on fire." ) );
         p.add_msg_if_player( _( "But you're already smokin' hot." ) );
         return false;
@@ -1300,7 +1300,7 @@ bool firestarter_actor::prep_firestarter_use( const Character &p, tripoint &pos 
                _( "There's a brazier there but you haven't set it up to contain the fire.  Continue?" ) );
 }
 
-void firestarter_actor::resolve_firestarter_use( Character &p, const tripoint &pos )
+void firestarter_actor::resolve_firestarter_use( Character &p, const tripoint_bub_ms &pos )
 {
     if( get_map().add_field( pos, fd_fire, 1, 10_minutes ) ) {
         if( !p.has_trait( trait_PYROMANIA ) ) {
@@ -1351,7 +1351,7 @@ float firestarter_actor::light_mod( const tripoint &pos ) const
     return 0.0f;
 }
 
-int firestarter_actor::moves_cost_by_fuel( const tripoint &pos ) const
+int firestarter_actor::moves_cost_by_fuel( const tripoint_bub_ms &pos ) const
 {
     map &here = get_map();
     if( here.flammable_items_at( pos, 100 ) ) {
@@ -1372,7 +1372,8 @@ cata::optional<int> firestarter_actor::use( Character &p, item &it, bool t,
         return cata::nullopt;
     }
 
-    tripoint pos = spos;
+    // TODO: fix point types
+    tripoint_bub_ms pos( spos );
     float light = light_mod( p.pos() );
     if( !prep_firestarter_use( p, pos ) ) {
         return cata::nullopt;
@@ -1408,8 +1409,8 @@ cata::optional<int> firestarter_actor::use( Character &p, item &it, bool t,
     p.assign_activity( ACT_START_FIRE, moves, potential_skill_gain,
                        0, it.tname() );
     p.activity.targets.emplace_back( p, &it );
-    p.activity.values.push_back( g->natural_light_level( pos.z ) );
-    p.activity.placement = pos;
+    p.activity.values.push_back( g->natural_light_level( pos.z() ) );
+    p.activity.placement = get_map().getglobal( pos );
     // charges to use are handled by the activity
     return 0;
 }
@@ -3129,7 +3130,7 @@ static bool damage_item( Character &pl, item_location &fix )
                 if( it->has_flag( flag_NO_DROP ) ) {
                     continue;
                 }
-                put_into_vehicle_or_drop( pl, item_drop_reason::tumbling, { *it }, fix.position() );
+                put_into_vehicle_or_drop( pl, item_drop_reason::tumbling, { *it }, fix.pos_bub() );
             }
             fix.remove_item();
         }

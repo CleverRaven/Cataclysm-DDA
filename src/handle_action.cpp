@@ -791,7 +791,7 @@ static void smash()
     if( should_pulp ) {
         // do activity forever. ACT_PULP stops itself
         player_character.assign_activity( ACT_PULP, calendar::INDEFINITELY_LONG, 0 );
-        player_character.activity.placement = here.getabs( smashp );
+        player_character.activity.placement = here.getglobal( smashp );
         return; // don't smash terrain if we've smashed a corpse
     }
 
@@ -1942,15 +1942,15 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
                 point dest_delta = get_delta_from_movement_action( act, iso_rotate::yes );
                 if( auto_travel_mode && !player_character.is_auto_moving() ) {
                     for( int i = 0; i < SEEX; i++ ) {
-                        tripoint auto_travel_destination( player_character.posx() + dest_delta.x * ( SEEX - i ),
-                                                          player_character.posy() + dest_delta.y * ( SEEX - i ),
-                                                          player_character.posz() );
-                        destination_preview = m.route( player_character.pos(),
-                                                       auto_travel_destination,
-                                                       player_character.get_pathfinding_settings(),
-                                                       player_character.get_path_avoid() );
+                        tripoint_bub_ms auto_travel_destination =
+                            player_character.pos_bub() + dest_delta * ( SEEX - i );
+                        destination_preview =
+                            m.route( player_character.pos_bub(), auto_travel_destination,
+                                     player_character.get_pathfinding_settings(),
+                                     player_character.get_path_avoid() );
                         if( !destination_preview.empty() ) {
-                            destination_preview.erase( destination_preview.begin() + 1, destination_preview.end() );
+                            destination_preview.erase(
+                                destination_preview.begin() + 1, destination_preview.end() );
                             player_character.set_destination( destination_preview );
                             break;
                         }
@@ -1971,7 +1971,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
                     weapon && weapon->has_flag( json_flag_MOP ) ) {
                     map &here = get_map();
                     const bool is_blind = player_character.is_blind();
-                    for( const tripoint &point : here.points_in_radius( player_character.pos(), 1 ) ) {
+                    for( const tripoint_bub_ms &point : here.points_in_radius( player_character.pos_bub(), 1 ) ) {
                         bool did_mop = false;
                         if( is_blind ) {
                             // blind character have a 1/3 chance of actually mopping
@@ -2891,11 +2891,13 @@ bool game::handle_action()
                 // Note: The following has the potential side effect of
                 // setting auto-move destination state in addition to setting
                 // act.
-                if( !try_get_left_click_action( act, *mouse_target ) ) {
+                // TODO: fix point types
+                if( !try_get_left_click_action( act, tripoint_bub_ms( *mouse_target ) ) ) {
                     return false;
                 }
             } else if( act == ACTION_SEC_SELECT ) {
-                if( !try_get_right_click_action( act, *mouse_target ) ) {
+                // TODO: fix point types
+                if( !try_get_right_click_action( act, tripoint_bub_ms( *mouse_target ) ) ) {
                     return false;
                 }
             }

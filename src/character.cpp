@@ -1372,7 +1372,7 @@ void Character::assign_stashed_activity()
 bool Character::check_outbounds_activity( const player_activity &act, bool check_only )
 {
     map &here = get_map();
-    if( ( act.placement != tripoint_zero && act.placement != tripoint_min &&
+    if( ( act.placement != tripoint_abs_ms() && act.placement != player_activity::invalid_place &&
           !here.inbounds( here.getlocal( act.placement ) ) ) || ( !act.coords.empty() &&
                   !here.inbounds( here.getlocal( act.coords.back() ) ) ) ) {
         if( is_npc() && !check_only ) {
@@ -1384,8 +1384,10 @@ bool Character::check_outbounds_activity( const player_activity &act, bool check
             activity = player_activity();
         }
         add_msg_debug( debugmode::DF_CHARACTER,
-                       "npc %s at pos %d %d, activity target is not inbounds at %d %d therefore activity was stashed",
-                       disp_name(), pos().x, pos().y, act.placement.x, act.placement.y );
+                       "npc %s at pos %s, activity target is not inbounds at %s therefore "
+                       "activity was stashed",
+                       disp_name(), pos().to_string_writable(),
+                       act.placement.to_string_writable() );
         return true;
     }
     return false;
@@ -9778,7 +9780,7 @@ void Character::shift_destination( const point &shift )
         *next_expected_position += shift;
     }
 
-    for( tripoint &elem : auto_move_route ) {
+    for( tripoint_bub_ms &elem : auto_move_route ) {
         elem += shift;
     }
 }
@@ -9884,7 +9886,7 @@ bool Character::sees( const Creature &critter ) const
     return Creature::sees( critter );
 }
 
-void Character::set_destination( const std::vector<tripoint> &route,
+void Character::set_destination( const std::vector<tripoint_bub_ms> &route,
                                  const player_activity &new_destination_activity )
 {
     auto_move_route = route;
@@ -9933,7 +9935,7 @@ void Character::start_destination_activity()
     clear_destination();
 }
 
-std::vector<tripoint> &Character::get_auto_move_route()
+std::vector<tripoint_bub_ms> &Character::get_auto_move_route()
 {
     return auto_move_route;
 }
@@ -9945,7 +9947,7 @@ action_id Character::get_next_auto_move_direction()
     }
 
     if( next_expected_position ) {
-        if( pos() != *next_expected_position ) {
+        if( pos_bub() != *next_expected_position ) {
             // We're off course, possibly stumbling or stuck, cancel auto move
             return ACTION_NULL;
         }
@@ -9954,16 +9956,17 @@ action_id Character::get_next_auto_move_direction()
     next_expected_position.emplace( auto_move_route.front() );
     auto_move_route.erase( auto_move_route.begin() );
 
-    tripoint dp = *next_expected_position - pos();
+    tripoint_rel_ms dp = *next_expected_position - pos_bub();
 
     // Make sure the direction is just one step and that
     // all diagonal moves have 0 z component
-    if( std::abs( dp.x ) > 1 || std::abs( dp.y ) > 1 || std::abs( dp.z ) > 1 ||
-        ( std::abs( dp.z ) != 0 && ( std::abs( dp.x ) != 0 || std::abs( dp.y ) != 0 ) ) ) {
+    if( std::abs( dp.x() ) > 1 || std::abs( dp.y() ) > 1 || std::abs( dp.z() ) > 1 ||
+        ( dp.z() != 0 && ( dp.x() != 0 || dp.y() != 0 ) ) ) {
         // Should never happen, but check just in case
         return ACTION_NULL;
     }
-    return get_movement_action_from_delta( dp, iso_rotate::yes );
+    // TODO: fix point types
+    return get_movement_action_from_delta( dp.raw(), iso_rotate::yes );
 }
 
 int Character::talk_skill() const
@@ -10007,11 +10010,13 @@ bool Character::defer_move( const tripoint &next )
         return false;
     }
     // next must be adjacent to subsequent move in any preexisting automove route
-    if( has_destination() && square_dist( auto_move_route.front(), next ) != 1 ) {
+    // TODO: fix point types
+    if( has_destination() && square_dist( auto_move_route.front().raw(), next ) != 1 ) {
         return false;
     }
-    auto_move_route.insert( auto_move_route.begin(), next );
-    next_expected_position = pos();
+    // TODO: fix point types
+    auto_move_route.insert( auto_move_route.begin(), tripoint_bub_ms( next ) );
+    next_expected_position = pos_bub();
     return true;
 }
 
