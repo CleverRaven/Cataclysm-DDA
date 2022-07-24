@@ -1284,7 +1284,7 @@ class map
         * Consume UPS from UPS sources from area centered at origin.
         * @param origin the position of player
         * @param range how far the UPS can be used from
-        * @param qty amount of energy to consume. Is rounded down to kJ precision. Negative value will charge instead of drain
+        * @param qty amount of energy to consume. Is rounded down to kJ precision. Do not use negative values.
         * @return Actual amount of energy consumed
         */
         units::energy consume_ups( const tripoint &origin, int range, units::energy qty );

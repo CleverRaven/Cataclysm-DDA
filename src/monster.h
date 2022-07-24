@@ -453,7 +453,7 @@ class monster : public Creature
         // Returns the amount of power actually consumed
         /**
         * Consume UPS from mech battery.
-        * @param amt amount of energy to consume. Is rounded down to kJ precision. Negative value will charge instead of drain
+        * @param amt amount of energy to consume. Is rounded down to kJ precision. Do not use negative values.
         * @return Actual amount of energy consumed
         */
         units::energy use_mech_power( units::energy amt );
