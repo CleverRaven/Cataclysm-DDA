@@ -1286,7 +1286,7 @@ class map
         * @param range how far the UPS can be used from
         * @return Amount of UPS used which will be between 0 and qty
         */
-        int consume_ups( const tripoint &origin, int range, int qty );
+        units::energy consume_ups( const tripoint &origin, int range, units::energy qty );
 
         /*@}*/
         std::list<std::pair<tripoint, item *> > get_rc_items( const tripoint &p = { -1, -1, -1 } );

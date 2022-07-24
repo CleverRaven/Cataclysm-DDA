@@ -2554,7 +2554,7 @@ class item : public visitable
         time_point birthday() const;
         void set_birthday( const time_point &bday );
         void handle_pickup_ownership( Character &c );
-        int get_gun_ups_drain() const;
+        units::energy get_gun_ups_drain() const;
         void validate_ownership() const;
         inline void set_old_owner( const faction_id &temp_owner ) {
             old_owner = temp_owner;

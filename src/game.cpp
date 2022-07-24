@@ -11156,7 +11156,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
     if( u.is_mounted() ) {
         monster *crit = u.mounted_creature.get();
         if( crit->has_flag( MF_RIDEABLE_MECH ) ) {
-            crit->use_mech_power( -u.current_movement_mode()->mech_power_use() - 1 );
+            crit->use_mech_power( -u.current_movement_mode()->mech_power_use() - 1_kJ );
         }
     } else {
         u.moves -= move_cost;

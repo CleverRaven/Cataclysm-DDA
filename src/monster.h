@@ -450,7 +450,7 @@ class monster : public Creature
         // Add an item to inventory
         void add_item( const item &it );
         // check mech power levels and modify it.
-        bool use_mech_power( int amt );
+        void use_mech_power( units::energy amt );
         bool check_mech_powered() const;
         int mech_str_addition() const;
 

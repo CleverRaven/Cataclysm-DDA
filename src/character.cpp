@@ -8468,40 +8468,42 @@ int Character::available_ups() const
     return available_charges;
 }
 
-int Character::consume_ups( int64_t qty, const int radius )
+units::energy Character::consume_ups( units::energy qty, const int radius )
 {
-    const int64_t wanted_qty = qty;
+    const units::energy wanted_qty = qty;
 
     // UPS from mounted mech
-    if( qty != 0 && is_mounted() && mounted_creature.get()->has_flag( MF_RIDEABLE_MECH ) &&
+    if( qty != 0_kJ && is_mounted() && mounted_creature.get()->has_flag( MF_RIDEABLE_MECH ) &&
         mounted_creature.get()->battery_item ) {
         auto *mons = mounted_creature.get();
-        int64_t power_drain = std::min( static_cast<int64_t>( mons->battery_item->ammo_remaining() ), qty );
+        units::energy power_drain = std::min( units::from_kilojoule( mons->battery_item->ammo_remaining() ), qty );
         mons->use_mech_power( -power_drain );
         qty -= std::min( qty, power_drain );
     }
 
     // UPS from bionic
-    if( qty != 0 && has_power() && has_active_bionic( bio_ups ) ) {
-        int64_t bio = std::min( units::to_kilojoule( get_power_level() ), qty );
-        mod_power_level( units::from_kilojoule( -bio ) );
+    if( qty != 0_kJ && has_power() && has_active_bionic( bio_ups ) ) {
+        units::energy bio = std::min( get_power_level(), qty );
+        mod_power_level( -bio );
         qty -= std::min( qty, bio );
     }
 
     // UPS from inventory
-    if( qty != 0 ) {
+    if( qty != 0_kJ ) {
+		int qty_kj = units::to_kilojoule( qty )
         std::vector<const item *> ups_items = all_items_with_flag( flag_IS_UPS );
         for( const item *i : ups_items ) {
-            qty -= const_cast<item *>( i )->ammo_consume( qty, tripoint_zero, nullptr );
+            qty_kj -= const_cast<item *>( i )->ammo_consume( qty_kj, tripoint_zero, nullptr );
         }
+		qty = units::from_kilojoule( qty_kj );
     }
 
     // UPS from nearby map
-    if( qty != 0 && radius > 0 ) {
+    if( qty != 0_kJ && radius > 0 ) {
         inventory inv = crafting_inventory( pos(), radius, true );
 
-        int ups = inv.charges_of( itype_UPS, qty );
-        if( qty != 0 && ups > 0 ) {
+        units::energy ups = units::from_kilojoule( inv.charges_of( itype_UPS, qty ) );
+        if( ups > 0 ) {
             qty -= get_map().consume_ups( pos(), radius, ups );
         }
     }
