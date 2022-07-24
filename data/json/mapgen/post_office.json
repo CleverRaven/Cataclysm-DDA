@@ -25,7 +25,7 @@
         " |f...X|I...c...=....X| ",
         " |f.K.X|IC..|====...XX| ",
         " |ccccc|I...|......|||| ",
-        " ||||||||..||......D.S| ",
+        " ||||||||..||@.....D.S| ",
         " |e%%%Scc...|......|.T| ",
         " |..........|.....Y|||| ",
         " |..........a......D.T| ",
@@ -51,6 +51,7 @@
       },
       "furniture": {
         "#": "f_rack_wood",
+        "@": "f_rack",
         "c": "f_counter",
         "%": "f_cupboard",
         "&": "f_trashcan",
@@ -81,9 +82,11 @@
         "e": { "item": "SUS_fridge_breakroom", "chance": 30 },
         "F": { "item": "SUS_office_filing_cabinet", "chance": 75 },
         "f": { "item": "mail_postal", "chance": 75, "repeat": [ 1, 12 ] },
+        "@": { "item": "packaging_postal", "chance": 75, "repeat": [ 1, 6 ] },
         "Y": { "item": "trash", "chance": 50, "repeat": [ 2, 4 ] },
         "%": { "item": "snacks", "chance": 50, "repeat": [ 2, 4 ] }
       },
+      "place_signs": [ { "signage": "SHIPPING SUPPLIES", "x": 13, "y": 19 } ],
       "place_loot": [ { "group": "cash_register_random", "x": 12, "y": [ 12, 15 ] } ]
     }
   },
@@ -162,7 +165,7 @@
         "          ss            ",
         "    uuuuu ss uuuuu      ",
         "   ||www||++||www||     ",
-        "   |c...#.....555^|     ",
+        "   |c...#@....555^|     ",
         "   |c............&|     ",
         "   |X..--ccc---D--|     ",
         "   |XXX-I.C.ccc.-T|     ",
@@ -201,6 +204,7 @@
         "d": "f_region_flower_decorative",
         "u": "f_hedge_short",
         "#": "f_rack_wood",
+        "@": "f_rack",
         "&": "f_trashcan",
         "C": "f_chair",
         "S": "f_statue",
@@ -225,6 +229,7 @@
         "I": { "item": "SUS_office_desk", "chance": 33 },
         "F": { "item": "SUS_office_filing_cabinet", "chance": 75 },
         "f": { "item": "mail_postal", "chance": 75, "repeat": [ 1, 12 ] },
+        "@": { "item": "packaging_postal", "chance": 75, "repeat": [ 1, 6 ] },
         "&": { "item": "trash", "chance": 20, "repeat": [ 2, 4 ] }
       },
       "toilets": { "T": {  } },
