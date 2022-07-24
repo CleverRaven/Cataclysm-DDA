@@ -476,7 +476,7 @@ TEST_CASE( "UPS shows as a crafting component", "[crafting][ups]" )
     INFO( result.c_str() );
     REQUIRE( result.success() );
     REQUIRE( dummy.has_item( *ups ) );
-    REQUIRE( ups->ammo_remaining()    == 500 );
+    REQUIRE( ups->ammo_remaining() == 500 );
     REQUIRE( units::to_kilojoule( dummy.available_ups() ) == 500 );
 }
 
