@@ -401,7 +401,6 @@ class generic_factory
          * Postcondition: `size() == 0`
          */
         void reset() {
-            DebugLog( D_INFO, DC_ALL ) << type_name <<":deferred.size= " << deferred.size();
             deferred.clear();
             list.clear();
             map.clear();

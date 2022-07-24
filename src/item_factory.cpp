@@ -4302,7 +4302,6 @@ void Item_factory::clear()
     migrated_magazines.clear();
     migrations.clear();
 
-    DebugLog( D_INFO, DC_ALL ) << "item_factory:deferred.size= " << deferred.size();
     deferred.clear();
 
     frozen = false;
