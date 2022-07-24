@@ -1462,7 +1462,6 @@
       [ [ "hose", -1 ] ],
       [ [ "closed_loop_extractor_small", 50 ] ],
       [ [ "surface_heat", 5, "LIST" ] ],
-      [ [ "butane_tank", 10 ], [ "butane_can", 10 ] ],
       [ [ "filter_paper_qualitative", 1 ] ],
       [ [ "filter_paper_quantitative", 1 ] ],
       [ [ "gasket_plastic_set", 1 ] ]
@@ -1511,7 +1510,6 @@
       [ [ "hose", -1 ] ],
       [ [ "closed_loop_extractor_small", 50 ] ],
       [ [ "vac_oven_small", 200 ] ],
-      [ [ "butane_tank", 10 ], [ "butane_can", 10 ] ],
       [ [ "filter_paper_qualitative", 2 ] ],
       [ [ "filter_paper_quantitative", 2 ] ],
       [ [ "gasket_plastic_set", 1 ] ],
@@ -1702,7 +1700,6 @@
       [ [ "hose", -1 ] ],
       [ [ "surface_heat", 5, "LIST" ] ],
       [ [ "closed_loop_extractor_small", 50 ] ],
-      [ [ "butane_tank", 10 ], [ "butane_can", 10 ] ],
       [ [ "filter_paper_qualitative", 1 ] ],
       [ [ "filter_paper_quantitative", 1 ] ],
       [ [ "gasket_plastic_set", 1 ] ]
@@ -1725,7 +1722,6 @@
       [ [ "hose", -1 ] ],
       [ [ "closed_loop_extractor_small", 50 ] ],
       [ [ "vac_oven_small", 200 ] ],
-      [ [ "butane_tank", 10 ], [ "butane_can", 10 ] ],
       [ [ "filter_paper_qualitative", 2 ] ],
       [ [ "filter_paper_quantitative", 2 ] ],
       [ [ "gasket_plastic_set", 1 ] ],
