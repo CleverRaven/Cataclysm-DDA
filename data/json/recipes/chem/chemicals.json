@@ -212,7 +212,7 @@
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
     "result": "chem_washing_soda",
-    "byproducts": [ [ "ammonia_liquid", 4 ], [ "chem_calcium_chloride", 51 ] ],
+    "byproducts": [ [ "ammonia_liquid", 4 ], [ "chem_calcium_chloride" ] ],
     "charges": 41,
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_CHEMICALS",
