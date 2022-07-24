@@ -1576,7 +1576,7 @@
     "symbol": "/",
     "color": "light_gray",
     "name": { "str": "kriegsmesser" },
-    "description": "A single-edged hand-and-a-half-sword of German design, similar to a machete with a handguard.  Cheaper and lighter than a longsword, but a devastating cutting weapon nonetheless.",
+    "description": "A single-edged hand-and-a-half-sword of German design, with a long, curved blade.  It became popular across Europe due to it's low cost while maintaining strong cutting power in comparison to the more sophisticated longsword.",
     "price": 100000,
     "price_postapoc": 4500,
     "material": [ "steel" ],
