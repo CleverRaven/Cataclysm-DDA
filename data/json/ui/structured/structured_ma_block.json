@@ -1,0 +1,25 @@
+[
+  {
+    "id": "structured_ma_buffs_style_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "columns",
+    "widgets": [ "structured_ma_buff_layout", "structured_style_layout" ]
+  },
+  {
+    "id": "structured_style_layout",
+    "type": "widget",
+    "style": "layout",
+    "width": 10,
+    "arrange": "columns",
+    "widgets": [ "style_desc_no_label" ]
+  },
+  {
+    "id": "structured_ma_buff_layout",
+    "type": "widget",
+    "style": "layout",
+    "width": 33,
+    "arrange": "columns",
+    "widgets": [ "ma_buff_legend" ]
+  }
+]

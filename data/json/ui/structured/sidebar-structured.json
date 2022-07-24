@@ -22,6 +22,8 @@
       "structured_all_weariness_text_layout",
       "structured_all_weariness_graph_layout",
       "separator",
+      "structured_ma_buffs_style_layout",
+      "ma_buff_legend",
       "structured_overmap_compass_9x9_layout",
       "structured_overmap_compass_7x7_layout",
       "structured_overmap_compass_5x5_layout",
