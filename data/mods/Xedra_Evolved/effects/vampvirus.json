@@ -1,0 +1,199 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CONSUMED_BLOOD_TREATMENT",
+    "condition": { "u_has_effect": "blood_treatment" },
+    "effect": [ { "u_add_effect": "blood_treatment", "duration": "16 hours" }, { "u_message": "You take a blood treatment.", "type": "info" } ],
+    "false_effect": [
+      { "u_add_effect": "blood_treatment", "duration": "16 hours" },
+      { "u_message": "You take a blood treatment.", "type": "info" },
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_REDUCE_VAMPVIRUS",
+            "condition": {
+              "and": [
+                { "u_has_effect": "vampire_virus", "intensity": 1 },
+                { "compare_int": [ { "u_val": "effect_intensity", "effect": "vampire_virus" }, "=", { "const": 1 } ] }
+              ]
+            },
+            "effect": [
+              { "u_lose_effect": "vampire_virus", "intensity": 1, "duration": "PERMANENT" },
+              {
+                "u_message": "The light seems less bright and the air fresher.",
+                "type": "good"
+              }
+            ]
+          },
+          {
+            "id": "EOC_REDUCE_VAMPVIRUS1",
+            "condition": {
+              "and": [
+                { "u_has_effect": "vampire_virus", "intensity": 2 },
+                { "compare_int": [ { "u_val": "effect_intensity", "effect": "vampire_virus" }, "=", { "const": 2 } ] }
+              ]
+            },
+            "effect": [
+              { "u_add_effect": "vampire_virus", "intensity": 1, "duration": "PERMANENT" },
+              {
+                "u_message": "You seem to be feeling a little better, but the thirst for blood remains.",
+                "type": "good"
+              }
+            ]
+          },
+          {
+            "id": "EOC_REDUCE_VAMPVIRUS2",
+            "condition": {
+              "and": [
+                { "u_has_effect": "vampire_virus", "intensity": 3 },
+                { "compare_int": [ { "u_val": "effect_intensity", "effect": "vampire_virus" }, "=", { "const": 3 } ] }
+              ]
+            },
+            "effect": [
+              { "u_add_effect": "vampire_virus", "intensity": 2, "duration": "PERMANENT" },
+              {
+                "u_message": "You no longer instantly turn red in sunlight, but your skin is still concerningly pale.",
+                "type": "good"
+              }
+            ]
+          },
+          {
+            "id": "EOC_REDUCE_VAMPVIRUS3",
+            "condition": {
+              "and": [
+                { "u_has_effect": "vampire_virus", "intensity": 4 },
+                { "compare_int": [ { "u_val": "effect_intensity", "effect": "vampire_virus" }, "=", { "const": 4 } ] }
+              ]
+            },
+            "effect": [
+              { "u_add_effect": "poisoned_blood", "intensity": 1, "duration": "4 hours" },
+              {
+                "u_message": "Your veins burn and ache.  What were you thinking trying this?  You are already one of the damned!",
+                "type": "bad"
+              }
+            ]
+          },
+          {
+            "id": "EOC_REDUCE_VAMPVIRUS4",
+            "condition": {
+              "and": [
+                { "u_has_effect": "vampire_virus", "intensity": 5 },
+                { "compare_int": [ { "u_val": "effect_intensity", "effect": "vampire_virus" }, "=", { "const": 5 } ] }
+              ]
+            },
+            "effect": [
+              { "u_add_effect": "poisoned_blood2", "intensity": 1, "duration": "1 hours" },
+              {
+                "u_message": "Your veins burn and ache.  What were you thinking trying this?  You are already one of the damned!",
+                "type": "bad"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_vampire_virus",
+    "recurrence": [ "8 hours", "16 hours 15 minutes" ],
+    "condition": {
+      "and": [
+        { "compare_int": [ { "u_val": "vitamin", "name": "blood" }, "=<", { "const": 450 } ] },
+        { "u_has_effect": "vampire_virus" }
+      ]
+    },
+    "deactivate_condition": { "u_lose_effect": "vampire_virus" },
+    "effect":
+    {
+      "run_eocs": [
+        {
+          "id": "EOC_VAMPVIRUS",
+          "condition": {
+            "and": [
+              { "u_has_effect": "vampire_virus", "intensity": 1 },
+              { "compare_int": [ { "u_val": "effect_intensity", "effect": "vampire_virus" }, "=", { "const": 1 } ] }
+            ]
+          },
+          "effect": [
+            "run_eocs": {
+              "id": "eoc_vampvirus_1_trait",
+              "condition": { "u_has_trait": "PALE" },
+              "effect": { "u_message": "You feel a gnawing in your belly and a pressure in your mouth, as if your teeth can't all fit." },
+              "false_effect": [ { "u_add_trait": "PALE" }, { "u_message": "Your skin seems to have become unnaturally pale."} ]
+            }
+          ]
+        },
+        {
+          "id": "EOC_VAMPVIRUS1",
+          "condition": {
+            "and": [
+              { "u_has_effect": "vampire_virus", "intensity": 2 },
+              { "compare_int": [ { "u_val": "effect_intensity", "effect": "vampire_virus" }, "=", { "const": 2 } ] }
+            ]
+          },
+          "effect": [
+            "run_eocs": {
+              "id": "eoc_vampvirus_2_trait",
+              "condition": { "u_has_trait": "FANGS" },
+              "effect": { "u_message": "You feel an intense pain in your stomach and your skin reddens in a short time in sunlight." },
+              "false_effect": [ { "u_add_trait": "FANGS" }, { "u_message": "With a popping sound several of your teeth fall out but when you put a finger into your mouth to feel the hole, there are new sharp fangs where you expected nothing."} ]
+            }
+          ]
+        },
+        {
+          "id": "EOC_VAMPVIRUS2",
+          "condition": {
+            "and": [
+              { "u_has_effect": "vampire_virus", "intensity": 3 },
+              { "compare_int": [ { "u_val": "effect_intensity", "effect": "vampire_virus" }, "=", { "const": 3 } ] }
+            ]
+          },
+          "effect": [
+            "run_eocs": {
+              "id": "eoc_vampvirus_3_trait",
+              "condition": { "u_has_trait": "ALBINO" },
+              "effect": { "u_message": "You feel a gnawing in your belly and a pressure in your mouth, as if your teeth can't all fit." },
+              "false_effect": [ { "u_add_trait": "PALE" }, { "u_message": "Your skin seems to have become unnaturally pale."} ]
+            }
+          ]
+        },
+        {
+          "id": "EOC_VAMPVIRUS3",
+          "condition": {
+            "and": [
+              { "u_has_effect": "vampire_virus", "intensity": 4 },
+              { "compare_int": [ { "u_val": "effect_intensity", "effect": "vampire_virus" }, "=", { "const": 4 } ] }
+            ]
+          },
+          "effect": [
+            "run_eocs": {
+              "id": "eoc_vampvirus_4_trait",
+              "condition": { "u_has_trait": "SUNBURN" },
+              "effect": { "u_message": "You feel a gnawing in your belly and a pressure in your mouth, as if your teeth can't all fit." },
+              "false_effect": [ { "u_add_trait": "SUNBURN" }, { "u_message": "Your skin seems to have become unnaturally pale."} ]
+            }
+          ]
+        },
+        {
+          "id": "EOC_VAMPVIRUS4",
+          "condition": {
+            "and": [
+              { "u_has_effect": "vampire_virus", "intensity": 5 },
+              { "compare_int": [ { "u_val": "effect_intensity", "effect": "vampire_virus" }, "=", { "const": 5 } ] }
+            ]
+          },
+          "effect": [
+            "run_eocs": {
+              "id": "eoc_vampvirus_5_trait",
+              "condition": { "u_has_trait": "BLOOD_DRINKER" },
+              "effect": { "u_message": "You feel a gnawing in your belly and a pressure in your mouth, as if your teeth can't all fit." },
+              "false_effect": [ { "u_add_trait": "BLOOD_DRINKER" }, { "u_message": "You no longer receive nourishment from anything other than blood."} ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+]

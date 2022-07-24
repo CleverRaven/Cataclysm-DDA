@@ -1,0 +1,22 @@
+[
+  {
+    "id": "vampire_suck",
+    "type": "SPELL",
+    "name": { "str": "Sucking bite" },
+    "description": "Sucks blood from one foe.",
+    "valid_targets": [ "hostile" ],
+    "flags": [ "NO_HANDS", "NO_LEGS" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_vampire_bite",
+    "damage_type": "stab",
+    "min_damage": 15,
+    "max_damage": 25,
+    "damage_increment": 1.0,
+    "max_level": 10,
+    "min_range": 1,
+    "max_range": 1,
+    "effect": "attack",
+    "shape": "blast",
+    "extra_effects": [ { "id": "light_healing", "hit_self": true } ]
+  }
+]

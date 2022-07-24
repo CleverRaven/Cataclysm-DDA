@@ -127,5 +127,88 @@
     "remove_message": "The weight is lifted from your mind and the air warms.",
     "base_mods": { "speed_mod": [ -40 ] },
     "scaling_mods": { "speed_mod": [ -10 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "blood_treatment",
+    "rating": "good",
+    "blocks_effects": [ "vampire_virus" ],
+    "blood_analysis_description": "Heightened levels of organosulfur compounds, mercury, and silver.",
+    "max_duration": 86400,
+    "dur_add_perc": 25
+  },
+  {
+    "type": "effect_type",
+    "id": "blood_quenched",
+    "rating": "good",
+    "blocks_effects": [ "vampire_virus" ],
+    "blood_analysis_description": "Heightened levels of organosulfur compounds, mercury, and silver.",
+    "max_duration": 16400,
+    "dur_add_perc": 25
+  },
+  {
+    "type": "effect_type",
+    "id": "poisoned_blood",
+    "name": [ "Poisoned blood" ],
+    "desc": [ "You have poisoned your own blood!" ],
+    "miss_messages": [ [ "You feel bad inside.", 1 ] ],
+    "rating": "bad",
+    "pain_sizing": true,
+    "hurt_sizing": true,
+    "main_parts_only": true,
+    "base_mods": {
+      "per_mod": [ -2, -1 ],
+      "dex_mod": [ -1, -1 ],
+      "str_mod": [ -2, 0 ],
+      "pain_min": [ 1 ],
+      "pain_chance": [ 150, 900 ],
+      "hurt_min": [ 1 ],
+      "hurt_chance": [ 150, 2700 ]
+    },
+    "show_in_info": true,
+    "blood_analysis_description": "Poison"
+  },
+  {
+    "type": "effect_type",
+    "id": "poisoned_blood2",
+    "rating": "bad",
+    "chance_kill": [ [ 1, 1 ] ],
+    "chance_kill_resist": [ [ 1, 1 ] ],
+    "death_msg": "Your blood turns to acid and melts through your body.",
+    "death_event": "dies_from_drug_overdose",
+    "max_duration": 86400,
+    "dur_add_perc": 25
+  },
+  {
+    "type": "effect_type",
+    "id": "vampire_virus",
+    "name": [ "Wan", "Reddened Eyes", "Bloodthirst", "Terminal Porphyria", "Homo sapiens homovorus" ],
+    "desc": [
+      "Your complexion is wan and spent.",
+      "Your skin is pale and your eyes are thoroughly bloodshot.",
+      "Your skin is pale and have turned dark red.  You feel a constant hunger, like the food you eat is no longer nourishing you.",
+      "Your skin is deathly white and will redden and burn when exposed to the sun.",
+      "Your skin is deathly white, your eyes are solid red except for a huge pupil, the only food you can consume is human blood, and if sunlight hits you that part of your body instantly burns."
+    ],
+    "apply_message": "You feel the blood rushing from the wound and then a pressure that reminds you of backwash.",
+    "death_msg": "You succumb to your deadly necrotic condition.",
+    "apply_memorial_log": "Contracted a bloodborne pathogen out of legend.",
+    "remove_memorial_log": "Rid themselves of a horrific curse of the blood.",
+    "resist_trait": "ACIDBLOOD",
+    "resist_effects": [ "blood_treatment", "blood_quenched" ],
+    "max_intensity": 5,
+    "int_add_val": 1,
+    "int_decay_step": 1,
+    "int_decay_tick": 86400,
+    "rating": "bad",
+    "blood_analysis_description" : "Unknown RNA virus is rewriting sampled blood cells.",
+    "show_intensity": false,
+    "base_mods": {
+      "pain_chance": [ -10, -10 ],
+      "pain_chance_bot": [ 1000, 10000 ],
+      "pain_min": [ 1, 0 ],
+      "pain_max": [ 5, 1 ]
+    },
+    "scaling_mods": { "pain_chance": [ 5.5, 3.5 ], "pain_chance_bot": [ 1, 5 ] }
   }
 ]
