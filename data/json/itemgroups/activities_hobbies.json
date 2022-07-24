@@ -147,7 +147,7 @@
     "type": "item_group",
     "id": "boat_equipment",
     "//": "Any items likely to be found in a boat or in any place which has boats.",
-    "entries": [
+    "items": [
       { "group": "allsporting", "prob": 50 },
       { "item": "methanol_fuel_cell", "prob": 1 },
       { "item": "5l_methanol_tank", "prob": 1 },
