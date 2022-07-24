@@ -1417,7 +1417,7 @@ void veh_interact::calc_overview()
     const hotkey_queue &hotkeys = hotkey_queue::alphabets();
 
     const auto next_hotkey = [&]( input_event & evt ) {
-        const input_event prev = evt;
+        input_event prev = evt;
         evt = main_context.next_unassigned_hotkey( hotkeys, evt );
         return prev;
     };

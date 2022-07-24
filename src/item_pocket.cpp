@@ -1822,7 +1822,7 @@ std::list<item> &item_pocket::edit_contents()
 
 ret_val<item_pocket::contain_code> item_pocket::insert_item( const item &it )
 {
-    const ret_val<item_pocket::contain_code> ret = !is_standard_type() ?
+    ret_val<item_pocket::contain_code> ret = !is_standard_type() ?
             ret_val<item_pocket::contain_code>::make_success() : can_contain( it );
 
     if( ret.success() ) {

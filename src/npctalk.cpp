@@ -1010,7 +1010,7 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
     const std::string &topic = the_topic.id;
     const auto iter = json_talk_topics.find( topic );
     if( iter != json_talk_topics.end() ) {
-        const std::string line = iter->second.get_dynamic_line( *this );
+        std::string line = iter->second.get_dynamic_line( *this );
         if( !line.empty() ) {
             return line;
         }

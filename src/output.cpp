@@ -919,8 +919,7 @@ input_event draw_item_info( const int iLeft, const int iWidth, const int iTop, c
     wclear( win );
     wnoutrefresh( win );
 
-    const input_event result = draw_item_info( win, data );
-    return result;
+    return draw_item_info( win, data );
 }
 
 std::string string_replace( std::string text, const std::string &before, const std::string &after )

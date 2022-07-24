@@ -2273,8 +2273,8 @@ cata::optional<tripoint> lockpick_activity_actor::select_location( avatar &you )
         return get_map().has_flag( ter_furn_flag::TFLAG_PICKABLE, p );
     };
 
-    const cata::optional<tripoint> target = choose_adjacent_highlight(
-            _( "Use your lockpick where?" ), _( "There is nothing to lockpick nearby." ), is_pickable, false );
+    cata::optional<tripoint> target = choose_adjacent_highlight(
+                                          _( "Use your lockpick where?" ), _( "There is nothing to lockpick nearby." ), is_pickable, false );
     if( !target ) {
         return cata::nullopt;
     }
