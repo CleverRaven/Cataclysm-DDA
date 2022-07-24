@@ -1251,26 +1251,26 @@ void Character::roll_bash_damage( bool crit, damage_instance &di, bool average,
             bp_unrestricted = !natural_attack_restricted_on( bodypart_id( "arm_l" ) ) ||
                               ( !natural_attack_restricted_on( bodypart_id( "arm_r" ) ) );
         } else if( attack_vector == "ELBOW" ) {
-            bp_unrestricted = !natural_attack_restricted_on( bodypart_id( "arm_elbow_l" ) ) ||
-                              ( !natural_attack_restricted_on( bodypart_id( "arm_elbow_r" ) ) );
+            bp_unrestricted = !natural_attack_restricted_on( sub_bodypart_id( "arm_elbow_l" ) ) ||
+                              ( !natural_attack_restricted_on( sub_bodypart_id( "arm_elbow_r" ) ) );
         } else if( attack_vector == "WRIST" ) {
-            bp_unrestricted = !natural_attack_restricted_on( bodypart_id( "hand_wrist_l" ) ) ||
-                              ( !natural_attack_restricted_on( bodypart_id( "hand_wrist_r" ) ) );
+            bp_unrestricted = !natural_attack_restricted_on( sub_bodypart_id( "hand_wrist_l" ) ) ||
+                              ( !natural_attack_restricted_on( sub_bodypart_id( "hand_wrist_r" ) ) );
         } else if( attack_vector == "SHOULDER" ) {
-            bp_unrestricted = !natural_attack_restricted_on( bodypart_id( "arm_shoulder_l" ) ) ||
-                              ( !natural_attack_restricted_on( bodypart_id( "arm_shoulder_r" ) ) );
+            bp_unrestricted = !natural_attack_restricted_on( sub_bodypart_id( "arm_shoulder_l" ) ) ||
+                              ( !natural_attack_restricted_on( sub_bodypart_id( "arm_shoulder_r" ) ) );
         } else if( attack_vector == "FOOT" ) {
             bp_unrestricted = !natural_attack_restricted_on( bodypart_id( "foot_l" ) ) ||
                               ( !natural_attack_restricted_on( bodypart_id( "foot_r" ) ) );
         } else if( attack_vector == "LOWER_LEG" ) {
-            bp_unrestricted = !natural_attack_restricted_on( bodypart_id( "leg_lower_l" ) ) ||
-                              ( !natural_attack_restricted_on( bodypart_id( "leg_lower_r" ) ) );
+            bp_unrestricted = !natural_attack_restricted_on( sub_bodypart_id( "leg_lower_l" ) ) ||
+                              ( !natural_attack_restricted_on( sub_bodypart_id( "leg_lower_r" ) ) );
         } else if( attack_vector == "KNEE" ) {
-            bp_unrestricted = !natural_attack_restricted_on( bodypart_id( "leg_knee_l" ) ) ||
-                              ( !natural_attack_restricted_on( bodypart_id( "leg_knee_r" ) ) );
+            bp_unrestricted = !natural_attack_restricted_on( sub_bodypart_id( "leg_knee_l" ) ) ||
+                              ( !natural_attack_restricted_on( sub_bodypart_id( "leg_knee_r" ) ) );
         } else if( attack_vector == "HIP" ) {
-            bp_unrestricted = !natural_attack_restricted_on( bodypart_id( "leg_hip_l" ) ) ||
-                              ( !natural_attack_restricted_on( bodypart_id( "leg_hip_r" ) ) );
+            bp_unrestricted = !natural_attack_restricted_on( sub_bodypart_id( "leg_hip_l" ) ) ||
+                              ( !natural_attack_restricted_on( sub_bodypart_id( "leg_hip_r" ) ) );
         } else if( attack_vector == "HEAD" ) {
             bp_unrestricted = !natural_attack_restricted_on( bodypart_id( "head" ) );
         } else if( attack_vector == "TORSO" ) {
@@ -1385,26 +1385,26 @@ void Character::roll_cut_damage( bool crit, damage_instance &di, bool average,
             bp_unrestricted = !natural_attack_restricted_on( bodypart_id( "arm_l" ) ) ||
                               ( !natural_attack_restricted_on( bodypart_id( "arm_r" ) ) );
         } else if( attack_vector == "ELBOW" ) {
-            bp_unrestricted = !natural_attack_restricted_on( bodypart_id( "arm_elbow_l" ) ) ||
-                              ( !natural_attack_restricted_on( bodypart_id( "arm_elbow_r" ) ) );
+            bp_unrestricted = !natural_attack_restricted_on( sub_bodypart_id( "arm_elbow_l" ) ) ||
+                              ( !natural_attack_restricted_on( sub_bodypart_id( "arm_elbow_r" ) ) );
         } else if( attack_vector == "WRIST" ) {
-            bp_unrestricted = !natural_attack_restricted_on( bodypart_id( "hand_wrist_l" ) ) ||
-                              ( !natural_attack_restricted_on( bodypart_id( "hand_wrist_r" ) ) );
+            bp_unrestricted = !natural_attack_restricted_on( sub_bodypart_id( "hand_wrist_l" ) ) ||
+                              ( !natural_attack_restricted_on( sub_bodypart_id( "hand_wrist_r" ) ) );
         } else if( attack_vector == "SHOULDER" ) {
-            bp_unrestricted = !natural_attack_restricted_on( bodypart_id( "arm_shoulder_l" ) ) ||
-                              ( !natural_attack_restricted_on( bodypart_id( "arm_shoulder_r" ) ) );
+            bp_unrestricted = !natural_attack_restricted_on( sub_bodypart_id( "arm_shoulder_l" ) ) ||
+                              ( !natural_attack_restricted_on( sub_bodypart_id( "arm_shoulder_r" ) ) );
         } else if( attack_vector == "FOOT" ) {
             bp_unrestricted = !natural_attack_restricted_on( bodypart_id( "foot_l" ) ) ||
                               ( !natural_attack_restricted_on( bodypart_id( "foot_r" ) ) );
         } else if( attack_vector == "LOWER_LEG" ) {
-            bp_unrestricted = !natural_attack_restricted_on( bodypart_id( "leg_lower_l" ) ) ||
-                              ( !natural_attack_restricted_on( bodypart_id( "leg_lower_r" ) ) );
+            bp_unrestricted = !natural_attack_restricted_on( sub_bodypart_id( "leg_lower_l" ) ) ||
+                              ( !natural_attack_restricted_on( sub_bodypart_id( "leg_lower_r" ) ) );
         } else if( attack_vector == "KNEE" ) {
-            bp_unrestricted = !natural_attack_restricted_on( bodypart_id( "leg_knee_l" ) ) ||
-                              ( !natural_attack_restricted_on( bodypart_id( "leg_knee_r" ) ) );
+            bp_unrestricted = !natural_attack_restricted_on( sub_bodypart_id( "leg_knee_l" ) ) ||
+                              ( !natural_attack_restricted_on( sub_bodypart_id( "leg_knee_r" ) ) );
         } else if( attack_vector == "HIP" ) {
-            bp_unrestricted = !natural_attack_restricted_on( bodypart_id( "leg_hip_l" ) ) ||
-                              ( !natural_attack_restricted_on( bodypart_id( "leg_hip_r" ) ) );
+            bp_unrestricted = !natural_attack_restricted_on( sub_bodypart_id( "leg_hip_l" ) ) ||
+                              ( !natural_attack_restricted_on( sub_bodypart_id( "leg_hip_r" ) ) );
         } else if( attack_vector == "HEAD" ) {
             bp_unrestricted = !natural_attack_restricted_on( bodypart_id( "head" ) );
         } else if( attack_vector == "TORSO" ) {
@@ -1492,26 +1492,26 @@ void Character::roll_stab_damage( bool crit, damage_instance &di, bool average,
             bp_unrestricted = !natural_attack_restricted_on( bodypart_id( "arm_l" ) ) ||
                               ( !natural_attack_restricted_on( bodypart_id( "arm_r" ) ) );
         } else if( attack_vector == "ELBOW" ) {
-            bp_unrestricted = !natural_attack_restricted_on( bodypart_id( "arm_elbow_l" ) ) ||
-                              ( !natural_attack_restricted_on( bodypart_id( "arm_elbow_r" ) ) );
+            bp_unrestricted = !natural_attack_restricted_on( sub_bodypart_id( "arm_elbow_l" ) ) ||
+                              ( !natural_attack_restricted_on( sub_bodypart_id( "arm_elbow_r" ) ) );
         } else if( attack_vector == "WRIST" ) {
-            bp_unrestricted = !natural_attack_restricted_on( bodypart_id( "hand_wrist_l" ) ) ||
-                              ( !natural_attack_restricted_on( bodypart_id( "hand_wrist_r" ) ) );
+            bp_unrestricted = !natural_attack_restricted_on( sub_bodypart_id( "hand_wrist_l" ) ) ||
+                              ( !natural_attack_restricted_on( sub_bodypart_id( "hand_wrist_r" ) ) );
         } else if( attack_vector == "SHOULDER" ) {
-            bp_unrestricted = !natural_attack_restricted_on( bodypart_id( "arm_shoulder_l" ) ) ||
-                              ( !natural_attack_restricted_on( bodypart_id( "arm_shoulder_r" ) ) );
+            bp_unrestricted = !natural_attack_restricted_on( sub_bodypart_id( "arm_shoulder_l" ) ) ||
+                              ( !natural_attack_restricted_on( sub_bodypart_id( "arm_shoulder_r" ) ) );
         } else if( attack_vector == "FOOT" ) {
             bp_unrestricted = !natural_attack_restricted_on( bodypart_id( "foot_l" ) ) ||
                               ( !natural_attack_restricted_on( bodypart_id( "foot_r" ) ) );
         } else if( attack_vector == "LOWER_LEG" ) {
-            bp_unrestricted = !natural_attack_restricted_on( bodypart_id( "leg_lower_l" ) ) ||
-                              ( !natural_attack_restricted_on( bodypart_id( "leg_lower_r" ) ) );
+            bp_unrestricted = !natural_attack_restricted_on( sub_bodypart_id( "leg_lower_l" ) ) ||
+                              ( !natural_attack_restricted_on( sub_bodypart_id( "leg_lower_r" ) ) );
         } else if( attack_vector == "KNEE" ) {
-            bp_unrestricted = !natural_attack_restricted_on( bodypart_id( "leg_knee_l" ) ) ||
-                              ( !natural_attack_restricted_on( bodypart_id( "leg_knee_r" ) ) );
+            bp_unrestricted = !natural_attack_restricted_on( sub_bodypart_id( "leg_knee_l" ) ) ||
+                              ( !natural_attack_restricted_on( sub_bodypart_id( "leg_knee_r" ) ) );
         } else if( attack_vector == "HIP" ) {
-            bp_unrestricted = !natural_attack_restricted_on( bodypart_id( "leg_hip_l" ) ) ||
-                              ( !natural_attack_restricted_on( bodypart_id( "leg_hip_r" ) ) );
+            bp_unrestricted = !natural_attack_restricted_on( sub_bodypart_id( "leg_hip_l" ) ) ||
+                              ( !natural_attack_restricted_on( sub_bodypart_id( "leg_hip_r" ) ) );
         } else if( attack_vector == "HEAD" ) {
             bp_unrestricted = !natural_attack_restricted_on( bodypart_id( "head" ) );
         } else if( attack_vector == "TORSO" ) {
