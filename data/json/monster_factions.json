@@ -27,7 +27,7 @@
     "type": "MONSTER_FACTION",
     "name": "zombie",
     "friendly": [ "slime" ],
-    "neutral": [ "cult", "small_animal", "fish", "insect", "aquatic_predator", "passive_machine" ],
+    "neutral": [ "cult", "small_animal", "fish", "insect", "aquatic_predator", "passive_machine", "nether_player_hate" ],
     "by_mood": [ "ant", "acid_ant", "bee", "wasp", "stag_beetle" ]
   },
   {
@@ -162,6 +162,7 @@
     "type": "MONSTER_FACTION",
     "name": "nether_player_hate",
     "base_faction": "nether",
+    "friendly": [ "zombie", "fish", "exodii", "isolated_artisans", "animal" ],
     "hate": [ "player" ]
   },
   {
