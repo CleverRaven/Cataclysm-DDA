@@ -1,0 +1,53 @@
+[
+  {
+    "id": "structured_overmap_compass_9x9_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Compass/Overmap 9x9",
+    "arrange": "columns",
+    "widgets": [ "structured_overmap_9x9_layout", "structured_compass_9x9_layout" ],
+    "flags": [ "W_DISABLED_BY_DEFAULT" ]
+  },
+  {
+    "id": "structured_overmap_compass_7x7_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Compass/Overmap 7x7",
+    "arrange": "columns",
+    "widgets": [ "structured_overmap_7x7_layout", "structured_compass_7x7_layout" ]
+  },
+  {
+    "id": "structured_overmap_compass_5x5_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Compass/Overmap 5x5",
+    "arrange": "columns",
+    "widgets": [ "structured_overmap_5x5_layout", "structured_compass_5x5_layout" ],
+    "flags": [ "W_DISABLED_BY_DEFAULT" ]
+  },
+  {
+    "id": "structured_compass_9x9_layout",
+    "type": "widget",
+    "copy-from": "compass_all_danger_layout_alt",
+    "width": 35
+  },
+  {
+    "id": "structured_compass_7x7_layout",
+    "type": "widget",
+    "copy-from": "compass_all_danger_layout_alt",
+    "width": 37
+  },
+  {
+    "id": "structured_compass_5x5_layout",
+    "type": "widget",
+    "copy-from": "compass_all_danger_layout_alt",
+    "width": 39
+  },
+  {
+    "id": "structured_compass_layout",
+    "type": "widget",
+    "label": "Compass",
+    "copy-from": "compass_all_danger_layout_alt",
+    "flags": [ "W_DISABLED_BY_DEFAULT" ]
+  }
+]
