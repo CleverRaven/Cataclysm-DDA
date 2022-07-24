@@ -1328,6 +1328,71 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_DUNGEON_REWARD_WEAKENED_INERTIA",
+    "effect": { "u_add_effect": "weakened_inertia", "duration": { "global_val": "ps_effect_length" } }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_DUNGEON_REWARD_WARPED_VIEWPOINT",
+    "effect": { "u_add_effect": "warped_viewpoint", "duration": { "global_val": "ps_effect_length" } }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_DUNGEON_REWARD_WEAKENED_GRAVITY",
+    "effect": { "u_add_effect": "weakened_gravity", "duration": { "global_val": "ps_effect_length" } }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_DUNGEON_REWARD_ESCAPE_STONE",
+    "effect": [ { "u_message": "A strange item comes back with you.", "popup": true }, { "u_spawn_item": "escape_stone" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_DUNGEON_PUNISHMENT_1",
+    "effect": [
+      { "arithmetic": [ { "global_val": "var", "var_name": "ps_effect_length" }, "=", { "time": "3 days" } ] },
+      {
+        "weighted_list_eocs": [
+          [ "EOC_PORTAL_DUNGEON_PUNISHMENT_STRENGTHENED_INERTIA", { "const": 10 } ],
+          [ "EOC_PORTAL_DUNGEON_PUNISHMENT_NARROW_VIEWPOINT", { "const": 10 } ],
+          [ "EOC_PORTAL_DUNGEON_REWARD_STRENGTHENED_GRAVITY", { "const": 10 } ]
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_DUNGEON_PUNISHMENT_2",
+    "effect": [
+      { "arithmetic": [ { "global_val": "var", "var_name": "ps_effect_length" }, "=", { "time": "6 days" } ] },
+      { "weighted_list_eocs": [ [ "", { "const": 10 } ], [ "", { "const": 10 } ], [ "", { "const": 10 } ] ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_DUNGEON_PUNISHMENT_3",
+    "effect": [
+      { "arithmetic": [ { "global_val": "var", "var_name": "ps_effect_length" }, "=", { "time": "9 days" } ] },
+      { "weighted_list_eocs": [ [ "", { "const": 10 } ], [ "", { "const": 10 } ], [ "", { "const": 10 } ] ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_DUNGEON_PUNISHMENT_STRENGTHENED_INERTIA",
+    "effect": { "u_add_effect": "strengthened_inertia", "duration": { "global_val": "ps_effect_length" } }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_DUNGEON_PUNISHMENT_NARROW_VIEWPOINT",
+    "effect": { "u_add_effect": "narrow_viewpoint", "duration": { "global_val": "ps_effect_length" } }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_DUNGEON_REWARD_STRENGTHENED_GRAVITY",
+    "effect": { "u_add_effect": "strengthened_gravity", "duration": { "global_val": "ps_effect_length" } }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_DUNGEON_REWARD_WEAKENED_INERTIA",
     "effect": { "u_add_effect": "weakened_inertia", "duration": { "global_val": "ps_effect_length", "default": "5 days" } }
   },
   {
@@ -1348,6 +1413,9 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_STORM_DUNGEON_CONVERSATION",
-    "effect": { "open_dialogue": { "topic": "TALK_NETHER_CROSSROADS" } }
+    "effect": [
+      { "arithmetic": [ { "global_val": "var", "var_name": "ps_dialog_chance" }, "=", { "rand": 100 } ] },
+      { "open_dialogue": { "topic": "TALK_NETHER_CROSSROADS" } }
+    ]
   }
 ]

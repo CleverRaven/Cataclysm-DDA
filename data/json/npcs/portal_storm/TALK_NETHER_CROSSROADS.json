@@ -4,9 +4,9 @@
     "type": "talk_topic",
     "dynamic_line": "&Whatever is actually happening, your mind perceives you walking up to an intersection.  There are 3 roads, one flat barren and empty, one dark, damaged and mountainous, and one the way you came from.",
     "responses": [
-      { "text": "Take the flat road", "topic": "TALK_NETHER_CROSSROADS_FLAT" },
-      { "text": "Take the mountainous road", "topic": "TALK_NETHER_CROSSROADS_MOUNTAIN" },
-      { "text": "Return the way you came", "topic": "TALK_NETHER_CROSSROADS_RETURN" }
+      { "text": "Take the flat road.", "topic": "TALK_NETHER_CROSSROADS_FLAT" },
+      { "text": "Take the mountainous road.", "topic": "TALK_NETHER_CROSSROADS_MOUNTAIN" },
+      { "text": "Return the way you came.", "topic": "TALK_NETHER_CROSSROADS_RETURN" }
     ]
   },
   {
@@ -14,9 +14,9 @@
     "type": "talk_topic",
     "dynamic_line": "&You walk for what feels like weeks without seeing a single landmark or change of scenery.",
     "responses": [
-      { "text": "Stay the course", "topic": "TALK_NETHER_CROSSROADS_FLAT_STAY" },
-      { "text": "Abandon the road", "topic": "TALK_NETHER_CROSSROADS_FLAT_ABANDON" },
-      { "text": "Go back", "topic": "TALK_NETHER_CROSSROADS_FLAT_BACK" }
+      { "text": "Stay the course.", "topic": "TALK_NETHER_CROSSROADS_FLAT_STAY" },
+      { "text": "Abandon the road.", "topic": "TALK_NETHER_CROSSROADS_FLAT_ABANDON" },
+      { "text": "Go back.", "topic": "TALK_NETHER_CROSSROADS_FLAT_BACK" }
     ]
   },
   {
@@ -24,9 +24,66 @@
     "type": "talk_topic",
     "dynamic_line": "&Years pass, maybe decades and still nothing changes.  Nothing that is but you.",
     "responses": [
-      { "text": "Persistence is its own reward", "effect": { "u_message": "persist" }, "topic": "TALK_DONE" },
-      { "text": "Distance is an illusion", "effect": { "u_message": "mountain" }, "topic": "TALK_DONE" },
-      { "text": "Time spent is different than time lived", "effect": { "u_message": "came" }, "topic": "TALK_DONE" }
+      { "text": "Persistence is its own reward.", "topic": "TALK_NETHER_CROSSROADS_FLAT_STAY_PERSIST" },
+      { "text": "Distance is an illusion.", "topic": "TALK_NETHER_CROSSROADS_FLAT_STAY_ILLUSION" },
+      { "text": "Time spent is different than time lived.", "topic": "TALK_NETHER_CROSSROADS_FLAT_STAY_TIME" }
+    ]
+  },
+  {
+    "id": "TALK_NETHER_CROSSROADS_FLAT_STAY_PERSIST",
+    "type": "talk_topic",
+    "dynamic_line": "&Everything blurs and you are now somewhere more real.  Not everything returns to normal however.",
+    "responses": [
+      {
+        "text": "The change seems to be beneficial at first glance.",
+        "condition": { "compare_int": [ { "global_val": "var", "var_name": "ps_dialog_chance" }, ">=", { "const": 10 } ] },
+        "effect": { "run_eocs": "EOC_PORTAL_DUNGEON_REWARD_1" },
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "The change seems to be harmful at first glance.",
+        "condition": { "compare_int": [ { "global_val": "var", "var_name": "ps_dialog_chance" }, "<", { "const": 10 } ] },
+        "effect": { "run_eocs": "EOC_PORTAL_DUNGEON_PUNISHMENT_1" },
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "id": "TALK_NETHER_CROSSROADS_FLAT_STAY_ILLUSION",
+    "type": "talk_topic",
+    "dynamic_line": "&Everything blurs and you are now somewhere more real.  Not everything returns to normal however.",
+    "responses": [
+      {
+        "text": "The change seems to be beneficial at first glance.",
+        "condition": { "compare_int": [ { "global_val": "var", "var_name": "ps_dialog_chance" }, ">=", { "const": 10 } ] },
+        "effect": { "run_eocs": "EOC_PORTAL_DUNGEON_REWARD_1" },
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "The change seems to be harmful at first glance.",
+        "condition": { "compare_int": [ { "global_val": "var", "var_name": "ps_dialog_chance" }, "<", { "const": 10 } ] },
+        "effect": { "run_eocs": "EOC_PORTAL_DUNGEON_PUNISHMENT_1" },
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "id": "TALK_NETHER_CROSSROADS_FLAT_STAY_TIME",
+    "type": "talk_topic",
+    "dynamic_line": "&Everything blurs and you are now somewhere more real.  Not everything returns to normal however.",
+    "responses": [
+      {
+        "text": "The change seems to be beneficial at first glance.",
+        "condition": { "compare_int": [ { "global_val": "var", "var_name": "ps_dialog_chance" }, ">=", { "const": 10 } ] },
+        "effect": { "run_eocs": "EOC_PORTAL_DUNGEON_REWARD_1" },
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "The change seems to be harmful at first glance.",
+        "condition": { "compare_int": [ { "global_val": "var", "var_name": "ps_dialog_chance" }, "<", { "const": 10 } ] },
+        "effect": { "run_eocs": "EOC_PORTAL_DUNGEON_PUNISHMENT_1" },
+        "topic": "TALK_DONE"
+      }
     ]
   },
   {
@@ -34,9 +91,66 @@
     "type": "talk_topic",
     "dynamic_line": "&Without the road as a contrast it is impossible to say anything at all about where you go.  After a long time some dormant sense begins to feel slight resonances.",
     "responses": [
-      { "text": "Follow the strongest resonance", "effect": { "u_message": "flat" }, "topic": "TALK_DONE" },
-      { "text": "Follow the safest seeming resonance", "effect": { "u_message": "mountain" }, "topic": "TALK_DONE" },
-      { "text": "Follow the faintest resonance", "effect": { "u_message": "came" }, "topic": "TALK_DONE" }
+      { "text": "Follow the strongest resonance.", "topic": "TALK_NETHER_CROSSROADS_FLAT_ABANDON_STRONGEST" },
+      { "text": "Follow the safest seeming resonance.", "topic": "TALK_NETHER_CROSSROADS_FLAT_ABANDON_SAFEST" },
+      { "text": "Follow the faintest resonance.", "topic": "TALK_NETHER_CROSSROADS_FLAT_ABANDON_FAINTEST" }
+    ]
+  },
+  {
+    "id": "TALK_NETHER_CROSSROADS_FLAT_ABANDON_STRONGEST",
+    "type": "talk_topic",
+    "dynamic_line": "&Everything blurs and you are now somewhere more real.  Not everything returns to normal however.",
+    "responses": [
+      {
+        "text": "The change seems to be beneficial at first glance.",
+        "condition": { "compare_int": [ { "global_val": "var", "var_name": "ps_dialog_chance" }, ">=", { "const": 10 } ] },
+        "effect": { "run_eocs": "EOC_PORTAL_DUNGEON_REWARD_1" },
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "The change seems to be harmful at first glance.",
+        "condition": { "compare_int": [ { "global_val": "var", "var_name": "ps_dialog_chance" }, "<", { "const": 10 } ] },
+        "effect": { "run_eocs": "EOC_PORTAL_DUNGEON_PUNISHMENT_1" },
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "id": "TALK_NETHER_CROSSROADS_FLAT_ABANDON_SAFEST",
+    "type": "talk_topic",
+    "dynamic_line": "&Everything blurs and you are now somewhere more real.  Not everything returns to normal however.",
+    "responses": [
+      {
+        "text": "The change seems to be beneficial at first glance.",
+        "condition": { "compare_int": [ { "global_val": "var", "var_name": "ps_dialog_chance" }, ">=", { "const": 10 } ] },
+        "effect": { "run_eocs": "EOC_PORTAL_DUNGEON_REWARD_1" },
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "The change seems to be harmful at first glance.",
+        "condition": { "compare_int": [ { "global_val": "var", "var_name": "ps_dialog_chance" }, "<", { "const": 10 } ] },
+        "effect": { "run_eocs": "EOC_PORTAL_DUNGEON_PUNISHMENT_1" },
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "id": "TALK_NETHER_CROSSROADS_FLAT_ABANDON_FAINTEST",
+    "type": "talk_topic",
+    "dynamic_line": "&Everything blurs and you are now somewhere more real.  Not everything returns to normal however.",
+    "responses": [
+      {
+        "text": "The change seems to be beneficial at first glance.",
+        "condition": { "compare_int": [ { "global_val": "var", "var_name": "ps_dialog_chance" }, ">=", { "const": 10 } ] },
+        "effect": { "run_eocs": "EOC_PORTAL_DUNGEON_REWARD_1" },
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "The change seems to be harmful at first glance.",
+        "condition": { "compare_int": [ { "global_val": "var", "var_name": "ps_dialog_chance" }, "<", { "const": 10 } ] },
+        "effect": { "run_eocs": "EOC_PORTAL_DUNGEON_PUNISHMENT_1" },
+        "topic": "TALK_DONE"
+      }
     ]
   },
   {
@@ -44,9 +158,66 @@
     "type": "talk_topic",
     "dynamic_line": "&You walk back for what feels like several times longer than it took you to get here.  When you finally get back the sun seems to be setting.",
     "responses": [
-      { "text": "Prepare to sleep through the night", "effect": { "u_message": "flat" }, "topic": "TALK_DONE" },
-      { "text": "Prepare to make a fire and stay alert", "effect": { "u_message": "mountain" }, "topic": "TALK_DONE" },
-      { "text": "Travel through the night", "effect": { "u_message": "came" }, "topic": "TALK_DONE" }
+      { "text": "Prepare to sleep through the night.", "topic": "TALK_NETHER_CROSSROADS_FLAT_BACK_SLEEP" },
+      { "text": "Prepare to make a fire and stay alert.", "topic": "TALK_NETHER_CROSSROADS_FLAT_BACK_FIRE" },
+      { "text": "Travel through the night.", "topic": "TALK_NETHER_CROSSROADS_FLAT_BACK_TRAVEL" }
+    ]
+  },
+  {
+    "id": "TALK_NETHER_CROSSROADS_FLAT_BACK_SLEEP",
+    "type": "talk_topic",
+    "dynamic_line": "&Everything blurs and you are now somewhere more real.  Not everything returns to normal however.",
+    "responses": [
+      {
+        "text": "The change seems to be beneficial at first glance.",
+        "condition": { "compare_int": [ { "global_val": "var", "var_name": "ps_dialog_chance" }, ">=", { "const": 10 } ] },
+        "effect": { "run_eocs": "EOC_PORTAL_DUNGEON_REWARD_1" },
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "The change seems to be harmful at first glance.",
+        "condition": { "compare_int": [ { "global_val": "var", "var_name": "ps_dialog_chance" }, "<", { "const": 10 } ] },
+        "effect": { "run_eocs": "EOC_PORTAL_DUNGEON_PUNISHMENT_1" },
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "id": "TALK_NETHER_CROSSROADS_FLAT_BACK_FIRE",
+    "type": "talk_topic",
+    "dynamic_line": "&Everything blurs and you are now somewhere more real.  Not everything returns to normal however.",
+    "responses": [
+      {
+        "text": "The change seems to be beneficial at first glance.",
+        "condition": { "compare_int": [ { "global_val": "var", "var_name": "ps_dialog_chance" }, ">=", { "const": 10 } ] },
+        "effect": { "run_eocs": "EOC_PORTAL_DUNGEON_REWARD_1" },
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "The change seems to be harmful at first glance.",
+        "condition": { "compare_int": [ { "global_val": "var", "var_name": "ps_dialog_chance" }, "<", { "const": 10 } ] },
+        "effect": { "run_eocs": "EOC_PORTAL_DUNGEON_PUNISHMENT_1" },
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "id": "TALK_NETHER_CROSSROADS_FLAT_BACK_TRAVEL",
+    "type": "talk_topic",
+    "dynamic_line": "&Everything blurs and you are now somewhere more real.  Not everything returns to normal however.",
+    "responses": [
+      {
+        "text": "The change seems to be beneficial at first glance.",
+        "condition": { "compare_int": [ { "global_val": "var", "var_name": "ps_dialog_chance" }, ">=", { "const": 10 } ] },
+        "effect": { "run_eocs": "EOC_PORTAL_DUNGEON_REWARD_1" },
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "The change seems to be harmful at first glance.",
+        "condition": { "compare_int": [ { "global_val": "var", "var_name": "ps_dialog_chance" }, "<", { "const": 10 } ] },
+        "effect": { "run_eocs": "EOC_PORTAL_DUNGEON_PUNISHMENT_1" },
+        "topic": "TALK_DONE"
+      }
     ]
   },
   {
@@ -54,9 +225,9 @@
     "type": "talk_topic",
     "dynamic_line": "&You climb the mountainous road.  It is a harsh journey but you are relentless and eventually reach a beautiful lookout.",
     "responses": [
-      { "text": "Rest and enjoy the view", "topic": "TALK_NETHER_CROSSROADS_MOUNTAIN_REST" },
-      { "text": "Continue on the road", "topic": "TALK_NETHER_CROSSROADS_MOUNTAIN_CONTINUE" },
-      { "text": "Head back the way you came", "topic": "TALK_NETHER_CROSSROADS_MOUNTAIN_BACK" }
+      { "text": "Rest and enjoy the view.", "topic": "TALK_NETHER_CROSSROADS_MOUNTAIN_REST" },
+      { "text": "Continue on the road.", "topic": "TALK_NETHER_CROSSROADS_MOUNTAIN_CONTINUE" },
+      { "text": "Head back the way you came.", "topic": "TALK_NETHER_CROSSROADS_MOUNTAIN_BACK" }
     ]
   },
   {
@@ -64,9 +235,66 @@
     "type": "talk_topic",
     "dynamic_line": "&You relax and recover your stamina while gazing on a beautiful valley.",
     "responses": [
-      { "text": "Abandon the climb and descend into the valley", "effect": { "u_message": "flat" }, "topic": "TALK_DONE" },
-      { "text": "Continue on the road reinvigorated", "effect": { "u_message": "mountain" }, "topic": "TALK_DONE" },
-      { "text": "Make camp here", "effect": { "u_message": "came" }, "topic": "TALK_DONE" }
+      { "text": "Abandon the climb and descend into the valley.", "topic": "TALK_NETHER_CROSSROADS_MOUNTAIN_REST_DESCEND" },
+      { "text": "Continue on the road reinvigorated.", "topic": "TALK_NETHER_CROSSROADS_MOUNTAIN_REST_CONTINUE" },
+      { "text": "Make camp here.", "topic": "TALK_NETHER_CROSSROADS_MOUNTAIN_REST_CAMP" }
+    ]
+  },
+  {
+    "id": "TALK_NETHER_CROSSROADS_MOUNTAIN_REST_DESCEND",
+    "type": "talk_topic",
+    "dynamic_line": "&Everything blurs and you are now somewhere more real.  Not everything returns to normal however.",
+    "responses": [
+      {
+        "text": "The change seems to be beneficial at first glance.",
+        "condition": { "compare_int": [ { "global_val": "var", "var_name": "ps_dialog_chance" }, ">=", { "const": 10 } ] },
+        "effect": { "run_eocs": "EOC_PORTAL_DUNGEON_REWARD_1" },
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "The change seems to be harmful at first glance.",
+        "condition": { "compare_int": [ { "global_val": "var", "var_name": "ps_dialog_chance" }, "<", { "const": 10 } ] },
+        "effect": { "run_eocs": "EOC_PORTAL_DUNGEON_PUNISHMENT_1" },
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "id": "TALK_NETHER_CROSSROADS_MOUNTAIN_REST_CONTINUE",
+    "type": "talk_topic",
+    "dynamic_line": "&Everything blurs and you are now somewhere more real.  Not everything returns to normal however.",
+    "responses": [
+      {
+        "text": "The change seems to be beneficial at first glance.",
+        "condition": { "compare_int": [ { "global_val": "var", "var_name": "ps_dialog_chance" }, ">=", { "const": 10 } ] },
+        "effect": { "run_eocs": "EOC_PORTAL_DUNGEON_REWARD_1" },
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "The change seems to be harmful at first glance.",
+        "condition": { "compare_int": [ { "global_val": "var", "var_name": "ps_dialog_chance" }, "<", { "const": 10 } ] },
+        "effect": { "run_eocs": "EOC_PORTAL_DUNGEON_PUNISHMENT_1" },
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "id": "TALK_NETHER_CROSSROADS_MOUNTAIN_REST_CAMP",
+    "type": "talk_topic",
+    "dynamic_line": "&Everything blurs and you are now somewhere more real.  Not everything returns to normal however.",
+    "responses": [
+      {
+        "text": "The change seems to be beneficial at first glance.",
+        "condition": { "compare_int": [ { "global_val": "var", "var_name": "ps_dialog_chance" }, ">=", { "const": 10 } ] },
+        "effect": { "run_eocs": "EOC_PORTAL_DUNGEON_REWARD_1" },
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "The change seems to be harmful at first glance.",
+        "condition": { "compare_int": [ { "global_val": "var", "var_name": "ps_dialog_chance" }, "<", { "const": 10 } ] },
+        "effect": { "run_eocs": "EOC_PORTAL_DUNGEON_PUNISHMENT_1" },
+        "topic": "TALK_DONE"
+      }
     ]
   },
   {
@@ -74,9 +302,66 @@
     "type": "talk_topic",
     "dynamic_line": "&You continue to follow the road, it grows harder and you are weary but you do not stop.  It grows dark and howls can be heard in the distance.",
     "responses": [
-      { "text": "Attempt to make a fire and remain alert", "effect": { "u_message": "flat" }, "topic": "TALK_DONE" },
-      { "text": "Attempt to find a place to hide", "effect": { "u_message": "mountain" }, "topic": "TALK_DONE" },
-      { "text": "Continue on the road", "effect": { "u_message": "came" }, "topic": "TALK_DONE" }
+      { "text": "Attempt to make a fire and remain alert.", "topic": "TALK_NETHER_CROSSROADS_MOUNTAIN_CONTINUE_FIRE" },
+      { "text": "Attempt to find a place to hide.", "topic": "TALK_NETHER_CROSSROADS_MOUNTAIN_CONTINUE_HIDE" },
+      { "text": "Continue on the road.", "topic": "TALK_NETHER_CROSSROADS_MOUNTAIN_CONTINUE_CONTINUE" }
+    ]
+  },
+  {
+    "id": "TALK_NETHER_CROSSROADS_MOUNTAIN_CONTINUE_FIRE",
+    "type": "talk_topic",
+    "dynamic_line": "&Everything blurs and you are now somewhere more real.  Not everything returns to normal however.",
+    "responses": [
+      {
+        "text": "The change seems to be beneficial at first glance.",
+        "condition": { "compare_int": [ { "global_val": "var", "var_name": "ps_dialog_chance" }, ">=", { "const": 10 } ] },
+        "effect": { "run_eocs": "EOC_PORTAL_DUNGEON_REWARD_1" },
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "The change seems to be harmful at first glance.",
+        "condition": { "compare_int": [ { "global_val": "var", "var_name": "ps_dialog_chance" }, "<", { "const": 10 } ] },
+        "effect": { "run_eocs": "EOC_PORTAL_DUNGEON_PUNISHMENT_1" },
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "id": "TALK_NETHER_CROSSROADS_MOUNTAIN_CONTINUE_HIDE",
+    "type": "talk_topic",
+    "dynamic_line": "&Everything blurs and you are now somewhere more real.  Not everything returns to normal however.",
+    "responses": [
+      {
+        "text": "The change seems to be beneficial at first glance.",
+        "condition": { "compare_int": [ { "global_val": "var", "var_name": "ps_dialog_chance" }, ">=", { "const": 10 } ] },
+        "effect": { "run_eocs": "EOC_PORTAL_DUNGEON_REWARD_1" },
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "The change seems to be harmful at first glance.",
+        "condition": { "compare_int": [ { "global_val": "var", "var_name": "ps_dialog_chance" }, "<", { "const": 10 } ] },
+        "effect": { "run_eocs": "EOC_PORTAL_DUNGEON_PUNISHMENT_1" },
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "id": "TALK_NETHER_CROSSROADS_MOUNTAIN_CONTINUE_CONTINUE",
+    "type": "talk_topic",
+    "dynamic_line": "&Everything blurs and you are now somewhere more real.  Not everything returns to normal however.",
+    "responses": [
+      {
+        "text": "The change seems to be beneficial at first glance.",
+        "condition": { "compare_int": [ { "global_val": "var", "var_name": "ps_dialog_chance" }, ">=", { "const": 10 } ] },
+        "effect": { "run_eocs": "EOC_PORTAL_DUNGEON_REWARD_1" },
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "The change seems to be harmful at first glance.",
+        "condition": { "compare_int": [ { "global_val": "var", "var_name": "ps_dialog_chance" }, "<", { "const": 10 } ] },
+        "effect": { "run_eocs": "EOC_PORTAL_DUNGEON_PUNISHMENT_1" },
+        "topic": "TALK_DONE"
+      }
     ]
   },
   {
@@ -84,9 +369,66 @@
     "type": "talk_topic",
     "dynamic_line": "&You climb back down the mountainous road.  It is a much easier journey and you find quickly find yourself at your starting spot.  As you arrive you are suprised to learn you are not alone, several indistinct figures suddenly appear.",
     "responses": [
-      { "text": "Attack the figures", "effect": { "u_message": "flat" }, "topic": "TALK_DONE" },
-      { "text": "Flee from the figures", "effect": { "u_message": "mountain" }, "topic": "TALK_DONE" },
-      { "text": "Greet the figures", "effect": { "u_message": "came" }, "topic": "TALK_DONE" }
+      { "text": "Attack the figures.", "topic": "TALK_NETHER_CROSSROADS_MOUNTAIN_BACK_ATTACK" },
+      { "text": "Flee from the figures.", "topic": "TALK_NETHER_CROSSROADS_MOUNTAIN_BACK_FLEE" },
+      { "text": "Greet the figures.", "topic": "TALK_NETHER_CROSSROADS_MOUNTAIN_BACK_GREET" }
+    ]
+  },
+  {
+    "id": "TALK_NETHER_CROSSROADS_MOUNTAIN_BACK_ATTACK",
+    "type": "talk_topic",
+    "dynamic_line": "&Everything blurs and you are now somewhere more real.  Not everything returns to normal however.",
+    "responses": [
+      {
+        "text": "The change seems to be beneficial at first glance.",
+        "condition": { "compare_int": [ { "global_val": "var", "var_name": "ps_dialog_chance" }, ">=", { "const": 10 } ] },
+        "effect": { "run_eocs": "EOC_PORTAL_DUNGEON_REWARD_1" },
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "The change seems to be harmful at first glance.",
+        "condition": { "compare_int": [ { "global_val": "var", "var_name": "ps_dialog_chance" }, "<", { "const": 10 } ] },
+        "effect": { "run_eocs": "EOC_PORTAL_DUNGEON_PUNISHMENT_1" },
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "id": "TALK_NETHER_CROSSROADS_MOUNTAIN_BACK_FLEE",
+    "type": "talk_topic",
+    "dynamic_line": "&Everything blurs and you are now somewhere more real.  Not everything returns to normal however.",
+    "responses": [
+      {
+        "text": "The change seems to be beneficial at first glance.",
+        "condition": { "compare_int": [ { "global_val": "var", "var_name": "ps_dialog_chance" }, ">=", { "const": 10 } ] },
+        "effect": { "run_eocs": "EOC_PORTAL_DUNGEON_REWARD_1" },
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "The change seems to be harmful at first glance.",
+        "condition": { "compare_int": [ { "global_val": "var", "var_name": "ps_dialog_chance" }, "<", { "const": 10 } ] },
+        "effect": { "run_eocs": "EOC_PORTAL_DUNGEON_PUNISHMENT_1" },
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "id": "TALK_NETHER_CROSSROADS_MOUNTAIN_BACK_GREET",
+    "type": "talk_topic",
+    "dynamic_line": "&Everything blurs and you are now somewhere more real.  Not everything returns to normal however.",
+    "responses": [
+      {
+        "text": "The change seems to be beneficial at first glance.",
+        "condition": { "compare_int": [ { "global_val": "var", "var_name": "ps_dialog_chance" }, ">=", { "const": 10 } ] },
+        "effect": { "run_eocs": "EOC_PORTAL_DUNGEON_REWARD_1" },
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "The change seems to be harmful at first glance.",
+        "condition": { "compare_int": [ { "global_val": "var", "var_name": "ps_dialog_chance" }, "<", { "const": 10 } ] },
+        "effect": { "run_eocs": "EOC_PORTAL_DUNGEON_PUNISHMENT_1" },
+        "topic": "TALK_DONE"
+      }
     ]
   },
   {
@@ -94,9 +436,9 @@
     "type": "talk_topic",
     "dynamic_line": "&You turn around and leave before you arrive.  You're not sure where you came from or why you left but it must be better than here.  After a journey you can't quite recall, you arrive at your home.  Several figures that must be family are present and welcome you.",
     "responses": [
-      { "text": "Attack them", "topic": "TALK_NETHER_CROSSROADS_RETURN_ATTACK" },
-      { "text": "Embrace them", "topic": "TALK_NETHER_CROSSROADS_RETURN_EMBRACE" },
-      { "text": "Flee them", "topic": "TALK_NETHER_CROSSROADS_RETURN_FLEE" }
+      { "text": "Attack them.", "topic": "TALK_NETHER_CROSSROADS_RETURN_ATTACK" },
+      { "text": "Embrace them.", "topic": "TALK_NETHER_CROSSROADS_RETURN_EMBRACE" },
+      { "text": "Flee them.", "topic": "TALK_NETHER_CROSSROADS_RETURN_FLEE" }
     ]
   },
   {
@@ -104,9 +446,69 @@
     "type": "talk_topic",
     "dynamic_line": "&You attack the figures before they can ambush you.  You quickly kill several before the others surrender.",
     "responses": [
-      { "text": "Take no prisoners", "effect": { "u_message": "flat" }, "topic": "TALK_DONE" },
-      { "text": "Capture the rest", "effect": { "u_message": "mountain" }, "topic": "TALK_DONE" },
-      { "text": "Apologize for the attack and release them", "effect": { "u_message": "came" }, "topic": "TALK_DONE" }
+      { "text": "Take no prisoners.", "topic": "TALK_NETHER_CROSSROADS_RETURN_ATTACK_EXECUTE" },
+      { "text": "Capture the rest.", "topic": "TALK_NETHER_CROSSROADS_RETURN_ATTACK_CAPTURE" },
+      {
+        "text": "Apologize for the attack and release them.",
+        "topic": "TALK_NETHER_CROSSROADS_RETURN_ATTACK_APOLOGIZE"
+      }
+    ]
+  },
+  {
+    "id": "TALK_NETHER_CROSSROADS_RETURN_ATTACK_EXECUTE",
+    "type": "talk_topic",
+    "dynamic_line": "&Everything blurs and you are now somewhere more real.  Not everything returns to normal however.",
+    "responses": [
+      {
+        "text": "The change seems to be beneficial at first glance.",
+        "condition": { "compare_int": [ { "global_val": "var", "var_name": "ps_dialog_chance" }, ">=", { "const": 10 } ] },
+        "effect": { "run_eocs": "EOC_PORTAL_DUNGEON_REWARD_1" },
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "The change seems to be harmful at first glance.",
+        "condition": { "compare_int": [ { "global_val": "var", "var_name": "ps_dialog_chance" }, "<", { "const": 10 } ] },
+        "effect": { "run_eocs": "EOC_PORTAL_DUNGEON_PUNISHMENT_1" },
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "id": "TALK_NETHER_CROSSROADS_RETURN_ATTACK_CAPTURE",
+    "type": "talk_topic",
+    "dynamic_line": "&Everything blurs and you are now somewhere more real.  Not everything returns to normal however.",
+    "responses": [
+      {
+        "text": "The change seems to be beneficial at first glance.",
+        "condition": { "compare_int": [ { "global_val": "var", "var_name": "ps_dialog_chance" }, ">=", { "const": 10 } ] },
+        "effect": { "run_eocs": "EOC_PORTAL_DUNGEON_REWARD_1" },
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "The change seems to be harmful at first glance.",
+        "condition": { "compare_int": [ { "global_val": "var", "var_name": "ps_dialog_chance" }, "<", { "const": 10 } ] },
+        "effect": { "run_eocs": "EOC_PORTAL_DUNGEON_PUNISHMENT_1" },
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "id": "TALK_NETHER_CROSSROADS_RETURN_ATTACK_APOLOGIZE",
+    "type": "talk_topic",
+    "dynamic_line": "&Everything blurs and you are now somewhere more real.  Not everything returns to normal however.",
+    "responses": [
+      {
+        "text": "The change seems to be beneficial at first glance.",
+        "condition": { "compare_int": [ { "global_val": "var", "var_name": "ps_dialog_chance" }, ">=", { "const": 10 } ] },
+        "effect": { "run_eocs": "EOC_PORTAL_DUNGEON_REWARD_1" },
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "The change seems to be harmful at first glance.",
+        "condition": { "compare_int": [ { "global_val": "var", "var_name": "ps_dialog_chance" }, "<", { "const": 10 } ] },
+        "effect": { "run_eocs": "EOC_PORTAL_DUNGEON_PUNISHMENT_1" },
+        "topic": "TALK_DONE"
+      }
     ]
   },
   {
@@ -114,9 +516,66 @@
     "type": "talk_topic",
     "dynamic_line": "&You embrace the figures and feel an incredibly tight and unyielding grip.",
     "responses": [
-      { "text": "Endure the love of your family", "effect": { "u_message": "flat" }, "topic": "TALK_DONE" },
-      { "text": "Attempt to flee the strangers ambush", "effect": { "u_message": "mountain" }, "topic": "TALK_DONE" },
-      { "text": "Succumb to oblivion", "effect": { "u_message": "came" }, "topic": "TALK_DONE" }
+      { "text": "Endure the love of your family.", "topic": "TALK_NETHER_CROSSROADS_RETURN_EMBRACE_ENDURE" },
+      { "text": "Attempt to flee the strangers ambush.", "topic": "TALK_NETHER_CROSSROADS_RETURN_EMBRACE_FLEE" },
+      { "text": "Succumb to oblivion.", "topic": "TALK_NETHER_CROSSROADS_RETURN_EMBRACE_SUCCUMB" }
+    ]
+  },
+  {
+    "id": "TALK_NETHER_CROSSROADS_RETURN_EMBRACE_ENDURE",
+    "type": "talk_topic",
+    "dynamic_line": "&Everything blurs and you are now somewhere more real.  Not everything returns to normal however.",
+    "responses": [
+      {
+        "text": "The change seems to be beneficial at first glance.",
+        "condition": { "compare_int": [ { "global_val": "var", "var_name": "ps_dialog_chance" }, ">=", { "const": 10 } ] },
+        "effect": { "run_eocs": "EOC_PORTAL_DUNGEON_REWARD_1" },
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "The change seems to be harmful at first glance.",
+        "condition": { "compare_int": [ { "global_val": "var", "var_name": "ps_dialog_chance" }, "<", { "const": 10 } ] },
+        "effect": { "run_eocs": "EOC_PORTAL_DUNGEON_PUNISHMENT_1" },
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "id": "TALK_NETHER_CROSSROADS_RETURN_EMBRACE_FLEE",
+    "type": "talk_topic",
+    "dynamic_line": "&Everything blurs and you are now somewhere more real.  Not everything returns to normal however.",
+    "responses": [
+      {
+        "text": "The change seems to be beneficial at first glance.",
+        "condition": { "compare_int": [ { "global_val": "var", "var_name": "ps_dialog_chance" }, ">=", { "const": 10 } ] },
+        "effect": { "run_eocs": "EOC_PORTAL_DUNGEON_REWARD_1" },
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "The change seems to be harmful at first glance.",
+        "condition": { "compare_int": [ { "global_val": "var", "var_name": "ps_dialog_chance" }, "<", { "const": 10 } ] },
+        "effect": { "run_eocs": "EOC_PORTAL_DUNGEON_PUNISHMENT_1" },
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "id": "TALK_NETHER_CROSSROADS_RETURN_EMBRACE_SUCCUMB",
+    "type": "talk_topic",
+    "dynamic_line": "&Everything blurs and you are now somewhere more real.  Not everything returns to normal however.",
+    "responses": [
+      {
+        "text": "The change seems to be beneficial at first glance.",
+        "condition": { "compare_int": [ { "global_val": "var", "var_name": "ps_dialog_chance" }, ">=", { "const": 10 } ] },
+        "effect": { "run_eocs": "EOC_PORTAL_DUNGEON_REWARD_1" },
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "The change seems to be harmful at first glance.",
+        "condition": { "compare_int": [ { "global_val": "var", "var_name": "ps_dialog_chance" }, "<", { "const": 10 } ] },
+        "effect": { "run_eocs": "EOC_PORTAL_DUNGEON_PUNISHMENT_1" },
+        "topic": "TALK_DONE"
+      }
     ]
   },
   {
@@ -124,9 +583,66 @@
     "type": "talk_topic",
     "dynamic_line": "&You can't be sure of the intentions of these people so you flee.  You pass numerous buildings that you half remember looking for shelter.",
     "responses": [
-      { "text": "The library looks empty", "effect": { "u_message": "flat" }, "topic": "TALK_DONE" },
-      { "text": "No one will check the outhouse", "effect": { "u_message": "mountain" }, "topic": "TALK_DONE" },
-      { "text": "The tavern will let you blend in", "effect": { "u_message": "came" }, "topic": "TALK_DONE" }
+      { "text": "The library looks empty.", "topic": "TALK_NETHER_CROSSROADS_RETURN_FLEE_LIBRARY" },
+      { "text": "No one will check the outhouse.", "topic": "TALK_NETHER_CROSSROADS_RETURN_FLEE_OUTHOUSE" },
+      { "text": "The tavern will let you blend in.", "topic": "TALK_NETHER_CROSSROADS_RETURN_FLEE_TAVERN" }
+    ]
+  },
+  {
+    "id": "TALK_NETHER_CROSSROADS_RETURN_FLEE_LIBRARY",
+    "type": "talk_topic",
+    "dynamic_line": "&Everything blurs and you are now somewhere more real.  Not everything returns to normal however.",
+    "responses": [
+      {
+        "text": "The change seems to be beneficial at first glance.",
+        "condition": { "compare_int": [ { "global_val": "var", "var_name": "ps_dialog_chance" }, ">=", { "const": 10 } ] },
+        "effect": { "run_eocs": "EOC_PORTAL_DUNGEON_REWARD_1" },
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "The change seems to be harmful at first glance.",
+        "condition": { "compare_int": [ { "global_val": "var", "var_name": "ps_dialog_chance" }, "<", { "const": 10 } ] },
+        "effect": { "run_eocs": "EOC_PORTAL_DUNGEON_PUNISHMENT_1" },
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "id": "TALK_NETHER_CROSSROADS_RETURN_FLEE_OUTHOUSE",
+    "type": "talk_topic",
+    "dynamic_line": "&Everything blurs and you are now somewhere more real.  Not everything returns to normal however.",
+    "responses": [
+      {
+        "text": "The change seems to be beneficial at first glance.",
+        "condition": { "compare_int": [ { "global_val": "var", "var_name": "ps_dialog_chance" }, ">=", { "const": 10 } ] },
+        "effect": { "run_eocs": "EOC_PORTAL_DUNGEON_REWARD_1" },
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "The change seems to be harmful at first glance.",
+        "condition": { "compare_int": [ { "global_val": "var", "var_name": "ps_dialog_chance" }, "<", { "const": 10 } ] },
+        "effect": { "run_eocs": "EOC_PORTAL_DUNGEON_PUNISHMENT_1" },
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "id": "TALK_NETHER_CROSSROADS_RETURN_FLEE_TAVERN",
+    "type": "talk_topic",
+    "dynamic_line": "&Everything blurs and you are now somewhere more real.  Not everything returns to normal however.",
+    "responses": [
+      {
+        "text": "The change seems to be beneficial at first glance.",
+        "condition": { "compare_int": [ { "global_val": "var", "var_name": "ps_dialog_chance" }, ">=", { "const": 10 } ] },
+        "effect": { "run_eocs": "EOC_PORTAL_DUNGEON_REWARD_1" },
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "The change seems to be harmful at first glance.",
+        "condition": { "compare_int": [ { "global_val": "var", "var_name": "ps_dialog_chance" }, "<", { "const": 10 } ] },
+        "effect": { "run_eocs": "EOC_PORTAL_DUNGEON_PUNISHMENT_1" },
+        "topic": "TALK_DONE"
+      }
     ]
   }
 ]

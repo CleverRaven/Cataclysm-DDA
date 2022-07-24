@@ -383,7 +383,6 @@ class effect
         int intensity;
         time_point start_time;
         effect_source source;
-
 };
 
 void load_effect_type( const JsonObject &jo );
