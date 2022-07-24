@@ -449,8 +449,7 @@ class monster : public Creature
         void make_ally( const monster &z );
         // Add an item to inventory
         void add_item( const item &it );
-        // Consumes specified amount of energy from mech battery
-        // Returns the amount of power actually consumed
+
         /**
         * Consume UPS from mech battery.
         * @param amt amount of energy to consume. Is rounded down to kJ precision. Do not use negative values.

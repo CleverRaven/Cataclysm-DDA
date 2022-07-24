@@ -8476,8 +8476,7 @@ units::energy Character::consume_ups( units::energy qty, const int radius )
     if( qty != 0_kJ && is_mounted() && mounted_creature.get()->has_flag( MF_RIDEABLE_MECH ) &&
         mounted_creature.get()->battery_item ) {
         auto *mons = mounted_creature.get();
-        units::energy power_drain = mons->use_mech_power( qty );
-        qty -= power_drain;
+        qty -= mons->use_mech_power( qty );
     }
 
     // UPS from bionic
@@ -8501,9 +8500,9 @@ units::energy Character::consume_ups( units::energy qty, const int radius )
     if( qty != 0_kJ && radius > 0 ) {
         inventory inv = crafting_inventory( pos(), radius, true );
 
-        units::energy ups = units::from_kilojoule( inv.charges_of( itype_UPS ) );
-        if( ups > 0_kJ ) {
-            qty -= get_map().consume_ups( pos(), radius, ups );
+        units::energy available_ups = units::from_kilojoule( inv.charges_of( itype_UPS ) );
+        if( available_ups > 0_kJ ) {
+            qty -= get_map().consume_ups( pos(), radius, std::min( available_ups, qty ) );
         }
     }
 
@@ -11071,7 +11070,7 @@ void Character::process_items()
                 continue;
             } else if( it->active && !it->ammo_sufficient( this ) ) {
                 it->deactivate();
-            } else if( available_charges - ups_used > 1_kJ &&
+            } else if( available_charges - ups_used >= 1_kJ &&
                        it->ammo_remaining() < it->ammo_capacity( ammo_battery ) ) {
                 // Charge the battery in the UPS modded tool
                 ups_used +=  1_kJ;

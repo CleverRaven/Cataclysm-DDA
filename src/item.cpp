@@ -10683,7 +10683,7 @@ bool item::ammo_sufficient( const Character *carrier, int qty ) const
     if( ammo_required() ) {
         return ammo_remaining( carrier ) >= ammo_required() * qty;
     } else if( get_gun_ups_drain() > 0_kJ ) {
-        return units::from_kilojoule( ammo_remaining( carrier ) ) >= get_gun_ups_drain() * qty;
+        return carrier->available_ups() >= get_gun_ups_drain() * qty;
     } else if( count_by_charges() ) {
         return ammo_remaining( carrier ) >= qty;
     }
@@ -10699,7 +10699,7 @@ bool item::ammo_sufficient( const Character *carrier, const std::string &method,
     if( ammo_required() ) {
         return ammo_remaining( carrier ) >= ammo_required() * qty;
     } else if( get_gun_ups_drain() > 0_kJ ) {
-        return units::from_kilojoule( ammo_remaining( carrier ) ) >= get_gun_ups_drain() * qty;
+        return carrier->available_ups() >= get_gun_ups_drain() * qty;
     }
     return true;
 }
