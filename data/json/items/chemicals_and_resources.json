@@ -1396,7 +1396,7 @@
     "id": "ash_flesh",
     "copy-from": "ash",
     "type": "AMMO",
-    "name": { "str_sp": "greasy ash" },
+    "name": { "str": "greasy ash", "str_pl": "greasy ashes" },
     "description": "Unburned remains of flesh, bones or similar materials.  Could come from animals, zombies or humans; it's pretty much impossible to tell for sure by now."
   },
   {

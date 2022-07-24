@@ -566,7 +566,7 @@
     "type": "item_group",
     "id": "oa_ig_ash_pile",
     "//": "for ws_regional_dump",
-    "items": [ [ "ash", 10 ], [ "ash_other", 80 ], [ "ash_food", 5 ], [ "ash_flesh", 5 ] ]
+    "items": [ [ "ash_other", 100 ] ]
   },
   {
     "id": "library_elec",
