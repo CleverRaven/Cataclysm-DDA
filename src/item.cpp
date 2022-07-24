@@ -10726,7 +10726,8 @@ int item::ammo_consume( int qty, const tripoint &pos, Character *carrier )
 
     // Consume UPS power from various sources
     if( carrier != nullptr && has_flag( flag_USE_UPS ) ) {
-        qty -= carrier->consume_ups( qty );
+		units::energy power_draw = units::from_kilojoule( qty )
+        qty -= units::to_kilojoule( carrier->consume_ups( power_draw ) );
     }
 
     // Consume bio pwr directly

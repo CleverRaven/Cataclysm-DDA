@@ -8528,7 +8528,7 @@ std::list<item> Character::use_charges( const itype_id &what, int qty, const int
     } else if( what == itype_UPS ) {
         // Fairly sure that nothing comes here. But handle it anyways.
         debugmsg( _( "This UPS use needs updating.  Create issue on github." ) );
-        consume_ups( qty, radius );
+        consume_ups( units::from_kilojoule(qty), radius );
         return res;
     }
 
@@ -8561,7 +8561,7 @@ std::list<item> Character::use_charges( const itype_id &what, int qty, const int
     }
 
     if( has_tool_with_UPS ) {
-        consume_ups( qty, radius );
+        consume_ups( units::from_kilojoule(qty), radius );
     }
 
     return res;
@@ -11063,8 +11063,8 @@ void Character::process_items()
         return itm.has_flag( flag_USE_UPS );
     } );
     if( !inv_use_ups.empty() ) {
-        const int available_charges = available_ups();
-        int ups_used = 0;
+        const units::energy available_charges = available_ups();
+        units::energy ups_used = 0;
         for( item * const &it : inv_use_ups ) {
             // For powered armor, an armor-powering bionic should always be preferred over UPS usage.
             if( it->is_power_armor() && can_interface_armor() && has_power() ) {
@@ -11072,14 +11072,14 @@ void Character::process_items()
                 continue;
             } else if( it->active && !it->ammo_sufficient( this ) ) {
                 it->deactivate();
-            } else if( ups_used < available_charges &&
+            } else if( available_charges - ups_used > 1_kJ &&
                        it->ammo_remaining() < it->ammo_capacity( ammo_battery ) ) {
                 // Charge the battery in the UPS modded tool
-                ups_used++;
+                ups_used +=  1_kJ;
                 it->ammo_set( itype_battery, it->ammo_remaining() + 1 );
             }
         }
-        if( ups_used > 0 ) {
+        if( ups_used > 0_kJ ) {
             consume_ups( ups_used );
         }
     }

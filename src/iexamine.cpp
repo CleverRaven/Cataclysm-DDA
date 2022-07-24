@@ -3020,7 +3020,7 @@ void iexamine::arcfurnace_empty( Character &you, const tripoint &examp )
         }
     }
 
-    you.consume_ups( 1250 );
+    you.consume_ups( 1250_kJ );
     here.i_clear( examp );
     here.furn_set( examp, next_arcfurnace_type );
     item result( "unfinished_cac2", calendar::turn );

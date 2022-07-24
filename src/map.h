@@ -1284,7 +1284,7 @@ class map
         * Consume UPS from UPS sources from area centered at origin.
         * @param origin the position of player
         * @param range how far the UPS can be used from
-        * @return Amount of UPS used which will be between 0 and qty
+        * @return Amount of power left missing will be between 0 and qty
         */
         units::energy consume_ups( const tripoint &origin, int range, units::energy qty );
 
