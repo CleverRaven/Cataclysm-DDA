@@ -2489,7 +2489,7 @@ class Character : public Creature, public visitable
         /**
         * Consume UPS charges.
         * Consume order: mech, Bionic UPS, UPS.
-		* @param qty amount of energy to consume. Is rounded down to kJ precision. Do not use negative values.
+        * @param qty amount of energy to consume. Is rounded down to kJ precision. Do not use negative values.
         * @return Actual amount of energy consumed
         */
         units::energy consume_ups( units::energy qty, int radius = -1 );
