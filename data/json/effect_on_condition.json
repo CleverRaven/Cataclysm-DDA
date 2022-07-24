@@ -448,7 +448,7 @@
       "u_spawn_monster": "GROUP_YOUR_FEARS",
       "group": true,
       "real_count": 0,
-      "hallucination_count": { "arithmetic": [ { "const": 1 }, "+", { "rand": 4 } ] },
+      "hallucination_count": { "arithmetic": [ { "const": 1 }, "+", { "rand": 2 } ] },
       "outdoor_only": false,
       "min_radius": 10,
       "max_radius": 40,
