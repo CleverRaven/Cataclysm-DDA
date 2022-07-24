@@ -1915,7 +1915,7 @@
           "rotates": false
         },
         { "id": "dinosuit", "fg": 1144, "rotates": false },
-        { "id": [ "directional_antenna", "f_small_satelitte_dish" ], "fg": 1686, "rotates": false },
+        { "id": [ "directional_antenna", "f_small_satellite_dish" ], "fg": 1686, "rotates": false },
         { "id": "dnd_handbook", "fg": 1721, "rotates": false },
         { "id": "dogbane", "fg": 443, "rotates": false },
         { "id": [ "double_plutonium_core", "it_battery_mount", "battery_compartment" ], "fg": 1072, "rotates": false },
