@@ -160,6 +160,12 @@
   },
   {
     "type": "MONSTER_FACTION",
+    "name": "nether_player_hate",
+    "base_faction": "nether",
+    "hate": [ "player" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
     "name": "vortex",
     "base_faction": "nether",
     "by_mood": [ "nether", "slime", "mi-go" ],

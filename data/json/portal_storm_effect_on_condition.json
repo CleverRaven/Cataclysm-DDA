@@ -312,6 +312,7 @@
         [ "EOC_PORTAL_SHIFTING_MASS", { "const": 2 } ],
         [ "EOC_PORTAL_IMPOSSIBLE_SHAPE", { "const": 6 } ],
         [ "EOC_PORTAL_ABSENCE", { "const": 2 } ],
+        [ "EOC_PORTAL_HALLUCINATOR", { "const": 1 } ],
         [ "EOC_PORTAL_MEMORIES", { "const": 2 } ],
         [ "EOC_PORTAL_SWARM_STRUCTURE", { "const": 4 } ],
         [ "EOC_PORTAL_PAIN", { "const": 6 } ],
@@ -344,6 +345,7 @@
         [ "EOC_PORTAL_SHIFTING_MASS", { "const": 2 } ],
         [ "EOC_PORTAL_IMPOSSIBLE_SHAPE", { "const": 2 } ],
         [ "EOC_PORTAL_ABSENCE", { "const": 4 } ],
+        [ "EOC_PORTAL_HALLUCINATOR", { "const": 2 } ],
         [ "EOC_PORTAL_MEMORIES", { "const": 4 } ],
         [ "EOC_PORTAL_SWARM_STRUCTURE", { "const": 4 } ],
         [ "EOC_PORTAL_LIGHT", { "const": 4 } ],
@@ -509,6 +511,19 @@
       "lifespan": [ "5 seconds", "45 seconds" ],
       "spawn_message": "A gigantic limb tears its way into reality.",
       "spawn_message_plural": "Gigantic limbs tear their way into reality around you."
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_HALLUCINATOR",
+    "condition": { "not": { "u_has_effect": "sleep" } },
+    "effect": {
+      "u_spawn_monster": "mon_hallucinator",
+      "real_count": 1,
+      "outdoor_only": true,
+      "min_radius": 40,
+      "max_radius": 50,
+      "lifespan": [ "40 minutes", "60 minutes" ]
     }
   },
   {

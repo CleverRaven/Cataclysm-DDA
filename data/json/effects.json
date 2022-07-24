@@ -3580,5 +3580,12 @@
     "rating": "good",
     "show_intensity": false,
     "base_mods": { "dex_mod": [ 4, 0 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "hallucination_attacks",
+    "rating": "bad",
+    "max_duration": "10 days",
+    "show_in_info": false
   }
 ]
