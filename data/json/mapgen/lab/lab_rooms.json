@@ -1046,7 +1046,7 @@
         "aaaaaaa"
       ],
       "terrain": { "a": "t_thconc_floor" },
-      "item": { "a": { "item": "ash", "chance": 90 } },
+      "item": { "a": { "item": "ash_flesh", "chance": 90 } },
       "place_nested": [ { "chunks": [ "sub_f_ash" ], "x": [ 0, 6 ], "y": [ 0, 6 ], "repeat": [ 2, 4 ] } ]
     }
   },
@@ -1069,7 +1069,7 @@
         "aaaaaaaaa"
       ],
       "terrain": { "a": "t_thconc_floor" },
-      "item": { "a": { "item": "ash", "chance": 90 } },
+      "item": { "a": { "item": "ash_flesh", "chance": 90 } },
       "place_nested": [ { "chunks": [ "sub_f_ash" ], "x": [ 0, 8 ], "y": [ 0, 8 ], "repeat": [ 4, 6 ] } ]
     }
   },
@@ -1082,7 +1082,9 @@
       "mapgensize": [ 1, 1 ],
       "rows": [ "a" ],
       "furniture": { "a": "f_ash" },
-      "item": { "a": [ { "item": "ash", "amount": 49, "chance": 100 }, { "item": "bone_human", "amount": [ 3, 5 ], "chance": 50 } ] },
+      "item": {
+        "a": [ { "item": "ash_flesh", "amount": 49, "chance": 100 }, { "item": "bone_human", "amount": [ 3, 5 ], "chance": 50 } ]
+      },
       "items": { "a": { "item": "science", "chance": 10 } }
     }
   },
