@@ -8476,7 +8476,7 @@ units::energy Character::consume_ups( units::energy qty, const int radius )
     if( qty != 0_kJ && is_mounted() && mounted_creature.get()->has_flag( MF_RIDEABLE_MECH ) &&
         mounted_creature.get()->battery_item ) {
         auto *mons = mounted_creature.get();
-        units::energy power_drain = mons->use_mech_power( -qty );
+        units::energy power_drain = mons->use_mech_power( qty );
         qty -= power_drain;
     }
 

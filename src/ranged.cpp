@@ -1091,7 +1091,7 @@ static cata::optional<int> character_throw_assist( const Character &guy )
         auto *mons = guy.mounted_creature.get();
         if( mons->mech_str_addition() != 0 ) {
             throw_assist = mons->mech_str_addition();
-            mons->use_mech_power( -3_kJ );
+            mons->use_mech_power( 3_kJ );
         }
     }
     return throw_assist;

@@ -2647,7 +2647,7 @@ units::energy monster::use_mech_power( units::energy amt )
     }
     const int max_drain = battery_item->ammo_remaining();
     const int consumption = std::min( static_cast<int>( units::to_kilojoule( amt ) ), max_drain );
-    battery_item->ammo_consume( -consumption, pos(), nullptr );
+    battery_item->ammo_consume( consumption, pos(), nullptr );
     return units::from_kilojoule( consumption );
 }
 
