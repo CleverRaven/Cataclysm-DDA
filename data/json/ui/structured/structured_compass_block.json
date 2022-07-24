@@ -26,6 +26,15 @@
     "flags": [ "W_DISABLED_BY_DEFAULT" ]
   },
   {
+    "id": "structured_weapon_compass_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Compass",
+    "arrange": "rows",
+    "widgets": [ "wielding_desc_no_label", "compass_all_danger_layout_alt" ],
+    "flags": [ "W_DISABLED_BY_DEFAULT" ]
+  },
+  {
     "id": "structured_weapon_compass_9x9_layout",
     "type": "widget",
     "style": "layout",
@@ -66,12 +75,5 @@
     "type": "widget",
     "copy-from": "compass_all_danger_layout_alt",
     "width": 39
-  },
-  {
-    "id": "structured_compass_layout",
-    "type": "widget",
-    "label": "Compass",
-    "copy-from": "compass_all_danger_layout_alt",
-    "flags": [ "W_DISABLED_BY_DEFAULT" ]
   }
 ]

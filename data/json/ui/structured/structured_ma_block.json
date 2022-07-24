@@ -3,8 +3,10 @@
     "id": "structured_ma_buffs_style_layout",
     "type": "widget",
     "style": "layout",
+    "label": "Martial arts buffs",
     "arrange": "columns",
-    "widgets": [ "structured_ma_buff_layout", "structured_style_layout" ]
+    "widgets": [ "structured_style_layout", "structured_ma_buff_layout" ],
+    "flags": [ "W_DISABLED_BY_DEFAULT" ]
   },
   {
     "id": "structured_style_layout",
