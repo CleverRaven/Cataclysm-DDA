@@ -162,7 +162,7 @@
     "type": "MONSTER_FACTION",
     "name": "nether_player_hate",
     "base_faction": "nether",
-    "friendly": [ "zombie", "fish", "exodii", "isolated_artisans", "animal" ],
+    "friendly": [ "zombie" ],
     "hate": [ "player" ]
   },
   {
