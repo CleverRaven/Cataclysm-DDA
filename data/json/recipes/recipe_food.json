@@ -2157,7 +2157,6 @@
     "difficulty": 2,
     "time": "20 m",
     "autolearn": true,
-    "book_learn": [ [ "cookbook_mexican", 1 ] ],
     "batch_time_factors": [ 80, 4 ],
     "qualities": [ { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
