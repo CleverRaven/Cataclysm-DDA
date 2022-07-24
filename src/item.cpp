@@ -5426,13 +5426,13 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
     if( parts->test( iteminfo_parts::BASE_PRICE ) ) {
         insert_separation_line( info );
         info.emplace_back( "BASE", _( "Price: " ), _( "$<num>" ),
-                           iteminfo::is_decimal | iteminfo::lower_is_better | iteminfo::no_newline,
+                           iteminfo::is_decimal | iteminfo::no_newline,
                            static_cast<double>( price_preapoc ) / 100 );
     }
     if( price_preapoc != price_postapoc && parts->test( iteminfo_parts::BASE_BARTER ) ) {
         const std::string space = "  ";
         info.emplace_back( "BASE", space + _( "Barter value: " ), _( "$<num>" ),
-                           iteminfo::is_decimal | iteminfo::lower_is_better,
+                           iteminfo::is_decimal,
                            static_cast<double>( price_postapoc ) / 100 );
     }
 
