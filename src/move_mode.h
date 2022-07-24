@@ -10,6 +10,7 @@
 #include "color.h"
 #include "translations.h"
 #include "type_id.h"
+#include "units.h"
 
 class JsonObject;
 template<typename T>

@@ -5560,8 +5560,8 @@ std::list<item> map::use_charges( const tripoint &origin, const int range,
 
 units::energy map::consume_ups( const tripoint &origin, const int range, units::energy qty )
 {
-	const units::energy wanted_qty = qty;
-	
+    const units::energy wanted_qty = qty;
+
     // populate a grid of spots that can be reached
     std::vector<tripoint> reachable_pts;
     reachable_flood_steps( reachable_pts, origin, range, 1, 100 );
@@ -5572,7 +5572,7 @@ units::energy map::consume_ups( const tripoint &origin, const int range, units::
             map_stack items = i_at( p );
             for( item &elem : items ) {
                 if( elem.has_flag( flag_IS_UPS ) ) {
-                    qty -= units::from_kilojoule( elem.ammo_consume( units::to_kilojoule(qty), p, nullptr ) );
+                    qty -= units::from_kilojoule( elem.ammo_consume( units::to_kilojoule( qty ), p, nullptr ) );
                     if( qty == 0_kJ ) {
                         break;
                     }

@@ -2645,7 +2645,7 @@ bool monster::use_mech_power( units::energy amt )
     if( is_hallucination() || !has_flag( MF_RIDEABLE_MECH ) || !battery_item ) {
         return;
     }
-    battery_item->ammo_consume( -units::to_kilojoule(amt), pos(), nullptr );
+    battery_item->ammo_consume( -units::to_kilojoule( amt ), pos(), nullptr );
 }
 
 int monster::mech_str_addition() const

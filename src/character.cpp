@@ -8476,7 +8476,8 @@ units::energy Character::consume_ups( units::energy qty, const int radius )
     if( qty != 0_kJ && is_mounted() && mounted_creature.get()->has_flag( MF_RIDEABLE_MECH ) &&
         mounted_creature.get()->battery_item ) {
         auto *mons = mounted_creature.get();
-        units::energy power_drain = std::min( units::from_kilojoule( mons->battery_item->ammo_remaining() ), qty );
+        units::energy power_drain = std::min( units::from_kilojoule( mons->battery_item->ammo_remaining() ),
+                                              qty );
         mons->use_mech_power( -power_drain );
         qty -= std::min( qty, power_drain );
     }
@@ -8490,12 +8491,12 @@ units::energy Character::consume_ups( units::energy qty, const int radius )
 
     // UPS from inventory
     if( qty != 0_kJ ) {
-		int qty_kj = units::to_kilojoule( qty )
-        std::vector<const item *> ups_items = all_items_with_flag( flag_IS_UPS );
+        int qty_kj = units::to_kilojoule( qty )
+                     std::vector<const item *> ups_items = all_items_with_flag( flag_IS_UPS );
         for( const item *i : ups_items ) {
             qty_kj -= const_cast<item *>( i )->ammo_consume( qty_kj, tripoint_zero, nullptr );
         }
-		qty = units::from_kilojoule( qty_kj );
+        qty = units::from_kilojoule( qty_kj );
     }
 
     // UPS from nearby map
@@ -8528,7 +8529,7 @@ std::list<item> Character::use_charges( const itype_id &what, int qty, const int
     } else if( what == itype_UPS ) {
         // Fairly sure that nothing comes here. But handle it anyways.
         debugmsg( _( "This UPS use needs updating.  Create issue on github." ) );
-        consume_ups( units::from_kilojoule(qty), radius );
+        consume_ups( units::from_kilojoule( qty ), radius );
         return res;
     }
 
@@ -8561,7 +8562,7 @@ std::list<item> Character::use_charges( const itype_id &what, int qty, const int
     }
 
     if( has_tool_with_UPS ) {
-        consume_ups( units::from_kilojoule(qty), radius );
+        consume_ups( units::from_kilojoule( qty ), radius );
     }
 
     return res;
