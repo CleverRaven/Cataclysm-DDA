@@ -795,10 +795,8 @@ bool map::pl_sees( const tripoint &t, const int max_range ) const
     }
 
     const apparent_light_info a = apparent_light_helper( map_cache, t );
-    const light light_at_player = light(
-                                      map_cache.lm[player_character.posx()][player_character.posy()].max() );
     return !a.obstructed &&
-           ( a.apparent_light >= player_character.get_vision_threshold( light_at_player ) ||
+           ( a.apparent_light >= player_character.get_vision_threshold() ||
              map_cache.sm[t.x][t.y] > 0.0 );
 }
 

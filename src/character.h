@@ -881,7 +881,7 @@ class Character : public Creature, public visitable
          * This is adjusted by the light level at the *character's* position
          * to simulate glare, etc, night vision only works if you are in the dark.
          */
-        light get_vision_threshold( light light_level ) const;
+        light get_vision_threshold() const;
         /**
          * Flag encumbrance for updating.
         */

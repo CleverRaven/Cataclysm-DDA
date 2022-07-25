@@ -1083,7 +1083,7 @@ double Character::aim_per_move( const item &gun, double recoil,
 
 int Character::sight_range( light light_level ) const
 {
-    light threshold = get_vision_threshold( get_map().ambient_light_at( pos() ) );
+    light threshold = get_vision_threshold();
     return std::min( sight_max, light_level.sight_range(threshold));
 }
 
@@ -2289,8 +2289,9 @@ static float threshold_for_range( float range )
     return LIGHT_AMBIENT_MINIMAL.value / std::exp( range * LIGHT_TRANSPARENCY_OPEN_AIR ) - epsilon;
 }
 
-light Character::get_vision_threshold( light light_level ) const
+light Character::get_vision_threshold() const
 {
+    light light_level = get_map().ambient_light_at( pos() );
     if( vision_mode_cache[DEBUG_NIGHTVISION] ) {
         // Debug vision always works with absurdly little light.
         return light( 0.01f );
