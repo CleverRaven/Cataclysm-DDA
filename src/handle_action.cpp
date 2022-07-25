@@ -106,6 +106,7 @@ static const activity_id ACT_MULTIPLE_MINE( "ACT_MULTIPLE_MINE" );
 static const activity_id ACT_MULTIPLE_MOP( "ACT_MULTIPLE_MOP" );
 static const activity_id ACT_PULP( "ACT_PULP" );
 static const activity_id ACT_SPELLCASTING( "ACT_SPELLCASTING" );
+static const activity_id ACT_UNLOAD_LOOT( "ACT_UNLOAD_LOOT" );
 static const activity_id ACT_VEHICLE_DECONSTRUCTION( "ACT_VEHICLE_DECONSTRUCTION" );
 static const activity_id ACT_VEHICLE_REPAIR( "ACT_VEHICLE_REPAIR" );
 static const activity_id ACT_WAIT( "ACT_WAIT" );
@@ -149,6 +150,8 @@ static const zone_type_id zone_type_CONSTRUCTION_BLUEPRINT( "CONSTRUCTION_BLUEPR
 static const zone_type_id zone_type_FARM_PLOT( "FARM_PLOT" );
 static const zone_type_id zone_type_LOOT_CORPSE( "LOOT_CORPSE" );
 static const zone_type_id zone_type_LOOT_UNSORTED( "LOOT_UNSORTED" );
+static const zone_type_id zone_type_zone_unload_all( "zone_unload_all" );
+static const zone_type_id zone_type_zone_strip( "zone_strip" );
 static const zone_type_id zone_type_LOOT_WOOD( "LOOT_WOOD" );
 static const zone_type_id zone_type_MINING( "MINING" );
 static const zone_type_id zone_type_MOPPING( "MOPPING" );
@@ -1197,7 +1200,8 @@ static void loot()
         MultiButchery = 4096,
         MultiMining = 8192,
         MultiDis = 16384,
-        MultiMopping = 32768
+        MultiMopping = 32768,
+        UnloadLoot = 65536
     };
 
     Character &player_character = get_player_character();
@@ -1220,6 +1224,8 @@ static void loot()
 
     flags |= g->check_near_zone( zone_type_LOOT_UNSORTED,
                                  player_character.pos() ) ? SortLoot : 0;
+    flags |= g->check_near_zone( zone_type_zone_unload_all, player_character.pos() ) ||
+             g->check_near_zone( zone_type_zone_strip, player_character.pos() ) ? UnloadLoot : 0;
     if( g->check_near_zone( zone_type_FARM_PLOT, player_character.pos() ) ) {
         flags |= FertilizePlots;
         flags |= MultiFarmPlots;
@@ -1266,6 +1272,11 @@ static void loot()
     if( flags & SortLoot ) {
         menu.addentry_desc( SortLoot, true, 'I', _( "Sort out my loot (all)" ),
                             _( "Sorts out the loot from Loot: Unsorted zone to nearby appropriate Loot zones.  Uses empty space in your inventory or utilizes a cart, if you are holding one." ) );
+    }
+
+    if( flags & UnloadLoot ) {
+        menu.addentry_desc( UnloadLoot, true, 'U', _( "Unload nearby containers" ),
+                            _( "Unloads any corpses or containers that are in their respective zones." ) );
     }
 
     if( flags & FertilizePlots ) {
@@ -1355,6 +1366,9 @@ static void loot()
                 mgr.cache_data();
             }
             player_character.assign_activity( ACT_MOVE_LOOT );
+            break;
+        case UnloadLoot:
+            player_character.assign_activity( ACT_UNLOAD_LOOT );
             break;
         case FertilizePlots:
             player_character.assign_activity( ACT_FERTILIZE_PLOT );

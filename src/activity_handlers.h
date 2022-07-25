@@ -125,6 +125,7 @@ int butcher_time_to_cut( Character &you, const item &corpse_item, butcher_type a
 // activity_item_handling.cpp
 void activity_on_turn_drop();
 void activity_on_turn_move_loot( player_activity &act, Character &you );
+void activity_on_turn_unload_loot( player_activity &act, Character &you );
 //return true if there is an activity that can be done potentially, return false if no work can be found.
 bool generic_multi_activity_handler( player_activity &act, Character &you,
                                      bool check_only = false );
@@ -194,6 +195,7 @@ void study_spell_do_turn( player_activity *act, Character *you );
 void tidy_up_do_turn( player_activity *act, Character *you );
 void travel_do_turn( player_activity *act, Character *you );
 void tree_communion_do_turn( player_activity *act, Character *you );
+void unload_loot_do_turn( player_activity *act, Character *you );
 void vehicle_deconstruction_do_turn( player_activity *act, Character *you );
 void vehicle_repair_do_turn( player_activity *act, Character *you );
 void vibe_do_turn( player_activity *act, Character *you );

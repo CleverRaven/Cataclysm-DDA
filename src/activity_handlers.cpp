@@ -158,6 +158,7 @@ static const activity_id ACT_TRAIN( "ACT_TRAIN" );
 static const activity_id ACT_TRAIN_TEACHER( "ACT_TRAIN_TEACHER" );
 static const activity_id ACT_TRAVELLING( "ACT_TRAVELLING" );
 static const activity_id ACT_TREE_COMMUNION( "ACT_TREE_COMMUNION" );
+static const activity_id ACT_UNLOAD_LOOT( "ACT_UNLOAD_LOOT" );
 static const activity_id ACT_VEHICLE( "ACT_VEHICLE" );
 static const activity_id ACT_VEHICLE_DECONSTRUCTION( "ACT_VEHICLE_DECONSTRUCTION" );
 static const activity_id ACT_VEHICLE_REPAIR( "ACT_VEHICLE_REPAIR" );
@@ -244,6 +245,7 @@ activity_handlers::do_turn_functions = {
     { ACT_CONSUME_FUEL_MENU, consume_fuel_menu_do_turn },
     { ACT_VIEW_RECIPE, view_recipe_do_turn },
     { ACT_MOVE_LOOT, move_loot_do_turn },
+    { ACT_UNLOAD_LOOT, unload_loot_do_turn },
     { ACT_ADV_INVENTORY, adv_inventory_do_turn },
     { ACT_ARMOR_LAYERS, armor_layers_do_turn },
     { ACT_ATM, atm_do_turn },
@@ -2583,6 +2585,11 @@ void activity_handlers::view_recipe_do_turn( player_activity *act, Character *yo
 void activity_handlers::move_loot_do_turn( player_activity *act, Character *you )
 {
     activity_on_turn_move_loot( *act, *you );
+}
+
+void activity_handlers::unload_loot_do_turn( player_activity *act, Character *you )
+{
+    activity_on_turn_unload_loot( *act, *you );
 }
 
 void activity_handlers::adv_inventory_do_turn( player_activity *, Character *you )
