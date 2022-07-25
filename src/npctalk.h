@@ -139,6 +139,6 @@ const json_talk_topic *get_talk_topic( const std::string &id );
 
 std::vector<int> npcs_select_menu( const std::vector<Character *> &npc_list,
                                    const std::string &prompt,
-                                   std::function<bool( const Character * )> exclude_func );
+                                   const std::function<bool( const Character * )> &exclude_func );
 
 #endif // CATA_SRC_NPCTALK_H

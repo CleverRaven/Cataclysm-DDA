@@ -4302,6 +4302,8 @@ void Item_factory::clear()
     migrated_magazines.clear();
     migrations.clear();
 
+    deferred.clear();
+
     frozen = false;
 }
 

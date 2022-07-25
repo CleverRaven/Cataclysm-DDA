@@ -17,6 +17,7 @@
 #include <tuple>
 #include <unordered_map>
 #include <unordered_set>
+#include <utility>
 
 #include "activity_type.h"
 #include "avatar.h"
@@ -2098,7 +2099,7 @@ bool vehicle::find_and_split_vehicles( map &here, int exclude )
 bool vehicle::find_and_split_vehicles( map &here, std::set<int> exclude )
 {
     std::vector<int> valid_parts = all_parts_at_location( part_location_structure );
-    std::set<int> checked_parts = exclude;
+    std::set<int> checked_parts = std::move( exclude );
 
     std::vector<std::vector <int>> all_vehicles;
 
@@ -2435,7 +2436,7 @@ std::vector<int> vehicle::parts_at_relative( const point &dp, const bool use_cac
 
 cata::optional<vpart_reference> vpart_position::obstacle_at_part() const
 {
-    const cata::optional<vpart_reference> part = part_with_feature( VPFLAG_OBSTACLE, true );
+    cata::optional<vpart_reference> part = part_with_feature( VPFLAG_OBSTACLE, true );
     if( !part ) {
         return cata::nullopt; // No obstacle here
     }
@@ -2865,6 +2866,12 @@ std::vector<std::vector<int>> vehicle::find_lines_of_parts( int part, const std:
 
     std::vector<int> x_parts;
     std::vector<int> y_parts;
+
+    if( parts[part].is_fake ) {
+        // start from the real part, otherwise it fails in certain orientations
+        part = parts[part].fake_part_to;
+    }
+
     vpart_id part_id = part_info( part ).get_id();
     // create vectors of parts on the same X or Y axis
     point target = parts[ part ].mount;
@@ -7586,12 +7593,12 @@ tripoint vehicle::exhaust_dest( int part ) const
     return global_pos3() + tripoint( q, 0 );
 }
 
-void vehicle::add_tag( std::string tag )
+void vehicle::add_tag( const std::string &tag )
 {
     tags.insert( tag );
 }
 
-bool vehicle::has_tag( std::string tag ) const
+bool vehicle::has_tag( const std::string &tag ) const
 {
     return tags.count( tag ) > 0;
 }

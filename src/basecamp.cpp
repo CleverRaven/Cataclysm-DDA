@@ -145,9 +145,9 @@ expansion_data basecamp::parse_expansion( const std::string &terrain,
         const tripoint_abs_omt &new_pos )
 {
     expansion_data e;
-    int last_bar = terrain.find_last_of( '_' );
-    e.type = terrain.substr( base_camps::prefix_len, size_t( last_bar - base_camps::prefix_len ) );
-    e.cur_level = std::stoi( terrain.substr( size_t( last_bar + 1 ) ) );
+    size_t last_bar = terrain.find_last_of( '_' );
+    e.type = terrain.substr( base_camps::prefix_len, last_bar - base_camps::prefix_len );
+    e.cur_level = std::stoi( terrain.substr( last_bar + 1 ) );
     e.pos = new_pos;
     return e;
 }
@@ -377,15 +377,14 @@ std::map<recipe_id, translation> basecamp::recipe_deck( const point &dir ) const
 
 std::map<recipe_id, translation> basecamp::recipe_deck( const std::string &bldg ) const
 {
-    const std::map<recipe_id, translation> recipes = recipe_group::get_recipes_by_bldg( bldg );
-    return recipes;
+    return recipe_group::get_recipes_by_bldg( bldg );
 }
 
 item_group_id basecamp::get_gatherlist() const
 {
     const auto &e = expansions.find( base_camps::base_dir );
     if( e != expansions.end() ) {
-        const item_group_id gatherlist(
+        item_group_id gatherlist(
             "gathering_" + base_camps::faction_encode_abs( e->second, 4 ) );
         if( item_group::group_is_defined( gatherlist ) ) {
             return gatherlist;

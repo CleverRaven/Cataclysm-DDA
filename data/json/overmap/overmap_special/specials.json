@@ -7574,7 +7574,7 @@
     "city_sizes": [ 4, -1 ],
     "occurrences": [ 45, 100 ],
     "//": "Inflated chance, in effect ~10%",
-    "flags": [ "MILITARY", "UNIQUE", "MAN_MADE" ]
+    "flags": [ "MILITARY", "GLOBALLY_UNIQUE", "MAN_MADE" ]
   },
   {
     "type": "overmap_special",

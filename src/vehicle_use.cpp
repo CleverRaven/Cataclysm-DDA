@@ -1650,7 +1650,7 @@ bool vehicle::can_close( int part_index, Character &who )
                     }
                     return false;
                 }
-                if( parts[partID].has_fake ) {
+                if( parts[partID].has_fake && parts[parts[partID].fake_part_at].is_active_fake ) {
                     partID = parts[partID].fake_part_at;
                 } else {
                     partID = -1;

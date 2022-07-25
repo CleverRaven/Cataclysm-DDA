@@ -1608,5 +1608,20 @@
     "type": "construction_group",
     "id": "build_clay_oven",
     "name": "Build Clay Oven"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_rope_hoist",
+    "name": "Hang Simple Rope Hoist"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_rope_tackle_hoist",
+    "name": "Build Rope & Tackle Hoist"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_chain_hoist",
+    "name": "Build Chain & Tackle Hoist"
   }
 ]

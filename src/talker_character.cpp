@@ -280,7 +280,8 @@ effect talker_character_const::get_effect( const efftype_id &effect_id,
 }
 
 void talker_character::add_effect( const efftype_id &new_effect, const time_duration &dur,
-                                   std::string bp, bool permanent, bool force, int intensity )
+                                   const std::string &bp, bool permanent, bool force,
+                                   int intensity )
 {
     bodypart_id target_part;
     if( "RANDOM" == bp ) {

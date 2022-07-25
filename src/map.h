@@ -354,13 +354,13 @@ class map
         bool check_seen_cache( const tripoint &p ) const {
             std::bitset<MAPSIZE_X *MAPSIZE_Y> &memory_seen_cache =
                 get_cache( p.z ).map_memory_seen_cache;
-            return !memory_seen_cache[ static_cast<size_t>( p.x + p.y * MAPSIZE_Y ) ];
+            return !memory_seen_cache[ p.x + p.y * MAPSIZE_Y ];
         }
         bool check_and_set_seen_cache( const tripoint &p ) const {
             std::bitset<MAPSIZE_X *MAPSIZE_Y> &memory_seen_cache =
                 get_cache( p.z ).map_memory_seen_cache;
-            if( !memory_seen_cache[ static_cast<size_t>( p.x + p.y * MAPSIZE_Y ) ] ) {
-                memory_seen_cache.set( static_cast<size_t>( p.x + p.y * MAPSIZE_Y ) );
+            if( !memory_seen_cache[ p.x + p.y * MAPSIZE_Y ] ) {
+                memory_seen_cache.set( p.x + p.y * MAPSIZE_Y );
                 return true;
             }
             return false;
@@ -1722,7 +1722,6 @@ class map
         void mirror( bool mirror_horizontal, bool mirror_vertical );
 
         // Monster spawning:
-    public:
         /**
          * Spawn monsters from submap spawn points and from the overmap.
          * @param ignore_sight If true, monsters may spawn in the view of the player
@@ -1743,7 +1742,7 @@ class map
         void spawn_monsters_submap( const tripoint &gp, bool ignore_sight );
         // Helper #2 - spawns monsters on one submap and from one group on this submap
         void spawn_monsters_submap_group( const tripoint &gp, mongroup &group,
-                                          const tripoint_abs_sm &submap_pos, bool ignore_sight );
+                                          bool ignore_sight );
 
     protected:
         void saven( const tripoint &grid );

@@ -2217,7 +2217,7 @@ void inventory_selector::refresh_window()
     wnoutrefresh( w_inv );
 }
 
-std::pair< bool, std::string > inventory_selector::query_string( std::string val )
+std::pair< bool, std::string > inventory_selector::query_string( const std::string &val )
 {
     spopup = std::make_unique<string_input_popup>();
     spopup->max_length( 256 )
@@ -2788,7 +2788,7 @@ item_location inventory_pick_selector::execute()
     }
 }
 
-void inventory_selector::action_examine( const item_location sitem )
+void inventory_selector::action_examine( const item_location &sitem )
 {
     // Code below pulled from the action_examine function in advanced_inv.cpp
     std::vector<iteminfo> vThisItem;
@@ -2906,7 +2906,7 @@ void inventory_multiselector::set_chosen_count( inventory_entry &entry, size_t c
     } else {
         entry.chosen_count = std::min( {count, max_chosen_count, entry.get_available_count() } );
         if( it->count_by_charges() ) {
-            auto iter = find_if( to_use.begin(), to_use.end(), [&it]( drop_location drop ) {
+            auto iter = find_if( to_use.begin(), to_use.end(), [&it]( const drop_location & drop ) {
                 return drop.first == it;
             } );
             if( iter == to_use.end() ) {
@@ -2917,7 +2917,7 @@ void inventory_multiselector::set_chosen_count( inventory_entry &entry, size_t c
                 if( count == 0 ) {
                     break;
                 }
-                auto iter = find_if( to_use.begin(), to_use.end(), [&loc]( drop_location drop ) {
+                auto iter = find_if( to_use.begin(), to_use.end(), [&loc]( const drop_location & drop ) {
                     return drop.first == loc;
                 } );
                 if( iter == to_use.end() ) {

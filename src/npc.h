@@ -940,9 +940,9 @@ class npc : public Character
         bool will_accept_from_player( const item &it ) const;
 
         bool wants_to_sell( const item &it ) const;
-        ret_val<bool> wants_to_sell( const item &/*it*/, int at_price, int market_price ) const;
+        ret_val<void> wants_to_sell( const item &/*it*/, int at_price, int market_price ) const;
         bool wants_to_buy( const item &it ) const;
-        ret_val<bool> wants_to_buy( const item &/*it*/, int at_price, int /*market_price*/ ) const;
+        ret_val<void> wants_to_buy( const item &/*it*/, int at_price, int /*market_price*/ ) const;
 
         bool will_exchange_items_freely() const;
         int max_credit_extended() const;
@@ -1365,7 +1365,7 @@ class npc : public Character
         bool has_companion_mission() const;
         npc_companion_mission get_companion_mission() const;
         attitude_group get_attitude_group( npc_attitude att ) const;
-        void set_unique_id( std::string id );
+        void set_unique_id( const std::string &id );
         std::string get_unique_id() const;
     protected:
         void store( JsonOut &json ) const;

@@ -837,7 +837,7 @@ std::map<int, inclusive_rectangle<point>> worldfactory::draw_mod_list( const cat
 
         int larger = ( iMaxRows > static_cast<int>( iModNum ) ) ? static_cast<int>( iModNum ) : iMaxRows;
         for( auto iter = mods.begin(); iter != mods.end(); ++index ) {
-            if( iNum >= static_cast<size_t>( start ) && iNum < static_cast<size_t>( start + larger ) ) {
+            if( iNum >= static_cast<size_t>( start ) && iNum < static_cast<size_t>( start ) + larger ) {
                 if( !mSortCategory[iNum].empty() ) {
                     bKeepIter = true;
                     trim_and_print( w, point( 1, iNum - start ), wwidth, c_magenta, mSortCategory[iNum] );

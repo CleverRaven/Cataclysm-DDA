@@ -6,6 +6,7 @@
 #include <memory>
 #include <string>
 #include <unordered_map>
+#include <utility>
 #include <vector>
 
 #include "activity_type.h"
@@ -306,7 +307,7 @@ class bikerack_racking_activity_actor : public activity_actor
     public:
         bikerack_racking_activity_actor( int moves_total, vehicle &parent_vehicle,
                                          std::vector<std::vector<int>> parts ): moves_total( moves_total ),
-            parent_vehicle( parent_vehicle ), parts( parts ) {}
+            parent_vehicle( parent_vehicle ), parts( std::move( parts ) ) {}
 
         activity_id get_type() const override {
             return activity_id( "ACT_BIKERACK_RACKING" );
@@ -335,7 +336,7 @@ class bikerack_unracking_activity_actor : public activity_actor
     public:
         bikerack_unracking_activity_actor( int moves_total, vehicle &parent_vehicle,
                                            std::vector<int> parts, std::vector<int> racks ) : moves_total( moves_total ),
-            parent_vehicle( parent_vehicle ), parts( parts ), racks( racks ) {}
+            parent_vehicle( parent_vehicle ), parts( std::move( parts ) ), racks( std::move( racks ) ) {}
 
         activity_id get_type() const override {
             return activity_id( "ACT_BIKERACK_UNRACKING" );
@@ -419,7 +420,8 @@ class move_items_activity_actor : public activity_actor
     public:
         move_items_activity_actor( std::vector<item_location> target_items, std::vector<int> quantities,
                                    bool to_vehicle, tripoint relative_destination ) :
-            target_items( target_items ), quantities( quantities ), to_vehicle( to_vehicle ),
+            target_items( std::move( target_items ) ), quantities( std::move( quantities ) ),
+            to_vehicle( to_vehicle ),
             relative_destination( relative_destination ) {}
 
         activity_id get_type() const override {
@@ -701,7 +703,8 @@ class consume_activity_actor : public activity_actor
                                 std::vector<int> consume_menu_selections,
                                 const std::vector<item_location> &consume_menu_selected_items,
                                 const std::string &consume_menu_filter, activity_id type, bool refuel = false ) :
-            consume_location( consume_location ), consume_menu_selections( consume_menu_selections ),
+            consume_location( consume_location ),
+            consume_menu_selections( std::move( consume_menu_selections ) ),
             consume_menu_selected_items( consume_menu_selected_items ),
             consume_menu_filter( consume_menu_filter ),
             type( type ), refuel( refuel ) {}
@@ -1090,8 +1093,8 @@ class milk_activity_actor : public activity_actor
     public:
         milk_activity_actor() = default;
         milk_activity_actor( int moves, std::vector<tripoint> coords,
-                             std::vector<std::string> str_values ) : total_moves( moves ), monster_coords( coords ),
-            string_values( str_values ) {}
+                             std::vector<std::string> str_values ) : total_moves( moves ), monster_coords( std::move( coords ) ),
+            string_values( std::move( str_values ) ) {}
 
         activity_id get_type() const override {
             return activity_id( "ACT_MILK" );
@@ -1255,7 +1258,8 @@ class tent_placement_activity_actor : public activity_actor
         tent_placement_activity_actor( int moves_total, tripoint target, int radius, const item &it,
                                        string_id<furn_t> wall, string_id<furn_t> floor, cata::optional<string_id<furn_t>> floor_center,
                                        string_id<furn_t> door_closed ) : moves_total( moves_total ), target( target ), radius( radius ),
-            it( it ), wall( wall ), floor( floor ), floor_center( floor_center ), door_closed( door_closed ) {}
+            it( it ), wall( wall ), floor( floor ), floor_center( std::move( floor_center ) ),
+            door_closed( door_closed ) {}
 
         activity_id get_type() const override {
             return activity_id( "ACT_TENT_PLACE" );
@@ -1472,8 +1476,8 @@ class wear_activity_actor : public activity_actor
 {
     public:
         wear_activity_actor( std::vector<item_location> target_items, std::vector<int> quantities ) :
-            target_items( target_items ),
-            quantities( quantities ) {};
+            target_items( std::move( target_items ) ),
+            quantities( std::move( quantities ) ) {};
         activity_id get_type() const override {
             return activity_id( "ACT_WEAR" );
         }
@@ -1499,7 +1503,7 @@ class wield_activity_actor : public activity_actor
 {
     public:
         wield_activity_actor( item_location target_item, int quantity ) :
-            target_item( target_item ),
+            target_item( std::move( target_item ) ),
             quantity( quantity ) {};
         activity_id get_type() const override {
             return activity_id( "ACT_WIELD" );
@@ -1526,7 +1530,8 @@ class pickup_menu_activity_actor : public activity_actor
 {
     public:
         pickup_menu_activity_actor( cata::optional<tripoint> where,
-                                    std::vector<drop_location> selection ) : where( where ), selection( selection ) {};
+                                    std::vector<drop_location> selection ) : where( std::move( where ) ),
+            selection( std::move( selection ) ) {};
         activity_id get_type() const override {
             return activity_id( "ACT_PICKUP_MENU" );
         }

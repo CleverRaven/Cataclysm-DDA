@@ -1595,7 +1595,7 @@ tab_direction set_traits( avatar &u, pool_type pool )
         } else if( action == "PAGE_DOWN" ) {
             if( static_cast<size_t>( iCurrentLine[iCurWorkingPage] ) == traits_size[iCurWorkingPage] - 1 ) {
                 iCurrentLine[iCurWorkingPage] = 0;
-            } else if( static_cast<size_t>( iCurrentLine[iCurWorkingPage] + 10 ) >=
+            } else if( static_cast<size_t>( iCurrentLine[iCurWorkingPage] ) + 10 >=
                        traits_size[iCurWorkingPage] ) {
                 iCurrentLine[iCurWorkingPage] = traits_size[iCurWorkingPage] - 1;
             } else {
@@ -1824,8 +1824,8 @@ tab_direction set_profession( avatar &u, pool_type pool )
         werase( w_description );
         if( cur_id_is_valid ) {
             int netPointCost = sorted_profs[cur_id]->point_cost() - u.prof->point_cost();
-            ret_val<bool> can_afford = sorted_profs[cur_id]->can_afford( u, skill_points_left( u, pool ) );
-            ret_val<bool> can_pick = sorted_profs[cur_id]->can_pick();
+            ret_val<void> can_afford = sorted_profs[cur_id]->can_afford( u, skill_points_left( u, pool ) );
+            ret_val<void> can_pick = sorted_profs[cur_id]->can_pick();
 
             const std::string clear_line( getmaxx( w ) - 2, ' ' );
 
@@ -2159,7 +2159,7 @@ tab_direction set_profession( avatar &u, pool_type pool )
                 desc_offset++;
             }
         } else if( action == "CONFIRM" ) {
-            ret_val<bool> can_pick = sorted_profs[cur_id]->can_pick();
+            ret_val<void> can_pick = sorted_profs[cur_id]->can_pick();
 
             if( !can_pick.success() ) {
                 popup( can_pick.str() );
@@ -2292,7 +2292,7 @@ tab_direction set_hobbies( avatar &u, pool_type pool )
         werase( w_description );
         if( cur_id_is_valid ) {
             int netPointCost = sorted_profs[cur_id]->point_cost() - u.prof->point_cost();
-            ret_val<bool> can_pick = sorted_profs[cur_id]->can_afford( u, skill_points_left( u, pool ) );
+            ret_val<void> can_pick = sorted_profs[cur_id]->can_afford( u, skill_points_left( u, pool ) );
             const std::string clear_line( getmaxx( w ) - 2, ' ' );
 
             // Clear the bottom of the screen and header.
@@ -3166,10 +3166,10 @@ tab_direction set_scenario( avatar &u, pool_type pool )
                 details_pane_text = assemble_scenario_details( u, ctxt, sorted_scens[cur_id] );
             }
             int netPointCost = sorted_scens[cur_id]->point_cost() - get_scenario()->point_cost();
-            ret_val<bool> can_afford = sorted_scens[cur_id]->can_afford(
+            ret_val<void> can_afford = sorted_scens[cur_id]->can_afford(
                                            *get_scenario(),
                                            skill_points_left( u, pool ) );
-            ret_val<bool> can_pick = sorted_scens[cur_id]->can_pick();
+            ret_val<void> can_pick = sorted_scens[cur_id]->can_pick();
 
             int pointsForScen = sorted_scens[cur_id]->point_cost();
             bool negativeScen = pointsForScen < 0;
@@ -3325,7 +3325,7 @@ tab_direction set_scenario( avatar &u, pool_type pool )
             cur_id = scens_length - 1;
         } else if( action == "CONFIRM" ) {
             // set arbitrarily high points and check if we have the achievment
-            ret_val<bool> can_pick = sorted_scens[cur_id]->can_pick();
+            ret_val<void> can_pick = sorted_scens[cur_id]->can_pick();
 
             if( !can_pick.success() ) {
                 popup( can_pick.str() );
@@ -4372,7 +4372,7 @@ trait_id Character::get_random_trait( const std::function<bool( const mutation_b
     return random_entry( vTraits );
 }
 
-void Character::randomize_cosmetic_trait( std::string mutation_type )
+void Character::randomize_cosmetic_trait( const std::string &mutation_type )
 {
     trait_id trait = get_random_trait( [mutation_type]( const mutation_branch & mb ) {
         return mb.points == 0 && mb.types.count( mutation_type );

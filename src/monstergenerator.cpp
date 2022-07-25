@@ -139,12 +139,6 @@ std::string enum_to_string<m_flag>( m_flag data )
         case MF_FIREY: return "FIREY";
         case MF_QUEEN: return "QUEEN";
         case MF_ELECTRONIC: return "ELECTRONIC";
-        case MF_FUR: return "FUR";
-        case MF_LEATHER: return "LEATHER";
-        case MF_WOOL: return "WOOL";
-        case MF_CBM_CIV: return "CBM_CIV";
-        case MF_BONES: return "BONES";
-        case MF_FAT: return "FAT";
         case MF_CONSOLE_DESPAWN: return "CONSOLE_DESPAWN";
         case MF_IMMOBILE: return "IMMOBILE";
         case MF_ID_CARD_DESPAWN: return "ID_CARD_DESPAWN";
@@ -153,24 +147,17 @@ std::string enum_to_string<m_flag>( m_flag data )
         case MF_MECH_RECON_VISION: return "MECH_RECON_VISION";
         case MF_MECH_DEFENSIVE: return "MECH_DEFENSIVE";
         case MF_HIT_AND_RUN: return "HIT_AND_RUN";
-        case MF_GUILT: return "GUILT";
         case MF_PAY_BOT: return "PAY_BOT";
         case MF_HUMAN: return "HUMAN";
         case MF_NO_BREATHE: return "NO_BREATHE";
         case MF_FLAMMABLE: return "FLAMMABLE";
         case MF_REVIVES: return "REVIVES";
-        case MF_CHITIN: return "CHITIN";
         case MF_VERMIN: return "VERMIN";
         case MF_NOGIB: return "NOGIB";
         case MF_LARVA: return "LARVA";
         case MF_ARTHROPOD_BLOOD: return "ARTHROPOD_BLOOD";
         case MF_ACID_BLOOD: return "ACID_BLOOD";
         case MF_BILE_BLOOD: return "BILE_BLOOD";
-        case MF_CBM_POWER: return "CBM_POWER";
-        case MF_CBM_SCI: return "CBM_SCI";
-        case MF_CBM_OP: return "CBM_OP";
-        case MF_CBM_TECH: return "CBM_TECH";
-        case MF_CBM_SUBS: return "CBM_SUBS";
         case MF_FILTHY: return "FILTHY";
         case MF_SWARMS: return "SWARMS";
         case MF_CLIMBS: return "CLIMBS";
@@ -1308,7 +1295,7 @@ void mtype::add_special_attack( const JsonObject &obj, const std::string &src )
     special_attacks_names.push_back( new_attack->id );
 }
 
-void mtype::add_special_attack( JsonArray inner, const std::string & )
+void mtype::add_special_attack( const JsonArray &inner, const std::string & )
 {
     MonsterGenerator &gen = MonsterGenerator::generator();
     const std::string name = inner.get_string( 0 );
@@ -1365,7 +1352,7 @@ void mtype::remove_special_attacks( const JsonObject &jo, const std::string &mem
     }
 }
 
-void mtype::add_regeneration_modifier( JsonArray inner, const std::string & )
+void mtype::add_regeneration_modifier( const JsonArray &inner, const std::string & )
 {
     const std::string effect_name = inner.get_string( 0 );
     const efftype_id effect( effect_name );

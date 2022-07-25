@@ -741,7 +741,7 @@
         "extras": {
           "mx_bugout": 20,
           "mx_house_spider": 40,
-          "mx_house_wasp": 60,
+          "mx_house_wasp": 30,
           "mx_military": 5,
           "mx_science": 12,
           "mx_collegekids": 15,
@@ -1220,7 +1220,8 @@
         "cs_sex_shop": 100,
         "cs_tire_shop": 100,
         "homeless_shelter": 100,
-        "parking_garage": 200
+        "parking_garage": 200,
+        "salon": 500
       }
     },
     "weather": {

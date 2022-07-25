@@ -393,9 +393,9 @@ std::string use_function::get_type() const
     }
 }
 
-ret_val<bool> iuse_actor::can_use( const Character &, const item &, bool, const tripoint & ) const
+ret_val<void> iuse_actor::can_use( const Character &, const item &, bool, const tripoint & ) const
 {
-    return ret_val<bool>::make_success();
+    return ret_val<void>::make_success();
 }
 
 bool iuse_actor::is_valid() const

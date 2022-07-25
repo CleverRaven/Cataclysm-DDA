@@ -675,7 +675,7 @@ class inventory_selector
          * @param val The default value to have set in the query prompt.
          * @return A tuple of a bool and string, bool is true if user confirmed.
          */
-        std::pair< bool, std::string > query_string( std::string val );
+        std::pair< bool, std::string > query_string( const std::string &val );
         /** Query the user for a filter and apply it. */
         void query_set_filter();
         /** Query the user for count and return it. */
@@ -725,7 +725,7 @@ class inventory_selector
          * Also called from on_input() on action EXAMINE_CONTENTS if sitem has no contents
          *
          * @param sitem the item to examine **/
-        void action_examine( item_location sitem );
+        void action_examine( const item_location &sitem );
 
         virtual void reassign_custom_invlets();
         std::vector<inventory_column *> columns;
@@ -986,7 +986,7 @@ class inventory_examiner : public inventory_selector
             force_max_window_size();
             examine_window_scroll = 0;
             selected_item = item_location::nowhere;
-            parent_item = item_to_look_inside;
+            parent_item = std::move( item_to_look_inside );
             changes_made = false;
             parent_was_collapsed = false;
 

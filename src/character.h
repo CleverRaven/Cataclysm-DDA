@@ -82,6 +82,7 @@ class player_morale;
 class proficiency_set;
 class recipe_subset;
 class spell;
+class ui_adaptor;
 class vpart_reference;
 class vehicle;
 struct bionic;
@@ -696,7 +697,7 @@ class Character : public Creature, public visitable
          * Check player capable of taking off an item.
          * @param it Thing to be taken off
          */
-        ret_val<bool> can_takeoff( const item &it, const std::list<item> *res = nullptr );
+        ret_val<void> can_takeoff( const item &it, const std::list<item> *res = nullptr );
 
         /** @return Odds for success (pair.first) and gunmod damage (pair.second) */
         std::pair<int, int> gunmod_installation_odds( const item_location &gun, const item &mod ) const;
@@ -782,7 +783,7 @@ class Character : public Creature, public visitable
         units::mass get_weight() const override;
 
         // formats and prints encumbrance info to specified window
-        void print_encumbrance( const catacurses::window &win, int line = -1,
+        void print_encumbrance( ui_adaptor &ui, const catacurses::window &win, int line = -1,
                                 const item *selected_clothing = nullptr ) const;
         /** Returns true if the character is wearing power armor */
         bool is_wearing_power_armor( bool *hasHelmet = nullptr ) const;
@@ -893,6 +894,7 @@ class Character : public Creature, public visitable
 
         /** Returns true if the character is wearing something on the entered body_part, ignoring items with the ALLOWS_NATURAL_ATTACKS flag */
         bool natural_attack_restricted_on( const bodypart_id &bp ) const;
+        bool natural_attack_restricted_on( const sub_bodypart_id &bp ) const;
 
         int blocks_left;
         int dodges_left;
@@ -915,7 +917,7 @@ class Character : public Creature, public visitable
         matec_id pick_technique( Creature &t, const item_location &weap,
                                  bool crit, bool dodge_counter, bool block_counter );
         void perform_technique( const ma_technique &technique, Creature &t, damage_instance &di,
-                                int &move_cost, item &cur_weapon );
+                                int &move_cost, item_location &cur_weapon );
 
         // modifies the damage dealt based on the character's enchantments
         damage_instance modify_damage_dealt_with_enchantments( const damage_instance &dam ) const override;
@@ -983,23 +985,23 @@ class Character : public Creature, public visitable
         // If average == true, adds expected values of random rolls instead of rolling.
         /** Adds all 3 types of physical damage to instance */
         void roll_all_damage( bool crit, damage_instance &di, bool average, const item &weap,
-                              std::string attack_vector,
+                              const std::string &attack_vector,
                               const Creature *target, const bodypart_id &bp ) const;
         /** Adds player's total bash damage to the damage instance */
         void roll_bash_damage( bool crit, damage_instance &di, bool average, const item &weap,
-                               std::string attack_vector,
+                               const std::string &attack_vector,
                                float crit_mod ) const;
         /** Adds player's total cut damage to the damage instance */
         void roll_cut_damage( bool crit, damage_instance &di, bool average, const item &weap,
-                              std::string attack_vector,
+                              const std::string &attack_vector,
                               float crit_mod ) const;
         /** Adds player's total stab damage to the damage instance */
         void roll_stab_damage( bool crit, damage_instance &di, bool average, const item &weap,
-                               std::string attack_vector,
+                               const std::string &attack_vector,
                                float crit_mod ) const;
         /** Adds player's total non-bash, non-cut, non-stab damage to the damage instance */
         void roll_other_damage( bool crit, damage_instance &di, bool average, const item &weap,
-                                std::string attack_vector,
+                                const std::string &attack_vector,
                                 float crit_mod ) const;
 
         /** Returns true if the player should be dead */
@@ -1028,7 +1030,7 @@ class Character : public Creature, public visitable
          * Check player capable of wielding an item.
          * @param it Thing to be wielded
          */
-        ret_val<bool> can_wield( const item &it ) const;
+        ret_val<void> can_wield( const item &it ) const;
 
         bool unwield();
 
@@ -1106,7 +1108,7 @@ class Character : public Creature, public visitable
         trait_id random_bad_trait();
         /** Returns the id of a random trait matching the given predicate */
         trait_id get_random_trait( const std::function<bool( const mutation_branch & )> &func );
-        void randomize_cosmetic_trait( std::string mutation_type );
+        void randomize_cosmetic_trait( const std::string &mutation_type );
 
         // In mutation.cpp
         /** Returns true if the player has a conflicting trait to the entered trait
@@ -1440,7 +1442,7 @@ class Character : public Creature, public visitable
         void process_bionic( bionic &bio );
         /** Checks if bionic can be deactivated (e.g. it's not incapacitated and power level is sufficient)
          *  returns either success or failure with log message */
-        ret_val<bool> can_deactivate_bionic( bionic &bio, bool eff_only = false ) const;
+        ret_val<void> can_deactivate_bionic( bionic &bio, bool eff_only = false ) const;
         /** Handles bionic deactivation effects of the entered bionic, returns if anything
          *  deactivated */
         bool deactivate_bionic( bionic &bio, bool eff_only = false );
@@ -1484,8 +1486,7 @@ class Character : public Creature, public visitable
         bool can_install_bionics( const itype &type, Character &installer, bool autodoc = false,
                                   int skill_level = -1 );
         /** Is this bionic elligible to be installed in the player? */
-        // Should be ret_val<void>, but ret_val.h doesn't like it
-        ret_val<bool> is_installable( const item_location &loc, bool by_autodoc ) const;
+        ret_val<void> is_installable( const item_location &loc, bool by_autodoc ) const;
         std::map<bodypart_id, int> bionic_installation_issues( const bionic_id &bioid ) const;
         /** Initialize all the values needed to start the operation player_activity */
         bool install_bionics( const itype &type, Character &installer, bool autodoc = false,
@@ -2027,7 +2028,7 @@ class Character : public Creature, public visitable
          * @param it Thing to be worn
          * @param with_equip_change If true returns if it could be worn if things were taken off
          */
-        ret_val<bool> can_wear( const item &it, bool with_equip_change = false ) const;
+        ret_val<void> can_wear( const item &it, bool with_equip_change = false ) const;
         /**
          * Returns true if the character is wielding something.
          * Note: this item may not actually be used to attack.
@@ -2050,12 +2051,12 @@ class Character : public Creature, public visitable
          * Check player capable of unwielding an item.
          * @param it Thing to be unwielded
          */
-        ret_val<bool> can_unwield( const item &it ) const;
+        ret_val<void> can_unwield( const item &it ) const;
         /**
          * Check player capable of dropping an item.
          * @param it Thing to be unwielded
          */
-        ret_val<bool> can_drop( const item &it ) const;
+        ret_val<void> can_drop( const item &it ) const;
 
         void drop_invalid_inventory();
         // this cache is for checking if items in the character's inventory can't actually fit into other items they are inside of
@@ -2169,7 +2170,7 @@ class Character : public Creature, public visitable
         // gets all the spells known by this character that have this spell class
         // spells returned are a copy, do not try to edit them from here, instead use known_magic::get_spell
         std::vector<spell> spells_known_of_class( const trait_id &spell_class ) const;
-        bool cast_spell( spell &sp, bool fake_spell, cata::optional<tripoint> target );
+        bool cast_spell( spell &sp, bool fake_spell, const cata::optional<tripoint> &target );
 
         void make_bleed( const effect_source &source, const bodypart_id &bp, time_duration duration,
                          int intensity = 1, bool permanent = false, bool force = false, bool defferred = false ) override;
@@ -3126,7 +3127,7 @@ class Character : public Creature, public visitable
          * @param obj Object to check for disassembly
          * @param inv current crafting inventory
          */
-        ret_val<bool> can_disassemble( const item &obj, const read_only_visitable &inv ) const;
+        ret_val<void> can_disassemble( const item &obj, const read_only_visitable &inv ) const;
         item_location create_in_progress_disassembly( item_location target );
 
         bool disassemble();
@@ -3446,7 +3447,6 @@ class Character : public Creature, public visitable
         /** Processes human-specific effects of an effect. */
         void process_one_effect( effect &it, bool is_new ) override;
 
-    public:
         /**
          * Map body parts to their total exposure, from 0.0 (fully covered) to 1.0 (buck naked).
          * Clothing layers are multiplied, ex. two layers of 50% coverage will leave only 25% exposed.

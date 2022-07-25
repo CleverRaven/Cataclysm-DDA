@@ -5246,11 +5246,11 @@ cata::optional<int> iuse::unfold_generic( Character *p, item *it, bool, const tr
     }
     map &here = get_map();
     vehicle *veh = here.add_vehicle( vehicle_prototype_none, p->pos(), 0_degrees, 0, 0, false );
-    veh->suspend_refresh();
     if( veh == nullptr ) {
         p->add_msg_if_player( m_info, _( "There's no room to unfold the %s." ), it->tname() );
         return cata::nullopt;
     }
+    veh->suspend_refresh();
     veh->name = it->get_var( "vehicle_name" );
     if( !veh->restore( it->get_var( "folding_bicycle_parts" ) ) ) {
         here.destroy_vehicle( veh );
@@ -5273,8 +5273,12 @@ cata::optional<int> iuse::unfold_generic( Character *p, item *it, bool, const tr
             return 0;
         }
     }
+    veh->set_owner( *p );
     veh->enable_refresh();
     here.add_vehicle_to_cache( veh );
+    if( here.veh_at( p->pos() ).part_with_feature( VPFLAG_BOARDABLE, true ) ) {
+        here.board_vehicle( p->pos(), p ); // if boardable unbroken part is present -> get on it
+    }
 
     std::string unfold_msg = it->get_var( "unfold_msg" );
     if( unfold_msg.empty() ) {
@@ -5282,7 +5286,6 @@ cata::optional<int> iuse::unfold_generic( Character *p, item *it, bool, const tr
     } else {
         unfold_msg = _( unfold_msg );
     }
-    veh->set_owner( *p );
     p->add_msg_if_player( m_neutral, unfold_msg, veh->name );
 
     if( p->is_avatar() && it->get_var( "tracking", 0 ) == 1 ) {
@@ -8408,7 +8411,7 @@ cata::optional<int> iuse::tow_attach( Character *p, item *it, bool, const tripoi
                                     it->get_var( "source_y", 0 ),
                                     it->get_var( "source_z", 0 ) );
             tripoint source_local = here.getlocal( source_global );
-            const optional_vpart_position source_vp = here.veh_at( source_local );
+            optional_vpart_position source_vp = here.veh_at( source_local );
             vehicle *const source_veh = veh_pointer_or_null( source_vp );
             if( detach_if_missing && source_veh == nullptr ) {
                 if( p->has_item( *it ) ) {
@@ -8585,7 +8588,7 @@ cata::optional<int> iuse::cable_attach( Character *p, item *it, bool, const trip
                                     it->get_var( "source_y", 0 ),
                                     it->get_var( "source_z", 0 ) );
             tripoint source_local = here.getlocal( source_global );
-            const optional_vpart_position source_vp = here.veh_at( source_local );
+            optional_vpart_position source_vp = here.veh_at( source_local );
             vehicle *const source_veh = veh_pointer_or_null( source_vp );
             if( detach_if_missing && source_veh == nullptr ) {
                 if( p != nullptr && p->has_item( *it ) ) {
@@ -8778,7 +8781,7 @@ cata::optional<int> iuse::cord_attach( Character *p, item *it, bool, const tripo
                                     it->get_var( "source_y", 0 ),
                                     it->get_var( "source_z", 0 ) );
             tripoint source_local = here.getlocal( source_global );
-            const optional_vpart_position source_vp = here.veh_at( source_local );
+            optional_vpart_position source_vp = here.veh_at( source_local );
             vehicle *const source_veh = veh_pointer_or_null( source_vp );
             if( detach_if_missing && source_veh == nullptr ) {
                 if( p != nullptr && p->has_item( *it ) ) {
@@ -10065,14 +10068,14 @@ void use_function::dump_info( const item &it, std::vector<iteminfo> &dump ) cons
     }
 }
 
-ret_val<bool> use_function::can_call( const Character &p, const item &it, bool t,
+ret_val<void> use_function::can_call( const Character &p, const item &it, bool t,
                                       const tripoint &pos ) const
 {
     if( actor == nullptr ) {
-        return ret_val<bool>::make_failure( _( "You can't do anything interesting with your %s." ),
+        return ret_val<void>::make_failure( _( "You can't do anything interesting with your %s." ),
                                             it.tname() );
     } else if( it.is_broken() ) {
-        return ret_val<bool>::make_failure( _( "Your %s is broken and won't activate." ),
+        return ret_val<void>::make_failure( _( "Your %s is broken and won't activate." ),
                                             it.tname() );
     }
 

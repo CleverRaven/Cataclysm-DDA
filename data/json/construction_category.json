@@ -47,6 +47,11 @@
   },
   {
     "type": "construction_category",
+    "id": "TOOL",
+    "name": "Tools"
+  },
+  {
+    "type": "construction_category",
     "id": "WINDOWS",
     "name": "Windows"
   },
