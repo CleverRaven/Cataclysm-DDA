@@ -936,6 +936,7 @@ int Character::charges_of( const itype_id &what, int limit,
     if( what == itype_UPS ) {
         int ups_power = units::to_kilojoule( available_ups() );
         if( has_active_bionic( bio_ups ) ) {
+            // Subtract bionic UPS as that is not handled here
             ups_power -= units::to_kilojoule( get_power_level() );
         }
         return std::min( ups_power, limit );

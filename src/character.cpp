@@ -8491,19 +8491,15 @@ units::energy Character::consume_ups( units::energy qty, const int radius )
         int qty_kj = units::to_kilojoule( qty );
         std::vector<const item *> ups_items = all_items_with_flag( flag_IS_UPS );
         for( const item *i : ups_items ) {
-            qty_kj -= const_cast<item *>( i )->ammo_consume( qty_kj, tripoint_zero, nullptr );
+            int consumed = const_cast<item *>( i )->ammo_consume( qty_kj, tripoint_zero, nullptr );
+            qty_kj -= consumed;
+            qty -= units::from_kilojoule( consumed );
         }
-        qty = units::from_kilojoule( qty_kj );
     }
 
     // UPS from nearby map
     if( qty != 0_kJ && radius > 0 ) {
-        inventory inv = crafting_inventory( pos(), radius, true );
-
-        units::energy available_ups = units::from_kilojoule( inv.charges_of( itype_UPS ) );
-        if( available_ups > 0_kJ ) {
-            qty -= get_map().consume_ups( pos(), radius, std::min( available_ups, qty ) );
-        }
+        qty -= get_map().consume_ups( pos(), radius, qty );
     }
 
     return wanted_qty - qty;
@@ -11073,7 +11069,7 @@ void Character::process_items()
             } else if( available_charges - ups_used >= 1_kJ &&
                        it->ammo_remaining() < it->ammo_capacity( ammo_battery ) ) {
                 // Charge the battery in the UPS modded tool
-                ups_used +=  1_kJ;
+                ups_used += 1_kJ;
                 it->ammo_set( itype_battery, it->ammo_remaining() + 1 );
             }
         }

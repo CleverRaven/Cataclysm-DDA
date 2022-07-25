@@ -1882,7 +1882,7 @@ void npc::decide_needs()
         units::energy ups_drain = weapon->get_gun_ups_drain();
         if( ups_drain > 0_kJ ) {
             units::energy ups_charges = available_ups();
-            needrank[need_ammo] = static_cast<int>( ups_charges / ups_drain );
+            needrank[need_ammo] = static_cast<double>( ups_charges / ups_drain );
         } else {
             const ammotype ammo_type = weapon->ammo_type();
             if( ammo_type != ammotype::NULL_ID() ) {
