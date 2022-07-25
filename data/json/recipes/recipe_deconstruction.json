@@ -6506,7 +6506,7 @@
     "result": "sheet_neoprene",
     "type": "uncraft",
     "activity_level": "NO_EXERCISE",
-    "time": "10 s",
+    "time": "30 s",
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "neoprene", 8 ] ] ]
   },
@@ -6514,7 +6514,7 @@
     "result": "sheet_nomex",
     "type": "uncraft",
     "activity_level": "NO_EXERCISE",
-    "time": "10 s",
+    "time": "30 s",
     "qualities": [ { "id": "FABRIC_CUT", "level": 2 } ],
     "components": [ [ [ "nomex", 8 ] ] ]
   },
@@ -6522,7 +6522,7 @@
     "result": "sheet_nylon",
     "type": "uncraft",
     "activity_level": "NO_EXERCISE",
-    "time": "10 s",
+    "time": "30 s",
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "nylon", 8 ] ] ]
   }
