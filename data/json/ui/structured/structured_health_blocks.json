@@ -4,7 +4,7 @@
     "type": "widget",
     "style": "layout",
     "label": "Health + Encumb Graph",
-    "description": "All sorts of health stats, and a bodygraph for encumbrance.\n\nSee the other Health widgets for alternatives.",
+    "description": "All sorts of <color_yellow>health stats</color>, and a bodygraph for <color_yellow>encumbrance</color>.\n\nSee the other Health widgets for alternatives.",
     "arrange": "columns",
     "separator": " ",
     "height": 7,
@@ -20,7 +20,7 @@
     "type": "widget",
     "copy-from": "structured_health_encumb_layout",
     "label": "Health + HP Graph",
-    "description": "All sorts of health stats, and a bodygraph for hitpoints.\n\nSee the other Health widgets for alternatives.",
+    "description": "All sorts of <color_yellow>health stats</color>, and a bodygraph for <color_yellow>hitpoints</color>.\n\nSee the other Health widgets for alternatives.",
     "widgets": [
       "structured_body_graph_layout",
       "structured_health_left_layout",
@@ -34,7 +34,7 @@
     "type": "widget",
     "copy-from": "structured_health_encumb_layout",
     "label": "Health + Temp Graph",
-    "description": "All sorts of health stats, and a bodygraph for temperature.\n\nSee the other Health widgets for alternatives.",
+    "description": "All sorts of <color_yellow>health stats</color>, and a bodygraph for <color_yellow>temperature</color>.\n\nSee the other Health widgets for alternatives.",
     "widgets": [
       "structured_body_graph_temp_layout",
       "structured_health_left_layout",
@@ -48,7 +48,7 @@
     "type": "widget",
     "copy-from": "structured_health_encumb_layout",
     "label": "Health + Status Graph",
-    "description": "All sorts of health stats, and a bodygraph for bodypart status (bite, etc.).\n\nSee the other Health widgets for alternatives.",
+    "description": "All sorts of <color_yellow>health stats</color>, and a bodygraph for bodypart <color_yellow>status</color> (bite, etc.).\n\nSee the other Health widgets for alternatives.",
     "widgets": [
       "structured_body_graph_status_layout",
       "structured_health_left_layout",
@@ -62,7 +62,7 @@
     "type": "widget",
     "copy-from": "structured_health_encumb_layout",
     "label": "Health + Overmap",
-    "description": "All sorts of health stats, and an overmap instead of a bodygraph. For use with the simple Compass widget, if you want no bodygraph at all.\n\nSee the other Health widgets for alternatives.",
+    "description": "All sorts of <color_yellow>health stats</color>, and an <color_yellow>overmap</color> instead of a bodygraph. For use with the simple Compass widget, if you want no bodygraph at all.\n\nSee the other Health widgets for alternatives.",
     "widgets": [
       "structured_overmap_9x7_layout",
       "structured_health_left_layout",
@@ -76,7 +76,7 @@
     "type": "widget",
     "style": "layout",
     "label": "Health (self-aware)",
-    "description": "All sorts of health stats (self-aware, i.e. as numbers), and a bodygraph for hitpoints.\n\nSee the other Health widgets for alternatives.",
+    "description": "All sorts of <color_yellow>health stats (self-aware</color>, i.e. as numbers), and a bodygraph for <color_yellow>hitpoints</color>.\n\nSee the other Health widgets for alternatives.",
     "arrange": "columns",
     "separator": " ",
     "height": 7,

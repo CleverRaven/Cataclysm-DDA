@@ -4,7 +4,7 @@
     "type": "widget",
     "style": "layout",
     "label": "Weariness alt",
-    "description": "Shows weariness, activity and malus, as well as relative weight carried as a graph.",
+    "description": "Shows <color_yellow>weariness</color>, activity and malus, as well as relative <color_yellow>weight carried graph</color>.",
     "arrange": "columns",
     "widgets": [
       "weariness_desc_no_label",
@@ -20,7 +20,7 @@
     "type": "widget",
     "style": "layout",
     "label": "Weariness",
-    "description": "Shows weariness, activity and malus, as well as relative weight carried as percentage text.",
+    "description": "Shows <color_yellow>weariness</color>, activity and malus, as well as relative <color_yellow>weight carried percentage</color> text.",
     "arrange": "columns",
     "widgets": [
       "weariness_desc_no_label",
