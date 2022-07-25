@@ -121,7 +121,18 @@
     "type": "talk_topic",               
     "id": "TALK_VALHALLIST_MECHANIC_Pick_Up_Vehicles",
     "dynamic_line": "It's ready!  I'll pull it around here for ya.",
-    "responses": [
+    "responses": [   
+      { 
+       "text": "Thanks.",
+       "condition": { "npc_has_var": "u_want_bicycle", "type": "general", "context": "trade", "value": "yes" },
+       "effect": [ 
+                   { "mapgen_update": "valahllist_place_bicycle", "om_terrain": "pagan_cult_long_wall" },
+                   { "npc_lose_var": "currently_busy", "type": "general", "context": "trade" }, 
+                   { "npc_lose_var": "npc_making_car", "type": "timer", "context": "trade" }, 
+                   { "npc_lose_var": "u_want_bicycle", "type": "general", "context": "trade" }
+                 ],
+       "topic": "TALK_DONE" 
+      },
       { 
        "text": "Thanks.",
        "condition": { "npc_has_var": "u_want_bicycle_dirt", "type": "general", "context": "trade", "value": "yes" },
