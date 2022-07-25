@@ -4,6 +4,7 @@
     "type": "widget",
     "style": "layout",
     "label": "Compass/Overmap 9x9",
+    "description": "Compass and wielded weapon, next to a large overmap.\n\nSee the other compass widgets for alternatives.",
     "arrange": "columns",
     "widgets": [ "structured_overmap_9x9_layout", "structured_weapon_compass_9x9_layout" ],
     "flags": [ "W_DISABLED_BY_DEFAULT" ]
@@ -13,6 +14,7 @@
     "type": "widget",
     "style": "layout",
     "label": "Compass/Overmap 7x7",
+    "description": "Compass and wielded weapon, next to a medium-sized overmap.\n\nSee the other compass widgets for alternatives.",
     "arrange": "columns",
     "widgets": [ "structured_overmap_7x7_layout", "structured_weapon_compass_7x7_layout" ]
   },
@@ -21,6 +23,7 @@
     "type": "widget",
     "style": "layout",
     "label": "Compass/Overmap 5x5",
+    "description": "Compass and wielded weapon, next to a small overmap.\n\nSee the other compass widgets for alternatives.",
     "arrange": "columns",
     "widgets": [ "structured_overmap_5x5_layout", "structured_weapon_compass_5x5_layout" ],
     "flags": [ "W_DISABLED_BY_DEFAULT" ]
@@ -30,6 +33,7 @@
     "type": "widget",
     "style": "layout",
     "label": "Compass",
+    "description": "Compass and wielded weapon, without overmap. For use with widget Health + Overmap.\n\nSee the other compass widgets for alternatives.",
     "arrange": "rows",
     "widgets": [ "wielding_desc_no_label", "compass_all_danger_layout_alt" ],
     "flags": [ "W_DISABLED_BY_DEFAULT" ]

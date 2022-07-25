@@ -4,6 +4,7 @@
     "type": "widget",
     "style": "layout",
     "label": "Health + Encumb Graph",
+    "description": "All sorts of health stats, and a bodygraph for encumbrance.\n\nSee the other Health widgets for alternatives.",
     "arrange": "columns",
     "separator": " ",
     "height": 7,
@@ -19,6 +20,7 @@
     "type": "widget",
     "copy-from": "structured_health_encumb_layout",
     "label": "Health + HP Graph",
+    "description": "All sorts of health stats, and a bodygraph for hitpoints.\n\nSee the other Health widgets for alternatives.",
     "widgets": [
       "structured_body_graph_layout",
       "structured_health_left_layout",
@@ -32,6 +34,7 @@
     "type": "widget",
     "copy-from": "structured_health_encumb_layout",
     "label": "Health + Temp Graph",
+    "description": "All sorts of health stats, and a bodygraph for temperature.\n\nSee the other Health widgets for alternatives.",
     "widgets": [
       "structured_body_graph_temp_layout",
       "structured_health_left_layout",
@@ -45,6 +48,7 @@
     "type": "widget",
     "copy-from": "structured_health_encumb_layout",
     "label": "Health + Status Graph",
+    "description": "All sorts of health stats, and a bodygraph for bodypart status (bite, etc.).\n\nSee the other Health widgets for alternatives.",
     "widgets": [
       "structured_body_graph_status_layout",
       "structured_health_left_layout",
@@ -58,6 +62,7 @@
     "type": "widget",
     "copy-from": "structured_health_encumb_layout",
     "label": "Health + Overmap",
+    "description": "All sorts of health stats, and an overmap instead of a bodygraph. For use with the simple Compass widget, if you want no bodygraph at all.\n\nSee the other Health widgets for alternatives.",
     "widgets": [
       "structured_overmap_9x7_layout",
       "structured_health_left_layout",
@@ -71,6 +76,7 @@
     "type": "widget",
     "style": "layout",
     "label": "Health (self-aware)",
+    "description": "All sorts of health stats (self-aware, i.e. as numbers), and a bodygraph for hitpoints.\n\nSee the other Health widgets for alternatives.",
     "arrange": "columns",
     "separator": " ",
     "height": 7,
@@ -106,7 +112,6 @@
     "arrange": "rows",
     "width": 12,
     "separator": " ",
-    "//": "TODO - It is not currently possible to conditionally swap out widgets on the fly. When this is added, vehicle speed should replace speed when driving.",
     "widgets": [
       "pain_desc_no_label",
       "hunger_desc_no_label",

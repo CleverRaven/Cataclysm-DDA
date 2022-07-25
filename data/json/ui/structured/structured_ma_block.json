@@ -4,6 +4,7 @@
     "type": "widget",
     "style": "layout",
     "label": "Martial arts buffs",
+    "description": "Shows current martial arts buffs and style.",
     "arrange": "columns",
     "widgets": [ "structured_style_layout", "structured_ma_buff_layout" ],
     "flags": [ "W_DISABLED_BY_DEFAULT" ]

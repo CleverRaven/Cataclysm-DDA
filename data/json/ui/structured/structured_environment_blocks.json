@@ -1,9 +1,9 @@
 [
   {
     "id": "structured_time_moon_layout",
-    "description": "Shows date, time and moon phase.",
     "type": "widget",
     "label": "Date/Time/Moon",
+    "description": "Shows date, time and moon phase.",
     "style": "layout",
     "arrange": "columns",
     "widgets": [ "date_desc_no_label", "structured_time_layout", "moon_phase_graph" ]
