@@ -351,7 +351,7 @@ static void check_two_handed_clubs_hammers( const std::function<Approx( const st
         &calc_expected_dps )
 {
     SECTION( "two-handed clubs/hammers" ) { // expected value ideally around 28
-        CHECK( calc_expected_dps( "warhammer" ) == 24.11 );
+        CHECK( calc_expected_dps( "warhammer" ) == 35.77 );
         CHECK( calc_expected_dps( "hammer_sledge" ) == 20.0 );
         CHECK( calc_expected_dps( "halligan" ) == 16.5 );
         CHECK( calc_expected_dps( "stick_long" ) == 6.0 );
