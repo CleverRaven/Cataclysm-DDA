@@ -2360,6 +2360,11 @@ bool Character::natural_attack_restricted_on( const bodypart_id &bp ) const
     return worn.natural_attack_restricted_on( bp );
 }
 
+bool Character::natural_attack_restricted_on( const sub_bodypart_id &bp ) const
+{
+    return worn.natural_attack_restricted_on( bp );
+}
+
 std::vector<const item *> Character::get_pseudo_items() const
 {
     if( !pseudo_items_valid ) {
