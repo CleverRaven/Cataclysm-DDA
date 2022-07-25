@@ -102,7 +102,7 @@
     "copy-from": "flesh",
     "type": "COMESTIBLE",
     "name": { "str": "purged gastropod" },
-    "description": "A gastropod that has been prepared for cooking by repeatedly boiling and washint it to remove its mucus and pathogens.",
+    "description": "A gastropod that has been prepared for cooking by repeatedly boiling and washing it to remove its mucus and pathogens.",
     "//": "Nutrition information roughly based on a serving of 6 snails. if you know more pls expand",
     "weight": "15 g",
     "volume": "15 ml",
