@@ -3,8 +3,6 @@
     "id": "toxic_waste_mx",
     "type": "item_group",
     "items": [
-      { "item": "plut_slurry", "container-item": "55gal_drum", "charges-min": 2, "charges-max": 28, "prob": 10 },
-      { "item": "plut_slurry_dense", "container-item": "55gal_drum", "charges-min": 1, "charges-max": 45, "prob": 15 },
       { "item": "sewage", "container-item": "55gal_drum", "charges-min": 26, "charges-max": 126, "prob": 50 },
       { "item": "fetid_goop", "container-item": "55gal_drum", "charges-min": 26, "charges-max": 200, "prob": 30 },
       {
@@ -18,6 +16,16 @@
       { "item": "55gal_drum", "prob": 50 },
       { "item": "canister_goo", "prob": 5 },
       { "item": "slime_scrap", "prob": 10 }
+    ]
+  },
+  {
+    "id": "toxic_waste_mx_radioactive",
+    "type": "item_group",
+    "items": [
+      { "item": "cobalt_60", "container-item": "55gal_drum", "charges-min": 1, "charges-max": 12, "prob": 5 },
+      { "item": "plutonium", "container-item": "55gal_drum", "charges-min": 1, "charges-max": 5, "prob": 1 },
+      { "item": "plut_slurry", "container-item": "55gal_drum", "charges-min": 1, "charges-max": 45, "prob": 50 },
+      { "item": "plut_slurry_dense", "container-item": "55gal_drum", "charges-min": 1, "charges-max": 45, "prob": 30 }
     ]
   },
   {
@@ -37,19 +45,25 @@
     "object": {
       "mapgensize": [ 11, 11 ],
       "rows": [
-         "|---------|",
-         "|         |",
-         "|         |",
-         "|         |",
-         "|         |",
-         "|         |",
-         "|         |",
-         "|         |",
-         "|         |",
-         "|---------|",
-         "           "
+        "|---------|",
+        "|         |",
+        "|         |",
+        "|         |",
+        "|         |",
+        "|         |",
+        "|         |",
+        "|         |",
+        "|         |",
+        "|---------|",
+        "           "
       ],
-      "terrain": { "|": "t_chainfence", "-": "t_chainfence" }
+      "set": [ { "square": "radiation", "amount": [ 10, 30 ], "x": 0, "y": 0, "x2": 10, "y2": 10 } ],
+      "place_loot": [ { "group": "toxic_waste_mx_radioactive", "x": [ 2, 7 ], "y": [ 2, 7 ], "repeat": 2 } ],
+      "//": "Try to make it either fence or nothing - a lot of fence posts without fence next to each other may look weird.",
+      "terrain": {
+        "|": [ [ "t_chainfence", 5 ], "t_chainfence_posts", [ "t_grass_dead", 4 ] ],
+        "-": [ [ "t_chainfence", 5 ], "t_chainfence_posts", [ "t_grass_dead", 4 ] ]
+      }
     }
   },
   {
@@ -90,14 +104,14 @@
         "                        ",
         "                        ",
         "      #                 ",
-        "         ---!           ",
-        "         -%^~-          ",
-        "        -~-~---^        ",
-        "        -~~~~~--        ",
-        "     !   -~~---         ",
-        "        -~-%--          ",
-        "       --^----          ",
-        "         -   !          ",
+        "         ---! --        ",
+        "       - -%^~-          ",
+        "       --~-~---^        ",
+        "       -~~~~~~--        ",
+        "     ! ---~~---         ",
+        "        -~-%-- -        ",
+        "       --^-~-~-         ",
+        "        ---~ !          ",
         "                        ",
         "                        ",
         "                        ",
@@ -112,7 +126,7 @@
       "furniture": { "~": [ "f_rubble_landfill", "f_rubble", [ "f_null", 3 ] ], "-": [ "f_rubble_landfill", "f_rubble", [ "f_null", 3 ] ] },
       "nested": {
         "^": { "chunks": [ [ "null", 70 ], [ "toxic_gas_vent", 30 ] ] },
-        "#": { "chunks": [ [ "null", 30 ], [ "toxic_waste_fence", 70 ] ] },
+        "#": { "chunks": [ [ "null", 60 ], [ "toxic_waste_fence", 40 ] ] },
         "%": { "chunks": [ [ "null", 95 ], [ "toxic_waste_lab_corpses", 5 ] ] }
       },
       "liquids": {
