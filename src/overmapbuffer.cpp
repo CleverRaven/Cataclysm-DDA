@@ -1309,7 +1309,7 @@ void overmapbuffer::insert_npc( const shared_ptr_fast<npc> &who )
 shared_ptr_fast<npc> overmapbuffer::remove_npc( const character_id &id )
 {
     for( auto &it : overmaps ) {
-        if( const auto p = it.second->erase_npc( id ) ) {
+        if( auto p = it.second->erase_npc( id ) ) {
             return p;
         }
     }
@@ -1531,7 +1531,7 @@ std::string overmapbuffer::get_description_at( const tripoint_abs_sm &where )
 {
     const auto oter = ter( project_to<coords::omt>( where ) );
     const nc_color ter_color = oter->get_color();
-    const std::string ter_name = colorize( oter->get_name(), ter_color );
+    std::string ter_name = colorize( oter->get_name(), ter_color );
 
     if( where.z() != 0 ) {
         return ter_name;
