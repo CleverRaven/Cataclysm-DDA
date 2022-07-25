@@ -86,7 +86,6 @@ Item_spawn_data_military_standard_sniper_rifles( "military_standard_sniper_rifle
 static const item_group_id Item_spawn_data_mine_equipment( "mine_equipment" );
 static const item_group_id
 Item_spawn_data_mon_zombie_soldier_death_drops( "mon_zombie_soldier_death_drops" );
-static const item_group_id Item_spawn_data_rare( "rare" );
 static const item_group_id Item_spawn_data_remains_human_generic( "remains_human_generic" );
 static const item_group_id Item_spawn_data_trash_cart( "trash_cart" );
 
@@ -125,7 +124,6 @@ static const map_extra_id map_extra_mx_crater( "mx_crater" );
 static const map_extra_id map_extra_mx_dead_vegetation( "mx_dead_vegetation" );
 static const map_extra_id map_extra_mx_grove( "mx_grove" );
 static const map_extra_id map_extra_mx_helicopter( "mx_helicopter" );
-static const map_extra_id map_extra_mx_house_spider( "mx_house_spider" );
 static const map_extra_id map_extra_mx_house_wasp( "mx_house_wasp" );
 static const map_extra_id map_extra_mx_jabberwock( "mx_jabberwock" );
 static const map_extra_id map_extra_mx_looters( "mx_looters" );
@@ -153,8 +151,6 @@ static const mongroup_id GROUP_WASP_QUEEN( "GROUP_WASP_QUEEN" );
 static const mtype_id mon_dermatik( "mon_dermatik" );
 static const mtype_id mon_jabberwock( "mon_jabberwock" );
 static const mtype_id mon_shia( "mon_shia" );
-static const mtype_id mon_spider_cellar_giant( "mon_spider_cellar_giant" );
-static const mtype_id mon_spider_widow_giant( "mon_spider_widow_giant" );
 static const mtype_id mon_turret_riot( "mon_turret_riot" );
 static const mtype_id mon_turret_searchlight( "mon_turret_searchlight" );
 static const mtype_id mon_turret_speaker( "mon_turret_speaker" );
@@ -350,42 +346,6 @@ static bool mx_house_wasp( map &m, const tripoint &loc )
     if( one_in( 5 ) ) {
         m.add_spawn( mon_dermatik, rng( 1, 3 ), tripoint( point( SEEX * 2 - 1, SEEY * 2 - 1 ), loc.z ) );
     }
-
-    return true;
-}
-
-static bool mx_house_spider( map &m, const tripoint &loc )
-{
-    auto spider_type = mon_spider_widow_giant;
-    auto egg_type = f_egg_sackbw;
-    if( one_in( 2 ) ) {
-        spider_type = mon_spider_cellar_giant;
-        egg_type = f_egg_sackcs;
-    }
-    for( int i = 0; i < SEEX * 2; i++ ) {
-        for( int j = 0; j < SEEY * 2; j++ ) {
-            if( m.ter( point( i, j ) ) == t_floor ) {
-                if( one_in( 15 ) ) {
-                    m.add_spawn( spider_type, rng( 1, 2 ), tripoint( i, j, loc.z ) );
-                    for( int x = i - 1; x <= i + 1; x++ ) {
-                        for( int y = j - 1; y <= j + 1; y++ ) {
-                            if( m.ter( point( x, y ) ) == t_floor ) {
-                                madd_field( &m, point( x, y ), fd_web, rng( 2, 3 ) );
-                                if( one_in( 4 ) ) {
-                                    m.furn_set( point( i, j ), egg_type );
-                                    m.remove_field( {i, j, m.get_abs_sub().z()}, fd_web );
-                                }
-                            }
-                        }
-                    }
-                } else if( m.passable( point( i, j ) ) && one_in( 5 ) ) {
-                    madd_field( &m, point( i, j ), fd_web, 1 );
-                }
-            }
-        }
-    }
-    m.place_items( Item_spawn_data_rare, 60, point_zero, point( SEEX * 2 - 1, SEEY * 2 - 1 ),
-                   false, calendar::start_of_cataclysm );
 
     return true;
 }
@@ -2752,7 +2712,6 @@ static FunctionMap builtin_functions = {
     { map_extra_mx_supplydrop, mx_supplydrop },
     { map_extra_mx_helicopter, mx_helicopter },
     { map_extra_mx_portal_in, mx_portal_in },
-    { map_extra_mx_house_spider, mx_house_spider },
     { map_extra_mx_house_wasp, mx_house_wasp },
     { map_extra_mx_shia, mx_shia },
     { map_extra_mx_jabberwock, mx_jabberwock },

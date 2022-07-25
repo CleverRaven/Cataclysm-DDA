@@ -1990,7 +1990,7 @@ void vehicle::check_falling_or_floating()
     }
     // If half of the wheels are supported, we're not falling and we're not in water.
     if( supported_wheels > 0 &&
-        static_cast<size_t>( supported_wheels * 2 ) >= wheelcache.size() ) {
+        static_cast<size_t>( supported_wheels ) * 2 >= wheelcache.size() ) {
         is_falling = false;
         in_water = false;
         is_floating = false;

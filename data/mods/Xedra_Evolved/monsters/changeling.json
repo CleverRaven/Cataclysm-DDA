@@ -269,7 +269,7 @@
     "special_attacks": [ { "type": "melee", "id": "sharp_objects", "attack_upper": false, "cooldown": 15 }, [ "PARROT_AT_DANGER", 800 ] ],
     "death_drops": { "subtype": "collection", "groups": [ [ "default_zombie_children_clothes", 100 ], [ "child_items", 65 ] ] },
     "death_function": { "effect": { "id": "death_guilt", "min_level": 9 } },
-    "flags": [ "SEES", "HEARS", "WARM", "BASHES", "GUILT" ]
+    "flags": [ "SEES", "HEARS", "WARM", "BASHES" ]
   },
   {
     "id": "mon_fetch_daffodil_warrior",

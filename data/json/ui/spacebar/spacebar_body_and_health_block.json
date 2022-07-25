@@ -9,6 +9,16 @@
     "widgets": [ "piktogram", "char_num_block" ]
   },
   {
+    "id": "player_health_and_stasistik_block_sa",
+    "type": "widget",
+    "style": "layout",
+    "label": "1_player_block (self-aware)",
+    "width": 58,
+    "arrange": "minimum_columns",
+    "widgets": [ "piktogram", "char_num_block_sa" ],
+    "flags": [ "W_DISABLED_BY_DEFAULT" ]
+  },
+  {
     "id": "piktogram",
     "type": "widget",
     "style": "layout",
@@ -41,6 +51,22 @@
     ]
   },
   {
+    "id": "char_num_block_sa",
+    "type": "widget",
+    "style": "layout",
+    "label": "table_3",
+    "width": 44,
+    "arrange": "rows",
+    "widgets": [
+      "spacebar_info_bar",
+      "spacebar_filler_hp_sa",
+      "spacebar_separator_42",
+      "spacebar_filler_legend",
+      "spacebar_separator_42",
+      "spacebar_filler_needs_sa"
+    ]
+  },
+  {
     "id": "spacebar_info_bar",
     "type": "widget",
     "style": "text",
@@ -63,6 +89,21 @@
     ]
   },
   {
+    "id": "spacebar_filler_hp_sa",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "minimum_columns",
+    "width": 43,
+    "widgets": [
+      "spacebar_separator_4",
+      "spacebar_health_left_layout_sa",
+      "spacebar_bodypart_status_list_layout",
+      "spacebar_encumbrance_layout",
+      "spacebar_warmth_layout",
+      "spacebar_wetness_layout"
+    ]
+  },
+  {
     "id": "spacebar_health_left_layout",
     "type": "widget",
     "style": "layout",
@@ -77,6 +118,23 @@
       "spacebar_hp_right_arm_graph",
       "spacebar_hp_left_leg_graph",
       "spacebar_hp_right_leg_graph"
+    ]
+  },
+  {
+    "id": "spacebar_health_left_layout_sa",
+    "type": "widget",
+    "style": "layout",
+    "label": "status",
+    "flags": [ "W_LABEL_NONE" ],
+    "arrange": "rows",
+    "width": 12,
+    "widgets": [
+      "hp_head_num_no_label",
+      "hp_torso_num_no_label",
+      "hp_left_arm_num_no_label",
+      "hp_right_arm_num_no_label",
+      "hp_left_leg_num_no_label",
+      "hp_right_leg_num_no_label"
     ]
   },
   {
@@ -403,12 +461,28 @@
     "widgets": [ "spacebar_separator_4", "spacebar_health_layout", "spacebar_stats_layout" ]
   },
   {
+    "id": "spacebar_filler_needs_sa",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "minimum_columns",
+    "width": 43,
+    "widgets": [ "spacebar_separator_4", "spacebar_health_layout_sa", "spacebar_stats_layout" ]
+  },
+  {
     "id": "spacebar_health_layout",
     "type": "widget",
     "style": "layout",
     "arrange": "rows",
     "width": 23,
     "widgets": [ "hunger_desc_label", "thirst_desc_label", "fatigue_desc_label", "body_temp_desc_label", "pain_desc_label" ]
+  },
+  {
+    "id": "spacebar_health_layout_sa",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "width": 23,
+    "widgets": [ "hunger_desc_label", "thirst_desc_label", "fatigue_desc_label", "body_temp_desc_label", "pain_num_label" ]
   },
   {
     "id": "spacebar_stats_layout",

@@ -31,6 +31,38 @@
     "widgets": [ "ll_left_limbs_layout", "ll_middle_limbs_layout", "ll_right_limbs_layout" ]
   },
   {
+    "id": "ll_left_limbs_sa_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "text_align": "right",
+    "widgets": [ "status_hpn_layout_larm", "status_hpn_layout_lleg" ]
+  },
+  {
+    "id": "ll_middle_limbs_sa_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "text_align": "center",
+    "widgets": [ "status_hpn_layout_head", "status_hpn_layout_torso" ]
+  },
+  {
+    "id": "ll_right_limbs_sa_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "widgets": [ "status_hpn_layout_rarm", "status_hpn_layout_rleg" ]
+  },
+  {
+    "id": "ll_limbs_sa_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Limbs (self-aware)",
+    "arrange": "columns",
+    "widgets": [ "ll_left_limbs_sa_layout", "ll_middle_limbs_sa_layout", "ll_right_limbs_sa_layout" ],
+    "flags": [ "W_DISABLED_BY_DEFAULT" ]
+  },
+  {
     "id": "ll_stamina_speed_move_layout",
     "type": "widget",
     "style": "layout",
@@ -78,6 +110,13 @@
     "widgets": [ "pain_desc_label", "thirst_desc_label" ]
   },
   {
+    "id": "ll_pain_num_thirst_desc_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "columns",
+    "widgets": [ "pain_num_label", "thirst_desc_label" ]
+  },
+  {
     "id": "ll_rest_hunger_desc_layout",
     "type": "widget",
     "style": "layout",
@@ -98,6 +137,15 @@
     "label": "Needs",
     "arrange": "rows",
     "widgets": [ "ll_pain_thirst_desc_layout", "ll_rest_hunger_desc_layout", "ll_heat_weight_desc_layout" ]
+  },
+  {
+    "id": "ll_needs_sa_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Needs (self-aware)",
+    "arrange": "rows",
+    "widgets": [ "ll_pain_num_thirst_desc_layout", "ll_rest_hunger_desc_layout", "ll_heat_weight_desc_layout" ],
+    "flags": [ "W_DISABLED_BY_DEFAULT" ]
   },
   {
     "id": "ll_place_overmap",
@@ -135,10 +183,12 @@
     "width": 44,
     "widgets": [
       "ll_limbs_layout",
+      "ll_limbs_sa_layout",
       "ll_movement_layout",
       "ll_stats_layout",
       "all_weariness_layout",
       "ll_needs_layout",
+      "ll_needs_sa_layout",
       "ll_place_layout",
       "wind_temp_layout",
       "weapon_style_layout",

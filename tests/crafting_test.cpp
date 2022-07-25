@@ -472,7 +472,7 @@ TEST_CASE( "UPS shows as a crafting component", "[crafting][ups]" )
     item_location ups = dummy.i_add( item( "UPS_off" ) );
     item ups_mag( ups->magazine_default() );
     ups_mag.ammo_set( ups_mag.ammo_default(), 500 );
-    ret_val<bool> result = ups->put_in( ups_mag, item_pocket::pocket_type::MAGAZINE_WELL );
+    ret_val<void> result = ups->put_in( ups_mag, item_pocket::pocket_type::MAGAZINE_WELL );
     INFO( result.c_str() );
     REQUIRE( result.success() );
     REQUIRE( dummy.has_item( *ups ) );

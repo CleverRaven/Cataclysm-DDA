@@ -189,7 +189,7 @@ item initialize( const initialization &init )
         if( content_init.fill_parent ) {
             REQUIRE( it.fill_with( content ) >= 1 );
         } else {
-            ret_val<bool> ret = it.put_in( content, item_pocket::pocket_type::CONTAINER );
+            ret_val<void> ret = it.put_in( content, item_pocket::pocket_type::CONTAINER );
             INFO( ret.str() );
             REQUIRE( ret.success() );
         }
@@ -415,7 +415,7 @@ void test_scenario::run()
             cata::optional<std::list<item>::iterator> worn = guy.wear_item( item(
                         itype_test_restricted_container_holder ), false );
             REQUIRE( worn.has_value() );
-            ret_val<bool> ret = ( **worn ).put_in( it, item_pocket::pocket_type::CONTAINER );
+            ret_val<void> ret = ( **worn ).put_in( it, item_pocket::pocket_type::CONTAINER );
             INFO( ret.str() );
             REQUIRE( ret.success() );
             item_location worn_loc = item_location( guy, & **worn );

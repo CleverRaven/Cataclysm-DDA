@@ -548,17 +548,31 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [
-      "nursing_home_sh4",
-      "nursing_home_sh8",
-      "nursing_home_sh9",
-      "nursing_home_sh10",
-      "nursing_home_sh11",
-      "nursing_home_sh12"
-    ],
-    "name": "nursing home road",
-    "sym": "n",
-    "color": "light_gray"
+    "id": [ "nursing_home_sh9", "nursing_home_sh10", "nursing_home_sh11" ],
+    "name": "parking lot",
+    "sym": "0",
+    "color": "dark_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "nursing_home_sh4" ],
+    "name": "road",
+    "sym": "┐",
+    "color": "dark_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "nursing_home_sh8" ],
+    "name": "road",
+    "sym": "│",
+    "color": "dark_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "nursing_home_sh12" ],
+    "name": "road",
+    "sym": "┤",
+    "color": "dark_gray"
   },
   {
     "type": "overmap_terrain",
@@ -569,10 +583,31 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "nursing_home_4", "nursing_home_8", "nursing_home_9", "nursing_home_10", "nursing_home_11", "nursing_home_12" ],
-    "name": "nursing home road",
-    "sym": "n",
-    "color": "light_gray"
+    "id": [ "nursing_home_9", "nursing_home_10", "nursing_home_11" ],
+    "name": "parking lot",
+    "sym": "0",
+    "color": "dark_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "nursing_home_4" ],
+    "name": "road",
+    "sym": "┐",
+    "color": "dark_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "nursing_home_8" ],
+    "name": "road",
+    "sym": "│",
+    "color": "dark_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "nursing_home_12" ],
+    "name": "road",
+    "sym": "┤",
+    "color": "dark_gray"
   },
   {
     "type": "overmap_terrain",

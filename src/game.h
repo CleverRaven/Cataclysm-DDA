@@ -224,7 +224,7 @@ class game
         shared_ptr_fast<ui_adaptor> create_or_get_main_ui_adaptor();
         void invalidate_main_ui_adaptor() const;
         void mark_main_ui_adaptor_resize() const;
-        void draw();
+        void draw( ui_adaptor &ui );
         void draw_ter( bool draw_sounds = true );
         void draw_ter( const tripoint &center, bool looking = false, bool draw_sounds = true );
 
@@ -501,7 +501,7 @@ class game
         /** Find the npc with the given ID. Returns NULL if the npc could not be found. Searches all loaded overmaps. */
         npc *find_npc( character_id id );
         /** Find the npc with the given unique ID. Returns NULL if the npc could not be found. Searches all loaded overmaps. */
-        npc *find_npc_by_unique_id( std::string unique_id );
+        npc *find_npc_by_unique_id( const std::string &unique_id );
         /** Makes any nearby NPCs on the overmap active. */
         void load_npcs();
     private:
@@ -996,7 +996,6 @@ class game
         void move_save_to_graveyard();
         bool save_player_data();
         // ########################## DATA ################################
-    private:
         // May be a bit hacky, but it's probably better than the header spaghetti
         pimpl<map> map_ptr; // NOLINT(cata-serialize)
         pimpl<avatar> u_ptr; // NOLINT(cata-serialize)
@@ -1026,10 +1025,10 @@ class game
         global_variables global_variables_instance;
         std::unordered_map<std::string, point_abs_om> unique_npcs;
     public:
-        void update_unique_npc_location( std::string id, point_abs_om loc );
-        point_abs_om get_unique_npc_location( std::string id );
-        bool unique_npc_exists( std::string id );
-        void unique_npc_despawn( std::string id );
+        void update_unique_npc_location( const std::string &id, point_abs_om loc );
+        point_abs_om get_unique_npc_location( const std::string &id );
+        bool unique_npc_exists( const std::string &id );
+        void unique_npc_despawn( const std::string &id );
         std::vector<effect_on_condition_id> inactive_global_effect_on_condition_vector;
         std::priority_queue<queued_eoc, std::vector<queued_eoc>, eoc_compare>
         queued_global_effect_on_conditions;

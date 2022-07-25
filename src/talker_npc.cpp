@@ -568,7 +568,7 @@ std::string talker_npc::give_item_to( const bool to_use )
         }// HACK: is_gun here is a hack to prevent NPCs wearing guns if they don't want to use them
         else if( !given.is_gun() && given.is_armor() ) {
             //if it is impossible to wear return why
-            ret_val<bool> can_wear = me_npc->can_wear( given, true );
+            ret_val<void> can_wear = me_npc->can_wear( given, true );
             if( !can_wear.success() ) {
                 reason = can_wear.str();
             } else {

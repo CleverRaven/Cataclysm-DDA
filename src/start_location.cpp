@@ -384,16 +384,17 @@ void start_location::place_player( avatar &you, const tripoint_abs_omt &omtstart
             best_rate = rate;
             best_spot = pt;
             if( rate == INT_MAX ) {
-                found_good_spot = true;
+                return true;
             }
         }
+        return false;
     };
 
     while( !found_good_spot && tries < 100 ) {
         tripoint rand_point( HALF_MAPSIZE_X + rng( 0, SEEX * 2 - 1 ),
                              HALF_MAPSIZE_Y + rng( 0, SEEY * 2 - 1 ),
                              you.posz() );
-        check_spot( rand_point );
+        found_good_spot = check_spot( rand_point );
     }
     // If we haven't got a good location by now, screw it and brute force it
     // This only happens in exotic locations (deep of a science lab), but it does happen
@@ -403,7 +404,7 @@ void start_location::place_player( avatar &you, const tripoint_abs_omt &omtstart
         int &y = tmp.y;
         for( x = 0; x < MAPSIZE_X; x++ ) {
             for( y = 0; y < MAPSIZE_Y && !found_good_spot; y++ ) {
-                check_spot( tmp );
+                found_good_spot = check_spot( tmp );
             }
         }
     }
