@@ -412,7 +412,7 @@ static void check_clubs( const std::function<Approx( const std::string & )> &cal
         CHECK( calc_expected_dps( "mace_inferior" ) == 18.5 );
         CHECK( calc_expected_dps( "tonfa" ) == 12.0 );
         CHECK( calc_expected_dps( "tonfa_wood" ) == 11.0 );
-        CHECK( calc_expected_dps( "shocktonfa_off" ) == 12.42 );
+        CHECK( calc_expected_dps( "shocktonfa_off" ) == 11.1 );
         CHECK( calc_expected_dps( "shocktonfa_on" ) == 12.42 );
         CHECK( calc_expected_dps( "crowbar" ) == 15.0 );
         CHECK( calc_expected_dps( "morningstar_inferior" ) == 19.17 );
