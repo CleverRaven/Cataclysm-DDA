@@ -674,12 +674,12 @@ static void draw_center_win( catacurses::window &w, int col_width, const input_c
         const widget_id current_widget = panels[row_indices.at( current_row )].get_widget();
         for( const widget &wgt : widget::get_all() ) {
             if( wgt.getId() == current_widget ) {
-                mvwprintz( w, point( 1, 7 ), c_white, _( wgt._description ) );
+                fold_and_print( w, point( 1, 7 ), col_width - 2, c_white, _( wgt._description ) );
                 break;
             }
         }
     } else {
-        mvwprintz( w, point( 1, 7 ), c_white, _( sidebar._description ) );
+        fold_and_print( w, point( 1, 7 ), col_width - 2, c_white, _( sidebar._description ) );
     }
 
     wnoutrefresh( w );
