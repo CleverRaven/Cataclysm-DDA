@@ -1229,7 +1229,7 @@ void Character::modify_morale( item &food, const int nutr )
         } else if( psycho ) {
             add_msg_if_player( _( "Meh.  You've eaten worse." ) );
         } else if( sapiovore ) {
-            // Omitting the message for sapiovores. They just don't care what meat they eat.
+            add_msg_if_player( _( "Mmh.  Tastes like venison." ) );
         } else if( spiritual ) {
             add_msg_if_player( m_bad,
                                _( "This is probably going to count against you if there's still an afterlife." ) );
