@@ -3981,13 +3981,6 @@ void item::armor_fit_info( std::vector<iteminfo> &info, const iteminfo_query *pa
     Character &player_character = get_player_character();
     const sizing sizing_level = get_sizing( player_character );
 
-    if( has_flag( flag_HELMET_COMPAT ) &&
-        parts->test( iteminfo_parts::DESCRIPTION_FLAGS_HELMETCOMPAT ) ) {
-        info.emplace_back( "DESCRIPTION",
-                           _( "* This item can be <info>worn with a "
-                              "helmet</info>." ) );
-    }
-
     if( parts->test( iteminfo_parts::DESCRIPTION_FLAGS_FITS ) ) {
         switch( sizing_level ) {
             case sizing::human_sized_human_char:
