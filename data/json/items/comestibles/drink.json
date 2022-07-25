@@ -497,7 +497,7 @@
     "symbol": "~",
     "quench": 25,
     "calories": 118,
-    "description": "Smooth and rich, this spoon-coating mixture of milk, eggs, and cinnamon sugar is a popular traditional holiday drink. This type isn't spiked with alcohol, but it is still delicious.  Meant to be stored cold, it will spoil rapidly.",
+    "description": "Smooth and rich, this spoon-coating mixture of milk, eggs, and cinnamon sugar is a popular traditional holiday drink.  This type isn't spiked with alcohol, but it is still delicious.  Meant to be stored cold, it will spoil rapidly.",
     "price": 40,
     "price_postapoc": 100,
     "material": [ "milk", "egg" ],
