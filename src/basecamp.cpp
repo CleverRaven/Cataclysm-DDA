@@ -377,15 +377,14 @@ std::map<recipe_id, translation> basecamp::recipe_deck( const point &dir ) const
 
 std::map<recipe_id, translation> basecamp::recipe_deck( const std::string &bldg ) const
 {
-    const std::map<recipe_id, translation> recipes = recipe_group::get_recipes_by_bldg( bldg );
-    return recipes;
+    return recipe_group::get_recipes_by_bldg( bldg );
 }
 
 item_group_id basecamp::get_gatherlist() const
 {
     const auto &e = expansions.find( base_camps::base_dir );
     if( e != expansions.end() ) {
-        const item_group_id gatherlist(
+        item_group_id gatherlist(
             "gathering_" + base_camps::faction_encode_abs( e->second, 4 ) );
         if( item_group::group_is_defined( gatherlist ) ) {
             return gatherlist;

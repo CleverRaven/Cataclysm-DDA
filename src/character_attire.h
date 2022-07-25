@@ -100,6 +100,7 @@ class outfit
         double footwear_factor() const;
         int swim_modifier( int swim_skill ) const;
         bool natural_attack_restricted_on( const bodypart_id &bp ) const;
+        bool natural_attack_restricted_on( const sub_bodypart_id &bp ) const;
         units::mass weight_carried_with_tweaks( const std::map<const item *, int> &without ) const;
         units::mass weight() const;
         float weight_capacity_modifier() const;

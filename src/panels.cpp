@@ -340,12 +340,10 @@ static void draw_custom_hint( const draw_args &args )
 
     werase( w );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
-    mvwprintz( w, point( 1, 0 ), c_white, _( "Custom sidebar" ) );
+    mvwprintz( w, point( 1, 0 ), c_white, _( "Press } for sidebar options." ) );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     mvwprintz( w, point( 1, 1 ), c_light_gray,
-               _( "Edit sidebar.json to adjust." ) );
-    mvwprintz( w, point( 1, 2 ), c_light_gray,
-               _( "See WIDGETS.md for help." ) );
+               _( "See docs/WIDGETS.md for help." ) );
 
     wnoutrefresh( w );
 }
@@ -360,7 +358,7 @@ static std::vector<window_panel> initialize_default_custom_panels( const widget 
 
     // Show hint on configuration
     ret.emplace_back( window_panel( draw_custom_hint, "Hint", to_translation( "Hint" ),
-                                    3, width, true ) );
+                                    2, width, true ) );
 
     // Add window panel for each child widget
     for( const widget_id &row_wid : wgt._widgets ) {

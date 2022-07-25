@@ -2059,7 +2059,7 @@ void Character::customize_appearance( customize_appearance_choice choice )
 std::string Character::visible_mutations( const int visibility_cap ) const
 {
     const std::vector<trait_id> &my_muts = get_mutations();
-    const std::string trait_str = enumerate_as_string( my_muts.begin(), my_muts.end(),
+    return enumerate_as_string( my_muts.begin(), my_muts.end(),
     [this, visibility_cap ]( const trait_id & pr ) -> std::string {
         const mutation_branch &mut_branch = pr.obj();
         // Finally some use for visibility trait of mutations
@@ -2070,6 +2070,5 @@ std::string Character::visible_mutations( const int visibility_cap ) const
 
         return std::string();
     } );
-    return trait_str;
 }
 

@@ -162,7 +162,7 @@ ret_val<void> Character::can_wear( const item &it, bool with_equip_change ) cons
     }
 
     {
-        const ret_val<void> power_armor_conflicts = worn.power_armor_conflicts( it );
+        ret_val<void> power_armor_conflicts = worn.power_armor_conflicts( it );
         if( !power_armor_conflicts.success() ) {
             return power_armor_conflicts;
         }
@@ -997,12 +997,27 @@ bool outfit::check_item_encumbrance_flag( bool update_required )
     return update_required;
 }
 
+static bool check_natural_attack_restricted_on_worn( const item &i )
+{
+    return !i.has_flag( flag_ALLOWS_NATURAL_ATTACKS ) &&
+           !i.has_flag( flag_SEMITANGIBLE ) &&
+           !i.has_flag( flag_PERSONAL ) && !i.has_flag( flag_AURA );
+}
+
 bool outfit::natural_attack_restricted_on( const bodypart_id &bp ) const
 {
     for( const item &i : worn ) {
-        if( i.covers( bp ) && !i.has_flag( flag_ALLOWS_NATURAL_ATTACKS ) &&
-            !i.has_flag( flag_SEMITANGIBLE ) &&
-            !i.has_flag( flag_PERSONAL ) && !i.has_flag( flag_AURA ) ) {
+        if( i.covers( bp ) && check_natural_attack_restricted_on_worn( i ) ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool outfit::natural_attack_restricted_on( const sub_bodypart_id &bp ) const
+{
+    for( const item &i : worn ) {
+        if( i.covers( bp ) && check_natural_attack_restricted_on_worn( i ) ) {
             return true;
         }
     }

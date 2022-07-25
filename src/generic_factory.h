@@ -401,6 +401,7 @@ class generic_factory
          * Postcondition: `size() == 0`
          */
         void reset() {
+            deferred.clear();
             list.clear();
             map.clear();
             inc_version();
