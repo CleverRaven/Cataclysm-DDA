@@ -12,15 +12,23 @@
     "type": "widget",
     "style": "layout",
     "arrange": "columns",
-    "width": 9,
+    "width": 7,
     "widgets": [ "structured_overmap_7x7" ]
+  },
+  {
+    "id": "structured_overmap_9x7_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "columns",
+    "width": 8,
+    "widgets": [ "structured_overmap_9x7" ]
   },
   {
     "id": "structured_overmap_5x5_layout",
     "type": "widget",
     "style": "layout",
     "arrange": "columns",
-    "width": 7,
+    "width": 5,
     "widgets": [ "structured_overmap_5x5" ]
   },
   {
@@ -39,6 +47,13 @@
     "type": "widget",
     "copy-from": "structured_overmap_9x9",
     "width": 7,
+    "height": 7
+  },
+  {
+    "id": "structured_overmap_9x7",
+    "type": "widget",
+    "copy-from": "structured_overmap_9x9",
+    "width": 9,
     "height": 7
   },
   {

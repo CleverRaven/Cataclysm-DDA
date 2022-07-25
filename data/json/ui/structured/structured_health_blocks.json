@@ -54,6 +54,19 @@
     "flags": [ "W_DISABLED_BY_DEFAULT" ]
   },
   {
+    "id": "structured_health_overmap_layout",
+    "type": "widget",
+    "copy-from": "structured_health_encumb_layout",
+    "label": "Health + Overmap",
+    "widgets": [
+      "structured_overmap_9x7_layout",
+      "structured_health_left_layout",
+      "structured_health_mid_layout",
+      "structured_health_right_layout"
+    ],
+    "flags": [ "W_DISABLED_BY_DEFAULT" ]
+  },
+  {
     "id": "structured_health_sa_layout",
     "type": "widget",
     "style": "layout",

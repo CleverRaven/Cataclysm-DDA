@@ -17,6 +17,7 @@
       "structured_health_hp_layout",
       "structured_health_status_layout",
       "structured_health_temp_layout",
+      "structured_health_overmap_layout",
       "structured_health_sa_layout",
       "separator",
       "structured_all_weariness_text_layout",
