@@ -31,6 +31,7 @@ template <typename E> struct enum_traits;
 using bodypart_str_id = string_id<body_part_type>;
 using bodypart_id = int_id<body_part_type>;
 
+extern const bodypart_str_id body_part_bp_null;
 extern const bodypart_str_id body_part_head;
 extern const bodypart_str_id body_part_eyes;
 extern const bodypart_str_id body_part_mouth;

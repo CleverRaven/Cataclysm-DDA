@@ -41,7 +41,7 @@ class selection_line
 {
     public:
         selection_line() = default;
-        selection_line( const std::string text, const std::string &desc_str, const int max_width )
+        selection_line( const std::string &text, const std::string &desc_str, const int max_width )
             : desc_str( desc_str ) {
             std::vector<std::string> textformatted = foldstring( text, max_width,
                     ']' );

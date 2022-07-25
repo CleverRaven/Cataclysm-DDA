@@ -11,6 +11,7 @@
 #include <string>
 #include <type_traits>
 #include <unordered_map>
+#include <utility>
 
 #include "active_item_cache.h"
 #include "ammo.h"
@@ -175,9 +176,9 @@ map::map( int mapsize, bool zlev ) : my_MAPSIZE( mapsize ), zlevels( zlev )
 {
 
     if( zlevels ) {
-        grid.resize( static_cast<size_t>( my_MAPSIZE * my_MAPSIZE * OVERMAP_LAYERS ), nullptr );
+        grid.resize( static_cast<size_t>( my_MAPSIZE ) * my_MAPSIZE * OVERMAP_LAYERS, nullptr );
     } else {
-        grid.resize( static_cast<size_t>( my_MAPSIZE * my_MAPSIZE ), nullptr );
+        grid.resize( static_cast<size_t>( my_MAPSIZE ) * my_MAPSIZE, nullptr );
     }
 
     for( auto &ptr : pathfinding_caches ) {
@@ -1193,7 +1194,7 @@ void map::board_vehicle( const tripoint &pos, Character *p )
         avatar *player_character = p->as_avatar();
         if( player_character != nullptr &&
             player_character->grab_point.x == 0 && player_character->grab_point.y == 0 ) {
-            debugmsg( "map::board_vehicle: vehicle not found" );
+            debugmsg( "map::board_vehicle: vehicle with unbroken and BOARDABLE part not found" );
         }
         return;
     }
@@ -1551,13 +1552,19 @@ furn_id map::furn( const tripoint_bub_ms &p ) const
     return furn( p.raw() );
 }
 
-bool map::furn_set( const tripoint &p, const furn_id &new_furniture, const bool furn_reset )
+bool map::furn_set( const tripoint &p, const furn_id &new_furniture, const bool furn_reset,
+                    bool avoid_creatures )
 {
     if( !inbounds( p ) ) {
         debugmsg( "map::furn_set %s out of bounds", p.to_string() );
         return false;
     }
-
+    if( avoid_creatures ) {
+        Creature *c = get_creature_tracker().creature_at( tripoint_abs_ms( getabs( p ) ), true );
+        if( c ) {
+            return false;
+        }
+    }
     point l;
     submap *const current_submap = unsafe_get_submap_at( p, l );
     if( current_submap == nullptr ) {
@@ -1650,9 +1657,10 @@ bool map::furn_set( const tripoint &p, const furn_id &new_furniture, const bool 
     return result;
 }
 
-bool map::furn_set( const tripoint_bub_ms &p, const furn_id &new_furniture, const bool furn_reset )
+bool map::furn_set( const tripoint_bub_ms &p, const furn_id &new_furniture, const bool furn_reset,
+                    bool avoid_creatures )
 {
-    return furn_set( p.raw(), new_furniture, furn_reset );
+    return furn_set( p.raw(), new_furniture, furn_reset, avoid_creatures );
 }
 
 bool map::can_move_furniture( const tripoint &pos, Character *you )
@@ -1905,10 +1913,16 @@ bool map::is_harvestable( const tripoint &pos ) const
 /*
  * set terrain via string; this works for -any- terrain id
  */
-bool map::ter_set( const tripoint &p, const ter_id &new_terrain )
+bool map::ter_set( const tripoint &p, const ter_id &new_terrain, bool avoid_creatures )
 {
     if( !inbounds( p ) ) {
         return false;
+    }
+    if( avoid_creatures ) {
+        Creature *c = get_creature_tracker().creature_at( tripoint_abs_ms( getabs( p ) ), true );
+        if( c ) {
+            return false;
+        }
     }
 
     point l;
@@ -1999,9 +2013,9 @@ bool map::ter_set( const tripoint &p, const ter_id &new_terrain )
     return true;
 }
 
-bool map::ter_set( const tripoint_bub_ms &p, const ter_id &new_terrain )
+bool map::ter_set( const tripoint_bub_ms &p, const ter_id &new_terrain, bool avoid_creatures )
 {
-    return ter_set( p.raw(), new_terrain );
+    return ter_set( p.raw(), new_terrain, avoid_creatures );
 }
 
 std::string map::tername( const tripoint &p ) const
@@ -4750,7 +4764,7 @@ item &map::add_item_or_charges( const tripoint &pos, item obj, bool overflow )
 
 item &map::add_item_or_charges( const tripoint_bub_ms &pos, item obj, bool overflow )
 {
-    return add_item_or_charges( pos.raw(), obj, overflow );
+    return add_item_or_charges( pos.raw(), std::move( obj ), overflow );
 }
 
 item &map::add_item( const tripoint &p, item new_item )
@@ -5919,8 +5933,8 @@ bool map::add_field( const tripoint &p, const field_type_id &type_id, int intens
     if( current_submap->get_field( l ).add_field( converted_type_id, intensity, age ) ) {
         //Only adding it to the count if it doesn't exist.
         if( !current_submap->field_count++ ) {
-            get_cache( p.z ).field_cache.set( static_cast<size_t>( p.x / SEEX + ( (
-                                                  p.y / SEEX ) * MAPSIZE ) ) );
+            get_cache( p.z ).field_cache.set(
+                static_cast<size_t>( p.x / SEEX ) + ( ( p.y / SEEX ) * MAPSIZE ) );
         }
     }
 
@@ -5957,8 +5971,8 @@ void map::on_field_modified( const tripoint &p, const field_type &fd_type )
 {
     invalidate_max_populated_zlev( p.z );
 
-    get_cache( p.z ).field_cache.set( static_cast<size_t>( p.x / SEEX + ( (
-                                          p.y / SEEX ) * MAPSIZE ) ) );
+    get_cache( p.z ).field_cache.set(
+        static_cast<size_t>( p.x / SEEX ) + ( ( p.y / SEEX ) * MAPSIZE ) );
 
     // Dirty the transparency cache now that field processing doesn't always do it
     if( fd_type.dirty_transparency_cache || !fd_type.is_transparent() ) {
@@ -7505,8 +7519,10 @@ void map::rotten_item_spawn( const item &item, const tripoint &pnt )
     }
 
     if( rng( 0, 100 ) < comest->rot_spawn_chance ) {
-        MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup( mgroup );
-        add_spawn( spawn_details, pnt );
+        std::vector<MonsterGroupResult> spawn_details = MonsterGroupManager::GetResultFromGroup( mgroup );
+        for( const MonsterGroupResult &mgr : spawn_details ) {
+            add_spawn( mgr, pnt );
+        }
         if( get_player_view().sees( pnt ) ) {
             if( item.is_seed() ) {
                 add_msg( m_warning, _( "Something has crawled out of the %s plants!" ), item.get_plant_name() );
@@ -7910,8 +7926,7 @@ void map::copy_grid( const tripoint &to, const tripoint &from )
     }
 }
 
-void map::spawn_monsters_submap_group( const tripoint &gp, mongroup &group,
-                                       const tripoint_abs_sm &submap_pos, bool ignore_sight )
+void map::spawn_monsters_submap_group( const tripoint &gp, mongroup &group, bool ignore_sight )
 {
     Character &player_character = get_player_character();
     const int s_range = std::min( HALF_MAPSIZE_X,
@@ -8006,24 +8021,26 @@ void map::spawn_monsters_submap_group( const tripoint &gp, mongroup &group,
     if( pop ) {
         // Populate the group from its population variable.
         for( int m = 0; m < pop; m++ ) {
-            MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup( group.type, &pop );
-            if( !spawn_details.name ) {
-                continue;
-            }
-            monster tmp( spawn_details.name );
+            std::vector<MonsterGroupResult> spawn_details =
+                MonsterGroupManager::GetResultFromGroup( group.type, &pop );
+            for( const MonsterGroupResult &mgr : spawn_details ) {
+                if( !mgr.name ) {
+                    continue;
+                }
+                monster tmp( mgr.name );
 
-            // If a monster came from a horde population, configure them to always be willing to rejoin a horde.
-            if( group.horde ) {
-                tmp.set_horde_attraction( MHA_ALWAYS );
-            }
-            for( int i = 0; i < spawn_details.pack_size; i++ ) {
-                group.monsters.push_back( tmp );
+                // If a monster came from a horde population, configure them to always be willing to rejoin a horde.
+                if( group.horde ) {
+                    tmp.set_horde_attraction( MHA_ALWAYS );
+                }
+                for( int i = 0; i < mgr.pack_size; i++ ) {
+                    group.monsters.push_back( tmp );
+                }
             }
         }
     }
 
     // Find horde's target submap
-    tripoint_abs_sm horde_target = submap_pos + ( group.target - group.pos );
     for( monster &tmp : group.monsters ) {
         for( int tries = 0; tries < 10 && !locations.empty(); tries++ ) {
             const tripoint local_pos = random_entry_removed( locations );
@@ -8033,8 +8050,8 @@ void map::spawn_monsters_submap_group( const tripoint &gp, mongroup &group,
             }
             if( group.horde ) {
                 // Give monster a random point near horde's expected destination
-                const point_rel_ms pos_in_sm( rng( 0, SEEX ), rng( 0, SEEY ) );
-                const tripoint_abs_ms rand_dest = project_to<coords::ms>( horde_target ) + pos_in_sm;
+                const tripoint_sm_ms pos_in_sm( rng( 0, SEEX ), rng( 0, SEEY ), local_pos.z );
+                const tripoint_abs_ms rand_dest = project_combine( group.target, pos_in_sm );
                 const int turns = rl_dist( abs_pos, rand_dest ) + group.interest;
                 tmp.wander_to( rand_dest, turns );
                 add_msg_debug( debugmode::DF_MAP, "%s targeting %s", tmp.disp_name(),
@@ -8059,9 +8076,9 @@ void map::spawn_monsters_submap( const tripoint &gp, bool ignore_sight )
     // Load unloaded monsters
     overmap_buffer.spawn_monster( submap_pos );
     // Only spawn new monsters after existing monsters are loaded.
-    auto groups = overmap_buffer.groups_at( submap_pos );
+    std::vector<mongroup *> groups = overmap_buffer.groups_at( submap_pos );
     for( mongroup *&mgp : groups ) {
-        spawn_monsters_submap_group( gp, *mgp, submap_pos, ignore_sight );
+        spawn_monsters_submap_group( gp, *mgp, ignore_sight );
     }
 
     submap *const current_submap = get_submap_at_grid( gp );
@@ -8771,17 +8788,19 @@ size_t map::get_nonant( const tripoint &gridp ) const
     }
 }
 
-void map::draw_line_ter( const ter_id &type, const point &p1, const point &p2 )
+void map::draw_line_ter( const ter_id &type, const point &p1, const point &p2,
+                         bool avoid_creatures )
 {
-    draw_line( [this, type]( const point & p ) {
-        this->ter_set( p, type );
+    draw_line( [this, type, avoid_creatures]( const point & p ) {
+        this->ter_set( p, type, avoid_creatures );
     }, p1, p2 );
 }
 
-void map::draw_line_furn( const furn_id &type, const point &p1, const point &p2 )
+void map::draw_line_furn( const furn_id &type, const point &p1, const point &p2,
+                          bool avoid_creatures )
 {
-    draw_line( [this, type]( const point & p ) {
-        this->furn_set( p, type );
+    draw_line( [this, type, avoid_creatures]( const point & p ) {
+        this->furn_set( p, type, avoid_creatures );
     }, p1, p2 );
 }
 
@@ -8816,33 +8835,35 @@ void map::draw_fill_background( const weighted_int_list<ter_id> &f )
     draw_square_ter( f, point_zero, point( SEEX * my_MAPSIZE - 1, SEEY * my_MAPSIZE - 1 ) );
 }
 
-void map::draw_square_ter( const ter_id &type, const point &p1, const point &p2 )
+void map::draw_square_ter( const ter_id &type, const point &p1, const point &p2,
+                           bool avoid_creatures )
 {
-    draw_square( [this, type]( const point & p ) {
-        this->ter_set( p, type );
+    draw_square( [this, type, avoid_creatures]( const point & p ) {
+        this->ter_set( p, type, avoid_creatures );
     }, p1, p2 );
 }
 
-void map::draw_square_furn( const furn_id &type, const point &p1, const point &p2 )
+void map::draw_square_furn( const furn_id &type, const point &p1, const point &p2,
+                            bool avoid_creatures )
 {
-    draw_square( [this, type]( const point & p ) {
-        this->furn_set( p, type );
+    draw_square( [this, type, avoid_creatures]( const point & p ) {
+        this->furn_set( p, type, avoid_creatures );
     }, p1, p2 );
 }
 
-void map::draw_square_ter( ter_id( *f )(), const point &p1, const point &p2 )
+void map::draw_square_ter( ter_id( *f )(), const point &p1, const point &p2, bool avoid_creatures )
 {
-    draw_square( [this, f]( const point & p ) {
-        this->ter_set( p, f() );
+    draw_square( [this, f, avoid_creatures]( const point & p ) {
+        this->ter_set( p, f(), avoid_creatures );
     }, p1, p2 );
 }
 
 void map::draw_square_ter( const weighted_int_list<ter_id> &f, const point &p1,
-                           const point &p2 )
+                           const point &p2, bool avoid_creatures )
 {
-    draw_square( [this, f]( const point & p ) {
+    draw_square( [this, f, avoid_creatures]( const point & p ) {
         const ter_id *tid = f.pick();
-        this->ter_set( p, tid != nullptr ? *tid : t_null );
+        this->ter_set( p, tid != nullptr ? *tid : t_null, avoid_creatures );
     }, p1, p2 );
 }
 
@@ -9238,8 +9259,6 @@ pathfinding_cache::pathfinding_cache()
 {
     dirty = true;
 }
-
-pathfinding_cache::~pathfinding_cache() = default;
 
 pathfinding_cache &map::get_pathfinding_cache( int zlev ) const
 {

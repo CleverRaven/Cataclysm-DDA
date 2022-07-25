@@ -17,6 +17,7 @@
 #include <tuple>
 #include <unordered_map>
 #include <unordered_set>
+#include <utility>
 
 #include "activity_type.h"
 #include "avatar.h"
@@ -2098,7 +2099,7 @@ bool vehicle::find_and_split_vehicles( map &here, int exclude )
 bool vehicle::find_and_split_vehicles( map &here, std::set<int> exclude )
 {
     std::vector<int> valid_parts = all_parts_at_location( part_location_structure );
-    std::set<int> checked_parts = exclude;
+    std::set<int> checked_parts = std::move( exclude );
 
     std::vector<std::vector <int>> all_vehicles;
 
@@ -2435,7 +2436,7 @@ std::vector<int> vehicle::parts_at_relative( const point &dp, const bool use_cac
 
 cata::optional<vpart_reference> vpart_position::obstacle_at_part() const
 {
-    const cata::optional<vpart_reference> part = part_with_feature( VPFLAG_OBSTACLE, true );
+    cata::optional<vpart_reference> part = part_with_feature( VPFLAG_OBSTACLE, true );
     if( !part ) {
         return cata::nullopt; // No obstacle here
     }
@@ -2865,6 +2866,12 @@ std::vector<std::vector<int>> vehicle::find_lines_of_parts( int part, const std:
 
     std::vector<int> x_parts;
     std::vector<int> y_parts;
+
+    if( parts[part].is_fake ) {
+        // start from the real part, otherwise it fails in certain orientations
+        part = parts[part].fake_part_to;
+    }
+
     vpart_id part_id = part_info( part ).get_id();
     // create vectors of parts on the same X or Y axis
     point target = parts[ part ].mount;
@@ -3439,30 +3446,10 @@ int vehicle::consumption_per_hour( const itype_id &ftype, int fuel_rate_w ) cons
     if( fuel_rate_w == 0 || fuel.has_flag( flag_PERPETUAL ) || !engine_on ) {
         return 0;
     }
-    // consume this fuel type's share of alternator load for 3600 seconds
-    int amount_pct = 3600 * alternator_load / 1000;
 
-    // calculate fuel consumption for the lower of safe speed or 70 mph
-    // or 0 if the vehicle is idling
-    if( is_moving() ) {
-        int target_v = std::min( safe_velocity(), 70 * 100 );
-        int vslowdown = slowdown( target_v );
-        // add 3600 seconds worth of fuel consumption for the engine
-        // HACK: engines consume 1 second worth of fuel per turn, even though a turn is 6 seconds
-        if( vslowdown > 0 ) {
-            int accel = acceleration( true, target_v );
-            if( accel == 0 ) {
-                // FIXME: Long-term plan is to change the fuel consumption
-                // computation entirely; for now just warn if this would
-                // otherwise have been division-by-zero
-                debugmsg( "Vehicle unexpectedly has zero acceleration" );
-            } else {
-                amount_pct += 3600 * vslowdown / accel;
-            }
-        }
-    }
-    int energy_j_per_mL = fuel.fuel_energy() * 1000;
-    return -amount_pct * fuel_rate_w / energy_j_per_mL;
+    // constant is 3600 sec/hr * 1/1000 J/kJ
+    // expression units are mL/hr
+    return -3.6 * fuel_rate_w / fuel.fuel_energy();
 }
 
 int vehicle::total_power_w( const bool fueled, const bool safe ) const
@@ -4820,8 +4807,8 @@ int vehicle::total_wind_epower_w() const
             continue;
         }
 
-        double windpower = get_local_windpower( weather.windspeed, cur_om_ter, global_part_pos3( part ),
-                                                weather.winddirection, false );
+        int windpower = get_local_windpower( weather.windspeed, cur_om_ter, global_part_pos3( part ),
+                                             weather.winddirection, false );
         if( windpower <= ( weather.windspeed / 10.0 ) ) {
             continue;
         }
@@ -7606,12 +7593,12 @@ tripoint vehicle::exhaust_dest( int part ) const
     return global_pos3() + tripoint( q, 0 );
 }
 
-void vehicle::add_tag( std::string tag )
+void vehicle::add_tag( const std::string &tag )
 {
     tags.insert( tag );
 }
 
-bool vehicle::has_tag( std::string tag ) const
+bool vehicle::has_tag( const std::string &tag ) const
 {
     return tags.count( tag ) > 0;
 }

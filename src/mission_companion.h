@@ -95,10 +95,10 @@ struct mission_id {
     cata::optional<point> dir;
 };
 
-bool is_equal( mission_id first, mission_id second );
+bool is_equal( const mission_id &first, const mission_id &second );
 void reset_miss_id( mission_id &miss_id );
 std::string string_of( mission_id miss_id );
-mission_id mission_id_of( std::string str );
+mission_id mission_id_of( const std::string &str );
 
 //  ret determines whether the mission is for the start of a mission or the return of the companion(s).
 //  Used in the UI mission generation process to distinguish active missions from available ones.
@@ -107,7 +107,7 @@ struct ui_mission_id {
     bool ret;
 };
 
-bool is_equal( ui_mission_id first, ui_mission_id second );
+bool is_equal( const ui_mission_id &first, const ui_mission_id &second );
 
 struct mission_entry {
     ui_mission_id id;

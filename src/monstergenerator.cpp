@@ -139,12 +139,6 @@ std::string enum_to_string<m_flag>( m_flag data )
         case MF_FIREY: return "FIREY";
         case MF_QUEEN: return "QUEEN";
         case MF_ELECTRONIC: return "ELECTRONIC";
-        case MF_FUR: return "FUR";
-        case MF_LEATHER: return "LEATHER";
-        case MF_WOOL: return "WOOL";
-        case MF_CBM_CIV: return "CBM_CIV";
-        case MF_BONES: return "BONES";
-        case MF_FAT: return "FAT";
         case MF_CONSOLE_DESPAWN: return "CONSOLE_DESPAWN";
         case MF_IMMOBILE: return "IMMOBILE";
         case MF_ID_CARD_DESPAWN: return "ID_CARD_DESPAWN";
@@ -153,24 +147,17 @@ std::string enum_to_string<m_flag>( m_flag data )
         case MF_MECH_RECON_VISION: return "MECH_RECON_VISION";
         case MF_MECH_DEFENSIVE: return "MECH_DEFENSIVE";
         case MF_HIT_AND_RUN: return "HIT_AND_RUN";
-        case MF_GUILT: return "GUILT";
         case MF_PAY_BOT: return "PAY_BOT";
         case MF_HUMAN: return "HUMAN";
         case MF_NO_BREATHE: return "NO_BREATHE";
         case MF_FLAMMABLE: return "FLAMMABLE";
         case MF_REVIVES: return "REVIVES";
-        case MF_CHITIN: return "CHITIN";
         case MF_VERMIN: return "VERMIN";
         case MF_NOGIB: return "NOGIB";
         case MF_LARVA: return "LARVA";
         case MF_ARTHROPOD_BLOOD: return "ARTHROPOD_BLOOD";
         case MF_ACID_BLOOD: return "ACID_BLOOD";
         case MF_BILE_BLOOD: return "BILE_BLOOD";
-        case MF_CBM_POWER: return "CBM_POWER";
-        case MF_CBM_SCI: return "CBM_SCI";
-        case MF_CBM_OP: return "CBM_OP";
-        case MF_CBM_TECH: return "CBM_TECH";
-        case MF_CBM_SUBS: return "CBM_SUBS";
         case MF_FILTHY: return "FILTHY";
         case MF_SWARMS: return "SWARMS";
         case MF_CLIMBS: return "CLIMBS";
@@ -659,30 +646,46 @@ void MonsterGenerator::load_monster( const JsonObject &jo, const std::string &sr
     mon_templates->load( jo, src );
 }
 
-mon_effect_data load_mon_effect_data( const JsonObject &e )
-{
-    return mon_effect_data( efftype_id( e.get_string( "id" ) ), e.get_int( "duration", 0 ),
-                            e.get_bool( "affect_hit_bp", false ),
-                            bodypart_str_id( e.get_string( "bp", "bp_null" ) ),
-                            e.get_bool( "permanent", false ),
-                            e.get_int( "chance", 100 ) );
-}
 
-class mon_attack_effect_reader : public generic_typed_reader<mon_attack_effect_reader>
+mon_effect_data::mon_effect_data() :
+    chance( 100.0f ),
+    permanent( false ),
+    affect_hit_bp( false ),
+    bp( body_part_bp_null ),
+    duration( 1, 1 ),
+    intensity( 0, 0 ) {}
+
+void mon_effect_data::load( const JsonObject &jo )
 {
-    public:
-        mon_effect_data get_next( JsonValue &jv ) const {
-            JsonObject e = jv.get_object();
-            return load_mon_effect_data( e );
-        }
-        template<typename C>
-        void erase_next( std::string &&eff_str, C &container ) const {
-            const efftype_id id = efftype_id( std::move( eff_str ) );
-            reader_detail::handler<C>().erase_if( container, [&id]( const mon_effect_data & e ) {
-                return e.id == id;
-            } );
-        }
-};
+    mandatory( jo, false, "id", id );
+    optional( jo, false, "chance", chance, 100.f );
+    optional( jo, false, "permanent", permanent, false );
+    optional( jo, false, "affect_hit_bp", affect_hit_bp, false );
+    optional( jo, false, "bp", bp, body_part_bp_null );
+    optional( jo, false, "message", message );
+    // Support shorthand for a single value.
+    if( jo.has_int( "duration" ) ) {
+        int i = 1;
+        mandatory( jo, false, "duration", i );
+        duration = { i, i };
+    } else {
+        optional( jo, false, "duration", duration, std::pair<int, int> { 1, 1 } );
+    }
+    if( jo.has_int( "intensity" ) ) {
+        int i = 1;
+        mandatory( jo, false, "intensity", i );
+        intensity = { i, i };
+    } else {
+        optional( jo, false, "intensity", intensity, std::pair<int, int> { 1, 1 } );
+    }
+
+    if( chance > 100.f || chance < 0.f ) {
+        jo.throw_error_at( "chance",
+                           string_format( "\"chance\" is defined as %f, "
+                                          "but must be a decimal number between 0.0 and 100.0", chance ) );
+        chance = clamp<float>( chance, 0.f, 100.f );
+    }
+}
 
 void mtype::load( const JsonObject &jo, const std::string &src )
 {
@@ -897,7 +900,6 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "starting_ammo", starting_ammo );
     optional( jo, was_loaded, "luminance", luminance, 0 );
     optional( jo, was_loaded, "revert_to_itype", revert_to_itype, itype_id() );
-    optional( jo, was_loaded, "attack_effs", atk_effs, mon_attack_effect_reader{} );
     optional( jo, was_loaded, "mech_weapon", mech_weapon, itype_id() );
     optional( jo, was_loaded, "mech_str_bonus", mech_str_bonus, 0 );
     optional( jo, was_loaded, "mech_battery", mech_battery, itype_id() );
@@ -906,6 +908,15 @@ void mtype::load( const JsonObject &jo, const std::string &src )
               mtype_id() );
     optional( jo, was_loaded, "fungalize_into", fungalize_into, string_id_reader<::mtype> {},
               mtype_id() );
+
+    if( jo.has_array( "attack_effs" ) ) {
+        atk_effs.clear();
+        for( const JsonObject effect_jo : jo.get_array( "attack_effs" ) ) {
+            mon_effect_data effect;
+            effect.load( effect_jo );
+            atk_effs.push_back( std::move( effect ) );
+        }
+    }
 
     // TODO: make this work with `was_loaded`
     if( jo.has_array( "melee_damage" ) ) {
@@ -1284,7 +1295,7 @@ void mtype::add_special_attack( const JsonObject &obj, const std::string &src )
     special_attacks_names.push_back( new_attack->id );
 }
 
-void mtype::add_special_attack( JsonArray inner, const std::string & )
+void mtype::add_special_attack( const JsonArray &inner, const std::string & )
 {
     MonsterGenerator &gen = MonsterGenerator::generator();
     const std::string name = inner.get_string( 0 );
@@ -1341,7 +1352,7 @@ void mtype::remove_special_attacks( const JsonObject &jo, const std::string &mem
     }
 }
 
-void mtype::add_regeneration_modifier( JsonArray inner, const std::string & )
+void mtype::add_regeneration_modifier( const JsonArray &inner, const std::string & )
 {
     const std::string effect_name = inner.get_string( 0 );
     const efftype_id effect( effect_name );

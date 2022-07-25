@@ -44,7 +44,7 @@ int creator::main_window::execute( QApplication &app )
     //Does nothing on it's own but once settings.setvalue() is called it will create
     //an ini file in C:\Users\User\AppData\Roaming\CleverRaven or equivalent directory
     QSettings settings( QSettings::IniFormat, QSettings::UserScope,
-        "CleverRaven", "Cataclysm - DDA" );
+                        "CleverRaven", "Cataclysm - DDA" );
 
     // =========================================================================================
     // first column of boxes
@@ -57,14 +57,14 @@ int creator::main_window::execute( QApplication &app )
     QLabel mods_label;
     mods_label.setParent( &title_menu );
     mods_label.setText( QString( "Select mods (restart required):" ) );
-    mods_label.resize( default_text_box_size*2 );
+    mods_label.resize( default_text_box_size * 2 );
     mods_label.move( QPoint( col * default_text_box_width, row++ * default_text_box_height ) );
     mods_label.show();
     row++;
 
     //We always load 'dda' so we exclude it from the mods list
     QStringList all_mods;
-    for( const mod_id& e : world_generator->get_mod_manager().all_mods() ) {
+    for( const mod_id &e : world_generator->get_mod_manager().all_mods() ) {
         if( !e->obsolete && e->ident.str() != "dda" ) {
             all_mods.append( e->ident.c_str() );
         }
@@ -78,8 +78,8 @@ int creator::main_window::execute( QApplication &app )
     mods_box.show();
     //The user's mod selection gets saved to a file
     QObject::connect( &mods_box, &dual_list_box::pressed, [&]() {
-            settings.setValue( "mods/include", mods_box.get_included() );
-        });
+        settings.setValue( "mods/include", mods_box.get_included() );
+    } );
 
     //A previous selection of mods is loaded from disk and applied to the modlist widget
     if( settings.contains( "mods/include" ) ) {
@@ -92,10 +92,10 @@ int creator::main_window::execute( QApplication &app )
     QPushButton spell_button( _( "Spell Creator" ), &title_menu );
     spell_button.move( QPoint( col * default_text_box_width, row * default_text_box_height ) );
     QObject::connect( &spell_button, &QPushButton::released,
-        [&]() {
-            title_menu.hide();
-            spell_editor.show();
-        });
+    [&]() {
+        title_menu.hide();
+        spell_editor.show();
+    } );
 
 
     // =========================================================================================

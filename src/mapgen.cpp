@@ -267,15 +267,18 @@ void map::generate( const tripoint &p, const time_point &when )
     if( spawns.group && x_in_y( odds_after_density, 100 ) ) {
         int pop = spawn_count * rng( spawns.population.min, spawns.population.max );
         for( ; pop > 0; pop-- ) {
-            MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup( spawns.group, &pop );
-            if( !spawn_details.name ) {
-                continue;
-            }
-            if( const cata::optional<tripoint> pt =
-            random_point( *this, [this]( const tripoint & n ) {
-            return passable( n );
-            } ) ) {
-                add_spawn( spawn_details, *pt );
+            std::vector<MonsterGroupResult> spawn_details =
+                MonsterGroupManager::GetResultFromGroup( spawns.group, &pop );
+            for( const MonsterGroupResult &mgr : spawn_details ) {
+                if( !mgr.name ) {
+                    continue;
+                }
+                if( const cata::optional<tripoint> pt =
+                random_point( *this, [this]( const tripoint & n ) {
+                return passable( n );
+                } ) ) {
+                    add_spawn( mgr, *pt );
+                }
             }
         }
     }
@@ -1474,6 +1477,7 @@ std::string enum_to_string<jmapgen_flags>( jmapgen_flags v )
         case jmapgen_flags::erase_all_before_placing_terrain:
             return "ERASE_ALL_BEFORE_PLACING_TERRAIN";
         case jmapgen_flags::no_underlying_rotate: return "NO_UNDERLYING_ROTATE";
+        case jmapgen_flags::avoid_creatures: return "AVOID_CREATURES";
         // *INDENT-ON*
         case jmapgen_flags::last:
             break;
@@ -2354,11 +2358,13 @@ class jmapgen_monster : public jmapgen_piece
 
             mongroup_id chosen_group = m_id.get( dat );
             if( !chosen_group.is_null() ) {
-                MonsterGroupResult spawn_details =
+                std::vector<MonsterGroupResult> spawn_details =
                     MonsterGroupManager::GetResultFromGroup( chosen_group );
-                dat.m.add_spawn( spawn_details.name, spawn_count * pack_size.get(),
-                { x.get(), y.get(), dat.m.get_abs_sub().z() },
-                friendly, -1, mission_id, name, data );
+                for( const MonsterGroupResult &mgr : spawn_details ) {
+                    dat.m.add_spawn( mgr.name, spawn_count * pack_size.get(),
+                    { x.get(), y.get(), dat.m.get_abs_sub().z() },
+                    friendly, -1, mission_id, name, data );
+                }
             } else {
                 mtype_id chosen_type = ids.pick()->get( dat );
                 if( !chosen_type.is_null() ) {
@@ -4428,13 +4434,21 @@ bool jmapgen_setmap::apply( const mapgendata &dat, const point &offset ) const
         return true;
     }
 
-    const auto get = []( const jmapgen_int & v, int offset ) {
+    static const auto get = []( const jmapgen_int & v, int offset ) {
         return v.get() + offset;
     };
-    const auto x_get = std::bind( get, x, offset.x );
-    const auto y_get = std::bind( get, y, offset.y );
-    const auto x2_get = std::bind( get, x2, offset.x );
-    const auto y2_get = std::bind( get, y2, offset.y );
+    const auto x_get = [this, &offset]() {
+        return get( x, offset.x );
+    };
+    const auto y_get = [this, &offset]() {
+        return get( y, offset.y );
+    };
+    const auto x2_get = [this, &offset]() {
+        return get( x2, offset.x );
+    };
+    const auto y2_get = [this, &offset]() {
+        return get( y2, offset.y );
+    };
 
     map &m = dat.m;
     const int trepeat = repeat.get();
@@ -4442,17 +4456,20 @@ bool jmapgen_setmap::apply( const mapgendata &dat, const point &offset ) const
         switch( op ) {
             case JMAPGEN_SETMAP_TER: {
                 // TODO: the ter_id should be stored separately and not be wrapped in an jmapgen_int
-                m.ter_set( point( x_get(), y_get() ), ter_id( val.get() ) );
+                m.ter_set( point( x_get(), y_get() ), ter_id( val.get() ),
+                           dat.has_flag( jmapgen_flags::avoid_creatures ) );
             }
             break;
             case JMAPGEN_SETMAP_FURN: {
                 // TODO: the furn_id should be stored separately and not be wrapped in an jmapgen_int
-                m.furn_set( point( x_get(), y_get() ), furn_id( val.get() ) );
+                m.furn_set( point( x_get(), y_get() ), furn_id( val.get() ),
+                            dat.has_flag( jmapgen_flags::avoid_creatures ) );
             }
             break;
             case JMAPGEN_SETMAP_TRAP: {
                 // TODO: the trap_id should be stored separately and not be wrapped in an jmapgen_int
-                mtrap_set( &m, point( x_get(), y_get() ), trap_id( val.get() ) );
+                mtrap_set( &m, point( x_get(), y_get() ), trap_id( val.get() ),
+                           dat.has_flag( jmapgen_flags::avoid_creatures ) );
             }
             break;
             case JMAPGEN_SETMAP_RADIATION: {
@@ -4464,9 +4481,9 @@ bool jmapgen_setmap::apply( const mapgendata &dat, const point &offset ) const
             }
             break;
             case JMAPGEN_SETMAP_CREATURE_REMOVE: {
-                creature_tracker &creatures = get_creature_tracker();
-                Creature *tmp_critter = creatures.creature_at( tripoint( x_get(), y_get(), m.get_abs_sub().z() ) );
-                if( tmp_critter != nullptr ) {
+                Creature *tmp_critter = get_creature_tracker().creature_at( tripoint_abs_ms( m.getabs( tripoint(
+                                            x_get(), y_get(), m.get_abs_sub().z() ) ) ), true );
+                if( tmp_critter && !tmp_critter->is_avatar() ) {
                     tmp_critter->die( nullptr );
                 }
             }
@@ -4490,12 +4507,14 @@ bool jmapgen_setmap::apply( const mapgendata &dat, const point &offset ) const
             break;
             case JMAPGEN_SETMAP_LINE_TER: {
                 // TODO: the ter_id should be stored separately and not be wrapped in an jmapgen_int
-                m.draw_line_ter( ter_id( val.get() ), point( x_get(), y_get() ), point( x2_get(), y2_get() ) );
+                m.draw_line_ter( ter_id( val.get() ), point( x_get(), y_get() ), point( x2_get(), y2_get() ),
+                                 dat.has_flag( jmapgen_flags::avoid_creatures ) );
             }
             break;
             case JMAPGEN_SETMAP_LINE_FURN: {
                 // TODO: the furn_id should be stored separately and not be wrapped in an jmapgen_int
-                m.draw_line_furn( furn_id( val.get() ), point( x_get(), y_get() ), point( x2_get(), y2_get() ) );
+                m.draw_line_furn( furn_id( val.get() ), point( x_get(), y_get() ), point( x2_get(), y2_get() ),
+                                  dat.has_flag( jmapgen_flags::avoid_creatures ) );
             }
             break;
             case JMAPGEN_SETMAP_LINE_TRAP: {
@@ -4503,7 +4522,7 @@ bool jmapgen_setmap::apply( const mapgendata &dat, const point &offset ) const
                                                 0 );
                 for( const point &i : line ) {
                     // TODO: the trap_id should be stored separately and not be wrapped in an jmapgen_int
-                    mtrap_set( &m, i, trap_id( val.get() ) );
+                    mtrap_set( &m, i, trap_id( val.get() ), dat.has_flag( jmapgen_flags::avoid_creatures ) );
                 }
             }
             break;
@@ -4520,9 +4539,9 @@ bool jmapgen_setmap::apply( const mapgendata &dat, const point &offset ) const
                 const std::vector<point> line = line_to( point( x_get(), y_get() ), point( x2_get(), y2_get() ),
                                                 0 );
                 for( const point &i : line ) {
-                    creature_tracker &creatures = get_creature_tracker();
-                    Creature *tmp_critter = creatures.creature_at( tripoint( i, m.get_abs_sub().z() ) );
-                    if( tmp_critter != nullptr ) {
+                    Creature *tmp_critter = get_creature_tracker().creature_at( tripoint_abs_ms( m.getabs( tripoint( i,
+                                            m.get_abs_sub().z() ) ) ), true );
+                    if( tmp_critter && !tmp_critter->is_avatar() ) {
                         tmp_critter->die( nullptr );
                     }
                 }
@@ -4554,12 +4573,14 @@ bool jmapgen_setmap::apply( const mapgendata &dat, const point &offset ) const
             break;
             case JMAPGEN_SETMAP_SQUARE_TER: {
                 // TODO: the ter_id should be stored separately and not be wrapped in an jmapgen_int
-                m.draw_square_ter( ter_id( val.get() ), point( x_get(), y_get() ), point( x2_get(), y2_get() ) );
+                m.draw_square_ter( ter_id( val.get() ), point( x_get(), y_get() ), point( x2_get(), y2_get() ),
+                                   dat.has_flag( jmapgen_flags::avoid_creatures ) );
             }
             break;
             case JMAPGEN_SETMAP_SQUARE_FURN: {
                 // TODO: the furn_id should be stored separately and not be wrapped in an jmapgen_int
-                m.draw_square_furn( furn_id( val.get() ), point( x_get(), y_get() ), point( x2_get(), y2_get() ) );
+                m.draw_square_furn( furn_id( val.get() ), point( x_get(), y_get() ), point( x2_get(), y2_get() ),
+                                    dat.has_flag( jmapgen_flags::avoid_creatures ) );
             }
             break;
             case JMAPGEN_SETMAP_SQUARE_TRAP: {
@@ -4569,7 +4590,8 @@ bool jmapgen_setmap::apply( const mapgendata &dat, const point &offset ) const
                 for( int tx = c.x; tx <= cx2; tx++ ) {
                     for( int ty = c.y; ty <= cy2; ty++ ) {
                         // TODO: the trap_id should be stored separately and not be wrapped in an jmapgen_int
-                        mtrap_set( &m, point( tx, ty ), trap_id( val.get() ) );
+                        mtrap_set( &m, point( tx, ty ), trap_id( val.get() ),
+                                   dat.has_flag( jmapgen_flags::avoid_creatures ) );
                     }
                 }
             }
@@ -4592,9 +4614,9 @@ bool jmapgen_setmap::apply( const mapgendata &dat, const point &offset ) const
                 const int cy2 = y2_get();
                 for( int tx = c.x; tx <= cx2; tx++ ) {
                     for( int ty = c.y; ty <= cy2; ty++ ) {
-                        creature_tracker &creatures = get_creature_tracker();
-                        Creature *tmp_critter = creatures.creature_at( tripoint( tx, ty, m.get_abs_sub().z() ) );
-                        if( tmp_critter != nullptr ) {
+                        Creature *tmp_critter = get_creature_tracker().creature_at( tripoint_abs_ms( m.getabs( tripoint( tx,
+                                                ty, m.get_abs_sub().z() ) ) ), true );
+                        if( tmp_critter && !tmp_critter->is_avatar() ) {
                             tmp_critter->die( nullptr );
                         }
                     }
@@ -4645,13 +4667,21 @@ bool jmapgen_setmap::apply( const mapgendata &dat, const point &offset ) const
 
 bool jmapgen_setmap::has_vehicle_collision( const mapgendata &dat, const point &offset ) const
 {
-    const auto get = []( const jmapgen_int & v, int v_offset ) {
+    static const auto get = []( const jmapgen_int & v, int v_offset ) {
         return v.get() + v_offset;
     };
-    const auto x_get = std::bind( get, x, offset.x );
-    const auto y_get = std::bind( get, y, offset.y );
-    const auto x2_get = std::bind( get, x2, offset.x );
-    const auto y2_get = std::bind( get, y2, offset.y );
+    const auto x_get = [this, &offset]() {
+        return get( x, offset.x );
+    };
+    const auto y_get = [this, &offset]() {
+        return get( y, offset.y );
+    };
+    const auto x2_get = [this, &offset]() {
+        return get( x2, offset.x );
+    };
+    const auto y2_get = [this, &offset]() {
+        return get( y2, offset.y );
+    };
     const tripoint start = tripoint( x_get(), y_get(), 0 );
     tripoint end = start;
     switch( op ) {
@@ -6408,9 +6438,12 @@ void map::place_spawns( const mongroup_id &group, const int chance,
         } while( impassable( p ) && tries > 0 );
 
         // Pick a monster type
-        MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup( group, &num );
-        add_spawn( spawn_details.name, spawn_details.pack_size, { p, abs_sub.z() },
-                   friendly, -1, mission_id, name, spawn_details.data );
+        std::vector<MonsterGroupResult> spawn_details =
+            MonsterGroupManager::GetResultFromGroup( group, &num );
+        for( const MonsterGroupResult &mgr : spawn_details ) {
+            add_spawn( mgr.name, mgr.pack_size, { p, abs_sub.z() },
+                       friendly, -1, mission_id, name, mgr.data );
+        }
     }
 }
 

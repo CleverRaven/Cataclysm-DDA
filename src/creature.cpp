@@ -1249,7 +1249,7 @@ void Creature::heal_bp( bodypart_id /* bp */, int /* dam */ )
 {
 }
 
-void Creature::longpull( const std::string name, const tripoint &p )
+void Creature::longpull( const std::string &name, const tripoint &p )
 {
     if( pos() == p ) {
         add_msg_if_player( _( "You try to pull yourself together." ) );

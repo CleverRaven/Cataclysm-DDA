@@ -815,8 +815,8 @@ int get_local_humidity( double humidity, const weather_type_id &weather, bool sh
     return tmphumidity;
 }
 
-double get_local_windpower( double windpower, const oter_id &omter, const tripoint &location,
-                            const int &winddirection, bool sheltered )
+int get_local_windpower( int windpower, const oter_id &omter, const tripoint &location,
+                         const int &winddirection, bool sheltered )
 {
     /**
     *  A player is sheltered if he is underground, in a car, or indoors.
@@ -825,21 +825,20 @@ double get_local_windpower( double windpower, const oter_id &omter, const tripoi
         return 0;
     }
     rl_vec2d windvec = convert_wind_to_coord( winddirection );
-    int tmpwind = static_cast<int>( windpower );
     tripoint triblocker( location + point( windvec.x, windvec.y ) );
     // Over map terrain may modify the effect of wind.
     if( ( omter->get_type_id() == oter_type_forest ) ||
         ( omter->get_type_id() == oter_type_forest_water ) ) {
-        tmpwind = tmpwind / 2;
+        windpower = windpower / 2;
     }
     if( location.z > 0 ) {
-        tmpwind = tmpwind + ( location.z * std::min( 5, tmpwind ) );
+        windpower = windpower + ( location.z * std::min( 5, windpower ) );
     }
     // An adjacent wall will block wind
     if( is_wind_blocker( triblocker ) ) {
-        tmpwind = tmpwind / 10;
+        windpower = windpower / 10;
     }
-    return static_cast<double>( tmpwind );
+    return windpower;
 }
 
 bool is_wind_blocker( const tripoint &location )

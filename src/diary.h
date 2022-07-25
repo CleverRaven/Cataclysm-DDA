@@ -140,6 +140,6 @@ class diary
         /*expots the diary to a readable .txt file. If its the lastexport, its exportet to memorial otherwise its exportet to the world folder*/
         void export_to_txt( bool lastexport = false );
         /*method for adding changes to the changelist. with the possibility to connect a description*/
-        void add_to_change_list( std::string entry, std::string desc = "" );
+        void add_to_change_list( const std::string &entry, const std::string &desc = "" );
 };
 #endif // CATA_SRC_DIARY_H

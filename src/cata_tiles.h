@@ -88,7 +88,8 @@ class texture
         SDL_Rect srcrect = { 0, 0, 0, 0 };
 
     public:
-        texture( std::shared_ptr<SDL_Texture> ptr, const SDL_Rect &rect ) : sdl_texture_ptr( ptr ),
+        texture( std::shared_ptr<SDL_Texture> ptr,
+                 const SDL_Rect &rect ) : sdl_texture_ptr( std::move( ptr ) ),
             srcrect( rect ) { }
         texture() = default;
 
@@ -557,7 +558,7 @@ class cata_tiles
         void void_monster_override();
 
         bool has_draw_override( const tripoint &p ) const;
-    public:
+
         /**
          * Initialize the current tileset (load tile images, load mapping), using the current
          * tileset as it is set in the options.

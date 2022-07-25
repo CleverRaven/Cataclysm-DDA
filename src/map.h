@@ -354,13 +354,13 @@ class map
         bool check_seen_cache( const tripoint &p ) const {
             std::bitset<MAPSIZE_X *MAPSIZE_Y> &memory_seen_cache =
                 get_cache( p.z ).map_memory_seen_cache;
-            return !memory_seen_cache[ static_cast<size_t>( p.x + p.y * MAPSIZE_Y ) ];
+            return !memory_seen_cache[ p.x + p.y * MAPSIZE_Y ];
         }
         bool check_and_set_seen_cache( const tripoint &p ) const {
             std::bitset<MAPSIZE_X *MAPSIZE_Y> &memory_seen_cache =
                 get_cache( p.z ).map_memory_seen_cache;
-            if( !memory_seen_cache[ static_cast<size_t>( p.x + p.y * MAPSIZE_Y ) ] ) {
-                memory_seen_cache.set( static_cast<size_t>( p.x + p.y * MAPSIZE_Y ) );
+            if( !memory_seen_cache[ p.x + p.y * MAPSIZE_Y ] ) {
+                memory_seen_cache.set( p.x + p.y * MAPSIZE_Y );
                 return true;
             }
             return false;
@@ -750,11 +750,12 @@ class map
         * when the player is grab-moving furniture
         */
         // TODO: fix point types (remove the first overload)
-        bool furn_set( const tripoint &p, const furn_id &new_furniture, bool furn_reset = false );
+        bool furn_set( const tripoint &p, const furn_id &new_furniture, bool furn_reset = false,
+                       bool avoid_creatures = false );
         bool furn_set( const tripoint_bub_ms &p, const furn_id &new_furniture,
-                       bool furn_reset = false );
-        bool furn_set( const point &p, const furn_id &new_furniture ) {
-            return furn_set( tripoint( p, abs_sub.z() ), new_furniture );
+                       bool furn_reset = false, bool avoid_creatures = false );
+        bool furn_set( const point &p, const furn_id &new_furniture, bool avoid_creatures = false ) {
+            return furn_set( tripoint( p, abs_sub.z() ), new_furniture, false, avoid_creatures );
         }
         void furn_clear( const tripoint &p ) {
             furn_set( p, f_clear );
@@ -799,14 +800,14 @@ class map
         ter_id get_ter_transforms_into( const tripoint &p ) const;
 
         // TODO: fix point types (remove the first overload)
-        bool ter_set( const tripoint &p, const ter_id &new_terrain );
-        bool ter_set( const tripoint_bub_ms &, const ter_id &new_terrain );
+        bool ter_set( const tripoint &p, const ter_id &new_terrain, bool avoid_creatures = false );
+        bool ter_set( const tripoint_bub_ms &, const ter_id &new_terrain, bool avoid_creatures = false );
         // TODO: fix point types (remove the first overload)
-        bool ter_set( const point &p, const ter_id &new_terrain ) {
-            return ter_set( tripoint( p, abs_sub.z() ), new_terrain );
+        bool ter_set( const point &p, const ter_id &new_terrain, bool avoid_creatures = false ) {
+            return ter_set( tripoint( p, abs_sub.z() ), new_terrain, avoid_creatures );
         }
-        bool ter_set( const point_bub_ms &p, const ter_id &new_terrain ) {
-            return ter_set( tripoint_bub_ms( p, abs_sub.z() ), new_terrain );
+        bool ter_set( const point_bub_ms &p, const ter_id &new_terrain, bool avoid_creatures = false ) {
+            return ter_set( tripoint_bub_ms( p, abs_sub.z() ), new_terrain, avoid_creatures );
         }
 
         std::string tername( const tripoint &p ) const;
@@ -1025,17 +1026,22 @@ class map
         point random_outdoor_tile();
         // mapgen
 
-        void draw_line_ter( const ter_id &type, const point &p1, const point &p2 );
-        void draw_line_furn( const furn_id &type, const point &p1, const point &p2 );
+        void draw_line_ter( const ter_id &type, const point &p1, const point &p2,
+                            bool avoid_creature = false );
+        void draw_line_furn( const furn_id &type, const point &p1, const point &p2,
+                             bool avoid_creatures = false );
         void draw_fill_background( const ter_id &type );
         void draw_fill_background( ter_id( *f )() );
         void draw_fill_background( const weighted_int_list<ter_id> &f );
 
-        void draw_square_ter( const ter_id &type, const point &p1, const point &p2 );
-        void draw_square_furn( const furn_id &type, const point &p1, const point &p2 );
-        void draw_square_ter( ter_id( *f )(), const point &p1, const point &p2 );
+        void draw_square_ter( const ter_id &type, const point &p1, const point &p2,
+                              bool avoid_creature = false );
+        void draw_square_furn( const furn_id &type, const point &p1, const point &p2,
+                               bool avoid_creatures = false );
+        void draw_square_ter( ter_id( *f )(), const point &p1, const point &p2,
+                              bool avoid_creatures = false );
         void draw_square_ter( const weighted_int_list<ter_id> &f, const point &p1,
-                              const point &p2 );
+                              const point &p2, bool avoid_creatures = false );
         void draw_rough_circle_ter( const ter_id &type, const point &p, int rad );
         void draw_rough_circle_furn( const furn_id &type, const point &p, int rad );
         void draw_circle_ter( const ter_id &type, const rl_vec2d &p, double rad );
@@ -1716,7 +1722,6 @@ class map
         void mirror( bool mirror_horizontal, bool mirror_vertical );
 
         // Monster spawning:
-    public:
         /**
          * Spawn monsters from submap spawn points and from the overmap.
          * @param ignore_sight If true, monsters may spawn in the view of the player
@@ -1737,7 +1742,7 @@ class map
         void spawn_monsters_submap( const tripoint &gp, bool ignore_sight );
         // Helper #2 - spawns monsters on one submap and from one group on this submap
         void spawn_monsters_submap_group( const tripoint &gp, mongroup &group,
-                                          const tripoint_abs_sm &submap_pos, bool ignore_sight );
+                                          bool ignore_sight );
 
     protected:
         void saven( const tripoint &grid );

@@ -38,6 +38,7 @@
   {
     "id": "fae_meat",
     "type": "COMESTIBLE",
+    "comestible_type": "FOOD",
     "name": { "str": "chunk of fae meat", "str_pl": "chunks of fae meat" },
     "description": "Freshly butchered meat from a fae beast.  You could eat it raw, but cooking it is better.",
     "weight": "296 g",

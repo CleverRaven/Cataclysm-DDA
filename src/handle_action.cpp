@@ -1577,7 +1577,7 @@ static void cast_spell()
 
 // returns true if the spell was assigned
 bool Character::cast_spell( spell &sp, bool fake_spell,
-                            const cata::optional<tripoint> target = cata::nullopt )
+                            const cata::optional<tripoint> &target = cata::nullopt )
 {
     if( is_armed() && !sp.has_flag( spell_flag::NO_HANDS ) &&
         !get_wielded_item()->has_flag( flag_MAGIC_FOCUS ) && !sp.check_if_component_in_hand( *this ) ) {
@@ -2256,13 +2256,13 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
         }
 
         case ACTION_SELECT_FIRE_MODE:
-            if( player_character.is_armed() ) {
+            if( weapon ) {
                 if( weapon->is_gun() && !weapon->is_gunmod() &&
                     weapon->gun_all_modes().size() > 1 ) {
                     weapon->gun_cycle_mode();
                 } else if( weapon->has_flag( flag_RELOAD_ONE ) ||
                            weapon->has_flag( flag_RELOAD_AND_SHOOT ) ) {
-                    item::reload_option opt = player_character.select_ammo( *weapon, false );
+                    item::reload_option opt = player_character.select_ammo( weapon, false );
                     if( !opt ) {
                         break;
                     } else if( player_character.ammo_location && opt.ammo == player_character.ammo_location ) {

@@ -156,5 +156,27 @@
     "min_field_intensity": 1,
     "max_field_intensity": 1,
     "field_chance": 2
+  },
+  {
+    "id": "exo_plasmacut",
+    "type": "SPELL",
+    "name": "Exosuit Plasma Cut",
+    "description": "A blinding light stabs out from the tip of the plasma torch.",
+    "effect": "attack",
+    "shape": "line",
+    "valid_targets": [ "hostile", "ground" ],
+    "flags": "IGNITE_FLAMMABLE",
+    "message": "",
+    "max_level": 20,
+    "min_damage": 80,
+    "max_damage": 80,
+    "damage_increment": 1.0,
+    "min_range": 1,
+    "max_range": 1,
+    "range_increment": 0.25,
+    "min_aoe": 1,
+    "max_aoe": 1,
+    "aoe_increment": 1.0,
+    "damage_type": "cut"
   }
 ]

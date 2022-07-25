@@ -395,7 +395,7 @@ class take_off_inventory_preset: public armor_inventory_preset
         }
 
         std::string get_denial( const item_location &loc ) const override {
-            const ret_val<bool> ret = you.can_takeoff( *loc );
+            const ret_val<void> ret = you.can_takeoff( *loc );
 
             if( !ret.success() ) {
                 return trim_trailing_punctuations( ret.str() );
@@ -1062,7 +1062,7 @@ static std::string get_consume_needs_hint( Character &you )
     return hint;
 }
 
-item_location game_menus::inv::consume( avatar &you, const item_location loc )
+item_location game_menus::inv::consume( avatar &you, const item_location &loc )
 {
     static item_location container_location;
     if( !you.has_activity( ACT_EAT_MENU ) ) {
@@ -1338,7 +1338,7 @@ class read_inventory_preset: public pickup_inventory_preset
     public:
         explicit read_inventory_preset( const Character &you ) : pickup_inventory_preset( you ),
             you( you ) {
-            const std::string unknown = _( "<color_dark_gray>?</color>" );
+            std::string unknown = _( "<color_dark_gray>?</color>" );
 
             append_cell( [ this, &you, unknown ]( const item_location & loc ) -> std::string {
                 if( loc->type->can_use( "MA_MANUAL" ) ) {
@@ -1386,10 +1386,10 @@ class read_inventory_preset: public pickup_inventory_preset
                     return std::string();  // Just to make sure
                 }
                 // Actual reading time (in turns). Can be penalized.
-                const int actual_turns = you.time_to_read( *loc, *reader ) / to_moves<int>( 1_turns );
+                const int actual_turns = to_turns<int>( you.time_to_read( *loc, *reader ) );
                 // Theoretical reading time (in turns) based on the reader speed. Free of penalties.
-                const int normal_turns = get_book( loc ).time * reader->read_speed() / to_moves<int>( 1_turns );
-                const std::string duration = to_string_approx( time_duration::from_turns( actual_turns ), false );
+                const int normal_turns = to_turns<int>( get_book( loc ).time ) * reader->read_speed() / 100 ;
+                std::string duration = to_string_approx( time_duration::from_turns( actual_turns ), false );
 
                 if( actual_turns > normal_turns ) { // Longer - complicated stuff.
                     return string_format( "<color_light_red>%s</color>", duration );
@@ -1870,7 +1870,7 @@ class salvage_inventory_preset: public inventory_selector_preset
         }
 
         bool is_shown( const item_location &loc ) const override {
-            return actor->valid_to_cut_up( *loc.get_item() );
+            return actor->valid_to_cut_up( nullptr, *loc.get_item() );
         }
 
     private:
@@ -1996,7 +1996,7 @@ drop_locations game_menus::inv::multidrop( avatar &you )
 }
 
 drop_locations game_menus::inv::pickup( avatar &you,
-                                        const cata::optional<tripoint> &target, std::vector<drop_location> selection )
+                                        const cata::optional<tripoint> &target, const std::vector<drop_location> &selection )
 {
     const pickup_inventory_preset preset( you, /*skip_wield_check=*/true );
 
@@ -2345,7 +2345,7 @@ class bionic_install_preset: public inventory_selector_preset
 
         std::string get_denial( const item_location &loc ) const override {
 
-            const ret_val<bool> installable = pa.is_installable( loc, true );
+            const ret_val<void> installable = pa.is_installable( loc, true );
             if( installable.success() && !you.has_enough_anesth( *loc.get_item()->type, pa ) ) {
                 const int weight = units::to_kilogram( pa.bodyweight() ) / 10;
                 const int duration = loc.get_item()->type->bionic->difficulty * 2;
@@ -2434,13 +2434,13 @@ class bionic_install_surgeon_preset : public inventory_selector_preset
         std::string get_denial( const item_location &loc ) const override {
             if( you.is_npc() ) {
                 int const price = npc_trading::bionic_install_price( you, pa, loc );
-                ret_val<bool> const refusal =
+                ret_val<void> const refusal =
                     you.as_npc()->wants_to_sell( *loc, price, loc->price( true ) );
                 if( !refusal.success() ) {
                     return you.replace_with_npc_name( refusal.str() );
                 }
             }
-            const ret_val<bool> installable = pa.is_installable( loc, false );
+            const ret_val<void> installable = pa.is_installable( loc, false );
             return installable.str();
         }
 
