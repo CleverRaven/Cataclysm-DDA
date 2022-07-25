@@ -1468,7 +1468,7 @@
     "type": "GENERIC",
     "id": "warhammer",
     "name": { "str": "war hammer" },
-    "description": "A medieval hammer made for battle.  Its odd shape and balance make it an excellent weapon, but an ineffective tool.",
+    "description": "A medieval hammer with a spike on one end made for battle.  Its odd shape and balance make it an excellent weapon, but an ineffective tool.",
     "weight": "1337 g",
     "price_postapoc": 6000,
     "color": "brown",
