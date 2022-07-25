@@ -248,7 +248,7 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "calories": 140,
-    "description": "A bar of choclate from a popular candy brand.  A delicious treat.",
+    "description": "A bar of chocolate from a popular candy brand.  A delicious treat.",
     "price": 130,
     "price_postapoc": 200,
     "material": [ "junk" ],
