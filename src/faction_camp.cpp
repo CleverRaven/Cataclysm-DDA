@@ -1904,7 +1904,6 @@ void basecamp::scan_pseudo_items()
 
         tripoint mapmin = tripoint( 0, 0, omt_pos.z() );
         tripoint mapmax = tripoint( 2 * SEEX - 1, 2 * SEEY - 1, omt_pos.z() );
-        get_map();
         for( const tripoint &pos : expansion_map.points_in_rectangle( mapmin, mapmax ) ) {
             if( expansion_map.furn( pos ) != f_null &&
                 expansion_map.furn( pos ).obj().crafting_pseudo_item.is_valid() &&
