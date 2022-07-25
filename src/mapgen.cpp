@@ -1876,6 +1876,7 @@ class jmapgen_sign : public jmapgen_piece
             dat.m.set_signage( tripoint( r, dat.m.get_abs_sub().z() ), signtext );
         }
         std::string apply_all_tags( std::string signtext, const std::string &cityname ) const {
+            signtext = SNIPPET.expand( signtext );
             replace_city_tag( signtext, cityname );
             replace_name_tags( signtext );
             return signtext;
@@ -1926,6 +1927,7 @@ class jmapgen_graffiti : public jmapgen_piece
             dat.m.set_graffiti( tripoint( r, dat.m.get_abs_sub().z() ), graffiti );
         }
         std::string apply_all_tags( std::string graffiti, const std::string &cityname ) const {
+            graffiti = SNIPPET.expand( graffiti );
             replace_city_tag( graffiti, cityname );
             replace_name_tags( graffiti );
             return graffiti;
