@@ -1600,12 +1600,12 @@
     "color": "white",
     "container": "jug_plastic",
     "description": "Some bleach prepared for disinfecting water.  It leaves water safe to drink, but unpleasantly tasting unless boiled.  One unit is enough to disinfect two gallons of water.",
+    "comestible_type": "INVALID",
     "material": [ "water" ],
     "volume": "1 ml",
     "weight": "1104 mg",
     "phase": "liquid",
-    "freezing_point": -8,
-    "flags": [ "INEDIBLE" ]
+    "freezing_point": -8
   },
   {
     "type": "COMESTIBLE",
