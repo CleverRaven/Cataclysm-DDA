@@ -1174,7 +1174,7 @@ static int veh_lumi( vehicle &veh )
         }
     }
     // Calculation: see lightmap.cpp
-    return ( veh_luminance * 3 ).range_in_air();
+    return ( veh_luminance * 3 ).sight_range();
 }
 
 void game::calc_driving_offset( vehicle *veh )
@@ -3868,13 +3868,13 @@ light game::natural_light_level( const int zlev ) const
 light game::incorrect_light_level( const int zlev ) const
 {
     const light nat_light = natural_light_level( zlev );
-    return light( nat_light.range_in_air() );
+    return light( nat_light.sight_range() );
 }
 
 int game::light_level( const int zlev ) const
 {
     const light light = natural_light_level( zlev );
-    return light.range_in_air();
+    return light.sight_range();
 }
 
 void game::reset_light_level()

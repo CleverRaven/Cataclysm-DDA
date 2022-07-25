@@ -45,7 +45,9 @@ class light
         light() : value( 0.0f ) {};
         explicit light( float value ) : value( value ) {};
 
-        int range_in_air() const;
+        // Sight range at a given transparency
+        // default threshold corresponds to AMBIENT_LIGHT_LOW defined below
+        int sight_range(light threshold = light( 3.5f ), float transparency = LIGHT_TRANSPARENCY_OPEN_AIR) const;
 
         light operator+( const light &other ) const {
             return light( value + other.value );

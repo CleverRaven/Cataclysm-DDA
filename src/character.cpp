@@ -1083,26 +1083,8 @@ double Character::aim_per_move( const item &gun, double recoil,
 
 int Character::sight_range( light light_level ) const
 {
-    if( static_cast<int>( light_level.value ) == 0 ) {
-        return 1;
-    }
-    /* Via Beer-Lambert we have:
-     * light_level * (1 / exp( LIGHT_TRANSPARENCY_OPEN_AIR * distance) ) <= LIGHT_AMBIENT_LOW
-     * Solving for distance:
-     * 1 / exp( LIGHT_TRANSPARENCY_OPEN_AIR * distance ) <= LIGHT_AMBIENT_LOW / light_level
-     * 1 <= exp( LIGHT_TRANSPARENCY_OPEN_AIR * distance ) * LIGHT_AMBIENT_LOW / light_level
-     * light_level <= exp( LIGHT_TRANSPARENCY_OPEN_AIR * distance ) * LIGHT_AMBIENT_LOW
-     * log(light_level) <= LIGHT_TRANSPARENCY_OPEN_AIR * distance + log(LIGHT_AMBIENT_LOW)
-     * log(light_level) - log(LIGHT_AMBIENT_LOW) <= LIGHT_TRANSPARENCY_OPEN_AIR * distance
-     * log(LIGHT_AMBIENT_LOW / light_level) <= LIGHT_TRANSPARENCY_OPEN_AIR * distance
-     * log(LIGHT_AMBIENT_LOW / light_level) * (1 / LIGHT_TRANSPARENCY_OPEN_AIR) <= distance
-     */
     light threshold = get_vision_threshold( get_map().ambient_light_at( pos() ) );
-    int range = static_cast<int>( -std::log( threshold / light_level ) *
-                                  ( 1.0f / LIGHT_TRANSPARENCY_OPEN_AIR ) );
-
-    // Clamp to [1, sight_max].
-    return clamp( range, 1, sight_max );
+    return std::min( sight_max, light_level.sight_range(threshold));
 }
 
 int Character::unimpaired_range() const
