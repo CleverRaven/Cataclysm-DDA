@@ -73,7 +73,7 @@
     "name": { "str": "chef knife", "str_pl": "chef knives" },
     "type": "TOOL",
     "category": "weapons",
-    "description": "This is a long-bladed kitchen knife.  The blade is wider than the handle, giving room for the wielder's knuckles, and it has a characteristic curve for a fast rocking action for chopping vegetables.  It makes a good melee weapon, but the wide blade is unwieldy for butchering.",
+    "description": "This is a long-bladed kitchen knife.  The blade is wider than the handle, giving room for the wielder's knuckles, and it has a characteristic curve for a fast rocking action for chopping vegetables.  It makes an acceptable melee weapon, but the wide blade is unwieldy for butchering.",
     "copy-from": "base_kitchen_knife",
     "looks_like": "knife_butcher",
     "ascii_picture": "knife_chef",
