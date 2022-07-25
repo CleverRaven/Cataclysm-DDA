@@ -9648,10 +9648,10 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
         }
     }
 
-    const float dest_light_level = get_map().ambient_light_at( dest_loc );
+    const light dest_light_level = get_map().ambient_light_at( dest_loc );
 
     // Allow players with nyctophobia to move freely through cloudy and dark tiles
-    const float nyctophobia_threshold = LIGHT_AMBIENT_LIT - 3.0f;
+    const light nyctophobia_threshold = LIGHT_AMBIENT_LIT - light(3.0f);
 
     // Forbid players from moving through very dark tiles, unless they are running or took xanax
     if( u.has_flag( json_flag_NYCTOPHOBIA ) && !u.has_effect( effect_took_xanax ) && !u.is_running() &&

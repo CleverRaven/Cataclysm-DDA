@@ -1659,7 +1659,7 @@ void suffer::from_pain( Character &you )
 void suffer::from_nyctophobia( Character &you )
 {
     std::vector<tripoint> dark_places;
-    const float nyctophobia_threshold = LIGHT_AMBIENT_LIT - 3.0f;
+    const light nyctophobia_threshold = LIGHT_AMBIENT_LIT - light(3.0f);
 
     for( const tripoint &dark_place : points_in_radius( you.pos(), 5 ) ) {
         if( !you.sees( dark_place ) || get_map().ambient_light_at( dark_place ) >= nyctophobia_threshold ) {
