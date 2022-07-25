@@ -32,7 +32,7 @@
     "relic_data": {
       "passive_effects": [
         {
-          "has": "HELD",
+          "has": "WORN",
           "condition": "ALWAYS",
           "values": [ { "value": "ITEM_ENCUMBRANCE", "add": -10 }, { "value": "ARMOR_COLD", "multiply": -0.25 } ]
         }
@@ -80,7 +80,7 @@
     "relic_data": {
       "passive_effects": [
         {
-          "has": "HELD",
+          "has": "WORN",
           "condition": "ALWAYS",
           "values": [ { "value": "ITEM_ENCUMBRANCE", "add": -10 }, { "value": "ARMOR_COLD", "multiply": -0.25 } ]
         }
@@ -131,7 +131,7 @@
     "relic_data": {
       "passive_effects": [
         {
-          "has": "HELD",
+          "has": "WORN",
           "condition": "ALWAYS",
           "values": [ { "value": "ITEM_ENCUMBRANCE", "add": -10 }, { "value": "ARMOR_COLD", "multiply": -0.25 } ]
         }
@@ -190,7 +190,7 @@
     "relic_data": {
       "passive_effects": [
         {
-          "has": "HELD",
+          "has": "WORN",
           "condition": "ALWAYS",
           "values": [ { "value": "ITEM_ENCUMBRANCE", "add": -10 }, { "value": "ARMOR_COLD", "multiply": -0.25 } ]
         }
