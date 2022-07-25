@@ -1,0 +1,223 @@
+[
+ {
+    "id": "MISSION_JOIN_VALHALLISTS",
+    "type": "mission_definition",
+    "name": { "str": "Join The Valhallists" },
+    "goal": "MGOAL_KILL_MONSTER",
+    "description": "Kill the giant rat roaming the fields for the Valhallists.  Return to their leader when it is dead.",
+    "difficulty": 5,
+    "value": 0,
+    "start": {
+      "assign_mission_target": {
+        "om_terrain": "field",
+        "reveal_radius": 1,
+        "random": true,
+        "search_range": 20,
+        "min_distance": 5,
+        "z": 0
+      },
+      "update_mapgen": { "place_monster": [ { "monster": "mon_nakedmolerat_giant", "x": 11, "y": 11, "target": true } ] }
+    },
+    "end": { "effect": [ { "u_spawn_item": "helmet_skull" }, { "u_spawn_item": "signed_chit", "count": 8 }, { "u_add_var": "u_joined_valhallists", "type": "general", "context": "meeting", "value": "yes" } ] },
+    "origins": [ "ORIGIN_OPENER_NPC" ],
+    "dialogue": {
+      "describe": "Kill a giant mole rat to join the Valhallists.",
+      "offer": ".",
+      "accepted": ".",
+      "rejected": ".",
+      "advice": ".",
+      "inquire": "Any luck with the rat?",
+      "success": "Welcome to the clan.  We'll get to making a helmet for you straight away.  Gudene vil det!",
+      "success_lie": "My scouts say otherwise, liar.",
+      "failure": "Not everyone is cut out for this life, I suppose."
+    }
+  },
+ {
+    "id": "MISSION_VALHALLISTS_EXTERMINATE_FUNGAL_BLOOM",
+    "type": "mission_definition",
+    "name": { "str": "Pyromanic Dreams" },
+    "goal": "MGOAL_KILL_MONSTER",
+    "description": "Exterminate a fungal blossom.",
+    "difficulty": 5,
+    "value": 0,
+    "start": {
+      "assign_mission_target": {
+        "om_terrain": "fungal_flowers",
+        "om_special": "Fungal Flowers",
+        "reveal_radius": 2,
+        "random": false,
+        "search_range": 100,
+        "min_distance": 2,
+        "z": 0
+      },
+      "update_mapgen": { "place_monster": [ { "monster": "mon_fungaloid_seeder", "x": [ 1, 21 ], "y": [ 1, 21 ], "target": true } ] },
+      "effect": [ { "u_spawn_item": "molotov", "count": 5 } ] 
+    },
+    "end": { "effect": [ { "u_spawn_item": "signed_chit", "count": 80 } ] },
+    "origins": [ "ORIGIN_OPENER_NPC" ],
+    "followup": "MISSION_VALHALLISTS_KILL_300_Z",
+    "dialogue": {
+      "describe": "Destroy a fungal bloom for the Valhallists.",
+      "offer": "My scouts have reported activity of those <mycus_slur>s nearby.  I want you to go over there and kill all the <mycus_slur> you see, then burn their colony to ash.  I have some Molotovs ready for you to do that with.",
+      "accepted": "May Thor protect you.",
+      "rejected": "They'll pay with their lives eventually.",
+      "advice": "Wear a gas mask and a hazard suit, which I wish we had to lend you.  Walking in those spore clouds can get you infected with them, and I'd rather not have to send an assassin to incinerate you.",
+      "inquire": "I don't see any ash on you.",
+      "success": "Those aliens had it coming to them.  You have done Odins' will today.",
+      "success_lie": "I still see mushrooms around.",
+      "failure": "Not everyone is cut out for this life, I suppose."
+    }
+  },
+  {
+    "id": "MISSION_VALHALLISTS_KILL_300_Z",
+    "type": "mission_definition",
+    "name": { "str": "Kill 300 Zombies" },
+    "goal": "MGOAL_KILL_MONSTER_SPEC",
+    "monster_species": "ZOMBIE",
+    "monster_kill_goal": 300,
+    "difficulty": 5,
+    "value": 0,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_VALHALLISTS_KILL_MIGOS",
+    "end": { "effect": [ { "u_spawn_item": "signed_chit", "count": 100 } ] },
+    "dialogue": {
+      "describe": "Kill 300 zombies for the Valhallists",
+      "offer": "You've proven yourself as a competent warrior, and we need your services again.  Scavenging runs have been delayed recently due to hordes of undead blocking off towns, and nearly killing one of us last time.  I need you to help exterminate this threat, so go kill three hundred of those <name_b>s for us.",
+      "accepted": "May Thor protect you.",
+      "rejected": "We are going to have to face them sometime, now is better than ever.",
+      "advice": "Slay a few at a time, and don't let them surround you.",
+      "inquire": "Are the dead laid to rest?",
+      "success": "We shall see a great sucess in the future now that our supply lines are open again.  Gudene vil det!",
+      "success_lie": "My scouts say otherwise.",
+      "failure": "Not everyone is cut out for this life, I suppose."
+    }
+  },
+  {
+    "id": "MISSION_VALHALLISTS_KILL_MIGOS",
+    "type": "mission_definition",
+    "name": { "str": "At Dooms' Gate" },
+    "goal": "MGOAL_KILL_MONSTER",
+    "description": "Find a mi-go scout tower and kill its residents.",
+    "difficulty": 5,
+    "value": 0,
+    "start": {
+      "assign_mission_target": {
+        "om_terrain": "mi-go_scout_tower_3",
+        "reveal_radius": 2,
+        "random": false,
+        "search_range": 100,
+        "min_distance": 2,
+        "z": 3
+      },
+      "update_mapgen": { "place_monster": [ { "monster": "mon_mi_go", "x": [ 1, 21 ], "y": [ 1, 21 ], "target": true } ] }
+    },
+    "end": { "effect": [ { "u_spawn_item": "signed_chit", "count": 120 } ] },
+    "origins": [ "ORIGIN_OPENER_NPC" ],
+    "dialogue": {
+      "describe": "Clear out a mi-go tower for the Valhallists.",
+      "offer": "We've found more aliens in the area.  My scouts have reported a scout tower for those weird multi-limbed aliens showed up recently, and that they might have prisoners inside.  I want you to go over there and kill every last <name_b> you can find, and free those prisoners.  I'm not looking to recruit anyone you free from there, just make sure they're alright.  Come back to me when you're done.",
+      "accepted": "May Thor protect you.",
+      "rejected": "They'll pay with their lives eventually, why wait?.",
+      "advice": "That tower is like a furnace on the interior, the scouts could even feel it from the outside.  They've got to have some source of heat though, so I'd destroy whatever's belching out that heat.  Also, shoot those <name_b>s from a distance, they'll fuck you up in hand-to-hand fighting.",
+      "inquire": "You're pretty clean for someone who should be killing <name_b>s.",
+      "success": "Those aliens had it coming to them.  You have done Odins' will today.",
+      "success_lie": "I can still hear their screams at night.",
+      "failure": "Not everyone is cut out for this life, I suppose."
+    }
+  },
+  {
+    "id": "MISSION_VALHALLISTS_KILL_1000_Z",
+    "type": "mission_definition",
+    "name": { "str": "Exterminate 1000 Zombies" },
+    "goal": "MGOAL_KILL_MONSTER_SPEC",
+    "monster_species": "ZOMBIE",
+    "monster_kill_goal": 1000,
+    "difficulty": 7,
+    "value": 0,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_VALHALLISTS_KILL_MIGOS",
+    "end": { "effect": [ { "u_spawn_item": "signed_chit", "count": 300 } ] },
+    "dialogue": {
+      "describe": "Kill 1000 zombies for the Valhallists",
+      "offer": "With the recent sucess we've had in killing the otherworldly threats, we must take grander strides in making the world safe again.  I need you to go out and kill one thousand <zombies> to do your new part in this endevor.  A handsome reward will be provided upon your return.",
+      "accepted": "May Thor protect you.",
+      "rejected": "If we don't kill them now, they'll only come for us later.  It's better to fight them on our terms.",
+      "advice": "Slay a few at a time, and don't let them surround you.",
+      "inquire": "Are the dead laid to rest?",
+      "success": "You have done a great work for us today.",
+      "success_lie": "My scouts say otherwise.",
+      "failure": "Not everyone is cut out for this life, I suppose."
+    }
+  },
+  {
+    "id": "MISSION_VALHALLISTS_GET_3_HAZMAT_SUITS",
+    "type": "mission_definition",
+    "name": { "str": "Obtain 3 Hazmat Suits" },
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 2,
+    "value": 36000,
+    "item": "hazmat_suit",
+    "count": 3,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_VALHALLISTS_GET_30_GLASS_BOTTLES",
+    "end": { "effect": [ { "npc_add_var": "can_loan_hazmat_suits", "type": "general", "context": "trade", "value": "yes" } ] },
+    "dialogue": {
+      "describe": "Bring me three hazmat suits.",
+      "offer": "Our warriors have been dealing with fungal infestations recently, but we don't have the equipment to properly deal with them.  Their spores have been giving us trouble, so I want you to find three hazmat suits.  With those, we could circumvent their biggest threat while we torch those <mycus_slur>s to the ground.  I'll pay you liberally with whatever we have in stock.",
+      "accepted": "Gudene vil det!",
+      "rejected": "Do you have any better ideas?",
+      "advice": "One of those old waste containment facilities should have a few, along with those labs.",
+      "inquire": "Do you have the suits?",
+      "success": "I can't thank you enough for what you've done.  If you ever need to loan one of them, I'd be glad to lend it.",
+      "success_lie": "I don't see them, <name_b>.",
+      "failure": "I'll have to do it myself, I guess."
+    }
+  },
+  {
+    "id": "MISSION_VALHALLISTS_GET_30_GLASS_BOTTLES",
+    "type": "mission_definition",
+    "name": { "str": "Obtain 30 Glass Bottles" },
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 1,
+    "item": "bottle_glass",
+    "count": 30,
+    "value": 3000,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_VALHALLISTS_GET_100_MUSHROOM_SPORES",
+    "end": { "effect": [ { "npc_add_var": "buys_glass_bottles", "type": "general", "context": "trade", "value": "yes" } ] },
+    "dialogue": {
+      "describe": "Bring me thirty glass bottles.",
+      "offer": "Those hazmat suits really helped out with the fungus problem, but we're in need of incendiaries to burn up those fungal beds.  If you could get me thirty glass bottles, I can provide the rest of what we need for the Molotovs.  How's that sound for a days' work?",
+      "accepted": "Thanks, <name_g>.",
+      "rejected": "Do you have any better ideas?",
+      "advice": "Check some grocery stores or bars in town, they should have a lot.",
+      "inquire": "Do you have the bottles?",
+      "success": "Hopefully that wasn't too hard.  Only problem is, we might run out again.",
+      "success_lie": "I don't see them, <name_b>.",
+      "failure": "I'll have to do it myself, I guess."
+    }
+  },
+  {
+    "id": "MISSION_VALHALLISTS_GET_100_MUSHROOM_SPORES",
+    "type": "mission_definition",
+    "name": { "str": "Obtain 100 Mushroom Spores" },
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 1,
+    "item": "seed_mushroom",
+    "count": 100,
+    "value": 10000,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "end": { "effect": [ { "npc_add_var": "npc_growing_mushrooms", "type": "timer", "context": "trade", "time": true } ] },
+    "dialogue": {
+      "describe": "Bring me one hundred mushroom spores.",
+      "offer": "The high gode is starting a project to replace biospheres ravaged by the Mycus, and to make some money on farming.  Right now, I need to get one hundred mushroom spores for him, but I haven't the slightest idea where.  If you could do it, I'd pay fairly for them.",
+      "accepted": "Thanks, <name_g>.",
+      "rejected": "Do you have any better ideas?",
+      "advice": "If you know anything about wild fungi, you could make some starters from those.",
+      "inquire": "Do you have the spores?",
+      "success": "I'll pass these along, then.  They should grow in about a month or so.",
+      "success_lie": "I don't see them, <name_b>.",
+      "failure": "I'll have to do it myself, I guess."
+    }
+  }
+]
