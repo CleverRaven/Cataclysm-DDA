@@ -165,8 +165,8 @@
     "price": 3500,
     "price_postapoc": 50,
     "to_hit": { "grip": "weapon", "length": "short", "surface": "line", "balance": "neutral" },
-    "bashing": 6,
-    "cutting": 20,
+    "bashing": 4,
+    "cutting": 15,
     "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 25 ] ],
     "flags": [ "SHEATH_KNIFE" ]
   }
