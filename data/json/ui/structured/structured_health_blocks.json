@@ -164,7 +164,7 @@
     "widgets": [
       "structured_stats_label",
       "stats_no_label_layout",
-      "wielding_desc_no_label",
+      "wielding_simple_desc_no_label",
       "style_desc_no_label",
       "structured_temp_extras_layout",
       "structured_mood_safe_mode_layout",

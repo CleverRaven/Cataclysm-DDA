@@ -1036,6 +1036,12 @@ class Character : public Creature, public visitable
 
         /** Get the formatted name of the currently wielded item (if any) with current gun mode (if gun) */
         std::string weapname() const;
+        /** Get the formatted name of the currently wielded item (if any) without current gun mode and ammo */
+        std::string weapname_simple() const;
+        /** Get the formatted current gun mode (if gun) */
+        std::string weapname_mode() const;
+        /** Get the formatted current ammo (if gun) */
+        std::string weapname_ammo() const;
 
         // any side effects that might happen when the Character is hit
         /** Handles special defenses from melee attack that hit us (source can be null) */

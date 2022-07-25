@@ -35,7 +35,7 @@
     "label": "Compass",
     "description": "<color_yellow>Compass</color> and wielded weapon, <color_yellow>without overmap</color>. For use with widget Health + Overmap.\n\nSee the other compass widgets for alternatives.",
     "arrange": "rows",
-    "widgets": [ "wielding_desc_no_label", "compass_all_danger_layout_alt" ],
+    "widgets": [ "structured_wielding_layout", "compass_all_danger_layout_alt" ],
     "flags": [ "W_DISABLED_BY_DEFAULT" ]
   },
   {
@@ -44,7 +44,7 @@
     "style": "layout",
     "width": 35,
     "arrange": "rows",
-    "widgets": [ "wielding_desc_no_label", "structured_compass_9x9_layout" ]
+    "widgets": [ "structured_wielding_layout", "structured_compass_9x9_layout" ]
   },
   {
     "id": "structured_weapon_compass_7x7_layout",
@@ -52,7 +52,7 @@
     "style": "layout",
     "width": 35,
     "arrange": "rows",
-    "widgets": [ "wielding_desc_no_label", "structured_compass_7x7_layout" ]
+    "widgets": [ "structured_wielding_layout", "structured_compass_7x7_layout" ]
   },
   {
     "id": "structured_weapon_compass_5x5_layout",
@@ -60,7 +60,7 @@
     "style": "layout",
     "width": 35,
     "arrange": "rows",
-    "widgets": [ "wielding_desc_no_label", "structured_compass_5x5_layout" ]
+    "widgets": [ "structured_wielding_layout", "structured_compass_5x5_layout" ]
   },
   {
     "id": "structured_compass_9x9_layout",

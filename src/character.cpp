@@ -7156,20 +7156,61 @@ bool Character::unwield()
 
 std::string Character::weapname() const
 {
+    std::string name = weapname_simple();
+    const std::string mode = weapname_mode();
+    const std::string ammo = weapname_ammo();
+
+    if( !mode.empty() ) {
+        name = string_format( "%s %s", mode, name );
+    }
+    if( !ammo.empty() ) {
+        name = string_format( "%s %s", name, ammo );
+    }
+
+    return name;
+}
+
+std::string Character::weapname_simple() const
+{
+    if( weapon.is_gun() ) {
+        gun_mode current_mode = weapon.gun_current_mode();
+        const bool no_mode = !current_mode.target;
+        std::string gun_name = no_mode ? weapon.display_name() : current_mode->tname();
+        return gun_name;
+
+    } else if( !is_armed() ) {
+        return _( "fists" );
+    } else {
+        return weapon.tname();
+    }
+}
+
+std::string Character::weapname_mode() const
+{
     if( weapon.is_gun() ) {
         gun_mode current_mode = weapon.gun_current_mode();
         const bool no_mode = !current_mode.target;
         std::string gunmode;
-        std::string gun_name = no_mode ? weapon.display_name() : current_mode->tname();
+        if( !no_mode && current_mode->gun_all_modes().size() > 1 ) {
+            gunmode = current_mode.tname();
+        }
+        return gunmode;
+    } else {
+        return _( "" );
+    }
+}
+
+std::string Character::weapname_ammo() const
+{
+    if( weapon.is_gun() ) {
+        gun_mode current_mode = weapon.gun_current_mode();
+        const bool no_mode = !current_mode.target;
         // only required for empty mags and empty guns
         std::string mag_ammo;
-        if( !no_mode && current_mode->gun_all_modes().size() > 1 ) {
-            gunmode = current_mode.tname() + " ";
-        }
 
         if( !no_mode && ( current_mode->uses_magazine() || current_mode->magazine_integral() ) ) {
             if( current_mode->uses_magazine() && !current_mode->magazine_current() ) {
-                mag_ammo = _( " (empty)" );
+                mag_ammo = _( "(empty)" );
             } else {
                 int cur_ammo = current_mode->ammo_remaining();
                 int max_ammo;
@@ -7192,18 +7233,15 @@ std::string Character::weapname() const
                 } else {
                     charges_color = c_light_green;
                 }
-                mag_ammo = string_format( " (%s)", colorize( string_format( "%i/%i", cur_ammo, max_ammo ),
+                mag_ammo = string_format( "(%s)", colorize( string_format( "%i/%i", cur_ammo, max_ammo ),
                                           charges_color ) );
             }
         }
 
-        return string_format( "%s%s%s", gunmode, gun_name, mag_ammo );
-
-    } else if( !is_armed() ) {
-        return _( "fists" );
+        return mag_ammo;
 
     } else {
-        return weapon.tname();
+        return _( "" );
     }
 }
 
