@@ -80,7 +80,7 @@
     "type": "GENERIC",
     "id": "bat_nerf",
     "name": { "str": "foam rubber bat" },
-    "description": "A baseball bat made out of foam rubber with a plastic handle.  Light, well-balanced, and easy to wield, but almost completely ineffective.",
+    "description": "A baseball bat made out of foam rubber with a plastic handle.  Light and easy to wield, but almost completely ineffective.",
     "weight": "225 g",
     "longest_side": "60 cm",
     "to_hit": { "grip": "weapon", "length": "long", "surface": "any", "balance": "neutral" },
@@ -350,7 +350,7 @@
     "symbol": "/",
     "material": [ "plastic" ],
     "bashing": 2,
-    "to_hit": { "grip": "weapon", "length": "short", "surface": "any", "balance": "uneven" },
+    "to_hit": { "grip": "weapon", "length": "short", "surface": "any", "balance": "neutral" },
     "price_postapoc": 10,
     "extend": { "flags": [ "FRAGILE_MELEE" ] }
   },
@@ -366,7 +366,7 @@
     "symbol": "/",
     "material": [ "plastic" ],
     "bashing": 2,
-    "to_hit": { "grip": "weapon", "length": "short", "surface": "any", "balance": "uneven" },
+    "to_hit": { "grip": "weapon", "length": "short", "surface": "any", "balance": "neutral" },
     "price_postapoc": 20,
     "extend": { "flags": [ "FRAGILE_MELEE", "WATER_BREAK_ACTIVE" ] },
     "charges_per_use": 1,
@@ -417,7 +417,7 @@
     "color": "blue",
     "symbol": "/",
     "material": [ "wood", "aluminum" ],
-    "to_hit": { "grip": "weapon", "length": "short", "surface": "any", "balance": "uneven" },
+    "to_hit": { "grip": "weapon", "length": "short", "surface": "any", "balance": "neutral" },
     "bashing": 8,
     "price_postapoc": 150,
     "extend": { "flags": [ "WATER_BREAK_ACTIVE" ] },
@@ -473,7 +473,7 @@
     "volume": "1 L",
     "longest_side": "80 cm",
     "bashing": 7,
-    "to_hit": { "grip": "weapon", "length": "short", "surface": "any", "balance": "uneven" },
+    "to_hit": { "grip": "weapon", "length": "short", "surface": "any", "balance": "neutral" },
     "price": 1600,
     "price_postapoc": 10
   },
@@ -605,7 +605,7 @@
     "volume": "30 ml",
     "longest_side": "20 cm",
     "cutting": 6,
-    "to_hit": { "grip": "weapon", "length": "hand", "surface": "line", "balance": "good" },
+    "to_hit": { "grip": "none", "length": "hand", "surface": "line", "balance": "good" },
     "flags": [ "SHEATH_KNIFE", "CONDUCTIVE", "FRAGILE_MELEE" ],
     "weapon_category": [ "SHIVS" ],
     "qualities": [ [ "BUTCHER", -18 ] ]
@@ -1000,7 +1000,7 @@
     "volume": "2000 ml",
     "longest_side": "190 cm",
     "bashing": 30,
-    "to_hit": { "grip": "solid", "length": "long", "surface": "any", "balance": "clumsy" },
+    "to_hit": { "grip": "solid", "length": "long", "surface": "any", "balance": "uneven" },
     "price": 7500,
     "price_postapoc": 400
   },
@@ -1020,7 +1020,7 @@
     "volume": "1250 ml",
     "longest_side": "60 cm",
     "bashing": 30,
-    "to_hit": { "grip": "weapon", "length": "short", "surface": "any", "balance": "uneven" },
+    "to_hit": { "grip": "weapon", "length": "short", "surface": "any", "balance": "neutral" },
     "price": 11000,
     "price_postapoc": 2000,
     "qualities": [ [ "HAMMER", 1 ] ]
@@ -1078,7 +1078,7 @@
     "longest_side": "80 cm",
     "bashing": 38,
     "cutting": 8,
-    "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "neutral" },
+    "to_hit": { "grip": "weapon", "length": "short", "surface": "any", "balance": "neutral" },
     "flags": [ "DURABLE_MELEE", "SPEAR", "NONCONDUCTIVE" ],
     "weapon_category": [ "MACES" ],
     "price": 120000,
@@ -1097,7 +1097,7 @@
     "extend": { "flags": [ "FRAGILE_MELEE" ] },
     "material": [ "aluminum", "wood" ],
     "weight": "700 g",
-    "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "uneven" },
+    "to_hit": { "grip": "weapon", "length": "short", "surface": "any", "balance": "neutral" },
     "price": 12000,
     "price_postapoc": 500
   },
@@ -1111,7 +1111,7 @@
     "delete": { "flags": [ "DURABLE_MELEE" ] },
     "material": [ "budget_steel", "wood" ],
     "weight": "1000 g",
-    "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "uneven" },
+    "to_hit": { "grip": "weapon", "length": "short", "surface": "any", "balance": "neutral" },
     "price": 12000,
     "price_postapoc": 1000
   },
@@ -1167,7 +1167,7 @@
     "volume": "2 L",
     "longest_side": "150 cm",
     "bashing": 10,
-    "to_hit": { "grip": "weapon", "length": "long", "surface": "any", "balance": "good" },
+    "to_hit": { "grip": "solid", "length": "long", "surface": "any", "balance": "neutral" },
     "price": 8000,
     "price_postapoc": 50
   },
@@ -1229,7 +1229,7 @@
     "longest_side": "180 cm",
     "bashing": 18,
     "category": "weapons",
-    "to_hit": { "grip": "weapon", "length": "long", "surface": "any", "balance": "neutral" },
+    "to_hit": { "grip": "weapon", "length": "long", "surface": "any", "balance": "good" },
     "price_postapoc": 1000
   },
   {
@@ -1306,7 +1306,7 @@
     "volume": "1500 ml",
     "longest_side": "90 cm",
     "bashing": 24,
-    "to_hit": { "grip": "solid", "length": "long", "surface": "any", "balance": "good" },
+    "to_hit": { "grip": "weapon", "length": "long", "surface": "any", "balance": "good" },
     "price_postapoc": 1250,
     "category": "weapons"
   },
@@ -1326,7 +1326,7 @@
     "volume": "1500 ml",
     "longest_side": "90 cm",
     "bashing": 27,
-    "to_hit": { "grip": "solid", "length": "long", "surface": "any", "balance": "good" },
+    "to_hit": { "grip": "weapon", "length": "long", "surface": "any", "balance": "good" },
     "price_postapoc": 1750,
     "category": "weapons"
   },
@@ -1346,7 +1346,7 @@
     "volume": "1500 ml",
     "longest_side": "90 cm",
     "bashing": 12,
-    "to_hit": { "grip": "solid", "length": "long", "surface": "any", "balance": "neutral" },
+    "to_hit": { "grip": "weapon", "length": "long", "surface": "any", "balance": "good" },
     "price_postapoc": 50,
     "category": "weapons"
   },
@@ -1394,7 +1394,7 @@
     "price": 17000,
     "price_postapoc": 2500,
     "bashing": 14,
-    "to_hit": { "grip": "weapon", "length": "short", "surface": "any", "balance": "good" },
+    "to_hit": { "grip": "weapon", "length": "short", "surface": "every", "balance": "good" },
     "material": [ "plastic", "steel" ],
     "symbol": "/",
     "color": "dark_gray",
@@ -1481,7 +1481,7 @@
     "longest_side": "120 cm",
     "bashing": 22,
     "cutting": 23,
-    "to_hit": { "grip": "weapon", "length": "long", "surface": "point", "balance": "neutral" },
+    "to_hit": { "grip": "weapon", "length": "long", "surface": "point", "balance": "uneven" },
     "price": 16000,
     "qualities": [ [ "HAMMER", 1 ] ]
   }
