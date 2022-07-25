@@ -261,7 +261,10 @@ void vehicle::control_doors()
                 } else {
                     int part = next_part_to_close( motor );
                     if( part != -1 ) {
-                        if( part_flag( part, "CURTAIN" ) &&  option == CLOSEDOORS ) {
+                        if( part_flag( part, "CURTAIN" ) && option == CLOSEDOORS ) {
+                            continue;
+                        }
+                        if( !can_close( part, get_player_character() ) ) {
                             continue;
                         }
                         open_or_close( part, open );
@@ -269,6 +272,9 @@ void vehicle::control_doors()
                             next_part = next_part_to_close( motor );
                         }
                         if( next_part != -1 ) {
+                            if( !can_close( part, get_player_character() ) ) {
+                                continue;
+                            }
                             open_or_close( next_part, open );
                         }
                     }
