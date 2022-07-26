@@ -30,7 +30,7 @@
       { "trait": "PACIFIST" },
       { "trait": "TRUTHTELLER" },
       { "trait": "hair_blond_medium" },
-      { "trait": "eye_blue" },
+      { "trait": "eye_color", "variant": "blue" },
       { "trait": "SKIN_PINK" }
     ],
     "bonus_str": 2,
@@ -62,9 +62,11 @@
     "items": [
       { "item": "under_armor" },
       { "item": "under_armor_shorts" },
+      { "item": "socks" },
       { "item": "ring_wedding" },
       { "item": "robofac_enviro_suit" },
-      { "item": "slingpack" },
+      { "group": "molle_backpacks_and_accessories" },
+      { "group": "clothing_watch" },
       { "item": "robofac_kevlar_vambraces" },
       { "item": "robofac_kevlar_greaves" },
       { "item": "knife_combat", "container-item": "bootsheath" },
@@ -80,6 +82,7 @@
       { "item": "robofac40", "ammo-item": "556", "charges": 40 },
       { "item": "robofac_gun_kit" },
       { "item": "grenade_emp" },
+      { "group": "mil_food_nodrugs" },
       { "item": "bot_grenade_hack", "count": 2 },
       { "item": "protein_bar_evac", "count": 7 },
       { "item": "water_clean", "count": 2 },
@@ -410,7 +413,7 @@
   {
     "id": "TALK_ROBOFAC_MERC_1_ASK_HUB_DOCS",
     "type": "talk_topic",
-    "dynamic_line": "Yeah!  Crazy shit.  They sent me to an office building to find a folder with a certain serial and get rid of it.  They didn't even care what was on it.  By the time I got there, though, the building was pretty much a wreck.  The folder had been sitting a puddle for God knows how long, and there was nothing even remotely legible by then."
+    "dynamic_line": "Yeah!  Crazy shit.  They sent me to an office building to find a folder with a certain serial and get rid of it.  They didn't even care what was on it.  By the time I got there, though, the building was pretty much a wreck.  The folder had been sitting in a puddle for God knows how long, and there was nothing even remotely legible by then."
   },
   {
     "id": "TALK_ROBOFAC_MERC_1_ASK_HUB_NETWORK",

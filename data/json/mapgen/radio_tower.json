@@ -7,10 +7,10 @@
     "object": {
       "fill_ter": "t_floor",
       "rows": [
-        " ---------------------- ",
-        " |                    | ",
-        " |                    | ",
-        " |        R____R      | ",
+        " -2222222-------------- ",
+        " |_______             | ",
+        " |_______             | ",
+        " |_______ R____R      | ",
         " |_______ ______      | ",
         " |_______ ______      | ",
         " |_______ ______      | ",
@@ -33,14 +33,14 @@
         "                        "
       ],
       "terrain": {
-        " ": [ "t_dirt", "t_dirt", "t_grass" ],
+        " ": "t_region_groundcover",
         "#": "t_concrete_wall",
         "R": "t_radio_tower",
         "2": "t_chaingate_c",
         "-": "t_chainfence_h",
         "|": "t_chainfence_v",
         "6": "t_radio_controls",
-        "_": "t_pavement",
+        "_": "t_concrete",
         "<": "t_stairs_up"
       }
     }
@@ -62,8 +62,8 @@
         " |_______ ______      | ",
         " |_______ _<____      | ",
         " |_______ R____R      | ",
-        " |___________         | ",
-        " |___________         | ",
+        " |_______  _          | ",
+        " |__________          | ",
         " --------##+########--- ",
         "         #..ll#rrrC#4   ",
         "         w....+..h6#    ",
@@ -79,14 +79,14 @@
         "                        "
       ],
       "terrain": {
-        " ": [ "t_dirt", "t_dirt", "t_grass" ],
+        " ": "t_region_groundcover",
         "#": "t_concrete_wall",
         "R": "t_radio_tower",
         "2": "t_chaingate_c",
         "-": "t_chainfence_h",
         "|": "t_chainfence_v",
         "6": "t_radio_controls",
-        "_": "t_pavement",
+        "_": "t_concrete",
         "+": "t_door_c",
         "4": "t_gutter_downspout",
         "<": "t_ladder_up",

@@ -128,7 +128,7 @@ static int has_quality_from_vpart( const vehicle &veh, int part, const quality_i
     int qty = 0;
 
     point pos = veh.part( part ).mount;
-    for( const auto &n : veh.parts_at_relative( pos, true ) ) {
+    for( const int &n : veh.parts_at_relative( pos, true ) ) {
 
         // only unbroken parts can provide tool qualities
         if( !veh.part( n ).is_broken() ) {
@@ -152,20 +152,25 @@ bool read_only_visitable::has_quality( const quality_id &qual, int level, int qt
 /** @relates visitable */
 bool inventory::has_quality( const quality_id &qual, int level, int qty ) const
 {
-    int res = 0;
-    for( const auto &stack : this->items ) {
-        res += stack.size() * has_quality_internal( stack.front(), qual, level, qty );
-        if( res >= qty ) {
-            return true;
+    const quality_query query{ qual, level, qty };
+
+    if( qualities_cache.find( query ) == qualities_cache.end() ) {
+        int res = 0;
+        for( const auto &stack : this->items ) {
+            res += stack.size() * has_quality_internal( stack.front(), qual, level, qty );
+            if( res >= qty ) {
+                qualities_cache[query] = true;
+            }
         }
     }
-    return false;
+
+    return qualities_cache[query];
 }
 
 /** @relates visitable */
 bool vehicle_selector::has_quality( const quality_id &qual, int level, int qty ) const
 {
-    for( const auto &cursor : *this ) {
+    for( const vehicle_cursor &cursor : *this ) {
         if( cursor.ignore_vpart ) {
             continue;
         }
@@ -190,7 +195,7 @@ bool vehicle_cursor::has_quality( const quality_id &qual, int level, int qty ) c
 /** @relates visitable */
 bool Character::has_quality( const quality_id &qual, int level, int qty ) const
 {
-    for( const auto &bio : *this->my_bionics ) {
+    for( const bionic &bio : *this->my_bionics ) {
         if( bio.get_quality( qual ) >= level ) {
             if( qty <= 1 ) {
                 return true;
@@ -237,7 +242,7 @@ static int max_quality_from_vpart( const vehicle &veh, int part, const quality_i
     int res = INT_MIN;
 
     point pos = veh.part( part ).mount;
-    for( const auto &n : veh.parts_at_relative( pos, true ) ) {
+    for( const int &n : veh.parts_at_relative( pos, true ) ) {
 
         // only unbroken parts can provide tool qualities
         if( !veh.part( n ).is_broken() ) {
@@ -300,7 +305,7 @@ int vehicle_cursor::max_quality( const quality_id &qual ) const
 int vehicle_selector::max_quality( const quality_id &qual ) const
 {
     int res = INT_MIN;
-    for( const auto &e : *this ) {
+    for( const vehicle_cursor &e : *this ) {
         res = std::max( res, e.max_quality( qual ) );
     }
     return res;
@@ -407,7 +412,7 @@ VisitResponse inventory::visit_items(
     const std::function<VisitResponse( item *, item * )> &func ) const
 {
     for( const auto &stack : items ) {
-        for( const auto &it : stack ) {
+        for( const item &it : stack ) {
             if( visit_internal( func, &it ) == VisitResponse::ABORT ) {
                 return VisitResponse::ABORT;
             }
@@ -466,13 +471,26 @@ VisitResponse map_cursor::visit_items(
     const std::function<VisitResponse( item *, item * )> &func ) const
 {
     map &here = get_map();
+    tripoint p = pos();
+
+    // check furniture pseudo items
+    if( here.furn( p ) != f_null ) {
+        itype_id it_id = here.furn( p )->crafting_pseudo_item;
+        if( it_id.is_valid() ) {
+            item it( it_id );
+            if( visit_internal( func, &it ) == VisitResponse::ABORT ) {
+                return VisitResponse::ABORT;
+            }
+        }
+    }
+
     // skip inaccessible items
-    if( here.has_flag( ter_furn_flag::TFLAG_SEALED, pos() ) &&
-        !here.has_flag( ter_furn_flag::TFLAG_LIQUIDCONT, pos() ) ) {
+    if( here.has_flag( ter_furn_flag::TFLAG_SEALED, p ) &&
+        !here.has_flag( ter_furn_flag::TFLAG_LIQUIDCONT, p ) ) {
         return VisitResponse::NEXT;
     }
 
-    for( item &e : here.i_at( pos() ) ) {
+    for( item &e : here.i_at( p ) ) {
         if( visit_internal( func, &e ) == VisitResponse::ABORT ) {
             return VisitResponse::ABORT;
         }
@@ -484,7 +502,7 @@ VisitResponse map_cursor::visit_items(
 VisitResponse map_selector::visit_items(
     const std::function<VisitResponse( item *, item * )> &func ) const
 {
-    for( auto &cursor : * ( const_cast<map_selector *>( this ) ) ) {
+    for( map_cursor &cursor : * ( const_cast<map_selector *>( this ) ) ) {
         if( cursor.visit_items( func ) == VisitResponse::ABORT ) {
             return VisitResponse::ABORT;
         }
@@ -498,7 +516,7 @@ VisitResponse vehicle_cursor::visit_items(
 {
     int idx = veh.part_with_feature( part, "CARGO", true );
     if( idx >= 0 ) {
-        for( auto &e : veh.get_items( idx ) ) {
+        for( item &e : veh.get_items( idx ) ) {
             if( visit_internal( func, &e ) == VisitResponse::ABORT ) {
                 return VisitResponse::ABORT;
             }
@@ -511,7 +529,7 @@ VisitResponse vehicle_cursor::visit_items(
 VisitResponse vehicle_selector::visit_items(
     const std::function<VisitResponse( item *, item * )> &func ) const
 {
-    for( const auto &cursor :  *this ) {
+    for( const vehicle_cursor &cursor :  *this ) {
         if( cursor.visit_items( func ) == VisitResponse::ABORT ) {
             return VisitResponse::ABORT;
         }
@@ -707,7 +725,7 @@ std::list<item> map_selector::remove_items_with( const
 {
     std::list<item> res;
 
-    for( auto &cursor : *this ) {
+    for( map_cursor &cursor : *this ) {
         std::list<item> out = cursor.remove_items_with( filter, count );
         count -= out.size();
         res.splice( res.end(), out );
@@ -767,7 +785,7 @@ std::list<item> vehicle_selector::remove_items_with( const
 {
     std::list<item> res;
 
-    for( auto &cursor : *this ) {
+    for( vehicle_cursor &cursor : *this ) {
         std::list<item> out = cursor.remove_items_with( filter, count );
         count -= out.size();
         res.splice( res.end(), out );
@@ -952,7 +970,7 @@ int read_only_visitable::amount_of( const itype_id &what, bool pseudo, int limit
 int inventory::amount_of( const itype_id &what, bool pseudo, int limit,
                           const std::function<bool( const item & )> &filter ) const
 {
-    const auto &binned = get_binned_items();
+    const itype_bin &binned = get_binned_items();
     const auto iter = binned.find( what );
     if( iter == binned.end() && what != STATIC( itype_id( "any" ) ) ) {
         return 0;

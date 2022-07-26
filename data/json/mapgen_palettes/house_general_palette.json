@@ -236,7 +236,11 @@
       "4": { "item": "SUS_junk_drawer", "chance": 100 },
       "5": { "item": "SUS_kitchen_sink", "chance": 100 },
       "6": [ { "item": "SUS_pantry", "chance": 25 }, { "item": "cannedfood", "chance": 20, "repeat": [ 1, 2 ] } ],
-      "7": [ { "item": "SUS_breakfast_cupboard", "chance": 30 }, { "item": "SUS_coffee_cupboard", "chance": 50 } ],
+      "7": [
+        { "item": "SUS_breakfast_cupboard", "chance": 30 },
+        { "item": "SUS_coffee_cupboard", "chance": 50 },
+        { "item": "SUS_spice_collection", "chance": 100 }
+      ],
       "8": [
         { "item": "SUS_hair_drawer", "chance": 30 },
         { "item": "SUS_bathroom_cabinet", "chance": 30 },

@@ -48,7 +48,7 @@ struct bionic_data {
     /** Amount of free energy the bionic generates each turn regardless of activation state*/
     units::energy power_trickle = 0_kJ;
     /** How often a bionic draws or produces power while active in turns */
-    int charge_time = 0;
+    time_duration charge_time = 0_turns;
     /** Power bank size **/
     units::energy capacity = 0_kJ;
     /** If true multiples of this can be installed */
@@ -109,6 +109,8 @@ struct bionic_data {
     std::vector<effect_on_condition_id> deactivated_eocs;
     /** bionic enchantments */
     std::vector<enchantment_id> enchantments;
+    /** kown martial arts styles */
+    std::vector<matype_id> ma_styles;
 
     cata::value_ptr<fake_spell> spell_on_activate;
 
@@ -195,7 +197,7 @@ struct bionic {
         using bionic_uid = unsigned int;
 
         bionic_id id;
-        int         charge_timer  = 0;
+        time_duration         charge_timer  = 0_turns;
         char        invlet  = 'a';
         bool        powered = false;
         /* An amount of time during which this bionic has been rendered inoperative. */

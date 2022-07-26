@@ -201,6 +201,9 @@ class target_ui
         // Initialize UI and run the event loop
         target_handler::trajectory run();
 
+        // returns the currently selected aim type (immediate/careful/precise etc)
+        aim_type get_selected_aim_type() const;
+
     private:
         enum class Status : int {
             Good, // All UI elements are enabled
@@ -403,7 +406,7 @@ target_handler::trajectory target_handler::mode_fire( avatar &you, aim_activity_
     ui.you = &you;
     ui.mode = target_ui::TargetMode::Fire;
     ui.activity = &activity;
-    ui.relevant = activity.get_weapon();
+    ui.relevant = &*activity.get_weapon();
     gun_mode gun = ui.relevant->gun_current_mode();
     ui.range = gun.target->gun_range( &you );
     ui.ammo = gun->ammo_data();
@@ -423,13 +426,13 @@ target_handler::trajectory target_handler::mode_throw( avatar &you, item &releva
     return ui.run();
 }
 
-target_handler::trajectory target_handler::mode_reach( avatar &you, item &weapon )
+target_handler::trajectory target_handler::mode_reach( avatar &you, item_location weapon )
 {
     target_ui ui = target_ui();
     ui.you = &you;
     ui.mode = target_ui::TargetMode::Reach;
-    ui.relevant = &weapon;
-    ui.range = weapon.current_reach_range( you );
+    ui.relevant = weapon.get_item();
+    ui.range = weapon ? weapon->current_reach_range( you ) : 1;
 
     return ui.run();
 }
@@ -745,7 +748,12 @@ void npc::pretend_fire( npc *source, int shots, item &gun )
 
 int Character::fire_gun( const tripoint &target, int shots )
 {
-    return fire_gun( target, shots, get_wielded_item() );
+    item_location gun = get_wielded_item();
+    if( !gun ) {
+        debugmsg( "%s doesn't have a gun to fire", get_name() );
+        return 0;
+    }
+    return fire_gun( target, shots, *gun );
 }
 
 int Character::fire_gun( const tripoint &target, int shots, item &gun )
@@ -1419,11 +1427,10 @@ static double confidence_estimate( int range, double target_size,
     return 1 / ( max_lateral_offset / target_size );
 }
 
-static std::vector<aim_type> get_default_aim_type()
+static aim_type get_default_aim_type()
 {
-    std::vector<aim_type> aim_types;
-    aim_types.push_back( aim_type { "", "", "", false, 0 } ); // dummy aim type for unaimed shots
-    return aim_types;
+    // dummy aim type for unaimed shots
+    return { _( "Immediate" ), "", "", false, static_cast<int>( MAX_RECOIL ) };
 }
 
 using RatingVector = std::vector<std::tuple<double, char, std::string>>;
@@ -1489,8 +1496,8 @@ Target_attributes::Target_attributes( int rng, double target_size, float light_t
     visible = can_see;
 }
 
-
-static int print_ranged_chance( const Character &you, const catacurses::window &w, int line_number,
+static int print_ranged_chance( const target_ui &ui, const Character &you,
+                                const catacurses::window &w, int line_number,
                                 target_ui::TargetMode mode, input_context &ctxt, const item &ranged_weapon,
                                 const dispersion_sources &dispersion, const std::vector<confidence_rating> &confidence_config,
                                 Target_attributes target_attributes, int recoil = 0 )
@@ -1515,7 +1522,7 @@ static int print_ranged_chance( const Character &you, const catacurses::window &
 
     std::vector<aim_type> aim_types;
     if( mode == target_ui::TargetMode::Throw || mode == target_ui::TargetMode::ThrowBlind ) {
-        aim_types = get_default_aim_type();
+        aim_types = { get_default_aim_type() };
     } else {
         aim_types = you.get_aim_types( ranged_weapon );
     }
@@ -1562,16 +1569,18 @@ static int print_ranged_chance( const Character &you, const catacurses::window &
 
     for( const aim_type &type : aim_types ) {
         dispersion_sources current_dispersion = dispersion;
-        int threshold = MAX_RECOIL;
+        int threshold;
         std::string label = _( "Current" );
         std::string aim_l = _( "Aim" );
         if( type.has_threshold ) {
             label = type.name;
             threshold = type.threshold;
-            current_dispersion.add_range( threshold );
         } else {
-            current_dispersion.add_range( recoil );
+            const aim_type default_selected_type = ui.get_selected_aim_type();
+            label = default_selected_type.name;
+            threshold = default_selected_type.threshold;
         }
+        current_dispersion.add_range( threshold );
 
         int moves_to_fire;
         if( mode == target_ui::TargetMode::Throw || mode == target_ui::TargetMode::ThrowBlind ) {
@@ -1669,7 +1678,8 @@ static bool pl_sees( const Creature &cr )
     return u.sees( cr ) || u.sees_with_infrared( cr ) || u.sees_with_specials( cr );
 }
 
-static int print_aim( Character &you, const catacurses::window &w, int line_number,
+static int print_aim( const target_ui &ui, Character &you, const catacurses::window &w,
+                      int line_number,
                       input_context &ctxt, item *weapon,
                       const double target_size, const tripoint &pos, double predicted_recoil )
 {
@@ -1692,17 +1702,17 @@ static int print_aim( Character &you, const catacurses::window &w, int line_numb
     };
 
     const double range = rl_dist( you.pos(), pos );
-    line_number = print_steadiness( w, line_number, steadiness );
-    return print_ranged_chance( you, w, line_number, target_ui::TargetMode::Fire, ctxt, *weapon,
+    line_number = print_steadiness( w, ++line_number, steadiness );
+    return print_ranged_chance( ui, you, w, line_number, target_ui::TargetMode::Fire, ctxt, *weapon,
                                 dispersion,
                                 confidence_config,
                                 Target_attributes( range, target_size, get_map().ambient_light_at( pos ), you.sees( pos ) ),
                                 predicted_recoil );
 }
 
-static void draw_throw_aim( const Character &you, const catacurses::window &w, int &text_y,
-                            input_context &ctxt,
-                            const item &weapon, const tripoint &target_pos, bool is_blind_throw )
+static void draw_throw_aim( const target_ui &ui, const Character &you, const catacurses::window &w,
+                            int &text_y, input_context &ctxt, const item &weapon, const tripoint &target_pos,
+                            bool is_blind_throw )
 {
     Creature *target = get_creature_tracker().creature_at( target_pos, true );
     if( target != nullptr && !you.sees( *target ) ) {
@@ -1730,7 +1740,7 @@ static void draw_throw_aim( const Character &you, const catacurses::window &w, i
     const target_ui::TargetMode throwing_target_mode = is_blind_throw ?
             target_ui::TargetMode::ThrowBlind :
             target_ui::TargetMode::Throw;
-    text_y = print_ranged_chance( you, w, text_y, throwing_target_mode, ctxt, weapon, dispersion,
+    text_y = print_ranged_chance( ui, you, w, text_y, throwing_target_mode, ctxt, weapon, dispersion,
                                   confidence_config,
                                   Target_attributes( range, target_size, get_map().ambient_light_at( target_pos ),
                                           you.sees( target_pos ) ) );
@@ -1738,7 +1748,7 @@ static void draw_throw_aim( const Character &you, const catacurses::window &w, i
 
 std::vector<aim_type> Character::get_aim_types( const item &gun ) const
 {
-    std::vector<aim_type> aim_types = get_default_aim_type();
+    std::vector<aim_type> aim_types { get_default_aim_type() };
     if( !gun.is_gun() ) {
         return aim_types;
     }
@@ -2143,7 +2153,7 @@ double Character::gun_value( const item &weap, int ammo ) const
 
     // Penalty for dodging in melee makes the gun unusable in melee
     // Until NPCs get proper kiting, at least
-    int melee_penalty = get_wielded_item().volume() / 250_ml - get_skill_level( skill_dodge );
+    int melee_penalty = weap.volume() / 250_ml - get_skill_level( skill_dodge );
     if( melee_penalty <= 0 ) {
         // Dispersion matters less if you can just use the gun in melee
         total_dispersion = std::min<int>( total_dispersion / move_cost_factor, total_dispersion );
@@ -2451,7 +2461,7 @@ void target_ui::init_window_and_input()
             height = 28;
         } else {
             // Go all out
-            height = 32;
+            height = 33;
         }
     }
 
@@ -3291,7 +3301,7 @@ void target_ui::draw_ui_window()
             panel_fire_mode_aim( text_y );
         } else if( mode == TargetMode::Throw || mode == TargetMode::ThrowBlind ) {
             bool blind = mode == TargetMode::ThrowBlind;
-            draw_throw_aim( *you, w_target, text_y, ctxt, *relevant, dst, blind );
+            draw_throw_aim( *this, *you, w_target, text_y, ctxt, *relevant, dst, blind );
         }
     }
 
@@ -3300,6 +3310,11 @@ void target_ui::draw_ui_window()
     }
 
     wnoutrefresh( w_target );
+}
+
+aim_type target_ui::get_selected_aim_type() const
+{
+    return this->aim_mode != this->aim_types.cend() ? *( this->aim_mode ) : get_default_aim_type();
 }
 
 std::string target_ui::uitext_title()
@@ -3405,7 +3420,7 @@ void target_ui::draw_controls_list( int text_y )
     }
     if( mode == TargetMode::Fire ) {
         std::string aim_and_fire;
-        for( const auto &e : aim_types ) {
+        for( const aim_type &e : aim_types ) {
             if( e.has_threshold ) {
                 aim_and_fire += string_format( "[%s] ", bound_key( e.action ).short_description() );
             }
@@ -3638,38 +3653,11 @@ void target_ui::panel_target_info( int &text_y, bool fill_with_blank_if_no_targe
 
 void target_ui::panel_fire_mode_aim( int &text_y )
 {
-    // TODO: saving & restoring pc.recoil may actually be unnecessary
-    double saved_pc_recoil = you->recoil;
-    you->recoil = predicted_recoil;
-
-    double predicted_recoil = you->recoil;
-    int predicted_delay = 0;
-    if( aim_mode->has_threshold && aim_mode->threshold < you->recoil ) {
-        do {
-            const double aim_amount = you->aim_per_move( *relevant, predicted_recoil,
-                                      Target_attributes( src, dst ) );
-            if( aim_amount > 0 ) {
-                predicted_delay++;
-                predicted_recoil = std::max( predicted_recoil - aim_amount, 0.0 );
-            }
-        } while( predicted_recoil > aim_mode->threshold &&
-                 predicted_recoil - sight_dispersion > 0 );
-    } else {
-        predicted_recoil = you->recoil;
-    }
-
     const double target_size = dst_critter ? dst_critter->ranged_target_size() :
                                occupied_tile_fraction( creature_size::medium );
 
-    text_y = print_aim( *you, w_target, text_y, ctxt, &*relevant->gun_current_mode(),
-                        target_size, dst, predicted_recoil );
-
-    if( aim_mode->has_threshold ) {
-        mvwprintw( w_target, point( 1, text_y++ ), _( "%s Delay: %i" ), aim_mode->name,
-                   predicted_delay );
-    }
-
-    you->recoil = saved_pc_recoil;
+    text_y = print_aim( *this, *you, w_target, text_y, ctxt, &*relevant->gun_current_mode(),
+                        target_size, dst, you->recoil );
 }
 
 void target_ui::panel_turret_list( int &text_y )
@@ -3771,7 +3759,8 @@ bool gunmode_checks_weapon( avatar &you, const map &m, std::vector<std::string> 
         // Workaround for guns that use ups and normal ammo at same time.
         // Remove once guns can support use of multiple ammo at once
         if( !gmode->ammo_default().is_null() &&
-            gmode->ammo_remaining( nullptr ) < gmode->ammo_required() ) {
+            gmode->ammo_remaining( nullptr ) < gmode->ammo_required() &&
+            !gmode->has_flag( flag_RELOAD_AND_SHOOT ) ) {
             result = false;
             messages.push_back( string_format( _( "Your %s is empty!" ), gmode->tname() ) );
         }

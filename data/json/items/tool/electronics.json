@@ -575,7 +575,7 @@
     "power_draw": 300,
     "revert_to": "smart_phone",
     "use_action": [ "MP3_ON", "PORTABLE_GAME", "EINKTABLETPC", "EBOOKSAVE", "EBOOKREAD" ],
-    "flags": [ "WATCH", "TRADER_AVOID", "ALARMCLOCK", "USE_UPS", "NO_UNLOAD", "NO_RELOAD", "WATER_BREAK" ]
+    "extend": { "flags": [ "TRADER_AVOID" ] }
   },
   {
     "id": "smart_phone_flashlight",
@@ -597,7 +597,7 @@
         "type": "transform"
       }
     ],
-    "flags": [ "WATCH", "LIGHT_20", "CHARGEDIM", "TRADER_AVOID", "ALARMCLOCK", "USE_UPS", "NO_UNLOAD", "NO_RELOAD", "WATER_BREAK" ]
+    "extend": { "flags": [ "LIGHT_20", "CHARGEDIM", "TRADER_AVOID" ] }
   },
   {
     "id": "UPS_off",
@@ -622,6 +622,23 @@
         "default_magazine": "heavy_plus_battery_cell"
       }
     ]
+  },
+  {
+    "id": "methanol_fuel_cell",
+    "type": "TOOL",
+    "name": { "str": "methanol fuel cell UPS", "str_pl": "methanol fuel cell UPSes" },
+    "description": "This is a direct methanol fuel cell which can provide power to UPS-compatible electronic devices by oxidizing methanol supplied from a specialized fuel tank to produce electricity.",
+    "weight": "7800 g",
+    "volume": "24390 ml",
+    "longest_side": "448 mm",
+    "price": 280000,
+    "price_postapoc": 1500,
+    "material": [ "aluminum", "plastic" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "ammo": [ "methanol_fuelcell" ],
+    "flags": [ "IS_UPS" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "flag_restriction": [ "METHANOL_TANK" ], "default_magazine": "5l_methanol_tank" } ]
   },
   {
     "id": "vibrator",

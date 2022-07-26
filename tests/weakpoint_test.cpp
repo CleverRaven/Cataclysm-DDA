@@ -1,4 +1,5 @@
 #include <string>
+#include <utility>
 
 #include "avatar.h"
 #include "cata_catch.h"
@@ -11,6 +12,7 @@
 #include "type_id.h"
 
 static const mtype_id debug_mon( "debug_mon" );
+static const mtype_id mon_test_weakpoint_mon( "mon_test_weakpoint_mon" );
 static const mtype_id mon_test_zombie_cop( "mon_test_zombie_cop" );
 static const mtype_id mon_zombie( "mon_zombie" );
 
@@ -18,7 +20,8 @@ struct weakpoint_report_item {
     std::string weakpoint;
     int totaldamage;
     int hits;
-    weakpoint_report_item( std::string wp, int dam ) : weakpoint{ wp }, totaldamage{ dam }, hits{ 1 } { }
+    weakpoint_report_item( std::string wp, int dam ) : weakpoint{ std::move( wp ) }, totaldamage{ dam },
+        hits{ 1 } { }
     weakpoint_report_item() : weakpoint_report_item( "", 0 ) { }
 };
 
@@ -26,7 +29,7 @@ struct weakpoint_report {
     int hits;
     std::map<std::string, weakpoint_report_item> items;
 
-    void Accumulate( dealt_damage_instance dd ) {
+    void Accumulate( const dealt_damage_instance &dd ) {
         if( items.find( dd.wp_hit ) == items.end() ) {
             items[dd.wp_hit] = weakpoint_report_item( dd.wp_hit, dd.total_damage() );
         } else {
@@ -36,7 +39,7 @@ struct weakpoint_report {
         hits += 1;
     }
 
-    float PercHits( std::string wp ) {
+    float PercHits( const std::string &wp ) {
         if( items.find( wp ) == items.end() || hits == 0 ) {
             return 0.0f;
         } else {
@@ -44,7 +47,7 @@ struct weakpoint_report {
         }
     }
 
-    float AveDam( std::string wp ) {
+    float AveDam( const std::string &wp ) {
         if( items.find( wp ) == items.end() ) {
             return 0.0f;
         } else {
@@ -226,5 +229,34 @@ TEST_CASE( "Check deferred weakpoint set loading", "[monster][weakpoint]" )
     CHECK( unk.empty() );
     for( const auto &found : wp_found ) {
         CHECK( found.second == true );
+    }
+}
+
+TEST_CASE( "Check copy-from inheritance between sets and inline weakpoints",
+           "[monster][weakpoint]" )
+{
+    weakpoints wplist = mon_test_weakpoint_mon->weakpoints;
+    CHECK( wplist.weakpoint_list.size() == 2 );
+
+    // { weakpoint_id, { found, coverage } }
+    std::map<std::string, std::pair<bool, int>> wp_found {
+        { "test_eye", { false, 0 } },
+        { "test_arm", { false, 5 } }
+    };
+
+    std::list<std::string> unk;
+    for( const weakpoint &wp : wplist.weakpoint_list ) {
+        auto iter = wp_found.find( wp.id );
+        if( iter != wp_found.end() &&
+            iter->second.second == static_cast<int>( std::round( wp.coverage ) ) ) {
+            wp_found[wp.id].first = true;
+        } else {
+            unk.emplace_back( wp.id );
+        }
+    }
+
+    CHECK( unk.empty() );
+    for( const auto &found : wp_found ) {
+        CHECK( found.second.first == true );
     }
 }

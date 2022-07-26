@@ -15,6 +15,8 @@
 #include "weather_type.h"
 #include "widget.h"
 
+#include <clocale>
+
 // Needed for screen scraping
 #if !(defined(TILES) || defined(_WIN32))
 namespace cata_curses_test
@@ -105,6 +107,10 @@ static const widget_id widget_test_hp_head_graph( "test_hp_head_graph" );
 static const widget_id widget_test_hp_head_num( "test_hp_head_num" );
 static const widget_id widget_test_hunger_clause( "test_hunger_clause" );
 static const widget_id widget_test_int_color_num( "test_int_color_num" );
+static const widget_id widget_test_layout_cols_in_cols( "test_layout_cols_in_cols" );
+static const widget_id widget_test_layout_nopad( "test_layout_nopad" );
+static const widget_id widget_test_layout_nopad_noflag( "test_layout_nopad_noflag" );
+static const widget_id widget_test_layout_rows_in_columns( "test_layout_rows_in_columns" );
 static const widget_id widget_test_lighting_clause( "test_lighting_clause" );
 static const widget_id widget_test_mana_num( "test_mana_num" );
 static const widget_id widget_test_moon_phase_clause( "test_moon_phase_clause" );
@@ -128,6 +134,7 @@ static const widget_id widget_test_status_sym_left_arm_text( "test_status_sym_le
 static const widget_id widget_test_status_sym_torso_text( "test_status_sym_torso_text" );
 static const widget_id widget_test_status_torso_text( "test_status_torso_text" );
 static const widget_id widget_test_str_color_num( "test_str_color_num" );
+static const widget_id widget_test_sundial_text( "test_sundial_text" );
 static const widget_id widget_test_text_widget( "test_text_widget" );
 static const widget_id widget_test_thirst_clause( "test_thirst_clause" );
 static const widget_id widget_test_torso_armor_outer_text( "test_torso_armor_outer_text" );
@@ -249,17 +256,7 @@ TEST_CASE( "text widgets", "[widget][text]" )
         words._var_max = 10;
         REQUIRE( words._style == "text" );
 
-        CHECK( words.text( 0, 0, false ) == "Zero" );
-        CHECK( words.text( 1, 0, false ) == "One" );
-        CHECK( words.text( 2, 0, false ) == "Two" );
-        CHECK( words.text( 3, 0, false ) == "Three" );
-        CHECK( words.text( 4, 0, false ) == "Four" );
-        CHECK( words.text( 5, 0, false ) == "Five" );
-        CHECK( words.text( 6, 0, false ) == "Six" );
-        CHECK( words.text( 7, 0, false ) == "Seven" );
-        CHECK( words.text( 8, 0, false ) == "Eight" );
-        CHECK( words.text( 9, 0, false ) == "Nine" );
-        CHECK( words.text( 10, 0, false ) == "Ten" );
+        CHECK( words.text( 0, false ) == "Zero" );
     }
 }
 
@@ -489,25 +486,25 @@ TEST_CASE( "widgets showing avatar health with color for normal value", "[widget
     avatar &ava = get_avatar();
     clear_avatar();
 
-    ava.set_healthy( -200 );
+    ava.set_lifestyle( -200 );
     CHECK( health_w.layout( ava ) == "Health: <color_c_red>-200</color>" );
     CHECK( health_clause_w.layout( ava ) == "Health: <color_c_red>Horrible</color>" );
-    ava.set_healthy( -99 );
+    ava.set_lifestyle( -99 );
     CHECK( health_w.layout( ava ) == "Health: <color_c_light_red>-99</color>" );
     CHECK( health_clause_w.layout( ava ) == "Health: <color_c_light_red>Very bad</color>" );
-    ava.set_healthy( -49 );
+    ava.set_lifestyle( -49 );
     CHECK( health_w.layout( ava ) == "Health: <color_c_light_red>-49</color>" );
     CHECK( health_clause_w.layout( ava ) == "Health: <color_c_yellow>Bad</color>" );
-    ava.set_healthy( 0 );
+    ava.set_lifestyle( 0 );
     CHECK( health_w.layout( ava ) == "Health: <color_c_white>0</color>" );
     CHECK( health_clause_w.layout( ava ) == "Health: <color_c_light_gray>OK</color>" );
-    ava.set_healthy( 49 );
+    ava.set_lifestyle( 49 );
     CHECK( health_w.layout( ava ) == "Health: <color_c_light_green>49</color>" );
     CHECK( health_clause_w.layout( ava ) == "Health: <color_c_white>Good</color>" );
-    ava.set_healthy( 99 );
+    ava.set_lifestyle( 99 );
     CHECK( health_w.layout( ava ) == "Health: <color_c_light_green>99</color>" );
     CHECK( health_clause_w.layout( ava ) == "Health: <color_c_green>Very good</color>" );
-    ava.set_healthy( 200 );
+    ava.set_lifestyle( 200 );
     CHECK( health_w.layout( ava ) == "Health: <color_c_green>200</color>" );
     CHECK( health_clause_w.layout( ava ) == "Health: <color_c_light_green>Excellent</color>" );
 }
@@ -934,10 +931,397 @@ TEST_CASE( "widgets showing movement cost", "[widget][move_cost]" )
     }
 }
 
+TEST_CASE( "widgets showing Sun and Moon position", "[widget]" )
+{
+    widget sundial_w = widget_test_sundial_text.obj();
+
+    avatar &ava = get_avatar();
+    clear_map();
+    clear_avatar();
+    const tripoint_abs_ms orig_pos = ava.get_location();
+
+    // 00:00
+    time_point tp( calendar::turn_zero );
+    set_time( tp );
+    sundial_w._width = 9;
+    CHECK( sundial_w.layout( ava ) ==
+           "SUN: [<color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white>C</color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color>]" );
+    sundial_w._width = 15;
+    CHECK( sundial_w.layout( ava ) ==
+           "SUN: [<color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white>C</color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color>]" );
+    sundial_w._width = 20;
+    CHECK( sundial_w.layout( ava ) ==
+           "SUN: [<color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white>C</color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color>]" );
+    ava.set_location( { 0, 0, -1 } );
+    CHECK( sundial_w.layout( ava ) ==
+           R"(SUN: [??????????????????])" );
+
+    // 02:00
+    ava.set_location( orig_pos );
+    tp += 2_hours;
+    set_time( tp );
+    sundial_w._width = 9;
+    CHECK( sundial_w.layout( ava ) ==
+           "SUN: [<color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color><color_c_light_blue>c</color>"
+           "<color_c_white> </color><color_c_white> </color>]" );
+    sundial_w._width = 15;
+    CHECK( sundial_w.layout( ava ) ==
+           "SUN: [<color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color><color_c_white> </color>"
+           "<color_c_light_blue>c</color><color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color>]" );
+    sundial_w._width = 20;
+    CHECK( sundial_w.layout( ava ) ==
+           "SUN: [<color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_light_blue>c</color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color>]" );
+    ava.set_location( { 0, 0, -1 } );
+    CHECK( sundial_w.layout( ava ) ==
+           R"(SUN: [??????????????????])" );
+
+    // 04:00
+    ava.set_location( orig_pos );
+    tp += 2_hours;
+    set_time( tp );
+    sundial_w._width = 9;
+    CHECK( sundial_w.layout( ava ) ==
+           "SUN: [<color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color><color_c_white> </color>"
+           "<color_c_blue>,</color><color_c_white> </color>]" );
+    sundial_w._width = 15;
+    CHECK( sundial_w.layout( ava ) ==
+           "SUN: [<color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color><color_c_blue>,</color>"
+           "<color_c_white> </color><color_c_white> </color>]" );
+    sundial_w._width = 20;
+    CHECK( sundial_w.layout( ava ) ==
+           "SUN: [<color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_blue>,</color><color_c_white> </color>"
+           "<color_c_white> </color>]" );
+    ava.set_location( { 0, 0, -1 } );
+    CHECK( sundial_w.layout( ava ) ==
+           R"(SUN: [??????????????????])" );
+
+    // 06:00
+    ava.set_location( orig_pos );
+    tp += 2_hours;
+    set_time( tp );
+    sundial_w._width = 9;
+    CHECK( sundial_w.layout( ava ) ==
+           "SUN: [<color_h_white> </color><color_h_white> </color>"
+           "<color_c_white> </color><color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color>]" );
+    sundial_w._width = 15;
+    CHECK( sundial_w.layout( ava ) ==
+           "SUN: [<color_h_white> </color><color_h_white> </color>"
+           "<color_h_white> </color><color_h_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color>]" );
+    sundial_w._width = 20;
+    CHECK( sundial_w.layout( ava ) ==
+           "SUN: [<color_h_white> </color><color_h_white> </color>"
+           "<color_h_white> </color><color_h_white> </color><color_h_white> </color>"
+           "<color_c_white> </color><color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color>]" );
+    ava.set_location( { 0, 0, -1 } );
+    CHECK( sundial_w.layout( ava ) ==
+           R"(SUN: [??????????????????])" );
+
+    // 08:00
+    ava.set_location( orig_pos );
+    tp += 2_hours;
+    set_time( tp );
+    sundial_w._width = 9;
+    CHECK( sundial_w.layout( ava ) ==
+           "SUN: [<color_h_red>_</color><color_h_white> </color>"
+           "<color_h_white> </color><color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color>]" );
+    sundial_w._width = 15;
+    CHECK( sundial_w.layout( ava ) ==
+           "SUN: [<color_h_red>_</color><color_h_white> </color>"
+           "<color_h_white> </color><color_h_white> </color><color_h_white> </color>"
+           "<color_h_white> </color><color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color>]" );
+    sundial_w._width = 20;
+    CHECK( sundial_w.layout( ava ) ==
+           "SUN: [<color_h_white> </color><color_h_red>_</color>"
+           "<color_h_white> </color><color_h_white> </color><color_h_white> </color>"
+           "<color_h_white> </color><color_h_white> </color><color_h_white> </color>"
+           "<color_h_white> </color><color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color>]" );
+    ava.set_location( { 0, 0, -1 } );
+    CHECK( sundial_w.layout( ava ) ==
+           R"(SUN: [??????????????????])" );
+
+    // 10:00
+    ava.set_location( orig_pos );
+    tp += 2_hours;
+    set_time( tp );
+    sundial_w._width = 9;
+    CHECK( sundial_w.layout( ava ) ==
+           "SUN: [<color_h_white> </color><color_h_brown>.</color>"
+           "<color_h_white> </color><color_h_white> </color><color_h_white> </color>"
+           "<color_c_white> </color><color_c_white> </color>]" );
+    sundial_w._width = 15;
+    CHECK( sundial_w.layout( ava ) ==
+           "SUN: [<color_h_white> </color><color_h_white> </color>"
+           "<color_h_brown>.</color><color_h_white> </color><color_h_white> </color>"
+           "<color_h_white> </color><color_h_white> </color><color_h_white> </color>"
+           "<color_h_white> </color><color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color>]" );
+    sundial_w._width = 20;
+    CHECK( sundial_w.layout( ava ) ==
+           "SUN: [<color_h_white> </color><color_h_white> </color>"
+           "<color_h_white> </color><color_h_white> </color><color_h_brown>.</color>"
+           "<color_h_white> </color><color_h_white> </color><color_h_white> </color>"
+           "<color_h_white> </color><color_h_white> </color><color_h_white> </color>"
+           "<color_h_white> </color><color_h_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color>]" );
+    ava.set_location( { 0, 0, -1 } );
+    CHECK( sundial_w.layout( ava ) ==
+           R"(SUN: [??????????????????])" );
+
+    // 12:00
+    ava.set_location( orig_pos );
+    tp += 2_hours;
+    set_time( tp );
+    sundial_w._width = 9;
+    CHECK( sundial_w.layout( ava ) ==
+           "SUN: [<color_h_white> </color><color_h_white> </color>"
+           "<color_h_yellow>+</color><color_h_white> </color><color_h_white> </color>"
+           "<color_h_white> </color><color_c_white> </color>]" );
+    sundial_w._width = 15;
+    CHECK( sundial_w.layout( ava ) ==
+           "SUN: [<color_h_white> </color><color_h_white> </color>"
+           "<color_h_white> </color><color_h_white> </color><color_h_white> </color>"
+           "<color_h_yellow>*</color><color_h_white> </color><color_h_white> </color>"
+           "<color_h_white> </color><color_h_white> </color><color_h_white> </color>"
+           "<color_h_white> </color><color_c_white> </color>]" );
+    sundial_w._width = 20;
+    CHECK( sundial_w.layout( ava ) ==
+           "SUN: [<color_h_white> </color><color_h_white> </color>"
+           "<color_h_white> </color><color_h_white> </color><color_h_white> </color>"
+           "<color_h_white> </color><color_h_white> </color><color_h_white> </color>"
+           "<color_h_yellow>*</color><color_h_white> </color><color_h_white> </color>"
+           "<color_h_white> </color><color_h_white> </color><color_h_white> </color>"
+           "<color_h_white> </color><color_h_white> </color><color_h_white> </color>"
+           "<color_h_white> </color>]" );
+    ava.set_location( { 0, 0, -1 } );
+    CHECK( sundial_w.layout( ava ) ==
+           R"(SUN: [??????????????????])" );
+
+    // 14:00
+    ava.set_location( orig_pos );
+    tp += 2_hours;
+    set_time( tp );
+    sundial_w._width = 9;
+    CHECK( sundial_w.layout( ava ) ==
+           "SUN: [<color_c_white> </color><color_h_white> </color>"
+           "<color_h_white> </color><color_h_white> </color><color_h_yellow>+</color>"
+           "<color_h_white> </color><color_h_white> </color>]" );
+    sundial_w._width = 15;
+    CHECK( sundial_w.layout( ava ) ==
+           "SUN: [<color_c_white> </color><color_c_white> </color>"
+           "<color_h_white> </color><color_h_white> </color><color_h_white> </color>"
+           "<color_h_white> </color><color_h_white> </color><color_h_white> </color>"
+           "<color_h_yellow>+</color><color_h_white> </color><color_h_white> </color>"
+           "<color_h_white> </color><color_h_white> </color>]" );
+    sundial_w._width = 20;
+    CHECK( sundial_w.layout( ava ) ==
+           "SUN: [<color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color><color_h_white> </color>"
+           "<color_h_white> </color><color_h_white> </color><color_h_white> </color>"
+           "<color_h_white> </color><color_h_white> </color><color_h_white> </color>"
+           "<color_h_white> </color><color_h_yellow>+</color><color_h_white> </color>"
+           "<color_h_white> </color><color_h_white> </color><color_h_white> </color>"
+           "<color_h_white> </color>]" );
+    ava.set_location( { 0, 0, -1 } );
+    CHECK( sundial_w.layout( ava ) ==
+           R"(SUN: [??????????????????])" );
+
+    // 16:00
+    ava.set_location( orig_pos );
+    tp += 2_hours;
+    set_time( tp );
+    sundial_w._width = 9;
+    CHECK( sundial_w.layout( ava ) ==
+           "SUN: [<color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_h_white> </color><color_h_white> </color>"
+           "<color_h_brown>.</color><color_h_white> </color>]" );
+    sundial_w._width = 15;
+    CHECK( sundial_w.layout( ava ) ==
+           "SUN: [<color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color><color_c_white> </color>"
+           "<color_h_white> </color><color_h_white> </color><color_h_white> </color>"
+           "<color_h_white> </color><color_h_white> </color><color_h_brown>.</color>"
+           "<color_h_white> </color><color_h_white> </color>]" );
+    sundial_w._width = 20;
+    CHECK( sundial_w.layout( ava ) ==
+           "SUN: [<color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color><color_c_white> </color>"
+           "<color_h_white> </color><color_h_white> </color><color_h_white> </color>"
+           "<color_h_white> </color><color_h_white> </color><color_h_white> </color>"
+           "<color_h_white> </color><color_h_brown>.</color><color_h_white> </color>"
+           "<color_h_white> </color>]" );
+    ava.set_location( { 0, 0, -1 } );
+    CHECK( sundial_w.layout( ava ) ==
+           R"(SUN: [??????????????????])" );
+
+    // 18:00
+    ava.set_location( orig_pos );
+    tp += 2_hours;
+    set_time( tp );
+    sundial_w._width = 9;
+    CHECK( sundial_w.layout( ava ) ==
+           "SUN: [<color_c_cyan>_</color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color><color_h_white> </color>"
+           "<color_h_white> </color><color_h_white> </color>]" );
+    sundial_w._width = 15;
+    CHECK( sundial_w.layout( ava ) ==
+           "SUN: [<color_c_cyan>_</color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color><color_c_white> </color>"
+           "<color_h_white> </color><color_h_white> </color><color_h_white> </color>"
+           "<color_h_white> </color><color_h_white> </color>]" );
+    sundial_w._width = 20;
+    CHECK( sundial_w.layout( ava ) ==
+           "SUN: [<color_c_cyan>_</color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_h_white> </color><color_h_white> </color>"
+           "<color_h_white> </color><color_h_white> </color><color_h_white> </color>"
+           "<color_h_white> </color>]" );
+    ava.set_location( { 0, 0, -1 } );
+    CHECK( sundial_w.layout( ava ) ==
+           R"(SUN: [??????????????????])" );
+
+    // 20:00
+    ava.set_location( orig_pos );
+    tp += 2_hours;
+    set_time( tp );
+    sundial_w._width = 9;
+    CHECK( sundial_w.layout( ava ) ==
+           "SUN: [<color_c_white> </color><color_c_blue>,</color>"
+           "<color_c_white> </color><color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color>]" );
+    sundial_w._width = 15;
+    CHECK( sundial_w.layout( ava ) ==
+           "SUN: [<color_c_white> </color><color_c_white> </color>"
+           "<color_c_blue>,</color><color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color>]" );
+    sundial_w._width = 20;
+    CHECK( sundial_w.layout( ava ) ==
+           "SUN: [<color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_blue>,</color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color>]" );
+    ava.set_location( { 0, 0, -1 } );
+    CHECK( sundial_w.layout( ava ) ==
+           R"(SUN: [??????????????????])" );
+
+    // 22:00
+    ava.set_location( orig_pos );
+    tp += 2_hours;
+    set_time( tp );
+    sundial_w._width = 9;
+    CHECK( sundial_w.layout( ava ) ==
+           "SUN: [<color_c_white> </color><color_c_white> </color>"
+           "<color_c_light_blue>c</color><color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color>]" );
+    sundial_w._width = 15;
+    CHECK( sundial_w.layout( ava ) ==
+           "SUN: [<color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color><color_c_light_blue>c</color>"
+           "<color_c_white> </color><color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color>]" );
+    sundial_w._width = 20;
+    CHECK( sundial_w.layout( ava ) ==
+           "SUN: [<color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_light_blue>c</color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color>]" );
+    ava.set_location( { 0, 0, -1 } );
+    CHECK( sundial_w.layout( ava ) ==
+           R"(SUN: [??????????????????])" );
+
+    // 00:00
+    ava.set_location( orig_pos );
+    tp += 2_hours;
+    set_time( tp );
+    sundial_w._width = 9;
+    CHECK( sundial_w.layout( ava ) ==
+           "SUN: [<color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white>C</color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color>]" );
+    sundial_w._width = 15;
+    CHECK( sundial_w.layout( ava ) ==
+           "SUN: [<color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white>C</color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color>]" );
+    sundial_w._width = 20;
+    CHECK( sundial_w.layout( ava ) ==
+           "SUN: [<color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white>C</color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color><color_c_white> </color><color_c_white> </color>"
+           "<color_c_white> </color>]" );
+    ava.set_location( { 0, 0, -1 } );
+    CHECK( sundial_w.layout( ava ) ==
+           R"(SUN: [??????????????????])" );
+}
+
 // Bodypart status strings are pulled from a std::map, which is
 // not guaranteed to be sorted in a deterministic way.
 // Just check if the layout string contains the specified status conditions.
-static void check_bp_has_status( const std::string &layout, std::vector<std::string> stat_str )
+static void check_bp_has_status( const std::string &layout,
+                                 const std::vector<std::string> &stat_str )
 {
     for( const std::string &stat : stat_str ) {
         CHECK( layout.find( stat ) != std::string::npos );
@@ -1072,7 +1456,8 @@ TEST_CASE( "compact bodypart status widgets + legend", "[widget][bp_status]" )
         CHECK( arm_stat.layout( ava, sidebar_width ) ==
                "L ARM: <color_c_yellow>B</color>                            " );
         CHECK( torso_stat.layout( ava, sidebar_width ) == "TORSO:                              " );
-        CHECK( bp_legend.layout( ava, sidebar_width ) == "<color_c_yellow>B</color> bitten\n" );
+        CHECK( bp_legend.layout( ava, sidebar_width ) ==
+               "<color_c_yellow>B</color> bitten                            " );
     }
 
     WHEN( "bleeding" ) {
@@ -1082,19 +1467,22 @@ TEST_CASE( "compact bodypart status widgets + legend", "[widget][bp_status]" )
         CHECK( arm_stat.layout( ava, sidebar_width ) ==
                "L ARM: <color_c_light_red>b</color>                            " );
         CHECK( torso_stat.layout( ava, sidebar_width ) == "TORSO:                              " );
-        CHECK( bp_legend.layout( ava, sidebar_width ) == "<color_c_light_red>b</color> bleeding\n" );
+        CHECK( bp_legend.layout( ava, sidebar_width ) ==
+               "<color_c_light_red>b</color> bleeding                          " );
         // medium-intensity
         ava.get_effect( effect_bleed, arm ).set_intensity( 15 );
         CHECK( arm_stat.layout( ava, sidebar_width ) ==
                "L ARM: <color_c_red>b</color>                            " );
         CHECK( torso_stat.layout( ava, sidebar_width ) == "TORSO:                              " );
-        CHECK( bp_legend.layout( ava, sidebar_width ) == "<color_c_red>b</color> bleeding\n" );
+        CHECK( bp_legend.layout( ava, sidebar_width ) ==
+               "<color_c_red>b</color> bleeding                          " );
         // high-intensity
         ava.get_effect( effect_bleed, arm ).set_intensity( 25 );
         CHECK( arm_stat.layout( ava, sidebar_width ) ==
                "L ARM: <color_c_red_red>b</color>                            " );
         CHECK( torso_stat.layout( ava, sidebar_width ) == "TORSO:                              " );
-        CHECK( bp_legend.layout( ava, sidebar_width ) == "<color_c_red_red>b</color> bleeding\n" );
+        CHECK( bp_legend.layout( ava, sidebar_width ) ==
+               "<color_c_red_red>b</color> bleeding                          " );
     }
 
     WHEN( "bandaged" ) {
@@ -1102,7 +1490,8 @@ TEST_CASE( "compact bodypart status widgets + legend", "[widget][bp_status]" )
         CHECK( arm_stat.layout( ava, sidebar_width ) ==
                "L ARM: <color_c_white>+</color>                            " );
         CHECK( torso_stat.layout( ava, sidebar_width ) == "TORSO:                              " );
-        CHECK( bp_legend.layout( ava, sidebar_width ) == "<color_c_white>+</color> bandaged\n" );
+        CHECK( bp_legend.layout( ava, sidebar_width ) ==
+               "<color_c_white>+</color> bandaged                          " );
     }
 
     WHEN( "broken" ) {
@@ -1111,7 +1500,8 @@ TEST_CASE( "compact bodypart status widgets + legend", "[widget][bp_status]" )
         CHECK( arm_stat.layout( ava, sidebar_width ) ==
                "L ARM: <color_c_magenta>%</color>                            " );
         CHECK( torso_stat.layout( ava, sidebar_width ) == "TORSO:                              " );
-        CHECK( bp_legend.layout( ava, sidebar_width ) == "<color_c_magenta>%</color> broken\n" );
+        CHECK( bp_legend.layout( ava, sidebar_width ) ==
+               "<color_c_magenta>%</color> broken                            " );
     }
 
     WHEN( "broken and splinted" ) {
@@ -1131,7 +1521,8 @@ TEST_CASE( "compact bodypart status widgets + legend", "[widget][bp_status]" )
         CHECK( arm_stat.layout( ava, sidebar_width ) ==
                "L ARM: <color_c_pink>I</color>                            " );
         CHECK( torso_stat.layout( ava, sidebar_width ) == "TORSO:                              " );
-        CHECK( bp_legend.layout( ava, sidebar_width ) == "<color_c_pink>I</color> infected\n" );
+        CHECK( bp_legend.layout( ava, sidebar_width ) ==
+               "<color_c_pink>I</color> infected                          " );
     }
 
     WHEN( "disinfected" ) {
@@ -1139,7 +1530,8 @@ TEST_CASE( "compact bodypart status widgets + legend", "[widget][bp_status]" )
         CHECK( arm_stat.layout( ava, sidebar_width ) ==
                "L ARM: <color_c_light_green>$</color>                            " );
         CHECK( torso_stat.layout( ava, sidebar_width ) == "TORSO:                              " );
-        CHECK( bp_legend.layout( ava, sidebar_width ) == "<color_c_light_green>$</color> disinfected\n" );
+        CHECK( bp_legend.layout( ava, sidebar_width ) ==
+               "<color_c_light_green>$</color> disinfected                       " );
     }
 
     WHEN( "bitten and bleeding" ) {
@@ -1221,8 +1613,8 @@ TEST_CASE( "radiation badge widget", "[widget][radiation]" )
     CHECK( rads_w.layout( ava ) == "RADIATION: <color_c_light_gray>Unknown</color>" );
 
     // Acquire and wear a radiation badge
-    item &rad_badge = ava.i_add( item( itype_rad_badge ) );
-    ava.worn.wear_item( ava, rad_badge, false, false );
+    item_location rad_badge = ava.i_add( item( itype_rad_badge ) );
+    ava.worn.wear_item( ava, *rad_badge, false, false );
 
     // Color indicator is shown when character has radiation badge
     ava.set_rad( 0 );
@@ -1325,9 +1717,9 @@ TEST_CASE( "compass widget", "[widget][compass]" )
         CHECK( c5s_legend1.layout( ava, sidebar_width + 3 ) ==
                "<color_c_white>B</color> <color_c_dark_gray>monster producing CBMs when dissected</color>" );
         CHECK( c5s_legend3.layout( ava, sidebar_width ) ==
-               "<color_c_white>B</color> <color_c_dark_gray>monster producing CBMs when dissected</color>\n" );
+               "<color_c_white>B</color> <color_c_dark_gray>monster producing CBMs when disse…</color>" );
         CHECK( c5s_legend5.layout( ava, sidebar_width ) ==
-               "<color_c_white>B</color> <color_c_dark_gray>monster producing CBMs when dissected</color>\n" );
+               "<color_c_white>B</color> <color_c_dark_gray>monster producing CBMs when disse…</color>" );
     }
 
     SECTION( "1 monster N" ) {
@@ -1347,9 +1739,9 @@ TEST_CASE( "compass widget", "[widget][compass]" )
         CHECK( c5s_legend1.layout( ava, sidebar_width + 3 ) ==
                "<color_c_white>B</color> <color_c_dark_gray>monster producing CBMs when dissected</color>" );
         CHECK( c5s_legend3.layout( ava, sidebar_width ) ==
-               "<color_c_white>B</color> <color_c_dark_gray>monster producing CBMs when dissected</color>\n" );
+               "<color_c_white>B</color> <color_c_dark_gray>monster producing CBMs when disse…</color>" );
         CHECK( c5s_legend5.layout( ava, sidebar_width ) ==
-               "<color_c_white>B</color> <color_c_dark_gray>monster producing CBMs when dissected</color>\n" );
+               "<color_c_white>B</color> <color_c_dark_gray>monster producing CBMs when disse…</color>" );
     }
 
     SECTION( "3 same monsters N" ) {
@@ -1374,9 +1766,9 @@ TEST_CASE( "compass widget", "[widget][compass]" )
         CHECK( c5s_legend1.layout( ava, sidebar_width + 5 ) ==
                "<color_c_white>B</color> <color_c_dark_gray>3 monster producing CBMs when dissected</color>" );
         CHECK( c5s_legend3.layout( ava, sidebar_width ) ==
-               "<color_c_white>B</color> <color_c_dark_gray>3 monster producing CBMs when dissected</color>\n" );
+               "<color_c_white>B</color> <color_c_dark_gray>3 monster producing CBMs when dis…</color>" );
         CHECK( c5s_legend5.layout( ava, sidebar_width ) ==
-               "<color_c_white>B</color> <color_c_dark_gray>3 monster producing CBMs when dissected</color>\n" );
+               "<color_c_white>B</color> <color_c_dark_gray>3 monster producing CBMs when dis…</color>" );
     }
 
     SECTION( "3 different monsters N" ) {
@@ -1408,7 +1800,7 @@ TEST_CASE( "compass widget", "[widget][compass]" )
         CHECK( c5s_legend5.layout( ava, sidebar_width ) ==
                "<color_c_white>S</color> <color_c_dark_gray>shearable monster</color>\n"
                "<color_c_white>B</color> <color_c_dark_gray>monster producing cattle samples when dissected</color>\n"
-               "<color_c_white>B</color> <color_c_dark_gray>monster producing CBMs when dissected</color>\n" );
+               "<color_c_white>B</color> <color_c_dark_gray>monster producing CBMs when dissected</color>" );
     }
 }
 
@@ -1744,7 +2136,7 @@ TEST_CASE( "Dynamic height for multiline widgets", "[widget]" )
         REQUIRE( ava.get_mon_visible().unique_mons[static_cast<int>( cardinal_direction::NORTH )].size() ==
                  1 );
         CHECK( c5s_legend3.layout( ava, sidebar_width ) ==
-               "<color_c_white>B</color> <color_c_dark_gray>monster producing CBMs when dissected</color>\n" );
+               "<color_c_white>B</color> <color_c_dark_gray>monster producing CBMs when disse…</color>" );
         CHECK( get_height_from_widget_factory( c5s_legend3.getId() ) == 1 );
     }
 
@@ -1761,7 +2153,7 @@ TEST_CASE( "Dynamic height for multiline widgets", "[widget]" )
                  2 );
         CHECK( c5s_legend3.layout( ava, sidebar_width ) ==
                "<color_c_white>B</color> <color_c_dark_gray>monster producing cattle samples when dissected</color>\n"
-               "<color_c_white>B</color> <color_c_dark_gray>monster producing CBMs when dissected</color>\n" );
+               "<color_c_white>B</color> <color_c_dark_gray>monster producing CBMs when dissected</color>" );
         CHECK( get_height_from_widget_factory( c5s_legend3.getId() ) == 2 );
     }
 
@@ -2187,7 +2579,7 @@ TEST_CASE( "Clause conditions - pure JSON widgets", "[widget][clause][condition]
         CHECK( w_num.layout( ava ) == "Num Values: <color_c_white_green>10</color>" );
         CHECK( w_txt.layout( ava ) == "Text Values: <color_c_white_green>good hearing</color>" );
         CHECK( w_sym.layout( ava ) == "Symbol Values: <color_c_white_green>+</color>" );
-        CHECK( w_lgd.layout( ava, sidebar_width ) == "<color_c_white_green>+</color> good hearing\n" );
+        CHECK( w_lgd.layout( ava, sidebar_width ) == "<color_c_white_green>+</color> good hearing      " );
     }
 
     SECTION( "Daylight" ) {
@@ -2195,7 +2587,7 @@ TEST_CASE( "Clause conditions - pure JSON widgets", "[widget][clause][condition]
         CHECK( w_num.layout( ava ) == "Num Values: <color_c_yellow>0</color>" );
         CHECK( w_txt.layout( ava ) == "Text Values: <color_c_yellow>daylight</color>" );
         CHECK( w_sym.layout( ava ) == "Symbol Values: <color_c_yellow>=</color>" );
-        CHECK( w_lgd.layout( ava, sidebar_width ) == "<color_c_yellow>=</color> daylight\n" );
+        CHECK( w_lgd.layout( ava, sidebar_width ) == "<color_c_yellow>=</color> daylight          " );
     }
 
     SECTION( "Daylight / Blind" ) {
@@ -2208,7 +2600,7 @@ TEST_CASE( "Clause conditions - pure JSON widgets", "[widget][clause][condition]
         CHECK( w_sym.layout( ava ) ==
                "Symbol Values: <color_c_red_red><</color><color_c_yellow>=</color>" );
         CHECK( w_lgd.layout( ava, sidebar_width ) ==
-               "<color_c_red_red><</color> blind  <color_c_yellow>=</color> daylight\n" );
+               "<color_c_red_red><</color> blind  <color_c_yellow>=</color> daylight " );
     }
 
     SECTION( "Daylight / Blind / Deaf / GOODHEARING / NIGHTVISION" ) {
@@ -2224,7 +2616,7 @@ TEST_CASE( "Clause conditions - pure JSON widgets", "[widget][clause][condition]
         CHECK( w_sym.layout( ava ) ==
                "Symbol Values: <color_c_red_red><</color><color_i_yellow>-</color><color_c_yellow>=</color><color_c_white_green>+</color><color_c_light_green>></color>" );
         CHECK( w_lgd.layout( ava, sidebar_width ) ==
-               "<color_c_red_red><</color> blind  <color_i_yellow>-</color> deaf\n<color_c_yellow>=</color> daylight\n<color_c_white_green>+</color> good hearing\n<color_c_light_green>></color> good vision\n" );
+               "<color_c_red_red><</color> blind  <color_i_yellow>-</color> deaf\n<color_c_yellow>=</color> daylight\n<color_c_white_green>+</color> good hearing\n<color_c_light_green>></color> good vision       " );
     }
 }
 
@@ -2299,4 +2691,243 @@ TEST_CASE( "widget disabled when empty", "[widget]" )
         }
 #endif
     }
+}
+
+TEST_CASE( "widget rows in columns", "[widget]" )
+{
+    avatar &ava = get_avatar();
+    clear_avatar();
+    clear_map();
+    // Setup overmap
+    fill_overmap_area( ava, oter_id( "field" ) );
+    ava.reset_all_missions();
+    ava.set_focus( 100 );
+    ava.movecounter = 0;
+
+    REQUIRE( ava.movecounter == 0 );
+    REQUIRE( ava.get_focus() == 100 );
+    REQUIRE( ava.get_speed() == 100 );
+
+    SECTION( "3 columns, multiline/rows/rows" ) {
+        const std::string brown_dot = "<color_c_brown>.</color>";
+        const std::string h_brown_dot = "<color_h_brown>.</color>";
+        const std::string expected = join( {
+            brown_dot, brown_dot, brown_dot, "  MOVE: 0     STR: 8    \n",
+            brown_dot, h_brown_dot, brown_dot, "  SPEED: 100  DEX: 8    \n",
+            brown_dot, brown_dot, brown_dot, "  FOCUS: 100  INT: 8    \n",
+            "  MANA: 1000  PER: 8    "
+        }, "" );
+        widget wgt = widget_test_layout_rows_in_columns.obj();
+        CHECK( wgt.layout( ava, 34 ) == expected );
+    }
+
+    SECTION( "3 columns nested in 2 columns, rows/columns, multiline/rows/rows" ) {
+        const std::string brown_dot = "<color_c_brown>.</color>";
+        const std::string h_brown_dot = "<color_h_brown>.</color>";
+        const std::string expected = join( {
+            join( {
+                "CLAUSE: Zero                       ",
+                brown_dot,
+                brown_dot,
+                brown_dot,
+                "  MOVE: 0     STR: 8   \n"
+            }, "" ),
+            join( {
+                "POOL: 0000                         ",
+                brown_dot,
+                h_brown_dot,
+                brown_dot,
+                "  SPEED: 100  DEX: 8   \n"
+            }, "" ),
+            join( {
+                "NUM: 0                             ",
+                brown_dot,
+                brown_dot,
+                brown_dot,
+                "  FOCUS: 100  INT: 8   \n"
+            }, "" ),
+            "                                     MANA: 1000  PER: 8   "
+        }, "" );
+        widget wgt = widget_test_layout_cols_in_cols.obj();
+        CHECK( wgt.layout( ava, 68 ) == expected );
+    }
+}
+
+static void test_widget_flag_nopad( const bodypart_id &bid, int bleed_int, avatar &ava,
+                                    const widget_id &wgt, bool skip_pad )
+{
+    const int width = 36;
+    const int max_hp = ava.get_part_hp_max( bid );
+    widget w = wgt.obj();
+
+    std::string bleed_txt;
+    if( bleed_int <= 0 ) {
+        bleed_txt.clear();
+    } else if( bleed_int < 11 ) {
+        bleed_txt = "<color_c_light_red_white>│</color>";
+    } else if( bleed_int < 21 ) {
+        bleed_txt = "<color_c_red_white>║</color>";
+    } else {
+        bleed_txt = "<color_c_red_red>║</color>";
+    }
+
+    std::string broken_txt = "<color_c_dark_gray_white>‖</color>";
+
+    GIVEN( "left arm HP full" ) {
+        REQUIRE( ava.get_part_hp_cur( bid ) == max_hp );
+        REQUIRE( !ava.is_limb_broken( bid ) );
+        if( skip_pad ) {
+            const std::string txt = "LA : " + bleed_txt + broken_txt +
+                                    "<color_c_green_white>█████</color>";
+            CHECK( w.layout( ava, width, 0, skip_pad ) == txt + txt + txt );
+        } else {
+            CHECK( w.layout( ava, width, 0, skip_pad ) ==
+                   "LA…  " + broken_txt + "   <color_c_green_white>█…</color>  "
+                   "LA…  " + broken_txt + "   <color_c_green_white>█…</color>  "
+                   "L…  " + broken_txt + "   <color_c_green_white>█…</color>" );
+        }
+    }
+    GIVEN( "left arm HP 3/4" ) {
+        ava.set_part_hp_cur( bid, ( max_hp * 3 ) / 4 );
+        REQUIRE( ava.get_part_hp_cur( bid ) == ( max_hp * 3 ) / 4 );
+        REQUIRE( !ava.is_limb_broken( bid ) );
+        if( skip_pad ) {
+            const std::string txt = "LA : " + bleed_txt + broken_txt +
+                                    "<color_c_light_green_white>███▋ </color>";
+            CHECK( w.layout( ava, width, 0, skip_pad ) == txt + txt + txt );
+        } else {
+            CHECK( w.layout( ava, width, 0, skip_pad ) ==
+                   "LA…  " + broken_txt + "   <color_c_light_green_white>█…</color>  "
+                   "LA…  " + broken_txt + "   <color_c_light_green_white>█…</color>  "
+                   "L…  " + broken_txt + "   <color_c_light_green_white>█…</color>" );
+        }
+    }
+    GIVEN( "left arm HP 1/2" ) {
+        ava.set_part_hp_cur( bid, max_hp / 2 );
+        REQUIRE( ava.get_part_hp_cur( bid ) == max_hp / 2 );
+        REQUIRE( !ava.is_limb_broken( bid ) );
+        if( skip_pad ) {
+            const std::string txt = "LA : " + bleed_txt + broken_txt +
+                                    "<color_c_yellow_white>██▍  </color>";
+            CHECK( w.layout( ava, width, 0, skip_pad ) == txt + txt + txt );
+        } else {
+            CHECK( w.layout( ava, width, 0, skip_pad ) ==
+                   "LA…  " + broken_txt + "   <color_c_yellow_white>█…</color>  "
+                   "LA…  " + broken_txt + "   <color_c_yellow_white>█…</color>  "
+                   "L…  " + broken_txt + "   <color_c_yellow_white>█…</color>" );
+        }
+    }
+    GIVEN( "left arm HP 1/4" ) {
+        ava.set_part_hp_cur( bid, max_hp / 4 );
+        REQUIRE( ava.get_part_hp_cur( bid ) == max_hp / 4 );
+        REQUIRE( !ava.is_limb_broken( bid ) );
+        if( skip_pad ) {
+            const std::string txt = "LA : " + bleed_txt + broken_txt +
+                                    "<color_c_light_red_white>█▎   </color>";
+            CHECK( w.layout( ava, width, 0, skip_pad ) == txt + txt + txt );
+        } else {
+            CHECK( w.layout( ava, width, 0, skip_pad ) ==
+                   "LA…  " + broken_txt + "   <color_c_light_red_white>█…</color>  "
+                   "LA…  " + broken_txt + "   <color_c_light_red_white>█…</color>  "
+                   "L…  " + broken_txt + "   <color_c_light_red_white>█…</color>" );
+        }
+    }
+    GIVEN( "left arm HP 0" ) {
+        broken_txt = "<color_c_red_white>ℵ</color>";
+        ava.set_part_hp_cur( bid, 0 );
+        REQUIRE( ava.get_part_hp_cur( bid ) == 0 );
+        REQUIRE( ava.is_limb_broken( bid ) );
+        if( skip_pad ) {
+            const std::string txt = "LA : " + bleed_txt + broken_txt + "<color_c_red_white>     </color>";
+            CHECK( w.layout( ava, width, 0, skip_pad ) == txt + txt + txt );
+        } else {
+            CHECK( w.layout( ava, width, 0, skip_pad ) ==
+                   "LA…  " + broken_txt + "   <color_c_red_white> …</color>  "
+                   "LA…  " + broken_txt + "   <color_c_red_white> …</color>  "
+                   "L…  " + broken_txt + "   <color_c_red_white> …</color>" );
+        }
+    }
+}
+
+TEST_CASE( "W_NO_PADDING widget flag", "[widget]" )
+{
+    avatar &ava = get_avatar();
+    clear_avatar();
+    clear_map();
+    ava.reset_all_missions();
+    ava.set_focus( 100 );
+    ava.movecounter = 0;
+
+    // workaround for mbstowcs to process multibyte utf-8 chars
+    setlocale( LC_ALL, "" );
+
+    SECTION( "without flag" ) {
+        const widget_id &wgt = widget_test_layout_nopad_noflag;
+        REQUIRE( !wgt->has_flag( "W_NO_PADDING" ) );
+
+        GIVEN( "left arm bleed intensity = 0" ) {
+            REQUIRE( !ava.has_effect( effect_bleed, body_part_arm_l ) );
+            test_widget_flag_nopad( body_part_arm_l, 0, ava, wgt, false );
+        }
+
+        GIVEN( "left arm bleed intensity = 1" ) {
+            ava.add_effect( effect_bleed, 10_turns, body_part_arm_l );
+            ava.get_effect( effect_bleed, body_part_arm_l ).set_intensity( 1 );
+            REQUIRE( ava.has_effect( effect_bleed, body_part_arm_l ) );
+            REQUIRE( ava.get_effect_int( effect_bleed, body_part_arm_l ) == 1 );
+            test_widget_flag_nopad( body_part_arm_l, 1, ava, wgt, false );
+        }
+
+        GIVEN( "left arm bleed intensity = 11" ) {
+            ava.add_effect( effect_bleed, 10_turns, body_part_arm_l );
+            ava.get_effect( effect_bleed, body_part_arm_l ).set_intensity( 11 );
+            REQUIRE( ava.has_effect( effect_bleed, body_part_arm_l ) );
+            REQUIRE( ava.get_effect_int( effect_bleed, body_part_arm_l ) == 11 );
+            test_widget_flag_nopad( body_part_arm_l, 11, ava, wgt, false );
+        }
+
+        GIVEN( "left arm bleed intensity = 21" ) {
+            ava.add_effect( effect_bleed, 10_turns, body_part_arm_l );
+            ava.get_effect( effect_bleed, body_part_arm_l ).set_intensity( 21 );
+            REQUIRE( ava.has_effect( effect_bleed, body_part_arm_l ) );
+            REQUIRE( ava.get_effect_int( effect_bleed, body_part_arm_l ) == 21 );
+            test_widget_flag_nopad( body_part_arm_l, 21, ava, wgt, false );
+        }
+    }
+
+    SECTION( "with flag" ) {
+        const widget_id &wgt = widget_test_layout_nopad;
+        REQUIRE( wgt->has_flag( "W_NO_PADDING" ) );
+
+        GIVEN( "left arm bleed intensity = 0" ) {
+            REQUIRE( !ava.has_effect( effect_bleed, body_part_arm_l ) );
+            test_widget_flag_nopad( body_part_arm_l, 0, ava, wgt, true );
+        }
+
+        GIVEN( "left arm bleed intensity = 1" ) {
+            ava.add_effect( effect_bleed, 10_turns, body_part_arm_l );
+            ava.get_effect( effect_bleed, body_part_arm_l ).set_intensity( 1 );
+            REQUIRE( ava.has_effect( effect_bleed, body_part_arm_l ) );
+            REQUIRE( ava.get_effect_int( effect_bleed, body_part_arm_l ) == 1 );
+            test_widget_flag_nopad( body_part_arm_l, 1, ava, wgt, true );
+        }
+
+        GIVEN( "left arm bleed intensity = 11" ) {
+            ava.add_effect( effect_bleed, 10_turns, body_part_arm_l );
+            ava.get_effect( effect_bleed, body_part_arm_l ).set_intensity( 11 );
+            REQUIRE( ava.has_effect( effect_bleed, body_part_arm_l ) );
+            REQUIRE( ava.get_effect_int( effect_bleed, body_part_arm_l ) == 11 );
+            test_widget_flag_nopad( body_part_arm_l, 11, ava, wgt, true );
+        }
+
+        GIVEN( "left arm bleed intensity = 21" ) {
+            ava.add_effect( effect_bleed, 10_turns, body_part_arm_l );
+            ava.get_effect( effect_bleed, body_part_arm_l ).set_intensity( 21 );
+            REQUIRE( ava.has_effect( effect_bleed, body_part_arm_l ) );
+            REQUIRE( ava.get_effect_int( effect_bleed, body_part_arm_l ) == 21 );
+            test_widget_flag_nopad( body_part_arm_l, 21, ava, wgt, true );
+        }
+    }
+
+    setlocale( LC_ALL, "C" );
 }

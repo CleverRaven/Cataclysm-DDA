@@ -12,7 +12,8 @@
       { "group": "tiaras_silver", "prob": 5 },
       { "group": "pendant_necklaces_silver", "prob": 5 },
       { "group": "clothing_watch", "prob": 5 },
-      { "group": "fae_furs", "damage": [ 1, 4 ] }
+      { "group": "fae_furs", "damage": [ 1, 4 ] },
+      { "item": "scrap_dreamdross", "prob": 75, "count": [ 1, 4 ] }
     ]
   },
   {
@@ -30,7 +31,8 @@
       { "group": "clothing_watch", "prob": 5 },
       { "group": "fae_furs", "damage": [ 1, 4 ] },
       { "item": "mirror_march_estoc", "prob": 25, "damage": [ 0, 5 ] },
-      { "item": "scabbard", "prob": 100 }
+      { "item": "scabbard", "prob": 100 },
+      { "item": "scrap_dreamdross", "prob": 75, "count": [ 1, 4 ] }
     ]
   },
   {
@@ -44,7 +46,8 @@
       { "group": "redcap_armor", "prob": 20, "damage": [ 1, 4 ] },
       { "group": "pendant_necklaces_silver", "prob": 5 },
       { "group": "clothing_outdoor_torso", "prob": 70, "damage": [ 1, 4 ] },
-      { "item": "redcap_club", "prob": 25, "damage": [ 0, 5 ] }
+      { "item": "redcap_club", "prob": 25, "damage": [ 0, 5 ] },
+      { "item": "scrap_dreamdross", "prob": 75, "count": [ 4, 8 ] }
     ]
   },
   {
@@ -59,7 +62,8 @@
       { "group": "pendant_necklaces_silver", "prob": 5 },
       { "group": "clothing_outdoor_torso", "prob": 70, "damage": [ 1, 4 ] },
       { "item": "pooka_gladius", "prob": 25, "damage": [ 0, 5 ] },
-      { "item": "scabbard", "prob": 100 }
+      { "item": "scabbard", "prob": 100 },
+      { "item": "scrap_dreamdross", "prob": 75, "count": [ 4, 8 ] }
     ]
   },
   {
@@ -76,7 +80,8 @@
       { "item": "winter_lord_estoc", "prob": 25, "damage": [ 0, 5 ] },
       { "item": "scabbard", "prob": 100 },
       { "item": "purity_crackers", "prob": 10 },
-      { "item": "golden_bridle", "prob": 5 }
+      { "item": "golden_bridle", "prob": 5 },
+      { "item": "scrap_dreamdross", "prob": 75, "count": [ 12, 24 ] }
     ]
   },
   {
@@ -84,6 +89,11 @@
     "type": "item_group",
     "subtype": "collection",
     "copy-from": "default_zombie_children_clothes",
-    "extend": { "entries": [ { "item": "wyld_candy", "prob": 15, "container-item": "wrapper_wyld", "sealed": false } ] }
+    "extend": {
+      "entries": [
+        { "item": "wyld_candy", "prob": 15, "container-item": "wrapper_wyld", "sealed": false },
+        { "item": "scrap_dreamdross", "prob": 75, "count": [ 1, 4 ] }
+      ]
+    }
   }
 ]

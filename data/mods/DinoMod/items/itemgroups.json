@@ -14,6 +14,88 @@
     }
   },
   {
+    "id": "lab_mutagen_ingredients_fridge",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "item": "raptor_sample", "prob": 40, "count": [ 1, 3 ] },
+      { "item": "tyrant_sample", "prob": 40, "count": [ 1, 3 ] },
+      { "item": "stego_sample", "prob": 40, "count": [ 1, 3 ] }
+    ]
+  },
+  {
+    "id": "raptor_sample_single",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "raptor_sample" } ]
+  },
+  {
+    "id": "raptor_sample_small",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "raptor_sample", "count-min": 1, "count-max": 3 } ]
+  },
+  {
+    "id": "raptor_sample_large",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "raptor_sample", "count-min": 3, "count-max": 6 } ]
+  },
+  {
+    "id": "raptor_sample_huge",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "raptor_sample", "count-min": 10, "count-max": 20 } ]
+  },
+  {
+    "id": "tyrant_sample_single",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "tyrant_sample" } ]
+  },
+  {
+    "id": "tyrant_sample_small",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "tyrant_sample", "count-min": 1, "count-max": 3 } ]
+  },
+  {
+    "id": "tyrant_sample_large",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "tyrant_sample", "count-min": 3, "count-max": 6 } ]
+  },
+  {
+    "id": "tyrant_sample_huge",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "tyrant_sample", "count-min": 10, "count-max": 20 } ]
+  },
+  {
+    "id": "stego_sample_single",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "stego_sample" } ]
+  },
+  {
+    "id": "stego_sample_small",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "stego_sample", "count-min": 1, "count-max": 3 } ]
+  },
+  {
+    "id": "stego_sample_large",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "stego_sample", "count-min": 3, "count-max": 6 } ]
+  },
+  {
+    "id": "stego_sample_huge",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "stego_sample", "count-min": 10, "count-max": 20 } ]
+  },
+  {
     "type": "item_group",
     "id": "office_DinoLab",
     "ammo": 75,
@@ -23,10 +105,8 @@
       [ "newest_newspaper", 100 ],
       [ "egg_dino", 75 ],
       [ "egg_dino_theropod", 75 ],
-      [ "iv_mutagen_tyrant", 25 ],
-      [ "mutagen_tyrant", 75 ],
-      [ "iv_mutagen_stego", 25 ],
-      [ "mutagen_stego", 75 ],
+      [ "mutagen_tyrant", 30 ],
+      [ "mutagen_stego", 30 ],
       [ "kiernans_notes", 10 ],
       { "item": "kevlar_armor_elephant", "prob": 10 },
       { "item": "acidchitin_armor_elephant", "prob": 10 },
