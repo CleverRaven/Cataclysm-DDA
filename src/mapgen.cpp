@@ -2103,13 +2103,16 @@ class jmapgen_liquid_item : public jmapgen_piece
 /**
  * Place a corpse of a random monster from a monster group into the map.
  * "group": id of monster group to choose from
+ * "age": how many days passed since start_of_cataclysm when the monster died
  */
 class jmapgen_corpse : public jmapgen_piece
 {
     public:
         mongroup_id group;
+        time_duration age;
         jmapgen_corpse( const JsonObject &jsi, const std::string &/*context*/ ) :
-            group( jsi.get_member( "group" ) ) {
+            group( jsi.get_member( "group" ) )
+            , age( time_duration::from_days( jsi.get_int( "age", 0 ) ) ) {
         }
 
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
@@ -2117,7 +2120,8 @@ class jmapgen_corpse : public jmapgen_piece
             const std::vector<mtype_id> monster_group =
                 MonsterGroupManager::GetMonstersFromGroup( group, true );
             const mtype_id &corpse_type = random_entry_ref( monster_group );
-            item corpse = item::make_corpse( corpse_type, calendar::start_of_cataclysm );
+            item corpse = item::make_corpse( corpse_type,
+                                             std::min( calendar::start_of_cataclysm + age, calendar::turn ) );
             dat.m.add_item_or_charges( tripoint( x.get(), y.get(), dat.m.get_abs_sub().z() ),
                                        corpse );
         }
