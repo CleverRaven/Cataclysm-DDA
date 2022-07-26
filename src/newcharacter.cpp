@@ -2021,23 +2021,22 @@ tab_direction set_profession( avatar &u, pool_type pool )
                   LINE_OXXX );// '^|^' Tee pointing down
         mvwputch( w, point( TERMX / 2, TERMY - 1 ), BORDER_COLOR, LINE_XXOX );// '_|_' Tee pointing up
         draw_filter_and_sorting_indicators( w, ctxt, filterstring, profession_sorter );
-        const bool cur_id_is_valid = cur_id >= 0 && static_cast<size_t>( cur_id ) < sorted_profs.size();
 
+        const bool cur_id_is_valid = cur_id >= 0 && static_cast<size_t>( cur_id ) < sorted_profs.size();
         if( cur_id_is_valid ) {
+            if( details.recalc ) {
+                details.set_text( assemble_profession_details( u, ctxt, sorted_profs, cur_id ) );
+            }
+
             int netPointCost = sorted_profs[cur_id]->point_cost() - u.prof->point_cost();
             ret_val<void> can_afford = sorted_profs[cur_id]->can_afford( u, skill_points_left( u, pool ) );
             ret_val<void> can_pick = sorted_profs[cur_id]->can_pick();
-
-            const std::string clear_line( getmaxx( w ) - 2, ' ' );
-
-            // Clear the bottom of the screen and header.
-            mvwprintz( w, point( 1, 3 ), c_light_gray, clear_line );
-
             int pointsForProf = sorted_profs[cur_id]->point_cost();
             bool negativeProf = pointsForProf < 0;
             if( negativeProf ) {
                 pointsForProf *= -1;
             }
+
             // Draw header.
             draw_points( w, pool, u, netPointCost );
             const char *prof_msg_temp;
@@ -2056,9 +2055,6 @@ tab_direction set_profession( avatar &u, pool_type pool )
             int pMsg_length = utf8_width( remove_color_tags( pools_to_string( u, pool ) ) );
             mvwprintz( w, point( pMsg_length + 9, 3 ), can_afford.success() ? c_green : c_light_red,
                        prof_msg_temp, sorted_profs[cur_id]->gender_appropriate_name( u.male ), pointsForProf );
-            if( details.recalc ) {
-                details.set_text( assemble_profession_details( u, ctxt, sorted_profs, cur_id ) );
-            }
         }
 
         //Draw options
@@ -2067,8 +2063,6 @@ tab_direction set_profession( avatar &u, pool_type pool )
                                           profs_length : iContentHeight );
         int i;
         for( i = iStartPos; i < end_pos; i++ ) {
-            mvwprintz( w, point( 2, 5 + i - iStartPos ), c_light_gray,
-                       "                                             " ); // Clear the line
             nc_color col;
             if( u.prof != &sorted_profs[i].obj() ) {
 
@@ -2087,11 +2081,6 @@ tab_direction set_profession( avatar &u, pool_type pool )
             }
             mvwprintz( w, point( 2, 5 + i - iStartPos ), col,
                        sorted_profs[i]->gender_appropriate_name( u.male ) );
-        }
-        //Clear rest of space in case stuff got filtered out
-        for( ; i < iStartPos + iContentHeight; ++i ) {
-            mvwprintz( w, point( 2, 5 + i - iStartPos ), c_light_gray,
-                       "                                             " ); // Clear the line
         }
 
         scrollbar()
@@ -2394,11 +2383,6 @@ tab_direction set_hobbies( avatar &u, pool_type pool )
             }
             int netPointCost = sorted_hobbies[cur_id]->point_cost() - u.prof->point_cost();
             ret_val<void> can_pick = sorted_hobbies[cur_id]->can_afford( u, skill_points_left( u, pool ) );
-            const std::string clear_line( getmaxx( w ) - 2, ' ' );
-
-            // Clear the bottom of the screen and header.
-            mvwprintz( w, point( 1, 3 ), c_light_gray, clear_line );
-
             int pointsForProf = sorted_hobbies[cur_id]->point_cost();
             bool negativeProf = pointsForProf < 0;
             if( negativeProf ) {
@@ -2430,9 +2414,6 @@ tab_direction set_hobbies( avatar &u, pool_type pool )
                                           profs_length : iContentHeight );
         int i;
         for( i = iStartPos; i < end_pos; i++ ) {
-            mvwprintz( w, point( 2, 5 + i - iStartPos ), c_light_gray,
-                       "                                             " ); // Clear the line
-
             nc_color col;
             if( u.hobbies.count( &sorted_hobbies[i].obj() ) != 0 ) {
                 col = ( cur_id_is_valid &&
@@ -2607,10 +2588,10 @@ tab_direction set_hobbies( avatar &u, pool_type pool )
         } else if( action == "RANDOMIZE" ) {
             cur_id = rng( 0, profs_length - 1 );
         }
+
         if( cur_id != id_for_curr_description || recalc_hobbies ) {
             details.recalc = true;
         }
-
     } while( retval == tab_direction::NONE );
 
     return retval;
@@ -3126,15 +3107,12 @@ tab_direction set_scenario( avatar &u, pool_type pool )
     ui.on_redraw( [&]( const ui_adaptor & ) {
         werase( w );
         draw_character_tabs( w, _( "SCENARIO" ) );
-
-        // Draw filter and indicators
         mvwputch( w, point( TERMX / 2, iHeaderHeight - 1 ), BORDER_COLOR,
                   LINE_OXXX );// '^|^' Tee pointing down
         mvwputch( w, point( TERMX / 2, TERMY - 1 ), BORDER_COLOR, LINE_XXOX );// '_|_' Tee pointing up
         draw_filter_and_sorting_indicators( w, ctxt, filterstring, scenario_sorter );
 
         const bool cur_id_is_valid = cur_id >= 0 && static_cast<size_t>( cur_id ) < sorted_scens.size();
-
         if( cur_id_is_valid ) {
             if( details.recalc ) {
                 details.set_text( assemble_scenario_details( u, ctxt, sorted_scens[cur_id] ) );
@@ -3196,7 +3174,6 @@ tab_direction set_scenario( avatar &u, pool_type pool )
 
         }
 
-        draw_scrollbar( w, cur_id, iContentHeight, scens_length, point( 0, 5 ) );
         scrollbar()
         .offset_x( 0 )
         .offset_y( 5 )
@@ -3204,10 +3181,6 @@ tab_direction set_scenario( avatar &u, pool_type pool )
         .viewport_pos( iStartPos )
         .viewport_size( iContentHeight )
         .apply( w );
-
-        if( details.recalc ) {
-            details.set_text( assemble_scenario_details( u, ctxt, sorted_scens[cur_id] ) );
-        }
 
         wnoutrefresh( w );
         details.draw( c_light_gray );
@@ -3334,6 +3307,7 @@ tab_direction set_scenario( avatar &u, pool_type pool )
         } else if( action == "RANDOMIZE" ) {
             cur_id = rng( 0, scens_length - 1 );
         }
+
         if( cur_id != id_for_curr_description || recalc_scens ) {
             details.recalc = true;
         }
