@@ -8217,6 +8217,15 @@ bool map::inbounds( const tripoint_bub_ms &p ) const
     return inbounds( p.raw() );
 }
 
+bool map::inbounds( const tripoint_abs_sm &p ) const
+{
+    return inbounds_z( p.z() ) &&
+           p.x() >= abs_sub.x() &&
+           p.y() >= abs_sub.y() &&
+           p.x() < abs_sub.x() + my_MAPSIZE &&
+           p.y() < abs_sub.y() + my_MAPSIZE;
+}
+
 bool tinymap::inbounds( const tripoint &p ) const
 {
     constexpr tripoint map_boundary_min( 0, 0, -OVERMAP_DEPTH );
