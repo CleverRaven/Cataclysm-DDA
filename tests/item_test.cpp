@@ -27,8 +27,9 @@
 
 static const flag_id json_flag_COLD( "COLD" );
 static const flag_id json_flag_FILTHY( "FILTHY" );
-static const flag_id json_flag_HOT( "HOT" );
 static const flag_id json_flag_FIX_NEARSIGHT( "FIX_NEARSIGHT" );
+static const flag_id json_flag_HOT( "HOT" );
+
 
 static const itype_id itype_test_backpack( "test_backpack" );
 static const itype_id itype_test_duffelbag( "test_duffelbag" );
