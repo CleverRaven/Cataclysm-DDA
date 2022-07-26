@@ -63,7 +63,8 @@
       "rejected": "They'll pay with their lives eventually.",
       "advice": "Wear a gas mask and a hazard suit, which I wish we had to lend you.  Walking in those spore clouds can get you infected with them, and I'd rather not have to send an assassin to incinerate you.",
       "inquire": "I don't see any ash on you.",
-      "success": "Those aliens had it coming to them.  You have done Odins' will today.",
+      "success": "Those aliens had it coming to them.  You have done Odin's will today.",
+
       "success_lie": "I still see mushrooms around.",
       "failure": "Not everyone is cut out for this life, I suppose."
     }
