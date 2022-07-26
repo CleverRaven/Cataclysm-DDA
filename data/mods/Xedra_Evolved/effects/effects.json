@@ -142,7 +142,7 @@
     "id": "blood_quenched",
     "rating": "good",
     "blocks_effects": [ "vampire_virus" ],
-    "blood_analysis_description": "Heightened levels of organosulfur compounds, mercury, and silver.",
+    "blood_analysis_description": "Patient has had extensive battlefield blood transfusions.  Serious risk of bloodborne infections.",
     "max_duration": 16400,
     "dur_add_perc": 25
   },
