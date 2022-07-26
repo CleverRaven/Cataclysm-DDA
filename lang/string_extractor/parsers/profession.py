@@ -12,9 +12,14 @@ def parse_profession(json, origin):
     elif type(json["name"]) is str:
         name_male = name_female = json["name"]
 
+    desc_male = ""
+    desc_female = ""
     if type(json["description"]) is dict:
-        desc_male = json["description"]["male"]
-        desc_female = json["description"]["female"]
+        if "male" in json["description"]:
+            desc_male = json["description"]["male"]
+            desc_female = json["description"]["female"]
+        elif "str" in json["description"]:
+            desc_male = desc_female = json["description"]["str"]
     else:
         desc_male = desc_female = json["description"]
 
