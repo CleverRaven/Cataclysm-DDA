@@ -385,6 +385,7 @@ class map
 
         struct apparent_light_info {
             bool obstructed;
+            bool abs_obstructed;
             float apparent_light;
         };
         /** Helper function for light calculation; exposed here for map editor

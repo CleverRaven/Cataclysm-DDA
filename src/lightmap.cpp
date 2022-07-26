@@ -651,8 +651,13 @@ float map::light_transparency( const tripoint &p ) const
 map::apparent_light_info map::apparent_light_helper( const level_cache &map_cache,
         const tripoint &p )
 {
-    const float vis = std::max( map_cache.seen_cache[p.x][p.y], map_cache.camera_cache[p.x][p.y] );
+    avatar const &u = get_avatar();
+    const int dist = rl_dist( u.pos(), p );
+    const float abs_vis =
+        std::max( map_cache.seen_cache[p.x][p.y], map_cache.camera_cache[p.x][p.y] );
+    const float vis = dist > u.unimpaired_range() ? map_cache.camera_cache[p.x][p.y] : abs_vis;
     const bool obstructed = vis <= LIGHT_TRANSPARENCY_SOLID + 0.1;
+    const bool abs_obstructed = abs_vis <= LIGHT_TRANSPARENCY_SOLID + 0.1;
 
     auto is_opaque = [&map_cache]( const point & p ) {
         return map_cache.transparency_cache[p.x][p.y] <= LIGHT_TRANSPARENCY_SOLID &&
@@ -662,7 +667,7 @@ map::apparent_light_info map::apparent_light_helper( const level_cache &map_cach
     // possibly reduce view if aiming (also blocks light)
     if( get_avatar().recoil < MAX_RECOIL ) {
         if( get_avatar().cant_see( p ) ) {
-            return { true, 0.0 };
+            return { true, true, 0.0 };
         }
     }
 
@@ -714,7 +719,7 @@ map::apparent_light_info map::apparent_light_helper( const level_cache &map_cach
         // directions is equivalent
         apparent_light = vis * map_cache.lm[p.x][p.y].max();
     }
-    return { obstructed, apparent_light };
+    return { obstructed, abs_obstructed, apparent_light };
 }
 
 lit_level map::apparent_light_at( const tripoint &p, const visibility_variables &cache ) const
@@ -735,7 +740,7 @@ lit_level map::apparent_light_at( const tripoint &p, const visibility_variables 
     // Unimpaired range is an override to strictly limit vision range based on various conditions,
     // but the player can still see light sources
     if( dist > player_character.unimpaired_range() && map_cache.camera_cache[p.x][p.y] == 0.0 ) {
-        if( !a.obstructed && map_cache.sm[p.x][p.y] > 0.0 ) {
+        if( !a.abs_obstructed && map_cache.sm[p.x][p.y] > 0.0 ) {
             return lit_level::BRIGHT_ONLY;
         }
         return lit_level::BLANK;
@@ -776,13 +781,9 @@ bool map::pl_sees( const tripoint &t, const int max_range ) const
     }
 
     const level_cache &map_cache = get_cache_ref( t.z );
-    if( map_cache.camera_cache[t.x][t.y] * map_cache.lm[t.x][t.y].max() * 0.8 >
-        LIGHT_AMBIENT_LIT ) {
-        return true;
-    }
-
     Character &player_character = get_player_character();
-    if( max_range >= 0 && square_dist( t, player_character.pos() ) > max_range ) {
+    if( max_range >= 0 && square_dist( t, player_character.pos() ) > max_range &&
+        map_cache.camera_cache[t.x][t.y] == 0 ) {
         return false;    // Out of range!
     }
 
