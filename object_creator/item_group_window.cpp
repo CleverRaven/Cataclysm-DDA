@@ -2,17 +2,19 @@
 
 #include "format.h"
 #include "item_factory.h"
+#include "iteminfo_query.h"
+#include "output.h"
+#include <regex>
 
 #include "QtWidgets/qheaderview.h"
 #include <QtCore/QCoreApplication>
-#include <QtWidgets/QSpinBox>
-
 
 creator::item_group_window::item_group_window( QWidget *parent, Qt::WindowFlags flags )
     : QMainWindow( parent, flags )
 {
     QWidget* wid = new QWidget( this );
     this->setCentralWidget( wid );
+    this->setAcceptDrops( true );
 
     QHBoxLayout* mainRow = new QHBoxLayout;
     QVBoxLayout* mainColumn1 = new QVBoxLayout;
@@ -33,7 +35,13 @@ creator::item_group_window::item_group_window( QWidget *parent, Qt::WindowFlags 
     id_label = new QLabel( "id" );
     id_box = new QLineEdit( "tools_home" );
     id_box->setToolTip( QString( _( "The id of the item_group" ) ) );
-    QObject::connect(id_box, &QLineEdit::textChanged, [&]() { write_json(); });
+    QObject::connect( id_box, &QLineEdit::textChanged, [&]() { write_json(); } );
+
+    QLabel* subtype_label = new QLabel( "Subtype" );
+    subtype = new QComboBox;
+    subtype->addItems( QStringList{ "none", "collection", "distribution" } );
+    connect( subtype, QOverload<int>::of( &QComboBox::currentIndexChanged ),
+        [=]( int index ) { write_json(); } );
 
 
     item_search_label = new QLabel("Search items");
@@ -46,8 +54,10 @@ creator::item_group_window::item_group_window( QWidget *parent, Qt::WindowFlags 
     QGridLayout* basicInfoLayout = new QGridLayout();
     basicInfoLayout->addWidget( id_label, 0, 0 );
     basicInfoLayout->addWidget( id_box, 0, 1 );
-    basicInfoLayout->addWidget( item_search_label, 1, 0 );
-    basicInfoLayout->addWidget( item_search_box, 1, 1 );
+    basicInfoLayout->addWidget( subtype_label, 1, 0 );
+    basicInfoLayout->addWidget( subtype, 1, 1 );
+    basicInfoLayout->addWidget( item_search_label, 2, 0 );
+    basicInfoLayout->addWidget( item_search_box, 2, 1 );
     mainColumn1->addLayout( basicInfoLayout );
 
     item_list_total_box = new ListWidget_Drag;
@@ -88,47 +98,16 @@ creator::item_group_window::item_group_window( QWidget *parent, Qt::WindowFlags 
     scrollArea->setSizePolicy( QSizePolicy( QSizePolicy::Expanding, QSizePolicy::Expanding ) );
     scrollArea->setWidgetResizable( true );
 
-    verticalBox = new QVBoxLayout;
 
-    entries_box = new QFrame( scrollArea );
-    entries_box->setLayout( verticalBox );
-    entries_box->setStyleSheet( "background-color:rgb(139,104,168)" );
-    scrollArea->setWidget( entries_box );
-
-    QFrame* entriesTopBar = new QFrame;
-    entriesTopBar->setStyleSheet( "background-color:rgb(142,229,188)" );
-    entriesTopBar->setMaximumHeight( 60 );
-    QHBoxLayout* entriesTopBar_Layout = new QHBoxLayout;
-
-    QLabel* entries_label = new QLabel;
-    entries_label->setText( QString( "Entries:" ) );
-
-    QPushButton* btnCollection = new QPushButton;
-    btnCollection->setText( "+Collection" );
-    QPushButton* btnDistribution = new QPushButton;
-    btnDistribution->setText( "+Distribution" );
-    connect( btnDistribution, &QPushButton::clicked, this, &item_group_window::add_distribution );
-    QPushButton* btnItemList = new QPushButton;
-    btnItemList->setText( "+Item list" );
-
-    entriesTopBar_Layout->addWidget( entries_label );
-    entriesTopBar_Layout->addWidget( btnCollection );
-    entriesTopBar_Layout->addWidget( btnDistribution );
-    entriesTopBar_Layout->addWidget( btnItemList );
-
-    entriesTopBar->setLayout( entriesTopBar_Layout );
-    verticalBox->addWidget( entriesTopBar );
-    verticalBox->setSizeConstraint( QLayout::SetNoConstraint );
-    verticalBox->setAlignment( entriesTopBar, Qt::AlignTop );
-    verticalBox->addStretch();
-    
+    group_container = new nested_group_container( scrollArea, this );
+    scrollArea->setWidget( group_container );
     mainColumn2->addWidget( scrollArea );
 
 
     // =========================================================================================
     // Finalize
 
-    this->resize( QSize( 800, 800 ) );
+    this->resize( QSize( 1024, 800 ) );
 }
 
 void creator::item_group_window::write_json()
@@ -140,11 +119,14 @@ void creator::item_group_window::write_json()
 
     jo.member( "type", "item_group" );
     jo.member( "id", id_box->text().toStdString() );
-    jo.member( "subtype", "distribution" );
+    std::string sub = subtype->currentText().toStdString();
+    if( sub != "none" ) {
+        jo.member( "subtype", subtype->currentText().toStdString() );
+    }
 
     jo.member( "entries" );
     jo.start_array();
-    QObjectList entriesChildren = entries_box->children();
+    QObjectList entriesChildren = group_container->children();
     for ( QObject* i : entriesChildren ) {
         itemGroupEntry* ent = dynamic_cast<creator::itemGroupEntry*>( i );
         if ( ent != nullptr ) {
@@ -190,14 +172,20 @@ void creator::item_group_window::group_list_populate_filtered( std::string searc
     if( searchQuery == "" ) {
         for( const item_group_id i : item_controller.get()->get_all_group_names() ) {
             groupID = i.c_str();
-            QListWidgetItem* new_item = new QListWidgetItem( QString( groupID.c_str() ) );
-            group_list_total_box->addItem( new_item );
+            //Inline groups get an ID assigned. We don't add those to the list
+            //Inline groups' ID contains a ' ' so we filter for that
+            if( groupID.find( " " ) == std::string::npos ) {
+                QListWidgetItem* new_item = new QListWidgetItem( QString( groupID.c_str() ) );
+                set_group_tooltip( new_item, i );
+                group_list_total_box->addItem( new_item );
+            }
         }
     } else {
         for( const item_group_id i : item_controller.get()->get_all_group_names() ) {
             groupID = i.c_str();
             if( groupID.find( searchQuery ) != std::string::npos ) {
                 QListWidgetItem* new_item = new QListWidgetItem( QString( groupID.c_str() ) );
+                set_group_tooltip( new_item, i );
                 group_list_total_box->addItem( new_item );
             }
         }
@@ -210,31 +198,62 @@ void creator::item_group_window::item_list_populate_filtered( std::string search
     item_list_total_box->clear();
     if( searchQuery == "" ) {
         for( const itype* i : item_controller->all() ) {
-            item tmpItem(i, calendar::turn_zero);
-            QListWidgetItem* new_item = new QListWidgetItem( QString( tmpItem.typeId().c_str() ) );
-            set_item_tooltip( new_item, tmpItem );
+            QListWidgetItem* new_item = new QListWidgetItem( QString( i->get_id().c_str() ) );
+            set_item_tooltip( new_item, i );
             item_list_total_box->addItem( new_item );
         }
     } else {
         for( const itype* i : item_controller->all() ) {
-            item tmpItem(i, calendar::turn_zero);
-            itemID = tmpItem.typeId().c_str();
+            itemID = i->get_id().c_str();
             if( itemID.find( searchQuery ) != std::string::npos ) {
-                QListWidgetItem* new_item = new QListWidgetItem(
-                    QString(tmpItem.typeId().c_str() ) );
-                set_item_tooltip( new_item, tmpItem );
+                QListWidgetItem* new_item = new QListWidgetItem( QString( itemID.c_str() ) );
+                set_item_tooltip( new_item, i );
                 item_list_total_box->addItem( new_item );
             }
         }
     }
 }
 
-void creator::item_group_window::set_item_tooltip( QListWidgetItem* new_item, item tmpItem )
+void creator::item_group_window::set_group_tooltip( QListWidgetItem* new_item, 
+                                                    const item_group_id tmpGroupID )
+{
+    std::string tooltip = "items: ";
+    for ( const itype* type : item_group::every_possible_item_from( tmpGroupID ) ) {
+        tooltip += "\n";
+        tooltip += type->get_id().c_str();
+    }
+    new_item->setToolTip( QString( _( tooltip.c_str() ) ) );
+}
+
+void creator::item_group_window::set_item_tooltip( QListWidgetItem* new_item, 
+                                                    const itype* tmpItype )
 {
     std::string tooltip = "id: ";
-    tooltip += tmpItem.typeId().c_str();
+    tooltip += tmpItype->get_id().c_str();
     tooltip += "\nname: ";
-    tooltip += tmpItem.tname().c_str();
+    tooltip += tmpItype->nname( 1 );
+    tooltip += "\ntype: ";
+    tooltip += tmpItype->get_item_type_string();
+
+    std::vector<iteminfo_parts> vol_weight = { iteminfo_parts::BASE_VOLUME, 
+                                            iteminfo_parts::BASE_WEIGHT };
+    item tempItem( tmpItype->get_id() );
+
+    std::vector<iteminfo> info_v;
+    const iteminfo_query query_v( vol_weight );
+    tempItem.info( info_v, &query_v, 1 );
+    std::string info = "\ninfo: " + format_item_info( info_v, {} );
+
+    //We get the info, but for some items additional info is added below --
+    //We remove the extra info we don't need and also remove any color tags
+    std::size_t found = info.find("--");
+    if( found != std::string::npos ) {
+        info.erase( found );
+    }
+    std::regex tags( "<[^>]*>" );
+    std::string remove{};
+
+    tooltip += std::regex_replace( info, tags, remove );
     new_item->setToolTip( QString( _( tooltip.c_str() ) ) );
 }
 
@@ -248,140 +267,52 @@ bool creator::item_group_window::event( QEvent* event )
     return QMainWindow::event( event );
 }
 
-void creator::item_group_window::add_distribution() {
-    creator::distributionCollection* dis = new creator::distributionCollection( this, this );
-    dis->set_depth( 0 );
-    QVBoxLayout* b = static_cast<QVBoxLayout*>( entries_box->layout() );
-    b->insertWidget( b->count() - 1, dis ); //Add before the stretch element
-    dis->set_bg_color();
-}
 
 
-
-creator::itemGroupEntry::itemGroupEntry( QWidget* parent, QString entryText, bool group ) : QFrame( parent )
-{
-    //setMinimumSize( QSize( 250, 60 ) );
-    //setSizePolicy( QSizePolicy( QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding) );
-
-    if ( group ) {
-        setObjectName("group");
-        setStyleSheet( "background-color:rgb(198,149,133)" );
-    } else {
-        setObjectName("item");
-        setStyleSheet( "background-color:rgb(247,236,232)" );
-    }
-    setMaximumHeight( 60 );
-    QHBoxLayout* entryLayout = new QHBoxLayout;
-
-    QPushButton* btnDeleteThis = new QPushButton;
-    btnDeleteThis->setText("X");
-    btnDeleteThis->setMaximumSize( QSize( 24, 24 ) );
-    btnDeleteThis->setStyleSheet("background-color:rgb(206,99,108)");
-    connect(btnDeleteThis, &QPushButton::clicked, this, &itemGroupEntry::delete_self);
-
-    title_label = new QLabel;
-    title_label->setText( entryText );
-
-    QLabel* prob_label = new QLabel;
-    prob_label->setText( QString( "Prob:" ) );
-    prob_label->setMaximumSize( QSize( 24, 60 ) );
-
-    prob = new QSpinBox;
-    prob->setRange( 0, 100 );
-    prob->setValue( 100 );
-    prob->setMaximumSize( QSize( 24, 60 ) );
-    connect( prob, QOverload<int>::of( &QSpinBox::valueChanged ),
-        [=](int i) { change_notify_parent(); } );
-
-    entryLayout->addWidget( btnDeleteThis );
-    entryLayout->addWidget( title_label );
-    entryLayout->addWidget( prob_label );
-    entryLayout->addWidget( prob );
-
-    setLayout( entryLayout );
-}
-
-
-void creator::itemGroupEntry::change_notify_parent() {
-    QEvent* myEvent = new QEvent( item_group_changed::eventType );
-    QCoreApplication::sendEvent( this->parent(), myEvent );
-}
-
-
-
-QSize creator::itemGroupEntry::sizeHint() const
-{
-    return QSize( 300, 60 );
-}
-QSize creator::itemGroupEntry::minimumSizeHint() const
-{
-    return QSize( 250, 45 );
-}
-
-void creator::itemGroupEntry::delete_self() {
-    QObject* myParent = this->parent();
-    setParent( nullptr );
-    QEvent* myEvent = new QEvent( item_group_changed::eventType );
-    QCoreApplication::sendEvent( myParent, myEvent );
-    deleteLater();
-}
-
-
-void creator::itemGroupEntry::get_json( JsonOut &jo ) {
-
-    jo.start_object();
-    jo.member("item", "test_item" );
-    jo.member("prob", "100" );
-    jo.end_object();
-
-    //for( int row = 0; row < this->rowCount() - 0; row++ ) {
-    //    QTableWidgetItem* item = this->item(row, 1);
-    //    if( item == nullptr ) {
-    //        break;
-    //    }
-    //    jo.start_object();
-    //    QAbstractItemModel* model = this->model();
-    //    QVariant item_text = model->data( model->index( row, 1 ), Qt::DisplayRole );
-    //    QVariant prob_text = model->data( model->index( row, 2 ), Qt::DisplayRole );
-
-    //    //If the backgroundcolor is yellow, it's a group. Otherwise it's an item
-    //    QBrush item_color = item->backgroundColor();
-    //    if( item_color == Qt::yellow ){
-    //        jo.member( "group", item_text.toString().toStdString() );
-    //    } else {
-    //        jo.member( "item", item_text.toString().toStdString() );
-    //    }
-    //    jo.member( "prob", prob_text.toInt() );
-    //    jo.end_object();
-    //}
-}
-
-creator::distributionCollection::distributionCollection( QWidget* parent, 
+creator::distributionCollection::distributionCollection( bool isCollection, QWidget* parent,
                         item_group_window* top_parent ){
     top_parent_widget = top_parent;
 
     setObjectName( "distributionCollection" );
-    //setMinimumSize( QSize( 250, 100 ) );
     setAcceptDrops( true );
-    setSizePolicy( QSizePolicy( QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding) );
-
+    setSizePolicy( QSizePolicy( QSizePolicy::Minimum, QSizePolicy::Minimum ) );
+    
     verticalBox = new QVBoxLayout;
     verticalBox->setSizeConstraint( QLayout::SetMinAndMaxSize );
-    //verticalBox->setSizeConstraint( QLayout::SetFixedSize );
-    //verticalBox->setSizeConstraint( QLayout::SetNoConstraint );
     QFrame* buttonsTopBar = new QFrame;
-    buttonsTopBar->setStyleSheet( "background-color:rgb(142,229,188)" );
+    buttonsTopBar->setStyleSheet( "background-color:rgb(217,179,255)" );
     buttonsTopBar->setMaximumHeight( 60 );
     QHBoxLayout* buttonsTopBar_Layout = new QHBoxLayout;
 
-    QLabel* title_label = new QLabel;
-    title_label->setText( QString( "Distribution:" ) );
+    entryType = new QComboBox;
+    entryType->addItems( QStringList{ "collection", "distribution" } );
+    connect( entryType, QOverload<int>::of( &QComboBox::currentIndexChanged ),
+        [=](int index) { change_notify_top_parent(); } );
+    if( isCollection ) {
+        entryType->setCurrentIndex( 0 );
+    } else {
+        entryType->setCurrentIndex( 1 );
+    }
+    
 
     QPushButton* btnCollection = new QPushButton;
     btnCollection->setText( "+Collection" );
+    connect( btnCollection, &QPushButton::clicked, this, &distributionCollection::add_collection );
     QPushButton* btnDistribution = new QPushButton;
     btnDistribution->setText( "+Distribution" );
     connect( btnDistribution, &QPushButton::clicked, this, &distributionCollection::add_distribution );
+
+    QLabel* prob_label = new QLabel;
+    prob_label->setText( QString( "Prob:" ) );
+    prob_label->setMinimumSize( QSize( 30, 24 ) );
+    prob_label->setMaximumSize( QSize( 35, 24) );
+
+    prob = new QSpinBox;
+    prob->setRange( 0, 100 );
+    prob->setMinimumSize( QSize( 45, 24) );
+    prob->setMaximumSize( QSize( 50, 24) );
+    connect( prob, QOverload<int>::of( &QSpinBox::valueChanged ),
+        [=](int i) { change_notify_top_parent(); } );
 
     QPushButton* btnDeleteThis = new QPushButton;
     btnDeleteThis->setText( "X" );
@@ -389,28 +320,22 @@ creator::distributionCollection::distributionCollection( QWidget* parent,
     btnDeleteThis->setStyleSheet( "background-color:rgb(206,99,108)" );
     connect( btnDeleteThis, &QPushButton::clicked, this, &distributionCollection::delete_self );
 
-    buttonsTopBar_Layout->addWidget( title_label );
+    buttonsTopBar_Layout->addWidget( entryType );
     buttonsTopBar_Layout->addWidget( btnCollection );
     buttonsTopBar_Layout->addWidget( btnDistribution );
+    buttonsTopBar_Layout->addWidget( prob_label );
+    buttonsTopBar_Layout->addWidget( prob );
     buttonsTopBar_Layout->addWidget( btnDeleteThis );
 
     buttonsTopBar->setLayout( buttonsTopBar_Layout );
     verticalBox->addWidget( buttonsTopBar );
     verticalBox->setAlignment( buttonsTopBar, Qt::AlignTop );
     setLayout( verticalBox );
+    setFrameStyle( QFrame::StyledPanel | QFrame::Raised );
+    setLineWidth( 2 );
 }
 
-
 void creator::distributionCollection::delete_self() {
-    //if( depth > 0 ) {
-    //    distributionCollection* parent = 
-    //        dynamic_cast<creator::distributionCollection*>( this->parent() );
-    //    if ( parent != nullptr ) {
-    //        setParent( nullptr );
-    //        //It's no longer a child of the parent, so the parent needs the size updated
-    //        parent->update_size();
-    //    }
-    //}
     setParent( nullptr );
     change_notify_top_parent();
     deleteLater();
@@ -422,49 +347,35 @@ void creator::distributionCollection::set_depth( int d ) {
 
 QSize creator::distributionCollection::sizeHint() const
 {
-    return QSize( 300, 250 );
+    return QSize( 300, 100 );
 }
+
 QSize creator::distributionCollection::minimumSizeHint() const
 {
-    return QSize( 250, 200 );
+    return QSize( 250, 80 );
 }
-
-void creator::distributionCollection::update_size() {
-    //QObjectList entriesChildren = this->children();
-    ////TODO: Find a better way to grow widgets based on the size of their children
-    ////Right now it gets 60 for the toolbar and 250 for the other children
-    //int length = entriesChildren.length(), height;
-    //if (length > 1) {
-    //    height = 250 * entriesChildren.length() - 2;
-    //}
-    //else {
-    //    height = 250;
-    //}
-    //height += 60;
-    //setMinimumSize( QSize( 250, height) );
-    //this->adjustSize();
-
-    ////Now update the parent size
-    //if( depth > 0 ) {
-    //    distributionCollection* parent = 
-    //        dynamic_cast<creator::distributionCollection*>( this->parent() );
-    //    if ( parent != nullptr ) {
-    //        parent->update_size();
-    //    }
-    //}
-}
-
 
 void creator::distributionCollection::add_distribution() {
-    creator::distributionCollection* dis = new creator::distributionCollection( this, top_parent_widget );
+    creator::distributionCollection* dis = new creator::distributionCollection( false, 
+                                            this, top_parent_widget );
     dis->set_depth( depth+1 );
     dis->set_bg_color();
     layout()->addWidget( dis );
+    change_notify_top_parent();
+}
+
+void creator::distributionCollection::add_collection() {
+    creator::distributionCollection* dis = new creator::distributionCollection( true, 
+                                            this, top_parent_widget );
+    dis->set_depth( depth+1 );
+    dis->set_bg_color();
+    layout()->addWidget( dis );
+    change_notify_top_parent();
 }
 
 void creator::distributionCollection::set_bg_color() {
-    QString colors[8] = { "252,252,252", "244,247,252", "219,228,249", "202,216,249", 
-                            "184,204,249", "169,194,252", "165,185,252", "136,171,252" };
+    QString colors[8] = { "204,217,255", "179,198,255", "153,179,255", "128,159,255", 
+                            "102,140,255", "77,121,255", "51,102,255", "26,83,255" };
     if( depth <= 7 ){
         setStyleSheet( "background-color:rgb("+ colors[depth] + ")" );
     } else {
@@ -472,27 +383,12 @@ void creator::distributionCollection::set_bg_color() {
     }
 }
 
-
-
-
-bool creator::distributionCollection::event( QEvent* event )
-{
-    if( event->type() == item_group_changed::eventType ) {
-        change_notify_top_parent();
-        return true;
-    }
-    //call the event method of the base class for the events that aren't handled
-    return QFrame::event( event );
-}
-
-
 void creator::distributionCollection::add_entry( QString entryText, bool group ) {
-    creator::itemGroupEntry* itemGroupEntry = new creator::itemGroupEntry( this, entryText, group );
+    creator::itemGroupEntry* itemGroupEntry = new creator::itemGroupEntry( this, entryText, 
+                                                                group, top_parent_widget);
     layout()->addWidget( itemGroupEntry );
-    //update_size();
+    change_notify_top_parent();
 }
-
-
 
 //Notify the item_group_window that the item group has changed
 void creator::distributionCollection::change_notify_top_parent()
@@ -501,14 +397,13 @@ void creator::distributionCollection::change_notify_top_parent()
     QCoreApplication::sendEvent( top_parent_widget, myEvent );
 }
 
-
 void creator::distributionCollection::get_json( JsonOut& jo ) {
     QObjectList entriesChildren = this->children();
     if( entriesChildren.length() < 1 ) {
         return;
     }
     jo.start_object();
-    jo.member( "distribution" );
+    jo.member( entryType->currentText().toStdString() );
     jo.start_array();
     for ( QObject* i : entriesChildren ) {
         itemGroupEntry* ent = dynamic_cast<creator::itemGroupEntry*>( i );
@@ -521,9 +416,12 @@ void creator::distributionCollection::get_json( JsonOut& jo ) {
         }
     }
     jo.end_array();
+    int pr = prob->value();
+    if( pr ) {
+        jo.member( "prob", pr );
+    }
     jo.end_object();
 }
-
 
 void creator::distributionCollection::dragEnterEvent( QDragEnterEvent* event )
 {
@@ -537,7 +435,6 @@ void creator::distributionCollection::dragMoveEvent( QDragMoveEvent* event )
     event->acceptProposedAction();
 }
 
-
 void creator::distributionCollection::dropEvent( QDropEvent* event )
 {
     QString itemText = event->mimeData()->text();
@@ -548,11 +445,214 @@ void creator::distributionCollection::dropEvent( QDropEvent* event )
     } else {
         add_entry( itemText, true );
     }
-
-    //change_notify_top_parent();
     event->acceptProposedAction();
 }
 
+creator::nested_group_container::nested_group_container( QWidget* parent, 
+                        item_group_window* top_parent ) : QFrame( parent )
+{
+    top_parent_widget = top_parent;
+    verticalBox = new QVBoxLayout;
+
+    setLayout( verticalBox );
+    setStyleSheet( "background-color:rgb(139,104,168)" );
+    setAcceptDrops( true );
+
+    QFrame* entriesTopBar = new QFrame;
+    entriesTopBar->setStyleSheet( "background-color:rgb(217,179,255)" );
+    entriesTopBar->setMaximumHeight( 60 );
+    QHBoxLayout* entriesTopBar_Layout = new QHBoxLayout;
+
+    QLabel* entries_label = new QLabel;
+    entries_label->setText( QString( "Entries:" ) );
+
+    QPushButton* btnCollection = new QPushButton;
+    btnCollection->setText( "+Collection" );
+    connect( btnCollection, &QPushButton::clicked, this, &nested_group_container::add_collection );
+    QPushButton* btnDistribution = new QPushButton;
+    btnDistribution->setText( "+Distribution" );
+    connect( btnDistribution, &QPushButton::clicked, this, &nested_group_container::add_distribution );
+
+    entriesTopBar_Layout->addWidget( entries_label );
+    entriesTopBar_Layout->addWidget( btnCollection );
+    entriesTopBar_Layout->addWidget( btnDistribution );
+
+    entriesTopBar->setLayout( entriesTopBar_Layout );
+    verticalBox->addWidget( entriesTopBar );
+    verticalBox->setAlignment( entriesTopBar, Qt::AlignTop );
+    verticalBox->addStretch();
+}
+
+//Notify the item_group_window that the item group has changed
+void creator::nested_group_container::change_notify_top_parent()
+{
+    QEvent* myEvent = new QEvent( item_group_changed::eventType );
+    QCoreApplication::sendEvent( top_parent_widget, myEvent );
+}
+
+void creator::nested_group_container::add_distribution() {
+    creator::distributionCollection* dis = new creator::distributionCollection( false, 
+                                                            this, top_parent_widget );
+    dis->set_depth( 0 );
+    QVBoxLayout* b = static_cast<QVBoxLayout*>( this->layout() );
+    b->insertWidget( b->count() - 1, dis ); //Add before the stretch element
+    dis->set_bg_color();
+    change_notify_top_parent();
+}
+
+void creator::nested_group_container::add_collection() {
+    creator::distributionCollection* col = new creator::distributionCollection( true, 
+                                                            this, top_parent_widget );
+    col->set_depth( 0 );
+    QVBoxLayout* b = static_cast<QVBoxLayout*>( this->layout() );
+    b->insertWidget( b->count() - 1, col ); //Add before the stretch element
+    col->set_bg_color();
+    change_notify_top_parent();
+}
+
+void creator::nested_group_container::add_entry( QString entryText, bool group ) {
+    creator::itemGroupEntry* itemGroupEntry = new creator::itemGroupEntry( this, entryText,
+        group, top_parent_widget );
+    QVBoxLayout* b = static_cast<QVBoxLayout*>( this->layout() );
+    b->insertWidget( b->count() - 1, itemGroupEntry ); //Add before the stretch element
+    change_notify_top_parent();
+}
+
+
+void creator::nested_group_container::dragEnterEvent( QDragEnterEvent* event )
+{
+    if ( event->mimeData()->hasFormat( "text/plain" ) ){
+        event->acceptProposedAction();
+    }
+}
+
+void creator::nested_group_container::dragMoveEvent( QDragMoveEvent* event )
+{
+    event->acceptProposedAction();
+}
+
+void creator::nested_group_container::dropEvent( QDropEvent* event )
+{
+    QString itemText = event->mimeData()->text();
+    QObject* sourceListOfItemsOrGroups = event->source();
+    //If the property 'items' is true, it's the list of items. Otherwise it's the list of groups.
+    if( sourceListOfItemsOrGroups->property( "items" ).toBool() ) {
+        add_entry( itemText, false );
+    } else {
+        add_entry( itemText, true );
+    }
+    event->acceptProposedAction();
+}
+
+creator::itemGroupEntry::itemGroupEntry( QWidget* parent, QString entryText, bool group, 
+                                        item_group_window* top_parent ) : QFrame( parent )
+{
+    top_parent_widget = top_parent;
+
+    if ( group ) {
+        setObjectName( "group" );
+        setStyleSheet( "background-color:rgb(255,204,153)" );
+    } else {
+        setObjectName( "item" );
+        setStyleSheet( "background-color:rgb(247,236,232)" );
+    }
+    setMaximumHeight( 60 ); 
+    QHBoxLayout* entryLayout = new QHBoxLayout;
+
+    title_label = new QLabel;
+    title_label->setText( entryText );
+    title_label->setStyleSheet( "font: 10pt;" );
+
+    QLabel* prob_label = new QLabel;
+    prob_label->setText( QString( "Prob:" ) );
+    prob_label->setMinimumSize( QSize( 30, 24 ) );
+    prob_label->setMaximumSize( QSize( 35, 24 ) );
+
+    prob = new QSpinBox;
+    prob->setRange( 0, 100 );
+    prob->setValue( 100 );
+    prob->setMinimumSize( QSize( 45, 24 ) );
+    prob->setMaximumSize( QSize( 50, 24 ) );
+    connect( prob, QOverload<int>::of( &QSpinBox::valueChanged ),
+        [=]( int i ) { change_notify_top_parent(); } );
+
+    QLabel* charges_label = new QLabel;
+    charges_label->setText( QString( "Charges:" ) );
+    charges_label->setMinimumSize( QSize( 42, 24 ) );
+    charges_label->setMaximumSize( QSize( 47, 24) );
+
+    charges_min = new QSpinBox;
+    charges_min->setRange( 0, INT_MAX );
+    charges_min->setMinimumSize( QSize( 45, 24 ) );
+    charges_min->setMaximumSize( QSize( 50, 24 ) );
+    connect( charges_min, QOverload<int>::of( &QSpinBox::valueChanged ),
+        [=]( int i ) { change_notify_top_parent(); } );
+
+    charges_max = new QSpinBox;
+    charges_max->setRange( 0, INT_MAX );
+    charges_max->setMinimumSize( QSize( 45, 24 ) );
+    charges_max->setMaximumSize( QSize( 50, 24 ) );
+    connect( charges_max, QOverload<int>::of( &QSpinBox::valueChanged ),
+        [=]( int i ) { change_notify_top_parent(); } );
+
+    QPushButton* btnDeleteThis = new QPushButton;
+    btnDeleteThis->setText( "X" );
+    btnDeleteThis->setMaximumSize( QSize( 24, 24 ) );
+    btnDeleteThis->setStyleSheet( "background-color:rgb(206,99,108)" );
+    connect( btnDeleteThis, &QPushButton::clicked, this, &itemGroupEntry::delete_self );
+
+    entryLayout->addWidget( title_label );
+    entryLayout->addWidget( prob_label );
+    entryLayout->addWidget( prob );
+    entryLayout->addWidget( charges_label );
+    entryLayout->addWidget( charges_min );
+    entryLayout->addWidget( charges_max );
+    entryLayout->addWidget( btnDeleteThis );
+
+    setLayout( entryLayout );
+}
+
+void creator::itemGroupEntry::change_notify_top_parent() {
+    QEvent* myEvent = new QEvent( item_group_changed::eventType );
+    QCoreApplication::sendEvent( top_parent_widget, myEvent );
+}
+
+QSize creator::itemGroupEntry::sizeHint() const
+{
+    return QSize( 300, 60 );
+}
+
+QSize creator::itemGroupEntry::minimumSizeHint() const
+{
+    return QSize( 250, 45 );
+}
+
+void creator::itemGroupEntry::delete_self() {
+    QObject* myParent = this->parent();
+    setParent( nullptr );
+    change_notify_top_parent();
+    deleteLater();
+}
+
+void creator::itemGroupEntry::get_json( JsonOut &jo ) {
+
+    jo.start_object();
+    if( this->objectName() == "item" ) {
+        jo.member( "item", title_label->text().toStdString() );
+    } else {
+        jo.member( "group", title_label->text().toStdString() );
+    }
+    int pr = prob->value(); //If prob is 0, we omit prob entirely
+    if( pr ) {
+        jo.member( "prob", pr );
+    }
+    pr = charges_max->value(); //If charges-max is 0, we omit charges entirely
+    if( pr ) {
+        jo.member( "charges-min", charges_min->value() );
+        jo.member( "charges-max", pr );
+    }
+    jo.end_object();
+}
 
 
 QEvent::Type creator::item_group_changed::eventType = QEvent::User;

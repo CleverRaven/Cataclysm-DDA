@@ -13,9 +13,12 @@
 #include <QtWidgets/qtablewidget.h>
 #include "QtWidgets/qpushbutton.h"
 #include <QtWidgets/QScrollArea>
+#include <QtWidgets/QSpinBox>
+#include <QtWidgets/QComboBox>
 
 namespace creator
 {
+    class nested_group_container;
     class item_group_window : public QMainWindow
     {
 
@@ -32,7 +35,6 @@ namespace creator
             QWidget::hide();
         }
 
-
     private:
         QTextEdit item_group_json;
 
@@ -41,11 +43,13 @@ namespace creator
         void group_search_return_pressed();
         void group_list_populate_filtered( std::string searchQuery = "" );
         void item_list_populate_filtered( std::string searchQuery = "" );
-        void set_item_tooltip( QListWidgetItem* new_item, item tmpItem );
-        void add_distribution();
+        void set_item_tooltip( QListWidgetItem* new_item, const itype* tmpItype );
+        void set_group_tooltip( QListWidgetItem* new_item, const item_group_id tmpItype );
 
         QLabel* id_label;
         QLineEdit* id_box;
+
+        QComboBox* subtype;
 
         QLabel* item_search_label;
         QLineEdit* item_search_box;
@@ -56,9 +60,8 @@ namespace creator
         ListWidget_Drag* group_list_total_box;
 
         //Top-level frame to hold the distributionCollections and/or entrieslist
-        QFrame* entries_box;
-        QVBoxLayout* verticalBox;
         QScrollArea* scrollArea;
+        nested_group_container* group_container;
 
 
     protected:
@@ -69,16 +72,20 @@ namespace creator
     class itemGroupEntry : public QFrame
     {
     public:
-        explicit itemGroupEntry( QWidget* parent, QString entryText, bool group );
+        explicit itemGroupEntry( QWidget* parent, QString entryText, bool group, 
+                                item_group_window* top_parent );
         void get_json( JsonOut &jo );
         QSize sizeHint() const;
         QSize minimumSizeHint() const;
 
     private:
         void delete_self();
-        void change_notify_parent();
+        void change_notify_top_parent();
         QLabel* title_label;
         QSpinBox* prob;
+        QSpinBox* charges_min;
+        QSpinBox* charges_max;
+        item_group_window* top_parent_widget;
     };
 
     //Holds the properties for either a collection or a distribution
@@ -86,7 +93,7 @@ namespace creator
     class distributionCollection : public QFrame
     {
     public:
-        explicit distributionCollection( QWidget* parent = nullptr, 
+        explicit distributionCollection( bool isCollection, QWidget* parent = nullptr,
                     item_group_window* top_parent = nullptr );
         void get_json( JsonOut &jo );
         void set_bg_color();
@@ -94,21 +101,41 @@ namespace creator
         QSize sizeHint() const override;
         QSize minimumSizeHint() const override;
     private:
+        void add_collection();
         void add_distribution();
         void add_entry( QString entryText, bool group );
         void change_notify_top_parent( );
         void delete_self();
-        void update_size();
         item_group_window* top_parent_widget;
         int depth;
-        QPushButton* btnItemList;
+        QComboBox* entryType;
         QVBoxLayout* verticalBox;
+        QSpinBox* prob;
         
     protected:
         void dragEnterEvent( QDragEnterEvent* event ) override;
         void dragMoveEvent( QDragMoveEvent* event ) override;
         void dropEvent( QDropEvent* event ) override;
-        bool event( QEvent* event ) override;
+    };
+
+    //Top-level widget for items and distributions and collections
+    class nested_group_container : public QFrame
+    {
+    public:
+        explicit nested_group_container( QWidget* parent, item_group_window* top_parent );
+    private:
+        void add_distribution();
+        void add_collection();
+        void change_notify_top_parent();
+        QFrame* items_container;
+        item_group_window* top_parent_widget;
+        QVBoxLayout* verticalBox;
+    private:
+        void add_entry( QString entryText, bool group );
+    protected:
+        void dragEnterEvent( QDragEnterEvent* event ) override;
+        void dragMoveEvent( QDragMoveEvent* event ) override;
+        void dropEvent( QDropEvent* event ) override;
     };
 
     class item_group_changed : public QEvent

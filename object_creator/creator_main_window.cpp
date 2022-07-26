@@ -102,8 +102,8 @@ int creator::main_window::execute( QApplication &app )
     // second column of boxes
     col++;
 
-    QPushButton item_group_button(_("Item group Creator"), &title_menu);
-    item_group_button.move(QPoint(col * default_text_box_width, row++ * default_text_box_height));
+    QPushButton item_group_button( _( "Item group Creator" ), &title_menu );
+    item_group_button.move( QPoint( col * default_text_box_width, row++ * default_text_box_height ) );
     item_group_button.resize(150, 30);
 
     QObject::connect( &item_group_button, &QPushButton::released,
