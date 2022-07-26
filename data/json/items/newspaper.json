@@ -55,6 +55,14 @@
   },
   {
     "type": "GENERIC",
+    "id": "toxic_waste_labnote",
+    "copy-from": "survnote",
+    "name": { "str": "forgotten note" },
+    "description": "This grimed note seems out of place, as if someone lost it.",
+    "snippet_category": "toxic_waste_corpse_disposal"
+  },
+  {
+    "type": "GENERIC",
     "id": "lab_postit_bio",
     "copy-from": "survnote",
     "name": { "str": "post-it note" },
