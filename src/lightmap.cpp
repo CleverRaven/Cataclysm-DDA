@@ -987,32 +987,39 @@ castLightAll<fragment_cloud, fragment_cloud, shrapnel_calc, shrapnel_check,
  * @param origin the starting location
  * @param target_z Z-level to draw light map on
  */
-void map::build_seen_cache( const tripoint &origin, const int target_z )
+void map::build_seen_cache( const tripoint &origin, const int target_z, bool cumulative,
+                            bool camera, int penalty )
 {
     level_cache &map_cache = get_cache( target_z );
-    cata::mdarray<float, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> &transparency_cache =
-        map_cache.vision_transparency_cache;
-    cata::mdarray<float, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> &seen_cache = map_cache.seen_cache;
-    cata::mdarray<float, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> &camera_cache = map_cache.camera_cache;
+    using mdarray = cata::mdarray<float, point_bub_ms, MAPSIZE_X, MAPSIZE_Y>;
+    mdarray &transparency_cache = map_cache.vision_transparency_cache;
+    mdarray &seen_cache = map_cache.seen_cache;
+    mdarray &camera_cache = map_cache.camera_cache;
+    mdarray &out_cache = camera ? camera_cache : seen_cache;
 
     constexpr float light_transparency_solid = LIGHT_TRANSPARENCY_SOLID;
     constexpr int map_dimensions = MAPSIZE_X * MAPSIZE_Y;
-    std::uninitialized_fill_n(
-        &camera_cache[0][0], map_dimensions, light_transparency_solid );
+    if( !cumulative ) {
+        std::uninitialized_fill_n(
+            &camera_cache[0][0], map_dimensions, light_transparency_solid );
+    }
 
     if( !fov_3d ) {
         for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
             level_cache &cur_cache = get_cache( z );
+            mdarray &cur_out_cache = camera ? cur_cache.camera_cache : cur_cache.seen_cache;
             if( z == target_z || cur_cache.seen_cache_dirty ) {
-                std::uninitialized_fill_n(
-                    &cur_cache.seen_cache[0][0], map_dimensions, light_transparency_solid );
+                if( !cumulative ) {
+                    std::uninitialized_fill_n(
+                        &cur_out_cache[0][0], map_dimensions, light_transparency_solid );
+                }
                 cur_cache.seen_cache_dirty = false;
             }
 
             if( z == target_z ) {
-                seen_cache[origin.x][origin.y] = VISIBILITY_FULL;
+                out_cache[origin.x][origin.y] = VISIBILITY_FULL;
                 castLightAll<float, float, sight_calc, sight_check, update_light, accumulate_transparency>(
-                    seen_cache, transparency_cache, origin.xy(), 0 );
+                    out_cache, transparency_cache, origin.xy(), penalty );
             }
         }
     } else {
@@ -1024,44 +1031,24 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
         for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
             level_cache &cur_cache = get_cache( z );
             transparency_caches[z + OVERMAP_DEPTH] = &cur_cache.vision_transparency_cache;
-            seen_caches[z + OVERMAP_DEPTH] = &cur_cache.seen_cache;
+            seen_caches[z + OVERMAP_DEPTH] = camera ? &cur_cache.camera_cache : &cur_cache.seen_cache;
             floor_caches[z + OVERMAP_DEPTH] = &cur_cache.floor_cache;
-            std::uninitialized_fill_n(
-                &cur_cache.seen_cache[0][0], map_dimensions, light_transparency_solid );
+            if( !cumulative ) {
+                std::uninitialized_fill_n(
+                    &( *seen_caches[z + OVERMAP_DEPTH] )[0][0], map_dimensions, light_transparency_solid );
+            }
             cur_cache.seen_cache_dirty = false;
             if( origin.z == z && cur_cache.no_floor_gaps ) {
                 directions_to_cast = vertical_direction::UP;
             }
         }
         if( origin.z == target_z ) {
-            get_cache( origin.z ).seen_cache[origin.x][origin.y] = VISIBILITY_FULL;
+            ( *seen_caches[ target_z + OVERMAP_DEPTH ] )[origin.x][origin.y] = VISIBILITY_FULL;
         }
 
         cast_zlight<float, sight_calc, sight_check, accumulate_transparency>(
-            seen_caches, transparency_caches, floor_caches, origin, 0, 1.0,
+            seen_caches, transparency_caches, floor_caches, origin, penalty, 1.0,
             directions_to_cast );
-    }
-
-    for( const std::pair<mtype_id, int> moncam : get_avatar().get_moncams() ) {
-        const std::vector<Creature *> moncams = g->get_creatures_if( [&]( const Creature & c ) {
-            if( !c.is_monster() ) {
-                return false;
-            }
-            const monster *mon = c.as_monster();
-            return mon->type->id == moncam.first && mon->friendly != 0 &&
-                   ( rl_dist( get_avatar().pos(), mon->pos() ) < moncam.second );
-        } );
-
-        for( const Creature *mon : moncams ) {
-            const tripoint camera_pos = mon->pos();
-            if( camera_pos.z == target_z ) {
-                int offsetDistance = std::max( 60 - mon->as_monster()->type->vision_day, 0 );
-                camera_cache[camera_pos.x][camera_pos.y] = VISIBILITY_FULL;
-                map_cache.seen_cache_dirty = true;
-                castLightAll<float, float, sight_calc, sight_check, update_light, accumulate_transparency>(
-                    camera_cache, transparency_cache, camera_pos.xy(), offsetDistance );
-            }
-        }
     }
 
     const optional_vpart_position vp = veh_at( origin );
@@ -1084,7 +1071,7 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
         // We can utilize the current state of the seen cache to determine
         // if the player can see the mirror from their position.
         if( !vp.info().has_flag( "CAMERA" ) &&
-            seen_cache[mirror_pos.x][mirror_pos.y] < LIGHT_TRANSPARENCY_SOLID + 0.1 ) {
+            out_cache[mirror_pos.x][mirror_pos.y] < LIGHT_TRANSPARENCY_SOLID + 0.1 ) {
             continue;
         } else if( !vp.info().has_flag( "CAMERA_CONTROL" ) ) {
             mirrors.emplace_back( static_cast<int>( vp.part_index() ) );
@@ -1107,7 +1094,7 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
         // don't cheat the light distance falloff.
         int offsetDistance;
         if( !is_camera ) {
-            offsetDistance = rl_dist( origin, mirror_pos );
+            offsetDistance = penalty + rl_dist( origin, mirror_pos );
         } else {
             offsetDistance = 60 - veh->part_info( mirror ).bonus *
                              veh->part( mirror ).hp() / veh->part_info( mirror ).durability;
@@ -1122,8 +1109,6 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
         castLightAll<float, float, sight_calc, sight_check, update_light, accumulate_transparency>(
             camera_cache, transparency_cache, mirror_pos.xy(), offsetDistance );
     }
-
-
 }
 
 //Schraudolph's algorithm with John's constants

@@ -8695,6 +8695,7 @@ void map::build_map_cache( const int zlev, bool skip_lightmap )
     const int minz = zlevels ? -OVERMAP_DEPTH : zlev;
     const int maxz = zlevels ? OVERMAP_HEIGHT : zlev;
     bool seen_cache_dirty = false;
+    bool camera_cache_dirty = false;
     for( int z = minz; z <= maxz; z++ ) {
         // trigger FOV recalculation only when there is a change on the player's level or if fov_3d is enabled
         const bool affects_seen_cache =  z == zlev || fov_3d;
@@ -8718,12 +8719,29 @@ void map::build_map_cache( const int zlev, bool skip_lightmap )
     if( seen_cache_dirty ) {
         skew_vision_cache.clear();
     }
+    avatar &u = get_avatar();
+    Character::moncam_cache_t mcache = u.get_active_moncams();
+    Character::moncam_cache_t diff;
+    std::set_symmetric_difference( u.moncam_cache.begin(), u.moncam_cache.end(), mcache.begin(),
+                                   mcache.end(), std::inserter( diff, diff.end() ) );
+    camera_cache_dirty |= !diff.empty();
     // Initial value is illegal player position.
     const tripoint p = get_player_character().pos();
     static tripoint player_prev_pos;
-    if( seen_cache_dirty || player_prev_pos != p ) {
+    seen_cache_dirty |= player_prev_pos != p;
+    if( seen_cache_dirty ) {
         build_seen_cache( p, zlev );
         player_prev_pos = p;
+        camera_cache_dirty = true;
+    }
+    if( camera_cache_dirty ) {
+        u.moncam_cache = mcache;
+        bool cumulative = seen_cache_dirty;
+        for( Character::cached_moncam const &mon : u.moncam_cache ) {
+            build_seen_cache( get_map().getlocal( mon.second ), zlev, cumulative, true,
+                              std::max( 60 - mon.first->type->vision_day, 0 ) );
+            cumulative = true;
+        }
     }
     if( !skip_lightmap ) {
         generate_lightmap( zlev );

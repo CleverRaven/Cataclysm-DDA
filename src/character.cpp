@@ -8708,9 +8708,23 @@ void Character::set_moncams( std::map<mtype_id, int> nmoncams )
     moncams = std::move( nmoncams );
 }
 
-std::map<mtype_id, int> Character::get_moncams() const
+std::map<mtype_id, int> const &Character::get_moncams() const
 {
     return moncams;
+}
+
+Character::moncam_cache_t Character::get_active_moncams() const
+{
+    moncam_cache_t ret;
+    for( monster const &mon : g->all_monsters() ) {
+        for( std::pair<mtype_id, int> const moncam : get_moncams() ) {
+            if( mon.type->id == moncam.first && mon.friendly != 0 &&
+                rl_dist( get_avatar().get_location(), mon.get_location() ) < moncam.second ) {
+                ret.insert( { &mon, mon.get_location() } );
+            }
+        }
+    }
+    return ret;
 }
 
 void Character::use_fire( const int quantity )
