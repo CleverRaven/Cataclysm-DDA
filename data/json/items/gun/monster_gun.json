@@ -204,5 +204,48 @@
         "item_restriction": [ "m9mag", "m9mag_10rd", "m9mag_17rd", "m9mag_18rd", "m9mag_20rd", "m9bigmag", "m9mag_32rd", "m9mag_35rd" ]
       }
     ]
+  },
+  {
+    "id": "acid_spit",
+    "type": "GUN",
+    "copy-from": "fake_item",
+    "name": { "str": "acid spit gun" },
+    "description": "Fake gun that fires acid globs.",
+    "flags": [ "NEVER_JAMS" ],
+    "ammo_effects": [ "BLINDS_EYES", "NEVER_MISFIRES", "NO_DAMAGE_SCALING", "NO_PENETRATE_OBSTACLES" ],
+    "skill": "rifle",
+    "durability": 10,
+    "range": 100,
+    "dispersion": 1000,
+    "ranged_damage": { "damage_type": "acid", "amount": 4 }
+  },
+  {
+    "id": "acid_spray",
+    "type": "GUN",
+    "copy-from": "fake_item",
+    "name": { "str": "acid dart volley" },
+    "description": "Fake gun that fires acid globs.",
+    "flags": [ "NEVER_JAMS" ],
+    "modes": [ [ "DEFAULT", "auto", 3 ] ],
+    "ammo_effects": [ "BLINDS_EYES", "NO_PENETRATE_OBSTACLES", "NEVER_MISFIRES", "NO_DAMAGE_SCALING" ],
+    "skill": "rifle",
+    "durability": 10,
+    "range": 100,
+    "dispersion": 5000,
+    "ranged_damage": [ { "damage_type": "acid", "amount": 3 }, { "damage_type": "stab", "amount": 8, "armor_multiplier": 0.8 } ]
+  },
+  {
+    "id": "acid_sniper",
+    "type": "GUN",
+    "copy-from": "fake_item",
+    "name": { "str": "acid dart gun" },
+    "description": "Fake gun that fires acid globs.",
+    "flags": [ "NEVER_JAMS" ],
+    "ammo_effects": [ "BLINDS_EYES", "NO_PENETRATE_OBSTACLES", "NEVER_MISFIRES", "NO_DAMAGE_SCALING" ],
+    "skill": "rifle",
+    "durability": 10,
+    "range": 100,
+    "dispersion": 500,
+    "ranged_damage": [ { "damage_type": "acid", "amount": 3 }, { "damage_type": "stab", "amount": 6 } ]
   }
 ]
