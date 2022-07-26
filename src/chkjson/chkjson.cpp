@@ -21,7 +21,8 @@
 #include "json.h"
 
 // copypasta: file_finder.cpp
-static std::vector<std::string> get_files_from_path( std::string extension, std::string root_path,
+static std::vector<std::string> get_files_from_path( const std::string &extension,
+        std::string root_path,
         bool recursive_search, bool match_extension )
 {
     std::vector<std::string> files;

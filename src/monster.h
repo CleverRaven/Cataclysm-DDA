@@ -575,7 +575,6 @@ class monster : public Creature
         void process_trigger( mon_trigger trig, int amount );
         void process_trigger( mon_trigger trig, const std::function<int()> &amount_func );
 
-    private:
         int hp = 0;
         std::map<std::string, mon_special_attack> special_attacks;
         cata::optional<tripoint_abs_ms> goal;
@@ -597,7 +596,7 @@ class monster : public Creature
         int next_patrol_point = -1;
 
         std::bitset<NUM_MEFF> effect_cache;
-        cata::optional<time_duration> summon_time_limit = cata::nullopt;
+        cata::optional<time_point> lifespan_end = cata::nullopt;
         int turns_since_target = 0;
 
         Character *find_dragged_foe();

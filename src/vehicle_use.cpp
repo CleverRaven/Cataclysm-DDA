@@ -978,6 +978,7 @@ bool vehicle::fold_up()
         debugmsg( "Error storing vehicle: %s", e.c_str() );
     }
 
+    bicycle.set_var( "tracking", tracking_on ? 1 : 0 );
     if( can_be_folded ) {
         bicycle.set_var( "weight", to_milligram( total_mass() ) );
         bicycle.set_var( "volume", total_folded_volume() / units::legacy_volume_factor );
@@ -1649,7 +1650,7 @@ bool vehicle::can_close( int part_index, Character &who )
                     }
                     return false;
                 }
-                if( parts[partID].has_fake ) {
+                if( parts[partID].has_fake && parts[parts[partID].fake_part_at].is_active_fake ) {
                     partID = parts[partID].fake_part_at;
                 } else {
                     partID = -1;
@@ -2411,11 +2412,11 @@ void vehicle::interact_with( const vpart_position &vp, bool with_pickup )
             return;
         }
         case RELOAD_TURRET: {
-            item::reload_option opt = player_character.select_ammo( *turret.base(), true );
+            item::reload_option opt = player_character.select_ammo( turret.base(), true );
             std::vector<item_location> targets;
             if( opt ) {
                 const int moves = opt.moves();
-                targets.emplace_back( item_location( turret.base(), const_cast<item *>( opt.target ) ) );
+                targets.push_back( opt.target );
                 targets.push_back( std::move( opt.ammo ) );
                 player_character.assign_activity( player_activity( reload_activity_actor( moves, opt.qty(),
                                                   targets ) ) );

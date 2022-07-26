@@ -267,15 +267,18 @@ void map::generate( const tripoint &p, const time_point &when )
     if( spawns.group && x_in_y( odds_after_density, 100 ) ) {
         int pop = spawn_count * rng( spawns.population.min, spawns.population.max );
         for( ; pop > 0; pop-- ) {
-            MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup( spawns.group, &pop );
-            if( !spawn_details.name ) {
-                continue;
-            }
-            if( const cata::optional<tripoint> pt =
-            random_point( *this, [this]( const tripoint & n ) {
-            return passable( n );
-            } ) ) {
-                add_spawn( spawn_details, *pt );
+            std::vector<MonsterGroupResult> spawn_details =
+                MonsterGroupManager::GetResultFromGroup( spawns.group, &pop );
+            for( const MonsterGroupResult &mgr : spawn_details ) {
+                if( !mgr.name ) {
+                    continue;
+                }
+                if( const cata::optional<tripoint> pt =
+                random_point( *this, [this]( const tripoint & n ) {
+                return passable( n );
+                } ) ) {
+                    add_spawn( mgr, *pt );
+                }
             }
         }
     }
@@ -1873,6 +1876,7 @@ class jmapgen_sign : public jmapgen_piece
             dat.m.set_signage( tripoint( r, dat.m.get_abs_sub().z() ), signtext );
         }
         std::string apply_all_tags( std::string signtext, const std::string &cityname ) const {
+            signtext = SNIPPET.expand( signtext );
             replace_city_tag( signtext, cityname );
             replace_name_tags( signtext );
             return signtext;
@@ -1923,6 +1927,7 @@ class jmapgen_graffiti : public jmapgen_piece
             dat.m.set_graffiti( tripoint( r, dat.m.get_abs_sub().z() ), graffiti );
         }
         std::string apply_all_tags( std::string graffiti, const std::string &cityname ) const {
+            graffiti = SNIPPET.expand( graffiti );
             replace_city_tag( graffiti, cityname );
             replace_name_tags( graffiti );
             return graffiti;
@@ -2355,11 +2360,13 @@ class jmapgen_monster : public jmapgen_piece
 
             mongroup_id chosen_group = m_id.get( dat );
             if( !chosen_group.is_null() ) {
-                MonsterGroupResult spawn_details =
+                std::vector<MonsterGroupResult> spawn_details =
                     MonsterGroupManager::GetResultFromGroup( chosen_group );
-                dat.m.add_spawn( spawn_details.name, spawn_count * pack_size.get(),
-                { x.get(), y.get(), dat.m.get_abs_sub().z() },
-                friendly, -1, mission_id, name, data );
+                for( const MonsterGroupResult &mgr : spawn_details ) {
+                    dat.m.add_spawn( mgr.name, spawn_count * pack_size.get(),
+                    { x.get(), y.get(), dat.m.get_abs_sub().z() },
+                    friendly, -1, mission_id, name, data );
+                }
             } else {
                 mtype_id chosen_type = ids.pick()->get( dat );
                 if( !chosen_type.is_null() ) {
@@ -6433,9 +6440,12 @@ void map::place_spawns( const mongroup_id &group, const int chance,
         } while( impassable( p ) && tries > 0 );
 
         // Pick a monster type
-        MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup( group, &num );
-        add_spawn( spawn_details.name, spawn_details.pack_size, { p, abs_sub.z() },
-                   friendly, -1, mission_id, name, spawn_details.data );
+        std::vector<MonsterGroupResult> spawn_details =
+            MonsterGroupManager::GetResultFromGroup( group, &num );
+        for( const MonsterGroupResult &mgr : spawn_details ) {
+            add_spawn( mgr.name, mgr.pack_size, { p, abs_sub.z() },
+                       friendly, -1, mission_id, name, mgr.data );
+        }
     }
 }
 

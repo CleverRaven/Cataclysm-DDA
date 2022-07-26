@@ -46,6 +46,17 @@
     "price_postapoc": 100
   },
   {
+    "id": "chem_methanol_fuelcell",
+    "copy-from": "chem_methanol",
+    "type": "AMMO",
+    "name": { "str_sp": "methanol" },
+    "//": "This variant of methanol should only exist in methanol fuel cells.  NO_DROP flag added as a solution to refilled fuel cells being heavier than ones that spawn full.",
+    "weight": "198 mg",
+    "volume": "50ml",
+    "ammo_type": "methanol_fuelcell",
+    "flags": [ "TRADER_AVOID", "NO_DROP" ]
+  },
+  {
     "id": "diesel",
     "type": "AMMO",
     "name": { "str_sp": "diesel" },

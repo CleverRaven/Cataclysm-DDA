@@ -172,7 +172,7 @@
     "warmth": 15,
     "material_thickness": 5,
     "environmental_protection": 10,
-    "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "OUTER", "HELMET_COMPAT" ],
+    "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "OUTER" ],
     "armor": [ { "encumbrance": 30, "coverage": 100, "covers": [ "head" ] } ]
   },
   {

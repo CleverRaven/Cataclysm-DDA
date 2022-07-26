@@ -15,6 +15,7 @@
 
 class input_context;
 class scrolling_text_view;
+class ui_adaptor;
 class utf8_wrapper;
 struct point;
 
@@ -100,7 +101,7 @@ class string_input_popup // NOLINT(cata-xy)
         void show_history( utf8_wrapper &ret );
         void add_to_history( const std::string &value ) const;
         void update_input_history( utf8_wrapper &ret, bool up );
-        void draw( const utf8_wrapper &ret, const utf8_wrapper &edit ) const;
+        void draw( ui_adaptor *ui, const utf8_wrapper &ret, const utf8_wrapper &edit ) const;
 
     public:
         string_input_popup();

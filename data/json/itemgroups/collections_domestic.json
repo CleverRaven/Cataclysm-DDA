@@ -243,21 +243,6 @@
     ]
   },
   {
-    "id": "mail",
-    "type": "item_group",
-    "subtype": "distribution",
-    "entries": [
-      { "group": "magazines", "prob": 515 },
-      { "group": "newspaper_recent", "prob": 200, "count-min": 3, "count-max": 5 },
-      { "item": "flyer", "prob": 80 },
-      { "item": "survnote", "prob": 3 },
-      { "item": "touristmap", "prob": 3 },
-      { "item": "trailmap", "prob": 3 },
-      { "item": "phonebook", "prob": 60 },
-      { "group": "religious_books", "prob": 4 }
-    ]
-  },
-  {
     "id": "nightstand",
     "type": "item_group",
     "subtype": "distribution",
@@ -428,6 +413,7 @@
       { "item": "lighter", "prob": 60, "charges": [ 0, 100 ] },
       { "item": "lighter", "prob": 30, "charges": [ 0, 50 ] },
       { "item": "ref_lighter", "prob": 2, "charges": [ 0, 50 ] },
+      { "group": "butane_lighter_and_fuel", "prob": 2 },
       { "item": "matches", "prob": 60, "charges": [ 1, 20 ] },
       { "item": "ref_matches", "prob": 60, "charges": [ 1, 32 ] },
       { "item": "extinguisher", "prob": 20, "charges": 100 },

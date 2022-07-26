@@ -89,7 +89,7 @@ void pocket_favorite_callback::refresh( uilist *menu )
     wnoutrefresh( menu->window );
 }
 
-pocket_favorite_callback::pocket_favorite_callback( std::vector<item *> to_organize,
+pocket_favorite_callback::pocket_favorite_callback( const std::vector<item *> &to_organize,
         uilist &pocket_selector )
 {
     this->to_organize = to_organize;
@@ -100,7 +100,7 @@ pocket_favorite_callback::pocket_favorite_callback( std::vector<item *> to_organ
 }
 
 void pocket_favorite_callback::add_pockets( item &i, uilist &pocket_selector,
-        std::string depth )
+        const std::string &depth )
 {
     if( i.get_all_contained_pockets().empty() ) {
         // if it doesn't have pockets skip it
@@ -110,8 +110,9 @@ void pocket_favorite_callback::add_pockets( item &i, uilist &pocket_selector,
     pocket_selector.addentry( -1, false, '\0', string_format( "%s%s", depth, i.display_name() ) );
     // pad list with empty entries for the items themselves
     saved_pockets.emplace_back( nullptr, 0, nullptr );
-    if( i.is_collapsed() || i.all_pockets_sealed() ) {
+    if( ( i.is_collapsed() && to_organize.size() != 1 ) || i.all_pockets_sealed() ) {
         //is collapsed, or all pockets are sealed skip its nested pockets
+        // only skip collapsed items if doing multi menu, for a single item this wouldn't make sense
         return;
     }
 
@@ -200,10 +201,6 @@ void pocket_favorite_callback::move_item( uilist *menu, item_pocket *selected_po
                 // move through the pockets as you process entries
                 ++itt;
             }
-
-
-
-
         }
     } else {
         // storage should mimick character inserting
@@ -439,8 +436,8 @@ bool pocket_favorite_callback::key( const input_context &ctxt, const input_event
         const std::vector<input_event> evlist = inp_mngr.get_input_for_action( ev, "INVENTORY" );
         if( cmenu.ret >= 0 && cmenu.ret <= 8 && !evlist.empty() ) {
             return key( ctxt, evlist.front(), -1, menu );
-
         }
+        return true;
     }
 
     return false;
@@ -878,9 +875,9 @@ units::volume item_contents::max_containable_volume( const bool unrestricted_poc
     return ret;
 }
 
-ret_val<bool> item_contents::is_compatible( const item &it ) const
+ret_val<void> item_contents::is_compatible( const item &it ) const
 {
-    ret_val<bool> ret = ret_val<bool>::make_failure( _( "is not a container" ) );
+    ret_val<void> ret = ret_val<void>::make_failure( _( "is not a container" ) );
     for( const item_pocket &pocket : contents ) {
         // mod, migration, corpse, and software aren't regular pockets.
         if( !pocket.is_standard_type() ) {
@@ -888,17 +885,17 @@ ret_val<bool> item_contents::is_compatible( const item &it ) const
         }
         const ret_val<item_pocket::contain_code> pocket_contain_code = pocket.is_compatible( it );
         if( pocket_contain_code.success() ) {
-            return ret_val<bool>::make_success();
+            return ret_val<void>::make_success();
         }
-        ret = ret_val<bool>::make_failure( pocket_contain_code.str() );
+        ret = ret_val<void>::make_failure( pocket_contain_code.str() );
     }
     return ret;
 }
 
-ret_val<bool> item_contents::can_contain_rigid( const item &it,
+ret_val<void> item_contents::can_contain_rigid( const item &it,
         const bool ignore_pkt_settings ) const
 {
-    ret_val<bool> ret = ret_val<bool>::make_failure( _( "is not a container" ) );
+    ret_val<void> ret = ret_val<void>::make_failure( _( "is not a container" ) );
     for( const item_pocket &pocket : contents ) {
         if( pocket.is_type( item_pocket::pocket_type::MOD ) ||
             pocket.is_type( item_pocket::pocket_type::CORPSE ) ||
@@ -906,39 +903,39 @@ ret_val<bool> item_contents::can_contain_rigid( const item &it,
             continue;
         }
         if( !pocket.rigid() ) {
-            ret = ret_val<bool>::make_failure( _( "is not rigid" ) );
+            ret = ret_val<void>::make_failure( _( "is not rigid" ) );
             continue;
         }
         if( !ignore_pkt_settings && !pocket.settings.accepts_item( it ) ) {
-            ret = ret_val<bool>::make_failure( _( "denied by pocket auto insert settings" ) );
+            ret = ret_val<void>::make_failure( _( "denied by pocket auto insert settings" ) );
             continue;
         }
         const ret_val<item_pocket::contain_code> pocket_contain_code = pocket.can_contain( it );
         if( pocket_contain_code.success() ) {
-            return ret_val<bool>::make_success();
+            return ret_val<void>::make_success();
         }
-        ret = ret_val<bool>::make_failure( pocket_contain_code.str() );
+        ret = ret_val<void>::make_failure( pocket_contain_code.str() );
     }
     return ret;
 }
 
-ret_val<bool> item_contents::can_contain( const item &it, const bool ignore_pkt_settings ) const
+ret_val<void> item_contents::can_contain( const item &it, const bool ignore_pkt_settings ) const
 {
-    ret_val<bool> ret = ret_val<bool>::make_failure( _( "is not a container" ) );
+    ret_val<void> ret = ret_val<void>::make_failure( _( "is not a container" ) );
     for( const item_pocket &pocket : contents ) {
         // mod, migration, corpse, and software aren't regular pockets.
         if( !pocket.is_standard_type() ) {
             continue;
         }
         if( !ignore_pkt_settings && !pocket.settings.accepts_item( it ) ) {
-            ret = ret_val<bool>::make_failure( _( "denied by pocket auto insert settings" ) );
+            ret = ret_val<void>::make_failure( _( "denied by pocket auto insert settings" ) );
             continue;
         }
         const ret_val<item_pocket::contain_code> pocket_contain_code = pocket.can_contain( it );
         if( pocket_contain_code.success() ) {
-            return ret_val<bool>::make_success();
+            return ret_val<void>::make_success();
         }
-        ret = ret_val<bool>::make_failure( pocket_contain_code.str() );
+        ret = ret_val<void>::make_failure( pocket_contain_code.str() );
     }
     return ret;
 }

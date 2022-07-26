@@ -1839,18 +1839,18 @@ cata_tiles::find_tile_looks_like( const std::string &id, TILE_CATEGORY category,
     */
     // Try the variant first
     if( !variant.empty() ) {
-        const auto tile_variant_with_season = find_tile_with_season( id + "_var_" + variant );
+        auto tile_variant_with_season = find_tile_with_season( id + "_var_" + variant );
         if( tile_variant_with_season ) {
             return tile_variant_with_season;
         } else {
             // Then try the non-variant
-            const auto tile_with_season = find_tile_with_season( id );
+            auto tile_with_season = find_tile_with_season( id );
             if( tile_with_season ) {
                 return tile_with_season;
             }
         }
     } else {
-        const auto tile_with_season = find_tile_with_season( id );
+        auto tile_with_season = find_tile_with_season( id );
         if( tile_with_season ) {
             return tile_with_season;
         }
@@ -2815,7 +2815,7 @@ memorized_terrain_tile cata_tiles::get_terrain_memory_at( const tripoint &p ) co
 {
     avatar &you = get_avatar();
     if( you.should_show_map_memory() ) {
-        const memorized_terrain_tile t = you.get_memorized_tile( get_map().getabs( p ) );
+        memorized_terrain_tile t = you.get_memorized_tile( get_map().getabs( p ) );
         if( string_starts_with( t.tile, "t_" ) ) {
             return t;
         }
@@ -2827,7 +2827,7 @@ memorized_terrain_tile cata_tiles::get_furniture_memory_at( const tripoint &p ) 
 {
     avatar &you = get_avatar();
     if( you.should_show_map_memory() ) {
-        const memorized_terrain_tile t = you.get_memorized_tile( get_map().getabs( p ) );
+        memorized_terrain_tile t = you.get_memorized_tile( get_map().getabs( p ) );
         if( string_starts_with( t.tile, "f_" ) ) {
             return t;
         }
@@ -2839,7 +2839,7 @@ memorized_terrain_tile cata_tiles::get_trap_memory_at( const tripoint &p ) const
 {
     avatar &you = get_avatar();
     if( you.should_show_map_memory() ) {
-        const memorized_terrain_tile t = you.get_memorized_tile( get_map().getabs( p ) );
+        memorized_terrain_tile t = you.get_memorized_tile( get_map().getabs( p ) );
         if( string_starts_with( t.tile, "tr_" ) ) {
             return t;
         }
@@ -2851,7 +2851,7 @@ memorized_terrain_tile cata_tiles::get_vpart_memory_at( const tripoint &p ) cons
 {
     avatar &you = get_avatar();
     if( you.should_show_map_memory() ) {
-        const memorized_terrain_tile t = you.get_memorized_tile( get_map().getabs( p ) );
+        memorized_terrain_tile t = you.get_memorized_tile( get_map().getabs( p ) );
         if( string_starts_with( t.tile, "vp_" ) ) {
             return t;
         }
@@ -3573,8 +3573,13 @@ bool cata_tiles::draw_critter_at( const tripoint &p, lit_level ll, int &height_3
     } else {
         // invisible
         const Creature *critter = creatures.creature_at( p, true );
-        if( critter && ( you.sees_with_infrared( *critter ) ||
-                         you.sees_with_specials( *critter ) ) ) {
+        if( !critter ) {
+            return false;
+        }
+        // scope_is_blocking is true if player is aiming and aim FOV limits obscure that position
+        const bool scope_is_blocking = you.is_avatar() && you.as_avatar()->cant_see( p );
+        const bool sees_with_infrared = !scope_is_blocking && you.sees_with_infrared( *critter );
+        if( sees_with_infrared || you.sees_with_specials( *critter ) ) {
             // try drawing infrared creature if invisible and not overridden
             // return directly without drawing overlay
             return draw_from_id_string( "infrared_creature", TILE_CATEGORY::NONE, empty_string, p,

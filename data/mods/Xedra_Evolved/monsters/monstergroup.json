@@ -2,7 +2,10 @@
   {
     "type": "monstergroup",
     "name": "GROUP_SPIDER",
-    "monsters": [ { "monster": "mon_spider_disease", "weight": 400, "cost_multiplier": 0 } ]
+    "monsters": [
+      { "monster": "mon_spider_disease", "weight": 40, "cost_multiplier": 0 },
+      { "monster": "mon_spider_web_small", "weight": 400, "cost_multiplier": 0 }
+    ]
   },
   {
     "type": "monstergroup",

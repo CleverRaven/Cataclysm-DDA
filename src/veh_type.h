@@ -531,4 +531,21 @@ struct vehicle_prototype {
     static std::vector<vproto_id> get_all();
 };
 
+/**
+* Holder for all vpart migrations, when loading parts with vpart_id present
+* in the map keys they'll be replaced by vpart_id in the pair's value
+*/
+class vpart_migration
+{
+    public:
+        /** Handler for loading "vehicle_part_migration" type of json object */
+        static void load( const JsonObject &jo );
+
+        /** Clears migration list */
+        static void reset();
+
+        /** Map of deprecated vpart_id to their replacement vpart_id */
+        static const std::map<vpart_id, vpart_id> &get_migrations();
+};
+
 #endif // CATA_SRC_VEH_TYPE_H

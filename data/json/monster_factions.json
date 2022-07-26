@@ -432,8 +432,11 @@
   },
   {
     "type": "MONSTER_FACTION",
+    "//": "Eat other spiders, but semi-social among themselves",
     "name": "spider_cellar",
-    "base_faction": "spider"
+    "base_faction": "spider",
+    "by_mood": [ "spider" ],
+    "neutral": [ "spider_cellar" ]
   },
   {
     "type": "MONSTER_FACTION",
