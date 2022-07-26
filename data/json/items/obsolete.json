@@ -583,7 +583,7 @@
     "material_thickness": 6,
     "material": [ { "type": "steel", "portion": 5 }, { "type": "kevlar_layered", "portion": 3 }, { "type": "kevlar", "portion": 2 } ],
     "armor": [ { "encumbrance": 20, "coverage": 95, "covers": [ "head", "torso", "leg_l", "leg_r", "arm_l", "arm_r" ] } ],
-    "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT", "OUTER", "NONCONDUCTIVE" ]
+    "flags": [ "VARSIZE", "STURDY", "OUTER", "NONCONDUCTIVE" ]
   },
   {
     "id": "xl_kevlar_chainmail_suit",
@@ -600,7 +600,7 @@
     "looks_like": "kevlar_chainmail_suit",
     "name": { "str": "XS kevlar chainmail armor" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT", "OUTER", "NONCONDUCTIVE", "UNDERSIZE" ]
+    "flags": [ "VARSIZE", "STURDY", "OUTER", "NONCONDUCTIVE", "UNDERSIZE" ]
   },
   {
     "id": "chainmail_hauberk",
@@ -661,7 +661,7 @@
     "looks_like": "touring_suit",
     "color": "light_red",
     "warmth": 0,
-    "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT", "OUTER" ],
+    "flags": [ "VARSIZE", "STURDY", "OUTER" ],
     "armor": [
       {
         "material": [ { "type": "steel", "covered_by_mat": 100, "thickness": 1.2 } ],
@@ -782,7 +782,7 @@
     "looks_like": "balclava",
     "color": "light_red",
     "material_thickness": 4,
-    "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT", "OUTER" ],
+    "flags": [ "VARSIZE", "STURDY", "OUTER" ],
     "armor": [
       {
         "material": [ { "type": "steel", "covered_by_mat": 100, "thickness": 1.2 } ],
@@ -799,7 +799,7 @@
     "name": { "str": "XL chainmail coif" },
     "description": "A customized chainmail hood.  Can be worn comfortably under helmets.  Comes in XL size.",
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
-    "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "HELMET_COMPAT" ]
+    "flags": [ "VARSIZE", "STURDY", "OVERSIZE" ]
   },
   {
     "id": "xs_chainmail_hood",
@@ -809,7 +809,7 @@
     "name": { "str": "XS chainmail coif" },
     "description": "A customized chainmail hood.  Can be worn comfortably under helmets.  Comes in XS size.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT", "UNDERSIZE" ]
+    "flags": [ "VARSIZE", "STURDY", "UNDERSIZE" ]
   },
   {
     "id": "chainmail_vest",

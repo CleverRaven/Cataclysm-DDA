@@ -1358,10 +1358,6 @@
     "type": "json_flag"
   },
   {
-    "id": "HELMET_COMPAT",
-    "type": "json_flag"
-  },
-  {
     "id": "HIDDEN_ITEM",
     "type": "json_flag"
   },

@@ -234,16 +234,7 @@
     "color": "black",
     "warmth": 45,
     "environmental_protection": 1,
-    "flags": [
-      "INTEGRATED",
-      "ALLOWS_NATURAL_ATTACKS",
-      "UNBREAKABLE",
-      "SKINTIGHT",
-      "NORMAL",
-      "HELMET_COMPAT",
-      "WATER_FRIENDLY",
-      "SOFT"
-    ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "SKINTIGHT", "NORMAL", "WATER_FRIENDLY", "SOFT" ],
     "armor": [
       {
         "material": [ { "type": "fur", "covered_by_mat": 100, "thickness": 14 } ],
@@ -380,7 +371,7 @@
     "color": "light_red",
     "warmth": 10,
     "environmental_protection": 1,
-    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "SKINTIGHT", "HELMET_COMPAT", "WATER_FRIENDLY", "PADDED" ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "SKINTIGHT", "WATER_FRIENDLY", "PADDED" ],
     "armor": [
       {
         "material": [
@@ -411,16 +402,7 @@
     "color": "light_red",
     "warmth": 14,
     "environmental_protection": 1,
-    "flags": [
-      "INTEGRATED",
-      "ALLOWS_NATURAL_ATTACKS",
-      "UNBREAKABLE",
-      "SKINTIGHT",
-      "NORMAL",
-      "HELMET_COMPAT",
-      "WATER_FRIENDLY",
-      "PADDED"
-    ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "SKINTIGHT", "NORMAL", "WATER_FRIENDLY", "PADDED" ],
     "armor": [
       {
         "material": [
@@ -453,16 +435,7 @@
     "color": "light_red",
     "warmth": 20,
     "environmental_protection": 1,
-    "flags": [
-      "INTEGRATED",
-      "ALLOWS_NATURAL_ATTACKS",
-      "UNBREAKABLE",
-      "SKINTIGHT",
-      "NORMAL",
-      "HELMET_COMPAT",
-      "WATER_FRIENDLY",
-      "PADDED"
-    ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "SKINTIGHT", "NORMAL", "WATER_FRIENDLY", "PADDED" ],
     "armor": [
       {
         "material": [
@@ -570,16 +543,7 @@
     "color": "dark_gray",
     "warmth": 8,
     "environmental_protection": 1,
-    "flags": [
-      "INTEGRATED",
-      "ALLOWS_NATURAL_ATTACKS",
-      "BLOCK_WHILE_WORN",
-      "UNBREAKABLE",
-      "SKINTIGHT",
-      "NORMAL",
-      "HELMET_COMPAT",
-      "WATER_FRIENDLY"
-    ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "BLOCK_WHILE_WORN", "UNBREAKABLE", "SKINTIGHT", "NORMAL", "WATER_FRIENDLY" ],
     "armor": [
       {
         "material": [ { "type": "chitin", "covered_by_mat": 100, "thickness": 2.8 } ],
