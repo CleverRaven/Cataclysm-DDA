@@ -43,13 +43,11 @@ creator::item_group_window::item_group_window( QWidget *parent, Qt::WindowFlags 
     connect( subtype, QOverload<int>::of( &QComboBox::currentIndexChanged ),
         [=]( int index ) { write_json(); } );
 
-
     item_search_label = new QLabel("Search items");
     item_search_box = new QLineEdit;
     item_search_box->setToolTip( QString( _( "Enter text and press return to search for items" ) ) );
     QObject::connect( item_search_box, &QLineEdit::returnPressed, this,
         &item_group_window::items_search_return_pressed );
-
 
     QGridLayout* basicInfoLayout = new QGridLayout();
     basicInfoLayout->addWidget( id_label, 0, 0 );
@@ -74,8 +72,8 @@ creator::item_group_window::item_group_window( QWidget *parent, Qt::WindowFlags 
     group_search_label = new QLabel( "Search groups" );
     group_search_box = new QLineEdit;
     group_search_box->setToolTip( QString( _( "Enter text and press return to search for groups" ) ) );
-    QObject::connect(group_search_box, &QLineEdit::returnPressed, this,
-        &item_group_window::group_search_return_pressed);
+    QObject::connect( group_search_box, &QLineEdit::returnPressed, this,
+        &item_group_window::group_search_return_pressed );
 
     QHBoxLayout* group_searchLayout = new QHBoxLayout();
     group_searchLayout->addWidget( group_search_label );
@@ -269,8 +267,8 @@ bool creator::item_group_window::event( QEvent* event )
 
 
 
-creator::distributionCollection::distributionCollection( bool isCollection, QWidget* parent,
-                        item_group_window* top_parent ){
+creator::distributionCollection::distributionCollection( bool isCollection, 
+                            QWidget* parent, item_group_window* top_parent ){
     top_parent_widget = top_parent;
 
     setObjectName( "distributionCollection" );
@@ -287,7 +285,7 @@ creator::distributionCollection::distributionCollection( bool isCollection, QWid
     entryType = new QComboBox;
     entryType->addItems( QStringList{ "collection", "distribution" } );
     connect( entryType, QOverload<int>::of( &QComboBox::currentIndexChanged ),
-        [=](int index) { change_notify_top_parent(); } );
+        [=]( int index ) { change_notify_top_parent(); } );
     if( isCollection ) {
         entryType->setCurrentIndex( 0 );
     } else {
@@ -305,14 +303,14 @@ creator::distributionCollection::distributionCollection( bool isCollection, QWid
     QLabel* prob_label = new QLabel;
     prob_label->setText( QString( "Prob:" ) );
     prob_label->setMinimumSize( QSize( 30, 24 ) );
-    prob_label->setMaximumSize( QSize( 35, 24) );
+    prob_label->setMaximumSize( QSize( 35, 24 ) );
 
     prob = new QSpinBox;
     prob->setRange( 0, 100 );
-    prob->setMinimumSize( QSize( 45, 24) );
-    prob->setMaximumSize( QSize( 50, 24) );
+    prob->setMinimumSize( QSize( 45, 24 ) );
+    prob->setMaximumSize( QSize( 50, 24 ) );
     connect( prob, QOverload<int>::of( &QSpinBox::valueChanged ),
-        [=](int i) { change_notify_top_parent(); } );
+        [=]( int i ) { change_notify_top_parent(); } );
 
     QPushButton* btnDeleteThis = new QPushButton;
     btnDeleteThis->setText( "X" );
@@ -492,7 +490,7 @@ void creator::nested_group_container::change_notify_top_parent()
 
 void creator::nested_group_container::add_distribution() {
     creator::distributionCollection* dis = new creator::distributionCollection( false, 
-                                                            this, top_parent_widget );
+                                        this, top_parent_widget );
     dis->set_depth( 0 );
     QVBoxLayout* b = static_cast<QVBoxLayout*>( this->layout() );
     b->insertWidget( b->count() - 1, dis ); //Add before the stretch element
@@ -502,7 +500,7 @@ void creator::nested_group_container::add_distribution() {
 
 void creator::nested_group_container::add_collection() {
     creator::distributionCollection* col = new creator::distributionCollection( true, 
-                                                            this, top_parent_widget );
+                                        this, top_parent_widget );
     col->set_depth( 0 );
     QVBoxLayout* b = static_cast<QVBoxLayout*>( this->layout() );
     b->insertWidget( b->count() - 1, col ); //Add before the stretch element
@@ -545,7 +543,7 @@ void creator::nested_group_container::dropEvent( QDropEvent* event )
 }
 
 creator::itemGroupEntry::itemGroupEntry( QWidget* parent, QString entryText, bool group, 
-                                        item_group_window* top_parent ) : QFrame( parent )
+                            item_group_window* top_parent ) : QFrame( parent )
 {
     top_parent_widget = top_parent;
 
