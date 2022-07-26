@@ -1100,17 +1100,18 @@ The code excerpt above will place chunks as follows:
 
 ### Place monster corpse from a monster group with "place_corpses"
 
-Creates a corpse of a random monster from a monster group.  Note that corpse's age is always `start_of_cataclysm`.
+Creates a corpse of a random monster from a monster group.
 
 | Field  | Description
 | ---    | ---
-| group | (required, string) a monster group id from which random monster will be selected
+| group  | (required, string) a monster group id from which random monster will be selected
+| age    | (optional, integer) how many days passed since `start_of_cataclysm` when the monster died. If not set, defaults to `start_of_cataclysm`.
 
 Example for placing a monster corpse (either by using a character in the rows array or explicit coordinates):
 
 ```json
 "corpses": {
-    "g": { "group": "GROUP_PETS" }
+    "g": { "group": "GROUP_PETS", "age": 10 }
 },
 "place_corpses": [
     { "group": "GROUP_PETS", "x": 3, "y": 5 }
