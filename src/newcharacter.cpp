@@ -1957,6 +1957,13 @@ static std::string assemble_profession_details( const avatar &u, const input_con
             assembled += string_format( _( "%s level %d" ), spell_pair.first->name, spell_pair.second ) + "\n";
         }
     }
+    // Profession missions
+    if( !sorted_profs[cur_id]->missions().empty() ) {
+        assembled += "\n" + colorize( _( "Profession missions:" ), COL_HEADER ) + "\n";
+        for( mission_type_id mission_id : sorted_profs[cur_id]->missions() ) {
+            assembled += mission_type::get( mission_id )->tname() + "\n";
+        }
+    }
     return assembled;
 }
 
