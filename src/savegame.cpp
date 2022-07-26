@@ -910,7 +910,7 @@ static void unserialize_array_from_compacted_sequence( JsonIn &jsin, MdArray &ar
 {
     int count = 0;
     using Value = typename MdArray::value_type;
-    Value value;
+    Value value = Value();
     for( size_t j = 0; j < MdArray::size_y; ++j ) {
         for( size_t i = 0; i < MdArray::size_x; ++i ) {
             if( count == 0 ) {
