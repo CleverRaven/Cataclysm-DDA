@@ -385,8 +385,8 @@ std::string loot_options::get_zone_name_suggestion() const
 
 std::string unload_options::get_zone_name_suggestion() const
 {
-    return string_format( "%s%s%s%s", _( "Unload: " ), mods ? _( "inc. mods, " ) : "",
-                          molle ? _( "inc. MOLLE, " ) : "",
+    return string_format( "%s%s%s%s", _( "Unload: " ), mods ? _( "mods, " ) : "",
+                          molle ? _( "MOLLE, " ) : "",
                           always_unload ? _( "unload all" ) : _( "unload unmatched" ) );
 }
 
@@ -403,7 +403,7 @@ std::vector<std::pair<std::string, std::string>> unload_options::get_description
 {
     std::vector<std::pair<std::string, std::string>> options;
     options.emplace_back( std::make_pair( _( "Unload: " ),
-                                          string_format( "%s%s%s", mods ? _( "inc. mods " ) : "",  molle ? _( "inc. MOLLE " ) : "",
+                                          string_format( "%s%s%s", mods ? _( "mods " ) : "",  molle ? _( "MOLLE " ) : "",
                                                   always_unload ? _( "unload all" ) : _( "unload unmatched" ) ) ) );
 
     return options;

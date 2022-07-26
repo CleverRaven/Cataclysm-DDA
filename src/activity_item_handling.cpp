@@ -2221,10 +2221,11 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
             // check if it is in a unload zone or a strip corpse zone
             // then we should unload it and see what is inside
             bool move_and_reset = false;
+            bool moved_something = false;
 
             if( mgr.has_near( zone_type_zone_unload_all, abspos, 1, _fac_id( you ) ) ||
                 ( mgr.has_near( zone_type_zone_strip, abspos, 1, _fac_id( you ) ) && it->first->is_corpse() ) ) {
-                if( ( dest_set.empty() || unload_always ) ) {
+                if( dest_set.empty() || unload_always ) {
                     if( you.rate_action_unload( *it->first ) == hint_rating::good &&
                         !it->first->any_pockets_sealed() ) {
                         for( item *contained : it->first->all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
@@ -2248,6 +2249,7 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
                                 it->first->remove_item( *contained );
                             }
                         }
+                        moved_something = true;
 
                     }
 
@@ -2260,21 +2262,23 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
                             }
                             you.gunmod_remove( *it->first, *mod );
                             move_item( you, *mod, 1, src_loc, src_loc, this_veh, this_part );
+                            moved_something = true;
                         }
                     }
 
                     // if unloading molle
-                    if( unload_molle && it->first->get_contents().get_added_pockets().size() > 0 ) {
-                        while( it->first->get_contents().get_added_pockets().size() > 0 ) {
+                    if( unload_molle ) {
+                        while( !it->first->get_contents().get_added_pockets().empty() ) {
                             item removed = it->first->get_contents().remove_pocket( 0 );
                             move_item( you, removed, 1, src_loc, src_loc, this_veh, this_part );
+                            moved_something = true;
                         }
                     }
 
                     // after dumping items go back to start of activity loop
                     // so that can re-assess the items in the tile
                     // perhaps move the last item first however
-                    if( unload_always ) {
+                    if( unload_always && moved_something ) {
                         move_and_reset = true;
                     } else {
                         return;
