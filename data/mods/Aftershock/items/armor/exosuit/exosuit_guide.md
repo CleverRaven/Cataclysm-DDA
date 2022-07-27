@@ -44,7 +44,8 @@ A variety of modules are available, ranging from sensor packages to batteries to
 
 Modules come in Small, Medium, Large, Helmet, and PSU. The helmet modules can only be mounted in the exosuit helmet, and the PSU has a unique slot off of the torso.  Modules cannot exceed the volume or weight of the module class. Small and medium modules can fit into larger module slots.
 
-#Guidelines for module capacity
+# Guidelines for module capacity
+For reference when creating new modules. It is assumed that all modules are black-box modules, meaning that they only need to have the appropriate connectors to interface with the frame.
 | Module Class | Volume | Weight
 | ---          | ---    | ---   
 | Large        |   10 L |  10 kg
@@ -53,7 +54,8 @@ Modules come in Small, Medium, Large, Helmet, and PSU. The helmet modules can on
 | Helmet       | 0.25 L | 0.5 kg
 | PSU          |   25 L | 140 kg
 
-#Slot locations
+# Slot locations
+Each location has limited slots for modules.
 | Location | Large | Medium | Small | Helmet | PSU
 | ---      | ---   | ---    | ---   | ---    | ---
 | Helmet   | ---   | ---    | ---   | 4      | ---
@@ -62,7 +64,7 @@ Modules come in Small, Medium, Large, Helmet, and PSU. The helmet modules can on
 | Leg      | ---   | 2      | 2     | ---    | ---
 | PSU      | ---   | ---    | ---   | ---    | 1 
 
-#General Modules
+# General Modules
 General purpose utility modules
 | Module         | Class  | Power Draw | Weight | Description
 | ---            | ---    | ---        | ---    | ---
@@ -81,7 +83,7 @@ General purpose utility modules
 | Zoom Lenses    | Helmet | ---        |  500 g | Corrects vision and provides optical zoom.
 | Imager         | Helmet | 50 per use |  500 g | As the handheld tool, sees through walls.
 
-#Exosuit Ranged Weapons
+# Exosuit Ranged Weapons
 Purpose built ranged weapons
 | Ranged Weapon      | Power Source     | Weight | Description
 | ---                | ---              | ---    | ---
@@ -90,7 +92,7 @@ Purpose built ranged weapons
 | Microwave Cannon   | Power Cartridge  | 7500 g | Deals a variable amount of pure damage.
 | Electrolaser       | Power Cartridge  | 9900 g | A laser followed by a massive energy discharge.
 
-#Exosult Melee Weapons
+# Exosult Melee Weapons
 Purpose built or improvised melee weapons
 | Melee Weapon | Power Source | Weight | Description
 | ---          | ---          | ---    | ---
@@ -101,7 +103,7 @@ Purpose built or improvised melee weapons
 | Plasma Torch | Plasma       |   8 kg | A large plasma torch with a devastating short range attack.
 | Power Cutter | Liquid Fuel  |  10 kg | Cuts through just about anything.
 
-#Exosuit Storage Modules
+# Exosuit Storage Modules
 Assorted storage options
 | Storage Module    | Class  | Volume Cap | Weight Cap | Weight | Description
 | ---               |---     | ---        | ---        | ---    | ---
