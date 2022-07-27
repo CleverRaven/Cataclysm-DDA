@@ -363,7 +363,7 @@ class cata_tiles
 
         // checks if the tileset_ptr is valid
         bool is_valid() {
-            return tileset_ptr != NULL;
+            return tileset_ptr != nullptr;
         }
 
         /** Draw to screen */
