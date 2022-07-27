@@ -724,12 +724,10 @@ void mutation_branch::check_consistency()
             }
         }
         for( const trait_id &addition : mdata.additions ) {
-            const mutation_branch &adata = addition.obj();
-
             if( mdata.category.empty() ) {
                 break;
             }
-
+            const mutation_branch &adata = addition.obj();
             bool found = false;
             for( const mutation_category_id &cat : adata.category ) {
                 found = found ||
