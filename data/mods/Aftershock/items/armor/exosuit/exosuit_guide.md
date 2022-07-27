@@ -22,12 +22,12 @@ These are comfortable jumpsuits specially designed to integrate with the frame. 
 ### PSU
 Exosuits typically use a single large power supply unit, attached to the back.  Auxiliary batteries can be attached as well across the frame, extending the runtime. 
 
-| Name          | Capacity | Fuel      | Weight | Volume | Notes
-| ---           | ---      | ---       | ---    | ---    | ---
-| Battery PSU   |   40000  | Battery   | 15 kg  | 20 L   | Standard battery unit
-| ICE PSU       |   10000  | Gasoline  | 20 kg  | 25 L   | Only runs when needed
-| Multifuel PSU |    5000  | Multiple  | 25 kg  | 25 L   | Burns a variety of liquid fuels
-| ASRG PSU      |   10000  | Unlimited | 50 kg  | 25 L   | Provides unlimited power at a slow trickle
+| Name          | Capacity | Fuel      | Loaded Weight | Volume | Notes
+| ---           | ---      | ---       | ---           | ---    | ---
+| Battery PSU   |   40000  | Battery   | 15 kg         | 20 L   | Standard battery unit
+| ICE PSU       |   10000  | Gasoline  | 20 kg         | 25 L   | Only runs when needed
+| Multifuel PSU |    5000  | Multiple  | 25 kg         | 25 L   | Burns a variety of liquid fuels
+| ASRG PSU      |   10000  | Unlimited | 50 kg         | 25 L   | Provides unlimited power at a slow trickle
 
 
 ### Plating
@@ -44,7 +44,7 @@ A variety of modules are available, ranging from sensor packages to batteries to
 
 Modules come in Small, Medium, Large, Helmet, and PSU. The helmet modules can only be mounted in the exosuit helmet, and the PSU has a unique slot off of the torso.  Modules cannot exceed the volume or weight of the module class. Small and medium modules can fit into larger module slots.
 
-
+#Guidelines for module capacity
 | Module Class | Volume | Weight
 | ---          | ---    | ---   
 | Large        |   10 L |  10 kg
@@ -53,14 +53,16 @@ Modules come in Small, Medium, Large, Helmet, and PSU. The helmet modules can on
 | Helmet       | 0.25 L | 0.5 kg
 | PSU          |   25 L | 140 kg
 
+#Slot locations
 | Location | Large | Medium | Small | Helmet | PSU
 | ---      | ---   | ---    | ---   | ---    | ---
-| Helmet   | 0     | 0      | 0     |  4     | 0
-| Torso    | 2     | 0      | 2     | 0      | 0 
-| Arm      | 0     | 2      | 2     | 0      | 0
-| Leg      | 0     | 2      | 2     | 0      | 0
-| PSU      | 0     | 0      | 0     | 0      | 1
+| Helmet   | ---   | ---    | ---   | 4      | 0
+| Torso    | 2     | ---    | 2     | ---    | 0
+| Arm      | ---   | 2      | 2     | ---    | 0
+| Leg      | ---   | 2      | 2     | ---    | 0
+| PSU      | ---   | ---    | ---   | ---    | 1 
 
+#General Modules
 | Module         | Class  | Power Draw | Weight | Description
 | ---            | ---    | ---        | ---    | ---
 | Large Support  | Large  | 1500       | 10 kg  | Adds an additional 30 kg of carry weight while active.
@@ -77,17 +79,36 @@ Modules come in Small, Medium, Large, Helmet, and PSU. The helmet modules can on
 | Zoom Lenses    | Helmet | ---        | 500 g  | Corrects vision and provides optical zoom.
 | Imager         | Helmet | 50 per use | 500 g  | As the handheld tool, sees through walls.
 
+#Exosuit Ranged Weapons
+| Ranged Weapon      | Power Source     | Weight | Description
+| ---                | ---              | ---    | ---
+| Heavy Flamethrower | Flammable Liquid | 7300 g | A large flamethrower with long range.
+| Sonic Cannon       | Power Cartridge  | 6000 g | Deals a large amount of bash damage in a cone.
+| Microwave Cannon   | Power Cartridge  | 7500 g | Deals a variable amount of pure damage.
+| Electrolaser       | Power Cartridge  | 9900 g | A laser followed by a massive energy discharge.
+
+#Exosult Melee Weapons
+| Melee Weapon | Power Source | Weight | Description
+| ---          | ---          | ---    | ---
+| Boarding Axe | ---          | 3500 g | An oversized axe. Collapses into a medium module.
+| Scrap Axe    | ---          | 4250 g | An oversized axe. Made from scraps.
+| Heavy Drill  | Battery      |  45 kg | A massive drill. Activate to really do some damage.
+| Exosuit Claw | ---          |   3 kg | Powerful hydraulic gauntlets tipped with claws.
+| Plasma Torch | Plasma       |   8 kg | A large plasma torch with a devastating short range attack.
+| Power Cutter | Liquid Fuel  |  10 kg | Cuts through just about anything.
+
+#Exosuit Storage Modules
 | Storage Module    | Class  | Volume Cap | Weight Cap | Weight | Description
 | ---               |---     | ---        | ---        | ---    | ---
-| Rifle Storage     | Large  | 9 L        | 10 kg      |  500 g | As item Back Holster.
+| Rifle Storage     | Large  |     9 L    | 10 kg      |  500 g | As item Back Holster.
 | Large Ammo Pouch  | Large  | Multiple   | Multiple   | 1750 g | As item Tac Vest.
 | Storage Pack      | Large  | Multiple   | Multiple   | 2250 g | As item Large Tactical Backpack.
-| Melee Storage     | Medium | 3750 ml    | 5 kg       |  500 g | As item Back Scabbard.
-| Medium Pouch      | Medium | 2500 ml    | 5 kg       |  275 g | As item Fanny Pack.
-| Small Ammo Pouch  | Medium | 2 L        | 4 kg       | 1050 g | As item Drop Leg Pouches.
-| Small Pouch       | Small  | 1500 ml    | 5 kg       |  125 g | As item Leather Pouch.
-| Quickdraw Holster | Medium | 1500 ml    | 5 kg       |  500 g | Assisted draw holster.
-| Quickdraw Sheath  | Medium | 1500 ml    | 5 kg       |  500 g | Assisted draw sheath.
+| Melee Storage     | Medium | 3750 ml    |  5 kg      |  500 g | As item Back Scabbard.
+| Medium Pouch      | Medium | 2500 ml    |  5 kg      |  275 g | As item Fanny Pack.
+| Small Ammo Pouch  | Medium |     2 L    |  4 kg      | 1050 g | As item Drop Leg Pouches.
+| Small Pouch       | Small  | 1500 ml    |  5 kg      |  125 g | As item Leather Pouch.
+| Quickdraw Holster | Medium | 1500 ml    |  5 kg      |  500 g | Assisted draw holster.
+| Quickdraw Sheath  | Medium | 1500 ml    |  5 kg      |  500 g | Assisted draw sheath.
 
 ### Operation
 The basic operation is based on the frame mirroring the pilot's motions.  This works well for movement, though fine manipulation takes practice as pilots must adapt to the suit's feedback.  Once certified, a pilot receives additional training in their field, learning to use their specialized equipment.  The exosuit is easily outfitted for hazardous environments ranging from frozen tundra to burning deserts, from underwater to orbit.
