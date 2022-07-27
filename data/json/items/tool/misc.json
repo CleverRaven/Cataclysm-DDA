@@ -128,7 +128,7 @@
         "max_contains_weight": "4 kg"
       }
     ],
-    "qualities": [ [ "CONTAIN", 1 ] ]
+    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   },
   {
     "id": "e_tool",
@@ -484,7 +484,7 @@
         "max_contains_weight": "4 kg"
       }
     ],
-    "qualities": [ [ "CONTAIN", 1 ] ]
+    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   },
   {
     "id": "rollmat",

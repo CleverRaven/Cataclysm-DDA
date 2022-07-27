@@ -475,7 +475,7 @@
       { "item": "eclipse_glasses", "prob": 1 },
       { "item": "reading_light", "prob": 9, "charges": [ 0, 50 ] },
       { "item": "balloon", "prob": 5 }
-      { "item": "porcelain_urn", "prob": 5, "pocket_data": [ { "pocket_type": "CONTAINER", "prob": 90, "item_restriction": { "cremation_ash": 30000 } } ] }
+      { "item": "porcelain_urn", "prob": 5, "pocket_data": [ { "pocket_type": "CONTAINER", "prob": 90, "item_restriction": { "cremation_ash": [2300 2900] } } ] }
     ]
   },
   {
