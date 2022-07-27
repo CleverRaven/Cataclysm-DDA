@@ -152,6 +152,9 @@ static std::vector<curseline> terminal_framebuffer;
 static std::weak_ptr<void> winBuffer; //tracking last drawn window to fix the framebuffer
 static int fontScaleBuffer; //tracking zoom levels to fix framebuffer w/tiles
 
+// for swapping to the far zoom tileset
+static constexpr int FAR_ZOOM_LEVEL = 8;
+
 //***********************************
 //Non-curses, Window functions      *
 //***********************************
@@ -3823,7 +3826,7 @@ bool gamepad_available()
 
 void rescale_tileset( int size )
 {
-    if( size <= 8 && use_far_tiles ) {
+    if( size <= FAR_ZOOM_LEVEL && use_far_tiles ) {
         tilecontext = fartilecontext;
         g->mark_main_ui_adaptor_resize();
     } else {
