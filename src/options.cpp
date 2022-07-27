@@ -2068,9 +2068,15 @@ void options_manager::add_options_graphics()
          build_tilesets_list(), "UltimateCataclysm", COPT_CURSES_HIDE
        ); // populate the options dynamically
 
+    add( "SWAP_ZOOM", "graphics", to_translation( "Zoom Threshold" ),
+         to_translation( "Choose when you should swap tilesets (lower is more zoomed out)." ),
+         1, 4, 2, COPT_CURSES_HIDE
+       ); // populate the options dynamically
+
     get_option( "TILES" ).setPrerequisite( "USE_TILES" );
     get_option( "USE_DISTANT_TILES" ).setPrerequisite( "USE_TILES" );
     get_option( "DISTANT_TILES" ).setPrerequisite( "USE_DISTANT_TILES" );
+    get_option( "SWAP_ZOOM" ).setPrerequisite( "USE_DISTANT_TILES" );
 
     add( "USE_TILES_OVERMAP", "graphics", to_translation( "Use tiles to display overmap" ),
          to_translation( "If true, replaces some TTF-rendered text with tiles for overmap display." ),
