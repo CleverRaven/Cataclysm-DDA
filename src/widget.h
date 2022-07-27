@@ -282,6 +282,8 @@ class widget
         widget_alignment _text_align;
         // Alignment of the widget label, if any (Default = LEFT)
         widget_alignment _label_align;
+        // Pad labels to match label length of child or sibling widgets
+        bool _pad_labels;
 
         // Load JSON data for a widget (uses generic factory widget_factory)
         static void load_widget( const JsonObject &jo, const std::string &src );

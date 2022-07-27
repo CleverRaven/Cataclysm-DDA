@@ -390,6 +390,8 @@ void widget::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "direction", _direction, cardinal_direction::num_cardinal_directions );
     optional( jo, was_loaded, "text_align", _text_align, widget_alignment::LEFT );
     optional( jo, was_loaded, "label_align", _label_align, widget_alignment::LEFT );
+    // Row layouts and non-layout widgets default to true
+    optional( jo, was_loaded, "pad_labels", _pad_labels, _style != "layout" || _arrange == "rows" );
     optional( jo, was_loaded, "flags", _flags );
 
     if( _style == "sidebar" ) {
@@ -494,12 +496,11 @@ int widget::finalize_label_width_recursive( const widget_id &id )
         }
     }
 
-    // Do not align label width over column layouts
-    if( w->_style == "layout" && w->_arrange != "rows" ) {
-        w->_label_width = 0;
-    } else {
+    if( w->_pad_labels ) {
         // Update this layout's label width to reflect the longest label within.
         w->_label_width = width;
+    } else {
+        w->_label_width = 0;
     }
     return w->_label_width;
 }
@@ -932,7 +933,7 @@ static int custom_draw_func( const draw_args &args )
             // For now, this is the default when calling layout()
             // So, just layout self on a single line
 
-            const std::string txt = wgt->layout( u, widt, 0, skip_pad );
+            const std::string txt = wgt->layout( u, widt, wgt->_label_width, skip_pad );
             if( disable_empty && txt.empty() ) {
                 // reclaim the skipped height in the sidebar
                 height_diff -= wgt->_height;
@@ -1632,6 +1633,7 @@ std::string widget::layout( const avatar &ava, unsigned int max_width, int label
     std::string ret;
     if( _style == "layout" ) {
         std::vector<string_id<widget>> wgts = widgets( !_clauses.empty() );
+        int layout_label_width = ( label_width == 0 || ! _pad_labels ) ? _label_width : label_width;
 
         if( _arrange == "rows" ) {
             std::string sep;
@@ -1639,7 +1641,7 @@ std::string widget::layout( const avatar &ava, unsigned int max_width, int label
             // Stack rows vertically into a multiline widget
             for( const widget_id &wid : wgts ) {
                 widget cur_child = wid.obj();
-                ret += sep + cur_child.layout( ava, max_width, label_width == 0 ? _label_width : label_width,
+                ret += sep + cur_child.layout( ava, max_width, layout_label_width,
                                                skip_pad || wid->has_flag( json_flag_W_NO_PADDING ) );
                 sep = "\n";
                 h += wid->_height < 0 ? 0 : wid->_height;
@@ -1710,7 +1712,7 @@ std::string widget::layout( const avatar &ava, unsigned int max_width, int label
                 const bool skip_pad_this = skip_pad || wid->has_flag( json_flag_W_NO_PADDING );
                 // Layout child in this column
                 const std::string txt = cur_child.layout( ava, skip_pad_this ? 0 : cur_width,
-                                        label_width, skip_pad_this );
+                                        layout_label_width, skip_pad_this );
                 // Store the resulting text for this column
                 cols.emplace_back( string_split( txt, '\n' ) );
                 widths.emplace_back( cur_width );
@@ -1775,7 +1777,7 @@ std::string widget::layout( const avatar &ava, unsigned int max_width, int label
             // Process last line, or first for single-line widgets
             ret += append_line( shown, row_num == 0, max_width,
                                 has_flag( json_flag_W_LABEL_NONE ) ? translation() : _label,
-                                row_num == 0 ? label_width : 0, _separator, _text_align, _label_align, skip_pad );
+                                row_num == 0 && _pad_labels ? label_width : 0, _separator, _text_align, _label_align, skip_pad );
         }
     }
     return ret.find( '\n' ) != std::string::npos || max_width == 0 ?
