@@ -31,14 +31,22 @@ creator::item_group_window::item_group_window( QWidget *parent, Qt::WindowFlags 
     // =========================================================================================
     // first column of boxes
 
-
     id_label = new QLabel( "id" );
     id_box = new QLineEdit( "tools_home" );
     id_box->setToolTip( QString( _( "The id of the item_group" ) ) );
     QObject::connect( id_box, &QLineEdit::textChanged, [&]() { write_json(); } );
 
+    QString tooltipText = "In a Collection each entry is chosen independently from the other\n";
+    tooltipText += "entries. Therefore, the probability associated with each entry is absolute,";
+    tooltipText += "\nin the range of 0...1. In the json files it is implemented as a percentage";
+    tooltipText += "\n(with values from 0 to 100). \n\nA Distribution is a weighted list.";
+    tooltipText += "\nExactly one entry is chosen from it.The probability of each entry is";
+    tooltipText += "\nrelative to the probability of the other entries. A probability";
+    tooltipText += "\nof 0 (or negative) means it is never chosen.";
+
     QLabel* subtype_label = new QLabel( "Subtype" );
     subtype = new QComboBox;
+    subtype->setToolTip( tooltipText );
     subtype->addItems( QStringList{ "none", "collection", "distribution" } );
     connect( subtype, QOverload<int>::of( &QComboBox::currentIndexChanged ),
         [=]( int index ) { write_json(); } );
@@ -284,6 +292,7 @@ creator::distributionCollection::distributionCollection( bool isCollection,
 
     entryType = new QComboBox;
     entryType->addItems( QStringList{ "collection", "distribution" } );
+    entryType->setToolTip( QString( _( "Change the type to a collection or a distribution" ) ) );
     connect( entryType, QOverload<int>::of( &QComboBox::currentIndexChanged ),
         [=]( int index ) { change_notify_top_parent(); } );
     if( isCollection ) {
@@ -295,9 +304,11 @@ creator::distributionCollection::distributionCollection( bool isCollection,
 
     QPushButton* btnCollection = new QPushButton;
     btnCollection->setText( "+Collection" );
+    btnCollection->setToolTip( QString( _( "Add a new collection" ) ) );
     connect( btnCollection, &QPushButton::clicked, this, &distributionCollection::add_collection );
     QPushButton* btnDistribution = new QPushButton;
     btnDistribution->setText( "+Distribution" );
+    btnDistribution->setToolTip( QString( _( "Add a new distribution" ) ) );
     connect( btnDistribution, &QPushButton::clicked, this, &distributionCollection::add_distribution );
 
     QLabel* prob_label = new QLabel;
@@ -309,6 +320,12 @@ creator::distributionCollection::distributionCollection( bool isCollection,
     prob->setRange( 0, 100 );
     prob->setMinimumSize( QSize( 45, 24 ) );
     prob->setMaximumSize( QSize( 50, 24 ) );
+    QString tooltipText = "A probability of 0 (or negative) means the entry is never chosen;\n";
+    tooltipText += "a probability of 100 % means it's always chosen. The default is 100,\n";
+    tooltipText += "because it's the most useful value. A default of 0 would mean the entry\n";
+    tooltipText += "could be removed anyway. Setting this to 0 or 100 will remove the";
+    tooltipText += " property from json";
+    prob->setToolTip( tooltipText );
     connect( prob, QOverload<int>::of( &QSpinBox::valueChanged ),
         [=]( int i ) { change_notify_top_parent(); } );
 
@@ -316,6 +333,7 @@ creator::distributionCollection::distributionCollection( bool isCollection,
     btnDeleteThis->setText( "X" );
     btnDeleteThis->setMaximumSize( QSize( 25, 25 ) );
     btnDeleteThis->setStyleSheet( "background-color:rgb(206,99,108)" );
+    btnDeleteThis->setToolTip( QString( _( "Delete this" ) ) );
     connect( btnDeleteThis, &QPushButton::clicked, this, &distributionCollection::delete_self );
 
     buttonsTopBar_Layout->addWidget( entryType );
@@ -416,7 +434,10 @@ void creator::distributionCollection::get_json( JsonOut& jo ) {
     jo.end_array();
     int pr = prob->value();
     if( pr ) {
-        jo.member( "prob", pr );
+        //Only add if it's less then 100 since 100 is the default
+        if ( pr < 100 ) {
+            jo.member( "prob", pr );
+        }
     }
     jo.end_object();
 }
@@ -466,9 +487,11 @@ creator::nested_group_container::nested_group_container( QWidget* parent,
 
     QPushButton* btnCollection = new QPushButton;
     btnCollection->setText( "+Collection" );
+    btnCollection->setToolTip( QString( _( "Add a new collection" ) ) );
     connect( btnCollection, &QPushButton::clicked, this, &nested_group_container::add_collection );
     QPushButton* btnDistribution = new QPushButton;
     btnDistribution->setText( "+Distribution" );
+    btnDistribution->setToolTip( QString( _( "Add a new distribution" ) ) );
     connect( btnDistribution, &QPushButton::clicked, this, &nested_group_container::add_distribution );
 
     entriesTopBar_Layout->addWidget( entries_label );
@@ -515,7 +538,6 @@ void creator::nested_group_container::add_entry( QString entryText, bool group )
     b->insertWidget( b->count() - 1, itemGroupEntry ); //Add before the stretch element
     change_notify_top_parent();
 }
-
 
 void creator::nested_group_container::dragEnterEvent( QDragEnterEvent* event )
 {
@@ -569,6 +591,12 @@ creator::itemGroupEntry::itemGroupEntry( QWidget* parent, QString entryText, boo
     prob = new QSpinBox;
     prob->setRange( 0, 100 );
     prob->setValue( 100 );
+    QString tooltipText = "A probability of 0 (or negative) means the entry is never chosen;\n";
+    tooltipText += "a probability of 100 % means it's always chosen. The default is 100,\n";
+    tooltipText += "because it's the most useful value. A default of 0 would mean the entry\n";
+    tooltipText += "could be removed anyway. Setting this to 0 or 100 will remove the";
+    tooltipText += "property from json";
+    prob->setToolTip( tooltipText );
     prob->setMinimumSize( QSize( 45, 24 ) );
     prob->setMaximumSize( QSize( 50, 24 ) );
     connect( prob, QOverload<int>::of( &QSpinBox::valueChanged ),
@@ -583,6 +611,9 @@ creator::itemGroupEntry::itemGroupEntry( QWidget* parent, QString entryText, boo
     charges_min->setRange( 0, INT_MAX );
     charges_min->setMinimumSize( QSize( 45, 24 ) );
     charges_min->setMaximumSize( QSize( 50, 24 ) );
+    tooltipText = "The minimum amount of charges. Only shows up in JSON if max has ";
+    tooltipText += "a greater value then 0";
+    charges_min->setToolTip( tooltipText );
     connect( charges_min, QOverload<int>::of( &QSpinBox::valueChanged ),
         [=]( int i ) { change_notify_top_parent(); } );
 
@@ -590,6 +621,9 @@ creator::itemGroupEntry::itemGroupEntry( QWidget* parent, QString entryText, boo
     charges_max->setRange( 0, INT_MAX );
     charges_max->setMinimumSize( QSize( 45, 24 ) );
     charges_max->setMaximumSize( QSize( 50, 24 ) );
+    tooltipText = "The maximum amount of charges. Only shows up in JSON if the value ";
+    tooltipText += "is greater then 0";
+    charges_max->setToolTip( tooltipText );
     connect( charges_max, QOverload<int>::of( &QSpinBox::valueChanged ),
         [=]( int i ) { change_notify_top_parent(); } );
 
@@ -597,6 +631,7 @@ creator::itemGroupEntry::itemGroupEntry( QWidget* parent, QString entryText, boo
     btnDeleteThis->setText( "X" );
     btnDeleteThis->setMaximumSize( QSize( 24, 24 ) );
     btnDeleteThis->setStyleSheet( "background-color:rgb(206,99,108)" );
+    btnDeleteThis->setToolTip( QString( _( "Delete this entry from the list" ) ) );
     connect( btnDeleteThis, &QPushButton::clicked, this, &itemGroupEntry::delete_self );
 
     entryLayout->addWidget( title_label );
@@ -642,7 +677,10 @@ void creator::itemGroupEntry::get_json( JsonOut &jo ) {
     }
     int pr = prob->value(); //If prob is 0, we omit prob entirely
     if( pr ) {
-        jo.member( "prob", pr );
+        //Only add if it's less then 100 since 100 is the default
+        if( pr < 100 ) {
+            jo.member( "prob", pr );
+        }
     }
     pr = charges_max->value(); //If charges-max is 0, we omit charges entirely
     if( pr ) {
