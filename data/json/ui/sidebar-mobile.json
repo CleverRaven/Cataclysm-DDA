@@ -229,6 +229,12 @@
     "colors": [ "h_dark_gray", "h_yellow", "h_light_red" ],
     "type": "widget"
   },
+  { "id": "i_splinted_sym",     "width": 1,
+    "style": "symbol",
+    "string": "‡",
+    "colors": [ "h_white" ],
+    "type": "widget"
+  },
   { "id": "i_bp_HD_enc_graph",
     "copy-from": "t_bp_enc_graph",
     "bodypart": "head",
@@ -244,9 +250,47 @@
     "bodypart": "arm_l",
     "type": "widget"
   },
+  { "id": "a_bp_LA_enc_splint", "width": 1,
+    "style": "layout",  "arrange": "minimum_columns",
+    "bodypart": "arm_l",
+    "clauses": [
+      { "id": "splinted",
+        "condition": { "u_has_worn_with_flag": "SPLINT" },
+        "widgets": [
+          "i_splinted_sym"
+        ]
+      },
+      { "id": "intact",
+        "condition": { "not": { "u_has_worn_with_flag": "SPLINT" } },
+        "widgets": [
+          "i_bp_LA_enc_graph"
+        ]
+      }
+    ],    
+    "type": "widget"
+  },
   { "id": "i_bp_RA_enc_graph",
     "copy-from": "t_bp_enc_graph",
     "bodypart": "arm_r",
+    "type": "widget"
+  },
+  { "id": "a_bp_RA_enc_splint", "width": 1,
+    "style": "layout",  "arrange": "minimum_columns",
+    "bodypart": "arm_r",
+    "clauses": [
+      { "id": "splinted",
+        "condition": { "u_has_worn_with_flag": "SPLINT" },
+        "widgets": [
+          "i_splinted_sym"
+        ]
+      },
+      { "id": "intact",
+        "condition": { "not": { "u_has_worn_with_flag": "SPLINT" } },
+        "widgets": [
+          "i_bp_RA_enc_graph"
+        ]
+      }
+    ],    
     "type": "widget"
   },
   { "id": "i_bp_LL_enc_graph",
@@ -254,9 +298,47 @@
     "bodypart": "leg_l",
     "type": "widget"
   },
+  { "id": "a_bp_LL_enc_splint", "width": 1,
+    "style": "layout",  "arrange": "minimum_columns",
+    "bodypart": "leg_l",
+    "clauses": [
+      { "id": "splinted",
+        "condition": { "u_has_worn_with_flag": "SPLINT" },
+        "widgets": [
+          "i_splinted_sym"
+        ]
+      },
+      { "id": "intact",
+        "condition": { "not": { "u_has_worn_with_flag": "SPLINT" } },
+        "widgets": [
+          "i_bp_LL_enc_graph"
+        ]
+      }
+    ],    
+    "type": "widget"
+  },
   { "id": "i_bp_RL_enc_graph",
     "copy-from": "t_bp_enc_graph",
     "bodypart": "leg_r",
+    "type": "widget"
+  },
+  { "id": "a_bp_RL_enc_splint", "width": 1,
+    "style": "layout",  "arrange": "minimum_columns",
+    "bodypart": "leg_r",
+    "clauses": [
+      { "id": "splinted",
+        "condition": { "u_has_worn_with_flag": "SPLINT" },
+        "widgets": [
+          "i_splinted_sym"
+        ]
+      },
+      { "id": "intact",
+        "condition": { "not": { "u_has_worn_with_flag": "SPLINT" } },
+        "widgets": [
+          "i_bp_RL_enc_graph"
+        ]
+      }
+    ],    
     "type": "widget"
   },
 
@@ -298,7 +380,7 @@
     "type": "widget"
   },
 
-  { "id": "t_bp_hp_graph",      "width": 5,
+  { "id": "t_bp_hp_graph",      "width": 7,
     "copy-from": "t_horiz_graph",
     "var": "bp_hp",
     "colors": [ "h_red", "h_light_red", "h_yellow", "h_light_green", "h_green" ],
@@ -335,97 +417,22 @@
     "type": "widget"
   },
 
-  { "id": "t_bp_bleeding_sym",  "width": 1,
+  { "id": "t_bp_broken_sym",    "width": 7,
     "style": "symbol",
-    "clauses": [
-      { "id": "bleeding0",
-        "sym": " ",
-        "color": "h_blue",
-        "condition": { "not": { "u_has_effect": "bleed", "intensity": 1 } }
-      },
-      { "id": "bleeding1",
-        "sym": "│",
-        "color": "h_light_red",
-        "condition": {
-          "and": [
-            { "u_has_effect": "bleed", "intensity": 1 },
-            { "compare_int": [ { "u_val": "effect_intensity", "effect": "bleed" }, "<", { "const": 11 } ] }
-          ]
-        }
-      },
-      { "id": "bleeding2",
-        "sym": "║",
-        "color": "h_red",
-        "condition": {
-          "and": [
-            { "u_has_effect": "bleed", "intensity": 11 },
-            { "compare_int": [ { "u_val": "effect_intensity", "effect": "bleed" }, "<", { "const": 21 } ] }
-          ]
-        }
-      },
-      { "id": "bleeding3",
-        "sym": "║",
-        "color": "c_red_red",
-        "condition": { "u_has_effect": "bleed", "intensity": 21 }
-      }
-    ],
+    "colors": [ "c_white_red" ],
+    "string": "══╾⠡╼══",
     "type": "widget"
   },
-  { "id": "i_bp_HD_bleeding_sym",
-    "copy-from": "t_bp_bleeding_sym",
-    "bodypart": "head",
-    "type": "widget"
-  },
-  { "id": "i_bp_CT_bleeding_sym",
-    "copy-from": "t_bp_bleeding_sym",
-    "bodypart": "torso",
-    "type": "widget"
-  },
-  { "id": "i_bp_LA_bleeding_sym",
-    "copy-from": "t_bp_bleeding_sym",
-    "bodypart": "arm_l",
-    "type": "widget"
-  },
-  { "id": "i_bp_RA_bleeding_sym",
-    "copy-from": "t_bp_bleeding_sym",
-    "bodypart": "arm_r",
-    "type": "widget"
-  },
-  { "id": "i_bp_LL_bleeding_sym",
-    "copy-from": "t_bp_bleeding_sym",
-    "bodypart": "leg_l",
-    "type": "widget"
-  },
-  { "id": "i_bp_RL_bleeding_sym",
-    "copy-from": "t_bp_bleeding_sym",
-    "bodypart": "leg_r",
-    "type": "widget"
-  },
-
-  { "id": "t_bp_broken_sym",    "width": 1,
-    "style": "symbol",
-    "clauses": [
-      { "id": "broken",
-        "sym": "ℵ",
-        "color": "h_red",
-        "condition": { "compare_int": [ { "u_val": "hp" }, "==", { "const": 0 } ] }
-      },
-      { "id": "intact",
-        "sym": " ",
-        "color": "h_blue",
-        "condition": { "compare_int": [ { "u_val": "hp" }, ">", { "const": 0 } ] }
-      }
-    ],
-    "type": "widget"
-  },
-  { "id": "i_bp_HD_broken_sym",             "//": "TODO: Change to stunned",
+  { "id": "i_bp_HD_broken_sym",
     "copy-from": "t_bp_broken_sym",
     "bodypart": "head",
+    "string": "d e a d",
     "type": "widget"
   },
-  { "id": "i_bp_CT_broken_sym",             "//": "TODO: Change to anemia / hypervolemic shock",
+  { "id": "i_bp_CT_broken_sym",
     "copy-from": "t_bp_broken_sym",
     "bodypart": "torso",
+    "string": "d e a d",
     "type": "widget"
   },
   { "id": "i_bp_LA_broken_sym",
@@ -449,154 +456,162 @@
     "type": "widget"
   },
 
-  { "id": "t_bp_bandaged_sym",  "width": 1,
+  { "id": "t_bp_mending_sym",   "width": 1,
     "style": "symbol",
     "clauses": [
-      { "id": "bandaged",
-        "sym": "@",
+      { "id": "mending",
+        "sym": "+",
         "color": "h_white",
-        "condition": { "u_has_effect": "bandaged" }
+        "condition": { "u_has_effect": "mending" }
       },
-      { "id": "intact",
-        "sym": " ",
-        "color": "h_blue",
+      { "id": "notmending",
+        "sym": "▮",
+        "color": "h_black",
         "condition": {
-          "not": { "u_has_effect": "bandaged" }
+          "not": { "u_has_effect": "mending" }
         }
       }
     ],
     "type": "widget"
   },
-  { "id": "i_bp_HD_bandaged_sym",
-    "copy-from": "t_bp_bandaged_sym",
-    "bodypart": "head",
-    "type": "widget"
-  },
-  { "id": "i_bp_CT_bandaged_sym",
-    "copy-from": "t_bp_bandaged_sym",
-    "bodypart": "torso",
-    "type": "widget"
-  },
-  { "id": "i_bp_LA_bandaged_sym",
-    "copy-from": "t_bp_bandaged_sym",
+  { "id": "i_bp_LA_mending_sym",
+    "copy-from": "t_bp_mending_sym",
     "bodypart": "arm_l",
     "type": "widget"
   },
-  { "id": "i_bp_RA_bandaged_sym",
-    "copy-from": "t_bp_bandaged_sym",
+  { "id": "i_bp_RA_mending_sym",
+    "copy-from": "t_bp_mending_sym",
     "bodypart": "arm_r",
     "type": "widget"
   },
-  { "id": "i_bp_LL_bandaged_sym",
-    "copy-from": "t_bp_bandaged_sym",
+  { "id": "i_bp_LL_mending_sym",
+    "copy-from": "t_bp_mending_sym",
     "bodypart": "leg_l",
     "type": "widget"
   },
-  { "id": "i_bp_RL_bandaged_sym",
-    "copy-from": "t_bp_bandaged_sym",
+  { "id": "i_bp_RL_mending_sym",
+    "copy-from": "t_bp_mending_sym",
     "bodypart": "leg_r",
     "type": "widget"
   },
-
-  { "id": "t_bp_splinted_sym",  "width": 1,
+  
+  { "id": "i_stunned_sym",      "width": 1,
     "style": "symbol",
     "clauses": [
-      { "id": "splinted",
-        "sym": "‡",
-        "color": "h_white",
-        "condition": { "u_has_worn_with_flag": "SPLINT" }
+      { "id": "stunned",
+        "sym": "õ",
+        "color": "h_red",
+        "condition": { "u_has_effect": "stunned" }
       },
-      { "id": "intact",
-        "sym": " ",
-        "color": "h_blue",
-        "condition": { "not": { "u_has_worn_with_flag": "SPLINT" } }
+      { "id": "ok",
+        "sym": "▮",
+        "color": "h_black",
+        "condition": {"not": { "u_has_effect": "stunned" } }
       }
     ],
     "type": "widget"
   },
-  { "id": "i_bp_HD_splinted_sym",           "//": "TODO: Change to blind?",
-    "copy-from": "t_bp_splinted_sym",
-    "bodypart": "head",
-    "type": "widget"
-  },
-  { "id": "i_bp_CT_splinted_sym",           "//": "TODO: Change to painkillers?",
-    "copy-from": "t_bp_splinted_sym",
-    "bodypart": "torso",
-    "type": "widget"
-  },
-  { "id": "i_bp_LA_splinted_sym",
-    "copy-from": "t_bp_splinted_sym",
-    "bodypart": "arm_l",
-    "type": "widget"
-  },
-  { "id": "i_bp_RA_splinted_sym",
-    "copy-from": "t_bp_splinted_sym",
-    "bodypart": "arm_r",
-    "type": "widget"
-  },
-  { "id": "i_bp_LL_splinted_sym",
-    "copy-from": "t_bp_splinted_sym",
-    "bodypart": "leg_l",
-    "type": "widget"
-  },
-  { "id": "i_bp_RL_splinted_sym",
-    "copy-from": "t_bp_splinted_sym",
-    "bodypart": "leg_r",
+  { "id": "i_hypovolemia_sym",  "width": 1,
+    "style": "symbol",
+    "clauses": [
+      { "id": "stunned",
+        "sym": "♥",
+        "color": "h_red",
+        "condition": { "u_has_effect": "hypovolemia" }
+      },
+      { "id": "ok",
+        "sym": "▮",
+        "color": "h_black",
+        "condition": {"not": { "u_has_effect": "hypovolemia" } }
+      }
+    ],
     "type": "widget"
   },
 
-  { "id": "t_bp_status_sym",    "width": 5,
+  { "id": "t_bp_status_sym",    "width": 6,
     "style": "symbol",
     "clauses": [
-      { "id": "bitten",
+      { "id": "1bleeding0",
+        "sym": "▮",
+        "color": "h_black",
+        "condition": { "not": { "u_has_effect": "bleed", "intensity": 1 } }
+      },
+      { "id": "1bleeding1",
+        "sym": "│",
+        "color": "h_light_red",
+        "condition": {
+          "and": [
+            { "u_has_effect": "bleed", "intensity": 1 },
+            { "compare_int": [ { "u_val": "effect_intensity", "effect": "bleed" }, "<", { "const": 11 } ] }
+          ]
+        }
+      },
+      { "id": "1bleeding2",
+        "sym": "║",
+        "color": "h_red",
+        "condition": {
+          "and": [
+            { "u_has_effect": "bleed", "intensity": 11 },
+            { "compare_int": [ { "u_val": "effect_intensity", "effect": "bleed" }, "<", { "const": 21 } ] }
+          ]
+        }
+      },
+      { "id": "1bleeding3",
+        "sym": "║",
+        "color": "c_red_red",
+        "condition": { "u_has_effect": "bleed", "intensity": 21 }
+      },
+      { "id": "2bandaged",
+        "sym": "@",
+        "color": "h_white",
+        "condition": { "u_has_effect": "bandaged" }
+      },
+      { "id": "2intact",
+        "sym": "▮",
+        "color": "h_black",
+        "condition": {
+          "not": { "u_has_effect": "bandaged" }
+        }
+      },      
+      { "id": "3bitten",
         "sym": "⣿",
         "color": "h_red",
         "condition": { "u_has_effect": "bite" }
       },
-      { "id": "notbitten",
-        "sym": " ",
-        "color": "h_blue",
+      { "id": "3notbitten",
+        "sym": "▮",
+        "color": "h_black",
         "condition": {"not": { "u_has_effect": "bite" } }
       },
-      { "id": "disinfected",
+      { "id": "4disinfected",
         "sym": "Ọ",
         "color": "h_white",
         "condition": { "u_has_effect": "disinfected" }
       },
-      { "id": "notdisinfected",
-        "sym": " ",
-        "color": "h_blue",
+      { "id": "4notdisinfected",
+        "sym": "▮",
+        "color": "h_black",
         "condition": {"not": { "u_has_effect": "disinfected" }}
       },
-      { "id": "blisters",
+      { "id": "5blisters",
         "sym": "∞",
         "color": "h_red",
         "condition": { "u_has_effect": "blisters" }
       },
-      { "id": "notblisters",
-        "sym": " ",
-        "color": "h_blue",
+      { "id": "5notblisters",
+        "sym": "▮",
+        "color": "h_black",
         "condition": { "not": {"u_has_effect": "blisters" }}
       },
-      { "id": "chafing",
+      { "id": "6chafing",
         "sym": "Ξ",
         "color": "h_red",
         "condition": { "u_has_effect": "chafing" }
       },
-      { "id": "notchafing",
-        "sym": " ",
-        "color": "h_blue",
+      { "id": "6notchafing",
+        "sym": "▮",
+        "color": "h_black",
         "condition": { "not": {"u_has_effect": "chafing" }}
-      },
-      { "id": "disabled",
-        "sym": "X",
-        "color": "h_red",
-        "condition": { "u_has_effect": "disabled" }
-      },
-      { "id": "notdisabled",
-        "sym": " ",
-        "color": "h_blue",
-        "condition": { "not": {"u_has_effect": "disabled" }}
       }
     ],
     "type": "widget"
@@ -634,79 +649,169 @@
 
   { "id": "a_bp_LA_row1",       "width": 13,
     "style": "layout", "arrange": "minimum_columns",
-    "widgets" : [
-      "l_nw",
-      "l_bp_LA",
-      "l_nc_cl",
-      "i_bp_LA_bleeding_sym",
-      "i_bp_LA_broken_sym",
-      "i_bp_LA_hp_graph",
-      "l_ne"
+    "flags": ["W_NO_PADDING"],
+    "bodypart": "arm_l",
+    "clauses": [
+      { "id": "broken",
+        "widgets": [
+          "l_nw",
+          "l_bp_LA",
+          "l_nc_cl",
+          "i_bp_LA_broken_sym",
+          "l_ne"
+        ],
+        "condition": { "compare_int": [ { "u_val": "hp" }, "==", { "const": 0 } ] }
+      },
+      { "id": "intact",
+        "widgets": [
+          "l_nw",
+          "l_bp_LA",
+          "l_nc_cl",
+          "i_bp_LA_hp_graph",
+          "l_ne"
+        ],
+        "condition": { "compare_int": [ { "u_val": "hp" }, ">", { "const": 0 } ] }
+      }
     ],
     "type": "widget"
   },
   { "id": "a_bp_HD_row1",       "width": 13,
     "style": "layout", "arrange": "minimum_columns",
-    "widgets" : [
-      "l_nw",
-      "l_bp_HD",
-      "l_nc_cl",
-      "i_bp_HD_bleeding_sym",
-      "i_bp_HD_broken_sym",
-      "i_bp_HD_hp_graph",
-      "l_ne"
+    "flags": ["W_NO_PADDING"],
+    "bodypart": "head",
+    "clauses": [
+      { "id": "broken",
+        "widgets": [
+          "l_nw",
+          "l_bp_HD",
+          "l_nc_cl",
+          "i_bp_HD_broken_sym",
+          "l_ne"
+        ],
+        "condition": { "compare_int": [ { "u_val": "hp" }, "==", { "const": 0 } ] }
+      },
+      { "id": "intact",
+        "widgets": [
+          "l_nw",
+          "l_bp_HD",
+          "l_nc_cl",
+          "i_bp_HD_hp_graph",
+          "l_ne"
+        ],
+        "condition": { "compare_int": [ { "u_val": "hp" }, ">", { "const": 0 } ] }
+      }
     ],
     "type": "widget"
   },
   { "id": "a_bp_RA_row1",       "width": 13,
     "style": "layout",  "arrange": "minimum_columns",
-    "widgets" : [
-      "l_nw",
-      "l_bp_RA",
-      "l_nc_cl",
-      "i_bp_RA_bleeding_sym",
-      "i_bp_RA_broken_sym",
-      "i_bp_RA_hp_graph",
-      "l_ne"
+    "flags": ["W_NO_PADDING"],
+    "bodypart": "arm_r",
+    "clauses": [
+      { "id": "broken",
+        "widgets": [
+          "l_nw",
+          "l_bp_RA",
+          "l_nc_cl",
+          "i_bp_RA_broken_sym",
+          "l_ne"
+        ],
+        "condition": { "compare_int": [ { "u_val": "hp" }, "==", { "const": 0 } ] }
+      },
+      { "id": "intact",
+        "widgets": [
+          "l_nw",
+          "l_bp_RA",
+          "l_nc_cl",
+          "i_bp_RA_hp_graph",
+          "l_ne"
+        ],
+        "condition": { "compare_int": [ { "u_val": "hp" }, ">", { "const": 0 } ] }
+      }
     ],
     "type": "widget"
   },
   { "id": "a_bp_LL_row1",       "width": 13,
     "style": "layout", "arrange": "minimum_columns",
-    "widgets" : [
-      "l_nw",
-      "l_bp_LL",
-      "l_nc_cl",
-      "i_bp_LL_bleeding_sym",
-      "i_bp_LL_broken_sym",
-      "i_bp_LL_hp_graph",
-      "l_ne"
+    "flags": ["W_NO_PADDING"],
+    "bodypart": "leg_l",
+    "clauses": [
+      { "id": "broken",
+        "widgets": [
+          "l_nw",
+          "l_bp_LL",
+          "l_nc_cl",
+          "i_bp_LL_broken_sym",
+          "l_ne"
+        ],
+        "condition": { "compare_int": [ { "u_val": "hp" }, "==", { "const": 0 } ] }
+      },
+      { "id": "intact",
+        "widgets": [
+          "l_nw",
+          "l_bp_LL",
+          "l_nc_cl",
+          "i_bp_LL_hp_graph",
+          "l_ne"
+        ],
+        "condition": { "compare_int": [ { "u_val": "hp" }, ">", { "const": 0 } ] }
+      }
     ],
     "type": "widget"
   },
   { "id": "a_bp_CT_row1",       "width": 13,
     "style": "layout",  "arrange": "minimum_columns",
-    "widgets" : [
-      "l_nw",
-      "l_bp_CT",
-      "l_nc_cl",
-      "i_bp_CT_bleeding_sym",
-      "i_bp_CT_broken_sym",
-      "i_bp_CT_hp_graph",
-      "l_ne"
+    "flags": ["W_NO_PADDING"],
+    "bodypart": "torso",
+    "clauses": [
+      { "id": "broken",
+        "widgets": [
+          "l_nw",
+          "l_bp_CT",
+          "l_nc_cl",
+          "i_bp_CT_broken_sym",
+          "l_ne"
+        ],
+        "condition": { "compare_int": [ { "u_val": "hp" }, "==", { "const": 0 } ] }
+      },
+      { "id": "intact",
+        "widgets": [
+          "l_nw",
+          "l_bp_CT",
+          "l_nc_cl",
+          "i_bp_CT_hp_graph",
+          "l_ne"
+        ],
+        "condition": { "compare_int": [ { "u_val": "hp" }, ">", { "const": 0 } ] }
+      }
     ],
     "type": "widget"
   },
   { "id": "a_bp_RL_row1",       "width": 13,
     "style": "layout",  "arrange": "minimum_columns",
-    "widgets" : [
-      "l_nw",
-      "l_bp_RL",
-      "l_nc_cl",
-      "i_bp_RL_bleeding_sym",
-      "i_bp_RL_broken_sym",
-      "i_bp_RL_hp_graph",
-      "l_ne"
+    "flags": ["W_NO_PADDING"],
+    "bodypart": "leg_r",
+    "clauses": [
+      { "id": "broken",
+        "widgets": [
+          "l_nw",
+          "l_bp_RL",
+          "l_nc_cl",
+          "i_bp_RL_broken_sym",
+          "l_ne"
+        ],
+        "condition": { "compare_int": [ { "u_val": "hp" }, "==", { "const": 0 } ] }
+      },
+      { "id": "intact",
+        "widgets": [
+          "l_nw",
+          "l_bp_RL",
+          "l_nc_cl",
+          "i_bp_RL_hp_graph",
+          "l_ne"
+        ],
+        "condition": { "compare_int": [ { "u_val": "hp" }, ">", { "const": 0 } ] }
+      }
     ],
     "type": "widget"
   },
@@ -719,9 +824,8 @@
       "i_bp_HD_enc_graph",
       "i_bp_HD_warmth_graph",
       "l_sc_cl",
-      "i_bp_HD_bandaged_sym",
-      "i_bp_HD_splinted_sym",
       "i_bp_HD_status_sym",
+      "i_stunned_sym",
       "l_se"
     ],
     "type": "widget"
@@ -734,9 +838,8 @@
       "i_bp_CT_enc_graph",
       "i_bp_CT_warmth_graph",
       "l_sc_cl",
-      "i_bp_CT_bandaged_sym",
-      "i_bp_CT_splinted_sym",
       "i_bp_CT_status_sym",
+      "i_hypovolemia_sym",
       "l_se"
     ],
     "type": "widget"
@@ -746,12 +849,11 @@
     "widgets" : [
       "l_sw",
       "i_bp_LA_wet_graph",
-      "i_bp_LA_enc_graph",
+      "a_bp_LA_enc_splint",
       "i_bp_LA_warmth_graph",
       "l_sc_cl",
-      "i_bp_LA_bandaged_sym",
-      "i_bp_LA_splinted_sym",
       "i_bp_LA_status_sym",
+      "i_bp_LA_mending_sym",
       "l_se"
     ],
     "type": "widget"
@@ -761,12 +863,11 @@
     "widgets" : [
       "l_sw",
       "i_bp_RA_wet_graph",
-      "i_bp_RA_enc_graph",
+      "a_bp_RA_enc_splint",
       "i_bp_RA_warmth_graph",
       "l_sc_cl",
-      "i_bp_RA_bandaged_sym",
-      "i_bp_RA_splinted_sym",
       "i_bp_RA_status_sym",
+      "i_bp_RA_mending_sym",
       "l_se"
     ],
     "type": "widget"
@@ -776,12 +877,11 @@
     "widgets" : [
       "l_sw",
       "i_bp_LL_wet_graph",
-      "i_bp_LL_enc_graph",
+      "a_bp_LL_enc_splint",
       "i_bp_LL_warmth_graph",
       "l_sc_cl",
-      "i_bp_LL_bandaged_sym",
-      "i_bp_LL_splinted_sym",
       "i_bp_LL_status_sym",
+      "i_bp_LL_mending_sym",
       "l_se"
     ],
     "type": "widget"
@@ -791,12 +891,11 @@
     "widgets" : [
       "l_sw",
       "i_bp_RL_wet_graph",
-      "i_bp_RL_enc_graph",
+      "a_bp_RL_enc_splint",
       "i_bp_RL_warmth_graph",
       "l_sc_cl",
-      "i_bp_RL_bandaged_sym",
-      "i_bp_RL_splinted_sym",
       "i_bp_RL_status_sym",
+      "i_bp_RL_mending_sym",
       "l_se"
     ],
     "type": "widget"
@@ -1036,12 +1135,12 @@
     ],
     "type": "widget"
   },
-  { "id": "w_time_moon",        "width": 23,
+  { "id": "w_time_moon",        "width": 23,        "//": "moon phase disabled for now",
     "style": "layout", "arrange": "minimum_columns",
     "widgets": [
       "w_time",
       "l_space",
-      "w_moon_phase"
+      "//w_moon_phase"
     ],
     "type": "widget"
   },
