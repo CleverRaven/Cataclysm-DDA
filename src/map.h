@@ -1683,10 +1683,10 @@ class map
         virtual bool inbounds( const tripoint &p ) const;
         bool inbounds( const tripoint_bub_ms &p ) const;
         bool inbounds( const tripoint_abs_ms &p ) const;
-        bool inbounds( const tripoint_abs_sm &p ) const;
-        bool inbounds( const tripoint_abs_omt &p ) const {
-            return inbounds( project_to<coords::sm>( p ) );
+        bool inbounds( const tripoint_abs_sm &p ) const {
+            return inbounds( project_to<coords::omt>( p ) );
         }
+        bool inbounds( const tripoint_abs_omt &p ) const;
         bool inbounds( const point &p ) const {
             return inbounds( tripoint( p, 0 ) );
         }
@@ -1830,6 +1830,7 @@ class map
         void apply_character_light( Character &p );
 
         int my_MAPSIZE;
+        int my_HALF_MAPSIZE;
         bool zlevels;
 
         /**

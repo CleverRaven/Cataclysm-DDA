@@ -232,6 +232,8 @@ enum class iteminfo_parts : size_t {
 
     DESCRIPTION_APPLICABLE_RECIPES,
 
+    DESCRIPTION_VEHICLE_PARTS,
+
     DESCRIPTION_MED_ADDICTING,
 
     // element count tracker
