@@ -3679,9 +3679,13 @@ void load_tileset()
     if( !tilecontext || !use_tiles ) {
         return;
     }
-    tilecontext->load_tileset( get_option<std::string>( "TILES" ),
-                               /*precheck=*/false, /*force=*/false,
-                               /*pump_events=*/true );
+    closetilecontext->load_tileset( get_option<std::string>( "TILES" ),
+                                    /*precheck=*/false, /*force=*/false,
+                                    /*pump_events=*/true );
+    fartilecontext->load_tileset( get_option<std::string>( "DISTANT_TILES" ),
+                                  /*precheck=*/false, /*force=*/false,
+                                  /*pump_events=*/true );
+    tilecontext = closetilecontext;
     tilecontext->do_tile_loading_report();
 
     if( overmap_tilecontext ) {
@@ -3696,6 +3700,8 @@ void load_tileset()
 void catacurses::endwin()
 {
     tilecontext.reset();
+    closetilecontext.reset();
+    fartilecontext.reset();
     overmap_tilecontext.reset();
     font.reset();
     map_font.reset();
@@ -3817,7 +3823,7 @@ bool gamepad_available()
 
 void rescale_tileset( int size )
 {
-    if( size >= 32 ) {
+    if( size <= 8 && use_far_tiles ) {
         tilecontext = fartilecontext;
         g->mark_main_ui_adaptor_resize();
     } else {
