@@ -89,7 +89,7 @@ void pocket_favorite_callback::refresh( uilist *menu )
     wnoutrefresh( menu->window );
 }
 
-pocket_favorite_callback::pocket_favorite_callback( std::vector<item *> to_organize,
+pocket_favorite_callback::pocket_favorite_callback( const std::vector<item *> &to_organize,
         uilist &pocket_selector )
 {
     this->to_organize = to_organize;
@@ -100,7 +100,7 @@ pocket_favorite_callback::pocket_favorite_callback( std::vector<item *> to_organ
 }
 
 void pocket_favorite_callback::add_pockets( item &i, uilist &pocket_selector,
-        std::string depth )
+        const std::string &depth )
 {
     if( i.get_all_contained_pockets().empty() ) {
         // if it doesn't have pockets skip it

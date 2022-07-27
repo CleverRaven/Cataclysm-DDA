@@ -1299,6 +1299,11 @@ class item : public visitable
         int damage_level( int dmg = INT_MIN ) const;
 
         /**
+        * Returns a scaling value for armor values based on damage taken
+        */
+        float damage_scaling( bool to_self = false ) const;
+
+        /**
          * Get the minimum possible damage this item can be repaired to,
          * accounting for degradation.
          * @param allow_negative If true, get the damage floor for reinforcement
@@ -2731,9 +2736,9 @@ class item : public visitable
         bool process_internal( map &here, Character *carrier, const tripoint &pos, float insulation = 1,
                                temperature_flag flag = temperature_flag::NORMAL, float spoil_modifier = 1.0f );
         void iterate_covered_body_parts_internal( side s,
-                std::function<void( const bodypart_str_id & )> cb ) const;
+                const std::function<void( const bodypart_str_id & )> &cb ) const;
         void iterate_covered_sub_body_parts_internal( side s,
-                std::function<void( const sub_bodypart_str_id & )> cb ) const;
+                const std::function<void( const sub_bodypart_str_id & )> &cb ) const;
         /**
          * Calculate the thermal energy and temperature change of the item
          * @param temp Temperature of surroundings

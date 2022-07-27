@@ -4334,5 +4334,11 @@
     "id": "park_7",
     "locations": [ "land" ],
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "park_7_north" }, { "point": [ 0, 0, 1 ], "overmap": "park_7_roof_north" } ]
+  },
+  {
+    "type": "city_building",
+    "id": "salon",
+    "locations": [ "land" ],
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "salon_south" }, { "point": [ 0, 0, 1 ], "overmap": "salon_roof_south" } ]
   }
 ]

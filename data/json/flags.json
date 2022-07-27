@@ -1358,10 +1358,6 @@
     "type": "json_flag"
   },
   {
-    "id": "HELMET_COMPAT",
-    "type": "json_flag"
-  },
-  {
     "id": "HIDDEN_ITEM",
     "type": "json_flag"
   },
@@ -1978,6 +1974,12 @@
     "type": "json_flag",
     "info": "This item fits in items that use heavy batteries.",
     "name": "heavy battery"
+  },
+  {
+    "id": "METHANOL_TANK",
+    "type": "json_flag",
+    "info": "This item fits in items that use methanol fuel cells.",
+    "name": "methanol fuel cell"
   },
   {
     "id": "COMBAT_TOGGLEABLE",

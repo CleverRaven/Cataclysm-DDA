@@ -315,7 +315,6 @@
     "warmth": 8,
     "material_thickness": 0.5,
     "environmental_protection": 1,
-    "flags": [ "HELMET_COMPAT" ],
     "armor": [ { "encumbrance": 8, "coverage": 90, "covers": [ "head", "mouth" ] } ]
   },
   {

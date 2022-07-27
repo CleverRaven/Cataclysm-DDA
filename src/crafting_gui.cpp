@@ -262,7 +262,7 @@ static std::vector<std::string> recipe_info(
     const recipe &recp,
     const availability &avail,
     Character &guy,
-    const std::string qry_comps,
+    const std::string &qry_comps,
     const int batch_size,
     const int fold_width,
     const nc_color &color )
@@ -703,7 +703,7 @@ struct recipe_info_cache {
 };
 
 static const std::vector<std::string> &cached_recipe_info( recipe_info_cache &info_cache,
-        const recipe &recp, const availability &avail, Character &guy, const std::string qry_comps,
+        const recipe &recp, const availability &avail, Character &guy, const std::string &qry_comps,
         const int batch_size, const int fold_width, const nc_color &color )
 {
     if( info_cache.recp != &recp ||
@@ -1527,7 +1527,7 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
             if( uistate.favorite_recipes.find( current[line]->ident() ) != uistate.favorite_recipes.end() ) {
                 uistate.favorite_recipes.erase( current[line]->ident() );
                 if( recalc ) {
-                    if( static_cast<size_t>( line + 1 ) < current.size() ) {
+                    if( static_cast<size_t>( line ) + 1 < current.size() ) {
                         line++;
                     } else {
                         line--;
@@ -1553,7 +1553,7 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
             recalc = true;
             recalc_unread = highlight_unread_recipes;
             keepline = true;
-            if( static_cast<size_t>( line + 1 ) < current.size() ) {
+            if( static_cast<size_t>( line ) + 1 < current.size() ) {
                 line++;
             } else {
                 line--;

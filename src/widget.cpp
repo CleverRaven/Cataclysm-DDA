@@ -1754,7 +1754,8 @@ std::string format_widget_multiline( const std::vector<std::string> &keys, int m
                 }
             }
         }
-        if( row < h_max - 1 ) {
+        // Newline, if not the last row, and still keys left
+        if( row < h_max - 1 && nidx < nsize ) {
             ret += "\n";
         }
         height++;

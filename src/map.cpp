@@ -11,6 +11,7 @@
 #include <string>
 #include <type_traits>
 #include <unordered_map>
+#include <utility>
 
 #include "active_item_cache.h"
 #include "ammo.h"
@@ -175,9 +176,9 @@ map::map( int mapsize, bool zlev ) : my_MAPSIZE( mapsize ), zlevels( zlev )
 {
 
     if( zlevels ) {
-        grid.resize( static_cast<size_t>( my_MAPSIZE * my_MAPSIZE * OVERMAP_LAYERS ), nullptr );
+        grid.resize( static_cast<size_t>( my_MAPSIZE ) * my_MAPSIZE * OVERMAP_LAYERS, nullptr );
     } else {
-        grid.resize( static_cast<size_t>( my_MAPSIZE * my_MAPSIZE ), nullptr );
+        grid.resize( static_cast<size_t>( my_MAPSIZE ) * my_MAPSIZE, nullptr );
     }
 
     for( auto &ptr : pathfinding_caches ) {
@@ -4763,7 +4764,7 @@ item &map::add_item_or_charges( const tripoint &pos, item obj, bool overflow )
 
 item &map::add_item_or_charges( const tripoint_bub_ms &pos, item obj, bool overflow )
 {
-    return add_item_or_charges( pos.raw(), obj, overflow );
+    return add_item_or_charges( pos.raw(), std::move( obj ), overflow );
 }
 
 item &map::add_item( const tripoint &p, item new_item )
@@ -5932,8 +5933,8 @@ bool map::add_field( const tripoint &p, const field_type_id &type_id, int intens
     if( current_submap->get_field( l ).add_field( converted_type_id, intensity, age ) ) {
         //Only adding it to the count if it doesn't exist.
         if( !current_submap->field_count++ ) {
-            get_cache( p.z ).field_cache.set( static_cast<size_t>( p.x / SEEX + ( (
-                                                  p.y / SEEX ) * MAPSIZE ) ) );
+            get_cache( p.z ).field_cache.set(
+                static_cast<size_t>( p.x / SEEX ) + ( ( p.y / SEEX ) * MAPSIZE ) );
         }
     }
 
@@ -5970,8 +5971,8 @@ void map::on_field_modified( const tripoint &p, const field_type &fd_type )
 {
     invalidate_max_populated_zlev( p.z );
 
-    get_cache( p.z ).field_cache.set( static_cast<size_t>( p.x / SEEX + ( (
-                                          p.y / SEEX ) * MAPSIZE ) ) );
+    get_cache( p.z ).field_cache.set(
+        static_cast<size_t>( p.x / SEEX ) + ( ( p.y / SEEX ) * MAPSIZE ) );
 
     // Dirty the transparency cache now that field processing doesn't always do it
     if( fd_type.dirty_transparency_cache || !fd_type.is_transparent() ) {
@@ -7925,8 +7926,7 @@ void map::copy_grid( const tripoint &to, const tripoint &from )
     }
 }
 
-void map::spawn_monsters_submap_group( const tripoint &gp, mongroup &group,
-                                       const tripoint_abs_sm &submap_pos, bool ignore_sight )
+void map::spawn_monsters_submap_group( const tripoint &gp, mongroup &group, bool ignore_sight )
 {
     Character &player_character = get_player_character();
     const int s_range = std::min( HALF_MAPSIZE_X,
@@ -8041,7 +8041,6 @@ void map::spawn_monsters_submap_group( const tripoint &gp, mongroup &group,
     }
 
     // Find horde's target submap
-    tripoint_abs_sm horde_target = submap_pos + ( group.target - group.pos );
     for( monster &tmp : group.monsters ) {
         for( int tries = 0; tries < 10 && !locations.empty(); tries++ ) {
             const tripoint local_pos = random_entry_removed( locations );
@@ -8051,8 +8050,8 @@ void map::spawn_monsters_submap_group( const tripoint &gp, mongroup &group,
             }
             if( group.horde ) {
                 // Give monster a random point near horde's expected destination
-                const point_rel_ms pos_in_sm( rng( 0, SEEX ), rng( 0, SEEY ) );
-                const tripoint_abs_ms rand_dest = project_to<coords::ms>( horde_target ) + pos_in_sm;
+                const tripoint_sm_ms pos_in_sm( rng( 0, SEEX ), rng( 0, SEEY ), local_pos.z );
+                const tripoint_abs_ms rand_dest = project_combine( group.target, pos_in_sm );
                 const int turns = rl_dist( abs_pos, rand_dest ) + group.interest;
                 tmp.wander_to( rand_dest, turns );
                 add_msg_debug( debugmode::DF_MAP, "%s targeting %s", tmp.disp_name(),
@@ -8077,9 +8076,9 @@ void map::spawn_monsters_submap( const tripoint &gp, bool ignore_sight )
     // Load unloaded monsters
     overmap_buffer.spawn_monster( submap_pos );
     // Only spawn new monsters after existing monsters are loaded.
-    auto groups = overmap_buffer.groups_at( submap_pos );
+    std::vector<mongroup *> groups = overmap_buffer.groups_at( submap_pos );
     for( mongroup *&mgp : groups ) {
-        spawn_monsters_submap_group( gp, *mgp, submap_pos, ignore_sight );
+        spawn_monsters_submap_group( gp, *mgp, ignore_sight );
     }
 
     submap *const current_submap = get_submap_at_grid( gp );
@@ -8216,6 +8215,15 @@ bool map::inbounds( const tripoint &p ) const
 bool map::inbounds( const tripoint_bub_ms &p ) const
 {
     return inbounds( p.raw() );
+}
+
+bool map::inbounds( const tripoint_abs_sm &p ) const
+{
+    return inbounds_z( p.z() ) &&
+           p.x() >= abs_sub.x() &&
+           p.y() >= abs_sub.y() &&
+           p.x() < abs_sub.x() + my_MAPSIZE &&
+           p.y() < abs_sub.y() + my_MAPSIZE;
 }
 
 bool tinymap::inbounds( const tripoint &p ) const

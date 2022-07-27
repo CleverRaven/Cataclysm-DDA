@@ -1,8 +1,8 @@
 #include "character.h"
 
-#include <cctype>
 #include <algorithm>
 #include <array>
+#include <cctype>
 #include <climits>
 #include <cmath>
 #include <cstddef>
@@ -14,6 +14,7 @@
 #include <ostream>
 #include <tuple>
 #include <type_traits>
+#include <utility>
 #include <vector>
 
 #include "action.h"
@@ -2355,6 +2356,11 @@ void Character::check_item_encumbrance_flag()
 }
 
 bool Character::natural_attack_restricted_on( const bodypart_id &bp ) const
+{
+    return worn.natural_attack_restricted_on( bp );
+}
+
+bool Character::natural_attack_restricted_on( const sub_bodypart_id &bp ) const
 {
     return worn.natural_attack_restricted_on( bp );
 }
@@ -7077,6 +7083,9 @@ ret_val<void> Character::can_wield( const item &it ) const
         return ret_val<void>::make_failure( _( "Can't wield spilt liquids." ) );
     }
     if( it.has_flag( flag_NO_UNWIELD ) ) {
+        if( get_wielded_item() && get_wielded_item().get_item() == &it ) {
+            return ret_val<void>::make_failure( _( "You can't unwield this." ) );
+        }
         return ret_val<void>::make_failure(
                    _( "You can't wield this.  Wielding it would make it impossible to unwield it." ) );
     }
@@ -8648,7 +8657,7 @@ void Character::add_moncam( std::pair<mtype_id, int> moncam )
 
 void Character::set_moncams( std::map<mtype_id, int> nmoncams )
 {
-    moncams = nmoncams;
+    moncams = std::move( nmoncams );
 }
 
 std::map<mtype_id, int> Character::get_moncams() const

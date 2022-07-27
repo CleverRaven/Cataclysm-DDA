@@ -411,9 +411,9 @@ struct dynamic_line_t {
 
 struct var_info {
     var_info( var_type in_type, std::string in_name ): type( in_type ),
-        name( in_name ) {}
+        name( std::move( in_name ) ) {}
     var_info( var_type in_type, std::string in_name, std::string in_default_val ): type( in_type ),
-        name( in_name ), default_val( in_default_val ) {}
+        name( std::move( in_name ) ), default_val( std::move( in_default_val ) ) {}
     var_type type;
     std::string name;
     std::string default_val;

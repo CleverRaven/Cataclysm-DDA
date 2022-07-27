@@ -156,7 +156,7 @@ static const trait_id trait_VINES2( "VINES2" );
 static const trait_id trait_VINES3( "VINES3" );
 
 static void player_hit_message( Character *attacker, const std::string &message,
-                                Creature &t, int dam, bool crit = false, bool technique = false, std::string wp_hit = {} );
+                                Creature &t, int dam, bool crit = false, bool technique = false, const std::string &wp_hit = {} );
 static int stumble( Character &u, const item_location &weap );
 static std::string melee_message( const ma_technique &tec, Character &p,
                                   const dealt_damage_instance &ddi );
@@ -423,7 +423,8 @@ std::string Character::get_miss_reason()
 }
 
 void Character::roll_all_damage( bool crit, damage_instance &di, bool average,
-                                 const item &weap, std::string attack_vector, const Creature *target, const bodypart_id &bp ) const
+                                 const item &weap, const std::string &attack_vector, const Creature *target,
+                                 const bodypart_id &bp ) const
 {
     float crit_mod = 1.f;
     if( target != nullptr ) {
@@ -1203,7 +1204,7 @@ float Character::bonus_damage( bool random ) const
 }
 
 void Character::roll_bash_damage( bool crit, damage_instance &di, bool average,
-                                  const item &weap, std::string attack_vector, float crit_mod ) const
+                                  const item &weap, const std::string &attack_vector, float crit_mod ) const
 {
     float bash_dam = 0.0f;
     bool unarmed = attack_vector != "WEAPON";
@@ -1250,26 +1251,26 @@ void Character::roll_bash_damage( bool crit, damage_instance &di, bool average,
             bp_unrestricted = !natural_attack_restricted_on( bodypart_id( "arm_l" ) ) ||
                               ( !natural_attack_restricted_on( bodypart_id( "arm_r" ) ) );
         } else if( attack_vector == "ELBOW" ) {
-            bp_unrestricted = !natural_attack_restricted_on( bodypart_id( "arm_elbow_l" ) ) ||
-                              ( !natural_attack_restricted_on( bodypart_id( "arm_elbow_r" ) ) );
+            bp_unrestricted = !natural_attack_restricted_on( sub_bodypart_id( "arm_elbow_l" ) ) ||
+                              ( !natural_attack_restricted_on( sub_bodypart_id( "arm_elbow_r" ) ) );
         } else if( attack_vector == "WRIST" ) {
-            bp_unrestricted = !natural_attack_restricted_on( bodypart_id( "hand_wrist_l" ) ) ||
-                              ( !natural_attack_restricted_on( bodypart_id( "hand_wrist_r" ) ) );
+            bp_unrestricted = !natural_attack_restricted_on( sub_bodypart_id( "hand_wrist_l" ) ) ||
+                              ( !natural_attack_restricted_on( sub_bodypart_id( "hand_wrist_r" ) ) );
         } else if( attack_vector == "SHOULDER" ) {
-            bp_unrestricted = !natural_attack_restricted_on( bodypart_id( "arm_shoulder_l" ) ) ||
-                              ( !natural_attack_restricted_on( bodypart_id( "arm_shoulder_r" ) ) );
+            bp_unrestricted = !natural_attack_restricted_on( sub_bodypart_id( "arm_shoulder_l" ) ) ||
+                              ( !natural_attack_restricted_on( sub_bodypart_id( "arm_shoulder_r" ) ) );
         } else if( attack_vector == "FOOT" ) {
             bp_unrestricted = !natural_attack_restricted_on( bodypart_id( "foot_l" ) ) ||
                               ( !natural_attack_restricted_on( bodypart_id( "foot_r" ) ) );
         } else if( attack_vector == "LOWER_LEG" ) {
-            bp_unrestricted = !natural_attack_restricted_on( bodypart_id( "leg_lower_l" ) ) ||
-                              ( !natural_attack_restricted_on( bodypart_id( "leg_lower_r" ) ) );
+            bp_unrestricted = !natural_attack_restricted_on( sub_bodypart_id( "leg_lower_l" ) ) ||
+                              ( !natural_attack_restricted_on( sub_bodypart_id( "leg_lower_r" ) ) );
         } else if( attack_vector == "KNEE" ) {
-            bp_unrestricted = !natural_attack_restricted_on( bodypart_id( "leg_knee_l" ) ) ||
-                              ( !natural_attack_restricted_on( bodypart_id( "leg_knee_r" ) ) );
+            bp_unrestricted = !natural_attack_restricted_on( sub_bodypart_id( "leg_knee_l" ) ) ||
+                              ( !natural_attack_restricted_on( sub_bodypart_id( "leg_knee_r" ) ) );
         } else if( attack_vector == "HIP" ) {
-            bp_unrestricted = !natural_attack_restricted_on( bodypart_id( "leg_hip_l" ) ) ||
-                              ( !natural_attack_restricted_on( bodypart_id( "leg_hip_r" ) ) );
+            bp_unrestricted = !natural_attack_restricted_on( sub_bodypart_id( "leg_hip_l" ) ) ||
+                              ( !natural_attack_restricted_on( sub_bodypart_id( "leg_hip_r" ) ) );
         } else if( attack_vector == "HEAD" ) {
             bp_unrestricted = !natural_attack_restricted_on( bodypart_id( "head" ) );
         } else if( attack_vector == "TORSO" ) {
@@ -1364,7 +1365,7 @@ void Character::roll_bash_damage( bool crit, damage_instance &di, bool average,
 }
 
 void Character::roll_cut_damage( bool crit, damage_instance &di, bool average,
-                                 const item &weap, std::string attack_vector, float crit_mod ) const
+                                 const item &weap, const std::string &attack_vector, float crit_mod ) const
 {
     float cut_dam = mabuff_damage_bonus( damage_type::CUT ) + weap.damage_melee( damage_type::CUT );
     float cut_mul = 1.0f;
@@ -1384,26 +1385,26 @@ void Character::roll_cut_damage( bool crit, damage_instance &di, bool average,
             bp_unrestricted = !natural_attack_restricted_on( bodypart_id( "arm_l" ) ) ||
                               ( !natural_attack_restricted_on( bodypart_id( "arm_r" ) ) );
         } else if( attack_vector == "ELBOW" ) {
-            bp_unrestricted = !natural_attack_restricted_on( bodypart_id( "arm_elbow_l" ) ) ||
-                              ( !natural_attack_restricted_on( bodypart_id( "arm_elbow_r" ) ) );
+            bp_unrestricted = !natural_attack_restricted_on( sub_bodypart_id( "arm_elbow_l" ) ) ||
+                              ( !natural_attack_restricted_on( sub_bodypart_id( "arm_elbow_r" ) ) );
         } else if( attack_vector == "WRIST" ) {
-            bp_unrestricted = !natural_attack_restricted_on( bodypart_id( "hand_wrist_l" ) ) ||
-                              ( !natural_attack_restricted_on( bodypart_id( "hand_wrist_r" ) ) );
+            bp_unrestricted = !natural_attack_restricted_on( sub_bodypart_id( "hand_wrist_l" ) ) ||
+                              ( !natural_attack_restricted_on( sub_bodypart_id( "hand_wrist_r" ) ) );
         } else if( attack_vector == "SHOULDER" ) {
-            bp_unrestricted = !natural_attack_restricted_on( bodypart_id( "arm_shoulder_l" ) ) ||
-                              ( !natural_attack_restricted_on( bodypart_id( "arm_shoulder_r" ) ) );
+            bp_unrestricted = !natural_attack_restricted_on( sub_bodypart_id( "arm_shoulder_l" ) ) ||
+                              ( !natural_attack_restricted_on( sub_bodypart_id( "arm_shoulder_r" ) ) );
         } else if( attack_vector == "FOOT" ) {
             bp_unrestricted = !natural_attack_restricted_on( bodypart_id( "foot_l" ) ) ||
                               ( !natural_attack_restricted_on( bodypart_id( "foot_r" ) ) );
         } else if( attack_vector == "LOWER_LEG" ) {
-            bp_unrestricted = !natural_attack_restricted_on( bodypart_id( "leg_lower_l" ) ) ||
-                              ( !natural_attack_restricted_on( bodypart_id( "leg_lower_r" ) ) );
+            bp_unrestricted = !natural_attack_restricted_on( sub_bodypart_id( "leg_lower_l" ) ) ||
+                              ( !natural_attack_restricted_on( sub_bodypart_id( "leg_lower_r" ) ) );
         } else if( attack_vector == "KNEE" ) {
-            bp_unrestricted = !natural_attack_restricted_on( bodypart_id( "leg_knee_l" ) ) ||
-                              ( !natural_attack_restricted_on( bodypart_id( "leg_knee_r" ) ) );
+            bp_unrestricted = !natural_attack_restricted_on( sub_bodypart_id( "leg_knee_l" ) ) ||
+                              ( !natural_attack_restricted_on( sub_bodypart_id( "leg_knee_r" ) ) );
         } else if( attack_vector == "HIP" ) {
-            bp_unrestricted = !natural_attack_restricted_on( bodypart_id( "leg_hip_l" ) ) ||
-                              ( !natural_attack_restricted_on( bodypart_id( "leg_hip_r" ) ) );
+            bp_unrestricted = !natural_attack_restricted_on( sub_bodypart_id( "leg_hip_l" ) ) ||
+                              ( !natural_attack_restricted_on( sub_bodypart_id( "leg_hip_r" ) ) );
         } else if( attack_vector == "HEAD" ) {
             bp_unrestricted = !natural_attack_restricted_on( bodypart_id( "head" ) );
         } else if( attack_vector == "TORSO" ) {
@@ -1472,7 +1473,7 @@ void Character::roll_cut_damage( bool crit, damage_instance &di, bool average,
 }
 
 void Character::roll_stab_damage( bool crit, damage_instance &di, bool average,
-                                  const item &weap, std::string attack_vector, float crit_mod ) const
+                                  const item &weap, const std::string &attack_vector, float crit_mod ) const
 {
     float stab_dam = mabuff_damage_bonus( damage_type::STAB ) + weap.damage_melee( damage_type::STAB );
     bool unarmed = attack_vector != "WEAPON";
@@ -1491,26 +1492,26 @@ void Character::roll_stab_damage( bool crit, damage_instance &di, bool average,
             bp_unrestricted = !natural_attack_restricted_on( bodypart_id( "arm_l" ) ) ||
                               ( !natural_attack_restricted_on( bodypart_id( "arm_r" ) ) );
         } else if( attack_vector == "ELBOW" ) {
-            bp_unrestricted = !natural_attack_restricted_on( bodypart_id( "arm_elbow_l" ) ) ||
-                              ( !natural_attack_restricted_on( bodypart_id( "arm_elbow_r" ) ) );
+            bp_unrestricted = !natural_attack_restricted_on( sub_bodypart_id( "arm_elbow_l" ) ) ||
+                              ( !natural_attack_restricted_on( sub_bodypart_id( "arm_elbow_r" ) ) );
         } else if( attack_vector == "WRIST" ) {
-            bp_unrestricted = !natural_attack_restricted_on( bodypart_id( "hand_wrist_l" ) ) ||
-                              ( !natural_attack_restricted_on( bodypart_id( "hand_wrist_r" ) ) );
+            bp_unrestricted = !natural_attack_restricted_on( sub_bodypart_id( "hand_wrist_l" ) ) ||
+                              ( !natural_attack_restricted_on( sub_bodypart_id( "hand_wrist_r" ) ) );
         } else if( attack_vector == "SHOULDER" ) {
-            bp_unrestricted = !natural_attack_restricted_on( bodypart_id( "arm_shoulder_l" ) ) ||
-                              ( !natural_attack_restricted_on( bodypart_id( "arm_shoulder_r" ) ) );
+            bp_unrestricted = !natural_attack_restricted_on( sub_bodypart_id( "arm_shoulder_l" ) ) ||
+                              ( !natural_attack_restricted_on( sub_bodypart_id( "arm_shoulder_r" ) ) );
         } else if( attack_vector == "FOOT" ) {
             bp_unrestricted = !natural_attack_restricted_on( bodypart_id( "foot_l" ) ) ||
                               ( !natural_attack_restricted_on( bodypart_id( "foot_r" ) ) );
         } else if( attack_vector == "LOWER_LEG" ) {
-            bp_unrestricted = !natural_attack_restricted_on( bodypart_id( "leg_lower_l" ) ) ||
-                              ( !natural_attack_restricted_on( bodypart_id( "leg_lower_r" ) ) );
+            bp_unrestricted = !natural_attack_restricted_on( sub_bodypart_id( "leg_lower_l" ) ) ||
+                              ( !natural_attack_restricted_on( sub_bodypart_id( "leg_lower_r" ) ) );
         } else if( attack_vector == "KNEE" ) {
-            bp_unrestricted = !natural_attack_restricted_on( bodypart_id( "leg_knee_l" ) ) ||
-                              ( !natural_attack_restricted_on( bodypart_id( "leg_knee_r" ) ) );
+            bp_unrestricted = !natural_attack_restricted_on( sub_bodypart_id( "leg_knee_l" ) ) ||
+                              ( !natural_attack_restricted_on( sub_bodypart_id( "leg_knee_r" ) ) );
         } else if( attack_vector == "HIP" ) {
-            bp_unrestricted = !natural_attack_restricted_on( bodypart_id( "leg_hip_l" ) ) ||
-                              ( !natural_attack_restricted_on( bodypart_id( "leg_hip_r" ) ) );
+            bp_unrestricted = !natural_attack_restricted_on( sub_bodypart_id( "leg_hip_l" ) ) ||
+                              ( !natural_attack_restricted_on( sub_bodypart_id( "leg_hip_r" ) ) );
         } else if( attack_vector == "HEAD" ) {
             bp_unrestricted = !natural_attack_restricted_on( bodypart_id( "head" ) );
         } else if( attack_vector == "TORSO" ) {
@@ -1585,7 +1586,7 @@ void Character::roll_stab_damage( bool crit, damage_instance &di, bool average,
 }
 
 void Character::roll_other_damage( bool /*crit*/, damage_instance &di, bool /*average*/,
-                                   const item &weap, std::string attack_vector, float /*crit_mod*/ ) const
+                                   const item &weap, const std::string &attack_vector, float /*crit_mod*/ ) const
 {
     std::map<std::string, damage_type> dt_map = get_dt_map();
     bool unarmed = attack_vector != "WEAPON";
@@ -2757,7 +2758,7 @@ std::string melee_message( const ma_technique &tec, Character &p, const dealt_da
 
 // display the hit message for an attack
 void player_hit_message( Character *attacker, const std::string &message,
-                         Creature &t, int dam, bool crit, bool technique, std::string wp_hit )
+                         Creature &t, int dam, bool crit, bool technique, const std::string &wp_hit )
 {
     std::string msg;
     game_message_type msgtype = m_good;

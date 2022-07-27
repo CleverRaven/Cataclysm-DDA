@@ -162,7 +162,7 @@ ret_val<void> Character::can_wear( const item &it, bool with_equip_change ) cons
     }
 
     {
-        const ret_val<void> power_armor_conflicts = worn.power_armor_conflicts( it );
+        ret_val<void> power_armor_conflicts = worn.power_armor_conflicts( it );
         if( !power_armor_conflicts.success() ) {
             return power_armor_conflicts;
         }
@@ -582,10 +582,8 @@ std::list<item> Character::get_visible_worn_items() const
 bool outfit::is_wearing_helmet() const
 {
     for( const item &i : worn ) {
-        if( i.covers( body_part_head ) && !i.has_flag( flag_HELMET_COMPAT ) &&
-            !i.has_flag( flag_SKINTIGHT ) &&
-            !i.has_flag( flag_PERSONAL ) && !i.has_flag( flag_AURA ) && !i.has_flag( flag_SEMITANGIBLE ) &&
-            !i.has_flag( flag_OVERSIZE ) ) {
+        if( i.covers( body_part_head ) && !i.has_flag( flag_SKINTIGHT ) && !i.has_flag( flag_PERSONAL ) &&
+            !i.has_flag( flag_AURA ) && !i.has_flag( flag_SEMITANGIBLE ) && !i.has_flag( flag_OVERSIZE ) ) {
             return true;
         }
     }
@@ -595,11 +593,6 @@ bool outfit::is_wearing_helmet() const
 bool Character::is_wearing_helmet() const
 {
     return worn.is_wearing_helmet();
-}
-
-int Character::head_cloth_encumbrance() const
-{
-    return worn.head_cloth_encumbrance( *this );
 }
 
 double Character::armwear_factor() const
@@ -962,19 +955,6 @@ bool outfit::wearing_something_on( const bodypart_id &bp ) const
     return false;
 }
 
-int outfit::head_cloth_encumbrance( const Character &guy ) const
-{
-    int ret = 0;
-    for( const item &i : worn ) {
-        const item *worn_item = &i;
-        if( i.covers( body_part_head ) && !i.has_flag( flag_SEMITANGIBLE ) &&
-            ( worn_item->has_flag( flag_HELMET_COMPAT ) || worn_item->has_flag( flag_SKINTIGHT ) ) ) {
-            ret += worn_item->get_encumber( guy, body_part_head );
-        }
-    }
-    return ret;
-}
-
 int outfit::swim_modifier( const int swim_skill ) const
 {
     int ret = 0;
@@ -997,12 +977,27 @@ bool outfit::check_item_encumbrance_flag( bool update_required )
     return update_required;
 }
 
+static bool check_natural_attack_restricted_on_worn( const item &i )
+{
+    return !i.has_flag( flag_ALLOWS_NATURAL_ATTACKS ) &&
+           !i.has_flag( flag_SEMITANGIBLE ) &&
+           !i.has_flag( flag_PERSONAL ) && !i.has_flag( flag_AURA );
+}
+
 bool outfit::natural_attack_restricted_on( const bodypart_id &bp ) const
 {
     for( const item &i : worn ) {
-        if( i.covers( bp ) && !i.has_flag( flag_ALLOWS_NATURAL_ATTACKS ) &&
-            !i.has_flag( flag_SEMITANGIBLE ) &&
-            !i.has_flag( flag_PERSONAL ) && !i.has_flag( flag_AURA ) ) {
+        if( i.covers( bp ) && check_natural_attack_restricted_on_worn( i ) ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool outfit::natural_attack_restricted_on( const sub_bodypart_id &bp ) const
+{
+    for( const item &i : worn ) {
+        if( i.covers( bp ) && check_natural_attack_restricted_on_worn( i ) ) {
             return true;
         }
     }
@@ -1926,7 +1921,7 @@ void outfit::fire_options( Character &guy, std::vector<std::string> &options,
     }
 }
 
-void outfit::insert_item_at_index( item clothing, int index )
+void outfit::insert_item_at_index( const item &clothing, int index )
 {
     if( static_cast<size_t>( index ) >= worn.size() || index == INT_MIN ) {
         index = worn.size() - 1;

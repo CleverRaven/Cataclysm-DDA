@@ -651,8 +651,8 @@ construction_id construction_menu( const bool blueprint )
                                 _( "Press [<color_yellow>%s</color>] to show previous stage(s)." ),
                                 ctxt.get_desc( "SCROLL_STAGE_UP" ) );
             }
-            if( static_cast<size_t>( construct_buffer_breakpoints[current_construct_breakpoint] +
-                                     available_buffer_height ) < full_construct_buffer.size() ) {
+            if( static_cast<size_t>( construct_buffer_breakpoints[current_construct_breakpoint] ) +
+                available_buffer_height < full_construct_buffer.size() ) {
                 // Print next stage indicator if more breakpoints are remaining after screen height
                 trim_and_print( w_con, point( pos_x, w_height - 2 - static_cast<int>( notes.size() ) ),
                                 available_window_width, c_white,

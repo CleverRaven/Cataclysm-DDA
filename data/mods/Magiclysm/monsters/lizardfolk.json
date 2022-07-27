@@ -43,11 +43,9 @@
       "PATH_AVOID_DANGER_1",
       "CLIMBS",
       "GROUP_MORALE",
-      "LEATHER",
       "SWIMS",
       "PUSH_MON",
       "SWARMS",
-      "BONES",
       "CAN_OPEN_DOORS",
       "NO_BREATHE"
     ]
@@ -135,6 +133,6 @@
     "symbol": "C",
     "harvest": "lizardfolk",
     "path_settings": { "avoid_traps": true, "avoid_sharp": true },
-    "flags": [ "SEES", "HEARS", "SMELLS", "PATH_AVOID_DANGER_1", "GROUP_MORALE", "LEATHER", "NO_BREATHE" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "PATH_AVOID_DANGER_1", "GROUP_MORALE", "NO_BREATHE" ]
   }
 ]

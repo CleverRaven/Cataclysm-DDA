@@ -261,7 +261,10 @@ void vehicle::control_doors()
                 } else {
                     int part = next_part_to_close( motor );
                     if( part != -1 ) {
-                        if( part_flag( part, "CURTAIN" ) &&  option == CLOSEDOORS ) {
+                        if( part_flag( part, "CURTAIN" ) && option == CLOSEDOORS ) {
+                            continue;
+                        }
+                        if( !can_close( part, get_player_character() ) ) {
                             continue;
                         }
                         open_or_close( part, open );
@@ -269,6 +272,9 @@ void vehicle::control_doors()
                             next_part = next_part_to_close( motor );
                         }
                         if( next_part != -1 ) {
+                            if( !can_close( part, get_player_character() ) ) {
+                                continue;
+                            }
                             open_or_close( next_part, open );
                         }
                     }
@@ -1650,7 +1656,7 @@ bool vehicle::can_close( int part_index, Character &who )
                     }
                     return false;
                 }
-                if( parts[partID].has_fake ) {
+                if( parts[partID].has_fake && parts[parts[partID].fake_part_at].is_active_fake ) {
                     partID = parts[partID].fake_part_at;
                 } else {
                     partID = -1;

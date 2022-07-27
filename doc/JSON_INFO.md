@@ -2863,6 +2863,31 @@ See also VEHICLE_JSON.md
                                             * (you can't stack non-stackable part flags). */
 ```
 
+### Vehicle Part Migrations
+
+These migrations will (at runtime) replace one vehicle part id with another one.
+This is useful when vpart ids are changing or obsoleting one part for another.
+
+```json
+[
+  {
+    "type": "vehicle_part_migration",
+    "from": "old_vpart_id",
+    "to": "new_vpart_id"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "old_vpart_id",
+    "to": "new_vpart_id"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "old_vpart_id",
+    "to": "new_vpart_id"
+  }
+]
+```
+
 ### Weakpoint Sets
 A thin container for weakpoint definitions. The only unique fields for this object are `"id"` and `"type"`. The `"weakpoints"` array contains weakpoints that are defined the same way as in monster definitions. See [Weakpoints](MONSTERS.md#weakpoints) for details.
 

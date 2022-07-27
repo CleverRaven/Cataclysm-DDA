@@ -3675,15 +3675,6 @@
     "components": [ [ [ "antenna", 1 ] ], [ [ "e_scrap", 2 ] ], [ [ "transponder", 1 ] ], [ [ "plastic_chunk", 1 ] ] ]
   },
   {
-    "result": "rag",
-    "type": "uncraft",
-    "activity_level": "LIGHT_EXERCISE",
-    "time": "1 h",
-    "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "scrap_cotton", 4 ] ] ],
-    "//": "This should be obsoleted once we're sure nobody has any rags left and they're removed from any recipes i missed."
-  },
-  {
     "result": "stick_fiber",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
@@ -6202,7 +6193,7 @@
     "skill_used": "tailor",
     "difficulty": 3,
     "qualities": [ { "id": "CUT_FINE", "level": 2 } ],
-    "components": [ [ [ "thread_kevlar", 40 ] ] ],
+    "components": [ [ [ "thread_kevlar", 80 ] ] ],
     "//": "Realistically, this may be out of the question (though I have not found info to the contrary), and a full sheet would give way more thread, but this is to keep the time down"
   },
   {
@@ -6478,5 +6469,61 @@
     "time": "2 m",
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "scrap_aluminum", 10 ], [ "plastic_chunk", 3 ] ] ]
+  },
+  {
+    "result": "sheet_cotton",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "30 s",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "cotton_patchwork", 8 ] ] ]
+  },
+  {
+    "result": "sheet_faux_fur",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "30 s",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "faux_fur", 8 ] ] ]
+  },
+  {
+    "result": "sheet_felt",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "30 s",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "felt_patch", 8 ] ] ]
+  },
+  {
+    "result": "sheet_lycra",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "30 s",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "lycra_patch", 8 ] ] ]
+  },
+  {
+    "result": "sheet_neoprene",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "30 s",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "neoprene", 8 ] ] ]
+  },
+  {
+    "result": "sheet_nomex",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "30 s",
+    "qualities": [ { "id": "FABRIC_CUT", "level": 2 } ],
+    "components": [ [ [ "nomex", 8 ] ] ]
+  },
+  {
+    "result": "sheet_nylon",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "30 s",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "nylon", 8 ] ] ]
   }
 ]

@@ -894,6 +894,7 @@ class Character : public Creature, public visitable
 
         /** Returns true if the character is wearing something on the entered body_part, ignoring items with the ALLOWS_NATURAL_ATTACKS flag */
         bool natural_attack_restricted_on( const bodypart_id &bp ) const;
+        bool natural_attack_restricted_on( const sub_bodypart_id &bp ) const;
 
         int blocks_left;
         int dodges_left;
@@ -984,23 +985,23 @@ class Character : public Creature, public visitable
         // If average == true, adds expected values of random rolls instead of rolling.
         /** Adds all 3 types of physical damage to instance */
         void roll_all_damage( bool crit, damage_instance &di, bool average, const item &weap,
-                              std::string attack_vector,
+                              const std::string &attack_vector,
                               const Creature *target, const bodypart_id &bp ) const;
         /** Adds player's total bash damage to the damage instance */
         void roll_bash_damage( bool crit, damage_instance &di, bool average, const item &weap,
-                               std::string attack_vector,
+                               const std::string &attack_vector,
                                float crit_mod ) const;
         /** Adds player's total cut damage to the damage instance */
         void roll_cut_damage( bool crit, damage_instance &di, bool average, const item &weap,
-                              std::string attack_vector,
+                              const std::string &attack_vector,
                               float crit_mod ) const;
         /** Adds player's total stab damage to the damage instance */
         void roll_stab_damage( bool crit, damage_instance &di, bool average, const item &weap,
-                               std::string attack_vector,
+                               const std::string &attack_vector,
                                float crit_mod ) const;
         /** Adds player's total non-bash, non-cut, non-stab damage to the damage instance */
         void roll_other_damage( bool crit, damage_instance &di, bool average, const item &weap,
-                                std::string attack_vector,
+                                const std::string &attack_vector,
                                 float crit_mod ) const;
 
         /** Returns true if the player should be dead */
@@ -1107,7 +1108,7 @@ class Character : public Creature, public visitable
         trait_id random_bad_trait();
         /** Returns the id of a random trait matching the given predicate */
         trait_id get_random_trait( const std::function<bool( const mutation_branch & )> &func );
-        void randomize_cosmetic_trait( std::string mutation_type );
+        void randomize_cosmetic_trait( const std::string &mutation_type );
 
         // In mutation.cpp
         /** Returns true if the player has a conflicting trait to the entered trait
@@ -2169,7 +2170,7 @@ class Character : public Creature, public visitable
         // gets all the spells known by this character that have this spell class
         // spells returned are a copy, do not try to edit them from here, instead use known_magic::get_spell
         std::vector<spell> spells_known_of_class( const trait_id &spell_class ) const;
-        bool cast_spell( spell &sp, bool fake_spell, cata::optional<tripoint> target );
+        bool cast_spell( spell &sp, bool fake_spell, const cata::optional<tripoint> &target );
 
         void make_bleed( const effect_source &source, const bodypart_id &bp, time_duration duration,
                          int intensity = 1, bool permanent = false, bool force = false, bool defferred = false ) override;
@@ -2936,9 +2937,6 @@ class Character : public Creature, public visitable
         bool wearing_something_on( const bodypart_id &bp ) const;
         /** Returns true if the character is wearing something occupying the helmet slot */
         bool is_wearing_helmet() const;
-        /** Returns the total encumbrance of all SKINTIGHT and HELMET_COMPAT items covering
-         *  the head */
-        int head_cloth_encumbrance() const;
         /** Same as footwear factor, but for arms */
         double armwear_factor() const;
         /** Returns 1 if the player is wearing an item of that count on one foot, 2 if on both,

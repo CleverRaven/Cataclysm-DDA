@@ -219,7 +219,7 @@ void avatar::control_npc_menu()
     get_avatar().control_npc( *followers.at( charmenu.ret ) );
 }
 
-void avatar::longpull( const std::string name )
+void avatar::longpull( const std::string &name )
 {
     item wtmp( itype_mut_longpull );
     g->temp_exit_fullscreen();

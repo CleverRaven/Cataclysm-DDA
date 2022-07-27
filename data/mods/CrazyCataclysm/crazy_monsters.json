@@ -84,7 +84,7 @@
     "vision_night": 3,
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s melts away." },
     "harvest": "mr_bones",
-    "flags": [ "SEES", "HEARS", "HARDTOSHOOT", "REVIVES", "NO_BREATHE", "POISON", "BONES", "FILTHY" ]
+    "flags": [ "SEES", "HEARS", "HARDTOSHOOT", "REVIVES", "NO_BREATHE", "POISON", "FILTHY" ]
   },
   {
     "id": "mon_bear_smoky",
