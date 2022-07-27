@@ -404,7 +404,8 @@ void widget::load( const JsonObject &jo, const std::string & )
         optional( jo, was_loaded, "padding", _padding, 2 );
     }
     _height = _height_max;
-    _label_width = _label.empty() || has_flag( json_flag_W_LABEL_NONE ) ? 0 : utf8_width( _label.translated() );
+    _label_width = _label.empty() ||
+                   has_flag( json_flag_W_LABEL_NONE ) ? 0 : utf8_width( _label.translated() );
 
     if( jo.has_string( "var" ) ) {
         _var = io::string_to_enum<widget_var>( jo.get_string( "var" ) );
@@ -483,11 +484,6 @@ int widget::finalize_label_width_recursive( const widget_id &id )
     }
     // If we get here, we have a layout that contains nested widgets.
 
-    // Do not align label width over column layouts
-    if( w->_style == "layout" && w->_arrange != "rows" ) {
-            return 0;
-    }
-
     // Find the longest label width within this layout.
     int width = 0;
     for( const widget_id &wid : w->_widgets ) {
@@ -497,8 +493,14 @@ int widget::finalize_label_width_recursive( const widget_id &id )
             width = tmpw;
         }
     }
-    // Update this layout's label width to reflect the longest label within.
-    w->_label_width = width;
+
+    // Do not align label width over column layouts
+    if( w->_style == "layout" && w->_arrange != "rows" ) {
+        w->_label_width = 0;
+    } else {
+        // Update this layout's label width to reflect the longest label within.
+        w->_label_width = width;
+    }
     return w->_label_width;
 }
 
@@ -545,10 +547,12 @@ void widget::finalize()
     widget_factory.finalize();
 
     for( const widget &wgt : widget::get_all() ) {
-        if( wgt.explicit_separator || wgt.explicit_padding ) {
-            widget::finalize_inherited_fields_recursive( wgt.getId(), wgt._separator, wgt._padding );
+        if( wgt._style == "sidebar" ) {
+            if( wgt.explicit_separator || wgt.explicit_padding ) {
+                widget::finalize_inherited_fields_recursive( wgt.getId(), wgt._separator, wgt._padding );
+            }
+            widget::finalize_label_width_recursive( wgt.getId() );
         }
-        widget::finalize_label_width_recursive( wgt.getId() );
     }
 }
 
@@ -1635,7 +1639,7 @@ std::string widget::layout( const avatar &ava, unsigned int max_width, int label
             // Stack rows vertically into a multiline widget
             for( const widget_id &wid : wgts ) {
                 widget cur_child = wid.obj();
-                ret += sep + cur_child.layout( ava, max_width, label_width,
+                ret += sep + cur_child.layout( ava, max_width, label_width == 0 ? _label_width : label_width,
                                                skip_pad || wid->has_flag( json_flag_W_NO_PADDING ) );
                 sep = "\n";
                 h += wid->_height < 0 ? 0 : wid->_height;
