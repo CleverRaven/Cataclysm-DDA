@@ -2059,7 +2059,7 @@ void options_manager::add_options_graphics()
        ); // populate the options dynamically
 
     add( "USE_DISTANT_TILES", "graphics", to_translation( "Use separate tileset for far" ),
-         to_translation( "If true, when very zoomed out you will use a seperate tileset." ),
+         to_translation( "If true, when very zoomed out you will use a separate tileset." ),
          false, COPT_CURSES_HIDE
        );
 
