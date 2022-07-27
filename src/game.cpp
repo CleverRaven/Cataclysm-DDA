@@ -640,14 +640,18 @@ void game::reload_tileset()
     } catch( const std::exception &err ) {
         popup( _( "Loading the tileset failed: %s" ), err.what() );
     }
-    try {
-        fartilecontext->reinit();
-        fartilecontext->load_tileset( get_option<std::string>( "DISTANT_TILES" ),
-                                      /*precheck=*/false, /*force=*/true,
-                                      /*pump_events=*/true );
-        fartilecontext->do_tile_loading_report();
-    } catch( const std::exception &err ) {
-        popup( _( "Loading the zoomed out tileset failed: %s" ), err.what() );
+    if( use_far_tiles ) {
+        try {
+            if( fartilecontext->is_valid() ) {
+                fartilecontext->reinit();
+            }
+            fartilecontext->load_tileset( get_option<std::string>( "DISTANT_TILES" ),
+                                          /*precheck=*/false, /*force=*/true,
+                                          /*pump_events=*/true );
+            fartilecontext->do_tile_loading_report();
+        } catch( const std::exception &err ) {
+            popup( _( "Loading the zoomed out tileset failed: %s" ), err.what() );
+        }
     }
     try {
         overmap_tilecontext->reinit();

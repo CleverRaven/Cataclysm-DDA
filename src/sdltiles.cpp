@@ -3608,21 +3608,23 @@ void catacurses::init_interface()
     WinCreate();
 
     dbg( D_INFO ) << "Initializing SDL Tiles context";
-    fartilecontext = std::make_unique<cata_tiles>( renderer, geometry, ts_cache );
-    try {
-        // Disable UIs below to avoid accessing the tile context during loading.
-        ui_adaptor dummy( ui_adaptor::disable_uis_below {} );
-        fartilecontext->load_tileset( get_option<std::string>( "DISTANT_TILES" ),
-                                      /*precheck=*/true, /*force=*/false,
-                                      /*pump_events=*/true );
-    } catch( const std::exception &err ) {
-        dbg( D_ERROR ) << "failed to check for tileset: " << err.what();
-        // use_tiles is the cached value of the USE_TILES option.
-        // most (all?) code refers to this to see if cata_tiles should be used.
-        // Setting it to false disables this from getting used.
-        use_far_tiles = false;
+    fartilecontext = std::make_shared<cata_tiles>( renderer, geometry, ts_cache );
+    if( use_far_tiles ) {
+        try {
+            // Disable UIs below to avoid accessing the tile context during loading.
+            ui_adaptor dummy( ui_adaptor::disable_uis_below{} );
+            fartilecontext->load_tileset( get_option<std::string>( "DISTANT_TILES" ),
+                                          /*precheck=*/true, /*force=*/false,
+                                          /*pump_events=*/true );
+        } catch( const std::exception &err ) {
+            dbg( D_ERROR ) << "failed to check for tileset: " << err.what();
+            // use_tiles is the cached value of the USE_TILES option.
+            // most (all?) code refers to this to see if cata_tiles should be used.
+            // Setting it to false disables this from getting used.
+            use_far_tiles = false;
+        }
     }
-    closetilecontext = std::make_unique<cata_tiles>( renderer, geometry, ts_cache );
+    closetilecontext = std::make_shared<cata_tiles>( renderer, geometry, ts_cache );
     try {
         // Disable UIs below to avoid accessing the tile context during loading.
         ui_adaptor dummy( ui_adaptor::disable_uis_below{} );
@@ -3685,9 +3687,11 @@ void load_tileset()
     closetilecontext->load_tileset( get_option<std::string>( "TILES" ),
                                     /*precheck=*/false, /*force=*/false,
                                     /*pump_events=*/true );
-    fartilecontext->load_tileset( get_option<std::string>( "DISTANT_TILES" ),
-                                  /*precheck=*/false, /*force=*/false,
-                                  /*pump_events=*/true );
+    if( use_far_tiles ) {
+        fartilecontext->load_tileset( get_option<std::string>( "DISTANT_TILES" ),
+                                      /*precheck=*/false, /*force=*/false,
+                                      /*pump_events=*/true );
+    }
     tilecontext = closetilecontext;
     tilecontext->do_tile_loading_report();
 
