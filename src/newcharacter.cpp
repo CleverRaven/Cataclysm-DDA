@@ -2317,6 +2317,14 @@ static std::string assemble_hobby_details( const avatar &u, const input_context 
         }
     }
 
+    // Background missions
+    if( !sorted_hobbies[cur_id]->missions().empty() ) {
+        assembled += "\n" + colorize( _( "Background missions:" ), COL_HEADER ) + "\n";
+        for( mission_type_id mission_id : sorted_hobbies[cur_id]->missions() ) {
+            assembled += mission_type::get( mission_id )->tname() + "\n";
+        }
+    }
+
     return assembled;
 }
 
@@ -3031,6 +3039,13 @@ static std::string assemble_scenario_details( const avatar &u, const input_conte
     } else {
         assembled += _( "Default" );
         assembled += "\n";
+    }
+
+    if( !current_scenario->missions().empty() ) {
+        assembled += "\n" + colorize( _( "Scenario missions:" ), COL_HEADER ) + "\n";
+        for( mission_type_id mission_id : current_scenario->missions() ) {
+            assembled += mission_type::get( mission_id )->tname() + "\n";
+        }
     }
 
     //TODO: Move this to JSON?
