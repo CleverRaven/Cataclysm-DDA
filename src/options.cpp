@@ -2058,8 +2058,8 @@ void options_manager::add_options_graphics()
          build_tilesets_list(), "UltimateCataclysm", COPT_CURSES_HIDE
        ); // populate the options dynamically
 
-    add( "USE_DISTANT_TILES", "graphics", to_translation( "Use seperate tileset for far" ),
-         to_translation( "If true, when very zoomed out you will use a seperate tileset." ),
+    add( "USE_DISTANT_TILES", "graphics", to_translation( "Use separate tileset for far" ),
+         to_translation( "If true, when very zoomed out you will use a separate tileset." ),
          false, COPT_CURSES_HIDE
        );
 
