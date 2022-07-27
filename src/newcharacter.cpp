@@ -174,13 +174,9 @@ bool details_pane_handler::handle_details_pane_navigation( const std::string &ac
             point( getmaxx( w_ ) + getbegx( w_ ), getmaxy( w_ ) + getbegy( w_ ) ) );
     bool mouse_in_window = coord.has_value() && mouseover_area.contains( coord.value() );
 
-    if( action == "SCROLL_INFOBOX_UP" ) {
+    if( action == "SCROLL_INFOBOX_UP" || ( action == "SCROLL_UP" && mouse_in_window ) ) {
         text_view_ptr->scroll_up();
-    } else if( action == "SCROLL_INFOBOX_DOWN" ) {
-        text_view_ptr->scroll_down();
-    } else if( action == "SCROLL_UP" && mouse_in_window ) {
-        text_view_ptr->scroll_up();
-    } else if( action == "SCROLL_DOWN" && mouse_in_window ) {
+    } else if( action == "SCROLL_INFOBOX_DOWN" || ( action == "SCROLL_DOWN" && mouse_in_window ) ) {
         text_view_ptr->scroll_down();
     } else {
         return false;
