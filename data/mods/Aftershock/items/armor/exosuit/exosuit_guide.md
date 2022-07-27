@@ -31,13 +31,13 @@ Exosuits typically use a single large power supply unit, attached to the back.  
 
 
 ### Plating
-Each plating has a minimum weight of 500 g to represent the connection points.  The steel and plastic are based on 6mm thickness, while the VCC is 4mm thick to keep weight managable.  Exosuits can accept a wide range of plating.  Plastic, steel, and vaccum-cast carbide are common.  Improvised armor has been found on frontiers and in the underworld.  The plates are rounded, using a ball-and-joint system somewhat resembling a hard diving or EVA suit.
+Each plating has a minimum weight of 500 g to represent the connection points.  The steel and plastic are based on 6mm thickness, while the VCC is 4mm thick to keep weight manageable.  Exosuits can accept a wide range of plating.  Plastic, steel, and vacuum-cast carbide are common.  Improvised armor has been found on frontiers and in the underworld.  The plates are rounded, using a ball-and-joint system somewhat resembling a hard diving or EVA suit.
 
 | Plating              | Weight   
 | ---                  | ---
 | Plastic              | 11.01 kg
 | Tempered Steel       | 44.05 kg
-| Vaccum-cast Carbide  | 65.41 kg 
+| Vacuum-cast Carbide  | 65.41 kg 
    
 ### Modules
 A variety of modules are available, ranging from sensor packages to batteries to load-bearing modules to jetpacks.  These are built in a swappable black box configuration, requiring only that the module be mounted on the suit's connection points. 
@@ -53,13 +53,13 @@ Modules come in Small, Medium, Large, Helmet, and PSU. The helmet modules can on
 | Helmet       | 0.25 L | 0.5 kg
 | PSU          |   25 L | 140 kg
 
-| Location | Weight Cap | Volume Cap | Large | Medium | Small | Helmet | PSU
-| ---      | ---        | ---        | ---   | ---    | ---   | ---    | ---
-| Helmet   |  2 L       |  5 kg      | No    | No     | No    | Yes    | No
-| Torso    |  4 L       | 15 kg      | Yes   | Yes    | Yes   | No     | No 
-| Arm      | 10 L       | 10 kg      | No    | Yes    | Yes   | No     | No
-| Leg      | 10 L       | 10 kg      | No    | Yes    | Yes   | No     | No
-| PSU      | 75 L       | 75 kg      | Yes   | Yes    | Yes   | No     | Yes
+| Location | Large | Medium | Small | Helmet | PSU
+| ---      | ---   | ---    | ---   | ---    | ---
+| Helmet   | 0     | 0      | 0     |  4     | 0
+| Torso    | 2     | 0      | 2     | 0      | 0 
+| Arm      | 0     | 2      | 2     | 0      | 0
+| Leg      | 0     | 2      | 2     | 0      | 0
+| PSU      | 0     | 0      | 0     | 0      | 1
 
 | Module         | Class  | Power Draw | Weight | Description
 | ---            | ---    | ---        | ---    | ---
@@ -90,7 +90,7 @@ Modules come in Small, Medium, Large, Helmet, and PSU. The helmet modules can on
 | Quickdraw Sheath  | Medium | 1500 ml    | 5 kg       |  500 g | Assisted draw sheath.
 
 ### Operation
-The basic operation is based on the frame mirroring the pilot's motions.  This works well for movement, though fine manipulation takes practice as pilots must adapt to the suit's feedback.  Once certified, a pilot receives additional training in their field, learning to use their specialized equipemnt.  The exosuit is easily outfitted for hazardous environments ranging from frozen tundra to burning deserts, from underwater to orbit.
+The basic operation is based on the frame mirroring the pilot's motions.  This works well for movement, though fine manipulation takes practice as pilots must adapt to the suit's feedback.  Once certified, a pilot receives additional training in their field, learning to use their specialized equipment.  The exosuit is easily outfitted for hazardous environments ranging from frozen tundra to burning deserts, from underwater to orbit.
 
 ### Repairs
 The frame itself is somewhat difficulty to repair due to the complex components and the titanium used.
@@ -100,7 +100,7 @@ See Exosuit Repair Kit, Exosuit Maintenance Gantry
 
 # Balance
 ### Power Consumption
-The inital power draw for the frame is based on the Aftershock suit operation time, 45 hours for the frame alone.  Adding plating and modules increases the weight, requiring power hungry support modules for all but the strongest pilots.  With the frame, helmet, battery PSU and carbide plating, the entire suit weighs just over 125 kg, before any additonal equipment is added.  For a default character, this means they would need several support modules just to move, and the minimum number would cut the runtime down to 21 hours.  Further modules add additional weight and potentially power draw.
+The initial power draw for the frame is based on the Aftershock suit operation time, 45 hours for the frame alone.  Adding plating and modules increases the weight, requiring power hungry support modules for all but the strongest pilots.  With the frame, helmet, battery PSU and carbide plating, the entire suit weighs just over 125 kg, before any additional equipment is added.  For a default character, this means they would need several support modules just to move, and the minimum number would cut the runtime down to 21 hours.  Further modules add additional weight and potentially power draw.
 
 ### Inspirations
 BattleTech, Beam Saber, Jovian Chronicles, Silent Storm, Fallout, Patlabor.
