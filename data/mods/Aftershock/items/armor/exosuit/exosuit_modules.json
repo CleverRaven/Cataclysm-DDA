@@ -113,14 +113,14 @@
     "name": { "str": "exosuit auxiliary battery", "str_pl": "exosuit auxiliary batteries" },
     "description": "This is a large rechargable auxiliary power unit that attaches to an exosuit hardpoint.",
     "weight": "5 kg",
-    "volume": "5 L",
+    "volume": "2500 L",
     "material": [ "plastic", "qt_steel" ],
     "symbol": "=",
     "looks_like": "storage_battery",
     "color": "light_gray",
     "ammo": [ "battery" ],
-    "flags": [ "FRAGILE", "CANT_WEAR", "NO_UNLOAD", "NO_RELOAD", "RECHARGE", "WATERPROOF", "IS_UPS", "EXO_LARGE_GADGET" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 4000 } } ]
+    "flags": [ "FRAGILE", "CANT_WEAR", "NO_UNLOAD", "NO_RELOAD", "RECHARGE", "WATERPROOF", "IS_UPS", "EXO_MEDIUM_GADGET" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 6000 } } ]
   },
   {
     "id": "exo_small_aux_power",
@@ -128,15 +128,15 @@
     "category": "exosuit",
     "name": { "str": "exosuit small auxiliary battery", "str_pl": "exosuit small auxiliary batteries" },
     "description": "This is a small rechargable auxiliary power unit that attaches to an exosuit hardpoint.",
-    "weight": "2 kg",
-    "volume": "1 L",
+    "weight": "500 g",
+    "volume": "500 ml",
     "material": [ "plastic", "qt_steel" ],
     "symbol": "=",
     "looks_like": "storage_battery",
     "color": "light_gray",
     "ammo": [ "battery" ],
     "flags": [ "FRAGILE", "CANT_WEAR", "NO_UNLOAD", "NO_RELOAD", "RECHARGE", "WATERPROOF", "IS_UPS", "EXO_SMALL_GADGET" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 1000 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 1500 } } ]
   },
   {
     "id": "exo_large_carry",

@@ -22,12 +22,12 @@ These are comfortable jumpsuits specially designed to integrate with the frame. 
 ### PSU
 Exosuits typically use a single large power supply unit, attached to the back.  Auxiliary batteries can be attached as well across the frame, extending the runtime. 
 
-| Name        | Capacity | Fuel    | Weight | Volume
-| ---         | ---      | ---     | ---    | ---
-| Battery PSU | 40000    | Battery | 15 kg  | 20 L
-| ICE PSU     | 10000    | Gasoline| 20 kg  | 25 L
-| Large Aux   | 4000     | Battery | 5 kg   |  5 L
-| Small Aux   | 1000     | Battery | 2 kg   |  1 L
+| Name          | Capacity | Fuel      | Weight | Volume | Notes
+| ---           | ---      | ---       | ---    | ---    | ---
+| Battery PSU   |   40000  | Battery   | 15 kg  | 20 L   | Standard battery unit
+| ICE PSU       |   10000  | Gasoline  | 20 kg  | 25 L   | Only runs when needed
+| Multifuel PSU |    5000  | Multiple  | 25 kg  | 25 L   | Burns a variety of liquid fuels
+| ASRG PSU      |   10000  | Unlimited | 50 kg  | 25 L   | Provides unlimited power at a slow trickle
 
 
 ### Plating
@@ -64,26 +64,30 @@ Modules come in Small, Medium, Large, Helmet, and PSU. The helmet modules can on
 | Module         | Class  | Power Draw | Weight | Description
 | ---            | ---    | ---        | ---    | ---
 | Large Support  | Large  | 1500       | 10 kg  | Adds an additional 30 kg of carry weight while active.
+| Jetpack        | Large  | ---        | 10 kg  | An ammonia-fueled jetpack provides a dash across terrain.
+| Large Aux      | Large  | Battery    |  5 kg  | Stores an additional 6000 battery.
+| Air Supply     | Medium | ---        |  2 kg  | A regenerating oxygen supply, activates in emergencies.
+| Climb Assist   | Medium | ---        |  5 kg  | Allows the user to climb walls.
+| Forcefield     | Medium | 5000       |  5 kg  | Toggles between 25 bash/cut or 40 ballistic/pierce.
+| Small Aux      | Medium | Battery    |  2 kg  | Stores an additional 1500 battery.
 | Small Support  | Small  | 1000       |  2 kg  | Adds an additional 20 kg of carry weight while active.
-| Zoom Lenses    | Helmet | ---        | 500 g  | Corrects vision and provides optical zoom.
 | Mounted Lamp   | Small  | 1000/2000  | 500 g  | A sturdy lamp with a low and high setting.
 | Recoil Control | Small  | 2000       | 500 g  | Reduces weapon dispersion while active.
-| Air Supply     | Medium | ---        |  2 kg  | A regenerating oxygen supply, activates in emergencies.
-| Imager         | Helmet | 50 per use | 500 g  | As the handheld tool, sees through walls.
-| Climb Assist   | Medium | ---        |  5 kg  | Allows the user to climb walls.
-| Jetpack        | Large  | ---        | 10 kg  | An ammonia-fueled jetpack provides a dash across terrain.
-| Forcefield     | Medium | 5000       |  5 kg  | Toggles between 25 bash/cut or 40 ballistic/pierce protection.
 | Med Injector   | Small  | ---        | 500 g  | Injects RA21E to treat injuries.
+| Zoom Lenses    | Helmet | ---        | 500 g  | Corrects vision and provides optical zoom.
+| Imager         | Helmet | 50 per use | 500 g  | As the handheld tool, sees through walls.
 
-| Storage Module   | Volume Cap | Weight Cap | Class  | Weight | Description
-| ---              | ---        | ---        | ---    | ---    | ---
-| Rifle Storage    | 9 L        | 10 kg      | Large  | 500 g  | As item Back Holster
-| Melee Storage    | 3750 ml    |  5 kg      | Medium | 500 g  | As item Back Scabbard
-| Storage Pack     | Multiple   | Multiple   | Large  | 2250 g | As item Large Tactical Backpack
-| Medium Pouch     | 2500 ml    | 5 kg       | Medium | 275 g  | As item Fanny Pack
-| Small Pouch      | 1500 ml    | 5 kg       | Small  | 125 g  | As item Leather Pouch
-| Large Ammo Pouch | Multiple   | Multiple   | Large  | 1750 g | As item Tac Vest
-| Small Ammo Pouch | 2 L        | 4 kg       | Medium | 1050 g | As item Drop Leg Pouches
+| Storage Module    | Class  | Volume Cap | Weight Cap | Weight | Description
+| ---               |---     | ---        | ---        | ---    | ---
+| Rifle Storage     | Large  | 9 L        | 10 kg      |  500 g | As item Back Holster.
+| Large Ammo Pouch  | Large  | Multiple   | Multiple   | 1750 g | As item Tac Vest.
+| Storage Pack      | Large  | Multiple   | Multiple   | 2250 g | As item Large Tactical Backpack.
+| Melee Storage     | Medium | 3750 ml    | 5 kg       |  500 g | As item Back Scabbard.
+| Medium Pouch      | Medium | 2500 ml    | 5 kg       |  275 g | As item Fanny Pack.
+| Small Ammo Pouch  | Medium | 2 L        | 4 kg       | 1050 g | As item Drop Leg Pouches.
+| Small Pouch       | Small  | 1500 ml    | 5 kg       |  125 g | As item Leather Pouch.
+| Quickdraw Holster | Medium | 1500 ml    | 5 kg       |  500 g | Assisted draw holster.
+| Quickdraw Sheath  | Medium | 1500 ml    | 5 kg       |  500 g | Assisted draw sheath.
 
 ### Operation
 The basic operation is based on the frame mirroring the pilot's motions.  This works well for movement, though fine manipulation takes practice as pilots must adapt to the suit's feedback.  Once certified, a pilot receives additional training in their field, learning to use their specialized equipemnt.  The exosuit is easily outfitted for hazardous environments ranging from frozen tundra to burning deserts, from underwater to orbit.
@@ -96,7 +100,7 @@ See Exosuit Repair Kit, Exosuit Maintenance Gantry
 
 # Balance
 ### Power Consumption
-The inital power draw for the frame is based on the Aftershock suit operation time, 45 hours for the frame alone.  Adding plating and modules increases the weight, requiring power hungry support modules for all but the strongest pilots.  With the frame, helmet, battery PSU and carbide plating, the entire suit weighs just under 126 kg, before any additonal equipment is added.  For a default character, this means they would need several support modules just to move, and the minimum number would cut the runtime down to 21 hours.  Further modules add additional weight and potentially power draw.
+The inital power draw for the frame is based on the Aftershock suit operation time, 45 hours for the frame alone.  Adding plating and modules increases the weight, requiring power hungry support modules for all but the strongest pilots.  With the frame, helmet, battery PSU and carbide plating, the entire suit weighs just over 125 kg, before any additonal equipment is added.  For a default character, this means they would need several support modules just to move, and the minimum number would cut the runtime down to 21 hours.  Further modules add additional weight and potentially power draw.
 
 ### Inspirations
 BattleTech, Beam Saber, Jovian Chronicles, Silent Storm, Fallout, Patlabor.
