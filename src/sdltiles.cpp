@@ -107,7 +107,9 @@ static const trait_id trait_DEBUG_NIGHTVISION( "DEBUG_NIGHTVISION" );
 //***********************************
 
 static tileset_cache ts_cache;
-std::unique_ptr<cata_tiles> tilecontext;
+std::shared_ptr<cata_tiles> tilecontext;
+std::shared_ptr<cata_tiles> closetilecontext;
+std::shared_ptr<cata_tiles> fartilecontext;
 std::unique_ptr<cata_tiles> overmap_tilecontext;
 static uint32_t lastupdate = 0;
 static uint32_t interval = 25;
@@ -3603,13 +3605,28 @@ void catacurses::init_interface()
     WinCreate();
 
     dbg( D_INFO ) << "Initializing SDL Tiles context";
-    tilecontext = std::make_unique<cata_tiles>( renderer, geometry, ts_cache );
+    fartilecontext = std::make_unique<cata_tiles>( renderer, geometry, ts_cache );
     try {
         // Disable UIs below to avoid accessing the tile context during loading.
         ui_adaptor dummy( ui_adaptor::disable_uis_below {} );
-        tilecontext->load_tileset( get_option<std::string>( "TILES" ),
-                                   /*precheck=*/true, /*force=*/false,
-                                   /*pump_events=*/true );
+        fartilecontext->load_tileset( get_option<std::string>( "DISTANT_TILES" ),
+                                      /*precheck=*/true, /*force=*/false,
+                                      /*pump_events=*/true );
+    } catch( const std::exception &err ) {
+        dbg( D_ERROR ) << "failed to check for tileset: " << err.what();
+        // use_tiles is the cached value of the USE_TILES option.
+        // most (all?) code refers to this to see if cata_tiles should be used.
+        // Setting it to false disables this from getting used.
+        use_far_tiles = false;
+    }
+    closetilecontext = std::make_unique<cata_tiles>( renderer, geometry, ts_cache );
+    try {
+        // Disable UIs below to avoid accessing the tile context during loading.
+        ui_adaptor dummy( ui_adaptor::disable_uis_below{} );
+        closetilecontext->load_tileset( get_option<std::string>( "TILES" ),
+                                        /*precheck=*/true, /*force=*/false,
+                                        /*pump_events=*/true );
+        tilecontext = closetilecontext;
     } catch( const std::exception &err ) {
         dbg( D_ERROR ) << "failed to check for tileset: " << err.what();
         // use_tiles is the cached value of the USE_TILES option.
@@ -3800,6 +3817,13 @@ bool gamepad_available()
 
 void rescale_tileset( int size )
 {
+    if( size >= 32 ) {
+        tilecontext = fartilecontext;
+        g->mark_main_ui_adaptor_resize();
+    } else {
+        tilecontext = closetilecontext;
+        g->mark_main_ui_adaptor_resize();
+    }
     tilecontext->set_draw_scale( size );
 }
 
