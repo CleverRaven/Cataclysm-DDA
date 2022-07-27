@@ -1,6 +1,6 @@
 # Exosuit Guide
 
-#Getting started
+# Getting started
 
 The exosuit is multirole powered exoskeleton. Like other exoskeletons, it is worn and activated to provide a bonus to the pilot's strength. 
 
