@@ -387,7 +387,7 @@ void widget::load( const JsonObject &jo, const std::string & )
         explicit_padding = true;
     } else {
         explicit_separator = jo.has_string( "separator" );
-        explicit_padding = jo.has_string( "padding" );
+        explicit_padding = jo.has_number( "padding" );
         optional( jo, was_loaded, "separator", _separator, default_separator );
         optional( jo, was_loaded, "padding", _padding, 2 );
     }
@@ -1754,7 +1754,8 @@ std::string format_widget_multiline( const std::vector<std::string> &keys, int m
                 }
             }
         }
-        if( row < h_max - 1 ) {
+        // Newline, if not the last row, and still keys left
+        if( row < h_max - 1 && nidx < nsize ) {
             ret += "\n";
         }
         height++;

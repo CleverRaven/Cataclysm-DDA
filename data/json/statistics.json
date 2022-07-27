@@ -783,8 +783,7 @@
     "id": "num_gains_speech_level_7",
     "type": "event_statistic",
     "stat_type": "count",
-    "event_transformation": "avatar_gains_speech_level_7",
-    "description": { "str_sp": "social skill level 7 gained" }
+    "event_transformation": "avatar_gains_speech_level_7"
   },
   {
     "id": "avatar_gains_computer_level_7",
@@ -801,8 +800,7 @@
     "id": "num_gains_computer_level_7",
     "type": "event_statistic",
     "stat_type": "count",
-    "event_transformation": "avatar_gains_computer_level_7",
-    "description": { "str_sp": "computers skill level 7 gained" }
+    "event_transformation": "avatar_gains_computer_level_7"
   },
   {
     "id": "avatar_gains_firstaid_level_7",
@@ -819,8 +817,7 @@
     "id": "num_gains_firstaid_level_7",
     "type": "event_statistic",
     "stat_type": "count",
-    "event_transformation": "avatar_gains_firstaid_level_7",
-    "description": { "str_sp": "health care skill level 7 gained" }
+    "event_transformation": "avatar_gains_firstaid_level_7"
   },
   {
     "id": "avatar_gains_mechanics_level_7",
@@ -837,8 +834,7 @@
     "id": "num_gains_mechanics_level_7",
     "type": "event_statistic",
     "stat_type": "count",
-    "event_transformation": "avatar_gains_mechanics_level_7",
-    "description": { "str_sp": "mechanics skill level 7 gained" }
+    "event_transformation": "avatar_gains_mechanics_level_7"
   },
   {
     "id": "avatar_gains_traps_level_7",
@@ -855,8 +851,7 @@
     "id": "num_gains_traps_level_7",
     "type": "event_statistic",
     "stat_type": "count",
-    "event_transformation": "avatar_gains_traps_level_7",
-    "description": { "str_sp": "devices skill level 7 gained" }
+    "event_transformation": "avatar_gains_traps_level_7"
   },
   {
     "id": "avatar_gains_driving_level_7",
@@ -873,8 +868,7 @@
     "id": "num_gains_driving_level_7",
     "type": "event_statistic",
     "stat_type": "count",
-    "event_transformation": "avatar_gains_driving_level_7",
-    "description": { "str_sp": "vehicles skill level 7 gained" }
+    "event_transformation": "avatar_gains_driving_level_7"
   },
   {
     "id": "avatar_gains_swimming_level_7",
@@ -891,8 +885,7 @@
     "id": "num_gains_swimming_level_7",
     "type": "event_statistic",
     "stat_type": "count",
-    "event_transformation": "avatar_gains_swimming_level_7",
-    "description": { "str_sp": "athletics skill level 7 gained" }
+    "event_transformation": "avatar_gains_swimming_level_7"
   },
   {
     "id": "avatar_gains_fabrication_level_7",
@@ -909,8 +902,7 @@
     "id": "num_gains_fabrication_level_7",
     "type": "event_statistic",
     "stat_type": "count",
-    "event_transformation": "avatar_gains_fabrication_level_7",
-    "description": { "str_sp": "fabrication skill level 7 gained" }
+    "event_transformation": "avatar_gains_fabrication_level_7"
   },
   {
     "id": "avatar_gains_cooking_level_7",
@@ -927,8 +919,7 @@
     "id": "num_gains_cooking_level_7",
     "type": "event_statistic",
     "stat_type": "count",
-    "event_transformation": "avatar_gains_cooking_level_7",
-    "description": { "str_sp": "food handling skill level 7 gained" }
+    "event_transformation": "avatar_gains_cooking_level_7"
   },
   {
     "id": "avatar_gains_tailor_level_7",
@@ -945,8 +936,7 @@
     "id": "num_gains_tailor_level_7",
     "type": "event_statistic",
     "stat_type": "count",
-    "event_transformation": "avatar_gains_tailor_level_7",
-    "description": { "str_sp": "tailoring skill level 7 gained" }
+    "event_transformation": "avatar_gains_tailor_level_7"
   },
   {
     "id": "avatar_gains_survival_level_7",
@@ -963,8 +953,7 @@
     "id": "num_gains_survival_level_7",
     "type": "event_statistic",
     "stat_type": "count",
-    "event_transformation": "avatar_gains_survival_level_7",
-    "description": { "str_sp": "survival skill level 7 gained" }
+    "event_transformation": "avatar_gains_survival_level_7"
   },
   {
     "id": "avatar_gains_electronics_level_7",
@@ -981,8 +970,7 @@
     "id": "num_gains_electronics_level_7",
     "type": "event_statistic",
     "stat_type": "count",
-    "event_transformation": "avatar_gains_electronics_level_7",
-    "description": { "str_sp": "electronics skill level 7 gained" }
+    "event_transformation": "avatar_gains_electronics_level_7"
   },
   {
     "id": "avatar_gains_archery_level_7",
@@ -999,8 +987,7 @@
     "id": "num_gains_archery_level_7",
     "type": "event_statistic",
     "stat_type": "count",
-    "event_transformation": "avatar_gains_archery_level_7",
-    "description": { "str_sp": "archery skill level 7 gained" }
+    "event_transformation": "avatar_gains_archery_level_7"
   },
   {
     "id": "avatar_gains_gun_level_7",
@@ -1017,8 +1004,7 @@
     "id": "num_gains_gun_level_7",
     "type": "event_statistic",
     "stat_type": "count",
-    "event_transformation": "avatar_gains_gun_level_7",
-    "description": { "str_sp": "marksmanship skill level 7 gained" }
+    "event_transformation": "avatar_gains_gun_level_7"
   },
   {
     "id": "avatar_gains_launcher_level_7",
@@ -1035,8 +1021,7 @@
     "id": "num_gains_launcher_level_7",
     "type": "event_statistic",
     "stat_type": "count",
-    "event_transformation": "avatar_gains_launcher_level_7",
-    "description": { "str_sp": "launchers skill level 7 gained" }
+    "event_transformation": "avatar_gains_launcher_level_7"
   },
   {
     "id": "avatar_gains_pistol_level_7",
@@ -1053,8 +1038,7 @@
     "id": "num_gains_pistol_level_7",
     "type": "event_statistic",
     "stat_type": "count",
-    "event_transformation": "avatar_gains_pistol_level_7",
-    "description": { "str_sp": "handguns skill level 7 gained" }
+    "event_transformation": "avatar_gains_pistol_level_7"
   },
   {
     "id": "avatar_gains_rifle_level_7",
@@ -1071,8 +1055,7 @@
     "id": "num_gains_rifle_level_7",
     "type": "event_statistic",
     "stat_type": "count",
-    "event_transformation": "avatar_gains_rifle_level_7",
-    "description": { "str_sp": "rifles skill level 7 gained" }
+    "event_transformation": "avatar_gains_rifle_level_7"
   },
   {
     "id": "avatar_gains_shotgun_level_7",
@@ -1089,8 +1072,7 @@
     "id": "num_gains_shotgun_level_7",
     "type": "event_statistic",
     "stat_type": "count",
-    "event_transformation": "avatar_gains_shotgun_level_7",
-    "description": { "str_sp": "shotguns skill level 7 gained" }
+    "event_transformation": "avatar_gains_shotgun_level_7"
   },
   {
     "id": "avatar_gains_smg_level_7",
@@ -1107,8 +1089,7 @@
     "id": "num_gains_smg_level_7",
     "type": "event_statistic",
     "stat_type": "count",
-    "event_transformation": "avatar_gains_smg_level_7",
-    "description": { "str_sp": "submachine guns skill level 7 gained" }
+    "event_transformation": "avatar_gains_smg_level_7"
   },
   {
     "id": "avatar_gains_throw_level_7",
@@ -1125,8 +1106,7 @@
     "id": "num_gains_throw_level_7",
     "type": "event_statistic",
     "stat_type": "count",
-    "event_transformation": "avatar_gains_throw_level_7",
-    "description": { "str_sp": "throwing skill level 7 gained" }
+    "event_transformation": "avatar_gains_throw_level_7"
   },
   {
     "id": "avatar_gains_melee_level_7",
@@ -1143,8 +1123,7 @@
     "id": "num_gains_melee_level_7",
     "type": "event_statistic",
     "stat_type": "count",
-    "event_transformation": "avatar_gains_melee_level_7",
-    "description": { "str_sp": "melee skill level 7 gained" }
+    "event_transformation": "avatar_gains_melee_level_7"
   },
   {
     "id": "avatar_gains_bashing_level_7",
@@ -1161,8 +1140,7 @@
     "id": "num_gains_bashing_level_7",
     "type": "event_statistic",
     "stat_type": "count",
-    "event_transformation": "avatar_gains_bashing_level_7",
-    "description": { "str_sp": "bashing weapons skill level 7 gained" }
+    "event_transformation": "avatar_gains_bashing_level_7"
   },
   {
     "id": "avatar_gains_cutting_level_7",
@@ -1179,8 +1157,7 @@
     "id": "num_gains_cutting_level_7",
     "type": "event_statistic",
     "stat_type": "count",
-    "event_transformation": "avatar_gains_cutting_level_7",
-    "description": { "str_sp": "cutting weapons skill level 7 gained" }
+    "event_transformation": "avatar_gains_cutting_level_7"
   },
   {
     "id": "avatar_gains_dodge_level_7",
@@ -1197,8 +1174,7 @@
     "id": "num_gains_dodge_level_7",
     "type": "event_statistic",
     "stat_type": "count",
-    "event_transformation": "avatar_gains_dodge_level_7",
-    "description": { "str_sp": "dodging skill level 7 gained" }
+    "event_transformation": "avatar_gains_dodge_level_7"
   },
   {
     "id": "avatar_gains_stabbing_level_7",
@@ -1215,8 +1191,7 @@
     "id": "num_gains_stabbing_level_7",
     "type": "event_statistic",
     "stat_type": "count",
-    "event_transformation": "avatar_gains_stabbing_level_7",
-    "description": { "str_sp": "piercing weapons skill level 7 gained" }
+    "event_transformation": "avatar_gains_stabbing_level_7"
   },
   {
     "id": "avatar_gains_unarmed_level_7",
@@ -1233,8 +1208,7 @@
     "id": "num_gains_unarmed_level_7",
     "type": "event_statistic",
     "stat_type": "count",
-    "event_transformation": "avatar_gains_unarmed_level_7",
-    "description": { "str_sp": "unarmed combat skill level 7 gained" }
+    "event_transformation": "avatar_gains_unarmed_level_7"
   },
   {
     "id": "avatar_gains_chemistry_level_7",
@@ -1251,8 +1225,7 @@
     "id": "num_gains_chemistry_level_7",
     "type": "event_statistic",
     "stat_type": "count",
-    "event_transformation": "avatar_gains_chemistry_level_7",
-    "description": { "str_sp": "applied science skill level 7 gained" }
+    "event_transformation": "avatar_gains_chemistry_level_7"
   },
   {
     "id": "avatar_gains_speech_level_10",
@@ -1269,8 +1242,7 @@
     "id": "num_gains_speech_level_10",
     "type": "event_statistic",
     "stat_type": "count",
-    "event_transformation": "avatar_gains_speech_level_10",
-    "description": { "str_sp": "social skill level 10 gained" }
+    "event_transformation": "avatar_gains_speech_level_10"
   },
   {
     "id": "avatar_gains_computer_level_10",
@@ -1287,8 +1259,7 @@
     "id": "num_gains_computer_level_10",
     "type": "event_statistic",
     "stat_type": "count",
-    "event_transformation": "avatar_gains_computer_level_10",
-    "description": { "str_sp": "computers skill level 10 gained" }
+    "event_transformation": "avatar_gains_computer_level_10"
   },
   {
     "id": "avatar_gains_firstaid_level_10",
@@ -1305,8 +1276,7 @@
     "id": "num_gains_firstaid_level_10",
     "type": "event_statistic",
     "stat_type": "count",
-    "event_transformation": "avatar_gains_firstaid_level_10",
-    "description": { "str_sp": "health care skill level 10 gained" }
+    "event_transformation": "avatar_gains_firstaid_level_10"
   },
   {
     "id": "avatar_gains_mechanics_level_10",
@@ -1323,8 +1293,7 @@
     "id": "num_gains_mechanics_level_10",
     "type": "event_statistic",
     "stat_type": "count",
-    "event_transformation": "avatar_gains_mechanics_level_10",
-    "description": { "str_sp": "mechanics skill level 10 gained" }
+    "event_transformation": "avatar_gains_mechanics_level_10"
   },
   {
     "id": "avatar_gains_traps_level_10",
@@ -1341,8 +1310,7 @@
     "id": "num_gains_traps_level_10",
     "type": "event_statistic",
     "stat_type": "count",
-    "event_transformation": "avatar_gains_traps_level_10",
-    "description": { "str_sp": "devices skill level 10 gained" }
+    "event_transformation": "avatar_gains_traps_level_10"
   },
   {
     "id": "avatar_gains_driving_level_10",
@@ -1359,8 +1327,7 @@
     "id": "num_gains_driving_level_10",
     "type": "event_statistic",
     "stat_type": "count",
-    "event_transformation": "avatar_gains_driving_level_10",
-    "description": { "str_sp": "vehicles skill level 10 gained" }
+    "event_transformation": "avatar_gains_driving_level_10"
   },
   {
     "id": "avatar_gains_swimming_level_10",
@@ -1377,8 +1344,7 @@
     "id": "num_gains_swimming_level_10",
     "type": "event_statistic",
     "stat_type": "count",
-    "event_transformation": "avatar_gains_swimming_level_10",
-    "description": { "str_sp": "athletics skill level 10 gained" }
+    "event_transformation": "avatar_gains_swimming_level_10"
   },
   {
     "id": "avatar_gains_fabrication_level_10",
@@ -1395,8 +1361,7 @@
     "id": "num_gains_fabrication_level_10",
     "type": "event_statistic",
     "stat_type": "count",
-    "event_transformation": "avatar_gains_fabrication_level_10",
-    "description": { "str_sp": "fabrication skill level 10 gained" }
+    "event_transformation": "avatar_gains_fabrication_level_10"
   },
   {
     "id": "avatar_gains_cooking_level_10",
@@ -1413,8 +1378,7 @@
     "id": "num_gains_cooking_level_10",
     "type": "event_statistic",
     "stat_type": "count",
-    "event_transformation": "avatar_gains_cooking_level_10",
-    "description": { "str_sp": "food handling skill level 10 gained" }
+    "event_transformation": "avatar_gains_cooking_level_10"
   },
   {
     "id": "avatar_gains_tailor_level_10",
@@ -1431,8 +1395,7 @@
     "id": "num_gains_tailor_level_10",
     "type": "event_statistic",
     "stat_type": "count",
-    "event_transformation": "avatar_gains_tailor_level_10",
-    "description": { "str_sp": "tailoring skill level 10 gained" }
+    "event_transformation": "avatar_gains_tailor_level_10"
   },
   {
     "id": "avatar_gains_survival_level_10",
@@ -1449,8 +1412,7 @@
     "id": "num_gains_survival_level_10",
     "type": "event_statistic",
     "stat_type": "count",
-    "event_transformation": "avatar_gains_survival_level_10",
-    "description": { "str_sp": "survival skill level 10 gained" }
+    "event_transformation": "avatar_gains_survival_level_10"
   },
   {
     "id": "avatar_gains_electronics_level_10",
@@ -1467,8 +1429,7 @@
     "id": "num_gains_electronics_level_10",
     "type": "event_statistic",
     "stat_type": "count",
-    "event_transformation": "avatar_gains_electronics_level_10",
-    "description": { "str_sp": "electronics skill level 10 gained" }
+    "event_transformation": "avatar_gains_electronics_level_10"
   },
   {
     "id": "avatar_gains_archery_level_10",
@@ -1485,8 +1446,7 @@
     "id": "num_gains_archery_level_10",
     "type": "event_statistic",
     "stat_type": "count",
-    "event_transformation": "avatar_gains_archery_level_10",
-    "description": { "str_sp": "archery skill level 10 gained" }
+    "event_transformation": "avatar_gains_archery_level_10"
   },
   {
     "id": "avatar_gains_gun_level_10",
@@ -1503,8 +1463,7 @@
     "id": "num_gains_gun_level_10",
     "type": "event_statistic",
     "stat_type": "count",
-    "event_transformation": "avatar_gains_gun_level_10",
-    "description": { "str_sp": "marksmanship skill level 10 gained" }
+    "event_transformation": "avatar_gains_gun_level_10"
   },
   {
     "id": "avatar_gains_launcher_level_10",
@@ -1521,8 +1480,7 @@
     "id": "num_gains_launcher_level_10",
     "type": "event_statistic",
     "stat_type": "count",
-    "event_transformation": "avatar_gains_launcher_level_10",
-    "description": { "str_sp": "launchers skill level 10 gained" }
+    "event_transformation": "avatar_gains_launcher_level_10"
   },
   {
     "id": "avatar_gains_pistol_level_10",
@@ -1539,8 +1497,7 @@
     "id": "num_gains_pistol_level_10",
     "type": "event_statistic",
     "stat_type": "count",
-    "event_transformation": "avatar_gains_pistol_level_10",
-    "description": { "str_sp": "handguns skill level 10 gained" }
+    "event_transformation": "avatar_gains_pistol_level_10"
   },
   {
     "id": "avatar_gains_rifle_level_10",
@@ -1557,8 +1514,7 @@
     "id": "num_gains_rifle_level_10",
     "type": "event_statistic",
     "stat_type": "count",
-    "event_transformation": "avatar_gains_rifle_level_10",
-    "description": { "str_sp": "rifles skill level 10 gained" }
+    "event_transformation": "avatar_gains_rifle_level_10"
   },
   {
     "id": "avatar_gains_shotgun_level_10",
@@ -1575,8 +1531,7 @@
     "id": "num_gains_shotgun_level_10",
     "type": "event_statistic",
     "stat_type": "count",
-    "event_transformation": "avatar_gains_shotgun_level_10",
-    "description": { "str_sp": "shotguns skill level 10 gained" }
+    "event_transformation": "avatar_gains_shotgun_level_10"
   },
   {
     "id": "avatar_gains_smg_level_10",
@@ -1593,8 +1548,7 @@
     "id": "num_gains_smg_level_10",
     "type": "event_statistic",
     "stat_type": "count",
-    "event_transformation": "avatar_gains_smg_level_10",
-    "description": { "str_sp": "submachine guns skill level 10 gained" }
+    "event_transformation": "avatar_gains_smg_level_10"
   },
   {
     "id": "avatar_gains_throw_level_10",
@@ -1611,8 +1565,7 @@
     "id": "num_gains_throw_level_10",
     "type": "event_statistic",
     "stat_type": "count",
-    "event_transformation": "avatar_gains_throw_level_10",
-    "description": { "str_sp": "throwing skill level 10 gained" }
+    "event_transformation": "avatar_gains_throw_level_10"
   },
   {
     "id": "avatar_gains_melee_level_10",
@@ -1629,8 +1582,7 @@
     "id": "num_gains_melee_level_10",
     "type": "event_statistic",
     "stat_type": "count",
-    "event_transformation": "avatar_gains_melee_level_10",
-    "description": { "str_sp": "melee skill level 10 gained" }
+    "event_transformation": "avatar_gains_melee_level_10"
   },
   {
     "id": "avatar_gains_bashing_level_10",
@@ -1647,8 +1599,7 @@
     "id": "num_gains_bashing_level_10",
     "type": "event_statistic",
     "stat_type": "count",
-    "event_transformation": "avatar_gains_bashing_level_10",
-    "description": { "str_sp": "bashing weapons skill level 10 gained" }
+    "event_transformation": "avatar_gains_bashing_level_10"
   },
   {
     "id": "avatar_gains_cutting_level_10",
@@ -1665,8 +1616,7 @@
     "id": "num_gains_cutting_level_10",
     "type": "event_statistic",
     "stat_type": "count",
-    "event_transformation": "avatar_gains_cutting_level_10",
-    "description": { "str_sp": "cutting weapons skill level 10 gained" }
+    "event_transformation": "avatar_gains_cutting_level_10"
   },
   {
     "id": "avatar_gains_dodge_level_10",
@@ -1683,8 +1633,7 @@
     "id": "num_gains_dodge_level_10",
     "type": "event_statistic",
     "stat_type": "count",
-    "event_transformation": "avatar_gains_dodge_level_10",
-    "description": { "str_sp": "dodging skill level 10 gained" }
+    "event_transformation": "avatar_gains_dodge_level_10"
   },
   {
     "id": "avatar_gains_stabbing_level_10",
@@ -1701,8 +1650,7 @@
     "id": "num_gains_stabbing_level_10",
     "type": "event_statistic",
     "stat_type": "count",
-    "event_transformation": "avatar_gains_stabbing_level_10",
-    "description": { "str_sp": "piercing weapons skill level 10 gained" }
+    "event_transformation": "avatar_gains_stabbing_level_10"
   },
   {
     "id": "avatar_gains_unarmed_level_10",
@@ -1719,8 +1667,7 @@
     "id": "num_gains_unarmed_level_10",
     "type": "event_statistic",
     "stat_type": "count",
-    "event_transformation": "avatar_gains_unarmed_level_10",
-    "description": { "str_sp": "unarmed combat skill level 10 gained" }
+    "event_transformation": "avatar_gains_unarmed_level_10"
   },
   {
     "id": "avatar_gains_chemistry_level_10",
@@ -1737,8 +1684,7 @@
     "id": "num_gains_chemistry_level_10",
     "type": "event_statistic",
     "stat_type": "count",
-    "event_transformation": "avatar_gains_chemistry_level_10",
-    "description": { "str_sp": "applied science skill level 10 gained" }
+    "event_transformation": "avatar_gains_chemistry_level_10"
   },
   {
     "id": "avatar_reads_book",

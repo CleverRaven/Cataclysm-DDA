@@ -8,8 +8,8 @@
       "You consumed a large amount of stego mutagen.",
       "You consumed a life-changing amount of stego mutagen."
     ],
-    "main_parts_only": true,
     "max_intensity": 3,
+    "resist_traits": [ "THRESH_STEGO" ],
     "base_mods": {
       "hurt_min": [ 1 ],
       "hurt_max": [ 2 ],
@@ -20,7 +20,7 @@
       "pain_chance": [ 100 ],
       "pain_tick": [ 75 ]
     },
-    "scaling_mods": { "hurt_chance": [ 21 ], "pain_chance": [ -30 ] },
+    "scaling_mods": { "hurt_chance": [ 21, 0 ], "pain_chance": [ -30 ] },
     "rating": "bad",
     "blood_analysis_description": "Stego Mutagen Contamination"
   },
@@ -33,8 +33,8 @@
       "You consumed a large amount of tyrant mutagen.",
       "You consumed a life-changing amount of tyrant mutagen."
     ],
-    "main_parts_only": true,
     "max_intensity": 3,
+    "resist_traits": [ "THRESH_TYRANT" ],
     "base_mods": {
       "hurt_min": [ 1 ],
       "hurt_max": [ 2 ],
@@ -45,7 +45,7 @@
       "pain_chance": [ 100 ],
       "pain_tick": [ 75 ]
     },
-    "scaling_mods": { "hurt_chance": [ 21 ], "pain_chance": [ -30 ] },
+    "scaling_mods": { "hurt_chance": [ 21, 0 ], "pain_chance": [ -30 ] },
     "rating": "bad",
     "blood_analysis_description": "Tyrant Mutagen Contamination"
   }

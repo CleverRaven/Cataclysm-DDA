@@ -172,7 +172,8 @@ units::volume map_stack::max_volume() const
 
 // Map class methods.
 
-map::map( int mapsize, bool zlev ) : my_MAPSIZE( mapsize ), zlevels( zlev )
+map::map( int mapsize, bool zlev ) : my_MAPSIZE( mapsize ), my_HALF_MAPSIZE( mapsize / 2 ),
+    zlevels( zlev )
 {
 
     if( zlevels ) {
@@ -8215,6 +8216,16 @@ bool map::inbounds( const tripoint &p ) const
 bool map::inbounds( const tripoint_bub_ms &p ) const
 {
     return inbounds( p.raw() );
+}
+
+bool map::inbounds( const tripoint_abs_omt &p ) const
+{
+    const tripoint_abs_omt map_origin = project_to<coords::omt>( abs_sub );
+    return inbounds_z( p.z() ) &&
+           p.x() >= map_origin.x() &&
+           p.y() >= map_origin.y() &&
+           p.x() <= map_origin.x() + my_HALF_MAPSIZE &&
+           p.y() <= map_origin.y() + my_HALF_MAPSIZE;
 }
 
 bool tinymap::inbounds( const tripoint &p ) const

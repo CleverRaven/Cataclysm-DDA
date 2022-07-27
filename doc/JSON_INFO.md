@@ -98,6 +98,7 @@ Use the `Home` key to return to the top.
     - [Vehicle Placement](#vehicle-placement)
     - [Vehicle Spawn](#vehicle-spawn)
     - [Vehicles](#vehicles)
+    - [Vehicle Part Migrations](#vehicle-part-migrations)
     - [Weakpoint Sets](#weakpoint-sets)
 - [`data/json/items/` JSONs](#datajsonitems-jsons)
     - [Generic Items](#generic-items)
@@ -2861,6 +2862,31 @@ See also VEHICLE_JSON.md
                                             * them in the game (ie, frames and mount points first).
                                             * You also cannot break the normal rules of installation
                                             * (you can't stack non-stackable part flags). */
+```
+
+### Vehicle Part Migrations
+
+These migrations will (at runtime) replace one vehicle part id with another one.
+This is useful when vpart ids are changing or obsoleting one part for another.
+
+```json
+[
+  {
+    "type": "vehicle_part_migration",
+    "from": "old_vpart_id",
+    "to": "new_vpart_id"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "old_vpart_id",
+    "to": "new_vpart_id"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "old_vpart_id",
+    "to": "new_vpart_id"
+  }
+]
 ```
 
 ### Weakpoint Sets
