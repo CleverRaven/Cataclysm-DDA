@@ -2069,7 +2069,7 @@ void options_manager::add_options_graphics()
        ); // populate the options dynamically
 
     add( "SWAP_ZOOM", "graphics", to_translation( "Zoom Threshold" ),
-         to_translation( "Choose when you should swap tilesets (lower is more zoomed out)." ),
+         to_translation( "Choose when you should swap tileset (lower is more zoomed out)." ),
          1, 4, 2, COPT_CURSES_HIDE
        ); // populate the options dynamically
 
