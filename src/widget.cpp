@@ -387,7 +387,7 @@ void widget::load( const JsonObject &jo, const std::string & )
         explicit_padding = true;
     } else {
         explicit_separator = jo.has_string( "separator" );
-        explicit_padding = jo.has_string( "padding" );
+        explicit_padding = jo.has_number( "padding" );
         optional( jo, was_loaded, "separator", _separator, default_separator );
         optional( jo, was_loaded, "padding", _padding, 2 );
     }
