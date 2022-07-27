@@ -404,7 +404,7 @@ void widget::load( const JsonObject &jo, const std::string & )
         optional( jo, was_loaded, "padding", _padding, 2 );
     }
     _height = _height_max;
-    _label_width = _label.empty() ? 0 : utf8_width( _label.translated() );
+    _label_width = _label.empty() || has_flag( json_flag_W_LABEL_NONE ) ? 0 : utf8_width( _label.translated() );
 
     if( jo.has_string( "var" ) ) {
         _var = io::string_to_enum<widget_var>( jo.get_string( "var" ) );
@@ -479,18 +479,18 @@ int widget::finalize_label_width_recursive( const widget_id &id )
     } else if( w->_widgets.empty() ) {
         // No more nested layouts, we've found an individual widget.
         // Return the widget's label width, or 0 if the label is disabled.
-        return w->has_flag( json_flag_W_LABEL_NONE ) ? 0 : w->_label_width;
+        return w->_label.empty() || w->has_flag( json_flag_W_LABEL_NONE ) ? 0 : w->_label_width;
     }
     // If we get here, we have a layout that contains nested widgets.
+
+    // Do not align label width over column layouts
+    if( w->_style == "layout" && w->_arrange != "rows" ) {
+            return 0;
+    }
 
     // Find the longest label width within this layout.
     int width = 0;
     for( const widget_id &wid : w->_widgets ) {
-        // Skip nested elements that are "rows" layouts,
-        // these don't count towards the parent's label width.
-        if( wid->_style == "layout" && wid->_arrange == "rows" ) {
-            continue;
-        }
         // Dive deeper to retrieve the nested element's label width.
         int tmpw = widget::finalize_label_width_recursive( wid );
         if( tmpw > width ) {
