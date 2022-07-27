@@ -69,6 +69,29 @@
     "explode_in_fire": true
   },
   {
+    "id": "clay_urn",
+    "type": "TOOL",
+    "name": { "str": "clay urn" },
+    "description": "A container for storing cremated ashes.",
+    "weight": "1600 g",
+    "volume": "4 L",
+    "price": 5000,
+    "price_postapoc": 50,
+    "material": [ "clay" ],
+    "symbol": ")",
+    "color": "brown",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+        "rigid": true,
+        "max_contains_volume": "3.5 L",
+        "max_contains_weight": "4 kg"
+      }
+    ],
+    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
+  },
+  {
     "id": "cow_bell",
     "type": "TOOL",
     "name": { "str": "cow bell" },
@@ -83,6 +106,29 @@
     "symbol": ";",
     "color": "brown",
     "use_action": [ "BELL" ]
+  },
+  {
+    "id": "crystal_urn",
+    "type": "TOOL",
+    "name": { "str": "crystal urn" },
+    "description": "An exquisite, translucent container for cremated ashes, decorated with amethyst crystal floral patterns.",
+    "weight": "1400 g",
+    "volume": "4 L",
+    "price": 125000,
+    "price_postapoc": 500,
+    "material": [ "lead", "amethyst" ],
+    "symbol": ")",
+    "color": "purple",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+        "rigid": true,
+        "max_contains_volume": "3.5 L",
+        "max_contains_weight": "4 kg"
+      }
+    ],
+    "qualities": [ [ "CONTAIN", 1 ] ]
   },
   {
     "id": "e_tool",
@@ -416,6 +462,29 @@
     "symbol": ",",
     "color": "light_gray",
     "flags": [ "WATCH", "FANCY" ]
+  },
+  {
+    "id": "porcelain_urn",
+    "type": "TOOL",
+    "name": { "str": "porcelain urn" },
+    "description": "A lapis blue container for holding the remains of a loved one. You can tell its prior owners must have kept good care of it, as you can clearly see your own reflection on its surface.",
+    "weight": "1600 g",
+    "volume": "4 L",
+    "price": 35000,
+    "price_postapoc": 250,
+    "material": [ "porcelain", "glaze" ],
+    "symbol": ")",
+    "color": "white",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+        "rigid": true,
+        "max_contains_volume": "3.5 L",
+        "max_contains_weight": "4 kg"
+      }
+    ],
+    "qualities": [ [ "CONTAIN", 1 ] ]
   },
   {
     "id": "rollmat",

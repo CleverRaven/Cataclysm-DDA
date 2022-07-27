@@ -1367,6 +1367,23 @@
     "count": 100
   },
   {
+    "type": "AMMO",
+    "id": "cremation_ash",
+    "category": "chems",
+    "price": 0,
+    "price_postapoc": 0,
+    "name": { "str": "cremation ash", "str_pl": "cremation ashes" },
+    "symbol": "=",
+    "looks_like": "f_ash",
+    "color": "light_gray",
+    "description": "The cremated remains of a person or animal.",
+    "material": [ "powder_nonflam" ],
+    "volume": "129ml",
+    "weight": "1 g",
+    "ammo_type": "components",
+    "count": 100
+  },
+  {
     "type": "COMESTIBLE",
     "id": "ether",
     "category": "chems",
