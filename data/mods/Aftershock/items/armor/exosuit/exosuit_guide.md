@@ -56,30 +56,33 @@ Modules come in Small, Medium, Large, Helmet, and PSU. The helmet modules can on
 #Slot locations
 | Location | Large | Medium | Small | Helmet | PSU
 | ---      | ---   | ---    | ---   | ---    | ---
-| Helmet   | ---   | ---    | ---   | 4      | 0
-| Torso    | 2     | ---    | 2     | ---    | 0
-| Arm      | ---   | 2      | 2     | ---    | 0
-| Leg      | ---   | 2      | 2     | ---    | 0
+| Helmet   | ---   | ---    | ---   | 4      | ---
+| Torso    | 2     | ---    | 2     | ---    | ---
+| Arm      | ---   | 2      | 2     | ---    | ---
+| Leg      | ---   | 2      | 2     | ---    | ---
 | PSU      | ---   | ---    | ---   | ---    | 1 
 
 #General Modules
+General purpose utility modules
 | Module         | Class  | Power Draw | Weight | Description
 | ---            | ---    | ---        | ---    | ---
-| Large Support  | Large  | 1500       | 10 kg  | Adds an additional 30 kg of carry weight while active.
-| Jetpack        | Large  | ---        | 10 kg  | An ammonia-fueled jetpack provides a dash across terrain.
-| Large Aux      | Large  | Battery    |  5 kg  | Stores an additional 6000 battery.
-| Air Supply     | Medium | ---        |  2 kg  | A regenerating oxygen supply, activates in emergencies.
-| Climb Assist   | Medium | ---        |  5 kg  | Allows the user to climb walls.
-| Forcefield     | Medium | 5000       |  5 kg  | Toggles between 25 bash/cut or 40 ballistic/pierce.
-| Small Aux      | Medium | Battery    |  2 kg  | Stores an additional 1500 battery.
-| Small Support  | Small  | 1000       |  2 kg  | Adds an additional 20 kg of carry weight while active.
-| Mounted Lamp   | Small  | 1000/2000  | 500 g  | A sturdy lamp with a low and high setting.
-| Recoil Control | Small  | 2000       | 500 g  | Reduces weapon dispersion while active.
-| Med Injector   | Small  | ---        | 500 g  | Injects RA21E to treat injuries.
-| Zoom Lenses    | Helmet | ---        | 500 g  | Corrects vision and provides optical zoom.
-| Imager         | Helmet | 50 per use | 500 g  | As the handheld tool, sees through walls.
+| Large Support  | Large  | 1500       |  10 kg | Adds an additional 30 kg of carry weight while active.
+| Jetpack        | Large  | ---        |  10 kg | An ammonia-fueled jetpack provides a dash across terrain.
+| Large Aux      | Large  | Battery    |   5 kg | Stores an additional 6000 battery.
+| Air Supply     | Medium | ---        |   2 kg | A regenerating oxygen supply, activates in emergencies.
+| Climb Assist   | Medium | ---        |   5 kg | Allows the user to climb walls.
+| Forcefield     | Medium | 5000       |   5 kg | Toggles between 25 bash/cut or 40 ballistic/pierce.
+| Small Aux      | Medium | Battery    |   2 kg | Stores an additional 1500 battery.
+| Collapsed Axe  | Medium | ---        | 3500 g | Activate to extend into a boarding axe.
+| Small Support  | Small  | 1000       |   2 kg | Adds an additional 20 kg of carry weight while active.
+| Mounted Lamp   | Small  | 1000/2000  |  500 g | A sturdy lamp with a low and high setting.
+| Recoil Control | Small  | 2000       |  500 g | Reduces weapon dispersion while active.
+| Med Injector   | Small  | ---        |  500 g | Injects RA21E to treat injuries.
+| Zoom Lenses    | Helmet | ---        |  500 g | Corrects vision and provides optical zoom.
+| Imager         | Helmet | 50 per use |  500 g | As the handheld tool, sees through walls.
 
 #Exosuit Ranged Weapons
+Purpose built ranged weapons
 | Ranged Weapon      | Power Source     | Weight | Description
 | ---                | ---              | ---    | ---
 | Heavy Flamethrower | Flammable Liquid | 7300 g | A large flamethrower with long range.
@@ -88,6 +91,7 @@ Modules come in Small, Medium, Large, Helmet, and PSU. The helmet modules can on
 | Electrolaser       | Power Cartridge  | 9900 g | A laser followed by a massive energy discharge.
 
 #Exosult Melee Weapons
+Purpose built or improvised melee weapons
 | Melee Weapon | Power Source | Weight | Description
 | ---          | ---          | ---    | ---
 | Boarding Axe | ---          | 3500 g | An oversized axe. Collapses into a medium module.
@@ -98,6 +102,7 @@ Modules come in Small, Medium, Large, Helmet, and PSU. The helmet modules can on
 | Power Cutter | Liquid Fuel  |  10 kg | Cuts through just about anything.
 
 #Exosuit Storage Modules
+Assorted storage options
 | Storage Module    | Class  | Volume Cap | Weight Cap | Weight | Description
 | ---               |---     | ---        | ---        | ---    | ---
 | Rifle Storage     | Large  |     9 L    | 10 kg      |  500 g | As item Back Holster.
