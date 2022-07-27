@@ -314,7 +314,9 @@
       { "id": "caltrops_glass", "description": " Craft: Glass Caltrops" },
       { "id": "steel_chunk", "description": " Craft: Steel, Chunk" },
       { "id": "anvil", "description": " Craft: Anvil" },
-      { "id": "steel_lump", "description": " Craft: Steel, Lump" }
+      { "id": "steel_lump", "description": " Craft: Steel, Lump" },
+      { "id": "lc_steel_lump", "description": " Craft: Mild Carbon Steel, Lump" },
+      { "id": "lc_steel_chunk", "description": " Craft: Mild Carbon Steel, Chunk" }
     ]
   },
   {
@@ -333,7 +335,11 @@
       { "id": "legguard_scrap", "description": " Craft: Armor, Scrap Leg Guards" },
       { "id": "boots_scrap", "description": " Craft: Armor, Scrap Boots" },
       { "id": "copper_ax", "description": " Craft: Axe, Copper" },
-      { "id": "spear_copper", "description": " Craft: Spear, Copper" }
+      { "id": "spear_copper", "description": " Craft: Spear, Copper" },
+      { "id": "lc wire", "description": " Craft: Mild Carbon Steel, Wire" },
+      { "id": "lc link sheet", "description": " Craft: Mild Carbon Steel, Link Sheet" },
+      { "id": "mc lump", "description": " Craft: Medium Carbon Steel, Lump" },
+      { "id": "mc chunk", "description": " Craft: Medium Carbon Steel, Lump" }
     ]
   },
   {
@@ -346,7 +352,9 @@
       { "id": "tongs", "description": " Craft: Metal Tongs" },
       { "id": "nail", "description": " Craft: Nail" },
       { "id": "wire", "description": " Craft: Wire" },
-      { "id": "swage", "description": " Craft: Swage and Die Set" }
+      { "id": "swage", "description": " Craft: Swage and Die Set" },
+      { "id": "mc wire", "description": " Craft: Medium Carbon Steel, Wire" },
+      { "id": "mc link sheet", "description": " Craft: Medium Carbon Steel, Link Sheet" }
     ]
   },
   {
@@ -363,7 +371,9 @@
       { "id": "shovel", "description": " Craft: Shovel" },
       { "id": "rebar", "description": " Craft: Rebar" },
       { "id": "gold_ring", "description": " Craft: Gold Ring" },
-      { "id": "hammer_sledge", "description": " Craft: Hammer, Sledge" }
+      { "id": "hammer_sledge", "description": " Craft: Hammer, Sledge" },
+      { "id": "ch wire", "description": " Craft: Case Hardened Steel, Wire" },
+      { "id": "ch link sheet", "description": " Craft: Case Hardened Steel, Link Sheet" }
     ]
   },
   {
@@ -382,7 +392,11 @@
       { "id": "throwing_knife", "description": " Craft: Knife, Throwing" },
       { "id": "crowbar", "description": " Craft: Crowbar" },
       { "id": "pot", "description": " Craft: Pot" },
-      { "id": "hoe", "description": " Craft: Hoe" }
+      { "id": "hoe", "description": " Craft: Hoe" },
+      { "id": "hc lump", "description": " Craft: High Carbon Steel, Lump" },
+      { "id": "hc chunk", "description": " Craft: High Carbon Steel, Chunk" },
+      { "id": "hc wire", "description": " Craft: High Carbon Steel, Wire" },
+      { "id": "hc link sheet", "description": " Craft: High Carbon Steel, Link Sheet" }
     ]
   },
   {
@@ -545,7 +559,9 @@
       { "id": "rapier", "description": " Craft: Sword, Rapier" },
       { "id": "halligan", "description": " Craft: Halligan Bar" },
       { "id": "zweihander", "description": " Craft: Sword, Zweihander" },
-      { "id": "pickaxe", "description": " Craft: Pickaxe" }
+      { "id": "pickaxe", "description": " Craft: Pickaxe" },
+      { "id": "qt wire", "description": " Craft: Tempered Steel, Wire" },
+      { "id": "qt link sheet", "description": " Craft: Tempered Steel, Link Sheet" }
     ]
   },
   {
