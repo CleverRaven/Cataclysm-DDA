@@ -481,8 +481,9 @@ int widget::finalize_label_width_recursive( const widget_id &id )
         return 0;
     } else if( w->_widgets.empty() ) {
         // No more nested layouts, we've found an individual widget.
-        // Return the widget's label width, or 0 if the label is disabled.
-        return w->_label.empty() || w->has_flag( json_flag_W_LABEL_NONE ) ? 0 : w->_label_width;
+        // Return the widget's label width, or 0 if the label or pad_labels is disabled.
+        return w->_label.empty() || w->has_flag( json_flag_W_LABEL_NONE ) ||
+               ! w->_pad_labels ? 0 : w->_label_width;
     }
     // If we get here, we have a layout that contains nested widgets.
 
