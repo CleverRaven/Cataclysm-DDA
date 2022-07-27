@@ -216,6 +216,7 @@
         "description": "This is a tank for fuel.  Holds up to 1 liter.",
         "rigid": true,
         "watertight": true,
+        "airtight": true,
         "ammo_restriction": {
           "gasoline": 1000,
           "diesel": 1000,
