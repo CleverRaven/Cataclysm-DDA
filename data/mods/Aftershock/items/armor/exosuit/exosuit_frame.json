@@ -3,7 +3,7 @@
     "id": "modular_exosuit",
     "type": "TOOL_ARMOR",
     "name": { "str": "exosuit frame" },
-    "description": "This is a standard exosuit frame.  Designed to be modular, it can accept a variety of power supplies, defensive and offensive systems, and utility tools.  Slots exist for the torso, back, arms, and legs.",
+    "description": "This is a standard exosuit frame.  Designed to be modular, it can accept a variety of power supplies, defensive and offensive systems, and utility tools.  Slots exist for the head, torso, power supply, back, arms, and legs.",
     "weight": "45 kg",
     "volume": "140 L",
     "material": [ "titanium" ],
@@ -14,87 +14,85 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-        "name": "Exosuit Underlayer",
+        "name": "Exosuit underlayer",
         "description": "A series of connections for an underlayer.",
-        "max_contains_volume": "5 L",
-        "max_contains_weight": "5 kg",
         "ablative": true,
         "holster": true,
-        "flag_restriction": [ "EXO_UNDERLAYER" ],
         "inherits_flags": true,
+        "max_contains_volume": "5 L",
+        "max_contains_weight": "5 kg",
+        "flag_restriction": [ "EXO_UNDERLAYER" ],
         "moves": 200
       },
       {
         "pocket_type": "CONTAINER",
         "name": "Helmet compartment (Plate)",
         "description": "This is a mounting point for helmet plating.",
-        "max_contains_volume": "2 L",
-        "max_contains_weight": "5 kg",
         "ablative": true,
         "rigid": true,
         "holster": true,
+        "max_contains_volume": "2 L",
+        "max_contains_weight": "5 kg",
         "flag_restriction": [ "EXO_HELMET_PLATE" ],
         "moves": 120
       },
       {
         "pocket_type": "CONTAINER",
-        "name": "Helmet Hardpoint 1",
+        "name": "Helmet hardpoint 1",
         "description": "This is a series of mounts for helmet equipment.",
         "rigid": true,
         "holster": true,
+        "inherits_flags": true,
         "max_contains_volume": "250 ml",
         "max_contains_weight": "500 g",
         "flag_restriction": [ "EXO_HELMET_GADGET" ],
-        "inherits_flags": true,
         "moves": 60
       },
       {
         "pocket_type": "CONTAINER",
-        "name": "Helmet Hardpoint 2",
+        "name": "Helmet hardpoint 2",
         "description": "This is a series of mounts for helmet equipment.",
         "rigid": true,
         "holster": true,
+        "inherits_flags": true,
         "max_contains_volume": "250 ml",
         "max_contains_weight": "500 g",
         "flag_restriction": [ "EXO_HELMET_GADGET" ],
-        "inherits_flags": true,
         "moves": 60
       },
       {
         "pocket_type": "CONTAINER",
-        "name": "Helmet Hardpoint 3",
+        "name": "Helmet hardpoint 3",
         "description": "This is a series of mounts for helmet equipment.",
         "rigid": true,
         "holster": true,
+        "inherits_flags": true,
         "max_contains_volume": "250 ml",
         "max_contains_weight": "500 g",
         "flag_restriction": [ "EXO_HELMET_GADGET" ],
-        "inherits_flags": true,
         "moves": 60
       },
       {
         "pocket_type": "CONTAINER",
-        "name": "Helmet Hardpoint 4",
+        "name": "Helmet hardpoint 4",
         "description": "This is a series of mounts for helmet equipment.",
         "rigid": true,
         "holster": true,
+        "inherits_flags": true,
         "max_contains_volume": "250 ml",
         "max_contains_weight": "500 g",
         "flag_restriction": [ "EXO_HELMET_GADGET" ],
-        "inherits_flags": true,
         "moves": 60
       },
       {
         "pocket_type": "CONTAINER",
         "name": "Torso compartment (Plate)",
         "description": "This is a mounting point for torso armor.",
-        "max_contains_volume": "15 L",
-        "max_contains_weight": "37500 g",
         "ablative": true,
         "rigid": true,
         "holster": true,
         "max_contains_volume": "15 L",
-        "max_contains_weight": "80 kg",
+        "max_contains_weight": "37500 g",
         "flag_restriction": [ "EXO_TORSO_PLATE" ],
         "moves": 120
       },
@@ -104,11 +102,10 @@
         "description": "This is a mount for storing items in the torso.",
         "rigid": true,
         "holster": true,
+        "inherits_flags": true,
         "max_contains_volume": "10 L",
         "max_contains_weight": "10 kg",
-        "max_item_length": "60 cm",
         "flag_restriction": [ "EXO_LARGE_GADGET", "EXO_MEDIUM_GADGET", "EXO_SMALL_GADGET" ],
-        "inherits_flags": true,
         "moves": 60
       },
       {
@@ -117,11 +114,10 @@
         "description": "This is a mount for storing items in the torso.",
         "rigid": true,
         "holster": true,
+        "inherits_flags": true,
         "max_contains_volume": "10 L",
         "max_contains_weight": "10 kg",
-        "max_item_length": "60 cm",
         "flag_restriction": [ "EXO_LARGE_GADGET", "EXO_MEDIUM_GADGET", "EXO_SMALL_GADGET" ],
-        "inherits_flags": true,
         "moves": 60
       },
       {
@@ -130,10 +126,10 @@
         "description": "This is a mount for storing items in the torso.",
         "rigid": true,
         "holster": true,
+        "inherits_flags": true,
         "max_contains_volume": "500 ml",
         "max_contains_weight": "500 g",
         "flag_restriction": [ "EXO_SMALL_GADGET" ],
-        "inherits_flags": true,
         "moves": 60
       },
       {
@@ -142,10 +138,10 @@
         "description": "This is a mount for storing items in the torso.",
         "rigid": true,
         "holster": true,
+        "inherits_flags": true,
         "max_contains_volume": "500 ml",
         "max_contains_weight": "500 g",
         "flag_restriction": [ "EXO_SMALL_GADGET" ],
-        "inherits_flags": true,
         "moves": 60
       },
       {
@@ -154,11 +150,10 @@
         "description": "This is a mounting point for power supply units and large modules.",
         "rigid": true,
         "holster": true,
+        "inherits_flags": true,
         "max_contains_volume": "25 L",
         "max_contains_weight": "140 kg",
-        "max_item_length": "120 cm",
         "flag_restriction": [ "EXO_PSU" ],
-        "inherits_flags": true,
         "moves": 500
       },
       {
@@ -179,10 +174,10 @@
         "description": "This is a mount for storing items on the arms.",
         "rigid": true,
         "holster": true,
+        "inherits_flags": true,
         "max_contains_volume": "2500 ml",
         "max_contains_weight": "5 kg",
         "flag_restriction": [ "EXO_MEDIUM_GADGET", "EXO_SMALL_GADGET" ],
-        "inherits_flags": true,
         "moves": 60
       },
       {
@@ -191,10 +186,10 @@
         "description": "This is a mount for storing items on the arms.",
         "rigid": true,
         "holster": true,
+        "inherits_flags": true,
         "max_contains_volume": "2500 ml",
         "max_contains_weight": "5 kg",
         "flag_restriction": [ "EXO_MEDIUM_GADGET", "EXO_SMALL_GADGET" ],
-        "inherits_flags": true,
         "moves": 60
       },
       {
@@ -203,10 +198,10 @@
         "description": "This is a mount for storing items on the arms.",
         "rigid": true,
         "holster": true,
+        "inherits_flags": true,
         "max_contains_volume": "500 ml",
         "max_contains_weight": "500 g",
         "flag_restriction": [ "EXO_SMALL_GADGET" ],
-        "inherits_flags": true,
         "moves": 60
       },
       {
@@ -215,10 +210,10 @@
         "description": "This is a mount for storing items on the arms.",
         "rigid": true,
         "holster": true,
+        "inherits_flags": true,
         "max_contains_volume": "500 ml",
         "max_contains_weight": "500 g",
         "flag_restriction": [ "EXO_SMALL_GADGET" ],
-        "inherits_flags": true,
         "moves": 60
       },
       {
@@ -239,10 +234,10 @@
         "description": "This is a mount for storing items on the legs.",
         "rigid": true,
         "holster": true,
+        "inherits_flags": true,
         "max_contains_volume": "2500 ml",
         "max_contains_weight": "5 kg",
         "flag_restriction": [ "EXO_MEDIUM_GADGET", "EXO_SMALL_GADGET" ],
-        "inherits_flags": true,
         "moves": 60
       },
       {
@@ -251,10 +246,10 @@
         "description": "This is a mount for storing items on the legs.",
         "rigid": true,
         "holster": true,
+        "inherits_flags": true,
         "max_contains_volume": "2500 ml",
         "max_contains_weight": "5 kg",
         "flag_restriction": [ "EXO_MEDIUM_GADGET", "EXO_SMALL_GADGET" ],
-        "inherits_flags": true,
         "moves": 60
       },
       {
@@ -263,10 +258,10 @@
         "description": "This is a mount for storing items on the legs.",
         "rigid": true,
         "holster": true,
+        "inherits_flags": true,
         "max_contains_volume": "500 ml",
         "max_contains_weight": "500 g",
         "flag_restriction": [ "EXO_SMALL_GADGET" ],
-        "inherits_flags": true,
         "moves": 60
       },
       {
@@ -275,10 +270,10 @@
         "description": "This is a mount for storing items on the legs.",
         "rigid": true,
         "holster": true,
+        "inherits_flags": true,
         "max_contains_volume": "500 ml",
         "max_contains_weight": "500 g",
         "flag_restriction": [ "EXO_SMALL_GADGET" ],
-        "inherits_flags": true,
         "moves": 60
       }
     ],

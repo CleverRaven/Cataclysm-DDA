@@ -21,7 +21,7 @@
     "type": "TOOL_ARMOR",
     "category": "exosuit",
     "name": { "str": "exosuit gasoline ICE power supply", "str_pl": "exosuit gasoline ICE power supplies" },
-    "description": "Designed to attach to an exosuit's back, this is an internal combustion engine generator with an integrated UPS, fueled by gasoline.  This unit is large and occupies the rear hardpoints.",
+    "description": "Designed to attach to an exosuit's back, this is an internal combustion engine generator with an integrated UPS, fueled by gasoline.",
     "weight": "20 kg",
     "volume": "25 L",
     "material": [ "qt_steel", "plastic" ],
@@ -46,7 +46,7 @@
     "type": "TOOL_ARMOR",
     "category": "exosuit",
     "name": { "str": "exosuit turbine power supply", "str_pl": "exosuit turbine power supplies" },
-    "description": "Designed to attach to an exosuit's back, this is an adaptive gas turbine generator with an integrated UPS, capable of using nearly any fuel types.  This unit is large and occupies the rear hardpoints.",
+    "description": "Designed to attach to an exosuit's back, this is an adaptive gas turbine generator with an integrated UPS, capable of using nearly any fuel type.",
     "weight": "25 kg",
     "volume": "25 L",
     "material": [ "qt_steel", "plastic" ],
@@ -111,7 +111,7 @@
     "type": "TOOL_ARMOR",
     "category": "exosuit",
     "name": { "str": "exosuit auxiliary battery", "str_pl": "exosuit auxiliary batteries" },
-    "description": "This is a large rechargable auxiliary power unit that attaches to an exosuit hardpoint.",
+    "description": "This is a large rechargeable auxiliary power unit that attaches to an exosuit hardpoint.",
     "weight": "5 kg",
     "volume": "2500 L",
     "material": [ "plastic", "qt_steel" ],
@@ -127,7 +127,7 @@
     "type": "TOOL_ARMOR",
     "category": "exosuit",
     "name": { "str": "exosuit small auxiliary battery", "str_pl": "exosuit small auxiliary batteries" },
-    "description": "This is a small rechargable auxiliary power unit that attaches to an exosuit hardpoint.",
+    "description": "This is a small rechargeable auxiliary power unit that attaches to an exosuit hardpoint.",
     "weight": "500 g",
     "volume": "500 ml",
     "material": [ "plastic", "qt_steel" ],
@@ -456,8 +456,8 @@
     "id": "exo_jetpack",
     "type": "TOOL",
     "name": { "str": "exosuit dynamic maneuvering unit" },
-    "description": "A large collection of tanks and nozzles, this module converts hydrogen to plasma, propelling the user between spaceships or across rough terrain and gaps.  The thrust is insufficient for flight in a gravity well, but can still launch you forward at extreme speed.",
-    "weight": "10 kg",
+    "description": "A large collection of tanks and nozzles, this module converts hydrogen to plasma, propelling the user between spaceships or across rough terrain and gaps.  The thrust is insufficient for sustained flight in a gravity well, but can still launch you forward at extreme speed and deliver a powerful blow on landing.",
+    "weight": "8750 g",
     "volume": "10 L",
     "price": "10 kUSD",
     "to_hit": -2,
@@ -467,6 +467,7 @@
     "color": "light_gray",
     "ammo": [ "ammonia_liquid" ],
     "use_action": { "type": "cast_spell", "spell_id": "spell_exosuit_jetpack", "no_fail": true, "level": 5 },
+    "charges_per_use": 1,
     "flags": [ "CANT_WEAR", "EXO_LARGE_GADGET" ],
     "pocket_data": [
       {
@@ -576,7 +577,7 @@
     "type": "TOOL",
     "name": { "str": "exosuit medical injector" },
     "description": "A combination medical monitor and drug injection system, this module is intended to keep the pilot in the field longer.",
-    "weight": "500 g",
+    "weight": "475 g",
     "volume": "500 ml",
     "material": [ "ceramic", "qt_steel" ],
     "symbol": "!",
@@ -610,7 +611,7 @@
     "category": "exosuit",
     "name": { "str": "exosuit cartridge charger" },
     "description": "This is a charging port designed to accept power cartridges.",
-    "weight": "500 g",
+    "weight": "400 g",
     "volume": "500 ml",
     "material": [ "plastic", "qt_steel" ],
     "symbol": "=",
@@ -621,78 +622,9 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
-        "max_contains_weight": "250 g",
+        "max_contains_weight": "100 g",
         "max_contains_volume": "250 ml",
         "item_restriction": [ "afs_cartridge", "afs_compact_cartridge", "afs_bootleg_cartridge", "afs_archeotech_cartridge" ]
-      }
-    ]
-  },
-  {
-    "id": "exo_large_holster",
-    "type": "TOOL_ARMOR",
-    "category": "exosuit",
-    "name": { "str": "exosuit quick draw holster" },
-    "description": "This module holds a single sidearm and will recharge an energy weapon.  Automatically opens when the exosuit's pilot reaches for it, just like in that one movie.",
-    "weight": "500 g",
-    "volume": "2500 ml",
-    "material": [ "plastic", "nylon" ],
-    "symbol": "=",
-    "looks_like": "storage_battery",
-    "color": "light_gray",
-    "sided": true,
-    "flags": [ "CANT_WEAR", "USE_UPS", "EXO_MEDIUM_GADGET" ],
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "holster": true,
-        "min_item_volume": "500 ml",
-        "max_contains_volume": "1500 ml",
-        "max_contains_weight": "5 kg",
-        "max_item_length": "45 cm",
-        "moves": 20
-      }
-    ],
-    "use_action": { "type": "holster" },
-    "armor": [
-      {
-        "encumbrance": 5,
-        "coverage": 0,
-        "covers": [ "leg_l", "leg_r" ],
-        "specifically_covers": [ "leg_hip_r", "leg_hip_l", "leg_upper_r", "leg_upper_l" ]
-      }
-    ]
-  },
-  {
-    "id": "exo_sheath",
-    "type": "TOOL_ARMOR",
-    "category": "exosuit",
-    "name": { "str": "exosuit blade sheath" },
-    "description": "This module holds a single knife or small blade.  Automatically opens when the exosuit's pilot reaches for it.",
-    "weight": "500 g",
-    "volume": "2500 ml",
-    "material": [ "plastic", "nylon" ],
-    "symbol": "=",
-    "looks_like": "storage_battery",
-    "color": "light_gray",
-    "sided": true,
-    "flags": [ "CANT_WEAR", "EXO_MEDIUM_GADGET" ],
-    "pocket_data": [
-      {
-        "magazine_well": "350 ml",
-        "holster": true,
-        "max_contains_volume": "1500 ml",
-        "max_contains_weight": "5 kg",
-        "max_item_length": "70 cm",
-        "moves": 10,
-        "flag_restriction": [ "SHEATH_KNIFE" ]
-      }
-    ],
-    "use_action": { "type": "holster" },
-    "armor": [
-      {
-        "encumbrance": 5,
-        "covers": [ "leg_l", "leg_r" ],
-        "specifically_covers": [ "leg_hip_r", "leg_hip_l", "leg_upper_r", "leg_upper_l" ]
       }
     ]
   }

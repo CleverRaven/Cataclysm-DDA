@@ -27,7 +27,7 @@
     "type": "ARMOR",
     "copy-from": "exo_helmet_steel",
     "name": { "str": "damaged steel helmet plate (exosuit)", "str_pl": "damaged steel helmet plates (exosuit)" },
-    "description": "The remains of a steel helmet plate after taking a strong impact.  Can be repaired in the field.",
+    "description": "The remains of a steel helmet plate after taking a strong impact.  Can be restored to full effectiveness via reforging.",
     "looks_like": "exo_helmet_steel",
     "non_functional": "destroyed_exo_helmet_steel",
     "armor": [
@@ -73,7 +73,7 @@
     "type": "ARMOR",
     "copy-from": "exo_helmet_plastic",
     "name": { "str": "damaged plastic helmet plate (exosuit)", "str_pl": "damaged plastic helmet plates (exosuit)" },
-    "description": "The remains of a plastic helmet plate after taking a strong impact.  Can be repaired in the field.",
+    "description": "The remains of a plastic helmet plate after taking a strong impact.  Can be restored to full effectiveness via reforging.",
     "looks_like": "exo_helmet_plastic",
     "non_functional": "destroyed_exo_helmet_plastic",
     "armor": [
