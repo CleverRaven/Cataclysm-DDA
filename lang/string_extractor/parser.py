@@ -231,6 +231,7 @@ parsers = {
     "vehicle_group": dummy_parser,
     "vehicle_part": parse_vehicle_part,
     "vehicle_part_category": parse_vehicle_part_category,
+    "vehicle_part_migration": dummy_parser,
     "vehicle_placement": dummy_parser,
     "vehicle_spawn": parse_vehicle_spawn,
     "vitamin": parse_vitamin,

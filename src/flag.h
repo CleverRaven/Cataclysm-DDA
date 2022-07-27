@@ -150,7 +150,6 @@ extern const flag_id flag_GAS_PROOF;
 extern const flag_id flag_GIBBED;
 extern const flag_id flag_GNV_EFFECT;
 extern const flag_id flag_HEAT_IMMUNE;
-extern const flag_id flag_HELMET_COMPAT;
 extern const flag_id flag_HIDDEN_HALLU;
 extern const flag_id json_flag_HIDDEN_ITEM;
 extern const flag_id flag_HIDDEN_POISON;

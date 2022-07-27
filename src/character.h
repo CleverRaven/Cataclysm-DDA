@@ -2937,9 +2937,6 @@ class Character : public Creature, public visitable
         bool wearing_something_on( const bodypart_id &bp ) const;
         /** Returns true if the character is wearing something occupying the helmet slot */
         bool is_wearing_helmet() const;
-        /** Returns the total encumbrance of all SKINTIGHT and HELMET_COMPAT items covering
-         *  the head */
-        int head_cloth_encumbrance() const;
         /** Same as footwear factor, but for arms */
         double armwear_factor() const;
         /** Returns 1 if the player is wearing an item of that count on one foot, 2 if on both,

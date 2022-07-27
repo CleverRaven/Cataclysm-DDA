@@ -498,7 +498,7 @@
     "type": "widget",
     "style": "sidebar",
     "label": "structured",
-    "description": "A compact, structured sidebar for\nplaying with large font size or\nsmall resolution.",
+    "description": "A compact, structured sidebar for playing with large font size or small resolution.",
     "separator": ": ",
     "width": 48,
     "padding": 1,
