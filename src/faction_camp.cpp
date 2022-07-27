@@ -1904,26 +1904,27 @@ void basecamp::scan_pseudo_items()
 
         tripoint mapmin = tripoint( 0, 0, omt_pos.z() );
         tripoint mapmax = tripoint( 2 * SEEX - 1, 2 * SEEY - 1, omt_pos.z() );
-        map &here = get_map();
         for( const tripoint &pos : expansion_map.points_in_rectangle( mapmin, mapmax ) ) {
-            if( here.furn( pos ) != f_null &&
-                here.furn( pos ).obj().crafting_pseudo_item.is_valid() &&
-                here.furn( pos ).obj().crafting_pseudo_item.obj().has_flag( flag_ALLOWS_REMOTE_USE ) ) {
+            if( expansion_map.furn( pos ) != f_null &&
+                expansion_map.furn( pos ).obj().crafting_pseudo_item.is_valid() &&
+                expansion_map.furn( pos ).obj().crafting_pseudo_item.obj().has_flag( flag_ALLOWS_REMOTE_USE ) ) {
                 bool found = false;
                 for( itype_id &element : expansion.second.available_pseudo_items ) {
-                    if( element == here.furn( pos ).obj().crafting_pseudo_item ) {
+                    if( element == expansion_map.furn( pos ).obj().crafting_pseudo_item ) {
                         found = true;
                         break;
                     }
                 }
                 if( !found ) {
-                    expansion.second.available_pseudo_items.push_back( here.furn( pos ).obj().crafting_pseudo_item );
+                    expansion.second.available_pseudo_items.push_back( expansion_map.furn(
+                                pos ).obj().crafting_pseudo_item );
                 }
             }
 
-            if( here.veh_at( pos ).has_value() && here.veh_at( pos )->vehicle().has_tag( "APPLIANCE" ) ) {
+            if( expansion_map.veh_at( pos ).has_value() &&
+                expansion_map.veh_at( pos )->vehicle().has_tag( "APPLIANCE" ) ) {
                 const std::vector<std::pair<itype_id, int>> tools =
-                            here.veh_at( pos )->part_displayed().value().get_tools();
+                            expansion_map.veh_at( pos )->part_displayed().value().get_tools();
 
                 for( const auto &tool : tools ) {
                     if( tool.first.obj().has_flag( flag_PSEUDO ) &&

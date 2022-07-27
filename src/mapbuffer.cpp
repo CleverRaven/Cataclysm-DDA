@@ -55,6 +55,19 @@ void mapbuffer::clear()
     submaps.clear();
 }
 
+void mapbuffer::clear_outside_reality_bubble()
+{
+    map &here = get_map();
+    auto it = submaps.begin();
+    while( it != submaps.end() ) {
+        if( here.inbounds( it->first ) ) {
+            ++it;
+        } else {
+            it = submaps.erase( it );
+        }
+    }
+}
+
 bool mapbuffer::add_submap( const tripoint_abs_sm &p, std::unique_ptr<submap> &sm )
 {
     if( submaps.count( p ) ) {
@@ -114,8 +127,6 @@ void mapbuffer::save( bool delete_after_save )
     int num_total_submaps = submaps.size();
 
     map &here = get_map();
-    const tripoint_abs_omt map_origin = project_to<coords::omt>( here.get_abs_sub() );
-    const bool map_has_zlevels = g != nullptr;
 
     static_popup popup;
 
@@ -152,14 +163,11 @@ void mapbuffer::save( bool delete_after_save )
         const std::string dirname = find_dirname( om_addr );
         const std::string quad_path = find_quad_path( dirname, om_addr );
 
+        bool inside_reality_bubble = here.inbounds( om_addr );
         // delete_on_save deletes everything, otherwise delete submaps
         // outside the current map.
-        const bool zlev_del = !map_has_zlevels && om_addr.z() != get_map().get_abs_sub().z();
         save_quad( dirname, quad_path, om_addr, submaps_to_delete,
-                   delete_after_save || zlev_del ||
-                   om_addr.x() < map_origin.x() || om_addr.y() < map_origin.y() ||
-                   om_addr.x() > map_origin.x() + HALF_MAPSIZE ||
-                   om_addr.y() > map_origin.y() + HALF_MAPSIZE );
+                   delete_after_save || !inside_reality_bubble );
         num_saved_submaps += 4;
     }
     for( auto &elem : submaps_to_delete ) {

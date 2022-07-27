@@ -396,7 +396,6 @@ class basecamp
         // lazy re-evaluation of available camp resources
         void reset_camp_resources();
         void add_resource( const itype_id &camp_resource );
-        bool resources_updated = false; // NOLINT(cata-serialize)
         // omt pos
         tripoint_abs_omt omt_pos;
         std::vector<npc_ptr> assigned_npcs; // NOLINT(cata-serialize)
