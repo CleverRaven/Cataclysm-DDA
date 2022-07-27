@@ -106,7 +106,6 @@ static const activity_id ACT_MULTIPLE_MINE( "ACT_MULTIPLE_MINE" );
 static const activity_id ACT_MULTIPLE_MOP( "ACT_MULTIPLE_MOP" );
 static const activity_id ACT_PULP( "ACT_PULP" );
 static const activity_id ACT_SPELLCASTING( "ACT_SPELLCASTING" );
-static const activity_id ACT_UNLOAD_LOOT( "ACT_UNLOAD_LOOT" );
 static const activity_id ACT_VEHICLE_DECONSTRUCTION( "ACT_VEHICLE_DECONSTRUCTION" );
 static const activity_id ACT_VEHICLE_REPAIR( "ACT_VEHICLE_REPAIR" );
 static const activity_id ACT_WAIT( "ACT_WAIT" );
@@ -1368,7 +1367,8 @@ static void loot()
             player_character.assign_activity( ACT_MOVE_LOOT );
             break;
         case UnloadLoot:
-            player_character.assign_activity( ACT_UNLOAD_LOOT );
+            player_character.assign_activity(
+                player_activity( unload_loot_activity_actor() ) );
             break;
         case FertilizePlots:
             player_character.assign_activity( ACT_FERTILIZE_PLOT );

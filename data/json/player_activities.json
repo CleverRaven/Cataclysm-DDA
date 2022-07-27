@@ -479,7 +479,8 @@
     "type": "activity_type",
     "activity_level": "MODERATE_EXERCISE",
     "verb": "unloading loot",
-    "based_on": "neither"
+    "based_on": "neither",
+    "multi_activity": true
   },
   {
     "id": "ACT_FETCH_REQUIRED",
