@@ -726,9 +726,8 @@ void mutation_branch::check_consistency()
         for( const trait_id &addition : mdata.additions ) {
             const mutation_branch &adata = addition.obj();
 
-            // Skip obsolete additions aka additions without any category.
-            if( adata.category.empty() ) {
-                continue;
+            if( mdata.category.empty() ) {
+                break;
             }
 
             bool found = false;
