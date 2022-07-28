@@ -6042,6 +6042,7 @@
     "description": "Your hands are heavily webbed, reducing your Dexterity by 1 and causing problems with gloves.  However, you can swim much faster.  Slightly decreases wet penalties.",
     "leads_to": [ "WEBBED_FEET" ],
     "category": [ "LIZARD", "FISH", "SLIME", "BATRACHIAN" ],
+    "flags": [ "WEBBED_HANDS" ],
     "wet_protection": [ { "part": "hand_l", "good": 3 }, { "part": "hand_r", "good": 3 } ],
     "encumbrance_covered": [ [ "hand_l", 50 ], [ "hand_r", 50 ] ],
     "passive_mods": { "dex_mod": -1 }
@@ -6054,6 +6055,7 @@
     "description": "Your feet are heavily webbed, allowing you to swim faster if you aren't wearing footwear.",
     "prereqs": [ "WEBBED" ],
     "category": [ "LIZARD", "FISH", "SLIME", "BATRACHIAN" ],
+    "flags": [ "WEBBED_FEET" ],
     "wet_protection": [ { "part": "foot_l", "good": 6 }, { "part": "foot_r", "good": 6 } ]
   },
   {
