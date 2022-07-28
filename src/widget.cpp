@@ -1504,6 +1504,9 @@ static std::string append_line( const std::string &line, bool first_row, int max
     if( !line.empty() ) {
         txt = line;
         txt_w = utf8_width( txt, true ) + newline_fix;
+        if( line.back() == '\n' ) {
+            txt.pop_back();
+        }
     }
 
     // Label padding
@@ -1551,7 +1554,7 @@ static std::string append_line( const std::string &line, bool first_row, int max
         txt_w += padding;
         // Right side
         padding = 0;
-        if( text_align != widget_alignment::RIGHT && newline_fix == 0 ) {
+        if( text_align != widget_alignment::RIGHT ) {
             padding = text_align == widget_alignment::LEFT ? tpad : tpad / 2;
         }
         txt.append( padding, ' ' );
@@ -1565,6 +1568,10 @@ static std::string append_line( const std::string &line, bool first_row, int max
         if( leftover > 0 ) {
             ret.insert( 0, leftover, ' ' );
         }
+    }
+
+    if( newline_fix == 1 ) {
+        ret.append( 1, '\n' );
     }
 
     return ret;
@@ -1643,23 +1650,6 @@ std::string widget::layout( const avatar &ava, unsigned int max_width, int label
                 // for debug keep track of each and width
                 debug_widths.append( string_format( "%s: %d,", wid.str(), cur_width ) );
 
-                const bool skip_pad_this = skip_pad || wid->has_flag( json_flag_W_NO_PADDING );
-                // Layout child in this column
-                const std::string txt = cur_child.layout( ava, skip_pad_this ? 0 : cur_width,
-                                        label_width, skip_pad_this );
-                // Store the resulting text for this column
-                std::vector<std::string> rows = string_split( txt, '\n' );
-
-                if( rows.size() > 1 && cur_child._style != "layout" ) {
-                    cur_width = 0;
-                    for( const std::string &row : rows ) {
-                        int w = utf8_width( row, true );
-                        if( w > cur_width ) {
-                            cur_width = w;
-                        }
-                    }
-                }
-
                 if( cur_width > 0 ) {
                     total_width += cur_width;
                 }
@@ -1668,8 +1658,12 @@ std::string widget::layout( const avatar &ava, unsigned int max_width, int label
                     debugmsg( string_format( "widget layout is wider (%d) than sidebar allows (%d) for %s.",
                                              total_width, max_width, debug_widths ) );
                 }
-
-                cols.emplace_back( rows );
+                const bool skip_pad_this = skip_pad || wid->has_flag( json_flag_W_NO_PADDING );
+                // Layout child in this column
+                const std::string txt = cur_child.layout( ava, skip_pad_this ? 0 : cur_width,
+                                        label_width, skip_pad_this );
+                // Store the resulting text for this column
+                cols.emplace_back( string_split( txt, '\n' ) );
                 widths.emplace_back( cur_width );
             }
 
