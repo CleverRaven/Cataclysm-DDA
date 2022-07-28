@@ -357,7 +357,6 @@
     "id": "memorial_mansion",
     "subtype": "collection",
     "entries": [
-      {
         { "item": "corpse_ash", "prob": 100, "charges-min": 2300, "charges-max": 2900, "container-item": "crystal_urn" },
         { "item": "photo_album", "prob": 75},
         { "item": "sunflower", "prob": 33},
@@ -366,7 +365,6 @@
         { "group": "wines_worthy", "prob": 30},
         { "item": "cigar", "prob": 50},
         { "group": "jewelry_accessories", "prob": 50 }
-      }
     ]
   },
   {
