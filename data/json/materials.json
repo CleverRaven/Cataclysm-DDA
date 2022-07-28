@@ -564,7 +564,7 @@
     "chip_resist": 6,
     "dmg_adj": [ "chipped", "scratched", "cracked", "shattered" ],
     "bash_dmg_verb": "cracked",
-    "cut_dmg_verb": "cut",
+    "cut_dmg_verb": "cut"
   },
   {
     "type": "material",
