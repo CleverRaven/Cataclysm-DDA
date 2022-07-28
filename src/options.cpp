@@ -1723,8 +1723,8 @@ void options_manager::add_options_interface()
     to_translation( "Allows diagonal movement with cursor keys using CTRL and SHIFT modifiers.  Diagonal movement action keys are taken from keybindings, so you need these to be configured." ), { { "none", to_translation( "None" ) }, { "mode1", to_translation( "Mode 1: Numpad Emulation" ) }, { "mode2", to_translation( "Mode 2: CW/CCW" ) }, { "mode3", to_translation( "Mode 3: L/R Tilt" ) }, { "mode4", to_translation( "Mode 4: Diagonal Lock" ) } },
     "none", COPT_CURSES_HIDE );
 
-    add("VERT_MOVE_WITH_MODIFIERS_MODE", "interface",
-        to_translation("Ascend / Descend with Shift + Arrow Keys"),
+    add( "VERT_MOVE_WITH_MODIFIERS_MODE", "interface",
+        to_translation( "Ascend / Descend with Shift + Arrow Keys" ),
         /*
         Possible modes:
 
@@ -1736,11 +1736,11 @@ void options_manager::add_options_interface()
         * `Shift` + `Cursor Down` -> `>` = `Descend`;
 
         */
-        to_translation("Allows vertical movement with cursor keys using SHIFT modifiers.  Vertical movement action keys are taken from keybindings, so you need these to be configured."), {{"off", to_translation("Off")}, {"on", to_translation("On")}},
-        "none", COPT_CURSES_HIDE);
+        to_translation( "Allows vertical movement with cursor keys using SHIFT modifiers.  Vertical movement action keys are taken from keybindings, so you need these to be configured."), {{"off", to_translation("Off")}, {"on", to_translation("On")}},
+        "none", COPT_CURSES_HIDE );
 
-    add("CHANGE_MOVEMENT_WITH_MODIFIERS_MODE", "interface",
-        to_translation("Cycle movement mode with Ctrl + Arrow Keys"),
+    add( "CHANGE_MOVEMENT_WITH_MODIFIERS_MODE", "interface",
+        to_translation( "Cycle movement mode with Ctrl + Arrow Keys" ),
         /*
         Possible modes:
 
@@ -1752,8 +1752,8 @@ void options_manager::add_options_interface()
         * `Ctrl` + `Cursor Down` -> `>` = `Cycle movement mode`;
 
         */
-        to_translation("Allows cycling of movement mode with cursor keys using CTRL modifiers.  Cycle movement mode action keys are taken from keybindings, so you need these to be configured."), {{"off", to_translation("Off")}, {"on", to_translation("On")}},
-        "none", COPT_CURSES_HIDE);
+        to_translation( "Allows cycling of movement mode with cursor keys using CTRL modifiers.  Cycle movement mode action keys are taken from keybindings, so you need these to be configured."), {{"off", to_translation("Off")}, {"on", to_translation("On")}},
+        "none", COPT_CURSES_HIDE );
 
     add_empty_line();
 
