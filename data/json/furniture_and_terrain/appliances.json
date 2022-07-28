@@ -188,6 +188,16 @@
   },
   {
     "type": "vehicle_part",
+    "id": "ap_kitchen_unit",
+    "name": { "str": "kitchen unit" },
+    "location": "structure",
+    "description": "A small electric kitchen unit, complete with range, sink, saucepan, and pot. A sideboard provides space for chopping and eating, and an integrated cupboard provides space for utensils.",
+    "item": "kitchen_unit",
+    "flags": [ "CARGO", "OBSTACLE", "APPLIANCE" ],
+    "copy-from": "kitchen_unit"
+  },
+  {
+    "type": "vehicle_part",
     "id": "ap_foodco",
     "name": { "str": "FOODCO kitchen buddy" },
     "location": "structure",

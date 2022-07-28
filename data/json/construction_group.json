@@ -1156,6 +1156,11 @@
   },
   {
     "type": "construction_group",
+    "id": "place_kitchen_unit",
+    "name": "Place Kitchen Unit"
+  },
+  {
+    "type": "construction_group",
     "id": "place_foodco",
     "name": "Place FOODCO"
   },
