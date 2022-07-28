@@ -211,6 +211,9 @@ static const std::string flag_NO_DISPLAY( "NO_DISPLAY" );
 static const std::string flag_BLACKPOWDER_FOULING_DAMAGE( "BLACKPOWDER_FOULING_DAMAGE" );
 static const std::string flag_SILENT( "SILENT" );
 
+// item pricing
+static const int PRICE_FILTHY_MALUS = 100;  // cents
+
 constexpr units::volume armor_portion_data::volume_per_encumbrance;
 
 class npc_class;
@@ -6665,10 +6668,6 @@ int item::price_no_contents( bool practical ) const
         price -= price * static_cast< double >( damage_level() ) / 5;
     }
 
-    if( is_filthy() ) {
-        price *= 0.8;
-    }
-
     if( count_by_charges() || made_of( phase_id::LIQUID ) ) {
         // price from json data is for default-sized stack
         price *= charges / static_cast< double >( type->stack_size );
@@ -6681,6 +6680,13 @@ int item::price_no_contents( bool practical ) const
         // if tool has no ammo (e.g. spray can) reduce price proportional to remaining charges
         price *= ammo_remaining() / static_cast< double >( std::max( type->charges_default(), 1 ) );
 
+    }
+
+    if( is_filthy() ) {
+        // Filthy items receieve a fixed price malus. This means common clothing ends up
+        // with no value (it's *everywhere*), but valuable items retain most of their value.
+        // https://github.com/CleverRaven/Cataclysm-DDA/issues/49469
+        price = std::max( price - PRICE_FILTHY_MALUS, 0 );
     }
 
     return price;
