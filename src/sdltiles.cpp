@@ -1750,36 +1750,36 @@ static int sdl_keysym_to_curses( const SDL_Keysym &keysym )
         }
     }
 
-    const std::string vert_mode = get_option<std::string>("VERT_MOVE_WITH_MODIFIERS_MODE");
+    const std::string vert_mode = get_option<std::string>( "VERT_MOVE_WITH_MODIFIERS_MODE" );
 
-    if (vert_mode == "on")
+    if ( vert_mode == "on" )
     {
         // Shift + Up/Down Cursor Arrow (Ascend / Descend)
-        if (keysym.mod & KMOD_SHIFT)
+        if ( keysym.mod & KMOD_SHIFT )
         {
-            switch (keysym.sym)
+            switch ( keysym.sym )
             {
             case SDLK_UP:
-                return inp_mngr.get_first_char_for_action("LEVEL_UP");
+                return inp_mngr.get_first_char_for_action( "LEVEL_UP" );
             case SDLK_DOWN:
-                return inp_mngr.get_first_char_for_action("LEVEL_DOWN");
+                return inp_mngr.get_first_char_for_action( "LEVEL_DOWN" );
             }
         }
     }
 
-    const std::string cycle_mod_mode = get_option<std::string>("CHANGE_MOVEMENT_WITH_MODIFIERS_MODE");
+    const std::string cycle_mod_mode = get_option<std::string>( "CHANGE_MOVEMENT_WITH_MODIFIERS_MODE" );
 
-    if (cycle_mod_mode == "on")
+    if ( cycle_mod_mode == "on" )
     {
         // Ctrl + Up/Down Cursor Arrow (Change movement mode)
-        if (keysym.mod & KMOD_CTRL)
+        if ( keysym.mod & KMOD_CTRL )
         {
-            switch (keysym.sym)
+            switch ( keysym.sym )
             {
             case SDLK_UP:
-                return inp_mngr.get_first_char_for_action("cycle_move");
+                return inp_mngr.get_first_char_for_action( "cycle_move" );
             case SDLK_DOWN:
-                return inp_mngr.get_first_char_for_action("cycle_move_reverse");
+                return inp_mngr.get_first_char_for_action( "cycle_move_reverse" );
             }
         }
     }
