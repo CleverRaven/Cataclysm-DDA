@@ -726,7 +726,7 @@
   {
     "type": "COMESTIBLE",
     "id": "pemmicant",
-    "name": { "str_sp": "pemmican't" },
+    "name": { "str_sp": "meat-only pemmican" },
     "conditional_names": [
       { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "prepper %s" } },
       { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "Orley %s" } },
@@ -740,7 +740,7 @@
     "symbol": "%",
     "quench": -3,
     "calories": 400,
-    "description": "A concentrated mixture of fat and protein used as a nutritious high-energy food.  Composed of meat and tallow, it provides excellent nutrition in an easy to carry form.  Has no fruits or veggies, so it's suitable for carnivores.",
+    "description": "A concentrated mixture of fat and protein used as a nutritious high-energy food.  Composed of meat and tallow, it provides excellent nutrition in an easy to carry form.  Has no fruits or veggies, so it's suitable for carnivores and meatarians.",
     "price": 500,
     "price_postapoc": 300,
     "material": [ "flesh" ],
