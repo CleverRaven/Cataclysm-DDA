@@ -5733,6 +5733,7 @@
     "description": "Your face and jaws have widened like a frogs.  It looks hideous but it allows you to eat food whole.",
     "types": [ "MUZZLE" ],
     "category": [ "BATRACHIAN" ],
+    "wet_protection": [ { "part": "mouth", "good": 6 } ],
     "consume_time_modifier": 0.25
   },
   {
@@ -6053,7 +6054,8 @@
     "mixed_effect": true,
     "description": "Your feet are heavily webbed, allowing you to swim faster if you aren't wearing footwear.",
     "prereqs": [ "WEBBED" ],
-    "category": [ "LIZARD", "FISH", "SLIME", "BATRACHIAN" ]
+    "category": [ "LIZARD", "FISH", "SLIME", "BATRACHIAN" ],
+    "wet_protection": [ { "part": "foot_l", "good": 6 }, { "part": "foot_r", "good": 6 } ]
   },
   {
     "type": "mutation",
