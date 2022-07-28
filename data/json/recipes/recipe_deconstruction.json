@@ -2252,7 +2252,13 @@
     "activity_level": "LIGHT_EXERCISE",
     "time": "3 m",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "scrap_aluminum", 1 ] ], [ [ "amplifier", 1 ] ], [ [ "small_lcd_screen", 1 ] ], [ [ "RAM", 1 ] ], [ [ "processor", 1 ] ] ]
+    "components": [
+      [ [ "scrap_aluminum", 1 ] ],
+      [ [ "amplifier", 1 ] ],
+      [ [ "small_lcd_screen", 1 ] ],
+      [ [ "RAM", 1 ] ],
+      [ [ "processor", 1 ] ]
+    ]
   },
   {
     "result": "splatter_guard",
@@ -3317,7 +3323,13 @@
     "time": "10 m",
     "using": [ [ "soldering_standard", 10 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "element", 3 ] ], [ [ "amplifier", 1 ] ], [ [ "scrap_aluminum", 6 ] ], [ [ "plastic_chunk", 1 ] ], [ [ "cable", 8 ] ] ]
+    "components": [
+      [ [ "element", 3 ] ],
+      [ [ "amplifier", 1 ] ],
+      [ [ "scrap_aluminum", 6 ] ],
+      [ [ "plastic_chunk", 1 ] ],
+      [ [ "cable", 8 ] ]
+    ]
   },
   {
     "result": "mess_tray",
