@@ -1378,7 +1378,7 @@
     "color": "light_gray",
     "description": "The remains from burning an organic organism.",
     "material": [ "powder_nonflam" ],
-    "volume": "129ml",
+    "volume": "104ml",
     "weight": "1 g",
     "ammo_type": "components",
     "count": 100

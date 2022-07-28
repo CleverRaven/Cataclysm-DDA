@@ -74,7 +74,7 @@
     "name": { "str": "clay urn" },
     "description": "A container for storing cremated ashes.",
     "weight": "1600 g",
-    "volume": "4 L",
+    "volume": "4280 ml",
     "price": 5000,
     "price_postapoc": 50,
     "material": [ "clay" ],
@@ -85,7 +85,7 @@
         "pocket_type": "CONTAINER",
         "watertight": true,
         "rigid": true,
-        "max_contains_volume": "3500 ml",
+        "max_contains_volume": "4100 ml",
         "max_contains_weight": "4 kg"
       }
     ],
@@ -113,7 +113,7 @@
     "name": { "str": "crystal urn" },
     "description": "An exquisite, translucent container for cremated ashes, decorated with crystal floral patterns.",
     "weight": "1400 g",
-    "volume": "4 L",
+    "volume": "4280 ml",
     "price": 125000,
     "price_postapoc": 500,
     "material": [ "lead" ],
@@ -124,7 +124,7 @@
         "pocket_type": "CONTAINER",
         "watertight": true,
         "rigid": true,
-        "max_contains_volume": "3500 ml",
+        "max_contains_volume": "4100 ml",
         "max_contains_weight": "4 kg"
       }
     ],
@@ -469,7 +469,7 @@
     "name": { "str": "porcelain urn" },
     "description": "A container for holding the remains of a loved one. Its prior owners must have kept good care of it, as you can see your face reflected clearly upon its surface.",
     "weight": "1600 g",
-    "volume": "4 L",
+    "volume": "4280 ml",
     "price": 35000,
     "price_postapoc": 250,
     "material": [ "porcelain" ],
@@ -480,7 +480,7 @@
         "pocket_type": "CONTAINER",
         "watertight": true,
         "rigid": true,
-        "max_contains_volume": "3500 ml",
+        "max_contains_volume": "4100 ml",
         "max_contains_weight": "4 kg"
       }
     ],
