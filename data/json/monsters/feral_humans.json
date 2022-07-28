@@ -1166,7 +1166,7 @@
     "vision_night": 3,
     "harvest": "human",
     "dissect": "dissect_human_sample_single",
-    "special_attacks": [ [ "PARROT", 32 ], [ "BLOW_WHISTLE", 16 ] ],
+    "special_attacks": [ [ "PARROT", 200 ], [ "BLOW_WHISTLE", 20 ] ],
     "death_drops": "mon_feral_cop_death_drops",
     "fungalize_into": "mon_feral_cop_fungal_infected",
     "flags": [
