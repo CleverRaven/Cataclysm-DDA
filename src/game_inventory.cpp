@@ -1020,25 +1020,25 @@ static std::string get_consume_needs_hint( Character &you )
     std::string kcal_estimated_intake;
     if( kcal_ingested_today == 0 ) {
         //~ kcal_estimated_intake
-        kcal_estimated_intake = _( "none" );
+        kcal_estimated_intake = _( "none " );
     } else if( kcal_ingested_today < 0.2 * you.base_bmr() ) {
         //~ kcal_estimated_intake
-        kcal_estimated_intake = _( "minimal" );
+        kcal_estimated_intake = _( "minimal " );
     } else if( kcal_ingested_today < 0.5 * you.base_bmr() ) {
         //~ kcal_estimated_intake
-        kcal_estimated_intake = _( "low" );
+        kcal_estimated_intake = _( "low " );
     } else if( kcal_ingested_today < 1.0 * you.base_bmr() ) {
         //~ kcal_estimated_intake
-        kcal_estimated_intake = _( "moderate" );
+        kcal_estimated_intake = _( "moderate " );
     } else if( kcal_ingested_today < 1.5 * you.base_bmr() ) {
         //~ kcal_estimated_intake
-        kcal_estimated_intake = _( "high" );
+        kcal_estimated_intake = _( "high " );
     } else if( kcal_ingested_today < 2.0 * you.base_bmr() ) {
         //~ kcal_estimated_intake
-        kcal_estimated_intake = _( "very high" );
+        kcal_estimated_intake = _( "very high " );
     } else {
         //~ kcal_estimated_intake
-        kcal_estimated_intake = _( "huge" );
+        kcal_estimated_intake = _( "huge " );
     }
 
     hint.append( "\n" );
