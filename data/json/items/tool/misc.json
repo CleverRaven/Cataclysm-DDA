@@ -786,12 +786,12 @@
     ],
     "flags": [ "FIRESTARTER", "THERMOMETER" ]
   },
-{
+  {
     "id": "aluminum_stepladder",
     "type": "TOOL",
     "name": { "str": "aluminum stepladder" },
     "description": "This is an aluminum stepladder.  Use it to set it down.",
-	"looks_like": "stepladder",
+    "looks_like": "stepladder",
     "weight": "91500 g",
     "volume": "50 L",
     "price": 2000,
