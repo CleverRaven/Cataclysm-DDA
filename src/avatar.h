@@ -76,7 +76,7 @@ class avatar : public Character
         avatar( const avatar & ) = delete;
         // NOLINTNEXTLINE(performance-noexcept-move-constructor)
         avatar( avatar && );
-        ~avatar();
+        ~avatar() override;
         avatar &operator=( const avatar & ) = delete;
         // NOLINTNEXTLINE(performance-noexcept-move-constructor)
         avatar &operator=( avatar && );
@@ -178,6 +178,8 @@ class avatar : public Character
          */
         void on_mission_finished( mission &cur_mission );
 
+        void remove_active_mission( mission &cur_mission );
+
         //return avatar diary
         diary *get_avatar_diary();
 
@@ -220,7 +222,7 @@ class avatar : public Character
         /**
          * Opens the targeting menu to pull a nearby creature towards the character.
          * @param name Name of the implement used to pull the creature. */
-        void longpull( std::string name );
+        void longpull( const std::string &name );
 
         void wake_up() override;
         // Grab furniture / vehicle

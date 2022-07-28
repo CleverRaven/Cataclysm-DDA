@@ -98,11 +98,11 @@ static const trait_id trait_STRONGBACK( "STRONGBACK" );
 
 static const vpart_id vpart_ap_wall_wiring( "ap_wall_wiring" );
 
-static inline std::string status_color( bool status )
+static std::string status_color( bool status )
 {
     return status ? "<color_green>" : "<color_red>";
 }
-static inline std::string health_color( bool status )
+static std::string health_color( bool status )
 {
     return status ? "<color_light_green>" : "<color_light_red>";
 }
@@ -1417,7 +1417,7 @@ void veh_interact::calc_overview()
     const hotkey_queue &hotkeys = hotkey_queue::alphabets();
 
     const auto next_hotkey = [&]( input_event & evt ) {
-        const input_event prev = evt;
+        input_event prev = evt;
         evt = main_context.next_unassigned_hotkey( hotkeys, evt );
         return prev;
     };

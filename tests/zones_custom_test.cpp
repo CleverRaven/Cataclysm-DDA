@@ -12,7 +12,7 @@ TEST_CASE( "zones_custom", "[zones]" )
     WHEN( "overlapping custom zones" ) {
         clear_map();
         map &m = get_map();
-        tripoint const zone_loc = m.getabs( { 5, 5, 0 } );
+        tripoint const zone_loc = m.getabs( tripoint{ 5, 5, 0 } );
         tripoint const zone_hammer_end = zone_loc + tripoint_north;
         tripoint const zone_bowsaw_end = zone_loc + tripoint_south;
         tripoint const zone_testgroup_end = zone_loc + tripoint_east;

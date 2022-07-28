@@ -480,8 +480,10 @@ void outfit::get_eligible_containers_for_crafting( std::vector<const item *> &co
 std::vector<const item *> Character::get_eligible_containers_for_crafting() const
 {
     std::vector<const item *> conts;
-    const item &weapon = get_wielded_item();
-    conts = get_eligible_containers_recursive( weapon, true );
+    const item_location weapon = get_wielded_item();
+    if( weapon ) {
+        conts = get_eligible_containers_recursive( *weapon, true );
+    }
 
     worn.get_eligible_containers_for_crafting( conts );
 
@@ -660,14 +662,14 @@ static void set_components( std::list<item> &components, const std::list<item> &
 
 static cata::optional<item_location> wield_craft( Character &p, item &craft )
 {
-    item &weapon = p.get_wielded_item();
     if( p.wield( craft ) ) {
-        if( weapon.invlet ) {
-            p.add_msg_if_player( m_info, _( "Wielding %c - %s" ), weapon.invlet, weapon.display_name() );
+        item_location weapon = p.get_wielded_item();
+        if( weapon->invlet ) {
+            p.add_msg_if_player( m_info, _( "Wielding %c - %s" ), weapon->invlet, weapon->display_name() );
         } else {
-            p.add_msg_if_player( m_info, _( "Wielding - %s" ), weapon.display_name() );
+            p.add_msg_if_player( m_info, _( "Wielding - %s" ), weapon->display_name() );
         }
-        return item_location( p, &weapon );
+        return weapon;
     }
     return cata::nullopt;
 }
@@ -812,8 +814,8 @@ static item_location place_craft_or_disassembly(
             amenu.text = string_format( pgettext( "in progress craft", "What to do with the %s?" ),
                                         craft.display_name() );
 
-            amenu.addentry( WIELD_CRAFT, ch.can_unwield( ch.get_wielded_item() ).success(),
-                            '1', _( "Dispose of your wielded %s and start working." ), ch.get_wielded_item().tname() );
+            amenu.addentry( WIELD_CRAFT, ch.can_unwield( *ch.get_wielded_item() ).success(),
+                            '1', _( "Dispose of your wielded %s and start working." ), ch.get_wielded_item()->tname() );
             amenu.addentry( DROP_CRAFT, true, '2', _( "Put it down and start working." ) );
             const bool can_stash = ch.can_pickVolume( craft ) &&
                                    ch.can_pickWeight( craft, !get_option<bool>( "DANGEROUS_PICKUPS" ) );
@@ -1836,7 +1838,7 @@ static void empty_buckets( Character &p )
 {
     // First grab (remove) all items that are non-empty buckets and not wielded
     auto buckets = p.remove_items_with( [&p]( const item & it ) {
-        return it.is_bucket_nonempty() && &it != &p.get_wielded_item();
+        return it.is_bucket_nonempty() && ( !p.get_wielded_item() || &it != &*p.get_wielded_item() );
     }, INT_MAX );
     for( item &it : buckets ) {
         for( const item *in : it.all_items_top() ) {
@@ -2118,8 +2120,8 @@ bool Character::craft_consume_tools( item &craft, int multiplier, bool start_cra
                 case usage_from::player:
                     if( !has_charges( type, count ) ) {
                         add_msg_player_or_npc(
-                            _( "You have insufficient %s charges and can't continue crafting" ),
-                            _( "<npcname> has insufficient %s charges and can't continue crafting" ),
+                            _( "You have insufficient %s charges and can't continue crafting." ),
+                            _( "<npcname> has insufficient %s charges and can't continue crafting." ),
                             item::nname( type ) );
                         craft.set_tools_to_continue( false );
                         return false;
@@ -2128,8 +2130,8 @@ bool Character::craft_consume_tools( item &craft, int multiplier, bool start_cra
                 case usage_from::map:
                     if( !map_inv.has_charges( type, count ) ) {
                         add_msg_player_or_npc(
-                            _( "You have insufficient %s charges and can't continue crafting" ),
-                            _( "<npcname> has insufficient %s charges and can't continue crafting" ),
+                            _( "You have insufficient %s charges and can't continue crafting." ),
+                            _( "<npcname> has insufficient %s charges and can't continue crafting." ),
                             item::nname( type ) );
                         craft.set_tools_to_continue( false );
                         return false;
@@ -2138,8 +2140,8 @@ bool Character::craft_consume_tools( item &craft, int multiplier, bool start_cra
                 case usage_from::both:
                     if( !crafting_inventory().has_charges( type, count ) ) {
                         add_msg_player_or_npc(
-                            _( "You have insufficient %s charges and can't continue crafting" ),
-                            _( "<npcname> has insufficient %s charges and can't continue crafting" ),
+                            _( "You have insufficient %s charges and can't continue crafting." ),
+                            _( "<npcname> has insufficient %s charges and can't continue crafting." ),
                             item::nname( type ) );
                         craft.set_tools_to_continue( false );
                         return false;
@@ -2152,8 +2154,8 @@ bool Character::craft_consume_tools( item &craft, int multiplier, bool start_cra
         } else if( ( type != itype_id::NULL_ID() ) && !has_amount( type, 1 ) &&
                    !map_inv.has_tools( type, 1 ) ) {
             add_msg_player_or_npc(
-                _( "You no longer have a %s and can't continue crafting" ),
-                _( "<npcname> no longer has a %s and can't continue crafting" ),
+                _( "You no longer have a %s and can't continue crafting." ),
+                _( "<npcname> no longer has a %s and can't continue crafting." ),
                 item::nname( type ) );
             craft.set_tools_to_continue( false );
             return false;
@@ -2209,10 +2211,10 @@ void Character::consume_tools( const std::vector<tool_comp> &tools, int batch )
     consume_tools( select_tool_component( tools, batch, map_inv ), batch );
 }
 
-ret_val<bool> Character::can_disassemble( const item &obj, const read_only_visitable &inv ) const
+ret_val<void> Character::can_disassemble( const item &obj, const read_only_visitable &inv ) const
 {
     if( !obj.is_disassemblable() ) {
-        return ret_val<bool>::make_failure( _( "You cannot disassemble this." ) );
+        return ret_val<void>::make_failure( _( "You cannot disassemble this." ) );
     }
 
     const recipe &r = recipe_dictionary::get_uncraft( ( obj.typeId() == itype_disassembly ) ?
@@ -2220,18 +2222,18 @@ ret_val<bool> Character::can_disassemble( const item &obj, const read_only_visit
 
     // check sufficient light
     if( lighting_craft_speed_multiplier( r ) == 0.0f ) {
-        return ret_val<bool>::make_failure( _( "You can't see to craft!" ) );
+        return ret_val<void>::make_failure( _( "You can't see to craft!" ) );
     }
 
     // refuse to disassemble rotten items
     if( obj.goes_bad() && obj.rotten() ) {
-        return ret_val<bool>::make_failure( _( "It's rotten, I'm not taking that apart." ) );
+        return ret_val<void>::make_failure( _( "It's rotten, I'm not taking that apart." ) );
     }
 
     // refuse to disassemble items containing monsters/pets
     std::string monster = obj.get_var( "contained_name" );
     if( !monster.empty() ) {
-        return ret_val<bool>::make_failure( _( "You must remove the %s before you can disassemble this." ),
+        return ret_val<void>::make_failure( _( "You must remove the %s before you can disassemble this." ),
                                             monster );
     }
 
@@ -2242,7 +2244,7 @@ ret_val<bool> Character::can_disassemble( const item &obj, const read_only_visit
             if( obj.charges < qty ) {
                 const char *msg = n_gettext( "You need at least %d charge of %s.",
                                              "You need at least %d charges of %s.", qty );
-                return ret_val<bool>::make_failure( msg, qty, obj.tname() );
+                return ret_val<void>::make_failure( msg, qty, obj.tname() );
             }
         }
     }
@@ -2252,7 +2254,7 @@ ret_val<bool> Character::can_disassemble( const item &obj, const read_only_visit
         for( const quality_requirement &qual : opts ) {
             if( !qual.has( inv, return_true<item> ) ) {
                 // Here should be no dot at the end of the string as 'to_string()' provides it.
-                return ret_val<bool>::make_failure( _( "You need %s" ), qual.to_string() );
+                return ret_val<void>::make_failure( _( "You need %s" ), qual.to_string() );
             }
         }
     }
@@ -2267,11 +2269,11 @@ ret_val<bool> Character::can_disassemble( const item &obj, const read_only_visit
         if( !found ) {
             const tool_comp &tool_required = opts.front();
             if( tool_required.count <= 0 ) {
-                return ret_val<bool>::make_failure( _( "You need %s." ),
+                return ret_val<void>::make_failure( _( "You need %s." ),
                                                     item::nname( tool_required.type ) );
             } else {
                 //~ %1$s: tool name, %2$d: needed charges
-                return ret_val<bool>::make_failure( n_gettext( "You need a %1$s with %2$d charge.",
+                return ret_val<void>::make_failure( n_gettext( "You need a %1$s with %2$d charge.",
                                                     "You need a %1$s with %2$d charges.", tool_required.count ),
                                                     item::nname( tool_required.type ),
                                                     tool_required.count );
@@ -2279,7 +2281,7 @@ ret_val<bool> Character::can_disassemble( const item &obj, const read_only_visit
         }
     }
 
-    return ret_val<bool>::make_success();
+    return ret_val<void>::make_success();
 }
 
 item_location Character::create_in_progress_disassembly( item_location target )

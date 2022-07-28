@@ -463,17 +463,18 @@ static std::set<tripoint> spell_effect_area( const spell &sp, const tripoint &ta
 {
     // calculate spell's effect area
     std::set<tripoint> targets = calculate_spell_effect_area( sp, target, caster );
+    if( !sp.has_flag( spell_flag::NO_EXPLOSION_SFX ) ) {
+        // Draw the explosion
+        std::map<tripoint, nc_color> explosion_colors;
+        for( const tripoint &pt : targets ) {
+            explosion_colors[pt] = sp.damage_type_color();
+        }
 
-    // Draw the explosion
-    std::map<tripoint, nc_color> explosion_colors;
-    for( const tripoint &pt : targets ) {
-        explosion_colors[pt] = sp.damage_type_color();
+        std::string exp_name = "explosion_" + sp.id().str();
+
+        explosion_handler::draw_custom_explosion( get_player_character().pos(), explosion_colors,
+                exp_name );
     }
-
-    std::string exp_name = "explosion_" + sp.id().str();
-
-    explosion_handler::draw_custom_explosion( get_player_character().pos(), explosion_colors,
-            exp_name );
     return targets;
 }
 
@@ -1636,8 +1637,7 @@ void spell_effect::banishment( const spell &sp, Creature &caster, const tripoint
             continue;
         }
         // you can't banish npcs.
-        monster *mon = creatures.creature_at<monster>( potential_target );
-        if( mon != nullptr ) {
+        if( monster *mon = creatures.creature_at<monster>( potential_target ) ) {
             target_mons.push_back( mon );
         }
     }
@@ -1647,7 +1647,7 @@ void spell_effect::banishment( const spell &sp, Creature &caster, const tripoint
     }
 
     for( monster *mon : target_mons ) {
-        int overflow = -( total_dam -= mon->get_hp() );
+        int overflow = mon->get_hp() - total_dam;
         // reset overflow in case we have more monsters to do
         total_dam = 0;
         while( overflow > 0 ) {

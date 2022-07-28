@@ -1508,7 +1508,7 @@ rl_vec2d vehicle::velo_vec() const
     return ret;
 }
 
-static inline rl_vec2d angle_to_vec( const units::angle &angle )
+static rl_vec2d angle_to_vec( const units::angle &angle )
 {
     return rl_vec2d( units::cos( angle ), units::sin( angle ) );
 }
@@ -1990,7 +1990,7 @@ void vehicle::check_falling_or_floating()
     }
     // If half of the wheels are supported, we're not falling and we're not in water.
     if( supported_wheels > 0 &&
-        static_cast<size_t>( supported_wheels * 2 ) >= wheelcache.size() ) {
+        static_cast<size_t>( supported_wheels ) * 2 >= wheelcache.size() ) {
         is_falling = false;
         in_water = false;
         is_floating = false;

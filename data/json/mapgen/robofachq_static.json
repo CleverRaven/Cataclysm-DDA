@@ -488,7 +488,8 @@
         ]
       },
       "monster": { "T": { "monster": "mon_robofac_laserturret_mk1" } },
-      "npcs": { "G": { "class": "hub_security" }, "Q": { "class": "hub_security_head" } }
+      "npcs": { "G": { "class": "hub_security" }, "Q": { "class": "hub_security_head" } },
+      "liquids": { "W": { "liquid": "water_clean", "amount": [ 0, 80 ] } }
     }
   },
   {
@@ -606,7 +607,8 @@
           { "item": "lab_bookshelves", "chance": 55, "repeat": [ 1, 3 ] }
         ]
       },
-      "npcs": { "G": { "class": "hub_security" } }
+      "npcs": { "G": { "class": "hub_security" } },
+      "liquids": { "W": { "liquid": "water_clean", "amount": [ 0, 80 ] } }
     }
   },
   {

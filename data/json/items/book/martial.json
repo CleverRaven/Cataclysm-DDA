@@ -272,7 +272,7 @@
     "type": "BOOK",
     "name": { "ctxt": "book", "str": "Fior Di Battaglia", "str_pl": "copies of Fior Di Battaglia" },
     "price_postapoc": 3000,
-    "description": "A completely translated medieval guide teaching various techniques with polearms, there is a chapter about the many variations of common polearms… there are even pictures!",
+    "description": "A completely translated medieval guide teaching various techniques with polearms.  There is a chapter about the many variations of common polearms… there are even pictures!",
     "martial_art": "style_medievalpole"
   },
   {

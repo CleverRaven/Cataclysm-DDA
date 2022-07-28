@@ -186,7 +186,7 @@
     "id": "migo_skin_off",
     "type": "ARMOR",
     "name": { "str": "resonating gorget" },
-    "description": "A heavy-duty gorget or collar made from odd materials that hums slightly.  Tt feels damp to the touch and there is a mechanical button of some kind on the front.  The inside reads \"CAREFUL CHOKING HAZARD!  THIS WAY DOWN\".",
+    "description": "A heavy-duty gorget or collar made from odd materials that hums slightly.  It feels damp to the touch and there is a mechanical button of some kind on the front.  The inside reads \"CAREFUL CHOKING HAZARD!  THIS WAY DOWN\".",
     "weight": "1500 g",
     "volume": "100 ml",
     "price": 2500,

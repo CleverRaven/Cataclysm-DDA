@@ -315,11 +315,11 @@ static std::string build_bionic_poweronly_string( const bionic &bio )
         properties.push_back( string_format( _( "%s trigger" ),
                                              units::display( bio_data.power_trigger ) ) );
     }
-    if( bio_data.charge_time > 0 && bio_data.power_over_time > 0_kJ ) {
-        properties.push_back( bio_data.charge_time == 1
+    if( bio_data.charge_time > 0_turns && bio_data.power_over_time > 0_kJ ) {
+        properties.push_back( bio_data.charge_time == 1_turns
                               ? string_format( _( "%s/turn" ), units::display( bio_data.power_over_time ) )
                               : string_format( _( "%s/%d turns" ), units::display( bio_data.power_over_time ),
-                                               bio_data.charge_time ) );
+                                               to_turns<int>( bio_data.charge_time ) ) );
     }
     if( bio_data.has_flag( STATIC( json_character_flag( "BIONIC_TOGGLED" ) ) ) ) {
         properties.emplace_back( bio.powered ? _( "ON" ) : _( "OFF" ) );

@@ -149,6 +149,8 @@ static std::map<vpart_id, vpart_info> vpart_info_all;
 
 static std::map<vpart_id, vpart_info> abstract_parts;
 
+static std::map<vpart_id, vpart_id> vpart_migrations;
+
 static DynamicDataLoader::deferred_json deferred;
 
 std::pair<std::string, std::string> get_vpart_str_variant( const std::string &vpid )
@@ -1363,4 +1365,22 @@ void vpart_category::finalize()
 void vpart_category::reset()
 {
     vpart_categories_all.clear();
+}
+
+void vpart_migration::load( const JsonObject &jo )
+{
+    const std::string from = jo.get_string( "from" );
+    const std::string to = jo.get_string( "to" );
+
+    vpart_migrations.emplace( vpart_id( from ), vpart_id( to ) );
+}
+
+void vpart_migration::reset()
+{
+    vpart_migrations.clear();
+}
+
+const std::map<vpart_id, vpart_id> &vpart_migration::get_migrations()
+{
+    return vpart_migrations;
 }
