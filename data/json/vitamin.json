@@ -5,6 +5,7 @@
     "vit_type": "vitamin",
     "name": { "str": "Calcium" },
     "min": -12000,
+    "max": 3600,
     "rate": "90 m"
   },
   {
@@ -26,6 +27,7 @@
     "name": { "str": "Vitamin C" },
     "deficiency": "scurvy",
     "min": -5600,
+    "max": 3600,
     "rate": "15 m",
     "disease": [ [ -2800, -3600 ], [ -3601, -4400 ], [ -4401, -5600 ] ]
   },

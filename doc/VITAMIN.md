@@ -74,3 +74,4 @@ Each tier of excess corresponds to the intensity level of the effect defined in 
 ## flags
 
 - ```NO_DISPLAY``` - This vitamin will not be shown when examining a food.
+- ```OBSOLETE``` - This vitamin will not be displayed when tracking vitamins in the consume menu.

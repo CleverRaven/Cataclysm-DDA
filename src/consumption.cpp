@@ -561,6 +561,9 @@ int Character::vitamin_mod( const vitamin_id &vit, int qty )
         it->second = std::min( it->second + qty, v.max() );
         update_vitamins( vit );
 
+        // update the daily trackers too while here
+        daily_vitamins[vit].second += qty;
+
     } else if( qty < 0 ) {
         it->second = std::max( it->second + qty, v.min() );
         update_vitamins( vit );
@@ -587,6 +590,27 @@ int Character::vitamin_get( const vitamin_id &vit ) const
 
     const auto &v = vitamin_levels.find( vit );
     return v != vitamin_levels.end() ? v->second : 0;
+}
+
+int Character::get_daily_vitamin( const vitamin_id &vit, bool actual ) const
+{
+    if( get_option<bool>( "NO_VITAMINS" ) && vit->type() == vitamin_type::VITAMIN ) {
+        return 0;
+    }
+
+    const auto &v = daily_vitamins.find( vit );
+    // if we should get the guess or the real value
+    const int &count = actual ? v->second.second : v->second.first;
+    return v != daily_vitamins.end() ? count : 0;
+}
+
+void Character::reset_daily_vitamin( const vitamin_id &vit )
+{
+    if( get_option<bool>( "NO_VITAMINS" ) && vit->type() == vitamin_type::VITAMIN ) {
+        return;
+    }
+
+    daily_vitamins[vit] = { 0, 0 };
 }
 
 void Character::vitamin_set( const vitamin_id &vit, int qty )
@@ -1512,7 +1536,15 @@ bool Character::consume_effects( item &food )
 
     // GET IN MAH BELLY!
     stomach.ingest( ingested );
+
+    // update speculative values
     get_avatar().add_ingested_kcal( ingested.nutr.calories / 1000 );
+    for( auto v : ingested.nutr.vitamins ) {
+        // update the estimated values for daily vitamins
+        // actual vitamins happen during digestion
+        daily_vitamins[v.first].first += v.second;
+    }
+
     return true;
 }
 

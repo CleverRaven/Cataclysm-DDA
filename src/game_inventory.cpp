@@ -58,6 +58,7 @@
 #include "units_utility.h"
 #include "value_ptr.h"
 #include "vehicle_selector.h"
+#include "vitamin.h"
 #include "vpart_position.h"
 
 static const activity_id ACT_CONSUME_DRINK_MENU( "ACT_CONSUME_DRINK_MENU" );
@@ -1058,6 +1059,37 @@ static std::string get_consume_needs_hint( Character &you )
         hint.append( string_format( "%s %s", _( "Today:" ), colorize( desc.first, desc.second ) ) );
         desc = std::make_pair( string_format( _( "%d kcal " ), kcal_spent_yesterday ), c_white );
         hint.append( string_format( "%s %s", _( "Yesterday:" ), colorize( desc.first, desc.second ) ) );
+    }
+
+    // add info about vitamins as well
+    hint.append( _( "Vitamin Intake: " ) );
+
+    for( const auto &v : vitamin::all() ) {
+        if( v.first->type() != vitamin_type::VITAMIN || v.first->has_flag( "OBSOLETE" ) ) {
+            //skip non vitamins
+            continue;
+        }
+        const time_duration rate = you.vitamin_rate( v.first );
+
+        const int &total_vit_quantity = you.get_daily_vitamin( v.first, false );
+
+        const double rda = 1_days / rate;
+        const int &vit_percent = static_cast<double>( total_vit_quantity ) * 100 / rda;
+
+        if( has_tracker ) {
+            desc = std::make_pair( string_format( _( "%s: %d%%.  " ), v.second.name(), vit_percent ), c_white );
+            hint.append( colorize( desc.first, desc.second ) );
+        } else {
+            if( total_vit_quantity > 0.9 * rda ) {
+                desc = std::make_pair( _( "plenty" ), c_white );
+            } else if( total_vit_quantity > 0.5 * rda ) {
+                desc = std::make_pair( _( "some" ), c_white );
+            } else if( total_vit_quantity > 0 ) {
+                desc = std::make_pair( _( "little" ), c_white );
+            } else {
+                desc = std::make_pair( _( "none" ), c_white );
+            }
+        }
     }
     return hint;
 }
