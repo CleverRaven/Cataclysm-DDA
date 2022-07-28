@@ -1601,6 +1601,6 @@
     ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
     "tools": [ [ [ "hotcut", -1 ] ] ],
-	"components": [ [ [ "scrap_aluminum", 2 ], [ "plastic_chunk", 1 ] ] ]
+	"components": [ [ [ "scrap_aluminum", 2 ] ], [ [ "plastic_chunk", 1 ] ] ]
   }
 ]
