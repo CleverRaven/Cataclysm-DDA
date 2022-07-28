@@ -44,9 +44,9 @@ std::vector<uint8_t> parse_json_to_flexbuffer_(
         size_t col = 0;
         int error_offset = 5; // strlen("EOF: ");
         if( strncmp( parser.error_.c_str(), "EOF", 3 ) != 0 ) {
-            // Try to extract line and col to position JsonIn at an appropriate location.
+            // Try to extract line and col to position TextJsonIn at an appropriate location.
             // %n modifier returns number of characters consumed by sscanf to skip the text
-            // in the error that the flexbuffer parser returns, because JsonIn will add it.
+            // in the error that the flexbuffer parser returns, because TextJsonIn will add it.
             // NOLINTNEXTLINE(cert-err34-c)
             if( sscanf( parser.error_.c_str(), "%zu:%zu: %n", &line, &col, &error_offset ) != 2 ) {
                 line = 0;
@@ -65,7 +65,7 @@ std::vector<uint8_t> parse_json_to_flexbuffer_(
             // Seek to end.
             is.seekg( 0, std::ios_base::end );
         }
-        JsonIn jsin{is, source_filename_opt ? source_filename_opt : "<unknown source file>"};
+        TextJsonIn jsin{is, source_filename_opt ? source_filename_opt : "<unknown source file>"};
         jsin.error( col - 1, parser.error_.substr( error_offset ) );
     }
 

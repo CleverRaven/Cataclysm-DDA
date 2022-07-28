@@ -75,10 +75,10 @@ struct JsonPath {
         small_literal_vector<index_type, kInlinePathSegments> path_;
 };
 
-class FlexJsonObject;
-class FlexJsonArray;
-class FlexJsonValue;
-class FlexJsonMember;
+class JsonObject;
+class JsonArray;
+class JsonValue;
+class JsonMember;
 
 static inline flexbuffers::Reference flexbuffer_root_from_storage(
     const std::shared_ptr<flexbuffer_storage> &storage )
@@ -86,11 +86,10 @@ static inline flexbuffers::Reference flexbuffer_root_from_storage(
     return flexbuffers::GetRoot( storage->data(), storage->size() );
 }
 
-class FlexJson
+class Json
 {
     public:
-
-        FlexJson() = delete;
+        Json() = delete;
         using flexbuffer = flexbuffers::Reference;
 
         std::string str() const;
@@ -102,16 +101,16 @@ class FlexJson
         static const std::string &flexbuffer_type_to_string( flexbuffers::Type t );
 
     protected:
-        FlexJson( std::shared_ptr<parsed_flexbuffer> root, flexbuffer json ) : root_{ std::move( root ) },
+        Json( std::shared_ptr<parsed_flexbuffer> root, flexbuffer json ) : root_{ std::move( root ) },
             json_ { json } {}
 
-        ~FlexJson() noexcept = default;
+        ~Json() noexcept = default;
 
-        FlexJson( const FlexJson & ) = default;
-        FlexJson &operator=( const FlexJson & ) = default;
+        Json( const Json & ) = default;
+        Json &operator=( const Json & ) = default;
 
-        FlexJson( FlexJson && ) noexcept = default;
-        FlexJson &operator=( FlexJson && ) noexcept = default;
+        Json( Json && ) noexcept = default;
+        Json &operator=( Json && ) noexcept = default;
 
         // Keeps the backing memory alive, also contains the root reference and source file for error logging.
         std::shared_ptr<parsed_flexbuffer> root_;
@@ -119,28 +118,28 @@ class FlexJson
         flexbuffer json_;
 };
 
-class FlexJsonWithPath : protected FlexJson
+class JsonWithPath : protected Json
 {
     public:
         [[noreturn]] void throw_error( const std::string &message ) const noexcept( false ) {
             throw_error( 0, message );
         }
         [[noreturn]] void throw_error( int offset, const std::string &message ) const noexcept( false ) {
-            FlexJson::throw_error( path_, offset, message );
+            Json::throw_error( path_, offset, message );
         }
         [[noreturn]] void throw_error_after( const std::string &message ) const noexcept( false ) {
-            FlexJson::throw_error_after( path_, message );
+            Json::throw_error_after( path_, message );
         }
 
     protected:
-        FlexJsonWithPath( std::shared_ptr<parsed_flexbuffer> root, flexbuffer json,
-                          JsonPath &&path ) : FlexJson( std::move( root ), json ), path_{ std::move( path ) } {}
+        JsonWithPath( std::shared_ptr<parsed_flexbuffer> root, flexbuffer json,
+                      JsonPath &&path ) : Json( std::move( root ), json ), path_{ std::move( path ) } {}
 
-        FlexJsonWithPath( const FlexJsonWithPath & ) = default;
-        FlexJsonWithPath &operator=( const FlexJsonWithPath & ) = default;
+        JsonWithPath( const JsonWithPath & ) = default;
+        JsonWithPath &operator=( const JsonWithPath & ) = default;
 
-        FlexJsonWithPath( FlexJsonWithPath && ) noexcept = default;
-        FlexJsonWithPath &operator=( FlexJsonWithPath && ) noexcept = default;
+        JsonWithPath( JsonWithPath && ) noexcept = default;
+        JsonWithPath &operator=( JsonWithPath && ) noexcept = default;
 
         bool error_or_false( bool throw_on_error,
                              const std::string &message ) const noexcept( false ) {
@@ -157,34 +156,34 @@ class FlexJsonWithPath : protected FlexJson
 // To keep creating these as trivial as possible, these do not contain a JsonPath. The typical
 // pattern with JsonValue's is to immediately cast to the desired type, and generally are
 // retrieved while iterating members of a JsonObject or values in a JsonArray. This
-// means the parent_path will outlive the FlexJsonValue. But we have no real way to guarantee
+// means the parent_path will outlive the JsonValue. But we have no real way to guarantee
 // this without resorting to moving the JsonPath into a heap allocation with shared_ptr.
-// We still aren't totally trivial because FlexJson has a shared_ptr member, but it's close.
-class FlexJsonValue : FlexJson
+// We still aren't totally trivial because Json has a shared_ptr member, but it's close.
+class JsonValue : Json
 {
     public:
-        // Create a FlexJsonValue from the given json source file, optionally starting parsing
+        // Create a JsonValue from the given json source file, optionally starting parsing
         // at the given offset in the file (eg. because it starts with some non-json
         // content like a version header). Throws if the file cannot be found or fails to parse.
-        static FlexJsonValue from( fs::path source_file, size_t offset = 0 ) noexcept( false );
+        static JsonValue from( fs::path source_file, size_t offset = 0 ) noexcept( false );
 
-        // Like FlexJsonValue::from, except does not throw if the file does not exist. It will still throw if the json cannot be parsed.
-        static cata::optional<FlexJsonValue> fromOpt( fs::path source_file,
+        // Like JsonValue::from, except does not throw if the file does not exist. It will still throw if the json cannot be parsed.
+        static cata::optional<JsonValue> fromOpt( fs::path source_file,
                 size_t offset = 0 ) noexcept( false );
 
-        // Like FlexJsonValue::from, except instead of parsing data from a file, will parse data from a string in memory.
-        static FlexJsonValue fromString( const std::string &data ) noexcept( false );
+        // Like JsonValue::from, except instead of parsing data from a file, will parse data from a string in memory.
+        static JsonValue fromString( const std::string &data ) noexcept( false );
 
-        FlexJsonValue( std::shared_ptr<parsed_flexbuffer> root, flexbuffer json,
-                       JsonPath const *parent_path, size_t path_index ) : FlexJson(
-                               std::move( root ),
-                               json ), parent_path_{ parent_path }, path_index_{ path_index } {}
+        JsonValue( std::shared_ptr<parsed_flexbuffer> root, flexbuffer json,
+                   JsonPath const *parent_path, size_t path_index ) : Json(
+                           std::move( root ),
+                           json ), parent_path_{ parent_path }, path_index_{ path_index } {}
 
-        FlexJsonValue( const FlexJsonValue & ) = default;
-        FlexJsonValue &operator=( const FlexJsonValue & ) = default;
+        JsonValue( const JsonValue & ) = default;
+        JsonValue &operator=( const JsonValue & ) = default;
 
-        FlexJsonValue( FlexJsonValue && ) noexcept = default;
-        FlexJsonValue &operator=( FlexJsonValue && ) noexcept = default;
+        JsonValue( JsonValue && ) noexcept = default;
+        JsonValue &operator=( JsonValue && ) noexcept = default;
 
         // NOLINTNEXTLINE(google-explicit-constructor)
         operator std::string() const;
@@ -201,9 +200,9 @@ class FlexJsonValue : FlexJson
         // NOLINTNEXTLINE(google-explicit-constructor)
         operator double() const;
         // NOLINTNEXTLINE(google-explicit-constructor)
-        operator FlexJsonObject() const;
+        operator JsonObject() const;
         // NOLINTNEXTLINE(google-explicit-constructor)
-        operator FlexJsonArray() const;
+        operator JsonArray() const;
 
         bool test_string() const;
         bool test_bool() const;
@@ -221,12 +220,12 @@ class FlexJsonValue : FlexJson
         int64_t get_int64() const;
         uint64_t get_uint64() const;
         double get_float() const;
-        FlexJsonArray get_array() const;
-        FlexJsonObject get_object() const;
+        JsonArray get_array() const;
+        JsonObject get_object() const;
 
-        using FlexJson::throw_error;
-        using FlexJson::throw_error_after;
-        using FlexJson::string_error;
+        using Json::throw_error;
+        using Json::throw_error_after;
+        using Json::string_error;
 
         // optionally-fatal reading into values by reference
         // returns true if the data was read successfully, false otherwise
@@ -352,7 +351,7 @@ class FlexJsonValue : FlexJson
         }
 };
 
-class FlexJsonArray : FlexJsonWithPath
+class JsonArray : JsonWithPath
 {
         static const auto &empty_array_() {
             static auto empty_array = flexbuffer_cache::parse_buffer( "[]" );
@@ -360,37 +359,37 @@ class FlexJsonArray : FlexJsonWithPath
         }
 
     public:
-        FlexJsonArray() : FlexJsonWithPath( empty_array_(),
-                                                flexbuffer_root_from_storage( empty_array_()->get_storage() ), {} ) {
+        JsonArray() : JsonWithPath( empty_array_(),
+                                        flexbuffer_root_from_storage( empty_array_()->get_storage() ), {} ) {
             init( json_ );
         }
 
-        FlexJsonArray(
+        JsonArray(
             std::shared_ptr<parsed_flexbuffer> root,
             flexbuffer json,
             JsonPath &&path )
-            : FlexJsonWithPath( std::move( root ), json, std::move( path ) ) {
+            : JsonWithPath( std::move( root ), json, std::move( path ) ) {
             init( json_ );
         }
 
-        FlexJsonArray( const FlexJsonArray &rhs ) : FlexJsonWithPath( rhs ) {
+        JsonArray( const JsonArray &rhs ) : JsonWithPath( rhs ) {
             init( json_ );
         }
 
-        FlexJsonArray &operator=( const FlexJsonArray &rhs ) {
-            FlexJsonWithPath::operator=( rhs );
+        JsonArray &operator=( const JsonArray &rhs ) {
+            JsonWithPath::operator=( rhs );
             init( json_ );
             return *this;
         }
 
-        FlexJsonArray( FlexJsonArray &&rhs ) noexcept :
-            FlexJsonWithPath( std::move( static_cast<FlexJsonWithPath &>( rhs ) ) ) {
+        JsonArray( JsonArray &&rhs ) noexcept :
+            JsonWithPath( std::move( static_cast<JsonWithPath &>( rhs ) ) ) {
             init( json_, &rhs.visited_fields_bitset_ );
             rhs.visited_fields_bitset_.set_all();
         }
 
-        FlexJsonArray &operator=( FlexJsonArray &&rhs ) noexcept {
-            FlexJsonWithPath::operator=( std::move( static_cast<FlexJsonWithPath &>( rhs ) ) );
+        JsonArray &operator=( JsonArray &&rhs ) noexcept {
+            JsonWithPath::operator=( std::move( static_cast<JsonWithPath &>( rhs ) ) );
             init( json_, &rhs.visited_fields_bitset_ );
             rhs.visited_fields_bitset_.set_all();
             return *this;
@@ -411,13 +410,15 @@ class FlexJsonArray : FlexJsonWithPath
             return size() == 0;
         }
 
-        FlexJsonValue operator[]( size_t idx ) const;
+
+        JsonValue operator[]( size_t idx ) const;
 
         std::string get_string( size_t idx ) const;
         int get_int( size_t idx ) const;
         double get_float( size_t idx ) const;
-        FlexJsonArray get_array( size_t idx ) const;
-        FlexJsonObject get_object( size_t idx ) const;
+
+        JsonArray get_array( size_t idx ) const;
+        JsonObject get_object( size_t idx ) const;
 
         bool has_string( size_t idx ) const;
         bool has_bool( size_t idx ) const;
@@ -439,12 +440,13 @@ class FlexJsonArray : FlexJsonWithPath
         double next_float();
 
         bool test_array() const;
-        FlexJsonArray next_array();
+
+        JsonArray next_array();
 
         bool test_object() const;
-        FlexJsonObject next_object();
+        JsonObject next_object();
 
-        FlexJsonValue next_value();
+        JsonValue next_value();
 
         template<typename E, typename = typename std::enable_if<std::is_enum<E>::value>::type>
         E next_enum_value() ;
@@ -470,12 +472,12 @@ class FlexJsonArray : FlexJsonWithPath
             return next_ < size_;
         }
 
-        using FlexJsonWithPath::throw_error;
-        using FlexJsonWithPath::throw_error_after;
-        using FlexJsonWithPath::error_or_false;
+        using JsonWithPath::throw_error;
+        using JsonWithPath::throw_error_after;
+        using JsonWithPath::error_or_false;
 
     private:
-        FlexJsonValue get_next();
+        JsonValue get_next();
 
         size_t size_ = 0;
         size_t next_ = 0;
@@ -504,18 +506,18 @@ class FlexJsonArray : FlexJsonWithPath
         }
 };
 
-class FlexJsonMember : public FlexJsonValue
+class JsonMember : public JsonValue
 {
     public:
-        FlexJsonMember( flexbuffers::String name,
-                        FlexJsonValue value ) : FlexJsonValue( std::move( value ) ),
+        JsonMember( flexbuffers::String name,
+                    JsonValue value ) : JsonValue( std::move( value ) ),
             name_( name ) { }
 
-        FlexJsonMember( const FlexJsonMember & ) = default;
-        FlexJsonMember &operator=( const FlexJsonMember & ) = default;
+        JsonMember( const JsonMember & ) = default;
+        JsonMember &operator=( const JsonMember & ) = default;
 
-        FlexJsonMember( FlexJsonMember && ) = default;
-        FlexJsonMember &operator=( FlexJsonMember && ) = default;
+        JsonMember( JsonMember && ) = default;
+        JsonMember &operator=( JsonMember && ) = default;
 
         std::string name() const {
             return name_.str();
@@ -529,7 +531,7 @@ class FlexJsonMember : public FlexJsonValue
         flexbuffers::String name_;
 };
 
-class FlexJsonObject : FlexJsonWithPath
+class JsonObject : JsonWithPath
 {
     protected:
         flexbuffers::TypedVector keys_ = flexbuffers::TypedVector::EmptyTypedVector();
@@ -542,46 +544,46 @@ class FlexJsonObject : FlexJsonWithPath
         }
 
     public:
-        FlexJsonObject() : FlexJsonWithPath( empty_object_(),
-                                                 flexbuffer_root_from_storage( empty_object_()->get_storage() ), {} ) {
+        JsonObject() : JsonWithPath( empty_object_(),
+                                         flexbuffer_root_from_storage( empty_object_()->get_storage() ), {} ) {
             init( json_ );
         }
 
-        FlexJsonObject(
+        JsonObject(
             std::shared_ptr<parsed_flexbuffer> root,
             flexbuffer json,
             JsonPath &&path
         )
-            : FlexJsonWithPath( std::move( root ), json, std::move( path ) ) {
+            : JsonWithPath( std::move( root ), json, std::move( path ) ) {
             init( json_ );
         }
 
-        FlexJsonObject( const FlexJsonObject &rhs ) : FlexJsonWithPath( rhs ) {
+        JsonObject( const JsonObject &rhs ) : JsonWithPath( rhs ) {
             init( json_ );
         }
 
-        FlexJsonObject &operator=( const FlexJsonObject &rhs ) {
-            FlexJsonWithPath::operator=( rhs );
+        JsonObject &operator=( const JsonObject &rhs ) {
+            JsonWithPath::operator=( rhs );
             init( json_ );
             // Copying an object resets visited fields.
             visited_fields_bitset_.clear_all();
             return *this;
         }
 
-        FlexJsonObject( FlexJsonObject &&rhs ) noexcept :
-            FlexJsonWithPath( std::move( static_cast<FlexJsonWithPath &>( rhs ) ) )  {
+        JsonObject( JsonObject &&rhs ) noexcept :
+            JsonWithPath( std::move( static_cast<JsonWithPath &>( rhs ) ) )  {
             init( json_, &rhs.visited_fields_bitset_ );
             rhs.visited_fields_bitset_.set_all();
         }
 
-        FlexJsonObject &operator=( FlexJsonObject &&rhs ) noexcept {
-            FlexJsonWithPath::operator=( std::move( static_cast<FlexJsonWithPath &>( rhs ) ) );
+        JsonObject &operator=( JsonObject &&rhs ) noexcept {
+            JsonWithPath::operator=( std::move( static_cast<JsonWithPath &>( rhs ) ) );
             init( json_, &rhs.visited_fields_bitset_ );
             rhs.visited_fields_bitset_.set_all();
             return *this;
         }
 
-        ~FlexJsonObject();
+        ~JsonObject();
 
     private:
         void init( const flexbuffer &json, tiny_bitset *moved_visited_fields = nullptr ) {
@@ -620,11 +622,11 @@ class FlexJsonObject : FlexJsonWithPath
         double get_float( const std::string &key ) const;
         double get_float( const char *key ) const;
 
-        FlexJsonArray get_array( const std::string &key ) const;
-        FlexJsonArray get_array( const char *key ) const;
+        JsonArray get_array( const std::string &key ) const;
+        JsonArray get_array( const char *key ) const;
 
-        FlexJsonObject get_object( const std::string &key ) const;
-        FlexJsonObject get_object( const char *key ) const;
+        JsonObject get_object( const std::string &key ) const;
+        JsonObject get_object( const char *key ) const;
 
         template<typename E, typename = typename std::enable_if<std::is_enum<E>::value>::type>
         E get_enum_value( const std::string &name ) const;
@@ -680,10 +682,10 @@ class FlexJsonObject : FlexJsonWithPath
         double get_float( const char *key, double fallback ) const;
 
         // Tries to get the member, and if found, calls it visited.
-        cata::optional<FlexJsonValue> get_member_opt( const char *key ) const;
-        FlexJsonValue get_member( const std::string &key ) const;
-        FlexJsonValue get_member( const char *key ) const;
-        FlexJsonValue operator[]( const char *key ) const;
+        cata::optional<JsonValue> get_member_opt( const char *key ) const;
+        JsonValue get_member( const std::string &key ) const;
+        JsonValue get_member( const char *key ) const;
+        JsonValue operator[]( const char *key ) const;
 
         // Schwillions of read overloads
         template <typename T>
@@ -706,11 +708,11 @@ class FlexJsonObject : FlexJsonWithPath
             visited_fields_bitset_.set_all();
         }
 
-        void copy_visited_members( const FlexJsonObject &rhs ) const {
+        void copy_visited_members( const JsonObject &rhs ) const {
             visited_fields_bitset_ = rhs.visited_fields_bitset_;
         }
 
-        using FlexJson::str;
+        using Json::str;
 
         class const_iterator;
         friend const_iterator;
@@ -720,7 +722,7 @@ class FlexJsonObject : FlexJsonWithPath
 
     private:
         // Only called by the iterator which can't be manually constructed.
-        FlexJsonValue operator[]( size_t idx ) const;
+        JsonValue operator[]( size_t idx ) const;
 
         // NOLINTNEXTLINE(cata-large-inline-function)
         flexbuffers::Reference find_value_ref( const char *key ) const {
@@ -772,9 +774,9 @@ class FlexJsonObject : FlexJsonWithPath
 // The implementation still exists in the -inl header but has to come after all
 // the definitions for JsonValue::read().
 //template<typename T>
-//void deserialize( cata::optional<T> &obj, const FlexJsonValue &jsin );
+//void deserialize( cata::optional<T> &obj, const JsonValue &jsin );
 
-void add_array_to_set( std::set<std::string> &s, const FlexJsonObject &json,
+void add_array_to_set( std::set<std::string> &s, const JsonObject &json,
                        const std::string &name );
 
 #include "flexbuffer_json-inl.h"

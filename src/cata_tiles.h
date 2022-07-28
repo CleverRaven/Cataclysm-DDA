@@ -315,7 +315,7 @@ class tileset_cache::loader
          * sprite offset dictates where each sprite should render in its tile
          * @throw std::exception On any error.
          */
-        void load_tilejson_from_file( const JsonObject &config );
+        void load_tilejson_from_file( const TextJsonObject &config );
         /**
          * Helper function called by load.
          * @param pump_events Handle window events and refresh the screen when necessary.
@@ -323,14 +323,14 @@ class tileset_cache::loader
          *        executing if you set it to true.
          * @throw std::exception On any error.
          */
-        void load_internal( const JsonObject &config, const std::string &tileset_root,
+        void load_internal( const TextJsonObject &config, const std::string &tileset_root,
                             const std::string &img_path, bool pump_events );
 
         /**
          * Helper function to load layering data.
          * @throw std::exception On any error.
          */
-        void load_layers( const JsonObject &config );
+        void load_layers( const TextJsonObject &config );
 
     public:
         loader( tileset &ts, const SDL_Renderer_Ptr &r ) : ts( ts ), renderer( r ) {

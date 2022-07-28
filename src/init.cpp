@@ -158,17 +158,11 @@ void DynamicDataLoader::load_deferred( deferred_json &data )
         const size_t n = data.size();
         auto it = data.begin();
         for( size_t idx = 0; idx != n; ++idx ) {
-            if( !it->first.path ) {
-                debugmsg( "JSON source location has null path, data may load incorrectly" );
-            } else {
-                try {
-                    shared_ptr_fast<std::istream> stream = get_cached_stream( *it->first.path );
-                    JsonIn jsin( *stream, it->first );
-                    JsonObject jo = jsin.get_object();
-                    load_object( jo, it->second );
-                } catch( const JsonError &err ) {
-                    debugmsg( "(json-error)\n%s", err.what() );
-                }
+            try {
+                JsonObject jo = it->first;
+                load_object( jo, it->second );
+            } catch( const JsonError &err ) {
+                debugmsg( "(json-error)\n%s", err.what() );
             }
             ++it;
             inp_mngr.pump_events();
@@ -176,16 +170,10 @@ void DynamicDataLoader::load_deferred( deferred_json &data )
         data.erase( data.begin(), it );
         if( data.size() == n ) {
             for( const auto &elem : data ) {
-                if( !elem.first.path ) {
-                    debugmsg( "JSON source location has null path when reporting circular dependency" );
-                } else {
-                    try {
-                        shared_ptr_fast<std::istream> stream = get_cached_stream( *it->first.path );
-                        JsonIn jsin( *stream, elem.first );
-                        jsin.error( "JSON contains circular dependency, this object is discarded" );
-                    } catch( const JsonError &err ) {
-                        debugmsg( "(json-error)\n%s", err.what() );
-                    }
+                try {
+                    elem.first.throw_error( "JSON contains circular dependency, this object is discarded" );
+                } catch( const JsonError &err ) {
+                    debugmsg( "(json-error)\n%s", err.what() );
                 }
                 inp_mngr.pump_events();
             }
@@ -512,7 +500,7 @@ void DynamicDataLoader::load_data_from_path( const std::string &path, const std:
         std::istringstream iss( read_entire_file( file ) );
         try {
             // parse it
-            JsonIn jsin( iss, file );
+            JsonValue jsin = JsonValue::from( fs::u8path( file ) );
             load_all_from_json( jsin, src, ui, path, file );
         } catch( const JsonError &err ) {
             throw std::runtime_error( err.what() );
@@ -520,30 +508,23 @@ void DynamicDataLoader::load_data_from_path( const std::string &path, const std:
     }
 }
 
-void DynamicDataLoader::load_all_from_json( JsonIn &jsin, const std::string &src, loading_ui &,
+void DynamicDataLoader::load_all_from_json( const JsonValue &jsin, const std::string &src,
+        loading_ui &,
         const std::string &base_path, const std::string &full_path )
 {
     if( jsin.test_object() ) {
         // find type and dispatch single object
         JsonObject jo = jsin.get_object();
         load_object( jo, src, base_path, full_path );
-        jo.finish();
-        // if there's anything else in the file, it's an error.
-        jsin.eat_whitespace();
-        if( jsin.good() ) {
-            jsin.error( string_format( "expected single-object file but found '%c'", jsin.peek() ) );
-        }
     } else if( jsin.test_array() ) {
-        jsin.start_array();
+        JsonArray ja = jsin.get_array();
         // find type and dispatch each object until array close
-        while( !jsin.end_array() ) {
-            JsonObject jo = jsin.get_object();
+        for( JsonObject jo : ja ) {
             load_object( jo, src, base_path, full_path );
-            jo.finish();
         }
     } else {
         // not an object or an array?
-        jsin.error( "expected object or array" );
+        jsin.throw_error( "expected object or array" );
     }
     inp_mngr.pump_events();
 }

@@ -103,30 +103,30 @@ void auto_note_settings::load( bool bCharacter )
 {
     clear();
 
-    const auto parseJson = [ &, bCharacter ]( const FlexJsonValue & jv ) {
-        FlexJsonObject jo = jv;
+    const auto parseJson = [ &, bCharacter ]( const JsonValue & jv ) {
+        JsonObject jo = jv;
 
-        for( FlexJsonMember member : jo ) {
+        for( JsonMember member : jo ) {
             const std::string name = member.name();
 
             if( name == "enabled" ) {
-                FlexJsonArray enabled_notes = member;
+                JsonArray enabled_notes = member;
                 for( std::string entry : enabled_notes ) {
                     character_autoNoteEnabled.insert( map_extra_id{ entry } );
                 }
             } else if( name == "disabled" ) {
-                FlexJsonArray disabled_notes = member;
+                JsonArray disabled_notes = member;
                 for( std::string entry : disabled_notes ) {
                     global_autoNoteDisabled.insert( map_extra_id{ entry } );
                 }
             } else if( name == "discovered" ) {
-                FlexJsonArray discovered_array = member;
+                JsonArray discovered_array = member;
                 for( std::string entry : discovered_array ) {
                     discovered.insert( map_extra_id {std::move( entry )} );
                 }
             } else if( name == "custom_symbols" ) {
-                FlexJsonArray symbols_json = member;
-                for( FlexJsonObject joSymbols : symbols_json ) {
+                JsonArray symbols_json = member;
+                for( JsonObject joSymbols : symbols_json ) {
                     const std::string entry = joSymbols.get_string( "map_extra" );
                     const std::string custom_symbol_str = joSymbols.get_string( "symbol" );
                     const std::string custom_color = joSymbols.get_string( "color" );

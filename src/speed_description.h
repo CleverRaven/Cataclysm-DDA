@@ -7,7 +7,6 @@
 
 #include "type_id.h"
 
-class JsonIn;
 class JsonObject;
 class JsonOut;
 template<typename T>

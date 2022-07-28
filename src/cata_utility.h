@@ -17,8 +17,6 @@
 #include "enums.h"
 #include "json.h"
 
-class FlexJsonValue;
-class JsonIn;
 class JsonOut;
 class JsonValue;
 class translation;
@@ -321,20 +319,13 @@ void write_to_file( const std::string &path, const std::function<void( std::ostr
  */
 /**@{*/
 bool read_from_file( const std::string &path, const std::function<void( std::istream & )> &reader );
-bool read_from_file_json( const std::string &path, const std::function<void( JsonIn & )> &reader );
 bool read_from_file_json( const std::string &path,
                           const std::function<void( const JsonValue & )> &reader );
-bool read_from_file_json( const std::string &path,
-                          const std::function<void( const FlexJsonValue & )> &reader );
 
 bool read_from_file_optional( const std::string &path,
                               const std::function<void( std::istream & )> &reader );
 bool read_from_file_optional_json( const std::string &path,
-                                   const std::function<void( JsonIn & )> &reader );
-bool read_from_file_optional_json( const std::string &path,
                                    const std::function<void( const JsonValue & )> &reader );
-bool read_from_file_optional_json( const std::string &path,
-                                   const std::function<void( const FlexJsonValue & )> &reader );
 /**@}*/
 
 std::istream &safe_getline( std::istream &ins, std::string &str );
@@ -371,7 +362,7 @@ std::string obscure_message( const std::string &str, const std::function<char()>
  */
 /**@{*/
 std::string serialize_wrapper( const std::function<void( JsonOut & )> &callback );
-void deserialize_wrapper( const std::function<void( JsonIn & )> &callback,
+void deserialize_wrapper( const std::function<void( const JsonValue & )> &callback,
                           const std::string &data );
 
 template<typename T>
@@ -385,8 +376,8 @@ inline std::string serialize( const T &obj )
 template<typename T>
 inline void deserialize_from_string( T &obj, const std::string &data )
 {
-    deserialize_wrapper( [&obj]( JsonIn & jsin ) {
-        obj.deserialize( jsin.get_value() );
+    deserialize_wrapper( [&obj]( const JsonValue & jsin ) {
+        obj.deserialize( jsin );
     }, data );
 }
 /**@}*/

@@ -6814,7 +6814,6 @@ void serialize( const cata::clone_ptr<activity_actor> &actor, JsonOut &jsout )
 void deserialize( cata::clone_ptr<activity_actor> &actor, const JsonValue &jsin )
 {
     if( jsin.test_null() ) {
-        jsin.get_null();
         actor = nullptr;
     } else {
         JsonObject data = jsin.get_object();

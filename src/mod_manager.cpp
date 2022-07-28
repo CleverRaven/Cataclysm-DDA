@@ -100,8 +100,8 @@ const std::map<std::string, std::string> &get_mod_list_cat_tab()
 
 void mod_manager::load_replacement_mods( const std::string &path )
 {
-    read_from_file_optional_json( path, [&]( const FlexJsonArray & jsin ) {
-        for( FlexJsonArray arr : jsin ) {
+    read_from_file_optional_json( path, [&]( const JsonArray & jsin ) {
+        for( JsonArray arr : jsin ) {
             mod_replacements.emplace( mod_id( arr.get_string( 0 ) ),
                                       mod_id( arr.size() > 1 ? arr.get_string( 1 ) : "" ) );
         }
@@ -359,12 +359,10 @@ void mod_manager::load_mod_info( const std::string &info_file_path )
             // find type and dispatch single object
             JsonObject jo = jsin.get_object();
             load_modfile( jo, main_path );
-            jo.finish();
         } else if( jsin.test_array() ) {
             // find type and dispatch each object until array close
             for( JsonObject jo : jsin.get_array() ) {
                 load_modfile( jo, main_path );
-                jo.finish();
             }
         } else {
             // not an object or an array?
@@ -404,7 +402,7 @@ void mod_manager::load_mods_list( WORLD *world ) const
     std::vector<mod_id> &amo = world->active_mod_order;
     amo.clear();
     bool obsolete_mod_found = false;
-    read_from_file_optional_json( get_mods_list_file( world ), [&]( const FlexJsonArray & jsin ) {
+    read_from_file_optional_json( get_mods_list_file( world ), [&]( const JsonArray & jsin ) {
         for( const std::string line : jsin ) {
             const mod_id mod( line );
             if( std::find( amo.begin(), amo.end(), mod ) != amo.end() ) {

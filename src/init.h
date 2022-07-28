@@ -13,8 +13,8 @@
 
 #include "memory_fast.h"
 
-class JsonIn;
 class JsonObject;
+class JsonValue;
 class loading_ui;
 struct json_source_location;
 
@@ -66,7 +66,7 @@ class DynamicDataLoader
          * JSON data dependent upon as-yet unparsed definitions
          * first: JSON source location, second: source identifier
          */
-        using deferred_json = std::list<std::pair<json_source_location, std::string>>;
+        using deferred_json = std::list<std::pair<JsonObject, std::string>>;
 
     private:
         bool finalized = false;
@@ -96,7 +96,7 @@ class DynamicDataLoader
          * @param ui Finalization status display.
          * @throws std::exception on all kind of errors.
          */
-        void load_all_from_json( JsonIn &jsin, const std::string &src, loading_ui &ui,
+        void load_all_from_json( const JsonValue &jsin, const std::string &src, loading_ui &ui,
                                  const std::string &base_path, const std::string &full_path );
         /**
          * Load a single object from a json object.

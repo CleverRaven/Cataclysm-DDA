@@ -2793,9 +2793,8 @@ bool game::load( const save_t &name )
     get_auto_notes_settings().load( true ); // Load character auto notes settings
     get_safemode().load_character(); // Load character safemode rules
     zone_manager::get_manager().load_zones(); // Load character world zones
-    read_from_file_optional( PATH_INFO::world_base_save_path() + "/uistate.json", [](
-    std::istream & stream ) {
-        JsonIn jsin( stream );
+    read_from_file_optional_json( PATH_INFO::world_base_save_path() + "/uistate.json", [](
+    const JsonValue & jsin ) {
         uistate.deserialize( jsin.get_object() );
     } );
     reload_npcs();
