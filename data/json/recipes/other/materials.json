@@ -1131,19 +1131,6 @@
     "components": [ [ [ "budget_steel_chunk", 4 ] ] ]
   },
   {
-    "type": "recipe",
-    "activity_level": "NO_EXERCISE",
-    "result": "cotton_patchwork",
-    "id_suffix": "from_rags",
-    "//": "This should be obsoleted once we're sure nobody has any rags left and they're removed from any recipes i missed.",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_MATERIALS",
-    "skill_used": "tailor",
-    "time": "0 s",
-    "autolearn": true,
-    "components": [ [ [ "rag", 1 ] ] ]
-  },
-  {
     "result": "plastic_sheet",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
