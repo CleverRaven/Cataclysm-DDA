@@ -1560,6 +1560,9 @@ static std::string append_line( const std::string &line, bool first_row, int max
     if( !line.empty() ) {
         txt = line;
         txt_w = utf8_width( txt, true ) + newline_fix;
+        if( line.back() == '\n' ) {
+            txt.pop_back();
+        }
     }
 
     // Label padding
@@ -1607,7 +1610,7 @@ static std::string append_line( const std::string &line, bool first_row, int max
         txt_w += padding;
         // Right side
         padding = 0;
-        if( text_align != widget_alignment::RIGHT && newline_fix == 0 ) {
+        if( text_align != widget_alignment::RIGHT ) {
             padding = text_align == widget_alignment::LEFT ? tpad : tpad / 2;
         }
         txt.append( padding, ' ' );
@@ -1621,6 +1624,10 @@ static std::string append_line( const std::string &line, bool first_row, int max
         if( leftover > 0 ) {
             ret.insert( 0, leftover, ' ' );
         }
+    }
+
+    if( newline_fix == 1 ) {
+        ret.append( 1, '\n' );
     }
 
     return ret;
@@ -1778,6 +1785,9 @@ std::string widget::layout( const avatar &ava, unsigned int max_width, int label
                                 has_flag( json_flag_W_LABEL_NONE ) ? translation() : _label,
                                 row_num == 0 && _pad_labels ? label_width : 0, _separator, _text_align, _label_align, skip_pad );
         }
+        if( ret.back() == '\n' ) {
+            ret.pop_back();
+        }
     }
     return ret.find( '\n' ) != std::string::npos || max_width == 0 ?
            ret : trim_by_length( ret, max_width );
@@ -1811,8 +1821,8 @@ std::string format_widget_multiline( const std::vector<std::string> &keys, int m
                 }
             }
         }
-        // Newline, if not the last row, and still keys left
-        if( row < h_max - 1 && nidx < nsize ) {
+        // Newline, if not the last row
+        if( row < h_max - 1 ) {
             ret += "\n";
         }
         height++;
