@@ -1643,6 +1643,23 @@ std::string widget::layout( const avatar &ava, unsigned int max_width, int label
                 // for debug keep track of each and width
                 debug_widths.append( string_format( "%s: %d,", wid.str(), cur_width ) );
 
+                const bool skip_pad_this = skip_pad || wid->has_flag( json_flag_W_NO_PADDING );
+                // Layout child in this column
+                const std::string txt = cur_child.layout( ava, skip_pad_this ? 0 : cur_width,
+                                        label_width, skip_pad_this );
+                // Store the resulting text for this column
+                std::vector<std::string> rows = string_split( txt, '\n' );
+
+                if( rows.size() > 1 && cur_child._style != "layout" ) {
+                    cur_width = 0;
+                    for( const std::string &row : rows ) {
+                        int w = utf8_width( row, true );
+                        if( w > cur_width ) {
+                            cur_width = w;
+                        }
+                    }
+                }
+
                 if( cur_width > 0 ) {
                     total_width += cur_width;
                 }
@@ -1651,12 +1668,8 @@ std::string widget::layout( const avatar &ava, unsigned int max_width, int label
                     debugmsg( string_format( "widget layout is wider (%d) than sidebar allows (%d) for %s.",
                                              total_width, max_width, debug_widths ) );
                 }
-                const bool skip_pad_this = skip_pad || wid->has_flag( json_flag_W_NO_PADDING );
-                // Layout child in this column
-                const std::string txt = cur_child.layout( ava, skip_pad_this ? 0 : cur_width,
-                                        label_width, skip_pad_this );
-                // Store the resulting text for this column
-                cols.emplace_back( string_split( txt, '\n' ) );
+
+                cols.emplace_back( rows );
                 widths.emplace_back( cur_width );
             }
 
@@ -1721,6 +1734,9 @@ std::string widget::layout( const avatar &ava, unsigned int max_width, int label
                                 has_flag( json_flag_W_LABEL_NONE ) ? translation() : _label,
                                 row_num == 0 ? label_width : 0, _separator, _text_align, _label_align, skip_pad );
         }
+        if( ret.back() == '\n' ) {
+            ret.pop_back();
+        }
     }
     return ret.find( '\n' ) != std::string::npos || max_width == 0 ?
            ret : trim_by_length( ret, max_width );
@@ -1755,7 +1771,7 @@ std::string format_widget_multiline( const std::vector<std::string> &keys, int m
             }
         }
         // Newline, if not the last row, and still keys left
-        if( row < h_max - 1 && nidx < nsize ) {
+        if( row < h_max - 1 ) {
             ret += "\n";
         }
         height++;

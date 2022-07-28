@@ -1303,9 +1303,7 @@ std::string display::colorized_overmap_text( const avatar &u, const int width, c
             // Append the colorized symbol for this point to the map
             overmap_text += colorize( sym_color.first, sym_color.second );
         }
-        if( row < bottom ) {
-            overmap_text += "\n";
-        }
+        overmap_text += "\n";
     }
 
     // Rebuild the cache so we can reuse it if nothing changes
