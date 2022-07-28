@@ -1273,7 +1273,7 @@
   {
     "result": "scrap_aluminum",
     "type": "recipe",
-	"id_suffix": "melted_foil",
+    "id_suffix": "melted_foil",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
