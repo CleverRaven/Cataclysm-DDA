@@ -740,7 +740,7 @@
     "symbol": "%",
     "quench": -3,
     "calories": 400,
-    "description": "A concentrated mixture of fat and protein used as a nutritious high-energy food.  Composed of meat and tallow, it provides excellent nutrition in an easy to carry form.  Has no fruits or veggies.",
+    "description": "A concentrated mixture of fat and protein used as a nutritious high-energy food.  Composed of meat and tallow, it provides excellent nutrition in an easy to carry form.  Contains no fruits or veggies.",
     "price": 500,
     "price_postapoc": 300,
     "material": [ "flesh" ],
