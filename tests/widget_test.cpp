@@ -1996,7 +1996,7 @@ TEST_CASE( "multi-line overmap text widget", "[widget][overmap]" )
         const std::vector<std::string> field_3x3 = {
             brown_dot, red_star, brown_dot, "\n",
             brown_dot, h_brown_dot, brown_dot, "\n",
-            brown_dot, brown_dot, brown_dot, "\n"
+            brown_dot, brown_dot, brown_dot
         };
         CHECK( overmap_w.layout( ava ) == join( field_3x3, "" ) );
     }
@@ -2011,7 +2011,7 @@ TEST_CASE( "multi-line overmap text widget", "[widget][overmap]" )
         const std::vector<std::string> forest_3x3 = {
             green_F, green_F, green_F, "\n",
             green_F, h_green_F, red_star, "\n",
-            green_F, green_F, green_F, "\n"
+            green_F, green_F, green_F
         };
         CHECK( overmap_w.layout( ava ) == join( forest_3x3, "" ) );
     }
@@ -2027,7 +2027,7 @@ TEST_CASE( "multi-line overmap text widget", "[widget][overmap]" )
         const std::vector<std::string> lab_3x3 = {
             blue_L, blue_L, blue_L, "\n",
             blue_L, h_blue_L, blue_L, "\n",
-            red_star, blue_L, blue_L, "\n"
+            red_star, blue_L, blue_L
         };
         CHECK( overmap_w.layout( ava ) == join( lab_3x3, "" ) );
     }
