@@ -6076,8 +6076,8 @@
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
-    "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "plastic_chunk", 2 ] ] ]
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "plastic_chunk", 1 ] ], [ [ "scrap_aluminum", 1 ] ] ]
   },
   {
     "result": "mask_dust",
