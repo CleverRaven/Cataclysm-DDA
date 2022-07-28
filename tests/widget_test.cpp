@@ -2863,6 +2863,10 @@ TEST_CASE( "W_NO_PADDING widget flag", "[widget]" )
 
     SECTION( "without flag" ) {
         const widget_id &wgt = widget_test_layout_nopad_noflag;
+
+        widget::finalize_inherited_fields_recursive( wgt, wgt->_separator, wgt->_padding );
+        widget::finalize_label_width_recursive( wgt );
+
         REQUIRE( !wgt->has_flag( "W_NO_PADDING" ) );
 
         GIVEN( "left arm bleed intensity = 0" ) {

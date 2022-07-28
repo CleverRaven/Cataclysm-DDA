@@ -550,9 +550,7 @@ void widget::finalize()
 
     for( const widget &wgt : widget::get_all() ) {
         if( wgt._style == "sidebar" ) {
-            if( wgt.explicit_separator || wgt.explicit_padding ) {
-                widget::finalize_inherited_fields_recursive( wgt.getId(), wgt._separator, wgt._padding );
-            }
+            widget::finalize_inherited_fields_recursive( wgt.getId(), wgt._separator, wgt._padding );
             widget::finalize_label_width_recursive( wgt.getId() );
         }
     }
