@@ -2401,6 +2401,24 @@ void options_manager::add_options_world_default()
     }, "normal"
        );
 
+    add( "ETERNAL_WEATHER", "world_default", to_translation( "Eternal weather" ),
+    to_translation( "Sets eternal weather.  'Normal' keeps normal weather pattern.\n\nNote: setting eternal weather only works when creating a new world and changing it ingame won't take an effect." ), {
+        { "normal", to_translation( "Normal" ) },
+        { "sunny", to_translation( "Sunny weather" ) },
+        { "cloudy", to_translation( "Cloudy weather" ) },
+        { "light_drizzle", to_translation( "Light drizzle" ) },
+        { "drizzle", to_translation( "Drizzle" ) },
+        { "rain", to_translation( "Rain" ) },
+        { "thunder", to_translation( "Thunder storm" ) },
+        { "lightning", to_translation( "Lightning storm" ) },
+        { "flurries", to_translation( "Flurries" ) },
+        { "snowing", to_translation( "Snow" ) },
+        { "snowstorm", to_translation( "Snow storm" ) },
+        { "early_portal_storm", to_translation( "Light portal storm" ) },
+        { "portal_storm", to_translation( "Portal storm" ) },
+    }, "normal"
+       );
+
     add_empty_line();
 
     add( "WANDER_SPAWNS", "world_default", to_translation( "Wandering hordes" ),
