@@ -925,7 +925,8 @@
       { "item": "coffeemaker", "prob": 10, "charges": [ 0, 500 ] },
       [ "cookbook_daintydishes", 40 ],
       [ "cookbook_indian", 10 ],
-      [ "cookbook_foodfashions", 18 ]
+      [ "cookbook_foodfashions", 18 ],
+      [ "cookbook_mexican", 10 ]
     ]
   },
   {

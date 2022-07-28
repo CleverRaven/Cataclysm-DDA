@@ -120,7 +120,6 @@ static const map_extra_id map_extra_mx_city_trap( "mx_city_trap" );
 static const map_extra_id map_extra_mx_clay_deposit( "mx_clay_deposit" );
 static const map_extra_id map_extra_mx_clearcut( "mx_clearcut" );
 static const map_extra_id map_extra_mx_corpses( "mx_corpses" );
-static const map_extra_id map_extra_mx_crater( "mx_crater" );
 static const map_extra_id map_extra_mx_dead_vegetation( "mx_dead_vegetation" );
 static const map_extra_id map_extra_mx_grove( "mx_grove" );
 static const map_extra_id map_extra_mx_helicopter( "mx_helicopter" );
@@ -1368,27 +1367,6 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
     }
 
     return did_something;
-}
-
-static bool mx_crater( map &m, const tripoint &abs_sub )
-{
-    int size = rng( 2, 6 );
-    int size_squared = size * size;
-    point p( rng( size, SEEX * 2 - 1 - size ), rng( size, SEEY * 2 - 1 - size ) );
-    for( int i = p.x - size; i <= p.x + size; i++ ) {
-        for( int j = p.y - size; j <= p.y + size; j++ ) {
-            //If we're using circular distances, make circular craters
-            //Pythagoras to the rescue, x^2 + y^2 = hypotenuse^2
-            if( !trigdist || ( i - p.x ) * ( i - p.x ) + ( j - p.y ) * ( j - p.y ) <= size_squared ) {
-                m.destroy( tripoint( i,  j, abs_sub.z ), true );
-                if( abs_sub.z == 0 ) {
-                    m.ter_set( tripoint( i, j, abs_sub.z ), t_dirt );
-                }
-            }
-        }
-    }
-
-    return true;
 }
 
 static void place_fumarole( map &m, const point &p1, const point &p2, std::set<point> &ignited )
@@ -2703,7 +2681,6 @@ static bool mx_city_trap( map &/*m*/, const tripoint &abs_sub )
 
 static FunctionMap builtin_functions = {
     { map_extra_mx_null, mx_null },
-    { map_extra_mx_crater, mx_crater },
     { map_extra_mx_roadworks, mx_roadworks },
     { map_extra_mx_mayhem, mx_mayhem },
     { map_extra_mx_roadblock, mx_roadblock },

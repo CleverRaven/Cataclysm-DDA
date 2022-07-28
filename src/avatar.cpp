@@ -74,6 +74,7 @@
 #include "talker.h"
 #include "talker_avatar.h"
 #include "translations.h"
+#include "timed_event.h"
 #include "trap.h"
 #include "type_id.h"
 #include "ui.h"
@@ -239,6 +240,9 @@ void avatar::toggle_map_memory()
 
 bool avatar::should_show_map_memory()
 {
+    if( get_timed_events().get( timed_event_type::OVERRIDE_PLACE ) ) {
+        return false;
+    }
     return show_map_memory;
 }
 
@@ -348,6 +352,23 @@ void avatar::on_mission_finished( mission &cur_mission )
     const auto iter = std::find( active_missions.begin(), active_missions.end(), &cur_mission );
     if( iter == active_missions.end() ) {
         debugmsg( "completed mission %d was not in the active_missions list", cur_mission.get_id() );
+    } else {
+        active_missions.erase( iter );
+    }
+    if( &cur_mission == active_mission ) {
+        if( active_missions.empty() ) {
+            active_mission = nullptr;
+        } else {
+            active_mission = active_missions.front();
+        }
+    }
+}
+
+void avatar::remove_active_mission( mission &cur_mission )
+{
+    const auto iter = std::find( active_missions.begin(), active_missions.end(), &cur_mission );
+    if( iter == active_missions.end() ) {
+        debugmsg( "removed mission %d was not in the active_missions list", cur_mission.get_id() );
     } else {
         active_missions.erase( iter );
     }

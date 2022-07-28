@@ -235,7 +235,7 @@
       },
       { "u_add_var": "u_witnessed_portal_storm", "type": "global", "context": "portal_storms", "value": "yes" },
       { "run_eocs": [ "EOC_WORSEN_PORTAL_STORM", "EOC_PORTAL_STORM_DUNGEON_EXIT" ] },
-      { "finish_mission": "MISSION_INVESTIGATE_PORTAL_DUNGEON", "success": false },
+      { "remove_active_mission": "MISSION_INVESTIGATE_PORTAL_DUNGEON" },
       { "alter_timed_events": "portal_dungeon_entrance" },
       { "u_adjust_var": "portal_storm_counter", "type": "counter", "adjustment": 1 }
     ]
@@ -1177,7 +1177,9 @@
         "u_location_variable": { "global_val": "portal_dungeon" },
         "target_params": { "om_terrain": "field", "search_range": 20, "min_distance": 3, "z": 0 }
       },
-      { "u_message": "You can feel the presence of something nearby, cracked in a way you can't put into words." },
+      {
+        "u_message": "You can feel the presence of something nearby, cracked in a way you can't put into words(check mission log for details)."
+      },
       { "assign_mission": "MISSION_INVESTIGATE_PORTAL_DUNGEON" },
       {
         "revert_location": { "global_val": "portal_dungeon" },
@@ -1213,8 +1215,8 @@
       { "mapgen_update": "portal_dungeon", "target_var": { "global_val": "dungeon_loc" } },
       { "u_teleport": { "global_val": "dungeon_start" }, "fail_message": "Something is very wrong!", "force": true },
       { "arithmetic": [ { "global_val": "var", "var_name": "portal_dungeon_level" }, "=", { "const": 1 } ] },
-      { "run_eocs": [ "EOC_PORTAL_STORM_DUNGEON_MONSTER_SPAWN", "EOC_PORTAL_STORM_DUNGEON_ENDLESS_HUNGER_SPAWN" ] },
       { "queue_eocs": "EOC_PORTAL_STORM_DUNGEON_SHIFT", "time_in_future": [ "5 seconds", "15 seconds" ] },
+      { "run_eocs": [ "EOC_PORTAL_STORM_DUNGEON_MONSTER_SPAWN", "EOC_PORTAL_STORM_DUNGEON_ENDLESS_HUNGER_SPAWN" ] },
       { "u_message": "You are trapped in <global_val:place_name>!" },
       { "u_message": { "global_val": "portal_storm_voice_mood", "default_str": "none" }, "snippet": true }
     ]
@@ -1276,9 +1278,9 @@
       {
         "u_spawn_monster": "mon_endless_hunger",
         "real_count": 1,
-        "min_radius": 4,
-        "max_radius": 6,
-        "spawn_message": "Something you are spared from fully understanding appears.."
+        "min_radius": 8,
+        "max_radius": 12,
+        "spawn_message": "Something your mind can't fully parse appears, despite the distance and obstacles you know where it is.  You can feel its presence as if there were a bond of some sort between you."
       }
     ]
   },

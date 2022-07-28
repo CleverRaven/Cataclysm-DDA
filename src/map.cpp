@@ -4328,6 +4328,25 @@ void map::transform_radius( ter_furn_transform_id transform, float radi,
     }
 }
 
+void map::transform_line( ter_furn_transform_id transform, const tripoint_abs_ms &first,
+                          const tripoint_abs_ms &second )
+{
+    tripoint_abs_ms avatar_pos = get_avatar().get_location();
+    bool shifted = false;
+    if( !get_map().inbounds( get_map().getlocal( first ) ) ) {
+        g->place_player_overmap( project_to<coords::omt>( first ), false );
+        shifted = true;
+    }
+
+    for( const tripoint_abs_ms &t : line_to( first, second ) ) {
+        transform->transform( *this, getlocal( t ), shifted );
+    }
+
+    if( shifted ) {
+        g->place_player_overmap( project_to<coords::omt>( avatar_pos ), false );
+    }
+}
+
 bool map::close_door( const tripoint &p, const bool inside, const bool check_only )
 {
     if( has_flag( ter_furn_flag::TFLAG_OPENCLOSE_INSIDE, p ) && !inside ) {
