@@ -158,7 +158,10 @@
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "terrain": { "~": [ "t_sewage" ], "-": [ "t_sewage", "t_dirt", "t_grass_dead" ], "%": [ "t_dirt", "t_grass_dead" ] },
-      "furniture": { "~": [ "f_rubble_landfill", "f_rubble", "f_wreckage", [ "f_null", 3 ] ], "-": [ "f_rubble_landfill", "f_rubble", "f_wreckage", [ "f_null", 3 ] ] },
+      "furniture": {
+        "~": [ "f_rubble_landfill", "f_rubble", "f_wreckage", [ "f_null", 3 ] ],
+        "-": [ "f_rubble_landfill", "f_rubble", "f_wreckage", [ "f_null", 3 ] ]
+      },
       "//": "Three spawning spots, 90% chance to have at least one toxic gas vent.",
       "//2": "Make radiation sort-of rare since in real life atomic compounds are strictly regulated. However, this is the Cataclysm where atomic stuff is more widely used so do not make it unobtanium.",
       "//3": "Since there are two potential corpse spawning spots, make the overall chance to encounter at least one corpse 10%. Obtaining the lore note is thus at 4% per map extra.",
