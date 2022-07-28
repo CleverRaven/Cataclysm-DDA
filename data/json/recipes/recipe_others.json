@@ -2836,7 +2836,7 @@
     "time": "1 h",
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 3 } ],
-    "tools": [ [ [ "press", -1 ] ], [ [ "surface_heat", 10, "LIST" ] ] ],
+    "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [ [ [ "scrap_aluminum", 5 ], [ "material_aluminium_ingot", 1 ] ] ]
   }
 ]
