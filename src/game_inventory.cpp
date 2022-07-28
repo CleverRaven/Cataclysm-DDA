@@ -1078,7 +1078,6 @@ static std::string get_consume_needs_hint( Character &you )
 
         if( has_tracker ) {
             desc = std::make_pair( string_format( _( "%s: %d%%.  " ), v.second.name(), vit_percent ), c_white );
-            hint.append( colorize( desc.first, desc.second ) );
         } else {
             if( total_vit_quantity > 0.9 * rda ) {
                 desc = std::make_pair( _( "plenty" ), c_white );
@@ -1090,6 +1089,7 @@ static std::string get_consume_needs_hint( Character &you )
                 desc = std::make_pair( _( "none" ), c_white );
             }
         }
+        hint.append( colorize( desc.first, desc.second ) );
     }
     return hint;
 }
