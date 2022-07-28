@@ -2565,6 +2565,20 @@ void talk_effect_fun_t<T>::set_transform_radius( const JsonObject &jo, const std
 }
 
 template<class T>
+void talk_effect_fun_t<T>::set_transform_line( const JsonObject &jo, const std::string &member )
+{
+    ter_furn_transform_id transform = ter_furn_transform_id( jo.get_string( member ) );
+    var_info first = read_var_info( jo.get_object( "first" ), false );
+    var_info second = read_var_info( jo.get_object( "second" ), false );
+
+    function = [transform, first, second]( const T & d ) {
+        get_map().transform_line( transform, get_tripoint_from_var<T>( first, d ),
+                                  get_tripoint_from_var<T>( second, d ) );
+        get_map().invalidate_map_cache( get_tripoint_from_var<T>( first, d ).z() );
+    };
+}
+
+template<class T>
 void talk_effect_fun_t<T>::set_place_override( const JsonObject &jo, const std::string &member )
 {
     str_or_var<T> new_place = get_str_or_var<T>( jo.get_member( member ), member );
@@ -3159,9 +3173,9 @@ void talk_effect_fun_t<T>::set_finish_mission( const JsonObject &jo, const std::
     }
     function = [mission_name, success, step]( const T & ) {
         avatar &player_character = get_avatar();
-
         const mission_type_id &mission_type = mission_type_id( mission_name );
         std::vector<mission *> missions = player_character.get_active_missions();
+
         for( mission *mission : missions ) {
             if( mission->mission_id() == mission_type ) {
                 if( step.has_value() ) {
@@ -3171,6 +3185,24 @@ void talk_effect_fun_t<T>::set_finish_mission( const JsonObject &jo, const std::
                 } else {
                     mission->fail();
                 }
+                break;
+            }
+        }
+    };
+}
+
+template<class T>
+void talk_effect_fun_t<T>::set_remove_active_mission( const JsonObject &jo,
+        const std::string &member )
+{
+    std::string mission_name = jo.get_string( member );
+    function = [mission_name]( const T & ) {
+        avatar &player_character = get_avatar();
+        const mission_type_id &mission_type = mission_type_id( mission_name );
+        std::vector<mission *> missions = player_character.get_active_missions();
+        for( mission *mission : missions ) {
+            if( mission->mission_id() == mission_type ) {
+                player_character.remove_active_mission( *mission );
                 break;
             }
         }
@@ -3623,6 +3655,7 @@ void talk_effect_fun_t<T>::set_field( const JsonObject &jo, const std::string &m
     int_or_var<T> iov_radius = get_int_or_var<T>( jo, "radius", false, 10000000 );
 
     const bool outdoor_only = jo.get_bool( "outdoor_only", false );
+    const bool indoor_only = jo.get_bool( "indoor_only", false );
     const bool hit_player = jo.get_bool( "hit_player", true );
 
     cata::optional<var_info> target_var;
@@ -3630,7 +3663,7 @@ void talk_effect_fun_t<T>::set_field( const JsonObject &jo, const std::string &m
         target_var = read_var_info( jo.get_object( "target_var" ), false );
     }
     function = [new_field, iov_intensity, dov_age, iov_radius, outdoor_only,
-               hit_player, target_var, is_npc]( const T & d ) {
+               hit_player, target_var, is_npc, indoor_only]( const T & d ) {
         int radius = iov_radius.evaluate( d );
         int intensity = iov_intensity.evaluate( d );
 
@@ -3640,7 +3673,8 @@ void talk_effect_fun_t<T>::set_field( const JsonObject &jo, const std::string &m
         }
         for( const tripoint &dest : get_map().points_in_radius( get_map().getlocal( target_pos ),
                 radius ) ) {
-            if( !outdoor_only || get_map().is_outside( dest ) ) {
+            if( ( !outdoor_only || get_map().is_outside( dest ) ) && ( !indoor_only ||
+                    !get_map().is_outside( dest ) ) ) {
                 get_map().add_field( dest, new_field, intensity, dov_age.evaluate( d ),
                                      hit_player );
             }
@@ -3943,6 +3977,8 @@ void talk_effect_t<T>::parse_sub_effect( const JsonObject &jo )
         subeffect_fun.set_transform_radius( jo, "u_transform_radius", false );
     } else if( jo.has_object( "npc_transform_radius" ) || jo.has_int( "npc_transform_radius" ) ) {
         subeffect_fun.set_transform_radius( jo, "npc_transform_radius", true );
+    } else if( jo.has_string( "transform_line" ) ) {
+        subeffect_fun.set_transform_line( jo, "transform_line" );
     } else if( jo.has_object( "u_location_variable" ) ) {
         subeffect_fun.set_location_variable( jo, "u_location_variable", false );
     } else if( jo.has_object( "npc_location_variable" ) ) {
@@ -3979,6 +4015,8 @@ void talk_effect_t<T>::parse_sub_effect( const JsonObject &jo )
         subeffect_fun.set_assign_mission( jo, "assign_mission" );
     } else if( jo.has_string( "finish_mission" ) ) {
         subeffect_fun.set_finish_mission( jo, "finish_mission" );
+    } else if( jo.has_string( "remove_active_mission" ) ) {
+        subeffect_fun.set_remove_active_mission( jo, "remove_active_mission" );
     } else if( jo.has_array( "offer_mission" ) || jo.has_string( "offer_mission" ) ) {
         subeffect_fun.set_offer_mission( jo, "offer_mission" );
     } else if( jo.has_member( "u_make_sound" ) ) {
