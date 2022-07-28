@@ -97,6 +97,14 @@
     "components": [ [ [ "welding_rod_steel", 3 ], [ "welding_wire_steel", 3 ], [ "brazing_rod_bronze", 3 ] ] ]
   },
   {
+    "id": "welding_tempered",
+    "type": "requirement",
+    "//": "Specific welds for tempered steel. Requires a welding blanket to insulate the weld.",
+    "qualities": [ { "id": "GLARE", "level": 1 } ],
+    "tools": [ [ [ "welder", 10 ], [ "welder_crude", 15 ], [ "toolset", 15 ], [ "oxy_torch", 2 ], [ "welding_blanket", 1 ] ],
+    "components": [ [ [ "welding_rod_steel", 3 ], [ "welding_wire_steel", 3 ], [ "brazing_rod_bronze", 3 ] ] ]
+  },
+  {
     "id": "welding_alloys",
     "type": "requirement",
     "//": "Crafting items made of aluminium alloy or installation of vehicle parts",

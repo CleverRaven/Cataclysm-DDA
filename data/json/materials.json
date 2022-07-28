@@ -2839,5 +2839,22 @@
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched"
-  }
+  },
+  {
+	"type": "material",
+	"id": "asbestos",
+	"name": "asbestos",
+	"density": "2.4",
+    "specific_heat_liquid": 1.72,
+    "specific_heat_solid": 1.8,
+    "latent_heat": 293,
+    "edible": false,
+    "bash_resist": 2,
+    "cut_resist": 5,
+    "bullet_resist": 2,
+    "acid_resist": 10,
+    "fire_resist": 20,
+    "conductive": false,
+    "chip_resist": 5
+	}
 ]

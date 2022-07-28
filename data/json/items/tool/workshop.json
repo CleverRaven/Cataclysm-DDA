@@ -1615,5 +1615,17 @@
     "material": [ "steel" ],
     "symbol": "&",
     "color": "light_gray"
+  },
+  {
+  "id": "welding_blanket",
+  "type": "TOOL",
+  "name": { "str": "welding blanket" },
+  "description": "A non-flamable mat used to protect surfaces from welding splatter or to insulate a weld when repairing tempered metal.  This one is made with asbestos."
+  "weight": "6 kg",
+  "volume": "11500 ml",
+  "price": 30000
+  "material": [ "asbestos" ],
+  "symbol": "#"
+  "color:" "light_gray"
   }
 ]
