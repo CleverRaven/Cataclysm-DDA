@@ -6975,6 +6975,9 @@ std::list<item *> vehicle::fuel_items_left()
 
 bool vehicle::is_foldable() const
 {
+    if( has_tag( flag_APPLIANCE ) ) {
+        return false;
+    }
     for( const vpart_reference &vp : get_all_parts() ) {
         if( !vp.has_feature( "FOLDABLE" ) ) {
             return false;
