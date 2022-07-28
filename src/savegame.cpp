@@ -1554,8 +1554,8 @@ void game::serialize_master( std::ostream &fout )
         json.member( "temperature", weather.temperature );
         json.member( "winddirection", weather.winddirection );
         json.member( "windspeed", weather.windspeed );
-        json.member( "weather_eternal", weather_eternal );
         json.end_object();
+        json.member( "weather_eternal", weather_eternal );
         json.end_object();
     } catch( const JsonError &e ) {
         debugmsg( "error saving to %s: %s", SAVE_MASTER, e.c_str() );
