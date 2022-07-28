@@ -85,7 +85,7 @@
         "pocket_type": "CONTAINER",
         "watertight": true,
         "rigid": true,
-        "max_contains_volume": "3.5 L",
+        "max_contains_volume": "3500 ml",
         "max_contains_weight": "4 kg"
       }
     ],
@@ -118,13 +118,13 @@
     "price_postapoc": 500,
     "material": [ "lead" ],
     "symbol": ")",
-    "color": "purple",
+    "color": "magenta",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
         "watertight": true,
         "rigid": true,
-        "max_contains_volume": "3.5 L",
+        "max_contains_volume": "3500 ml",
         "max_contains_weight": "4 kg"
       }
     ],
@@ -480,7 +480,7 @@
         "pocket_type": "CONTAINER",
         "watertight": true,
         "rigid": true,
-        "max_contains_volume": "3.5 L",
+        "max_contains_volume": "3500 ml",
         "max_contains_weight": "4 kg"
       }
     ],
