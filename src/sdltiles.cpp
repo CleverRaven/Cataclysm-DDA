@@ -1756,10 +1756,10 @@ static int sdl_keysym_to_curses( const SDL_Keysym &keysym )
         // Shift + Up/Down Cursor Arrow (Ascend / Descend)
         if( keysym.mod & KMOD_SHIFT ) {
             switch( keysym.sym ) {
-            case SDLK_UP:
-                return inp_mngr.get_first_char_for_action( "LEVEL_UP" );
-            case SDLK_DOWN:
-                return inp_mngr.get_first_char_for_action( "LEVEL_DOWN" );
+                case SDLK_UP:
+                    return inp_mngr.get_first_char_for_action( "LEVEL_UP" );
+                case SDLK_DOWN:
+                    return inp_mngr.get_first_char_for_action( "LEVEL_DOWN" );
             }
         }
     }
@@ -1770,10 +1770,10 @@ static int sdl_keysym_to_curses( const SDL_Keysym &keysym )
         // Ctrl + Up/Down Cursor Arrow (Change movement mode)
         if( keysym.mod & KMOD_CTRL ) {
             switch( keysym.sym ) {
-            case SDLK_UP:
-                return inp_mngr.get_first_char_for_action( "cycle_move" );
-            case SDLK_DOWN:
-                return inp_mngr.get_first_char_for_action( "cycle_move_reverse" );
+                case SDLK_UP:
+                    return inp_mngr.get_first_char_for_action( "cycle_move" );
+                case SDLK_DOWN:
+                    return inp_mngr.get_first_char_for_action( "cycle_move_reverse" );
             }
         }
     }
