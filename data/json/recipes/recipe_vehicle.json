@@ -1231,5 +1231,5 @@
       [ [ "welder", 50 ], [ "welder_crude", 75 ], [ "toolset", 75 ], [ "forge", 50 ], [ "oxy_torch", 10 ] ]
     ],
     "components": [ [ [ "scrap_aluminum", 45 ], [ "material_aluminium_ingot", 4 ] ] ]
-  },
+  }
 ]
