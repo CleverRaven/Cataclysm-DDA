@@ -299,7 +299,7 @@
     "autolearn": true,
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "components": [
-      [ [ "material_aluminium_ingot", 1 ], [ "can_drink", 6 ], [ "aluminum_scrap", 2 ], [ "aluminum_foil", 40 ] ],
+      [ [ "material_aluminium_ingot", 1 ], [ "can_drink", 6 ], [ "scrap_aluminum", 2 ], [ "aluminum_foil", 40 ] ],
       [ [ "water", 5 ], [ "water_clean", 5 ] ],
       [ [ "material_sand", 25 ] ]
     ]
