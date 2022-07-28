@@ -1117,7 +1117,7 @@
     "autolearn": true,
     "using": [ [ "blacksmithing_standard", 64 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" } ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ]
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "components": [ [ [ "scrap_aluminum", 140 ], [ "material_aluminium_ingot", 12 ] ] ]
   },
   {
@@ -1132,7 +1132,7 @@
     "autolearn": true,
     "using": [ [ "blacksmithing_standard", 40 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" } ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ]
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "components": [ [ [ "scrap_aluminum", 84 ], [ "material_aluminium_ingot", 7 ] ] ]
   }
 ]
