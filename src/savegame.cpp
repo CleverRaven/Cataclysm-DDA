@@ -1698,9 +1698,14 @@ void overmapbuffer::serialize_placed_unique_specials( JsonOut &json ) const
 
 void overmapbuffer::deserialize_placed_unique_specials( JsonIn &jsin )
 {
+    deserialize_placed_unique_specials( jsin.get_value() );
+}
+
+void overmapbuffer::deserialize_placed_unique_specials( const JsonValue &jsin )
+{
     placed_unique_specials.clear();
-    jsin.start_array();
-    while( !jsin.end_array() ) {
-        placed_unique_specials.emplace( jsin.get_string() );
+    JsonArray ja = jsin.get_array();
+    for( const JsonValue &special : ja ) {
+        placed_unique_specials.emplace( special.get_string() );
     }
 }
