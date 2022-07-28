@@ -6038,11 +6038,6 @@ void unload_loot_activity_actor::start( player_activity &act, Character & )
     act.moves_left = moves;
 }
 
-void unload_loot_activity_actor::finish( player_activity &act, Character &who )
-{
-    act.set_to_null();
-}
-
 static void move_item( Character &you, item &it, const int quantity, const tripoint &src,
                        const tripoint &dest, vehicle *src_veh, int src_part )
 {
@@ -6096,7 +6091,7 @@ void unload_loot_activity_actor::do_turn( player_activity &act, Character &you )
     };
 
     faction const *fac = you.get_faction();
-    faction_id fac_id  = fac == nullptr ? faction_id() : fac->id;
+    faction_id fac_id = fac == nullptr ? faction_id() : fac->id;
 
     map &here = get_map();
     const tripoint_abs_ms abspos = you.get_location();
@@ -6261,16 +6256,18 @@ void unload_loot_activity_actor::do_turn( player_activity &act, Character &you )
 
         //Skip items that have already been processed
         for( auto it = items.begin() + num_processed; it < items.end(); ++it ) {
-            ++num_processed;
+
             item &thisitem = *it->first;
 
             // skip unpickable liquid
             if( thisitem.made_of_from_type( phase_id::LIQUID ) ) {
+                ++num_processed;
                 continue;
             }
 
             // skip favorite items in ignore favorite zones
             if( thisitem.is_favorite && mgr.has( zone_type_LOOT_IGNORE_FAVORITES, src, fac_id ) ) {
+                ++num_processed;
                 continue;
             }
 
@@ -6291,12 +6288,18 @@ void unload_loot_activity_actor::do_turn( player_activity &act, Character &you )
                             move_item( you, *contained, contained->count(), src_loc, src_loc, this_veh, this_part );
                             it->first->remove_item( *contained );
                         }
+                        if( you.moves <= 0 ) {
+                            return;
+                        }
                     }
                     for( item *contained : it->first->all_items_top( item_pocket::pocket_type::MAGAZINE ) ) {
                         // no liquids don't want to spill stuff
                         if( !contained->made_of( phase_id::LIQUID ) && !contained->made_of( phase_id::GAS ) ) {
                             move_item( you, *contained, contained->count(), src_loc, src_loc, this_veh, this_part );
                             it->first->remove_item( *contained );
+                        }
+                        if( you.moves <= 0 ) {
+                            return;
                         }
                     }
                     for( item *contained : it->first->all_items_top( item_pocket::pocket_type::MAGAZINE_WELL ) ) {
@@ -6305,9 +6308,13 @@ void unload_loot_activity_actor::do_turn( player_activity &act, Character &you )
                             move_item( you, *contained, contained->count(), src_loc, src_loc, this_veh, this_part );
                             it->first->remove_item( *contained );
                         }
+                        if( you.moves <= 0 ) {
+                            return;
+                        }
                     }
                     // after dumping items go back to start of activity loop
                     // so that can re-assess the items in the tile
+                    ++num_processed;
                     return;
                 }
             }
