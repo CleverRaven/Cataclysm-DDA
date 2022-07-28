@@ -1736,7 +1736,7 @@ void options_manager::add_options_interface()
         * `Shift` + `Cursor Down` -> `>` = `Descend`;
 
         */
-        to_translation( "Allows vertical movement with cursor keys using SHIFT modifiers.  Vertical movement action keys are taken from keybindings, so you need these to be configured."), {{"off", to_translation("Off")}, {"on", to_translation("On")}},
+        to_translation( "Allows vertical movement with cursor keys using SHIFT modifiers.  Ascend/Descend action keys are taken from keybindings, so you need these to be configured." ), { { "off", to_translation( "Off" ) }, { "on", to_translation( "On" ) } },
         "none", COPT_CURSES_HIDE );
 
     add( "CHANGE_MOVEMENT_WITH_MODIFIERS_MODE", "interface",
@@ -1752,7 +1752,7 @@ void options_manager::add_options_interface()
         * `Ctrl` + `Cursor Down` -> `>` = `Cycle movement mode`;
 
         */
-        to_translation( "Allows cycling of movement mode with cursor keys using CTRL modifiers.  Cycle movement mode action keys are taken from keybindings, so you need these to be configured."), {{"off", to_translation("Off")}, {"on", to_translation("On")}},
+        to_translation( "Allows cycling of movement mode with cursor keys using CTRL modifiers.  Cycle movement mode action keys are taken from keybindings, so you need these to be configured." ), { { "off", to_translation( "Off" ) }, { "on", to_translation( "On" ) } },
         "none", COPT_CURSES_HIDE );
 
     add_empty_line();
