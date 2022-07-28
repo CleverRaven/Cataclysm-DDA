@@ -1724,7 +1724,7 @@ void options_manager::add_options_interface()
     "none", COPT_CURSES_HIDE );
 
     add( "VERT_MOVE_WITH_MODIFIERS_MODE", "interface",
-         to_translation( "Ascend / Descend with Shift + Arrow Keys" ),
+         to_translation( "Ascend / Descend with Shift + Up/Down arrow keys" ),
          /*
          Possible modes:
 
@@ -1732,15 +1732,15 @@ void options_manager::add_options_interface()
 
          # On
 
-         * `Shift` + `Cursor Up` -> `<` = `Ascend`;
-         * `Shift` + `Cursor Down` -> `>` = `Descend`;
+         * `Shift` + `Arrow Up` -> `<` = `Ascend`;
+         * `Shift` + `Arrow Down` -> `>` = `Descend`;
 
          */
-    to_translation( "Allows vertical movement with cursor keys using SHIFT modifiers.  Ascend/Descend action keys are taken from keybindings, so you need these to be configured." ), { { "off", to_translation( "Off" ) }, { "on", to_translation( "On" ) } },
+    to_translation( "Ascend and descend using arrow keys with SHIFT.  Ascend/Descend action keys are taken from keybindings and must be configured." ), { { "off", to_translation( "Off" ) }, { "on", to_translation( "On" ) } },
     "none", COPT_CURSES_HIDE );
 
     add( "CHANGE_MOVEMENT_WITH_MODIFIERS_MODE", "interface",
-         to_translation( "Cycle movement mode with Ctrl + Arrow Keys" ),
+         to_translation( "Cycle movement mode with Ctrl + Up/Down arrow keys" ),
          /*
          Possible modes:
 
@@ -1748,11 +1748,11 @@ void options_manager::add_options_interface()
 
          # On
 
-         * `Ctrl` + `Cursor Up` -> `<` = `Cycle movement mode`;
-         * `Ctrl` + `Cursor Down` -> `>` = `Cycle movement mode`;
+         * `Ctrl` + `Arrow Up` -> `<` = `Cycle movement mode forward`;
+         * `Ctrl` + `Arrow Down` -> `>` = `Cycle movement mode reverse`;
 
          */
-    to_translation( "Allows cycling of movement mode with cursor keys using CTRL modifiers.  Cycle movement mode action keys are taken from keybindings, so you need these to be configured." ), { { "off", to_translation( "Off" ) }, { "on", to_translation( "On" ) } },
+    to_translation( "Allows cycling through movement modes using arrow keys with CTRL.  Cycle movement mode action keys are taken from keybindings and must be configured." ), { { "off", to_translation( "Off" ) }, { "on", to_translation( "On" ) } },
     "none", COPT_CURSES_HIDE );
 
     add_empty_line();
