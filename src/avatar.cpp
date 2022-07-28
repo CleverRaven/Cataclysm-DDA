@@ -1336,6 +1336,16 @@ void avatar::cycle_move_mode()
     }
 }
 
+void avatar::cycle_move_mode_reverse()
+{
+    const move_mode_id prev = current_movement_mode()->cycle();
+    set_movement_mode( prev );
+    // if a movemode is disabled then just cycle to the previous one
+    if ( !movement_mode_is( prev ) ) {
+        set_movement_mode( prev->cycle() );
+    }
+}
+
 bool avatar::wield( item_location target )
 {
     return wield( *target, target.obtain_cost( *this ) );
