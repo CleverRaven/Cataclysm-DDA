@@ -730,10 +730,17 @@
         "name": "Kick stance",
         "description": "You have adopted a stance which allows for greater mobility and stability. Your hands are in a guard position with elbows forward to protect yourself.\n\nBlocked damage reduced by 25% of Strength.\n+1.0 Dodging skill",
         "unarmed_allowed": true,
-        "flat_bonuses": [ { "stat": "block", "scaling-stat": "str", "scale": 0.5 }, { "stat": "dodge", "scale": 1.0 }]
+        "flat_bonuses": [ { "stat": "block", "scaling-stat": "str", "scale": 0.5 }, { "stat": "dodge", "scale": 1.0 } ]
       }
     ],
-    "techniques": [ "tec_kickboxing_rapid", "tec_kickboxing_upper", "tec_kickboxing_roundhouse", "tec_kickboxing_sidekick", "tec_kickboxing_straight_knee", "tec_kickboxing_flying_knee" ]
+    "techniques": [
+      "tec_kickboxing_rapid",
+      "tec_kickboxing_upper",
+      "tec_kickboxing_roundhouse",
+      "tec_kickboxing_sidekick",
+      "tec_kickboxing_straight_knee",
+      "tec_kickboxing_flying_knee"
+    ]
   },
   {
     "type": "martial_art",
