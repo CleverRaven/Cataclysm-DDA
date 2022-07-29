@@ -257,7 +257,7 @@
         "topic": "TALK_REFUGEE_JENNY_Teach2_Sorry"
       },
       {
-        "text": "[INTELLIGENCE 10] No, but I'm a fast learner.",
+        "text": "[INT 10] No, but I'm a fast learner.",
         "condition": {
           "and": [
             {
