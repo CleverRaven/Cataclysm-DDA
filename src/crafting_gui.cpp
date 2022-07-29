@@ -508,6 +508,8 @@ static input_context make_crafting_context( bool highlight_unread_recipes )
     ctxt.register_action( "RELATED_RECIPES" );
     ctxt.register_action( "HIDE_SHOW_RECIPE" );
     ctxt.register_action( "SELECT" );
+    ctxt.register_action( "SCROLL_UP" );
+    ctxt.register_action( "SCROLL_DOWN" );
     if( highlight_unread_recipes ) {
         ctxt.register_action( "TOGGLE_RECIPE_UNREAD" );
         ctxt.register_action( "MARK_ALL_RECIPES_READ" );
@@ -904,6 +906,9 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
     catacurses::window w_subhead;
     catacurses::window w_data;
     catacurses::window w_iteminfo;
+    inclusive_rectangle<point> mouseover_area_list;
+    inclusive_rectangle<point> mouseover_area_recipe;
+    inclusive_rectangle<point> mouseover_area_result;
     std::vector<std::string> keybinding_tips;
     int keybinding_x = 0;
     ui_adaptor ui;
@@ -969,6 +974,10 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
 
             w_iteminfo = catacurses::newwin( item_info_height, item_info_width,
                                              item_info );
+            // Will be checked against w_head_tabs position, so use distances to wStart
+            mouseover_area_result = inclusive_rectangle<point>( point( width - item_info_width,
+                                    headHeight + subHeadHeight ),
+                                    point( width, headHeight + subHeadHeight + item_info_height ) );
         } else {
             item_info_width = 0;
             w_iteminfo = {};
@@ -1166,6 +1175,10 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
             // border + padding + name + padding
             const int xpos = 1 + 1 + max_recipe_name_width + 3;
             const int fold_width = FULL_SCREEN_WIDTH - xpos - 2;
+            mouseover_area_list = inclusive_rectangle<point>( point( 1, headHeight + subHeadHeight + 1 ),
+                                  point( xpos - 1, headHeight + subHeadHeight + dataLines ) );
+            mouseover_area_recipe = inclusive_rectangle<point>( point( xpos, headHeight + subHeadHeight + 1 ),
+                                    point( xpos + fold_width + 1, headHeight + subHeadHeight + dataLines ) );
             const nc_color color = avail.color( true );
             const std::string qry = trim( filterstring );
             std::string qry_comps;
@@ -1373,6 +1386,13 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
         const std::string action = ctxt.handle_input();
         const int recmax = static_cast<int>( current.size() );
         const int scroll_rate = recmax > 20 ? 10 : 3;
+
+        cata::optional<point> coord = ctxt.get_coordinates_text( w_head_tabs );
+        const bool mouse_in_list = coord.has_value() && mouseover_area_list.contains( coord.value() );
+        const bool mouse_in_recipe = coord.has_value() && mouseover_area_recipe.contains( coord.value() );
+        const bool mouse_in_result = isWide && coord.has_value() &&
+                                     mouseover_area_result.contains( coord.value() );
+
         if( action == "SELECT" ) {
             bool handled = false;
             cata::optional<point> coord = ctxt.get_coordinates_text( w_head_tabs );
@@ -1401,8 +1421,12 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
             }
         } else if( action == "SCROLL_RECIPE_INFO_UP" ) {
             recipe_info_scroll -= dataLines;
+        } else if( action == "SCROLL_UP" && mouse_in_recipe ) {
+            --recipe_info_scroll;
         } else if( action == "SCROLL_RECIPE_INFO_DOWN" ) {
             recipe_info_scroll += dataLines;
+        } else if( action == "SCROLL_DOWN" && mouse_in_recipe ) {
+            ++recipe_info_scroll;
         } else if( action == "LEFT" ) {
             if( batch || !filterstring.empty() ) {
                 continue;
@@ -1415,8 +1439,12 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
             recalc = true;
         } else if( action == "SCROLL_ITEM_INFO_UP" ) {
             item_info_scroll -= scroll_item_info_lines;
+        } else if( action == "SCROLL_UP" && mouse_in_result ) {
+            --item_info_scroll;
         } else if( action == "SCROLL_ITEM_INFO_DOWN" ) {
             item_info_scroll += scroll_item_info_lines;
+        } else if( action == "SCROLL_DOWN" && mouse_in_result ) {
+            ++item_info_scroll;
         } else if( action == "PREV_TAB" ) {
             tab.prev();
             // Default ALL
@@ -1443,12 +1471,16 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
             }
             line++;
             user_moved_line = highlight_unread_recipes;
+        } else if( action == "SCROLL_DOWN" && mouse_in_list ) {
+            line = std::min( recmax - 1, line + 1 );
         } else if( action == "UP" ) {
             if( !previously_toggled_unread ) {
                 last_line = line;
             }
             line--;
             user_moved_line = highlight_unread_recipes;
+        } else if( action == "SCROLL_UP" && mouse_in_list ) {
+            line = std::max( 0, line - 1 );
         } else if( action == "PAGE_DOWN" ) {
             if( line == recmax - 1 ) {
                 line = 0;
