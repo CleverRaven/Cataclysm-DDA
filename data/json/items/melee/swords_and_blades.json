@@ -788,7 +788,8 @@
     "category": "weapons",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
     "weapon_category": [ "MEDIEVAL_SWORDS", "MEDIUM_SWORDS" ]
-  },{
+  },
+  {
     "id": "lc_arming_sword",
     "type": "TOOL",
     "symbol": "/",
