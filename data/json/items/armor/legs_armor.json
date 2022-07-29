@@ -1467,7 +1467,7 @@
         "covers": [ "leg_l", "leg_r" ],
         "specifically_covers": [ "leg_upper_l", "leg_upper_r", "leg_lower_l", "leg_lower_r" ],
         "coverage": 100,
-        "encumbrance": 0
+        "encumbrance": 6
       },
       {
         "material": [ { "type": "cotton", "covered_by_mat": 100, "thickness": 0.3 } ],
@@ -1479,7 +1479,6 @@
     ],
     "warmth": 25,
     "material_thickness": 1.8,
-    "flags": [ "VARSIZE" ],
-    "encumbrance": [ 5, 6 ]
+    "flags": [ "VARSIZE" ]
   }
 ]
