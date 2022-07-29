@@ -211,7 +211,6 @@ static const trait_id trait_SCHIZOPHRENIC( "SCHIZOPHRENIC" );
 
 static const zone_type_id zone_type_LOOT_IGNORE( "LOOT_IGNORE" );
 static const zone_type_id zone_type_LOOT_IGNORE_FAVORITES( "LOOT_IGNORE_FAVORITES" );
-static const zone_type_id zone_type_zone_disassemble( "zone_disassemble" );
 static const zone_type_id zone_type_zone_strip( "zone_strip" );
 static const zone_type_id zone_type_zone_unload_all( "zone_unload_all" );
 
