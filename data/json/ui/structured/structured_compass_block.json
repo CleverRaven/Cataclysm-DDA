@@ -42,7 +42,7 @@
     "id": "structured_weapon_compass_9x9_layout",
     "type": "widget",
     "style": "layout",
-    "width": 35,
+    "width": 36,
     "arrange": "rows",
     "widgets": [ "structured_wielding_layout", "structured_compass_9x9_layout" ]
   },
@@ -50,7 +50,7 @@
     "id": "structured_weapon_compass_7x7_layout",
     "type": "widget",
     "style": "layout",
-    "width": 35,
+    "width": 38,
     "arrange": "rows",
     "widgets": [ "structured_wielding_layout", "structured_compass_7x7_layout" ]
   },
@@ -58,7 +58,7 @@
     "id": "structured_weapon_compass_5x5_layout",
     "type": "widget",
     "style": "layout",
-    "width": 35,
+    "width": 40,
     "arrange": "rows",
     "widgets": [ "structured_wielding_layout", "structured_compass_5x5_layout" ]
   },
@@ -66,18 +66,18 @@
     "id": "structured_compass_9x9_layout",
     "type": "widget",
     "copy-from": "compass_all_danger_layout_alt",
-    "width": 35
+    "width": 36
   },
   {
     "id": "structured_compass_7x7_layout",
     "type": "widget",
     "copy-from": "compass_all_danger_layout_alt",
-    "width": 37
+    "width": 38
   },
   {
     "id": "structured_compass_5x5_layout",
     "type": "widget",
     "copy-from": "compass_all_danger_layout_alt",
-    "width": 39
+    "width": 40
   }
 ]
