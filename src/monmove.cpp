@@ -743,10 +743,14 @@ void monster::move()
             continue;
         }
 
+        add_msg_debug( debugmode::DF_MATTACK, "%s attempting a special attack %s, cooldown %d", name(),
+                       sp_type.first, local_attack_data.cooldown );
+
         // Cooldowns are decremented in monster::process_turn
 
         if( local_attack_data.cooldown == 0 && !pacified && !is_hallucination() ) {
             if( !sp_type.second->call( *this ) ) {
+                add_msg_debug( debugmode::DF_MATTACK, "Attack failed" );
                 continue;
             }
 
