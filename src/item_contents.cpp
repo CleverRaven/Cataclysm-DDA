@@ -18,6 +18,7 @@
 #include "inventory.h"
 #include "item.h"
 #include "item_category.h"
+#include "item_factory.h"
 #include "item_location.h"
 #include "item_pocket.h"
 #include "iteminfo_query.h"
@@ -1665,6 +1666,9 @@ std::set<itype_id> item_contents::magazine_compatible() const
     for( const item_pocket &pocket : contents ) {
         if( pocket.is_type( item_pocket::pocket_type::MAGAZINE_WELL ) ) {
             for( const itype_id &id : pocket.item_type_restrictions() ) {
+                if( item_is_blacklisted( id ) ) {
+                    continue;
+                }
                 ret.emplace( id );
             }
         }
