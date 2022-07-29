@@ -771,7 +771,7 @@ void draw_subtab( const catacurses::window &w, int iOffsetX, const std::string &
 //   │ TAB1 │ │ TAB2 │
 // ┌─┴──────┴─┘      └───────────┐
 std::map<size_t, inclusive_rectangle<point>> draw_tabs( const catacurses::window &,
-        const std::vector<std::string> &tab_texts, size_t current_tab );
+        const std::vector<std::string> &tab_texts, size_t current_tab, size_t offset = 0 );
 // As above, but specify current tab by its label rather than position
 std::map<std::string, inclusive_rectangle<point>> draw_tabs( const catacurses::window &,
         const std::vector<std::string> &tab_texts, const std::string &current_tab );
@@ -843,23 +843,15 @@ std::map<CurrentTab, inclusive_rectangle<point>> draw_tabs( const catacurses::wi
  * tab names, the translated strings can be returned instead of the generic identifiers.
  * @param max_width The maximum width available for display of the tabs.  Currently assumes
  * that this value includes a border.
- * @param current_tab The generic identifier for the currently selected tab
- * @param tab_names A map of translated tab names (generic identifier, translated name)
- * @param original_tab_list a list of the generic identifiers of all tabs that we want
- * to display
- * @param translate Whether or not translated strings should be returned by the function.
- * False by default.
+ * @param current_tab The index of the currently selected tab
+ * @param original_tab_list a list of the translated tab names to display
  * @return Return 1: A vector of tab identifiers or names that will fit within max_width and contain
  * current_tab.
- * @return Return 2 (optional): The index of the currently selected tab within return 1
+ * @return Return 2: The offset of the displayed tabs to be passed into draw_tabs
  */
 std::pair<std::vector<std::string>, size_t> fit_tabs_to_width( size_t max_width,
-        const std::string &current_tab, const std::map<std::string, std::string> &tab_names,
-        const std::vector<std::string> &original_tab_list, bool translate = false );
-std::vector<std::string> simple_fit_tabs_to_width( size_t max_width,
-        const std::string &current_tab,
-        const std::map<std::string, std::string> &tab_names,
-        const std::vector<std::string> &original_tab_list, bool translate = false );
+        int current_tab,
+        const std::vector<std::string> &original_tab_list );
 
 struct best_fit {
     int start;
