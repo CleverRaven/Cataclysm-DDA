@@ -821,7 +821,7 @@ bool gun_actor::call( monster &z ) const
 bool gun_actor::try_target( monster &z, Creature &target ) const
 {
     if( require_sunlight && !g->is_in_sunlight( z.pos() ) ) {
-        add_msg_debug( debugmode::DF_MATTACK, "Requires sunlight, attack failed" );
+        add_msg_debug( debugmode::DF_MATTACK, "Requires sunlight" );
         if( one_in( 3 ) ) {
             add_msg_if_player_sees( z, failure_msg.translated(), z.name() );
         }
@@ -927,7 +927,7 @@ void gun_actor::shoot( monster &z, const tripoint &target, const gun_mode_id &mo
                             tmp.get_wielded_item()->tname() );
 
     add_msg_debug( debugmode::DF_MATTACK,
-                   "Temp NPC:\nSTR %d, DEX %d, INT %d, PER %d \nGun skill (%s) %d",
+                   "Temp NPC:\nSTR %d, DEX %d, INT %d, PER %d\nGun skill (%s) %d",
                    tmp.str_cur, tmp.dex_cur, tmp.int_cur, tmp.per_cur,
                    gun.gun_skill().c_str(), tmp.get_skill_level( throwing ? skill_throw : skill_gun ) );
 
