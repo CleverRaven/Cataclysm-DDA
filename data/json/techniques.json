@@ -1124,7 +1124,7 @@
     "type": "technique",
     "id": "tec_kickboxing_sidekick",
     "name": "Side Kick",
-    "messages": [ "You side kick %s", "<npcname> roundhouse kicks %s" ],
+    "messages": [ "You side kick %s", "<npcname> side kicks %s" ],
     "skill_requirements": [ { "name": "unarmed", "level": 2 } ],
     "unarmed_allowed": true,
     "melee_allowed": true,
