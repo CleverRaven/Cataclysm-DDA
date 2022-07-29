@@ -52,6 +52,7 @@ enum class iteminfo_parts : size_t {
     FOOD_CONSUME_TIME,
     FOOD_HEALTH,
 
+    MAGAZINE_COMPATIBLE_GUNS,
     MAGAZINE_CAPACITY,
     MAGAZINE_RELOAD,
 
