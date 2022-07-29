@@ -569,6 +569,7 @@ espatiers
 esque
 esters
 estoc
+estocs
 ethereally
 eusocial
 evacs
