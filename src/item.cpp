@@ -8392,6 +8392,10 @@ float item::bullet_resist( const sub_bodypart_id &bp, bool to_self, int roll ) c
 
 float item::biological_resist( bool to_self, const bodypart_id &bp, int roll ) const
 {
+    if( to_self ) {
+        return std::numeric_limits<float>::max();
+    }
+
     if( is_null() ) {
         return 0.0f;
     }
@@ -8438,6 +8442,10 @@ float item::biological_resist( bool to_self, const bodypart_id &bp, int roll ) c
 
 float item::biological_resist( const sub_bodypart_id &bp, bool to_self, int roll ) const
 {
+    if( to_self ) {
+        return std::numeric_limits<float>::max();
+    }
+
     if( is_null() ) {
         return 0.0f;
     }
@@ -8481,6 +8489,10 @@ float item::biological_resist( const sub_bodypart_id &bp, bool to_self, int roll
 
 float item::electric_resist( bool to_self, const bodypart_id &bp, int roll ) const
 {
+    if( to_self ) {
+        return std::numeric_limits<float>::max();
+    }
+
     if( is_null() ) {
         return 0.0f;
     }
@@ -8527,6 +8539,10 @@ float item::electric_resist( bool to_self, const bodypart_id &bp, int roll ) con
 
 float item::electric_resist( const sub_bodypart_id &bp, bool to_self, int roll ) const
 {
+    if( to_self ) {
+        return std::numeric_limits<float>::max();
+    }
+
     if( is_null() ) {
         return 0.0f;
     }
@@ -8570,6 +8586,10 @@ float item::electric_resist( const sub_bodypart_id &bp, bool to_self, int roll )
 
 float item::cold_resist( bool to_self, const bodypart_id &bp, int roll ) const
 {
+    if( to_self ) {
+        return std::numeric_limits<float>::max();
+    }
+
     if( is_null() ) {
         return 0.0f;
     }
@@ -8616,6 +8636,10 @@ float item::cold_resist( bool to_self, const bodypart_id &bp, int roll ) const
 
 float item::cold_resist( const sub_bodypart_id &bp, bool to_self, int roll ) const
 {
+    if( to_self ) {
+        return std::numeric_limits<float>::max();
+    }
+
     if( is_null() ) {
         return 0.0f;
     }
