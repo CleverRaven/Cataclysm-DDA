@@ -1,7 +1,7 @@
 [
   { "id": "t_border",           "width": 1,
     "style": "symbol",
-    "colors": [ "c_dark_gray" ],
+    "colors": [ "c_blue" ],
     "string": "",
     "type": "widget"
   },
@@ -1221,6 +1221,7 @@
     "type": "widget"
   },
   { "id": "t_stat",             "width": 2,
+    "text_align": "right",
     "style": "number",
     "colors": [ "c_red", "c_light_red", "c_yellow", "c_light_cyan", "c_light_green", "c_green" ],
     "type": "widget"
@@ -1245,68 +1246,61 @@
     "var": "stat_per",
     "type": "widget"
   },
-  { "id": "l_bpower",           "width": 4,
-    "style": "text",
-    "clauses": [
-      { "id": "cyborg",
-        "color": "c_light_green",
-        "text": "BP: ",
-        "condition": { "u_has_bionics": "ANY" }
-      },
-      { "id": "not_cyborg",
-        "color": "c_light_gray",
-        "text": "-- ",
-        "condition": { "not": { "u_has_bionics": "ANY" } }
-      }
-    ],
-    "default_clause": { "text": " -- " },
+  { "id": "l_bpower",           "width": 3,
+    "copy-from": "t_label",
+    "string": "BP:",
     "type": "widget"
   },
-  { "id": "i_bpower",           "width": 5,         "//": "TODO: change to nice 5 section indicator, variable unavailable",
+  { "id": "i_bpower",           "width": 5,         "//": "TODO: change to nice 5 section indicator, something is wrong",
     "style": "text",
     "colors": [ "h_yellow" ],
     "clauses": [
-      { "id": "20%", "color": "h_yellow", "text": "1", "condition": { "compare_int": [ { "u_val": "power_percentage" }, ">",  { "const": 19 } ] } },
-      { "id": "40%", "color": "h_yellow", "text": "2", "condition": { "compare_int": [ { "u_val": "power_percentage" }, ">",  { "const": 39 } ] } },
-      { "id": "60%", "color": "h_yellow", "text": "3", "condition": { "compare_int": [ { "u_val": "power_percentage" }, ">",  { "const": 59 } ] } },
-      { "id": "80%", "color": "h_yellow", "text": "4", "condition": { "compare_int": [ { "u_val": "power_percentage" }, ">",  { "const": 79 } ] } },
-      { "id": "99%", "color": "h_yellow", "text": "5", "condition": { "compare_int": [ { "u_val": "power_percentage" }, ">",  { "const": 99 } ] } }
+      { "id": "20%", "color": "h_yellow", "sym": "1", "condition": { "compare_int": [ { "u_val": "power_percentage" }, ">",  { "const": 19 } ] } },
+      { "id": "40%", "color": "h_yellow", "sym": "2", "condition": { "compare_int": [ { "u_val": "power_percentage" }, ">",  { "const": 39 } ] } },
+      { "id": "60%", "color": "h_yellow", "sym": "3", "condition": { "compare_int": [ { "u_val": "power_percentage" }, ">",  { "const": 59 } ] } },
+      { "id": "80%", "color": "h_yellow", "sym": "4", "condition": { "compare_int": [ { "u_val": "power_percentage" }, ">",  { "const": 79 } ] } },
+      { "id": "99%", "color": "h_yellow", "sym": "5", "condition": { "compare_int": [ { "u_val": "power_percentage" }, ">",  { "const": 99 } ] } }
     ],
     "default_clause": { "text": "     " },
     "type": "widget"
   },
-  { "id": "i_bpower2",          "width": 5,         "//": "TODO: for testing purposes - just number, doesn't work right now",
-    "style": "number",
-    "colors": [ "h_yellow" ],
-    "//var": "power_percentage",
-    "type": "widget"
-  },
-  { "id": "i_bpower3",          "width": 5,         "//": "TODO: remove.",
-    "style": "text",
-    "var": "power_text", 
-    "type": "widget"
-  },  
-  { "id": "i_bpower_graph",     "width": 5,         "//": "TODO: remove.",
+  { "id": "i_bpower_graph",     "width": 5,         "//": "current variant",
     "style": "graph",
     "fill": "bucket",
-    "symbols": "▒",
-    "var": "power_text",
-    "type": "widget"
-  },
-
-  { "id": "l_mpower",           "width": 4,
-    "style": "text",
-    "string": " ",
-    "colors": [ "c_light_gray" ],
-    "type": "widget"
-  },
-  { "id": "i_mpower_text",      "width": 5,
-    "//style": "number",
-    "//var": "mana", 
-    "style": "text",
-    "string": "",
+    "symbols": "┈=≡Ξ",
+    "var": "power_percentage",
+    "colors": [ "h_dark_gray", "h_brown", "h_yellow", "h_white" ],
     "type": "widget"
   },  
+  { "id": "i_bpower_balance_graph", "width": 1,
+    "style": "graph",
+    "var": "log_power_balance",
+    "symbols": "▼⎽⎼⎯⎻⎺▲",
+    "fill": "bucket",
+    "colors": [ "h_red", "h_light_red", "h_yellow", "h_white", "h_light_green", "h_green", "h_light_cyan" ],
+    "breaks": [ 23, 40, 50, 51, 60, 77 ],
+    "type": "widget"
+  },
+  { "id": "a_bpower",           "width": 9,
+    "style": "layout",  "arrange": "minimum_columns",
+    "clauses": [
+      { "id": "cyborg",
+        "widgets": [
+          "l_bpower",
+          "i_bpower_graph",
+          "i_bpower_balance_graph"
+        ],
+        "condition": { "u_has_bionics": "ANY" }
+      },
+      { "id": "not_cyborg",
+        "widgets": [
+          "l_space"
+        ],
+        "condition": { "not": { "u_has_bionics": "ANY" } }
+      }
+    ],
+    "type": "widget"
+  },
 
   { "id": "a_stat_row1",        "width": 9,
     "style": "layout",  "arrange": "minimum_columns",
@@ -1330,13 +1324,11 @@
     ],
     "type": "widget"
   },
-  { "id": "a_stat_row3",        "width": 9,
-    "style": "layout",  "arrange": "minimum_columns",
+  { "id": "a_stat_row3",        "width": 9,         "//": "TODO: Add mana widgets",
+    "style": "layout",  "arrange": "rows",
     "widgets": [
-      "l_bpower",
-      "i_bpower3",
-      "l_mpower",
-      "i_mpower_text"
+      "a_bpower",
+      "l_space"
     ],
     "type": "widget"
   },
