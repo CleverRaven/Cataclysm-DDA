@@ -634,6 +634,7 @@
     "subtype": "distribution",
     "entries": [
       { "item": "manual_karate", "prob": 12 },
+      { "item": "manual_kickboxing", "prob": 12 },
       { "item": "manual_judo", "prob": 12 },
       { "item": "manual_aikido", "prob": 12 },
       { "item": "manual_taekwondo", "prob": 12 },
