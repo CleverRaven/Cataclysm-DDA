@@ -217,7 +217,7 @@
     "id": "jam_fruit",
     "name": { "str": "fruit jam" },
     "conditional_names": [
-     { "type": "COMPONENT_ID", "condition": "apple", "name": { "str_sp": "%s, apple" } },
+      { "type": "COMPONENT_ID", "condition": "apple", "name": { "str_sp": "%s, apple" } },
       { "type": "COMPONENT_ID", "condition": "apricot", "name": { "str_sp": "%s, apricot" } },
       { "type": "COMPONENT_ID", "condition": "banana", "name": { "str_sp": "%s, banana" } },
       { "type": "COMPONENT_ID", "condition": "blackberries", "name": { "str_sp": "%s, blackberry" } },
