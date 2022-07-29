@@ -463,8 +463,8 @@
   {
     "id": "mc_cavalry_sabre",
     "type": "TOOL",
-    "name": { "str": "medium steel cavalry saber" },
     "copy-from": "lc_cavalry_sabre",
+    "name": { "str": "medium steel cavalry saber" },
     "description": "This is a curved sword associated with cavalry from the Early Modern period onwards.  Lightweight, but a deadly slashing weapon.  Features a blade of medium carbon steel and a grip of leather wrapped in wire to fit your hand better.",
     "weight": "1 kg",
     "cutting": 27,
@@ -478,8 +478,8 @@
   {
     "id": "hc_cavalry_sabre",
     "type": "TOOL",
-    "name": { "str": "high steel cavalry saber" },
     "copy-from": "lc_cavalry_sabre",
+    "name": { "str": "high steel cavalry saber" },
     "description": "This is a curved sword associated with cavalry from the Early Modern period onwards.  Lightweight, but a deadly slashing weapon.  Features a blade of high carbon steel and a grip of leather wrapped in wire to fit your hand better.",
     "weight": "1 kg",
     "cutting": 29,
@@ -493,8 +493,8 @@
   {
     "id": "ch_cavalry_sabre",
     "type": "TOOL",
-    "name": { "str": "hardened steel cavalry saber" },
     "copy-from": "lc_cavalry_sabre",
+    "name": { "str": "hardened cavalry saber" },
     "description": "This is a curved sword associated with cavalry from the Early Modern period onwards.  Lightweight, but a deadly slashing weapon.  Features a blade of hardened steel and a non-conductive grip of kevlar reinforced with epoxy to fit your hand better.",
     "weight": "975 g",
     "cutting": 30,
@@ -508,8 +508,8 @@
   {
     "id": "qt_cavalry_sabre",
     "type": "TOOL",
-    "name": { "str": "tempered steel cavalry saber" },
     "copy-from": "lc_cavalry_sabre",
+    "name": { "str": "tempered cavalry saber" },
     "description": "This is a curved sword associated with cavalry from the Early Modern period onwards.  Lightweight, but a deadly slashing weapon.  Features a blade of tempered steel and a non-conductive grip of kevlar reinforced with epoxy to fit your hand better.",
     "weight": "975 g",
     "cutting": 30,
@@ -708,6 +708,7 @@
   {
     "id": "mc_estoc",
     "type": "GENERIC",
+	"copy-from": "lc_estoc",
     "name": { "str": "medium steel estoc" },
     "description": "This is a thin thrusting sword, a sort of predecessor to the rapier.  It requires a larger baldric or scabbard, compared to smaller swords.  Features a blade of medium carbon steel and a grip of leather wrapped in wire to fit your hand better.",
     "weight": "1904 g",
@@ -724,6 +725,7 @@
   {
     "id": "hc_estoc",
     "type": "GENERIC",
+	"copy-from": "lc_estoc",
     "name": { "str": "high steel estoc" },
     "description": "This is a thin thrusting sword, a sort of predecessor to the rapier.  It requires a larger baldric or scabbard, compared to smaller swords.  Features a blade of high carbon steel and a grip of leather wrapped in wire to fit your hand better.",
     "weight": "1904 g",
@@ -740,6 +742,7 @@
   {
     "id": "ch_estoc",
     "type": "GENERIC",
+	"copy-from": "lc_estoc",
     "name": { "str": "hardened estoc" },
     "description": "This is a thin thrusting sword, a sort of predecessor to the rapier.  It requires a larger baldric or scabbard, compared to smaller swords.  Features a blade of hardened steel and a non-conductive grip of kevlar reinforced with epoxy to fit your hand better.",
     "weight": "1879 g",
@@ -756,6 +759,7 @@
   {
     "id": "qt_estoc",
     "type": "GENERIC",
+	"copy-from": "lc_estoc",
     "name": { "str": "tempered estoc" },
     "description": "This is a thin thrusting sword, a sort of predecessor to the rapier.  It requires a larger baldric or scabbard, compared to smaller swords.  Features a blade of tempered steel and a non-conductive grip of kevlar reinforced with epoxy to fit your hand better.",
     "weight": "1879 g",
@@ -892,8 +896,8 @@
   {
     "id": "mc_arming_sword",
     "type": "TOOL",
-    "name": { "str": "medium steel arming sword" },
     "copy-from": "lc_arming_sword",
+    "name": { "str": "medium steel arming sword" },
     "description": "This is a classic medieval sword, just the right size to use one-handed.  Features a blade of medium carbon steel and a grip of leather wrapped in wire to fit your hand better.",
     "price": 100000,
     "price_postapoc": 4500,
@@ -909,8 +913,8 @@
   {
     "id": "hc_arming_sword",
     "type": "TOOL",
-    "name": { "str": "high steel arming sword" },
     "copy-from": "lc_arming_sword",
+    "name": { "str": "high steel arming sword" },
     "description": "This is a classic medieval sword, just the right size to use one-handed.  Features a blade of high carbon steel and a grip of leather wrapped in wire to fit your hand better.",
     "price": 100000,
     "price_postapoc": 4500,
@@ -926,8 +930,8 @@
   {
     "id": "ch_arming_sword",
     "type": "TOOL",
-    "name": { "str": "hardened arming sword" },
     "copy-from": "lc_arming_sword",
+    "name": { "str": "hardened arming sword" },
     "description": "This is a classic medieval sword, just the right size to use one-handed.  Features a blade of hardened steel and a non-conductive grip of kevlar reinforced with epoxy to fit your hand better.",
     "price": 100000,
     "price_postapoc": 4500,
@@ -943,8 +947,8 @@
   {
     "id": "qt_arming_sword",
     "type": "TOOL",
-    "name": { "str": "tempered arming sword" },
     "copy-from": "lc_arming_sword",
+    "name": { "str": "tempered arming sword" },
     "description": "This is a classic medieval sword, just the right size to use one-handed.  Features a blade of tempered steel and a non-conductive grip of kevlar reinforced with epoxy to fit your hand better.",
     "price": 100000,
     "price_postapoc": 4500,
@@ -1608,8 +1612,8 @@
   {
     "id": "mc_broadsword",
     "type": "TOOL",
-    "name": { "str": "medium steel broadsword" },
     "copy-from": "lc_broadsword",
+    "name": { "str": "medium steel broadsword" },
     "description": "This is an early modern sword that saw use in the 16th, 17th, and 18th centuries.  Called 'broad' to contrast with the slimmer rapiers.  Features a blade of medium carbon steel and a grip of leather wrapped in wire to fit your hand better.",
     "weight": "1223 g",
     "price": 120000,
@@ -1625,8 +1629,8 @@
   {
     "id": "hc_broadsword",
     "type": "TOOL",
-    "name": { "str": "high steel broadsword" },
     "copy-from": "lc_broadsword",
+    "name": { "str": "high steel broadsword" },
     "description": "This is an early modern sword that saw use in the 16th, 17th, and 18th centuries.  Called 'broad' to contrast with the slimmer rapiers.  Features a blade of high carbon steel and a grip of leather wrapped in wire to fit your hand better.",
     "weight": "1223 g",
     "price": 120000,
@@ -1642,8 +1646,8 @@
   {
     "id": "ch_broadsword",
     "type": "TOOL",
-    "name": { "str": "hardened broadsword" },
     "copy-from": "lc_broadsword",
+    "name": { "str": "hardened broadsword" },
     "description": "This is an early modern sword that saw use in the 16th, 17th, and 18th centuries.  Called 'broad' to contrast with the slimmer rapiers.  Features a blade of hardened steel and a non-conductive grip of kevlar reinforced with epoxy to fit your hand better.",
     "weight": "1198 g",
     "price": 120000,
@@ -1659,8 +1663,8 @@
   {
     "id": "qt_broadsword",
     "type": "TOOL",
-    "name": { "str": "tempered broadsword" },
     "copy-from": "lc_broadsword",
+    "name": { "str": "tempered broadsword" },
     "description": "This is an early modern sword that saw use in the 16th, 17th, and 18th centuries.  Called 'broad' to contrast with the slimmer rapiers.  Features a blade of tempered steel and a non-conductive grip of kevlar reinforced with epoxy to fit your hand better.",
     "weight": "1198 g",
     "price": 120000,
