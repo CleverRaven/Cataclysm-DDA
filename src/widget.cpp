@@ -187,6 +187,12 @@ std::string enum_to_string<widget_var>( widget_var data )
             return "weather_text";
         case widget_var::wielding_text:
             return "wielding_text";
+        case widget_var::wielding_simple_text:
+            return "wielding_simple_text";
+        case widget_var::wielding_mode_text:
+            return "wielding_mode_text";
+        case widget_var::wielding_ammo_text:
+            return "wielding_ammo_text";
         case widget_var::wind_text:
             return "wind_text";
         // Fall-through - invalid
@@ -1016,6 +1022,9 @@ bool widget::uses_text_function()
         case widget_var::weary_malus_text:
         case widget_var::weather_text:
         case widget_var::wielding_text:
+        case widget_var::wielding_simple_text:
+        case widget_var::wielding_mode_text:
+        case widget_var::wielding_ammo_text:
         case widget_var::wind_text:
             return true;
         default:
@@ -1156,6 +1165,15 @@ std::string widget::color_text_function_string( const avatar &ava, unsigned int 
             break;
         case widget_var::wielding_text:
             desc.first = ava.weapname();
+            break;
+        case widget_var::wielding_simple_text:
+            desc.first = ava.weapname_simple();
+            break;
+        case widget_var::wielding_mode_text:
+            desc.first = ava.weapname_mode();
+            break;
+        case widget_var::wielding_ammo_text:
+            desc.first = ava.weapname_ammo();
             break;
         case widget_var::wind_text:
             desc = display::wind_text_color( ava );
