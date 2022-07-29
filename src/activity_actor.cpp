@@ -6254,6 +6254,21 @@ void unload_loot_activity_actor::do_turn( player_activity &act, Character &you )
             items.emplace_back( &it, false );
         }
 
+        bool unload_mods = false;
+        bool unload_molle = false;
+        bool unload_always = false;
+
+        std::vector<zone_data const *> const zones = mgr.get_zones_at( src, zone_type_zone_unload_all,
+                fac_id );
+
+        // get most open rules out of all stacked zones
+        for( zone_data const *zone : zones ) {
+            unload_options const &options = dynamic_cast<const unload_options &>( zone->get_options() );
+            unload_molle |= options.unload_molle();
+            unload_mods |= options.unload_mods();
+            unload_always |= options.unload_always();
+        }
+
         //Skip items that have already been processed
         for( auto it = items.begin() + num_processed; it < items.end(); ++it ) {
 
@@ -6312,11 +6327,37 @@ void unload_loot_activity_actor::do_turn( player_activity &act, Character &you )
                             return;
                         }
                     }
-                    // after dumping items go back to start of activity loop
-                    // so that can re-assess the items in the tile
-                    ++num_processed;
-                    return;
                 }
+                // if unloading mods
+                if( unload_mods ) {
+                    // remove each mod, skip irremovable
+                    for( item *mod : it->first->gunmods() ) {
+                        if( mod->is_irremovable() ) {
+                            continue;
+                        }
+                        you.gunmod_remove( *it->first, *mod );
+                        move_item( you, *mod, 1, src_loc, src_loc, this_veh, this_part );
+                        if( you.moves <= 0 ) {
+                            return;
+                        }
+                    }
+                }
+
+                // if unloading molle
+                if( unload_molle ) {
+                    while( !it->first->get_contents().get_added_pockets().empty() ) {
+                        item removed = it->first->get_contents().remove_pocket( 0 );
+                        move_item( you, removed, 1, src_loc, src_loc, this_veh, this_part );
+                        if( you.moves <= 0 ) {
+                            return;
+                        }
+                    }
+                }
+
+                // after dumping items go back to start of activity loop
+                // so that can re-assess the items in the tile
+                ++num_processed;
+                return;
             }
 
             if( you.moves <= 0 ) {
