@@ -1571,7 +1571,7 @@
   },
   {
     "id": "cavalry_sabre_fake",
-    "copy-from": "lc_cavalry_sabre",
+    "copy-from": "cavalry_sabre",
     "type": "GENERIC",
     "name": { "str": "cavalry sabre" },
     "description": "This is a dull, cheaply-made replica of a curved sword associated with cavalry, from the Early Modern period onwards.",
