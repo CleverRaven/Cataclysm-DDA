@@ -336,8 +336,8 @@ static void check_two_handed_axes( const std::function<Approx( const std::string
         CHECK( calc_expected_dps( "lobotomizer" ) == 24.0 );
         CHECK( calc_expected_dps( "ax" ) == 20.25 );
         CHECK( calc_expected_dps( "copper_ax" ) == 13.75 );
-        CHECK( calc_expected_dps( "e_combatsaw_on" ) == 35.07 );
-        CHECK( calc_expected_dps( "combatsaw_on" ) == 35.07 );
+        CHECK( calc_expected_dps( "e_combatsaw_on" ) == 29 );
+        CHECK( calc_expected_dps( "combatsaw_on" ) == 29 );
         CHECK( calc_expected_dps( "chainsaw_on" ) == 16.0 );
         CHECK( calc_expected_dps( "circsaw_on" ) == 18.0 );
         CHECK( calc_expected_dps( "e_combatsaw_off" ) == 3.0 );
@@ -444,17 +444,17 @@ static void check_two_handed_swords( const std::function<Approx( const std::stri
 {
     SECTION( "two-handed swords" ) { // expected value around 27, 25 for long swords
         CHECK( calc_expected_dps( "nodachi" ) == 26.5 );
-        CHECK( calc_expected_dps( "zweihander" ) == 23.79 );
+        CHECK( calc_expected_dps( "zweihander" ) == 25.78 );
         CHECK( calc_expected_dps( "estoc" ) == 27.0 );
         CHECK( calc_expected_dps( "longsword" ) == 25 );
         CHECK( calc_expected_dps( "katana" ) == 25.0 );
         CHECK( calc_expected_dps( "longsword_inferior" ) == 15.5 );
-        CHECK( calc_expected_dps( "zweihander_inferior" ) == 13.44 );
+        CHECK( calc_expected_dps( "zweihander_inferior" ) == 11.64 );
         CHECK( calc_expected_dps( "katana_inferior" ) == 13.5 );
         CHECK( calc_expected_dps( "nodachi_inferior" ) == 16.25 );
         CHECK( calc_expected_dps( "estoc_inferior" ) == 15.5 );
         CHECK( calc_expected_dps( "estoc_fake" ) == 8.95 );
-        CHECK( calc_expected_dps( "zweihander_fake" ) == 8.73 );
+        CHECK( calc_expected_dps( "zweihander_fake" ) == 7.21 );
         CHECK( calc_expected_dps( "longsword_fake" ) == 6.25 );
         CHECK( calc_expected_dps( "nodachi_fake" ) == 8.5 );
         CHECK( calc_expected_dps( "katana_fake" ) == 7.0 );
@@ -488,7 +488,7 @@ static void check_shortswords( const std::function<Approx( const std::string & )
         CHECK( calc_expected_dps( "butterfly_swords" ) == 22.0 );
         CHECK( calc_expected_dps( "cutlass" ) == 22.0 );
         CHECK( calc_expected_dps( "sword_bayonet" ) == 22.75 );
-        CHECK( calc_expected_dps( "kukri" ) == 26.47 );
+        CHECK( calc_expected_dps( "kukri" ) == 19.9 );
         CHECK( calc_expected_dps( "wakizashi" ) == 22.0 );
         CHECK( calc_expected_dps( "sword_xiphos" ) == 22.0 );
         CHECK( calc_expected_dps( "khopesh" ) == 24.26 );
@@ -521,10 +521,10 @@ static void check_knives( const std::function<Approx( const std::string & )> &ca
         CHECK( calc_expected_dps( "knife_trench" ) == 15.19 );
         CHECK( calc_expected_dps( "knife_baselard" ) == 15.87 );
         CHECK( calc_expected_dps( "kirpan" ) == 18.0 );
-        CHECK( calc_expected_dps( "tanto" ) == 13.15 );
-        CHECK( calc_expected_dps( "kris" ) == 22.08 );
+        CHECK( calc_expected_dps( "tanto" ) == 15.78 );
+        CHECK( calc_expected_dps( "kris" ) == 14.08 );
         CHECK( calc_expected_dps( "knife_rambo" ) == 14.36 );
-        CHECK( calc_expected_dps( "tanto_inferior" ) == 11.79 );
+        CHECK( calc_expected_dps( "tanto_inferior" ) == 14.14 );
         CHECK( calc_expected_dps( "bone_knife" ) == 7.9 );
         CHECK( calc_expected_dps( "knife_hunting" ) == 11.0 );
         CHECK( calc_expected_dps( "kirpan_cheap" ) == 7.61 );
@@ -534,7 +534,7 @@ static void check_knives( const std::function<Approx( const std::string & )> &ca
         CHECK( calc_expected_dps( "copper_knife" ) == 8.0 );
         CHECK( calc_expected_dps( "knife_butcher" ) == 10 );
         CHECK( calc_expected_dps( "throwing_knife" ) == 7.0 );
-        CHECK( calc_expected_dps( "tanto_fake" ) == 5.18 );
+        CHECK( calc_expected_dps( "tanto_fake" ) == 6.33 );
         CHECK( calc_expected_dps( "pockknife" ) == 4.5 );
         CHECK( calc_expected_dps( "spike" ) == 4.0 );
         CHECK( calc_expected_dps( "kris_fake" ) == 2.5 );
