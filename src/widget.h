@@ -27,6 +27,8 @@ enum class widget_var : int {
     health,         // Current hidden health value, -200 to +200
     mana,           // Current available mana, integer
     max_mana,       // Current maximum mana, integer
+    power_percentage, // Bionic power, relative to capacity
+    log_power_balance, // Logarithm of bionic power balance
     morale_level,   // Current morale level, integer (may be negative)
     weariness_level, // Current weariness level, integer
     weary_transition_level, // Current weariness level, integer
@@ -61,6 +63,7 @@ enum class widget_var : int {
     pain_text,      // Pain description text, color string
     place_text,     // Place name in world where character is
     power_text,     // Remaining power from bionics, color string
+    power_balance_text, // Power balance during the last turn
     safe_mode_text, // Safe mode text, color string
     safe_mode_classic_text, // Safe mode text, classic mode color string.
     style_text,     // Active martial arts style name
