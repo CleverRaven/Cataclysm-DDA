@@ -1794,11 +1794,11 @@ TEST_CASE( "compass widget", "[widget][compass]" )
         CHECK( c5s_legend1.layout( ava, sidebar_width ) ==
                "<color_c_white>S</color> <color_c_dark_gray>shearable monster</color>                 " );
         CHECK( c5s_legend3.layout( ava, sidebar_width ) ==
-               "<color_c_white>S</color> <color_c_dark_gray>shearable monster</color>\n"
+               "<color_c_white>S</color> <color_c_dark_gray>shearable monster</color>                 \n"
                "<color_c_white>B</color> <color_c_dark_gray>monster producing cattle samples when dissected</color>\n"
                "<color_c_white>B</color> <color_c_dark_gray>monster producing CBMs when dissected</color>" );
         CHECK( c5s_legend5.layout( ava, sidebar_width ) ==
-               "<color_c_white>S</color> <color_c_dark_gray>shearable monster</color>\n"
+               "<color_c_white>S</color> <color_c_dark_gray>shearable monster</color>                 \n"
                "<color_c_white>B</color> <color_c_dark_gray>monster producing cattle samples when dissected</color>\n"
                "<color_c_white>B</color> <color_c_dark_gray>monster producing CBMs when dissected</color>" );
     }
@@ -2171,7 +2171,7 @@ TEST_CASE( "Dynamic height for multiline widgets", "[widget]" )
         REQUIRE( ava.get_mon_visible().unique_mons[static_cast<int>( cardinal_direction::NORTH )].size() ==
                  3 );
         CHECK( c5s_legend3.layout( ava, sidebar_width ) ==
-               "<color_c_white>S</color> <color_c_dark_gray>shearable monster</color>\n"
+               "<color_c_white>S</color> <color_c_dark_gray>shearable monster</color>                 \n"
                "<color_c_white>B</color> <color_c_dark_gray>monster producing cattle samples when dissected</color>\n"
                "<color_c_white>B</color> <color_c_dark_gray>monster producing CBMs when dissected</color>" );
         CHECK( get_height_from_widget_factory( c5s_legend3.getId() ) == 3 );
@@ -2497,7 +2497,7 @@ TEST_CASE( "Widget alignment", "[widget]" )
 
         CHECK( bp_legend.layout( ava, sidebar_width ) ==
                line1 + "      \n" +
-               line2 + "\n" +
+               line2 + "              \n" +
                line3 + "           " );
 
         bp_legend._label_align = widget_alignment::RIGHT;
@@ -2505,7 +2505,7 @@ TEST_CASE( "Widget alignment", "[widget]" )
 
         CHECK( bp_legend.layout( ava, sidebar_width ) ==
                line1 + "      \n" +
-               line2 + "\n" +
+               line2 + "              \n" +
                line3 + "           " );
 
         bp_legend._label_align = widget_alignment::CENTER;
@@ -2513,7 +2513,7 @@ TEST_CASE( "Widget alignment", "[widget]" )
 
         CHECK( bp_legend.layout( ava, sidebar_width ) ==
                line1 + "      \n" +
-               line2 + "\n" +
+               line2 + "              \n" +
                line3 + "           " );
 
         bp_legend._label_align = widget_alignment::LEFT;
