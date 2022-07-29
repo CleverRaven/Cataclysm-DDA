@@ -6017,6 +6017,10 @@ void unload_loot_activity_actor::serialize( JsonOut &jsout ) const
     jsout.start_object();
 
     jsout.member( "moves", moves );
+    jsout.member( "num_processed", num_processed );
+    jsout.member( "stage", stage );
+    jsout.member( "coord_set", coord_set );
+    jsout.member( "placement", placement );
 
     jsout.end_object();
 }
@@ -6028,6 +6032,10 @@ std::unique_ptr<activity_actor> unload_loot_activity_actor::deserialize( JsonVal
     JsonObject data = jsin.get_object();
 
     data.read( "moves", actor.moves );
+    data.read( "num_processed", actor.num_processed );
+    data.read( "stage", actor.stage );
+    data.read( "coord_set", actor.coord_set );
+    data.read( "placement", actor.placement );
 
     return actor.clone();
 }

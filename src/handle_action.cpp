@@ -149,14 +149,15 @@ static const zone_type_id zone_type_CONSTRUCTION_BLUEPRINT( "CONSTRUCTION_BLUEPR
 static const zone_type_id zone_type_FARM_PLOT( "FARM_PLOT" );
 static const zone_type_id zone_type_LOOT_CORPSE( "LOOT_CORPSE" );
 static const zone_type_id zone_type_LOOT_UNSORTED( "LOOT_UNSORTED" );
-static const zone_type_id zone_type_zone_unload_all( "zone_unload_all" );
-static const zone_type_id zone_type_zone_strip( "zone_strip" );
 static const zone_type_id zone_type_LOOT_WOOD( "LOOT_WOOD" );
 static const zone_type_id zone_type_MINING( "MINING" );
 static const zone_type_id zone_type_MOPPING( "MOPPING" );
 static const zone_type_id zone_type_VEHICLE_DECONSTRUCT( "VEHICLE_DECONSTRUCT" );
 static const zone_type_id zone_type_VEHICLE_REPAIR( "VEHICLE_REPAIR" );
 static const zone_type_id zone_type_zone_disassemble( "zone_disassemble" );
+static const zone_type_id zone_type_zone_strip( "zone_strip" );
+static const zone_type_id zone_type_zone_unload_all( "zone_unload_all" );
+
 
 static const std::string flag_CANT_DRAG( "CANT_DRAG" );
 
