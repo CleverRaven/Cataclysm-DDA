@@ -713,7 +713,8 @@
       { "item": "wizard_cane_cheap", "prob": 5, "charges": [ 0, 100 ] },
       { "item": "wizard_cane", "prob": 10, "charges": [ 50, 100 ] },
       [ "sinister_cane", 10 ],
-      [ "scythe_toy", 10 ]
+      [ "scythe_toy", 10 ],
+      [ "aim_game", 10 ]
     ]
   },
   {
@@ -852,7 +853,10 @@
       [ "basketball", 50 ],
       [ "beach_volleyball", 40 ],
       [ "indoor_volleyball", 40 ],
-      [ "helmet_bike", 25 ],
+      [ "helmet_bike", 15 ],
+      { "group": "helmet_bike_modified", "prob": 10 },
+      [ "plastic_chin_guard", 10 ],
+      [ "shield_visor", 5 ],
       [ "helmet_ball", 25 ],
       [ "headgear", 20 ],
       [ "mask_hockey", 25 ],
@@ -878,7 +882,8 @@
       [ "plastron_plastic", 10 ],
       [ "gauntlet_fencing", 9 ],
       [ "gauntlet_fencing_l", 1 ],
-      [ "iceaxe", 4 ]
+      [ "iceaxe", 4 ],
+      [ "aim_game", 5 ]
     ]
   },
   {
@@ -920,7 +925,8 @@
       { "item": "coffeemaker", "prob": 10, "charges": [ 0, 500 ] },
       [ "cookbook_daintydishes", 40 ],
       [ "cookbook_indian", 10 ],
-      [ "cookbook_foodfashions", 18 ]
+      [ "cookbook_foodfashions", 18 ],
+      [ "cookbook_mexican", 10 ]
     ]
   },
   {
@@ -1278,7 +1284,8 @@
       { "item": "charcoal", "prob": 5, "container-item": "bag_canvas" },
       [ "toilet_paper", 30 ],
       [ "plunger_toilet", 10 ],
-      [ "plunger_futuristic", 25 ]
+      [ "plunger_futuristic", 25 ],
+      { "item": "chem_turpentine", "prob": 20, "charges-min": 20 }
     ]
   },
   {

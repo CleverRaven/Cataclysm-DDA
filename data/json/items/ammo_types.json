@@ -235,6 +235,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "30carbine",
+    "name": ".30 Carbine",
+    "default": "30carbine"
+  },
+  {
+    "type": "ammunition_type",
     "id": "270win",
     "name": ".270 Winchester",
     "default": "270win_jsp"
@@ -448,6 +454,12 @@
     "id": "conc_alcohol",
     "name": "concentrated alcohol",
     "default": "denat_alcohol"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "methanol_fuelcell",
+    "name": "methanol",
+    "default": "chem_methanol_fuelcell"
   },
   {
     "type": "ammunition_type",
@@ -754,5 +766,11 @@
     "id": "ammonia_liquid",
     "name": "ammonia",
     "default": "ammonia_liquid"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "turpentine",
+    "name": "turpentine",
+    "default": "chem_turpentine"
   }
 ]

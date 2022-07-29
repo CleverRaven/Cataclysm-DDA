@@ -300,6 +300,7 @@ enum class ter_furn_flag : int {
     TFLAG_AMMOTYPE_RELOAD,
     TFLAG_TRANSPARENT_FLOOR,
     TFLAG_TOILET_WATER,
+    TFLAG_ELEVATOR,
 
     NUM_TFLAG_FLAGS
 };
@@ -472,7 +473,6 @@ struct map_data_common_t {
             return !( curtain_transform.is_empty() || curtain_transform.is_null() );
         }
 
-    public:
         std::string name() const;
 
         /*

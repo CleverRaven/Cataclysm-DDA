@@ -4,6 +4,7 @@
     "type": "GENERIC",
     "category": "tools",
     "name": { "str": "atomic coffee maker" },
+    "looks_like": "coffeemaker",
     "description": "This is a Curie-G coffeemaker, by CuppaTech.  It famously uses a radioactive generator to heat water for coffee.  Normally the water is heated using energy stored in a capacitor, and makes ordinary coffee.  However, as a special feature, water from the RTG containment area can be used, giving the coffee a very special kick.  The Curie-G is illegal in most countries.",
     "weight": "6102 g",
     "volume": "1000 ml",

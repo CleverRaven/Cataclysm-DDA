@@ -89,7 +89,7 @@ static avatar get_sanitized_player()
     return ret;
 }
 
-static int get_item_count( std::set<const item *> items )
+static int get_item_count( const std::set<const item *> &items )
 {
     int sum = 0;
     for( const item *it : items ) {

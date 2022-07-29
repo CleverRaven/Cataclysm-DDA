@@ -1,0 +1,26 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_reroll_bar_mercs",
+    "recurrence": "12 hours",
+    "global": true,
+    "condition": {
+      "and": [
+        { "not": { "u_near_om_location": "robofachq_subcc_a2", "range": 1 } },
+        { "compare_int": [ { "global_val": "var", "var_name": "ancilla_bar_exists" }, "==", { "const": 1 } ] }
+      ]
+    },
+    "effect": [
+      {
+        "mapgen_update": "nest_ancilla_bar_remove_BEMs",
+        "om_terrain": "robofachq_subcc_a2",
+        "target_var": { "global_val": "ancilla_bar_loc" }
+      },
+      {
+        "mapgen_update": "nest_ancilla_bar_place_BEMs",
+        "om_terrain": "robofachq_subcc_a2",
+        "target_var": { "global_val": "ancilla_bar_loc" }
+      }
+    ]
+  }
+]

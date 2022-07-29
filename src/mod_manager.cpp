@@ -377,12 +377,12 @@ void mod_manager::load_mod_info( const std::string &info_file_path )
     } );
 }
 
-std::string mod_manager::get_mods_list_file( const WORLDPTR world )
+std::string mod_manager::get_mods_list_file( const WORLD *world )
 {
     return world->folder_path() + "/mods.json";
 }
 
-void mod_manager::save_mods_list( WORLDPTR world ) const
+void mod_manager::save_mods_list( const WORLD *world ) const
 {
     if( world == nullptr ) {
         return;
@@ -400,7 +400,7 @@ void mod_manager::save_mods_list( WORLDPTR world ) const
     }, _( "list of mods" ) );
 }
 
-void mod_manager::load_mods_list( WORLDPTR world ) const
+void mod_manager::load_mods_list( WORLD *world ) const
 {
     if( world == nullptr ) {
         return;
@@ -436,7 +436,7 @@ const mod_manager::t_mod_list &mod_manager::get_default_mods() const
     return default_mods;
 }
 
-static inline bool compare_mod_by_name_and_category( const MOD_INFORMATION *const a,
+static bool compare_mod_by_name_and_category( const MOD_INFORMATION *const a,
         const MOD_INFORMATION *const b )
 {
     return localized_compare( std::make_pair( a->category, a->name() ),
