@@ -1080,13 +1080,13 @@ static std::string get_consume_needs_hint( Character &you )
             desc = std::make_pair( string_format( _( "%s: %d%%.  " ), v.second.name(), vit_percent ), c_white );
         } else {
             if( total_vit_quantity > 0.9 * rda ) {
-                desc = std::make_pair( _( "plenty" ), c_white );
+                desc = std::make_pair( string_format( _( "%s: %s.  " ), v.second.name(), _( "plenty" ) ), c_white );
             } else if( total_vit_quantity > 0.5 * rda ) {
-                desc = std::make_pair( _( "some" ), c_white );
+                desc = std::make_pair( string_format( _( "%s: %s.  " ), v.second.name(), _( "some" ) ), c_white );
             } else if( total_vit_quantity > 0 ) {
-                desc = std::make_pair( _( "little" ), c_white );
+                desc = std::make_pair( string_format( _( "%s: %s.  " ), v.second.name(), _( "little" ) ), c_white );
             } else {
-                desc = std::make_pair( _( "none" ), c_white );
+                desc = std::make_pair( string_format( _( "%s: %s.  " ), v.second.name(), _( "none" ) ), c_white );
             }
         }
         hint.append( colorize( desc.first, desc.second ) );
