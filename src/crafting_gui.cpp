@@ -78,7 +78,6 @@ static const std::map<const CRAFTING_SPEED_STATE, translation> craft_speed_reaso
 // TODO: Convert these globals to handling categories via generic_factory?
 static std::vector<std::string> craft_cat_list;
 static std::map<std::string, std::vector<std::string> > craft_subcat_list;
-static std::map<std::string, std::string> normalized_names;
 
 class tab_list
 {
@@ -131,10 +130,11 @@ static void draw_can_craft_indicator( const catacurses::window &w, const recipe 
 static std::map<size_t, inclusive_rectangle<point>> draw_recipe_tabs( const catacurses::window &w,
         const tab_list &tab, TAB_MODE mode,
         bool filtered_unread, std::map<std::string, bool> &unread );
-static void draw_recipe_subtabs( const catacurses::window &w, const std::string &tab,
-                                 size_t subtab,
-                                 const recipe_subset &available_recipes, TAB_MODE mode,
-                                 std::map<std::string, bool> &unread );
+static std::map<size_t, inclusive_rectangle<point>> draw_recipe_subtabs(
+            const catacurses::window &w, const std::string &tab,
+            size_t subtab,
+            const recipe_subset &available_recipes, TAB_MODE mode,
+            std::map<std::string, bool> &unread );
 
 static std::string peek_related_recipe( const recipe *current, const recipe_subset &available );
 static int related_menu_fill( uilist &rmenu,
@@ -184,16 +184,6 @@ static std::string get_subcat_unprefixed( const std::string &cat, const std::str
     }
 
     return prefixed_name == "CSC_ALL" ? translate_marker( "ALL" ) : translate_marker( "NONCRAFT" );
-}
-
-static void translate_all()
-{
-    normalized_names.clear();
-    for( const auto &cat : craft_cat_list ) {
-        for( const auto &subcat : craft_subcat_list[cat] ) {
-            normalized_names[subcat] = _( get_subcat_unprefixed( cat, subcat ) );
-        }
-    }
 }
 
 void reset_recipe_categories()
@@ -896,10 +886,6 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
     int recipe_info_scroll = 0;
     int item_info_scroll = 0;
     int item_info_scroll_popup = 0;
-
-    // always re-translate the category names in case the language has changed
-    translate_all();
-
     const int headHeight = 3;
     const int subHeadHeight = 2;
 
@@ -997,6 +983,7 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
     std::map<std::string, std::map<std::string, bool>> is_subcat_unread;
     tab_list tab( craft_cat_list, is_cat_unread );
     std::map<size_t, inclusive_rectangle<point>> translated_tab_map;
+    std::map<size_t, inclusive_rectangle<point>> translated_subtab_map;
     tab_list subtab( craft_subcat_list[tab.cur()], is_subcat_unread[tab.cur()] );
     std::vector<const recipe *> current;
     std::vector<availability> available;
@@ -1096,8 +1083,9 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
 
         const TAB_MODE m = batch ? BATCH : filterstring.empty() ? NORMAL : FILTERED;
         translated_tab_map = draw_recipe_tabs( w_head_tabs, tab, m, is_filtered_unread, is_cat_unread );
-        draw_recipe_subtabs( w_subhead, tab.cur(), subtab.cur_index(), available_recipes, m,
-                             is_subcat_unread[tab.cur()] );
+        translated_subtab_map = draw_recipe_subtabs( w_subhead, tab.cur(), subtab.cur_index(),
+                                available_recipes, m,
+                                is_subcat_unread[tab.cur()] );
 
         //Clear the crafting info panel, since that can change on a per-recipe basis
         werase( w_head_info );
@@ -1386,13 +1374,28 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
         const int recmax = static_cast<int>( current.size() );
         const int scroll_rate = recmax > 20 ? 10 : 3;
         if( action == "SELECT" ) {
+            bool handled = false;
             cata::optional<point> coord = ctxt.get_coordinates_text( w_head_tabs );
-            if( !translated_tab_map.empty()  && coord.has_value() ) {
+            if( !translated_tab_map.empty() && coord.has_value() ) {
                 for( const auto &entry : translated_tab_map ) {
                     if( entry.second.contains( coord.value() ) ) {
                         tab.set_index( entry.first );
                         recalc = true;
-			subtab = tab_list( craft_subcat_list[tab.cur()], is_subcat_unread[tab.cur()] );
+                        subtab = tab_list( craft_subcat_list[tab.cur()], is_subcat_unread[tab.cur()] );
+                        handled = true;
+                    }
+                }
+            }
+            coord = ctxt.get_coordinates_text( w_subhead );
+            if( !translated_subtab_map.empty() && coord.has_value() && !handled ) {
+                if( batch || !filterstring.empty() ) {
+                    continue;
+                }
+                for( const auto &entry : translated_subtab_map ) {
+                    if( entry.second.contains( coord.value() ) ) {
+                        subtab.set_index( entry.first );
+                        recalc = true;
+                        handled = true;
                     }
                 }
             }
@@ -1925,12 +1928,14 @@ static std::map<size_t, inclusive_rectangle<point>> draw_recipe_tabs( const cata
     return tab_map;
 }
 
-static void draw_recipe_subtabs( const catacurses::window &w, const std::string &tab,
-                                 const size_t subtab,
-                                 const recipe_subset &available_recipes, TAB_MODE mode,
-                                 std::map<std::string, bool> &unread )
+static std::map<size_t, inclusive_rectangle<point>> draw_recipe_subtabs(
+            const catacurses::window &w, const std::string &tab,
+            const size_t subtab,
+            const recipe_subset &available_recipes, TAB_MODE mode,
+            std::map<std::string, bool> &unread )
 {
     werase( w );
+    std::map<size_t, inclusive_rectangle<point>> subtab_map;
     int width = getmaxx( w );
 
     mvwvline( w, point_zero, LINE_XOXO, getmaxy( w ) );  // |
@@ -1939,24 +1944,37 @@ static void draw_recipe_subtabs( const catacurses::window &w, const std::string 
     switch( mode ) {
         case NORMAL: {
             std::vector<std::string> translated_subcats;
+            std::vector<bool> empty_subcats;
+            std::vector<bool> unread_subcats;
             translated_subcats.reserve( craft_subcat_list[tab].size() );
+            empty_subcats.reserve( craft_subcat_list[tab].size() );
+            unread_subcats.reserve( craft_subcat_list[tab].size() );
             for( const std::string &subcat : craft_subcat_list[tab] ) {
                 translated_subcats.emplace_back( _( get_subcat_unprefixed( tab, subcat ) ) );
+                empty_subcats.emplace_back( available_recipes.empty_category( tab,
+                                            subcat != "CSC_ALL" ? subcat : "" ) );
+                unread_subcats.emplace_back( unread[subcat] );
             }
             std::pair<std::vector<std::string>, size_t> fitted_subcat_list = fit_tabs_to_width( getmaxx( w ),
                     subtab, translated_subcats );
+            size_t offset = fitted_subcat_list.second;
+            if( fitted_subcat_list.first.size() + offset > craft_subcat_list[tab].size() ) {
+                break;
+            }
             // Draw the tabs on each other
             int pos_x = 2;
             // Step between tabs, two for tabs border
             int tab_step = 3;
-            size_t counter = 0;
-            for( const auto &stt : fitted_subcat_list.first ) {
-                bool empty = ( stt == "<" ||
-                               stt == ">" ) ? false : available_recipes.empty_category( tab, stt != "CSC_ALL" ? stt : "" );
-                draw_subtab( w, pos_x, stt, subtab == counter, true, empty );
-                pos_x += utf8_width( stt ) + tab_step;
-                ++counter;
-                if( unread[stt] ) {
+            for( size_t i = 0; i < fitted_subcat_list.first.size(); ++i ) {
+                if( empty_subcats[i + offset] ) {
+                    draw_subtab( w, pos_x, fitted_subcat_list.first[i], subtab == i + offset, true,
+                                 empty_subcats[i + offset] );
+                } else {
+                    subtab_map.emplace( i + offset, draw_subtab( w, pos_x, fitted_subcat_list.first[i],
+                                        subtab == i + offset, true, empty_subcats[i + offset] ) );
+                }
+                pos_x += utf8_width( fitted_subcat_list.first[i] ) + tab_step;
+                if( unread_subcats[i + offset] ) {
                     mvwprintz( w, point( pos_x - 2, 0 ), c_light_green, "⁺" );
                 }
             }
@@ -1973,6 +1991,7 @@ static void draw_recipe_subtabs( const catacurses::window &w, const std::string 
     }
 
     wnoutrefresh( w );
+    return subtab_map;
 }
 
 const std::vector<std::string> *subcategories_for_category( const std::string &category )
