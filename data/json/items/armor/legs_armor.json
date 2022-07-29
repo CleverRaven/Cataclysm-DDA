@@ -1440,7 +1440,6 @@
     "to_hit": 1,
     "material": [ "cotton", "leather" ],
     "symbol": "[",
-    "looks_like": "pants",
     "color": "light_gray",
     "pocket_data": [
       {
