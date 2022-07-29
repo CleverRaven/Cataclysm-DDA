@@ -223,7 +223,7 @@
     "id": "tec_aikido_blockthrow",
     "name": "Counter Throw (block)",
     "messages": [ "You smoothly throw %s", "<npcname> blocks and smoothly throws %s" ],
-      "skill_requirements": [ { "name": "unarmed", "level": 2 } ],
+    "skill_requirements": [ { "name": "unarmed", "level": 2 } ],
     "unarmed_allowed": true,
     "melee_allowed": true,
     "unarmed_weapons_allowed": false,
