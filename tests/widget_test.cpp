@@ -2473,7 +2473,7 @@ TEST_CASE( "Widget alignment", "[widget]" )
 
         CHECK( bp_legend.layout( ava, sidebar_width ) ==
                "      " + line1 + "\n" +
-               "            " + line2 + "\n" +
+               "            " + line2 + "  \n" +
                "           " + line3 );
 
         bp_legend._label_align = widget_alignment::RIGHT;
@@ -2481,7 +2481,7 @@ TEST_CASE( "Widget alignment", "[widget]" )
 
         CHECK( bp_legend.layout( ava, sidebar_width ) ==
                "      " + line1 + "\n" +
-               "            " + line2 + "\n" +
+               "            " + line2 + "  \n" +
                "           " + line3 );
 
         bp_legend._label_align = widget_alignment::CENTER;
@@ -2489,7 +2489,7 @@ TEST_CASE( "Widget alignment", "[widget]" )
 
         CHECK( bp_legend.layout( ava, sidebar_width ) ==
                "      " + line1 + "\n" +
-               "            " + line2 + "\n" +
+               "            " + line2 + "  \n" +
                "           " + line3 );
 
         bp_legend._label_align = widget_alignment::LEFT;
