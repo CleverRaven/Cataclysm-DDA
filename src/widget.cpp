@@ -378,7 +378,7 @@ nc_color widget_clause::get_color_for_id( const std::string &clause_id, const wi
 
 void widget::load( const JsonObject &jo, const std::string & )
 {
-    optional( jo, was_loaded, "width", _width, 1 );
+    optional( jo, was_loaded, "width", _width, 0 );
     optional( jo, was_loaded, "height", _height_max, 1 );
     optional( jo, was_loaded, "symbols", _symbols, "-" );
     optional( jo, was_loaded, "fill", _fill, "bucket" );
@@ -1223,7 +1223,7 @@ std::string widget::value_string( int value, int width_max )
 {
     std::string ret;
     // Use the available horizontal space unless widget has an explicit width
-    const int w = _width <= 1 ? width_max : _width;
+    const int w = _width > 0 ? _width : width_max;
     if( _style == "graph" ) {
         ret += graph( value );
     } else if( _style == "text" ) {
@@ -1670,7 +1670,7 @@ std::string widget::layout( const avatar &ava, unsigned int max_width, int label
             [child_width]( int sum, const widget_id & wid ) {
                 widget cur_child = wid.obj();
                 return sum + ( cur_child._style == "layout" &&
-                               cur_child._width > 1 ? cur_child._width : child_width );
+                               cur_child._width > 0 ? cur_child._width : child_width );
             } );
             // Total widget width with padding
             const int total_widget_padded_width = total_widget_width + col_padding * ( num_widgets - 1 );
@@ -1686,7 +1686,7 @@ std::string widget::layout( const avatar &ava, unsigned int max_width, int label
                 int cur_width = child_width;
                 // determine spacing based on type of column
                 if( _arrange == "minimum_columns" ) {
-                    if( cur_child._width > 1 ) {
+                    if( cur_child._width > 0 ) {
                         cur_width = cur_child._width;
                     }
                     // if last widget make it take the remaining space
@@ -1694,7 +1694,7 @@ std::string widget::layout( const avatar &ava, unsigned int max_width, int label
                         cur_width = avail_width - total_width;
                     }
                 } else { //columns
-                    if( cur_child._style == "layout" && cur_child._width > 1 ) {
+                    if( cur_child._style == "layout" && cur_child._width > 0 ) {
                         cur_width = cur_child._width;
                     }
                     // Spread remainder over the first few columns
@@ -1799,7 +1799,7 @@ std::string format_widget_multiline( const std::vector<std::string> &keys, int m
     std::string ret;
     height = 0;
     // For single-line text, just lay everything on the same line
-    if( width <= 1 && max_height == 1 ) {
+    if( width <= 0 && max_height == 1 ) {
         width = INT_MAX;
     }
     const int h_max = max_height == 0 ? INT_MAX : max_height;
