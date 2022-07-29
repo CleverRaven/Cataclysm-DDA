@@ -141,7 +141,7 @@
     "min": -8400,
     "max": 3600,
     "rate": "180 m",
-    "flags": ["OBSOLETE"]
+    "flags": [ "OBSOLETE" ]
   },
   {
     "id": "vitB",
@@ -151,7 +151,7 @@
     "min": -5600,
     "max": 2000,
     "rate": "360 m",
-    "flags": ["OBSOLETE"]
+    "flags": [ "OBSOLETE" ]
   },
   {
     "id": "1st_aid",
