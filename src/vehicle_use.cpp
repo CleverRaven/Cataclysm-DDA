@@ -943,7 +943,7 @@ bool vehicle::fold_up()
         add_msg( _( "You let go of %s as you fold it." ), name );
     }
 
-    item bicycle( "generic_folded_vehicle", calendar::turn );
+    item folded( "generic_folded_vehicle", calendar::turn );
 
     map &here = get_map();
     // Drop stuff in containers on ground
@@ -963,24 +963,23 @@ bool vehicle::fold_up()
         std::ostringstream veh_data;
         JsonOut json( veh_data );
         json.write( real_parts() );
-        bicycle.set_var( "folding_bicycle_parts", veh_data.str() );
+        folded.set_var( "folded_parts", veh_data.str() );
     } catch( const JsonError &e ) {
         debugmsg( "Error storing vehicle: %s", e.c_str() );
     }
 
-    bicycle.set_var( "tracking", tracking_on ? 1 : 0 );
-    bicycle.set_var( "weight", to_milligram( total_mass() ) );
-    bicycle.set_var( "volume", total_folded_volume() / units::legacy_volume_factor );
-    bicycle.set_var( "name", string_format( _( "folded %s" ), name ) );
-    bicycle.set_var( "vehicle_name", name );
+    folded.set_var( "tracking", tracking_on ? 1 : 0 );
+    folded.set_var( "weight", to_milligram( total_mass() ) );
+    folded.set_var( "volume", total_folded_volume() / units::legacy_volume_factor );
+    folded.set_var( "name", string_format( _( "folded %s" ), name ) );
+    folded.set_var( "vehicle_name", name );
     // TODO: a better description?
-    bicycle.set_var( "description", string_format( _( "A folded %s." ), name ) );
+    folded.set_var( "description", string_format( _( "A folded %s." ), name ) );
 
-    here.add_item_or_charges( global_part_pos3( 0 ), bicycle );
+    here.add_item_or_charges( global_part_pos3( 0 ), folded );
     here.destroy_vehicle( this );
 
-    // TODO: take longer to fold bigger vehicles
-    // TODO: make this interruptible
+    // TODO: make un/folding an activity with time scaling with volume/weight etc
     player_character.moves -= 500;
     return true;
 }
