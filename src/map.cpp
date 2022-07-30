@@ -6172,8 +6172,7 @@ void map::update_visibility_cache( const int zlev )
         visibility_variables_cache.clairvoyance_field = field_fd_clairvoyant;
     }
 
-    int sm_squares_seen[MAPSIZE][MAPSIZE];
-    std::memset( sm_squares_seen, 0, sizeof( sm_squares_seen ) );
+    cata::mdarray<int, point_bub_sm, MAPSIZE, MAPSIZE> sm_squares_seen = {};
 
     auto &visibility_cache = get_cache( zlev ).visibility_cache;
 
@@ -8422,7 +8421,7 @@ void map::build_outside_cache( const int zlev )
     // We will later copy it to our regular cache
     const size_t padded_w = MAPSIZE_X + 2;
     const size_t padded_h = MAPSIZE_Y + 2;
-    bool padded_cache[padded_w][padded_h];
+    cata::mdarray<bool, point_bub_ms, padded_w, padded_h> padded_cache;
 
     auto &outside_cache = ch.outside_cache;
     if( zlev < 0 ) {
@@ -8431,8 +8430,7 @@ void map::build_outside_cache( const int zlev )
         return;
     }
 
-    std::uninitialized_fill_n(
-        &padded_cache[0][0], padded_w * padded_h, true );
+    padded_cache.fill( true );
 
     for( int smx = 0; smx < my_MAPSIZE; ++smx ) {
         for( int smy = 0; smy < my_MAPSIZE; ++smy ) {

@@ -212,7 +212,7 @@ void timed_event::actualize()
         case timed_event_type::TEMPLE_FLOOD: {
             bool flooded = false;
 
-            ter_id flood_buf[MAPSIZE_X][MAPSIZE_Y];
+            cata::mdarray<ter_id, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> flood_buf;
             for( const tripoint &p : here.points_on_zlevel() ) {
                 flood_buf[p.x][p.y] = here.ter( p );
             }
