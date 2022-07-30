@@ -5482,7 +5482,7 @@ void chop_tree_activity_actor::finish( player_activity &act, Character &who )
         creature_tracker &creatures = get_creature_tracker();
         const point main_dir = pos.xy() - who.pos().xy();
         const int circle_size = 8;
-        const point circle[circle_size] = { point( 1, 0 ), point( 1, 1 ), point( 0, 1 ), point( -1, 1 ), point( -1, 0 ), point( -1, -1 ), point( 0, -1 ), point( 1, -1 ) };
+        const point circle[circle_size] = { point_east, point_south_east, point_south, point_south_west, point_west, point_north_west, point_north, point_north_east };
         int circle_center = 0;  //  Initialized as the compiler complained
         for( int i = 0; i < circle_size; i++ ) {
             if( main_dir == circle[i] ) {
