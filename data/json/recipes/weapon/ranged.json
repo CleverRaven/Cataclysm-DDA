@@ -1112,7 +1112,7 @@
     ],
     "components": [
       [ [ "xlframe", 1 ] ],
-      [ [ "foot_crank", 1 ] ],
+      [ [ "simple_crank", 1 ], [ "foot_crank", 1 ] ],
       [ [ "sheet_metal_small", 12 ] ],
       [ [ "pipe", 6 ] ],
       [ [ "chain", 1 ] ],
@@ -1230,7 +1230,7 @@
     "components": [
       [ [ "2x4", 8 ], [ "stick", 16 ] ],
       [ [ "rope_superior_short", 2, "LIST" ] ],
-      [ [ "foot_crank", 1 ] ],
+      [ [ "simple_crank", 1 ], [ "foot_crank", 1 ] ],
       [ [ "spring", 4 ] ],
       [ [ "steel_chunk", 4 ], [ "scrap", 12 ] ],
       [ [ "nail", 60 ] ]
