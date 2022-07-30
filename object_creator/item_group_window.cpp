@@ -31,12 +31,29 @@ creator::item_group_window::item_group_window( QWidget *parent, Qt::WindowFlags 
     // =========================================================================================
     // first column of boxes
 
+
+    QString tooltipText = "The ID of the item_group. For vanilla, this has to be unique";
+    tooltipText += "\nfor mods, if you use an ID that's already present in vanilla,";
+    tooltipText += "\nit will overwrite that item_group, unless the 'extend' property is used.";
+    tooltipText += "\nFor mods, if you create an unique item_group ID, it will act like";
+    tooltipText += "\nany other item_group of course.";
+
     id_label = new QLabel( "id" );
     id_box = new QLineEdit( "tools_home" );
-    id_box->setToolTip( QString( _( "The id of the item_group" ) ) );
+    id_box->setToolTip( tooltipText );
     QObject::connect( id_box, &QLineEdit::textChanged, [&]() { write_json(); } );
 
-    QString tooltipText = "In a Collection each entry is chosen independently from the other\n";
+
+    tooltipText = "Add a comment to this item_group. This has no function in-game.";
+    tooltipText += "\nThe only purpose is to let other developers know something about ";
+    tooltipText += "\nthis item_group.";
+
+    comment_label = new QLabel( "comment" );
+    comment_box = new QLineEdit( "" );
+    comment_box->setToolTip( tooltipText );
+    QObject::connect( comment_box, &QLineEdit::textChanged, [&]() { write_json(); } );
+
+    tooltipText = "In a Collection each entry is chosen independently from the other\n";
     tooltipText += "entries. Therefore, the probability associated with each entry is absolute,";
     tooltipText += "\nin the range of 0...1. In the json files it is implemented as a percentage";
     tooltipText += "\n(with values from 0 to 100). \n\nA Distribution is a weighted list.";
@@ -60,10 +77,12 @@ creator::item_group_window::item_group_window( QWidget *parent, Qt::WindowFlags 
     QGridLayout* basicInfoLayout = new QGridLayout();
     basicInfoLayout->addWidget( id_label, 0, 0 );
     basicInfoLayout->addWidget( id_box, 0, 1 );
-    basicInfoLayout->addWidget( subtype_label, 1, 0 );
-    basicInfoLayout->addWidget( subtype, 1, 1 );
-    basicInfoLayout->addWidget( item_search_label, 2, 0 );
-    basicInfoLayout->addWidget( item_search_box, 2, 1 );
+    basicInfoLayout->addWidget( comment_label, 1, 0 );
+    basicInfoLayout->addWidget( comment_box, 1, 1 );
+    basicInfoLayout->addWidget( subtype_label, 2, 0 );
+    basicInfoLayout->addWidget( subtype, 2, 1 );
+    basicInfoLayout->addWidget( item_search_label, 3, 0 );
+    basicInfoLayout->addWidget( item_search_box, 3, 1 );
     mainColumn1->addLayout( basicInfoLayout );
 
     item_list_total_box = new ListWidget_Drag;
@@ -125,6 +144,9 @@ void creator::item_group_window::write_json()
 
     jo.member( "type", "item_group" );
     jo.member( "id", id_box->text().toStdString() );
+    if( comment_box->text().size() > 0 ) {
+        jo.member( "//", comment_box->text().toStdString() );
+    }
     std::string sub = subtype->currentText().toStdString();
     if( sub != "none" ) {
         jo.member( "subtype", subtype->currentText().toStdString() );
@@ -602,6 +624,39 @@ creator::itemGroupEntry::itemGroupEntry( QWidget* parent, QString entryText, boo
     connect( prob, QOverload<int>::of( &QSpinBox::valueChanged ),
         [=]( int i ) { change_notify_top_parent(); } );
 
+    QLabel* count_label = new QLabel;
+    count_label->setText( QString( "count:" ) );
+    count_label->setMinimumSize( QSize( 42, 24 ) );
+    count_label->setMaximumSize( QSize( 47, 24) );
+
+    count_min = new QSpinBox;
+    count_min->setRange( 0, INT_MAX );
+    count_min->setMinimumSize( QSize( 45, 24 ) );
+    count_min->setMaximumSize( QSize( 50, 24 ) );
+    tooltipText = "count-min:";
+    tooltipText += "Makes the item spawn repeat, each time creating a new item.";
+    tooltipText += "\nThe game will repeat the item spawn at least this many times";
+    tooltipText += "\nOnly shows up in JSON if the value is greater then 0";
+    tooltipText += "\nSetting this equal to count-max will set the JSON value to count: <number>";
+    tooltipText += "\nIf only count-min is set, the JSON value will simply be count: <number>";
+    count_min->setToolTip( tooltipText );
+    connect( count_min, QOverload<int>::of( &QSpinBox::valueChanged ),
+        [=]( int i ) { count_min_changed(); } );
+
+    count_max = new QSpinBox;
+    count_max->setRange( 0, INT_MAX );
+    count_max->setMinimumSize( QSize( 45, 24 ) );
+    count_max->setMaximumSize( QSize( 50, 24 ) );
+    tooltipText = "count-max:";
+    tooltipText += "Makes the item spawn repeat, each time creating a new item.";
+    tooltipText += "\nThe game will repeat the item spawn up to this many times";
+    tooltipText += "\nOnly shows up in JSON if the value is greater then 0";
+    tooltipText += "\nSetting this equal to count-min will set the JSON value to count: <number>";
+    tooltipText += "\nIf only count-max is set, the JSON value will simply be count: <number>";
+    count_max->setToolTip( tooltipText );
+    connect( count_max, QOverload<int>::of( &QSpinBox::valueChanged ),
+        [=]( int i ) { count_max_changed(); } );
+
     QLabel* charges_label = new QLabel;
     charges_label->setText( QString( "Charges:" ) );
     charges_label->setMinimumSize( QSize( 42, 24 ) );
@@ -637,6 +692,9 @@ creator::itemGroupEntry::itemGroupEntry( QWidget* parent, QString entryText, boo
     entryLayout->addWidget( title_label );
     entryLayout->addWidget( prob_label );
     entryLayout->addWidget( prob );
+    entryLayout->addWidget( count_label );
+    entryLayout->addWidget( count_min );
+    entryLayout->addWidget( count_max );
     entryLayout->addWidget( charges_label );
     entryLayout->addWidget( charges_min );
     entryLayout->addWidget( charges_max );
@@ -658,6 +716,28 @@ QSize creator::itemGroupEntry::sizeHint() const
 QSize creator::itemGroupEntry::minimumSizeHint() const
 {
     return QSize( 250, 45 );
+}
+
+
+void creator::itemGroupEntry::count_min_changed() {
+    int max = count_max->value();
+    int min = count_min->value();
+    if( max ) {
+        if( max <= min ) {
+            count_max->setValue( min );
+        }
+    }
+    change_notify_top_parent();
+}
+void creator::itemGroupEntry::count_max_changed() {
+    int max = count_max->value();
+    int min = count_min->value();
+    if( min ) {
+        if( max <= min ) {
+            count_max->setValue( min );
+        }
+    }
+    change_notify_top_parent();
 }
 
 void creator::itemGroupEntry::delete_self() {
@@ -682,10 +762,27 @@ void creator::itemGroupEntry::get_json( JsonOut &jo ) {
             jo.member( "prob", pr );
         }
     }
-    pr = charges_max->value(); //If charges-max is 0, we omit charges entirely
-    if( pr ) {
+    int max = count_max->value();
+    int min = count_min->value();
+    if( min ) {
+        if( max ) {
+            if ( max <= min ) {
+                jo.member( "count", min );
+            } else {
+                jo.member( "count-min", min );
+                jo.member( "count-max", max );
+            }
+        } else {
+            jo.member( "count", min );
+        }
+    } else if( max ) {
+        jo.member( "count", max );
+    }
+
+    max = charges_max->value(); //If charges-max is 0, we omit charges entirely
+    if( max ) {
         jo.member( "charges-min", charges_min->value() );
-        jo.member( "charges-max", pr );
+        jo.member( "charges-max", max );
     }
     jo.end_object();
 }
