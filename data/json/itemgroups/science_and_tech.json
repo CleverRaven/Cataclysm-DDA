@@ -172,6 +172,9 @@
       [ "recipe_animal", 4 ],
       [ "recipe_maiar", 4 ],
       [ "recipe_labchem", 6 ],
+      { "item": "chem_benzene", "prob": 5, "charges-min": 1 },
+      { "item": "chem_toluene", "prob": 5, "charges-min": 1 },
+      { "item": "chem_ferric_chloride", "prob": 25, "charges-min": 1 },
       { "item": "water_clean", "prob": 90, "charges-min": 1, "container-item": "bottle_plastic", "sealed": false },
       { "item": "salt_water", "prob": 20, "charges-min": 1 },
       { "item": "bleach", "prob": 20, "charges-min": 1 },
@@ -186,6 +189,10 @@
       [ "adrenaline_injector", 4 ],
       { "item": "extinguisher", "prob": 20, "charges": 100 },
       { "item": "hotplate", "prob": 10, "charges": [ 0, 500 ] },
+      {
+        "collection": [ { "item": "ref_lighter_butane" }, { "item": "butane_can", "charges": [ 1, 30 ] } ],
+        "prob": 5
+      },
       [ "software_medical", 10 ],
       [ "funnel", 50 ],
       [ "jar_glass_sealed", 20 ],

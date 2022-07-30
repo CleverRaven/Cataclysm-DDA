@@ -166,6 +166,10 @@ class inventory_entry
         size_t generation = 0;
         bool chevron = false;
 
+        void set_custom_category( const item_category *category ) {
+            custom_category = category;
+        }
+
     private:
         const item_category *custom_category = nullptr;
         bool enabled = true;
@@ -424,6 +428,10 @@ class inventory_column
             indent_entries_override = entry_override;
         }
 
+        void clear_indent_entries_override() {
+            indent_entries_override = cata::nullopt;
+        }
+
         void invalidate_paging() {
             paging_is_valid = false;
         }
@@ -667,7 +675,7 @@ class inventory_selector
          * @param val The default value to have set in the query prompt.
          * @return A tuple of a bool and string, bool is true if user confirmed.
          */
-        std::pair< bool, std::string > query_string( std::string val );
+        std::pair< bool, std::string > query_string( const std::string &val );
         /** Query the user for a filter and apply it. */
         void query_set_filter();
         /** Query the user for count and return it. */
@@ -717,7 +725,7 @@ class inventory_selector
          * Also called from on_input() on action EXAMINE_CONTENTS if sitem has no contents
          *
          * @param sitem the item to examine **/
-        void action_examine( item_location sitem );
+        void action_examine( const item_location &sitem );
 
         virtual void reassign_custom_invlets();
         std::vector<inventory_column *> columns;
@@ -844,6 +852,9 @@ class inventory_selector
 
         uimode _uimode = uimode::categories;
 
+        void _categorize( inventory_column &col );
+        void _uncategorize( inventory_column &col );
+
     public:
         std::string action_bound_to_key( char key ) const;
 };
@@ -890,6 +901,7 @@ class inventory_multiselector : public inventory_selector
         void on_input( const inventory_input &input );
         int count = 0;
         stats get_raw_stats() const override;
+        void toggle_categorize_contained();
     private:
         std::unique_ptr<inventory_column> selection_col;
         GetStats get_stats;
@@ -974,7 +986,7 @@ class inventory_examiner : public inventory_selector
             force_max_window_size();
             examine_window_scroll = 0;
             selected_item = item_location::nowhere;
-            parent_item = item_to_look_inside;
+            parent_item = std::move( item_to_look_inside );
             changes_made = false;
             parent_was_collapsed = false;
 

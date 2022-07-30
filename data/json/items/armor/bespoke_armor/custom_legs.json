@@ -68,7 +68,7 @@
     "type": "ARMOR",
     "copy-from": "lsurvivor_pants",
     "name": { "str_sp": "XL light survivor cargo pants" },
-    "description": "Lightweight, Kevlar armored cargo pants designed to hold as much as possible.  Strong and mostly waterproof and sized for larger than average.",
+    "description": "Lightweight, Kevlar armored cargo pants designed to hold as much as possible.  Strong and mostly waterproof, and sized for larger than average survivors.",
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -78,7 +78,7 @@
     "copy-from": "lsurvivor_pants",
     "looks_like": "lsurvivor_pants",
     "name": { "str_sp": "XS light survivor cargo pants" },
-    "description": "Lightweight, Kevlar armored cargo pants designed to hold as much as possible.  Strong and mostly waterproof and sized for smaller than average.",
+    "description": "Lightweight, Kevlar armored cargo pants designed to hold as much as possible.  Strong and mostly waterproof, and sized for smaller than average survivors.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
@@ -184,7 +184,7 @@
     "id": "armor_mercenary_bottom",
     "type": "ARMOR",
     "name": { "str_sp": "mercenary pants" },
-    "description": "A sturdy pair of pants fit for a soldier of fortune.  Made from cargo pants padded with Kevlar panels.  It has a lot of storage space but the added thickness makes it uncomfortable to wear any armor over.",
+    "description": "A sturdy pair of pants fit for a soldier of fortune.  Made from cargo pants padded with Kevlar panels.  It has a lot of storage space, but the added thickness makes it uncomfortable to wear any armor over it.",
     "//": "weight is currently an estimation could be better",
     "weight": "3000 g",
     "volume": "7500 ml",

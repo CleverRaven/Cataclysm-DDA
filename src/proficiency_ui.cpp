@@ -183,8 +183,8 @@ void prof_window::draw_details()
         []( const proficiency_id & pid ) {
             return colorize( pid->name(), c_yellow );
         }, enumeration_conjunction::and_ ), column_width - 2 );
-        for( int i = 0; i < static_cast<int>( reqs.size() ); i++ ) {
-            trim_and_print( w_details, point( 1, y++ ), column_width - 1, c_white, reqs[i] );
+        for( auto &req : reqs ) {
+            trim_and_print( w_details, point( 1, y++ ), column_width - 1, c_white, req );
         }
         // Leads to
         trim_and_print( w_details, point( 1, y++ ), column_width - 2, c_white,
@@ -193,8 +193,8 @@ void prof_window::draw_details()
         []( const proficiency_id & pid ) {
             return colorize( pid->name(), c_yellow );
         }, enumeration_conjunction::and_ ), column_width - 2 );
-        for( int i = 0; i < static_cast<int>( leads.size() ); i++ ) {
-            trim_and_print( w_details, point( 1, y++ ), column_width - 1, c_white, leads[i] );
+        for( auto &lead : leads ) {
+            trim_and_print( w_details, point( 1, y++ ), column_width - 1, c_white, lead );
         }
         // Description
         fold_and_print( w_details, point( 1, y ), column_width - 1, c_light_gray,

@@ -109,11 +109,6 @@ enum m_flag : int {
     MF_FIREY,               // Burns stuff and is immune to fire
     MF_QUEEN,               // When it dies, local populations start to die off too
     MF_ELECTRONIC,          // e.g. a robot; affected by EMP blasts, and other stuff
-    MF_FUR,                 // May produce fur when butchered
-    MF_LEATHER,             // May produce leather when butchered
-    MF_WOOL,                // May produce wool when butchered
-    MF_BONES,               // May produce bones and sinews when butchered; if combined with POISON flag, tainted bones, if combined with HUMAN, human bones
-    MF_FAT,                 // May produce fat when butchered; if combined with POISON flag, tainted fat
     MF_CONSOLE_DESPAWN,     // Despawns when a nearby console is properly hacked
     MF_IMMOBILE,            // Doesn't move (e.g. turrets)
     MF_ID_CARD_DESPAWN,     // Despawns when a science ID card is used on a nearby console
@@ -122,25 +117,17 @@ enum m_flag : int {
     MF_MECH_RECON_VISION,   // This mech gives you IR night-vision.
     MF_MECH_DEFENSIVE,      // This mech gives you thorough protection.
     MF_HIT_AND_RUN,         // Flee for several turns after a melee attack
-    MF_GUILT,               // You feel guilty for killing it
     MF_PAY_BOT,             // You can pay this bot to be your friend for a time
     MF_HUMAN,               // It's a live human, as long as it's alive
     MF_NO_BREATHE,          // Creature can't drown and is unharmed by gas, smoke, or poison
     MF_FLAMMABLE,           // Monster catches fire, burns, and spreads fire to nearby objects
     MF_REVIVES,             // Monster corpse will revive after a short period of time
-    MF_CHITIN,              // May produce chitin when butchered
     MF_VERMIN,              // Obsolete flag labeling "nuisance" or "scenery" monsters, now used to prevent loading the same.
     MF_NOGIB,               // Creature won't leave gibs / meat chunks when killed with huge damage.
     MF_LARVA,               // Creature is a larva. Currently used for gib and blood handling.
     MF_ARTHROPOD_BLOOD,     // Forces monster to bleed hemolymph.
     MF_ACID_BLOOD,          // Makes monster bleed acid. Fun stuff! Does not automatically dissolve in a pool of acid on death.
     MF_BILE_BLOOD,          // Makes monster bleed bile.
-    MF_CBM_CIV,             // May produce a common CBM a power CBM when butchered.
-    MF_CBM_POWER,           // May produce a power CBM when butchered, independent of MF_CBM_wev.
-    MF_CBM_SCI,             // May produce a bionic from bionics_sci when butchered.
-    MF_CBM_OP,              // May produce a bionic from bionics_op when butchered, and the power storage is mk 2.
-    MF_CBM_TECH,            // May produce a bionic from bionics_tech when butchered.
-    MF_CBM_SUBS,            // May produce a bionic from bionics_subs when butchered.
     MF_FILTHY,              // Any clothing it drops will be filthy.
     MF_FISHABLE,            // It is fishable.
     MF_GROUP_BASH,          // Monsters that can pile up against obstacles and add their strength together to break them.
@@ -184,6 +171,8 @@ enum m_flag : int {
     MF_ATTACK_UPPER,        // This monster is capable of hitting upper limbs
     MF_ATTACK_LOWER,        // This monster is incapable of hitting upper limbs regardless of other factors
     MF_DEADLY_VIRUS,        // This monster can inflict the zombie_virus effect
+    MF_ALWAYS_VISIBLE,      // This monster can always be seen regardless of los or light or anything
+    MF_ALWAYS_SEES_YOU,     // This monster always knows where the avatar is
     MF_MAX                  // Sets the length of the flags - obviously must be LAST
 };
 
@@ -194,17 +183,23 @@ struct enum_traits<m_flag> {
 
 /** Used to store monster effects placed on attack */
 struct mon_effect_data {
+    // The type of the effect.
     efftype_id id;
-    int duration;
+    // The percent chance of causing the effect.
+    float chance;
+    // Whether the effect is permanent.
+    bool permanent;
     bool affect_hit_bp;
     bodypart_str_id bp;
-    bool permanent;
-    int chance;
+    // The range of the durations (in turns) of the effect.
+    std::pair<int, int> duration;
+    // The range of the intensities of the effect.
+    std::pair<int, int> intensity;
+    // The message to print, if the player causes the effect.
+    std::string message;
 
-    mon_effect_data( const efftype_id &nid, int dur, bool ahbp, bodypart_str_id nbp, bool perm,
-                     int nchance ) :
-        id( nid ), duration( dur ), affect_hit_bp( ahbp ), bp( nbp ), permanent( perm ),
-        chance( nchance ) {}
+    mon_effect_data();
+    void load( const JsonObject &jo );
 };
 
 /** Pet food data */
@@ -263,7 +258,7 @@ struct mtype {
         void remove_special_attacks( const JsonObject &jo, const std::string &member_name,
                                      const std::string &src );
 
-        void add_special_attack( JsonArray inner, const std::string &src );
+        void add_special_attack( const JsonArray &inner, const std::string &src );
         void add_special_attack( const JsonObject &obj, const std::string &src );
 
         void add_regeneration_modifiers( const JsonObject &jo, const std::string &member_name,
@@ -271,7 +266,7 @@ struct mtype {
         void remove_regeneration_modifiers( const JsonObject &jo, const std::string &member_name,
                                             const std::string &src );
 
-        void add_regeneration_modifier( JsonArray inner, const std::string &src );
+        void add_regeneration_modifier( const JsonArray &inner, const std::string &src );
 
     public:
         mtype_id id;
@@ -352,6 +347,7 @@ struct mtype {
     private:
         std::vector<weakpoints_id> weakpoints_deferred;
         ::weakpoints weakpoints_deferred_inline;
+        std::set<std::string> weakpoints_deferred_deleted;
 
     public:
 
@@ -499,7 +495,5 @@ struct mtype {
         // Historically located in monstergenerator.cpp
         void load( const JsonObject &jo, const std::string &src );
 };
-
-mon_effect_data load_mon_effect_data( const JsonObject &e );
 
 #endif // CATA_SRC_MTYPE_H

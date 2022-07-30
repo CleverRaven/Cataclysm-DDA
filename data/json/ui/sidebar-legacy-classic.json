@@ -1,0 +1,194 @@
+[
+  {
+    "id": "lcla_health_left_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "width": 12,
+    "widgets": [
+      "status_hpg_layout_head",
+      "status_hpg_layout_torso",
+      "status_hpg_layout_larm",
+      "status_hpg_layout_rarm",
+      "status_hpg_layout_lleg",
+      "status_hpg_layout_rleg",
+      "power_short_desc"
+    ]
+  },
+  {
+    "id": "lcla_health_sa_left_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "width": 12,
+    "widgets": [
+      "status_hpn_layout_head",
+      "status_hpn_layout_torso",
+      "status_hpn_layout_larm",
+      "status_hpn_layout_rarm",
+      "status_hpn_layout_lleg",
+      "status_hpn_layout_rleg",
+      "power_short_desc"
+    ]
+  },
+  {
+    "id": "lcla_health_mid_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "width": 12,
+    "//": "TODO - It is not currently possible to conditionally swap out widgets on the fly. When this is added, vehicle speed should replace speed when driving.",
+    "widgets": [
+      "pain_desc_no_label",
+      "hunger_desc_no_label",
+      "thirst_desc_no_label",
+      "fatigue_desc_no_label",
+      "body_temp_desc_no_label"
+    ]
+  },
+  {
+    "id": "lcla_health_sa_mid_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "width": 12,
+    "//": "TODO - It is not currently possible to conditionally swap out widgets on the fly. When this is added, vehicle speed should replace speed when driving.",
+    "widgets": [ "pain_num_label", "hunger_desc_no_label", "thirst_desc_no_label", "fatigue_desc_no_label", "body_temp_desc_no_label" ]
+  },
+  {
+    "id": "lcla_mood_desc",
+    "type": "widget",
+    "copy-from": "mood_desc_no_label",
+    "flags": [ "W_LABEL_NONE" ]
+  },
+  {
+    "id": "lcla_health_right_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "width": 7,
+    "//": "TODO - It is not currently possible to conditionally swap out widgets on the fly. When this is added, vehicle fuel should replace stats when driving.",
+    "widgets": [ "str_num", "dex_num", "int_num", "per_num", "safe_mode_classic_desc" ]
+  },
+  {
+    "id": "lcla_health_overmap_wrapper",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "width": 5,
+    "widgets": [ "lcla_health_overmap" ]
+  },
+  {
+    "id": "lcla_health_overmap",
+    "type": "widget",
+    "label": "Overmap",
+    "var": "overmap_text",
+    "style": "text",
+    "width": 5,
+    "height": 7,
+    "text_align": "left",
+    "flags": [ "W_LABEL_NONE" ]
+  },
+  {
+    "id": "lcla_health_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Health",
+    "arrange": "columns",
+    "separator": " ",
+    "height": 7,
+    "widgets": [ "lcla_health_overmap_wrapper", "lcla_health_left_layout", "lcla_health_mid_layout", "lcla_health_right_layout" ]
+  },
+  {
+    "id": "lcla_health_sa_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Health (self-aware)",
+    "arrange": "columns",
+    "separator": " ",
+    "height": 7,
+    "widgets": [ "lcla_health_overmap_wrapper", "lcla_health_sa_left_layout", "lcla_health_sa_mid_layout", "lcla_health_right_layout" ],
+    "flags": [ "W_DISABLED_BY_DEFAULT" ]
+  },
+  {
+    "id": "lcla_vehicle_left_layout",
+    "type": "widget",
+    "label": "Vehicle",
+    "style": "layout",
+    "arrange": "rows",
+    "widgets": [ "vehicle_azimuth_desc_label", "vehicle_cruise_desc_label" ]
+  },
+  {
+    "id": "lcla_vehicle_layout",
+    "type": "widget",
+    "label": "Vehicle",
+    "style": "layout",
+    "arrange": "columns",
+    "widgets": [ "lcla_vehicle_left_layout", "vehicle_fuel_desc_label" ]
+  },
+  {
+    "id": "lcla_place_desc",
+    "type": "widget",
+    "copy-from": "place_desc",
+    "flags": [ "W_LABEL_NONE" ]
+  },
+  {
+    "id": "lcla_weather_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Weather",
+    "arrange": "columns",
+    "widgets": [ "weather_desc", "moon_phase_desc" ]
+  },
+  {
+    "id": "lcla_lighting_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Lighting",
+    "arrange": "columns",
+    "widgets": [ "lighting_desc", "sound_num" ]
+  },
+  {
+    "id": "lcla_weapon_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Weapon/Style",
+    "arrange": "columns",
+    "widgets": [ "wielding_desc", "style_desc" ]
+  },
+  {
+    "id": "lcla_time_layout",
+    "type": "widget",
+    "label": "Date/Time",
+    "style": "layout",
+    "arrange": "columns",
+    "widgets": [ "date_desc_label", "time_desc_label" ],
+    "flags": [ "W_LABEL_NONE" ]
+  },
+  {
+    "id": "legacy_classic_sidebar",
+    "type": "widget",
+    "style": "sidebar",
+    "label": "classic",
+    "separator": ": ",
+    "padding": 2,
+    "width": 44,
+    "widgets": [
+      "lcla_health_layout",
+      "lcla_health_sa_layout",
+      "ll_movement_layout",
+      "lcla_vehicle_layout",
+      "all_weariness_layout",
+      "lcla_place_desc",
+      "lcla_time_layout",
+      "lcla_weather_layout",
+      "lcla_lighting_layout",
+      "lcla_weapon_layout",
+      "wind_desc",
+      "bodypart_armor_outer_layout",
+      "compass_all_danger_layout",
+      "bodygraph_hp_layout",
+      "sundial_desc_no_label"
+    ]
+  }
+]

@@ -870,7 +870,7 @@ void Item_factory::finalize_post( itype &obj )
 
                 // need to account for varsize stuff here and double encumbrance if so
                 if( obj.has_flag( flag_VARSIZE ) ) {
-                    data.encumber = std::min( data.encumber * 2, data.encumber + 10 );;
+                    data.encumber = std::min( data.encumber * 2, data.encumber + 10 );
                 }
 
                 // Recalc max encumber as well
@@ -1729,6 +1729,7 @@ void Item_factory::init()
     add_actor( std::make_unique<place_trap_actor>() );
     add_actor( std::make_unique<emit_actor>() );
     add_actor( std::make_unique<saw_barrel_actor>() );
+    add_actor( std::make_unique<saw_stock_actor>() );
     add_actor( std::make_unique<molle_attach_actor>() );
     add_actor( std::make_unique<molle_detach_actor>() );
     add_actor( std::make_unique<install_bionic_actor>() );
@@ -2013,6 +2014,12 @@ void Item_factory::check_definitions() const
                     msg += string_format( "invalid tool property %s\n", type->comestible->tool.c_str() );
                 }
             }
+
+            // TODO: Remove invalid, just make those items not comestibles
+            static const std::set<std::string> allowed_ctypes = { "FOOD", "DRINK", "MED", "INVALID" };
+            if( allowed_ctypes.count( type->comestible->comesttype ) == 0 ) {
+                msg += string_format( "Invalid comestible type %s\n", type->comestible->comesttype );
+            }
         }
         if( type->brewable ) {
             if( type->brewable->time < 1_turns ) {
@@ -2284,7 +2291,7 @@ void Item_factory::check_definitions() const
             if( !m_templates.count( m.replace ) ) {
                 debugmsg( "Invalid migration target: %s", m.replace.c_str() );
             }
-            for( const auto &c : m.contents ) {
+            for( const migration::content &c : m.contents ) {
                 if( !m_templates.count( c.id ) ) {
                     debugmsg( "Invalid migration contents: %s", c.id.str() );
                 }
@@ -2854,21 +2861,24 @@ void Item_factory::load( islot_tool &slot, const JsonObject &jo, const std::stri
     assign( jo, "sub", slot.subtype, strict );
 
     if( slot.def_charges > slot.max_charges ) {
-        jo.throw_error( "initial_charges is larger than max_charges", "initial_charges" );
+        jo.throw_error_at( "initial_charges", "initial_charges is larger than max_charges" );
     }
 
     if( jo.has_array( "rand_charges" ) ) {
         if( jo.has_member( "initial_charges" ) ) {
-            jo.throw_error( "You can have a fixed initial amount of charges, or randomized.  Not both.",
-                            "rand_charges" );
+            jo.throw_error_at(
+                "rand_charges",
+                "You can have a fixed initial amount of charges, or randomized.  Not both." );
         }
         for( const int charge : jo.get_array( "rand_charges" ) ) {
             slot.rand_charges.push_back( charge );
         }
         if( slot.rand_charges.size() == 1 ) {
             // see item::item(...) for the use of this array
-            jo.throw_error( "a rand_charges array with only one entry will be ignored, it needs at least 2 entries!",
-                            "rand_charges" );
+            jo.throw_error_at(
+                "rand_charges",
+                "a rand_charges array with only one entry will be ignored, it needs at least 2 "
+                "entries!" );
         }
     }
 }
@@ -2960,12 +2970,7 @@ void islot_book::load( const JsonObject &jo )
     optional( jo, was_loaded, "fun", fun, 0 );
     optional( jo, was_loaded, "intelligence", intel, 0 );
 
-    if( jo.has_int( "time" ) ) {
-        time = jo.get_int( "time" );
-    } else if( jo.has_string( "time" ) ) {
-        time = to_minutes<int>( read_from_json_string<time_duration>( jo.get_member( "time" ),
-                                time_duration::units ) );
-    }
+    optional( jo, was_loaded, "time", time, 0_turns );
 
     optional( jo, was_loaded, "skill", skill, skill_id::NULL_ID() );
     optional( jo, was_loaded, "martial_art", martial_art, matype_id::NULL_ID() );
@@ -3006,7 +3011,9 @@ void Item_factory::load( islot_comestible &slot, const JsonObject &jo, const std
     relative.allow_omitted_members();
     proportional.allow_omitted_members();
 
-    assign( jo, "comestible_type", slot.comesttype, strict );
+    // !slot.comesttype.empty() for was_loaded - we don't have a proper was_loaded, but
+    // if it's been loaded before, this should have a value. If it's not, we'll catch it later.
+    mandatory( jo, !slot.comesttype.empty(), "comestible_type", slot.comesttype );
     assign( jo, "tool", slot.tool, strict );
     assign( jo, "charges", slot.def_charges, strict, 1 );
     assign( jo, "quench", slot.quench, strict );
@@ -3101,7 +3108,7 @@ void Item_factory::load( islot_comestible &slot, const JsonObject &jo, const std
     }
 
     if( jo.has_member( "nutrition" ) && got_calories ) {
-        jo.throw_error( "cannot specify both nutrition and calories", "nutrition" );
+        jo.throw_error_at( "nutrition", "cannot specify both nutrition and calories" );
     }
 
     // any specification of vitamins suppresses use of material defaults @see Item_factory::finalize
@@ -3909,7 +3916,7 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
     for( JsonArray cur : jarr ) {
         const auto sk = skill_id( cur.get_string( 0 ) );
         if( !sk.is_valid() ) {
-            jo.throw_error( string_format( "invalid skill: %s", sk.c_str() ), "min_skills" );
+            jo.throw_error_at( "min_skills", string_format( "invalid skill: %s", sk.c_str() ) );
         }
         def.min_skills[ sk ] = cur.get_int( 1 );
     }
@@ -4218,18 +4225,18 @@ void Item_factory::set_qualities_from_json( const JsonObject &jo, const std::str
             // Populate charged qualities or regular qualities, preventing duplicates
             if( member == "charged_qualities" ) {
                 if( def.charged_qualities.count( quali.first ) > 0 ) {
-                    curr.throw_error( "Duplicated charged quality", 0 );
+                    curr.throw_error( 0, "Duplicated charged quality" );
                 }
                 def.charged_qualities.insert( quali );
             } else {
                 if( def.qualities.count( quali.first ) > 0 ) {
-                    curr.throw_error( "Duplicated quality", 0 );
+                    curr.throw_error( 0, "Duplicated quality" );
                 }
                 def.qualities.insert( quali );
             }
         }
     } else {
-        jo.throw_error( "Qualities list is not an array", member );
+        jo.throw_error_at( member, "Qualities list is not an array" );
     }
 }
 
@@ -4259,12 +4266,12 @@ void Item_factory::set_properties_from_json( const JsonObject &jo, const std::st
         for( JsonArray curr : jo.get_array( member ) ) {
             const auto prop = std::pair<std::string, std::string>( curr.get_string( 0 ), curr.get_string( 1 ) );
             if( def.properties.count( prop.first ) > 0 ) {
-                curr.throw_error( "Duplicated property", 0 );
+                curr.throw_error( 0, "Duplicated property" );
             }
             def.properties.insert( prop );
         }
     } else {
-        jo.throw_error( "Properties list is not an array", member );
+        jo.throw_error_at( member, "Properties list is not an array" );
     }
 }
 
@@ -4294,6 +4301,8 @@ void Item_factory::clear()
     migrated_ammo.clear();
     migrated_magazines.clear();
     migrations.clear();
+
+    deferred.clear();
 
     frozen = false;
 }
@@ -4562,7 +4571,7 @@ void Item_factory::load_item_group( const JsonObject &jsobj, const item_group_id
     if( subtype == "old" || subtype == "distribution" ) {
         type = Item_group::G_DISTRIBUTION;
     } else if( subtype != "collection" ) {
-        jsobj.throw_error( "unknown item group type", "subtype" );
+        jsobj.throw_error_at( "subtype", "unknown item group type" );
     }
     Item_group *ig = make_group_or_throw( group_id, isd, type, jsobj.get_int( "ammo", 0 ),
                                           jsobj.get_int( "magazine", 0 ), context );

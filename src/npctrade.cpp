@@ -54,7 +54,7 @@ std::list<item> npc_trading::transfer_items( trade_selector::select_t &stuff, Ch
             };
         }
         // spill contained, unwanted items
-        if( f_wants and gift.is_container() ) {
+        if( f_wants && gift.is_container() ) {
             for( item *it : gift.get_contents().all_items_top() ) {
                 int const price =
                     trading_price( giver, receiver, { item_location{ giver, it }, 1 } );
@@ -120,13 +120,11 @@ std::vector<item_pricing> npc_trading::init_selling( npc &np )
         }
     }
 
-    item &weapon = np.get_wielded_item();
+    item_location weapon = np.get_wielded_item();
     if(
-        np.will_exchange_items_freely() &&
-        !weapon.is_null() &&
-        !weapon.has_flag( json_flag_NO_UNWIELD )
+        np.will_exchange_items_freely() && weapon && !weapon->has_flag( json_flag_NO_UNWIELD )
     ) {
-        result.emplace_back( np, weapon, np.value( weapon ), false );
+        result.emplace_back( np, *weapon, np.value( *weapon ), false );
     }
 
     return result;
@@ -169,10 +167,10 @@ int npc_trading::adjusted_price( item const *it, int amount, Character const &bu
                                           *faction_party ) : nullptr;
 
     double price = it->price_no_contents( true );
-    if( fpr != nullptr and seller.is_npc() ) {
+    if( fpr != nullptr && seller.is_npc() ) {
         price *= fpr->markup;
     }
-    if( it->count_by_charges() and amount >= 0 ) {
+    if( it->count_by_charges() && amount >= 0 ) {
         price *= static_cast<double>( amount ) / it->charges;
     }
     if( buyer.is_npc() ) {
@@ -181,7 +179,7 @@ int npc_trading::adjusted_price( item const *it, int amount, Character const &bu
         price = seller.as_npc()->value( *it, price );
     }
 
-    if( fpr != nullptr and fpr->fixed_adj.has_value() ) {
+    if( fpr != nullptr && fpr->fixed_adj.has_value() ) {
         double const fixed_adj = fpr->fixed_adj.value();
         price *= 1 + ( seller.is_npc() ? fixed_adj : -fixed_adj );
     } else {
@@ -353,7 +351,7 @@ bool npc_trading::npc_can_fit_items( npc const &np, trade_selector::select_t con
                 break;
             }
         }
-        if( !item_stored && !np.can_wear( *it.first, false ).value() ) {
+        if( !item_stored && !np.can_wear( *it.first, false ).success() ) {
             return false;
         }
     }

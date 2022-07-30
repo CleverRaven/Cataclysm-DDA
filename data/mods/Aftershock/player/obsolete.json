@@ -15,7 +15,7 @@
     "occupied_bodyparts": [ [ "torso", 10 ] ],
     "fuel_options": [ "wind" ],
     "fuel_efficiency": 0.25,
-    "time": 1,
+    "time": "1 s",
     "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_TOGGLED" ]
   }
 ]

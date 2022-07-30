@@ -1,0 +1,46 @@
+[
+  {
+    "id": "structured_speed_vehicle_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "columns",
+    "clauses": [
+      { "id": "driving", "widgets": [ "vehicle_cruise_desc_no_label" ], "condition": "u_driving" },
+      {
+        "id": "not_driving",
+        "widgets": [ "structured_speed_num_layout", "structured_move_count_mode_layout" ],
+        "condition": { "not": "u_driving" }
+      }
+    ]
+  },
+  {
+    "id": "structured_speed_num_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "columns",
+    "width": 5,
+    "widgets": [ "structured_speed_num" ]
+  },
+  {
+    "id": "structured_speed_num",
+    "type": "widget",
+    "label": "S",
+    "var": "speed",
+    "style": "number",
+    "colors": [ "c_red", "c_light_red", "c_light_green", "c_green" ]
+  },
+  {
+    "id": "structured_move_count_mode_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "columns",
+    "width": 6,
+    "widgets": [ "structured_move_count_mode" ]
+  },
+  {
+    "id": "structured_move_count_mode",
+    "type": "widget",
+    "copy-from": "move_count_mode_desc",
+    "flags": [ "W_LABEL_NONE" ]
+  }
+]

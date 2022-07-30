@@ -240,6 +240,19 @@ This is a trick you can do to shorten the amount of work you need. Once you have
 #### Further Reading
 The robofac greaves, mantles, skirts and vambraces use this.
 
+### Repairs
+#### Explanation
+Clothing repairs are inherited from their material type, while the difficulty and required skills are inherited from their crafting recipe. In cases where a piece of clothing or armor is not craftable, the ``repairs-like`` flag can be used to specify a recipe from which the difficulty and required skills should be inherited instead. This flag does not change the materials required to repair the item, which is always derived from its composition.
+
+#### Example
+
+```json
+{
+  "id": "dress_shirt",
+  "repairs_like": "tshirt"
+}
+```
+
 ### Advanced Materials
 #### Explanation
 It is possible to be more verbose and specific with materials and armor. To do this you can specify an array of materials for each advanced armor definition array. Each material needs at least an id and thickness (in mm) however you can also optionally specify a covered_by_mat which is how much of the armor is covered by the material. that way for example if an armor was steel but had leather straps that only covered 5% of the armor you could represent the straps as well. **At least 1 material on any armor should have 100 proportional coverage**.

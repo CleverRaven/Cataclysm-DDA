@@ -85,6 +85,8 @@
         { "item": "crackpipe", "repeat": [ 1, 2 ], "x": 4, "y": 10 },
         { "item": "pipe_glass", "repeat": [ 1, 4 ], "x": 4, "y": 10 },
         { "item": "pipe_glass", "repeat": [ 1, 4 ], "x": 7, "y": 10 },
+        { "item": "butane_can", "x": 3, "y": 10, "repeat": [ 0, 2 ], "chance": 55 },
+        { "item": "butane_can", "x": 9, "y": 10, "repeat": [ 0, 2 ], "chance": 55 },
         { "item": "pipe_glass", "repeat": [ 1, 4 ], "x": 18, "y": 10 },
         { "item": "crackpipe", "repeat": [ 1, 2 ], "x": 21, "y": 10 }
       ],
@@ -102,6 +104,9 @@
         { "chance": 85, "item": "misc_smoking", "x": 9, "y": 10, "repeat": [ 1, 3 ] },
         { "chance": 85, "item": "misc_smoking", "x": 3, "y": 10, "repeat": [ 1, 3 ] },
         { "chance": 85, "item": "misc_smoking", "x": 14, "y": [ 6, 7 ], "repeat": [ 1, 3 ] },
+        { "chance": 55, "item": "butane_lighter_and_fuel", "x": [ 15, 16 ], "y": 17, "repeat": [ 0, 2 ] },
+        { "chance": 55, "item": "butane_lighter_and_fuel", "x": 13, "y": 15, "repeat": [ 0, 2 ] },
+        { "chance": 55, "item": "butane_lighter_and_fuel", "x": 14, "y": [ 6, 7 ], "repeat": [ 0, 2 ] },
         { "item": "cash_register_random", "x": [ 5, 7 ], "y": 10, "chance": 100 }
       ]
     }
