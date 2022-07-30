@@ -142,6 +142,7 @@
     "special_attacks": [ [ "scratch", 10 ], { "type": "bite", "cooldown": 5 }, [ "EAT_FOOD", 20 ] ],
     "anger_triggers": [ "PLAYER_CLOSE", "FRIEND_ATTACKED", "HURT" ],
     "fear_triggers": [ "FIRE" ],
+    "placate_triggers": [ "PLAYER_WEAK" ],
     "flags": [
       "SEES",
       "HEARS",
