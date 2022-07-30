@@ -321,6 +321,8 @@ static const json_character_flag json_flag_SUPER_CLAIRVOYANCE( "SUPER_CLAIRVOYAN
 static const json_character_flag json_flag_SUPER_HEARING( "SUPER_HEARING" );
 static const json_character_flag json_flag_UNCANNY_DODGE( "UNCANNY_DODGE" );
 static const json_character_flag json_flag_WATCH( "WATCH" );
+static const json_character_flag json_flag_WEBBED_FEET( "WEBBED_FEET" );
+static const json_character_flag json_flag_WEBBED_HANDS( "WEBBED_HANDS" );
 
 static const limb_score_id limb_score_balance( "balance" );
 static const limb_score_id limb_score_breathing( "breathing" );
@@ -474,7 +476,6 @@ static const trait_id trait_TRANSPIRATION( "TRANSPIRATION" );
 static const trait_id trait_URSINE_EYE( "URSINE_EYE" );
 static const trait_id trait_VISCOUS( "VISCOUS" );
 static const trait_id trait_WATERSLEEP( "WATERSLEEP" );
-static const trait_id trait_WEBBED( "WEBBED" );
 static const trait_id trait_WEB_SPINNER( "WEB_SPINNER" );
 static const trait_id trait_WEB_WALKER( "WEB_WALKER" );
 static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
@@ -1285,9 +1286,13 @@ int Character::swim_speed() const
             ret -= ( 15 * str_cur ) / 2;
         }
     }
-    /** @EFFECT_STR increases swim speed bonus from WEBBED */
-    if( has_trait( trait_WEBBED ) ) {
-        ret -= hand_bonus_mult * ( 60 + str_cur * 5 );
+    /** @EFFECT_STR increases swim speed bonus from WEBBED and WEBBED_FEET */
+    float webbing_factor = 60 + str_cur * 5;
+    if( has_flag( json_flag_WEBBED_HANDS ) ) {
+        ret -= hand_bonus_mult * webbing_factor * 0.5f;
+    }
+    if( has_flag( json_flag_WEBBED_FEET ) ) {
+        ret -= ( 1 - footwear_factor() ) * webbing_factor * 0.5f;
     }
     /** @EFFECT_SWIMMING increases swim speed */
     ret *= get_modifier( character_modifier_swim_mod );
@@ -7156,20 +7161,61 @@ bool Character::unwield()
 
 std::string Character::weapname() const
 {
+    std::string name = weapname_simple();
+    const std::string mode = weapname_mode();
+    const std::string ammo = weapname_ammo();
+
+    if( !mode.empty() ) {
+        name = string_format( "%s %s", mode, name );
+    }
+    if( !ammo.empty() ) {
+        name = string_format( "%s %s", name, ammo );
+    }
+
+    return name;
+}
+
+std::string Character::weapname_simple() const
+{
+    if( weapon.is_gun() ) {
+        gun_mode current_mode = weapon.gun_current_mode();
+        const bool no_mode = !current_mode.target;
+        std::string gun_name = no_mode ? weapon.display_name() : current_mode->tname();
+        return gun_name;
+
+    } else if( !is_armed() ) {
+        return _( "fists" );
+    } else {
+        return weapon.tname();
+    }
+}
+
+std::string Character::weapname_mode() const
+{
     if( weapon.is_gun() ) {
         gun_mode current_mode = weapon.gun_current_mode();
         const bool no_mode = !current_mode.target;
         std::string gunmode;
-        std::string gun_name = no_mode ? weapon.display_name() : current_mode->tname();
+        if( !no_mode && current_mode->gun_all_modes().size() > 1 ) {
+            gunmode = current_mode.tname();
+        }
+        return gunmode;
+    } else {
+        return _( "" );
+    }
+}
+
+std::string Character::weapname_ammo() const
+{
+    if( weapon.is_gun() ) {
+        gun_mode current_mode = weapon.gun_current_mode();
+        const bool no_mode = !current_mode.target;
         // only required for empty mags and empty guns
         std::string mag_ammo;
-        if( !no_mode && current_mode->gun_all_modes().size() > 1 ) {
-            gunmode = current_mode.tname() + " ";
-        }
 
         if( !no_mode && ( current_mode->uses_magazine() || current_mode->magazine_integral() ) ) {
             if( current_mode->uses_magazine() && !current_mode->magazine_current() ) {
-                mag_ammo = _( " (empty)" );
+                mag_ammo = _( "(empty)" );
             } else {
                 int cur_ammo = current_mode->ammo_remaining();
                 int max_ammo;
@@ -7192,18 +7238,15 @@ std::string Character::weapname() const
                 } else {
                     charges_color = c_light_green;
                 }
-                mag_ammo = string_format( " (%s)", colorize( string_format( "%i/%i", cur_ammo, max_ammo ),
+                mag_ammo = string_format( "(%s)", colorize( string_format( "%i/%i", cur_ammo, max_ammo ),
                                           charges_color ) );
             }
         }
 
-        return string_format( "%s%s%s", gunmode, gun_name, mag_ammo );
-
-    } else if( !is_armed() ) {
-        return _( "fists" );
+        return mag_ammo;
 
     } else {
-        return weapon.tname();
+        return _( "" );
     }
 }
 

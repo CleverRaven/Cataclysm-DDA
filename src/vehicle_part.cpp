@@ -373,6 +373,10 @@ bool vehicle_part::can_reload( const item &obj ) const
         return false;
     }
 
+    if( is_battery() ) {
+        return false;
+    }
+
     if( !obj.is_null() ) {
         const itype_id obj_type = obj.typeId();
         if( is_reactor() ) {

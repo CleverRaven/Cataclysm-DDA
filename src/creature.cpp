@@ -325,10 +325,11 @@ bool Creature::sees( const Creature &critter ) const
 
     map &here = get_map();
 
-    if( critter.has_flag( MF_ALWAYS_VISIBLE ) ) {
-        // You always see this
+    if( critter.has_flag( MF_ALWAYS_VISIBLE ) || ( has_flag( MF_ALWAYS_SEES_YOU ) &&
+            critter.is_avatar() ) ) {
         return true;
     }
+
     // player can use mirrors, so `has_potential_los` cannot be used
     if( !is_avatar() && !here.has_potential_los( pos(), critter.pos() ) ) {
         return false;
