@@ -40,6 +40,7 @@ Use the `Home` key to return to the top.
     - [Item Category](#item-category)
     - [Item Properties](#item-properties)
     - [Item Variables](#item-variables)
+    - [Item Migrations](#item-migrations)
     - [Materials](#materials)
       - [Fuel data](#fuel-data)
     - [Monster Groups](#monster-groups)
@@ -1206,7 +1207,29 @@ Example:
 ```
 
 This will make any item instantiated from that prototype get assigned this variable, once
-the item is spawned the variables set on the prototype no longer affect the item's variables.
+the item is spawned the variables set on the prototype no longer affect the item's variables,
+a migration can clear out the item's variables and reassign the prototype ones if reset_item_vars
+flag is set.
+
+### Item Migrations
+
+Migrations allow replacing items or modifying them in ways to keep up with code changes or
+maintain a consistent list of item type ids.
+
+The item migration code itself is at Item_factory::migrate_item and may provide more details.
+
+The following migration will migrate items with id 'arrow_heavy_field_point' to id
+'arrow_heavy_field_point_fletched', it will also reset the item's item_vars field to
+the item prototype ones (although in this case most likely both item_vars are empty)
+
+```json
+  {
+    "id": "arrow_heavy_field_point",
+    "type": "MIGRATION",
+    "replace": "arrow_heavy_field_point_fletched",
+    "reset_item_vars": "true"
+  }
+```
 
 ### Materials
 

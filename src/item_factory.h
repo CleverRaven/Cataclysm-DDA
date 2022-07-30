@@ -50,6 +50,9 @@ class migration
         std::set<std::string> flags;
         int charges = 0;
 
+        // if set to true then reset item_vars std::map to the value of itype's item_variables
+        bool reset_item_vars;
+
         class content
         {
             public:
