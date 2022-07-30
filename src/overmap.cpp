@@ -3851,7 +3851,7 @@ void mongroup::wander( const overmap &om )
 
     point_om_sm rel_p = rel_pos().xy();
 
-    if( horde_behaviour == "city" ) {
+    if( behaviour == horde_behaviour::city ) {
         // Find a nearby city to return to..
         for( const city &check_city : om.cities ) {
             // Check if this is the nearest city so far.
@@ -3886,14 +3886,15 @@ void overmap::move_hordes()
     //MOVE ZOMBIE GROUPS
     for( auto it = zg.begin(); it != zg.end(); ) {
         mongroup &mg = it->second;
-        if( !mg.horde || mg.horde_behaviour == "nemesis" ) {
+        if( !mg.horde || mg.behaviour == mongroup::horde_behaviour::nemesis ) {
             //nemesis hordes have their own move function
             ++it;
             continue;
         }
 
-        if( mg.horde_behaviour.empty() ) {
-            mg.horde_behaviour = one_in( 2 ) ? "city" : "roam";
+        if( mg.behaviour == mongroup::horde_behaviour::none ) {
+            mg.behaviour =
+                one_in( 2 ) ? mongroup::horde_behaviour::city : mongroup::horde_behaviour::roam;
         }
 
         // Gradually decrease interest.
@@ -4024,7 +4025,7 @@ void overmap::move_nemesis()
     //cycle through zombie groups, skip non-nemesis hordes
     for( std::multimap<tripoint_om_sm, mongroup>::iterator it = zg.begin(); it != zg.end(); ) {
         mongroup &mg = it->second;
-        if( !mg.horde || mg.horde_behaviour != "nemesis" ) {
+        if( !mg.horde || mg.behaviour != mongroup::horde_behaviour::nemesis ) {
             ++it;
             continue;
         }
@@ -4090,7 +4091,7 @@ bool overmap::remove_nemesis()
     //cycle through zombie groups, find nemesis horde
     for( std::multimap<tripoint_om_sm, mongroup>::iterator it = zg.begin(); it != zg.end(); ) {
         mongroup &mg = it->second;
-        if( mg.horde_behaviour == "nemesis" ) {
+        if( mg.behaviour == mongroup::horde_behaviour::nemesis ) {
             zg.erase( it++ );
             return true;
         }
@@ -4116,7 +4117,7 @@ void overmap::signal_hordes( const tripoint_rel_sm &p_rel, const int sig_power )
         if( sig_power < dist ) {
             continue;
         }
-        if( mg.horde_behaviour == "nemesis" ) {
+        if( mg.behaviour == mongroup::horde_behaviour::nemesis ) {
             // nemesis hordes are signaled to the player by their own function and dont react to noise
             continue;
         }
@@ -4151,7 +4152,7 @@ void overmap::signal_nemesis( const tripoint_abs_sm &p_abs_sm )
     for( std::pair<const tripoint_om_sm, mongroup> &elem : zg ) {
         mongroup &mg = elem.second;
 
-        if( mg.horde_behaviour == "nemesis" ) {
+        if( mg.behaviour == mongroup::horde_behaviour::nemesis ) {
             // if the horde is a nemesis, we set its target directly on the player
             mg.set_target( p_abs_sm.xy() );
             mg.set_nemesis_target( p_abs_sm.xy() );
@@ -6346,7 +6347,7 @@ void overmap::place_nemesis( const tripoint_abs_omt &p )
 
     mongroup nemesis = mongroup( GROUP_NEMESIS, pos_sm, 1, 1 );
     nemesis.horde = true;
-    nemesis.horde_behaviour = "nemesis";
+    nemesis.behaviour = mongroup::horde_behaviour::nemesis;
     add_mon_group( nemesis );
 }
 
