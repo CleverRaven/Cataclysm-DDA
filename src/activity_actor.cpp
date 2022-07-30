@@ -5510,7 +5510,7 @@ void chop_tree_activity_actor::finish( player_activity &act, Character &who )
                 }
             }
             if( !cantuse ) {
-                direction = tripoint( direc.x, direc.y, pos.z );
+                direction = tripoint( direc, pos.z );
                 break;
             }
         }
