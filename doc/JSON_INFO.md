@@ -38,6 +38,8 @@ Use the `Home` key to return to the top.
     - [Emitters](#emitters)
     - [Item Groups](#item-groups)
     - [Item Category](#item-category)
+    - [Item Properties](#item-properties)
+    - [Item Variables](#item-variables)
     - [Materials](#materials)
       - [Fuel data](#fuel-data)
     - [Monster Groups](#monster-groups)
@@ -1172,6 +1174,39 @@ When you sort your inventory by category, these are the categories that are disp
     "priority_zones": [ { "id": "LOOT_FARMOR", "filthy": true, "flags": [ "RAINPROOF" ] } ],
 }
 ```
+
+### Item Properties
+
+Properties are bound to item's type definition and code checks for them for special behaviour,
+for example the property below makes a container burst open when filled over 75% and it's thrown.
+
+```json
+  {
+    "properties": [ [ "burst_when_filled", "75" ] ]
+  }
+```
+
+### Item Variables
+
+Item variables are bound to the item itself and used to serialize special behaviour,
+for example folding a vehicle serializes the folded vehicle's name and list of parts
+(part type ids, part damage, degradation etc) into json string for use when unfolding.
+
+They can originate from code - like in the example above when folding a vehicle.
+
+Alternatively item variables may also originate from the item's prototype. Specifying them
+can be done in the item's definition, add the `variables` key and inside write a key-value
+map.
+
+Example:
+```json
+    "variables": {
+      "special_key": "spiffy value"
+    }
+```
+
+This will make any item instantiated from that prototype get assigned this variable, once
+the item is spawned the variables set on the prototype no longer affect the item's variables.
 
 ### Materials
 
