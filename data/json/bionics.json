@@ -1666,7 +1666,7 @@
     "id": "bio_uncanny_dodge",
     "type": "bionic",
     "name": { "str": "Uncanny Dodge" },
-    "description": "Your nervous system has been augmented with bionic processors, allowing you to dodge attacks beyond normal human capability, including bullets.",
+    "description": "Your nervous system has been augmented with bionic processors, allowing you to dodge attacks beyond normal human capability.",
     "occupied_bodyparts": [ [ "torso", 12 ], [ "arm_l", 3 ], [ "arm_r", 3 ], [ "leg_l", 5 ], [ "leg_r", 5 ], [ "foot_l", 1 ], [ "foot_r", 1 ] ],
     "flags": [ "BIONIC_TOGGLED" ],
     "act_cost": "6 J",
