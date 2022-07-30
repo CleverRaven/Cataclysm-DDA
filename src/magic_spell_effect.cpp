@@ -1448,8 +1448,8 @@ void spell_effect::guilt( const spell &sp, Creature &caster, const tripoint &tar
             // player no longer cares
             if( kill_count == max_kills ) {
                 //~ Message after killing a lot of monsters which would normally affect the morale negatively. %s is the monster name, it most likely will be pluralized.
-                add_msg( m_good, _( "After killing so many bloody %s you no longer care "
-                                    "about their deaths anymore." ), z.name( max_kills ) );
+                guy.add_msg_if_player( m_good, _( "After killing so many bloody %s you no longer care "
+                                                  "about their deaths anymore." ), z.name( max_kills ) );
             }
             return;
         } else if( guy.has_flag( json_flag_PRED1 ) ||
@@ -1465,7 +1465,7 @@ void spell_effect::guilt( const spell &sp, Creature &caster, const tripoint &tar
             }
         }
 
-        add_msg( msgtype, msg, z.name() );
+        guy.add_msg_if_player( msgtype, msg, z.name() );
 
         float killRatio = static_cast<float>( kill_count ) / max_kills;
         int moraleMalus = -5 * guilt_mult * ( 1.0 - killRatio );
