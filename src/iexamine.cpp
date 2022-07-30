@@ -1862,7 +1862,13 @@ void iexamine::locked_object_pickable( Character &you, const tripoint &examp )
 
     // Sort by their picklock level.
     std::sort( picklocks.begin(), picklocks.end(), [&]( const item * a, const item * b ) {
-        return a->get_quality( qual_LOCKPICK ) > b->get_quality( qual_LOCKPICK );
+        int a_quality = a->get_quality( qual_LOCKPICK );
+        int b_quality = b->get_quality( qual_LOCKPICK );
+        // Sort by durability to spend most broken item
+        if( a_quality == b_quality ) {
+            return a->damage() > b->damage();
+        }
+        return a_quality > b_quality;
     } );
 
     for( item *it : picklocks ) {

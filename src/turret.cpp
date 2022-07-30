@@ -288,6 +288,16 @@ void turret_data::post_fire( Character &you, int shots )
     if( part->info().has_flag( "USE_TANKS" ) ) {
         veh->drain( ammo_current(), mode->ammo_required() * shots );
         mode->ammo_unset();
+
+        // remove the magazines as well, this gets rid of e.g. flamethrower's
+        // "pressurized tanks" that are left over after firing.
+        std::vector<item_pocket *> magazine_wells = base()->get_contents().get_pockets(
+        []( const item_pocket & pocket ) {
+            return pocket.is_type( item_pocket::pocket_type::MAGAZINE_WELL );
+        } );
+        for( item_pocket *pocket : magazine_wells ) {
+            pocket->clear_items();
+        }
     }
 
     veh->drain( fuel_type_battery, mode->get_gun_ups_drain() * shots );

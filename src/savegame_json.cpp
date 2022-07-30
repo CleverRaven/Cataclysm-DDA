@@ -1526,6 +1526,8 @@ void avatar::store( JsonOut &json ) const
     json.member( "calorie_diary", calorie_diary );
 
     json.member( "preferred_aiming_mode", preferred_aiming_mode );
+
+    json.member( "power_prev_turn", power_prev_turn );
 }
 
 void avatar::deserialize( const JsonObject &data )
@@ -1676,6 +1678,10 @@ void avatar::load( const JsonObject &data )
     data.read( "calorie_diary", calorie_diary );
 
     data.read( "preferred_aiming_mode", preferred_aiming_mode );
+
+    if( data.has_member( "power_prev_turn" ) ) {
+        data.read( "power_prev_turn", power_prev_turn );
+    }
 
     data.read( "snippets_read", snippets_read );
 }
