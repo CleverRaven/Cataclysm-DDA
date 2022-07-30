@@ -3943,6 +3943,7 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
         def.explosion = load_explosion_data( je );
     }
 
+    assign( jo, "variables", def.item_variables );
     assign( jo, "flags", def.item_tags );
     assign( jo, "faults", def.faults );
 
