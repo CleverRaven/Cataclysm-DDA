@@ -47,6 +47,18 @@
     ]
   },
   {
+    "id": "bicycle_folding",
+    "type": "vehicle",
+    "name": "Folding Bicycle",
+    "blueprint": [ "o#o" ],
+    "parts": [
+      { "x": 0, "y": 0, "parts": [ "folding_frame", "saddle_pedal", "horn_bicycle", "foot_pedals" ] },
+      { "x": 1, "y": 0, "parts": [ "folding_frame", "wheel_mount_light_steerable", "wheel_bicycle" ] },
+      { "x": -1, "y": 0, "parts": [ "folding_frame", "wheel_mount_light" ] },
+      { "x": -1, "y": 0, "parts": [ "wheel_bicycle_rear", "basketsm_bike_rear" ] }
+    ]
+  },
+  {
     "id": "motorcycle_cross",
     "type": "vehicle",
     "name": "Motocross Bike",
