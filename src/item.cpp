@@ -2544,9 +2544,12 @@ void item::magazine_info( std::vector<iteminfo> &info, const iteminfo_query *par
 
         for( const itype_id &gun_type_id : islot_magazine::compatible_guns[this->typeId()] ) {
             const itype &gun_type = gun_type_id.obj();
-            compatible_guns.insert( gun_type.nname( 1 ) );
-            for( const itype_variant_data &variant_type : gun_type.variants ) {
-                compatible_guns.insert( variant_type.alt_name.translated() );
+            if( get_option<bool>( "SHOW_GUN_VARIANTS" ) ) {
+                for( const itype_variant_data &variant_type : gun_type.variants ) {
+                    compatible_guns.insert( variant_type.alt_name.translated() );
+                }
+            } else {
+                compatible_guns.insert( gun_type.nname( 1 ) );
             }
         }
 
