@@ -243,6 +243,8 @@ class widget
         bool explicit_separator;
         // True if this widget has an explicitly defined padding. False if it is inherited.
         bool explicit_padding;
+        // Pad labels to match label length of child or sibling widgets
+        bool _pad_labels;
 
         // Normal var range (low, high), set by set_default_var_range
         std::pair<int, int> _var_norm = std::make_pair( INT_MIN, INT_MAX );
