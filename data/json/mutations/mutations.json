@@ -749,7 +749,7 @@
     "id": "VOMITSTOMACH",
     "name": { "str": "Stomach Cleanse" },
     "points": 1,
-    "description": "You have gained the ability to invert your stomach outside your body to quickly eliminate toxins, and are more likely to throw up from food poisoning, alcohol, etc.  If you throw up because of this this, you won't suffer any residual nausea.",
+    "description": "You have gained the ability to invert your stomach outside your body to quickly eliminate toxins, and are more likely to throw up from food poisoning, alcohol, etc.  If you throw up because of this, you won't suffer any residual nausea.",
     "starting_trait": false,
     "vomit_multiplier": 1.5,
     "//": "Create an effect on condition that reduces nausea quickly whenever it occurs by one intensity per vomit?",
@@ -1962,10 +1962,10 @@
     "id": "URSINE_EYE",
     "name": { "str": "Ursine Vision" },
     "points": 1,
-    "description": "Your visual processing has shifted: though you can see better in the dark, you're nearsighted in the light.  Maybe glasses would help.  Activate to toggle NV-visible areas on or off.  Surprisingly, frogs' vision works exactly the same.",
+    "description": "Your visual processing has shifted: though you can see better in the dark, you're nearsighted in the light.  Maybe glasses would help.  Activate to toggle NV-visible areas on or off.",
     "types": [ "EYES", "VISION" ],
     "cancels": [ "MYOPIC" ],
-    "category": [ "URSINE", "BATRACHIAN" ],
+    "category": [ "URSINE" ],
     "flags": [ "MYOPIC_IN_LIGHT" ],
     "active": true,
     "starts_active": true
@@ -2165,9 +2165,28 @@
     "ugliness": 2,
     "description": "You have a set of clear lenses which lower over your eyes while underwater, allowing you to see as though you were wearing goggles.  Slightly decreases wet penalties.",
     "prereqs": [ "EYEBULGE" ],
-    "category": [ "LIZARD", "FISH", "BATRACHIAN" ],
+    "category": [ "LIZARD", "FISH" ],
     "flags": [ "EYE_MEMBRANE" ],
     "wet_protection": [ { "part": "eyes", "neutral": 1 } ]
+  },
+  {
+    "type": "mutation",
+    "id": "FROG_EYES",
+    "//": "Currently without the NV from URSINE_EYE",
+    "name": { "str": "Frog Eyes" },
+    "points": 1,
+    "visibility": 8,
+    "ugliness": 4,
+    "description": "Your eyes bulge noticeably out of your face, and you are able to move them much more freely than before.  You can see movement and close objects clearly, but you have trouble picking up distant details in the light.  Instead of eyelids they are covered by a translucent, protective membrane that blocks irritants and water.  It allows you to sleep with your eyes open!  Activate to cause the approach of hostile creatures to wake you up.",
+    "prereqs": [ "EYEBULGE" ],
+    "category": [ "BATRACHIAN" ],
+    "flags": [ "EYE_MEMBRANE", "SEESLEEP", "MYOPIC_IN_LIGHT" ],
+    "types": [ "EYES", "VISION" ],
+    "cancels": [ "MEMBRANE", "MYOPIC", "URSINE_EYE" ],
+    "threshreq": [ "THRESH_BATRACHIAN" ],
+    "wet_protection": [ { "part": "eyes", "neutral": 1 } ],
+    "armor": [ { "parts": "eyes", "cut": 3, "bash": 1 } ],
+    "active": true
   },
   {
     "type": "mutation",
@@ -4164,15 +4183,7 @@
     "social_modifiers": { "intimidate": 2 },
     "types": [ "DURABILITY" ],
     "prereqs": [ "LARGE_OK", "HUGE_OK", "STR_UP_3", "STR_UP_4" ],
-    "threshreq": [
-      "THRESH_URSINE",
-      "THRESH_CATTLE",
-      "THRESH_CHIMERA",
-      "THRESH_MEDICAL",
-      "THRESH_LIZARD",
-      "THRESH_BEAST",
-      "THRESH_BATRACHIAN"
-    ],
+    "threshreq": [ "THRESH_URSINE", "THRESH_CATTLE", "THRESH_CHIMERA", "THRESH_MEDICAL", "THRESH_LIZARD", "THRESH_BEAST" ],
     "changes_to": [ "MUT_TOUGH2" ],
     "category": [ "URSINE", "CATTLE", "CHIMERA", "BEAST", "LIZARD" ],
     "hp_modifier_secondary": 0.2
@@ -4331,7 +4342,7 @@
       "THRESH_BATRACHIAN"
     ],
     "cancels": [ "MANSBESTFRIEND" ],
-    "category": [ "BEAST", "RAPTOR", "CHIMERA", "LUPINE", "FELINE", "URSINE", "LIZARD", "SPIDER" ],
+    "category": [ "BEAST", "RAPTOR", "CHIMERA", "LUPINE", "FELINE", "URSINE", "LIZARD", "SPIDER", "BATRACHIAN" ],
     "flags": [ "PRED1" ]
   },
   {
@@ -5373,7 +5384,7 @@
     "ugliness": 4,
     "description": "Your eyes bulge out several inches from your skull.  This does not affect your vision in any way.",
     "leads_to": [ "MEMBRANE" ],
-    "changes_to": [ "COMPOUND_EYES", "EYESTALKS1" ],
+    "changes_to": [ "COMPOUND_EYES", "EYESTALKS1", "FROG_EYES" ],
     "category": [ "BATRACHIAN", "INSECT", "GASTROPOD", "LIZARD", "FISH" ]
   },
   {
@@ -5722,6 +5733,7 @@
     "description": "Your face and jaws have widened like a frogs.  It looks hideous but it allows you to eat food whole.",
     "types": [ "MUZZLE" ],
     "category": [ "BATRACHIAN" ],
+    "wet_protection": [ { "part": "mouth", "good": 6 } ],
     "consume_time_modifier": 0.25
   },
   {
@@ -6023,15 +6035,28 @@
     "type": "mutation",
     "id": "WEBBED",
     "name": { "str": "Webbed Hands" },
-    "points": -2,
+    "points": -3,
     "visibility": 3,
     "ugliness": 2,
     "types": [ "HANDS" ],
-    "description": "Your hands and feet are heavily webbed, reducing your Dexterity by 1 and causing problems with gloves.  However, you can swim much faster.  Slightly decreases wet penalties.",
+    "description": "Your hands are heavily webbed, reducing your Dexterity by 1 and causing problems with gloves.  However, you can swim much faster.  Slightly decreases wet penalties.",
+    "leads_to": [ "WEBBED_FEET" ],
     "category": [ "LIZARD", "FISH", "SLIME", "BATRACHIAN" ],
+    "flags": [ "WEBBED_HANDS" ],
     "wet_protection": [ { "part": "hand_l", "good": 3 }, { "part": "hand_r", "good": 3 } ],
     "encumbrance_covered": [ [ "hand_l", 50 ], [ "hand_r", 50 ] ],
     "passive_mods": { "dex_mod": -1 }
+  },
+  {
+    "type": "mutation",
+    "id": "WEBBED_FEET",
+    "name": { "str": "Webbed Feet" },
+    "points": 1,
+    "description": "Your feet are heavily webbed, allowing you to swim faster if you aren't wearing footwear.",
+    "prereqs": [ "WEBBED" ],
+    "category": [ "LIZARD", "FISH", "SLIME", "BATRACHIAN" ],
+    "flags": [ "WEBBED_FEET" ],
+    "wet_protection": [ { "part": "foot_l", "good": 6 }, { "part": "foot_r", "good": 6 } ]
   },
   {
     "type": "mutation",
@@ -7231,8 +7256,8 @@
     "visibility": 3,
     "ugliness": 4,
     "description": "Like a true fish, your eyes lack eyelids, and are instead covered by a translucent, protective membrane that blocks irritants and water, and provides minor armor.  It also allows you to sleep with your eyes open!  Activate to cause the approach of hostile creatures to wake you up.",
-    "category": [ "FISH", "BATRACHIAN" ],
-    "threshreq": [ "THRESH_FISH", "THRESH_BATRACHIAN" ],
+    "category": [ "FISH" ],
+    "threshreq": [ "THRESH_FISH" ],
     "armor": [ { "parts": "eyes", "cut": 3, "bash": 1 } ],
     "flags": [ "EYE_MEMBRANE", "SEESLEEP" ],
     "active": true
@@ -7243,7 +7268,7 @@
     "name": { "str": "Aqueous Repose" },
     "points": 1,
     "description": "Falling asleep underwater is easy for you, and you spend less time asleep when you rest there.  You can also eat underwater, though you can't drink.",
-    "prereqs": [ "SEESLEEP" ],
+    "prereqs": [ "SEESLEEP", "FROG_EYES" ],
     "category": [ "FISH", "BATRACHIAN" ],
     "threshreq": [ "THRESH_FISH", "THRESH_BATRACHIAN" ]
   },
