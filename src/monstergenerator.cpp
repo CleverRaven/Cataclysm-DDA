@@ -54,7 +54,6 @@ std::string enum_to_string<mon_trigger>( mon_trigger data )
     switch( data ) {
         // *INDENT-OFF*
         case mon_trigger::STALK: return "STALK";
-        case mon_trigger::MEAT: return "MEAT";
         case mon_trigger::HOSTILE_WEAK: return "PLAYER_WEAK";
         case mon_trigger::HOSTILE_CLOSE: return "PLAYER_CLOSE";
         case mon_trigger::HOSTILE_SEEN: return "HOSTILE_SEEN";

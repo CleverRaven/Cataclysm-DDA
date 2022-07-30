@@ -174,7 +174,6 @@
     ],
     "anger_triggers": [ "PLAYER_CLOSE", "PLAYER_WEAK" ],
     "fear_triggers": [ "FIRE", "HURT" ],
-    "placate_triggers": [ "MEAT" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "KEENNOSE", "PATH_AVOID_DANGER_1", "ANIMAL", "PUSH_MON", "SWIMS" ]
   },
   {
@@ -208,7 +207,6 @@
     "special_attacks": [ [ "RATTLE", 6 ] ],
     "anger_triggers": [ "HURT" ],
     "fear_triggers": [ "PLAYER_CLOSE" ],
-    "placate_triggers": [ "PLAYER_WEAK" ],
     "upgrades": { "half_life": 14, "into": "mon_rattlesnake_giant" },
     "flags": [ "SEES", "HEARS", "SMELLS", "BADVENOM", "HARDTOSHOOT", "SWIMS" ]
   },
@@ -253,7 +251,6 @@
       }
     ],
     "anger_triggers": [ "HURT", "PLAYER_CLOSE" ],
-    "placate_triggers": [ "PLAYER_WEAK" ],
     "reproduction": { "baby_egg": "egg_reptile", "baby_count": 3, "baby_timer": 10 },
     "baby_flags": [ "SPRING" ],
     "upgrades": { "half_life": 35, "into": "mon_rattlesnake_mega" },

@@ -2290,7 +2290,7 @@
     "type": "MONSTER",
     "name": { "str": "giant aphid" },
     "description": "A green aphid about the size of a rabbit.  It is constantly searching for plants to suck from.",
-    "default_faction": "ant",
+    "default_faction": "aphid",
     "bodytype": "insect",
     "species": [ "INSECT" ],
     "volume": "1600 ml",
