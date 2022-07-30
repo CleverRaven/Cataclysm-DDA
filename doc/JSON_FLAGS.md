@@ -1444,9 +1444,6 @@ Those flags are added by the game code to specific items (for example, that spec
 - ```STEERABLE``` This wheel is steerable.
 - ```STEREO``` Allows playing music for increasing the morale.
 - ```TRANSFORM_TERRAIN``` Transform terrain (using rules defined in ```transform_terrain```).
-- ```TOOL_NONE``` Can be removed/installed without any tools.
-- ```TOOL_SCREWDRIVER``` Attached with screws, can be removed/installed with a screwdriver.
-- ```TOOL_WRENCH``` Attached with bolts, can be removed/installed with a wrench.
 - ```TRACKED``` Contributes to steering effectiveness but doesn't count as a steering axle for install difficulty and still contributes to drag for the center of steering calculation.
 - ```TRACK``` Allows the vehicle installed on to be marked and tracked on map.
 - ```TURRET_CONTROLS``` If part with this flag is installed over the turret, it allows to set said turret's targeting mode to full auto. Can only be installed on a part with ```TURRET``` flag.
