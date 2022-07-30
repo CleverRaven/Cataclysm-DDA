@@ -138,41 +138,6 @@
     }
   },
   {
-    "id": "folding_bicycle",
-    "type": "TOOL",
-    "name": { "str": "folding bicycle" },
-    "description": "This is a bicycle folded into a relatively portable package.",
-    "weight": "10160 g",
-    "volume": "76651 ml",
-    "//": "Data taken from given values/dimensions for the Brompton S1E folding bicycle",
-    "price": 35000,
-    "price_postapoc": 2000,
-    "to_hit": -5,
-    "bashing": 10,
-    "material": [ "steel" ],
-    "symbol": "0",
-    "color": "light_gray",
-    "use_action": {
-      "type": "unfold_vehicle",
-      "vehicle_name": "bicycle",
-      "unfold_msg": "You painstakingly unfold the bicycle and make it ready to ride.",
-      "moves": 500
-    }
-  },
-  {
-    "id": "generic_folded_vehicle",
-    "type": "TOOL",
-    "name": { "str_sp": "seeing this is a bug" },
-    "description": "seeing this is a bug",
-    "volume": "0 ml",
-    "price": 0,
-    "price_postapoc": 0,
-    "symbol": "/",
-    "color": "light_gray",
-    "flags": [ "ZERO_WEIGHT" ],
-    "use_action": [ "UNFOLD_GENERIC" ]
-  },
-  {
     "id": "metal_butcher_rack",
     "type": "TOOL",
     "name": { "str": "metal butchering rack" },
@@ -188,28 +153,6 @@
     "symbol": "=",
     "color": "light_gray",
     "use_action": { "type": "deploy_furn", "furn_type": "f_metal_butcher_rack" }
-  },
-  {
-    "id": "inflatable_boat",
-    "type": "TOOL",
-    "symbol": "0",
-    "color": "light_gray",
-    "name": { "str": "inflatable boat" },
-    "description": "This rubber rowboat (oars included) is deflated for storage.  Activate it (having an air pump in inventory) to inflate and launch.",
-    "price": 350000,
-    "price_postapoc": 4000,
-    "material": [ "rubber" ],
-    "weight": "1100 g",
-    "volume": "10000 ml",
-    "bashing": 10,
-    "to_hit": -5,
-    "use_action": {
-      "type": "unfold_vehicle",
-      "vehicle_name": "inflatable_boat",
-      "tools_needed": { "hand_pump": 1 },
-      "unfold_msg": "You painstakingly unfold, inflate, and launch the %s.",
-      "moves": 15000
-    }
   },
   {
     "id": "metal_smoking_rack",
@@ -366,23 +309,5 @@
     "symbol": "7",
     "color": "yellow_red",
     "use_action": { "type": "deploy_furn", "furn_type": "f_manual_tire_changer" }
-  },
-  {
-    "id": "folded_wheelchair",
-    "type": "TOOL",
-    "name": { "str": "folded wheelchair" },
-    "description": "A folded wheelchair.",
-    "weight": "10586 g",
-    "volume": "13500 ml",
-    "longest_side": "92 cm",
-    "symbol": "/",
-    "color": "light_gray",
-    "flags": [ "NO_REPAIR" ],
-    "use_action": {
-      "type": "unfold_vehicle",
-      "vehicle_name": "wheelchair",
-      "unfold_msg": "You painstakingly unfold the wheelchair and make it ready to use.",
-      "moves": 500
-    }
   }
 ]

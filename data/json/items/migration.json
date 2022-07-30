@@ -1795,5 +1795,23 @@
     "id": "canola",
     "type": "MIGRATION",
     "replace": "seed_canola"
+  },
+  {
+    "id": "folding_bicycle",
+    "type": "MIGRATION",
+    "replace": "folded_bicycle",
+    "reset_item_vars": true
+  },
+  {
+    "id": "folded_wheelchair",
+    "type": "MIGRATION",
+    "replace": "folded_wheelchair_generic",
+    "reset_item_vars": true
+  },
+  {
+    "id": "inflatable_boat",
+    "type": "MIGRATION",
+    "replace": "folded_inflatable_boat",
+    "reset_item_vars": true
   }
 ]

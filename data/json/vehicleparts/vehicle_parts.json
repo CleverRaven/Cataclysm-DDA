@@ -1183,7 +1183,7 @@
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_screw", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "adhesive", 2 ] ] }
     },
-    "flags": [ "MOUNTABLE", "FOLDABLE", "BOARDABLE", "CARGO" ],
+    "flags": [ "MOUNTABLE", "FOLDABLE", "BOARDABLE", "CARGO", "NO_INSTALL_PLAYER", "NO_UNINSTALL" ],
     "breaks_into": [ { "item": "plastic_chunk", "count": [ 10, 20 ] } ],
     "damage_reduction": { "bash": 10 }
   },
@@ -1206,7 +1206,7 @@
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_screw", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "adhesive_rubber", 2 ], [ "tire_rubber", 2 ] ] }
     },
-    "flags": [ "FLOATS", "VARIABLE_SIZE", "FOLDABLE" ],
+    "flags": [ "FLOATS", "VARIABLE_SIZE", "FOLDABLE", "NO_INSTALL_PLAYER", "NO_UNINSTALL" ],
     "breaks_into": [ { "item": "plastic_chunk", "count": [ 10, 20 ] } ],
     "damage_reduction": { "bash": 10 }
   },
