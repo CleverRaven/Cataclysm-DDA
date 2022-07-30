@@ -11347,7 +11347,11 @@ void Character::use( item_location loc, int pre_obtain_moves )
     } else if( used.is_relic() ) {
         invoke_item( &used, loc.position(), pre_obtain_moves );
     } else {
-        add_msg( m_info, _( "You can't do anything interesting with your %s." ), used.tname() );
+        if( !is_armed() ) {
+            add_msg( m_info, _( "You are not wielding anything you could use." ) );
+        } else {
+            add_msg( m_info, _( "You can't do anything interesting with your %s." ), used.tname() );
+        }
         moves = pre_obtain_moves;
     }
 }
