@@ -57,6 +57,17 @@
     "type": "widget"
   },
 
+  { "id": "l_div1",             "width": 41,
+    "copy-from": "t_border",
+    "string": "═══════╧═══════════════════════╧═════════",
+    "type": "widget"
+  },
+  { "id": "l_div2",             "width": 41,
+    "copy-from": "t_border",
+    "string": "═════════════════════════════════════════",
+    "type": "widget"
+  },
+
   { "id": "l_bp_HD",            "width": 3,
     "style": "symbol",
     "bodypart": "head",
@@ -953,13 +964,7 @@
   { "id": "a_vert_divider_7",   "width": 1,
     "style": "layout",  "arrange": "rows",
     "widgets": [
-      "l_vc",
-      "l_vc",
-      "l_vc",
-      "l_vc",
-      "l_vc",
-      "l_vc",
-      "l_vc"
+      "l_space"
     ],
     "type": "widget"
   },
@@ -1135,12 +1140,12 @@
     ],
     "type": "widget"
   },
-  { "id": "w_time_moon",        "width": 23,        "//": "moon phase disabled for now",
+  { "id": "w_time_moon",        "width": 23,
     "style": "layout", "arrange": "minimum_columns",
     "widgets": [
       "w_time",
       "l_space",
-      "//w_moon_phase"
+      "w_moon_phase"
     ],
     "type": "widget"
   },
@@ -1366,7 +1371,7 @@
   },
   { "id": "l_thrist",           "width": 2,
     "copy-from": "t_label",
-    "string": "T:",
+    "string": ":T",
     "type": "widget"
   },
   { "id": "i_thrist_graph",     "width": 4,
@@ -1390,12 +1395,12 @@
       "l_hunger",
       "i_hunger_graph",
       "i_weight_sym",
-      "l_thrist",
-      "i_thrist_graph"
+      "i_thrist_graph",
+      "l_thrist"
     ],
     "type": "widget"
   },
-  { "id": "i_weight_sym",       "width": 5,
+  { "id": "i_weight_sym",       "width": 1,
     "style": "symbol",
     "clauses": [
       { "id": "sk",  "sym": "ₒ",  "color": "c_red",       "condition": {            "compare_int": [ { "u_val": "bmi_permil" }, "<=", { "const": 14000 } ] } },
@@ -1449,6 +1454,9 @@
   { "id": "w_weight_body",      "width": 7,
     "style": "layout", "arrange": "minimum_columns",
     "widgets": [
+      "l_space",
+      "l_space",
+      "l_space",
       "l_sw",
       "i_weight_graph",
       "l_se"
@@ -1587,7 +1595,7 @@
     ],
     "type": "widget"
   },
-  { "id": "l_rest",             "width":          3,         "//": "TODO: change to actual width after padding will work",
+  { "id": "l_rest",             "width": 2,
     "copy-from": "t_label",
     "string": "R:",
     "type": "widget"
@@ -1598,7 +1606,7 @@
     "colors": [ "h_light_gray", "h_light_red" ],
     "type": "widget"
   },
-  { "id": "w_rest",             "width":          7,         "//": "TODO: change to actual width after padding will work",
+  { "id": "w_rest",             "width": 6,
     "style": "layout",  "arrange": "minimum_columns",
     "widgets": [
       "l_rest",
@@ -1679,7 +1687,7 @@
     ],
     "type": "widget"
   },
-  { "id": "l_weary",            "width":          3,         "//": "TODO: change to actual width after padding will work",
+  { "id": "l_weary",            "width": 2,
     "copy-from": "t_label",
     "string": "W:",
     "type": "widget"
@@ -1690,7 +1698,7 @@
     "colors": [ "h_yellow", "h_yellow", "h_light_red", "h_red", "h_red", "h_red", "h_red" ],
     "type": "widget"
   },
-  { "id": "w_weary",            "width":          7,         "//": "TODO: change to actual width after padding will work",
+  { "id": "w_weary",            "width": 6,
     "style": "layout",  "arrange": "minimum_columns",
     "widgets": [
       "l_weary",
@@ -1744,15 +1752,16 @@
     ],
     "type": "widget"
   },
-  { "id": "w_wgrph_rgrph",      "width":          15,         "//": "TODO: change to actual width after padding will work",
+  { "id": "w_wgrph_rgrph",      "width": 13,
     "style": "layout",  "arrange": "minimum_columns",
     "widgets": [
       "w_weary",
+      "l_space",
       "w_rest"
     ],
     "type": "widget"
   },  
-  { "id": "w_weight_wmalus",    "width":          15,         "//": "TODO: change to actual width after padding will work",
+  { "id": "w_weight_wmalus",    "width": 13,
     "style": "layout",  "arrange": "rows",
     "widgets": [
       "w_weight_carried",
@@ -1760,7 +1769,7 @@
     ],
     "type": "widget"
   },
-  { "id": "w_wtrns_wgrph_rgrph", "width":         15,         "//": "TODO: change to actual width after padding will work",
+  { "id": "w_wtrns_wgrph_rgrph", "width": 13,
     "style": "layout",  "arrange": "rows",
     "widgets": [
       "w_wtrns",
@@ -1856,9 +1865,9 @@
   { "id": "w_compass",          "width": 27,
     "style": "layout", "arrange": "rows",
     "widgets": [
-      "compass_top_layout",
-      "compass_middle_layout",
-      "compass_bottom_layout",
+      "compass_top_danger_layout",
+      "compass_middle_danger_layout",
+      "compass_bottom_danger_layout",
       "compass_legend_text_alt"
     ],
     "type": "widget"
@@ -1905,7 +1914,23 @@
     ],
     "type": "widget"
   },
-  { "id": "r_separator-space",  "width": 41,         "//": "TODO: rearrange everything here",
+  { "id": "r_separator-top",    "width": 41,
+    "style": "layout", "arrange": "rows",
+    "label": "separator-top",
+    "widgets": [
+      "l_div1"
+    ],
+    "type": "widget"
+  },
+  { "id": "r_separator-bottom", "width": 41,
+    "style": "layout", "arrange": "rows",
+    "label": "separator-bottom",
+    "widgets": [
+      "l_div2"
+    ],
+    "type": "widget"
+  },
+  { "id": "r_separator-space",  "width": 41,
     "style": "layout", "arrange": "rows",
     "label": "separator-space",
     "widgets": [
@@ -1913,7 +1938,7 @@
     ],
     "type": "widget"
   },
-  { "id": "r_3",                "width": 41,         "//": "TODO: rearrange everything here",
+  { "id": "r_3",                "width": 41,
     "style": "layout", "arrange": "rows",
     "label": "! MA, buffs, compass",
     "widgets": [
@@ -1922,13 +1947,15 @@
     ],
     "type": "widget"
   },
-  { "id": "sidebar-mobile",     "width": 76,         "//": "TODO: change to actual width after padding will work",
+  { "id": "sidebar-mobile",     "width": 43,
     "style": "sidebar",
+    "description": "This one intended for mobile use where every symbol counts. Fixed data takes 22 lines and 43 symbols width. ",
     "separator": ": ",
     "padding": 0,
     "label": { "str": "mobile", "ctxt": "UI sidebar" },
     "widgets": [
       "r_1",
+      "r_separator-space",
       "r_2",
       "r_separator-space",
       "r_3"
