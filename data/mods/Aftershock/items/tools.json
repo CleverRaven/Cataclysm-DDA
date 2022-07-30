@@ -294,7 +294,7 @@
     "material": [ "aluminum", "plastic" ],
     "armor": [
       {
-        "encumbrance": 2,
+        "encumbrance": [ 2, 5 ],
         "coverage": 13,
         "covers": [ "leg_l", "leg_r" ],
         "specifically_covers": [ "leg_upper_l", "leg_upper_r" ]
