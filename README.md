@@ -96,7 +96,3 @@ Please submit an issue on [our GitHub page](https://github.com/CleverRaven/Catac
 #### I would like to make a suggestion. What should I do?
 
 Please submit an issue on [our GitHub page](https://github.com/CleverRaven/Cataclysm-DDA/issues/) using [feature request template](https://github.com/CleverRaven/Cataclysm-DDA/issues/new?template=feature_request.md).
-
-You can also submit your suggestions or vote for existing suggestions on [our FeatHub page](https://feathub.com/CleverRaven/Cataclysm-DDA). Most voted suggestions are:
-
-[![Feature Requests](https://feathub.com/CleverRaven/Cataclysm-DDA?format=svg)](https://feathub.com/CleverRaven/Cataclysm-DDA)
