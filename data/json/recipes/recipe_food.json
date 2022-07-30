@@ -1196,12 +1196,14 @@
       [
         [ "cucumber", 1 ],
         [ "irradiated_cucumber", 1 ],
-        [ "carrot", 6 ],
-        [ "irradiated_carrot", 6 ],
+        [ "carrot", 3 ],
+        [ "irradiated_carrot", 3 ],
+        [ "carrot_wild", 3 ],
         [ "celery", 3 ],
         [ "irradiated_celery", 3 ],
         [ "veggy_wild", 3 ],
         [ "veggy", 3 ],
+        [ "wild_garlic", 3 ],
         [ "rehydrated_veggy", 3 ],
         [ "rehydrated_corn_kernels", 3 ],
         [ "corn_kernels", 3 ]
