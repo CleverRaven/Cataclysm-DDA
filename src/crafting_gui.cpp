@@ -991,9 +991,10 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
     std::map<std::string, bool> is_cat_unread;
     std::map<std::string, std::map<std::string, bool>> is_subcat_unread;
     tab_list tab( craft_cat_list, is_cat_unread );
+    tab_list subtab( craft_subcat_list[tab.cur()], is_subcat_unread[tab.cur()] );
     std::map<size_t, inclusive_rectangle<point>> translated_tab_map;
     std::map<size_t, inclusive_rectangle<point>> translated_subtab_map;
-    tab_list subtab( craft_subcat_list[tab.cur()], is_subcat_unread[tab.cur()] );
+    std::map<size_t, inclusive_rectangle<point>> list_map;
     std::vector<const recipe *> current;
     std::vector<availability> available;
     int line = 0;
@@ -1143,6 +1144,7 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
             istart = 0;
             iend = std::min<int>( current.size(), dataHeight + 1 );
         }
+        list_map.clear();
         for( int i = istart; i < iend; ++i ) {
             std::string tmp_name = current[i]->result_name( /*decorated=*/true );
             if( batch ) {
@@ -1163,6 +1165,8 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
                 rcp_name_trim_width -= new_recipe_str_width + 1;
             }
             mvwprintz( w_data, print_from, col, "%s", trim_by_length( tmp_name, rcp_name_trim_width ) );
+            list_map.emplace( i, inclusive_rectangle<point>( print_from, point( 2 + max_recipe_name_width,
+                              i - istart ) ) );
         }
 
         const int batch_size = batch ? line + 1 : 1;
@@ -1175,9 +1179,9 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
             // border + padding + name + padding
             const int xpos = 1 + 1 + max_recipe_name_width + 3;
             const int fold_width = FULL_SCREEN_WIDTH - xpos - 2;
-            mouseover_area_list = inclusive_rectangle<point>( point( 1, headHeight + subHeadHeight + 1 ),
+            mouseover_area_list = inclusive_rectangle<point>( point( 1, headHeight + subHeadHeight ),
                                   point( xpos - 1, headHeight + subHeadHeight + dataLines ) );
-            mouseover_area_recipe = inclusive_rectangle<point>( point( xpos, headHeight + subHeadHeight + 1 ),
+            mouseover_area_recipe = inclusive_rectangle<point>( point( xpos, headHeight + subHeadHeight ),
                                     point( xpos + fold_width + 1, headHeight + subHeadHeight + dataLines ) );
             const nc_color color = avail.color( true );
             const std::string qry = trim( filterstring );
@@ -1383,7 +1387,7 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
         just_toggled_unread = false;
         ui_manager::redraw();
         const int scroll_item_info_lines = catacurses::getmaxy( w_iteminfo ) - 4;
-        const std::string action = ctxt.handle_input();
+        std::string action = ctxt.handle_input();
         const int recmax = static_cast<int>( current.size() );
         const int scroll_rate = recmax > 20 ? 10 : 3;
 
@@ -1392,6 +1396,27 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
         const bool mouse_in_recipe = coord.has_value() && mouseover_area_recipe.contains( coord.value() );
         const bool mouse_in_result = isWide && coord.has_value() &&
                                      mouseover_area_result.contains( coord.value() );
+
+        // Check mouse selection of recipes separately so that selecting an already-selected recipe goes to "CONFIRM"
+
+        if( action == "SELECT" ) {
+            coord = ctxt.get_coordinates_text( w_data );
+            if( mouse_in_list && coord.has_value() ) {
+                for( const auto &entry : list_map ) {
+                    if( entry.second.contains( coord.value() ) ) {
+                        if( line == static_cast<int>( entry.first ) ) {
+                            action = "CONFIRM";
+                        } else {
+                            if( !previously_toggled_unread ) {
+                                last_line = line;
+                            }
+                            line = entry.first;
+                            user_moved_line = highlight_unread_recipes;
+                        }
+                    }
+                }
+            }
+        }
 
         if( action == "SELECT" ) {
             bool handled = false;
@@ -1415,7 +1440,6 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
                     if( entry.second.contains( coord.value() ) ) {
                         subtab.set_index( entry.first );
                         recalc = true;
-                        handled = true;
                     }
                 }
             }
@@ -1505,7 +1529,7 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
             user_moved_line = highlight_unread_recipes;
         } else if( action == "CONFIRM" ) {
             if( available.empty() || !available[line].can_craft ) {
-                popup( _( "You can't do that!  Press [<color_yellow>ESC</color>]!" ) );
+                popup_getkey( _( "You can't do that!  Press [<color_yellow>ESC</color>]!" ) );
             } else if( !player_character.check_eligible_containers_for_crafting( *current[line],
                        batch ? line + 1 : 1 ) ) {
                 // popup is already inside check
