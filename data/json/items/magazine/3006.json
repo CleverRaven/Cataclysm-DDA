@@ -98,6 +98,7 @@
     "type": "MAGAZINE",
     "name": { "str": ".30-06 ammo belt" },
     "ammo_type": [ "3006" ],
+    "volume": "400 ml",
     "capacity": 500,
     "count": 100,
     "default_ammo": "3006",
