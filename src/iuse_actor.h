@@ -203,29 +203,6 @@ class explosion_iuse : public iuse_actor
         void info( const item &, std::vector<iteminfo> & ) const override;
 };
 
-/**
- * This iuse creates a new vehicle on the map.
- */
-class unfold_vehicle_iuse : public iuse_actor
-{
-    public:
-        /** Id of the vehicle prototype (@see map::add_vehicle what it expects) that will be
-         * created when unfolding the item. */
-        vproto_id vehicle_id;
-        /** Message shown after successfully unfolding the item. */
-        translation unfold_msg;
-        /** Creature::moves it takes to unfold. */
-        int moves = 0;
-        std::map<itype_id, int> tools_needed;
-
-        explicit unfold_vehicle_iuse( const std::string &type = "unfold_vehicle" ) : iuse_actor( type ) {}
-
-        ~unfold_vehicle_iuse() override = default;
-        void load( const JsonObject &obj ) override;
-        cata::optional<int> use( Character &, item &, bool, const tripoint & ) const override;
-        std::unique_ptr<iuse_actor> clone() const override;
-};
-
 /** Used in consume_drug_iuse for storing effect data. */
 struct effect_data {
     efftype_id id;
