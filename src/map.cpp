@@ -8449,8 +8449,9 @@ void map::build_outside_cache( const int zlev )
     ch.outside_cache_dirty = false;
 }
 
-void map::build_obstacle_cache( const tripoint &start, const tripoint &end,
-                                fragment_cloud( &obstacle_cache )[MAPSIZE_X][MAPSIZE_Y] )
+void map::build_obstacle_cache(
+    const tripoint &start, const tripoint &end,
+    cata::mdarray<fragment_cloud, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> &obstacle_cache )
 {
     const point min_submap{ std::max( 0, start.x / SEEX ), std::max( 0, start.y / SEEY ) };
     const point max_submap{
