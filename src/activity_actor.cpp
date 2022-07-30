@@ -5468,23 +5468,22 @@ void chop_tree_activity_actor::finish( player_activity &act, Character &who )
     const tripoint &pos = here.getlocal( act.placement );
 
     tripoint direction;
-    if( !who.is_npc() ) {
-        if( who.backlog.empty() || who.backlog.front().id() != ACT_MULTIPLE_CHOP_TREES ) {
-            while( true ) {
-                if( const cata::optional<tripoint> dir = choose_direction(
-                            _( "Select a direction for the tree to fall in." ) ) ) {
-                    direction = *dir;
-                    break;
-                }
-                // try again
+    if( !who.is_npc() &&
+        ( who.backlog.empty() || who.backlog.front().id() != ACT_MULTIPLE_CHOP_TREES ) ) {
+        while( true ) {
+            if( const cata::optional<tripoint> dir = choose_direction(
+                        _( "Select a direction for the tree to fall in." ) ) ) {
+                direction = *dir;
+                break;
             }
+            // try again
         }
     } else {
         creature_tracker &creatures = get_creature_tracker();
         for( const tripoint &elem : here.points_in_radius( pos, 1 ) ) {
             bool cantuse = false;
             tripoint direc = elem - pos;
-            tripoint proposed_to = pos + point( 3 * direction.x, 3 * direction.y );
+            tripoint proposed_to = pos + point( 3 * direc.x, 3 * direc.y );
             std::vector<tripoint> rough_tree_line = line_to( pos, proposed_to );
             for( const tripoint &elem : rough_tree_line ) {
                 if( creatures.creature_at( elem ) ) {
@@ -5494,6 +5493,7 @@ void chop_tree_activity_actor::finish( player_activity &act, Character &who )
             }
             if( !cantuse ) {
                 direction = direc;
+                break;
             }
         }
     }
