@@ -2303,7 +2303,7 @@
     "cutting": 38,
     "price": 100000,
     "price_postapoc": 4500,
-    "material": [ "ch_steel", "kevlar, "epoxy" ],
+    "material": [ "ch_steel", "kevlar", "epoxy" ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD", "NONCONDUCTIVE" ],
     "techniques": [ "WBLOCK_2", "BRUTAL" ],
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "neutral" },
