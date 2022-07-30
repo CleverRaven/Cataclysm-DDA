@@ -881,6 +881,19 @@ static const translation filter_help_start = to_translation(
             "\n\n"
             "<color_white>Examples:</color>\n" );
 
+static bool mouse_in_window( const input_context &ctxt, const catacurses::window &w_ )
+{
+    cata::optional<point> coord = ctxt.get_coordinates_text( catacurses::stdscr );
+    if( coord.has_value() ) {
+        inclusive_rectangle<point> window_area( point( getbegx( w_ ), getbegy( w_ ) ),
+                                                point( getmaxx( w_ ) + getbegx( w_ ), getmaxy( w_ ) + getbegy( w_ ) ) );
+        if( window_area.contains( coord.value() ) ) {
+            return true;
+        }
+    }
+    return false;
+}
+
 const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_recipe )
 {
     recipe_result_info_cache result_info;
@@ -908,7 +921,6 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
     catacurses::window w_iteminfo;
     inclusive_rectangle<point> mouseover_area_list;
     inclusive_rectangle<point> mouseover_area_recipe;
-    inclusive_rectangle<point> mouseover_area_result;
     std::vector<std::string> keybinding_tips;
     int keybinding_x = 0;
     ui_adaptor ui;
@@ -974,10 +986,6 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
 
             w_iteminfo = catacurses::newwin( item_info_height, item_info_width,
                                              item_info );
-            // Will be checked against w_head_tabs position, so use distances to wStart
-            mouseover_area_result = inclusive_rectangle<point>( point( width - item_info_width,
-                                    headHeight + subHeadHeight ),
-                                    point( width, headHeight + subHeadHeight + item_info_height ) );
         } else {
             item_info_width = 0;
             w_iteminfo = {};
@@ -1394,8 +1402,6 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
         cata::optional<point> coord = ctxt.get_coordinates_text( w_head_tabs );
         const bool mouse_in_list = coord.has_value() && mouseover_area_list.contains( coord.value() );
         const bool mouse_in_recipe = coord.has_value() && mouseover_area_recipe.contains( coord.value() );
-        const bool mouse_in_result = isWide && coord.has_value() &&
-                                     mouseover_area_result.contains( coord.value() );
 
         // Check mouse selection of recipes separately so that selecting an already-selected recipe goes to "CONFIRM"
 
@@ -1451,7 +1457,7 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
             recipe_info_scroll += dataLines;
         } else if( action == "SCROLL_DOWN" && mouse_in_recipe ) {
             ++recipe_info_scroll;
-        } else if( action == "LEFT" ) {
+        } else if( action == "LEFT" || ( action == "SCROLL_UP" && mouse_in_window( ctxt, w_subhead ) ) ) {
             if( batch || !filterstring.empty() ) {
                 continue;
             }
@@ -1463,18 +1469,20 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
             recalc = true;
         } else if( action == "SCROLL_ITEM_INFO_UP" ) {
             item_info_scroll -= scroll_item_info_lines;
-        } else if( action == "SCROLL_UP" && mouse_in_result ) {
+        } else if( action == "SCROLL_UP" && mouse_in_window( ctxt, w_iteminfo ) ) {
             --item_info_scroll;
         } else if( action == "SCROLL_ITEM_INFO_DOWN" ) {
             item_info_scroll += scroll_item_info_lines;
-        } else if( action == "SCROLL_DOWN" && mouse_in_result ) {
+        } else if( action == "SCROLL_DOWN" && mouse_in_window( ctxt, w_iteminfo ) ) {
             ++item_info_scroll;
-        } else if( action == "PREV_TAB" ) {
+        } else if( action == "PREV_TAB" || ( action == "SCROLL_UP" &&
+                                             mouse_in_window( ctxt, w_head_tabs ) ) ) {
             tab.prev();
             // Default ALL
             subtab = tab_list( craft_subcat_list[tab.cur()], is_subcat_unread[tab.cur()] );
             recalc = true;
-        } else if( action == "RIGHT" ) {
+        } else if( action == "RIGHT" || ( action == "SCROLL_DOWN" &&
+                                          mouse_in_window( ctxt, w_subhead ) ) ) {
             if( batch || !filterstring.empty() ) {
                 continue;
             }
@@ -1484,7 +1492,8 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
             } while( subtab.cur() != start && available_recipes.empty_category( tab.cur(),
                      subtab.cur() != "CSC_ALL" ? subtab.cur() : "" ) );
             recalc = true;
-        } else if( action == "NEXT_TAB" ) {
+        } else if( action == "NEXT_TAB" || ( action == "SCROLL_DOWN" &&
+                                             mouse_in_window( ctxt, w_head_tabs ) ) ) {
             tab.next();
             // Default ALL
             subtab = tab_list( craft_subcat_list[tab.cur()], is_subcat_unread[tab.cur()] );
