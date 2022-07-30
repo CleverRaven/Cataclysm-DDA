@@ -2542,9 +2542,10 @@ void item::magazine_info( std::vector<iteminfo> &info, const iteminfo_query *par
         };
         std::set<std::string, decltype( compare )> compatible_guns( compare );
 
-        for( const itype_id &gun_type : islot_magazine::compatible_guns[this->typeId()] ) {
-            compatible_guns.insert( gun_type.obj().nname( 1 ) );
-            for( const itype_variant_data &variant_type : gun_type.obj().variants ) {
+        for( const itype_id &gun_type_id : islot_magazine::compatible_guns[this->typeId()] ) {
+            const itype &gun_type = gun_type_id.obj();
+            compatible_guns.insert( gun_type.nname( 1 ) );
+            for( const itype_variant_data &variant_type : gun_type.variants ) {
                 compatible_guns.insert( variant_type.alt_name.translated() );
             }
         }

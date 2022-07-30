@@ -489,6 +489,9 @@ void Item_factory::finalize_pre( itype &obj )
                 continue;
             }
             for( const itype_id &mag_type_id : pocket.item_id_restriction ) {
+                if( item_is_blacklisted( mag_type_id ) || item_is_blacklisted( obj.id ) ) {
+                    continue;
+                }
                 islot_magazine::compatible_guns[mag_type_id].insert( obj.id );
             }
         }
