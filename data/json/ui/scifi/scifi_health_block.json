@@ -7,12 +7,12 @@
     "width": 2,
     "padding": 0,
     "widgets": [
-      "scifi_label_head",
-      "scifi_label_torso",
-      "scifi_label_arm_r",
-      "scifi_label_hand_r",
-      "scifi_label_leg_r",
-      "scifi_label_foot_r"
+      "scifi_bodypart_head_status_text",
+      "scifi_bodypart_torso_status_text",
+      "scifi_bodypart_rarm_status_text",
+      "scifi_bodypart_rhand_status_text",
+      "scifi_bodypart_rleg_status_text",
+      "scifi_bodypart_rfoot_status_text"
     ]
   },
   {
@@ -23,12 +23,12 @@
     "width": 2,
     "padding": 0,
     "widgets": [
-      "scifi_label_eyes",
-      "scifi_label_mouth",
-      "scifi_label_arm_l",
-      "scifi_label_hand_l",
-      "scifi_label_leg_l",
-      "scifi_label_foot_l"
+      "scifi_bodypart_eyes_status_text",
+      "scifi_bodypart_mouth_status_text",
+      "scifi_bodypart_larm_status_text",
+      "scifi_bodypart_lhand_status_text",
+      "scifi_bodypart_lleg_status_text",
+      "scifi_bodypart_lfoot_status_text"
     ]
   },
   {

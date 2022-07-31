@@ -1,0 +1,699 @@
+[
+  {
+    "id": "scifi_bodypart_head_status_text",
+    "//": "TODO: This file is six widgets that do exactly the same thing with different body parts and text. Fix that. Make this smaller.",
+    "type": "widget",
+    "bodypart": "head",
+    "style": "text",
+    "default_clause": { "text": "HE" },
+    "clauses": [
+      { "id": "bitten", "text": "HE", "color": "blue", "condition": { "u_has_effect": "bite" } },
+      { "id": "infected", "text": "HE", "color": "green", "condition": { "u_has_effect": "infected" } },
+      {
+        "id": "bleeding1",
+        "text": "HE",
+        "color": "light_red",
+        "condition": {
+          "and": [
+            { "u_has_effect": "bleed", "intensity": 1 },
+            { "compare_int": [ { "u_val": "effect_intensity", "effect": "bleed" }, "<", { "const": 11 } ] }
+          ]
+        }
+      },
+      {
+        "id": "bleeding2",
+        "text": "HE",
+        "color": "red",
+        "condition": {
+          "and": [
+            { "u_has_effect": "bleed", "intensity": 11 },
+            { "compare_int": [ { "u_val": "effect_intensity", "effect": "bleed" }, "<", { "const": 21 } ] }
+          ]
+        }
+      },
+      {
+        "id": "bleeding2",
+        "text": "HE",
+        "color": "red_red",
+        "condition": { "u_has_effect": "bleed", "intensity": 21 }
+      },
+      {
+        "id": "bleedingAndBitten12",
+        "text": "HE",
+        "color": "magenta",
+        "condition": {
+          "and": [
+            { "u_has_effect": "bite" },
+            { "u_has_effect": "bleed", "intensity": 1 },
+            { "compare_int": [ { "u_val": "effect_intensity", "effect": "bleed" }, "<", { "const": 21 } ] }
+          ]
+        }
+      },
+      {
+        "id": "bleedingAndBitten3",
+        "text": "HE",
+        "color": "magenta_red",
+        "condition": { "and": [ { "u_has_effect": "bite" }, { "u_has_effect": "bleed", "intensity": 21 } ] }
+      }
+    ],
+    "flags": [ "W_LABEL_NONE" ]
+  },
+  {
+    "id": "scifi_bodypart_torso_status_text",
+    "type": "widget",
+    "bodypart": "torso",
+    "style": "text",
+    "default_clause": { "text": "TO" },
+    "clauses": [
+      { "id": "bitten", "text": "TO", "color": "blue", "condition": { "u_has_effect": "bite" } },
+      { "id": "infected", "text": "TO", "color": "green", "condition": { "u_has_effect": "infected" } },
+      {
+        "id": "bleeding1",
+        "text": "TO",
+        "color": "light_red",
+        "condition": {
+          "and": [
+            { "u_has_effect": "bleed", "intensity": 1 },
+            { "compare_int": [ { "u_val": "effect_intensity", "effect": "bleed" }, "<", { "const": 11 } ] }
+          ]
+        }
+      },
+      {
+        "id": "bleeding2",
+        "text": "TO",
+        "color": "red",
+        "condition": {
+          "and": [
+            { "u_has_effect": "bleed", "intensity": 11 },
+            { "compare_int": [ { "u_val": "effect_intensity", "effect": "bleed" }, "<", { "const": 21 } ] }
+          ]
+        }
+      },
+      {
+        "id": "bleeding3",
+        "text": "TO",
+        "color": "red_red",
+        "condition": { "u_has_effect": "bleed", "intensity": 21 }
+      },
+      {
+        "id": "bleedingAndBitten12",
+        "text": "TO",
+        "color": "magenta",
+        "condition": {
+          "and": [
+            { "u_has_effect": "bite" },
+            { "u_has_effect": "bleed", "intensity": 1 },
+            { "compare_int": [ { "u_val": "effect_intensity", "effect": "bleed" }, "<", { "const": 21 } ] }
+          ]
+        }
+      },
+      {
+        "id": "bleedingAndBitten3",
+        "text": "TO",
+        "color": "magenta_red",
+        "condition": { "and": [ { "u_has_effect": "bite" }, { "u_has_effect": "bleed", "intensity": 21 } ] }
+      }
+    ],
+    "flags": [ "W_LABEL_NONE" ]
+  },
+  {
+    "id": "scifi_bodypart_larm_status_text",
+    "type": "widget",
+    "bodypart": "arm_l",
+    "style": "text",
+    "default_clause": { "text": "LA" },
+    "clauses": [
+      { "id": "bitten", "text": "LA", "color": "blue", "condition": { "u_has_effect": "bite" } },
+      { "id": "infected", "text": "LA", "color": "green", "condition": { "u_has_effect": "infected" } },
+      {
+        "id": "bleeding1",
+        "text": "LA",
+        "color": "light_red",
+        "condition": {
+          "and": [
+            { "u_has_effect": "bleed", "intensity": 1 },
+            { "compare_int": [ { "u_val": "effect_intensity", "effect": "bleed" }, "<", { "const": 11 } ] }
+          ]
+        }
+      },
+      {
+        "id": "bleeding2",
+        "text": "LA",
+        "color": "red",
+        "condition": {
+          "and": [
+            { "u_has_effect": "bleed", "intensity": 11 },
+            { "compare_int": [ { "u_val": "effect_intensity", "effect": "bleed" }, "<", { "const": 21 } ] }
+          ]
+        }
+      },
+      {
+        "id": "bleeding3",
+        "text": "LA",
+        "color": "red_red",
+        "condition": { "u_has_effect": "bleed", "intensity": 21 }
+      },
+      {
+        "id": "bleedingAndBitten12",
+        "text": "LA",
+        "color": "magenta",
+        "condition": {
+          "and": [
+            { "u_has_effect": "bite" },
+            { "u_has_effect": "bleed", "intensity": 1 },
+            { "compare_int": [ { "u_val": "effect_intensity", "effect": "bleed" }, "<", { "const": 21 } ] }
+          ]
+        }
+      },
+      {
+        "id": "bleedingAndBitten3",
+        "text": "LA",
+        "color": "magenta_red",
+        "condition": { "and": [ { "u_has_effect": "bite" }, { "u_has_effect": "bleed", "intensity": 21 } ] }
+      }
+    ],
+    "flags": [ "W_LABEL_NONE" ]
+  },
+  {
+    "id": "scifi_bodypart_rarm_status_text",
+    "type": "widget",
+    "bodypart": "arm_r",
+    "style": "text",
+    "default_clause": { "text": "RA" },
+    "clauses": [
+      { "id": "bitten", "text": "RA", "color": "blue", "condition": { "u_has_effect": "bite" } },
+      { "id": "infected", "text": "RA", "color": "green", "condition": { "u_has_effect": "infected" } },
+      {
+        "id": "bleeding1",
+        "text": "RA",
+        "color": "light_red",
+        "condition": {
+          "and": [
+            { "u_has_effect": "bleed", "intensity": 1 },
+            { "compare_int": [ { "u_val": "effect_intensity", "effect": "bleed" }, "<", { "const": 11 } ] }
+          ]
+        }
+      },
+      {
+        "id": "bleeding2",
+        "text": "RA",
+        "color": "red",
+        "condition": {
+          "and": [
+            { "u_has_effect": "bleed", "intensity": 11 },
+            { "compare_int": [ { "u_val": "effect_intensity", "effect": "bleed" }, "<", { "const": 21 } ] }
+          ]
+        }
+      },
+      {
+        "id": "bleeding3",
+        "text": "RA",
+        "color": "red_red",
+        "condition": { "u_has_effect": "bleed", "intensity": 21 }
+      },
+      {
+        "id": "bleedingAndBitten12",
+        "text": "RA",
+        "color": "magenta",
+        "condition": {
+          "and": [
+            { "u_has_effect": "bite" },
+            { "u_has_effect": "bleed", "intensity": 1 },
+            { "compare_int": [ { "u_val": "effect_intensity", "effect": "bleed" }, "<", { "const": 21 } ] }
+          ]
+        }
+      },
+      {
+        "id": "bleedingAndBitten3",
+        "text": "RA",
+        "color": "magenta_red",
+        "condition": { "and": [ { "u_has_effect": "bite" }, { "u_has_effect": "bleed", "intensity": 21 } ] }
+      }
+    ],
+    "flags": [ "W_LABEL_NONE" ]
+  },
+  {
+    "id": "scifi_bodypart_lleg_status_text",
+    "type": "widget",
+    "bodypart": "leg_l",
+    "style": "text",
+    "default_clause": { "text": "LL" },
+    "clauses": [
+      { "id": "bitten", "text": "LL", "color": "blue", "condition": { "u_has_effect": "bite" } },
+      { "id": "infected", "text": "LL ", "color": "green", "condition": { "u_has_effect": "infected" } },
+      {
+        "id": "bleeding1",
+        "text": "LL",
+        "color": "light_red",
+        "condition": {
+          "and": [
+            { "u_has_effect": "bleed", "intensity": 1 },
+            { "compare_int": [ { "u_val": "effect_intensity", "effect": "bleed" }, "<", { "const": 11 } ] }
+          ]
+        }
+      },
+      {
+        "id": "bleeding2",
+        "text": "LL",
+        "color": "red",
+        "condition": {
+          "and": [
+            { "u_has_effect": "bleed", "intensity": 11 },
+            { "compare_int": [ { "u_val": "effect_intensity", "effect": "bleed" }, "<", { "const": 21 } ] }
+          ]
+        }
+      },
+      {
+        "id": "bleeding3",
+        "text": "LL",
+        "color": "red_red",
+        "condition": { "u_has_effect": "bleed", "intensity": 21 }
+      },
+      {
+        "id": "bleedingAndBitten12",
+        "text": "LL",
+        "color": "magenta",
+        "condition": {
+          "and": [
+            { "u_has_effect": "bite" },
+            { "u_has_effect": "bleed", "intensity": 1 },
+            { "compare_int": [ { "u_val": "effect_intensity", "effect": "bleed" }, "<", { "const": 21 } ] }
+          ]
+        }
+      },
+      {
+        "id": "bleedingAndBitten3",
+        "text": "LL",
+        "color": "magenta_red",
+        "condition": { "and": [ { "u_has_effect": "bite" }, { "u_has_effect": "bleed", "intensity": 21 } ] }
+      }
+    ],
+    "flags": [ "W_LABEL_NONE" ]
+  },
+  {
+    "id": "scifi_bodypart_rleg_status_text",
+    "type": "widget",
+    "bodypart": "leg_r",
+    "style": "text",
+    "default_clause": { "text": "RL" },
+    "clauses": [
+      { "id": "bitten", "text": "RL", "color": "blue", "condition": { "u_has_effect": "bite" } },
+      { "id": "infected", "text": "RL", "color": "green", "condition": { "u_has_effect": "infected" } },
+      {
+        "id": "bleeding1",
+        "text": "RL",
+        "color": "light_red",
+        "condition": {
+          "and": [
+            { "u_has_effect": "bleed", "intensity": 1 },
+            { "compare_int": [ { "u_val": "effect_intensity", "effect": "bleed" }, "<", { "const": 11 } ] }
+          ]
+        }
+      },
+      {
+        "id": "bleeding2",
+        "text": "RL",
+        "color": "red",
+        "condition": {
+          "and": [
+            { "u_has_effect": "bleed", "intensity": 11 },
+            { "compare_int": [ { "u_val": "effect_intensity", "effect": "bleed" }, "<", { "const": 21 } ] }
+          ]
+        }
+      },
+      {
+        "id": "bleeding3",
+        "text": "RL",
+        "color": "red_red",
+        "condition": { "u_has_effect": "bleed", "intensity": 21 }
+      },
+      {
+        "id": "bleedingAndBitten12",
+        "text": "RL",
+        "color": "magenta",
+        "condition": {
+          "and": [
+            { "u_has_effect": "bite" },
+            { "u_has_effect": "bleed", "intensity": 1 },
+            { "compare_int": [ { "u_val": "effect_intensity", "effect": "bleed" }, "<", { "const": 21 } ] }
+          ]
+        }
+      },
+      {
+        "id": "bleedingAndBitten3",
+        "text": "RL",
+        "color": "magenta_red",
+        "condition": { "and": [ { "u_has_effect": "bite" }, { "u_has_effect": "bleed", "intensity": 21 } ] }
+      }
+    ],
+    "flags": [ "W_LABEL_NONE" ]
+  },
+  {
+    "id": "scifi_bodypart_rhand_status_text",
+    "type": "widget",
+    "bodypart": "hand_r",
+    "style": "text",
+    "default_clause": { "text": "RH" },
+    "clauses": [
+      { "id": "bitten", "text": "RH", "color": "blue", "condition": { "u_has_effect": "bite" } },
+      { "id": "infected", "text": "RH", "color": "green", "condition": { "u_has_effect": "infected" } },
+      {
+        "id": "bleeding1",
+        "text": "RH",
+        "color": "light_red",
+        "condition": {
+          "and": [
+            { "u_has_effect": "bleed", "intensity": 1 },
+            { "compare_int": [ { "u_val": "effect_intensity", "effect": "bleed" }, "<", { "const": 11 } ] }
+          ]
+        }
+      },
+      {
+        "id": "bleeding2",
+        "text": "RH",
+        "color": "red",
+        "condition": {
+          "and": [
+            { "u_has_effect": "bleed", "intensity": 11 },
+            { "compare_int": [ { "u_val": "effect_intensity", "effect": "bleed" }, "<", { "const": 21 } ] }
+          ]
+        }
+      },
+      {
+        "id": "bleeding3",
+        "text": "RH",
+        "color": "red_red",
+        "condition": { "u_has_effect": "bleed", "intensity": 21 }
+      },
+      {
+        "id": "bleedingAndBitten12",
+        "text": "RH",
+        "color": "magenta",
+        "condition": {
+          "and": [
+            { "u_has_effect": "bite" },
+            { "u_has_effect": "bleed", "intensity": 1 },
+            { "compare_int": [ { "u_val": "effect_intensity", "effect": "bleed" }, "<", { "const": 21 } ] }
+          ]
+        }
+      },
+      {
+        "id": "bleedingAndBitten3",
+        "text": "RH",
+        "color": "magenta_red",
+        "condition": { "and": [ { "u_has_effect": "bite" }, { "u_has_effect": "bleed", "intensity": 21 } ] }
+      }
+    ],
+    "flags": [ "W_LABEL_NONE" ]
+  },
+  {
+    "id": "scifi_bodypart_lhand_status_text",
+    "type": "widget",
+    "bodypart": "hand_l",
+    "style": "text",
+    "default_clause": { "text": "LH" },
+    "clauses": [
+      { "id": "bitten", "text": "LH", "color": "blue", "condition": { "u_has_effect": "bite" } },
+      { "id": "infected", "text": "LH", "color": "green", "condition": { "u_has_effect": "infected" } },
+      {
+        "id": "bleeding1",
+        "text": "LH",
+        "color": "light_red",
+        "condition": {
+          "and": [
+            { "u_has_effect": "bleed", "intensity": 1 },
+            { "compare_int": [ { "u_val": "effect_intensity", "effect": "bleed" }, "<", { "const": 11 } ] }
+          ]
+        }
+      },
+      {
+        "id": "bleeding2",
+        "text": "LH",
+        "color": "red",
+        "condition": {
+          "and": [
+            { "u_has_effect": "bleed", "intensity": 11 },
+            { "compare_int": [ { "u_val": "effect_intensity", "effect": "bleed" }, "<", { "const": 21 } ] }
+          ]
+        }
+      },
+      {
+        "id": "bleeding3",
+        "text": "LH",
+        "color": "red_red",
+        "condition": { "u_has_effect": "bleed", "intensity": 21 }
+      },
+      {
+        "id": "bleedingAndBitten12",
+        "text": "LH",
+        "color": "magenta",
+        "condition": {
+          "and": [
+            { "u_has_effect": "bite" },
+            { "u_has_effect": "bleed", "intensity": 1 },
+            { "compare_int": [ { "u_val": "effect_intensity", "effect": "bleed" }, "<", { "const": 21 } ] }
+          ]
+        }
+      },
+      {
+        "id": "bleedingAndBitten3",
+        "text": "LH",
+        "color": "magenta_red",
+        "condition": { "and": [ { "u_has_effect": "bite" }, { "u_has_effect": "bleed", "intensity": 21 } ] }
+      }
+    ],
+    "flags": [ "W_LABEL_NONE" ]
+  },
+  {
+    "id": "scifi_bodypart_rfoot_status_text",
+    "type": "widget",
+    "bodypart": "foot_r",
+    "style": "text",
+    "default_clause": { "text": "RF" },
+    "clauses": [
+      { "id": "bitten", "text": "RF", "color": "blue", "condition": { "u_has_effect": "bite" } },
+      { "id": "infected", "text": "RF", "color": "green", "condition": { "u_has_effect": "infected" } },
+      {
+        "id": "bleeding1",
+        "text": "RF",
+        "color": "light_red",
+        "condition": {
+          "and": [
+            { "u_has_effect": "bleed", "intensity": 1 },
+            { "compare_int": [ { "u_val": "effect_intensity", "effect": "bleed" }, "<", { "const": 11 } ] }
+          ]
+        }
+      },
+      {
+        "id": "bleeding2",
+        "text": "RF",
+        "color": "red",
+        "condition": {
+          "and": [
+            { "u_has_effect": "bleed", "intensity": 11 },
+            { "compare_int": [ { "u_val": "effect_intensity", "effect": "bleed" }, "<", { "const": 21 } ] }
+          ]
+        }
+      },
+      {
+        "id": "bleeding3",
+        "text": "RF",
+        "color": "red_red",
+        "condition": { "u_has_effect": "bleed", "intensity": 21 }
+      },
+      {
+        "id": "bleedingAndBitten12",
+        "text": "RF",
+        "color": "magenta",
+        "condition": {
+          "and": [
+            { "u_has_effect": "bite" },
+            { "u_has_effect": "bleed", "intensity": 1 },
+            { "compare_int": [ { "u_val": "effect_intensity", "effect": "bleed" }, "<", { "const": 21 } ] }
+          ]
+        }
+      },
+      {
+        "id": "bleedingAndBitten3",
+        "text": "RF",
+        "color": "magenta_red",
+        "condition": { "and": [ { "u_has_effect": "bite" }, { "u_has_effect": "bleed", "intensity": 21 } ] }
+      }
+    ],
+    "flags": [ "W_LABEL_NONE" ]
+  },
+  {
+    "id": "scifi_bodypart_lfoot_status_text",
+    "type": "widget",
+    "bodypart": "foot_l",
+    "style": "text",
+    "default_clause": { "text": "LF" },
+    "clauses": [
+      { "id": "bitten", "text": "LF", "color": "blue", "condition": { "u_has_effect": "bite" } },
+      { "id": "infected", "text": "LF", "color": "green", "condition": { "u_has_effect": "infected" } },
+      {
+        "id": "bleeding1",
+        "text": "LF",
+        "color": "light_red",
+        "condition": {
+          "and": [
+            { "u_has_effect": "bleed", "intensity": 1 },
+            { "compare_int": [ { "u_val": "effect_intensity", "effect": "bleed" }, "<", { "const": 11 } ] }
+          ]
+        }
+      },
+      {
+        "id": "bleeding2",
+        "text": "LF",
+        "color": "red",
+        "condition": {
+          "and": [
+            { "u_has_effect": "bleed", "intensity": 11 },
+            { "compare_int": [ { "u_val": "effect_intensity", "effect": "bleed" }, "<", { "const": 21 } ] }
+          ]
+        }
+      },
+      {
+        "id": "bleeding3",
+        "text": "LF",
+        "color": "red_red",
+        "condition": { "u_has_effect": "bleed", "intensity": 21 }
+      },
+      {
+        "id": "bleedingAndBitten12",
+        "text": "LF",
+        "color": "magenta",
+        "condition": {
+          "and": [
+            { "u_has_effect": "bite" },
+            { "u_has_effect": "bleed", "intensity": 1 },
+            { "compare_int": [ { "u_val": "effect_intensity", "effect": "bleed" }, "<", { "const": 21 } ] }
+          ]
+        }
+      },
+      {
+        "id": "bleedingAndBitten3",
+        "text": "LF",
+        "color": "magenta_red",
+        "condition": { "and": [ { "u_has_effect": "bite" }, { "u_has_effect": "bleed", "intensity": 21 } ] }
+      }
+    ],
+    "flags": [ "W_LABEL_NONE" ]
+  },
+  {
+    "id": "scifi_bodypart_eyes_status_text",
+    "type": "widget",
+    "bodypart": "eyes",
+    "style": "text",
+    "default_clause": { "text": "EY" },
+    "clauses": [
+      { "id": "bitten", "text": "EY", "color": "blue", "condition": { "u_has_effect": "bite" } },
+      { "id": "infected", "text": "EY", "color": "green", "condition": { "u_has_effect": "infected" } },
+      {
+        "id": "bleeding1",
+        "text": "EY",
+        "color": "light_red",
+        "condition": {
+          "and": [
+            { "u_has_effect": "bleed", "intensity": 1 },
+            { "compare_int": [ { "u_val": "effect_intensity", "effect": "bleed" }, "<", { "const": 11 } ] }
+          ]
+        }
+      },
+      {
+        "id": "bleeding2",
+        "text": "EY",
+        "color": "red",
+        "condition": {
+          "and": [
+            { "u_has_effect": "bleed", "intensity": 11 },
+            { "compare_int": [ { "u_val": "effect_intensity", "effect": "bleed" }, "<", { "const": 21 } ] }
+          ]
+        }
+      },
+      {
+        "id": "bleeding3",
+        "text": "EY",
+        "color": "red_red",
+        "condition": { "u_has_effect": "bleed", "intensity": 21 }
+      },
+      {
+        "id": "bleedingAndBitten12",
+        "text": "EY",
+        "color": "magenta",
+        "condition": {
+          "and": [
+            { "u_has_effect": "bite" },
+            { "u_has_effect": "bleed", "intensity": 1 },
+            { "compare_int": [ { "u_val": "effect_intensity", "effect": "bleed" }, "<", { "const": 21 } ] }
+          ]
+        }
+      },
+      {
+        "id": "bleedingAndBitten3",
+        "text": "EY",
+        "color": "magenta_red",
+        "condition": { "and": [ { "u_has_effect": "bite" }, { "u_has_effect": "bleed", "intensity": 21 } ] }
+      }
+    ],
+    "flags": [ "W_LABEL_NONE" ]
+  },
+  {
+    "id": "scifi_bodypart_mouth_status_text",
+    "type": "widget",
+    "bodypart": "mouth",
+    "style": "text",
+    "default_clause": { "text": "MO" },
+    "clauses": [
+      { "id": "bitten", "text": "MO", "color": "blue", "condition": { "u_has_effect": "bite" } },
+      { "id": "infected", "text": "MO", "color": "green", "condition": { "u_has_effect": "infected" } },
+      {
+        "id": "bleeding1",
+        "text": "MO",
+        "color": "light_red",
+        "condition": {
+          "and": [
+            { "u_has_effect": "bleed", "intensity": 1 },
+            { "compare_int": [ { "u_val": "effect_intensity", "effect": "bleed" }, "<", { "const": 11 } ] }
+          ]
+        }
+      },
+      {
+        "id": "bleeding2",
+        "text": "MO",
+        "color": "red",
+        "condition": {
+          "and": [
+            { "u_has_effect": "bleed", "intensity": 11 },
+            { "compare_int": [ { "u_val": "effect_intensity", "effect": "bleed" }, "<", { "const": 21 } ] }
+          ]
+        }
+      },
+      {
+        "id": "bleeding3",
+        "text": "MO",
+        "color": "red_red",
+        "condition": { "u_has_effect": "bleed", "intensity": 21 }
+      },
+      {
+        "id": "bleedingAndBitten12",
+        "text": "MO",
+        "color": "magenta",
+        "condition": {
+          "and": [
+            { "u_has_effect": "bite" },
+            { "u_has_effect": "bleed", "intensity": 1 },
+            { "compare_int": [ { "u_val": "effect_intensity", "effect": "bleed" }, "<", { "const": 21 } ] }
+          ]
+        }
+      },
+      {
+        "id": "bleedingAndBitten3",
+        "text": "MO",
+        "color": "magenta_red",
+        "condition": { "and": [ { "u_has_effect": "bite" }, { "u_has_effect": "bleed", "intensity": 21 } ] }
+      }
+    ],
+    "flags": [ "W_LABEL_NONE" ]
+  }
+]
