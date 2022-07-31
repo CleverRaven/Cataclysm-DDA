@@ -2402,9 +2402,9 @@ void options_manager::add_options_world_default()
        );
 
     add( "ETERNAL_WEATHER", "world_default", to_translation( "Eternal weather" ),
-    to_translation( "Sets eternal weather.  'Normal' keeps normal weather pattern.\n\nNote: setting eternal weather only works when creating a new world and changing it ingame won't take an effect." ), {
+    to_translation( "Sets eternal weather.  'Normal' clears all eternal weather overrides and sets normal weather pattern." ), {
         { "normal", to_translation( "Normal" ) },
-        { "sunny", to_translation( "Sunny weather" ) },
+        { "clear", to_translation( "Clear weather" ) },
         { "cloudy", to_translation( "Cloudy weather" ) },
         { "light_drizzle", to_translation( "Light drizzle" ) },
         { "drizzle", to_translation( "Drizzle" ) },
