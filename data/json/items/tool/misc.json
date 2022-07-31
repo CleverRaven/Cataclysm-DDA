@@ -116,7 +116,7 @@
     "volume": "4280 ml",
     "price": 125000,
     "price_postapoc": 500,
-    "material": [ "lead" ],
+    "material": [ "crystal" ],
     "symbol": ")",
     "color": "magenta",
     "pocket_data": [
