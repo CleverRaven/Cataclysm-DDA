@@ -1,8 +1,8 @@
 #include "character.h"
 
-#include <cctype>
 #include <algorithm>
 #include <array>
+#include <cctype>
 #include <climits>
 #include <cmath>
 #include <cstddef>
@@ -14,6 +14,7 @@
 #include <ostream>
 #include <tuple>
 #include <type_traits>
+#include <utility>
 #include <vector>
 
 #include "action.h"
@@ -320,6 +321,8 @@ static const json_character_flag json_flag_SUPER_CLAIRVOYANCE( "SUPER_CLAIRVOYAN
 static const json_character_flag json_flag_SUPER_HEARING( "SUPER_HEARING" );
 static const json_character_flag json_flag_UNCANNY_DODGE( "UNCANNY_DODGE" );
 static const json_character_flag json_flag_WATCH( "WATCH" );
+static const json_character_flag json_flag_WEBBED_FEET( "WEBBED_FEET" );
+static const json_character_flag json_flag_WEBBED_HANDS( "WEBBED_HANDS" );
 
 static const limb_score_id limb_score_balance( "balance" );
 static const limb_score_id limb_score_breathing( "breathing" );
@@ -455,6 +458,7 @@ static const trait_id trait_ROOTS3( "ROOTS3" );
 static const trait_id trait_SAPIOVORE( "SAPIOVORE" );
 static const trait_id trait_SAVANT( "SAVANT" );
 static const trait_id trait_SHELL2( "SHELL2" );
+static const trait_id trait_SHELL3( "SHELL3" );
 static const trait_id trait_SHOUT2( "SHOUT2" );
 static const trait_id trait_SHOUT3( "SHOUT3" );
 static const trait_id trait_SLIMESPAWNER( "SLIMESPAWNER" );
@@ -473,7 +477,6 @@ static const trait_id trait_TRANSPIRATION( "TRANSPIRATION" );
 static const trait_id trait_URSINE_EYE( "URSINE_EYE" );
 static const trait_id trait_VISCOUS( "VISCOUS" );
 static const trait_id trait_WATERSLEEP( "WATERSLEEP" );
-static const trait_id trait_WEBBED( "WEBBED" );
 static const trait_id trait_WEB_SPINNER( "WEB_SPINNER" );
 static const trait_id trait_WEB_WALKER( "WEB_WALKER" );
 static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
@@ -532,6 +535,8 @@ Character::Character() :
     thirst = 0;
     fatigue = 0;
     sleep_deprivation = 0;
+    daily_sleep = 0_turns;
+    continuous_sleep = 0_turns;
     set_rad( 0 );
     slow_rad = 0;
     set_stim( 0 );
@@ -1217,7 +1222,7 @@ void Character::react_to_felt_pain( int intensity )
     if( intensity <= 0 ) {
         return;
     }
-    if( is_avatar() && intensity >= 2 ) {
+    if( uistate.distraction_pain && is_avatar() && intensity >= 2 ) {
         g->cancel_activity_or_ignore_query( distraction_type::pain, _( "Ouch, something hurts!" ) );
     }
     // Only a large pain burst will actually wake people while sleeping.
@@ -1282,9 +1287,13 @@ int Character::swim_speed() const
             ret -= ( 15 * str_cur ) / 2;
         }
     }
-    /** @EFFECT_STR increases swim speed bonus from WEBBED */
-    if( has_trait( trait_WEBBED ) ) {
-        ret -= hand_bonus_mult * ( 60 + str_cur * 5 );
+    /** @EFFECT_STR increases swim speed bonus from WEBBED and WEBBED_FEET */
+    float webbing_factor = 60 + str_cur * 5;
+    if( has_flag( json_flag_WEBBED_HANDS ) ) {
+        ret -= hand_bonus_mult * webbing_factor * 0.5f;
+    }
+    if( has_flag( json_flag_WEBBED_FEET ) ) {
+        ret -= ( 1 - footwear_factor() ) * webbing_factor * 0.5f;
     }
     /** @EFFECT_SWIMMING increases swim speed */
     ret *= get_modifier( character_modifier_swim_mod );
@@ -2220,6 +2229,8 @@ void Character::recalc_sight_limits()
     sight_max = 9999;
     vision_mode_cache.reset();
     const bool in_light = get_map().ambient_light_at( pos() ) > LIGHT_AMBIENT_LIT;
+    bool in_shell = has_active_mutation( trait_SHELL2 ) ||
+                    has_active_mutation( trait_SHELL3 );
 
     // Set sight_max.
     if( is_blind() || ( in_sleep_state() && !has_flag( json_flag_SEESLEEP ) && is_avatar() ) ||
@@ -2231,7 +2242,7 @@ void Character::recalc_sight_limits()
     } else if( has_effect( effect_in_pit ) || has_effect( effect_no_sight ) ||
                ( underwater && !has_flag( json_flag_EYE_MEMBRANE ) && !worn_with_flag( flag_SWIM_GOGGLES ) ) ) {
         sight_max = 1;
-    } else if( has_active_mutation( trait_SHELL2 ) ) {
+    } else if( in_shell ) { // NOLINT(bugprone-branch-clone)
         // You can kinda see out a bit.
         sight_max = 2;
     } else if( has_trait( trait_PER_SLIME ) ) {
@@ -2353,6 +2364,11 @@ void Character::check_item_encumbrance_flag()
 }
 
 bool Character::natural_attack_restricted_on( const bodypart_id &bp ) const
+{
+    return worn.natural_attack_restricted_on( bp );
+}
+
+bool Character::natural_attack_restricted_on( const sub_bodypart_id &bp ) const
 {
     return worn.natural_attack_restricted_on( bp );
 }
@@ -2929,18 +2945,18 @@ bool Character::can_use( const item &it, const item &context ) const
 }
 
 
-ret_val<bool> Character::can_unwield( const item &it ) const
+ret_val<void> Character::can_unwield( const item &it ) const
 {
     if( it.has_flag( flag_NO_UNWIELD ) ) {
         // check if "it" is currently wielded fake bionic weapon that can be deactivated
         cata::optional<bionic *> bio_opt = find_bionic_by_uid( get_weapon_bionic_uid() );
         if( !is_wielding( it ) || it.ethereal || !bio_opt ||
             !can_deactivate_bionic( **bio_opt ).success() ) {
-            return ret_val<bool>::make_failure( _( "You cannot unwield your %s." ), it.tname() );
+            return ret_val<void>::make_failure( _( "You cannot unwield your %s." ), it.tname() );
         }
     }
 
-    return ret_val<bool>::make_success();
+    return ret_val<void>::make_success();
 }
 
 void Character::invalidate_inventory_validity_cache()
@@ -3084,12 +3100,12 @@ std::string Character::enumerate_unmet_requirements( const item &it, const item 
     return enumerate_as_string( unmet_reqs );
 }
 
-int Character::read_speed( bool return_stat_effect ) const
+int Character::read_speed() const
 {
     // Stat window shows stat effects on based on current stat
     const int intel = get_int();
     /** @EFFECT_INT increases reading speed by 3s per level above 8*/
-    int ret = to_moves<int>( 1_minutes ) - to_moves<int>( 3_seconds ) * ( intel - 8 );
+    time_duration ret = 1_minutes - 3_seconds * ( intel - 8 );
 
     if( has_bionic( afs_bio_linguistic_coprocessor ) ) { // Aftershock
         ret *= .85;
@@ -3097,11 +3113,10 @@ int Character::read_speed( bool return_stat_effect ) const
 
     ret *= mutation_value( "reading_speed_multiplier" );
 
-    if( ret < to_moves<int>( 1_seconds ) ) {
-        ret = to_moves<int>( 1_seconds );
+    if( ret < 1_seconds ) {
+        ret = 1_seconds;
     }
-    // return_stat_effect actually matters here
-    return return_stat_effect ? ret : ret * 100 / to_moves<int>( 1_minutes );
+    return ret * 100 / 1_minutes;
 }
 
 bool Character::meets_skill_requirements( const std::map<skill_id, int> &req,
@@ -3530,9 +3545,10 @@ std::map<bodypart_id, int> Character::get_wind_resistance( const std::map <bodyp
     for( const bodypart_id &bp : get_all_body_parts() ) {
         ret.emplace( bp, 0 );
     }
-
+    bool in_shell = has_active_mutation( trait_SHELL2 ) ||
+                    has_active_mutation( trait_SHELL3 );
     // Your shell provides complete wind protection if you're inside it
-    if( has_active_mutation( trait_SHELL2 ) ) {
+    if( in_shell ) { // NOLINT(bugprone-branch-clone)
         for( std::pair<const bodypart_id, int> &this_bp : ret ) {
             this_bp.second = 100;
         }
@@ -4147,6 +4163,36 @@ void Character::set_sleep_deprivation( int nsleep_deprivation )
                                   nsleep_deprivation ) );
 }
 
+time_duration Character::get_daily_sleep() const
+{
+    return daily_sleep;
+}
+
+void Character::mod_daily_sleep( time_duration mod )
+{
+    daily_sleep += mod;
+}
+
+void Character::reset_daily_sleep()
+{
+    daily_sleep = 0_turns;
+}
+
+time_duration Character::get_continuous_sleep() const
+{
+    return continuous_sleep;
+}
+
+void Character::mod_continuous_sleep( time_duration mod )
+{
+    continuous_sleep += mod;
+}
+
+void Character::reset_continuous_sleep()
+{
+    continuous_sleep = 0_turns;
+}
+
 int Character::get_fatigue() const
 {
     return fatigue;
@@ -4614,25 +4660,7 @@ needs_rates Character::calc_needs_rates() const
     rates.fatigue *= 1.0f + mutation_value( fatigue_modifier );
 
     if( asleep ) {
-        static const std::string fatigue_regen_modifier( "fatigue_regen_modifier" );
-        rates.recovery = 1.0f + mutation_value( fatigue_regen_modifier );
-        if( !is_hibernating() ) {
-            // Hunger and thirst advance more slowly while we sleep. This is the standard rate.
-            rates.hunger *= 0.5f;
-            rates.thirst *= 0.5f;
-            const int intense = sleep.is_null() ? 0 : sleep.get_intensity();
-            // Accelerated recovery capped to 2x over 2 hours
-            // After 16 hours of activity, equal to 7.25 hours of rest
-            const int accelerated_recovery_chance = 24 - intense + 1;
-            const float accelerated_recovery_rate = 1.0f / accelerated_recovery_chance;
-            rates.recovery += accelerated_recovery_rate;
-        } else {
-            // Hunger and thirst advance *much* more slowly whilst we hibernate.
-            rates.hunger *= ( 2.0f / 7.0f );
-            rates.thirst *= ( 2.0f / 7.0f );
-        }
-        rates.recovery -= static_cast<float>( get_perceived_pain() ) / 60;
-
+        calc_sleep_recovery_rate( rates );
     } else {
         rates.recovery = 0;
     }
@@ -4662,6 +4690,29 @@ needs_rates Character::calc_needs_rates() const
     rates.thirst = enchantment_cache->modify_value( enchant_vals::mod::THIRST, rates.thirst );
 
     return rates;
+}
+
+void Character::calc_sleep_recovery_rate( needs_rates &rates ) const
+{
+    const effect &sleep = get_effect( effect_sleep );
+    static const std::string fatigue_regen_modifier( "fatigue_regen_modifier" );
+    rates.recovery = 1.0f + mutation_value( fatigue_regen_modifier );
+    if( !is_hibernating() ) {
+        // Hunger and thirst advance more slowly while we sleep. This is the standard rate.
+        rates.hunger *= 0.5f;
+        rates.thirst *= 0.5f;
+        const int intense = sleep.is_null() ? 0 : sleep.get_intensity();
+        // Accelerated recovery capped to 2x over 2 hours
+        // After 16 hours of activity, equal to 7.25 hours of rest
+        const int accelerated_recovery_chance = 24 - intense + 1;
+        const float accelerated_recovery_rate = 1.0f / accelerated_recovery_chance;
+        rates.recovery += accelerated_recovery_rate;
+    } else {
+        // Hunger and thirst advance *much* more slowly whilst we hibernate.
+        rates.hunger *= ( 2.0f / 7.0f );
+        rates.thirst *= ( 2.0f / 7.0f );
+    }
+    rates.recovery -= static_cast<float>( get_perceived_pain() ) / 60;
 }
 
 item Character::reduce_charges( item *it, int quantity )
@@ -4992,7 +5043,8 @@ Character::comfort_response_t Character::base_comfort_value( const tripoint &p )
     bool websleep = has_trait( trait_WEB_WALKER );
     bool webforce = has_trait( trait_THRESH_SPIDER ) && ( has_trait( trait_WEB_SPINNER ) ||
                     has_trait( trait_WEB_WEAVER ) );
-    bool in_shell = has_active_mutation( trait_SHELL2 );
+    bool in_shell = has_active_mutation( trait_SHELL2 ) ||
+                    has_active_mutation( trait_SHELL3 );
     bool watersleep = has_trait( trait_WATERSLEEP );
 
     map &here = get_map();
@@ -7028,29 +7080,32 @@ void Character::did_hit( Creature &target )
     enchantment_cache->cast_hit_you( *this, target );
 }
 
-ret_val<bool> Character::can_wield( const item &it ) const
+ret_val<void> Character::can_wield( const item &it ) const
 {
     if( has_effect( effect_incorporeal ) ) {
-        return ret_val<bool>::make_failure( _( "You can't wield anything while incorporeal." ) );
+        return ret_val<void>::make_failure( _( "You can't wield anything while incorporeal." ) );
     }
     if( !has_min_manipulators() ) {
-        return ret_val<bool>::make_failure(
+        return ret_val<void>::make_failure(
                    _( "You need at least one arm available to even consider wielding something." ) );
     }
     if( it.made_of_from_type( phase_id::LIQUID ) ) {
-        return ret_val<bool>::make_failure( _( "Can't wield spilt liquids." ) );
+        return ret_val<void>::make_failure( _( "Can't wield spilt liquids." ) );
     }
     if( it.has_flag( flag_NO_UNWIELD ) ) {
-        return ret_val<bool>::make_failure(
+        if( get_wielded_item() && get_wielded_item().get_item() == &it ) {
+            return ret_val<void>::make_failure( _( "You can't unwield this." ) );
+        }
+        return ret_val<void>::make_failure(
                    _( "You can't wield this.  Wielding it would make it impossible to unwield it." ) );
     }
     if( it.has_flag( flag_BIONIC_WEAPON ) ) {
-        return ret_val<bool>::make_failure(
+        return ret_val<void>::make_failure(
                    _( "You can't wield this.  It looks like it has to be attached to a bionic." ) );
     }
 
     if( is_armed() && !can_unwield( weapon ).success() ) {
-        return ret_val<bool>::make_failure( _( "The %s is preventing you from wielding the %s." ),
+        return ret_val<void>::make_failure( _( "The %s is preventing you from wielding the %s." ),
                                             weapname(), it.tname() );
     }
     monster *mount = mounted_creature.get();
@@ -7059,22 +7114,22 @@ ret_val<bool> Character::can_wield( const item &it ) const
         !( is_mounted() && mount->has_flag( MF_RIDEABLE_MECH ) &&
            mount->type->mech_weapon && it.typeId() == mount->type->mech_weapon ) ) {
         if( worn_with_flag( flag_RESTRICT_HANDS ) ) {
-            return ret_val<bool>::make_failure(
+            return ret_val<void>::make_failure(
                        _( "Something you are wearing hinders the use of both hands." ) );
         } else if( it.has_flag( flag_ALWAYS_TWOHAND ) ) {
-            return ret_val<bool>::make_failure( _( "The %s can't be wielded with only one arm." ),
+            return ret_val<void>::make_failure( _( "The %s can't be wielded with only one arm." ),
                                                 it.tname() );
         } else {
-            return ret_val<bool>::make_failure( _( "You are too weak to wield %s with only one arm." ),
+            return ret_val<void>::make_failure( _( "You are too weak to wield %s with only one arm." ),
                                                 it.tname() );
         }
     }
     if( is_mounted() && mount->has_flag( MF_RIDEABLE_MECH ) &&
         mount->type->mech_weapon && it.typeId() != mount->type->mech_weapon ) {
-        return ret_val<bool>::make_failure( _( "You cannot wield anything while piloting a mech." ) );
+        return ret_val<void>::make_failure( _( "You cannot wield anything while piloting a mech." ) );
     }
 
-    return ret_val<bool>::make_success();
+    return ret_val<void>::make_success();
 }
 
 bool Character::has_wield_conflicts( const item &it ) const
@@ -7111,20 +7166,61 @@ bool Character::unwield()
 
 std::string Character::weapname() const
 {
+    std::string name = weapname_simple();
+    const std::string mode = weapname_mode();
+    const std::string ammo = weapname_ammo();
+
+    if( !mode.empty() ) {
+        name = string_format( "%s %s", mode, name );
+    }
+    if( !ammo.empty() ) {
+        name = string_format( "%s %s", name, ammo );
+    }
+
+    return name;
+}
+
+std::string Character::weapname_simple() const
+{
+    if( weapon.is_gun() ) {
+        gun_mode current_mode = weapon.gun_current_mode();
+        const bool no_mode = !current_mode.target;
+        std::string gun_name = no_mode ? weapon.display_name() : current_mode->tname();
+        return gun_name;
+
+    } else if( !is_armed() ) {
+        return _( "fists" );
+    } else {
+        return weapon.tname();
+    }
+}
+
+std::string Character::weapname_mode() const
+{
     if( weapon.is_gun() ) {
         gun_mode current_mode = weapon.gun_current_mode();
         const bool no_mode = !current_mode.target;
         std::string gunmode;
-        std::string gun_name = no_mode ? weapon.display_name() : current_mode->tname();
+        if( !no_mode && current_mode->gun_all_modes().size() > 1 ) {
+            gunmode = current_mode.tname();
+        }
+        return gunmode;
+    } else {
+        return _( "" );
+    }
+}
+
+std::string Character::weapname_ammo() const
+{
+    if( weapon.is_gun() ) {
+        gun_mode current_mode = weapon.gun_current_mode();
+        const bool no_mode = !current_mode.target;
         // only required for empty mags and empty guns
         std::string mag_ammo;
-        if( !no_mode && current_mode->gun_all_modes().size() > 1 ) {
-            gunmode = current_mode.tname() + " ";
-        }
 
         if( !no_mode && ( current_mode->uses_magazine() || current_mode->magazine_integral() ) ) {
             if( current_mode->uses_magazine() && !current_mode->magazine_current() ) {
-                mag_ammo = _( " (empty)" );
+                mag_ammo = _( "(empty)" );
             } else {
                 int cur_ammo = current_mode->ammo_remaining();
                 int max_ammo;
@@ -7147,18 +7243,15 @@ std::string Character::weapname() const
                 } else {
                     charges_color = c_light_green;
                 }
-                mag_ammo = string_format( " (%s)", colorize( string_format( "%i/%i", cur_ammo, max_ammo ),
+                mag_ammo = string_format( "(%s)", colorize( string_format( "%i/%i", cur_ammo, max_ammo ),
                                           charges_color ) );
             }
         }
 
-        return string_format( "%s%s%s", gunmode, gun_name, mag_ammo );
-
-    } else if( !is_armed() ) {
-        return _( "fists" );
+        return mag_ammo;
 
     } else {
-        return weapon.tname();
+        return _( "" );
     }
 }
 
@@ -7572,7 +7665,7 @@ void Character::on_hurt( Creature *source, bool disturb /*= true*/ )
         if( has_effect( effect_sleep ) && !has_bionic( bio_sleep_shutdown ) ) {
             wake_up();
         }
-        if( !is_npc() && !has_effect( effect_narcosis ) ) {
+        if( uistate.distraction_attack && !is_npc() && !has_effect( effect_narcosis ) ) {
             if( source != nullptr ) {
                 if( sees( *source ) ) {
                     g->cancel_activity_or_ignore_query( distraction_type::attacked,
@@ -8612,7 +8705,7 @@ void Character::add_moncam( std::pair<mtype_id, int> moncam )
 
 void Character::set_moncams( std::map<mtype_id, int> nmoncams )
 {
-    moncams = nmoncams;
+    moncams = std::move( nmoncams );
 }
 
 std::map<mtype_id, int> Character::get_moncams() const
@@ -9769,6 +9862,11 @@ bool Character::sees( const tripoint &t, bool, int ) const
     return can_see;
 }
 
+bool Character::sees( const tripoint_bub_ms &t, bool is_avatar, int range_mod ) const
+{
+    return sees( t.raw(), is_avatar, range_mod );
+}
+
 bool Character::sees( const Creature &critter ) const
 {
     // This handles only the player/npc specific stuff (monsters don't have traits or bionics).
@@ -10399,7 +10497,7 @@ const Character *Character::get_book_reader( const item &book,
         return nullptr;
     }
 
-    int time_taken = INT_MAX;
+    time_duration time_taken = time_duration::from_turns( INT_MAX );
     auto candidates = get_crafting_helpers();
 
     for( const npc *elem : candidates ) {
@@ -10430,7 +10528,7 @@ const Character *Character::get_book_reader( const item &book,
         } else if( elem->is_blind() ) {
             reasons.push_back( string_format( _( "%s is blind." ), elem->disp_name() ) );
         } else {
-            int proj_time = time_to_read( book, *elem );
+            time_duration proj_time = time_to_read( book, *elem );
             if( proj_time < time_taken ) {
                 reader = elem;
                 time_taken = proj_time;
@@ -10441,8 +10539,8 @@ const Character *Character::get_book_reader( const item &book,
     return reader;
 }
 
-int Character::time_to_read( const item &book, const Character &reader,
-                             const Character *learner ) const
+time_duration Character::time_to_read( const item &book, const Character &reader,
+                                       const Character *learner ) const
 {
     const auto &type = book.type->book;
     const skill_id &skill = type->skill;
@@ -10455,12 +10553,12 @@ int Character::time_to_read( const item &book, const Character &reader,
         reading_speed = std::max( reading_speed, learner->read_speed() );
     }
 
-    int retval = type->time * reading_speed;
+    time_duration retval = type->time * reading_speed / 100;
     retval *= std::min( fine_detail_vision_mod(), reader.fine_detail_vision_mod() );
 
     const int effective_int = std::min( { get_int(), reader.get_int(), learner ? learner->get_int() : INT_MAX } );
     if( type->intel > effective_int && !reader.has_trait( trait_PROF_DICEMASTER ) ) {
-        retval += type->time * ( type->intel - effective_int ) * 100;
+        retval += type->time * ( time_duration::from_seconds( type->intel - effective_int ) / 1_minutes );
     }
     if( !has_identified( book.typeId() ) ) {
         //skimming
@@ -11101,7 +11199,7 @@ bool Character::wield_contents( item &container, item *internal_item, bool penal
         return false;
     }
 
-    const ret_val<bool> ret = can_wield( *internal_item );
+    const ret_val<void> ret = can_wield( *internal_item );
     if( !ret.success() ) {
         add_msg_if_player( m_info, "%s", ret.c_str() );
         return false;
@@ -11244,7 +11342,7 @@ void Character::use( item_location loc, int pre_obtain_moves )
     } else if( used.type->has_use() ) {
         invoke_item( &used, loc.position(), pre_obtain_moves );
     } else if( used.has_flag( flag_SPLINT ) ) {
-        ret_val<bool> need_splint = can_wear( *loc );
+        ret_val<void> need_splint = can_wear( *loc );
         if( need_splint.success() ) {
             wear_item( used );
             loc.remove_item();

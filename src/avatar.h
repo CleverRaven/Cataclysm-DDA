@@ -178,6 +178,8 @@ class avatar : public Character
          */
         void on_mission_finished( mission &cur_mission );
 
+        void remove_active_mission( mission &cur_mission );
+
         //return avatar diary
         diary *get_avatar_diary();
 
@@ -220,7 +222,7 @@ class avatar : public Character
         /**
          * Opens the targeting menu to pull a nearby creature towards the character.
          * @param name Name of the implement used to pull the creature. */
-        void longpull( std::string name );
+        void longpull( const std::string &name );
 
         void wake_up() override;
         // Grab furniture / vehicle
@@ -355,6 +357,11 @@ class avatar : public Character
         void add_random_hobby( std::vector<profession_id> &choices );
 
         int movecounter = 0;
+
+        // bionic power in the last turn
+        units::energy power_prev_turn = 0_kJ;
+        // balance/net power generation/loss during the last turn
+        units::energy power_balance = 0_kJ;
 
         // amount of turns since last check for pocket noise
         time_point last_pocket_noise = time_point( 0 );

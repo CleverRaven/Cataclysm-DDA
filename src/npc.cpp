@@ -1332,7 +1332,7 @@ bool npc::can_read( const item &book, std::vector<std::string> &fail_reasons )
     return true;
 }
 
-int npc::time_to_read( const item &book, const Character &reader ) const
+time_duration npc::time_to_read( const item &book, const Character &reader ) const
 {
     const auto &type = book.type->book;
     const skill_id &skill = type->skill;
@@ -1342,11 +1342,12 @@ int npc::time_to_read( const item &book, const Character &reader ) const
                                 reader.get_knowledge_level( skill ) < type->level;
     int reading_speed = try_understand ? std::max( reader.read_speed(), read_speed() ) : read_speed();
 
-    int retval = type->time * reading_speed;
+    time_duration retval = type->time * reading_speed / 100;
     retval *= std::min( fine_detail_vision_mod(), reader.fine_detail_vision_mod() );
 
     if( type->intel > reader.get_int() && !reader.has_trait( trait_PROF_DICEMASTER ) ) {
-        retval += type->time * ( type->intel - reader.get_int() ) * 100;
+        retval += type->time * ( time_duration::from_seconds( type->intel - reader.get_int() ) /
+                                 1_minutes );
     }
     return retval;
 }
@@ -1376,14 +1377,14 @@ void npc::do_npc_read()
         add_msg_if_player_sees( pos(), _( "%s starts reading." ), disp_name() );
 
         // NPCs can't read to other NPCs yet
-        const int time_taken = time_to_read( *book, *this );
+        const time_duration time_taken = time_to_read( *book, *this );
         item_location ereader = {};
 
         // NPCs read until they gain a level
         assign_activity(
             player_activity(
                 read_activity_actor(
-                    time_taken,
+                    to_moves<int>( time_taken ),
                     book,
                     ereader,
                     true,
@@ -1976,17 +1977,17 @@ bool npc::wants_to_sell( const item &it ) const
     return wants_to_sell( it, value( it, market_price ), market_price ).success();
 }
 
-ret_val<bool> npc::wants_to_sell( const item &it, int at_price, int /*market_price*/ ) const
+ret_val<void> npc::wants_to_sell( const item &it, int at_price, int /*market_price*/ ) const
 {
     if( will_exchange_items_freely() ) {
-        return ret_val<bool>::make_success();
+        return ret_val<void>::make_success();
     }
 
     // Keep items that we never want to trade and the ones we don't want to trade while in use.
     if( it.has_flag( flag_TRADER_KEEP ) ||
         ( ( !myclass->sells_belongings || it.has_flag( flag_TRADER_KEEP_EQUIPPED ) ) && ( is_worn( it ) ||
                 is_wielding( it ) ) ) ) {
-        return ret_val<bool>::make_failure( _( "<npcname> will never sell this" ) );
+        return ret_val<void>::make_failure( _( "<npcname> will never sell this" ) );
     }
 
     for( const shopkeeper_item_group &ig : myclass->get_shopkeeper_items() ) {
@@ -1994,12 +1995,12 @@ ret_val<bool> npc::wants_to_sell( const item &it, int at_price, int /*market_pri
             continue;
         }
         if( item_group::group_contains_item( ig.id, it.typeId() ) ) {
-            return ret_val<bool>::make_failure( ig.get_refusal() );
+            return ret_val<void>::make_failure( ig.get_refusal() );
         }
     }
 
     // TODO: Base on inventory
-    return at_price >= 0 ? ret_val<bool>::make_success() : ret_val<bool>::make_failure();
+    return at_price >= 0 ? ret_val<void>::make_success() : ret_val<void>::make_failure();
 }
 
 bool npc::wants_to_buy( const item &it ) const
@@ -2008,27 +2009,27 @@ bool npc::wants_to_buy( const item &it ) const
     return wants_to_buy( it, value( it, market_price ), market_price ).success();
 }
 
-ret_val<bool> npc::wants_to_buy( const item &it, int at_price, int /*market_price*/ ) const
+ret_val<void> npc::wants_to_buy( const item &it, int at_price, int /*market_price*/ ) const
 {
     if( will_exchange_items_freely() ) {
-        return ret_val<bool>::make_success();
+        return ret_val<void>::make_success();
     }
 
     if( it.has_flag( flag_TRADER_AVOID ) || it.has_var( VAR_TRADE_IGNORE ) ) {
-        return ret_val<bool>::make_failure( _( "<npcname> will never buy this" ) );
+        return ret_val<void>::make_failure( _( "<npcname> will never buy this" ) );
     }
 
     if( mission != NPC_MISSION_SHOPKEEP && has_trait( trait_SQUEAMISH ) && it.is_filthy() ) {
-        return ret_val<bool>::make_failure( _( "<npcname> will not buy filthy items" ) );
+        return ret_val<void>::make_failure( _( "<npcname> will not buy filthy items" ) );
     }
 
     icg_entry const *bl = myclass->get_shopkeeper_blacklist().matches( it, *this );
     if( bl != nullptr ) {
-        return ret_val<bool>::make_failure( bl->message );
+        return ret_val<void>::make_failure( bl->message );
     }
 
     // TODO: Base on inventory
-    return at_price >= 0 ? ret_val<bool>::make_success() : ret_val<bool>::make_failure();
+    return at_price >= 0 ? ret_val<void>::make_success() : ret_val<void>::make_failure();
 }
 
 // Will the NPC freely exchange items with the player?
@@ -3612,7 +3613,7 @@ attitude_group npc::get_attitude_group( npc_attitude att ) const
     return attitude_group::neutral;
 }
 
-void npc::set_unique_id( std::string id )
+void npc::set_unique_id( const std::string &id )
 {
     if( !unique_id.empty() ) {
         debugmsg( "Tried to set unique_id of npc with one already of value: ", unique_id );

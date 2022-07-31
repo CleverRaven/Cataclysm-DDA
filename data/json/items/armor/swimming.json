@@ -987,7 +987,7 @@
     "color": "light_red",
     "warmth": 5,
     "material_thickness": 3,
-    "flags": [ "VARSIZE", "STURDY", "WATER_FRIENDLY", "ELECTRIC_IMMUNE", "HELMET_COMPAT" ],
+    "flags": [ "VARSIZE", "STURDY", "WATER_FRIENDLY", "ELECTRIC_IMMUNE" ],
     "armor": [
       {
         "encumbrance": 30,

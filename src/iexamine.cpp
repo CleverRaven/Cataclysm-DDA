@@ -243,6 +243,7 @@ static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_PROBOSCIS( "PROBOSCIS" );
 static const trait_id trait_PYROMANIA( "PYROMANIA" );
 static const trait_id trait_SHELL2( "SHELL2" );
+static const trait_id trait_SHELL3( "SHELL3" );
 static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
 
@@ -1862,7 +1863,13 @@ void iexamine::locked_object_pickable( Character &you, const tripoint &examp )
 
     // Sort by their picklock level.
     std::sort( picklocks.begin(), picklocks.end(), [&]( const item * a, const item * b ) {
-        return a->get_quality( qual_LOCKPICK ) > b->get_quality( qual_LOCKPICK );
+        int a_quality = a->get_quality( qual_LOCKPICK );
+        int b_quality = b->get_quality( qual_LOCKPICK );
+        // Sort by durability to spend most broken item
+        if( a_quality == b_quality ) {
+            return a->damage() > b->damage();
+        }
+        return a_quality > b_quality;
     } );
 
     for( item *it : picklocks ) {
@@ -1873,7 +1880,7 @@ void iexamine::locked_object_pickable( Character &you, const tripoint &examp )
         const use_function *iuse_fn = it->type->get_use( "PICK_LOCK" );
         you.add_msg_if_player( _( "You attempt to pick the lock of %1$s using your %2$s…" ),
                                here.has_furn( examp ) ? here.furnname( examp ) : here.tername( examp ), it->tname() );
-        const ret_val<bool> can_use = iuse_fn->can_call( you, *it, false, examp );
+        const ret_val<void> can_use = iuse_fn->can_call( you, *it, false, examp );
         if( can_use.success() ) {
             iuse_fn->call( you, *it, false, examp );
             return;
@@ -2682,29 +2689,29 @@ void iexamine::harvest_plant( Character &you, const tripoint &examp, bool from_a
     }
 }
 
-ret_val<bool> iexamine::can_fertilize( Character &you, const tripoint &tile,
+ret_val<void> iexamine::can_fertilize( Character &you, const tripoint &tile,
                                        const itype_id &fertilizer )
 {
     map &here = get_map();
     if( !here.has_flag_furn( ter_furn_flag::TFLAG_PLANT, tile ) ) {
-        return ret_val<bool>::make_failure( _( "Tile isn't a plant" ) );
+        return ret_val<void>::make_failure( _( "Tile isn't a plant" ) );
     }
     if( here.i_at( tile ).size() > 1 ) {
-        return ret_val<bool>::make_failure( _( "Tile is already fertilized" ) );
+        return ret_val<void>::make_failure( _( "Tile is already fertilized" ) );
     }
     if( !you.has_charges( fertilizer, 1 ) ) {
-        return ret_val<bool>::make_failure(
+        return ret_val<void>::make_failure(
                    _( "Tried to fertilize with %s, but player doesn't have any." ),
                    fertilizer.c_str() );
     }
 
-    return ret_val<bool>::make_success();
+    return ret_val<void>::make_success();
 }
 
 void iexamine::fertilize_plant( Character &you, const tripoint &tile,
                                 const itype_id &fertilizer )
 {
-    ret_val<bool> can_fert = can_fertilize( you, tile, fertilizer );
+    ret_val<void> can_fert = can_fertilize( you, tile, fertilizer );
     if( !can_fert.success() ) {
         debugmsg( can_fert.str() );
         return;
@@ -3206,21 +3213,50 @@ void iexamine::autoclave_full( Character &, const tripoint &examp )
     here.furn_set( examp, next_autoclave_type );
 }
 
+static void add_firestarter( item *it, std::multimap<int, item *> &firestarters, Character &you,
+                             const tripoint &examp )
+{
+    const use_function *usef = it->type->get_use( "firestarter" );
+    if( usef != nullptr && usef->get_actor_ptr() != nullptr ) {
+        const firestarter_actor *actor = dynamic_cast<const firestarter_actor *>( usef->get_actor_ptr() );
+        if( actor->can_use( you, *it, false, examp ).success() ) {
+            firestarters.insert( std::pair<int, item *>( actor->moves_cost_fast, it ) );
+        }
+    }
+}
+
 void iexamine::fireplace( Character &you, const tripoint &examp )
 {
     map &here = get_map();
     const bool already_on_fire = here.has_nearby_fire( examp, 0 );
     const bool furn_is_deployed = !here.furn( examp ).obj().deployed_item.is_empty();
 
+    auto is_firestarter = []( const item & it ) {
+        return it.has_flag( flag_FIRESTARTER ) || it.has_flag( flag_FIRE );
+    };
+    auto is_firequencher = []( const item & it ) {
+        return it.damage_melee( damage_type::BASH );
+    };
+
     std::multimap<int, item *> firestarters;
-    for( item *it : you.items_with( []( const item & it ) {
-    return it.has_flag( flag_FIRESTARTER ) || it.has_flag( flag_FIRE );
-    } ) ) {
-        const use_function *usef = it->type->get_use( "firestarter" );
-        if( usef != nullptr && usef->get_actor_ptr() != nullptr ) {
-            const firestarter_actor *actor = dynamic_cast<const firestarter_actor *>( usef->get_actor_ptr() );
-            if( actor->can_use( you, *it, false, examp ).success() ) {
-                firestarters.insert( std::pair<int, item *>( actor->moves_cost_fast, it ) );
+    std::vector<item *> firequenchers = you.items_with( is_firequencher );
+
+    for( item *it : you.items_with( is_firestarter ) ) {
+        add_firestarter( it, firestarters, you, examp );
+    }
+
+    for( const tripoint &pos : closest_points_first( you.pos(), PICKUP_RANGE ) ) {
+        if( pos == examp ) {
+            // stuff in the fireplace can't light or quench itself
+            continue;
+        }
+        for( item_location &it : here.items_with( pos, is_firestarter ) ) {
+            add_firestarter( &*it, firestarters, you, examp );
+        }
+        // anything is fine, so only check if we got nothing yet
+        if( firequenchers.empty() ) {
+            for( item_location &it : here.items_with( pos, is_firequencher ) ) {
+                firequenchers.push_back( &*it );
             }
         }
     }
@@ -3228,10 +3264,6 @@ void iexamine::fireplace( Character &you, const tripoint &examp )
     const bool has_firestarter = !firestarters.empty();
     const bool has_bionic_firestarter = you.has_bionic( bio_lighter ) &&
                                         you.enough_power_for( bio_lighter );
-
-    auto firequenchers = you.items_with( []( const item & it ) {
-        return it.damage_melee( damage_type::BASH );
-    } );
 
     uilist selection_menu;
     selection_menu.text = _( "Select an action" );
@@ -3266,7 +3298,7 @@ void iexamine::fireplace( Character &you, const tripoint &examp )
                 const use_function *usef = it->type->get_use( "firestarter" );
                 const firestarter_actor *actor = dynamic_cast<const firestarter_actor *>( usef->get_actor_ptr() );
                 you.add_msg_if_player( _( "You attempt to start a fire with your %s…" ), it->tname() );
-                const ret_val<bool> can_use = actor->can_use( you, *it, false, examp );
+                const ret_val<void> can_use = actor->can_use( you, *it, false, examp );
                 if( can_use.success() ) {
                     const int charges = actor->use( you, *it, false, examp ).value_or( 0 );
                     you.use_charges( it->typeId(), charges );
@@ -4034,7 +4066,8 @@ void trap::examine( const tripoint &examp ) const
         return;
     }
 
-    if( partial_con *const pc = here.partial_con_at( examp ) ) {
+    // TODO: fix point types
+    if( partial_con *const pc = here.partial_con_at( tripoint_bub_ms( examp ) ) ) {
         if( player_character.fine_detail_vision_mod() > 4 &&
             !player_character.has_trait( trait_DEBUG_HS ) ) {
             add_msg( m_info, _( "It is too dark to construct right now." ) );
@@ -4048,7 +4081,8 @@ void trap::examine( const tripoint &examp ) const
                 for( const item &it : pc->components ) {
                     here.add_item_or_charges( player_character.pos(), it );
                 }
-                here.partial_con_remove( examp );
+                // TODO: fix point types
+                here.partial_con_remove( tripoint_bub_ms( examp ) );
             }
         } else {
             player_character.assign_activity( ACT_BUILD );
@@ -4238,7 +4272,10 @@ static void reload_furniture( Character &you, const tripoint &examp, bool allow_
     if( max_reload_amount <= 0 ) {
         return;
     }
-    item pseudo( f.crafting_pseudo_item_type() );
+    item pseudo( pseudo_type );
+    // maybe at some point we need a pseudo item_location or something
+    // but for now this should at least work as intended
+    item_location pseudo_loc( map_cursor( examp ), &pseudo );
     std::vector<item::reload_option> ammo_list;
     for( item_location &ammo : you.find_ammo( pseudo, false, PICKUP_RANGE ) ) {
         // Only allow the same type to reload if partially loaded.
@@ -4246,7 +4283,7 @@ static void reload_furniture( Character &you, const tripoint &examp, bool allow_
             continue;
         }
         if( pseudo.can_reload_with( *ammo, true ) ) {
-            ammo_list.emplace_back( &you, &pseudo, &pseudo, std::move( ammo ) );
+            ammo_list.emplace_back( &you, pseudo_loc, std::move( ammo ) );
         }
     }
 
@@ -4257,7 +4294,7 @@ static void reload_furniture( Character &you, const tripoint &examp, bool allow_
         return;
     }
 
-    item::reload_option opt = you.select_ammo( pseudo, std::move( ammo_list ), f.name() );
+    item::reload_option opt = you.select_ammo( pseudo_loc, std::move( ammo_list ), f.name() );
     if( !opt ) {
         return;
     }
@@ -5538,10 +5575,10 @@ void iexamine::autodoc( Character &you, const tripoint &examp )
 
 namespace sm_rack
 {
-const int MIN_CHARCOAL = 100;
-const int CHARCOAL_PER_LITER = 25;
-const units::volume MAX_FOOD_VOLUME = units::from_liter( 20 );
-const units::volume MAX_FOOD_VOLUME_PORTABLE = units::from_liter( 15 );
+static const int MIN_CHARCOAL = 100;
+static const int CHARCOAL_PER_LITER = 25;
+static const units::volume MAX_FOOD_VOLUME = units::from_liter( 20 );
+static const units::volume MAX_FOOD_VOLUME_PORTABLE = units::from_liter( 15 );
 } // namespace sm_rack
 
 static int get_charcoal_charges( units::volume food )
@@ -6502,9 +6539,11 @@ void iexamine::workbench_internal( Character &you, const tripoint &examp,
     amenu.query();
 
     const option choice = static_cast<option>( amenu.ret );
+    bool in_shell = you.has_active_mutation( trait_SHELL2 ) ||
+                    you.has_active_mutation( trait_SHELL3 );
     switch( choice ) {
         case start_craft: {
-            if( you.has_active_mutation( trait_SHELL2 ) ) {
+            if( in_shell ) {
                 you.add_msg_if_player( m_info, _( "You can't craft while you're in your shell." ) );
             } else if( you.has_effect( effect_incorporeal ) ) {
                 add_msg( m_info, _( "You lack the substance to affect anything." ) );
@@ -6514,7 +6553,7 @@ void iexamine::workbench_internal( Character &you, const tripoint &examp,
             break;
         }
         case repeat_craft: {
-            if( you.has_active_mutation( trait_SHELL2 ) ) {
+            if( in_shell ) {
                 you.add_msg_if_player( m_info, _( "You can't craft while you're in your shell." ) );
             } else if( you.has_effect( effect_incorporeal ) ) {
                 add_msg( m_info, _( "You lack the substance to affect anything." ) );
@@ -6524,7 +6563,7 @@ void iexamine::workbench_internal( Character &you, const tripoint &examp,
             break;
         }
         case start_long_craft: {
-            if( you.has_active_mutation( trait_SHELL2 ) ) {
+            if( in_shell ) {
                 you.add_msg_if_player( m_info, _( "You can't craft while you're in your shell." ) );
             } else if( you.has_effect( effect_incorporeal ) ) {
                 add_msg( m_info, _( "You lack the substance to affect anything." ) );

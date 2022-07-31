@@ -63,7 +63,8 @@ effect talker_monster::get_effect( const efftype_id &effect_id, const bodypart_i
 }
 
 void talker_monster::add_effect( const efftype_id &new_effect, const time_duration &dur,
-                                 std::string bp, bool permanent, bool force, int intensity )
+                                 const std::string &bp, bool permanent, bool force,
+                                 int intensity )
 {
     me_mon->add_effect( new_effect, dur, bodypart_str_id( bp ), permanent, intensity, force );
 }

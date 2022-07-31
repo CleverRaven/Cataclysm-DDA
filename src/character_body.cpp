@@ -236,6 +236,31 @@ void Character::update_body( const time_point &from, const time_point &to )
         mend( five_mins * to_turns<int>( 5_minutes ) );
         activity_history.reset_activity_level();
     }
+    bool was_sleeping = get_value( "was_sleeping" ) == "true";
+    if( in_sleep_state() && was_sleeping ) {
+        needs_rates tmp_rates;
+        calc_sleep_recovery_rate( tmp_rates );
+        const int fatigue_regen_rate = tmp_rates.recovery;
+        const time_duration effective_time_slept = ( to - from ) * fatigue_regen_rate;
+        mod_daily_sleep( effective_time_slept );
+        mod_continuous_sleep( effective_time_slept );
+    }
+    if( was_sleeping && !in_sleep_state() ) {
+        if( get_continuous_sleep() >= 6_hours ) {
+            set_value( "sleep_health_mult", "2" );
+        }
+        reset_continuous_sleep();
+    }
+    if( calendar::once_every( 12_hours ) ) {
+        const int sleep_health_mult = get_value( "sleep_health_mult" ) == "2" ? 2 : 1;
+        mod_daily_health( sleep_health_mult * to_hours<int>( get_daily_sleep() ), 10 );
+        set_value( "sleep_health_mult", "1" );
+    }
+    if( calendar::once_every( 1_days ) ) {
+        reset_daily_sleep();
+    }
+    set_value( "was_sleeping", in_sleep_state() ? "true" : "false" );
+
 
     activity_history.new_turn( in_sleep_state() );
     if( ticks_between( from, to, 24_hours ) > 0 && !has_flag( json_flag_NO_MINIMAL_HEALING ) ) {
@@ -384,8 +409,8 @@ void Character::update_bodytemp()
     }
     const oter_id &cur_om_ter = overmap_buffer.ter( global_omt_location() );
     bool sheltered = g->is_sheltered( pos() );
-    double total_windpower = get_local_windpower( weather_man.windspeed + vehwindspeed, cur_om_ter,
-                             pos(), weather_man.winddirection, sheltered );
+    int bp_windpower = get_local_windpower( weather_man.windspeed + vehwindspeed, cur_om_ter,
+                                            pos(), weather_man.winddirection, sheltered );
     // Let's cache this not to check it for every bodyparts
     const bool has_bark = has_trait( trait_BARK );
     const bool has_sleep = has_effect( effect_sleep );
@@ -460,7 +485,6 @@ void Character::update_bodytemp()
         // This adjusts the temperature scale to match the bodytemp scale,
         // it needs to be reset every iteration
         int adjusted_temp = Ctemperature - ambient_norm;
-        int bp_windpower = total_windpower;
         // Represents the fact that the body generates heat when it is cold.
         // TODO: : should this increase hunger?
         double scaled_temperature = logarithmic_range( BODYTEMP_VERY_COLD, BODYTEMP_VERY_HOT,

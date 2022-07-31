@@ -301,7 +301,7 @@
     "symbol": "~",
     "quench": 12,
     "calories": 103,
-    "description": "Cow's milk that has been partly dehydrated to vastly increase its shelf life, and also sweetened.",
+    "description": "Cow's milk that has been partly dehydrated and sweetened.  A key ingredient in many sweets.",
     "price": 70,
     "price_postapoc": 100,
     "material": [ "milk", "junk" ],

@@ -343,7 +343,7 @@ void bionic_data::load( const JsonObject &jsobj, const std::string & )
     assign( jsobj, "trigger_cost", power_trigger, false, 0_kJ );
     assign( jsobj, "power_trickle", power_trickle, false, 0_kJ );
 
-    optional( jsobj, was_loaded, "time", charge_time, 0 );
+    optional( jsobj, was_loaded, "time", charge_time, 0_turns );
 
     optional( jsobj, was_loaded, "flags", flags );
     optional( jsobj, was_loaded, "active_flags", active_flags );
@@ -471,7 +471,7 @@ void bionic_data::load( const JsonObject &jsobj, const std::string & )
 
     activated = has_flag( STATIC( json_character_flag( json_flag_BIONIC_TOGGLED ) ) ) ||
                 power_activate > 0_kJ ||
-                charge_time > 0;
+                charge_time > 0_turns;
 
     if( has_flag( STATIC( json_character_flag( "BIONIC_FAULTY" ) ) ) ) {
         faulty_bionics.push_back( id );
@@ -721,9 +721,9 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
         // We can actually activate now, do activation-y things
         mod_power_level( -bio.info().power_activate );
 
-        bio.powered = bio.info().has_flag( json_flag_BIONIC_TOGGLED ) || bio.info().charge_time > 0;
+        bio.powered = bio.info().has_flag( json_flag_BIONIC_TOGGLED ) || bio.info().charge_time > 0_turns;
 
-        if( bio.info().charge_time > 0 ) {
+        if( bio.info().charge_time > 0_turns ) {
             bio.charge_timer = bio.info().charge_time;
         }
         if( !bio.id->enchantments.empty() ) {
@@ -1076,9 +1076,8 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
         /* cache g->get_temperature( player location ) since it is used twice. No reason to recalc */
         weather_manager &weather = get_weather();
         const int player_local_temp = weather.get_temperature( player_character.pos() );
-        /* windpower defined in internal velocity units (=.01 mph) */
-        double windpower = 100.0f * get_local_windpower( weather.windspeed + vehwindspeed,
-                           cur_om_ter, pos(), weather.winddirection, g->is_sheltered( pos() ) );
+        const int windpower = get_local_windpower( weather.windspeed + vehwindspeed,
+                              cur_om_ter, pos(), weather.winddirection, g->is_sheltered( pos() ) );
         add_msg_if_player( m_info, _( "Temperature: %s." ), print_temperature( player_local_temp ) );
         const w_point weatherPoint = *weather.weather_precise;
         add_msg_if_player( m_info, _( "Relative Humidity: %s." ),
@@ -1088,12 +1087,12 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
         add_msg_if_player( m_info, _( "Pressure: %s." ),
                            print_pressure( static_cast<int>( weatherPoint.pressure ) ) );
         add_msg_if_player( m_info, _( "Wind Speed: %.1f %s." ),
-                           convert_velocity( static_cast<int>( windpower ), VU_WIND ),
+                           convert_velocity( windpower * 100, VU_WIND ),
                            velocity_units( VU_WIND ) );
         add_msg_if_player( m_info, _( "Feels Like: %s." ),
                            print_temperature(
                                get_local_windchill( weatherPoint.temperature, weatherPoint.humidity,
-                                       windpower / 100 ) + player_local_temp ) );
+                                       windpower ) + player_local_temp ) );
         std::string dirstring = get_dirstring( weather.winddirection );
         add_msg_if_player( m_info, _( "Wind Direction: From the %s." ), dirstring );
     } else if( bio.id == bio_remote ) {
@@ -1205,32 +1204,32 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
     return true;
 }
 
-ret_val<bool> Character::can_deactivate_bionic( bionic &bio, bool eff_only ) const
+ret_val<void> Character::can_deactivate_bionic( bionic &bio, bool eff_only ) const
 {
 
     if( bio.incapacitated_time > 0_turns ) {
-        return ret_val<bool>::make_failure( _( "Your %s is shorting out and can't be deactivated." ),
+        return ret_val<void>::make_failure( _( "Your %s is shorting out and can't be deactivated." ),
                                             bio.info().name );
     }
 
     if( !eff_only ) {
         if( !bio.powered ) {
             // It's already off!
-            return ret_val<bool>::make_failure();
+            return ret_val<void>::make_failure();
         }
         if( !bio.info().has_flag( json_flag_BIONIC_TOGGLED ) ) {
             // It's a fire-and-forget bionic, we can't turn it off but have to wait for
             //it to run out of charge
-            return ret_val<bool>::make_failure( _( "You can't deactivate your %s manually!" ),
+            return ret_val<void>::make_failure( _( "You can't deactivate your %s manually!" ),
                                                 bio.info().name );
         }
         if( get_power_level() < bio.info().power_deactivate ) {
-            return ret_val<bool>::make_failure( _( "You don't have the power to deactivate your %s." ),
+            return ret_val<void>::make_failure( _( "You don't have the power to deactivate your %s." ),
                                                 bio.info().name );
         }
     }
 
-    return ret_val<bool>::make_success();
+    return ret_val<void>::make_success();
 }
 
 bool Character::deactivate_bionic( bionic &bio, bool eff_only )
@@ -1516,9 +1515,9 @@ void Character::burn_fuel( bionic &bio, const auto_toggle_bionic_result &result 
                     // vehicle velocity in mph
                     vehwindspeed = std::abs( vp->vehicle().velocity / 100 );
                 }
-                const double windpower = get_local_windpower( weather.windspeed + vehwindspeed,
-                                         overmap_buffer.ter( global_omt_location() ), pos(), weather.winddirection,
-                                         g->is_sheltered( pos() ) );
+                const int windpower = get_local_windpower( weather.windspeed + vehwindspeed,
+                                      overmap_buffer.ter( global_omt_location() ), pos(), weather.winddirection,
+                                      g->is_sheltered( pos() ) );
                 mod_power_level( units::from_kilojoule( result.fuel_energy ) * windpower *
                                  result.effective_efficiency );
             } else if( result.burnable_fuel_id == fuel_type_muscle ) {
@@ -1578,9 +1577,9 @@ void Character::passive_power_gen( const bionic &bio )
                 // vehicle velocity in mph
                 vehwindspeed = std::abs( vp->vehicle().velocity / 100 );
             }
-            const double windpower = get_local_windpower( weather.windspeed + vehwindspeed,
-                                     overmap_buffer.ter( global_omt_location() ), pos(), weather.winddirection,
-                                     g->is_sheltered( pos() ) );
+            const int windpower = get_local_windpower( weather.windspeed + vehwindspeed,
+                                  overmap_buffer.ter( global_omt_location() ), pos(), weather.winddirection,
+                                  g->is_sheltered( pos() ) );
             mod_power_level( units::from_kilojoule( fuel_energy ) * windpower * effective_passive_efficiency );
         } else {
             mod_power_level( units::from_kilojoule( fuel_energy ) * effective_passive_efficiency );
@@ -1779,13 +1778,13 @@ void Character::process_bionic( bionic &bio )
     }
 
     // These might be affected by environmental conditions, status effects, faulty bionics, etc.
-    int discharge_rate = 1;
+    time_duration discharge_rate = 1_turns;
 
     units::energy cost = 0_mJ;
 
-    bio.charge_timer = std::max( 0, bio.charge_timer - discharge_rate );
-    if( bio.charge_timer <= 0 ) {
-        if( bio.info().charge_time > 0 ) {
+    bio.charge_timer = std::max( 0_turns, bio.charge_timer - discharge_rate );
+    if( bio.charge_timer <= 0_turns ) {
+        if( bio.info().charge_time > 0_turns ) {
             if( bio.info().has_flag( STATIC( json_character_flag( "BIONIC_POWER_SOURCE" ) ) ) ) {
                 // Convert fuel to bionic power
                 burn_fuel( bio, result );
@@ -2459,7 +2458,7 @@ bool Character::uninstall_bionic( const bionic &bio, monster &installer, Charact
     return false;
 }
 
-ret_val<bool> Character::is_installable( const item_location &loc, const bool by_autodoc ) const
+ret_val<void> Character::is_installable( const item_location &loc, const bool by_autodoc ) const
 {
     const item *it = loc.get_item();
     const itype *itemtype = it->type;
@@ -2473,36 +2472,37 @@ ret_val<bool> Character::is_installable( const item_location &loc, const bool by
         // NOLINTNEXTLINE(cata-text-style): single space after the period for symmetry
         const std::string msg = by_autodoc ? _( "/!\\ CBM is highly contaminated. /!\\" ) :
                                 _( "CBM is filthy." );
-        return ret_val<bool>::make_failure( msg );
+        return ret_val<void>::make_failure( msg );
     } else if( it->has_flag( flag_NO_STERILE ) ) {
         const std::string msg = by_autodoc ?
                                 // NOLINTNEXTLINE(cata-text-style): single space after the period for symmetry
                                 _( "/!\\ CBM is not sterile. /!\\ Please use autoclave to sterilize." ) :
                                 _( "CBM is not sterile." );
-        return ret_val<bool>::make_failure( msg );
+        return ret_val<void>::make_failure( msg );
     } else if( it->has_fault( fault_bionic_salvaged ) ) {
-        return ret_val<bool>::make_failure( _( "CBM already deployed.  Please reset to factory state." ) );
+        return ret_val<void>::make_failure( _( "CBM already deployed.  Please reset to factory state." ) );
     } else if( has_bionic( bid ) && !bid->dupes_allowed ) {
-        return ret_val<bool>::make_failure( _( "CBM is already installed." ) );
+        return ret_val<void>::make_failure( _( "CBM is already installed." ) );
     } else if( !can_install_cbm_on_bp( get_occupied_bodyparts( bid ) ) ) {
-        return ret_val<bool>::make_failure( _( "CBM not compatible with patient's body." ) );
+        return ret_val<void>::make_failure( _( "CBM not compatible with patient's body." ) );
     } else if( std::any_of( bid->mutation_conflicts.begin(), bid->mutation_conflicts.end(),
                             has_trait_lambda ) ) {
-        return ret_val<bool>::make_failure( _( "CBM not compatible with patient's body." ) );
+        return ret_val<void>::make_failure( _( "CBM not compatible with patient's body." ) );
     } else if( bid->upgraded_bionic &&
                !has_bionic( bid->upgraded_bionic ) &&
                it->is_upgrade() ) {
-        return ret_val<bool>::make_failure( _( "No base version installed." ) );
+        return ret_val<void>::make_failure( _( "No base version installed." ) );
     } else if( std::any_of( bid->available_upgrades.begin(),
                             bid->available_upgrades.end(),
-                            std::bind( &Character::has_bionic, this,
-                                       std::placeholders::_1 ) ) ) {
-        return ret_val<bool>::make_failure( _( "Superior version installed." ) );
+    [this]( const bionic_id & b ) {
+    return has_bionic( b );
+    } ) ) {
+        return ret_val<void>::make_failure( _( "Superior version installed." ) );
     } else if( is_npc() && !bid->has_flag( json_flag_BIONIC_NPC_USABLE ) ) {
-        return ret_val<bool>::make_failure( _( "CBM not compatible with patient." ) );
+        return ret_val<void>::make_failure( _( "CBM not compatible with patient." ) );
     }
 
-    return ret_val<bool>::make_success( std::string() );
+    return ret_val<void>::make_success( std::string() );
 }
 
 bool Character::can_install_bionics( const itype &type, Character &installer, bool autodoc,
@@ -3311,7 +3311,14 @@ void bionic::deserialize( const JsonObject &jo )
     id = bionic_id( jo.get_string( "id" ) );
     invlet = jo.get_int( "invlet" );
     powered = jo.get_bool( "powered" );
-    charge_timer = jo.get_int( "charge" );
+
+    //Remove After 0.G
+    if( jo.has_int( "charge" ) ) {
+        charge_timer = time_duration::from_turns( jo.get_int( "charge" ) );
+    } else {
+        jo.read( "charge_timer", charge_timer );
+    }
+
 
     if( jo.has_int( "incapacitated_time" ) ) {
         incapacitated_time = 1_turns * jo.get_int( "incapacitated_time" );

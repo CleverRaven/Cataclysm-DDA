@@ -31,6 +31,7 @@
 #include "omdata.h"
 #include "options.h"
 #include "overmap.h"
+#include "overmapbuffer.h"
 #include "overmap_types.h"
 #include "path_info.h"
 #include "regional_settings.h"
@@ -498,7 +499,7 @@ void overmap::load_monster_groups( JsonIn &jsin )
         tripoint_om_sm temp;
         while( !jsin.end_array() ) {
             temp.deserialize( jsin );
-            new_group.pos = temp;
+            new_group.abs_pos = project_combine( pos(), temp );
             add_mon_group( new_group );
         }
 
@@ -567,7 +568,7 @@ void overmap::unserialize( std::istream &fin )
                 t_regional_settings_map_citr rit = region_settings_map.find( new_region_id );
                 if( rit != region_settings_map.end() ) {
                     // TODO: optimize
-                    settings = pimpl<regional_settings>( rit->second );
+                    settings = &rit->second;
                 }
             }
         } else if( name == "mongroups" ) {
@@ -649,6 +650,8 @@ void overmap::unserialize( std::istream &fin )
                         jsin.read( new_radio.strength );
                     } else if( radio_member_name == "message" ) {
                         jsin.read( new_radio.message );
+                    } else if( radio_member_name == "frequency" ) {
+                        jsin.read( new_radio.frequency );
                     }
                 }
                 radios.push_back( new_radio );
@@ -904,12 +907,14 @@ void overmap::unserialize_omap( std::istream &fin )
     }
 }
 
-static void unserialize_array_from_compacted_sequence( JsonIn &jsin, bool ( &array )[OMAPX][OMAPY] )
+template<typename MdArray>
+static void unserialize_array_from_compacted_sequence( JsonIn &jsin, MdArray &array )
 {
     int count = 0;
-    bool value = false;
-    for( int j = 0; j < OMAPY; j++ ) {
-        for( auto &array_col : array ) {
+    using Value = typename MdArray::value_type;
+    Value value = Value();
+    for( size_t j = 0; j < MdArray::size_y; ++j ) {
+        for( size_t i = 0; i < MdArray::size_x; ++i ) {
             if( count == 0 ) {
                 jsin.start_array();
                 jsin.read( value );
@@ -917,7 +922,7 @@ static void unserialize_array_from_compacted_sequence( JsonIn &jsin, bool ( &arr
                 jsin.end_array();
             }
             count--;
-            array_col[j] = value;
+            array[i][j] = value;
         }
     }
 }
@@ -984,14 +989,17 @@ void overmap::unserialize_view( std::istream &fin )
     }
 }
 
-static void serialize_array_to_compacted_sequence( JsonOut &json,
-        const bool ( &array )[OMAPX][OMAPY] )
+template<typename MdArray>
+static void serialize_array_to_compacted_sequence( JsonOut &json, const MdArray &array )
 {
+    static_assert( std::is_same<typename MdArray::value_type, bool>::value,
+                   "This implementation assumes bool, in that the initial value of lastval has "
+                   "to not be a valid value of the content" );
     int count = 0;
     int lastval = -1;
-    for( int j = 0; j < OMAPY; j++ ) {
-        for( const auto &array_col : array ) {
-            const int value = array_col[j];
+    for( size_t j = 0; j < MdArray::size_y; ++j ) {
+        for( size_t i = 0; i < MdArray::size_x; ++i ) {
+            const int value = array[i][j];
             if( value != lastval ) {
                 if( count ) {
                     json.write( count );
@@ -1129,7 +1137,7 @@ void overmap::save_monster_groups( JsonOut &jout ) const
         // The position is stored separately, in the list
         // TODO: Do it without the copy
         mongroup saved_group = group_bin.first;
-        saved_group.pos = tripoint_om_sm();
+        saved_group.abs_pos = tripoint_abs_sm();
         jout.write( saved_group );
         jout.write( group_bin.second );
         jout.end_array();
@@ -1214,6 +1222,7 @@ void overmap::serialize( std::ostream &fout ) const
         json.member( "strength", i.strength );
         json.member( "type", radio_type_names[i.type] );
         json.member( "message", i.message );
+        json.member( "frequency", i.frequency );
         json.end_object();
     }
     json.end_array();
@@ -1338,15 +1347,14 @@ template<typename Archive>
 void mongroup::io( Archive &archive )
 {
     archive.io( "type", type );
-    archive.io( "pos", pos, tripoint_om_sm() );
     archive.io( "abs_pos", abs_pos, tripoint_abs_sm() );
     archive.io( "radius", radius, 1u );
     archive.io( "population", population, 1u );
     archive.io( "diffuse", diffuse, false );
     archive.io( "dying", dying, false );
     archive.io( "horde", horde, false );
-    archive.io( "target", target, tripoint_om_sm() );
-    archive.io( "nemesis_target", nemesis_target, tripoint_abs_sm() );
+    archive.io( "target", target, point_abs_sm() );
+    archive.io( "nemesis_target", nemesis_target, point_abs_sm() );
     archive.io( "interest", interest, 0 );
     archive.io( "horde_behaviour", horde_behaviour, io::empty_default_tag() );
     archive.io( "monsters", monsters, io::empty_default_tag() );
@@ -1372,8 +1380,6 @@ void mongroup::deserialize_legacy( JsonIn &json )
         std::string name = json.get_member_name();
         if( name == "type" ) {
             type = mongroup_id( json.get_string() );
-        } else if( name == "pos" ) {
-            pos.deserialize( json );
         } else if( name == "abs_pos" ) {
             abs_pos.deserialize( json );
         } else if( name == "radius" ) {
@@ -1445,6 +1451,8 @@ void game::unserialize_master( std::istream &fin )
                 weather_manager::unserialize_all( jsin );
             } else if( name == "timed_events" ) {
                 timed_event_manager::unserialize_all( jsin );
+            } else if( name == "placed_unique_specials" ) {
+                overmap_buffer.deserialize_placed_unique_specials( jsin );
             } else {
                 // silently ignore anything else
                 jsin.skip_value();
@@ -1530,6 +1538,8 @@ void game::serialize_master( std::ostream &fout )
 
         json.member( "active_missions" );
         mission::serialize_all( json );
+        json.member( "placed_unique_specials" );
+        overmap_buffer.serialize_placed_unique_specials( json );
 
         json.member( "timed_events" );
         timed_event_manager::serialize_all( json );
@@ -1653,4 +1663,18 @@ void creature_tracker::serialize( JsonOut &jsout ) const
         jsout.write( *monster_ptr );
     }
     jsout.end_array();
+}
+
+void overmapbuffer::serialize_placed_unique_specials( JsonOut &json ) const
+{
+    json.write_as_array( placed_unique_specials );
+}
+
+void overmapbuffer::deserialize_placed_unique_specials( JsonIn &jsin )
+{
+    placed_unique_specials.clear();
+    jsin.start_array();
+    while( !jsin.end_array() ) {
+        placed_unique_specials.emplace( jsin.get_string() );
+    }
 }

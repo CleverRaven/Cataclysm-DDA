@@ -1601,5 +1601,19 @@
     "use_action": [ "OXYTORCH" ],
     "flags": [ "ALLOWS_REMOTE_USE", "FIRESTARTER" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "small_propane_tank", "medium_propane_tank" ] } ]
+  },
+  {
+    "id": "block_and_tackle",
+    "type": "TOOL",
+    "category": "spare_parts",
+    "name": { "str": "block and tackle", "str_pl": "blocks and tackles" },
+    "description": "A sturdy housing with a number of pulleys that can be used with a thick rope or a chain to gain mechanical advantage on a lift.",
+    "weight": "500 g",
+    "volume": "400 ml",
+    "price": 500,
+    "price_postapoc": 50,
+    "material": [ "steel" ],
+    "symbol": "&",
+    "color": "light_gray"
   }
 ]
