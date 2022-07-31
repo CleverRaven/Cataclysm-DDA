@@ -49,6 +49,9 @@ namespace creator
         QLabel* id_label;
         QLineEdit* id_box;
 
+        QLabel* comment_label;
+        QLineEdit* comment_box;
+
         QComboBox* subtype;
 
         QLabel* item_search_label;
@@ -81,8 +84,12 @@ namespace creator
     private:
         void delete_self();
         void change_notify_top_parent();
+        void count_min_changed();
+        void count_max_changed();
         QLabel* title_label;
         QSpinBox* prob;
+        QSpinBox* count_min;
+        QSpinBox* count_max;
         QSpinBox* charges_min;
         QSpinBox* charges_max;
         item_group_window* top_parent_widget;
