@@ -664,7 +664,7 @@
     "proficiencies": [ { "proficiency": "prof_pottery" }, { "proficiency": "prof_pottery_glazing" } ],
     "using": [ [ "earthenware_firing", 120 ] ],
     "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "clay_lump", 8 ] ] ]
-  },  
+  },
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",

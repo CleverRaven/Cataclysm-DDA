@@ -286,36 +286,30 @@
     "subtype": "collection",
     "entries": [
       { "item": "corpse_ash", "prob": 100, "charges-min": 2300, "charges-max": 2900, "container-item": "porcelain_urn" },
-      { "item": "photo_album", "prob": 75},
-      { "item": "sunflower", "prob": 33},
-      { "item": "candle", "prob": 50, "charges-min": 1, "charges-max": 6},
+      { "item": "photo_album", "prob": 75 },
+      { "item": "sunflower", "prob": 33 },
+      { "item": "candle", "prob": 50, "charges-min": 1, "charges-max": 6 },
       {
         "distribution": [
-            { "group": "religious_books", "prob": 20 },
-            { "item": "bead_necklace", "prob": 20 },
-            { "item": "bead_bracelet", "prob": 20 },
-            { "item": "holy_symbol", "prob": 20 },
-            { "item": "candlestick", "prob": 20 }
+          { "group": "religious_books", "prob": 20 },
+          { "item": "bead_necklace", "prob": 20 },
+          { "item": "bead_bracelet", "prob": 20 },
+          { "item": "holy_symbol", "prob": 20 },
+          { "item": "candlestick", "prob": 20 }
         ]
       },
       {
         "distribution": [
+          { "collection": [ { "item": "american_flag", "prob": 50 }, { "item": "beret", "prob": 50 } ], "prob": 10 },
           {
             "collection": [
-              { "item": "american_flag", "prob": 50},
-              { "item": "beret", "prob": 50}
-            ],
-            "prob": 10
-          },
-          {
-            "collection": [
-              { "item": "ceramic_mug", "prob": 50},
-              { "group": "beer", "prob": 50},
-              { "group": "liquor_and_spirits", "prob": 40},
-              { "group": "wines_worthy", "prob": 30},
-              { "item": "cigar", "prob": 50},
-              { "item": "hat_ball", "prob": 50},
-              { "item": "baseball", "prob": 50},
+              { "item": "ceramic_mug", "prob": 50 },
+              { "group": "beer", "prob": 50 },
+              { "group": "liquor_and_spirits", "prob": 40 },
+              { "group": "wines_worthy", "prob": 30 },
+              { "item": "cigar", "prob": 50 },
+              { "item": "hat_ball", "prob": 50 },
+              { "item": "baseball", "prob": 50 },
               { "group": "jewelry_accessories", "prob": 50 },
               { "group": "clothing_glasses", "prob": 50 },
               { "item": "foodperson_mask", "prob": 1, "charges": [ 0, 500 ] }
@@ -324,27 +318,27 @@
           },
           {
             "collection": [
-              { "item": "teddy", "prob": 50},
-              { "item": "hat_ball", "prob": 30},
-              { "item": "baseball", "prob": 30},
-              { "item": "roller_shoes_off", "prob": 10},
-              { "item": "gold_medal", "prob": 10},
-              { "item": "silver_medal", "prob": 10},
-              { "item": "bronze_medal", "prob": 10},
-              { "item": "many_years_old_newspaper", "prob": 10},
-              { "item": "story_book", "prob": 10},
-              { "item": "hairpin", "prob": 10},
-              { "item": "barrette", "prob": 10}
+              { "item": "teddy", "prob": 50 },
+              { "item": "hat_ball", "prob": 30 },
+              { "item": "baseball", "prob": 30 },
+              { "item": "roller_shoes_off", "prob": 10 },
+              { "item": "gold_medal", "prob": 10 },
+              { "item": "silver_medal", "prob": 10 },
+              { "item": "bronze_medal", "prob": 10 },
+              { "item": "many_years_old_newspaper", "prob": 10 },
+              { "item": "story_book", "prob": 10 },
+              { "item": "hairpin", "prob": 10 },
+              { "item": "barrette", "prob": 10 }
             ],
             "prob": 5
           },
           {
             "collection": [
-              { "item": "dog_whistle", "prob": 50},
-              { "item": "leather_harness_dog", "prob": 50},
-              { "item": "dogfood_dry", "prob": 50},
-              { "item": "bone", "prob": 50},
-              { "item": "dog_whistle_wood", "prob": 50}
+              { "item": "dog_whistle", "prob": 50 },
+              { "item": "leather_harness_dog", "prob": 50 },
+              { "item": "dogfood_dry", "prob": 50 },
+              { "item": "bone", "prob": 50 },
+              { "item": "dog_whistle_wood", "prob": 50 }
             ],
             "prob": 15
           }
@@ -357,14 +351,14 @@
     "id": "memorial_mansion",
     "subtype": "collection",
     "entries": [
-        { "item": "corpse_ash", "prob": 100, "charges-min": 2300, "charges-max": 2900, "container-item": "crystal_urn" },
-        { "item": "photo_album", "prob": 75},
-        { "item": "sunflower", "prob": 33},
-        { "item": "candlestick", "prob": 50, "charges-min": 1, "charges-max": 6},
-        { "group": "liquor_and_spirits", "prob": 40},
-        { "group": "wines_worthy", "prob": 30},
-        { "item": "cigar", "prob": 50},
-        { "group": "jewelry_accessories", "prob": 50 }
+      { "item": "corpse_ash", "prob": 100, "charges-min": 2300, "charges-max": 2900, "container-item": "crystal_urn" },
+      { "item": "photo_album", "prob": 75 },
+      { "item": "sunflower", "prob": 33 },
+      { "item": "candlestick", "prob": 50, "charges-min": 1, "charges-max": 6 },
+      { "group": "liquor_and_spirits", "prob": 40 },
+      { "group": "wines_worthy", "prob": 30 },
+      { "item": "cigar", "prob": 50 },
+      { "group": "jewelry_accessories", "prob": 50 }
     ]
   },
   {
