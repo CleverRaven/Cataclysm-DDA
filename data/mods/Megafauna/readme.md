@@ -61,7 +61,7 @@ This mod is still work-in-progress, but a basic set of 21 new Pleistocene-era an
 *potential candidates for addition with dubious range, or more research needed, or just more time*
 - [done]Soergelia mayfeldis, goatlike; https://en.wikipedia.org/wiki/Soergelia;
 - [done]Great Auk (Pinguinus impennis), much later extinction but everything else fits, so indeed: why not?
-- [done]Glyptotherium, possibly (https://en.wikipedia.org/wiki/Glyptodont)
+- [done]Glyptotherium, possibly (https://en.wikipedia.org/wiki/Glyptotherium)
 - Horses:
     - Equus Lambei (https://en.wikipedia.org/wiki/Equus_lambei)
     - [done]Hagerman Horse (American Zebra) https://en.wikipedia.org/wiki/Hagerman_horse 
