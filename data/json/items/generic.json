@@ -2393,7 +2393,7 @@
     "id": "dog_tag_dog",
     "name": { "str_sp": "dog tag" },
     "description": "An identification tag for a pet, engraved with their name and their owner's address and phone number.",
-    "weight": "4 g",
+    "weight": "1 g",
     "color": "green",
     "symbol": "[",
     "material": [ "plastic" ],

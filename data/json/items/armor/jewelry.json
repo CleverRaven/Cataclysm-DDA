@@ -948,7 +948,7 @@
     "volume": "25 ml",
     "price": 10000,
     "price_postapoc": 25,
-    "material": [ "gold", "bronze" ],
+    "material": [ { "type": "gold", "portion": 1 }, { "type": "bronze", "portion": 4 } ],
     "symbol": "[",
     "color": "brown",
     "flags": [ "NO_WEAR_EFFECT" ]

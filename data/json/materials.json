@@ -889,6 +889,31 @@
   },
   {
     "type": "material",
+    "id": "crystal",
+    "name": "Crystal",
+    "//": "Specific heat and latent heat copied from glass",
+    "density": 3.1,
+    "specific_heat_liquid": 0.2,
+    "specific_heat_solid": 0.2,
+    "latent_heat": 100,
+    "bash_resist": 3,
+    "cut_resist": 4,
+    "bullet_resist": 3,
+    "acid_resist": 10,
+    "fire_resist": 3,
+    "chip_resist": 0,
+    "dmg_adj": [ "scratched", "cut", "cracked", "shattered" ],
+    "bash_dmg_verb": "cracked",
+    "cut_dmg_verb": "scratched",
+    "burn_data": [
+      { "fuel": 0, "smoke": 0, "burn": 0 },
+      { "fuel": 0, "smoke": 0, "burn": 0 },
+      { "fuel": 0, "smoke": 0, "burn": 1000, "volume_per_turn": "5000 ml", "//": "More like shattering than melting" }
+    ],
+    "burn_products": [ [ "glass_shard", 1 ] ]
+  },
+  {
+    "type": "material",
     "id": "gold",
     "name": "Gold",
     "density": 19.3,
