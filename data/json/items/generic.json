@@ -2369,7 +2369,7 @@
     "weight": "700 g",
     "color": "white",
     "symbol": ",",
-    "material": [ "veggy", "glass" ],
+    "material": [ { "type": "veggy", "portion": 4 }, { "type": "glass", "portion": 1 } ],
     "volume": "600 ml",
     "price": 0,
     "price_postapoc": 0
