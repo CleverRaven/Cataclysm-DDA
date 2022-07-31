@@ -1094,7 +1094,6 @@ class game
         weather_manager weather; // NOLINT(cata-serialize)
 
     public:
-        std::string weather_eternal = "normal"; // NOLINT(cata-serialize)
         int mostseen = 0; // # of mons seen last turn; if this increases, set safe_mode to SAFE_MODE_STOP
     private:
         shared_ptr_fast<Character> u_shared_ptr; // NOLINT(cata-serialize)

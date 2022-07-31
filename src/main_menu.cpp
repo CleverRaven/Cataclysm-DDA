@@ -834,7 +834,6 @@ bool main_menu::opening_screen()
         add_msg( get_scenario()->description( player_character.male ) );
 
         if( get_option<std::string>( "ETERNAL_WEATHER" ) != "normal" ) {
-            g->weather_eternal = get_option<std::string>( "ETERNAL_WEATHER" );
             get_weather().nextweather = calendar::turn;
 
             if( player_character.posz() >= 0 ) {

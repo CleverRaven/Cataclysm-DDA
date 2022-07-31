@@ -1446,8 +1446,6 @@ void game::unserialize_master( std::istream &fin )
                 jsin.read( seed );
             } else if( name == "weather" ) {
                 weather_manager::unserialize_all( jsin );
-            } else if( name == "weather_eternal" ) {
-                jsin.read( weather_eternal );
             } else if( name == "timed_events" ) {
                 timed_event_manager::unserialize_all( jsin );
             } else if( name == "placed_unique_specials" ) {
@@ -1555,7 +1553,6 @@ void game::serialize_master( std::ostream &fout )
         json.member( "winddirection", weather.winddirection );
         json.member( "windspeed", weather.windspeed );
         json.end_object();
-        json.member( "weather_eternal", weather_eternal );
         json.end_object();
     } catch( const JsonError &e ) {
         debugmsg( "error saving to %s: %s", SAVE_MASTER, e.c_str() );
