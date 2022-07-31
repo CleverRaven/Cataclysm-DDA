@@ -119,7 +119,7 @@ void move_mode::finalize()
         if( i == 1 ) {
             curr.set_cycle_back( move_modes_sorted.back() );
         } else {
-            curr.set_cycle_back( move_modes_sorted[i-2] );
+            curr.set_cycle_back( move_modes_sorted[i - 2] );
         }
     }
 }

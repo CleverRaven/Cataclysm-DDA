@@ -2854,7 +2854,7 @@
     "name": "Cycle movement mode reverse",
     "category": "DEFAULTMODE",
     "id": "cycle_move_reverse",
-    "bindings": [ { "input_method": "keyboard_char", "key": "Q" }, { "input_method": "keyboard_code", "key": "q", "mod": [ "shift" ] } ]
+    "bindings": [ { "input_method": "keyboard_any", "key": "Q" }, { "input_method": "keyboard_code", "key": "q", "mod": [ "shift" ] } ]
   },
   {
     "type": "keybinding",
