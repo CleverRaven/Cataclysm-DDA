@@ -1,0 +1,149 @@
+[
+  {
+    "id": "scifi_warmth_template",
+    "type": "widget",
+    "width": 1,
+    "style": "symbol",
+    "clauses": [
+      {
+        "id": "scorching",
+        "sym": "▲",
+        "color": "red",
+        "condition": { "compare_int": [ { "u_val": "warmth" }, ">", { "const": 9500 } ] }
+      },
+      {
+        "id": "very_hot",
+        "sym": "▲",
+        "color": "light_red",
+        "condition": {
+          "and": [
+            { "compare_int": [ { "u_val": "warmth" }, "<=", { "const": 9500 } ] },
+            { "compare_int": [ { "u_val": "warmth" }, ">", { "const": 8000 } ] }
+          ]
+        }
+      },
+      {
+        "id": "warm",
+        "sym": "▴",
+        "color": "yellow",
+        "condition": {
+          "and": [
+            { "compare_int": [ { "u_val": "warmth" }, "<=", { "const": 8000 } ] },
+            { "compare_int": [ { "u_val": "warmth" }, ">", { "const": 6500 } ] }
+          ]
+        }
+      },
+      {
+        "id": "comfortable",
+        "sym": "∙",
+        "color": "green",
+        "condition": {
+          "and": [
+            { "compare_int": [ { "u_val": "warmth" }, "<=", { "const": 6500 } ] },
+            { "compare_int": [ { "u_val": "warmth" }, ">", { "const": 3500 } ] }
+          ]
+        }
+      },
+      {
+        "id": "chilly",
+        "sym": "▾",
+        "color": "light_blue",
+        "condition": {
+          "and": [
+            { "compare_int": [ { "u_val": "warmth" }, "<=", { "const": 3500 } ] },
+            { "compare_int": [ { "u_val": "warmth" }, ">", { "const": 2000 } ] }
+          ]
+        }
+      },
+      {
+        "id": "very_cold",
+        "sym": "▼",
+        "color": "cyan",
+        "condition": {
+          "and": [
+            { "compare_int": [ { "u_val": "warmth" }, "<=", { "const": 2000 } ] },
+            { "compare_int": [ { "u_val": "warmth" }, ">", { "const": 500 } ] }
+          ]
+        }
+      },
+      {
+        "id": "freezing",
+        "sym": "▼",
+        "color": "blue",
+        "condition": { "compare_int": [ { "u_val": "warmth" }, "<=", { "const": 500 } ] }
+      }
+    ]
+  },
+  {
+    "id": "scifi_warmth_head",
+    "type": "widget",
+    "copy-from": "scifi_warmth_template",
+    "bodypart": "head"
+  },
+  {
+    "id": "scifi_warmth_torso",
+    "type": "widget",
+    "copy-from": "scifi_warmth_template",
+    "bodypart": "torso"
+  },
+  {
+    "id": "scifi_warmth_eyes",
+    "type": "widget",
+    "copy-from": "scifi_warmth_template",
+    "bodypart": "eyes"
+  },
+  {
+    "id": "scifi_warmth_mouth",
+    "type": "widget",
+    "copy-from": "scifi_warmth_template",
+    "bodypart": "mouth"
+  },
+  {
+    "id": "scifi_warmth_arm_l",
+    "type": "widget",
+    "copy-from": "scifi_warmth_template",
+    "bodypart": "arm_l"
+  },
+  {
+    "id": "scifi_warmth_hand_l",
+    "type": "widget",
+    "copy-from": "scifi_warmth_template",
+    "bodypart": "hand_l"
+  },
+  {
+    "id": "scifi_warmth_arm_r",
+    "type": "widget",
+    "copy-from": "scifi_warmth_template",
+    "bodypart": "arm_r"
+  },
+  {
+    "id": "scifi_warmth_hand_r",
+    "type": "widget",
+    "copy-from": "scifi_warmth_template",
+    "bodypart": "hand_r"
+  },
+  {
+    "id": "scifi_warmth_leg_l",
+    "type": "widget",
+    "copy-from": "scifi_warmth_template",
+    "bodypart": "leg_l"
+  },
+  {
+    "id": "scifi_warmth_foot_l",
+    "type": "widget",
+    "copy-from": "scifi_warmth_template",
+    "bodypart": "foot_l"
+  },
+  {
+    "id": "scifi_warmth_leg_r",
+    "type": "widget",
+    "copy-from": "scifi_warmth_template",
+    "bodypart": "leg_r"
+  },
+  {
+    "id": "scifi_warmth_foot_r",
+    "type": "widget",
+    "copy-from": "scifi_warmth_template",
+    "bodypart": "foot_r"
+  }
+]

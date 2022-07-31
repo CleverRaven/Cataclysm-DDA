@@ -1,0 +1,81 @@
+[
+  {
+    "id": "scifi_wet_template",
+    "type": "widget",
+    "copy-from": "scifi_graph_vertical",
+    "var": "bp_wetness",
+    "colors": [ "c_dark_gray", "c_cyan", "c_light_cyan" ]
+  },
+  {
+    "id": "scifi_wet_head",
+    "type": "widget",
+    "copy-from": "scifi_wet_template",
+    "bodypart": "head"
+  },
+  {
+    "id": "scifi_wet_torso",
+    "type": "widget",
+    "copy-from": "scifi_wet_template",
+    "bodypart": "torso"
+  },
+  {
+    "id": "scifi_wet_eyes",
+    "type": "widget",
+    "copy-from": "scifi_wet_template",
+    "bodypart": "eyes"
+  },
+  {
+    "id": "scifi_wet_mouth",
+    "type": "widget",
+    "copy-from": "scifi_wet_template",
+    "bodypart": "mouth"
+  },
+  {
+    "id": "scifi_wet_arm_l",
+    "type": "widget",
+    "copy-from": "scifi_wet_template",
+    "bodypart": "arm_l"
+  },
+  {
+    "id": "scifi_wet_hand_l",
+    "type": "widget",
+    "copy-from": "scifi_wet_template",
+    "bodypart": "hand_l"
+  },
+  {
+    "id": "scifi_wet_arm_r",
+    "type": "widget",
+    "copy-from": "scifi_wet_template",
+    "bodypart": "arm_r"
+  },
+  {
+    "id": "scifi_wet_hand_r",
+    "type": "widget",
+    "copy-from": "scifi_wet_template",
+    "bodypart": "hand_r"
+  },
+  {
+    "id": "scifi_wet_leg_l",
+    "type": "widget",
+    "copy-from": "scifi_wet_template",
+    "bodypart": "leg_l"
+  },
+  {
+    "id": "scifi_wet_foot_l",
+    "type": "widget",
+    "copy-from": "scifi_wet_template",
+    "bodypart": "foot_l"
+  },
+  {
+    "id": "scifi_wet_leg_r",
+    "type": "widget",
+    "copy-from": "scifi_wet_template",
+    "bodypart": "leg_r"
+  },
+  {
+    "id": "scifi_wet_foot_r",
+    "type": "widget",
+    "copy-from": "scifi_wet_template",
+    "bodypart": "foot_r"
+  }
+]

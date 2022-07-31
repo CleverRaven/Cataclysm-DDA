@@ -8,8 +8,6 @@
     "separator": ": ",
     "width": 48,
     "padding": 1,
-    "widgets": [
-      "scifi_health_layout"
-    ]
+    "widgets": [ "scifi_health_layout" ]
   }
 ]
