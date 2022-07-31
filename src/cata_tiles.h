@@ -361,6 +361,11 @@ class cata_tiles
 
         void on_options_changed();
 
+        // checks if the tileset_ptr is valid
+        bool is_valid() {
+            return tileset_ptr != nullptr;
+        }
+
         /** Draw to screen */
         void draw( const point &dest, const tripoint &center, int width, int height,
                    std::multimap<point, formatted_text> &overlay_strings,

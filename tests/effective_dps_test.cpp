@@ -273,12 +273,12 @@ static void check_staves( const std::function<Approx( const std::string & )> &ca
     SECTION( "staves" ) { // typical value around 18
         CHECK( calc_expected_dps( "i_staff" ) == 20.62 );
         CHECK( calc_expected_dps( "staff_sling" ) == 11.56 );
-        CHECK( calc_expected_dps( "q_staff" ) == 14.11 );
+        CHECK( calc_expected_dps( "q_staff" ) == 15.74 );
         CHECK( calc_expected_dps( "l-stick_on" ) == 17.5 );
         CHECK( calc_expected_dps( "l-stick" ) == 17.5 );
         CHECK( calc_expected_dps( "shock_staff" ) == 19.61 );
         CHECK( calc_expected_dps( "hockey_stick" ) == 13.75 );
-        CHECK( calc_expected_dps( "pool_cue" ) == 10.0 );
+        CHECK( calc_expected_dps( "pool_cue" ) == 7.76 );
         CHECK( calc_expected_dps( "broom" ) == 3.25 );
     }
 }
@@ -351,7 +351,7 @@ static void check_two_handed_clubs_hammers( const std::function<Approx( const st
         &calc_expected_dps )
 {
     SECTION( "two-handed clubs/hammers" ) { // expected value ideally around 28
-        CHECK( calc_expected_dps( "warhammer" ) == 28.0 );
+        CHECK( calc_expected_dps( "warhammer" ) == 35.77 );
         CHECK( calc_expected_dps( "hammer_sledge" ) == 20.0 );
         CHECK( calc_expected_dps( "halligan" ) == 16.5 );
         CHECK( calc_expected_dps( "stick_long" ) == 6.0 );
@@ -399,23 +399,23 @@ static void check_clubs( const std::function<Approx( const std::string & )> &cal
 {
     SECTION( "clubs" ) { // expected value around 24 but most aren't dedicated weapons
         CHECK( calc_expected_dps( "mace" ) == 24.0 );
-        CHECK( calc_expected_dps( "morningstar" ) == 23.0 );
-        CHECK( calc_expected_dps( "shillelagh_weighted" ) == 22.0 );
+        CHECK( calc_expected_dps( "morningstar" ) == 26.12 );
+        CHECK( calc_expected_dps( "shillelagh_weighted" ) == 24.17 );
         CHECK( calc_expected_dps( "bwirebat" ) == 22.0 );
         CHECK( calc_expected_dps( "baton-extended" ) == 12.0 );
         CHECK( calc_expected_dps( "bat_metal" ) == 21.0 );
         CHECK( calc_expected_dps( "nailbat" ) == 21.0 );
         CHECK( calc_expected_dps( "bat" ) == 20.0 );
-        CHECK( calc_expected_dps( "shillelagh" ) == 20.0 );
+        CHECK( calc_expected_dps( "shillelagh" ) == 22.21 );
         CHECK( calc_expected_dps( "bokken" ) == 20.0 );
         CHECK( calc_expected_dps( "PR24-extended" ) == 13.0 );
         CHECK( calc_expected_dps( "mace_inferior" ) == 18.5 );
         CHECK( calc_expected_dps( "tonfa" ) == 12.0 );
         CHECK( calc_expected_dps( "tonfa_wood" ) == 11.0 );
-        CHECK( calc_expected_dps( "shocktonfa_off" ) == 11.0 );
-        CHECK( calc_expected_dps( "shocktonfa_on" ) == 11.0 );
+        CHECK( calc_expected_dps( "shocktonfa_off" ) == 11.1 );
+        CHECK( calc_expected_dps( "shocktonfa_on" ) == 12.42 );
         CHECK( calc_expected_dps( "crowbar" ) == 15.0 );
-        CHECK( calc_expected_dps( "morningstar_inferior" ) == 15.0 );
+        CHECK( calc_expected_dps( "morningstar_inferior" ) == 19.17 );
         CHECK( calc_expected_dps( "bokken_inferior" ) == 14.0 );
         CHECK( calc_expected_dps( "golf_club" ) == 14.0 );
         CHECK( calc_expected_dps( "mace_fake" ) == 13.0 );
@@ -428,8 +428,8 @@ static void check_clubs( const std::function<Approx( const std::string & )> &cal
         CHECK( calc_expected_dps( "cudgel" ) == 10.5 );
         CHECK( calc_expected_dps( "primitive_hammer" ) == 10.0 );
         CHECK( calc_expected_dps( "bokken_fake" ) == 9.5 );
-        CHECK( calc_expected_dps( "shillelagh_fake" ) == 9.5 );
-        CHECK( calc_expected_dps( "morningstar_fake" ) == 8.0 );
+        CHECK( calc_expected_dps( "shillelagh_fake" ) == 12.11 );
+        CHECK( calc_expected_dps( "morningstar_fake" ) == 10.74 );
         CHECK( calc_expected_dps( "wrench" ) == 8.0 );
         CHECK( calc_expected_dps( "hammer" ) == 7.0 );
         CHECK( calc_expected_dps( "rebar" ) == 7.0 );

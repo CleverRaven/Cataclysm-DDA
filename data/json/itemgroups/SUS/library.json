@@ -264,6 +264,7 @@
       { "item": "cookbook_liverforkids", "prob": 60 },
       { "item": "cookbook_sushi", "count": [ 1, 2 ], "prob": 60 },
       { "item": "cookbook_italian", "count": [ 1, 2 ], "prob": 60 },
+      { "item": "cookbook_mexican", "count": [ 1, 2 ], "prob": 60 },
       { "item": "family_cookbook", "prob": 20 },
       { "item": "scots_cookbook", "prob": 10 }
     ]
@@ -283,6 +284,7 @@
       { "item": "cookbook_liverforkids", "prob": 20 },
       { "item": "cookbook_sushi", "count": [ 0, 1 ], "prob": 20 },
       { "item": "cookbook_italian", "count": [ 0, 1 ], "prob": 20 },
+      { "item": "cookbook_mexican", "count": [ 0, 1 ], "prob": 20 },
       { "item": "family_cookbook", "prob": 5 },
       { "item": "book_ruined", "count": [ 0, 12 ], "prob": 100 },
       { "item": "book_pieces", "count": [ 0, 26 ], "prob": 100 },

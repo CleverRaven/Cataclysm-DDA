@@ -303,7 +303,6 @@
       { "item": "crossbow", "prob": 70 },
       { "item": "bullet_crossbow", "prob": 10 },
       { "item": "hand_crossbow", "prob": 10 },
-      { "item": "bow_sling", "prob": 10 },
       { "item": "longbow", "prob": 40 },
       { "item": "shortbow", "prob": 20 }
     ]

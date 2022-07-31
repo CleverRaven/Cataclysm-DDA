@@ -28,7 +28,7 @@
       "EBOOKSAVE",
       "EBOOKREAD"
     ],
-    "flags": [ "WATCH", "ALARMCLOCK", "NO_UNLOAD", "NO_RELOAD", "CALORIES_INTAKE" ],
+    "flags": [ "WATCH", "ALARMCLOCK", "NO_UNLOAD", "NO_RELOAD", "WATERPROOF", "CALORIES_INTAKE" ],
     "pocket_data": [
       {
         "pocket_type": "EBOOK",
@@ -102,7 +102,7 @@
     "description": "This phone is playing music, steadily raising your morale.  You can't hear anything else while you're listening.",
     "revert_to": "afs_atomic_smartphone",
     "use_action": [ "MP3_ON", "PORTABLE_GAME", "EINKTABLETPC", "EBOOKSAVE", "EBOOKREAD" ],
-    "flags": [ "WATCH", "TRADER_AVOID", "ALARMCLOCK", "NO_UNLOAD", "NO_RELOAD" ]
+    "flags": [ "WATCH", "TRADER_AVOID", "ALARMCLOCK", "NO_UNLOAD", "WATERPROOF", "NO_RELOAD" ]
   },
   {
     "id": "afs_atomic_smartphone_flashlight",
@@ -122,7 +122,7 @@
         "type": "transform"
       }
     ],
-    "flags": [ "WATCH", "LIGHT_25", "TRADER_AVOID", "ALARMCLOCK", "NO_UNLOAD", "NO_RELOAD" ]
+    "flags": [ "WATCH", "LIGHT_25", "TRADER_AVOID", "ALARMCLOCK", "WATERPROOF", "NO_UNLOAD", "NO_RELOAD" ]
   },
   {
     "id": "afs_wraitheon_smartphone",
@@ -168,7 +168,7 @@
     "description": "This phone is playing music, steadily raising your morale.  You can't hear anything else while you're listening.",
     "revert_to": "afs_atomic_smartphone",
     "use_action": [ "MP3_ON", "PORTABLE_GAME", "EINKTABLETPC", "EBOOKSAVE", "EBOOKREAD" ],
-    "flags": [ "WATCH", "TRADER_AVOID", "ALARMCLOCK", "NO_UNLOAD", "NO_RELOAD", "CALORIES_INTAKE" ]
+    "flags": [ "WATCH", "TRADER_AVOID", "ALARMCLOCK", "NO_UNLOAD", "NO_RELOAD", "WATERPROOF", "CALORIES_INTAKE" ]
   },
   {
     "id": "afs_atomic_wraitheon_flashlight",

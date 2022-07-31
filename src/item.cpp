@@ -107,6 +107,7 @@
 #include "value_ptr.h"
 #include "vehicle.h"
 #include "vitamin.h"
+#include "veh_type.h"
 #include "vpart_position.h"
 #include "weather.h"
 #include "weather_gen.h"
@@ -209,6 +210,9 @@ static const std::string flag_NO_DISPLAY( "NO_DISPLAY" );
 // fault flags
 static const std::string flag_BLACKPOWDER_FOULING_DAMAGE( "BLACKPOWDER_FOULING_DAMAGE" );
 static const std::string flag_SILENT( "SILENT" );
+
+// item pricing
+static const int PRICE_FILTHY_MALUS = 100;  // cents
 
 constexpr units::volume armor_portion_data::volume_per_encumbrance;
 
@@ -5361,7 +5365,7 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         const holster_actor *ptr = dynamic_cast<const holster_actor *>
                                    ( e.get_use( "holster" )->get_actor_ptr() );
         const item holster_item( &e );
-        return ptr->can_holster( holster_item, *this );
+        return ptr->can_holster( holster_item, *this ) && !item_is_blacklisted( holster_item.typeId() );
     } );
 
     if( !holsters.empty() && parts->test( iteminfo_parts::DESCRIPTION_HOLSTERS ) ) {
@@ -5509,7 +5513,71 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         }
     }
 
+    // Vehicle parts using this item as a component
+    if( parts->test( iteminfo_parts::DESCRIPTION_VEHICLE_PARTS ) ) {
+        const itype_id tid = typeId();
+        std::vector<vpart_info> vparts;
 
+        for( const std::pair<const vpart_id, vpart_info> &vp : vpart_info::all() ) {
+            if( vp.second.base_item == tid ) {
+                vparts.push_back( vp.second );
+            }
+        }
+
+        if( !vparts.empty() ) {
+            insert_separation_line( info );
+            // Maximum number of parts to display
+            constexpr int max_parts = 12;
+
+            // Pairs of <item name, has_skills_to_install>
+            std::vector<std::pair<std::string, bool>> result_parts;
+
+            int processed_parts = 0;
+
+            // Build result_names vector of at most the first `max_parts` items
+            for( const vpart_info &vp : vparts ) {
+                // Break out early if we've hit our limit
+                if( processed_parts++ > max_parts ) {
+                    break;
+                }
+
+                bool can_install = player_character.meets_skill_requirements( vp.install_skills );
+
+                bool is_duplicate = std::any_of( result_parts.begin(), result_parts.end(),
+                [name = vp.name()]( const auto & pair ) {
+                    return pair.first == name;
+                } );
+
+                if( is_duplicate ) {
+                    continue; // skip part variants, they have same part names
+                }
+
+                result_parts.emplace_back( std::make_pair( vp.name(), can_install ) );
+            }
+
+            // Sort according to the user's locale
+            std::sort( result_parts.begin(), result_parts.end(), localized_compare );
+
+            // Endarken parts that can't be installed with the character's skills
+            const std::string installable_parts =
+                enumerate_as_string( result_parts.begin(), result_parts.end(),
+            []( const std::pair<std::string, bool> &p ) {
+                if( p.second ) {
+                    return p.first;
+                } else {
+                    return string_format( "<dark>%s</dark>", p.first );
+                }
+            } );
+
+            const int num_hidden_parts = vparts.size() - max_parts;
+
+            const std::string fmt = ( num_hidden_parts > 0 )
+                                    ? string_format( _( "You could install it in a vehicle: %s, and more" ), installable_parts )
+                                    : string_format( _( "You could install it in a vehicle: %s" ), installable_parts );
+
+            info.emplace_back( " DESCRIPTION", fmt );
+        }
+    }
 }
 void item::ascii_art_info( std::vector<iteminfo> &info, const iteminfo_query * /* parts */,
                            int  /* batch */,
@@ -6600,10 +6668,6 @@ int item::price_no_contents( bool practical ) const
         price -= price * static_cast< double >( damage_level() ) / 5;
     }
 
-    if( is_filthy() ) {
-        price *= 0.8;
-    }
-
     if( count_by_charges() || made_of( phase_id::LIQUID ) ) {
         // price from json data is for default-sized stack
         price *= charges / static_cast< double >( type->stack_size );
@@ -6616,6 +6680,13 @@ int item::price_no_contents( bool practical ) const
         // if tool has no ammo (e.g. spray can) reduce price proportional to remaining charges
         price *= ammo_remaining() / static_cast< double >( std::max( type->charges_default(), 1 ) );
 
+    }
+
+    if( is_filthy() ) {
+        // Filthy items receieve a fixed price malus. This means common clothing ends up
+        // with no value (it's *everywhere*), but valuable items retain most of their value.
+        // https://github.com/CleverRaven/Cataclysm-DDA/issues/49469
+        price = std::max( price - PRICE_FILTHY_MALUS, 0 );
     }
 
     return price;
@@ -8321,6 +8392,10 @@ float item::bullet_resist( const sub_bodypart_id &bp, bool to_self, int roll ) c
 
 float item::biological_resist( bool to_self, const bodypart_id &bp, int roll ) const
 {
+    if( to_self ) {
+        return std::numeric_limits<float>::max();
+    }
+
     if( is_null() ) {
         return 0.0f;
     }
@@ -8367,6 +8442,10 @@ float item::biological_resist( bool to_self, const bodypart_id &bp, int roll ) c
 
 float item::biological_resist( const sub_bodypart_id &bp, bool to_self, int roll ) const
 {
+    if( to_self ) {
+        return std::numeric_limits<float>::max();
+    }
+
     if( is_null() ) {
         return 0.0f;
     }
@@ -8410,6 +8489,10 @@ float item::biological_resist( const sub_bodypart_id &bp, bool to_self, int roll
 
 float item::electric_resist( bool to_self, const bodypart_id &bp, int roll ) const
 {
+    if( to_self ) {
+        return std::numeric_limits<float>::max();
+    }
+
     if( is_null() ) {
         return 0.0f;
     }
@@ -8456,6 +8539,10 @@ float item::electric_resist( bool to_self, const bodypart_id &bp, int roll ) con
 
 float item::electric_resist( const sub_bodypart_id &bp, bool to_self, int roll ) const
 {
+    if( to_self ) {
+        return std::numeric_limits<float>::max();
+    }
+
     if( is_null() ) {
         return 0.0f;
     }
@@ -8499,6 +8586,10 @@ float item::electric_resist( const sub_bodypart_id &bp, bool to_self, int roll )
 
 float item::cold_resist( bool to_self, const bodypart_id &bp, int roll ) const
 {
+    if( to_self ) {
+        return std::numeric_limits<float>::max();
+    }
+
     if( is_null() ) {
         return 0.0f;
     }
@@ -8545,6 +8636,10 @@ float item::cold_resist( bool to_self, const bodypart_id &bp, int roll ) const
 
 float item::cold_resist( const sub_bodypart_id &bp, bool to_self, int roll ) const
 {
+    if( to_self ) {
+        return std::numeric_limits<float>::max();
+    }
+
     if( is_null() ) {
         return 0.0f;
     }
@@ -9054,7 +9149,15 @@ std::string item::durability_indicator( bool include_intact ) const
 const std::set<itype_id> &item::repaired_with() const
 {
     static std::set<itype_id> no_repair;
-    return has_flag( flag_NO_REPAIR )  ? no_repair : type->repair;
+    static std::set<itype_id> tools;
+    tools.clear();
+
+    std::copy_if( type->repair.begin(), type->repair.end(), std::inserter( tools, tools.begin() ),
+    []( const itype_id & i ) {
+        return !item_is_blacklisted( i );
+    } );
+
+    return has_flag( flag_NO_REPAIR ) ? no_repair : tools;
 }
 
 void item::mitigate_damage( damage_unit &du, const bodypart_id &bp, int roll ) const

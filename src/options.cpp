@@ -2058,7 +2058,25 @@ void options_manager::add_options_graphics()
          build_tilesets_list(), "UltimateCataclysm", COPT_CURSES_HIDE
        ); // populate the options dynamically
 
+    add( "USE_DISTANT_TILES", "graphics", to_translation( "Use separate tileset for far" ),
+         to_translation( "If true, when very zoomed out you will use a separate tileset." ),
+         false, COPT_CURSES_HIDE
+       );
+
+    add( "DISTANT_TILES", "graphics", to_translation( "Choose distant tileset" ),
+         to_translation( "Choose the tileset you want to use for far zoom." ),
+         build_tilesets_list(), "UltimateCataclysm", COPT_CURSES_HIDE
+       ); // populate the options dynamically
+
+    add( "SWAP_ZOOM", "graphics", to_translation( "Zoom Threshold" ),
+         to_translation( "Choose when you should swap tileset (lower is more zoomed out)." ),
+         1, 4, 2, COPT_CURSES_HIDE
+       ); // populate the options dynamically
+
     get_option( "TILES" ).setPrerequisite( "USE_TILES" );
+    get_option( "USE_DISTANT_TILES" ).setPrerequisite( "USE_TILES" );
+    get_option( "DISTANT_TILES" ).setPrerequisite( "USE_DISTANT_TILES" );
+    get_option( "SWAP_ZOOM" ).setPrerequisite( "USE_DISTANT_TILES" );
 
     add( "USE_TILES_OVERMAP", "graphics", to_translation( "Use tiles to display overmap" ),
          to_translation( "If true, replaces some TTF-rendered text with tiles for overmap display." ),
@@ -2774,18 +2792,36 @@ static void refresh_tiles( bool used_tiles_changed, bool pixel_minimap_height_ch
         ui_adaptor dummy( ui_adaptor::disable_uis_below {} );
         //try and keep SDL calls limited to source files that deal specifically with them
         try {
-            tilecontext->reinit();
-            tilecontext->load_tileset( get_option<std::string>( "TILES" ),
-                                       /*precheck=*/false, /*force=*/false,
-                                       /*pump_events=*/true );
+            closetilecontext->reinit();
+            closetilecontext->load_tileset( get_option<std::string>( "TILES" ),
+                                            /*precheck=*/false, /*force=*/false,
+                                            /*pump_events=*/true );
             //game_ui::init_ui is called when zoom is changed
             g->reset_zoom();
             g->mark_main_ui_adaptor_resize();
-            tilecontext->do_tile_loading_report();
+            closetilecontext->do_tile_loading_report();
         } catch( const std::exception &err ) {
             popup( _( "Loading the tileset failed: %s" ), err.what() );
             use_tiles = false;
             use_tiles_overmap = false;
+        }
+        if( use_far_tiles ) {
+            try {
+                if( fartilecontext->is_valid() ) {
+                    fartilecontext->reinit();
+                }
+                fartilecontext->load_tileset( get_option<std::string>( "DISTANT_TILES" ),
+                                              /*precheck=*/false, /*force=*/false,
+                                              /*pump_events=*/true );
+                //game_ui::init_ui is called when zoom is changed
+                g->reset_zoom();
+                g->mark_main_ui_adaptor_resize();
+                fartilecontext->do_tile_loading_report();
+            } catch( const std::exception &err ) {
+                popup( _( "Loading the far tileset failed: %s" ), err.what() );
+                use_tiles = false;
+                use_tiles_overmap = false;
+            }
         }
         try {
             overmap_tilecontext->reinit();
@@ -3326,7 +3362,8 @@ std::string options_manager::show( bool ingame, const bool world_options_only, b
                 || iter.first == "PIXEL_MINIMAP_SCALE_TO_FIT" ) {
                 pixel_minimap_changed = true;
 
-            } else if( iter.first == "TILES" || iter.first == "USE_TILES" || iter.first == "OVERMAP_TILES" ) {
+            } else if( iter.first == "TILES" || iter.first == "USE_TILES" || iter.first == "DISTANT_TILES" ||
+                       iter.first == "USE_DISTANT_TILES" || iter.first == "OVERMAP_TILES" ) {
                 used_tiles_changed = true;
 
             } else if( iter.first == "USE_LANG" ) {
@@ -3469,6 +3506,9 @@ static void update_options_cache()
     // cache to global due to heavy usage.
     trigdist = ::get_option<bool>( "CIRCLEDIST" );
     use_tiles = ::get_option<bool>( "USE_TILES" );
+    // if the tilesets are identical don't duplicate
+    use_far_tiles = ::get_option<bool>( "USE_DISTANT_TILES" ) ||
+                    get_option<std::string>( "TILES" ) == get_option<std::string>( "DISTANT_TILES" );
     use_tiles_overmap = ::get_option<bool>( "USE_TILES_OVERMAP" );
     log_from_top = ::get_option<std::string>( "LOG_FLOW" ) == "new_top";
     message_ttl = ::get_option<int>( "MESSAGE_TTL" );
