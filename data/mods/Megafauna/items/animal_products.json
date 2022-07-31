@@ -44,8 +44,6 @@
     "price_postapoc": 10,
     "material": [ "bone" ],
     "volume": "180 L",
-    "longest_side": "2000 cm",
-    "bashing": 45,
-    "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "clumsy" }
+    "longest_side": "2000 cm"
   }
 ]
