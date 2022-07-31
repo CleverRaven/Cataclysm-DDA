@@ -5513,7 +5513,7 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         }
     }
 
-    // Vehicle parts using this item as a component
+    // Vehicle parts or appliances using this item as a component
     if( parts->test( iteminfo_parts::DESCRIPTION_VEHICLE_PARTS ) ) {
         const itype_id tid = typeId();
         std::vector<vpart_info> vparts;
@@ -5524,8 +5524,12 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
             }
         }
 
-        if( !vparts.empty() ) {
-            insert_separation_line( info );
+        const auto print_parts = [&info, &player_character](
+                                     const std::vector<vpart_info> &vparts,
+                                     const std::string & install_where_full,
+                                     const std::string & install_where_abbreviated,
+                                     const std::function<bool( const vpart_info & )> &predicate
+        ) {
             // Maximum number of parts to display
             constexpr int max_parts = 12;
 
@@ -5541,18 +5545,22 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                     break;
                 }
 
-                bool can_install = player_character.meets_skill_requirements( vp.install_skills );
-
                 bool is_duplicate = std::any_of( result_parts.begin(), result_parts.end(),
                 [name = vp.name()]( const auto & pair ) {
                     return pair.first == name;
                 } );
 
-                if( is_duplicate ) {
+                if( is_duplicate || !predicate( vp ) ) {
                     continue; // skip part variants, they have same part names
                 }
 
+                bool can_install = player_character.meets_skill_requirements( vp.install_skills );
+
                 result_parts.emplace_back( std::make_pair( vp.name(), can_install ) );
+            }
+
+            if( result_parts.empty() ) {
+                return;
             }
 
             // Sort according to the user's locale
@@ -5570,15 +5578,30 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
             } );
 
             const int num_hidden_parts = vparts.size() - max_parts;
-
             const std::string fmt = ( num_hidden_parts > 0 )
-                                    ? string_format( _( "You could install it in a vehicle: %s, and more" ), installable_parts )
-                                    : string_format( _( "You could install it in a vehicle: %s" ), installable_parts );
+                                    ? string_format( install_where_abbreviated, installable_parts )
+                                    : string_format( install_where_full, installable_parts );
 
+            insert_separation_line( info );
             info.emplace_back( " DESCRIPTION", fmt );
-        }
+        };
+
+        print_parts( vparts,
+                     _( "You could install it in a vehicle: %s" ),
+                     _( "You could install it in a vehicle: %s, and more" ),
+        []( const vpart_info & vp ) {
+            return !vp.has_flag( vpart_bitflags::VPFLAG_APPLIANCE );
+        } );
+
+        print_parts( vparts,
+                     _( "You could install it as an appliance: %s" ),
+                     _( "You could install it as an appliance: %s, and more" ),
+        []( const vpart_info & vp ) {
+            return vp.has_flag( vpart_bitflags::VPFLAG_APPLIANCE );
+        } );
     }
 }
+
 void item::ascii_art_info( std::vector<iteminfo> &info, const iteminfo_query * /* parts */,
                            int  /* batch */,
                            bool /* debug */ ) const
