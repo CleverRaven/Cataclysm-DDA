@@ -66,7 +66,7 @@
     "price": 500,
     "price_postapoc": 250,
     "install_time": "5 m",
-    "material": [ "plastic" ],
+    "material": [ "rubber" ],
     "symbol": ":",
     "color": "brown",
     "location": "dampening",
