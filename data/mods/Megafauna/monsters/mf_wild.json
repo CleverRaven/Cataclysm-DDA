@@ -531,7 +531,7 @@
   {
     "id": "mon_glyptotherium",
     "type": "MONSTER",
-    "name": { "str": "glyptotherium" },
+    "name": { "str": "glyptotherium", "str_pl": "glyptotherii" },
     "description": "A huge herbivore that almost resembles a giant tortoise due to its hard outer shell, although it is a close relative to armadillos.  Normally, this species prefers much warmer climates.  This individual probably lost its way at some point.",
     "default_faction": "mega_herbivore",
     "bodytype": "bear",
