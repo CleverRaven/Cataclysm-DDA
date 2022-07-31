@@ -287,7 +287,7 @@
     "entries": [
       { "item": "corpse_ash", "prob": 100, "charges-min": 2300, "charges-max": 2900, "container-item": "porcelain_urn" },
       { "item": "photo_album", "prob": 75 },
-      { "item": "sunflower", "prob": 33 },
+      { "item": "bouquet", "prob": 33 },
       { "item": "candle", "prob": 50, "charges-min": 1, "charges-max": 6 },
       {
         "distribution": [
@@ -300,7 +300,15 @@
       },
       {
         "distribution": [
-          { "collection": [ { "item": "american_flag", "prob": 50 }, { "item": "beret", "prob": 50 } ], "prob": 10 },
+          {
+            "collection": [
+              { "item": "american_flag", "prob": 70 },
+              { "item": "beret", "prob": 33 },
+              { "item": "service_medal", "prob": 50 },
+              { "item": "dog_tag", "prob": 100 }
+            ],
+            "prob": 10
+          },
           {
             "collection": [
               { "item": "ceramic_mug", "prob": 50 },
@@ -325,20 +333,21 @@
               { "item": "gold_medal", "prob": 10 },
               { "item": "silver_medal", "prob": 10 },
               { "item": "bronze_medal", "prob": 10 },
-              { "item": "many_years_old_newspaper", "prob": 10 },
               { "item": "story_book", "prob": 10 },
               { "item": "hairpin", "prob": 10 },
-              { "item": "barrette", "prob": 10 }
+              { "item": "barrette", "prob": 10 },
+              { "item": "newspaper_memorial", "prob": 10 }
             ],
             "prob": 5
           },
           {
             "collection": [
               { "item": "dog_whistle", "prob": 50 },
+              { "item": "dog_whistle_wood", "prob": 25 },
               { "item": "leather_harness_dog", "prob": 50 },
               { "item": "dogfood_dry", "prob": 50 },
               { "item": "bone", "prob": 50 },
-              { "item": "dog_whistle_wood", "prob": 50 }
+              { "item": "dog_tag_dog", "prob": 100 }
             ],
             "prob": 15
           }
