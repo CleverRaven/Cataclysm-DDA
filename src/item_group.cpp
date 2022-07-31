@@ -891,7 +891,7 @@ static item_group_id get_unique_group_id()
     // names should not be seen anywhere.
     static const std::string unique_prefix = "\u01F7 ";
     while( true ) {
-        const item_group_id new_group( unique_prefix + std::to_string( next_id++ ) );
+        item_group_id new_group( unique_prefix + std::to_string( next_id++ ) );
         if( !item_group::group_is_defined( new_group ) ) {
             return new_group;
         }
@@ -904,7 +904,7 @@ item_group_id item_group::load_item_group( const JsonValue &value,
     if( value.test_string() ) {
         return item_group_id( value.get_string() );
     } else if( value.test_object() ) {
-        const item_group_id group = get_unique_group_id();
+        item_group_id group = get_unique_group_id();
 
         JsonObject jo = value.get_object();
         const std::string subtype = jo.get_string( "subtype", default_subtype );
@@ -912,7 +912,7 @@ item_group_id item_group::load_item_group( const JsonValue &value,
 
         return group;
     } else if( value.test_array() ) {
-        const item_group_id group = get_unique_group_id();
+        item_group_id group = get_unique_group_id();
 
         JsonArray jarr = value.get_array();
         // load_item_group needs a bool, invalid subtypes are unexpected and most likely errors

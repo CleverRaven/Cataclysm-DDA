@@ -574,7 +574,7 @@
     "volume": "2946 ml",
     "price": 39900,
     "price_postapoc": 2000,
-    "barrel_volume": "234 ml",
+    "barrel_volume": "980 ml",
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "barrel", 1 ],
@@ -608,7 +608,7 @@
     "dispersion": 210,
     "durability": 9,
     "clip_size": 1,
-    "barrel_volume": "117 ml",
+    "barrel_volume": "670 ml",
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "barrel", 1 ],
@@ -853,7 +853,7 @@
     "name": { "str": "M26-MASS standalone shotgun" },
     "description": "Modular Accessory Shotgun System, an underbarrel bolt-action shotgun, inspired by \"Masterkey\", and fixed most of its problems.  This one was configured for a standalone usage.",
     "variant_type": "gun",
-    "weight": "2260 g",
+    "weight": "1900 g",
     "volume": "2390 ml",
     "longest_side": "610 mm",
     "price": 189000,

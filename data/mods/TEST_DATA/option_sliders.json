@@ -1,0 +1,103 @@
+[
+  {
+    "type": "option_slider",
+    "id": "test_world_difficulty",
+    "context": "TEST",
+    "name": "TEST Difficulty",
+    "default": 3,
+    "//": "levels are out of order on purpose",
+    "levels": [
+      {
+        "level": 1,
+        "name": "TEST 1",
+        "options": [
+          { "option": "MONSTER_SPEED", "type": "int", "val": 95 },
+          { "option": "MONSTER_RESILIENCE", "type": "int", "val": 85 },
+          { "option": "SPAWN_DENSITY", "type": "float", "val": 0.9 },
+          { "option": "MONSTER_UPGRADE_FACTOR", "type": "float", "val": 6 },
+          { "option": "ITEM_SPAWNRATE", "type": "float", "val": 1.25 },
+          { "option": "ETERNAL_SEASON", "type": "bool", "val": false },
+          { "option": "ETERNAL_TIME_OF_DAY", "type": "string", "val": "normal" }
+        ]
+      },
+      {
+        "level": 4,
+        "name": "TEST 4",
+        "options": [
+          { "option": "MONSTER_SPEED", "type": "int", "val": 105 },
+          { "option": "MONSTER_RESILIENCE", "type": "int", "val": 120 },
+          { "option": "SPAWN_DENSITY", "type": "float", "val": 1.5 },
+          { "option": "MONSTER_UPGRADE_FACTOR", "type": "float", "val": 4 },
+          { "option": "ITEM_SPAWNRATE", "type": "float", "val": 1 },
+          { "option": "ETERNAL_SEASON", "type": "bool", "val": false },
+          { "option": "ETERNAL_TIME_OF_DAY", "type": "string", "val": "normal" }
+        ]
+      },
+      {
+        "level": 0,
+        "name": "TEST 0",
+        "options": [
+          { "option": "MONSTER_SPEED", "type": "int", "val": 90 },
+          { "option": "MONSTER_RESILIENCE", "type": "int", "val": 75 },
+          { "option": "SPAWN_DENSITY", "type": "float", "val": 0.8 },
+          { "option": "MONSTER_UPGRADE_FACTOR", "type": "float", "val": 8 },
+          { "option": "ITEM_SPAWNRATE", "type": "float", "val": 1.5 },
+          { "option": "ETERNAL_SEASON", "type": "bool", "val": false },
+          { "option": "ETERNAL_TIME_OF_DAY", "type": "string", "val": "normal" }
+        ]
+      },
+      {
+        "level": 6,
+        "name": "TEST 6",
+        "options": [
+          { "option": "MONSTER_SPEED", "type": "int", "val": 120 },
+          { "option": "MONSTER_RESILIENCE", "type": "int", "val": 200 },
+          { "option": "SPAWN_DENSITY", "type": "float", "val": 3 },
+          { "option": "MONSTER_UPGRADE_FACTOR", "type": "float", "val": 3 },
+          { "option": "ITEM_SPAWNRATE", "type": "float", "val": 0.5 },
+          { "option": "ETERNAL_SEASON", "type": "bool", "val": true },
+          { "option": "ETERNAL_TIME_OF_DAY", "type": "string", "val": "night" }
+        ]
+      },
+      {
+        "level": 2,
+        "name": "TEST 2",
+        "options": [
+          { "option": "MONSTER_SPEED", "type": "int", "val": 95 },
+          { "option": "MONSTER_RESILIENCE", "type": "int", "val": 90 },
+          { "option": "SPAWN_DENSITY", "type": "float", "val": 1 },
+          { "option": "MONSTER_UPGRADE_FACTOR", "type": "float", "val": 5 },
+          { "option": "ITEM_SPAWNRATE", "type": "float", "val": 1 },
+          { "option": "ETERNAL_SEASON", "type": "bool", "val": false },
+          { "option": "ETERNAL_TIME_OF_DAY", "type": "string", "val": "normal" }
+        ]
+      },
+      {
+        "level": 3,
+        "name": "TEST 3",
+        "options": [
+          { "option": "MONSTER_SPEED", "type": "int", "val": 100 },
+          { "option": "MONSTER_RESILIENCE", "type": "int", "val": 100 },
+          { "option": "SPAWN_DENSITY", "type": "float", "val": 1 },
+          { "option": "MONSTER_UPGRADE_FACTOR", "type": "float", "val": 4 },
+          { "option": "ITEM_SPAWNRATE", "type": "float", "val": 1 },
+          { "option": "ETERNAL_SEASON", "type": "bool", "val": false },
+          { "option": "ETERNAL_TIME_OF_DAY", "type": "string", "val": "normal" }
+        ]
+      },
+      {
+        "level": 5,
+        "name": "TEST 5",
+        "options": [
+          { "option": "MONSTER_SPEED", "type": "int", "val": 110 },
+          { "option": "MONSTER_RESILIENCE", "type": "int", "val": 150 },
+          { "option": "SPAWN_DENSITY", "type": "float", "val": 2 },
+          { "option": "MONSTER_UPGRADE_FACTOR", "type": "float", "val": 3.5 },
+          { "option": "ITEM_SPAWNRATE", "type": "float", "val": 0.8 },
+          { "option": "ETERNAL_SEASON", "type": "bool", "val": false },
+          { "option": "ETERNAL_TIME_OF_DAY", "type": "string", "val": "normal" }
+        ]
+      }
+    ]
+  }
+]

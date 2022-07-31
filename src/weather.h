@@ -109,9 +109,11 @@ std::string print_pressure( double pressure, int decimals = 0 );
 int get_local_windchill( double temperature_f, double humidity, double wind_mph );
 
 int get_local_humidity( double humidity, const weather_type_id &weather, bool sheltered = false );
-double get_local_windpower( double windpower, const oter_id &omter, const tripoint &location,
-                            const int &winddirection,
-                            bool sheltered = false );
+
+// Returns windspeed (mph) after being modified by local cover
+int get_local_windpower( int windpower, const oter_id &omter, const tripoint &location,
+                         const int &winddirection,
+                         bool sheltered = false );
 weather_sum sum_conditions( const time_point &start,
                             const time_point &end,
                             const tripoint &location );

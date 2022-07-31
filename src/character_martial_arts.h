@@ -81,9 +81,9 @@ class character_martial_arts
 
         /** Returns an attack vector that the player can use */
         std::string get_valid_attack_vector( const Character &user,
-                                             std::vector<std::string> attack_vectors ) const;
+                                             const std::vector<std::string> &attack_vectors ) const;
         /** Returns true if the player is able to use the given attack vector */
-        bool can_use_attack_vector( const Character &user, std::string av ) const;
+        bool can_use_attack_vector( const Character &user, const std::string &av ) const;
         /** Returns true if the player has the leg block technique available */
         bool can_leg_block( const Character &owner ) const;
         /** Returns true if the player has the arm block technique available */
@@ -95,7 +95,7 @@ class character_martial_arts
         /** Returns true if the current style allows blocking with weapons */
         bool can_weapon_block() const;
 
-        std::vector<matec_id> get_all_techniques( const item &weap, const Character &u ) const;
+        std::vector<matec_id> get_all_techniques( const item_location &weap, const Character &u ) const;
         std::vector<matype_id> get_unknown_styles( const character_martial_arts &from ) const;
         /** Returns true if the player has a weapon or martial arts skill available with the entered technique */
         bool has_technique( const Character &guy, const matec_id &id, const item &weap ) const;

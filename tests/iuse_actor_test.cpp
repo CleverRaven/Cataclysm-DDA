@@ -99,7 +99,7 @@ TEST_CASE( "tool transform when activated", "[iuse][tool][transform]" )
 
         // Put battery in flashlight
         REQUIRE( flashlight.has_pocket_type( item_pocket::pocket_type::MAGAZINE_WELL ) );
-        ret_val<bool> result = flashlight.put_in( bat_cell, item_pocket::pocket_type::MAGAZINE_WELL );
+        ret_val<void> result = flashlight.put_in( bat_cell, item_pocket::pocket_type::MAGAZINE_WELL );
         REQUIRE( result.success() );
         REQUIRE( flashlight.magazine_current() );
 
@@ -155,7 +155,7 @@ static void cut_up_yields( const std::string &target )
 
     REQUIRE( smallest_yield_mass <= cut_up_target_mass );
 
-    test_actor.cut_up( guy, tool, item_loc );
+    test_actor.try_to_cut_up( guy, tool, item_loc );
 
     map_stack salvaged_items = here.i_at( guy.pos() );
     units::mass salvaged_mass = 0_gram;

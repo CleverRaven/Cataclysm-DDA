@@ -35,6 +35,7 @@
 #include "trap.h"
 #include "vehicle_group.h"
 #include "weighted_list.h"
+#include "creature_tracker.h"
 
 static const item_group_id Item_spawn_data_field( "field" );
 static const item_group_id Item_spawn_data_forest_trail( "forest_trail" );
@@ -460,7 +461,7 @@ void mapgen_hive( mapgendata &dat )
 int terrain_type_to_nesw_array( oter_id terrain_type, bool array[4] )
 {
     // count and mark which directions the road goes
-    const auto &oter( *terrain_type );
+    const oter_t &oter( *terrain_type );
     int num_dirs = 0;
     for( const om_direction::type dir : om_direction::all ) {
         num_dirs += ( array[static_cast<int>( dir )] = oter.has_connection( dir ) );
@@ -2737,7 +2738,8 @@ void mapgen_lake_shore( mapgendata &dat )
             oter_id match = adjacent;
 
             // Check if this terrain has an alias to something we actually will extend, and if so, use it.
-            for( const auto &alias : dat.region.overmap_lake.shore_extendable_overmap_terrain_aliases ) {
+            for( const shore_extendable_overmap_terrain_alias &alias :
+                 dat.region.overmap_lake.shore_extendable_overmap_terrain_aliases ) {
                 if( is_ot_match( alias.overmap_terrain, adjacent, alias.match_type ) ) {
                     match = alias.alias;
                     break;
@@ -3050,7 +3052,7 @@ void mapgen_lake_shore( mapgendata &dat )
     // be in the location as a result of our extending adjacent mapgen.
     const auto draw_shallow_water = [&]( const point & from, const point & to ) {
         std::vector<point> points = line_to( from, to );
-        for( auto &p : points ) {
+        for( point &p : points ) {
             for( const point &bp : closest_points_first( p, 1 ) ) {
                 if( !map_boundaries.contains( bp ) ) {
                     continue;
@@ -3101,7 +3103,7 @@ void mapgen_lake_shore( mapgendata &dat )
     const auto fill_deep_water = [&]( const point & starting_point ) {
         std::vector<point> water_points = ff::point_flood_fill_4_connected( starting_point, visited,
                                           should_fill );
-        for( auto &wp : water_points ) {
+        for( point &wp : water_points ) {
             m->ter_set( wp, t_water_dp );
             m->furn_set( wp, f_null );
         }
@@ -3234,8 +3236,15 @@ void mremove_trap( map *m, const point &p, trap_id type )
     }
 }
 
-void mtrap_set( map *m, const point &p, trap_id type )
+void mtrap_set( map *m, const point &p, trap_id type, bool avoid_creatures )
 {
+    if( avoid_creatures ) {
+        Creature *c = get_creature_tracker().creature_at( tripoint_abs_ms( m->getabs( tripoint( p,
+                      m->get_abs_sub().z() ) ) ), true );
+        if( c ) {
+            return;
+        }
+    }
     tripoint actual_location( p, m->get_abs_sub().z() );
     m->trap_set( actual_location, type );
 }

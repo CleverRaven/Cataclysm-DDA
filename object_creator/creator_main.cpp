@@ -19,6 +19,7 @@
 #include "worldfactory.h"
 
 #include <QtWidgets/qapplication.h>
+#include <QtCore/QSettings>
 #ifdef QT_STATICPLUGIN
 #include <QtCore/QtPlugin>
 #ifdef _WIN32
@@ -110,6 +111,10 @@ int main( int argc, char *argv[] )
 
     MAP_SHARING::setDefaults();
 
+    QSettings settings( QSettings::IniFormat, QSettings::UserScope,
+                        "CleverRaven", "Cataclysm - DDA" );
+
+
     cli_opts cli;
 
     rng_set_engine_seed( cli.seed );
@@ -140,12 +145,19 @@ int main( int argc, char *argv[] )
 
     world_generator = std::make_unique<worldfactory>();
     world_generator->init();
-    world_generator->active_world = world_generator->make_new_world( { mod_id( "dda" ) } );
+    std::vector<mod_id> mods;
+    mods.push_back( mod_id( "dda" ) );
+    if( settings.contains( "mods/include" ) ) {
+        QStringList modlist = settings.value( "mods/include" ).value<QStringList>();
+        for( const QString &i : modlist ) {
+            mods.push_back( mod_id( i.toStdString() ) );
+        }
+    }
+    world_generator->active_world = world_generator->make_new_world( { mods } );
 
     g->load_core_data( ui );
     g->load_world_modfiles( ui );
 
     QApplication app( argc, argv );
-
-    return creator::main_window().execute( app );
+    creator::main_window().execute( app );
 }

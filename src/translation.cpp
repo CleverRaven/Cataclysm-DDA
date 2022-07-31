@@ -126,7 +126,7 @@ void translation::deserialize( JsonIn &jsin )
     cached_language_version = INVALID_LANGUAGE_VERSION;
     cached_num = 0;
     cached_translation = nullptr;
-    int end_offset = jsin.tell();
+    int end_offset;
 
     if( jsin.test_string() ) {
         ctxt = nullptr;
