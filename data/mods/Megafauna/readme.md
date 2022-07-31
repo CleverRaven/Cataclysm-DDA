@@ -14,7 +14,7 @@ The mod aims to provide a more realistic fauna for wilderness/stone age playthro
 Geographically, species from modern day New England are the focus, again for a more coherent, realistic feel. If evidence is found not too far away in not too different climates (e.g., Great Lakes) thats alright too. If remains of a species have only been found in, e.g., New Mexiko and Texas, they probably wont feature here.
 
 **NOTE**
-This mod is still work-in-progress, but a basic set of 20 new Pleistocene-era animals is available, should spawn in new games and be generally useful especially for innawood players.
+This mod is still work-in-progress, but a basic set of 21 new Pleistocene-era animals is available, should spawn in new games and be generally useful especially for innawood players.
 
 **full list of new animals**
 - woolly mammoths
