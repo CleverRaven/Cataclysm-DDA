@@ -2383,7 +2383,8 @@
     "color": "light_gray",
     "symbol": "[",
     "material": [ "steel" ],
-    "volume": "2 ml",
+    "//": "dog tags are roughly 50mm x 28mm x 0.4mm, or 0.56 ml, but that's so small I needed to round up to 1 ml",
+    "volume": "1 ml",
     "price": 0,
     "price_postapoc": 0
   },
@@ -2396,7 +2397,8 @@
     "color": "green",
     "symbol": "[",
     "material": [ "plastic" ],
-    "volume": "2 ml",
+    "//": "dog tags are roughly 50mm x 28mm x 0.4mm, or 0.56 ml, but that's so small I needed to round up to 1 ml",
+    "volume": "1 ml",
     "price": 0,
     "price_postapoc": 0
   },
