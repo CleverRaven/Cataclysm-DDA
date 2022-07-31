@@ -115,12 +115,11 @@ void move_mode::finalize()
 
     // Cycle to the move mode below ours
     for( size_t i = move_modes_sorted.size(); i > 0; --i ) {
-        move_mode_id set_cycle_back( const move_mode_id &target ) {
-            move_mode_id cur = target->cycle_back();
-            while( cur->set_cycle_back() != target ) {
-                cur = cur->set_cycle_back();
-                }
-            return cur;
+        const move_mode &curr = *move_modes_sorted[i - 1];
+        if( i == 1 ) {
+            curr.set_cycle_back( move_modes_sorted.back() );
+        } else {
+            curr.set_cycle_back( move_modes_sorted[i-2] );
         }
     }
 }
