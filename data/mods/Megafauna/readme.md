@@ -117,6 +117,11 @@ Mutations/Mutagen line fitting the setting:
     - Glyptodon/Armadillo
     - Ground sloth
 
+*Items*
+- weapons made from mammoth tusk
+- armor/cover made from glyptotherium shell
+- unique euqipment for tameables (Sloth saddles, special saddle bags, armor)
+
 
 *Unlikely, but not unthinkable future additions*
 More widespread scope both timeframe and geographically (e.g., from coast to coast + 0.2ma range "when modern humans existed")
