@@ -2032,6 +2032,7 @@
   {
     "id": "mc_rapier",
     "type": "TOOL",
+	"copy-from": "lc_rapier",
     "name": { "str": "medium steel rapier" },
     "description": "This is a thin sword with an ornate hand guard.  It looks like the preferred weapon of gentlemen and swashbucklers.  Light and quick, it makes any battle a stylish battle.  Features a blade of medium carbon steel and a grip of leather wrapped in wire to fit your hand better.",
     "weight": "1090 g",
@@ -2048,6 +2049,7 @@
   {
     "id": "hc_rapier",
     "type": "TOOL",
+	"copy-from": "lc_rapier",
     "name": { "str": "high steel rapier" },
     "description": "This is a thin sword with an ornate hand guard.  It looks like the preferred weapon of gentlemen and swashbucklers.  Light and quick, it makes any battle a stylish battle.  Features a blade of high carbon steel and a grip of leather wrapped in wire to fit your hand better.",
     "weight": "1090 g",
@@ -2064,6 +2066,7 @@
   {
     "id": "ch_rapier",
     "type": "TOOL",
+	"copy-from": "lc_rapier",
     "name": { "str": "hardened rapier" },
     "description": "This is a thin sword with an ornate hand guard.  It looks like the preferred weapon of gentlemen and swashbucklers.  Light and quick, it makes any battle a stylish battle.  Features a blade of hardened steel and a non-conductive grip of kevlar reinforced with epoxy to fit your hand better.",
     "weight": "1065 g",
@@ -2080,6 +2083,7 @@
   {
     "id": "qt_rapier",
     "type": "TOOL",
+	"copy-from": "lc_rapier",
     "name": { "str": "high steel rapier" },
     "description": "This is a thin sword with an ornate hand guard.  It looks like the preferred weapon of gentlemen and swashbucklers.  Light and quick, it makes any battle a stylish battle.  Features a blade of tempered steel and a non-conductive grip of kevlar reinforced with epoxy to fit your hand better.",
     "weight": "1065 g",
