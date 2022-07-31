@@ -314,7 +314,7 @@ class widget
         // Return a colorized string for a _var associated with a description function
         std::string color_text_function_string( const avatar &ava, unsigned int max_width );
         // Return true if the current _var is one which uses a description function
-        bool uses_text_function();
+        bool uses_text_function() const;
 
         // Evaluate and return the bound "var" associated value for an avatar
         int get_var_value( const avatar &ava ) const;

@@ -434,7 +434,7 @@ std::string panel_manager::get_current_layout_id() const
     return current_layout_id;
 }
 
-int panel_manager::get_width_right()
+int panel_manager::get_width_right() const
 {
     if( get_option<std::string>( "SIDEBAR_POSITION" ) == "left" ) {
         return width_left;
@@ -442,7 +442,7 @@ int panel_manager::get_width_right()
     return width_right;
 }
 
-int panel_manager::get_width_left()
+int panel_manager::get_width_left() const
 {
     if( get_option<std::string>( "SIDEBAR_POSITION" ) == "left" ) {
         return width_right;

@@ -380,7 +380,7 @@ bool Character::armor_absorb( damage_unit &du, item &armor, const bodypart_id &b
     return damaged == item::armor_status::DESTROYED;
 }
 
-bool Character::armor_absorb( damage_unit &du, item &armor, const bodypart_id &bp, int roll )
+bool Character::armor_absorb( damage_unit &du, item &armor, const bodypart_id &bp, int roll ) const
 {
     item::cover_type ctype = item::get_cover_type( du.type );
 

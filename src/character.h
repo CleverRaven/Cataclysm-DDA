@@ -1080,7 +1080,7 @@ class Character : public Creature, public visitable
          * Requires a roll out of 100
          * @return true if the armor was completely destroyed (and the item must be deleted).
          */
-        bool armor_absorb( damage_unit &du, item &armor, const bodypart_id &bp, int roll );
+        bool armor_absorb( damage_unit &du, item &armor, const bodypart_id &bp, int roll ) const;
         /**
          * Reduces and mutates du, prints messages about armor taking damage.
          * Requires a roll out of 100
@@ -1182,7 +1182,7 @@ class Character : public Creature, public visitable
         /**Unset switched mutation and set target mutation instead*/
         void switch_mutations( const trait_id &switched, const trait_id &target, bool start_powered );
 
-        bool can_power_mutation( const trait_id &mut );
+        bool can_power_mutation( const trait_id &mut ) const;
         /** Generates and handles the UI for player interaction with installed bionics */
         virtual void power_bionics() {}
         /**
@@ -1465,11 +1465,11 @@ class Character : public Creature, public visitable
         int get_free_bionics_slots( const bodypart_id &bp ) const;
 
         /**Has enough anesthetic for surgery*/
-        bool has_enough_anesth( const itype &cbm, Character &patient );
-        bool has_enough_anesth( const itype &cbm );
+        bool has_enough_anesth( const itype &cbm, Character &patient ) const;
+        bool has_enough_anesth( const itype &cbm ) const;
         void consume_anesth_requirement( const itype &cbm, Character &patient );
         /**Has the required equipment for manual installation*/
-        bool has_installation_requirement( const bionic_id &bid );
+        bool has_installation_requirement( const bionic_id &bid ) const;
         void consume_installation_requirement( const bionic_id &bid );
         /** Handles process of introducing patient into anesthesia during Autodoc operations. Requires anesthesia kits or NOPAIN mutation */
         void introduce_into_anesthesia( const time_duration &duration, Character &installer,
@@ -1490,7 +1490,7 @@ class Character : public Creature, public visitable
         int bionics_pl_skill( bool autodoc, int skill_level = -1 ) const;
         /**Is the installation possible*/
         bool can_install_bionics( const itype &type, Character &installer, bool autodoc = false,
-                                  int skill_level = -1 );
+                                  int skill_level = -1 ) const;
         /** Is this bionic elligible to be installed in the player? */
         ret_val<void> is_installable( const item_location &loc, bool by_autodoc ) const;
         std::map<bodypart_id, int> bionic_installation_issues( const bionic_id &bioid ) const;
@@ -1555,7 +1555,7 @@ class Character : public Creature, public visitable
                     int base_cost = INVENTORY_HANDLING_PENALTY );
         /**Is The uninstallation possible*/
         bool can_uninstall_bionic( const bionic &bio, Character &installer, bool autodoc = false,
-                                   int skill_level = -1 );
+                                   int skill_level = -1 ) const;
         /** Initialize all the values needed to start the operation player_activity */
         bool uninstall_bionic( const bionic &bio, Character &installer, bool autodoc = false,
                                int skill_level = -1 );
@@ -1622,7 +1622,7 @@ class Character : public Creature, public visitable
         /**Handle heat from exothermic power generation*/
         void heat_emission( const bionic &bio, int fuel_energy );
         /**Applies modifier to fuel_efficiency and returns the resulting efficiency*/
-        float get_effective_efficiency( const bionic &bio, float fuel_efficiency );
+        float get_effective_efficiency( const bionic &bio, float fuel_efficiency ) const;
 
         units::energy get_power_level() const;
         units::energy get_max_power_level() const;
@@ -1643,7 +1643,7 @@ class Character : public Creature, public visitable
 
         struct has_mission_item_filter {
             int mission_id;
-            bool operator()( const item &it ) {
+            bool operator()( const item &it ) const {
                 return it.mission_id == mission_id || it.has_any_with( [&]( const item & it ) {
                     return it.mission_id == mission_id;
                 }, item_pocket::pocket_type::SOFTWARE );
@@ -1764,7 +1764,7 @@ class Character : public Creature, public visitable
         /** Return the item pointer of the item with given invlet, return nullptr if
          * the player does not have such an item with that invlet. Don't use this on npcs.
          * Only use the invlet in the user interface, otherwise always use the item position. */
-        item *invlet_to_item( int invlet );
+        item *invlet_to_item( int invlet ) const;
 
         // Returns the item with a given inventory position.
         item &i_at( int position );
@@ -1882,7 +1882,7 @@ class Character : public Creature, public visitable
         /**
          * Counts ammo and UPS charges (lower of) for a given gun on the character.
          */
-        int ammo_count_for( const item_location &gun );
+        int ammo_count_for( const item_location &gun ) const;
 
         /**
          * Whether a tool or gun is potentially reloadable (optionally considering a specific ammo)
@@ -3064,14 +3064,14 @@ class Character : public Creature, public visitable
         int64_t expected_time_to_craft( const recipe &rec, int batch_size = 1 ) const;
         std::vector<const item *> get_eligible_containers_for_crafting() const;
         bool check_eligible_containers_for_crafting( const recipe &rec, int batch_size = 1 ) const;
-        bool can_make( const recipe *r, int batch_size = 1 );  // have components?
+        bool can_make( const recipe *r, int batch_size = 1 ) const;  // have components?
         /**
          * Returns true if the player can start crafting the recipe with the given batch size
          * The player is not required to have enough tool charges to finish crafting, only to
          * complete the first step (total / 20 + total % 20 charges)
          */
-        bool can_start_craft( const recipe *rec, recipe_filter_flags, int batch_size = 1 );
-        bool making_would_work( const recipe_id &id_to_make, int batch_size );
+        bool can_start_craft( const recipe *rec, recipe_filter_flags, int batch_size = 1 ) const;
+        bool making_would_work( const recipe_id &id_to_make, int batch_size ) const;
 
         /**
          * Start various types of crafts
@@ -3247,7 +3247,7 @@ class Character : public Creature, public visitable
         std::vector<tripoint> &get_auto_move_route();
         action_id get_next_auto_move_direction();
         bool defer_move( const tripoint &next );
-        time_duration get_consume_time( const item &it );
+        time_duration get_consume_time( const item &it ) const;
 
         // For display purposes mainly, how far we are from the next level of weariness
         std::pair<int, int> weariness_transition_progress() const;
@@ -3287,20 +3287,23 @@ class Character : public Creature, public visitable
         // inherited from visitable
         bool has_quality( const quality_id &qual, int level = 1, int qty = 1 ) const override;
         int max_quality( const quality_id &qual ) const override;
-        int max_quality( const quality_id &qual, int radius );
+        int max_quality( const quality_id &qual, int radius ) const;
         VisitResponse visit_items( const std::function<VisitResponse( item *, item * )> &func ) const
         override;
         std::list<item> remove_items_with( const std::function<bool( const item & )> &filter,
                                            int count = INT_MAX ) override;
-        int charges_of( const itype_id &what, int limit = INT_MAX,
-                        const std::function<bool( const item & )> &filter = return_true<item>,
-                        const std::function<void( int )> &visitor = nullptr, bool in_tools = false ) const override;
-        int amount_of( const itype_id &what, bool pseudo = true,
-                       int limit = INT_MAX,
-                       const std::function<bool( const item & )> &filter = return_true<item> ) const override;
+        int charges_of(
+            const itype_id &what, int limit = INT_MAX,
+            const std::function<bool( const item & )> &filter = return_true<item>,
+            const std::function<void( int )> &visitor = nullptr,
+            bool in_tools = false ) const override;
+        int amount_of(
+            const itype_id &what, bool pseudo = true, int limit = INT_MAX,
+            const std::function<bool( const item & )> &filter = return_true<item> ) const override;
 
-        std::pair<int, int> kcal_range( const itype_id &id,
-                                        const std::function<bool( const item & )> &filter, Character &player_character );
+        std::pair<int, int> kcal_range(
+            const itype_id &id,
+            const std::function<bool( const item & )> &filter, Character &player_character ) const;
 
     protected:
         Character();

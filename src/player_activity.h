@@ -179,7 +179,7 @@ class player_activity
             return !actor || actor->do_drop_invalid_inventory();
         }
 
-        std::map<distraction_type, std::string> get_distractions();
+        std::map<distraction_type, std::string> get_distractions() const;
 };
 
 #endif // CATA_SRC_PLAYER_ACTIVITY_H

@@ -48,7 +48,7 @@ struct fuel_explosion_data {
     bool fiery_explosion = false;
     float fuel_size_factor = 0.0f;
 
-    bool is_empty();
+    bool is_empty() const;
 
     bool was_loaded = false;
     void load( const JsonObject &jsobj );

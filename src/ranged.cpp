@@ -340,7 +340,7 @@ class target_ui
         void cycle_targets( int direction );
 
         // Set new view offset. Updates map cache if necessary
-        void set_view_offset( const tripoint &new_offset );
+        void set_view_offset( const tripoint &new_offset ) const;
 
         // Updates 'turrets_in_range'
         void update_turrets_in_range();
@@ -353,7 +353,7 @@ class target_ui
         // Apply penalty to avatar's 'recoil' value based on
         // how much they moved their aim point.
         // Relevant for TargetMode::Fire
-        void apply_aim_turning_penalty();
+        void apply_aim_turning_penalty() const;
 
         // Switch firing mode.
         bool action_switch_mode();
@@ -377,10 +377,10 @@ class target_ui
         void draw_ui_window();
 
         // Generate ui window title
-        std::string uitext_title();
+        std::string uitext_title() const;
 
         // Generate flavor text for 'Fire!' key
-        std::string uitext_fire();
+        std::string uitext_fire() const;
 
         void draw_window_title();
         void draw_help_notice();
@@ -398,7 +398,7 @@ class target_ui
 
         // On-selected-as-target checks that act as if they are on-hit checks.
         // `harmful` is `false` if using a non-damaging spell
-        void on_target_accepted( bool harmful );
+        void on_target_accepted( bool harmful ) const;
 };
 
 target_handler::trajectory target_handler::mode_fire( avatar &you, aim_activity_actor &activity )
@@ -3156,7 +3156,7 @@ void target_ui::cycle_targets( int direction )
     }
 }
 
-void target_ui::set_view_offset( const tripoint &new_offset )
+void target_ui::set_view_offset( const tripoint &new_offset ) const
 {
     tripoint new_( new_offset.xy(), clamp( new_offset.z, -fov_3d_z_range, fov_3d_z_range ) );
     new_.z = clamp( new_.z + src.z, -OVERMAP_DEPTH, OVERMAP_HEIGHT ) - src.z;
@@ -3223,7 +3223,7 @@ void target_ui::recalc_aim_turning_penalty()
     }
 }
 
-void target_ui::apply_aim_turning_penalty()
+void target_ui::apply_aim_turning_penalty() const
 {
     you->recoil = predicted_recoil;
 }
@@ -3537,7 +3537,7 @@ int target_ui::get_sight_dispersion() const
     return sight_dispersion;
 }
 
-std::string target_ui::uitext_title()
+std::string target_ui::uitext_title() const
 {
     switch( mode ) {
         case TargetMode::Fire:
@@ -3552,7 +3552,7 @@ std::string target_ui::uitext_title()
     }
 }
 
-std::string target_ui::uitext_fire()
+std::string target_ui::uitext_fire() const
 {
     if( mode == TargetMode::Throw || mode == TargetMode::ThrowBlind ) {
         return to_translation( "[Hotkey] to throw", "to throw" ).translated();
@@ -3882,7 +3882,7 @@ void target_ui::panel_turret_list( int &text_y )
     }
 }
 
-void target_ui::on_target_accepted( bool harmful )
+void target_ui::on_target_accepted( bool harmful ) const
 {
     // TODO: all of this should be moved into on-hit code
     const auto lt_ptr = you->last_target.lock();

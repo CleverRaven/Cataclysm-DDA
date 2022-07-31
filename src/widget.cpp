@@ -991,7 +991,7 @@ window_panel widget::get_window_panel( const int width, const int req_height )
     return win;
 }
 
-bool widget::uses_text_function()
+bool widget::uses_text_function() const
 {
     switch( _var ) {
         case widget_var::activity_text:

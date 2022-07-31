@@ -258,7 +258,7 @@ time_duration calc_spell_training_time( const Character &, const Character &stud
     }
 }
 
-int npc::calc_spell_training_cost( const bool knows, int difficulty, int level )
+int npc::calc_spell_training_cost( const bool knows, int difficulty, int level ) const
 {
     if( is_player_ally() ) {
         return 0;
