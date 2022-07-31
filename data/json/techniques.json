@@ -1140,7 +1140,7 @@
     "id": "tec_kickboxing_straight_knee",
     "name": "Straight Knee",
     "messages": [ "You deliver a straight knee to %s", "<npcname> delivers a straight knee to %s" ],
-    "skill_requirements": [ { "name": "unarmed", "level": 2 } ],
+    "skill_requirements": [ { "name": "unarmed", "level": 3 } ],
     "unarmed_allowed": true,
     "crit_tec": true,
     "stun_dur": 1,
