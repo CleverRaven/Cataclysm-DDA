@@ -141,7 +141,7 @@
     "type": "effect_type",
     "id": "blood_quenched",
     "rating": "good",
-    "blocks_effects": [ "vampire_virus" ],
+    "blocks_effects": [ "vampire_virus_hunger" ],
     "blood_analysis_description": "Patient has had extensive battlefield blood transfusions.  Serious risk of bloodborne infections.",
     "max_duration": 16400,
     "dur_add_perc": 25

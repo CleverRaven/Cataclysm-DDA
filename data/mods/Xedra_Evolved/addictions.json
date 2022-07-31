@@ -1,0 +1,10 @@
+[
+  {
+    "type": "addiction_type",
+    "id": "human_blood",
+    "name": "Blood Hunger",
+    "type_name": "blood_hunger",
+    "description": "You may find it difficult to sleep without medication.",
+    "effect_on_condition": "EOC_BLOOD_ADDICTION"
+  }
+]
