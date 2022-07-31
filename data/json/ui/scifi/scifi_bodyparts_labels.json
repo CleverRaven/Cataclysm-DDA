@@ -1,0 +1,81 @@
+[
+  {
+    "id": "scifi_label_template",
+    "type": "widget",
+    "style": "text",
+    "width": 2,
+    "string": ""
+  },
+  {
+    "id": "scifi_label_head",
+    "type": "widget",
+    "copy-from": "scifi_label_template",
+    "string": "HE"
+  },
+  {
+    "id": "scifi_label_torso",
+    "type": "widget",
+    "copy-from": "scifi_label_template",
+    "string": "TO"
+  },
+  {
+    "id": "scifi_label_eyes",
+    "type": "widget",
+    "copy-from": "scifi_label_template",
+    "string": "EY"
+  },
+  {
+    "id": "scifi_label_mouth",
+    "type": "widget",
+    "copy-from": "scifi_label_template",
+    "string": "MO"
+  },
+  {
+    "id": "scifi_label_arm_l",
+    "type": "widget",
+    "copy-from": "scifi_label_template",
+    "string": "LA"
+  },
+  {
+    "id": "scifi_label_hand_l",
+    "type": "widget",
+    "copy-from": "scifi_label_template",
+    "string": "LH"
+  },
+  {
+    "id": "scifi_label_arm_r",
+    "type": "widget",
+    "copy-from": "scifi_label_template",
+    "string": "RA"
+  },
+  {
+    "id": "scifi_label_hand_r",
+    "type": "widget",
+    "copy-from": "scifi_label_template",
+    "string": "RH"
+  },
+  {
+    "id": "scifi_label_leg_l",
+    "type": "widget",
+    "copy-from": "scifi_label_template",
+    "string": "LL"
+  },
+  {
+    "id": "scifi_label_foot_l",
+    "type": "widget",
+    "copy-from": "scifi_label_template",
+    "string": "LF"
+  },
+  {
+    "id": "scifi_label_leg_r",
+    "type": "widget",
+    "copy-from": "scifi_label_template",
+    "string": "RL"
+  },
+  {
+    "id": "scifi_label_foot_r",
+    "type": "widget",
+    "copy-from": "scifi_label_template",
+    "string": "RF"
+  }
+]

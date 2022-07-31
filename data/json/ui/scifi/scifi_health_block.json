@@ -1,37 +1,35 @@
 [
   {
-    "id": "scifi_health_encumb_right_layout",
+    "id": "scifi_health_labels_left_layout",
     "type": "widget",
     "style": "layout",
     "arrange": "rows",
-    "width": 1,
-    "padding": 0,
-    "widgets": [ "scifi_enc_head", "scifi_enc_torso", "scifi_enc_arm_l", "scifi_enc_hand_l", "scifi_enc_leg_l", "scifi_enc_foot_l" ]
-  },
-  {
-    "id": "scifi_health_warmth_right_layout",
-    "type": "widget",
-    "style": "layout",
-    "arrange": "rows",
-    "width": 1,
+    "width": 2,
     "padding": 0,
     "widgets": [
-      "scifi_warmth_head",
-      "scifi_warmth_torso",
-      "scifi_warmth_arm_l",
-      "scifi_warmth_hand_l",
-      "scifi_warmth_leg_l",
-      "scifi_warmth_foot_l"
+      "scifi_label_head",
+      "scifi_label_torso",
+      "scifi_label_arm_r",
+      "scifi_label_hand_r",
+      "scifi_label_leg_r",
+      "scifi_label_foot_r"
     ]
   },
   {
-    "id": "scifi_health_wet_right_layout",
+    "id": "scifi_health_labels_right_layout",
     "type": "widget",
     "style": "layout",
     "arrange": "rows",
-    "width": 1,
+    "width": 2,
     "padding": 0,
-    "widgets": [ "scifi_wet_head", "scifi_wet_torso", "scifi_wet_arm_l", "scifi_wet_hand_l", "scifi_wet_leg_l", "scifi_wet_foot_l" ]
+    "widgets": [
+      "scifi_label_eyes",
+      "scifi_label_mouth",
+      "scifi_label_arm_l",
+      "scifi_label_hand_l",
+      "scifi_label_leg_l",
+      "scifi_label_foot_l"
+    ]
   },
   {
     "id": "scifi_health_encumb_left_layout",
@@ -40,7 +38,16 @@
     "arrange": "rows",
     "width": 1,
     "padding": 0,
-    "widgets": [ "scifi_enc_eyes", "scifi_enc_mouth", "scifi_enc_arm_r", "scifi_enc_hand_r", "scifi_enc_leg_r", "scifi_enc_foot_r" ]
+    "widgets": [ "scifi_enc_head", "scifi_enc_torso", "scifi_enc_arm_r", "scifi_enc_hand_r", "scifi_enc_leg_r", "scifi_enc_foot_r" ]
+  },
+  {
+    "id": "scifi_health_encumb_right_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "width": 1,
+    "padding": 0,
+    "widgets": [ "scifi_enc_eyes", "scifi_enc_mouth", "scifi_enc_arm_l", "scifi_enc_hand_l", "scifi_enc_leg_l", "scifi_enc_foot_l" ]
   },
   {
     "id": "scifi_health_warmth_left_layout",
@@ -50,12 +57,28 @@
     "width": 1,
     "padding": 0,
     "widgets": [
-      "scifi_warmth_eyes",
-      "scifi_warmth_mouth",
+      "scifi_warmth_head",
+      "scifi_warmth_torso",
       "scifi_warmth_arm_r",
       "scifi_warmth_hand_r",
       "scifi_warmth_leg_r",
       "scifi_warmth_foot_r"
+    ]
+  },
+  {
+    "id": "scifi_health_warmth_right_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "width": 1,
+    "padding": 0,
+    "widgets": [
+      "scifi_warmth_eyes",
+      "scifi_warmth_mouth",
+      "scifi_warmth_arm_l",
+      "scifi_warmth_hand_l",
+      "scifi_warmth_leg_l",
+      "scifi_warmth_foot_l"
     ]
   },
   {
@@ -65,7 +88,16 @@
     "arrange": "rows",
     "width": 1,
     "padding": 0,
-    "widgets": [ "scifi_wet_eyes", "scifi_wet_mouth", "scifi_wet_arm_r", "scifi_wet_hand_r", "scifi_wet_leg_r", "scifi_wet_foot_r" ]
+    "widgets": [ "scifi_wet_head", "scifi_wet_torso", "scifi_wet_arm_r", "scifi_wet_hand_r", "scifi_wet_leg_r", "scifi_wet_foot_r" ]
+  },
+  {
+    "id": "scifi_health_wet_right_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "width": 1,
+    "padding": 0,
+    "widgets": [ "scifi_wet_eyes", "scifi_wet_mouth", "scifi_wet_arm_l", "scifi_wet_hand_l", "scifi_wet_leg_l", "scifi_wet_foot_l" ]
   },
   {
     "id": "scifi_health_left_layout",
@@ -74,8 +106,8 @@
     "arrange": "rows",
     "width": 5,
     "widgets": [
-      "scifi_hp_graph_eyes",
-      "scifi_hp_graph_mouth",
+      "scifi_hp_graph_head",
+      "scifi_hp_graph_torso",
       "scifi_hp_graph_arm_r",
       "scifi_hp_graph_hand_r",
       "scifi_hp_graph_leg_r",
@@ -89,8 +121,8 @@
     "arrange": "rows",
     "width": 5,
     "widgets": [
-      "scifi_hp_graph_head",
-      "scifi_hp_graph_torso",
+      "scifi_hp_graph_eyes",
+      "scifi_hp_graph_mouth",
       "scifi_hp_graph_arm_l",
       "scifi_hp_graph_hand_l",
       "scifi_hp_graph_leg_l",
@@ -113,6 +145,8 @@
     "arrange": "minimum_columns",
     "padding": 0,
     "widgets": [
+      "scifi_health_labels_left_layout",
+      "scifi_space_1",
       "scifi_health_wet_left_layout",
       "scifi_health_warmth_left_layout",
       "scifi_health_encumb_left_layout",
@@ -125,7 +159,9 @@
       "scifi_space_1",
       "scifi_health_encumb_right_layout",
       "scifi_health_warmth_right_layout",
-      "scifi_health_wet_right_layout"
+      "scifi_health_wet_right_layout",
+      "scifi_space_1",
+      "scifi_health_labels_right_layout"
     ]
   }
 ]
