@@ -1,0 +1,82 @@
+[
+  {
+    "id": "scifi_hp_graph",
+    "type": "widget",
+    "copy-from": "scifi_graph",
+    "var": "bp_hp",
+    "colors": [ "c_red", "c_light_red", "c_yellow", "c_light_green", "c_green" ],
+    "flags": [ "W_LABEL_NONE" ]
+  },
+  {
+    "id": "scifi_hp_graph_head",
+    "type": "widget",
+    "copy-from": "scifi_hp_graph",
+    "bodypart": "head"
+  },
+  {
+    "id": "scifi_hp_graph_eyes",
+    "type": "widget",
+    "copy-from": "scifi_hp_graph",
+    "bodypart": "eyes"
+  },
+  {
+    "id": "scifi_hp_graph_mouth",
+    "type": "widget",
+    "copy-from": "scifi_hp_graph",
+    "bodypart": "mouth"
+  },
+  {
+    "id": "scifi_hp_graph_torso",
+    "type": "widget",
+    "copy-from": "scifi_hp_graph",
+    "bodypart": "torso"
+  },
+  {
+    "id": "scifi_hp_graph_arm_l",
+    "type": "widget",
+    "copy-from": "scifi_hp_graph",
+    "bodypart": "arm_l"
+  },
+  {
+    "id": "scifi_hp_graph_arm_r",
+    "type": "widget",
+    "copy-from": "scifi_hp_graph",
+    "bodypart": "arm_r"
+  },
+  {
+    "id": "scifi_hp_graph_hand_l",
+    "type": "widget",
+    "copy-from": "scifi_hp_graph",
+    "bodypart": "hand_l"
+  },
+  {
+    "id": "scifi_hp_graph_hand_r",
+    "type": "widget",
+    "copy-from": "scifi_hp_graph",
+    "bodypart": "hand_r"
+  },
+  {
+    "id": "scifi_hp_graph_leg_l",
+    "type": "widget",
+    "copy-from": "scifi_hp_graph",
+    "bodypart": "leg_l"
+  },
+  {
+    "id": "scifi_hp_graph_leg_r",
+    "type": "widget",
+    "copy-from": "scifi_hp_graph",
+    "bodypart": "leg_r"
+  },
+  {
+    "id": "scifi_hp_graph_foot_l",
+    "type": "widget",
+    "copy-from": "scifi_hp_graph",
+    "bodypart": "foot_l"
+  },
+  {
+    "id": "scifi_hp_graph_foot_r",
+    "type": "widget",
+    "copy-from": "scifi_hp_graph",
+    "bodypart": "foot_r"
+  }
+]

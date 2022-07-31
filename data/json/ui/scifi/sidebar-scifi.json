@@ -1,0 +1,15 @@
+[
+  {
+    "id": "scifi_sidebar",
+    "type": "widget",
+    "style": "sidebar",
+    "label": "sci-fi",
+    "description": "A sidebar using particularly compact indicators.",
+    "separator": ": ",
+    "width": 48,
+    "padding": 1,
+    "widgets": [
+      "scifi_health_layout"
+    ]
+  }
+]

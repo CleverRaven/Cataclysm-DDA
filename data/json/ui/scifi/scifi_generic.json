@@ -1,0 +1,25 @@
+[
+  {
+    "id": "scifi_space_1",
+    "type": "widget",
+    "style": "text",
+    "string": " ",
+    "width": 1
+  },
+  {
+    "id": "scifi_graph_vertical",
+    "type": "widget",
+    "style": "graph",
+    "fill": "bucket",
+    "width": 1,
+    "symbols": "_▁▂▃▄▅▆▇█"
+  },
+  {
+    "id": "scifi_graph",
+    "type": "widget",
+    "style": "graph",
+    "fill": "bucket",
+    "width": 5,
+    "symbols": "_▁▂▃▄▅▆▇█"
+  }
+]

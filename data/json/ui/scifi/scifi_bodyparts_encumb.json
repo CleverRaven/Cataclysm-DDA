@@ -1,0 +1,83 @@
+[
+  {
+    "id": "scifi_enc_template",
+    "type": "widget",
+    "copy-from": "scifi_graph_vertical",
+    "width": 1,
+    "var": "bp_encumb",
+    "symbols": "_▂▄▆▇▇▇██████",
+    "colors": [ "c_dark_gray", "c_yellow", "c_light_red" ]
+  },
+  {
+    "id": "scifi_enc_head",
+    "type": "widget",
+    "copy-from": "scifi_enc_template",
+    "bodypart": "head"
+  },
+  {
+    "id": "scifi_enc_torso",
+    "type": "widget",
+    "copy-from": "scifi_enc_template",
+    "bodypart": "torso"
+  },
+  {
+    "id": "scifi_enc_eyes",
+    "type": "widget",
+    "copy-from": "scifi_enc_template",
+    "bodypart": "eyes"
+  },
+  {
+    "id": "scifi_enc_mouth",
+    "type": "widget",
+    "copy-from": "scifi_enc_template",
+    "bodypart": "mouth"
+  },
+  {
+    "id": "scifi_enc_arm_l",
+    "type": "widget",
+    "copy-from": "scifi_enc_template",
+    "bodypart": "arm_l"
+  },
+  {
+    "id": "scifi_enc_hand_l",
+    "type": "widget",
+    "copy-from": "scifi_enc_template",
+    "bodypart": "hand_l"
+  },
+  {
+    "id": "scifi_enc_arm_r",
+    "type": "widget",
+    "copy-from": "scifi_enc_template",
+    "bodypart": "arm_r"
+  },
+  {
+    "id": "scifi_enc_hand_r",
+    "type": "widget",
+    "copy-from": "scifi_enc_template",
+    "bodypart": "hand_r"
+  },
+  {
+    "id": "scifi_enc_leg_l",
+    "type": "widget",
+    "copy-from": "scifi_enc_template",
+    "bodypart": "leg_l"
+  },
+  {
+    "id": "scifi_enc_foot_l",
+    "type": "widget",
+    "copy-from": "scifi_enc_template",
+    "bodypart": "foot_l"
+  },
+  {
+    "id": "scifi_enc_leg_r",
+    "type": "widget",
+    "copy-from": "scifi_enc_template",
+    "bodypart": "leg_r"
+  },
+  {
+    "id": "scifi_enc_foot_r",
+    "type": "widget",
+    "copy-from": "scifi_enc_template",
+    "bodypart": "foot_r"
+  }
+]

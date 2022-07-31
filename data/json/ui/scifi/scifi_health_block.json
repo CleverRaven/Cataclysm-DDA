@@ -1,0 +1,86 @@
+[
+  {
+    "id": "scifi_health_indicators_right_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "width": 1,
+    "padding": 0,
+    "widgets": [
+      "scifi_enc_head",
+      "scifi_enc_torso",
+      "scifi_enc_arm_l",
+      "scifi_enc_hand_l",
+      "scifi_enc_leg_l",
+      "scifi_enc_foot_l"
+    ]
+  },
+  {
+    "id": "scifi_health_indicators_left_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "width": 1,
+    "padding": 0,
+    "widgets": [
+      "scifi_enc_eyes",
+      "scifi_enc_mouth",
+      "scifi_enc_arm_r",
+      "scifi_enc_hand_r",
+      "scifi_enc_leg_r",
+      "scifi_enc_foot_r"
+    ]
+  },
+  {
+    "id": "scifi_health_left_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "width": 5,
+    "widgets": [
+      "scifi_hp_graph_eyes",
+      "scifi_hp_graph_mouth",
+      "scifi_hp_graph_arm_r",
+      "scifi_hp_graph_hand_r",
+      "scifi_hp_graph_leg_r",
+      "scifi_hp_graph_foot_r"
+    ]
+  },
+  {
+    "id": "scifi_health_right_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "width": 5,
+    "widgets": [
+      "scifi_hp_graph_head",
+      "scifi_hp_graph_torso",
+      "scifi_hp_graph_arm_l",
+      "scifi_hp_graph_hand_l",
+      "scifi_hp_graph_leg_l",
+      "scifi_hp_graph_foot_l"
+    ]
+  },
+  {
+    "id": "scifi_health_mid_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "width": 7,
+    "widgets": [ "scifi_space_1", "scifi_body_graph_wrapper_layout" ]
+  },
+  {
+    "id": "scifi_health_layout",
+    "type": "widget",
+    "label": "Health",
+    "style": "layout",
+    "arrange": "minimum_columns",
+    "widgets": [
+      "scifi_health_indicators_left_layout",
+      "scifi_health_left_layout",
+      "scifi_health_mid_layout",
+      "scifi_health_right_layout",
+      "scifi_health_indicators_right_layout"
+    ]
+  }
+]
