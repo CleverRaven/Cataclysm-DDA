@@ -634,7 +634,7 @@
     "reproduction": { "baby_monster": "mon_zebra_foal", "baby_count": 1, "baby_timer": 360 },
     "baby_flags": [ "AUTUMN" ],
     "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you!  It lets you pat its head and seems friendly." },
-    "mountable_weight_ratio": 0.30,
+    "mountable_weight_ratio": 0.3,
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PET_WONT_FOLLOW", "PET_MOUNTABLE", "PATH_AVOID_DANGER_1", "WARM", "MILKABLE" ]
   },
   {
@@ -661,16 +661,6 @@
     "special_attacks": [ [ "EAT_CROP", 60 ] ],
     "upgrades": { "age_grow": 240, "into": "mon_american_zebra" },
     "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you!  It lets you pat its head and seems friendly." },
-    "flags": [
-      "SEES",
-      "HEARS",
-      "SMELLS",
-      "ANIMAL",
-      "PET_WONT_FOLLOW",
-      "PET_MOUNTABLE",
-      "PATH_AVOID_DANGER_1",
-      "WARM",
-      "NO_BREED"
-    ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PET_WONT_FOLLOW", "PET_MOUNTABLE", "PATH_AVOID_DANGER_1", "WARM", "NO_BREED" ]
   }
 ]
