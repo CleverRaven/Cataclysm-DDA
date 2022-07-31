@@ -4644,8 +4644,8 @@ void item::tool_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
     }
 }
 
-void item::actions_info( std::vector<iteminfo> &info, const iteminfo_query * /*parts*/, int /*batch*/,
-                         bool /*debug*/ ) const
+void item::actions_info( std::vector<iteminfo> &info, const iteminfo_query * /*parts*/,
+                         int /*batch*/, bool /*debug*/ ) const
 {
 
     const std::map<std::string, use_function> &use_methods = type->use_methods;
