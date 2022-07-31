@@ -118,6 +118,9 @@ class talker
         virtual int get_cur_hp( const bodypart_id & ) const {
             return 0;
         }
+        virtual int get_cur_part_temp( const bodypart_id & ) const {
+            return 0;
+        }
 
         // stats, skills, traits, bionics, and magic
         virtual int str_cur() const {
