@@ -616,12 +616,6 @@ void monster::plan()
                 }
             }
         }
-        if( angers_hostile_weak && att_to_target != Attitude::FRIENDLY ) {
-            int hp_per = target->hp_percentage();
-            if( hp_per <= 70 ) {
-                anger += 10 - static_cast<int>( hp_per / 10 );
-            }
-        }
     } else if( !patrol_route.empty() ) {
         // If we have a patrol route and no target, find the current step on the route
         tripoint_abs_ms next_stop = patrol_route.at( next_patrol_point );
