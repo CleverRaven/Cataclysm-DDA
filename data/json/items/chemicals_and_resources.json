@@ -1376,7 +1376,7 @@
     "symbol": "=",
     "looks_like": "f_ash",
     "color": "light_gray",
-    "description": "The remains from burning an organic organism.",
+    "description": "The unburnt remains of a person or animal.",
     "material": [ "powder_nonflam" ],
     "volume": "104ml",
     "weight": "1 g",

@@ -305,7 +305,8 @@
     "chip_resist": 15,
     "dmg_adj": [ "scratched", "cut", "cracked", "shattered" ],
     "bash_dmg_verb": "dented",
-    "cut_dmg_verb": "gouged"
+    "cut_dmg_verb": "gouged",
+    "burn_products": [ [ "corpse_ash", 0.035 ] ]
   },
   {
     "type": "material",
@@ -463,7 +464,8 @@
       { "fuel": 0, "smoke": 1, "burn": 1, "volume_per_turn": "1250 ml" },
       { "fuel": 1, "smoke": 3, "burn": 1 },
       { "fuel": 1, "smoke": 5, "burn": 4 }
-    ]
+    ],
+    "burn_products": [ [ "corpse_ash", 0.035 ] ]
   },
   {
     "type": "material",
@@ -485,7 +487,8 @@
       { "fuel": 0, "smoke": 3, "burn": 2, "volume_per_turn": "1250 ml" },
       { "fuel": 1, "smoke": 5, "burn": 4 },
       { "fuel": 1, "smoke": 7, "burn": 6 }
-    ]
+    ],
+    "burn_products": [ [ "corpse_ash", 0.035 ] ]
   },
   {
     "type": "material",
@@ -502,7 +505,8 @@
       { "fuel": 0, "smoke": 2, "burn": 1, "volume_per_turn": "1250 ml" },
       { "fuel": 1, "smoke": 4, "burn": 2 },
       { "fuel": 1, "smoke": 6, "burn": 5 }
-    ]
+    ],
+    "burn_products": [ [ "corpse_ash", 0.035 ] ]
   },
   {
     "type": "material",
@@ -674,7 +678,8 @@
     "bash_dmg_verb": "damaged",
     "cut_dmg_verb": "damaged",
     "vitamins": [ [ "calcium", 0.5 ], [ "iron", 0.5 ] ],
-    "burn_data": [ { "fuel": 0, "smoke": 1, "burn": 1 }, { "fuel": 1, "smoke": 3, "burn": 2 }, { "fuel": 1, "smoke": 5, "burn": 5 } ]
+    "burn_data": [ { "fuel": 0, "smoke": 1, "burn": 1 }, { "fuel": 1, "smoke": 3, "burn": 2 }, { "fuel": 1, "smoke": 5, "burn": 5 } ],
+    "burn_products": [ [ "corpse_ash", 0.035 ] ]
   },
   {
     "type": "material",
@@ -802,7 +807,8 @@
       { "fuel": 1, "smoke": 3, "burn": 1, "volume_per_turn": "1250 ml" },
       { "fuel": 1, "smoke": 5, "burn": 2 },
       { "fuel": 1, "smoke": 10, "burn": 4 }
-    ]
+    ],
+    "burn_products": [ [ "corpse_ash", 0.035 ] ]
   },
   {
     "type": "material",
@@ -1085,7 +1091,8 @@
       { "fuel": 1, "smoke": 1, "burn": 1, "volume_per_turn": "2500 ml" },
       { "fuel": 2, "smoke": 3, "burn": 2, "volume_per_turn": "10000 ml" },
       { "fuel": 3, "smoke": 10, "burn": 3 }
-    ]
+    ],
+    "burn_products": [ [ "corpse_ash", 0.035 ] ]
   },
   {
     "type": "material",
@@ -1250,7 +1257,8 @@
       { "fuel": 0, "smoke": 0, "burn": 0 },
       { "fuel": 1, "smoke": 3, "burn": 2, "volume_per_turn": "500 ml" },
       { "fuel": 1, "smoke": 3, "burn": 2 }
-    ]
+    ],
+    "burn_products": [ [ "corpse_ash", 0.035 ] ]
   },
   {
     "type": "material",
@@ -1276,7 +1284,8 @@
       { "fuel": 0, "smoke": 1, "burn": 1 },
       { "fuel": 1, "smoke": 3, "burn": 2, "volume_per_turn": "500 ml" },
       { "fuel": 1, "smoke": 3, "burn": 3 }
-    ]
+    ],
+    "burn_products": [ [ "corpse_ash", 0.035 ] ]
   },
   {
     "type": "material",
@@ -2490,7 +2499,8 @@
       { "fuel": 1, "smoke": 1, "burn": 1, "volume_per_turn": "1250 ml" },
       { "fuel": 1, "smoke": 1, "burn": 2 },
       { "fuel": 1, "smoke": 1, "burn": 5 }
-    ]
+    ],
+    "burn_products": [ [ "corpse_ash", 0.035 ] ]
   },
   {
     "type": "material",
@@ -2514,7 +2524,7 @@
       { "fuel": 1, "smoke": 1, "burn": 1, "volume_per_turn": "1250 ml" },
       { "fuel": 2, "smoke": 1, "burn": 2, "volume_per_turn": "2500 ml" },
       { "fuel": 2, "smoke": 1, "burn": 3 }
-    ]
+    ],
   },
   {
     "type": "material",
@@ -2568,7 +2578,8 @@
       { "fuel": 1, "smoke": 1, "burn": 1, "volume_per_turn": "2500 ml" },
       { "fuel": 2, "smoke": 3, "burn": 2, "volume_per_turn": "10000 ml" },
       { "fuel": 3, "smoke": 10, "burn": 3 }
-    ]
+    ],
+    "burn_products": [ [ "corpse_ash", 0.035 ] ]
   },
   {
     "type": "material",
