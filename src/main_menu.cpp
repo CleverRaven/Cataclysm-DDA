@@ -14,7 +14,6 @@
 
 #include "auto_pickup.h"
 #include "avatar.h"
-#include "calendar.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "character_id.h"
@@ -834,8 +833,6 @@ bool main_menu::opening_screen()
         add_msg( get_scenario()->description( player_character.male ) );
 
         if( get_option<std::string>( "ETERNAL_WEATHER" ) != "normal" ) {
-            get_weather().nextweather = calendar::turn;
-
             if( player_character.posz() >= 0 ) {
                 add_msg( _( "You feel as if this %1$s will last forever…" ),
                          get_options().get_option( "ETERNAL_WEATHER" ).getValueName() );
