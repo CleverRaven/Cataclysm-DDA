@@ -600,6 +600,8 @@ faewild
 fakkin
 falcata
 fallfish
+falx
+falxes
 familiaris
 famoso
 fance
@@ -976,6 +978,8 @@ kosmoceratops
 krabgek
 kreck
 krick
+kriegsmesser
+kriegsmessers
 kshhhsk
 kshhssk
 kshssssssk
@@ -1035,6 +1039,7 @@ lockpicking
 longarm
 longear
 longsword
+longswords
 lopes
 lorekeeper
 lorica
