@@ -32,6 +32,7 @@
   },
   {
     "type": "COMESTIBLE",
+    "comestible_type": "FOOD",
     "id": "glypto_shell",
     "category": "spare_parts",
     "name": { "str": "glyptotherium shell" },
