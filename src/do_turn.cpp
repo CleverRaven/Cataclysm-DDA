@@ -609,7 +609,7 @@ bool do_turn()
                                    ( get_option<std::string>( "ETERNAL_WEATHER" ) );
         weather.set_nextweather( calendar::turn );
     } else {
-        weather.weather_override = static_cast<weather_type_id>( "null" );
+        weather.weather_override = WEATHER_NULL;
         weather.set_nextweather( calendar::turn );
     }
 
