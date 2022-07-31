@@ -582,7 +582,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "result": "electronics_controls",
     "category": "CC_ELECTRONIC",
-    "subcategory": "CSC_ELECTRONIC_TOOLS",
+    "subcategory": "CSC_ELECTRONIC_PARTS",
     "skill_used": "electronics",
     "skills_required": [ "mechanics", 1 ],
     "difficulty": 3,
