@@ -285,7 +285,7 @@
     "id": "memorial",
     "subtype": "collection",
     "entries": [
-      { "item": "corpse_ash", "prob": 100, "charges-min": 2300, "charges-max": 2900, "container-item": "porcelain_urn" },
+      { "item": "corpse_ash", "prob": 100, "charges-min": 1905, "charges-max": 3969, "container-item": "porcelain_urn" },
       { "item": "photo_album", "prob": 75 },
       { "item": "bouquet", "prob": 33 },
       { "item": "candle", "prob": 50, "charges-min": 1, "charges-max": 6 },
@@ -360,7 +360,7 @@
     "id": "memorial_mansion",
     "subtype": "collection",
     "entries": [
-      { "item": "corpse_ash", "prob": 100, "charges-min": 2300, "charges-max": 2900, "container-item": "crystal_urn" },
+      { "item": "corpse_ash", "prob": 100, "charges-min": 1905, "charges-max": 3969, "container-item": "crystal_urn" },
       { "item": "photo_album", "prob": 75 },
       { "item": "sunflower", "prob": 33 },
       { "item": "candlestick", "prob": 50, "charges-min": 1, "charges-max": 6 },
