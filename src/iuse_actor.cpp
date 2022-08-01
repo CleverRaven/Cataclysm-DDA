@@ -890,9 +890,13 @@ cata::optional<int> consume_drug_iuse::use( Character &p, item &it, bool, const 
     }
 
     for( const auto &v : vitamins ) {
+        const int lo = v.first->RDA_to_default( v.second.first );
+        const int high = v.first->RDA_to_default( v.second.second );
+
         // have to update the daily estimate with the vitamins from the drug as well
-        p.daily_vitamins[v.first].first += v.second.first;
-        p.vitamin_mod( v.first, rng( v.second.first, v.second.second ) );
+        p.daily_vitamins[v.first].first += lo;
+
+        p.vitamin_mod( v.first, rng( lo, high ) );
     }
 
     // Output message.

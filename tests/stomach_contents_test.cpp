@@ -51,6 +51,13 @@ static void set_all_vitamins( int target, Character &p )
     p.vitamin_set( vitamin_calcium, target );
 }
 
+static void reset_daily_vitamins( Character &p )
+{
+    p.reset_daily_vitamin( vitamin_vitC );
+    p.reset_daily_vitamin( vitamin_iron );
+    p.reset_daily_vitamin( vitamin_calcium );
+}
+
 // time (in minutes) it takes for the player to feel hungry
 // passes time on the calendar
 static time_duration time_until_hungry( Character &p )
@@ -172,6 +179,7 @@ TEST_CASE( "vitamin_equilibrium", "[vitamins]" )
     REQUIRE( subject.vitamin_get( vitamin_iron ) == -100 );
     item f( "debug_orange" );
 
+    // check that 100% of daily vit C is by default 96 units
     CHECK( subject.compute_effective_nutrients( f ).get_vitamin( vitamin_vitC ) == 96 );
     subject.consume( f );
 
@@ -185,6 +193,66 @@ TEST_CASE( "vitamin_equilibrium", "[vitamins]" )
     CHECK( subject.vitamin_get( vitamin_iron ) >= -101 );
     CHECK( subject.vitamin_get( vitamin_calcium ) >= -101 );
     CHECK( subject.vitamin_get( vitamin_vitC ) >= -101 );
+
+}
+
+// do vitamins you eat get processed correctly
+TEST_CASE( "vitamin_multivitamin", "[vitamins]" )
+{
+    Character &subject = get_avatar();
+    clear_avatar();
+    reset_time();
+    clear_stomach( subject );
+
+    set_all_vitamins( -100, subject );
+    REQUIRE( subject.vitamin_get( vitamin_vitC ) == -100 );
+    REQUIRE( subject.vitamin_get( vitamin_calcium ) == -100 );
+    REQUIRE( subject.vitamin_get( vitamin_iron ) == -100 );
+    item f( "debug_vitamins" );
+
+    subject.consume( f );
+
+    pass_time( subject, 1_days );
+
+    // check if something with 100% RDA will keep you at equilibrium
+    CHECK( subject.vitamin_get( vitamin_iron ) <= -99 );
+    CHECK( subject.vitamin_get( vitamin_calcium ) <= -99 );
+    CHECK( subject.vitamin_get( vitamin_vitC ) <= -99 );
+    CHECK( subject.vitamin_get( vitamin_iron ) >= -101 );
+    CHECK( subject.vitamin_get( vitamin_calcium ) >= -101 );
+    CHECK( subject.vitamin_get( vitamin_vitC ) >= -101 );
+
+}
+
+// do vitamins you eat get processed correctly
+TEST_CASE( "vitamin_daily", "[vitamins]" )
+{
+    Character &subject = get_avatar();
+    clear_avatar();
+    reset_time();
+    clear_stomach( subject );
+
+    set_all_vitamins( -100, subject );
+    reset_daily_vitamins( subject );
+    REQUIRE( subject.vitamin_get( vitamin_vitC ) == -100 );
+    REQUIRE( subject.vitamin_get( vitamin_calcium ) == -100 );
+    REQUIRE( subject.vitamin_get( vitamin_iron ) == -100 );
+    REQUIRE( subject.get_daily_vitamin( vitamin_vitC ) == 0 );
+    REQUIRE( subject.get_daily_vitamin( vitamin_calcium ) == 0 );
+    REQUIRE( subject.get_daily_vitamin( vitamin_iron ) == 0 );
+    REQUIRE( subject.get_daily_health() == 0 );
+    item f( "debug_vitamins" );
+
+    subject.consume( f );
+
+    pass_time( subject, 2_days );
+
+    // check if after a day health is up and vitamins are reset
+    CHECK( subject.get_daily_vitamin( vitamin_vitC ) == 0 );
+    CHECK( subject.get_daily_vitamin( vitamin_calcium ) == 0 );
+    CHECK( subject.get_daily_vitamin( vitamin_iron ) == 0 );
+    // get that vitamin health bonus
+    CHECK( subject.get_daily_health() >= 6 );
 
 }
 
