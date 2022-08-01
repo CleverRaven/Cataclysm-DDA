@@ -599,9 +599,12 @@ int Character::get_daily_vitamin( const vitamin_id &vit, bool actual ) const
     }
 
     const auto &v = daily_vitamins.find( vit );
+    // we didn't find it
+    if( v == daily_vitamins.end() ) {
+        return 0;
+    }
     // if we should get the guess or the real value
-    const int &count = actual ? v->second.second : v->second.first;
-    return v != daily_vitamins.end() ? count : 0;
+    return actual ? v->second.second : v->second.first;
 }
 
 void Character::reset_daily_vitamin( const vitamin_id &vit )

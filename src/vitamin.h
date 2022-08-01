@@ -105,8 +105,6 @@ class vitamin
         efftype_id excess_;
         int min_ = 0;
         int max_ = 0;
-        // how much you've taken today
-        int daily_count = 0;
         time_duration rate_ = 0_turns;
         std::vector<std::pair<int, int>> disease_;
         std::vector<std::pair<int, int>> disease_excess_;

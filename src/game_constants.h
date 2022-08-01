@@ -225,6 +225,6 @@ constexpr int fine = -10;
 constexpr int good = 10;
 constexpr int very_good = 50;
 constexpr int great = 100;
-} // namespace character_weight_category
+} // namespace character_health_category
 
 #endif // CATA_SRC_GAME_CONSTANTS_H
