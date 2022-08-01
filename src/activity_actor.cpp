@@ -390,7 +390,7 @@ item_location aim_activity_actor::get_weapon()
     }
 }
 
-void aim_activity_actor::restore_view()
+void aim_activity_actor::restore_view() const
 {
     avatar &player_character = get_avatar();
     bool changed_z = player_character.view_offset.z != initial_view_offset.z;

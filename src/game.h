@@ -643,7 +643,7 @@ class game
         special_game_type gametype() const;
 
         void toggle_fullscreen();
-        void toggle_pixel_minimap();
+        void toggle_pixel_minimap() const;
         void reload_tileset();
         void temp_exit_fullscreen();
         void reenter_fullscreen();
@@ -714,13 +714,13 @@ class game
         void draw_line( const tripoint &p, const tripoint &center_point,
                         const std::vector<tripoint> &points, bool noreveal = false );
         void draw_line( const tripoint &p, const std::vector<tripoint> &points );
-        void draw_weather( const weather_printable &wPrint );
-        void draw_sct();
-        void draw_zones( const tripoint &start, const tripoint &end, const tripoint &offset );
+        void draw_weather( const weather_printable &wPrint ) const;
+        void draw_sct() const;
+        void draw_zones( const tripoint &start, const tripoint &end, const tripoint &offset ) const;
         // Draw critter (if visible!) on its current position into w_terrain.
         // @param center the center of view, same as when calling map::draw
         void draw_critter( const Creature &critter, const tripoint &center );
-        void draw_cursor( const tripoint &p );
+        void draw_cursor( const tripoint &p ) const;
         // Draw a highlight graphic at p, for example when examining something.
         // TILES only, in curses this does nothing
         void draw_highlight( const tripoint &p );

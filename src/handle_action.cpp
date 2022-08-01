@@ -1642,7 +1642,7 @@ bool Character::cast_spell( spell &sp, bool fake_spell,
 }
 
 // this is here because it shares some things in common with cast_spell
-bool bionic::activate_spell( Character &caster )
+bool bionic::activate_spell( Character &caster ) const
 {
     if( !caster.is_avatar() || !id->spell_on_activate ) {
         // the return value tells us if the spell fails. if it has no spell it can't fail

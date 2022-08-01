@@ -262,7 +262,7 @@ class overmap
          * @returns A vector of terrain coordinates (absolute overmap terrain
          * coordinates), or empty vector if no matching terrain is found.
          */
-        std::vector<point_abs_omt> find_terrain( const std::string &term, int zlevel );
+        std::vector<point_abs_omt> find_terrain( const std::string &term, int zlevel ) const;
 
         void ter_set( const tripoint_om_omt &p, const oter_id &id );
         // ter has bounds checking, and returns ot_null when out of bounds.

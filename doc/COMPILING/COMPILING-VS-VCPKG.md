@@ -30,7 +30,7 @@ Steps from current guide were tested on Windows 10 (64 bit), Visual Studio 2019 
 In a `cmd.exe` shell:
 ```cmd
 REM cd to the appropriate folder first
-git clone --depth 1 https://github.com/Microsoft/vcpkg.git
+git clone https://github.com/Microsoft/vcpkg.git
 cd vcpkg
 .\bootstrap-vcpkg.bat -disableMetrics
 .\vcpkg integrate install

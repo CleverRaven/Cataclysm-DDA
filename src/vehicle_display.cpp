@@ -489,7 +489,7 @@ void vehicle::print_fuel_indicator( const catacurses::window &win, const point &
     }
 }
 
-void vehicle::print_speed_gauge( const catacurses::window &win, const point &p, int spacing )
+void vehicle::print_speed_gauge( const catacurses::window &win, const point &p, int spacing ) const
 {
     if( spacing < 0 ) {
         spacing = 0;

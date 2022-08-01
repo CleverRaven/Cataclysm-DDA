@@ -1629,7 +1629,7 @@ item &Character::get_consumable_from( item &it ) const
     return null_comestible;
 }
 
-time_duration Character::get_consume_time( const item &it )
+time_duration Character::get_consume_time( const item &it ) const
 {
     const int charges = std::max( it.charges, 1 );
     int volume = units::to_milliliter( it.volume() ) / charges;

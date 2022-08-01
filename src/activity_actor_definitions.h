@@ -100,7 +100,7 @@ class aim_activity_actor : public activity_actor
         static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
 
         item_location get_weapon();
-        void restore_view();
+        void restore_view() const;
         // Load/unload a RELOAD_AND_SHOOT weapon
         bool load_RAS_weapon();
         void unload_RAS_weapon();

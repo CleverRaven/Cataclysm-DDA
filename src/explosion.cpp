@@ -887,7 +887,7 @@ fragment_cloud &fragment_cloud::operator=( const float &value )
     return *this;
 }
 
-bool fragment_cloud::operator==( const fragment_cloud &that )
+bool fragment_cloud::operator==( const fragment_cloud &that ) const
 {
     return velocity == that.velocity && density == that.density;
 }

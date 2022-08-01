@@ -533,7 +533,7 @@ void vehicle::turrets_set_mode()
     }
 }
 
-npc vehicle::get_targeting_npc( const vehicle_part &pt )
+npc vehicle::get_targeting_npc( const vehicle_part &pt ) const
 {
     // Make a fake NPC to represent the targeting system
     npc cpu;

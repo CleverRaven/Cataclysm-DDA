@@ -3679,7 +3679,7 @@ struct acc_data {
     static constexpr int balance_offset = -2;
     // all the constant offsets and the base accuracy together
     static constexpr int acc_offset = base_acc + grip_offset + surface_offset + balance_offset;
-    int sum_values() {
+    int sum_values() const {
         return acc_offset + static_cast<int>( grip ) + static_cast<int>( length ) +
                static_cast<int>( surface ) + static_cast<int>( balance );
     }
