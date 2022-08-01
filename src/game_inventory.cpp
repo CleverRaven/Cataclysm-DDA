@@ -1069,21 +1069,19 @@ static std::string get_consume_needs_hint( Character &you )
             //skip non vitamins
             continue;
         }
-        const time_duration rate = you.vitamin_rate( v.first );
 
         const int &total_vit_quantity = you.get_daily_vitamin( v.first, false );
 
-        const double rda = 1_days / rate;
-        const int &vit_percent = static_cast<double>( total_vit_quantity ) * 100 / rda;
+        const int &vit_percent = you.vitamin_RDA( v.first, total_vit_quantity );
 
         if( has_tracker ) {
             desc = std::make_pair( string_format( _( "%s: %d%%.  " ), v.second.name(), vit_percent ), c_white );
         } else {
-            if( total_vit_quantity > 0.9 * rda ) {
+            if( vit_percent >= 90 ) {
                 desc = std::make_pair( string_format( _( "%s: %s.  " ), v.second.name(), _( "plenty" ) ), c_white );
-            } else if( total_vit_quantity > 0.5 * rda ) {
+            } else if( vit_percent >= 50 ) {
                 desc = std::make_pair( string_format( _( "%s: %s.  " ), v.second.name(), _( "some" ) ), c_white );
-            } else if( total_vit_quantity > 0 ) {
+            } else if( vit_percent > 0 ) {
                 desc = std::make_pair( string_format( _( "%s: %s.  " ), v.second.name(), _( "little" ) ), c_white );
             } else {
                 desc = std::make_pair( string_format( _( "%s: %s.  " ), v.second.name(), _( "none" ) ), c_white );

@@ -6966,6 +6966,12 @@ weighted_int_list<mutation_category_id> Character::get_vitamin_weighted_categori
     return weighted_output;
 }
 
+int Character::vitamin_RDA( vitamin_id vitamin, int ammount ) const
+{
+    const double multiplier = vitamin_rate( vitamin ) / 1_days * 100;
+    return std::lround( ammount * multiplier );
+}
+
 void Character::recalculate_bodyparts()
 {
     body_part_set body_set;

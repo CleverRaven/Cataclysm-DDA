@@ -320,12 +320,12 @@ void Character::update_body( const time_point &from, const time_point &to )
             }
         }
         if( calendar::once_every( 24_hours ) && v.first->type() == vitamin_type::VITAMIN ) {
-            const double rda = 1_days / rate;
             const int &vit_quantity = get_daily_vitamin( v.first, true );
-            if( vit_quantity > 0.5 * rda ) {
+            const int RDA = vitamin_RDA( v.first, vit_quantity );
+            if( RDA >= 50 ) {
                 mod_daily_health( 1, 200 );
             }
-            if( vit_quantity > 0.90 * rda ) {
+            if( RDA >= 90 ) {
                 mod_daily_health( 1, 200 );
             }
 
