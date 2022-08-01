@@ -164,6 +164,7 @@ jobs:
             release: 0
             cmake: 0
             native:
+            sanitize: address
             tiles: 1
             sound: 1
             localize: 1
