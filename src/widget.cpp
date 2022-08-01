@@ -1692,7 +1692,7 @@ std::string widget::layout( const avatar &ava, unsigned int max_width, int label
                     }
                     // if last widget make it take the remaining space
                     if( i == wgts.size() - 1 ) {
-                        cur_width = avail_width - total_width;
+                        cur_width = std::max<int>( 0, avail_width - total_width );
                     }
                 } else { //columns
                     if( cur_child._style == "layout" && cur_child._width > 0 ) {
