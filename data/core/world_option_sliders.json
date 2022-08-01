@@ -148,34 +148,40 @@
     "id": "world_random_npcs",
     "context": "WORLDGEN",
     "name": "Random NPCs",
-    "default": 2,
+    "default": 3,
     "levels": [
       {
         "level": 0,
+        "name": "Seriously.. Where is everyone?",
+        "description": "You are very, very unlikely to encounter random NPCs.",
+        "options": [ { "option": "NPC_SPAWNTIME", "type": "float", "val": 24 } ]
+      },
+      {
+        "level": 1,
         "name": "Where is everyone?",
         "description": "You are very unlikely to encounter random NPCs.",
         "options": [ { "option": "NPC_SPAWNTIME", "type": "float", "val": 12 } ]
       },
       {
-        "level": 1,
+        "level": 2,
         "name": "Empty world",
         "description": "You are half as likely to encounter random NPCs.",
         "options": [ { "option": "NPC_SPAWNTIME", "type": "float", "val": 8 } ]
       },
       {
-        "level": 2,
+        "level": 3,
         "name": "Lonely",
         "description": "The default: NPCs are rare, but as expected in this ruined world.",
         "options": [ { "option": "NPC_SPAWNTIME", "type": "float", "val": 4 } ]
       },
       {
-        "level": 3,
+        "level": 4,
         "name": "Party time",
         "description": "You are twice as likely to encounter random NPCs.",
         "options": [ { "option": "NPC_SPAWNTIME", "type": "float", "val": 2 } ]
       },
       {
-        "level": 4,
+        "level": 5,
         "name": "Crowded",
         "description": "Random NPCs are fairly common.  Go meet some friends!",
         "options": [ { "option": "NPC_SPAWNTIME", "type": "float", "val": 1 } ]
