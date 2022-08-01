@@ -127,6 +127,7 @@
     "arrange": "minimum_columns",
     "padding": 0,
     "widgets": [
+      "scifi_vsep_6",
       "scifi_health_labels_left_layout",
       "scifi_space_1",
       "scifi_health_warmth_left_layout",
@@ -141,7 +142,8 @@
       "scifi_health_encumb_right_layout",
       "scifi_health_warmth_right_layout",
       "scifi_space_1",
-      "scifi_health_labels_right_layout"
+      "scifi_health_labels_right_layout",
+      "scifi_vsep_6"
     ]
   }
 ]

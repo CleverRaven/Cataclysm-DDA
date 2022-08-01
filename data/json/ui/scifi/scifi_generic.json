@@ -7,6 +7,21 @@
     "width": 1
   },
   {
+    "id": "scifi_vsep_6",
+    "type": "widget",
+    "style": "layout",
+    "width": 1,
+    "arrange": "rows",
+    "widgets": [ "scifi_vsep_1", "scifi_vsep_1", "scifi_vsep_1", "scifi_vsep_1", "scifi_vsep_1", "scifi_vsep_1" ]
+  },
+  {
+    "id": "scifi_vsep_1",
+    "type": "widget",
+    "style": "text",
+    "string": "|",
+    "width": 1
+  },
+  {
     "id": "scifi_graph_vertical",
     "type": "widget",
     "style": "graph",
