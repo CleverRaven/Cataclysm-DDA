@@ -1843,4 +1843,33 @@ class mop_activity_actor : public activity_actor
         int moves;
 };
 
+class unload_loot_activity_actor : public activity_actor
+{
+    public:
+        unload_loot_activity_actor() = default;
+        explicit unload_loot_activity_actor( int moves ) : moves( moves ) {}
+
+        activity_id get_type() const override {
+            return activity_id( "ACT_UNLOAD_LOOT" );
+        }
+
+        void start( player_activity &act, Character &who ) override;
+        void do_turn( player_activity &act, Character &you ) override;
+        void finish( player_activity &, Character & ) override {};
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<unload_loot_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
+
+    private:
+        int moves;
+        int num_processed;
+        int stage;
+        std::unordered_set<tripoint> coord_set;
+        tripoint placement;
+};
+
 #endif // CATA_SRC_ACTIVITY_ACTOR_DEFINITIONS_H
