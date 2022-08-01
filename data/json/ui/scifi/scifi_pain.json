@@ -1,0 +1,99 @@
+[
+  {
+    "id": "scifi_pain",
+    "type": "widget",
+    "width": 1,
+    "style": "symbol",
+    "clauses": [
+      {
+        "id": "no_pain",
+        "sym": "∙",
+        "color": "dark_gray",
+        "condition": { "and": [ { "compare_int": [ { "u_val": "pain" }, "==", { "const": 0 } ] } ] }
+      },
+      {
+        "id": "minimal",
+        "sym": "▁",
+        "color": "yellow",
+        "condition": {
+          "and": [
+            { "compare_int": [ { "u_val": "pain" }, ">", { "const": 0 } ] },
+            { "compare_int": [ { "u_val": "pain" }, "<=", { "const": 10 } ] }
+          ]
+        }
+      },
+      {
+        "id": "mild",
+        "sym": "▂",
+        "color": "yellow",
+        "condition": {
+          "and": [
+            { "compare_int": [ { "u_val": "pain" }, ">", { "const": 10 } ] },
+            { "compare_int": [ { "u_val": "pain" }, "<=", { "const": 20 } ] }
+          ]
+        }
+      },
+      {
+        "id": "moderate",
+        "sym": "▃",
+        "color": "yellow",
+        "condition": {
+          "and": [
+            { "compare_int": [ { "u_val": "pain" }, ">", { "const": 20 } ] },
+            { "compare_int": [ { "u_val": "pain" }, "<=", { "const": 30 } ] }
+          ]
+        }
+      },
+      {
+        "id": "distracting",
+        "sym": "▄",
+        "color": "yellow",
+        "condition": {
+          "and": [
+            { "compare_int": [ { "u_val": "pain" }, ">", { "const": 30 } ] },
+            { "compare_int": [ { "u_val": "pain" }, "<=", { "const": 40 } ] }
+          ]
+        }
+      },
+      {
+        "id": "distressing",
+        "sym": "▅",
+        "color": "light_red",
+        "condition": {
+          "and": [
+            { "compare_int": [ { "u_val": "pain" }, ">", { "const": 40 } ] },
+            { "compare_int": [ { "u_val": "pain" }, "<=", { "const": 50 } ] }
+          ]
+        }
+      },
+      {
+        "id": "unmanagable",
+        "sym": "▆",
+        "color": "light_red",
+        "condition": {
+          "and": [
+            { "compare_int": [ { "u_val": "pain" }, ">", { "const": 50 } ] },
+            { "compare_int": [ { "u_val": "pain" }, "<=", { "const": 60 } ] }
+          ]
+        }
+      },
+      {
+        "id": "intense",
+        "sym": "▇",
+        "color": "red",
+        "condition": {
+          "and": [
+            { "compare_int": [ { "u_val": "pain" }, ">", { "const": 60 } ] },
+            { "compare_int": [ { "u_val": "pain" }, "<=", { "const": 70 } ] }
+          ]
+        }
+      },
+      {
+        "id": "severe",
+        "sym": "█",
+        "color": "red",
+        "condition": { "compare_int": [ { "u_val": "pain" }, ">", { "const": 70 } ] }
+      }
+    ]
+  }
+]

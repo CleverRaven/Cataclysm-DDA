@@ -117,7 +117,7 @@
     "style": "layout",
     "arrange": "rows",
     "width": 7,
-    "widgets": [ "scifi_space_1", "scifi_body_graph_wrapper_layout" ]
+    "widgets": [ "scifi_pain", "scifi_body_graph_wrapper_layout" ]
   },
   {
     "id": "scifi_health_layout",
