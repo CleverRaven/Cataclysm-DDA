@@ -1104,7 +1104,7 @@ void npc::revert_after_activity()
     backlog.clear();
 }
 
-npc_mission npc::get_previous_mission()
+npc_mission npc::get_previous_mission() const
 {
     return previous_mission;
 }
@@ -1114,7 +1114,7 @@ npc_attitude npc::get_previous_attitude()
     return previous_attitude;
 }
 
-bool npc::get_known_to_u()
+bool npc::get_known_to_u() const
 {
     return known_to_u;
 }
@@ -2269,12 +2269,12 @@ void healing_options::clear_all()
     infect = false;
 }
 
-bool healing_options::all_false()
+bool healing_options::all_false() const
 {
     return !any_true();
 }
 
-bool healing_options::any_true()
+bool healing_options::any_true() const
 {
     return bandage || bleed || bite || infect || disinfect;
 }
@@ -2641,7 +2641,7 @@ int npc::smash_ability() const
     return 0;
 }
 
-float npc::danger_assessment()
+float npc::danger_assessment() const
 {
     return ai_cache.danger_assessment;
 }
@@ -2652,7 +2652,7 @@ float npc::average_damage_dealt()
     return static_cast<float>( melee_value( weap ) );
 }
 
-bool npc::bravery_check( int diff )
+bool npc::bravery_check( int diff ) const
 {
     return dice( 10 + personality.bravery, 6 ) >= dice( diff, 4 );
 }

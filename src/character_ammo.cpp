@@ -13,7 +13,7 @@ static const character_modifier_id character_modifier_reloading_move_mod( "reloa
 static const itype_id itype_battery( "battery" );
 static const skill_id skill_gun( "gun" );
 
-int Character::ammo_count_for( const item_location &gun )
+int Character::ammo_count_for( const item_location &gun ) const
 {
     int ret = item::INFINITE_CHARGES;
     if( !gun || !gun->is_gun() ) {

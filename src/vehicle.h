@@ -152,10 +152,10 @@ struct vpart_edge_info {
         forward( forward ), back( back ), left( left ), right( right ), left_edge( left_edge ),
         right_edge( right_edge ) {}
 
-    bool is_edge_mount() {
+    bool is_edge_mount() const {
         return left_edge || right_edge || left == -1 || right == -1;
     }
-    bool is_left_edge() {
+    bool is_left_edge() const {
         return left_edge || left == -1;
     }
 };
@@ -762,7 +762,7 @@ class vehicle
         static int vhp_to_watts( int power );
 
         // Do stuff like clean up blood and produce smoke from broken parts. Returns false if nothing needs doing.
-        bool do_environmental_effects();
+        bool do_environmental_effects() const;
 
         units::volume total_folded_volume() const;
 
@@ -788,7 +788,7 @@ class vehicle
         void calc_mass_center( bool precalc ) const;
 
         /** empty the contents of a tank, battery or turret spilling liquids randomly on the ground */
-        void leak_fuel( vehicle_part &pt );
+        void leak_fuel( vehicle_part &pt ) const;
 
         /**
          * Find a possibly off-map vehicle. If necessary, loads up its submap through
@@ -913,7 +913,7 @@ class vehicle
         std::set<point> immediate_path( const units::angle &rotate = 0_degrees );
         std::set<point> collision_check_points; // NOLINT(cata-serialize)
         void autopilot_patrol();
-        units::angle get_angle_from_targ( const tripoint &targ );
+        units::angle get_angle_from_targ( const tripoint &targ ) const;
         void drive_to_local_target( const tripoint &target, bool follow_protocol );
         tripoint get_autodrive_target() {
             return autodrive_local_target;
@@ -1000,7 +1000,7 @@ class vehicle
         bool find_and_split_vehicles( map &here, int exclude );
         bool find_and_split_vehicles( map &here, std::set<int> exclude );
         // relocate passengers to the same part on a new vehicle
-        void relocate_passengers( const std::vector<Character *> &passengers );
+        void relocate_passengers( const std::vector<Character *> &passengers ) const;
         // remove a bunch of parts, specified by a vector indices, and move them to a new vehicle at
         // the same global position
         // optionally specify the new vehicle position and the mount points on the new vehicle
@@ -1137,7 +1137,7 @@ class vehicle
         // returns indices of all parts in the given location slot
         std::vector<int> all_parts_at_location( const std::string &location ) const;
         // shifts an index to next available of that type for NPC activities
-        int get_next_shifted_index( int original_index, Character &you );
+        int get_next_shifted_index( int original_index, Character &you ) const;
         // Given a part and a flag, returns the indices of all contiguously adjacent parts
         // with the same flag on the X and Y Axis
         std::vector<std::vector<int>> find_lines_of_parts( int part, const std::string &flag );
@@ -1190,7 +1190,7 @@ class vehicle
          * @param spacing Sets size of space between components
          * @warning if spacing is negative it is changed to 0
          */
-        void print_speed_gauge( const catacurses::window &win, const point &, int spacing = 0 );
+        void print_speed_gauge( const catacurses::window &win, const point &, int spacing = 0 ) const;
 
         // Pre-calculate mount points for (idir=0) - current direction or
         // (idir=1) - next turn direction
@@ -1392,7 +1392,7 @@ class vehicle
         int safe_velocity( bool fueled = true ) const;
 
         // Generate field from a part, either at front or back of vehicle depending on velocity.
-        void spew_field( double joules, int part, field_type_id type, int intensity = 1 );
+        void spew_field( double joules, int part, field_type_id type, int intensity = 1 ) const;
 
         // Loop through engines and generate noise and smoke for each one
         void noise_and_smoke( int load, time_duration time = 1_turns );
@@ -1564,8 +1564,8 @@ class vehicle
         /**
          * can the helicopter descend/ascend here?
          */
-        bool check_heli_descend( Character &p );
-        bool check_heli_ascend( Character &p );
+        bool check_heli_descend( Character &p ) const;
+        bool check_heli_ascend( Character &p ) const;
         bool check_is_heli_landed();
         /**
          * Player is driving the vehicle
@@ -1623,7 +1623,7 @@ class vehicle
 
         void refresh_insides();
 
-        void unboard_all();
+        void unboard_all() const;
 
         // Damage individual part. bash means damage
         // must exceed certain threshold to be subtracted from hp
@@ -1709,7 +1709,7 @@ class vehicle
          * @param pt the vehicle part containing the turret we're trying to target.
          * @return npc object with suitable attributes for targeting a vehicle turret.
          */
-        npc get_targeting_npc( const vehicle_part &pt );
+        npc get_targeting_npc( const vehicle_part &pt ) const;
         /*@}*/
 
     public:
@@ -1754,13 +1754,13 @@ class vehicle
         void open_all_at( int p );
 
         // Honk the vehicle's horn, if there are any
-        void honk_horn();
+        void honk_horn() const;
         void reload_seeds( const tripoint &pos );
-        void beeper_sound();
-        void play_music();
-        void play_chimes();
+        void beeper_sound() const;
+        void play_music() const;
+        void play_chimes() const;
         void operate_planter();
-        std::string tracking_toggle_string();
+        std::string tracking_toggle_string() const;
         void autopilot_patrol_check();
         void toggle_autopilot();
         void enable_patrol();

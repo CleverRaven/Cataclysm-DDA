@@ -894,8 +894,8 @@ void tileset_cache::loader::load_layers( const JsonObject &config )
 
 }
 
-void tileset_cache::loader::process_variations_after_loading( weighted_int_list<std::vector<int>>
-        &vs )
+void tileset_cache::loader::process_variations_after_loading(
+    weighted_int_list<std::vector<int>> &vs ) const
 {
     // loop through all of the variations
     for( auto &v : vs ) {
@@ -1129,7 +1129,7 @@ tile_type &tileset_cache::loader::load_tile( const JsonObject &entry, const std:
 
 void tileset_cache::loader::load_tile_spritelists( const JsonObject &entry,
         weighted_int_list<std::vector<int>> &vs,
-        const std::string &objname )
+        const std::string &objname ) const
 {
     // json array indicates rotations or variations
     if( entry.has_array( objname ) ) {

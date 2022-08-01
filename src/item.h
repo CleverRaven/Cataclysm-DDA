@@ -947,7 +947,7 @@ class item : public visitable
          * If count_by_charges(), returns charges, otherwise 1
          */
         int count() const;
-        bool craft_has_charges();
+        bool craft_has_charges() const;
 
         /**
          * Modify the charges of this item, only use for items counted by charges!
@@ -1364,7 +1364,7 @@ class item : public visitable
          * Items such as ablative plates are considered with this.
          * @return the state of the armor
          */
-        armor_status damage_armor_transforms( damage_unit &du );
+        armor_status damage_armor_transforms( damage_unit &du ) const;
 
 
         /** Provide color for UI display dependent upon current item damage level */
@@ -1524,7 +1524,7 @@ class item : public visitable
         /** Returns the string of the id of the terrain that pumps this fuel, if any. */
         std::string fuel_pump_terrain() const;
         bool has_explosion_data() const;
-        fuel_explosion_data get_explosion_data();
+        fuel_explosion_data get_explosion_data() const;
 
         /**
          * returns whether any of the pockets is compatible with the specified item.
@@ -2498,6 +2498,7 @@ class item : public visitable
          * use_function with type use_name. Returns the first item that does have
          * such type or nullptr if none found.
          */
+        const item *get_usable_item( const std::string &use_name ) const;
         item *get_usable_item( const std::string &use_name );
 
         /**
@@ -2733,6 +2734,8 @@ class item : public visitable
         bool use_amount_internal( const itype_id &it, int &quantity, std::list<item> &used,
                                   const std::function<bool( const item & )> &filter = return_true<item> );
         const use_function *get_use_internal( const std::string &use_name ) const;
+        template<typename Item>
+        static Item *get_usable_item_helper( Item &self, const std::string &use_name );
         bool process_internal( map &here, Character *carrier, const tripoint &pos, float insulation = 1,
                                temperature_flag flag = temperature_flag::NORMAL, float spoil_modifier = 1.0f );
         void iterate_covered_body_parts_internal( side s,
@@ -2748,7 +2751,8 @@ class item : public visitable
         void calc_temp( units::temperature temp, float insulation, const time_duration &time_delta );
 
         /** Calculates item specific energy (J/g) from temperature*/
-        units::specific_energy get_specific_energy_from_temperature( units::temperature new_temperature );
+        units::specific_energy get_specific_energy_from_temperature( units::temperature new_temperature )
+        const;
 
         /** Update flags associated with temperature */
         void set_temp_flags( units::temperature new_temperature, float freeze_percentage );
