@@ -5,7 +5,7 @@
     "class": "NC_SCAVENGER",
     "name_suffix": "scrapper",
     "attitude": 0,
-    "mission": 7,
+    "mission": 3,
     "chat": "TALK_NPC_SCRAP_TRADER",
     "faction": "wasteland_scavengers",
     "mission_offered": "MISSION_SCRAP_TRADER_GET_25_MAGNETRON"
@@ -130,6 +130,21 @@
       {
         "text": "[100$]  I'll buy some high carbon steel.",
         "effect": [ { "u_buy_item": "hc_steel_lump", "cost": 10000, "count": 10 } ],
+        "topic": "TALK_SCRAP_TRADER_BULK_SELL_END"
+      },
+      {
+        "text": "[30$]  I'll buy some scrap aluminum.",
+        "effect": [ { "u_buy_item": "scrap_aluminum", "cost": 3000, "count": 10 } ],
+        "topic": "TALK_SCRAP_TRADER_BULK_SELL_END"
+      },
+      {
+        "text": "[30$]  I'll buy some scrap copper.",
+        "effect": [ { "u_buy_item": "scrap_copper", "cost": 3000, "count": 10 } ],
+        "topic": "TALK_SCRAP_TRADER_BULK_SELL_END"
+      },
+      {
+        "text": "[50$]  I'll buy some bronze.",
+        "effect": [ { "u_buy_item": "scrap_bronze", "cost": 5000, "count": 10 } ],
         "topic": "TALK_SCRAP_TRADER_BULK_SELL_END"
       }
     ]
