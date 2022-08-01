@@ -55,13 +55,15 @@ Monsters may also have any of these optional properties:
 | `melee_dice`             | (integer) Number of dice rolled on monster melee attack to determine bash damage
 | `melee_dice_sides`       | (integer) Number of sides on each die rolled by `melee_dice`
 | `grab_strength`          | (integer) Intensity of grab effect, from `1` to `n`, simulating `n` regular zombie grabs
-| `melee_cut`              | (integer) Amount of cutting damage added to the die roll on melee attack
 | `armor_bash`             | (integer) Monster's protection from bash damage
 | `armor_bullet`           | (integer) Monster's protection from bullet damage
 | `armor_cut`              | (integer) Monster's protection from cut damage
 | `armor_stab`             | (integer) Monster's protection from stab damage
 | `armor_acid`             | (integer) Monster's protection from acid damage
 | `armor_fire`             | (integer) Monster's protection from fire damage
+| `armor_electric`         | (integer) Monster's protection from electric damage
+| `armor_cold`             | (integer) Monster's protection from cold damage
+| `armor_pure`             | (integer) Monster's protection from pure damage
 | `weakpoints`             | (array of objects) Weakpoints in the monster's protection
 | `weakpoint_sets`         | (array of strings) Weakpoint sets to apply to the monster
 | `families`               | (array of objects) Weakpoint families that the monster belongs to
@@ -321,12 +323,7 @@ Lower and upper bound of limb sizes the monster's melee attack can target - see 
 
 Intensity of the grab effect applied by this monster. Defaults to 1, is only useful for monster with a GRAB special attack and the GRABS flag. A monster with grab_strength = n applies a grab as if it was n zombies. A player with `max(Str,Dex)<=n` has no chance of breaking that grab.
 
-## "melee_cut"
-(integer, optional)
-
-Amount of cutting damage added to die roll on monster melee attack.
-
-## "armor_bash", "armor_cut", "armor_stab", "armor_acid", "armor_fire"
+## "armor_bash", "armor_cut", "armor_stab", "armor_acid", "armor_fire", "armor_electric", "armor_biological", "armor_pure"
 (integer, optional)
 
 Monster protection from bashing, cutting, stabbing, acid and fire damage.
@@ -607,11 +604,13 @@ Each element of the array should be an object containing the following members:
 | field           | description
 | ---             | ---
 | `id`            | (string, required) The id of the effect that is to be applied.
-| `duration`      | (integer, optional) How long (in turns) the effect should last.
+| `duration`      | (integer or a pair of integers, optional) How long (in turns) the effect should last. When defined with a pair of values the duration will be randomized between those.
+| `intensity`     | ( integer or a pair of integers, optional) What intensity the effect should be applied at, when defined as a pair the intensity will be randomized between them. Can't overwrite effects that derive their intensity from their duration via `int_dur_factor`.
 | `affect_hit_bp` | (boolean, optional) Whether the effect should be applied to the hit body part instead of the one set below.
 | `bp`            | (string, optional) The body part that where the effect is applied. The default is to apply the effect to the whole body. Note that some effects may require a specific body part (e.g. "hot") and others may require the whole body (e.g. "meth").
 | `permanent`     | (boolean, optional) Whether the effect is permanent, in which case the "duration" will be ignored. The default is non-permanent.
 | `chance`        | (integer, optional) The chance of the effect getting applied.
+| `message`       | (string, optional) Message to print when the effect is applied to the player. Supports dynamic lines with the syntax `%s = <the monster's name>`.
 
 ## "path_settings"
 (object, optional)

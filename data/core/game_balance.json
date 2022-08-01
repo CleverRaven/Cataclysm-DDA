@@ -327,5 +327,12 @@
     "info": "All vehicles spawn with this percentage of fuel.  0 is empty, 100 is fully loaded, -1 is random amount from 7% to 35% (default).  Values are read only if OVERRIDE_VEHICLE_INIT_STATE is set to true.",
     "stype": "int",
     "value": -1
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "DESCRIBE_MUSIC_FREQUENCY",
+    "info": "Determines frequency (in minutes) of displaying music description in sidebar when listening to MP3-players and the like.",
+    "stype": "int",
+    "value": 5
   }
 ]

@@ -30,7 +30,7 @@ struct diary_page {
     time_point turn;
     /*accuracy of time recorded in journal entry:
     2 = player has a watch; 1 = player is able to see the sky; 0 = no idea what time is it now*/
-    time_accuracy time_acc;
+    time_accuracy time_acc = time_accuracy::NONE;
     /*mission ids for completed/active and failed missions*/
     std::vector<int> mission_completed;
     std::vector<int> mission_active;
@@ -46,8 +46,8 @@ struct diary_page {
     int dexterity = 0;
     int intelligence = 0;
     int perception = 0;
-    /*traits id the character has*/
-    std::vector<trait_id> traits;
+    /*traits id the character has - as well as their variant ids (empty if none)*/
+    std::vector<trait_and_var> traits;
     /*spells id with level the character has*/
     std::map<spell_id, int> known_spells;
     /*bionics id`s the character has*/
@@ -113,7 +113,7 @@ class diary
         void delete_page();
 
         /*get opened page nummer*/
-        int get_opened_page_num();
+        int get_opened_page_num() const;
         /*returns a list with all pages by the its date*/
         std::vector<std::string> get_pages_list();
         /*returns a list with all changes compared to the previous page*/
@@ -140,6 +140,6 @@ class diary
         /*expots the diary to a readable .txt file. If its the lastexport, its exportet to memorial otherwise its exportet to the world folder*/
         void export_to_txt( bool lastexport = false );
         /*method for adding changes to the changelist. with the possibility to connect a description*/
-        void add_to_change_list( std::string entry, std::string desc = "" );
+        void add_to_change_list( const std::string &entry, const std::string &desc = "" );
 };
 #endif // CATA_SRC_DIARY_H

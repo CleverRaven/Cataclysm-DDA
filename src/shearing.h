@@ -7,6 +7,7 @@
 
 #include "itype.h"
 
+class JsonObject;
 class monster;
 
 struct shearing_roll {

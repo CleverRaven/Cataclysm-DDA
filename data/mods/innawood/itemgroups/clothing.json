@@ -1,0 +1,28 @@
+[
+  {
+    "type": "item_group",
+    "id": "female_underwear_top",
+    "items": [
+      [ "null", 50 ],
+      [ "bikini_top_leather", 7 ],
+      [ "bikini_top_fur", 5 ],
+      [ "chestwrap_fur", 20 ],
+      [ "chestwrap_leather", 20 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "female_underwear_bottom",
+    "items": [ [ "null", 40 ], [ "loincloth_leather", 30 ], [ "loincloth_fur", 30 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "male_underwear_top",
+    "items": [ [ "null", 80 ], [ "chestwrap_fur", 20 ], [ "chestwrap_leather", 20 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "male_underwear_bottom",
+    "items": [ [ "null", 40 ], [ "loincloth_leather", 30 ], [ "loincloth_fur", 30 ] ]
+  }
+]

@@ -571,7 +571,7 @@ void monster::plan()
             bool found_path_to_couch = false;
             tripoint tmp( pos() + point( 12, 12 ) );
             tripoint couch_loc;
-            for( const auto &couch_pos : here.find_furnitures_with_flag_in_radius( pos(), 10,
+            for( const tripoint &couch_pos : here.find_furnitures_with_flag_in_radius( pos(), 10,
                     ter_furn_flag::TFLAG_AUTODOC_COUCH ) ) {
                 if( here.clear_path( pos(), couch_pos, 10, 0, 100 ) ) {
                     if( rl_dist( pos(), couch_pos ) < rl_dist( pos(), tmp ) ) {
@@ -667,7 +667,7 @@ static float get_stagger_adjust( const tripoint &source, const tripoint &destina
  * Returns true if the given square presents a possibility of drowning for the monster: it's deep water, it's liquid,
  * the monster can drown, and there is no boardable vehicle part present.
  */
-bool monster::is_aquatic_danger( const tripoint &at_pos )
+bool monster::is_aquatic_danger( const tripoint &at_pos ) const
 {
     map &here = get_map();
     return here.has_flag_ter( ter_furn_flag::TFLAG_DEEP_WATER, at_pos ) &&
@@ -861,7 +861,7 @@ void monster::move()
                 path.erase( path.begin() );
             }
 
-            const auto &pf_settings = get_pathfinding_settings();
+            const pathfinding_settings &pf_settings = get_pathfinding_settings();
             if( pf_settings.max_dist >= rl_dist( get_location(), get_dest() ) &&
                 ( path.empty() || rl_dist( pos(), path.front() ) >= 2 || path.back() != local_dest ) ) {
                 // We need a new path
@@ -1009,7 +1009,7 @@ void monster::move()
 
             // is there an openable door?
             if( can_open_doors &&
-                here.open_door( candidate, !here.is_outside( pos() ), true ) ) {
+                here.open_door( *this, candidate, !here.is_outside( pos() ), true ) ) {
                 moved = true;
                 next_step = candidate_abs;
                 continue;
@@ -1060,7 +1060,8 @@ void monster::move()
         const tripoint local_next_step = here.getlocal( next_step );
         const bool did_something =
             ( !pacified && attack_at( local_next_step ) ) ||
-            ( !pacified && can_open_doors && here.open_door( local_next_step, !here.is_outside( pos() ) ) ) ||
+            ( !pacified && can_open_doors &&
+              here.open_door( *this, local_next_step, !here.is_outside( pos() ) ) ) ||
             ( !pacified && bash_at( local_next_step ) ) ||
             ( !pacified && push_to( local_next_step, 0, 0 ) ) ||
             move_to( local_next_step, false, false, get_stagger_adjust( pos(), destination, local_next_step ) );
@@ -1445,7 +1446,7 @@ bool monster::bash_at( const tripoint &p )
     return true;
 }
 
-int monster::bash_estimate()
+int monster::bash_estimate() const
 {
     int estimate = bash_skill();
     if( has_flag( MF_GROUP_BASH ) ) {
@@ -1456,7 +1457,7 @@ int monster::bash_estimate()
     return estimate;
 }
 
-int monster::bash_skill()
+int monster::bash_skill() const
 {
     return type->bash_skill;
 }

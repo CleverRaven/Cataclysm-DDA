@@ -276,6 +276,9 @@ resistances::resistances( monster &monster ) : resistances()
     set_resist( damage_type::BULLET, monster.type->armor_bullet );
     set_resist( damage_type::ACID, monster.type->armor_acid );
     set_resist( damage_type::HEAT, monster.type->armor_fire );
+    set_resist( damage_type::COLD, monster.type->armor_cold );
+    set_resist( damage_type::PURE, monster.type->armor_pure );
+    set_resist( damage_type::BIOLOGICAL, monster.type->armor_biological );
     set_resist( damage_type::ELECTRIC, monster.type->armor_elec );
 }
 void resistances::set_resist( damage_type dt, float amount )

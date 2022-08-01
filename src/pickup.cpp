@@ -236,22 +236,22 @@ static bool pick_one_up( item_location &loc, int quantity, bool &got_water, Pick
             if( !picked_up ) {
                 break;
             } else {
-                const int invlet = newit.invlet;
+                const char invlet = newit.invlet;
                 newit = it;
                 newit.invlet = invlet;
             }
         // Intentional fallthrough
         case STASH: {
-            item &added_it = player_character.i_add( newit, true, nullptr, &it,
-                             /*allow_drop=*/false, /*allow_wield=*/false, false );
-            if( added_it.is_null() ) {
+            item_location added_it = player_character.i_add( newit, true, nullptr, &it,
+                                     /*allow_drop=*/false, /*allow_wield=*/false, false );
+            if( added_it == item_location::nowhere ) {
                 // failed to add, fill pockets if it's a stack
                 if( newit.count_by_charges() ) {
                     int remaining_charges = newit.charges;
-                    item &carried_item = player_character.get_wielded_item();
-                    if( !carried_item.has_pocket_type( item_pocket::pocket_type::MAGAZINE ) &&
-                        carried_item.can_contain_partial( newit ) ) {
-                        int used_charges = carried_item.fill_with( newit, remaining_charges, false, false, false );
+                    item_location carried_item = player_character.get_wielded_item();
+                    if( carried_item && !carried_item->has_pocket_type( item_pocket::pocket_type::MAGAZINE ) &&
+                        carried_item->can_contain_partial( newit ) ) {
+                        int used_charges = carried_item->fill_with( newit, remaining_charges, false, false, false );
                         remaining_charges -= used_charges;
                     }
                     player_character.worn.pickup_stash( newit, remaining_charges, false );
@@ -264,7 +264,7 @@ static bool pick_one_up( item_location &loc, int quantity, bool &got_water, Pick
                         picked_up = true;
                     }
                 }
-            } else if( &added_it == &it ) {
+            } else if( &*added_it == &it ) {
                 // merged to the original stack, restore original charges
                 it.charges -= newit.charges;
             } else {
@@ -280,6 +280,8 @@ static bool pick_one_up( item_location &loc, int quantity, bool &got_water, Pick
     }
 
     if( picked_up ) {
+        contents_change_handler handler;
+        handler.unseal_pocket_containing( loc );
         item &orig_it = *loc.get_item();
         // Subtract moved charges instead of assigning leftover charges,
         // since the total charges of the original item may have changed
@@ -336,6 +338,8 @@ bool Pickup::do_pickup( std::vector<item_location> &targets, std::vector<int> &q
         add_msg( m_bad, _( "You're overburdened!" ) );
     }
 
+    player_character.recoil = MAX_RECOIL;
+
     return !problem;
 }
 
@@ -362,7 +366,7 @@ void Pickup::autopickup( const tripoint &p )
             direction::SOUTHEAST, direction::SOUTH, direction::SOUTHWEST,
             direction::WEST, direction::NORTHWEST
         };
-        for( auto &elem : adjacentDir ) {
+        for( direction &elem : adjacentDir ) {
 
             tripoint apos = tripoint( displace_XY( elem ), 0 );
             apos += p;

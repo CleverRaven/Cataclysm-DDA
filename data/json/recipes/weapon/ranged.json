@@ -1075,6 +1075,19 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "m26_mass_standalone",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "skill_used": "shotgun",
+    "time": "5 m",
+    "reversible": true,
+    "autolearn": true,
+    "decomp_learn": 0,
+    "components": [ [ [ "m26_mass", 1 ], [ "m26_mass_mod", 1 ] ], [ [ "m26_mass_stock", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "result": "bigun",
     "category": "CC_WEAPON",
@@ -1099,7 +1112,7 @@
     ],
     "components": [
       [ [ "xlframe", 1 ] ],
-      [ [ "foot_crank", 1 ] ],
+      [ [ "simple_crank", 1 ], [ "foot_crank", 1 ] ],
       [ [ "sheet_metal_small", 12 ] ],
       [ [ "pipe", 6 ] ],
       [ [ "chain", 1 ] ],
@@ -1217,7 +1230,7 @@
     "components": [
       [ [ "2x4", 8 ], [ "stick", 16 ] ],
       [ [ "rope_superior_short", 2, "LIST" ] ],
-      [ [ "foot_crank", 1 ] ],
+      [ [ "simple_crank", 1 ], [ "foot_crank", 1 ] ],
       [ [ "spring", 4 ] ],
       [ [ "steel_chunk", 4 ], [ "scrap", 12 ] ],
       [ [ "nail", 60 ] ]

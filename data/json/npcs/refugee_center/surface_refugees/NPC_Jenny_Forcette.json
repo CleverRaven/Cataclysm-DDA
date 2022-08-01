@@ -257,7 +257,7 @@
         "topic": "TALK_REFUGEE_JENNY_Teach2_Sorry"
       },
       {
-        "text": "[INTELLIGENCE 10] No, but I'm a fast learner.",
+        "text": "[INT 10] No, but I'm a fast learner.",
         "condition": {
           "and": [
             {
@@ -360,7 +360,7 @@
         "condition": { "days_since_cataclysm": 60 },
         "topic": "TALK_MISSION_LIST"
       },
-      { "text": "What were you saying before?.", "topic": "TALK_NONE" },
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
     ]
   },
@@ -386,7 +386,7 @@
       }
     },
     "responses": [
-      { "text": "What were you saying before?.", "topic": "TALK_NONE" },
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
     ]
   },
@@ -407,7 +407,7 @@
       }
     },
     "responses": [
-      { "text": "What were you saying before?.", "topic": "TALK_NONE" },
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
     ]
   },

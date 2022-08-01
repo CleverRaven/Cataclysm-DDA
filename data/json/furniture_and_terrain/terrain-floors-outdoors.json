@@ -465,5 +465,71 @@
     "move_cost": 0,
     "roof": "t_rock_floor",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_elevator_no_roof",
+    "roof": "t_null",
+    "symbol": ".",
+    "color": "dark_gray",
+    "flags": [ "TRANSPARENT", "FLAT" ],
+    "copy-from": "t_elevator"
+  },
+  {
+    "type": "terrain",
+    "id": "t_deck_coating_no_roof",
+    "name": "deck coating",
+    "description": "Thick metal coating of a hull, covered with a military grade epoxy mix.  Used for runways, and can't be melted by jet engine nozzles.",
+    "symbol": ".",
+    "looks_like": "t_pavement",
+    "color": "dark_gray",
+    "connects_to": "METALFLOOR",
+    "move_cost": 2,
+    "flags": [ "FLAT", "ROAD", "TRANSPARENT" ],
+    "bash": {
+      "sound": "thump",
+      "ter_set": "t_null",
+      "str_min": 500,
+      "str_max": 1000,
+      "str_min_supported": 200,
+      "items": [
+        { "item": "steel_lump", "count": [ 1, 4 ] },
+        { "item": "steel_chunk", "count": [ 3, 12 ] },
+        { "item": "scrap", "count": [ 9, 36 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_deck_coating_no_roof_y",
+    "name": "yellow deck coating",
+    "description": "Thick metal covering of a hull, covered with a military grade epoxy mix, and painted in yellow color.",
+    "copy-from": "t_deck_coating_no_roof",
+    "looks_like": "t_pavement_y",
+    "flags": [ "FLAT", "ROAD", "TRANSPARENT" ],
+    "symbol": ".",
+    "color": "yellow"
+  },
+  {
+    "type": "terrain",
+    "id": "t_deck_coating_no_roof_r",
+    "name": "red deck coating",
+    "description": "Thick metal covering of a hull, covered with a military grade epoxy mix, and painted in red color.",
+    "copy-from": "t_deck_coating_no_roof",
+    "looks_like": " ",
+    "flags": [ "FLAT", "ROAD", "TRANSPARENT" ],
+    "symbol": ".",
+    "color": "red"
+  },
+  {
+    "type": "terrain",
+    "id": "t_deck_coating_no_roof_w",
+    "name": "white deck coating",
+    "description": "Thick metal covering of a hull, covered with a military grade epoxy mix, and painted in white color.",
+    "copy-from": "t_deck_coating_no_roof",
+    "looks_like": " ",
+    "flags": [ "FLAT", "ROAD", "TRANSPARENT" ],
+    "symbol": ".",
+    "color": "white"
   }
 ]

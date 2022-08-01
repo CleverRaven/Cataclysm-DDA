@@ -53,10 +53,10 @@
           { "item": "winter", "chance": 20 }
         ],
         "u": [
-          { "item": "vending_food_items", "chance": 20, "repeat": [ 4, 10 ] },
-          { "item": "vending_drink_items", "chance": 30, "repeat": [ 6, 10 ] }
+          { "item": "vending_food_items", "chance": 5, "repeat": [ 4, 10 ] },
+          { "item": "vending_drink_items", "chance": 5, "repeat": [ 6, 10 ] }
         ],
-        "K": [ { "item": "vending_food_items", "chance": 20 }, { "item": "vending_drink_items", "chance": 20 } ],
+        "K": [ { "item": "vending_food_items", "chance": 5 }, { "item": "vending_drink_items", "chance": 5 } ],
         "Y": { "item": "trash", "chance": 80, "repeat": [ 1, 2 ] },
         "S": { "item": "trash", "chance": 30, "repeat": [ 4, 6 ] },
         "R": { "item": "magazines", "chance": 30, "repeat": [ 1, 2 ] },
@@ -352,8 +352,8 @@
       "furniture": { "%": [ "f_indoor_plant_y", "f_indoor_plant" ], "^": "f_sink", "!": "f_counter" },
       "items": {
         "u": [
-          { "item": "vending_food_items", "chance": 20, "repeat": [ 4, 10 ] },
-          { "item": "vending_drink_items", "chance": 30, "repeat": [ 6, 10 ] }
+          { "item": "vending_food_items", "chance": 5, "repeat": [ 4, 10 ] },
+          { "item": "vending_drink_items", "chance": 5, "repeat": [ 6, 10 ] }
         ],
         "d": [
           { "item": "jackets", "chance": 40 },

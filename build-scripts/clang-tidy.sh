@@ -82,18 +82,41 @@ rm -f compile_commands.json && ln -s build/compile_commands.json
 # We want to first analyze all files that changed in this PR, then as
 # many others as possible, in a random order.
 set +x
+
+# Check for changes to any files that would require us to run clang-tidy across everything
+changed_global_files="$( ( cat ./files_changed || echo 'unknown' ) | \
+    egrep -i "clang-tidy|build-scripts|cmake|unknown" || true )"
+if [ -n "$changed_global_files" ]
+then
+    first_changed_file="$(echo "$changed_global_files" | head -n 1)"
+    echo "Analyzing all files because $first_changed_file was changed"
+    TIDY="all"
+fi
+
 all_cpp_files="$( \
     grep '"file": "' build/compile_commands.json | \
     sed "s+.*$PWD/++;s+\"$++")"
-changed_files="$( ( test -f ./files_changed && cat ./files_changed ) || echo unknown )"
-changed_cpp_files="$( \
-    echo "$changed_files" | grep -F "$all_cpp_files" || true )"
-if [ -n "$changed_cpp_files" ]
+if [ "$TIDY" == "all" ]
 then
-    remaining_cpp_files="$( \
-        echo "$all_cpp_files" | grep -v -F "$changed_cpp_files" || true )"
+    echo "Analyzing all files"
+    tidyable_cpp_files=$all_cpp_files
 else
-    remaining_cpp_files="$all_cpp_files"
+    make \
+        -j $num_jobs \
+        ${COMPILER:+COMPILER=$COMPILER} \
+        TILES=${TILES:-0} \
+        SOUND=${SOUND:-0} \
+        includes
+
+    tidyable_cpp_files="$( \
+        ( test -f ./files_changed && build-scripts/get_affected_files.py ./files_changed ) || \
+        echo unknown )"
+
+    if [ "tidyable_cpp_files" == "unknown" ]
+    then
+        echo "Unable to determine affected files, tidying all files"
+        tidyable_cpp_files=$all_cpp_files
+    fi
 fi
 
 function analyze_files_in_random_order
@@ -107,17 +130,6 @@ function analyze_files_in_random_order
     fi
 }
 
-echo "Analyzing changed files"
-analyze_files_in_random_order "$changed_cpp_files"
-
-# Check for changes to any files that would require us to run clang-tidy across everything
-changed_global_files="$( \
-    echo "$changed_files" | \
-    egrep -i "\.h$|clang-tidy|build-scripts|cmake|unknown" || true )"
-if [ -n "$changed_global_files" ]
-then
-    first_changed_file="$(echo "$changed_global_files" | head -n 1)"
-    echo "Analyzing remaining files because $first_changed_file was changed"
-    analyze_files_in_random_order "$remaining_cpp_files"
-fi
+echo "Analyzing affected files"
+analyze_files_in_random_order "$tidyable_cpp_files"
 set -x

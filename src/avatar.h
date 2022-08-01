@@ -52,6 +52,8 @@ struct mtype;
 enum class pool_type;
 
 // Monster visible in different directions (safe mode & compass)
+// Suppressions due to a bug in clang-tidy 12
+// NOLINTNEXTLINE(bugprone-reserved-identifier,cert-dcl37-c,cert-dcl51-cpp)
 struct monster_visible_info {
     // New monsters visible from last update
     std::vector<shared_ptr_fast<monster>> new_seen_mon;
@@ -74,7 +76,7 @@ class avatar : public Character
         avatar( const avatar & ) = delete;
         // NOLINTNEXTLINE(performance-noexcept-move-constructor)
         avatar( avatar && );
-        ~avatar();
+        ~avatar() override;
         avatar &operator=( const avatar & ) = delete;
         // NOLINTNEXTLINE(performance-noexcept-move-constructor)
         avatar &operator=( avatar && );
@@ -125,7 +127,7 @@ class avatar : public Character
         bool query_yn( const std::string &mes ) const override;
 
         void toggle_map_memory();
-        bool should_show_map_memory();
+        bool should_show_map_memory() const;
         void prepare_map_memory_region( const tripoint &p1, const tripoint &p2 );
         /** Memorizes a given tile in tiles mode; finalize_tile_memory needs to be called after it */
         void memorize_tile( const tripoint &pos, const std::string &ter, int subtile,
@@ -176,6 +178,8 @@ class avatar : public Character
          */
         void on_mission_finished( mission &cur_mission );
 
+        void remove_active_mission( mission &cur_mission );
+
         //return avatar diary
         diary *get_avatar_diary();
 
@@ -218,7 +222,7 @@ class avatar : public Character
         /**
          * Opens the targeting menu to pull a nearby creature towards the character.
          * @param name Name of the implement used to pull the creature. */
-        void longpull( const std::string name );
+        void longpull( const std::string &name );
 
         void wake_up() override;
         // Grab furniture / vehicle
@@ -251,6 +255,12 @@ class avatar : public Character
         bool dialogue_by_radio = false;
         // Preferred aim mode - ranged.cpp aim mode defaults to this if possible
         std::string preferred_aiming_mode;
+
+        // checks if the point is blocked based on characters current aiming state
+        bool cant_see( const tripoint &p );
+
+        // rebuilds the full aim cache for the character if it is dirty
+        void rebuild_aim_cache();
 
         void set_movement_mode( const move_mode_id &mode ) override;
 
@@ -348,12 +358,19 @@ class avatar : public Character
 
         int movecounter = 0;
 
+        // bionic power in the last turn
+        units::energy power_prev_turn = 0_kJ;
+        // balance/net power generation/loss during the last turn
+        units::energy power_balance = 0_kJ;
+
         // amount of turns since last check for pocket noise
         time_point last_pocket_noise = time_point( 0 );
 
         vproto_id starting_vehicle;
         std::vector<mtype_id> starting_pets;
         std::set<character_id> follower_ids;
+
+        bool aim_cache_dirty = true;
 
         const mood_face_id &character_mood_face( bool clear_cache = false ) const;
 
@@ -408,6 +425,9 @@ class avatar : public Character
          * The Character data in this object is not relevant/used.
          */
         std::unique_ptr<npc> shadow_npc;
+
+        // true when the space is still visible when aiming
+        bool aim_cache[MAPSIZE_X][MAPSIZE_Y];
 };
 
 avatar &get_avatar();

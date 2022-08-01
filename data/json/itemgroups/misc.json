@@ -37,6 +37,12 @@
     "items": [ [ "joint", 100 ], [ "joint_roach", 20 ], [ "pipe_glass", 10 ] ]
   },
   {
+    "id": "butane_lighter_and_fuel",
+    "//": "Used for shop spawns where unused cans of butane are stocked",
+    "type": "item_group",
+    "items": [ { "collection": [ { "item": "ref_lighter_butane" }, { "item": "butane_can", "count": [ 1, 2 ] } ] } ]
+  },
+  {
     "id": "silverware",
     "type": "item_group",
     "//": "Forks, spoons, knives, etc.",
@@ -83,6 +89,20 @@
       { "item": "flint", "prob": 1 },
       { "item": "rock_large", "prob": 10 },
       { "item": "pebble", "count": [ 1, 4 ], "prob": 15 }
+    ]
+  },
+  {
+    "id": "mining_rock",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [
+      { "item": "rock", "count": [ 17, 37 ] },
+      { "item": "rock_large", "count": [ 1, 3 ] },
+      { "item": "coal_lump", "charges": [ 250, 500 ], "prob": 10 },
+      { "item": "material_limestone", "charges": [ 10, 25 ], "prob": 80 },
+      { "item": "material_rocksalt", "count": [ 0, 1 ], "prob": 20 },
+      { "item": "material_rhodonite", "count": [ 0, 1 ], "prob": 3 },
+      { "item": "material_zincite", "count": [ 0, 5 ], "prob": 5 }
     ]
   },
   {

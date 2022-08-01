@@ -5,7 +5,7 @@
     "symbol": "q",
     "color": "red",
     "name": { "str": "abstract mutagen sample" },
-    "description": "This item needs a description defined, and is copied from mutagen_sample.",
+    "description": "This item needs a description defined, and is copied from abstract mutagen sample.",
     "price": 1000,
     "price_postapoc": 50,
     "material": [ "flesh" ],

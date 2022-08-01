@@ -38,6 +38,41 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "scenario_assassin_convict",
+    "//": "Determines which prison the assassin is in currently to correctly place the target.",
+    "recurrence": 1,
+    "condition": { "u_has_trait": "PROF_ASSASSIN_CONVICT" },
+    "deactivate_condition": { "not": { "u_has_trait": "PROF_ASSASSIN_CONVICT" } },
+    "effect": [
+      {
+        "run_eocs": {
+          "id": "EOC_ASSASSIN_CONVICT_PRISON",
+          "condition": { "u_near_om_location": "prison_1_5" },
+          "effect": [
+            { "assign_mission": "MISSION_ASSASSIN_CONVICT_PRISON" },
+            { "u_message": "Now… Where is your mark?", "type": "warning", "popup": true }
+          ],
+          "false_effect": {
+            "run_eocs": {
+              "id": "EOC_ASSASSIN_CONVICT_PRISON_ISLAND",
+              "condition": { "u_near_om_location": "prison_alcatraz_3" },
+              "effect": [
+                { "assign_mission": "MISSION_ASSASSIN_CONVICT_PRISON_ISLAND1" },
+                { "u_message": "Now… Where is your mark?", "type": "warning", "popup": true }
+              ],
+              "false_effect": [
+                { "assign_mission": "MISSION_ASSASSIN_CONVICT_PRISON_ISLAND2" },
+                { "u_message": "Now… Where is your mark?", "type": "warning", "popup": true }
+              ]
+            }
+          }
+        }
+      },
+      { "u_lose_trait": "PROF_ASSASSIN_CONVICT" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "thunder",
     "recurrence": 1,
     "global": true,
@@ -320,10 +355,25 @@
     "effect": [ { "u_mod_healthy": -1, "cap": -200 } ]
   },
   {
+    "id": "EOC_DEATH_PORTAL_DUNGEON",
+    "type": "effect_on_condition",
+    "eoc_type": "AVATAR_DEATH",
+    "condition": { "compare_int": [ { "global_val": "var", "var_name": "portal_dungeon_level" }, "!=", { "const": 0 } ] },
+    "effect": [
+      {
+        "u_message": "Your ultimate fate is hard to sum up in words but suffice to say, the thing that used to be you wishes it had hidden from the storm.",
+        "popup": true
+      },
+      { "run_eocs": "EOC_PORTAL_STORM_DUNGEON_EXIT" }
+    ]
+  },
+  {
     "id": "EOC_DEATH_SWITCH",
     "type": "effect_on_condition",
     "eoc_type": "AVATAR_DEATH",
-    "condition": { "u_query": "You have died. Continue as one of your followers?", "default": false },
+    "condition": {
+      "and": [ { "npc_allies_global": 1 }, { "u_query": "You have died. Continue as one of your followers?", "default": false } ]
+    },
     "effect": [ "take_control_menu" ]
   },
   {
@@ -375,5 +425,18 @@
       ]
     },
     "false_effect": { "u_message": "The recorder prints: \"NO DATA\" in a short piece of paper", "type": "info" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_last_amigara_death",
+    "condition": { "compare_int": [ { "global_val": "monsters_nearby", "id": "mon_amigara_horror" }, "<", { "const": 1 } ] },
+    "effect": [
+      { "mapgen_update": "amigara_death" },
+      { "u_lose_effect": "effect_amigara" },
+      {
+        "u_message": "As the last of the horrors fell dead, you notice a strange thing popped up from nowhere and dropped on the ground.",
+        "type": "info"
+      }
+    ]
   }
 ]

@@ -442,7 +442,7 @@ std::pair<int, clipped_unit> clipped_time( const time_duration &d );
  * @param align none, right, or compact.
  */
 std::string to_string_clipped( const time_duration &d,
-                               const clipped_align align = clipped_align::none );
+                               clipped_align align = clipped_align::none );
 /**
  * Returns approximate duration.
  * @param verbose If true, 'less than' and 'more than' will be printed instead of '<' and '>' respectively.
@@ -473,7 +473,6 @@ class time_point
         // TODO: make private
         explicit constexpr time_point( const int t ) : turn_( t ) { }
 
-    public:
         // TODO: remove this, nobody should need it, one should use a constant `time_point`
         // (representing turn 0) and a `time_duration` instead.
         static constexpr time_point from_turn( const int t ) {

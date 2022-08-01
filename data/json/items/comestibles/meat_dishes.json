@@ -424,6 +424,32 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "dry_mollusk",
+    "name": { "str_sp": "dehydrated mollusk" },
+    "copy-from": "mollusk_cooked",
+    "primary_material": "cured_meat",
+    "weight": "85 g",
+    "color": "light_red",
+    "spoils_in": "360 days",
+    "quench": -3,
+    "description": "Dehydrated mollusk meat.  With proper storage, this dried food will remain edible for an incredibly long time.",
+    "price": 500,
+    "price_postapoc": 300,
+    "volume": "125 ml",
+    "flags": [ "EDIBLE_FROZEN" ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "rehydrated_mollusk",
+    "name": { "str_sp": "rehydrated mollusk" },
+    "copy-from": "mollusk_cooked",
+    "color": "pink",
+    "description": "Reconstituted mollusk meat, which is much more enjoyable to eat now that it has been rehydrated.",
+    "price": 500,
+    "fun": 4
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "fish_pickled",
     "name": { "str_sp": "pickled fish" },
     "copy-from": "fish_cooked",

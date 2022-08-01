@@ -323,7 +323,7 @@
     "quench": 18,
     "healthy": -1,
     "calories": 35,
-    "description": "A strange gray pod that was droppd by one of the giant fungus.  It may be the closest thing to a fungal egg.",
+    "description": "A strange gray pod that was dropped by one of the giant fungus.  It may be the closest thing to a fungal egg.",
     "price": 0,
     "price_postapoc": 10,
     "material": [ "veggy" ],
@@ -337,6 +337,6 @@
     "id": "egg_fish_alien",
     "name": "alien roe",
     "copy-from": "egg_fish",
-    "description": "Common roe from an unknown alien creature"
+    "description": "Common roe from an unknown alien creature."
   }
 ]

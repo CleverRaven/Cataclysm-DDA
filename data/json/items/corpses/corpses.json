@@ -24,7 +24,8 @@
         "max_contains_weight": "2000 kg",
         "max_item_volume": "150 L",
         "max_item_length": "60 meter",
-        "rigid": false
+        "rigid": false,
+        "transparent": true
       }
     ]
   },

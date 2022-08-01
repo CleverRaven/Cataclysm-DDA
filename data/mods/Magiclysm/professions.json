@@ -508,12 +508,13 @@
     "skills": [ { "level": 2, "name": "gun" }, { "level": 2, "name": "pistol" }, { "level": 4, "name": "spellcraft" } ],
     "items": {
       "both": {
-        "items": [ "pants_army", "socks", "badge_deputy", "sheriffshirt", "boots", "whistle", "wristwatch" ],
+        "items": [ "pants_army", "socks", "badge_deputy", "boots", "whistle", "wristwatch" ],
         "entries": [
           { "group": "charged_cell_phone" },
           { "group": "charged_two_way_radio" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
-          { "item": "PR24-retracted", "container-item": "police_belt" }
+          { "item": "PR24-retracted", "container-item": "police_belt" },
+          { "item": "sheriffshirt", "variant": "sheriff" }
         ]
       },
       "male": [ "boxer_shorts" ],

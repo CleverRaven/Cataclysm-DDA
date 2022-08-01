@@ -31,7 +31,7 @@ Rare items with some theoretical utility are worth ~(100-500).
 
 Rare items with considerable use tend to have the highest variety in prices ~(1000-15000).
 
-**No item should be worth more than 150000.** They might be worth more if the economy was larger but that's
+**No item should be worth more than 15000.** They might be worth more if the economy was larger but that's
 pretty much the most anyone will be willing to spend on any one thing, no matter how nice it is.
 
 #### Currently Implemented faction currencies

@@ -54,6 +54,23 @@
     ]
   },
   {
+    "type": "GENERIC",
+    "id": "swimming_kickboard",
+    "name": { "str": "swimming kickboard" },
+    "description": "A swimming kickboard, great training aid for the beach or the pool, if only they weren't full of jawed terrors and zombies.",
+    "volume": "3450 ml",
+    "weight": "200 g",
+    "longest_side": "37 cm",
+    "price": "12 USD",
+    "price_postapoc": 5,
+    "bashing": 4,
+    "to_hit": -1,
+    "color": "blue",
+    "symbol": "/",
+    "material": [ "plastic" ],
+    "flags": [ "NONCONDUCTIVE", "FLOTATION" ]
+  },
+  {
     "id": "shuttlecock",
     "type": "GENERIC",
     "category": "other",
@@ -216,6 +233,32 @@
     "longest_side": "26 cm",
     "bashing": 4,
     "to_hit": -1
+  },
+  {
+    "type": "TOOL",
+    "id": "aim_game",
+    "//": "lazerlyte trainer target was used as a reference",
+    "symbol": "*",
+    "color": "white",
+    "name": { "str": "aim game target practice kit" },
+    "category": "other",
+    "description": "A collection of lasers, and targets designed to help you practice shooting.  Where you shoot is displayed on the targets.",
+    "price": 1000,
+    "price_postapoc": 10,
+    "material": [ "plastic", "aluminum" ],
+    "ammo": [ "battery" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
+        "default_magazine": "light_minus_disposable_cell"
+      }
+    ],
+    "charges_per_use": 50,
+    "//2": "670 grams for the target with a bit extra for the generic laser + connectors",
+    "weight": "800 g",
+    "volume": "3500 ml"
   },
   {
     "type": "GENERIC",

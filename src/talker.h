@@ -90,6 +90,7 @@ class talker
             return 0;
         }
         virtual tripoint pos() const = 0;
+        virtual tripoint_abs_ms global_pos() const = 0;
         virtual tripoint_abs_omt global_omt_location() const = 0;
         virtual void set_pos( tripoint ) {}
         virtual std::string distance_to_goal() const {
@@ -115,6 +116,9 @@ class talker
             return 0;
         }
         virtual int get_cur_hp( const bodypart_id & ) const {
+            return 0;
+        }
+        virtual int get_cur_part_temp( const bodypart_id & ) const {
             return 0;
         }
 
@@ -246,7 +250,7 @@ class talker
         virtual bool is_mute() const {
             return false;
         }
-        virtual void add_effect( const efftype_id &, const time_duration &, std::string, bool, bool,
+        virtual void add_effect( const efftype_id &, const time_duration &, const std::string &, bool, bool,
                                  int ) {}
         virtual void remove_effect( const efftype_id & ) {}
         virtual void add_bionic( const bionic_id & ) {}
@@ -411,6 +415,9 @@ class talker
         virtual int get_thirst() const {
             return 0;
         }
+        virtual int get_instant_thirst() const {
+            return 0;
+        }
         virtual int get_stored_kcal() const {
             return 0;
         }
@@ -474,7 +481,7 @@ class talker
             return 0;
         }
         virtual void set_mana_cur( int ) {}
-        virtual void mod_healthy_mod( int, int ) {}
+        virtual void mod_daily_health( int, int ) {}
         virtual int morale_cur() const {
             return 0;
         }
