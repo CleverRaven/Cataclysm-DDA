@@ -2579,7 +2579,7 @@
         "forbidden_effects_any": [ "maimed_mandible" ]
       }
     ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "PATH_AVOID_FIRE" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "BASHES", "PATH_AVOID_FIRE" ],
     "weakpoint_sets": [ "wps_arthropod", "wps_arthropod_beetle" ],
     "families": [ "prof_wp_basic_bug", "prof_wp_beetle" ]
   },
