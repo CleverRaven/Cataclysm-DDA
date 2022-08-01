@@ -1,0 +1,18 @@
+[
+    {
+      "name": "GROUP_COCOON_SMALL",
+      "type": "monstergroup",
+      "monsters": [
+        { "monster": "mon_abomination_swarmer", "weight": 100, "pack_size": [ 5, 5 ] }
+      ]
+    },
+    {
+        "name": "GROUP_ABOMINATION_SMALL",
+        "type": "monstergroup",
+        "monsters": [
+            { "monster": "mon_abomination_swarmer", "weight": 3, "pack_size": [ 2, 2 ] },
+            { "monster": "mon_abomination_spotter", "weight": 1 },
+            { "monster": "mon_abomination_corroder", "weight": 1 }
+        ]
+    }
+]
