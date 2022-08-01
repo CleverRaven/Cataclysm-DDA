@@ -2625,9 +2625,30 @@ static std::unordered_set<tripoint_abs_ms> generic_multi_activity_locations(
             } else {
                 ++it2;
             }
-        } else {
-            ++it2;
-        }
+        } else //  Exclude activities that can't have multiple characters working on the same tile.
+            if( act_id == ACT_MULTIPLE_CHOP_TREES ||
+                act_id == ACT_MULTIPLE_CONSTRUCTION ||
+                act_id == ACT_MULTIPLE_MINE ) {
+                bool skip = false;
+
+                for( const npc &guy : g->all_npcs() ) {
+                    if( &guy == &you ) {
+                        continue;
+                    }
+                    if( guy.has_player_activity() && tripoint_abs_ms( guy.activity.placement ) == *it2 ) {
+                        it2 = src_set.erase( it2 );
+                        skip = true;
+                        break;
+                    }
+                }
+                if( skip ) {
+                    continue;
+                } else {
+                    ++it2;
+                }
+            } else {
+                ++it2;
+            }
     }
     const bool post_dark_check = src_set.empty();
     if( !pre_dark_check && post_dark_check && !MOP_ACTIVITY ) {
