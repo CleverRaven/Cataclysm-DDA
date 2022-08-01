@@ -23,6 +23,8 @@
 #include "platform_win.h"
 #endif
 #include <dbghelp.h>
+#else
+#include <unistd.h>
 #endif
 
 #include "debug.h"
@@ -55,6 +57,17 @@ extern "C" {
         // reasons, including the memory allocations and the SDL message box.
         // But it should usually work in practice, unless for example the
         // program segfaults inside malloc.
+
+        // Do a signal-safe write to stderr first just so we know we're in this
+        // function even if something after this crashes
+        const char *const header = "\n====== [log_crash] ======\n";
+#if defined(_WIN32)
+        HANDLE stderr_handle = GetStdHandle( STD_ERROR_HANDLE );
+        WriteFile( stderr_handle, header, strlen( header ), nullptr, nullptr );
+#else
+        ssize_t bytes_written = write( 2, header, strlen( header ) );
+        static_cast<void>( bytes_written );
+#endif
 #if defined(_WIN32)
         dump_to( ".core" );
 #endif
