@@ -2210,13 +2210,30 @@ class exosuit_interact
                 uilist amenu;
                 //~ Prompt the player to handle the module inside the modular exoskeleton
                 amenu.text = _( "What to do with the existing module?" );
-                amenu.addentry( -1, true, MENU_AUTOASSIGN, _( "Unload the %s" ), mod_name );
+                amenu.addentry( -1, true, MENU_AUTOASSIGN, _( "Unload everything from this %s" ),
+                                get_pocket_name( pkt ) );
                 amenu.addentry( -1, true, MENU_AUTOASSIGN, _( "Replace the %s" ), mod_name );
                 amenu.addentry( -1, mod_it->has_relic_activation() || mod_it->type->has_use(), MENU_AUTOASSIGN,
                                 mod_it->active ? _( "Deactivate the %s" ) : _( "Activate the %s" ), mod_name );
+                amenu.addentry( -1, mod_it->is_reloadable() && c.can_reload( *mod_it ), MENU_AUTOASSIGN,
+                                _( "Reload the %s" ), mod_name );
+                amenu.addentry( -1, !mod_it->is_container_empty(), MENU_AUTOASSIGN, _( "Unload the %s" ),
+                                mod_name );
                 amenu.query();
                 int ret = amenu.ret;
-                if( ret < 0 || ret > 2 ) {
+                item_location loc_it;
+                item_location held = c.get_wielded_item();
+                if( !!held && held->has_item( *mod_it ) ) {
+                    loc_it = item_location( held, mod_it );
+                } else {
+                    for( const item_location &loc : c.top_items_loc() ) {
+                        if( loc->has_item( *mod_it ) ) {
+                            loc_it = item_location( loc, mod_it );
+                            break;
+                        }
+                    }
+                }
+                if( ret < 0 || ret > 4 ) {
                     return 0;
                 } else if( ret == 0 ) {
                     // Unload existing module
@@ -2226,18 +2243,18 @@ class exosuit_interact
                     } );
                     return to_moves<int>( 5_seconds );
                 } else if( ret == 2 ) {
-                    item_location held = c.get_wielded_item();
-                    if( !!held && held->has_item( *mod_it ) ) {
-                        item_location loc( held, mod_it );
-                        avatar_action::use_item( get_avatar(), loc );
-                    } else {
-                        for( const item_location &loc : c.top_items_loc() ) {
-                            if( loc->has_item( *mod_it ) ) {
-                                item_location loc_it( loc, mod_it );
-                                avatar_action::use_item( get_avatar(), loc_it );
-                                break;
-                            }
-                        }
+                    if( !!loc_it ) {
+                        avatar_action::use_item( get_avatar(), loc_it );
+                    }
+                    return 0;
+                } else if( ret == 3 ) {
+                    if( !!loc_it ) {
+                        g->reload( loc_it );
+                    }
+                    return 0;
+                } else if( ret == 4 ) {
+                    if( !!loc_it ) {
+                        c.unload( loc_it );
                     }
                     return 0;
                 }
