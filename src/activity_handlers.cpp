@@ -181,14 +181,10 @@ static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_under_operation( "under_operation" );
 
 static const harvest_drop_type_id harvest_drop_blood( "blood" );
-static const harvest_drop_type_id harvest_drop_bionic( "bionic" );
 static const harvest_drop_type_id harvest_drop_bone( "bone" );
 static const harvest_drop_type_id harvest_drop_flesh( "flesh" );
-static const harvest_drop_type_id harvest_drop_mutagen( "mutagen" );
 static const harvest_drop_type_id harvest_drop_offal( "offal" );
 static const harvest_drop_type_id harvest_drop_skin( "skin" );
-
-static const item_category_id item_category_mutagen( "mutagen" );
 
 static const itype_id itype_animal( "animal" );
 static const itype_id itype_battery( "battery" );
@@ -769,16 +765,10 @@ static bool butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
     if( action == butcher_type::DISSECT )    {
         int dissectable_practice = 0;
         int dissectable_num = 0;
-        harvest_drop_type_id type;
         for( item *item : corpse_item->all_items_top( item_pocket::pocket_type::CORPSE ) ) {
-            if( item->is_bionic() ) {
-                type = harvest_drop_bionic;
-            } else if( item->has_flag( flag_MUTAGEN_SAMPLE ) ||
-                       item->get_category_shallow().id == item_category_mutagen ) {
-                type = harvest_drop_mutagen;
-            }
             dissectable_num++;
-            const int skill_level = butchery_dissect_skill_level( you, tool_quality, type );
+            const int skill_level = butchery_dissect_skill_level( you, tool_quality,
+                                    item->dropped_from.value_or( harvest_drop_type_id::NULL_ID() ) );
             const int butchery = roll_butchery_dissect( skill_level, you.dex_cur, tool_quality );
             dissectable_practice += ( 4 + butchery );
             int roll = butchery - corpse_item->damage_level();

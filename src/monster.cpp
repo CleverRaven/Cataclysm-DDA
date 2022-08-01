@@ -2587,7 +2587,7 @@ void monster::die( Creature *nkiller )
                 get_map().add_item_or_charges( pos(), it );
             }
         }
-        for( const auto &it : dissectable_inv ) {
+        for( const item &it : dissectable_inv ) {
             if( corpse ) {
                 corpse->put_in( it, item_pocket::pocket_type::CORPSE );
             } else {
@@ -2775,11 +2775,12 @@ void monster::spawn_dissectables_on_death( item *corpse )
     }
 
     std::vector<item> new_dissectables;
-    for( const auto entry : *type->dissect ) {
+    for( const harvest_entry &entry : *type->dissect ) {
         std::vector<item> dissectables = item_group::items_from( item_group_id( entry.drop ),
                                          calendar::turn,
                                          spawn_flags::use_spawn_rate );
         for( item &dissectable : dissectables ) {
+            dissectable.dropped_from = entry.type;
             for( const flag_id &flg : entry.flags ) {
                 dissectable.set_flag( flg );
             }
