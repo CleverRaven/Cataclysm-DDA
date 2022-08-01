@@ -3,7 +3,7 @@
     "id": "iv_mutagen_tyrant",
     "copy-from": "iv_mutagen_flavor",
     "type": "COMESTIBLE",
-    "name": "tyrant serum",
+    "name": "tyrant mutagenic primer",
     "description": "A super-concentrated mutagenic primer strongly resembling children's toy slime.",
     "price": 1000000,
     "color": "light_green",

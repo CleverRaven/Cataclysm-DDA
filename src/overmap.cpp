@@ -2957,9 +2957,15 @@ void overmap::set_seen( const tripoint_om_omt &p, bool val )
         return;
     }
 
+    if( seen( p ) == val ) {
+        return;
+    }
+
     layer[p.z() + OVERMAP_DEPTH].visible[p.xy()] = val;
 
-    add_extra_note( p );
+    if( val ) {
+        add_extra_note( p );
+    }
 }
 
 bool overmap::seen( const tripoint_om_omt &p ) const
@@ -3742,7 +3748,7 @@ void overmap::generate_bridgeheads( const std::vector<point_om_omt> &bridge_poin
     }
 }
 
-std::vector<point_abs_omt> overmap::find_terrain( const std::string &term, int zlevel )
+std::vector<point_abs_omt> overmap::find_terrain( const std::string &term, int zlevel ) const
 {
     std::vector<point_abs_omt> found;
     for( int x = 0; x < OMAPX; x++ ) {

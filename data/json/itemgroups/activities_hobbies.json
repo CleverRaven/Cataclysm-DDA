@@ -157,6 +157,19 @@
   },
   {
     "type": "item_group",
+    "id": "boat_equipment",
+    "//": "Any items likely to be found in a boat or in any place which has boats.",
+    "items": [
+      { "group": "allsporting", "prob": 50 },
+      { "item": "methanol_fuel_cell", "prob": 1 },
+      { "item": "5l_methanol_tank", "prob": 1 },
+      { "item": "10l_methanol_tank", "prob": 1 },
+      { "item": "28l_methanol_tank", "prob": 1 },
+      { "item": "60l_methanol_tank", "prob": 1 }
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "allsporting",
     "ammo": 50,
     "magazine": 100,

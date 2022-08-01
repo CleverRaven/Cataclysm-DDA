@@ -132,7 +132,7 @@ std::string find_translated_file( const std::string &base_path, const std::strin
     const std::string loc_name = language_option.empty() ? SystemLocale::Language().value_or( "" ) :
                                  language_option;
     if( !loc_name.empty() ) {
-        const std::string local_path = base_path + loc_name + extension;
+        std::string local_path = base_path + loc_name + extension;
         if( file_exist( local_path ) ) {
             return local_path;
         }

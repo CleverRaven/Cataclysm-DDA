@@ -381,21 +381,29 @@
   },
   {
     "type": "SPELL",
-    "id": "shifting_mass",
-    "name": { "str": "Shifting Mass Attack" },
-    "description": "Drains some of your essence.",
+    "id": "base_portal",
+    "name": { "str": "Base characteristics of portal spells" },
+    "description": "Base portal stats.",
     "valid_targets": [ "hostile" ],
     "max_level": 1,
-    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS" ],
+    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "NO_PROJECTILE", "NO_EXPLOSION_SFX" ],
     "base_casting_time": 75,
     "min_range": 1,
     "max_range": 1,
-    "min_damage": -25,
-    "max_damage": -50,
-    "damage_increment": -10.0,
     "extra_effects": [ { "id": "portal_hurt_self", "hit_self": true } ],
     "shape": "blast",
     "effect": "effect_on_condition",
+    "effect_str": ""
+  },
+  {
+    "type": "SPELL",
+    "id": "shifting_mass",
+    "name": { "str": "Shifting Mass Attack" },
+    "description": "Drains some of your essence.",
+    "copy-from": "base_portal",
+    "min_damage": -25,
+    "max_damage": -50,
+    "damage_increment": -10.0,
     "effect_str": "EOC_shifting_mass_attack"
   },
   {
@@ -438,15 +446,9 @@
     "id": "impossible_shape_attack",
     "name": { "str": "Impossible Shape Attack" },
     "description": "Hurts you mentally.",
-    "valid_targets": [ "hostile" ],
-    "max_level": 1,
-    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS" ],
-    "base_casting_time": 75,
+    "copy-from": "base_portal",
     "min_range": 6,
     "max_range": 6,
-    "extra_effects": [ { "id": "portal_hurt_self", "hit_self": true } ],
-    "shape": "blast",
-    "effect": "effect_on_condition",
     "effect_str": "EOC_impossible_shape_attack"
   },
   {
@@ -471,14 +473,9 @@
     "id": "absence_capture_attack",
     "name": { "str": "Absence Capture Attack" },
     "description": "Traps you with nothing.",
-    "valid_targets": [ "hostile" ],
-    "max_level": 1,
-    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS" ],
-    "base_casting_time": 75,
+    "copy-from": "base_portal",
     "min_range": 12,
-    "extra_effects": [ { "id": "portal_hurt_self", "hit_self": true } ],
-    "shape": "blast",
-    "effect": "effect_on_condition",
+    "max_range": 12,
     "effect_str": "EOC_absence_capture_attack"
   },
   {
@@ -587,15 +584,7 @@
     "id": "mon_twisting_blade_attack",
     "name": { "str": "Twisting Blade Attack" },
     "description": "Hurts you mentally.",
-    "valid_targets": [ "hostile" ],
-    "max_level": 1,
-    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS" ],
-    "base_casting_time": 75,
-    "min_range": 1,
-    "max_range": 1,
-    "extra_effects": [ { "id": "portal_hurt_self", "hit_self": true } ],
-    "shape": "blast",
-    "effect": "effect_on_condition",
+    "copy-from": "base_portal",
     "effect_str": "EOC_mon_twisting_blade_attack"
   },
   {
@@ -613,15 +602,9 @@
     "id": "mon_swarm_structure_attack",
     "name": { "str": "Swarm Structure Action" },
     "description": "Teleports and summons monsters.",
-    "valid_targets": [ "hostile" ],
-    "max_level": 1,
-    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS" ],
-    "base_casting_time": 75,
+    "copy-from": "base_portal",
     "min_range": 15,
     "max_range": 15,
-    "extra_effects": [ { "id": "portal_hurt_self", "hit_self": true } ],
-    "shape": "blast",
-    "effect": "effect_on_condition",
     "effect_str": "EOC_mon_swarm_structure_attack"
   },
   {
@@ -640,6 +623,69 @@
       "max_radius": 5,
       "lifespan": [ "5 seconds", "10 seconds" ]
     }
+  },
+  {
+    "type": "SPELL",
+    "id": "mon_endless_hunger_attack",
+    "name": { "str": "Endless Hunger Action" },
+    "description": "Teleports and harms monsters.",
+    "copy-from": "base_portal",
+    "min_range": 15,
+    "max_range": 15,
+    "effect_str": "EOC_mon_endless_hunger_attack"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_mon_endless_hunger_attack",
+    "effect": {
+      "run_eocs": [
+        {
+          "id": "EOC_mon_endless_hunger_attack_close",
+          "condition": { "and": [ { "compare_int": [ { "distance": [ "u", "npc" ] }, "<=", { "const": 2 } ] } ] },
+          "effect": [
+            { "u_message": "The endless hunger feasts directly on your essence." },
+            { "arithmetic": [ { "u_val": "fatigue" }, "+=", { "global_val": "var", "var_name": "endless_hunger" } ] },
+            { "arithmetic": [ { "global_val": "var", "var_name": "endless_hunger" }, "+=", { "const": 3 } ] }
+          ]
+        },
+        {
+          "id": "EOC_mon_endless_hunger_attack_medium",
+          "condition": {
+            "and": [
+              { "compare_int": [ { "distance": [ "u", "npc" ] }, ">", { "const": 2 } ] },
+              { "compare_int": [ { "distance": [ "u", "npc" ] }, "<", { "const": 8 } ] }
+            ]
+          },
+          "effect": [
+            { "u_message": "The endless hunger uses your bond to feast on your essence." },
+            { "arithmetic": [ { "u_val": "fatigue" }, "+=", { "global_val": "var", "var_name": "endless_hunger" } ] },
+            { "arithmetic": [ { "global_val": "var", "var_name": "endless_hunger" }, "++" ] }
+          ]
+        },
+        {
+          "id": "EOC_mon_endless_hunger_attack_far",
+          "condition": {
+            "and": [ { "compare_int": [ { "distance": [ "u", "npc" ] }, ">=", { "const": 8 } ] }, { "x_in_y_chance": { "x": 1, "y": 3 } } ]
+          },
+          "effect": [
+            { "u_message": "The endless hunger uses some of the energy it stole from you to clear the way." },
+            { "arithmetic": [ { "global_val": "var", "var_name": "endless_hunger" }, "--" ] },
+            { "u_location_variable": { "global_val": "first" }, "min_radius": 1, "max_radius": 1 },
+            { "npc_location_variable": { "global_val": "second" }, "min_radius": 1, "max_radius": 1 },
+            {
+              "transform_line": "clear_portal_walls",
+              "first": { "global_val": "first" },
+              "second": { "global_val": "second" }
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "clear_portal_walls",
+    "terrain": [ { "result": [ "t_floor_warped" ], "valid_terrain": [ "t_wall_warped" ] } ]
   },
   {
     "type": "SPELL",

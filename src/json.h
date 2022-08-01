@@ -276,7 +276,7 @@ class JsonIn
             return path;
         }
 
-        bool get_ate_separator() {
+        bool get_ate_separator() const {
             return ate_separator;
         }
         void set_ate_separator( bool s ) {
@@ -784,7 +784,7 @@ class JsonOut
         void write_indent();
         void write_separator();
         void write_member_separator();
-        bool get_need_separator() {
+        bool get_need_separator() const {
             return need_separator;
         }
         void set_need_separator() {

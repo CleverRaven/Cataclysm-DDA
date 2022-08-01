@@ -495,7 +495,7 @@
       [ [ "2x4", 18 ] ],
       [ [ "nail", 14 ] ],
       [ [ "sheet_metal", 1 ] ],
-      [ [ "foot_crank", 1 ] ],
+      [ [ "simple_crank", 1 ], [ "foot_crank", 1 ] ],
       [ [ "sheet_metal_small", 1 ] ]
     ]
   },
@@ -822,7 +822,12 @@
       { "id": "WRENCH", "level": 2 },
       { "id": "SAW_M", "level": 2 }
     ],
-    "components": [ [ [ "foot_crank", 1 ] ], [ [ "scrap", 8 ] ], [ [ "steel_chunk", 4 ] ], [ [ "steel_lump", 2 ] ] ]
+    "components": [
+      [ [ "simple_crank", 1 ], [ "foot_crank", 1 ] ],
+      [ [ "scrap", 8 ] ],
+      [ [ "steel_chunk", 4 ] ],
+      [ [ "steel_lump", 2 ] ]
+    ]
   },
   {
     "type": "recipe",
