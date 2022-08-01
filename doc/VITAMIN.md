@@ -29,7 +29,7 @@ The type of the vitamin. Valid values are:
 
 #### `vitamin`
 When simplified nutrition is enabled, this vitamin will not be added to any items and any time the game attempts to retrieve it from the player it will give 0.
-Only nutritional vitamins should have this type.
+Only nutritional vitamins should have this type. **Vitamins are inputed in JSON as RDA everything else is a constant value**
 
 #### `toxin`
 This is some toxic chemical or component. This currently has no effect.

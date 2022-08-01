@@ -3444,7 +3444,7 @@ class Character : public Creature, public visitable
         move_mode_id move_mode;
         /** Current deficiency/excess quantity for each vitamin */
         std::map<vitamin_id, int> vitamin_levels;
-        /** Current quantity for each vitamin today first value is expected (for UI) second value is actual (digested)*/
+        /** Current quantity for each vitamin today first value is expected already in % (for UI) second value is actual (digested) in vitamin units*/
         std::map<vitamin_id, std::pair<int, int>> daily_vitamins;
         /** Returns the % of your RDA that ammount of vitamin represents */
         int vitamin_RDA( vitamin_id vitamin, int ammount ) const;

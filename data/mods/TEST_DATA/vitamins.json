@@ -11,7 +11,7 @@
   {
     "id": "test_vitx",
     "type": "vitamin",
-    "vit_type": "vitamin",
+    "vit_type": "counter",
     "name": { "str": "Vitamin X" },
     "min": -4000,
     "max": 4000,

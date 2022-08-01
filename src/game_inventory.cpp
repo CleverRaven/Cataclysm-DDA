@@ -1070,9 +1070,8 @@ static std::string get_consume_needs_hint( Character &you )
             continue;
         }
 
-        const int &total_vit_quantity = you.get_daily_vitamin( v.first, false );
-
-        const int &vit_percent = you.vitamin_RDA( v.first, total_vit_quantity );
+        const int &guessed_daily_vit_quantity = you.get_daily_vitamin( v.first, false );
+        const int &vit_percent = you.vitamin_RDA( v.first, guessed_daily_vit_quantity );
 
         if( has_tracker ) {
             desc = std::make_pair( string_format( _( "%s: %d%%.  " ), v.second.name(), vit_percent ), c_white );

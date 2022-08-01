@@ -132,6 +132,62 @@ TEST_CASE( "starve_test", "[starve][slow]" )
     CHECK( day == expected_day );
 }
 
+// do vitamins get processed correctly every day
+TEST_CASE( "vitamin_process", "[vitamins]" )
+{
+    Character &subject = get_avatar();
+    clear_avatar();
+    reset_time();
+    clear_stomach( subject );
+
+    set_all_vitamins( 0, subject );
+    REQUIRE( subject.vitamin_get( vitamin_iron ) == 0 );
+    REQUIRE( subject.vitamin_get( vitamin_calcium ) == 0 );
+    REQUIRE( subject.vitamin_get( vitamin_vitC ) == 0 );
+
+
+    pass_time( subject, 1_days );
+
+    // check
+    CHECK( subject.vitamin_get( vitamin_iron ) <= -47 );
+    CHECK( subject.vitamin_get( vitamin_calcium ) <= -15 );
+    CHECK( subject.vitamin_get( vitamin_vitC ) <= -95 );
+    CHECK( subject.vitamin_get( vitamin_iron ) >= -49 );
+    CHECK( subject.vitamin_get( vitamin_calcium ) >= -17 );
+    CHECK( subject.vitamin_get( vitamin_vitC ) >= -97 );
+
+}
+
+// do vitamins you eat get processed correctly
+TEST_CASE( "vitamin_equilibrium", "[vitamins]" )
+{
+    Character &subject = get_avatar();
+    clear_avatar();
+    reset_time();
+    clear_stomach( subject );
+
+    set_all_vitamins( -100, subject );
+    REQUIRE( subject.vitamin_get( vitamin_vitC ) == -100 );
+    REQUIRE( subject.vitamin_get( vitamin_calcium ) == -100 );
+    REQUIRE( subject.vitamin_get( vitamin_iron ) == -100 );
+    item f( "debug_orange" );
+
+    CHECK( subject.compute_effective_nutrients( f ).get_vitamin( vitamin_vitC ) == 96 );
+    subject.consume( f );
+
+
+    pass_time( subject, 1_days );
+
+    // check if something with 100% RDA will keep you at equilibrium
+    CHECK( subject.vitamin_get( vitamin_iron ) <= -99 );
+    CHECK( subject.vitamin_get( vitamin_calcium ) <= -99 );
+    CHECK( subject.vitamin_get( vitamin_vitC ) <= -99 );
+    CHECK( subject.vitamin_get( vitamin_iron ) >= -101 );
+    CHECK( subject.vitamin_get( vitamin_calcium ) >= -101 );
+    CHECK( subject.vitamin_get( vitamin_vitC ) >= -101 );
+
+}
+
 // how long does it take to starve to death with extreme metabolism
 // player does not thirst or tire or require vitamins
 TEST_CASE( "starve_test_hunger3", "[starve][slow]" )

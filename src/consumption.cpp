@@ -213,6 +213,14 @@ static std::map<vitamin_id, int> compute_default_effective_vitamins(
 
     std::map<vitamin_id, int> res = it.get_comestible()->default_nutrition.vitamins;
 
+    // for actual vitamins convert RDA to a internal value
+    for( std::pair<const vitamin_id, int> &vit : res ) {
+        if( vit.first->type() != vitamin_type::VITAMIN ) {
+            continue;
+        }
+        vit.second = vit.first->RDA_to_default( vit.second );
+    }
+
     for( const trait_id &trait : you.get_mutations() ) {
         const mutation_branch &mut = trait.obj();
         // make sure to iterate over every material defined for vitamin absorption
@@ -1542,7 +1550,7 @@ bool Character::consume_effects( item &food )
 
     // update speculative values
     get_avatar().add_ingested_kcal( ingested.nutr.calories / 1000 );
-    for( auto v : ingested.nutr.vitamins ) {
+    for( const auto &v : ingested.nutr.vitamins ) {
         // update the estimated values for daily vitamins
         // actual vitamins happen during digestion
         daily_vitamins[v.first].first += v.second;
