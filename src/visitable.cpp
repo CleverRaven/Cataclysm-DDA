@@ -281,7 +281,7 @@ int Character::max_quality( const quality_id &qual ) const
     return std::max( res, max_quality_internal( *this, qual ) );
 }
 
-int Character::max_quality( const quality_id &qual, int radius )
+int Character::max_quality( const quality_id &qual, int radius ) const
 {
     int res = max_quality( qual );
 
@@ -870,19 +870,19 @@ static std::pair<int, int> kcal_range_of_internal( const T &self, const itype_id
 }
 
 std::pair<int, int> read_only_visitable::kcal_range( const itype_id &id,
-        const std::function<bool( const item & )> &filter, Character &player_character )
+        const std::function<bool( const item & )> &filter, Character &player_character ) const
 {
     return kcal_range_of_internal( *this, id, filter, player_character );
 }
 
 std::pair<int, int> inventory::kcal_range( const itype_id &id,
-        const std::function<bool( const item & )> &filter, Character &player_character )
+        const std::function<bool( const item & )> &filter, Character &player_character ) const
 {
     return kcal_range_of_internal( *this, id, filter, player_character );
 }
 
 std::pair<int, int> Character::kcal_range( const itype_id &id,
-        const std::function<bool( const item & )> &filter, Character &player_character )
+        const std::function<bool( const item & )> &filter, Character &player_character ) const
 {
     return kcal_range_of_internal( *this, id, filter, player_character );
 }

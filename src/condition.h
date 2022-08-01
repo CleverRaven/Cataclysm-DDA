@@ -40,7 +40,7 @@ const std::unordered_set<std::string> complex_conds = { {
         "npc_role_nearby", "npc_allies", "npc_allies_global", "npc_service",
         "u_has_cash", "u_are_owed", "u_query", "npc_query", "u_has_item_with_flag", "npc_has_item_with_flag",
         "npc_aim_rule", "npc_engagement_rule", "npc_rule", "npc_override", "u_has_hp", "npc_has_hp",
-        "npc_cbm_reserve_rule", "npc_cbm_recharge_rule", "u_has_faction_trust",
+        "u_has_part_temp", "npc_has_part_temp", "npc_cbm_reserve_rule", "npc_cbm_recharge_rule", "u_has_faction_trust",
         "days_since_cataclysm", "is_season", "mission_goal", "u_has_var", "npc_has_var",
         "u_has_skill", "npc_has_skill", "u_know_recipe", "u_compare_var", "npc_compare_var",
         "u_compare_time_since_var", "npc_compare_time_since_var", "is_weather", "one_in_chance", "x_in_y_chance",
@@ -251,6 +251,7 @@ struct conditional_t {
         void set_has_intelligence( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_has_perception( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_has_hp( const JsonObject &jo, const std::string &member, bool is_npc = false );
+        void set_has_part_temp( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_is_deaf( bool is_npc = false );
         void set_is_on_terrain( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_is_in_field( const JsonObject &jo, const std::string &member, bool is_npc = false );

@@ -286,12 +286,12 @@ bool basecamp::has_provides( const std::string &req, const cata::optional<point>
     return false;
 }
 
-bool basecamp::can_expand()
+bool basecamp::can_expand() const
 {
     return has_provides( "bed", base_camps::base_dir, directions.size() * 2 );
 }
 
-bool basecamp::has_water()
+bool basecamp::has_water() const
 {
     return has_provides( "water_well" ) || has_provides( "fbmh_well_north" ) ||
            has_provides( "faction_base_camp_12" ) || has_provides( "faction_base_kitchen_6" ) ||

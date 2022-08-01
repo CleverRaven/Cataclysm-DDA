@@ -6600,20 +6600,21 @@ std::vector<item *> map::put_items_from_loc( const item_group_id &group_id, cons
     return spawn_items( p, items );
 }
 
-void map::add_spawn( const MonsterGroupResult &spawn_details, const tripoint &p ) const
+void map::add_spawn( const MonsterGroupResult &spawn_details, const tripoint &p )
 {
     add_spawn( spawn_details.name, spawn_details.pack_size, p, false, -1, -1, "NONE",
                spawn_details.data );
 }
 
 void map::add_spawn( const mtype_id &type, int count, const tripoint &p, bool friendly,
-                     int faction_id, int mission_id, const std::string &name ) const
+                     int faction_id, int mission_id, const std::string &name )
 {
     add_spawn( type, count, p, friendly, faction_id, mission_id, name, spawn_data() );
 }
 
-void map::add_spawn( const mtype_id &type, int count, const tripoint &p, bool friendly,
-                     int faction_id, int mission_id, const std::string &name, const spawn_data &data ) const
+void map::add_spawn(
+    const mtype_id &type, int count, const tripoint &p, bool friendly, int faction_id,
+    int mission_id, const std::string &name, const spawn_data &data )
 {
     if( p.x < 0 || p.x >= SEEX * my_MAPSIZE || p.y < 0 || p.y >= SEEY * my_MAPSIZE ) {
         debugmsg( "Out of bounds add_spawn(%s, %d, %d, %d)", type.c_str(), count, p.x, p.y );

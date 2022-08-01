@@ -245,7 +245,7 @@ struct bionic {
         void set_safe_fuel_thresh( float val );
         float get_safe_fuel_thresh() const;
         bool is_safe_fuel_on() const;
-        bool activate_spell( Character &caster );
+        bool activate_spell( Character &caster ) const;
 
         void serialize( JsonOut &json ) const;
         void deserialize( const JsonObject &jo );

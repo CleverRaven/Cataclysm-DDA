@@ -2762,7 +2762,7 @@
       [ [ "hotplate", 1 ] ],
       [ [ "wire_mesh", 1 ] ],
       [ [ "pipe", 1 ] ],
-      [ [ "foot_crank", 1 ] ]
+      [ [ "simple_crank", 1 ], [ "foot_crank", 1 ] ]
     ]
   },
   {

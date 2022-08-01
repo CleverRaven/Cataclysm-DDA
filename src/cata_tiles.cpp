@@ -894,8 +894,8 @@ void tileset_cache::loader::load_layers( const JsonObject &config )
 
 }
 
-void tileset_cache::loader::process_variations_after_loading( weighted_int_list<std::vector<int>>
-        &vs )
+void tileset_cache::loader::process_variations_after_loading(
+    weighted_int_list<std::vector<int>> &vs ) const
 {
     // loop through all of the variations
     for( auto &v : vs ) {
@@ -1129,7 +1129,7 @@ tile_type &tileset_cache::loader::load_tile( const JsonObject &entry, const std:
 
 void tileset_cache::loader::load_tile_spritelists( const JsonObject &entry,
         weighted_int_list<std::vector<int>> &vs,
-        const std::string &objname )
+        const std::string &objname ) const
 {
     // json array indicates rotations or variations
     if( entry.has_array( objname ) ) {
@@ -3054,9 +3054,8 @@ bool cata_tiles::draw_field_or_item( const tripoint &p, const lit_level ll, int 
     if( !fld_overridden ) {
         const maptile &tile = here.maptile_at( p );
 
-        for( std::map<field_type_id, field_entry>::iterator fd_it = here.field_at( p ).begin();
-             fd_it != here.field_at( p ).end(); ++fd_it ) {
-            const field_type_id &fld = fd_it->first;
+        for( const std::pair<const field_type_id, field_entry> &fd_pr : here.field_at( p ) ) {
+            const field_type_id &fld = fd_pr.first;
             if( !invisible[0] && fld.obj().display_field ) {
                 const lit_level lit = ll;
                 const bool nv = nv_goggles_activated;
@@ -3088,7 +3087,7 @@ bool cata_tiles::draw_field_or_item( const tripoint &p, const lit_level ll, int 
                 get_tile_values( fld.to_i(), neighborhood, subtile, rotation );
 
                 //get field intensity
-                int intensity = fd_it->second.get_field_intensity();
+                int intensity = fd_pr.second.get_field_intensity();
                 int nullint = 0;
 
                 bool has_drawn = false;
