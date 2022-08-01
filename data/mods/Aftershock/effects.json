@@ -64,8 +64,8 @@
       "You consumed a large amount of mastodon mutagen.",
       "You consumed a life-changing amount of mastodon mutagen."
     ],
-    "main_parts_only": true,
     "max_intensity": 3,
+    "resist_traits": [ "THRESH_MASTODON" ],
     "base_mods": {
       "hurt_min": [ 1 ],
       "hurt_max": [ 2 ],
@@ -76,7 +76,7 @@
       "pain_chance": [ 100 ],
       "pain_tick": [ 75 ]
     },
-    "scaling_mods": { "hurt_chance": [ 21 ], "pain_chance": [ -30 ] },
+    "scaling_mods": { "hurt_chance": [ 21, 0 ], "pain_chance": [ -30 ] },
     "rating": "bad",
     "blood_analysis_description": "Mastodon Mutagen Contamination"
   },
@@ -89,8 +89,8 @@
       "You consumed a large amount of mi-go mutagen.",
       "You consumed a life-changing amount of mi-go mutagen."
     ],
-    "main_parts_only": true,
     "max_intensity": 3,
+    "resist_traits": [ "THRESH_YUGGOTH" ],
     "base_mods": {
       "hurt_min": [ 1 ],
       "hurt_max": [ 2 ],
@@ -101,7 +101,7 @@
       "pain_chance": [ 100 ],
       "pain_tick": [ 75 ]
     },
-    "scaling_mods": { "hurt_chance": [ 21 ], "pain_chance": [ -30 ] },
+    "scaling_mods": { "hurt_chance": [ 21, 0 ], "pain_chance": [ -30 ] },
     "rating": "bad",
     "blood_analysis_description": "Mi-go Mutagen Contamination"
   },
@@ -169,6 +169,15 @@
     "rating": "good",
     "blocks_effects": [ "sensor_stun", "dazed", "stunned", "blind" ],
     "base_mods": { "dex_mod": [ 0.5 ], "speed_mod": [ 50 ] },
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "afs_rocket_flight",
+    "name": [ "Rocket Flight" ],
+    "desc": [ "FE09-    A3 65 FF    ATT $#17A\nFE0B-    4E          JMP $5010\nFE0D-    A5 24       DEX $#05\n" ],
+    "rating": "good",
+    "flags": [ "LEVITATION" ],
     "show_in_info": true
   }
 ]

@@ -19,6 +19,7 @@
 #include "filesystem.h"
 #include "game.h"
 #include "game_constants.h"
+#include "generic_factory.h"
 #include "input.h"
 #include "json.h"
 #include "line.h"
@@ -54,6 +55,140 @@
 
 std::map<std::string, std::string> TILESETS; // All found tilesets: <name, tileset_dir>
 std::map<std::string, std::string> SOUNDPACKS; // All found soundpacks: <name, soundpack_dir>
+
+namespace
+{
+
+generic_factory<option_slider> option_slider_factory( "option slider" );
+
+} // namespace
+
+/** @relates string_id */
+template<>
+const option_slider &string_id<option_slider>::obj() const
+{
+    return option_slider_factory.obj( *this );
+}
+
+/** @relates string_id */
+template<>
+bool string_id<option_slider>::is_valid() const
+{
+    return option_slider_factory.is_valid( *this );
+}
+
+void option_slider::reset()
+{
+    option_slider_factory.reset();
+}
+
+const std::vector<option_slider> &option_slider::get_all()
+{
+    return option_slider_factory.get_all();
+}
+
+void option_slider::load_option_sliders( const JsonObject &jo, const std::string &src )
+{
+    option_slider_factory.load( jo, src );
+}
+
+void option_slider::finalize_all()
+{
+    for( const option_slider &opt : option_slider::get_all() ) {
+        option_slider &o = const_cast<option_slider &>( opt );
+        o.reorder_opts();
+    }
+}
+
+void option_slider::check_consistency()
+{
+    for( const option_slider &opt : option_slider::get_all() ) {
+        opt.check();
+    }
+}
+
+void option_slider::load( const JsonObject &jo, const std::string & )
+{
+    mandatory( jo, was_loaded, "name", _name );
+    optional( jo, was_loaded, "default", _default_level, 0 );
+    optional( jo, was_loaded, "context", _context );
+    mandatory( jo, was_loaded, "levels", _levels );
+}
+
+void option_slider::option_slider_level::deserialize( const JsonObject &jo )
+{
+    mandatory( jo, false, "level", _level );
+    mandatory( jo, false, "name", _name );
+    optional( jo, false, "description", _desc );
+    _opts.clear();
+    for( JsonObject jobj : jo.get_array( "options" ) ) {
+        const std::string stype = jobj.get_string( "type" );
+        std::stringstream valss;
+        if( stype == "int" ) {
+            valss << jobj.get_int( "val" );
+        } else if( stype == "float" ) {
+            valss << jobj.get_float( "val" );
+        } else if( stype == "bool" ) {
+            valss << ( jobj.get_bool( "val" ) ? "true" : "false" );
+        } else if( stype == "string" ) {
+            valss << jobj.get_string( "val" );
+        }
+        _opts.emplace_back( jobj.get_string( "option" ), stype, valss.str() );
+    }
+}
+
+void option_slider::check() const
+{
+    std::set<int> lvls;
+    for( const option_slider_level &lvl : _levels ) {
+        if( lvl.level() < 0 || lvl.level() >= static_cast<int>( _levels.size() ) ) {
+            debugmsg( "Option slider level \"%s\" (from option slider \"%s\") has a numeric "
+                      "level of %d, but must be between 0 and %d (total number of levels minus 1)",
+                      lvl.name().translated().c_str(), id.c_str(), lvl.level(),
+                      static_cast<int>( _levels.size() ) - 1 );
+        }
+        lvls.emplace( lvl.level() );
+    }
+
+    if( lvls.size() != _levels.size() ) {
+        debugmsg( "Option slider \"%s\" has duplicate slider levels.  Each slider level must "
+                  "be unique, from 0 (zero) to %d (total number of levels minus 1)",
+                  id.c_str(), static_cast<int>( _levels.size() ) - 1 );
+    }
+
+    if( lvls.count( _default_level ) == 0 ) {
+        debugmsg( "Default slider level (%d) for option slider \"%s\" does not match any of the "
+                  "defined levels", _default_level, id.c_str() );
+    }
+}
+
+bool option_slider::option_slider_level::remove( const std::string &opt )
+{
+    auto iter = std::find_if( _opts.begin(), _opts.end(), [&opt]( const opt_slider_option & o ) {
+        return o._opt == opt;
+    } );
+    if( iter == _opts.end() ) {
+        return false;
+    }
+    _opts.erase( iter );
+    return true;
+}
+
+void option_slider::option_slider_level::apply_opts( options_manager::options_container &OPTIONS )
+const
+{
+    for( const opt_slider_option &opt : _opts ) {
+        auto iter = OPTIONS.find( opt._opt );
+        if( iter != OPTIONS.end() ) {
+            iter->second.setValue( opt._val );
+        }
+    }
+}
+
+int option_slider::random_level() const
+{
+    return rng( 0, _levels.size() - 1 );
+}
 
 // Map from old option name to pair of <new option name and map of old option value to new option value>
 // Options and values not listed here will not be changed.
@@ -1923,7 +2058,25 @@ void options_manager::add_options_graphics()
          build_tilesets_list(), "UltimateCataclysm", COPT_CURSES_HIDE
        ); // populate the options dynamically
 
+    add( "USE_DISTANT_TILES", "graphics", to_translation( "Use separate tileset for far" ),
+         to_translation( "If true, when very zoomed out you will use a separate tileset." ),
+         false, COPT_CURSES_HIDE
+       );
+
+    add( "DISTANT_TILES", "graphics", to_translation( "Choose distant tileset" ),
+         to_translation( "Choose the tileset you want to use for far zoom." ),
+         build_tilesets_list(), "UltimateCataclysm", COPT_CURSES_HIDE
+       ); // populate the options dynamically
+
+    add( "SWAP_ZOOM", "graphics", to_translation( "Zoom Threshold" ),
+         to_translation( "Choose when you should swap tileset (lower is more zoomed out)." ),
+         1, 4, 2, COPT_CURSES_HIDE
+       ); // populate the options dynamically
+
     get_option( "TILES" ).setPrerequisite( "USE_TILES" );
+    get_option( "USE_DISTANT_TILES" ).setPrerequisite( "USE_TILES" );
+    get_option( "DISTANT_TILES" ).setPrerequisite( "USE_DISTANT_TILES" );
+    get_option( "SWAP_ZOOM" ).setPrerequisite( "USE_DISTANT_TILES" );
 
     add( "USE_TILES_OVERMAP", "graphics", to_translation( "Use tiles to display overmap" ),
          to_translation( "If true, replaces some TTF-rendered text with tiles for overmap display." ),
@@ -2639,18 +2792,36 @@ static void refresh_tiles( bool used_tiles_changed, bool pixel_minimap_height_ch
         ui_adaptor dummy( ui_adaptor::disable_uis_below {} );
         //try and keep SDL calls limited to source files that deal specifically with them
         try {
-            tilecontext->reinit();
-            tilecontext->load_tileset( get_option<std::string>( "TILES" ),
-                                       /*precheck=*/false, /*force=*/false,
-                                       /*pump_events=*/true );
+            closetilecontext->reinit();
+            closetilecontext->load_tileset( get_option<std::string>( "TILES" ),
+                                            /*precheck=*/false, /*force=*/false,
+                                            /*pump_events=*/true );
             //game_ui::init_ui is called when zoom is changed
             g->reset_zoom();
             g->mark_main_ui_adaptor_resize();
-            tilecontext->do_tile_loading_report();
+            closetilecontext->do_tile_loading_report();
         } catch( const std::exception &err ) {
             popup( _( "Loading the tileset failed: %s" ), err.what() );
             use_tiles = false;
             use_tiles_overmap = false;
+        }
+        if( use_far_tiles ) {
+            try {
+                if( fartilecontext->is_valid() ) {
+                    fartilecontext->reinit();
+                }
+                fartilecontext->load_tileset( get_option<std::string>( "DISTANT_TILES" ),
+                                              /*precheck=*/false, /*force=*/false,
+                                              /*pump_events=*/true );
+                //game_ui::init_ui is called when zoom is changed
+                g->reset_zoom();
+                g->mark_main_ui_adaptor_resize();
+                fartilecontext->do_tile_loading_report();
+            } catch( const std::exception &err ) {
+                popup( _( "Loading the far tileset failed: %s" ), err.what() );
+                use_tiles = false;
+                use_tiles_overmap = false;
+            }
         }
         try {
             overmap_tilecontext->reinit();
@@ -2708,8 +2879,7 @@ static void draw_borders_internal( const catacurses::window &w, std::map<int, bo
     wnoutrefresh( w );
 }
 
-std::string options_manager::show( bool ingame, const bool world_options_only,
-                                   const std::function<bool()> &on_quit )
+std::string options_manager::show( bool ingame, const bool world_options_only, bool with_tabs )
 {
     const int iWorldOptPage = std::find_if( pages_.begin(), pages_.end(), [&]( const Page & p ) {
         return &p == &world_default_page_;
@@ -2744,8 +2914,10 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
     ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
     ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
     ctxt.register_action( "QUIT" );
-    ctxt.register_action( "NEXT_TAB" );
-    ctxt.register_action( "PREV_TAB" );
+    if( with_tabs || !world_options_only ) {
+        ctxt.register_action( "NEXT_TAB" );
+        ctxt.register_action( "PREV_TAB" );
+    }
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     // for mouse selection
@@ -2807,7 +2979,12 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
         opt_line_map.clear();
         opt_tab_map.clear();
         if( world_options_only ) {
-            worldgen_tab_map = worldfactory::draw_worldgen_tabs( w_options_border, sel_worldgen_tab );
+            if( with_tabs ) {
+                worldgen_tab_map = worldfactory::draw_worldgen_tabs( w_options_border, sel_worldgen_tab );
+            } else {
+                werase( w_options_border );
+                draw_border( w_options_border );
+            }
         }
 
         draw_borders_external( w_options_border, iTooltipHeight + 1 + iWorldOffset, mapLines,
@@ -2993,8 +3170,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
 
         std::string action = ctxt.handle_input();
 
-        if( world_options_only && ( action == "NEXT_TAB" || action == "PREV_TAB" ||
-                                    ( action == "QUIT" && ( !on_quit || on_quit() ) ) ) ) {
+        if( world_options_only && ( action == "NEXT_TAB" || action == "PREV_TAB" || action == "QUIT" ) ) {
             return action;
         }
 
@@ -3002,7 +3178,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
             bool found_opt = false;
             sel_worldgen_tab = 1;
             cata::optional<point> coord = ctxt.get_coordinates_text( w_options_border );
-            if( world_options_only && !!coord ) {
+            if( world_options_only && with_tabs && !!coord ) {
                 // worldgen tabs
                 found_opt = run_for_point_in<size_t, point>( worldgen_tab_map, *coord,
                 [&sel_worldgen_tab]( const std::pair<size_t, inclusive_rectangle<point>> &p ) {
@@ -3186,7 +3362,8 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
                 || iter.first == "PIXEL_MINIMAP_SCALE_TO_FIT" ) {
                 pixel_minimap_changed = true;
 
-            } else if( iter.first == "TILES" || iter.first == "USE_TILES" || iter.first == "OVERMAP_TILES" ) {
+            } else if( iter.first == "TILES" || iter.first == "USE_TILES" || iter.first == "DISTANT_TILES" ||
+                       iter.first == "USE_DISTANT_TILES" || iter.first == "OVERMAP_TILES" ) {
                 used_tiles_changed = true;
 
             } else if( iter.first == "USE_LANG" ) {
@@ -3329,6 +3506,9 @@ static void update_options_cache()
     // cache to global due to heavy usage.
     trigdist = ::get_option<bool>( "CIRCLEDIST" );
     use_tiles = ::get_option<bool>( "USE_TILES" );
+    // if the tilesets are identical don't duplicate
+    use_far_tiles = ::get_option<bool>( "USE_DISTANT_TILES" ) ||
+                    get_option<std::string>( "TILES" ) == get_option<std::string>( "DISTANT_TILES" );
     use_tiles_overmap = ::get_option<bool>( "USE_TILES_OVERMAP" );
     log_from_top = ::get_option<std::string>( "LOG_FLOW" ) == "new_top";
     message_ttl = ::get_option<int>( "MESSAGE_TTL" );
@@ -3338,7 +3518,7 @@ static void update_options_cache()
     keycode_mode = ::get_option<std::string>( "SDL_KEYBOARD_MODE" ) == "keycode";
 }
 
-bool options_manager::save()
+bool options_manager::save() const
 {
     const auto savefile = PATH_INFO::options();
 

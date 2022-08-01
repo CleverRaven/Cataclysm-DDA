@@ -268,7 +268,7 @@
         "c": { "item": "pizza_soda", "chance": 25 }
       },
       "toilets": { "Á": {  } },
-      "place_vehicles": [ { "vehicle": "bicycle", "x": [ 1, 3 ], "y": [ 20, 23 ], "chance": 35, "rotation": 270 } ],
+      "place_vehicles": [ { "vehicle": "bicycle", "x": [ 1, 3 ], "y": [ 20, 22 ], "chance": 35, "rotation": 270 } ],
       "place_loot": [ { "group": "cash_register_random", "x": 13, "y": [ 13, 17 ], "repeat": 2 } ]
     }
   },

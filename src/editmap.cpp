@@ -1577,7 +1577,7 @@ void editmap::edit_critter( Creature &critter )
     }
 }
 
-void editmap::edit_veh()
+void editmap::edit_veh() const
 {
     edit_json( get_map().veh_at( target )->vehicle() );
 }
@@ -1648,9 +1648,9 @@ static int limited_shift( int var, int &shift, int min, int max )
     if( var + shift < min ) {
         shift = min - var;
     } else if( var + shift >= max ) {
-        shift = shift + ( max - 1 - ( var + shift ) );
+        shift = max - 1 - var;
     }
-    return var += shift;
+    return var + shift;
 }
 
 /*
@@ -2218,7 +2218,7 @@ void editmap::edit_mapgen()
 /*
  * Special voodoo sauce required to cleanse vehicles and caches to prevent debugmsg loops when re-applying mapgen.
  */
-void editmap::cleartmpmap( tinymap &tmpmap )
+void editmap::cleartmpmap( tinymap &tmpmap ) const
 {
     for( submap *&smap : tmpmap.grid ) {
         delete smap;

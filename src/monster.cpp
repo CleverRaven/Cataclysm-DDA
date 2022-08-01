@@ -109,6 +109,8 @@ static const efftype_id effect_worked_on( "worked_on" );
 static const emit_id emit_emit_shock_cloud( "emit_shock_cloud" );
 static const emit_id emit_emit_shock_cloud_big( "emit_shock_cloud_big" );
 
+static const flag_id json_flag_DISABLE_FLIGHT( "DISABLE_FLIGHT" );
+
 static const itype_id itype_corpse( "corpse" );
 static const itype_id itype_milk( "milk" );
 static const itype_id itype_milk_raw( "milk_raw" );
@@ -1037,7 +1039,7 @@ bool monster::digs() const
 
 bool monster::flies() const
 {
-    return has_flag( MF_FLIES );
+    return has_flag( MF_FLIES ) && !has_effect_with_flag( json_flag_DISABLE_FLIGHT );
 }
 
 bool monster::climbs() const
@@ -1519,7 +1521,8 @@ bool monster::is_immune_effect( const efftype_id &effect ) const
     }
 
     if( effect == effect_downed ) {
-        if( type->bodytype == "insect" || type->bodytype == "spider" || type->bodytype == "crab" ) {
+        if( type->bodytype == "insect" || type->bodytype == "insect_flying" || type->bodytype == "spider" ||
+            type->bodytype == "crab" ) {
             return x_in_y( 3, 4 );
         } else return type->bodytype == "snake" || type->bodytype == "blob" || type->bodytype == "fish" ||
                           has_flag( MF_FLIES ) || has_flag( MF_IMMOBILE );
@@ -1765,7 +1768,10 @@ bool monster::melee_attack( Creature &target, float accuracy )
     for( const mon_effect_data &eff : type->atk_effs ) {
         if( x_in_y( eff.chance, 100 ) ) {
             const bodypart_id affected_bp = eff.affect_hit_bp ? dealt_dam.bp_hit :  eff.bp.id();
-            target.add_effect( eff.id, time_duration::from_turns( eff.duration ), affected_bp, eff.permanent );
+            target.add_effect( eff.id, time_duration::from_turns( rng( eff.duration.first,
+                               eff.duration.second ) ), affected_bp, eff.permanent, rng( eff.intensity.first,
+                                       eff.intensity.second ) );
+            target.add_msg_if_player( m_mixed, eff.message, name() );
         }
     }
 
@@ -2344,18 +2350,16 @@ void monster::explode()
 
 void monster::set_summon_time( const time_duration &length )
 {
-    summon_time_limit = length;
+    lifespan_end = calendar::turn + length;
 }
 
 void monster::decrement_summon_timer()
 {
-    if( !summon_time_limit ) {
+    if( !lifespan_end ) {
         return;
     }
-    if( *summon_time_limit <= 0_turns ) {
+    if( lifespan_end.value() <= calendar::turn ) {
         die( nullptr );
-    } else {
-        *summon_time_limit -= 1_turns;
     }
 }
 
@@ -2536,7 +2540,7 @@ void monster::die( Creature *nkiller )
     mission::on_creature_death( *this );
 
     // Also, perform our death function
-    if( is_hallucination() || summon_time_limit ) {
+    if( is_hallucination() || lifespan_end ) {
         //Hallucinations always just disappear
         mdeath::disappear( *this );
         return;
@@ -2705,6 +2709,15 @@ void monster::drop_items_on_death( item *corpse )
                                   calendar::start_of_cataclysm,
                                   spawn_flags::use_spawn_rate );
 
+    // for non corpses this is much simpler
+    if( !corpse ) {
+        for( item &it : new_items ) {
+            get_map().add_item_or_charges( pos(), it );
+        }
+        return;
+    }
+
+    // first put "on" things that are wearable
     for( item &it : new_items ) {
         if( has_flag( MF_FILTHY ) ) {
             if( ( it.is_armor() || it.is_pet_armor() ) && !it.is_gun() ) {
@@ -2712,10 +2725,34 @@ void monster::drop_items_on_death( item *corpse )
                 it.set_flag( STATIC( flag_id( "FILTHY" ) ) );
             }
         }
-        if( corpse ) {
+
+        // add stuff that could be worn or strapped to the creature
+        if( it.is_armor() ) {
             corpse->put_in( it, item_pocket::pocket_type::CONTAINER );
-        } else {
-            get_map().add_item_or_charges( pos(), it );
+        }
+    }
+
+    // then nest the rest in those "worn" items if possible
+    // TODO: disable the backup, only spawn items here that actually fit in something
+    for( item &it : new_items ) {
+        // add stuff that could be worn or strapped to the creature
+        if( !it.is_armor() ) {
+            std::pair<item_location, item_pocket *> current_best;
+            for( item *worn_it : corpse->all_items_top() ) {
+                item_location loc;
+                std::pair<item_location, item_pocket *> internal_pocket =
+                    worn_it->best_pocket( it, loc, nullptr, false, true );
+                if( internal_pocket.second != nullptr &&
+                    ( current_best.second == nullptr ||
+                      current_best.second->better_pocket( *internal_pocket.second, it ) ) ) {
+                    current_best = internal_pocket;
+                }
+            }
+            if( current_best.second != nullptr ) {
+                current_best.second->insert_item( it );
+            } else {
+                corpse->put_in( it, item_pocket::pocket_type::CONTAINER );
+            }
         }
     }
 }
@@ -3256,6 +3293,9 @@ void monster::set_horde_attraction( monster_horde_attraction mha )
 bool monster::will_join_horde( int size )
 {
     const monster_horde_attraction mha = get_horde_attraction();
+    if( this->has_flag( MF_IMMOBILE ) ) {
+        return false; //immobile monsters should never join a horde.
+    }
     if( mha == MHA_NEVER ) {
         return false;
     }

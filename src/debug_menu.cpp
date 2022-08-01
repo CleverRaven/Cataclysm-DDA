@@ -505,7 +505,7 @@ static void spell_description(
 
     // Class: Spell Class
     description << string_format( _( "Class: %1$s" ), colorize( spl.spell_class() == trait_NONE ?
-                                  _( "Classless" ) : spl.spell_class()->name(),
+                                  _( "Classless" ) : chrc.mutation_name( spl.spell_class() ),
                                   yellow ) ) << "\n";
 
     // Spell description
@@ -1750,7 +1750,7 @@ static void character_edit_menu()
             } else if( !to_wear.is_null() ) {
                 you.set_wielded_item( to_wear );
                 get_event_bus().send<event_type::character_wields_item>( you.getID(),
-                        you.get_wielded_item().typeId() );
+                        you.get_wielded_item()->typeId() );
             }
         }
         break;
@@ -2468,7 +2468,7 @@ void debug()
             for( int i = 0; i < OMAPX; i++ ) {
                 for( int j = 0; j < OMAPY; j++ ) {
                     for( int k = -OVERMAP_DEPTH; k <= OVERMAP_HEIGHT; k++ ) {
-                        cur_om.seen( { i, j, k } ) = true;
+                        cur_om.set_seen( { i, j, k }, true );
                     }
                 }
             }
@@ -3025,7 +3025,7 @@ void debug()
         case debug_menu_index::WRITE_TIMED_EVENTS: {
             write_to_file( "timed_event_list.output", [&]( std::ostream & testfile ) {
                 testfile << "|;when;type;key;string_id;strength;map_point;faction_id;" << std::endl;
-                for( const auto &te : get_timed_events().get_all() ) {
+                for( const timed_event &te : get_timed_events().get_all() ) {
                     testfile << "|;" << to_string( te.when ) << ";" << static_cast<int>( te.type ) << ";" << te.key <<
                              ";" << te.string_id << ";" << te.strength << ";" << te.map_point << ";" << te.faction_id << ";" <<
                              std::endl;

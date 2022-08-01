@@ -42,7 +42,8 @@ alkahest
 alkalis
 alkyl
 alleghaniensis
-allosaurusid
+allosaurus
+allosaurid
 allucination
 alnico
 altamente
@@ -85,6 +86,7 @@ aquacultural
 aquaculture
 aquamarines
 aqueles
+aquilops
 aramid
 arborescent
 args
@@ -102,6 +104,7 @@ aterial
 atire
 atompot
 attac
+attachable
 attery
 attunements
 attuning
@@ -263,7 +266,8 @@ callsigns
 caltrop
 caltrops
 camarasaurus
-camptosaurus
+camarasaurus
+camphine
 camspy
 cannelured
 caparison
@@ -286,6 +290,7 @@ cegamente
 centerdamage
 centric
 cepa
+cephalothorax
 ceratopsian
 ceratosaurus
 cere
@@ -489,6 +494,8 @@ dragonscale
 draugr
 draugrs
 drawknife
+dreamdross
+dreamstuff
 driers
 drivetrain
 dromaeosaurid
@@ -496,6 +503,7 @@ dromaeosaurus
 dropoff
 droppers
 druidry
+dryosaurus
 dryptosaurus
 drywalled
 dunderfuck
@@ -517,6 +525,7 @@ elderberries
 electrochemistry
 electrohack
 electrolaser
+electrolasers
 electroreceptors
 elete
 elopements
@@ -596,6 +605,7 @@ fetick
 feticks
 fetlock
 ffect
+fibercloth
 fiddleheads
 filenames
 fileset
@@ -645,6 +655,7 @@ foodcart
 foodplace
 footgear
 foregrip
+foregrips
 forestock
 forgemaster
 forgnottedn
@@ -724,6 +735,8 @@ gozu
 gr
 gracken
 granivorous
+grasper
+graspers
 gravelbag
 gravelbags
 gravol
@@ -1012,6 +1025,7 @@ macrophenotypic
 macuahuitl
 maculata
 mafuckin
+magnifiers
 magwells
 maiasaura
 makizushi
@@ -1150,6 +1164,7 @@ nanomaterials
 nanomesh
 nanoprinted
 nanoribbon
+nanosaurus
 nanoskirt
 nanuqsaurus
 narry
@@ -1522,6 +1537,8 @@ sandleather
 sapience
 sarracenia
 satirizes
+sauropod
+saurornitholestes
 sautered
 savetest
 sawblade
@@ -1663,6 +1680,8 @@ starrin
 std
 steeltoed
 steerable
+stegoceras
+stegosaurus
 stegosaurusfindsrobot
 stenonychosaurus
 stimulative
@@ -1758,6 +1777,7 @@ thawb
 thawbs
 thermochemistry
 thermoplastics
+thescelosaurus
 thonged
 thorned
 thosun
@@ -1805,6 +1825,7 @@ transpositions
 travelpack
 traversal
 treelines
+tribesperson
 tribot
 tricorne
 trifacet
@@ -1825,7 +1846,9 @@ turreted
 twere
 txt
 typologies
+tyrannosaurid
 tyrannosauroid
+tyrannosaurus
 tz
 uality
 uan
@@ -1954,6 +1977,7 @@ whitelist
 whitelisted
 whitelists
 whoda
+whoosh
 whud
 whuff
 whump

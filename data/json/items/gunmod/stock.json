@@ -157,6 +157,21 @@
     "flags": [ "COLLAPSED_STOCK", "IRREMOVABLE" ]
   },
   {
+    "id": "stock_none",
+    "type": "GUNMOD",
+    "name": { "str": "sawn-off stock" },
+    "description": "A simple saw job cutting the original stock off this weapon.  Makes it much harder to handle, but much smaller.",
+    "install_time": "5 m",
+    "material": [ "wood" ],
+    "symbol": ":",
+    "color": "dark_gray",
+    "location": "stock mount",
+    "handling_modifier": -10,
+    "mod_targets": [ "smg", "rifle", "shotgun" ],
+    "//": "though the stock isn't COLLAPSED it is functionally the same",
+    "flags": [ "REMOVED_STOCK", "IRREMOVABLE" ]
+  },
+  {
     "id": "pistol_stock",
     "type": "GUNMOD",
     "name": { "str": "pistol stock" },

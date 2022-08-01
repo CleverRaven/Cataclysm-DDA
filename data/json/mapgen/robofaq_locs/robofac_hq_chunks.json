@@ -79,5 +79,265 @@
       ],
       "place_npcs": [ { "class": "robofac_merc_1", "x": 1, "y": 1 } ]
     }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "robofachqy_window_sand_wall",
+    "object": { "mapgensize": [ 8, 8 ], "set": [ { "line": "furniture", "id": "f_sandbag_wall", "x": 0, "y": 0, "x2": 7, "y2": 0 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "robofachq_window_sand_wall_l",
+    "object": {
+      "mapgensize": [ 11, 11 ],
+      "set": [ { "line": "furniture", "id": "f_sandbag_wall", "x": 0, "y": 0, "x2": 10, "y2": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "window_sandbags_meteorology1",
+    "object": {
+      "place_nested": [
+        { "chunks": [ "robofachqy_window_sand_wall" ], "x": 2, "y": 11 },
+        { "chunks": [ "robofachqy_window_sand_wall" ], "x": 2, "y": 19 },
+        { "chunks": [ "robofachqy_window_sand_wall" ], "x": 15, "y": 11 },
+        { "chunks": [ "robofachqy_window_sand_wall" ], "x": 15, "y": 19 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "window_sandbags_meteorology2",
+    "object": {
+      "place_nested": [
+        { "chunks": [ "robofachqy_window_sand_wall" ], "x": 4, "y": 11 },
+        { "chunks": [ "robofachqy_window_sand_wall" ], "x": 4, "y": 19 },
+        { "chunks": [ "robofachq_window_sand_wall_l" ], "x": 13, "y": 9 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "window_sandbags_surface_road2",
+    "object": { "place_nested": [ { "chunks": [ "robofachq_window_sand_wall_l" ], "x": 13, "y": 0 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "robofachq_ancilla_fortress_basic",
+    "object": {
+      "rows": [
+        "UUUUUUUUUUUUUUUUUUUUUUUU",
+        "_______,,,,,,,,,,,,,,,,,",
+        "_______||||,,,:,,:,,,:,,",
+        "___R___|r |,,,,,,,,,,,,,",
+        "_______||2|,,,,,,,,,,,,,",
+        "___R____________________",
+        "________________________",
+        "___R___,,,,,,_,,,,,,,,,,",
+        "_______,,,,,,_,,,,,,,,,,",
+        ",,,,,,,,,,,,|WWWWWWWWWWW",
+        ",,,,,,,,,,,,|[==|====|==",
+        ",,,|WWWWWWWW|A.A=ll 6h B",
+        "||||========|A.A=  Ydd 7",
+        "h ...AA...  +A.A[  Y   ^",
+        "  6A.A@@..  |||||==[=|||",
+        "h hA.A....   7|>|    |i;",
+        " ddA.A@@..  |||S|    +  ",
+        "   A......  +...   Y |||",
+        "||||========|...    Q  ^",
+        ",,,|WWWWWWWW|      Y t ?",
+        "ssssssssssAA|AA ...  t ?",
+        "_y______ssA.[.. ...  t ?",
+        "_y______ssA.[AA ...Ya a^",
+        "_y______ssA.|==========="
+      ],
+      "palettes": [ "robofachq" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "remove_all": { " ": {  } },
+      "terrain": {
+        "$": [ "t_region_tree_shade", "t_region_tree_fruit", "t_region_shrub_decorative" ],
+        "/": "t_wall_w",
+        "@": "t_metal_floor",
+        "A": "t_metal_floor",
+        "R": "t_radio_tower",
+        "S": "t_secretdoor_concrete_o",
+        "Y": "t_strconc_floor_olight"
+      },
+      "furniture": { "7": "f_filing_cabinet", "A": "f_sandbag_wall", "W": "f_sandbag_wall", ":": "f_small_satelitte_dish" },
+      "items": {
+        "l": [
+          { "item": "NC_ANCILLA_GRUNT_worn", "chance": 50 },
+          { "item": "NC_ANCILLA_GRUNT_wield", "chance": 50 },
+          { "item": "NC_ANCILLA_GRUNT_carry", "chance": 50 }
+        ]
+      },
+      "npcs": { "Q": { "class": "ancilla_hq_guard" } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "robofachq_ancilla_bar_basic",
+    "object": {
+      "rows": [
+        "########################",
+        "########################",
+        "||||||||||||||||||||||##",
+        "'''''''''''''''''''''|##",
+        "'''''''''''''''''''''|##",
+        "'''''''''''''''''''''|##",
+        "'''''''''''''''''''''|##",
+        "||||=========|||||||||##",
+        " |cFcb^h hth^??|^^^^^|##",
+        " |c cb t hth t?|^ YY  ||",
+        " |rÑc  h      ?|^ YY   >",
+        "=|r c    PP  n|||      >",
+        " 2     Y   Y  2 2    |||",
+        "||||=========|||||   |##",
+        "'''''''''''''|##|    |##",
+        "'''''''''''''||||    |##",
+        "'''''''''''''||<  YY |##",
+        "'''''''''''''||||    |##",
+        "'''''''''''''|##|    |##",
+        "|||||||||||||||||    |##",
+        "################|    |||",
+        "################| YY  >|",
+        "################||||||||",
+        "########################"
+      ],
+      "palettes": [ "robofachq" ],
+      "remove_all": { " ": {  }, "h": {  }, "c": {  }, "F": {  }, "P": {  }, "t": {  }, "?": {  } },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": { "'": "t_open_air", "Y": "t_strconc_floor_olight", "#": "t_rock" },
+      "furniture": { "b": "f_stool", "P": "f_pool_table" },
+      "item": { "P": [ { "item": "pool_cue", "chance": 100, "repeat": 2 }, { "item": "pool_ball", "chance": 100, "repeat": 8 } ] },
+      "npcs": { "Ñ": { "class": "ancilla_barkeep" } },
+      "place_zones": [
+        { "type": "NPC_INVESTIGATE_ONLY", "faction": "robofac_auxiliaries", "x": [ 2, 14 ], "y": [ 8, 12 ] },
+        { "type": "LOOT_UNSORTED", "faction": "robofac_auxiliaries", "x": [ 2, 2 ], "y": [ 10, 10 ] },
+        { "type": "LOOT_CURRENCY", "faction": "robofac_auxiliaries", "x": [ 2, 2 ], "y": [ 9, 9 ] }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "nest_ancilla_bar_place_BEMs",
+    "//": "remove the null chunks once theres enough BEM npcs.",
+    "object": {
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "     1   4    2         ",
+        "                        ",
+        "                        ",
+        "           3            ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "nested": {
+        "1": { "chunks": [ [ "BEM_hireable", 20 ], [ "null", 20 ] ] },
+        "2": { "chunks": [ [ "BEM_human_sample", 20 ], [ "BEM_anchor_seller", 20 ], [ "null", 20 ] ] },
+        "3": { "chunks": [ [ "BEM_keycard_seller", 20 ], [ "BEM_template_seller", 20 ], [ "null", 20 ] ] },
+        "4": { "chunks": [ [ "BEM_gunrunner", 20 ], [ "null", 20 ] ] }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "BEM_hireable",
+    "object": {
+      "faction_owner": [ { "id": "robofac_auxiliaries", "x": [ 0, 0 ], "y": [ 0, 0 ] } ],
+      "mapgensize": [ 1, 1 ],
+      "place_npcs": [ { "class": "BEM_hireable", "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "BEM_human_sample",
+    "object": {
+      "faction_owner": [ { "id": "robofac_auxiliaries", "x": [ 0, 0 ], "y": [ 0, 0 ] } ],
+      "mapgensize": [ 1, 1 ],
+      "place_npcs": [ { "class": "BEM_human_sample", "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "BEM_anchor_seller",
+    "object": {
+      "faction_owner": [ { "id": "robofac_auxiliaries", "x": [ 0, 0 ], "y": [ 0, 0 ] } ],
+      "mapgensize": [ 1, 1 ],
+      "place_npcs": [ { "class": "BEM_anchor_seller", "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "BEM_keycard_seller",
+    "object": {
+      "faction_owner": [ { "id": "robofac_auxiliaries", "x": [ 0, 0 ], "y": [ 0, 0 ] } ],
+      "mapgensize": [ 1, 1 ],
+      "place_npcs": [ { "class": "BEM_keycard_seller", "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "BEM_template_seller",
+    "object": {
+      "faction_owner": [ { "id": "robofac_auxiliaries", "x": [ 0, 0 ], "y": [ 0, 0 ] } ],
+      "mapgensize": [ 1, 1 ],
+      "place_npcs": [ { "class": "BEM_template_seller", "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "BEM_gunrunner",
+    "object": {
+      "faction_owner": [ { "id": "robofac_auxiliaries", "x": [ 0, 0 ], "y": [ 0, 0 ] } ],
+      "mapgensize": [ 1, 1 ],
+      "place_npcs": [ { "class": "BEM_gunrunner", "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "nest_ancilla_bar_remove_BEMs",
+    "object": {
+      "remove_npcs": [
+        { "class": "BEM_hireable", "x": 0, "y": 0 },
+        { "class": "BEM_anchor_seller", "x": 0, "y": 0 },
+        { "class": "BEM_human_sample", "x": 0, "y": 0 },
+        { "class": "BEM_gunrunner", "x": 0, "y": 0 },
+        { "class": "BEM_template_seller", "x": 0, "y": 0 },
+        { "class": "BEM_keycard_seller", "x": 0, "y": 0 }
+      ]
+    }
   }
 ]

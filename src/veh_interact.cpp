@@ -98,11 +98,11 @@ static const trait_id trait_STRONGBACK( "STRONGBACK" );
 
 static const vpart_id vpart_ap_wall_wiring( "ap_wall_wiring" );
 
-static inline std::string status_color( bool status )
+static std::string status_color( bool status )
 {
     return status ? "<color_green>" : "<color_red>";
 }
-static inline std::string health_color( bool status )
+static std::string health_color( bool status )
 {
     return status ? "<color_light_green>" : "<color_light_red>";
 }
@@ -1388,10 +1388,6 @@ void veh_interact::do_refill()
                 }
             } else if( pt.is_fuel_store() ) {
                 bool can_reload = pt.can_reload( obj );
-                if( obj.typeId() == fuel_type_battery && can_reload ) {
-                    msg = _( "You cannot recharge a vehicle battery with handheld batteries" );
-                    return false;
-                }
                 //check base item for fuel_stores that can take multiple types of ammunition (like the fuel_bunker)
                 if( pt.get_base().can_reload_with( obj, true ) ) {
                     return true;
@@ -1417,7 +1413,7 @@ void veh_interact::calc_overview()
     const hotkey_queue &hotkeys = hotkey_queue::alphabets();
 
     const auto next_hotkey = [&]( input_event & evt ) {
-        const input_event prev = evt;
+        input_event prev = evt;
         evt = main_context.next_unassigned_hotkey( hotkeys, evt );
         return prev;
     };

@@ -1034,14 +1034,13 @@
         [ "dry_mushroom", 1 ]
       ],
       [
-        [ "hot_sauce", 2 ],
+        [ "hot_sauce", 1 ],
         [ "seasoning_italian", 4 ],
-        [ "wild_herbs", 4 ],
+        [ "wild_herbs", 8 ],
         [ "seasoning_salt", 4 ],
-        [ "soysauce", 2 ],
+        [ "soysauce", 1 ],
         [ "pepper", 4 ],
         [ "garlic_clove", 2 ],
-        [ "salt_water", 1 ],
         [ "salt", 4 ]
       ]
     ]

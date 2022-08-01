@@ -120,13 +120,11 @@ std::vector<item_pricing> npc_trading::init_selling( npc &np )
         }
     }
 
-    item &weapon = np.get_wielded_item();
+    item_location weapon = np.get_wielded_item();
     if(
-        np.will_exchange_items_freely() &&
-        !weapon.is_null() &&
-        !weapon.has_flag( json_flag_NO_UNWIELD )
+        np.will_exchange_items_freely() && weapon && !weapon->has_flag( json_flag_NO_UNWIELD )
     ) {
-        result.emplace_back( np, weapon, np.value( weapon ), false );
+        result.emplace_back( np, *weapon, np.value( *weapon ), false );
     }
 
     return result;
@@ -353,7 +351,7 @@ bool npc_trading::npc_can_fit_items( npc const &np, trade_selector::select_t con
                 break;
             }
         }
-        if( !item_stored && !np.can_wear( *it.first, false ).value() ) {
+        if( !item_stored && !np.can_wear( *it.first, false ).success() ) {
             return false;
         }
     }

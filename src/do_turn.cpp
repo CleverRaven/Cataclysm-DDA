@@ -623,6 +623,10 @@ bool do_turn()
             veh->handle_potential_theft( dynamic_cast<Character &>( u ), false, false );
         }
     }
+
+    // Make sure players cant defy gravity by standing still, Looney tunes style.
+    u.gravity_check();
+
     // If riding a horse - chance to spook
     if( u.is_mounted() ) {
         u.check_mount_is_spooked();
@@ -873,6 +877,10 @@ bool do_turn()
 
     // reset player noise
     u.volume = 0;
+
+    // Calculate bionic power balance
+    u.power_balance = u.get_power_level() - u.power_prev_turn;
+    u.power_prev_turn = u.get_power_level();
 
     return false;
 }

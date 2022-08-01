@@ -103,6 +103,8 @@
       { "item": "xacto", "prob": 80 },
       { "item": "scissors", "prob": 80 },
       { "item": "bag_garbage", "prob": 95, "count": [ 1, 25 ] },
+      { "item": "bag_zipper", "prob": 85, "count": [ 1, 18 ] },
+      { "item": "bag_zipper_gallon", "prob": 80, "count": [ 1, 9 ] },
       { "item": "screwdriver", "prob": 70 },
       { "item": "hammer", "prob": 60 },
       { "item": "pliers", "prob": 60 },
@@ -627,7 +629,7 @@
     "//2": "This group is for cupboard, drawer, or rack with spices.",
     "subtype": "collection",
     "entries": [
-      { "item": "salt" },
+      { "item": "salt", "count": [ 2, 4 ] },
       { "item": "pepper" },
       { "item": "cinnamon", "prob": 75 },
       { "item": "chilly-p", "prob": 75 },
@@ -636,8 +638,8 @@
       { "item": "curry_powder", "prob": 25 },
       { "item": "sprinkles", "prob": 10 },
       { "item": "thyme", "prob": 65 },
-      { "item": "seasoning_italian", "prob": 65 },
-      { "item": "seasoning_salt", "prob": 65 }
+      { "item": "seasoning_italian", "prob": 50 },
+      { "item": "seasoning_salt", "prob": 50 }
     ]
   },
   {

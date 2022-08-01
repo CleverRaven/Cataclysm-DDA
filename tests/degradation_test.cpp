@@ -227,7 +227,7 @@ static void setup_repair( item &fix, player_activity &act, Character &u )
     clear_character( u, true );
     u.set_skill_level( skill_tailor, 10 );
     u.wield( fix );
-    REQUIRE( u.get_wielded_item().typeId() == fix.typeId() );
+    REQUIRE( u.get_wielded_item()->typeId() == fix.typeId() );
 
     // Setup tool
     item &thread = m.add_item_or_charges( spawn_pos, item( itype_thread ) );
@@ -620,6 +620,7 @@ static vehicle &unfold_and_check( int dmg, int deg )
         CHECK( part.part().damage() == dmg );
         CHECK( part.part().degradation() == deg );
     }
+    bike_part->vehicle().unboard_all();
     return bike_part->vehicle();
 }
 

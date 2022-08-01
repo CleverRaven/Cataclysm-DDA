@@ -335,7 +335,8 @@ void vehicle::print_vparts_descs( const catacurses::window &win, int max_y, int 
 std::vector<itype_id> vehicle::get_printable_fuel_types() const
 {
     std::set<itype_id> opts;
-    for( const vehicle_part &pt : parts ) {
+    for( const vpart_reference &vpr : get_all_parts() ) {
+        const vehicle_part &pt = vpr.part();
         if( !pt.has_flag( vehicle_part::carried_flag ) && pt.is_fuel_store() &&
             !pt.ammo_current().is_null() ) {
             opts.emplace( pt.ammo_current() );
@@ -479,7 +480,7 @@ void vehicle::print_fuel_indicator( const catacurses::window &win, const point &
 
             if( debug_mode ) {
                 wprintz( win, tank_color, _( ", %d %s(%4.2f%%)/hour, %s until %s" ),
-                         rate, units, 100.0 * rate  / cap, to_string_clipped( estimate ), tank_goal );
+                         rate, units, 100.0 * rate / cap, to_string_clipped( estimate ), tank_goal );
             } else {
                 wprintz( win, tank_color, _( ", %3.1f%% / hour, %s until %s" ),
                          100.0 * rate  / cap, to_string_clipped( estimate ), tank_goal );
@@ -488,7 +489,7 @@ void vehicle::print_fuel_indicator( const catacurses::window &win, const point &
     }
 }
 
-void vehicle::print_speed_gauge( const catacurses::window &win, const point &p, int spacing )
+void vehicle::print_speed_gauge( const catacurses::window &win, const point &p, int spacing ) const
 {
     if( spacing < 0 ) {
         spacing = 0;

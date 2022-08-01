@@ -66,6 +66,51 @@ int OVERMAP_LEGEND_WIDTH;
 
 scrollingcombattext SCT;
 
+std::string string_from_int( const catacurses::chtype ch )
+{
+    catacurses::chtype charcode = ch;
+    // LINE_NESW  - X for on, O for off
+    switch( ch ) {
+        case LINE_XOXO:
+            charcode = LINE_XOXO_C;
+            break;
+        case LINE_OXOX:
+            charcode = LINE_OXOX_C;
+            break;
+        case LINE_XXOO:
+            charcode = LINE_XXOO_C;
+            break;
+        case LINE_OXXO:
+            charcode = LINE_OXXO_C;
+            break;
+        case LINE_OOXX:
+            charcode = LINE_OOXX_C;
+            break;
+        case LINE_XOOX:
+            charcode = LINE_XOOX_C;
+            break;
+        case LINE_XXOX:
+            charcode = LINE_XXOX_C;
+            break;
+        case LINE_XXXO:
+            charcode = LINE_XXXO_C;
+            break;
+        case LINE_XOXX:
+            charcode = LINE_XOXX_C;
+            break;
+        case LINE_OXXX:
+            charcode = LINE_OXXX_C;
+            break;
+        case LINE_XXXX:
+            charcode = LINE_XXXX_C;
+            break;
+        default:
+            break;
+    }
+    char buffer[2] = { static_cast<char>( charcode ), '\0' };
+    return buffer;
+}
+
 // utf8 version
 std::vector<std::string> foldstring( const std::string &str, int width, const char split )
 {
@@ -225,21 +270,33 @@ void trim_and_print( const catacurses::window &w, const point &begin,
 std::string trim_by_length( const std::string  &text, int width )
 {
     std::string sText;
+    sText.reserve( width );
     if( utf8_width( remove_color_tags( text ) ) > width ) {
 
         int iLength = 0;
         std::string sTempText;
+        sTempText.reserve( width );
         std::string sColor;
+        std::string sColorClose;
+        std::string sEllipsis = "\u2026";
 
-        const auto color_segments = split_by_color( text );
-        for( const std::string &seg : color_segments ) {
+        const std::vector<std::string> color_segments = split_by_color( text );
+        for( size_t i = 0; i < color_segments.size() ; ++i ) {
+            std::string seg = color_segments[i];
+            if( seg.empty() ) {
+                // TODO: Check is required right now because, for a fully-color-tagged string, split_by_color
+                // returns an empty string first
+                continue;
+            }
             sColor.clear();
+            sColorClose.clear();
 
             if( !seg.empty() && ( seg.substr( 0, 7 ) == "<color_" || seg.substr( 0, 7 ) == "</color" ) ) {
                 sTempText = rm_prefix( seg );
 
                 if( seg.substr( 0, 7 ) == "<color_" ) {
                     sColor = seg.substr( 0, seg.find( '>' ) + 1 );
+                    sColorClose = "</color>";
                 }
             } else {
                 sTempText = seg;
@@ -247,20 +304,30 @@ std::string trim_by_length( const std::string  &text, int width )
 
             const int iTempLen = utf8_width( sTempText );
             iLength += iTempLen;
+            int next_char_width = 0;
+            if( i + 1 < color_segments.size() ) {
+                next_char_width = mk_wcwidth( UTF8_getch( remove_color_tags( color_segments[i + 1] ) ) );
+            }
 
-            if( iLength > width ) {
-                int pos = 0;
+            int pos = 0;
+            bool trimmed = false;
+            if( iLength > width || ( iLength == width && i + 1 < color_segments.size() ) ) {
+                // This segment won't fit OR
+                // This segment just fits and there's another segment coming
                 cursorx_to_position( sTempText.c_str(), iTempLen - ( iLength - width ) - 1, &pos, -1 );
-                sTempText = sTempText.substr( 0, pos ) + "\u2026";
+                sTempText = sColor.append( sTempText.substr( 0, pos ) ).append( sEllipsis ).append( sColorClose );
+                trimmed = true;
+            } else if( iLength + next_char_width >= width ) {
+                // This segments fits, but the next segment starts with a wide character
+                sTempText = sColor.append( sTempText ).append( sColorClose ).append( sEllipsis );
+                trimmed = true;
             }
 
-            sText += sColor + sTempText;
-            if( !sColor.empty() ) {
-                sText += "</color>";
-            }
-
-            if( iLength > width ) {
+            if( trimmed ) {
+                sText += sTempText; // Color tags were handled when the segment was trimmed
                 break;
+            } else { // This segment fits, and the next one has room to start
+                sText += sColor.append( sTempText ).append( sColorClose );
             }
         }
     } else {
@@ -874,8 +941,7 @@ input_event draw_item_info( const int iLeft, const int iWidth, const int iTop, c
     wclear( win );
     wnoutrefresh( win );
 
-    const input_event result = draw_item_info( win, data );
-    return result;
+    return draw_item_info( win, data );
 }
 
 std::string string_replace( std::string text, const std::string &before, const std::string &after )
@@ -919,8 +985,37 @@ std::string replace_colors( std::string text )
     return text;
 }
 
-void draw_item_filter_rules( const catacurses::window &win, int starty, int height,
-                             item_filter_type type )
+static const std::array<translation, 3> item_filter_rule_intros {
+    to_translation( "Type part of an item's name to filter it." ),
+    to_translation( "Type part of an item's name to move nearby items to the bottom." ),
+    to_translation( "Type part of an item's name to move nearby items to the top." )
+};
+
+std::string item_filter_rule_string( const item_filter_type type )
+{
+    std::ostringstream str;
+    const int tab_idx = static_cast<int>( type ) - static_cast<int>( item_filter_type::FIRST );
+    str << item_filter_rule_intros[tab_idx];
+    // NOLINTNEXTLINE(cata-text-style): literal comma
+    str << "\n\n" << _( "Separate multiple items with [<color_yellow>,</color>]." );
+    //~ An example of how to separate multiple items with a comma when filtering items.
+    str << "\n" << _( "Example: back,flash,aid, ,band" ); // NOLINT(cata-text-style): literal comma
+    str << "\n\n" << _( "Search [<color_yellow>c</color>]ategory, [<color_yellow>m</color>]aterial, "
+                        "[<color_yellow>q</color>]uality, [<color_yellow>n</color>]otes, "
+                        "[<color_yellow>s</color>]skill taught by books, "
+                        "[<color_yellow>d</color>]isassembled components, or "
+                        "items satisfying [<color_yellow>b</color>]oth conditions." );
+    //~ An example of how to filter items based on category or material.
+    str << "\n" << _( "Example: c:food,m:iron,q:hammering,n:toolshelf,d:pipe,s:devices,b:mre;sealed" );
+    str << "\n\n" << _( "To exclude items, place [<color_yellow>-</color>] in front.  "
+                        "Place [<color_yellow>--</color>] in front to include only matching items." );
+    //~ An example of how to exclude items with - when filtering items.
+    str << "\n" << _( "Example: steel,-chunk,--c:spare parts" );
+    return str.str();
+}
+
+void draw_item_filter_rules( const catacurses::window &win, const int starty, const int height,
+                             const item_filter_type type )
 {
     // Clear every row, but the leftmost/rightmost pixels intact.
     const int len = getmaxx( win ) - 2;
@@ -928,39 +1023,8 @@ void draw_item_filter_rules( const catacurses::window &win, int starty, int heig
         mvwprintz( win, point( 1, starty + i ), c_black, std::string( len, ' ' ) );
     }
 
-    // Not static so that language changes are correctly handled
-    const std::array<std::string, 3> intros = {{
-            _( "Type part of an item's name to filter it." ),
-            _( "Type part of an item's name to move nearby items to the bottom." ),
-            _( "Type part of an item's name to move nearby items to the top." )
-        }
-    };
-    const int tab_idx = static_cast<int>( type ) - static_cast<int>( item_filter_type::FIRST );
-    starty += 1 + fold_and_print( win, point( 1, starty ), len, c_white, intros[tab_idx] );
+    fold_and_print( win, point( 1, starty ), len, c_white, "%s", item_filter_rule_string( type ) );
 
-    starty += fold_and_print( win, point( 1, starty ), len, c_white,
-                              // NOLINTNEXTLINE(cata-text-style): literal comma
-                              _( "Separate multiple items with [<color_yellow>,</color>]." ) );
-    starty += 1 + fold_and_print( win, point( 1, starty ), len, c_white,
-                                  //~ An example of how to separate multiple items with a comma when filtering items.
-                                  _( "Example: back,flash,aid, ,band" ) ); // NOLINT(cata-text-style): literal comma
-
-    if( type == item_filter_type::FILTER ) {
-        starty += fold_and_print( win, point( 1, starty ), len, c_white,
-                                  _( "To exclude items, place [<color_yellow>-</color>] in front." ) );
-        starty += 1 + fold_and_print( win, point( 1, starty ), len, c_white,
-                                      //~ An example of how to exclude items with - when filtering items.
-                                      _( "Example: -pipe,-chunk,-steel" ) );
-    }
-
-    starty += fold_and_print( win, point( 1, starty ), len, c_white,
-                              _( "Search [<color_yellow>c</color>]ategory, [<color_yellow>m</color>]aterial, "
-                                 "[<color_yellow>q</color>]uality, [<color_yellow>n</color>]otes, "
-                                 "[<color_yellow>s</color>]skill taught by books or "
-                                 "[<color_yellow>d</color>]isassembled components." ) );
-    fold_and_print( win, point( 1, starty ), len, c_white,
-                    //~ An example of how to filter items based on category or material.
-                    _( "Examples: c:food,m:iron,q:hammering,n:toolshelf,d:pipe,s:devices" ) );
     wnoutrefresh( win );
 }
 
@@ -1083,7 +1147,7 @@ input_event draw_item_info( const std::function<catacurses::window()> &init_wind
         if( *data.ptr_selected < 0 || height < 0 ||
             folded.size() < static_cast<size_t>( height ) ) {
             *data.ptr_selected = 0;
-        } else if( static_cast<size_t>( *data.ptr_selected + height ) >= folded.size() ) {
+        } else if( static_cast<size_t>( *data.ptr_selected ) + height >= folded.size() ) {
             *data.ptr_selected = static_cast<int>( folded.size() ) - height;
         }
     };
@@ -1149,7 +1213,7 @@ input_event draw_item_info( const std::function<catacurses::window()> &init_wind
             }
         } else if( data.handle_scrolling && action == "PAGE_DOWN" ) {
             if( *data.ptr_selected < 0 ||
-                ( height > 0 && static_cast<size_t>( *data.ptr_selected + height ) < folded.size() ) ) {
+                ( height > 0 && static_cast<size_t>( *data.ptr_selected ) + height < folded.size() ) ) {
                 ++*data.ptr_selected;
             }
         } else if( action == "CONFIRM" || action == "QUIT" ||

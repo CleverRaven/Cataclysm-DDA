@@ -289,7 +289,7 @@ std::string action_of( mission_kind kind )
     return miss_info[kind].action.translated();
 }
 
-bool is_equal( mission_id first, mission_id second )
+bool is_equal( const mission_id &first, const mission_id &second )
 {
     return first.id == second.id &&
            first.parameters == second.parameters &&
@@ -317,7 +317,7 @@ std::string string_of( mission_id miss_id )
     }
 }
 
-mission_id mission_id_of( std::string str )
+mission_id mission_id_of( const std::string &str )
 {
     mission_id result = { No_Mission, "", cata::nullopt };
     size_t id_size = str.length();
@@ -453,7 +453,7 @@ mission_id mission_id_of( std::string str )
     return result;
 }
 
-bool is_equal( ui_mission_id first, ui_mission_id second )
+bool is_equal( const ui_mission_id &first, const ui_mission_id &second )
 {
     return first.ret == second.ret &&
            is_equal( first.id, second.id );
@@ -475,14 +475,14 @@ mission_data::mission_data()
 
 namespace talk_function
 {
-void scavenger_patrol( mission_data &mission_key, npc &p );
-void scavenger_raid( mission_data &mission_key, npc &p );
-void hospital_raid( mission_data &mission_key, npc &p );
-void commune_menial( mission_data &mission_key, npc &p );
-void commune_carpentry( mission_data &mission_key, npc &p );
-void commune_forage( mission_data &mission_key, npc &p );
-void commune_refuge_caravan( mission_data &mission_key, npc &p );
-bool handle_outpost_mission( const mission_entry &cur_key, npc &p );
+static void scavenger_patrol( mission_data &mission_key, npc &p );
+static void scavenger_raid( mission_data &mission_key, npc &p );
+static void hospital_raid( mission_data &mission_key, npc &p );
+static void commune_menial( mission_data &mission_key, npc &p );
+static void commune_carpentry( mission_data &mission_key, npc &p );
+static void commune_forage( mission_data &mission_key, npc &p );
+static void commune_refuge_caravan( mission_data &mission_key, npc &p );
+static bool handle_outpost_mission( const mission_entry &cur_key, npc &p );
 } // namespace talk_function
 
 void talk_function::companion_mission( npc &p )
@@ -1037,7 +1037,7 @@ bool talk_function::display_and_choose_opts(
                     reset_cur_key_list();
                 } else {
                     tab_mode = static_cast<base_camps::tab_mode>( tab_mode + 1 );
-                    cur_key_list = mission_key.entries[size_t( tab_mode + 1 )];
+                    cur_key_list = mission_key.entries[tab_mode + 1];
                 }
             } while( cur_key_list.empty() );
         } else if( action == "PREV_TAB" && role_id == role_id_faction_camp ) {
@@ -1054,7 +1054,7 @@ bool talk_function::display_and_choose_opts(
                 if( tab_mode == base_camps::TAB_MAIN ) {
                     reset_cur_key_list();
                 } else {
-                    cur_key_list = mission_key.entries[size_t( tab_mode + 1 )];
+                    cur_key_list = mission_key.entries[size_t( tab_mode ) + 1];
                 }
             } while( cur_key_list.empty() );
         } else if( action == "QUIT" ) {
@@ -1299,9 +1299,9 @@ void talk_function::caravan_return( npc &p, const std::string &dest, const missi
     int time = 200 + distance * 100;
     int experience = rng( 10, time / 300 );
 
-    const int rand_bandit_size = rng( 1, 3 );
-    bandit_party.reserve( size_t( rand_bandit_size * 2 ) );
-    for( int i = 0; i < rand_bandit_size * 2; i++ ) {
+    const size_t rand_bandit_size = rng( 1, 3 );
+    bandit_party.reserve( rand_bandit_size * 2 );
+    for( size_t i = 0; i < rand_bandit_size * 2; i++ ) {
         bandit_party.push_back( temp_npc( npc_template_bandit ) );
         bandit_party.push_back( temp_npc( npc_template_thug ) );
     }
@@ -2451,7 +2451,7 @@ comp_list talk_function::companion_sort( comp_list available,
             req_skill = skill_tested;
         }
 
-        bool operator()( const npc_ptr &first, const npc_ptr &second ) {
+        bool operator()( const npc_ptr &first, const npc_ptr &second ) const {
             return first->get_skill_level( req_skill ) > second->get_skill_level( req_skill );
         }
 
@@ -2807,5 +2807,5 @@ void mission_data::add( const ui_mission_id &id, const std::string &name_display
     }
     const point direction = id.id.dir ? *id.id.dir : base_camps::base_dir;
     const int tab_order = base_camps::all_directions.at( direction ).tab_order;
-    entries[size_t( tab_order + 1 )].emplace_back( miss );
+    entries[tab_order + 1].emplace_back( miss );
 }

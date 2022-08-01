@@ -164,6 +164,7 @@ Spells may have any number of flags, for example:
 | Flag | Description
 | ---  | ---
 | `WONDER` | This alters the behavior of the parent spell drastically: The spell itself doesn't cast, but its damage and range information is used in order to cast the extra_effects.  N of the extra_effects will be chosen at random to be cast, where N is the current damage of the spell (stacks with RANDOM_DAMAGE flag) and the message of the spell cast by this spell will also be displayed.  If this spell's message is not wanted to be displayed, make sure the message is an empty string.
+| `EXTRA_EFFECTS_FIRST` | The spell extra effects will happen before the main spell effect.
 | `RANDOM_TARGET` | Forces the spell to choose a random valid target within range instead of the caster choosing the target. This also affects extra_effects.
 | `RANDOM_DURATION` | picks random number between min+increment*level and max instead of normal behavior
 | `RANDOM_DAMAGE` | picks random number between min+increment*level and max instead of normal behavior
@@ -191,6 +192,7 @@ Spells may have any number of flags, for example:
 | `SPAWN_WITH_DEATH_DROPS` | allows summoned monsters to retain their usual death drops, otherwise they drop nothing
 | `NON_MAGICAL` | ignores spell resistance when calculating damage mitigation
 | `NO_PROJECTILE` | the "projectile" portion of the spell phases through walls. the epicenter of the spell effect is exactly where you target it with no regards to obstacles
+| `NO_EXPLOSION_SFX` | The spell will not generate a visual explosion effect
 
 
 ### Damage Types
@@ -440,15 +442,20 @@ Spell types:
 
 #### Monsters
 
-You can assign a spell as a special attack for a monster.
+You can assign a spell as a special attack for a monster.  Spells with `target_self: true` will only target the monster itself, but will still only be cast if the monster has a hostile target.
 
-```json
-{ "type": "spell", "spell_id": "burning_hands", "spell_level": 10, "cooldown": 10 }
+```json 
+{ "type": "spell", "spell_data": { "id": "cone_cold", "min_level": 4 }, "monster_message": "%1$s casts %2$s at %3$s!", "cooldown": 25 }
 ```
 
-* spell_id: the id for the spell being cast.
-* spell_level: the level at which the spell is cast. Spells cast by monsters do not gain levels like player spells.
-* cooldown: how often the monster can cast this spell
+| `spell_data`            | List of spell properties for the attack.
+| `min_level`             | The level at which the spell is cast. Spells cast by monsters do not gain levels like player spells.
+| `cooldown `             | How often the monster can cast this spell
+| `monster_message`       | Message to print when the spell is cast, replacing the `message` in the spell definition. Dynamic fields correspond to `<Monster Display Name> / <Spell Name> / <Target name>`.
+| `forbidden_effects_any` | Array of effect ids, if the monster has any one the attack can't trigger.
+| `forbidden_effects_all` | Array of effect ids, if the monster has every effect the attack can't trigger.
+| `required_effects_any`  | Array of effect ids, the monster needs any one for the attack to trigger.
+| `required_effects_all`  | Array of effect ids, the monster needs every effect for the attack to trigger.
 
 ### Enchantments
 | Identifier                  | Description

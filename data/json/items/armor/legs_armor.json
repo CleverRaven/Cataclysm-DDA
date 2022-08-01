@@ -956,7 +956,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "mild steel light leg guard" },
-    "description": "A pair of light leg guards, 1.25mm at the thickest.  These were made with mild steel.",
+    "description": "A light leg guard, 1.25 mm at the thickest.  This one has been made with mild steel.",
     "weight": "2500 g",
     "volume": "2916 ml",
     "price": 60000,
@@ -999,7 +999,7 @@
     "copy-from": "armor_lc_light_leg_guard",
     "material": [ "mc_steel", "mc_steel_chain" ],
     "name": { "str": "medium steel light leg guard" },
-    "description": "A pair of light leg guards, 1.25mm at the thickest.  Made with tougher medium steel, they offer solid protection.",
+    "description": "A light leg guard, 1.25 mm at the thickest.  Made with tougher medium steel, this offers solid protection.",
     "armor": [
       {
         "material": [
@@ -1028,7 +1028,7 @@
     "copy-from": "armor_lc_light_leg_guard",
     "material": [ "hc_steel", "hc_steel_chain" ],
     "name": { "str": "high steel light leg guard" },
-    "description": "A pair of light leg guards, 1.25mm at the thickest.  Made with high carbon steel, offering excellent protection.",
+    "description": "A light leg guard, 1.25 mm at the thickest.  Made with high carbon steel offering excellent protection.",
     "armor": [
       {
         "material": [
@@ -1057,7 +1057,7 @@
     "copy-from": "armor_lc_light_leg_guard",
     "material": [ "ch_steel", "ch_steel_chain" ],
     "name": { "str": "case hardened light leg guard" },
-    "description": "A pair of light leg guards, 1.25mm at the thickest.  The mild steel has been case hardened, offering superior protection.",
+    "description": "A light leg guard, 1.25 mm at the thickest.  The mild steel has been case hardened, offering superior protection.",
     "armor": [
       {
         "material": [
@@ -1086,7 +1086,7 @@
     "copy-from": "armor_lc_light_leg_guard",
     "material": [ "qt_steel", "qt_steel_chain" ],
     "name": { "str": "tempered light leg guard" },
-    "description": "A pair of light leg guards, 1.25mm at the thickest.  The medium steel has been quenched and tempered, offering top-of-the-line protection.",
+    "description": "A light leg guard, 1.25 mm at the thickest.  The medium steel has been quenched and tempered, offering top of the line protection.",
     "armor": [
       {
         "material": [
@@ -1114,7 +1114,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "mild steel leg guard" },
-    "description": "A pair of leg guards, 1.75mm at the thickest.  These were made with mild steel.",
+    "description": "A leg guard, 1.75 mm at the thickest.  This one has been made with mild steel.",
     "weight": "3333 g",
     "volume": "2916 ml",
     "price": 60000,
@@ -1158,7 +1158,7 @@
     "copy-from": "armor_lc_leg_guard",
     "material": [ "mc_steel", "mc_steel_chain" ],
     "name": { "str": "medium steel leg guard" },
-    "description": "A pair of leg guards, 1.75mm at the thickest.  Made with tougher medium steel, they offer solid protection.",
+    "description": "A leg guard, 1.75 mm at the thickest.  Made with tougher medium steel, this offers solid protection.",
     "armor": [
       {
         "material": [
@@ -1187,7 +1187,7 @@
     "copy-from": "armor_lc_leg_guard",
     "material": [ "hc_steel", "hc_steel_chain" ],
     "name": { "str": "high steel leg guard" },
-    "description": "A pair of leg guards, 1.75mm at the thickest.  Made with high carbon steel, offering excellent protection.",
+    "description": "A leg guard, 1.75 mm at the thickest.  Made with high carbon steel offering excellent protection.",
     "armor": [
       {
         "material": [
@@ -1216,7 +1216,7 @@
     "copy-from": "armor_lc_leg_guard",
     "material": [ "ch_steel", "ch_steel_chain" ],
     "name": { "str": "case hardened leg guard" },
-    "description": "A pair of leg guards, 1.75mm at the thickest.  The mild steel has been case hardened, offering superior protection.",
+    "description": "A leg guard, 1.75 mm at the thickest.  The mild steel has been case hardened, offering superior protection.",
     "armor": [
       {
         "material": [
@@ -1245,7 +1245,7 @@
     "copy-from": "armor_lc_leg_guard",
     "material": [ "qt_steel", "qt_steel_chain" ],
     "name": { "str": "tempered leg guard" },
-    "description": "A pair of leg guards, 1.75mm at the thickest.  The medium steel has been quenched and tempered, offering top of the line protection.",
+    "description": "A leg guard, 1.75 mm at the thickest.  The medium steel has been quenched and tempered, offering top of the line protection.",
     "armor": [
       {
         "material": [
@@ -1273,7 +1273,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "mild steel heavy leg guard" },
-    "description": "A pair of heavy leg guards, 2.25mm at the thickest.  These were made with mild steel.",
+    "description": "A heavy leg guard, 2.25 mm at the thickest.  This one has been made with mild steel.",
     "weight": "4166 g",
     "volume": "2916 ml",
     "price": 60000,
@@ -1317,7 +1317,7 @@
     "copy-from": "armor_lc_heavy_leg_guard",
     "material": [ "mc_steel", "mc_steel_chain" ],
     "name": { "str": "medium steel heavy leg guard" },
-    "description": "A pair of heavy leg guards, 2.25 mm at the thickest.  Made with tougher medium steel, offering solid protection.",
+    "description": "A heavy leg guard, 2.25 mm at the thickest.  Made with tougher medium steel, this offers solid protection.",
     "armor": [
       {
         "material": [
@@ -1346,7 +1346,7 @@
     "copy-from": "armor_lc_heavy_leg_guard",
     "material": [ "hc_steel", "hc_steel_chain" ],
     "name": { "str": "high steel heavy leg guard" },
-    "description": "A pair of heavy leg guards, 2.25mm at the thickest.  Made with high carbon steel, offering excellent protection.",
+    "description": "A heavy leg guard, 2.25 mm at the thickest.  Made with high carbon steel offering excellent protection.",
     "armor": [
       {
         "material": [
@@ -1375,7 +1375,7 @@
     "copy-from": "armor_lc_heavy_leg_guard",
     "material": [ "ch_steel", "ch_steel_chain" ],
     "name": { "str": "case hardened heavy leg guard" },
-    "description": "A pair of heavy leg guards, 2.25mm at the thickest.  The mild steel has been case hardened, offering superior protection.",
+    "description": "A heavy leg guard, 2.25 mm at the thickest.  The mild steel has been case hardened, offering superior protection.",
     "armor": [
       {
         "material": [
@@ -1404,7 +1404,7 @@
     "copy-from": "armor_lc_heavy_leg_guard",
     "material": [ "qt_steel", "qt_steel_chain" ],
     "name": { "str": "tempered heavy leg guard" },
-    "description": "A pair of heavy leg guards, 2.25 mm at the thickest.  The medium steel has been quenched and tempered, offering top of the line protection.",
+    "description": "A heavy leg guard, 2.25 mm at the thickest.  The medium steel has been quenched and tempered, offering top of the line protection.",
     "armor": [
       {
         "material": [

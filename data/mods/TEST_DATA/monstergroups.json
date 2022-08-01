@@ -56,5 +56,46 @@
       { "group": "test_event_mongroup", "weight": 10 },
       { "group": "test_event_only", "weight": 5 }
     ]
+  },
+  {
+    "name": "test_l2_nested_mongroup",
+    "type": "monstergroup",
+    "monsters": [
+      { "monster": "mon_test_speed_desc_base", "weight": 50 },
+      { "monster": "mon_test_speed_desc_base_immobile", "weight": 50 }
+    ]
+  },
+  {
+    "name": "test_l1_nested_mongroup",
+    "type": "monstergroup",
+    "monsters": [
+      { "group": "test_l2_nested_mongroup", "weight": 5 },
+      { "monster": "mon_test_shearable", "weight": 50 },
+      { "monster": "mon_test_non_shearable", "weight": 50 }
+    ]
+  },
+  {
+    "name": "test_top_level_mongroup",
+    "type": "monstergroup",
+    "monsters": [
+      { "group": "test_l1_nested_mongroup", "weight": 5 },
+      { "monster": "mon_test_CBM", "weight": 5 },
+      { "monster": "mon_test_bovine", "weight": 5 }
+    ]
+  },
+  {
+    "name": "test_nested_packsize",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_test_CBM", "pack_size": [ 2, 4 ] } ]
+  },
+  {
+    "name": "test_top_level_packsize",
+    "type": "monstergroup",
+    "monsters": [ { "group": "test_nested_packsize", "pack_size": [ 4, 6 ] } ]
+  },
+  {
+    "name": "test_top_level_no_packsize",
+    "type": "monstergroup",
+    "monsters": [ { "group": "test_nested_packsize" } ]
   }
 ]

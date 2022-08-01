@@ -400,8 +400,8 @@ bool scenario::scenario_traits_conflict_with_profession_traits( const profession
         }
     }
 
-    for( auto &pt : p.get_locked_traits() ) {
-        if( is_forbidden_trait( pt ) ) {
+    for( trait_and_var &pt : p.get_locked_traits() ) {
+        if( is_forbidden_trait( pt.trait ) ) {
             return true;
         }
     }
@@ -409,9 +409,9 @@ bool scenario::scenario_traits_conflict_with_profession_traits( const profession
     //  check if:
     //  locked traits for scenario prevent taking locked traits for professions
     //  locked traits for professions prevent taking locked traits for scenario
-    for( const auto &st : get_locked_traits() ) {
-        for( auto &pt : p.get_locked_traits() ) {
-            if( are_conflicting_traits( st, pt ) || are_conflicting_traits( pt, st ) ) {
+    for( const trait_id &st : get_locked_traits() ) {
+        for( trait_and_var &pt : p.get_locked_traits() ) {
+            if( are_conflicting_traits( st, pt.trait ) || are_conflicting_traits( pt.trait, st ) ) {
                 return true;
             }
         }
@@ -552,39 +552,39 @@ bool scenario::allowed_start( const start_location_id &loc ) const
     return std::find( vec.begin(), vec.end(), loc ) != vec.end();
 }
 
-ret_val<bool> scenario::can_afford( const scenario &current_scenario, const int points ) const
+ret_val<void> scenario::can_afford( const scenario &current_scenario, const int points ) const
 {
     if( point_cost() - current_scenario.point_cost() <= points ) {
-        return ret_val<bool>::make_success();
+        return ret_val<void>::make_success();
 
     }
 
-    return ret_val<bool>::make_failure( _( "You don't have enough points" ) );
+    return ret_val<void>::make_failure( _( "You don't have enough points" ) );
 }
 
-ret_val<bool> scenario::can_pick() const
+ret_val<void> scenario::can_pick() const
 {
     // if meta progression is disabled then skip this
     if( get_past_games().achievement( achievement_achievement_arcade_mode ) ||
         !get_option<bool>( "META_PROGRESS" ) ) {
-        return ret_val<bool>::make_success();
+        return ret_val<void>::make_success();
     }
 
     if( _requirement ) {
         const achievement_completion_info *other_games = get_past_games().achievement(
                     _requirement.value()->id );
         if( !other_games ) {
-            return ret_val<bool>::make_failure(
+            return ret_val<void>::make_failure(
                        _( "You must complete the achievement \"%s\" to unlock this scenario." ),
                        _requirement.value()->name() );
         } else if( other_games->games_completed.empty() ) {
-            return ret_val<bool>::make_failure(
+            return ret_val<void>::make_failure(
                        _( "You must complete the achievement \"%s\" to unlock this scenario." ),
                        _requirement.value()->name() );
         }
     }
 
-    return ret_val<bool>::make_success();
+    return ret_val<void>::make_success();
 }
 
 bool scenario::has_map_extra() const
