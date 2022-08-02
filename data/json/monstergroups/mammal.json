@@ -93,8 +93,7 @@
       { "monster": "mon_cat_chonker", "weight": 10, "cost_multiplier": 0 },
       { "monster": "mon_cat_chonker_kitten", "weight": 1, "cost_multiplier": 0 },
       { "monster": "mon_cat_black", "weight": 50, "cost_multiplier": 0 },
-      { "monster": "mon_cat_black_kitten", "weight": 5, "cost_multiplier": 0 },
-      { "monster": "mon_tiger", "weight": 1, "cost_multiplier": 30 }
+      { "monster": "mon_cat_black_kitten", "weight": 5, "cost_multiplier": 0 }
     ]
   },
   {
