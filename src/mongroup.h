@@ -126,12 +126,15 @@ struct mongroup {
      */
     std::vector<monster> monsters;
 
-    /** There are two types of hordes: "city", who try to stick around cities
-     *  and return to them whenever possible.
-     *  And "roam", who roam around the map randomly, not taking care to return
-     *  anywhere.
-     */
-    std::string horde_behaviour;
+    enum class horde_behaviour {
+        none,
+        city, ///< Try to stick around cities and return to them whenever possible
+        roam, ///< Roam around the map randomly
+        nemesis, ///< Follow the avatar specifically
+        last
+    };
+    horde_behaviour behaviour = horde_behaviour::none;
+
     bool diffuse = false;   // group size ind. of dist. from center and radius invariant
     mongroup( const mongroup_id &ptype, const tripoint_abs_sm &ppos,
               unsigned int prad, unsigned int ppop )
@@ -191,6 +194,11 @@ struct mongroup {
     void serialize( JsonOut &json ) const;
 };
 
+template<>
+struct enum_traits<mongroup::horde_behaviour> {
+    static constexpr mongroup::horde_behaviour last = mongroup::horde_behaviour::last;
+};
+
 class MonsterGroupManager
 {
     public:
@@ -199,7 +207,7 @@ class MonsterGroupManager
         static void LoadMonsterWhitelist( const JsonObject &jo );
         static void FinalizeMonsterGroups();
         static std::vector<MonsterGroupResult> GetResultFromGroup( const mongroup_id &group,
-                int *quantity = nullptr, bool *mon_found = nullptr, bool from_subgroup = false );
+                int *quantity = nullptr, bool *mon_found = nullptr, bool is_recursive = false );
         static bool IsMonsterInGroup( const mongroup_id &group, const mtype_id &monster );
         static bool isValidMonsterGroup( const mongroup_id &group );
         static const mongroup_id &Monster2Group( const mtype_id &monster );

@@ -166,7 +166,7 @@ void dialogue_window::rebuild_folded_history()
     }
 }
 
-nc_color dialogue_window::default_color()
+nc_color dialogue_window::default_color() const
 {
     return is_computer ? c_green : c_white;
 }

@@ -679,14 +679,14 @@ struct real_coords {
 
     // helper functions to return abs_pos of submap/overmap tile/overmap's start
 
-    point begin_sub() {
+    point begin_sub() const {
         return point( abs_sub.x * tiles_in_sub, abs_sub.y * tiles_in_sub );
     }
-    point begin_om_pos() {
+    point begin_om_pos() const {
         return point( ( abs_om.x * subs_in_om * tiles_in_sub ) + ( om_pos.x * 2 * tiles_in_sub ),
                       ( abs_om.y * subs_in_om * tiles_in_sub ) + ( om_pos.y * 2 * tiles_in_sub ) );
     }
-    point begin_om() {
+    point begin_om() const {
         return point( abs_om.x * subs_in_om * tiles_in_sub, abs_om.y * subs_in_om * tiles_in_sub );
     }
 };

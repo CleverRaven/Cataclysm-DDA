@@ -110,8 +110,8 @@ enum class radio_type : int {
 
 extern std::map<radio_type, std::string> radio_type_names;
 
-static constexpr int RADIO_MIN_STRENGTH = 80;
-static constexpr int RADIO_MAX_STRENGTH = 200;
+static constexpr int RADIO_MIN_STRENGTH = 120;
+static constexpr int RADIO_MAX_STRENGTH = 360;
 
 struct radio_tower {
     // local (to the containing overmap) submap coordinates
@@ -262,7 +262,7 @@ class overmap
          * @returns A vector of terrain coordinates (absolute overmap terrain
          * coordinates), or empty vector if no matching terrain is found.
          */
-        std::vector<point_abs_omt> find_terrain( const std::string &term, int zlevel );
+        std::vector<point_abs_omt> find_terrain( const std::string &term, int zlevel ) const;
 
         void ter_set( const tripoint_om_omt &p, const oter_id &id );
         // ter has bounds checking, and returns ot_null when out of bounds.

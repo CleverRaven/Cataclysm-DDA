@@ -521,8 +521,8 @@
       "npc_compare_var": "John_Bailey_taught",
       "op": "<=",
       "value": 3,
-      "yes": "Sorry, but that's all I have time for at the moment.  Darius is waiting outside.",
-      "no": "I'd be happy to.  I can't spare a lot of free time, but for a little trade, I'll tell you about whatever I can help with."
+      "no": "Sorry, but that's all I have time for at the moment.  Darius is waiting outside.",
+      "yes": "I'd be happy to.  I can't spare a lot of free time, but for a little trade, I'll tell you about whatever I can help with."
     },
     "speaker_effect": { "effect": { "u_add_var": "John_Bailey_teach", "value": "yes" } },
     "responses": [

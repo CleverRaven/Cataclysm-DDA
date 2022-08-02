@@ -138,6 +138,7 @@ linked sections:
 | widgets                 | list of strings       | For "layout" and "sidebar" style, list of string IDs of child widgets.
 | width                   | integer               | Total width in characters or symbols.
 | [label_align and text_align](#text_align-and-label_align) | string | How to orient the label and value: "left", "center", or "right"
+| [pad_labels](#pad_labels) | bool                | Aligns values in layouts by padding to the longest label
 
 See [Fields](#fields) for details.
 
@@ -723,6 +724,26 @@ Comfort: Cozy
 
 Values may be "left", "right", or "center". The default is "left" alignment for both labels and text.
 
+## pad_labels
+
+In layouts, values can be aligned to match the longest label:
+
+```plaintext
+Mood:     :)
+Morale:   95
+Activity: Brisk
+```
+
+`pad_labels` can be used on layouts to enable/disable label padding of child widgets.
+It can also be used on non-layout widgets, to disable alignment individually.
+
+```json
+{
+  "pad_labels": true
+}
+```
+
+Defaults to `true` for row layouts and all non-layout widgets. Defaults to `false` for column layouts.
 
 ## colors
 
