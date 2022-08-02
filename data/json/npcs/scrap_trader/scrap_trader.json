@@ -11,6 +11,35 @@
     "mission_offered": "MISSION_SCRAP_TRADER_GET_25_MAGNETRON"
   },
   {
+    "type": "npc_class",
+    "id": "NC_Scavenger",
+    "name": { "str": "Merchant" },
+    "job_description": "I'm a local shopkeeper.",
+    "common": true,
+    "sells_belongings": false,
+    "bonus_str": 2,
+    "shopkeeper_item_group": [ { "group": "SCRAPPER_Shop", "rigid": true } ],
+    "shopkeeper_consumption_rates": "basic_shop_rates"
+  },
+  {
+    "type": "item_group",
+    "id": "SCRAPPER_Shop",
+    "subtype": "collection",
+    "items": [
+      { "item": "scrap", "count": [ 200, 300 ], "cost": 20 },
+      { "item": "sheet_metal_small", "count": [ 200, 300 ], "cost": 50 },
+      { "item": "steel_chunk", "count": [ 200, 300 ], "cost": 100 },
+      { "item": "steel_lump", "count": [ 200, 300 ], "cost": 300 },
+      { "item": "sheet_metal", "count": [ 200, 300 ], "cost": 500 },
+      { "item": "lc_steel_lump", "count": [ 200, 300 ], "cost": 600 },
+      { "item": "mc_steel_lump", "count": [ 200, 300 ], "cost": 800 },
+      { "item": "hc_steel_lump", "count": [ 200, 300 ], "cost": 1000 },
+      { "item": "scrap_aluminum", "count": [ 200, 300 ], "cost": 300 },
+      { "item": "scrap_copper", "count": [ 200, 300 ], "cost": 300 },
+      { "item": "scrap_bronze", "count": [ 200, 300 ], "cost": 500 }
+    ]
+  },
+  {
     "type": "talk_topic",
     "id": "TALK_NPC_SCRAP_TRADER",
     "dynamic_line": {
@@ -95,56 +124,6 @@
       {
         "text": "[2$]  I'll buy some scrap fragments.",
         "effect": [ { "u_buy_item": "scrap", "cost": 200, "count": 10 } ],
-        "topic": "TALK_SCRAP_TRADER_BULK_SELL_END"
-      },
-      {
-        "text": "[5$]  I'll buy some small sheet metal.",
-        "effect": [ { "u_buy_item": "sheet_metal_small", "cost": 500, "count": 10 } ],
-        "topic": "TALK_SCRAP_TRADER_BULK_SELL_END"
-      },
-      {
-        "text": "[10$]  I'll buy some steel chunks.",
-        "effect": [ { "u_buy_item": "steel_chunk", "cost": 1000, "count": 10 } ],
-        "topic": "TALK_SCRAP_TRADER_BULK_SELL_END"
-      },
-      {
-        "text": "[30$]  I'll buy some steel lumps.",
-        "effect": [ { "u_buy_item": "steel_lump", "cost": 3000, "count": 10 } ],
-        "topic": "TALK_SCRAP_TRADER_BULK_SELL_END"
-      },
-      {
-        "text": "[50$]  I'll buy some sheet metal.",
-        "effect": [ { "u_buy_item": "sheet_metal", "cost": 5000, "count": 10 } ],
-        "topic": "TALK_SCRAP_TRADER_BULK_SELL_END"
-      },
-      {
-        "text": "[60$]  I'll buy some low carbon steel.",
-        "effect": [ { "u_buy_item": "lc_steel_lump", "cost": 6000, "count": 10 } ],
-        "topic": "TALK_SCRAP_TRADER_BULK_SELL_END"
-      },
-      {
-        "text": "[80$]  I'll buy some medium carbon steel.",
-        "effect": [ { "u_buy_item": "mc_steel_lump", "cost": 8000, "count": 10 } ],
-        "topic": "TALK_SCRAP_TRADER_BULK_SELL_END"
-      },
-      {
-        "text": "[100$]  I'll buy some high carbon steel.",
-        "effect": [ { "u_buy_item": "hc_steel_lump", "cost": 10000, "count": 10 } ],
-        "topic": "TALK_SCRAP_TRADER_BULK_SELL_END"
-      },
-      {
-        "text": "[30$]  I'll buy some scrap aluminum.",
-        "effect": [ { "u_buy_item": "scrap_aluminum", "cost": 3000, "count": 10 } ],
-        "topic": "TALK_SCRAP_TRADER_BULK_SELL_END"
-      },
-      {
-        "text": "[30$]  I'll buy some scrap copper.",
-        "effect": [ { "u_buy_item": "scrap_copper", "cost": 3000, "count": 10 } ],
-        "topic": "TALK_SCRAP_TRADER_BULK_SELL_END"
-      },
-      {
-        "text": "[50$]  I'll buy some bronze.",
-        "effect": [ { "u_buy_item": "scrap_bronze", "cost": 5000, "count": 10 } ],
         "topic": "TALK_SCRAP_TRADER_BULK_SELL_END"
       }
     ]
