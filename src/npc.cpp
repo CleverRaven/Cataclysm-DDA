@@ -2260,6 +2260,15 @@ double npc::value( const item &it, double market_price ) const
     return std::round( ret * market_price );
 }
 
+faction_price_rule const *npc::get_price_rules( item const &it ) const
+{
+    faction_price_rule const *ret = myclass->get_price_rules( it, *this );
+    if( ret == nullptr && get_faction() != nullptr ) {
+        ret = get_faction()->get_price_rules( it, *this );
+    }
+    return ret;
+}
+
 void healing_options::clear_all()
 {
     bandage = false;

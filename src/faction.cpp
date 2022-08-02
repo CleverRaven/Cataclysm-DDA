@@ -109,17 +109,14 @@ void faction_template::load_relations( const JsonObject &jsobj )
         relations[fac.name()] = fac_relation;
     }
 }
-class faction_price_rules_reader : public generic_typed_reader<faction_price_rules_reader>
+faction_price_rule faction_price_rules_reader::get_next( JsonValue &jv )
 {
-    public:
-        static faction_price_rule get_next( JsonValue &jv ) {
-            JsonObject jo = jv.get_object();
-            faction_price_rule ret( icg_entry_reader::_part_get_next( jo ) );
-            optional( jo, false, "markup", ret.markup, 1.0 );
-            optional( jo, false, "fixed_adj", ret.fixed_adj, cata::nullopt );
-            return ret;
-        }
-};
+    JsonObject jo = jv.get_object();
+    faction_price_rule ret( icg_entry_reader::_part_get_next( jo ) );
+    optional( jo, false, "markup", ret.markup, 1.0 );
+    optional( jo, false, "fixed_adj", ret.fixed_adj, cata::nullopt );
+    return ret;
+}
 
 faction_template::faction_template( const JsonObject &jsobj )
     : name( jsobj.get_string( "name" ) )

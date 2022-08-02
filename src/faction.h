@@ -81,6 +81,12 @@ struct faction_price_rule: public icg_entry {
     void deserialize( JsonObject const &jo );
 };
 
+class faction_price_rules_reader : public generic_typed_reader<faction_price_rules_reader>
+{
+    public:
+        static faction_price_rule get_next( JsonValue &jv );
+};
+
 class faction_template
 {
     protected:
