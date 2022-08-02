@@ -103,6 +103,8 @@
       { "item": "xacto", "prob": 80 },
       { "item": "scissors", "prob": 80 },
       { "item": "bag_garbage", "prob": 95, "count": [ 1, 25 ] },
+      { "item": "bag_zipper", "prob": 85, "count": [ 1, 18 ] },
+      { "item": "bag_zipper_gallon", "prob": 80, "count": [ 1, 9 ] },
       { "item": "screwdriver", "prob": 70 },
       { "item": "hammer", "prob": 60 },
       { "item": "pliers", "prob": 60 },

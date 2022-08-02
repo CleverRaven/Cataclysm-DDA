@@ -4446,6 +4446,7 @@ const Creature *npc::current_target() const
     return ai_cache.target.lock().get();
 }
 
+// NOLINTNEXTLINE(readability-make-member-function-const)
 Creature *npc::current_target()
 {
     // TODO: As above.
@@ -4459,6 +4460,7 @@ const Creature *npc::current_ally() const
     return ai_cache.ally.lock().get();
 }
 
+// NOLINTNEXTLINE(readability-make-member-function-const)
 Creature *npc::current_ally()
 {
     // TODO: As above.
@@ -4481,7 +4483,7 @@ static bodypart_id bp_affected( npc &who, const efftype_id &effect_type )
     return ret;
 }
 
-std::string npc::distance_string( int range )
+std::string npc::distance_string( int range ) const
 {
     if( range < 6 ) {
         return chatbin.snip_danger_close_distance;

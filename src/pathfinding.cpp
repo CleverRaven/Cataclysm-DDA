@@ -293,7 +293,7 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
                 }
 
                 int part = -1;
-                const maptile &tile = maptile_at_internal( p );
+                const const_maptile &tile = maptile_at_internal( p );
                 const ter_t &terrain = tile.get_ter_t();
                 const furn_t &furniture = tile.get_furn_t();
                 const field &field = tile.get_field();
@@ -420,7 +420,7 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
         }
 
         bool rope_ladder = false;
-        const maptile &parent_tile = maptile_at_internal( cur );
+        const const_maptile &parent_tile = maptile_at_internal( cur );
         const ter_t &parent_terrain = parent_tile.get_ter_t();
         if( settings.allow_climb_stairs && cur.z > min.z &&
             parent_terrain.has_flag( ter_furn_flag::TFLAG_GOES_DOWN ) ) {

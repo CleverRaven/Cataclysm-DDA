@@ -723,14 +723,14 @@ void game::draw_line( const tripoint &/*p*/, const std::vector<tripoint> &points
 #endif
 
 #if defined(TILES)
-void game::draw_cursor( const tripoint &p )
+void game::draw_cursor( const tripoint &p ) const
 {
     const tripoint rp = relative_view_pos( *this, p );
     mvwputch_inv( w_terrain, rp.xy(), c_light_green, 'X' );
     tilecontext->init_draw_cursor( p );
 }
 #else
-void game::draw_cursor( const tripoint &p )
+void game::draw_cursor( const tripoint &p ) const
 {
     const tripoint rp = relative_view_pos( *this, p );
     mvwputch_inv( w_terrain, rp.xy(), c_light_green, 'X' );
@@ -760,7 +760,7 @@ void draw_weather_curses( const catacurses::window &win, const weather_printable
 } //namespace
 
 #if defined(TILES)
-void game::draw_weather( const weather_printable &w )
+void game::draw_weather( const weather_printable &w ) const
 {
     if( !use_tiles ) {
         draw_weather_curses( w_terrain, w );
@@ -770,7 +770,7 @@ void game::draw_weather( const weather_printable &w )
     tilecontext->init_draw_weather( w, w.wtype->tiles_animation );
 }
 #else
-void game::draw_weather( const weather_printable &w )
+void game::draw_weather( const weather_printable &w ) const
 {
     draw_weather_curses( w_terrain, w );
 }
@@ -803,7 +803,7 @@ void draw_sct_curses( const game &g )
 } //namespace
 
 #if defined(TILES)
-void game::draw_sct()
+void game::draw_sct() const
 {
     if( use_tiles ) {
         tilecontext->init_draw_sct();
@@ -812,7 +812,7 @@ void game::draw_sct()
     }
 }
 #else
-void game::draw_sct()
+void game::draw_sct() const
 {
     draw_sct_curses( *this );
 }
@@ -838,7 +838,7 @@ void draw_zones_curses( const catacurses::window &w, const tripoint &start, cons
 } //namespace
 
 #if defined(TILES)
-void game::draw_zones( const tripoint &start, const tripoint &end, const tripoint &offset )
+void game::draw_zones( const tripoint &start, const tripoint &end, const tripoint &offset ) const
 {
     if( use_tiles ) {
         tilecontext->init_draw_zones( start, end, offset );
@@ -847,7 +847,7 @@ void game::draw_zones( const tripoint &start, const tripoint &end, const tripoin
     }
 }
 #else
-void game::draw_zones( const tripoint &start, const tripoint &end, const tripoint &offset )
+void game::draw_zones( const tripoint &start, const tripoint &end, const tripoint &offset ) const
 {
     draw_zones_curses( w_terrain, start, end, offset );
 }

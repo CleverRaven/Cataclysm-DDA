@@ -1300,7 +1300,7 @@ bool vehicle::check_is_heli_landed()
     return false;
 }
 
-bool vehicle::check_heli_descend( Character &p )
+bool vehicle::check_heli_descend( Character &p ) const
 {
     if( !is_rotorcraft() ) {
         debugmsg( "A vehicle is somehow flying without being an aircraft" );
@@ -1335,7 +1335,7 @@ bool vehicle::check_heli_descend( Character &p )
 
 }
 
-bool vehicle::check_heli_ascend( Character &p )
+bool vehicle::check_heli_ascend( Character &p ) const
 {
     if( !is_rotorcraft() ) {
         debugmsg( "A vehicle is somehow flying without being an aircraft" );

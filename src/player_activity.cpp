@@ -482,7 +482,7 @@ void player_activity::inherit_distractions( const player_activity &other )
 }
 
 
-std::map<distraction_type, std::string> player_activity::get_distractions()
+std::map<distraction_type, std::string> player_activity::get_distractions() const
 {
     std::map < distraction_type, std::string > res;
     activity_id act_id = id();

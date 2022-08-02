@@ -166,7 +166,7 @@ void overmapbuffer::fix_nemesis( overmap &new_overmap )
         mongroup &mg = it->second;
 
         //if it's not the nemesis, continue
-        if( mg.horde_behaviour != "nemesis" ) {
+        if( mg.behaviour != mongroup::horde_behaviour::nemesis ) {
             ++it;
             continue;
         }
