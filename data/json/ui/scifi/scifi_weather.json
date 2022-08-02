@@ -3,83 +3,87 @@
     "id": "scifi_weather_icon",
     "type": "widget",
     "style": "text",
+    "label": "Weather",
     "height": 3,
     "width": 5,
+    "flags": [ "W_LABEL_NONE" ],
     "clauses": [
       {
         "id": "sunny",
-        "text": "<color_h_yellow>'.|.'</color>\n<color_h_yellow>--o--</color>\n<color_h_yellow>.'|'.</color>",
-        "condition": { "is_weather": "sunny" }
+        "text": "<color_h_yellow>-O- -</color>\n<color_h_yellow>´'`  </color>\n<color_h_yellow> '   </color>",
+        "condition": { "and": [ { "is_weather": "sunny" }, { "compare_int": [ { "u_val": "pos_z" }, ">=", { "const": 0 } ] } ] }
       },
       {
         "id": "clear",
         "text": "<color_h_yellow>     </color>\n<color_h_yellow>     </color>\n<color_h_yellow>     </color>",
-        "condition": { "is_weather": "clear" }
+        "condition": { "and": [ { "is_weather": "clear" }, { "compare_int": [ { "u_val": "pos_z" }, ">=", { "const": 0 } ] } ] }
       },
       {
         "id": "cloudy",
         "text": "<color_black_white> (  )</color>\n<color_black_white>(___)</color>\n<color_black_white>     </color>",
-        "condition": { "is_weather": "cloudy" }
+        "condition": { "and": [ { "is_weather": "cloudy" }, { "compare_int": [ { "u_val": "pos_z" }, ">=", { "const": 0 } ] } ] }
       },
       {
         "id": "light_drizzle",
+        "//NOLINT(cata-text-style)": true,
         "text": "<color_black_white>(___)</color>\n<color_blue_white> ... </color>\n<color_blue_white> ... </color>",
-        "condition": { "is_weather": "light_drizzle" }
+        "condition": { "and": [ { "is_weather": "light_drizzle" }, { "compare_int": [ { "u_val": "pos_z" }, ">=", { "const": 0 } ] } ] }
       },
       {
         "id": "drizzle",
         "text": "<color_black_white>(___)</color>\n<color_blue_white> ::: </color>\n<color_blue_white> ::: </color>",
-        "condition": { "is_weather": "drizzle" }
+        "condition": { "and": [ { "is_weather": "drizzle" }, { "compare_int": [ { "u_val": "pos_z" }, ">=", { "const": 0 } ] } ] }
       },
       {
         "id": "rain",
         "text": "<color_black_white>(___)</color>\n<color_blue_white> \\\\\\\\</color>\n<color_blue_white>  \\\\\\</color>",
-        "condition": { "is_weather": "rain" }
+        "condition": { "and": [ { "is_weather": "rain" }, { "compare_int": [ { "u_val": "pos_z" }, ">=", { "const": 0 } ] } ] }
       },
       {
         "id": "acid_drizzle",
         "text": "<color_black_white>(___)</color>\n<color_yellow_white> ::: </color>\n<color_yellow_white> ::: </color>",
-        "condition": { "is_weather": "acid_drizzle" }
+        "condition": { "and": [ { "is_weather": "acid_drizzle" }, { "compare_int": [ { "u_val": "pos_z" }, ">=", { "const": 0 } ] } ] }
       },
       {
         "id": "acid_rain",
         "text": "<color_black_white>(___)</color>\n<color_yellow_white> \\\\\\\\</color>\n<color_yellow_white>  \\\\\\</color>",
-        "condition": { "is_weather": "acid_rain" }
+        "condition": { "and": [ { "is_weather": "acid_rain" }, { "compare_int": [ { "u_val": "pos_z" }, ">=", { "const": 0 } ] } ] }
       },
       {
         "id": "thunder",
         "text": "<color_white>(___)</color>\n<color_light_cyan> \\\\\\\\</color>\n<color_light_cyan>  \\\\\\</color>",
-        "condition": { "is_weather": "thunder" }
+        "condition": { "and": [ { "is_weather": "thunder" }, { "compare_int": [ { "u_val": "pos_z" }, ">=", { "const": 0 } ] } ] }
       },
       {
         "id": "lightning",
         "text": "<color_white>(___)</color>\n<color_light_cyan> \\</color><color_yellow>ᛋ</color><color_light_cyan>\\\\</color>\n<color_light_cyan>  \\\\\\</color>",
-        "condition": { "is_weather": "lightning" }
+        "condition": { "and": [ { "is_weather": "lightning" }, { "compare_int": [ { "u_val": "pos_z" }, ">=", { "const": 0 } ] } ] }
       },
       {
         "id": "flurries",
         "text": "<color_black_white>(___)</color>\n<color_dark_gray_white> *   </color>\n<color_dark_gray_white>   * </color>",
-        "condition": { "is_weather": "flurries" }
+        "condition": { "and": [ { "is_weather": "flurries" }, { "compare_int": [ { "u_val": "pos_z" }, ">=", { "const": 0 } ] } ] }
       },
       {
         "id": "snowing",
         "text": "<color_black_white>(___)</color>\n<color_dark_gray_white> *** </color>\n<color_dark_gray_white> *** </color>",
-        "condition": { "is_weather": "snowing" }
+        "condition": { "and": [ { "is_weather": "snowing" }, { "compare_int": [ { "u_val": "pos_z" }, ">=", { "const": 0 } ] } ] }
       },
       {
         "id": "snowstorm",
         "text": "<color_white>(___)</color>\n<color_white> ****</color>\n<color_white>  ***</color>",
-        "condition": { "is_weather": "snowstorm" }
+        "condition": { "and": [ { "is_weather": "snowstorm" }, { "compare_int": [ { "u_val": "pos_z" }, ">=", { "const": 0 } ] } ] }
       },
       {
         "id": "early_portal_storm",
         "text": "<color_white>(___)</color>\n<color_light_red> ~ ~ </color>\n<color_light_red>  ~ ~</color>",
-        "condition": { "is_weather": "early_portal_storm" }
+        "condition": { "and": [ { "is_weather": "early_portal_storm" }, { "compare_int": [ { "u_val": "pos_z" }, ">=", { "const": 0 } ] } ] }
       },
       {
         "id": "portal_storm",
+        "//NOLINT(cata-text-style)": true,
         "text": "<color_light_red>(___)</color>\n<color_red> !!! </color>\n<color_red> !!! </color>",
-        "condition": { "is_weather": "portal_storm" }
+        "condition": { "and": [ { "is_weather": "portal_storm" }, { "compare_int": [ { "u_val": "pos_z" }, ">=", { "const": 0 } ] } ] }
       }
     ],
     "default_clause": { "text": "     \n  ?  \n     " }
