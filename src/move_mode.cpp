@@ -112,7 +112,7 @@ void move_mode::finalize()
             curr.set_cycle( move_modes_sorted[i] );
         }
     }
-    
+
     // Cycle to the move mode below ours
     for( size_t i = move_modes_sorted.size(); i > 0; --i ) {
         const move_mode &curr = *move_modes_sorted[i - 1];
