@@ -371,6 +371,66 @@
   },
   {
     "type": "item_group",
+    "id": "grave_cremains",
+    "subtype": "collection",
+    "entries": [
+      { "item": "corpse_ash", "prob": 100, "charges-min": 1905, "charges-max": 3969, "container-item": "porcelain_urn" },
+      { "item": "bouquet", "prob": 100 },
+      {
+        "distribution": [
+          { "group": "religious_books", "prob": 25 },
+          { "item": "bead_necklace", "prob": 25 },
+          { "item": "bead_bracelet", "prob": 25 },
+          { "item": "holy_symbol", "prob": 25 },
+        ]
+      },
+      {
+        "distribution": [
+          {
+            "collection": [
+              { "item": "american_flag", "prob": 70 },
+              { "item": "beret", "prob": 33 },
+              { "item": "service_medal", "prob": 50 },
+              { "item": "dog_tag", "prob": 100 }
+            ],
+            "prob": 20
+          },
+          {
+            "collection": [
+              { "item": "ceramic_mug", "prob": 50 },
+              { "group": "beer", "prob": 50 },
+              { "group": "liquor_and_spirits", "prob": 20 },
+              { "group": "wines_worthy", "prob": 10 },
+              { "item": "cigar", "prob": 20 },
+              { "item": "hat_ball", "prob": 20 },
+              { "group": "jewelry_accessories", "prob": 50 },
+              { "group": "clothing_glasses", "prob": 50 },
+              { "item": "foodperson_mask", "prob": 1, "charges": [ 0, 500 ] }
+            ],
+            "prob": 70
+          },
+          {
+            "collection": [
+              { "item": "teddy", "prob": 50 },
+              { "item": "hat_ball", "prob": 20 },
+              { "item": "baseball", "prob": 20 },
+              { "item": "roller_shoes_off", "prob": 10 },
+              { "item": "gold_medal", "prob": 20 },
+              { "item": "silver_medal", "prob": 20 },
+              { "item": "bronze_medal", "prob": 20 },
+              { "item": "story_book", "prob": 50 },
+              { "item": "hairpin", "prob": 20 },
+              { "item": "barrette", "prob": 20 },
+              { "item": "newspaper_memorial", "prob": 20 }
+            ],
+            "prob": 10
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "livingroom",
     "ammo": 50,
     "magazine": 100,

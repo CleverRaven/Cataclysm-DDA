@@ -2371,7 +2371,7 @@
     "color": "white",
     "symbol": ",",
     "material": [ { "type": "veggy", "portion": 4 }, { "type": "glass", "portion": 1 } ],
-    "//": "A medium sized bouquet is roughly 13\" x 5.5\" x 5.5\", or roughly 6.4 L. When withered, I'm estimating a 30% shrinkage in volume, or 4.5 L.",
+    "//1": "A medium sized bouquet is roughly 13\" x 5.5\" x 5.5\", or roughly 6.4 L. When withered, I'm estimating a 30% shrinkage in volume, or 4.5 L.",
     "volume": "4500 ml",
     "price": 0,
     "price_postapoc": 0

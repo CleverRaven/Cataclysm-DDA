@@ -6,7 +6,7 @@
     "object": {
       "mapgensize": [ 2, 2 ],
       "place_terrain": [ { "ter": "t_grave_new", "x": 0, "y": 1 } ],
-      "place_loot": [ { "group": "everyday_corpse", "x": 0, "y": 1 } ],
+      "place_loot": [ { "group": "grave_contents", "x": 0, "y": 1 } ],
       "place_signs": [ { "snippet": "grave_label", "x": 0, "y": 0 } ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
