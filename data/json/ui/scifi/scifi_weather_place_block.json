@@ -20,7 +20,6 @@
     "type": "widget",
     "style": "layout",
     "arrange": "minimum_columns",
-    "width": 10,
     "widgets": [ "scifi_weather_place_top_left_layout", "scifi_weather_place_top_mid_layout", "scifi_weather_place_top_right_layout" ]
   },
   {
@@ -29,7 +28,7 @@
     "style": "layout",
     "arrange": "rows",
     "pad_labels": false,
-    "width": 10,
+    "width": 9,
     "widgets": [ "sundial_time_desc_no_label", "lighting_desc_no_label" ]
   },
   {
@@ -38,7 +37,7 @@
     "style": "layout",
     "arrange": "rows",
     "pad_labels": false,
-    "width": 15,
+    "width": 16,
     "widgets": [ "date_desc_no_label", "wind_desc_no_label" ]
   },
   {

@@ -16,7 +16,7 @@
       {
         "id": "scorching_damp",
         "sym": "!",
-        "color": "h_red",
+        "color": "red_cyan",
         "condition": {
           "and": [
             { "compare_int": [ { "u_val": "warmth" }, ">", { "const": 9500 } ] },
@@ -28,7 +28,7 @@
       {
         "id": "scorching_wet",
         "sym": "!",
-        "color": "red_cyan",
+        "color": "h_red",
         "condition": {
           "and": [
             { "compare_int": [ { "u_val": "warmth" }, ">", { "const": 9500 } ] },
@@ -52,7 +52,7 @@
       {
         "id": "very_hot_damp",
         "sym": "▲",
-        "color": "h_light_red",
+        "color": "light_red_cyan",
         "condition": {
           "and": [
             { "compare_int": [ { "u_val": "warmth" }, "<=", { "const": 9500 } ] },
@@ -65,7 +65,7 @@
       {
         "id": "very_hot_wet",
         "sym": "▲",
-        "color": "light_red_cyan",
+        "color": "h_light_red",
         "condition": {
           "and": [
             { "compare_int": [ { "u_val": "warmth" }, "<=", { "const": 9500 } ] },
@@ -90,7 +90,7 @@
       {
         "id": "warm_damp",
         "sym": "▴",
-        "color": "h_yellow",
+        "color": "yellow_cyan",
         "condition": {
           "and": [
             { "compare_int": [ { "u_val": "warmth" }, "<=", { "const": 8000 } ] },
@@ -103,7 +103,7 @@
       {
         "id": "warm_wet",
         "sym": "▴",
-        "color": "yellow_cyan",
+        "color": "h_yellow",
         "condition": {
           "and": [
             { "compare_int": [ { "u_val": "warmth" }, "<=", { "const": 8000 } ] },
@@ -128,7 +128,7 @@
       {
         "id": "comfortable_damp",
         "sym": "∙",
-        "color": "h_green",
+        "color": "green_cyan",
         "condition": {
           "and": [
             { "compare_int": [ { "u_val": "warmth" }, "<=", { "const": 6500 } ] },
@@ -141,7 +141,7 @@
       {
         "id": "comfortable_wet",
         "sym": "∙",
-        "color": "green_cyan",
+        "color": "h_green",
         "condition": {
           "and": [
             { "compare_int": [ { "u_val": "warmth" }, "<=", { "const": 6500 } ] },
@@ -166,7 +166,7 @@
       {
         "id": "chilly_damp",
         "sym": "▾",
-        "color": "h_light_blue",
+        "color": "light_blue_cyan",
         "condition": {
           "and": [
             { "compare_int": [ { "u_val": "warmth" }, "<=", { "const": 3500 } ] },
@@ -179,7 +179,7 @@
       {
         "id": "chilly_wet",
         "sym": "▾",
-        "color": "light_blue_cyan",
+        "color": "h_light_blue",
         "condition": {
           "and": [
             { "compare_int": [ { "u_val": "warmth" }, "<=", { "const": 3500 } ] },
@@ -204,7 +204,7 @@
       {
         "id": "very_cold_damp",
         "sym": "▼",
-        "color": "h_cyan",
+        "color": "light_cyan_cyan",
         "condition": {
           "and": [
             { "compare_int": [ { "u_val": "warmth" }, "<=", { "const": 2000 } ] },
@@ -217,7 +217,7 @@
       {
         "id": "very_cold_wet",
         "sym": "▼",
-        "color": "light_cyan_cyan",
+        "color": "h_cyan",
         "condition": {
           "and": [
             { "compare_int": [ { "u_val": "warmth" }, "<=", { "const": 2000 } ] },
@@ -238,7 +238,7 @@
       {
         "id": "freezing_damp",
         "sym": "!",
-        "color": "h_white",
+        "color": "white_cyan",
         "condition": {
           "and": [
             { "compare_int": [ { "u_val": "warmth" }, "<=", { "const": 500 } ] },
@@ -250,7 +250,7 @@
       {
         "id": "freezing_wet",
         "sym": "!",
-        "color": "white_cyan",
+        "color": "h_white",
         "condition": {
           "and": [
             { "compare_int": [ { "u_val": "warmth" }, "<=", { "const": 500 } ] },
