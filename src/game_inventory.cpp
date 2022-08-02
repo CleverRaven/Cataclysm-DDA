@@ -1889,7 +1889,7 @@ class repair_inventory_preset: public inventory_selector_preset
     public:
         repair_inventory_preset( const repair_item_actor *actor, const item *main_tool,
                                  const Character &you ) :
-            actor( actor ), main_tool( main_tool ), you( you ) {
+            actor( actor ), main_tool( main_tool ) {
 
             _indent_entries = false;
 
@@ -1956,7 +1956,6 @@ class repair_inventory_preset: public inventory_selector_preset
     private:
         const repair_item_actor *actor;
         const item *main_tool;
-        const Character &you;
 };
 
 static std::string get_repair_hint( const Character &you, const repair_item_actor *actor,
