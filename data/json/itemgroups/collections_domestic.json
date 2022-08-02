@@ -381,7 +381,7 @@
           { "group": "religious_books", "prob": 25 },
           { "item": "bead_necklace", "prob": 25 },
           { "item": "bead_bracelet", "prob": 25 },
-          { "item": "holy_symbol", "prob": 25 },
+          { "item": "holy_symbol", "prob": 25 }
         ]
       },
       {
