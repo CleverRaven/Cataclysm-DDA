@@ -2495,7 +2495,8 @@ cata::optional<int> iuse::radio_on( Character *p, item *it, bool t, const tripoi
             }
 
             const city *c = overmap_buffer.closest_city( tripoint_abs_sm( tref.abs_sm_pos, 0 ) ).city;
-            const std::string cityname = c == nullptr ? "ksssh" : c->name;
+            //~ radio noise
+            const std::string cityname = c == nullptr ? _( "ksssh" ) : c->name;
 
             replace_city_tag( message, cityname );
             int static_chance = radio_static_chance( tref );

@@ -126,12 +126,15 @@ struct mongroup {
      */
     std::vector<monster> monsters;
 
-    /** There are two types of hordes: "city", who try to stick around cities
-     *  and return to them whenever possible.
-     *  And "roam", who roam around the map randomly, not taking care to return
-     *  anywhere.
-     */
-    std::string horde_behaviour;
+    enum class horde_behaviour {
+        none,
+        city, ///< Try to stick around cities and return to them whenever possible
+        roam, ///< Roam around the map randomly
+        nemesis, ///< Follow the avatar specifically
+        last
+    };
+    horde_behaviour behaviour = horde_behaviour::none;
+
     bool diffuse = false;   // group size ind. of dist. from center and radius invariant
     mongroup( const mongroup_id &ptype, const tripoint_abs_sm &ppos,
               unsigned int prad, unsigned int ppop )
@@ -189,6 +192,11 @@ struct mongroup {
     void deserialize( const JsonObject &jo );
     void deserialize_legacy( JsonIn &json );
     void serialize( JsonOut &json ) const;
+};
+
+template<>
+struct enum_traits<mongroup::horde_behaviour> {
+    static constexpr mongroup::horde_behaviour last = mongroup::horde_behaviour::last;
 };
 
 class MonsterGroupManager

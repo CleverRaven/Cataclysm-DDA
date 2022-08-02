@@ -496,6 +496,19 @@ void conditional_t<T>::set_has_hp( const JsonObject &jo, const std::string &memb
 }
 
 template<class T>
+void conditional_t<T>::set_has_part_temp( const JsonObject &jo, const std::string &member,
+        bool is_npc )
+{
+    int_or_var<T> iov = get_int_or_var<T>( jo, member );
+    cata::optional<bodypart_id> bp;
+    optional( jo, false, "bodypart", bp );
+    condition = [iov, bp, is_npc]( const T & d ) {
+        bodypart_id bid = bp.value_or( get_bp_from_str( d.reason ) );
+        return d.actor( is_npc )->get_cur_part_temp( bid ) >= iov.evaluate( d );
+    };
+}
+
+template<class T>
 void conditional_t<T>::set_is_wearing( const JsonObject &jo, const std::string &member,
                                        bool is_npc )
 {
@@ -1458,6 +1471,13 @@ std::function<int( const T & )> conditional_t<T>::get_get_int( const JsonObject 
             return [is_npc, bp]( const T & d ) {
                 bodypart_id bid = bp.value_or( get_bp_from_str( d.reason ) );
                 return d.actor( is_npc )->get_cur_hp( bid );
+            };
+        } else if( checked_value == "warmth" ) {
+            cata::optional<bodypart_id> bp;
+            optional( jo, false, "bodypart", bp );
+            return [is_npc, bp]( const T & d ) {
+                bodypart_id bid = bp.value_or( get_bp_from_str( d.reason ) );
+                return d.actor( is_npc )->get_cur_part_temp( bid );
             };
         } else if( checked_value == "effect_intensity" ) {
             const std::string &effect_id = jo.get_string( "effect" );
@@ -2611,6 +2631,10 @@ conditional_t<T>::conditional_t( const JsonObject &jo )
         set_has_hp( jo, "u_has_hp" );
     } else if( jo.has_int( "npc_has_hp" ) || jo.has_object( "npc_has_hp" ) ) {
         set_has_hp( jo, "npc_has_hp", is_npc );
+    } else if( jo.has_int( "u_has_part_temp" ) || jo.has_object( "u_has_part_temp" ) ) {
+        set_has_part_temp( jo, "u_has_part_temp" );
+    } else if( jo.has_int( "npc_has_part_temp" ) || jo.has_object( "npc_has_part_temp" ) ) {
+        set_has_part_temp( jo, "npc_has_part_temp", is_npc );
     } else if( jo.has_string( "u_is_wearing" ) ) {
         set_is_wearing( jo, "u_is_wearing" );
     } else if( jo.has_string( "npc_is_wearing" ) ) {

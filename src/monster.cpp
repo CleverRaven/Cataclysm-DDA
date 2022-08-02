@@ -28,6 +28,7 @@
 #include "field_type.h"
 #include "game.h"
 #include "game_constants.h"
+#include "harvest.h"
 #include "item.h"
 #include "item_group.h"
 #include "itype.h"
@@ -111,7 +112,6 @@ static const emit_id emit_emit_shock_cloud_big( "emit_shock_cloud_big" );
 
 static const flag_id json_flag_DISABLE_FLIGHT( "DISABLE_FLIGHT" );
 
-static const itype_id itype_corpse( "corpse" );
 static const itype_id itype_milk( "milk" );
 static const itype_id itype_milk_raw( "milk_raw" );
 
@@ -2577,6 +2577,7 @@ void monster::die( Creature *nkiller )
 
     if( death_drops && !no_extra_death_drops ) {
         drop_items_on_death( corpse );
+        spawn_dissectables_on_death( corpse );
     }
     if( death_drops && !is_hallucination() ) {
         for( const item &it : inv ) {
@@ -2584,6 +2585,13 @@ void monster::die( Creature *nkiller )
                 corpse->put_in( it, item_pocket::pocket_type::CONTAINER );
             } else {
                 get_map().add_item_or_charges( pos(), it );
+            }
+        }
+        for( const item &it : dissectable_inv ) {
+            if( corpse ) {
+                corpse->put_in( it, item_pocket::pocket_type::CORPSE );
+            } else {
+                get_map().add_item( pos(), it );
             }
         }
         if( corpse ) {
@@ -2752,6 +2760,37 @@ void monster::drop_items_on_death( item *corpse )
                 current_best.second->insert_item( it );
             } else {
                 corpse->put_in( it, item_pocket::pocket_type::CONTAINER );
+            }
+        }
+    }
+}
+
+void monster::spawn_dissectables_on_death( item *corpse )
+{
+    if( is_hallucination() ) {
+        return;
+    }
+    if( type->dissect.is_empty() ) {
+        return;
+    }
+
+    std::vector<item> new_dissectables;
+    for( const harvest_entry &entry : *type->dissect ) {
+        std::vector<item> dissectables = item_group::items_from( item_group_id( entry.drop ),
+                                         calendar::turn,
+                                         spawn_flags::use_spawn_rate );
+        for( item &dissectable : dissectables ) {
+            dissectable.dropped_from = entry.type;
+            for( const flag_id &flg : entry.flags ) {
+                dissectable.set_flag( flg );
+            }
+            for( const fault_id &flt : entry.faults ) {
+                dissectable.faults.emplace( flt );
+            }
+            if( corpse ) {
+                corpse->put_in( dissectable, item_pocket::pocket_type::CORPSE );
+            } else {
+                get_map().add_item_or_charges( pos(), dissectable );
             }
         }
     }
@@ -3073,7 +3112,7 @@ bool monster::is_nemesis() const
 
 void monster::init_from_item( item &itm )
 {
-    if( itm.typeId() == itype_corpse ) {
+    if( itm.is_corpse() ) {
         set_speed_base( get_speed_base() * 0.8 );
         const int burnt_penalty = itm.burnt;
         hp = static_cast<int>( hp * 0.7 );
@@ -3099,6 +3138,11 @@ void monster::init_from_item( item &itm )
             }
             inv.push_back( *it );
             itm.remove_item( *it );
+        }
+        //Move dissectables (installed bionics, etc)
+        for( item *dissectable : itm.all_items_top( item_pocket::pocket_type::CORPSE ) ) {
+            dissectable_inv.push_back( *dissectable );
+            itm.remove_item( *dissectable );
         }
     } else {
         // must be a robot

@@ -569,6 +569,12 @@ void vpart_info::finalize()
             }
         }
 
+        if( e.second.has_flag( VPFLAG_APPLIANCE ) ) {
+            // force all appliances' location field to "structure"
+            // dragging code currently checks this for considering collisions
+            e.second.location = "structure";
+        }
+
         // Calculate and cache z-ordering based off of location
         // list_order is used when inspecting the vehicle
         if( e.second.location == "on_roof" ) {

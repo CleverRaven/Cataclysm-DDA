@@ -512,8 +512,8 @@ struct healing_options {
     bool infect = false;
     void clear_all();
     void set_all();
-    bool any_true();
-    bool all_false();
+    bool any_true() const;
+    bool all_false() const;
 };
 
 // Data relevant only for this action
@@ -957,10 +957,10 @@ class npc : public Character
         tripoint good_escape_direction( bool include_pos = true );
 
         // Interaction and assessment of the world around us
-        float danger_assessment();
+        float danger_assessment() const;
         // Our guess at how much damage we can deal
         float average_damage_dealt();
-        bool bravery_check( int diff );
+        bool bravery_check( int diff ) const;
         bool emergency() const;
         bool emergency( float danger ) const;
         bool is_active() const;
@@ -1032,12 +1032,12 @@ class npc : public Character
         void warn_about( const std::string &type, const time_duration &d = 10_minutes,
                          const std::string &name = "", int range = -1, const tripoint &danger_pos = tripoint_zero );
         // return snippet strings by given range
-        std::string distance_string( int range );
+        std::string distance_string( int range ) const;
 
         // Finds something to complain about and complains. Returns if complained.
         bool complain();
 
-        int calc_spell_training_cost( bool knows, int difficulty, int level );
+        int calc_spell_training_cost( bool knows, int difficulty, int level ) const;
 
         void handle_sound( sounds::sound_t priority, const std::string &description,
                            int heard_volume, const tripoint &spos );
@@ -1252,7 +1252,7 @@ class npc : public Character
             return job.has_job();
         }
         npc_attitude get_previous_attitude();
-        npc_mission get_previous_mission();
+        npc_mission get_previous_mission() const;
         void revert_after_activity();
 
         // #############   VALUES   ################
@@ -1348,7 +1348,7 @@ class npc : public Character
          */
         void npc_update_body();
 
-        bool get_known_to_u();
+        bool get_known_to_u() const;
 
         void set_known_to_u( bool known );
 

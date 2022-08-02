@@ -386,8 +386,8 @@ void map::generate_lightmap( const int zlev )
     auto &outside_cache = map_cache.outside_cache;
     auto &prev_floor_cache = get_cache( clamp( zlev + 1, -OVERMAP_DEPTH, OVERMAP_DEPTH ) ).floor_cache;
     bool top_floor = zlev == OVERMAP_DEPTH;
-    std::memset( lm, 0, sizeof( lm ) );
-    std::memset( sm, 0, sizeof( sm ) );
+    lm.fill( four_quadrants{} );
+    sm.fill( 0 );
 
     /* Bulk light sources wastefully cast rays into neighbors; a burning hospital can produce
          significant slowdown, so for stuff like fire and lava:
@@ -399,7 +399,7 @@ void map::generate_lightmap( const int zlev )
      * Step 4: Profit!
      */
     auto &light_source_buffer = map_cache.light_source_buffer;
-    std::memset( light_source_buffer, 0, sizeof( light_source_buffer ) );
+    light_source_buffer.fill( 0 );
 
     constexpr std::array<int, 4> dir_x = { {  0, -1, 1, 0 } };    //    [0]
     constexpr std::array<int, 4> dir_y = { { -1,  0, 0, 1 } };    // [1][X][2]
@@ -834,8 +834,8 @@ template<int xx, int xy, int yx, int yy, typename T, typename Out,
          bool( *check )( const T &, const T & ),
          void( *update_output )( Out &, const T &, quadrant ),
          T( *accumulate )( const T &, const T &, const int & )>
-void castLight( Out( &output_cache )[MAPSIZE_X][MAPSIZE_Y],
-                const T( &input_array )[MAPSIZE_X][MAPSIZE_Y],
+void castLight( cata::mdarray<Out, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> &output_cache,
+                const cata::mdarray<T, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> &input_array,
                 const point &offset, int offsetDistance,
                 T numerator = VISIBILITY_FULL,
                 int row = 1, float start = 1.0f, float end = 0.0f,
@@ -846,8 +846,8 @@ template<int xx, int xy, int yx, int yy, typename T, typename Out,
          bool( *check )( const T &, const T & ),
          void( *update_output )( Out &, const T &, quadrant ),
          T( *accumulate )( const T &, const T &, const int & )>
-void castLight( Out( &output_cache )[MAPSIZE_X][MAPSIZE_Y],
-                const T( &input_array )[MAPSIZE_X][MAPSIZE_Y],
+void castLight( cata::mdarray<Out, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> &output_cache,
+                const cata::mdarray<T, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> &input_array,
                 const point &offset, const int offsetDistance, const T numerator,
                 const int row, float start, const float end, T cumulative_transparency )
 {
@@ -936,8 +936,8 @@ template<typename T, typename Out, T( *calc )( const T &, const T &, const int &
          bool( *check )( const T &, const T & ),
          void( *update_output )( Out &, const T &, quadrant ),
          T( *accumulate )( const T &, const T &, const int & )>
-void castLightAll( Out( &output_cache )[MAPSIZE_X][MAPSIZE_Y],
-                   const T( &input_array )[MAPSIZE_X][MAPSIZE_Y],
+void castLightAll( cata::mdarray<Out, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> &output_cache,
+                   const cata::mdarray<T, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> &input_array,
                    const point &offset, int offsetDistance, T numerator )
 {
     castLight<0, 1, 1, 0, T, Out, calc, check, update_output, accumulate>(
@@ -963,16 +963,16 @@ void castLightAll( Out( &output_cache )[MAPSIZE_X][MAPSIZE_Y],
 
 template void castLightAll<float, four_quadrants, sight_calc, sight_check,
                            update_light_quadrants, accumulate_transparency>(
-                               four_quadrants( &output_cache )[MAPSIZE_X][MAPSIZE_Y],
-                               const float ( &input_array )[MAPSIZE_X][MAPSIZE_Y],
+                               cata::mdarray<four_quadrants, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> &output_cache,
+                               const cata::mdarray<float, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> &input_array,
                                const point &offset, int offsetDistance, float numerator );
 
 template void
 castLightAll<fragment_cloud, fragment_cloud, shrapnel_calc, shrapnel_check,
              update_fragment_cloud, accumulate_fragment_cloud>
 (
-    fragment_cloud( &output_cache )[MAPSIZE_X][MAPSIZE_Y],
-    const fragment_cloud( &input_array )[MAPSIZE_X][MAPSIZE_Y],
+    cata::mdarray<fragment_cloud, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> &output_cache,
+    const cata::mdarray<fragment_cloud, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> &input_array,
     const point &offset, int offsetDistance, fragment_cloud numerator );
 
 /**
@@ -990,9 +990,10 @@ castLightAll<fragment_cloud, fragment_cloud, shrapnel_calc, shrapnel_check,
 void map::build_seen_cache( const tripoint &origin, const int target_z )
 {
     level_cache &map_cache = get_cache( target_z );
-    float ( &transparency_cache )[MAPSIZE_X][MAPSIZE_Y] = map_cache.vision_transparency_cache;
-    float ( &seen_cache )[MAPSIZE_X][MAPSIZE_Y] = map_cache.seen_cache;
-    float ( &camera_cache )[MAPSIZE_X][MAPSIZE_Y] = map_cache.camera_cache;
+    cata::mdarray<float, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> &transparency_cache =
+        map_cache.vision_transparency_cache;
+    cata::mdarray<float, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> &seen_cache = map_cache.seen_cache;
+    cata::mdarray<float, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> &camera_cache = map_cache.camera_cache;
 
     constexpr float light_transparency_solid = LIGHT_TRANSPARENCY_SOLID;
     constexpr int map_dimensions = MAPSIZE_X * MAPSIZE_Y;
@@ -1159,10 +1160,12 @@ static bool light_check( const float &transparency, const float &intensity )
 void map::apply_light_source( const tripoint &p, float luminance )
 {
     level_cache &cache = get_cache( p.z );
-    four_quadrants( &lm )[MAPSIZE_X][MAPSIZE_Y] = cache.lm;
-    float ( &sm )[MAPSIZE_X][MAPSIZE_Y] = cache.sm;
-    float ( &transparency_cache )[MAPSIZE_X][MAPSIZE_Y] = cache.transparency_cache;
-    float ( &light_source_buffer )[MAPSIZE_X][MAPSIZE_Y] = cache.light_source_buffer;
+    cata::mdarray<four_quadrants, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> &lm = cache.lm;
+    cata::mdarray<float, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> &sm = cache.sm;
+    cata::mdarray<float, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> &transparency_cache =
+        cache.transparency_cache;
+    cata::mdarray<float, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> &light_source_buffer =
+        cache.light_source_buffer;
 
     const point p2( p.xy() );
 
@@ -1241,8 +1244,9 @@ void map::apply_directional_light( const tripoint &p, int direction, float lumin
     const point p2( p.xy() );
 
     level_cache &cache = get_cache( p.z );
-    four_quadrants( &lm )[MAPSIZE_X][MAPSIZE_Y] = cache.lm;
-    float ( &transparency_cache )[MAPSIZE_X][MAPSIZE_Y] = cache.transparency_cache;
+    cata::mdarray<four_quadrants, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> &lm = cache.lm;
+    cata::mdarray<float, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> &transparency_cache =
+        cache.transparency_cache;
 
     if( direction == 90 ) {
         castLight < 1, 0, 0, -1, float, four_quadrants, light_calc, light_check,
@@ -1287,8 +1291,9 @@ void map::apply_light_arc( const tripoint &p, const units::angle &angle, float l
     const point p2( p.xy() );
 
     level_cache &cache = get_cache( p.z );
-    four_quadrants( &lm )[MAPSIZE_X][MAPSIZE_Y] = cache.lm;
-    float( &transparency_cache )[MAPSIZE_X][MAPSIZE_Y] = cache.transparency_cache;
+    cata::mdarray<four_quadrants, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> &lm = cache.lm;
+    cata::mdarray<float, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> &transparency_cache =
+        cache.transparency_cache;
 
     // Normalize (should work with negative values too)
     units::angle wangle = wideangle / 2.0;
