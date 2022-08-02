@@ -1,0 +1,87 @@
+[
+  {
+    "id": "scifi_weather_icon",
+    "type": "widget",
+    "style": "text",
+    "height": 3,
+    "width": 5,
+    "clauses": [
+      {
+        "id": "sunny",
+        "text": "<color_h_yellow>'.|.'</color>\n<color_h_yellow>--o--</color>\n<color_h_yellow>.'|'.</color>",
+        "condition": { "is_weather": "sunny" }
+      },
+      {
+        "id": "clear",
+        "text": "<color_h_yellow>     </color>\n<color_h_yellow>     </color>\n<color_h_yellow>     </color>",
+        "condition": { "is_weather": "clear" }
+      },
+      {
+        "id": "cloudy",
+        "text": "<color_black_white> (  )</color>\n<color_black_white>(___)</color>\n<color_black_white>     </color>",
+        "condition": { "is_weather": "cloudy" }
+      },
+      {
+        "id": "light_drizzle",
+        "text": "<color_black_white>(___)</color>\n<color_blue_white> ... </color>\n<color_blue_white> ... </color>",
+        "condition": { "is_weather": "light_drizzle" }
+      },
+      {
+        "id": "drizzle",
+        "text": "<color_black_white>(___)</color>\n<color_blue_white> ::: </color>\n<color_blue_white> ::: </color>",
+        "condition": { "is_weather": "drizzle" }
+      },
+      {
+        "id": "rain",
+        "text": "<color_black_white>(___)</color>\n<color_blue_white> \\\\\\\\</color>\n<color_blue_white>  \\\\\\</color>",
+        "condition": { "is_weather": "rain" }
+      },
+      {
+        "id": "acid_drizzle",
+        "text": "<color_black_white>(___)</color>\n<color_yellow_white> ::: </color>\n<color_yellow_white> ::: </color>",
+        "condition": { "is_weather": "acid_drizzle" }
+      },
+      {
+        "id": "acid_rain",
+        "text": "<color_black_white>(___)</color>\n<color_yellow_white> \\\\\\\\</color>\n<color_yellow_white>  \\\\\\</color>",
+        "condition": { "is_weather": "acid_rain" }
+      },
+      {
+        "id": "thunder",
+        "text": "<color_white>(___)</color>\n<color_light_cyan> \\\\\\\\</color>\n<color_light_cyan>  \\\\\\</color>",
+        "condition": { "is_weather": "thunder" }
+      },
+      {
+        "id": "lightning",
+        "text": "<color_white>(___)</color>\n<color_light_cyan> \\</color><color_yellow>ᛋ</color><color_light_cyan>\\\\</color>\n<color_light_cyan>  \\\\\\</color>",
+        "condition": { "is_weather": "lightning" }
+      },
+      {
+        "id": "flurries",
+        "text": "<color_black_white>(___)</color>\n<color_dark_gray_white> *   </color>\n<color_dark_gray_white>   * </color>",
+        "condition": { "is_weather": "flurries" }
+      },
+      {
+        "id": "snowing",
+        "text": "<color_black_white>(___)</color>\n<color_dark_gray_white> *** </color>\n<color_dark_gray_white> *** </color>",
+        "condition": { "is_weather": "snowing" }
+      },
+      {
+        "id": "snowstorm",
+        "text": "<color_white>(___)</color>\n<color_white> ****</color>\n<color_white>  ***</color>",
+        "condition": { "is_weather": "snowstorm" }
+      },
+      {
+        "id": "early_portal_storm",
+        "text": "<color_white>(___)</color>\n<color_light_red> ~ ~ </color>\n<color_light_red>  ~ ~</color>",
+        "condition": { "is_weather": "early_portal_storm" }
+      },
+      {
+        "id": "portal_storm",
+        "text": "<color_light_red>(___)</color>\n<color_red> !!! </color>\n<color_red> !!! </color>",
+        "condition": { "is_weather": "portal_storm" }
+      }
+    ],
+    "default_clause": { "text": "     \n  ?  \n     " }
+  }
+]
