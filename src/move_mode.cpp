@@ -229,4 +229,4 @@ void move_mode::set_cycle( const move_mode_id &mode ) const
 void move_mode::set_cycle_back( const move_mode_id &mode ) const
 {
     cycle_back = mode;
-} 
+}
