@@ -111,7 +111,7 @@
     "id": "crystal_urn",
     "type": "TOOL",
     "name": { "str": "crystal urn" },
-    "description": "An exquisite, translucent container for cremated ashes, decorated with crystal floral patterns.",
+    "description": "An exquisite, translucent container for cremated ashes, decorated with floral patterns.",
     "weight": "1400 g",
     "volume": "4280 ml",
     "price": 125000,
