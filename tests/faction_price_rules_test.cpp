@@ -41,7 +41,29 @@ TEST_CASE( "faction_price_rules", "[npc][factions][trade]" )
         REQUIRE( npc_trading::adjusted_price( &pants_fur, 1, guy, get_avatar() ) ==
                  units::to_cent( pants_fur.type->price_post ) );
     }
-
+    WHEN( "faction desperately needs this item (premium=25)" ) {
+        item const multitool( "test_multitool" );
+        REQUIRE( fac.get_price_rules( multitool, guy )->premium == 25 );
+        REQUIRE( fac.get_price_rules( multitool, guy )->markup == 1.1 );
+        THEN( "NPC selling to avatar includes premium and markup" ) {
+            REQUIRE( npc_trading::adjusted_price( &multitool, 1, get_avatar(), guy ) ==
+                     Approx( units::to_cent( multitool.type->price_post ) * 25 * 1.1 ).margin( 1 ) );
+        }
+        THEN( "avatar selling to NPC includes only premium" ) {
+            REQUIRE( npc_trading::adjusted_price( &multitool, 1, guy, get_avatar() ) ==
+                     Approx( units::to_cent( multitool.type->price_post ) * 25 ).margin( 1 ) );
+        }
+    }
+    WHEN( "faction has a custom price for this item (price=10000000)" ) {
+        item const log( "log" );
+        clear_character( guy );
+        double const price = *fac.get_price_rules( log, guy )->price;
+        REQUIRE( price == 10000000 );
+        REQUIRE( npc_trading::adjusted_price( &log, 1, get_avatar(), guy ) ==
+                 Approx( price * 1.25 ).margin( 1 ) );
+        REQUIRE( npc_trading::adjusted_price( &log, 1, guy, get_avatar() ) ==
+                 Approx( price * 0.75 ).margin( 1 ) );
+    }
     item const carafe( "test_nuclear_carafe" );
     WHEN( "condition for price rules not satisfied" ) {
         clear_character( guy );
