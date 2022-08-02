@@ -1,0 +1,53 @@
+[
+  {
+    "id": "scifi_weather_place_layout",
+    "type": "widget",
+    "label": "Weather & Place",
+    "style": "layout",
+    "arrange": "minimum_columns",
+    "padding": 1,
+    "widgets": [ "scifi_weather_icon", "scifi_weather_right_layout" ]
+  },
+  {
+    "id": "scifi_weather_right_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "widgets": [ "scifi_weather_place_top_layout", "place_desc_no_label" ]
+  },
+  {
+    "id": "scifi_weather_place_top_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "minimum_columns",
+    "width": 10,
+    "widgets": [ "scifi_weather_place_top_left_layout", "scifi_weather_place_top_mid_layout", "scifi_weather_place_top_right_layout" ]
+  },
+  {
+    "id": "scifi_weather_place_top_left_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "pad_labels": false,
+    "width": 10,
+    "widgets": [ "sundial_time_desc_no_label", "lighting_desc_no_label" ]
+  },
+  {
+    "id": "scifi_weather_place_top_mid_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "pad_labels": false,
+    "width": 15,
+    "widgets": [ "date_desc_no_label", "wind_desc_no_label" ]
+  },
+  {
+    "id": "scifi_weather_place_top_right_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "pad_labels": false,
+    "width": 10,
+    "widgets": [ "moon_phase_graph", "sound_num" ]
+  }
+]

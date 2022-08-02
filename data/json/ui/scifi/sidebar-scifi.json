@@ -8,6 +8,6 @@
     "separator": ": ",
     "width": 48,
     "padding": 1,
-    "widgets": [ "scifi_weather_icon", "separator", "scifi_health_layout" ]
+    "widgets": [ "scifi_weather_place_layout", "separator", "scifi_health_layout" ]
   }
 ]
