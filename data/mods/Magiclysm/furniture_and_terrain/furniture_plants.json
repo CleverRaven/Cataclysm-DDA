@@ -2,7 +2,7 @@
   {
     "type": "furniture",
     "id": "f_platonic_flower",
-    "name": "Moonflower Bush",
+    "name": "platonic flower",
     "description": "Small bush, that looks like pair of dragon curves, with a flower in the very center.  The branches of the plant can be used as a perfect ruler.",
     "symbol": "S",
     "color": "light_cyan",
@@ -17,7 +17,7 @@
   {
     "type": "furniture",
     "id": "f_moonflower",
-    "name": "Moonflower Bush",
+    "name": "moonflower bush",
     "description": "A silver colored vine, whose luminescent flowers will only bloom during night.\n\nAmazingly rare, it grows only in places were heroic deeds took place, or so it's believed.",
     "symbol": "y",
     "color": "light_cyan",
@@ -32,7 +32,7 @@
   {
     "type": "furniture",
     "id": "f_kampuch",
-    "name": "Kampuch",
+    "name": "kampuch",
     "description": "The tiny and lethal rod flowers of the Kämpuch break the underbrush like small ivory thorns.",
     "symbol": "i",
     "color": "cyan",
@@ -47,7 +47,7 @@
   {
     "type": "furniture",
     "id": "f_olieribos",
-    "name": "t_underbrush",
+    "name": "olieribos",
     "description": "Dark colored leaves and bitter roots, firmly entrenched in untrodden earth.  They can be used to ward against evil, or to attract it.",
     "symbol": "f",
     "color": "cyan",
@@ -91,7 +91,7 @@
   {
     "type": "furniture",
     "id": "f_golden_reed",
-    "name": "Golden reed",
+    "name": "golden reed",
     "description": "Thin stalks colored deep yellow, crowned with blue feather-like leaves.",
     "symbol": "i",
     "color": "yellow",
@@ -121,7 +121,7 @@
   {
     "type": "furniture",
     "id": "f_dragonail",
-    "name": "Dragonails",
+    "name": "dragonails",
     "description": "A small tangle of old and crooked wood, completely covered with black menacing thorns.",
     "symbol": "y",
     "color": "brown",
@@ -136,7 +136,7 @@
   {
     "type": "furniture",
     "id": "f_moly",
-    "name": "Moly",
+    "name": "moly",
     "description": "A small herb with milk white flowers and pitch black roots.  Known since Ancient Greece, it was brought to the New World by european druids long ago.",
     "symbol": "f",
     "color": "white",
@@ -166,7 +166,7 @@
   {
     "type": "furniture",
     "id": "f_funnelcap",
-    "name": "Funnelcap",
+    "name": "funnelcap",
     "description": "A man sized mushroom, with most of its bulk defined by a tall funnel shaped pileus, which collects rainfall.",
     "symbol": "V",
     "color": "white",
@@ -181,7 +181,7 @@
   {
     "type": "furniture",
     "id": "f_sojourners_palm",
-    "name": "Sojourner's palm",
+    "name": "sojourner's palm",
     "description": "A large magical palm tree, normally you would find it in the tropics, but this plant also has the well documented ability to teleport randomly.",
     "symbol": "Y",
     "color": "green",
@@ -196,7 +196,7 @@
   {
     "type": "furniture",
     "id": "f_whiskflower",
-    "name": "Whiskflower bush",
+    "name": "whiskflower bush",
     "description": "A small plant with curled leaves and pink whisk-shaped flowers.  It has a very strong alcoholic smell.",
     "symbol": "v",
     "color": "pink",
