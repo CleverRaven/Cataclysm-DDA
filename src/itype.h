@@ -885,6 +885,9 @@ struct islot_magazine {
 
     /** For ammo belts one linkage (of given type) is dropped for each unit of ammo consumed */
     cata::optional<itype_id> linkage;
+
+    /** Map of [magazine type id] -> [set of gun itype_ids that accept the mag type ] */
+    static std::map<itype_id, std::set<itype_id>> compatible_guns;
 };
 
 struct islot_battery {
