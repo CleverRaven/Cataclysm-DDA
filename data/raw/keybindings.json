@@ -2854,7 +2854,7 @@
     "type": "keybinding",
     "name": "Cycle movement mode reverse",
     "category": "DEFAULTMODE",
-    "id": "cycle_move_reverse",
+    "id": "cycle_move_reverse"
   },
   {
     "type": "keybinding",
