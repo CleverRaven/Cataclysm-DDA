@@ -2656,6 +2656,19 @@
   },
   {
     "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "cheese_rehydrated",
+    "id_suffix": "from_powder",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DRINKS",
+    "skill_used": "cooking",
+    "charges": 4,
+    "time": "1 m",
+    "autolearn": true,
+    "components": [ [ [ "cheese_powder", 4 ] ], [ [ "water_clean", 1 ], [ "milk_standard", "LIST" ] ] ]
+  },
+  {
+    "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "can_coconut",
     "charges": 1,
