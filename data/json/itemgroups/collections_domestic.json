@@ -287,7 +287,7 @@
     "entries": [
       { "item": "corpse_ash", "prob": 100, "charges-min": 1905, "charges-max": 3969, "container-item": "porcelain_urn" },
       { "item": "photo_album", "prob": 75 },
-      { "item": "bouquet", "prob": 33 },
+      { "item": "bouquet", "prob": 50 },
       { "item": "candle", "prob": 50, "charges-min": 1, "charges-max": 6 },
       {
         "distribution": [
@@ -313,11 +313,10 @@
             "collection": [
               { "item": "ceramic_mug", "prob": 50 },
               { "group": "beer", "prob": 50 },
-              { "group": "liquor_and_spirits", "prob": 40 },
-              { "group": "wines_worthy", "prob": 30 },
-              { "item": "cigar", "prob": 50 },
-              { "item": "hat_ball", "prob": 50 },
-              { "item": "baseball", "prob": 50 },
+              { "group": "liquor_and_spirits", "prob": 20 },
+              { "group": "wines_worthy", "prob": 10 },
+              { "item": "cigar", "prob": 20 },
+              { "item": "hat_ball", "prob": 20 },
               { "group": "jewelry_accessories", "prob": 50 },
               { "group": "clothing_glasses", "prob": 50 },
               { "item": "foodperson_mask", "prob": 1, "charges": [ 0, 500 ] }
@@ -327,16 +326,16 @@
           {
             "collection": [
               { "item": "teddy", "prob": 50 },
-              { "item": "hat_ball", "prob": 30 },
-              { "item": "baseball", "prob": 30 },
+              { "item": "hat_ball", "prob": 20 },
+              { "item": "baseball", "prob": 20 },
               { "item": "roller_shoes_off", "prob": 10 },
-              { "item": "gold_medal", "prob": 10 },
-              { "item": "silver_medal", "prob": 10 },
-              { "item": "bronze_medal", "prob": 10 },
-              { "item": "story_book", "prob": 10 },
-              { "item": "hairpin", "prob": 10 },
-              { "item": "barrette", "prob": 10 },
-              { "item": "newspaper_memorial", "prob": 10 }
+              { "item": "gold_medal", "prob": 20 },
+              { "item": "silver_medal", "prob": 20 },
+              { "item": "bronze_medal", "prob": 20 },
+              { "item": "story_book", "prob": 50 },
+              { "item": "hairpin", "prob": 20 },
+              { "item": "barrette", "prob": 20 },
+              { "item": "newspaper_memorial", "prob": 20 }
             ],
             "prob": 5
           },
@@ -361,11 +360,11 @@
     "subtype": "collection",
     "entries": [
       { "item": "corpse_ash", "prob": 100, "charges-min": 1905, "charges-max": 3969, "container-item": "crystal_urn" },
-      { "item": "photo_album", "prob": 75 },
-      { "item": "sunflower", "prob": 33 },
+      { "item": "photo_album", "prob": 80 },
+      { "item": "bouquet", "prob": 80 },
       { "item": "candlestick", "prob": 50, "charges-min": 1, "charges-max": 6 },
-      { "group": "liquor_and_spirits", "prob": 40 },
-      { "group": "wines_worthy", "prob": 30 },
+      { "group": "liquor_and_spirits", "prob": 60 },
+      { "group": "wines_worthy", "prob": 50 },
       { "item": "cigar", "prob": 50 },
       { "group": "jewelry_accessories", "prob": 50 }
     ]
