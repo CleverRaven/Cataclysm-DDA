@@ -2492,7 +2492,8 @@
     "type": "keybinding",
     "name": "Abandon character",
     "category": "DEFAULTMODE",
-    "id": "SUICIDE"
+    "id": "SUICIDE",
+    "bindings": [ { "input_method": "keyboard_char", "key": "Q" }, { "input_method": "keyboard_code", "key": "q", "mod": [ "shift" ] } ]
   },
   {
     "type": "keybinding",
@@ -2845,14 +2846,15 @@
   {
     "type": "keybinding",
     "name": "Cycle movement mode",
+    "category": "DEFAULTMODE",
     "id": "cycle_move",
-    "bindings": [ { "input_method": "keyboard_char", "key": "q" }, { "input_method": "gamepad", "key": "JOY_10" } ]
+    "bindings": [ { "input_method": "gamepad", "key": "JOY_10" } ]
   },
   {
     "type": "keybinding",
     "name": "Cycle movement mode reverse",
+    "category": "DEFAULTMODE",
     "id": "cycle_move_reverse",
-    "bindings": [ { "input_method": "keyboard_char", "key": "Q" }, { "input_method": "keyboard_code", "key": "q", "mod": [ "shift" ] } ]
   },
   {
     "type": "keybinding",
