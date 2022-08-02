@@ -112,7 +112,16 @@ void move_mode::finalize()
             curr.set_cycle( move_modes_sorted[i] );
         }
     }
-
+    
+    // Cycle to the move mode below ours
+    for( size_t i = move_modes_sorted.size(); i > 0; --i ) {
+        const move_mode &curr = *move_modes_sorted[i - 1];
+        if( i == 1 ) {
+            curr.set_cycle_back( move_modes_sorted.back() );
+        } else {
+            curr.set_cycle_back( move_modes_sorted[i - 2] );
+        }
+    }
 }
 
 std::string move_mode::name() const
@@ -140,6 +149,11 @@ std::string move_mode::change_message( bool success, steed_type steed ) const
 move_mode_id move_mode::cycle() const
 {
     return cycle_to;
+}
+
+move_mode_id move_mode::cycle_reverse() const
+{
+    return cycle_back;
 }
 
 move_mode_id move_mode::ident() const
@@ -211,3 +225,8 @@ void move_mode::set_cycle( const move_mode_id &mode ) const
 {
     cycle_to = mode;
 }
+
+void move_mode::set_cycle_back( const move_mode_id &mode ) const
+{
+    cycle_back = mode;
+} 
