@@ -1736,7 +1736,7 @@ void options_manager::add_options_interface()
          * `Shift` + `Arrow Down` -> `>` = `Descend`;
 
          */
-    to_translation( "Ascend and descend using arrow keys with SHIFT.  Ascend/Descend action keys are taken from keybindings and must be configured." ), { { "off", to_translation( "Off" ) }, { "on", to_translation( "On" ) } },
+    to_translation( "Ascend and descend using arrow keys with SHIFT.  Ascend/Descend action keys are taken from keybindings and must be configured with global keybindings." ), { { "off", to_translation( "Off" ) }, { "on", to_translation( "On" ) } },
     "none", COPT_CURSES_HIDE );
 
     add( "CHANGE_MOVEMENT_WITH_MODIFIERS_MODE", "interface",
@@ -1752,7 +1752,7 @@ void options_manager::add_options_interface()
          * `Ctrl` + `Arrow Down` -> `>` = `Cycle movement mode reverse`;
 
          */
-    to_translation( "Allows cycling through movement modes using arrow keys with CTRL.  Cycle movement mode action keys are taken from keybindings and must be configured." ), { { "off", to_translation( "Off" ) }, { "on", to_translation( "On" ) } },
+    to_translation( "Allows cycling through movement modes using arrow keys with CTRL.  Cycle movement mode action keys are taken from keybindings and must be configured with global keybindings." ), { { "off", to_translation( "Off" ) }, { "on", to_translation( "On" ) } },
     "none", COPT_CURSES_HIDE );
 
     add_empty_line();
