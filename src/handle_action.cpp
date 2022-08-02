@@ -156,6 +156,9 @@ static const zone_type_id zone_type_MOPPING( "MOPPING" );
 static const zone_type_id zone_type_VEHICLE_DECONSTRUCT( "VEHICLE_DECONSTRUCT" );
 static const zone_type_id zone_type_VEHICLE_REPAIR( "VEHICLE_REPAIR" );
 static const zone_type_id zone_type_zone_disassemble( "zone_disassemble" );
+static const zone_type_id zone_type_zone_strip( "zone_strip" );
+static const zone_type_id zone_type_zone_unload_all( "zone_unload_all" );
+
 
 static const std::string flag_CANT_DRAG( "CANT_DRAG" );
 
@@ -1198,7 +1201,8 @@ static void loot()
         MultiButchery = 4096,
         MultiMining = 8192,
         MultiDis = 16384,
-        MultiMopping = 32768
+        MultiMopping = 32768,
+        UnloadLoot = 65536
     };
 
     Character &player_character = get_player_character();
@@ -1221,6 +1225,8 @@ static void loot()
 
     flags |= g->check_near_zone( zone_type_LOOT_UNSORTED,
                                  player_character.pos() ) ? SortLoot : 0;
+    flags |= g->check_near_zone( zone_type_zone_unload_all, player_character.pos() ) ||
+             g->check_near_zone( zone_type_zone_strip, player_character.pos() ) ? UnloadLoot : 0;
     if( g->check_near_zone( zone_type_FARM_PLOT, player_character.pos() ) ) {
         flags |= FertilizePlots;
         flags |= MultiFarmPlots;
@@ -1267,6 +1273,11 @@ static void loot()
     if( flags & SortLoot ) {
         menu.addentry_desc( SortLoot, true, 'I', _( "Sort out my loot (all)" ),
                             _( "Sorts out the loot from Loot: Unsorted zone to nearby appropriate Loot zones.  Uses empty space in your inventory or utilizes a cart, if you are holding one." ) );
+    }
+
+    if( flags & UnloadLoot ) {
+        menu.addentry_desc( UnloadLoot, true, 'U', _( "Unload nearby containers" ),
+                            _( "Unloads any corpses or containers that are in their respective zones." ) );
     }
 
     if( flags & FertilizePlots ) {
@@ -1356,6 +1367,10 @@ static void loot()
                 mgr.cache_data();
             }
             player_character.assign_activity( ACT_MOVE_LOOT );
+            break;
+        case UnloadLoot:
+            player_character.assign_activity(
+                player_activity( unload_loot_activity_actor() ) );
             break;
         case FertilizePlots:
             player_character.assign_activity( ACT_FERTILIZE_PLOT );

@@ -1681,7 +1681,8 @@ std::string widget::layout( const avatar &ava, unsigned int max_width, int label
             std::vector<int> widths;
             unsigned int total_width = 0;
             std::string debug_widths;
-            for( const widget_id &wid : wgts ) {
+            for( size_t i = 0; i < wgts.size(); i++ ) {
+                const widget_id &wid = wgts[i];
                 widget cur_child = wid.obj();
                 int cur_width = child_width;
                 // determine spacing based on type of column
@@ -1690,8 +1691,8 @@ std::string widget::layout( const avatar &ava, unsigned int max_width, int label
                         cur_width = cur_child._width;
                     }
                     // if last widget make it take the remaining space
-                    if( wid == wgts.back() ) {
-                        cur_width = avail_width - total_width;
+                    if( i == wgts.size() - 1 ) {
+                        cur_width = std::max<int>( 0, avail_width - total_width );
                     }
                 } else { //columns
                     if( cur_child._style == "layout" && cur_child._width > 0 ) {
@@ -1711,7 +1712,6 @@ std::string widget::layout( const avatar &ava, unsigned int max_width, int label
                     total_width += cur_width;
                 }
                 if( total_width > max_width ) {
-
                     debugmsg( string_format( "widget layout is wider (%d) than sidebar allows (%d) for %s.",
                                              total_width, max_width, debug_widths ) );
                 }
