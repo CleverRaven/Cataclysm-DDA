@@ -201,14 +201,9 @@
     "int_decay_step": 1,
     "int_decay_tick": 86400,
     "rating": "bad",
-    "blood_analysis_description" : "Unknown RNA virus is rewriting sampled blood cells.",
+    "blood_analysis_description": "Unknown RNA virus is rewriting sampled blood cells.",
     "show_intensity": false,
-    "base_mods": {
-      "pain_chance": [ -10, -10 ],
-      "pain_chance_bot": [ 1000, 10000 ],
-      "pain_min": [ 1, 0 ],
-      "pain_max": [ 5, 1 ]
-    },
-    "scaling_mods": { "pain_chance": [ 5.5, 3.5 ], "pain_chance_bot": [ 1, 5 ] }
+    "base_mods": { "speed_mod": [ 10 ], "str_mod": [ 1 ], "dodge_mod": [ 1 ] },
+    "scaling_mods": { "speed_mod": [ 10 ], "str_mod": [ 0.5 ], "dodge_mod": [ 0.5 ] }
   }
 ]

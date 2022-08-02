@@ -97,12 +97,7 @@
     "type": "effect_on_condition",
     "id": "EOC_vampire_virus_escalation",
     "recurrence": [ "48 hours", "120 hours 15 minutes" ],
-    "condition": {
-      "and": [
-        { "u_has_effect": "vampire_virus" },
-        { "not": { "u_has_effect": "blood_treatment" } }
-      ]
-    },
+    "condition": { "and": [ { "u_has_effect": "vampire_virus" }, { "not": { "u_has_effect": "blood_treatment" } } ] },
     "deactivate_condition": { "u_lose_effect": "vampire_virus" },
     "effect": {
       "run_eocs": [
@@ -191,7 +186,10 @@
             "run_eocs": {
               "id": "eoc_vampvirus_5_trait",
               "condition": { "u_has_trait": "BLOOD_DRINKER" },
-              "effect": [ { "u_message": "The HUNGER is overwhelming, all you can think about is blood!" }, { "u_add_effect": "blood_crazed", "duration": 28800 } ],
+              "effect": [
+                { "u_message": "The HUNGER is overwhelming, all you can think about is blood!" },
+                { "u_add_effect": "blood_crazed", "duration": 28800 }
+              ],
               "false_effect": [
                 { "u_add_trait": "BLOOD_DRINKER" },
                 { "u_message": "You no longer receive nourishment from anything other than blood." }
@@ -299,7 +297,10 @@
             "run_eocs": {
               "id": "eoc_vampvirus_5_trait",
               "condition": { "u_has_trait": "BLOOD_DRINKER" },
-              "effect": [ { "u_message": "The HUNGER is overwhelming, all you can think about is blood!" }, { "u_add_effect": "blood_crazed", "duration": 28800 } ],
+              "effect": [
+                { "u_message": "The HUNGER is overwhelming, all you can think about is blood!" },
+                { "u_add_effect": "blood_crazed", "duration": 28800 }
+              ],
               "false_effect": [
                 { "u_add_trait": "BLOOD_DRINKER" },
                 { "u_message": "You no longer receive nourishment from anything other than blood." }
