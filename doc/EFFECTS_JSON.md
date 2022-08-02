@@ -301,11 +301,6 @@ main part (arms, head, legs, etc.).
 them more pkill. "pain_sizing" and "hurt_sizing" cause large/huge mutations to affect the chance of pain
 and hurt effects triggering. "harmful_cough" means that the coughs caused by this effect can hurt the player.
 
-### Flags
-
-"EFFECT_INVISIBLE" Character affected by an effect with this flag are invisible.
-"EFFECT_IMPEDING" Character affected by an effect with this flag can't move until they break free from the effect.  Breaking free requires a strength check: `x_in_y( STR * limb lifting score * limb grip score, 6 * get_effect_int( eff_id )`
-
 ### Vitamin Mods
 
 ```json
@@ -329,7 +324,7 @@ The `resist_` variants of the above keys are the values chosen when the characte
 
 All of these members are arrays, with each successive entry corresponding to the intensity level of an effect. If there are more intensity levels to the effect than entries in the array, the last entry in the array will be used.
 
-As defined, this will cause non-resistant characters to gain between 1 and 2 of the vitamin foo every 2 minutes, and half their absorbtion rate of it, and resistant character to gain between 0 and 1 of this vitamin every second, and not absorb any of it from their food.
+As defined, this will cause non-resistant characters to gain between 1 and 2 of the vitamin foo every 2 minutes, and half their absorption rate of it, and resistant character to gain between 0 and 1 of this vitamin every second, and not absorb any of it from their food.
 
 ### Death
 
@@ -411,7 +406,7 @@ Valid arguments:
 "pkill_tick"        - Defaults to every tick
 
 "stim_amount"       - Negatives cause depressants effect and positives cause stimulants effect.
-"stim_min"          - Minimal amount of stimulant, certain effect will give. 
+"stim_min"          - Minimal amount of stimulant, certain effect will give.
 "stim_max"          - if 0 or missing value will be exactly "stim_min"
 "stim_min_val"      - Defaults to 0, which means uncapped
 "stim_max_val"      - Defaults to 0, which means uncapped
@@ -420,7 +415,7 @@ Valid arguments:
 "stim_tick"         - Defaults to every tick
 
 "health_amount"     - Negatives decrease health and positives increase it. It's semi-hidden stat, which affects healing.
-"health_min"        - Minimal amount of health, certain effect will give/take. 
+"health_min"        - Minimal amount of health, certain effect will give/take.
 "health_max"        - if 0 or missing value will be exactly "health_min"
 "health_min_val"    - Defaults to 0, which means uncapped
 "health_max_val"    - Defaults to 0, which means uncapped

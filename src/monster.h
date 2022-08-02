@@ -238,7 +238,7 @@ class monster : public Creature
                             const tripoint &nearby_destination ); // shove vehicles out of the way
 
         // check if the given square could drown a drownable monster
-        bool is_aquatic_danger( const tripoint &at_pos );
+        bool is_aquatic_danger( const tripoint &at_pos ) const;
 
         // check if a monster at a position will drown and kill it if necessary
         // returns true if the monster dies
@@ -301,8 +301,8 @@ class monster : public Creature
         bool push_to( const tripoint &p, int boost, size_t depth );
 
         /** Returns innate monster bash skill, without calculating additional from helpers */
-        int bash_skill();
-        int bash_estimate();
+        int bash_skill() const;
+        int bash_estimate() const;
         /** Returns ability of monster and any cooperative helpers to
          * bash the designated target.  **/
         int group_bash_skill( const tripoint &target );
@@ -434,6 +434,8 @@ class monster : public Creature
 
         void die( Creature *killer ) override; //this is the die from Creature, it calls kill_mo
         void drop_items_on_death( item *corpse );
+        //spawn monster's inventory without killing it
+        void generate_inventory( bool disableDrops = true );
 
         // Other
         /**
@@ -573,7 +575,6 @@ class monster : public Creature
         void process_trigger( mon_trigger trig, int amount );
         void process_trigger( mon_trigger trig, const std::function<int()> &amount_func );
 
-    private:
         int hp = 0;
         std::map<std::string, mon_special_attack> special_attacks;
         cata::optional<tripoint_abs_ms> goal;
@@ -595,7 +596,7 @@ class monster : public Creature
         int next_patrol_point = -1;
 
         std::bitset<NUM_MEFF> effect_cache;
-        cata::optional<time_duration> summon_time_limit = cata::nullopt;
+        cata::optional<time_point> lifespan_end = cata::nullopt;
         int turns_since_target = 0;
 
         Character *find_dragged_foe();

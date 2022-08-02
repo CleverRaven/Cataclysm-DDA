@@ -54,6 +54,8 @@ struct enum_traits<description_affix> {
     static constexpr description_affix last = description_affix::DESCRIPTION_AFFIX_NUM;
 };
 
+generic_factory<field_type> &get_all_field_types();
+
 struct field_effect {
     efftype_id id;
     std::vector<std::pair<efftype_id, mod_id>> src;

@@ -35,6 +35,7 @@
 #include "trap.h"
 #include "vehicle_group.h"
 #include "weighted_list.h"
+#include "creature_tracker.h"
 
 static const item_group_id Item_spawn_data_field( "field" );
 static const item_group_id Item_spawn_data_forest_trail( "forest_trail" );
@@ -460,7 +461,7 @@ void mapgen_hive( mapgendata &dat )
 int terrain_type_to_nesw_array( oter_id terrain_type, bool array[4] )
 {
     // count and mark which directions the road goes
-    const auto &oter( *terrain_type );
+    const oter_t &oter( *terrain_type );
     int num_dirs = 0;
     for( const om_direction::type dir : om_direction::all ) {
         num_dirs += ( array[static_cast<int>( dir )] = oter.has_connection( dir ) );
@@ -1473,7 +1474,7 @@ void mapgen_highway( mapgendata &dat )
 }
 
 // mapgen_railroad
-// TODO: Refactor and combine with other similiar functions (e.g. road).
+// TODO: Refactor and combine with other similar functions (e.g. road).
 void mapgen_railroad( mapgendata &dat )
 {
     map *const m = &dat.m;
@@ -2416,7 +2417,7 @@ void mapgen_forest( mapgendata &dat )
     * Determines the groundcover that should be placed at a furniture-less point in a forest.
     *
     * Similar to the get_feathered_feature lambda with a different weighting algorithm,
-    * which favors the biome of this terrain over that of ajacent ones by fixed margin.
+    * which favors the biome of this terrain over that of adjacent ones by fixed margin.
     * Only selects groundcover, rather than biome-appropriate furniture.
     *
     * @return The groundcover to be placed at the specified point in the forest.
@@ -2737,7 +2738,8 @@ void mapgen_lake_shore( mapgendata &dat )
             oter_id match = adjacent;
 
             // Check if this terrain has an alias to something we actually will extend, and if so, use it.
-            for( const auto &alias : dat.region.overmap_lake.shore_extendable_overmap_terrain_aliases ) {
+            for( const shore_extendable_overmap_terrain_alias &alias :
+                 dat.region.overmap_lake.shore_extendable_overmap_terrain_aliases ) {
                 if( is_ot_match( alias.overmap_terrain, adjacent, alias.match_type ) ) {
                     match = alias.alias;
                     break;
@@ -3050,7 +3052,7 @@ void mapgen_lake_shore( mapgendata &dat )
     // be in the location as a result of our extending adjacent mapgen.
     const auto draw_shallow_water = [&]( const point & from, const point & to ) {
         std::vector<point> points = line_to( from, to );
-        for( auto &p : points ) {
+        for( point &p : points ) {
             for( const point &bp : closest_points_first( p, 1 ) ) {
                 if( !map_boundaries.contains( bp ) ) {
                     continue;
@@ -3101,7 +3103,7 @@ void mapgen_lake_shore( mapgendata &dat )
     const auto fill_deep_water = [&]( const point & starting_point ) {
         std::vector<point> water_points = ff::point_flood_fill_4_connected( starting_point, visited,
                                           should_fill );
-        for( auto &wp : water_points ) {
+        for( point &wp : water_points ) {
             m->ter_set( wp, t_water_dp );
             m->furn_set( wp, f_null );
         }
@@ -3133,7 +3135,7 @@ void mapgen_lake_shore( mapgendata &dat )
 void mapgen_ravine_edge( mapgendata &dat )
 {
     map *const m = &dat.m;
-    // A solid chunk of z layer appropiate wall or floor is first generated to carve the cliffside off from
+    // A solid chunk of z layer appropriate wall or floor is first generated to carve the cliffside off from
     if( dat.zlevel() == 0 ) {
         dat.fill_groundcover();
     } else {
@@ -3148,7 +3150,7 @@ void mapgen_ravine_edge( mapgendata &dat )
     const auto is_ravine_edge = [&]( const oter_id & id ) {
         return id.obj().is_ravine_edge();
     };
-    // Since this terrain is directionless, we look at its inmediate neighbors to determine whether a straight
+    // Since this terrain is directionless, we look at its immediate neighbors to determine whether a straight
     // or curved ravine edge should be generated. And to then apply the correct rotation.
     const bool n_ravine  = is_ravine( dat.north() );
     const bool e_ravine  = is_ravine( dat.east() );
@@ -3234,8 +3236,15 @@ void mremove_trap( map *m, const point &p, trap_id type )
     }
 }
 
-void mtrap_set( map *m, const point &p, trap_id type )
+void mtrap_set( map *m, const point &p, trap_id type, bool avoid_creatures )
 {
+    if( avoid_creatures ) {
+        Creature *c = get_creature_tracker().creature_at( tripoint_abs_ms( m->getabs( tripoint( p,
+                      m->get_abs_sub().z() ) ) ), true );
+        if( c ) {
+            return;
+        }
+    }
     tripoint actual_location( p, m->get_abs_sub().z() );
     m->trap_set( actual_location, type );
 }
@@ -3244,6 +3253,12 @@ void madd_field( map *m, const point &p, field_type_id type, int intensity )
 {
     tripoint actual_location( p, m->get_abs_sub().z() );
     m->add_field( actual_location, type, intensity, 0_turns );
+}
+
+void mremove_fields( map *m, const point &p )
+{
+    tripoint actual_location( p, m->get_abs_sub().z() );
+    m->clear_fields( actual_location );
 }
 
 void resolve_regional_terrain_and_furniture( const mapgendata &dat )

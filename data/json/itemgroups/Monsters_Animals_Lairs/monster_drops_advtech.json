@@ -124,14 +124,19 @@
       { "item": "bio_ankles", "prob": 1 },
       { "item": "bio_trip", "prob": 1 },
       { "item": "bio_stiff", "prob": 1 },
-      { "item": "bio_armor_head", "prob": 2 },
-      { "item": "bio_armor_torso", "prob": 2 },
-      { "item": "bio_armor_arms", "prob": 2 },
-      { "item": "bio_armor_legs", "prob": 2 },
-      { "item": "bio_armor_eyes", "prob": 2 },
-      { "item": "bio_razors", "prob": 2 },
-      { "item": "bio_power_storage", "prob": 1 },
-      { "item": "bio_torsionratchet", "prob": 1 }
+      { "item": "bio_armor_head", "prob": 3 },
+      { "item": "bio_armor_torso", "prob": 3 },
+      { "item": "bio_armor_arms", "prob": 3 },
+      { "item": "bio_armor_legs", "prob": 3 },
+      { "item": "bio_armor_eyes", "prob": 3 },
+      { "item": "bio_razors", "prob": 3 },
+      { "item": "bio_power_storage", "prob": 2 },
+      { "item": "bio_trickle", "prob": 4 },
+      { "item": "bio_glowy", "prob": 1 },
+      { "item": "bio_sleep_shutdown", "prob": 1 },
+      { "item": "bio_faulty_electromagnetic_leak", "prob": 1 },
+      { "item": "bio_faulty_grossfood", "prob": 1 },
+      { "item": "bio_radleak", "prob": 1 }
     ]
   },
   {

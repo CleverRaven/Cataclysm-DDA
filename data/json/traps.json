@@ -260,8 +260,8 @@
     "trigger_weight": "200 g",
     "name": "crossbow trap",
     "color": "green",
-    "memorial_male": { "ctxt": "memorial_male", "str": "Trigged a crossbow trap." },
-    "memorial_female": { "ctxt": "memorial_female", "str": "Trigged a crossbow trap." },
+    "memorial_male": { "ctxt": "memorial_male", "str": "Triggered a crossbow trap." },
+    "memorial_female": { "ctxt": "memorial_female", "str": "Triggered a crossbow trap." },
     "symbol": "^",
     "visibility": 5,
     "avoidance": 4,
@@ -528,7 +528,9 @@
     "difficulty": 99,
     "action": "lava",
     "flags": [ "CONVECTS_TEMPERATURE" ],
-    "vehicle_data": { "damage": 500 }
+    "vehicle_data": { "damage": 500 },
+    "trigger_message_u": "You stepped into lava!",
+    "trigger_message_npc": "<npcname> stepped into lava!"
   },
   {
     "type": "trap",
@@ -675,7 +677,7 @@
   {
     "id": "summon_trapspider",
     "type": "SPELL",
-    "name": "summon trapdoor spider",
+    "name": "Summon Trapdoor Spider",
     "description": "This spell summons hostile trapdoor spiders from the earth.",
     "effect": "summon",
     "effect_str": "mon_spider_trapdoor_giant",
@@ -1018,21 +1020,22 @@
     "name": "swirling vortex",
     "color": "green",
     "symbol": "#",
-    "visibility": 5,
+    "visibility": -1,
     "avoidance": 99,
     "difficulty": 99,
     "trap_radius": 2,
     "action": "spell",
+    "flags": [ "UNDODGEABLE", "AVATAR_ONLY" ],
     "spell_data": { "id": "swirling_vortex" }
   },
   {
     "type": "SPELL",
-    "id": "swirling_vortex",
-    "name": { "str": "swirling vortex" },
-    "description": "Sends the victim to the entrance.",
+    "id": "trap_base",
+    "name": { "str": "base spell for traps" },
+    "description": "EOCs the victim.",
     "valid_targets": [ "self", "hostile", "ally" ],
     "max_level": 1,
-    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS" ],
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
     "base_casting_time": 75,
     "shape": "blast",
     "min_range": 0,
@@ -1045,5 +1048,53 @@
     "type": "effect_on_condition",
     "id": "EOC_SWIRLING_VORTEX",
     "effect": [ { "u_teleport": { "global_val": "nether_dungeon_door" }, "success_message": "How did you get here?" } ]
+  },
+  {
+    "type": "trap",
+    "id": "tr_portal_dungeon_entrance",
+    "name": "swirling vortex",
+    "color": "green",
+    "action": "spell",
+    "copy-from": "tr_swirling_vortex",
+    "spell_data": { "id": "portal_dungeon_entrance" }
+  },
+  {
+    "type": "SPELL",
+    "id": "portal_dungeon_entrance",
+    "name": "portal dungeon entrance",
+    "copy-from": "trap_base",
+    "effect_str": "EOC_PORTAL_STORM_DUNGEON"
+  },
+  {
+    "type": "trap",
+    "id": "tr_portal_dungeon_exit",
+    "name": "hole to outside",
+    "color": "green",
+    "copy-from": "tr_swirling_vortex",
+    "action": "spell",
+    "spell_data": { "id": "portal_dungeon_exit" }
+  },
+  {
+    "type": "SPELL",
+    "id": "portal_dungeon_exit",
+    "name": "portal dungeon exit",
+    "copy-from": "trap_base",
+    "effect_str": "EOC_PORTAL_STORM_DUNGEON_EXIT"
+  },
+  {
+    "type": "trap",
+    "id": "tr_portal_dungeon_next_level",
+    "name": "Swirling vortex",
+    "color": "blue",
+    "copy-from": "tr_swirling_vortex",
+    "action": "spell",
+    "spell_data": { "id": "portal_dungeon_next_level" }
+  },
+  {
+    "type": "SPELL",
+    "id": "portal_dungeon_next_level",
+    "name": "portal dungeon next level",
+    "copy-from": "trap_base",
+    "effect_str": "EOC_PORTAL_STORM_DUNGEON_NEXT_LEVEL"
   }
 ]

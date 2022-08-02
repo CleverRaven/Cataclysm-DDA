@@ -161,26 +161,26 @@ TEST_CASE( "bionic weapons", "[bionics] [weapon] [item]" )
             THEN( "current CBM UID is stored and fake weapon is wielded by the character" ) {
                 REQUIRE( dummy.is_using_bionic_weapon() );
                 CHECK( dummy.get_weapon_bionic_uid() == bio.get_uid() );
-                CHECK( dummy.get_wielded_item().typeId() == bio.id->fake_weapon );
+                CHECK( dummy.get_wielded_item()->typeId() == bio.id->fake_weapon );
             }
 
             WHEN( "the weapon CBM is deactivated" ) {
                 REQUIRE( dummy.deactivate_bionic( bio ) );
 
                 THEN( "character doesn't have a weapon equipped anymore" ) {
-                    CHECK( dummy.get_wielded_item().is_null() );
+                    CHECK( !dummy.get_wielded_item() );
                     CHECK_FALSE( dummy.is_using_bionic_weapon() );
                 }
             }
 
             WHEN( "the second weapon CBM is activated next" ) {
-                REQUIRE( dummy.get_wielded_item().typeId() == bio.id->fake_weapon );
+                REQUIRE( dummy.get_wielded_item()->typeId() == bio.id->fake_weapon );
                 REQUIRE( dummy.activate_bionic( bio2 ) );
 
                 THEN( "current weapon bionic UID is stored and wielded weapon is replaced" ) {
                     REQUIRE( dummy.is_using_bionic_weapon() );
                     CHECK( dummy.get_weapon_bionic_uid() == bio2.get_uid() );
-                    CHECK( dummy.get_wielded_item().typeId() == bio2.id->fake_weapon );
+                    CHECK( dummy.get_wielded_item()->typeId() == bio2.id->fake_weapon );
                 }
             }
         }
@@ -237,8 +237,8 @@ TEST_CASE( "bionic weapons", "[bionics] [weapon] [item]" )
             item real_item( itype_test_backpack );
             REQUIRE( dummy.can_wield( real_item ).success() );
             dummy.wield( real_item );
-            item &wielded_item = dummy.get_wielded_item();
-            REQUIRE( dummy.get_wielded_item().typeId() == itype_test_backpack );
+            item_location wielded_item = dummy.get_wielded_item();
+            REQUIRE( dummy.get_wielded_item()->typeId() == itype_test_backpack );
 
             AND_GIVEN( "weapon bionic doesn't allow installation of new weapons" ) {
                 allowed_flags->clear();
@@ -248,7 +248,7 @@ TEST_CASE( "bionic weapons", "[bionics] [weapon] [item]" )
 
                 THEN( "character fails to install a new weapon on bionic" ) {
                     capture_debugmsg_during( [&customizable_bionic, &wielded_item]() {
-                        CHECK_FALSE( customizable_bionic.install_weapon( wielded_item ) );
+                        CHECK_FALSE( customizable_bionic.install_weapon( *wielded_item ) );
                     } );
                 }
             }
@@ -262,7 +262,7 @@ TEST_CASE( "bionic weapons", "[bionics] [weapon] [item]" )
 
                     THEN( "character fails to install a new weapon on bionic" ) {
                         capture_debugmsg_during( [&customizable_bionic, &wielded_item]() {
-                            CHECK_FALSE( customizable_bionic.install_weapon( wielded_item ) );
+                            CHECK_FALSE( customizable_bionic.install_weapon( *wielded_item ) );
                         } );
                     }
                 }
@@ -273,7 +273,7 @@ TEST_CASE( "bionic weapons", "[bionics] [weapon] [item]" )
                     WHEN( "character tries to install a new weapon on bionic" ) {
                         THEN( "installation fails" ) {
                             capture_debugmsg_during( [&customizable_bionic, &wielded_item]() {
-                                CHECK_FALSE( customizable_bionic.install_weapon( wielded_item ) );
+                                CHECK_FALSE( customizable_bionic.install_weapon( *wielded_item ) );
                             } );
                         }
                     }
@@ -284,24 +284,24 @@ TEST_CASE( "bionic weapons", "[bionics] [weapon] [item]" )
                     REQUIRE_FALSE( customizable_bionic.has_weapon() );
 
                     AND_GIVEN( "item doesn't have valid flags for bionic installation" ) {
-                        wielded_item.unset_flag( json_flag_PSEUDO );
-                        REQUIRE_FALSE( wielded_item.has_flag( json_flag_PSEUDO ) );
+                        wielded_item->unset_flag( json_flag_PSEUDO );
+                        REQUIRE_FALSE( wielded_item->has_flag( json_flag_PSEUDO ) );
 
                         THEN( "character fails to install a new weapon on bionic" ) {
                             capture_debugmsg_during( [&customizable_bionic, &wielded_item]() {
-                                CHECK_FALSE( customizable_bionic.install_weapon( wielded_item ) );
+                                CHECK_FALSE( customizable_bionic.install_weapon( *wielded_item ) );
                             } );
                         }
                     }
 
                     AND_GIVEN( "item has valid flags" ) {
-                        wielded_item.set_flag( json_flag_PSEUDO );
-                        REQUIRE( wielded_item.has_flag( json_flag_PSEUDO ) );
-                        REQUIRE( wielded_item.has_any_flag( customizable_weapon_bionic_id->installable_weapon_flags ) );
+                        wielded_item->set_flag( json_flag_PSEUDO );
+                        REQUIRE( wielded_item->has_flag( json_flag_PSEUDO ) );
+                        REQUIRE( wielded_item->has_any_flag( customizable_weapon_bionic_id->installable_weapon_flags ) );
 
                         WHEN( "character tries to install a new weapon on bionic" ) {
                             THEN( "installation succeeds" ) {
-                                CHECK( customizable_bionic.install_weapon( wielded_item ) );
+                                CHECK( customizable_bionic.install_weapon( *wielded_item ) );
                             }
                         }
                     }
@@ -319,11 +319,11 @@ TEST_CASE( "bionic weapons", "[bionics] [weapon] [item]" )
         REQUIRE( dummy.activate_bionic( bio ) );
         REQUIRE( dummy.is_using_bionic_weapon() );
         REQUIRE( dummy.get_weapon_bionic_uid() == bio.get_uid() );
-        REQUIRE( dummy.get_wielded_item().typeId() == itype_test_backpack );
+        REQUIRE( dummy.get_wielded_item()->typeId() == itype_test_backpack );
 
         WHEN( "weapon breaks" ) {
-            item &weapon = dummy.get_wielded_item();
-            weapon.set_damage( weapon.max_damage() );
+            item_location weapon = dummy.get_wielded_item();
+            weapon->set_damage( weapon->max_damage() );
             REQUIRE( dummy.handle_melee_wear( weapon, 100000 ) );
             REQUIRE_FALSE( dummy.has_weapon() );
 

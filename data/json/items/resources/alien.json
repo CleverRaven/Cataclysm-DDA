@@ -114,7 +114,7 @@
   {
     "type": "GENERIC",
     "id": "exodii_micro_computer",
-    "name": { "str": "small unfamiliar electronic thingy", "str_pl": "unfamiliar electronic thingies" },
+    "name": { "str": "small unfamiliar electronic thingy", "str_pl": "small unfamiliar electronic thingies" },
     "description": "The wiring and general shape suggest to you that this is a tiny computer, or at least some sort of electronic device, but what it is and what role it serves is lost on you.  It's small enough to fit into your palm.",
     "symbol": "p",
     "color": "dark_gray",
@@ -180,7 +180,7 @@
     "type": "GENERIC",
     "id": "exodii_portalizer",
     "name": { "str": "oblong device" },
-    "description": "Perfectly smooth, cool to the touch, and a dull blue-grey color, this looks almost like a perfect riverstone at first glance.  Its artificial nature is betrayed on closer inspection by a network of intricate patterns visible as a slight difference in the reflection of light off its surface.",
+    "description": "Perfectly smooth, cool to the touch, and a dull blue-gray color, this looks almost like a perfect riverstone at first glance.  Its artificial nature is betrayed on closer inspection by a network of intricate patterns visible as a slight difference in the reflection of light off its surface.",
     "symbol": "0",
     "color": "blue",
     "weight": "2 kg",

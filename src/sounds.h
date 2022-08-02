@@ -33,7 +33,7 @@ enum class sound_t : int {
     combat, // any violent sounding activity
     alert, // louder than speech to get attention
     order,  // loudest to get attention
-    _LAST // must always be last
+    LAST // must always be last
 };
 
 // Methods for recording sound events.
@@ -86,7 +86,7 @@ extern bool sound_enabled;
 
 template<>
 struct enum_traits<sounds::sound_t> {
-    static constexpr sounds::sound_t last = sounds::sound_t::_LAST;
+    static constexpr sounds::sound_t last = sounds::sound_t::LAST;
 };
 
 namespace sfx

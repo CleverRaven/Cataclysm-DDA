@@ -7,12 +7,12 @@
   {
     "type": "item_action",
     "id": "repair_metal",
-    "name": { "str": "Repair metal/plastic/kevlar" }
+    "name": { "str": "Repair metal/plastic/Kevlar" }
   },
   {
     "type": "item_action",
     "id": "sew_advanced",
-    "name": { "str": "Modify Clothing" }
+    "name": { "str": "Modify clothing" }
   },
   {
     "type": "item_action",
@@ -20,6 +20,7 @@
     "name": { "str": "Start a fire quickly" }
   },
   {
+    "//": "Remove after 0.G.",
     "type": "item_action",
     "id": "HAMMER",
     "name": { "str": "Pry crate, window, door or nails" }
@@ -108,11 +109,6 @@
     "type": "item_action",
     "id": "DIRECTIONAL_HOLOGRAM",
     "name": { "str": "Create a moving hologram" }
-  },
-  {
-    "type": "item_action",
-    "id": "MIND_SPLICER",
-    "name": { "str": "Extract data from memory banks" }
   },
   {
     "type": "item_action",
@@ -251,6 +247,11 @@
   },
   {
     "type": "item_action",
+    "id": "saw_stock",
+    "name": { "str": "Saw down stock" }
+  },
+  {
+    "type": "item_action",
     "id": "ACIDBOMB_ACT",
     "name": { "str": "Activate" }
   },
@@ -288,16 +289,6 @@
     "type": "item_action",
     "id": "ANTIPARASITIC",
     "name": { "str": "Take" }
-  },
-  {
-    "type": "item_action",
-    "id": "ARROW_FLAMABLE",
-    "name": { "str": "Light up" }
-  },
-  {
-    "type": "item_action",
-    "id": "AUTOCLAVE",
-    "name": { "str": "Sterilize" }
   },
   {
     "type": "item_action",
@@ -837,7 +828,7 @@
   {
     "type": "item_action",
     "id": "MANAGE_EXOSUIT",
-    "name": { "str": "Manage exoskeleton modules" }
+    "name": { "str": "Manage exosuit modules" }
   },
   {
     "type": "item_action",
@@ -1113,5 +1104,10 @@
     "type": "item_action",
     "id": "CALORIES_INTAKE_TRACKER",
     "name": { "str": "Calories intake tracker" }
+  },
+  {
+    "type": "item_action",
+    "id": "VOLTMETER",
+    "name": { "str": "Test for voltage" }
   }
 ]

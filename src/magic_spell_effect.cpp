@@ -47,6 +47,7 @@
 #include "monster.h"
 #include "monstergenerator.h"
 #include "morale.h"
+#include "morale_types.h"
 #include "mtype.h"
 #include "npc.h"
 #include "optional.h"
@@ -86,6 +87,7 @@ static const species_id species_SLIME( "SLIME" );
 static const trait_id trait_KILLER( "KILLER" );
 static const trait_id trait_PACIFIST( "PACIFIST" );
 static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
+static const trait_id trait_PYROMANIA( "PYROMANIA" );
 
 namespace spell_detail
 {
@@ -461,17 +463,18 @@ static std::set<tripoint> spell_effect_area( const spell &sp, const tripoint &ta
 {
     // calculate spell's effect area
     std::set<tripoint> targets = calculate_spell_effect_area( sp, target, caster );
+    if( !sp.has_flag( spell_flag::NO_EXPLOSION_SFX ) ) {
+        // Draw the explosion
+        std::map<tripoint, nc_color> explosion_colors;
+        for( const tripoint &pt : targets ) {
+            explosion_colors[pt] = sp.damage_type_color();
+        }
 
-    // Draw the explosion
-    std::map<tripoint, nc_color> explosion_colors;
-    for( const tripoint &pt : targets ) {
-        explosion_colors[pt] = sp.damage_type_color();
+        std::string exp_name = "explosion_" + sp.id().str();
+
+        explosion_handler::draw_custom_explosion( get_player_character().pos(), explosion_colors,
+                exp_name );
     }
-
-    std::string exp_name = "explosion_" + sp.id().str();
-
-    explosion_handler::draw_custom_explosion( get_player_character().pos(), explosion_colors,
-            exp_name );
     return targets;
 }
 
@@ -512,6 +515,15 @@ static void damage_targets( const spell &sp, Creature &caster,
         sp.create_field( target );
         if( sp.has_flag( spell_flag::IGNITE_FLAMMABLE ) && here.is_flammable( target ) ) {
             here.add_field( target, fd_fire, 1, 10_minutes );
+
+            Character &player_character = get_player_character();
+            if( player_character.has_trait( trait_PYROMANIA ) &&
+                !player_character.has_morale( MORALE_PYROMANIA_STARTFIRE ) ) {
+                player_character.add_msg_if_player( m_good,
+                                                    _( "You feel a surge of euphoria as flames burst out!" ) );
+                player_character.add_morale( MORALE_PYROMANIA_STARTFIRE, 15, 15, 8_hours, 6_hours );
+                player_character.rem_morale( MORALE_PYROMANIA_NOFIRE );
+            }
         }
         Creature *const cr = creatures.creature_at<Creature>( target );
         if( !cr ) {
@@ -545,6 +557,9 @@ static void damage_targets( const spell &sp, Creature &caster,
         }
         if( sp.damage() > 0 ) {
             for( damage_unit &val : atk.proj.impact.damage_units ) {
+                if( sp.has_flag( spell_flag::PERCENTAGE_DAMAGE ) ) {
+                    val.amount = cr->get_hp( cr->get_root_body_part() ) * sp.damage() / 100.0;
+                }
                 val.amount *= damage_mitigation_multiplier;
             }
             cr->deal_projectile_attack( &caster, atk, true );
@@ -806,7 +821,7 @@ static std::pair<field, tripoint> spell_remove_field( const spell &sp,
 
     bool did_field_removal = false;
 
-    for( const auto &node : expander.area ) {
+    for( const area_expander::node &node : expander.area ) {
         if( node.from == node.position ) {
             continue;
         }
@@ -906,7 +921,7 @@ void spell_effect::area_pull( const spell &sp, Creature &caster, const tripoint 
     expander.run( center );
     expander.sort_ascending();
 
-    for( const auto &node : expander.area ) {
+    for( const area_expander::node &node : expander.area ) {
         if( node.from == node.position ) {
             continue;
         }
@@ -924,7 +939,7 @@ void spell_effect::area_push( const spell &sp, Creature &caster, const tripoint 
     expander.run( center );
     expander.sort_descending();
 
-    for( const auto &node : expander.area ) {
+    for( const area_expander::node &node : expander.area ) {
         if( node.from == node.position ) {
             continue;
         }
@@ -1105,7 +1120,7 @@ void spell_effect::recover_energy( const spell &sp, Creature &caster, const trip
             you->mod_pain( -healing );
         }
     } else if( energy_source == "HEALTH" ) {
-        you->mod_healthy( healing );
+        you->mod_livestyle( healing );
     } else {
         debugmsg( "Invalid effect_str %s for spell %s", energy_source, sp.name() );
     }
@@ -1209,7 +1224,8 @@ void spell_effect::spawn_summoned_vehicle( const spell &sp, Creature &caster,
         caster.add_msg_if_player( m_bad, _( "There is already a vehicle there." ) );
         return;
     }
-    if( vehicle *veh = here.add_vehicle( sp.summon_vehicle_id(), target, -90_degrees, 100, 0 ) ) {
+    if( vehicle *veh = here.add_vehicle( sp.summon_vehicle_id(), target, -90_degrees, 100, 0, false, "",
+                                         false ) ) {
         veh->magic = true;
         if( !sp.has_flag( spell_flag::PERMANENT ) ) {
             veh->summon_time_limit = sp.duration_turns();
@@ -1432,8 +1448,8 @@ void spell_effect::guilt( const spell &sp, Creature &caster, const tripoint &tar
             // player no longer cares
             if( kill_count == max_kills ) {
                 //~ Message after killing a lot of monsters which would normally affect the morale negatively. %s is the monster name, it most likely will be pluralized.
-                add_msg( m_good, _( "After killing so many bloody %s you no longer care "
-                                    "about their deaths anymore." ), z.name( max_kills ) );
+                guy.add_msg_if_player( m_good, _( "After killing so many bloody %s you no longer care "
+                                                  "about their deaths anymore." ), z.name( max_kills ) );
             }
             return;
         } else if( guy.has_flag( json_flag_PRED1 ) ||
@@ -1449,7 +1465,7 @@ void spell_effect::guilt( const spell &sp, Creature &caster, const tripoint &tar
             }
         }
 
-        add_msg( msgtype, msg, z.name() );
+        guy.add_msg_if_player( msgtype, msg, z.name() );
 
         float killRatio = static_cast<float>( kill_count ) / max_kills;
         int moraleMalus = -5 * guilt_mult * ( 1.0 - killRatio );
@@ -1621,8 +1637,7 @@ void spell_effect::banishment( const spell &sp, Creature &caster, const tripoint
             continue;
         }
         // you can't banish npcs.
-        monster *mon = creatures.creature_at<monster>( potential_target );
-        if( mon != nullptr ) {
+        if( monster *mon = creatures.creature_at<monster>( potential_target ) ) {
             target_mons.push_back( mon );
         }
     }
@@ -1632,7 +1647,7 @@ void spell_effect::banishment( const spell &sp, Creature &caster, const tripoint
     }
 
     for( monster *mon : target_mons ) {
-        int overflow = -( total_dam -= mon->get_hp() );
+        int overflow = mon->get_hp() - total_dam;
         // reset overflow in case we have more monsters to do
         total_dam = 0;
         while( overflow > 0 ) {

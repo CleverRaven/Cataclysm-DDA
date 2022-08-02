@@ -80,6 +80,11 @@
     "components": [ [ [ "icecream_choc", 1 ], [ "icecream", 1 ], [ "icecream_fruit", 1 ], [ "icecream_candy", 1 ] ] ]
   },
   {
+    "id": "spell_components_potion_starter",
+    "type": "requirement",
+    "components": [ [ [ "water", 1 ], [ "salt_water", 1 ], [ "water_clean", 1 ] ] ]
+  },
+  {
     "id": "spell_components_manabomb",
     "type": "requirement",
     "components": [ [ [ "potion_starter", 3 ] ], [ [ "rune_technomancer", 1 ] ] ]

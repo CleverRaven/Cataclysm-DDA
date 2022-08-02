@@ -20,6 +20,7 @@
 #include "item_factory.h"
 #include "item_pocket.h"
 #include "itype.h"
+#include "iuse_actor.h"
 #include "json.h"
 #include "make_static.h"
 #include "options.h"
@@ -329,7 +330,20 @@ void Single_item_creator::replace_items( const std::unordered_map<itype_id, ityp
 
 bool Single_item_creator::has_item( const itype_id &itemid ) const
 {
-    return type == S_ITEM && itemid.str() == id;
+    switch( type ) {
+        case S_ITEM:
+            return itemid.str() == id;
+        case S_ITEM_GROUP: {
+            Item_spawn_data *isd = item_controller->get_group( item_group_id( id ) );
+            if( isd != nullptr ) {
+                return isd->has_item( itemid );
+            }
+            return false;
+        }
+        case S_NONE:
+            return false;
+    }
+    return false;
 }
 
 std::set<const itype *> Single_item_creator::every_item() const
@@ -539,8 +553,23 @@ void Item_modifier::modify( item &new_item, const std::string &context ) const
         Item_spawn_data::ItemList contentitems;
         contents->create( contentitems, new_item.birthday() );
         for( const item &it : contentitems ) {
-            const item_pocket::pocket_type pk_type = guess_pocket_for( new_item, it );
-            new_item.put_in( it, pk_type );
+            // custom code for directly attaching pockets to MOLLE vests
+            const use_function *action = new_item.get_use( "attach_molle" );
+            if( action && it.can_attach_as_pocket() ) {
+                const molle_attach_actor *actor = dynamic_cast<const molle_attach_actor *>
+                                                  ( action->get_actor_ptr() );
+                const int vacancies = actor->size - new_item.get_contents().get_additional_space_used();
+                // intentionally might lose items here if they don't fit this is because it's
+                // impossible to know in a spawn group how much stuff could end up in it
+                // if you roll 3, 3 size items in a 3 slot vest you shouldn't get an error
+                // but you should get a vest with at least the first one
+                if( it.get_pocket_size() <= vacancies ) {
+                    new_item.get_contents().add_pocket( it );
+                }
+            } else {
+                const item_pocket::pocket_type pk_type = guess_pocket_for( new_item, it );
+                new_item.put_in( it, pk_type );
+            }
         }
         if( sealed ) {
             new_item.seal();
@@ -590,6 +619,7 @@ bool Item_modifier::remove_item( const itype_id &itemid )
 }
 
 void Item_modifier::replace_items( const std::unordered_map<itype_id, itype_id> &replacements )
+const
 {
     if( ammo ) {
         ammo->replace_items( replacements );
@@ -862,7 +892,7 @@ static item_group_id get_unique_group_id()
     // names should not be seen anywhere.
     static const std::string unique_prefix = "\u01F7 ";
     while( true ) {
-        const item_group_id new_group( unique_prefix + std::to_string( next_id++ ) );
+        item_group_id new_group( unique_prefix + std::to_string( next_id++ ) );
         if( !item_group::group_is_defined( new_group ) ) {
             return new_group;
         }
@@ -875,7 +905,7 @@ item_group_id item_group::load_item_group( const JsonValue &value,
     if( value.test_string() ) {
         return item_group_id( value.get_string() );
     } else if( value.test_object() ) {
-        const item_group_id group = get_unique_group_id();
+        item_group_id group = get_unique_group_id();
 
         JsonObject jo = value.get_object();
         const std::string subtype = jo.get_string( "subtype", default_subtype );
@@ -883,7 +913,7 @@ item_group_id item_group::load_item_group( const JsonValue &value,
 
         return group;
     } else if( value.test_array() ) {
-        const item_group_id group = get_unique_group_id();
+        item_group_id group = get_unique_group_id();
 
         JsonArray jarr = value.get_array();
         // load_item_group needs a bool, invalid subtypes are unexpected and most likely errors

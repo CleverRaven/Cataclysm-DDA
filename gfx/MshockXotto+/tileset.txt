@@ -12,6 +12,8 @@ JSON: tile_config.json
 #Tileset Path - Default of tinytile.png
 TILESET: tiles.png
 
+#MSXotto+ was imported from Cataclysm:Dark Days Ahead under Creative Commons Attribution-ShareAlike 3.0 Unported License(http://creativecommons.org/licenses/by-sa/3.0/) 
+#as of https://github.com/CleverRaven/Cataclysm-DDA/commits/60ff294b9613ae6cddcb250e84f7e66921e5f3ad/gfx/MshockXotto%2B, see original for attribution details.
 
 #Visit https://discord.gg/kAXNZuy to discuss and contribute to this community-driven tileset!
 #Development ongoing constantly!

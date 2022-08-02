@@ -218,7 +218,7 @@ void quality_requirement::load( const JsonValue &value )
     level = quality_data.get_int( "level", 1 );
     count = quality_data.get_int( "amount", 1 );
     if( count <= 0 ) {
-        quality_data.throw_error( "quality amount must be a positive number", "amount" );
+        quality_data.throw_error_at( "amount", "quality amount must be a positive number" );
     }
     // Note: level is not checked, negative values and 0 are allow, see butchering quality.
 }
@@ -324,12 +324,12 @@ requirement_data requirement_data::operator*( unsigned scalar ) const
 {
     requirement_data res = *this;
     for( auto &group : res.components ) {
-        for( auto &e : group ) {
+        for( item_comp &e : group ) {
             e.count = std::max( e.count * static_cast<int>( scalar ), -1 );
         }
     }
     for( auto &group : res.tools ) {
-        for( auto &e : group ) {
+        for( tool_comp &e : group ) {
             e.count = std::max( e.count * static_cast<int>( scalar ), -1 );
         }
     }
@@ -424,13 +424,34 @@ requirement_data requirement_data::operator+( const std::pair<requirement_id, in
     return *this + *rhs.first * rhs.second;
 }
 
-void requirement_data::load_requirement( const JsonObject &jsobj, const requirement_id &id )
+void requirement_data::load_requirement( const JsonObject &jsobj, const requirement_id &id,
+        const bool check_extend )
 {
     requirement_data req;
+    requirement_data ext;
 
-    load_obj_list( jsobj.get_array( "components" ), req.components );
-    load_obj_list( jsobj.get_array( "qualities" ), req.qualities );
-    load_obj_list( jsobj.get_array( "tools" ), req.tools );
+    if( check_extend && jsobj.has_object( "extend" ) ) {
+        JsonObject jext = jsobj.get_object( "extend" );
+        if( jext.has_member( "components" ) ) {
+            load_obj_list( jext.get_array( "components" ), ext.components );
+        }
+        if( jext.has_member( "qualities" ) ) {
+            load_obj_list( jext.get_array( "qualities" ), ext.qualities );
+        }
+        if( jext.has_member( "tools" ) ) {
+            load_obj_list( jext.get_array( "tools" ), ext.tools );
+        }
+    }
+
+    if( ext.components.empty() || jsobj.has_member( "components" ) ) {
+        load_obj_list( jsobj.get_array( "components" ), req.components );
+    }
+    if( ext.qualities.empty() || jsobj.has_member( "qualities" ) ) {
+        load_obj_list( jsobj.get_array( "qualities" ), req.qualities );
+    }
+    if( ext.tools.empty() || jsobj.has_member( "tools" ) ) {
+        load_obj_list( jsobj.get_array( "tools" ), req.tools );
+    }
 
     if( !id.is_null() ) {
         req.id_ = id;
@@ -440,17 +461,48 @@ void requirement_data::load_requirement( const JsonObject &jsobj, const requirem
         jsobj.throw_error( "id was not specified for requirement" );
     }
 
-    save_requirement( req );
+    save_requirement( req, string_id<requirement_data>::NULL_ID(), &ext );
 }
 
-void requirement_data::save_requirement( const requirement_data &req, const requirement_id &id )
+void requirement_data::save_requirement( const requirement_data &req, const requirement_id &id,
+        const requirement_data *extend )
 {
     requirement_data dup = req;
     if( !id.is_null() ) {
         dup.id_ = id;
     }
 
-    requirements_all[ dup.id_ ] = dup;
+    if( requirements_all.count( dup.id_ ) == 0 ) {
+        requirements_all[ dup.id_ ] = dup;
+    }
+
+    requirement_data &r = requirements_all[ dup.id_ ];
+    if( !dup.components.empty() ) {
+        r.components.clear();
+        r.components.insert( r.components.end(), dup.components.begin(), dup.components.end() );
+    }
+    if( !dup.tools.empty() ) {
+        r.tools.clear();
+        r.tools.insert( r.tools.end(), dup.tools.begin(), dup.tools.end() );
+    }
+    if( !dup.qualities.empty() ) {
+        r.qualities.clear();
+        r.qualities.insert( r.qualities.end(), dup.qualities.begin(), dup.qualities.end() );
+    }
+
+    if( !!extend ) {
+        for( unsigned i = 0; i < r.components.size() && i < extend->components.size(); i++ ) {
+            r.components[i].insert( r.components[i].end(), extend->components[i].begin(),
+                                    extend->components[i].end() );
+        }
+        for( unsigned i = 0; i < r.tools.size() && i < extend->tools.size(); i++ ) {
+            r.tools[i].insert( r.tools[i].end(), extend->tools[i].begin(), extend->tools[i].end() );
+        }
+        for( unsigned i = 0; i < r.qualities.size() && i < extend->qualities.size(); i++ ) {
+            r.qualities[i].insert( r.qualities[i].end(), extend->qualities[i].begin(),
+                                   extend->qualities[i].end() );
+        }
+    }
 }
 
 template<typename T>
@@ -625,7 +677,7 @@ void inline_requirements( std::vector<std::vector<T>> &list,
             }
             already_nested.insert( r );
 
-            const auto &req = r.obj();
+            const requirement_data &req = r.obj();
             const requirement_data multiplied = req * comp.count;
 
             const std::vector<std::vector<T>> &to_inline = getter( multiplied );
@@ -661,10 +713,10 @@ void requirement_data::finalize()
         []( const requirement_data & d ) -> const auto & {
             return d.get_components();
         } );
-        auto &vec = r.second.tools;
+        requirement_data::alter_tool_comp_vector &vec = r.second.tools;
         for( auto &list : vec ) {
             std::vector<tool_comp> new_list;
-            for( auto &comp : list ) {
+            for( tool_comp &comp : list ) {
                 const auto replacements = item_controller->subtype_replacement( comp.type );
                 for( const auto &replaced_type : replacements ) {
                     new_list.emplace_back( replaced_type, comp.count );
@@ -977,7 +1029,7 @@ bool requirement_data::check_enough_materials( const read_only_visitable &crafti
     bool retval = true;
     for( const auto &component_choices : components ) {
         bool atleast_one_available = false;
-        for( const auto &comp : component_choices ) {
+        for( const item_comp &comp : component_choices ) {
             if( check_enough_materials( comp, crafting_inv, filter, batch ) ) {
                 atleast_one_available = true;
             }
@@ -1130,7 +1182,7 @@ requirement_data requirement_data::disassembly_requirements() const
     bool remove_fire = false;
     for( auto &it : ret.tools ) {
         bool replaced = false;
-        for( const auto &tool : it ) {
+        for( const tool_comp &tool : it ) {
             const itype_id &type = tool.type;
 
             // If crafting required a welder or forge then disassembly requires metal sawing
@@ -1182,7 +1234,7 @@ requirement_data requirement_data::disassembly_requirements() const
         //qualities with deconstruction equivalents
         for( auto &it : ret.qualities ) {
             bool replaced = false;
-            for( const auto &quality : it ) {
+            for( const quality_requirement &quality : it ) {
                 if( quality.type == qual_SEW ) {
                     replaced = true;
                     new_qualities.emplace_back( qual_CUT, 1, quality.level );

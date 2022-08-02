@@ -8,6 +8,7 @@
 #include <string>
 #include <unordered_set>
 
+#include "ballistics.h"
 #include "cata_utility.h"
 #include "character.h"
 #include "debug.h"
@@ -309,4 +310,32 @@ bodypart_id anatomy::select_blocking_part( const Creature *blocker, bool arm, bo
 
     add_msg_debug( debugmode::DF_MELEE, "selected part: %s", ret->id().obj().name );
     return *ret;
+}
+
+bodypart_id anatomy::select_body_part_projectile_attack( const double range_min,
+        const double range_max, const double value ) const
+{
+    // Find the body part with the biggest hitsize - we will treat this as the center of mass
+    const bodypart_id biggest_bp = *std::max_element( cached_bps.begin(), cached_bps.end(),
+    []( const bodypart_id & lhs, const bodypart_id & rhs ) {
+        return lhs->hit_size < rhs->hit_size;
+    } );
+
+    // A little wrapper telling the targeting graph how to connect and weight bodypart_ids
+    struct bp_wrapper {
+        static bodypart_id connection( const bodypart_id &id ) {
+            return id->connected_to.id();
+        }
+        static double weight( const bodypart_id &id ) {
+            return id->hit_size;
+        }
+    };
+
+    // Create a graph
+    targeting_graph<bodypart_id, bp_wrapper> graph;
+    // Fill it in with our body parts
+    graph.generate( biggest_bp, cached_bps );
+
+    // And now, select the right body part
+    return graph.select( range_min, range_max, value );
 }

@@ -85,18 +85,6 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "mine",
-    "copy-from": "mine",
-    "sym": "\u00D3"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "mine_down",
-    "copy-from": "mine_down",
-    "sym": "\u00D3"
-  },
-  {
-    "type": "overmap_terrain",
     "id": "mine_finale",
     "copy-from": "mine_finale",
     "sym": "\u00D3"

@@ -186,6 +186,7 @@
     "integral_volume": "0 ml",
     "//": "weight is accounted for in gun item",
     "integral_weight": "0 g",
+    "integral_longest_side": "0 mm",
     "loudness_modifier": -32,
     "range_modifier": -1,
     "dispersion_modifier": 0,

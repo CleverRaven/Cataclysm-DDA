@@ -134,7 +134,7 @@ demo
 After the translations are completed, compile translation files from human-readable `.po` format to game-usable `.mo` format:
 
 ```sh
-mkdir -p mods/demo/lang/mo/ru/LC_MESSAGES/ 
+mkdir -p mods/demo/lang/mo/ru/LC_MESSAGES/
 msgfmt -o mods/demo/lang/mo/ru/LC_MESSAGES/demo.mo mods/demo/lang/po/ru.po
 ```
 

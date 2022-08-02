@@ -83,6 +83,7 @@
       { "item": "460_rowland", "prob": 15 },
       { "item": "460_fmj", "prob": 10 },
       { "item": "57mm", "prob": 50 },
+      { "item": "57mm_ss", "prob": 15 },
       { "item": "380_p", "prob": 10 },
       { "item": "9mmP", "prob": 30 },
       { "item": "9mmP2", "prob": 20 }
@@ -103,6 +104,7 @@
       { "item": "460_rowland", "prob": 15 },
       { "item": "460_fmj", "prob": 10 },
       { "item": "57mm", "prob": 50 },
+      { "item": "57mm_ss", "prob": 25 },
       { "item": "380_p", "prob": 10 },
       { "item": "9mmP", "prob": 30 },
       { "item": "9mmP2", "prob": 20 }
@@ -246,7 +248,8 @@
       { "item": "3006", "prob": 25, "charges": [ 1, 20 ] },
       { "item": "308", "prob": 25, "charges": [ 1, 20 ] },
       { "item": "762_54R", "prob": 10, "charges": [ 1, 20 ] },
-      { "item": "762_m43", "prob": 20, "charges": [ 1, 30 ] }
+      { "item": "762_m43", "prob": 20, "charges": [ 1, 30 ] },
+      { "item": "30carbine", "prob": 20, "charges": [ 1, 50 ] }
     ]
   },
   {
@@ -262,7 +265,8 @@
       { "item": "22_ratshot", "prob": 30 },
       { "item": "270win_jsp", "prob": 25 },
       { "item": "3006", "prob": 25 },
-      { "item": "308", "prob": 25 }
+      { "item": "308", "prob": 25 },
+      { "item": "30carbine", "prob": 20 }
     ]
   },
   {
@@ -647,6 +651,7 @@
       { "item": "40sw", "prob": 50, "charges": [ 1, 40 ] },
       { "item": "45_acp", "prob": 20, "charges": [ 1, 30 ] },
       { "item": "57mm", "prob": 80, "charges": [ 1, 40 ] },
+      { "item": "57mm_ss", "prob": 25, "charges": [ 1, 40 ] },
       { "item": "9mm", "prob": 100, "charges": [ 1, 50 ] },
       { "item": "shot_00", "prob": 40, "charges": [ 1, 20 ] },
       { "item": "shot_beanbag", "prob": 40, "charges": [ 1, 10 ] }
@@ -705,7 +710,8 @@
       { "item": "9mm_casing", "prob": 100 },
       { "item": "9x18mm_casing", "prob": 80 },
       { "item": "shot_hull", "prob": 100 },
-      { "item": "300blk_casing", "prob": 80 }
+      { "item": "300blk_casing", "prob": 80 },
+      { "item": "30carbine_casing", "prob": 60 }
     ]
   },
   {
@@ -749,7 +755,8 @@
       [ "700nx_casing", 10 ],
       [ "300_casing", 60 ],
       [ "762R_casing", 10 ],
-      [ "32_casing", 70 ]
+      [ "32_casing", 70 ],
+      [ "30carbine_casing", 40 ]
     ]
   },
   {

@@ -27,8 +27,8 @@
     },
     "armor": [
       { "covers": [ "head" ], "coverage": 100, "encumbrance": 25 },
-      { "covers": [ "eyes" ], "coverage": 100, "encumbrance": 5 },
-      { "covers": [ "mouth" ], "coverage": 100, "encumbrance": 15 }
+      { "covers": [ "eyes" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 5 },
+      { "covers": [ "mouth" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 15 }
     ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 1000 } } ],
     "warmth": 10,
@@ -92,8 +92,8 @@
       "need_charges_msg": "The %s's batteries are dead."
     },
     "armor": [
-      { "covers": [ "eyes" ], "coverage": 100, "encumbrance": 15 },
-      { "covers": [ "mouth" ], "coverage": 100, "encumbrance": 20 }
+      { "covers": [ "eyes" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 15 },
+      { "covers": [ "mouth" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 20 }
     ],
     "pocket_data": [
       {

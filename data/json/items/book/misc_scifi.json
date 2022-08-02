@@ -55,7 +55,7 @@
       { "id": "scifi1_20", "text": "This is a copy of \"Altered Carbon\" by Richard Morgan." },
       {
         "id": "scifi1_21",
-        "text": "This is a copy of Mary Shelly's \"Frankenstein\".  Wasn't that the name of the monster?"
+        "text": "This is a copy of Mary Shelley's \"Frankenstein\".  Wasn't that the name of the monster?"
       },
       {
         "id": "scifi1_22",
@@ -90,7 +90,7 @@
       },
       {
         "id": "scifi1_35",
-        "text": "This is a copy of \"Use of Weapons\" by Ian M. Banks.  The spine is cracked and worn, some pages appear to be loose."
+        "text": "This is a copy of \"Use of Weapons\" by Iain M. Banks.  The spine is cracked and worn, some pages appear to be loose."
       },
       { "id": "scifi1_36", "text": "This is a copy of Jean-Baptiste Cousin de Grainville's \"Le Dernier Homme\"." },
       {
@@ -105,14 +105,14 @@
       { "id": "scifi1_41", "text": "This is a copy of \"The Lost World\" by Arthur Conan Doyle." },
       { "id": "scifi1_42", "text": "This is a copy of \"Islands in the Sky\" by Arthur C. Clarke." },
       { "id": "scifi1_43", "text": "This is a copy of H. G. Wells' \"The Island of Doctor Moreau\"." },
-      { "id": "scifi1_44", "text": "This is a copy of Stanislaw Lem's \"His Masters Voice\"." },
+      { "id": "scifi1_44", "text": "This is a copy of Stanisław Lem's \"His Masters Voice\"." },
       { "id": "scifi1_45", "text": "This is a copy of Fred Hoyle's \"The Black Cloud\"." },
       { "id": "scifi1_46", "text": "This is a copy of \"Last and First Men\" by Olaf Stapeldon." },
-      { "id": "scifi1_47", "text": "This is a copy of Stanislaw Lem's \"Solaris\"." },
+      { "id": "scifi1_47", "text": "This is a copy of Stanisław Lem's \"Solaris\"." },
       { "id": "scifi1_48", "text": "This is a copy of Theodore Sturgeon's \"More Than Human\"." },
       { "id": "scifi1_49", "text": "This is a copy of \"Vurt\" by Jeff Noon." },
       { "id": "scifi1_50", "text": "This is a copy of \"A Canticle for Leibowitz\" by Walter M. Miller Jr." },
-      { "id": "scifi1_51", "text": "This is a copy of \"The War of The Worlds\" by H.G Wells." },
+      { "id": "scifi1_51", "text": "This is a copy of \"The War of The Worlds\" by H. G. Wells." },
       { "id": "scifi1_52", "text": "This is a copy of \"Iron Sunrise\" by Charles Stross." },
       {
         "id": "scifi1_53",
@@ -173,7 +173,7 @@
     "id": "book_fict_hard_scifi_fifth",
     "type": "BOOK",
     "name": { "str": "The Fifth Season", "str_pl": "signed copies of Fifth Season" },
-    "description": "This is a signed hardcover copy of the Hugo award winning \"The Fifth Season\" by N.K. Jemisin.  It smells faintly of dirt.",
+    "description": "This is a signed hardcover copy of the Hugo award winning \"The Fifth Season\" by N. K. Jemisin.  It smells faintly of dirt.",
     "//isbn13": 9780356511931,
     "//note": "if we make a rare or collectors' item library group, this should go there too",
     "price": 19999,
@@ -183,7 +183,7 @@
     "id": "book_fict_hard_scifi_zamwe",
     "type": "BOOK",
     "name": { "str": "We", "str_pl": "copies of We" },
-    "description": "This hardback book is titled \"The Annotated We: A New Translation of Evgeny Zamiatin's Novel.\"\n\nIt is Vladimir Wozniuk's 2015 translation of \"We,\" originally published in 1924 and generally seen as the first modern dystopian novel.  The commentary examines the profusive allusions and highlights the poetic nature of Zamiatin's language.",
+    "description": "This hardback book is titled \"The Annotated We: A New Translation of Yevgeny Zamyatin's Novel.\"\n\nIt is Vladimir Wozniuk's 2015 translation of \"We,\" originally published in 1924 and generally seen as the first modern dystopian novel.  The commentary examines the profusive allusions and highlights the poetic nature of Zamiatin's language.",
     "//isbn13": 9781611461787,
     "//": "this variant is intentional",
     "price": 8799,
@@ -200,7 +200,7 @@
     "id": "book_fict_soft_scifi_zamwe",
     "type": "BOOK",
     "name": { "str": "We", "str_pl": "copies of We" },
-    "description": "A seminal work of dystopian fiction, Evgeny Zamiatin's \"We\" was first published in 1924 but suppressed by the Soviet Union until 1988.\n\nThis mass-market 1993 edition you've found was translated from the Russian by Clarence Brown and includes a short introduction.  The slightly worn cover features a surrealist photo of a person gazing backward suspiciously.",
+    "description": "A seminal work of dystopian fiction, Yevgeny Zamyatin's \"We\" was first published in 1924 but suppressed by the Soviet Union until 1988.\n\nThis mass-market 1993 edition you've found was translated from the Russian by Clarence Brown and includes a short introduction.  The slightly worn cover features a surrealist photo of a person gazing backward suspiciously.",
     "//isbn13": 9780140185850,
     "//": "this variant is intentional",
     "price": 1399,
@@ -216,7 +216,7 @@
     "id": "book_fict_soft_scifi_cybrd",
     "type": "BOOK",
     "name": { "str": "The Cyberiad", "str_pl": "copies of The Cyberiad" },
-    "description": "This 350 page paperback presents the exploits and robotic rivalries of Trurl and Klapaucius.  Originally written in Polish by Stanislaw Lem, it has been masterfully translated into English by Michael Kandel.",
+    "description": "This 350 page paperback presents the exploits and robotic rivalries of Trurl and Klapaucius.  Originally written in Polish by Stanisław Lem, it has been masterfully translated into English by Michael Kandel.",
     "//isbn13": 9780241467992,
     "price": 1069,
     "copy-from": "book_fict_soft_scifi_tpl"
@@ -260,7 +260,7 @@
       },
       {
         "id": "book_fict_soft_scifi_f451_5",
-        "text": "This scifi novel is divided into three parts: \"The Hearth and the Salamander,\" \"The Sieve and the Sand,\", and \"Burning Bright.\""
+        "text": "This sci-fi novel is divided into three parts: \"The Hearth and the Salamander,\" \"The Sieve and the Sand,\", and \"Burning Bright.\""
       }
     ],
     "copy-from": "book_fict_soft_scifi_tpl",

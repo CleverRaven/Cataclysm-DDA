@@ -7,10 +7,10 @@
 namespace gamepad
 {
 
-constexpr int max_triggers = 2;
-constexpr int max_sticks = 2;
+static constexpr int max_triggers = 2;
+static constexpr int max_sticks = 2;
 //constexpr int max_axis = 6;
-constexpr int max_buttons = 30;
+static constexpr int max_buttons = 30;
 
 static int triggers_axis[max_triggers] = {
     SDL_CONTROLLER_AXIS_TRIGGERLEFT,
@@ -39,20 +39,20 @@ struct task_t {
     int state;
 };
 
-constexpr int max_tasks           = max_buttons + max_sticks + max_triggers + 1;
+static constexpr int max_tasks           = max_buttons + max_sticks + max_triggers + 1;
 //constexpr int buttons_task_index  = 0;
-constexpr int sticks_task_index   = max_buttons;
-constexpr int triggers_task_index = max_buttons + max_sticks;
+static constexpr int sticks_task_index   = max_buttons;
+static constexpr int triggers_task_index = max_buttons + max_sticks;
 
-task_t all_tasks[max_tasks];
+static task_t all_tasks[max_tasks];
 
 static int repeat_delay = 400;
 static int repeat_interval = 200;
 static int diagonal_detect_delay = 250;
 
 // SDL related stuff
-SDL_TimerID timer_id;
-SDL_GameController *controller = nullptr;
+static SDL_TimerID timer_id;
+static SDL_GameController *controller = nullptr;
 
 static Uint32 timer_func( Uint32 interval, void * )
 {
@@ -99,8 +99,8 @@ void init()
         buttons_map[i] = JOY_0 + i;
     }
 
-    for( int i = 0; i < max_tasks; ++i ) {
-        all_tasks[i].counter = 0;
+    for( gamepad::task_t &task : all_tasks ) {
+        task.counter = 0;
     }
 
     int ret = SDL_Init( SDL_INIT_TIMER | SDL_INIT_GAMECONTROLLER );
@@ -324,7 +324,7 @@ void handle_button_event( SDL_Event &event )
 void handle_scheduler_event( SDL_Event &event )
 {
     Uint32 now = event.user.timestamp;
-    for( auto &task : all_tasks )
+    for( gamepad::task_t &task : all_tasks )
         if( task.counter && task.when <= now ) {
             send_input( task.button );
             task.counter += 1;

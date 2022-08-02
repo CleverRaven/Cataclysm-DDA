@@ -3,7 +3,7 @@
     "id": "TALK_BLACKSMITH_PROTOTYPE_NOT_FEELING_IT",
     "type": "talk_topic",
     "dynamic_line": [
-      "Oh, these.  With the end of the world, Jay and I had been talking about some new projects for the wasteland warriors.  Anyways it doesn't matter anymore since, well it doesn't matter."
+      "Oh, these.  With the end of the world, Jay and I had been talking about some new projects for the wasteland warriors.  Anyways, it doesn't matter anymore since… well, it doesn't matter."
     ],
     "responses": [
       {
@@ -23,7 +23,7 @@
     "id": "TALK_BLACKSMITH_PROTOTYPE_FEELING_IT",
     "type": "talk_topic",
     "dynamic_line": [
-      "Oh, these.  With the end of the world, Jay and I had been talking about some new projects for the wasteland warriors.  If you wanted to help source parts and do some testing we could definitely work on some of this stuff."
+      "Yeah!  I feel a lot better now that Jay and I are talking again, and we've been putting some serious work into this stuff.  If you wanted to help source parts and do some testing, we could definitely get some prototypes made."
     ],
     "responses": [
       {
@@ -48,7 +48,7 @@
   {
     "id": "TALK_BLACKSMITH_PROTOTYPE",
     "type": "talk_topic",
-    "dynamic_line": [ "Sure what would you like to know more about." ],
+    "dynamic_line": [ "Sure, what would you like to know more about?" ],
     "responses": [
       {
         "text": "Can you work on one of these projects for me?",
@@ -56,7 +56,7 @@
         "topic": "TALK_BLACKSMITH_BUSY"
       },
       {
-        "text": "[motion to the pictured mace gun] what's the 'OBREZ'?",
+        "text": "[Motion to the picture of some kind of rifle.] What's the 'OBREZ'?",
         "condition": { "not": { "u_has_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "yes" } },
         "topic": "TALK_BLACKSMITH_OBREZ"
       },
@@ -93,7 +93,7 @@
         "topic": "TALK_BLACKSMITH_OBREZ_COMPLETE"
       },
       {
-        "text": "[motion to the pictured switchblade] what's the 'PRESSIN'?",
+        "text": "[Motion to the picture of a switchblade.] What's the 'PRESSIN'?",
         "condition": { "not": { "u_has_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "yes" } },
         "topic": "TALK_BLACKSMITH_PRESSIN"
       },
@@ -130,7 +130,7 @@
         "topic": "TALK_BLACKSMITH_PRESSIN_COMPLETE"
       },
       {
-        "text": "[motion to the mace] what's the 'LOUVERTURE'?",
+        "text": "[Motion to the picture of a mace styled with fire on the head.] What's the 'LOUVERTURE'?",
         "condition": { "not": { "u_has_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "yes" } },
         "topic": "TALK_BLACKSMITH_LOUVERTURE"
       },
@@ -167,12 +167,12 @@
         "topic": "TALK_BLACKSMITH_LOUVERTURE_COMPLETE"
       },
       {
-        "text": "[motion to the sledgehammer] what's the 'PULVERIZER'?",
+        "text": "[Motion to the picture of a sledge hammer with a piston jutting from one face of the head.] What's the 'DISORDER'?",
         "condition": { "not": { "u_has_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "yes" } },
-        "topic": "TALK_BLACKSMITH_PULVERIZER"
+        "topic": "TALK_BLACKSMITH_DISORDER"
       },
       {
-        "text": "Is the Pulverizer finished?",
+        "text": "Is the Disorder finished?",
         "condition": {
           "and": [
             {
@@ -182,13 +182,13 @@
               "op": "<",
               "time": "14 d"
             },
-            { "u_has_var": "u_current_project", "type": "dialogue", "context": "artisans", "value": "PULVERIZER" }
+            { "u_has_var": "u_current_project", "type": "dialogue", "context": "artisans", "value": "DISORDER" }
           ]
         },
         "topic": "TALK_BLACKSMITH_PROTOTYPE_ONGOING"
       },
       {
-        "text": "Is the Pulverizer finished?",
+        "text": "Is the Disorder finished?",
         "condition": {
           "and": [
             {
@@ -198,10 +198,10 @@
               "op": ">",
               "time": "14 d"
             },
-            { "u_has_var": "u_current_project", "type": "dialogue", "context": "artisans", "value": "PULVERIZER" }
+            { "u_has_var": "u_current_project", "type": "dialogue", "context": "artisans", "value": "DISORDER" }
           ]
         },
-        "topic": "TALK_BLACKSMITH_PULVERIZER_COMPLETE"
+        "topic": "TALK_BLACKSMITH_DISORDER_COMPLETE"
       },
       { "text": "Nevermind.", "topic": "TALK_BLACKSMITH_SERVICES" }
     ]
@@ -210,7 +210,7 @@
     "id": "TALK_BLACKSMITH_OBREZ",
     "//": "Obrez Mace",
     "type": "talk_topic",
-    "dynamic_line": "The Obrez is a classic Mozin-Nagant that someone has cut down and removed the stock of.  The idea was in some parts of the world a surplus rifle was easier than finding a pistol to conceal.  Way I see it a sturdy classic gun like that with a bit of reinforcement could make a great mace.  You find me a functioning Mosin, any variant will do, 50 merch for parts and give me a week and I can get this one working.",
+    "dynamic_line": "The Obrez is a classic Mosin-Nagant that someone has cut down and removed the stock of.  The idea was that in some parts of the world a surplus rifle was easier than finding a pistol to conceal.  Way I see it, a sturdy classic gun like that with a bit of reinforcement could make a great mace.  You find me a functioning Mosin - any variant will do - and 50 merch for parts, and I can get this one working in a week.",
     "responses": [
       {
         "text": "[Mosin-Nagant M44, 50 merch] See you in a week.",
@@ -218,8 +218,8 @@
           "and": [ { "u_has_items": { "item": "mosin44", "count": 1 } }, { "u_has_items": { "item": "FMCNote", "count": 50 } } ]
         },
         "effect": [
-          { "u_consume_item": "mosin44", "count": 1 },
-          { "u_consume_item": "FMCNote", "count": 50 },
+          { "u_consume_item": "mosin44", "count": 1, "popup": true },
+          { "u_consume_item": "FMCNote", "count": 50, "popup": true },
           { "u_add_faction_trust": 1 },
           { "u_add_var": "u_waiting_on_prototype", "type": "timer", "context": "artisans", "time": true },
           { "u_add_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "yes" },
@@ -233,8 +233,8 @@
           "and": [ { "u_has_items": { "item": "mosin91_30", "count": 1 } }, { "u_has_items": { "item": "FMCNote", "count": 50 } } ]
         },
         "effect": [
-          { "u_consume_item": "mosin91_30", "count": 1 },
-          { "u_consume_item": "FMCNote", "count": 50 },
+          { "u_consume_item": "mosin91_30", "count": 1, "popup": true },
+          { "u_consume_item": "FMCNote", "count": 50, "popup": true },
           { "u_add_faction_trust": 1 },
           { "u_add_var": "u_waiting_on_prototype", "type": "timer", "context": "artisans", "time": true },
           { "u_add_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "yes" },
@@ -251,7 +251,7 @@
     "id": "TALK_BLACKSMITH_OBREZ_COMPLETE",
     "//": "making the obrez",
     "type": "talk_topic",
-    "dynamic_line": "The guns done, looking pretty sleek if you ask me.  All loaded and ready to cave in a zombie.",
+    "dynamic_line": "The gun is done, looking pretty sleek if you ask me.  All loaded and ready to cave in a zombie.",
     "responses": [
       {
         "text": "Thanks.",
@@ -268,10 +268,10 @@
     "id": "TALK_BLACKSMITH_PRESSIN",
     "//": "Pressin Pistol Knife",
     "type": "talk_topic",
-    "dynamic_line": "The Pressin was a self defense weapon for politicians in Spain.  It was a small breach loaded handheld pistol that could fit in a glasses case and be fired subtly.  I figure that we can improve on the design by adding a retracting blade while keeping the surprise shots.  To get this working I'm gonna need a .32 gun like a: SIG Sauer P230, Kel-Tec P-32, or a Walther PPK.  I'll also need a switchblade, 20 merch and a week.",
+    "dynamic_line": "The Pressin was a self defense weapon for politicians in Spain.  It was a small breach loaded handheld pistol that could fit in a glasses case and be fired subtly.  I figure that we can improve on the design by adding a retracting blade while keeping the surprise shots.  To get this working I'm gonna need a .32 gun like a SIG Sauer P230, Kel-Tec P-32, or a Walther PPK.  I'll also need a switchblade, 20 merch, and a week.",
     "responses": [
       {
-        "text": "[P230, Switchblade, 20 merch] See you in a week.",
+        "text": "[P230, switchblade, 20 merch] See you in a week.",
         "condition": {
           "and": [
             { "u_has_items": { "item": "sig_p230", "count": 1 } },
@@ -280,9 +280,9 @@
           ]
         },
         "effect": [
-          { "u_consume_item": "sig_p230", "count": 1 },
-          { "u_consume_item": "switchblade", "count": 1 },
-          { "u_consume_item": "FMCNote", "count": 20 },
+          { "u_consume_item": "sig_p230", "count": 1, "popup": true },
+          { "u_consume_item": "switchblade", "count": 1, "popup": true },
+          { "u_consume_item": "FMCNote", "count": 20, "popup": true },
           { "u_add_faction_trust": 1 },
           { "u_add_var": "u_waiting_on_prototype", "type": "timer", "context": "artisans", "time": true },
           { "u_add_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "yes" },
@@ -291,7 +291,7 @@
         "topic": "TALK_BLACKSMITH_SERVICES"
       },
       {
-        "text": "[PPK, Switchblade, 20 merch] See you in a week.",
+        "text": "[PPK, switchblade, 20 merch] See you in a week.",
         "condition": {
           "and": [
             { "u_has_items": { "item": "walther_ppk", "count": 1 } },
@@ -300,9 +300,9 @@
           ]
         },
         "effect": [
-          { "u_consume_item": "walther_ppk", "count": 1 },
-          { "u_consume_item": "switchblade", "count": 1 },
-          { "u_consume_item": "FMCNote", "count": 20 },
+          { "u_consume_item": "walther_ppk", "count": 1, "popup": true },
+          { "u_consume_item": "switchblade", "count": 1, "popup": true },
+          { "u_consume_item": "FMCNote", "count": 20, "popup": true },
           { "u_add_faction_trust": 1 },
           { "u_add_var": "u_waiting_on_prototype", "type": "timer", "context": "artisans", "time": true },
           { "u_add_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "yes" },
@@ -311,7 +311,7 @@
         "topic": "TALK_BLACKSMITH_SERVICES"
       },
       {
-        "text": "[P-32, Switchblade, 20 merch] See you in a week.",
+        "text": "[P-32, switchblade, 20 merch] See you in a week.",
         "condition": {
           "and": [
             { "u_has_items": { "item": "kp32", "count": 1 } },
@@ -320,9 +320,9 @@
           ]
         },
         "effect": [
-          { "u_consume_item": "kp32", "count": 1 },
-          { "u_consume_item": "switchblade", "count": 1 },
-          { "u_consume_item": "FMCNote", "count": 20 },
+          { "u_consume_item": "kp32", "count": 1, "popup": true },
+          { "u_consume_item": "switchblade", "count": 1, "popup": true },
+          { "u_consume_item": "FMCNote", "count": 20, "popup": true },
           { "u_add_faction_trust": 1 },
           { "u_add_var": "u_waiting_on_prototype", "type": "timer", "context": "artisans", "time": true },
           { "u_add_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "yes" },
@@ -339,7 +339,7 @@
     "id": "TALK_BLACKSMITH_PRESSIN_COMPLETE",
     "//": "making the pressin",
     "type": "talk_topic",
-    "dynamic_line": "The guns done, mind the safety on the side, this guy is pretty dangerous.",
+    "dynamic_line": "The gun's done.  Mind the safety on the side, this guy is pretty dangerous.",
     "responses": [
       {
         "text": "Thanks.",
@@ -356,16 +356,16 @@
     "id": "TALK_BLACKSMITH_LOUVERTURE",
     "//": "Sun Mace",
     "type": "talk_topic",
-    "dynamic_line": "Oh that's one of my sillier ideas.  Jay is convinced it will never work but I really want to give it a shot.  A traditional mace with gas venting ports and an ignition system for mini bursts of fire.  Maybe I've just played too many fantasy RPGs but it seems worth a shot.  To get this one working I'm gonna need a real deal mace, something that can handle the pressure and additional parts as well as a military grade flamethrower.  Fabrication will definitely take 2 weeks on this one.",
+    "dynamic_line": "Oh, that's one of my sillier ideas.  Jay is convinced it'll never work but I really want to give it a shot.  A traditional mace with gas-venting ports and an ignition system for mini bursts of fire.  Maybe I've just played too many RPGs, but it seems worth a shot.  To get this one working I'm gonna need a real deal mace -  something that can handle the pressure - as well as a military grade flamethrower.  Fabrication will definitely take two weeks on this one.",
     "responses": [
       {
-        "text": "[Mace, Flamethrower] See you in 2 weeks.",
+        "text": "[Mace, flamethrower] See you in 2 weeks.",
         "condition": {
           "and": [ { "u_has_items": { "item": "flamethrower", "count": 1 } }, { "u_has_items": { "item": "mace", "count": 1 } } ]
         },
         "effect": [
-          { "u_consume_item": "flamethrower", "count": 1 },
-          { "u_consume_item": "mace", "count": 1 },
+          { "u_consume_item": "flamethrower", "count": 1, "popup": true },
+          { "u_consume_item": "mace", "count": 1, "popup": true },
           { "u_add_faction_trust": 1 },
           { "u_add_var": "u_waiting_on_prototype", "type": "timer", "context": "artisans", "time": true },
           { "u_add_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "yes" },
@@ -396,13 +396,13 @@
     ]
   },
   {
-    "id": "TALK_BLACKSMITH_PULVERIZER",
-    "//": "Pulverizer sledge hammer",
+    "id": "TALK_BLACKSMITH_DISORDER",
+    "//": "Disorder sledge hammer",
     "type": "talk_topic",
-    "dynamic_line": "The Pulverizer is already kind of a real thing.  I got the idea from a viral video I saw of a guy making something similar with a baseball bat for hitting home runs.  Takes a sledge hammer with a center mounted piston that you can arm with .22 caliber blanks.  When you hit a zombie with that sweet spot… BOOM.  I'll need a sledge hammer, 80 merch and at least 20 .22 LR rounds.  Fabrication will definitely take 2 weeks on this one.",
+    "dynamic_line": "The Disorder is already kind of a real thing.  I got the idea from a viral video I saw of a guy making something similar with a baseball bat for hitting home runs.  Takes a sledge hammer with a center mounted piston that you can arm with .22 caliber blanks.  When you hit a zombie with that sweet spot… boom.  The blank goes off and sends the piston straight down into whatever poor fucker you hit it with.  I'll need a sledge hammer, 80 merch, and at least 20 .22 LR rounds.  Fabrication will definitely take two weeks on this one.",
     "responses": [
       {
-        "text": "[sledge hammer, 80 merch, 20 .22 LR] See you in 2 weeks.",
+        "text": "[Sledge hammer, 80 merch, 20 .22 LR] See you in 2 weeks.",
         "condition": {
           "and": [
             { "u_has_items": { "item": "hammer_sledge", "count": 1 } },
@@ -411,13 +411,13 @@
           ]
         },
         "effect": [
-          { "u_consume_item": "hammer_sledge", "count": 1 },
-          { "u_consume_item": "FMCNote", "count": 80 },
-          { "u_consume_item": "22_lr", "count": 20 },
+          { "u_consume_item": "hammer_sledge", "count": 1, "popup": true },
+          { "u_consume_item": "FMCNote", "count": 80, "popup": true },
+          { "u_consume_item": "22_lr", "count": 20, "popup": true },
           { "u_add_faction_trust": 1 },
           { "u_add_var": "u_waiting_on_prototype", "type": "timer", "context": "artisans", "time": true },
           { "u_add_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "yes" },
-          { "u_add_var": "u_current_project", "type": "dialogue", "context": "artisans", "value": "PULVERIZER" }
+          { "u_add_var": "u_current_project", "type": "dialogue", "context": "artisans", "value": "DISORDER" }
         ],
         "topic": "TALK_BLACKSMITH_SERVICES"
       },
@@ -427,10 +427,10 @@
     ]
   },
   {
-    "id": "TALK_BLACKSMITH_PULVERIZER_COMPLETE",
+    "id": "TALK_BLACKSMITH_DISORDER_COMPLETE",
     "//": "making the pulverizer",
     "type": "talk_topic",
-    "dynamic_line": "The beast is done, really heavy duty but really packs a punch.  Be careful with your fingers I'm serious this thing could tear em off.",
+    "dynamic_line": "The beast is done!  Really heavy-duty, but really packs a punch.  Be careful with your fingers.  I'm serious, this thing could tear 'em off.",
     "responses": [
       {
         "text": "Thanks.",

@@ -16,7 +16,7 @@
         "|..xxx|---|---|---|--=-|",
         "|...C.|bbb|bbb|bbb|....|",
         "|-+---|...|...|...|LLLL|",
-        "|.....|#*#|#*#|#*#|----|",
+        "|.....|#α#|#α#|#α#|----|",
         "|5.....................|",
         "|-=-|..|+-|-+|-+--|-+--|",
         "|..1|..|.S|S.|t..c|....|",
@@ -43,7 +43,8 @@
         "=": "t_door_metal_locked",
         "w": "t_window",
         "4": "t_gutter_downspout",
-        "#": "t_bars"
+        "#": "t_sconc_wall",
+        "α": "t_door_metal_c_peep"
       },
       "furniture": {
         "c": "f_counter",
@@ -60,7 +61,7 @@
         ".": { "item": "badge_deputy", "chance": 5 },
         "t": { "item": "trash_cart", "chance": 50 },
         "c": { "item": "kitchen", "chance": 40, "repeat": [ 2, 4 ] },
-        "1": { "item": "cop_gear", "chance": 70, "repeat": [ 2, 4 ] },
+        "1": { "item": "cop_items", "chance": 70, "repeat": [ 2, 4 ] },
         "l": { "item": "cop_armory", "chance": 70, "repeat": [ 2, 4 ] },
         "L": { "item": "cop_evidence", "chance": 60, "repeat": [ 2, 4 ] }
       },
@@ -164,7 +165,7 @@
         "|..xxx|---|---|---|--=-|",
         "|...C.|bbb|bbb|bbb|....|",
         "|$^$$$|...|...|...|LLLL|",
-        "|.....|#*#|#*#|#*#|----|",
+        "|.....|#α#|#α#|#α#|----|",
         "|......................|",
         "|$^$|..|+-|-+|-+--|-+--|",
         "|..2|..|.S|S.|t..c|....|",
@@ -194,7 +195,8 @@
         "w": "t_window",
         "<": "t_stairs_up",
         "9": "t_gutter_downspout",
-        "#": "t_bars"
+        "#": "t_sconc_wall",
+        "α": "t_door_metal_c_peep"
       },
       "furniture": {
         "c": "f_counter",
@@ -216,7 +218,7 @@
         ".": { "item": "badge_deputy", "chance": 5 },
         "t": { "item": "trash_cart", "chance": 50 },
         "c": { "item": "kitchen", "chance": 40 },
-        "1": { "item": "cop_gear", "chance": 70 },
+        "1": { "item": "cop_items", "chance": 70 },
         "l": { "item": "cop_armory", "chance": 70 },
         "L": { "item": "cop_evidence", "chance": 60 },
         "N": { "item": "vending_food_items", "chance": 70, "repeat": [ 4, 12 ] },
@@ -278,7 +280,7 @@
         "|": "t_brick_wall",
         ".": "t_floor",
         " ": "t_open_air",
-        "4": "t_door_bar_locked",
+        "4": "t_door_metal_c_peep",
         "*": "t_door_locked",
         "+": "t_door_c",
         "$": "t_reinforced_glass",
@@ -288,7 +290,7 @@
         ">": "t_stairs_down",
         "<": "t_stairs_up",
         "~": "t_gutter_downspout",
-        "#": "t_bars"
+        "#": "t_sconc_wall"
       },
       "furniture": {
         "c": "f_counter",
@@ -330,8 +332,7 @@
           { "item": "jewelry_front", "chance": 50, "repeat": [ 2, 3 ] },
           { "item": "stash_drugs", "chance": 50, "repeat": [ 2, 3 ] },
           { "item": "harddrugs", "chance": 50, "repeat": [ 1, 2 ] },
-          { "item": "jewelry_safe", "chance": 20 },
-          { "item": "bionics_common", "chance": 10 }
+          { "item": "jewelry_safe", "chance": 20 }
         ],
         "F": [ { "item": "office", "chance": 50 }, { "item": "consumer_electronics", "chance": 30, "repeat": [ 1, 2 ] } ],
         "t": { "item": "trash_cart", "chance": 30, "repeat": [ 1, 2 ] },
@@ -339,7 +340,7 @@
         "B": { "item": "bed", "chance": 30 },
         "b": { "item": "bed", "chance": 30, "repeat": [ 1, 2 ] },
         "^": { "item": "bedroom", "chance": 30, "repeat": [ 1, 2 ] },
-        "1": { "item": "cop_gear", "chance": 30, "repeat": [ 1, 2 ] },
+        "1": { "item": "cop_items", "chance": 30, "repeat": [ 1, 2 ] },
         "l": { "item": "cop_armory", "chance": 30, "repeat": [ 1, 2 ] },
         "L": [
           { "item": "cop_evidence", "chance": 30, "repeat": [ 1, 2 ] },
@@ -432,7 +433,7 @@
         "|-------|*|---|---|,,,,,",
         "|bbb|bbb|.|bbb|bbb|,,,,,",
         "|...|...|.|...|...|,,,,,",
-        "|#*#|#*#|.|#*#|#*#|,,,,,",
+        "|#α#|#α#|.|#α#|#α#|,,,,,",
         "|.................|,,,,,",
         "|--------*------*-|,,,,,",
         "|llll|5......+$|.<|,,,,,",
@@ -465,7 +466,8 @@
         "w": "t_window",
         "<": "t_ladder_up",
         "4": "t_gutter_downspout",
-        "#": "t_bars"
+        "#": "t_sconc_wall",
+        "α": "t_door_metal_c_peep"
       },
       "furniture": {
         "c": "f_counter",
@@ -491,7 +493,7 @@
         "$": { "item": "cleaning", "chance": 50, "repeat": [ 2, 3 ] },
         "!": { "item": "alcohol_bottled_canned", "chance": 95, "repeat": [ 2, 3 ] },
         "t": { "item": "trash_cart", "chance": 50, "repeat": [ 2, 3 ] },
-        "1": { "item": "cop_gear", "chance": 70, "repeat": [ 2, 3 ] },
+        "1": { "item": "cop_items", "chance": 70, "repeat": [ 2, 3 ] },
         "l": { "item": "cop_armory", "chance": 70, "repeat": [ 2, 3 ] },
         "L": { "item": "cop_evidence", "chance": 60, "repeat": [ 2, 3 ] },
         "D": { "item": "office", "chance": 60, "repeat": [ 2, 3 ] },

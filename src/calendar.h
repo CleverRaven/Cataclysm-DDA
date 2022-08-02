@@ -61,6 +61,22 @@ enum moon_phase {
     MOON_PHASE_MAX
 };
 
+enum class time_accuracy {
+    /** No accuracy, no idea what time it is **/
+    NONE = 0,
+    /** Estimated time, can see the sky **/
+    PARTIAL = 1,
+    /** Full accuracy, using a timekeeping device **/
+    FULL = 2,
+    /** Unused, only for string conversions **/
+    NUM_TIME_ACCURACY
+};
+
+template<>
+struct enum_traits<time_accuracy> {
+    static constexpr time_accuracy last = time_accuracy::NUM_TIME_ACCURACY;
+};
+
 /**
  * Time keeping class
  *
@@ -426,7 +442,7 @@ std::pair<int, clipped_unit> clipped_time( const time_duration &d );
  * @param align none, right, or compact.
  */
 std::string to_string_clipped( const time_duration &d,
-                               const clipped_align align = clipped_align::none );
+                               clipped_align align = clipped_align::none );
 /**
  * Returns approximate duration.
  * @param verbose If true, 'less than' and 'more than' will be printed instead of '<' and '>' respectively.
@@ -457,7 +473,6 @@ class time_point
         // TODO: make private
         explicit constexpr time_point( const int t ) : turn_( t ) { }
 
-    public:
         // TODO: remove this, nobody should need it, one should use a constant `time_point`
         // (representing turn 0) and a `time_duration` instead.
         static constexpr time_point from_turn( const int t ) {
@@ -569,6 +584,10 @@ season_type season_of_year( const time_point &p );
 std::string to_string( const time_point &p );
 /// @returns The time point formatted to be shown to the player. Contains only the time of day, not the year, day or season.
 std::string to_string_time_of_day( const time_point &p );
+/** Time approximation based on the player's timekeeping capability, formatted for diary pages **/
+std::string get_diary_time_str( const time_point &turn, time_accuracy acc );
+/** Time approximation based on the player's timekeeping capability, formatted for diary pages **/
+std::string get_diary_time_since_str( const time_duration &turn_diff, time_accuracy acc );
 /** Returns the default duration of a lunar month (duration between syzygies) */
 time_duration lunar_month();
 /** Returns the current phase of the moon. */

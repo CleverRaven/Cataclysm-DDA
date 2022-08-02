@@ -95,9 +95,12 @@ int divide_round_down( int a, int b );
 bool isBetween( int test, int down, int up );
 
 /**
- * Perform case sensitive search for a query string inside a subject string.
+ * Perform case insensitive search for a query string inside a subject string.
  *
  * Searches for string given by qry inside a subject string given by str.
+ *
+ * Supports searching for accented letters with a non-accented search key, for example,
+ * search key 'bo' matches 'Bō', but search key 'bö' should not match with 'Bō' and only match with 'Bö' or 'BÖ'.
  *
  * @param str Subject to search for occurrence of the query string.
  * @param qry Query string to search for in str
@@ -308,7 +311,7 @@ class list_circularizer
  * \p fail_message, the error text and the path.
  *
  * @return Whether saving succeeded (no error was caught).
- * @throw The void function throws when writing failes or when the @p writer throws.
+ * @throw The void function throws when writing fails or when the @p writer throws.
  * The other function catches all exceptions and returns false.
  */
 ///@{
@@ -485,7 +488,7 @@ std::string &str_append( std::string &root, T &&...a )
 }
 
 /**
- * Concatenates a bunch of strings with append, to minimze unnecessary
+ * Concatenates a bunch of strings with append, to minimize unnecessary
  * allocations
  */
 template<typename T0, typename... T>
@@ -659,5 +662,11 @@ holiday get_holiday_from_time( std::time_t time = 0, bool force_refresh = false 
  * @return random bucket index
  */
 int bucket_index_from_weight_list( const std::vector<int> &weights );
+
+/**
+ * Set the game window title.
+ * Implemented in `stdtiles.cpp`, `wincurse.cpp`, and `ncurses_def.cpp`.
+ */
+void set_title( const std::string &title );
 
 #endif // CATA_SRC_CATA_UTILITY_H

@@ -16,6 +16,18 @@
     "type": "talk_topic",
     "responses": [
       {
+        "text": "I'm trying to put a cleanup crew together to tidy up the back room.  Can you help?",
+        "condition": {
+          "and": [
+            { "u_has_mission": "MISSION_REFUGEE_Boris_CLEANUP" },
+            {
+              "not": { "npc_has_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" }
+            }
+          ]
+        },
+        "topic": "TALK_FREE_MERCHANT_TEAMSTER_Boris_Mission_1"
+      },
+      {
         "text": "So, have your caravans seen anything interesting out there in the wasteland?",
         "topic": "TALK_FREE_MERCHANT_TEAMSTER_DIRECTIONS",
         "condition": {
@@ -198,7 +210,7 @@
     "dynamic_line": "Always lookin' for new places to trade.  What you got for me?",
     "responses": [
       {
-        "text": "[ Tell them about Rubik and the Exodii ]",
+        "text": "[Tell them about Rubik and the Exodii]",
         "topic": "TALK_FREE_MERCHANT_TEAMSTER_EXODII_1",
         "condition": { "u_has_var": "u_met_Rubik", "type": "general", "context": "meeting", "value": "yes" }
       },
@@ -209,9 +221,24 @@
   {
     "type": "talk_topic",
     "id": "TALK_FREE_MERCHANT_TEAMSTER_EXODII_1",
-    "//": "In the future this should start a quest line or allow free merchant caravans to sometimes show up near the exodii base.",
+    "//": "In the future this should start a quest line or allow free merchant caravans to sometimes show up near the Exodii base.",
     "dynamic_line": "Well now, that's a hell of a story.  Some day, I'll see if we can get out there an' look into it.  Sounds like there'd be some real interestin' trade.",
     "responses": [ { "text": "Can I ask you something else?", "topic": "TALK_FREE_MERCHANT_TEAMSTER_CHAT" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_FREE_MERCHANT_TEAMSTER_Boris_Mission_1",
+    "dynamic_line": "Yeah, I'll help out.  I've pretty much been waiting for someone to ask, the mess is in my way but I've been too busy to organize it myself.  Boris is the one to talk to, you say?  I'll let him know.",
+    "speaker_effect": {
+      "effect": [
+        { "npc_add_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" },
+        { "u_adjust_var": "Boris_mission_1", "type": "mission", "context": "cleanup_promises", "adjustment": 1 }
+      ]
+    },
+    "responses": [
+      { "text": "Thanks so much!  Can I ask you something else?", "topic": "TALK_FREE_MERCHANT_TEAMSTER_CHAT" },
+      { "text": "Thanks so much!  I have to go ask a few others, talk to you later.", "topic": "TALK_DONE" }
+    ]
   },
   {
     "id": "directions_isherwood",
@@ -247,7 +274,7 @@
     "difficulty": 2,
     "value": 0,
     "start": {
-      "assign_mission_target": { "om_terrain": "robofac_hq_surface_freemerchant_camp", "reveal_radius": 5, "search_range": 400 },
+      "assign_mission_target": { "om_special": "hub_01", "om_terrain": "robofachq_surface_entrance", "reveal_radius": 5, "search_range": 400 },
       "effect": { "u_add_var": "directions", "type": "teamster", "context": "mission", "value": "hub01" }
     },
     "origins": [ "ORIGIN_SECONDARY" ],

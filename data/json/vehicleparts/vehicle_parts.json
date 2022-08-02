@@ -46,7 +46,7 @@
     "type": "item_group",
     "id": "ig_vp_cloth",
     "subtype": "collection",
-    "entries": [ { "item": "rag", "count": [ 3, 6 ] } ]
+    "entries": [ { "item": "cotton_patchwork", "count": [ 3, 6 ] } ]
   },
   {
     "type": "item_group",
@@ -417,7 +417,7 @@
   {
     "type": "vehicle_part",
     "id": "hdroof",
-    "name": { "str": "heavy duty roof" },
+    "name": { "str": "heavy-duty roof" },
     "symbol": "#",
     "categories": [ "hull" ],
     "color": "dark_gray",
@@ -736,7 +736,7 @@
   {
     "type": "vehicle_part",
     "id": "dishwasher",
-    "name": { "str": "dishwasher" },
+    "name": { "str": "portable dishwasher" },
     "symbol": "d",
     "categories": [ "utility" ],
     "color": "light_blue",
@@ -1245,7 +1245,7 @@
       "STABLE",
       "UNMOUNT_ON_DAMAGE"
     ],
-    "breaks_into": [ { "item": "splinter", "count": [ 2, 4 ] }, { "item": "rag", "count": [ 5, 10 ] } ]
+    "breaks_into": [ { "item": "splinter", "count": [ 2, 4 ] }, { "item": "cotton_patchwork", "count": [ 5, 10 ] } ]
   },
   {
     "type": "vehicle_part",
@@ -1802,6 +1802,15 @@
   },
   {
     "type": "vehicle_part",
+    "id": "advanced_foldable_solar_panel",
+    "copy-from": "foldable_solar_panel",
+    "name": { "str": "advanced collapsible solar array" },
+    "proportional": { "epower": 2 },
+    "description": "A small array of high-efficiency solar panels designed to be able to fold into one another.",
+    "item": "folding_solar_panel_v2"
+  },
+  {
+    "type": "vehicle_part",
     "id": "reinforced_solar_panel",
     "copy-from": "solar_panel",
     "looks_like": "solar_panel",
@@ -1832,7 +1841,7 @@
     "type": "vehicle_part",
     "id": "solar_panel_v2",
     "copy-from": "solar_panel",
-    "name": { "str": "upgraded solar panel" },
+    "name": { "str": "advanced solar panel" },
     "looks_like": "solar_panel",
     "description": "A high performance solar panel.",
     "item": "solar_panel_v2",
@@ -1850,7 +1859,7 @@
       { "item": "steel_lump", "count": [ 2, 4 ] },
       { "item": "steel_chunk", "count": [ 2, 4 ] },
       { "item": "scrap", "count": [ 2, 4 ] },
-      { "item": "solar_cell", "count": [ 1, 6 ] }
+      { "item": "solar_cell_v2", "count": [ 1, 6 ] }
     ]
   },
   {
@@ -1927,7 +1936,7 @@
     },
     "flags": [ "FOLDABLE" ],
     "pseudo_tools": [ { "id": "towel", "hotkey": "t" } ],
-    "breaks_into": [ { "item": "scrap", "count": [ 1, 3 ] }, { "item": "rag", "count": [ 1, 6 ] } ]
+    "breaks_into": [ { "item": "scrap", "count": [ 1, 3 ] }, { "item": "cotton_patchwork", "count": [ 1, 6 ] } ]
   },
   {
     "type": "vehicle_part",
@@ -2202,7 +2211,7 @@
   {
     "type": "vehicle_part",
     "id": "hddoor_trunk",
-    "name": { "str": "heavy duty trunk door" },
+    "name": { "str": "heavy-duty trunk door" },
     "symbol": "+",
     "categories": [ "hull" ],
     "color": "light_gray",
@@ -2283,7 +2292,7 @@
     "broken_color": "dark_gray",
     "durability": 250,
     "size": 2000,
-    "//": "Based roughly on a quarter of a 2m x 1.2m pickup truck bed, assuming a reasonble amount of piling up (about 80cm, ie. sticking up around 20cm over the sides if really stacked).  Could definitely use more subtypes.",
+    "//": "Based roughly on a quarter of a 2m x 1.2m pickup truck bed, assuming a reasonable amount of piling up (about 80cm, ie. sticking up around 20cm over the sides if really stacked).  Could definitely use more subtypes.",
     "item": "cargo_rack",
     "location": "center",
     "requirements": {
@@ -2463,7 +2472,7 @@
   {
     "type": "vehicle_part",
     "id": "extension_cable",
-    "name": { "str": "extension_cable" },
+    "name": { "str": "extension cord" },
     "symbol": "{",
     "categories": [ "other" ],
     "color": "yellow",
@@ -2475,6 +2484,25 @@
     "durability": 120,
     "description": "A long orange extension cord for connecting appliances.  Currently plugged in.",
     "item": "extension_cable",
+    "requirements": { "removal": { "time": "5 s" } },
+    "flags": [ "NOINSTALL", "UNMOUNT_ON_DAMAGE", "UNMOUNT_ON_MOVE", "POWER_TRANSFER" ],
+    "breaks_into": [ { "item": "cable", "charges": [ 1, 10 ] }, { "item": "plastic_chunk", "count": [ 1, 2 ] } ]
+  },
+  {
+    "type": "vehicle_part",
+    "id": "long_extension_cable",
+    "name": { "str": "outdoor extension cord" },
+    "symbol": "{",
+    "categories": [ "other" ],
+    "color": "yellow",
+    "broken_symbol": "*",
+    "broken_color": "dark_gray",
+    "damage_modifier": 10,
+    "epower": 1,
+    "//": "Epower for POWER_TRANSFER stuff is how much percentage-wise loss there is in transmission",
+    "durability": 120,
+    "description": "An extra long 30m orange extension cord for connecting outdoor appliances.  Currently plugged in.",
+    "item": "long_extension_cable",
     "requirements": { "removal": { "time": "5 s" } },
     "flags": [ "NOINSTALL", "UNMOUNT_ON_DAMAGE", "UNMOUNT_ON_MOVE", "POWER_TRANSFER" ],
     "breaks_into": [ { "item": "cable", "charges": [ 1, 10 ] }, { "item": "plastic_chunk", "count": [ 1, 2 ] } ]
@@ -2501,7 +2529,7 @@
   {
     "type": "vehicle_part",
     "id": "hd_tow_cable",
-    "name": { "str": "heavy duty tow cable" },
+    "name": { "str": "heavy-duty tow cable" },
     "symbol": "{",
     "categories": [ "other" ],
     "color": "light_blue",
@@ -2509,7 +2537,7 @@
     "broken_color": "dark_gray",
     "damage_modifier": 10,
     "durability": 120,
-    "description": "A heavy duty tow cable, if the other end was attached to another vehicle, it could pull it.",
+    "description": "A heavy-duty tow cable, if the other end was attached to another vehicle, it could pull it.",
     "item": "hd_tow_cable",
     "requirements": { "removal": { "time": 500 } },
     "flags": [ "NOINSTALL", "UNMOUNT_ON_DAMAGE", "TOW_CABLE" ],

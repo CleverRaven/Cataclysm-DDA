@@ -3,12 +3,22 @@
     "type": "scenario",
     "id": "evacuee",
     "//": "Overriding evacuee to put it at the top of the list of available scenarios.",
-    "name": "In a cave",
+    "name": "In a Cave",
     "points": 0,
-    "description": "Somehow, you found yourself in a cave.",
+    "description": "Somehow, you found yourself in a cave.  Someone else is with you.",
     "allowed_locs": [ "sloc_cave_underground_innawood", "sloc_cave_innawood" ],
     "start_name": "Cave",
     "flags": [  ]
+  },
+  {
+    "type": "scenario",
+    "id": "cave_lonesome",
+    "name": "A Lonely Cave",
+    "points": -1,
+    "description": "Somehow, you found yourself in a cave.  Seems like you're on your own.",
+    "allowed_locs": [ "sloc_cave_underground_innawood", "sloc_cave_innawood" ],
+    "start_name": "Cave",
+    "flags": [ "LONE_START" ]
   },
   {
     "type": "scenario",
@@ -52,7 +62,18 @@
     "description": "You start drunk to the point of incapacitation, depressed, infected, surrounded by fire, and sick with the flu.  This day went downhill really fast.",
     "start_name": "Wilderness",
     "allowed_locs": [ "sloc_field", "sloc_forest", "sloc_desert_island", "sloc_river" ],
-    "professions": [ "svictim", "tweaker" ],
+    "professions": [
+      "svictim",
+      "naked",
+      "unemployed",
+      "homeless",
+      "hitchhiker",
+      "clown",
+      "lost_sub",
+      "spouse",
+      "musician",
+      "true_foodperson"
+    ],
     "eoc": [ "scenario_infected", "scenario_bad_day" ],
     "flags": [ "FIRE_START", "CHALLENGE", "LONE_START" ]
   },
@@ -126,5 +147,18 @@
     "start_name": "Crash Site",
     "map_extra": "mx_mayhem",
     "flags": [ "CHALLENGE", "HELI_CRASH", "LONE_START" ]
+  },
+  {
+    "type": "scenario",
+    "id": "medieval",
+    "name": "Challenge - Medieval Peasant",
+    "points": -4,
+    "description": "Som nigromancie hath brought yow hidder!  Ye have only the hoose on youre legges and the knyf at youre syde and youre prayeres to Marie moder of God.",
+    "start_name": "Wilderness",
+    "allowed_locs": [ "sloc_forest", "sloc_field" ],
+    "professions": [ "churl" ],
+    "forced_traits": [ "ILLITERATE", "ANTIJUNK", "STRONGSTOMACH", "SPIRITUAL" ],
+    "forbidden_traits": [ "FASTREADER", "SLOWREADER" ],
+    "flags": [ "CHALLENGE", "LONE_START" ]
   }
 ]

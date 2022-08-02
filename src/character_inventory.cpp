@@ -66,7 +66,7 @@ void Character::handle_contents_changed( const std::vector<item_location> &conta
         loc->on_contents_changed();
         const bool handle_drop = loc.where() != item_location::type::map && !is_wielding( *loc );
         bool drop_unhandled = false;
-        for( item_pocket *const pocket : loc->get_all_contained_pockets().value() ) {
+        for( item_pocket *const pocket : loc->get_all_contained_pockets() ) {
             if( pocket && !pocket->sealed() ) {
                 // pockets are unsealed but on_contents_changed is not called
                 // in contents_change_handler::unseal_pocket_containing
@@ -157,8 +157,8 @@ std::pair<item_location, item_pocket *> Character::best_pocket( const item &it, 
     return ret;
 }
 
-item *Character::try_add( item it, const item *avoid, const item *original_inventory_item,
-                          const bool allow_wield, bool ignore_pkt_settings )
+item_location Character::try_add( item it, const item *avoid, const item *original_inventory_item,
+                                  const bool allow_wield, bool ignore_pkt_settings )
 {
     invalidate_inventory_validity_cache();
     itype_id item_type_id = it.typeId();
@@ -175,21 +175,23 @@ item *Character::try_add( item it, const item *avoid, const item *original_inven
         }
     }
     std::pair<item_location, item_pocket *> pocket = best_pocket( it, avoid, ignore_pkt_settings );
-    item *ret = nullptr;
+    item_location ret = item_location::nowhere;
     if( pocket.second == nullptr ) {
         if( !has_weapon() && allow_wield && wield( it ) ) {
-            ret = &weapon;
+            ret = item_location( *this, &weapon );
         } else {
-            return nullptr;
+            return ret;
         }
     } else {
         // this will set ret to either it, or to stack where it was placed
-        pocket.second->add( it, &ret );
-        if( !keep_invlet && ( !it.count_by_charges() || it.charges == ret->charges ) ) {
-            inv->update_invlet( *ret, true, original_inventory_item );
+        item *newit = nullptr;
+        pocket.second->add( it, &newit );
+        if( !keep_invlet && ( !it.count_by_charges() || it.charges == newit->charges ) ) {
+            inv->update_invlet( *newit, true, original_inventory_item );
         }
         pocket.first.on_contents_changed();
         pocket.second->on_contents_changed();
+        ret = item_location( pocket.first, newit );
     }
 
     if( keep_invlet ) {
@@ -200,24 +202,25 @@ item *Character::try_add( item it, const item *avoid, const item *original_inven
     return ret;
 }
 
-item &Character::i_add( item it, bool /* should_stack */, const item *avoid,
-                        const item *original_inventory_item, const bool allow_drop,
-                        const bool allow_wield, bool ignore_pkt_settings )
+item_location Character::i_add( item it, bool /* should_stack */, const item *avoid,
+                                const item *original_inventory_item, const bool allow_drop,
+                                const bool allow_wield, bool ignore_pkt_settings )
 {
     invalidate_inventory_validity_cache();
-    item *added = try_add( it, avoid, original_inventory_item, allow_wield, ignore_pkt_settings );
-    if( added == nullptr ) {
+    item_location added = try_add( it, avoid, original_inventory_item, allow_wield,
+                                   ignore_pkt_settings );
+    if( added == item_location::nowhere ) {
         if( !allow_wield || !wield( it ) ) {
             if( allow_drop ) {
-                return get_map().add_item_or_charges( pos(), it );
+                return item_location( map_cursor( pos() ), &get_map().add_item_or_charges( pos(), it ) );
             } else {
-                return null_item_reference();
+                return added;
             }
         } else {
-            return weapon;
+            return item_location( *this, &weapon );
         }
     } else {
-        return *added;
+        return added;
     }
 }
 
@@ -277,6 +280,17 @@ bool Character::i_add_or_drop( item &it, int qty, const item *avoid,
     return retval;
 }
 
+bool Character::i_drop_at( item &it, int qty )
+{
+    bool retval = true;
+    map &here = get_map();
+    for( int i = 0; i < qty; ++i ) {
+        retval &= !here.add_item_or_charges( pos(), it ).is_null();
+    }
+
+    return retval;
+}
+
 static void recur_internal_locations( item_location parent, std::vector<item_location> &list )
 {
     for( item *it : parent->all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
@@ -325,7 +339,7 @@ std::vector<item_location> Character::top_items_loc()
     return worn.top_items_loc( *this );
 }
 
-item *Character::invlet_to_item( const int linvlet )
+item *Character::invlet_to_item( const int linvlet ) const
 {
     // Invlets may come from curses, which may also return any kind of key codes, those being
     // of type int and they can become valid, but different characters when casted to char.
@@ -418,7 +432,7 @@ void Character::pick_up( const drop_locations &what )
         quantities.emplace_back( dl.second );
     }
 
-    assign_activity( player_activity( pickup_activity_actor( items, quantities, pos() ) ) );
+    assign_activity( player_activity( pickup_activity_actor( items, quantities, pos(), false ) ) );
 }
 
 invlets_bitset Character::allocated_invlets() const
@@ -442,12 +456,12 @@ bool Character::has_active_item( const itype_id &id ) const
     } );
 }
 
-ret_val<bool> Character::can_drop( const item &it ) const
+ret_val<void> Character::can_drop( const item &it ) const
 {
     if( it.has_flag( flag_NO_UNWIELD ) ) {
-        return ret_val<bool>::make_failure( _( "You cannot drop your %s." ), it.tname() );
+        return ret_val<void>::make_failure( _( "You cannot drop your %s." ), it.tname() );
     }
-    return ret_val<bool>::make_success();
+    return ret_val<void>::make_success();
 }
 
 void Character::drop_invalid_inventory()
@@ -478,8 +492,35 @@ void Character::drop_invalid_inventory()
 void outfit::holster_opts( std::vector<dispose_option> &opts, item_location obj, Character &guy )
 {
 
-    for( auto &e : worn ) {
-        if( e.can_holster( *obj ) ) {
+    for( item &e : worn ) {
+        // check for attachable subpockets first (the parent item may be defined as a holster)
+        if( e.get_contents().has_additional_pockets() && e.can_contain( *obj ).success() ) {
+            opts.emplace_back( dispose_option{
+                string_format( _( "Store in %s" ), e.tname() ), true, e.invlet,
+                guy.item_store_cost( *obj, e, false, e.insert_cost( *obj ) ),
+                [&guy, &e, obj] {
+                    item &it = *item_location( obj );
+                    guy.store( e, it, false, e.insert_cost( it ), item_pocket::pocket_type::CONTAINER, true );
+                    return !guy.has_item( it );
+                }
+            } );
+            int pkt_idx = 0;
+            for( const item *it : e.get_contents().get_added_pockets() ) {
+                item_pocket *con = const_cast<item_pocket *>( e.get_contents().get_added_pocket( pkt_idx++ ) );
+                if( !con || !con->can_contain( *obj ).success() ) {
+                    continue;
+                }
+                opts.emplace_back( dispose_option{
+                    string_format( "  >%s", it->tname() ), true, it->invlet,
+                    guy.item_store_cost( *obj, *it, false, it->insert_cost( *it ) ),
+                    [&guy, it, con, obj] {
+                        item &i = *item_location( obj );
+                        guy.store( con, i, false, it->insert_cost( i ) );
+                        return !guy.has_item( i );
+                    }
+                } );
+            }
+        } else if( e.can_holster( *obj ) ) {
             const holster_actor *ptr = dynamic_cast<const holster_actor *>
                                        ( e.type->get_use( "holster" )->get_actor_ptr() );
             opts.emplace_back( dispose_option{
@@ -546,10 +587,10 @@ bool Character::dispose_item( item_location &&obj, const std::string &prompt )
     worn.holster_opts( opts, obj, *this );
 
     int w = utf8_width( menu.text, true ) + 4;
-    for( const auto &e : opts ) {
+    for( const dispose_option &e : opts ) {
         w = std::max( w, utf8_width( e.prompt, true ) + 4 );
     }
-    for( auto &e : opts ) {
+    for( dispose_option &e : opts ) {
         e.prompt += std::string( w - utf8_width( e.prompt, true ), ' ' );
     }
 
@@ -557,7 +598,7 @@ bool Character::dispose_item( item_location &&obj, const std::string &prompt )
     menu.text += std::string( w + 2 - utf8_width( menu.text, true ), ' ' );
     menu.text += _( " | Moves  " );
 
-    for( const auto &e : opts ) {
+    for( const dispose_option &e : opts ) {
         menu.addentry( -1, e.enabled, e.invlet, string_format( e.enabled ? "%s | %-7d" : "%s |",
                        e.prompt, e.moves ) );
     }

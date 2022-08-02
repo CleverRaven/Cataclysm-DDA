@@ -8,6 +8,7 @@
 #include <map>
 #include <memory>
 #include <string>
+#include <utility>
 #include <vector>
 
 #include "color.h"
@@ -171,7 +172,7 @@ class veh_interact
 
         /**
         * Calculates the lift requirements for a given vehicle_part
-        * @return bool true if lift requirements are fullfilled
+        * @return bool true if lift requirements are fulfilled
         * @return string msg for the ui to show the lift requirements
         */
         std::pair<bool, std::string> calc_lift_requirements( const vpart_info &sel_vpart_info );
@@ -187,13 +188,15 @@ class veh_interact
         struct part_option {
             part_option( const std::string &key, vehicle_part *part, bool selectable, const input_event &hotkey,
                          std::function<void( const vehicle_part &pt, const catacurses::window &w, int y )> details ) :
-                key( key ), part( part ), selectable( selectable ), hotkey( hotkey ), details( details ) {}
+                key( key ), part( part ), selectable( selectable ), hotkey( hotkey ),
+                details( std::move( details ) ) {}
 
             part_option( const std::string &key, vehicle_part *part, bool selectable, const input_event &hotkey,
                          std::function<void( const vehicle_part &pt, const catacurses::window &w, int y )> details,
                          std::function<void( const vehicle_part &pt )> message ) :
-                key( key ), part( part ), selectable( selectable ), hotkey( hotkey ), details( details ),
-                message( message ) {}
+                key( key ), part( part ), selectable( selectable ), hotkey( hotkey ),
+                details( std::move( details ) ),
+                message( std::move( message ) ) {}
 
             std::string key;
             vehicle_part *part;

@@ -18,7 +18,7 @@
     "melee_skill": 4,
     "melee_dice": 2,
     "melee_dice_sides": 4,
-    "melee_cut": 0,
+    "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "armor_bash": 2,
     "armor_cut": 2,
     "armor_bullet": 2,
@@ -28,6 +28,7 @@
     "vision_night": 3,
     "special_attacks": [ [ "FLESH_GOLEM", 10 ], [ "ABSORB_MEAT", 10 ] ],
     "harvest": "zombie",
+    "dissect": "dissect_beast_sample_small",
     "upgrades": { "half_life": 15, "into": "mon_flesh_golem" },
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "ATTACKMON", "POISON" ]
   },
@@ -50,7 +51,7 @@
     "melee_skill": 6,
     "melee_dice": 4,
     "melee_dice_sides": 6,
-    "melee_cut": 2,
+    "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
     "armor_bash": 6,
     "armor_cut": 4,
     "armor_bullet": 3,
@@ -60,6 +61,7 @@
     "vision_night": 3,
     "special_attacks": [ [ "FLESH_GOLEM", 8 ], [ "ABSORB_MEAT", 1 ] ],
     "harvest": "flesh_golem",
+    "dissect": "dissect_beast_sample_small",
     "upgrades": { "half_life": 15, "into": "mon_jabberwock" },
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "ATTACKMON", "POISON" ]
   },
@@ -82,7 +84,7 @@
     "melee_skill": 10,
     "melee_dice": 4,
     "melee_dice_sides": 8,
-    "melee_cut": 3,
+    "melee_damage": [ { "damage_type": "cut", "amount": 3 } ],
     "dodge": 3,
     "armor_bash": 12,
     "armor_cut": 8,
@@ -93,6 +95,7 @@
     "vision_night": 3,
     "special_attacks": [ [ "FLESH_GOLEM", 5 ] ],
     "harvest": "jabberwock",
+    "dissect": "dissect_beast_sample_large",
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "DESTROYS", "ATTACKMON", "POISON" ]
   }
 ]

@@ -549,6 +549,32 @@
   },
   {
     "type": "construction",
+    "id": "constr_remove_wooden_wall_chipped",
+    "group": "remove_wooden_wall",
+    "//": "Cuts a segment of chipped wooden wall out very neatly, and then breaks it apart for disposal.",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 5 ] ],
+    "time": "90 m",
+    "using": [ [ "wall_floor_glass_removal_standard", 1 ] ],
+    "byproducts": "wall_deconstruction_results",
+    "pre_terrain": "t_wall_wood_chipped",
+    "post_terrain": "t_floor"
+  },
+  {
+    "type": "construction",
+    "id": "constr_remove_wooden_wall_broken",
+    "group": "remove_wooden_wall",
+    "//": "Cuts a segment of broken wooden wall out very neatly, and then breaks it apart for disposal.",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 5 ] ],
+    "time": "40 m",
+    "using": [ [ "wall_floor_glass_removal_standard", 1 ] ],
+    "byproducts": "wall_deconstruction_results",
+    "pre_terrain": "t_wall_wood_broken",
+    "post_terrain": "t_floor"
+  },
+  {
+    "type": "construction",
     "id": "constr_remove_wooden_wall_embrasure",
     "group": "remove_wooden_wall",
     "//": "Cuts a segment of wooden wall with embrasure out very neatly, and then breaks it apart for disposal.",
@@ -558,6 +584,19 @@
     "using": [ [ "wall_floor_glass_removal_standard", 1 ] ],
     "byproducts": "wall_deconstruction_results",
     "pre_terrain": "t_embrasure_wood",
+    "post_terrain": "t_floor"
+  },
+  {
+    "type": "construction",
+    "id": "constr_remove_wooden_wall_wide_opening",
+    "group": "remove_wooden_wall",
+    "//": "Cuts a segment of wooden wall with wide opening out very neatly, and then breaks it apart for disposal.",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 5 ] ],
+    "time": "60 m",
+    "using": [ [ "wall_floor_glass_removal_standard", 1 ] ],
+    "byproducts": "wall_deconstruction_results",
+    "pre_terrain": "t_wall_wood_widened",
     "post_terrain": "t_floor"
   },
   {
@@ -592,6 +631,32 @@
   },
   {
     "type": "construction",
+    "id": "constr_remove_log_wall_chipped",
+    "group": "remove_wooden_wall",
+    "//": "Cuts a segment of a chipped log wall out very neatly, and then breaks it apart for disposal.",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 5 ] ],
+    "time": "90 m",
+    "using": [ [ "wall_floor_glass_removal_standard", 1 ] ],
+    "byproducts": [ { "item": "nail", "charges": [ 5, 10 ] }, { "item": "splinter", "count": [ 20, 40 ] } ],
+    "pre_terrain": "t_wall_log_chipped",
+    "post_terrain": "t_dirt"
+  },
+  {
+    "type": "construction",
+    "id": "constr_remove_log_wall_broken",
+    "group": "remove_wooden_wall",
+    "//": "Cuts a segment of broken log wall out very neatly, and then breaks it apart for disposal.",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 5 ] ],
+    "time": "60 m",
+    "using": [ [ "wall_floor_glass_removal_standard", 1 ] ],
+    "byproducts": [ { "item": "nail", "charges": [ 5, 10 ] }, { "item": "splinter", "count": [ 20, 40 ] } ],
+    "pre_terrain": "t_wall_log_broken",
+    "post_terrain": "t_dirt"
+  },
+  {
+    "type": "construction",
     "id": "constr_remove_log_wall_embrasure",
     "group": "remove_wooden_wall",
     "//": "Cuts a segment of log wall with embrasure out very neatly, and then breaks it apart for disposal.",
@@ -605,6 +670,19 @@
   },
   {
     "type": "construction",
+    "id": "constr_remove_log_wall_widened",
+    "group": "remove_wooden_wall",
+    "//": "Cuts a segment of log wall with a wide opening out very neatly, and then breaks it apart for disposal.",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 5 ] ],
+    "time": "60 m",
+    "using": [ [ "wall_floor_glass_removal_standard", 1 ] ],
+    "byproducts": [ { "item": "nail", "charges": [ 5, 10 ] }, { "item": "splinter", "count": [ 20, 40 ] } ],
+    "pre_terrain": "t_wall_log_widened",
+    "post_terrain": "t_dirt"
+  },
+  {
+    "type": "construction",
     "id": "constr_remove_log_wall_half",
     "group": "remove_wooden_wall",
     "//": "Cuts a segment of half complete log wall out very neatly, and then breaks it apart for disposal.",
@@ -614,6 +692,45 @@
     "using": [ [ "wall_floor_glass_removal_standard", 1 ] ],
     "byproducts": [ { "item": "nail", "charges": [ 5, 10 ] }, { "item": "splinter", "count": [ 20, 40 ] } ],
     "pre_terrain": "t_wall_log_half",
+    "post_terrain": "t_dirt"
+  },
+  {
+    "type": "construction",
+    "id": "constr_remove_palisade_wall",
+    "group": "remove_wooden_wall",
+    "//": "Cuts a segment of palisade wall out very neatly, and then breaks it apart for disposal.",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 5 ] ],
+    "time": "90 m",
+    "using": [ [ "wall_floor_glass_removal_standard", 1 ] ],
+    "byproducts": [ { "item": "nail", "charges": [ 5, 10 ] }, { "item": "splinter", "count": [ 20, 40 ] } ],
+    "pre_terrain": "t_palisade",
+    "post_terrain": "t_dirt"
+  },
+  {
+    "type": "construction",
+    "id": "constr_remove_palisade_embrasure",
+    "group": "remove_wooden_wall",
+    "//": "Cuts a segment of palisade wall with embrasure out very neatly, and then breaks it apart for disposal.",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 5 ] ],
+    "time": "90 m",
+    "using": [ [ "wall_floor_glass_removal_standard", 1 ] ],
+    "byproducts": [ { "item": "nail", "charges": [ 5, 10 ] }, { "item": "splinter", "count": [ 20, 40 ] } ],
+    "pre_terrain": "t_palisade_embrasure",
+    "post_terrain": "t_dirt"
+  },
+  {
+    "type": "construction",
+    "id": "constr_remove_palisade_gate",
+    "group": "remove_wooden_wall",
+    "//": "Cuts a segment of palisade gate out very neatly, and then breaks it apart for disposal.",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 5 ] ],
+    "time": "90 m",
+    "using": [ [ "wall_floor_glass_removal_standard", 1 ] ],
+    "byproducts": [ { "item": "nail", "charges": [ 5, 10 ] }, { "item": "splinter", "count": [ 20, 40 ] } ],
+    "pre_terrain": "t_palisade_gate",
     "post_terrain": "t_dirt"
   },
   {

@@ -11,9 +11,56 @@
 #include "messages.h"
 #include "mtype.h"
 #include "output.h"
+#include "veh_appliance.h"
 
 static const ter_str_id ter_t_door_metal_c( "t_door_metal_c" );
 static const ter_str_id ter_t_door_metal_locked( "t_door_metal_locked" );
+
+void appliance_convert_examine_actor::load( const JsonObject &jo )
+{
+    optional( jo, false, "furn_set", furn_set );
+    optional( jo, false, "ter_set", ter_set );
+    mandatory( jo, false, "item", appliance_item );
+}
+
+void appliance_convert_examine_actor::call( Character &, const tripoint &examp ) const
+{
+    if( !query_yn( _( "Connect %s to grid?" ), item::nname( appliance_item ) ) ) {
+        return;
+    }
+    map &here = get_map();
+    if( furn_set ) {
+        here.furn_set( examp, *furn_set );
+    }
+    if( ter_set ) {
+        here.ter_set( examp, *ter_set );
+    }
+
+    place_appliance( examp, vpart_appliance_from_item( appliance_item ) );
+}
+
+void appliance_convert_examine_actor::finalize() const
+{
+    if( furn_set && !furn_set->is_valid() ) {
+        debugmsg( "Invalid furniture id %s in appliance_convert action", furn_set->str() );
+    }
+    if( ter_set && !ter_set->is_valid() ) {
+        debugmsg( "Invalid terrain id %s in appliance_convert action", ter_set->str() );
+    }
+
+    if( !appliance_item.is_valid() ) {
+        debugmsg( "Invalid appliance item %s in appliance_convert action", appliance_item.str() );
+    } else if( !vpart_appliance_from_item( appliance_item ).is_valid() ) {
+        // This will never actually trigger now, but is here if the semantics of vpart_appliance_from_item change
+        debugmsg( "In appliance_convert action, %s does not correspond to an appliance",
+                  appliance_item.str() );
+    }
+}
+
+std::unique_ptr<iexamine_actor> appliance_convert_examine_actor::clone() const
+{
+    return std::make_unique<appliance_convert_examine_actor>( *this );
+}
 
 void cardreader_examine_actor::consume_card( const std::vector<item_location> &cards ) const
 {
@@ -189,7 +236,7 @@ void cardreader_examine_actor::finalize() const
     if( allow_hacking && ( !furn_changes.empty() || terrain_changes.size() != 1 ||
                            terrain_changes.count( ter_t_door_metal_locked ) != 1 ||
                            terrain_changes.at( ter_t_door_metal_locked ) != ter_t_door_metal_c ) ) {
-        debugmsg( "Cardreader allows hacking, but activites different that if hacked." );
+        debugmsg( "Cardreader allows hacking, but activities different that if hacked." );
     }
 }
 

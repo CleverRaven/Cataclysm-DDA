@@ -311,6 +311,42 @@
     "show_in_info": true
   },
   {
+    "type": "effect_type",
+    "id": "maimed_shell",
+    "name": [ "Cracked Shell" ],
+    "//": "Exposes certain weakpoints",
+    "desc": [ "You feel exposed -and pretty buggy- without your shell." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "maimed_mandible",
+    "name": [ "Maimed Mandibles" ],
+    "//": "Given by weakpoints, used to disable bites if specified in the bite def",
+    "desc": [ "Your mandibles are unusable.  What, you don't have mandibles?  Then it must be a bug if you have it." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "maimed_leg",
+    "name": [ "Maimed Legs" ],
+    "desc": [ "Your bugged legs are maimed beyond recognition.  How will you leap now?" ],
+    "base_mods": { "speed_mod": [ -20 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "maimed_stinger",
+    "name": [ "Maimed Stinger" ],
+    "//": "Same as maimed_mandible, no effect unless specified in the attack's definition",
+    "desc": [ "Your beautiful stinger is broken!  That must be a bug, right?" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "maimed_wings",
+    "name": [ "Maimed Wings" ],
+    "//": "Hardcoded effect handled by monster::flies via effect flag",
+    "desc": [ "Your wings are useless, robbing you of unlimited flight." ],
+    "flags": [ "DISABLE_FLIGHT" ]
+  },
+  {
     "//": "ACTUAL PLAYER EFFECTS START HERE",
     "type": "effect_type",
     "id": "downed",
@@ -319,7 +355,8 @@
     "apply_message": "You're knocked to the floor!",
     "rating": "bad",
     "resist_traits": [ "GASTROPOD_FOOT" ],
-    "show_in_info": true
+    "show_in_info": true,
+    "flags": [ "DISABLE_FLIGHT" ]
   },
   {
     "type": "effect_type",
@@ -380,7 +417,8 @@
     "desc": [ "Your movement is randomized." ],
     "apply_message": "You're stunned!",
     "rating": "bad",
-    "show_in_info": true
+    "show_in_info": true,
+    "flags": [ "DISABLE_FLIGHT" ]
   },
   {
     "type": "effect_type",
@@ -651,6 +689,21 @@
     "resist_traits": [ "ELFA_NV" ],
     "base_mods": { "per_mod": [ -3, 0 ] },
     "scaling_mods": { "per_mod": [ -2, -1 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "venom_pain",
+    "name": [ "Distracting Wound", "Painful Wound", "Searing Wound" ],
+    "desc": [ "The wound throbs with sharp pain." ],
+    "apply_message": "A dull pain starts spreading from the wound!",
+    "max_intensity": 6,
+    "int_add_val": 1,
+    "int_decay_step": -1,
+    "int_decay_tick": 100,
+    "int_decay_remove": true,
+    "resist_traits": [ "PAINRESIST" ],
+    "base_mods": { "pain_amount": [ 10, 2 ], "pain_min": [ 5, 1 ], "pain_chance": [ 10, 20 ], "pain_tick": [ 5 ] },
+    "scaling_mods": { "pain_min": [ 5, 1 ], "pain_chance": [ -1, 0 ] }
   },
   {
     "type": "effect_type",
@@ -991,7 +1044,7 @@
     "id": "mutagen_elfa",
     "name": [ "Elf-A Mutation", "Elf-A Transformation", "Elf-A Metamorphosis" ],
     "desc": [
-      "You consumed elf-a mutagen.",
+      "You consumed Elf-A mutagen.",
       "You must look after this world, if noone else will.",
       "You see stars.  You see so many stars."
     ],
@@ -1681,6 +1734,22 @@
   },
   {
     "type": "effect_type",
+    "id": "pkill_wintergreen",
+    "pkill_addict_reduces": true,
+    "base_mods": { "pkill_max_val": [ 15 ], "pkill_tick": [ 50 ], "pkill_min": [ 1 ], "pkill_chance": [ 45 ] },
+    "rating": "good",
+    "blood_analysis_description": "Ate wintergreen leaves"
+  },
+  {
+    "type": "effect_type",
+    "id": "pkill_wintergreen_oil",
+    "pkill_addict_reduces": true,
+    "base_mods": { "pkill_max_val": [ 30 ], "pkill_tick": [ 42 ], "pkill_min": [ 2 ] },
+    "rating": "good",
+    "blood_analysis_description": "Wintergreen Oil"
+  },
+  {
+    "type": "effect_type",
     "id": "webbed",
     "name": [ "Webbed" ],
     "desc": [ "You are covered in webs!" ],
@@ -1996,11 +2065,11 @@
       "Heavy Arterial Bleeding"
     ],
     "desc": [
-      "Tis but a scratch.",
-      "Tis but a scratch.",
-      "Tis but a scratch.",
-      "Tis but a scratch.",
-      "Tis but a scratch.",
+      "'Tis but a scratch.",
+      "'Tis but a scratch.",
+      "'Tis but a scratch.",
+      "'Tis but a scratch.",
+      "'Tis but a scratch.",
       "You are slowly losing blood.",
       "You are slowly losing blood.",
       "You are slowly losing blood.",
@@ -2026,19 +2095,20 @@
       "You are rapidly losing blood.",
       "You are rapidly losing blood.",
       "You are rapidly losing blood.",
-      "Blood is gushing from you like a fountain.",
-      "Blood is gushing from you like a fountain.",
-      "Blood is gushing from you like a fountain.",
-      "Blood is gushing from you like a fountain.",
-      "Blood is gushing from you like a fountain.",
-      "Blood is gushing from you like a fountain.",
-      "Blood is gushing from you like a fountain.",
-      "Blood is gushing from you like a fountain.",
-      "Blood is gushing from you like a fountain.",
-      "Blood is gushing from you like a fountain."
+      "Blood is gushing from you like a fountain!",
+      "Blood is gushing from you like a fountain!",
+      "Blood is gushing from you like a fountain!",
+      "Blood is gushing from you like a fountain!",
+      "Blood is gushing from you like a fountain!",
+      "Blood is gushing from you like a fountain!",
+      "Blood is gushing from you like a fountain!",
+      "Blood is gushing from you like a fountain!",
+      "Blood is gushing from you like a fountain!",
+      "Blood is gushing from you like a fountain!"
     ],
     "main_parts_only": true,
     "apply_message": "You're bleeding!",
+    "remove_message": "The bleeding stops!",
     "rating": "bad",
     "max_intensity": 40,
     "int_dur_factor": 60,
@@ -2092,6 +2162,15 @@
     "desc": [ "Your %s is covered in moisture.", "Your %s is wet.", "Your %s is soaked!" ],
     "max_intensity": 3,
     "part_descs": true
+  },
+  {
+    "type": "effect_type",
+    "id": "chafing",
+    "name": [ "Uncomfortable" ],
+    "desc": [ "Your %s is uncomfortable.  Wearing something soft under your hard armor would help." ],
+    "max_intensity": 1,
+    "part_descs": true,
+    "base_mods": { "speed_mod": [ -2 ], "pain_min": [ 1 ], "pain_chance": [ 2 ], "pain_max_val": [ -1 ] }
   },
   {
     "type": "effect_type",
@@ -2930,8 +3009,20 @@
   },
   {
     "type": "effect_type",
+    "id": "genetics_damaged",
+    "name": [ "Mild Genetic Damage", "Genetic Damage", "Severe Genetic Damage" ],
+    "desc": [
+      "After some mutations, you feel slightly uncomfortable - and that's it.",
+      "After many mutations, you feel uncomfortable, and you know for sure - that your Genetics System is getting damaged.",
+      "After LOTS OF mutations, you feel REALLY unnerving, seems like you Genetics System is getting badly damaged now."
+    ],
+    "max_intensity": 3,
+    "rating": "bad"
+  },
+  {
+    "type": "effect_type",
     "id": "hypovolemia",
-    "name": [ "Mild Hypovolemic shock", "Moderate Hypovolemic Shock", "Advanced Hypovolemic Shock", "Severe Hypovolemic Shock" ],
+    "name": [ "Mild Hypovolemic Shock", "Moderate Hypovolemic Shock", "Advanced Hypovolemic Shock", "Severe Hypovolemic Shock" ],
     "desc": [
       "You've lost some blood and look somewhat pale.",
       "You've lost a large amount of blood, and you're not feeling well.",
@@ -3198,7 +3289,7 @@
   {
     "type": "effect_type",
     "id": "pd_str_bad",
-    "name": [ "Muscle Vanishment", "Muscle Dissapearance" ],
+    "name": [ "Muscle Vanishment", "Muscle Disappearance" ],
     "desc": [ "You feel as if your muscles are not quite there.", "You feel as if your muscles are not in your body." ],
     "max_intensity": 2,
     "rating": "bad",
@@ -3478,5 +3569,16 @@
     "id": "eyebot_depleted",
     "int_add_val": 1,
     "max_intensity": 10
+  },
+  {
+    "id": "weakened_inertia",
+    "type": "effect_type",
+    "name": [ "Weakened Inertia" ],
+    "desc": [ "Your body moves strangely easily, as if it weighted less." ],
+    "apply_message": "Reality as you know it is damaged, but for a change the outcome seems suspiciously beneficial.",
+    "remove_message": "Reality reasserts itself and your inertia returns to normal.",
+    "rating": "good",
+    "show_intensity": false,
+    "base_mods": { "dex_mod": [ 4, 0 ] }
   }
 ]

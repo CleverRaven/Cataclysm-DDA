@@ -568,9 +568,8 @@ bool effect_type::load_decay_msgs( const JsonObject &jo, const std::string &memb
                 rate = m_mixed;
             } else {
                 inner.throw_error(
-                    string_format( "Unexpected message type \"%s\"; expected \"good\", "
-                                   "\"neutral\", " "\"bad\", or \"mixed\"", r ),
-                    1 );
+                    1, string_format( "Unexpected message type \"%s\"; expected \"good\", "
+                                      "\"neutral\", " "\"bad\", or \"mixed\"", r ) );
             }
             decay_msgs.emplace_back( msg, rate );
         }
@@ -727,7 +726,7 @@ std::string effect::disp_desc( bool reduced ) const
     values.emplace_back( get_percentage( "SLEEP", val, reduced ), val, _( "blackouts" ),
                          _( "blackouts" ) );
 
-    for( auto &i : values ) {
+    for( desc_freq &i : values ) {
         if( i.val > 0 ) {
             // +50% chance, every other step
             if( i.chance >= 50.0 ) {
@@ -827,8 +826,8 @@ std::string effect::disp_short_desc( bool reduced ) const
 
 static bool effect_is_blocked( const efftype_id &e, const effects_map &eff_map )
 {
-    for( auto &eff_grp : eff_map ) {
-        for( auto &eff : eff_grp.second ) {
+    for( const auto &eff_grp : eff_map ) {
+        for( const auto &eff : eff_grp.second ) {
             for( const efftype_id &block : eff.second.get_blocks_effects() ) {
                 if( block == e ) {
                     return true;
@@ -1470,10 +1469,10 @@ void load_effect_type( const JsonObject &jo )
         } else if( r == "mixed" ) {
             new_etype.rating = e_mixed;
         } else {
-            jo.throw_error(
+            jo.throw_error_at(
+                "rating",
                 string_format( "Unexpected rating \"%s\"; expected \"good\", \"neutral\", "
-                               "\"bad\", or \"mixed\"", r ),
-                "rating" );
+                               "\"bad\", or \"mixed\"", r ) );
         }
     } else {
         new_etype.rating = e_neutral;

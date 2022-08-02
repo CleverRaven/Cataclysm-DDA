@@ -43,7 +43,7 @@ class weather_generator
         int summer_humidity_manual_mod = 0;
         int autumn_humidity_manual_mod = 0;
         int winter_humidity_manual_mod = 0;
-        //How much the wind folows seasonal variation ( lower means more change )
+        //How much the wind follows seasonal variation ( lower means more change )
         int base_wind_season_variation = 0;
         static int current_winddir;
         std::vector<std::string> weather_types;

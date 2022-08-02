@@ -26,6 +26,7 @@
     "bonus_str": 4,
     "bonus_dex": 2,
     "shopkeeper_item_group": [ { "group": "FREE_MERCHANTS_Shop", "rigid": true } ],
+    "shopkeeper_consumption_rates": "smokes_shop_rates",
     "worn_override": "NC_FREE_MERCHANTS_MERCHANT_worn",
     "weapon_override": "NC_FREE_MERCHANTS_MERCHANT_carried",
     "traits": [
@@ -50,5 +51,11 @@
     "type": "effect_type",
     "id": "u_Gavin_onetime_greeting",
     "//": "12-hour period for the player to ask why his greeting was so blunt (basically 'before you ask, we're full')."
+  },
+  {
+    "id": "smokes_shop_rates",
+    "copy-from": "basic_shop_rates",
+    "type": "shopkeeper_consumption_rates",
+    "extend": { "rates": [ { "item": "FMCNote", "rate": -1 } ] }
   }
 ]

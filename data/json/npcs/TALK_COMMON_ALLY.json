@@ -223,7 +223,7 @@
     "id": "TALK_COMBAT_COMMANDS",
     "type": "talk_topic",
     "dynamic_line": {
-      "and": [
+      "concatenate": [
         {
           "npc_engagement_rule": "ENGAGE_NONE",
           "no": {
@@ -250,7 +250,7 @@
           "yes": "*will not engage enemies."
         },
         {
-          "and": [
+          "concatenate": [
             { "npc_override": "follow_close", "yes": "  OVERRIDE: ", "no": "  " },
             {
               "npc_rule": "follow_close",
@@ -260,7 +260,7 @@
           ]
         },
         {
-          "and": [
+          "concatenate": [
             { "npc_override": "follow_distance_2", "yes": "  OVERRIDE: ", "no": "  " },
             {
               "npc_rule": "follow_distance_2",
@@ -270,12 +270,12 @@
           ]
         },
         {
-          "and": [
+          "concatenate": [
             { "npc_override": "use_guns", "yes": "  OVERRIDE: ", "no": "  " },
             {
               "npc_rule": "use_guns",
               "yes": {
-                "and": [
+                "concatenate": [
                   { "npc_override": "use_silent", "yes": "  OVERRIDE: ", "no": "" },
                   {
                     "npc_rule": "use_silent",
@@ -289,7 +289,7 @@
           ]
         },
         {
-          "and": [
+          "concatenate": [
             { "npc_override": "use_grenades", "yes": "  OVERRIDE: ", "no": "  " },
             {
               "npc_rule": "use_grenades",
@@ -299,7 +299,7 @@
           ]
         },
         {
-          "and": [
+          "concatenate": [
             { "npc_override": "avoid_friendly_fire", "yes": "  OVERRIDE: ", "no": "  " },
             {
               "npc_rule": "avoid_friendly_fire",
@@ -309,7 +309,7 @@
           ]
         },
         {
-          "and": [
+          "concatenate": [
             { "npc_override": "hold_the_line", "yes": "  OVERRIDE: ", "no": "  " },
             {
               "npc_rule": "hold_the_line",
@@ -396,7 +396,7 @@
     "id": "TALK_COMBAT_ENGAGEMENT",
     "type": "talk_topic",
     "dynamic_line": {
-      "and": [
+      "concatenate": [
         {
           "npc_engagement_rule": "ENGAGE_NONE",
           "no": {
@@ -475,7 +475,7 @@
     "id": "TALK_CBM_RESERVE_RULES",
     "type": "talk_topic",
     "dynamic_line": {
-      "and": [
+      "concatenate": [
         {
           "npc_cbm_reserve_rule": "CBM_RESERVE_ALL",
           "no": {
@@ -534,7 +534,7 @@
     "id": "TALK_CBM_RECHARGE_RULES",
     "type": "talk_topic",
     "dynamic_line": {
-      "and": [
+      "concatenate": [
         {
           "npc_cbm_recharge_rule": "CBM_RECHARGE_ALL",
           "no": {
@@ -593,7 +593,7 @@
     "id": "TALK_AIM_RULES",
     "type": "talk_topic",
     "dynamic_line": {
-      "and": [
+      "concatenate": [
         {
           "npc_aim_rule": "AIM_WHEN_CONVENIENT",
           "no": {
@@ -668,9 +668,9 @@
     "id": "TALK_MISC_RULES",
     "type": "talk_topic",
     "dynamic_line": {
-      "and": [
+      "concatenate": [
         {
-          "and": [
+          "concatenate": [
             { "npc_override": "allow_pick_up", "yes": "OVERRIDE: " },
             {
               "npc_rule": "allow_pick_up",
@@ -680,7 +680,7 @@
           ]
         },
         {
-          "and": [
+          "concatenate": [
             { "npc_override": "allow_bash", "yes": "  OVERRIDE: ", "no": "  " },
             {
               "npc_rule": "allow_bash",
@@ -690,7 +690,7 @@
           ]
         },
         {
-          "and": [
+          "concatenate": [
             { "npc_override": "allow_sleep", "yes": "  OVERRIDE: ", "no": "  " },
             {
               "npc_rule": "allow_sleep",
@@ -700,7 +700,7 @@
           ]
         },
         {
-          "and": [
+          "concatenate": [
             { "npc_override": "allow_complain", "yes": "  OVERRIDE: ", "no": "  " },
             {
               "npc_rule": "allow_complain",
@@ -710,7 +710,7 @@
           ]
         },
         {
-          "and": [
+          "concatenate": [
             { "npc_override": "allow_pulp", "yes": "  OVERRIDE: ", "no": "  " },
             {
               "npc_rule": "allow_pulp",
@@ -720,7 +720,7 @@
           ]
         },
         {
-          "and": [
+          "concatenate": [
             { "npc_override": "close_doors", "yes": "  OVERRIDE: ", "no": "  " },
             {
               "npc_rule": "close_doors",
@@ -730,7 +730,7 @@
           ]
         },
         {
-          "and": [
+          "concatenate": [
             { "npc_override": "ignore_noise", "yes": "  OVERRIDE: ", "no": "  " },
             {
               "npc_rule": "ignore_noise",
@@ -740,7 +740,7 @@
           ]
         },
         {
-          "and": [
+          "concatenate": [
             { "npc_override": "avoid_doors", "yes": "  OVERRIDE: ", "no": "  " },
             {
               "npc_rule": "avoid_doors",
@@ -750,7 +750,7 @@
           ]
         },
         {
-          "and": [
+          "concatenate": [
             { "npc_override": "forbid_engage", "yes": "  OVERRIDE: ", "no": "  " },
             {
               "npc_rule": "forbid_engage",

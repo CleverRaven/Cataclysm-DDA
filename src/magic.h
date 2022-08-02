@@ -45,6 +45,7 @@ template <typename E> struct enum_traits;
 
 enum class spell_flag : int {
     PERMANENT, // items or creatures spawned with this spell do not disappear and die as normal
+    PERCENTAGE_DAMAGE, //the spell deals damage based on the targets current hp.
     IGNORE_WALLS, // spell's aoe goes through walls
     NO_PROJECTILE, // spell's original targeting area can be targeted through walls
     SWAP_POS, // a projectile spell swaps the positions of the caster and target
@@ -53,6 +54,7 @@ enum class spell_flag : int {
     POLYMORPH_GROUP, // polymorph spell chooses a monster from a group
     FRIENDLY_POLY, // polymorph spell makes the monster friendly
     SILENT, // spell makes no noise at target
+    NO_EXPLOSION_SFX, // spell has no visual explosion
     LOUD, // spell makes extra noise at target
     VERBAL, // spell makes noise at caster location, mouth encumbrance affects fail %
     SOMATIC, // arm encumbrance affects fail % and casting time (slightly)
@@ -68,6 +70,7 @@ enum class spell_flag : int {
     RANDOM_CRITTER, // same as RANDOM_TARGET but ignores ground
     MUTATE_TRAIT, // overrides the mutate spell_effect to use a specific trait_id instead of a category
     WONDER, // instead of casting each of the extra_spells, it picks N of them and casts them (where N is std::min( damage(), number_of_spells ))
+    EXTRA_EFFECTS_FIRST, // the extra effects are cast before the main spell.
     PAIN_NORESIST, // pain altering spells can't be resisted (like with the deadened trait)
     NO_FAIL, // this spell cannot fail when you cast it
     WITH_CONTAINER, // items spawned with container
@@ -206,7 +209,7 @@ class spell_type
 
         requirement_id spell_components;
 
-        sounds::sound_t sound_type = sounds::sound_t::_LAST;
+        sounds::sound_t sound_type = sounds::sound_t::LAST;
         bool sound_ambient = false;
         std::string sound_id;
         std::string sound_variant;
@@ -333,7 +336,7 @@ class spell_type
 
         std::set<mtype_id> targeted_monster_ids;
 
-        // lits of bodyparts this spell applies its effect to
+        // list of bodyparts this spell applies its effect to
         body_part_set affected_bps;
 
         enum_bitset<spell_flag> spell_tags;
@@ -577,6 +580,8 @@ class spell
         void cast_spell_effect( Creature &source, const tripoint &target ) const;
         // goes through the spell effect and all of its internal spells
         void cast_all_effects( Creature &source, const tripoint &target ) const;
+        // goes through the spell effect and all of its internal spells
+        void cast_extra_spell_effects( Creature &source, const tripoint &target ) const;
         // uses up the components in @guy's inventory
         void use_components( Character &guy ) const;
         // checks if the spell's component is in the @guy's hand
@@ -639,7 +644,7 @@ class known_magic
         }
         // how much mana is available to use to cast spells
         int available_mana() const;
-        // max mana vailable
+        // max mana available
         int max_mana( const Character &guy ) const;
         void mod_mana( const Character &guy, int add_mana );
         void set_mana( int new_mana );

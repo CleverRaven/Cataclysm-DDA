@@ -17,12 +17,12 @@
     "id": "NC_FORGE_LORD_LIBRARIAN",
     "name": { "str": "Forge Librarian" },
     "job_description": "I take care of the books and scrolls.",
-    "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
+    "traits": [ { "trait": "VAULT_DEFENDER" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
     "//": "This is a unique NPC who doesn't get randomly selected background traits",
     "common": false,
     "bonus_int": { "one_in": 4 },
     "bonus_per": { "one_in": 4 },
-    "shopkeeper_item_group": "NC_FORGE_LORD_STORE_LIBRARY",
+    "shopkeeper_item_group": [ { "group": "NC_FORGE_LORD_STORE_LIBRARY_SHOP", "rigid": true } ],
     "worn_override": "NC_FORGE_LIBRARIAN_clothes",
     "skills": [
       {
@@ -40,6 +40,12 @@
     "id": "NC_FORGE_LIBRARIAN_clothes",
     "subtype": "collection",
     "entries": [ { "item": "sundress", "prob": 100 }, { "item": "heels", "prob": 100 }, { "item": "sweater", "prob": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "NC_FORGE_LORD_STORE_LIBRARY_SHOP",
+    "items": [ { "group": "NC_FORGE_LORD_STORE_LIBRARY", "prob": 100, "count": [ 15, 24 ] } ]
   },
   {
     "type": "item_group",

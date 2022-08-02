@@ -1,0 +1,14 @@
+[
+  {
+    "copy-from": "heli_crash",
+    "type": "scenario",
+    "extend": { "map_special": "mx_helicopter", "professions": [ "zebra_investigator", "spy" ] },
+    "id": "heli_crash"
+  },
+  {
+    "copy-from": "lab_staff",
+    "type": "scenario",
+    "extend": { "professions": [ "zebra_investigator" ] },
+    "id": "lab_staff"
+  }
+]

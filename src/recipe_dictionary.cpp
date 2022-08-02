@@ -322,8 +322,7 @@ std::vector<const recipe *> recipe_subset::search_result( const itype_id &item )
         if( r->obsolete ) {
             return false;
         }
-        return item == r->result() ||
-               ( r->has_byproducts() && r->byproducts.find( item ) != r->byproducts.end() );
+        return item == r->result() || r->in_byproducts( item );
     } );
 
     return res;
@@ -673,7 +672,7 @@ void recipe_subset::include( const recipe *r, int custom_difficulty )
 
 void recipe_subset::include( const recipe_subset &subset )
 {
-    for( const auto &elem : subset ) {
+    for( const recipe * const &elem : subset ) {
         include( elem, subset.get_custom_difficulty( elem ) );
     }
 }

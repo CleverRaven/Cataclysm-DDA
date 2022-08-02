@@ -40,7 +40,7 @@
     "//": "Morale buff for feeling connected to your original reality/wavelength.",
     "condition": { "not": { "u_has_effect": "sleep" } },
     "effect": [
-      { "u_message": "You feel like in home.", "type": "good" },
+      { "u_message": "You feel a warm sense of being at home.", "type": "good" },
       {
         "u_add_morale": "morale_feeling_good",
         "bonus": 10,
@@ -80,7 +80,7 @@
     "id": "EOC_PORTAL_DEPENDENT_ACCEPTANCE_1",
     "//": "Your feel faintly more accepted by the world, it could be related with the decay of reality in here.",
     "effect": [
-      { "u_message": "You suddenly feel a weight you didn't know you had, being lift over you.", "type": "good" },
+      { "u_message": "You suddenly feel a weight you didn't know you had on you, being lifted away.", "type": "good" },
       { "arithmetic": [ { "u_val": "pain" }, "-=", { "const": 5 } ] }
     ]
   },
@@ -90,7 +90,7 @@
     "//": "Your feel more accepted by the world, it could be related with the decay of reality in here.",
     "effect": [
       {
-        "u_message": "You suddenly feel less tired and with more energy, as if something that was pulling of you is now gone.",
+        "u_message": "You suddenly feel wakeful and energized, as if something that was slowing you down is now gone.",
         "type": "good"
       },
       { "arithmetic": [ { "u_val": "fatigue" }, "-=", { "const": 20 } ] },
@@ -102,7 +102,7 @@
     "id": "EOC_PORTAL_DEPENDENT_ACCEPTANCE_3",
     "//": "Your feel even more accepted by the world, it could be related with the decay of reality in here.",
     "effect": [
-      { "u_message": "You suddenly feel as if invisible shackles were being loosened in your ankles.", "type": "good" },
+      { "u_message": "You suddenly feel as if invisible shackles are being lifted away…", "type": "good" },
       {
         "u_add_morale": "morale_feeling_good",
         "bonus": 20,
@@ -122,13 +122,13 @@
         "condition": "u_is_outside",
         "effect": [
           {
-            "u_message": "You suddenly feel a warm embrace by your surroundings, it does not lasts long, but you now feel a weak connection with the world around you.",
+            "u_message": "You suddenly feel a profound sense of belonging take root inside you, spreading throughout your body.  It fades quickly, but something warm remains…",
             "type": "good"
           },
           { "u_add_trait": "REALITY_GRASP" }
         ],
         "false_effect": {
-          "u_message": "You suddenly feel a warm embrace by your surroundings, you feel like something is about to change inside you but the embrace seems to lack strenght and stops just before you could grasp it… You now feel a strong need to go out and jump into the portal storm.",
+          "u_message": "You suddenly feel a profound sense of belonging take root inside you, but then abruptly grow cold.  You reach out for it, but it's gone now, taken away by the indoors.  You long for the sky…",
           "type": "warning"
         }
       }
@@ -140,7 +140,7 @@
     "//": "Your mind gains focus as an effect of your connection with the portal storms.",
     "condition": { "not": { "u_has_effect": "sleep" } },
     "effect": [
-      { "u_message": "Everything suddenly feels more clear now.", "type": "good" },
+      { "u_message": "Everything suddenly feels more clear.", "type": "good" },
       { "arithmetic": [ { "u_val": "focus" }, "+=", { "const": 10 } ] }
     ]
   },
@@ -218,10 +218,7 @@
     "//": "Your mind losses focus as an effect of your unstable condition.",
     "condition": { "not": { "u_has_effect": "sleep" } },
     "effect": [
-      {
-        "u_message": "You try to recall what you were going to do, but you can't focus your actions for some reason.",
-        "type": "bad"
-      },
+      { "u_message": "You try to recall what you were about to do, but you can't focus…", "type": "bad" },
       { "arithmetic": [ { "u_val": "focus" }, "-=", { "const": 10 } ] }
     ]
   },
@@ -252,7 +249,7 @@
     "//": "Strength debuff as consequence of your unstable condition.",
     "condition": { "not": { "u_has_effect": "sleep" } },
     "effect": [
-      { "u_message": "You suddenly need more strength to interact with your surroundings.", "type": "bad" },
+      { "u_message": "You suddenly feel feeble.  Your muscles wobble.", "type": "bad" },
       { "u_add_effect": "pd_str_bad", "duration": "50 minutes" },
       { "queue_eocs": "EOC_PORTAL_DEPENDENT_MESSAGES_STR_BAD", "time_in_future": [ "10 minutes", "40 minutes" ] }
     ]
@@ -263,7 +260,7 @@
     "//": "Dextery debuff as consequence of your unstable condition.",
     "condition": { "not": { "u_has_effect": "sleep" } },
     "effect": [
-      { "u_message": "You suddenly fail to grab your own hand.", "type": "bad" },
+      { "u_message": "You suddenly feel a sharp pain in your hand.  You reach out to grab it, and miss.", "type": "bad" },
       { "u_add_effect": "pd_dex_bad", "duration": "50 minutes" },
       { "queue_eocs": "EOC_PORTAL_DEPENDENT_MESSAGES_DEX_BAD", "time_in_future": [ "10 minutes", "40 minutes" ] }
     ]
@@ -274,7 +271,7 @@
     "//": "Perception debuff as consequence of your unstable condition.",
     "condition": { "not": { "u_has_effect": "sleep" } },
     "effect": [
-      { "u_message": "You blink one time and now everything seems bigger.", "type": "bad" },
+      { "u_message": "You blink one time, and everything seems bigger.", "type": "bad" },
       { "u_add_effect": "pd_per_bad", "duration": "50 minutes" },
       { "queue_eocs": "EOC_PORTAL_DEPENDENT_MESSAGES_PER_BAD", "time_in_future": [ "10 minutes", "40 minutes" ] }
     ]
@@ -285,7 +282,7 @@
     "//": "Intelligence debuff as consequence of your unstable condition.",
     "condition": { "not": { "u_has_effect": "sleep" } },
     "effect": [
-      { "u_message": "You stop yourself to think, but you can't seem to remember about what.", "type": "bad" },
+      { "u_message": "You stop to think, but you can't seem to remember about what.", "type": "bad" },
       { "u_add_effect": "pd_int_bad", "duration": "50 minutes" },
       { "queue_eocs": "EOC_PORTAL_DEPENDENT_MESSAGES_INT_BAD", "time_in_future": [ "10 minutes", "40 minutes" ] }
     ]
@@ -314,7 +311,7 @@
     "id": "EOC_PORTAL_DEPENDENT_STUN",
     "//": "The world doesn't like your presence, stunning you for a moment.",
     "effect": [
-      { "u_message": "You feel rejected by the world for a brief moment.", "type": "bad" },
+      { "u_message": "For a brief moment, you feel rejected by the world.", "type": "bad" },
       { "u_add_effect": "stunned", "duration": 1 }
     ]
   },
@@ -324,7 +321,7 @@
     "//": "Your body lacks physical substance for a moment, tripping you.",
     "condition": { "not": { "u_has_effect": "sleep" } },
     "effect": [
-      { "u_message": "You suddenly feel like the ground is sucking you!", "type": "bad" },
+      { "u_message": "Gravity suddenly exerts immense pressure, forcing you to the ground!", "type": "bad" },
       { "u_add_effect": "downed", "duration": 1 }
     ]
   },
@@ -334,10 +331,7 @@
     "//": "Your body is being strongly rejected for a few minutes.",
     "condition": { "not": { "u_has_effect": "sleep" } },
     "effect": [
-      {
-        "u_message": "Your vision suddenly fills with sparks, your body hurts and you feel alone in the world.",
-        "type": "bad"
-      },
+      { "u_message": "Your vision suddenly fills with cold sparks.  You feel so alone…", "type": "bad" },
       { "u_add_effect": "pd_rejection", "duration": "15 minutes", "intensity": 2 }
     ]
   },
@@ -348,7 +342,7 @@
     "condition": { "not": { "u_has_effect": "sleep" } },
     "effect": [
       {
-        "u_message": "Faint sparks surround your body and you suffer with every action you take, as if you weren't intended to do them.",
+        "u_message": "Faint sparks surround your body as you suffer with every action you take, as if you weren't intended to do them.",
         "type": "bad"
       },
       { "u_add_effect": "pd_rejection", "duration": "7 minutes" }
@@ -360,7 +354,7 @@
     "//": "The world rejects you with violence for a second, this is intended to occur even while sleeping.",
     "effect": [
       {
-        "u_message": "Faint sparks suddenly appear and disappear around you, as if rejecting your very existence.",
+        "u_message": "Faint sparks suddenly appear and disappear around you, as if rejecting your very existence.  Pain flares across your body.",
         "type": "bad"
       },
       { "arithmetic": [ { "u_val": "pain" }, "+=", { "const": 10 } ] }

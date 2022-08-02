@@ -119,6 +119,7 @@ std::string enum_to_string<spell_flag>( spell_flag data )
 {
     switch( data ) {
         case spell_flag::PERMANENT: return "PERMANENT";
+        case spell_flag::PERCENTAGE_DAMAGE: return "PERCENTAGE_DAMAGE";
         case spell_flag::IGNORE_WALLS: return "IGNORE_WALLS";
         case spell_flag::NO_PROJECTILE: return "NO_PROJECTILE";
         case spell_flag::HOSTILE_SUMMON: return "HOSTILE_SUMMON";
@@ -126,6 +127,7 @@ std::string enum_to_string<spell_flag>( spell_flag data )
         case spell_flag::FRIENDLY_POLY: return "FRIENDLY_POLY";
         case spell_flag::POLYMORPH_GROUP: return "POLYMORPH_GROUP";
         case spell_flag::SILENT: return "SILENT";
+        case spell_flag::NO_EXPLOSION_SFX: return "NO_EXPLOSION_SFX";
         case spell_flag::LOUD: return "LOUD";
         case spell_flag::VERBAL: return "VERBAL";
         case spell_flag::SOMATIC: return "SOMATIC";
@@ -147,6 +149,7 @@ std::string enum_to_string<spell_flag>( spell_flag data )
         case spell_flag::IGNITE_FLAMMABLE: return "IGNITE_FLAMMABLE";
         case spell_flag::NO_FAIL: return "NO_FAIL";
         case spell_flag::WONDER: return "WONDER";
+        case spell_flag::EXTRA_EFFECTS_FIRST: return "EXTRA_EFFECTS_FIRST";
         case spell_flag::MUST_HAVE_CLASS_TO_LEARN: return "MUST_HAVE_CLASS_TO_LEARN";
         case spell_flag::SPAWN_WITH_DEATH_DROPS: return "SPAWN_WITH_DEATH_DROPS";
         case spell_flag::NON_MAGICAL: return "NON_MAGICAL";
@@ -656,16 +659,21 @@ damage_over_time_data spell::damage_over_time( const std::vector<bodypart_str_id
 
 std::string spell::damage_string() const
 {
+    std::string damage_string;
     if( has_flag( spell_flag::RANDOM_DAMAGE ) ) {
-        return string_format( "%d-%d", min_leveled_damage(), type->max_damage );
+        damage_string = string_format( "%d-%d", min_leveled_damage(), type->max_damage );
     } else {
         const int dmg = damage();
         if( dmg >= 0 ) {
-            return string_format( "%d", dmg );
+            damage_string = string_format( "%d", dmg );
         } else {
-            return string_format( "+%d", std::abs( dmg ) );
+            damage_string = string_format( "+%d", std::abs( dmg ) );
         }
     }
+    if( has_flag( spell_flag::PERCENTAGE_DAMAGE ) ) {
+        damage_string = string_format( "%s%% %s", damage_string, _( "of current HP" ) );
+    }
+    return damage_string;
 }
 
 cata::optional<tripoint> spell::select_target( Creature *source )
@@ -975,7 +983,7 @@ bool spell::check_if_component_in_hand( Character &guy ) const
     const requirement_data &spell_components = type->spell_components.obj();
 
     if( guy.has_weapon() ) {
-        if( spell_components.can_make_with_inventory( guy.get_wielded_item(), return_true<item> ) ) {
+        if( spell_components.can_make_with_inventory( *guy.get_wielded_item(), return_true<item> ) ) {
             return true;
         }
     }
@@ -1547,21 +1555,30 @@ void spell::cast_all_effects( Creature &source, const tripoint &target ) const
             }
         }
     } else {
-        // first call the effect of the main spell
-        cast_spell_effect( source, target );
-        for( const fake_spell &extra_spell : type->additional_spells ) {
-            spell sp = extra_spell.get_spell( get_level() );
-            if( sp.has_flag( spell_flag::RANDOM_TARGET ) ) {
-                if( const cata::optional<tripoint> new_target = sp.random_valid_target( source,
-                        extra_spell.self ? source.pos() : target ) ) {
-                    sp.cast_all_effects( source, *new_target );
-                }
+        if( has_flag( spell_flag::EXTRA_EFFECTS_FIRST ) ) {
+            cast_extra_spell_effects( source, target );
+            cast_spell_effect( source, target );
+        } else {
+            cast_spell_effect( source, target );
+            cast_extra_spell_effects( source, target );
+        }
+    }
+}
+
+void spell::cast_extra_spell_effects( Creature &source, const tripoint &target ) const
+{
+    for( const fake_spell &extra_spell : type->additional_spells ) {
+        spell sp = extra_spell.get_spell( get_level() );
+        if( sp.has_flag( spell_flag::RANDOM_TARGET ) ) {
+            if( const cata::optional<tripoint> new_target = sp.random_valid_target( source,
+                    extra_spell.self ? source.pos() : target ) ) {
+                sp.cast_all_effects( source, *new_target );
+            }
+        } else {
+            if( extra_spell.self ) {
+                sp.cast_all_effects( source, source.pos() );
             } else {
-                if( extra_spell.self ) {
-                    sp.cast_all_effects( source, source.pos() );
-                } else {
-                    sp.cast_all_effects( source, target );
-                }
+                sp.cast_all_effects( source, target );
             }
         }
     }

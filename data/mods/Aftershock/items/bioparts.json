@@ -85,7 +85,7 @@
     "looks_like": "ar15",
     "type": "GUN",
     "name": { "str": "vibrating bioblaster" },
-    "description": "You ripped this from a mi-go abomination.  You think you should wear gloves to reload it.  ",
+    "description": "You ripped this from a mi-go abomination.  You think you should wear gloves to reload it.",
     "weight": "5140 g",
     "volume": "1500 ml",
     "price": 400000,

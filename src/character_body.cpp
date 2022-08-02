@@ -3,6 +3,7 @@
 #include "display.h"
 #include "flag.h"
 #include "game.h"
+#include "make_static.h"
 #include "map.h"
 #include "messages.h"
 #include "morale_types.h"
@@ -15,6 +16,8 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "weather.h"
+
+static const bionic_id bio_sleep_shutdown( "bio_sleep_shutdown" );
 
 static const efftype_id effect_bandaged( "bandaged" );
 static const efftype_id effect_bite( "bite" );
@@ -71,7 +74,6 @@ static const trait_id trait_LUPINE_FUR( "LUPINE_FUR" );
 static const trait_id trait_M_DEPENDENT( "M_DEPENDENT" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_PYROMANIA( "PYROMANIA" );
-static const trait_id trait_RADIOGENIC( "RADIOGENIC" );
 static const trait_id trait_SLIMY( "SLIMY" );
 static const trait_id trait_URSINE_FUR( "URSINE_FUR" );
 
@@ -173,8 +175,8 @@ void Character::update_body()
 
 // Returns the number of multiples of tick_length we would "pass" on our way `from` to `to`
 // For example, if `tick_length` is 1 hour, then going from 0:59 to 1:01 should return 1
-static inline int ticks_between( const time_point &from, const time_point &to,
-                                 const time_duration &tick_length )
+static int ticks_between( const time_point &from, const time_point &to,
+                          const time_duration &tick_length )
 {
     return ( to_turn<int>( to ) / to_turns<int>( tick_length ) ) - ( to_turn<int>
             ( from ) / to_turns<int>( tick_length ) );
@@ -234,18 +236,67 @@ void Character::update_body( const time_point &from, const time_point &to )
         mend( five_mins * to_turns<int>( 5_minutes ) );
         activity_history.reset_activity_level();
     }
+    bool was_sleeping = get_value( "was_sleeping" ) == "true";
+    if( in_sleep_state() && was_sleeping ) {
+        needs_rates tmp_rates;
+        calc_sleep_recovery_rate( tmp_rates );
+        const int fatigue_regen_rate = tmp_rates.recovery;
+        const time_duration effective_time_slept = ( to - from ) * fatigue_regen_rate;
+        mod_daily_sleep( effective_time_slept );
+        mod_continuous_sleep( effective_time_slept );
+    }
+    if( was_sleeping && !in_sleep_state() ) {
+        if( get_continuous_sleep() >= 6_hours ) {
+            set_value( "sleep_health_mult", "2" );
+        }
+        reset_continuous_sleep();
+    }
+    if( calendar::once_every( 12_hours ) ) {
+        const int sleep_health_mult = get_value( "sleep_health_mult" ) == "2" ? 2 : 1;
+        mod_daily_health( sleep_health_mult * to_hours<int>( get_daily_sleep() ), 10 );
+        set_value( "sleep_health_mult", "1" );
+    }
+    if( calendar::once_every( 1_days ) ) {
+        reset_daily_sleep();
+    }
+    set_value( "was_sleeping", in_sleep_state() ? "true" : "false" );
+
 
     activity_history.new_turn( in_sleep_state() );
     if( ticks_between( from, to, 24_hours ) > 0 && !has_flag( json_flag_NO_MINIMAL_HEALING ) ) {
         enforce_minimum_healing();
     }
 
-    const int thirty_mins = ticks_between( from, to, 30_minutes );
-    if( thirty_mins > 0 ) {
-        // Radiation kills health even at low doses
-        update_health( has_trait( trait_RADIOGENIC ) ? 0 : -get_rad() );
-        get_sick();
+    // Cardio related health stuff
+    if( calendar::once_every( 1_days ) ) {
+        // not getting below half stamina even once in a whole day is not healthy
+        if( get_value( "got_to_half_stam" ).empty() ) {
+            mod_daily_health( -4, -200 );
+        } else {
+            remove_value( "got_to_half_stam" );
+        }
+        // reset counter for number of time going below quarter stamina
+        set_value( "quarter_stam_counter", "0" );
+
+        int cardio_accumultor = get_cardio_acc();
+        if( cardio_accumultor > 0 ) {
+            mod_daily_health( 1, 200 );
+            if( cardio_accumultor >= 10 ) {
+                mod_daily_health( 1, 200 );
+            }
+        }
+        if( cardio_accumultor < 0 ) {
+            mod_daily_health( -1, -200 );
+            if( cardio_accumultor <= -10 ) {
+                mod_daily_health( -1, -200 );
+            }
+        }
+        if( cardio_accumultor >= get_bmr() / 2 ) {
+            mod_daily_health( 2, 200 );
+        }
     }
+
+
 
     for( const auto &v : vitamin::all() ) {
         const time_duration rate = vitamin_rate( v.first );
@@ -268,6 +319,22 @@ void Character::update_body( const time_point &from, const time_point &to )
                 vitamin_mod( v.first, qty );
             }
         }
+        if( calendar::once_every( 12_hours ) && v.first->type() == vitamin_type::VITAMIN ) {
+            const double rda = 1_days / rate;
+            const int &vit_quantity = vitamin_get( v.first );
+            if( vit_quantity > 0.5 * rda ) {
+                mod_daily_health( 1, 200 );
+            }
+            if( vit_quantity > 0.90 * rda ) {
+                mod_daily_health( 1, 200 );
+            }
+        }
+    }
+
+    const int thirty_mins = ticks_between( from, to, 30_minutes );
+    if( thirty_mins > 0 ) {
+        update_health();
+        get_sick();
     }
 
     if( calendar::once_every( 10_minutes ) ) {
@@ -342,8 +409,8 @@ void Character::update_bodytemp()
     }
     const oter_id &cur_om_ter = overmap_buffer.ter( global_omt_location() );
     bool sheltered = g->is_sheltered( pos() );
-    double total_windpower = get_local_windpower( weather_man.windspeed + vehwindspeed, cur_om_ter,
-                             pos(), weather_man.winddirection, sheltered );
+    int bp_windpower = get_local_windpower( weather_man.windspeed + vehwindspeed, cur_om_ter,
+                                            pos(), weather_man.winddirection, sheltered );
     // Let's cache this not to check it for every bodyparts
     const bool has_bark = has_trait( trait_BARK );
     const bool has_sleep = has_effect( effect_sleep );
@@ -418,7 +485,6 @@ void Character::update_bodytemp()
         // This adjusts the temperature scale to match the bodytemp scale,
         // it needs to be reset every iteration
         int adjusted_temp = Ctemperature - ambient_norm;
-        int bp_windpower = total_windpower;
         // Represents the fact that the body generates heat when it is cold.
         // TODO: : should this increase hunger?
         double scaled_temperature = logarithmic_range( BODYTEMP_VERY_COLD, BODYTEMP_VERY_HOT,
@@ -672,11 +738,11 @@ void Character::update_bodytemp()
         // Otherwise, if any other body part is BODYTEMP_VERY_COLD, or 31C
         // AND you have frostbite, then that also prevents you from sleeping
         if( in_sleep_state() && !has_effect( effect_narcosis ) ) {
-            if( bp == body_part_torso && temp_after <= BODYTEMP_COLD ) {
+            if( bp == body_part_torso && temp_after <= BODYTEMP_COLD && !has_bionic( bio_sleep_shutdown ) ) {
                 add_msg( m_warning, _( "Your shivering prevents you from sleeping." ) );
                 wake_up();
             } else if( bp != body_part_torso && temp_after <= BODYTEMP_VERY_COLD &&
-                       has_effect( effect_frostbite ) ) {
+                       has_effect( effect_frostbite ) && !has_bionic( bio_sleep_shutdown ) ) {
                 add_msg( m_warning, _( "You are too cold.  Your frostbite prevents you from sleeping." ) );
                 wake_up();
             }
@@ -1060,7 +1126,7 @@ bodypart_id Character::body_window( const std::string &menu_header,
             if( no_feeling ) {
                 hp_str = colorize( "==%==", c_blue );
             } else {
-                const auto &eff = get_effect( effect_mending, bp );
+                const effect &eff = get_effect( effect_mending, bp );
                 const int mend_perc = eff.is_null() ? 0.0 : 100 * eff.get_duration() / eff.get_max_duration();
 
                 const int num = mend_perc / 20;
@@ -1222,7 +1288,8 @@ void Character::update_heartrate_index()
     float hr_nicotine_mod = 0.0f;
     if( get_effect_dur( effect_cig ) > 0_turns ) {
         //Nicotine-induced tachycardia
-        if( get_effect_dur( effect_cig ) > 10_minutes * ( addiction_level( add_type::CIG ) + 1 ) ) {
+        if( get_effect_dur( effect_cig ) >
+            10_minutes * ( addiction_level( STATIC( addiction_id( "nicotine" ) ) ) + 1 ) ) {
             hr_nicotine_mod = 0.4f;
         } else {
             hr_nicotine_mod = 0.1f;
