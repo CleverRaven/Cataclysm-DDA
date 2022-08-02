@@ -61,6 +61,8 @@ class mon_spellcasting_actor : public mattack_actor
         std::vector<efftype_id> required_effects_any;
         std::vector<efftype_id> required_effects_all;
 
+        bool allow_no_target = false;
+
         mon_spellcasting_actor() = default;
         ~mon_spellcasting_actor() override = default;
 
