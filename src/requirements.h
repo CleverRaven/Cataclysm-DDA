@@ -344,6 +344,14 @@ struct requirement_data {
         bool can_make_with_inventory( const read_only_visitable &crafting_inv,
                                       const std::function<bool( const item & )> &filter, int batch = 1,
                                       craft_flags = craft_flags::none ) const;
+        /**
+        * Returns the speed multiplier for optional tools fulfilled by the filtered inventory
+        * @param filter should be recipe::get_component_filter() if used with a recipe
+        * or is_crafting_component otherwise.
+        */
+        float get_tool_bonus_speed_with_inventory( const read_only_visitable &crafting_inv,
+                const std::function<bool( const item & )> &filter, int batch = 1,
+                craft_flags = craft_flags::none ) const;
 
         /** @param filter see @ref can_make_with_inventory */
         std::vector<std::string> get_folded_components_list( int width, nc_color col,

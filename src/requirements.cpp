@@ -865,6 +865,18 @@ bool requirement_data::can_make_with_inventory( const read_only_visitable &craft
     return retval;
 }
 
+float requirement_data::get_tool_bonus_speed_with_inventory( const read_only_visitable
+        &crafting_inv,
+        const std::function<bool( const item & )> &filter, int batch, craft_flags flags ) const
+{
+
+    float tool_bonus = 1.0f;
+    // has_comps( crafting_inv, components, filter, batch );
+    // TODO: Iterate reqs and calculate bonus
+
+    return tool_bonus;
+}
+
 template<typename T>
 bool requirement_data::has_comps( const read_only_visitable &crafting_inv,
                                   const std::vector< std::vector<T> > &vec,
