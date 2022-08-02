@@ -56,8 +56,8 @@
     "type": "item_group",
     "subtype": "distribution",
     "entries":[
-      { "group": "everyday_corpse", "prob": 75 },
-      { "group": "grave_cremains", "prob": 25 }
+      { "group": "everyday_corpse", "prob": 85 },
+      { "group": "grave_cremains", "prob": 15 }
     ]
   },
   {
