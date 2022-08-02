@@ -25,8 +25,10 @@
       },
       {
         "id": "light_drizzle",
-        "//NOLINT(cata-text-style)": true,
-        "text": "<color_black_white>(___)</color>\n<color_blue_white> ... </color>\n<color_blue_white> ... </color>",
+        "text": {
+          "str": "<color_black_white>(___)</color>\n<color_blue_white> ... </color>\n<color_blue_white> ... </color>",
+          "//NOLINT(cata-text-style)": true
+        },
         "condition": { "and": [ { "is_weather": "light_drizzle" }, { "compare_int": [ { "u_val": "pos_z" }, ">=", { "const": 0 } ] } ] }
       },
       {
@@ -82,7 +84,10 @@
       {
         "id": "portal_storm",
         "//NOLINT(cata-text-style)": true,
-        "text": "<color_light_red>(___)</color>\n<color_red> !!! </color>\n<color_red> !!! </color>",
+        "text": {
+          "str": "<color_light_red>(___)</color>\n<color_red> !!! </color>\n<color_red> !!! </color>",
+          "//NOLINT(cata-text-style)": true
+        },
         "condition": { "and": [ { "is_weather": "portal_storm" }, { "compare_int": [ { "u_val": "pos_z" }, ">=", { "const": 0 } ] } ] }
       }
     ],
