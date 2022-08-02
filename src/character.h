@@ -2746,6 +2746,7 @@ class Character : public Creature, public visitable
         void react_to_felt_pain( int intensity );
 
         /** Monster cameras are mtype_ids with an integer range of transmission */
+        void clear_moncams();
         void remove_moncam( mtype_id moncam_id );
         void add_moncam( std::pair<mtype_id, int> moncam );
         void set_moncams( std::map<mtype_id, int> nmoncams );

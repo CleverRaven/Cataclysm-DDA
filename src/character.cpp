@@ -8693,6 +8693,11 @@ int Character::get_painkiller() const
     return pkill;
 }
 
+void Character::clear_moncams()
+{
+    moncams.clear();
+}
+
 void Character::remove_moncam( mtype_id moncam_id )
 {
     moncams.erase( moncam_id );
