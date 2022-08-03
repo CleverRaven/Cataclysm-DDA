@@ -52,6 +52,7 @@ static const skill_id skill_gun( "gun" );
 static const skill_id skill_throw( "throw" );
 
 static const trait_id trait_TOXICFLESH( "TOXICFLESH" );
+static const trait_id trait_VAMPIRE( "VAMPIRE" );
 
 void leap_actor::load_internal( const JsonObject &obj, const std::string & )
 {
