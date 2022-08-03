@@ -105,6 +105,15 @@
     "martial_art": "style_karate"
   },
   {
+    "id": "manual_kickboxing",
+    "copy-from": "book_martial",
+    "type": "BOOK",
+    "name": { "str": "The Ultimate Guide to Kickboxing", "str_pl": "copies of Ultimate Guide to Kickboxing" },
+    "price_postapoc": 2000,
+    "description": "The ultimate guide to learning and mastering kickboxing, from beginner to black belt.",
+    "martial_art": "style_kickboxing"
+  },
+  {
     "id": "manual_krav_maga",
     "copy-from": "book_martial",
     "type": "BOOK",
@@ -272,7 +281,7 @@
     "type": "BOOK",
     "name": { "ctxt": "book", "str": "Fior Di Battaglia", "str_pl": "copies of Fior Di Battaglia" },
     "price_postapoc": 3000,
-    "description": "A completely translated medieval guide teaching various techniques with polearms, there is a chapter about the many variations of common polearms… there are even pictures!",
+    "description": "A completely translated medieval guide teaching various techniques with polearms.  There is a chapter about the many variations of common polearms… there are even pictures!",
     "martial_art": "style_medievalpole"
   },
   {

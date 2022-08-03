@@ -282,7 +282,7 @@ bool material_type::is_valid_thickness( float thickness ) const
     }
 
     // float calcs so rounding need to be mindful of
-    return fmodf( thickness, _sheet_thickness ) < .01;
+    return std::fmod( thickness, _sheet_thickness ) < .01f;
 }
 
 float material_type::thickness_multiple() const
@@ -409,7 +409,7 @@ void fuel_data::deserialize( const JsonObject &jo )
     load( jo );
 }
 
-bool fuel_explosion_data::is_empty()
+bool fuel_explosion_data::is_empty() const
 {
     return explosion_chance_cold == 0 && explosion_chance_hot == 0 && explosion_factor == 0.0f &&
            !fiery_explosion && fuel_size_factor == 0.0f;

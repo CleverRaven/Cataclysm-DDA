@@ -278,11 +278,11 @@ void submap::rotate( int turns )
 
     active_items.rotate_locations( turns, { SEEX, SEEY } );
 
-    for( auto &elem : cosmetics ) {
+    for( submap::cosmetic_t &elem : cosmetics ) {
         elem.pos = rotate_point( elem.pos );
     }
 
-    for( auto &elem : spawns ) {
+    for( spawn_point &elem : spawns ) {
         elem.pos = rotate_point( elem.pos );
     }
 
@@ -316,7 +316,7 @@ void submap::mirror( bool horizontally )
             }
         }
 
-        for( auto &elem : cosmetics ) {
+        for( submap::cosmetic_t &elem : cosmetics ) {
             elem.pos = point( -elem.pos.x, elem.pos.y ) + point( SEEX - 1, 0 );
         }
 
@@ -333,7 +333,7 @@ void submap::mirror( bool horizontally )
             }
         }
 
-        for( auto &elem : cosmetics ) {
+        for( submap::cosmetic_t &elem : cosmetics ) {
             elem.pos = point( elem.pos.x, -elem.pos.y ) + point( 0, SEEY - 1 );
         }
 
@@ -370,4 +370,28 @@ submap_revert submap::get_revert_submap() const
         }
     }
     return ret;
+}
+
+void submap::update_lum_rem( const point &p, const item &i )
+{
+    is_uniform = false;
+    if( !i.is_emissive() ) {
+        return;
+    } else if( lum[p.x][p.y] && lum[p.x][p.y] < 255 ) {
+        lum[p.x][p.y]--;
+        return;
+    }
+
+    // Have to scan through all items to be sure removing i will actually lower
+    // the count below 255.
+    int count = 0;
+    for( const item &it : itm[p.x][p.y] ) {
+        if( it.is_emissive() ) {
+            count++;
+        }
+    }
+
+    if( count <= 256 ) {
+        lum[p.x][p.y] = static_cast<uint8_t>( count - 1 );
+    }
 }

@@ -35,4 +35,10 @@ jobs:
       run: make style-all-json-parallel RELEASE=1
     - name: Display Corrections
       if: failure()
-      run: git diff
+      run: git diff --color
+
+    - name: 'suggester / JSON'
+      uses: reviewdog/action-suggester@v1
+      if: failure()
+      with:
+        tool_name: 'JSON formatter'

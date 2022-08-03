@@ -920,7 +920,7 @@ cata::optional<int> iuse::vaccine( Character *p, item *it, bool, const tripoint 
 {
     p->add_msg_if_player( _( "You inject the vaccine." ) );
     p->add_msg_if_player( m_good, _( "You feel tough." ) );
-    p->mod_healthy_mod( 200, 200 );
+    p->mod_daily_health( 200, 200 );
     p->mod_pain( 3 );
     item syringe( "syringe", it->birthday() );
     p->i_add_or_drop( syringe );
@@ -1113,8 +1113,8 @@ cata::optional<int> iuse::blech( Character *p, item *it, bool, const tripoint & 
         p->stomach.mod_nutr( -p->nutrition_for( *it ) * multiplier );
         p->mod_thirst( -it->get_comestible()->quench * multiplier );
         p->stomach.mod_quench( 20 ); //acidproof people can drink acids like diluted water.
-        p->mod_healthy_mod( it->get_comestible()->healthy * multiplier,
-                            it->get_comestible()->healthy * multiplier );
+        p->mod_daily_health( it->get_comestible()->healthy * multiplier,
+                             it->get_comestible()->healthy * multiplier );
         p->add_morale( MORALE_FOOD_BAD, it->get_comestible_fun() * multiplier, 60, 1_hours, 30_minutes,
                        false, it->type );
     } else if( it->has_flag( flag_ACID ) || it->has_flag( flag_CORROSIVE ) ) {
@@ -1160,8 +1160,8 @@ cata::optional<int> iuse::plantblech( Character *p, item *it, bool, const tripoi
         //reverses the harmful values of drinking fertilizer
         p->stomach.mod_nutr( p->nutrition_for( *it ) * multiplier );
         p->mod_thirst( -it->get_comestible()->quench * multiplier );
-        p->mod_healthy_mod( it->get_comestible()->healthy * multiplier,
-                            it->get_comestible()->healthy * multiplier );
+        p->mod_daily_health( it->get_comestible()->healthy * multiplier,
+                             it->get_comestible()->healthy * multiplier );
         p->add_morale( MORALE_FOOD_GOOD, -10 * multiplier, 60, 1_hours, 30_minutes, false, it->type );
         return it->type->charges_to_use();
     } else {
@@ -1212,7 +1212,7 @@ cata::optional<int> iuse::purify_smart( Character *p, item *it, bool, const trip
             p->purifiable( traits_iter.id ) ) {
             //Looks for active mutation
             valid.push_back( traits_iter.id );
-            valid_names.push_back( traits_iter.id->name() );
+            valid_names.push_back( p->mutation_name( traits_iter.id ) );
         }
     }
     if( valid.empty() ) {
@@ -1558,7 +1558,7 @@ cata::optional<int> iuse::mycus( Character *p, item *it, bool, const tripoint & 
         p->mod_thirst( 10 );
         p->mod_fatigue( 5 );
         p->vomit(); // no hunger/quench benefit for you
-        p->mod_healthy_mod( -8, -50 );
+        p->mod_daily_health( -8, -50 );
     }
     return it->type->charges_to_use();
 }
@@ -1573,7 +1573,7 @@ cata::optional<int> iuse::petfood( Character *p, item *it, bool, const tripoint 
     const cata::optional<tripoint> pnt = choose_adjacent( string_format( _( "Put the %s where?" ),
                                          it->tname() ) );
     if( !pnt ) {
-        return cata::nullopt;;
+        return cata::nullopt;
     }
 
     creature_tracker &creatures = get_creature_tracker();
@@ -1611,12 +1611,10 @@ cata::optional<int> iuse::petfood( Character *p, item *it, bool, const tripoint 
         bool can_feed = false;
         const pet_food_data &petfood = mon->type->petfood;
         const std::set<std::string> &itemfood = it->get_comestible()->petfood;
-        if( !petfood.food.empty() ) {
-            for( const std::string &food : petfood.food ) {
-                if( itemfood.find( food ) != itemfood.end() ) {
-                    can_feed = true;
-                    break;
-                }
+        for( const std::string &food : petfood.food ) {
+            if( itemfood.find( food ) != itemfood.end() ) {
+                can_feed = true;
+                break;
             }
         }
 
@@ -2454,13 +2452,41 @@ cata::optional<int> iuse::directional_antenna( Character *p, item *it, bool, con
     return it->type->charges_to_use();
 }
 
+// 0-100 percent chance of a character in a radio signal being obscured by static
+static int radio_static_chance( const radio_tower_reference &tref )
+{
+    constexpr int HALF_RADIO_MIN = RADIO_MIN_STRENGTH / 2;
+    const int signal_strength = tref.signal_strength;
+    const int max_strength = tref.tower->strength;
+    int dist = max_strength - signal_strength;
+    // For towers whose strength is quite close to the min, make them act as though they are farther away
+    if( RADIO_MIN_STRENGTH * 1.25 > max_strength ) {
+        dist += 25;
+    }
+    // When we're close enough, there's no noise
+    if( dist < HALF_RADIO_MIN ) {
+        return 0;
+    }
+    // There's minimal, but increasing noise when quite close to the signal
+    if( dist < RADIO_MIN_STRENGTH ) {
+        return lerp( 1, 20, static_cast<float>( dist - HALF_RADIO_MIN ) / HALF_RADIO_MIN );
+    }
+    // Otherwise, just a rapid increase until the signal stops
+    return lerp( 20, 100, static_cast<float>( dist - RADIO_MIN_STRENGTH ) /
+                 ( max_strength - RADIO_MIN_STRENGTH ) );
+}
+
 cata::optional<int> iuse::radio_on( Character *p, item *it, bool t, const tripoint &pos )
 {
     if( t ) {
         // Normal use
         std::string message = _( "Radio: Kssssssssssssh." );
         const radio_tower_reference tref = overmap_buffer.find_radio_station( it->frequency );
+        add_msg_debug( debugmode::DF_RADIO, "Set freq: %d", it->frequency );
         if( tref ) {
+            point_abs_omt dbgpos = project_to<coords::omt>( tref.abs_sm_pos );
+            add_msg_debug( debugmode::DF_RADIO, "found broadcast (str %d) at (%d %d)",
+                           tref.signal_strength, dbgpos.x(), dbgpos.y() );
             const radio_tower *selected_tower = tref.tower;
             if( selected_tower->type == radio_type::MESSAGE_BROADCAST ) {
                 message = selected_tower->message;
@@ -2468,20 +2494,26 @@ cata::optional<int> iuse::radio_on( Character *p, item *it, bool t, const tripoi
                 message = weather_forecast( tref.abs_sm_pos );
             }
 
-            message = obscure_message( message, [&]()->int {
-                int signal_roll = dice( 10, tref.signal_strength * 3 );
-                int static_roll = dice( 10, 100 );
-                if( static_roll > signal_roll )
+            const city *c = overmap_buffer.closest_city( tripoint_abs_sm( tref.abs_sm_pos, 0 ) ).city;
+            //~ radio noise
+            const std::string cityname = c == nullptr ? _( "ksssh" ) : c->name;
+
+            replace_city_tag( message, cityname );
+            int static_chance = radio_static_chance( tref );
+            add_msg_debug( debugmode::DF_RADIO, "Message: '%s' at %d%% noise", message, static_chance );
+            message = obscure_message( message, [&static_chance]()->int {
+                if( x_in_y( static_chance, 100 ) )
                 {
-                    if( static_roll < signal_roll * 1.1 && one_in( 4 ) ) {
+                    // Gradually replace random characters with noise as distance increases
+                    if( one_in( 3 ) && static_chance - rng( 0, 25 ) < 50 ) {
+                        // Replace with random character
                         return 0;
-                    } else {
-                        return '#';
                     }
-                } else
-                {
-                    return -1;
+                    // Replace with '#'
+                    return '#';
                 }
+                // Leave unchanged
+                return -1;
             } );
 
             std::vector<std::string> segments = foldstring( message, RADIO_PER_TURN );
@@ -2505,27 +2537,51 @@ cata::optional<int> iuse::radio_on( Character *p, item *it, bool t, const tripoi
             } );
         }
 
+        const auto tower_desc = []( const int noise ) {
+            if( noise == 0 ) {
+                return SNIPPET.random_from_category( "radio_station_desc_noise_0" )->translated();
+            } else if( noise <= 20 ) {
+                return SNIPPET.random_from_category( "radio_station_desc_noise_20" )->translated();
+            } else if( noise <= 40 ) {
+                return SNIPPET.random_from_category( "radio_station_desc_noise_40" )->translated();
+            } else if( noise <= 60 ) {
+                return SNIPPET.random_from_category( "radio_station_desc_noise_60" )->translated();
+            } else if( noise <= 80 ) {
+                return SNIPPET.random_from_category( "radio_station_desc_noise_80" )->translated();
+            }
+            return SNIPPET.random_from_category( "radio_station_desc_noise_max" )->translated();
+        };
+
         switch( ch ) {
             case 0: {
-                const int old_frequency = it->frequency;
-                const radio_tower *lowest_tower = nullptr;
-                const radio_tower *lowest_larger_tower = nullptr;
-                for( auto &tref : overmap_buffer.find_all_radio_stations() ) {
-                    const int new_frequency = tref.tower->frequency;
-                    if( new_frequency == old_frequency ) {
-                        continue;
-                    }
-                    if( new_frequency > old_frequency &&
-                        ( lowest_larger_tower == nullptr || new_frequency < lowest_larger_tower->frequency ) ) {
-                        lowest_larger_tower = tref.tower;
-                    } else if( lowest_tower == nullptr || new_frequency < lowest_tower->frequency ) {
-                        lowest_tower = tref.tower;
-                    }
+                std::vector<radio_tower_reference> options = overmap_buffer.find_all_radio_stations();
+                if( options.empty() ) {
+                    popup( SNIPPET.random_from_category( "radio_scan_no_stations" )->translated() );
                 }
-                if( lowest_larger_tower != nullptr ) {
-                    it->frequency = lowest_larger_tower->frequency;
-                } else if( lowest_tower != nullptr ) {
-                    it->frequency = lowest_tower->frequency;
+                uilist scanlist;
+                scanlist.title = _( "Select a station" );
+                scanlist.desc_enabled = true;
+                add_msg_debug( debugmode::DF_RADIO, "Radio scan:" );
+                for( size_t i = 0; i < options.size(); ++i ) {
+                    std::string selected_text;
+                    const radio_tower_reference &tref = options[i];
+                    if( it->frequency == tref.tower->frequency ) {
+                        selected_text = pgettext( "radio station", " (selected)" );
+                    }
+                    //~ Selected radio station, %d is a number in sequence (1,2,3...),
+                    //~ %s is ' (selected)' if this is the radio station playing, else nothing
+                    const std::string station_name = string_format( _( "Station %d%s" ), i + 1, selected_text );
+                    const int noise_chance = radio_static_chance( tref );
+                    scanlist.addentry_desc( i, true, MENU_AUTOASSIGN, station_name, tower_desc( noise_chance ) );
+                    const point_abs_omt dbgpos = project_to<coords::omt>( tref.abs_sm_pos );
+                    add_msg_debug( debugmode::DF_RADIO, "  %d: %d at (%d %d) str [%d/%d]", i + 1, tref.tower->frequency,
+                                   dbgpos.x(), dbgpos.y(), tref.signal_strength, tref.tower->strength );
+                }
+                scanlist.query();
+                const int sel = scanlist.ret;
+                if( sel >= 0 && static_cast<size_t>( sel ) < options.size() ) {
+                    it->frequency = options[sel].tower->frequency;
+                    break;
                 }
             }
             break;
@@ -2597,7 +2653,7 @@ cata::optional<int> iuse::emf_passive_on( Character *p, item *it, bool t, const 
             return it->type->charges_to_use();
         }
 
-        for( const auto &loc : closest_points_first( pos, max ) ) {
+        for( const tripoint &loc : closest_points_first( pos, max ) ) {
             const Creature *critter = creatures.creature_at( loc );
 
             // if the creature exists and is either a robot or electric
@@ -2791,7 +2847,8 @@ cata::optional<int> iuse::dig( Character *p, item * /* it */, bool t, const trip
     auto build = std::find_if( cnstr.begin(), cnstr.end(), []( const construction & it ) {
         return it.str_id == construction_constr_pit;
     } );
-    bool const can_dig_pit = !points_in_radius_where( p->pos(), 1, [&build]( tripoint const & pt ) {
+    bool const can_dig_pit = !points_in_radius_where( p->pos_bub(),
+    1, [&build]( tripoint_bub_ms const & pt ) {
         return can_construct( *build, pt );
     } ).empty();
     if( !can_dig_pit ) {
@@ -3359,14 +3416,14 @@ cata::optional<int> iuse::geiger( Character *p, item *it, bool t, const tripoint
             const tripoint &pnt = *pnt_;
             if( pnt == p->pos() ) {
                 p->add_msg_if_player( m_info, _( "Your radiation level: %d mSv (%d mSv from items)" ), p->get_rad(),
-                                      p->leak_level( flag_RADIOACTIVE ) );
+                                      static_cast<int>( p->leak_level() ) );
                 break;
             }
             if( npc *const person_ = creatures.creature_at<npc>( pnt ) ) {
                 npc &person = *person_;
                 p->add_msg_if_player( m_info, _( "%s's radiation level: %d mSv (%d mSv from items)" ),
                                       person.get_name(), person.get_rad(),
-                                      person.leak_level( flag_RADIOACTIVE ) );
+                                      static_cast<int>( person.leak_level() ) );
             }
             break;
         }
@@ -3660,7 +3717,7 @@ cata::optional<int> iuse::grenade_inc_act( Character *p, item *it, bool t, const
         for( int current_flame = 0; current_flame < num_flames; current_flame++ ) {
             tripoint dest( pos + point( rng( -5, 5 ), rng( -5, 5 ) ) );
             std::vector<tripoint> flames = line_to( pos, dest, 0, 0 );
-            for( auto &flame : flames ) {
+            for( tripoint &flame : flames ) {
                 here.add_field( flame, fd_fire, rng( 0, 2 ) );
             }
         }
@@ -4617,14 +4674,14 @@ cata::optional<int> iuse::blood_draw( Character *p, item *it, bool, const tripoi
     item blood( "blood", calendar::turn );
     bool drew_blood = false;
     bool acid_blood = false;
-    float blood_temp = -1.0f;  //kelvins
+    units::temperature blood_temp = units::from_kelvin( -1.0f ); //kelvins
     for( item &map_it : get_map().i_at( point( p->posx(), p->posy() ) ) ) {
         if( map_it.is_corpse() &&
             query_yn( _( "Draw blood from %s?" ),
                       colorize( map_it.tname(), map_it.color_in_inventory() ) ) ) {
             p->add_msg_if_player( m_info, _( "You drew blood from the %s…" ), map_it.tname() );
             drew_blood = true;
-            blood_temp = map_it.temperature * 0.00001;
+            blood_temp = map_it.temperature ;
 
             if( map_it.get_mtype()->in_species( species_ZOMBIE ) ) {
                 blood.convert( itype_blood_tainted );
@@ -4642,7 +4699,7 @@ cata::optional<int> iuse::blood_draw( Character *p, item *it, bool, const tripoi
     if( !drew_blood && query_yn( _( "Draw your own blood?" ) ) ) {
         p->add_msg_if_player( m_info, _( "You drew your own blood…" ) );
         drew_blood = true;
-        blood_temp = 310.15f;
+        blood_temp = units::from_celcius( 37 );
         if( p->has_trait( trait_ACIDBLOOD ) ) {
             acid_blood = true;
         }
@@ -5251,6 +5308,7 @@ cata::optional<int> iuse::unfold_generic( Character *p, item *it, bool, const tr
         p->add_msg_if_player( m_info, _( "There's no room to unfold the %s." ), it->tname() );
         return cata::nullopt;
     }
+    veh->suspend_refresh();
     veh->name = it->get_var( "vehicle_name" );
     if( !veh->restore( it->get_var( "folding_bicycle_parts" ) ) ) {
         here.destroy_vehicle( veh );
@@ -5273,8 +5331,12 @@ cata::optional<int> iuse::unfold_generic( Character *p, item *it, bool, const tr
             return 0;
         }
     }
-
+    veh->set_owner( *p );
+    veh->enable_refresh();
     here.add_vehicle_to_cache( veh );
+    if( here.veh_at( p->pos() ).part_with_feature( VPFLAG_BOARDABLE, true ) ) {
+        here.board_vehicle( p->pos(), p ); // if boardable unbroken part is present -> get on it
+    }
 
     std::string unfold_msg = it->get_var( "unfold_msg" );
     if( unfold_msg.empty() ) {
@@ -5282,8 +5344,11 @@ cata::optional<int> iuse::unfold_generic( Character *p, item *it, bool, const tr
     } else {
         unfold_msg = _( unfold_msg );
     }
-    veh->set_owner( *p );
     p->add_msg_if_player( m_neutral, unfold_msg, veh->name );
+
+    if( p->is_avatar() && it->get_var( "tracking", 0 ) == 1 ) {
+        veh->toggle_tracking(); // restore position tracking state
+    }
 
     p->moves -= it->get_var( "moves", to_turns<int>( 5_seconds ) );
     return 1;
@@ -5304,7 +5369,7 @@ cata::optional<int> iuse::adrenaline_injector( Character *p, item *it, bool, con
     if( p->has_effect( effect_adrenaline ) ) {
         p->add_msg_if_player( m_bad, _( "Your heart spasms!" ) );
         // Note: not the mod, the health
-        p->mod_healthy( -20 );
+        p->mod_livestyle( -20 );
     }
 
     p->add_effect( effect_adrenaline, 20_minutes );
@@ -5865,7 +5930,7 @@ static bool einkpc_download_memory_card( Character &p, item &eink, item &mc )
         std::vector<const recipe *> candidates;
 
         for( const auto &e : recipe_dict ) {
-            const auto &r = e.second;
+            const recipe &r = e.second;
             if( r.never_learn || r.obsolete ) {
                 continue;
             }
@@ -5893,8 +5958,7 @@ static bool einkpc_download_memory_card( Character &p, item &eink, item &mc )
                 }
             }
 
-            for( auto rec = new_recipes.begin(); rec != new_recipes.end(); ++rec ) {
-                const recipe *r = *rec;
+            for( const recipe *r : new_recipes ) {
                 const recipe_id &rident = r->ident();
 
                 const auto old_recipes = eink.get_var( "EIPC_RECIPES" );
@@ -6166,7 +6230,7 @@ cata::optional<int> iuse::einktabletpc( Character *p, item *it, bool t, const tr
 
                 candidate_recipes.emplace_back( s );
 
-                const auto &recipe = *candidate_recipes.back();
+                const recipe &recipe = *candidate_recipes.back();
                 if( recipe ) {
                     rmenu.addentry( k++, true, -1, recipe.result_name( /*decorated=*/true ) );
                 }
@@ -7447,7 +7511,8 @@ cata::optional<int> iuse::ehandcuffs( Character *p, item *it, bool t, const trip
             it->unset_flag( flag_NO_UNWIELD );
             it->active = false;
 
-            if( p->has_item( *it ) && p->get_wielded_item().typeId() == itype_e_handcuffs ) {
+            if( p->has_item( *it ) && p->get_wielded_item() &&
+                p->get_wielded_item()->typeId() == itype_e_handcuffs ) {
                 add_msg( m_good, _( "%s on your wrists opened!" ), it->tname() );
             }
 
@@ -7479,7 +7544,8 @@ cata::optional<int> iuse::ehandcuffs( Character *p, item *it, bool t, const trip
         if( ( it->ammo_remaining() > it->type->maximum_charges() - 1000 ) && ( p2.x != pos.x ||
                 p2.y != pos.y ) ) {
 
-            if( p->has_item( *it ) && p->get_wielded_item().typeId() == itype_e_handcuffs ) {
+            if( p->has_item( *it ) && p->get_wielded_item() &&
+                p->get_wielded_item()->typeId() == itype_e_handcuffs ) {
 
                 if( p->is_elec_immune() ) {
                     if( one_in( 10 ) ) {
@@ -7745,7 +7811,7 @@ cata::optional<int> iuse::radiocontrol( Character *p, item *it, bool t, const tr
         const flag_id signal( "RADIOSIGNAL_" + std::to_string( choice ) );
 
         auto item_list = p->get_radio_items();
-        for( auto &elem : item_list ) {
+        for( item *&elem : item_list ) {
             if( elem->has_flag( flag_BOMB ) && elem->has_flag( signal ) ) {
                 p->add_msg_if_player( m_warning,
                                       _( "The %s in your inventory would explode on this signal.  Place it down before sending the signal." ),
@@ -7758,18 +7824,16 @@ cata::optional<int> iuse::radiocontrol( Character *p, item *it, bool t, const tr
             return itm.has_flag( flag_RADIO_CONTAINER );
         } );
 
-        if( !radio_containers.empty() ) {
-            for( item *items : radio_containers ) {
-                item *itm = items->get_item_with( [&]( const item & c ) {
-                    return c.has_flag( flag_BOMB ) && c.has_flag( signal );
-                } );
+        for( item *items : radio_containers ) {
+            item *itm = items->get_item_with( [&]( const item & c ) {
+                return c.has_flag( flag_BOMB ) && c.has_flag( signal );
+            } );
 
-                if( itm != nullptr ) {
-                    p->add_msg_if_player( m_warning,
-                                          _( "The %1$s in your %2$s would explode on this signal.  Place it down before sending the signal." ),
-                                          itm->display_name(), items->display_name() );
-                    return cata::nullopt;
-                }
+            if( itm != nullptr ) {
+                p->add_msg_if_player( m_warning,
+                                      _( "The %1$s in your %2$s would explode on this signal.  Place it down before sending the signal." ),
+                                      itm->display_name(), items->display_name() );
+                return cata::nullopt;
             }
         }
 
@@ -7845,8 +7909,8 @@ static vehicle *pickveh( const tripoint &center, bool advanced )
     pmenu.title = _( "Select vehicle to access" );
     std::vector< vehicle * > vehs;
 
-    for( auto &veh : get_map().get_vehicles() ) {
-        auto &v = veh.v;
+    for( wrapped_vehicle &veh : get_map().get_vehicles() ) {
+        vehicle *&v = veh.v;
         if( rl_dist( center, v->global_pos3() ) < 40 &&
             v->fuel_left( itype_battery, true ) > 0 &&
             ( !empty( v->get_avail_parts( advctrl ) ) ||
@@ -8046,8 +8110,8 @@ cata::optional<int> iuse::multicooker( Character *p, item *it, bool t, const tri
             if( ( *recipe_id( it->get_var( "RECIPE" ) ) ).hot_result() ) {
                 meal.heat_up();
             } else {
-                meal.set_item_temperature( temp_to_kelvin( std::max( temperatures::cold,
-                                           get_weather().get_temperature( pos ) ) ) );
+                meal.set_item_temperature( std::max( temperatures::cold,
+                                                     units::from_fahrenheit( get_weather().get_temperature( pos ) ) ) );
             }
 
             it->active = false;
@@ -8219,7 +8283,7 @@ cata::optional<int> iuse::multicooker( Character *p, item *it, bool t, const tri
 
             int counter = 0;
 
-            for( const auto &r : get_avatar().get_learned_recipes().in_category( "CC_FOOD" ) ) {
+            for( const recipe * const &r : get_avatar().get_learned_recipes().in_category( "CC_FOOD" ) ) {
                 if( multicooked_subcats.count( r->subcategory ) > 0 ) {
                     dishes.push_back( r );
                     const bool can_make = r->deduped_requirements().can_make_with_inventory(
@@ -8405,7 +8469,7 @@ cata::optional<int> iuse::tow_attach( Character *p, item *it, bool, const tripoi
                                     it->get_var( "source_y", 0 ),
                                     it->get_var( "source_z", 0 ) );
             tripoint source_local = here.getlocal( source_global );
-            const optional_vpart_position source_vp = here.veh_at( source_local );
+            optional_vpart_position source_vp = here.veh_at( source_local );
             vehicle *const source_veh = veh_pointer_or_null( source_vp );
             if( detach_if_missing && source_veh == nullptr ) {
                 if( p->has_item( *it ) ) {
@@ -8582,7 +8646,7 @@ cata::optional<int> iuse::cable_attach( Character *p, item *it, bool, const trip
                                     it->get_var( "source_y", 0 ),
                                     it->get_var( "source_z", 0 ) );
             tripoint source_local = here.getlocal( source_global );
-            const optional_vpart_position source_vp = here.veh_at( source_local );
+            optional_vpart_position source_vp = here.veh_at( source_local );
             vehicle *const source_veh = veh_pointer_or_null( source_vp );
             if( detach_if_missing && source_veh == nullptr ) {
                 if( p != nullptr && p->has_item( *it ) ) {
@@ -8694,7 +8758,7 @@ cata::optional<int> iuse::cable_attach( Character *p, item *it, bool, const trip
             vehicle *const target_veh = &target_vp->vehicle();
             if( source_veh == target_veh ) {
                 if( p != nullptr && p->has_item( *it ) ) {
-                    p->add_msg_if_player( m_warning, _( "The %s already has access to its own electric system!" ),
+                    p->add_msg_if_player( m_warning, _( "There is no need to connect the %s to itself." ),
                                           source_veh->name );
                 }
                 return 0;
@@ -8775,7 +8839,7 @@ cata::optional<int> iuse::cord_attach( Character *p, item *it, bool, const tripo
                                     it->get_var( "source_y", 0 ),
                                     it->get_var( "source_z", 0 ) );
             tripoint source_local = here.getlocal( source_global );
-            const optional_vpart_position source_vp = here.veh_at( source_local );
+            optional_vpart_position source_vp = here.veh_at( source_local );
             vehicle *const source_veh = veh_pointer_or_null( source_vp );
             if( detach_if_missing && source_veh == nullptr ) {
                 if( p != nullptr && p->has_item( *it ) ) {
@@ -8826,7 +8890,7 @@ cata::optional<int> iuse::cord_attach( Character *p, item *it, bool, const tripo
             vehicle *const target_veh = &target_vp->vehicle();
             if( source_veh == target_veh ) {
                 if( p != nullptr && p->has_item( *it ) ) {
-                    p->add_msg_if_player( m_warning, _( "The %s already has access to its own electric system!" ),
+                    p->add_msg_if_player( m_warning, _( "There is no need to connect the %s to itself." ),
                                           source_veh->name );
                 }
                 return 0;
@@ -8939,17 +9003,16 @@ cata::optional<int> iuse::weather_tool( Character *p, item *it, bool, const trip
             vehwindspeed = std::abs( vp->vehicle().velocity / 100 ); // For mph
         }
         const oter_id &cur_om_ter = overmap_buffer.ter( p->global_omt_location() );
-        /* windpower defined in internal velocity units (=.01 mph) */
-        const double windpower = 100 * get_local_windpower( weather.windspeed + vehwindspeed, cur_om_ter,
-                                 p->pos(), weather.winddirection, g->is_sheltered( p->pos() ) );
+        const int windpower = get_local_windpower( weather.windspeed + vehwindspeed, cur_om_ter,
+                              p->pos(), weather.winddirection, g->is_sheltered( p->pos() ) );
 
         p->add_msg_if_player( m_neutral, _( "Wind Speed: %.1f %s." ),
-                              convert_velocity( windpower, VU_WIND ),
+                              convert_velocity( windpower * 100, VU_WIND ),
                               velocity_units( VU_WIND ) );
         p->add_msg_if_player(
             m_neutral, _( "Feels Like: %s." ),
             print_temperature(
-                get_local_windchill( weatherPoint.temperature, weatherPoint.humidity, windpower / 100 ) +
+                get_local_windchill( weatherPoint.temperature, weatherPoint.humidity, windpower ) +
                 player_local_temp ) );
         std::string dirstring = get_dirstring( weather.winddirection );
         p->add_msg_if_player( m_neutral, _( "Wind Direction: From the %s." ), dirstring );
@@ -9446,7 +9509,7 @@ static item *wield_before_use( Character *const p, item *const it, const std::st
                 return nullptr;
             }
             // `it` is no longer the item we are using (note that `player::wielded` is a value).
-            return &p->get_wielded_item();
+            return &*p->get_wielded_item();
         } else {
             return nullptr;
         }
@@ -10034,6 +10097,28 @@ cata::optional<int> iuse::binder_manage_recipe( Character *p, item *binder, bool
     return cata::nullopt;
 }
 
+cata::optional<int> iuse::voltmeter( Character *p, item *it, bool, const tripoint & )
+{
+    const cata::optional<tripoint> pnt_ = choose_adjacent( _( "Check voltage where?" ) );
+    if( !pnt_ ) {
+        return cata::nullopt;
+    }
+
+    const map &here = get_map();
+    const optional_vpart_position vp = here.veh_at( *pnt_ );
+
+    if( !vp ) {
+        p->add_msg_if_player( _( "There's nothing to measure there." ) );
+        return cata::nullopt;
+    }
+    if( vp->vehicle().fuel_left( itype_battery, true ) ) {
+        p->add_msg_if_player( _( "The %1$s has voltage." ), vp->vehicle().name );
+    } else {
+        p->add_msg_if_player( _( "The %1$s has no voltage." ), vp->vehicle().name );
+    }
+    return it->type->charges_to_use();
+}
+
 void use_function::dump_info( const item &it, std::vector<iteminfo> &dump ) const
 {
     if( actor != nullptr ) {
@@ -10041,14 +10126,14 @@ void use_function::dump_info( const item &it, std::vector<iteminfo> &dump ) cons
     }
 }
 
-ret_val<bool> use_function::can_call( const Character &p, const item &it, bool t,
+ret_val<void> use_function::can_call( const Character &p, const item &it, bool t,
                                       const tripoint &pos ) const
 {
     if( actor == nullptr ) {
-        return ret_val<bool>::make_failure( _( "You can't do anything interesting with your %s." ),
+        return ret_val<void>::make_failure( _( "You can't do anything interesting with your %s." ),
                                             it.tname() );
     } else if( it.is_broken() ) {
-        return ret_val<bool>::make_failure( _( "Your %s is broken and won't activate." ),
+        return ret_val<void>::make_failure( _( "Your %s is broken and won't activate." ),
                                             it.tname() );
     }
 

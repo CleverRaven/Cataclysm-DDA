@@ -110,6 +110,7 @@ enum class event_type : int {
     throws_up,
     triggers_alarm,
     uses_debug_menu,
+    u_var_changed,
     num_event_types // last
 };
 
@@ -170,7 +171,7 @@ struct event_spec_character_item {
     };
 };
 
-static_assert( static_cast<int>( event_type::num_event_types ) == 85,
+static_assert( static_cast<int>( event_type::num_event_types ) == 86,
                "This static_assert is to remind you to add a specialization for your new "
                "event_type below" );
 
@@ -729,6 +730,15 @@ struct event_spec<event_type::uses_debug_menu> {
     };
 };
 
+template<>
+struct event_spec<event_type::u_var_changed> {
+    static constexpr std::array<std::pair<const char *, cata_variant_type>, 2> fields = { {
+            { "var", cata_variant_type::string },
+            { "value", cata_variant_type::string },
+        }
+    };
+};
+
 template<event_type Type, typename IndexSequence>
 struct make_event_helper;
 
@@ -773,22 +783,8 @@ class event
             return time_;
         }
 
-        cata_variant get_variant( const std::string &key ) const {
-            auto it = data_.find( key );
-            if( it == data_.end() ) {
-                cata_fatal( "No such key %s in event of type %s", key,
-                            io::enum_to_string( type_ ) );
-            }
-            return it->second;
-        }
-
-        cata_variant get_variant_or_void( const std::string &key ) const {
-            auto it = data_.find( key );
-            if( it == data_.end() ) {
-                return cata_variant();
-            }
-            return it->second;
-        }
+        cata_variant get_variant( const std::string &key ) const;
+        cata_variant get_variant_or_void( const std::string &key ) const;
 
         template<cata_variant_type Type>
         auto get( const std::string &key ) const {

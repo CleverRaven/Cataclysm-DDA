@@ -243,6 +243,60 @@ class loot_options : public zone_options, public mark_option
         void deserialize( const JsonObject &jo_zone ) override;
 };
 
+class unload_options : public zone_options, public mark_option
+{
+    private:
+        // what to unload
+        std::string mark;
+        bool mods;
+        bool molle;
+        bool always_unload;
+
+        enum query_unload_result {
+            canceled,
+            successful,
+            changed,
+        };
+
+        query_unload_result query_unload();
+
+    public:
+        std::string get_mark() const override {
+            return mark;
+        }
+
+        bool unload_mods() const {
+            return mods;
+        }
+
+        bool unload_molle() const {
+            return molle;
+        }
+
+        bool unload_always() const {
+            return always_unload;
+        }
+
+
+        void set_mark( std::string const &nmark ) {
+            mark = nmark;
+        }
+
+        bool has_options() const override {
+            return true;
+        }
+
+        bool query_at_creation() override;
+        bool query() override;
+
+        std::string get_zone_name_suggestion() const override;
+
+        std::vector<std::pair<std::string, std::string>> get_descriptions() const override;
+
+        void serialize( JsonOut &json ) const override;
+        void deserialize( const JsonObject &jo_zone ) override;
+};
+
 /**
  * These are zones the player can designate.
  */
@@ -438,10 +492,14 @@ class zone_manager
         void add( const std::string &name, const zone_type_id &type, const faction_id &faction,
                   bool invert, bool enabled,
                   const tripoint &start, const tripoint &end,
-                  const shared_ptr_fast<zone_options> &options = nullptr, const bool personal = false,
+                  const shared_ptr_fast<zone_options> &options = nullptr, bool personal = false,
                   bool silent = false, map *pmap = nullptr );
+        // get first matching zone
         const zone_data *get_zone_at( const tripoint_abs_ms &where, const zone_type_id &type,
                                       const faction_id &fac = your_fac ) const;
+        // get all matching zones (useful for LOOT_CUSTOM and LOOT_ITEM_GROUP)
+        std::vector<zone_data const *> get_zones_at( const tripoint_abs_ms &where, const zone_type_id &type,
+                const faction_id &fac = your_fac ) const;
         void create_vehicle_loot_zone( class vehicle &vehicle, const point &mount_point,
                                        zone_data &new_zone, map *pmap = nullptr );
 

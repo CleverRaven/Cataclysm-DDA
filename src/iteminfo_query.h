@@ -52,6 +52,7 @@ enum class iteminfo_parts : size_t {
     FOOD_CONSUME_TIME,
     FOOD_HEALTH,
 
+    MAGAZINE_COMPATIBLE_GUNS,
     MAGAZINE_CAPACITY,
     MAGAZINE_RELOAD,
 
@@ -132,6 +133,7 @@ enum class iteminfo_parts : size_t {
     GUNMOD_LOCATION,
     GUNMOD_BLACKLIST_MOD,
 
+    ARMOR_BODYGRAPH,
     ARMOR_BODYPARTS,
     ARMOR_LAYER,
     ARMOR_COVERAGE,
@@ -230,6 +232,8 @@ enum class iteminfo_parts : size_t {
     DESCRIPTION_CONTENTS,
 
     DESCRIPTION_APPLICABLE_RECIPES,
+
+    DESCRIPTION_VEHICLE_PARTS,
 
     DESCRIPTION_MED_ADDICTING,
 

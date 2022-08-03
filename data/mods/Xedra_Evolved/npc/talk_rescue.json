@@ -1,0 +1,21 @@
+[
+  {
+    "type": "talk_topic",
+    "id": "TALK_RESCUED_1",
+    "dynamic_line": [
+      "I've been listening to those things eat the others they've brought back to here.",
+      "Please, help me.",
+      "Can you get me out of this spider pit?",
+      "Who are you?  Are you real?",
+      "Can you please save me?  I have to get out of here.",
+      "Hallelujah, rescue!",
+      "I can't believe my eyes.  Thank you, thank you!",
+      "You're… you're actually real!",
+      "I hate spiders!"
+    ],
+    "responses": [
+      { "text": "Let's get out of here before more spiders show up.", "topic": "TALK_DONE", "effect": "follow" },
+      { "text": "I don't need another mouth to feed.  Get out of my sight.", "topic": "TALK_DONE", "effect": "flee" }
+    ]
+  }
+]

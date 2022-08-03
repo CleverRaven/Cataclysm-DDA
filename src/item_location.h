@@ -123,6 +123,11 @@ class item_location
         units::mass weight_capacity() const;
 
         /**
+        * Returns true if volume and weight capacity of all parent pockets >= 0
+        */
+        bool check_parent_capacity_recursive() const;
+
+        /**
         * true if the item is inside a not open watertight container
         **/
         bool protected_from_liquids() const;

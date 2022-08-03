@@ -5,7 +5,7 @@
     "type": "item_group",
     "subtype": "distribution",
     "items": [
-      { "item": "rag", "prob": 40 },
+      { "item": "cotton_patchwork", "prob": 40 },
       { "item": "bath_toy", "count": [ 1, 4 ], "prob": 10 },
       { "item": "bathroom_scale", "prob": 20 },
       { "item": "liquid_soap", "count": [ 1, 4 ], "prob": 70, "charges-min": 1 },
@@ -74,6 +74,7 @@
       [ "casserole", 25 ],
       [ "stock_pot", 15 ],
       [ "pressure_cooker", 5 ],
+      [ "dutch_oven", 5 ],
       [ "teapot", 40 ],
       [ "kettle", 40 ],
       [ "colander_steel", 35 ],
@@ -194,10 +195,10 @@
       { "item": "water_clean", "prob": 80 },
       { "item": "salt_water", "prob": 30 },
       { "item": "bleach", "prob": 20, "charges-min": 1 },
-      { "item": "ammonia", "prob": 24, "charges-min": 1 },
       { "item": "chem_calcium_chloride", "prob": 2 },
       { "item": "chem_washing_soda", "prob": 20, "charges-min": 1 },
       { "item": "chem_baking_soda", "prob": 20, "charges-min": 1 },
+      { "item": "ammonia_hydroxide", "prob": 24, "charges-min": 1 },
       { "item": "yeast", "prob": 2 },
       { "item": "royal_jelly", "prob": 8 },
       { "item": "superglue", "prob": 20 },
@@ -237,22 +238,8 @@
       { "item": "vac_pump", "prob": 3 },
       { "item": "recovery_pump", "prob": 3 },
       { "item": "filter_paper_qualitative", "prob": 5 },
-      { "item": "filter_paper_quantitative", "prob": 5 }
-    ]
-  },
-  {
-    "id": "mail",
-    "type": "item_group",
-    "subtype": "distribution",
-    "entries": [
-      { "group": "magazines", "prob": 515 },
-      { "group": "newspaper_recent", "prob": 200, "count-min": 3, "count-max": 5 },
-      { "item": "flyer", "prob": 80 },
-      { "item": "survnote", "prob": 3 },
-      { "item": "touristmap", "prob": 3 },
-      { "item": "trailmap", "prob": 3 },
-      { "item": "phonebook", "prob": 60 },
-      { "group": "religious_books", "prob": 4 }
+      { "item": "filter_paper_quantitative", "prob": 5 },
+      { "item": "chem_turpentine", "prob": 20, "charges-min": 20 }
     ]
   },
   {
@@ -424,7 +411,9 @@
       { "item": "briefcase", "prob": 2 },
       { "item": "trailmap", "prob": 10 },
       { "item": "lighter", "prob": 60, "charges": [ 0, 100 ] },
+      { "item": "lighter", "prob": 30, "charges": [ 0, 50 ] },
       { "item": "ref_lighter", "prob": 2, "charges": [ 0, 50 ] },
+      { "group": "butane_lighter_and_fuel", "prob": 2 },
       { "item": "matches", "prob": 60, "charges": [ 1, 20 ] },
       { "item": "ref_matches", "prob": 60, "charges": [ 1, 32 ] },
       { "item": "extinguisher", "prob": 20, "charges": 100 },
@@ -514,6 +503,7 @@
       { "item": "pot_copper", "prob": 15 },
       { "item": "pot_canning", "prob": 15 },
       { "item": "pressure_cooker", "prob": 5 },
+      { "item": "dutch_oven", "prob": 5 },
       { "item": "thermometer", "prob": 5 },
       { "item": "pan", "prob": 25 },
       { "group": "dishes_dining", "prob": 460 },
@@ -521,17 +511,17 @@
       { "group": "pantry_liquids", "prob": 160 },
       { "item": "knife_butcher", "prob": 10 },
       { "item": "cookbook", "prob": 35 },
-      { "item": "rag", "prob": 1 },
+      { "item": "cotton_patchwork", "prob": 1 },
       { "item": "popcan_stove", "prob": 5, "charges": [ 0, 500 ] },
       { "group": "alcohol", "prob": 101 },
       { "item": "sweet_sausage", "prob": 2 },
       { "item": "roasted_coffee_bean", "prob": 10 },
       { "item": "bacon", "prob": 25 },
       { "item": "bleach", "prob": 20, "charges-min": 1 },
-      { "item": "ammonia", "prob": 24, "charges-min": 1 },
       { "item": "chem_washing_soda", "prob": 20, "charges-min": 1 },
       { "item": "chem_baking_soda", "prob": 20, "charges-min": 1 },
-      { "item": "butane_can", "prob": 10, "charges-min": 1 },
+      { "item": "ammonia_hydroxide", "prob": 24, "charges-min": 1 },
+      { "item": "butane_can", "prob": 10 },
       { "item": "milk_powder", "prob": 15 },
       { "item": "powder_eggs", "prob": 20 },
       {
@@ -558,6 +548,7 @@
       { "item": "vac_sealer", "prob": 10 },
       { "item": "cookbook_italian", "prob": 10 },
       { "item": "cookbook_indian", "prob": 10 },
+      { "item": "cookbook_mexican", "prob": 10 },
       { "item": "sweets_book", "prob": 10 },
       { "item": "cookbook_liverforkids", "prob": 10 },
       { "item": "cookbook_foodfashions", "prob": 7 },
@@ -1090,8 +1081,8 @@
     "entries": [
       { "item": "salt_water", "prob": 20 },
       { "item": "bleach", "prob": 20, "charges-min": 1 },
-      { "item": "ammonia", "prob": 24, "charges-min": 1 },
       { "item": "chem_washing_soda", "prob": 20, "charges-min": 1 },
+      { "item": "ammonia_hydroxide", "prob": 24, "charges-min": 1 },
       { "item": "broom", "prob": 30 },
       { "item": "mop", "prob": 15 },
       { "item": "mop_folded", "prob": 15 },
@@ -1106,7 +1097,7 @@
       { "item": "sewing_kit", "prob": 47, "charges-min": 0 },
       { "item": "tailors_kit", "prob": 3, "charges-min": 0 },
       { "item": "thread", "prob": 40 },
-      { "item": "rag", "prob": 1 },
+      { "item": "cotton_patchwork", "prob": 1 },
       { "item": "scissors", "prob": 50 },
       { "item": "string_36", "prob": 40 },
       { "item": "vinegar", "prob": 10 },
@@ -1122,7 +1113,8 @@
       { "item": "plunger_toilet", "prob": 30 },
       { "item": "plunger_futuristic", "prob": 15 },
       { "item": "toilet_paper", "prob": 10 },
-      { "item": "dish_towel", "prob": 20 }
+      { "item": "dish_towel", "prob": 20 },
+      { "item": "chem_turpentine", "prob": 10, "charges-min": 20 }
     ]
   },
   {
@@ -1199,6 +1191,23 @@
       [ "fencing_sabre", 20 ],
       [ "fencing_epee", 20 ],
       [ "fencing_mask", 20 ]
+    ]
+  },
+  {
+    "id": "hoarder",
+    "//": "Items that might be found scattered around the home of a hoarder.",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      { "group": "trash", "prob": 100 },
+      { "group": "cleaning", "prob": 20 },
+      { "group": "dishes_dining", "prob": 20 },
+      { "group": "dishes_utility", "prob": 10 },
+      { "group": "child_items", "prob": 10 },
+      { "group": "SUS_bathroom_sink", "prob": 10 },
+      { "group": "bed", "prob": 10 },
+      { "group": "games", "prob": 5 },
+      { "group": "SUS_junk_drawer", "prob": 1 }
     ]
   }
 ]

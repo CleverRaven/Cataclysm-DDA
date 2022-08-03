@@ -249,12 +249,12 @@ void defense_game::init_map()
     ui_manager::redraw();
     refresh_display();
 
-    auto &starting_om = overmap_buffer.get( point_abs_om() );
+    overmap &starting_om = overmap_buffer.get( point_abs_om() );
     for( int x = 0; x < OMAPX; x++ ) {
         for( int y = 0; y < OMAPY; y++ ) {
             tripoint_om_omt p( x, y, 0 );
             starting_om.ter_set( p, oter_id( "field" ) );
-            starting_om.seen( p ) = true;
+            starting_om.set_seen( p, true );
         }
     }
 
@@ -876,7 +876,7 @@ std::string defense_location_description( defense_location location )
     return "Unknown data bug.  (defense.cpp:defense_location_description)";
 }
 
-void defense_game::caravan()
+void defense_game::caravan() const
 {
     std::vector<itype_id> items[NUM_CARAVAN_CATEGORIES];
     std::vector<int> item_count[NUM_CARAVAN_CATEGORIES];
@@ -1167,7 +1167,7 @@ std::vector<itype_id> caravan_items( caravan_category cat )
             break;
     }
 
-    for( auto &it : item_list ) {
+    for( item &it : item_list ) {
         itype_id item_type = it.typeId();
         ret.emplace_back( item_type );
         // Add the default magazine types for each gun.
@@ -1344,7 +1344,7 @@ void defense_game::spawn_wave()
     add_msg( m_info, "********" );
 }
 
-std::vector<mtype_id> defense_game::pick_monster_wave()
+std::vector<mtype_id> defense_game::pick_monster_wave() const
 {
     std::vector<mongroup_id> valid;
     std::vector<mtype_id> ret;

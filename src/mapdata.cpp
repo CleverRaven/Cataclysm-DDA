@@ -254,6 +254,8 @@ std::string enum_to_string<ter_furn_flag>( ter_furn_flag data )
         case ter_furn_flag::TFLAG_MURKY: return "MURKY";
         case ter_furn_flag::TFLAG_AMMOTYPE_RELOAD: return "AMMOTYPE_RELOAD";
         case ter_furn_flag::TFLAG_TRANSPARENT_FLOOR: return "TRANSPARENT_FLOOR";
+        case ter_furn_flag::TFLAG_TOILET_WATER: return "TOILET_WATER";
+        case ter_furn_flag::TFLAG_ELEVATOR: return "ELEVATOR";
 
         // *INDENT-ON*
         case ter_furn_flag::NUM_TFLAG_FLAGS:
@@ -501,11 +503,12 @@ void load_season_array( const JsonObject &jo, const std::string &key, const std:
             }
 
         } else {
-            jo.throw_error( "Incorrect number of entries", key );
+            jo.throw_error_at( key, "Incorrect number of entries" );
         }
 
     } else if( jo.has_member( key ) ) {
-        jo.throw_error( string_format( "Expected '%s' member to be string or array", key ), key );
+        jo.throw_error_at(
+            key, string_format( "Expected '%s' member to be string or array", key ) );
     } else {
         jo.throw_error(
             string_format( "Expected '%s' member in %s but none was found", key, context ) );
@@ -559,7 +562,7 @@ void map_data_common_t::load_symbol( const JsonObject &jo, const std::string &co
         } else if( str == "LINE_OXOX" ) {
             return LINE_OXOX;
         } else if( str.length() != 1 ) {
-            jo.throw_error( "Symbol string must be exactly 1 character long.", "symbol" );
+            jo.throw_error_at( "symbol", "Symbol string must be exactly 1 character long." );
         }
         return static_cast<int>( str[0] );
     } );

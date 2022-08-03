@@ -9,11 +9,12 @@
 #include "input.h"
 #include "output.h"
 #include "ui.h"
-#include "ui_manager.h"
 
 class folded_text;
 
 struct ime_preview_range;
+
+class ui_adaptor;
 
 /// <summary>
 /// Editor, to let the player edit text.
@@ -59,15 +60,15 @@ class string_editor_window
 
     private:
         /*print the editor*/
-        void print_editor();
+        void print_editor( ui_adaptor &ui );
 
         void create_context();
 
         /*move the cursor*/
-        void cursor_leftright( const int diff );
-        void cursor_updown( const int diff );
+        void cursor_leftright( int diff );
+        void cursor_updown( int diff );
 
         /*returns line and position in folded text for position in text*/
-        point get_line_and_position( const int position, const bool zero_x );
+        point get_line_and_position( int position, bool zero_x );
 };
 #endif // CATA_SRC_STRING_EDITOR_WINDOW_H

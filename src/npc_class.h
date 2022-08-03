@@ -11,8 +11,12 @@
 #include "translations.h"
 #include "type_id.h"
 
+class npc;
 class JsonObject;
 class Trait_group;
+
+struct dialogue;
+struct faction_price_rule;
 
 namespace trait_group
 {
@@ -43,11 +47,12 @@ class distribution
         static distribution dice_roll( int sides, int size );
         static distribution one_in( float in );
 };
-
 struct shopkeeper_item_group {
     item_group_id id = item_group_id( "EMPTY_GROUP" );
     int trust = 0;
     bool strict = false;
+    std::string refusal;
+    std::function<bool( const dialogue & )> condition;
 
     // Rigid shopkeeper groups will be processed a single time. Default groups are not rigid, and will be processed until the shopkeeper has no more room or remaining value to populate goods with.
     bool rigid = false;
@@ -55,6 +60,10 @@ struct shopkeeper_item_group {
     shopkeeper_item_group() = default;
     shopkeeper_item_group( const std::string &id, int trust, bool strict, bool rigid = false ) :
         id( item_group_id( id ) ), trust( trust ), strict( strict ), rigid( rigid ) {}
+
+    bool can_sell( npc const &guy ) const;
+    bool can_restock( npc const &guy ) const;
+    std::string get_refusal() const;
 
     void deserialize( const JsonObject &jo );
 };
@@ -78,7 +87,10 @@ class npc_class
 
         // first -> item group, second -> trust
         std::vector<shopkeeper_item_group> shop_item_groups;
+        std::vector<faction_price_rule> shop_price_rules;
         shopkeeper_cons_rates_id shop_cons_rates_id = shopkeeper_cons_rates_id::NULL_ID();
+        shopkeeper_blacklist_id shop_blacklist_id = shopkeeper_blacklist_id::NULL_ID();
+        time_duration restock_interval = 6_days;
 
     public:
         npc_class_id id;
@@ -112,6 +124,9 @@ class npc_class
 
         const std::vector<shopkeeper_item_group> &get_shopkeeper_items() const;
         const shopkeeper_cons_rates &get_shopkeeper_cons_rates() const;
+        const shopkeeper_blacklist &get_shopkeeper_blacklist() const;
+        const time_duration &get_shop_restock_interval() const;
+        faction_price_rule const *get_price_rules( item const &it, npc const &guy ) const;
 
         void load( const JsonObject &jo, const std::string &src );
 

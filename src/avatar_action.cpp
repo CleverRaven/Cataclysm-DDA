@@ -80,6 +80,7 @@ static const skill_id skill_swimming( "swimming" );
 static const trait_id trait_GRAZER( "GRAZER" );
 static const trait_id trait_RUMINANT( "RUMINANT" );
 static const trait_id trait_SHELL2( "SHELL2" );
+static const trait_id trait_SHELL3( "SHELL3" );
 
 #define dbg(x) DebugLog((x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -155,16 +156,18 @@ static bool check_water_affect_items( avatar &you )
 
 bool avatar_action::move( avatar &you, map &m, const tripoint &d )
 {
-    if( ( !g->check_safe_mode_allowed() ) || you.has_active_mutation( trait_SHELL2 ) ) {
-        if( you.has_active_mutation( trait_SHELL2 ) ) {
+    bool in_shell = you.has_active_mutation( trait_SHELL2 ) ||
+                    you.has_active_mutation( trait_SHELL3 );
+    if( ( !g->check_safe_mode_allowed() ) || in_shell ) {
+        if( in_shell ) {
             add_msg( m_warning, _( "You can't move while in your shell.  Deactivate it to go mobile." ) );
         }
         return false;
     }
 
     // If any leg broken without crutches and not already on the ground topple over
-    if( ( you.get_working_leg_count() < 2 && !you.get_wielded_item().has_flag( flag_CRUTCHES ) ) &&
-        !you.is_prone() ) {
+    if( ( you.get_working_leg_count() < 2 && !you.is_prone() &&
+          !( you.get_wielded_item() && you.get_wielded_item()->has_flag( flag_CRUTCHES ) ) ) ) {
         you.set_movement_mode( move_mode_prone );
         you.add_msg_if_player( m_bad,
                                _( "Your broken legs can't hold your weight and you fall down in pain." ) );
@@ -195,20 +198,20 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
         via_ramp = true;
     }
 
-    item &weapon = you.get_wielded_item();
+    item_location weapon = you.get_wielded_item();
     if( m.has_flag( ter_furn_flag::TFLAG_MINEABLE, dest_loc ) && g->mostseen == 0 &&
         get_option<bool>( "AUTO_FEATURES" ) && get_option<bool>( "AUTO_MINING" ) &&
         !m.veh_at( dest_loc ) && !you.is_underwater() && !you.has_effect( effect_stunned ) &&
         !is_riding && !you.has_effect( effect_incorporeal ) ) {
-        if( weapon.has_flag( flag_DIG_TOOL ) ) {
-            if( weapon.type->can_use( "JACKHAMMER" ) &&
-                weapon.ammo_sufficient( &you ) ) {
-                you.invoke_item( &weapon, "JACKHAMMER", dest_loc );
+        if( weapon && weapon->has_flag( flag_DIG_TOOL ) ) {
+            if( weapon->type->can_use( "JACKHAMMER" ) &&
+                weapon->ammo_sufficient( &you ) ) {
+                you.invoke_item( &*weapon, "JACKHAMMER", dest_loc );
                 // don't move into the tile until done mining
                 you.defer_move( dest_loc );
                 return true;
-            } else if( weapon.type->can_use( "PICKAXE" ) ) {
-                you.invoke_item( &weapon, "PICKAXE", dest_loc );
+            } else if( weapon->type->can_use( "PICKAXE" ) ) {
+                you.invoke_item( &*weapon, "PICKAXE", dest_loc );
                 // don't move into the tile until done mining
                 you.defer_move( dest_loc );
                 return true;
@@ -664,7 +667,7 @@ static float rate_critter( const Creature &c )
 {
     const npc *np = dynamic_cast<const npc *>( &c );
     if( np != nullptr ) {
-        return np->weapon_value( np->get_wielded_item() );
+        return np->weapon_value( *np->get_wielded_item() );
     }
 
     const monster *m = dynamic_cast<const monster *>( &c );
@@ -673,8 +676,8 @@ static float rate_critter( const Creature &c )
 
 void avatar_action::autoattack( avatar &you, map &m )
 {
-    const item &weapon = you.get_wielded_item();
-    int reach = weapon.reach_range( you );
+    const item_location weapon = you.get_wielded_item();
+    int reach = weapon ? weapon->reach_range( you ) : 1;
     std::vector<Creature *> critters = you.get_targetable_creatures( reach, true );
     critters.erase( std::remove_if( critters.begin(), critters.end(), [&you,
     reach]( const Creature * c ) {
@@ -800,18 +803,23 @@ static bool can_fire_turret( avatar &you, const map &m, const turret_data &turre
 
 void avatar_action::fire_wielded_weapon( avatar &you )
 {
-    const item &weapon = you.get_wielded_item();
-    if( weapon.is_gunmod() ) {
+    const item_location weapon = you.get_wielded_item();
+
+    if( !weapon ) {
+        return;
+    }
+
+    if( weapon->is_gunmod() ) {
         add_msg( m_info,
                  _( "The %s must be attached to a gun, it can not be fired separately." ),
-                 weapon.tname() );
+                 weapon->tname() );
         return;
-    } else if( !weapon.is_gun() ) {
+    } else if( !weapon->is_gun() ) {
         return;
-    } else if( weapon.ammo_data() &&
-               !weapon.ammo_types().count( weapon.loaded_ammo().ammo_type() ) ) {
+    } else if( weapon->ammo_data() &&
+               !weapon->ammo_types().count( weapon->loaded_ammo().ammo_type() ) ) {
         add_msg( m_info, _( "The %s can't be fired while loaded with incompatible ammunition %s" ),
-                 weapon.tname(), weapon.ammo_current()->nname( 1 ) );
+                 weapon->tname(), weapon->ammo_current()->nname( 1 ) );
         return;
     }
 
@@ -855,7 +863,7 @@ void avatar_action::mend( avatar &you, item_location loc )
 
     if( !loc ) {
         if( you.is_armed() ) {
-            loc = item_location( you, &you.get_wielded_item() );
+            loc = you.get_wielded_item();
         } else {
             add_msg( m_info, _( "You're not wielding anything." ) );
             return;
@@ -943,7 +951,9 @@ void avatar_action::eat( avatar &you, const item_location &loc,
 void avatar_action::plthrow( avatar &you, item_location loc,
                              const cata::optional<tripoint> &blind_throw_from_pos )
 {
-    if( you.has_active_mutation( trait_SHELL2 ) ) {
+    bool in_shell = you.has_active_mutation( trait_SHELL2 ) ||
+                    you.has_active_mutation( trait_SHELL3 );
+    if( in_shell ) {
         add_msg( m_info, _( "You can't effectively throw while you're in your shell." ) );
         return;
     } else if( you.has_effect( effect_incorporeal ) ) {
@@ -971,7 +981,7 @@ void avatar_action::plthrow( avatar &you, item_location loc,
         return;
     }
 
-    const ret_val<bool> ret = you.can_wield( *loc );
+    const ret_val<void> ret = you.can_wield( *loc );
     if( !ret.success() ) {
         add_msg( m_info, "%s", ret.c_str() );
         return;
@@ -1008,7 +1018,7 @@ void avatar_action::plthrow( avatar &you, item_location loc,
     }
     // if you're wearing the item you need to be able to take it off
     if( you.is_worn( *orig ) ) {
-        ret_val<bool> ret = you.can_takeoff( *orig );
+        ret_val<void> ret = you.can_takeoff( *orig );
         if( !ret.success() ) {
             add_msg( m_info, "%s", ret.c_str() );
             return;
@@ -1031,8 +1041,8 @@ void avatar_action::plthrow( avatar &you, item_location loc,
 
     g->temp_exit_fullscreen();
 
-    item &weapon = you.get_wielded_item();
-    target_handler::trajectory trajectory = target_handler::mode_throw( you, weapon,
+    item_location weapon = you.get_wielded_item();
+    target_handler::trajectory trajectory = target_handler::mode_throw( you, *weapon,
                                             blind_throw_from_pos.has_value() );
 
     // If we previously shifted our position, put ourselves back now that we've picked our target.
@@ -1044,8 +1054,8 @@ void avatar_action::plthrow( avatar &you, item_location loc,
         return;
     }
 
-    if( weapon.count_by_charges() && weapon.charges > 1 ) {
-        weapon.mod_charges( -1 );
+    if( weapon->count_by_charges() && weapon->charges > 1 ) {
+        weapon->mod_charges( -1 );
         thrown.charges = 1;
     } else {
         you.remove_weapon();

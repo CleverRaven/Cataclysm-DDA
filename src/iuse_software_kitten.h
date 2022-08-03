@@ -12,7 +12,7 @@
 struct kobject {
     point pos;
     nc_color color;
-    int character = 0;
+    uint8_t character = 0;
 };
 
 static constexpr int MAXMESSAGES = 1200;

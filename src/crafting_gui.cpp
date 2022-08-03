@@ -81,11 +81,11 @@ static std::map<std::string, std::vector<std::string> > craft_subcat_list;
 static std::map<std::string, std::string> normalized_names;
 
 static bool query_is_yes( const std::string &query );
-static int craft_info_width( const int window_width );
+static int craft_info_width( int window_width );
 static void draw_hidden_amount( const catacurses::window &w, int amount, int num_recipe );
 static void draw_can_craft_indicator( const catacurses::window &w, const recipe &rec );
 static void draw_recipe_tabs( const catacurses::window &w, const std::string &tab,
-                              TAB_MODE mode, const bool filtered_unread,
+                              TAB_MODE mode, bool filtered_unread,
                               std::map<std::string, bool> &unread );
 static void draw_recipe_subtabs( const catacurses::window &w, const std::string &tab,
                                  const std::string &subtab,
@@ -262,7 +262,7 @@ static std::vector<std::string> recipe_info(
     const recipe &recp,
     const availability &avail,
     Character &guy,
-    const std::string qry_comps,
+    const std::string &qry_comps,
     const int batch_size,
     const int fold_width,
     const nc_color &color )
@@ -492,13 +492,14 @@ class recipe_result_info_cache
 
         void get_byproducts_data( const recipe *rec, std::vector<iteminfo> &summary_info,
                                   std::vector<iteminfo> &details_info );
-        void get_item_details( item &dummy_item, const int quantity_per_batch,
-                               std::vector<iteminfo> &details_info, const std::string &classification, const bool uses_charges );
-        void get_item_header( item &dummy_item, const int quantity_per_batch, std::vector<iteminfo> &info,
-                              const std::string &classification, const bool uses_charges );
-        void insert_iteminfo_block_separator( std::vector<iteminfo> &info_vec, const std::string title );
+        void get_item_details( item &dummy_item, int quantity_per_batch,
+                               std::vector<iteminfo> &details_info, const std::string &classification, bool uses_charges );
+        void get_item_header( item &dummy_item, int quantity_per_batch, std::vector<iteminfo> &info,
+                              const std::string &classification, bool uses_charges );
+        void insert_iteminfo_block_separator( std::vector<iteminfo> &info_vec,
+                                              const std::string &title ) const;
     public:
-        item_info_data get_result_data( const recipe *rec, const int batch_size, int &scroll_pos,
+        item_info_data get_result_data( const recipe *rec, int batch_size, int &scroll_pos,
                                         const catacurses::window &window );
 };
 
@@ -612,6 +613,7 @@ item_info_data recipe_result_info_cache::get_result_data( const recipe *rec, con
     if( result_uses_charges ) {
         dummy_result.charges = 1;
     }
+    dummy_result.set_var( "recipe_exemplar", rec->ident().str() );
     item dummy_container;
 
     //Several terms are used repeatedly in headers/descriptions, list them here for a single entry/translation point
@@ -638,7 +640,7 @@ item_info_data recipe_result_info_cache::get_result_data( const recipe *rec, con
             dummy_container = item( rec->container_id(), calendar::turn, item::default_charges_tag{} );
             //Put together the summary in info:
             get_item_header( dummy_result, makes_amount, info, recipe_result_string, result_uses_charges );
-            get_item_header( dummy_container, makes_amount, info, in_container_string,
+            get_item_header( dummy_container, 1, info, in_container_string,
                              false ); //Seems reasonable to assume a container won't use charges
             //Put together the details in details_info:
             insert_iteminfo_block_separator( details_info, recipe_result_string );
@@ -646,7 +648,7 @@ item_info_data recipe_result_info_cache::get_result_data( const recipe *rec, con
                               result_uses_charges );
 
             insert_iteminfo_block_separator( details_info, container_info_string );
-            get_item_details( dummy_container, makes_amount, details_info, container_string, false );
+            get_item_details( dummy_container, 1, details_info, container_string, false );
         } else { //If it's not in a container, just tell us about the item
             //Add a line to the summary:
             get_item_header( dummy_result, makes_amount, info, recipe_result_string, result_uses_charges );
@@ -668,7 +670,7 @@ item_info_data recipe_result_info_cache::get_result_data( const recipe *rec, con
 }
 
 void recipe_result_info_cache::insert_iteminfo_block_separator( std::vector<iteminfo> &info_vec,
-        const std::string title )
+        const std::string &title ) const
 {
     info_vec.emplace_back( "DESCRIPTION", "--" );
     info_vec.emplace_back( "DESCRIPTION", std::string( center_text_pos( title, 0,
@@ -702,7 +704,7 @@ struct recipe_info_cache {
 };
 
 static const std::vector<std::string> &cached_recipe_info( recipe_info_cache &info_cache,
-        const recipe &recp, const availability &avail, Character &guy, const std::string qry_comps,
+        const recipe &recp, const availability &avail, Character &guy, const std::string &qry_comps,
         const int batch_size, const int fold_width, const nc_color &color )
 {
     if( info_cache.recp != &recp ||
@@ -971,7 +973,8 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
     const std::vector<npc *> helpers = player_character.get_crafting_helpers();
     std::string filterstring;
 
-    const auto &available_recipes = player_character.get_available_recipes( crafting_inv, &helpers );
+    const recipe_subset &available_recipes = player_character.get_available_recipes( crafting_inv,
+            &helpers );
     std::map<const recipe *, availability> availability_cache;
 
     const std::string new_recipe_str = pgettext( "crafting gui", "NEW!" );
@@ -1005,7 +1008,7 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
         }
     }
 
-    ui.on_redraw( [&]( const ui_adaptor & ) {
+    ui.on_redraw( [&]( ui_adaptor & ui ) {
         if( highlight_unread_recipes && recalc_unread ) {
             if( filterstring.empty() ) {
                 for( const std::string &cat : craft_cat_list ) {
@@ -1080,7 +1083,6 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
         mvwputch( w_data, point( width - 1, dataHeight - 1 ), BORDER_COLOR, LINE_XOOX ); // _|
 
         const int max_recipe_name_width = 27;
-        cata::optional<point> cursor_pos;
         int recmin = 0;
         int recmax = current.size();
         int istart = 0;
@@ -1111,7 +1113,7 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
             const nc_color col = highlight ? available[i].selected_color() : available[i].color();
             const point print_from( 2, i - istart );
             if( highlight ) {
-                cursor_pos = print_from;
+                ui.set_cursor( w_data, print_from );
             }
             int rcp_name_trim_width = max_recipe_name_width;
             if( !rcp_read ) {
@@ -1191,12 +1193,6 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
                 data.padding = 0;
                 draw_item_info( w_iteminfo, data );
             }
-        }
-
-        if( cursor_pos ) {
-            // place the cursor at the selected item name as expected by screen readers
-            wmove( w_data, cursor_pos.value() );
-            wnoutrefresh( w_data );
         }
     } );
 
@@ -1480,7 +1476,6 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
 
             description +=
                 _( "\nUse <color_red>up/down arrow</color> to go through your search history." );
-            description += "\n\n\n";
 
             string_input_popup popup;
             popup
@@ -1533,7 +1528,7 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
             if( uistate.favorite_recipes.find( current[line]->ident() ) != uistate.favorite_recipes.end() ) {
                 uistate.favorite_recipes.erase( current[line]->ident() );
                 if( recalc ) {
-                    if( static_cast<size_t>( line + 1 ) < current.size() ) {
+                    if( static_cast<size_t>( line ) + 1 < current.size() ) {
                         line++;
                     } else {
                         line--;
@@ -1559,8 +1554,8 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
             recalc = true;
             recalc_unread = highlight_unread_recipes;
             keepline = true;
-            if( static_cast<size_t>( line + 1 ) < current.size() ) {
-                line++;;
+            if( static_cast<size_t>( line ) + 1 < current.size() ) {
+                line++;
             } else {
                 line--;
             }
@@ -1667,7 +1662,7 @@ std::string peek_related_recipe( const recipe *current, const recipe_subset &ava
     const itype_id tid = tmp.typeId();
     const std::set<const recipe *> &known_recipes =
         get_player_character().get_learned_recipes().of_component( tid );
-    for( const auto &b : known_recipes ) {
+    for( const recipe * const &b : known_recipes ) {
         if( available.contains( b ) ) {
             related_results.emplace_back( b->result(), b->result_name( /*decorated=*/true ) );
         }

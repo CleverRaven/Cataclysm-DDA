@@ -31,14 +31,14 @@
     "type": "MONSTER_FACTION",
     "name": "herbivore_young",
     "base_faction": "small_animal",
-    "neutral": [ "small_animal" ],
+    "neutral": [ "small_animal", "herbivore" ],
     "friendly": [ "herbivore_dino" ]
   },
   {
     "type": "MONSTER_FACTION",
     "name": "herbivore_dino",
     "base_faction": "herbivore",
-    "neutral": [ "herbivore" ],
+    "neutral": [ "herbivore", "small_animal" ],
     "friendly": [ "herbivore_young" ],
     "hate": [ "plant" ]
   },
@@ -293,6 +293,26 @@
   },
   {
     "type": "MONSTER_FACTION",
+    "name": "nanuqsaurus",
+    "base_faction": "predator_dino",
+    "hate": [ "animal", "zombie", "human" ],
+    "friendly": [ "nanuqsaurus_juvenile", "nanuqsaurus_hatchling" ],
+    "by_mood": [ "nanuqsaurus" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "nanuqsaurus_juvenile",
+    "base_faction": "small_predator",
+    "friendly": [ "nanuqsaurus", "nanuqsaurus_hatchling" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "nanuqsaurus_hatchling",
+    "base_faction": "very_small_predator",
+    "friendly": [ "nanuqsaurus", "nanuqsaurus_juvenile" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
     "name": "daspletosaurus",
     "base_faction": "predator_dino",
     "hate": [ "animal", "zombie", "human" ],
@@ -330,6 +350,18 @@
     "name": "tyrannosaurus_hatchling",
     "base_faction": "very_small_predator",
     "friendly": [ "tyrannosaurus", "tyrannosaurus_juvenile" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "saurornitholestes",
+    "base_faction": "small_predator",
+    "friendly": [ "saurornitholestes_hatchling" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "saurornitholestes_hatchling",
+    "base_faction": "very_small_predator",
+    "friendly": [ "saurornitholestes" ]
   },
   {
     "type": "MONSTER_FACTION",
@@ -553,13 +585,13 @@
     "type": "MONSTER_FACTION",
     "name": "small_animal",
     "copy-from": "small_animal",
-    "neutral": [ "predator_dino", "mixed_dino", "fishing_dino", "insectivore_young" ]
+    "neutral": [ "predator_dino", "mixed_dino", "fishing_dino", "insectivore_young", "herbivore_young", "herbivore_dino" ]
   },
   {
     "type": "MONSTER_FACTION",
     "name": "herbivore",
     "copy-from": "herbivore",
-    "neutral": [ "herbivore_dino", "insectivore_dino" ]
+    "neutral": [ "herbivore_dino", "insectivore_dino", "herbivore_young" ]
   },
   {
     "type": "MONSTER_FACTION",
