@@ -172,6 +172,7 @@ enum class iteminfo_parts : size_t {
 
     QUALITIES,
     QUALITIES_CONTAINED,
+    ACTIONS,
 
     DESCRIPTION,
     DESCRIPTION_TECHNIQUES,

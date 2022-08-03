@@ -4644,19 +4644,18 @@ void item::tool_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
     }
 }
 
-void item::actions_info( std::vector<iteminfo> &info, const iteminfo_query * /*parts*/,
+void item::actions_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                          int /*batch*/, bool /*debug*/ ) const
 {
 
     const std::map<std::string, use_function> &use_methods = type->use_methods;
-    if( use_methods.empty() ) {
+    if( use_methods.empty() || !parts->test( iteminfo_parts::ACTIONS ) ) {
         return;
     }
     insert_separation_line( info );
     std::string actions = enumerate_as_string( use_methods.begin(),
-    use_methods.end(), []( std::pair<std::string, use_function> val ) {
-
-        return val.first;
+    use_methods.end(), []( const std::pair<std::string, use_function> &val ) {
+        return string_format( "<info>%s</info>", val.second.get_name() );
     } );
     info.emplace_back( "DESCRIPTION", string_format( _( "<bold>Actions</bold>: %s" ), actions ) );
 }
