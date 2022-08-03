@@ -318,7 +318,7 @@ static void check_polearms( const std::function<Approx( const std::string & )> &
         CHECK( calc_expected_dps( "naginata_fake" ) == 5.38 );
         CHECK( calc_expected_dps( "lucern_hammer" ) == 36.0 );
         CHECK( calc_expected_dps( "lucern_hammerfake" ) == 13.0 );
-        CHECK( calc_expected_dps( "spear_survivor" ) == 34.88 );
+        CHECK( calc_expected_dps( "spear_survivor" ) == 29.74 );
         CHECK( calc_expected_dps( "long_pole" ) == 13.0 );
         CHECK( calc_expected_dps( "scythe_war" ) == 34.59 );
         CHECK( calc_expected_dps( "makeshift_scythe_war" ) == 24.5 );
