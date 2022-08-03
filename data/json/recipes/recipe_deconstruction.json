@@ -6183,7 +6183,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "20 m",
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "steel_lump", 8 ] ] ]
+    "components": [ [ [ "steel_lump", 4 ] ] ]
   },
   {
     "result": "sheet_kevlar",

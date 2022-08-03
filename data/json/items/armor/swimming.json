@@ -974,7 +974,7 @@
   {
     "id": "shark_suit_faraday",
     "type": "ARMOR",
-    "name": { "str": "faraday shark suit" },
+    "name": { "str": "faraday sharksuit" },
     "description": "A one-piece chainmail suit used by SCUBA divers for protection against shark bites.  It has been conductively interconnected, protecting against electricity.",
     "weight": "3250 g",
     "volume": "3500 ml",
@@ -1000,7 +1000,7 @@
     "id": "shark_suit",
     "repairs_like": "shark_suit_faraday",
     "type": "ARMOR",
-    "name": { "str": "shark suit" },
+    "name": { "str": "sharksuit" },
     "description": "A-one piece chainmail suit used by SCUBA divers for protection against shark bites.  It comes with attached plastic helmet and booties.",
     "weight": "3150 g",
     "volume": "3500 ml",

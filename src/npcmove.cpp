@@ -1454,7 +1454,7 @@ void npc::evaluate_best_weapon( const Creature *target )
 
     // punching things is always available
     compare( std::make_shared<npc_attack_melee>( null_item_reference() ) );
-    const int ups_charges = available_ups();
+    const units::energy ups_charges = available_ups();
     visit_items( [&compare, &ups_charges, this]( item * it, item * ) {
         // you can theoretically melee with anything.
         compare( std::make_shared<npc_attack_melee>( *it ) );
@@ -1758,7 +1758,7 @@ void outfit::activate_combat_items( npc &guy )
             // Due to how UPS works, there can be no charges_needed for UPS items.
             // Energy consumption is thus not checked at activation.
             // To prevent "flickering", this is a hard check for UPS charges > 0.
-            if( transform->target->has_flag( flag_USE_UPS ) && guy.available_ups() == 0 ) {
+            if( transform->target->has_flag( flag_USE_UPS ) && guy.available_ups() == 0_kJ ) {
                 continue;
             }
             if( transform->can_use( guy, candidate, false, tripoint_zero ).success() ) {
@@ -2428,7 +2428,7 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
             const double encumb_moves = get_weight() / 4800.0_gram;
             moves -= static_cast<int>( std::ceil( base_moves + encumb_moves ) );
             if( mounted_creature->has_flag( MF_RIDEABLE_MECH ) ) {
-                mounted_creature->use_mech_power( -1 );
+                mounted_creature->use_mech_power( 1_kJ );
             }
         } else {
             moves -= run_cost( here.combined_movecost( pos(), p ), diag );
@@ -3433,7 +3433,7 @@ bool npc::wield_better_weapon()
     item *best = &weap;
     double best_value = -100.0;
 
-    const int ups_charges = available_ups();
+    const units::energy ups_charges = available_ups();
 
     const auto compare_weapon =
     [this, &best, &best_value, ups_charges, can_use_gun, use_silent]( const item & it ) {
@@ -3443,9 +3443,9 @@ bool npc::wield_better_weapon()
             val = weapon_value( it, 0 );
         } else {
             int ammo_count = it.ammo_remaining();
-            int ups_drain = it.get_gun_ups_drain();
-            if( ups_drain > 0 ) {
-                ammo_count = std::min( ammo_count, ups_charges / ups_drain );
+            units::energy ups_drain = it.get_gun_ups_drain();
+            if( ups_drain > 0_kJ ) {
+                ammo_count = std::min( ammo_count, static_cast<int>( ups_charges / ups_drain ) );
             }
 
             val = weapon_value( it, ammo_count );

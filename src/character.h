@@ -2491,15 +2491,15 @@ class Character : public Creature, public visitable
         * Sum of mech, bionic UPS and UPS
         * @return amount of UPS available
         */
-        int available_ups() const;
+        units::energy available_ups() const;
 
         /**
         * Consume UPS charges.
         * Consume order: mech, Bionic UPS, UPS.
-        * @param qty Number of charges (kJ)
-        * @return amount of UPS consumed which will be between 0 and qty
+        * @param qty amount of energy to consume. Is rounded down to kJ precision. Do not use negative values.
+        * @return Actual amount of energy consumed
         */
-        int consume_ups( int64_t qty, int radius = -1 );
+        units::energy consume_ups( units::energy qty, int radius = -1 );
 
         /**
         * Use charges in character inventory.
@@ -2746,10 +2746,15 @@ class Character : public Creature, public visitable
         void react_to_felt_pain( int intensity );
 
         /** Monster cameras are mtype_ids with an integer range of transmission */
+        void clear_moncams();
         void remove_moncam( mtype_id moncam_id );
         void add_moncam( std::pair<mtype_id, int> moncam );
         void set_moncams( std::map<mtype_id, int> nmoncams );
-        std::map<mtype_id, int> get_moncams() const;
+        std::map<mtype_id, int> const &get_moncams() const;
+        using cached_moncam = std::pair<monster const *, tripoint_abs_ms>;
+        using moncam_cache_t = cata::flat_set<cached_moncam>;
+        moncam_cache_t moncam_cache;
+        moncam_cache_t get_active_moncams() const;
 
         void spores();
         void blossoms();

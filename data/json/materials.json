@@ -248,7 +248,8 @@
       { "fuel": 0, "smoke": 0, "burn": 0 },
       { "fuel": 0, "smoke": 1, "burn": 1, "volume_per_turn": "250 ml" },
       { "fuel": 1, "smoke": 1, "burn": 2 }
-    ]
+    ],
+    "burn_products": [ [ "corpse_ash", 0.035 ] ]
   },
   {
     "type": "material",
@@ -304,7 +305,8 @@
     "chip_resist": 15,
     "dmg_adj": [ "scratched", "cut", "cracked", "shattered" ],
     "bash_dmg_verb": "dented",
-    "cut_dmg_verb": "gouged"
+    "cut_dmg_verb": "gouged",
+    "burn_products": [ [ "corpse_ash", 0.035 ] ]
   },
   {
     "type": "material",
@@ -462,7 +464,8 @@
       { "fuel": 0, "smoke": 1, "burn": 1, "volume_per_turn": "1250 ml" },
       { "fuel": 1, "smoke": 3, "burn": 1 },
       { "fuel": 1, "smoke": 5, "burn": 4 }
-    ]
+    ],
+    "burn_products": [ [ "corpse_ash", 0.035 ] ]
   },
   {
     "type": "material",
@@ -484,7 +487,8 @@
       { "fuel": 0, "smoke": 3, "burn": 2, "volume_per_turn": "1250 ml" },
       { "fuel": 1, "smoke": 5, "burn": 4 },
       { "fuel": 1, "smoke": 7, "burn": 6 }
-    ]
+    ],
+    "burn_products": [ [ "corpse_ash", 0.035 ] ]
   },
   {
     "type": "material",
@@ -501,7 +505,8 @@
       { "fuel": 0, "smoke": 2, "burn": 1, "volume_per_turn": "1250 ml" },
       { "fuel": 1, "smoke": 4, "burn": 2 },
       { "fuel": 1, "smoke": 6, "burn": 5 }
-    ]
+    ],
+    "burn_products": [ [ "corpse_ash", 0.035 ] ]
   },
   {
     "type": "material",
@@ -547,6 +552,24 @@
     "bash_dmg_verb": "cracked",
     "cut_dmg_verb": "cut",
     "burn_products": [ [ "ceramic_shard", 1 ] ]
+  },
+  {
+    "type": "material",
+    "id": "porcelain",
+    "name": "Porcelain",
+    "density": 1.6,
+    "specific_heat_liquid": 1,
+    "specific_heat_solid": 1,
+    "latent_heat": 333,
+    "bash_resist": 2,
+    "cut_resist": 3,
+    "bullet_resist": 2,
+    "acid_resist": 6,
+    "fire_resist": 3,
+    "chip_resist": 6,
+    "dmg_adj": [ "chipped", "scratched", "cracked", "shattered" ],
+    "bash_dmg_verb": "cracked",
+    "cut_dmg_verb": "cut"
   },
   {
     "type": "material",
@@ -683,7 +706,8 @@
       { "fuel": 1, "smoke": 1, "burn": 1, "volume_per_turn": "2500 ml" },
       { "fuel": 2, "smoke": 3, "burn": 2, "volume_per_turn": "10000 ml" },
       { "fuel": 3, "smoke": 10, "burn": 3 }
-    ]
+    ],
+    "burn_products": [ [ "corpse_ash", 0.035 ] ]
   },
   {
     "type": "material",
@@ -782,7 +806,8 @@
       { "fuel": 1, "smoke": 3, "burn": 1, "volume_per_turn": "1250 ml" },
       { "fuel": 1, "smoke": 5, "burn": 2 },
       { "fuel": 1, "smoke": 10, "burn": 4 }
-    ]
+    ],
+    "burn_products": [ [ "corpse_ash", 0.035 ] ]
   },
   {
     "type": "material",
@@ -842,6 +867,31 @@
     "name": "Glass",
     "//": "Density based on soda lime silica glass",
     "density": 2.5,
+    "specific_heat_liquid": 0.2,
+    "specific_heat_solid": 0.2,
+    "latent_heat": 100,
+    "bash_resist": 3,
+    "cut_resist": 4,
+    "bullet_resist": 3,
+    "acid_resist": 10,
+    "fire_resist": 3,
+    "chip_resist": 0,
+    "dmg_adj": [ "scratched", "cut", "cracked", "shattered" ],
+    "bash_dmg_verb": "cracked",
+    "cut_dmg_verb": "scratched",
+    "burn_data": [
+      { "fuel": 0, "smoke": 0, "burn": 0 },
+      { "fuel": 0, "smoke": 0, "burn": 0 },
+      { "fuel": 0, "smoke": 0, "burn": 1000, "volume_per_turn": "5000 ml", "//": "More like shattering than melting" }
+    ],
+    "burn_products": [ [ "glass_shard", 1 ] ]
+  },
+  {
+    "type": "material",
+    "id": "crystal",
+    "name": "Crystal",
+    "//": "Specific heat and latent heat copied from glass",
+    "density": 3.1,
     "specific_heat_liquid": 0.2,
     "specific_heat_solid": 0.2,
     "latent_heat": 100,
@@ -1065,7 +1115,8 @@
       { "fuel": 1, "smoke": 1, "burn": 1, "volume_per_turn": "2500 ml" },
       { "fuel": 2, "smoke": 3, "burn": 2, "volume_per_turn": "10000 ml" },
       { "fuel": 3, "smoke": 10, "burn": 3 }
-    ]
+    ],
+    "burn_products": [ [ "corpse_ash", 0.035 ] ]
   },
   {
     "type": "material",
@@ -1230,7 +1281,8 @@
       { "fuel": 0, "smoke": 0, "burn": 0 },
       { "fuel": 1, "smoke": 3, "burn": 2, "volume_per_turn": "500 ml" },
       { "fuel": 1, "smoke": 3, "burn": 2 }
-    ]
+    ],
+    "burn_products": [ [ "corpse_ash", 0.035 ] ]
   },
   {
     "type": "material",
@@ -1256,7 +1308,8 @@
       { "fuel": 0, "smoke": 1, "burn": 1 },
       { "fuel": 1, "smoke": 3, "burn": 2, "volume_per_turn": "500 ml" },
       { "fuel": 1, "smoke": 3, "burn": 3 }
-    ]
+    ],
+    "burn_products": [ [ "corpse_ash", 0.035 ] ]
   },
   {
     "type": "material",
@@ -2470,7 +2523,8 @@
       { "fuel": 1, "smoke": 1, "burn": 1, "volume_per_turn": "1250 ml" },
       { "fuel": 1, "smoke": 1, "burn": 2 },
       { "fuel": 1, "smoke": 1, "burn": 5 }
-    ]
+    ],
+    "burn_products": [ [ "corpse_ash", 0.035 ] ]
   },
   {
     "type": "material",

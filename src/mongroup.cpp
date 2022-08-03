@@ -47,6 +47,27 @@ const MonsterGroup &string_id<MonsterGroup>::obj() const
     return MonsterGroupManager::GetMonsterGroup( *this );
 }
 
+namespace io
+{
+
+template<>
+std::string enum_to_string<mongroup::horde_behaviour>( mongroup::horde_behaviour data )
+{
+    switch( data ) {
+        // *INDENT-OFF*
+        case mongroup::horde_behaviour::none: return "none";
+        case mongroup::horde_behaviour::city: return "city";
+        case mongroup::horde_behaviour::roam: return "roam";
+        case mongroup::horde_behaviour::nemesis: return "nemesis";
+        // *INDENT-ON*
+        case mongroup::horde_behaviour::last:
+            break;
+    }
+    cata_fatal( "Invalid mongroup::horde_behaviour" );
+}
+
+} // namespace io
+
 bool mongroup::is_safe() const
 {
     return type.obj().is_safe;
