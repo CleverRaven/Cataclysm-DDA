@@ -217,7 +217,6 @@
     "description": "Hard, dry cheese made to last, unlike modern processed cheese.  Will make you thirsty though.",
     "price": 385,
     "price_postapoc": 150,
-    "charges": 8,
     "vitamins": [ [ "calcium", 32 ], [ "iron", 2 ] ],
     "fun": 5,
     "flags": [ "NUTRIENT_OVERRIDE" ]
