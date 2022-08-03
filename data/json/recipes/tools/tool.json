@@ -601,7 +601,7 @@
     "skills_required": [ "chemistry", 3 ],
     "difficulty": 4,
     "time": "200 m",
-    "reversible": true,
+    "reversible": { "time": "30 s" },
     "book_learn": [ [ "textbook_chemistry", 4 ], [ "distilling_cookbook", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" } ],
     "tools": [ [ [ "material_sand", -1 ] ] ],

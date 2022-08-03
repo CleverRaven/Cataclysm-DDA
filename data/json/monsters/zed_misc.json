@@ -507,6 +507,7 @@
     "death_drops": "mon_zombie_hulk_death_drops",
     "regenerates": 15,
     "flags": [
+      "ALL_SEEING",
       "SEES",
       "HEARS",
       "GOODHEARING",

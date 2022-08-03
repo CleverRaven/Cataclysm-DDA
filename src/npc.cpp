@@ -1879,10 +1879,10 @@ void npc::decide_needs()
         elem = 20;
     }
     if( weapon && weapon->is_gun() ) {
-        int ups_drain = weapon->get_gun_ups_drain();
-        if( ups_drain > 0 ) {
-            int ups_charges = available_ups();
-            needrank[need_ammo] = static_cast<double>( ups_charges ) / ups_drain;
+        units::energy ups_drain = weapon->get_gun_ups_drain();
+        if( ups_drain > 0_kJ ) {
+            units::energy ups_charges = available_ups();
+            needrank[need_ammo] = static_cast<double>( ups_charges / ups_drain );
         } else {
             const ammotype ammo_type = weapon->ammo_type();
             if( ammo_type != ammotype::NULL_ID() ) {
@@ -2258,6 +2258,15 @@ double npc::value( const item &it, double market_price ) const
         ret += 0.1;
     }
     return std::round( ret * market_price );
+}
+
+faction_price_rule const *npc::get_price_rules( item const &it ) const
+{
+    faction_price_rule const *ret = myclass->get_price_rules( it, *this );
+    if( ret == nullptr && get_faction() != nullptr ) {
+        ret = get_faction()->get_price_rules( it, *this );
+    }
+    return ret;
 }
 
 void healing_options::clear_all()

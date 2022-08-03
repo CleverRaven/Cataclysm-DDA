@@ -68,15 +68,15 @@ Each location has limited slots for modules.
 General purpose utility modules
 | Module         | Class  | Power Draw | Weight | Description
 | ---            | ---    | ---        | ---    | ---
-| Large Support  | Large  | 1500       |  10 kg | Adds an additional 30 kg of carry weight while active.
 | Jetpack        | Large  | ---        |  10 kg | An ammonia-fueled jetpack provides a dash across terrain.
-| Large Aux      | Large  | Battery    |   5 kg | Stores an additional 6000 battery.
+| Aux Battery    | Medium | Battery    |   5 kg | Stores an additional 6000 battery.
+| Support        | Medium | 1500       |   5 kg | Adds an additional 30 kg of carry weight while active.
 | Air Supply     | Medium | ---        |   2 kg | A regenerating oxygen supply, activates in emergencies.
 | Climb Assist   | Medium | ---        |   5 kg | Allows the user to climb walls.
 | Forcefield     | Medium | 5000       |   5 kg | Toggles between 25 bash/cut or 40 ballistic/pierce.
-| Small Aux      | Medium | Battery    |   2 kg | Stores an additional 1500 battery.
 | Collapsed Axe  | Medium | ---        | 3500 g | Activate to extend into a boarding axe.
-| Small Support  | Small  | 1000       |   2 kg | Adds an additional 20 kg of carry weight while active.
+| Small Aux      | Small  | Battery    |  500 g | Stores an additional 2500 battery.
+| Small Support  | Small  | 1000       |  500 g | Adds an additional 10 kg of carry weight while active.
 | Mounted Lamp   | Small  | 1000/2000  |  500 g | A sturdy lamp with a low and high setting.
 | Recoil Control | Small  | 2000       |  500 g | Reduces weapon dispersion while active.
 | Med Injector   | Small  | ---        |  500 g | Injects RA21E to treat injuries.
@@ -108,8 +108,8 @@ Assorted storage options
 | Storage Module    | Class  | Volume Cap | Weight Cap | Weight | Description
 | ---               |---     | ---        | ---        | ---    | ---
 | Rifle Storage     | Large  |     9 L    | 10 kg      |  500 g | As item Back Holster.
-| Large Ammo Pouch  | Large  | Multiple   | Multiple   | 1750 g | As item Tac Vest.
-| Storage Pack      | Large  | Multiple   | Multiple   | 2250 g | As item Large Tactical Backpack.
+| Large Ammo Pouch  | Large  |  Multiple  |  Multiple  | 1750 g | As item Tac Vest.
+| Storage Pack      | Large  |  Multiple  |  Multiple  | 2250 g | As item Large Tactical Backpack.
 | Melee Storage     | Medium | 3750 ml    |  5 kg      |  500 g | As item Back Scabbard.
 | Medium Pouch      | Medium | 2500 ml    |  5 kg      |  275 g | As item Fanny Pack.
 | Small Ammo Pouch  | Medium |     2 L    |  4 kg      | 1050 g | As item Drop Leg Pouches.

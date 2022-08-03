@@ -483,6 +483,19 @@ void Item_factory::finalize_pre( itype &obj )
             }
         }
 
+        // generate cached map for [mag type_id] -> [set of compatible guns]
+        for( const pocket_data &pocket : obj.pockets ) {
+            if( pocket.type != item_pocket::pocket_type::MAGAZINE_WELL ) {
+                continue;
+            }
+            for( const itype_id &mag_type_id : pocket.item_id_restriction ) {
+                if( item_is_blacklisted( mag_type_id ) || item_is_blacklisted( obj.id ) ) {
+                    continue;
+                }
+                islot_magazine::compatible_guns[mag_type_id].insert( obj.id );
+            }
+        }
+
         for( pocket_data &magazine : obj.pockets ) {
             if( magazine.type != item_pocket::pocket_type::MAGAZINE ) {
                 continue;
