@@ -79,6 +79,7 @@ static const std::map<const CRAFTING_SPEED_STATE, translation> craft_speed_reaso
 static std::vector<std::string> craft_cat_list;
 static std::map<std::string, std::vector<std::string> > craft_subcat_list;
 
+// More specialized list_circularizer (see cata_utility.h) to allow jumping to a specific tab
 class tab_list
 {
     private:
