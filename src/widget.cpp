@@ -1276,8 +1276,13 @@ nc_color widget::value_color( int value )
         // If value is within defined _var_norm range, the color is c_white
         if( normal_defined && _var_norm.first <= value && value <= _var_norm.second ) {
             return c_white;
-
-        } else if( _var_min <= value && value <= _var_max ) {
+        } else if( value <= _var_min ) {
+            // If smaller than lower limit, return first color
+            return _colors.front();
+        } else if( value >= _var_max ) {
+            // If larger than upper limit, return last color
+            return _colors.back();
+        } else {
             // If value is within the range, map it to an appropriate color
             // Scale value offset within range from [0, 1] to map color range
             const double scale = static_cast<double>( value_offset ) / var_range;
@@ -1285,9 +1290,6 @@ nc_color widget::value_color( int value )
             // (without the offset, only the max value gets the top color)
             const int color_index = std::floor( scale * color_max + 0.5 );
             return _colors[color_index];
-        } else {
-            // Default if value outside of range: Last color
-            return _colors.back();
         }
     }
     // No scaling by min-max range; assume colors map to 0, 1, 2 ...
