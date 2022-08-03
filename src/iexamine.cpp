@@ -1225,6 +1225,7 @@ elevator_vehicles _get_vehicles_on_elevator( std::vector<tripoint> const &elevat
 void iexamine::elevator( Character &you, const tripoint &examp )
 {
     map &here = get_map();
+    tripoint_abs_ms const old_abs_pos = you.get_location();
     tripoint_abs_omt const this_omt = project_to<coords::omt>( here.getglobal( examp ) );
     tripoint const sm_orig = here.getlocal( project_to<coords::ms>( this_omt ) );
     std::vector<tripoint> this_elevator;
@@ -1301,6 +1302,11 @@ void iexamine::elevator( Character &you, const tripoint &examp )
         v->precalc_mounts( 0, v->turn_dir, v->pivot_anchor[0] );
     }
     here.rebuild_vehicle_level_caches();
+    if( you.is_avatar() ) {
+        g->vertical_shift( movez );
+        g->update_map( you, true );
+        cata_event_dispatch::avatar_moves( old_abs_pos.raw(), *you.as_avatar(), get_map() );
+    }
 }
 
 /**
