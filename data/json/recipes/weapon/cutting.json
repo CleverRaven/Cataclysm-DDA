@@ -880,6 +880,11 @@
       { "proficiency": "prof_bladesmith" },
       { "proficiency": "prof_quenching", "fail_multiplier": 2 }
     ],
-    "components": [ [ [ "machete", 1 ] ], [ [ "duct_tape", 100 ] ], [ [ "thread_kevlar", 35 ] ], [ [ "lump_coal", 84 ], [ "charcoal", 55 ] ] ]
+    "components": [
+      [ [ "machete", 1 ] ],
+      [ [ "duct_tape", 100 ] ],
+      [ [ "thread_kevlar", 35 ] ],
+      [ [ "lump_coal", 84 ], [ "charcoal", 55 ] ]
+    ]
   }
 ]
