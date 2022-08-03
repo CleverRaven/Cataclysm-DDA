@@ -843,7 +843,7 @@
     "id": "survivor_machete_qt",
     "type": "TOOL",
     "category": "weapons",
-    "name": { "str": "survivor machete" },
+    "name": { "str": "tempered survivor machete" },
     "description": "This common gardening tool has been customized, rebalanced and quench tempered to dramatically improve its performance as a weapon.",
     "weight": "568 g",
     "volume": "1 L",
@@ -859,7 +859,8 @@
     "techniques": [ "WBLOCK_2", "RAPID" ],
     "qualities": [ [ "CUT", 2 ], [ "GRASS_CUT", 1 ], [ "BUTCHER", 14 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
-    "weapon_category": [ "BLADED_FARMING", "CONSTRUCTED_SWORDS" ]
+    "weapon_category": [ "BLADED_FARMING", "CONSTRUCTED_SWORDS" ],
+    "looks_like": "survivor_machete",
   },
   {
     "id": "sword_bayonet",
