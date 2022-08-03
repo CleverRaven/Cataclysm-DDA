@@ -29,7 +29,7 @@
     "tools": [ [ [ "surface_heat", 4, "LIST" ] ] ],
     "components": [
       [ [ "spaghetti_raw", 1 ], [ "macaroni_raw", 1 ], [ "noodles_fast", 1 ] ],
-      [ [ "cheese_standard", 1, "LIST" ] ],
+      [ [ "cheese_standard", 1, "LIST" ], [ "cheese_powder", 1 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ]
     ]
   },
@@ -204,7 +204,7 @@
         [ "sausage", 1 ],
         [ "bratwurst_sausage", 1 ]
       ],
-      [ [ "cheese_standard", 2, "LIST" ] ],
+      [ [ "cheese_standard", 2, "LIST" ], [ "cheese_powder", 2 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ]
     ]
   }
