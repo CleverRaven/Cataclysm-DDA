@@ -1188,7 +1188,7 @@
         { "item": "pipe", "count": [ 10, 12 ] },
         { "item": "sheet_metal_small", "count": [ 30, 40 ] },
         { "item": "stick", "count": 1 },
-        { "item": "sheet", "count": 2 },
+        { "item": "sheet", "count": 1 },
         { "item": "nail", "charges": [ 3, 4 ] },
         { "item": "string_36", "count": 1 }
       ]
@@ -1306,7 +1306,7 @@
       "ter_set": "t_window_empty",
       "items": [
         { "item": "stick", "count": 1 },
-        { "item": "sheet", "count": 2 },
+        { "item": "sheet", "count": 1 },
         { "item": "glass_sheet", "count": 1 },
         { "item": "nail", "charges": [ 3, 4 ] },
         { "item": "string_36", "count": 1 }
@@ -1352,7 +1352,7 @@
       "ter_set": "t_window_empty",
       "items": [
         { "item": "stick", "count": 1 },
-        { "item": "sheet", "count": 2 },
+        { "item": "sheet", "count": 1 },
         { "item": "glass_sheet", "count": 1 },
         { "item": "nail", "charges": [ 3, 4 ] },
         { "item": "string_36", "count": 1 }
@@ -1400,7 +1400,7 @@
       "ter_set": "t_window_empty",
       "items": [
         { "item": "stick", "count": 1 },
-        { "item": "sheet", "count": 2 },
+        { "item": "sheet", "count": 1 },
         { "item": "glass_sheet", "count": 1 },
         { "item": "nail", "charges": [ 3, 4 ] },
         { "item": "string_36", "count": 1 }
@@ -1526,7 +1526,7 @@
       "ter_set": "t_window_empty",
       "items": [
         { "item": "stick", "count": 1 },
-        { "item": "sheet", "count": 2 },
+        { "item": "sheet", "count": 1 },
         { "item": "reinforced_glass_sheet", "count": 1 },
         { "item": "nail", "charges": [ 3, 4 ] },
         { "item": "string_36", "count": 1 }
@@ -1573,7 +1573,7 @@
       "ter_set": "t_window_empty",
       "items": [
         { "item": "stick", "count": 1 },
-        { "item": "sheet", "count": 2 },
+        { "item": "sheet", "count": 1 },
         { "item": "reinforced_glass_sheet", "count": 1 },
         { "item": "nail", "charges": [ 3, 4 ] },
         { "item": "string_36", "count": 1 }
@@ -1621,7 +1621,7 @@
       "ter_set": "t_window_empty",
       "items": [
         { "item": "stick", "count": 1 },
-        { "item": "sheet", "count": 2 },
+        { "item": "sheet", "count": 1 },
         { "item": "reinforced_glass_sheet", "count": 1 },
         { "item": "nail", "charges": [ 3, 4 ] },
         { "item": "string_36", "count": 1 }
@@ -1761,7 +1761,7 @@
       "ter_set": "t_window_empty",
       "items": [
         { "item": "stick", "count": 1 },
-        { "item": "sheet", "count": 2 },
+        { "item": "sheet", "count": 1 },
         { "item": "glass_sheet", "count": 2 },
         { "item": "nail", "charges": [ 3, 4 ] },
         { "item": "string_36", "count": 1 },
@@ -1810,7 +1810,7 @@
       "ter_set": "t_window_empty",
       "items": [
         { "item": "stick", "count": 1 },
-        { "item": "sheet", "count": 2 },
+        { "item": "sheet", "count": 1 },
         { "item": "glass_sheet", "count": 2 },
         { "item": "nail", "charges": [ 3, 4 ] },
         { "item": "string_36", "count": 1 },
@@ -1860,7 +1860,7 @@
       "ter_set": "t_window_empty",
       "items": [
         { "item": "stick", "count": 1 },
-        { "item": "sheet", "count": 2 },
+        { "item": "sheet", "count": 1 },
         { "item": "glass_sheet", "count": 2 },
         { "item": "nail", "charges": [ 3, 4 ] },
         { "item": "string_36", "count": 1 },
@@ -1994,7 +1994,7 @@
       "ter_set": "t_window_empty",
       "items": [
         { "item": "stick", "count": 1 },
-        { "item": "sheet", "count": 2 },
+        { "item": "sheet", "count": 1 },
         { "item": "reinforced_glass_sheet", "count": 1 },
         { "item": "glass_sheet", "count": 1 },
         { "item": "nail", "charges": [ 3, 4 ] },
@@ -2044,7 +2044,7 @@
       "ter_set": "t_window_empty",
       "items": [
         { "item": "stick", "count": 1 },
-        { "item": "sheet", "count": 2 },
+        { "item": "sheet", "count": 1 },
         { "item": "reinforced_glass_sheet", "count": 1 },
         { "item": "glass_sheet", "count": 1 },
         { "item": "nail", "charges": [ 3, 4 ] },
@@ -2093,7 +2093,7 @@
       "ter_set": "t_window_empty",
       "items": [
         { "item": "stick", "count": 1 },
-        { "item": "sheet", "count": 2 },
+        { "item": "sheet", "count": 1 },
         { "item": "reinforced_glass_sheet", "count": 1 },
         { "item": "glass_sheet", "count": 1 },
         { "item": "nail", "charges": [ 3, 4 ] },
@@ -2220,7 +2220,7 @@
       "ter_set": "t_window_empty",
       "items": [
         { "item": "stick", "count": 1 },
-        { "item": "sheet", "count": 2 },
+        { "item": "sheet", "count": 1 },
         { "item": "glass_sheet", "count": 3 },
         { "item": "nail", "charges": [ 3, 4 ] },
         { "item": "string_36", "count": 1 }
@@ -2267,7 +2267,7 @@
       "ter_set": "t_window_empty",
       "items": [
         { "item": "stick", "count": 1 },
-        { "item": "sheet", "count": 2 },
+        { "item": "sheet", "count": 1 },
         { "item": "glass_sheet", "count": 3 },
         { "item": "nail", "charges": [ 3, 4 ] },
         { "item": "string_36", "count": 1 }
@@ -2315,7 +2315,7 @@
       "ter_set": "t_window_empty",
       "items": [
         { "item": "stick", "count": 1 },
-        { "item": "sheet", "count": 2 },
+        { "item": "sheet", "count": 1 },
         { "item": "glass_sheet", "count": 3 },
         { "item": "nail", "charges": [ 3, 4 ] },
         { "item": "string_36", "count": 1 }
@@ -2457,7 +2457,7 @@
       "ter_set": "t_window_empty",
       "items": [
         { "item": "stick", "count": 1 },
-        { "item": "sheet", "count": 2 },
+        { "item": "sheet", "count": 1 },
         { "item": "reinforced_glass_sheet", "count": 1 },
         { "item": "glass_sheet", "count": 2 },
         { "item": "nail", "charges": [ 3, 4 ] },
@@ -2507,7 +2507,7 @@
       "ter_set": "t_window_empty",
       "items": [
         { "item": "stick", "count": 1 },
-        { "item": "sheet", "count": 2 },
+        { "item": "sheet", "count": 1 },
         { "item": "reinforced_glass_sheet", "count": 1 },
         { "item": "glass_sheet", "count": 2 },
         { "item": "nail", "charges": [ 3, 4 ] },
@@ -2558,7 +2558,7 @@
       "ter_set": "t_window_empty",
       "items": [
         { "item": "stick", "count": 1 },
-        { "item": "sheet", "count": 2 },
+        { "item": "sheet", "count": 1 },
         { "item": "reinforced_glass_sheet", "count": 1 },
         { "item": "nail", "charges": [ 3, 4 ] },
         { "item": "string_36", "count": 1 },
@@ -2698,7 +2698,7 @@
       "ter_set": "t_window_empty",
       "items": [
         { "item": "stick", "count": 1 },
-        { "item": "sheet", "count": 2 },
+        { "item": "sheet", "count": 1 },
         { "item": "glass_sheet", "count": 4 },
         { "item": "nail", "charges": [ 3, 4 ] },
         { "item": "string_36", "count": 1 },
@@ -2747,7 +2747,7 @@
       "ter_set": "t_window_empty",
       "items": [
         { "item": "stick", "count": 1 },
-        { "item": "sheet", "count": 2 },
+        { "item": "sheet", "count": 1 },
         { "item": "glass_sheet", "count": 1 },
         { "item": "nail", "charges": [ 3, 4 ] },
         { "item": "string_36", "count": 1 },
@@ -2797,7 +2797,7 @@
       "ter_set": "t_window_empty",
       "items": [
         { "item": "stick", "count": 1 },
-        { "item": "sheet", "count": 2 },
+        { "item": "sheet", "count": 1 },
         { "item": "glass_sheet", "count": 4 },
         { "item": "nail", "charges": [ 3, 4 ] },
         { "item": "string_36", "count": 1 },
@@ -2941,7 +2941,7 @@
       "ter_set": "t_window_empty",
       "items": [
         { "item": "stick", "count": 1 },
-        { "item": "sheet", "count": 2 },
+        { "item": "sheet", "count": 1 },
         { "item": "reinforced_glass_sheet", "count": 1 },
         { "item": "nail", "charges": [ 3, 4 ] },
         { "item": "string_36", "count": 1 },
@@ -2991,7 +2991,7 @@
       "ter_set": "t_window_empty",
       "items": [
         { "item": "stick", "count": 1 },
-        { "item": "sheet", "count": 2 },
+        { "item": "sheet", "count": 1 },
         { "item": "glass_sheet", "count": 2 },
         { "item": "nail", "charges": [ 3, 4 ] },
         { "item": "string_36", "count": 1 },
@@ -3042,7 +3042,7 @@
       "ter_set": "t_window_empty",
       "items": [
         { "item": "stick", "count": 1 },
-        { "item": "sheet", "count": 2 },
+        { "item": "sheet", "count": 1 },
         { "item": "glass_sheet", "count": 4 },
         { "item": "nail", "charges": [ 3, 4 ] },
         { "item": "string_36", "count": 1 },
@@ -3167,7 +3167,7 @@
       "ter_set": "t_window_empty",
       "items": [
         { "item": "stick", "count": 1 },
-        { "item": "sheet", "count": 2 },
+        { "item": "sheet", "count": 1 },
         { "item": "plastic_sheet", "count": 1 },
         { "item": "nail", "charges": [ 3, 4 ] },
         { "item": "string_36", "count": 1 },
@@ -3215,7 +3215,7 @@
       "ter_set": "t_window_empty",
       "items": [
         { "item": "stick", "count": 1 },
-        { "item": "sheet", "count": 2 },
+        { "item": "sheet", "count": 1 },
         { "item": "plastic_sheet", "count": 1 },
         { "item": "nail", "charges": [ 3, 4 ] },
         { "item": "string_36", "count": 1 },
@@ -3265,7 +3265,7 @@
       "ter_set": "t_window_empty",
       "items": [
         { "item": "stick", "count": 1 },
-        { "item": "sheet", "count": 2 },
+        { "item": "sheet", "count": 1 },
         { "item": "plastic_sheet", "count": 1 },
         { "item": "nail", "charges": [ 3, 4 ] },
         { "item": "string_36", "count": 1 },
@@ -3407,7 +3407,7 @@
       "ter_set": "t_window_empty",
       "items": [
         { "item": "stick", "count": 1 },
-        { "item": "sheet", "count": 2 },
+        { "item": "sheet", "count": 1 },
         { "item": "rigid_plastic_sheet", "count": 3 },
         { "item": "nail", "charges": [ 3, 4 ] },
         { "item": "string_36", "count": 1 },
@@ -3460,7 +3460,7 @@
       "ter_set": "t_window_empty",
       "items": [
         { "item": "stick", "count": 1 },
-        { "item": "sheet", "count": 2 },
+        { "item": "sheet", "count": 1 },
         { "item": "rigid_plastic_sheet", "count": 3 },
         { "item": "nail", "charges": [ 3, 4 ] },
         { "item": "string_36", "count": 1 },
@@ -3514,7 +3514,7 @@
       "ter_set": "t_window_empty",
       "items": [
         { "item": "stick", "count": 1 },
-        { "item": "sheet", "count": 2 },
+        { "item": "sheet", "count": 1 },
         { "item": "rigid_plastic_sheet", "count": 3 },
         { "item": "nail", "charges": [ 3, 4 ] },
         { "item": "string_36", "count": 1 },
@@ -3682,7 +3682,7 @@
       "ter_set": "t_window_empty",
       "items": [
         { "item": "stick", "count": 1 },
-        { "item": "sheet", "count": 2 },
+        { "item": "sheet", "count": 1 },
         { "item": "nail", "charges": [ 3, 4 ] },
         { "item": "string_36", "count": 1 },
         { "item": "tempered_glass_sheet", "count": 1 },
@@ -3731,7 +3731,7 @@
       "ter_set": "t_window_empty",
       "items": [
         { "item": "stick", "count": 1 },
-        { "item": "sheet", "count": 2 },
+        { "item": "sheet", "count": 1 },
         { "item": "nail", "charges": [ 3, 4 ] },
         { "item": "string_36", "count": 1 },
         { "item": "tempered_glass_sheet", "count": 1 },
@@ -3781,7 +3781,7 @@
       "ter_set": "t_window_empty",
       "items": [
         { "item": "stick", "count": 1 },
-        { "item": "sheet", "count": 2 },
+        { "item": "sheet", "count": 1 },
         { "item": "nail", "charges": [ 3, 4 ] },
         { "item": "string_36", "count": 1 },
         { "item": "tempered_glass_sheet", "count": 1 },
