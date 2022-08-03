@@ -2661,7 +2661,7 @@
     "charges": 4,
     "time": "1 m",
     "autolearn": true,
-    "components": [ [ [ "cheese_powder", 4 ] ], [ [ "water_clean", 1 ], [ "milk_standard", "LIST" ] ] ]
+    "components": [ [ [ "cheese_powder", 4 ] ], [ [ "water_clean", 1 ], [ "milk_standard", "1", "LIST" ] ] ]
   },
   {
     "type": "recipe",
