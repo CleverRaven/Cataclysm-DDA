@@ -5089,7 +5089,7 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
                         // Around 85% efficient; a few of the discharges don't actually recharge
                         if( missing == 0 && !one_in( 7 ) ) {
                             if( n.is_vehicle_battery() ) {
-                                n.set_energy( 1_kJ );
+                                n.mod_energy( 1_kJ );
                             } else {
                                 n.ammo_set( itype_battery, n.ammo_remaining() + 1 );
                             }
@@ -5581,8 +5581,11 @@ std::list<item> map::use_charges( const tripoint &origin, const int range,
     return ret;
 }
 
-int map::consume_ups( const tripoint &origin, const int range, int qty )
+units::energy map::consume_ups( const tripoint &origin, const int range, units::energy qty )
 {
+    const units::energy wanted_qty = qty;
+    int qty_kj = units::to_kilojoule( qty );
+
     // populate a grid of spots that can be reached
     std::vector<tripoint> reachable_pts;
     reachable_flood_steps( reachable_pts, origin, range, 1, 100 );
@@ -5593,8 +5596,8 @@ int map::consume_ups( const tripoint &origin, const int range, int qty )
             map_stack items = i_at( p );
             for( item &elem : items ) {
                 if( elem.has_flag( flag_IS_UPS ) ) {
-                    qty -= elem.ammo_consume( qty, p, nullptr );
-                    if( qty == 0 ) {
+                    qty_kj -=  elem.ammo_consume( qty_kj, p, nullptr );
+                    if( qty_kj == 0 ) {
                         break;
                     }
                 }
@@ -5602,7 +5605,7 @@ int map::consume_ups( const tripoint &origin, const int range, int qty )
         }
     }
 
-    return qty;
+    return wanted_qty - units::from_kilojoule( qty_kj );
 }
 
 std::list<std::pair<tripoint, item *> > map::get_rc_items( const tripoint &p )

@@ -2648,14 +2648,15 @@ void monster::die( Creature *nkiller )
     }
 }
 
-bool monster::use_mech_power( int amt )
+units::energy monster::use_mech_power( units::energy amt )
 {
     if( is_hallucination() || !has_flag( MF_RIDEABLE_MECH ) || !battery_item ) {
-        return false;
+        return 0_kJ;
     }
-    amt = -amt;
-    battery_item->ammo_consume( amt, pos(), nullptr );
-    return battery_item->ammo_remaining() > 0;
+    const int max_drain = battery_item->ammo_remaining();
+    const int consumption = std::min( static_cast<int>( units::to_kilojoule( amt ) ), max_drain );
+    battery_item->ammo_consume( consumption, pos(), nullptr );
+    return units::from_kilojoule( consumption );
 }
 
 int monster::mech_str_addition() const
