@@ -190,6 +190,15 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "lmoe_prepperquest",
+    "name": "LMOE shelter",
+    "sym": "+",
+    "color": "red",
+    "see_cost": 2,
+    "flags": [ "KNOWN_DOWN", "SOURCE_PEOPLE", "SOURCE_SAFETY", "SOURCE_GUN", "SOURCE_AMMO", "SOURCE_FOOD" ]
+  },
+  {
+    "type": "overmap_terrain",
     "id": "lmoe_roof",
     "name": "LMOE shelter",
     "sym": ".",
@@ -209,6 +218,15 @@
   {
     "type": "overmap_terrain",
     "id": "lmoe_under_empty",
+    "name": "LMOE shelter",
+    "sym": "+",
+    "color": "red",
+    "see_cost": 2,
+    "flags": [ "KNOWN_UP", "SOURCE_PEOPLE", "SOURCE_SAFETY", "SOURCE_GUN", "SOURCE_AMMO", "SOURCE_FOOD" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lmoe_under_empty_prepperquest",
     "name": "LMOE shelter",
     "sym": "+",
     "color": "red",
