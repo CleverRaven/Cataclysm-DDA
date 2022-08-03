@@ -90,7 +90,7 @@
       [ "fertilizer_commercial", 100 ],
       [ "material_quicklime", 70 ],
       [ "concrete", 70 ],
-      { "item": "nuts_bolts", "prob": 20, "charges": [ 15, 30 ], "container-item": "box_small" },
+      { "item": "nuts_bolts", "prob": 60, "charges": [ 15, 30 ], "container-item": "box_small" },
       { "item": "rope_6", "prob": 10 },
       { "item": "sheet_metal", "prob": 10 },
       { "item": "sheet_metal_small", "prob": 10 },
@@ -240,7 +240,7 @@
     "//": "General purpose supplies for building / blue collar work.",
     "//2": "Stuff you might find in a jobsite, a hardware store, or a home workshop.",
     "items": [
-      { "item": "nuts_bolts", "prob": 20, "charges": [ 5, 10 ], "container-item": "box_small" },
+      { "item": "nuts_bolts", "prob": 80, "charges": [ 5, 10 ], "container-item": "box_small" },
       [ "concrete", 20 ],
       {
         "collection": [
@@ -504,7 +504,7 @@
         ],
         "prob": 35
       },
-      { "item": "nuts_bolts", "prob": 20, "charges": [ 5, 10 ], "container-item": "box_small" },
+      { "item": "nuts_bolts", "prob": 80, "charges": [ 20, 40 ], "container-item": "box_small" },
       [ "jumper_cable", 15 ],
       [ "jumper_cable_heavy", 5 ],
       [ "stereo", 25 ],

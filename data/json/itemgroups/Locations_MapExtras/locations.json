@@ -844,6 +844,7 @@
       { "item": "rebar_rail", "prob": 45, "charges-min": 1, "charges-max": 50 },
       [ "pastaextruder", 75 ],
       { "item": "nail", "prob": 300, "charges-min": 1, "charges-max": 15 },
+      { "item": "nuts_bolts", "prob": 60, "charges-min": 5, "charges-max": 30 },
       [ "well_pump", 50 ],
       [ "manhole_cover", 20 ],
       [ "hairpin", 120 ],
