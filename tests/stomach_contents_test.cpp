@@ -168,12 +168,12 @@ TEST_CASE( "vitamin_process", "[vitamins]" )
     CHECK( subject.vitamin_get( vitamin_vitC ) >= -97 );
 
     // slow vitamin drains every 90 minutes or 16 units in a day
-    CHECK( subject.vitamin_get( vitamin_vitC ) <= -15 );
-    CHECK( subject.vitamin_get( vitamin_vitC ) >= -17 );
+    CHECK( subject.vitamin_get( vitamin_slow ) <= -15 );
+    CHECK( subject.vitamin_get( vitamin_slow ) >= -17 );
 
     // fast vitamin drains every 5 minutes or 288 units in a day
-    CHECK( subject.vitamin_get( vitamin_vitC ) <= -287 );
-    CHECK( subject.vitamin_get( vitamin_vitC ) >= -289 );
+    CHECK( subject.vitamin_get( vitamin_fast ) <= -287 );
+    CHECK( subject.vitamin_get( vitamin_fast ) >= -289 );
 
 
 
