@@ -62,5 +62,13 @@
     "points": 0,
     "player_display": false,
     "description": "Your dreams can change reality."
+  },
+  {
+    "type": "mutation",
+    "id": "VAMPIRE",
+    "name": { "str": "Infected with the vampire disease." },
+    "points": 0,
+    "player_display": false,
+    "description": "You will eventually develop a thirst for the blood of your fellow humans."
   }
 ]
