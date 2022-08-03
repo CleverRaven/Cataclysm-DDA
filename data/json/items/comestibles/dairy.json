@@ -263,7 +263,7 @@
     "flags": [ "EDIBLE_FROZEN" ],
     "charges": 4,
     "vitamins": [ [ "calcium", 16 ] ],
-    "fun": -2,
+    "fun": -1,
     "freezing_point": -459
   },
   {
@@ -283,11 +283,9 @@
     "price_postapoc": 400,
     "material": [ "milk" ],
     "volume": "250 ml",
-    "flags": [ "EDIBLE_FROZEN" ],
     "charges": 4,
     "vitamins": [ [ "calcium", 16 ] ],
-    "fun": 4,
-    "freezing_point": -459
+    "fun": 4
   },
   {
     "type": "COMESTIBLE",
