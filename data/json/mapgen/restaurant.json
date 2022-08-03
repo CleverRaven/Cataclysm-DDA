@@ -188,7 +188,7 @@
         { "item": "sea_restaur_table", "x": [ 19, 20 ], "y": [ 12, 13 ], "chance": 25, "repeat": [ 1, 2 ] },
         { "item": "restaur_bath", "x": 2, "y": [ 17, 18 ], "chance": 25 },
         { "item": "restaur_bath", "x": 2, "y": [ 20, 21 ], "chance": 25 },
-        { "item": "restaur_fridge", "x": [ 7, 8 ], "y": 18, "chance": 80, "repeat": [ 2, 8 ] },
+        { "item": "sea_restaur_fridge", "x": [ 7, 8 ], "y": 18, "chance": 80, "repeat": [ 2, 8 ] },
         { "item": "restaur_sink", "x": [ 10, 11 ], "y": 18, "chance": 75, "repeat": [ 2, 3 ] },
         { "item": "sea_restaur_kitchen", "x": 9, "y": 18, "chance": 75, "repeat": [ 1, 8 ] },
         { "item": "sea_restaur_kitchen", "x": [ 12, 13 ], "y": 18, "chance": 75, "repeat": [ 1, 8 ] },
