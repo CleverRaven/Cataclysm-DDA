@@ -19,8 +19,8 @@ static const trait_id trait_HUNGER3( "HUNGER3" );
 
 static const vitamin_id vitamin_calcium( "calcium" );
 static const vitamin_id vitamin_iron( "iron" );
-static const vitamin_id vitamin_fast( "test_vit_fast" );
-static const vitamin_id vitamin_slow( "test_vit_slow" );
+static const vitamin_id vitamin_test_vit_fast( "test_vit_fast" );
+static const vitamin_id vitamin_test_vit_slow( "test_vit_slow" );
 static const vitamin_id vitamin_vitC( "vitC" );
 
 static void reset_time()
@@ -153,8 +153,8 @@ TEST_CASE( "vitamin_process", "[vitamins]" )
     REQUIRE( subject.vitamin_get( vitamin_iron ) == 0 );
     REQUIRE( subject.vitamin_get( vitamin_calcium ) == 0 );
     REQUIRE( subject.vitamin_get( vitamin_vitC ) == 0 );
-    REQUIRE( subject.vitamin_get( vitamin_fast ) == 0 );
-    REQUIRE( subject.vitamin_get( vitamin_slow ) == 0 );
+    REQUIRE( subject.vitamin_get( vitamin_test_vit_fast ) == 0 );
+    REQUIRE( subject.vitamin_get( vitamin_test_vit_slow ) == 0 );
 
 
     pass_time( subject, 1_days );
@@ -168,12 +168,12 @@ TEST_CASE( "vitamin_process", "[vitamins]" )
     CHECK( subject.vitamin_get( vitamin_vitC ) >= -97 );
 
     // slow vitamin drains every 90 minutes or 16 units in a day
-    CHECK( subject.vitamin_get( vitamin_slow ) <= -15 );
-    CHECK( subject.vitamin_get( vitamin_slow ) >= -17 );
+    CHECK( subject.vitamin_get( vitamin_test_vit_slow ) <= -15 );
+    CHECK( subject.vitamin_get( vitamin_test_vit_slow ) >= -17 );
 
     // fast vitamin drains every 5 minutes or 288 units in a day
-    CHECK( subject.vitamin_get( vitamin_fast ) <= -287 );
-    CHECK( subject.vitamin_get( vitamin_fast ) >= -289 );
+    CHECK( subject.vitamin_get( vitamin_test_vit_fast ) <= -287 );
+    CHECK( subject.vitamin_get( vitamin_test_vit_fast ) >= -289 );
 
 
 
