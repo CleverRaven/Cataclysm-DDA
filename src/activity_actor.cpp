@@ -5474,23 +5474,40 @@ void chop_tree_activity_actor::finish( player_activity &act, Character &who )
     const tripoint &pos = here.getlocal( act.placement );
 
     tripoint direction;
-    if( !who.is_npc() ) {
-        if( who.backlog.empty() || who.backlog.front().id() != ACT_MULTIPLE_CHOP_TREES ) {
-            while( true ) {
-                if( const cata::optional<tripoint> dir = choose_direction(
-                            _( "Select a direction for the tree to fall in." ) ) ) {
-                    direction = *dir;
-                    break;
-                }
-                // try again
+    if( !who.is_npc() &&
+        ( who.backlog.empty() || who.backlog.front().id() != ACT_MULTIPLE_CHOP_TREES ) ) {
+        while( true ) {
+            if( const cata::optional<tripoint> dir = choose_direction(
+                        _( "Select a direction for the tree to fall in." ) ) ) {
+                direction = *dir;
+                break;
             }
+            // try again
         }
     } else {
         creature_tracker &creatures = get_creature_tracker();
-        for( const tripoint &elem : here.points_in_radius( pos, 1 ) ) {
+        const point main_dir = pos.xy() - who.pos().xy();
+        const int circle_size = 8;
+        const point circle[circle_size] = { point_east, point_south_east, point_south, point_south_west, point_west, point_north_west, point_north, point_north_east };
+        int circle_center = 0;  //  Initialized as the compiler complained
+        for( int i = 0; i < circle_size; i++ ) {
+            if( main_dir == circle[i] ) {
+                circle_center = i;
+                break;
+            }
+        }
+        std::vector<point> candidates;
+        candidates = { main_dir,                                  // Fall straight away
+                       circle[( circle_center + circle_size - 1 ) % circle_size], // Fall away to the left. Adding the full circle to ensure modulo gives a non negative result
+                       circle[( circle_center + 1 ) % circle_size],              // Fall away to the right
+                       circle[( circle_center + circle_size - 2 ) % circle_size], // Fall to the left
+                       circle[( circle_center + 2 ) % circle_size],              // Fall to the right
+                       circle[( circle_center + circle_size - 3 ) % circle_size], // Fall towards to the left
+                       circle[( circle_center + 3 ) % circle_size]
+                     };              // Fall towards to the right
+        for( const point &direc : candidates ) {
             bool cantuse = false;
-            tripoint direc = elem - pos;
-            tripoint proposed_to = pos + point( 3 * direction.x, 3 * direction.y );
+            tripoint proposed_to = pos + point( 3 * direc.x, 3 * direc.y );
             std::vector<tripoint> rough_tree_line = line_to( pos, proposed_to );
             for( const tripoint &elem : rough_tree_line ) {
                 if( creatures.creature_at( elem ) ) {
@@ -5499,11 +5516,11 @@ void chop_tree_activity_actor::finish( player_activity &act, Character &who )
                 }
             }
             if( !cantuse ) {
-                direction = direc;
+                direction = tripoint( direc, pos.z );
+                break;
             }
         }
     }
-
     const tripoint to = pos + 3 * direction.xy() + point( rng( -1, 1 ), rng( -1, 1 ) );
     std::vector<tripoint> tree = line_to( pos, to, rng( 1, 8 ) );
     for( const tripoint &elem : tree ) {
