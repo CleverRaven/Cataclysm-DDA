@@ -2746,10 +2746,15 @@ class Character : public Creature, public visitable
         void react_to_felt_pain( int intensity );
 
         /** Monster cameras are mtype_ids with an integer range of transmission */
+        void clear_moncams();
         void remove_moncam( mtype_id moncam_id );
         void add_moncam( std::pair<mtype_id, int> moncam );
         void set_moncams( std::map<mtype_id, int> nmoncams );
-        std::map<mtype_id, int> get_moncams() const;
+        std::map<mtype_id, int> const &get_moncams() const;
+        using cached_moncam = std::pair<monster const *, tripoint_abs_ms>;
+        using moncam_cache_t = cata::flat_set<cached_moncam>;
+        moncam_cache_t moncam_cache;
+        moncam_cache_t get_active_moncams() const;
 
         void spores();
         void blossoms();

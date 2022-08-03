@@ -385,6 +385,7 @@ class map
 
         struct apparent_light_info {
             bool obstructed;
+            bool abs_obstructed;
             float apparent_light;
         };
         /** Helper function for light calculation; exposed here for map editor
@@ -1835,7 +1836,8 @@ class map
 
     protected:
         void generate_lightmap( int zlev );
-        void build_seen_cache( const tripoint &origin, int target_z );
+        void build_seen_cache( const tripoint &origin, int target_z, bool cumulative = false,
+                               bool camera = false, int penalty = 0 );
         void apply_character_light( Character &p );
 
         int my_MAPSIZE;
