@@ -373,7 +373,13 @@
     "armor": [ { "encumbrance": 5, "coverage": 100, "covers": [ "mouth" ] } ],
     "flags": [ "WATER_FRIENDLY", "CANT_WEAR", "ONLY_ONE", "STURDY", "NO_UNLOAD", "NO_RELOAD", "REBREATHER", "EXO_MEDIUM_GADGET" ],
     "pocket_data": [
-      { "pocket_type": "MAGAZINE", "airtight": true, "rigid": true, "watertight": true, "ammo_restriction": { "oxygen": 120 } }
+      {
+        "pocket_type": "MAGAZINE",
+        "airtight": true,
+        "rigid": true,
+        "watertight": true,
+        "ammo_restriction": { "oxygen": 120 }
+      }
     ],
     "use_action": {
       "type": "transform",
@@ -403,7 +409,13 @@
     "flags": [ "WATER_FRIENDLY", "CANT_WEAR", "ONLY_ONE", "STURDY", "NO_UNLOAD", "NO_RELOAD", "REBREATHER", "EXO_MEDIUM_GADGET" ],
     "turns_per_charge": 30,
     "pocket_data": [
-      { "pocket_type": "MAGAZINE", "airtight": true, "rigid": true, "watertight": true, "ammo_restriction": { "oxygen": 120 } }
+      {
+        "pocket_type": "MAGAZINE",
+        "airtight": true,
+        "rigid": true,
+        "watertight": true,
+        "ammo_restriction": { "oxygen": 120 }
+      }
     ],
     "use_action": {
       "ammo_scale": 0,
