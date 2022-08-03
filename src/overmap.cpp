@@ -1,4 +1,5 @@
 #include "cube_direction.h" // IWYU pragma: associated
+#include "enum_conversions.h"
 #include "omdata.h" // IWYU pragma: associated
 #include "overmap.h" // IWYU pragma: associated
 
@@ -1205,7 +1206,7 @@ cube_direction operator-( const cube_direction d, int i )
     constexpr_fatal( cube_direction::last, "Invalid cube_direction" );
 }
 
-static tripoint displace( cube_direction d )
+tripoint displace( cube_direction d )
 {
     switch( d ) {
         case cube_direction::north:
@@ -1287,16 +1288,16 @@ struct fixed_overmap_special_data : overmap_special_data {
                 const direction calculated_direction = direction_from( *elem.from, elem.p );
                 switch( calculated_direction ) {
                     case direction::NORTH:
-                        elem.initial_dir = om_direction::type::north;
+                        elem.initial_dir = cube_direction::north;
                         break;
                     case direction::EAST:
-                        elem.initial_dir = om_direction::type::east;
+                        elem.initial_dir = cube_direction::east;
                         break;
                     case direction::SOUTH:
-                        elem.initial_dir = om_direction::type::south;
+                        elem.initial_dir = cube_direction::south;
                         break;
                     case direction::WEST:
-                        elem.initial_dir = om_direction::type::west;
+                        elem.initial_dir = cube_direction::west;
                         break;
                     default:
                         // The only supported directions are north/east/south/west
@@ -1304,7 +1305,7 @@ struct fixed_overmap_special_data : overmap_special_data {
                         // can be made in. If the direction we figured out wasn't
                         // one of those, just set this as invalid. We'll provide
                         // a warning to the user/developer in overmap_special::check().
-                        elem.initial_dir = om_direction::type::invalid;
+                        elem.initial_dir = cube_direction::last;
                         break;
                 }
             }
@@ -1485,16 +1486,17 @@ struct fixed_overmap_special_data : overmap_special_data {
         for( const overmap_special_connection &elem : connections ) {
             if( elem.connection ) {
                 const tripoint_om_omt rp = origin + om_direction::rotate( elem.p, dir );
-                om_direction::type initial_dir = elem.initial_dir;
+                cube_direction initial_dir = elem.initial_dir;
 
-                if( initial_dir != om_direction::type::invalid ) {
-                    initial_dir = om_direction::add( initial_dir, dir );
+                if( initial_dir != cube_direction::last ) {
+                    initial_dir = initial_dir + dir;
                 }
                 if( cit ) {
                     om.build_connection( cit.pos, rp.xy(), elem.p.z, *elem.connection,
                                          must_be_unexplored, initial_dir );
                 }
-                // if no city present, search for nearby road within 50 tiles and make connection to it instead
+                // if no city present, search for nearby road within 50 tiles and make
+                // connection to it instead
                 else {
                     for( const tripoint_om_omt &nearby_point : closest_points_first( rp, 50 ) ) {
                         if( om.check_ot( "road", ot_match_type::contains, nearby_point ) ) {
@@ -1604,10 +1606,25 @@ struct mutable_overmap_terrain_join {
 
 using join_map = std::unordered_map<cube_direction, mutable_overmap_terrain_join>;
 
+struct mutable_special_connection {
+    string_id<overmap_connection> connection;
+
+    void deserialize( const JsonObject &jo ) {
+        jo.read( "connection", connection );
+    }
+
+    void check( const std::string &context ) const {
+        if( !connection.is_valid() ) {
+            debugmsg( "invalid connection id %s in %s", connection.str(), context );
+        }
+    }
+};
+
 struct mutable_overmap_terrain {
     oter_str_id terrain;
     cata::flat_set<string_id<overmap_location>> locations;
     join_map joins;
+    std::map<cube_direction, mutable_special_connection> connections;
 
     void finalize( const std::string &context,
                    const std::unordered_map<std::string, mutable_overmap_join *> &special_joins,
@@ -1635,6 +1652,12 @@ struct mutable_overmap_terrain {
                 debugmsg( "invalid overmap location id %s in %s", loc.str(), context );
             }
         }
+
+        for( const std::pair<const cube_direction, mutable_special_connection> &p :
+             connections ) {
+            p.second.check( string_format( "connection %s in %s", io::enum_to_string( p.first ),
+                                           context ) );
+        }
     }
 
     void deserialize( JsonIn &jin ) {
@@ -1648,6 +1671,7 @@ struct mutable_overmap_terrain {
                 jo.read( dir_s, joins[dir], true );
             }
         }
+        jo.read( "connections", connections );
     }
 };
 
@@ -2525,7 +2549,7 @@ struct mutable_overmap_special_data : overmap_special_data {
     // Returns a list of the points placed and a list of the joins used
     special_placement_result place(
         overmap &om, const tripoint_om_omt &origin, om_direction::type dir, bool /*blob*/,
-        const city &, bool /*must_be_unexplored*/ ) const override {
+        const city &cit, bool must_be_unexplored ) const override {
         // TODO: respect must_be_unexplored
         std::vector<tripoint_om_omt> result;
 
@@ -2534,17 +2558,45 @@ struct mutable_overmap_special_data : overmap_special_data {
             debugmsg( "Invalid root %s", root );
             return { result, {} };
         }
-        const mutable_overmap_terrain &root_omt = it->second;
-        const oter_id root_tid = root_omt.terrain->get_rotated( dir );
-        om.ter_set( origin, root_tid );
-        result.push_back( origin );
+
+        joins_tracker unresolved;
+
+        struct placed_connection {
+            overmap_connection_id connection;
+            pos_dir<tripoint_om_omt> where;
+        };
+
+        std::vector<placed_connection> connections_placed;
 
         // This is for debugging only, it tracks a human-readable description
         // of what happened to be put in the debugmsg in the event of failure.
         std::vector<std::string> descriptions;
 
-        joins_tracker unresolved;
-        unresolved.add_joins_for( root_omt, origin, dir, {} );
+        // Helper function to add a particular mutable_overmap_terrain at a
+        // particular place.
+        auto add_ter = [&](
+                           const mutable_overmap_terrain & ter, const tripoint_om_omt & pos,
+        om_direction::type rot, const std::vector<om_pos_dir> &suppressed_joins ) {
+            const oter_id tid = ter.terrain->get_rotated( rot );
+            om.ter_set( pos, tid );
+            unresolved.add_joins_for( ter, pos, rot, suppressed_joins );
+            result.push_back( pos );
+
+            // Accumulate connections to be dealt with later
+            for( const std::pair<const cube_direction, mutable_special_connection> &p :
+                 ter.connections ) {
+                cube_direction base_dir = p.first;
+                const mutable_special_connection &conn = p.second;
+                cube_direction dir = base_dir + rot;
+                tripoint_om_omt conn_pos = pos + displace( dir );
+                if( overmap::inbounds( conn_pos ) ) {
+                    connections_placed.push_back( { conn.connection, { conn_pos, dir } } );
+                }
+            }
+        };
+
+        const mutable_overmap_terrain &root_omt = it->second;
+        add_ter( root_omt, origin, dir, {} );
 
         auto current_phase = phases.begin();
         mutable_overmap_phase_remainder phase_remaining = current_phase->realise();
@@ -2560,11 +2612,7 @@ struct mutable_overmap_special_data : overmap_special_data {
                 om_direction::type rot = satisfy_result.dir;
                 for( const mutable_overmap_piece_candidate piece : rule->pieces( origin, rot ) ) {
                     const mutable_overmap_terrain &ter = *piece.overmap;
-                    const oter_id tid = ter.terrain->get_rotated( piece.rot );
-                    om.ter_set( piece.pos, tid );
-                    unresolved.add_joins_for( ter, piece.pos, piece.rot,
-                                              satisfy_result.suppressed_joins );
-                    result.push_back( piece.pos );
+                    add_ter( ter, piece.pos, piece.rot, satisfy_result.suppressed_joins );
                 }
             } else {
                 unresolved.postpone( next_pos );
@@ -2606,6 +2654,27 @@ struct mutable_overmap_special_data : overmap_special_data {
                     // NOLINTNEXTLINE(cata-translate-string-literal)
                     "U:R;DEBUG: unresolved joins %s at %s placing %s",
                     joins, p.to_string(), parent_id.str() ) );
+        }
+
+        // Deal with connections
+        for( const placed_connection &elem : connections_placed ) {
+            const tripoint_om_omt &pos = elem.where.p;
+            cube_direction connection_dir = elem.where.dir;
+
+            if( cit ) {
+                om.build_connection( cit.pos, pos.xy(), pos.z(), *elem.connection,
+                                     must_be_unexplored, connection_dir );
+            }
+            // if no city present, search for nearby road within 50 tiles and make connection to it instead
+            else {
+                for( const tripoint_om_omt &nearby_point : closest_points_first( pos, 50 ) ) {
+                    if( om.check_ot( "road", ot_match_type::contains, nearby_point ) ) {
+                        om.build_connection(
+                            nearby_point.xy(), pos.xy(), pos.z(), *elem.connection,
+                            must_be_unexplored, connection_dir );
+                    }
+                }
+            }
         }
 
         return { result, unresolved.all_used() };
@@ -5551,13 +5620,14 @@ pf::directed_path<point_om_omt> overmap::lay_out_street( const overmap_connectio
 
 void overmap::build_connection(
     const overmap_connection &connection, const pf::directed_path<point_om_omt> &path, int z,
-    const om_direction::type &initial_dir )
+    const cube_direction initial_dir )
 {
     if( path.nodes.empty() ) {
         return;
     }
 
-    om_direction::type prev_dir = initial_dir;
+    om_direction::type prev_dir =
+        om_direction::from_cube( initial_dir, "Up and down connections not yet supported" );
 
     const pf::directed_node<point_om_omt> start = path.nodes.front();
     const pf::directed_node<point_om_omt> end = path.nodes.back();
@@ -5635,9 +5705,10 @@ void overmap::build_connection(
     }
 }
 
-void overmap::build_connection( const point_om_omt &source, const point_om_omt &dest, int z,
-                                const overmap_connection &connection, const bool must_be_unexplored,
-                                const om_direction::type &initial_dir )
+void overmap::build_connection(
+    const point_om_omt &source, const point_om_omt &dest, int z,
+    const overmap_connection &connection, const bool must_be_unexplored,
+    const cube_direction initial_dir )
 {
     build_connection(
         connection, lay_out_connection( connection, source, dest, z, must_be_unexplored ),
@@ -5919,6 +5990,28 @@ om_direction::type om_direction::random()
 bool om_direction::are_parallel( type dir1, type dir2 )
 {
     return dir1 == dir2 || dir1 == opposite( dir2 );
+}
+
+om_direction::type om_direction::from_cube( cube_direction c, const std::string &error_msg )
+{
+    switch( c ) {
+        case cube_direction::north:
+            return om_direction::type::north;
+        case cube_direction::east:
+            return om_direction::type::east;
+        case cube_direction::south:
+            return om_direction::type::south;
+        case cube_direction::west:
+            return om_direction::type::west;
+        case cube_direction::above:
+        case cube_direction::below:
+            debugmsg( error_msg );
+        // fallthrough
+        case cube_direction::last:
+            return om_direction::type::invalid;
+    }
+    debugmsg( "Invalid cube_direction" );
+    return om_direction::type::invalid;
 }
 
 om_direction::type overmap::random_special_rotation( const overmap_special &special,
