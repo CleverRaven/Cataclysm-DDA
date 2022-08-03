@@ -1204,7 +1204,13 @@ std::string widget::color_text_function_string( const avatar &ava, unsigned int 
         _height = _height_max; // reset height
     }
     // Colorize if applicable
-    ret += apply_color ? colorize( desc.first, desc.second ) : desc.first;
+    if( !_colors.empty() ) {
+        ret += colorize( desc.first, _colors.front() );
+    } else if( apply_color ) {
+        ret += colorize( desc.first, desc.second );
+    } else {
+        ret += desc.first;
+    }
     return ret;
 }
 
