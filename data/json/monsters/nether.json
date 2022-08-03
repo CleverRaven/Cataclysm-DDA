@@ -1311,7 +1311,9 @@
       "SLUDGEPROOF",
       "SMELLS",
       "STUN_IMMUNE",
-      "WEBWALK"
+      "WEBWALK",
+      "ALL_SEEING",
+      "ALWAYS_VISIBLE"
     ],
     "special_attacks": [
       {
