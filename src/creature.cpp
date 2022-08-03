@@ -352,6 +352,11 @@ bool Creature::sees( const Creature &critter ) const
     const Character *ch = critter.as_character();
     const int wanted_range = rl_dist( pos(), critter.pos() );
 
+    if( this->has_flag( MF_ALL_SEEING ) ) {
+        const monster *m = this->as_monster();
+        return wanted_range < std::max( m->type->vision_day, m->type->vision_night );
+    }
+
     // Can always see adjacent monsters on the same level.
     // We also bypass lighting for vertically adjacent monsters, but still check for floors.
     if( wanted_range <= 1 && ( posz() == critter.posz() || here.sees( pos(), critter.pos(), 1 ) ) ) {
