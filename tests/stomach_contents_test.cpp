@@ -274,7 +274,7 @@ TEST_CASE( "vitamin_daily", "[vitamins]" )
     CHECK( subject.get_daily_vitamin( vitamin_calcium ) == 0 );
     CHECK( subject.get_daily_vitamin( vitamin_iron ) == 0 );
     // get that vitamin health bonus +/- whatever other maluses applied in a day
-    CHECK( subject.get_daily_health() >= 6 );
+    CHECK( subject.get_daily_health() >= 5 );
 
 }
 
