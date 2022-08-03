@@ -76,7 +76,7 @@
     "handling_modifier": 1,
     "min_skills": [ [ "weapon", 2 ] ]
   },
-    {
+  {
     "id": "primitive_bow_silencer",
     "type": "GUNMOD",
     "name": { "str": "primitive bow dampening kit" },
