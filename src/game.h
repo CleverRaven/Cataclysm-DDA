@@ -96,7 +96,7 @@ struct WORLD;
 struct special_game;
 template<typename Tripoint>
 class tripoint_range;
-
+class exosuit_interact;
 class live_view;
 class loading_ui;
 class overmap;
@@ -148,6 +148,7 @@ class game
         friend class editmap;
         friend class advanced_inventory;
         friend class main_menu;
+        friend class exosuit_interact;
         friend achievements_tracker &get_achievements();
         friend event_bus &get_event_bus();
         friend map &get_map();

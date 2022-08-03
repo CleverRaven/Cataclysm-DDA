@@ -434,6 +434,7 @@ class monster : public Creature
 
         void die( Creature *killer ) override; //this is the die from Creature, it calls kill_mo
         void drop_items_on_death( item *corpse );
+        void spawn_dissectables_on_death( item *corpse ); //spawn dissectable CBMs into CORPSE pocket
         //spawn monster's inventory without killing it
         void generate_inventory( bool disableDrops = true );
 
@@ -449,8 +450,13 @@ class monster : public Creature
         void make_ally( const monster &z );
         // Add an item to inventory
         void add_item( const item &it );
-        // check mech power levels and modify it.
-        bool use_mech_power( int amt );
+
+        /**
+        * Consume UPS from mech battery.
+        * @param amt amount of energy to consume. Is rounded down to kJ precision. Do not use negative values.
+        * @return Actual amount of energy consumed
+        */
+        units::energy use_mech_power( units::energy amt );
         bool check_mech_powered() const;
         int mech_str_addition() const;
 
@@ -488,6 +494,7 @@ class monster : public Creature
         bool provocative_sound = false; // Are we wandering toward something we think is alive?
         int wandf = 0;       // Urge to is_wandering - Increased by sound, decrements each move
         std::vector<item> inv; // Inventory
+        std::vector<item> dissectable_inv; // spawned at death, tracked for respawn/dissection
         Character *mounted_player = nullptr; // player that is mounting this creature
         character_id mounted_player_id; // id of player that is mounting this creature ( for save/load )
         character_id dragged_foe_id; // id of character being dragged by the monster

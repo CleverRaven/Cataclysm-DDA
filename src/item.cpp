@@ -609,7 +609,7 @@ bool item::activate_thrown( const tripoint &pos )
     return type->invoke( get_avatar(), *this, pos ).value_or( 0 );
 }
 
-units::energy item::set_energy( const units::energy &qty )
+units::energy item::mod_energy( const units::energy &qty )
 {
     if( !is_vehicle_battery() ) {
         debugmsg( "Tried to set energy of non-battery item" );
@@ -2535,6 +2535,33 @@ void item::magazine_info( std::vector<iteminfo> &info, const iteminfo_query *par
         return;
     }
 
+    if( parts->test( iteminfo_parts::MAGAZINE_COMPATIBLE_GUNS ) &&
+        islot_magazine::compatible_guns.find( this->typeId() ) != islot_magazine::compatible_guns.end() ) {
+        const auto compare = []( const auto & lhs, const auto & rhs ) {
+            return localized_compare( lhs, rhs );
+        };
+        std::set<std::string, decltype( compare )> compatible_guns( compare );
+
+        for( const itype_id &gun_type_id : islot_magazine::compatible_guns[this->typeId()] ) {
+            const itype &gun_type = gun_type_id.obj();
+            if( get_option<bool>( "SHOW_GUN_VARIANTS" ) ) {
+                if( gun_type.variants.empty() ) {
+                    compatible_guns.insert( gun_type.nname( 1 ) );
+                }
+                for( const itype_variant_data &variant_type : gun_type.variants ) {
+                    compatible_guns.insert( variant_type.alt_name.translated() );
+                }
+            } else {
+                compatible_guns.insert( gun_type.nname( 1 ) );
+            }
+        }
+
+        if( !compatible_guns.empty() ) {
+            const std::string mag_names = enumerate_as_string( compatible_guns );
+            info.emplace_back( "MAGAZINE", _( "<bold>Compatible guns</bold>: " ) + mag_names );
+            insert_separation_line( info );
+        }
+    }
     if( parts->test( iteminfo_parts::MAGAZINE_CAPACITY ) ) {
         for( const ammotype &at : ammo_types() ) {
             const std::string fmt = string_format( n_gettext( "<num> round of %s",
@@ -2927,12 +2954,12 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
                            iteminfo::lower_is_better, mod->ammo_required() );
     }
 
-    if( mod->get_gun_ups_drain() && parts->test( iteminfo_parts::AMMO_UPSCOST ) ) {
+    if( mod->get_gun_ups_drain() > 0_kJ && parts->test( iteminfo_parts::AMMO_UPSCOST ) ) {
         info.emplace_back( "AMMO",
                            string_format( n_gettext( "Uses <stat>%i</stat> charge of UPS per shot",
-                                          "Uses <stat>%i</stat> charges of UPS per shot",
-                                          mod->get_gun_ups_drain() ),
-                                          mod->get_gun_ups_drain() ) );
+                                          "Uses <stat>%i</stat> kJ of UPS per shot",
+                                          units::to_kilojoule( mod->get_gun_ups_drain() ) ),
+                                          units::to_kilojoule( mod->get_gun_ups_drain() ) ) );
     }
 
     if( parts->test( iteminfo_parts::GUN_AIMING_STATS ) ) {
@@ -4644,6 +4671,22 @@ void item::tool_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
     }
 }
 
+void item::actions_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
+                         int /*batch*/, bool /*debug*/ ) const
+{
+
+    const std::map<std::string, use_function> &use_methods = type->use_methods;
+    if( use_methods.empty() || !parts->test( iteminfo_parts::ACTIONS ) ) {
+        return;
+    }
+    insert_separation_line( info );
+    std::string actions = enumerate_as_string( use_methods.begin(),
+    use_methods.end(), []( const std::pair<std::string, use_function> &val ) {
+        return string_format( "<info>%s</info>", val.second.get_name() );
+    } );
+    info.emplace_back( "DESCRIPTION", string_format( _( "<bold>Actions</bold>: %s" ), actions ) );
+}
+
 void item::component_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int /*batch*/,
                            bool /*debug*/ ) const
 {
@@ -5698,6 +5741,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
             book_info( info, parts, batch, debug );
             battery_info( info, parts, batch, debug );
             tool_info( info, parts, batch, debug );
+            actions_info( info, parts, batch, debug );
             component_info( info, parts, batch, debug );
             qualities_info( info, parts, batch, debug );
 
@@ -10667,8 +10711,8 @@ int item::ammo_remaining( const Character *carrier ) const
     }
 
     // Extra power from UPS
-    if( carrier != nullptr && ( has_flag( flag_USE_UPS ) || get_gun_ups_drain() ) ) {
-        ret += carrier->available_ups();
+    if( carrier != nullptr && ( has_flag( flag_USE_UPS ) || get_gun_ups_drain() > 0_kJ ) ) {
+        ret += units::to_kilojoule( carrier->available_ups() );
     }
 
     // Magazines and integral magazines on their own
@@ -10763,8 +10807,8 @@ bool item::ammo_sufficient( const Character *carrier, int qty ) const
 {
     if( ammo_required() ) {
         return ammo_remaining( carrier ) >= ammo_required() * qty;
-    } else if( get_gun_ups_drain() ) {
-        return ammo_remaining( carrier ) >= get_gun_ups_drain() * qty;
+    } else if( get_gun_ups_drain() > 0_kJ ) {
+        return carrier->available_ups() >= get_gun_ups_drain() * qty;
     } else if( count_by_charges() ) {
         return ammo_remaining( carrier ) >= qty;
     }
@@ -10779,8 +10823,8 @@ bool item::ammo_sufficient( const Character *carrier, const std::string &method,
     }
     if( ammo_required() ) {
         return ammo_remaining( carrier ) >= ammo_required() * qty;
-    } else if( get_gun_ups_drain() ) {
-        return ammo_remaining( carrier ) >= get_gun_ups_drain() * qty;
+    } else if( get_gun_ups_drain() > 0_kJ ) {
+        return carrier->available_ups() >= get_gun_ups_drain() * qty;
     }
     return true;
 }
@@ -10807,7 +10851,8 @@ int item::ammo_consume( int qty, const tripoint &pos, Character *carrier )
 
     // Consume UPS power from various sources
     if( carrier != nullptr && has_flag( flag_USE_UPS ) ) {
-        qty -= carrier->consume_ups( qty );
+        units::energy power_draw = units::from_kilojoule( qty );
+        qty -= units::to_kilojoule( carrier->consume_ups( power_draw ) );
     }
 
     // Consume bio pwr directly
@@ -13690,7 +13735,7 @@ const itype *item::find_type( const itype_id &type )
     return item_controller->find_template( type );
 }
 
-int item::get_gun_ups_drain() const
+units::energy item::get_gun_ups_drain() const
 {
     int draincount = 0;
     if( type->gun ) {
@@ -13702,7 +13747,7 @@ int item::get_gun_ups_drain() const
         }
         draincount = ( type->gun->ups_charges * multiplier ) + modifier;
     }
-    return draincount;
+    return units::from_kilojoule( draincount );
 }
 
 bool item::has_label() const

@@ -7,7 +7,7 @@
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
     "time": "30 m",
-    "reversible": true,
+    "reversible": { "time": "1 s" },
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "steel_chunk", 1 ] ] ]
@@ -582,7 +582,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "result": "electronics_controls",
     "category": "CC_ELECTRONIC",
-    "subcategory": "CSC_ELECTRONIC_TOOLS",
+    "subcategory": "CSC_ELECTRONIC_PARTS",
     "skill_used": "electronics",
     "skills_required": [ "mechanics", 1 ],
     "difficulty": 3,

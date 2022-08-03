@@ -543,6 +543,8 @@ class inscribe_actor : public iuse_actor
         // Materials it can write on
         std::set<material_id> material_whitelist = {
             material_id( "wood" ),
+            material_id( "clay" ),
+            material_id( "porcelain" ),
             material_id( "plastic" ),
             material_id( "glass" ),
             material_id( "chitin" ),

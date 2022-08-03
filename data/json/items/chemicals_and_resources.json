@@ -1367,6 +1367,23 @@
     "count": 100
   },
   {
+    "type": "AMMO",
+    "id": "corpse_ash",
+    "category": "chems",
+    "price": 0,
+    "price_postapoc": 0,
+    "name": { "str": "corpse ash", "str_pl": "corpse ashes" },
+    "symbol": "=",
+    "looks_like": "f_ash",
+    "color": "light_gray",
+    "description": "The unburnt remains of a person or animal.",
+    "material": [ "powder_nonflam" ],
+    "volume": "104ml",
+    "weight": "1 g",
+    "ammo_type": "components",
+    "count": 100
+  },
+  {
     "type": "COMESTIBLE",
     "id": "ether",
     "category": "chems",

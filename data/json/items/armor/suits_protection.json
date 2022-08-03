@@ -2147,7 +2147,7 @@
     "type": "ARMOR",
     "copy-from": "k_gambeson",
     "looks_like": "k_gambeson",
-    "name": { "str": "XS kevlar gambeson" },
+    "name": { "str": "XS Kevlar gambeson" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
@@ -2156,7 +2156,7 @@
     "type": "ARMOR",
     "copy-from": "k_gambeson_vest",
     "looks_like": "k_gambeson",
-    "name": { "str": "XS kevlar gambeson" },
+    "name": { "str": "XS Kevlar gambeson vest" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] },
     "use_action": { "type": "transform", "msg": "You loosen your %s.", "target": "k_gambeson_vest_xs_loose", "menu_text": "Loosen" }

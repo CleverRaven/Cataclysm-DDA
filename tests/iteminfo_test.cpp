@@ -2268,6 +2268,25 @@ TEST_CASE( "list of item qualities", "[iteminfo][quality]" )
 }
 
 // Related JSON fields:
+// "actions"
+//
+// Functions:
+// item::actions_info
+TEST_CASE( "list of item actions", "[iteminfo][action]" )
+{
+    clear_avatar();
+
+    std::vector<iteminfo_parts> actions = { iteminfo_parts::ACTIONS };
+
+    SECTION( "Halligan bar" ) {
+        item halligan( "test_halligan" );
+        CHECK( item_info_str( halligan, actions ) ==
+               "--\n"
+               "<color_c_white>Actions</color>: <color_c_cyan>Pry crate, window, door or nails</color>, <color_c_cyan>Dig pit here</color>, <color_c_cyan>Dig water channel here</color>, <color_c_cyan>Fill pit / tamp ground</color>, and <color_c_cyan>Upturn earth</color>\n" );
+    }
+}
+
+// Related JSON fields:
 // "flags" (USE_UPS, RECHARGE)
 //
 // Functions:
