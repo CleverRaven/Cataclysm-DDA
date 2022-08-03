@@ -860,7 +860,7 @@
     "qualities": [ [ "CUT", 2 ], [ "GRASS_CUT", 1 ], [ "BUTCHER", 14 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
     "weapon_category": [ "BLADED_FARMING", "CONSTRUCTED_SWORDS" ],
-    "looks_like": "survivor_machete",
+    "looks_like": "survivor_machete"
   },
   {
     "id": "sword_bayonet",
