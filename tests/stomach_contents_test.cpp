@@ -19,6 +19,8 @@ static const trait_id trait_HUNGER3( "HUNGER3" );
 
 static const vitamin_id vitamin_calcium( "calcium" );
 static const vitamin_id vitamin_iron( "iron" );
+static const vitamin_id vitamin_fast( "test_vit_fast" );
+static const vitamin_id vitamin_slow( "test_vit_slow" );
 static const vitamin_id vitamin_vitC( "vitC" );
 
 static void reset_time()
@@ -151,17 +153,29 @@ TEST_CASE( "vitamin_process", "[vitamins]" )
     REQUIRE( subject.vitamin_get( vitamin_iron ) == 0 );
     REQUIRE( subject.vitamin_get( vitamin_calcium ) == 0 );
     REQUIRE( subject.vitamin_get( vitamin_vitC ) == 0 );
+    REQUIRE( subject.vitamin_get( vitamin_fast ) == 0 );
+    REQUIRE( subject.vitamin_get( vitamin_slow ) == 0 );
 
 
     pass_time( subject, 1_days );
 
     // check
-    CHECK( subject.vitamin_get( vitamin_iron ) <= -47 );
-    CHECK( subject.vitamin_get( vitamin_calcium ) <= -15 );
+    CHECK( subject.vitamin_get( vitamin_iron ) <= -95 );
+    CHECK( subject.vitamin_get( vitamin_calcium ) <= -95 );
     CHECK( subject.vitamin_get( vitamin_vitC ) <= -95 );
-    CHECK( subject.vitamin_get( vitamin_iron ) >= -49 );
-    CHECK( subject.vitamin_get( vitamin_calcium ) >= -17 );
+    CHECK( subject.vitamin_get( vitamin_iron ) >= -97 );
+    CHECK( subject.vitamin_get( vitamin_calcium ) >= -97 );
     CHECK( subject.vitamin_get( vitamin_vitC ) >= -97 );
+
+    // slow vitamin drains every 90 minutes or 16 units in a day
+    CHECK( subject.vitamin_get( vitamin_vitC ) <= -15 );
+    CHECK( subject.vitamin_get( vitamin_vitC ) >= -17 );
+
+    // fast vitamin drains every 5 minutes or 288 units in a day
+    CHECK( subject.vitamin_get( vitamin_vitC ) <= -287 );
+    CHECK( subject.vitamin_get( vitamin_vitC ) >= -289 );
+
+
 
 }
 
@@ -328,6 +342,8 @@ TEST_CASE( "all_nutrition_starve_test", "[starve][slow]" )
     CHECK( dummy.get_stored_kcal() >= dummy.get_healthy_kcal() );
     // We need to account for a day's worth of error since we're passing a day at a time and we are
     // close to 0 which is the max value for some vitamins
+
+    // This test could be a lot better bounds are really wide on it
     CHECK( dummy.vitamin_get( vitamin_vitC ) >= -100 );
     CHECK( dummy.vitamin_get( vitamin_iron ) >= -100 );
     CHECK( dummy.vitamin_get( vitamin_calcium ) >= -100 );

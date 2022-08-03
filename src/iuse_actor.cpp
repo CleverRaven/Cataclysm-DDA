@@ -136,9 +136,6 @@ static const skill_id skill_firstaid( "firstaid" );
 static const skill_id skill_survival( "survival" );
 static const skill_id skill_traps( "traps" );
 
-// vitamin flags
-static const std::string flag_NO_DISPLAY( "NO_DISPLAY" );
-
 static const trait_id trait_CENOBITE( "CENOBITE" );
 static const trait_id trait_DEBUG_BIONICS( "DEBUG_BIONICS" );
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
