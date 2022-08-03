@@ -926,17 +926,15 @@
       [ "fork", 50 ],
       [ "knife_butter", 40 ],
       [ "knife_steak", 35 ],
-      [ "spork", 10 ],
-      [ "foon", 10 ],
       [ "bottle_glass", 15 ],
       { "group": "bar_alcohol", "prob": 68 },
-      [ "lobster_roll", 5 ],
+      [ "lobster_roll", 10 ],
       [ "soup_lobsterstew", 5 ],
-      [ "lobster_cooked", 5 ],
-      [ "lobster_platter", 2 ],
-      [ "fish_fried", 5 ],
-      [ "fish_sandwich", 5 ],
-      [ "cornbread", 3 ]
+      [ "lobster_cooked", 10 ],
+      [ "lobster_platter", 10 ],
+      [ "fish_fried", 10 ],
+      [ "fish_sandwich", 10 ],
+      [ "cornbread", 10 ]
     ]
   },
   {
@@ -1010,7 +1008,6 @@
         "container-item": "jar_glass_sealed",
         "sealed": false
       },
-      [ "pudding", 15 ],
       [ "apple", 10 ],
       [ "fish_sandwich", 15 ],
       [ "lobster_roll", 15 ],
@@ -1029,21 +1026,18 @@
       [ "irradiated_carrot", 4 ],
       { "group": "wines_worthy", "prob": 54 },
       [ "fish_fried", 7 ],
-      [ "fish", 40 ],
+      [ "fish", 80 ],
       [ "egg_fish", 10 ],
-      [ "lobster", 20 ],
+      [ "lobster", 40 ],
       [ "lobster_cooked", 10 ],
       [ "lemon", 20 ],
       { "item": "pickle", "prob": 10, "charges": 2, "container-item": "jar_glass_sealed" },
       [ "fries", 15 ],
-      [ "crab_cakes", 10 ],
-      [ "stuffed_clams", 10 ],
+      [ "crab_cakes", 20 ],
+      [ "stuffed_clams", 20 ],
       [ "onion_rings", 10 ],
       [ "sauce_red", 8 ],
-      [ "sausage", 10 ],
-      [ "bratwurst_sausage", 10 ],
       [ "syrup", 10 ],
-      [ "sweet_sausage", 2 ],
       [ "soup_fish", 10 ]
     ]
   },
@@ -1091,7 +1085,7 @@
     "type": "item_group",
     "items": [
       [ "vinegar", 20 ],
-      [ "mayonnaise", 5 ],
+      [ "mayonnaise", 20 ],
       [ "bread", 17 ],
       [ "fish", 20 ],
       [ "cornbread", 7 ],
@@ -1101,7 +1095,6 @@
       [ "garlic", 10 ],
       [ "thyme", 10 ],
       [ "fish_canned", 10 ],
-      [ "catfood", 10 ],
       [ "lobster_canned", 10 ],
       [ "can_clams", 10 ],
       [ "ghee", 15 ],
@@ -1120,8 +1113,6 @@
       [ "knife_steak", 15 ],
       [ "chilly-p", 15 ],
       [ "curry_powder", 15 ],
-      [ "spaghetti_raw", 20 ],
-      [ "dry_rice", 20 ],
       [ "macaroni_raw", 20 ],
       [ "knife_butcher", 10 ]
     ]
