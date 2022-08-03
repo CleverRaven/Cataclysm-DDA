@@ -260,21 +260,27 @@ TEST_CASE( "vitamin_daily", "[vitamins]" )
 
     subject.consume( f );
 
-    pass_time( subject, 23_hours );
-    // reset health right before it ticks over for vitamins
-    subject.set_daily_health( 0 );
-    // make sure that the vitamins haven't been reset yet
-    REQUIRE( subject.get_daily_vitamin( vitamin_vitC ) != 0 );
-    REQUIRE( subject.get_daily_vitamin( vitamin_calcium ) != 0 );
-    REQUIRE( subject.get_daily_vitamin( vitamin_iron ) != 0 );
-    pass_time( subject, 12_hours );
+    int hours = 0;
+    while( hours < 72 ) {
+        pass_time( subject, 1_hours );
+        hours++;
+        // check vitamins to see if health has updated
+        if( subject.get_daily_vitamin( vitamin_vitC ) == 0 &&
+            subject.get_daily_vitamin( vitamin_calcium ) == 0 &&
+            subject.get_daily_vitamin( vitamin_iron ) == 0 ) {
+            break;
+        }
+        //otherwise clean up any other health changes that may have happened
+        subject.set_daily_health( 0 );
+
+    }
 
     // check if after a day health is up and vitamins are reset
     CHECK( subject.get_daily_vitamin( vitamin_vitC ) == 0 );
     CHECK( subject.get_daily_vitamin( vitamin_calcium ) == 0 );
     CHECK( subject.get_daily_vitamin( vitamin_iron ) == 0 );
-    // get that vitamin health bonus +/- whatever other maluses applied in a day
-    CHECK( subject.get_daily_health() >= 5 );
+    // get that vitamin health bonus is up by 6
+    CHECK( subject.get_daily_health() >= 6 );
 
 }
 
