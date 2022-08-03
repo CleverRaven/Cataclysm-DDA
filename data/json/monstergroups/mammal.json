@@ -81,7 +81,7 @@
       { "monster": "mon_cat_persian", "weight": 20, "cost_multiplier": 0 },
       { "monster": "mon_cat_persian_kitten", "weight": 2, "cost_multiplier": 0 },
       { "monster": "mon_cat_calico", "weight": 40, "cost_multiplier": 0 },
-      { "monster": "mon_cat_calico_kitten", "weight": 5, "cost_multiplier": 0 },
+      { "monster": "mon_cat_calico_kitten", "weight": 4, "cost_multiplier": 0 },
       { "monster": "mon_cat_maine_coon", "weight": 50, "cost_multiplier": 0 },
       { "monster": "mon_cat_maine_coon_kitten", "weight": 5, "cost_multiplier": 0 },
       { "monster": "mon_cat_bengal", "weight": 50, "cost_multiplier": 0 },
