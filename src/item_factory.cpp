@@ -3791,7 +3791,7 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
 
     if( jo.has_member( "repairs_with" ) ) {
         def.repairs_with.clear();
-        optional( jo, false, "repairs_with", def.repairs_with, string_id_reader<material_type>() );
+        optional( jo, false, "repairs_with", def.repairs_with );
     }
 
     if( jo.has_member( "thrown_damage" ) ) {
