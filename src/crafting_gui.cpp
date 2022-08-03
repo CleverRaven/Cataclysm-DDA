@@ -85,10 +85,8 @@ class tab_list
     private:
         size_t _index = 0;
         std::vector<std::string> *_list;
-        std::map<std::string, bool> *_unread;
     public:
-        explicit tab_list( std::vector<std::string> &_list,
-                           std::map<std::string, bool> &_unread ) : _list( &_list ), _unread( &_unread ) {
+        explicit tab_list( std::vector<std::string> &_list ) : _list( &_list ) {
         }
 
         void next() {
@@ -998,8 +996,8 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
     bool is_filtered_unread = false;
     std::map<std::string, bool> is_cat_unread;
     std::map<std::string, std::map<std::string, bool>> is_subcat_unread;
-    tab_list tab( craft_cat_list, is_cat_unread );
-    tab_list subtab( craft_subcat_list[tab.cur()], is_subcat_unread[tab.cur()] );
+    tab_list tab( craft_cat_list );
+    tab_list subtab( craft_subcat_list[tab.cur()] );
     std::map<size_t, inclusive_rectangle<point>> translated_tab_map;
     std::map<size_t, inclusive_rectangle<point>> translated_subtab_map;
     std::map<size_t, inclusive_rectangle<point>> list_map;
@@ -1047,7 +1045,7 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
                 while( tab.cur() != goto_recipe->category ) {
                     tab.next();
                 }
-                subtab = tab_list( craft_subcat_list[tab.cur()], is_subcat_unread[tab.cur()] );
+                subtab = tab_list( craft_subcat_list[tab.cur()] );
                 chosen = *gotorec;
                 show_hidden = true;
                 keepline = true;
@@ -1403,7 +1401,7 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
         cata::optional<point> coord;
         if( coord3d.has_value() ) {
             // TODO: Handle this in get_coordinates, which currently only normalizes for w_terrain
-            coord = point( coord3d->x + TERMX / 2, coord3d->y + TERMY / 2 );
+            coord = point( coord3d->x, coord3d->y ) + point( TERMX / 2, TERMY / 2 );
         }
         const bool mouse_in_list = coord.has_value() && mouseover_area_list.contains( coord.value() );
         const bool mouse_in_recipe = coord.has_value() && mouseover_area_recipe.contains( coord.value() );
@@ -1411,7 +1409,7 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
         // Check mouse selection of recipes separately so that selecting an already-selected recipe
         // can go straight to "CONFIRM"
         if( action == "SELECT" ) {
-            if( !list_map.empty() && coord.has_value() ) {
+            if( coord.has_value() ) {
                 point local_coord = coord.value() - point( getbegx( w_data ), getbegy( w_data ) );
                 for( const auto &entry : list_map ) {
                     if( entry.second.contains( local_coord ) ) {
@@ -1433,21 +1431,16 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
             bool handled = false;
             if( coord.has_value() ) {
                 point local_coord = coord.value() - point( getbegx( w_head_tabs ), getbegy( w_head_tabs ) );
-                if( !translated_tab_map.empty() ) {
-                    for( const auto &entry : translated_tab_map ) {
-                        if( entry.second.contains( local_coord ) ) {
-                            tab.set_index( entry.first );
-                            recalc = true;
-                            subtab = tab_list( craft_subcat_list[tab.cur()], is_subcat_unread[tab.cur()] );
-                            handled = true;
-                        }
+                for( const auto &entry : translated_tab_map ) {
+                    if( entry.second.contains( local_coord ) ) {
+                        tab.set_index( entry.first );
+                        recalc = true;
+                        subtab = tab_list( craft_subcat_list[tab.cur()] );
+                        handled = true;
                     }
                 }
                 local_coord = coord.value() - point( getbegx( w_subhead ), getbegy( w_subhead ) );
-                if( !translated_subtab_map.empty() && !handled ) {
-                    if( batch || !filterstring.empty() ) {
-                        continue;
-                    }
+                if( !handled && !batch && filterstring.empty() ) {
                     for( const auto &entry : translated_subtab_map ) {
                         if( entry.second.contains( local_coord ) ) {
                             subtab.set_index( entry.first );
@@ -1486,7 +1479,7 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
                                              mouse_in_window( coord, w_head_tabs ) ) ) {
             tab.prev();
             // Default ALL
-            subtab = tab_list( craft_subcat_list[tab.cur()], is_subcat_unread[tab.cur()] );
+            subtab = tab_list( craft_subcat_list[tab.cur()] );
             recalc = true;
         } else if( action == "RIGHT" || ( action == "SCROLL_DOWN" &&
                                           mouse_in_window( coord, w_subhead ) ) ) {
@@ -1503,7 +1496,7 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
                                              mouse_in_window( coord, w_head_tabs ) ) ) {
             tab.next();
             // Default ALL
-            subtab = tab_list( craft_subcat_list[tab.cur()], is_subcat_unread[tab.cur()] );
+            subtab = tab_list( craft_subcat_list[tab.cur()] );
             recalc = true;
         } else if( action == "DOWN" ) {
             if( !previously_toggled_unread ) {
@@ -1973,7 +1966,7 @@ static std::map<size_t, inclusive_rectangle<point>> draw_recipe_tabs( const cata
                 }
             }
             std::pair<std::vector<std::string>, size_t> fitted_tabs = fit_tabs_to_width( getmaxx( w ),
-                    ( tab.cur_index() ), translated_cats );
+                    tab.cur_index(), translated_cats );
             tab_map = draw_tabs( w, fitted_tabs.first, tab.cur_index() - fitted_tabs.second,
                                  fitted_tabs.second );
             break;
