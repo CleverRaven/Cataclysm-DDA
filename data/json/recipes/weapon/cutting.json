@@ -883,8 +883,7 @@
     "components": [
       [ [ "machete", 1 ] ],
       [ [ "duct_tape", 100 ] ],
-      [ [ "thread_kevlar", 35 ] ],
-      [ [ "lump_coal", 84 ], [ "charcoal", 55 ] ]
+      [ [ "coal_lump", 84 ], [ "charcoal", 55 ] ]
     ]
   }
 ]
