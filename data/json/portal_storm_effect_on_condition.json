@@ -516,7 +516,8 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_HALLUCINATOR",
-    "condition": { "not": { "u_has_effect": "sleep" } },
+    "condition": { "or": [ { "not": { "u_has_effect": "sleep" } }, { "not": { "u_has_worn_with_flag": "PORTAL_PROOF" } } ] },
+    "//": "The hallucination itself is not related to portal, its kinda create nightmares, nothing more. but the monster's existing can be prevented due portaL_proof flag (let's say the entity can't see the flag's user)",
     "effect": {
       "u_spawn_monster": "mon_hallucinator",
       "real_count": 1,
