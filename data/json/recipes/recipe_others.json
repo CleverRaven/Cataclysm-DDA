@@ -2865,7 +2865,7 @@
     ],
     "qualities": [ { "id": "SAW_M", "level": 2 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
-    "using": [ [ "steel_standard", 8 ], [ "welding_standard", 3, "LIST" ], [ "blacksmithing_standard", 32 ] ],
+    "using": [ [ "steel_standard", 2 ], [ "welding_standard", 3, "LIST" ], [ "blacksmithing_standard", 8 ] ],
     "components": [ [ [ "pipe", 2 ] ], [ [ "grip_hook", 1 ] ], [ [ "sheet_metal_small", 8 ] ] ]
   }
 ]
