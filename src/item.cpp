@@ -9425,10 +9425,7 @@ int item::made_of( const material_id &mat_ident ) const
 bool item::can_repair_with( const material_id &mat_ident ) const
 {
     auto mat = type->repairs_with.find( mat_ident );
-    if( mat == type->repairs_with.end() ) {
-        return false;
-    }
-    return true;
+    return mat != type->repairs_with.end();
 }
 
 bool item::made_of( phase_id phase ) const
