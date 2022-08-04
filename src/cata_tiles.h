@@ -12,7 +12,7 @@
 #include <vector>
 
 #include "animation.h"
-#include "cata_void.h"
+#include "cata_type_traits.h"
 #include "creature.h"
 #include "enums.h"
 #include "lightmap.h"
@@ -254,7 +254,7 @@ class tileset_cache::loader
                                       std::vector<texture> &target );
         void create_textures_from_tile_atlas( const SDL_Surface_Ptr &tile_atlas, const point &offset );
 
-        void process_variations_after_loading( weighted_int_list<std::vector<int>> &v );
+        void process_variations_after_loading( weighted_int_list<std::vector<int>> &v ) const;
 
         void add_ascii_subtile( tile_type &curr_tile, const std::string &t_id, int sprite_id,
                                 const std::string &s_id );
@@ -269,7 +269,7 @@ class tileset_cache::loader
         tile_type &load_tile( const JsonObject &entry, const std::string &id );
 
         void load_tile_spritelists( const JsonObject &entry, weighted_int_list<std::vector<int>> &vs,
-                                    const std::string &objname );
+                                    const std::string &objname ) const;
 
         void load_ascii( const JsonObject &config );
         /** Load tileset, R,G,B, are the color components of the transparent color

@@ -52,6 +52,12 @@
     ]
   },
   {
+    "id": "grave_contents",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "group": "everyday_corpse", "prob": 85 }, { "group": "grave_cremains", "prob": 15 } ]
+  },
+  {
     "id": "everyday_corpse",
     "type": "item_group",
     "subtype": "collection",

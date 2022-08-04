@@ -2376,7 +2376,7 @@
     "vision_night": 30,
     "harvest": "mammal_tiny",
     "dissect": "dissect_rat_sample_single",
-    "upgrades": { "half_life": 23, "into_group": "GROUP_RATKIN_EVOLVED" },
+    "upgrades": { "half_life": 42, "into_group": "GROUP_RATKIN_EVOLVED" },
     "path_settings": { "max_dist": 10 },
     "anger_triggers": [ "PLAYER_WEAK", "FRIEND_ATTACKED", "FRIEND_DIED" ],
     "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "ANIMAL", "PATH_AVOID_DANGER_1", "STUMBLES" ]

@@ -10,6 +10,7 @@
 #include "color.h"
 #include "translations.h"
 #include "type_id.h"
+#include "units.h"
 
 class JsonObject;
 template<typename T>
@@ -84,7 +85,7 @@ class move_mode
         float exertion_level() const;
         float move_speed_mult() const;
 
-        int mech_power_use() const;
+        units::energy mech_power_use() const;
         int swim_speed_mod() const;
 
         nc_color panel_color() const;

@@ -2155,7 +2155,7 @@
     "type": "terrain",
     "id": "t_triple_pane_glass_open",
     "name": "triple glazed glass window",
-    "description": "A triple glazed giant sheet of glass inserted into a window frame.",
+    "description": "Three giant sheet of glass inserted into a window frame.",
     "looks_like": "t_window_no_curtains_open",
     "symbol": "|",
     "color": "light_cyan",

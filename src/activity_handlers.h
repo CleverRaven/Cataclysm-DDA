@@ -238,6 +238,11 @@ void wait_stamina_finish( player_activity *act, Character *you );
 void wait_weather_finish( player_activity *act, Character *you );
 void washing_finish( player_activity *act, Character *you );
 
+int move_cost( const item &it, const tripoint &src, const tripoint &dest );
+int move_cost_cart( const item &it, const tripoint &src, const tripoint &dest,
+                    const units::volume &capacity );
+int move_cost_inv( const item &it, const tripoint &src, const tripoint &dest );
+
 // defined in activity_handlers.cpp
 extern const std::map< activity_id, std::function<void( player_activity *, Character * )> >
 finish_functions;

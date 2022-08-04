@@ -645,6 +645,7 @@
     "material": [ "flesh" ],
     "symbol": "@",
     "color": "i_magenta",
+    "diff": 15,
     "aggression": 75,
     "morale": 20,
     "melee_skill": 6,

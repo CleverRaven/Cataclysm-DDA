@@ -1788,7 +1788,7 @@ static struct {
     bool sort_by_points = true;
     bool male = false;
     /** @related player */
-    bool operator()( const string_id<profession> &a, const string_id<profession> &b ) {
+    bool operator()( const string_id<profession> &a, const string_id<profession> &b ) const {
         // The generic ("Unemployed") profession should be listed first.
         const profession *gen = profession::generic();
         if( &b.obj() == gen ) {
@@ -2933,7 +2933,7 @@ static struct {
     bool male = false;
     bool cities_enabled = false;
     /** @related player */
-    bool operator()( const scenario *a, const scenario *b ) {
+    bool operator()( const scenario *a, const scenario *b ) const {
         if( cities_enabled ) {
             // The generic ("Unemployed") profession should be listed first.
             const scenario *gen = scenario::generic();
