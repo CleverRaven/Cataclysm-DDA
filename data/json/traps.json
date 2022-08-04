@@ -1020,21 +1020,22 @@
     "name": "swirling vortex",
     "color": "green",
     "symbol": "#",
-    "visibility": 5,
+    "visibility": -1,
     "avoidance": 99,
     "difficulty": 99,
     "trap_radius": 2,
     "action": "spell",
+    "flags": [ "UNDODGEABLE", "AVATAR_ONLY" ],
     "spell_data": { "id": "swirling_vortex" }
   },
   {
     "type": "SPELL",
-    "id": "swirling_vortex",
-    "name": { "str": "Swirling Vortex" },
-    "description": "Sends the victim to the entrance.",
+    "id": "trap_base",
+    "name": { "str": "base spell for traps" },
+    "description": "EOCs the victim.",
     "valid_targets": [ "self", "hostile", "ally" ],
     "max_level": 1,
-    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS" ],
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
     "base_casting_time": 75,
     "shape": "blast",
     "min_range": 0,
@@ -1047,5 +1048,53 @@
     "type": "effect_on_condition",
     "id": "EOC_SWIRLING_VORTEX",
     "effect": [ { "u_teleport": { "global_val": "nether_dungeon_door" }, "success_message": "How did you get here?" } ]
+  },
+  {
+    "type": "trap",
+    "id": "tr_portal_dungeon_entrance",
+    "name": "swirling vortex",
+    "color": "green",
+    "action": "spell",
+    "copy-from": "tr_swirling_vortex",
+    "spell_data": { "id": "portal_dungeon_entrance" }
+  },
+  {
+    "type": "SPELL",
+    "id": "portal_dungeon_entrance",
+    "name": "portal dungeon entrance",
+    "copy-from": "trap_base",
+    "effect_str": "EOC_PORTAL_STORM_DUNGEON"
+  },
+  {
+    "type": "trap",
+    "id": "tr_portal_dungeon_exit",
+    "name": "hole to outside",
+    "color": "green",
+    "copy-from": "tr_swirling_vortex",
+    "action": "spell",
+    "spell_data": { "id": "portal_dungeon_exit" }
+  },
+  {
+    "type": "SPELL",
+    "id": "portal_dungeon_exit",
+    "name": "portal dungeon exit",
+    "copy-from": "trap_base",
+    "effect_str": "EOC_PORTAL_STORM_DUNGEON_EXIT"
+  },
+  {
+    "type": "trap",
+    "id": "tr_portal_dungeon_next_level",
+    "name": "Swirling vortex",
+    "color": "blue",
+    "copy-from": "tr_swirling_vortex",
+    "action": "spell",
+    "spell_data": { "id": "portal_dungeon_next_level" }
+  },
+  {
+    "type": "SPELL",
+    "id": "portal_dungeon_next_level",
+    "name": "portal dungeon next level",
+    "copy-from": "trap_base",
+    "effect_str": "EOC_PORTAL_STORM_DUNGEON_NEXT_LEVEL"
   }
 ]

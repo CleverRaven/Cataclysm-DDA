@@ -137,5 +137,147 @@
     "ugliness": 1,
     "description": "Gives some extra armor to body parts.",
     "armor": [ { "part_types": [ "arm", "torso", "tail" ], "bash": 5 }, { "part_types": [ "ALL" ], "cut": 1 } ]
+  },
+  {
+    "type": "mutation",
+    "id": "TEST_GOOD1",
+    "name": { "str": "Test good mutation" },
+    "points": 1,
+    "valid": true,
+    "description": "Test good mutation for instability test",
+    "category": [ "INST_TEST" ]
+  },
+  {
+    "type": "mutation",
+    "id": "TEST_GOOD2",
+    "name": { "str": "Test good mutation 2" },
+    "points": 1,
+    "valid": true,
+    "description": "Test good mutation for instability test",
+    "category": [ "INST_TEST" ]
+  },
+  {
+    "type": "mutation",
+    "id": "TEST_GOOD3",
+    "name": { "str": "Test good mutation 3" },
+    "points": 1,
+    "valid": true,
+    "description": "Test good mutation for instability test",
+    "category": [ "INST_TEST" ]
+  },
+  {
+    "type": "mutation",
+    "id": "TEST_GOOD4",
+    "name": { "str": "Test good mutation 4" },
+    "points": 1,
+    "prereqs": "TEST_GOOD3",
+    "valid": true,
+    "description": "Test good mutation for instability test",
+    "category": [ "INST_TEST" ]
+  },
+  {
+    "type": "mutation",
+    "id": "TEST_GOOD5",
+    "name": { "str": "Test good mutation 5" },
+    "points": 1,
+    "valid": true,
+    "prereqs": "TEST_GOOD2",
+    "description": "Test good mutation for instability test",
+    "category": [ "INST_TEST" ]
+  },
+  {
+    "type": "mutation",
+    "id": "TEST_GOOD6",
+    "name": { "str": "Test good mutation 6" },
+    "points": 1,
+    "valid": true,
+    "prereqs": "TEST_GOOD4",
+    "prereqs2": "TEST_GOOD5",
+    "description": "Test good mutation for instability test",
+    "category": [ "INST_TEST" ]
+  },
+  {
+    "type": "mutation",
+    "id": "TEST_BAD1",
+    "name": { "str": "Test bad mutation" },
+    "points": -1,
+    "valid": true,
+    "description": "Test bad mutation for instability test",
+    "category": [ "INST_TEST" ]
+  },
+  {
+    "type": "mutation",
+    "id": "TEST_BAD2",
+    "name": { "str": "Test bad mutation 2" },
+    "points": -1,
+    "valid": true,
+    "description": "Test bad mutation for instability test",
+    "category": [ "INST_TEST" ]
+  },
+  {
+    "type": "mutation",
+    "id": "TEST_BAD3",
+    "name": { "str": "Test bad mutation 3" },
+    "points": -1,
+    "valid": true,
+    "description": "Test bad mutation for instability test",
+    "category": [ "INST_TEST" ]
+  },
+  {
+    "type": "mutation",
+    "id": "TEST_BAD4",
+    "name": { "str": "Test bad mutation 4" },
+    "points": -1,
+    "prereqs": "TEST_BAD3",
+    "valid": true,
+    "description": "Test bad mutation for instability test",
+    "category": [ "INST_TEST" ]
+  },
+  {
+    "type": "mutation",
+    "id": "TEST_BAD5",
+    "name": { "str": "Test bad mutation 5" },
+    "points": -1,
+    "valid": true,
+    "prereqs": "TEST_BAD2",
+    "description": "Test bad mutation for instability test",
+    "category": [ "INST_TEST" ]
+  },
+  {
+    "type": "mutation",
+    "id": "TEST_BAD6",
+    "name": { "str": "Test bad mutation 6" },
+    "points": -1,
+    "valid": true,
+    "prereqs": "TEST_BAD4",
+    "prereqs2": "TEST_BAD5",
+    "description": "Test bad mutation for instability test",
+    "category": [ "INST_TEST" ]
+  },
+  {
+    "type": "mutation",
+    "id": "THRESH_TEST",
+    "name": { "str": "Test threshold mutations" },
+    "points": 0,
+    "valid": true,
+    "description": "Test threshold for instability test"
+  },
+  {
+    "type": "mutation_category",
+    "id": "INST_TEST",
+    "name": "Instability test",
+    "vitamin": "mutagen_test",
+    "threshold_mut": "THRESH_TEST",
+    "mutagen_message": "Test category message",
+    "wip": true
+  },
+  {
+    "id": "mutagen_test",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Test mutagen" },
+    "min": 0,
+    "max": 2500,
+    "rate": "1 h"
   }
 ]

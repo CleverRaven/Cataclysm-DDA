@@ -91,6 +91,7 @@ class recipe
 
         int64_t time = 0; // in movement points (100 per turn)
 
+        std::string exertion_str;
         float exertion = 0.0f;
 
     public:
@@ -283,7 +284,6 @@ class recipe
         void incorporate_build_reqs();
         void add_requirements( const std::vector<std::pair<requirement_id, int>> &reqs );
 
-    private:
         recipe_id ident_ = recipe_id::NULL_ID();
 
         /** Abstract recipes can be inherited from but are themselves disposed of at finalization */

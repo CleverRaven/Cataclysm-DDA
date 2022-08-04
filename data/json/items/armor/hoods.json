@@ -40,7 +40,7 @@
     "material_thickness": 4,
     "warmth": 5,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT", "OUTER" ],
+    "flags": [ "VARSIZE", "STURDY", "OUTER" ],
     "armor": [
       {
         "material": [ { "type": "budget_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
@@ -67,7 +67,7 @@
     "color": "light_red",
     "warmth": 5,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT", "OUTER" ],
+    "flags": [ "VARSIZE", "STURDY", "OUTER" ],
     "armor": [
       {
         "material": [ { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
@@ -253,7 +253,7 @@
     "color": "light_red",
     "warmth": 25,
     "material_thickness": 5,
-    "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT" ],
+    "flags": [ "VARSIZE", "STURDY" ],
     "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 90, "covers": [ "head" ] } ]
   },
   {
@@ -278,8 +278,8 @@
     "id": "k_gambeson_hood",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "kevlar gambeson hood" },
-    "description": "A customized gambeson hood made from kevlar.  Can be worn under helmets.",
+    "name": { "str": "Kevlar gambeson hood" },
+    "description": "A customized gambeson hood made from Kevlar.  Can be worn under helmets.",
     "weight": "340 g",
     "volume": "300 ml",
     "price": 412,
@@ -291,15 +291,15 @@
     "color": "light_red",
     "warmth": 25,
     "material_thickness": 3.2,
-    "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT" ],
+    "flags": [ "VARSIZE", "STURDY" ],
     "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 90, "covers": [ "head" ] } ]
   },
   {
     "id": "xl_k_gambeson_hood",
     "type": "ARMOR",
     "copy-from": "k_gambeson_hood",
-    "name": { "str": "XL kevlar gambeson hood" },
-    "description": "A customized gambeson hood made from kevlar.  Can be worn under helmets.  Comes in XL size.",
+    "name": { "str": "XL Kevlar gambeson hood" },
+    "description": "A customized gambeson hood made from Kevlar.  Can be worn under helmets.  Comes in XL size.",
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -307,8 +307,8 @@
     "id": "xs_k_gambeson_hood",
     "type": "ARMOR",
     "copy-from": "k_gambeson_hood",
-    "name": { "str": "XS gambeson hood" },
-    "description": "A customized hood made from quilted fabrics and kevlar.  Can be worn under helmets.  Comes in XS size.",
+    "name": { "str": "XS Kevlar gambeson hood" },
+    "description": "A customized hood made from quilted fabrics and Kevlar.  Can be worn under helmets.  Comes in XS size.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
@@ -355,7 +355,7 @@
     "id": "hood_gut",
     "type": "ARMOR",
     "name": { "str": "gutskin hood" },
-    "description": "A hood sewn of treated and split intestines, perfect companion for a gutskin parka.",
+    "description": "A hood sewn from treated and split intestines, the perfect companion for a gutskin parka.",
     "weight": "40 g",
     "volume": "250 ml",
     "price": 2600,
@@ -367,7 +367,7 @@
     "warmth": 10,
     "material_thickness": 0.1,
     "environmental_protection": 1,
-    "flags": [ "WATERPROOF", "RAINPROOF", "OUTER", "HELMET_COMPAT" ],
+    "flags": [ "WATERPROOF", "RAINPROOF", "OUTER" ],
     "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 95, "covers": [ "head" ] } ]
   },
   {
@@ -375,7 +375,7 @@
     "repairs_like": "balclava",
     "type": "ARMOR",
     "name": { "str": "ninja hood" },
-    "description": "A black hood commonly used by ninjas.",
+    "description": "A black hood commonly used by ninja.",
     "weight": "80 g",
     "volume": "1000 ml",
     "price": 3500,

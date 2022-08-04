@@ -13,7 +13,6 @@ adze
 aerarium
 aerially
 aeterna
-afemode
 afterbirth
 afterimage
 afterlife
@@ -43,8 +42,10 @@ alkahest
 alkalis
 alkyl
 alleghaniensis
-allosaurusid
+allosaurus
+allosaurid
 allucination
+alnico
 altamente
 alternators
 alumentum
@@ -85,6 +86,7 @@ aquacultural
 aquaculture
 aquamarines
 aqueles
+aquilops
 aramid
 arborescent
 args
@@ -102,6 +104,7 @@ aterial
 atire
 atompot
 attac
+attachable
 attery
 attunements
 attuning
@@ -132,6 +135,7 @@ balefires
 balogna
 bananope
 bandolier
+bandoliers
 bandsaw
 bangin
 barbute
@@ -144,6 +148,7 @@ basecamps
 baselard
 bashable
 basidiocarp
+basswood
 batching
 batlike
 batrachian
@@ -261,7 +266,8 @@ callsigns
 caltrop
 caltrops
 camarasaurus
-camptosaurus
+camarasaurus
+camphine
 camspy
 cannelured
 caparison
@@ -284,6 +290,7 @@ cegamente
 centerdamage
 centric
 cepa
+cephalothorax
 ceratopsian
 ceratosaurus
 cere
@@ -487,6 +494,8 @@ dragonscale
 draugr
 draugrs
 drawknife
+dreamdross
+dreamstuff
 driers
 drivetrain
 dromaeosaurid
@@ -494,6 +503,7 @@ dromaeosaurus
 dropoff
 droppers
 druidry
+dryosaurus
 dryptosaurus
 drywalled
 dunderfuck
@@ -509,15 +519,18 @@ editable
 edmontonia
 edmontosaurus
 eeds
+efault
 eidolon
 elderberries
 electrochemistry
 electrohack
 electrolaser
+electrolasers
 electroreceptors
 elete
 elopements
 elytra
+emode
 emove
 emplate
 encumbering
@@ -556,6 +569,7 @@ eviscerations
 exchangeable
 exodii
 exosuit
+exosuits
 explodin
 explosivity
 extensible
@@ -591,6 +605,7 @@ fetick
 feticks
 fetlock
 ffect
+fibercloth
 fiddleheads
 filenames
 fileset
@@ -640,6 +655,7 @@ foodcart
 foodplace
 footgear
 foregrip
+foregrips
 forestock
 forgemaster
 forgnottedn
@@ -719,6 +735,8 @@ gozu
 gr
 gracken
 granivorous
+grasper
+graspers
 gravelbag
 gravelbags
 gravol
@@ -856,16 +874,18 @@ interjects
 interlayer
 intolerances
 intoxications
+intradimensional
+inulin
 invlet
 invlets
 ironshod
 irremovable
 isable
 isassembled
+issi
 issions
 itemname
 iterating
-ixed
 j
 jabberwock
 jabberwocks
@@ -916,6 +936,7 @@ km
 knapping
 knifehand
 knockback
+knotweed
 knowium
 knuckledusters
 knyf
@@ -947,6 +968,7 @@ latticed
 lavrae
 lawd
 layin
+lb
 lbs
 leache
 leatherbacked
@@ -1003,6 +1025,7 @@ macrophenotypic
 macuahuitl
 maculata
 mafuckin
+magnifiers
 magwells
 maiasaura
 makizushi
@@ -1025,6 +1048,8 @@ massachusetite
 massproduced
 masterkey
 maxwellian
+mayapple
+mayapples
 mbie
 md
 mealgrub
@@ -1050,6 +1075,8 @@ microbians
 microbrewed
 microcentrifuge
 microcontrollers
+microgenerator
+microgenerators
 microlab
 micromonies
 microplane
@@ -1137,7 +1164,9 @@ nanomaterials
 nanomesh
 nanoprinted
 nanoribbon
+nanosaurus
 nanoskirt
+nanuqsaurus
 narry
 ncrease
 nd
@@ -1149,6 +1178,7 @@ nectivore
 needin
 needlelike
 neodays
+neonate
 neotenic
 neotheropod
 netkit
@@ -1159,6 +1189,7 @@ neutrite
 nevah
 newsbots
 newsweekly
+ngs
 nibblin
 nibelung
 nichrome
@@ -1210,11 +1241,11 @@ openable
 openair
 opengl
 openingly
-opy
 orichalcum
 ornithomimid
 ornithomimus
 orrery
+oryctodromeus
 otes
 otha
 otherland
@@ -1310,6 +1341,7 @@ poleaxe
 poleyns
 polyaramid
 polycarbonates
+polycrystalline
 polyhedrons
 polymorph
 polymorphed
@@ -1505,6 +1537,8 @@ sandleather
 sapience
 sarracenia
 satirizes
+sauropod
+saurornitholestes
 sautered
 savetest
 sawblade
@@ -1538,6 +1572,8 @@ shadowcat
 shambler
 shamblers
 shantak
+sharksuit
+sharksuits
 shatteringly
 shedded
 sheetmetal
@@ -1603,6 +1639,7 @@ spacebar
 spadelike
 spak
 spall
+spalling
 spasmically
 spearcat
 spearhand
@@ -1645,6 +1682,8 @@ starrin
 std
 steeltoed
 steerable
+stegoceras
+stegosaurus
 stegosaurusfindsrobot
 stenonychosaurus
 stimulative
@@ -1740,12 +1779,14 @@ thawb
 thawbs
 thermochemistry
 thermoplastics
+thescelosaurus
 thonged
 thorned
 thosun
 threose
 thrums
 thumbholes
+thyreophoran
 tileset
 tillable
 tindalos
@@ -1766,6 +1807,7 @@ toolmod
 toolset
 toolshelf
 topazes
+topickup
 toque
 toques
 toroids
@@ -1785,6 +1827,7 @@ transpositions
 travelpack
 traversal
 treelines
+tribesperson
 tribot
 tricorne
 trifacet
@@ -1805,7 +1848,9 @@ turreted
 twere
 txt
 typologies
+tyrannosaurid
 tyrannosauroid
+tyrannosaurus
 tz
 uality
 uan
@@ -1818,6 +1863,8 @@ uncoils
 underbarrel
 undercovering
 undergrown
+underlayer
+underlayers
 underprepared
 underslung
 undersuit
@@ -1851,6 +1898,7 @@ unselectable
 unsettlingly
 unsiatable
 unskillfully
+unspecialized
 unstocked
 untampered
 untargeted
@@ -1869,7 +1917,6 @@ usselves
 ustom
 utahraptor
 utilibot
-utopickup
 uttarasanga
 v
 vajra
@@ -1932,6 +1979,7 @@ whitelist
 whitelisted
 whitelists
 whoda
+whoosh
 whud
 whuff
 whump

@@ -4,7 +4,7 @@
     "id": "sports",
     "items": [
       { "item": "bandages", "prob": 25, "charges": [ 1, 3 ] },
-      { "item": "adhesive_bandages", "prob": 25, "charges": [ 1, 10 ] },
+      { "item": "adhesive_bandages", "prob": 25, "count": [ 1, 20 ] },
       { "item": "cotton_ball", "prob": 50, "charges": [ 1, 10 ] },
       { "item": "aspirin", "prob": 85, "charges": [ 1, 20 ] },
       [ "bat", 60 ],
@@ -66,7 +66,10 @@
       [ "goggles_ski", 30 ],
       [ "mask_ski", 30 ],
       [ "hat_ball", 30 ],
-      [ "helmet_bike", 35 ],
+      [ "helmet_bike", 25 ],
+      { "group": "helmet_bike_modified", "prob": 10 },
+      [ "plastic_chin_guard", 10 ],
+      [ "shield_visor", 1 ],
       [ "helmet_ball", 45 ],
       [ "baseball", 35 ],
       [ "football", 35 ],
@@ -141,7 +144,28 @@
       [ "halter_top", 30 ],
       [ "iceaxe", 30 ],
       [ "tourist_table", 30 ],
-      [ "fitness_band", 5 ]
+      [ "fitness_band", 5 ],
+      [ "aim_game", 5 ]
+    ]
+  },
+  {
+    "id": "helmet_bike_modified",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "helmet_bike",
+    "items": [ { "item": "plastic_chin_guard", "prob": 50 }, { "item": "shield_visor", "prob": 10 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boat_equipment",
+    "//": "Any items likely to be found in a boat or in any place which has boats.",
+    "items": [
+      { "group": "allsporting", "prob": 50 },
+      { "item": "methanol_fuel_cell", "prob": 1 },
+      { "item": "5l_methanol_tank", "prob": 1 },
+      { "item": "10l_methanol_tank", "prob": 1 },
+      { "item": "28l_methanol_tank", "prob": 1 },
+      { "item": "60l_methanol_tank", "prob": 1 }
     ]
   },
   {
@@ -222,6 +246,7 @@
       [ "pot_copper", 5 ],
       [ "teapot", 5 ],
       [ "pan", 20 ],
+      [ "dutch_oven", 5 ],
       [ "waffleiron", 25 ],
       [ "binoculars", 20 ],
       [ "firecracker_pack", 5 ],
@@ -273,9 +298,11 @@
       [ "trappers_companion", 2 ],
       [ "textbook_traps", 8 ],
       { "item": "lighter", "prob": 60, "charges": [ 0, 100 ] },
+      { "item": "small_lighter", "prob": 30, "charges": [ 0, 50 ] },
       { "item": "ref_lighter", "prob": 10, "charges": [ 0, 50 ] },
       { "item": "matches", "prob": 60, "charges": [ 1, 20 ] },
       { "item": "ref_matches", "prob": 50, "charges": [ 1, 32 ] },
+      { "group": "butane_lighter_and_fuel", "prob": 10 },
       { "item": "sewing_kit", "prob": 47, "charges-min": 0 },
       { "item": "tailors_kit", "prob": 3, "charges-min": 0 },
       [ "thread", 40 ],
@@ -360,6 +387,7 @@
       [ "folding_bicycle", 1 ],
       [ "coat_rain", 10 ],
       [ "hood_rain", 5 ],
+      [ "rubber_harness_dog", 3 ],
       [ "jacket_windbreaker", 5 ],
       [ "umbrella", 12 ],
       [ "teleumbrella", 5 ],

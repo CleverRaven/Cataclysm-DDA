@@ -4,7 +4,7 @@
     "id": "sees_player_retro",
     "name": "sees-player, run, crouch, bleed icons, retrodays",
     "authors": [ "esotericist", "dranitski" ],
-    "description": "Adds indicator icon if a creature sees the player.  Adds status icons for run, crouch, prone, bleeding, light on top of player tile.  Designed for the retrodays tileset, but works fine with neodays too.",
+    "description": "Adds indicator icon if a creature sees the player.  Adds status icons for run, crouch, prone, bleeding, light on top of player tile.",
     "category": "graphical",
     "dependencies": [ "dda" ]
   }

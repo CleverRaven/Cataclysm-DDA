@@ -43,21 +43,21 @@ class TranslationDocument
         std::vector<std::vector<std::size_t>> translated_offsets;
         std::unique_ptr<TranslationPluralRulesEvaluator> plural_rules;
 
-        std::uint8_t GetByte( const std::size_t byteIndex ) const;
-        std::uint32_t GetUint32BE( const std::size_t byteIndex ) const;
-        std::uint32_t GetUint32LE( const std::size_t byteIndex ) const;
+        std::uint8_t GetByte( std::size_t byteIndex ) const;
+        std::uint32_t GetUint32BE( std::size_t byteIndex ) const;
+        std::uint32_t GetUint32LE( std::size_t byteIndex ) const;
         std::uint32_t ( TranslationDocument::*GetUint32FPtr )( const std::size_t ) const;
-        std::uint32_t GetUint32( const std::size_t byteIndex ) const;
-        const char *GetString( const std::size_t byteIndex ) const;
+        std::uint32_t GetUint32( std::size_t byteIndex ) const;
+        const char *GetString( std::size_t byteIndex ) const;
         std::size_t EvaluatePluralForm( std::size_t n ) const;
     public:
         TranslationDocument() = delete;
         explicit TranslationDocument( const std::string &path );
 
         std::size_t Count() const;
-        const char *GetOriginalString( const std::size_t index ) const;
-        const char *GetTranslatedString( const std::size_t index ) const;
-        const char *GetTranslatedStringPlural( const std::size_t index, std::size_t n ) const;
+        const char *GetOriginalString( std::size_t index ) const;
+        const char *GetTranslatedString( std::size_t index ) const;
+        const char *GetTranslatedStringPlural( std::size_t index, std::size_t n ) const;
 };
 
 #endif // defined(LOCALIZE)

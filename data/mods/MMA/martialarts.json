@@ -42,7 +42,7 @@
       "mma_tec_desert_wind_spin",
       "mma_tec_desert_wind_wide"
     ],
-    "weapon_category": [ "MACES", "DESERT_SWORDS", "SPEARS" ]
+    "weapon_category": [ "MACES", "EXEMPLAR_WEAPON_DESERT_WIND", "SPEARS" ]
   },
   {
     "type": "martial_art",
@@ -98,7 +98,7 @@
       }
     ],
     "techniques": [ "mma_tec_diamond_mind_strike", "mma_tec_diamond_mind_crit" ],
-    "weapon_category": [ "FENCING_WEAPONRY", "SPEARS", "JAPANESE_SWORDS" ]
+    "weapon_category": [ "FENCING_WEAPONRY", "SPEARS", "JAPANESE_SWORDS", "EXEMPLAR_WEAPON_DIAMOND_MIND" ]
   },
   {
     "type": "martial_art",
@@ -222,7 +222,7 @@
       "mma_tec_iron_heart_wide",
       "mma_tec_iron_heart_wide_crit"
     ],
-    "weapon_category": [ "MEDIUM_SWORDS", "GREAT_AXES" ]
+    "weapon_category": [ "MEDIUM_SWORDS", "GREAT_AXES", "EXEMPLAR_WEAPON_IRON_HEART" ]
   },
   {
     "type": "martial_art",
@@ -379,7 +379,7 @@
       }
     ],
     "techniques": [ "mma_tec_setting_sun_stun", "mma_tec_setting_sun_throw", "mma_tec_setting_sun_throw_crit" ],
-    "weapon_category": [ "QUARTERSTAVES", "SHORT_SWORDS", "CONSTRUCTED_SWORDS" ]
+    "weapon_category": [ "QUARTERSTAVES", "SHORT_SWORDS", "CONSTRUCTED_SWORDS", "EXEMPLAR_WEAPON_SETTING_SUN" ]
   },
   {
     "type": "martial_art",
@@ -534,7 +534,7 @@
       }
     ],
     "techniques": [ "mma_tec_stone_dragon_hammer", "mma_tec_stone_dragon_strike", "mma_tec_stone_dragon_colossus" ],
-    "weapon_category": [ "MACES", "GREAT_SWORDS", "GREAT_AXES" ]
+    "weapon_category": [ "MACES", "GREAT_SWORDS", "GREAT_AXES", "EXEMPLAR_WEAPON_STONE_DRAGON" ]
   },
   {
     "type": "martial_art",

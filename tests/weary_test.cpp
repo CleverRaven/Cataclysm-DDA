@@ -18,8 +18,7 @@ static const itype_id itype_sausage( "sausage" );
 
 // Set up our scenarios ahead of time
 static const int moves_for_25h = to_seconds<int>( 25_hours ) * 100;
-static const dig_activity_actor dig_actor( moves_for_25h, tripoint_zero, "t_pit", tripoint_zero, 0,
-        "" );
+static const clear_rubble_activity_actor dig_actor( moves_for_25h );
 static const activity_schedule task_dig( dig_actor, 5_minutes );
 static const activity_schedule task_wait( ACT_WAIT, 5_minutes );
 static const activity_schedule task_firstaid( ACT_FIRSTAID, 5_minutes );

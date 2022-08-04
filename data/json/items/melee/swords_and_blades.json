@@ -97,7 +97,22 @@
     "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 14 ] ],
     "techniques": [ "RAPID" ],
     "flags": [ "STAB" ],
-    "weapon_category": [ "KNIVES" ]
+    "weapon_category": [ "KNIVES" ],
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "switchblade_balisong",
+        "name": { "str": "balisong" },
+        "description": "A flashy knife with hinged handles that completely conceal the blade while folded.  Popular among movie gangbangers, and people who thought fidget spinners were too safe.",
+        "weight": 1
+      },
+      {
+        "id": "switchblade_generic",
+        "name": { "str": "switchblade" },
+        "description": "This is a long, thin knife with a spring-loaded blade that rests inside the handle while not in use.",
+        "weight": 3
+      }
+    ]
   },
   {
     "id": "knife_folding",
@@ -806,7 +821,7 @@
     "id": "survivor_machete",
     "type": "TOOL",
     "category": "weapons",
-    "name": { "str": "survivor machete" },
+    "name": { "str": "combat machete" },
     "description": "This common gardening tool has been customized and rebalanced to improve its performance as a weapon.",
     "weight": "565 g",
     "volume": "1 L",
@@ -814,7 +829,7 @@
     "price": 2800,
     "price_postapoc": 2500,
     "bashing": 6,
-    "cutting": 24,
+    "cutting": 23,
     "to_hit": { "grip": "weapon", "length": "short", "surface": "line", "balance": "good" },
     "material": [ "steel" ],
     "symbol": "/",
@@ -822,7 +837,30 @@
     "techniques": [ "WBLOCK_2", "RAPID" ],
     "qualities": [ [ "CUT", 2 ], [ "GRASS_CUT", 1 ], [ "BUTCHER", 10 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
-    "weapon_category": [ "BLADED_FARMING" ]
+    "weapon_category": [ "BLADED_FARMING", "CONSTRUCTED_SWORDS" ]
+  },
+  {
+    "id": "survivor_machete_qt",
+    "type": "TOOL",
+    "category": "weapons",
+    "name": { "str": "tempered combat machete" },
+    "description": "This common gardening tool has been customized, rebalanced and quench tempered to dramatically improve its performance as a weapon.",
+    "weight": "568 g",
+    "volume": "1 L",
+    "longest_side": "50 cm",
+    "price": 2800,
+    "price_postapoc": 4500,
+    "bashing": 6,
+    "cutting": 28,
+    "to_hit": { "grip": "weapon", "length": "short", "surface": "line", "balance": "good" },
+    "material": [ "qt_steel" ],
+    "symbol": "/",
+    "color": "dark_gray",
+    "techniques": [ "WBLOCK_2", "RAPID" ],
+    "qualities": [ [ "CUT", 2 ], [ "GRASS_CUT", 1 ], [ "BUTCHER", 14 ] ],
+    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
+    "weapon_category": [ "BLADED_FARMING", "CONSTRUCTED_SWORDS" ],
+    "looks_like": "survivor_machete"
   },
   {
     "id": "sword_bayonet",
@@ -1554,6 +1592,50 @@
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
     "weapon_category": [ "MEDIEVAL_SWORDS", "SHORT_SWORDS" ],
     "category": "weapons"
+  },
+  {
+    "id": "kriegsmesser",
+    "type": "TOOL",
+    "symbol": "/",
+    "color": "light_gray",
+    "name": { "str": "kriegsmesser" },
+    "description": "A single-edged hand-and-a-half-sword of German design, with a long, curved blade.  It became popular across Europe due to it's low cost while maintaining strong cutting power in comparison to the more sophisticated longsword.",
+    "price": 100000,
+    "price_postapoc": 4500,
+    "material": [ "steel" ],
+    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
+    "techniques": [ "WBLOCK_2", "BRUTAL" ],
+    "weight": "1600 g",
+    "volume": "2750 ml",
+    "longest_side": "120 cm",
+    "bashing": 14,
+    "cutting": 33,
+    "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "neutral" },
+    "category": "weapons",
+    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -5 ] ],
+    "weapon_category": [ "MEDIEVAL_SWORDS", "MEDIUM_SWORDS" ]
+  },
+  {
+    "id": "falx",
+    "type": "TOOL",
+    "symbol": "/",
+    "color": "light_gray",
+    "name": { "str": "falx", "str_pl": "falxes" },
+    "description": "A distinct Dacian sword that curves forward, allowing you to bypass shields or hook and pull enemies, while delivering decent chopping damage.",
+    "price": 100000,
+    "price_postapoc": 4500,
+    "material": [ "steel" ],
+    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
+    "techniques": [ "WBLOCK_1", "SWEEP" ],
+    "weight": "1360 g",
+    "volume": "2 L",
+    "longest_side": "90 cm",
+    "bashing": 5,
+    "cutting": 25,
+    "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "neutral" },
+    "category": "weapons",
+    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -15 ] ],
+    "weapon_category": [ "MEDIEVAL_SWORDS", "MEDIUM_SWORDS" ]
   },
   {
     "type": "GENERIC",

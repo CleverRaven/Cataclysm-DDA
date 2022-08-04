@@ -17,6 +17,7 @@
       [ "receiver", 10 ],
       [ "antenna", 18 ],
       [ "solar_cell", 5 ],
+      [ "compressor", 5 ],
       [ "screwdriver", 40 ],
       [ "screwdriver_set", 40 ],
       [ "mask_dust", 65 ],

@@ -145,8 +145,8 @@ std::string generate( bool is_male )
     } else {
         //~ Used for constructing full name: %1$s is `given name`, %2$s is `family name`
         translation full_name_format = to_translation( "Full Name", "%1$s %2$s" );
-        //One in three chance to add a nickname to full name
-        if( one_in( 3 ) ) {
+        // Chance to add a nickname to full name
+        if( one_in( 10 ) ) {
             //~ Used for constructing full name with nickname: %1$s is `given name`, %2$s is `family name`, %3$s is `nickname`
             full_name_format = to_translation( "Full Name", "%1$s '%3$s' %2$s" );
         }

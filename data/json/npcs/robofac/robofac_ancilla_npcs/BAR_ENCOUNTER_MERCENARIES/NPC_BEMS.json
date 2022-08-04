@@ -1,0 +1,63 @@
+[
+  {
+    "type": "npc",
+    "id": "BEM_gunrunner",
+    "//": "These are all random people you met in a bar once, the fact that they dont have names is meant to emphasize the transient nature of the conversations you have with them",
+    "name_unique": "the enterprising gunrunner",
+    "class": "NC_BEM_GUNRUNNER",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "BEM_GUNRUNNER_1",
+    "faction": "robofac_auxiliaries"
+  },
+  {
+    "type": "npc",
+    "id": "BEM_human_sample",
+    "name_unique": "the shady mercenary",
+    "class": "NC_ANCILLA_GRUNT",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "BEM_HUMAN_SAMPLE_1",
+    "faction": "robofac_auxiliaries"
+  },
+  {
+    "type": "npc",
+    "id": "BEM_anchor_seller",
+    "name_unique": "the disconsolate mercenary",
+    "class": "NC_ANCILLA_GRUNT",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "BEM_ANCHOR_SELLER_1",
+    "faction": "robofac_auxiliaries"
+  },
+  {
+    "type": "npc",
+    "id": "BEM_template_seller",
+    "name_unique": "the cheerful mercenary",
+    "class": "NC_ANCILLA_GRUNT",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "BEM_TEMPLATE_SELLER_1",
+    "faction": "robofac_auxiliaries"
+  },
+  {
+    "type": "npc",
+    "id": "BEM_keycard_seller",
+    "name_unique": "the ID forger",
+    "class": "NC_ANCILLA_GRUNT",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "BEM_KEYCARD_SELLER_1",
+    "faction": "robofac_auxiliaries"
+  },
+  {
+    "type": "npc",
+    "id": "BEM_hireable",
+    "name_suffix": "Mercenary",
+    "class": "NC_ANCILLA_GRUNT",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "BEM_HIREABLE_1",
+    "faction": "robofac_auxiliaries"
+  }
+]

@@ -207,7 +207,7 @@
     "warmth": 25,
     "material_thickness": 5,
     "environmental_protection": 3,
-    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "STURDY" ],
+    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "STURDY", "OUTER" ],
     "armor": [ { "encumbrance": 25, "coverage": 100, "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r" ] } ]
   },
   {
@@ -227,7 +227,7 @@
     "warmth": 15,
     "material_thickness": 3,
     "environmental_protection": 2,
-    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "STURDY" ],
+    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "STURDY", "OUTER" ],
     "armor": [ { "encumbrance": 18, "coverage": 100, "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r" ] } ]
   },
   {
