@@ -160,5 +160,5 @@
     },
     "flags": [ "INITIAL_PART", "MOUNTABLE", "FOLDABLE" ],
     "damage_reduction": { "all": 7 }
-  },
+  }
 ]
