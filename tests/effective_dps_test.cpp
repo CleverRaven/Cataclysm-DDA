@@ -286,41 +286,41 @@ static void check_staves( const std::function<Approx( const std::string & )> &ca
 static void check_spears( const std::function<Approx( const std::string & )> &calc_expected_dps )
 {
     SECTION( "spears" ) { // typical value around 24
-        CHECK( calc_expected_dps( "spear_steel" ) == 24.5 );
+        CHECK( calc_expected_dps( "spear_steel" ) == 23.19 );
         CHECK( calc_expected_dps( "pike" ) == 23.0 );
-        CHECK( calc_expected_dps( "qiang" ) == 23.0 );
-        CHECK( calc_expected_dps( "spear_dory" ) == 23 );
-        CHECK( calc_expected_dps( "spear_homemade_halfpike" ) == 20.0 );
+        CHECK( calc_expected_dps( "qiang" ) == 22.1 );
+        CHECK( calc_expected_dps( "spear_dory" ) == 19.97 );
+        CHECK( calc_expected_dps( "spear_homemade_halfpike" ) == 18.4 );
         CHECK( calc_expected_dps( "spear_copper" ) == 19.0 );
-        CHECK( calc_expected_dps( "spear_pipe" ) == 19.0 );
-        CHECK( calc_expected_dps( "spear_knife_superior" ) == 18.0 );
-        CHECK( calc_expected_dps( "spear_knife" ) == 18.0 );
+        CHECK( calc_expected_dps( "spear_pipe" ) == 17.37 );
+        CHECK( calc_expected_dps( "spear_knife_superior" ) == 17.9 );
+        CHECK( calc_expected_dps( "spear_knife" ) == 17.9 );
         CHECK( calc_expected_dps( "pike_inferior" ) == 16.0 );
-        CHECK( calc_expected_dps( "spear_wood" ) == 15.0 );
-        CHECK( calc_expected_dps( "pitchfork" ) == 15.0 );
-        CHECK( calc_expected_dps( "spear_stone" ) == 14.0 );
-        CHECK( calc_expected_dps( "spear_forked" ) == 14.0 );
-        CHECK( calc_expected_dps( "pike_fake" ) == 8.5 );
+        CHECK( calc_expected_dps( "spear_wood" ) == 10.95 );
+        CHECK( calc_expected_dps( "pitchfork" ) == 12.48 );
+        CHECK( calc_expected_dps( "spear_stone" ) == 10.42 );
+        CHECK( calc_expected_dps( "spear_forked" ) == 12.15 );
+        CHECK( calc_expected_dps( "pike_fake" ) == 7.55 );
     }
 }
 
 static void check_polearms( const std::function<Approx( const std::string & )> &calc_expected_dps )
 {
     SECTION( "polearms" ) { // typical value around 35
-        CHECK( calc_expected_dps( "halberd" ) == 36.0 );
-        CHECK( calc_expected_dps( "halberd_fake" ) == 15.5 );
-        CHECK( calc_expected_dps( "ji" ) == 35.0 );
-        CHECK( calc_expected_dps( "glaive" ) == 34.5 );
+        CHECK( calc_expected_dps( "halberd" ) == 36.28 );
+        CHECK( calc_expected_dps( "halberd_fake" ) == 12.77 );
+        CHECK( calc_expected_dps( "ji" ) == 35.82 );
+        CHECK( calc_expected_dps( "glaive" ) == 33.87 );
         CHECK( calc_expected_dps( "poleaxe" ) == 34.5 );
         CHECK( calc_expected_dps( "makeshift_halberd" ) == 20.5 );
-        CHECK( calc_expected_dps( "naginata" ) == 35.0 );
-        CHECK( calc_expected_dps( "naginata_inferior" ) == 20.5 );
-        CHECK( calc_expected_dps( "naginata_fake" ) == 8.0 );
+        CHECK( calc_expected_dps( "naginata" ) == 33.97 );
+        CHECK( calc_expected_dps( "naginata_inferior" ) == 19.35 );
+        CHECK( calc_expected_dps( "naginata_fake" ) == 5.38 );
         CHECK( calc_expected_dps( "lucern_hammer" ) == 36.0 );
         CHECK( calc_expected_dps( "lucern_hammerfake" ) == 13.0 );
-        CHECK( calc_expected_dps( "spear_survivor" ) == 26.0 );
+        CHECK( calc_expected_dps( "spear_survivor" ) == 29.74 );
         CHECK( calc_expected_dps( "long_pole" ) == 13.0 );
-        CHECK( calc_expected_dps( "scythe_war" ) == 30.5 );
+        CHECK( calc_expected_dps( "scythe_war" ) == 34.59 );
         CHECK( calc_expected_dps( "makeshift_scythe_war" ) == 24.5 );
     }
 }
