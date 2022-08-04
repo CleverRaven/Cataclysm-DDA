@@ -6615,7 +6615,7 @@
     "difficulty": 1,
     "time": "12 s",
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "scrap_aluminum", 6 ], [ "plastic_chunk", 3 ] ] ]
+    "components": [ [ [ "scrap_aluminum", 6 ] ], [ [ "plastic_chunk", 3 ] ] ]
   },
   {
     "result": "saddle",
@@ -6625,7 +6625,7 @@
     "difficulty": 1,
     "time": "10 s",
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "scrap_aluminum", 4 ], [ "leather", 2 ] ] ]
+    "components": [ [ [ "scrap_aluminum", 4 ] ], [ [ "leather", 2 ] ] ]
   },
   {
     "result": "tent_kit",
@@ -6663,7 +6663,7 @@
     "difficulty": 1,
     "time": "12 s",
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "scrap_aluminum", 1 ], [ "plastic_chunk", 1 ] ] ]
+    "components": [ [ [ "scrap_aluminum", 1 ] ], [ [ "plastic_chunk", 1 ] ] ]
   },
   {
     "result": "mre_bag_small",
@@ -6671,7 +6671,7 @@
     "activity_level": "NO_EXERCISE",
     "time": "5 s",
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "aluminum_foil", 22 ], [ "plastic_sheet_small", 4 ] ] ]
+    "components": [ [ [ "aluminum_foil", 22 ] ], [ [ "plastic_sheet_small", 4 ] ] ]
   },
   {
     "result": "mre_bag",
@@ -6679,7 +6679,7 @@
     "activity_level": "NO_EXERCISE",
     "time": "5 s",
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "aluminum_foil", 66 ], [ "plastic_sheet_small", 9 ] ] ]
+    "components": [ [ [ "aluminum_foil", 66 ] ], [ [ "plastic_sheet_small", 9 ] ] ]
   },
   {
     "result": "mre_package",
@@ -6687,6 +6687,6 @@
     "activity_level": "NO_EXERCISE",
     "time": "12 s",
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "aluminum_foil", 118 ], [ "plastic_sheet_small", 16 ] ] ]
+    "components": [ [ [ "aluminum_foil", 118 ] ], [ [ "plastic_sheet_small", 16 ] ] ]
   }
 ]
