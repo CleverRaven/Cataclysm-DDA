@@ -1185,10 +1185,12 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
             // border + padding + name + padding
             const int xpos = 1 + 1 + max_recipe_name_width + 3;
             const int fold_width = FULL_SCREEN_WIDTH - xpos - 2;
-            mouseover_area_list = inclusive_rectangle<point>( point( 1, headHeight + subHeadHeight ),
-                                  point( xpos - 1, headHeight + subHeadHeight + dataLines ) );
-            mouseover_area_recipe = inclusive_rectangle<point>( point( xpos, headHeight + subHeadHeight ),
-                                    point( xpos + fold_width + 1, headHeight + subHeadHeight + dataLines ) );
+            const int w_left = getbegx( w_data );
+            mouseover_area_list = inclusive_rectangle<point>( point( 1 + w_left, headHeight + subHeadHeight ),
+                                  point( w_left + xpos - 1, headHeight + subHeadHeight + dataLines ) );
+            mouseover_area_recipe = inclusive_rectangle<point>( point( xpos + w_left,
+                                    headHeight + subHeadHeight ), point( xpos + w_left + fold_width + 1,
+                                            headHeight + subHeadHeight + dataLines ) );
             const nc_color color = avail.color( true );
             const std::string qry = trim( filterstring );
             std::string qry_comps;
@@ -1401,7 +1403,7 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
         cata::optional<point> coord;
         if( coord3d.has_value() ) {
             // TODO: Handle this in get_coordinates, which currently only normalizes for w_terrain
-            coord = point( coord3d->x, coord3d->y ) + point( TERMX / 2, TERMY / 2 );
+            coord = coord3d->xy() + point( TERMX, TERMY ) / 2;
         }
         const bool mouse_in_list = coord.has_value() && mouseover_area_list.contains( coord.value() );
         const bool mouse_in_recipe = coord.has_value() && mouseover_area_recipe.contains( coord.value() );
@@ -1538,7 +1540,10 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
             user_moved_line = highlight_unread_recipes;
         } else if( action == "CONFIRM" ) {
             if( available.empty() || !available[line].can_craft ) {
-                popup_getkey( _( "You can't do that!  Press [<color_yellow>ESC</color>]!" ) );
+                query_popup()
+                .message( "%s", _( "You can't do that!" ) )
+                .option( "QUIT" )
+                .query();
             } else if( !player_character.check_eligible_containers_for_crafting( *current[line],
                        batch ? line + 1 : 1 ) ) {
                 // popup is already inside check
@@ -1550,7 +1555,10 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
             }
         } else if( action == "HELP_RECIPE" ) {
             if( current.empty() ) {
-                popup( _( "Nothing selected!  Press [<color_yellow>ESC</color>]!" ) );
+                query_popup()
+                .message( "%s", _( "Nothing selected!" ) )
+                .option( "QUIT" )
+                .query();
                 continue;
             }
             uistate.read_recipes.insert( current[line]->ident() );
@@ -1628,7 +1636,10 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
             recalc_unread = highlight_unread_recipes;
         } else if( action == "CYCLE_BATCH" ) {
             if( current.empty() ) {
-                popup( _( "Nothing selected!  Press [<color_yellow>ESC</color>]!" ) );
+                query_popup()
+                .message( "%s", _( "Nothing selected!" ) )
+                .option( "QUIT" )
+                .query();
                 continue;
             }
             batch = !batch;
@@ -1643,7 +1654,10 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
             recalc = true;
         } else if( action == "TOGGLE_FAVORITE" ) {
             if( current.empty() ) {
-                popup( _( "Nothing selected!  Press [<color_yellow>ESC</color>]!" ) );
+                query_popup()
+                .message( "%s", _( "Nothing selected!" ) )
+                .option( "QUIT" )
+                .query();
                 continue;
             }
             keepline = true;
@@ -1664,7 +1678,10 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
             recalc_unread = highlight_unread_recipes;
         } else if( action == "HIDE_SHOW_RECIPE" ) {
             if( current.empty() ) {
-                popup( _( "Nothing selected!  Press [<color_yellow>ESC</color>]!" ) );
+                query_popup()
+                .message( "%s", _( "Nothing selected!" ) )
+                .option( "QUIT" )
+                .query();
                 continue;
             }
             if( show_hidden ) {
@@ -1734,7 +1751,10 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
             keepline = true;
         } else if( action == "RELATED_RECIPES" ) {
             if( current.empty() ) {
-                popup( _( "Nothing selected!  Press [<color_yellow>ESC</color>]!" ) );
+                query_popup()
+                .message( "%s", _( "Nothing selected!" ) )
+                .option( "QUIT" )
+                .query();
                 continue;
             }
             uistate.read_recipes.insert( current[line]->ident() );
