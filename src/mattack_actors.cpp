@@ -45,6 +45,7 @@ static const efftype_id effect_run( "run" );
 static const efftype_id effect_sensor_stun( "sensor_stun" );
 static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_targeted( "targeted" );
+static const efftype_id effect_vampire_virus( "vampire_virus" );
 static const efftype_id effect_was_laserlocked( "was_laserlocked" );
 static const efftype_id effect_zombie_virus( "zombie_virus" );
 
@@ -693,8 +694,7 @@ void bite_actor::on_damage( monster &z, Creature &target, dealt_damage_instance 
         if( z.has_flag( MF_DEADLY_VIRUS ) && !target.has_effect( effect_zombie_virus ) ) {
             target.add_effect( effect_zombie_virus, 1_turns, bodypart_str_id::NULL_ID(), true );
         } else if( z.has_flag( MF_VAMP_VIRUS ) && !target.has_trait( trait_VAMPIRE ) ) {
-            dialogue d( get_talker_for( get_avatar() ), nullptr );
-            effect_on_condition_VAMP_VIRUS->activate( d );
+            target.add_effect( effect_vampire_virus, 1_turns, bodypart_str_id::NULL_ID(), true );
         }
     }
 
