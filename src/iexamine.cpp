@@ -187,6 +187,11 @@ static const json_character_flag json_flag_WEB_RAPPEL( "WEB_RAPPEL" );
 
 static const material_id material_bone( "bone" );
 static const material_id material_cac2powder( "cac2powder" );
+static const material_id material_ch_steel( "ch_steel" );
+static const material_id material_hc_steel( "hc_steel" );
+static const material_id material_lc_steel( "lc_steel" );
+static const material_id material_mc_steel( "mc_steel" );
+static const material_id material_qt_steel( "qt_steel" );
 static const material_id material_steel( "steel" );
 static const material_id material_wood( "wood" );
 
@@ -288,13 +293,25 @@ bool iexamine::harvestable_now( const tripoint &examp )
 void iexamine::cvdmachine( Character &you, const tripoint & )
 {
     // Select an item to which it is possible to apply a diamond coating
-    item_location loc = g->inv_map_splice( []( const item & e ) {
-        return ( e.is_melee( damage_type::CUT ) || e.is_melee( damage_type::STAB ) ) &&
-               e.made_of( material_steel ) &&
-               !e.has_flag( flag_DIAMOND ) && !e.has_flag( flag_NO_CVD );
+    std::array<std::reference_wrapper<const material_id>, 6> steels = {
+        material_steel,
+        material_lc_steel,
+        material_mc_steel,
+        material_hc_steel,
+        material_ch_steel,
+        material_qt_steel,
+    };
+    item_location loc = g->inv_map_splice( []( const item & e )
+    {
+        return ( e.is_melee( damage_type::CUT ) || e.is_melee( damage_type::STAB ) ) && std::any_of(steels.begin(), steels.end(), [&](auto&& mat_steel)
+        {
+            return e.get().made_of(mat_steel);
+        }) &&
+        !e.has_flag( flag_DIAMOND ) && !e.has_flag( flag_NO_CVD );
     }, _( "Apply diamond coating" ), 1, _( "You don't have a suitable item to coat with diamond" ) );
 
-    if( !loc ) {
+    if( !loc )
+    {
         return;
     }
 
