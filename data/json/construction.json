@@ -3472,7 +3472,7 @@
     "category": "APPLIANCE",
     "required_skills": [ [ "fabrication", 1 ] ],
     "time": "30 m",
-    "qualities": [ [ { "id": "WRENCH", "level": 1 } ] ],
+    "qualities": [ [ { "id": "WRENCH", "level": 2 } ] ],
     "components": [ [ [ "wind_turbine", 1 ] ] ],
     "pre_special": "check_empty",
     "post_special": "done_appliance",
