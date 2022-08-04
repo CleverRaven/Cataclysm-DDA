@@ -38,7 +38,7 @@ creator::item_group_window::item_group_window( QWidget *parent, Qt::WindowFlags 
     tooltipText += "\nFor mods, if you create an unique item_group ID, it will act like";
     tooltipText += "\nany other item_group of course.";
 
-    id_label = new QLabel( "id" );
+    id_label = new QLabel( "Id" );
     id_box = new QLineEdit( "tools_home" );
     id_box->setToolTip( tooltipText );
     QObject::connect( id_box, &QLineEdit::textChanged, [&]() { write_json(); } );
@@ -48,11 +48,13 @@ creator::item_group_window::item_group_window( QWidget *parent, Qt::WindowFlags 
     tooltipText += "\nThe only purpose is to let other developers know something about ";
     tooltipText += "\nthis item_group.";
 
-    comment_label = new QLabel( "comment" );
+    comment_label = new QLabel( "Comment" );
     comment_box = new QLineEdit( "" );
     comment_box->setToolTip( tooltipText );
     QObject::connect( comment_box, &QLineEdit::textChanged, [&]() { write_json(); } );
 
+    QLabel* subtype_label = new QLabel( "Subtype" );
+    subtype = new QComboBox;
     tooltipText = "In a Collection each entry is chosen independently from the other\n";
     tooltipText += "entries. Therefore, the probability associated with each entry is absolute,";
     tooltipText += "\nin the range of 0...1. In the json files it is implemented as a percentage";
@@ -60,12 +62,34 @@ creator::item_group_window::item_group_window( QWidget *parent, Qt::WindowFlags 
     tooltipText += "\nExactly one entry is chosen from it.The probability of each entry is";
     tooltipText += "\nrelative to the probability of the other entries. A probability";
     tooltipText += "\nof 0 (or negative) means it is never chosen.";
-
-    QLabel* subtype_label = new QLabel( "Subtype" );
-    subtype = new QComboBox;
     subtype->setToolTip( tooltipText );
     subtype->addItems( QStringList{ "none", "collection", "distribution" } );
     connect( subtype, QOverload<int>::of( &QComboBox::currentIndexChanged ),
+        [=]( int index ) { write_json(); } );
+
+    QLabel* containerItem_label = new QLabel;
+    containerItem_label->setText( QString( "Container-item:" ) );
+
+    containerItem = new QLineEdit;
+    tooltipText = "causes all the items of the group to spawn in a container,";
+    tooltipText += "\nrather than as separate top-level items. If the items might";
+    tooltipText += "\nnot all fit in the container, you must specify how to deal";
+    tooltipText += "\nwith the overflow by setting on_overflow to either discard";
+    tooltipText += "\nto discard items at random until they fit, or spill to have";
+    tooltipText += "\nthe excess items be spawned alongside the container.";
+    containerItem->setToolTip( tooltipText );
+    QObject::connect( containerItem, &QLineEdit::textChanged, [&]() { write_json(); } );
+
+    QLabel* overflow_label = new QLabel( "Overflow" );
+    overflow = new QComboBox;
+    tooltipText = "Discard:";
+    tooltipText += "\nDiscard items at random until they fit";
+    tooltipText += "\nSpill:";
+    tooltipText += "\nHave the excess items be spawned alongside the container.";
+    tooltipText += "\n\nWill only show up in JSON if container-item is set.";
+    overflow->setToolTip( tooltipText );
+    overflow->addItems( QStringList{ "discard", "spill" } );
+    connect( overflow, QOverload<int>::of( &QComboBox::currentIndexChanged ),
         [=]( int index ) { write_json(); } );
 
     item_search_label = new QLabel("Search items");
@@ -81,8 +105,12 @@ creator::item_group_window::item_group_window( QWidget *parent, Qt::WindowFlags 
     basicInfoLayout->addWidget( comment_box, 1, 1 );
     basicInfoLayout->addWidget( subtype_label, 2, 0 );
     basicInfoLayout->addWidget( subtype, 2, 1 );
-    basicInfoLayout->addWidget( item_search_label, 3, 0 );
-    basicInfoLayout->addWidget( item_search_box, 3, 1 );
+    basicInfoLayout->addWidget( containerItem_label, 3, 0 );
+    basicInfoLayout->addWidget( containerItem, 3, 1 );
+    basicInfoLayout->addWidget( overflow_label, 4, 0 );
+    basicInfoLayout->addWidget( overflow, 4, 1 );
+    basicInfoLayout->addWidget( item_search_label, 5, 0 );
+    basicInfoLayout->addWidget( item_search_box, 5, 1 );
     mainColumn1->addLayout( basicInfoLayout );
 
     item_list_total_box = new ListWidget_Drag;
@@ -132,7 +160,7 @@ creator::item_group_window::item_group_window( QWidget *parent, Qt::WindowFlags 
     // =========================================================================================
     // Finalize
 
-    this->resize( QSize( 1024, 800 ) );
+    this->resize( QSize( 1280, 800 ) );
 }
 
 void creator::item_group_window::write_json()
@@ -150,6 +178,10 @@ void creator::item_group_window::write_json()
     std::string sub = subtype->currentText().toStdString();
     if( sub != "none" ) {
         jo.member( "subtype", subtype->currentText().toStdString() );
+    }
+    if( containerItem->text().size() > 0 ) {
+        jo.member( "container-item", containerItem->text().toStdString() );
+        jo.member( "overflow", overflow->currentText().toStdString() );
     }
 
     jo.member( "entries" );
@@ -603,6 +635,7 @@ creator::itemGroupEntry::itemGroupEntry( QWidget* parent, QString entryText, boo
 
     title_label = new QLabel;
     title_label->setText( entryText );
+    title_label->setToolTip( entryText );
     title_label->setStyleSheet( "font: 10pt;" );
 
     QLabel* prob_label = new QLabel;
@@ -625,7 +658,7 @@ creator::itemGroupEntry::itemGroupEntry( QWidget* parent, QString entryText, boo
         [=]( int i ) { change_notify_top_parent(); } );
 
     QLabel* count_label = new QLabel;
-    count_label->setText( QString( "count:" ) );
+    count_label->setText( QString( "Count:" ) );
     count_label->setMinimumSize( QSize( 42, 24 ) );
     count_label->setMaximumSize( QSize( 47, 24) );
 
@@ -682,6 +715,19 @@ creator::itemGroupEntry::itemGroupEntry( QWidget* parent, QString entryText, boo
     connect( charges_max, QOverload<int>::of( &QSpinBox::valueChanged ),
         [=]( int i ) { change_notify_top_parent(); } );
 
+    QLabel* containerItem_label = new QLabel;
+    containerItem_label->setText( QString( "Container-item:" ) );
+    containerItem_label->setMinimumSize( QSize( 70, 24 ) );
+    containerItem_label->setMaximumSize( QSize( 75, 24 ) );
+
+    containerItem = new QLineEdit;
+    containerItem->setMinimumSize( QSize( 120, 24 ) );
+    containerItem->setMaximumSize( QSize( 150, 24 ) );
+    tooltipText = "The item will be spawned inside this container";
+    tooltipText += "\nYou can type the item ID, or drag it from the item list";
+    containerItem->setToolTip( tooltipText );
+    QObject::connect( containerItem, &QLineEdit::textChanged, [&]() { change_notify_top_parent(); } );
+
     QPushButton* btnDeleteThis = new QPushButton;
     btnDeleteThis->setText( "X" );
     btnDeleteThis->setMaximumSize( QSize( 24, 24 ) );
@@ -698,6 +744,8 @@ creator::itemGroupEntry::itemGroupEntry( QWidget* parent, QString entryText, boo
     entryLayout->addWidget( charges_label );
     entryLayout->addWidget( charges_min );
     entryLayout->addWidget( charges_max );
+    entryLayout->addWidget( containerItem_label );
+    entryLayout->addWidget( containerItem );
     entryLayout->addWidget( btnDeleteThis );
 
     setLayout( entryLayout );
@@ -783,6 +831,9 @@ void creator::itemGroupEntry::get_json( JsonOut &jo ) {
     if( max ) {
         jo.member( "charges-min", charges_min->value() );
         jo.member( "charges-max", max );
+    }
+    if( containerItem->text().size() > 0 ) {
+        jo.member( "container-item", containerItem->text().toStdString() );
     }
     jo.end_object();
 }

@@ -53,6 +53,8 @@ namespace creator
         QLineEdit* comment_box;
 
         QComboBox* subtype;
+        QLineEdit* containerItem;
+        QComboBox* overflow;
 
         QLabel* item_search_label;
         QLineEdit* item_search_box;
@@ -92,6 +94,7 @@ namespace creator
         QSpinBox* count_max;
         QSpinBox* charges_min;
         QSpinBox* charges_max;
+        QLineEdit* containerItem;
         item_group_window* top_parent_widget;
     };
 
