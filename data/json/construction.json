@@ -3489,7 +3489,7 @@
     "components": [ [ [ "xl_wind_turbine", 1 ] ] ],
     "pre_special": "check_empty",
     "post_special": "done_appliance",
-    "activity_level": "MEDIUM_EXERCISE"
+    "activity_level": "MODERATE_EXERCISE"
   },
   {
     "type": "construction",
