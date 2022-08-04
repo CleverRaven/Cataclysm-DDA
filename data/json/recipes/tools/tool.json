@@ -891,7 +891,7 @@
     "using": [ [ "welding_standard", 5 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_welding_basic" }, { "proficiency": "prof_welding" } ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "sheet_metal_small", 1 ] ] ]
+    "components": [ [ [ "scrap_aluminum", 1 ] ] ]
   },
   {
     "type": "recipe",
