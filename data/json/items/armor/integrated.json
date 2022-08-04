@@ -814,6 +814,8 @@
         "coverage": 100,
         "encumbrance": 0,
         "cover_vitals": 60
+        }
+    ]
   },
   {
     "id": "armor_bio_eyes",
@@ -845,5 +847,7 @@
         "encumbrance": 5,
         "rigid_layer_only": true,
         "cover_vitals": 90
+      }
+    ]
   }
 ]
