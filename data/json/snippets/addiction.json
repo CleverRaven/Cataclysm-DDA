@@ -1,0 +1,138 @@
+[
+  {
+    "type": "snippet",
+    "category": "addict_alcohol_mild_awake",
+    "text": [ "You could use a drink.", "You're dying for a drink.", "If only you had a beer…" ]
+  },
+  {
+    "type": "snippet",
+    "category": "addict_alcohol_strong_awake",
+    "text": [
+      "Your hands start shaking… you need a drink bad!",
+      "You're really struggling with how long it's been since your last drink.",
+      "You're really dying for a drink now!"
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "addict_alcohol_mild_asleep",
+    "text": [ "You dream of sitting at your favorite venue, enjoying a nice drink…" ]
+  },
+  {
+    "type": "snippet",
+    "category": "addict_alcohol_strong_asleep",
+    "text": [
+      "You dream about searching an empty world for any kind of drink, for what seems like ages.  At last, you find a strong beverage to appease your thirst, only for it to be snatched away from you!"
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "addict_diazepam_mild_awake",
+    "text": [ "You could use some diazepam." ]
+  },
+  {
+    "type": "snippet",
+    "category": "addict_diazepam_strong_awake",
+    "text": [ "You're shaking… you need some diazepam!" ]
+  },
+  {
+    "type": "snippet",
+    "category": "addict_diazepam_mild_asleep",
+    "text": [ "You dream that you reach into your pocket and pull out a bottle full of that wonderful diazepam candy…" ]
+  },
+  {
+    "type": "snippet",
+    "category": "addict_diazepam_strong_asleep",
+    "text": [ "You dream about lying in an ocean of benzo boxes.  To your dismay, every single box is empty…" ]
+  },
+  {
+    "type": "snippet",
+    "category": "addict_coke_awake",
+    "text": [ "You feel like you need a bump." ]
+  },
+  {
+    "type": "snippet",
+    "category": "addict_crack_awake",
+    "text": [ "You're shivering, you need some crack." ]
+  },
+  {
+    "type": "snippet",
+    "category": "addict_coke_asleep",
+    "text": [ "You feel like you need a bump." ]
+  },
+  {
+    "type": "snippet",
+    "category": "addict_crack_asleep",
+    "text": [ "You're shivering, you need some crack." ]
+  },
+  {
+    "type": "snippet",
+    "category": "addict_nicotine_mild_awake",
+    "text": [ "You could use some nicotine." ]
+  },
+  {
+    "type": "snippet",
+    "category": "addict_nicotine_strong_awake",
+    "text": [ "You need some nicotine." ]
+  },
+  {
+    "type": "snippet",
+    "category": "addict_nicotine_mild_asleep",
+    "text": [ "You could use some nicotine." ]
+  },
+  {
+    "type": "snippet",
+    "category": "addict_nicotine_strong_asleep",
+    "text": [ "You need some nicotine." ]
+  },
+  {
+    "type": "snippet",
+    "category": "addict_opiate_mild_awake",
+    "text": [ "Your hands start shaking… you need some painkillers." ]
+  },
+  {
+    "type": "snippet",
+    "category": "addict_opiate_mild_asleep",
+    "text": [ "Your hands start shaking… you need some painkillers." ]
+  },
+  {
+    "type": "snippet",
+    "category": "addict_opiate_strong_awake",
+    "text": [ "You feel anxious.  You need your painkillers!" ]
+  },
+  {
+    "type": "snippet",
+    "category": "addict_opiate_strong_asleep",
+    "text": [ "You feel anxious.  You need your painkillers!" ]
+  },
+  {
+    "type": "snippet",
+    "category": "addict_amphetamine_mild_awake",
+    "text": [ "You feel depressed.  Speed would help." ]
+  },
+  {
+    "type": "snippet",
+    "category": "addict_amphetamine_mild_asleep",
+    "text": [ "You feel depressed.  Speed would help." ]
+  },
+  {
+    "type": "snippet",
+    "category": "addict_amphetamine_strong_awake",
+    "text": [ "Your hands start shaking… you need a pick-me-up." ]
+  },
+  {
+    "type": "snippet",
+    "category": "addict_amphetamine_strong_asleep",
+    "text": [ "Your hands start shaking… you need a pick-me-up." ]
+  },
+  {
+    "type": "snippet",
+    "category": "addict_amphetamine_paralysis_awake",
+    "text": [ "You stop suddenly, feeling bewildered." ]
+  },
+  {
+    "type": "snippet",
+    "category": "addict_amphetamine_paralysis_asleep",
+    "text": [ "You attempt to gasp as you wake, but your body initially refuses to respond to your mind." ]
+  }
+]

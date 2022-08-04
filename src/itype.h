@@ -822,7 +822,7 @@ struct islot_gunmod : common_ranged_data {
     /** Increases base gun UPS consumption by this many times per shot */
     float ups_charges_multiplier = 1.0f;
 
-    /** Increases base gun UPS consumption by this value per shot */
+    /** Increases base gun UPS consumption by this value (kJ) per shot */
     int ups_charges_modifier = 0;
 
     /** Increases base gun ammo to fire by this many times per shot */
@@ -885,6 +885,9 @@ struct islot_magazine {
 
     /** For ammo belts one linkage (of given type) is dropped for each unit of ammo consumed */
     cata::optional<itype_id> linkage;
+
+    /** Map of [magazine type id] -> [set of gun itype_ids that accept the mag type ] */
+    static std::map<itype_id, std::set<itype_id>> compatible_guns;
 };
 
 struct islot_battery {

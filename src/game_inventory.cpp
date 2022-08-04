@@ -1062,7 +1062,7 @@ static std::string get_consume_needs_hint( Character &you )
     return hint;
 }
 
-item_location game_menus::inv::consume( avatar &you, const item_location loc )
+item_location game_menus::inv::consume( avatar &you, const item_location &loc )
 {
     static item_location container_location;
     if( !you.has_activity( ACT_EAT_MENU ) ) {
@@ -1338,7 +1338,7 @@ class read_inventory_preset: public pickup_inventory_preset
     public:
         explicit read_inventory_preset( const Character &you ) : pickup_inventory_preset( you ),
             you( you ) {
-            const std::string unknown = _( "<color_dark_gray>?</color>" );
+            std::string unknown = _( "<color_dark_gray>?</color>" );
 
             append_cell( [ this, &you, unknown ]( const item_location & loc ) -> std::string {
                 if( loc->type->can_use( "MA_MANUAL" ) ) {
@@ -1389,7 +1389,7 @@ class read_inventory_preset: public pickup_inventory_preset
                 const int actual_turns = to_turns<int>( you.time_to_read( *loc, *reader ) );
                 // Theoretical reading time (in turns) based on the reader speed. Free of penalties.
                 const int normal_turns = to_turns<int>( get_book( loc ).time ) * reader->read_speed() / 100 ;
-                const std::string duration = to_string_approx( time_duration::from_turns( actual_turns ), false );
+                std::string duration = to_string_approx( time_duration::from_turns( actual_turns ), false );
 
                 if( actual_turns > normal_turns ) { // Longer - complicated stuff.
                     return string_format( "<color_light_red>%s</color>", duration );
@@ -1996,7 +1996,7 @@ drop_locations game_menus::inv::multidrop( avatar &you )
 }
 
 drop_locations game_menus::inv::pickup( avatar &you,
-                                        const cata::optional<tripoint> &target, std::vector<drop_location> selection )
+                                        const cata::optional<tripoint> &target, const std::vector<drop_location> &selection )
 {
     const pickup_inventory_preset preset( you, /*skip_wield_check=*/true );
 

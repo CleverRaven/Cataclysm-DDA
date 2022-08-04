@@ -11,7 +11,7 @@
 
 static const bionic_id bio_ads( "bio_ads" );
 
-static const trait_id trait_SEESLEEP( "SEESLEEP" );
+static const json_character_flag json_flag_SEESLEEP( "SEESLEEP" );
 
 bool Character::can_interface_armor() const
 {
@@ -202,7 +202,7 @@ int Character::get_env_resist( bodypart_id bp ) const
         }
     }
 
-    if( bp == body_part_eyes && has_trait( trait_SEESLEEP ) ) {
+    if( bp == body_part_eyes && has_flag( json_flag_SEESLEEP ) ) {
         ret += 8;
     }
     return ret;
@@ -380,7 +380,7 @@ bool Character::armor_absorb( damage_unit &du, item &armor, const bodypart_id &b
     return damaged == item::armor_status::DESTROYED;
 }
 
-bool Character::armor_absorb( damage_unit &du, item &armor, const bodypart_id &bp, int roll )
+bool Character::armor_absorb( damage_unit &du, item &armor, const bodypart_id &bp, int roll ) const
 {
     item::cover_type ctype = item::get_cover_type( du.type );
 

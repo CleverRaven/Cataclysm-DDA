@@ -385,14 +385,15 @@ class pocket_favorite_callback : public uilist_callback
 
         void refresh_columns( uilist *menu );
 
-        void add_pockets( item &i, uilist &pocket_selector, std::string depth );
+        void add_pockets( item &i, uilist &pocket_selector, const std::string &depth );
     public:
-        explicit pocket_favorite_callback( std::vector<item *> to_organize, uilist &pocket_selector );
+        explicit pocket_favorite_callback( const std::vector<item *> &to_organize,
+                                           uilist &pocket_selector );
         void refresh( uilist *menu ) override;
         bool key( const input_context &, const input_event &event, int entnum, uilist *menu ) override;
 
-        const std::string title = _( "Modify pocket settings and move items between pockets.\n" );
-
+        const std::string title =
+            _( "Modify pocket settings and move items between pockets.  [<color_yellow>RETURN</color>] Context menu\n" );
 };
 
 #endif // CATA_SRC_ITEM_CONTENTS_H

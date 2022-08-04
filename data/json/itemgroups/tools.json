@@ -62,6 +62,7 @@
       [ "funnel", 50 ],
       [ "rake", 15 ],
       [ "rake_plastic", 25 ],
+      [ "aluminum_stepladder", 5 ],
       { "item": "misc_repairkit", "prob": 25, "charges-min": 0 },
       [ "saw", 60 ],
       { "item": "bow_saw", "prob": 50 },

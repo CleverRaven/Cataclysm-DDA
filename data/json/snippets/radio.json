@@ -25,5 +25,40 @@
       "USS Eagle of Freedom to all callsigns.  Operation Ocean 11 is in effect.  Repeat.  Operation Ocean 11 is in effect.  Sir, this should effectively reach about 150 units, but there is no response from literally anyone in hours.  Their coms winked out like candles in the wind.  And how do we even secure the port to load anyone in?",
       "Seagull 54 to USS Eagle of Freedom.  It's as we predicted.  Going down on last reserves of fuel, with dropping evacuated unit out of question at that point.  This is our last call.  Will try emergency landing at …kshssssssk… Don't send us a rescue team, we know the odds.  Will be moving east towards the shore, and if we're not there in T minus 3 days, count us dead.  Proud to serve the country.  Over and out."
     ]
+  },
+  {
+    "type": "snippet",
+    "category": "radio_station_desc_noise_0",
+    "text": [ "It's quite clear." ]
+  },
+  {
+    "type": "snippet",
+    "category": "radio_station_desc_noise_20",
+    "text": [ "There's some noise, but you can make it out pretty well." ]
+  },
+  {
+    "type": "snippet",
+    "category": "radio_station_desc_noise_40",
+    "text": [ "There's a fair bit of noise, but you can occasionally make it out." ]
+  },
+  {
+    "type": "snippet",
+    "category": "radio_station_desc_noise_60",
+    "text": [ "There's a lot of noise, but you can make out something through it." ]
+  },
+  {
+    "type": "snippet",
+    "category": "radio_station_desc_noise_80",
+    "text": [ "You can barely make out a message through the noise." ]
+  },
+  {
+    "type": "snippet",
+    "category": "radio_station_desc_noise_max",
+    "text": [ "Only the occasional word escapes the static." ]
+  },
+  {
+    "type": "snippet",
+    "category": "radio_scan_no_stations",
+    "text": [ "You fiddle with the dial a bit, but there's only noise." ]
   }
 ]

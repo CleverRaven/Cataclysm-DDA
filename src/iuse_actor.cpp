@@ -1464,7 +1464,8 @@ cata::optional<int> salvage_actor::try_to_cut_up
 }
 
 // Helper to visit instances of all the sub-materials of an item.
-static void visit_salvage_products( const item &it, std::function<void( const item & )> func )
+static void visit_salvage_products( const item &it,
+                                    const std::function<void( const item & )> &func )
 {
     for( const auto &material : it.made_of() ) {
         if( const cata::optional<itype_id> id = material.first->salvaged_into() ) {
@@ -1551,7 +1552,7 @@ bool salvage_actor::valid_to_cut_up( const Character *const p, const item &it ) 
 // Used only by salvage_actor::cut_up
 static cata::optional<recipe> find_uncraft_recipe( item x )
 {
-    auto is_valid_uncraft = [&x]( recipe curr ) -> bool {
+    auto is_valid_uncraft = [&x]( const recipe & curr ) -> bool {
         return !( curr.obsolete || curr.result() != x.typeId()
                   || curr.makes_amount() > 1 || curr.is_null() );
     };
@@ -1601,7 +1602,7 @@ void salvage_actor::cut_up( Character &p, item_location &cut ) const
     // Reinforcing does not decrease losses.
     efficiency *= std::min( std::pow( 0.8, cut.get_item()->damage_level() ), 1.0 );
 
-    auto distribute_uniformly = [&mat_to_weight]( item x, float num_adjusted ) -> void {
+    auto distribute_uniformly = [&mat_to_weight]( const item & x, float num_adjusted ) -> void {
         const float mat_total = std::max( x.type->mat_portion_total, 1 );
         for( const auto &type : x.made_of() )
         {
@@ -1614,7 +1615,7 @@ void salvage_actor::cut_up( Character &p, item_location &cut ) const
     // num_adjusted represents the number of items and efficiency in one value
     std::function<void( item, float )> cut_up_component =
         [&salvage, &mat_set, &distribute_uniformly, &cut_up_component]
-    ( item curr, float num_adjusted ) -> void {
+    ( const item & curr, float num_adjusted ) -> void {
 
         // If it is one of the basic components, add it into the list
         if( curr.type->is_basic_component() )

@@ -18,6 +18,7 @@
 #include "inventory.h"
 #include "item.h"
 #include "item_category.h"
+#include "item_factory.h"
 #include "item_location.h"
 #include "item_pocket.h"
 #include "iteminfo_query.h"
@@ -89,7 +90,7 @@ void pocket_favorite_callback::refresh( uilist *menu )
     wnoutrefresh( menu->window );
 }
 
-pocket_favorite_callback::pocket_favorite_callback( std::vector<item *> to_organize,
+pocket_favorite_callback::pocket_favorite_callback( const std::vector<item *> &to_organize,
         uilist &pocket_selector )
 {
     this->to_organize = to_organize;
@@ -100,7 +101,7 @@ pocket_favorite_callback::pocket_favorite_callback( std::vector<item *> to_organ
 }
 
 void pocket_favorite_callback::add_pockets( item &i, uilist &pocket_selector,
-        std::string depth )
+        const std::string &depth )
 {
     if( i.get_all_contained_pockets().empty() ) {
         // if it doesn't have pockets skip it
@@ -201,10 +202,6 @@ void pocket_favorite_callback::move_item( uilist *menu, item_pocket *selected_po
                 // move through the pockets as you process entries
                 ++itt;
             }
-
-
-
-
         }
     } else {
         // storage should mimick character inserting
@@ -440,8 +437,8 @@ bool pocket_favorite_callback::key( const input_context &ctxt, const input_event
         const std::vector<input_event> evlist = inp_mngr.get_input_for_action( ev, "INVENTORY" );
         if( cmenu.ret >= 0 && cmenu.ret <= 8 && !evlist.empty() ) {
             return key( ctxt, evlist.front(), -1, menu );
-
         }
+        return true;
     }
 
     return false;
@@ -1105,6 +1102,10 @@ std::set<ammotype> item_contents::ammo_types() const
 
 item &item_contents::first_ammo()
 {
+    if( empty() ) {
+        debugmsg( "Error: Contents has no pockets" );
+        return null_item_reference();
+    }
     for( item_pocket &pocket : contents ) {
         if( pocket.is_type( item_pocket::pocket_type::MAGAZINE_WELL ) ) {
             return pocket.front().first_ammo();
@@ -1112,9 +1113,16 @@ item &item_contents::first_ammo()
         if( !pocket.is_type( item_pocket::pocket_type::MAGAZINE ) || pocket.empty() ) {
             continue;
         }
+        if( pocket.front().has_flag( json_flag_CASING ) ) {
+            for( item *i : pocket.all_items_top() ) {
+                if( !i->has_flag( json_flag_CASING ) ) {
+                    return *i;
+                }
+            }
+            continue;
+        }
         return pocket.front();
     }
-    debugmsg( "Error: Tried to get first ammo in container not containing ammo" );
     return null_item_reference();
 }
 
@@ -1658,6 +1666,9 @@ std::set<itype_id> item_contents::magazine_compatible() const
     for( const item_pocket &pocket : contents ) {
         if( pocket.is_type( item_pocket::pocket_type::MAGAZINE_WELL ) ) {
             for( const itype_id &id : pocket.item_type_restrictions() ) {
+                if( item_is_blacklisted( id ) ) {
+                    continue;
+                }
                 ret.emplace( id );
             }
         }

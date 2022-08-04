@@ -11,7 +11,7 @@
 #include "assign.h"
 #include "cached_options.h"
 #include "catacharset.h"
-#include "cata_void.h"
+#include "cata_type_traits.h"
 #include "debug.h"
 #include "enum_bitset.h"
 #include "init.h"
@@ -401,6 +401,7 @@ class generic_factory
          * Postcondition: `size() == 0`
          */
         void reset() {
+            deferred.clear();
             list.clear();
             map.clear();
             inc_version();

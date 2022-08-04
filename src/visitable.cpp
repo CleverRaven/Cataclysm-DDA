@@ -281,7 +281,7 @@ int Character::max_quality( const quality_id &qual ) const
     return std::max( res, max_quality_internal( *this, qual ) );
 }
 
-int Character::max_quality( const quality_id &qual, int radius )
+int Character::max_quality( const quality_id &qual, int radius ) const
 {
     int res = max_quality( qual );
 
@@ -471,13 +471,26 @@ VisitResponse map_cursor::visit_items(
     const std::function<VisitResponse( item *, item * )> &func ) const
 {
     map &here = get_map();
+    tripoint p = pos();
+
+    // check furniture pseudo items
+    if( here.furn( p ) != f_null ) {
+        itype_id it_id = here.furn( p )->crafting_pseudo_item;
+        if( it_id.is_valid() ) {
+            item it( it_id );
+            if( visit_internal( func, &it ) == VisitResponse::ABORT ) {
+                return VisitResponse::ABORT;
+            }
+        }
+    }
+
     // skip inaccessible items
-    if( here.has_flag( ter_furn_flag::TFLAG_SEALED, pos() ) &&
-        !here.has_flag( ter_furn_flag::TFLAG_LIQUIDCONT, pos() ) ) {
+    if( here.has_flag( ter_furn_flag::TFLAG_SEALED, p ) &&
+        !here.has_flag( ter_furn_flag::TFLAG_LIQUIDCONT, p ) ) {
         return VisitResponse::NEXT;
     }
 
-    for( item &e : here.i_at( pos() ) ) {
+    for( item &e : here.i_at( p ) ) {
         if( visit_internal( func, &e ) == VisitResponse::ABORT ) {
             return VisitResponse::ABORT;
         }
@@ -857,19 +870,19 @@ static std::pair<int, int> kcal_range_of_internal( const T &self, const itype_id
 }
 
 std::pair<int, int> read_only_visitable::kcal_range( const itype_id &id,
-        const std::function<bool( const item & )> &filter, Character &player_character )
+        const std::function<bool( const item & )> &filter, Character &player_character ) const
 {
     return kcal_range_of_internal( *this, id, filter, player_character );
 }
 
 std::pair<int, int> inventory::kcal_range( const itype_id &id,
-        const std::function<bool( const item & )> &filter, Character &player_character )
+        const std::function<bool( const item & )> &filter, Character &player_character ) const
 {
     return kcal_range_of_internal( *this, id, filter, player_character );
 }
 
 std::pair<int, int> Character::kcal_range( const itype_id &id,
-        const std::function<bool( const item & )> &filter, Character &player_character )
+        const std::function<bool( const item & )> &filter, Character &player_character ) const
 {
     return kcal_range_of_internal( *this, id, filter, player_character );
 }
@@ -921,8 +934,9 @@ int Character::charges_of( const itype_id &what, int limit,
                            const std::function<void( int )> &visitor, bool in_tools ) const
 {
     if( what == itype_UPS ) {
-        int ups_power = available_ups();
+        int ups_power = units::to_kilojoule( available_ups() );
         if( has_active_bionic( bio_ups ) ) {
+            // Subtract bionic UPS as that is not handled here
             ups_power -= units::to_kilojoule( get_power_level() );
         }
         return std::min( ups_power, limit );

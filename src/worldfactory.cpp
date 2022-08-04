@@ -737,7 +737,7 @@ void worldfactory::load_last_world_info()
     last_character_name = data.get_string( "character_name" );
 }
 
-void worldfactory::save_last_world_info()
+void worldfactory::save_last_world_info() const
 {
     write_to_file( PATH_INFO::lastworld(), [&]( std::ostream & file ) {
         JsonOut jsout( file, true );
@@ -837,7 +837,7 @@ std::map<int, inclusive_rectangle<point>> worldfactory::draw_mod_list( const cat
 
         int larger = ( iMaxRows > static_cast<int>( iModNum ) ) ? static_cast<int>( iModNum ) : iMaxRows;
         for( auto iter = mods.begin(); iter != mods.end(); ++index ) {
-            if( iNum >= static_cast<size_t>( start ) && iNum < static_cast<size_t>( start + larger ) ) {
+            if( iNum >= static_cast<size_t>( start ) && iNum < static_cast<size_t>( start ) + larger ) {
                 if( !mSortCategory[iNum].empty() ) {
                     bKeepIter = true;
                     trim_and_print( w, point( 1, iNum - start ), wwidth, c_magenta, mSortCategory[iNum] );
@@ -2035,7 +2035,7 @@ std::map<size_t, inclusive_rectangle<point>> worldfactory::draw_worldgen_tabs(
     return tab_map;
 }
 
-bool worldfactory::valid_worldname( const std::string &name, bool automated )
+bool worldfactory::valid_worldname( const std::string &name, bool automated ) const
 {
     std::string msg;
 

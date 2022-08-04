@@ -8,6 +8,9 @@
 #include "options.h"
 #include "options_helpers.h"
 
+static const mongroup_id GROUP_PETS( "GROUP_PETS" );
+static const mongroup_id GROUP_PET_DOGS( "GROUP_PET_DOGS" );
+
 static const mtype_id mon_null( "mon_null" );
 static const mtype_id mon_test_CBM( "mon_test_CBM" );
 static const mtype_id mon_test_bovine( "mon_test_bovine" );
@@ -18,7 +21,7 @@ static const mtype_id mon_test_speed_desc_base_immobile( "mon_test_speed_desc_ba
 
 static const int max_iters = 10000;
 
-static void spawn_x_monsters( int x, const mongroup_id &grp, const std::vector<mtype_id> yesspawn,
+static void spawn_x_monsters( int x, const mongroup_id &grp, const std::vector<mtype_id> &yesspawn,
                               const std::vector<mtype_id> &nospawn )
 {
     std::set<mtype_id> rand_gets;
@@ -248,4 +251,17 @@ TEST_CASE( "Nested monster group pack size", "[mongroup]" )
             CHECK( total == Approx( 16 ).margin( 8 ) );
         }
     }
+}
+
+TEST_CASE( "mongroup_sets_quantity_correctly", "[mongroup]" )
+{
+    mongroup_id mg = GENERATE( GROUP_PET_DOGS, GROUP_PETS );
+    CAPTURE( mg );
+
+    int quantity = 10;
+    bool found = false;
+    std::vector<MonsterGroupResult> res =
+        MonsterGroupManager::GetResultFromGroup( mg, &quantity, &found );
+    CHECK( found );
+    CHECK( 10 - quantity == static_cast<int>( res.size() ) );
 }

@@ -1051,6 +1051,7 @@
     "subcategory": "CSC_FOOD_VEGGI",
     "skill_used": "cooking",
     "difficulty": 1,
+    "charges": 1,
     "time": "30 m",
     "autolearn": true,
     "batch_time_factors": [ 80, 2 ],

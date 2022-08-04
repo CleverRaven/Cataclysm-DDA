@@ -60,7 +60,7 @@ disp_bodygraph_cache::disp_bodygraph_cache( bodygraph_var var )
     _graph_id = "";
 }
 
-bool disp_bodygraph_cache::is_valid_for( const Character &u, const std::string graph_id ) const
+bool disp_bodygraph_cache::is_valid_for( const Character &u, const std::string &graph_id ) const
 {
     if( graph_id != _graph_id ) {
         return false;
@@ -86,7 +86,7 @@ bool disp_bodygraph_cache::is_valid_for( const Character &u, const std::string g
     return true;
 }
 
-void disp_bodygraph_cache::rebuild( const Character &u, const std::string graph_id,
+void disp_bodygraph_cache::rebuild( const Character &u, const std::string &graph_id,
                                     const std::string &bg_wgt_str )
 {
     _bp_cur_max.clear();
@@ -541,7 +541,7 @@ std::pair<std::string, nc_color> display::power_text_color( const Character &u )
         } else if( u.get_power_level() >= u.get_max_power_level() / 3 ) {
             c_pwr = c_yellow;
         } else if( u.get_power_level() >= u.get_max_power_level() / 4 ) {
-            c_pwr = c_red;
+            c_pwr = c_light_red;
         }
 
         if( u.get_power_level() < 1_J ) {
@@ -555,6 +555,49 @@ std::pair<std::string, nc_color> display::power_text_color( const Character &u )
                     pgettext( "energy unit: kilojoule", "kJ" );
         }
     }
+    return std::make_pair( s_pwr, c_pwr );
+}
+
+std::pair<std::string, nc_color> display::power_balance_text_color( const avatar &u )
+{
+    nc_color c_pwr = c_red;
+    std::string s_pwr;
+
+    units::energy balance = u.power_balance;
+    units::energy abs_balance = units::from_millijoule( std::abs( balance.value() ) );
+
+    if( balance < -1_kJ ) {
+        c_pwr = c_red;
+    } else if( balance <= -10_J ) {
+        c_pwr = c_light_red;
+    } else if( balance <= -1_mJ ) {
+        c_pwr = c_yellow;
+    } else if( balance <= 1_mJ ) {
+        c_pwr = c_white;
+    } else if( balance < 10_J ) {
+        c_pwr = c_light_green;
+    } else if( balance < 1_kJ ) {
+        c_pwr = c_green;
+    } else {
+        c_pwr = c_light_blue;
+    }
+
+    std::string suffix;
+    if( balance > 0_kJ ) {
+        suffix = "+";
+    }
+
+    if( abs_balance < 1_J ) {
+        s_pwr = suffix + std::to_string( units::to_millijoule( balance ) ) +
+                pgettext( "energy unit: millijoule", "mJ" );
+    } else if( abs_balance < 1_kJ ) {
+        s_pwr = suffix + std::to_string( units::to_joule( balance ) ) +
+                pgettext( "energy unit: joule", "J" );
+    } else {
+        s_pwr = suffix + std::to_string( units::to_kilojoule( balance ) ) +
+                pgettext( "energy unit: kilojoule", "kJ" );
+    }
+
     return std::make_pair( s_pwr, c_pwr );
 }
 
@@ -1526,7 +1569,7 @@ nc_color display::get_bodygraph_bp_color( const Character &u, const bodypart_id 
     cata_fatal( "Invalid widget_var" );
 }
 
-std::string display::colorized_bodygraph_text( const Character &u, const std::string graph_id,
+std::string display::colorized_bodygraph_text( const Character &u, const std::string &graph_id,
         const bodygraph_var var, int width, int max_height, int &height )
 {
     int var_idx = int( var );
@@ -1547,7 +1590,7 @@ std::string display::colorized_bodygraph_text( const Character &u, const std::st
             return sym;
         }
         std::pair<std::string, nc_color> sym_col = get_bodygraph_bp_sym_color( u, *bgp, var );
-        return colorize( sym_col.first, sym_col.second );
+        return colorize( sym, sym_col.second );
     };
 
     std::vector<std::string> rows = get_bodygraph_lines( u, process_sym, graph, width, max_height );

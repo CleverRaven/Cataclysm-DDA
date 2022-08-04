@@ -2855,5 +2855,59 @@
         "max_contains_weight": "500 g"
       }
     ]
+  },
+  {
+    "id": "30gal_drum_aluminum",
+    "type": "GENERIC",
+    "category": "container",
+    "looks_like": "30gal_barrel",
+    "name": { "str": "aluminum drum (100L)", "str_pl": "aluminum drums (100L)" },
+    "description": "A huge aluminum barrel with a watertight lid.",
+    "weight": "4200 g",
+    "volume": "105 L",
+    "price": 8000,
+    "price_postapoc": 250,
+    "to_hit": -5,
+    "bashing": 8,
+    "material": [ "aluminum" ],
+    "symbol": "0",
+    "color": "light_gray",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+        "rigid": true,
+        "max_contains_volume": "100 L",
+        "max_contains_weight": "250 kg"
+      }
+    ],
+    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
+  },
+  {
+    "id": "55gal_drum_aluminum",
+    "type": "GENERIC",
+    "category": "container",
+    "looks_like": "30gal_drum",
+    "name": { "str": "aluminum drum (200L)", "str_pl": "aluminum drums (200L)" },
+    "description": "A massive aluminum barrel with a watertight lid.",
+    "weight": "7000 g",
+    "volume": "210 L",
+    "price": 10000,
+    "price_postapoc": 250,
+    "to_hit": -5,
+    "bashing": 8,
+    "material": [ "aluminum" ],
+    "symbol": "0",
+    "color": "light_gray",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+        "rigid": true,
+        "max_contains_volume": "200 L",
+        "max_contains_weight": "500 kg"
+      }
+    ],
+    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   }
 ]

@@ -947,7 +947,7 @@
     "type": "BIONIC_ITEM",
     "name": { "str": "Uncanny Dodge CBM" },
     "looks_like": "bio_int_enhancer",
-    "description": "Bionic processors that augment the user's nervous system, allowing them to dodge attacks beyond normal human capability, including bullets.",
+    "description": "Bionic processors that augment the user's nervous system, allowing them to dodge attacks beyond normal human capability.",
     "price": 950000,
     "weight": "1000 g",
     "difficulty": 11

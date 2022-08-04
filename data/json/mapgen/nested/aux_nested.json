@@ -39,6 +39,12 @@
   {
     "type": "mapgen",
     "method": "json",
+    "nested_mapgen_id": "damaged_door_nested_no_junk",
+    "object": { "mapgensize": [ 1, 1 ], "place_ter_furn_transforms": [ { "transform": "damaged_door", "x": 0, "y": 0 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
     "nested_mapgen_id": "destroyed_door_nested",
     "object": {
       "mapgensize": [ 1, 1 ],
@@ -50,6 +56,12 @@
         { "item": "hinge", "x": 0, "y": 0, "repeat": [ 1, 2 ] }
       ]
     }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "destroyed_door_nested_no_junk",
+    "object": { "mapgensize": [ 1, 1 ], "place_ter_furn_transforms": [ { "transform": "destroyed_door", "x": 0, "y": 0 } ] }
   },
   {
     "type": "mapgen",
