@@ -55,10 +55,13 @@ TEST_CASE( "faction_price_rules", "[npc][factions][trade]" )
         }
     }
     WHEN( "faction has a custom price for this item (price=10000000)" ) {
-        item const log( "log" );
+        item const log = GENERATE( item( "log" ), item( "scrap" ) );
         clear_character( guy );
-        double const price = *fac.get_price_rules( log, guy )->price;
+        double price = *fac.get_price_rules( log, guy )->price;
         REQUIRE( price == 10000000 );
+        if( log.count_by_charges() ) {
+            price /= log.type->stack_size;
+        }
         REQUIRE( npc_trading::adjusted_price( &log, 1, get_avatar(), guy ) ==
                  Approx( price * 1.25 ).margin( 1 ) );
         REQUIRE( npc_trading::adjusted_price( &log, 1, guy, get_avatar() ) ==
