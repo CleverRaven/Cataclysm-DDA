@@ -926,13 +926,13 @@ TEST_CASE( "crafting_skill_gain", "[skill],[crafting],[slow]" )
     }
     SECTION( "lvl 4 -> 5" ) {
         GIVEN( "nominal morale" ) {
-            test_skill_progression( recipe_armguard_metal, 19638, 0, true );
+            test_skill_progression( recipe_test_armguard_metal, 19638, 0, true );
         }
         GIVEN( "high morale" ) {
-            test_skill_progression( recipe_armguard_metal, 16125, 50, true );
+            test_skill_progression( recipe_test_armguard_metal, 16125, 50, true );
         }
         GIVEN( "very high morale" ) {
-            test_skill_progression( recipe_armguard_metal, 14805, 100, true );
+            test_skill_progression( recipe_test_armguard_metal, 14805, 100, true );
         }
     }
     SECTION( "lvl 5 -> 6" ) {
