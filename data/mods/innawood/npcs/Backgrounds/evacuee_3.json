@@ -48,7 +48,7 @@
   {
     "id": "BGSS_EVACUEE_3_STORY3_LATE",
     "type": "talk_topic",
-    "dynamic_line": "Straight up hunger.  I didn't find much food.  I was starting to feel pretty off.  I finally stumbled into a river and built a decent little basethere, figured out some basic survival stuff like making a fire and some light fishing with a sharpened stick.",
+    "dynamic_line": "Straight up hunger.  I didn't find much food.  I was starting to feel pretty off.  I finally stumbled into a river and built a decent little base there, figured out some basic survival stuff like making a fire and some light fishing with a sharpened stick.",
     "responses": [
       { "text": "I didn't meet you at the river though.  You left.", "topic": "BGSS_EVACUEE_3_STORY4" },
       { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
