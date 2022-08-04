@@ -577,7 +577,7 @@
     "id": "qt_steel_chunk",
     "type": "AMMO",
     "category": "spare_parts",
-    "name": { "str": "chunk of high carbon steel", "str_pl": "chunks of high carbon steel" },
+    "name": { "str": "chunk of tempered steel", "str_pl": "chunks of tempered steel" },
     "description": "A misshapen chunk of tempered steel.  Makes a decent weapon in a pinch, and is also useful for some crafting recipes.",
     "weight": "250 g",
     "volume": "63 ml",

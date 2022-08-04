@@ -186,6 +186,7 @@
   {
     "id": "armor_thessalonian",
     "type": "ARMOR",
+    "category": "armor",
     "name": { "str": "cataphract armor", "str_pl": "suits of cataphract armor" },
     "description": "This armor, made of interlocking plates of burnished bronze, appears to be either a high-quality recreation or a genuine artifact.  Despite having an ancient design, it is in mint condition aside from some battle damage.  It covers from the shoulders to the hips and is of extremely high quality.",
     "weight": "7286 g",

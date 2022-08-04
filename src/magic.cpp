@@ -127,6 +127,7 @@ std::string enum_to_string<spell_flag>( spell_flag data )
         case spell_flag::FRIENDLY_POLY: return "FRIENDLY_POLY";
         case spell_flag::POLYMORPH_GROUP: return "POLYMORPH_GROUP";
         case spell_flag::SILENT: return "SILENT";
+        case spell_flag::NO_EXPLOSION_SFX: return "NO_EXPLOSION_SFX";
         case spell_flag::LOUD: return "LOUD";
         case spell_flag::VERBAL: return "VERBAL";
         case spell_flag::SOMATIC: return "SOMATIC";
@@ -982,7 +983,7 @@ bool spell::check_if_component_in_hand( Character &guy ) const
     const requirement_data &spell_components = type->spell_components.obj();
 
     if( guy.has_weapon() ) {
-        if( spell_components.can_make_with_inventory( guy.get_wielded_item(), return_true<item> ) ) {
+        if( spell_components.can_make_with_inventory( *guy.get_wielded_item(), return_true<item> ) ) {
             return true;
         }
     }
@@ -1553,13 +1554,14 @@ void spell::cast_all_effects( Creature &source, const tripoint &target ) const
                 }
             }
         }
-    }
-    if( has_flag( spell_flag::EXTRA_EFFECTS_FIRST ) ) {
-        cast_extra_spell_effects( source, target );
-        cast_spell_effect( source, target );
     } else {
-        cast_spell_effect( source, target );
-        cast_extra_spell_effects( source, target );
+        if( has_flag( spell_flag::EXTRA_EFFECTS_FIRST ) ) {
+            cast_extra_spell_effects( source, target );
+            cast_spell_effect( source, target );
+        } else {
+            cast_spell_effect( source, target );
+            cast_extra_spell_effects( source, target );
+        }
     }
 }
 

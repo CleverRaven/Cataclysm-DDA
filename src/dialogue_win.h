@@ -78,7 +78,7 @@ class dialogue_window
         int scroll_yoffset = 0;
         bool can_scroll_up = false;
         bool can_scroll_down = false;
-        nc_color default_color();
+        nc_color default_color() const;
         void print_header( const std::string &name );
         void print_history();
         bool print_responses( const std::vector<talk_data> &responses );

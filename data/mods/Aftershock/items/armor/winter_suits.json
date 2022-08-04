@@ -105,7 +105,7 @@
     "material_thickness": 4,
     "valid_mods": [ "steel_padded" ],
     "environmental_protection": 2,
-    "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "HELMET_COMPAT", "RAINPROOF", "STURDY", "OUTER" ]
+    "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "RAINPROOF", "STURDY", "OUTER" ]
   },
   {
     "id": "afs_frontier_cryo_on",

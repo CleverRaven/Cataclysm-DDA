@@ -351,7 +351,7 @@ void memorial_logger::write_text_memorial( std::ostream &file,
     file << eol;
 
     //Equipment
-    const item &weapon = u.get_wielded_item();
+    const item &weapon = u.get_wielded_item() ? *u.get_wielded_item() : null_item_reference();
     file << _( "Weapon:" ) << eol;
     file << indent << weapon.invlet << " - " << weapon.tname( 1, false ) << eol;
     file << eol;
@@ -1090,6 +1090,7 @@ void memorial_logger::notify( const cata::event &e )
         case event_type::reads_book:
         case event_type::game_load:
         case event_type::game_save:
+        case event_type::u_var_changed:
             break;
         case event_type::num_event_types: {
             debugmsg( "Invalid event type" );

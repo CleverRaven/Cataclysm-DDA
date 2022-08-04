@@ -252,7 +252,7 @@ void Character::switch_mutations( const trait_id &switched, const trait_id &targ
     my_mutations[target].powered = start_powered;
 }
 
-bool Character::can_power_mutation( const trait_id &mut )
+bool Character::can_power_mutation( const trait_id &mut ) const
 {
     bool hunger = mut->hunger && get_kcal_percent() < 0.5f;
     bool thirst = mut->thirst && get_thirst() >= 260;
@@ -537,7 +537,7 @@ bool Character::has_active_mutation( const trait_id &b ) const
     return iter != my_mutations.end() && iter->second.powered;
 }
 
-int Character::get_cost_timer( const trait_id &mut ) const
+time_duration Character::get_cost_timer( const trait_id &mut ) const
 {
     const auto iter = my_mutations.find( mut );
     if( iter != my_mutations.end() ) {
@@ -545,10 +545,10 @@ int Character::get_cost_timer( const trait_id &mut ) const
     } else {
         debugmsg( "Tried to get cost timer of %s but doesn't have this mutation.", mut.c_str() );
     }
-    return 0;
+    return 0_turns;
 }
 
-void Character::set_cost_timer( const trait_id &mut, int set )
+void Character::set_cost_timer( const trait_id &mut, time_duration set )
 {
     const auto iter = my_mutations.find( mut );
     if( iter != my_mutations.end() ) {
@@ -558,7 +558,7 @@ void Character::set_cost_timer( const trait_id &mut, int set )
     }
 }
 
-void Character::mod_cost_timer( const trait_id &mut, int mod )
+void Character::mod_cost_timer( const trait_id &mut, time_duration mod )
 {
     set_cost_timer( mut, get_cost_timer( mut ) + mod );
 }
@@ -673,13 +673,13 @@ void Character::activate_mutation( const trait_id &mut )
                            mutation_name( mut ) );
         return;
     }
-    if( tdata.powered && tdata.charge > 0 ) {
+    if( tdata.powered && tdata.charge > 0_turns ) {
         // Already-on units just lose a bit of charge
-        tdata.charge--;
+        tdata.charge -= 1_turns;
     } else {
         // Not-on units, or those with zero charge, have to pay the power cost
-        if( mdata.cooldown > 0 ) {
-            tdata.charge = mdata.cooldown - 1;
+        if( mdata.cooldown > 0_turns ) {
+            tdata.charge = mdata.cooldown - 1_turns;
         }
         if( mdata.hunger ) {
             // burn some energy
@@ -882,7 +882,8 @@ trait_id Character::trait_by_invlet( const int ch ) const
     return trait_id::NULL_ID();
 }
 
-bool Character::mutation_ok( const trait_id &mutation, bool force_good, bool force_bad,
+bool Character::mutation_ok( const trait_id &mutation, bool allow_good, bool allow_bad,
+                             bool allow_neutral,
                              const vitamin_id &mut_vit, const bool &terminal ) const
 {
     if( mut_vit != vitamin_id::NULL_ID() && vitamin_get( mut_vit ) < mutation->vitamin_cost ) {
@@ -892,10 +893,11 @@ bool Character::mutation_ok( const trait_id &mutation, bool force_good, bool for
     if( !terminal && mutation->terminus ) {
         return false;
     }
-    return mutation_ok( mutation, force_good, force_bad );
+    return mutation_ok( mutation, allow_good, allow_bad, allow_neutral );
 }
 
-bool Character::mutation_ok( const trait_id &mutation, bool force_good, bool force_bad ) const
+bool Character::mutation_ok( const trait_id &mutation, bool allow_good, bool allow_bad,
+                             bool allow_neutral ) const
 {
     if( !is_category_allowed( mutation->category ) ) {
         return false;
@@ -921,17 +923,38 @@ bool Character::mutation_ok( const trait_id &mutation, bool force_good, bool for
     }
 
     const mutation_branch &mdata = mutation.obj();
-    if( force_bad && mdata.points > 0 ) {
-        // This is a good mutation, and we're due for a bad one.
+    if( !allow_good && mdata.points > 0 ) {
         return false;
     }
 
-    if( force_good && mdata.points < 0 ) {
-        // This is a bad mutation, and we're due for a good one.
+    if( !allow_bad && mdata.points < 0 ) {
+        return false;
+    }
+
+    if( !allow_neutral && mdata.points == 0 ) {
         return false;
     }
 
     return true;
+}
+
+bool Character::roll_bad_mutation() const
+{
+    //Instability value at which bad mutations become possible
+    const float I0 = 900.0;
+    //Instability value at which good and bad mutations are equally likely
+    const float I50 = 2800.0;
+
+    //Static to avoid recalculating this every time - std::log is not constexpr
+    static const float exp = std::log( 2 ) / std::log( I50 / I0 );
+
+    if( vitamin_get( vitamin_instability ) == 0 ) {
+        return false;
+    } else {
+        //A curve that is 0 until I0, crosses 0.5 at I50, then slowly approaches 1
+        float chance = std::max( 0.0f, 1 - std::pow( I0 / vitamin_get( vitamin_instability ), exp ) );
+        return rng_float( 0, 1 ) < chance;
+    }
 }
 
 void Character::mutate( const int &true_random_chance, const bool use_vitamins )
@@ -941,10 +964,14 @@ void Character::mutate( const int &true_random_chance, const bool use_vitamins )
     weighted_int_list<mutation_category_id> cat_list = get_vitamin_weighted_categories();
     const float instability = vitamin_get( vitamin_instability );
     const bool terminal = instability >= 9500;
-    const int flaw = rng( 0, ( cat_list.size() == 1 ? 0 : 10 ) + sqrt( instability ) ) +
-                     ( instability / 900 );
-    bool force_good = flaw < 10;
-    bool force_bad = flaw >= 30;
+
+    //If we picked bad, mutation can be bad or neutral
+    //Otherwise, can be good or neutral
+    bool picked_bad = roll_bad_mutation();
+
+    bool allow_good = !picked_bad;
+    bool allow_bad = picked_bad;
+    bool allow_neutral = true;
 
     if( true_random_chance > 0 && one_in( true_random_chance ) ) {
         cat = mutation_category_ANY;
@@ -984,7 +1011,8 @@ void Character::mutate( const int &true_random_chance, const bool use_vitamins )
                 // ...consider the mutations that replace it.
 
                 for( const trait_id &mutation : base_mdata.replacements ) {
-                    if( mutation->valid && mutation_ok( mutation, force_good, force_bad, mut_vit, terminal ) &&
+                    if( mutation->valid &&
+                        mutation_ok( mutation, allow_good, allow_bad, allow_neutral, mut_vit, terminal ) &&
                         mutation_is_in_category( mutation, cat ) ) {
                         upgrades.push_back( mutation );
                     }
@@ -992,7 +1020,8 @@ void Character::mutate( const int &true_random_chance, const bool use_vitamins )
 
                 // ...consider the mutations that add to it.
                 for( const trait_id &mutation : base_mdata.additions ) {
-                    if( mutation->valid && mutation_ok( mutation, force_good, force_bad, mut_vit, terminal ) &&
+                    if( mutation->valid &&
+                        mutation_ok( mutation, allow_good, allow_bad, allow_neutral, mut_vit, terminal ) &&
                         mutation_is_in_category( mutation, cat ) ) {
                         upgrades.push_back( mutation );
                     }
@@ -1049,7 +1078,7 @@ void Character::mutate( const int &true_random_chance, const bool use_vitamins )
         // Remove anything we already have, that we have a child of, that
         // goes against our intention of a good/bad mutation, or that we lack resources for
         for( size_t i = 0; i < valid.size(); i++ ) {
-            if( ( !mutation_ok( valid[i], force_good, force_bad, mut_vit, terminal ) ) ||
+            if( ( !mutation_ok( valid[i], allow_good, allow_bad, allow_neutral, mut_vit, terminal ) ) ||
                 ( !valid[i]->valid ) ) {
                 valid.erase( valid.begin() + i );
                 i--;
@@ -1095,9 +1124,12 @@ void Character::mutate_category( const mutation_category_id &cat, const bool use
 
     const float instability = vitamin_get( vitamin_instability );
     const bool terminal = instability >= 9500;
-    const int flaw = rng( 0, sqrt( instability ) ) + ( instability / 900 );
-    bool force_good = flaw < 10;
-    bool force_bad = flaw >= 30;
+
+    bool picked_bad = roll_bad_mutation();
+
+    bool allow_good = !picked_bad;
+    bool allow_bad = picked_bad;
+    bool allow_neutral = true;
 
     // Pull the category's list for valid mutations
     std::vector<trait_id> valid = mutations_category[cat];
@@ -1108,7 +1140,7 @@ void Character::mutate_category( const mutation_category_id &cat, const bool use
     // Remove anything we already have, that we have a child of, or that
     // goes against our intention of a good/bad mutation
     for( size_t i = 0; i < valid.size(); i++ ) {
-        if( !mutation_ok( valid[i], force_good, force_bad, mut_vit, terminal ) ) {
+        if( !mutation_ok( valid[i], allow_good, allow_bad, allow_neutral, mut_vit, terminal ) ) {
             valid.erase( valid.begin() + i );
             i--;
         }
@@ -1914,7 +1946,7 @@ void Character::give_all_mutations( const mutation_category_trait &category,
 
             // Try up to 10 times to mutate towards this trait
             int mutation_attempts = 10;
-            while( mutation_attempts > 0 && mutation_ok( mut, false, false ) ) {
+            while( mutation_attempts > 0 && mutation_ok( mut, true, true, true ) ) {
                 mutate_towards( mut, category.id );
                 --mutation_attempts;
             }
@@ -2027,7 +2059,7 @@ void Character::customize_appearance( customize_appearance_choice choice )
 std::string Character::visible_mutations( const int visibility_cap ) const
 {
     const std::vector<trait_id> &my_muts = get_mutations();
-    const std::string trait_str = enumerate_as_string( my_muts.begin(), my_muts.end(),
+    return enumerate_as_string( my_muts.begin(), my_muts.end(),
     [this, visibility_cap ]( const trait_id & pr ) -> std::string {
         const mutation_branch &mut_branch = pr.obj();
         // Finally some use for visibility trait of mutations
@@ -2038,6 +2070,5 @@ std::string Character::visible_mutations( const int visibility_cap ) const
 
         return std::string();
     } );
-    return trait_str;
 }
 

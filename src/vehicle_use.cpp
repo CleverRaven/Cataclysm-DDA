@@ -261,7 +261,10 @@ void vehicle::control_doors()
                 } else {
                     int part = next_part_to_close( motor );
                     if( part != -1 ) {
-                        if( part_flag( part, "CURTAIN" ) &&  option == CLOSEDOORS ) {
+                        if( part_flag( part, "CURTAIN" ) && option == CLOSEDOORS ) {
+                            continue;
+                        }
+                        if( !can_close( part, get_player_character() ) ) {
                             continue;
                         }
                         open_or_close( part, open );
@@ -269,6 +272,9 @@ void vehicle::control_doors()
                             next_part = next_part_to_close( motor );
                         }
                         if( next_part != -1 ) {
+                            if( !can_close( part, get_player_character() ) ) {
+                                continue;
+                            }
                             open_or_close( next_part, open );
                         }
                     }
@@ -563,7 +569,7 @@ void vehicle::smash_security_system()
     }
 }
 
-std::string vehicle::tracking_toggle_string()
+std::string vehicle::tracking_toggle_string() const
 {
     return tracking_on ? _( "Forget vehicle position" ) : _( "Remember vehicle position" );
 }
@@ -978,6 +984,7 @@ bool vehicle::fold_up()
         debugmsg( "Error storing vehicle: %s", e.c_str() );
     }
 
+    bicycle.set_var( "tracking", tracking_on ? 1 : 0 );
     if( can_be_folded ) {
         bicycle.set_var( "weight", to_milligram( total_mass() ) );
         bicycle.set_var( "volume", total_folded_volume() / units::legacy_volume_factor );
@@ -1238,7 +1245,7 @@ void vehicle::enable_patrol()
     refresh();
 }
 
-void vehicle::honk_horn()
+void vehicle::honk_horn() const
 {
     const bool no_power = !fuel_left( fuel_type_battery, true );
     bool honked = false;
@@ -1315,7 +1322,7 @@ void vehicle::reload_seeds( const tripoint &pos )
     }
 }
 
-void vehicle::beeper_sound()
+void vehicle::beeper_sound() const
 {
     // No power = no sound
     if( fuel_left( fuel_type_battery, true ) == 0 ) {
@@ -1335,7 +1342,7 @@ void vehicle::beeper_sound()
     }
 }
 
-void vehicle::play_music()
+void vehicle::play_music() const
 {
     Character &player_character = get_player_character();
     for( const vpart_reference &vp : get_enabled_parts( "STEREO" ) ) {
@@ -1343,7 +1350,7 @@ void vehicle::play_music()
     }
 }
 
-void vehicle::play_chimes()
+void vehicle::play_chimes() const
 {
     if( !one_in( 3 ) ) {
         return;
@@ -1649,7 +1656,7 @@ bool vehicle::can_close( int part_index, Character &who )
                     }
                     return false;
                 }
-                if( parts[partID].has_fake ) {
+                if( parts[partID].has_fake && parts[parts[partID].fake_part_at].is_active_fake ) {
                     partID = parts[partID].fake_part_at;
                 } else {
                     partID = -1;
@@ -2107,7 +2114,7 @@ void vehicle::validate_carried_vehicles( std::vector<std::vector<int>>
 }
 
 
-void vpart_position::form_inventory( inventory &inv )
+void vpart_position::form_inventory( inventory &inv ) const
 {
     const int veh_battery = vehicle().fuel_left( itype_battery, true );
     const cata::optional<vpart_reference> vp_faucet = part_with_tool( itype_water_faucet );
@@ -2411,11 +2418,11 @@ void vehicle::interact_with( const vpart_position &vp, bool with_pickup )
             return;
         }
         case RELOAD_TURRET: {
-            item::reload_option opt = player_character.select_ammo( *turret.base(), true );
+            item::reload_option opt = player_character.select_ammo( turret.base(), true );
             std::vector<item_location> targets;
             if( opt ) {
                 const int moves = opt.moves();
-                targets.emplace_back( item_location( turret.base(), const_cast<item *>( opt.target ) ) );
+                targets.push_back( opt.target );
                 targets.push_back( std::move( opt.ammo ) );
                 player_character.assign_activity( player_activity( reload_activity_actor( moves, opt.qty(),
                                                   targets ) ) );

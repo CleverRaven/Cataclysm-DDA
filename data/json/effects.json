@@ -692,6 +692,21 @@
   },
   {
     "type": "effect_type",
+    "id": "venom_pain",
+    "name": [ "Distracting Wound", "Painful Wound", "Searing Wound" ],
+    "desc": [ "The wound throbs with sharp pain." ],
+    "apply_message": "A dull pain starts spreading from the wound!",
+    "max_intensity": 6,
+    "int_add_val": 1,
+    "int_decay_step": -1,
+    "int_decay_tick": 100,
+    "int_decay_remove": true,
+    "resist_traits": [ "PAINRESIST" ],
+    "base_mods": { "pain_amount": [ 10, 2 ], "pain_min": [ 5, 1 ], "pain_chance": [ 10, 20 ], "pain_tick": [ 5 ] },
+    "scaling_mods": { "pain_min": [ 5, 1 ], "pain_chance": [ -1, 0 ] }
+  },
+  {
+    "type": "effect_type",
     "id": "foodpoison",
     "name": [ "Food Poisoning" ],
     "desc": [ "Your stomach is extremely upset, and you are quite nauseated." ],

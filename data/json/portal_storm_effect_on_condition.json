@@ -235,8 +235,9 @@
       },
       { "u_add_var": "u_witnessed_portal_storm", "type": "global", "context": "portal_storms", "value": "yes" },
       { "run_eocs": [ "EOC_WORSEN_PORTAL_STORM", "EOC_PORTAL_STORM_DUNGEON_EXIT" ] },
-      { "finish_mission": "MISSION_INVESTIGATE_PORTAL_DUNGEON", "success": false },
-      { "alter_timed_events": "portal_dungeon_entrance" }
+      { "remove_active_mission": "MISSION_INVESTIGATE_PORTAL_DUNGEON" },
+      { "alter_timed_events": "portal_dungeon_entrance" },
+      { "u_adjust_var": "portal_storm_counter", "type": "counter", "adjustment": 1 }
     ]
   },
   {
@@ -272,7 +273,8 @@
     "condition": {
       "and": [
         { "is_weather": "portal_storm" },
-        { "compare_int": [ { "global_val": "var", "var_name": "ps_str" }, "<=", { "const": 2 } ] }
+        { "compare_int": [ { "global_val": "var", "var_name": "ps_str" }, "<=", { "const": 2 } ] },
+        { "compare_int": [ { "global_val": "var", "var_name": "portal_dungeon_level" }, "=", { "const": 0 } ] }
       ]
     },
     "deactivate_condition": { "not": { "is_weather": "portal_storm" } },
@@ -300,7 +302,8 @@
       "and": [
         { "is_weather": "portal_storm" },
         { "compare_int": [ { "global_val": "var", "var_name": "ps_str" }, ">", { "const": 2 } ] },
-        { "compare_int": [ { "global_val": "var", "var_name": "ps_str" }, "<=", { "const": 4 } ] }
+        { "compare_int": [ { "global_val": "var", "var_name": "ps_str" }, "<=", { "const": 4 } ] },
+        { "compare_int": [ { "global_val": "var", "var_name": "portal_dungeon_level" }, "=", { "const": 0 } ] }
       ]
     },
     "deactivate_condition": { "not": { "is_weather": "portal_storm" } },
@@ -330,7 +333,8 @@
     "condition": {
       "and": [
         { "is_weather": "portal_storm" },
-        { "compare_int": [ { "global_val": "var", "var_name": "ps_str" }, ">", { "const": 4 } ] }
+        { "compare_int": [ { "global_val": "var", "var_name": "ps_str" }, ">", { "const": 4 } ] },
+        { "compare_int": [ { "global_val": "var", "var_name": "portal_dungeon_level" }, "=", { "const": 0 } ] }
       ]
     },
     "deactivate_condition": { "not": { "is_weather": "portal_storm" } },
@@ -570,7 +574,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_TELEPORT_STUCK_START",
-    "condition": { "not": "u_driving" },
+    "condition": { "and": [ { "not": { "u_has_worn_with_flag": "PORTAL_PROOF" } }, { "not": "u_driving" } ] },
     "effect": [
       { "u_location_variable": { "u_val": "stuck_teleport" }, "min_radius": 0, "max_radius": 0 },
       { "run_eocs": "EOC_PORTAL_TELEPORT_STUCK" },
@@ -590,6 +594,7 @@
     "condition": {
       "and": [
         { "not": "u_driving" },
+        { "not": { "u_has_worn_with_flag": "PORTAL_PROOF" } },
         { "compare_int": [ { "global_val": "var", "var_name": "portal_dungeon_level" }, "==", { "const": 0 } ] }
       ]
     },
@@ -1066,7 +1071,12 @@
     "id": "EOC_PORTAL_STORM_POPUP",
     "global": true,
     "condition": {
-      "and": [ { "not": "u_is_outside" }, { "not": { "u_has_effect": "sleep" } }, { "x_in_y_chance": { "x": 1, "y": 250 } } ]
+      "and": [
+        { "not": { "u_has_worn_with_flag": "PORTAL_PROOF" } },
+        { "not": "u_is_outside" },
+        { "not": { "u_has_effect": "sleep" } },
+        { "x_in_y_chance": { "x": 1, "y": 250 } }
+      ]
     },
     "effect": {
       "u_message": "PORTAL_STORM_POPUP",
@@ -1079,27 +1089,45 @@
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_STORM_INDOOR_MESSAGES_1",
     "global": true,
-    "condition": { "and": [ { "not": { "u_has_effect": "sleep" } }, { "x_in_y_chance": { "x": 1, "y": 30 } } ] },
+    "condition": {
+      "and": [
+        { "not": { "u_has_worn_with_flag": "PORTAL_PROOF" } },
+        { "not": { "u_has_effect": "sleep" } },
+        { "x_in_y_chance": { "x": 1, "y": 30 } }
+      ]
+    },
     "effect": { "u_message": "PORTAL_STORM_INDOOR_MESSAGES_1", "snippet": true }
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_STORM_INDOOR_MESSAGES_2",
     "global": true,
-    "condition": { "and": [ { "not": { "u_has_effect": "sleep" } }, { "x_in_y_chance": { "x": 1, "y": 30 } } ] },
+    "condition": {
+      "and": [
+        { "not": { "u_has_worn_with_flag": "PORTAL_PROOF" } },
+        { "not": { "u_has_effect": "sleep" } },
+        { "x_in_y_chance": { "x": 1, "y": 30 } }
+      ]
+    },
     "effect": { "u_message": "PORTAL_STORM_INDOOR_MESSAGES_2", "snippet": true }
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_STORM_INDOOR_MESSAGES_3",
     "global": true,
-    "condition": { "and": [ { "not": { "u_has_effect": "sleep" } }, { "x_in_y_chance": { "x": 1, "y": 30 } } ] },
+    "condition": {
+      "and": [
+        { "not": { "u_has_worn_with_flag": "PORTAL_PROOF" } },
+        { "not": { "u_has_effect": "sleep" } },
+        { "x_in_y_chance": { "x": 1, "y": 30 } }
+      ]
+    },
     "effect": { "u_message": "PORTAL_STORM_INDOOR_MESSAGES_3", "snippet": true }
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_STORM_CELL",
-    "condition": { "not": "u_driving" },
+    "condition": { "and": [ { "not": { "u_has_worn_with_flag": "PORTAL_PROOF" } }, { "not": "u_driving" } ] },
     "effect": [
       { "u_location_variable": { "global_val": "original_loc" } },
       { "u_location_variable": { "global_val": "cell_loc" }, "z_adjust": 6, "z_override": true },
@@ -1149,7 +1177,9 @@
         "u_location_variable": { "global_val": "portal_dungeon" },
         "target_params": { "om_terrain": "field", "search_range": 20, "min_distance": 3, "z": 0 }
       },
-      { "u_message": "You can feel the presence of something nearby, cracked in a way you can't put into words." },
+      {
+        "u_message": "You can feel the presence of something nearby, cracked in a way you can't put into words(check mission log for details)."
+      },
       { "assign_mission": "MISSION_INVESTIGATE_PORTAL_DUNGEON" },
       {
         "revert_location": { "global_val": "portal_dungeon" },
@@ -1185,8 +1215,8 @@
       { "mapgen_update": "portal_dungeon", "target_var": { "global_val": "dungeon_loc" } },
       { "u_teleport": { "global_val": "dungeon_start" }, "fail_message": "Something is very wrong!", "force": true },
       { "arithmetic": [ { "global_val": "var", "var_name": "portal_dungeon_level" }, "=", { "const": 1 } ] },
-      { "run_eocs": [ "EOC_PORTAL_STORM_DUNGEON_MONSTER_SPAWN", "EOC_PORTAL_STORM_DUNGEON_ENDLESS_HUNGER_SPAWN" ] },
       { "queue_eocs": "EOC_PORTAL_STORM_DUNGEON_SHIFT", "time_in_future": [ "5 seconds", "15 seconds" ] },
+      { "run_eocs": [ "EOC_PORTAL_STORM_DUNGEON_MONSTER_SPAWN", "EOC_PORTAL_STORM_DUNGEON_ENDLESS_HUNGER_SPAWN" ] },
       { "u_message": "You are trapped in <global_val:place_name>!" },
       { "u_message": { "global_val": "portal_storm_voice_mood", "default_str": "none" }, "snippet": true }
     ]
@@ -1248,9 +1278,9 @@
       {
         "u_spawn_monster": "mon_endless_hunger",
         "real_count": 1,
-        "min_radius": 4,
-        "max_radius": 6,
-        "spawn_message": "Something you are spared from fully understanding appears.."
+        "min_radius": 8,
+        "max_radius": 12,
+        "spawn_message": "Something your mind can't fully parse appears, despite the distance and obstacles you know where it is.  You can feel its presence as if there were a bond of some sort between you."
       }
     ]
   },

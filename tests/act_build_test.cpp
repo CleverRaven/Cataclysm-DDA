@@ -61,8 +61,8 @@ construction get_construction( std::string const &name )
     return *build;
 }
 
-construction setup_testcase( Character &u, std::string const &constr, tripoint const &build_loc,
-                             tripoint const &loot_loc )
+construction setup_testcase( Character &u, std::string const &constr,
+                             tripoint_bub_ms const &build_loc, tripoint_bub_ms const &loot_loc )
 {
     construction build = get_construction( constr );
 
@@ -70,9 +70,9 @@ construction setup_testcase( Character &u, std::string const &constr, tripoint c
     shared_ptr_fast<blueprint_options> options =
         make_shared_fast<blueprint_options>( build.pre_terrain, build.group, build.id );
 
-    tripoint_abs_ms const start = project_to<coords::ms>( get_map().get_abs_sub() );
-    tripoint_abs_ms const loot_abs = start + loot_loc;
-    tripoint_abs_ms const build_abs = start + build_loc;
+    map &here = get_map();
+    tripoint_abs_ms const loot_abs = here.getglobal( loot_loc );
+    tripoint_abs_ms const build_abs = here.getglobal( build_loc );
     faction_id const fac = u.get_faction()->id;
 
     zmgr.add( constr + " loot zone", zone_type_LOOT_UNSORTED, fac, false, true, loot_abs.raw(),
@@ -81,7 +81,6 @@ construction setup_testcase( Character &u, std::string const &constr, tripoint c
     zmgr.add( constr + " construction zone", zone_type_CONSTRUCTION_BLUEPRINT, fac, false,
               true, build_abs.raw(), build_abs.raw(), options );
 
-    map &here = get_map();
     for( auto const *cons : constructions_by_group( build.group ) ) {
         for( auto const &comp : cons->requirements->get_components() ) {
             for( int i = 0; i < comp.front().count; i++ ) {
@@ -114,9 +113,9 @@ void run_test_case( Character &u )
     SECTION( "1-step construction activity with pre_terrain" ) {
         u.setpos( tripoint_zero );
         here.build_map_cache( u.pos().z );
-        tripoint const tri_door = tripoint_south;
+        tripoint_bub_ms const tri_door( tripoint_south );
         construction const build =
-            setup_testcase( u, "constr_door", tri_door, tripoint_zero );
+            setup_testcase( u, "constr_door", tri_door, tripoint_bub_ms() );
         REQUIRE( u.sees( tri_door ) );
         here.ter_set( tri_door, ter_id( build.pre_terrain ) );
         run_activities( u, build.time * 10 );
@@ -126,9 +125,9 @@ void run_test_case( Character &u )
     SECTION( "1-step construction activity with pre_terrain and starting far away" ) {
         u.setpos( { ACTIVITY_SEARCH_DISTANCE - 1, 0, 0} );
         here.build_map_cache( u.pos().z );
-        tripoint const tri_window = tripoint_south;
+        tripoint_bub_ms const tri_window( tripoint_south );
         construction const build =
-            setup_testcase( u, "constr_door", tri_window, tripoint_zero );
+            setup_testcase( u, "constr_door", tri_window, tripoint_bub_ms() );
         here.ter_set( tri_window, ter_id( build.pre_terrain ) );
         run_activities( u, build.time * 10 );
         REQUIRE( here.ter( tri_window ) == ter_id( build.post_terrain ) );
@@ -137,9 +136,9 @@ void run_test_case( Character &u )
     SECTION( "1-step construction activity with pre_flags" ) {
         u.setpos( tripoint_zero );
         here.build_map_cache( u.pos().z );
-        tripoint const tri_window = tripoint_south;
+        tripoint_bub_ms const tri_window( tripoint_south );
         construction const build =
-            setup_testcase( u, "constr_window_boarded", tri_window, tripoint_zero );
+            setup_testcase( u, "constr_window_boarded", tri_window, tripoint_bub_ms() );
         here.ter_set( tri_window, ter_id( "t_window_domestic" ) );
         run_activities( u, build.time * 10 );
         REQUIRE( here.ter( tri_window ) == ter_id( build.post_terrain ) );
@@ -148,9 +147,9 @@ void run_test_case( Character &u )
     SECTION( "1-step construction activity - alternative build from same group" ) {
         u.setpos( tripoint_zero );
         here.build_map_cache( u.pos().z );
-        tripoint const tri_window = tripoint_south;
+        tripoint_bub_ms const tri_window( tripoint_south );
         construction const build =
-            setup_testcase( u, "constr_window_boarded", tri_window, tripoint_zero );
+            setup_testcase( u, "constr_window_boarded", tri_window, tripoint_bub_ms() );
         here.ter_set( tri_window, ter_id( "t_window_empty" ) );
         REQUIRE( build.pre_terrain != "t_window_empty" );
         run_activities( u, build.time * 10 );
@@ -160,9 +159,9 @@ void run_test_case( Character &u )
     SECTION( "1-step construction activity with existing partial" ) {
         u.setpos( tripoint_zero );
         here.build_map_cache( u.pos().z );
-        tripoint const tri_window = tripoint_south;
+        tripoint_bub_ms const tri_window( tripoint_south );
         construction const build =
-            setup_testcase( u, "constr_window_boarded", tri_window, tripoint_zero );
+            setup_testcase( u, "constr_window_boarded", tri_window, tripoint_bub_ms() );
         partial_con pc;
         pc.id = build.id;
         here.partial_con_set( tri_window, pc );
@@ -173,9 +172,9 @@ void run_test_case( Character &u )
     SECTION( "1-step construction activity with alternative partial" ) {
         u.setpos( tripoint_zero );
         here.build_map_cache( u.pos().z );
-        tripoint const tri_window = tripoint_south;
+        tripoint_bub_ms const tri_window( tripoint_south );
         construction const build =
-            setup_testcase( u, "constr_window_boarded", tri_window, tripoint_zero );
+            setup_testcase( u, "constr_window_boarded", tri_window, tripoint_bub_ms() );
         partial_con pc;
         pc.id = get_construction( "constr_window_boarded_noglass_empty" ).id;
         here.partial_con_set( tri_window, pc );
@@ -186,9 +185,9 @@ void run_test_case( Character &u )
     SECTION( "1-step construction activity with mismatched partial" ) {
         u.setpos( tripoint_zero );
         here.build_map_cache( u.pos().z );
-        tripoint const tri_window = tripoint_south;
+        tripoint_bub_ms const tri_window( tripoint_south );
         construction const build =
-            setup_testcase( u, "constr_window_boarded", tri_window, tripoint_zero );
+            setup_testcase( u, "constr_window_boarded", tri_window, tripoint_bub_ms() );
         ter_id const ter_pre = here.ter( tri_window );
         partial_con pc;
         pc.id = get_construction( "constr_door" ).id;
@@ -201,15 +200,16 @@ void run_test_case( Character &u )
         u.setpos( tripoint_zero );
         u.path_settings->bash_strength = 0;
         here.build_map_cache( u.pos().z );
-        tripoint const tri_window = { 0, 5, 0 };
-        for( tripoint const &it : here.points_in_radius( tri_window, 1 ) ) {
+        tripoint_bub_ms const tri_window = { 0, 5, 0 };
+        for( tripoint_bub_ms const &it : here.points_in_radius( tri_window, 1 ) ) {
             here.ter_set( it, ter_id( "t_metal_grate_window" ) );
         }
         construction const build =
-            setup_testcase( u, "constr_door", tri_window, tripoint_zero );
+            setup_testcase( u, "constr_door", tri_window, tripoint_bub_ms() );
         here.ter_set( tri_window, ter_id( build.pre_terrain ) );
         REQUIRE( u.sees( tri_window ) );
-        REQUIRE( route_adjacent( u, tri_window ).empty() );
+        // TODO: fix point types
+        REQUIRE( route_adjacent( u, tri_window.raw() ).empty() );
         run_activities( u, build.time * 10 );
         REQUIRE( here.ter( tri_window ) == ter_id( build.pre_terrain ) );
     }
@@ -217,7 +217,7 @@ void run_test_case( Character &u )
     SECTION( "multiple-step construction activity with fetch required" ) {
         u.setpos( tripoint_zero );
         here.build_map_cache( u.pos().z );
-        tripoint const tri_door = tripoint_south;
+        tripoint_bub_ms const tri_door( tripoint_south );
         construction const build =
             setup_testcase( u, "constr_door_peep", tri_door, { 0, PICKUP_RANGE * 2 + 1, 0 } );
         run_activities( u, build.time * 100 );
@@ -227,9 +227,9 @@ void run_test_case( Character &u )
     SECTION( "multiple-step construction activity with prereq from a different group" ) {
         u.setpos( tripoint_zero );
         here.build_map_cache( u.pos().z );
-        tripoint const tri_door = tripoint_south;
+        tripoint_bub_ms const tri_door( tripoint_south );
         construction const build =
-            setup_testcase( u, "constr_palisade_gate", tri_door, tripoint_south_east );
+            setup_testcase( u, "constr_palisade_gate", tri_door, tripoint_bub_ms( tripoint_south_east ) );
         run_activities( u, build.time * 200 );
         REQUIRE( here.ter( tri_door ) == ter_id( build.post_terrain ) );
     }
@@ -237,12 +237,12 @@ void run_test_case( Character &u )
     SECTION( "multiple-step construction activity with partial of a recursive prerequisite" ) {
         u.setpos( tripoint_zero );
         here.build_map_cache( u.pos().z );
-        tripoint const tri_door = tripoint_south;
+        tripoint_bub_ms const tri_door( tripoint_south );
         partial_con pc;
         pc.id = get_construction( "constr_pit_shallow" ).id;
         here.partial_con_set( tri_door, pc );
         construction const build =
-            setup_testcase( u, "constr_palisade_gate", tri_door, tripoint_south_east );
+            setup_testcase( u, "constr_palisade_gate", tri_door, tripoint_bub_ms( tripoint_south_east ) );
         run_activities( u, build.time * 200 );
         REQUIRE( here.ter( tri_door ) == ter_id( build.post_terrain ) );
     }

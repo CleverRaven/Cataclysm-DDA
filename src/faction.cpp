@@ -52,7 +52,7 @@ static const flag_id json_flag_TWO_WAY_RADIO( "TWO_WAY_RADIO" );
 
 namespace npc_factions
 {
-std::vector<faction_template> all_templates;
+static std::vector<faction_template> all_templates;
 } // namespace npc_factions
 
 faction_template::faction_template()
@@ -109,17 +109,16 @@ void faction_template::load_relations( const JsonObject &jsobj )
         relations[fac.name()] = fac_relation;
     }
 }
-class faction_price_rules_reader : public generic_typed_reader<faction_price_rules_reader>
+faction_price_rule faction_price_rules_reader::get_next( JsonValue &jv )
 {
-    public:
-        static faction_price_rule get_next( JsonValue &jv ) {
-            JsonObject jo = jv.get_object();
-            faction_price_rule ret( icg_entry_reader::_part_get_next( jo ) );
-            optional( jo, false, "markup", ret.markup, 1.0 );
-            optional( jo, false, "fixed_adj", ret.fixed_adj, cata::nullopt );
-            return ret;
-        }
-};
+    JsonObject jo = jv.get_object();
+    faction_price_rule ret( icg_entry_reader::_part_get_next( jo ) );
+    optional( jo, false, "markup", ret.markup, 1.0 );
+    optional( jo, false, "premium", ret.premium, 1.0 );
+    optional( jo, false, "fixed_adj", ret.fixed_adj, cata::nullopt );
+    optional( jo, false, "price", ret.price, cata::nullopt );
+    return ret;
+}
 
 faction_template::faction_template( const JsonObject &jsobj )
     : name( jsobj.get_string( "name" ) )
@@ -705,8 +704,10 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
                _( "Thirst: " ) + ( thirst_pair.first.empty() ? nominal : thirst_pair.first ) );
     mvwprintz( fac_w, point( width, ++y ), fatigue_pair.second,
                _( "Fatigue: " ) + ( fatigue_pair.first.empty() ? nominal : fatigue_pair.first ) );
+    std::string weapon_name = get_wielded_item() ? get_wielded_item()->tname() :
+                              null_item_reference().tname();
     int lines = fold_and_print( fac_w, point( width, ++y ), getmaxx( fac_w ) - width - 2, c_white,
-                                _( "Wielding: " ) + get_wielded_item().tname() );
+                                _( "Wielding: " ) + weapon_name );
     y += lines;
 
     const auto skillslist = Skill::get_skills_sorted_by( [&]( const Skill & a, const Skill & b ) {

@@ -71,6 +71,7 @@
 #include "dependency_tree.h"
 #include "dialogue_chatbin.h"
 #include "diary.h"
+#include "distraction_manager.h"
 #include "editmap.h"
 #include "effect_on_condition.h"
 #include "enums.h"
@@ -222,6 +223,7 @@ static const efftype_id effect_riding( "riding" );
 static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_tetanus( "tetanus" );
 static const efftype_id effect_tied( "tied" );
+static const efftype_id effect_took_xanax( "took_xanax" );
 static const efftype_id effect_winded( "winded" );
 
 static const faction_id faction_no_faction( "no_faction" );
@@ -251,6 +253,7 @@ static const itype_id itype_towel_wet( "towel_wet" );
 
 static const json_character_flag json_flag_CLIMB_NO_LADDER( "CLIMB_NO_LADDER" );
 static const json_character_flag json_flag_HYPEROPIC( "HYPEROPIC" );
+static const json_character_flag json_flag_NYCTOPHOBIA( "NYCTOPHOBIA" );
 static const json_character_flag json_flag_WALL_CLING( "WALL_CLING" );
 static const json_character_flag json_flag_WEB_RAPPEL( "WEB_RAPPEL" );
 
@@ -610,7 +613,7 @@ void game::toggle_fullscreen()
 #endif
 }
 
-void game::toggle_pixel_minimap()
+void game::toggle_pixel_minimap() const
 {
 #if defined(TILES)
     if( pixel_minimap_option ) {
@@ -627,13 +630,28 @@ void game::reload_tileset()
     // Disable UIs below to avoid accessing the tile context during loading.
     ui_adaptor ui( ui_adaptor::disable_uis_below {} );
     try {
-        tilecontext->reinit();
-        tilecontext->load_tileset( get_option<std::string>( "TILES" ),
-                                   /*precheck=*/false, /*force=*/true,
-                                   /*pump_events=*/true );
-        tilecontext->do_tile_loading_report();
+        closetilecontext->reinit();
+        closetilecontext->load_tileset( get_option<std::string>( "TILES" ),
+                                        /*precheck=*/false, /*force=*/true,
+                                        /*pump_events=*/true );
+        closetilecontext->do_tile_loading_report();
+
+        tilecontext = closetilecontext;
     } catch( const std::exception &err ) {
         popup( _( "Loading the tileset failed: %s" ), err.what() );
+    }
+    if( use_far_tiles ) {
+        try {
+            if( fartilecontext->is_valid() ) {
+                fartilecontext->reinit();
+            }
+            fartilecontext->load_tileset( get_option<std::string>( "DISTANT_TILES" ),
+                                          /*precheck=*/false, /*force=*/true,
+                                          /*pump_events=*/true );
+            fartilecontext->do_tile_loading_report();
+        } catch( const std::exception &err ) {
+            popup( _( "Loading the zoomed out tileset failed: %s" ), err.what() );
+        }
     }
     try {
         overmap_tilecontext->reinit();
@@ -1346,6 +1364,7 @@ bool game::cancel_activity_or_ignore_query( const distraction_type type, const s
                                 .option( "YES", allow_key )
                                 .option( "NO", allow_key )
                                 .option( "IGNORE", allow_key )
+                                .option( "MANAGER", allow_key )
                                 .query()
                                 .action;
 
@@ -1358,6 +1377,11 @@ bool game::cancel_activity_or_ignore_query( const distraction_type type, const s
         for( player_activity &activity : u.backlog ) {
             activity.ignore_distraction( type );
         }
+    }
+    if( action == "MANAGER" ) {
+        u.cancel_activity();
+        get_distraction_manager().show();
+        return true;
     }
 
     ui_manager::redraw();
@@ -1547,7 +1571,7 @@ npc *game::find_npc( character_id id )
     return overmap_buffer.find_npc( id ).get();
 }
 
-npc *game::find_npc_by_unique_id( std::string unique_id )
+npc *game::find_npc_by_unique_id( const std::string &unique_id )
 {
     return overmap_buffer.find_npc_by_unique_id( unique_id ).get();
 }
@@ -1862,9 +1886,9 @@ int game::inventory_item_menu( item_location locThisItem,
         std::vector<iteminfo> vDummy;
 
         const bool bHPR = get_auto_pickup().has_rule( &oThisItem );
-        const hint_rating rate_drop_item = u.get_wielded_item().has_flag( flag_NO_UNWIELD ) ?
-                                           hint_rating::cant :
-                                           hint_rating::good;
+        const hint_rating rate_drop_item = u.get_wielded_item() &&
+                                           u.get_wielded_item()->has_flag( flag_NO_UNWIELD ) ?
+                                           hint_rating::cant : hint_rating::good;
 
         uilist action_menu;
         action_menu.allow_anykey = true;
@@ -1903,7 +1927,7 @@ int game::inventory_item_menu( item_location locThisItem,
             if( oThisItem.num_item_stacks() > 0 ) {
                 addentry( 'o', pgettext( "action", "open" ), hint_rating::good );
             }
-            addentry( 'v', pgettext( "action", "pocket auto pickup settings" ), hint_rating::good );
+            addentry( 'v', pgettext( "action", "pocket settings" ), hint_rating::good );
         }
 
         if( oThisItem.is_favorite ) {
@@ -2366,6 +2390,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "open_autopickup" );
     ctxt.register_action( "open_autonotes" );
     ctxt.register_action( "open_safemode" );
+    ctxt.register_action( "open_distraction_manager" );
     ctxt.register_action( "open_color" );
     ctxt.register_action( "open_world_mods" );
     ctxt.register_action( "debug" );
@@ -2496,7 +2521,7 @@ bool game::try_get_right_click_action( action_id &act, const tripoint &mouse_tar
             return false;
         }
 
-        if( !u.get_wielded_item().is_gun() ) {
+        if( !u.get_wielded_item() || !u.get_wielded_item()->is_gun() ) {
             add_msg( m_info, _( "You are not wielding a ranged weapon." ) );
             return false;
         }
@@ -2629,9 +2654,10 @@ void game::move_save_to_graveyard()
 
 void game::load_master()
 {
-    using namespace std::placeholders;
     const auto datafile = PATH_INFO::world_base_save_path() + "/" + SAVE_MASTER;
-    read_from_file_optional( datafile, std::bind( &game::unserialize_master, this, _1 ) );
+    read_from_file_optional( datafile, [this]( std::istream & is ) {
+        unserialize_master( is );
+    } );
 }
 
 bool game::load( const std::string &world )
@@ -2666,8 +2692,6 @@ bool game::load( const save_t &name )
     ui_manager::redraw();
     refresh_display();
 
-    using namespace std::placeholders;
-
     const std::string worldpath = PATH_INFO::world_base_save_path() + "/";
     const std::string playerpath = worldpath + name.base_path();
 
@@ -2676,7 +2700,10 @@ bool game::load( const save_t &name )
     u = avatar();
     u.set_save_id( name.decoded_name() );
     const std::string save_filename = playerpath + SAVE_EXTENSION;
-    if( !read_from_file( save_filename, std::bind( &game::unserialize, this, _1, save_filename ) ) ) {
+    if( !read_from_file( save_filename,
+    [this, &save_filename]( std::istream & is ) {
+    unserialize( is, save_filename );
+    } ) ) {
         return false;
     }
 
@@ -2685,12 +2712,15 @@ bool game::load( const save_t &name )
 
     const std::string log_filename = worldpath + name.base_path() + SAVE_EXTENSION_LOG;
     read_from_file_optional( log_filename,
-                             std::bind( &memorial_logger::load, &memorial(), _1, log_filename ) );
+    [this, &log_filename]( std::istream & is ) {
+        memorial().load( is, log_filename );
+    } );
 
 #if defined(__ANDROID__)
     const std::string shortcuts_filename = worldpath + name.base_path() + SAVE_EXTENSION_SHORTCUTS;
-    read_from_file_optional( shortcuts_filename,
-                             std::bind( &game::load_shortcuts, this, _1, shortcuts_filename ) );
+    read_from_file_optional( shortcuts_filename, [this, &shortcuts_filename]( std::istream & is ) {
+        load_shortcuts( is, shortcuts_filename );
+    } );
 #endif
 
     // Now that the player's worn items are updated, their sight limits need to be
@@ -2925,12 +2955,12 @@ memorial_logger &game::memorial()
     return *memorial_logger_ptr;
 }
 
-void game::update_unique_npc_location( std::string id, point_abs_om loc )
+void game::update_unique_npc_location( const std::string &id, point_abs_om loc )
 {
     unique_npcs[id] = loc;
 }
 
-point_abs_om game::get_unique_npc_location( std::string id )
+point_abs_om game::get_unique_npc_location( const std::string &id )
 {
     if( unique_npc_exists( id ) ) {
         return unique_npcs[id];
@@ -2940,12 +2970,12 @@ point_abs_om game::get_unique_npc_location( std::string id )
     }
 }
 
-bool game::unique_npc_exists( std::string id )
+bool game::unique_npc_exists( const std::string &id )
 {
     return unique_npcs.count( id ) > 0;
 }
 
-void game::unique_npc_despawn( std::string id )
+void game::unique_npc_despawn( const std::string &id )
 {
     unique_npcs.erase( id );
 }
@@ -3205,8 +3235,8 @@ shared_ptr_fast<ui_adaptor> game::create_or_get_main_ui_adaptor()
     shared_ptr_fast<ui_adaptor> ui = main_ui_adaptor.lock();
     if( !ui ) {
         main_ui_adaptor = ui = make_shared_fast<ui_adaptor>();
-        ui->on_redraw( []( const ui_adaptor & ) {
-            g->draw();
+        ui->on_redraw( []( ui_adaptor & ui ) {
+            g->draw( ui );
         } );
         ui->on_screen_resize( [this]( ui_adaptor & ui ) {
             // remove some space for the sidebar, this is the maximal space
@@ -3377,7 +3407,7 @@ static shared_ptr_fast<game::draw_callback_t> create_trail_callback(
     } );
 }
 
-void game::draw()
+void game::draw( ui_adaptor &ui )
 {
     if( test_mode ) {
         return;
@@ -3403,16 +3433,11 @@ void game::draw()
 
     draw_panels( true );
 
-    // This breaks stuff in the SDL port, see
-    // https://github.com/CleverRaven/Cataclysm-DDA/issues/45910
-#if !defined(TILES)
     // Ensure that the cursor lands on the character when everything is drawn.
     // This allows screen readers to describe the area around the player, making it
     // much easier to play with them
     // (e.g. for blind players)
-    wmove( w_terrain, -u.view_offset.xy() + point{POSX, POSY} );
-    wnoutrefresh( w_terrain );
-#endif
+    ui.set_cursor( w_terrain, -u.view_offset.xy() + point( POSX, POSY ) );
 }
 
 void game::draw_panels( bool force_draw )
@@ -4163,7 +4188,7 @@ void game::mon_info_update( )
         }
     }
 
-    if( newseen > mostseen ) {
+    if( uistate.distraction_hostile_spotted && newseen > mostseen ) {
         if( newseen - mostseen == 1 ) {
             if( !new_seen_mon.empty() ) {
                 monster &critter = *new_seen_mon.back();
@@ -4831,6 +4856,11 @@ bool game::is_empty( const tripoint &p )
 {
     return ( m.passable( p ) || m.has_flag( ter_furn_flag::TFLAG_LIQUID, p ) ) &&
            get_creature_tracker().creature_at( p ) == nullptr;
+}
+
+bool game::is_empty( const tripoint_bub_ms &p )
+{
+    return is_empty( p.raw() );
 }
 
 bool game::is_in_sunlight( const tripoint &p )
@@ -6031,7 +6061,8 @@ void game::print_trap_info( const tripoint &lp, const catacurses::window &w_look
 {
     const trap &tr = m.tr_at( lp );
     if( tr.can_see( lp, u ) ) {
-        partial_con *pc = m.partial_con_at( lp );
+        // TODO: fix point types
+        partial_con *pc = m.partial_con_at( tripoint_bub_ms( lp ) );
         std::string tr_name;
         if( pc && tr == tr_unfinished_construction ) {
             const construction &built = pc->id.obj();
@@ -7713,7 +7744,7 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
     ctxt.register_action( "SORT" );
     ctxt.register_action( "TRAVEL_TO" );
 
-    ui.on_redraw( [&]( const ui_adaptor & ) {
+    ui.on_redraw( [&]( ui_adaptor & ui ) {
         reset_item_list_state( w_items_border, iInfoHeight, sort_radius );
 
         int iStartPos = 0;
@@ -7825,7 +7856,7 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
                             activeItem->vIG[page_num].it->display_name() );
             wprintw( w_item_info, " >" );
             // move the cursor to the selected item (for screen readers)
-            wmove( w_items, point( 1, iActive - iStartPos ) );
+            ui.set_cursor( w_items, point( 1, iActive - iStartPos ) );
         }
 
         wnoutrefresh( w_items );
@@ -8129,7 +8160,10 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
     } );
     ui.mark_resize();
 
-    const int max_gun_range = u.get_wielded_item().gun_range( &u );
+    int max_gun_range = 0;
+    if( u.get_wielded_item() ) {
+        max_gun_range = u.get_wielded_item()->gun_range( &u );
+    }
 
     const tripoint stored_view_offset = u.view_offset;
     u.view_offset = tripoint_zero;
@@ -8779,7 +8813,7 @@ void game::butcher()
 
     // TODO: Properly handle different material whitelists
     // TODO: Improve quality of this section
-    auto salvage_filter = []( item it ) {
+    auto salvage_filter = []( const item & it ) {
         const item *usable = it.get_usable_item( salvage_string );
         return usable != nullptr;
     };
@@ -8809,7 +8843,7 @@ void game::butcher()
         if( it->is_corpse() ) {
             corpses.push_back( it );
         } else {
-            if( ( salvage_tool_index != INT_MIN ) && salvage_iuse->valid_to_cut_up( *it ) ) {
+            if( ( salvage_tool_index != INT_MIN ) && salvage_iuse->valid_to_cut_up( nullptr, *it ) ) {
                 salvageables.push_back( it );
             }
             if( u.can_disassemble( *it, crafting_inv ).success() ) {
@@ -9006,12 +9040,12 @@ void game::butcher()
         break;
         case BUTCHER_SALVAGE: {
             if( !salvage_iuse || !salvage_tool ) {
-                debugmsg( "null salve_iuse or salvage_tool" );
+                debugmsg( "null salvage_iuse or salvage_tool" );
             } else {
                 // Pick index of first item in the salvage stack
                 item *const target = &*salvage_stacks[indexer_index].first;
                 item_location item_loc( map_cursor( u.pos() ), target );
-                salvage_iuse->cut_up( u, *salvage_tool, item_loc );
+                salvage_iuse->try_to_cut_up( u, *salvage_tool, item_loc );
             }
         }
         break;
@@ -9020,11 +9054,9 @@ void game::butcher()
 
 void game::reload( item_location &loc, bool prompt, bool empty )
 {
-    item *it = loc.get_item();
-
     // bows etc. do not need to reload. select favorite ammo for them instead
-    if( it->has_flag( flag_RELOAD_AND_SHOOT ) ) {
-        item::reload_option opt = u.select_ammo( *it, prompt );
+    if( loc->has_flag( flag_RELOAD_AND_SHOOT ) ) {
+        item::reload_option opt = u.select_ammo( loc, prompt );
         if( !opt ) {
             return;
         } else if( u.ammo_location && opt.ammo == u.ammo_location ) {
@@ -9035,55 +9067,53 @@ void game::reload( item_location &loc, bool prompt, bool empty )
         return;
     }
 
-    switch( u.rate_action_reload( *it ) ) {
+    switch( u.rate_action_reload( *loc ) ) {
         case hint_rating::iffy:
-            if( ( it->is_ammo_container() || it->is_magazine() ) && it->ammo_remaining() > 0 &&
-                it->remaining_ammo_capacity() == 0 ) {
-                add_msg( m_info, _( "The %s is already fully loaded!" ), it->tname() );
+            if( ( loc->is_ammo_container() || loc->is_magazine() ) && loc->ammo_remaining() > 0 &&
+                loc->remaining_ammo_capacity() == 0 ) {
+                add_msg( m_info, _( "The %s is already fully loaded!" ), loc->tname() );
                 return;
             }
-            if( it->is_ammo_belt() ) {
-                const auto &linkage = it->type->magazine->linkage;
+            if( loc->is_ammo_belt() ) {
+                const auto &linkage = loc->type->magazine->linkage;
                 if( linkage && !u.has_charges( *linkage, 1 ) ) {
                     add_msg( m_info, _( "You need at least one %s to reload the %s!" ),
-                             item::nname( *linkage, 1 ), it->tname() );
+                             item::nname( *linkage, 1 ), loc->tname() );
                     return;
                 }
             }
-            if( it->is_watertight_container() && it->is_container_full() ) {
-                add_msg( m_info, _( "The %s is already full!" ), it->tname() );
+            if( loc->is_watertight_container() && loc->is_container_full() ) {
+                add_msg( m_info, _( "The %s is already full!" ), loc->tname() );
                 return;
             }
 
         // intentional fall-through
 
         case hint_rating::cant:
-            add_msg( m_info, _( "You can't reload a %s!" ), it->tname() );
+            add_msg( m_info, _( "You can't reload a %s!" ), loc->tname() );
             return;
 
         case hint_rating::good:
             break;
     }
 
-    bool use_loc = true;
-    if( !u.has_item( *it ) && !it->has_flag( flag_ALLOWS_REMOTE_USE ) ) {
-        it = loc.obtain( u ).get_item();
-        if( !it ) {
+    if( !u.has_item( *loc ) && !loc->has_flag( flag_ALLOWS_REMOTE_USE ) ) {
+        loc = loc.obtain( u );
+        if( !loc ) {
             add_msg( _( "Never mind." ) );
             return;
         }
-        use_loc = false;
     }
 
     // for holsters and ammo pouches try to reload any contained item
-    if( it->type->can_use( "holster" ) && it->num_item_stacks() == 1 ) {
-        it = &it->only_item();
+    if( loc->type->can_use( "holster" ) && loc->num_item_stacks() == 1 ) {
+        loc = item_location( loc, &loc->only_item() );
     }
 
     item::reload_option opt = u.ammo_location &&
-                              it->can_reload_with( *u.ammo_location.get_item(), false ) ?
-                              item::reload_option( &u, it, it, u.ammo_location ) :
-                              u.select_ammo( *it, prompt, empty );
+                              loc->can_reload_with( *u.ammo_location.get_item(), false ) ?
+                              item::reload_option( &u, loc, u.ammo_location ) :
+                              u.select_ammo( loc, prompt, empty );
 
     if( opt.ammo.get_item() == nullptr || ( opt.ammo.get_item()->is_frozen_liquid() &&
                                             !u.crush_frozen_liquid( opt.ammo ) ) ) {
@@ -9092,18 +9122,12 @@ void game::reload( item_location &loc, bool prompt, bool empty )
 
     if( opt ) {
         int moves = opt.moves();
-        if( it->get_var( "dirt", 0 ) > 7800 ) {
-            add_msg( m_warning, _( "You struggle to reload the fouled %s." ), it->tname() );
+        if( loc->get_var( "dirt", 0 ) > 7800 ) {
+            add_msg( m_warning, _( "You struggle to reload the fouled %s." ), loc->tname() );
             moves += 2500;
         }
         std::vector<item_location> targets;
-        if( use_loc ) {
-            // Set parent to be the "base" item.
-            targets.emplace_back( loc,  const_cast<item *>( opt.target ) );
-        } else {
-            // The "base" item is held be the player
-            targets.emplace_back( item_location( u, it ), const_cast<item *>( opt.target ) );
-        }
+        targets.push_back( opt.target );
         targets.push_back( std::move( opt.ammo ) );
 
         u.assign_activity( player_activity( reload_activity_actor( moves, opt.qty(), targets ) ) );
@@ -9128,13 +9152,12 @@ void game::reload_item()
 
 void game::reload_wielded( bool prompt )
 {
-    item &weapon = u.get_wielded_item();
-    if( weapon.is_null() || !weapon.is_reloadable() ) {
+    item_location weapon = u.get_wielded_item();
+    if( !weapon || !weapon->is_reloadable() ) {
         add_msg( _( "You aren't holding something you can reload." ) );
         return;
     }
-    item_location item_loc = item_location( u, &weapon );
-    reload( item_loc, prompt );
+    reload( weapon, prompt );
 }
 
 void game::reload_weapon( bool try_everything )
@@ -9149,40 +9172,40 @@ void game::reload_weapon( bool try_everything )
     std::vector<item_location> reloadables = u.find_reloadables();
     std::sort( reloadables.begin(), reloadables.end(),
     [this]( const item_location & a, const item_location & b ) {
-        const item *ap = a.get_item();
-        const item *bp = b.get_item();
         // Non gun/magazines are sorted last and later ignored.
-        if( !ap->is_magazine() && !ap->is_gun() ) {
+        if( !a->is_magazine() && !a->is_gun() ) {
             return false;
         }
         // Current wielded weapon comes first.
-        if( this->u.is_wielding( *bp ) ) {
+        if( this->u.is_wielding( *b ) ) {
             return false;
         }
-        if( this->u.is_wielding( *ap ) ) {
+        if( this->u.is_wielding( *a ) ) {
             return true;
         }
         // Second sort by affiliation with wielded gun
-        const std::set<itype_id> compatible_magazines = this->u.get_wielded_item().magazine_compatible();
-        const bool mag_ap = this->u.get_wielded_item().is_compatible( *ap ).success();
-        const bool mag_bp = this->u.get_wielded_item().is_compatible( *bp ).success();
-        if( mag_ap != mag_bp ) {
-            return mag_ap;
+        item_location weapon = u.get_wielded_item();
+        if( weapon ) {
+            const bool mag_a = weapon->is_compatible( *a ).success();
+            const bool mag_b = weapon->is_compatible( *b ).success();
+            if( mag_a != mag_b ) {
+                return mag_a;
+            }
         }
         // Third sort by gun vs magazine,
-        if( ap->is_gun() != bp->is_gun() ) {
-            return ap->is_gun();
+        if( a->is_gun() != b->is_gun() ) {
+            return a->is_gun();
         }
         // Finally sort by speed to reload.
-        return ( ap->get_reload_time() * ap->remaining_ammo_capacity() ) <
-               ( bp->get_reload_time() * bp->remaining_ammo_capacity() );
+        return ( a->get_reload_time() * a->remaining_ammo_capacity() ) <
+               ( b->get_reload_time() * b->remaining_ammo_capacity() );
     } );
     for( item_location &candidate : reloadables ) {
-        if( !candidate.get_item()->is_magazine() && !candidate.get_item()->is_gun() ) {
+        if( !candidate->is_magazine() && !candidate->is_gun() ) {
             continue;
         }
         std::vector<item::reload_option> ammo_list;
-        u.list_ammo( *candidate.get_item(), ammo_list, false );
+        u.list_ammo( candidate, ammo_list, false );
         if( !ammo_list.empty() ) {
             reload( candidate, false, false );
             return;
@@ -9196,11 +9219,11 @@ void game::reload_weapon( bool try_everything )
     vehicle *veh = veh_pointer_or_null( m.veh_at( u.pos() ) );
     turret_data turret;
     if( veh && ( turret = veh->turret_query( u.pos() ) ) && turret.can_reload() ) {
-        item::reload_option opt = u.select_ammo( *turret.base(), true );
+        item::reload_option opt = u.select_ammo( turret.base(), true );
         std::vector<item_location> targets;
         if( opt ) {
             const int moves = opt.moves();
-            targets.emplace_back( item_location( turret.base(), const_cast<item *>( opt.target ) ) );
+            targets.push_back( opt.target );
             targets.push_back( std::move( opt.ammo ) );
             u.assign_activity( player_activity( reload_activity_actor( moves, opt.qty(), targets ) ) );
         }
@@ -9216,8 +9239,8 @@ void game::wield( item_location loc )
         debugmsg( "ERROR: tried to wield null item" );
         return;
     }
-    const item &weapon = u.get_wielded_item();
-    if( &weapon != &*loc && weapon.has_item( *loc ) ) {
+    const item_location weapon = u.get_wielded_item();
+    if( weapon && weapon != loc && weapon->has_item( *loc ) ) {
         add_msg( m_info, _( "You need to put the bag away before trying to wield something from it." ) );
         return;
     }
@@ -9622,6 +9645,19 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
         }
     }
 
+    const float dest_light_level = get_map().ambient_light_at( dest_loc );
+
+    // Allow players with nyctophobia to move freely through cloudy and dark tiles
+    const float nyctophobia_threshold = LIGHT_AMBIENT_LIT - 3.0f;
+
+    // Forbid players from moving through very dark tiles, unless they are running or took xanax
+    if( u.has_flag( json_flag_NYCTOPHOBIA ) && !u.has_effect( effect_took_xanax ) && !u.is_running() &&
+        dest_light_level < nyctophobia_threshold ) {
+        add_msg( m_bad,
+                 _( "It's so dark and scary in there!  You can't force yourself to walk into this tile.  Switch to running movement mode to move there." ) );
+        return false;
+    }
+
     if( u.is_mounted() ) {
         monster *mons = u.mounted_creature.get();
         if( mons->has_flag( MF_RIDEABLE_MECH ) ) {
@@ -9764,7 +9800,7 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
         const double base_moves = u.run_cost( mcost, diag ) * 100.0 / crit->get_speed();
         const double encumb_moves = u.get_weight() / 4800.0_gram;
         u.moves -= static_cast<int>( std::ceil( base_moves + encumb_moves ) );
-        crit->use_mech_power( -u.current_movement_mode()->mech_power_use() );
+        crit->use_mech_power( u.current_movement_mode()->mech_power_use() );
     } else {
         u.moves -= u.run_cost( mcost, diag );
         /**
@@ -11019,11 +11055,12 @@ void game::vertical_move( int movez, bool force, bool peeking )
             return;
         }
 
-        const item &weapon = u.get_wielded_item();
-        if( !here.has_flag( ter_furn_flag::TFLAG_LADDER, u.pos() ) && weapon.is_two_handed( u ) ) {
+        const item_location weapon = u.get_wielded_item();
+        if( !here.has_flag( ter_furn_flag::TFLAG_LADDER, u.pos() ) && weapon &&
+            weapon->is_two_handed( u ) ) {
             if( query_yn(
                     _( "You can't climb because you have to wield a %s with both hands.\n\nPut it away?" ),
-                    weapon.tname() ) ) {
+                    weapon->tname() ) ) {
                 if( !u.unwield() ) {
                     return;
                 }
@@ -11134,7 +11171,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
     if( u.is_mounted() ) {
         monster *crit = u.mounted_creature.get();
         if( crit->has_flag( MF_RIDEABLE_MECH ) ) {
-            crit->use_mech_power( -u.current_movement_mode()->mech_power_use() - 1 );
+            crit->use_mech_power( u.current_movement_mode()->mech_power_use() + 1_kJ );
         }
     } else {
         u.moves -= move_cost;
@@ -11150,50 +11187,47 @@ void game::vertical_move( int movez, bool force, bool peeking )
 
     // if an NPC or monster is on the stairs when player ascends/descends
     // they may end up merged on the same tile, do some displacement to resolve that.
-    // if, in the weird case of it not being possible to displace;
-    // ( how did the player even manage to approach the stairs, if so? )
-    // then nothing terrible happens, its just weird.
     creature_tracker &creatures = get_creature_tracker();
     if( creatures.creature_at<npc>( u.pos(), true ) ||
         creatures.creature_at<monster>( u.pos(), true ) ) {
         std::string crit_name;
         bool player_displace = false;
         cata::optional<tripoint> displace = find_empty_spot_nearby( u.pos() );
-        if( displace.has_value() ) {
-            npc *guy = creatures.creature_at<npc>( u.pos(), true );
-            if( guy ) {
-                crit_name = guy->get_name();
-                tripoint old_pos = guy->pos();
-                if( !guy->is_enemy() ) {
-                    guy->move_away_from( u.pos(), true );
-                    if( old_pos != guy->pos() ) {
-                        add_msg( _( "%s moves out of the way for you." ), guy->get_name() );
-                    }
-                } else {
-                    player_displace = true;
+        if( !displace.has_value() ) {
+            // They can always move to the previous location of the player.
+            displace = old_pos;
+        }
+        npc *guy = creatures.creature_at<npc>( u.pos(), true );
+        if( guy ) {
+            crit_name = guy->get_name();
+            tripoint old_pos = guy->pos();
+            if( !guy->is_enemy() ) {
+                guy->move_away_from( u.pos(), true );
+                if( old_pos != guy->pos() ) {
+                    add_msg( _( "%s moves out of the way for you." ), guy->get_name() );
                 }
+            } else {
+                player_displace = true;
             }
-            monster *mon = creatures.creature_at<monster>( u.pos(), true );
-            // if the monster is ridden by the player or an NPC:
-            // Dont displace them. If they are mounted by a friendly NPC,
-            // then the NPC will already have been displaced just above.
-            // if they are ridden by the player, we want them to coexist on same tile
-            if( mon && !mon->mounted_player ) {
-                crit_name = mon->get_name();
-                if( mon->friendly == -1 ) {
-                    mon->setpos( *displace );
-                    add_msg( _( "Your %s moves out of the way for you." ), mon->get_name() );
-                } else {
-                    player_displace = true;
-                }
+        }
+        monster *mon = creatures.creature_at<monster>( u.pos(), true );
+        // if the monster is ridden by the player or an NPC:
+        // Dont displace them. If they are mounted by a friendly NPC,
+        // then the NPC will already have been displaced just above.
+        // if they are ridden by the player, we want them to coexist on same tile
+        if( mon && !mon->mounted_player ) {
+            crit_name = mon->get_name();
+            if( mon->friendly == -1 ) {
+                mon->setpos( *displace );
+                add_msg( _( "Your %s moves out of the way for you." ), mon->get_name() );
+            } else {
+                player_displace = true;
             }
-            if( player_displace ) {
-                u.setpos( *displace );
-                u.moves -= 20;
-                add_msg( _( "You push past %s blocking the way." ), crit_name );
-            }
-        } else {
-            debugmsg( "Failed to find a spot to displace into." );
+        }
+        if( player_displace ) {
+            u.setpos( *displace );
+            u.moves -= 20;
+            add_msg( _( "You push past %s blocking the way." ), crit_name );
         }
     }
 
@@ -11310,7 +11344,6 @@ cata::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, 
             npc *guy = dynamic_cast<npc *>( blocking_creature );
             monster *mon = dynamic_cast<monster *>( blocking_creature );
             bool would_move = ( guy && !guy->is_enemy() ) || ( mon && mon->friendly == -1 );
-            bool can_displace = find_empty_spot_nearby( *stairs ).has_value();
             std::string cr_name = blocking_creature->get_name();
             std::string msg;
             if( guy ) {
@@ -11321,9 +11354,10 @@ cata::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, 
                 msg = string_format( _( "There's a %s in the way!" ), cr_name );
             }
 
-            if( ( peeking && !would_move ) || !can_displace || ( !would_move && !query_yn(
-                        //~ %s is a warning about monster/hostile NPC in the way, e.g. "There's a zombie in the way!"
-                        _( "%s  Attempt to push past?  You may have to fight your way back up." ), msg ) ) ) {
+            if( ( peeking && !would_move )
+                || ( !would_move && !query_yn(
+                         //~ %s is a warning about monster/hostile NPC in the way, e.g. "There's a zombie in the way!"
+                         _( "%s  Attempt to push past?  You may have to fight your way back up." ), msg ) ) ) {
                 add_msg( msg );
                 return cata::nullopt;
             }
@@ -11932,10 +11966,10 @@ void game::quicksave()
     if( !moves_since_last_save ) {
         return;
     }
-    add_msg( m_info, _( "Saving game, this may take a while" ) );
+    add_msg( m_info, _( "Saving game, this may take a while." ) );
 
     static_popup popup;
-    popup.message( "%s", _( "Saving game, this may take a while" ) );
+    popup.message( "%s", _( "Saving game, this may take a while." ) );
     ui_manager::redraw();
     refresh_display();
 

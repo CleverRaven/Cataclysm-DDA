@@ -532,7 +532,13 @@ void Character::trait_data::deserialize( const JsonObject &data )
 {
     data.allow_omitted_members();
     data.read( "key", key );
-    data.read( "charge", charge );
+
+    //Remove after 0.G
+    if( data.has_int( "charge" ) ) {
+        charge = time_duration::from_turns( data.get_int( "charge" ) );
+    } else {
+        data.read( "charge", charge );
+    }
     data.read( "powered", powered );
     data.read( "show_sprite", show_sprite );
     if( data.has_member( "variant-parent" ) ) {
@@ -649,6 +655,10 @@ void Character::load( const JsonObject &data )
     data.read( "avg_nat_bpm", avg_nat_bpm );
 
     data.read( "custom_profession", custom_profession );
+
+    // sleep
+    data.read( "daily_sleep", daily_sleep );
+    data.read( "continuous_sleep", continuous_sleep );
 
     // needs
     data.read( "thirst", thirst );
@@ -1094,9 +1104,9 @@ void Character::load( const JsonObject &data )
         }
     }
 
-    bool has_old_bionic_weapon = !is_using_bionic_weapon() &&
-                                 get_wielded_item().has_flag( flag_NO_UNWIELD ) &&
-                                 !get_wielded_item().ethereal;
+    item_location weapon = get_wielded_item();
+    bool has_old_bionic_weapon = !is_using_bionic_weapon() && weapon &&
+                                 weapon->has_flag( flag_NO_UNWIELD ) && !weapon->ethereal;
 
     const auto find_parent = [this]( bionic_id & bio_id ) {
         for( const bionic &bio : *this->my_bionics ) {
@@ -1111,7 +1121,7 @@ void Character::load( const JsonObject &data )
     // Migrations that depend on UIDs
     for( bionic &bio : *my_bionics ) {
         if( has_old_bionic_weapon && bio.powered && bio.has_weapon() &&
-            bio.get_weapon().typeId() == get_wielded_item().typeId() ) {
+            bio.get_weapon().typeId() == get_wielded_item()->typeId() ) {
             weapon_bionic_uid = bio.get_uid();
             has_old_bionic_weapon = false;
         }
@@ -1245,6 +1255,10 @@ void Character::store( JsonOut &json ) const
     json.member( "healthy", lifestyle );
     json.member( "healthy_mod", daily_health );
     json.member( "health_tally", health_tally );
+
+    //sleep
+    json.member( "daily_sleep", daily_sleep );
+    json.member( "continuous_sleep", continuous_sleep );
 
     // needs
     json.member( "thirst", thirst );
@@ -1512,6 +1526,8 @@ void avatar::store( JsonOut &json ) const
     json.member( "calorie_diary", calorie_diary );
 
     json.member( "preferred_aiming_mode", preferred_aiming_mode );
+
+    json.member( "power_prev_turn", power_prev_turn );
 }
 
 void avatar::deserialize( const JsonObject &data )
@@ -1662,6 +1678,10 @@ void avatar::load( const JsonObject &data )
     data.read( "calorie_diary", calorie_diary );
 
     data.read( "preferred_aiming_mode", preferred_aiming_mode );
+
+    if( data.has_member( "power_prev_turn" ) ) {
+        data.read( "power_prev_turn", power_prev_turn );
+    }
 
     data.read( "snippets_read", snippets_read );
 }
@@ -2590,7 +2610,13 @@ void monster::load( const JsonObject &data )
     data.read( "morale", morale );
     data.read( "hallucination", hallucination );
     data.read( "fish_population", fish_population );
+    data.read( "lifespan_end ", lifespan_end );
+    //for older saves convert summon time limit to lifespan end
+    cata::optional<time_duration> summon_time_limit;
     data.read( "summon_time_limit", summon_time_limit );
+    if( summon_time_limit ) {
+        set_summon_time( *summon_time_limit );
+    }
 
     upgrades = data.get_bool( "upgrades", type->upgrades );
     upgrade_time = data.get_int( "upgrade_time", -1 );
@@ -2610,6 +2636,7 @@ void monster::load( const JsonObject &data )
     horde_attraction = static_cast<monster_horde_attraction>( data.get_int( "horde_attraction", 0 ) );
 
     data.read( "inv", inv );
+    data.read( "dissectable_inv", dissectable_inv );
     data.read( "dragged_foe_id", dragged_foe_id );
 
     data.read( "ammo", ammo );
@@ -2684,12 +2711,13 @@ void monster::store( JsonOut &json ) const
     json.member( "biosig_timer", biosig_timer );
     json.member( "udder_timer", udder_timer );
 
-    json.member( "summon_time_limit", summon_time_limit );
+    json.member( "lifespan_end", lifespan_end );
 
     if( horde_attraction > MHA_NULL && horde_attraction < NUM_MONSTER_HORDE_ATTRACTION ) {
         json.member( "horde_attraction", horde_attraction );
     }
     json.member( "inv", inv );
+    json.member( "dissectable_inv", dissectable_inv );
 
     json.member( "dragged_foe_id", dragged_foe_id );
     // storing the rider
@@ -2848,6 +2876,7 @@ void item::io( Archive &archive )
     archive.io( "is_favorite", is_favorite, false );
     archive.io( "item_counter", item_counter, static_cast<decltype( item_counter )>( 0 ) );
     archive.io( "wetness", wetness, 0 );
+    archive.io( "dropped_from", dropped_from, cata::optional<harvest_drop_type_id>() );
     archive.io( "rot", rot, 0_turns );
     archive.io( "last_temp_check", last_temp_check, calendar::start_of_cataclysm );
     archive.io( "current_phase", cur_phase, static_cast<int>( type->phase ) );
@@ -3130,55 +3159,9 @@ void vehicle_part::deserialize( const JsonObject &data )
     vpart_id pid;
     data.read( "id", pid );
 
-    std::map<std::string, std::string> deprecated = {
-        { "laser_gun", "laser_rifle" },
-        { "seat_nocargo", "seat" },
-        { "engine_plasma", "minireactor" },
-        { "battery_truck", "battery_car" },
+    const std::map<vpart_id, vpart_id> &deprecated = vpart_migration::get_migrations();
 
-        { "diesel_tank_little", "tank_little" },
-        { "diesel_tank_small", "tank_small" },
-        { "diesel_tank_medium", "tank_medium" },
-        { "diesel_tank",  "tank" },
-        { "external_diesel_tank_small", "external_tank_small" },
-        { "external_diesel_tank", "external_tank" },
-        { "gas_tank_little", "tank_little" },
-        { "gas_tank_small", "tank_small" },
-        { "gas_tank_medium", "tank_medium" },
-        { "gas_tank", "tank" },
-        { "external_gas_tank_small", "external_tank_small" },
-        { "external_gas_tank", "external_tank" },
-        { "water_dirty_tank_little", "tank_little" },
-        { "water_dirty_tank_small", "tank_small" },
-        { "water_dirty_tank_medium", "tank_medium" },
-        { "water_dirty_tank", "tank" },
-        { "external_water_dirty_tank_small", "external_tank_small" },
-        { "external_water_dirty_tank", "external_tank" },
-        { "dirty_water_tank_barrel", "tank_barrel" },
-        { "water_tank_little", "tank_little" },
-        { "water_tank_small", "tank_small" },
-        { "water_tank_medium", "tank_medium" },
-        { "water_tank", "tank" },
-        { "external_water_tank_small", "external_tank_small" },
-        { "external_water_tank", "external_tank" },
-        { "water_tank_barrel", "tank_barrel" },
-        { "napalm_tank", "tank" },
-        { "hydrogen_tank", "tank" },
-
-        { "wheel_underbody", "wheel_wide" },
-        { "wheel_steerable", "wheel" },
-        { "wheel_slick_steerable", "wheel_slick" },
-        { "wheel_armor_steerable", "wheel_armor" },
-        { "wheel_bicycle_steerable", "wheel_bicycle" },
-        { "wheel_bicycle_or_steerable", "wheel_bicycle_or" },
-        { "wheel_motorbike_steerable", "wheel_motorbike" },
-        { "wheel_motorbike_or_steerable", "wheel_motorbike_or" },
-        { "wheel_small_steerable", "wheel_small" },
-        { "wheel_wide_steerable", "wheel_wide" },
-        { "wheel_wide_or_steerable", "wheel_wide_or" }
-    };
-
-    auto dep = deprecated.find( pid.str() );
+    const auto dep = deprecated.find( pid );
     if( dep != deprecated.end() ) {
         DebugLog( D_INFO, D_GAME ) << "Replacing vpart " << pid.str() << " with " << dep->second;
         pid = vpart_id( dep->second );
@@ -4761,9 +4744,9 @@ void submap::store( JsonOut &jsout ) const
     jsout.member( "partial_constructions" );
     jsout.start_array();
     for( const auto &elem : partial_constructions ) {
-        jsout.write( elem.first.x );
-        jsout.write( elem.first.y );
-        jsout.write( elem.first.z );
+        jsout.write( elem.first.x() );
+        jsout.write( elem.first.y() );
+        jsout.write( elem.first.z() );
         jsout.write( elem.second.counter );
         jsout.write( elem.second.id.id() );
         jsout.start_array();
@@ -5025,7 +5008,7 @@ void submap::load( JsonIn &jsin, const std::string &member_name, int version )
             int i = jsin.get_int();
             int j = jsin.get_int();
             int k = jsin.get_int();
-            tripoint pt = tripoint( i, j, k );
+            tripoint_sm_ms pt( i, j, k );
             pc.counter = jsin.get_int();
             if( jsin.test_int() ) {
                 // Oops, int id incorrectly saved by legacy code, just load it and hope for the best

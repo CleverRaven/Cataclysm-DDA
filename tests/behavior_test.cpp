@@ -35,9 +35,9 @@ namespace behavior
 {
 class oracle_t;
 
-extern sequential_t default_sequential;
-extern fallback_t default_fallback;
-extern sequential_until_done_t default_until_done;
+static sequential_t default_sequential;
+static fallback_t default_fallback;
+static sequential_until_done_t default_until_done;
 } // namespace behavior
 
 static behavior::node_t make_test_node( const std::string &goal, const behavior::status_t *status )
@@ -313,7 +313,7 @@ TEST_CASE( "check_monster_behavior_tree_theoretical_corpse_eater", "[monster][be
         CHECK( monster_goals.tick( &oracle ) == "idle" );
 
         item corpse = item( "corpse" );
-        corpse.force_insert_item( item( "pencil" ), item_pocket::pocket_type::CORPSE );
+        corpse.force_insert_item( item( "pencil" ), item_pocket::pocket_type::CONTAINER );
 
         here.add_item( test_monster.pos(), corpse );
         CHECK( monster_goals.tick( &oracle ) == "ABSORB_ITEMS" );
@@ -371,7 +371,7 @@ TEST_CASE( "check_monster_behavior_tree_theoretical_absorb", "[monster][behavior
         CHECK( monster_goals.tick( &oracle ) == "idle" );
 
         item corpse = item( "corpse" );
-        corpse.force_insert_item( item( "pencil" ), item_pocket::pocket_type::CORPSE );
+        corpse.force_insert_item( item( "pencil" ), item_pocket::pocket_type::CONTAINER );
 
         here.add_item( test_monster.pos(), corpse );
         CHECK( monster_goals.tick( &oracle ) == "ABSORB_ITEMS" );

@@ -71,7 +71,9 @@ const std::unordered_map<std::string, relationship> relation_strs = { {
 
 struct faction_price_rule: public icg_entry {
     double markup = 1.0;
+    double premium = 1.0;
     cata::optional<double> fixed_adj = cata::nullopt;
+    cata::optional<double> price = cata::nullopt;
 
     faction_price_rule() = default;
     faction_price_rule( itype_id const &id, double m, double f )
@@ -79,6 +81,12 @@ struct faction_price_rule: public icg_entry {
     explicit faction_price_rule( icg_entry const &rhs ) : icg_entry( rhs ) {}
 
     void deserialize( JsonObject const &jo );
+};
+
+class faction_price_rules_reader : public generic_typed_reader<faction_price_rules_reader>
+{
+    public:
+        static faction_price_rule get_next( JsonValue &jv );
 };
 
 class faction_template
