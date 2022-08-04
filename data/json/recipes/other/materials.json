@@ -399,19 +399,6 @@
   },
   {
     "type": "recipe",
-    "activity_level": "NO_EXERCISE",
-    "result": "rag",
-    "id_suffix": "from_patches",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_MATERIALS",
-    "skill_used": "tailor",
-    "time": "0 s",
-    "//": "This should be obsoleted once we're sure nobody has any rags left and they're removed from any recipes i missed.  Can be removed during feature freeze for 0.H",
-    "autolearn": true,
-    "components": [ [ [ "cotton_patchwork", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
     "activity_level": "fake",
     "result": "cotton_ball",
     "category": "CC_OTHER",

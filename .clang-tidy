@@ -58,7 +58,6 @@ readability-*,\
 -readability-function-cognitive-complexity,\
 -readability-implicit-bool-conversion,\
 -readability-magic-numbers,\
--readability-make-member-function-const,\
 -readability-named-parameter,\
 -readability-use-anyofallof,\
 "

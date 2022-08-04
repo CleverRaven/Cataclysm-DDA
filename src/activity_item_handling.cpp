@@ -533,7 +533,8 @@ static double get_capacity_fraction( int capacity, int volume )
     return fr;
 }
 
-static int move_cost_inv( const item &it, const tripoint &src, const tripoint &dest )
+int activity_handlers::move_cost_inv( const item &it, const tripoint &src,
+                                      const tripoint &dest )
 {
     // to prevent potentially ridiculous number
     const int MAX_COST = 500;
@@ -566,8 +567,8 @@ static int move_cost_inv( const item &it, const tripoint &src, const tripoint &d
     return std::min( pickup_cost + drop_cost + move_cost, MAX_COST );
 }
 
-static int move_cost_cart( const item &it, const tripoint &src, const tripoint &dest,
-                           const units::volume &capacity )
+int activity_handlers::move_cost_cart( const item &it, const tripoint &src,
+                                       const tripoint &dest, const units::volume &capacity )
 {
     // to prevent potentially ridiculous number
     const int MAX_COST = 500;
@@ -594,7 +595,7 @@ static int move_cost_cart( const item &it, const tripoint &src, const tripoint &
     return std::min( pickup_cost + drop_cost + move_cost, MAX_COST );
 }
 
-static int move_cost( const item &it, const tripoint &src, const tripoint &dest )
+int activity_handlers::move_cost( const item &it, const tripoint &src, const tripoint &dest )
 {
     avatar &player_character = get_avatar();
     if( player_character.get_grab_type() == object_type::VEHICLE ) {
@@ -692,7 +693,7 @@ static void move_item( Character &you, item &it, const int quantity, const tripo
     map &here = get_map();
     // Check that we can pick it up.
     if( !it.made_of_from_type( phase_id::LIQUID ) ) {
-        you.mod_moves( -move_cost( it, src, dest ) );
+        you.mod_moves( -activity_handlers::move_cost( it, src, dest ) );
         if( activity_to_restore == ACT_TIDY_UP ) {
             it.erase_var( "activity_var" );
         } else if( activity_to_restore == ACT_FETCH_REQUIRED ) {
@@ -2165,6 +2166,21 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
             items.emplace_back( &it, false );
         }
 
+        bool unload_mods = false;
+        bool unload_molle = false;
+        bool unload_always = false;
+
+        std::vector<zone_data const *> const zones = mgr.get_zones_at( src, zone_type_zone_unload_all,
+                _fac_id( you ) );
+
+        // get most open rules out of all stacked zones
+        for( zone_data const *zone : zones ) {
+            unload_options const &options = dynamic_cast<const unload_options &>( zone->get_options() );
+            unload_molle |= options.unload_molle();
+            unload_mods |= options.unload_mods();
+            unload_always |= options.unload_always();
+        }
+
         //Skip items that have already been processed
         for( auto it = items.begin() + num_processed; it < items.end(); ++it ) {
             ++num_processed;
@@ -2205,35 +2221,72 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
             // if this item isn't going anywhere and its not sealed
             // check if it is in a unload zone or a strip corpse zone
             // then we should unload it and see what is inside
+            bool move_and_reset = false;
+            bool moved_something = false;
+
             if( mgr.has_near( zone_type_zone_unload_all, abspos, 1, _fac_id( you ) ) ||
                 ( mgr.has_near( zone_type_zone_strip, abspos, 1, _fac_id( you ) ) && it->first->is_corpse() ) ) {
-                if( dest_set.empty() && you.rate_action_unload( *it->first ) == hint_rating::good &&
-                    !it->first->any_pockets_sealed() ) {
-                    for( item *contained : it->first->all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
-                        // no liquids don't want to spill stuff
-                        if( !contained->made_of( phase_id::LIQUID ) && !contained->made_of( phase_id::GAS ) ) {
-                            move_item( you, *contained, contained->count(), src_loc, src_loc, this_veh, this_part );
-                            it->first->remove_item( *contained );
+                if( dest_set.empty() || unload_always ) {
+                    if( you.rate_action_unload( *it->first ) == hint_rating::good &&
+                        !it->first->any_pockets_sealed() ) {
+                        for( item *contained : it->first->all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
+                            // no liquids don't want to spill stuff
+                            if( !contained->made_of( phase_id::LIQUID ) && !contained->made_of( phase_id::GAS ) ) {
+                                move_item( you, *contained, contained->count(), src_loc, src_loc, this_veh, this_part );
+                                it->first->remove_item( *contained );
+                            }
+                        }
+                        for( item *contained : it->first->all_items_top( item_pocket::pocket_type::MAGAZINE ) ) {
+                            // no liquids don't want to spill stuff
+                            if( !contained->made_of( phase_id::LIQUID ) && !contained->made_of( phase_id::GAS ) ) {
+                                move_item( you, *contained, contained->count(), src_loc, src_loc, this_veh, this_part );
+                                it->first->remove_item( *contained );
+                            }
+                        }
+                        for( item *contained : it->first->all_items_top( item_pocket::pocket_type::MAGAZINE_WELL ) ) {
+                            // no liquids don't want to spill stuff
+                            if( !contained->made_of( phase_id::LIQUID ) && !contained->made_of( phase_id::GAS ) ) {
+                                move_item( you, *contained, contained->count(), src_loc, src_loc, this_veh, this_part );
+                                it->first->remove_item( *contained );
+                            }
+                        }
+                        moved_something = true;
+
+                    }
+
+                    // if unloading mods
+                    if( unload_mods ) {
+                        // remove each mod, skip irremovable
+                        for( item *mod : it->first->gunmods() ) {
+                            if( mod->is_irremovable() ) {
+                                continue;
+                            }
+                            you.gunmod_remove( *it->first, *mod );
+                            move_item( you, *mod, 1, src_loc, src_loc, this_veh, this_part );
+                            moved_something = true;
                         }
                     }
-                    for( item *contained : it->first->all_items_top( item_pocket::pocket_type::MAGAZINE ) ) {
-                        // no liquids don't want to spill stuff
-                        if( !contained->made_of( phase_id::LIQUID ) && !contained->made_of( phase_id::GAS ) ) {
-                            move_item( you, *contained, contained->count(), src_loc, src_loc, this_veh, this_part );
-                            it->first->remove_item( *contained );
+
+                    // if unloading molle
+                    if( unload_molle ) {
+                        while( !it->first->get_contents().get_added_pockets().empty() ) {
+                            item removed = it->first->get_contents().remove_pocket( 0 );
+                            move_item( you, removed, 1, src_loc, src_loc, this_veh, this_part );
+                            moved_something = true;
                         }
                     }
-                    for( item *contained : it->first->all_items_top( item_pocket::pocket_type::MAGAZINE_WELL ) ) {
-                        // no liquids don't want to spill stuff
-                        if( !contained->made_of( phase_id::LIQUID ) && !contained->made_of( phase_id::GAS ) ) {
-                            move_item( you, *contained, contained->count(), src_loc, src_loc, this_veh, this_part );
-                            it->first->remove_item( *contained );
-                        }
-                    }
+
                     // after dumping items go back to start of activity loop
                     // so that can re-assess the items in the tile
-                    return;
+                    // perhaps move the last item first however
+                    if( unload_always && moved_something ) {
+                        move_and_reset = true;
+                    } else {
+                        return;
+                    }
+
                 }
+
             }
 
             for( const tripoint_abs_ms &dest : dest_set ) {
@@ -2275,7 +2328,7 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
                     break;
                 }
             }
-            if( you.moves <= 0 ) {
+            if( you.moves <= 0 || move_and_reset ) {
                 return;
             }
         }
@@ -2572,9 +2625,30 @@ static std::unordered_set<tripoint_abs_ms> generic_multi_activity_locations(
             } else {
                 ++it2;
             }
-        } else {
-            ++it2;
-        }
+        } else //  Exclude activities that can't have multiple characters working on the same tile.
+            if( act_id == ACT_MULTIPLE_CHOP_TREES ||
+                act_id == ACT_MULTIPLE_CONSTRUCTION ||
+                act_id == ACT_MULTIPLE_MINE ) {
+                bool skip = false;
+
+                for( const npc &guy : g->all_npcs() ) {
+                    if( &guy == &you ) {
+                        continue;
+                    }
+                    if( guy.has_player_activity() && tripoint_abs_ms( guy.activity.placement ) == *it2 ) {
+                        it2 = src_set.erase( it2 );
+                        skip = true;
+                        break;
+                    }
+                }
+                if( skip ) {
+                    continue;
+                } else {
+                    ++it2;
+                }
+            } else {
+                ++it2;
+            }
     }
     const bool post_dark_check = src_set.empty();
     if( !pre_dark_check && post_dark_check && !MOP_ACTIVITY ) {

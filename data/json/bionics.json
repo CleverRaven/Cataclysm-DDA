@@ -448,6 +448,7 @@
       "CLAWS_TENTACLES",
       "SHELL",
       "SHELL2",
+      "SHELL3",
       "PATCHSKIN1",
       "PATCHSKIN2",
       "RABBIT_FUR",
@@ -457,8 +458,7 @@
       "SLIME_SPRAY",
       "INSECT_RESEVOIR",
       "MUCUS_SECRETION",
-      "MUCUS_SECRETION2",
-      "SHELL3"
+      "MUCUS_SECRETION2"
     ]
   },
   {
@@ -872,6 +872,7 @@
       "HYPEROPIC",
       "MYOPIC",
       "URSINE_EYE",
+      "FROG_EYES",
       "NIGHTVISION3",
       "NIGHTVISION2",
       "NIGHTVISION",
@@ -1665,7 +1666,7 @@
     "id": "bio_uncanny_dodge",
     "type": "bionic",
     "name": { "str": "Uncanny Dodge" },
-    "description": "Your nervous system has been augmented with bionic processors, allowing you to dodge attacks beyond normal human capability, including bullets.",
+    "description": "Your nervous system has been augmented with bionic processors, allowing you to dodge attacks beyond normal human capability.",
     "occupied_bodyparts": [ [ "torso", 12 ], [ "arm_l", 3 ], [ "arm_r", 3 ], [ "leg_l", 5 ], [ "leg_r", 5 ], [ "foot_l", 1 ], [ "foot_r", 1 ] ],
     "flags": [ "BIONIC_TOGGLED" ],
     "act_cost": "6 J",

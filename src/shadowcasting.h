@@ -8,8 +8,10 @@
 #include <functional>
 #include <iosfwd>
 
+#include "coordinates.h"
 #include "game_constants.h"
 #include "lightmap.h"
+#include "mdarray.h"
 
 struct point;
 struct tripoint;
@@ -117,13 +119,18 @@ template<typename T, typename Out, T( *calc )( const T &, const T &, const int &
          bool( *check )( const T &, const T & ),
          void( *update_output )( Out &, const T &, quadrant ),
          T( *accumulate )( const T &, const T &, const int & )>
-void castLightAll( Out( &output_cache )[MAPSIZE_X][MAPSIZE_Y],
-                   const T( &input_array )[MAPSIZE_X][MAPSIZE_Y],
+void castLightAll( cata::mdarray<Out, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> &output_cache,
+                   const cata::mdarray<T, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> &input_array,
                    const point &offset, int offsetDistance = 0,
                    T numerator = 1.0 );
 
 template<typename T>
-using array_of_grids_of = std::array<T( * )[MAPSIZE_X][MAPSIZE_Y], OVERMAP_LAYERS>;
+using array_of_grids_of =
+    std::conditional_t <
+    std::is_const<T>::value,
+    std::array<const cata::mdarray<std::remove_const_t<T>, point_bub_ms, MAPSIZE_X, MAPSIZE_Y>*, OVERMAP_LAYERS>,
+    std::array<cata::mdarray<T, point_bub_ms, MAPSIZE_X, MAPSIZE_Y>*, OVERMAP_LAYERS>
+    >;
 
 // TODO: Generalize the floor check, allow semi-transparent floors
 template< typename T, T( *calc )( const T &, const T &, const int & ),

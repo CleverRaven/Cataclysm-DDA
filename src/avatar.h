@@ -127,7 +127,7 @@ class avatar : public Character
         bool query_yn( const std::string &mes ) const override;
 
         void toggle_map_memory();
-        bool should_show_map_memory();
+        bool should_show_map_memory() const;
         void prepare_map_memory_region( const tripoint &p1, const tripoint &p2 );
         /** Memorizes a given tile in tiles mode; finalize_tile_memory needs to be called after it */
         void memorize_tile( const tripoint &pos, const std::string &ter, int subtile,
@@ -357,6 +357,11 @@ class avatar : public Character
         void add_random_hobby( std::vector<profession_id> &choices );
 
         int movecounter = 0;
+
+        // bionic power in the last turn
+        units::energy power_prev_turn = 0_kJ;
+        // balance/net power generation/loss during the last turn
+        units::energy power_balance = 0_kJ;
 
         // amount of turns since last check for pocket noise
         time_point last_pocket_noise = time_point( 0 );

@@ -1552,7 +1552,7 @@
     "components": [
       [ [ "stick", 6 ], [ "2x4", 6 ], [ "xlframe", 1 ], [ "frame_wood", 1 ] ],
       [ [ "rock_large", 4 ] ],
-      [ [ "foot_crank", 1 ] ],
+      [ [ "simple_crank", 1 ], [ "foot_crank", 1 ] ],
       [ [ "rope_6", 2 ], [ "rope_30", 1 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ], [ "water_sewage", 1 ], [ "salt_water", 1 ], [ "saline", 5 ] ],
       [ [ "material_sand", 2 ], [ "material_gravel", 2 ] ]
@@ -1582,5 +1582,24 @@
       { "proficiency": "prof_toolsmithing" }
     ],
     "components": [ [ [ "2x4", 2 ], [ "stick", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
+    "result": "simple_crank",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "3 h",
+    "autolearn": true,
+    "using": [ [ "forging_standard", 12 ], [ "steel_standard", 2 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_toolsmithing" }
+    ],
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 2 } ],
+    "tools": [ [ [ "tongs", -1 ] ] ]
   }
 ]

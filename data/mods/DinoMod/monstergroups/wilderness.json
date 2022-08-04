@@ -234,6 +234,13 @@
         "conditions": [ "DUSK", "DAY", "DAWN", "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
+        "monster": "mon_nanosaurus",
+        "weight": 5,
+        "cost_multiplier": 0,
+        "pack_size": [ 4, 8 ],
+        "conditions": [ "DUSK", "DAY", "DAWN" ]
+      },
+      {
         "monster": "mon_thescelosaurus",
         "weight": 10,
         "cost_multiplier": 0,

@@ -113,7 +113,7 @@ class diary
         void delete_page();
 
         /*get opened page nummer*/
-        int get_opened_page_num();
+        int get_opened_page_num() const;
         /*returns a list with all pages by the its date*/
         std::vector<std::string> get_pages_list();
         /*returns a list with all changes compared to the previous page*/

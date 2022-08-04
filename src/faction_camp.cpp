@@ -4875,7 +4875,7 @@ int basecamp::recruit_evaluation() const
     return recruit_evaluation( sbase, sexpansions, sfaction, sbonus );
 }
 
-std::string basecamp::recruit_description( int npc_count )
+std::string basecamp::recruit_description( int npc_count ) const
 {
     int sbase;
     int sexpansions;

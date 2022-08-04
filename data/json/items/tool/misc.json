@@ -69,6 +69,29 @@
     "explode_in_fire": true
   },
   {
+    "id": "clay_urn",
+    "type": "TOOL",
+    "name": { "str": "clay urn" },
+    "description": "A clay container for storing cremated ashes.",
+    "weight": "1600 g",
+    "volume": "4280 ml",
+    "price": 5000,
+    "price_postapoc": 50,
+    "material": [ "clay" ],
+    "symbol": ")",
+    "color": "brown",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+        "rigid": true,
+        "max_contains_volume": "4100 ml",
+        "max_contains_weight": "4 kg"
+      }
+    ],
+    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
+  },
+  {
     "id": "cow_bell",
     "type": "TOOL",
     "name": { "str": "cow bell" },
@@ -83,6 +106,29 @@
     "symbol": ";",
     "color": "brown",
     "use_action": [ "BELL" ]
+  },
+  {
+    "id": "crystal_urn",
+    "type": "TOOL",
+    "name": { "str": "crystal urn" },
+    "description": "An exquisite, translucent container for cremated ashes, decorated with floral patterns.",
+    "weight": "1400 g",
+    "volume": "4280 ml",
+    "price": 125000,
+    "price_postapoc": 500,
+    "material": [ "crystal" ],
+    "symbol": ")",
+    "color": "magenta",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+        "rigid": true,
+        "max_contains_volume": "4100 ml",
+        "max_contains_weight": "4 kg"
+      }
+    ],
+    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   },
   {
     "id": "e_tool",
@@ -416,6 +462,29 @@
     "symbol": ",",
     "color": "light_gray",
     "flags": [ "WATCH", "FANCY" ]
+  },
+  {
+    "id": "porcelain_urn",
+    "type": "TOOL",
+    "name": { "str": "porcelain urn" },
+    "description": "A container for holding the remains of a loved one.  Its prior owners must have kept good care of it, as you can see your face reflected clearly upon its surface.",
+    "weight": "1600 g",
+    "volume": "4280 ml",
+    "price": 35000,
+    "price_postapoc": 250,
+    "material": [ "porcelain" ],
+    "symbol": ")",
+    "color": "white",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+        "rigid": true,
+        "max_contains_volume": "4100 ml",
+        "max_contains_weight": "4 kg"
+      }
+    ],
+    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   },
   {
     "id": "rollmat",

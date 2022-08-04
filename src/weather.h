@@ -189,7 +189,7 @@ class weather_manager
         // Returns outdoor or indoor temperature of given location (in absolute (@ref map::getabs))
         int get_temperature( const tripoint &location );
         // Returns outdoor or indoor temperature of given location
-        int get_temperature( const tripoint_abs_omt &location );
+        int get_temperature( const tripoint_abs_omt &location ) const;
         void clear_temp_cache();
         static void unserialize_all( JsonIn &jsin );
 };
