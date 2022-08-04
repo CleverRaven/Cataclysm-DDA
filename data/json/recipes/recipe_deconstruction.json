@@ -2229,7 +2229,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "time": "2 m",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "scrap", 1 ] ], [ [ "small_lcd_screen", 1 ] ], [ [ "processor", 1 ] ] ]
+    "components": [ [ [ "scrap_aluminum", 1 ] ], [ [ "small_lcd_screen", 1 ] ], [ [ "processor", 1 ] ] ]
   },
   {
     "result": "smart_phone",
@@ -2238,7 +2238,7 @@
     "time": "3 m 30 s",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
-      [ [ "scrap", 1 ] ],
+      [ [ "scrap_aluminum", 1 ] ],
       [ [ "light_plus_battery_cell", 1 ] ],
       [ [ "small_lcd_screen", 1 ] ],
       [ [ "mobile_memory_card", 1 ] ],
@@ -2252,7 +2252,13 @@
     "activity_level": "LIGHT_EXERCISE",
     "time": "3 m",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "scrap", 1 ] ], [ [ "amplifier", 1 ] ], [ [ "small_lcd_screen", 1 ] ], [ [ "RAM", 1 ] ], [ [ "processor", 1 ] ] ]
+    "components": [
+      [ [ "scrap_aluminum", 1 ] ],
+      [ [ "amplifier", 1 ] ],
+      [ [ "small_lcd_screen", 1 ] ],
+      [ [ "RAM", 1 ] ],
+      [ [ "processor", 1 ] ]
+    ]
   },
   {
     "result": "splatter_guard",
@@ -3265,7 +3271,7 @@
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
     "time": "30 s",
-    "components": [ [ [ "scrap", 1 ] ], [ [ "plastic_chunk", 1 ] ] ]
+    "components": [ [ [ "scrap_aluminum", 1 ] ], [ [ "plastic_chunk", 1 ] ] ]
   },
   {
     "result": "silver_locket",
@@ -3317,7 +3323,13 @@
     "time": "10 m",
     "using": [ [ "soldering_standard", 10 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "element", 3 ] ], [ [ "amplifier", 1 ] ], [ [ "scrap", 6 ] ], [ [ "plastic_chunk", 1 ] ], [ [ "cable", 8 ] ] ]
+    "components": [
+      [ [ "element", 3 ] ],
+      [ [ "amplifier", 1 ] ],
+      [ [ "scrap_aluminum", 6 ] ],
+      [ [ "plastic_chunk", 1 ] ],
+      [ [ "cable", 8 ] ]
+    ]
   },
   {
     "result": "mess_tray",
@@ -3687,7 +3699,7 @@
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
     "time": "1 m",
-    "components": [ [ [ "pilot_light", 1 ] ], [ [ "scrap", 1 ] ] ]
+    "components": [ [ [ "pilot_light", 1 ] ], [ [ "scrap_aluminum", 1 ] ] ]
   },
   {
     "result": "restaurantmap",
@@ -4541,7 +4553,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "time": "6 m",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "scrap", 4 ] ], [ [ "element", 2 ] ], [ [ "hose", 1 ] ], [ [ "power_supply", 1 ] ] ]
+    "components": [ [ [ "scrap_aluminum", 4 ] ], [ [ "element", 2 ] ], [ [ "hose", 1 ] ], [ [ "power_supply", 1 ] ] ]
   },
   {
     "result": "vehicle_dashboard",
@@ -4552,17 +4564,6 @@
     "time": "30 m",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "electronics_controls", 1 ] ], [ [ "cable", 5 ] ], [ [ "plastic_chunk", 15 ] ] ]
-  },
-  {
-    "result": "vibrator",
-    "type": "uncraft",
-    "activity_level": "LIGHT_EXERCISE",
-    "skill_used": "electronics",
-    "difficulty": 3,
-    "skills_required": [ "fabrication", 2 ],
-    "time": "4 m 20 s",
-    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "e_scrap", 1 ] ], [ [ "scrap", 1 ] ], [ [ "plastic_chunk", 1 ] ] ]
   },
   {
     "result": "weeks_old_newspaper",
@@ -6087,8 +6088,8 @@
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
-    "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "plastic_chunk", 2 ] ] ]
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "plastic_chunk", 1 ] ], [ [ "scrap_aluminum", 1 ] ] ]
   },
   {
     "result": "mask_dust",
@@ -6525,5 +6526,65 @@
     "time": "30 s",
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "nylon", 8 ] ] ]
+  },
+  {
+    "result": "golf_club",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "2 m",
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "scrap_aluminum", 6 ] ] ]
+  },
+  {
+    "result": "baton",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "2 m",
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "scrap_aluminum", 14 ] ] ]
+  },
+  {
+    "result": "baton-extended",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "2 m",
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "scrap_aluminum", 14 ] ] ]
+  },
+  {
+    "result": "pot_aluminum",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "3 m",
+    "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "scrap_aluminum", 4 ] ] ]
+  },
+  {
+    "result": "aluminum_pan",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "2 m",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "scrap_aluminum", 4 ] ] ]
+  },
+  {
+    "result": "aluminum_stepladder",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "2 m",
+    "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "material_aluminium_ingot", 135 ] ] ]
+  },
+  {
+    "result": "steel_scissors",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "12 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "scrap", 3 ] ] ]
   }
 ]

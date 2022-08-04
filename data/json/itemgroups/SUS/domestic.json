@@ -128,6 +128,7 @@
       { "item": "long_extension_cable", "prob": 20 },
       { "item": "RPG_die", "prob": 10 },
       { "item": "metal_RPG_die", "prob": 1 },
+      { "item": "aluminum_foil", "prob": 25 },
       { "item": "nuts_bolts", "prob": 20, "charges-min": 1, "charges-max": 4 },
       {
         "distribution": [
@@ -434,7 +435,9 @@
       { "item": "steel_pan", "prob": 80 },
       { "item": "copper_pan", "prob": 30 },
       { "item": "dutch_oven", "prob": 5 },
-      { "item": "kettle", "prob": 80 }
+      { "item": "kettle", "prob": 80 },
+      { "item": "aluminum_pan", "prob": 15 },
+      { "item": "pot_aluminum", "prob": 15 }
     ]
   },
   {
