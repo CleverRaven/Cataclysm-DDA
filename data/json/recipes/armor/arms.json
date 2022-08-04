@@ -298,7 +298,7 @@
       ]
     ]
   ],
-    "proficiencies": [ { "proficiency": "prof_metalworking", "fail_multiplier": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_metalworking", "fail_multiplier": 1 }, { "proficiency": "prof_articulation" } ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "DRILL", "level": 1 } ]
   },
   {
@@ -331,7 +331,7 @@
       ]
     ]
   ],
-    "proficiencies": [ { "proficiency": "prof_metalworking", "fail_multiplier": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_metalworking", "fail_multiplier": 1 }, { "proficiency": "prof_articulation" } ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "DRILL", "level": 1 } ]
   },
   {
