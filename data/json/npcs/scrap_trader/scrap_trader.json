@@ -2,7 +2,8 @@
   {
     "type": "npc",
     "id": "NPC_scrap_trader",
-    "class": "NC_SCAVENGER",
+    "class": "SCRAP_MERCHANT",
+    "gender": "male",
     "name_suffix": "scrapper",
     "attitude": 0,
     "mission": 3,
@@ -12,35 +13,103 @@
   },
   {
     "type": "npc_class",
-    "id": "NC_Scavenger",
+    "id": "SCRAP_MERCHANT",
     "name": { "str": "Merchant" },
     "job_description": "I'm a local shopkeeper.",
     "common": true,
     "sells_belongings": false,
-    "bonus_str": 2,
-    "shopkeeper_item_group": [ { "group": "SCRAPPER_Shop", "rigid": true } ],
-    "shopkeeper_consumption_rates": "basic_shop_rates"
+    "bonus_str": 4,
+    "traits": [ 
+      { "group": "Appearance_demographics" },
+      { "trait": "STRONGBACK" },
+      { "trait": "OUTDOORSMAN"},
+      { "trait": "HEAVYSLEEPER" },
+      { "trait": "TERRIFYING" },
+      { "trait": "MOODSWINGS" },
+      { "trait": "BADTEMPER" },
+      { "trait": "STRONGSTOMACH" },
+      { "trait": "PAINRESIST" }
+    ],
+    "skills": [
+      { "skill": "ALL", "level": { "sum": [ { "dice": [ 3, 2 ] }, { "constant": -3 } ] } },
+      { "skill": "bashing", "bonus": { "rng": [ 0, 3 ] } },
+      { "skill": "melee", "bonus": { "rng": [ 0, 3 ] } },
+      { "skill": "rifle", "bonus": { "rng": [ 2, 5 ] } },
+      { "skill": "gun", "bonus": { "rng": [ 2, 5 ] } }
+    ],
+    "worn_override": "SCRAP_MERCHANT_worn",
+    "weapon_override": "SCRAP_MERCHANT_weapon",
+    "carry_override": "SCRAP_MERCHANT_carried",
+    "shopkeeper_item_group": [
+      { "group": "SCRAPPER_Shop", "rigid": true },
+      {
+        "group": "SCRAPPER_Shop_Specialty_Metals",
+        "rigid": true,
+        "condition": { "npc_has_var": "specific_metal_tradeable", "type": "dialogue", "context": "trade", "value": "yes" }
+      },
+      {
+        "group": "SCRAP_MERCHANT_carried", "rigid": true, "trust": 20 
+      }
+    ],
+    "shopkeeper_consumption_rates": "basic_shop_rates",
     "shopkeeper_price_rules": [
-      { "item": "scrap", "fixed_price": 20 },
-      { "item": "sheet_metal_small", "fixed_price": 50 },
-      { "item": "steel_chunk", "fixed_price": 100 },
-      { "item": "steel_lump", "fixed_price": 300 },
-      { "item": "sheet_metal", "fixed_price": 500 },
-      { "item": "lc_steel_lump", "fixed_price": 600 },
-      { "item": "mc_steel_lump", "fixed_price": 800 },
-      { "item": "hc_steel_lump", "fixed_price": 1000 },
-      { "item": "scrap_aluminum", "fixed_price": 300 },
-      { "item": "scrap_bronze", "fixed_price": 500 },
-      { "item": "bismuth", "fixed_price": 10 },
-      { "item": "zinc_metal", "fixed_price": 10 },
-      { "item": "lead", "fixed_price": 12 },
-      { "item": "scrap_copper", "fixed_price": 140 },
-      { "item": "tin", "fixed_price": 18 },
-      { "item": "magnesium", "fixed_price": 20 },
-      { "item": "silver_small", "fixed_price": 28 },
-      { "item": "gold_small", "fixed_price": 100 },
-      { "item": "platinum_small", "fixed_price": 150 }
+      { "item": "scrap", "price": 20, "fixed_adj": 0  },
+      { "item": "sheet_metal_small", "price": 50 },
+      { "item": "steel_chunk", "price": 100 },
+      { "item": "steel_lump", "price": 300 },
+      { "item": "sheet_metal", "price": 500 },
+      { "item": "lc_steel_lump", "price": 600 },
+      { "item": "mc_steel_lump", "price": 800 },
+      { "item": "hc_steel_lump", "price": 1000 },
+      { "item": "scrap_aluminum", "price": 300 },
+      { "item": "scrap_bronze", "price": 500 },
+      { "item": "bismuth", "price": 10 },
+      { "item": "zinc_metal", "price": 10 },
+      { "item": "lead", "price": 12 },
+      { "item": "scrap_copper", "price": 140 },
+      { "item": "tin", "price": 18 },
+      { "item": "magnesium", "price": 20 },
+      { "item": "silver_small", "price": 28 },
+      { "item": "gold_small", "price": 100 },
+      { "item": "platinum_small", "price": 150 }
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "SCRAP_MERCHANT_worn",
+    "subtype": "collection",
+    "items": [
+      { "item": "glasses_safety" },
+      { "item": "helmet_liner" },
+      { "item": "hat_hard" },
+      { "item": "turtleneck_shirt" },
+      { "item": "jacket_jean" },
+      { "item": "vest" },
+      { "item": "boxer_briefs" },
+      { "item": "jeans" },
+      { "item": "gloves_work" },
+      { "item": "socks" },
+      { "item": "boots" },
+      { "item": "gold_ring" },
+      { "item": "ar15", "ammo-item": "223", "charges": 30,  "container-item": "back_holster" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "SCRAP_MERCHANT_carried",
+    "subtype": "collection",
+    "items": [ 
+      { "item": "flashlight", "charges": [ 0, 300 ] },
+      { "item": "multitool" },
+      { "item": "hammer" },
+      { "item": "boltcutters" }
+     ]
+  },
+  {
+    "type": "item_group",
+    "id": "SCRAP_MERCHANT_weapon",
+    "subtype": "collection",
+    "items": [ { "item": "heavy_crowbar" } ]
   },
   {
     "type": "item_group",
@@ -54,18 +123,25 @@
       { "item": "sheet_metal", "count": [ 25, 50 ] },
       { "item": "lc_steel_lump", "count": [ 25, 50 ] },
       { "item": "mc_steel_lump", "count": [ 25, 50 ] },
-      { "item": "hc_steel_lump", "count": [ 25, 50 ] },
-      { "item": "scrap_aluminum", "count": [ 200, 300 ], "condition": { "npc_has_var": "specific_metal_tradeable"} },
-      { "item": "scrap_bronze", "count": [ 200, 300 ], "condition": { "npc_has_var": "specific_metal_tradeable"} },
-      { "item": "bismuth", "container": "bag_zipper", "count": 100, "condition": { "npc_has_var": "specific_metal_tradeable"} },
-      { "item": "zinc_metal", "container": "jar_glass_sealed", "count": 100, "condition": { "npc_has_var": "specific_metal_tradeable"} },
-      { "item": "lead", "container": "bag_zipper", "count": 100, "condition": { "npc_has_var": "specific_metal_tradeable"} },
-      { "item": "scrap_copper", "condition": { "npc_has_var": "specific_metal_tradeable"} },
-      { "item": "tin", "container": "bag_zipper", "count": 100, "condition": { "npc_has_var": "specific_metal_tradeable"} },
-      { "item": "magnesium", "container": "bag_zipper", "count": 100, "condition": { "npc_has_var": "specific_metal_tradeable"} },
-      { "item": "silver_small", "container": "bag_zipper", "count": 100, "condition": { "npc_has_var": "specific_metal_tradeable"} },
-      { "item": "gold_small", "container": "bag_zipper", "count": 100, "condition": { "npc_has_var": "specific_metal_tradeable"} },
-      { "item": "platinum_small", "container": "jar_glass_sealed", "count": 100, "condition": { "npc_has_var": "specific_metal_tradeable"} }
+      { "item": "hc_steel_lump", "count": [ 25, 50 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "SCRAPPER_Shop_Specialty_Metals",
+    "subtype": "collection",
+    "items": [
+      { "item": "scrap_aluminum", "count": [ 100, 200 ] },
+      { "item": "scrap_bronze", "count": [ 20, 50 ] },
+      { "item": "bismuth", "count": [0, 3], "container-item": "bag_zipper", "charges": 100 },
+      { "item": "zinc_metal", "count": [0, 3], "container-item": "jar_glass_sealed", "charges": 100 },
+      { "item": "lead", "count": [0, 3], "container-item": "bag_zipper", "charges": 100 },
+      { "item": "scrap_copper", "count": [ 100, 200 ] },
+      { "item": "tin", "count": [0, 3], "container-item": "bag_zipper", "charges": 100 },
+      { "item": "magnesium", "count": [0, 3], "container-item": "bag_zipper", "charges": 100 },
+      { "item": "silver_small", "count": [0, 3], "container-item": "bag_zipper", "charges": 100 },
+      { "item": "gold_small", "count": [0, 3], "container-item": "bag_zipper", "charges": 100 },
+      { "item": "platinum_small", "count": [0, 3], "container-item": "jar_glass_sealed", "charges": 100 }
     ]
   },
   {
@@ -145,7 +221,11 @@
     "dynamic_line": [ "Sure thing.  I've got a few things on hand.  What'll ya have?" ],
     "responses": [
       { "text": "Nevermind.", "topic": "TALK_NONE" },
-      { "text": "Let's take a look at your stock.", "topic": "TALK_SCRAP_TRADER_BULK_SELL_END", "effect": "start_trade" }
+      {
+        "text": "Let's take a look at your stock.",
+        "topic": "TALK_SCRAP_TRADER_BULK_SELL_END",
+        "effect": "start_trade"
+      }
     ]
   },
   {
