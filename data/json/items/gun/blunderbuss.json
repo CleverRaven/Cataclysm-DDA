@@ -5,7 +5,7 @@
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": { "str": "blunderbuss", "str_pl": "blunderbusses" },
-    "description": "A homemade version of a crude precursor to the shotgun. This can only end well.",
+    "description": "A homemade version of a crude precursor to the shotgun.",
     "ascii_picture": "blunderbuss",
     "weight": "8267 g",
     "volume": "3 L",
