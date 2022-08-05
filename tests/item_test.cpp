@@ -1059,7 +1059,6 @@ static const std::set<itype_id> known_bad = {
     itype_id( "freeze_dried_meal_hydrated" ), // NOLINT(cata-static-string_id-constants)
     itype_id( "evaporator_coil" ), // NOLINT(cata-static-string_id-constants)
     itype_id( "resin_chunk" ), // NOLINT(cata-static-string_id-constants)
-    itype_id( "scrap_aluminum" ), // NOLINT(cata-static-string_id-constants)
     itype_id( "hops" ), // NOLINT(cata-static-string_id-constants)
     itype_id( "crackpipe" ), // NOLINT(cata-static-string_id-constants)
     itype_id( "pumpkin_yeast_bread" ), // NOLINT(cata-static-string_id-constants)
