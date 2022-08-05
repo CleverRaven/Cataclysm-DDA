@@ -21,7 +21,7 @@
               ]
             },
             "effect": [
-              { "u_lose_effect": "vampire_virus", "intensity": 1, "duration": "PERMANENT" },
+              { "u_lose_effect": "vampire_virus" },
               { "u_message": "The light seems less bright and the air fresher.", "type": "good" }
             ]
           },
