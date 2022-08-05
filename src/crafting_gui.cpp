@@ -496,8 +496,7 @@ static std::string practice_recipe_description( const recipe &recp,
     return oss.str();
 }
 
-static std::string nested_recipe_description( const recipe &recp,
-        const Character &player_character )
+static std::string nested_recipe_description( const recipe &recp )
 {
     std::ostringstream oss;
     oss << recp.description.translated() << "\n\n";
@@ -1031,7 +1030,6 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
     bool unread_recipes_first = false;
     bool user_moved_line = false;
     bool recalc = true;
-    bool move_to_nested = false;
     bool recalc_unread = highlight_unread_recipes;
     bool keepline = false;
     bool done = false;
@@ -1266,7 +1264,7 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
                             w_iteminfo ) ).apply( w_iteminfo );
                 wnoutrefresh( w_iteminfo );
             } else if( cur_recipe->is_nested() ) {
-                const std::string desc = nested_recipe_description( *cur_recipe, player_character );
+                const std::string desc = nested_recipe_description( *cur_recipe );
                 fold_and_print( w_iteminfo, point_zero, item_info_width, c_light_gray, desc );
                 scrollbar().offset_x( item_info_width - 1 ).offset_y( 0 ).content_size( 1 ).viewport_size( getmaxy(
                             w_iteminfo ) ).apply( w_iteminfo );
