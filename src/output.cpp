@@ -1794,6 +1794,8 @@ void scrolling_text_view::draw( const nc_color &base_color )
         viewport_size( height ).
         scroll_to_last( false ).
         apply( w_ );
+        scrollbar_area = inclusive_rectangle<point>( point( getbegx( w_ ), getbegy( w_ ) ),
+                         point( getbegx( w_ ), getbegy( w_ ) + height ) );
     } else {
         // No scrollbar; we need to draw the window edge instead
         for( int i = 0; i < height; i++ ) {
@@ -1809,6 +1811,41 @@ void scrolling_text_view::draw( const nc_color &base_color )
     }
 
     wnoutrefresh( w_ );
+}
+
+bool scrolling_text_view::handle_navigation( const std::string &action, input_context &ctxt )
+{
+
+    cata::optional<tripoint> coord3d = ctxt.get_coordinates( catacurses::stdscr );
+    cata::optional<point> coord;
+    if( coord3d.has_value() ) {
+        coord = coord3d->xy() + point( TERMX, TERMY ) / 2;
+    }
+    inclusive_rectangle<point> mouseover_area( point( getbegx( w_ ), getbegy( w_ ) ),
+            point( getmaxx( w_ ) + getbegx( w_ ), getmaxy( w_ ) + getbegy( w_ ) ) );
+    bool mouse_in_window = coord.has_value() && mouseover_area.contains( coord.value() );
+    bool mouse_over_scrollbar = coord.has_value() && scrollbar_area.contains( coord.value() );
+
+    if( action == "SCROLL_INFOBOX_UP" || ( action == "SCROLL_UP" && mouse_in_window ) ) {
+        scroll_up();
+    } else if( action == "SCROLL_INFOBOX_DOWN" || ( action == "SCROLL_DOWN" && mouse_in_window ) ) {
+        scroll_down();
+    } else if( action == "SELECT" && mouse_over_scrollbar ) {
+        int y_position = ( coord->y - getbegy( w_ ) ) * max_offset() / getmaxy( w_ );
+        offset_ = clamp( y_position, 0, max_offset() );
+    } else {
+        return false;
+    }
+    return true;
+}
+
+void scrolling_text_view::set_up_navigation( input_context &ctxt )
+{
+    ctxt.register_action( "SCROLL_INFOBOX_UP" );
+    ctxt.register_action( "SCROLL_INFOBOX_DOWN" );
+    ctxt.register_action( "SCROLL_UP" );
+    ctxt.register_action( "SCROLL_DOWN" );
+    ctxt.register_action( "SELECT" );
 }
 
 int scrolling_text_view::text_width()

@@ -927,6 +927,8 @@ class scrolling_text_view
     public:
         explicit scrolling_text_view( catacurses::window &w ) : w_( w ) {}
 
+        bool handle_navigation( const std::string &action, input_context &ctxt );
+        void set_up_navigation( input_context &ctxt );
         void set_text( const std::string & );
         void scroll_up();
         void scroll_down();
@@ -941,6 +943,7 @@ class scrolling_text_view
         catacurses::window &w_;
         std::vector<std::string> text_;
         int offset_ = 0;
+        inclusive_rectangle<point> scrollbar_area;
 };
 
 class scrollingcombattext

@@ -248,6 +248,7 @@ void details_pane_handler::setup_details_pane_navigation( input_context &ctxt )
     ctxt.register_action( "SCROLL_INFOBOX_DOWN" );
     ctxt.register_action( "SCROLL_UP" );
     ctxt.register_action( "SCROLL_DOWN" );
+    ctxt.register_action( "MOUSE_MOVE" );
 }
 
 static int stat_point_pool()
