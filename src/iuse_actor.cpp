@@ -814,15 +814,18 @@ void consume_drug_iuse::info( const item &, std::vector<iteminfo> &dump ) const
         if( rate <= 0_turns ) {
             return std::string();
         }
-        const int lo = static_cast<int>( v.second.first  * rate / 1_days * 100 );
-        const int hi = static_cast<int>( v.second.second * rate / 1_days * 100 );
 
-        return string_format( lo == hi ? "%s (%i%%)" : "%s (%i-%i%%)", v.first.obj().name(), lo,
-                              hi );
+        const int lo = v.second.first;
+        const int hi = v.second.second;
+
+        if( v.first->type() == vitamin_type::VITAMIN ) {
+            return string_format( lo == hi ? "%s (%i%%)" : "%s (%i-%i%%)", v.first.obj().name(), lo, hi );
+        }
+        return string_format( lo == hi ? "%s (%i U)" : "%s (%i-%i U)", v.first.obj().name(), lo, hi );
     } );
 
     if( !vits.empty() ) {
-        dump.emplace_back( "TOOL", _( "Vitamins (RDA): " ), vits );
+        dump.emplace_back( "TOOL", _( "Vitamins (RDA) and Compounds (U): " ), vits );
     }
 
     if( tools_needed.count( itype_syringe ) ) {
@@ -884,7 +887,13 @@ cata::optional<int> consume_drug_iuse::use( Character &p, item &it, bool, const 
     }
 
     for( const auto &v : vitamins ) {
-        p.vitamin_mod( v.first, rng( v.second.first, v.second.second ) );
+        const int lo = v.first->RDA_to_default( v.second.first );
+        const int high = v.first->RDA_to_default( v.second.second );
+
+        // have to update the daily estimate with the vitamins from the drug as well
+        p.daily_vitamins[v.first].first += lo;
+
+        p.vitamin_mod( v.first, rng( lo, high ) );
     }
 
     // Output message.

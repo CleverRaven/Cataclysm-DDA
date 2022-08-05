@@ -1868,10 +1868,10 @@ TEST_CASE( "nutrients in food", "[iteminfo][food]" )
                "--\n"
                "<color_c_white>Calories (kcal)</color>: <color_c_yellow>325</color>"
                "  Quench: <color_c_yellow>0</color>\n" );
-
+        // Values end up rounded slightly
         CHECK( item_info_str( ice_cream, { iteminfo_parts::FOOD_VITAMINS } ) ==
                "--\n"
-               "Vitamins (RDA): Calcium (9%)\n" );
+               "Vitamins (RDA): Calcium (8%)\n" );
     }
 
     SECTION( "nutrient ranges for recipe exemplars", "[iteminfo]" ) {
@@ -1884,11 +1884,11 @@ TEST_CASE( "nutrients in food", "[iteminfo][food]" )
                "<color_c_white>Calories (kcal)</color>:"
                " <color_c_yellow>56</color>-<color_c_yellow>532</color>"
                "  Quench: <color_c_yellow>0</color>\n" );
-
+        // Values end up rounded slightly
         CHECK( item_info_str( ice_cream, { iteminfo_parts::FOOD_VITAMINS } ) ==
                "--\n"
                "Nutrition will <color_cyan>vary with chosen ingredients</color>.\n"
-               "Vitamins (RDA): Calcium (7-37%), Iron (0-131%), and Vitamin C (1-79%)\n" );
+               "Vitamins (RDA): Calcium (6-35%), Iron (0-128%), and Vitamin C (0-79%)\n" );
     }
 }
 

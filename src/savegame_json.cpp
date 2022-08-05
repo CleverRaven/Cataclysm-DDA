@@ -705,6 +705,16 @@ void Character::load( const JsonObject &data )
             vitamin_levels[v.first] = clamp( lvl, v.first->min(), v.first->max() );
         }
     }
+    JsonObject vits_daily = data.get_object( "daily_vitamins" );
+    vits_daily.allow_omitted_members();
+    for( const std::pair<const vitamin_id, vitamin> &v : vitamin::all() ) {
+        if( vits_daily.has_member( v.first.str() ) ) {
+            JsonArray vals = vits_daily.get_array( v.first.str() );
+            int speculative = vals.next_int();
+            int lvl = vals.next_int();
+            daily_vitamins[v.first] = { speculative, lvl };
+        }
+    }
     data.read( "consumption_history", consumption_history );
     data.read( "destination_activity", destination_activity );
     data.read( "stashed_outbounds_activity", stashed_outbounds_activity );
@@ -1271,6 +1281,7 @@ void Character::store( JsonOut &json ) const
     json.member( "radiation", radiation );
     json.member( "stamina", stamina );
     json.member( "vitamin_levels", vitamin_levels );
+    json.member( "daily_vitamins", daily_vitamins );
     json.member( "pkill", pkill );
     json.member( "omt_path", omt_path );
     json.member( "consumption_history", consumption_history );

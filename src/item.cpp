@@ -2398,12 +2398,16 @@ void item::food_info( const item *food_item, std::vector<iteminfo> &info,
             display_vitamins != is_vitamin || v.first->has_flag( flag_NO_DISPLAY ) ) {
             return std::string();
         }
-        const double multiplier = player_character.vitamin_rate( v.first ) / 1_days * 100;
         const int min_value = min_nutr.get_vitamin( v.first );
         const int max_value = v.second;
-        const int min_rda = std::lround( min_value * multiplier );
-        const int max_rda = std::lround( max_value * multiplier );
-        const std::string format = min_rda == max_rda ? "%s (%i%%)" : "%s (%i-%i%%)";
+        const int min_rda = player_character.vitamin_RDA( v.first, min_value );
+        const int max_rda = player_character.vitamin_RDA( v.first, max_value );
+        std::string format;
+        if( is_vitamin ) {
+            format = min_value == max_value ? "%s (%i%%)" : "%s (%i-%i%%)";
+            return string_format( format, v.first->name(), min_rda, max_rda );
+        }
+        format = min_value == max_value ? "%s (%i U)" : "%s (%i-%i U)";
         return string_format( format, v.first->name(), min_value, max_value );
     };
 
