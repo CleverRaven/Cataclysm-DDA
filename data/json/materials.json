@@ -2819,5 +2819,25 @@
       { "fuel": 600, "smoke": 0, "burn": 2 },
       { "fuel": 900, "smoke": 0, "burn": 3 }
     ]
+  },
+  {
+    "type": "material",
+    "id": "nanotubes",
+    "//": "fictional carbon nanotubing, intended for bionic implants",
+    "density": 3.5,
+    "name": "Carbon Lattice",
+    "breathability": "SECOND_SKIN",
+    "specific_heat_liquid": 0.82,
+    "specific_heat_solid": 0.45,
+    "latent_heat": 273,
+    "bash_resist": 1,
+    "cut_resist": 4,
+    "bullet_resist": 4,
+    "acid_resist": 4,
+    "fire_resist": 3,
+    "chip_resist": 20,
+    "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
+    "bash_dmg_verb": "dented",
+    "cut_dmg_verb": "scratched"
   }
 ]
