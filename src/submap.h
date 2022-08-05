@@ -9,10 +9,12 @@
 #include <map>
 #include <memory>
 #include <string>
+#include <type_traits>
 #include <vector>
 
 #include "active_item_cache.h"
 #include "calendar.h"
+#include "cata_type_traits.h"
 #include "colony.h"
 #include "compatibility.h"
 #include "computer.h"
@@ -288,17 +290,31 @@ class submap : maptile_soa<SEEX, SEEY>
  * A wrapper for a submap point. Allows getting multiple map features
  * (terrain, furniture etc.) without directly accessing submaps or
  * doing multiple bounds checks and submap gets.
+ *
+ * Templated so that we can have const and non-const version; aliases in
+ * maptile_fwd.h
  */
-struct maptile {
+template<typename Submap>
+class maptile_impl
+{
+        static_assert( std::is_same<std::remove_const_t<Submap>, submap>::value,
+                       "Submap should be either submap or const submap" );
     private:
         friend map; // To allow "sliding" the tile in x/y without bounds checks
         friend submap;
-        submap *const sm;
+        Submap *sm;
         point pos_;
 
-        maptile( submap *sub, const point &p ) :
+        maptile_impl( Submap *sub, const point &p ) :
             sm( sub ), pos_( p ) { }
+        template<typename OtherSubmap>
+        // NOLINTNEXTLINE(google-explicit-constructor)
+        maptile_impl( const maptile_impl<OtherSubmap> &other ) :
+            sm( other.wrapped_submap() ), pos_( other.pos() ) { }
     public:
+        Submap *wrapped_submap() const {
+            return sm;
+        }
         inline point pos() const {
             return pos_;
         }
@@ -330,7 +346,8 @@ struct maptile {
             return sm->get_field( pos() );
         }
 
-        field_entry *find_field( const field_type_id &field_to_find ) {
+        using FieldEntry = cata::copy_const<Submap, field_entry>;
+        FieldEntry *find_field( const field_type_id &field_to_find ) {
             return sm->get_field( pos() ).find_field( field_to_find );
         }
 

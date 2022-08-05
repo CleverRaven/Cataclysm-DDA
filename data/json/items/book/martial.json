@@ -105,6 +105,15 @@
     "martial_art": "style_karate"
   },
   {
+    "id": "manual_kickboxing",
+    "copy-from": "book_martial",
+    "type": "BOOK",
+    "name": { "str": "The Ultimate Guide to Kickboxing", "str_pl": "copies of Ultimate Guide to Kickboxing" },
+    "price_postapoc": 2000,
+    "description": "The ultimate guide to learning and mastering kickboxing, from beginner to black belt.",
+    "martial_art": "style_kickboxing"
+  },
+  {
     "id": "manual_krav_maga",
     "copy-from": "book_martial",
     "type": "BOOK",

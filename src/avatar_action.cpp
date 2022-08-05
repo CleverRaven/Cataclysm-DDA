@@ -80,6 +80,7 @@ static const skill_id skill_swimming( "swimming" );
 static const trait_id trait_GRAZER( "GRAZER" );
 static const trait_id trait_RUMINANT( "RUMINANT" );
 static const trait_id trait_SHELL2( "SHELL2" );
+static const trait_id trait_SHELL3( "SHELL3" );
 
 #define dbg(x) DebugLog((x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -155,8 +156,10 @@ static bool check_water_affect_items( avatar &you )
 
 bool avatar_action::move( avatar &you, map &m, const tripoint &d )
 {
-    if( ( !g->check_safe_mode_allowed() ) || you.has_active_mutation( trait_SHELL2 ) ) {
-        if( you.has_active_mutation( trait_SHELL2 ) ) {
+    bool in_shell = you.has_active_mutation( trait_SHELL2 ) ||
+                    you.has_active_mutation( trait_SHELL3 );
+    if( ( !g->check_safe_mode_allowed() ) || in_shell ) {
+        if( in_shell ) {
             add_msg( m_warning, _( "You can't move while in your shell.  Deactivate it to go mobile." ) );
         }
         return false;
@@ -948,7 +951,9 @@ void avatar_action::eat( avatar &you, const item_location &loc,
 void avatar_action::plthrow( avatar &you, item_location loc,
                              const cata::optional<tripoint> &blind_throw_from_pos )
 {
-    if( you.has_active_mutation( trait_SHELL2 ) ) {
+    bool in_shell = you.has_active_mutation( trait_SHELL2 ) ||
+                    you.has_active_mutation( trait_SHELL3 );
+    if( in_shell ) {
         add_msg( m_info, _( "You can't effectively throw while you're in your shell." ) );
         return;
     } else if( you.has_effect( effect_incorporeal ) ) {
@@ -976,7 +981,7 @@ void avatar_action::plthrow( avatar &you, item_location loc,
         return;
     }
 
-    const ret_val<bool> ret = you.can_wield( *loc );
+    const ret_val<void> ret = you.can_wield( *loc );
     if( !ret.success() ) {
         add_msg( m_info, "%s", ret.c_str() );
         return;
@@ -1013,7 +1018,7 @@ void avatar_action::plthrow( avatar &you, item_location loc,
     }
     // if you're wearing the item you need to be able to take it off
     if( you.is_worn( *orig ) ) {
-        ret_val<bool> ret = you.can_takeoff( *orig );
+        ret_val<void> ret = you.can_takeoff( *orig );
         if( !ret.success() ) {
             add_msg( m_info, "%s", ret.c_str() );
             return;

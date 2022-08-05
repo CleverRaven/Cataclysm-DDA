@@ -71,9 +71,7 @@ mtype::mtype()
     bash_skill = 0;
 
     flags
-    .set( MF_HUMAN )
-    .set( MF_BONES )
-    .set( MF_LEATHER );
+    .set( MF_HUMAN );
 }
 
 std::string mtype::nname( unsigned int quantity ) const

@@ -243,6 +243,7 @@ std::string filter_name( debug_filter value )
         case DF_MONSTER: return "DF_MONSTER";
         case DF_NPC: return "DF_NPC";
         case DF_OVERMAP: return "DF_OVERMAP";
+        case DF_RADIO: return "DF_RADIO";
         case DF_RANGED: return "DF_RANGED";
         case DF_REQUIREMENTS_MAP: return "DF_REQUIREMENTS_MAP";
         case DF_SOUND: return "DF_SOUND";
@@ -439,7 +440,8 @@ struct repetition_folder {
 
     int repeat_count = 0;
 
-    bool test( const char *filename, const char *line, const char *funcname, const std::string &text ) {
+    bool test( const char *filename, const char *line, const char *funcname,
+               const std::string &text ) const {
         return m_filename == filename &&
                m_line == line &&
                m_funcname == funcname &&
@@ -473,7 +475,7 @@ struct repetition_folder {
         repeat_count = 0;
     }
 
-    bool timed_out() {
+    bool timed_out() const {
         const time_info now = get_time();
 
         const int now_raw = now.mseconds + 1000 * now.seconds + 60000 * now.minutes + 3600000 * now.hours;

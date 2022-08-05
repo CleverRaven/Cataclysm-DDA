@@ -624,6 +624,23 @@
     ]
   },
   {
+    "id": "methanol_fuel_cell",
+    "type": "TOOL",
+    "name": { "str": "methanol fuel cell UPS", "str_pl": "methanol fuel cell UPSes" },
+    "description": "This is a direct methanol fuel cell which can provide power to UPS-compatible electronic devices by oxidizing methanol supplied from a specialized fuel tank to produce electricity.",
+    "weight": "7800 g",
+    "volume": "24390 ml",
+    "longest_side": "448 mm",
+    "price": 280000,
+    "price_postapoc": 1500,
+    "material": [ "aluminum", "plastic" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "ammo": [ "methanol_fuelcell" ],
+    "flags": [ "IS_UPS" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "flag_restriction": [ "METHANOL_TANK" ], "default_magazine": "5l_methanol_tank" } ]
+  },
+  {
     "id": "vibrator",
     "type": "TOOL",
     "name": { "str": "vibrator" },

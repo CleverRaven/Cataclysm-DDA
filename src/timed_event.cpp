@@ -4,6 +4,7 @@
 #include <memory>
 #include <new>
 #include <string>
+#include <utility>
 
 #include "avatar.h"
 #include "avatar_action.h"
@@ -60,7 +61,7 @@ timed_event::timed_event( timed_event_type e_t, const time_point &w, int f_id, t
     , faction_id( f_id )
     , map_square( p )
     , strength( s )
-    , key( key )
+    , key( std::move( key ) )
 {
     map_point = project_to<coords::sm>( map_square );
 }
@@ -72,8 +73,8 @@ timed_event::timed_event( timed_event_type e_t, const time_point &w, int f_id, t
     , faction_id( f_id )
     , map_square( p )
     , strength( s )
-    , string_id( s_id )
-    , key( key )
+    , string_id( std::move( s_id ) )
+    , key( std::move( key ) )
 {
     map_point = project_to<coords::sm>( map_square );
 }
@@ -85,8 +86,8 @@ timed_event::timed_event( timed_event_type e_t, const time_point &w, int f_id, t
     , faction_id( f_id )
     , map_square( p )
     , strength( s )
-    , string_id( s_id )
-    , key( key )
+    , string_id( std::move( s_id ) )
+    , key( std::move( key ) )
 {
     map_point = project_to<coords::sm>( map_square );
     revert = sr;
@@ -406,7 +407,7 @@ void timed_event_manager::process()
 }
 
 void timed_event_manager::add( timed_event_type type, const time_point &when,
-                               const int faction_id, int strength, std::string key )
+                               const int faction_id, int strength, const std::string &key )
 {
     add( type, when, faction_id, get_player_character().get_location(), strength, "", key );
 }
@@ -414,7 +415,7 @@ void timed_event_manager::add( timed_event_type type, const time_point &when,
 void timed_event_manager::add( timed_event_type type, const time_point &when,
                                const int faction_id,
                                const tripoint_abs_ms &where,
-                               int strength, std::string key )
+                               int strength, const std::string &key )
 {
     events.emplace_back( type, when, faction_id, where, strength, key );
 }
@@ -422,8 +423,8 @@ void timed_event_manager::add( timed_event_type type, const time_point &when,
 void timed_event_manager::add( timed_event_type type, const time_point &when,
                                const int faction_id,
                                const tripoint_abs_ms &where,
-                               int strength, std::string string_id,
-                               std::string key )
+                               int strength, const std::string &string_id,
+                               const std::string &key )
 {
     events.emplace_back( type, when, faction_id, where, strength, string_id, key );
 }
@@ -431,8 +432,8 @@ void timed_event_manager::add( timed_event_type type, const time_point &when,
 void timed_event_manager::add( timed_event_type type, const time_point &when,
                                const int faction_id,
                                const tripoint_abs_ms &where,
-                               int strength, std::string string_id, submap_revert sr,
-                               std::string key )
+                               int strength, const std::string &string_id, submap_revert sr,
+                               const std::string &key )
 {
     events.emplace_back( type, when, faction_id, where, strength, string_id, sr, key );
 }
@@ -452,7 +453,7 @@ timed_event *timed_event_manager::get( const timed_event_type type )
     return nullptr;
 }
 
-timed_event *timed_event_manager::get( const timed_event_type type, std::string key )
+timed_event *timed_event_manager::get( const timed_event_type type, const std::string &key )
 {
     for( timed_event &e : events ) {
         if( e.type == type && e.key == key ) {
@@ -467,7 +468,7 @@ std::list<timed_event> timed_event_manager::get_all() const
     return events;
 }
 
-void timed_event_manager::set_all( std::string key, time_duration time_in_future )
+void timed_event_manager::set_all( const std::string &key, time_duration time_in_future )
 {
     for( timed_event &e : events ) {
         if( e.key == key ) {

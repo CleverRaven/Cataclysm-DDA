@@ -82,6 +82,11 @@ int talker_character_const::get_cur_hp( const bodypart_id &bp ) const
     return me_chr_const->get_hp( bp );
 }
 
+int talker_character_const::get_cur_part_temp( const bodypart_id &bp ) const
+{
+    return me_chr_const->get_part_temp_conv( bp );
+}
+
 int talker_character_const::str_cur() const
 {
     return me_chr_const->str_cur;
@@ -280,7 +285,8 @@ effect talker_character_const::get_effect( const efftype_id &effect_id,
 }
 
 void talker_character::add_effect( const efftype_id &new_effect, const time_duration &dur,
-                                   std::string bp, bool permanent, bool force, int intensity )
+                                   const std::string &bp, bool permanent, bool force,
+                                   int intensity )
 {
     bodypart_id target_part;
     if( "RANDOM" == bp ) {

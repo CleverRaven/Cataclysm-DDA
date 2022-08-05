@@ -1007,7 +1007,7 @@ units::temperature weather_manager::get_temperature( const tripoint &location )
     return temp;
 }
 
-units::temperature weather_manager::get_temperature( const tripoint_abs_omt &location )
+units::temperature weather_manager::get_temperature( const tripoint_abs_omt &location ) const
 {
     return location.z() < 0 ? AVERAGE_ANNUAL_TEMPERATURE : temperature;
 }
