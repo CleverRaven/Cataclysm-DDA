@@ -579,7 +579,7 @@ class item : public visitable
          * If `practical` is false, returns pre-Cataclysm market value,
          * otherwise returns approximate post-cataclysm value.
          */
-        int price_no_contents( bool practical ) const;
+        int price_no_contents( bool practical, cata::optional<int> price_override = cata::nullopt ) const;
 
         /**
          * Whether two items should stack when displayed in a inventory menu.

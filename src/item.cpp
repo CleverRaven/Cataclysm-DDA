@@ -6724,12 +6724,13 @@ int item::price( bool practical ) const
     return res;
 }
 
-int item::price_no_contents( bool practical ) const
+int item::price_no_contents( bool practical, cata::optional<int> price_override ) const
 {
     if( rotten() ) {
         return 0;
     }
-    int price = units::to_cent( practical ? type->price_post : type->price );
+    int price = price_override ? *price_override
+                : units::to_cent( practical ? type->price_post : type->price );
     if( damage() > 0 ) {
         // maximal damage level is 4, maximal reduction is 80% of the value.
         price -= price * static_cast< double >( damage_level() ) / 5;
