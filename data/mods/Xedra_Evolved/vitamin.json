@@ -9,5 +9,18 @@
     "max": 500,
     "rate": "5 m",
     "disease_excess": [ [ 50, 100 ], [ 101, 250 ], [ 251, 500 ] ]
+  },
+  {
+    "id": "iron",
+    "type": "vitamin",
+    "vit_type": "vitamin",
+    "name": { "str": "Iron" },
+    "excess": "blood_quenched",
+    "deficiency": "withering",
+    "min": -12000,
+    "max": 3600,
+    "rate": "3 m",
+    "disease": [ [ -4800, -5600 ], [ -5601, -6400 ], [ -6401, -11999 ], [ -12000 ] ],
+    "disease_excess": [ [ 800, 1400 ], [ 1401, 2400 ], [ 2401, 3600 ] ]
   }
 ]

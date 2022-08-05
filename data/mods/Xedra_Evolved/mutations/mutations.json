@@ -69,6 +69,10 @@
     "name": { "str": "Infected with the vampire disease." },
     "points": 0,
     "player_display": false,
-    "description": "You will eventually develop a thirst for the blood of your fellow humans."
+    "description": "You have developed a thirst for the blood of your fellow humans.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "learn_spell": "consume_human_blood"
   }
 ]

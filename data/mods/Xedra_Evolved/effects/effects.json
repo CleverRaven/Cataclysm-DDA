@@ -140,11 +140,13 @@
   {
     "type": "effect_type",
     "id": "blood_quenched",
-    "rating": "good",
+    "name": [ "Flush", "Engorged", "Tick-like" ],
+    "rating": "mixed",
     "max_intensity": 100,
     "blocks_effects": [ "vampire_virus_hunger" ],
     "blood_analysis_description": "Patient has had extensive battlefield blood transfusions.  Serious risk of bloodborne infections.",
-    "int_dur_factor": "1 h"
+    "base_mods": { "speed_mod": [ -10 ], "dex_mod": [ -1 ], "dodge_mod": [ -1 ] },
+    "scaling_mods": { "speed_mod": [ -20 ], "dex_mod": [ -1 ], "dodge_mod": [ -1 ] }
   },
   {
     "type": "effect_type",
@@ -202,8 +204,51 @@
     "int_decay_tick": 86400,
     "rating": "bad",
     "blood_analysis_description": "Unknown RNA virus is rewriting sampled blood cells.",
-    "show_intensity": false,
     "base_mods": { "speed_mod": [ 10 ], "str_mod": [ 1 ], "dodge_mod": [ 1 ] },
     "scaling_mods": { "speed_mod": [ 10 ], "str_mod": [ 0.5 ], "dodge_mod": [ 0.5 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "withering",
+    "name": [ "Sallow", "Hypomia", "Corpse-like", "Eternal Slumber" ],
+    "desc": [
+      "The absence of raw blood from your diet has left you wan, pale and uncomfortable.",
+      "Your body is weakened and your need to feed is a constant pain in your chest.",
+      "Severe blood deficiency has left you looking emaciated no matter what your weight is.",
+      "One day blood may spill on your lips and wake you from your slumber, but until then you are a corpse."
+    ],
+    "apply_message": "Most of your thoughts now revolve around blood, how good it tastes and where you might find it.",
+    "remove_message": "Your blood lust is slaked.",
+    "decay_messages": [
+      [ "You've almost consumed enough blood to feel normal again.", "good" ],
+      [ "More blood and you'll start to feel even better.", "good" ]
+    ],
+    "max_intensity": 4,
+    "rating": "bad",
+    "chance_kill": [ [ -1, 1 ], [ -1, 1 ], [ -1, 1 ], [ 1, 100 ] ],
+    "chance_kill_resist": [ [ -1, 1 ], [ -1, 1 ], [ -1, 1 ], [ 1, 2000000 ] ],
+    "base_mods": {
+      "str_mod": [ -1 ],
+      "stamina_min": [ -100 ],
+      "stamina_max": [ -200 ],
+      "stamina_chance": [ 900 ],
+      "fatigue_min": [ 10 ],
+      "fatigue_max": [ 20 ],
+      "fatigue_chance": [ 900 ],
+      "h_mod_min": [ -1 ],
+      "h_mod_min_val": [ 0 ],
+      "h_mod_chance": [ 900 ]
+    },
+    "scaling_mods": {
+      "str_mod": [ -2 ],
+      "stamina_max": [ -500 ],
+      "fatigue_max": [ 20 ],
+      "stamina_chance": [ -300 ],
+      "fatigue_chance": [ -300 ],
+      "h_mod_min": [ -1 ],
+      "h_mod_min_val": [ -50 ],
+      "h_mod_chance": [ -200 ]
+    },
+    "blood_analysis_description": "Severe Progressive Anemic Autophagy"
   }
 ]

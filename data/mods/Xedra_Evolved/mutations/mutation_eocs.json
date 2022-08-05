@@ -147,5 +147,21 @@
         }
       }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "manifest_destiny_goblin",
+    "recurrence": [ "3 days", "5 days" ],
+    "condition": { "u_has_trait": "MANIFEST_DESTINY_GOBLIN" },
+    "deactivate_condition": { "not": { "u_has_trait": "MANIFEST_DESTINY_GOBLIN" } },
+    "effect": [
+      {
+        "arithmetic": [
+          { "u_val": "vitamin", "name": "human_blood" },
+          "+=",
+          { "arithmetic": [ { "rand": 100 }, "+", { "const": 500 } ] }
+        ]
+      }
+    ]
   }
 ]
