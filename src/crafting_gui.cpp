@@ -225,6 +225,7 @@ struct availability {
             would_use_favorite = !req.can_make_with_inventory( inv, no_favorite_filter, batch_size,
                                  craft_flags::start_only );
             would_not_benefit = r->is_practice() && cannot_gain_skill_or_prof( player, *r );
+            is_nested_category = r->is_nested();
             const requirement_data &simple_req = r->simple_requirements();
             apparently_craftable = ( !r->is_practice() || has_all_skills ) && has_proficiencies &&
                                    simple_req.can_make_with_inventory( inv, all_items_filter, batch_size, craft_flags::start_only );
@@ -242,6 +243,7 @@ struct availability {
         bool apparently_craftable;
         bool has_proficiencies;
         bool has_all_skills;
+        bool is_nested_category;
     private:
         const recipe *rec;
         mutable float proficiency_time_maluses = -1.0f;
@@ -265,7 +267,9 @@ struct availability {
         }
 
         nc_color selected_color() const {
-            if( !can_craft ) {
+            if( is_nested_category ) {
+                return h_light_blue;
+            } else if( !can_craft ) {
                 return h_dark_gray;
             } else if( would_use_rotten || would_not_benefit ) {
                 return has_all_skills ? h_brown : h_red;
@@ -277,7 +281,9 @@ struct availability {
         }
 
         nc_color color( bool ignore_missing_skills = false ) const {
-            if( !can_craft ) {
+            if( is_nested_category ) {
+                return h_light_blue;
+            } else if( !can_craft ) {
                 return c_dark_gray;
             } else if( would_use_rotten || would_not_benefit ) {
                 return has_all_skills || ignore_missing_skills ? c_brown : c_red;
@@ -479,6 +485,14 @@ static std::string practice_recipe_description( const recipe &recp,
             oss << txt << "\n";
         }
     }
+    return oss.str();
+}
+
+static std::string nested_recipe_description( const recipe &recp,
+        const Character &player_character )
+{
+    std::ostringstream oss;
+    oss << recp.description.translated() << "\n\n";
     return oss.str();
 }
 
@@ -724,6 +738,8 @@ recipes_from_cat( const recipe_subset &available_recipes, const std::string &cat
         return std::make_pair( available_recipes.recent(), false );
     } else if( subcat == "CSC_*_HIDDEN" ) {
         return std::make_pair( available_recipes.hidden(), true );
+    } else if( subcat == "CSC_*_NESTED" ) {
+        return std::make_pair( available_recipes.nested(), true );
     } else {
         return std::make_pair( available_recipes.in_category( cat, subcat != "CSC_ALL" ? subcat : "" ),
                                false );
@@ -1240,6 +1256,12 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
                 scrollbar().offset_x( item_info_width - 1 ).offset_y( 0 ).content_size( 1 ).viewport_size( getmaxy(
                             w_iteminfo ) ).apply( w_iteminfo );
                 wnoutrefresh( w_iteminfo );
+            } else if( cur_recipe->is_nested() ) {
+                const std::string desc = nested_recipe_description( *cur_recipe, player_character );
+                fold_and_print( w_iteminfo, point_zero, item_info_width, c_light_gray, desc );
+                scrollbar().offset_x( item_info_width - 1 ).offset_y( 0 ).content_size( 1 ).viewport_size( getmaxy(
+                            w_iteminfo ) ).apply( w_iteminfo );
+                wnoutrefresh( w_iteminfo );
             } else {
                 item_info_data data = result_info.get_result_data( cur_recipe, batch_size, item_info_scroll,
                                       w_iteminfo );
@@ -1539,11 +1561,28 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
             line = -1;
             user_moved_line = highlight_unread_recipes;
         } else if( action == "CONFIRM" ) {
-            if( available.empty() || !available[line].can_craft ) {
-                query_popup()
-                .message( "%s", _( "You can't do that!" ) )
-                .option( "QUIT" )
-                .query();
+            if( available.empty() ) {
+              query_popup()
+              .message( "%s", _( "You can't do that!" ) )
+              .option( "QUIT" )
+              .query();
+            } else if( current[line]->is_nested() ) {
+                // if the recipe is just a nested group move to a place to view it
+                uistate.nested_recipes.clear();
+                for( const recipe_id &r : current[line]->nested_category_data ) {
+                    uistate.nested_recipes.insert( r );
+                }
+                // set back to * and to the nested category
+                tab.reset();
+                subtab.reset();
+                // TODO: Make this less hard coded
+                subtab.prev();
+                recalc = true;
+            } else if( !available[line].can_craft ) {
+              query_popup()
+              .message( "%s", _( "You can't do that!" ) )
+              .option( "QUIT" )
+              .query();
             } else if( !player_character.check_eligible_containers_for_crafting( *current[line],
                        batch ? line + 1 : 1 ) ) {
                 // popup is already inside check
