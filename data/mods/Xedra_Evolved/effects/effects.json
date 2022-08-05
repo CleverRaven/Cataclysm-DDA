@@ -188,7 +188,7 @@
     "desc": [
       "Your complexion is wan and spent.",
       "Your skin is pale and your eyes are thoroughly bloodshot.",
-      "Your skin is pale and your eyes have turned dark red.  You feel a constant hunger, like the food you eat is no longer nourishing you.",
+      "Your skin is pale and have turned dark red.  You feel a constant hunger, like the food you eat is no longer nourishing you.",
       "Your skin is deathly white and will redden and burn when exposed to the sun.",
       "Your skin is deathly white, your eyes are solid red except for a huge pupil, the only food you can consume is human blood, and if sunlight hits you that part of your body instantly burns."
     ],
@@ -196,7 +196,7 @@
     "death_msg": "You succumb to your deadly necrotic condition.",
     "apply_memorial_log": "Contracted a bloodborne pathogen out of legend.",
     "remove_memorial_log": "Rid themselves of a horrific curse of the blood.",
-    "resist_trait": "ACIDBLOOD",
+    "resist_trait": [ "ACIDBLOOD" ],
     "resist_effects": [ "blood_treatment", "blood_quenched" ],
     "max_intensity": 5,
     "int_add_val": 1,
