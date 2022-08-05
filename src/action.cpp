@@ -161,6 +161,8 @@ std::string action_ident( action_id act )
             return "shift_nw";
         case ACTION_CYCLE_MOVE:
             return "cycle_move";
+        case ACTION_CYCLE_MOVE_REVERSE:
+            return "cycle_move_reverse";
         case ACTION_RESET_MOVE:
             return "reset_move";
         case ACTION_TOGGLE_RUN:
@@ -749,6 +751,7 @@ action_id handle_action_menu()
         // Only prioritize movement options if we're not driving.
         if( !player_character.controlling_vehicle ) {
             action_weightings[ACTION_CYCLE_MOVE] = 400;
+            action_weightings[ACTION_CYCLE_MOVE_REVERSE] = 400;
         }
         const item_location weapon = player_character.get_wielded_item();
         // Only prioritize fire weapon options if we're wielding a ranged weapon.

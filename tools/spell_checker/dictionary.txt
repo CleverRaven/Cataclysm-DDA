@@ -1572,6 +1572,8 @@ shadowcat
 shambler
 shamblers
 shantak
+sharksuit
+sharksuits
 shatteringly
 shedded
 sheetmetal

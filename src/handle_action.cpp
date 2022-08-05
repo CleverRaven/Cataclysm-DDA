@@ -747,7 +747,7 @@ static void smash()
     if( player_character.is_mounted() ) {
         monster *crit = player_character.mounted_creature.get();
         if( crit->has_flag( MF_RIDEABLE_MECH ) ) {
-            crit->use_mech_power( -3 );
+            crit->use_mech_power( 3_kJ );
         }
     }
     for( std::pair<const field_type_id, field_entry> &fd_to_smsh : here.field_at( smashp ) ) {
@@ -1900,6 +1900,10 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
 
         case ACTION_CYCLE_MOVE:
             player_character.cycle_move_mode();
+            break;
+
+        case ACTION_CYCLE_MOVE_REVERSE:
+            player_character.cycle_move_mode_reverse();
             break;
 
         case ACTION_RESET_MOVE:

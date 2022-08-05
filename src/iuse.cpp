@@ -23,6 +23,7 @@
 #include "activity_actor_definitions.h"
 #include "activity_type.h"
 #include "avatar.h"
+#include "avatar_action.h"
 #include "bionics.h"
 #include "bodypart.h"
 #include "calendar.h"
@@ -35,6 +36,7 @@
 #include "coordinates.h"
 #include "creature.h"
 #include "creature_tracker.h"
+#include "cuboid_rectangle.h"
 #include "damage.h"
 #include "debug.h"
 #include "effect.h" // for weed_msg
@@ -1998,7 +2000,12 @@ class exosuit_interact
             ctxt.register_action( "SCROLL_INFOBOX_DOWN" );
             ctxt.register_action( "CONFIRM" );
             ctxt.register_action( "QUIT" );
-            ctxt.register_action( "ANY_INPUT" );
+            // mouse selection
+            ctxt.register_action( "SELECT" );
+            ctxt.register_action( "SEC_SELECT" );
+            ctxt.register_action( "MOUSE_MOVE" );
+            ctxt.register_action( "SCROLL_UP" );
+            ctxt.register_action( "SCROLL_DOWN" );
             pocket_count = it->get_all_contained_pockets().size();
             height = std::max( pocket_count, height_default ) + 2;
             width_menu = 30;
@@ -2020,6 +2027,7 @@ class exosuit_interact
         catacurses::window w_border;
         catacurses::window w_info;
         catacurses::window w_menu;
+        std::map<int, inclusive_rectangle<point>> pkt_map;
         int moves = 0;
         int pocket_count = 0;
         int cur_pocket = 0;
@@ -2028,6 +2036,7 @@ class exosuit_interact
         const int height_default = 20;
         int width_info = 30;
         int width_menu = 30;
+        int sel_frame = 0;
 
         static std::string get_pocket_name( const item_pocket *pkt ) {
             if( !pkt->get_pocket_data()->pocket_name.empty() ) {
@@ -2051,11 +2060,21 @@ class exosuit_interact
         }
 
         void draw_menu() {
+            pkt_map.clear();
+            // info box
+            pkt_map.emplace( -1, inclusive_rectangle<point>( point( 2 + width_menu, 1 ),
+                             point( 2 + width_menu + width_info, height - 2 ) ) );
             werase( w_menu );
             int row = 0;
             for( const item_pocket *pkt : suit->get_all_contained_pockets() ) {
                 nc_color colr = row == cur_pocket ? h_white : c_white;
-                mvwprintz( w_menu, point( 0, row ), colr, get_pocket_name( pkt ) );
+                std::string txt = get_pocket_name( pkt );
+                int remaining = width_menu - utf8_width( txt, true );
+                if( remaining > 0 ) {
+                    txt.append( remaining, ' ' );
+                }
+                trim_and_print( w_menu, point( 0, row ), width_menu, colr, txt );
+                pkt_map.emplace( row, inclusive_rectangle<point>( point( 0, row ), point( width_menu, row ) ) );
                 row++;
             }
             wnoutrefresh( w_menu );
@@ -2082,7 +2101,7 @@ class exosuit_interact
                 ui = current_ui = make_shared_fast<ui_adaptor>();
                 current_ui->on_screen_resize( [this]( ui_adaptor & cui ) {
                     init_windows();
-                    cui.position_from_window( catacurses::stdscr );
+                    cui.position_from_window( w_border );
                 } );
                 current_ui->mark_resize();
                 current_ui->on_redraw( [this]( const ui_adaptor & ) {
@@ -2104,38 +2123,76 @@ class exosuit_interact
             shared_ptr_fast<ui_adaptor> current_ui = create_or_get_ui_adaptor();
             while( !done ) {
                 ui_manager::redraw();
-                const std::string action = ctxt.handle_input();
-                if( action == "QUIT" ) {
+                std::string action = ctxt.handle_input();
+                if( action == "MOUSE_MOVE" || action == "SELECT" ) {
+                    cata::optional<point> coord = ctxt.get_coordinates_text( w_border );
+                    if( !!coord ) {
+                        int tmp_frame = 0;
+                        run_for_point_in<int, point>( pkt_map, *coord,
+                        [&tmp_frame]( const std::pair<int, inclusive_rectangle<point>> &p ) {
+                            if( p.first == -1 ) {
+                                tmp_frame = 1;
+                            }
+                        } );
+                        sel_frame = tmp_frame;
+                    }
+                    coord = ctxt.get_coordinates_text( w_menu );
+                    if( !!coord ) {
+                        int tmp_pocket = cur_pocket;
+                        run_for_point_in<int, point>( pkt_map, *coord,
+                        [&tmp_pocket, &action]( const std::pair<int, inclusive_rectangle<point>> &p ) {
+                            if( p.first >= 0 ) {
+                                tmp_pocket = p.first;
+                                if( action == "SELECT" ) {
+                                    action = "CONFIRM";
+                                }
+                            }
+                        } );
+                        cur_pocket = tmp_pocket;
+                    }
+                } else if( action == "SCROLL_UP" || action == "SCROLL_DOWN" ) {
+                    if( sel_frame == 0 ) {
+                        action = action == "SCROLL_UP" ? "UP" : "DOWN";
+                    } else {
+                        action = action == "SCROLL_UP" ? "SCROLL_INFOBOX_UP" : "SCROLL_INFOBOX_DOWN";
+                    }
+                }
+                if( action == "QUIT" || action == "SEC_SELECT" ) {
                     scroll_pos = 0;
                     done = true;
                 } else if( action == "CONFIRM" ) {
                     scroll_pos = 0;
-                    int nmoves = insert_replace_mod(
+                    int nmoves = insert_replace_activate_mod(
                                      suit->get_all_contained_pockets()[cur_pocket], suit );
                     moves = moves > nmoves ? moves : nmoves;
+                    if( !get_player_character().activity.is_null() ) {
+                        done = true;
+                    }
                 } else if( action == "UP" ) {
                     cur_pocket--;
                     if( cur_pocket < 0 ) {
                         cur_pocket = pocket_count - 1;
                     }
                     scroll_pos = 0;
+                    sel_frame = 0;
                 } else if( action == "DOWN" ) {
                     cur_pocket++;
                     if( cur_pocket >= pocket_count ) {
                         cur_pocket = 0;
                     }
                     scroll_pos = 0;
+                    sel_frame = 0;
                 } else if( action == "SCROLL_INFOBOX_UP" ) {
                     scroll_pos--;
+                    sel_frame = 1;
                 } else if( action == "SCROLL_INFOBOX_DOWN" ) {
                     scroll_pos++;
-                } else if( action == "ANY_INPUT" ) {
-                    // TODO? Probably unnecessary.
+                    sel_frame = 1;
                 }
             }
         }
 
-        int insert_replace_mod( item_pocket *pkt, item *it ) {
+        int insert_replace_activate_mod( item_pocket *pkt, item *it ) {
             Character &c = get_player_character();
             map &here = get_map();
             const std::set<flag_id> flags = pkt->get_pocket_data()->get_flag_restrictions();
@@ -2148,14 +2205,35 @@ class exosuit_interact
             // If pocket already contains a module, ask to unload or replace
             const bool not_empty = !pkt->empty();
             if( not_empty ) {
-                std::string mod_name = pkt->all_items_top().front()->tname();
+                item *mod_it = pkt->all_items_top().front();
+                std::string mod_name = mod_it->tname();
+                uilist amenu;
                 //~ Prompt the player to handle the module inside the modular exoskeleton
-                uilist amenu( _( "What to do with the existing module?" ), {
-                    string_format( _( "Unload the %s" ), mod_name ),
-                    string_format( _( "Replace the %s" ), mod_name )
-                } );
+                amenu.text = _( "What to do with the existing module?" );
+                amenu.addentry( -1, true, MENU_AUTOASSIGN, _( "Unload everything from this %s" ),
+                                get_pocket_name( pkt ) );
+                amenu.addentry( -1, true, MENU_AUTOASSIGN, _( "Replace the %s" ), mod_name );
+                amenu.addentry( -1, mod_it->has_relic_activation() || mod_it->type->has_use(), MENU_AUTOASSIGN,
+                                mod_it->active ? _( "Deactivate the %s" ) : _( "Activate the %s" ), mod_name );
+                amenu.addentry( -1, mod_it->is_reloadable() && c.can_reload( *mod_it ), MENU_AUTOASSIGN,
+                                _( "Reload the %s" ), mod_name );
+                amenu.addentry( -1, !mod_it->is_container_empty(), MENU_AUTOASSIGN, _( "Unload the %s" ),
+                                mod_name );
+                amenu.query();
                 int ret = amenu.ret;
-                if( ret < 0 || ret > 1 ) {
+                item_location loc_it;
+                item_location held = c.get_wielded_item();
+                if( !!held && held->has_item( *mod_it ) ) {
+                    loc_it = item_location( held, mod_it );
+                } else {
+                    for( const item_location &loc : c.top_items_loc() ) {
+                        if( loc->has_item( *mod_it ) ) {
+                            loc_it = item_location( loc, mod_it );
+                            break;
+                        }
+                    }
+                }
+                if( ret < 0 || ret > 4 ) {
                     return 0;
                 } else if( ret == 0 ) {
                     // Unload existing module
@@ -2164,6 +2242,21 @@ class exosuit_interact
                         return true;
                     } );
                     return to_moves<int>( 5_seconds );
+                } else if( ret == 2 ) {
+                    if( !!loc_it ) {
+                        avatar_action::use_item( get_avatar(), loc_it );
+                    }
+                    return 0;
+                } else if( ret == 3 ) {
+                    if( !!loc_it ) {
+                        g->reload( loc_it );
+                    }
+                    return 0;
+                } else if( ret == 4 ) {
+                    if( !!loc_it ) {
+                        c.unload( loc_it );
+                    }
+                    return 0;
                 }
             }
 

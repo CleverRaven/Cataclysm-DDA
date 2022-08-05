@@ -51,7 +51,7 @@
     "cut_protec": [ [ "arm_l", 3 ], [ "arm_r", 3 ], [ "hand_l", 3 ], [ "hand_r", 3 ] ],
     "bullet_protec": [ [ "arm_l", 3 ], [ "arm_r", 3 ], [ "hand_l", 3 ], [ "hand_r", 3 ] ],
     "encumbrance": [ [ "arm_l", 1 ], [ "arm_r", 1 ], [ "hand_l", 1 ], [ "hand_r", 1 ] ],
-    "cant_remove_reason": "The Alloy Plating is too thoroughly entwined to be removed safely.",
+    "//": "cant_remove_reason removed for now as these are presently functionally obsolete and characters should be able to remove them to get with the times.",
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
     "mutation_conflicts": [
       "THICKSKIN",
@@ -149,13 +149,9 @@
     "name": { "str": "Protective Lenses" },
     "description": "Your eye sockets have been surgically sealed with highly protective mirrored lenses and your tear ducts have been re-routed to your mouth.  When you cry, you must spit out or swallow your tears.",
     "occupied_bodyparts": [ [ "eyes", 1 ] ],
-    "env_protec": [ [ "eyes", 7 ] ],
-    "bash_protec": [ [ "eyes", 3 ] ],
-    "cut_protec": [ [ "eyes", 3 ] ],
-    "bullet_protec": [ [ "eyes", 3 ] ],
-    "encumbrance": [ [ "eyes", 1 ] ],
     "mutation_conflicts": [ "COMPOUND_EYES", "CEPH_VISION", "CEPH_EYES", "EYEBULGE", "EYESTALKS1", "EYESTALKS2" ],
-    "social_modifiers": { "intimidate": 10 }
+    "social_modifiers": { "intimidate": 10 },
+    "passive_pseudo_items": [ "armor_bio_eyes" ]
   },
   {
     "id": "bio_armor_head",
@@ -167,7 +163,7 @@
     "cut_protec": [ [ "head", 3 ], [ "mouth", 3 ] ],
     "bullet_protec": [ [ "head", 3 ], [ "mouth", 3 ] ],
     "encumbrance": [ [ "head", 1 ] ],
-    "cant_remove_reason": "The Alloy Plating is too thoroughly entwined to be removed safely.",
+    "//": "cant_remove_reason removed for now as these are presently functionally obsolete and characters should be able to remove them to get with the times.",
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
     "mutation_conflicts": [
       "THICKSKIN",
@@ -285,7 +281,7 @@
     "cut_protec": [ [ "leg_l", 3 ], [ "leg_r", 3 ], [ "foot_l", 3 ], [ "foot_r", 3 ] ],
     "bullet_protec": [ [ "leg_l", 3 ], [ "leg_r", 3 ], [ "foot_l", 3 ], [ "foot_r", 3 ] ],
     "encumbrance": [ [ "leg_l", 1 ], [ "leg_r", 1 ], [ "foot_l", 1 ], [ "foot_r", 1 ] ],
-    "cant_remove_reason": "The Alloy Plating is too thoroughly entwined to be removed safely.",
+    "//": "cant_remove_reason removed for now as these are presently functionally obsolete and characters should be able to remove them to get with the times.",
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
     "mutation_conflicts": [
       "THICKSKIN",
@@ -383,7 +379,7 @@
     "bullet_protec": [ [ "torso", 3 ] ],
     "encumbrance": [ [ "torso", 1 ] ],
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
-    "cant_remove_reason": "The Alloy Plating is too thoroughly entwined to be removed safely.",
+    "//": "cant_remove_reason removed for now as these are presently functionally obsolete and characters should be able to remove them to get with the times.",
     "canceled_mutations": [ "VINES1", "VINES2", "VINES3" ],
     "mutation_conflicts": [
       "THICKSKIN",
@@ -535,7 +531,7 @@
     "id": "bio_carbon",
     "type": "bionic",
     "name": { "str": "Subdermal Carbon Filament" },
-    "description": "Lying just beneath your skin is a thin armor made of carbon nanotubes.  This reduces bashing damage by 2 and cutting damage by 4.",
+    "description": "Lying just beneath your skin is a thin armor made of carbon nanotubes.  This has little impact on blunt trauma but will protect you against deep cuts.",
     "occupied_bodyparts": [
       [ "torso", 6 ],
       [ "head", 2 ],
@@ -546,45 +542,11 @@
       [ "foot_l", 1 ],
       [ "foot_r", 1 ],
       [ "hand_l", 1 ],
-      [ "hand_r", 1 ]
+      [ "hand_r", 1 ],
+      [ "mouth", 1 ]
     ],
-    "bash_protec": [
-      [ "torso", 2 ],
-      [ "head", 2 ],
-      [ "arm_l", 2 ],
-      [ "arm_r", 2 ],
-      [ "leg_l", 2 ],
-      [ "leg_r", 2 ],
-      [ "foot_l", 2 ],
-      [ "foot_r", 2 ],
-      [ "hand_l", 2 ],
-      [ "hand_r", 2 ]
-    ],
-    "cut_protec": [
-      [ "torso", 4 ],
-      [ "head", 4 ],
-      [ "arm_l", 4 ],
-      [ "arm_r", 4 ],
-      [ "leg_l", 4 ],
-      [ "leg_r", 4 ],
-      [ "foot_l", 4 ],
-      [ "foot_r", 4 ],
-      [ "hand_l", 4 ],
-      [ "hand_r", 4 ]
-    ],
-    "bullet_protec": [
-      [ "torso", 4 ],
-      [ "head", 4 ],
-      [ "arm_l", 4 ],
-      [ "arm_r", 4 ],
-      [ "leg_l", 4 ],
-      [ "leg_r", 4 ],
-      [ "foot_l", 4 ],
-      [ "foot_r", 4 ],
-      [ "hand_l", 4 ],
-      [ "hand_r", 4 ]
-    ],
-    "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ]
+    "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
+    "passive_pseudo_items": [ "armor_bio_carbon_filament" ]
   },
   {
     "id": "bio_chain_lightning",

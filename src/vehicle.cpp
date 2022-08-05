@@ -3793,9 +3793,10 @@ void vehicle::noise_and_smoke( int load, time_duration time )
     bool bad_filter = false;
     bool combustion = false;
 
+    this->vehicle_noise = 0; // reset noise, in case all combustion engines are dead
     for( size_t e = 0; e < engines.size(); e++ ) {
         int p = engines[e];
-        if( is_engine_on( e ) &&  engine_fuel_left( e ) ) {
+        if( engine_on && is_engine_on( e ) && engine_fuel_left( e ) ) {
             // convert current engine load to units of watts/40K
             // then spew more smoke and make more noise as the engine load increases
             int part_watts = part_vpower_w( p, true );
@@ -4978,6 +4979,7 @@ void vehicle::power_parts()
                 add_msg( _( "The %s's engine dies!" ), name );
             }
         }
+        noise_and_smoke( 0, 1_turns ); // refreshes this->vehicle_noise
     }
 }
 

@@ -1909,8 +1909,14 @@ void load_construction( const JsonObject &jo )
         con.post_is_furniture = true;
     }
 
-    con.activity_level =
-        activity_levels_map.find( jo.get_string( "activity_level", "MODERATE_EXERCISE" ) )->second;
+    std::string activity_level = jo.get_string( "activity_level", "MODERATE_EXERCISE" );
+    const auto activity_it = activity_levels_map.find( activity_level );
+    if( activity_it != activity_levels_map.end() ) {
+        con.activity_level = activity_it->second;
+    } else {
+        jo.throw_error( string_format( "Invalid activity level %s in construction %s", activity_level,
+                                       con.str_id.str() ) );
+    }
 
     if( jo.has_member( "pre_flags" ) ) {
         con.pre_flags.clear();
