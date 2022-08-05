@@ -4715,6 +4715,13 @@ void item::repair_info( std::vector<iteminfo> &info, const iteminfo_query *parts
         enumerate_as_string( rep.begin(), rep.end(), []( const itype_id & e ) {
             return nname( e );
         }, enumeration_conjunction::or_ ) ) );
+
+        std::string repairs_with = enumerate_as_string( type->repairs_with.begin(),
+        type->repairs_with.end(), []( const material_id & e ) {
+            return string_format( "<info>%s</info>", e->name() );
+        } );
+
+        info.emplace_back( "DESCRIPTION", string_format( _( "<bold>With</bold> %s." ), repairs_with ) );
         if( reinforceable() ) {
             info.emplace_back( "DESCRIPTION", _( "* This item can be <good>reinforced</good>." ) );
         }
@@ -9431,6 +9438,12 @@ int item::made_of( const material_id &mat_ident ) const
         return 0;
     }
     return mat->second;
+}
+
+bool item::can_repair_with( const material_id &mat_ident ) const
+{
+    auto mat = type->repairs_with.find( mat_ident );
+    return mat != type->repairs_with.end();
 }
 
 bool item::made_of( phase_id phase ) const

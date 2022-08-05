@@ -1181,6 +1181,7 @@ struct itype {
         // Second -> the portion of item covered by the material (portion / total portions)
         // MATERIALS WORK IN PROGRESS.
         std::map<material_id, int> materials;
+        std::set<material_id> repairs_with;
 
         // This stores the first inserted material so that it can be used if all materials
         // are equivalent in proportion as a default

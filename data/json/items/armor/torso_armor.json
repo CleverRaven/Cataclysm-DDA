@@ -550,6 +550,7 @@
     "bashing": 2,
     "cutting": 3,
     "material": [ "budget_steel", "cotton" ],
+    "repairs_with": [ "budget_steel" ],
     "symbol": "[",
     "looks_like": "cuirass_lightplate",
     "color": "light_gray",

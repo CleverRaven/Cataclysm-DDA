@@ -3004,6 +3004,22 @@
   },
   {
     "type": "GENERIC",
+    "id": "test_steelball",
+    "symbol": "*",
+    "color": "white",
+    "name": { "str": "baseball" },
+    "category": "veh_parts",
+    "description": "A baseball, good for throwing at enemies.  Getting hit with one of these hurts a lot more than you might think.",
+    "price": 1000,
+    "price_postapoc": 0,
+    "material": [ "leather", "lc_steel" ],
+    "repairs_with": [ "lc_steel" ],
+    "flags": [ "NPC_THROWN" ],
+    "weight": "150 g",
+    "volume": "250 ml"
+  },
+  {
+    "type": "GENERIC",
     "id": "test_baseball_half_degradation",
     "symbol": "*",
     "color": "white",

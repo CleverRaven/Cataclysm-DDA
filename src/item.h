@@ -1161,6 +1161,11 @@ class item : public visitable
          */
         int made_of( const material_id &mat_ident ) const;
         /**
+        * Check we can repair with this material (e.g. matches at least one
+        * in our set.)
+        */
+        bool can_repair_with( const material_id &mat_ident ) const;
+        /**
          * Are we solid, liquid, gas, plasma?
          */
         bool made_of( phase_id phase ) const;
