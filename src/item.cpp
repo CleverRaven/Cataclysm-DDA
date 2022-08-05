@@ -10884,6 +10884,13 @@ int item::ammo_consume( int qty, const tripoint &pos, Character *carrier )
     return wanted_qty - qty;
 }
 
+void item::activation_consume( const tripoint &pos, Character *carrier )
+{
+    if( type->charges_to_use() ) {
+        ammo_consume( type->charges_to_use(), pos, carrier );
+    }
+}
+
 const itype *item::ammo_data() const
 {
     const item *mag = magazine_current();
