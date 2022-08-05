@@ -282,7 +282,7 @@ struct availability {
 
         nc_color color( bool ignore_missing_skills = false ) const {
             if( is_nested_category ) {
-                return h_light_blue;
+                return c_light_blue;
             } else if( !can_craft ) {
                 return c_dark_gray;
             } else if( would_use_rotten || would_not_benefit ) {
@@ -309,6 +309,9 @@ static std::vector<std::string> recipe_info(
 
     oss << string_format( _( "Primary skill: %s\n" ), recp.primary_skill_string( guy ) );
 
+    if( !recp.is_nested() ) {
+
+    }
     if( !recp.required_skills.empty() ) {
         oss << string_format( _( "Other skills: %s\n" ), recp.required_skills_string( guy ) );
     }
@@ -326,10 +329,13 @@ static std::vector<std::string> recipe_info(
         oss << string_format( _( "Proficiencies Missing: %s\n" ), missing_profs );
     }
 
-    const int expected_turns = guy.expected_time_to_craft( recp, batch_size )
-                               / to_moves<int>( 1_turns );
-    oss << string_format( _( "Time to complete: <color_cyan>%s</color>\n" ),
-                          to_string( time_duration::from_turns( expected_turns ) ) );
+    if( !recp.is_nested() ) {
+        const int expected_turns = guy.expected_time_to_craft( recp, batch_size )
+                                   / to_moves<int>( 1_turns );
+        oss << string_format( _( "Time to complete: <color_cyan>%s</color>\n" ),
+                              to_string( time_duration::from_turns( expected_turns ) ) );
+
+    }
 
     const std::string batch_savings = recp.batch_savings_string();
     if( !batch_savings.empty() ) {
@@ -416,13 +422,15 @@ static std::vector<std::string> recipe_info(
 
     std::vector<std::string> result = foldstring( oss.str(), fold_width );
 
-    const requirement_data &req = recp.simple_requirements();
-    const std::vector<std::string> tools = req.get_folded_tools_list(
-            fold_width, color, crafting_inv, batch_size );
-    const std::vector<std::string> comps = req.get_folded_components_list(
-            fold_width, color, crafting_inv, recp.get_component_filter(), batch_size, qry_comps );
-    result.insert( result.end(), tools.begin(), tools.end() );
-    result.insert( result.end(), comps.begin(), comps.end() );
+    if( !recp.is_nested() ) {
+        const requirement_data &req = recp.simple_requirements();
+        const std::vector<std::string> tools = req.get_folded_tools_list(
+                fold_width, color, crafting_inv, batch_size );
+        const std::vector<std::string> comps = req.get_folded_components_list(
+                fold_width, color, crafting_inv, recp.get_component_filter(), batch_size, qry_comps );
+        result.insert( result.end(), tools.begin(), tools.end() );
+        result.insert( result.end(), comps.begin(), comps.end() );
+    }
 
     oss = std::ostringstream();
     if( !guy.knows_recipe( &recp ) ) {
@@ -1023,6 +1031,7 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
     bool unread_recipes_first = false;
     bool user_moved_line = false;
     bool recalc = true;
+    bool move_to_nested = false;
     bool recalc_unread = highlight_unread_recipes;
     bool keepline = false;
     bool done = false;
@@ -1175,7 +1184,7 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
             const bool rcp_read = !highlight_unread_recipes ||
                                   uistate.read_recipes.count( current[i]->ident() );
             const bool highlight = i == line;
-            const nc_color col = highlight ? available[i].selected_color() : available[i].color();
+            nc_color col = highlight ? available[i].selected_color() : available[i].color();
             const point print_from( 2, i - istart );
             if( highlight ) {
                 ui.set_cursor( w_data, print_from );
@@ -1574,7 +1583,7 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
                 }
                 // set back to * and to the nested category
                 tab.reset();
-                subtab.reset();
+                subtab = list_circularizer<std::string>( craft_subcat_list[tab.cur()] );
                 // TODO: Make this less hard coded
                 subtab.prev();
                 recalc = true;
