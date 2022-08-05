@@ -26,6 +26,7 @@
 #include "basecamp.h"
 #include "cached_options.h"
 #include "calendar.h"
+#include "enum_conversions.h"
 #ifdef TILES
 #include "cata_tiles.h"
 #endif // TILES
@@ -1125,7 +1126,7 @@ static void draw_om_sidebar(
         for( const mongroup *mg : overmap_buffer.monsters_at( center ) ) {
             mvwprintz( wbar, point( 1, ++lines ), c_red, "mongroup %s (%zu/%u), %s %s%s%s",
                        mg->type.str(), mg->monsters.size(), mg->population,
-                       mg->horde_behaviour,
+                       io::enum_to_string( mg->behaviour ),
                        mg->dying ? "x" : "", mg->horde ? "h" : "", mg->diffuse ? "d" : "" );
             mvwprintz( wbar, point( 1, ++lines ), c_red, "target: %s (%d)",
                        project_to<coords::omt>( mg->target ).to_string(), mg->interest );

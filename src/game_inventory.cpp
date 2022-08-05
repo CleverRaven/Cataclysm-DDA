@@ -58,6 +58,7 @@
 #include "units_utility.h"
 #include "value_ptr.h"
 #include "vehicle_selector.h"
+#include "vitamin.h"
 #include "vpart_position.h"
 
 static const activity_id ACT_CONSUME_DRINK_MENU( "ACT_CONSUME_DRINK_MENU" );
@@ -1019,25 +1020,25 @@ static std::string get_consume_needs_hint( Character &you )
     std::string kcal_estimated_intake;
     if( kcal_ingested_today == 0 ) {
         //~ kcal_estimated_intake
-        kcal_estimated_intake = _( "none" );
+        kcal_estimated_intake = _( "none " );
     } else if( kcal_ingested_today < 0.2 * you.base_bmr() ) {
         //~ kcal_estimated_intake
-        kcal_estimated_intake = _( "minimal" );
+        kcal_estimated_intake = _( "minimal " );
     } else if( kcal_ingested_today < 0.5 * you.base_bmr() ) {
         //~ kcal_estimated_intake
-        kcal_estimated_intake = _( "low" );
+        kcal_estimated_intake = _( "low " );
     } else if( kcal_ingested_today < 1.0 * you.base_bmr() ) {
         //~ kcal_estimated_intake
-        kcal_estimated_intake = _( "moderate" );
+        kcal_estimated_intake = _( "moderate " );
     } else if( kcal_ingested_today < 1.5 * you.base_bmr() ) {
         //~ kcal_estimated_intake
-        kcal_estimated_intake = _( "high" );
+        kcal_estimated_intake = _( "high " );
     } else if( kcal_ingested_today < 2.0 * you.base_bmr() ) {
         //~ kcal_estimated_intake
-        kcal_estimated_intake = _( "very high" );
+        kcal_estimated_intake = _( "very high " );
     } else {
         //~ kcal_estimated_intake
-        kcal_estimated_intake = _( "huge" );
+        kcal_estimated_intake = _( "huge " );
     }
 
     hint.append( "\n" );
@@ -1058,6 +1059,34 @@ static std::string get_consume_needs_hint( Character &you )
         hint.append( string_format( "%s %s", _( "Today:" ), colorize( desc.first, desc.second ) ) );
         desc = std::make_pair( string_format( _( "%d kcal " ), kcal_spent_yesterday ), c_white );
         hint.append( string_format( "%s %s", _( "Yesterday:" ), colorize( desc.first, desc.second ) ) );
+    }
+
+    // add info about vitamins as well
+    hint.append( _( "Vitamin Intake: " ) );
+
+    for( const auto &v : vitamin::all() ) {
+        if( v.first->type() != vitamin_type::VITAMIN || v.first->has_flag( "OBSOLETE" ) ) {
+            //skip non vitamins
+            continue;
+        }
+
+        const int &guessed_daily_vit_quantity = you.get_daily_vitamin( v.first, false );
+        const int &vit_percent = you.vitamin_RDA( v.first, guessed_daily_vit_quantity );
+
+        if( has_tracker ) {
+            desc = std::make_pair( string_format( _( "%s: %d%%.  " ), v.second.name(), vit_percent ), c_white );
+        } else {
+            if( vit_percent >= 90 ) {
+                desc = std::make_pair( string_format( _( "%s: %s.  " ), v.second.name(), _( "plenty" ) ), c_white );
+            } else if( vit_percent >= 50 ) {
+                desc = std::make_pair( string_format( _( "%s: %s.  " ), v.second.name(), _( "some" ) ), c_white );
+            } else if( vit_percent > 0 ) {
+                desc = std::make_pair( string_format( _( "%s: %s.  " ), v.second.name(), _( "little" ) ), c_white );
+            } else {
+                desc = std::make_pair( string_format( _( "%s: %s.  " ), v.second.name(), _( "none" ) ), c_white );
+            }
+        }
+        hint.append( colorize( desc.first, desc.second ) );
     }
     return hint;
 }

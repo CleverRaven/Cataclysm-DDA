@@ -257,8 +257,7 @@ void veh_app_interact::draw_info()
 bool veh_app_interact::can_refill()
 {
     for( const vpart_reference &vpr : veh->get_all_parts() ) {
-        // No batteries
-        if( vpr.part().can_reload() && vpr.part().ammo_current() != fuel_type_battery ) {
+        if( vpr.part().can_reload() ) {
             return true;
         }
     }
@@ -319,8 +318,7 @@ void veh_app_interact::refill()
 {
     std::vector<vehicle_part *> ptlist;
     for( const vpart_reference &vpr : veh->get_all_parts() ) {
-        // No batteries
-        if( vpr.part().can_reload() && vpr.part().ammo_current() != fuel_type_battery ) {
+        if( vpr.part().can_reload() ) {
             ptlist.emplace_back( &vpr.part() );
         }
     }
@@ -329,8 +327,7 @@ void veh_app_interact::refill()
         return;
     }
 
-    std::string msg;
-    auto validate = [&pt, &msg]( const item & obj ) {
+    auto validate = [&pt]( const item & obj ) {
         if( pt->is_tank() ) {
             if( obj.is_watertight_container() && obj.num_item_stacks() == 1 ) {
                 // we are assuming only one pocket here, and it's a liquid so only one item
@@ -338,10 +335,6 @@ void veh_app_interact::refill()
             }
         } else if( pt->is_fuel_store() ) {
             bool can_reload = pt->can_reload( obj );
-            if( obj.typeId() == fuel_type_battery && can_reload ) {
-                msg = _( "You cannot recharge an appliance battery with handheld batteries" );
-                return false;
-            }
             //check base item for fuel_stores that can take multiple types of ammunition (like the fuel_bunker)
             if( pt->get_base().can_reload_with( obj, true ) ) {
                 return true;
@@ -354,9 +347,7 @@ void veh_app_interact::refill()
     // Setup the refill activity
     item_location target = g->inv_map_splice( validate, string_format( _( "Refill %s" ), pt->name() ),
                            1 );
-    if( !msg.empty() ) {
-        popup( msg );
-    } else if( target ) {
+    if( target ) {
         act = player_activity( ACT_VEHICLE, 1000, static_cast<int>( 'f' ) );
         act.targets.push_back( target );
         act.str_values.push_back( pt->info().get_id().str() );

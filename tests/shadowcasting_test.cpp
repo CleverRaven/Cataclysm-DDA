@@ -14,6 +14,7 @@
 #include "lightmap.h"
 #include "line.h" // For rl_dist.
 #include "map.h"
+#include "mdarray.h"
 #include "point.h"
 #include "rng.h"
 #include "shadowcasting.h"
@@ -23,11 +24,12 @@ static constexpr unsigned int NUMERATOR = 1;
 static constexpr unsigned int DENOMINATOR = 10;
 
 // NOLINTNEXTLINE(cata-xy)
-static void oldCastLight( float ( &output_cache )[MAPSIZE * SEEX][MAPSIZE * SEEY],
-                          const float ( &input_array )[MAPSIZE * SEEX][MAPSIZE * SEEY],
-                          const int xx, const int xy, const int yx, const int yy,
-                          const int offsetX, const int offsetY, const int offsetDistance,
-                          const int row = 1, float start = 1.0f, const float end = 0.0f )
+static void oldCastLight(
+    cata::mdarray<float, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> &output_cache,
+    const cata::mdarray<float, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> &input_array,
+    const int xx, const int xy, const int yx, const int yy,
+    const int offsetX, const int offsetY, const int offsetDistance,
+    const int row = 1, float start = 1.0f, const float end = 0.0f )
 {
 
     float newStart = 0.0f;
@@ -83,7 +85,7 @@ static void oldCastLight( float ( &output_cache )[MAPSIZE * SEEX][MAPSIZE * SEEY
  */
 static bool bresenham_visibility_check(
     const point &offset, const point &p,
-    const float ( &transparency_cache )[MAPSIZE * SEEX][MAPSIZE * SEEY] )
+    const cata::mdarray<float, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> &transparency_cache )
 {
     if( offset == p ) {
         return true;
@@ -103,7 +105,7 @@ static bool bresenham_visibility_check(
 }
 
 static void randomly_fill_transparency(
-    float ( &transparency_cache )[MAPSIZE * SEEX][MAPSIZE * SEEY],
+    cata::mdarray<float, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> &transparency_cache,
     const unsigned int numerator = NUMERATOR, const unsigned int denominator = DENOMINATOR )
 {
     // Construct a rng that produces integers in a range selected to provide the probability
@@ -113,15 +115,13 @@ static void randomly_fill_transparency(
     auto rng = [&distribution] { return distribution( rng_get_engine() ); };
 
     // Initialize the transparency value of each square to a random value.
-    for( auto &inner : transparency_cache ) {
-        for( float &square : inner ) {
-            if( rng() < numerator ) {
-                square = LIGHT_TRANSPARENCY_SOLID;
-            } else {
-                square = LIGHT_TRANSPARENCY_OPEN_AIR;
-            }
+    transparency_cache.fill_from_callable( [numerator, &rng]() {
+        if( rng() < numerator ) {
+            return LIGHT_TRANSPARENCY_SOLID;
+        } else {
+            return LIGHT_TRANSPARENCY_OPEN_AIR;
         }
-    }
+    } );
 }
 
 static bool is_nonzero( const float x )
@@ -135,8 +135,9 @@ static bool is_nonzero( const four_quadrants &x )
 }
 
 template<typename Exp>
-bool grids_are_equivalent( float control[MAPSIZE * SEEX][MAPSIZE * SEEY],
-                           Exp experiment[MAPSIZE * SEEX][MAPSIZE * SEEY] )
+bool grids_are_equivalent(
+    const cata::mdarray<float, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> &control,
+    const cata::mdarray<Exp, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> &experiment )
 {
     for( int x = 0; x < MAPSIZE * SEEX; ++x ) {
         for( int y = 0; y < MAPSIZE * SEEY; ++y ) {
@@ -151,10 +152,11 @@ bool grids_are_equivalent( float control[MAPSIZE * SEEX][MAPSIZE * SEEY],
 }
 
 template<typename Exp>
-void print_grid_comparison( const point &offset,
-                            float ( &transparency_cache )[MAPSIZE * SEEX][MAPSIZE * SEEY],
-                            float control[MAPSIZE * SEEX][MAPSIZE * SEEY],
-                            Exp experiment[MAPSIZE * SEEX][MAPSIZE * SEEY] )
+void print_grid_comparison(
+    const point &offset,
+    cata::mdarray<float, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> &transparency_cache,
+    const cata::mdarray<float, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> &control,
+    const cata::mdarray<Exp, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> &experiment )
 {
     for( int x = 0; x < MAPSIZE * SEEX; ++x ) {
         for( int y = 0; y < MAPSIZE * SEEX; ++y ) {
@@ -220,9 +222,9 @@ void print_grid_comparison( const point &offset,
 
 static void shadowcasting_runoff( const int iterations, const bool test_bresenham = false )
 {
-    float seen_squares_control[MAPSIZE * SEEX][MAPSIZE * SEEY] = {};
-    float seen_squares_experiment[MAPSIZE * SEEX][MAPSIZE * SEEY] = {};
-    float transparency_cache[MAPSIZE * SEEX][MAPSIZE * SEEY] = {};
+    cata::mdarray<float, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> seen_squares_control = {};
+    cata::mdarray<float, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> seen_squares_experiment = {};
+    cata::mdarray<float, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> transparency_cache = {};
 
     randomly_fill_transparency( transparency_cache );
 
@@ -290,15 +292,18 @@ static void shadowcasting_float_quad(
     const int iterations, const unsigned int denominator = DENOMINATOR )
 {
     struct test_grids {
-        float lit_squares_float[MAPSIZE * SEEX][MAPSIZE * SEEY] = {};
-        four_quadrants lit_squares_quad[MAPSIZE * SEEX][MAPSIZE * SEEY] = {};
-        float transparency_cache[MAPSIZE * SEEX][MAPSIZE * SEEY] = {};
+        cata::mdarray<float, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> lit_squares_float = {};
+        cata::mdarray<four_quadrants, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> lit_squares_quad = {};
+        cata::mdarray<float, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> transparency_cache = {};
     };
 
     std::unique_ptr<test_grids> grids = std::make_unique<test_grids>();
-    float ( &lit_squares_float )[MAPSIZE * SEEX][MAPSIZE * SEEY] = grids->lit_squares_float;
-    four_quadrants( &lit_squares_quad )[MAPSIZE * SEEX][MAPSIZE * SEEY] = grids->lit_squares_quad;
-    float ( &transparency_cache )[MAPSIZE * SEEX][MAPSIZE * SEEY] = grids->transparency_cache;
+    cata::mdarray<float, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> &lit_squares_float =
+        grids->lit_squares_float;
+    cata::mdarray<four_quadrants, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> &lit_squares_quad =
+        grids->lit_squares_quad;
+    cata::mdarray<float, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> &transparency_cache =
+        grids->transparency_cache;
 
     randomly_fill_transparency( transparency_cache, denominator );
 
@@ -347,25 +352,23 @@ static void shadowcasting_float_quad(
 }
 
 static void do_3d_benchmark(
-    std::array<const float ( * )[MAPSIZE *SEEX][MAPSIZE *SEEY], OVERMAP_LAYERS> &transparency_caches,
+    const array_of_grids_of<const float> &transparency_caches,
     const int iterations )
 {
     struct test_grids {
-        float seen_squares[OVERMAP_LAYERS][MAPSIZE * SEEX][MAPSIZE * SEEY] = {};
-        bool floor_cache[OVERMAP_LAYERS][MAPSIZE * SEEX][MAPSIZE * SEEY] = {};
+        cata::mdarray<float, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> seen_squares[OVERMAP_LAYERS] = {};
+        cata::mdarray<bool, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> floor_cache[OVERMAP_LAYERS] = {};
     };
 
     std::unique_ptr<test_grids> grids = std::make_unique<test_grids>();
-    float ( &seen_squares )[OVERMAP_LAYERS][MAPSIZE * SEEX][MAPSIZE * SEEY] = grids->seen_squares;
-    bool ( &floor_cache )[OVERMAP_LAYERS][MAPSIZE * SEEX][MAPSIZE * SEEY] = grids->floor_cache;
 
     const tripoint origin( 65, 65, 0 );
-    std::array<float ( * )[MAPSIZE *SEEX][MAPSIZE *SEEY], OVERMAP_LAYERS> seen_caches;
-    std::array<const bool ( * )[MAPSIZE *SEEX][MAPSIZE *SEEY], OVERMAP_LAYERS> floor_caches;
+    array_of_grids_of<float> seen_caches;
+    array_of_grids_of<const bool> floor_caches;
 
     for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
-        seen_caches[z + OVERMAP_DEPTH] = &seen_squares[z + OVERMAP_DEPTH];
-        floor_caches[z + OVERMAP_DEPTH] = &floor_cache[z + OVERMAP_DEPTH];
+        seen_caches[z + OVERMAP_DEPTH] = &grids->seen_squares[z + OVERMAP_DEPTH];
+        floor_caches[z + OVERMAP_DEPTH] = &grids->floor_cache[z + OVERMAP_DEPTH];
     }
 
     const auto start = std::chrono::high_resolution_clock::now();
@@ -386,13 +389,14 @@ static void do_3d_benchmark(
 static void shadowcasting_3d_benchmark( const int iterations )
 {
     struct test_grids {
-        float transparency_cache[OVERMAP_LAYERS][MAPSIZE * SEEX][MAPSIZE * SEEY] = {{{0}}};
+        cata::mdarray<float, point_bub_ms, MAPSIZE_X, MAPSIZE_Y>
+        transparency_cache[OVERMAP_LAYERS] = {};
     };
 
     std::unique_ptr<test_grids> grids = std::make_unique<test_grids>();
-    float ( &transparency_cache )[OVERMAP_LAYERS][MAPSIZE * SEEX][MAPSIZE * SEEY] =
+    cata::mdarray<float, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> *transparency_cache =
         grids->transparency_cache;
-    std::array<const float ( * )[MAPSIZE *SEEX][MAPSIZE *SEEY], OVERMAP_LAYERS> transparency_caches;
+    array_of_grids_of<const float> transparency_caches;
     for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
         randomly_fill_transparency( transparency_cache[z + OVERMAP_DEPTH] );
         transparency_caches[z + OVERMAP_DEPTH] = &transparency_cache[z + OVERMAP_DEPTH];
@@ -408,16 +412,13 @@ static void shadowcasting_3d_benchmark( const int iterations )
         } else {
             value_to_set = LIGHT_TRANSPARENCY_OPEN_AIR;
         }
-        for( auto &inner : transparency_cache[z + OVERMAP_DEPTH] ) {
-            for( float &square : inner ) {
-                square = value_to_set;
-            }
-        }
+        transparency_cache[z + OVERMAP_DEPTH].fill( value_to_set );
     }
     do_3d_benchmark( transparency_caches, iterations );
 
     // Add some obstacles, a ring at distance 5
-    float ( &ground_level )[MAPSIZE * SEEX][MAPSIZE * SEEY] = transparency_cache[OVERMAP_DEPTH];
+    cata::mdarray<float, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> &ground_level =
+        transparency_cache[OVERMAP_DEPTH];
     ground_level[60][65] = LIGHT_TRANSPARENCY_SOLID;
     ground_level[63][63] = LIGHT_TRANSPARENCY_SOLID;
     ground_level[65][60] = LIGHT_TRANSPARENCY_SOLID;
@@ -431,10 +432,10 @@ static void shadowcasting_3d_benchmark( const int iterations )
 
 static void shadowcasting_3d_2d( const int iterations )
 {
-    float seen_squares_control[MAPSIZE * SEEX][MAPSIZE * SEEY] = {};
-    float seen_squares_experiment[MAPSIZE * SEEX][MAPSIZE * SEEY] = {};
-    float transparency_cache[MAPSIZE * SEEX][MAPSIZE * SEEY] = {};
-    bool floor_cache[MAPSIZE * SEEX][MAPSIZE * SEEY] = {};
+    cata::mdarray<float, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> seen_squares_control = {};
+    cata::mdarray<float, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> seen_squares_experiment = {};
+    cata::mdarray<float, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> transparency_cache = {};
+    cata::mdarray<bool, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> floor_cache = {};
 
     randomly_fill_transparency( transparency_cache );
 
@@ -451,9 +452,9 @@ static void shadowcasting_3d_2d( const int iterations )
     const auto end1 = std::chrono::high_resolution_clock::now();
 
     const tripoint origin( offset );
-    std::array<const float ( * )[MAPSIZE *SEEX][MAPSIZE *SEEY], OVERMAP_LAYERS> transparency_caches;
-    std::array<float ( * )[MAPSIZE *SEEX][MAPSIZE *SEEY], OVERMAP_LAYERS> seen_caches;
-    std::array<const bool ( * )[MAPSIZE *SEEX][MAPSIZE *SEEY], OVERMAP_LAYERS> floor_caches;
+    array_of_grids_of<const float> transparency_caches;
+    array_of_grids_of<float> seen_caches;
+    array_of_grids_of<const bool> floor_caches;
     for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
         // TODO: Give some more proper values here
         transparency_caches[z + OVERMAP_DEPTH] = &transparency_cache;
@@ -563,9 +564,9 @@ static void run_spot_check( const grid_overlay &test_case, const grid_overlay &e
         REQUIRE( test_case.depth() == 1 );
     }
     level_cache *caches[OVERMAP_LAYERS];
-    std::array<float ( * )[MAPSIZE *SEEX][MAPSIZE *SEEY], OVERMAP_LAYERS> seen_squares;
-    std::array<const float ( * )[MAPSIZE *SEEX][MAPSIZE *SEEY], OVERMAP_LAYERS> transparency_cache;
-    std::array<const bool ( * )[MAPSIZE *SEEX][MAPSIZE *SEEY], OVERMAP_LAYERS> floor_cache;
+    array_of_grids_of<float> seen_squares;
+    array_of_grids_of<const float> transparency_cache;
+    array_of_grids_of<const bool> floor_cache;
 
     const int upper_bound = fov_3d ? OVERMAP_LAYERS : 12;
     const int lower_bound = fov_3d ? 0 : 11;

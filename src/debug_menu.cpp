@@ -1310,7 +1310,8 @@ static void character_edit_needs_menu( Character &you )
 
     const auto &vits = vitamin::all();
     for( const auto &v : vits ) {
-        smenu.addentry( -1, true, 0, "%s: %d", v.second.name(), you.vitamin_get( v.first ) );
+        smenu.addentry( -1, true, 0, _( "%s: daily %d, overall %d" ), v.second.name(),
+                        you.get_daily_vitamin( v.first ), you.vitamin_get( v.first ) );
     }
 
     smenu.query();

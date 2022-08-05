@@ -367,75 +367,21 @@ static bool check_butcher_dissect( const int roll )
     return !failed;
 }
 
-static bool butcher_dissect_item( const itype_id &what, const tripoint &pos,
-                                  const time_point &age, const int roll, const std::vector<flag_id> &flags,
-                                  const std::vector<fault_id> &faults )
+static bool butcher_dissect_item( item &what, const tripoint &pos,
+                                  const time_point &age, const int roll )
 {
     if( roll < 0 ) {
         return false;
     }
     bool success = check_butcher_dissect( roll );
     map &here = get_map();
-    if( item::find_type( what )->bionic ) {
-        item cbm( success ? what : itype_burnt_out_bionic, age );
-        for( const flag_id &flg : flags ) {
-            cbm.set_flag( flg );
-        }
-        for( const fault_id &flt : faults ) {
-            cbm.faults.emplace( flt );
-        }
-        add_msg( m_good, _( "You discover a %s!" ), cbm.tname() );
-        here.add_item( pos, cbm );
+    if( what.is_bionic() && !success ) {
+        item burnt_out_cbm( itype_burnt_out_bionic, age );
+        add_msg( m_good, _( "You discover a %s!" ), burnt_out_cbm.tname() );
+        here.add_item( pos, burnt_out_cbm );
     } else if( success ) {
-        item something( what, age );
-        for( const flag_id &flg : flags ) {
-            something.set_flag( flg );
-        }
-        for( const fault_id &flt : faults ) {
-            something.faults.emplace( flt );
-        }
-        add_msg( m_good, _( "You discover a %s!" ), something.tname() );
-        here.add_item( pos, something );
-    }
-    return success;
-}
-
-static bool butcher_dissect_group(
-    const item_group_id &group, const tripoint &pos, const time_point &age, const int roll,
-    const std::vector<flag_id> &flags, const std::vector<fault_id> &faults )
-{
-    if( roll < 0 ) {
-        return false;
-    }
-    bool success = check_butcher_dissect( roll );
-    map &here = get_map();
-    const std::set<const itype *> &gr_it = item_group::every_possible_item_from( group );
-    //To see if it spawns a random additional CBM
-    if( success ) {
-        //The CBM works
-        const std::vector<item *> spawned = here.put_items_from_loc( group, pos, age );
-        for( item *it : spawned ) {
-            for( const flag_id &flg : flags ) {
-                it->set_flag( flg );
-            }
-            for( const fault_id &flt : faults ) {
-                it->faults.emplace( flt );
-            }
-            add_msg( m_good, _( "You discover a %s!" ), it->tname() );
-        }
-    } else if( std::any_of( gr_it.begin(), gr_it.end(), []( const itype * it ) {
-    return !!it->bionic;
-} ) ) {
-        //There is a burnt out CBM
-        item cbm( itype_burnt_out_bionic, age );
-        for( const flag_id &flg : flags ) {
-            cbm.set_flag( flg );
-        }
-        for( const fault_id &flt : faults ) {
-            cbm.faults.emplace( flt );
-        }
-        add_msg( m_good, _( "You discover a %s!" ), cbm.tname() );
-        here.add_item( pos, cbm );
+        add_msg( m_good, _( "You discover a %s!" ), what.tname() );
+        here.add_item( pos, what );
     }
     return success;
 }
@@ -816,6 +762,26 @@ static bool butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
         return false;
     }
 
+    if( action == butcher_type::DISSECT )    {
+        int dissectable_practice = 0;
+        int dissectable_num = 0;
+        for( item *item : corpse_item->all_items_top( item_pocket::pocket_type::CORPSE ) ) {
+            dissectable_num++;
+            const int skill_level = butchery_dissect_skill_level( you, tool_quality,
+                                    item->dropped_from.value_or( harvest_drop_type_id::NULL_ID() ) );
+            const int butchery = roll_butchery_dissect( skill_level, you.dex_cur, tool_quality );
+            dissectable_practice += ( 4 + butchery );
+            int roll = butchery - corpse_item->damage_level();
+            roll = roll < 0 ? 0 : roll;
+            add_msg_debug( debugmode::DF_ACT_BUTCHER, "Roll penalty for corpse damage = %s",
+                           0 - corpse_item->damage_level() );
+            butcher_dissect_item( *item, you.pos(), calendar::turn, roll );
+        }
+        if( dissectable_num > 0 ) {
+            practice += dissectable_practice / dissectable_num;
+        }
+    }
+
     map &here = get_map();
     for( const harvest_entry &entry : ( action == butcher_type::DISSECT &&
                                         !mt.dissect.is_empty() ) ? *mt.dissect : *mt.harvest ) {
@@ -840,27 +806,6 @@ static bool butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
         if( entry.type->is_itype() ) {
             drop_id = itype_id( entry.drop );
             drop = item::find_type( drop_id );
-        }
-
-        if( action == butcher_type::DISSECT ) {
-            int roll = roll_butchery_dissect( skill_level, you.dex_cur,
-                                              tool_quality ) - corpse_item->damage_level();
-            roll = roll < 0 ? 0 : roll;
-            add_msg_debug( debugmode::DF_ACT_BUTCHER, "Roll penalty for corpse damage = %s",
-                           0 - corpse_item->damage_level() );
-            bool dissect_success = false;
-            if( entry.type->is_itype() ) {
-                dissect_success = butcher_dissect_item( drop_id, you.pos(), calendar::turn, roll, entry.flags,
-                                                        entry.faults );
-            } else if( entry.type->is_item_group() ) {
-                dissect_success = butcher_dissect_group( item_group_id( entry.drop ), you.pos(), calendar::turn,
-                                  roll, entry.flags, entry.faults );
-            }
-            const translation msg = entry.type->dissect_msg( dissect_success );
-            if( !msg.empty() ) {
-                add_msg( m_bad, msg.translated() );
-            }
-            continue;
         }
 
         // Check if monster was gibbed, and handle accordingly
@@ -1100,7 +1045,7 @@ static bool butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
     // reveal hidden items / hidden content
     if( action != butcher_type::FIELD_DRESS && action != butcher_type::SKIN &&
         action != butcher_type::BLEED ) {
-        for( item *content : corpse_item->all_items_top() ) {
+        for( item *content : corpse_item->all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
             if( ( roll_butchery_dissect( you.get_skill_level( skill_survival ), you.dex_cur,
                                          tool_quality ) + 10 ) * 5 > rng( 0, 100 ) ) {
                 //~ %1$s - item name, %2$s - monster name
