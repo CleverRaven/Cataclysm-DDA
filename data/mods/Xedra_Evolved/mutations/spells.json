@@ -74,7 +74,6 @@
     "effect": "effect_on_condition",
     "effect_str": "consume_human_blood",
     "shape": "blast",
-    "spell_class": "EATER",
     "energy_source": "HP",
     "skill": "deduction",
     "base_casting_time": 500,

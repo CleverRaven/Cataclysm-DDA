@@ -15,7 +15,11 @@
             "condition": {
               "and": [
                 {
-                  "compare_int": [ { "u_val": "vitamin", "name": "human_blood_vitamin" }, ">", { "u_val": "addiction_intensity", "addiction": "blood", "mod": -10 } ]
+                  "compare_int": [
+                    { "u_val": "vitamin", "name": "human_blood_vitamin" },
+                    ">",
+                    { "u_val": "addiction_intensity", "addiction": "blood", "mod": -10 }
+                  ]
                 },
                 { "compare_int": [ { "rand": 10 }, "<", { "u_val": "addiction_intensity", "addiction": "blood" } ] }
               ]
