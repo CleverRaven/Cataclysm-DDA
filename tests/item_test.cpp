@@ -1562,7 +1562,6 @@ static const std::set<itype_id> known_bad = {
     itype_id( "needle_wood" ), // NOLINT(cata-static-string_id-constants)
     itype_id( "hazelnut" ), // NOLINT(cata-static-string_id-constants)
     itype_id( "knuckle_nail" ), // NOLINT(cata-static-string_id-constants)
-    itype_id( "canister_goo" ), // NOLINT(cata-static-string_id-constants)
     itype_id( "fake_power_tool" ), // NOLINT(cata-static-string_id-constants)
     itype_id( "broken_lab_security_drone_YM" ), // NOLINT(cata-static-string_id-constants)
     itype_id( "weak_antibiotic" ), // NOLINT(cata-static-string_id-constants)
