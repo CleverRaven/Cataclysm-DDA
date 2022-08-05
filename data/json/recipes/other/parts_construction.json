@@ -138,7 +138,7 @@
         [ "any_tallow", 4, "LIST" ],
         [ "cooking_oil", 32 ],
         [ "cooking_oil2", 32 ],
-        [ "kerosene", 500 ],
+        [ "lamp_oil", 500 ],
         [ "motor_oil", 500 ]
       ]
     ]

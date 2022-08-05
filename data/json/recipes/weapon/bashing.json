@@ -452,7 +452,7 @@
         [ "any_tallow", 2, "LIST" ],
         [ "cooking_oil", 16 ],
         [ "cooking_oil2", 16 ],
-        [ "kerosene", 250 ],
+        [ "lamp_oil", 250 ],
         [ "motor_oil", 250 ]
       ],
       [ [ "fur", 2 ], [ "leather", 2 ] ],
@@ -651,7 +651,7 @@
         [ "any_tallow", 2, "LIST" ],
         [ "cooking_oil", 16 ],
         [ "cooking_oil2", 16 ],
-        [ "kerosene", 250 ],
+        [ "lamp_oil", 250 ],
         [ "motor_oil", 250 ]
       ]
     ]
@@ -678,7 +678,7 @@
         [ "any_tallow", 2, "LIST" ],
         [ "cooking_oil", 16 ],
         [ "cooking_oil2", 16 ],
-        [ "kerosene", 250 ],
+        [ "lamp_oil", 250 ],
         [ "motor_oil", 250 ]
       ]
     ]

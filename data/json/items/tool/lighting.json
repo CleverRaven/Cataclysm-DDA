@@ -481,8 +481,8 @@
     "material": [ "glass", "iron" ],
     "symbol": ";",
     "color": "yellow",
-    "ammo": [ "kerosene" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "watertight": true, "ammo_restriction": { "kerosene": 750 } } ],
+    "ammo": [ "lamp_oil" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "watertight": true, "ammo_restriction": { "lamp_oil": 750 } } ],
     "charges_per_use": 1,
     "use_action": {
       "target": "oil_lamp_on",

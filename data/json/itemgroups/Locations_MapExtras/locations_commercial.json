@@ -460,7 +460,7 @@
       [ "gasoline_lantern", 5 ],
       [ "electric_lantern", 8 ],
       [ "oil_lamp", 5 ],
-      [ "kerosene", 5 ],
+      [ "lamp_oil", 5 ],
       [ "flotation_vest", 1 ],
       [ "quiver_takedown_bow", 1 ],
       [ "quiver", 2 ],

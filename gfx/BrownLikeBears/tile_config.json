@@ -1538,7 +1538,7 @@
         { "id": "kukri", "fg": 678, "rotates": false, "multitile": false },
         { "id": "l_bak_223", "fg": 537, "rotates": false, "multitile": false },
         { "id": "lajatang", "fg": 489, "rotates": false, "multitile": false },
-        { "id": "kerosene", "fg": 1407, "rotates": false, "multitile": false },
+        { "id": "lamp_oil", "fg": 1407, "rotates": false, "multitile": false },
         { "id": "landmine", "fg": 623, "rotates": false, "multitile": false },
         { "id": "laptop", "fg": 426, "rotates": false, "multitile": false },
         { "id": "large_repairkit", "fg": 928, "rotates": false, "multitile": false },

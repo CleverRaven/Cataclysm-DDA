@@ -387,7 +387,7 @@
       { "item": "cooking_oil", "prob": 100, "count": 4, "charges-min": 10 },
       { "item": "chem_washing_soda", "prob": 100, "charges": [ 1, 20 ] },
       { "item": "cooking_oil2", "prob": 100, "count": 4, "charges-min": 10 },
-      { "item": "kerosene", "prob": 100, "count": 4, "charges-min": 10 }
+      { "item": "lamp_oil", "prob": 100, "count": 4, "charges-min": 10 }
     ]
   },
   {
@@ -447,7 +447,7 @@
       [ "diesel", 20 ],
       [ "gasoline", 50 ],
       [ "motor_oil", 100 ],
-      [ "kerosene", 100 ],
+      [ "lamp_oil", 100 ],
       [ "propane", 75 ]
     ]
   },

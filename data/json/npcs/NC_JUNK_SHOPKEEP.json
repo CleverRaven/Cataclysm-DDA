@@ -175,7 +175,7 @@
       { "item": "atomic_lamp", "prob": 1 },
       { "item": "alarmclock", "prob": 10 },
       { "item": "oil_lamp", "prob": 10, "charges-min": 0 },
-      { "item": "kerosene", "prob": 10 },
+      { "item": "lamp_oil", "prob": 10 },
       { "item": "charcoal", "prob": 20 },
       { "item": "knitting_needles", "prob": 10 },
       { "item": "magnifying_glass", "prob": 5 },
