@@ -210,7 +210,7 @@
         { "u_has_effect": "vampire_virus" }
       ]
     },
-    "deactivate_condition": { "not": { "u_has_effect": "vampire_virus" } }
+    "deactivate_condition": { "not": { "u_has_effect": "vampire_virus" } },
     "effect": {
       "run_eocs": [
         {
