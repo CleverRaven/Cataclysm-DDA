@@ -516,7 +516,7 @@
     "type": "MONSTER",
     "copy-from": "mon_cat",
     "name": { "str": "tabby cat" },
-    "description": "Marked with the characteristic 'M' on its forehead and decorated with swirling stripes, the tabby's markings provides excellent camouflage.",
+    "description": "Marked with the characteristic 'M' on its forehead and decorated with swirling stripes, the tabby's markings provide excellent camouflage.",
     "reproduction": { "baby_monster": "mon_cat_tabby_kitten", "baby_count": 4, "baby_timer": 60 }
   },
   {
