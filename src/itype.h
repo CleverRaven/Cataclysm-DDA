@@ -1362,9 +1362,11 @@ struct itype {
 
         int charges_to_use() const {
             if( tool ) {
-                return static_cast<int>( tool->charges_per_use );
+                return tool->charges_per_use;
+            } else if( comestible ) {
+                return 1;
             }
-            return 1;
+            return 0;
         }
 
         // for tools that sub another tool, but use a different ratio of charges
