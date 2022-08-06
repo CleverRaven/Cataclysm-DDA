@@ -944,6 +944,7 @@ class scrolling_text_view
         std::vector<std::string> text_;
         int offset_ = 0;
         inclusive_rectangle<point> scrollbar_area;
+        bool dragging = false;
 };
 
 class scrollingcombattext

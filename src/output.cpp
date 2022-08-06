@@ -1823,6 +1823,8 @@ bool scrolling_text_view::handle_navigation( const std::string &action, input_co
     }
     inclusive_rectangle<point> mouseover_area( point( getbegx( w_ ), getbegy( w_ ) ),
             point( getmaxx( w_ ) + getbegx( w_ ), getmaxy( w_ ) + getbegy( w_ ) ) );
+    bool mouse_in_screen = coord.has_value() && coord->x >= 0 && coord->x < TERMX && coord->y >= 0 &&
+                           coord->y < TERMY;
     bool mouse_in_window = coord.has_value() && mouseover_area.contains( coord.value() );
     bool mouse_over_scrollbar = coord.has_value() && scrollbar_area.contains( coord.value() );
 
@@ -1830,9 +1832,18 @@ bool scrolling_text_view::handle_navigation( const std::string &action, input_co
         scroll_up();
     } else if( action == "SCROLL_INFOBOX_DOWN" || ( action == "SCROLL_DOWN" && mouse_in_window ) ) {
         scroll_down();
+    } else if( action == "CLICK_AND_DRAG" && mouse_over_scrollbar && !dragging ) {
+        dragging = true;
+    } else if( action == "MOUSE_MOVE" && mouse_in_screen && dragging ) {
+        int y_position = ( coord->y - getbegy( w_ ) ) * max_offset() / getmaxy( w_ );
+        offset_ = clamp( y_position, 0, max_offset() );
     } else if( action == "SELECT" && mouse_over_scrollbar ) {
         int y_position = ( coord->y - getbegy( w_ ) ) * max_offset() / getmaxy( w_ );
         offset_ = clamp( y_position, 0, max_offset() );
+        dragging = false;
+    } else if( action == "SELECT" ) {
+        dragging = false;
+        return false;
     } else {
         return false;
     }
@@ -1841,6 +1852,8 @@ bool scrolling_text_view::handle_navigation( const std::string &action, input_co
 
 void scrolling_text_view::set_up_navigation( input_context &ctxt )
 {
+    ctxt.register_action( "CLICK_AND_DRAG" );
+    ctxt.register_action( "MOUSE_MOVE" );
     ctxt.register_action( "SCROLL_INFOBOX_UP" );
     ctxt.register_action( "SCROLL_INFOBOX_DOWN" );
     ctxt.register_action( "SCROLL_UP" );
