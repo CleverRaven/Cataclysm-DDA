@@ -364,7 +364,7 @@
     "to_hit": 1,
     "material": [ "steel" ],
     "symbol": "m",
-    "looks_like": "knee_pads",
+    "looks_like": "elbow_pads",
     "color": "light_gray",
     "warmth": 5,
     "longest_side": "50 cm",
