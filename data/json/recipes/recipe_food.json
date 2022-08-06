@@ -5788,7 +5788,7 @@
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [
-      [ [ "fish_cooked", 1 ], [ "fish_fried", 1 ], ["fish_scrap_cooked", 10 ] ],
+      [ [ "fish_cooked", 1 ], [ "fish_fried", 1 ], [ "fish_scrap_cooked", 10 ] ],
       [ [ "bread_sandwich", 2, "LIST" ] ],
       [
         [ "pickle", 1 ],
@@ -5864,7 +5864,7 @@
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [
-      [ [ "fish_cooked", 1 ], [ "fish_fried", 1 ], ["fish_scrap_cooked", 10 ] ],
+      [ [ "fish_cooked", 1 ], [ "fish_fried", 1 ], [ "fish_scrap_cooked", 10 ] ],
       [ [ "bread_sandwich_wheat_free", 2, "LIST" ] ],
       [
         [ "pickle", 1 ],
@@ -5902,7 +5902,7 @@
     "book_learn": [ [ "family_cookbook", 2 ], [ "mag_cooking", 2 ] ],
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [
-      [ [ "fish_cooked", 1 ], [ "can_salmon", 1 ], ["fish_scrap_cooked", 10] ],
+      [ [ "fish_cooked", 1 ], [ "can_salmon", 1 ], [ "fish_scrap_cooked", 10 ] ],
       [ [ "bread_sandwich", 2, "LIST" ] ],
       [ [ "spinach", 1 ] ],
       [ [ "cooking_oil", 1 ] ],
