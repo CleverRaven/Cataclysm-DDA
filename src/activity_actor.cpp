@@ -335,6 +335,13 @@ void aim_activity_actor::finish( player_activity &act, Character &who )
         who.mod_power_level( -bp_cost_per_shot * shots_fired );
     }
 
+    if( weapon && weapon->gun_current_mode()->has_flag( flag_RELOAD_AND_SHOOT ) ) {
+        // RAS weapons are currently bugged, this is a workaround so bug impact
+        // isn't amplified, once #54997 and #50571 are fixed this can be removed.
+        restore_view();
+        return;
+    }
+
     // re-enter aiming UI with same parameters
     aim_activity_actor aim_actor;
     aim_actor.abort_if_no_targets = true;
