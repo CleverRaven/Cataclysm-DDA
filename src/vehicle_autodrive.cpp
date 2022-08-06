@@ -859,7 +859,9 @@ scored_address vehicle::autodrive_controller::compute_node_score( const node_add
     if( node.is_goal ) {
         return ret;
     }
-    static const point neighbor_deltas[4] = { point_east, point_south, point_west, point_north };
+    static constexpr std::array<point, 4> neighbor_deltas = {
+        point_east, point_south, point_west, point_north
+    };
     for( const point &neighbor_delta : neighbor_deltas ) {
         const point p = addr.get_point() + neighbor_delta;
         if( !data.nav_bounds.contains( p ) || !data.valid_position( addr.facing_dir, p ) ) {

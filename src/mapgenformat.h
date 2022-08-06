@@ -63,6 +63,7 @@ class format_effect
  */
 /**@{*/
 template<size_t N, typename ...Args>
+// NOLINTNEXTLINE(modernize-avoid-c-arrays)
 inline format_effect<ter_id> ter_bind( const char ( &characters )[N], Args... ids )
 {
     // Note to self: N contains the 0-char at the end of a string literal!
@@ -73,6 +74,7 @@ inline format_effect<ter_id> ter_bind( const char ( &characters )[N], Args... id
 }
 
 template<size_t N, typename ...Args>
+// NOLINTNEXTLINE(modernize-avoid-c-arrays)
 inline format_effect<furn_id> furn_bind( const char ( &characters )[N], Args... ids )
 {
     // Note to self: N contains the 0-char at the end of a string literal!

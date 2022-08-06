@@ -559,7 +559,10 @@ nc_color color_from_string( const std::string &color,
         new_color = "c_" + new_color;
     }
 
-    const std::pair<std::string, std::string> pSearch[2] = { { "light_", "lt" }, { "dark_", "dk" } };
+    const std::array<std::pair<std::string, std::string>, 2> pSearch = { {
+            { "light_", "lt" }, { "dark_", "dk" }
+        }
+    };
     for( const auto &i : pSearch ) {
         size_t pos = 0;
         while( ( pos = new_color.find( i.second, pos ) ) != std::string::npos ) {
@@ -606,7 +609,10 @@ nc_color bgcolor_from_string( const std::string &color )
 
     std::string new_color = "i_" + color;
 
-    const std::pair<std::string, std::string> pSearch[2] = { { "light_", "lt" }, { "dark_", "dk" } };
+    const std::array<std::pair<std::string, std::string>, 2> pSearch = { {
+            { "light_", "lt" }, { "dark_", "dk" }
+        }
+    };
     for( const auto &i : pSearch ) {
         size_t pos = 0;
         while( ( pos = new_color.find( i.second, pos ) ) != std::string::npos ) {

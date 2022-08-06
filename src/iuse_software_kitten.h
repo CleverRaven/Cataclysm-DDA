@@ -34,7 +34,7 @@ class robot_finds_kitten
         kobject kitten;
         kobject empty;
         static constexpr int numbogus = 20;
-        kobject bogus[MAXMESSAGES];
+        std::array<kobject, MAXMESSAGES> bogus;
         std::vector<std::string> bogus_messages;
         static constexpr int rfkLINES = 20;
         static constexpr int rfkCOLS = 60;

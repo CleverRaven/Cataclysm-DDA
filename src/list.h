@@ -650,6 +650,7 @@ template <class element_type, class element_allocator_type = std::allocator<elem
                 void swap( group_vector &source ) LIST_NOEXCEPT_SWAP( group_allocator_type ) {
                     if LIST_CONSTEXPR(
                         std::is_trivial<group_pointer_type>::value ) { // if all pointer types are trivial we can just copy using memcpy - faster - avoids constructors/destructors etc
+                        // NOLINTNEXTLINE(modernize-avoid-c-arrays)
                         char temp[sizeof( group_vector )];
                         std::memcpy( static_cast<void *>( &temp ), static_cast<void *>( this ), sizeof( group_vector ) );
                         std::memcpy( static_cast<void *>( this ), static_cast<void *>( &source ), sizeof( group_vector ) );

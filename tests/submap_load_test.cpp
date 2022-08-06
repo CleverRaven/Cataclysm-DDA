@@ -1015,7 +1015,7 @@ TEST_CASE( "submap_rad_load", "[submap][load]" )
     REQUIRE( rad_se == 3 );
     REQUIRE( rad_ra == 5 );
 
-    int rads[SEEX];
+    std::array<int, SEEX> rads;
     // Also, check we have no other radiation
     INFO( "Below is the radiation on the row above and the current row.  Unknown values are -1" );
     for( int y = 0; y < SEEY; ++y ) {

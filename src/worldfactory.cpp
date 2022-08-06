@@ -1121,8 +1121,8 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
     headers.emplace_back( _( "Mod Load Order" ) );
 
     size_t active_header = 0;
-    int startsel[2] = {0, 0};
-    size_t cursel[2] = {0, 0};
+    std::array<int, 2> startsel = {0, 0};
+    std::array<size_t, 2> cursel = {0, 0};
     size_t iCurrentTab = 0;
     size_t sel_top_tab = 0;
     std::vector<mod_id> current_tab_mods;

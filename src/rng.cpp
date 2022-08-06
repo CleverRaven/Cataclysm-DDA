@@ -145,6 +145,7 @@ void rng_set_engine_seed( unsigned int seed )
 std::string random_string( size_t length )
 {
     auto randchar = []() -> char {
+        // NOLINTNEXTLINE(modernize-avoid-c-arrays)
         static constexpr char charset[] =
         "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
         "abcdefghijklmnopqrstuvwxyz";

@@ -38,9 +38,11 @@ static bool is_whitespace( char ch )
 // binary.
 std::string utf32_to_utf8( uint32_t ch )
 {
-    char out[5];
-    char *buf = out;
-    static const unsigned char utf8FirstByte[7] = { 0x00, 0x00, 0xC0, 0xE0, 0xF0, 0xF8, 0xFC };
+    std::array<char, 5> out;
+    char *buf = out.data();
+    static constexpr std::array<unsigned char, 7> utf8FirstByte = {
+        0x00, 0x00, 0xC0, 0xE0, 0xF0, 0xF8, 0xFC
+    };
     int utf8Bytes;
     if( ch < 0x80 ) {
         utf8Bytes = 1;
@@ -73,7 +75,7 @@ std::string utf32_to_utf8( uint32_t ch )
             *--buf = ch | utf8FirstByte[utf8Bytes];
     }
     out[utf8Bytes] = '\0';
-    return out;
+    return out.data();
 }
 
 void JsonValue::string_error( const std::string &err ) const
@@ -980,6 +982,7 @@ void JsonIn::skip_array()
 
 void JsonIn::skip_true()
 {
+    // NOLINTNEXTLINE(modernize-avoid-c-arrays)
     char text[5];
     eat_whitespace();
     stream->get( text, 5 );
@@ -993,6 +996,7 @@ void JsonIn::skip_true()
 
 void JsonIn::skip_false()
 {
+    // NOLINTNEXTLINE(modernize-avoid-c-arrays)
     char text[6];
     eat_whitespace();
     stream->get( text, 6 );
@@ -1006,6 +1010,7 @@ void JsonIn::skip_false()
 
 void JsonIn::skip_null()
 {
+    // NOLINTNEXTLINE(modernize-avoid-c-arrays)
     char text[5];
     eat_whitespace();
     stream->get( text, 5 );
@@ -1417,6 +1422,7 @@ number_sci_notation JsonIn::get_any_number()
 bool JsonIn::get_bool()
 {
     char ch;
+    // NOLINTNEXTLINE(modernize-avoid-c-arrays)
     char text[5];
     std::stringstream err;
     eat_whitespace();
@@ -1576,6 +1582,7 @@ bool JsonIn::read_null( bool throw_on_error )
     if( !test_null() ) {
         return error_or_false( throw_on_error, "Expected null" );
     }
+    // NOLINTNEXTLINE(modernize-avoid-c-arrays)
     char text[5];
     if( !stream->get( text, 5 ) ) {
         error( "Unexpected end of stream reading null" );

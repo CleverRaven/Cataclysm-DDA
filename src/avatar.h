@@ -62,11 +62,11 @@ struct monster_visible_info {
     // 7 0 1    unique_types uses these indices;
     // 6 8 2    0-7 are provide by direction_from()
     // 5 4 3    8 is used for local monsters (for when we explain them below)
-    std::vector<npc *> unique_types[9];
-    std::vector<std::pair<const mtype *, int>> unique_mons[9];
+    std::array<std::vector<npc *>, 9> unique_types;
+    std::array<std::vector<std::pair<const mtype *, int>>, 9> unique_mons;
 
     // If the monster visible in this direction is dangerous
-    bool dangerous[8] = {};
+    std::array<bool, 8> dangerous = {};
 };
 
 class avatar : public Character

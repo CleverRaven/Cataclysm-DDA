@@ -44,6 +44,7 @@ class mdarray_impl_2d
         using value_type = T;
         // TODO: in C++17 array::operator[] becomes constexpr and we can use
         // std::array here
+        // NOLINTNEXTLINE(modernize-avoid-c-arrays)
         using column_type = T[DimY];
 
         static constexpr size_t size_x = DimX;
@@ -98,6 +99,7 @@ class mdarray_impl_2d
     private:
         // TODO: in C++17 array::operator[] becomes constexpr and we can use
         // std::array here
+        // NOLINTNEXTLINE(modernize-avoid-c-arrays)
         column_type data_[DimX];
 };
 

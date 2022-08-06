@@ -1308,7 +1308,7 @@ tab_direction set_traits( avatar &u, pool_type pool )
     // 0 -> traits that take points ( positive traits )
     // 1 -> traits that give points ( negative traits )
     // 2 -> neutral traits ( facial hair, skin color, etc )
-    std::vector<trait_and_var> vStartingTraits[3];
+    std::array<std::vector<trait_and_var>, 3> vStartingTraits;
 
     for( const mutation_branch &traits_iter : mutation_branch::get_all() ) {
         // Don't list blacklisted traits
@@ -1368,12 +1368,12 @@ tab_direction set_traits( avatar &u, pool_type pool )
     }
 
     int iCurWorkingPage = 0;
-    int iStartPos[3] = { 0, 0, 0 };
-    int iCurrentLine[3] = { 0, 0, 0 };
-    size_t traits_size[3];
+    std::array<int, 3> iStartPos = { 0, 0, 0 };
+    std::array<int, 3> iCurrentLine = { 0, 0, 0 };
+    std::array<size_t, 3> traits_size;
     bool recalc_traits = false;
     // pointer for memory footprint reasons
-    std::vector<const trait_and_var *> sorted_traits[3];
+    std::array<std::vector<const trait_and_var *>, 3> sorted_traits;
     std::string filterstring;
 
     for( int i = 0; i < 3; i++ ) {

@@ -458,7 +458,7 @@ void mapgen_hive( mapgendata &dat )
     }
 }
 
-int terrain_type_to_nesw_array( oter_id terrain_type, bool array[4] )
+int terrain_type_to_nesw_array( oter_id terrain_type, std::array<bool, 4> &array )
 {
     // count and mark which directions the road goes
     const oter_t &oter( *terrain_type );
@@ -470,10 +470,11 @@ int terrain_type_to_nesw_array( oter_id terrain_type, bool array[4] )
 }
 
 // perform dist counterclockwise rotations on a nesw or neswx array
-template<typename T>
-void nesw_array_rotate( T *array, size_t len, size_t dist )
+template<typename T, size_t N>
+void nesw_array_rotate( std::array<T, N> &array, size_t dist )
 {
-    if( len == 4 ) {
+    static_assert( N == 8 || N == 4, "Only arrays of size 4 and 8 are supported" );
+    if( N == 4 ) {
         while( dist-- ) {
             T temp = array[0];
             array[0] = array[1];
@@ -507,9 +508,10 @@ static void coord_rotate_cw( int &x, int &y, int rot )
     }
 }
 
-static bool compare_neswx( bool *a1, std::initializer_list<int> a2 )
+static bool compare_neswx( const std::array<bool, 8> &a1, std::initializer_list<int> a2 )
 {
-    return std::equal( std::begin( a2 ), std::end( a2 ), a1,
+    cata_assert( a1.size() == a2.size() );
+    return std::equal( std::begin( a2 ), std::end( a2 ), std::begin( a1 ),
     []( int a, bool b ) {
         return static_cast<bool>( a ) == b;
     } );
@@ -523,7 +525,7 @@ void mapgen_road( mapgendata &dat )
     dat.fill_groundcover();
 
     // which and how many neighbors have sidewalks?
-    bool sidewalks_neswx[8] = {};
+    std::array<bool, 8> sidewalks_neswx = {};
     int neighbor_sidewalks = 0;
     // N E S W NE SE SW NW
     for( int dir = 0; dir < 8; dir++ ) {
@@ -532,13 +534,13 @@ void mapgen_road( mapgendata &dat )
     }
 
     // which of the cardinal directions get roads?
-    bool roads_nesw[4] = {};
+    std::array<bool, 4> roads_nesw = {};
     int num_dirs = terrain_type_to_nesw_array( dat.terrain_type(), roads_nesw );
     // if this is a dead end, extend past the middle of the tile
     int dead_end_extension = num_dirs == 1 ? 8 : 0;
 
     // which way should our roads curve, based on neighbor roads?
-    int curvedir_nesw[4] = {};
+    std::array<int, 4> curvedir_nesw = {};
     // N E S W
     for( int dir = 0; dir < 4; dir++ ) {
         if( !roads_nesw[dir] || dat.t_nesw[dir]->get_type_id().str() != "road" ) {
@@ -546,7 +548,7 @@ void mapgen_road( mapgendata &dat )
         }
 
         // n_* contain details about the neighbor being considered
-        bool n_roads_nesw[4] = {};
+        std::array<bool, 4> n_roads_nesw = {};
         // TODO: figure out how to call this function without creating a new oter_id object
         int n_num_dirs = terrain_type_to_nesw_array( dat.t_nesw[dir], n_roads_nesw );
         // if 2-way neighbor has a road facing us
@@ -568,7 +570,7 @@ void mapgen_road( mapgendata &dat )
     int rot = 0;
     bool diag = false;
     int plaza_dir = -1;
-    bool fourways_neswx[8] = {};
+    std::array<bool, 8> fourways_neswx = {};
     // TODO: reduce amount of logical/conditional constructs here
     // TODO: make plazas include adjacent tees
     switch( num_dirs ) {
@@ -666,9 +668,9 @@ void mapgen_road( mapgendata &dat )
     }
 
     // rotate the arrays left by rot steps
-    nesw_array_rotate<bool>( sidewalks_neswx, 8, rot * 2 );
-    nesw_array_rotate<bool>( roads_nesw,      4, rot );
-    nesw_array_rotate<int> ( curvedir_nesw,   4, rot );
+    nesw_array_rotate( sidewalks_neswx, rot * 2 );
+    nesw_array_rotate( roads_nesw,      rot );
+    nesw_array_rotate( curvedir_nesw,   rot );
 
     // now we have only these shapes: '   |   '-   -'-   -|-
 
@@ -992,7 +994,7 @@ void mapgen_subway( mapgendata &dat )
     dat.fill_groundcover();
 
     // which of the cardinal directions get subway?
-    bool subway_nesw[4] = {};
+    std::array<bool, 4> subway_nesw = {};
     int num_dirs = terrain_type_to_nesw_array( dat.terrain_type(), subway_nesw );
 
     // N E S W
@@ -1004,7 +1006,7 @@ void mapgen_subway( mapgendata &dat )
     }
 
     // which way should our subway curve, based on neighbor subway?
-    int curvedir_nesw[4] = {};
+    std::array<int, 4> curvedir_nesw = {};
     // N E S W
     for( int dir = 0; dir < 4; dir++ ) {
         if( !subway_nesw[dir] ) {
@@ -1016,7 +1018,7 @@ void mapgen_subway( mapgendata &dat )
             continue;
         }
         // n_* contain details about the neighbor being considered
-        bool n_subway_nesw[4] = {};
+        std::array<bool, 4> n_subway_nesw = {};
         // TODO: figure out how to call this function without creating a new oter_id object
         int n_num_dirs = terrain_type_to_nesw_array( dat.t_nesw[dir], n_subway_nesw );
         for( int dir = 0; dir < 4; dir++ ) {
@@ -1120,8 +1122,8 @@ void mapgen_subway( mapgendata &dat )
     }
 
     // rotate the arrays left by rot steps
-    nesw_array_rotate<bool>( subway_nesw, 4, rot );
-    nesw_array_rotate<int> ( curvedir_nesw,  4, rot );
+    nesw_array_rotate( subway_nesw, rot );
+    nesw_array_rotate( curvedir_nesw, rot );
 
     // now we have only these shapes: '   |   '-   -'-   -|-
 
@@ -1481,16 +1483,16 @@ void mapgen_railroad( mapgendata &dat )
     // start by filling the whole map with grass/dirt/etc
     dat.fill_groundcover();
     // which of the cardinal directions get railroads?
-    bool railroads_nesw[4] = {};
+    std::array<bool, 4> railroads_nesw = {};
     int num_dirs = terrain_type_to_nesw_array( dat.terrain_type(), railroads_nesw );
     // which way should our railroads curve, based on neighbor railroads?
-    int curvedir_nesw[4] = {};
+    std::array<int, 4> curvedir_nesw = {};
     for( int dir = 0; dir < 4; dir++ ) { // N E S W
         if( !railroads_nesw[dir] || dat.t_nesw[dir]->get_type_id() != oter_type_railroad ) {
             continue;
         }
         // n_* contain details about the neighbor being considered
-        bool n_railroads_nesw[4] = {};
+        std::array<bool, 4> n_railroads_nesw = {};
         // TODO: figure out how to call this function without creating a new oter_id object
         int n_num_dirs = terrain_type_to_nesw_array( dat.t_nesw[dir], n_railroads_nesw );
         // if 2-way neighbor has a railroad facing us
@@ -1578,8 +1580,8 @@ void mapgen_railroad( mapgendata &dat )
             break;
     }
     // rotate the arrays left by rot steps
-    nesw_array_rotate<bool>( railroads_nesw, 4, rot );
-    nesw_array_rotate<int> ( curvedir_nesw,  4, rot );
+    nesw_array_rotate( railroads_nesw, rot );
+    nesw_array_rotate( curvedir_nesw, rot );
     // now we have only these shapes: '   |   '-   -'-   -|-
     switch( num_dirs ) {
         case 4:
@@ -2198,7 +2200,7 @@ void mapgen_forest( mapgendata &dat )
 
     // In order to feather (blend) this overmap tile with adjacent ones, the general composition thereof must be known.
     // This can be calculated once from dat.t_nesw, and stored here:
-    const forest_biome *adjacent_biomes[8];
+    std::array<const forest_biome *, 8> adjacent_biomes;
     for( int d = 0; d < 7; d++ ) {
         auto lookup = dat.region.forest_composition.biomes.find( dat.t_nesw[d] );
         if( lookup != dat.region.forest_composition.biomes.end() ) {
@@ -2210,7 +2212,7 @@ void mapgen_forest( mapgendata &dat )
 
     // Keep track of the "true perimeter" of the biome. It has a curve to make it seem natural.
     // The depth of the perimeter at each border of the forest being generated:
-    int border_depth[8];
+    std::array<int, 8> border_depth;
 
     for( int bd_x = 0; bd_x < 2; bd_x++ )
         for( int bd_y = 0; bd_y < 2; bd_y++ ) {
@@ -2237,12 +2239,12 @@ void mapgen_forest( mapgendata &dat )
         }
 
     // Indicies of border_depth accessible by dat.dir() nomenclature, [h_idx 0..4 : v_idx 0..4]:
-    constexpr int edge_corner_mappings[8] = {0, 5, 3, 4, 1, 6, 2, 7};
+    static constexpr std::array<int, 8> edge_corner_mappings = {0, 5, 3, 4, 1, 6, 2, 7};
 
     // Now, generate a curve along the border of the biome, which will be used to calculate each cardinally
     // adjacent biome's relative impact.
     // Format: [ SEEX * 2 (North) : SEEY * 2 (East) : SEEX * 2 (South) : SEEX * 2 (West) ] (order from dat.dir())
-    int perimeter_depth[perimeter_size];
+    std::array<int, perimeter_size> perimeter_depth;
     for( int edge = 0; edge < 4; edge++ ) {
         int perimeter_depth_offset = ( SEEX * 2 ) * ( ( edge + 1 ) / 2 ) + ( SEEY * 2 ) * ( edge / 2 );
         int edge_length = edge % 2 == 0 ? SEEX * 2 : SEEY * 2;
@@ -2348,7 +2350,8 @@ void mapgen_forest( mapgendata &dat )
     * @param p the point in the terrain being weighted from the cardinally adjacent biomes.
     */
     const auto unify_all_borders = [&unify_continuous_border,
-    &adjacent_biomes]( float * cardinal_four_weights, float * self_weight, const point & p ) {
+                                    &adjacent_biomes]( std::array<float, 4> &cardinal_four_weights, float * self_weight,
+    const point & p ) {
         // Refer to dat.dir() convention.
         if( p.x < SEEX ) {
             if( p.y < SEEY ) {
@@ -2381,10 +2384,10 @@ void mapgen_forest( mapgendata &dat )
     * @return The sum of all of the weights written to \p weights.
     */
     const auto nesw_weights = [&perimeter_depth, &adjacent_biomes]( const point & p,
-    float scaling_factor, float * weights, float root_depth_offset = 0. ) {
+    float scaling_factor, std::array<float, 4> &weights, float root_depth_offset = 0. ) {
         float net_weight = 0.;
-        float perimeter_depths[4];
-        int point_depths[4];
+        std::array<float, 4> perimeter_depths;
+        std::array<int, 4> point_depths;
         point_depths[0] = p.y;
         point_depths[1] = SEEX * 2 - p.x - 1;
         point_depths[2] = SEEY * 2 - p.y - 1;
@@ -2424,7 +2427,7 @@ void mapgen_forest( mapgendata &dat )
     */
     const auto get_feathered_groundcover = [&max_factor, &factor, &self_biome,
                  &adjacent_biomes, &nesw_weights, &unify_all_borders, &dat]( const point & p ) {
-        float adj_weights[4];
+        std::array<float, 4> adj_weights;
         float net_weight = nesw_weights( p, factor, adj_weights, -groundcover_margin );
         float self_weight = self_scalar;
         unify_all_borders( adj_weights, &self_weight, p );
@@ -2468,7 +2471,7 @@ void mapgen_forest( mapgendata &dat )
     const auto get_feathered_feature = [&no_ter_furn, &max_factor, &factor, &self_biome,
                                                       &adjacent_biomes, &nesw_weights, &get_feathered_groundcover, &unify_all_borders,
                   &dat]( const point & p ) {
-        float adj_weights[4];
+        std::array<float, 4> adj_weights;
         float net_weight = nesw_weights( p, factor, adj_weights );
         float self_weight = self_scalar;
         unify_all_borders( adj_weights, &self_weight, p );

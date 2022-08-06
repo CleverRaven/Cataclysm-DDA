@@ -66,7 +66,7 @@ directed_path<point> greedy_path( const point &source, const point &dest, const 
     std::vector<bool> closed( map_size, false );
     std::vector<int> open( map_size, 0 );
     std::vector<short> dirs( map_size, 0 );
-    std::priority_queue<Node, std::vector<Node>> nodes[2];
+    std::array<std::priority_queue<Node, std::vector<Node>>, 2> nodes;
 
     int i = 0;
     nodes[i].push( first_node );

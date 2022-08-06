@@ -531,7 +531,7 @@ void editmap::draw_main_ui_overlay()
 #ifdef TILES
     // give some visual indication of different cursor moving modes
     if( use_tiles && altblink ) {
-        point p[2] = { origin.xy(), target.xy() };
+        std::array<point, 2> p = { origin.xy(), target.xy() };
         if( editshape == editmap_rect || editshape == editmap_rect_filled || p[0] == p[1] ) {
             if( p[0] == p[1] ) {
                 // ensure more than one cursor is drawn to differ from resizing mode
