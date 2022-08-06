@@ -3682,7 +3682,7 @@
     "copy-from": "wallet",
     "name": { "str": "leather wallet" },
     "description": "This wallet is made from leather.",
-    "material": [ "leather" ],
+    "material": [ "leather" ]
   },
   {
     "id": "wallet_large",
