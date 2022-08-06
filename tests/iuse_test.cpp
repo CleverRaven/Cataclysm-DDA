@@ -10,6 +10,7 @@
 #include "item.h"
 #include "itype.h"
 #include "morale_types.h"
+#include "player_helpers.h"
 #include "type_id.h"
 #include "value_ptr.h"
 
@@ -539,25 +540,29 @@ TEST_CASE( "prozac", "[iuse][prozac]" )
         dummy.set_stim( 0 );
 
         dummy.consume( prozac );
-        CHECK( dummy.get_stim() == 0 );
+        CHECK( dummy.get_stim() == -5 ); // The iuse action gives +0 and item itself -5
         dummy.consume( prozac );
-        CHECK( dummy.get_stim() > 0 );
+        CHECK( dummy.get_stim() > -7 ); // Second iuse gives +3
     }
 }
 
 TEST_CASE( "inhaler", "[iuse][inhaler]" )
 {
-    avatar dummy;
+	clear_avatar();
+    avatar &dummy = get_avatar();
     item inhaler( "inhaler" );
     inhaler.ammo_set( itype_albuterol );
-    REQUIRE( inhaler.ammo_remaining() > 0 );
+    REQUIRE(inhaler.ammo_remaining() > 0);
+
+	item_location inhaler_loc = dummy.i_add( inhaler );
+	REQUIRE( dummy.has_item( *inhaler_loc) );
 
     GIVEN( "avatar is suffering from smoke inhalation" ) {
         dummy.add_effect( effect_smoke, 1_hours );
         REQUIRE( dummy.has_effect( effect_smoke ) );
 
         THEN( "inhaler relieves it" ) {
-            dummy.consume( inhaler );
+            dummy.use(inhaler_loc);
             CHECK_FALSE( dummy.has_effect( effect_smoke ) );
         }
     }
@@ -567,7 +572,7 @@ TEST_CASE( "inhaler", "[iuse][inhaler]" )
         REQUIRE( dummy.has_effect( effect_asthma ) );
 
         THEN( "inhaler relieves the effects of asthma" ) {
-            dummy.consume( inhaler );
+            dummy.use( inhaler_loc );
             CHECK_FALSE( dummy.has_effect( effect_asthma ) );
         }
     }
@@ -577,7 +582,7 @@ TEST_CASE( "inhaler", "[iuse][inhaler]" )
 
         THEN( "inhaler reduces fatigue" ) {
             dummy.set_fatigue( 10 );
-            dummy.consume( inhaler );
+            dummy.use( inhaler_loc );
             CHECK( dummy.get_fatigue() < 10 );
         }
     }
