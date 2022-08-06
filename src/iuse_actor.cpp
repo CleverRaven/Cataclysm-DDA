@@ -293,7 +293,7 @@ cata::optional<int> iuse_transform::use( Character &p, item &it, bool t, const t
     // defined here to allow making a new item assigned to the pointer
     item obj_it;
     if( it.is_tool() ) {
-        result = int( it.type->charges_to_use() * double( scale ) );
+        result = static_cast<int>( scale );
     }
     if( container.is_empty() ) {
         obj = &it.convert( target );
@@ -607,7 +607,7 @@ cata::optional<int> explosion_iuse::use( Character &p, item &it, bool t, const t
                 p.add_msg_if_player( m_info, no_deactivate_msg.translated(), it.tname() );
             }
         }
-        return 0;
+        return cata::nullopt;
     }
 
     if( explosion.power >= 0.0f ) {
@@ -845,7 +845,7 @@ cata::optional<int> consume_drug_iuse::use( Character &p, item &it, bool, const 
                                      _( "I need a %1$s to consume %2$s!" ),
                                      item::nname( tool.first ),
                                      it.type_name( 1 ) );
-            return -1;
+            return -1; //TODO check
         }
     }
     for( const auto &consumable : charges_needed ) {
@@ -856,7 +856,7 @@ cata::optional<int> consume_drug_iuse::use( Character &p, item &it, bool, const 
                                      _( "I need a %1$s to consume %2$s!" ),
                                      item::nname( consumable.first ),
                                      it.type_name( 1 ) );
-            return -1;
+            return -1; //TODO check
         }
     }
     // Apply the various effects.
@@ -911,7 +911,7 @@ cata::optional<int> consume_drug_iuse::use( Character &p, item &it, bool, const 
     }
 
     p.moves -= moves;
-    return it.type->charges_to_use();
+    return 1;
 }
 
 std::unique_ptr<iuse_actor> delayed_transform_iuse::clone() const
@@ -1186,7 +1186,7 @@ cata::optional<int> deploy_furn_actor::use( Character &p, item &it, bool,
     here.furn_set( pnt, furn_type );
     it.spill_contents( pnt );
     p.mod_moves( -to_moves<int>( 2_seconds ) );
-    return it.type->charges_to_use() != 0 ? it.type->charges_to_use() : 1;
+    return 1;
 }
 
 std::unique_ptr<iuse_actor> reveal_map_actor::clone() const
@@ -1408,7 +1408,7 @@ cata::optional<int> firestarter_actor::use( Character &p, item &it, bool t,
         // If less than 2 turns, don't start a long action
         resolve_firestarter_use( p, pos );
         p.mod_moves( -moves );
-        return it.type->charges_to_use();
+        return 1;
     }
 
     // skill gains are handled by the activity, but stored here in the index field
@@ -1425,7 +1425,7 @@ cata::optional<int> firestarter_actor::use( Character &p, item &it, bool t,
 
 void salvage_actor::load( const JsonObject &obj )
 {
-    assign( obj, "cost", cost );
+    assign( obj, "cost", cost ); //TODO remove unused
     assign( obj, "moves_per_part", moves_per_part );
 
     if( obj.has_array( "material_whitelist" ) ) {
@@ -1469,7 +1469,7 @@ cata::optional<int> salvage_actor::try_to_cut_up
 
     salvage_actor::cut_up( p, cut );
     // Return used charges from cutter
-    return cost >= 0 ? cost : cutter.ammo_required();
+    return cost >= 0 ? cost : cutter.ammo_required(); //TODO remove unused
 }
 
 // Helper to visit instances of all the sub-materials of an item.
@@ -1752,7 +1752,7 @@ void salvage_actor::cut_up( Character &p, item_location &cut ) const
 
 void inscribe_actor::load( const JsonObject &obj )
 {
-    assign( obj, "cost", cost );
+    assign( obj, "cost", cost ); // TODO remove unuseds
     assign( obj, "on_items", on_items );
     assign( obj, "on_terrain", on_terrain );
     assign( obj, "material_restricted", material_restricted );
@@ -1876,7 +1876,7 @@ cata::optional<int> inscribe_actor::use( Character &p, item &it, bool t, const t
             return cata::nullopt;
         }
         return iuse::handle_ground_graffiti( p, &it, string_format( _( "%s what?" ), verb ),
-                                             dest_.value() );
+                                             dest_.value() ); //TODO check
     }
 
     item_location loc = game_menus::inv::titled_menu( get_avatar(), _( "Inscribe which item?" ) );
@@ -1892,7 +1892,7 @@ cata::optional<int> inscribe_actor::use( Character &p, item &it, bool t, const t
     // inscribe_item returns false if the action fails or is canceled somehow.
 
     if( item_inscription( it, cut ) ) {
-        return cost >= 0 ? cost : it.ammo_required();
+        return cost >= 0 ? cost : it.ammo_required(); //TODO remove unuseds
     }
 
     return cata::nullopt;
@@ -1901,7 +1901,7 @@ cata::optional<int> inscribe_actor::use( Character &p, item &it, bool t, const t
 void cauterize_actor::load( const JsonObject &obj )
 {
     assign( obj, "cost", cost );
-    assign( obj, "flame", flame );
+    assign( obj, "flame", flame ); //TODO remove unuseds
 }
 
 std::unique_ptr<iuse_actor> cauterize_actor::clone() const
@@ -2061,7 +2061,7 @@ cata::optional<int> fireweapon_off_actor::use( Character &p, item &it, bool t,
         p.add_msg_if_player( m_bad, "%s", failure_message );
     }
 
-    return it.type->charges_to_use();
+    return 1; //TODO check
 }
 
 ret_val<void> fireweapon_off_actor::can_use( const Character &p, const item &it, bool,
@@ -2124,7 +2124,7 @@ cata::optional<int> fireweapon_on_actor::use( Character &p, item &it, bool t,
         }
     }
 
-    return it.type->charges_to_use();
+    return 1; // TODO check
 }
 
 void manualnoise_actor::load( const JsonObject &obj )
@@ -2148,7 +2148,7 @@ cata::optional<int> manualnoise_actor::use( Character &p, item &it, bool t, cons
     if( t ) {
         return cata::nullopt;
     }
-    if( it.type->charges_to_use() != 0 && it.charges < it.type->charges_to_use() ) {
+    if( !it.activation_charges_sufficient( &p ) ) {
         p.add_msg_if_player( "%s", no_charges_message );
         return cata::nullopt;
     }
