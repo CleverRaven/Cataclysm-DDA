@@ -427,7 +427,7 @@
     "enchantments": [
       {
         "condition": { "not": "is_day" },
-        "values": [ { "value": "FOOTSTEP_NOISE", "multiply": 0.5 }, { "value": "ATTACK_NOISE", "multiply": 0.8 } ]
+        "values": [ { "value": "FOOTSTEP_NOISE", "multiply": -0.5 }, { "value": "ATTACK_NOISE", "multiply": -0.2 } ]
       }
     ],
     "cancels": [ "HUMAN_STATS" ]
