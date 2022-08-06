@@ -208,7 +208,7 @@ item *mdeath::splatter( monster &z )
 
 void mdeath::disappear( monster &z )
 {
-    add_msg_if_player_sees( z, m_good, _( "The %s disappears." ), z.name() );
+    add_msg_if_player_sees( z.pos(), m_good, _( "The %s disappears." ), z.name() );
 }
 
 void mdeath::broken( monster &z )
