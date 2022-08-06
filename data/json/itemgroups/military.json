@@ -966,8 +966,6 @@
       { "item": "glasses_bal", "prob": 10 },
       { "item": "55gal_drum", "prob": 1 },
       { "item": "30gal_drum", "prob": 2 },
-      { "item": "30gal_drum_aluminum", "prob": 2 },
-      { "item": "55gal_drum_aluminum", "prob": 1 },
       { "item": "optical_cloak", "prob": 1 },
       { "item": "holo_cloak", "prob": 1, "charges": [ 0, 1000 ] },
       { "item": "grapnel", "prob": 1 },
