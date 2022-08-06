@@ -54,6 +54,9 @@ if("$ENV{VSCMD_VER}" STREQUAL "")
     foreach(_env IN LISTS _ENV)
         string(REGEX MATCH ^[^=]+    _key   "${_env}")
         string(REGEX MATCH =[^\n]+\n _value "${_env}")
+        if(NOT _value MATCHES ^=)
+            continue()
+        endif()
         string(SUBSTRING "${_value}" 1 -1 _value) # Remove = at begin
         string(STRIP "${_value}" _value) # Remove \r
         list(FIND _replace ${_key}= _idx)
