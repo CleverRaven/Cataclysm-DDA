@@ -58,6 +58,9 @@
       "inherits": [ "windows" ],
       "description": "Visual C++ Configuration",
       "toolchainFile": "${sourceDir}/build-scripts/MSVC.cmake",
+      "cacheVariables": {
+        "CATA_CCACHE":  "False"
+      },
       "hidden": true
     },
     {
