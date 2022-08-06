@@ -1021,5 +1021,58 @@
       { "text": "I've got some stuff I'd like to install.", "topic": "TALK_DONE", "effect": "bionic_install" },
       { "text": "Would you be able to take out one of my implants?", "topic": "TALK_DONE", "effect": "bionic_remove" }
     ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Scythean",
+    "type": "talk_topic",
+    "dynamic_line": "Ha!  A new string and beans, an I'm ken.  Latched and keyed in the bright shine o' the deadland afore this'n.  He be a thing o' fire and bronze, an' the node appreciates his grit.  \"A cnight of old, clade in shining steel, leading the hoste onward to glorie,\" as 'twere.  This'n finds him an apt one to give rede.  To command in battle, that's t'yark.",
+    "//~": "Ha!  A new part of our crew.  Signed up early on in the world we were in before.  He's a really tough guy, and the node appreciates his grit.  <recites some poetry>, as 'twere.  I think he's pretty good as a military commander.",
+    "responses": [
+      {
+        "text": "You know, every so often you talk normally and I realize you could probably drop the whole accent if you wanted to.",
+        "topic": "TALK_EXODII_MERCHANT_Anglic_Tease"
+      },
+      { "text": "What was it you were saying before?", "topic": "TALK_NONE" },
+      {
+        "text": "I think I've had about enough of trying to figure out what you're talking about, see you later.",
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Anglic_Tease",
+    "type": "talk_topic",
+    "dynamic_line": "Mayhap, but where'd be the fun in that?  Asides, quoth poetry is one thing, but changin' this'n's whole yark for always takes a lot o' practice.",
+    "//~": "Maybe, but where's the fun in that?  Besides, quoting poetry is one thing, but changing the way I speak all the time takes a lot of practice.",
+    "responses": [
+      {
+        "text": "What was it you were saying before, about the mission you had for me?",
+        "topic": "TALK_EXODII_MERCHANT_mission_1_intro"
+      },
+      { "text": "Well, a person can get sick of trying to piece it together.  See you later.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Meetcute",
+    "type": "talk_topic",
+    "dynamic_line": "Aye.  Ye kennit, when two of a sort happen upon each other as per chance, an' find a liking to another?  'Tis a bit o' Anglic yark.",
+    "//~": "Right.  You see, it's when two compatible people randomly happen into each other and take a liking to one another.  It's a bit of Anglic slang.",
+    "responses": [
+      {
+        "text": "Yeah, that's what I thought it meant, just… nevermind.  What were you saying about the job?",
+        "topic": "TALK_EXODII_MERCHANT_mission_1_intro"
+      },
+      { "text": "I don't know what kind of game you're playing, but I'm out for a bit.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Hempen1",
+    "type": "talk_topic",
+    "dynamic_line": "*seems to become wistful for a moment.  \"Harks this'n yonder, right so.  'Tis a bit o' t'ol' King's Landing right there, kennit, yarkin' from back when Rubik were nigh smaller than a kelpie.  It…\"  Rubik's gravelly voice falters.  \"Ah, 'tis mightily tassed to harken back yonder.  Mayhap another time.",
+    "//~": "That takes me way back.  That's a bit of the old King's Landing right there, you know, calling back from when I was just little.  It… ah, it's really hard for me to think about those old days.  Maybe another time.",
+    "responses": [
+      { "text": "Maybe later then.  What were you saying about the job?", "topic": "TALK_EXODII_MERCHANT_mission_1_intro" },
+      { "text": "You know, I think it'd be best if I just got going.", "topic": "TALK_DONE" }
+    ]
   }
 ]
