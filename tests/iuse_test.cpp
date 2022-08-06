@@ -56,8 +56,7 @@ TEST_CASE( "eyedrops", "[iuse][eyedrops]" )
         REQUIRE( dummy.has_effect( effect_boomered ) );
 
         WHEN( "they use eye drops" ) {
-            dummy.consume(eyedrops);
-            //dummy.invoke_item( &eyedrops );
+            dummy.consume( eyedrops );
 
             THEN( "one dose is depleted" ) {
                 CHECK( eyedrops.charges == charges_before - 1 );
@@ -73,10 +72,10 @@ TEST_CASE( "eyedrops", "[iuse][eyedrops]" )
         dummy.set_underwater( true );
 
         WHEN( "they try to use eye drops" ) {
-            bool used = dummy.invoke_item( &eyedrops );
+            dummy.consume( eyedrops );
 
-            THEN( "it can't be used underwater" ) {
-                CHECK_FALSE( used );
+            THEN( "None were used" ) {
+                CHECK(eyedrops.charges == charges_before);
             }
         }
     }
@@ -95,7 +94,7 @@ TEST_CASE( "antifungal", "[iuse][antifungal]" )
         REQUIRE( dummy.has_effect( effect_fungus ) );
 
         WHEN( "they take an antifungal drug" ) {
-            dummy.invoke_item( &antifungal );
+            dummy.consume( antifungal );
 
             THEN( "one dose is depleted" ) {
                 CHECK( antifungal.charges == charges_before - 1 );
@@ -120,7 +119,7 @@ TEST_CASE( "antifungal", "[iuse][antifungal]" )
         REQUIRE( dummy.has_effect( effect_spores ) );
 
         WHEN( "they take an antifungal drug" ) {
-            dummy.invoke_item( &antifungal );
+            dummy.consume( antifungal );
 
             THEN( "one dose is depleted" ) {
                 CHECK( antifungal.charges == charges_before - 1 );
@@ -155,7 +154,7 @@ TEST_CASE( "antiparasitic", "[iuse][antiparasitic]" )
         REQUIRE( dummy.has_effect( effect_paincysts ) );
 
         WHEN( "they use an antiparasitic drug" ) {
-            dummy.invoke_item( &antiparasitic );
+            dummy.consume( antiparasitic );
 
             THEN( "one dose is depleted" ) {
                 CHECK( antiparasitic.charges == charges_before - 1 );
@@ -176,7 +175,7 @@ TEST_CASE( "antiparasitic", "[iuse][antiparasitic]" )
         REQUIRE( dummy.has_effect( effect_fungus ) );
 
         WHEN( "they use an antiparasitic drug" ) {
-            dummy.invoke_item( &antiparasitic );
+            dummy.consume( antiparasitic );
 
             THEN( "one dose is depleted" ) {
                 CHECK( antiparasitic.charges == charges_before - 1 );
@@ -202,7 +201,7 @@ TEST_CASE( "anticonvulsant", "[iuse][anticonvulsant]" )
         REQUIRE( dummy.has_effect( effect_shakes ) );
 
         WHEN( "they use an anticonvulsant drug" ) {
-            dummy.invoke_item( &anticonvulsant );
+            dummy.consume( anticonvulsant );
 
             THEN( "one dose is depleted" ) {
                 CHECK( anticonvulsant.charges == charges_before - 1 );
@@ -491,7 +490,7 @@ TEST_CASE( "thorazine", "[iuse][thorazine]" )
         REQUIRE( dummy.has_effect( effect_high ) );
 
         WHEN( "they take some thorazine" ) {
-            dummy.invoke_item( &thorazine );
+            dummy.consume( thorazine );
 
             THEN( "it relieves all those effects with a single dose" ) {
                 CHECK( thorazine.charges == charges_before - 1 );
@@ -507,12 +506,12 @@ TEST_CASE( "thorazine", "[iuse][thorazine]" )
     }
 
     GIVEN( "avatar has already taken some thorazine" ) {
-        dummy.invoke_item( &thorazine );
+        dummy.consume(thorazine );
         REQUIRE( thorazine.charges == charges_before - 1 );
         REQUIRE( dummy.has_effect( effect_took_thorazine ) );
 
         WHEN( "they take more thorazine" ) {
-            dummy.invoke_item( &thorazine );
+            dummy.consume( thorazine );
 
             THEN( "it only causes more fatigue" ) {
                 CHECK( thorazine.charges == charges_before - 2 );
@@ -531,7 +530,7 @@ TEST_CASE( "prozac", "[iuse][prozac]" )
         REQUIRE_FALSE( dummy.has_effect( effect_took_prozac ) );
         REQUIRE_FALSE( dummy.has_effect( effect_took_prozac_visible ) );
 
-        dummy.invoke_item( &prozac );
+        dummy.consume( prozac );
         CHECK( dummy.has_effect( effect_took_prozac ) );
         CHECK( dummy.has_effect( effect_took_prozac_visible ) );
     }
@@ -539,9 +538,9 @@ TEST_CASE( "prozac", "[iuse][prozac]" )
     SECTION( "taking prozac twice gives a stimulant effect" ) {
         dummy.set_stim( 0 );
 
-        dummy.invoke_item( &prozac );
+        dummy.consume( prozac );
         CHECK( dummy.get_stim() == 0 );
-        dummy.invoke_item( &prozac );
+        dummy.consume( prozac );
         CHECK( dummy.get_stim() > 0 );
     }
 }
@@ -558,7 +557,7 @@ TEST_CASE( "inhaler", "[iuse][inhaler]" )
         REQUIRE( dummy.has_effect( effect_smoke ) );
 
         THEN( "inhaler relieves it" ) {
-            dummy.invoke_item( &inhaler );
+            dummy.consume( inhaler );
             CHECK_FALSE( dummy.has_effect( effect_smoke ) );
         }
     }
@@ -568,7 +567,7 @@ TEST_CASE( "inhaler", "[iuse][inhaler]" )
         REQUIRE( dummy.has_effect( effect_asthma ) );
 
         THEN( "inhaler relieves the effects of asthma" ) {
-            dummy.invoke_item( &inhaler );
+            dummy.consume( inhaler );
             CHECK_FALSE( dummy.has_effect( effect_asthma ) );
         }
     }
@@ -578,7 +577,7 @@ TEST_CASE( "inhaler", "[iuse][inhaler]" )
 
         THEN( "inhaler reduces fatigue" ) {
             dummy.set_fatigue( 10 );
-            dummy.invoke_item( &inhaler );
+            dummy.consume( inhaler );
             CHECK( dummy.get_fatigue() < 10 );
         }
     }
@@ -606,7 +605,7 @@ TEST_CASE( "xanax", "[iuse][xanax]" )
         REQUIRE_FALSE( dummy.has_effect( effect_took_xanax ) );
         REQUIRE_FALSE( dummy.has_effect( effect_took_xanax_visible ) );
 
-        dummy.invoke_item( &xanax );
+        dummy.consume( xanax );
         CHECK( dummy.has_effect( effect_took_xanax ) );
         CHECK( dummy.has_effect( effect_took_xanax_visible ) );
     }
