@@ -76,7 +76,7 @@ TEST_CASE( "eyedrops", "[iuse][eyedrops]" )
             dummy.consume( eyedrops );
 
             THEN( "None were used" ) {
-                CHECK(eyedrops.charges == charges_before);
+                CHECK( eyedrops.charges == charges_before );
             }
         }
     }
@@ -507,7 +507,7 @@ TEST_CASE( "thorazine", "[iuse][thorazine]" )
     }
 
     GIVEN( "avatar has already taken some thorazine" ) {
-        dummy.consume(thorazine );
+        dummy.consume( thorazine );
         REQUIRE( thorazine.charges == charges_before - 1 );
         REQUIRE( dummy.has_effect( effect_took_thorazine ) );
 
@@ -548,21 +548,21 @@ TEST_CASE( "prozac", "[iuse][prozac]" )
 
 TEST_CASE( "inhaler", "[iuse][inhaler]" )
 {
-	clear_avatar();
+    clear_avatar();
     avatar &dummy = get_avatar();
     item inhaler( "inhaler" );
     inhaler.ammo_set( itype_albuterol );
-    REQUIRE(inhaler.ammo_remaining() > 0);
+    REQUIRE( inhaler.ammo_remaining() > 0 );
 
-	item_location inhaler_loc = dummy.i_add( inhaler );
-	REQUIRE( dummy.has_item( *inhaler_loc) );
+    item_location inhaler_loc = dummy.i_add( inhaler );
+    REQUIRE( dummy.has_item( *inhaler_loc ) );
 
     GIVEN( "avatar is suffering from smoke inhalation" ) {
         dummy.add_effect( effect_smoke, 1_hours );
         REQUIRE( dummy.has_effect( effect_smoke ) );
 
         THEN( "inhaler relieves it" ) {
-            dummy.use(inhaler_loc);
+            dummy.use( inhaler_loc );
             CHECK_FALSE( dummy.has_effect( effect_smoke ) );
         }
     }
