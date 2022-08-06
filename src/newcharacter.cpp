@@ -2539,16 +2539,106 @@ static int skill_increment_cost( const Character &u, const skill_id &skill )
     return std::max( 1, ( u.get_skill_level( skill ) + 1 ) / 2 );
 }
 
+static std::string assemble_skill_details( const avatar &u,
+        const std::map<skill_id, int> &prof_skills, const Skill *currentSkill )
+{
+    std::string assembled;
+    // We want recipes from profession skills displayed, but
+    // without boosting the skills. Copy the skills, and boost the copy
+    SkillLevelMap with_prof_skills = u.get_all_skills();
+    for( const auto &sk : prof_skills ) {
+        with_prof_skills.mod_skill_level( sk.first, sk.second );
+    }
+
+    std::map<std::string, std::vector<std::pair<std::string, int> > > recipes;
+    for( const auto &e : recipe_dict ) {
+        const recipe &r = e.second;
+        if( r.is_practice() || r.has_flag( "SECRET" ) ) {
+            continue;
+        }
+        //Find out if the current skill and its level is in the requirement list
+        auto req_skill = r.required_skills.find( currentSkill->ident() );
+        int skill = req_skill != r.required_skills.end() ? req_skill->second : 0;
+        bool would_autolearn_recipe =
+            recipe_dict.all_autolearn().count( &r ) &&
+            with_prof_skills.meets_skill_requirements( r.autolearn_requirements );
+
+        if( !would_autolearn_recipe && !r.never_learn &&
+            ( r.skill_used == currentSkill->ident() || skill > 0 ) &&
+            with_prof_skills.has_recipe_requirements( r ) ) {
+
+            recipes[r.skill_used->name()].emplace_back( r.result_name( /*decorated=*/true ),
+                    ( skill > 0 ) ? skill : r.difficulty );
+        }
+        // TODO: Find out why kevlar gambeson hood disppears when going from tailoring 7->8
+    }
+
+    for( auto &elem : recipes ) {
+        std::sort( elem.second.begin(), elem.second.end(),
+                   []( const std::pair<std::string, int> &lhs,
+        const std::pair<std::string, int> &rhs ) {
+            return localized_compare( std::make_pair( lhs.second, lhs.first ),
+                                      std::make_pair( rhs.second, rhs.first ) );
+        } );
+
+        const std::string rec_temp = enumerate_as_string( elem.second.begin(), elem.second.end(),
+        []( const std::pair<std::string, int> &rec ) {
+            return string_format( "%s (%d)", rec.first, rec.second );
+        } );
+
+        if( elem.first == currentSkill->name() ) {
+            assembled = "\n\n" + colorize( rec_temp, c_brown ) + std::move( assembled );
+        } else {
+            assembled += "\n\n" + colorize( "[" + elem.first + "]\n" + rec_temp, c_light_gray );
+        }
+    }
+
+    assembled = currentSkill->description() + assembled;
+    return assembled;
+}
+
 void set_skills( tab_manager &tabs, avatar &u, pool_type pool )
 {
     ui_adaptor ui;
     catacurses::window w;
-    catacurses::window w_description;
+    catacurses::window w_list;
+    catacurses::window w_details_pane;
+    scrolling_text_view details( w_details_pane );
+    bool details_recalc = true;
+    catacurses::window w_keybindings;
+    std::vector<std::string> keybinding_hint;
     int iContentHeight = 0;
+    const int iHeaderHeight = 5;
+    input_context ctxt( "NEW_CHAR_SKILLS" );
+    details.set_up_navigation( ctxt );
+    ctxt.register_cardinal();
+    ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
+    ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
+    ctxt.register_action( "HOME" );
+    ctxt.register_action( "END" );
+    ctxt.register_action( "PREV_TAB" );
+    ctxt.register_action( "NEXT_TAB" );
+    ctxt.register_action( "HELP_KEYBINDINGS" );
+    ctxt.register_action( "QUIT" );
+
     const auto init_windows = [&]( ui_adaptor & ui ) {
-        iContentHeight = TERMY - 6;
+        keybinding_hint = foldstring( string_format(
+                                          _( "Press <color_light_green>%s</color> to view and alter keybindings.\n"
+                                             "Press <color_light_green>%s</color> / <color_light_green>%s</color> to select skill.\n"
+                                             "Press <color_light_green>%s</color> to increase skill or "
+                                             "<color_light_green>%s</color> to decrease skill.\n"
+                                             "Press <color_light_green>%s</color> to go to the next tab or "
+                                             "<color_light_green>%s</color> to return to the previous tab." ),
+                                          ctxt.get_desc( "HELP_KEYBINDINGS" ), ctxt.get_desc( "UP" ), ctxt.get_desc( "DOWN" ),
+                                          ctxt.get_desc( "RIGHT" ), ctxt.get_desc( "LEFT" ),
+                                          ctxt.get_desc( "NEXT_TAB" ), ctxt.get_desc( "PREV_TAB" ) ), TERMX - 2 );
+        iContentHeight = TERMY - static_cast<int>( keybinding_hint.size() ) - iHeaderHeight - 1;
         w = catacurses::newwin( TERMY, TERMX, point_zero );
-        w_description = catacurses::newwin( iContentHeight - 5, TERMX - 35, point( 31, 5 ) );
+        w_list = catacurses::newwin( iContentHeight, 35, point( 1, iHeaderHeight ) );
+        w_details_pane = catacurses::newwin( iContentHeight, TERMX - 35, point( 31, 5 ) );
+        details_recalc = true;
+        w_keybindings = catacurses::newwin( static_cast<int>( keybinding_hint.size() ), TERMX - 2, point( 1,
+                                            iHeaderHeight + iContentHeight ) );
         ui.position_from_window( w );
     };
     init_windows( ui );
@@ -2581,7 +2671,6 @@ void set_skills( tab_manager &tabs, avatar &u, pool_type pool )
     int cur_offset = 1;
     int cur_pos = 0;
     const Skill *currentSkill = nullptr;
-    int selected = 0;
 
     const int scroll_rate = num_skills > 20 ? 5 : 2;
     auto get_next = [&]( bool go_up, bool fast_scroll ) {
@@ -2627,17 +2716,6 @@ void set_skills( tab_manager &tabs, avatar &u, pool_type pool )
 
     get_next( false, false );
 
-    input_context ctxt( "NEW_CHAR_SKILLS" );
-    tabs.set_up_tab_navigation( ctxt );
-    ctxt.register_cardinal();
-    ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
-    ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
-    ctxt.register_action( "HOME" );
-    ctxt.register_action( "END" );
-    ctxt.register_action( "SCROLL_SKILL_INFO_DOWN" );
-    ctxt.register_action( "SCROLL_SKILL_INFO_UP" );
-    ctxt.register_action( "HELP_KEYBINDINGS" );
-
     std::map<skill_id, int> prof_skills;
     const profession::StartingSkillList &pskills = u.prof->skills();
 
@@ -2649,24 +2727,19 @@ void set_skills( tab_manager &tabs, avatar &u, pool_type pool )
     ui.on_redraw( [&]( const ui_adaptor & ) {
         werase( w );
         tabs.draw( w );
-
-        // Helptext skills tab
-        fold_and_print( w, point( 2, TERMY - 5 ), getmaxx( w ) - 4, COL_NOTE_MINOR,
-                        _( "Press <color_light_green>%s</color> to view and alter keybindings.\n"
-                           "Press <color_light_green>%s</color> / <color_light_green>%s</color> to select skill.\n"
-                           "Press <color_light_green>%s</color> to increase skill or "
-                           "<color_light_green>%s</color> to decrease skill.\n"
-                           "Press <color_light_green>%s</color> to go to the next tab or "
-                           "<color_light_green>%s</color> to return to the previous tab." ),
-                        ctxt.get_desc( "HELP_KEYBINDINGS" ), ctxt.get_desc( "UP" ), ctxt.get_desc( "DOWN" ),
-                        ctxt.get_desc( "RIGHT" ), ctxt.get_desc( "LEFT" ),
-                        ctxt.get_desc( "NEXT_TAB" ), ctxt.get_desc( "PREV_TAB" ) );
-
         draw_points( w, pool, u );
-        // Clear the bottom of the screen.
-        werase( w_description );
-        mvwprintz( w, point( remaining_points_length + 9, 3 ), c_light_gray,
-                   std::string( getmaxx( w ) - remaining_points_length - 10, ' ' ) );
+        werase( w_list );
+        werase( w_keybindings );
+
+        nc_color cur_color = COL_NOTE_MINOR;
+        for( size_t i = 0; i < keybinding_hint.size(); ++i ) {
+            print_colored_text( w_keybindings, point( 0, i ), cur_color, COL_NOTE_MINOR, keybinding_hint[i] );
+        }
+	
+        if( details_recalc ) {
+            details.set_text( assemble_skill_details( u, prof_skills, currentSkill ) );
+            details_recalc = false;
+        }
 
         // Write the hint as to upgrade costs
         const int cost = skill_increment_cost( u, currentSkill->ident() );
@@ -2683,90 +2756,21 @@ void set_skills( tab_manager &tabs, avatar &u, pool_type pool )
                               "Upgrading %s by %s costs %d points", cost ),
                    currentSkill->name(), upgrade_levels_s, cost );
 
-        // We want recipes from profession skills displayed, but
-        // without boosting the skills. Copy the skills, and boost the copy
-        SkillLevelMap with_prof_skills = u.get_all_skills();
-        for( const auto &sk : prof_skills ) {
-            with_prof_skills.mod_skill_level( sk.first, sk.second );
-        }
-
-        std::map<std::string, std::vector<std::pair<std::string, int> > > recipes;
-        for( const auto &e : recipe_dict ) {
-            const recipe &r = e.second;
-            if( r.is_practice() || r.has_flag( "SECRET" ) ) {
-                continue;
-            }
-            //Find out if the current skill and its level is in the requirement list
-            auto req_skill = r.required_skills.find( currentSkill->ident() );
-            int skill = req_skill != r.required_skills.end() ? req_skill->second : 0;
-            bool would_autolearn_recipe =
-                recipe_dict.all_autolearn().count( &r ) &&
-                with_prof_skills.meets_skill_requirements( r.autolearn_requirements );
-
-            if( !would_autolearn_recipe && !r.never_learn &&
-                ( r.skill_used == currentSkill->ident() || skill > 0 ) &&
-                with_prof_skills.has_recipe_requirements( r ) ) {
-
-                recipes[r.skill_used->name()].emplace_back(
-                    r.result_name( /*decorated=*/true ),
-                    ( skill > 0 ) ? skill : r.difficulty
-                );
-            }
-        }
-
-        std::string rec_disp;
-
-        for( auto &elem : recipes ) {
-            std::sort( elem.second.begin(), elem.second.end(),
-                       []( const std::pair<std::string, int> &lhs,
-            const std::pair<std::string, int> &rhs ) {
-                return localized_compare( std::make_pair( lhs.second, lhs.first ),
-                                          std::make_pair( rhs.second, rhs.first ) );
-            } );
-
-            const std::string rec_temp = enumerate_as_string( elem.second.begin(), elem.second.end(),
-            []( const std::pair<std::string, int> &rec ) {
-                return string_format( "%s (%d)", rec.first, rec.second );
-            } );
-
-            if( elem.first == currentSkill->name() ) {
-                rec_disp = "\n\n" + colorize( rec_temp, c_brown ) + std::move( rec_disp );
-            } else {
-                rec_disp += "\n\n" + colorize( "[" + elem.first + "]\n" + rec_temp, c_light_gray );
-            }
-        }
-
-        rec_disp = currentSkill->description() + rec_disp;
-
-        const auto vFolded = foldstring( rec_disp, getmaxx( w_description ) );
-        int iLines = vFolded.size();
-
-        if( selected < 0 || iLines < iContentHeight ) {
-            selected = 0;
-        } else if( selected >= iLines - iContentHeight ) {
-            selected = iLines - iContentHeight;
-        }
-
-        fold_and_print_from( w_description, point_zero, getmaxx( w_description ),
-                             selected, COL_SKILL_USED, rec_disp );
-
         calcStartPos( cur_offset, cur_pos, iContentHeight, num_skills );
         for( int i = cur_offset; i < num_skills && i - cur_offset < iContentHeight; ++i ) {
-            const int y = 5 + i - cur_offset;
+            const int y = i - cur_offset;
             const skill_displayType_id &display_type = skill_list[i].first;
             const Skill *thisSkill = skill_list[i].second;
-            // Clear the line
-            mvwprintz( w, point( 2, y ), c_light_gray, std::string( getmaxx( w ) - 3, ' ' ) );
             if( !thisSkill ) {
-                mvwprintz( w, point( 2, y ), c_yellow, display_type->display_string() );
+                mvwprintz( w_list, point( 1, y ), c_yellow, display_type->display_string() );
             } else if( u.get_skill_level( thisSkill->ident() ) == 0 ) {
-                mvwprintz( w, point( 2, y ),
+                mvwprintz( w_list, point( 1, y ),
                            ( i == cur_pos ? COL_SELECT : c_light_gray ), thisSkill->name() );
             } else {
-                mvwprintz( w, point( 2, y ),
+                mvwprintz( w_list, point( 1, y ),
                            ( i == cur_pos ? hilite( COL_SKILL_USED ) : COL_SKILL_USED ),
                            thisSkill->name() );
-                wprintz( w, ( i == cur_pos ? hilite( COL_SKILL_USED ) : COL_SKILL_USED ),
+                wprintz( w_list, ( i == cur_pos ? hilite( COL_SKILL_USED ) : COL_SKILL_USED ),
                          " ( %d )", u.get_skill_level( thisSkill->ident() ) );
             }
 
@@ -2786,7 +2790,6 @@ void set_skills( tab_manager &tabs, avatar &u, pool_type pool )
             if( skill_level > 0 ) {
                 wprintz( w, ( i == cur_pos ? h_white : c_white ), " (+%d)", skill_level );
             }
-
         }
 
         scrollbar()
@@ -2798,16 +2801,20 @@ void set_skills( tab_manager &tabs, avatar &u, pool_type pool )
         .apply( w );
 
         wnoutrefresh( w );
-        wnoutrefresh( w_description );
+        wnoutrefresh( w_list );
+        wnoutrefresh( w_keybindings );
+        details.draw( c_light_gray );
     } );
-
-
 
     do {
         ui_manager::redraw();
         const std::string action = ctxt.handle_input();
+	  const int pos_for_curr_description = cur_pos;
+	  
         if( tabs.handle_input( action, ctxt ) ) {
             break; // Tab has changed or user has quit the screen
+	} else if( details.handle_navigation( action, ctxt ) ) {
+	  // NO FURTHER ACTION REQUIRED
         } else if( action == "DOWN" ) {
             get_next( false, false );
         } else if( action == "UP" ) {
@@ -2834,6 +2841,7 @@ void set_skills( tab_manager &tabs, avatar &u, pool_type pool )
                 u.mod_skill_level( skill_id, level == 2 ? -2 : -1 );
                 u.set_knowledge_level( skill_id, u.get_skill_level( skill_id ) );
             }
+            details_recalc = true;
         } else if( action == "RIGHT" ) {
             const skill_id &skill_id = currentSkill->ident();
             const int level = u.get_skill_level( skill_id );
@@ -2842,10 +2850,9 @@ void set_skills( tab_manager &tabs, avatar &u, pool_type pool )
                 u.mod_skill_level( skill_id, level == 0 ? +2 : +1 );
                 u.set_knowledge_level( skill_id, u.get_skill_level( skill_id ) );
             }
-        } else if( action == "SCROLL_SKILL_INFO_DOWN" ) {
-            selected++;
-        } else if( action == "SCROLL_SKILL_INFO_UP" ) {
-            selected--;
+        }
+        if( cur_pos != pos_for_curr_description ) {
+            details_recalc = true;
         }
     } while( true );
 }
@@ -3167,11 +3174,11 @@ void set_scenario( tab_manager &tabs, avatar &u, pool_type pool )
         const std::string action = ctxt.handle_input();
         const int scroll_rate = scens_length > 20 ? 5 : 2;
         const int id_for_curr_description = cur_id;
-
+	
         if( tabs.handle_input( action, ctxt ) ) {
             break; // Tab has changed or user has quit the screen
         } else if( details.handle_navigation( action, ctxt ) ) {
-            //NO FURTHER ACTION REQUIRED
+            // NO FURTHER ACTION REQUIRED
         } else if( action == "DOWN" ) {
             cur_id++;
             if( cur_id > scens_length - 1 ) {
