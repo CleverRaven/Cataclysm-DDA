@@ -1179,7 +1179,7 @@ void monster::footsteps( const tripoint &p )
     if( is_hallucination() ) {
         return;
     }
-    
+
     if( made_footstep ) {
         return;
     }
