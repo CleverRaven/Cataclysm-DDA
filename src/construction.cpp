@@ -72,6 +72,7 @@ static const construction_category_id construction_category_FILTER( "FILTER" );
 static const construction_category_id construction_category_REPAIR( "REPAIR" );
 
 static const flag_id json_flag_FILTHY( "FILTHY" );
+static const flag_id json_flag_PIT( "PIT" );
 static const furn_str_id furn_f_console( "f_console" );
 static const furn_str_id furn_f_console_broken( "f_console_broken" );
 static const furn_str_id furn_f_machinery_electronic( "f_machinery_electronic" );
@@ -1251,7 +1252,7 @@ bool construct::check_support_below( const tripoint_bub_ms &p )
 
     map &here = get_map();
     // These checks are based on check_empty_lite, but accept no floor and the traps associated
-    // with it, i.e. ledge, pit, spiked pit, and glass pit.
+    // with it, i.e. ledge, and various forms of pits.
     // - Check if there's nothing in the way. The "passable" check rejects tiles you can't
     //   pass through, but we want air and water to be OK as well (that's what we want to bridge).
     // - Apart from that, vehicles, items, creatures, and furniture also have to be absent.
@@ -1261,8 +1262,7 @@ bool construct::check_support_below( const tripoint_bub_ms &p )
     if( !( here.passable( p.raw() ) || here.has_flag( ter_furn_flag::TFLAG_LIQUID, p ) ||
            here.has_flag( ter_furn_flag::TFLAG_NO_FLOOR, p ) ) ||
         blocking_creature || here.has_furn( p ) || !( here.tr_at( p ).is_null() ||
-                here.tr_at( p ).id == tr_ledge  || here.tr_at( p ).id == tr_pit ||
-                here.tr_at( p ).name() == "spiked pit" || here.tr_at( p ).name() == "glass pit" ) ||
+                here.tr_at( p ).id == tr_ledge  || here.tr_at( p ).has_flag( json_flag_PIT ) ) ||
         !here.i_at( p ).empty() || here.veh_at( p ) ) {
         return false;
     }

@@ -498,6 +498,7 @@
     "visibility": 0,
     "avoidance": 8,
     "difficulty": 99,
+    "flags": [ "PIT" ],
     "action": "pit",
     "vehicle_data": { "damage": 500 }
   },
@@ -512,6 +513,7 @@
     "visibility": 0,
     "avoidance": 8,
     "difficulty": 99,
+    "flags": [ "PIT" ],
     "action": "pit_spikes",
     "vehicle_data": { "damage": 500 }
   },
@@ -711,6 +713,7 @@
     "visibility": 0,
     "avoidance": 8,
     "difficulty": 99,
+    "flags": [ "PIT" ],
     "action": "pit_glass",
     "vehicle_data": { "damage": 500 }
   },
