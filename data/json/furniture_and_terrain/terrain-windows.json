@@ -9,7 +9,16 @@
     "move_cost": 0,
     "coverage": 60,
     "roof": "t_flat_roof",
-    "flags": [ "TRANSPARENT", "FLAMMABLE", "NOITEM", "BARRICADABLE_WINDOW", "CONNECT_TO_WALL", "BLOCK_WIND", "WINDOW" ],
+    "flags": [
+      "TRANSPARENT",
+      "FLAMMABLE",
+      "NOITEM",
+      "BARRICADABLE_WINDOW",
+      "CONNECT_TO_WALL",
+      "BLOCK_WIND",
+      "WINDOW",
+      "SUPPORTS_ROOF"
+    ],
     "deconstruct": { "ter_set": "t_window_empty", "items": [ { "item": "glass_sheet", "count": 1 } ] },
     "bash": {
       "str_min": 3,
@@ -33,7 +42,7 @@
     "move_cost": 0,
     "coverage": 95,
     "roof": "t_flat_roof",
-    "flags": [ "FLAMMABLE", "NOITEM", "WALL", "CONNECT_TO_WALL", "BLOCK_WIND", "REDUCE_SCENT", "WINDOW" ],
+    "flags": [ "FLAMMABLE", "NOITEM", "WALL", "CONNECT_TO_WALL", "BLOCK_WIND", "REDUCE_SCENT", "WINDOW", "SUPPORTS_ROOF" ],
     "deconstruct": {
       "ter_set": "t_window_empty",
       "items": [ { "item": "glass_sheet", "count": 1 }, { "item": "duct_tape", "charges": [ 15, 25 ] } ]
@@ -68,7 +77,8 @@
       "BARRICADABLE_WINDOW_CURTAINS",
       "CONNECT_TO_WALL",
       "BLOCK_WIND",
-      "WINDOW"
+      "WINDOW",
+      "SUPPORTS_ROOF"
     ],
     "curtain_transform": "t_window_no_curtains",
     "examine_action": "curtains",
@@ -130,7 +140,8 @@
       "BARRICADABLE_WINDOW",
       "CONNECT_TO_WALL",
       "BLOCK_WIND",
-      "WINDOW"
+      "WINDOW",
+      "SUPPORTS_ROOF"
     ],
     "examine_action": "locked_object",
     "open": "t_window_no_curtains_open",
@@ -178,7 +189,8 @@
       "THIN_OBSTACLE",
       "SMALL_PASSAGE",
       "PERMEABLE",
-      "WINDOW"
+      "WINDOW",
+      "SUPPORTS_ROOF"
     ],
     "close": "t_window_no_curtains",
     "deconstruct": { "ter_set": "t_window_empty", "items": [ { "item": "glass_sheet", "count": 1 } ] },
@@ -204,7 +216,7 @@
     "move_cost": 0,
     "coverage": 95,
     "roof": "t_flat_roof",
-    "flags": [ "FLAMMABLE", "NOITEM", "WALL", "BLOCK_WIND", "REDUCE_SCENT", "WINDOW" ],
+    "flags": [ "FLAMMABLE", "NOITEM", "WALL", "BLOCK_WIND", "REDUCE_SCENT", "WINDOW", "SUPPORTS_ROOF" ],
     "deconstruct": {
       "ter_set": "t_window_empty",
       "items": [ { "item": "glass_sheet", "count": 1 }, { "item": "duct_tape", "charges": [ 15, 25 ] } ]
@@ -232,7 +244,7 @@
     "move_cost": 0,
     "coverage": 95,
     "roof": "t_flat_roof",
-    "flags": [ "FLAMMABLE", "NOITEM", "WALL", "BLOCK_WIND", "REDUCE_SCENT", "WINDOW" ],
+    "flags": [ "FLAMMABLE", "NOITEM", "WALL", "BLOCK_WIND", "REDUCE_SCENT", "WINDOW", "SUPPORTS_ROOF" ],
     "curtain_transform": "t_window_no_curtains_taped",
     "deconstruct": {
       "ter_set": "t_window_empty",
@@ -283,7 +295,8 @@
       "THIN_OBSTACLE",
       "SMALL_PASSAGE",
       "PERMEABLE",
-      "WINDOW"
+      "WINDOW",
+      "SUPPORTS_ROOF"
     ],
     "curtain_transform": "t_window_no_curtains_open",
     "examine_action": "curtains",
@@ -324,7 +337,16 @@
     "move_cost": 0,
     "coverage": 95,
     "roof": "t_flat_roof",
-    "flags": [ "FLAMMABLE", "NOITEM", "OPENCLOSE_INSIDE", "BARRICADABLE_WINDOW_CURTAINS", "CONNECT_TO_WALL", "BLOCK_WIND", "WINDOW" ],
+    "flags": [
+      "FLAMMABLE",
+      "NOITEM",
+      "OPENCLOSE_INSIDE",
+      "BARRICADABLE_WINDOW_CURTAINS",
+      "CONNECT_TO_WALL",
+      "BLOCK_WIND",
+      "WINDOW",
+      "SUPPORTS_ROOF"
+    ],
     "curtain_transform": "t_window_no_curtains",
     "open": "t_window_domestic",
     "examine_action": "curtains",
@@ -375,7 +397,17 @@
     "color": "light_cyan",
     "move_cost": 0,
     "roof": "t_flat_roof",
-    "flags": [ "TRANSPARENT", "FLAMMABLE", "ALARMED", "NOITEM", "BARRICADABLE_WINDOW", "CONNECT_TO_WALL", "BLOCK_WIND", "WINDOW" ],
+    "flags": [
+      "TRANSPARENT",
+      "FLAMMABLE",
+      "ALARMED",
+      "NOITEM",
+      "BARRICADABLE_WINDOW",
+      "CONNECT_TO_WALL",
+      "BLOCK_WIND",
+      "WINDOW",
+      "SUPPORTS_ROOF"
+    ],
     "bash": {
       "str_min": 3,
       "str_max": 6,
@@ -398,7 +430,17 @@
     "move_cost": 0,
     "coverage": 95,
     "roof": "t_flat_roof",
-    "flags": [ "FLAMMABLE", "NOITEM", "ALARMED", "WALL", "BARRICADABLE_WINDOW", "BLOCK_WIND", "REDUCE_SCENT", "WINDOW" ],
+    "flags": [
+      "FLAMMABLE",
+      "NOITEM",
+      "ALARMED",
+      "WALL",
+      "BARRICADABLE_WINDOW",
+      "BLOCK_WIND",
+      "REDUCE_SCENT",
+      "WINDOW",
+      "SUPPORTS_ROOF"
+    ],
     "bash": {
       "str_min": 6,
       "str_max": 12,
@@ -431,7 +473,8 @@
       "THIN_OBSTACLE",
       "SMALL_PASSAGE",
       "PERMEABLE",
-      "WINDOW"
+      "WINDOW",
+      "SUPPORTS_ROOF"
     ],
     "bash": {
       "str_min": 10,
@@ -475,7 +518,8 @@
       "CONNECT_TO_WALL",
       "SMALL_PASSAGE",
       "PERMEABLE",
-      "WINDOW"
+      "WINDOW",
+      "SUPPORTS_ROOF"
     ]
   },
   {
@@ -488,7 +532,7 @@
     "move_cost": 0,
     "coverage": 95,
     "roof": "t_flat_roof",
-    "flags": [ "FLAMMABLE", "NOITEM", "REDUCE_SCENT", "CONNECT_TO_WALL", "BLOCK_WIND", "WINDOW" ],
+    "flags": [ "FLAMMABLE", "NOITEM", "REDUCE_SCENT", "CONNECT_TO_WALL", "BLOCK_WIND", "WINDOW", "SUPPORTS_ROOF" ],
     "deconstruct": {
       "ter_set": "t_window_empty",
       "items": [ { "item": "2x4", "count": [ 3, 4 ] }, { "item": "nail", "charges": [ 6, 8 ] }, { "item": "glass_sheet", "count": 1 } ]
@@ -523,7 +567,7 @@
     "move_cost": 0,
     "coverage": 95,
     "roof": "t_flat_roof",
-    "flags": [ "FLAMMABLE", "NOITEM", "CONNECT_TO_WALL", "BLOCK_WIND", "PERMEABLE", "WINDOW" ],
+    "flags": [ "FLAMMABLE", "NOITEM", "CONNECT_TO_WALL", "BLOCK_WIND", "PERMEABLE", "WINDOW", "SUPPORTS_ROOF" ],
     "deconstruct": {
       "ter_set": "t_window_empty",
       "items": [ { "item": "2x4", "count": [ 3, 4 ] }, { "item": "nail", "charges": [ 6, 8 ] } ]
@@ -558,7 +602,7 @@
     "move_cost": 0,
     "coverage": 95,
     "roof": "t_flat_roof",
-    "flags": [ "FLAMMABLE", "NOITEM", "REDUCE_SCENT", "CONNECT_TO_WALL", "BLOCK_WIND", "WINDOW" ],
+    "flags": [ "FLAMMABLE", "NOITEM", "REDUCE_SCENT", "CONNECT_TO_WALL", "BLOCK_WIND", "WINDOW", "SUPPORTS_ROOF" ],
     "deconstruct": { "ter_set": "t_window", "items": [ { "item": "2x4", "count": [ 6, 8 ] }, { "item": "nail", "charges": [ 12, 16 ] } ] },
     "bash": {
       "str_min": 12,
@@ -581,7 +625,7 @@
     "move_cost": 0,
     "coverage": 95,
     "roof": "t_flat_roof",
-    "flags": [ "FLAMMABLE", "NOITEM", "REDUCE_SCENT", "CONNECT_TO_WALL", "BLOCK_WIND", "PERMEABLE", "WINDOW" ],
+    "flags": [ "FLAMMABLE", "NOITEM", "REDUCE_SCENT", "CONNECT_TO_WALL", "BLOCK_WIND", "PERMEABLE", "WINDOW", "SUPPORTS_ROOF" ],
     "deconstruct": {
       "ter_set": "t_window_empty",
       "items": [ { "item": "2x4", "count": [ 6, 8 ] }, { "item": "nail", "charges": [ 12, 16 ] } ]
@@ -613,7 +657,7 @@
       "message": "You finish cutting the metal.",
       "byproducts": [ { "item": "rebar", "count": [ 1, 4 ] } ]
     },
-    "flags": [ "NOITEM", "REDUCE_SCENT", "CONNECT_TO_WALL", "BLOCK_WIND", "WINDOW" ],
+    "flags": [ "NOITEM", "REDUCE_SCENT", "CONNECT_TO_WALL", "BLOCK_WIND", "WINDOW", "SUPPORTS_ROOF" ],
     "oxytorch": {
       "result": "t_window_empty",
       "duration": "4 seconds",
@@ -648,7 +692,7 @@
     "move_cost": 0,
     "coverage": 95,
     "roof": "t_flat_roof",
-    "flags": [ "NOITEM", "REDUCE_SCENT", "CONNECT_TO_WALL", "BLOCK_WIND", "PERMEABLE", "WINDOW" ],
+    "flags": [ "NOITEM", "REDUCE_SCENT", "CONNECT_TO_WALL", "BLOCK_WIND", "PERMEABLE", "WINDOW", "SUPPORTS_ROOF" ],
     "oxytorch": {
       "result": "t_window_empty",
       "duration": "4 seconds",
@@ -694,7 +738,7 @@
       "message": "You finish cutting the metal.",
       "byproducts": [ { "item": "rebar", "count": [ 1, 8 ] } ]
     },
-    "flags": [ "TRANSPARENT", "NOITEM", "CONNECT_TO_WALL", "THIN_OBSTACLE", "WINDOW" ],
+    "flags": [ "TRANSPARENT", "NOITEM", "CONNECT_TO_WALL", "THIN_OBSTACLE", "WINDOW", "SUPPORTS_ROOF" ],
     "oxytorch": { "result": "t_window", "duration": "9 seconds", "byproducts": [ { "item": "rebar", "count": [ 1, 2 ] } ] },
     "bash": {
       "str_min": 3,
@@ -724,7 +768,7 @@
       "message": "You finish cutting the metal.",
       "byproducts": [ { "item": "rebar", "count": [ 1, 8 ] } ]
     },
-    "flags": [ "TRANSPARENT", "NOITEM", "CONNECT_TO_WALL", "THIN_OBSTACLE", "WINDOW", "PERMEABLE" ],
+    "flags": [ "TRANSPARENT", "NOITEM", "CONNECT_TO_WALL", "THIN_OBSTACLE", "WINDOW", "PERMEABLE", "SUPPORTS_ROOF" ],
     "oxytorch": { "result": "t_window_empty", "duration": "9 seconds", "byproducts": [ { "item": "rebar", "count": [ 1, 2 ] } ] },
     "bash": {
       "str_min": 60,
@@ -755,7 +799,7 @@
       "message": "You finish cutting the metal.",
       "byproducts": [ { "item": "rebar", "count": [ 1, 8 ] } ]
     },
-    "flags": [ "TRANSPARENT", "NOITEM", "REDUCE_SCENT", "BLOCK_WIND", "ALARMED", "CONNECT_TO_WALL", "WINDOW" ],
+    "flags": [ "TRANSPARENT", "NOITEM", "REDUCE_SCENT", "BLOCK_WIND", "ALARMED", "CONNECT_TO_WALL", "WINDOW", "SUPPORTS_ROOF" ],
     "oxytorch": { "result": "t_window_alarm", "duration": "9 seconds", "byproducts": [ { "item": "rebar", "count": [ 1, 2 ] } ] },
     "bash": {
       "str_min": 3,
@@ -793,7 +837,8 @@
       "REDUCE_SCENT",
       "CONNECT_TO_WALL",
       "BLOCK_WIND",
-      "WINDOW"
+      "WINDOW",
+      "SUPPORTS_ROOF"
     ],
     "curtain_transform": "t_window_bars",
     "examine_action": "curtains",
@@ -839,7 +884,8 @@
       "REDUCE_SCENT",
       "BLOCK_WIND",
       "CONNECT_TO_WALL",
-      "WINDOW"
+      "WINDOW",
+      "SUPPORTS_ROOF"
     ],
     "curtain_transform": "t_window_bars",
     "examine_action": "curtains",
@@ -878,7 +924,8 @@
       "MINEABLE",
       "BLOCK_WIND",
       "REDUCE_SCENT",
-      "WINDOW"
+      "WINDOW",
+      "SUPPORTS_ROOF"
     ],
     "bash": {
       "str_min": 80,
@@ -907,7 +954,8 @@
       "MINEABLE",
       "BLOCK_WIND",
       "REDUCE_SCENT",
-      "WINDOW"
+      "WINDOW",
+      "SUPPORTS_ROOF"
     ],
     "bash": {
       "str_min": 80,
@@ -936,7 +984,8 @@
       "MINEABLE",
       "BLOCK_WIND",
       "REDUCE_SCENT",
-      "WINDOW"
+      "WINDOW",
+      "SUPPORTS_ROOF"
     ],
     "bash": {
       "str_min": 80,
@@ -977,7 +1026,8 @@
       "THIN_OBSTACLE",
       "BLOCK_WIND",
       "REDUCE_SCENT",
-      "WINDOW"
+      "WINDOW",
+      "SUPPORTS_ROOF"
     ],
     "bash": {
       "str_min": 50,
@@ -1014,7 +1064,16 @@
       "message": "You finish cutting the metal.",
       "byproducts": [ { "item": "pipe", "count": [ 1, 12 ] }, { "item": "sheet_metal", "count": 4 } ]
     },
-    "flags": [ "NOITEM", "CONNECT_TO_WALL", "THIN_OBSTACLE", "BARRICADABLE_WINDOW_CURTAINS", "BLOCK_WIND", "REDUCE_SCENT", "WINDOW" ],
+    "flags": [
+      "NOITEM",
+      "CONNECT_TO_WALL",
+      "THIN_OBSTACLE",
+      "BARRICADABLE_WINDOW_CURTAINS",
+      "BLOCK_WIND",
+      "REDUCE_SCENT",
+      "WINDOW",
+      "SUPPORTS_ROOF"
+    ],
     "curtain_transform": "t_metal_grate_window",
     "examine_action": "curtains",
     "open": "t_metal_grate_window_with_curtain_open",
@@ -1051,7 +1110,8 @@
       "BLOCK_WIND",
       "REDUCE_SCENT",
       "PERMEABLE",
-      "WINDOW"
+      "WINDOW",
+      "SUPPORTS_ROOF"
     ],
     "oxytorch": {
       "result": "t_window_reinforced",
@@ -1092,7 +1152,16 @@
     "color": "light_gray",
     "move_cost": 0,
     "roof": "t_flat_roof",
-    "flags": [ "TRANSPARENT", "NOITEM", "CONNECT_TO_WALL", "BARRICADABLE_WINDOW", "THIN_OBSTACLE", "PERMEABLE", "WINDOW" ],
+    "flags": [
+      "TRANSPARENT",
+      "NOITEM",
+      "CONNECT_TO_WALL",
+      "BARRICADABLE_WINDOW",
+      "THIN_OBSTACLE",
+      "PERMEABLE",
+      "WINDOW",
+      "SUPPORTS_ROOF"
+    ],
     "oxytorch": {
       "result": "t_window_reinforced_noglass",
       "duration": "9 seconds",
@@ -1128,7 +1197,7 @@
     "color": "light_gray",
     "move_cost": 0,
     "roof": "t_flat_roof",
-    "flags": [ "NOITEM", "CONNECT_TO_WALL", "THIN_OBSTACLE", "BARRICADABLE_WINDOW_CURTAINS", "PERMEABLE", "WINDOW" ],
+    "flags": [ "NOITEM", "CONNECT_TO_WALL", "THIN_OBSTACLE", "BARRICADABLE_WINDOW_CURTAINS", "PERMEABLE", "WINDOW", "SUPPORTS_ROOF" ],
     "hacksaw": {
       "result": "t_window_reinforced_noglass",
       "duration": "10 minutes",
@@ -1167,7 +1236,16 @@
     "color": "light_gray",
     "move_cost": 0,
     "roof": "t_flat_roof",
-    "flags": [ "TRANSPARENT", "NOITEM", "CONNECT_TO_WALL", "BARRICADABLE_WINDOW_CURTAINS", "THIN_OBSTACLE", "PERMEABLE", "WINDOW" ],
+    "flags": [
+      "TRANSPARENT",
+      "NOITEM",
+      "CONNECT_TO_WALL",
+      "BARRICADABLE_WINDOW_CURTAINS",
+      "THIN_OBSTACLE",
+      "PERMEABLE",
+      "WINDOW",
+      "SUPPORTS_ROOF"
+    ],
     "oxytorch": {
       "result": "t_window_reinforced_noglass",
       "duration": "9 seconds",
@@ -1226,7 +1304,8 @@
       "BARRICADABLE_WINDOW",
       "CONNECT_TO_WALL",
       "BLOCK_WIND",
-      "WINDOW"
+      "WINDOW",
+      "SUPPORTS_ROOF"
     ],
     "examine_action": "locked_object",
     "open": "t_single_pane_glass_open",
@@ -1268,7 +1347,8 @@
       "THIN_OBSTACLE",
       "SMALL_PASSAGE",
       "PERMEABLE",
-      "WINDOW"
+      "WINDOW",
+      "SUPPORTS_ROOF"
     ],
     "close": "t_single_pane_glass",
     "deconstruct": { "ter_set": "t_window_empty", "items": [ { "item": "glass_sheet", "count": 1 } ] },
@@ -1298,7 +1378,16 @@
     "move_cost": 0,
     "coverage": 60,
     "roof": "t_flat_roof",
-    "flags": [ "FLAMMABLE", "NOITEM", "OPENCLOSE_INSIDE", "BARRICADABLE_WINDOW_CURTAINS", "CONNECT_TO_WALL", "BLOCK_WIND", "WINDOW" ],
+    "flags": [
+      "FLAMMABLE",
+      "NOITEM",
+      "OPENCLOSE_INSIDE",
+      "BARRICADABLE_WINDOW_CURTAINS",
+      "CONNECT_TO_WALL",
+      "BLOCK_WIND",
+      "WINDOW",
+      "SUPPORTS_ROOF"
+    ],
     "curtain_transform": "t_single_pane_glass",
     "examine_action": "curtains",
     "open": "t_single_pane_glass_with_curtain_open_window_closed",
@@ -1342,7 +1431,8 @@
       "BARRICADABLE_WINDOW_CURTAINS",
       "CONNECT_TO_WALL",
       "BLOCK_WIND",
-      "WINDOW"
+      "WINDOW",
+      "SUPPORTS_ROOF"
     ],
     "curtain_transform": "t_single_pane_glass",
     "examine_action": "curtains",
@@ -1391,7 +1481,8 @@
       "THIN_OBSTACLE",
       "SMALL_PASSAGE",
       "PERMEABLE",
-      "WINDOW"
+      "WINDOW",
+      "SUPPORTS_ROOF"
     ],
     "curtain_transform": "t_single_pane_glass",
     "examine_action": "curtains",
@@ -1437,7 +1528,8 @@
       "REDUCE_SCENT",
       "CONNECT_TO_WALL",
       "BLOCK_WIND",
-      "WINDOW"
+      "WINDOW",
+      "SUPPORTS_ROOF"
     ],
     "examine_action": "locked_object",
     "open": "t_reinforced_single_pane_glass_open",
@@ -1479,7 +1571,8 @@
       "THIN_OBSTACLE",
       "SMALL_PASSAGE",
       "PERMEABLE",
-      "WINDOW"
+      "WINDOW",
+      "SUPPORTS_ROOF"
     ],
     "close": "t_reinforced_single_pane_glass",
     "deconstruct": { "ter_set": "t_window_empty", "items": [ { "item": "reinforced_glass_sheet", "count": 1 } ] },
@@ -1517,7 +1610,8 @@
       "REDUCE_SCENT",
       "CONNECT_TO_WALL",
       "BLOCK_WIND",
-      "WINDOW"
+      "WINDOW",
+      "SUPPORTS_ROOF"
     ],
     "curtain_transform": "t_reinforced_single_pane_glass",
     "examine_action": "curtains",
@@ -1563,7 +1657,8 @@
       "REDUCE_SCENT",
       "CONNECT_TO_WALL",
       "BLOCK_WIND",
-      "WINDOW"
+      "WINDOW",
+      "SUPPORTS_ROOF"
     ],
     "curtain_transform": "t_reinforced_single_pane_glass",
     "examine_action": "curtains",
@@ -1612,7 +1707,8 @@
       "THIN_OBSTACLE",
       "SMALL_PASSAGE",
       "PERMEABLE",
-      "WINDOW"
+      "WINDOW",
+      "SUPPORTS_ROOF"
     ],
     "curtain_transform": "t_reinforced_single_pane_glass",
     "examine_action": "curtains",
@@ -1658,7 +1754,8 @@
       "REDUCE_SCENT",
       "CONNECT_TO_WALL",
       "BLOCK_WIND",
-      "WINDOW"
+      "WINDOW",
+      "SUPPORTS_ROOF"
     ],
     "examine_action": "locked_object",
     "open": "t_double_pane_glass_open",
@@ -1707,7 +1804,8 @@
       "THIN_OBSTACLE",
       "SMALL_PASSAGE",
       "PERMEABLE",
-      "WINDOW"
+      "WINDOW",
+      "SUPPORTS_ROOF"
     ],
     "close": "t_double_pane_glass",
     "deconstruct": {
@@ -1752,7 +1850,8 @@
       "REDUCE_SCENT",
       "CONNECT_TO_WALL",
       "BLOCK_WIND",
-      "WINDOW"
+      "WINDOW",
+      "SUPPORTS_ROOF"
     ],
     "curtain_transform": "t_double_pane_glass",
     "examine_action": "curtains",
@@ -1800,7 +1899,8 @@
       "REDUCE_SCENT",
       "CONNECT_TO_WALL",
       "BLOCK_WIND",
-      "WINDOW"
+      "WINDOW",
+      "SUPPORTS_ROOF"
     ],
     "curtain_transform": "t_double_pane_glass",
     "examine_action": "curtains",
@@ -1851,7 +1951,8 @@
       "THIN_OBSTACLE",
       "SMALL_PASSAGE",
       "PERMEABLE",
-      "WINDOW"
+      "WINDOW",
+      "SUPPORTS_ROOF"
     ],
     "curtain_transform": "t_double_pane_glass",
     "examine_action": "curtains",
@@ -1899,7 +2000,8 @@
       "REDUCE_SCENT",
       "CONNECT_TO_WALL",
       "BLOCK_WIND",
-      "WINDOW"
+      "WINDOW",
+      "SUPPORTS_ROOF"
     ],
     "examine_action": "locked_object",
     "open": "t_reinforced_double_pane_glass_open",
@@ -1944,7 +2046,8 @@
       "THIN_OBSTACLE",
       "SMALL_PASSAGE",
       "PERMEABLE",
-      "WINDOW"
+      "WINDOW",
+      "SUPPORTS_ROOF"
     ],
     "close": "t_reinforced_double_pane_glass",
     "deconstruct": {
@@ -1985,7 +2088,8 @@
       "REDUCE_SCENT",
       "CONNECT_TO_WALL",
       "BLOCK_WIND",
-      "WINDOW"
+      "WINDOW",
+      "SUPPORTS_ROOF"
     ],
     "curtain_transform": "t_reinforced_double_pane_glass",
     "examine_action": "curtains",
@@ -2034,7 +2138,8 @@
       "THIN_OBSTACLE",
       "SMALL_PASSAGE",
       "PERMEABLE",
-      "WINDOW"
+      "WINDOW",
+      "SUPPORTS_ROOF"
     ],
     "curtain_transform": "t_reinforced_double_pane_glass",
     "examine_action": "curtains",
@@ -2084,7 +2189,8 @@
       "THIN_OBSTACLE",
       "SMALL_PASSAGE",
       "PERMEABLE",
-      "WINDOW"
+      "WINDOW",
+      "SUPPORTS_ROOF"
     ],
     "curtain_transform": "t_reinforced_double_pane_glass",
     "examine_action": "curtains",
@@ -2131,7 +2237,8 @@
       "REDUCE_SCENT",
       "CONNECT_TO_WALL",
       "BLOCK_WIND",
-      "WINDOW"
+      "WINDOW",
+      "SUPPORTS_ROOF"
     ],
     "examine_action": "locked_object",
     "open": "t_triple_pane_glass_open",
@@ -2173,7 +2280,8 @@
       "THIN_OBSTACLE",
       "SMALL_PASSAGE",
       "PERMEABLE",
-      "WINDOW"
+      "WINDOW",
+      "SUPPORTS_ROOF"
     ],
     "close": "t_triple_pane_glass",
     "deconstruct": { "ter_set": "t_window_empty", "items": [ { "item": "glass_sheet", "count": 3 } ] },
@@ -2211,7 +2319,8 @@
       "REDUCE_SCENT",
       "CONNECT_TO_WALL",
       "BLOCK_WIND",
-      "WINDOW"
+      "WINDOW",
+      "SUPPORTS_ROOF"
     ],
     "curtain_transform": "t_triple_pane_glass",
     "examine_action": "curtains",
@@ -2257,7 +2366,8 @@
       "REDUCE_SCENT",
       "CONNECT_TO_WALL",
       "BLOCK_WIND",
-      "WINDOW"
+      "WINDOW",
+      "SUPPORTS_ROOF"
     ],
     "curtain_transform": "t_triple_pane_glass",
     "examine_action": "curtains",
@@ -2306,7 +2416,8 @@
       "THIN_OBSTACLE",
       "SMALL_PASSAGE",
       "PERMEABLE",
-      "WINDOW"
+      "WINDOW",
+      "SUPPORTS_ROOF"
     ],
     "curtain_transform": "t_triple_pane_glass",
     "examine_action": "curtains",
@@ -2352,7 +2463,8 @@
       "REDUCE_SCENT",
       "CONNECT_TO_WALL",
       "BLOCK_WIND",
-      "WINDOW"
+      "WINDOW",
+      "SUPPORTS_ROOF"
     ],
     "examine_action": "locked_object",
     "open": "t_reinforced_triple_pane_glass_open",
@@ -2402,7 +2514,8 @@
       "THIN_OBSTACLE",
       "SMALL_PASSAGE",
       "PERMEABLE",
-      "WINDOW"
+      "WINDOW",
+      "SUPPORTS_ROOF"
     ],
     "close": "t_reinforced_triple_pane_glass",
     "deconstruct": {
@@ -2448,7 +2561,8 @@
       "REDUCE_SCENT",
       "CONNECT_TO_WALL",
       "BLOCK_WIND",
-      "WINDOW"
+      "WINDOW",
+      "SUPPORTS_ROOF"
     ],
     "curtain_transform": "t_reinforced_triple_pane_glass",
     "examine_action": "curtains",
@@ -2497,7 +2611,8 @@
       "BARRICADABLE_WINDOW_CURTAINS",
       "CONNECT_TO_WALL",
       "THIN_OBSTACLE",
-      "WINDOW"
+      "WINDOW",
+      "SUPPORTS_ROOF"
     ],
     "curtain_transform": "t_reinforced_triple_pane_glass",
     "examine_action": "curtains",
@@ -2549,7 +2664,8 @@
       "THIN_OBSTACLE",
       "SMALL_PASSAGE",
       "PERMEABLE",
-      "WINDOW"
+      "WINDOW",
+      "SUPPORTS_ROOF"
     ],
     "curtain_transform": "t_reinforced_triple_pane_glass",
     "examine_action": "curtains",
@@ -2597,7 +2713,8 @@
       "REDUCE_SCENT",
       "CONNECT_TO_WALL",
       "BLOCK_WIND",
-      "WINDOW"
+      "WINDOW",
+      "SUPPORTS_ROOF"
     ],
     "examine_action": "locked_object",
     "open": "t_quadruple_pane_glass_open",
@@ -2644,7 +2761,8 @@
       "REDUCE_SCENT",
       "CONNECT_TO_WALL",
       "BLOCK_WIND",
-      "WINDOW"
+      "WINDOW",
+      "SUPPORTS_ROOF"
     ],
     "close": "t_quadruple_pane_glass",
     "deconstruct": {
@@ -2689,7 +2807,8 @@
       "REDUCE_SCENT",
       "CONNECT_TO_WALL",
       "BLOCK_WIND",
-      "WINDOW"
+      "WINDOW",
+      "SUPPORTS_ROOF"
     ],
     "curtain_transform": "t_quadruple_pane_glass",
     "examine_action": "curtains",
@@ -2737,7 +2856,8 @@
       "REDUCE_SCENT",
       "CONNECT_TO_WALL",
       "BLOCK_WIND",
-      "WINDOW"
+      "WINDOW",
+      "SUPPORTS_ROOF"
     ],
     "curtain_transform": "t_quadruple_pane_glass",
     "examine_action": "curtains",
@@ -2788,7 +2908,8 @@
       "THIN_OBSTACLE",
       "SMALL_PASSAGE",
       "PERMEABLE",
-      "WINDOW"
+      "WINDOW",
+      "SUPPORTS_ROOF"
     ],
     "curtain_transform": "t_quadruple_pane_glass",
     "examine_action": "curtains",
@@ -2836,7 +2957,8 @@
       "REDUCE_SCENT",
       "CONNECT_TO_WALL",
       "BLOCK_WIND",
-      "WINDOW"
+      "WINDOW",
+      "SUPPORTS_ROOF"
     ],
     "examine_action": "locked_object",
     "open": "t_reinforced_quadruple_pane_glass_open",
@@ -2886,7 +3008,8 @@
       "THIN_OBSTACLE",
       "SMALL_PASSAGE",
       "PERMEABLE",
-      "WINDOW"
+      "WINDOW",
+      "SUPPORTS_ROOF"
     ],
     "close": "t_reinforced_quadruple_pane_glass",
     "deconstruct": {
@@ -2932,7 +3055,8 @@
       "REDUCE_SCENT",
       "CONNECT_TO_WALL",
       "BLOCK_WIND",
-      "WINDOW"
+      "WINDOW",
+      "SUPPORTS_ROOF"
     ],
     "curtain_transform": "t_reinforced_quadruple_pane_glass",
     "examine_action": "curtains",
@@ -2981,7 +3105,8 @@
       "BARRICADABLE_WINDOW_CURTAINS",
       "CONNECT_TO_WALL",
       "THIN_OBSTACLE",
-      "WINDOW"
+      "WINDOW",
+      "SUPPORTS_ROOF"
     ],
     "curtain_transform": "t_reinforced_quadruple_pane_glass",
     "examine_action": "curtains",
@@ -3033,7 +3158,8 @@
       "THIN_OBSTACLE",
       "SMALL_PASSAGE",
       "PERMEABLE",
-      "WINDOW"
+      "WINDOW",
+      "SUPPORTS_ROOF"
     ],
     "curtain_transform": "t_reinforced_quadruple_pane_glass",
     "examine_action": "curtains",
@@ -3081,7 +3207,8 @@
       "BARRICADABLE_WINDOW",
       "CONNECT_TO_WALL",
       "BLOCK_WIND",
-      "WINDOW"
+      "WINDOW",
+      "SUPPORTS_ROOF"
     ],
     "examine_action": "locked_object",
     "open": "t_plastic_window_open",
@@ -3126,7 +3253,8 @@
       "THIN_OBSTACLE",
       "SMALL_PASSAGE",
       "PERMEABLE",
-      "WINDOW"
+      "WINDOW",
+      "SUPPORTS_ROOF"
     ],
     "close": "t_plastic_window",
     "deconstruct": {
@@ -3159,7 +3287,16 @@
     "move_cost": 0,
     "coverage": 60,
     "roof": "t_flat_roof",
-    "flags": [ "FLAMMABLE", "NOITEM", "OPENCLOSE_INSIDE", "BARRICADABLE_WINDOW_CURTAINS", "CONNECT_TO_WALL", "BLOCK_WIND", "WINDOW" ],
+    "flags": [
+      "FLAMMABLE",
+      "NOITEM",
+      "OPENCLOSE_INSIDE",
+      "BARRICADABLE_WINDOW_CURTAINS",
+      "CONNECT_TO_WALL",
+      "BLOCK_WIND",
+      "WINDOW",
+      "SUPPORTS_ROOF"
+    ],
     "curtain_transform": "t_plastic_window",
     "examine_action": "curtains",
     "open": "t_plastic_window_with_curtain_open_window_closed",
@@ -3205,7 +3342,8 @@
       "BARRICADABLE_WINDOW_CURTAINS",
       "CONNECT_TO_WALL",
       "BLOCK_WIND",
-      "WINDOW"
+      "WINDOW",
+      "SUPPORTS_ROOF"
     ],
     "curtain_transform": "t_plastic_window",
     "examine_action": "curtains",
@@ -3256,7 +3394,8 @@
       "THIN_OBSTACLE",
       "SMALL_PASSAGE",
       "PERMEABLE",
-      "WINDOW"
+      "WINDOW",
+      "SUPPORTS_ROOF"
     ],
     "curtain_transform": "t_plastic_window",
     "examine_action": "curtains",
@@ -3304,7 +3443,8 @@
       "REDUCE_SCENT",
       "CONNECT_TO_WALL",
       "BLOCK_WIND",
-      "WINDOW"
+      "WINDOW",
+      "SUPPORTS_ROOF"
     ],
     "examine_action": "locked_object",
     "open": "t_reinforced_plastic_window_open",
@@ -3353,7 +3493,8 @@
       "THIN_OBSTACLE",
       "SMALL_PASSAGE",
       "PERMEABLE",
-      "WINDOW"
+      "WINDOW",
+      "SUPPORTS_ROOF"
     ],
     "close": "t_reinforced_plastic_window",
     "deconstruct": {
@@ -3398,7 +3539,8 @@
       "REDUCE_SCENT",
       "CONNECT_TO_WALL",
       "BLOCK_WIND",
-      "WINDOW"
+      "WINDOW",
+      "SUPPORTS_ROOF"
     ],
     "curtain_transform": "t_reinforced_plastic_window",
     "examine_action": "curtains",
@@ -3450,7 +3592,8 @@
       "REDUCE_SCENT",
       "CONNECT_TO_WALL",
       "BLOCK_WIND",
-      "WINDOW"
+      "WINDOW",
+      "SUPPORTS_ROOF"
     ],
     "curtain_transform": "t_reinforced_plastic_window",
     "examine_action": "curtains",
@@ -3505,7 +3648,8 @@
       "THIN_OBSTACLE",
       "SMALL_PASSAGE",
       "PERMEABLE",
-      "WINDOW"
+      "WINDOW",
+      "SUPPORTS_ROOF"
     ],
     "curtain_transform": "t_reinforced_plastic_window",
     "examine_action": "curtains",
@@ -3580,7 +3724,8 @@
       "REDUCE_SCENT",
       "CONNECT_TO_WALL",
       "BLOCK_WIND",
-      "WINDOW"
+      "WINDOW",
+      "SUPPORTS_ROOF"
     ],
     "examine_action": "locked_object",
     "open": "t_tempered_glass_open",
@@ -3628,7 +3773,8 @@
       "THIN_OBSTACLE",
       "SMALL_PASSAGE",
       "PERMEABLE",
-      "WINDOW"
+      "WINDOW",
+      "SUPPORTS_ROOF"
     ],
     "close": "t_tempered_glass_window",
     "deconstruct": {
@@ -3673,7 +3819,8 @@
       "REDUCE_SCENT",
       "CONNECT_TO_WALL",
       "BLOCK_WIND",
-      "WINDOW"
+      "WINDOW",
+      "SUPPORTS_ROOF"
     ],
     "curtain_transform": "t_tempered_glass_window",
     "examine_action": "curtains",
@@ -3721,7 +3868,8 @@
       "REDUCE_SCENT",
       "CONNECT_TO_WALL",
       "BLOCK_WIND",
-      "WINDOW"
+      "WINDOW",
+      "SUPPORTS_ROOF"
     ],
     "curtain_transform": "t_tempered_glass_window",
     "examine_action": "curtains",
@@ -3772,7 +3920,8 @@
       "THIN_OBSTACLE",
       "SMALL_PASSAGE",
       "PERMEABLE",
-      "WINDOW"
+      "WINDOW",
+      "SUPPORTS_ROOF"
     ],
     "curtain_transform": "t_tempered_glass_window",
     "examine_action": "curtains",
@@ -3810,7 +3959,7 @@
     "color": "light_gray",
     "move_cost": 0,
     "roof": "t_metal_flat_roof",
-    "flags": [ "TRANSPARENT", "NOITEM", "CONNECT_TO_WALL", "THIN_OBSTACLE", "BLOCK_WIND", "REDUCE_SCENT", "WINDOW" ],
+    "flags": [ "TRANSPARENT", "NOITEM", "CONNECT_TO_WALL", "THIN_OBSTACLE", "BLOCK_WIND", "REDUCE_SCENT", "WINDOW", "SUPPORTS_ROOF" ],
     "bash": {
       "str_min": 50,
       "str_max": 75,
