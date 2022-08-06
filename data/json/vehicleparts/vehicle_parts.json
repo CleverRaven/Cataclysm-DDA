@@ -3276,5 +3276,29 @@
       "removal": { "skills": [ [ "mechanics", 3 ] ], "qualities": [ { "id": "SCREW", "level": 1 } ] }
     },
     "breaks_into": "ig_vp_device"
+  },
+  {
+    "type": "vehicle_part",
+    "id": "aluminum_boat_hull",
+    "name": { "str": "aluminum boat hull" },
+    "description": "An aluminum hull that keeps the water out of your boat.",
+    "symbol": "o",
+    "categories": [ "hull" ],
+    "color": "dark_gray",
+    "looks_like": "boat_board",
+    "broken_symbol": "x",
+    "broken_color": "light_gray",
+    "damage_modifier": 50,
+    "durability": 200,
+    "item": "aluminum_boat_hull",
+    "location": "under",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 5 ] ], "time": "60 m", "using": [ [ "repair_welding_standard", 3 ] ] }
+    },
+    "flags": [ "FLOATS" ],
+    "breaks_into": "ig_vp_sheet_metal",
+    "damage_reduction": { "all": 18 }
   }
 ]

@@ -33,7 +33,7 @@
     "harvest": "mr_bones",
     "special_attacks": [ { "type": "bite", "attack_upper": false, "cooldown": 5 } ],
     "death_drops": "mon_dog_death_drops",
-    "upgrades": { "half_life": 15, "into": "mon_dog_skeleton_brute" },
+    "upgrades": { "half_life": 42, "into": "mon_dog_skeleton_brute" },
     "flags": [ "SEES", "HEARS", "NO_BREATHE", "HARDTOSHOOT", "REVIVES", "POISON", "FILTHY" ]
   },
   {
@@ -56,7 +56,7 @@
       "vision_night": 1
     },
     "bleed_rate": 50,
-    "upgrades": { "half_life": 21, "into": "mon_dog_zombie_hulk" },
+    "upgrades": { "half_life": 42, "into": "mon_dog_zombie_hulk" },
     "special_attacks": [
       { "id": "smash", "attack_upper": false, "throw_strength": 48, "cooldown": 30 },
       { "type": "bite", "attack_upper": false, "move_cost": 150, "cooldown": 2, "accuracy": 4, "infection_chance": 8 }
@@ -186,7 +186,7 @@
     "vision_night": 3,
     "harvest": "mr_bones",
     "special_attacks": [ { "type": "bite", "cooldown": 5 } ],
-    "upgrades": { "half_life": 15, "into": "mon_dog_skeleton_brute" },
+    "upgrades": { "half_life": 42, "into": "mon_dog_skeleton_brute" },
     "flags": [ "SEES", "HEARS", "NO_BREATHE", "HARDTOSHOOT", "REVIVES", "POISON", "FILTHY" ]
   },
   {

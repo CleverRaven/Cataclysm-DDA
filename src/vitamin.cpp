@@ -109,6 +109,15 @@ void vitamin::reset()
     vitamins_all.clear();
 }
 
+float vitamin::RDA_to_default( int percent ) const
+{
+    // if not a vitamin it's in Units and doesn't need conversion
+    if( type_ != vitamin_type::VITAMIN ) {
+        return percent;
+    }
+    return ( 24_hours / rate_ ) * ( static_cast<float>( percent ) / 100.0f );
+}
+
 namespace io
 {
 template<>

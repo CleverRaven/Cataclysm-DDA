@@ -325,6 +325,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "crude_lamp_oil",
+    "name": "crude lamp oil",
+    "default": "crude_lamp_oil"
+  },
+  {
+    "type": "ammunition_type",
     "id": "butane",
     "name": "butane",
     "default": "butane"

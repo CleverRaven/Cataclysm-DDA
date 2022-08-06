@@ -579,7 +579,7 @@ class item : public visitable
          * If `practical` is false, returns pre-Cataclysm market value,
          * otherwise returns approximate post-cataclysm value.
          */
-        int price_no_contents( bool practical ) const;
+        int price_no_contents( bool practical, cata::optional<int> price_override = cata::nullopt ) const;
 
         /**
          * Whether two items should stack when displayed in a inventory menu.
@@ -1160,6 +1160,11 @@ class item : public visitable
          * @return The portion of this item made up by the material
          */
         int made_of( const material_id &mat_ident ) const;
+        /**
+        * Check we can repair with this material (e.g. matches at least one
+        * in our set.)
+        */
+        bool can_repair_with( const material_id &mat_ident ) const;
         /**
          * Are we solid, liquid, gas, plasma?
          */

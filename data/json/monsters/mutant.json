@@ -43,7 +43,7 @@
     "anger_triggers": [ "PLAYER_WEAK", "PLAYER_CLOSE", "HOSTILE_SEEN", "SOUND" ],
     "fear_triggers": [ "HURT", "FIRE" ],
     "death_drops": "mon_mutant_experimental_death_drops",
-    "upgrades": { "half_life": 23, "into_group": "GROUP_MUTANT_EVOLVED" },
+    "upgrades": { "half_life": 36, "into_group": "GROUP_MUTANT_EVOLVED" },
     "regenerates": 1,
     "regen_morale": true,
     "flags": [ "SEES", "HEARS", "SMELLS", "CAN_OPEN_DOORS", "WARM", "BASHES" ]

@@ -731,7 +731,8 @@ static hack_type get_hack_type( const tripoint &examp )
 
 void hacking_activity_actor::finish( player_activity &act, Character &who )
 {
-    tripoint examp = act.placement;
+    // TODO: fix point types
+    tripoint examp = get_map().getlocal( act.placement );
     hack_type type = get_hack_type( examp );
     switch( hack_attempt( who ) ) {
         case hack_result::UNABLE:
@@ -1762,7 +1763,7 @@ std::unique_ptr<activity_actor> read_activity_actor::deserialize( JsonValue &jsi
 
 void move_items_activity_actor::do_turn( player_activity &act, Character &who )
 {
-    const tripoint dest = relative_destination + who.pos();
+    const tripoint_bub_ms dest = relative_destination + who.pos_bub();
 
     while( who.moves > 0 && !target_items.empty() ) {
         item_location target = std::move( target_items.back() );
@@ -1797,8 +1798,8 @@ void move_items_activity_actor::do_turn( player_activity &act, Character &who )
 
             // This is for hauling across zlevels, remove when going up and down stairs
             // is no longer teleportation
-            const tripoint src = target.position();
-            const int distance = src.z == dest.z ? std::max( rl_dist( src, dest ), 1 ) : 1;
+            const tripoint_bub_ms src = target.pos_bub();
+            const int distance = src.z() == dest.z() ? std::max( rl_dist( src, dest ), 1 ) : 1;
             // Yuck, I'm sticking weariness scaling based on activity level here
             const float weary_mult = who.exertion_adjusted_move_multiplier( exertion_level() );
             who.mod_moves( -Pickup::cost_to_move_item( who, newit ) * distance * weary_mult );
@@ -3457,7 +3458,7 @@ void drop_or_stash_item_info::deserialize( const JsonObject &jsobj )
 
 void drop_activity_actor::do_turn( player_activity &, Character &who )
 {
-    const tripoint pos = placement + who.pos();
+    const tripoint_bub_ms pos = placement + who.pos_bub();
     who.invalidate_weight_carried_cache();
     put_into_vehicle_or_drop( who, item_drop_reason::deliberate,
                               obtain_activity_items( items, handler, who ),
@@ -5607,8 +5608,8 @@ void clear_rubble_activity_actor::start( player_activity &act, Character & )
 
 void clear_rubble_activity_actor::finish( player_activity &act, Character &who )
 {
-    const tripoint &pos = act.placement;
     map &here = get_map();
+    const tripoint_bub_ms &pos = here.bub_from_abs( act.placement );
     who.add_msg_if_player( m_info, _( "You clear up the %s." ), here.furnname( pos ) );
     here.furn_set( pos, f_null );
 
@@ -5739,7 +5740,7 @@ void forage_activity_actor::finish( player_activity &act, Character &who )
     map &here = get_map();
     for( const tripoint &pnt : here.points_in_radius( who.pos(), 1 ) ) {
         // TODO: fix point types
-        if( here.getglobal( pnt ) == tripoint_abs_ms( act.placement ) ) {
+        if( here.getglobal( pnt ) == act.placement ) {
             next_to_bush = true;
             break;
         }
@@ -5788,24 +5789,38 @@ void forage_activity_actor::finish( player_activity &act, Character &who )
     if( veggy_chance < who.get_skill_level( skill_survival ) * 3 + who.per_cur - 2 ) {
         const std::vector<item *> dropped =
             here.put_items_from_loc( group_id, who.pos(), calendar::turn );
+        // map::put_items_from_loc can create multiple items and merge them into one stack.
+        // That stack will then appear multiple times in the vector.
+        // Remember and check the already handled items to prevent rolling
+        // poison/hallucinogen multiple times and print misleading messages.
+        std::vector<item *> handled;
         for( item *it : dropped ) {
-            add_msg( m_good, _( "You found: %s!" ), it->tname() );
+            if( std::find( handled.rbegin(), handled.rend(), it ) != handled.rend() )  {
+                continue;
+            }
+            handled.push_back( it );
             found_something = true;
             if( it->has_flag( flag_FORAGE_POISON ) && one_in( 10 ) ) {
                 it->set_flag( flag_HIDDEN_POISON );
                 it->poison = rng( 2, 7 );
-            }
-            if( it->has_flag( flag_FORAGE_HALLU ) && !it->has_flag( flag_HIDDEN_POISON ) && one_in( 10 ) ) {
+            } else if( it->has_flag( flag_FORAGE_HALLU ) && one_in( 10 ) ) {
                 it->set_flag( flag_HIDDEN_HALLU );
             }
+            add_msg( m_good, _( "You found: %s!" ), it->display_name() );
         }
     }
     // 10% to drop a item/items from this group.
     if( one_in( 10 ) ) {
         const std::vector<item *> dropped =
             here.put_items_from_loc( Item_spawn_data_trash_forest, who.pos(), calendar::turn );
+        // same as above
+        std::vector<item *> handled;
         for( item * const &it : dropped ) {
-            add_msg( m_good, _( "You found: %s!" ), it->tname() );
+            if( std::find( handled.rbegin(), handled.rend(), it ) != handled.rend() ) {
+                continue;
+            }
+            handled.push_back( it );
+            add_msg( m_good, _( "You found: %s!" ), it->display_name() );
             found_something = true;
         }
     }
@@ -6002,7 +6017,7 @@ void mop_activity_actor::finish( player_activity &act, Character &who )
     const bool will_mop = one_in( who.is_blind() ? 1 : 3 );
     if( will_mop ) {
         map &here = get_map();
-        here.mop_spills( here.getlocal( act.placement ) );
+        here.mop_spills( here.bub_from_abs( act.placement ) );
     }
     activity_handlers::resume_for_multi_activities( who );
 }
@@ -6062,8 +6077,8 @@ void unload_loot_activity_actor::start( player_activity &act, Character & )
     act.moves_left = moves;
 }
 
-static void move_item( Character &you, item &it, const int quantity, const tripoint &src,
-                       const tripoint &dest, vehicle *src_veh, int src_part )
+static void move_item( Character &you, item &it, const int quantity, const tripoint_bub_ms &src,
+                       const tripoint_bub_ms &dest, vehicle *src_veh, int src_part )
 {
     item leftovers = it;
 
@@ -6157,7 +6172,7 @@ void unload_loot_activity_actor::do_turn( player_activity &act, Character &you )
             placement = src.raw();
             coord_set.erase( src.raw() );
 
-            const tripoint &src_loc = here.getlocal( src );
+            const tripoint_bub_ms &src_loc = here.bub_from_abs( src );
             if( !here.inbounds( src_loc ) ) {
                 if( !here.inbounds( you.pos() ) ) {
                     // p is implicitly an NPC that has been moved off the map, so reset the activity
@@ -6168,8 +6183,8 @@ void unload_loot_activity_actor::do_turn( player_activity &act, Character &you )
                     g->reload_npcs();
                     return;
                 }
-                std::vector<tripoint> route;
-                route = here.route( you.pos(), src_loc, you.get_pathfinding_settings(),
+                std::vector<tripoint_bub_ms> route;
+                route = here.route( you.pos_bub(), src_loc, you.get_pathfinding_settings(),
                                     you.get_path_avoid() );
                 if( route.empty() ) {
                     // can't get there, can't do anything, skip it
@@ -6198,17 +6213,17 @@ void unload_loot_activity_actor::do_turn( player_activity &act, Character &you )
                 continue;
             }
 
-            bool is_adjacent_or_closer = square_dist( you.pos(), src_loc ) <= 1;
+            bool is_adjacent_or_closer = square_dist( you.pos_bub(), src_loc ) <= 1;
             // before we unload any item, check if player is at or
             // adjacent to the loot source tile
             if( !is_adjacent_or_closer ) {
-                std::vector<tripoint> route;
+                std::vector<tripoint_bub_ms> route;
                 bool adjacent = false;
 
                 // get either direct route or route to nearest adjacent tile if
                 // source tile is impassable
                 if( here.passable( src_loc ) ) {
-                    route = here.route( you.pos(), src_loc, you.get_pathfinding_settings(),
+                    route = here.route( you.pos_bub(), src_loc, you.get_pathfinding_settings(),
                                         you.get_path_avoid() );
                 } else {
                     // impassable source tile (locker etc.),
@@ -6245,9 +6260,9 @@ void unload_loot_activity_actor::do_turn( player_activity &act, Character &you )
     if( stage == DO ) {
         // TODO: fix point types
         const tripoint_abs_ms src( placement );
-        const tripoint src_loc = here.getlocal( src );
+        const tripoint_bub_ms src_loc = here.bub_from_abs( src );
 
-        bool is_adjacent_or_closer = square_dist( you.pos(), src_loc ) <= 1;
+        bool is_adjacent_or_closer = square_dist( you.pos_bub(), src_loc ) <= 1;
         // before we move any item, check if player is at or
         // adjacent to the loot source tile
         if( !is_adjacent_or_closer ) {

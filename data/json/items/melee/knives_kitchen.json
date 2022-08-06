@@ -73,7 +73,7 @@
     "name": { "str": "chef knife", "str_pl": "chef knives" },
     "type": "TOOL",
     "category": "weapons",
-    "description": "This is a long-bladed kitchen knife.  The blade is wider than the handle, giving room for the wielder's knuckles, and it has a characteristic curve for a fast rocking action for chopping vegetables.  It makes a good melee weapon, but the wide blade is unwieldy for butchering.",
+    "description": "This is a long-bladed kitchen knife.  The blade is wider than the handle, giving room for the wielder's knuckles, and it has a characteristic curve for a fast rocking action for chopping vegetables.  It makes an acceptable melee weapon, but the wide blade is unwieldy for butchering.",
     "copy-from": "base_kitchen_knife",
     "looks_like": "knife_butcher",
     "ascii_picture": "knife_chef",
@@ -126,7 +126,7 @@
     "price_postapoc": 50,
     "bashing": 4,
     "cutting": 6,
-    "to_hit": { "grip": "weapon", "length": "hand", "surface": "any", "balance": "neutral" },
+    "to_hit": { "grip": "weapon", "length": "short", "surface": "line", "balance": "neutral" },
     "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 8 ] ],
     "flags": [ "SHEATH_KNIFE" ]
   },
@@ -164,9 +164,9 @@
     "longest_side": "30 cm",
     "price": 3500,
     "price_postapoc": 50,
-    "to_hit": { "grip": "weapon", "length": "short", "surface": "line", "balance": "uneven" },
-    "bashing": 6,
-    "cutting": 20,
+    "to_hit": { "grip": "weapon", "length": "short", "surface": "line", "balance": "neutral" },
+    "bashing": 4,
+    "cutting": 15,
     "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 25 ] ],
     "flags": [ "SHEATH_KNIFE" ]
   }
