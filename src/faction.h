@@ -73,7 +73,7 @@ struct faction_price_rule: public icg_entry {
     double markup = 1.0;
     double premium = 1.0;
     cata::optional<double> fixed_adj = cata::nullopt;
-    cata::optional<double> price = cata::nullopt;
+    cata::optional<int> price = cata::nullopt;
 
     faction_price_rule() = default;
     faction_price_rule( itype_id const &id, double m, double f )

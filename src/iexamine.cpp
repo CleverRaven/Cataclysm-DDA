@@ -1035,7 +1035,8 @@ void iexamine::vending( Character &you, const tripoint &examp )
     for( auto it = std::begin( vend_items ); it != std::end( vend_items ); ++it ) {
         // |# {name}|
         // 123      4
-        item_map[it->tname()].push_back( it );
+        std::string suffix = it->count() > 1 ? string_format( " (%d)", it->count() ) : "";
+        item_map[it->tname() + suffix].push_back( it );
     }
 
     // Next, put pointers to the pairs in the map in a vector to allow indexing.

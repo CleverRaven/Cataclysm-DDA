@@ -2858,6 +2858,8 @@ class Character : public Creature, public visitable
          * @returns character's current level for specified vitamin
          */
         int vitamin_get( const vitamin_id &vit ) const;
+        // same as above, if actual = true get real daily intake, otherwise get speculated daily intake
+        int get_daily_vitamin( const vitamin_id &vit, bool actual = true ) const;
         /**
          * Sets level of a vitamin
          *
@@ -2881,6 +2883,9 @@ class Character : public Creature, public visitable
         std::map<vitamin_id, int> effect_vitamin_mod( const std::map<vitamin_id, int> & );
         /** Remove all vitamins */
         void clear_vitamins();
+
+        // resets the count for the given vitamin
+        void reset_daily_vitamin( const vitamin_id &vit );
 
         /** Handles the nutrition value for a comestible **/
         int nutrition_for( const item &comest ) const;
@@ -3453,6 +3458,10 @@ class Character : public Creature, public visitable
         move_mode_id move_mode;
         /** Current deficiency/excess quantity for each vitamin */
         std::map<vitamin_id, int> vitamin_levels;
+        /** Current quantity for each vitamin today first value is expected second value is actual (digested) in vitamin units*/
+        std::map<vitamin_id, std::pair<int, int>> daily_vitamins;
+        /** Returns the % of your RDA that ammount of vitamin represents */
+        int vitamin_RDA( vitamin_id vitamin, int ammount ) const;
 
         pimpl<player_morale> morale;
         /** Processes human-specific effects of an effect. */

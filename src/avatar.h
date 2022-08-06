@@ -266,6 +266,8 @@ class avatar : public Character
 
         // Cycles to the next move mode.
         void cycle_move_mode();
+        // Cycles to the previous move mode.
+        void cycle_move_mode_reverse();
         // Resets to walking.
         void reset_move_mode();
         // Toggles running on/off.

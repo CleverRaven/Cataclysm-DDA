@@ -2973,6 +2973,7 @@ Weakpoints only match if they share the same id, so it's important to define the
   { "type": "cotton", "portion": 9 },        // type indicates the material's ID, portion indicates proportionally how much of the item is composed of that material
   { "type": "plastic" }                      // portion can be omitted and will default to 1. In this case, the item is 90% cotton and 10% plastic.
 ],
+"repairs_with": [ "plastic" ],               // Material types that this item can be repaired with. Defaults to all the item materials.
 "weapon_category": [ "WEAPON_CAT1" ],        // (Optional) Weapon categories this item is in for martial arts.
 "cutting": 0,                                // (Optional, default = 0) Cutting damage caused by using it as a melee weapon.  This value cannot be negative.
 "bashing": 0,                                // (Optional, default = 0) Bashing damage caused by using it as a melee weapon.  This value cannot be negative.
@@ -5118,14 +5119,14 @@ Setting of sprite sheets. Same as `tiles-new` field in `tile_config`. Sprite fil
 
 # Field types
 
-Fields can exist on top of terrain/furniture, and support different intensity levels. Each intensity level inherits its properties from the lower one, so any field not explicitly overwritten will carry over. They affect both characters and monsters, but a lot of fields have hardcoded effects that are potentially different for both (found in `map_field.cpp:creature_in_field`). Gaseous fields that have a chance to do so are spread depending on the local wind force when outside, preferring spreading down to on the same Z-level, which is preferred to spreading upwards. Indoors and by weak winds fields spread randomly. 
+Fields can exist on top of terrain/furniture, and support different intensity levels. Each intensity level inherits its properties from the lower one, so any field not explicitly overwritten will carry over. They affect both characters and monsters, but a lot of fields have hardcoded effects that are potentially different for both (found in `map_field.cpp:creature_in_field`). Gaseous fields that have a chance to do so are spread depending on the local wind force when outside, preferring spreading down to on the same Z-level, which is preferred to spreading upwards. Indoors and by weak winds fields spread randomly.
 
 ```C++
   {
     "type": "field_type", // this is a field type
     "id": "fd_gum_web", // id of the field
     "immune_mtypes": [ "mon_spider_gum" ], // list of monster immune to this field
-    "intensity_levels":  // The below fields are all tied to the specific intensity unless they got defined in the lower-level one 
+    "intensity_levels":  // The below fields are all tied to the specific intensity unless they got defined in the lower-level one
     [
       { "name": "shadow",  // name of this level of intensity
         "sym": "{", // symbol of this level of intensity
@@ -5133,7 +5134,7 @@ Fields can exist on top of terrain/furniture, and support different intensity le
         "transparent": false, // default true, on false this intensity blocks vision
         "dangerous": false, // is this level of intensity considered dangerous for monster avoidance and player warnings
         "move_cost": 120, // Extra movement cost for moving through this level of intensity (on top of base terrain/furniture movement costs)
-        "extra_radiation_min": 1, 
+        "extra_radiation_min": 1,
         "extra_radiation_max": 5, // This level of intensity will add a random amount of radiation between the min and the max value to its tile
         "radiation_hurt_damage_min": 5,
         "radiation_hurt_damage_max": 7, // When standing in this field hurt every limb for a random amount of damage between the min and max value. Requires extra_radiation_min > 0
@@ -5148,7 +5149,7 @@ Fields can exist on top of terrain/furniture, and support different intensity le
         "light_override": 3.7 }, //light level on the tile occupied by this field will be set at 3.7 no matter the ambient light.
         "translucency": 2.0, // How much light the field blocks (higher numbers mean less light can penetrate through)
         "convection_temperature_mod": 12, // Heat given off by this level of intensity
-        "effects":  // List of effects applied to any creatures within the field as long as they aren't immune to the effect or the field itself 
+        "effects":  // List of effects applied to any creatures within the field as long as they aren't immune to the effect or the field itself
         [
           {
             "effect_id": "webbed", // Effect ID
@@ -5170,7 +5171,7 @@ Fields can exist on top of terrain/furniture, and support different intensity le
         "scent_neutralization": 3, // Reduce scents at the field's position by this value        
     ],
     "npc_complain": { "chance": 20, "issue": "weed_smoke", "duration": "10 minutes", "speech": "<weed_smoke>" }, // NPCs in this field will complain about being in it once per <duration> if a 1-in-<chance> roll succeeds, giving off a <speech> bark that supports snippets
-    "immunity_data": { 
+    "immunity_data": {
       { "traits": [ "WEB_WALKER" ] },
       { "body_part_env_resistance": [ [ "mouth", 15 ] ] }
       }, // If the character in the field has the defined traits or env resistance on the bodypart they will be considered immune to the field

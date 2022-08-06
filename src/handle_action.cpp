@@ -1902,6 +1902,10 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             player_character.cycle_move_mode();
             break;
 
+        case ACTION_CYCLE_MOVE_REVERSE:
+            player_character.cycle_move_mode_reverse();
+            break;
+
         case ACTION_RESET_MOVE:
             player_character.reset_move_mode();
             break;
