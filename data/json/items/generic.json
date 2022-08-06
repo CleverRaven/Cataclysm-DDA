@@ -3672,7 +3672,8 @@
     "copy-from": "wallet",
     "name": { "str": "duct tape wallet" },
     "description": "This wallet is made entirely out of duct tape.",
-    "material": [ "plastic" ]
+    "material": [ "plastic" ],
+    "flags": [ "NO_REPAIR" ]
   },
   {
     "id": "wallet_leather",
