@@ -662,7 +662,7 @@ void outfit::sort_armor( Character &guy )
     mid_pane.offset = 0;
     mid_pane.header_lines = 1;
 
-    ui.on_redraw( [&]( const ui_adaptor & ) {
+    ui.on_redraw( [&]( ui_adaptor & ui ) {
         // Create ptr list of items to display
         tmp_worn.clear();
         const bodypart_id &bp = armor_cat[ tabindex ];
@@ -795,7 +795,8 @@ void outfit::sort_armor( Character &guy )
         }
 
         mvwprintz( w_encumb, point_east, c_white, _( "Encumbrance and Warmth" ) );
-        guy.print_encumbrance( w_encumb, -1, ( leftListSize > 0 ) ? &*tmp_worn[leftListIndex] : nullptr );
+        guy.print_encumbrance( ui, w_encumb, -1,
+                               ( leftListSize > 0 ) ? &*tmp_worn[leftListIndex] : nullptr );
 
         // Right header
         std::string encumbrance_header = _( "Encumbrance" );

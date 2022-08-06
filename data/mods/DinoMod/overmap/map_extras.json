@@ -287,6 +287,17 @@
     "flags": [ "CLASSIC" ]
   },
   {
+    "id": "mx_nest_nanosaurus",
+    "type": "map_extra",
+    "name": { "str": "nanosaurus nest" },
+    "description": "A nanosaurus nest.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_nanosaurus" },
+    "sym": "D",
+    "color": "light_green",
+    "autonote": true,
+    "flags": [ "CLASSIC" ]
+  },
+  {
     "id": "mx_nest_nanuqsaurus",
     "type": "map_extra",
     "name": { "str": "nanuqsaurus nest" },
@@ -397,6 +408,17 @@
     "flags": [ "CLASSIC" ]
   },
   {
+    "id": "mx_nest_stegoceras",
+    "type": "map_extra",
+    "name": { "str": "stegoceras nest" },
+    "description": "A stegoceras nest.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_stegoceras" },
+    "sym": "D",
+    "color": "light_green",
+    "autonote": true,
+    "flags": [ "CLASSIC" ]
+  },
+  {
     "id": "mx_nest_stegosaurus",
     "type": "map_extra",
     "name": { "str": "stegosaurus nest" },
@@ -424,6 +446,17 @@
     "name": { "str": "struthiomimus nest" },
     "description": "A struthiomimus nest.",
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_struthiomimus" },
+    "sym": "D",
+    "color": "light_green",
+    "autonote": true,
+    "flags": [ "CLASSIC" ]
+  },
+  {
+    "id": "mx_nest_thescelosaurus",
+    "type": "map_extra",
+    "name": { "str": "thescelosaurus nest" },
+    "description": "A thescelosaurus nest.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_nest_thescelosaurus" },
     "sym": "D",
     "color": "light_green",
     "autonote": true,

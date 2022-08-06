@@ -32,8 +32,12 @@
       "-4_tunnel_to_finale"
     ],
     "overmaps": {
-      "parking_lot": { "overmap": "s_lot_north", "east": "parking_lot_to_road" },
-      "road_east": { "overmap": "road_end_north", "west": "parking_lot_to_road" },
+      "parking_lot": { "overmap": "s_lot_north", "east": "parking_lot_to_road", "connections": { "north": { "connection": "local_road" } } },
+      "road_east": {
+        "overmap": "road_end_north",
+        "west": "parking_lot_to_road",
+        "connections": { "north": { "connection": "local_road" } }
+      },
       "mine_entrance": { "overmap": "mine_entrance_north", "below": "surface_to_shaft" },
       "loading_zone": { "overmap": "mine_entrance_loading_zone_north", "below": "surface_to_shaft" },
       "shaft_west": { "overmap": "mine_shaft_middle_north", "above": "surface_to_shaft", "below": "shaft_lower_to_shaft_middle" },

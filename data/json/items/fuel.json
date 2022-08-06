@@ -46,6 +46,17 @@
     "price_postapoc": 100
   },
   {
+    "id": "chem_methanol_fuelcell",
+    "copy-from": "chem_methanol",
+    "type": "AMMO",
+    "name": { "str_sp": "methanol" },
+    "//": "This variant of methanol should only exist in methanol fuel cells.  NO_DROP flag added as a solution to refilled fuel cells being heavier than ones that spawn full.",
+    "weight": "198 mg",
+    "volume": "50ml",
+    "ammo_type": "methanol_fuelcell",
+    "flags": [ "TRADER_AVOID", "NO_DROP" ]
+  },
+  {
     "id": "diesel",
     "type": "AMMO",
     "name": { "str_sp": "diesel" },
@@ -297,6 +308,29 @@
     "symbol": "~",
     "color": "white",
     "ammo_type": "lamp_oil",
+    "range": 6,
+    "damage": { "damage_type": "heat", "amount": 2, "armor_penetration": 2 },
+    "effects": [ "FLAME", "STREAM" ]
+  },
+  {
+    "id": "crude_lamp_oil",
+    "type": "AMMO",
+    "name": { "str_sp": "crude lamp oil" },
+    "description": "A crude, natural oil made for use in pre-modern oil lamps.",
+    "category": "fuel",
+    "weight": "810 mg",
+    "volume": "200ml",
+    "price": 20,
+    "price_postapoc": 200,
+    "count": 250,
+    "stack_size": 200,
+    "phase": "liquid",
+    "container": "bottle_plastic",
+    "sealed": false,
+    "symbol": "=",
+    "color": "yellow",
+    "material": [ "crude_lamp_oil" ],
+    "ammo_type": "crude_lamp_oil",
     "range": 6,
     "damage": { "damage_type": "heat", "amount": 2, "armor_penetration": 2 },
     "effects": [ "FLAME", "STREAM" ]

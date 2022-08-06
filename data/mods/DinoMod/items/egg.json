@@ -5,7 +5,7 @@
     "name": "dinosaur egg",
     "weight": "2 kg",
     "color": "green",
-    "spoils_in": "4 days",
+    "spoils_in": "32 days",
     "comestible_type": "FOOD",
     "symbol": "o",
     "quench": 4,
@@ -26,6 +26,7 @@
     "id": "egg_dino_small",
     "name": "small dinosaur egg",
     "copy-from": "egg_dino",
+    "spoils_in": "16 days",
     "weight": "57 g",
     "comestible_type": "FOOD",
     "quench": 4,
@@ -41,6 +42,7 @@
     "id": "egg_dino_large",
     "name": "large dinosaur egg",
     "copy-from": "egg_dino",
+    "spoils_in": "64 days",
     "weight": "4 kg",
     "comestible_type": "FOOD",
     "calories": 5200,
@@ -56,7 +58,7 @@
     "looks_like": "egg_dino",
     "weight": "2 kg",
     "color": "green",
-    "spoils_in": "4 days",
+    "spoils_in": "32 days",
     "comestible_type": "FOOD",
     "symbol": "O",
     "quench": 4,
@@ -454,6 +456,13 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "egg_stegoceras",
+    "name": "stegoceras egg",
+    "copy-from": "egg_dino_small",
+    "rot_spawn": "GROUP_EGG_stegoceras"
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "egg_pachycephalosaurus",
     "name": "pachycephalosaurus egg",
     "copy-from": "egg_dino",
@@ -503,6 +512,13 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "egg_nanosaurus",
+    "name": "nanosaurus egg",
+    "copy-from": "egg_dino_small",
+    "rot_spawn": "GROUP_EGG_nanosaurus"
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "egg_oryctodromeus",
     "name": "oryctodromeus egg",
     "copy-from": "egg_dino_small",
@@ -510,23 +526,30 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "egg_thescelosaurus",
+    "name": "thescelosaurus egg",
+    "copy-from": "egg_dino",
+    "rot_spawn": "GROUP_EGG_thescelosaurus"
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "egg_dimorphodon",
     "name": "dimorphodon egg",
-    "copy-from": "egg_dino_small",
+    "copy-from": "egg_reptile",
     "rot_spawn": "GROUP_EGG_dimorphodon"
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_pteranodon",
     "name": "pteranodon egg",
-    "copy-from": "egg_dino",
+    "copy-from": "egg_reptile",
     "rot_spawn": "GROUP_EGG_pteranodon"
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_quetzalcoatlus",
     "name": "quetzalcoatlus egg",
-    "copy-from": "egg_dino",
+    "copy-from": "egg_reptile",
     "rot_spawn": "GROUP_EGG_quetzalcoatlus"
   },
   {

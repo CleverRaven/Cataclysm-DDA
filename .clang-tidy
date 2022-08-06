@@ -46,27 +46,19 @@ modernize-*,\
 performance-*,\
 readability-*,\
 -readability-braces-around-statements,\
--bugprone-infinite-loop,\
--bugprone-misplaced-widening-cast,\
 -bugprone-narrowing-conversions,\
 -misc-no-recursion,\
 -misc-non-private-member-variables-in-classes,\
--modernize-avoid-bind,\
 -modernize-avoid-c-arrays,\
 -modernize-pass-by-value,\
 -modernize-return-braced-init-list,\
 -modernize-use-default-member-init,\
--performance-no-automatic-move,\
--performance-trivially-destructible,\
--performance-unnecessary-value-param,\
 -readability-convert-member-functions-to-static,\
 -readability-else-after-return,\
 -readability-function-cognitive-complexity,\
 -readability-implicit-bool-conversion,\
 -readability-magic-numbers,\
--readability-make-member-function-const,\
 -readability-named-parameter,\
--readability-redundant-access-specifiers,\
 -readability-use-anyofallof,\
 "
 WarningsAsErrors: '*'

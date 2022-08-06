@@ -49,6 +49,7 @@
         [ "egg_kosmoceratops", 1 ],
         [ "egg_torosaurus", 1 ],
         [ "egg_triceratops", 1 ],
+        [ "egg_thescelosaurus", 1 ],
         [ "egg_dimorphodon", 1 ],
         [ "egg_quetzalcoatlus", 1 ]
       ]
@@ -71,7 +72,9 @@
         [ "egg_eoraptor", 1 ],
         [ "egg_scutellosaurus", 1 ],
         [ "egg_dryosaurus", 1 ],
+        [ "egg_stegoceras", 1 ],
         [ "egg_aquilops", 1 ],
+        [ "egg_nanosaurus", 1 ],
         [ "egg_oryctodromeus", 1 ],
         [ "egg_pteranodon", 1 ]
       ]

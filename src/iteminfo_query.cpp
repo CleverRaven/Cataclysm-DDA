@@ -72,6 +72,7 @@ std::vector<iteminfo_parts> {
     iteminfo_parts::DESCRIPTION_NOTES,
     iteminfo_parts::DESCRIPTION_CONTENTS,
     iteminfo_parts::DESCRIPTION_APPLICABLE_RECIPES,
+    iteminfo_parts::DESCRIPTION_VEHICLE_PARTS,
     iteminfo_parts::DESCRIPTION_MED_ADDICTING
 } ) );
 

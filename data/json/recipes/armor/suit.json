@@ -438,10 +438,14 @@
     "reversible": true,
     "autolearn": true,
     "book_learn": [ [ "recipe_melee", 2 ] ],
-    "using": [ [ "cordage", 6 ], [ "mixed_steel", 5 ] ],
-    "components": [ [ [ "cotton_patchwork", 28 ] ] ],
-    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_articulation" } ],
-    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "HAMMER", "level": 1 } ]
+    "using": [ [ "cordage", 6 ], [ "mixed_steel", 3 ] ],
+    "components": [ [ [ "cotton_patchwork", 20 ] ] ],
+    "proficiencies": [
+      { "proficiency": "prof_armorsmithing", "required": false, "time_multiplier": 1.5 },
+      { "proficiency": "prof_closures" },
+      { "proficiency": "prof_articulation" }
+    ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "HAMMER", "level": 1 }, { "id": "SAW_M", "level": 1 } ]
   },
   {
     "result": "armor_scrapsuit",
@@ -456,7 +460,7 @@
     "reversible": true,
     "autolearn": true,
     "book_learn": [ [ "recipe_melee", 2 ] ],
-    "using": [ [ "cordage", 1 ] ],
+    "using": [ [ "cordage", 2 ] ],
     "proficiencies": [
       { "proficiency": "prof_closures", "fail_multiplier": 1 },
       { "proficiency": "prof_articulation", "fail_multiplier": 1 }

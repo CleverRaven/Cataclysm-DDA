@@ -57,7 +57,9 @@
       { "item": "wooden_barrel", "prob": 30 },
       { "item": "30gal_barrel", "prob": 50 },
       { "item": "30gal_drum", "prob": 45 },
-      { "item": "55gal_drum", "prob": 35 }
+      { "item": "55gal_drum", "prob": 35 },
+      { "item": "30gal_drum_aluminum", "prob": 45 },
+      { "item": "55gal_drum_aluminum", "prob": 35 }
     ]
   },
   {

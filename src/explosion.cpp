@@ -382,13 +382,15 @@ static std::vector<tripoint> shrapnel( const tripoint &src, int power,
     proj.proj_effects.insert( "NULL_SOURCE" );
 
     struct local_caches {
-        fragment_cloud obstacle_cache[MAPSIZE_X][MAPSIZE_Y];
-        fragment_cloud visited_cache[MAPSIZE_X][MAPSIZE_Y];
+        cata::mdarray<fragment_cloud, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> obstacle_cache;
+        cata::mdarray<fragment_cloud, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> visited_cache;
     };
 
     std::unique_ptr<local_caches> caches = std::make_unique<local_caches>();
-    fragment_cloud( &obstacle_cache )[MAPSIZE_X][MAPSIZE_Y] = caches->obstacle_cache;
-    fragment_cloud( &visited_cache )[MAPSIZE_X][MAPSIZE_Y] = caches->visited_cache;
+    cata::mdarray<fragment_cloud, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> &obstacle_cache =
+        caches->obstacle_cache;
+    cata::mdarray<fragment_cloud, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> &visited_cache =
+        caches->visited_cache;
 
     map &here = get_map();
     // TODO: Calculate range based on max effective range for projectiles.
@@ -783,7 +785,6 @@ void resonance_cascade( const tripoint &p )
     Character &player_character = get_player_character();
     const time_duration maxglow = time_duration::from_turns( 100 - 5 * trig_dist( p,
                                   player_character.pos() ) );
-    MonsterGroupResult spawn_details;
     if( maxglow > 0_turns ) {
         const time_duration minglow = std::max( 0_turns, time_duration::from_turns( 60 - 5 * trig_dist( p,
                                                 player_character.pos() ) ) );
@@ -828,7 +829,8 @@ void resonance_cascade( const tripoint &p )
                                     break;
                             }
                             if( !one_in( 3 ) ) {
-                                here.add_field( { k, l, p.z }, type, 3 );
+                                // TODO: fix point types
+                                here.add_field( tripoint_bub_ms{ k, l, p.z }, type, 3 );
                             }
                         }
                     }
@@ -846,10 +848,14 @@ void resonance_cascade( const tripoint &p )
                     break;
                 case 13:
                 case 14:
-                case 15:
-                    spawn_details = MonsterGroupManager::GetResultFromGroup( GROUP_NETHER );
-                    g->place_critter_at( spawn_details.name, dest );
-                    break;
+                case 15: {
+                    std::vector<MonsterGroupResult> spawn_details =
+                        MonsterGroupManager::GetResultFromGroup( GROUP_NETHER );
+                    for( const MonsterGroupResult &mgr : spawn_details ) {
+                        g->place_critter_at( mgr.name, dest );
+                    }
+                }
+                break;
                 case 16:
                 case 17:
                 case 18:
@@ -884,7 +890,7 @@ fragment_cloud &fragment_cloud::operator=( const float &value )
     return *this;
 }
 
-bool fragment_cloud::operator==( const fragment_cloud &that )
+bool fragment_cloud::operator==( const fragment_cloud &that ) const
 {
     return velocity == that.velocity && density == that.density;
 }

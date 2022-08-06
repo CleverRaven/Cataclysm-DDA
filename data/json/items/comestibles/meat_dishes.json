@@ -646,7 +646,7 @@
     "calories": 2150,
     "description": "A mysterious lump of SPAM that contains just enough calories and vitamins to feed you for a day.  For debug use only.",
     "//": "This is used for the all_nutrient_starve_test.",
-    "vitamins": [ [ "vitC", 96 ], [ "calcium", 96 ], [ "iron", 96 ] ]
+    "vitamins": [ [ "vitC", 100 ], [ "calcium", 100 ], [ "iron", 100 ] ]
   },
   {
     "type": "COMESTIBLE",

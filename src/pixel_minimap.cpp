@@ -42,7 +42,7 @@ extern std::unique_ptr<game> g;
 namespace
 {
 
-const point total_tiles_count = { ( MAPSIZE - 2 ) *SEEX, ( MAPSIZE - 2 ) *SEEY };
+const point total_tiles_count = { MAX_VIEW_DISTANCE * 2 + 1, MAX_VIEW_DISTANCE * 2 + 1 };
 
 point get_pixel_size( const point &tile_size, pixel_minimap_mode mode )
 {
@@ -460,7 +460,9 @@ void pixel_minimap::render_cache( const tripoint &center )
 
     point ms_offset = center.xy();
     ms_to_sm_remain( ms_offset );
-    ms_offset = point{ SEEX / 2, SEEY / 2 } - ms_offset;
+    point ms_base_offset = point( ( total_tiles_count.x / 2 ) % SEEX,
+                                  ( total_tiles_count.y / 2 ) % SEEY );
+    ms_offset = ms_base_offset - ms_offset;
 
     for( const auto &elem : cache ) {
         if( !elem.second.touched ) {

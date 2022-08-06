@@ -33,9 +33,9 @@ class dependency_node
 
         void add_parent( dependency_node *parent );
         void add_child( dependency_node *child );
-        bool is_available();
+        bool is_available() const;
         bool has_errors();
-        std::map<NODE_ERROR_TYPE, std::vector<std::string > > errors();
+        std::map<NODE_ERROR_TYPE, std::vector<std::string > > errors() const;
         std::string s_errors();
 
         // Tree traversal

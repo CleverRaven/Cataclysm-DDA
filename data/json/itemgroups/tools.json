@@ -62,6 +62,7 @@
       [ "funnel", 50 ],
       [ "rake", 15 ],
       [ "rake_plastic", 25 ],
+      [ "aluminum_stepladder", 5 ],
       { "item": "misc_repairkit", "prob": 25, "charges-min": 0 },
       [ "saw", 60 ],
       { "item": "bow_saw", "prob": 50 },
@@ -562,6 +563,10 @@
       [ "knife_folding", 30 ],
       { "item": "pur_tablets", "prob": 10, "charges": [ 1, 15 ] },
       { "item": "ref_lighter", "prob": 20, "charges": [ 0, 50 ] },
+      {
+        "collection": [ { "item": "ref_lighter_butane" }, { "item": "butane_can", "charges": [ 1, 30 ] } ],
+        "prob": 5
+      },
       [ "signal_flare", 20 ],
       { "item": "sm_extinguisher", "prob": 20, "charges": 10 },
       [ "whistle", 20 ],
