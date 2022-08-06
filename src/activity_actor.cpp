@@ -333,6 +333,20 @@ void aim_activity_actor::finish( player_activity &act, Character &who )
     if( shots_fired && ( bp_cost_per_shot > 0_J ) ) {
         who.mod_power_level( -bp_cost_per_shot * shots_fired );
     }
+
+    // re-enter aiming UI with same parameters
+    aim_activity_actor aim_actor;
+    aim_actor.abort_if_no_targets = true;
+    aim_actor.fake_weapon = this->fake_weapon;
+    aim_actor.bp_cost_per_shot = this->bp_cost_per_shot;
+    aim_actor.initial_view_offset = this->initial_view_offset;
+
+    // if invalid target or it's dead - reset it so a new one is acquired
+    shared_ptr_fast<Creature> last_target = who.last_target.lock();
+    if( !last_target || last_target->is_dead_state() ) {
+        who.last_target.reset();
+    }
+    who.assign_activity( player_activity( aim_actor ), false );
 }
 
 void aim_activity_actor::canceled( player_activity &/*act*/, Character &/*who*/ )
@@ -357,6 +371,7 @@ void aim_activity_actor::serialize( JsonOut &jsout ) const
     jsout.member( "initial_view_offset", initial_view_offset );
     jsout.member( "aborted", aborted );
     jsout.member( "reload_requested", reload_requested );
+    jsout.member( "abort_if_no_targets", abort_if_no_targets );
 
     jsout.end_object();
 }
@@ -379,6 +394,7 @@ std::unique_ptr<activity_actor> aim_activity_actor::deserialize( JsonValue &jsin
     data.read( "initial_view_offset", actor.initial_view_offset );
     data.read( "aborted", actor.aborted );
     data.read( "reload_requested", actor.reload_requested );
+    data.read( "abort_if_no_targets", actor.abort_if_no_targets );
 
     return actor.clone();
 }

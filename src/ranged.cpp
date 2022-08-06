@@ -2476,6 +2476,14 @@ target_handler::trajectory target_ui::run()
     src = you->pos();
     update_target_list();
 
+    if( activity && activity->abort_if_no_targets && targets.empty() ) {
+        // this branch is taken when already shot once and re-entered
+        // aiming, if no targets are available we want to abort so
+        // players don't arrive at aiming ui with nothing to shoot at.
+        activity->aborted = true;
+        traj.clear();
+        return traj;
+    }
     tripoint initial_dst = src;
     if( reentered ) {
         if( !try_reacquire_target( resume_critter, initial_dst ) ) {
