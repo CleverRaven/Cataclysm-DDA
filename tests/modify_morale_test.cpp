@@ -108,7 +108,7 @@ TEST_CASE( "dining with table and chair", "[food][modify_morale][table][chair]" 
     };
 
     GIVEN( "no table or chair are nearby" ) {
-        REQUIRE_FALSE( here.has_nearby_table( dummy.pos(), 1 ) );
+        REQUIRE_FALSE( here.has_nearby_table( dummy.pos_bub(), 1 ) );
         REQUIRE_FALSE( here.has_nearby_chair( dummy.pos(), 1 ) );
 
         AND_GIVEN( "character has normal table manners" ) {
@@ -146,7 +146,7 @@ TEST_CASE( "dining with table and chair", "[food][modify_morale][table][chair]" 
     GIVEN( "a table and chair are nearby" ) {
         here.furn_set( avatar_pos + tripoint_north, furn_id( "f_table" ) );
         here.furn_set( avatar_pos + tripoint_east, furn_id( "f_chair" ) );
-        REQUIRE( here.has_nearby_table( dummy.pos(), 1 ) );
+        REQUIRE( here.has_nearby_table( dummy.pos_bub(), 1 ) );
         REQUIRE( here.has_nearby_chair( dummy.pos(), 1 ) );
 
         AND_GIVEN( "character has normal table manners" ) {
