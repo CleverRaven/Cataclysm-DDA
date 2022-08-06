@@ -10,4 +10,4 @@ def parse_nested_category(json, origin):
 
     if "description" in json:
         write_text(json["description"], origin,
-                   comment="Description of the nested category \"{}\"".format(name))
+                   comment="Description of the category \"{}\"".format(name))
