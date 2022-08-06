@@ -136,6 +136,8 @@ static bool check_channel( const tripoint_bub_ms & ); // tile has adjacent flowi
 static bool check_empty_lite( const tripoint_bub_ms & );
 static bool check_empty( const tripoint_bub_ms & ); // tile is empty
 static bool check_support( const tripoint_bub_ms & ); // at least two orthogonal supports
+static bool check_support_below( const tripoint_bub_ms
+                                 & ); // at least two orthogonal supports at the level below
 static bool check_stable( const tripoint_bub_ms & ); // tile below has a flag SUPPORTS_ROOF
 static bool check_empty_stable( const tripoint_bub_ms
                                 & ); // tile is empty, tile below has a flag SUPPORTS_ROOF
@@ -1241,6 +1243,30 @@ bool construct::check_support( const tripoint_bub_ms &p )
     return num_supports >= 2;
 }
 
+bool construct::check_support_below( const tripoint_bub_ms &p )
+{
+    bool blocking_creature = g->get_creature_if( [&]( const Creature & creature ) {
+        return creature.pos() == p.raw();
+    } ) != nullptr;
+
+    map &here = get_map();
+    if( !( here.passable( p.raw() ) || here.has_flag( ter_furn_flag::TFLAG_LIQUID, p ) ||
+           here.ter( p ) == t_open_air ) ||
+        blocking_creature || here.has_furn( p ) || !( here.tr_at( p ).is_null() ||
+                here.tr_at( p ).id == tr_ledge ) ||
+        !here.i_at( p ).empty() || here.veh_at( p ) ) {
+        return false;
+    }
+    // need two or more orthogonally adjacent supports at the Z level below
+    int num_supports = 0;
+    for( const tripoint_bub_ms &nb : get_orthogonal_neighbors( p + tripoint_below ) ) {
+        if( here.has_flag( ter_furn_flag::TFLAG_SUPPORTS_ROOF, nb ) ) {
+            num_supports++;
+        }
+    }
+    return num_supports >= 2;
+}
+
 bool construct::check_stable( const tripoint_bub_ms &p )
 {
     return get_map().has_flag( ter_furn_flag::TFLAG_SUPPORTS_ROOF, p + tripoint_below );
@@ -1950,6 +1976,7 @@ void load_construction( const JsonObject &jo )
             { "check_empty", construct::check_empty },
             { "check_empty_lite", construct::check_empty_lite },
             { "check_support", construct::check_support },
+            { "check_support_below", construct::check_support_below },
             { "check_stable", construct::check_stable },
             { "check_empty_stable", construct::check_empty_stable },
             { "check_nofloor_above", construct::check_nofloor_above },
