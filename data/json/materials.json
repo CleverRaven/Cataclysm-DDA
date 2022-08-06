@@ -1080,6 +1080,17 @@
   },
   {
     "type": "material",
+    "id": "crude_lamp_oil",
+    "density": 0.81,
+    "name": "Crude lamp oil",
+    "copy-from": "hydrocarbons",
+    "fuel_data": {
+      "energy": 24,
+      "explosion_data": { "chance_hot": 5, "chance_cold": 10, "factor": 0.2, "fiery": true, "size_factor": 0.1 }
+    }
+  },
+  {
+    "type": "material",
     "id": "motor_oil",
     "density": 0.95,
     "name": "Motor Oil",
