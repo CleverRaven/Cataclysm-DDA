@@ -696,8 +696,8 @@
     "max_damage": 0,
     "min_range": 1,
     "max_range": 1,
-    "min_duration": 86400000,
-    "max_duration": 86400000,
+    "min_duration": 25920000,
+    "max_duration": 25920000,
     "extra_effects": [ { "id": "boomer_claymore_suicide", "hit_self": true } ]
   }
 ]
