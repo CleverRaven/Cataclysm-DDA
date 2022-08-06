@@ -310,9 +310,9 @@ void aim_activity_actor::do_turn( player_activity &act, Character &who )
 void aim_activity_actor::finish( player_activity &act, Character &who )
 {
     act.set_to_null();
-    restore_view();
     item_location weapon = get_weapon();
     if( !weapon ) {
+        restore_view();
         return;
     }
     if( aborted ) {
@@ -322,6 +322,7 @@ void aim_activity_actor::finish( player_activity &act, Character &who )
             // May assign ACT_RELOAD
             g->reload_wielded( true );
         }
+        restore_view();
         return;
     }
 
