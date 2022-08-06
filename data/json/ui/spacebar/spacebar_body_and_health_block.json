@@ -73,7 +73,7 @@
     "type": "widget",
     "style": "text",
     "colors": [ "c_dark_gray" ],
-    "string": "=>  ( HP/Status/Encum./Temp./swet )  <="
+    "string": "=>    ( HP/Status/Encum./Temp./swet )   <="
   },
   {
     "id": "spacebar_legend_bar_1",
