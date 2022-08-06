@@ -1250,8 +1250,8 @@ bool construct::check_support_below( const tripoint_bub_ms &p )
     } ) != nullptr;
 
     map &here = get_map();
-    // These checks are based on check_empty_lite, but accept empty air and its associated
-    // ledge trap.
+    // These checks are based on check_empty_lite, but accept no floor and the traps associated
+    // with it, i.e. ledge, pit, spiked pit, and glass pit.
     // - Check if there's nothing in the way. The "passable" check rejects tiles you can't
     //   pass through, but we want air and water to be OK as well (that's what we want to bridge).
     // - Apart from that, vehicles, items, creatures, and furniture also have to be absent.
@@ -1259,9 +1259,10 @@ bool construct::check_support_below( const tripoint_bub_ms &p )
     //   space tiles adjacent to passable tiles, so we can't just reject all traps outright,
     //   but have to accept those.
     if( !( here.passable( p.raw() ) || here.has_flag( ter_furn_flag::TFLAG_LIQUID, p ) ||
-           here.ter( p ) == t_open_air ) ||
+           here.has_flag( ter_furn_flag::TFLAG_NO_FLOOR, p ) ) ||
         blocking_creature || here.has_furn( p ) || !( here.tr_at( p ).is_null() ||
-                here.tr_at( p ).id == tr_ledge ) ||
+                here.tr_at( p ).id == tr_ledge  || here.tr_at( p ).id == tr_pit ||
+                here.tr_at( p ).name() == "spiked pit" || here.tr_at( p ).name() == "glass pit" ) ||
         !here.i_at( p ).empty() || here.veh_at( p ) ) {
         return false;
     }
