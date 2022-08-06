@@ -10847,6 +10847,11 @@ bool item::ammo_sufficient( const Character *carrier, const std::string &method,
     return true;
 }
 
+bool item::activation_charges_sufficient( const Character *carrier, int qty ) const
+{
+    return qty * type->charges_to_use() >= ammo_remaining( carrier );
+}
+
 int item::ammo_consume( int qty, const tripoint &pos, Character *carrier )
 {
     if( qty < 0 ) {

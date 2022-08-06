@@ -2160,7 +2160,7 @@ cata::optional<int> manualnoise_actor::use( Character &p, item &it, bool t, cons
         }
         p.add_msg_if_player( "%s", use_message );
     }
-    return it.type->charges_to_use();
+    return 1;
 }
 
 ret_val<void> manualnoise_actor::can_use( const Character &, const item &it, bool,
@@ -3635,7 +3635,7 @@ int heal_actor::finish_using( Character &healer, Character &patient, item &it,
                                  time_duration::from_turns( practice_amount ) );
     healer.practice_proficiency( proficiency_prof_wound_care_expert,
                                  time_duration::from_turns( practice_amount ) );
-    return it.type->charges_to_use();
+    return 1;
 }
 
 static bodypart_id pick_part_to_heal(
@@ -4010,7 +4010,7 @@ cata::optional<int> emit_actor::use( Character &, item &it, bool, const tripoint
         here.emit_field( pos, e, scaling );
     }
 
-    return 1;
+    return 1; //TODO check
 }
 
 std::unique_ptr<iuse_actor> emit_actor::clone() const
@@ -4177,8 +4177,6 @@ cata::optional<int> molle_attach_actor::use( Character &p, item &it, bool t,
         return cata::nullopt;
     }
 
-
-
     item_location loc = game_menus::inv::molle_attach( p, it );
 
     if( !loc ) {
@@ -4193,8 +4191,6 @@ cata::optional<int> molle_attach_actor::use( Character &p, item &it, bool t,
 
     // the item has been added to the vest it should no longer exist in the world
     loc.remove_item();
-
-
 
     return 0;
 }
@@ -4859,7 +4855,7 @@ cata::optional<int> change_scent_iuse::use( Character &p, item &it, bool, const 
     for( const effect_data &eff : effects ) {
         p.add_effect( eff.id, eff.duration, eff.bp, eff.permanent );
     }
-    return charges_to_use;
+    return charges_to_use; //TODO this needs fixing
 }
 
 std::unique_ptr<iuse_actor> change_scent_iuse::clone() const
@@ -4904,5 +4900,5 @@ cata::optional<int> effect_on_conditons_actor::use( Character &p, item &it, bool
             debugmsg( "Must use an activation eoc for activation.  If you don't want the effect_on_condition to happen on its own (without the item's involvement), remove the recurrence min and max.  Otherwise, create a non-recurring effect_on_condition for this item with its condition and effects, then have a recurring one queue it." );
         }
     }
-    return it.type->charges_to_use();
+    return 1;
 }
