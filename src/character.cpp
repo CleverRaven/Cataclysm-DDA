@@ -6493,13 +6493,13 @@ bool Character::invoke_item( item *used, const std::string &method, const tripoi
     }
     // Prevent accessing the item as it may have been deleted by the invoked iuse function.
     if( used->is_tool() || actually_used->is_medication() ) {
-        return consume_charges( *actually_used, charges_used.value() );
+        return actually_used->activation_consume( charges_used.value(), pt, this );
     } else if( used->is_bionic() || used->is_deployable() || method == "place_trap" ) {
         i_rem( used );
         return true;
     } else if( used->is_comestible() ) {
         const bool ret = consume_effects( *used );
-        consume_charges( *used, charges_used.value() );
+        used->activation_consume( charges_used.value(), pt, this );
         return ret;
     }
 

@@ -56,7 +56,8 @@ TEST_CASE( "eyedrops", "[iuse][eyedrops]" )
         REQUIRE( dummy.has_effect( effect_boomered ) );
 
         WHEN( "they use eye drops" ) {
-            dummy.invoke_item( &eyedrops );
+            dummy.consume(eyedrops);
+            //dummy.invoke_item( &eyedrops );
 
             THEN( "one dose is depleted" ) {
                 CHECK( eyedrops.charges == charges_before - 1 );

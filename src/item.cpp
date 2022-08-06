@@ -10889,11 +10889,12 @@ int item::ammo_consume( int qty, const tripoint &pos, Character *carrier )
     return wanted_qty - qty;
 }
 
-void item::activation_consume( const tripoint &pos, Character *carrier )
+bool item::activation_consume( int qty, const tripoint &pos, Character *carrier )
 {
     if( type->charges_to_use() ) {
-        ammo_consume( type->charges_to_use(), pos, carrier );
+        ammo_consume( type->charges_to_use() * qty, pos, carrier );
     }
+    return false; //TODO
 }
 
 const itype *item::ammo_data() const
