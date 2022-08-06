@@ -352,6 +352,8 @@ class vpart_info
 
         /** Unique identifier for this part */
         vpart_id id;
+        std::vector<std::pair<vpart_id, mod_id>> src;
+        friend struct mod_tracker;
 
         /** Name from vehicle part definition which if set overrides the base item name */
         translation name_;

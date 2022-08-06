@@ -358,6 +358,7 @@ void vpart_info::load_workbench( cata::optional<vpslot_workbench> &wbptr, const 
 void vpart_info::load( const JsonObject &jo, const std::string &src )
 {
     vpart_info def;
+    mod_tracker::assign_src( def, src );
 
     if( jo.has_string( "copy-from" ) ) {
         const auto base = vpart_info_all.find( vpart_id( jo.get_string( "copy-from" ) ) );
@@ -535,6 +536,9 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
     if( jo.has_string( "abstract" ) ) {
         abstract_parts[def.id] = def;
     } else {
+        if( vpart_info_all.count( def.id ) != 0 ) {
+            mod_tracker::check_duplicate_entries( def, vpart_info_all[def.id] );
+        }
         vpart_info_all[def.id] = def;
     }
 }
