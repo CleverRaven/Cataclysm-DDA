@@ -1793,7 +1793,7 @@ std::string widget::layout( const avatar &ava, unsigned int max_width, int label
                                 has_flag( json_flag_W_LABEL_NONE ) ? translation() : _label,
                                 row_num == 0 && _pad_labels ? label_width : 0, _separator, _text_align, _label_align, skip_pad );
         }
-        if( ret.back() == '\n' ) {
+        if( !ret.empty() && ret.back() == '\n' ) {
             ret.pop_back();
         }
     }
