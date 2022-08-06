@@ -1398,10 +1398,6 @@ void monster::process_triggers()
         return ret;
     } );
 
-    // Meat checking is disabled as for now.
-    // It's hard to ever see it in action
-    // and even harder to balance it without making it exploitable
-
     if( morale != type->morale && one_in( 4 ) &&
         ( ( std::abs( morale - type->morale ) > 15 ) || one_in( 2 ) ) ) {
         if( morale < type->morale ) {
@@ -2620,29 +2616,30 @@ void monster::die( Creature *nkiller )
         }
     }
 
-    // If our species fears seeing one of our own die, process that
-    int anger_adjust = 0;
-    int morale_adjust = 0;
-    if( type->has_anger_trigger( mon_trigger::FRIEND_DIED ) ) {
-        anger_adjust += 15;
-    }
-    if( type->has_fear_trigger( mon_trigger::FRIEND_DIED ) ) {
-        morale_adjust -= 15;
-    }
-    if( type->has_placate_trigger( mon_trigger::FRIEND_DIED ) ) {
-        anger_adjust -= 15;
-    }
+    // Adjust anger/morale of nearby monsters, if they have the appropriate trigger and are friendly
+    // Keep filtering on the dying monsters' triggers to preserve current functionality
+    bool trigger = type->has_anger_trigger( mon_trigger::FRIEND_DIED ) ||
+                   type->has_fear_trigger( mon_trigger::FRIEND_DIED ) ||
+                   type->has_placate_trigger( mon_trigger::FRIEND_DIED );
 
-    if( anger_adjust != 0 || morale_adjust != 0 ) {
+    if( trigger ) {
         int light = g->light_level( posz() );
+        map &here = get_map();
         for( monster &critter : g->all_monsters() ) {
-            if( !critter.type->same_species( *type ) ) {
+            // Do we actually care about this faction?
+            if( critter.faction->attitude( faction ) != MFA_FRIENDLY ) {
                 continue;
             }
 
             if( here.sees( critter.pos(), pos(), light ) ) {
-                critter.morale += morale_adjust;
-                critter.anger += anger_adjust;
+                // Anger trumps fear trumps ennui
+                if( critter.type->has_anger_trigger( mon_trigger::FRIEND_DIED ) ) {
+                    critter.anger += 15;
+                } else if( critter.type->has_fear_trigger( mon_trigger::FRIEND_DIED ) ) {
+                    critter.morale -= 15;
+                } else if( critter.type->has_placate_trigger( mon_trigger::FRIEND_DIED ) ) {
+                    critter.anger -= 15;
+                }
             }
         }
     }
@@ -3204,30 +3201,30 @@ void monster::on_hit( Creature *source, bodypart_id,
         type->sp_defense( *this, source, proj );
     }
 
-    // Adjust anger/morale of same-species monsters, if appropriate
-    int anger_adjust = 0;
-    int morale_adjust = 0;
-    if( type->has_anger_trigger( mon_trigger::FRIEND_ATTACKED ) ) {
-        anger_adjust += 15;
-    }
-    if( type->has_fear_trigger( mon_trigger::FRIEND_ATTACKED ) ) {
-        morale_adjust -= 15;
-    }
-    if( type->has_placate_trigger( mon_trigger::FRIEND_ATTACKED ) ) {
-        anger_adjust -= 15;
-    }
+    // Adjust anger/morale of nearby monsters, if they have the appropriate trigger and are friendly
+    // Keep filtering on the hit monsters' triggers to preserve current functionality
+    bool trigger = type->has_anger_trigger( mon_trigger::FRIEND_ATTACKED ) ||
+                   type->has_fear_trigger( mon_trigger::FRIEND_ATTACKED ) ||
+                   type->has_placate_trigger( mon_trigger::FRIEND_ATTACKED );
 
-    if( anger_adjust != 0 || morale_adjust != 0 ) {
+    if( trigger ) {
         int light = g->light_level( posz() );
         map &here = get_map();
         for( monster &critter : g->all_monsters() ) {
-            if( !critter.type->same_species( *type ) ) {
+            // Do we actually care about this faction?
+            if( critter.faction->attitude( faction ) != MFA_FRIENDLY ) {
                 continue;
             }
 
             if( here.sees( critter.pos(), pos(), light ) ) {
-                critter.morale += morale_adjust;
-                critter.anger += anger_adjust;
+                // Anger trumps fear trumps ennui
+                if( critter.type->has_anger_trigger( mon_trigger::FRIEND_ATTACKED ) ) {
+                    critter.anger += 15;
+                } else if( critter.type->has_fear_trigger( mon_trigger::FRIEND_ATTACKED ) ) {
+                    critter.morale -= 15;
+                } else if( critter.type->has_placate_trigger( mon_trigger::FRIEND_ATTACKED ) ) {
+                    critter.anger -= 15;
+                }
             }
         }
     }

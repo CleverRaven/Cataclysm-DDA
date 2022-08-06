@@ -305,6 +305,8 @@ void monster::plan()
     bool docile = friendly != 0 && has_effect( effect_docile );
 
     const bool angers_hostile_weak = type->has_anger_trigger( mon_trigger::HOSTILE_WEAK );
+    const bool fears_hostile_weak = type->has_fear_trigger( mon_trigger::HOSTILE_WEAK );
+    const bool placate_hostile_weak = type->has_placate_trigger( mon_trigger::HOSTILE_WEAK );
     const int angers_hostile_near = type->has_anger_trigger( mon_trigger::HOSTILE_CLOSE ) ? 5 : 0;
     const int angers_hostile_seen = type->has_anger_trigger( mon_trigger::HOSTILE_SEEN ) ? rng( 0,
                                     2 ) : 0;
@@ -601,10 +603,17 @@ void monster::plan()
             away.z() = posz();
             set_dest( away );
         }
-        if( angers_hostile_weak && att_to_target != Attitude::FRIENDLY ) {
+        if( ( angers_hostile_weak || fears_hostile_weak || placate_hostile_weak ) &&
+            att_to_target != Attitude::FRIENDLY ) {
             int hp_per = target->hp_percentage();
             if( hp_per <= 70 ) {
-                anger += 10 - static_cast<int>( hp_per / 10 );
+                if( angers_hostile_weak ) {
+                    anger += 10 - static_cast<int>( hp_per / 10 );
+                } else if( fears_hostile_weak ) {
+                    morale -= 10 - static_cast<int>( hp_per / 10 );
+                } else if( placate_hostile_weak ) {
+                    anger -= 10 - static_cast<int>( hp_per / 10 );
+                }
             }
         }
     } else if( !patrol_route.empty() ) {
