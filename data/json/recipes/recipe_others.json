@@ -2867,5 +2867,27 @@
     "tools": [ [ [ "swage", -1 ] ] ],
     "using": [ [ "steel_standard", 2 ], [ "welding_standard", 3, "LIST" ], [ "blacksmithing_standard", 8 ] ],
     "components": [ [ [ "pipe", 2 ] ], [ [ "grip_hook", 1 ] ], [ [ "sheet_metal_small", 8 ] ] ]
+  },
+  {
+    "result": "block_and_tackle_wood",
+    "type": "recipe",
+    "//": "2 carved wheels, housing nailed together and wood axles.",
+    "activity_level": "BRISK_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "fabrication",
+    "skills_required": [ "mechanics", 1 ],
+    "difficulty": 3,
+    "time": "2 h",
+    "autolearn": true,
+    "book_learn": [ [ "textbook_fabrication", 2 ], [ "textbook_mechanics", 1 ] ],
+    "proficiencies": [ { "proficiency": "prof_carving" }, { "proficiency": "prof_carpentry_basic" } ],
+    "qualities": [
+      { "id": "SAW_W", "level": 1 },
+      { "id": "HAMMER", "level": 2 },
+      { "id": "FILE", "level": 1 },
+      { "id": "CHISEL_WOOD", "level": 1 }
+    ],
+    "components": [ [ [ "2x4", 2 ] ], [ [ "nail", 10 ] ], [ [ "stick", 1 ] ] ]
   }
 ]
