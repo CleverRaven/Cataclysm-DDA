@@ -424,8 +424,8 @@
     "copy-from": "external_tank_small_aluminum",
     "type": "vehicle_part",
     "name": { "str": "roof-mounted external aluminum tank (100L)" },
-    "item": "30gal_drum_aluminum"
-	"breaks_into": [ { "item": "scrap_aluminum", "count": [ 4, 13 ] } ]
+    "item": "30gal_drum_aluminum",
+    "breaks_into": [ { "item": "scrap_aluminum", "count": [ 4, 13 ] } ]
   },
   {
     "id": "external_tank_aluminum",
