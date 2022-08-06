@@ -199,7 +199,7 @@ class options_manager
         void add_options_debug();
         void add_options_android();
         void load();
-        bool save();
+        bool save() const;
         std::string show( bool ingame = false, bool world_options_only = false, bool with_tabs = true );
 
         void add_value( const std::string &lvar, const std::string &lval,

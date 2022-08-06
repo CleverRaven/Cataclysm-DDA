@@ -374,3 +374,5 @@ std::tuple<encumbrance_modifier_type, int> armor_portion_data::convert_descripto
     }
     return { encumbrance_modifier_type::FLAT, 0 };
 }
+
+std::map<itype_id, std::set<itype_id>> islot_magazine::compatible_guns;

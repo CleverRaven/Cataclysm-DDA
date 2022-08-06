@@ -496,7 +496,8 @@ class recipe_result_info_cache
                                std::vector<iteminfo> &details_info, const std::string &classification, bool uses_charges );
         void get_item_header( item &dummy_item, int quantity_per_batch, std::vector<iteminfo> &info,
                               const std::string &classification, bool uses_charges );
-        void insert_iteminfo_block_separator( std::vector<iteminfo> &info_vec, const std::string &title );
+        void insert_iteminfo_block_separator( std::vector<iteminfo> &info_vec,
+                                              const std::string &title ) const;
     public:
         item_info_data get_result_data( const recipe *rec, int batch_size, int &scroll_pos,
                                         const catacurses::window &window );
@@ -669,7 +670,7 @@ item_info_data recipe_result_info_cache::get_result_data( const recipe *rec, con
 }
 
 void recipe_result_info_cache::insert_iteminfo_block_separator( std::vector<iteminfo> &info_vec,
-        const std::string &title )
+        const std::string &title ) const
 {
     info_vec.emplace_back( "DESCRIPTION", "--" );
     info_vec.emplace_back( "DESCRIPTION", std::string( center_text_pos( title, 0,

@@ -194,7 +194,7 @@ class basecamp
         void update_provides( const std::string &bldg, expansion_data &e_data );
         void update_in_progress( const std::string &bldg, const point &dir );
 
-        bool can_expand();
+        bool can_expand() const;
         /// Returns the name of the building the current building @ref dir upgrades into,
         /// "null" if there isn't one
         std::string next_upgrade( const point &dir, int offset = 1 ) const;
@@ -220,7 +220,7 @@ class basecamp
         std::string name_display_of( const mission_id &miss_id );
         void handle_hide_mission( const point &dir );
         void handle_reveal_mission( const point &dir );
-        bool has_water();
+        bool has_water() const;
 
         // recipes, gathering, and craft support functions
         // from a direction
@@ -264,7 +264,7 @@ class basecamp
         void add_available_recipes( mission_data &mission_key, mission_kind kind, const point &dir,
                                     const std::map<recipe_id, translation> &craft_recipes );
 
-        std::string recruit_description( int npc_count );
+        std::string recruit_description( int npc_count ) const;
         /// Provides a "guess" for some of the things your gatherers will return with
         /// to upgrade the camp
         std::string gathering_description( const std::string &bldg );
@@ -396,7 +396,6 @@ class basecamp
         // lazy re-evaluation of available camp resources
         void reset_camp_resources();
         void add_resource( const itype_id &camp_resource );
-        bool resources_updated = false; // NOLINT(cata-serialize)
         // omt pos
         tripoint_abs_omt omt_pos;
         std::vector<npc_ptr> assigned_npcs; // NOLINT(cata-serialize)

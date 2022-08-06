@@ -52,6 +52,12 @@
     ]
   },
   {
+    "id": "grave_contents",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "group": "everyday_corpse", "prob": 85 }, { "group": "grave_cremains", "prob": 15 } ]
+  },
+  {
     "id": "everyday_corpse",
     "type": "item_group",
     "subtype": "collection",
@@ -925,7 +931,8 @@
       { "item": "coffeemaker", "prob": 10, "charges": [ 0, 500 ] },
       [ "cookbook_daintydishes", 40 ],
       [ "cookbook_indian", 10 ],
-      [ "cookbook_foodfashions", 18 ]
+      [ "cookbook_foodfashions", 18 ],
+      [ "cookbook_mexican", 10 ]
     ]
   },
   {

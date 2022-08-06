@@ -1213,5 +1213,23 @@
       [ [ "wire_mesh", 1 ] ],
       [ [ "metal_tank_little", 1 ], [ "jerrycan_big", 1 ], [ "jerrycan", 1 ] ]
     ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
+    "result": "aluminum_boat_hull",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": "45 m",
+    "reversible": true,
+    "autolearn": true,
+    "qualities": [ { "id": "GLARE", "level": 1 } ],
+    "tools": [
+      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
+      [ [ "welder", 50 ], [ "welder_crude", 75 ], [ "toolset", 75 ], [ "forge", 50 ], [ "oxy_torch", 10 ] ]
+    ],
+    "components": [ [ [ "scrap_aluminum", 45 ], [ "material_aluminium_ingot", 4 ] ] ]
   }
 ]

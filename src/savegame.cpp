@@ -650,6 +650,8 @@ void overmap::unserialize( std::istream &fin )
                         jsin.read( new_radio.strength );
                     } else if( radio_member_name == "message" ) {
                         jsin.read( new_radio.message );
+                    } else if( radio_member_name == "frequency" ) {
+                        jsin.read( new_radio.frequency );
                     }
                 }
                 radios.push_back( new_radio );
@@ -910,7 +912,7 @@ static void unserialize_array_from_compacted_sequence( JsonIn &jsin, MdArray &ar
 {
     int count = 0;
     using Value = typename MdArray::value_type;
-    Value value;
+    Value value = Value();
     for( size_t j = 0; j < MdArray::size_y; ++j ) {
         for( size_t i = 0; i < MdArray::size_x; ++i ) {
             if( count == 0 ) {
@@ -1093,7 +1095,7 @@ struct mongroup_bin_eq {
                a.interest == b.interest &&
                a.dying == b.dying &&
                a.horde == b.horde &&
-               a.horde_behaviour == b.horde_behaviour &&
+               a.behaviour == b.behaviour &&
                a.diffuse == b.diffuse;
     }
 };
@@ -1108,7 +1110,7 @@ struct mongroup_hash {
         cata::hash_combine( ret, mg.interest );
         cata::hash_combine( ret, mg.dying );
         cata::hash_combine( ret, mg.horde );
-        cata::hash_combine( ret, mg.horde_behaviour );
+        cata::hash_combine( ret, mg.behaviour );
         cata::hash_combine( ret, mg.diffuse );
         return ret;
     }
@@ -1220,6 +1222,7 @@ void overmap::serialize( std::ostream &fout ) const
         json.member( "strength", i.strength );
         json.member( "type", radio_type_names[i.type] );
         json.member( "message", i.message );
+        json.member( "frequency", i.frequency );
         json.end_object();
     }
     json.end_array();
@@ -1353,7 +1356,7 @@ void mongroup::io( Archive &archive )
     archive.io( "target", target, point_abs_sm() );
     archive.io( "nemesis_target", nemesis_target, point_abs_sm() );
     archive.io( "interest", interest, 0 );
-    archive.io( "horde_behaviour", horde_behaviour, io::empty_default_tag() );
+    archive.io( "horde_behaviour", behaviour, horde_behaviour::none );
     archive.io( "monsters", monsters, io::empty_default_tag() );
 }
 
@@ -1396,7 +1399,7 @@ void mongroup::deserialize_legacy( JsonIn &json )
         } else if( name == "interest" ) {
             interest = json.get_int();
         } else if( name == "horde_behaviour" ) {
-            horde_behaviour = json.get_string();
+            json.read( behaviour );
         } else if( name == "monsters" ) {
             json.start_array();
             while( !json.end_array() ) {

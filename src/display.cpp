@@ -541,7 +541,7 @@ std::pair<std::string, nc_color> display::power_text_color( const Character &u )
         } else if( u.get_power_level() >= u.get_max_power_level() / 3 ) {
             c_pwr = c_yellow;
         } else if( u.get_power_level() >= u.get_max_power_level() / 4 ) {
-            c_pwr = c_red;
+            c_pwr = c_light_red;
         }
 
         if( u.get_power_level() < 1_J ) {
@@ -555,6 +555,49 @@ std::pair<std::string, nc_color> display::power_text_color( const Character &u )
                     pgettext( "energy unit: kilojoule", "kJ" );
         }
     }
+    return std::make_pair( s_pwr, c_pwr );
+}
+
+std::pair<std::string, nc_color> display::power_balance_text_color( const avatar &u )
+{
+    nc_color c_pwr = c_red;
+    std::string s_pwr;
+
+    units::energy balance = u.power_balance;
+    units::energy abs_balance = units::from_millijoule( std::abs( balance.value() ) );
+
+    if( balance < -1_kJ ) {
+        c_pwr = c_red;
+    } else if( balance <= -10_J ) {
+        c_pwr = c_light_red;
+    } else if( balance <= -1_mJ ) {
+        c_pwr = c_yellow;
+    } else if( balance <= 1_mJ ) {
+        c_pwr = c_white;
+    } else if( balance < 10_J ) {
+        c_pwr = c_light_green;
+    } else if( balance < 1_kJ ) {
+        c_pwr = c_green;
+    } else {
+        c_pwr = c_light_blue;
+    }
+
+    std::string suffix;
+    if( balance > 0_kJ ) {
+        suffix = "+";
+    }
+
+    if( abs_balance < 1_J ) {
+        s_pwr = suffix + std::to_string( units::to_millijoule( balance ) ) +
+                pgettext( "energy unit: millijoule", "mJ" );
+    } else if( abs_balance < 1_kJ ) {
+        s_pwr = suffix + std::to_string( units::to_joule( balance ) ) +
+                pgettext( "energy unit: joule", "J" );
+    } else {
+        s_pwr = suffix + std::to_string( units::to_kilojoule( balance ) ) +
+                pgettext( "energy unit: kilojoule", "kJ" );
+    }
+
     return std::make_pair( s_pwr, c_pwr );
 }
 
@@ -813,6 +856,37 @@ std::pair<std::string, nc_color> display::weight_text_color( const Character &u 
     return std::make_pair( _( weight_string ), weight_color );
 }
 
+std::pair<std::string, nc_color> display::health_text_color( const Character &u )
+{
+    const int health = u.get_lifestyle();
+    std::string health_string;
+    nc_color health_color = c_light_gray;
+
+    if( health > character_health_category::great ) {
+        health_string = translate_marker( "Feel Great" );
+        health_color = c_green;
+    } else if( health > character_health_category::very_good ) {
+        health_string = translate_marker( "Feel Very Good" );
+        health_color = c_green;
+    } else if( health > character_health_category::good ) {
+        health_string = translate_marker( "Feel Good" );
+        health_color = c_green;
+    } else if( health > character_health_category::fine ) {
+        health_string = translate_marker( "Feel Fine" );
+        health_color = c_light_gray;
+    } else if( health > character_health_category::bad ) {
+        health_string = translate_marker( "Feel Bad" );
+        health_color = c_red;
+    } else if( health > character_health_category::very_bad ) {
+        health_string = translate_marker( "Feel Very Bad" );
+        health_color = c_red;
+    } else {
+        health_string = translate_marker( "Feel Awful" );
+        health_color = c_red;
+    }
+    return std::make_pair( _( health_string ), health_color );
+}
+
 std::string display::weight_long_description( const Character &u )
 {
     const float bmi = u.get_bmi();
@@ -839,6 +913,12 @@ std::string display::weight_string( const Character &u )
 {
     std::pair<std::string, nc_color> weight_pair = display::weight_text_color( u );
     return colorize( weight_pair.first, weight_pair.second );
+}
+
+std::string display::health_string( const Character &u )
+{
+    std::pair<std::string, nc_color> health_pair = display::health_text_color( u );
+    return colorize( health_pair.first, health_pair.second );
 }
 
 std::pair<std::string, nc_color> display::fatigue_text_color( const Character &u )
@@ -1547,7 +1627,7 @@ std::string display::colorized_bodygraph_text( const Character &u, const std::st
             return sym;
         }
         std::pair<std::string, nc_color> sym_col = get_bodygraph_bp_sym_color( u, *bgp, var );
-        return colorize( sym_col.first, sym_col.second );
+        return colorize( sym, sym_col.second );
     };
 
     std::vector<std::string> rows = get_bodygraph_lines( u, process_sym, graph, width, max_height );

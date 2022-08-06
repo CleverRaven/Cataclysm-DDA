@@ -17,11 +17,14 @@
     "id": "lab_mutagen_ingredients_fridge",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [
-      { "item": "raptor_sample", "prob": 40, "count": [ 1, 3 ] },
-      { "item": "tyrant_sample", "prob": 40, "count": [ 1, 3 ] },
-      { "item": "stego_sample", "prob": 40, "count": [ 1, 3 ] }
-    ]
+    "copy-from": "lab_mutagen_ingredients_fridge",
+    "extend": {
+      "entries": [
+        { "item": "raptor_sample", "prob": 40, "count": [ 1, 3 ] },
+        { "item": "tyrant_sample", "prob": 40, "count": [ 1, 3 ] },
+        { "item": "stego_sample", "prob": 40, "count": [ 1, 3 ] }
+      ]
+    }
   },
   {
     "id": "raptor_sample_single",

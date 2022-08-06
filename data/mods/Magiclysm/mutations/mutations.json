@@ -180,6 +180,8 @@
     "description": "The claws on your toes have developed in to incredibly tough talons.  These are fearsome and powerful, but still prevent you from wearing shoes and slightly impede your movement.",
     "valid": false,
     "types": [ "LEGS" ],
+    "//": "This is a failsafe in case you've obtained webbed feet from elsewhere.  By normal means black dragons shouldn't obtain Webbed Feet to begin with.",
+    "cancels": [ "WEBBED_FEET" ],
     "category": [ "DRAGON_BLACK" ],
     "threshreq": [ "THRESH_DRAGON_BLACK" ],
     "restricts_gear": [ "foot_l", "foot_r" ],

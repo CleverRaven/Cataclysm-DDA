@@ -483,6 +483,19 @@ void Item_factory::finalize_pre( itype &obj )
             }
         }
 
+        // generate cached map for [mag type_id] -> [set of compatible guns]
+        for( const pocket_data &pocket : obj.pockets ) {
+            if( pocket.type != item_pocket::pocket_type::MAGAZINE_WELL ) {
+                continue;
+            }
+            for( const itype_id &mag_type_id : pocket.item_id_restriction ) {
+                if( item_is_blacklisted( mag_type_id ) || item_is_blacklisted( obj.id ) ) {
+                    continue;
+                }
+                islot_magazine::compatible_guns[mag_type_id].insert( obj.id );
+            }
+        }
+
         for( pocket_data &magazine : obj.pockets ) {
             if( magazine.type != item_pocket::pocket_type::MAGAZINE ) {
                 continue;
@@ -1180,6 +1193,13 @@ void Item_factory::finalize_post( itype &obj )
                 debugmsg( "contamination in %s contains invalid diseasetype_id %s.",
                           obj.id.str(), dtype.str() );
             }
+        }
+    }
+
+    // if we haven't set what the item can be repaired with calculate it now
+    if( obj.repairs_with.empty() ) {
+        for( const auto &mats : obj.materials ) {
+            obj.repairs_with.insert( mats.first );
         }
     }
 }
@@ -3679,7 +3699,7 @@ struct acc_data {
     static constexpr int balance_offset = -2;
     // all the constant offsets and the base accuracy together
     static constexpr int acc_offset = base_acc + grip_offset + surface_offset + balance_offset;
-    int sum_values() {
+    int sum_values() const {
         return acc_offset + static_cast<int>( grip ) + static_cast<int>( length ) +
                static_cast<int>( surface ) + static_cast<int>( balance );
     }
@@ -3768,6 +3788,8 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
     assign( jo, "insulation", def.insulation_factor );
     assign( jo, "solar_efficiency", def.solar_efficiency );
     assign( jo, "ascii_picture", def.picture_id );
+
+    optional( jo, false, "repairs_with", def.repairs_with, string_id_reader<material_type>() );
 
     if( jo.has_member( "thrown_damage" ) ) {
         def.thrown_damage = load_damage_instance( jo.get_array( "thrown_damage" ) );
