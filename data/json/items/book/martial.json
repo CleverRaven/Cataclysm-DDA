@@ -46,6 +46,7 @@
     "copy-from": "book_martial",
     "type": "BOOK",
     "name": { "str": "The Centipede Lu Feng", "str_pl": "copies of The Centipede Lu Feng" },
+    "//": "Could be moved to Mythical Martial Arts mod after 0.G.",
     "price_postapoc": 2000,
     "description": "A complete guide to Centipede Kung Fu.",
     "martial_art": "style_centipede"
@@ -127,6 +128,7 @@
     "copy-from": "book_martial",
     "type": "BOOK",
     "name": { "str": "The Lizard Kuo Chui", "str_pl": "copies of The Lizard Kuo Chui" },
+    "//": "Could be moved to Mythical Martial Arts mod after 0.G.",
     "price_postapoc": 2000,
     "description": "A complete guide to Lizard Kung Fu.",
     "martial_art": "style_lizard"
@@ -172,6 +174,7 @@
     "copy-from": "book_martial",
     "type": "BOOK",
     "name": { "str": "The Scorpion Sun Chien", "str_pl": "copies of The Scorpion Sun Chien" },
+    "//": "Could be moved to Mythical Martial Arts mod after 0.G.",
     "price_postapoc": 2000,
     "description": "A complete guide to Scorpion Kung Fu.",
     "martial_art": "style_scorpion"
@@ -226,6 +229,7 @@
     "copy-from": "book_martial",
     "type": "BOOK",
     "name": { "str": "The Toad Lo Mang", "str_pl": "copies of The Toad Lo Mang" },
+    "//": "Could be moved to Mythical Martial Arts mod after 0.G.",
     "price_postapoc": 2000,
     "description": "A complete guide to Toad Kung Fu.",
     "martial_art": "style_toad"
@@ -235,6 +239,7 @@
     "copy-from": "book_martial",
     "type": "BOOK",
     "name": { "str": "The Viper Wei Pai", "str_pl": "copies of The Viper Wei Pai" },
+    "//": "Could be moved to Mythical Martial Arts mod after 0.G.",
     "price_postapoc": 2000,
     "description": "A complete guide to Viper Kung Fu.",
     "martial_art": "style_venom_snake"
