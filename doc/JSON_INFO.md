@@ -35,6 +35,7 @@ Use the `Home` key to return to the top.
     - [Bionics](#bionics)
     - [Dreams](#dreams)
     - [Disease](#disease)
+    - [Emitters](#emitters)
     - [Item Groups](#item-groups)
     - [Item Category](#item-category)
     - [Materials](#materials)
@@ -1101,6 +1102,28 @@ When adding a new bionic, if it's not included with another one, you must also a
   }
 ```
 
+### Emitters
+
+Emitters randomly place [fields](#field-types) around their positions - every turn for monster emissions, every ten seconds for furniture/terrain.
+
+| Identifier | Description
+|---         |---
+| id         | Unique ID
+| field      | Field type emitted
+| intensity  | Initial intensity of the spawned fields (spawning multiple fields will still cause their intensity to increase). Default 1.
+| chance     | **Percent** chance of the emitter emitting, values above 100 will increase the quantity of fields placed via `roll_remainder` (ex: `chance: 150` will place one field 50% of the time and two fields the other 50% ). Failing the roll will disable the whole emission for the tick, not rolled for every `qty`! Default 100.
+| qty        | Number of fields placed. Fields are placed using the field propagation rules, allowing fields to spread. Default 1.
+
+```JSON
+  {
+    "id": "emit_shock_burst",
+    "type": "emit",
+    "field": "fd_electricity",
+    "intensity": 3,
+    "chance": 1,
+    "qty": 10
+  },
+```
 ### Item Groups
 
 Item groups have been expanded, look at [the detailed docs](ITEM_SPAWN.md) to their new description.

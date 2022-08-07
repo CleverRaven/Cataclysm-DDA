@@ -477,7 +477,7 @@ TEST_CASE( "food allergies and intolerances", "[food][modify_morale][allergy]" )
             REQUIRE( meat->has_flag( flag_ALLERGEN_MEAT ) );
             dummy.clear_morale();
             dummy.modify_morale( *meat );
-            CHECK( dummy.has_morale( MORALE_VEGETARIAN ) <= penalty );
+            CHECK( dummy.has_morale( MORALE_ANTIMEAT ) <= penalty );
         }
     }
 
@@ -517,7 +517,7 @@ TEST_CASE( "food allergies and intolerances", "[food][modify_morale][allergy]" )
             REQUIRE( veggy->has_flag( flag_ALLERGEN_VEGGY ) );
             dummy.clear_morale();
             dummy.modify_morale( *veggy );
-            CHECK( dummy.has_morale( MORALE_MEATARIAN ) <= penalty );
+            CHECK( dummy.has_morale( MORALE_ANTIVEGGY ) <= penalty );
         }
     }
 

@@ -6276,7 +6276,7 @@ void map::update_visibility_cache( const int zlev )
         visibility_variables_cache.clairvoyance_field = field_fd_clairvoyant;
     }
 
-    cata::mdarray<int, point_bub_sm, MAPSIZE, MAPSIZE> sm_squares_seen = {};
+    cata::mdarray<int, point_bub_sm> sm_squares_seen = {};
 
     auto &visibility_cache = get_cache( zlev ).visibility_cache;
 
@@ -8584,7 +8584,7 @@ void map::build_outside_cache( const int zlev )
 
 void map::build_obstacle_cache(
     const tripoint &start, const tripoint &end,
-    cata::mdarray<fragment_cloud, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> &obstacle_cache )
+    cata::mdarray<fragment_cloud, point_bub_ms> &obstacle_cache )
 {
     const point min_submap{ std::max( 0, start.x / SEEX ), std::max( 0, start.y / SEEY ) };
     const point max_submap{

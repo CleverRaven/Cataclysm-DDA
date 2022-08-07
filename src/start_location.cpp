@@ -294,7 +294,7 @@ void start_location::prepare_map( const tripoint_abs_omt &omtstart ) const
  */
 static int rate_location( map &m, const tripoint &p, const bool must_be_inside,
                           const int bash_str, const int attempt,
-                          cata::mdarray<int, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> &checked )
+                          cata::mdarray<int, point_bub_ms> &checked )
 {
     if( ( must_be_inside && m.is_outside( p ) ) ||
         m.impassable( p ) ||
@@ -370,7 +370,7 @@ void start_location::place_player( avatar &you, const tripoint_abs_omt &omtstart
     tripoint best_spot = you.pos();
     // In which attempt did this area get checked?
     // We can overwrite earlier attempts, but not start in them
-    cata::mdarray<int, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> checked = {};
+    cata::mdarray<int, point_bub_ms> checked = {};
 
     bool found_good_spot = false;
 
