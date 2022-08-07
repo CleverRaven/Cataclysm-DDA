@@ -6491,19 +6491,26 @@ bool Character::invoke_item( item *used, const std::string &method, const tripoi
     if( charges_used.value() == 0 ) {
         return false;
     }
-    // Prevent accessing the item as it may have been deleted by the invoked iuse function.
-    if( used->is_tool() || actually_used->is_medication() ) {
-        return actually_used->activation_consume( charges_used.value(), pt, this );
-    } else if( used->is_bionic() || used->is_deployable() || method == "place_trap" ) {
-        i_rem( used );
-        return true;
-    } else if( used->is_comestible() ) {
+
+    if( used == nullptr ) {
+        debugmsg( "Rewrite %s item to use flag SINGLE_USE", actually_used->tname() );
+    }
+
+    if( used->is_comestible() ) {
         const bool ret = consume_effects( *used );
-        used->activation_consume( charges_used.value(), pt, this );
         return ret;
     }
 
-    return false;
+    bool destroy = used->activation_consume( charges_used.value(), pt, this );
+
+
+    if( destroy ) {
+        i_rem( used );
+    }
+    // TODO use SINGLE_USE: } else if( used->is_bionic() || used->is_deployable() || method == "place_trap" ) {
+
+
+    return destroy;
 }
 
 bool Character::consume_charges( item &used, int qty )

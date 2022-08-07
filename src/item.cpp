@@ -10893,7 +10893,10 @@ bool item::activation_consume( int qty, const tripoint &pos, Character *carrier 
 {
     if( type->charges_to_use() ) {
         ammo_consume( type->charges_to_use() * qty, pos, carrier );
+    } else if( has_flag( flag_SINGLE_USE ) ) {
+        return true;
     }
+
     return false; //TODO
 }
 
