@@ -18,7 +18,7 @@
       "practice": 2,
       "done_message": "You carefully place the shards on the ground, ready to be cracked by something passing by."
     },
-    "flags": [ "HURT_WHEN_WIELDED", "TRADER_AVOID" ],
+    "flags": [ "HURT_WHEN_WIELDED", "TRADER_AVOID", "SINGLE_USE" ],
     "to_hit": -1
   },
   {
@@ -43,7 +43,8 @@
       "moves": 150,
       "practice": 2,
       "done_message": "You break the pane and place the shards on the ground, ready to be cracked by something passing by."
-    }
+    },
+    "flags": [ "SINGLE_USE" ]
   },
   {
     "type": "GENERIC",

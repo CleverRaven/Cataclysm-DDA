@@ -6507,7 +6507,7 @@ bool Character::invoke_item( item *used, const std::string &method, const tripoi
     if( destroy ) {
         i_rem( used );
     }
-    // TODO use SINGLE_USE: } else if( used->is_bionic() || used->is_deployable() || method == "place_trap" ) {
+    // TODO use SINGLE_USE: } else if( used->is_bionic() || used->is_deployable()
 
 
     return destroy;

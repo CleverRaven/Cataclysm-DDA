@@ -207,7 +207,8 @@
       "moves": 100,
       "practice": 0,
       "done_message": "You unroll the fur mat and lay it on the ground."
-    }
+    },
+    "flags": [ "SINGLE_USE" ]
   },
   {
     "id": "hose_garden",
@@ -506,7 +507,8 @@
       "moves": 100,
       "practice": 0,
       "done_message": "You unroll the mat and lay it on the ground."
-    }
+    },
+    "flags": [ "SINGLE_USE" ]
   },
   {
     "id": "safe_box",
