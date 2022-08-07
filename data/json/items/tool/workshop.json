@@ -1418,12 +1418,12 @@
     ]
   },
   {
-    "id": "welder_kit",
+    "id": "welding_kit",
     "type": "TOOL",
     "name": { "str": "welding kit" },
     "description": "An welder combined with a fireproof insulating blanket allows for advanced welds and repairs to tempered steels.",
-    "weight": "4200 g",
-    "volume": "2500 ml",
+    "weight": "10500 g",
+    "volume": "12500 ml",
     "price": 9000,
     "price_postapoc": 750,
     "to_hit": -1,
@@ -1674,15 +1674,15 @@
     "color": "light_gray"
   },
   {
-  "id": "welding_blanket",
-  "type": "TOOL",
-  "name": { "str": "welding blanket" },
-  "description": "A non-flamable mat used to protect surfaces from welding splatter or to insulate a weld when repairing tempered metal.  This one is made with asbestos."
-  "weight": "6 kg",
-  "volume": "11500 ml",
-  "price": 30000
-  "material": [ "asbestos" ],
-  "symbol": "#"
-  "color:" "light_gray"
+    "id": "welding_blanket",
+    "type": "TOOL",
+    "name": { "str": "welding blanket" },
+    "description": "A non-flammable mat used to protect surfaces from welding splatter or to insulate a weld when repairing tempered metal.  This one is made with asbestos.",
+    "weight": "6 kg",
+    "volume": "11500 ml",
+    "price": 30000,
+    "material": [ "asbestos" ],
+    "symbol": "#",
+    "color": "light_gray"
   }
 ]
