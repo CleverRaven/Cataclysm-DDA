@@ -35,6 +35,8 @@
 #include "output.h"
 #include "ui_manager.h"
 
+#include "messages.h" //TEMPORARY
+
 static void curses_check_result( const int result, const int expected, const char *const /*name*/ )
 {
     if( result != expected ) {
@@ -341,6 +343,10 @@ input_event input_manager::get_input_event( const keyboard_mode /*preferred_keyb
                     rval.add_input( MouseInput::LeftButtonPressed );
                 } else if( event.bstate & BUTTON3_CLICKED ) {
                     rval.add_input( MouseInput::RightButtonReleased );
+                } else if( event.bstate & BUTTON4_PRESSED ) {
+                    rval.add_input( MouseInput::ScrollWheelUp );
+                } else if( event.bstate & BUTTON5_PRESSED ) {
+                    rval.add_input( MouseInput::ScrollWheelDown );
                 } else {
                     rval.add_input( MouseInput::Move );
                     if( input_timeout > 0 ) {

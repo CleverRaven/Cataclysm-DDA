@@ -1828,6 +1828,10 @@ bool scrolling_text_view::handle_navigation( const std::string &action, input_co
     bool mouse_in_window = coord.has_value() && mouseover_area.contains( coord.value() );
     bool mouse_over_scrollbar = coord.has_value() && scrollbar_area.contains( coord.value() );
 
+    if( action != "MOUSE_MOVE" ) {
+        dragging = false;
+    }
+
     if( action == scroll_up_action || ( action == "SCROLL_UP" && mouse_in_window ) ) {
         scroll_up();
     } else if( action == scroll_down_action || ( action == "SCROLL_DOWN" && mouse_in_window ) ) {
@@ -1844,10 +1848,6 @@ bool scrolling_text_view::handle_navigation( const std::string &action, input_co
     } else if( action == "SELECT" && mouse_over_scrollbar ) {
         int y_position = ( coord->y - getbegy( w_ ) ) * max_offset() / getmaxy( w_ );
         offset_ = clamp( y_position, 0, max_offset() );
-        dragging = false;
-    } else if( action == "SELECT" ) {
-        dragging = false;
-        return false;
     } else {
         return false;
     }
