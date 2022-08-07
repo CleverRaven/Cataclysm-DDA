@@ -3446,6 +3446,23 @@ void monster::on_load()
         healed_speed = get_speed_base() - old_speed;
     }
 
+    // Update special attacks' cooldown
+    for( const auto &sp_type : type->special_attacks ) {
+        const std::string &special_name = sp_type.first;
+        const auto local_iter = special_attacks.find( special_name );
+        if( local_iter == special_attacks.end() ) {
+            continue;
+        }
+        mon_special_attack &local_attack_data = local_iter->second;
+        if( !local_attack_data.enabled ) {
+            continue;
+        }
+
+        if( local_attack_data.cooldown > 0 ) {
+            local_attack_data.cooldown = std::max( 0, local_attack_data.cooldown - to_turns<int>( dt ) );
+        }
+    }
+
     add_msg_debug( debugmode::DF_MONSTER, "on_load() by %s, %d turns, healed %d hp, %d speed",
                    name(), to_turns<int>( dt ), healed, healed_speed );
 }
