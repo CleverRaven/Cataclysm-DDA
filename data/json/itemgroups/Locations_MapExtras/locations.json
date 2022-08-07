@@ -999,8 +999,6 @@
       { "item": "foodperson_mask", "prob": 1, "charges": [ 0, 500 ] },
       [ "55gal_drum", 10 ],
       [ "30gal_drum", 15 ],
-      [ "30gal_drum_aluminum", 15 ],
-      [ "55gal_drum_aluminum", 10 ],
       { "group": "tools_toolbox", "prob": 1 },
       [ "recipe_elfa", 2 ]
     ]

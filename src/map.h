@@ -1673,7 +1673,7 @@ class map
         // Unlike the other caches, this populates a supplied cache instead of an internal cache.
         void build_obstacle_cache(
             const tripoint &start, const tripoint &end,
-            cata::mdarray<fragment_cloud, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> &obstacle_cache );
+            cata::mdarray<fragment_cloud, point_bub_ms> &obstacle_cache );
 
         vehicle *add_vehicle( const vgroup_id &type, const tripoint &p, const units::angle &dir,
                               int init_veh_fuel = -1, int init_veh_status = -1,

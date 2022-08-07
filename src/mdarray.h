@@ -7,10 +7,30 @@
 #include <initializer_list>
 #include <type_traits>
 
+#include "coordinates.h"
 #include "point_traits.h"
 
 namespace cata
 {
+
+template<typename Point>
+struct mdarray_default_size_impl;
+
+template<typename Point, coords::scale Scale>
+struct mdarray_default_size_impl<coords::coord_point<Point, coords::origin::reality_bubble, Scale>> {
+    static constexpr size_t value = MAPSIZE_X / map_squares_per( Scale );
+    static_assert( MAPSIZE_X % map_squares_per( Scale ) == 0, "Scale must be smaller than map" );
+};
+
+template<typename Point, coords::origin Origin, coords::scale Scale>
+struct mdarray_default_size_impl<coords::coord_point<Point, Origin, Scale>> {
+    static constexpr coords::scale outer_scale = coords::scale_from_origin( Origin );
+    static constexpr size_t value = map_squares_per( outer_scale ) / map_squares_per( Scale );
+    static_assert( value > 0, "Scale must be smaller origin" );
+};
+
+template<typename Point>
+constexpr size_t mdarray_default_size = mdarray_default_size_impl<Point>::value;
 
 template<typename T, typename Point, size_t DimX, size_t DimY>
 class mdarray_impl_2d
@@ -79,7 +99,8 @@ class mdarray_impl_2d
         column_type data_[DimX];
 };
 
-template<typename T, typename Point, size_t DimX, size_t DimY>
+template<typename T, typename Point, size_t DimX = mdarray_default_size<Point>,
+         size_t DimY = mdarray_default_size<Point>>
 class mdarray : public std::conditional_t <
 // TODO: 3D version not yet implemented
     Point::dimension == 2, mdarray_impl_2d<T, Point, DimX, DimY>, void >

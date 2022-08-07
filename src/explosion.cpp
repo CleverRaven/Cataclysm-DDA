@@ -382,15 +382,13 @@ static std::vector<tripoint> shrapnel( const tripoint &src, int power,
     proj.proj_effects.insert( "NULL_SOURCE" );
 
     struct local_caches {
-        cata::mdarray<fragment_cloud, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> obstacle_cache;
-        cata::mdarray<fragment_cloud, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> visited_cache;
+        cata::mdarray<fragment_cloud, point_bub_ms> obstacle_cache;
+        cata::mdarray<fragment_cloud, point_bub_ms> visited_cache;
     };
 
     std::unique_ptr<local_caches> caches = std::make_unique<local_caches>();
-    cata::mdarray<fragment_cloud, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> &obstacle_cache =
-        caches->obstacle_cache;
-    cata::mdarray<fragment_cloud, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> &visited_cache =
-        caches->visited_cache;
+    cata::mdarray<fragment_cloud, point_bub_ms> &obstacle_cache = caches->obstacle_cache;
+    cata::mdarray<fragment_cloud, point_bub_ms> &visited_cache = caches->visited_cache;
 
     map &here = get_map();
     // TODO: Calculate range based on max effective range for projectiles.
