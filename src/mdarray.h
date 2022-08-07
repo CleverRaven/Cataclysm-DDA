@@ -33,6 +33,8 @@ template<typename Point>
 constexpr size_t mdarray_default_size = mdarray_default_size_impl<Point>::value;
 
 template<typename T, typename Point, size_t DimX, size_t DimY>
+// Suppressions due to a clang-tidy bug
+// NOLINTNEXTLINE(bugprone-reserved-identifier,cert-dcl37-c,cert-dcl51-cpp)
 class mdarray_impl_2d
 {
     private:
