@@ -6,10 +6,14 @@
     "components": [
       [
         [ "flour", 2 ],
+        [ "flour_wheat_free", 2 ],
+        [ "bread_flour", 2 ],
         [ "cornmeal", 1 ],
         [ "flatbread", 1 ],
+        [ "flatbread_wheat_free", 1 ],
         [ "tortilla_corn", 1 ],
         [ "bread", 1 ],
+        [ "bread_wheat_free", 1 ],
         [ "wastebread", 1 ],
         [ "cornbread", 1 ],
         [ "biscuit", 1 ],
