@@ -872,7 +872,12 @@ void resonance_cascade( const tripoint &p )
 void process_explosions()
 {
     for( const queued_explosion &ex : _explosions ) {
-        _make_explosion( get_map().getlocal( ex.first ), ex.second );
+        const tripoint p = get_map().getlocal( ex.first );
+        if( p.x < 0 || p.x >= MAPSIZE_X || p.y < 0 || p.y >= MAPSIZE_Y ) {
+            debugmsg( "Explosion origin (%d, %d, %d) is out-of-bounds", p.x, p.y, p.z );
+            continue;
+        }
+        _make_explosion( p, ex.second );
     }
     _explosions.clear();
 }
