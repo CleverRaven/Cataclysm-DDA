@@ -2726,10 +2726,11 @@ void set_skills( tab_manager &tabs, avatar &u, pool_type pool )
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
         werase( w );
+	werase( w_list );
+	werase( w_keybindings );
         tabs.draw( w );
         draw_points( w, pool, u );
-        werase( w_list );
-        werase( w_keybindings );
+
 
         nc_color cur_color = COL_NOTE_MINOR;
         for( size_t i = 0; i < keybinding_hint.size(); ++i ) {
