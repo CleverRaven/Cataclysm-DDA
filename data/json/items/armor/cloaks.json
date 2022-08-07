@@ -32,26 +32,10 @@
     "type": "ARMOR",
     "name": { "str": "pride flag" },
     "description": "A large rainbow flag, The colors reflect the diversity of the LGBT community and the spectrum of human sexuality and gender.",
-    "weight": "3404 g",
-    "volume": "2 L",
-    "price": 5000,
-    "price_postapoc": 50,
-    "to_hit": -1,
-    "material": [ "cotton" ],
+    "copy-from": "american_flag",
     "symbol": "]",
     "looks_like": "sheet",
     "color": "pink",
-    "warmth": 20,
-    "material_thickness": 0.3,
-    "environmental_protection": 1,
-    "flags": [ "OVERSIZE", "OUTER", "ALLOWS_NATURAL_ATTACKS" ],
-    "armor": [
-      {
-        "encumbrance": 50,
-        "coverage": 60,
-        "covers": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
-      }
-    ],
     "variant_type": "generic",
     "variants": [
       {
