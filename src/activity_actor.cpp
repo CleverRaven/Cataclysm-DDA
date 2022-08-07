@@ -342,6 +342,11 @@ void aim_activity_actor::finish( player_activity &act, Character &who )
         return;
     }
 
+    if( !get_option<bool>( "AIM_AFTER_FIRING" ) ) {
+        restore_view();
+        return;
+    }
+
     // re-enter aiming UI with same parameters
     aim_activity_actor aim_actor;
     aim_actor.abort_if_no_targets = true;
