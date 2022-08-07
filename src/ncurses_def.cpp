@@ -337,8 +337,8 @@ input_event input_manager::get_input_event( const keyboard_mode /*preferred_keyb
                 rval.mouse_pos = point( event.x, event.y );
                 if( event.bstate & BUTTON1_CLICKED ) {
                     rval.add_input( MouseInput::LeftButtonReleased );
-		} else if( event.bstate & BUTTON1_PRESSED ) {
-		  rval.add_input( MouseInput::LeftButtonPressed );
+                } else if( event.bstate & BUTTON1_PRESSED ) {
+                    rval.add_input( MouseInput::LeftButtonPressed );
                 } else if( event.bstate & BUTTON3_CLICKED ) {
                     rval.add_input( MouseInput::RightButtonReleased );
                 } else {
@@ -347,7 +347,7 @@ input_event input_manager::get_input_event( const keyboard_mode /*preferred_keyb
                         // Mouse movement seems to clear ncurses timeout
                         set_timeout( input_timeout );
                     }
-		}
+                }
             } else {
                 rval.type = input_event_t::error;
             }

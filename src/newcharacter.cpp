@@ -2735,7 +2735,7 @@ void set_skills( tab_manager &tabs, avatar &u, pool_type pool )
         for( size_t i = 0; i < keybinding_hint.size(); ++i ) {
             print_colored_text( w_keybindings, point( 0, i ), cur_color, COL_NOTE_MINOR, keybinding_hint[i] );
         }
-	
+
         if( details_recalc ) {
             details.set_text( assemble_skill_details( u, prof_skills, currentSkill ) );
             details_recalc = false;
