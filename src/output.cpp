@@ -1828,10 +1828,14 @@ bool scrolling_text_view::handle_navigation( const std::string &action, input_co
     bool mouse_in_window = coord.has_value() && mouseover_area.contains( coord.value() );
     bool mouse_over_scrollbar = coord.has_value() && scrollbar_area.contains( coord.value() );
 
-    if( action == "SCROLL_INFOBOX_UP" || ( action == "SCROLL_UP" && mouse_in_window ) ) {
+    if( action == scroll_up_action || ( action == "SCROLL_UP" && mouse_in_window ) ) {
         scroll_up();
-    } else if( action == "SCROLL_INFOBOX_DOWN" || ( action == "SCROLL_DOWN" && mouse_in_window ) ) {
+    } else if( action == scroll_down_action || ( action == "SCROLL_DOWN" && mouse_in_window ) ) {
         scroll_down();
+    } else if( paging_enabled && action == "PAGE_UP" ) {
+        page_up();
+    } else if( paging_enabled && action == "PAGE_DOWN" ) {
+        page_down();
     } else if( action == "CLICK_AND_DRAG" && mouse_over_scrollbar && !dragging ) {
         dragging = true;
     } else if( action == "MOUSE_MOVE" && mouse_in_screen && dragging ) {
@@ -1850,15 +1854,31 @@ bool scrolling_text_view::handle_navigation( const std::string &action, input_co
     return true;
 }
 
-void scrolling_text_view::set_up_navigation( input_context &ctxt )
+void scrolling_text_view::set_up_navigation( input_context &ctxt, const scrolling_key_scheme scheme,
+        const bool enable_paging )
 {
     ctxt.register_action( "CLICK_AND_DRAG" );
     ctxt.register_action( "MOUSE_MOVE" );
-    ctxt.register_action( "SCROLL_INFOBOX_UP" );
-    ctxt.register_action( "SCROLL_INFOBOX_DOWN" );
     ctxt.register_action( "SCROLL_UP" );
     ctxt.register_action( "SCROLL_DOWN" );
     ctxt.register_action( "SELECT" );
+    if( scheme == scrolling_key_scheme::no_scheme ) {
+    } else {
+        if( scheme == scrolling_key_scheme::angle_bracket_scroll ) {
+            scroll_up_action = "SCROLL_INFOBOX_UP";
+            scroll_down_action = "SCROLL_INFOBOX_DOWN";
+        } else if( scheme == scrolling_key_scheme::arrow_scroll ) {
+            scroll_up_action = "UP";
+            scroll_down_action = "DOWN";
+        }
+        ctxt.register_action( scroll_up_action );
+        ctxt.register_action( scroll_down_action );
+    }
+    if( enable_paging ) {
+        paging_enabled = true;
+        ctxt.register_action( "PAGE_UP" );
+        ctxt.register_action( "PAGE_DOWN" );
+    }
 }
 
 int scrolling_text_view::text_width()

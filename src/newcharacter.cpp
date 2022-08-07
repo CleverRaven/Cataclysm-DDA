@@ -1931,7 +1931,7 @@ void set_profession( tab_manager &tabs, avatar &u, pool_type pool )
 
     input_context ctxt( "NEW_CHAR_PROFESSIONS" );
     tabs.set_up_tab_navigation( ctxt );
-    details.set_up_navigation( ctxt );
+    details.set_up_navigation( ctxt, scrolling_key_scheme::angle_bracket_scroll );
     ctxt.register_cardinal();
     ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
     ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
@@ -2285,7 +2285,7 @@ void set_hobbies( tab_manager &tabs, avatar &u, pool_type pool )
 
     input_context ctxt( "NEW_CHAR_PROFESSIONS" );
     tabs.set_up_tab_navigation( ctxt );
-    details.set_up_navigation( ctxt );
+    details.set_up_navigation( ctxt, scrolling_key_scheme::angle_bracket_scroll );
     ctxt.register_cardinal();
     ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
     ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
@@ -2610,7 +2610,7 @@ void set_skills( tab_manager &tabs, avatar &u, pool_type pool )
     int iContentHeight = 0;
     const int iHeaderHeight = 5;
     input_context ctxt( "NEW_CHAR_SKILLS" );
-    details.set_up_navigation( ctxt );
+    details.set_up_navigation( ctxt, scrolling_key_scheme::angle_bracket_scroll );
     ctxt.register_cardinal();
     ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
     ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
@@ -3023,7 +3023,7 @@ void set_scenario( tab_manager &tabs, avatar &u, pool_type pool )
 
     input_context ctxt( "NEW_CHAR_SCENARIOS" );
     tabs.set_up_tab_navigation( ctxt );
-    details.set_up_navigation( ctxt );
+    details.set_up_navigation( ctxt, scrolling_key_scheme::angle_bracket_scroll );
     ctxt.register_cardinal();
     ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
     ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
