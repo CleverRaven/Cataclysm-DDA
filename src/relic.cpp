@@ -497,7 +497,7 @@ void relic::try_recharge( item &parent, Character *carrier, const tripoint &pos 
     }
 }
 
-bool relic::can_recharge( item &parent, Character *carrier )
+bool relic::can_recharge( item &parent, Character *carrier ) const
 {
 
     if( carrier == nullptr && charge.has != relic_recharge_has::NUM ) {

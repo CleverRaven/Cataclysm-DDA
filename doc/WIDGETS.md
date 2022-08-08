@@ -123,7 +123,7 @@ linked sections:
 | bodypart                | string                | For "bp_*" variables, body part id like "leg_r" or "torso"
 | separator               | string                | The string used to separate the label from the widget data. Children will inherit if this is not defined. Mandatory if style is "sidebar".
 | padding                 | int                   | Amount of padding between columns for this widget. Children will inherit if this is not defined. Mandatory if style is "sidebar".
-| [colors](#colors)       | list of strings       | Color names in a spectrum across variable range
+| [colors](#colors)       | list of strings       | Color names in a spectrum across variable range, or a single color for text widgets
 | [breaks](#breaks)       | list of integers      | Color breaks as percentages in the variable range. Optional, overwrites default algorithm.                                                 |
 | [direction](#direction) | string                | Cardinal compass direction like "N" or "SE"
 | [fill](#fill)           | string                | For [graph style](#graph-style), fill using ike "bucket" or "pool"
@@ -790,7 +790,21 @@ The number of colors you use is arbitrary; the [range of possible values](#varia
 mapped as closely as possible to the spectrum of colors, with one exception - variables with a
 "normal" value or range always use white (`c_white`) when the value is within normal.
 
-The color scale can be further customized using [`breaks`](#breaks)
+The color scale can be further customized using [`breaks`](#breaks).
+
+Widgets with "text" style can specify a single-element list of colors to overwrite the text color.
+Here is an example of colored place test:
+
+```json
+{
+  "id": "place_green",
+  "type": "widget",
+  "style": "text",
+  "label": "Place",
+  "var": "place_text",
+  "colors": [ "c_green" ]
+}
+```
 
 ## breaks
 

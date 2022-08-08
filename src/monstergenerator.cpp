@@ -54,7 +54,6 @@ std::string enum_to_string<mon_trigger>( mon_trigger data )
     switch( data ) {
         // *INDENT-OFF*
         case mon_trigger::STALK: return "STALK";
-        case mon_trigger::MEAT: return "MEAT";
         case mon_trigger::HOSTILE_WEAK: return "PLAYER_WEAK";
         case mon_trigger::HOSTILE_CLOSE: return "PLAYER_CLOSE";
         case mon_trigger::HOSTILE_SEEN: return "HOSTILE_SEEN";
@@ -199,7 +198,8 @@ std::string enum_to_string<m_flag>( m_flag data )
         case MF_ATTACK_LOWER: return "ATTACK_LOWER";
         case MF_DEADLY_VIRUS: return "DEADLY_VIRUS";
         case MF_ALWAYS_VISIBLE: return "ALWAYS_VISIBLE";
-        case MF_ALWAYS_SEES_YOU: return "ALWAYS_SEES_YOU";    
+        case MF_ALWAYS_SEES_YOU: return "ALWAYS_SEES_YOU";
+        case MF_ALL_SEEING: return "ALL_SEEING";
         // *INDENT-ON*
         case m_flag::MF_MAX:
             break;
@@ -312,10 +312,10 @@ struct monster_adjustment {
     std::string flag;
     bool flag_val = false;
     std::string special;
-    void apply( mtype &mon );
+    void apply( mtype &mon ) const;
 };
 
-void monster_adjustment::apply( mtype &mon )
+void monster_adjustment::apply( mtype &mon ) const
 {
     if( !mon.in_species( species ) ) {
         return;
@@ -396,7 +396,7 @@ void MonsterGenerator::finalize_mtypes()
         mon.speed *= get_option<int>( "MONSTER_SPEED" )      / 100.0;
         mon.hp    *= get_option<int>( "MONSTER_RESILIENCE" ) / 100.0;
 
-        for( monster_adjustment adj : adjustments ) {
+        for( const monster_adjustment &adj : adjustments ) {
             adj.apply( mon );
         }
 

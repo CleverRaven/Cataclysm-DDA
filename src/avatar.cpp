@@ -239,7 +239,7 @@ void avatar::toggle_map_memory()
     show_map_memory = !show_map_memory;
 }
 
-bool avatar::should_show_map_memory()
+bool avatar::should_show_map_memory() const
 {
     if( get_timed_events().get( timed_event_type::OVERRIDE_PLACE ) ) {
         return false;
@@ -1336,6 +1336,16 @@ void avatar::cycle_move_mode()
     // if a movemode is disabled then just cycle to the next one
     if( !movement_mode_is( next ) ) {
         set_movement_mode( next->cycle() );
+    }
+}
+
+void avatar::cycle_move_mode_reverse()
+{
+    const move_mode_id prev = current_movement_mode()->cycle_reverse();
+    set_movement_mode( prev );
+    // if a movemode is disabled then just cycle to the previous one
+    if( !movement_mode_is( prev ) ) {
+        set_movement_mode( prev->cycle_reverse() );
     }
 }
 

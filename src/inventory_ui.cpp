@@ -165,7 +165,7 @@ struct container_data {
     units::mass total_capacity_weight;
     units::length max_containable_length;
 
-    std::string to_formatted_string( const bool compact = true ) {
+    std::string to_formatted_string( const bool compact = true ) const {
         std::string string_to_format;
         if( compact ) {
             string_to_format = _( "%s/%s : %s/%s : max %s" );
@@ -3452,7 +3452,7 @@ bool inventory_examiner::check_parent_item()
     return !( parent_item->is_container_empty() || empty() );
 }
 
-int inventory_examiner::cleanup()
+int inventory_examiner::cleanup() const
 {
     if( changes_made ) {
         return EXAMINED_CONTENTS_WITH_CHANGES;

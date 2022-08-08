@@ -140,7 +140,8 @@
     "name": { "str": "Vitamin A" },
     "min": -8400,
     "max": 3600,
-    "rate": "180 m"
+    "rate": "180 m",
+    "flags": [ "OBSOLETE" ]
   },
   {
     "id": "vitB",
@@ -149,7 +150,8 @@
     "name": { "str": "Vitamin B12" },
     "min": -5600,
     "max": 2000,
-    "rate": "360 m"
+    "rate": "360 m",
+    "flags": [ "OBSOLETE" ]
   },
   {
     "id": "1st_aid",
