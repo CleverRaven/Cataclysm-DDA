@@ -10737,8 +10737,8 @@ int item::ammo_remaining( const Character *carrier ) const
     if( is_magazine() ) {
         for( const item *e : contents.all_items_top( item_pocket::pocket_type::MAGAZINE ) ) {
             if( e->is_ammo() ) {
-                ret += e->charges;
-            }
+				ret += e->charges;
+			}
         }
     }
 
@@ -10849,7 +10849,7 @@ bool item::ammo_sufficient( const Character *carrier, const std::string &method,
 
 bool item::activation_charges_sufficient( const Character *carrier, int qty ) const
 {
-    return qty * type->charges_to_use() >= ammo_remaining( carrier );
+    return qty * type->charges_to_use() <= ammo_remaining( carrier );
 }
 
 int item::ammo_consume( int qty, const tripoint &pos, Character *carrier )
