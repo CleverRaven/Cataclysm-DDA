@@ -67,7 +67,7 @@
     "material": [ "wood" ],
     "symbol": ";",
     "color": "brown",
-    "flags": [ "STAB" ],
+    "flags": [ "STAB", "SINGLE_USE" ],
     "use_action": {
       "type": "place_trap",
       "allow_underwater": true,
@@ -75,8 +75,7 @@
       "moves": 150,
       "practice": 2,
       "done_message": "You set the board trap on the %s, nails facing up."
-    },
-    "flags": [ "SINGLE_USE" ]
+    }
   },
   {
     "id": "boobytrap",

@@ -6493,11 +6493,15 @@ bool Character::invoke_item( item *used, const std::string &method, const tripoi
     }
 
     if( used == nullptr ) {
+        // The item was deleted in its use function. Don't do that.
+        // Not completely sure if it can be avoided
         debugmsg( "Rewrite %s item to use flag SINGLE_USE", actually_used->tname() );
+        return true;
     }
 
     if( used->is_comestible() ) {
         const bool ret = consume_effects( *used );
+        consume_charges( *used, charges_used.value() );
         return ret;
     }
 
@@ -6506,7 +6510,7 @@ bool Character::invoke_item( item *used, const std::string &method, const tripoi
 
     if( destroy || used->is_bionic() || used->is_deployable() ) {
         i_rem( used );
-		return true;
+        return true;
     }
 
     return false;

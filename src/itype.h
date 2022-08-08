@@ -1192,7 +1192,7 @@ struct itype {
         std::map<std::string, use_function> use_methods;
 
         /** The factor of ammo consumption indexed by action type*/
-        std::map<std::string, float> ammo_scale;
+        std::map<std::string, int> ammo_scale;
 
         /** Fields to emit when item is in active state */
         std::set<emit_id> emits;
@@ -1363,10 +1363,8 @@ struct itype {
         int charges_to_use() const {
             if( tool ) {
                 return tool->charges_per_use;
-            } else if( comestible ) {
-                return 1;
             }
-            return 0;
+            return 1;
         }
 
         // for tools that sub another tool, but use a different ratio of charges

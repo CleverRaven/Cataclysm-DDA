@@ -213,7 +213,7 @@ void iuse_transform::load( const JsonObject &obj )
 
 cata::optional<int> iuse_transform::use( Character &p, item &it, bool t, const tripoint &pos ) const
 {
-    float scale = 1;
+    int scale = 1;
     auto iter = it.type->ammo_scale.find( type );
     if( iter != it.type->ammo_scale.end() ) {
         scale = iter->second;
@@ -293,7 +293,7 @@ cata::optional<int> iuse_transform::use( Character &p, item &it, bool t, const t
     // defined here to allow making a new item assigned to the pointer
     item obj_it;
     if( it.is_tool() ) {
-        result = static_cast<int>( scale );
+        result = scale;
     }
     if( container.is_empty() ) {
         obj = &it.convert( target );
