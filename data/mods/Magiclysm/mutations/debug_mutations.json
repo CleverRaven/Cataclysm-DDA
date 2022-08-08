@@ -45,10 +45,20 @@
     "damage_type": "pure"
   },
   {
-    "type": "enchantment",
+    "type": "mutation",
     "id": "LIBRARY_DEFENDER",
-    "condition": "ALWAYS",
-    "values": [ { "value": "PERCEPTION", "add": 5 } ],
-    "hit_me_effect": [ { "id": "librarian_blinding", "hit_self": false } ]
+    "name": { "str": "library defender" },
+    "points": 99,
+    "valid": false,
+    "player_display": false,
+    "description": "To cast bug killing spells.",
+    "debug": false,
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "values": [ { "value": "PERCEPTION", "add": 5 } ],
+        "hit_me_effect": [ { "id": "librarian_blinding", "hit_self": false } ]
+      }
+    ]
   }
 ]
