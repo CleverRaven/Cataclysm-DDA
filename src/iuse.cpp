@@ -679,7 +679,7 @@ cata::optional<int> iuse::eyedrops( Character *p, item *it, bool, const tripoint
         p->add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
         return cata::nullopt;
     }
-    if( !it->activation_charges_sufficient( p ) ) {
+    if( !it->ammo_sufficient( p ) ) {
         p->add_msg_if_player( _( "You're out of %s." ), it->tname() );
         return cata::nullopt;
     }
@@ -10027,7 +10027,7 @@ cata::optional<int> iuse::binder_add_recipe( Character *p, item *binder, bool, c
 
     const inventory crafting_inv = p->crafting_inventory();
     const std::vector<const item *> writing_tools = crafting_inv.items_with( [&]( const item & it ) {
-        return it.has_flag( flag_WRITE_MESSAGE ) && it.activation_charges_sufficient( p );
+        return it.has_flag( flag_WRITE_MESSAGE ) && it.ammo_sufficient( p );
     } );
 
     if( writing_tools.empty() ) {
