@@ -15,7 +15,6 @@
     "max_level": 10,
     "min_range": 1,
     "max_range": 1,
-    "effect": "attack",
     "shape": "blast",
     "extra_effects": [ { "id": "light_healing", "hit_self": true } ]
   }

@@ -206,7 +206,7 @@
     "recurrence": [ "8 hours", "36 hours 15 minutes" ],
     "condition": {
       "and": [
-        { "compare_int": [ { "u_val": "vitamin", "name": "blood" }, "=<", { "const": 450 } ] },
+        { "compare_int": [ { "u_val": "vitamin", "name": "blood" }, "<=", { "const": 450 } ] },
         { "u_has_effect": "vampire_virus" }
       ]
     },
@@ -230,7 +230,7 @@
           }
         },
         {
-          "id": "EOC_VAMPVIRUS1",
+          "id": "EOC_VAMPVIRUS5",
           "condition": {
             "and": [
               { "u_has_effect": "vampire_virus", "intensity": 2 },
@@ -239,7 +239,7 @@
           },
           "effect": {
             "run_eocs": {
-              "id": "eoc_vampvirus_2_trait",
+              "id": "eoc_vampvirus_6_trait",
               "condition": { "u_has_trait": "VAMPIRE2" },
               "effect": { "u_message": "You feel an intense pain in your stomach and your skin reddens in a short time in sunlight." },
               "false_effect": [
@@ -252,7 +252,7 @@
           }
         },
         {
-          "id": "EOC_VAMPVIRUS2",
+          "id": "EOC_VAMPVIRUS6",
           "condition": {
             "and": [
               { "u_has_effect": "vampire_virus", "intensity": 3 },
@@ -261,7 +261,7 @@
           },
           "effect": {
             "run_eocs": {
-              "id": "eoc_vampvirus_3_trait",
+              "id": "eoc_vampvirus_7_trait",
               "condition": { "u_has_trait": "VAMPIRE3" },
               "effect": { "u_message": "You feel a gnawing in your belly and a pressure in your mouth, as if your teeth can't all fit." },
               "false_effect": [ { "u_add_trait": "VAMPIRE3" }, { "u_message": "Your skin seems to have become unnaturally pale." } ]
@@ -269,7 +269,7 @@
           }
         },
         {
-          "id": "EOC_VAMPVIRUS3",
+          "id": "EOC_VAMPVIRUS7",
           "condition": {
             "and": [
               { "u_has_effect": "vampire_virus", "intensity": 4 },
@@ -278,7 +278,7 @@
           },
           "effect": {
             "run_eocs": {
-              "id": "eoc_vampvirus_4_trait",
+              "id": "eoc_vampvirus_8_trait",
               "condition": { "u_has_trait": "VAMPIRE4" },
               "effect": { "u_message": "You feel a gnawing in your belly and a pressure in your mouth, as if your teeth can't all fit." },
               "false_effect": [ { "u_add_trait": "VAMPIRE4" }, { "u_message": "Your skin seems to have become unnaturally pale." } ]
@@ -286,7 +286,7 @@
           }
         },
         {
-          "id": "EOC_VAMPVIRUS4",
+          "id": "EOC_VAMPVIRUS8",
           "condition": {
             "and": [
               { "u_has_effect": "vampire_virus", "intensity": 5 },
@@ -295,7 +295,7 @@
           },
           "effect": {
             "run_eocs": {
-              "id": "eoc_vampvirus_5_trait",
+              "id": "eoc_vampvirus_9_trait",
               "condition": { "u_has_trait": "BLOOD_DRINKER" },
               "effect": [
                 { "u_message": "The HUNGER is overwhelming, all you can think about is blood!" },

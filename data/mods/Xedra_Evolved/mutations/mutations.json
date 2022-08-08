@@ -73,6 +73,6 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "learn_spell": "consume_human_blood"
+    "spells_learned": [ [ "consume_human_blood", 1 ] ]
   }
 ]
