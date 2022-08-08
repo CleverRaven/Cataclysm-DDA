@@ -345,6 +345,7 @@
       "difficulty": 0,
       "need_charges": 100,
       "moves": 20
-    }
+    },
+    "flags": [ "SINGLE_USE" ]
   }
 ]

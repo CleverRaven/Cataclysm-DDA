@@ -488,9 +488,9 @@ cata::optional<std::string> iuse::can_smoke( const Character &you )
     return cata::nullopt;
 }
 
-/* iuse methods return the number of charges expended or no value, which is usually "1".
- * Returning 0 indicates the item has not been used up,
- * though it may have been successfully activated.
+/* iuse methods return the number of charges expended, which is usually "1", or no value.
+ * Returning 0 indicates the item has not been used up, though it may have been successfully activated.
+ * 0 may also mean that the consumption and time progress was handled within iuse action.
  * A return of cata::nullopt means it was not used at all.
  */
 cata::optional<int> iuse::sewage( Character *p, item *, bool, const tripoint & )
