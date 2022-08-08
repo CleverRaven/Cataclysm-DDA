@@ -339,7 +339,7 @@ std::vector<item_location> Character::top_items_loc()
     return worn.top_items_loc( *this );
 }
 
-item *Character::invlet_to_item( const int linvlet )
+item *Character::invlet_to_item( const int linvlet ) const
 {
     // Invlets may come from curses, which may also return any kind of key codes, those being
     // of type int and they can become valid, but different characters when casted to char.
@@ -456,12 +456,12 @@ bool Character::has_active_item( const itype_id &id ) const
     } );
 }
 
-ret_val<bool> Character::can_drop( const item &it ) const
+ret_val<void> Character::can_drop( const item &it ) const
 {
     if( it.has_flag( flag_NO_UNWIELD ) ) {
-        return ret_val<bool>::make_failure( _( "You cannot drop your %s." ), it.tname() );
+        return ret_val<void>::make_failure( _( "You cannot drop your %s." ), it.tname() );
     }
-    return ret_val<bool>::make_success();
+    return ret_val<void>::make_success();
 }
 
 void Character::drop_invalid_inventory()

@@ -38,7 +38,6 @@
     ],
     "anger_triggers": [ "HURT", "PLAYER_CLOSE" ],
     "fear_triggers": [ "SOUND" ],
-    "placate_triggers": [ "MEAT" ],
     "harvest": "mutant_mammal_large_fur",
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "BASHES", "PUSH_MON", "STUMBLES", "KEENNOSE" ]
   },
@@ -127,7 +126,6 @@
     "vision_night": 20,
     "special_attacks": [ { "id": "scratch", "attack_upper": false, "cooldown": 10 } ],
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "FRIEND_ATTACKED" ],
-    "placate_triggers": [ "MEAT" ],
     "harvest": "mammal_tiny",
     "reproduction": { "baby_monster": "mon_cat_mutant_kitten_prism", "baby_count": 2, "baby_timer": 80 },
     "petfood": {
@@ -170,7 +168,6 @@
     "dodge": 14,
     "special_attacks": [ { "id": "scratch", "attack_upper": false, "cooldown": 10 } ],
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "FRIEND_ATTACKED" ],
-    "placate_triggers": [ "MEAT" ],
     "harvest": "mammal_tiny",
     "petfood": {
       "food": [ "CATFOOD" ],
@@ -218,7 +215,6 @@
     "path_settings": { "max_dist": 7 },
     "anger_triggers": [ "FRIEND_ATTACKED", "PLAYER_WEAK" ],
     "fear_triggers": [ "SOUND" ],
-    "placate_triggers": [ "MEAT" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE", "GROUP_MORALE" ]
   },
   {
@@ -250,7 +246,6 @@
     "path_settings": { "max_dist": 7 },
     "anger_triggers": [ "STALK", "FRIEND_ATTACKED", "PLAYER_WEAK", "HURT" ],
     "fear_triggers": [ "SOUND" ],
-    "placate_triggers": [ "MEAT" ],
     "harvest": "mutant_mammal_fur",
     "flags": [
       "SEES",
@@ -305,7 +300,6 @@
       }
     ],
     "anger_triggers": [ "STALK", "FRIEND_ATTACKED", "FRIEND_DIED", "PLAYER_WEAK", "PLAYER_CLOSE" ],
-    "placate_triggers": [ "MEAT" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE" ]
   },
   {
@@ -407,7 +401,6 @@
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN", "WINTER" ],
     "biosignature": { "biosig_item": "feces_dog", "biosig_timer": 6 },
     "anger_triggers": [ "HURT", "FRIEND_ATTACKED", "FRIEND_DIED" ],
-    "placate_triggers": [ "MEAT" ],
     "special_attacks": [ [ "EAT_FOOD", 100 ], [ "PARROT_AT_DANGER", 0 ] ],
     "petfood": {
       "food": [ "DOGFOOD" ],

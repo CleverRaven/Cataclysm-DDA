@@ -29,7 +29,7 @@ The type of the vitamin. Valid values are:
 
 #### `vitamin`
 When simplified nutrition is enabled, this vitamin will not be added to any items and any time the game attempts to retrieve it from the player it will give 0.
-Only nutritional vitamins should have this type.
+Only nutritional vitamins should have this type. **Vitamins are inputed in JSON as RDA everything else is a constant value**
 
 #### `toxin`
 This is some toxic chemical or component. This currently has no effect.
@@ -74,3 +74,4 @@ Each tier of excess corresponds to the intensity level of the effect defined in 
 ## flags
 
 - ```NO_DISPLAY``` - This vitamin will not be shown when examining a food.
+- ```OBSOLETE``` - This vitamin will not be displayed when tracking vitamins in the consume menu.

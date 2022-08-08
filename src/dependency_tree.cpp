@@ -39,12 +39,12 @@ void dependency_node::add_child( dependency_node *child )
     }
 }
 
-bool dependency_node::is_available()
+bool dependency_node::is_available() const
 {
     return all_errors.empty();
 }
 
-std::map<NODE_ERROR_TYPE, std::vector<std::string > > dependency_node::errors()
+std::map<NODE_ERROR_TYPE, std::vector<std::string > > dependency_node::errors() const
 {
     return all_errors;
 }

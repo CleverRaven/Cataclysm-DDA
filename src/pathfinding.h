@@ -3,6 +3,7 @@
 #define CATA_SRC_PATHFINDING_H
 
 #include "game_constants.h"
+#include "mdarray.h"
 
 enum pf_special : int {
     PF_NORMAL = 0x00,    // Plain boring tile (grass, dirt, floor etc.)
@@ -40,11 +41,10 @@ inline pf_special &operator &= ( pf_special &lhs, pf_special rhs )
 
 struct pathfinding_cache {
     pathfinding_cache();
-    ~pathfinding_cache();
 
     bool dirty = false;
 
-    pf_special special[MAPSIZE_X][MAPSIZE_Y];
+    cata::mdarray<pf_special, point_bub_ms> special;
 };
 
 struct pathfinding_settings {

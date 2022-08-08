@@ -27,7 +27,9 @@
 
 static const flag_id json_flag_COLD( "COLD" );
 static const flag_id json_flag_FILTHY( "FILTHY" );
+static const flag_id json_flag_FIX_NEARSIGHT( "FIX_NEARSIGHT" );
 static const flag_id json_flag_HOT( "HOT" );
+
 
 static const itype_id itype_test_backpack( "test_backpack" );
 static const itype_id itype_test_duffelbag( "test_duffelbag" );
@@ -1103,7 +1105,6 @@ static const std::set<itype_id> known_bad = {
     itype_id( "recipe_lab_elec" ), // NOLINT(cata-static-string_id-constants)
     itype_id( "pumpkin_muffins" ), // NOLINT(cata-static-string_id-constants)
     itype_id( "AID_bio_soporific" ), // NOLINT(cata-static-string_id-constants)
-    itype_id( "american_flag" ), // NOLINT(cata-static-string_id-constants)
     itype_id( "test_smart_phone" ), // NOLINT(cata-static-string_id-constants)
     itype_id( "iotv_groin_plate" ), // NOLINT(cata-static-string_id-constants)
     itype_id( "coin_silver" ), // NOLINT(cata-static-string_id-constants)
@@ -1944,6 +1945,24 @@ TEST_CASE( "armor_entry_consolidate_check", "[item][armor]" )
     //check this item has a single armor entry, not 3 like is written in the json explicitly
 
     CHECK( test_consolidate.find_armor_data()->sub_data.size() == 1 );
+}
+
+TEST_CASE( "module_inheritance", "[item][armor]" )
+{
+    avatar &guy = get_avatar();
+    clear_avatar();
+    guy.set_body();
+    guy.clear_mutations();
+    guy.worn.clear();
+
+    item test_exo( "test_modular_exosuit" );
+    item test_module( "test_exo_lense_module" );
+
+    test_exo.force_insert_item( test_module, item_pocket::pocket_type::CONTAINER );
+
+    guy.worn.wear_item( guy, test_exo, false, false, false );
+
+    CHECK( guy.worn.worn_with_flag( json_flag_FIX_NEARSIGHT ) );
 }
 
 TEST_CASE( "rigid_armor_compliance", "[item][armor]" )

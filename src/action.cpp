@@ -161,6 +161,8 @@ std::string action_ident( action_id act )
             return "shift_nw";
         case ACTION_CYCLE_MOVE:
             return "cycle_move";
+        case ACTION_CYCLE_MOVE_REVERSE:
+            return "cycle_move_reverse";
         case ACTION_RESET_MOVE:
             return "reset_move";
         case ACTION_TOGGLE_RUN:
@@ -749,6 +751,7 @@ action_id handle_action_menu()
         // Only prioritize movement options if we're not driving.
         if( !player_character.controlling_vehicle ) {
             action_weightings[ACTION_CYCLE_MOVE] = 400;
+            action_weightings[ACTION_CYCLE_MOVE_REVERSE] = 400;
         }
         const item_location weapon = player_character.get_wielded_item();
         // Only prioritize fire weapon options if we're wielding a ranged weapon.
@@ -1077,7 +1080,7 @@ cata::optional<tripoint> choose_direction( const std::string &message, const boo
     do {
         ui_manager::redraw();
         action = ctxt.handle_input();
-        if( const cata::optional<tripoint> vec = ctxt.get_direction( action ) ) {
+        if( cata::optional<tripoint> vec = ctxt.get_direction( action ) ) {
             FacingDirection &facing = get_player_character().facing;
             // Make player's sprite face left/right if interacting with something to the left or right
             if( vec->x > 0 ) {

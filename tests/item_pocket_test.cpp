@@ -213,7 +213,7 @@ TEST_CASE( "max item length", "[pocket][max_item_length]" )
 
             REQUIRE( box.is_container_empty() );
             std::string dmsg = capture_debugmsg_during( [&box, &rod_15]() {
-                ret_val<bool> result = box.put_in( rod_15, item_pocket::pocket_type::CONTAINER );
+                ret_val<void> result = box.put_in( rod_15, item_pocket::pocket_type::CONTAINER );
                 CHECK_FALSE( result.success() );
             } );
             CHECK_THAT( dmsg, Catch::EndsWith( "item is too long" ) );

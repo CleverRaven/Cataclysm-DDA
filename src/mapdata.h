@@ -473,7 +473,6 @@ struct map_data_common_t {
             return !( curtain_transform.is_empty() || curtain_transform.is_null() );
         }
 
-    public:
         std::string name() const;
 
         /*

@@ -135,7 +135,17 @@
     "text": "Ate vegetables"
   },
   {
+    "id": "morale_antiveggy",
+    "type": "morale_type",
+    "text": "Ate vegetables"
+  },
+  {
     "id": "morale_meatarian",
+    "type": "morale_type",
+    "text": "Ate meat"
+  },
+  {
+    "id": "morale_antimeat",
     "type": "morale_type",
     "text": "Ate meat"
   },

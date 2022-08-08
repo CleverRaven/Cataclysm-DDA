@@ -204,6 +204,14 @@
     "flags": [ "W_DISABLED_BY_DEFAULT" ]
   },
   {
+    "id": "lcom_env_overmap_wrapper",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "width": 9,
+    "widgets": [ "lcom_env_overmap" ]
+  },
+  {
     "id": "lcom_env_overmap",
     "type": "widget",
     "label": "Overmap",
@@ -218,6 +226,7 @@
     "type": "widget",
     "style": "layout",
     "arrange": "rows",
+    "width": 24,
     "widgets": [ "wielding_desc", "style_desc", "place_desc", "weather_desc", "lighting_desc", "wind_desc", "env_temp_desc" ]
   },
   {
@@ -225,6 +234,7 @@
     "type": "widget",
     "style": "layout",
     "arrange": "rows",
+    "width": 24,
     "widgets": [
       "wielding_desc_no_label",
       "style_desc_no_label",
@@ -241,7 +251,7 @@
     "style": "layout",
     "label": "Env",
     "arrange": "columns",
-    "widgets": [ "lcom_env_overmap", "lcom_env_right_layout" ]
+    "widgets": [ "lcom_env_overmap_wrapper", "lcom_env_right_layout" ]
   },
   {
     "id": "lcom_env_alt_layout",
@@ -249,7 +259,7 @@
     "style": "layout",
     "label": "Env Alt",
     "arrange": "columns",
-    "widgets": [ "lcom_env_overmap", "lcom_env_right_alt_layout" ]
+    "widgets": [ "lcom_env_overmap_wrapper", "lcom_env_right_alt_layout" ]
   },
   {
     "id": "lcom_vehicle_layout",

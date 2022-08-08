@@ -1214,7 +1214,7 @@ void mattack::smash_specific( monster *z, Creature *target )
         return;
     }
     if( z->has_flag( MF_RIDEABLE_MECH ) ) {
-        z->use_mech_power( -5 );
+        z->use_mech_power( 5_kJ );
     }
     z->set_dest( target->get_location() );
     smash( z );
@@ -5069,8 +5069,11 @@ bool mattack::riotbot( monster *z )
                          _( "You deftly slip out of the handcuffs just as the robot closes them.  The robot didn't seem to notice!" ) );
                 foe->i_add( handcuffs );
             } else {
-                handcuffs.set_flag( flag_NO_UNWIELD );
                 foe->wield( *foe->i_add( handcuffs ) );
+                item_location wielded = foe->get_wielded_item();
+                if( wielded && wielded->type == handcuffs.type ) {
+                    wielded->set_flag( flag_NO_UNWIELD );
+                }
                 foe->moves -= 300;
                 add_msg( m_bad, _( "The robot puts handcuffs on you." ) );
             }

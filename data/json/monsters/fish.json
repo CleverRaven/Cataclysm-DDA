@@ -536,7 +536,7 @@
     "reproduction": { "baby_egg": "egg_fish", "baby_count": 2, "baby_timer": 21 },
     "baby_flags": [ "AUTUMN" ],
     "fear_triggers": [ "PLAYER_CLOSE", "SOUND" ],
-    "upgrades": { "half_life": 14, "into": "mon_crayfish_small" },
+    "upgrades": { "half_life": 42, "into": "mon_crayfish_small" },
     "flags": [ "FISHABLE", "SEES", "SMELLS", "SWIMS", "AQUATIC", "WATER_CAMOUFLAGE", "ARTHROPOD_BLOOD" ]
   },
   {
@@ -603,7 +603,7 @@
     "volume": "30 L",
     "weight": "40 kg",
     "dissect": "dissect_gastropod_sample_single",
-    "upgrades": { "half_life": 14, "into": "mon_giant_crayfish" }
+    "upgrades": { "half_life": 28, "into": "mon_giant_crayfish" }
   },
   {
     "id": "mon_giant_crayfish",
@@ -633,7 +633,7 @@
     "dissect": "dissect_gastropod_sample_small",
     "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
     "fear_triggers": [ "FIRE" ],
-    "upgrades": { "half_life": 21, "into": "mon_crayfish_mega" },
+    "upgrades": { "half_life": 42, "into": "mon_crayfish_mega" },
     "flags": [ "SMELLS", "HEARS", "SEES", "SWIMS", "GRABS", "ARTHROPOD_BLOOD" ]
   },
   {

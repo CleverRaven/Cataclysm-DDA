@@ -12,6 +12,7 @@
     "base_casting_time": 200,
     "base_energy_cost": 500,
     "energy_source": "BIONIC",
+    "flags": [ "SILENT", "NO_LEGS", "NO_HANDS", "NO_FAIL" ],
     "spell_class": "NONE"
   },
   {
@@ -27,6 +28,7 @@
     "base_casting_time": 2400,
     "base_energy_cost": 500,
     "energy_source": "BIONIC",
+    "flags": [ "SILENT", "NO_LEGS", "NO_HANDS", "NO_FAIL" ],
     "spell_class": "NONE"
   }
 ]

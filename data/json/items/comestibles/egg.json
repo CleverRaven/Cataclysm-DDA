@@ -36,7 +36,7 @@
     "copy-from": "egg_bird",
     "looks_like": "egg_bird",
     "name": { "str": "unfertilized bird egg" },
-    "description": "Nutritious egg laid by a bird.  This one is unfertilized and is probably from a farm.",
+    "description": "Nutritious egg laid by a bird.  This one is unfertilized and probably from a farm.",
     "rot_spawn_chance": 0
   },
   {
@@ -348,7 +348,7 @@
     "color": "light_red",
     "symbol": "o",
     "spoils_in": "7 days",
-    "description": "A lady bug egg.  It looks like a huge yellow rice grain.  Inside there is a hungry translucent lavrae.",
+    "description": "A lady bug egg.  It looks like a huge yellow rice grain.  Inside there is a hungry translucent larva.",
     "rot_spawn": "GROUP_EGG_LADY_BUG",
     "rot_spawn_chance": 50
   },

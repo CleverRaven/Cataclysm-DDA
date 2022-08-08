@@ -28,6 +28,7 @@
 #include "field_type.h"
 #include "game.h"
 #include "game_constants.h"
+#include "harvest.h"
 #include "item.h"
 #include "item_group.h"
 #include "itype.h"
@@ -111,7 +112,6 @@ static const emit_id emit_emit_shock_cloud_big( "emit_shock_cloud_big" );
 
 static const flag_id json_flag_DISABLE_FLIGHT( "DISABLE_FLIGHT" );
 
-static const itype_id itype_corpse( "corpse" );
 static const itype_id itype_milk( "milk" );
 static const itype_id itype_milk_raw( "milk_raw" );
 
@@ -1398,10 +1398,6 @@ void monster::process_triggers()
         return ret;
     } );
 
-    // Meat checking is disabled as for now.
-    // It's hard to ever see it in action
-    // and even harder to balance it without making it exploitable
-
     if( morale != type->morale && one_in( 4 ) &&
         ( ( std::abs( morale - type->morale ) > 15 ) || one_in( 2 ) ) ) {
         if( morale < type->morale ) {
@@ -2577,6 +2573,7 @@ void monster::die( Creature *nkiller )
 
     if( death_drops && !no_extra_death_drops ) {
         drop_items_on_death( corpse );
+        spawn_dissectables_on_death( corpse );
     }
     if( death_drops && !is_hallucination() ) {
         for( const item &it : inv ) {
@@ -2584,6 +2581,13 @@ void monster::die( Creature *nkiller )
                 corpse->put_in( it, item_pocket::pocket_type::CONTAINER );
             } else {
                 get_map().add_item_or_charges( pos(), it );
+            }
+        }
+        for( const item &it : dissectable_inv ) {
+            if( corpse ) {
+                corpse->put_in( it, item_pocket::pocket_type::CORPSE );
+            } else {
+                get_map().add_item( pos(), it );
             }
         }
         if( corpse ) {
@@ -2612,42 +2616,44 @@ void monster::die( Creature *nkiller )
         }
     }
 
-    // If our species fears seeing one of our own die, process that
-    int anger_adjust = 0;
-    int morale_adjust = 0;
-    if( type->has_anger_trigger( mon_trigger::FRIEND_DIED ) ) {
-        anger_adjust += 15;
-    }
-    if( type->has_fear_trigger( mon_trigger::FRIEND_DIED ) ) {
-        morale_adjust -= 15;
-    }
-    if( type->has_placate_trigger( mon_trigger::FRIEND_DIED ) ) {
-        anger_adjust -= 15;
-    }
+    // Adjust anger/morale of nearby monsters, if they have the appropriate trigger and are friendly
+    // Keep filtering on the dying monsters' triggers to preserve current functionality
+    bool trigger = type->has_anger_trigger( mon_trigger::FRIEND_DIED ) ||
+                   type->has_fear_trigger( mon_trigger::FRIEND_DIED ) ||
+                   type->has_placate_trigger( mon_trigger::FRIEND_DIED );
 
-    if( anger_adjust != 0 || morale_adjust != 0 ) {
+    if( trigger ) {
         int light = g->light_level( posz() );
+        map &here = get_map();
         for( monster &critter : g->all_monsters() ) {
-            if( !critter.type->same_species( *type ) ) {
+            // Do we actually care about this faction?
+            if( critter.faction->attitude( faction ) != MFA_FRIENDLY ) {
                 continue;
             }
 
             if( here.sees( critter.pos(), pos(), light ) ) {
-                critter.morale += morale_adjust;
-                critter.anger += anger_adjust;
+                // Anger trumps fear trumps ennui
+                if( critter.type->has_anger_trigger( mon_trigger::FRIEND_DIED ) ) {
+                    critter.anger += 15;
+                } else if( critter.type->has_fear_trigger( mon_trigger::FRIEND_DIED ) ) {
+                    critter.morale -= 15;
+                } else if( critter.type->has_placate_trigger( mon_trigger::FRIEND_DIED ) ) {
+                    critter.anger -= 15;
+                }
             }
         }
     }
 }
 
-bool monster::use_mech_power( int amt )
+units::energy monster::use_mech_power( units::energy amt )
 {
     if( is_hallucination() || !has_flag( MF_RIDEABLE_MECH ) || !battery_item ) {
-        return false;
+        return 0_kJ;
     }
-    amt = -amt;
-    battery_item->ammo_consume( amt, pos(), nullptr );
-    return battery_item->ammo_remaining() > 0;
+    const int max_drain = battery_item->ammo_remaining();
+    const int consumption = std::min( static_cast<int>( units::to_kilojoule( amt ) ), max_drain );
+    battery_item->ammo_consume( consumption, pos(), nullptr );
+    return units::from_kilojoule( consumption );
 }
 
 int monster::mech_str_addition() const
@@ -2752,6 +2758,37 @@ void monster::drop_items_on_death( item *corpse )
                 current_best.second->insert_item( it );
             } else {
                 corpse->put_in( it, item_pocket::pocket_type::CONTAINER );
+            }
+        }
+    }
+}
+
+void monster::spawn_dissectables_on_death( item *corpse )
+{
+    if( is_hallucination() ) {
+        return;
+    }
+    if( type->dissect.is_empty() ) {
+        return;
+    }
+
+    std::vector<item> new_dissectables;
+    for( const harvest_entry &entry : *type->dissect ) {
+        std::vector<item> dissectables = item_group::items_from( item_group_id( entry.drop ),
+                                         calendar::turn,
+                                         spawn_flags::use_spawn_rate );
+        for( item &dissectable : dissectables ) {
+            dissectable.dropped_from = entry.type;
+            for( const flag_id &flg : entry.flags ) {
+                dissectable.set_flag( flg );
+            }
+            for( const fault_id &flt : entry.faults ) {
+                dissectable.faults.emplace( flt );
+            }
+            if( corpse ) {
+                corpse->put_in( dissectable, item_pocket::pocket_type::CORPSE );
+            } else {
+                get_map().add_item_or_charges( pos(), dissectable );
             }
         }
     }
@@ -3073,7 +3110,7 @@ bool monster::is_nemesis() const
 
 void monster::init_from_item( item &itm )
 {
-    if( itm.typeId() == itype_corpse ) {
+    if( itm.is_corpse() ) {
         set_speed_base( get_speed_base() * 0.8 );
         const int burnt_penalty = itm.burnt;
         hp = static_cast<int>( hp * 0.7 );
@@ -3099,6 +3136,11 @@ void monster::init_from_item( item &itm )
             }
             inv.push_back( *it );
             itm.remove_item( *it );
+        }
+        //Move dissectables (installed bionics, etc)
+        for( item *dissectable : itm.all_items_top( item_pocket::pocket_type::CORPSE ) ) {
+            dissectable_inv.push_back( *dissectable );
+            itm.remove_item( *dissectable );
         }
     } else {
         // must be a robot
@@ -3159,30 +3201,30 @@ void monster::on_hit( Creature *source, bodypart_id,
         type->sp_defense( *this, source, proj );
     }
 
-    // Adjust anger/morale of same-species monsters, if appropriate
-    int anger_adjust = 0;
-    int morale_adjust = 0;
-    if( type->has_anger_trigger( mon_trigger::FRIEND_ATTACKED ) ) {
-        anger_adjust += 15;
-    }
-    if( type->has_fear_trigger( mon_trigger::FRIEND_ATTACKED ) ) {
-        morale_adjust -= 15;
-    }
-    if( type->has_placate_trigger( mon_trigger::FRIEND_ATTACKED ) ) {
-        anger_adjust -= 15;
-    }
+    // Adjust anger/morale of nearby monsters, if they have the appropriate trigger and are friendly
+    // Keep filtering on the hit monsters' triggers to preserve current functionality
+    bool trigger = type->has_anger_trigger( mon_trigger::FRIEND_ATTACKED ) ||
+                   type->has_fear_trigger( mon_trigger::FRIEND_ATTACKED ) ||
+                   type->has_placate_trigger( mon_trigger::FRIEND_ATTACKED );
 
-    if( anger_adjust != 0 || morale_adjust != 0 ) {
+    if( trigger ) {
         int light = g->light_level( posz() );
         map &here = get_map();
         for( monster &critter : g->all_monsters() ) {
-            if( !critter.type->same_species( *type ) ) {
+            // Do we actually care about this faction?
+            if( critter.faction->attitude( faction ) != MFA_FRIENDLY ) {
                 continue;
             }
 
             if( here.sees( critter.pos(), pos(), light ) ) {
-                critter.morale += morale_adjust;
-                critter.anger += anger_adjust;
+                // Anger trumps fear trumps ennui
+                if( critter.type->has_anger_trigger( mon_trigger::FRIEND_ATTACKED ) ) {
+                    critter.anger += 15;
+                } else if( critter.type->has_fear_trigger( mon_trigger::FRIEND_ATTACKED ) ) {
+                    critter.morale -= 15;
+                } else if( critter.type->has_placate_trigger( mon_trigger::FRIEND_ATTACKED ) ) {
+                    critter.anger -= 15;
+                }
             }
         }
     }
@@ -3293,6 +3335,9 @@ void monster::set_horde_attraction( monster_horde_attraction mha )
 bool monster::will_join_horde( int size )
 {
     const monster_horde_attraction mha = get_horde_attraction();
+    if( this->has_flag( MF_IMMOBILE ) ) {
+        return false; //immobile monsters should never join a horde.
+    }
     if( mha == MHA_NEVER ) {
         return false;
     }
@@ -3399,6 +3444,23 @@ void monster::on_load()
             set_speed_base( std::min( old_speed + speed_delta, type->speed ) );
         }
         healed_speed = get_speed_base() - old_speed;
+    }
+
+    // Update special attacks' cooldown
+    for( const auto &sp_type : type->special_attacks ) {
+        const std::string &special_name = sp_type.first;
+        const auto local_iter = special_attacks.find( special_name );
+        if( local_iter == special_attacks.end() ) {
+            continue;
+        }
+        mon_special_attack &local_attack_data = local_iter->second;
+        if( !local_attack_data.enabled ) {
+            continue;
+        }
+
+        if( local_attack_data.cooldown > 0 ) {
+            local_attack_data.cooldown = std::max( 0, local_attack_data.cooldown - to_turns<int>( dt ) );
+        }
     }
 
     add_msg_debug( debugmode::DF_MONSTER, "on_load() by %s, %d turns, healed %d hp, %d speed",

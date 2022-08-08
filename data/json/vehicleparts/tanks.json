@@ -393,5 +393,54 @@
     },
     "flags": [ "GASTANK" ],
     "damage_reduction": { "all": 28, "stab": 12 }
+  },
+  {
+    "id": "tank_55gal_drum_aluminum",
+    "copy-from": "tank_55gal_drum",
+    "type": "vehicle_part",
+    "name": { "str": "aluminum tank (200L)" },
+    "item": "55gal_drum_aluminum",
+    "breaks_into": [ { "item": "scrap_aluminum", "count": [ 4, 25 ] } ]
+  },
+  {
+    "id": "tank_30gal_drum_aluminum",
+    "copy-from": "tank_30gal_drum",
+    "type": "vehicle_part",
+    "name": { "str": "aluminum tank (100L)" },
+    "item": "30gal_drum_aluminum",
+    "breaks_into": [ { "item": "scrap_aluminum", "count": [ 4, 13 ] } ]
+  },
+  {
+    "id": "external_tank_small_aluminum",
+    "copy-from": "external_tank_small",
+    "type": "vehicle_part",
+    "name": { "str": "external aluminum tank (100L)" },
+    "looks_like": "afs_roof_external_tank",
+    "item": "30gal_drum_aluminum",
+    "breaks_into": [ { "item": "scrap_aluminum", "count": [ 4, 13 ] } ]
+  },
+  {
+    "id": "afs_small_roof_external_tank_aluminum",
+    "copy-from": "external_tank_small_aluminum",
+    "type": "vehicle_part",
+    "name": { "str": "roof-mounted external aluminum tank (100L)" },
+    "item": "30gal_drum_aluminum",
+    "breaks_into": [ { "item": "scrap_aluminum", "count": [ 4, 13 ] } ]
+  },
+  {
+    "id": "external_tank_aluminum",
+    "copy-from": "external_tank",
+    "type": "vehicle_part",
+    "name": { "str": "external aluminum tank (200L)" },
+    "item": "55gal_drum_aluminum",
+    "breaks_into": [ { "item": "scrap_aluminum", "count": [ 4, 25 ] } ]
+  },
+  {
+    "id": "afs_roof_external_tank_aluminum",
+    "copy-from": "afs_roof_external_tank",
+    "type": "vehicle_part",
+    "name": { "str": "roof-mounted external aluminum tank (200L)" },
+    "item": "55gal_drum_aluminum",
+    "breaks_into": [ { "item": "scrap_aluminum", "count": [ 4, 25 ] } ]
   }
 ]
