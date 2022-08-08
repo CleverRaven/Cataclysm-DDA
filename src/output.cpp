@@ -1862,8 +1862,7 @@ void scrolling_text_view::set_up_navigation( input_context &ctxt, const scrollin
     ctxt.register_action( "SCROLL_UP" );
     ctxt.register_action( "SCROLL_DOWN" );
     ctxt.register_action( "SELECT" );
-    if( scheme == scrolling_key_scheme::no_scheme ) {
-    } else {
+    if( scheme != scrolling_key_scheme::no_scheme ) {
         if( scheme == scrolling_key_scheme::angle_bracket_scroll ) {
             scroll_up_action = "SCROLL_INFOBOX_UP";
             scroll_down_action = "SCROLL_INFOBOX_DOWN";

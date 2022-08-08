@@ -2731,7 +2731,6 @@ void set_skills( tab_manager &tabs, avatar &u, pool_type pool )
         tabs.draw( w );
         draw_points( w, pool, u );
 
-
         nc_color cur_color = COL_NOTE_MINOR;
         for( size_t i = 0; i < keybinding_hint.size(); ++i ) {
             print_colored_text( w_keybindings, point( 0, i ), cur_color, COL_NOTE_MINOR, keybinding_hint[i] );

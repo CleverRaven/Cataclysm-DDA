@@ -343,10 +343,13 @@ input_event input_manager::get_input_event( const keyboard_mode /*preferred_keyb
                     rval.add_input( MouseInput::LeftButtonPressed );
                 } else if( event.bstate & BUTTON3_CLICKED ) {
                     rval.add_input( MouseInput::RightButtonReleased );
+                    // If curses version is prepared for a 5-button mouse, enable mousewheel
+#if defined(BUTTON5_PRESSED)
                 } else if( event.bstate & BUTTON4_PRESSED ) {
                     rval.add_input( MouseInput::ScrollWheelUp );
                 } else if( event.bstate & BUTTON5_PRESSED ) {
                     rval.add_input( MouseInput::ScrollWheelDown );
+#endif
                 } else {
                     rval.add_input( MouseInput::Move );
                     if( input_timeout > 0 ) {

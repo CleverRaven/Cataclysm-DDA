@@ -956,8 +956,8 @@ class scrolling_text_view
         int offset_ = 0;
         inclusive_rectangle<point> scrollbar_area;
         bool dragging = false;
-        std::string scroll_up_action = "";
-        std::string scroll_down_action = "";
+        std::string scroll_up_action;
+        std::string scroll_down_action;
         bool paging_enabled = false;
 };
 
