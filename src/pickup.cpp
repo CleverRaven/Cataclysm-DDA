@@ -99,7 +99,7 @@ static pickup_answer handle_problematic_pickup( const item &it, const std::strin
     amenu.text = explain;
 
     if( it.is_bucket_nonempty() ) {
-        amenu.addentry( WIELD, true, 'w', _("Wield %s"), it.display_name() );
+        amenu.addentry( WIELD, true, 'w', _( "Wield %s" ), it.display_name() );
         amenu.addentry( SPILL, u.can_stash( it ), 's', _( "Spill contents of %s, then pick up %s" ),
                         it.tname(), it.display_name() );
     }
