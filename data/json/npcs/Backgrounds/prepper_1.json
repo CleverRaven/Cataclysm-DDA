@@ -144,7 +144,7 @@
   {
     "id": "BGSS_PREPPER_1_SHARELOOTSUCCESS",
     "type": "talk_topic",
-    "dynamic_line": "Okay, listen… across the hall from the bedroom… by the pillars… it's a fake wall.  Directly across the hall.  If you push in a little bit, the whole thing kinda slides aside.  I hid some guns back there and a handful of rounds, too.  I meant to bring a lot more - I had boxes on backorder - but it started getting hard to buy past a certain point.  Might as well share now that we're here.  A spare bullet could save your life.",
+    "dynamic_line": "Okay, listen… across the hall from the bedroom… by the pillars… it's a fake wall.  Directly across the hall.  If you push in a little bit, the whole thing kinda slides aside.  I hid some guns back there and a handful of rounds, too.  I meant to bring a lot more - I had boxes on back order - but it started getting hard to buy past a certain point.  Might as well share now that we're here.  A spare bullet could save your life.",
     "responses": [ { "text": "The wall thing is pretty nifty, I have to admit.", "topic": "BGSS_PREPPER_1_SHARELOOTSUCCESS2" } ]
   },
   {
@@ -252,7 +252,6 @@
     "type": "mission_definition",
     "name": { "str": "Check out that LMOE shelter" },
     "description": "Maybe there's something left in that LMOE shelter you heard about.",
-    "//": "This mission should direct toward a locked shelter. Completion should open a new line of dialog that leads to opening the shelter and (possibly?) convincing the prepper to share their most prized stuff with the player.",
     "goal": "MGOAL_GO_TO",
     "difficulty": 2,
     "value": 0,
