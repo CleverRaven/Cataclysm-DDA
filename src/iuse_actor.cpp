@@ -1424,7 +1424,7 @@ cata::optional<int> firestarter_actor::use( Character &p, item &it, bool t,
 
 void salvage_actor::load( const JsonObject &obj )
 {
-    assign( obj, "cost", cost ); //TODO remove unused
+    assign( obj, "cost", cost );
     assign( obj, "moves_per_part", moves_per_part );
 
     if( obj.has_array( "material_whitelist" ) ) {
@@ -1468,7 +1468,7 @@ cata::optional<int> salvage_actor::try_to_cut_up
 
     salvage_actor::cut_up( p, cut );
     // Return used charges from cutter
-    return cost >= 0 ? cost : cutter.ammo_required(); //TODO remove unused
+    return cost >= 0 ? cost : 1;
 }
 
 // Helper to visit instances of all the sub-materials of an item.
@@ -1751,7 +1751,7 @@ void salvage_actor::cut_up( Character &p, item_location &cut ) const
 
 void inscribe_actor::load( const JsonObject &obj )
 {
-    assign( obj, "cost", cost ); // TODO remove unuseds
+    assign( obj, "cost", cost );
     assign( obj, "on_items", on_items );
     assign( obj, "on_terrain", on_terrain );
     assign( obj, "material_restricted", material_restricted );
@@ -1891,7 +1891,7 @@ cata::optional<int> inscribe_actor::use( Character &p, item &it, bool t, const t
     // inscribe_item returns false if the action fails or is canceled somehow.
 
     if( item_inscription( it, cut ) ) {
-        return cost >= 0 ? cost : it.ammo_required(); //TODO remove unuseds
+        return cost >= 0 ? cost : 1;
     }
 
     return cata::nullopt;
@@ -1900,7 +1900,7 @@ cata::optional<int> inscribe_actor::use( Character &p, item &it, bool t, const t
 void cauterize_actor::load( const JsonObject &obj )
 {
     assign( obj, "cost", cost );
-    assign( obj, "flame", flame ); //TODO remove unuseds
+    assign( obj, "flame", flame );
 }
 
 std::unique_ptr<iuse_actor> cauterize_actor::clone() const
