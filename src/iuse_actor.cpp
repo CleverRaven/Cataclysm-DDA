@@ -1333,7 +1333,7 @@ ret_val<void> firestarter_actor::can_use( const Character &p, const item &it, bo
         return ret_val<void>::make_failure( _( "You can't do that while underwater." ) );
     }
 
-    if( !it.ammo_sufficient( &p ) ) {
+    if( !it.activation_charges_sufficient( &p ) ) {
         return ret_val<void>::make_failure( _( "This tool doesn't have enough charges." ) );
     }
 
@@ -2005,7 +2005,7 @@ ret_val<void> cauterize_actor::can_use( const Character &p, const item &it, bool
                        _( "You need a source of flame (4 charges worth) before you can cauterize yourself." ) );
         }
     } else {
-        if( !it.ammo_sufficient( &p ) ) {
+        if( !it.activation_charges_sufficient( &p ) ) {
             return ret_val<void>::make_failure( _( "You need at least %d charges to cauterize wounds." ),
                                                 it.ammo_required() );
         }
@@ -2066,7 +2066,7 @@ cata::optional<int> fireweapon_off_actor::use( Character &p, item &it, bool t,
 ret_val<void> fireweapon_off_actor::can_use( const Character &p, const item &it, bool,
         const tripoint & ) const
 {
-    if( it.charges < it.type->charges_to_use() ) {
+    if( it.activation_charges_sufficient( &p ) ) {
         return ret_val<void>::make_failure( _( "This tool doesn't have enough charges." ) );
     }
 
@@ -2162,10 +2162,10 @@ cata::optional<int> manualnoise_actor::use( Character &p, item &it, bool t, cons
     return 1;
 }
 
-ret_val<void> manualnoise_actor::can_use( const Character &, const item &it, bool,
+ret_val<void> manualnoise_actor::can_use( const Character &p, const item &it, bool,
         const tripoint & ) const
 {
-    if( it.charges < it.type->charges_to_use() ) {
+    if( it.activation_charges_sufficient( &p ) ) {
         return ret_val<void>::make_failure( _( "This tool doesn't have enough charges." ) );
     }
 
@@ -2520,7 +2520,7 @@ cata::optional<int> cast_spell_actor::use( Character &p, item &it, bool, const t
     }
 
     spell casting = spell( spell_id( item_spell ) );
-    int charges = it.type->charges_to_use();
+    int charges = 1;
 
     player_activity cast_spell( ACT_SPELLCASTING, casting.casting_time( p ) );
     // [0] this is used as a spell level override for items casting spells
@@ -2751,7 +2751,7 @@ bool repair_item_actor::can_use_tool( const Character &p, const item &tool, bool
         }
         return false;
     }
-    if( !tool.ammo_sufficient( &p ) ) {
+    if( !tool.activation_charges_sufficient( &p ) ) {
         if( print_msg ) {
             p.add_msg_if_player( m_info, _( "Your tool does not have enough charges to do that." ) );
         }
@@ -4243,10 +4243,11 @@ cata::optional<int> install_bionic_actor::use( Character &p, item &it, bool,
             p.consume_installation_requirement( it.type->bionic->id );
             p.consume_anesth_requirement( *it.type, p );
         }
-        return p.install_bionics( *it.type, p, false ) ? it.type->charges_to_use() : 0;
-    } else {
-        return cata::nullopt;
+        if( p.install_bionics( *it.type, p, false ) ) {
+            return 1;
+        }
     }
+    return cata::nullopt;
 }
 
 ret_val<void> install_bionic_actor::can_use( const Character &p, const item &it, bool,
@@ -4698,7 +4699,7 @@ cata::optional<int> sew_advanced_actor::use( Character &p, item &it, bool, const
                 prompt = string_format( _( "Can't %1$s (incompatible with %2$s)" ),
                                         lowercase_first_letter( obj.implement_prompt.translated() ),
                                         mod.tname( 1, false ) );
-            } else if( !it.ammo_sufficient( &p, thread_needed ) ) {
+            } else if( !it.activation_charges_sufficient( &p, thread_needed ) ) {
                 //~ %1$s: modification desc, %2$d: number of thread needed
                 prompt = string_format( _( "Can't %1$s (need %2$d thread loaded)" ),
                                         lowercase_first_letter( obj.implement_prompt.translated() ), thread_needed );
