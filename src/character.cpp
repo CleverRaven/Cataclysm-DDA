@@ -6505,10 +6505,10 @@ bool Character::invoke_item( item *used, const std::string &method, const tripoi
         return ret;
     }
 
-    bool destroy = used->activation_consume( charges_used.value(), pt, this );
+    used->ammo_consume( charges_used.value(), pt, this );
 
 
-    if( destroy || used->is_bionic() || used->is_deployable() ) {
+    if( used->has_flag( flag_SINGLE_USE ) || used->is_bionic() || used->is_deployable() ) {
         i_rem( used );
         return true;
     }

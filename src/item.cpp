@@ -10796,6 +10796,8 @@ int item::ammo_required() const
             }
             return ( type->gun->ammo_to_fire * multiplier ) + modifier;
         }
+    } else if( is_craft() ) {
+        return 0;
     }
 
     return std::max( type->charges_to_use(), 0 );
@@ -10882,15 +10884,6 @@ int item::ammo_consume( int qty, const tripoint &pos, Character *carrier )
     }
 
     return wanted_qty - qty;
-}
-
-bool item::activation_consume( int qty, const tripoint &pos, Character *carrier )
-{
-    if( type->charges_to_use() ) {
-        ammo_consume( type->charges_to_use() * qty, pos, carrier );
-    }
-
-    return has_flag( flag_SINGLE_USE );
 }
 
 const itype *item::ammo_data() const

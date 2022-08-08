@@ -2299,12 +2299,6 @@ class item : public visitable
          */
         int ammo_consume( int qty, const tripoint &pos, Character *carrier );
 
-        /**
-         * Consumes whatever is needed for activating this item
-         * @return returns true if item should be destroyed
-         */
-        bool activation_consume( int qty, const tripoint &pos, Character *carrier );
-
         /** Specific ammo data, returns nullptr if item is neither ammo nor loaded with any */
         const itype *ammo_data() const;
         /** Specific ammo type, returns "null" if item is neither ammo nor loaded with any */
