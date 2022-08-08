@@ -2164,7 +2164,6 @@
     "visibility": 1,
     "ugliness": 2,
     "description": "You have a set of clear lenses which lower over your eyes while underwater, allowing you to see as though you were wearing goggles.  Slightly decreases wet penalties.",
-    "prereqs": [ "EYEBULGE" ],
     "category": [ "LIZARD", "FISH" ],
     "flags": [ "EYE_MEMBRANE" ],
     "wet_protection": [ { "part": "eyes", "neutral": 1 } ]
@@ -5385,7 +5384,7 @@
     "description": "Your eyes bulge out several inches from your skull.  This does not affect your vision in any way.",
     "leads_to": [ "MEMBRANE" ],
     "changes_to": [ "COMPOUND_EYES", "EYESTALKS1", "FROG_EYES" ],
-    "category": [ "BATRACHIAN", "INSECT", "GASTROPOD", "LIZARD", "FISH" ]
+    "category": [ "BATRACHIAN", "INSECT", "GASTROPOD", "FISH" ]
   },
   {
     "type": "mutation",
