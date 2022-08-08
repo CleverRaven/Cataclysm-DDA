@@ -488,10 +488,10 @@ cata::optional<std::string> iuse::can_smoke( const Character &you )
     return cata::nullopt;
 }
 
-/* iuse methods return the number of charges expended or no value, which is usually it->charges_to_use().
- * Some items that don't normally use charges return 1 to indicate they're used up.
- * Regardless, returning 0 indicates the item has not been used up,
- * though it may have been successfully activated.  A return of no value means it was not used.
+/* iuse methods return the number of charges expended or no value, which is usually "1".
+ * Returning 0 indicates the item has not been used up,
+ * though it may have been successfully activated.
+ * A return of cata::nullopt means it was not used at all.
  */
 cata::optional<int> iuse::sewage( Character *p, item *it, bool, const tripoint & )
 {
@@ -544,7 +544,7 @@ static int alcohol( Character &p, const item &it, const int strength )
         duration += alc_strength( strength, 9_minutes, 16_minutes, 24_minutes );
     }
     p.add_effect( effect_drunk, duration );
-    return it.type->charges_to_use();
+    return 1;
 }
 
 cata::optional<int> iuse::alcohol_weak( Character *p, item *it, bool, const tripoint & )
@@ -679,7 +679,7 @@ cata::optional<int> iuse::eyedrops( Character *p, item *it, bool, const tripoint
         p->add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
         return cata::nullopt;
     }
-    if( it->charges < it->type->charges_to_use() ) {
+    if( !it->activation_charges_sufficient( p ) ) {
         p->add_msg_if_player( _( "You're out of %s." ), it->tname() );
         return cata::nullopt;
     }
@@ -2452,14 +2452,14 @@ static cata::optional<int> cauterize_elec( Character &p, item &it )
         if( ( p.has_trait( trait_MASOCHIST ) || p.has_trait( trait_MASOCHIST_MED ) ||
               p.has_trait( trait_CENOBITE ) ) &&
             p.query_yn( _( "Cauterize yourself for fun?" ) ) ) {
-            return cauterize_actor::cauterize_effect( p, it, true ) ? it.type->charges_to_use() : 0;
+            return cauterize_actor::cauterize_effect( p, it, true ) ? 1 : 0;
         } else {
             p.add_msg_if_player( m_info,
                                  _( "You aren't bleeding or bitten; there is no need to cauterize yourself." ) );
             return cata::nullopt;
         }
     } else if( p.is_npc() || query_yn( _( "Cauterize any open wounds?" ) ) ) {
-        return cauterize_actor::cauterize_effect( p, it, true ) ? it.type->charges_to_use() : 0;
+        return cauterize_actor::cauterize_effect( p, it, true ) ? 1 : 0;
     }
     return cata::nullopt;
 }
@@ -3103,7 +3103,7 @@ static int toolweapon_off( Character &p, item &it, const bool fast_startup,
         // 4 is the length of "_off".
         it.convert( itype_id( it.typeId().str().substr( 0, it.typeId().str().size() - 4 ) + "_on" ) );
         it.active = true;
-        return it.type->charges_to_use();
+        return 1;
     } else {
         if( it.typeId() == itype_chainsaw_off ) {
             sfx::play_variant_sound( "chainsaw_cord", "chainsaw_on", sfx::get_heard_volume( p.pos() ) );
@@ -3196,7 +3196,7 @@ static int toolweapon_on( Character &p, item &it, const bool t,
         it.convert( itype_id( off_type ) ).active = false;
         return 0; // Don't consume charges when turning off.
     }
-    return it.type->charges_to_use();
+    return 1;
 }
 
 cata::optional<int> iuse::combatsaw_on( Character *p, item *it, bool t, const tripoint & )
@@ -4674,7 +4674,7 @@ cata::optional<int> iuse::vortex( Character *p, item *it, bool, const tripoint &
 
     // Only reachable when no monster has been spawned.
     p->add_msg_if_player( m_warning, _( "Air swirls around you for a moment." ) );
-    return it->convert( itype_spiral_stone ).type->charges_to_use();
+    return 0;
 }
 
 cata::optional<int> iuse::dog_whistle( Character *p, item *it, bool, const tripoint & )
@@ -5382,7 +5382,7 @@ int iuse::towel_common( Character *p, item *it, bool t )
             it->active = true;
         }
     }
-    return it ? it->type->charges_to_use() : 0;
+    return it ? 1 : 0;
 }
 
 cata::optional<int> iuse::unfold_generic( Character *p, item *it, bool, const tripoint & )
