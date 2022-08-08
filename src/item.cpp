@@ -4827,7 +4827,7 @@ void item::qualities_info( std::vector<iteminfo> &info, const iteminfo_query *pa
         // List them, and show whether there is enough charge to use those qualities.
         if( !type->charged_qualities.empty() && type->charges_to_use() > 0 ) {
             // Use ammo_remaining() with player character to include bionic/UPS power
-            if( activation_charges_sufficient( &get_player_character() ) ) {
+            if( ammo_sufficient( &get_player_character() ) ) {
                 info.emplace_back( "QUALITIES", "", _( "<good>Has enough charges</good> for qualities:" ) );
             } else {
                 info.emplace_back( "QUALITIES", "",
@@ -7346,7 +7346,7 @@ int item::get_quality( const quality_id &id, const bool strict_boiling ) const
 
     // If tool has charged qualities and enough charge to use at least once
     // (using ammo_remaining() with player character to include bionic/UPS power)
-    if( !type->charged_qualities.empty() && activation_charges_sufficient( &get_player_character() ) ) {
+    if( !type->charged_qualities.empty() && ammo_sufficient( &get_player_character() ) ) {
         // see if any charged qualities are better than the current one
         for( const std::pair<const quality_id, int> &quality : type->charged_qualities ) {
             if( quality.first == id ) {
@@ -10842,11 +10842,6 @@ bool item::ammo_sufficient( const Character *carrier, const std::string &method,
         return carrier->available_ups() >= get_gun_ups_drain() * qty;
     }
     return true;
-}
-
-bool item::activation_charges_sufficient( const Character *carrier, int qty ) const
-{
-    return qty * type->charges_to_use() <= ammo_remaining( carrier );
 }
 
 int item::ammo_consume( int qty, const tripoint &pos, Character *carrier )
