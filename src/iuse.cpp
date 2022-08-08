@@ -5115,7 +5115,7 @@ cata::optional<int> iuse::boltcutters( Character *p, item *it, bool, const tripo
     return cata::nullopt;
 }
 
-cata::optional<int> iuse::mop( Character *p, item *it, bool, const tripoint & )
+cata::optional<int> iuse::mop( Character *p, item *, bool, const tripoint & )
 {
     if( p->is_mounted() ) {
         p->add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
@@ -5615,7 +5615,7 @@ cata::optional<int> iuse::gun_repair( Character *p, item *it, bool, const tripoi
     return ::gun_repair( p, it, loc );
 }
 
-cata::optional<int> gun_repair( Character *p, item *it, item_location &loc )
+cata::optional<int> gun_repair( Character *p, item *, item_location &loc )
 {
     item &fix = *loc;
     if( !fix.is_firearm() ) {
@@ -9035,7 +9035,7 @@ cata::optional<int> iuse::shavekit( Character *p, item *it, bool, const tripoint
     return 1;
 }
 
-cata::optional<int> iuse::hairkit( Character *p, item *it, bool, const tripoint & )
+cata::optional<int> iuse::hairkit( Character *p, item *, bool, const tripoint & )
 {
     if( p->is_mounted() ) {
         p->add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
@@ -10190,7 +10190,7 @@ cata::optional<int> iuse::binder_manage_recipe( Character *p, item *binder, bool
     return cata::nullopt;
 }
 
-cata::optional<int> iuse::voltmeter( Character *p, item *it, bool, const tripoint & )
+cata::optional<int> iuse::voltmeter( Character *p, item *, bool, const tripoint & )
 {
     const cata::optional<tripoint> pnt_ = choose_adjacent( _( "Check voltage where?" ) );
     if( !pnt_ ) {
