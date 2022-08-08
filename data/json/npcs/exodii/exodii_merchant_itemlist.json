@@ -60,7 +60,7 @@
           { "item": "glasses_safety", "prob": 40 },
           { "item": "glasses_bal", "prob": 10 }
         ],
-        "prob": 60
+        "prob": 100
       },
       {
         "collection": [
@@ -76,7 +76,7 @@
           { "item": "chunk_rubber", "prob": 50, "count": [ 1, 2 ] },
           { "item": "superglue", "prob": 30, "count": [ 1, 2 ] }
         ],
-        "prob": 50
+        "prob": 100
       },
       {
         "collection": [
@@ -93,7 +93,7 @@
           { "item": "leather_pouch", "prob": 10 },
           { "item": "superglue", "prob": 30, "count": [ 1, 2 ] }
         ],
-        "prob": 40
+        "prob": 100
       }
     ]
   },
