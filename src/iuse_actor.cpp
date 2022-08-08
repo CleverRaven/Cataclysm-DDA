@@ -839,13 +839,12 @@ cata::optional<int> consume_drug_iuse::use( Character &p, item &it, bool, const 
 
     // Check prerequisites first.
     for( const auto &tool : need_these ) {
-        // Amount == -1 means need one, but don't consume it.
         if( !p.has_amount( tool.first, 1 ) ) {
             p.add_msg_player_or_say( _( "You need %1$s to consume %2$s!" ),
                                      _( "I need a %1$s to consume %2$s!" ),
                                      item::nname( tool.first ),
                                      it.type_name( 1 ) );
-            return -1; //TODO check
+            return cata::nullopt;
         }
     }
     for( const auto &consumable : charges_needed ) {
@@ -856,7 +855,7 @@ cata::optional<int> consume_drug_iuse::use( Character &p, item &it, bool, const 
                                      _( "I need a %1$s to consume %2$s!" ),
                                      item::nname( consumable.first ),
                                      it.type_name( 1 ) );
-            return -1; //TODO check
+            return cata::nullopt;
         }
     }
     // Apply the various effects.
@@ -1876,7 +1875,7 @@ cata::optional<int> inscribe_actor::use( Character &p, item &it, bool t, const t
             return cata::nullopt;
         }
         return iuse::handle_ground_graffiti( p, &it, string_format( _( "%s what?" ), verb ),
-                                             dest_.value() ); //TODO check
+                                             dest_.value() );
     }
 
     item_location loc = game_menus::inv::titled_menu( get_avatar(), _( "Inscribe which item?" ) );
@@ -2061,7 +2060,7 @@ cata::optional<int> fireweapon_off_actor::use( Character &p, item &it, bool t,
         p.add_msg_if_player( m_bad, "%s", failure_message );
     }
 
-    return 1; //TODO check
+    return 1;
 }
 
 ret_val<void> fireweapon_off_actor::can_use( const Character &p, const item &it, bool,
@@ -2124,7 +2123,7 @@ cata::optional<int> fireweapon_on_actor::use( Character &p, item &it, bool t,
         }
     }
 
-    return 1; // TODO check
+    return 1;
 }
 
 void manualnoise_actor::load( const JsonObject &obj )
@@ -4010,7 +4009,7 @@ cata::optional<int> emit_actor::use( Character &, item &it, bool, const tripoint
         here.emit_field( pos, e, scaling );
     }
 
-    return 1; //TODO check
+    return 1;
 }
 
 std::unique_ptr<iuse_actor> emit_actor::clone() const
@@ -4855,7 +4854,7 @@ cata::optional<int> change_scent_iuse::use( Character &p, item &it, bool, const 
     for( const effect_data &eff : effects ) {
         p.add_effect( eff.id, eff.duration, eff.bp, eff.permanent );
     }
-    return charges_to_use; //TODO this needs fixing
+    return charges_to_use;
 }
 
 std::unique_ptr<iuse_actor> change_scent_iuse::clone() const
