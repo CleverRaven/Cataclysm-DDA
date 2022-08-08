@@ -55,7 +55,7 @@ class item_contents
          * Ignores mod, migration, corpse pockets
          * @param it the item being put in
          */
-        ret_val<bool> is_compatible( const item &it ) const;
+        ret_val<void> is_compatible( const item &it ) const;
 
         /**
          * returns whether an item can be physically stored within these item contents.
@@ -64,8 +64,8 @@ class item_contents
          * @param it the item being put in
          * @param ignore_pkt_settings whether to ignore pocket autoinsert settings
          */
-        ret_val<bool> can_contain( const item &it, bool ignore_pkt_settings = true ) const;
-        ret_val<bool> can_contain_rigid( const item &it, bool ignore_pkt_settings = true ) const;
+        ret_val<void> can_contain( const item &it, bool ignore_pkt_settings = true ) const;
+        ret_val<void> can_contain_rigid( const item &it, bool ignore_pkt_settings = true ) const;
         bool can_contain_liquid( bool held_or_ground ) const;
 
         bool contains_no_solids() const;
@@ -385,14 +385,15 @@ class pocket_favorite_callback : public uilist_callback
 
         void refresh_columns( uilist *menu );
 
-        void add_pockets( item &i, uilist &pocket_selector, std::string depth );
+        void add_pockets( item &i, uilist &pocket_selector, const std::string &depth );
     public:
-        explicit pocket_favorite_callback( std::vector<item *> to_organize, uilist &pocket_selector );
+        explicit pocket_favorite_callback( const std::vector<item *> &to_organize,
+                                           uilist &pocket_selector );
         void refresh( uilist *menu ) override;
         bool key( const input_context &, const input_event &event, int entnum, uilist *menu ) override;
 
-        const std::string title = _( "Modify pocket settings and move items between pockets.\n" );
-
+        const std::string title =
+            _( "Modify pocket settings and move items between pockets.  [<color_yellow>RETURN</color>] Context menu\n" );
 };
 
 #endif // CATA_SRC_ITEM_CONTENTS_H

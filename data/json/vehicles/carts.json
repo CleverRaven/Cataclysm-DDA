@@ -333,5 +333,12 @@
       { "x": -1, "y": 0, "part": "frame_sw" },
       { "x": -1, "y": 1, "part": "frame_se" }
     ]
+  },
+  {
+    "id": "hospital_bed_small",
+    "type": "vehicle",
+    "name": "small hospital bed",
+    "blueprint": [ [ "x" ] ],
+    "parts": [ { "x": 0, "y": 0, "parts": [ "xlframe_vertical_2", "wheel_10", "bed" ] } ]
   }
 ]

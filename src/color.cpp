@@ -1056,7 +1056,7 @@ void color_manager::show_gui()
     }
 }
 
-bool color_manager::save_custom()
+bool color_manager::save_custom() const
 {
     const auto savefile = PATH_INFO::custom_colors();
 

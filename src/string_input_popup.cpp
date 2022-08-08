@@ -127,6 +127,9 @@ void string_input_popup::create_context()
     ctxt->register_action( "SCROLL_UP" );
     ctxt->register_action( "SCROLL_DOWN" );
     ctxt->register_action( "ANY_INPUT" );
+    for( const auto &act : custom_actions ) {
+        ctxt->register_action( act.first, act.second );
+    }
 }
 
 void string_input_popup::show_history( utf8_wrapper &ret )
@@ -240,7 +243,8 @@ void string_input_popup::update_input_history( utf8_wrapper &ret, bool up )
     _position = ret.length();
 }
 
-void string_input_popup::draw( const utf8_wrapper &ret, const utf8_wrapper &edit ) const
+void string_input_popup::draw( ui_adaptor *const ui, const utf8_wrapper &ret,
+                               const utf8_wrapper &edit ) const
 {
     if( !custom_window ) {
         werase( w_full );
@@ -312,15 +316,25 @@ void string_input_popup::draw( const utf8_wrapper &ret, const utf8_wrapper &edit
     if( !edit.empty() ) {
         mvwprintz( w_title_and_entry, point( start_x_edit, _starty ), _cursor_color, "%s", edit.c_str() );
     }
+    wnoutrefresh( w_title_and_entry );
+
+    std::unique_ptr<on_out_of_scope> move_cursor_and_refresh;
+    if( ui ) {
+        ui->set_cursor( w_title_and_entry, cursor_pos );
+    } else {
+        // This ensures the cursor is set last for calling UIs to record and set
+        // for screen readers and IME preview
+        move_cursor_and_refresh = std::make_unique<on_out_of_scope>( [&]() {
+            wmove( w_title_and_entry, cursor_pos );
+            wnoutrefresh( w_title_and_entry );
+        } );
+    }
 
     //Draw scrolling description
     if( !custom_window && desc_view_ptr ) {
         desc_view_ptr->draw( _desc_color );
         wnoutrefresh( w_description );
     }
-    // Move curses cursor to text cursor for screen readers and IME preview positioning
-    wmove( w_title_and_entry, cursor_pos );
-    wnoutrefresh( w_title_and_entry );
 }
 
 void string_input_popup::query( const bool loop, const bool draw_only )
@@ -365,6 +379,7 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
         create_context();
     }
 
+    _text_changed = false;
     utf8_wrapper ret( _text );
     utf8_wrapper edit( ctxt->get_edittext() );
     if( _position == -1 ) {
@@ -380,8 +395,8 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
             create_window();
             ui.position_from_window( w_full );
         } );
-        ui->on_redraw( [&]( const ui_adaptor & ) {
-            draw( ret, edit );
+        ui->on_redraw( [&]( ui_adaptor & ui ) {
+            draw( &ui, ret, edit );
         } );
     }
 
@@ -390,6 +405,10 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
     _canceled = false;
     _confirmed = false;
     do {
+        if( _text_changed ) {
+            ret = utf8_wrapper( _text );
+            _text_changed = false;
+        }
         if( _position < 0 ) {
             _position = 0;
         }
@@ -425,7 +444,7 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
         if( ui ) {
             ui_manager::redraw();
         } else {
-            draw( ret, edit );
+            draw( nullptr, ret, edit );
         }
 
         if( draw_only ) {
@@ -437,10 +456,18 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
         ch = ev.type == input_event_t::keyboard_char ? ev.get_first_input() : 0;
         _handled = true;
 
-        if( callbacks[ch] ) {
-            if( callbacks[ch]() ) {
-                continue;
+        bool next_loop = false;
+        for( const auto &cb : callbacks ) {
+            if( ( !std::get<0>( cb ).empty() && std::get<0>( cb ) == action ) ||
+                ( std::get<1>( cb ) != INT_MIN && std::get<1>( cb ) == ch ) ) {
+                if( std::get<2>( cb )() ) {
+                    next_loop = true;
+                    break;
+                }
             }
+        }
+        if( next_loop ) {
+            continue;
         }
 
         if( action == "TEXT.QUIT" ) {
@@ -656,5 +683,18 @@ string_input_popup &string_input_popup::text( const std::string &value )
     if( _position < 0 || static_cast<size_t>( _position ) > u8size ) {
         _position = u8size;
     }
+    _text_changed = true;
     return *this;
+}
+
+
+void string_input_popup::add_callback( const std::string &action,
+                                       const std::function<bool()> &callback_func )
+{
+    callbacks.emplace_back( action, INT_MIN, callback_func );
+}
+
+void string_input_popup::add_callback( int input, const std::function<bool()> &callback_func )
+{
+    callbacks.emplace_back( "", input, callback_func );
 }

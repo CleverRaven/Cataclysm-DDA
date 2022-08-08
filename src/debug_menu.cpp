@@ -1310,7 +1310,8 @@ static void character_edit_needs_menu( Character &you )
 
     const auto &vits = vitamin::all();
     for( const auto &v : vits ) {
-        smenu.addentry( -1, true, 0, "%s: %d", v.second.name(), you.vitamin_get( v.first ) );
+        smenu.addentry( -1, true, 0, _( "%s: daily %d, overall %d" ), v.second.name(),
+                        you.get_daily_vitamin( v.first ), you.vitamin_get( v.first ) );
     }
 
     smenu.query();
@@ -2468,7 +2469,7 @@ void debug()
             for( int i = 0; i < OMAPX; i++ ) {
                 for( int j = 0; j < OMAPY; j++ ) {
                     for( int k = -OVERMAP_DEPTH; k <= OVERMAP_HEIGHT; k++ ) {
-                        cur_om.seen( { i, j, k } ) = true;
+                        cur_om.set_seen( { i, j, k }, true );
                     }
                 }
             }
@@ -2853,7 +2854,9 @@ void debug()
                 break;
             }
 
-            auto rt = here.route( player_character.pos(), *dest, player_character.get_pathfinding_settings(),
+            // TODO: fix point types
+            auto rt = here.route( player_character.pos_bub(), tripoint_bub_ms( *dest ),
+                                  player_character.get_pathfinding_settings(),
                                   player_character.get_path_avoid() );
             if( !rt.empty() ) {
                 player_character.set_destination( rt );

@@ -771,6 +771,11 @@
   },
   {
     "type": "recipe",
+    "result": "rag",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
     "result": "chem_black_powder",
     "id_suffix": "generic",
     "obsolete": true

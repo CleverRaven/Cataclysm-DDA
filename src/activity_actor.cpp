@@ -136,6 +136,7 @@ static const activity_id ACT_TENT_DECONSTRUCT( "ACT_TENT_DECONSTRUCT" );
 static const activity_id ACT_TENT_PLACE( "ACT_TENT_PLACE" );
 static const activity_id ACT_TRY_SLEEP( "ACT_TRY_SLEEP" );
 static const activity_id ACT_UNLOAD( "ACT_UNLOAD" );
+static const activity_id ACT_UNLOAD_LOOT( "ACT_UNLOAD_LOOT" );
 static const activity_id ACT_WEAR( "ACT_WEAR" );
 static const activity_id ACT_WIELD( "ACT_WIELD" );
 static const activity_id ACT_WORKOUT_ACTIVE( "ACT_WORKOUT_ACTIVE" );
@@ -207,6 +208,11 @@ static const ter_str_id ter_t_underbrush_harvested_summer( "t_underbrush_harvest
 static const ter_str_id ter_t_underbrush_harvested_winter( "t_underbrush_harvested_winter" );
 
 static const trait_id trait_SCHIZOPHRENIC( "SCHIZOPHRENIC" );
+
+static const zone_type_id zone_type_LOOT_IGNORE( "LOOT_IGNORE" );
+static const zone_type_id zone_type_LOOT_IGNORE_FAVORITES( "LOOT_IGNORE_FAVORITES" );
+static const zone_type_id zone_type_zone_strip( "zone_strip" );
+static const zone_type_id zone_type_zone_unload_all( "zone_unload_all" );
 
 std::string activity_actor::get_progress_message( const player_activity &act ) const
 {
@@ -390,7 +396,7 @@ item_location aim_activity_actor::get_weapon()
     }
 }
 
-void aim_activity_actor::restore_view()
+void aim_activity_actor::restore_view() const
 {
     avatar &player_character = get_avatar();
     bool changed_z = player_character.view_offset.z != initial_view_offset.z;
@@ -407,6 +413,8 @@ bool aim_activity_actor::load_RAS_weapon()
     Character &you = get_avatar();
     item_location weapon = get_weapon();
     gun_mode gun = weapon->gun_current_mode();
+    // selected gun_mode might come from a gunmod
+    item_location used_gun = &*gun != &*weapon ? item_location( weapon, &*gun ) : weapon;
     const auto ammo_location_is_valid = [&]() -> bool {
         if( !you.ammo_location )
         {
@@ -422,8 +430,8 @@ bool aim_activity_actor::load_RAS_weapon()
         }
         return true;
     };
-    item::reload_option opt = ammo_location_is_valid() ? item::reload_option( &you, &*weapon,
-                              &*weapon, you.ammo_location ) : you.select_ammo( *gun );
+    item::reload_option opt = ammo_location_is_valid() ? item::reload_option( &you, weapon,
+                              you.ammo_location ) : you.select_ammo( used_gun );
     if( !opt ) {
         // Menu canceled
         return false;
@@ -723,7 +731,8 @@ static hack_type get_hack_type( const tripoint &examp )
 
 void hacking_activity_actor::finish( player_activity &act, Character &who )
 {
-    tripoint examp = act.placement;
+    // TODO: fix point types
+    tripoint examp = get_map().getlocal( act.placement );
     hack_type type = get_hack_type( examp );
     switch( hack_attempt( who ) ) {
         case hack_result::UNABLE:
@@ -1313,8 +1322,8 @@ void read_activity_actor::read_book( Character &learner,
     // Calculate experience gained
     /** @EFFECT_INT increases reading comprehension */
     // Enhanced Memory Banks modestly boosts experience
-    int min_ex = std::max( 1, islotbook->time / 10 + learner.get_int() / 4 );
-    int max_ex = islotbook->time / 5 + learner.get_int() / 2 - originalSkillLevel;
+    int min_ex = std::max( 1, to_minutes<int>( islotbook->time ) / 10 + learner.get_int() / 4 );
+    int max_ex = to_minutes<int>( islotbook->time ) / 5 + learner.get_int() / 2 - originalSkillLevel;
 
     min_ex = learner.enchantment_cache->modify_value( enchant_vals::mod::READING_EXP, min_ex );
 
@@ -1402,8 +1411,8 @@ bool read_activity_actor::player_read( avatar &you )
         book->mark_chapter_as_read( *learner );
         if( reading_for_skill ) {
             if( !learner->is_avatar() ) {
-                const int npc_read_time = you.time_to_read( *book, *reader, learner );
-                penalty = static_cast<double>( moves_total ) / npc_read_time;
+                const time_duration npc_read_time = you.time_to_read( *book, *reader, learner );
+                penalty = static_cast<double>( moves_total ) / to_moves<int>( npc_read_time );
             }
         } else {
             continue;   // reading for fun
@@ -1637,7 +1646,7 @@ void read_activity_actor::finish( player_activity &act, Character &who )
     }
 
     if( continuous ) {
-        int time_taken;
+        time_duration time_taken;
 
         // caller should check if npc can read first
         if( who.is_npc() ) {
@@ -1661,13 +1670,13 @@ void read_activity_actor::finish( player_activity &act, Character &who )
 
             time_taken = who.as_avatar()->time_to_read( *book, *reader );
             add_msg_debug( debugmode::DF_ACT_READ, "reading time = %s",
-                           to_string_writable( time_duration::from_moves( time_taken ) ) );
+                           to_string_writable( time_taken ) );
         }
 
         // restart the activity
-        moves_total = time_taken;
-        act.moves_total = time_taken;
-        act.moves_left = time_taken;
+        moves_total = to_moves<int>( time_taken );
+        act.moves_total = to_moves<int>( time_taken );
+        act.moves_left = to_moves<int>( time_taken );
         return;
     } else  {
         who.add_msg_if_player( m_info, _( "You finish reading." ) );
@@ -1754,7 +1763,7 @@ std::unique_ptr<activity_actor> read_activity_actor::deserialize( JsonValue &jsi
 
 void move_items_activity_actor::do_turn( player_activity &act, Character &who )
 {
-    const tripoint dest = relative_destination + who.pos();
+    const tripoint_bub_ms dest = relative_destination + who.pos_bub();
 
     while( who.moves > 0 && !target_items.empty() ) {
         item_location target = std::move( target_items.back() );
@@ -1789,8 +1798,8 @@ void move_items_activity_actor::do_turn( player_activity &act, Character &who )
 
             // This is for hauling across zlevels, remove when going up and down stairs
             // is no longer teleportation
-            const tripoint src = target.position();
-            const int distance = src.z == dest.z ? std::max( rl_dist( src, dest ), 1 ) : 1;
+            const tripoint_bub_ms src = target.pos_bub();
+            const int distance = src.z() == dest.z() ? std::max( rl_dist( src, dest ), 1 ) : 1;
             // Yuck, I'm sticking weariness scaling based on activity level here
             const float weary_mult = who.exertion_adjusted_move_multiplier( exertion_level() );
             who.mod_moves( -Pickup::cost_to_move_item( who, newit ) * distance * weary_mult );
@@ -2271,8 +2280,8 @@ cata::optional<tripoint> lockpick_activity_actor::select_location( avatar &you )
         return get_map().has_flag( ter_furn_flag::TFLAG_PICKABLE, p );
     };
 
-    const cata::optional<tripoint> target = choose_adjacent_highlight(
-            _( "Use your lockpick where?" ), _( "There is nothing to lockpick nearby." ), is_pickable, false );
+    cata::optional<tripoint> target = choose_adjacent_highlight(
+                                          _( "Use your lockpick where?" ), _( "There is nothing to lockpick nearby." ), is_pickable, false );
     if( !target ) {
         return cata::nullopt;
     }
@@ -3449,7 +3458,7 @@ void drop_or_stash_item_info::deserialize( const JsonObject &jsobj )
 
 void drop_activity_actor::do_turn( player_activity &, Character &who )
 {
-    const tripoint pos = placement + who.pos();
+    const tripoint_bub_ms pos = placement + who.pos_bub();
     who.invalidate_weight_carried_cache();
     put_into_vehicle_or_drop( who, item_drop_reason::deliberate,
                               obtain_activity_items( items, handler, who ),
@@ -4005,19 +4014,10 @@ void reload_activity_actor::finish( player_activity &act, Character &who )
 
     who.recoil = MAX_RECOIL;
 
-    // Volume change should only affect container that contains the "base" item
-    // For example a reloaded gun mod never "spills" from the gun
-    // It just affects the container that contains the gun
-    if( !reload_targets[0].has_parent() ) {
-        debugmsg( "item_location of item to be reloaded is not available" );
-        return;
-    }
-
-    item_location loc = reload_targets[0].parent_item();
+    item_location loc = reload_targets[0];
     // Reload may have caused the item to increase in size more than the pocket/location can contain.
     // We want to avoid this because items will be deleted on a save/load.
-    if( loc.volume_capacity() >= units::volume() &&
-        loc.weight_capacity() >= units::mass() ) {
+    if( loc.check_parent_capacity_recursive() ) {
         return;
     }
 
@@ -5475,23 +5475,40 @@ void chop_tree_activity_actor::finish( player_activity &act, Character &who )
     const tripoint &pos = here.getlocal( act.placement );
 
     tripoint direction;
-    if( !who.is_npc() ) {
-        if( who.backlog.empty() || who.backlog.front().id() != ACT_MULTIPLE_CHOP_TREES ) {
-            while( true ) {
-                if( const cata::optional<tripoint> dir = choose_direction(
-                            _( "Select a direction for the tree to fall in." ) ) ) {
-                    direction = *dir;
-                    break;
-                }
-                // try again
+    if( !who.is_npc() &&
+        ( who.backlog.empty() || who.backlog.front().id() != ACT_MULTIPLE_CHOP_TREES ) ) {
+        while( true ) {
+            if( const cata::optional<tripoint> dir = choose_direction(
+                        _( "Select a direction for the tree to fall in." ) ) ) {
+                direction = *dir;
+                break;
             }
+            // try again
         }
     } else {
         creature_tracker &creatures = get_creature_tracker();
-        for( const tripoint &elem : here.points_in_radius( pos, 1 ) ) {
+        const point main_dir = pos.xy() - who.pos().xy();
+        const int circle_size = 8;
+        const point circle[circle_size] = { point_east, point_south_east, point_south, point_south_west, point_west, point_north_west, point_north, point_north_east };
+        int circle_center = 0;  //  Initialized as the compiler complained
+        for( int i = 0; i < circle_size; i++ ) {
+            if( main_dir == circle[i] ) {
+                circle_center = i;
+                break;
+            }
+        }
+        std::vector<point> candidates;
+        candidates = { main_dir,                                  // Fall straight away
+                       circle[( circle_center + circle_size - 1 ) % circle_size], // Fall away to the left. Adding the full circle to ensure modulo gives a non negative result
+                       circle[( circle_center + 1 ) % circle_size],              // Fall away to the right
+                       circle[( circle_center + circle_size - 2 ) % circle_size], // Fall to the left
+                       circle[( circle_center + 2 ) % circle_size],              // Fall to the right
+                       circle[( circle_center + circle_size - 3 ) % circle_size], // Fall towards to the left
+                       circle[( circle_center + 3 ) % circle_size]
+                     };              // Fall towards to the right
+        for( const point &direc : candidates ) {
             bool cantuse = false;
-            tripoint direc = elem - pos;
-            tripoint proposed_to = pos + point( 3 * direction.x, 3 * direction.y );
+            tripoint proposed_to = pos + point( 3 * direc.x, 3 * direc.y );
             std::vector<tripoint> rough_tree_line = line_to( pos, proposed_to );
             for( const tripoint &elem : rough_tree_line ) {
                 if( creatures.creature_at( elem ) ) {
@@ -5500,11 +5517,11 @@ void chop_tree_activity_actor::finish( player_activity &act, Character &who )
                 }
             }
             if( !cantuse ) {
-                direction = direc;
+                direction = tripoint( direc, pos.z );
+                break;
             }
         }
     }
-
     const tripoint to = pos + 3 * direction.xy() + point( rng( -1, 1 ), rng( -1, 1 ) );
     std::vector<tripoint> tree = line_to( pos, to, rng( 1, 8 ) );
     for( const tripoint &elem : tree ) {
@@ -5591,8 +5608,8 @@ void clear_rubble_activity_actor::start( player_activity &act, Character & )
 
 void clear_rubble_activity_actor::finish( player_activity &act, Character &who )
 {
-    const tripoint &pos = act.placement;
     map &here = get_map();
+    const tripoint_bub_ms &pos = here.bub_from_abs( act.placement );
     who.add_msg_if_player( m_info, _( "You clear up the %s." ), here.furnname( pos ) );
     here.furn_set( pos, f_null );
 
@@ -5723,7 +5740,7 @@ void forage_activity_actor::finish( player_activity &act, Character &who )
     map &here = get_map();
     for( const tripoint &pnt : here.points_in_radius( who.pos(), 1 ) ) {
         // TODO: fix point types
-        if( here.getglobal( pnt ) == tripoint_abs_ms( act.placement ) ) {
+        if( here.getglobal( pnt ) == act.placement ) {
             next_to_bush = true;
             break;
         }
@@ -5772,24 +5789,38 @@ void forage_activity_actor::finish( player_activity &act, Character &who )
     if( veggy_chance < who.get_skill_level( skill_survival ) * 3 + who.per_cur - 2 ) {
         const std::vector<item *> dropped =
             here.put_items_from_loc( group_id, who.pos(), calendar::turn );
+        // map::put_items_from_loc can create multiple items and merge them into one stack.
+        // That stack will then appear multiple times in the vector.
+        // Remember and check the already handled items to prevent rolling
+        // poison/hallucinogen multiple times and print misleading messages.
+        std::vector<item *> handled;
         for( item *it : dropped ) {
-            add_msg( m_good, _( "You found: %s!" ), it->tname() );
+            if( std::find( handled.rbegin(), handled.rend(), it ) != handled.rend() )  {
+                continue;
+            }
+            handled.push_back( it );
             found_something = true;
             if( it->has_flag( flag_FORAGE_POISON ) && one_in( 10 ) ) {
                 it->set_flag( flag_HIDDEN_POISON );
                 it->poison = rng( 2, 7 );
-            }
-            if( it->has_flag( flag_FORAGE_HALLU ) && !it->has_flag( flag_HIDDEN_POISON ) && one_in( 10 ) ) {
+            } else if( it->has_flag( flag_FORAGE_HALLU ) && one_in( 10 ) ) {
                 it->set_flag( flag_HIDDEN_HALLU );
             }
+            add_msg( m_good, _( "You found: %s!" ), it->display_name() );
         }
     }
     // 10% to drop a item/items from this group.
     if( one_in( 10 ) ) {
         const std::vector<item *> dropped =
             here.put_items_from_loc( Item_spawn_data_trash_forest, who.pos(), calendar::turn );
+        // same as above
+        std::vector<item *> handled;
         for( item * const &it : dropped ) {
-            add_msg( m_good, _( "You found: %s!" ), it->tname() );
+            if( std::find( handled.rbegin(), handled.rend(), it ) != handled.rend() ) {
+                continue;
+            }
+            handled.push_back( it );
+            add_msg( m_good, _( "You found: %s!" ), it->display_name() );
             found_something = true;
         }
     }
@@ -5941,9 +5972,11 @@ void longsalvage_activity_actor::finish( player_activity &act, Character &who )
     }
 
     for( item &it : items ) {
-        if( actor->valid_to_cut_up( it ) ) {
+        // Check first and only if possible attempt it with player char
+        // This suppresses warnings unless it is an item the player wears
+        if( actor->valid_to_cut_up( nullptr, it ) ) {
             item_location item_loc( map_cursor( who.pos() ), &it );
-            actor->cut_up( who, *salvage_tool, item_loc );
+            actor->try_to_cut_up( who, *salvage_tool, item_loc );
             return;
         }
     }
@@ -5984,7 +6017,7 @@ void mop_activity_actor::finish( player_activity &act, Character &who )
     const bool will_mop = one_in( who.is_blind() ? 1 : 3 );
     if( will_mop ) {
         map &here = get_map();
-        here.mop_spills( here.getlocal( act.placement ) );
+        here.mop_spills( here.bub_from_abs( act.placement ) );
     }
     activity_handlers::resume_for_multi_activities( who );
 }
@@ -6007,6 +6040,380 @@ std::unique_ptr<activity_actor> mop_activity_actor::deserialize( JsonValue &jsin
     data.read( "moves", actor.moves );
 
     return actor.clone();
+}
+
+
+void unload_loot_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+
+    jsout.member( "moves", moves );
+    jsout.member( "num_processed", num_processed );
+    jsout.member( "stage", stage );
+    jsout.member( "coord_set", coord_set );
+    jsout.member( "placement", placement );
+
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> unload_loot_activity_actor::deserialize( JsonValue &jsin )
+{
+    unload_loot_activity_actor actor( {} );
+
+    JsonObject data = jsin.get_object();
+
+    data.read( "moves", actor.moves );
+    data.read( "num_processed", actor.num_processed );
+    data.read( "stage", actor.stage );
+    data.read( "coord_set", actor.coord_set );
+    data.read( "placement", actor.placement );
+
+    return actor.clone();
+}
+
+void unload_loot_activity_actor::start( player_activity &act, Character & )
+{
+    act.moves_total = moves;
+    act.moves_left = moves;
+}
+
+static void move_item( Character &you, item &it, const int quantity, const tripoint_bub_ms &src,
+                       const tripoint_bub_ms &dest, vehicle *src_veh, int src_part )
+{
+    item leftovers = it;
+
+    if( quantity != 0 && it.count_by_charges() ) {
+        // Reinserting leftovers happens after item removal to avoid stacking issues.
+        leftovers.charges = it.charges - quantity;
+        if( leftovers.charges > 0 ) {
+            it.charges = quantity;
+        }
+    } else {
+        leftovers.charges = 0;
+    }
+
+    map &here = get_map();
+    // Check that we can pick it up.
+    if( !it.made_of_from_type( phase_id::LIQUID ) ) {
+        you.mod_moves( -activity_handlers::move_cost( it, src, dest ) );
+
+        put_into_vehicle_or_drop( you, item_drop_reason::deliberate, { it }, dest );
+        // Remove from map or vehicle.
+        if( src_veh ) {
+            src_veh->remove_item( src_part, &it );
+        } else {
+            here.i_rem( src, &it );
+        }
+    }
+
+    // If we didn't pick up a whole stack, put the remainder back where it came from.
+    if( leftovers.charges > 0 ) {
+        if( src_veh ) {
+            if( !src_veh->add_item( src_part, leftovers ) ) {
+                debugmsg( "SortLoot: Source vehicle failed to receive leftover charges." );
+            }
+        } else {
+            here.add_item_or_charges( src, leftovers );
+        }
+    }
+}
+
+void unload_loot_activity_actor::do_turn( player_activity &act, Character &you )
+{
+    enum activity_stage : int {
+        //Initial stage
+        INIT = 0,
+        //Think about what to do first: choose destination
+        THINK,
+        //Do activity
+        DO,
+    };
+
+    faction const *fac = you.get_faction();
+    faction_id fac_id = fac == nullptr ? faction_id() : fac->id;
+
+    map &here = get_map();
+    const tripoint_abs_ms abspos = you.get_location();
+    zone_manager &mgr = zone_manager::get_manager();
+    if( here.check_vehicle_zones( here.get_abs_sub().z() ) ) {
+        mgr.cache_vzones();
+    }
+
+    if( stage == INIT ) {
+        // TODO: fix point types
+        coord_set.clear();
+        for( const tripoint_abs_ms &p :
+             mgr.get_near( zone_type_zone_unload_all, abspos, ACTIVITY_SEARCH_DISTANCE, nullptr,
+                           fac_id ) ) {
+            coord_set.insert( p.raw() );
+        }
+
+        for( const tripoint_abs_ms &p :
+             mgr.get_near( zone_type_zone_strip, abspos, ACTIVITY_SEARCH_DISTANCE, nullptr,
+                           fac_id ) ) {
+            coord_set.insert( p.raw() );
+        }
+        stage = THINK;
+    }
+
+    if( stage == THINK ) {
+        //initialize num_processed
+        num_processed = 0;
+        // TODO: fix point types
+        std::vector<tripoint_abs_ms> src_set;
+        for( const tripoint &p : coord_set ) {
+            src_set.emplace_back( tripoint_abs_ms( p ) );
+        }
+        // sort source tiles by distance
+        const auto &src_sorted = get_sorted_tiles_by_distance( abspos, src_set );
+
+        for( const tripoint_abs_ms &src : src_sorted ) {
+            // TODO: fix point types
+            placement = src.raw();
+            coord_set.erase( src.raw() );
+
+            const tripoint_bub_ms &src_loc = here.bub_from_abs( src );
+            if( !here.inbounds( src_loc ) ) {
+                if( !here.inbounds( you.pos() ) ) {
+                    // p is implicitly an NPC that has been moved off the map, so reset the activity
+                    // and unload them
+                    you.cancel_activity();
+                    you.assign_activity( ACT_UNLOAD_LOOT );
+                    you.set_moves( 0 );
+                    g->reload_npcs();
+                    return;
+                }
+                std::vector<tripoint_bub_ms> route;
+                route = here.route( you.pos_bub(), src_loc, you.get_pathfinding_settings(),
+                                    you.get_path_avoid() );
+                if( route.empty() ) {
+                    // can't get there, can't do anything, skip it
+                    continue;
+                }
+                stage = DO;
+                you.set_destination( route, act );
+                you.activity.set_to_null();
+                return;
+            }
+
+            // skip tiles in IGNORE zone and tiles on fire
+            // (to prevent taking out wood off the lit brazier)
+            // and inaccessible furniture, like filled charcoal kiln
+            if( mgr.has( zone_type_LOOT_IGNORE, src, fac_id ) ||
+                here.get_field( src_loc, fd_fire ) != nullptr ||
+                !here.can_put_items_ter_furn( src_loc ) ) {
+                continue;
+            }
+
+            //nothing to sort?
+            const cata::optional<vpart_reference> vp = here.veh_at( src_loc ).part_with_feature( "CARGO",
+                    false );
+            if( ( !vp || vp->vehicle().get_items( vp->part_index() ).empty() )
+                && here.i_at( src_loc ).empty() ) {
+                continue;
+            }
+
+            bool is_adjacent_or_closer = square_dist( you.pos_bub(), src_loc ) <= 1;
+            // before we unload any item, check if player is at or
+            // adjacent to the loot source tile
+            if( !is_adjacent_or_closer ) {
+                std::vector<tripoint_bub_ms> route;
+                bool adjacent = false;
+
+                // get either direct route or route to nearest adjacent tile if
+                // source tile is impassable
+                if( here.passable( src_loc ) ) {
+                    route = here.route( you.pos_bub(), src_loc, you.get_pathfinding_settings(),
+                                        you.get_path_avoid() );
+                } else {
+                    // impassable source tile (locker etc.),
+                    // get route to nearest adjacent tile instead
+                    route = route_adjacent( you, src_loc );
+                    adjacent = true;
+                }
+
+                // check if we found path to source / adjacent tile
+                if( route.empty() ) {
+                    add_msg( m_info, _( "%s can't reach the source tile." ),
+                             you.disp_name() );
+                    continue;
+                }
+
+                // shorten the route to adjacent tile, if necessary
+                if( !adjacent ) {
+                    route.pop_back();
+                }
+
+                // set the destination and restart activity after player arrives there
+                // we don't need to check for safe mode,
+                // activity will be restarted only if
+                // player arrives on destination tile
+                stage = DO;
+                you.set_destination( route, act );
+                you.activity.set_to_null();
+                return;
+            }
+            stage = DO;
+            break;
+        }
+    }
+    if( stage == DO ) {
+        // TODO: fix point types
+        const tripoint_abs_ms src( placement );
+        const tripoint_bub_ms src_loc = here.bub_from_abs( src );
+
+        bool is_adjacent_or_closer = square_dist( you.pos_bub(), src_loc ) <= 1;
+        // before we move any item, check if player is at or
+        // adjacent to the loot source tile
+        if( !is_adjacent_or_closer ) {
+            stage = THINK;
+            return;
+        }
+
+        // the boolean in this pair being true indicates the item is from a vehicle storage space
+        auto items = std::vector<std::pair<item *, bool>>();
+        vehicle *src_veh;
+        int src_part;
+
+        //Check source for cargo part
+        //map_stack and vehicle_stack are different types but inherit from item_stack
+        // TODO: use one for loop
+        if( const cata::optional<vpart_reference> vp = here.veh_at( src_loc ).part_with_feature( "CARGO",
+                false ) ) {
+            src_veh = &vp->vehicle();
+            src_part = vp->part_index();
+            for( item &it : src_veh->get_items( src_part ) ) {
+                items.emplace_back( &it, true );
+            }
+        } else {
+            src_veh = nullptr;
+            src_part = -1;
+        }
+        for( item &it : here.i_at( src_loc ) ) {
+            items.emplace_back( &it, false );
+        }
+
+        bool unload_mods = false;
+        bool unload_molle = false;
+
+        std::vector<zone_data const *> const zones = mgr.get_zones_at( src, zone_type_zone_unload_all,
+                fac_id );
+
+        // get most open rules out of all stacked zones
+        for( zone_data const *zone : zones ) {
+            unload_options const &options = dynamic_cast<const unload_options &>( zone->get_options() );
+            unload_molle |= options.unload_molle();
+            unload_mods |= options.unload_mods();
+        }
+
+        //Skip items that have already been processed
+        for( auto it = items.begin() + num_processed; it < items.end(); ++it ) {
+
+            item &thisitem = *it->first;
+
+            // skip unpickable liquid
+            if( thisitem.made_of_from_type( phase_id::LIQUID ) ) {
+                ++num_processed;
+                continue;
+            }
+
+            // skip favorite items in ignore favorite zones
+            if( thisitem.is_favorite && mgr.has( zone_type_LOOT_IGNORE_FAVORITES, src, fac_id ) ) {
+                ++num_processed;
+                continue;
+            }
+
+            // Only if it's from a vehicle do we use the vehicle source location information.
+            vehicle *this_veh = it->second ? src_veh : nullptr;
+            const int this_part = it->second ? src_part : -1;
+
+            // if this item isn't going anywhere and its not sealed
+            // check if it is in a unload zone or a strip corpse zone
+            // then we should unload it and see what is inside
+            if( mgr.has_near( zone_type_zone_unload_all, abspos, 1, fac_id ) ||
+                ( mgr.has_near( zone_type_zone_strip, abspos, 1, fac_id ) && it->first->is_corpse() ) ) {
+                if( you.rate_action_unload( *it->first ) == hint_rating::good &&
+                    !it->first->any_pockets_sealed() ) {
+                    for( item *contained : it->first->all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
+                        // no liquids don't want to spill stuff
+                        if( !contained->made_of( phase_id::LIQUID ) && !contained->made_of( phase_id::GAS ) ) {
+                            move_item( you, *contained, contained->count(), src_loc, src_loc, this_veh, this_part );
+                            it->first->remove_item( *contained );
+                        }
+                        if( you.moves <= 0 ) {
+                            return;
+                        }
+                    }
+                    for( item *contained : it->first->all_items_top( item_pocket::pocket_type::MAGAZINE ) ) {
+                        // no liquids don't want to spill stuff
+                        if( !contained->made_of( phase_id::LIQUID ) && !contained->made_of( phase_id::GAS ) ) {
+                            move_item( you, *contained, contained->count(), src_loc, src_loc, this_veh, this_part );
+                            it->first->remove_item( *contained );
+                        }
+                        if( you.moves <= 0 ) {
+                            return;
+                        }
+                    }
+                    for( item *contained : it->first->all_items_top( item_pocket::pocket_type::MAGAZINE_WELL ) ) {
+                        // no liquids don't want to spill stuff
+                        if( !contained->made_of( phase_id::LIQUID ) && !contained->made_of( phase_id::GAS ) ) {
+                            move_item( you, *contained, contained->count(), src_loc, src_loc, this_veh, this_part );
+                            it->first->remove_item( *contained );
+                        }
+                        if( you.moves <= 0 ) {
+                            return;
+                        }
+                    }
+                }
+                // if unloading mods
+                if( unload_mods ) {
+                    // remove each mod, skip irremovable
+                    for( item *mod : it->first->gunmods() ) {
+                        if( mod->is_irremovable() ) {
+                            continue;
+                        }
+                        you.gunmod_remove( *it->first, *mod );
+                        move_item( you, *mod, 1, src_loc, src_loc, this_veh, this_part );
+                        if( you.moves <= 0 ) {
+                            return;
+                        }
+                    }
+                }
+
+                // if unloading molle
+                if( unload_molle ) {
+                    while( !it->first->get_contents().get_added_pockets().empty() ) {
+                        item removed = it->first->get_contents().remove_pocket( 0 );
+                        move_item( you, removed, 1, src_loc, src_loc, this_veh, this_part );
+                        if( you.moves <= 0 ) {
+                            return;
+                        }
+                    }
+                }
+
+                // after dumping items go back to start of activity loop
+                // so that can re-assess the items in the tile
+                ++num_processed;
+                return;
+            }
+
+            if( you.moves <= 0 ) {
+                return;
+            }
+        }
+
+        //this location is sorted
+        stage = THINK;
+        return;
+    }
+
+    // If we got here without restarting the activity, it means we're done
+    add_msg( m_info, _( "%s sorted out every item possible." ), you.disp_name( false, true ) );
+    if( you.is_npc() ) {
+        npc *guy = dynamic_cast<npc *>( &you );
+        guy->revert_after_activity();
+    }
+    act.set_to_null();
 }
 
 namespace activity_actors
@@ -6066,6 +6473,7 @@ deserialize_functions = {
     { ACT_TENT_PLACE, &tent_placement_activity_actor::deserialize },
     { ACT_TRY_SLEEP, &try_sleep_activity_actor::deserialize },
     { ACT_UNLOAD, &unload_activity_actor::deserialize },
+    { ACT_UNLOAD_LOOT, &unload_loot_activity_actor::deserialize },
     { ACT_WEAR, &wear_activity_actor::deserialize },
     { ACT_WIELD, &wield_activity_actor::deserialize},
     { ACT_WORKOUT_ACTIVE, &workout_activity_actor::deserialize },

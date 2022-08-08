@@ -169,7 +169,7 @@ struct jmapgen_setmap {
     ) :
         x( ix ), y( iy ), x2( ix2 ), y2( iy2 ), op( iop ), val( ival ), chance( ione_in ),
         repeat( irepeat ), rotation( irotation ),
-        fuel( ifuel ), status( istatus ), string_val( istring_val ) {}
+        fuel( ifuel ), status( istatus ), string_val( std::move( istring_val ) ) {}
 
     mapgen_phase phase() const;
 

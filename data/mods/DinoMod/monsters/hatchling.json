@@ -153,7 +153,7 @@
     "biosignature": { "biosig_item": "feces_dino", "biosig_timer": 3 },
     "death_function": { "effect": { "id": "death_guilt", "min_level": 3 } },
     "petfood": { "food": [ "DINOFOOD_B" ] },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "GUILT", "STUMBLES", "NO_BREED", "CANPLAY" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "STUMBLES", "NO_BREED", "CANPLAY" ],
     "harvest": "mammal_tiny"
   },
   {
@@ -166,7 +166,7 @@
     "upgrades": { "age_grow": 20, "into": "mon_gallimimus_juvenile" },
     "death_function": { "effect": { "id": "death_guilt", "min_level": 3 } },
     "petfood": { "food": [ "DINOFOOD_A", "DINOFOOD_B", "DINOFOOD_C" ] },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CANPLAY", "GUILT", "STUMBLES", "NO_BREED" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CANPLAY", "STUMBLES", "NO_BREED" ]
   },
   {
     "id": "mon_struthiomimus_hatchling",
@@ -190,7 +190,7 @@
     "upgrades": { "age_grow": 25, "into": "mon_albertonykus" },
     "death_function": { "effect": { "id": "death_guilt", "min_level": 3 } },
     "petfood": { "food": [ "DINOFOOD_A", "DINOFOOD_B" ] },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CANPLAY", "GUILT", "STUMBLES", "NO_BREED" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CANPLAY", "STUMBLES", "NO_BREED" ]
   },
   {
     "id": "mon_nothronychus_hatchling",
@@ -409,6 +409,13 @@
     "upgrades": { "age_grow": 50, "into": "mon_edmontosaurus_juvenile" }
   },
   {
+    "id": "mon_stegoceras_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_scutellosaurus_hatchling",
+    "name": "light green and yellow hatchling",
+    "upgrades": { "age_grow": 25, "into": "mon_stegoceras" }
+  },
+  {
     "id": "mon_pachycephalosaurus_hatchling",
     "type": "MONSTER",
     "copy-from": "mon_edmontosaurus_hatchling",
@@ -418,7 +425,7 @@
   {
     "id": "mon_aquilops_hatchling",
     "type": "MONSTER",
-    "copy-from": "mon_pachycephalosaurus_hatchling",
+    "copy-from": "mon_scutellosaurus_hatchling",
     "name": "light green and magenta hatchling",
     "upgrades": { "age_grow": 30, "into": "mon_aquilops" }
   },
@@ -454,6 +461,15 @@
     "upgrades": { "age_grow": 30, "into": "mon_triceratops_juvenile" }
   },
   {
+    "id": "mon_nanosaurus_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_compsognathus_hatchling",
+    "name": "green and purple hatchling",
+    "default_faction": "herbivore_young",
+    "petfood": { "food": [ "DINOFOOD_C" ] },
+    "upgrades": { "age_grow": 10, "into": "mon_nanosaurus" }
+  },
+  {
     "id": "mon_oryctodromeus_hatchling",
     "type": "MONSTER",
     "copy-from": "mon_compsognathus_hatchling",
@@ -461,6 +477,18 @@
     "default_faction": "herbivore_young",
     "petfood": { "food": [ "DINOFOOD_C" ] },
     "upgrades": { "age_grow": 30, "into": "mon_oryctodromeus" }
+  },
+  {
+    "id": "mon_thescelosaurus_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_dilophosaurus_hatchling",
+    "name": "green and purple hatchling",
+    "default_faction": "herbivore_young",
+    "color": "light_gray",
+    "upgrades": { "age_grow": 20, "into": "mon_thescelosaurus_juvenile" },
+    "death_function": { "effect": { "id": "death_guilt", "min_level": 3 } },
+    "petfood": { "food": [ "DINOFOOD_A", "DINOFOOD_B", "DINOFOOD_C" ] },
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CANPLAY", "STUMBLES", "NO_BREED" ]
   },
   {
     "id": "mon_dimorphodon_hatchling",
