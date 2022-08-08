@@ -10784,10 +10784,6 @@ int item::ammo_capacity( const ammotype &ammo ) const
 
 int item::ammo_required() const
 {
-    if( is_tool() ) {
-        return std::max( type->charges_to_use(), 0 );
-    }
-
     if( is_gun() ) {
         if( type->gun->ammo.empty() ) {
             return 0;
@@ -10802,7 +10798,7 @@ int item::ammo_required() const
         }
     }
 
-    return 0;
+    return std::max( type->charges_to_use(), 0 );
 }
 
 item &item::first_ammo()
@@ -11729,12 +11725,17 @@ bool item::getlight( float &luminance, units::angle &width, units::angle &direct
 int item::getlight_emit() const
 {
     float lumint = type->light_emission;
-    if( ammo_required() == 0 ||
-        ( has_flag( flag_USE_UPS ) && ammo_capacity( ammo_battery ) == 0 ) ||
+
+    if( lumint == 0 ) {
+        return 0;
+    }
+
+    debugmsg( "Charges to use ASD: %i", type->charges_to_use() );
+    if( ammo_required() == 0 || ( has_flag( flag_USE_UPS ) && ammo_capacity( ammo_battery ) == 0 ) ||
         has_flag( flag_USES_BIONIC_POWER ) ) {
         return lumint;
     }
-    if( lumint == 0 || ammo_remaining() == 0 ) {
+    if( ammo_remaining() == 0 ) {
         return 0;
     }
     if( has_flag( flag_CHARGEDIM ) && is_tool() && !has_flag( flag_USE_UPS ) ) {
