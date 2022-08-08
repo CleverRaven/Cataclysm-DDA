@@ -477,7 +477,7 @@
     "warmth": 15,
     "material_thickness": 0.5,
     "environmental_protection": 3,
-    "flags": [ "OVERSIZE", "VARSIZE", "POCKETS", "RAINPROOF", "STURDY", "FANCY" ]
+    "flags": [ "VARSIZE", "POCKETS", "RAINPROOF", "STURDY", "FANCY" ]
   },
   {
     "id": "subsuit_xl",
