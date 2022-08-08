@@ -493,7 +493,7 @@ cata::optional<std::string> iuse::can_smoke( const Character &you )
  * though it may have been successfully activated.
  * A return of cata::nullopt means it was not used at all.
  */
-cata::optional<int> iuse::sewage( Character *p, item *it, bool, const tripoint & )
+cata::optional<int> iuse::sewage( Character *p, item *, bool, const tripoint & )
 {
     if( !p->query_yn( _( "Are you sure you want to drink… this?" ) ) ) {
         return cata::nullopt;
@@ -504,7 +504,7 @@ cata::optional<int> iuse::sewage( Character *p, item *it, bool, const tripoint &
     return 1;
 }
 
-cata::optional<int> iuse::honeycomb( Character *p, item *it, bool, const tripoint & )
+cata::optional<int> iuse::honeycomb( Character *p, item *, bool, const tripoint & )
 {
     get_map().spawn_item( p->pos(), itype_wax, 2 );
     return 1;
@@ -651,7 +651,7 @@ cata::optional<int> iuse::ecig( Character *p, item *it, bool, const tripoint & )
     return 1;
 }
 
-cata::optional<int> iuse::antibiotic( Character *p, item *it, bool, const tripoint & )
+cata::optional<int> iuse::antibiotic( Character *p, item *, bool, const tripoint & )
 {
     p->add_msg_player_or_npc( m_neutral,
                               _( "You take some antibiotics." ),
@@ -692,7 +692,7 @@ cata::optional<int> iuse::eyedrops( Character *p, item *it, bool, const tripoint
     return 1;
 }
 
-cata::optional<int> iuse::fungicide( Character *p, item *it, bool, const tripoint & )
+cata::optional<int> iuse::fungicide( Character *p, item *, bool, const tripoint & )
 {
     if( p->is_underwater() ) {
         p->add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
@@ -750,7 +750,7 @@ cata::optional<int> iuse::fungicide( Character *p, item *it, bool, const tripoin
     return 1;
 }
 
-cata::optional<int> iuse::antifungal( Character *p, item *it, bool, const tripoint & )
+cata::optional<int> iuse::antifungal( Character *p, item *, bool, const tripoint & )
 {
     if( p->is_underwater() ) {
         p->add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
@@ -769,7 +769,7 @@ cata::optional<int> iuse::antifungal( Character *p, item *it, bool, const tripoi
     return 1;
 }
 
-cata::optional<int> iuse::antiparasitic( Character *p, item *it, bool, const tripoint & )
+cata::optional<int> iuse::antiparasitic( Character *p, item *, bool, const tripoint & )
 {
     if( p->is_underwater() ) {
         p->add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
@@ -819,7 +819,7 @@ cata::optional<int> iuse::antiparasitic( Character *p, item *it, bool, const tri
     return 1;
 }
 
-cata::optional<int> iuse::anticonvulsant( Character *p, item *it, bool, const tripoint & )
+cata::optional<int> iuse::anticonvulsant( Character *p, item *, bool, const tripoint & )
 {
     p->add_msg_if_player( _( "You take some anticonvulsant medication." ) );
     /** @EFFECT_STR reduces duration of anticonvulsant medication */
@@ -840,7 +840,7 @@ cata::optional<int> iuse::anticonvulsant( Character *p, item *it, bool, const tr
     return 1;
 }
 
-cata::optional<int> iuse::weed_cake( Character *p, item *it, bool, const tripoint & )
+cata::optional<int> iuse::weed_cake( Character *p, item *, bool, const tripoint & )
 {
     p->add_msg_if_player(
         _( "You start scarfing down the delicious cake.  It tastes a little funny, though…" ) );
@@ -864,7 +864,7 @@ cata::optional<int> iuse::weed_cake( Character *p, item *it, bool, const tripoin
     return 1;
 }
 
-cata::optional<int> iuse::coke( Character *p, item *it, bool, const tripoint & )
+cata::optional<int> iuse::coke( Character *p, item *, bool, const tripoint & )
 {
     p->add_msg_if_player( _( "You snort a bump of coke." ) );
     /** @EFFECT_STR reduces duration of coke */
@@ -880,7 +880,7 @@ cata::optional<int> iuse::coke( Character *p, item *it, bool, const tripoint & )
     return 1;
 }
 
-cata::optional<int> iuse::meth( Character *p, item *it, bool, const tripoint & )
+cata::optional<int> iuse::meth( Character *p, item *, bool, const tripoint & )
 {
     /** @EFFECT_STR reduces duration of meth */
     time_duration duration = 1_minutes * ( 60 - p->str_cur );
@@ -988,7 +988,7 @@ cata::optional<int> iuse::meditate( Character *p, item *it, bool t, const tripoi
     return 1;
 }
 
-cata::optional<int> iuse::thorazine( Character *p, item *it, bool, const tripoint & )
+cata::optional<int> iuse::thorazine( Character *p, item *, bool, const tripoint & )
 {
     if( p->has_effect( effect_took_thorazine ) ) {
         p->remove_effect( effect_took_thorazine );
@@ -1013,7 +1013,7 @@ cata::optional<int> iuse::thorazine( Character *p, item *it, bool, const tripoin
     return 1;
 }
 
-cata::optional<int> iuse::prozac( Character *p, item *it, bool, const tripoint & )
+cata::optional<int> iuse::prozac( Character *p, item *, bool, const tripoint & )
 {
     if( !p->has_effect( effect_took_prozac ) ) {
         p->add_effect( effect_took_prozac, 12_hours );
@@ -1058,7 +1058,7 @@ cata::optional<int> iuse::flusleep( Character *p, item *it, bool, const tripoint
     return 1;
 }
 
-cata::optional<int> iuse::inhaler( Character *p, item *it, bool, const tripoint & )
+cata::optional<int> iuse::inhaler( Character *p, item *, bool, const tripoint & )
 {
     p->add_msg_player_or_npc( m_neutral, _( "You take a puff from your inhaler." ),
                               _( "<npcname> takes a puff from their inhaler." ) );
@@ -1464,7 +1464,7 @@ cata::optional<int> iuse::marloss_gel( Character *p, item *it, bool, const tripo
     return 1;
 }
 
-cata::optional<int> iuse::mycus( Character *p, item *it, bool, const tripoint & )
+cata::optional<int> iuse::mycus( Character *p, item *, bool, const tripoint & )
 {
     if( p->is_npc() ) {
         return 1;
@@ -2512,7 +2512,7 @@ cata::optional<int> iuse::radio_off( Character *p, item *it, bool, const tripoin
     return 1;
 }
 
-cata::optional<int> iuse::directional_antenna( Character *p, item *it, bool, const tripoint & )
+cata::optional<int> iuse::directional_antenna( Character *p, item *, bool, const tripoint & )
 {
     // Find out if we have an active radio
     auto radios = p->items_with( []( const item & it ) {
@@ -3033,7 +3033,7 @@ cata::optional<int> iuse::clear_rubble( Character *p, item *it, bool, const trip
     return 1;
 }
 
-cata::optional<int> iuse::siphon( Character *p, item *it, bool, const tripoint & )
+cata::optional<int> iuse::siphon( Character *p, item *, bool, const tripoint & )
 {
     if( p->is_mounted() ) {
         p->add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
@@ -4677,7 +4677,7 @@ cata::optional<int> iuse::vortex( Character *p, item *it, bool, const tripoint &
     return 0;
 }
 
-cata::optional<int> iuse::dog_whistle( Character *p, item *it, bool, const tripoint & )
+cata::optional<int> iuse::dog_whistle( Character *p, item *, bool, const tripoint & )
 {
     if( !p->is_avatar() ) {
         return cata::nullopt;
@@ -4738,7 +4738,7 @@ cata::optional<int> iuse::dog_whistle( Character *p, item *it, bool, const tripo
     return 1;
 }
 
-cata::optional<int> iuse::call_of_tindalos( Character *p, item *it, bool, const tripoint & )
+cata::optional<int> iuse::call_of_tindalos( Character *p, item *, bool, const tripoint & )
 {
     map &here = get_map();
     for( const tripoint &dest : here.points_in_radius( p->pos(), 12 ) ) {
@@ -4844,7 +4844,7 @@ void iuse::cut_log_into_planks( Character &p )
     p.activity.placement = get_map().getabs( p.pos() );
 }
 
-cata::optional<int> iuse::lumber( Character *p, item *it, bool t, const tripoint & )
+cata::optional<int> iuse::lumber( Character *p, item *, bool t, const tripoint & )
 {
     if( t ) {
         return cata::nullopt;
