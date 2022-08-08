@@ -825,7 +825,7 @@
     "description": "Much of the material in your inner eye has been surgically removed and replaced with an array of high-powered, auto-focusing lenses.  They function as integrated binoculars, letting you see much farther than before, and any vision problems you might have had are now gone.",
     "occupied_bodyparts": [ [ "eyes", 2 ] ],
     "flags": [ "ENHANCED_VISION" ],
-    "cant_remove_reason": "The Telescopic Lenses are part of %1$s eyes now.  Removing them would leave %2$s blind.",
+    "cant_remove_reason": "The CBM has completely replaced %1$s eyes now.  Removing them would leave %2$s blind.",
     "canceled_mutations": [
       "HYPEROPIC",
       "MYOPIC",
