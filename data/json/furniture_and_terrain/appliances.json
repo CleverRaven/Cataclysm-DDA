@@ -920,41 +920,5 @@
       { "item": "lead", "charges": [ 12, 18 ] }
     ],
     "damage_reduction": { "all": 80 }
-  },
-  {
-    "type": "vehicle_part",
-    "id": "ap_compact_ASRG",
-    "name": { "str": "Unshielded Compact Advanced Sterling Radioisotope Generator" },
-    "looks_like": "f_compact_ASRG",
-    "symbol": "0",
-    "categories": [ "energy" ],
-    "color": "green_white",
-    "broken_symbol": "#",
-    "broken_color": "blue",
-    "location": "structure",
-    "damage_modifier": 80,
-    "durability": 100,
-    "description": "An ASRG, minus the heavy plating that protected it from external wear and tear.  Should be safe as long as you don't abuse it too much.  Plug into your power grid for constant output.",
-    "epower": 130,
-    "size": 1800,
-    "item": "compact_ASRG",
-    "flags": [
-      "CARGO",
-      "OBSTACLE",
-      "LEAK_DAM",
-      "RADIOACTIVE",
-      "COVERED",
-      "ENABLED_DRAINS_EPOWER",
-      "APPLIANCE",
-      "PERPETUAL",
-      "REACTOR"
-    ],
-    "breaks_into": [
-      { "item": "scrap", "count": [ 4, 16 ] },
-      { "item": "steel_chunk", "count": [ 1, 6 ] },
-      { "item": "plutonium", "charges": [ 0, 3 ] },
-      { "item": "lead", "charges": [ 12, 18 ] }
-    ],
-    "damage_reduction": { "all": 15 }
   }
 ]
