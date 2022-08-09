@@ -133,12 +133,12 @@
     "skill_used": "cooking",
     "difficulty": 2,
     "time": "15 m",
-    "batch_time_factors": [ 50, 2 ],
+    "batch_time_factors": [ 90, 2 ],
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_knife_skills" }, { "proficiency": "prof_forage_cooking" } ],
     "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
-    "components": [ [ [ "water", 1 ], [ "clean_water", 1 ] ], [ [ "jerusalem_artichoke", 1 ] ] ]
+    "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "jerusalem_artichoke", 1 ] ] ]
   },
   {
     "type": "recipe",

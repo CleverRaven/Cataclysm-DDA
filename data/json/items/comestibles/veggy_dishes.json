@@ -1282,19 +1282,19 @@
     "price": 0,
     "healthy": 0,
     "calories": 120,
+    "charges": 2,
     "delete": { "flags": [ "RAW" ] },
     "extend": { "flags": [ "EATEN_HOT", "FREEZERBURN" ] },
-    "fun": 1,
+    "fun": 3,
     "vitamins": [ [ "calcium", 1 ], [ "iron", 11 ], [ "vitC", 2 ] ]
   },
   {
     "type": "COMESTIBLE",
     "id": "jerusalem_artichoke_boiled",
-    "name": { "str": "sauteed Jerusalem artichoke" },
+    "name": { "str": "boiled Jerusalem artichoke" },
     "copy-from": "jerusalem_artichoke_sauteed",
-    "color": "brown",
-    "spoils_in": "2 days",
-    "description": "Still crunchy but much more palatable than raw.  Has a slight nutty taste.",
+    "fun": 2,
+    "description": "Still crunchy but much more palatable than raw, with a slight nutty taste.",
     "calories": 100
   },
   {
