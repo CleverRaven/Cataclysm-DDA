@@ -29,7 +29,10 @@
       },
       {
         "id": "male_7",
-        "text": "SPECIAL BULLETIN\nMISSING PERSON SUSPICIOUS CIRCUMSTANCES\nCALL: FRAMINGHAM POLICE DEPT. AT (508)391-4957\n\nLee M. Younce\n\n[Photograph: employee identification photo of a stern-looking man in his early fifties wearing a formal office shirt.]\nHave you seen me?\n\nMale, Asian, 50 years old\n5'7\", 150-155 lbs, hazel eyes, black hair (buzzcut), goatee\n\nMISSING PERSON SUFFERS FROM SCHIZOPHRENIA AND HAS NOT BEEN TAKING HIS PRESCRIPTION MEDICATION\n\nMr. Younce was last seen leaving his residence on 760 Christie Way, Groton, on April 14, at approximately 7 am.  He was wearing a formal gray shirt, black jeans, dress shoes and was seen carrying a blue briefcase.  His 2018 Chevrolet Bolt was discovered in Groton Town Forest with his wallet and cellphone inside.  Mr. Younce is believed to be in the Hickory Hills Lake area.\n\nFOR CURRENT INFORMATION & HOW TO HELP\n\nCALL FRAMINGHAM POLICE DEPT. AT (508)391-4957"
+        "text": {
+          "str": "SPECIAL BULLETIN\nMISSING PERSON SUSPICIOUS CIRCUMSTANCES\nCALL: FRAMINGHAM POLICE DEPT. AT (508)391-4957\n\nLee M. Younce\n\n[Photograph: employee identification photo of a stern-looking man in his early fifties wearing a formal office shirt.]\nHave you seen me?\n\nMale, Asian, 50 years old\n5'7\", 150-155 lbs, hazel eyes, black hair (buzzcut), goatee\n\nMISSING PERSON SUFFERS FROM SCHIZOPHRENIA AND HAS NOT BEEN TAKING HIS PRESCRIPTION MEDICATION\n\nMr. Younce was last seen leaving his residence on 760 Christie Way, Groton, on April 14, at approximately 7 am.  He was wearing a formal gray shirt, black jeans, dress shoes and was seen carrying a blue briefcase.  His 2018 Chevrolet Bolt was discovered in Groton Town Forest with his wallet and cellphone inside.  Mr. Younce is believed to be in the Hickory Hills Lake area.\n\nFOR CURRENT INFORMATION & HOW TO HELP\n\nCALL FRAMINGHAM POLICE DEPT. AT (508)391-4957",
+          "//NOLINT(cata-text-style)": "intentional format"
+        }
       },
       {
         "id": "female_1",
@@ -37,7 +40,10 @@
       },
       {
         "id": "female_2",
-        "text": "Bedford Police Department\n2 Mudge Way\nBedford, MA 01730\nPHONE: 781-418-2788\n\n[Photograph: police mugshot of a distraught young woman with long blonde hair.]\n\nBedford Police Department Missing Persons Unit Investigators are asking for the public's help locating Sophia Breece.  She lives on 4307 Lyon Avenue, Worcester, and was last seen on April 30 at approximately 6 p.m.\n\nMrs. Breece is a female Caucasian 30 years old, 5'3\" tall, 100-105 pounds, blonde curled hair, with blue eyes.\n\nMP has a history of substance abuse.  Her loved ones are very worried and asking for your help locating her.\n\nAnyone with information is asked to call Bedford Police Department Missing Persons Unit at 781-418-2788"
+        "text": {
+          "str": "Bedford Police Department\n2 Mudge Way\nBedford, MA 01730\nPHONE: 781-418-2788\n\n[Photograph: police mugshot of a distraught young woman with long blonde hair.]\n\nBedford Police Department Missing Persons Unit Investigators are asking for the public's help locating Sophia Breece.  She lives on 4307 Lyon Avenue, Worcester, and was last seen on April 30 at approximately 6 p.m.\n\nMrs. Breece is a female Caucasian 30 years old, 5'3\" tall, 100-105 pounds, blonde curled hair, with blue eyes.\n\nMP has a history of substance abuse.  Her loved ones are very worried and asking for your help locating her.\n\nAnyone with information is asked to call Bedford Police Department Missing Persons Unit at 781-418-2788",
+          "//NOLINT(cata-text-style)": "intentional format"
+        }
       },
       {
         "id": "female_3",
@@ -57,7 +63,10 @@
       },
       {
         "id": "female_7",
-        "text": "AT RISK MISSING PERSON\n\n[Photograph: an elderly woman with short curly hair wearing a pearl necklace and a floral dress.]\nBetty Rue Webber, 74\n\nMrs. Webber is a female Caucasian 74-year-old, 5'1\" tall, 160 pounds, short gray curly hair, wears reading glasses, last seen wearing a purple waistcoat, blue jeans and black crocs.\n\nThe family reports Mrs. Webber has dementia.  The missing person left her residence on 2354 Kennedy Court, Mansfield, MA, at approximately 11 to 13 am.  Her loved ones are very worried and asking for your help locating her.\n\nANY INFORMATION PLEASE CONTACT LOCAL LAW ENFORCEMENT OR CALL 774-263-3710"
+        "text": {
+          "str": "AT RISK MISSING PERSON\n\n[Photograph: an elderly woman with short curly hair wearing a pearl necklace and a floral dress.]\nBetty Rue Webber, 74\n\nMrs. Webber is a female Caucasian 74-year-old, 5'1\" tall, 160 pounds, short gray curly hair, wears reading glasses, last seen wearing a purple waistcoat, blue jeans and black crocs.\n\nThe family reports Mrs. Webber has dementia.  The missing person left her residence on 2354 Kennedy Court, Mansfield, MA, at approximately 11 to 13 am.  Her loved ones are very worried and asking for your help locating her.\n\nANY INFORMATION PLEASE CONTACT LOCAL LAW ENFORCEMENT OR CALL 774-263-3710",
+          "//NOLINT(cata-text-style)": "intentional format"
+        }
       }
     ]
   },
@@ -71,11 +80,17 @@
       },
       {
         "id": "boy_2",
-        "text": "MISSING\nCan You Help?\n\n[Photograph: Picture Day photo of an adolescent male.]\n\nJacob Hutchinson\n\nJacob Hutchinson, 17, left Marlborough High School located at 4116 Romano Street, Marlborough, at about 4 pm, 19 March.  He was later seen on Reservoir Street at about 4:30 pm.  Jacob is known to frequent the Ft. Meadow Lake Area. \n\nJacob Hutchinson is a Caucasian male, approximately 6 feet 2 inches tall and weighs about 175 lbs.  He has short brown hair, brown eyes, pierced left ear. \n\nJacob was last seen wearing dark gray camo pants, a white hoodie, a green baseball cap and black leather shoes.\n\nAnyone Having Information Are Required To Call\n781-365-2294"
+        "text": {
+          "str": "MISSING\nCan You Help?\n\n[Photograph: Picture Day photo of an adolescent male.]\n\nJacob Hutchinson\n\nJacob Hutchinson, 17, left Marlborough High School located at 4116 Romano Street, Marlborough, at about 4 pm, 19 March.  He was later seen on Reservoir Street at about 4:30 pm.  Jacob is known to frequent the Ft. Meadow Lake Area.\n\nJacob Hutchinson is a Caucasian male, approximately 6 feet 2 inches tall and weighs about 175 lbs.  He has short brown hair, brown eyes, pierced left ear.\n\nJacob was last seen wearing dark gray camo pants, a white hoodie, a green baseball cap and black leather shoes.\n\nAnyone Having Information Are Required To Call\n781-365-2294",
+          "//NOLINT(cata-text-style)": "intentional format"
+        }
       },
       {
         "id": "boy_3",
-        "text": "MISSING CHILD\nHELP BRING ME HOME\n\n[Photograph: a child in pajamas holding an oversize firefighter helmet over his head.]\n\nMichael M. Vanwyk\n\nMissing Since January 21st.  Last seen at 7 a.m., at 2340 Pearlman Avenue, Boston.\n\nDESCRIPTION\n\nMale, White, 8 y/o.\nHeight 50 inches ; Weight: 56 lbs.\nLight Brown Hair, Brown Eyes\nWearing Red & Blue Striped Puffercoat, Red Knit Beanie, Brown Insulated Pants, Blue Schoolbag\nCarrying: Paper Lunchbag\n\nANYONE HAVING INFORMATION SHOULD CONTACT:\nBoston Police Department Special Victims Unit - 508-892-4200"
+        "text": {
+          "str": "MISSING CHILD\nHELP BRING ME HOME\n\n[Photograph: a child in pajamas holding an oversize firefighter helmet over his head.]\n\nMichael M. Vanwyk\n\nMissing Since January 21st.  Last seen at 7 a.m., at 2340 Pearlman Avenue, Boston.\n\nDESCRIPTION\n\nMale, White, 8 y/o.\nHeight 50 inches ; Weight: 56 lbs.\nLight Brown Hair, Brown Eyes\nWearing Red & Blue Striped Puffercoat, Red Knit Beanie, Brown Insulated Pants, Blue Schoolbag\nCarrying: Paper Lunchbag\n\nANYONE HAVING INFORMATION SHOULD CONTACT:\nBoston Police Department Special Victims Unit - 508-892-4200",
+          "//NOLINT(cata-text-style)": "intentional format"
+        }
       },
       {
         "id": "boy_4",
@@ -83,7 +98,10 @@
       },
       {
         "id": "boy_5",
-        "text": "AMBER ALERT\n\nJayden Perry Norton\n\n[Photograph: a child in a baby blue short sleeve onesie playing with a toy car.]\n\nHAVE YOU SEEN THIS BOY?\n\nSex: Male ; Age: 6\nHair: Brown; Eyes: Brown\nHeight: 3'7\" ; Weight: 40 pounds\n\nIT IS BELIEVED HE WAS ABDUCTED BY A CAUCASIAN MALE FROM HIS SOUTH BOSTON HOME ON THE NIGHT OF 3 MAY.\n\n[Illustration: poorly drawn police sketch of a man in a black hoodie.]\nUNIDENTIFIED SUSPECT\n\nThe abductor drives a black sedan with a Canadian license plate.\nAuthorities say the abductor may have been headed to Canada or Maine.\n\nIF YOU HAVE ANY INFORMATION THAT CAN HELP THE INVESTIGATION, PLEASE CONTACT LOCAL LAW ENFORCEMENT IMMEDIATELY OR CALL TIPS TO 508-713-6311"
+        "text": {
+          "str": "AMBER ALERT\n\nJayden Perry Norton\n\n[Photograph: a child in a baby blue short sleeve onesie playing with a toy car.]\n\nHAVE YOU SEEN THIS BOY?\n\nSex: Male ; Age: 6\nHair: Brown; Eyes: Brown\nHeight: 3'7\" ; Weight: 40 pounds\n\nIT IS BELIEVED HE WAS ABDUCTED BY A CAUCASIAN MALE FROM HIS SOUTH BOSTON HOME ON THE NIGHT OF 3 MAY.\n\n[Illustration: poorly drawn police sketch of a man in a black hoodie.]\nUNIDENTIFIED SUSPECT\n\nThe abductor drives a black sedan with a Canadian license plate.\nAuthorities say the abductor may have been headed to Canada or Maine.\n\nIF YOU HAVE ANY INFORMATION THAT CAN HELP THE INVESTIGATION, PLEASE CONTACT LOCAL LAW ENFORCEMENT IMMEDIATELY OR CALL TIPS TO 508-713-6311",
+          "//NOLINT(cata-text-style)": "intentional format"
+        }
       },
       {
         "id": "boy_6",
@@ -125,7 +143,10 @@
       },
       {
         "id": "border_collie",
-        "text": "MISSING!!!\n\nBrodie the Border Collie\n\n - Female, black & white coat color\n - 2.5 years old\n - Last seen in Greenfield, near Maple Ave.\n - Lost since Feb. 21\n\nCALL (413)573-291\n\n[Photograph: a border collie with light blue eyes lying on the grass, chewing on a rubber chicken.]\n\nA handsome reward is promised!"
+        "text": {
+          "str": "MISSING!!!\n\nBrodie the Border Collie\n\n - Female, black & white coat color\n - 2.5 years old\n - Last seen in Greenfield, near Maple Ave.\n - Lost since Feb. 21\n\nCALL (413)573-291\n\n[Photograph: a border collie with light blue eyes lying on the grass, chewing on a rubber chicken.]\n\nA handsome reward is promised!",
+          "//NOLINT(cata-text-style)": "intentional format"
+        }
       },
       {
         "id": "boxer_mastiff",
@@ -199,7 +220,10 @@
       },
       {
         "id": "persian",
-        "text": "!! HELP ME !!\nMy name is Pippa and I am lost!\n\n[Photograph: a long-haired cat with a round face and short muzzle sitting on a floral carpet.]\n\nI'm getting on with age, so I don't remember how to get home.  I am a (traditional) Persian longhair with silky white fur and brownish eyes.  I was wearing a red collar with my name tag on it.\n\nPLEASE CALL (413)347-1688 IF YOU SEE ME\n(AND TAKE A PICTURE IF YOU CAN)"
+        "text": {
+          "str": "!! HELP ME !!\nMy name is Pippa and I am lost!\n\n[Photograph: a long-haired cat with a round face and short muzzle sitting on a floral carpet.]\n\nI'm getting on with age, so I don't remember how to get home.  I am a (traditional) Persian longhair with silky white fur and brownish eyes.  I was wearing a red collar with my name tag on it.\n\nPLEASE CALL (413)347-1688 IF YOU SEE ME\n(AND TAKE A PICTURE IF YOU CAN)",
+          "//NOLINT(cata-text-style)": "intentional format"
+        }
       },
       {
         "id": "bengal",
