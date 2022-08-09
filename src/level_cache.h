@@ -30,28 +30,28 @@ struct level_cache {
         // This is a single value indicating that the entire level is floored.
         bool no_floor_gaps = false;
 
-        cata::mdarray<four_quadrants, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> lm;
-        cata::mdarray<float, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> sm;
+        cata::mdarray<four_quadrants, point_bub_ms> lm;
+        cata::mdarray<float, point_bub_ms> sm;
         // To prevent redundant ray casting into neighbors: precalculate bulk light source positions.
         // This is only valid for the duration of generate_lightmap
-        cata::mdarray<float, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> light_source_buffer;
+        cata::mdarray<float, point_bub_ms> light_source_buffer;
 
         // Cache of natural light level is useful if it needs to be in sync with the light cache.
         float natural_light_level_cache;
 
         // if false, means tile is under the roof ("inside"), true means tile is "outside"
         // "inside" tiles are protected from sun, rain, etc. (see ter_furn_flag::TFLAG_INDOORS flag)
-        cata::mdarray<bool, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> outside_cache;
+        cata::mdarray<bool, point_bub_ms> outside_cache;
 
         // true when vehicle below has "ROOF" or "OPAQUE" part, furniture below has ter_furn_flag::TFLAG_SUN_ROOF_ABOVE
         //      or terrain doesn't have ter_furn_flag::TFLAG_NO_FLOOR flag
         // false otherwise
         // i.e. true == has floor
-        cata::mdarray<bool, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> floor_cache;
+        cata::mdarray<bool, point_bub_ms> floor_cache;
 
         // stores cached transparency of the tiles
         // units: "transparency" (see LIGHT_TRANSPARENCY_OPEN_AIR)
-        cata::mdarray<float, point_bub_ms, MAPSIZE_X, MAPSIZE_Y>transparency_cache;
+        cata::mdarray<float, point_bub_ms>transparency_cache;
 
         // materialized  (transparency_cache[i][j] > LIGHT_TRANSPARENCY_SOLID)
         // doesn't consider fields (i.e. if tile is covered in thick smoke, it's still
@@ -62,15 +62,15 @@ struct level_cache {
         // stores "adjusted transparency" of the tiles
         // initial values derived from transparency_cache, uses same units
         // examples of adjustment: changed transparency on player's tile and special case for crouching
-        cata::mdarray<float, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> vision_transparency_cache;
+        cata::mdarray<float, point_bub_ms> vision_transparency_cache;
 
         // stores "visibility" of the tiles to the player
         // values range from 1 (fully visible to player) to 0 (not visible)
-        cata::mdarray<float, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> seen_cache;
+        cata::mdarray<float, point_bub_ms> seen_cache;
 
         // same as `seen_cache` (same units) but contains values for cameras and mirrors
         // effective "visibility_cache" is calculated as "max(seen_cache, camera_cache)"
-        cata::mdarray<float, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> camera_cache;
+        cata::mdarray<float, point_bub_ms> camera_cache;
 
         // reachability caches
         // Note: indirection here is introduced, because caches are quite large:
@@ -83,7 +83,7 @@ struct level_cache {
             cata::make_value<reachability_cache_vertical>();
 
         // stores resulting apparent brightness to player, calculated by map::apparent_light_at
-        cata::mdarray<lit_level, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> visibility_cache;
+        cata::mdarray<lit_level, point_bub_ms> visibility_cache;
         std::bitset<MAPSIZE_X *MAPSIZE_Y> map_memory_seen_cache;
         std::bitset<MAPSIZE *MAPSIZE> field_cache;
 

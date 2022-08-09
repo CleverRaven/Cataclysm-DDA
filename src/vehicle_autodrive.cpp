@@ -283,9 +283,10 @@ struct auto_navigation_data {
 
     std::array<vehicle_profile, NUM_ORIENTATIONS> profiles;
     // known obstacles on the view map
-    bool is_obstacle[NAV_VIEW_SIZE_X][NAV_VIEW_SIZE_Y];
+    cata::mdarray<bool, point, NAV_VIEW_SIZE_X, NAV_VIEW_SIZE_Y> is_obstacle;
     // where on the nav map the vehicle pivot may be placed
-    bool valid_positions[NUM_ORIENTATIONS][NAV_MAP_SIZE_X][NAV_MAP_SIZE_Y];
+    std::array<cata::mdarray<bool, point, NAV_VIEW_SIZE_X, NAV_VIEW_SIZE_Y>, NUM_ORIENTATIONS>
+    valid_positions;
     // node addresses that are valid end positions
     std::unordered_set<node_address, node_address_hasher> goal_zone;
     // the middle of the goal zone, in nav map coords

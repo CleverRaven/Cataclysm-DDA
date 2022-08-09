@@ -230,21 +230,26 @@
     "autolearn": true,
     "book_learn": [ [ "textbook_armwest", 4 ], [ "recipe_melee", 4 ] ],
     "components": [ [ [ "sheet_metal", 1 ] ], [ [ "cordage_6_leather", 8 ] ] ],
-    "proficiencies": [ { "proficiency": "prof_metalworking", "fail_multiplier": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_metalworking" } ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "DRILL", "level": 1 } ]
   },
   {
     "result": "xs_armguard_metal",
     "type": "recipe",
     "copy-from": "armguard_metal",
-    "time": "90 m"
+    "time": "90 m",
+    "components": [ [ [ "sheet_metal", 1 ] ], [ [ "cordage_6_leather", 8 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_metalworking" } ],
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "DRILL", "level": 1 } ]
   },
   {
     "result": "xl_armguard_metal",
     "type": "recipe",
     "copy-from": "armguard_metal",
     "time": "100 m",
-    "components": [ [ [ "sheet_metal", 2 ] ], [ [ "cordage_36_leather", 4 ] ] ]
+    "components": [ [ [ "sheet_metal", 2 ] ], [ [ "cordage_36_leather", 4 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_metalworking" } ],
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "DRILL", "level": 1 } ]
   },
   {
     "result": "armguard_metal_sheets_elbows",
@@ -259,7 +264,7 @@
     "autolearn": true,
     "book_learn": [ [ "textbook_armwest", 4 ], [ "recipe_melee", 4 ] ],
     "components": [ [ [ "sheet_metal_small", 2 ] ], [ [ "cordage_6_leather", 2 ] ] ],
-    "proficiencies": [ { "proficiency": "prof_metalworking", "fail_multiplier": 1 }, { "proficiency": "prof_articulation" } ],
+    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_articulation" } ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "DRILL", "level": 1 } ]
   },
   {
@@ -275,7 +280,7 @@
     "autolearn": true,
     "book_learn": [ [ "textbook_armwest", 4 ], [ "recipe_melee", 4 ] ],
     "components": [ [ [ "sheet_metal_small", 4 ] ], [ [ "cordage_6_leather", 6 ], [ "cordage_36_leather", 1 ] ] ],
-    "proficiencies": [ { "proficiency": "prof_metalworking", "fail_multiplier": 1 }, { "proficiency": "prof_articulation" } ],
+    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_articulation" } ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "DRILL", "level": 1 } ]
   },
   {
