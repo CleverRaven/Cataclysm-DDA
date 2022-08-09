@@ -186,7 +186,7 @@ class weather_manager
         time_point nextweather;
         /** temperature cache, cleared every turn, sparse map of map tripoints to temperatures */
         std::unordered_map< tripoint, int > temperature_cache;
-        // Returns outdoor or indoor temperature of given location (in absolute (@ref map::getabs))
+        // Returns outdoor or indoor temperature of given location
         int get_temperature( const tripoint &location );
         // Returns outdoor or indoor temperature of given location
         int get_temperature( const tripoint_abs_omt &location ) const;

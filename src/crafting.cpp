@@ -2541,7 +2541,7 @@ void Character::complete_disassemble( item_location &target, const recipe &dis )
 {
     // Get the proper recipe - the one for disassembly, not assembly
     const requirement_data dis_requirements = dis.disassembly_requirements();
-    const tripoint loc = target.position();
+    const tripoint_bub_ms loc = target.pos_bub();
 
     // Get the item to disassemble, and make a copy to keep its data (damage/components)
     // after the original has been removed.
@@ -2669,7 +2669,9 @@ void Character::complete_disassemble( item_location &target, const recipe &dis )
         item act_item = newit;
 
         if( act_item.has_temperature() ) {
-            act_item.set_item_temperature( units::from_fahrenheit( get_weather().get_temperature( loc ) ) );
+            // TODO: fix point types
+            act_item.set_item_temperature(
+                units::from_fahrenheit( get_weather().get_temperature( loc.raw() ) ) );
         }
 
         // Refitted clothing disassembles into refitted components (when applicable)

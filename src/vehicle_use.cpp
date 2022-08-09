@@ -1204,11 +1204,11 @@ void vehicle::start_engines( const bool take_control, const bool autodrive )
     int start_time = 0;
     // record the first usable engine as the referenced position checked at the end of the engine starting activity
     bool has_starting_engine_position = false;
-    tripoint starting_engine_position;
+    tripoint_bub_ms starting_engine_position;
     for( size_t e = 0; e < engines.size(); ++e ) {
         if( !has_starting_engine_position && !parts[ engines[ e ] ].is_broken() &&
             parts[ engines[ e ] ].enabled ) {
-            starting_engine_position = global_part_pos3( engines[ e ] );
+            starting_engine_position = bub_part_pos( engines[ e ] );
             has_starting_engine_position = true;
         }
         has_engine = has_engine || is_engine_on( e );
@@ -1216,7 +1216,7 @@ void vehicle::start_engines( const bool take_control, const bool autodrive )
     }
 
     if( !has_starting_engine_position ) {
-        starting_engine_position = global_pos3();
+        starting_engine_position = {};
     }
 
     if( !has_engine ) {
@@ -1231,7 +1231,8 @@ void vehicle::start_engines( const bool take_control, const bool autodrive )
     }
     if( !autodrive ) {
         player_character.assign_activity( ACT_START_ENGINES, start_time );
-        player_character.activity.placement = starting_engine_position - player_character.pos();
+        player_character.activity.relative_placement =
+            starting_engine_position - player_character.pos_bub();
         player_character.activity.values.push_back( take_control );
     }
 }
@@ -1317,7 +1318,9 @@ void vehicle::reload_seeds( const tripoint &pos )
             }
             used_seed.front().set_age( 0_turns );
             //place seeds into the planter
-            put_into_vehicle_or_drop( player_character, item_drop_reason::deliberate, used_seed, pos );
+            // TODO: fix point types
+            put_into_vehicle_or_drop( player_character, item_drop_reason::deliberate, used_seed,
+                                      tripoint_bub_ms( pos ) );
         }
     }
 }
@@ -1535,7 +1538,8 @@ void vehicle::operate_scoop()
             parts_points.push_back( current );
         }
         for( const tripoint &position : parts_points ) {
-            here.mop_spills( position );
+            // TODO: fix point types
+            here.mop_spills( tripoint_bub_ms( position ) );
             if( !here.has_items( position ) ) {
                 continue;
             }

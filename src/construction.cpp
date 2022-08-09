@@ -1066,7 +1066,7 @@ void place_construction( const construction_group_str_id &group )
         player_character.consume_tools( it );
     }
     player_character.assign_activity( ACT_BUILD );
-    player_character.activity.placement = here.getabs( pnt );
+    player_character.activity.placement = here.getglobal( pnt );
 }
 
 void complete_construction( Character *you )

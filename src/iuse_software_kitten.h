@@ -7,6 +7,7 @@
 
 #include "color.h"
 #include "cursesdef.h"
+#include "mdarray.h"
 #include "point.h"
 
 struct kobject {
@@ -37,7 +38,7 @@ class robot_finds_kitten
         std::vector<std::string> bogus_messages;
         static constexpr int rfkLINES = 20;
         static constexpr int rfkCOLS = 60;
-        int rfkscreen[rfkCOLS][rfkLINES];
+        cata::mdarray<int, point, rfkCOLS, rfkLINES> rfkscreen;
         int nummessages = 0;
 
         enum class ui_state : int {
