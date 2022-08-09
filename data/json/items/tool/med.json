@@ -156,7 +156,7 @@
   },
   {
     "id": "vacutainer",
-    "type": "GENERIC",
+    "type": "TOOL",
     "category": "tools",
     "name": { "str": "blood draw kit" },
     "description": "This is a kit for drawing blood, including a test tube for holding the sample.  Use this tool to draw blood, either from yourself or from a corpse you are standing on.",
