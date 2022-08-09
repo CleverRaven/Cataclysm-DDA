@@ -57,8 +57,6 @@ cd Cataclysm-DDA
 
 2. Open the provided solution (`msvc-full-features\Cataclysm-vcpkg-static.sln`) in `Visual Studio`.
 
-    - **Note:** If you are using Visual Studio 2022, the first time you open the solution, it will prompt you to "Retarget Projects". Unless you know what you are doing, hit cancel on this dialog.
-
 3. Open the `Build > Configuration Manager` menu and adjust `Active solution configuration` and `Active solution platform` to match your intended target.
 
     - The `Release` configuration and `x64` platform together make a good default setting. `Debug` is too slow and should be reserved for breakpoint debugging with code stepping.

@@ -97,6 +97,11 @@
   },
   {
     "type": "vehicle_group",
+    "id": "trains_and_cars",
+    "vehicles": [ [ "train_car_passenger", 250 ], [ "train_electrical_loco1300", 500 ] ]
+  },
+  {
+    "type": "vehicle_group",
     "id": "city_pileup",
     "vehicles": [
       [ "car", 7000 ],

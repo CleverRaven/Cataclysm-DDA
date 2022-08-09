@@ -310,6 +310,7 @@ void DynamicDataLoader::initialize()
 
     add( "vehicle_part",  &vpart_info::load );
     add( "vehicle_part_category",  &vpart_category::load );
+    add( "vehicle_part_migration", &vpart_migration::load );
     add( "vehicle",  &vehicle_prototype::load );
     add( "vehicle_group",  &VehicleGroup::load );
     add( "vehicle_placement",  &VehiclePlacement::load );
@@ -648,6 +649,7 @@ void DynamicDataLoader::unload_data()
     vitamin::reset();
     vpart_info::reset();
     vpart_category::reset();
+    vpart_migration::reset();
     weakpoints::reset();
     weather_types::reset();
     widget::reset();

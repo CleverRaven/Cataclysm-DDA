@@ -570,6 +570,29 @@
   },
   {
     "type": "snippet",
+    "category": "<bug_harvest_spider_chitin>",
+    "text": [
+      "<bug_harvest_general_chitin>",
+      "The fangs spray a sickly green liquid to the ground when you touch them",
+      "One of its eyes falls to the ground and shatters into a dozen jagged splinters",
+      "The stiff hairs of its chitin seem to shift slightly, points reaching for your skin",
+      "Your first few cuts only succeed in peeling back the upper, hairy layer of chitin, leaving a glassy green carapace",
+      "You hit a hard, scarred spot with your tool and reveal a cross-section of chitin with hundreds of stripes, like the rings of a tree"
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<bug_harvest_spider_deeper>",
+    "text": [
+      "<bug_harvest_general_deeper>",
+      "The fangs are connected to fist-sized venom glands, still churning with life",
+      "The imposing mandibles give way to a surprisingly thin tube and atrophied digestive track.  It must have done most of its digesting outside",
+      "A huge reddish lump reveals itself to be a sort of lung with a deflating noise.  You're blasted with hot air and droplets of hemolymph",
+      "Something not unlike a heart still spasms in the depth of the corpse, and the legs twitch to its rhythm"
+    ]
+  },
+  {
+    "type": "snippet",
     "category": "<bug_harvest_acid_chitin>",
     "text": [
       "<bug_harvest_general_chitin>",
@@ -658,6 +681,15 @@
       "<bug_harvest_flying_chitin>.",
       "<bug_harvest_flying_chitin>. <bug_harvest_general_descriptive>.",
       "<bug_harvest_flying_chitin>. <bug_harvest_general_descriptive>. <bug_harvest_flying_deeper>."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<spider_harvest>",
+    "text": [
+      "<bug_harvest_spider_chitin>",
+      "<bug_harvest_spider_chitin>. <bug_harvest_general_descriptive>.",
+      "<bug_harvest_spider_chitin>. <bug_harvest_general_descriptive>.  <bug_harvest_spider_deeper>."
     ]
   },
   {

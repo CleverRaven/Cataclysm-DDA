@@ -54,6 +54,7 @@ enum class spell_flag : int {
     POLYMORPH_GROUP, // polymorph spell chooses a monster from a group
     FRIENDLY_POLY, // polymorph spell makes the monster friendly
     SILENT, // spell makes no noise at target
+    NO_EXPLOSION_SFX, // spell has no visual explosion
     LOUD, // spell makes extra noise at target
     VERBAL, // spell makes noise at caster location, mouth encumbrance affects fail %
     SOMATIC, // arm encumbrance affects fail % and casting time (slightly)

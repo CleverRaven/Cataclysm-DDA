@@ -940,6 +940,20 @@
     "flags": [ "NO_WEAR_EFFECT" ]
   },
   {
+    "id": "service_medal",
+    "type": "ARMOR",
+    "name": { "str": "service medal" },
+    "description": "A medal awarded to military personnel for heroism, wounds suffered in combat, or distinguished service.",
+    "weight": "50 g",
+    "volume": "25 ml",
+    "price": 10000,
+    "price_postapoc": 25,
+    "material": [ { "type": "gold", "portion": 1 }, { "type": "bronze", "portion": 4 } ],
+    "symbol": "[",
+    "color": "brown",
+    "flags": [ "NO_WEAR_EFFECT" ]
+  },
+  {
     "id": "gold_necklace",
     "type": "ARMOR",
     "name": { "str": "gold necklace" },

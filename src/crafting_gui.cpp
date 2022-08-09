@@ -262,7 +262,7 @@ static std::vector<std::string> recipe_info(
     const recipe &recp,
     const availability &avail,
     Character &guy,
-    const std::string qry_comps,
+    const std::string &qry_comps,
     const int batch_size,
     const int fold_width,
     const nc_color &color )
@@ -496,7 +496,8 @@ class recipe_result_info_cache
                                std::vector<iteminfo> &details_info, const std::string &classification, bool uses_charges );
         void get_item_header( item &dummy_item, int quantity_per_batch, std::vector<iteminfo> &info,
                               const std::string &classification, bool uses_charges );
-        void insert_iteminfo_block_separator( std::vector<iteminfo> &info_vec, const std::string &title );
+        void insert_iteminfo_block_separator( std::vector<iteminfo> &info_vec,
+                                              const std::string &title ) const;
     public:
         item_info_data get_result_data( const recipe *rec, int batch_size, int &scroll_pos,
                                         const catacurses::window &window );
@@ -669,7 +670,7 @@ item_info_data recipe_result_info_cache::get_result_data( const recipe *rec, con
 }
 
 void recipe_result_info_cache::insert_iteminfo_block_separator( std::vector<iteminfo> &info_vec,
-        const std::string &title )
+        const std::string &title ) const
 {
     info_vec.emplace_back( "DESCRIPTION", "--" );
     info_vec.emplace_back( "DESCRIPTION", std::string( center_text_pos( title, 0,
@@ -703,7 +704,7 @@ struct recipe_info_cache {
 };
 
 static const std::vector<std::string> &cached_recipe_info( recipe_info_cache &info_cache,
-        const recipe &recp, const availability &avail, Character &guy, const std::string qry_comps,
+        const recipe &recp, const availability &avail, Character &guy, const std::string &qry_comps,
         const int batch_size, const int fold_width, const nc_color &color )
 {
     if( info_cache.recp != &recp ||
@@ -1007,7 +1008,7 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
         }
     }
 
-    ui.on_redraw( [&]( const ui_adaptor & ) {
+    ui.on_redraw( [&]( ui_adaptor & ui ) {
         if( highlight_unread_recipes && recalc_unread ) {
             if( filterstring.empty() ) {
                 for( const std::string &cat : craft_cat_list ) {
@@ -1082,7 +1083,6 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
         mvwputch( w_data, point( width - 1, dataHeight - 1 ), BORDER_COLOR, LINE_XOOX ); // _|
 
         const int max_recipe_name_width = 27;
-        cata::optional<point> cursor_pos;
         int recmin = 0;
         int recmax = current.size();
         int istart = 0;
@@ -1113,7 +1113,7 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
             const nc_color col = highlight ? available[i].selected_color() : available[i].color();
             const point print_from( 2, i - istart );
             if( highlight ) {
-                cursor_pos = print_from;
+                ui.set_cursor( w_data, print_from );
             }
             int rcp_name_trim_width = max_recipe_name_width;
             if( !rcp_read ) {
@@ -1193,12 +1193,6 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
                 data.padding = 0;
                 draw_item_info( w_iteminfo, data );
             }
-        }
-
-        if( cursor_pos ) {
-            // place the cursor at the selected item name as expected by screen readers
-            wmove( w_data, cursor_pos.value() );
-            wnoutrefresh( w_data );
         }
     } );
 
@@ -1534,7 +1528,7 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
             if( uistate.favorite_recipes.find( current[line]->ident() ) != uistate.favorite_recipes.end() ) {
                 uistate.favorite_recipes.erase( current[line]->ident() );
                 if( recalc ) {
-                    if( static_cast<size_t>( line + 1 ) < current.size() ) {
+                    if( static_cast<size_t>( line ) + 1 < current.size() ) {
                         line++;
                     } else {
                         line--;
@@ -1560,7 +1554,7 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
             recalc = true;
             recalc_unread = highlight_unread_recipes;
             keepline = true;
-            if( static_cast<size_t>( line + 1 ) < current.size() ) {
+            if( static_cast<size_t>( line ) + 1 < current.size() ) {
                 line++;
             } else {
                 line--;

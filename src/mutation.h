@@ -195,7 +195,7 @@ struct mutation_branch {
         int ugliness   = 0;
         int cost       = 0;
         // costs are consumed every cooldown turns,
-        int cooldown   = 0;
+        time_duration cooldown   = 0_turns;
         // bodytemp elements:
         int bodytemp_min = 0;
         int bodytemp_max = 0;

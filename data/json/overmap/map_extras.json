@@ -4,8 +4,8 @@
     "type": "map_extra",
     "name": { "str": "Crater" },
     "description": "There is a crater here.",
-    "generator": { "generator_method": "map_extra_function", "generator_id": "mx_crater" },
-    "min_max_zlevel": [ 0, 5 ],
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_crater" },
+    "min_max_zlevel": [ 0, 0 ],
     "sym": "o",
     "color": "red",
     "autonote": true
@@ -191,8 +191,8 @@
     "type": "map_extra",
     "name": { "str": "Spider Nest" },
     "description": "Spider nest is here.",
-    "generator": { "generator_method": "map_extra_function", "generator_id": "mx_house_spider" },
-    "min_max_zlevel": [ -2, 0 ],
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_basement_spider" },
+    "min_max_zlevel": [ -1, -1 ],
     "sym": "S",
     "color": "yellow",
     "autonote": true
@@ -203,7 +203,7 @@
     "name": { "str": "Wasp Nest" },
     "description": "Wasp nest is here.",
     "generator": { "generator_method": "map_extra_function", "generator_id": "mx_house_wasp" },
-    "min_max_zlevel": [ 0, 3 ],
+    "min_max_zlevel": [ 0, 10 ],
     "sym": "W",
     "color": "yellow",
     "autonote": true
@@ -546,6 +546,16 @@
     "description": "Water vegetation.",
     "generator": { "generator_method": "map_extra_function", "generator_id": "mx_reed" },
     "min_max_zlevel": [ 0, 0 ]
+  },
+  {
+    "id": "mx_toxic_waste",
+    "type": "map_extra",
+    "name": { "str": "Toxic waste" },
+    "description": "Someone dumped some toxic waste here.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_toxic_waste" },
+    "sym": "D",
+    "color": "magenta",
+    "autonote": true
   },
   {
     "id": "mx_sewer_round",

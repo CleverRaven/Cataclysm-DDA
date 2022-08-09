@@ -145,9 +145,9 @@ expansion_data basecamp::parse_expansion( const std::string &terrain,
         const tripoint_abs_omt &new_pos )
 {
     expansion_data e;
-    int last_bar = terrain.find_last_of( '_' );
-    e.type = terrain.substr( base_camps::prefix_len, size_t( last_bar - base_camps::prefix_len ) );
-    e.cur_level = std::stoi( terrain.substr( size_t( last_bar + 1 ) ) );
+    size_t last_bar = terrain.find_last_of( '_' );
+    e.type = terrain.substr( base_camps::prefix_len, last_bar - base_camps::prefix_len );
+    e.cur_level = std::stoi( terrain.substr( last_bar + 1 ) );
     e.pos = new_pos;
     return e;
 }
@@ -160,7 +160,6 @@ void basecamp::add_expansion( const std::string &terrain, const tripoint_abs_omt
 
     const point dir = talk_function::om_simple_dir( omt_pos, new_pos );
     expansions[ dir ] = parse_expansion( terrain, new_pos );
-    resources_updated = false;
     reset_camp_resources();
     update_provides( terrain, expansions[ dir ] );
     directions.push_back( dir );
@@ -287,12 +286,12 @@ bool basecamp::has_provides( const std::string &req, const cata::optional<point>
     return false;
 }
 
-bool basecamp::can_expand()
+bool basecamp::can_expand() const
 {
     return has_provides( "bed", base_camps::base_dir, directions.size() * 2 );
 }
 
-bool basecamp::has_water()
+bool basecamp::has_water() const
 {
     return has_provides( "water_well" ) || has_provides( "fbmh_well_north" ) ||
            has_provides( "faction_base_camp_12" ) || has_provides( "faction_base_kitchen_6" ) ||
@@ -377,15 +376,14 @@ std::map<recipe_id, translation> basecamp::recipe_deck( const point &dir ) const
 
 std::map<recipe_id, translation> basecamp::recipe_deck( const std::string &bldg ) const
 {
-    const std::map<recipe_id, translation> recipes = recipe_group::get_recipes_by_bldg( bldg );
-    return recipes;
+    return recipe_group::get_recipes_by_bldg( bldg );
 }
 
 item_group_id basecamp::get_gatherlist() const
 {
     const auto &e = expansions.find( base_camps::base_dir );
     if( e != expansions.end() ) {
-        const item_group_id gatherlist(
+        item_group_id gatherlist(
             "gathering_" + base_camps::faction_encode_abs( e->second, 4 ) );
         if( item_group::group_is_defined( gatherlist ) ) {
             return gatherlist;
@@ -454,20 +452,20 @@ void basecamp::update_in_progress( const std::string &bldg, const point &dir )
 void basecamp::reset_camp_resources()
 {
     reset_camp_workers();
-    if( !resources_updated ) {
-        resources_updated = true;
-        for( auto &e : expansions ) {
-            expansion_data &e_data = e.second;
-            for( int level = 0; level <= e_data.cur_level; level++ ) {
-                const std::string &bldg = base_camps::faction_encode_abs( e_data, level );
-                if( bldg == "null" ) {
-                    break;
-                }
-                update_provides( bldg, e_data );
+    for( auto &e : expansions ) {
+        expansion_data &e_data = e.second;
+        for( int level = 0; level <= e_data.cur_level; level++ ) {
+            const std::string &bldg = base_camps::faction_encode_abs( e_data, level );
+            if( bldg == "null" ) {
+                break;
             }
-            for( const auto &bp_provides : e_data.provides ) {
-                update_resources( bp_provides.first );
-            }
+            update_provides( bldg, e_data );
+        }
+        for( const auto &bp_provides : e_data.provides ) {
+            update_resources( bp_provides.first );
+        }
+        for( itype_id &it : e.second.available_pseudo_items ) {
+            add_resource( it );
         }
     }
     form_crafting_inventory();
@@ -709,7 +707,19 @@ void basecamp::form_crafting_inventory( map &target_map )
     //  in the future.
     for( auto &expansion : expansions ) {
         for( itype_id &it : expansion.second.available_pseudo_items ) {
-            _inv.add_item( item( it ) );
+            item camp_item = item( it );
+            if( camp_item.is_magazine() ) {
+                for( basecamp_fuel &bcp_f : fuels ) {
+                    if( camp_item.can_reload_with( item( bcp_f.ammo_id ), false ) ) {
+                        if( bcp_f.available > 0 ) {
+                            camp_item = camp_item.ammo_set( bcp_f.ammo_id, bcp_f.available );
+                        }
+                        break;
+                    }
+                }
+            }
+
+            _inv.add_item( camp_item );
         }
     }
 }

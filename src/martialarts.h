@@ -118,7 +118,7 @@ struct tech_effect_data {
     tech_effect_data( const efftype_id &nid, int dur, bool perm, bool ondmg,
                       int nchance, std::string message, json_character_flag req_flag ) :
         id( nid ), duration( dur ), permanent( perm ), on_damage( ondmg ),
-        chance( nchance ), message( message ), req_flag( req_flag ) {}
+        chance( nchance ), message( std::move( message ) ), req_flag( req_flag ) {}
 };
 
 class ma_technique
