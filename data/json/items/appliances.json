@@ -339,24 +339,5 @@
     "symbol": "O",
     "color": "green_white",
     "flags": [ "LEAK_DAM" ]
-  },
-  {
-    "type": "GENERIC",
-    "id": "compact_ASRG",
-    "name": { "str_sp": "Unshielded Compact Advanced Sterling Radioisotope Generator" },
-    "looks_like": "t_plut_generator",
-    "description": "A moderately heavy brick of metal housing an ASRG.  Most of the lead and steel plating has been salvaged off so it's a lot less bulky and heavy.  However it's a lot less sturdy, so the threat of a radioactive breach is much more real.",
-    "weight": "60 kg",
-    "to_hit": -10,
-    "material": [ "lead", "steel" ],
-    "volume": "150 L",
-    "longest_side": "80 cm",
-    "bashing": 5,
-    "//": "Most of the price is in the ASRG itself and not the shielding.  Still pretty valuable for other survivors.",
-    "price": 750000000,
-    "price_postapoc": 200000,
-    "symbol": "O",
-    "color": "green_white",
-    "flags": [ "LEAK_DAM" ]
   }
 ]
