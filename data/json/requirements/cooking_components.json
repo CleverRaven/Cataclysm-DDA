@@ -46,6 +46,12 @@
     "components": [ [ [ "cornbread", 1 ], [ "bread_wheat_free", 1 ], [ "flatbread_wheat_free", 1 ] ] ]
   },
   {
+    "id": "any_bread",
+    "type": "requirement",
+    "//": "Any type of bread",
+    "components": [ [ [ "bread_sandwich", 1, "LIST" ], [ "bread_sandwich_wheat_free", 1, "LIST" ] ] ]
+  },
+  {
     "id": "any_peanutbutter",
     "type": "requirement",
     "//": "Peanut butter of all types and other peanut butter substitutes",
