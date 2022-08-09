@@ -106,6 +106,16 @@ int itype::charges_default() const
     return count_by_charges() ? 1 : 0;
 }
 
+int itype::charges_to_use() const
+{
+    if( tool ) {
+        return tool->charges_per_use;
+    } else if( comestible ) {
+        return 1;
+    }
+    return 0;
+}
+
 int itype::charges_per_volume( const units::volume &vol ) const
 {
     if( volume == 0_ml ) {
