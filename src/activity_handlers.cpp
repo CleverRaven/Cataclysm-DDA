@@ -946,7 +946,7 @@ static bool butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
                 // TODO: smarter NPC liquid handling
                 // If we're not bleeding the animal we don't care about the blood being wasted
                 if( you.is_npc() || action != butcher_type::BLEED ) {
-                    drop_on_map( you, item_drop_reason::deliberate, { obj }, you.pos() );
+                    drop_on_map( you, item_drop_reason::deliberate, { obj }, you.pos_bub() );
                 } else {
                     liquid_handler::handle_all_liquid( obj, 1 );
                 }
@@ -1671,16 +1671,18 @@ void activity_handlers::start_fire_finish( player_activity *act, Character *you 
 
     you->practice( skill_survival, act->index, 5 );
 
-    firestarter_actor::resolve_firestarter_use( *you, act->placement );
+    firestarter_actor::resolve_firestarter_use( *you, get_map().bub_from_abs( act->placement ) );
     act->set_to_null();
 }
 
 void activity_handlers::start_fire_do_turn( player_activity *act, Character *you )
 {
     map &here = get_map();
-    if( !here.is_flammable( act->placement ) ) {
+    // TODO: fix point types
+    tripoint where = here.getlocal( act->placement );
+    if( !here.is_flammable( where ) ) {
         try_fuel_fire( *act, *you, true );
-        if( !here.is_flammable( act->placement ) ) {
+        if( !here.is_flammable( where ) ) {
             you->add_msg_if_player( m_info, _( "There's nothing to light there." ) );
             you->cancel_activity();
             return;
@@ -1701,7 +1703,7 @@ void activity_handlers::start_fire_do_turn( player_activity *act, Character *you
 
     item &firestarter = *act->targets.front();
     if( firestarter.has_flag( flag_REQUIRES_TINDER ) ) {
-        if( !here.tinder_at( act->placement ) ) {
+        if( !here.tinder_at( where ) ) {
             you->add_msg_if_player( m_info, _( "This item requires tinder to light." ) );
             you->cancel_activity();
             return;
@@ -1961,11 +1963,12 @@ void activity_handlers::vibe_do_turn( player_activity *act, Character *you )
 void activity_handlers::start_engines_finish( player_activity *act, Character *you )
 {
     act->set_to_null();
-    // Find the vehicle by looking for a remote vehicle first, then by player relative coordinates
+    // Find the vehicle by looking for a remote vehicle first, then at
+    // act->relative_placement away from avatar
     vehicle *veh = g->remoteveh();
     map &here = get_map();
     if( !veh ) {
-        const tripoint pos = act->placement + get_player_character().pos();
+        const tripoint_bub_ms pos = get_player_character().pos_bub() + act->relative_placement;
         veh = veh_pointer_or_null( here.veh_at( pos ) );
         if( !veh ) {
             return;
@@ -2557,19 +2560,19 @@ void activity_handlers::travel_do_turn( player_activity *act, Character *you )
             waypoint = clamp( cur_omt_mid, project_bounds<coords::ms>( next_omt ) );
         }
         map &here = get_map();
-        tripoint centre_sub = here.getlocal( waypoint );
+        tripoint_bub_ms centre_sub = here.bub_from_abs( waypoint );
         if( !here.passable( centre_sub ) ) {
-            tripoint_range<tripoint> candidates = here.points_in_radius( centre_sub, 2 );
-            for( const tripoint &elem : candidates ) {
+            tripoint_range<tripoint_bub_ms> candidates = here.points_in_radius( centre_sub, 2 );
+            for( const tripoint_bub_ms &elem : candidates ) {
                 if( here.passable( elem ) ) {
                     centre_sub = elem;
                     break;
                 }
             }
         }
-        const std::vector<tripoint> route_to = here.route( you->pos(), centre_sub,
-                                               you->get_pathfinding_settings(),
-                                               you->get_path_avoid() );
+        const std::vector<tripoint_bub_ms> route_to =
+            here.route( you->pos_bub(), centre_sub, you->get_pathfinding_settings(),
+                        you->get_path_avoid() );
         if( !route_to.empty() ) {
             const activity_id act_travel = ACT_TRAVELLING;
             you->set_destination( route_to, player_activity( act_travel ) );
@@ -2730,7 +2733,8 @@ void activity_handlers::find_mount_do_turn( player_activity *act, Character *you
             return;
         }
     } else {
-        const std::vector<tripoint> route = route_adjacent( *you, guy.chosen_mount.lock()->pos() );
+        const std::vector<tripoint_bub_ms> route =
+            route_adjacent( *you, guy.chosen_mount.lock()->pos_bub() );
         if( route.empty() ) {
             act->set_to_null();
             guy.revert_after_activity();
@@ -3208,7 +3212,7 @@ static void cleanup_tiles( std::unordered_set<tripoint_abs_ms> &tiles, fn &clean
     while( it != tiles.end() ) {
         auto current = it++;
 
-        const tripoint &tile_loc = here.getlocal( *current );
+        const tripoint_bub_ms &tile_loc = here.bub_from_abs( *current );
 
         if( cleanup( tile_loc ) ) {
             tiles.erase( current );
@@ -3216,11 +3220,11 @@ static void cleanup_tiles( std::unordered_set<tripoint_abs_ms> &tiles, fn &clean
     }
 }
 
-static void perform_zone_activity_turn( Character *you,
-                                        const zone_type_id &ztype,
-                                        const std::function<bool( const tripoint & )> &tile_filter,
-                                        const std::function<void ( Character &you, const tripoint & )> &tile_action,
-                                        const std::string &finished_msg )
+static void perform_zone_activity_turn(
+    Character *you, const zone_type_id &ztype,
+    const std::function<bool( const tripoint_bub_ms & )> &tile_filter,
+    const std::function<void ( Character &you, const tripoint_bub_ms & )> &tile_action,
+    const std::string &finished_msg )
 {
     const zone_manager &mgr = zone_manager::get_manager();
     map &here = get_map();
@@ -3234,10 +3238,11 @@ static void perform_zone_activity_turn( Character *you,
         get_sorted_tiles_by_distance( abspos, unsorted_tiles );
 
     for( const tripoint_abs_ms &tile : tiles ) {
-        const tripoint &tile_loc = here.getlocal( tile );
+        const tripoint_bub_ms &tile_loc = here.bub_from_abs( tile );
 
-        std::vector<tripoint> route = here.route( you->pos(), tile_loc, you->get_pathfinding_settings(),
-                                      you->get_path_avoid() );
+        std::vector<tripoint_bub_ms> route =
+            here.route( you->pos_bub(), tile_loc, you->get_pathfinding_settings(),
+                        you->get_path_avoid() );
         if( route.size() > 1 ) {
             route.pop_back();
 
@@ -3280,16 +3285,18 @@ void activity_handlers::fertilize_plot_do_turn( player_activity *act, Character 
         return !fertilizer.is_empty() && you->has_charges( fertilizer, 1 );
     };
 
-    const auto reject_tile = [&]( const tripoint & tile ) {
+    const auto reject_tile = [&]( const tripoint_bub_ms & tile ) {
         check_fertilizer();
-        ret_val<void> can_fert = iexamine::can_fertilize( *you, tile, fertilizer );
+        // TODO: fix point types
+        ret_val<void> can_fert = iexamine::can_fertilize( *you, tile.raw(), fertilizer );
         return !can_fert.success();
     };
 
-    const auto fertilize = [&]( Character & you, const tripoint & tile ) {
+    const auto fertilize = [&]( Character & you, const tripoint_bub_ms & tile ) {
         check_fertilizer();
         if( have_fertilizer() ) {
-            iexamine::fertilize_plant( you, tile, fertilizer );
+            // TODO: fix point types
+            iexamine::fertilize_plant( you, tile.raw(), fertilizer );
             if( !have_fertilizer() ) {
                 add_msg( m_info, _( "You have run out of %s." ), item::nname( fertilizer ) );
             }
@@ -3394,7 +3401,8 @@ void activity_handlers::pull_creature_finish( player_activity *act, Character *y
     if( you->is_avatar() ) {
         you->as_avatar()->longpull( act->name );
     } else {
-        you->longpull( act->name, act->placement );
+        // TODO: fix point types
+        you->longpull( act->name, get_map().bub_from_abs( act->placement ).raw() );
     }
     act->set_to_null();
 }

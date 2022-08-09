@@ -1084,6 +1084,7 @@ microportals
 microreactor
 microskirt
 mideastern
+midsentence
 migo
 milkfat
 milspec
@@ -1094,6 +1095,7 @@ minimap
 minin
 mininuke
 minireactor
+mirrorshades
 misc
 misjudgements
 misprogram
@@ -1572,6 +1574,7 @@ shadowcat
 shambler
 shamblers
 shantak
+shapechangers
 sharksuit
 sharksuits
 shatteringly

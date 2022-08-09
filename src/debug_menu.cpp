@@ -2854,7 +2854,9 @@ void debug()
                 break;
             }
 
-            auto rt = here.route( player_character.pos(), *dest, player_character.get_pathfinding_settings(),
+            // TODO: fix point types
+            auto rt = here.route( player_character.pos_bub(), tripoint_bub_ms( *dest ),
+                                  player_character.get_pathfinding_settings(),
                                   player_character.get_path_avoid() );
             if( !rt.empty() ) {
                 player_character.set_destination( rt );

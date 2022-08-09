@@ -429,7 +429,7 @@ class avatar : public Character
         std::unique_ptr<npc> shadow_npc;
 
         // true when the space is still visible when aiming
-        bool aim_cache[MAPSIZE_X][MAPSIZE_Y];
+        cata::mdarray<bool, point_bub_ms> aim_cache;
 };
 
 avatar &get_avatar();

@@ -151,7 +151,7 @@ static bool has_mutagen_vit( const islot_comestible &comest )
 {
     const std::map<vitamin_id, int> &vits = comest.default_nutrition.vitamins;
     for( const vitamin_id &vit : mutagen_vit_list ) {
-        if( vits.find( vit ) != vits.end() ) {
+        if( vits.find( vit ) != vits.end() && vits.at( vit ) > 0 ) {
             return true;
         }
     }
