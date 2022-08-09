@@ -6472,27 +6472,6 @@
     "components": [ [ [ "scrap_aluminum", 10 ], [ "plastic_chunk", 3 ] ] ]
   },
   {
-    "result": "compact_ASRG_containment",
-    "type": "uncraft",
-    "activity_level": "MODERATE_EXERCISE",
-    "time": "300 m",
-    "qualities": [
-      { "id": "SAW_M", "level": 2 },
-      { "id": "DRILL", "level": 2 },
-      { "id": "SCREW", "level": 1 },
-      { "id": "WRENCH", "level": 2 }
-    ],
-    "components": [
-      [ [ "mil_plate", 6 ] ],
-      [ [ "steel_plate", 6 ] ],
-      [ [ "large_lcd_screen", 1 ] ],
-      [ [ "scrap", 20 ] ],
-      [ [ "cable", 15 ] ],
-      [ [ "lead", 100 ] ],
-      [ [ "compact_ASRG", 1 ] ]
-    ]
-  },
-  {
     "result": "sheet_cotton",
     "type": "uncraft",
     "activity_level": "NO_EXERCISE",
