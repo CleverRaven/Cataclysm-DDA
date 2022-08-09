@@ -42,7 +42,7 @@
     "price_postapoc": 0,
     "material": [ "paper" ],
     "flags": [ "TRADER_AVOID" ],
-    "weight": "3 g",
+    "weight": "12 mg",
     "volume": "1 ml"
   },
   {
@@ -52,6 +52,14 @@
     "description": "A scrap of paper with a faded drawing on it.",
     "copy-from": "survnote",
     "snippet_category": "mutant_kid_boss"
+  },
+  {
+    "type": "GENERIC",
+    "id": "toxic_waste_labnote",
+    "copy-from": "survnote",
+    "name": { "str": "forgotten note" },
+    "description": "This grimy note seems out of place, as if someone lost it.",
+    "snippet_category": "toxic_waste_corpse_disposal"
   },
   {
     "type": "GENERIC",
