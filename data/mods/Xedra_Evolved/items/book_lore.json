@@ -29,5 +29,21 @@
     "flags": [ "TRADER_AVOID" ],
     "weight": "3 g",
     "volume": "1 ml"
+  },
+  {
+    "type": "GENERIC",
+    "id": "grimy_recipe",
+    "category": "books",
+    "symbol": "0",
+    "color": "white",
+    "name": { "str": "grimy handwritten recipe" },
+    "snippet_category": "note",
+    "description": "A scrap of paper.  Something's written on it, scrawled in bad handwriting.  You can barely make out the words 'Blood treatment' followed by a list of ingredients.",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "paper" ],
+    "flags": [ "TRADER_AVOID" ],
+    "weight": "3 g",
+    "volume": "1 ml"
   }
 ]

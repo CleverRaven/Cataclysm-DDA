@@ -95,5 +95,12 @@
         { "item": "scrap_dreamdross", "prob": 75, "count": [ 1, 4 ] }
       ]
     }
+  },
+  {
+    "id": "default_moroi_death_drops",
+    "type": "item_group",
+    "subtype": "collection",
+    "copy-from": "default_zombie_death_drops",
+    "extend": { "entries": [ { "item": "grimy_recipe", "prob": 55 }, { "item": "scrap_dreamdross", "prob": 75, "count": [ 1, 4 ] } ] }
   }
 ]
