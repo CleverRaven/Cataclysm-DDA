@@ -161,6 +161,8 @@ std::string map_data_common_t::extended_description() const
     std::stringstream ss;
     ss << "<header>" << string_format( _( "That is a %s." ), name() ) << "</header>" << '\n';
     ss << description << std::endl;
+
+    // Harvestables
     bool has_any_harvest = std::any_of( harvest_by_season.begin(), harvest_by_season.end(),
     []( const harvest_id & hv ) {
         return !hv.obj().empty();
@@ -208,6 +210,35 @@ std::string map_data_common_t::extended_description() const
         }
 
         ss << std::endl;
+    }
+
+    // Flags
+    // TODO : These should be in JSON
+    const std::vector<std::pair<ter_furn_flag, std::string>> flag_descriptions = {
+        { ter_furn_flag::TFLAG_BARRICADABLE_DOOR, _( "<info>It is a door</info> that <good>can be barricaded</good>." ) },
+        { ter_furn_flag::TFLAG_BLOCK_WIND, _( "It can <good>block the effects of wind</good>." ) },
+        { ter_furn_flag::TFLAG_EASY_DECONSTRUCT, _( "It can be <good>deconstructed without tools</good>." ) },
+        { ter_furn_flag::TFLAG_FISHABLE, _( "You can <good>try to catch fish here</good>." ) },
+        { ter_furn_flag::TFLAG_FIRE_CONTAINER, _( "It can <good>safely contain a fire</good>." ) },
+        { ter_furn_flag::TFLAG_SUPPRESS_SMOKE, _( "Fires inside this <good>won't emit smoke into their surroundings</good>." ) },
+        { ter_furn_flag::TFLAG_FLAMMABLE, _( "It is <bad>flammable</bad>." ) },
+        { ter_furn_flag::TFLAG_FLAMMABLE_HARD, _( "It is <info>hard to light on fire</info>, but still possible." ) },
+        { ter_furn_flag::TFLAG_FLAT_SURF, _( "It provides a <good>clean surface</good> on which to work." ) },
+        { ter_furn_flag::TFLAG_FLAT, _( "You could <info>build or move furniture here</info>." ) },
+        { ter_furn_flag::TFLAG_HIDE_PLACE, _( "You could <info>hide inside</info>." ) },
+        { ter_furn_flag::TFLAG_PLANTABLE, _( "You could <good>plant seeds here</good>." ) },
+        { ter_furn_flag::TFLAG_ROAD, _( "You could <info>drive or skate here easily</info>." ) },
+        { ter_furn_flag::TFLAG_ROUGH, _( "It would be <bad>dangerous to walk on with bare feet</bad>." ) },
+        { ter_furn_flag::TFLAG_SHARP, _( "It could <bad>damage anything that passed through it</bad>." ) },
+        { ter_furn_flag::TFLAG_SUPPORTS_ROOF, _( "It can <info>support a roof</info>." ) }
+    };
+
+    ss << std::endl;
+
+    for( const std::pair<ter_furn_flag, std::string> &flag_pair : flag_descriptions ) {
+        if( has_flag( std::get<0>( flag_pair ) ) ) {
+            ss << " * " << std::get<1>( flag_pair ) << std::endl;
+        }
     }
 
     return replace_colors( ss.str() );
