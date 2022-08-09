@@ -5,8 +5,10 @@
     "type": "MAGAZINE",
     "name": { "str": ".44 6-round speedloader" },
     "description": "This speedloader can hold 6 rounds of .44 and quickly reload a compatible revolver.",
-    "weight": "98 g",
-    "volume": "250 ml",
+    "\\": "Based on Speed Beez 44 Magnum 6 Shot Speed Loader"
+    "weight": "315 g",
+    "volume": "73 ml",
+    "longest_side": "5 cm"
     "price": 1600,
     "price_postapoc": 100,
     "material": [ "steel" ],
@@ -22,8 +24,10 @@
     "type": "MAGAZINE",
     "name": { "str": "Desert Eagle 8-round magazine" },
     "description": "A standard 8-round steel box magazine for use with the IMI Desert Eagle.",
-    "weight": "90 g",
-    "volume": "250 ml",
+    "\\": "Measurements based on an OEM .44 magazine."
+    "weight": "180 g",
+    "volume": "98 ml",
+    "longest_side": "11 cm"
     "price": 6750,
     "price_postapoc": 100,
     "material": [ "steel" ],
