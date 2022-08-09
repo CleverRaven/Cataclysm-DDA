@@ -1748,7 +1748,7 @@
       "BARRICADABLE_WINDOW",
       "CONNECT_TO_WALL",
       "BLOCK_WIND",
-	  "REDUCE_SCENT",
+      "REDUCE_SCENT",
       "WINDOW",
       "SUPPORTS_ROOF"
     ],
