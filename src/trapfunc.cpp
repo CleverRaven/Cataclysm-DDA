@@ -1337,7 +1337,7 @@ bool trapfunc::temple_toggle( const tripoint &p, Creature *c, item * )
                     }
                 }
             }
-            
+
             // In case we're completely encircled by walls, replace random wall around the player with floor tile
             std::vector<tripoint> blocked_tiles;
             for( const tripoint &p : here.points_in_radius( c->pos(), 1 ) ) {
