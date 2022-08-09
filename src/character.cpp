@@ -6492,13 +6492,17 @@ bool Character::invoke_item( item *used, const std::string &method, const tripoi
         moves = pre_obtain_moves;
         return false;
     }
+
     if( charges_used.value() == 0 ) {
+        // Not really used.
+        // The item may also have been deleted
         return false;
     }
 
+
     if( actually_used->is_comestible() ) {
         const bool ret = consume_effects( *used );
-        consume_charges( *used, charges_used.value() );
+        actually_used->ammo_consume( charges_used.value(), pt, this );
         return ret;
     }
 
