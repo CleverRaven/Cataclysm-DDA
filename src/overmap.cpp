@@ -1044,9 +1044,7 @@ bool oter_t::is_hardcoded() const
         "lab_stairs",
         "lab_finale",
         "slimepit",
-        "slimepit_down",
-        "temple_finale",
-        "temple_stairs"
+        "slimepit_down"
     };
 
     return hardcoded_mapgen.find( get_mapgen_id() ) != hardcoded_mapgen.end();
