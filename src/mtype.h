@@ -44,7 +44,6 @@ class JsonObject;
 // They are handled in monster::check_triggers(), in monster.cpp
 enum class mon_trigger : int {
     STALK,              // Increases when following the player
-    MEAT,               // Meat or a corpse nearby
     HOSTILE_WEAK,       // Hurt hostile player/npc/monster seen
     HOSTILE_CLOSE,      // Hostile creature within a few tiles
     HOSTILE_SEEN,       // Hostile creature in visual range

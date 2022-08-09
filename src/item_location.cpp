@@ -888,6 +888,12 @@ tripoint item_location::position() const
     return ptr->position();
 }
 
+tripoint_bub_ms item_location::pos_bub() const
+{
+    // TODO: fix point types
+    return tripoint_bub_ms( ptr->position() );
+}
+
 std::string item_location::describe( const Character *ch ) const
 {
     return ptr->describe( ch );

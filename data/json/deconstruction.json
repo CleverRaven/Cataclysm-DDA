@@ -154,7 +154,7 @@
     "required_skills": [ [ "fabrication", 2 ] ],
     "time": "10 m",
     "using": [ [ "linoleum_removal_standard", 1 ] ],
-    "byproducts": [ { "item": "splinter", "count": [ 0, 3 ] }, { "item": "nail", "count": [ 8, 15 ] } ],
+    "byproducts": [ { "item": "splinter", "count": [ 0, 3 ] }, { "item": "nail", "charges": [ 8, 15 ] } ],
     "pre_terrain": "t_linoleum_white",
     "post_terrain": "t_thconc_floor"
   },
@@ -167,7 +167,7 @@
     "required_skills": [ [ "fabrication", 2 ] ],
     "time": "10 m",
     "using": [ [ "linoleum_removal_standard", 1 ] ],
-    "byproducts": [ { "item": "splinter", "count": [ 0, 3 ] }, { "item": "nail", "count": [ 8, 15 ] } ],
+    "byproducts": [ { "item": "splinter", "count": [ 0, 3 ] }, { "item": "nail", "charges": [ 8, 15 ] } ],
     "pre_terrain": "t_linoleum_gray",
     "post_terrain": "t_thconc_floor"
   },

@@ -382,15 +382,13 @@ static std::vector<tripoint> shrapnel( const tripoint &src, int power,
     proj.proj_effects.insert( "NULL_SOURCE" );
 
     struct local_caches {
-        cata::mdarray<fragment_cloud, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> obstacle_cache;
-        cata::mdarray<fragment_cloud, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> visited_cache;
+        cata::mdarray<fragment_cloud, point_bub_ms> obstacle_cache;
+        cata::mdarray<fragment_cloud, point_bub_ms> visited_cache;
     };
 
     std::unique_ptr<local_caches> caches = std::make_unique<local_caches>();
-    cata::mdarray<fragment_cloud, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> &obstacle_cache =
-        caches->obstacle_cache;
-    cata::mdarray<fragment_cloud, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> &visited_cache =
-        caches->visited_cache;
+    cata::mdarray<fragment_cloud, point_bub_ms> &obstacle_cache = caches->obstacle_cache;
+    cata::mdarray<fragment_cloud, point_bub_ms> &visited_cache = caches->visited_cache;
 
     map &here = get_map();
     // TODO: Calculate range based on max effective range for projectiles.
@@ -829,7 +827,8 @@ void resonance_cascade( const tripoint &p )
                                     break;
                             }
                             if( !one_in( 3 ) ) {
-                                here.add_field( { k, l, p.z }, type, 3 );
+                                // TODO: fix point types
+                                here.add_field( tripoint_bub_ms{ k, l, p.z }, type, 3 );
                             }
                         }
                     }
@@ -873,7 +872,12 @@ void resonance_cascade( const tripoint &p )
 void process_explosions()
 {
     for( const queued_explosion &ex : _explosions ) {
-        _make_explosion( get_map().getlocal( ex.first ), ex.second );
+        const tripoint p = get_map().getlocal( ex.first );
+        if( p.x < 0 || p.x >= MAPSIZE_X || p.y < 0 || p.y >= MAPSIZE_Y ) {
+            debugmsg( "Explosion origin (%d, %d, %d) is out-of-bounds", p.x, p.y, p.z );
+            continue;
+        }
+        _make_explosion( p, ex.second );
     }
     _explosions.clear();
 }

@@ -128,9 +128,9 @@ struct radio_tower {
 };
 
 struct map_layer {
-    cata::mdarray<oter_id, point_om_omt, OMAPX, OMAPY> terrain;
-    cata::mdarray<bool, point_om_omt, OMAPX, OMAPY> visible;
-    cata::mdarray<bool, point_om_omt, OMAPX, OMAPY> explored;
+    cata::mdarray<oter_id, point_om_omt> terrain;
+    cata::mdarray<bool, point_om_omt> visible;
+    cata::mdarray<bool, point_om_omt> explored;
     std::vector<om_note> notes;
     std::vector<om_map_extra> extras;
 };

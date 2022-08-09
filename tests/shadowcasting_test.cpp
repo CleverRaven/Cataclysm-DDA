@@ -25,8 +25,8 @@ static constexpr unsigned int DENOMINATOR = 10;
 
 // NOLINTNEXTLINE(cata-xy)
 static void oldCastLight(
-    cata::mdarray<float, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> &output_cache,
-    const cata::mdarray<float, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> &input_array,
+    cata::mdarray<float, point_bub_ms> &output_cache,
+    const cata::mdarray<float, point_bub_ms> &input_array,
     const int xx, const int xy, const int yx, const int yy,
     const int offsetX, const int offsetY, const int offsetDistance,
     const int row = 1, float start = 1.0f, const float end = 0.0f )
@@ -85,7 +85,7 @@ static void oldCastLight(
  */
 static bool bresenham_visibility_check(
     const point &offset, const point &p,
-    const cata::mdarray<float, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> &transparency_cache )
+    const cata::mdarray<float, point_bub_ms> &transparency_cache )
 {
     if( offset == p ) {
         return true;
@@ -105,7 +105,7 @@ static bool bresenham_visibility_check(
 }
 
 static void randomly_fill_transparency(
-    cata::mdarray<float, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> &transparency_cache,
+    cata::mdarray<float, point_bub_ms> &transparency_cache,
     const unsigned int numerator = NUMERATOR, const unsigned int denominator = DENOMINATOR )
 {
     // Construct a rng that produces integers in a range selected to provide the probability
@@ -136,8 +136,8 @@ static bool is_nonzero( const four_quadrants &x )
 
 template<typename Exp>
 bool grids_are_equivalent(
-    const cata::mdarray<float, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> &control,
-    const cata::mdarray<Exp, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> &experiment )
+    const cata::mdarray<float, point_bub_ms> &control,
+    const cata::mdarray<Exp, point_bub_ms> &experiment )
 {
     for( int x = 0; x < MAPSIZE * SEEX; ++x ) {
         for( int y = 0; y < MAPSIZE * SEEY; ++y ) {
@@ -154,9 +154,9 @@ bool grids_are_equivalent(
 template<typename Exp>
 void print_grid_comparison(
     const point &offset,
-    cata::mdarray<float, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> &transparency_cache,
-    const cata::mdarray<float, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> &control,
-    const cata::mdarray<Exp, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> &experiment )
+    cata::mdarray<float, point_bub_ms> &transparency_cache,
+    const cata::mdarray<float, point_bub_ms> &control,
+    const cata::mdarray<Exp, point_bub_ms> &experiment )
 {
     for( int x = 0; x < MAPSIZE * SEEX; ++x ) {
         for( int y = 0; y < MAPSIZE * SEEX; ++y ) {
@@ -222,9 +222,9 @@ void print_grid_comparison(
 
 static void shadowcasting_runoff( const int iterations, const bool test_bresenham = false )
 {
-    cata::mdarray<float, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> seen_squares_control = {};
-    cata::mdarray<float, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> seen_squares_experiment = {};
-    cata::mdarray<float, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> transparency_cache = {};
+    cata::mdarray<float, point_bub_ms> seen_squares_control = {};
+    cata::mdarray<float, point_bub_ms> seen_squares_experiment = {};
+    cata::mdarray<float, point_bub_ms> transparency_cache = {};
 
     randomly_fill_transparency( transparency_cache );
 
@@ -292,18 +292,15 @@ static void shadowcasting_float_quad(
     const int iterations, const unsigned int denominator = DENOMINATOR )
 {
     struct test_grids {
-        cata::mdarray<float, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> lit_squares_float = {};
-        cata::mdarray<four_quadrants, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> lit_squares_quad = {};
-        cata::mdarray<float, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> transparency_cache = {};
+        cata::mdarray<float, point_bub_ms> lit_squares_float = {};
+        cata::mdarray<four_quadrants, point_bub_ms> lit_squares_quad = {};
+        cata::mdarray<float, point_bub_ms> transparency_cache = {};
     };
 
     std::unique_ptr<test_grids> grids = std::make_unique<test_grids>();
-    cata::mdarray<float, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> &lit_squares_float =
-        grids->lit_squares_float;
-    cata::mdarray<four_quadrants, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> &lit_squares_quad =
-        grids->lit_squares_quad;
-    cata::mdarray<float, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> &transparency_cache =
-        grids->transparency_cache;
+    cata::mdarray<float, point_bub_ms> &lit_squares_float = grids->lit_squares_float;
+    cata::mdarray<four_quadrants, point_bub_ms> &lit_squares_quad = grids->lit_squares_quad;
+    cata::mdarray<float, point_bub_ms> &transparency_cache = grids->transparency_cache;
 
     randomly_fill_transparency( transparency_cache, denominator );
 
@@ -356,8 +353,8 @@ static void do_3d_benchmark(
     const int iterations )
 {
     struct test_grids {
-        cata::mdarray<float, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> seen_squares[OVERMAP_LAYERS] = {};
-        cata::mdarray<bool, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> floor_cache[OVERMAP_LAYERS] = {};
+        cata::mdarray<float, point_bub_ms> seen_squares[OVERMAP_LAYERS] = {};
+        cata::mdarray<bool, point_bub_ms> floor_cache[OVERMAP_LAYERS] = {};
     };
 
     std::unique_ptr<test_grids> grids = std::make_unique<test_grids>();
@@ -389,13 +386,12 @@ static void do_3d_benchmark(
 static void shadowcasting_3d_benchmark( const int iterations )
 {
     struct test_grids {
-        cata::mdarray<float, point_bub_ms, MAPSIZE_X, MAPSIZE_Y>
+        cata::mdarray<float, point_bub_ms>
         transparency_cache[OVERMAP_LAYERS] = {};
     };
 
     std::unique_ptr<test_grids> grids = std::make_unique<test_grids>();
-    cata::mdarray<float, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> *transparency_cache =
-        grids->transparency_cache;
+    cata::mdarray<float, point_bub_ms> *transparency_cache = grids->transparency_cache;
     array_of_grids_of<const float> transparency_caches;
     for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
         randomly_fill_transparency( transparency_cache[z + OVERMAP_DEPTH] );
@@ -417,8 +413,7 @@ static void shadowcasting_3d_benchmark( const int iterations )
     do_3d_benchmark( transparency_caches, iterations );
 
     // Add some obstacles, a ring at distance 5
-    cata::mdarray<float, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> &ground_level =
-        transparency_cache[OVERMAP_DEPTH];
+    cata::mdarray<float, point_bub_ms> &ground_level = transparency_cache[OVERMAP_DEPTH];
     ground_level[60][65] = LIGHT_TRANSPARENCY_SOLID;
     ground_level[63][63] = LIGHT_TRANSPARENCY_SOLID;
     ground_level[65][60] = LIGHT_TRANSPARENCY_SOLID;
@@ -432,10 +427,10 @@ static void shadowcasting_3d_benchmark( const int iterations )
 
 static void shadowcasting_3d_2d( const int iterations )
 {
-    cata::mdarray<float, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> seen_squares_control = {};
-    cata::mdarray<float, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> seen_squares_experiment = {};
-    cata::mdarray<float, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> transparency_cache = {};
-    cata::mdarray<bool, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> floor_cache = {};
+    cata::mdarray<float, point_bub_ms> seen_squares_control = {};
+    cata::mdarray<float, point_bub_ms> seen_squares_experiment = {};
+    cata::mdarray<float, point_bub_ms> transparency_cache = {};
+    cata::mdarray<bool, point_bub_ms> floor_cache = {};
 
     randomly_fill_transparency( transparency_cache );
 

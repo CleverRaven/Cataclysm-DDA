@@ -93,7 +93,6 @@
     "path_settings": { "max_dist": 10 },
     "anger_triggers": [ "HURT", "PLAYER_NEAR_BABY" ],
     "fear_triggers": [ "SOUND" ],
-    "placate_triggers": [ "MEAT" ],
     "zombify_into": "mon_zombear",
     "harvest": "mammal_large_fur",
     "dissect": "dissect_ursine_sample_small",
@@ -229,7 +228,6 @@
     "harvest": "mammal_small_boar",
     "path_settings": { "max_dist": 10 },
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
-    "placate_triggers": [ "MEAT" ],
     "upgrades": { "age_grow": 38, "into": "mon_boar_wild" },
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 7 },
     "special_attacks": [ [ "EAT_FOOD", 40 ] ],
@@ -268,7 +266,6 @@
     "path_settings": { "max_dist": 10 },
     "anger_triggers": [ "PLAYER_WEAK", "FRIEND_ATTACKED" ],
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
-    "placate_triggers": [ "MEAT" ],
     "zombify_into": "mon_zpig_brute",
     "special_attacks": [ [ "EAT_FOOD", 20 ] ],
     "flags": [ "SEES", "HEARS", "SMELLS", "PET_MOUNTABLE", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE" ]
@@ -298,7 +295,6 @@
     "dodge": 8,
     "vision_night": 20,
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
-    "placate_triggers": [ "MEAT" ],
     "harvest": "mammal_small_fur",
     "dissect": "dissect_feline_sample_single",
     "flags": [ "SEES", "HEARS", "GOODHEARING", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "HIT_AND_RUN" ]
@@ -323,7 +319,6 @@
     "dodge": 14,
     "special_attacks": [ { "id": "scratch", "attack_upper": false, "cooldown": 10 } ],
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "FRIEND_ATTACKED" ],
-    "placate_triggers": [ "MEAT" ],
     "harvest": "mammal_tiny",
     "petfood": {
       "food": [ "CATFOOD" ],
@@ -370,7 +365,6 @@
     "vision_night": 20,
     "special_attacks": [ { "id": "scratch", "attack_upper": false, "cooldown": 10 } ],
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "FRIEND_ATTACKED" ],
-    "placate_triggers": [ "MEAT" ],
     "harvest": "mammal_tiny",
     "dissect": "dissect_feline_sample_single",
     "reproduction": { "baby_monster": "mon_cat_kitten", "baby_count": 4, "baby_timer": 60 },
@@ -618,7 +612,6 @@
     "special_attacks": [ [ "scratch", 10 ], { "type": "leap", "cooldown": 5, "max_range": 5 } ],
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "HURT", "PLAYER_CLOSE", "FRIEND_ATTACKED" ],
     "fear_triggers": [ "SOUND" ],
-    "placate_triggers": [ "MEAT" ],
     "zombify_into": "mon_zougar",
     "harvest": "mammal_fur",
     "dissect": "dissect_feline_sample_small",
@@ -746,7 +739,6 @@
     "path_settings": { "max_dist": 10 },
     "anger_triggers": [ "STALK", "FRIEND_ATTACKED", "PLAYER_WEAK", "HURT" ],
     "fear_triggers": [ "SOUND" ],
-    "placate_triggers": [ "MEAT" ],
     "harvest": "mammal_fur",
     "dissect": "dissect_lupine_sample_single",
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "HIT_AND_RUN", "KEENNOSE" ]
@@ -780,7 +772,6 @@
     "path_settings": { "max_dist": 10 },
     "anger_triggers": [ "FRIEND_ATTACKED", "PLAYER_WEAK" ],
     "fear_triggers": [ "SOUND" ],
-    "placate_triggers": [ "MEAT" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE" ]
   },
   {
@@ -885,7 +876,6 @@
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN", "WINTER" ],
     "biosignature": { "biosig_item": "feces_dog", "biosig_timer": 6 },
     "anger_triggers": [ "HURT", "FRIEND_ATTACKED", "FRIEND_DIED" ],
-    "placate_triggers": [ "MEAT" ],
     "special_attacks": [ [ "EAT_FOOD", 100 ], [ "PARROT_AT_DANGER", 0 ] ],
     "petfood": {
       "food": [ "DOGFOOD" ],
@@ -1822,7 +1812,6 @@
     "dissect": "dissect_lupine_sample_single",
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED" ],
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
-    "placate_triggers": [ "MEAT" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "HIT_AND_RUN", "KEENNOSE", "CLIMBS" ]
   },
   {
@@ -1853,7 +1842,6 @@
     "dissect": "dissect_lupine_sample_single",
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED" ],
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
-    "placate_triggers": [ "MEAT" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "HIT_AND_RUN", "KEENNOSE" ]
   },
   {
@@ -2034,7 +2022,6 @@
     "harvest": "mammal_small_fur",
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED" ],
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
-    "placate_triggers": [ "MEAT" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "HIT_AND_RUN", "KEENNOSE", "SWIMS" ]
   },
   {
@@ -2225,7 +2212,6 @@
     "harvest": "mammal_small_pig",
     "path_settings": { "max_dist": 10 },
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
-    "placate_triggers": [ "MEAT" ],
     "upgrades": { "age_grow": 38, "into": "mon_pig" },
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 7 },
     "special_attacks": [ [ "EAT_FOOD", 40 ] ],
@@ -2263,7 +2249,6 @@
     "path_settings": { "max_dist": 10 },
     "anger_triggers": [ "PLAYER_WEAK", "FRIEND_ATTACKED" ],
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
-    "placate_triggers": [ "MEAT" ],
     "zombify_into": "mon_zombie_pig",
     "special_attacks": [ [ "EAT_FOOD", 20 ] ],
     "flags": [ "SEES", "HEARS", "SMELLS", "PET_MOUNTABLE", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE" ]
@@ -2591,7 +2576,6 @@
     "baby_flags": [ "SPRING" ],
     "path_settings": { "max_dist": 10 },
     "anger_triggers": [ "STALK", "FRIEND_ATTACKED", "FRIEND_DIED", "PLAYER_WEAK", "PLAYER_CLOSE", "PLAYER_NEAR_BABY" ],
-    "placate_triggers": [ "MEAT" ],
     "zombify_into": "mon_zolf",
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE" ]
   },

@@ -1257,12 +1257,12 @@
   {
     "type": "construction_group",
     "id": "place_solar_panel_v2",
-    "name": "Place Upgraded Solar Panel"
+    "name": "Place Advanced Solar Panel"
   },
   {
     "type": "construction_group",
     "id": "place_reinforced_solar_panel_v2",
-    "name": "Place Upgraded Reinforced Solar Panel"
+    "name": "Place Advanced Reinforced Solar Panel"
   },
   {
     "type": "construction_group",

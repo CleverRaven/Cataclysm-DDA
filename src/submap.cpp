@@ -15,8 +15,7 @@
 
 static const furn_str_id furn_f_console( "f_console" );
 
-template<int sx, int sy>
-void maptile_soa<sx, sy>::swap_soa_tile( const point &p1, const point &p2 )
+void maptile_soa::swap_soa_tile( const point &p1, const point &p2 )
 {
     std::swap( ter[p1.x][p1.y], ter[p2.x][p2.y] );
     std::swap( frn[p1.x][p1.y], frn[p2.x][p2.y] );

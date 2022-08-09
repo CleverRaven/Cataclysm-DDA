@@ -1215,11 +1215,16 @@ class vehicle
         tripoint_abs_omt global_omt_location() const;
         // Returns the coordinates (in map squares) of the vehicle relative to the local map.
         tripoint global_pos3() const;
+        tripoint_bub_ms pos_bub() const;
         /**
          * Get the coordinates of the studied part of the vehicle
          */
+        // TODO: fix point types (remove global_part_pos3 in favour of
+        // bub_part_pos)
         tripoint global_part_pos3( const int &index ) const;
         tripoint global_part_pos3( const vehicle_part &pt ) const;
+        tripoint_bub_ms bub_part_pos( int index ) const;
+        tripoint_bub_ms bub_part_pos( const vehicle_part &pt ) const;
         /**
          * All the fuels that are in all the tanks in the vehicle, nicely summed up.
          * Note that empty tanks don't count at all. The value is the amount as it would be
