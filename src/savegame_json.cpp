@@ -337,6 +337,7 @@ void player_activity::serialize( JsonOut &json ) const
         json.member( "name", name );
         json.member( "targets", targets );
         json.member( "placement", placement );
+        json.member( "relative_placement", relative_placement );
         json.member( "values", values );
         json.member( "str_values", str_values );
         json.member( "auto_resume", auto_resume );
@@ -397,6 +398,7 @@ void player_activity::deserialize( const JsonObject &data )
     data.read( "name", name );
     data.read( "targets", targets );
     data.read( "placement", placement );
+    data.read( "relative_placement", relative_placement );
     values = data.get_int_array( "values" );
     str_values = data.get_string_array( "str_values" );
     data.read( "auto_resume", auto_resume );
@@ -703,6 +705,16 @@ void Character::load( const JsonObject &data )
         if( vits.has_member( v.first.str() ) ) {
             int lvl = vits.get_int( v.first.str() );
             vitamin_levels[v.first] = clamp( lvl, v.first->min(), v.first->max() );
+        }
+    }
+    JsonObject vits_daily = data.get_object( "daily_vitamins" );
+    vits_daily.allow_omitted_members();
+    for( const std::pair<const vitamin_id, vitamin> &v : vitamin::all() ) {
+        if( vits_daily.has_member( v.first.str() ) ) {
+            JsonArray vals = vits_daily.get_array( v.first.str() );
+            int speculative = vals.next_int();
+            int lvl = vals.next_int();
+            daily_vitamins[v.first] = { speculative, lvl };
         }
     }
     data.read( "consumption_history", consumption_history );
@@ -1271,6 +1283,7 @@ void Character::store( JsonOut &json ) const
     json.member( "radiation", radiation );
     json.member( "stamina", stamina );
     json.member( "vitamin_levels", vitamin_levels );
+    json.member( "daily_vitamins", daily_vitamins );
     json.member( "pkill", pkill );
     json.member( "omt_path", omt_path );
     json.member( "consumption_history", consumption_history );
@@ -2636,6 +2649,7 @@ void monster::load( const JsonObject &data )
     horde_attraction = static_cast<monster_horde_attraction>( data.get_int( "horde_attraction", 0 ) );
 
     data.read( "inv", inv );
+    data.read( "dissectable_inv", dissectable_inv );
     data.read( "dragged_foe_id", dragged_foe_id );
 
     data.read( "ammo", ammo );
@@ -2716,6 +2730,7 @@ void monster::store( JsonOut &json ) const
         json.member( "horde_attraction", horde_attraction );
     }
     json.member( "inv", inv );
+    json.member( "dissectable_inv", dissectable_inv );
 
     json.member( "dragged_foe_id", dragged_foe_id );
     // storing the rider
@@ -2874,6 +2889,7 @@ void item::io( Archive &archive )
     archive.io( "is_favorite", is_favorite, false );
     archive.io( "item_counter", item_counter, static_cast<decltype( item_counter )>( 0 ) );
     archive.io( "wetness", wetness, 0 );
+    archive.io( "dropped_from", dropped_from, cata::optional<harvest_drop_type_id>() );
     archive.io( "rot", rot, 0_turns );
     archive.io( "last_temp_check", last_temp_check, calendar::start_of_cataclysm );
     archive.io( "current_phase", cur_phase, static_cast<int>( type->phase ) );

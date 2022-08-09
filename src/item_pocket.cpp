@@ -1204,7 +1204,7 @@ void item_pocket::contents_info( std::vector<iteminfo> &info, int pocket_number,
     }
 }
 
-void item_pocket::favorite_info( std::vector<iteminfo> &info )
+void item_pocket::favorite_info( std::vector<iteminfo> &info ) const
 {
     settings.info( info );
 }
@@ -1649,7 +1649,7 @@ void item_pocket::on_contents_changed()
 
 bool item_pocket::spill_contents( const tripoint &pos )
 {
-    if( is_type( pocket_type::EBOOK ) ) {
+    if( is_type( pocket_type::EBOOK ) || is_type( pocket_type::CORPSE ) ) {
         return false;
     }
 

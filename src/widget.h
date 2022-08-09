@@ -243,6 +243,8 @@ class widget
         bool explicit_separator;
         // True if this widget has an explicitly defined padding. False if it is inherited.
         bool explicit_padding;
+        // Pad labels to match label length of child or sibling widgets
+        bool _pad_labels;
 
         // Normal var range (low, high), set by set_default_var_range
         std::pair<int, int> _var_norm = std::make_pair( INT_MIN, INT_MAX );
@@ -312,7 +314,7 @@ class widget
         // Return a colorized string for a _var associated with a description function
         std::string color_text_function_string( const avatar &ava, unsigned int max_width );
         // Return true if the current _var is one which uses a description function
-        bool uses_text_function();
+        bool uses_text_function() const;
 
         // Evaluate and return the bound "var" associated value for an avatar
         int get_var_value( const avatar &ava ) const;

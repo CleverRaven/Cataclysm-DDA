@@ -129,6 +129,7 @@
     "arrange": "rows",
     "width": 12,
     "separator": " ",
+    "pad_labels": false,
     "widgets": [
       "pain_desc_no_label",
       "hunger_desc_no_label",

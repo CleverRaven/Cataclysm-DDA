@@ -128,9 +128,9 @@ struct radio_tower {
 };
 
 struct map_layer {
-    cata::mdarray<oter_id, point_om_omt, OMAPX, OMAPY> terrain;
-    cata::mdarray<bool, point_om_omt, OMAPX, OMAPY> visible;
-    cata::mdarray<bool, point_om_omt, OMAPX, OMAPY> explored;
+    cata::mdarray<oter_id, point_om_omt> terrain;
+    cata::mdarray<bool, point_om_omt> visible;
+    cata::mdarray<bool, point_om_omt> explored;
     std::vector<om_note> notes;
     std::vector<om_map_extra> extras;
 };
@@ -262,7 +262,7 @@ class overmap
          * @returns A vector of terrain coordinates (absolute overmap terrain
          * coordinates), or empty vector if no matching terrain is found.
          */
-        std::vector<point_abs_omt> find_terrain( const std::string &term, int zlevel );
+        std::vector<point_abs_omt> find_terrain( const std::string &term, int zlevel ) const;
 
         void ter_set( const tripoint_om_omt &p, const oter_id &id );
         // ter has bounds checking, and returns ot_null when out of bounds.
@@ -506,10 +506,10 @@ class overmap
     public:
         void build_connection(
             const overmap_connection &connection, const pf::directed_path<point_om_omt> &path, int z,
-            const om_direction::type &initial_dir = om_direction::type::invalid );
+            cube_direction initial_dir = cube_direction::last );
         void build_connection( const point_om_omt &source, const point_om_omt &dest, int z,
                                const overmap_connection &connection, bool must_be_unexplored,
-                               const om_direction::type &initial_dir = om_direction::type::invalid );
+                               cube_direction initial_dir = cube_direction::last );
         void connect_closest_points( const std::vector<point_om_omt> &points, int z,
                                      const overmap_connection &connection );
         // Polishing

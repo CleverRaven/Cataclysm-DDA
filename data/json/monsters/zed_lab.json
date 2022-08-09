@@ -33,7 +33,7 @@
     "special_attacks": [ [ "scratch", 20 ] ],
     "death_drops": "mon_zombie_scientist_death_drops",
     "burn_into": "mon_zombie_scorched",
-    "upgrades": { "half_life": 28, "into_group": "GROUP_ZOMBIE_UPGRADE" },
+    "upgrades": { "half_life": 32, "into_group": "GROUP_ZOMBIE_UPGRADE" },
     "flags": [
       "SEES",
       "HEARS",
@@ -90,7 +90,7 @@
     "harvest": "zombie",
     "special_attacks": [ [ "GRAB", 10 ], [ "scratch", 10 ] ],
     "death_drops": "mon_zombie_labsecurity_death_drops",
-    "upgrades": { "half_life": 28, "into_group": "GROUP_SOLDIER_UPGRADE" },
+    "upgrades": { "half_life": 35, "into_group": "GROUP_SOLDIER_UPGRADE" },
     "burn_into": "mon_zombie_scorched",
     "flags": [
       "SEES",
@@ -145,7 +145,7 @@
     "vision_night": 3,
     "luminance": 8,
     "harvest": "zombie",
-    "upgrades": { "half_life": 30, "into": "mon_zombie_phase_shrike" },
+    "upgrades": { "half_life": 42, "into": "mon_zombie_phase_shrike" },
     "special_attacks": [
       {
         "type": "spell",

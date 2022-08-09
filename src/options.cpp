@@ -3518,7 +3518,7 @@ static void update_options_cache()
     keycode_mode = ::get_option<std::string>( "SDL_KEYBOARD_MODE" ) == "keycode";
 }
 
-bool options_manager::save()
+bool options_manager::save() const
 {
     const auto savefile = PATH_INFO::options();
 
