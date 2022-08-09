@@ -158,7 +158,7 @@
     "type": "talk_topic",
     "dynamic_line": "What, like some secret Batcave?  Pull back the curtain and it turns out I'm the communist <name_b> who opened a portal to netherfuck in their basement?  I just gave you food, all the tools in my workshop, and the safest hole in the ground in the county.  If I've got any secrets left, they're mine to keep.",
     "responses": [
-      { "text": "No, you're right! I'm sorry for intruding!", "topic": "BGSS_PREPPER_1_SHARELOOTAPOLOGIZE" },
+      { "text": "No, you're right!  I'm sorry for intruding!", "topic": "BGSS_PREPPER_1_SHARELOOTAPOLOGIZE" },
       {
         "text": "For all I know, you COULD have something to do with this.  Who really knows what happened?",
         "topic": "BGSS_PREPPER_1_SHARELOOTFAILURE2",
