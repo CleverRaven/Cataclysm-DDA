@@ -225,7 +225,7 @@
         "    S      S            ",
         "                  S     "
       ],
-      "place_signs": [ { "signage": "Private property! Keep out!", "x": 12, "y": 16 } ],
+      "place_signs": [ { "signage": "Private property!  Keep out!", "x": 12, "y": 16 } ],
       "palettes": [ "bunker_ext" ]
     }
   },
