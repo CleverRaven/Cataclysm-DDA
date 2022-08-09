@@ -216,7 +216,7 @@
         "  S  S$$T))_)))T$$SS    ",
         "     S$$$$$_$$$$$$S     ",
         "     SS$$$$_$$$$$SS  S  ",
-        "      SSSSS_SSSSSS      ",
+        "      SSSSS_ SSSSS      ",
         "S      S S   SS S       ",
         "                 S    S ",
         "   S   S                ",
@@ -225,6 +225,7 @@
         "    S      S            ",
         "                  S     "
       ],
+      "place_signs": [ { "signage": "Private property! Keep out!", "x": 12, "y": 16 }],
       "palettes": [ "bunker_ext" ]
     }
   },
