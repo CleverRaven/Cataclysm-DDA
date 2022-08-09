@@ -267,6 +267,20 @@
   },
   {
     "type": "GENERIC",
+    "id": "newspaper_memorial",
+    "category": "books",
+    "symbol": ",",
+    "color": "white",
+    "name": { "str": "newspaper page" },
+    "description": "A snippet from a newspaper, celebrating the achievements of the one enshrined.",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "paper" ],
+    "weight": "1 g",
+    "volume": "1 ml"
+  },
+  {
+    "type": "GENERIC",
     "id": "newest_newspaper",
     "category": "books",
     "symbol": ",",

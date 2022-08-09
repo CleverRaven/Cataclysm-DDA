@@ -670,6 +670,9 @@ TEST_CASE( "Vitamin Effects", "[effect][vitamins]" )
 {
     Character &subject = get_avatar();
     clear_avatar();
+    subject.stomach.empty();
+    subject.guts.empty();
+    subject.clear_effects();
 
     // Our effect influencing vitamins, and the two vitamins it influences
     const efftype_id vits = effect_test_vitamineff;

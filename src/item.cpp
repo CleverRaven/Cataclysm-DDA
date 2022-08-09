@@ -2398,12 +2398,16 @@ void item::food_info( const item *food_item, std::vector<iteminfo> &info,
             display_vitamins != is_vitamin || v.first->has_flag( flag_NO_DISPLAY ) ) {
             return std::string();
         }
-        const double multiplier = player_character.vitamin_rate( v.first ) / 1_days * 100;
         const int min_value = min_nutr.get_vitamin( v.first );
         const int max_value = v.second;
-        const int min_rda = std::lround( min_value * multiplier );
-        const int max_rda = std::lround( max_value * multiplier );
-        const std::string format = min_rda == max_rda ? "%s (%i%%)" : "%s (%i-%i%%)";
+        const int min_rda = player_character.vitamin_RDA( v.first, min_value );
+        const int max_rda = player_character.vitamin_RDA( v.first, max_value );
+        std::string format;
+        if( is_vitamin ) {
+            format = min_value == max_value ? "%s (%i%%)" : "%s (%i-%i%%)";
+            return string_format( format, v.first->name(), min_rda, max_rda );
+        }
+        format = min_value == max_value ? "%s (%i U)" : "%s (%i-%i U)";
         return string_format( format, v.first->name(), min_value, max_value );
     };
 
@@ -4671,6 +4675,22 @@ void item::tool_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
     }
 }
 
+void item::actions_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
+                         int /*batch*/, bool /*debug*/ ) const
+{
+
+    const std::map<std::string, use_function> &use_methods = type->use_methods;
+    if( use_methods.empty() || !parts->test( iteminfo_parts::ACTIONS ) ) {
+        return;
+    }
+    insert_separation_line( info );
+    std::string actions = enumerate_as_string( use_methods.begin(),
+    use_methods.end(), []( const std::pair<std::string, use_function> &val ) {
+        return string_format( "<info>%s</info>", val.second.get_name() );
+    } );
+    info.emplace_back( "DESCRIPTION", string_format( _( "<bold>Actions</bold>: %s" ), actions ) );
+}
+
 void item::component_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int /*batch*/,
                            bool /*debug*/ ) const
 {
@@ -4699,6 +4719,13 @@ void item::repair_info( std::vector<iteminfo> &info, const iteminfo_query *parts
         enumerate_as_string( rep.begin(), rep.end(), []( const itype_id & e ) {
             return nname( e );
         }, enumeration_conjunction::or_ ) ) );
+
+        std::string repairs_with = enumerate_as_string( type->repairs_with.begin(),
+        type->repairs_with.end(), []( const material_id & e ) {
+            return string_format( "<info>%s</info>", e->name() );
+        } );
+
+        info.emplace_back( "DESCRIPTION", string_format( _( "<bold>With</bold> %s." ), repairs_with ) );
         if( reinforceable() ) {
             info.emplace_back( "DESCRIPTION", _( "* This item can be <good>reinforced</good>." ) );
         }
@@ -5725,6 +5752,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
             book_info( info, parts, batch, debug );
             battery_info( info, parts, batch, debug );
             tool_info( info, parts, batch, debug );
+            actions_info( info, parts, batch, debug );
             component_info( info, parts, batch, debug );
             qualities_info( info, parts, batch, debug );
 
@@ -6707,12 +6735,13 @@ int item::price( bool practical ) const
     return res;
 }
 
-int item::price_no_contents( bool practical ) const
+int item::price_no_contents( bool practical, cata::optional<int> price_override ) const
 {
     if( rotten() ) {
         return 0;
     }
-    int price = units::to_cent( practical ? type->price_post : type->price );
+    int price = price_override ? *price_override
+                : units::to_cent( practical ? type->price_post : type->price );
     if( damage() > 0 ) {
         // maximal damage level is 4, maximal reduction is 80% of the value.
         price -= price * static_cast< double >( damage_level() ) / 5;
@@ -9413,6 +9442,12 @@ int item::made_of( const material_id &mat_ident ) const
         return 0;
     }
     return mat->second;
+}
+
+bool item::can_repair_with( const material_id &mat_ident ) const
+{
+    auto mat = type->repairs_with.find( mat_ident );
+    return mat != type->repairs_with.end();
 }
 
 bool item::made_of( phase_id phase ) const

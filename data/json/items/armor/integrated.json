@@ -786,5 +786,68 @@
         "encumbrance": 10
       }
     ]
+  },
+  {
+    "id": "armor_bio_eyes",
+    "//": "These do not preclude wearing glasses, but you'll get double-up penalties.  If you really needed to you could likely still situate the lenses in front of them.  You should probably just augment your eyes though.",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str_sp": "protective lenses" },
+    "description": "Highly protective lenses which seal off your eyes from danger, routing your tear ducts to your mouth.",
+    "weight": "180 g",
+    "volume": "250 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "to_hit": -2,
+    "material": [ "plastic", "lvl4ballisticglass" ],
+    "symbol": "[",
+    "color": "dark_gray",
+    "warmth": 5,
+    "material_thickness": 1.5,
+    "environmental_protection": 10,
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "SKINTIGHT", "SOFT", "WATER_FRIENDLY", "SUN_GLASSES", "NO_REPAIR", "SWIM_GOGGLES" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "plastic", "covered_by_mat": 100, "thickness": 0.5 },
+          { "type": "lvl4ballisticglass", "covered_by_mat": 100, "thickness": 1.0 }
+        ],
+        "covers": [ "eyes" ],
+        "coverage": 100,
+        "encumbrance": 5,
+        "rigid_layer_only": true,
+        "cover_vitals": 90
+      }
+    ]
+  },
+  {
+    "id": "armor_bio_carbon_filament",
+    "type": "ARMOR",
+    "category": "armor",
+    "weight": "500 g",
+    "volume": "1200 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "symbol": ",",
+    "color": "brown",
+    "warmth": 0,
+    "environmental_protection": 1,
+    "material_thickness": 1.25,
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "PERSONAL", "PADDED", "WATER_FRIENDLY", "SOFT", "NO_REPAIR", "ALLOWS_NATURAL_ATTACKS" ],
+    "material": [ "nanotubes" ],
+    "name": { "str_sp": "subdermal carbon filament" },
+    "description": "A layer of thin carbon nanotubes implanted in your skin.  Helps protect your vitals from laceration.",
+    "armor": [
+      {
+        "material": [
+          { "type": "nanotubes", "covered_by_mat": 100, "thickness": 1 },
+          { "type": "nanotubes", "covered_by_mat": 75, "thickness": 0.25 }
+        ],
+        "covers": [ "torso", "head", "mouth", "leg_l", "leg_r", "arm_l", "arm_r", "hand_l", "hand_r", "foot_l", "foot_r" ],
+        "coverage": 100,
+        "encumbrance": 0,
+        "cover_vitals": 60
+      }
+    ]
   }
 ]

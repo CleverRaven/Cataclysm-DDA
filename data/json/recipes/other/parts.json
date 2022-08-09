@@ -384,7 +384,7 @@
       { "proficiency": "prof_welding_basic", "fail_multiplier": 1.5 },
       { "proficiency": "prof_welding" }
     ],
-    "components": [ [ [ "material_aluminium_ingot", 8 ] ] ]
+    "components": [ [ [ "material_aluminium_ingot", 4 ], [ "scrap_aluminum", 35 ] ] ]
   },
   {
     "type": "recipe",

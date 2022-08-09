@@ -1105,7 +1105,6 @@ static const std::set<itype_id> known_bad = {
     itype_id( "recipe_lab_elec" ), // NOLINT(cata-static-string_id-constants)
     itype_id( "pumpkin_muffins" ), // NOLINT(cata-static-string_id-constants)
     itype_id( "AID_bio_soporific" ), // NOLINT(cata-static-string_id-constants)
-    itype_id( "american_flag" ), // NOLINT(cata-static-string_id-constants)
     itype_id( "test_smart_phone" ), // NOLINT(cata-static-string_id-constants)
     itype_id( "iotv_groin_plate" ), // NOLINT(cata-static-string_id-constants)
     itype_id( "coin_silver" ), // NOLINT(cata-static-string_id-constants)
