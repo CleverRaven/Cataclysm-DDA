@@ -28,7 +28,7 @@
   },
   {
     "id": "blade_trap",
-    "type": "GENERIC",
+    "type": "TOOL",
     "name": { "str": "blade trap" },
     "description": "This is a machete attached laterally to a motor, with a tripwire controlling its throttle.  When the tripwire is pulled, the blade is swung around with great force.  The trap forms a 3x3 area of effect.",
     "weight": "2381 g",
