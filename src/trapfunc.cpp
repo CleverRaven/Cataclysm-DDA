@@ -1337,6 +1337,27 @@ bool trapfunc::temple_toggle( const tripoint &p, Creature *c, item * )
                     }
                 }
             }
+            
+            // In case we're completely encirled by walls, replace random wall around the player with floor tile
+            std::vector<tripoint> blocked_tiles;
+            for( const tripoint &p : here.points_in_radius( c->pos(), 1 ) ) {
+                if( here.passable( p ) ) {
+                    break;
+                }
+                blocked_tiles.push_back( p );
+            }
+
+            if( !blocked_tiles.empty() ) {
+                const tripoint &p = random_entry( blocked_tiles );
+                if( here.ter( p ) == t_rock_red ) {
+                    here.ter_set( p, t_floor_red );
+                } else if( here.ter( p ) == t_rock_green ) {
+                    here.ter_set( p, t_floor_green );
+                } else if( here.ter( p ) == t_rock_blue ) {
+                    here.ter_set( p, t_floor_blue );
+                }
+            }
+
         }
         return true;
     }
