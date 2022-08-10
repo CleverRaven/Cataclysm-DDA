@@ -109,7 +109,7 @@
         "text": "You wouldn't keep ALL your tricks and secrets from me, though, would you?  After everything we've been through?",
         "condition": { "not": { "u_has_var": "prepper_1_asked_about_secrets", "type": "mission", "context": "BGSS", "value": "yes" } },
         "//": "Even though material possessions have been made trivially easy to obtain in the apocalypse, the prepper still values their stash, hence the difficult trial here.",
-        "trial": { "type": "PERSUADE", "difficulty": -60, "mod": [ [ "TRUST", 1 ], [ "VALUE", 1 ], [ "ANGER", -8 ] ] },
+        "trial": { "type": "PERSUADE", "difficulty": -75, "mod": [ [ "TRUST", 1 ], [ "VALUE", 1 ], [ "ANGER", -8 ] ] },
         "success": {
           "topic": "BGSS_PREPPER_1_SHARELOOTSUCCESS",
           "effect": { "u_add_var": "prepper_1_asked_about_secrets", "type": "mission", "context": "BGSS", "value": "yes" }
