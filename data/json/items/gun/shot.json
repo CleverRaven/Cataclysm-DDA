@@ -653,7 +653,7 @@
     "durability": 6,
     "clip_size": 12,
     "reload": 220,
-    "barrel_volume": "360 ml",
+    "barrel_volume": "505 ml",
     "default_mods": [ "grip" ],
     "built_in_mods": [ "wire_stock" ],
     "modes": [ [ "DEFAULT", "single", 1 ], [ "AUTO", "3 rd.", 3 ] ],
