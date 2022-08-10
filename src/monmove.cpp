@@ -333,10 +333,19 @@ void monster::plan()
         }
         if( !fleeing ) {
             morale -= fears_hostile_seen;
+            // Decide that the player is too annoying, less likely than the other triggers
+            if( angers_hostile_seen && x_in_y( anger, 200 ) ) {
+                add_msg_debug( debugmode::DF_MONSTER, "%s's character aggro triggered by seeing you", name() );
+                aggro_character = true;
+            }
         }
         if( dist <= 5 ) {
             if( anger <= 30 ) {
                 anger += angers_hostile_near;
+            }
+            if( angers_hostile_near && x_in_y( anger, 100 ) ) {
+                add_msg_debug( debugmode::DF_MONSTER, "%s's character aggro triggered by proximity", name() );
+                aggro_character = true;
             }
             morale -= fears_hostile_near;
             if( angers_mating_season > 0  && anger <= 30 ) {
@@ -353,6 +362,10 @@ void monster::plan()
                 }
                 if( mating_angry ) {
                     anger += angers_mating_season;
+                    if( x_in_y( anger, 100 ) ) {
+                        add_msg_debug( debugmode::DF_MONSTER, "%s's character aggro triggered by season", name() );
+                        aggro_character = true;
+                    }
                 }
             }
         }
@@ -365,6 +378,9 @@ void monster::plan()
                         //proximity to baby; monster gets furious and less likely to flee
                         anger += angers_cub_threatened;
                         morale += angers_cub_threatened / 2;
+                        add_msg_debug( debugmode::DF_MONSTER, "%s's character aggro triggered by threatening %s", name(),
+                                       tmp.name() );
+                        aggro_character = true;
                     }
                 }
             }
@@ -423,6 +439,11 @@ void monster::plan()
             if( anger <= 30 ) {
                 anger += angers_hostile_near;
             }
+            if( angers_hostile_near && x_in_y( anger, 100 ) ) {
+                add_msg_debug( debugmode::DF_MONSTER, "%s's character aggro triggered by proximity to %s", name(),
+                               who.name );
+                aggro_character = true;
+            }
             morale -= fears_hostile_near;
             if( angers_mating_season > 0 && anger <= 30 ) {
                 bool mating_angry = false;
@@ -438,6 +459,10 @@ void monster::plan()
                 }
                 if( mating_angry ) {
                     anger += angers_mating_season;
+                    if( x_in_y( anger, 100 ) ) {
+                        add_msg_debug( debugmode::DF_MONSTER, "%s's character aggro triggered by season", name() );
+                        aggro_character = true;
+                    }
                 }
             }
         }
@@ -446,6 +471,12 @@ void monster::plan()
         }
         if( !fleeing && valid_targets != 0 ) {
             morale -= fears_hostile_seen;
+            // Decide that characters are too annoying
+            if( angers_hostile_seen && x_in_y( anger, 200 ) ) {
+                add_msg_debug( debugmode::DF_MONSTER, "%s's character aggro triggered by seeing %s", name(),
+                               who.name );
+                aggro_character = true;
+            }
         }
     }
 
@@ -607,8 +638,13 @@ void monster::plan()
             att_to_target != Attitude::FRIENDLY ) {
             int hp_per = target->hp_percentage();
             if( hp_per <= 70 ) {
-                if( angers_hostile_weak ) {
+                if( angers_hostile_weak && anger <= 40 ) {
                     anger += 10 - static_cast<int>( hp_per / 10 );
+                    if( x_in_y( anger, 100 ) ) {
+                        add_msg_debug( debugmode::DF_MONSTER, "%s's character aggro triggered by %s's weakness", name(),
+                                       target->disp_name() );
+                        aggro_character = true;
+                    }
                 } else if( fears_hostile_weak ) {
                     morale -= 10 - static_cast<int>( hp_per / 10 );
                 } else if( placate_hostile_weak ) {
