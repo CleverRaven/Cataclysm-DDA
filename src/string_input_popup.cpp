@@ -375,7 +375,7 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
         create_context();
     }
 
-    if( ctxt && desc_view_ptr ) {
+    if( desc_view_ptr ) {
         desc_view_ptr->set_up_navigation( *ctxt, scrolling_key_scheme::no_scheme, true );
     }
 
