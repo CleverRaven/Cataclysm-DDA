@@ -35,7 +35,8 @@ static const vitamin_id vitamin_mutagen_test( "mutagen_test" );
 
 static std::string get_mutations_as_string( const Character &you );
 
-static void verify_mutation_flag( Character &you, std::string trait_name, std::string flag_name )
+static void verify_mutation_flag( Character &you, const std::string &trait_name,
+                                                  const std::string &flag_name )
 {
     clear_avatar();
     set_single_trait( you, trait_name );
