@@ -606,6 +606,8 @@ class monster : public Creature
         cata::optional<time_point> lifespan_end = cata::nullopt;
         int turns_since_target = 0;
 
+        bool aggro_character = true;
+
         Character *find_dragged_foe();
         void nursebot_operate( Character *dragged_foe );
 
