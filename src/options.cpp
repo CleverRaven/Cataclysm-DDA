@@ -2496,18 +2496,6 @@ void options_manager::add_options_debug()
 
     add_empty_line();
 
-    add( "SKILL_RUST", "debug", to_translation( "Skill rust" ),
-         to_translation( "Set the type of skill rust.  Vanilla: Skill rust can decrease levels.  - Capped: Skill rust cannot decrease levels.  - Off: None at all." ),
-         //~ plain, default, normal
-    {   { "vanilla", to_translation( "Vanilla" ) },
-        //~ capped at a value
-        { "capped", to_translation( "Capped" ) },
-        { "off", to_translation( "Off" ) }
-    },
-    "vanilla" );
-
-    add_empty_line();
-
     add( "FOV_3D", "debug", to_translation( "Experimental 3D field of vision" ),
          to_translation( "If true and the world is in Z-level mode, the vision will extend beyond current Z-level.  If false, vision is limited to current Z-level.  Currently very bugged!" ),
          false
