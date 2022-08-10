@@ -6628,14 +6628,6 @@
     "flags": [ "BLIND_EASY" ]
   },
   {
-    "result": "letter",
-    "type": "uncraft",
-    "activity_level": "NO_EXERCISE",
-    "time": "6 s",
-    "components": [ [ [ "paper", 1 ] ] ],
-    "flags": [ "BLIND_EASY" ]
-  },
-  {
     "result": "envelope",
     "type": "uncraft",
     "activity_level": "NO_EXERCISE",
