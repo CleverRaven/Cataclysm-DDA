@@ -74,5 +74,62 @@
     "valid": false,
     "spells_learned": [ [ "consume_human_blood", 1 ] ],
     "flags": [ "CANNIBAL" ]
+  },
+  {
+    "type": "mutation",
+    "id": "VAMPIRE2",
+    "name": { "str": "Walking the shadowed path of blood." },
+    "points": 0,
+    "description": "You have developed a thirst for the blood of your fellow humans.",
+    "starting_trait": false,
+    "purifiable": false,
+    "types": [ "TEETH" ],
+    "valid": false,
+    "attacks": [
+      {
+        "attack_text_u": "You sink your fangs into %s",
+        "attack_text_npc": "%1$s sinks their fangs into %2$s",
+        "blocker_mutations": [ "MUZZLE", "MUZZLE_LONG", "MUZZLE_RAT" ],
+        "body_part": "mouth",
+        "chance": 20,
+        "base_damage": { "damage_type": "stab", "amount": 20 }
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "VAMPIRE3",
+    "name": { "str": "Mortal hungers are replaced with immortal hungers." },
+    "points": 0,
+    "description": "You have developed a thirst for the blood of your fellow humans.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "metabolism_modifier": 5,
+    "stamina_regen_modifier": 0.1
+  },
+  {
+    "type": "mutation",
+    "id": "VAMPIRE4",
+    "name": { "str": "Mortal hungers are replaced with immortal hungers." },
+    "points": 0,
+    "description": "You have developed a thirst for the blood of your fellow humans.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "metabolism_modifier": 5,
+    "stamina_regen_modifier": 0.1
+  },
+  {
+    "type": "mutation",
+    "id": "BLOOD_DRINKER",
+    "name": { "str": "Mortal hungers are replaced with immortal hungers." },
+    "points": 0,
+    "description": "You have developed a thirst for the blood of your fellow humans.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "metabolism_modifier": 5,
+    "stamina_regen_modifier": 0.1
   }
 ]
