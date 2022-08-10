@@ -3194,6 +3194,12 @@ tripoint vehicle::global_pos3() const
     return sm_to_ms_copy( sm_pos ) + pos;
 }
 
+tripoint_bub_ms vehicle::pos_bub() const
+{
+    // TODO: fix point types
+    return tripoint_bub_ms( global_pos3() );
+}
+
 tripoint vehicle::global_part_pos3( const int &index ) const
 {
     return global_part_pos3( parts[ index ] );
@@ -3202,6 +3208,16 @@ tripoint vehicle::global_part_pos3( const int &index ) const
 tripoint vehicle::global_part_pos3( const vehicle_part &pt ) const
 {
     return global_pos3() + pt.precalc[ 0 ];
+}
+
+tripoint_bub_ms vehicle::bub_part_pos( const int index ) const
+{
+    return bub_part_pos( parts[ index ] );
+}
+
+tripoint_bub_ms vehicle::bub_part_pos( const vehicle_part &pt ) const
+{
+    return pos_bub() + pt.precalc[ 0 ];
 }
 
 void vehicle::set_submap_moved( const tripoint &p )
@@ -3793,9 +3809,10 @@ void vehicle::noise_and_smoke( int load, time_duration time )
     bool bad_filter = false;
     bool combustion = false;
 
+    this->vehicle_noise = 0; // reset noise, in case all combustion engines are dead
     for( size_t e = 0; e < engines.size(); e++ ) {
         int p = engines[e];
-        if( is_engine_on( e ) &&  engine_fuel_left( e ) ) {
+        if( engine_on && is_engine_on( e ) && engine_fuel_left( e ) ) {
             // convert current engine load to units of watts/40K
             // then spew more smoke and make more noise as the engine load increases
             int part_watts = part_vpower_w( p, true );
@@ -4978,6 +4995,7 @@ void vehicle::power_parts()
                 add_msg( _( "The %s's engine dies!" ), name );
             }
         }
+        noise_and_smoke( 0, 1_turns ); // refreshes this->vehicle_noise
     }
 }
 

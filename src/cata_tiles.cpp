@@ -292,6 +292,7 @@ tile_type &tileset::create_tile_type( const std::string &id, tile_type &&new_til
 
     // populate cache by season
     constexpr size_t suffix_len = 15;
+    // NOLINTNEXTLINE(cata-use-mdarray)
     constexpr char season_suffix[NUM_SEASONS][suffix_len] = {
         "_season_spring", "_season_summer", "_season_autumn", "_season_winter"
     };

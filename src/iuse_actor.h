@@ -464,13 +464,13 @@ class firestarter_actor : public iuse_actor
          */
         bool need_sunlight = false;
 
-        static bool prep_firestarter_use( const Character &p, tripoint &pos );
+        static bool prep_firestarter_use( const Character &p, tripoint_bub_ms &pos );
         /** Player here isn't const because pyromaniacs gain a mood boost from it */
-        static void resolve_firestarter_use( Character &p, const tripoint &pos );
+        static void resolve_firestarter_use( Character &p, const tripoint_bub_ms &pos );
         /** Modifier on speed - higher is better, 0 means it won't work. */
         float light_mod( const tripoint &pos ) const;
         /** Checks quality of fuel on the tile and interpolates move cost based on that. */
-        int moves_cost_by_fuel( const tripoint &pos ) const;
+        int moves_cost_by_fuel( const tripoint_bub_ms &pos ) const;
 
         explicit firestarter_actor( const std::string &type = "firestarter" ) : iuse_actor( type ) {}
 

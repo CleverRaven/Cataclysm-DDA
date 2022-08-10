@@ -856,6 +856,37 @@ std::pair<std::string, nc_color> display::weight_text_color( const Character &u 
     return std::make_pair( _( weight_string ), weight_color );
 }
 
+std::pair<std::string, nc_color> display::health_text_color( const Character &u )
+{
+    const int health = u.get_lifestyle();
+    std::string health_string;
+    nc_color health_color = c_light_gray;
+
+    if( health > character_health_category::great ) {
+        health_string = translate_marker( "Feel Great" );
+        health_color = c_green;
+    } else if( health > character_health_category::very_good ) {
+        health_string = translate_marker( "Feel Very Good" );
+        health_color = c_green;
+    } else if( health > character_health_category::good ) {
+        health_string = translate_marker( "Feel Good" );
+        health_color = c_green;
+    } else if( health > character_health_category::fine ) {
+        health_string = translate_marker( "Feel Fine" );
+        health_color = c_light_gray;
+    } else if( health > character_health_category::bad ) {
+        health_string = translate_marker( "Feel Bad" );
+        health_color = c_red;
+    } else if( health > character_health_category::very_bad ) {
+        health_string = translate_marker( "Feel Very Bad" );
+        health_color = c_red;
+    } else {
+        health_string = translate_marker( "Feel Awful" );
+        health_color = c_red;
+    }
+    return std::make_pair( _( health_string ), health_color );
+}
+
 std::string display::weight_long_description( const Character &u )
 {
     const float bmi = u.get_bmi();
@@ -882,6 +913,12 @@ std::string display::weight_string( const Character &u )
 {
     std::pair<std::string, nc_color> weight_pair = display::weight_text_color( u );
     return colorize( weight_pair.first, weight_pair.second );
+}
+
+std::string display::health_string( const Character &u )
+{
+    std::pair<std::string, nc_color> health_pair = display::health_text_color( u );
+    return colorize( health_pair.first, health_pair.second );
 }
 
 std::pair<std::string, nc_color> display::fatigue_text_color( const Character &u )

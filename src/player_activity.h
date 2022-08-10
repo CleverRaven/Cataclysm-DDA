@@ -14,6 +14,7 @@
 #include "calendar.h"
 #include "clone_ptr.h"
 #include "compatibility.h"
+#include "coordinates.h"
 #include "enums.h"
 #include "item_location.h"
 #include "memory_fast.h"
@@ -63,7 +64,11 @@ class player_activity
         std::vector<tripoint> coords;
         std::unordered_set<tripoint> coord_set;
         std::vector<weak_ptr_fast<monster>> monsters;
-        tripoint placement;
+        static constexpr tripoint_abs_ms invalid_place{ tripoint_min };
+        tripoint_abs_ms placement;
+        // ACT_START_ENGINES needs a relative position because the engine might
+        // be in a moving vehicle at the time.
+        tripoint_rel_ms relative_placement;
 
         bool no_drink_nearby_for_auto_consume = false; // NOLINT(cata-serialize)
         bool no_food_nearby_for_auto_consume = false; // NOLINT(cata-serialize)

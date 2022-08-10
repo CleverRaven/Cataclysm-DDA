@@ -712,8 +712,11 @@ class game
                           char bullet );
         void draw_hit_mon( const tripoint &p, const monster &m, bool dead = false );
         void draw_hit_player( const Character &p, int dam );
+        // TODO: fix point types (remove the first overload)
         void draw_line( const tripoint &p, const tripoint &center_point,
                         const std::vector<tripoint> &points, bool noreveal = false );
+        void draw_line( const tripoint_bub_ms &p, const tripoint_bub_ms &center_point,
+                        const std::vector<tripoint_bub_ms> &points, bool noreveal = false );
         void draw_line( const tripoint &p, const std::vector<tripoint> &points );
         void draw_weather( const weather_printable &wPrint ) const;
         void draw_sct() const;
@@ -924,8 +927,8 @@ class game
         bool do_regular_action( action_id &act, avatar &player_character,
                                 const cata::optional<tripoint> &mouse_target );
         bool handle_action();
-        bool try_get_right_click_action( action_id &act, const tripoint &mouse_target );
-        bool try_get_left_click_action( action_id &act, const tripoint &mouse_target );
+        bool try_get_right_click_action( action_id &act, const tripoint_bub_ms &mouse_target );
+        bool try_get_left_click_action( action_id &act, const tripoint_bub_ms &mouse_target );
         // If loc is empty then use all the items in character inventory including bionics.
         void item_action_menu( item_location loc = item_location() ); // Displays item action menu
 
@@ -1146,7 +1149,7 @@ class game
         unsigned int seed = 0; // NOLINT(cata-serialize)
 
         // Preview for auto move route
-        std::vector<tripoint> destination_preview; // NOLINT(cata-serialize)
+        std::vector<tripoint_bub_ms> destination_preview; // NOLINT(cata-serialize)
 
         // NOLINTNEXTLINE(cata-serialize)
         std::chrono::time_point<std::chrono::steady_clock> last_mouse_edge_scroll;

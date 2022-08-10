@@ -256,6 +256,7 @@
       [ "glasses_bifocal", 20 ],
       [ "cotton_ball", 20 ],
       [ "contacts", 20 ],
+      { "item": "pride_flag", "prob": 5 },
       { "item": "vitamins", "prob": 20, "charges": [ 1, 20 ] },
       { "item": "aspirin", "prob": 20, "charges": [ 1, 20 ] },
       { "item": "nic_gum", "prob": 20, "charges": [ 1, 10 ] },

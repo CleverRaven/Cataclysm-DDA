@@ -1949,6 +1949,7 @@
     "id": "pine_resin",
     "type": "COMESTIBLE",
     "name": { "str_sp": "pine resin" },
+    "category": "chems",
     "description": "A sticky, sludgy mass of sap harvested from a pine tree.",
     "comestible_type": "INVALID",
     "weight": "250 g",

@@ -668,18 +668,13 @@ void Item_factory::finalize_post( itype &obj )
                 // if no portion info defined skip scaling for portions
                 bool skip_scale = obj.mat_portion_total == 0;
                 for( const auto &m : obj.materials ) {
-                    if( skip_scale ) {
-                        part_material pm( m.first, 100, obj.materials.size() * data.avg_thickness );
-                        // need to ignore sheet thickness since inferred thicknesses are not gonna be perfect
-                        pm.ignore_sheet_thickness = true;
-                        data.materials.push_back( pm );
-                    } else {
-                        part_material pm( m.first, 100,
-                                          static_cast<float>( m.second ) / static_cast<float>( obj.mat_portion_total ) * data.avg_thickness );
-                        // need to ignore sheet thickness since inferred thicknesses are not gonna be perfect
-                        pm.ignore_sheet_thickness = true;
-                        data.materials.push_back( pm );
-                    }
+                    float factor = skip_scale
+                                   ? obj.materials.size()
+                                   : static_cast<float>( m.second ) / static_cast<float>( obj.mat_portion_total );
+                    part_material pm( m.first, 100, factor * data.avg_thickness );
+                    // need to ignore sheet thickness since inferred thicknesses are not gonna be perfect
+                    pm.ignore_sheet_thickness = true;
+                    data.materials.push_back( pm );
                 }
             }
         }
@@ -1193,6 +1188,13 @@ void Item_factory::finalize_post( itype &obj )
                 debugmsg( "contamination in %s contains invalid diseasetype_id %s.",
                           obj.id.str(), dtype.str() );
             }
+        }
+    }
+
+    // if we haven't set what the item can be repaired with calculate it now
+    if( obj.repairs_with.empty() ) {
+        for( const auto &mats : obj.materials ) {
+            obj.repairs_with.insert( mats.first );
         }
     }
 }
@@ -3781,6 +3783,8 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
     assign( jo, "insulation", def.insulation_factor );
     assign( jo, "solar_efficiency", def.solar_efficiency );
     assign( jo, "ascii_picture", def.picture_id );
+
+    optional( jo, false, "repairs_with", def.repairs_with, string_id_reader<material_type>() );
 
     if( jo.has_member( "thrown_damage" ) ) {
         def.thrown_damage = load_damage_instance( jo.get_array( "thrown_damage" ) );

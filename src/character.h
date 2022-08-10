@@ -2858,6 +2858,8 @@ class Character : public Creature, public visitable
          * @returns character's current level for specified vitamin
          */
         int vitamin_get( const vitamin_id &vit ) const;
+        // same as above, if actual = true get real daily intake, otherwise get speculated daily intake
+        int get_daily_vitamin( const vitamin_id &vit, bool actual = true ) const;
         /**
          * Sets level of a vitamin
          *
@@ -2881,6 +2883,9 @@ class Character : public Creature, public visitable
         std::map<vitamin_id, int> effect_vitamin_mod( const std::map<vitamin_id, int> & );
         /** Remove all vitamins */
         void clear_vitamins();
+
+        // resets the count for the given vitamin
+        void reset_daily_vitamin( const vitamin_id &vit );
 
         /** Handles the nutrition value for a comestible **/
         int nutrition_for( const item &comest ) const;
@@ -3235,7 +3240,7 @@ class Character : public Creature, public visitable
         bool has_weapon() const override;
         void shift_destination( const point &shift );
         // Auto move methods
-        void set_destination( const std::vector<tripoint> &route,
+        void set_destination( const std::vector<tripoint_bub_ms> &route,
                               const player_activity &new_destination_activity = player_activity() );
         void clear_destination();
         bool has_distant_destination() const;
@@ -3249,7 +3254,7 @@ class Character : public Creature, public visitable
         bool has_destination_activity() const;
         // starts destination activity and cleans up to ensure it is called only once
         void start_destination_activity();
-        std::vector<tripoint> &get_auto_move_route();
+        std::vector<tripoint_bub_ms> &get_auto_move_route();
         action_id get_next_auto_move_direction();
         bool defer_move( const tripoint &next );
         time_duration get_consume_time( const item &it ) const;
@@ -3453,6 +3458,10 @@ class Character : public Creature, public visitable
         move_mode_id move_mode;
         /** Current deficiency/excess quantity for each vitamin */
         std::map<vitamin_id, int> vitamin_levels;
+        /** Current quantity for each vitamin today first value is expected second value is actual (digested) in vitamin units*/
+        std::map<vitamin_id, std::pair<int, int>> daily_vitamins;
+        /** Returns the % of your RDA that ammount of vitamin represents */
+        int vitamin_RDA( vitamin_id vitamin, int ammount ) const;
 
         pimpl<player_morale> morale;
         /** Processes human-specific effects of an effect. */
@@ -3529,9 +3538,9 @@ class Character : public Creature, public visitable
 
         int radiation;
 
-        std::vector<tripoint> auto_move_route;
+        std::vector<tripoint_bub_ms> auto_move_route;
         // Used to make sure auto move is canceled if we stumble off course
-        cata::optional<tripoint> next_expected_position;
+        cata::optional<tripoint_bub_ms> next_expected_position;
         scenttype_id type_of_scent;
 
         struct weighted_int_list<std::string> melee_miss_reasons;
