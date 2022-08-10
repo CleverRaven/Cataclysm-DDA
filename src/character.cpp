@@ -1961,6 +1961,10 @@ int Character::clatter_sound() const
 
 void Character::make_footstep_noise() const
 {
+    if( is_hallucination() ) {
+        return;
+    }
+
     const int volume = footstep_sound();
     if( volume <= 0 ) {
         return;
