@@ -177,7 +177,7 @@
     "chance_kill": [ [ 1, 1 ] ],
     "chance_kill_resist": [ [ 1, 1 ] ],
     "death_msg": "Your blood turns to acid and melts through your body.",
-    "death_event": "dies_from_drug_overdose",
+    "death_event": "dies_from_bleeding",
     "max_duration": 86400,
     "dur_add_perc": 25
   },
