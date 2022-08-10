@@ -31,9 +31,9 @@
     "volume": "1 ml"
   },
   {
-    "type": "GENERIC",
+    "type": "BOOK",
     "id": "grimy_recipe",
-    "category": "books",
+    "category": "manuals",
     "symbol": "0",
     "color": "white",
     "name": { "str": "grimy handwritten recipe" },
