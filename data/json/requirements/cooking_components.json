@@ -484,8 +484,7 @@
     "components": [
       [ [ "broth", 2 ], [ "broth_bone", 2 ] ],
       [
-        [ "irradiated_potato", 1 ],
-        [ "potato", 1 ],
+        [ "veggy_potatolike", 1, "LIST" ],
         [ "celery", 1 ],
         [ "irradiated_celery", 1 ],
         [ "cabbage", 1 ],
@@ -955,6 +954,18 @@
     ]
   },
   {
+    "id": "veggy_potatolike",
+    "type": "requirement",
+    "//": "Any edible tuber that can be used like potato",
+    "components": [
+      [
+        [ "potato", 1 ],
+        [ "irradiated_potato", 1 ],
+        [ "groundnut_prepared", 5 ]
+      ]
+    ]
+  },
+  {
     "id": "veggy_any_corn_uncooked",
     "type": "requirement",
     "components": [ [ [ "corn", 1 ], [ "corn_kernels", 1 ], [ "rehydrated_corn_kernels", 1 ], [ "can_corn", 1 ] ] ]
@@ -1071,11 +1082,10 @@
         [ "spaghetti_raw", 1 ],
         [ "macaroni_raw", 1 ],
         [ "noodles_fast", 1 ],
-        [ "irradiated_potato", 1 ],
-        [ "potato", 1 ],
         [ "celery", 1 ],
         [ "irradiated_celery", 1 ],
         [ "veggy_green", 1, "LIST" ],
+        [ "veggy_potatolike", 1, "LIST" ],
         [ "sauerkraut", 1 ],
         [ "powder_eggs", 1 ],
         [ "eggs_bird", 1, "LIST" ],

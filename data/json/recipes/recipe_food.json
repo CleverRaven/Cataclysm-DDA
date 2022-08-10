@@ -1927,7 +1927,7 @@
     "qualities": [ { "id": "OVEN", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 3, "LIST" ] ] ],
     "proficiencies": [ { "proficiency": "prof_food_prep" } ],
-    "components": [ [ [ "potato", 1 ], [ "irradiated_potato", 1 ] ] ]
+    "components": [ [ [ "veggy_potatolike", 1, "LIST"  ] ] ]
   },
   {
     "type": "recipe",
@@ -1942,7 +1942,7 @@
     "autolearn": true,
     "qualities": [ { "id": "BOIL", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
-    "components": [ [ [ "potato", 1 ], [ "irradiated_potato", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+    "components": [ [ [ "veggy_potatolike", 1, "LIST" ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -1978,7 +1978,7 @@
       { "proficiency": "prof_frying" }
     ],
     "components": [
-      [ [ "potato", 1 ], [ "irradiated_potato", 1 ] ],
+      [ [ "veggy_potatolike", 1, "LIST" ] ],
       [ [ "salt", 2 ], [ "seasoning_salt", 2 ] ],
       [ [ "fry_oil", 2, "LIST" ] ]
     ]
@@ -2114,7 +2114,7 @@
       { "proficiency": "prof_frying" }
     ],
     "components": [
-      [ [ "potato", 1 ], [ "irradiated_potato", 1 ] ],
+      [ [ "veggy_potatolike", 1, "LIST" ] ],
       [ [ "salt", 2 ], [ "seasoning_salt", 2 ] ],
       [ [ "fry_oil", 4, "LIST" ] ]
     ]
@@ -2712,7 +2712,7 @@
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CONTAIN", "level": 1 } ],
     "components": [
-      [ [ "dahlia_root", 10 ], [ "potato", 5 ], [ "irradiated_potato", 5 ], [ "plantain", 5 ], [ "irradiated_plantain", 5 ] ]
+      [ [ "dahlia_root", 10 ], [ "veggy_potatolike", 5, "LIST" ], [ "plantain", 5 ], [ "irradiated_plantain", 5 ] ]
     ]
   },
   {
@@ -3364,8 +3364,7 @@
     "components": [
       [ [ "can_clams", 1 ] ],
       [
-        [ "irradiated_potato", 1 ],
-        [ "potato", 1 ],
+        [ "veggy_potatolike", 1, "LIST" ],
         [ "meat_smoked", 1 ],
         [ "dry_meat", 1 ],
         [ "rehydrated_meat", 1 ],
@@ -6790,8 +6789,7 @@
         [ "irradiated_zucchini", 2 ],
         [ "cucumber", 2 ],
         [ "irradiated_cucumber", 2 ],
-        [ "potato", 2 ],
-        [ "irradiated_potato", 2 ],
+        [ "veggy_potatolike", 2, "LIST" ],
         [ "corn", 2 ],
         [ "irradiated_corn", 2 ],
         [ "onion", 2 ],
@@ -8246,7 +8244,7 @@
         [ "oats", 5 ],
         [ "buckwheat", 5 ],
         [ "wheat", 5 ],
-        [ "potato", 5 ],
+        [ "veggy_potatolike", 5, "LIST" ],
         [ "barley", 5 ],
         [ "raw_beans", 5 ],
         [ "veggy_green", 5, "LIST" ],
@@ -8725,8 +8723,7 @@
         [ "irradiated_zucchini", 12 ],
         [ "cucumber", 12 ],
         [ "irradiated_cucumber", 12 ],
-        [ "potato", 12 ],
-        [ "irradiated_potato", 12 ],
+        [ "veggy_potatolike", 12, "LIST" ],
         [ "corn", 12 ],
         [ "irradiated_corn", 12 ],
         [ "onion", 12 ],
