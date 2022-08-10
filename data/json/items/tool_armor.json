@@ -1176,7 +1176,7 @@
         ],
         "encumbrance": 15,
         "coverage": 100,
-        "covers": [ "mouth", "head", "torso", "arm_l", "arm_r", "leg_l", "leg_r", "hand_l", "hand_r"  ]
+        "covers": [ "mouth", "head", "torso", "arm_l", "arm_r", "leg_l", "leg_r", "hand_l", "hand_r" ]
       },
       {
         "material": [
