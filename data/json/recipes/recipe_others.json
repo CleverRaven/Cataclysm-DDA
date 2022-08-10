@@ -2543,7 +2543,7 @@
     "time": "2 h",
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "sewing_standard", 10 ] ],
+    "using": [ [ "sewing_simple", 10 ] ],
     "proficiencies": [ { "proficiency": "prof_basketweaving" } ],
     "components": [ [ [ "plant_cordage", 6, "LIST" ] ] ]
   },

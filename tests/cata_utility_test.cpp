@@ -71,6 +71,7 @@ TEST_CASE( "string_ends_with_benchmark", "[.][utility][benchmark]" )
 TEST_CASE( "string_ends_with_season_suffix", "[utility]" )
 {
     constexpr size_t suffix_len = 15;
+    // NOLINTNEXTLINE(cata-use-mdarray)
     constexpr char season_suffix[4][suffix_len] = {
         "_season_spring", "_season_summer", "_season_autumn", "_season_winter"
     };

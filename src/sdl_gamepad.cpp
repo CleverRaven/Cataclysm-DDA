@@ -12,13 +12,14 @@ static constexpr int max_sticks = 2;
 //constexpr int max_axis = 6;
 static constexpr int max_buttons = 30;
 
-static int triggers_axis[max_triggers] = {
+static std::array<int, max_triggers> triggers_axis = {
     SDL_CONTROLLER_AXIS_TRIGGERLEFT,
     SDL_CONTROLLER_AXIS_TRIGGERRIGHT
 };
-static int sticks_axis[max_sticks][2] = {
-    { SDL_CONTROLLER_AXIS_LEFTX,  SDL_CONTROLLER_AXIS_LEFTY  },
-    { SDL_CONTROLLER_AXIS_RIGHTX, SDL_CONTROLLER_AXIS_RIGHTY }
+static std::array<std::array<int, 2>, max_sticks> sticks_axis = { {
+        { {SDL_CONTROLLER_AXIS_LEFTX,  SDL_CONTROLLER_AXIS_LEFTY}  },
+        { {SDL_CONTROLLER_AXIS_RIGHTX, SDL_CONTROLLER_AXIS_RIGHTY} }
+    }
 };
 
 static int triggers_state[max_triggers] = {0, 0};
@@ -28,7 +29,7 @@ static int triggers_threshold = 16000;
 static int sticks_threshold = 16000;
 static int error_margin = 2000;
 
-static int sticks_map[max_sticks][16] = {{0}, {0}};
+static std::array<std::array<int, 16>, max_sticks> sticks_map = {};
 static int triggers_map[max_triggers] = {0};
 static int buttons_map[max_buttons] = {0};
 
@@ -146,7 +147,7 @@ SDL_GameController *get_controller()
     return controller;
 }
 
-static int one_of_two( const int arr[2], int val )
+static int one_of_two( const std::array<int, 2> &arr, int val )
 {
     if( arr[0] == val ) {
         return 0;
@@ -175,7 +176,8 @@ static void send_input( int ibtn, input_event_t itype = input_event_t::gamepad )
     last_input = input_event( ibtn, itype );
 }
 
-static void dpad_changes( task_t &task, const int m[16], Uint32 now, int old_state, int new_state )
+static void dpad_changes( task_t &task, const std::array<int, 16> &m, Uint32 now, int old_state,
+                          int new_state )
 {
     // get rid of unneeded bits
     old_state &= 0b1111;
