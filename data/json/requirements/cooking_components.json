@@ -1018,6 +1018,7 @@
         [ "burdock_cooked", 1 ],
         [ "bamboo_cooked", 1 ],
         [ "salsify_baked", 1 ],
+        [ "groundnut_prepared", 1 ],
         [ "veggy_any_uncooked", 1, "LIST" ],
         [ "veggy_canned", 1 ],
         [ "veggy_salted", 1 ]

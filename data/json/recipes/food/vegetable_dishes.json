@@ -314,5 +314,39 @@
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_forage_cooking" } ],
     "tools": [ [ [ "bag_canvas", -1 ], [ "pillowcase", -1 ], [ "sheet", -1 ] ] ],
     "components": [ [ [ "acorns", 20 ] ], [ [ "water", 40 ], [ "water_clean", 40 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "groundnut_prepared",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_VEGGI",
+    "skill_used": "cooking",
+    "difficulty": 1,
+    "skills_required": [ "survival", 1 ],
+    "time": "15 m",
+    "batch_time_factors": [ 80, 4 ],
+    "autolearn": true,
+    "qualities": [ { "id": "BOIL", "level": 1 }, { "id": "CUT", "level": 1 } ],
+    "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ] ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_forage_cooking" }, { "proficiency": "prof_knife_skills" } ],
+    "components": [ [ [ "groundnut", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "groundnut_boiled",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_VEGGI",
+    "skill_used": "cooking",
+    "difficulty": 1,
+    "skills_required": [ "survival", 1 ],
+    "time": "15 m",
+    "batch_time_factors": [ 99, 1 ],
+    "autolearn": true,
+    "qualities": [ { "id": "BOIL", "level": 1 } ],
+    "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ] ],
+    "//": "No proficiencies required. This is literally just boiling them in a pot of water",
+    "components": [ [ [ "groundnut_prepared", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
   }
 ]
