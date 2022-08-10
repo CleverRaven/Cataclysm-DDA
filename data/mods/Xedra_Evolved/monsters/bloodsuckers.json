@@ -41,7 +41,8 @@
         "type": "bite",
         "cooldown": 10,
         "damage_max_instance": [ { "damage_type": "stab", "amount": 10, "armor_multiplier": 0.2 } ]
-      }
+      },
+      [ "GRAB", 7 ]
     ],
     "death_drops": "default_moroi_death_drops",
     "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "REVIVES", "PUSH_MON", "VAMP_VIRUS" ]
@@ -89,7 +90,8 @@
         "type": "bite",
         "cooldown": 10,
         "damage_max_instance": [ { "damage_type": "stab", "amount": 10, "armor_multiplier": 0.2 } ]
-      }
+      },
+      [ "GRAB", 7 ]
     ],
     "death_drops": "default_moroi_death_drops",
     "flags": [ "SEES", "HEARS", "SMELLS", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "PUSH_MON", "FILTHY", "VAMP_VIRUS" ]

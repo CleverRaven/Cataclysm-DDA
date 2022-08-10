@@ -16,6 +16,28 @@
     "min_range": 1,
     "max_range": 1,
     "shape": "blast",
-    "extra_effects": [ { "id": "light_healing", "hit_self": true } ]
+    "extra_effects": [ { "id": "xe_light_healing", "hit_self": true } ]
+  },
+  {
+    "id": "xe_light_healing",
+    "type": "SPELL",
+    "name": "Cure Light Wounds",
+    "description": "Heals a little bit of damage on the target.",
+    "valid_targets": [ "self", "ally" ],
+    "min_damage": -5,
+    "max_damage": -20,
+    "damage_increment": -1.0,
+    "max_level": 15,
+    "min_range": 0,
+    "max_range": 4,
+    "range_increment": 0.75,
+    "effect": "attack",
+    "shape": "blast",
+    "base_casting_time": 300,
+    "base_energy_cost": 800,
+    "flags": [ "SOMATIC", "VERBAL", "NO_PROJECTILE" ],
+    "spell_class": "BIOMANCER",
+    "difficulty": 2,
+    "energy_source": "MANA"
   }
 ]

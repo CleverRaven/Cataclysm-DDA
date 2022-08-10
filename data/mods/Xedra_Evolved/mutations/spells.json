@@ -74,11 +74,10 @@
     "effect": "effect_on_condition",
     "effect_str": "consume_human_blood",
     "shape": "blast",
-    "energy_source": "HP",
+    "energy_source": "NONE",
     "skill": "deduction",
     "base_casting_time": 500,
     "base_energy_cost": 0,
-    "final_energy_cost": 0,
     "components": "spell_components_human_blood",
     "flags": [ "SILENT", "NO_LEGS", "NO_FAIL" ],
     "difficulty": 0
