@@ -35,7 +35,8 @@ static const vitamin_id vitamin_mutagen_test( "mutagen_test" );
 
 static std::string get_mutations_as_string( const Character &you );
 
-static void verify_mutation_flag( Character &you, std::string trait_name, std::string flag_name ) {
+static void verify_mutation_flag( Character &you, std::string trait_name, std::string flag_name )
+{
     clear_avatar();
     set_single_trait( you, trait_name );
     GIVEN( "trait: " + trait_name + ", flag: " + flag_name ) {
@@ -495,7 +496,8 @@ TEST_CASE( "Chance of bad mutations vs instability", "[mutations][instability]" 
 // If has_trait( trait_XXX )-checks for a certain trait have been 'flagified' to check for
 // has_flag( json_flag_XXX ) instead the check should be added here and it's recommended to
 // reference to the PR that changes it.
-TEST_CASE( "The mutation flags are associated to the corresponding base mutations", "[mutations][flags]" )
+TEST_CASE( "The mutation flags are associated to the corresponding base mutations",
+           "[mutations][flags]" )
 {
     Character &dummy = get_player_character();
 
