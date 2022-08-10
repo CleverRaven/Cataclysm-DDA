@@ -529,7 +529,7 @@
     "price_postapoc": 50,
     "material": [ "veggy" ],
     "volume": "250 ml",
-    "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
+    "flags": [ "EATEN_HOT"  ],
     "fun": 3,
     "vitamins": [ [ "vitC", 9 ], [ "calcium", 13 ], [ "iron", 8 ] ]
   },
