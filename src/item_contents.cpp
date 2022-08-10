@@ -204,9 +204,14 @@ void pocket_favorite_callback::move_item( uilist *menu, item_pocket *selected_po
             }
         }
     } else {
-        // storage should mimick character inserting
-        get_avatar().as_character()->store( selected_pocket, *item_to_move.first );
-
+        // If no pockets are enabled, uilist allows scrolling through them, so we need to recheck
+        ret_val<item_pocket::contain_code> contain = selected_pocket->can_contain( *item_to_move.first );
+        if( contain.success() ) {
+            // storage should mimick character inserting
+            get_avatar().as_character()->store( selected_pocket, *item_to_move.first );
+        } else {
+            popup( _( string_format( "Cannot put item in pocket because %s", contain.str() ) ) );
+        }
         // reset the moved item
         item_to_move = { nullptr, nullptr };
 
