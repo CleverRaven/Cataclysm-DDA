@@ -5910,6 +5910,11 @@ void vehicle::refresh( const bool remove_fakes )
         for( const int fake_index : current_fakes ) {
             add_fake_part( parts.at( fake_index ).mount, "PROTRUSION" );
         }
+
+        // add fake camera parts so vision isn't blocked by fake parts
+        for( const std::pair <const point, std::vector<int>> &rp : relative_parts ) {
+            add_fake_part( rp.first, "CAMERA" );
+        }
     } else {
         // Always repopulate fake parts in relative_parts cache since we cleared it.
         for( const int fake_index : fake_parts ) {
@@ -6970,6 +6975,9 @@ std::list<item *> vehicle::fuel_items_left()
 
 bool vehicle::is_foldable() const
 {
+    if( has_tag( flag_APPLIANCE ) ) {
+        return false;
+    }
     for( const vpart_reference &vp : get_all_parts() ) {
         if( !vp.has_feature( "FOLDABLE" ) ) {
             return false;

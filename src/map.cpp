@@ -172,7 +172,8 @@ units::volume map_stack::max_volume() const
 
 // Map class methods.
 
-map::map( int mapsize, bool zlev ) : my_MAPSIZE( mapsize ), zlevels( zlev )
+map::map( int mapsize, bool zlev ) : my_MAPSIZE( mapsize ), my_HALF_MAPSIZE( mapsize / 2 ),
+    zlevels( zlev )
 {
 
     if( zlevels ) {
@@ -4327,6 +4328,25 @@ void map::transform_radius( ter_furn_transform_id transform, float radi,
     }
 }
 
+void map::transform_line( ter_furn_transform_id transform, const tripoint_abs_ms &first,
+                          const tripoint_abs_ms &second )
+{
+    tripoint_abs_ms avatar_pos = get_avatar().get_location();
+    bool shifted = false;
+    if( !get_map().inbounds( get_map().getlocal( first ) ) ) {
+        g->place_player_overmap( project_to<coords::omt>( first ), false );
+        shifted = true;
+    }
+
+    for( const tripoint_abs_ms &t : line_to( first, second ) ) {
+        transform->transform( *this, getlocal( t ), shifted );
+    }
+
+    if( shifted ) {
+        g->place_player_overmap( project_to<coords::omt>( avatar_pos ), false );
+    }
+}
+
 bool map::close_door( const tripoint &p, const bool inside, const bool check_only )
 {
     if( has_flag( ter_furn_flag::TFLAG_OPENCLOSE_INSIDE, p ) && !inside ) {
@@ -8217,13 +8237,14 @@ bool map::inbounds( const tripoint_bub_ms &p ) const
     return inbounds( p.raw() );
 }
 
-bool map::inbounds( const tripoint_abs_sm &p ) const
+bool map::inbounds( const tripoint_abs_omt &p ) const
 {
+    const tripoint_abs_omt map_origin = project_to<coords::omt>( abs_sub );
     return inbounds_z( p.z() ) &&
-           p.x() >= abs_sub.x() &&
-           p.y() >= abs_sub.y() &&
-           p.x() < abs_sub.x() + my_MAPSIZE &&
-           p.y() < abs_sub.y() + my_MAPSIZE;
+           p.x() >= map_origin.x() &&
+           p.y() >= map_origin.y() &&
+           p.x() <= map_origin.x() + my_HALF_MAPSIZE &&
+           p.y() <= map_origin.y() + my_HALF_MAPSIZE;
 }
 
 bool tinymap::inbounds( const tripoint &p ) const

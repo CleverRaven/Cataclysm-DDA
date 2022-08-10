@@ -307,7 +307,7 @@ static void draw_messages( const draw_args &args )
     const catacurses::window &w = args._win;
 
     werase( w );
-    int line = getmaxy( w ) - 2;
+    int line = getmaxy( w ) - 1;
     int maxlength = getmaxx( w );
     Messages::display_messages( w, 1, 0 /*topline*/, maxlength - 1, line );
     wnoutrefresh( w );
