@@ -149,6 +149,7 @@
     "color": "light_green",
     "aggression": -20,
     "morale": 70,
+    "aggro_character": false,
     "vision_day": 50,
     "vision_night": 20,
     "starting_ammo": { "123ln": 10 },

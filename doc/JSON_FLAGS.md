@@ -935,17 +935,17 @@ Flags used to describe monsters and define their properties and abilities.
 ### Anger, Fear and Placation Triggers
 
 - ```FIRE``` Triggers if there's a fire within 3 tiles, the strength of the effect equals 5 * the field intensity of the fire.
-- ```FRIEND_ATTACKED``` Triggers if the monster sees another monster of a friendly faction being attacked; strength = 15.  **Requires** an instance of the trigger on the attacked monster as well(the trigger type need not match, just the trigger itself)!
-- ```FRIEND_DIED``` Triggers if the monster sees another monster of a friendly faction dying; strength = 15.  **Requires** an instance of the trigger on the attacked monster as well(the trigger type need not match, just the trigger itself)!
-- ```HURT``` Triggers when the monster is hurt, strength equals 1 + (damage / 3 ).
+- ```FRIEND_ATTACKED``` Triggers if the monster sees another monster of a friendly faction being attacked; strength = 15.  **Requires** an instance of the trigger on the attacked monster as well(the trigger type need not match, just the trigger itself)!  Always triggers character aggro see [MONSTERS.md](MONSTERS.md#aggrocharacter).
+- ```FRIEND_DIED``` Triggers if the monster sees another monster of a friendly faction dying; strength = 15.  **Requires** an instance of the trigger on the attacked monster as well(the trigger type need not match, just the trigger itself)!  Always triggers character aggro.
+- ```HURT``` Triggers when the monster is hurt, strength equals 1 + (damage / 3 ).  Always triggers character aggro.
 - ```NULL``` Source use only?
-- ```PLAYER_CLOSE``` Triggers when a potential enemy is within 5 tiles range - Anger/fear trigger only!
-- ```PLAYER_WEAK``` Raises monster aggression by  10 - (percent of hp remaining / 10) if a potential enemy has less than 70% hp remaining - Anger trigger only!
-- ```PLAYER_NEAR_BABY``` Increases monster aggression by 8 and morale by 4 if **the player** comes within 3 tiles of its offspring (defined by the baby_monster field in its reproduction data)- Anger trigger only!
+- ```PLAYER_CLOSE``` Triggers when a potential enemy is within 5 tiles range - Anger/fear trigger only!  Triggers character aggro `<anger>%` of the time.
+- ```PLAYER_WEAK``` Strength = `10 - (percent of hp remaining / 10)` if a non-friendly critter has less than 70% hp remaining .  Triggers character aggro `<anger>%` of the time.
+- ```PLAYER_NEAR_BABY``` Increases monster aggression by 8 and morale by 4 if **the player** comes within 3 tiles of its offspring (defined by the baby_monster field in its reproduction data)- Anger trigger only!  Always triggers character aggro.
 - ```SOUND``` Not an actual trigger, monsters above 10 aggression and 0 morale will wander towards, monsters below 0 morale will wander away from the source of the sound for 1 turn (6, if they have the `GOODHEARING` flag).
 - ```STALK``` Raises monster aggression by 1, triggers 20% of the time each turn if aggression > 5 - Anger trigger only!
-- ```HOSTILE_SEEN``` Increases aggression/ decreases morale by a random amount between 0-2 for every potential enemy it can see, up to 20 aggression - Anger/fear trigger only!
-- ```MATING_SEASON``` Increases aggression by 3 if a potential enemy is within 5 tiles range and the season is the same as the monster's mating season (defined by the baby_flags field in its reproduction data) - Anger trigger only!
+- ```HOSTILE_SEEN``` Increases aggression/ decreases morale by a random amount between 0-2 for every potential enemy it can see, up to 20 aggression - Anger/fear trigger only!  Triggers character aggro `<anger/2>%` of the time.
+- ```MATING_SEASON``` Increases aggression by 3 if a potential enemy is within 5 tiles range and the season is the same as the monster's mating season (defined by the baby_flags field in its reproduction data) - Anger trigger only!  Triggers character aggro `<anger>%` of the time.
 
 ### Categories
 
