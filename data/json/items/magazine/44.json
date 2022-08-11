@@ -8,7 +8,7 @@
     "\\": "Based on Speed Beez 44 Magnum 6 Shot Speed Loader",
     "weight": "315 g",
     "volume": "73 ml",
-    "longest_side": "5 cm"
+    "longest_side": "5 cm",
     "price": 1600,
     "price_postapoc": 100,
     "material": [ "steel" ],
@@ -27,7 +27,7 @@
     "\\": "Measurements based on an OEM .44 magazine.",
     "weight": "180 g",
     "volume": "98 ml",
-    "longest_side": "11 cm"
+    "longest_side": "11 cm",
     "price": 6750,
     "price_postapoc": 100,
     "material": [ "steel" ],
