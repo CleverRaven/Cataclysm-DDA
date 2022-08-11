@@ -1141,7 +1141,8 @@
       "SUN_GLASSES",
       "RAD_RESIST",
       "NO_REPAIR",
-      "NANOFAB_REPAIR"
+      "NANOFAB_REPAIR",
+      "SOFT"
     ],
     "price": 50000000,
     "price_postapoc": 10000,
@@ -1222,7 +1223,8 @@
       "TRADER_AVOID",
       "CLIMATE_CONTROL",
       "NO_REPAIR",
-      "NANOFAB_REPAIR"
+      "NANOFAB_REPAIR",
+      "SOFT"
     ],
     "material": [ "hyperweave_on", "kevlar", "carbide" ],
     "turns_per_charge": 10,
@@ -1259,7 +1261,7 @@
           { "type": "carbide", "covered_by_mat": 100, "thickness": 0.5 },
           { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 },
           { "type": "hyperweave_on", "covered_by_mat": 100, "thickness": 1.5 },
-          { "type": "rubber", "covered_by_mat": 20, "thickness": 2.0 }
+          { "type": "rubber", "covered_by_mat": 10, "thickness": 2.0 }
         ],
         "encumbrance": 2,
         "coverage": 100,
