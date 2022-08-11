@@ -210,7 +210,8 @@ void pocket_favorite_callback::move_item( uilist *menu, item_pocket *selected_po
             // storage should mimick character inserting
             get_avatar().as_character()->store( selected_pocket, *item_to_move.first );
         } else {
-            popup( _( string_format( "Cannot put item in pocket because %s", contain.str() ) ) );
+            const std::string base_string = _( "Cannot put item in pocket because %s" );
+            popup( string_format( base_string, contain.str() ) );
         }
         // reset the moved item
         item_to_move = { nullptr, nullptr };
