@@ -907,7 +907,6 @@ static const std::set<itype_id> known_bad = {
     itype_id( "id_artisan_member" ), // NOLINT(cata-static-string_id-constants)
     itype_id( "large_surface_pseudo" ), // NOLINT(cata-static-string_id-constants)
     itype_id( "deployment_bag" ), // NOLINT(cata-static-string_id-constants)
-    itype_id( "lab_postit_blob" ), // NOLINT(cata-static-string_id-constants)
     itype_id( "chem_ferric_chloride" ), // NOLINT(cata-static-string_id-constants)
     itype_id( "venom_bee" ), // NOLINT(cata-static-string_id-constants)
     itype_id( "bot_rifleturret" ), // NOLINT(cata-static-string_id-constants)
@@ -963,7 +962,6 @@ static const std::set<itype_id> known_bad = {
     itype_id( "brew_hb_beer" ), // NOLINT(cata-static-string_id-constants)
     itype_id( "corpse_gunned" ), // NOLINT(cata-static-string_id-constants)
     itype_id( "AID_bio_railgun" ), // NOLINT(cata-static-string_id-constants)
-    itype_id( "lab_postit_tech" ), // NOLINT(cata-static-string_id-constants)
     itype_id( "tactical_shotshell_pouch" ), // NOLINT(cata-static-string_id-constants)
     itype_id( "recipe_caseless" ), // NOLINT(cata-static-string_id-constants)
     itype_id( "mortar_lime" ), // NOLINT(cata-static-string_id-constants)
@@ -1127,7 +1125,6 @@ static const std::set<itype_id> known_bad = {
     itype_id( "steel_ballistic_plate" ), // NOLINT(cata-static-string_id-constants)
     itype_id( "wood_plate" ), // NOLINT(cata-static-string_id-constants)
     itype_id( "nailgun" ), // NOLINT(cata-static-string_id-constants)
-    itype_id( "note_mutant_alpha_boss" ), // NOLINT(cata-static-string_id-constants)
     itype_id( "prozac" ), // NOLINT(cata-static-string_id-constants)
     itype_id( "cocaine_topical" ), // NOLINT(cata-static-string_id-constants)
     itype_id( "AID_bio_climate" ), // NOLINT(cata-static-string_id-constants)
@@ -1222,7 +1219,6 @@ static const std::set<itype_id> known_bad = {
     itype_id( "bp_shot_slug" ), // NOLINT(cata-static-string_id-constants)
     itype_id( "gatling_mech_laser_single" ), // NOLINT(cata-static-string_id-constants)
     itype_id( "chilly-p" ), // NOLINT(cata-static-string_id-constants)
-    itype_id( "survnote" ), // NOLINT(cata-static-string_id-constants)
     itype_id( "book_anthology_cw" ), // NOLINT(cata-static-string_id-constants)
     itype_id( "brew_burdock_wine" ), // NOLINT(cata-static-string_id-constants)
     itype_id( "firecracker_pack" ), // NOLINT(cata-static-string_id-constants)
@@ -1414,7 +1410,6 @@ static const std::set<itype_id> known_bad = {
     itype_id( "combination_gun_shotgun" ), // NOLINT(cata-static-string_id-constants)
     itype_id( "mask_dust" ), // NOLINT(cata-static-string_id-constants)
     itype_id( "small_relic" ), // NOLINT(cata-static-string_id-constants)
-    itype_id( "lab_postit_bio" ), // NOLINT(cata-static-string_id-constants)
     itype_id( "tanned_hide" ), // NOLINT(cata-static-string_id-constants)
     itype_id( "reloaded_shot_00" ), // NOLINT(cata-static-string_id-constants)
     itype_id( "test_mp3" ), // NOLINT(cata-static-string_id-constants)
@@ -1517,7 +1512,6 @@ static const std::set<itype_id> known_bad = {
     itype_id( "exodii_ingot_tin" ), // NOLINT(cata-static-string_id-constants)
     itype_id( "meat_pickled" ), // NOLINT(cata-static-string_id-constants)
     itype_id( "cigar" ), // NOLINT(cata-static-string_id-constants)
-    itype_id( "lab_postit_migo" ), // NOLINT(cata-static-string_id-constants)
     itype_id( "plastic_spoon" ), // NOLINT(cata-static-string_id-constants)
     itype_id( "jabberwock_heart" ), // NOLINT(cata-static-string_id-constants)
     itype_id( "cup_foil" ), // NOLINT(cata-static-string_id-constants)
@@ -1706,7 +1700,6 @@ static const std::set<itype_id> known_bad = {
     itype_id( "candy4" ), // NOLINT(cata-static-string_id-constants)
     itype_id( "unfinished_cac2" ), // NOLINT(cata-static-string_id-constants)
     itype_id( "arrow_plastic" ), // NOLINT(cata-static-string_id-constants)
-    itype_id( "lab_postit_portal" ), // NOLINT(cata-static-string_id-constants)
     itype_id( "reloaded_shot_slug" ), // NOLINT(cata-static-string_id-constants)
     itype_id( "broken_grenade_hack" ), // NOLINT(cata-static-string_id-constants)
     itype_id( "shot_he" ), // NOLINT(cata-static-string_id-constants)
@@ -1915,7 +1908,7 @@ TEST_CASE( "item_material_density_sanity_check", "[item]" )
     }
 }
 
-TEST_CASE( "item_material_density_blacklist_is_pruned", "[item][!mayfail]" )
+TEST_CASE( "item_material_density_blacklist_is_pruned", "[item]" )
 {
     for( const itype_id &bad : known_bad ) {
         if( !bad.is_valid() ) {
@@ -1927,7 +1920,8 @@ TEST_CASE( "item_material_density_blacklist_is_pruned", "[item][!mayfail]" )
         }
         const std::map<material_id, int> &mats = target.made_of();
         if( !mats.empty() ) {
-            INFO( bad.str() );
+            INFO( string_format( "%s had its density fixed, remove it from the known_bad list in tests\\item_test.cpp",
+                                 bad.str() ) );
             const float max_density = max_density_for_mats( mats, bad->mat_portion_total );
             // Failing? Just remove the relevant items from the known_bad list above
             CHECK( item_density( target ) > max_density );
