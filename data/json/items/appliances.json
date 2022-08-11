@@ -323,6 +323,7 @@
   },
   {
     "type": "GENERIC",
+    "category": "other",
     "id": "compact_ASRG_containment",
     "name": { "str_sp": "Shielded Compact Advanced Sterling Radioisotope Generator" },
     "looks_like": "t_plut_generator",
