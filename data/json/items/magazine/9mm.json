@@ -751,7 +751,7 @@
     "type": "MAGAZINE",
     "name": { "str": "TEC-9 72-round drum magazine" },
     "description": "A bulky 72-round steel drum magazine for use with the TEC-9 SMG.",
-    "//": "Couldn't find, so basing off of similar drums"
+    "//": "Couldn't find, so basing off of similar drums",
     "weight": "600 g",
     "volume": "700 ml",
     "price": 4300,
