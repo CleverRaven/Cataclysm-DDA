@@ -7,7 +7,7 @@
     "description": "A surprisingly compact 50-round helical magazine for use with the Calico M960 SMG.",
     "weight": "200 g",
     "volume": "500 ml",
-    "longest_side": "14 cm"
+    "longest_side": "14 cm",
     "price": 9920,
     "price_postapoc": 500,
     "material": [ "steel", "plastic" ],
@@ -26,7 +26,7 @@
     "description": "A surprisingly compact 100-round helical magazine for use with the Calico M960 SMG.",
     "weight": "400 g",
     "volume": "1000 ml",
-    "longest_side": "28 cm"
+    "longest_side": "28 cm",
     "price": 12000,
     "price_postapoc": 700,
     "material": [ "steel" ],
@@ -45,7 +45,7 @@
     "description": "Often called a 'stendo', this extended 33-round polymer magazine will work with 9mm Glock pistols.",
     "weight": "159 g",
     "volume": "183 ml",
-    "longest_side": "21 cm"
+    "longest_side": "21 cm",
     "//" "Based on the OEM 33-Round magazine",
     "price": 4700,
     "price_postapoc": 500,
@@ -65,7 +65,7 @@
     "description": "A compact light-weight polymer magazine for use with 9mm Glock pistols.",
     "weight": "68 g",
     "volume": "78 ml",
-    "longest_side": "10 cm"
+    "longest_side": "10 cm",
     "price": 2900,
     "price_postapoc": 100,
     "material": [ "plastic" ],
@@ -83,7 +83,7 @@
     "description": "Made for the Glock 17, this magazine holds 17 rounds.",
     "weight": "80 g",
     "volume": "88 ml",
-    "longest_side": "12 cm"
+    "longest_side": "12 cm",
     "price": 2900,
     "price_postapoc": 100,
     "material": [ "plastic" ],
@@ -102,7 +102,7 @@
     "description": "Made for 9mm Glock pistols, this aftermarket magazine holds 22 rounds.",
     "weight": "89 g",
     "volume": "102 ml",
-    "longest_side": "14 cm"
+    "longest_side": "14 cm",
     "price": 3500,
     "price_postapoc": 200,
     "material": [ "plastic" ],
@@ -120,7 +120,7 @@
     "description": "Made to fit 9mm Glock pistols.  This bulky drum magazine holds 50 rounds.",
     "weight": "490 g",
     "volume": "553 ml",
-    "longest_side": "15 cm"
+    "longest_side": "15 cm",
     "price": 2000,
     "price_postapoc": 750,
     "material": [ "plastic" ],
@@ -138,7 +138,7 @@
     "description": "Often referred to as the century magazine, this gigantic double drum magazine holds 100 rounds.",
     "weight": "998 g",
     "volume": "1363 ml",
-    "longest_side": "28 cm"
+    "longest_side": "28 cm",
     "price": 3100,
     "price_postapoc": 750,
     "material": [ "plastic" ],
@@ -156,7 +156,7 @@
     "description": "A 35-round extended magazine compatible with both the M9 handgun and some modern carbines.",
     "weight": "226 g",
     "volume": "192 ml",
-    "longest_side": "23 cm"
+    "longest_side": "23 cm",
     "price": 3800,
     "price_postapoc": 540,
     "material": [ "steel" ],
@@ -545,7 +545,7 @@
     "\\": "Estimates for PX4 mags based on similar M9 magazine sizes, if anyone has some feel free to put in your measured values.",
     "weight": "97 g",
     "volume": "82 ml",
-    "longest_side": "11 cm"
+    "longest_side": "11 cm",
     "price": 3000,
     "price_postapoc": 80,
     "material": [ "steel" ],
