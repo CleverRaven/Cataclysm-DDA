@@ -1118,6 +1118,11 @@ double Character::crafting_success_roll( const recipe &making ) const
         secondary_level_count += count_secondaries.second;
         secondary_difficulty += std::pow( count_secondaries.second, 2 );
     }
+    
+    // The actual difficulty of the skill check is equal to:
+    // (2*(primary skill difficulty)^2 + (sum of secondary difficulties)) / (2*(primary skill difficulty) + number of secondary skills)
+    // This is basically just a hard to read weighted average formula: the fact that the primary difficulty gets squared
+    // and then divided out again makes it a bit messy. Sorry, less mathy friends.
     const float final_difficulty =
         ( 2.0f * making.difficulty * making.difficulty + 1.0f * secondary_difficulty ) /
         ( 2.0f * making.difficulty + 1.0f * secondary_level_count );
