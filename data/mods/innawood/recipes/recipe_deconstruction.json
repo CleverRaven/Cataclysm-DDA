@@ -1,0 +1,75 @@
+[
+  {
+    "result": "battery_car_clay",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "5 m",
+    "qualities": [ { "id": "HAMMER", "level": 2 } ],
+    "components": [ [ [ "chem_sulphuric_acid", 13 ] ], [ [ "lead", 2247 ] ], [ [ "ceramic_shard", 3 ] ] ]
+  },
+  {
+    "result": "rock_large",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "fabrication",
+    "time": "5 m",
+    "tools": [ [ [ "pickaxe", -1 ], [ "bronze_pickaxe", -1 ], [ "jackhammer", 1 ], [ "elec_jackhammer", 50 ] ] ],
+    "components": [ [ [ "rock", 24 ] ] ]
+  },
+  {
+    "result": "heavy_dry_cell",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "5 m",
+    "qualities": [ { "id": "PRY", "level": 1 } ],
+    "components": [ [ [ "heavy_battery_shell", 1 ] ] ]
+  },
+  {
+    "result": "medium_dry_cell",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "5 m",
+    "qualities": [ { "id": "PRY", "level": 1 } ],
+    "components": [ [ [ "medium_battery_shell", 1 ] ] ]
+  },
+  {
+    "result": "light_dry_cell",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "5 m",
+    "qualities": [ { "id": "PRY", "level": 1 } ],
+    "components": [ [ [ "light_battery_shell", 1 ] ] ]
+  },
+  {
+    "result": "heavy_disposable_cell",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "5 m",
+    "qualities": [ { "id": "PRY", "level": 1 } ],
+    "components": [ [ [ "heavy_battery_shell", 1 ] ] ]
+  },
+  {
+    "result": "medium_disposable_cell",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "5 m",
+    "qualities": [ { "id": "PRY", "level": 1 } ],
+    "components": [ [ [ "medium_battery_shell", 1 ] ] ]
+  },
+  {
+    "result": "light_disposable_cell",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "5 m",
+    "qualities": [ { "id": "PRY", "level": 1 } ],
+    "components": [ [ [ "light_battery_shell", 1 ] ] ]
+  },
+  {
+    "result": "sheet_fibercloth",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "30 s",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "fibercloth_patchwork", 8 ] ] ]
+  }
+]

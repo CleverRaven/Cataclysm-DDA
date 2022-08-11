@@ -19,49 +19,49 @@
     "type": "trait_group",
     "id": "Appearance_Irish",
     "subtype": "collection",
-    "traits": [ { "group": "Hair_Irish", "prob": 100 }, { "group": "Skin_Fair", "prob": 100 } ]
+    "traits": [ { "group": "Hair_Irish", "prob": 100 }, { "group": "Skin_Fair", "prob": 100 }, { "group": "Eye_light", "prob": 100 } ]
   },
   {
     "type": "trait_group",
     "id": "Appearance_Caucasian",
     "subtype": "collection",
-    "traits": [ { "group": "Hair_Any", "prob": 100 }, { "group": "Skin_White", "prob": 100 } ]
+    "traits": [ { "group": "Hair_Any", "prob": 100 }, { "group": "Skin_White", "prob": 100 }, { "group": "Eye_any", "prob": 100 } ]
   },
   {
     "type": "trait_group",
     "id": "Appearance_Germanic",
     "subtype": "collection",
-    "traits": [ { "group": "Hair_Fair", "prob": 100 }, { "group": "Skin_Fair", "prob": 100 } ]
+    "traits": [ { "group": "Hair_Fair", "prob": 100 }, { "group": "Skin_Fair", "prob": 100 }, { "group": "Eye_light", "prob": 100 } ]
   },
   {
     "type": "trait_group",
     "id": "Appearance_Latin",
     "subtype": "collection",
-    "traits": [ { "group": "Hair_Dark", "prob": 100 }, { "group": "Skin_Medium", "prob": 100 } ]
+    "traits": [ { "group": "Hair_Dark", "prob": 100 }, { "group": "Skin_Medium", "prob": 100 }, { "group": "Eye_dark", "prob": 100 } ]
   },
   {
     "type": "trait_group",
     "id": "Appearance_African",
     "subtype": "collection",
-    "traits": [ { "group": "Hair_Dark", "prob": 100 }, { "group": "Skin_Dark", "prob": 100 } ]
+    "traits": [ { "group": "Hair_Dark", "prob": 100 }, { "group": "Skin_Dark", "prob": 100 }, { "group": "Eye_dark", "prob": 100 } ]
   },
   {
     "type": "trait_group",
     "id": "Appearance_EastAsian",
     "subtype": "collection",
-    "traits": [ { "group": "Hair_Dark", "prob": 100 }, { "trait": "SKIN_TAN", "prob": 100 } ]
+    "traits": [ { "group": "Hair_Dark", "prob": 100 }, { "trait": "SKIN_TAN", "prob": 100 }, { "group": "Eye_dark", "prob": 100 } ]
   },
   {
     "type": "trait_group",
     "id": "Appearance_SouthAsian",
     "subtype": "collection",
-    "traits": [ { "group": "Hair_Dark", "prob": 100 }, { "trait": "SKIN_TAN", "prob": 100 } ]
+    "traits": [ { "group": "Hair_Dark", "prob": 100 }, { "trait": "SKIN_TAN", "prob": 100 }, { "group": "Eye_dark", "prob": 100 } ]
   },
   {
     "type": "trait_group",
     "id": "Appearance_Mixed",
     "subtype": "collection",
-    "traits": [ { "group": "Hair_Any", "prob": 100 }, { "group": "Skin_Any", "prob": 100 } ]
+    "traits": [ { "group": "Hair_Any", "prob": 100 }, { "group": "Skin_Any", "prob": 100 }, { "group": "Eye_any", "prob": 100 } ]
   },
   {
     "type": "trait_group",
@@ -152,6 +152,39 @@
     "id": "Skin_Dark",
     "subtype": "distribution",
     "traits": [ { "trait": "SKIN_DARK", "prob": 50 }, { "trait": "SKIN_MEDIUM", "prob": 5 }, { "trait": "SKIN_TAN", "prob": 25 } ]
+  },
+  {
+    "type": "trait_group",
+    "id": "Eye_light",
+    "subtype": "distribution",
+    "traits": [
+      { "trait": "eye_color", "variant": "blue", "prob": 55 },
+      { "trait": "eye_color", "variant": "gray", "prob": 25 },
+      { "trait": "eye_color", "variant": "green", "prob": 15 }
+    ]
+  },
+  {
+    "type": "trait_group",
+    "id": "Eye_dark",
+    "subtype": "distribution",
+    "traits": [
+      { "trait": "eye_color", "variant": "brown", "prob": 60 },
+      { "trait": "eye_color", "variant": "hazel", "prob": 20 },
+      { "trait": "eye_color", "variant": "amber", "prob": 20 }
+    ]
+  },
+  {
+    "type": "trait_group",
+    "id": "Eye_any",
+    "subtype": "distribution",
+    "traits": [
+      { "trait": "eye_color", "variant": "brown", "prob": 70 },
+      { "trait": "eye_color", "variant": "hazel", "prob": 9 },
+      { "trait": "eye_color", "variant": "amber", "prob": 8 },
+      { "trait": "eye_color", "variant": "blue", "prob": 8 },
+      { "trait": "eye_color", "variant": "gray", "prob": 3 },
+      { "trait": "eye_color", "variant": "green", "prob": 2 }
+    ]
   },
   {
     "type": "trait_group",

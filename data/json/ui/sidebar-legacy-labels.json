@@ -1,0 +1,201 @@
+[
+  {
+    "id": "ll_left_limbs_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "text_align": "right",
+    "widgets": [ "status_hpg_layout_larm", "status_hpg_layout_lleg" ]
+  },
+  {
+    "id": "ll_middle_limbs_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "text_align": "center",
+    "widgets": [ "status_hpg_layout_head", "status_hpg_layout_torso" ]
+  },
+  {
+    "id": "ll_right_limbs_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "widgets": [ "status_hpg_layout_rarm", "status_hpg_layout_rleg" ]
+  },
+  {
+    "id": "ll_limbs_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Limbs",
+    "arrange": "columns",
+    "widgets": [ "ll_left_limbs_layout", "ll_middle_limbs_layout", "ll_right_limbs_layout" ]
+  },
+  {
+    "id": "ll_left_limbs_sa_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "text_align": "right",
+    "widgets": [ "status_hpn_layout_larm", "status_hpn_layout_lleg" ]
+  },
+  {
+    "id": "ll_middle_limbs_sa_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "text_align": "center",
+    "widgets": [ "status_hpn_layout_head", "status_hpn_layout_torso" ]
+  },
+  {
+    "id": "ll_right_limbs_sa_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "widgets": [ "status_hpn_layout_rarm", "status_hpn_layout_rleg" ]
+  },
+  {
+    "id": "ll_limbs_sa_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Limbs (self-aware)",
+    "arrange": "columns",
+    "widgets": [ "ll_left_limbs_sa_layout", "ll_middle_limbs_sa_layout", "ll_right_limbs_sa_layout" ],
+    "flags": [ "W_DISABLED_BY_DEFAULT" ]
+  },
+  {
+    "id": "ll_stamina_speed_move_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Stamina/Speed/Move",
+    "arrange": "columns",
+    "widgets": [ "stamina_graph_classic", "speed_num", "move_count_mode_desc" ]
+  },
+  {
+    "id": "ll_movement_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Movement",
+    "arrange": "rows",
+    "widgets": [ "sound_mood_focus_layout", "ll_stamina_speed_move_layout" ]
+  },
+  {
+    "id": "ll_str_dex_power_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Str/Dex/Power",
+    "arrange": "columns",
+    "widgets": [ "str_num", "dex_num", "power_short_desc" ]
+  },
+  {
+    "id": "ll_int_per_safe_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Int/Per/Safe",
+    "arrange": "columns",
+    "widgets": [ "int_num", "per_num", "safe_mode_desc" ]
+  },
+  {
+    "id": "ll_stats_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Stats",
+    "arrange": "rows",
+    "widgets": [ "ll_str_dex_power_layout", "ll_int_per_safe_layout" ]
+  },
+  {
+    "id": "ll_pain_thirst_desc_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "columns",
+    "widgets": [ "pain_desc_label", "thirst_desc_label" ]
+  },
+  {
+    "id": "ll_pain_num_thirst_desc_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "columns",
+    "widgets": [ "pain_num_label", "thirst_desc_label" ]
+  },
+  {
+    "id": "ll_rest_hunger_desc_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "columns",
+    "widgets": [ "fatigue_desc_label", "hunger_desc_label" ]
+  },
+  {
+    "id": "ll_heat_weight_desc_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "columns",
+    "widgets": [ "body_temp_desc_label", "weight_desc_label" ]
+  },
+  {
+    "id": "ll_needs_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Needs",
+    "arrange": "rows",
+    "widgets": [ "ll_pain_thirst_desc_layout", "ll_rest_hunger_desc_layout", "ll_heat_weight_desc_layout" ]
+  },
+  {
+    "id": "ll_needs_sa_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Needs (self-aware)",
+    "arrange": "rows",
+    "widgets": [ "ll_pain_num_thirst_desc_layout", "ll_rest_hunger_desc_layout", "ll_heat_weight_desc_layout" ],
+    "flags": [ "W_DISABLED_BY_DEFAULT" ]
+  },
+  {
+    "id": "ll_place_overmap",
+    "type": "widget",
+    "label": "Overmap",
+    "var": "overmap_text",
+    "style": "text",
+    "width": 14,
+    "height": 5,
+    "text_align": "right",
+    "flags": [ "W_LABEL_NONE" ]
+  },
+  {
+    "id": "ll_place_info",
+    "type": "widget",
+    "style": "layout",
+    "width": 26,
+    "copy-from": "all_location_info_rows_layout"
+  },
+  {
+    "id": "ll_place_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Place",
+    "arrange": "minimum_columns",
+    "widgets": [ "ll_place_info", "ll_place_overmap" ]
+  },
+  {
+    "id": "legacy_labels_sidebar",
+    "type": "widget",
+    "style": "sidebar",
+    "label": "labels",
+    "separator": ": ",
+    "padding": 2,
+    "width": 44,
+    "widgets": [
+      "ll_limbs_layout",
+      "ll_limbs_sa_layout",
+      "ll_movement_layout",
+      "ll_stats_layout",
+      "all_weariness_layout",
+      "ll_needs_layout",
+      "ll_needs_sa_layout",
+      "ll_place_layout",
+      "wind_temp_layout",
+      "weapon_style_layout",
+      "vehicle_acf_label_layout",
+      "compass_all_danger_layout",
+      "rad_badge_desc",
+      "sundial_label_layout"
+    ]
+  }
+]

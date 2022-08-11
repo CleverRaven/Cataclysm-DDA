@@ -55,10 +55,9 @@ class NoLongMacrosCallbacks : public PPCallbacks
         NoLongCheck *Check;
 };
 
-void NoLongCheck::registerPPCallbacks( CompilerInstance &Compiler )
+void NoLongCheck::registerPPCallbacks( const SourceManager &, Preprocessor *PP, Preprocessor * )
 {
-    Compiler.getPreprocessor().addPPCallbacks(
-        llvm::make_unique<NoLongMacrosCallbacks>( this ) );
+    PP->addPPCallbacks( std::make_unique<NoLongMacrosCallbacks>( this ) );
 }
 
 void NoLongCheck::registerMatchers( MatchFinder *Finder )
@@ -87,6 +86,36 @@ static std::string AlternativesFor( QualType Type )
     }
 }
 
+static bool AnyDeclContextIsSpecialization( const Decl *D )
+{
+    Decl::Kind contextKind = D->getDeclContext()->getDeclKind();
+    TemplateSpecializationKind tsk = TSK_Undeclared;
+    const Decl *ContextDecl = nullptr;
+    if( contextKind == Decl::Function || contextKind == Decl::CXXMethod ||
+        contextKind == Decl::CXXConstructor || contextKind == Decl::CXXConversion ||
+        contextKind == Decl::CXXDestructor || contextKind == Decl::CXXDeductionGuide ) {
+        const FunctionDecl *C = static_cast<const FunctionDecl *>( D->getDeclContext() );
+        ContextDecl = C;
+        tsk = C->getTemplateSpecializationKind();
+    }
+    if( contextKind == Decl::CXXRecord || contextKind == Decl::ClassTemplateSpecialization ||
+        contextKind == Decl::ClassTemplatePartialSpecialization ) {
+        const CXXRecordDecl *C = static_cast<const CXXRecordDecl *>( D->getDeclContext() );
+        ContextDecl = C;
+        tsk = C->getTemplateSpecializationKind();
+    }
+    if( !ContextDecl ) {
+        return false;
+    }
+    if( tsk != TSK_Undeclared ) {
+        // This happens for e.g. a parameter 'T a' to an instantiated
+        // template function where T is long.  We don't want to report such
+        // cases.
+        return true;
+    }
+    return AnyDeclContextIsSpecialization( ContextDecl );
+}
+
 static void CheckDecl( NoLongCheck &Check, const MatchFinder::MatchResult &Result )
 {
     const ValueDecl *MatchedDecl = Result.Nodes.getNodeAs<ValueDecl>( "decl" );
@@ -103,19 +132,11 @@ static void CheckDecl( NoLongCheck &Check, const MatchFinder::MatchResult &Resul
         // generated function
         return;
     }
-    Decl::Kind contextKind = MatchedDecl->getDeclContext()->getDeclKind();
-    if( contextKind == Decl::Function || contextKind == Decl::CXXMethod ||
-        contextKind == Decl::CXXConstructor || contextKind == Decl::CXXConversion ||
-        contextKind == Decl::CXXDestructor || contextKind == Decl::CXXDeductionGuide ) {
-        TemplateSpecializationKind tsk =
-            static_cast<const FunctionDecl *>(
-                MatchedDecl->getDeclContext() )->getTemplateSpecializationKind();
-        if( tsk == TSK_ImplicitInstantiation ) {
-            // This happens for e.g. a parameter 'T a' to an instantiated
-            // template function where T is long.  We don't want to report such
-            // cases.
-            return;
-        }
+    if( AnyDeclContextIsSpecialization( MatchedDecl ) ) {
+        // This happens for e.g. a parameter 'T a' to an instantiated
+        // template function where T is long.  We don't want to report such
+        // cases.
+        return;
     }
     Check.diag(
         MatchedDecl->getLocation(), "Variable %0 declared as %1.  %2." ) <<

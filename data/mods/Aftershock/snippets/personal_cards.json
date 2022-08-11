@@ -1,0 +1,32 @@
+[
+  {
+    "type": "snippet",
+    "category": "afs_personal_card",
+    "text": [
+      {
+        "id": "afs_card_1",
+        "text": "There is a picture of a shuttle taking off with happy people waving from the viewports.  \"Salus is cold.\n\n Our love is true\n\n I hope to see you\n\n On Croatan 2\n\n My dearest, please join me.  I don't believe there are many shuttles left before people will be stuck here forever.\""
+      },
+      {
+        "id": "afs_card_2",
+        "text": "A person wrapped up in bandages in a hospital bed is pictured on the front of this card.  \"Get well soon!!!\n\n Torrance, I'm sorry you feel ill but many new colonists forget to process any foodstuffs from Salus IV to remove the macronutrient.\""
+      },
+      {
+        "id": "afs_card_3",
+        "text": "A picture of a bloody steak.  This card appears particularly old.  \"Gauchos Steaks.  Deliveries made monthly from Brazil to Salus IV.  Sign up today!\""
+      },
+      {
+        "id": "afs_card_4",
+        "text": "A glossy image of flowers and funeral statuary.  \"I'm sorry for your loss.  Ebby was an excellent grandparent and we hate for you that he was infected with the Moxphoria and wandered into the wastes.\""
+      },
+      {
+        "id": "afs_card_5",
+        "text": "An orbital view of Salus IV.  \"Happy Colonization Day!\n\n Leonid,\n\n This place is cold as Hell but we've made a life out here in the last ten years.\""
+      },
+      {
+        "id": "afs_card_6",
+        "text": "An old style movie theater.  \"Showing the vintage film Aelita!\n\n Tovarishch,\n\n Come with me to the movies.  My grandfather says that this movie is one of the classics.\""
+      }
+    ]
+  }
+]

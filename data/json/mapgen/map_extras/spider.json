@@ -1,0 +1,97 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "spider_webs",
+    "object": { "mapgensize": [ 1, 1 ], "place_fields": [ { "field": "fd_web", "x": 0, "y": 0 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "spider_webs_nostick",
+    "object": { "mapgensize": [ 1, 1 ], "place_fields": [ { "field": "fd_web_nostick", "repeat": [ 0, 3 ], "x": 0, "y": 0 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "mx_spider",
+    "object": {
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "           X            ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "terrain": { "X": "t_dirt" },
+      "furniture": { "X": "f_egg_sackws" },
+      "monsters": { "X": { "monster": "GROUP_SPIDER", "chance": 1, "density": 1 } },
+      "nested": { " ": { "chunks": [ [ "spider_webs", 10 ], [ "null", 1 ] ] } },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "mx_basement_spider",
+    "object": {
+      "rows": [
+        "                        ",
+        "          !             ",
+        "                   !    ",
+        "                        ",
+        "       !                ",
+        "                        ",
+        "            !           ",
+        "                        ",
+        "       !         !      ",
+        "                        ",
+        "                        ",
+        "             !          ",
+        "                        ",
+        "    !                   ",
+        "                        ",
+        "           !            ",
+        "                   !    ",
+        "                        ",
+        "                        ",
+        "          !             ",
+        "                        ",
+        "                        ",
+        "     !            !     ",
+        "                        "
+      ],
+      "set": [ { "point": "bash", "x": [ 3, 20 ], "y": [ 3, 20 ], "repeat": [ 5, 10 ] } ],
+      "monster": { "!": { "group": "GROUP_SPIDER_BASEMENT", "chance": 50, "pack_size": [ 1, 3 ] } },
+      "nested": {
+        " ": {
+          "chunks": [
+            [ "spider_webs_nostick", 1 ],
+            [ "wasp_gibs", 1 ],
+            [ "damaged_door_nested_no_junk", 3 ],
+            [ "destroyed_door_nested_no_junk", 3 ]
+          ]
+        }
+      }
+    }
+  }
+]

@@ -3,7 +3,6 @@
 #define CATA_SRC_COLOR_LOADER_H
 
 #include <array>
-#include <fstream>
 #include <map>
 #include <string>
 
@@ -33,8 +32,7 @@ class color_loader
         }
 
         void load_colors( const JsonObject &jsobj ) {
-            for( size_t c = 0; c < main_color_names().size(); c++ ) {
-                const std::string &color = main_color_names()[c];
+            for( const std::string &color : main_color_names() ) {
                 JsonArray jsarr = jsobj.get_array( color );
                 consolecolors[color] = from_rgb( jsarr.get_int( 0 ), jsarr.get_int( 1 ), jsarr.get_int( 2 ) );
             }
@@ -48,7 +46,7 @@ class color_loader
         }
 
         void load_colorfile( const std::string &path ) {
-            std::ifstream colorfile( path.c_str(), std::ifstream::in | std::ifstream::binary );
+            cata::ifstream colorfile( fs::u8path( path ), std::ifstream::in | std::ifstream::binary );
             JsonIn jsin( colorfile );
             jsin.start_array();
             while( !jsin.end_array() ) {

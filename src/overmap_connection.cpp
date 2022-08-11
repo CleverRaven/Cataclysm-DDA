@@ -18,8 +18,8 @@ generic_factory<overmap_connection> connections( "overmap connection" );
 
 } // namespace
 
-static const std::map<std::string, overmap_connection::subtype::flag> connection_subtype_flag_map
-= {
+static const std::unordered_map<std::string, overmap_connection::subtype::flag>
+connection_subtype_flag_map = {
     { "ORTHOGONAL", overmap_connection::subtype::flag::orthogonal },
 };
 
@@ -49,7 +49,8 @@ bool overmap_connection::subtype::allows_terrain( const int_id<oter_t> &oter ) c
 
 void overmap_connection::subtype::load( const JsonObject &jo )
 {
-    const auto flag_reader = make_flag_reader( connection_subtype_flag_map, "connection subtype flag" );
+    const auto flag_reader =
+        make_flag_reader( connection_subtype_flag_map, "connection subtype flag" );
 
     mandatory( jo, false, "terrain", terrain );
     mandatory( jo, false, "locations", locations );
@@ -58,9 +59,8 @@ void overmap_connection::subtype::load( const JsonObject &jo )
     optional( jo, false, "flags", flags, flag_reader );
 }
 
-void overmap_connection::subtype::deserialize( JsonIn &jsin )
+void overmap_connection::subtype::deserialize( const JsonObject &jo )
 {
-    JsonObject jo = jsin.get_object();
     load( jo );
 }
 
@@ -108,7 +108,7 @@ void overmap_connection::check() const
     if( subtypes.empty() ) {
         debugmsg( "Overmap connection \"%s\" doesn't have subtypes.", id.c_str() );
     }
-    for( const auto &subtype : subtypes ) {
+    for( const overmap_connection::subtype &subtype : subtypes ) {
         if( !subtype.terrain.is_valid() ) {
             debugmsg( "In overmap connection \"%s\", terrain \"%s\" is invalid.", id.c_str(),
                       subtype.terrain.c_str() );
@@ -135,7 +135,7 @@ void overmap_connections::load( const JsonObject &jo, const std::string &src )
 void overmap_connections::finalize()
 {
     connections.finalize();
-    for( const auto &elem : connections.get_all() ) {
+    for( const overmap_connection &elem : connections.get_all() ) {
         const_cast<overmap_connection &>( elem ).finalize(); // This cast is ugly, but safe.
     }
 }

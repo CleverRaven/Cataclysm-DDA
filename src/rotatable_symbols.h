@@ -4,6 +4,7 @@
 
 #include <cstdint>
 #include <iosfwd>
+#include <string>
 
 class JsonObject;
 

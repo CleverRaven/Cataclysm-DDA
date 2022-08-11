@@ -40,6 +40,9 @@ static constexpr int BODYTEMP_HOT = 6500;
 static constexpr int BODYTEMP_VERY_HOT = 8000;
 //!< Level 3 hotness.
 static constexpr int BODYTEMP_SCORCHING = 9500;
+
+//!< Additional Threshold before speed is impacted by heat.
+static constexpr int BODYTEMP_THRESHOLD = 500;
 ///@}
 
 #include <cstdint>
@@ -50,6 +53,7 @@ static constexpr int BODYTEMP_SCORCHING = 9500;
 #include <vector>
 
 class Character;
+class Creature;
 class item;
 struct rl_vec2d;
 struct trap;
@@ -82,7 +86,8 @@ struct weather_sum {
     float sunlight = 0.0f;
     int wind_amount = 0;
 };
-
+bool is_creature_outside( const Creature &target );
+void wet_character( Character &target, int amount );
 weather_type_id get_bad_weather();
 std::string get_shortdirstring( int angle );
 
@@ -104,9 +109,11 @@ std::string print_pressure( double pressure, int decimals = 0 );
 int get_local_windchill( double temperature_f, double humidity, double wind_mph );
 
 int get_local_humidity( double humidity, const weather_type_id &weather, bool sheltered = false );
-double get_local_windpower( double windpower, const oter_id &omter, const tripoint &location,
-                            const int &winddirection,
-                            bool sheltered = false );
+
+// Returns windspeed (mph) after being modified by local cover
+int get_local_windpower( int windpower, const oter_id &omter, const tripoint &location,
+                         const int &winddirection,
+                         bool sheltered = false );
 weather_sum sum_conditions( const time_point &start,
                             const time_point &end,
                             const tripoint &location );
@@ -129,10 +136,6 @@ std::string get_wind_arrow( int );
 std::string get_wind_desc( double );
 
 nc_color get_wind_color( double );
-/**
-* Calculates rot per hour at given temperature. Reference in weather_data.cpp
-*/
-int get_hourly_rotpoints_at_temp( int temp );
 
 /**
  * Is it warm enough to plant seeds?
@@ -157,7 +160,6 @@ int incident_sunlight( const weather_type_id &wtype,
                        const time_point &t = calendar::turn );
 
 void weather_sound( const translation &sound_message, const std::string &sound_effect );
-void wet( Character &target, int amount );
 
 class weather_manager
 {
@@ -178,23 +180,21 @@ class weather_manager
         cata::optional<int> wind_direction_override;
         cata::optional<int> windspeed_override;
         weather_type_id weather_override;
-        std::map<weather_type_id, time_point> next_instance_allowed;
         // not only sets nextweather, but updates weather as well
         void set_nextweather( time_point t );
         // The time at which weather will shift next.
         time_point nextweather;
         /** temperature cache, cleared every turn, sparse map of map tripoints to temperatures */
         std::unordered_map< tripoint, int > temperature_cache;
-        // Returns outdoor or indoor temperature of given location (in absolute (@ref map::getabs))
+        // Returns outdoor or indoor temperature of given location
         int get_temperature( const tripoint &location );
         // Returns outdoor or indoor temperature of given location
-        int get_temperature( const tripoint_abs_omt &location );
+        int get_temperature( const tripoint_abs_omt &location ) const;
         void clear_temp_cache();
-        void on_load();
-        static void serialize_all( JsonOut &json );
         static void unserialize_all( JsonIn &jsin );
 };
 
 weather_manager &get_weather();
+const weather_manager &get_weather_const();
 
 #endif // CATA_SRC_WEATHER_H

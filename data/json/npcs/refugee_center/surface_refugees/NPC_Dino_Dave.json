@@ -1,0 +1,56 @@
+[
+  {
+    "type": "talk_topic",
+    "id": "TALK_DINODAVE_1",
+    "dynamic_line": "*sits in a surprisingly well-built room made of lovingly assembled cardboard boxes.  The area is quite clean and cozy.  The whole building is built on top of cargo pallets, insulated with scraps, and waterproofed with plastic.  It shows an unexpected amount of design prowess.  \"Hello, my noble knight errant,\" Dave intones, his voice solemn.  \"We owe you a great debt for your actions of the past.  Some day, we shall repay it.  Until then, you are welcome here, now and always.\"",
+    "responses": [
+      { "text": "Hi Dave.  You seem different.", "topic": "TALK_DINODAVE_Different" },
+      { "text": "How are things going up here on the roof?", "topic": "TALK_DINODAVE_Roof" },
+      { "text": "Always good to catch up, Dave.  Keep on being you.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_DINODAVE_Different",
+    "dynamic_line": "*nods deeply.  \"We are, for where we once were in chaos, now we are at peace.  In time, this shall bring wisdom, but we must ponder on these great changes.\"",
+    "responses": [
+      {
+        "text": "Were you like this, uh, before?  Did you used to have a doctor or anything?",
+        "topic": "TALK_DINODAVE_Different2"
+      },
+      { "text": "How are things going up here on the roof?", "topic": "TALK_DINODAVE_Roof" },
+      { "text": "Always good to catch up, Dave.  Keep on being you.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_DINODAVE_Different2",
+    "dynamic_line": "\"We were… I… we can scarcely remember those times.\"  Dave looks pained.  \"No, we had no doctor.  We didn't need one.  We had a job and… and… we don't like to talk about this.\"",
+    "responses": [
+      {
+        "text": "Come on, Dave.  We're friends.  I won't use this against you or anything.",
+        "topic": "TALK_DINODAVE_Different3"
+      },
+      { "text": "How are things going up here on the roof?", "topic": "TALK_DINODAVE_Roof" },
+      { "text": "Always good to catch up, Dave.  Keep on being you.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_DINODAVE_Different3",
+    "dynamic_line": "*winces.  \"It is true.  You have earned some truth, but we… we find it hard to give.  We had a job, an education.  Prestige.  It is all very faint now.\"  He touches a stainless steel ring on his pinky finger, looking lost in thought.  \"We don't know why that man left, and this one remains.  Perhaps that is some wisdom that will come with time, or perhaps it is a door best left closed.\"",
+    "responses": [
+      { "text": "How are things going up here on the roof?", "topic": "TALK_DINODAVE_Roof" },
+      { "text": "Always good to catch up, Dave.  Keep on being you.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_DINODAVE_Roof",
+    "dynamic_line": "*gestures about his new home.  \"We have everything we wanted.  They cannot see us here, and our mind is at peace.  We go outside as we need, and the safety we have received here stays with us, as long as we are careful about it.  In time, perhaps we will again have need of your noble services.\"",
+    "responses": [
+      { "text": "You seem different.", "topic": "TALK_DINODAVE_Different" },
+      { "text": "Always good to catch up, Dave.  Keep on being you.", "topic": "TALK_DONE" }
+    ]
+  }
+]

@@ -19,6 +19,12 @@
 
 using vplacement_id = string_id<VehiclePlacement>;
 
+static const vgroup_id VehicleGroup_parkinglot( "parkinglot" );
+static const vgroup_id VehicleGroup_semi_truck( "semi_truck" );
+static const vgroup_id VehicleGroup_truck_trailer( "truck_trailer" );
+
+static const vplacement_id VehiclePlacement_pileup( "pileup" );
+
 std::unordered_map<vgroup_id, VehicleGroup> vgroups;
 static std::unordered_map<vplacement_id, VehiclePlacement> vplacements;
 static std::unordered_map<vspawn_id, VehicleSpawn> vspawns;
@@ -64,6 +70,15 @@ template<>
 bool string_id<VehiclePlacement>::is_valid() const
 {
     return vplacements.count( *this ) > 0;
+}
+
+std::vector<vproto_id> VehicleGroup::all_possible_results() const
+{
+    std::vector<vproto_id> result;
+    for( const weighted_object<int, vproto_id> &wo : vehicles ) {
+        result.push_back( wo.obj );
+    }
+    return result;
 }
 
 void VehicleGroup::load( const JsonObject &jo )
@@ -177,7 +192,7 @@ void VehicleSpawn::load( const JsonObject &jo )
             spawn.add( type.get_float( "weight" ), make_shared_fast<VehicleFunction_json>( vjo ) );
         } else if( type.has_string( "vehicle_function" ) ) {
             if( builtin_functions.count( type.get_string( "vehicle_function" ) ) == 0 ) {
-                type.throw_error( "load_vehicle_spawn: unable to find builtin function", "vehicle_function" );
+                type.throw_error_at( "vehicle_function", "load_vehicle_spawn: unable to find builtin function" );
             }
 
             spawn.add( type.get_float( "weight" ), make_shared_fast<VehicleFunction_builtin>
@@ -242,9 +257,9 @@ static void builtin_jackknifed_semi( map &m, const std::string &terrainid )
         trailer_p.y = semi_p.y - 1;
     }
 
-    m.add_vehicle( vgroup_id( "semi_truck" ), semi_p,
+    m.add_vehicle( VehicleGroup_semi_truck, semi_p,
                    units::fmod( facing + 135_degrees, 360_degrees ), -1, 1 );
-    m.add_vehicle( vgroup_id( "truck_trailer" ), trailer_p,
+    m.add_vehicle( VehicleGroup_truck_trailer, trailer_p,
                    units::fmod( facing + 90_degrees, 360_degrees ), -1, 1 );
 }
 
@@ -254,7 +269,7 @@ static void builtin_pileup( map &m, const std::string &, const std::string &vg )
     const int num_cars = rng( 5, 12 );
 
     for( int i = 0; i < num_cars; i++ ) {
-        const VehicleLocation *loc = vplacement_id( "pileup" ).obj().pick();
+        const VehicleLocation *loc = VehiclePlacement_pileup.obj().pick();
         if( !loc ) {
             debugmsg( "builtin_pileup unable to get location to place vehicle." );
             return;
@@ -286,7 +301,7 @@ static void builtin_parkinglot( map &m, const std::string & )
         tripoint pos_p;
         pos_p.x = rng( 0, 1 ) * 15 + rng( 4, 5 );
         pos_p.y = rng( 0, 4 ) * 4 + rng( 2, 4 );
-        pos_p.z = m.get_abs_sub().z;
+        pos_p.z = m.get_abs_sub().z();
 
         if( !m.veh_at( pos_p ) ) {
             units::angle facing;
@@ -295,7 +310,7 @@ static void builtin_parkinglot( map &m, const std::string & )
             } else {
                 facing = one_in( 2 ) ? 0_degrees : 180_degrees;
             }
-            m.add_vehicle( vgroup_id( "parkinglot" ), pos_p, facing, -1, -1 );
+            m.add_vehicle( VehicleGroup_parkinglot, pos_p, facing, -1, -1 );
         }
     }
 }

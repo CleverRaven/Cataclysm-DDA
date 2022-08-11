@@ -1,0 +1,177 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "human_corpse",
+    "object": {
+      "mapgensize": [ 2, 2 ],
+      "place_terrain": [ { "ter": "t_grave_new", "x": 0, "y": 1 } ],
+      "place_loot": [ { "group": "grave_contents", "x": 0, "y": 1 } ],
+      "place_signs": [ { "snippet": "grave_label", "x": 0, "y": 0 } ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "pet_corpse",
+    "object": {
+      "mapgensize": [ 2, 2 ],
+      "place_terrain": [ { "ter": "t_grave_new", "x": 0, "y": 1 } ],
+      "place_corpses": [ { "group": "GROUP_PETS", "x": 0, "y": 1 } ],
+      "place_signs": [ { "snippet": "grave_label", "x": 0, "y": 0 } ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "grave_easter_egg",
+    "object": {
+      "mapgensize": [ 2, 2 ],
+      "place_terrain": [ { "ter": "t_grave_new", "x": 0, "y": 1 }, { "ter": "t_grave_new", "x": 1, "y": 1 } ],
+      "place_item": [ { "item": "sw_619", "x": 0, "y": 1, "chance": 100 }, { "item": "katana", "x": 1, "y": 1, "chance": 100 } ],
+      "place_signs": [ { "signage": "R.", "x": 0, "y": 0 }, { "signage": "M.", "x": 1, "y": 0 } ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "grave_easter_egg",
+    "object": {
+      "mapgensize": [ 2, 2 ],
+      "place_terrain": [ { "ter": "t_grave_new", "x": 0, "y": 1 } ],
+      "place_item": [
+        { "item": "glasses_eye", "x": 0, "y": 1, "chance": 100 },
+        { "item": "hazmat_suit", "x": 0, "y": 1, "chance": 100 },
+        { "item": "crowbar", "x": 0, "y": 1, "chance": 100 }
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "place_signs": [ { "signage": "- Man of few words, aren't you?\n- …", "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "grave_easter_egg",
+    "object": {
+      "mapgensize": [ 2, 2 ],
+      "place_terrain": [ { "ter": "t_grave_new", "x": 0, "y": 1 } ],
+      "place_item": [
+        { "item": "fedora", "x": 0, "y": 1, "chance": 100 },
+        { "item": "jacket_leather", "x": 0, "y": 1, "chance": 100 },
+        { "item": "bullwhip", "x": 0, "y": 1, "chance": 100 }
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "place_signs": [ { "signage": "Fortune and glory, kid.  Fortune and glory.", "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "grave_easter_egg",
+    "object": {
+      "mapgensize": [ 2, 2 ],
+      "place_terrain": [ { "ter": "t_grave_new", "x": 0, "y": 1 } ],
+      "place_item": [ { "item": "indoor_volleyball", "x": 0, "y": 1, "chance": 100 } ],
+      "place_signs": [ { "signage": "Wilson", "x": 0, "y": 0 } ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "grave_easter_egg",
+    "object": {
+      "mapgensize": [ 2, 2 ],
+      "place_terrain": [ { "ter": "t_grave_new", "x": 0, "y": 1 } ],
+      "place_item": [
+        { "item": "machete", "x": 0, "y": 1, "chance": 100 },
+        { "item": "usp_45", "x": 0, "y": 1, "chance": 100 },
+        { "item": "remington_870_breacher", "x": 0, "y": 1, "chance": 100 },
+        { "item": "holybook_bible1", "x": 0, "y": 1, "chance": 100 },
+        { "item": "sunglasses", "x": 0, "y": 1, "chance": 100 }
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "place_signs": [ { "signage": "I walk by faith, not by sight.", "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "grave_easter_egg",
+    "object": {
+      "mapgensize": [ 2, 2 ],
+      "place_terrain": [ { "ter": "t_grave_new", "x": 0, "y": 1 } ],
+      "place_item": [
+        { "item": "glasses_eye", "x": 0, "y": 1, "chance": 100 },
+        { "item": "katana", "x": 0, "y": 1, "chance": 100 },
+        { "item": "acoustic_guitar", "x": 0, "y": 1, "chance": 100 },
+        { "item": "umbrella", "x": 0, "y": 1, "chance": 100 },
+        { "item": "tux", "x": 0, "y": 1, "chance": 100 }
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "place_signs": [
+        {
+          "signage": "Float away, little butterfly.  Just flutter away.  I got a gig in Vegas.  And the wastelands ain't no place for kids.",
+          "x": 0,
+          "y": 0
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "grave_easter_egg",
+    "object": {
+      "mapgensize": [ 2, 2 ],
+      "place_terrain": [ { "ter": "t_grave_new", "x": 0, "y": 1 } ],
+      "place_item": [ { "item": "touring_suit", "x": 0, "y": 1, "chance": 100 }, { "item": "katana", "x": 0, "y": 1, "chance": 100 } ],
+      "place_signs": [ { "signage": "Wiggle your big toe.", "x": 0, "y": 0 } ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "mx_grave",
+    "object": {
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "place_nested": [
+        {
+          "chunks": [ [ "human_corpse", 95 ], [ "pet_corpse", 95 ], [ "grave_easter_egg", 5 ] ],
+          "x": [ 0, 22 ],
+          "y": [ 0, 22 ]
+        }
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  }
+]

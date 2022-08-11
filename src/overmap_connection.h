@@ -11,7 +11,6 @@
 #include "omdata.h"
 #include "string_id.h"
 
-class JsonIn;
 class JsonObject;
 struct overmap_location;
 
@@ -25,7 +24,6 @@ class overmap_connection
             public:
                 enum class flag : int { orthogonal };
 
-            public:
                 string_id<oter_type_t> terrain;
 
                 int basic_cost = 0;
@@ -40,14 +38,13 @@ class overmap_connection
                 }
 
                 void load( const JsonObject &jo );
-                void deserialize( JsonIn &jsin );
+                void deserialize( const JsonObject &jo );
 
             private:
                 std::set<string_id<overmap_location>> locations;
                 std::set<flag> flags;
         };
 
-    public:
         const subtype *pick_subtype_for( const int_id<oter_t> &ground ) const;
         bool has( const int_id<oter_t> &oter ) const;
 
@@ -55,8 +52,8 @@ class overmap_connection
         void check() const;
         void finalize();
 
-    public:
         string_id<overmap_connection> id;
+        std::vector<std::pair<string_id<overmap_connection>, mod_id>> src;
         bool was_loaded = false;
 
     private:

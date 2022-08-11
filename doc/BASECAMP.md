@@ -35,8 +35,7 @@ These are arbitrary strings and can be used to control the branching of the upgr
 provides `"id"` | meaning
 -- | --
 `"bed"` | every 2 `"amount"`' of `"bed"` allows another expansion in the camp, to a maximum of 8, not include the camp center.
-`"tool_storage"` | after this upgrade mission is complete, the Store Tools mission will be available
-.
+`"tool_storage"` | after this upgrade mission is complete, the Store Tools mission will be available.
 `"radio"` | after this upgrade mission is complete, two way radios communicating to the camp have extended range.
 `"pantry"` | after this upgrade mission is complete, the Distribute Food mission is more efficient when dealing with short term spoilage items.
 `"gathering"` | after this upgrade mission is complete, the Gather Materials, Distribute Food, and Reset Sort Points basecamp missions will be available.
@@ -141,7 +140,7 @@ There are two special recipe groups, `"all_faction_base_types"` and `"all_factio
   },
 ```
 
-Each entry in the `"recipes"` array must be a dictionary with the `"id"`, `"description"`, and `"om_terrains"` fields.  `"id"` is the recipe `"id"` of the recipe that starts that basecamp or basecamp expansion upgrade path.  `"description"` is a short name of the basecamp or basecamp expansion.  `"om_terrains"` is a list of overmap terrain ids which can be used as the basis for the basecamp or basecamp expansion.
+Each entry in the `"recipes"` array must be a dictionary with the `"id"`, `"description"`, and `"om_terrains"` fields.  `"id"` is the recipe `"id"` of the recipe that starts that basecamp or basecamp expansion upgrade path, and has to conform to the pattern `"faction_base_X_0"`, where X distinguishes the entry from the others, with the prefix and suffix required by the code.  `"description"` is a short name of the basecamp or basecamp expansion.  `"om_terrains"` is a list of overmap terrain ids which can be used as the basis for the basecamp or basecamp expansion.
 
 All recipes that start an upgrade path or expansion should have a blueprint requirement that can never be met, such as "not_an_upgrade", to prevent them from showing up as available upgrades. Additionally, if you want to add an expansion, you must create an OMT with the same `id` as the expansion's `id`.
 
@@ -196,3 +195,12 @@ Modular bases use the following naming scheme for recipes.  Each element is sepa
 * AREA <-- the area in the 3x3 grid of the modular camp layout.
 
 blueprint keywords follow a similar scheme, but `"faction_base_modular"` is collapsed into `"fbm"` and the overmap terrain id is collapsed into a short identifier.  ie, `"fbmf"` is the keyword identifier for elements of the modular field base.
+
+# Adding basecamp expansions
+
+Basecamp expansion upgrade paths are defined by the corresponding set of files to the basecamps themselves, with two additions (at the end of the list):
+* The recipe JSONs that define what the material, tool, and skill requirements to perform an upgrade mission and the blueprint mapgen, blueprint requirements, blueprint provides, and blueprint resources associated with each upgrade mission.
+* The mapgen_update JSONs that define how the map will change when the upgrade mission is complete.  These may include shared instances of nested mapgen, such a standard room or tent.
+* The recipe_group JSONs that define what recipes can be crafted after completing the upgrade mission and what camps and expansions are available.
+* ../json/overmap/overmap_terrain/overmap_terrain_faction_base.json has to be updated to provide an overmap identifier for each new expansion.
+* ../json/mapgen/faction_buildings.json also has to be updated to introduce an entry for the new expansion.

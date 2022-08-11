@@ -7,19 +7,19 @@
     "occupied_bodyparts": [ [ "torso", 10 ] ],
     "fuel_options": [ "sunlight" ],
     "fuel_efficiency": 1.0,
-    "time": 1,
+    "time": "1 s",
     "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_TOGGLED" ]
   },
   {
-    "id": "afs_bio_wind_turbine",
+    "id": "bio_shock_absorber",
     "type": "bionic",
-    "name": { "str": "Wind Turbines" },
-    "description": "Installed on your body is a set of small retractable wind turbines.  When activated, they will deploy and slowly harvest wind power to recharge your power level.",
-    "occupied_bodyparts": [ [ "torso", 10 ] ],
-    "fuel_options": [ "wind" ],
-    "fuel_efficiency": 0.25,
-    "time": 1,
-    "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_TOGGLED" ]
+    "name": { "str": "Archeotech Grav Chute" },
+    "description": "Pre-Discontinuity bionic module that was implanted into elite drop troops who could jump from their insertion vehicle during the radar disruption of reentry.  Clenching your fist allows you to activate what scientists call a grav chute that allows a safe fall; while active, the field will prevent damage to your body from severe impacts, at the cost of impaired movement.  It's best not to think about how many bodies this has been in before yours.",
+    "occupied_bodyparts": [ [ "torso", 2 ], [ "arm_l", 1 ], [ "arm_r", 1 ], [ "leg_l", 2 ], [ "leg_r", 2 ] ],
+    "flags": [ "BIONIC_TOGGLED" ],
+    "act_cost": "2 kJ",
+    "react_cost": "2 kJ",
+    "time": "10 s"
   },
   {
     "id": "afs_bio_missiles",
@@ -28,9 +28,9 @@
     "name": { "str": "Deployable Grenade Launcher" },
     "description": "Your right hand can fold inward to reveal a mechanism capable of igniting and firing 40mm grenades across medium distances.",
     "occupied_bodyparts": [ [ "hand_r", 3 ] ],
-    "fake_item": "afs_bionic_rocket",
+    "fake_weapon": "afs_bionic_rocket",
     "flags": [ "BIONIC_TOGGLED", "BIONIC_WEAPON", "NO_UNWIELD" ],
-    "act_cost": 5
+    "act_cost": "35 J"
   },
   {
     "id": "afs_bio_linguistic_coprocessor",
@@ -46,9 +46,9 @@
     "description": "Tiny cybernetic stimulators have been installed throughout your ventral tegmental area, and trigger at set intervals using bionic power.  This slowly releases a stream of reward chemicals and hormones into your brain, inducing a state of euphoria that notably elevates mood.",
     "occupied_bodyparts": [ [ "head", 5 ] ],
     "flags": [ "BIONIC_TOGGLED", "BIONIC_SLEEP_FRIENDLY" ],
-    "act_cost": 5,
-    "react_cost": 5,
-    "time": 200
+    "act_cost": "5 J",
+    "react_cost": "5 J",
+    "time": "200 s"
   },
   {
     "id": "afs_bio_melee_counteraction",
@@ -60,7 +60,7 @@
     "enchantments": [ "melee_counteraction" ],
     "act_cost": "12 kJ",
     "react_cost": "12 kJ",
-    "time": 1
+    "time": "1 s"
   },
   {
     "id": "afs_bio_melee_optimization_unit",
@@ -72,7 +72,87 @@
     "enchantments": [ "melee_optimization" ],
     "act_cost": "12 kJ",
     "react_cost": "12 kJ",
-    "time": 1
+    "time": "1 s"
+  },
+  {
+    "id": "bio_forcefield_bash_cut_weak",
+    "type": "bionic",
+    "name": { "str": "HawkingCorps GravyField Mark I" },
+    "description": "Imagine a computer inside your body playing pong against the universe.  The paddles are made of gravity fields and how it causes this to happen are trade secrets.  -From the owners manual of HawkingCorps GravyField Mark I.  Activating the field will reduce incoming bashing and cut damage by 5 points.",
+    "occupied_bodyparts": [ [ "torso", 8 ] ],
+    "available_upgrades": [ "bio_forcefield_bash_cut_medium", "bio_forcefield_bash_cut_heavy" ],
+    "act_cost": "1 kJ",
+    "react_cost": "1 kJ",
+    "time": "1 s",
+    "enchantments": [ "forcefield_bash_cut_weak" ],
+    "flags": [ "BIONIC_TOGGLED" ]
+  },
+  {
+    "id": "bio_forcefield_bash_cut_medium",
+    "type": "bionic",
+    "name": { "str": "HawkingCorps GravyField Mark II" },
+    "description": "The HawkingCorps GravyField Mark II was designed for police actions during food riots and other civilian uprisings.  It has proven capable of protecting against most improvised weapons.  Activating the field will reduce incoming bashing and cut damage by 15 points.",
+    "occupied_bodyparts": [ [ "torso", 10 ] ],
+    "upgraded_bionic": "bio_forcefield_bash_cut_weak",
+    "available_upgrades": [ "bio_forcefield_bash_cut_heavy" ],
+    "act_cost": "5 kJ",
+    "react_cost": "5 kJ",
+    "time": "1 s",
+    "enchantments": [ "forcefield_bash_cut_medium" ],
+    "flags": [ "BIONIC_TOGGLED" ]
+  },
+  {
+    "id": "bio_forcefield_bash_cut_heavy",
+    "type": "bionic",
+    "name": { "str": "Debt Collection Agent GravyField" },
+    "description": "This class of personal gravity manipulator often sees action on both sides of the vicious ship-to-ship boarding fights that are common with both repossession and piracy.  It remains practically impenetrable to melee weapons that lack sharp piercing points.  Activating the field will reduce incoming bashing and cut damage by 25 points.",
+    "occupied_bodyparts": [ [ "torso", 14 ] ],
+    "upgraded_bionic": "bio_forcefield_bash_cut_medium",
+    "act_cost": "10 kJ",
+    "react_cost": "10 kJ",
+    "time": "1 s",
+    "enchantments": [ "forcefield_bash_cut_heavy" ],
+    "flags": [ "BIONIC_TOGGLED" ]
+  },
+  {
+    "id": "bio_forcefield_ballistic_weak",
+    "type": "bionic",
+    "name": { "str": "Point Energy Conversion Field" },
+    "description": "The PEC, as it is commonly known, works by converting kinetic energy into forms that are less damaging to the wearer, such as light.  Since this can be problematic, various types of shielding have been developed that do different emissions.  However, the ability to stop ballistic and piercing damage in its tracks often makes up for any inconvenience these emissions can cause.  Activating the field will reduce incoming ballistic and piercing damage by 10 points.",
+    "occupied_bodyparts": [ [ "torso", 10 ] ],
+    "available_upgrades": [ "bio_forcefield_ballistic_medium", "bio_forcefield_ballistic_heavy" ],
+    "act_cost": "1 kJ",
+    "react_cost": "1 kJ",
+    "time": "1 s",
+    "enchantments": [ "forcefield_ballistic_piercing_weak" ],
+    "flags": [ "BIONIC_TOGGLED" ]
+  },
+  {
+    "id": "bio_forcefield_ballistic_medium",
+    "type": "bionic",
+    "name": { "str": "Holtzman Personal Shield Generator" },
+    "description": "Personal shielding against bullets and sharp-pointed weapons comes in a variety of types.  This version is known for drastically increasing an individual soldier's lifespan while often decreasing that of anyone - friend or foe - in close proximity.  Activating the field will reduce incoming ballistic and piercing damage by 20 points.",
+    "occupied_bodyparts": [ [ "torso", 12 ] ],
+    "upgraded_bionic": "bio_forcefield_ballistic_weak",
+    "available_upgrades": [ "bio_forcefield_ballistic_heavy" ],
+    "act_cost": "5 kJ",
+    "react_cost": "5 kJ",
+    "time": "1 s",
+    "enchantments": [ "forcefield_ballistic_piercing_medium" ],
+    "flags": [ "BIONIC_TOGGLED" ]
+  },
+  {
+    "id": "bio_forcefield_ballistic_heavy",
+    "type": "bionic",
+    "name": { "str": "Kinetic Annulment System" },
+    "description": "A kinetic attenuation system salvaged from a pre-Discontinuity robotic warframe, crudely adapted for compatibility with biological hosts.  Powerful enough to completely stop most rifle cartridges.  Activating the field will reduce incoming ballistic and piercing damage by 40 points.",
+    "occupied_bodyparts": [ [ "torso", 14 ] ],
+    "upgraded_bionic": "bio_forcefield_ballistic_medium",
+    "act_cost": "10 kJ",
+    "react_cost": "10 kJ",
+    "time": "1 s",
+    "enchantments": [ "forcefield_ballistic_piercing_heavy" ],
+    "flags": [ "BIONIC_TOGGLED" ]
   },
   {
     "id": "afs_bio_neurosoft_aeronautics",
@@ -81,6 +161,16 @@
     "description": "A brain implant that grants instinctual knowledge about the operation of flying machines.",
     "occupied_bodyparts": [ [ "head", 2 ] ],
     "learned_proficiencies": [ "prof_helicopter_pilot" ]
+  },
+  {
+    "id": "afs_bio_translocator",
+    "type": "bionic",
+    "name": { "str": "Implanted Translocator" },
+    "description": "An experimental teleportation system carefully weaved into bone marrow and alongside your skeletal system.  Allows you to safely and readily teleport toward previously activated telepads.",
+    "occupied_bodyparts": [ [ "torso", 10 ], [ "head", 2 ], [ "arm_l", 3 ], [ "arm_r", 3 ], [ "leg_l", 3 ], [ "leg_r", 3 ] ],
+    "act_cost": "12 kJ",
+    "spell_on_activation": { "id": "afs_translocation", "hit_self": true },
+    "time": "5 s"
   },
   {
     "id": "afs_bio_cranialbomb",
@@ -100,17 +190,17 @@
     "enchantments": [ "protect_cold" ],
     "act_cost": "1 kJ",
     "react_cost": "1 kJ",
-    "time": 10
+    "time": "10 s"
   },
   {
     "type": "bionic",
     "id": "afs_bio_skullgun",
-    "name": { "str": "Skullgun CBM" },
+    "name": { "str": "Skullgun" },
     "description": "Concealed in your head is a single shot .40 pistol.  Activate the bionic to fire and reload the skullgun.",
     "occupied_bodyparts": [ [ "head", 5 ] ],
     "encumbrance": [ [ "head", 5 ] ],
     "act_cost": "35 J",
-    "fake_item": "bio_skullgun_gun",
+    "fake_weapon": "bio_skullgun_gun",
     "flags": [ "BIONIC_TOGGLED", "BIONIC_WEAPON", "NO_UNWIELD" ],
     "stat_bonus": [ [ "INT", -4 ], [ "PER", -2 ] ],
     "canceled_mutations": [ "INT_UP", "INT_UP_2", "INT_UP_3", "INT_UP_4", "INT_ALPHA" ],

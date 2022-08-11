@@ -1,0 +1,38 @@
+name: "Pull translations from Transifex"
+
+on:
+  schedule:
+    - cron: "42 1 * * 6"
+
+jobs:
+  pull-translations:
+    if: github.repository == 'CleverRaven/Cataclysm-DDA'
+    runs-on: ubuntu-20.04
+    steps:
+      - name: "Install Transifex CLI"
+        run: |
+          curl -sL https://github.com/transifex/cli/releases/download/v1.0.0/tx-linux-amd64.tar.gz | sudo tar zxvf - -C /usr/bin tx
+      - name: "Checkout"
+        uses: actions/checkout@v2
+      - name: "Get current date"
+        uses: 1466587594/get-current-time@v2
+        id: current-date
+        with:
+          format: 'DD MMMM YYYY'
+      - name: "Pull translations"
+        env:
+          TX_TOKEN: ${{ secrets.TX_TOKEN }}
+        run: tx pull --force
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v3.10.0
+        with:
+          commit-message: Routine i18n updates on ${{ steps.current-date.outputs.formattedTime }}
+          committer: Brett Dong (BOT) <brett.browning.dong@gmail.com>
+          author: Brett Dong (BOT) <brett.browning.dong@gmail.com>
+          token: ${{ secrets.TX_PR_CREATOR }}
+          branch: i18n
+          delete-branch: true
+          base: master
+          title: Routine i18n updates on ${{ steps.current-date.outputs.formattedTime }}
+          body: "#### Summary\nNone\n\n#### Additional context\n`Translation file changes are intended`"
+          labels: Translation

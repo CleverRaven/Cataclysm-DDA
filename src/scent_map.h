@@ -36,6 +36,7 @@ class scent_type
         bool was_loaded = false;
 
         scenttype_id id;
+        std::vector<std::pair<scenttype_id, mod_id>> src;
         std::set<species_id> receptive_species;
         static void reset();
 };
@@ -48,10 +49,10 @@ class scent_map
 
         scent_array<int> grscent;
         scenttype_id typescent;
-        cata::optional<tripoint> player_last_position;
-        time_point player_last_moved = calendar::before_time_starts;
+        cata::optional<tripoint> player_last_position; // NOLINT(cata-serialize)
+        time_point player_last_moved = calendar::before_time_starts; // NOLINT(cata-serialize)
 
-        const game &gm;
+        const game &gm; // NOLINT(cata-serialize)
 
     public:
         explicit scent_map( const game &g ) : gm( g ) { }

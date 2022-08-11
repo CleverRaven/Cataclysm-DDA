@@ -4,7 +4,11 @@
     "id": "afs_general_armory",
     "type": "item_group",
     "subtype": "distribution",
-    "items": [ { "group": "afs_energy_weapon_armory", "prob": 3 }, { "group": "afs_grenade_armory", "prob": 1 } ]
+    "items": [
+      { "group": "afs_energy_weapon_armory", "prob": 3 },
+      { "group": "afs_ballistic_armory", "prob": 3 },
+      { "group": "afs_grenade_armory", "prob": 1 }
+    ]
   },
   {
     "id": "afs_grenade_armory",
@@ -20,6 +24,16 @@
       { "group": "afs_any_energy_gun", "prob": 3 },
       { "group": "afs_any_energy_mag", "prob": 2 },
       { "group": "gunmod_energy", "prob": 2 }
+    ]
+  },
+  {
+    "id": "afs_ballistic_armory",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      { "group": "afs_any_ballistic_gun", "prob": 6 },
+      { "group": "afs_any_ballistic_mag", "prob": 1 },
+      { "group": "afs_any_ballistic_ammo", "prob": 4 }
     ]
   }
 ]

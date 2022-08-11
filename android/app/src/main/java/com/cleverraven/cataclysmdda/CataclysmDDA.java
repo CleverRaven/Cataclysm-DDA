@@ -13,6 +13,8 @@ import android.content.res.Configuration;
 public class CataclysmDDA extends SDLActivity {
     private static final String TAG = "CDDA";
 
+    private NativeUI nativeUI = new NativeUI(CataclysmDDA.this);
+
     public void vibrate(int duration) {
         try {
             Vibrator v = (Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
@@ -60,5 +62,9 @@ public class CataclysmDDA extends SDLActivity {
 
     public String getSystemLang() {
         return getResources().getConfiguration().locale.toLanguageTag().replace('-', '_');
+    }
+
+    public NativeUI getNativeUI() {
+        return nativeUI;
     }
 }

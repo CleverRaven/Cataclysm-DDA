@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.1.4)
+cmake_minimum_required(VERSION 3.20)
 
 project(CataclysmDDA)
 
@@ -15,18 +15,19 @@ option(SOUND "Support for in-game sounds & music." "OFF")
 option(BACKTRACE "Support for printing stack backtraces on crash" "ON")
 option(LIBBACKTRACE "Print backtrace with libbacktrace." "OFF")
 option(USE_HOME_DIR "Use user's home directory for save files." "ON")
+option(USE_PREFIX_DATA_DIR "Use UNIX system directories for game data in release build." "ON")
 option(LOCALIZE "Support for language localizations. Also enable UTF support." "ON")
 option(LANGUAGES "Compile localization files for specified languages." "")
 option(DYNAMIC_LINKING
         "Use dynamic linking. Or use static to remove MinGW dependency instead." "ON")
 option(JSON_FORMAT "Build JSON formatter" "OFF")
 option(CATA_CCACHE "Try to find and build with ccache" "ON")
-option(CATA_CLANG_TIDY_PLUGIN "Build Cata's custom clang-tidy plugin" "OFF")
+option(CATA_CLANG_TIDY_PLUGIN "Build Cata's custom clang-tidy checks as a plugin" "OFF")
+option(CATA_CLANG_TIDY_EXECUTABLE "Build Cata's custom clang-tidy checks as an executable" "OFF")
 set(CATA_CLANG_TIDY_INCLUDE_DIR "" CACHE STRING
         "Path to internal clang-tidy headers required for plugin (e.g. ClangTidy.h)")
 set(CATA_CHECK_CLANG_TIDY "" CACHE STRING "Path to check_clang_tidy.py for plugin tests")
 set(GIT_BINARY "" CACHE STRING "Git binary name or path.")
-set(PREFIX "" CACHE STRING "Location of Data & GFX directories")
 
 include(CTest)
 
@@ -41,7 +42,7 @@ add_definitions(-DCMAKE)
 
 include(GetGitRevisionDescription)
 git_describe(GIT_VERSION --tags --always --match "[0-9A-Z]*.[0-9A-Z]*")
-if (NOT ${GIT_VERSION} MATCHES GIT-NOTFOUND)
+if (NOT "${GIT_VERSION}" MATCHES "GIT-NOTFOUND")
     string(REPLACE "-NOTFOUND" "" GIT_VERSION ${GIT_VERSION})
     file(WRITE ${CMAKE_SOURCE_DIR}/src/version.h
             "// NOLINT(cata-header-guard)\n\#define VERSION \"${GIT_VERSION}\"\n")
@@ -50,18 +51,20 @@ if (NOT ${GIT_VERSION} MATCHES GIT-NOTFOUND)
 endif ()
 
 #OS Check Placeholders. Will be used for BINDIST
-if (${CMAKE_SYSTEM_NAME} MATCHES Linux)
+if ("${CMAKE_SYSTEM_NAME}" MATCHES "Linux")
     set(_OS_LINUX_ 1)
 endif ()
 
-if (${CMAKE_SYSTEM_NAME} MATCHES FreeBSD)
+if ("${CMAKE_SYSTEM_NAME}" MATCHES "FreeBSD")
     set(_OS_FREEBSD_ 1)
 endif ()
 
-if (${CMAKE_SYSTEM_NAME} MATCHES Darwin)
+if ("${CMAKE_SYSTEM_NAME}" MATCHES "Darwin")
     set(_OS_DARWIN_ 1)
-    set(LOCALIZE OFF)
-    message(STATUS "Internationalization on Darwin is not supported")
+    add_definitions(-DMACOSX)
+    if (TILES)
+        add_definitions(-DOSX_SDL2_LIBS)
+    endif ()
 endif ()
 
 include(CheckCXXCompilerFlag)
@@ -74,7 +77,9 @@ include(CheckCXXCompilerFlag)
 #SET(CMAKE_SHARED_LIBRARY_CXX_FLAGS "${CMAKE_SHARED_LIBRARY_CXX_FLAGS} -m32")
 
 if (NOT DYNAMIC_LINKING)
-    set(CMAKE_FIND_LIBRARY_SUFFIXES ".a;.dll.a")
+    if(NOT MSVC)
+        set(CMAKE_FIND_LIBRARY_SUFFIXES ".a;.dll.a")
+    endif()
     set(BUILD_SHARED_LIBRARIES OFF)
     check_cxx_compiler_flag (-static HAVE_STATIC_FLAG)
     if (HAVE_STATIC_FLAG)
@@ -88,14 +93,14 @@ if (NOT DYNAMIC_LINKING)
     set(CMAKE_SHARED_LIBRARY_LINK_C_FLAGS)    # remove -rdynamic
     set(CMAKE_SHARED_LIBRARY_LINK_CXX_FLAGS)
 else ()
-    if (MINGW AND NOT CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+    if (MINGW AND NOT "${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang")
         # Avoid depending on MinGW runtime DLLs
         set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -static-libgcc -static-libstdc++")
     endif ()
 endif ()
 
 # System specific actions
-if (${CMAKE_SYSTEM_NAME} MATCHES Linux OR ${CMAKE_SYSTEM_NAME} MATCHES FreeBSD)
+if ("${CMAKE_SYSTEM_NAME}" MATCHES "(Linux|FreeBSD|Darwin)")
     if (NOT DATA_PREFIX)
         set(DATA_PREFIX ${CMAKE_INSTALL_PREFIX}/share/cataclysm-dda)
     endif ()
@@ -119,7 +124,7 @@ if (${CMAKE_SYSTEM_NAME} MATCHES Linux OR ${CMAKE_SYSTEM_NAME} MATCHES FreeBSD)
     endif ()
 endif ()
 
-if (${CMAKE_SYSTEM_NAME} MATCHES Windows)
+if ("${CMAKE_SYSTEM_NAME}" MATCHES "(Windows|MSYS)")
     if (NOT DATA_PREFIX)
         set(DATA_PREFIX ${CMAKE_INSTALL_PREFIX})
     endif ()
@@ -135,9 +140,7 @@ message(STATUS "${PROJECT_NAME} build options --")
 
 # Preset variables
 if (NOT LANGUAGES)
-    # English is included to workaround a libintl bug that affects performance
-    # on MinGW targets. See lang/CMakeList.txt for more information.
-    set(LANGUAGES en de es_AR es_ES fr it_IT ja ko pt_BR ru zh_CN zh_TW)
+    set(LANGUAGES de es_AR es_ES fr it_IT ja ko pt_BR ru zh_CN zh_TW)
 endif ()
 
 if (GIT_BINARY)
@@ -151,17 +154,14 @@ else ()
     endif ()
 endif ()
 
-if (PREFIX)
-    add_definitions(-DPREFIX=${PREFIX})
-endif ()
-
 # Can't compile curses and tiles build's at same time
 if (TILES)
     set(CURSES OFF)
 endif ()
 
 # Set build types and display info
-if (CMAKE_BUILD_TYPE STREQUAL Debug)
+if ("${CMAKE_BUILD_TYPE}" STREQUAL "Debug")
+    set(RELEASE 0)
     message(STATUS "Build ${PROJECT} in development mode --")
     message(STATUS "Binaries will be located in: " ${CMAKE_SOURCE_DIR})
     set(CMAKE_VERBOSE_MAKEFILE ON)
@@ -172,6 +172,7 @@ if (CMAKE_BUILD_TYPE STREQUAL Debug)
             "Single Directory for all Executables.")
     set(BIN_PREFIX ${CMAKE_SOURCE_DIR})
 else ()
+    set(RELEASE 1)
     message(STATUS "CMAKE_INSTALL_PREFIX          : ${CMAKE_INSTALL_PREFIX}")
     message(STATUS "BIN_PREFIX                    : ${BIN_PREFIX}")
     message(STATUS "DATA_PREFIX                   : ${DATA_PREFIX}")
@@ -183,8 +184,13 @@ else ()
     message(STATUS "PIXMAPS_UNITY_ENTRY_PATH      : ${PIXMAPS_UNITY_ENTRY_PATH}")
     message(STATUS "MANPAGE_ENTRY_PATH            : ${MANPAGE_ENTRY_PATH}")
     add_definitions(-DRELEASE)
-    # Use PREFIX as storage of data,gfx, etc.. Useful only on *nix OS.
-    if (PREFIX AND NOT WIN32)
+    # Use CMAKE_INSTALL_PREFIX as storage of data,gfx, etc.. Useful only on *nix OS.
+    if (CMAKE_INSTALL_PREFIX AND NOT WIN32 AND USE_PREFIX_DATA_DIR)
+        add_definitions(-DPREFIX=${CMAKE_INSTALL_PREFIX})
+        configure_file(
+            "${CMAKE_SOURCE_DIR}/src/prefix.h.in"
+            "${CMAKE_SOURCE_DIR}/src/prefix.h"
+            @ONLY)
         add_definitions(-DDATA_DIR_PREFIX)
     endif ()
 endif ()
@@ -201,12 +207,12 @@ message(STATUS "LANGUAGES                     : ${LANGUAGES}")
 message(STATUS "See doc/COMPILING/COMPILING-CMAKE.md for details and more info --")
 
 if (MSVC)
-    if (CMAKE_SIZEOF_VOID_P EQUAL 8)
+    if ("${CMAKE_SIZEOF_VOID_P}" EQUAL "8")
         add_definitions(-D_AMD64_)
     else ()
         add_definitions(-D_X86_)
     endif ()
-else (MSVC)
+else ()
     set(CATA_WARNINGS
             "-Werror -Wall -Wextra \
              -Wformat-signedness \
@@ -219,9 +225,13 @@ else (MSVC)
              -Wpedantic \
              -Wsuggest-override \
              -Wunused-macros \
-             -Wzero-as-null-pointer-constant \
-             -Wno-unknown-warning-option")
-    if (NOT ${CMAKE_SYSTEM_NAME} MATCHES Windows)
+             -Wzero-as-null-pointer-constant")
+    if("${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang")
+        set(CATA_WARNINGS "${CATA_WARNINGS} -Wno-unknown-warning-option")
+    else()
+        set(CATA_WARNINGS "${CATA_WARNINGS} -Wno-unknown-warning")
+    endif()
+    if (NOT "${CMAKE_SYSTEM_NAME}" MATCHES "Windows")
         set(CATA_WARNINGS "${CATA_WARNINGS} -Wredundant-decls")
     endif ()
     set(CATA_OTHER_FLAGS "${CATA_OTHER_FLAGS} -fsigned-char")
@@ -232,9 +242,11 @@ else (MSVC)
 endif ()
 
 set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
 
 # Force out-of-source build
-if (${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_BINARY_DIR})
+if ("${CMAKE_SOURCE_DIR}" STREQUAL "${CMAKE_BINARY_DIR}")
     message(FATAL_ERROR
             "This project requires an out of source build. \
              Remove the file 'CMakeCache.txt' found in this directory before continuing; \
@@ -245,6 +257,8 @@ endif ()
 #set(THREADS_USE_PTHREADS_WIN32 True)
 set(CMAKE_THREAD_PREFER_PTHREAD True)
 find_package(Threads REQUIRED)
+
+find_package(ZLIB REQUIRED)
 
 # Check for build types and libraries
 if (TILES)
@@ -304,6 +318,9 @@ if (CURSES)
                  or try compiling with -DTILES=1 for a graphical compilation. \
                  See doc/COMPILING/COMPILING-CMAKE.md for details and more info")
     endif ()
+    if (NOT DYNAMIC_LINKING)
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DNCURSES_STATIC")
+    endif ()
 endif ()
 
 if (SOUND)
@@ -330,27 +347,11 @@ if (BACKTRACE)
     add_definitions(-DBACKTRACE)
     if (LIBBACKTRACE)
         add_definitions(-DLIBBACKTRACE)
-    endif (LIBBACKTRACE)
-endif (BACKTRACE)
+    endif ()
+endif ()
 
 # Ok. Now create build and install recipes
 if (LOCALIZE)
-    if (WIN32)
-        find_package(Libintl)
-        if (NOT LIBINTL_FOUND)
-            message(FATAL_ERROR
-                    "You need the libintl development library \
-                     to be able to compile with LOCALIZE support. \
-                     See doc/COMPILING/COMPILING-CMAKE.md for details and more info.")
-        endif ()
-        find_package(Iconv)
-        if (NOT ICONV_FOUND)
-            message(FATAL_ERROR
-                    "You need the iconv development library \
-                     to be able to compile with LOCALIZE support. \
-                     See doc/COMPILING/COMPILING-CMAKE.md for details and more info.")
-        endif ()
-    endif ()
     add_subdirectory(lang)
     add_definitions(-DLOCALIZE)
 endif ()
@@ -368,7 +369,7 @@ add_subdirectory(tests)
 if (JSON_FORMAT)
     add_subdirectory(tools/format)
 endif()
-if (CATA_CLANG_TIDY_PLUGIN)
+if (CATA_CLANG_TIDY_PLUGIN OR CATA_CLANG_TIDY_EXECUTABLE)
     add_subdirectory(tools/clang-tidy-plugin)
 endif()
 

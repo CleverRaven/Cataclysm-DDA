@@ -1,0 +1,21 @@
+[
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmc_fire_lookout_tower_wad_shack_0",
+    "method": "json",
+    "object": {
+      "place_nested": [ { "chunks": [ "fbmc_wad_wall_vertical" ], "x": 7, "y": 5 }, { "chunks": [ "fbmc_wad_shack_south" ], "x": 8, "y": 5 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmc_fire_lookout_tower_wad_shack_1",
+    "method": "json",
+    "object": {
+      "place_nested": [
+        { "chunks": [ "fbmc_wad_wall_vertical" ], "x": 9, "y": 14 },
+        { "chunks": [ "fbmc_wad_shack_north" ], "x": 10, "y": 14 }
+      ]
+    }
+  }
+]

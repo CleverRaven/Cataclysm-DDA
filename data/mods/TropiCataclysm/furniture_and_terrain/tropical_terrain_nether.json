@@ -1,0 +1,116 @@
+[
+  {
+    "type": "furniture",
+    "id": "f_alien_coral_a",
+    "name": "alien coral",
+    "description": "A colony of alien organisms forming what appears to be some kind of rocky structure.  It looks sturdy as stone.",
+    "symbol": "#",
+    "color": "pink",
+    "move_cost_mod": 6,
+    "coverage": 45,
+    "required_str": 16,
+    "flags": [ "NOITEM", "TRANSPARENT", "MINEABLE", "UNSTABLE", "MOUNTABLE", "SHORT" ],
+    "bash": {
+      "str_min": 32,
+      "str_max": 80,
+      "sound": "smash!",
+      "sound_fail": "thump.",
+      "items": [ { "item": "rock", "count": [ 35, 50 ] }, { "item": "sharp_rock", "count": [ 3, 7 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_alien_coral_b",
+    "name": "alien coral",
+    "description": "A colony of alien organisms forming what appears to be some kind of rocky structure.  It looks sturdy as stone.",
+    "symbol": "#",
+    "color": "light_green",
+    "move_cost_mod": 6,
+    "coverage": 45,
+    "required_str": 16,
+    "flags": [ "NOITEM", "TRANSPARENT", "MINEABLE", "UNSTABLE", "MOUNTABLE", "SHORT" ],
+    "bash": {
+      "str_min": 32,
+      "str_max": 80,
+      "sound": "smash!",
+      "sound_fail": "thump.",
+      "items": [ { "item": "rock", "count": [ 35, 50 ] }, { "item": "sharp_rock", "count": [ 3, 7 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_alien_coral_c",
+    "name": "alien coral",
+    "description": "A colony of alien organisms forming what appears to be some kind of rocky structure.  It looks sturdy as stone.",
+    "symbol": "#",
+    "color": "cyan",
+    "move_cost_mod": 6,
+    "coverage": 45,
+    "required_str": 16,
+    "flags": [ "NOITEM", "TRANSPARENT", "MINEABLE", "UNSTABLE", "MOUNTABLE", "SHORT" ],
+    "bash": {
+      "str_min": 32,
+      "str_max": 80,
+      "sound": "smash!",
+      "sound_fail": "thump.",
+      "items": [ { "item": "rock", "count": [ 35, 50 ] }, { "item": "sharp_rock", "count": [ 3, 7 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_alien_sponge",
+    "name": "alien sponge",
+    "description": "This looks like some kind of alien sponge.  It has a bluish color and seems sturdy as a rock.",
+    "symbol": "*",
+    "color": "light_blue",
+    "move_cost_mod": 6,
+    "coverage": 45,
+    "required_str": 16,
+    "flags": [ "NOITEM", "TRANSPARENT", "MINEABLE", "UNSTABLE", "MOUNTABLE", "SHORT" ],
+    "bash": {
+      "str_min": 32,
+      "str_max": 80,
+      "sound": "smash!",
+      "sound_fail": "thump.",
+      "items": [ { "item": "rock", "count": [ 35, 50 ] }, { "item": "sharp_rock", "count": [ 3, 7 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_alien_anemone",
+    "name": "alien polyp",
+    "description": "This is an alien creature resembling some kind of cnidarian like a hydra or anemone.  Probably not a good idea to touch or step on it.",
+    "symbol": "*",
+    "color": "light_red",
+    "move_cost": 8,
+    "coverage": 40,
+    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "PLACE_ITEM", "SHARP" ],
+    "bash": {
+      "str_min": 4,
+      "str_max": 30,
+      "sound": "crunch.",
+      "sound_fail": "brush.",
+      "ter_set": "t_dirt",
+      "items": [ { "item": "cnidarian", "prob": 50, "count": [ 1, 4 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_alien_chrinoid",
+    "name": "alien lily",
+    "description": "This is an alien creature resembling some kind of sea lily.  Its feathery arms spread open like palm tree to catch the aero plankton in the area.",
+    "symbol": "*",
+    "color": "magenta",
+    "move_cost": 8,
+    "coverage": 40,
+    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "PLACE_ITEM" ],
+    "bash": {
+      "str_min": 4,
+      "str_max": 30,
+      "sound": "crunch.",
+      "sound_fail": "brush.",
+      "ter_set": "t_dirt",
+      "items": [ { "item": "echinoderm", "prob": 50, "count": [ 1, 4 ] } ]
+    }
+  }
+]

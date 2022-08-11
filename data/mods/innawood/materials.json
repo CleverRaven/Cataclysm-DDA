@@ -1,0 +1,61 @@
+[
+  {
+    "type": "material",
+    "id": "cotton",
+    "name": "Cotton",
+    "density": 1.6,
+    "specific_heat_liquid": 0.02,
+    "specific_heat_solid": 0.02,
+    "latent_heat": 205,
+    "soft": true,
+    "reinforces": true,
+    "bash_resist": 1,
+    "cut_resist": 1,
+    "bullet_resist": 1,
+    "acid_resist": 3,
+    "fire_resist": 0,
+    "elec_resist": 2,
+    "chip_resist": 6,
+    "wind_resist": 70,
+    "repaired_with": "cotton_patchwork",
+    "breathability": "AVERAGE",
+    "salvaged_into": "cotton_patchwork",
+    "dmg_adj": [ "ripped", "torn", "shredded", "tattered" ],
+    "bash_dmg_verb": "ripped",
+    "cut_dmg_verb": "cut",
+    "burn_data": [
+      { "fuel": 1, "smoke": 1, "burn": 1, "volume_per_turn": "1250 ml" },
+      { "fuel": 1, "smoke": 1, "burn": 1 },
+      { "fuel": 1, "smoke": 1, "burn": 2 }
+    ]
+  },
+  {
+    "type": "material",
+    "id": "fibercloth",
+    "name": "Fibercloth",
+    "density": 1.6,
+    "specific_heat_liquid": 0.02,
+    "specific_heat_solid": 0.02,
+    "latent_heat": 205,
+    "soft": true,
+    "reinforces": true,
+    "bash_resist": 1,
+    "cut_resist": 1,
+    "bullet_resist": 1,
+    "acid_resist": 3,
+    "fire_resist": 0,
+    "chip_resist": 6,
+    "breathability": "AVERAGE",
+    "wind_resist": 70,
+    "repaired_with": "fibercloth_patchwork",
+    "salvaged_into": "fibercloth_patchwork",
+    "dmg_adj": [ "ripped", "torn", "shredded", "tattered" ],
+    "bash_dmg_verb": "ripped",
+    "cut_dmg_verb": "cut",
+    "burn_data": [
+      { "fuel": 1, "smoke": 1, "burn": 1, "volume_per_turn": "1250 ml" },
+      { "fuel": 1, "smoke": 1, "burn": 1 },
+      { "fuel": 1, "smoke": 1, "burn": 2 }
+    ]
+  }
+]

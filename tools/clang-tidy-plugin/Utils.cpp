@@ -7,22 +7,33 @@ namespace tidy
 namespace cata
 {
 
+bool isPointMethod( const FunctionDecl *d )
+{
+    if( const CXXMethodDecl *Method = dyn_cast_or_null<CXXMethodDecl>( d ) ) {
+        const CXXRecordDecl *Record = Method->getParent();
+        if( isPointType( Record ) ) {
+            return true;
+        }
+    }
+    return false;
+}
+
 NameConvention::NameConvention( StringRef xName )
 {
     if( xName.endswith( "x" ) ) {
-        root = xName.drop_back();
+        root = xName.drop_back().str();
         capital = false;
         atEnd = true;
     } else if( xName.endswith( "X" ) ) {
-        root = xName.drop_back();
+        root = xName.drop_back().str();
         capital = true;
         atEnd = true;
     } else if( xName.startswith( "x" ) ) {
-        root = xName.drop_front();
+        root = xName.drop_front().str();
         capital = false;
         atEnd = false;
     } else if( xName.startswith( "X" ) ) {
-        root = xName.drop_front();
+        root = xName.drop_front().str();
         capital = true;
         atEnd = false;
     } else {

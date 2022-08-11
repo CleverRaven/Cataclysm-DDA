@@ -60,7 +60,9 @@ void reachability_cache<Horizontal, Types...>::rebuild( Q q,
     static_assert( MAPSIZE_X == SEEX * MAPSIZE, "reachability cache uses outdated map dimensions" );
 
     // start is inclusive, end is exclusive (1 step outside of the range)
-    point dir, start, end;
+    point dir;
+    point start;
+    point end;
 
     if( q == Q::SW || q == Q::NW ) {
         std::tie( dir.x, start.x, end.x ) = std::make_tuple( 1, 0, MAPSIZE_X );
@@ -185,12 +187,12 @@ inline int reachability_cache<Horizontal, Params...>::dirty_idx( const point &p 
     return ( p.x / SEEX ) * MAPSIZE + p.y / SEEY;
 }
 
-static inline bool transp( const level_cache &lc, const point &p )
+static bool transp( const level_cache &lc, const point &p )
 {
     return lc.transparent_cache_wo_fields[p.x][p.y];
 }
 
-static inline int max3( int arg,  int arg2, int arg3 )
+static int max3( int arg,  int arg2, int arg3 )
 {
     return std::max( std::max( arg, arg2 ), arg3 );
 }

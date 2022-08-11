@@ -5,6 +5,9 @@
 #include <memory>
 #include <type_traits>
 
+class JsonOut;
+class JsonValue;
+
 template<typename T>
 class pimpl;
 template<typename ...T>
@@ -64,13 +67,11 @@ class pimpl : private std::unique_ptr<T>
         using std::unique_ptr<T>::operator*;
 
         /// Forwards the stream to `T::deserialize`.
-        template<typename JsonStream>
-        void deserialize( JsonStream &stream ) {
+        void deserialize( const JsonValue &stream ) {
             operator*().deserialize( stream );
         }
         /// Forwards the stream to `T::serialize`.
-        template<typename JsonStream>
-        void serialize( JsonStream &stream ) const {
+        void serialize( JsonOut &stream ) const {
             operator*().serialize( stream );
         }
 };

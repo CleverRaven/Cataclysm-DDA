@@ -10,8 +10,6 @@
 #include "translations.h"
 #include "type_id.h"
 
-static const itype_id itype_UPS( "UPS" );
-
 namespace
 {
 using ammo_map_t = std::unordered_map<ammotype, ammunition_type>;
@@ -66,10 +64,10 @@ void ammunition_type::check_consistency()
 {
     for( const auto &ammo : all_ammunition_types() ) {
         const auto &id = ammo.first;
-        const auto &at = ammo.second.default_ammotype_;
+        const itype_id &at = ammo.second.default_ammotype_;
 
         // TODO: these ammo types should probably not have default ammo at all.
-        if( at == itype_UPS || at.str() == "components" || at.str() == "thrown" ) {
+        if( at.str() == "components" || at.str() == "thrown" ) {
             continue;
         }
 

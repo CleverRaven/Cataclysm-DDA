@@ -13,7 +13,6 @@
 #include "type_id.h"
 
 class Character;
-class JsonIn;
 class JsonOut;
 class item;
 class read_only_visitable;
@@ -50,7 +49,7 @@ struct comp_selection {
     std::string nname() const;
 
     void serialize( JsonOut &jsout ) const;
-    void deserialize( JsonIn &jsin );
+    void deserialize( const JsonObject &data );
 };
 
 /**
@@ -73,7 +72,7 @@ class craft_command
          */
         void execute( const cata::optional<tripoint> &new_loc );
         /** Executes with saved location, NOT the same as execute( cata::nullopt )! */
-        void execute();
+        void execute( bool only_cache_comps = false );
 
         /**
          * Consumes the selected components and returns the resulting in progress craft item.
@@ -93,6 +92,10 @@ class craft_command
             return rec == nullptr;
         }
         skill_id get_skill_id();
+
+        bool continue_prompt_liquids( const std::function<bool( const item & )> &filter,
+                                      bool no_prompt = false );
+        static bool safe_to_unload_comp( const item &it );
 
     private:
         const recipe *rec = nullptr;

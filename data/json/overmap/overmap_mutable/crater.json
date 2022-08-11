@@ -1,0 +1,36 @@
+[
+  {
+    "type": "overmap_special",
+    "id": "Crater",
+    "subtype": "mutable",
+    "locations": [ "land" ],
+    "occurrences": [ 0, 2 ],
+    "flags": [ "BLOB", "CLASSIC" ],
+    "check_for_locations": [
+      [ [ 0, 0, 0 ], [ "land" ] ],
+      [ [ 1, 0, 0 ], [ "land" ] ],
+      [ [ 0, 1, 0 ], [ "land" ] ],
+      [ [ -1, 0, 0 ], [ "land" ] ],
+      [ [ 0, -1, 0 ], [ "land" ] ]
+    ],
+    "joins": [ "crater_to_crater" ],
+    "overmaps": {
+      "crater_core": {
+        "overmap": "crater_core",
+        "north": "crater_to_crater",
+        "east": "crater_to_crater",
+        "south": "crater_to_crater",
+        "west": "crater_to_crater"
+      },
+      "crater_edge": {
+        "overmap": "crater",
+        "north": "crater_to_crater",
+        "east": { "id": "crater_to_crater", "type": "available" },
+        "south": { "id": "crater_to_crater", "type": "available" },
+        "west": { "id": "crater_to_crater", "type": "available" }
+      }
+    },
+    "root": "crater_core",
+    "phases": [ [ { "overmap": "crater_core", "max": { "poisson": 0.8 } } ], [ { "overmap": "crater_edge", "weight": 1 } ] ]
+  }
+]

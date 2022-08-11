@@ -42,7 +42,7 @@
     "type": "GENERIC",
     "category": "spare_parts",
     "name": "orichalcum ingot",
-    "description": "An ingot of orichalcum.  About 3 cm by 7 cm by 12 cm in size, ready to be used for various blacksmithing tasks.",
+    "description": "An ingot of orichalcum.  About 3cm by 7cm by 12cm in size, ready to be used for various blacksmithing tasks.",
     "//": "Density the same as steel.",
     "weight": "2 kg",
     "volume": "253 ml",
@@ -52,20 +52,6 @@
     "material": [ "orichalcum_metal" ],
     "symbol": "=",
     "color": "light_green"
-  },
-  {
-    "id": "mercury",
-    "type": "AMMO",
-    "category": "spare_parts",
-    "name": { "str_sp": "liquid mercury" },
-    "ammo_type": "mercury",
-    "description": "Elemental liquid mercury.  Known for its use in thermometers.",
-    "volume": "1 ml",
-    "phase": "liquid",
-    "container": "flask_glass",
-    "color": "light_gray",
-    "symbol": "~",
-    "weight": "1356 mg"
   },
   {
     "id": "mithril_lump",
@@ -90,7 +76,7 @@
     "type": "GENERIC",
     "category": "spare_parts",
     "name": "mithril ingot",
-    "description": "An ingot of mithril.  About 3 cm by 7 cm by 12 cm in size, ready to be used for various blacksmithing tasks.",
+    "description": "An ingot of mithril.  About 3cm by 7cm by 12cm in size, ready to be used for various blacksmithing tasks.",
     "//": "density of aluminum",
     "weight": "683 g",
     "volume": "253 ml",

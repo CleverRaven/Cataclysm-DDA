@@ -9,17 +9,21 @@
 #include <map>
 #include <memory>
 #include <string>
+#include <type_traits>
 #include <vector>
 
 #include "active_item_cache.h"
 #include "calendar.h"
+#include "cata_type_traits.h"
 #include "colony.h"
+#include "compatibility.h"
 #include "computer.h"
 #include "construction.h"
 #include "field.h"
 #include "game_constants.h"
 #include "item.h"
 #include "mapgen.h"
+#include "mdarray.h"
 #include "point.h"
 #include "type_id.h"
 
@@ -43,32 +47,71 @@ struct spawn_point {
     spawn_data data;
     explicit spawn_point( const mtype_id &T = mtype_id::NULL_ID(), int C = 0, point P = point_zero,
                           int FAC = -1, int MIS = -1, bool F = false,
-                          const std::string &N = "NONE", spawn_data SD = spawn_data() ) :
+                          const std::string &N = "NONE", const spawn_data &SD = spawn_data() ) :
         pos( P ), count( C ), type( T ), faction_id( FAC ),
         mission_id( MIS ), friendly( F ), name( N ), data( SD ) {}
 };
 
-template<int sx, int sy>
+// Suppression due to bug in clang-tidy 12
+// NOLINTNEXTLINE(bugprone-reserved-identifier,cert-dcl37-c,cert-dcl51-cpp)
 struct maptile_soa {
-    ter_id             ter[sx][sy];  // Terrain on each square
-    furn_id            frn[sx][sy];  // Furniture on each square
-    std::uint8_t       lum[sx][sy];  // Number of items emitting light on each square
-    cata::colony<item> itm[sx][sy];  // Items on each square
-    field              fld[sx][sy];  // Field on each square
-    trap_id            trp[sx][sy];  // Trap on each square
-    int                rad[sx][sy];  // Irradiation of each square
+    cata::mdarray<ter_id, point_sm_ms>             ter; // Terrain on each square
+    cata::mdarray<furn_id, point_sm_ms>            frn; // Furniture on each square
+    cata::mdarray<std::uint8_t, point_sm_ms>       lum; // Num items emitting light on each square
+    cata::mdarray<cata::colony<item>, point_sm_ms> itm; // Items on each square
+    cata::mdarray<field, point_sm_ms>              fld; // Field on each square
+    cata::mdarray<trap_id, point_sm_ms>            trp; // Trap on each square
+    cata::mdarray<int, point_sm_ms>                rad; // Irradiation of each square
 
     void swap_soa_tile( const point &p1, const point &p2 );
 };
 
-class submap : maptile_soa<SEEX, SEEY>
+struct maptile_revert {
+    cata::mdarray<ter_id, point_sm_ms>             ter; // Terrain on each square
+    cata::mdarray<furn_id, point_sm_ms>            frn; // Furniture on each square
+    cata::mdarray<trap_id, point_sm_ms>            trp; // Trap on each square
+};
+class submap_revert : maptile_revert
+{
+
+    public:
+        furn_id get_furn( const point &p ) const {
+            return frn[p.x][p.y];
+        }
+
+        void set_furn( const point &p, furn_id furn ) {
+            frn[p.x][p.y] = furn;
+        }
+
+        ter_id get_ter( const point &p ) const {
+            return ter[p.x][p.y];
+        }
+
+        void set_ter( const point &p, ter_id terr ) {
+            ter[p.x][p.y] = terr;
+        }
+
+        trap_id get_trap( const point &p ) const {
+            return trp[p.x][p.y];
+        }
+
+        void set_trap( const point &p, trap_id trap ) {
+            trp[p.x][p.y] = trap;
+        }
+};
+
+class submap : maptile_soa
 {
     public:
         submap();
-        submap( submap && );
+        submap( submap && ) noexcept( map_is_noexcept );
         ~submap();
 
-        submap &operator=( submap && );
+        submap &operator=( submap && ) noexcept;
+
+        void revert_submap( submap_revert &sr );
+
+        submap_revert get_revert_submap() const;
 
         trap_id get_trap( const point &p ) const {
             return trp[p.x][p.y];
@@ -134,28 +177,7 @@ class submap : maptile_soa<SEEX, SEEY>
             }
         }
 
-        void update_lum_rem( const point &p, const item &i ) {
-            is_uniform = false;
-            if( !i.is_emissive() ) {
-                return;
-            } else if( lum[p.x][p.y] && lum[p.x][p.y] < 255 ) {
-                lum[p.x][p.y]--;
-                return;
-            }
-
-            // Have to scan through all items to be sure removing i will actually lower
-            // the count below 255.
-            int count = 0;
-            for( const auto &it : itm[p.x][p.y] ) {
-                if( it.is_emissive() ) {
-                    count++;
-                }
-            }
-
-            if( count <= 256 ) {
-                lum[p.x][p.y] = static_cast<uint8_t>( count - 1 );
-            }
-        }
+        void update_lum_rem( const point &p, const item &i );
 
         // TODO: Replace this as it essentially makes itm public
         cata::colony<item> &get_items( const point &p ) {
@@ -174,6 +196,8 @@ class submap : maptile_soa<SEEX, SEEY>
         const field &get_field( const point &p ) const {
             return fld[p.x][p.y];
         }
+
+        void clear_fields( const point &p );
 
         struct cosmetic_t {
             point pos;
@@ -223,7 +247,10 @@ class submap : maptile_soa<SEEX, SEEY>
 
         bool contains_vehicle( vehicle * );
 
+        bool is_open_air( const point & ) const;
+
         void rotate( int turns );
+        void mirror( bool horizontally );
 
         void store( JsonOut &jsout ) const;
         void load( JsonIn &jsin, const std::string &member_name, int version );
@@ -245,7 +272,7 @@ class submap : maptile_soa<SEEX, SEEY>
          * deleted.
          */
         std::vector<std::unique_ptr<vehicle>> vehicles;
-        std::map<tripoint, partial_con> partial_constructions;
+        std::map<tripoint_sm_ms, partial_con> partial_constructions;
         std::unique_ptr<basecamp> camp;  // only allowing one basecamp per submap
 
     private:
@@ -262,17 +289,31 @@ class submap : maptile_soa<SEEX, SEEY>
  * A wrapper for a submap point. Allows getting multiple map features
  * (terrain, furniture etc.) without directly accessing submaps or
  * doing multiple bounds checks and submap gets.
+ *
+ * Templated so that we can have const and non-const version; aliases in
+ * maptile_fwd.h
  */
-struct maptile {
+template<typename Submap>
+class maptile_impl
+{
+        static_assert( std::is_same<std::remove_const_t<Submap>, submap>::value,
+                       "Submap should be either submap or const submap" );
     private:
         friend map; // To allow "sliding" the tile in x/y without bounds checks
         friend submap;
-        submap *const sm;
+        Submap *sm;
         point pos_;
 
-        maptile( submap *sub, const point &p ) :
+        maptile_impl( Submap *sub, const point &p ) :
             sm( sub ), pos_( p ) { }
+        template<typename OtherSubmap>
+        // NOLINTNEXTLINE(google-explicit-constructor)
+        maptile_impl( const maptile_impl<OtherSubmap> &other ) :
+            sm( other.wrapped_submap() ), pos_( other.pos() ) { }
     public:
+        Submap *wrapped_submap() const {
+            return sm;
+        }
         inline point pos() const {
             return pos_;
         }
@@ -304,7 +345,8 @@ struct maptile {
             return sm->get_field( pos() );
         }
 
-        field_entry *find_field( const field_type_id &field_to_find ) {
+        using FieldEntry = cata::copy_const<Submap, field_entry>;
+        FieldEntry *find_field( const field_type_id &field_to_find ) {
             return sm->get_field( pos() ).find_field( field_to_find );
         }
 
@@ -336,6 +378,11 @@ struct maptile {
         // Assumes there is at least one item
         const item &get_uppermost_item() const {
             return *std::prev( sm->get_items( pos() ).cend() );
+        }
+
+        // Gets all items
+        const cata::colony<item> &get_items() const {
+            return sm->get_items( pos() );
         }
 };
 

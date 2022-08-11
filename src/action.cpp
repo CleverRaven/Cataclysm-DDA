@@ -15,6 +15,7 @@
 #include "character.h"
 #include "colony.h"
 #include "creature.h"
+#include "creature_tracker.h"
 #include "debug.h"
 #include "flag.h"
 #include "game.h"
@@ -40,13 +41,10 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 
+static const itype_id itype_swim_fins( "swim_fins" );
+
 static const quality_id qual_BUTCHER( "BUTCHER" );
 static const quality_id qual_CUT_FINE( "CUT_FINE" );
-
-static const std::string flag_CONSOLE( "CONSOLE" );
-static const std::string flag_GOES_DOWN( "GOES_DOWN" );
-static const std::string flag_GOES_UP( "GOES_UP" );
-static const std::string flag_SWIMMABLE( "SWIMMABLE" );
 
 static void parse_keymap( std::istream &keymap_txt, std::map<char, action_id> &kmap,
                           std::set<action_id> &unbound_keymap );
@@ -69,8 +67,8 @@ void parse_keymap( std::istream &keymap_txt, std::map<char, action_id> &kmap,
     while( !keymap_txt.eof() ) {
         std::string id;
         keymap_txt >> id;
-        if( id.empty() ) {
-            // Empty line, chomp it
+        if( id.empty() || id[0] == '#' ) {
+            // Empty line or comment, chomp it
             getline( keymap_txt, id );
         } else if( id == "unbind" ) {
             keymap_txt >> id;
@@ -79,7 +77,7 @@ void parse_keymap( std::istream &keymap_txt, std::map<char, action_id> &kmap,
                 unbound_keymap.insert( act );
             }
             break;
-        } else if( id[0] != '#' ) {
+        } else {
             const action_id act = look_up_action( id );
             if( act == ACTION_NULL ) {
                 debugmsg( "Warning!  keymap.txt contains an unknown action, \"%s\"\n"
@@ -101,9 +99,6 @@ void parse_keymap( std::istream &keymap_txt, std::map<char, action_id> &kmap,
                     }
                 }
             }
-        } else {
-            // Clear the whole line
-            getline( keymap_txt, id );
         }
     }
 }
@@ -166,6 +161,8 @@ std::string action_ident( action_id act )
             return "shift_nw";
         case ACTION_CYCLE_MOVE:
             return "cycle_move";
+        case ACTION_CYCLE_MOVE_REVERSE:
+            return "cycle_move_reverse";
         case ACTION_RESET_MOVE:
             return "reset_move";
         case ACTION_TOGGLE_RUN:
@@ -182,12 +179,14 @@ std::string action_ident( action_id act )
             return "smash";
         case ACTION_EXAMINE:
             return "examine";
+        case ACTION_EXAMINE_AND_PICKUP:
+            return "examine_and_pickup";
         case ACTION_ADVANCEDINV:
             return "advinv";
         case ACTION_PICKUP:
             return "pickup";
-        case ACTION_PICKUP_FEET:
-            return "pickup_feet";
+        case ACTION_PICKUP_ALL:
+            return "pickup_all";
         case ACTION_GRAB:
             return "grab";
         case ACTION_HAUL:
@@ -250,6 +249,8 @@ std::string action_ident( action_id act )
             return "cast_spell";
         case ACTION_SELECT_FIRE_MODE:
             return "select_fire_mode";
+        case ACTION_UNLOAD_CONTAINER:
+            return "unload_container";
         case ACTION_DROP:
             return "drop";
         case ACTION_DIR_DROP:
@@ -310,6 +311,10 @@ std::string action_ident( action_id act )
             return "factions";
         case ACTION_SCORES:
             return "scores";
+        case ACTION_MEDICAL:
+            return "medical";
+        case ACTION_BODYSTATUS:
+            return "bodystatus";
         case ACTION_MORALE:
             return "morale";
         case ACTION_MESSAGES:
@@ -336,6 +341,8 @@ std::string action_ident( action_id act )
             return "debug_lighting";
         case ACTION_DISPLAY_RADIATION:
             return "debug_radiation";
+        case ACTION_DISPLAY_NPC_ATTACK_POTENTIAL:
+            return "debug_npc_attack_potential";
         case ACTION_TOGGLE_HOUR_TIMER:
             return "debug_hour_timer";
         case ACTION_TOGGLE_DEBUG_MODE:
@@ -376,6 +383,8 @@ std::string action_ident( action_id act )
             return "autoattack";
         case ACTION_MAIN_MENU:
             return "main_menu";
+        case ACTION_DIARY:
+            return "diary";
         case ACTION_KEYBINDINGS:
             return "HELP_KEYBINDINGS";
         case ACTION_OPTIONS:
@@ -390,6 +399,8 @@ std::string action_ident( action_id act )
             return "open_color";
         case ACTION_WORLD_MODS:
             return "open_world_mods";
+        case ACTION_DISTRACTION_MANAGER:
+            return "open_distraction_manager";
         case ACTION_NULL:
             return "null";
         default:
@@ -428,6 +439,8 @@ bool can_action_change_worldstate( const action_id act )
         case ACTION_SCORES:
         case ACTION_FACTIONS:
         case ACTION_MORALE:
+        case ACTION_MEDICAL:
+        case ACTION_BODYSTATUS:
         case ACTION_MESSAGES:
         case ACTION_HELP:
         case ACTION_MAIN_MENU:
@@ -438,6 +451,7 @@ bool can_action_change_worldstate( const action_id act )
         case ACTION_SAFEMODE:
         case ACTION_COLOR:
         case ACTION_WORLD_MODS:
+        case ACTION_DISTRACTION_MANAGER:
         // Debug Functions
         case ACTION_TOGGLE_FULLSCREEN:
         case ACTION_DEBUG:
@@ -448,6 +462,7 @@ bool can_action_change_worldstate( const action_id act )
         case ACTION_DISPLAY_VISIBILITY:
         case ACTION_DISPLAY_LIGHTING:
         case ACTION_DISPLAY_RADIATION:
+        case ACTION_DISPLAY_NPC_ATTACK_POTENTIAL:
         case ACTION_DISPLAY_TRANSPARENCY:
         case ACTION_DISPLAY_REACHABILITY_ZONES:
         case ACTION_ZOOM_OUT:
@@ -599,8 +614,8 @@ bool can_butcher_at( const tripoint &p )
 {
     Character &player_character = get_player_character();
     // TODO: unify this with game::butcher
-    const int factor = player_character.max_quality( qual_BUTCHER );
-    const int factorD = player_character.max_quality( qual_CUT_FINE );
+    const int factor = player_character.max_quality( qual_BUTCHER, PICKUP_RANGE );
+    const int factorD = player_character.max_quality( qual_CUT_FINE, PICKUP_RANGE );
     map_stack items = get_map().i_at( p );
     bool has_item = false;
     bool has_corpse = false;
@@ -623,44 +638,46 @@ bool can_move_vertical_at( const tripoint &p, int movez )
     Character &player_character = get_player_character();
     map &here = get_map();
     // TODO: unify this with game::move_vertical
-    if( here.has_flag( flag_SWIMMABLE, p ) && here.has_flag( TFLAG_DEEP_WATER, p ) ) {
+    if( here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, p ) &&
+        here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, p ) ) {
         if( movez == -1 ) {
             return !player_character.is_underwater() && !player_character.worn_with_flag( flag_FLOTATION );
         } else {
             return player_character.swim_speed() < 500 ||
-                   player_character.is_wearing( itype_id( "swim_fins" ) );
+                   player_character.is_wearing( itype_swim_fins );
         }
     }
 
     if( movez == -1 ) {
-        return here.has_flag( flag_GOES_DOWN, p );
+        return here.has_flag( ter_furn_flag::TFLAG_GOES_DOWN, p );
     } else {
-        return here.has_flag( flag_GOES_UP, p );
+        return here.has_flag( ter_furn_flag::TFLAG_GOES_UP, p );
     }
 }
 
-bool can_examine_at( const tripoint &p )
+bool can_examine_at( const tripoint &p, bool with_pickup )
 {
     map &here = get_map();
     if( here.veh_at( p ) ) {
         return true;
     }
-    if( here.has_flag( flag_CONSOLE, p ) ) {
+    if( here.has_flag( ter_furn_flag::TFLAG_CONSOLE, p ) ) {
         return true;
     }
-    if( here.has_items( p ) ) {
+    if( with_pickup && !here.has_flag( ter_furn_flag::TFLAG_SEALED, p ) && here.has_items( p ) ) {
         return true;
     }
     const furn_t &xfurn_t = here.furn( p ).obj();
     const ter_t &xter_t = here.ter( p ).obj();
 
-    if( here.has_furn( p ) && xfurn_t.can_examine() ) {
+    if( here.has_furn( p ) && xfurn_t.can_examine( p ) ) {
         return true;
-    } else if( xter_t.can_examine() ) {
+    }
+    if( xter_t.can_examine( p ) ) {
         return true;
     }
 
-    Creature *c = g->critter_at( p );
+    Creature *c = get_creature_tracker().creature_at( p );
     if( c != nullptr && !c->is_avatar() ) {
         return true;
     }
@@ -677,7 +694,7 @@ static bool can_pickup_at( const tripoint &p )
         const int cargo_part = vp->vehicle().part_with_feature( vp->part_index(), "CARGO", false );
         veh_has_items = cargo_part >= 0 && !vp->vehicle().get_items( cargo_part ).empty();
     }
-    return here.has_items( p ) || veh_has_items;
+    return ( !here.has_flag( ter_furn_flag::TFLAG_SEALED, p ) && here.has_items( p ) ) || veh_has_items;
 }
 
 bool can_interact_at( action_id action, const tripoint &p )
@@ -686,7 +703,7 @@ bool can_interact_at( action_id action, const tripoint &p )
     tripoint player_pos = get_player_character().pos();
     switch( action ) {
         case ACTION_OPEN:
-            return here.open_door( p, !here.is_outside( player_pos ), true );
+            return here.open_door( get_avatar(), p, !here.is_outside( player_pos ), true );
         case ACTION_CLOSE: {
             const optional_vpart_position vp = here.veh_at( p );
             return ( vp &&
@@ -701,9 +718,10 @@ bool can_interact_at( action_id action, const tripoint &p )
         case ACTION_MOVE_DOWN:
             return can_move_vertical_at( p, -1 );
         case ACTION_EXAMINE:
-            return can_examine_at( p );
+            return can_examine_at( p, false );
+        case ACTION_EXAMINE_AND_PICKUP:
+            return can_examine_at( p, true );
         case ACTION_PICKUP:
-        case ACTION_PICKUP_FEET:
             return can_pickup_at( p );
         default:
             return false;
@@ -733,9 +751,11 @@ action_id handle_action_menu()
         // Only prioritize movement options if we're not driving.
         if( !player_character.controlling_vehicle ) {
             action_weightings[ACTION_CYCLE_MOVE] = 400;
+            action_weightings[ACTION_CYCLE_MOVE_REVERSE] = 400;
         }
+        const item_location weapon = player_character.get_wielded_item();
         // Only prioritize fire weapon options if we're wielding a ranged weapon.
-        if( player_character.weapon.is_gun() || player_character.weapon.has_flag( flag_REACH_ATTACK ) ) {
+        if( weapon && ( weapon->is_gun() || weapon->has_flag( flag_REACH_ATTACK ) ) ) {
             action_weightings[ACTION_FIRE] = 350;
         }
     }
@@ -852,6 +872,7 @@ action_id handle_action_menu()
             // Everything below here can be accessed through
             // the inventory screen, so it's sorted to the
             // end of the list.
+            REGISTER_ACTION( ACTION_UNLOAD_CONTAINER );
             REGISTER_ACTION( ACTION_DROP );
             REGISTER_ACTION( ACTION_COMPARE );
             REGISTER_ACTION( ACTION_ORGANIZE );
@@ -886,9 +907,11 @@ action_id handle_action_menu()
             REGISTER_ACTION( ACTION_DISPLAY_TRANSPARENCY );
             REGISTER_ACTION( ACTION_DISPLAY_REACHABILITY_ZONES );
             REGISTER_ACTION( ACTION_DISPLAY_RADIATION );
+            REGISTER_ACTION( ACTION_DISPLAY_NPC_ATTACK_POTENTIAL );
             REGISTER_ACTION( ACTION_TOGGLE_DEBUG_MODE );
         } else if( category == _( "Interact" ) ) {
             REGISTER_ACTION( ACTION_EXAMINE );
+            REGISTER_ACTION( ACTION_EXAMINE_AND_PICKUP );
             REGISTER_ACTION( ACTION_SMASH );
             REGISTER_ACTION( ACTION_MOVE_DOWN );
             REGISTER_ACTION( ACTION_MOVE_UP );
@@ -896,7 +919,7 @@ action_id handle_action_menu()
             REGISTER_ACTION( ACTION_CLOSE );
             REGISTER_ACTION( ACTION_CHAT );
             REGISTER_ACTION( ACTION_PICKUP );
-            REGISTER_ACTION( ACTION_PICKUP_FEET );
+            REGISTER_ACTION( ACTION_PICKUP_ALL );
             REGISTER_ACTION( ACTION_GRAB );
             REGISTER_ACTION( ACTION_HAUL );
             REGISTER_ACTION( ACTION_BUTCHER );
@@ -936,7 +959,10 @@ action_id handle_action_menu()
             REGISTER_ACTION( ACTION_SCORES );
             REGISTER_ACTION( ACTION_FACTIONS );
             REGISTER_ACTION( ACTION_MORALE );
+            REGISTER_ACTION( ACTION_MEDICAL );
+            REGISTER_ACTION( ACTION_BODYSTATUS );
             REGISTER_ACTION( ACTION_MESSAGES );
+            REGISTER_ACTION( ACTION_DIARY );
         } else if( category == _( "Misc" ) ) {
             REGISTER_ACTION( ACTION_WAIT );
             REGISTER_ACTION( ACTION_SLEEP );
@@ -963,8 +989,7 @@ action_id handle_action_menu()
 
         std::string title = _( "Actions" );
         if( category != "back" ) {
-            catgname = category;
-            capitalize_letter( catgname, 0 );
+            catgname = uppercase_first_letter( category );
             title += ": " + catgname;
         }
 
@@ -1004,11 +1029,16 @@ action_id handle_main_menu()
     };
 
     REGISTER_ACTION( ACTION_HELP );
-    REGISTER_ACTION( ACTION_KEYBINDINGS );
+
+    // The hotkey is reserved for the uilist keybindings menu
+    entries.emplace_back( ACTION_KEYBINDINGS, true, cata::nullopt,
+                          ctxt.get_action_name( action_ident( ACTION_KEYBINDINGS ) ) );
+
     REGISTER_ACTION( ACTION_OPTIONS );
     REGISTER_ACTION( ACTION_AUTOPICKUP );
     REGISTER_ACTION( ACTION_AUTONOTES );
     REGISTER_ACTION( ACTION_SAFEMODE );
+    REGISTER_ACTION( ACTION_DISTRACTION_MANAGER );
     REGISTER_ACTION( ACTION_COLOR );
     REGISTER_ACTION( ACTION_WORLD_MODS );
     REGISTER_ACTION( ACTION_ACTIONMENU );
@@ -1050,7 +1080,7 @@ cata::optional<tripoint> choose_direction( const std::string &message, const boo
     do {
         ui_manager::redraw();
         action = ctxt.handle_input();
-        if( const cata::optional<tripoint> vec = ctxt.get_direction( action ) ) {
+        if( cata::optional<tripoint> vec = ctxt.get_direction( action ) ) {
             FacingDirection &facing = get_player_character().facing;
             // Make player's sprite face left/right if interacting with something to the left or right
             if( vec->x > 0 ) {
@@ -1114,8 +1144,7 @@ cata::optional<tripoint> choose_adjacent_highlight( const std::string &message,
     if( !valid.empty() ) {
         hilite_cb = make_shared_fast<game::draw_callback_t>( [&]() {
             for( const tripoint &pos : valid ) {
-                here.drawsq( g->w_terrain, player_character, pos,
-                             true, true, player_character.pos() + player_character.view_offset );
+                here.drawsq( g->w_terrain, pos, drawsq_params().highlight( true ) );
             }
         } );
         g->add_draw_callback( hilite_cb );

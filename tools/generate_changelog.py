@@ -946,6 +946,8 @@ def do_github_request(api_request, retry_on_limit=3):
         except urllib.error.HTTPError as err:
             # hit rate limit, wait and retry
             is_403 = err.code == 403
+            is_502 = err.code == 502
+
             if is_403 and err.getheader('Retry-After'):
                 wait = int(err.getheader('Retry-After')) + 5
                 log.info(f'Reached GitHub API rate limit. Retry {retry}, '
@@ -956,6 +958,11 @@ def do_github_request(api_request, retry_on_limit=3):
                 delta = datetime.utcfromtimestamp(reset) - datetime.utcnow()
                 wait = delta.seconds + 5
                 log.info(f'Reached GitHub API rate limit. Retry {retry}, '
+                         f'waiting {wait} secs...')
+                time.sleep(wait)
+            elif is_502:
+                wait = 5
+                log.info(f'GitHub API 502 Gateway Error. Retry {retry}, '
                          f'waiting {wait} secs...')
                 time.sleep(wait)
             else:
@@ -977,7 +984,9 @@ def read_personal_token(filename):
         return None
 
     try:
-        with open(pathlib.Path(str(filename)).expanduser()) as token_file:
+        with open(
+                pathlib.Path(str(filename)).expanduser(),
+                encoding="utf-8") as token_file:
             match = re.search('(?P<token>\\S+)', token_file.read(),
                               flags=re.MULTILINE)
             if match is not None:

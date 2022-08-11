@@ -7,8 +7,11 @@
       { "item": "under_armor" },
       { "item": "under_armor_shorts" },
       { "item": "robofac_enviro_suit" },
-      { "item": "mask_gas" },
-      { "collection": [ { "group": "guns_pistol_milspec" }, { "item": "holster" } ], "prob": 50 },
+      { "group": "robofac_mantle_prototype" },
+      { "item": "robofac_basic_greaves" },
+      { "item": "robofac_basic_vambraces" },
+      { "item": "mask_gas", "charges": [ 50, 100 ] },
+      { "collection": [ { "group": "guns_pistol_milspec" }, { "item": "holster" } ], "prob": 90 },
       { "item": "tacvest" }
     ]
   }

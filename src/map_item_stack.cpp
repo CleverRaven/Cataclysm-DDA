@@ -21,7 +21,7 @@ map_item_stack::item_group::item_group( const tripoint &p, const int arg_count,
 
 map_item_stack::map_item_stack() : example( nullptr ), totalcount( 0 )
 {
-    vIG.push_back( item_group() );
+    vIG.emplace_back( );
 }
 
 map_item_stack::map_item_stack( const item *const it, const tripoint &pos ) : example( it ),
@@ -89,7 +89,7 @@ int list_filter_high_priority( std::vector<map_item_stack> &stack, const std::st
     }
 
     int id = stack.size();
-    for( auto &elem : tempstack ) {
+    for( map_item_stack &elem : tempstack ) {
         stack.push_back( elem );
     }
     return id;
@@ -111,7 +111,7 @@ int list_filter_low_priority( std::vector<map_item_stack> &stack, const int star
     }
 
     int id = stack.size();
-    for( auto &elem : tempstack ) {
+    for( map_item_stack &elem : tempstack ) {
         stack.push_back( elem );
     }
     return id;

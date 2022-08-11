@@ -13,13 +13,14 @@
 
 class JsonObject;
 
+generic_factory<ammo_effect> &get_all_ammo_effects();
+
 struct ammo_effect {
     public:
         void load( const JsonObject &jo, const std::string &src );
         void finalize();
         void check() const;
 
-    public:
         field_type_id aoe_field_type = fd_null.id_or( INVALID_FIELD_TYPE_ID );
         /** used during JSON loading only */
         std::string aoe_field_type_name = "fd_null";
@@ -45,12 +46,11 @@ struct ammo_effect {
         int trail_intensity_max = 0;
         int trail_chance = 100;
 
-    public:
         // Used by generic_factory
         string_id<ammo_effect> id;
+        std::vector<std::pair<string_id<ammo_effect>, mod_id>> src;
         bool was_loaded = false;
 
-    public:
         static size_t count();
 };
 

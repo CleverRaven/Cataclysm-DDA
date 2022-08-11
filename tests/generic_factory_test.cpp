@@ -6,7 +6,7 @@
 #include <unordered_set>
 #include <vector>
 
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "colony_list_test_helpers.h"
 #include "flat_set.h"
 #include "generic_factory.h"
@@ -31,6 +31,11 @@ struct test_obj {
 
 } // namespace
 
+static const test_obj_id test_obj_id_0( "id_0" );
+static const test_obj_id test_obj_id_1( "id_1" );
+static const test_obj_id test_obj_id_2( "id_2" );
+static const test_obj_id test_obj_non_existent_id( "non_existent_id" );
+
 TEST_CASE( "generic_factory_insert_convert_valid", "[generic_factory]" )
 {
     test_obj_id id_0( "id_0" );
@@ -43,9 +48,9 @@ TEST_CASE( "generic_factory_insert_convert_valid", "[generic_factory]" )
     REQUIRE_FALSE( test_factory.is_valid( id_1 ) );
     REQUIRE_FALSE( test_factory.is_valid( id_2 ) );
 
-    test_factory.insert( {test_obj_id( "id_0" ), "value_0"} );
-    test_factory.insert( {test_obj_id( "id_1" ), "value_1"} );
-    test_factory.insert( {test_obj_id( "id_2" ), "value_2"} );
+    test_factory.insert( {test_obj_id_0, "value_0"} );
+    test_factory.insert( {test_obj_id_1, "value_1"} );
+    test_factory.insert( {test_obj_id_2, "value_2"} );
 
     // testing correctness when finalized was both called and not called
     if( GENERATE( false, true ) ) {
@@ -59,13 +64,14 @@ TEST_CASE( "generic_factory_insert_convert_valid", "[generic_factory]" )
     CHECK( test_factory.size() == 3 );
     CHECK_FALSE( test_factory.empty() );
 
-    CHECK_FALSE( test_factory.is_valid( test_obj_id( "non_existent_id" ) ) );
+    CHECK_FALSE( test_factory.is_valid( test_obj_non_existent_id ) );
 
-    int_id<test_obj> int_id_1 = test_factory.convert( test_obj_id( "id_1" ), int_id<test_obj>( -1 ) );
+    int_id<test_obj> int_id_1 = test_factory.convert( test_obj_id_1,
+                                int_id<test_obj>( -1 ) );
     CHECK( int_id_1.to_i() == 1 );
 
     CHECK( test_factory.convert( int_id_1 ) == id_1 );
-    CHECK( test_factory.convert( int_id_1 ) == test_obj_id( "id_1" ) );
+    CHECK( test_factory.convert( int_id_1 ) == test_obj_id_1 );
 
     CHECK( test_factory.obj( id_0 ).value == "value_0" );
     CHECK( test_factory.obj( id_1 ).value == "value_1" );
@@ -91,11 +97,11 @@ TEST_CASE( "generic_factory_repeated_overwrite", "[generic_factory]" )
     generic_factory<test_obj> test_factory( "test_factory" );
     REQUIRE_FALSE( test_factory.is_valid( id_1 ) );
 
-    test_factory.insert( { test_obj_id( "id_1" ), "1" } );
+    test_factory.insert( { test_obj_id_1, "1" } );
     CHECK( test_factory.is_valid( id_1 ) );
     CHECK( test_factory.obj( id_1 ).value == "1" );
 
-    test_factory.insert( { test_obj_id( "id_1" ), "2" } );
+    test_factory.insert( { test_obj_id_1, "2" } );
     CHECK( test_factory.is_valid( id_1 ) );
     CHECK( test_factory.obj( id_1 ).value == "2" );
 }
@@ -111,7 +117,7 @@ TEST_CASE( "generic_factory_repeated_invalidation", "[generic_factory]" )
         test_factory.reset();
         REQUIRE_FALSE( test_factory.is_valid( id_1 ) );
         std::string value = "value_" + std::to_string( i );
-        test_factory.insert( { test_obj_id( "id_1" ), value } );
+        test_factory.insert( { test_obj_id_1, value } );
         CHECK( test_factory.is_valid( id_1 ) );
         CHECK( test_factory.obj( id_1 ).value == value );
     }
@@ -347,7 +353,7 @@ TEST_CASE( "string_and_int_ids_benchmark", "[.][generic_factory][int_id][string_
             std_uo_set_int_ids.emplace( int_id );
             // do not add duplicates
             if( std_uo_set_int_ids.size() > vector_int_ids.size() ) {
-                vector_int_ids.push_back( flag );
+                vector_int_ids.emplace_back( flag );
             }
         }
     } item;
@@ -380,8 +386,9 @@ TEST_CASE( "string_and_int_ids_benchmark", "[.][generic_factory][int_id][string_
     }
     const int test_flags_size = test_flags.size();
     std::vector<dyn_str_id > test_dyn_str_ids;
+    test_dyn_str_ids.reserve( test_flags.size() );
     for( const auto &f : test_flags ) {
-        test_dyn_str_ids.push_back( dyn_str_id( f.str() ) );
+        test_dyn_str_ids.emplace_back( f.str() );
     }
 
     DYNAMIC_SECTION( "number_ids_in_collection: " << flags_in_item << "; only_hits: " << hits ) {

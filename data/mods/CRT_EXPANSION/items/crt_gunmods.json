@@ -39,15 +39,6 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 1 } } ]
   },
   {
-    "id": "folding_bthk_stock",
-    "type": "GUNMOD",
-    "name": "folding butt hook stock",
-    "copy-from": "bthk_stock",
-    "looks_like": "bthk_stock",
-    "description": "A replacement folding stock that partially encloses arm allowing for greater stability.  Good fit and padding also helps with recoil control.",
-    "extend": { "flags": [ "NEEDS_UNFOLD", "COLLAPSIBLE_STOCK" ] }
-  },
-  {
     "id": "beam_difractor",
     "copy-from": "beam_scatterer",
     "type": "GUNMOD",
@@ -115,6 +106,6 @@
     "revert_to": "flash_acc",
     "flags": [ "LIGHT_75", "CHARGEDIM", "TRADER_AVOID" ],
     "ammo": "battery",
-    "use_action": { "type": "transform", "msg": "You turn the tactical flashlight off.", "target": "flash_acc" }
+    "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "You turn the tactical flashlight off.", "target": "flash_acc" }
   }
 ]

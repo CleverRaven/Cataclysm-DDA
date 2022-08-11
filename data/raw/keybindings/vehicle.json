@@ -126,6 +126,13 @@
     "bindings": [ { "input_method": "keyboard_any", "key": "s" } ]
   },
   {
+    "id": "TOGGLE_HEATED_TANK",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Toggle heated tank",
+    "bindings": [ { "input_method": "keyboard_any", "key": "j" } ]
+  },
+  {
     "id": "TOGGLE_COOLER",
     "type": "keybinding",
     "category": "VEHICLE",
@@ -264,5 +271,12 @@
     "category": "VEHICLE",
     "name": "Set turret targeting modes",
     "bindings": [ { "input_method": "keyboard_any", "key": "t" } ]
+  },
+  {
+    "id": "ARCADE",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Play arcade machine",
+    "bindings": [ { "input_method": "keyboard_char", "key": "R" }, { "input_method": "keyboard_code", "key": "r", "mod": [ "shift" ] } ]
   }
 ]

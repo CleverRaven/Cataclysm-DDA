@@ -1,0 +1,79 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_RandEnc_Roadstop_add",
+    "recurrence": 3000,
+    "global": true,
+    "condition": {
+      "and": [
+        { "u_near_om_location": "roadstop_a", "range": 30 },
+        "is_day",
+        { "one_in_chance": 10 },
+        { "days_since_cataclysm": 7 },
+        {
+          "not": { "u_compare_time_since_var": "RandEnc", "type": "timer", "context": "caravan", "op": "<", "time": "1 d" }
+        },
+        { "not": { "u_near_om_location": "roadstop_a", "range": 2 } },
+        { "not": { "is_season": "winter" } }
+      ]
+    },
+    "effect": [
+      { "mapgen_update": "nest_RandEnc_roadstop_a_add", "om_terrain": "roadstop_a" },
+      { "u_add_var": "RandEnc", "type": "timer", "context": "caravan", "time": true },
+      {
+        "u_location_variable": { "global_val": "randenc_caravan_loc" },
+        "target_params": { "om_terrain": "roadstop_a" }
+      },
+      { "arithmetic": [ { "global_val": "var", "var_name": "RandEnc_Caravan" }, "=", { "const": 1 } ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_RandEnc_Roadstop_remove",
+    "recurrence": 200,
+    "global": true,
+    "condition": {
+      "and": [
+        { "u_compare_time_since_var": "RandEnc", "type": "timer", "context": "caravan", "op": ">", "time": "1 h" },
+        { "not": { "u_near_om_location": "roadstop_a", "range": 2 } },
+        { "compare_int": [ { "global_val": "var", "var_name": "RandEnc_Caravan" }, "==", { "const": 1 } ] }
+      ]
+    },
+    "effect": [
+      {
+        "mapgen_update": "nest_RandEnc_roadstop_a_remove",
+        "om_terrain": "roadstop_a",
+        "target_var": { "global_val": "randenc_caravan_loc" }
+      },
+      { "arithmetic": [ { "global_val": "var", "var_name": "RandEnc_Caravan" }, "=", { "const": 0 } ] }
+    ]
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "nest_RandEnc_roadstop_a_add",
+    "//": "Adds a random encounter at this roadstop",
+    "object": {
+      "place_npcs": [
+        { "class": "FM_caravan_merchant_random", "x": 5, "y": 4 },
+        { "class": "FM_caravan_guard_A", "x": 4, "y": 1 },
+        { "class": "FM_caravan_guard_B", "x": 4, "y": 2 }
+      ],
+      "place_vehicles": [ { "vehicle": "FM_early_pickup", "chance": 100, "fuel": 50, "faction": "free_merchants", "x": [ 4 ], "y": [ 1 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "nest_RandEnc_roadstop_a_remove",
+    "//": "removes a random encounter at this roadstop",
+    "object": {
+      "remove_npcs": [
+        { "class": "FM_caravan_merchant_random", "x": 0, "y": 0 },
+        { "class": "FM_caravan_guard_A", "x": 0, "y": 0 },
+        { "class": "FM_caravan_guard_B", "x": 0, "y": 0 }
+      ],
+      "remove_vehicles": [ { "vehicles": [ "FM_early_pickup" ], "x": [ 1, 15 ], "y": [ 1, 10 ] } ]
+    }
+  }
+]

@@ -12,13 +12,13 @@
 #include "stats_tracker.h"
 #include "type_id.h"
 
-class JsonIn;
+class JsonObject;
 class score;
 
 class past_game_info
 {
     public:
-        explicit past_game_info( JsonIn &jsin );
+        explicit past_game_info( const JsonObject &jo );
 
         stats_tracker &stats() {
             return *stats_;

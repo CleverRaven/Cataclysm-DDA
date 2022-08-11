@@ -1,0 +1,229 @@
+"[C++]":
+  - "**/*.cpp"
+  - "**/*.h"
+
+"[JSON]":
+  - "**/*.json"
+
+"[Markdown]":
+  - "**/*.md"
+
+"Game: Achievements / Conducts / Scores":
+  - "**/scores**"
+  - "**/statistics**"
+  - "**/achievements**"
+  - "**/conducts**"
+  - "**/event_statistics.*"
+
+"[Python]":
+  - "**/*.py"
+
+"<Documentation>":
+  - "**/*.md"
+  - doc/**/*
+  - doxygen_doc/**/*
+
+"Code: Tooling":
+  - tools/**/*
+  - .github/**/*
+  - utilities/**/*
+
+"Code: Tests":
+  - tests/**/*
+  - data/mods/TEST_DATA/**/*
+
+"Character / World Generation":
+  - src/newcharacter.cpp
+  - "**/worldfactory.*"
+
+"Code: Build":
+  - build-data/**/*
+  - build-scripts/**/*
+  - "**/Makefile"
+  - "**/CMakeLists.txt"
+  - "**/*.cmake"
+
+"Code: Infrastructure / Style / Static Analysis":
+  - .astylerc
+  - .clang-tidy
+  - .editorconfig
+  - .lgtm.yml
+
+"Crafting / Construction / Recipes":
+  - "**/recipes/**/*"
+  - data/json/construction.json
+  - data/json/construction_category.json
+  - data/json/construction_group.json
+  - data/json/deconstruction.json
+
+"EOC: Effects On Condition":
+  - "**/**effect_on_condition**"
+  - "**/**eocs**"
+
+"Fields / Furniture / Terrain / Traps":
+  - "**/furniture**"
+
+"Items: Food / Vitamins":
+  - "**/food**"
+  - "**/comestibles**"
+
+"NPC / Factions":
+  - "**/**npc**/**/*"
+
+"Melee":
+  - "**/melee**"
+  - "**/**techniques**"
+
+"Missions":
+  - "**/**mission**"
+
+"Info / User Interface":
+  - "**/ui/**/*"
+  - "src/**ui**"
+  - "**/widget/**/*"
+  - "src/list_view.*"
+  - "src/surroundings_menu.*"
+
+"Items: Archery":
+  - "**/**archery**"
+  - "**/**crossbows**"
+
+"Items: Armor / Clothing":
+  - "**/armor/**/*"
+
+"Items: Battery / UPS":
+  - "**/battery**"
+
+"Items: Containers":
+  - "**/**containers**"
+  - "**/**storage**"
+  - "**/**sheath**"
+  - "**/**holster**"
+  - "**/**ammo_pouch**"
+  - "**/**bandolier**"
+  - "src/item_pocket.*"
+  - "src/item_contents.*"
+  - "tests/item_pocket_test.*"
+
+"Items: Magazines":
+  - "**/magazine/**/*"
+
+"Appliance/Power Grid":
+  - "**/appliance**"
+
+"Monsters":
+  - "**/monsters/**/*"
+
+"Mutations / Traits / Professions/ Hobbies":
+  - "**/professions.json"
+  - "**mutations**"
+  - "**hobbies**"
+
+"Lore":
+  - data/json/npcs/BG_trait_groups.json
+  - data/json/npcs/Personality_trait_groups.json
+  - data/json/npcs/personality_traits.json
+  - "**/Backgrounds/**/*"
+  - "**/snippets/**/*"
+
+"Limbs":
+  - "src/bodypart.*"
+  - "data/json/limb_scores.json"
+
+"Spawn":
+  - "**/itemgroups/**/*"
+  - "**/monstergroups/**/*"
+
+"Bionics":
+  - "**/bionics.*"
+
+"Map / Mapgen":
+  - "**/mapgen/**/*"
+  - "**/mapgen_palettes/**/*"
+  - "**/overmap/**/*"
+  - "**/overmap**"
+
+"Martial Arts":
+  - "**/martialarts**"
+
+"Player Faction Base / Camp":
+  - "src/basecamp.*"
+  - "src/faction_camp.*"
+  - data/json/mapgen/basecamps/**/*
+
+"Items: Ammo / Guns":
+  - "**/gun/**/*"
+  - "**/ammo/**/*"
+
+"Items: Gunmod / Toolmod":
+  - "**/gunmod**"
+  - "**/toolmod**"
+
+"SDL: Tiles / Sound":
+  - gfx/**/*
+  - sound/**/*
+
+"Scenarios":
+  - "**/scenario**"
+  - "**/**start_location**"
+
+"Translation":
+  - lang/**/*
+  - "src/translation.*"
+
+"Mods: Aftershock":
+  - data/mods/Aftershock/**/*
+  - data/mods/aftershock_exoplanet/**/*
+
+"Mods: Dark Days of the Dead":
+  - data/mods/classic_zombies/**/*
+
+"Mods: Dark Skies":
+  - data/mods/Dark-Skies-Above/**/*
+
+"Mods: Desert Region":
+  - data/mods/desert_region/**/*
+
+"Mods: DinoMod":
+  - data/mods/DinoMod/**/*
+
+"Mods: Generic Guns":
+  - data/mods/Generic_Guns/**/*
+
+"Mods: MA":
+  - data/mods/MA/**/*
+
+"Mods: MMA":
+  - data/mods/MMA/**/*
+
+"Mods: Magiclysm":
+  - data/mods/Magiclysm/**/*
+
+"Mods: Innawood 🌲":
+  - data/mods/innawood/**/*
+
+"Mods: No Hope":
+  - data/mods/No_Hope/**/*
+
+"Mods: TropiCataclysm 🌴":
+  - data/mods/TropiCataclysm/**/*
+
+"Mods: Tamable Wildlife":
+  - data/mods/Tamable_Wildlife/**/*
+
+"Mods: Xedra Evolved":
+  - data/mods/Xedra_Evolved/**/*
+
+"Mods":
+  - any: [ 'data/mods/**/*' ]
+    all: [ '!data/mods/TEST_DATA/**/*' ]
+
+"Mechanics: Enchantments / Spells":
+  - "**/enchantments**"
+  - "**/spells**"
+
+"Mechanics: Weather":
+  - "**/weather**"
+
+"Vehicles":
+  - "**/vehicle**"

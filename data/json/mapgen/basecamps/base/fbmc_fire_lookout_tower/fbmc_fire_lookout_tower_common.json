@@ -1,0 +1,31 @@
+[
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmc_fire_lookout_tower_0",
+    "method": "json",
+    "object": { "set": [ { "point": "furniture", "id": "f_bulletin", "x": 20, "y": 4 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmc_fire_lookout_tower_root_cellar",
+    "method": "json",
+    "object": { "set": [ { "point": "terrain", "id": "t_rootcellar", "x": 10, "y": 4 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmc_fire_lookout_tower_water_well",
+    "method": "json",
+    "object": { "set": [ { "point": "terrain", "id": "t_water_pump", "x": 7, "y": 15 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmc_fire_lookout_tower_radio",
+    "method": "json",
+    "object": {
+      "set": [
+        { "point": "terrain", "id": "t_radio_tower", "x": 18, "y": 19 },
+        { "point": "terrain", "id": "t_radio_controls", "x": 18, "y": 18 }
+      ]
+    }
+  }
+]

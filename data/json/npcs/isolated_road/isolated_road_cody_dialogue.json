@@ -1,0 +1,433 @@
+[
+  {
+    "id": [ "TALK_BLACKSMITH_SERVICES", "TALK_BLACKSMITH_PROTOTYPE_EXODII_ITEMS_READY" ],
+    "type": "talk_topic",
+    "dynamic_line": [
+      "Hiya darlin', welcome to the shop.",
+      "Hey, killer!  How's it going?",
+      "You look like you haven't eaten in days.",
+      "Still the apocalypse out there, huh?",
+      "See anything you like?"
+    ],
+    "speaker_effect": { "effect": { "npc_add_effect": "npc_said", "duration": 600 } },
+    "responses": [
+      { "text": "About that contract…", "topic": "TALK_MISSION_INQUIRE", "condition": "has_assigned_mission" },
+      { "text": "Who are you?", "topic": "TALK_BLACKSMITH_ABOUT" },
+      { "text": "What's with all the weapons and armor?", "topic": "TALK_BLACKSMITH_SHOP_ABOUT" },
+      {
+        "text": "What is this place?",
+        "condition": { "not": { "u_has_var": "blacksmith_mentioned_jay", "type": "dialogue", "context": "artisans", "value": "yes" } },
+        "topic": "TALK_BLACKSMITH_LOCATION_ABOUT"
+      },
+      {
+        "text": "Are you and Jay close?",
+        "condition": {
+          "and": [
+            { "u_has_var": "blacksmith_mentioned_jay", "type": "dialogue", "context": "artisans", "value": "yes" },
+            {
+              "not": { "u_has_var": "blacksmith_accepted_quest", "type": "dialogue", "context": "artisans", "value": "yes" }
+            }
+          ]
+        },
+        "topic": "TALK_BLACKSMITH_JAY"
+      },
+      {
+        "text": "[Motion to the sketches.] What is it that you are working on?",
+        "condition": {
+          "and": [
+            { "u_has_var": "seen_blacksmith_sketches", "type": "dialogue", "context": "artisans", "value": "yes" },
+            { "not": { "u_has_var": "artisans_made_up", "type": "dialogue", "context": "artisans", "value": "yes" } }
+          ]
+        },
+        "topic": "TALK_BLACKSMITH_PROTOTYPE_NOT_FEELING_IT"
+      },
+      {
+        "text": "[Motion to the sketches.] You seem more excited about this stuff recently.",
+        "condition": {
+          "and": [
+            { "u_has_var": "seen_blacksmith_sketches", "type": "dialogue", "context": "artisans", "value": "yes" },
+            { "u_has_var": "artisans_made_up", "type": "dialogue", "context": "artisans", "value": "yes" }
+          ]
+        },
+        "topic": "TALK_BLACKSMITH_PROTOTYPE_FEELING_IT"
+      },
+      {
+        "text": "I'd like to know more about some of your 'special' projects.",
+        "condition": { "and": [ { "u_has_var": "blacksmith_can_prototype", "type": "dialogue", "context": "artisans", "value": "yes" } ] },
+        "topic": "TALK_BLACKSMITH_PROTOTYPE"
+      },
+      {
+        "text": "[Show the nomad jumpsuit blueprint.] Hey - I met a group with some interesting ideas for armor design.  Is any of this of use to you?",
+        "condition": {
+          "and": [
+            { "u_has_items": { "item": "bp_nomad_jumpsuit", "count": 1 } },
+            {
+              "not": { "u_has_var": "blacksmith_crafting_EXODII", "type": "dialogue", "context": "artisans", "value": "yes" }
+            }
+          ]
+        },
+        "topic": "TALK_BLACKSMITH_PROTOTYPE_EXODII"
+      },
+      {
+        "text": "[100 merch] I'd like to become a member of the co-op.",
+        "condition": {
+          "and": [
+            { "u_has_items": { "item": "FMCNote", "count": 100 } },
+            { "u_has_var": "blacksmith_can_buy_coop", "type": "dialogue", "context": "artisans", "value": "yes" }
+          ]
+        },
+        "effect": [
+          { "u_sell_item": "FMCNote", "count": 100 },
+          { "u_spawn_item": "id_artisan_member" },
+          { "u_add_var": "blacksmith_can_buy_coop", "type": "dialogue", "context": "artisans", "value": "no" }
+        ],
+        "topic": "TALK_BLACKSMITH_BOUGHT_COOP"
+      },
+      {
+        "text": "About those contracts…",
+        "topic": "TALK_MISSION_LIST_ASSIGNED",
+        "condition": "has_many_assigned_missions"
+      },
+      {
+        "text": "Why do you hate merch?",
+        "condition": { "u_has_var": "blacksmith_hates_currency", "type": "dialogue", "context": "artisans", "value": "yes" },
+        "topic": "TALK_BLACKSMITH_MONEY_RAMBLE"
+      },
+      {
+        "text": "Any jobs you need done?",
+        "condition": {
+          "and": [
+            { "u_has_var": "artisans_made_up", "type": "dialogue", "context": "artisans", "value": "yes" },
+            { "and": [ { "not": "has_assigned_mission" }, { "not": "has_many_assigned_missions" } ] }
+          ]
+        },
+        "topic": "TALK_MISSION_LIST"
+      },
+      {
+        "text": "Could you make me a suit of armor?",
+        "condition": {
+          "and": [
+            { "not": { "u_has_var": "gunsmith_mentioned_quest", "type": "dialogue", "context": "artisans", "value": "yes" } },
+            {
+              "not": { "u_has_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "yes" }
+            },
+            { "u_has_var": "blacksmith_heard_the_deal", "type": "dialogue", "context": "artisans", "value": "yes" }
+          ]
+        },
+        "topic": "TALK_BLACKSMITH_NOT_INTERESTED_FABRICATE"
+      },
+      {
+        "text": "Could you make me a suit of armor?",
+        "condition": {
+          "and": [
+            { "not": { "u_has_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "yes" } },
+            {
+              "//": "this variable means that you have completed quest 1 for Cody and shown Jay",
+              "u_has_var": "gunsmith_mentioned_quest",
+              "type": "dialogue",
+              "context": "artisans",
+              "value": "yes"
+            }
+          ]
+        },
+        "topic": "TALK_BLACKSMITH_FABRICATE"
+      },
+      {
+        "text": "How is my armor coming?",
+        "condition": {
+          "and": [
+            { "u_compare_time_since_var": "u_waiting_on_armor", "type": "timer", "context": "artisans", "op": "<", "time": "21 d" },
+            { "u_compare_var": "blacksmith_wait", "type": "number", "context": "artisans", "op": "==", "value": 3 },
+            { "u_has_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "yes" },
+            { "u_has_var": "u_current_project", "type": "dialogue", "context": "artisans", "value": "armor" }
+          ]
+        },
+        "topic": "TALK_BLACKSMITH_ARMOR_NOT_READY"
+      },
+      {
+        "text": "How is my armor coming?",
+        "condition": {
+          "and": [
+            { "u_compare_time_since_var": "u_waiting_on_armor", "type": "timer", "context": "artisans", "op": ">=", "time": "21 d" },
+            { "u_compare_var": "blacksmith_wait", "type": "number", "context": "artisans", "op": "==", "value": 3 },
+            { "u_has_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "yes" },
+            { "u_has_var": "u_current_project", "type": "dialogue", "context": "artisans", "value": "armor" }
+          ]
+        },
+        "topic": "TALK_BLACKSMITH_ARMOR_READY"
+      },
+      {
+        "text": "How is my armor coming?",
+        "condition": {
+          "and": [
+            { "u_compare_time_since_var": "u_waiting_on_armor", "type": "timer", "context": "artisans", "op": "<", "time": "28 d" },
+            { "u_compare_var": "blacksmith_wait", "type": "number", "context": "artisans", "op": "==", "value": 4 },
+            { "u_has_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "yes" },
+            { "u_has_var": "u_current_project", "type": "dialogue", "context": "artisans", "value": "armor" }
+          ]
+        },
+        "topic": "TALK_BLACKSMITH_ARMOR_NOT_READY"
+      },
+      {
+        "text": "How is my armor coming?",
+        "condition": {
+          "and": [
+            { "u_compare_time_since_var": "u_waiting_on_armor", "type": "timer", "context": "artisans", "op": ">=", "time": "28 d" },
+            { "u_compare_var": "blacksmith_wait", "type": "number", "context": "artisans", "op": "==", "value": 4 },
+            { "u_has_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "yes" },
+            { "u_has_var": "u_current_project", "type": "dialogue", "context": "artisans", "value": "armor" }
+          ]
+        },
+        "topic": "TALK_BLACKSMITH_ARMOR_READY"
+      },
+      {
+        "text": "How is my armor coming?",
+        "condition": {
+          "and": [
+            { "u_compare_time_since_var": "u_waiting_on_armor", "type": "timer", "context": "artisans", "op": "<", "time": "35 d" },
+            { "u_compare_var": "blacksmith_wait", "type": "number", "context": "artisans", "op": "==", "value": 5 },
+            { "u_has_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "yes" },
+            { "u_has_var": "u_current_project", "type": "dialogue", "context": "artisans", "value": "armor" }
+          ]
+        },
+        "topic": "TALK_BLACKSMITH_ARMOR_NOT_READY"
+      },
+      {
+        "text": "How is my armor coming?",
+        "condition": {
+          "and": [
+            { "u_compare_time_since_var": "u_waiting_on_armor", "type": "timer", "context": "artisans", "op": ">=", "time": "35 d" },
+            { "u_compare_var": "blacksmith_wait", "type": "number", "context": "artisans", "op": "==", "value": 5 },
+            { "u_has_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "yes" },
+            { "u_has_var": "u_current_project", "type": "dialogue", "context": "artisans", "value": "armor" }
+          ]
+        },
+        "topic": "TALK_BLACKSMITH_ARMOR_READY"
+      },
+      {
+        "text": "You mentioned you'd need some special materials to make that nomad armor?",
+        "condition": {
+          "and": [
+            { "not": { "u_has_var": "blacksmith_has_exodii_items", "type": "dialogue", "context": "artisans", "value": "yes" } },
+            { "u_has_var": "blacksmith_crafting_EXODII", "type": "dialogue", "context": "artisans", "value": "yes" }
+          ]
+        },
+        "topic": "TALK_BLACKSMITH_PROTOTYPE_EXODII_ITEMS"
+      },
+      {
+        "text": "Let's trade.",
+        "condition": { "u_has_var": "blacksmith_heard_the_deal", "type": "dialogue", "context": "artisans", "value": "yes" },
+        "topic": "TALK_BLACKSMITH_SERVICES",
+        "effect": "start_trade"
+      },
+      {
+        "text": "I heard you might want some metal…",
+        "topic": "TALK_BLACKSMITH_DEAL_NEGOTIATE",
+        "condition": { "u_has_mission": "MISSION_SCRAPPER_SET_TRADE_ROUTE_BLACKSMITH" }
+      },
+      { "text": "I have to go.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_BLACKSMITH_ABOUT",
+    "type": "talk_topic",
+    "dynamic_line": [
+      "I'm Cody, was an engineer before everything went to hell.  I guess I still am, but I don't have to consult anymore, so I consider that a plus at least."
+    ],
+    "responses": [
+      { "text": "What's with all the weapons and armor?", "topic": "TALK_BLACKSMITH_SHOP_ABOUT" },
+      { "text": "What is this place?", "topic": "TALK_BLACKSMITH_LOCATION_ABOUT" },
+      { "text": "Alright.", "topic": "TALK_BLACKSMITH_SERVICES" }
+    ]
+  },
+  {
+    "id": "TALK_BLACKSMITH_LOCATION_ABOUT",
+    "type": "talk_topic",
+    "dynamic_line": [
+      "I don't know if you've met Jay yet, but he and I split a garden out here.  We both work - well, worked - in technology, and we were convinced the world was ending so we both got property outside town.  We met when he moved in next door.  So this is our little homestead with a few upgrades.  We aren't really sweating property lines at this point."
+    ],
+    "speaker_effect": { "effect": [ { "u_add_var": "blacksmith_mentioned_jay", "type": "dialogue", "context": "artisans", "value": "yes" } ] },
+    "responses": [
+      { "text": "What's with all the weapons and armor?", "topic": "TALK_BLACKSMITH_SHOP_ABOUT" },
+      { "text": "Who are you?", "topic": "TALK_BLACKSMITH_ABOUT" },
+      { "text": "Are you and Jay close?", "topic": "TALK_BLACKSMITH_JAY" },
+      { "text": "Alright.", "topic": "TALK_BLACKSMITH_SERVICES" }
+    ]
+  },
+  {
+    "id": "TALK_BLACKSMITH_SHOP_ABOUT",
+    "type": "talk_topic",
+    "dynamic_line": [
+      "I make them myself!  I've always loved traditional armaments and am a proud member of the SCA!  Figured now that everything has gone to hell I can make it a full-time thing.  Lots of survivors in need of a big ol' hammer or some armored guards to keep the biters off."
+    ],
+    "speaker_effect": {
+      "effect": [ { "u_add_var": "blacksmith_heard_the_deal", "type": "dialogue", "context": "artisans", "value": "yes" } ]
+    },
+    "responses": [
+      { "text": "It must take some serious equipment to make all this.", "topic": "TALK_BLACKSMITH_SHOP_ABOUT_MORE" },
+      { "text": "What is this place?", "topic": "TALK_BLACKSMITH_LOCATION_ABOUT" },
+      { "text": "Alright.", "topic": "TALK_BLACKSMITH_SERVICES" }
+    ]
+  },
+  {
+    "id": "TALK_BLACKSMITH_SHOP_ABOUT_MORE",
+    "type": "talk_topic",
+    "dynamic_line": [
+      "Well, what can I say, I had lots of disposable income.  Kept me busy and all that.  So yeah, I've got a pretty impressive shop in the back."
+    ],
+    "speaker_effect": {
+      "effect": [ { "u_add_var": "blacksmith_heard_the_deal", "type": "dialogue", "context": "artisans", "value": "yes" } ]
+    },
+    "responses": [
+      {
+        "text": "[INT 8+] Still this is a lot of equipment.  Wouldn't it have been easier to buy this stuff from a manufacturer?",
+        "topic": "TALK_BLACKSMITH_SHOP_ABOUT_STUPID_QUESTION"
+      },
+      { "text": "Can anyone use the workshop?", "topic": "TALK_BLACKSMITH_COOP_ABOUT" },
+      { "text": "Alright.", "topic": "TALK_BLACKSMITH_SERVICES" }
+    ]
+  },
+  {
+    "id": "TALK_BLACKSMITH_SHOP_ABOUT_STUPID_QUESTION",
+    "type": "talk_topic",
+    "dynamic_line": [ "Honey, I have a hard time finding a bra that fits.  Good luck finding a breastplate." ],
+    "responses": [
+      { "text": "…", "topic": "TALK_BLACKSMITH_SERVICES" },
+      {
+        "text": "Tell me about it, finding anything that fits in this apocalypse has been a nightmare.",
+        "topic": "TALK_BLACKSMITH_SERVICES"
+      },
+      { "text": "Oh, uh.  Right, uh.", "topic": "TALK_BLACKSMITH_SERVICES" }
+    ]
+  },
+  {
+    "id": "TALK_BLACKSMITH_COOP_ABOUT",
+    "type": "talk_topic",
+    "dynamic_line": [
+      "Well, not *anyone*, but I've always been a believer in community.  The shop is run as a co-op, so if you want access you'll have to buy a share.  As a partial owner, you will have full access to the shop.  Shares are currently 100 merch; I hate the currency but it's the closest thing we've got to a representation of labor."
+    ],
+    "speaker_effect": {
+      "effect": [
+        { "u_add_var": "blacksmith_can_buy_coop", "type": "dialogue", "context": "artisans", "value": "yes" },
+        { "u_add_var": "blacksmith_hates_currency", "type": "dialogue", "context": "artisans", "value": "yes" }
+      ]
+    },
+    "responses": [
+      { "text": "Why do you hate merch?", "topic": "TALK_BLACKSMITH_MONEY_RAMBLE" },
+      {
+        "text": "[100 merch] Yeah, I can do that.",
+        "condition": { "u_has_items": { "item": "FMCNote", "count": 100 } },
+        "effect": [
+          { "u_sell_item": "FMCNote", "count": 100 },
+          { "u_spawn_item": "id_artisan_member" },
+          { "u_add_var": "blacksmith_can_buy_coop", "type": "dialogue", "context": "artisans", "value": "no" }
+        ],
+        "topic": "TALK_BLACKSMITH_BOUGHT_COOP"
+      },
+      { "text": "Alright.", "topic": "TALK_BLACKSMITH_SERVICES" }
+    ]
+  },
+  {
+    "id": "TALK_BLACKSMITH_BOUGHT_COOP",
+    "type": "talk_topic",
+    "dynamic_line": [
+      "There yah go, one co-op membership with your name on it.  Shop's in the back, keep it tidy and share if anyone else is around workin'.  Just as a heads-up, you'll need to bring your own charcoal.  There's a kiln in there too, so if you got things to burn, just throw 'em in there there and light up."
+    ],
+    "responses": [
+      { "text": "Thanks.", "topic": "TALK_BLACKSMITH_SERVICES" },
+      { "text": "Alright.", "topic": "TALK_BLACKSMITH_SERVICES" }
+    ]
+  },
+  {
+    "id": "TALK_BLACKSMITH_MONEY_RAMBLE",
+    "type": "talk_topic",
+    "dynamic_line": [ "Money is part of what got us into this mess in the first place." ],
+    "responses": [
+      { "text": "[PER 8+] Is that why you don't carry any cash?", "topic": "TALK_BLACKSMITH_MONEY_NO_CASH" },
+      { "text": "…", "topic": "TALK_BLACKSMITH_SERVICES" }
+    ]
+  },
+  {
+    "id": "TALK_BLACKSMITH_MONEY_NO_CASH",
+    "type": "talk_topic",
+    "dynamic_line": [ "B-I-N-G-O.  If you bring it, I'll take it, but that's about it." ],
+    "responses": [ { "text": "…", "topic": "TALK_BLACKSMITH_SERVICES" } ]
+  },
+  {
+    "id": "TALK_BLACKSMITH_JAY",
+    "type": "talk_topic",
+    "dynamic_line": [
+      "Yeah, we've always got along great.  He comes over for supper every Friday.  Have a few drinks, maybe take some guns out.  Or, well… we used to.  A little while ago, we had a huge fight.  It was right after this stuff got real bad… I'm fuzzy on the details or what I said, all I remember was being so angry that I could kill him.  We haven't talked much since."
+    ],
+    "speaker_effect": {
+      "effect": [ { "u_add_var": "blacksmith_mentioned_fight", "type": "dialogue", "context": "artisans", "value": "yes" } ]
+    },
+    "responses": [
+      { "text": "Have you apologized?", "topic": "TALK_BLACKSMITH_JAY_NOT_ENOUGH" },
+      { "text": "I'm sorry.", "topic": "TALK_BLACKSMITH_SERVICES" },
+      { "text": "Is there anything I can do?", "topic": "TALK_BLACKSMITH_JAY_QUEST" },
+      { "text": "…", "topic": "TALK_BLACKSMITH_SERVICES" }
+    ]
+  },
+  {
+    "id": "TALK_BLACKSMITH_JAY_NOT_ENOUGH",
+    "type": "talk_topic",
+    "dynamic_line": [ "It just seemed like it wouldn't be enough.  I know it's silly but I have to do more than that." ],
+    "responses": [
+      { "text": "I'm sorry.", "topic": "TALK_BLACKSMITH_SERVICES" },
+      { "text": "Is there anything I can do?", "topic": "TALK_BLACKSMITH_JAY_QUEST" },
+      { "text": "…", "topic": "TALK_BLACKSMITH_SERVICES" }
+    ]
+  },
+  {
+    "id": "TALK_BLACKSMITH_JAY_QUEST",
+    "type": "talk_topic",
+    "dynamic_line": [
+      "If you're offering.  Before everything went to hell, Jay was talking about going to some gun show.  There was a guy there who had managed to sneak some Russian gun into the US.  It was a massive deal for Jay, it was all he could talk about.  I know it's a long shot, but maybe that guy was already at the gun show?  If you find the gun you can keep it, but it would mean a lot to Jay if he could take a look.  All he wanted was to pull it apart and put it back together."
+    ],
+    "responses": [
+      {
+        "text": "I'll bring you back a souvenir.",
+        "effect": [
+          { "add_mission": "MISSION_BLACKSMITH_1" },
+          { "u_add_var": "blacksmith_accepted_quest", "type": "dialogue", "context": "artisans", "value": "yes" }
+        ],
+        "topic": "TALK_BLACKSMITH_SERVICES"
+      },
+      { "text": "Not really interested.", "topic": "TALK_DONE" },
+      { "text": "I'll think about it.", "topic": "TALK_BLACKSMITH_SERVICES" }
+    ]
+  },
+  {
+    "id": "TALK_BLACKSMITH_PROTOTYPE_NOT_FEELING_IT",
+    "type": "talk_topic",
+    "dynamic_line": [
+      "Oh, these.  With the end of the world, Jay and I had been talking about some new projects for the wasteland warriors.  Anyways it doesn't matter anymore since, well it doesn't matter."
+    ],
+    "responses": [
+      {
+        "text": "Are you and Jay close?",
+        "condition": { "not": { "u_has_var": "blacksmith_accepted_quest", "type": "dialogue", "context": "artisans", "value": "yes" } },
+        "topic": "TALK_BLACKSMITH_JAY"
+      },
+      {
+        "text": "I'm sure we'll fix things soon!",
+        "condition": { "u_has_var": "blacksmith_accepted_quest", "type": "dialogue", "context": "artisans", "value": "yes" },
+        "topic": "TALK_BLACKSMITH_SERVICES"
+      },
+      { "text": "Alright.", "topic": "TALK_BLACKSMITH_SERVICES" }
+    ]
+  },
+  {
+    "id": "TALK_BLACKSMITH_DEAL_NEGOTIATE",
+    "type": "talk_topic",
+    "dynamic_line": [ "Sure, honey!  I'm always in need of more material!  What's the price, though?" ],
+    "responses": [
+      {
+        "text": "Well, how about 100 merch for every 70 pounds of metal…",
+        "effect": { "u_spawn_item": "trade_writ" },
+        "topic": "TALK_DONE"
+      }
+    ]
+  }
+]

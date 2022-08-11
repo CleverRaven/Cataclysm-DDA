@@ -1,0 +1,12 @@
+[
+  {
+    "type": "MOD_INFO",
+    "id": "MA",
+    "name": "Massachusetts",
+    "authors": [ "ZhilkinSerg" ],
+    "maintainers": [ "ZhilkinSerg" ],
+    "description": "Cataclysm in one state.",
+    "category": "total_conversion",
+    "dependencies": [ "dda" ]
+  }
+]

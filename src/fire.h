@@ -17,7 +17,6 @@
  */
 struct fire_data {
     fire_data() = default;
-    fire_data( const fire_data & ) = default;
     explicit fire_data( int intensity, bool is_contained = false ) : fire_intensity( intensity ),
         contained( is_contained )
     {}

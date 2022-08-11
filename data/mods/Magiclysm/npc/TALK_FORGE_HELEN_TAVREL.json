@@ -1,0 +1,119 @@
+[
+  {
+    "type": "npc",
+    "id": "forge_lord_reagents",
+    "//": "The Pirate of the Forge of Wonders.",
+    "name_unique": "Helen Tavrel, Former Pirate",
+    "name_suffix": "Forge Lord",
+    "class": "NC_FORGE_LORD_REAGENT",
+    "attitude": 0,
+    "mission": 3,
+    "gender": "female",
+    "chat": "TALK_FORGE_LORD_REAGENT",
+    "faction": "forge_lords"
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_FORGE_LORD_REAGENT",
+    "name": { "str": "Pirate Queen" },
+    "job_description": "My adventures would curdle your blood.",
+    "traits": [ { "trait": "VAULT_DEFENDER" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
+    "//": "This is a unique NPC who doesn't get randomly selected background traits",
+    "common": false,
+    "bonus_int": { "one_in": 4 },
+    "bonus_per": { "one_in": 4 },
+    "shopkeeper_item_group": [ { "group": "NC_FORGE_LORD_STORE_REAGENT_SHOP", "rigid": true } ],
+    "worn_override": "NC_FORGE_REAGENT_clothes",
+    "weapon_override": "NC_FORGE_REAGENT_wield",
+    "skills": [
+      {
+        "skill": "ALL",
+        "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "constant": -2 }, { "one_in": 4 } ] } ] }
+      },
+      { "skill": "mechanics", "bonus": { "one_in": 2 } },
+      { "skill": "computer", "bonus": { "one_in": 2 } },
+      { "skill": "electronics", "bonus": { "rng": [ 0, 2 ] } },
+      { "skill": "speech", "bonus": { "rng": [ 1, 3 ] } }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_FORGE_REAGENT_clothes",
+    "subtype": "collection",
+    "entries": [
+      { "item": "baldric_holster", "prob": 100, "contents-group": "pirate_loadout" },
+      { "item": "cavalry_sabre_plus_one", "prob": 100, "container-item": "scabbard" },
+      { "item": "bandana", "prob": 100 },
+      { "item": "mboots_escape", "prob": 100 },
+      { "item": "parabolan_enchanted_breeches", "prob": 100 },
+      { "item": "enchanted_pirate_blouse", "prob": 100 },
+      { "item": "flintlock_pouch", "contents-group": "flintlock_pouch_reenactor" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_FORGE_REAGENT_wield",
+    "subtype": "collection",
+    "items": [ { "item": "enchanted_blackpowder_pistol", "prob": 100, "charges": 1 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "pirate_loadout",
+    "entries": [
+      { "item": "enchanted_blackpowder_pistol", "ammo-item": "flintlock_ammo", "charges": 1 },
+      { "item": "enchanted_blackpowder_pistol", "ammo-item": "flintlock_ammo", "charges": 1 },
+      { "item": "enchanted_blackpowder_pistol", "ammo-item": "flintlock_ammo", "charges": 1 },
+      { "item": "enchanted_blackpowder_pistol", "ammo-item": "flintlock_ammo", "charges": 1 },
+      { "item": "enchanted_blackpowder_pistol", "ammo-item": "flintlock_ammo", "charges": 1 },
+      { "item": "enchanted_blackpowder_pistol", "ammo-item": "flintlock_ammo", "charges": 1 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "NC_FORGE_LORD_STORE_REAGENT_SHOP",
+    "items": [
+      { "group": "NC_FORGE_LORD_STORE_REAGENT", "count": [ 10, 20 ], "prob": 100 },
+      { "group": "NC_FORGE_PIRATE_wield", "count": 10, "prob": 20 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "NC_FORGE_LORD_STORE_REAGENT",
+    "items": [
+      { "group": "organic_materials", "count": [ 13, 18 ], "prob": 100 },
+      { "group": "magic_shop_potions", "count": [ 1, 3 ], "prob": 100 },
+      { "group": "potions_common", "count": [ 5, 8 ], "prob": 50 }
+    ]
+  },
+  {
+    "id": "TALK_FORGE_LORD_REAGENT",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "u_is_wearing": "badge_marshal",
+      "yes": [
+        "Would you try to capture me?",
+        "I've killed many a government-sanctioned hunter in my life.",
+        "Aren't we all lucky that you are probably the last lawman alive in miles?"
+      ],
+      "no": [ "Welcome to the Forge of Wonders.", "Reagents and blackpowders!", "Ahoy and other nautical terms!" ]
+    },
+    "responses": [
+      { "text": "Let's trade.", "effect": "start_trade", "topic": "TALK_FORGE_LORD_REAGENT" },
+      { "text": "What are you doing here?", "topic": "TALK_FORGE_REAGENT_DOING" },
+      { "text": "Well, bye.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_FORGE_REAGENT_DOING",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "u_is_wearing": "badge_marshal",
+      "yes": "I hope you're willing to overlook my past because otherwise you're not buying anything from me.",
+      "no": "A lifetime of plunder has brought me many a strange item - that you can have for unbeatable prices!"
+    },
+    "responses": [ { "text": "Well, shiver me timbers then.", "topic": "TALK_FORGE_LORD_REAGENT" } ]
+  }
+]

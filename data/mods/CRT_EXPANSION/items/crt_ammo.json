@@ -47,7 +47,7 @@
     "copy-from": "pellet",
     "type": "AMMO",
     "name": { "str_sp": "alloy pellets" },
-    "description": "An gimmicky alloy pellet with the purpose of reaching a higher velocity than a normal lead pellet for breaking the sound barrier resulting in an extremely loud crack, not so useful for stealth.",
+    "description": "A gimmicky alloy pellet with the purpose of reaching a higher velocity than a normal lead pellet for breaking the sound barrier resulting in an extremely loud crack, not so useful for stealth.",
     "material": [ "steel" ],
     "symbol": "=",
     "color": "dark_gray",

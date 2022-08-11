@@ -1,0 +1,49 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "marloss_zealot",
+    "object": { "mapgensize": [ 1, 1 ], "place_monster": [ { "monster": "mon_marloss_zealot_f", "x": 0, "y": 0 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "marloss_zealot",
+    "object": { "mapgensize": [ 1, 1 ], "place_monster": [ { "monster": "mon_marloss_zealot_m", "x": 0, "y": 0 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "mx_marloss_pilgrimage",
+    "object": {
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "           2            ",
+        "                        ",
+        "        2     2         ",
+        "                        ",
+        "       2   1   2        ",
+        "                        ",
+        "        2     2         ",
+        "                        ",
+        "           2            ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "npcs": { "1": { "class": "marloss_voice" } },
+      "nested": { "2": { "chunks": [ [ "marloss_zealot", 50 ], [ "null", 50 ] ] } }
+    }
+  }
+]

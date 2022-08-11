@@ -13,7 +13,7 @@ inheriting_item_ids = []
 
 def gen_new(path):
     change = False
-    with open(path, "r") as json_file:
+    with open(path, "r", encoding="utf-8") as json_file:
         json_data = json.load(json_file)
         for jo in json_data:
             if "capacity" in jo:
@@ -40,7 +40,7 @@ for root, directories, filenames in os.walk(args_dict["dir"]):
         if path.endswith(".json"):
             new = gen_new(path)
             if new:
-                with open(path, "w") as jf:
+                with open(path, "w", encoding="utf-8") as jf:
                     json.dump(new, jf, ensure_ascii=False)
                 os.system(f"./tools/format/json_formatter.cgi {path}")
 

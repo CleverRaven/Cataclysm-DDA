@@ -87,6 +87,7 @@
     "id": "MISSION_pizzaiolo_1",
     "type": "mission_definition",
     "name": { "str": "Angry pizzaiolo" },
+    "description": "Find some gasoline and then travel to the destination together with pizzaiolo.",
     "goal": "MGOAL_GO_TO",
     "difficulty": 0,
     "value": 10000,
@@ -127,7 +128,7 @@
     "difficulty": 0,
     "value": 10000,
     "start": {
-      "effect": [ "follow_only", { "u_buy_item": "bat" } ],
+      "effect": [ "follow_only", { "u_spawn_item": "bat" } ],
       "assign_mission_target": { "om_terrain": "s_restaurant_foodplace", "min_distance": 5, "z": 0 },
       "update_mapgen": {
         "om_terrain": "s_restaurant_foodplace_roof",
@@ -189,7 +190,7 @@
     "type": "mission_definition",
     "has_generic_rewards": false,
     "name": { "str": "Family house" },
-    "description": "Lead pizzaiolo to his family house.",
+    "description": "First bring pizzaiolo some chocolate cake then lead him to his family house.",
     "goal": "MGOAL_GO_TO",
     "start": {
       "effect": { "u_learn_recipe": "cake2" },

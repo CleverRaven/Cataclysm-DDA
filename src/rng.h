@@ -73,6 +73,9 @@ inline double rng_exponential( double mean )
 
 double exponential_roll( double lambda );
 
+// Return a random string of [A-Za-z] characters of the given length
+std::string random_string( size_t length );
+
 /**
  * Returns a random entry in the container.
  * The container must have a `size()` function and must support iterators as usual.
@@ -121,7 +124,7 @@ inline V random_entry( const C &container )
     if( container.empty() ) {
         return V();
     }
-    auto iter = container.begin();
+    typename C::const_iterator iter = container.begin();
     std::advance( iter, rng( 0, container.size() - 1 ) );
     return *iter;
 }
@@ -171,7 +174,7 @@ inline V random_entry_removed( C &container )
 {
     auto iter = container.begin();
     std::advance( iter, rng( 0, container.size() - 1 ) );
-    const V result = std::move( *iter ); // Copy because the original is removed and thereby destroyed
+    V result = std::move( *iter ); // Copy because the original is removed and thereby destroyed
     container.erase( iter );
     return result;
 }

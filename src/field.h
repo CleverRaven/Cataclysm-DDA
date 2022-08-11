@@ -59,6 +59,7 @@ class field_entry
         }
 
         bool is_dangerous() const;
+        bool is_mopsafe() const;
 
         //Returns the display name of the current field given its current intensity.
         //IE: light smoke, smoke, heavy smoke
@@ -155,6 +156,11 @@ class field
          * Returns field type that should be drawn.
          */
         field_type_id displayed_field_type() const;
+
+        /**
+         * Returns the intensity of the drawn tile
+         */
+        int displayed_intensity() const;
 
         description_affix displayed_description_affix() const;
 

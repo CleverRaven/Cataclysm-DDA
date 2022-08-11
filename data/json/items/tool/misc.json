@@ -48,7 +48,7 @@
     "type": "TOOL",
     "id": "butane_can",
     "name": { "str": "can of butane", "str_pl": "cans of butane" },
-    "description": "A typical can of butane that you would normally use to fill a lighter.  It could be useful as a fuel, but also as a solvent or chemical reagent.",
+    "description": "A non-refillable can of butane with an adapter for refilling lighters.  It could be useful as a fuel, but also as a solvent or chemical reagent.",
     "symbol": "!",
     "color": "dark_gray",
     "looks_like": "spray_can",
@@ -56,19 +56,40 @@
     "volume": "500 ml",
     "price": 1500,
     "price_postapoc": 250,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "butane": 30 }, "watertight": true, "rigid": true } ],
-    "initial_charges": 30,
-    "max_charges": 30,
     "charges_per_use": 1,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "watertight": true, "rigid": true, "ammo_restriction": { "butane": 30 } } ],
     "material": [ "steel" ],
-    "flags": [  ],
+    "flags": [ "NO_RELOAD", "GAS_TANK" ],
     "explosion": {
       "power": 4503,
       "distance_factor": 0.1,
       "fire": true,
-      "shrapnel": { "casing_mass": 50, "fragment_mass": 0.05, "recovery": 0 }
+      "shrapnel": { "casing_mass": 50, "fragment_mass": 0.025, "recovery": 0 }
     },
     "explode_in_fire": true
+  },
+  {
+    "id": "clay_urn",
+    "type": "TOOL",
+    "name": { "str": "clay urn" },
+    "description": "A clay container for storing cremated ashes.",
+    "weight": "1600 g",
+    "volume": "4280 ml",
+    "price": 5000,
+    "price_postapoc": 50,
+    "material": [ "clay" ],
+    "symbol": ")",
+    "color": "brown",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+        "rigid": true,
+        "max_contains_volume": "4100 ml",
+        "max_contains_weight": "4 kg"
+      }
+    ],
+    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   },
   {
     "id": "cow_bell",
@@ -87,76 +108,27 @@
     "use_action": [ "BELL" ]
   },
   {
+    "id": "crystal_urn",
     "type": "TOOL",
-    "id": "dab_pen",
-    "name": { "str": "dab pen" },
-    "description": "A battery operated dab pen used for smoking cannabis distillate cartridges.",
-    "symbol": "!",
-    "color": "dark_gray",
-    "looks_like": "ecig",
-    "weight": "20 g",
-    "volume": "100 ml",
-    "price": 2500,
-    "price_postapoc": 100,
-    "material": [ "plastic" ],
-    "ammo": [ "battery" ],
-    "charges_per_use": 1,
-    "max_charges": 100,
-    "use_action": {
-      "target": "dab_pen_on",
-      "msg": "You turn on the dab pen.",
-      "active": true,
-      "need_charges": 1,
-      "need_charges_msg": "The dab pen's batteries need more charge.",
-      "type": "transform"
-    },
+    "name": { "str": "crystal urn" },
+    "description": "An exquisite, translucent container for cremated ashes, decorated with floral patterns.",
+    "weight": "1400 g",
+    "volume": "4280 ml",
+    "price": 125000,
+    "price_postapoc": 500,
+    "material": [ "crystal" ],
+    "symbol": ")",
+    "color": "magenta",
     "pocket_data": [
       {
-        "pocket_type": "MAGAZINE_WELL",
+        "pocket_type": "CONTAINER",
+        "watertight": true,
         "rigid": true,
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "light_minus_battery_cell", "light_minus_disposable_cell", "light_battery_cell", "light_disposable_cell" ]
+        "max_contains_volume": "4100 ml",
+        "max_contains_weight": "4 kg"
       }
-    ]
-  },
-  {
-    "type": "TOOL",
-    "id": "dab_pen_on",
-    "name": { "str": "dab pen (on)", "str_pl": "dab pens (on)" },
-    "description": "This dab pen, for vaporizing cannabis, is turned on.  Now all you need is a distillate cartridge and you're ready to rock and roll.",
-    "symbol": "!",
-    "color": "dark_gray",
-    "looks_like": "ecig",
-    "weight": "20 g",
-    "volume": "100 ml",
-    "price": 2500,
-    "price_postapoc": 100,
-    "material": [ "plastic" ],
-    "ammo": [ "battery" ],
-    "power_draw": 9000,
-    "revert_to": "dab_pen",
-    "charges_per_use": 1,
-    "max_charges": 100,
-    "use_action": {
-      "target": "dab_pen",
-      "msg": "You turn off the dab pen.",
-      "active": false,
-      "need_charges": 0,
-      "need_charges_msg": "The dab pen's batteries need more charge.",
-      "type": "transform"
-    },
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "rigid": true,
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "light_minus_battery_cell", "light_minus_disposable_cell", "light_battery_cell", "light_disposable_cell" ]
-      }
-    ]
+    ],
+    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   },
   {
     "id": "e_tool",
@@ -205,10 +177,15 @@
     "material": [ "wood" ],
     "symbol": "=",
     "color": "brown",
-    "initial_charges": 5,
-    "max_charges": 5,
-    "charges_per_use": 1,
-    "use_action": [ "ARROW_FLAMABLE" ]
+    "use_action": {
+      "target": "arrow_flamming",
+      "target_charges": 1,
+      "msg": "You light the arrow.",
+      "active": true,
+      "need_fire": 1,
+      "menu_text": "Light arrow",
+      "type": "transform"
+    }
   },
   {
     "id": "fur_rollmat",
@@ -257,6 +234,7 @@
     "description": "A folding grappling hook attached to a stout 30-foot long piece of lightweight cord.  Useful for keeping yourself safe from falls.  Can be used in place of a long rope for butchering, in a pinch.",
     "weight": "1980 g",
     "volume": "2500 ml",
+    "copy-from": "rope_30",
     "price_postapoc": 500,
     "to_hit": -2,
     "bashing": 12,
@@ -379,7 +357,7 @@
     "symbol": ";",
     "color": "brown",
     "ammo": [ "battery" ],
-    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
     "use_action": {
       "target": "large_space_heater_on",
       "msg": "You turn on the heater.",
@@ -392,11 +370,9 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "magazine_well": "2 L",
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "heavy_battery_cell", "heavy_plus_battery_cell", "heavy_atomic_battery_cell", "heavy_disposable_cell" ]
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_HEAVY" ],
+        "default_magazine": "heavy_battery_cell"
       }
     ]
   },
@@ -410,7 +386,13 @@
     "emits": [ "emit_hot_air2_blast" ],
     "flags": [ "ALLOWS_REMOTE_USE", "LIGHT_2" ],
     "revert_to": "large_space_heater",
-    "use_action": { "target": "large_space_heater", "msg": "You turn off the heater.", "menu_text": "Turn off", "type": "transform" }
+    "use_action": {
+      "ammo_scale": 0,
+      "target": "large_space_heater",
+      "msg": "You turn off the heater.",
+      "menu_text": "Turn off",
+      "type": "transform"
+    }
   },
   {
     "id": "lifestraw",
@@ -433,46 +415,10 @@
     "use_action": [ "WATER_PURIFIER" ]
   },
   {
-    "id": "makeshift_halberd",
-    "type": "GENERIC",
-    "name": { "str": "makeshift glaive" },
-    "//": "Name changed to glaive, but changing the id would break e.g.  tilesets.",
-    "description": "This is a large blade attached to a stout section of tree branch.  It could do a considerable amount of damage.",
-    "weight": "1800 g",
-    "volume": "3 L",
-    "longest_side": "180 cm",
-    "price": 5000,
-    "price_postapoc": 250,
-    "to_hit": -1,
-    "bashing": 13,
-    "cutting": 31,
-    "material": [ "steel", "wood" ],
-    "symbol": "/",
-    "color": "light_gray",
-    "techniques": [ "WBLOCK_1" ],
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -42 ] ],
-    "flags": [ "REACH_ATTACK", "POLEARM", "NONCONDUCTIVE", "SHEATH_SPEAR", "FRAGILE_MELEE" ]
-  },
-  {
-    "type": "GENERIC",
-    "id": "mind_splicer",
-    "symbol": "o",
-    "color": "white",
-    "name": { "str": "mind splicer kit" },
-    "description": "Surgical forceps, cables and a modified smartphone inside a small plastic pouch.  Assembled to steal the mind of some poor man, these are tools of the creepy high-tech sandman.",
-    "material": [ "plastic" ],
-    "price": 12500,
-    "price_postapoc": 500,
-    "use_action": [ "MIND_SPLICER" ],
-    "volume": "1 L",
-    "weight": "600 g",
-    "flags": [ "TRADER_AVOID" ]
-  },
-  {
     "type": "TOOL",
     "id": "gasket_plastic",
     "name": { "str": "plastic gasket" },
-    "description": " A single-use plastic gasket.",
+    "description": "A single-use plastic gasket.",
     "symbol": "(",
     "color": "dark_gray",
     "looks_like": "plastic_chunk",
@@ -481,7 +427,7 @@
     "//": "gasket sizes range from 1in diameter to 6in.",
     "price": 150,
     "price_postapoc": 50,
-    "to_hit": 10,
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "neutral" },
     "bashing": 1,
     "material": [ "plastic" ]
   },
@@ -489,7 +435,7 @@
     "id": "permanent_marker",
     "type": "TOOL",
     "name": { "str": "permanent marker" },
-    "description": "This is a King Size(tm) industrial strength permanent marker, about halfway between a typical marker and a can of spray paint in size.  Use it to write something down.  However, writing \"Elbereth\" probably won't help you.",
+    "description": "This is a King Size™ industrial strength permanent marker, about halfway between a typical marker and a can of spray paint in size.  Use it to write something down.  However, writing \"Elbereth\" probably won't help you.",
     "weight": "113 g",
     "volume": "50 ml",
     "price": 500,
@@ -497,8 +443,6 @@
     "material": [ "plastic" ],
     "symbol": ",",
     "color": "dark_gray",
-    "initial_charges": 500,
-    "max_charges": 500,
     "charges_per_use": 1,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "permanent_ink": 500 }, "watertight": true, "rigid": true } ],
     "use_action": { "type": "inscribe", "verb": "Write", "gerund": "Written", "on_terrain": true, "material_restricted": false },
@@ -510,7 +454,7 @@
     "name": { "str": "pocket watch", "str_pl": "pocket watches" },
     "description": "An old-fashioned pocket watch.  This one tells you the time and looks good doing it.  Can also be disassembled into some useful parts.",
     "weight": "65 g",
-    "volume": "5 ml",
+    "volume": "25 ml",
     "price": 25000,
     "price_postapoc": 100,
     "to_hit": -3,
@@ -518,6 +462,29 @@
     "symbol": ",",
     "color": "light_gray",
     "flags": [ "WATCH", "FANCY" ]
+  },
+  {
+    "id": "porcelain_urn",
+    "type": "TOOL",
+    "name": { "str": "porcelain urn" },
+    "description": "A container for holding the remains of a loved one.  Its prior owners must have kept good care of it, as you can see your face reflected clearly upon its surface.",
+    "weight": "1600 g",
+    "volume": "4280 ml",
+    "price": 35000,
+    "price_postapoc": 250,
+    "material": [ "porcelain" ],
+    "symbol": ")",
+    "color": "white",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+        "rigid": true,
+        "max_contains_volume": "4100 ml",
+        "max_contains_weight": "4 kg"
+      }
+    ],
+    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   },
   {
     "id": "rollmat",
@@ -589,7 +556,7 @@
     "symbol": ";",
     "color": "brown",
     "ammo": [ "battery" ],
-    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
     "use_action": {
       "target": "small_space_heater_on",
       "msg": "You turn on the heater.",
@@ -602,11 +569,9 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
         "rigid": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_cell"
       }
     ]
   },
@@ -620,7 +585,13 @@
     "emits": [ "emit_hot_air2_stream" ],
     "flags": [ "ALLOWS_REMOTE_USE", "LIGHT_2" ],
     "revert_to": "small_space_heater",
-    "use_action": { "target": "small_space_heater", "msg": "You turn off the heater.", "menu_text": "Turn off", "type": "transform" }
+    "use_action": {
+      "ammo_scale": 0,
+      "target": "small_space_heater",
+      "msg": "You turn off the heater.",
+      "menu_text": "Turn off",
+      "type": "transform"
+    }
   },
   {
     "id": "spray_can",
@@ -634,8 +605,6 @@
     "material": [ "aluminum" ],
     "symbol": ";",
     "color": "light_gray",
-    "initial_charges": 10,
-    "max_charges": 10,
     "charges_per_use": 1,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "aerosol_paint": 10 }, "watertight": true, "rigid": true } ],
     "use_action": [ "SPRAY_CAN" ],
@@ -644,7 +613,7 @@
   {
     "id": "stepladder",
     "type": "TOOL",
-    "name": { "str": "stepladder" },
+    "name": { "str": "wooden stepladder" },
     "description": "This is a wooden stepladder.  Use it to set it down.",
     "weight": "20000 g",
     "volume": "50 L",
@@ -747,14 +716,19 @@
     "material": [ "plastic", "aluminum" ],
     "symbol": ",",
     "color": "dark_gray",
-    "covers": [ "hand_l", "hand_r" ],
     "sided": true,
-    "coverage": 5,
-    "encumbrance": 40,
     "warmth": 0,
     "material_thickness": 1,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "ALLOWS_NATURAL_ATTACKS", "BELT_CLIP", "BELTED", "FRAGILE", "OVERSIZE", "RAIN_PROTECT" ]
+    "flags": [ "ALLOWS_NATURAL_ATTACKS", "BELT_CLIP", "BELTED", "FRAGILE", "OVERSIZE", "RAIN_PROTECT" ],
+    "armor": [
+      {
+        "encumbrance": 25,
+        "coverage": 50,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ]
+      }
+    ]
   },
   {
     "id": "testflames",
@@ -806,7 +780,8 @@
     "symbol": "/",
     "color": "magenta",
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "STAB", "RAIN_PROTECT", "SHEATH_SWORD" ]
+    "flags": [ "STAB", "RAIN_PROTECT", "SHEATH_SWORD", "FRAGILE_MELEE" ],
+    "weapon_category": [ "FENCING_WEAPONRY" ]
   },
   {
     "id": "vortex_stone",
@@ -879,5 +854,22 @@
       { "type": "firestarter", "moves": 1000, "moves_slow": 25000, "need_sunlight": true }
     ],
     "flags": [ "FIRESTARTER", "THERMOMETER" ]
+  },
+  {
+    "id": "aluminum_stepladder",
+    "type": "TOOL",
+    "name": { "str": "aluminum stepladder" },
+    "description": "This is an aluminum stepladder.  Use it to set it down.",
+    "looks_like": "stepladder",
+    "weight": "15750 g",
+    "volume": "50 L",
+    "price": 2000,
+    "price_postapoc": 100,
+    "to_hit": -3,
+    "bashing": 12,
+    "material": [ "aluminum" ],
+    "symbol": "H",
+    "color": "light_gray",
+    "use_action": [ "LADDER" ]
   }
 ]

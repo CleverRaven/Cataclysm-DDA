@@ -52,5 +52,22 @@
     "sound_multiplier": 0.5,
     "move_speed_multiplier": 0.5,
     "swim_speed_mod": 50
+  },
+  {
+    "type": "movement_mode",
+    "id": "prone",
+    "character": "p",
+    "panel_char": "P",
+    "name": "prone",
+    "panel_color": "green",
+    "symbol_color": "blue",
+    "exertion_level": "NO_EXERCISE",
+    "change_good_none": "You lie down.",
+    "change_good_animal": "You stop your steed.",
+    "change_good_mech": "You turn off your mech's leg servos.",
+    "move_type": "prone",
+    "sound_multiplier": 0.2,
+    "move_speed_multiplier": 0.2,
+    "swim_speed_mod": 50
   }
 ]

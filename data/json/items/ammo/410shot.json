@@ -18,6 +18,9 @@
     "casing": "410shot_hull",
     "range": 12,
     "damage": { "damage_type": "bullet", "amount": 30 },
+    "shot_damage": { "damage_type": "bullet", "amount": 14 },
+    "projectile_count": 5,
+    "shot_spread": 10,
     "recoil": 1350,
     "loudness": 90,
     "effects": [ "COOKOFF", "SHOT" ]
@@ -27,6 +30,7 @@
     "copy-from": "410shot_000",
     "type": "AMMO",
     "name": { "str_sp": ".410 000 shot, reloaded" },
+    "description": "A .410 shell with 5 000 pellets.  Good for a hunting or combat load.  This one has been hand-reloaded by a survivor or perhaps a pre-Cataclysm hobbyist, leading to slightly inferior performance compared to factory-produced ammo.",
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }

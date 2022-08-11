@@ -5,7 +5,7 @@
     "name": "bale of hay",
     "description": "A massive packed-together block of hay, it makes for easy storage of straw for livestock.  If your only other option is the floor, it makes a tolerable bed.",
     "symbol": "#",
-    "bgcolor": "brown",
+    "bgcolor": "yellow",
     "move_cost_mod": 3,
     "comfort": 2,
     "floor_bedding_warmth": 100,

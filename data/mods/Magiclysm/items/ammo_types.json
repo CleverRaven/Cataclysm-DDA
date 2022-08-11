@@ -37,8 +37,8 @@
   },
   {
     "type": "ammunition_type",
-    "id": "mercury",
-    "name": "mercury",
-    "default": "mercury"
+    "id": "parabolan_yarn",
+    "name": "parabolan yarn",
+    "default": "parabolan_yarn"
   }
 ]

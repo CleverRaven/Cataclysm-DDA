@@ -1,0 +1,98 @@
+[
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbms_2_locker_1",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbms_2_locker_a" ], "x": 1, "y": 17 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbms_2_locker_2",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbms_2_locker_b" ], "x": 6, "y": 17 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbms_2_locker_3",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbms_2_locker_a" ], "x": 10, "y": 17 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbms_2_locker_4",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbms_2_locker_b" ], "x": 15, "y": 17 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbms_2_locker_5",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbms_2_locker_a" ], "x": 1, "y": 12 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbms_2_locker_6",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbms_2_locker_b" ], "x": 6, "y": 12 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbms_2_locker_7",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbms_2_locker_a" ], "x": 10, "y": 12 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbms_2_locker_8",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbms_2_locker_b" ], "x": 15, "y": 12 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbms_2_locker_9",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbms_2_locker_a" ], "x": 1, "y": 6 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbms_2_locker_10",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbms_2_locker_b" ], "x": 6, "y": 6 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbms_2_locker_11",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbms_2_locker_a" ], "x": 10, "y": 6 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbms_2_locker_12",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbms_2_locker_b" ], "x": 15, "y": 6 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbms_2_locker_13",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbms_2_locker_a" ], "x": 1, "y": 1 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbms_2_locker_14",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbms_2_locker_b" ], "x": 6, "y": 1 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbms_2_locker_15",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbms_2_locker_a" ], "x": 10, "y": 1 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbms_2_locker_16",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbms_2_locker_b" ], "x": 15, "y": 1 } ] }
+  }
+]

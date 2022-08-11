@@ -1,0 +1,446 @@
+[
+  {
+    "id": "TALK_BLACKSMITH_PROTOTYPE_NOT_FEELING_IT",
+    "type": "talk_topic",
+    "dynamic_line": [
+      "Oh, these.  With the end of the world, Jay and I had been talking about some new projects for the wasteland warriors.  Anyways, it doesn't matter anymore since… well, it doesn't matter."
+    ],
+    "responses": [
+      {
+        "text": "Are you and Jay close?",
+        "condition": { "not": { "u_has_var": "blacksmith_accepted_quest", "type": "dialogue", "context": "artisans", "value": "yes" } },
+        "topic": "TALK_BLACKSMITH_JAY"
+      },
+      {
+        "text": "I'm sure we'll fix things soon!",
+        "condition": { "u_has_var": "blacksmith_accepted_quest", "type": "dialogue", "context": "artisans", "value": "yes" },
+        "topic": "TALK_BLACKSMITH_SERVICES"
+      },
+      { "text": "Alright.", "topic": "TALK_BLACKSMITH_SERVICES" }
+    ]
+  },
+  {
+    "id": "TALK_BLACKSMITH_PROTOTYPE_FEELING_IT",
+    "type": "talk_topic",
+    "dynamic_line": [
+      "Yeah!  I feel a lot better now that Jay and I are talking again, and we've been putting some serious work into this stuff.  If you wanted to help source parts and do some testing, we could definitely get some prototypes made."
+    ],
+    "responses": [
+      {
+        "text": "Alright.",
+        "effect": [ { "u_add_var": "blacksmith_can_prototype", "type": "dialogue", "context": "artisans", "value": "yes" } ],
+        "topic": "TALK_BLACKSMITH_SERVICES"
+      }
+    ]
+  },
+  {
+    "id": "TALK_BLACKSMITH_BUSY",
+    "type": "talk_topic",
+    "dynamic_line": [ "I'm already working on something for you.  I only got two hands and 24 hours in a day." ],
+    "responses": [ { "text": "Alright.", "topic": "TALK_BLACKSMITH_SERVICES" } ]
+  },
+  {
+    "id": "TALK_BLACKSMITH_PROTOTYPE_ONGOING",
+    "type": "talk_topic",
+    "dynamic_line": [ "I'm still working on it, can't rush perfection." ],
+    "responses": [ { "text": "Alright.", "topic": "TALK_BLACKSMITH_SERVICES" } ]
+  },
+  {
+    "id": "TALK_BLACKSMITH_PROTOTYPE",
+    "type": "talk_topic",
+    "dynamic_line": [ "Sure, what would you like to know more about?" ],
+    "responses": [
+      {
+        "text": "Can you work on one of these projects for me?",
+        "condition": { "u_has_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "yes" },
+        "topic": "TALK_BLACKSMITH_BUSY"
+      },
+      {
+        "text": "[Motion to the picture of some kind of rifle.] What's the 'OBREZ'?",
+        "condition": { "not": { "u_has_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "yes" } },
+        "topic": "TALK_BLACKSMITH_OBREZ"
+      },
+      {
+        "text": "Is the Obrez finished?",
+        "condition": {
+          "and": [
+            {
+              "u_compare_time_since_var": "u_waiting_on_prototype",
+              "type": "timer",
+              "context": "artisans",
+              "op": "<",
+              "time": "7 d"
+            },
+            { "u_has_var": "u_current_project", "type": "dialogue", "context": "artisans", "value": "obrez" }
+          ]
+        },
+        "topic": "TALK_BLACKSMITH_PROTOTYPE_ONGOING"
+      },
+      {
+        "text": "Is the Obrez finished?",
+        "condition": {
+          "and": [
+            {
+              "u_compare_time_since_var": "u_waiting_on_prototype",
+              "type": "timer",
+              "context": "artisans",
+              "op": ">",
+              "time": "7 d"
+            },
+            { "u_has_var": "u_current_project", "type": "dialogue", "context": "artisans", "value": "obrez" }
+          ]
+        },
+        "topic": "TALK_BLACKSMITH_OBREZ_COMPLETE"
+      },
+      {
+        "text": "[Motion to the picture of a switchblade.] What's the 'PRESSIN'?",
+        "condition": { "not": { "u_has_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "yes" } },
+        "topic": "TALK_BLACKSMITH_PRESSIN"
+      },
+      {
+        "text": "Is the Pressin finished?",
+        "condition": {
+          "and": [
+            {
+              "u_compare_time_since_var": "u_waiting_on_prototype",
+              "type": "timer",
+              "context": "artisans",
+              "op": "<",
+              "time": "7 d"
+            },
+            { "u_has_var": "u_current_project", "type": "dialogue", "context": "artisans", "value": "pressin" }
+          ]
+        },
+        "topic": "TALK_BLACKSMITH_PROTOTYPE_ONGOING"
+      },
+      {
+        "text": "Is the Pressin finished?",
+        "condition": {
+          "and": [
+            {
+              "u_compare_time_since_var": "u_waiting_on_prototype",
+              "type": "timer",
+              "context": "artisans",
+              "op": ">",
+              "time": "7 d"
+            },
+            { "u_has_var": "u_current_project", "type": "dialogue", "context": "artisans", "value": "pressin" }
+          ]
+        },
+        "topic": "TALK_BLACKSMITH_PRESSIN_COMPLETE"
+      },
+      {
+        "text": "[Motion to the picture of a mace styled with fire on the head.] What's the 'LOUVERTURE'?",
+        "condition": { "not": { "u_has_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "yes" } },
+        "topic": "TALK_BLACKSMITH_LOUVERTURE"
+      },
+      {
+        "text": "Is the Louverture finished?",
+        "condition": {
+          "and": [
+            {
+              "u_compare_time_since_var": "u_waiting_on_prototype",
+              "type": "timer",
+              "context": "artisans",
+              "op": "<",
+              "time": "14 d"
+            },
+            { "u_has_var": "u_current_project", "type": "dialogue", "context": "artisans", "value": "LOUVERTURE" }
+          ]
+        },
+        "topic": "TALK_BLACKSMITH_PROTOTYPE_ONGOING"
+      },
+      {
+        "text": "Is the Louverture finished?",
+        "condition": {
+          "and": [
+            {
+              "u_compare_time_since_var": "u_waiting_on_prototype",
+              "type": "timer",
+              "context": "artisans",
+              "op": ">",
+              "time": "14 d"
+            },
+            { "u_has_var": "u_current_project", "type": "dialogue", "context": "artisans", "value": "LOUVERTURE" }
+          ]
+        },
+        "topic": "TALK_BLACKSMITH_LOUVERTURE_COMPLETE"
+      },
+      {
+        "text": "[Motion to the picture of a sledge hammer with a piston jutting from one face of the head.] What's the 'DISORDER'?",
+        "condition": { "not": { "u_has_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "yes" } },
+        "topic": "TALK_BLACKSMITH_DISORDER"
+      },
+      {
+        "text": "Is the Disorder finished?",
+        "condition": {
+          "and": [
+            {
+              "u_compare_time_since_var": "u_waiting_on_prototype",
+              "type": "timer",
+              "context": "artisans",
+              "op": "<",
+              "time": "14 d"
+            },
+            { "u_has_var": "u_current_project", "type": "dialogue", "context": "artisans", "value": "DISORDER" }
+          ]
+        },
+        "topic": "TALK_BLACKSMITH_PROTOTYPE_ONGOING"
+      },
+      {
+        "text": "Is the Disorder finished?",
+        "condition": {
+          "and": [
+            {
+              "u_compare_time_since_var": "u_waiting_on_prototype",
+              "type": "timer",
+              "context": "artisans",
+              "op": ">",
+              "time": "14 d"
+            },
+            { "u_has_var": "u_current_project", "type": "dialogue", "context": "artisans", "value": "DISORDER" }
+          ]
+        },
+        "topic": "TALK_BLACKSMITH_DISORDER_COMPLETE"
+      },
+      { "text": "Nevermind.", "topic": "TALK_BLACKSMITH_SERVICES" }
+    ]
+  },
+  {
+    "id": "TALK_BLACKSMITH_OBREZ",
+    "//": "Obrez Mace",
+    "type": "talk_topic",
+    "dynamic_line": "The Obrez is a classic Mosin-Nagant that someone has cut down and removed the stock of.  The idea was that in some parts of the world a surplus rifle was easier than finding a pistol to conceal.  Way I see it, a sturdy classic gun like that with a bit of reinforcement could make a great mace.  You find me a functioning Mosin - any variant will do - and 50 merch for parts, and I can get this one working in a week.",
+    "responses": [
+      {
+        "text": "[Mosin-Nagant M44, 50 merch] See you in a week.",
+        "condition": {
+          "and": [ { "u_has_items": { "item": "mosin44", "count": 1 } }, { "u_has_items": { "item": "FMCNote", "count": 50 } } ]
+        },
+        "effect": [
+          { "u_consume_item": "mosin44", "count": 1, "popup": true },
+          { "u_consume_item": "FMCNote", "count": 50, "popup": true },
+          { "u_add_faction_trust": 1 },
+          { "u_add_var": "u_waiting_on_prototype", "type": "timer", "context": "artisans", "time": true },
+          { "u_add_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "yes" },
+          { "u_add_var": "u_current_project", "type": "dialogue", "context": "artisans", "value": "obrez" }
+        ],
+        "topic": "TALK_BLACKSMITH_SERVICES"
+      },
+      {
+        "text": "[Mosin-Nagant 1891/30, 50 merch] See you in a week.",
+        "condition": {
+          "and": [ { "u_has_items": { "item": "mosin91_30", "count": 1 } }, { "u_has_items": { "item": "FMCNote", "count": 50 } } ]
+        },
+        "effect": [
+          { "u_consume_item": "mosin91_30", "count": 1, "popup": true },
+          { "u_consume_item": "FMCNote", "count": 50, "popup": true },
+          { "u_add_faction_trust": 1 },
+          { "u_add_var": "u_waiting_on_prototype", "type": "timer", "context": "artisans", "time": true },
+          { "u_add_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "yes" },
+          { "u_add_var": "u_current_project", "type": "dialogue", "context": "artisans", "value": "obrez" }
+        ],
+        "topic": "TALK_BLACKSMITH_SERVICES"
+      },
+      { "text": "What about another project?", "topic": "TALK_BLACKSMITH_PROTOTYPE" },
+      { "text": "I want to talk about something else.", "topic": "TALK_BLACKSMITH_SERVICES" },
+      { "text": "I'll check in later.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_BLACKSMITH_OBREZ_COMPLETE",
+    "//": "making the obrez",
+    "type": "talk_topic",
+    "dynamic_line": "The gun is done, looking pretty sleek if you ask me.  All loaded and ready to cave in a zombie.",
+    "responses": [
+      {
+        "text": "Thanks.",
+        "effect": [
+          { "u_add_var": "u_current_project", "type": "dialogue", "context": "artisans", "value": "none" },
+          { "u_add_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "no" },
+          { "u_spawn_item": "obrez" }
+        ],
+        "topic": "TALK_BLACKSMITH_SERVICES"
+      }
+    ]
+  },
+  {
+    "id": "TALK_BLACKSMITH_PRESSIN",
+    "//": "Pressin Pistol Knife",
+    "type": "talk_topic",
+    "dynamic_line": "The Pressin was a self defense weapon for politicians in Spain.  It was a small breach loaded handheld pistol that could fit in a glasses case and be fired subtly.  I figure that we can improve on the design by adding a retracting blade while keeping the surprise shots.  To get this working I'm gonna need a .32 gun like a SIG Sauer P230, Kel-Tec P-32, or a Walther PPK.  I'll also need a switchblade, 20 merch, and a week.",
+    "responses": [
+      {
+        "text": "[P230, switchblade, 20 merch] See you in a week.",
+        "condition": {
+          "and": [
+            { "u_has_items": { "item": "sig_p230", "count": 1 } },
+            { "u_has_items": { "item": "switchblade", "count": 1 } },
+            { "u_has_items": { "item": "FMCNote", "count": 20 } }
+          ]
+        },
+        "effect": [
+          { "u_consume_item": "sig_p230", "count": 1, "popup": true },
+          { "u_consume_item": "switchblade", "count": 1, "popup": true },
+          { "u_consume_item": "FMCNote", "count": 20, "popup": true },
+          { "u_add_faction_trust": 1 },
+          { "u_add_var": "u_waiting_on_prototype", "type": "timer", "context": "artisans", "time": true },
+          { "u_add_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "yes" },
+          { "u_add_var": "u_current_project", "type": "dialogue", "context": "artisans", "value": "pressin" }
+        ],
+        "topic": "TALK_BLACKSMITH_SERVICES"
+      },
+      {
+        "text": "[PPK, switchblade, 20 merch] See you in a week.",
+        "condition": {
+          "and": [
+            { "u_has_items": { "item": "walther_ppk", "count": 1 } },
+            { "u_has_items": { "item": "switchblade", "count": 1 } },
+            { "u_has_items": { "item": "FMCNote", "count": 20 } }
+          ]
+        },
+        "effect": [
+          { "u_consume_item": "walther_ppk", "count": 1, "popup": true },
+          { "u_consume_item": "switchblade", "count": 1, "popup": true },
+          { "u_consume_item": "FMCNote", "count": 20, "popup": true },
+          { "u_add_faction_trust": 1 },
+          { "u_add_var": "u_waiting_on_prototype", "type": "timer", "context": "artisans", "time": true },
+          { "u_add_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "yes" },
+          { "u_add_var": "u_current_project", "type": "dialogue", "context": "artisans", "value": "pressin" }
+        ],
+        "topic": "TALK_BLACKSMITH_SERVICES"
+      },
+      {
+        "text": "[P-32, switchblade, 20 merch] See you in a week.",
+        "condition": {
+          "and": [
+            { "u_has_items": { "item": "kp32", "count": 1 } },
+            { "u_has_items": { "item": "switchblade", "count": 1 } },
+            { "u_has_items": { "item": "FMCNote", "count": 20 } }
+          ]
+        },
+        "effect": [
+          { "u_consume_item": "kp32", "count": 1, "popup": true },
+          { "u_consume_item": "switchblade", "count": 1, "popup": true },
+          { "u_consume_item": "FMCNote", "count": 20, "popup": true },
+          { "u_add_faction_trust": 1 },
+          { "u_add_var": "u_waiting_on_prototype", "type": "timer", "context": "artisans", "time": true },
+          { "u_add_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "yes" },
+          { "u_add_var": "u_current_project", "type": "dialogue", "context": "artisans", "value": "pressin" }
+        ],
+        "topic": "TALK_BLACKSMITH_SERVICES"
+      },
+      { "text": "What about another project?", "topic": "TALK_BLACKSMITH_PROTOTYPE" },
+      { "text": "I want to talk about something else.", "topic": "TALK_BLACKSMITH_SERVICES" },
+      { "text": "I'll check in later.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_BLACKSMITH_PRESSIN_COMPLETE",
+    "//": "making the pressin",
+    "type": "talk_topic",
+    "dynamic_line": "The gun's done.  Mind the safety on the side, this guy is pretty dangerous.",
+    "responses": [
+      {
+        "text": "Thanks.",
+        "effect": [
+          { "u_add_var": "u_current_project", "type": "dialogue", "context": "artisans", "value": "none" },
+          { "u_add_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "no" },
+          { "u_spawn_item": "pressin" }
+        ],
+        "topic": "TALK_BLACKSMITH_SERVICES"
+      }
+    ]
+  },
+  {
+    "id": "TALK_BLACKSMITH_LOUVERTURE",
+    "//": "Sun Mace",
+    "type": "talk_topic",
+    "dynamic_line": "Oh, that's one of my sillier ideas.  Jay is convinced it'll never work but I really want to give it a shot.  A traditional mace with gas-venting ports and an ignition system for mini bursts of fire.  Maybe I've just played too many RPGs, but it seems worth a shot.  To get this one working I'm gonna need a real deal mace -  something that can handle the pressure - as well as a military grade flamethrower.  Fabrication will definitely take two weeks on this one.",
+    "responses": [
+      {
+        "text": "[Mace, flamethrower] See you in 2 weeks.",
+        "condition": {
+          "and": [ { "u_has_items": { "item": "flamethrower", "count": 1 } }, { "u_has_items": { "item": "mace", "count": 1 } } ]
+        },
+        "effect": [
+          { "u_consume_item": "flamethrower", "count": 1, "popup": true },
+          { "u_consume_item": "mace", "count": 1, "popup": true },
+          { "u_add_faction_trust": 1 },
+          { "u_add_var": "u_waiting_on_prototype", "type": "timer", "context": "artisans", "time": true },
+          { "u_add_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "yes" },
+          { "u_add_var": "u_current_project", "type": "dialogue", "context": "artisans", "value": "LOUVERTURE" }
+        ],
+        "topic": "TALK_BLACKSMITH_SERVICES"
+      },
+      { "text": "What about another project?", "topic": "TALK_BLACKSMITH_PROTOTYPE" },
+      { "text": "I want to talk about something else.", "topic": "TALK_BLACKSMITH_SERVICES" },
+      { "text": "I'll check in later.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_BLACKSMITH_LOUVERTURE_COMPLETE",
+    "//": "making the louverture",
+    "type": "talk_topic",
+    "dynamic_line": "The mace is done.  It honestly works pretty great too.  Hope you get some good use out of it.",
+    "responses": [
+      {
+        "text": "Thanks.",
+        "effect": [
+          { "u_add_var": "u_current_project", "type": "dialogue", "context": "artisans", "value": "none" },
+          { "u_add_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "no" },
+          { "u_spawn_item": "louverture" }
+        ],
+        "topic": "TALK_BLACKSMITH_SERVICES"
+      }
+    ]
+  },
+  {
+    "id": "TALK_BLACKSMITH_DISORDER",
+    "//": "Disorder sledge hammer",
+    "type": "talk_topic",
+    "dynamic_line": "The Disorder is already kind of a real thing.  I got the idea from a viral video I saw of a guy making something similar with a baseball bat for hitting home runs.  Takes a sledge hammer with a center mounted piston that you can arm with .22 caliber blanks.  When you hit a zombie with that sweet spot… boom.  The blank goes off and sends the piston straight down into whatever poor fucker you hit it with.  I'll need a sledge hammer, 80 merch, and at least 20 .22 LR rounds.  Fabrication will definitely take two weeks on this one.",
+    "responses": [
+      {
+        "text": "[Sledge hammer, 80 merch, 20 .22 LR] See you in 2 weeks.",
+        "condition": {
+          "and": [
+            { "u_has_items": { "item": "hammer_sledge", "count": 1 } },
+            { "u_has_items": { "item": "FMCNote", "count": 80 } },
+            { "u_has_items": { "item": "22_lr", "count": 20 } }
+          ]
+        },
+        "effect": [
+          { "u_consume_item": "hammer_sledge", "count": 1, "popup": true },
+          { "u_consume_item": "FMCNote", "count": 80, "popup": true },
+          { "u_consume_item": "22_lr", "count": 20, "popup": true },
+          { "u_add_faction_trust": 1 },
+          { "u_add_var": "u_waiting_on_prototype", "type": "timer", "context": "artisans", "time": true },
+          { "u_add_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "yes" },
+          { "u_add_var": "u_current_project", "type": "dialogue", "context": "artisans", "value": "DISORDER" }
+        ],
+        "topic": "TALK_BLACKSMITH_SERVICES"
+      },
+      { "text": "What about another project?", "topic": "TALK_BLACKSMITH_PROTOTYPE" },
+      { "text": "I want to talk about something else.", "topic": "TALK_BLACKSMITH_SERVICES" },
+      { "text": "I'll check in later.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_BLACKSMITH_DISORDER_COMPLETE",
+    "//": "making the pulverizer",
+    "type": "talk_topic",
+    "dynamic_line": "The beast is done!  Really heavy-duty, but really packs a punch.  Be careful with your fingers.  I'm serious, this thing could tear 'em off.",
+    "responses": [
+      {
+        "text": "Thanks.",
+        "effect": [
+          { "u_add_var": "u_current_project", "type": "dialogue", "context": "artisans", "value": "none" },
+          { "u_add_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "no" },
+          { "u_spawn_item": "pulverizer" }
+        ],
+        "topic": "TALK_BLACKSMITH_SERVICES"
+      }
+    ]
+  }
+]

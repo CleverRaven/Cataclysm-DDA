@@ -1,0 +1,38 @@
+[
+  {
+    "type": "monstergroup",
+    "name": "GROUP_ALIEN_REEF",
+    "default": "mon_shrimp_flying",
+    "monsters": [
+      { "monster": "mon_shrimp_flying", "weight": 250, "cost_multiplier": 0 },
+      { "monster": "mon_seastar_alien", "weight": 250, "cost_multiplier": 0 },
+      { "monster": "mon_urchin_alien", "weight": 250, "cost_multiplier": 0 },
+      { "monster": "mon_jellyfish_flying", "weight": 250, "cost_multiplier": 0 },
+      { "monster": "mon_snail_alien", "weight": 250, "cost_multiplier": 0 },
+      { "monster": "mon_squid_flying", "weight": 250, "cost_multiplier": 0 },
+      { "monster": "mon_jellyfish_box", "weight": 200, "cost_multiplier": 0 },
+      { "monster": "mon_cucumber_alien", "weight": 200, "cost_multiplier": 0 },
+      { "monster": "mon_conch_alien", "weight": 200, "cost_multiplier": 0 },
+      { "monster": "mon_ammonoid_flying", "weight": 200, "cost_multiplier": 0 },
+      { "monster": "mon_crab_alien", "weight": 200, "cost_multiplier": 0 },
+      { "monster": "mon_fish_paperkite", "weight": 200, "cost_multiplier": 0 },
+      { "monster": "mon_fish_finwing", "weight": 200, "cost_multiplier": 0 },
+      { "monster": "mon_fish_cloudscale", "weight": 200, "cost_multiplier": 0 },
+      { "monster": "mon_fish_flagtail", "weight": 150, "cost_multiplier": 0 },
+      { "monster": "mon_fish_balloondrift", "weight": 150, "cost_multiplier": 0 },
+      { "monster": "mon_fish_angelfin", "weight": 150, "cost_multiplier": 0 },
+      { "monster": "mon_fish_wingmane", "weight": 100, "cost_multiplier": 0 },
+      { "monster": "mon_fish_mosaicus", "weight": 100, "cost_multiplier": 0 },
+      { "monster": "mon_fish_cometbass", "weight": 100, "cost_multiplier": 0 },
+      { "monster": "mon_fish_aeroctinus", "weight": 75, "cost_multiplier": 0 },
+      { "monster": "mon_fish_boreasbanner", "weight": 75, "cost_multiplier": 0 },
+      { "monster": "mon_fish_macawfin", "weight": 75, "cost_multiplier": 0 },
+      { "monster": "mon_jellyfish_giant", "weight": 75, "cost_multiplier": 0 },
+      { "monster": "mon_orthoceras_flying", "weight": 75, "cost_multiplier": 0 },
+      { "monster": "mon_lobster_alien", "weight": 75, "cost_multiplier": 0 },
+      { "monster": "mon_fish_astrolaspis", "weight": 50, "cost_multiplier": 0 },
+      { "monster": "mon_fish_eolocanth", "weight": 50, "cost_multiplier": 0 },
+      { "monster": "mon_fish_cosmoserpent", "weight": 50, "cost_multiplier": 0 }
+    ]
+  }
+]

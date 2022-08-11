@@ -1,0 +1,37 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "city_cop_police_station",
+    "weight": 30000,
+    "object": {
+      "mapgensize": [ 10, 10 ],
+      "rows": [
+        "  .       ",
+        " L.7      ",
+        " L.7      ",
+        " L.7      ",
+        " L.7      ",
+        " L.7      ",
+        " L.7      ",
+        " L..mtb.  ",
+        " L.....   ",
+        " LLLLLL.  "
+      ],
+      "terrain": { "-": "t_wall", ".": "t_floor" },
+      "furniture": { "t": "f_table", "b": "f_brazier", "m": "f_makeshift_bed", "7": "f_safe_o", "L": "f_locker" },
+      "place_npcs": [ { "class": "survivor_cop", "x": 5, "y": 8 } ],
+      "items": {
+        "L": [ { "item": "cannedfood", "chance": 50, "repeat": [ 1, 2 ] }, { "item": "alcohol", "chance": 50, "repeat": [ 1, 2 ] } ],
+        "7": [
+          { "item": "jewelry_front", "chance": 50, "repeat": [ 1, 2 ] },
+          { "item": "harddrugs", "chance": 20, "repeat": [ 1, 2 ] },
+          { "item": "stash_drugs", "chance": 50, "repeat": [ 2, 3 ] }
+        ],
+        "m": { "item": "bed", "chance": 50, "repeat": [ 1, 2 ] },
+        "b": { "item": "stash_wood", "chance": 50, "repeat": [ 2, 3 ] },
+        "t": { "item": "cannedfood", "chance": 50, "repeat": [ 2, 3 ] }
+      }
+    }
+  }
+]

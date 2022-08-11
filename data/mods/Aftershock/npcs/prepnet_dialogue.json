@@ -145,10 +145,10 @@
       "advice": "There's a lot of places to look.  The entire outdoors is full of wild animals.",
       "inquire": "How is the search going?  Have you found'em?",
       "success": "I really appreciate your help.  Don't worry, you won't leave empty-handed.",
-      "success_lie": "Thanks for trying…  I guess.",
+      "success_lie": "Thanks for trying… I guess.",
       "failure": "Don't worry about it, it's not that important."
     },
-    "end": { "effect": [ { "u_buy_item": "crypto_coin", "count": 6 } ] }
+    "end": { "effect": [ { "u_spawn_item": "crypto_coin", "count": 6 } ] }
   },
   {
     "id": "MISSION_PrepNet_gardener_FOOD_2",
@@ -170,10 +170,10 @@
       "advice": "Flour is not that hard to find.  I'd look for them in residential areas and professional kitchens or bakeries.",
       "inquire": "Have you found the flour?",
       "success": "Thank you for your help.  Here's your reward.",
-      "success_lie": "Thanks for trying…  I guess.",
+      "success_lie": "Thanks for trying… I guess.",
       "failure": "It's not a big deal, it isn't that urgent."
     },
-    "end": { "effect": [ { "u_buy_item": "crypto_coin", "count": 5 } ] }
+    "end": { "effect": [ { "u_spawn_item": "crypto_coin", "count": 5 } ] }
   },
   {
     "id": "MISSION_PrepNet_gardener_FOOD_3",
@@ -195,10 +195,10 @@
       "advice": "Gallon jugs are not that rare to find.  They are commonly found in kitchens.",
       "inquire": "Do you have those jugs now?",
       "success": "I am grateful for the help you've done.  I have one more task to do.",
-      "success_lie": "Thanks for trying…  I guess.",
+      "success_lie": "Thanks for trying… I guess.",
       "failure": "Don't worry about it, it's not that important."
     },
-    "end": { "effect": [ { "u_buy_item": "crypto_coin", "count": 3 } ] }
+    "end": { "effect": [ { "u_spawn_item": "crypto_coin", "count": 3 } ] }
   },
   {
     "id": "MISSION_PrepNet_gardener_QUEST_4",
@@ -219,9 +219,9 @@
       "advice": "Zombie scientists, technicians, shocker zombies.  These are not undertaken lightly.",
       "inquire": "Do you have those CBMs now?",
       "success": "I am grateful for the help you've done.  I think we might be able to introduce you to others soon.",
-      "success_lie": "Thanks for trying…  I guess.",
+      "success_lie": "Thanks for trying… I guess.",
       "failure": "Don't worry about it, it's not that important."
     },
-    "end": { "effect": [ { "u_buy_item": "crypto_coin", "count": 12 } ] }
+    "end": { "effect": [ { "u_spawn_item": "crypto_coin", "count": 12 } ] }
   }
 ]

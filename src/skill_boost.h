@@ -7,6 +7,7 @@
 
 #include "optional.h"
 #include "string_id.h"
+#include "type_id.h"
 
 class JsonObject;
 template<typename T>
@@ -29,7 +30,9 @@ class skill_boost
 
     private:
         friend class generic_factory<skill_boost>;
+        friend struct mod_tracker;
         string_id<skill_boost> id;
+        std::vector<std::pair<string_id<skill_boost>, mod_id>> src;
         bool was_loaded = false;
         std::vector<std::string> _skills;
         int _offset = 0;

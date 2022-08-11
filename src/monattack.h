@@ -8,6 +8,7 @@ class Creature;
 namespace mattack
 {
 bool none( monster *z );
+bool absorb_items( monster *z );
 bool eat_crop( monster *z );
 bool eat_food( monster *z );
 bool antqueen( monster *z );
@@ -27,6 +28,7 @@ bool boomer_glow( monster *z );
 bool resurrect( monster *z );
 bool smash( monster *z );
 void smash_specific( monster *z, Creature *target );
+bool split( monster *z );
 bool science( monster *z );
 bool growplants( monster *z );
 bool grow_vine( monster *z );
@@ -48,6 +50,7 @@ bool dermatik_growth( monster *z );
 bool fungal_trail( monster *z );
 bool plant( monster *z );
 bool disappear( monster *z );
+bool depart( monster *z );
 bool formblob( monster *z );
 bool callblobs( monster *z );
 bool jackson( monster *z );
@@ -107,6 +110,7 @@ bool grenadier( monster *z );
 bool grenadier_elite( monster *z );
 bool doot( monster *z );
 bool zombie_fuse( monster *z );
+bool dsa_drone_scan( monster *z );
 
 void taze( monster *z, Creature *target );
 void rifle( monster *z, Creature *target );             // Automated M4

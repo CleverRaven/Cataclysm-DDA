@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="installTitle">Installiere Spieldaten...</string>
+    <string name="upgradeTitle">Aktualisiere Spieldaten...</string>
+    <string name="helpTitle">Hilfe &amp; Steuerung</string>
+    <string name="helpMessage">\"Wischen\" für Richtungsbewegung (Halten für virtuellen Joystick). \"Tippen\" um Auswahl in Menüs zu bestätigen oder pausiere einen Zug In-Game (Halten zum pausieren mehrerer Züge). \"Doppel Tippen\" zum Abbrechen oder Zurück in Menüs (Wie ESC auf Tastatur). \"Zusammenkneifen\" zum Rein/Raus zoomen (In-Game). Drücke Hardware \"Zurück\" Knopf fürs Umschalten der virtuellen Tastaur (Halten zum Umschalten der Tastatur Shortcuts).</string>
+    <string name="softwareRendering">Software-Rendering</string>
+    <string name="forceFullscreen">Erwzinge Vollbild</string>
+    <string name="trapBackButton">Verstecke Zurück Knopf</string>
+    <string name="settings">Einstellungen</string>
+    <string name="startGame">Starte Spiel</string>
+    <string name="showHelp">Zeige Hilfe</string>
+    <string name="crashAlert">Das Spiel wurde beim letzten Mal nicht richtig beendet</string>
+    <string name="crashMessage">Der Crash Report der sich in ./config/crash.log befindet könnten den Entwicklern helfen Programmfehler zu beheben.</string>
+    <string name="yes">Ja</string>
+    <string name="no">Nein</string>
+    <string name="cancel">Abbrechen</string>
+    </resources>

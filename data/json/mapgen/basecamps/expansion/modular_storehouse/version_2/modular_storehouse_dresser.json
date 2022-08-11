@@ -1,0 +1,98 @@
+[
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbms_2_dresser_1",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbms_2_dresser_a" ], "x": 1, "y": 17 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbms_2_dresser_2",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbms_2_dresser_b" ], "x": 6, "y": 17 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbms_2_dresser_3",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbms_2_dresser_a" ], "x": 10, "y": 17 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbms_2_dresser_4",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbms_2_dresser_b" ], "x": 15, "y": 17 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbms_2_dresser_5",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbms_2_dresser_a" ], "x": 1, "y": 12 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbms_2_dresser_6",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbms_2_dresser_b" ], "x": 6, "y": 12 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbms_2_dresser_7",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbms_2_dresser_a" ], "x": 10, "y": 12 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbms_2_dresser_8",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbms_2_dresser_b" ], "x": 15, "y": 12 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbms_2_dresser_9",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbms_2_dresser_a" ], "x": 1, "y": 6 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbms_2_dresser_10",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbms_2_dresser_b" ], "x": 6, "y": 6 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbms_2_dresser_11",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbms_2_dresser_a" ], "x": 10, "y": 6 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbms_2_dresser_12",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbms_2_dresser_b" ], "x": 15, "y": 6 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbms_2_dresser_13",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbms_2_dresser_a" ], "x": 1, "y": 1 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbms_2_dresser_14",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbms_2_dresser_b" ], "x": 6, "y": 1 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbms_2_dresser_15",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbms_2_dresser_a" ], "x": 10, "y": 1 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbms_2_dresser_16",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbms_2_dresser_b" ], "x": 15, "y": 1 } ] }
+  }
+]

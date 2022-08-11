@@ -20,14 +20,14 @@
     "melee_skill": 6,
     "melee_dice": 2,
     "melee_dice_sides": 10,
-    "melee_cut": 5,
+    "melee_damage": [ { "damage_type": "cut", "amount": 5 } ],
     "armor_bash": 10,
     "armor_cut": 10,
     "armor_bullet": 8,
     "dodge": 0,
     "vision_day": 40,
     "vision_night": 40,
-    "death_function": [ "BROKEN" ],
+    "death_function": { "corpse_type": "BROKEN" },
     "flags": [ "SEES", "NO_BREATHE", "ACIDPROOF", "LOUDMOVES" ]
   },
   {
@@ -52,11 +52,11 @@
     "melee_skill": 5,
     "melee_dice": 3,
     "melee_dice_sides": 6,
-    "melee_cut": 3,
+    "melee_damage": [ { "damage_type": "cut", "amount": 3 } ],
     "vision_day": 30,
     "vision_night": 30,
     "regenerates": 4,
-    "death_function": [ "BROKEN" ],
+    "death_function": { "corpse_type": "BROKEN" },
     "flags": [ "SEES", "HEARS", "NO_BREATHE", "LOUDMOVES" ]
   },
   {
@@ -80,7 +80,7 @@
     "melee_skill": 6,
     "melee_dice": 3,
     "melee_dice_sides": 8,
-    "melee_cut": 6,
+    "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
     "armor_bash": 20,
     "armor_cut": 20,
     "armor_bullet": 16,
@@ -88,7 +88,7 @@
     "vision_day": 40,
     "vision_night": 40,
     "special_attacks": [ { "type": "spell", "spell_data": { "id": "rocket_punch", "min_level": 5 }, "cooldown": 10 } ],
-    "death_function": [ "BROKEN" ],
+    "death_function": { "corpse_type": "BROKEN" },
     "flags": [ "SEES", "NO_BREATHE", "ACIDPROOF", "LOUDMOVES" ]
   },
   {
@@ -112,7 +112,7 @@
     "melee_skill": 6,
     "melee_dice": 3,
     "melee_dice_sides": 10,
-    "melee_cut": 7,
+    "melee_damage": [ { "damage_type": "cut", "amount": 7 } ],
     "armor_bash": 32,
     "armor_cut": 32,
     "armor_bullet": 26,
@@ -120,7 +120,7 @@
     "vision_day": 40,
     "vision_night": 40,
     "special_attacks": [ { "type": "spell", "spell_data": { "id": "gas_attack", "min_level": 5 }, "cooldown": 60 } ],
-    "death_function": [ "BROKEN" ],
+    "death_function": { "corpse_type": "BROKEN" },
     "flags": [ "SEES", "NO_BREATHE", "ACIDPROOF", "LOUDMOVES" ]
   }
 ]

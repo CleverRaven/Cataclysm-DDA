@@ -2,7 +2,7 @@
 #include <memory>
 #include <vector>
 
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "item_factory.h"
 #include "itype.h"
 #include "type_id.h"

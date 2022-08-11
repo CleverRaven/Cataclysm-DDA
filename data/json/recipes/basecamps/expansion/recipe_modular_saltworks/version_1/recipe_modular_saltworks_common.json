@@ -1,0 +1,48 @@
+[
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "faction_base_saltworks_0",
+    "description": "Survey land for a saltworks area.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "skill_used": "fabrication",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "faction_base_saltworks_0",
+    "blueprint_name": "Saltworks survey",
+    "time": "180 m",
+    "blueprint_requires": [ { "id": "not_an_upgrade" } ],
+    "blueprint_provides": [ { "id": "fbmsw_0" } ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "faction_base_modular_brewery1_southwest",
+    "description": "We could upgrade the workspace in the brewery to add a still, wood stove and work table.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmsw_brewery1_southwest",
+    "blueprint_name": "SW brewery still",
+    "blueprint_requires": [ { "id": "fbmsw_southwest" }, { "id": "saltworks_recipes_2" } ],
+    "blueprint_provides": [ { "id": "fbmsw_southwest1_still" } ],
+    "blueprint_excludes": [ { "id": "fbmsw_southwest1_still" } ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "faction_base_modular_brewery2_southwest",
+    "description": "We could use fill out the space with extra kegs and storage racks.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmsw_brewery2_southwest",
+    "blueprint_name": "SW brewery kegs",
+    "blueprint_requires": [ { "id": "fbmsw_southwest1_still" } ],
+    "blueprint_provides": [ { "id": "fbmsw_southwest2_kegs" }, { "id": "saltworks_recipes_3" } ],
+    "blueprint_excludes": [ { "id": "fbmsw_southwest2_kegs" } ]
+  }
+]

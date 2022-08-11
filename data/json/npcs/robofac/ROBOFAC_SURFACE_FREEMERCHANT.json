@@ -20,7 +20,7 @@
     "common": false,
     "bonus_int": { "one_in": 4 },
     "bonus_per": { "one_in": 4 },
-    "shopkeeper_item_group": "NC_ROBOFAC_FREE_MERCHANT_misc",
+    "shopkeeper_item_group": [ { "group": "NC_ROBOFAC_FREE_MERCHANT_misc", "rigid": true } ],
     "skills": [
       {
         "skill": "ALL",
@@ -81,7 +81,9 @@
       { "item": "fungicide", "prob": 20 },
       { "item": "insecticide", "prob": 20 },
       { "item": "antifungal", "prob": 20 },
-      { "item": "antiparasitic", "prob": 20 }
+      { "item": "antiparasitic", "prob": 20 },
+      { "group": "robofac_basic_trade", "count": [ 1, 5 ], "prob": 20 },
+      { "group": "robofac_armor_pieces", "count": [ 1, 2 ], "prob": 20 }
     ]
   },
   {
@@ -108,7 +110,7 @@
     "dynamic_line": {
       "u_is_wearing": "badge_marshal",
       "yes": "I keep to my own business, and you keep to yours, marshal.  Seems like a fair deal?",
-      "no": "We have been supplying this lab here with food from a few hunting and farming communities nearby.  The roads are though and dangerous, but it makes good money, and beats scavenging the cities for scraps."
+      "no": "We have been supplying this lab here with food from a few hunting and farming communities nearby.  The roads are tough and dangerous, but it makes good money, and beats scavenging the cities for scraps."
     },
     "responses": [ { "text": "Keep safe, then.", "topic": "TALK_ROBOFAC_FREE_MERCHANT" } ]
   }

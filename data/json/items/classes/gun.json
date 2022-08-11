@@ -3,11 +3,14 @@
     "abstract": "gun_base",
     "type": "GUN",
     "reload_noise_volume": 10,
+    "//": "this is the default handling for anything with a stock",
+    "handling": 20,
     "name": { "str": "base gun" },
     "symbol": "(",
     "color": "light_gray",
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "ranged_damage": { "damage_type": "bullet", "amount": 0 }
+    "ranged_damage": { "damage_type": "bullet", "amount": 0 },
+    "qualities": [ [ "GUN", 1 ] ]
   },
   {
     "abstract": "flamethrower_base",
@@ -30,6 +33,8 @@
     "name": { "str": "base launcher" },
     "skill": "launcher",
     "modes": [ [ "DEFAULT", "single", 1, "NPC_AVOID" ] ],
+    "//": "default handling for anything without a recoil stock",
+    "handling": 10,
     "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "sights", 1 ], [ "sling", 1 ] ],
     "flags": [ "RELOAD_ONE", "RELOAD_EJECT", "NEVER_JAMS" ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ]
@@ -40,6 +45,10 @@
     "type": "GUN",
     "name": { "str": "base pistol" },
     "skill": "pistol",
+    "sight_dispersion": 60,
+    "//": "default handling for anything without a stock",
+    "handling": 10,
+    "qualities": [ [ "GUN", 1 ], [ "PISTOL", 1 ] ],
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "barrel", 1 ],
@@ -141,6 +150,7 @@
     "type": "GUN",
     "name": { "str": "base rifle" },
     "skill": "rifle",
+    "qualities": [ [ "GUN", 1 ], [ "RIFLE", 1 ] ],
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "barrel", 1 ],
@@ -154,6 +164,7 @@
       [ "sights", 1 ],
       [ "sling", 1 ],
       [ "stock", 1 ],
+      [ "stock accessory", 2 ],
       [ "underbarrel", 1 ]
     ]
   },
@@ -176,6 +187,7 @@
       [ "sights", 1 ],
       [ "sling", 1 ],
       [ "stock", 1 ],
+      [ "stock accessory", 2 ],
       [ "underbarrel", 1 ]
     ]
   },
@@ -183,12 +195,14 @@
     "abstract": "rifle_semi",
     "copy-from": "rifle_base",
     "type": "GUN",
+    "weapon_category": [ "AUTOMATIC_RIFLES" ],
     "name": { "str": "semi-automatic rifle" }
   },
   {
     "abstract": "rifle_auto",
     "copy-from": "rifle_base",
     "type": "GUN",
+    "weapon_category": [ "AUTOMATIC_RIFLES" ],
     "name": { "str": "fully automatic rifle" }
   },
   {
@@ -198,6 +212,7 @@
     "name": { "str": "base shotgun" },
     "skill": "shotgun",
     "ammo": [ "shot" ],
+    "qualities": [ [ "GUN", 1 ], [ "SHOTGUN", 1 ] ],
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "barrel", 1 ],
@@ -210,6 +225,7 @@
       [ "sights mount", 1 ],
       [ "sling", 1 ],
       [ "stock mount", 1 ],
+      [ "stock accessory", 2 ],
       [ "underbarrel mount", 1 ]
     ]
   },
@@ -217,7 +233,7 @@
     "abstract": "shotgun_pump",
     "copy-from": "shotgun_base",
     "type": "GUN",
-    "name": { "str": "pump action shotgun" },
+    "name": { "str": "pump-action shotgun" },
     "reload_noise": "chuk chuk.",
     "flags": [ "RELOAD_ONE", "PUMP_ACTION" ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ]
@@ -241,6 +257,7 @@
       [ "sights mount", 1 ],
       [ "sling", 1 ],
       [ "stock mount", 1 ],
+      [ "stock accessory", 2 ],
       [ "underbarrel mount", 1 ]
     ]
   },
@@ -249,6 +266,7 @@
     "copy-from": "gun_base",
     "type": "GUN",
     "name": { "str": "base SMG" },
-    "skill": "smg"
+    "skill": "smg",
+    "qualities": [ [ "GUN", 1 ], [ "SMG", 1 ] ]
   }
 ]
