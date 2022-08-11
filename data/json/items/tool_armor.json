@@ -1142,7 +1142,7 @@
       "RAD_RESIST",
       "NO_REPAIR",
       "NANOFAB_REPAIR",
-      "SOFT"
+      "PADDED"
     ],
     "price": 50000000,
     "price_postapoc": 10000,
@@ -1224,7 +1224,7 @@
       "CLIMATE_CONTROL",
       "NO_REPAIR",
       "NANOFAB_REPAIR",
-      "SOFT"
+      "PADDED"
     ],
     "material": [ "hyperweave_on", "kevlar", "carbide" ],
     "turns_per_charge": 10,
