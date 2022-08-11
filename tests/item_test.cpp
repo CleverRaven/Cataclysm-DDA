@@ -1920,7 +1920,7 @@ TEST_CASE( "item_material_density_blacklist_is_pruned", "[item]" )
         }
         const std::map<material_id, int> &mats = target.made_of();
         if( !mats.empty() ) {
-            INFO( string_format( "%s had its density fixed, remove it from the known_bad list in tests\\item_test.cpp",
+            INFO( string_format( "%s had its density fixed, remove it from the known_bad list in tests/item_test.cpp",
                                  bad.str() ) );
             const float max_density = max_density_for_mats( mats, bad->mat_portion_total );
             // Failing? Just remove the relevant items from the known_bad list above
