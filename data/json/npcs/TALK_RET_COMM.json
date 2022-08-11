@@ -46,7 +46,7 @@
   {
     "type": "talk_topic",
     "id": "COMP_RET_COMM_EMAILS_SMELL",
-    "dynamic_line": "FROM: Sandra Shells, Unit B06 \n  TO: Shady Hills Corporation, Service Portal\n  RE: Horrible smell\n\n  There's a bad smell coming from unit B07.  Please look into it.  Thanks.",
+    "dynamic_line": "FROM: Sandra Shells, Unit B06\n  TO: Shady Hills Corporation, Service Portal\n  RE: Horrible smell\n\n  There's a bad smell coming from unit B07.  Please look into it.  Thanks.",
     "responses": [ { "text": "RETURN TO MESSAGES", "topic": "COMP_RET_COMM_EMAILS" } ]
   }
 ]
