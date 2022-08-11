@@ -303,7 +303,7 @@
     "id": "staggered",
     "name": [ "Staggered" ],
     "//": "Mainly for monsters",
-    "desc": [ "You've been knocked off-balance by an attack'." ],
+    "desc": [ "You've been knocked off-balance by an attack." ],
     "apply_message": "You're staggered off-balance.",
     "base_mods": { "speed_mod": [ -20 ] },
     "removes_effects": [ "grabbing" ],
