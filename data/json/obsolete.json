@@ -675,7 +675,7 @@
     "move_cost_mod": -1,
     "coverage": 50,
     "required_str": -1,
-    "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "compact_ASRG" },
+    "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "compact_ASRG_contaimnent" },
     "flags": [ "TRANSPARENT", "NOITEM", "SEALED", "REDUCE_SCENT", "PERMEABLE", "EASY_DECONSTRUCT" ],
     "bash": {
       "str_min": 20,
