@@ -1287,7 +1287,7 @@
     "name": { "str_sp": "prepared ground nuts" },
     "copy-from": "groundnut",
     "spoils_in": "2 days",
-    "description": "Ground nuts that have been peeled and then boiled, to destroy the harmful protease inhibitors.  Safe to eat, but need further cooking to become palatable. Can be used much like potatoes.",
+    "description": "Ground nuts that have been peeled and then boiled, to destroy the harmful protease inhibitors.  Safe to eat, but need further cooking to become palatable.  Can be used much like potatoes.",
     "delete": { "flags": [ "RAW" ] },
     "extend": { "flags": [ "EATEN_HOT", "SMOKABLE" ] },
     "smoking_result": "dry_veggy",
@@ -1299,7 +1299,7 @@
     "id": "groundnut_boiled",
     "name": { "str_sp": "boiled ground nuts" },
     "copy-from": "groundnut_prepared",
-    "description": "Boiled ground nuts. They look and taste a little like potatoes, but with a slight nutty taste.",
+    "description": "Boiled ground nuts.  They look and taste a little like potatoes, but with a slight nutty taste.",
     "fun": 2
   }
 ]
