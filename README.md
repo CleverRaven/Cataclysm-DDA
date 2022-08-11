@@ -75,6 +75,13 @@ IRC:
 Official Discord:
 https://discord.gg/jFEc7Yp
 
+Special thanks to the contributors, including but not limited to, people below:
+<a href="https://github.com/cleverraven/cataclysm-dda/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=cleverraven/cataclysm-dda" />
+</a>
+
+Made with [contrib.rocks](https://contrib.rocks).
+
 ## Frequently Asked Questions
 
 #### Is there a tutorial?
