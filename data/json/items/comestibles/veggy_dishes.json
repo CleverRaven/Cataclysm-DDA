@@ -518,9 +518,7 @@
     "type": "COMESTIBLE",
     "id": "potato_baked",
     "name": { "str": "baked potato", "str_pl": "baked potatoes" },
-    "conditional_names": [
-        { "type": "COMPONENT_ID", "condition": "groundnut_prepared", "name" : { "str_sp": "baked ground nuts" } }
-    ],
+    "conditional_names": [ { "type": "COMPONENT_ID", "condition": "groundnut_prepared", "name": { "str_sp": "baked ground nuts" } } ],
     "weight": "170 g",
     "color": "brown",
     "spoils_in": "2 days",
@@ -533,7 +531,7 @@
     "price_postapoc": 50,
     "material": [ "veggy" ],
     "volume": "250 ml",
-    "flags": [ "EATEN_HOT"  ],
+    "flags": [ "EATEN_HOT" ],
     "fun": 3,
     "vitamins": [ [ "vitC", 9 ], [ "calcium", 13 ], [ "iron", 8 ] ]
   },
@@ -541,9 +539,7 @@
     "type": "COMESTIBLE",
     "id": "potato_boiled",
     "name": { "str": "boiled potato", "str_pl": "boiled potatoes" },
-    "conditional_names": [
-        { "type": "COMPONENT_ID", "condition": "groundnut_prepared", "name" : { "str_sp": "boiled ground nuts" } }
-    ],
+    "conditional_names": [ { "type": "COMPONENT_ID", "condition": "groundnut_prepared", "name": { "str_sp": "boiled ground nuts" } } ],
     "weight": "150 g",
     "flags": [ "EATEN_HOT" ],
     "color": "brown",

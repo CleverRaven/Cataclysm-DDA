@@ -957,13 +957,7 @@
     "id": "veggy_potatolike",
     "type": "requirement",
     "//": "Any edible tuber that can be used like potato",
-    "components": [
-      [
-        [ "potato", 1 ],
-        [ "irradiated_potato", 1 ],
-        [ "groundnut_prepared", 5 ]
-      ]
-    ]
+    "components": [ [ [ "potato", 1 ], [ "irradiated_potato", 1 ], [ "groundnut_prepared", 5 ] ] ]
   },
   {
     "id": "veggy_any_corn_uncooked",

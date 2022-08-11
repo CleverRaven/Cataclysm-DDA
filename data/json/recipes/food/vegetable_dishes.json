@@ -329,7 +329,11 @@
     "autolearn": true,
     "qualities": [ { "id": "BOIL", "level": 1 }, { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ] ],
-    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_forage_cooking" }, { "proficiency": "prof_knife_skills" } ],
+    "proficiencies": [
+      { "proficiency": "prof_food_prep" },
+      { "proficiency": "prof_forage_cooking" },
+      { "proficiency": "prof_knife_skills" }
+    ],
     "components": [ [ [ "groundnut", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
   },
   {

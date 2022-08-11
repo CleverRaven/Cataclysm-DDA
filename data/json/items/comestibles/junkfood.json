@@ -675,9 +675,7 @@
     "type": "COMESTIBLE",
     "id": "fresh_fries",
     "name": { "str_sp": "French fries" },
-    "conditional_names": [
-        { "type": "COMPONENT_ID", "condition": "groundnut_prepared", "name" : { "str_sp": "ground nut fries" } }
-    ],
+    "conditional_names": [ { "type": "COMPONENT_ID", "condition": "groundnut_prepared", "name": { "str_sp": "ground nut fries" } } ],
     "copy-from": "fries",
     "spoils_in": "3 days",
     "description": "Deep-fried potatoes or other tuber, with a touch of salt.  Crunchy and delicious.",

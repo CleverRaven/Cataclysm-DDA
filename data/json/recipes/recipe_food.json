@@ -1927,7 +1927,7 @@
     "qualities": [ { "id": "OVEN", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 3, "LIST" ] ] ],
     "proficiencies": [ { "proficiency": "prof_food_prep" } ],
-    "components": [ [ [ "veggy_potatolike", 1, "LIST"  ] ] ]
+    "components": [ [ [ "veggy_potatolike", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -1977,11 +1977,7 @@
       { "proficiency": "prof_knife_skills", "time_multiplier": 2 },
       { "proficiency": "prof_frying" }
     ],
-    "components": [
-      [ [ "veggy_potatolike", 1, "LIST" ] ],
-      [ [ "salt", 2 ], [ "seasoning_salt", 2 ] ],
-      [ [ "fry_oil", 2, "LIST" ] ]
-    ]
+    "components": [ [ [ "veggy_potatolike", 1, "LIST" ] ], [ [ "salt", 2 ], [ "seasoning_salt", 2 ] ], [ [ "fry_oil", 2, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -2113,11 +2109,7 @@
       { "proficiency": "prof_knife_skills", "time_multiplier": 2 },
       { "proficiency": "prof_frying" }
     ],
-    "components": [
-      [ [ "veggy_potatolike", 1, "LIST" ] ],
-      [ [ "salt", 2 ], [ "seasoning_salt", 2 ] ],
-      [ [ "fry_oil", 4, "LIST" ] ]
-    ]
+    "components": [ [ [ "veggy_potatolike", 1, "LIST" ] ], [ [ "salt", 2 ], [ "seasoning_salt", 2 ] ], [ [ "fry_oil", 4, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -2711,9 +2703,7 @@
     "time": "20 m",
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CONTAIN", "level": 1 } ],
-    "components": [
-      [ [ "dahlia_root", 10 ], [ "veggy_potatolike", 5, "LIST" ], [ "plantain", 5 ], [ "irradiated_plantain", 5 ] ]
-    ]
+    "components": [ [ [ "dahlia_root", 10 ], [ "veggy_potatolike", 5, "LIST" ], [ "plantain", 5 ], [ "irradiated_plantain", 5 ] ] ]
   },
   {
     "type": "recipe",
