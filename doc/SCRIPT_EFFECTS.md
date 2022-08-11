@@ -226,10 +226,6 @@ Effect | Required | Optional | Description
 `u_spend_cash` | `cost`[^int] | `true_eocs`[^string][^array]<br />`false_eocs`[^string][^array] | Remove `cost` from your character's cash.  Negative values means your character gains cash.  *Deprecated*: NPCs should not deal in e-cash anymore, only personal debts and items. If the cash is spent, then all of the effect_on_conditions in `true_eocs` are run, otherwise all the effect_on_conditions in `false_eocs` are run.
 `u_spawn_item` | `item`[^string] | `count`[^int]<br />`container`[^string] | Your character gains the item or `count` copies of the item, contained in `container` if specified (the container also spawns).  If used in an NPC conversation, a message will say that the NPC gives you the item(s).
 
-
-Effect | Description
----|---
-
 #### Wielding/Wearing
 
 Effect | Description
