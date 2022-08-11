@@ -1570,6 +1570,7 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
                 for( const recipe_id &r : current[line]->nested_category_data ) {
                     uistate.nested_recipes.insert( r );
                 }
+                filterstring.clear();
                 // set back to * and to the nested category
                 tab.set_index( 0 );
                 subtab = tab_list( craft_subcat_list[tab.cur()] );
