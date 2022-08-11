@@ -1051,10 +1051,6 @@ float Character::get_recipe_weighted_skill_average( const recipe &making ) const
         }
     }
 
-    // Focus has a role. If it is below 100, it is a penalty to success.  Over 100, it is a bonus.
-    // Every 50 points of focus give a +/- 1.
-    total_skill_modifiers += ( focus_pool - 100 ) /  50.0f;
-
     // TO DO: Attribute role should also be data-driven either in skills.json or in the recipe itself.
     // For now let's just use Intelligence.  For the average intelligence of 8, give +2.  Inc/dec by 0.25 per stat point.
     // This ensures that at parity, where skill = difficulty, you have a roughly 85% chance of success at average intelligence.
