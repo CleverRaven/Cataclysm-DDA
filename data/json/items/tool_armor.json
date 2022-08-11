@@ -1153,7 +1153,7 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "flag_restriction": [ "BATTERY_HEAVY" ],
-        "default_magazine": "heavy_plus_battery_cell"
+        "default_magazine": "heavy_atomic_battery_cell"
       }
     ],
     "ammo": "battery",
@@ -1191,7 +1191,7 @@
           { "type": "carbide", "covered_by_mat": 100, "thickness": 0.5 },
           { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 },
           { "type": "hyperweave_off", "covered_by_mat": 100, "thickness": 1.5 },
-          { "type": "rubber", "covered_by_mat": 20, "thickness": 2.0 }
+          { "type": "rubber", "covered_by_mat": 10, "thickness": 2.0 }
         ],
         "encumbrance": 8,
         "coverage": 100,
