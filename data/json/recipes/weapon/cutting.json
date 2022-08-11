@@ -514,7 +514,7 @@
     "using": [ "blacksmithing_standard", 12 ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
     "tools": [ [ [ "swage", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ] ] ],
-    "components": [ [ "kevlar_scraps", 10 ], [ "epoxy", 1 ], [ "lc_arming_sword", 1 ] ]
+    "components": [ [ "kevlar_scraps", 10 ], [ "epoxy_chunk", 1 ], [ "lc_arming_sword", 1 ] ]
   },
   {
     "type": "recipe",
