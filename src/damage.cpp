@@ -268,6 +268,16 @@ resistances::resistances( const item &armor, bool to_self, int roll, const sub_b
     }
 }
 
+resistances::resistances( const material_id &mat, float thickness )
+{
+    set_resist( damage_type::BASH, mat->bash_resist() * thickness );
+    set_resist( damage_type::CUT, mat->cut_resist() * thickness );
+    set_resist( damage_type::BULLET, mat->bullet_resist() * thickness );
+    set_resist( damage_type::COLD, mat->cold_resist() * thickness );
+    set_resist( damage_type::BIOLOGICAL, mat->biological_resist() * thickness );
+    set_resist( damage_type::ELECTRIC, mat->bash_resist() * thickness );
+}
+
 resistances::resistances( monster &monster ) : resistances()
 {
     set_resist( damage_type::BASH, monster.type->armor_bash );

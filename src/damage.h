@@ -130,6 +130,7 @@ struct resistances {
     explicit resistances( const item &armor, bool to_self = false, int roll = 0,
                           const bodypart_id &bp = bodypart_id() );
     explicit resistances( const item &armor, bool to_self, int roll, const sub_bodypart_id &bp );
+    explicit resistances( const material_id &mat, float thickness );
     explicit resistances( monster &monster );
     void set_resist( damage_type dt, float amount );
     float type_resist( damage_type dt ) const;

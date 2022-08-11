@@ -599,6 +599,29 @@ static bool is_easter( int day, int month, int year )
     return false;
 }
 
+std::string get_bar_from_percent( int val )
+{
+    if( val >= 100 ) {
+        return "█";
+    } else if( val >= 88 ) {
+        return "▇";
+    } else if( val >= 75 ) {
+        return "▆";
+    } else if( val >= 63 ) {
+        return "▅";
+    } else if( val >= 50 ) {
+        return "▄";
+    } else if( val >= 38 ) {
+        return "▃";
+    } else if( val >= 25 ) {
+        return "▂";
+    } else if( val >= 13 ) {
+        return "▁";
+    } else if( val >= 0 ) {
+        return " ";
+    }
+}
+
 holiday get_holiday_from_time( std::time_t time, bool force_refresh )
 {
     static holiday cached_holiday = holiday::none;

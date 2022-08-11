@@ -650,6 +650,12 @@ std::unordered_set<T> &operator<<( std::unordered_set<T> &lhv, std::unordered_se
 }
 
 /**
+ * Converts a value from 1-100 into a bar representation like
+ * ▁ ▃ or ▇
+ */
+std::string get_bar_from_percent( int val );
+
+/**
  * Get the current holiday based on the given time, or based on current time if time = 0
  * @param time The timestampt to assess
  * @param force_refresh Force recalculation of current holiday, otherwise use cached value

@@ -948,6 +948,37 @@ void Item_factory::finalize_post( itype &obj )
             }
         }
 
+        // calculate every possible damage chance
+        for( armor_portion_data &armor_data : obj.armor->data ) {
+            // all possible values from getting hit
+            std::set<std::pair<resistances, int>> all_possible_hits;
+
+            // build a bit set to represent each material being hit / not hit
+            std::bitset<16> bits;
+            // set relevant bits to true to start
+            for( int i = 0; i < armor_data.materials.size() && i < 16; ++i ) {
+                bits.set( i, true );
+            }
+            while( bits.any() ) {
+                float prob = 1.0f;
+                resistances res;
+                int i = 0;
+                for( const part_material &mat : armor_data.materials ) {
+                    // if this bit is enabled get the probability of it being hit and add to cumulative resistance
+                    if( bits.test( i ) ) {
+                        prob = static_cast<float>( mat.cover ) * prob / 100.0f;
+                        res += resistances( mat.id, mat.thickness );
+                    } else {
+                        prob = static_cast<float>( 100 - mat.cover ) * prob / 100.0f;
+                    }
+
+                    i++;
+                }
+                bits = bits.to_ulong() - 1;
+                all_possible_hits.insert( std::pair<resistances, int>( res, prob ) );
+            }
+        }
+
         // calculate worst case and best case protection %
         for( armor_portion_data &armor_data : obj.armor->data ) {
             // go through each material and contribute its values
