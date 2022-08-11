@@ -146,6 +146,7 @@
       ";": "t_bars",
       "@": "t_metal_floor",
       "^": "t_wood_stairs_up",
+      "<": "t_ladder_up",
       "_": "t_carpet_red",
       "|": "t_null",
       "~": "t_metal_floor",
