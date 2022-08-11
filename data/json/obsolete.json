@@ -691,6 +691,6 @@
         { "item": "lead", "charges": [ 12, 18 ] }
       ]
     },
-    "deconstruct": { "items": [ { "item": "compact_ASRG", "count": 1 } ] }
+    "deconstruct": { "items": [ { "item": "compact_ASRG_contaimnent", "count": 1 } ] }
   }
 ]
