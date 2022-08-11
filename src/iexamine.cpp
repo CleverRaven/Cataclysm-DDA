@@ -301,36 +301,33 @@ void iexamine::cvdmachine( Character &you, const tripoint & )
         material_ch_steel,
         material_qt_steel,
     };
-    item_location loc = g->inv_map_splice( []( const item & e )
-    {
-        return ( e.is_melee( damage_type::CUT ) || e.is_melee( damage_type::STAB ) ) && std::any_of(steels.begin(), steels.end(), [&](auto&& mat_steel)
-        {
-            return e.get().made_of(mat_steel);
-        }) &&
-        !e.has_flag( flag_DIAMOND ) && !e.has_flag( flag_NO_CVD );
-    }, _( "Apply diamond coating" ), 1, _( "You don't have a suitable item to coat with diamond" ) );
+    item_location loc = g->inv_map_splice( [steels]( const item & e ) {
+        return ( e.is_melee( damage_type::CUT ) || e.is_melee( damage_type::STAB ) ) &&
+        std::any_of( steels.begin(), steels.end(), [&]( auto &&mat_steel ) {
+            return e.get( item ).made_of( mat_steel );
+        } ) &&
+        !e.has_flag( flag_DIAMOND )&& !e.has_flag( flag_NO_CVD );
+    },
+    if( !loc ) {
+    return;
+}
 
-    if( !loc )
-    {
-        return;
-    }
+// Require materials proportional to selected item volume
+auto qty = loc->volume() / units::legacy_volume_factor;
+           qty = std::max( 1, qty );
+           requirement_data reqs = *requirement_data_cvd_diamond * qty;
 
-    // Require materials proportional to selected item volume
-    auto qty = loc->volume() / units::legacy_volume_factor;
-    qty = std::max( 1, qty );
-    requirement_data reqs = *requirement_data_cvd_diamond * qty;
-
-    if( !reqs.can_make_with_inventory( you.crafting_inventory(), is_crafting_component ) ) {
-        popup( "%s", reqs.list_missing() );
+if( !reqs.can_make_with_inventory( you.crafting_inventory(), is_crafting_component ) ) {
+    popup( "%s", reqs.list_missing() );
         return;
     }
 
     // Consume materials
     for( const auto &e : reqs.get_components() ) {
-        you.consume_items( e, 1, is_crafting_component );
+    you.consume_items( e, 1, is_crafting_component );
     }
     for( const auto &e : reqs.get_tools() ) {
-        you.consume_tools( e );
+    you.consume_tools( e );
     }
     you.invalidate_crafting_inventory();
 
