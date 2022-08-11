@@ -1092,7 +1092,6 @@ double Character::crafting_success_roll( const recipe &making ) const
     float summed_skills = player_weighted_skill_average + npc_helpers_weighted_average;
     if( summed_skills < 0 ) {
         negative = true;
-        summed_skills *= -1;
     }
     float weighted_skill_average = sqrt( summed_skills );
     if( negative ) {
