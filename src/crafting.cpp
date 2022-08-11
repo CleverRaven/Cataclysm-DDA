@@ -1026,6 +1026,7 @@ float Character::get_recipe_weighted_skill_average( const recipe &making ) const
     const float weighted_skill_average =
         ( ( 2.0f * making.difficulty * get_skill_level( making.skill_used ) ) + secondary_skill_total ) /
         ( 2.0f * making.difficulty + secondary_difficulty );
+        debugmsg( "Weighted skill average: %f", weighted_skill_average );
 
     float total_skill_modifiers = 0.0f;
 
@@ -1065,6 +1066,7 @@ float Character::get_recipe_weighted_skill_average( const recipe &making ) const
         }
     }
 
+    debugmsg( "Total skill modifiers: %f", total_skill_modifiers );
     return weighted_skill_average + total_skill_modifiers;
 }
 
@@ -1111,6 +1113,7 @@ double Character::crafting_success_roll( const recipe &making ) const
     if( negative ) {
         weighted_skill_average *= -1;
     }
+	debugmsg( "Skill combined with followers: %f", weighted_skill_average );
 
     int secondary_difficulty = 0;
     int secondary_level_count = 0;
@@ -1126,6 +1129,7 @@ double Character::crafting_success_roll( const recipe &making ) const
     const float final_difficulty =
         ( 2.0f * making.difficulty * making.difficulty + 1.0f * secondary_difficulty ) /
         ( 2.0f * making.difficulty + 1.0f * secondary_level_count );
+    debugmsg( "Final craft difficulty: %f", final_difficulty );
 
     // in the future we might want to make the standard deviation vary depending on some feature of the recipe.
     // For now, it varies only depending on your skill relative to the recipe's difficulty.
@@ -1141,6 +1145,8 @@ double Character::crafting_success_roll( const recipe &making ) const
         crafting_stddev -= std::min( ( weighted_skill_average - final_difficulty ) / 4, 1.0f );
     }
     float craft_roll = std::max( normal_roll( weighted_skill_average, crafting_stddev ), 0.0 );
+	
+    debugmsg( "Crafting skill roll: %f", craft_roll );
 
     // TK: check all calls to crafting_success_roll, make sure they fit with the outputs this gives.
     return std::max( craft_roll - final_difficulty + 1, 0.0f );
