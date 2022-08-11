@@ -5,7 +5,7 @@
     "name": { "str": "M1911 10-round magazine" },
     "description": "An extended 10-round magazine for use with the M1911 handgun.",
     "weight": "100 g",
-    "volume": "80 ml",
+    "volume": "300 ml",
 	  "longest_side": "152 mm",
     "price": 3720,
     "price_postapoc": 250,
