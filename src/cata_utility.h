@@ -296,11 +296,6 @@ class list_circularizer
             _index = ( _index == 0 ? _list->size() - 1 : _index - 1 );
         }
 
-        /** Advance list to next item, wrapping back to 0 at end of list */
-        void reset() {
-            _index = 0;
-        }
-
         /** Return list element at the current location */
         T &cur() const {
             // list could be null, but it would be a design time mistake and really, the callers fault.
