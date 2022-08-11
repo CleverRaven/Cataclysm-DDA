@@ -858,7 +858,13 @@
     "using": [ [ "soldering_standard", 20 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" } ],
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_M", "level": 1 }, { "id": "GRIND", "level": 2 } ],
-    "components": [ [ [ "machete", 1 ] ], [ [ "duct_tape", 150 ] ], [ [ "filament_durable", 20, "LIST" ] ], [ [ "leather", 2 ], [ "chunk_rubber", 1 ] ], [ [ "rubber_cement", 1 ], [ "superglue", 1 ] ] ]
+    "components": [
+      [ [ "machete", 1 ] ],
+      [ [ "duct_tape", 150 ] ],
+      [ [ "filament_durable", 20, "LIST" ] ],
+      [ [ "leather", 2 ], [ "chunk_rubber", 1 ] ],
+      [ [ "rubber_cement", 1 ], [ "superglue", 1 ] ]
+    ]
   },
   {
     "result": "survivor_machete_qt",
