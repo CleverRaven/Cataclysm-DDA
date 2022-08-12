@@ -906,6 +906,23 @@ static bool mouse_in_window( cata::optional<point> coord, const catacurses::wind
     return false;
 }
 
+static void perform_nested( const recipe *rec, std::string filterstring, tab_list &tab,
+                            tab_list &subtab, bool &recalc )
+{
+    // if the recipe is just a nested group move to a place to view it
+    uistate.nested_recipes.clear();
+    for( const recipe_id &r : rec->nested_category_data ) {
+        uistate.nested_recipes.insert( r );
+    }
+    filterstring.clear();
+    // set back to * and to the nested category
+    tab.set_index( 0 );
+    subtab = tab_list( craft_subcat_list[tab.cur()] );
+    // TODO: Make this less hard coded
+    subtab.prev();
+    recalc = true;
+}
+
 const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_recipe )
 {
     recipe_result_info_cache result_info;
@@ -1559,29 +1576,13 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
             line = -1;
             user_moved_line = highlight_unread_recipes;
         } else if( action == "CONFIRM" ) {
-            if( available.empty() ) {
+            if( available.empty() || !available[line].can_craft ) {
                 query_popup()
                 .message( "%s", _( "You can't do that!" ) )
                 .option( "QUIT" )
                 .query();
             } else if( current[line]->is_nested() ) {
-                // if the recipe is just a nested group move to a place to view it
-                uistate.nested_recipes.clear();
-                for( const recipe_id &r : current[line]->nested_category_data ) {
-                    uistate.nested_recipes.insert( r );
-                }
-                filterstring.clear();
-                // set back to * and to the nested category
-                tab.set_index( 0 );
-                subtab = tab_list( craft_subcat_list[tab.cur()] );
-                // TODO: Make this less hard coded
-                subtab.prev();
-                recalc = true;
-            } else if( !available[line].can_craft ) {
-                query_popup()
-                .message( "%s", _( "You can't do that!" ) )
-                .option( "QUIT" )
-                .query();
+                perform_nested( current[line], filterstring, tab, subtab, recalc );
             } else if( !player_character.check_eligible_containers_for_crafting( *current[line],
                        batch ? line + 1 : 1 ) ) {
                 // popup is already inside check
