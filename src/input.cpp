@@ -1755,12 +1755,10 @@ cata::optional<tripoint> input_context::get_coordinates( const catacurses::windo
     if( offset == point_zero ) {
         p -= win_min;
     }
-    // If requested, move 0,0 to center of window rather than top left
+    // Some windows (notably the overmap) want 0,0 to be the center of the screen
     if( center_cursor ) {
         p -= view_size / 2;
     }
-    /*const point p = offset + coordinate - ( center_cursor ? view_size / 2 : point_zero ) -
-      ( offset != point_zero ? point_zero : win_min );*/
     return tripoint( p, get_map().get_abs_sub().z() );
 }
 #endif

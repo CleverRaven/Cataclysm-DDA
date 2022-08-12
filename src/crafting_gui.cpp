@@ -1399,11 +1399,7 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
         const int recmax = static_cast<int>( current.size() );
         const int scroll_rate = recmax > 20 ? 10 : 3;
 
-        cata::optional<tripoint> coord3d = ctxt.get_coordinates( catacurses::stdscr );
-        cata::optional<point> coord;
-        if( coord3d.has_value() ) {
-            coord = coord3d->xy();
-        }
+        cata::optional<point> coord = ctxt.get_coordinates_text( catacurses::stdscr );
         const bool mouse_in_list = coord.has_value() && mouseover_area_list.contains( coord.value() );
         const bool mouse_in_recipe = coord.has_value() && mouseover_area_recipe.contains( coord.value() );
 
