@@ -33,8 +33,7 @@
       { "monster": "mon_zombie_bio_op", "weight": 50, "cost_multiplier": 5 },
       { "monster": "mon_zombie_bio_op2", "weight": 25, "cost_multiplier": 5, "starts": "60 days" },
       { "monster": "mon_zombie_armored", "weight": 10, "cost_multiplier": 5 },
-      { "monster": "mon_feral_soldier", "weight": 15 },
-      { "monster": "mon_feral_soldier_flamer", "weight": 7, "starts": "20 days" }
+      { "monster": "mon_feral_soldier", "weight": 15 }
     ]
   },
   {
