@@ -1026,7 +1026,7 @@ float Character::get_recipe_weighted_skill_average( const recipe &making ) const
     const float weighted_skill_average =
         ( ( 2.0f * making.difficulty * get_skill_level( making.skill_used ) ) + secondary_skill_total ) /
         ( 2.0f * making.difficulty + secondary_difficulty );
-        add_msg_debug( debugmode::DF_CHARACTER, "Weighted skill average: %f", weighted_skill_average );
+    add_msg_debug( debugmode::DF_CHARACTER, "Weighted skill average: %f", weighted_skill_average );
 
     float total_skill_modifiers = 0.0f;
 
@@ -1114,7 +1114,8 @@ double Character::crafting_success_roll( const recipe &making ) const
     if( negative ) {
         weighted_skill_average *= -1;
     }
-	add_msg_debug( debugmode::DF_CHARACTER, "Skill combined with followers: %f", weighted_skill_average );
+    add_msg_debug( debugmode::DF_CHARACTER, "Skill combined with followers: %f",
+                   weighted_skill_average );
 
     int secondary_difficulty = 0;
     int secondary_level_count = 0;
@@ -1146,7 +1147,7 @@ double Character::crafting_success_roll( const recipe &making ) const
         crafting_stddev -= std::min( ( weighted_skill_average - final_difficulty ) / 4, 1.0f );
     }
     float craft_roll = std::max( normal_roll( weighted_skill_average, crafting_stddev ), 0.0 );
-	
+
     add_msg_debug( debugmode::DF_CHARACTER, "Crafting skill roll: %f", craft_roll );
 
     // TK: check all calls to crafting_success_roll, make sure they fit with the outputs this gives.
