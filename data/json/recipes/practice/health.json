@@ -50,5 +50,43 @@
       ]
     ],
     "byproducts": [ [ "cotton_patchwork", 2 ] ]
+  },
+  {
+    "id": "prac_health_care_medisoft_int",
+    "type": "practice",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_PRACTICE",
+    "subcategory": "CSC_PRACTICE_HEALTH",
+    "name": "complex health care (intermediate)",
+    "description": "Practice advanced treatment techniques by exploring training software for med students.",
+    "skill_used": "firstaid",
+    "time": "1 h",
+    "proficiencies": [
+      { "proficiency": "prof_wound_care", "required": true },
+      { "proficiency": "prof_wound_care_expert", "required": true }
+    ],
+    "practice_data": { "min_difficulty": 3, "max_difficulty": 5, "skill_limit": 7 },
+    "autolearn": [ [ "firstaid", 3 ] ],
+    "tools": [ [ [ "laptop", 50 ] ], [ "software_medical" ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "id": "prac_health_care_medisoft_adv",
+    "type": "practice",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_PRACTICE",
+    "subcategory": "CSC_PRACTICE_HEALTH",
+    "name": "complex health care (advanced)",
+    "description": "Practice complex simulated medical scenarios such as surgery and emergency response with advanced training software.",
+    "skill_used": "firstaid",
+    "time": "1 h",
+    "proficiencies": [
+      { "proficiency": "prof_wound_care", "required": true },
+      { "proficiency": "prof_wound_care_expert", "required": true }
+    ],
+    "practice_data": { "min_difficulty": 7, "max_difficulty": 10, "skill_limit": 10 },
+    "book_learn": [ [ "emergency_book", 7 ] ],
+    "tools": [ [ [ "laptop", 100 ] ], [ "software_medical" ] ],
+    "flags": [ "BLIND_EASY" ]
   }
 ]
