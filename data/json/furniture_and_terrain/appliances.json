@@ -473,9 +473,9 @@
   },
   {
     "id": "ap_electrolyzer_makeshift",
-    "type": "electrolyzer_makeshift",
+    "type": "vehicle_part",
     "name": { "str": "makeshift water electrolyzer" },
-    "item": "nitrogen_generator",
+    "item": "electrolyzer_makeshift",
     "description": "A makeshift appliance which decomposes water into oxygen and hydrogen via electrolysis of sodium hydroxide solution, with a power cord to connect it to an electric grid.",
     "categories": [ "utility" ],
     "symbol": "&",
