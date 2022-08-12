@@ -227,6 +227,7 @@
         "                  S     "
       ],
       "place_signs": [ { "signage": "Private property!  Keep out!", "x": 12, "y": 16 } ],
+      "terrain": { "X": "t_door_metal_locked" },
       "palettes": [ "bunker_ext" ]
     }
   },

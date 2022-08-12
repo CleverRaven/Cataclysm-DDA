@@ -136,7 +136,6 @@
       ],
       "v": "t_open_air",
       "+": "t_door_metal_c",
-      "X": "t_door_metal_locked",
       ".": "t_dirt",
       ">": "t_stairs_down",
       ")": "t_slope_up",
