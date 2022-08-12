@@ -376,3 +376,13 @@ std::tuple<encumbrance_modifier_type, int> armor_portion_data::convert_descripto
 }
 
 std::map<itype_id, std::set<itype_id>> islot_magazine::compatible_guns;
+
+std::set<itype_id> known_bad_density::known_bad;
+
+void known_bad_density::load( const JsonObject &jo )
+{
+    jo.allow_omitted_members();
+    std::set<itype_id> new_known_bad;
+    jo.read( "list", new_known_bad );
+    known_bad.insert( new_known_bad.begin(), new_known_bad.end() );
+}
