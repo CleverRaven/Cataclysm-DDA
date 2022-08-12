@@ -70,10 +70,10 @@ mtype::mtype()
     luminance = 0;
     bash_skill = 0;
 
+    aggro_character = true;
+
     flags
-    .set( MF_HUMAN )
-    .set( MF_BONES )
-    .set( MF_LEATHER );
+    .set( MF_HUMAN );
 }
 
 std::string mtype::nname( unsigned int quantity ) const

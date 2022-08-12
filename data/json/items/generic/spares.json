@@ -270,5 +270,17 @@
     "volume": "1 L",
     "price": 1800,
     "price_postapoc": 500
+  },
+  {
+    "id": "simple_crank",
+    "copy-from": "spare_part",
+    "type": "GENERIC",
+    "name": { "str": "simple crank mechanism" },
+    "description": "A simple cranking mechanism, consisting of a bent metal arm attached at a right angle to a rotating shaft.  It can be used to convert circular motion into reciprocating motion, or vice versa, by means of muscle power.",
+    "material": [ "iron" ],
+    "weight": "750 g",
+    "volume": "1 L",
+    "price": 2400,
+    "price_postapoc": 700
   }
 ]

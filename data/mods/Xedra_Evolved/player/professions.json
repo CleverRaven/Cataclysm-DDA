@@ -73,7 +73,7 @@
     "type": "profession",
     "id": "zebra_investigator",
     "name": "Xedra Response Team Member",
-    "description": "Before Xedra recruited you, you probably worked for the ATF or a PMC like Kroll.  It was your job to investigate any cross-pollination incidents where alternate physics regions crossed over the Nether and reached our world.  Part exterminator part investigator, you made sure that any new resources and contaminants were accounted for, including any intelligent life trying to sneak into our world.  Local law enforcement and civilians called you 'Zebras' since your identification and badges only had a barcode instead of any name/rank/number.",
+    "description": "Before Xedra recruited you, you probably worked for the ATF or a PMC like Kroll.  It was your job to investigate any cross-pollination incidents where alternate physics regions crossed over the Nether and reached our world.  Part exterminator part investigator, you made sure that any new resources and contaminants were accounted for, including any intelligent life trying to sneak into our world.  Local law enforcement and civilians called you 'Zebras' since your identification and badges only had a barcode instead of any name/rank/number.  This job has shown you things you don't want to remember but luckily the Zebra docs seem to have an endless supply of pills.",
     "points": 6,
     "skills": [ { "level": 3, "name": "gun" }, { "level": 3, "name": "pistol" }, { "level": 1, "name": "speech" } ],
     "addictions": [ { "intensity": 10, "type": "diazepam" } ],

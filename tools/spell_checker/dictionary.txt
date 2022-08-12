@@ -290,6 +290,7 @@ cegamente
 centerdamage
 centric
 cepa
+cephalothorax
 ceratopsian
 ceratosaurus
 cere
@@ -604,6 +605,7 @@ fetick
 feticks
 fetlock
 ffect
+fibercloth
 fiddleheads
 filenames
 fileset
@@ -653,6 +655,7 @@ foodcart
 foodplace
 footgear
 foregrip
+foregrips
 forestock
 forgemaster
 forgnottedn
@@ -732,6 +735,8 @@ gozu
 gr
 gracken
 granivorous
+grasper
+graspers
 gravelbag
 gravelbags
 gravol
@@ -1020,6 +1025,7 @@ macrophenotypic
 macuahuitl
 maculata
 mafuckin
+magnifiers
 magwells
 maiasaura
 makizushi
@@ -1078,6 +1084,7 @@ microportals
 microreactor
 microskirt
 mideastern
+midsentence
 migo
 milkfat
 milspec
@@ -1088,6 +1095,7 @@ minimap
 minin
 mininuke
 minireactor
+mirrorshades
 misc
 misjudgements
 misprogram
@@ -1158,6 +1166,7 @@ nanomaterials
 nanomesh
 nanoprinted
 nanoribbon
+nanosaurus
 nanoskirt
 nanuqsaurus
 narry
@@ -1565,6 +1574,9 @@ shadowcat
 shambler
 shamblers
 shantak
+shapechangers
+sharksuit
+sharksuits
 shatteringly
 shedded
 sheetmetal
@@ -1770,6 +1782,7 @@ thawb
 thawbs
 thermochemistry
 thermoplastics
+thescelosaurus
 thonged
 thorned
 thosun

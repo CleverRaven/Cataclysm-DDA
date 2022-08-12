@@ -936,15 +936,16 @@ void npc::move()
             }
             return;
         }
-        std::vector<tripoint> activity_route = get_auto_move_route();
+        std::vector<tripoint_bub_ms> activity_route = get_auto_move_route();
         if( !activity_route.empty() && !has_destination_activity() ) {
-            tripoint final_destination;
+            tripoint_bub_ms final_destination;
             if( destination_point ) {
-                final_destination = here.getlocal( *destination_point );
+                final_destination = here.bub_from_abs( *destination_point );
             } else {
                 final_destination = activity_route.back();
             }
-            update_path( final_destination );
+            // TODO: fix point types
+            update_path( final_destination.raw() );
             if( !path.empty() ) {
                 move_to_next();
                 return;
@@ -1066,7 +1067,7 @@ void npc::execute_action( npc_action action )
             if( !get_wielded_item() ) {
                 debugmsg( "NPC tried to reload without weapon" );
             }
-            do_reload( *get_wielded_item() );
+            do_reload( get_wielded_item() );
         }
         break;
 
@@ -1454,7 +1455,7 @@ void npc::evaluate_best_weapon( const Creature *target )
 
     // punching things is always available
     compare( std::make_shared<npc_attack_melee>( null_item_reference() ) );
-    const int ups_charges = available_ups();
+    const units::energy ups_charges = available_ups();
     visit_items( [&compare, &ups_charges, this]( item * it, item * ) {
         // you can theoretically melee with anything.
         compare( std::make_shared<npc_attack_melee>( *it ) );
@@ -1523,11 +1524,21 @@ static bool wants_to_reload_with( const item &weap, const item &ammo )
     return !ammo.is_magazine() || ammo.ammo_remaining() > weap.ammo_remaining();
 }
 
-item &npc::find_reloadable()
+// todo: make visit_items use item_locations and remove this
+static item_location form_loc_recursive( Character *npc, item *node, item *parent )
+{
+    if( parent ) {
+        return item_location( form_loc_recursive( npc, parent, npc->find_parent( *parent ) ), node );
+    }
+
+    return item_location( *npc, node );
+}
+
+item_location npc::find_reloadable()
 {
     auto cached_value = cached_info.find( "reloadables" );
     if( cached_value != cached_info.end() ) {
-        return null_item_reference();
+        return item_location();
     }
     // Check wielded gun, non-wielded guns, mags and tools
     // TODO: Build a proper gun->mag->ammo DAG (Directed Acyclic Graph)
@@ -1535,31 +1546,29 @@ item &npc::find_reloadable()
     // TODO: Make this understand bandoliers, pouches etc.
     // TODO: Cache items checked for reloading to avoid re-checking same items every turn
     // TODO: Make it understand smaller and bigger magazines
-    item *reloadable = nullptr;
-    visit_items( [this, &reloadable]( item * node, item * ) {
+    item_location reloadable;
+    visit_items( [this, &reloadable]( item * node, item * parent ) {
         if( !wants_to_reload( *this, *node ) ) {
             return VisitResponse::NEXT;
         }
-        const item_location it_loc = select_ammo( *node ).ammo;
+
+        item_location node_loc = form_loc_recursive( this, node, parent );
+
+        const item_location it_loc = select_ammo( node_loc ).ammo;
         if( it_loc && wants_to_reload_with( *node, *it_loc ) ) {
-            reloadable = node;
+            reloadable = node_loc;
             return VisitResponse::ABORT;
         }
 
         return VisitResponse::NEXT;
     } );
 
-    if( reloadable != nullptr ) {
-        return *reloadable;
+    if( reloadable ) {
+        return reloadable;
     }
 
     cached_info.emplace( "reloadables", 0.0 );
-    return null_item_reference();
-}
-
-const item &npc::find_reloadable() const
-{
-    return const_cast<const item &>( const_cast<npc *>( this )->find_reloadable() );
+    return item_location();
 }
 
 bool npc::can_reload_current()
@@ -1569,24 +1578,24 @@ bool npc::can_reload_current()
         return false;
     }
 
-    return static_cast<bool>( find_usable_ammo( *weapon ) );
+    return static_cast<bool>( find_usable_ammo( weapon ) );
 }
 
-item_location npc::find_usable_ammo( const item &weap )
+item_location npc::find_usable_ammo( const item_location &weap )
 {
-    if( !can_reload( weap ) ) {
+    if( !can_reload( *weap ) ) {
         return item_location();
     }
 
     item_location loc = select_ammo( weap ).ammo;
-    if( !loc || !wants_to_reload_with( weap, *loc ) ) {
+    if( !loc || !wants_to_reload_with( *weap, *loc ) ) {
         return item_location();
     }
 
     return loc;
 }
 
-item_location npc::find_usable_ammo( const item &weap ) const
+item_location npc::find_usable_ammo( const item_location &weap ) const
 {
     return const_cast<npc *>( this )->find_usable_ammo( weap );
 }
@@ -1750,7 +1759,7 @@ void outfit::activate_combat_items( npc &guy )
             // Due to how UPS works, there can be no charges_needed for UPS items.
             // Energy consumption is thus not checked at activation.
             // To prevent "flickering", this is a hard check for UPS charges > 0.
-            if( transform->target->has_flag( flag_USE_UPS ) && guy.available_ups() == 0 ) {
+            if( transform->target->has_flag( flag_USE_UPS ) && guy.available_ups() == 0_kJ ) {
                 continue;
             }
             if( transform->can_use( guy, candidate, false, tripoint_zero ).success() ) {
@@ -1895,8 +1904,8 @@ npc_action npc::address_needs( float danger )
         return npc_reload;
     }
 
-    item &reloadable = find_reloadable();
-    if( !reloadable.is_null() ) {
+    item_location reloadable = find_reloadable();
+    if( reloadable ) {
         do_reload( reloadable );
         return npc_noop;
     }
@@ -2371,15 +2380,16 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
             np->move_away_from( pos(), true, realnomove );
             // if we moved NPC, readjust their path, so NPCs don't jostle each other out of their activity paths.
             if( np->attitude == NPCATT_ACTIVITY ) {
-                std::vector<tripoint> activity_route = np->get_auto_move_route();
+                std::vector<tripoint_bub_ms> activity_route = np->get_auto_move_route();
                 if( !activity_route.empty() && !np->has_destination_activity() ) {
-                    tripoint final_destination;
+                    tripoint_bub_ms final_destination;
                     if( destination_point ) {
-                        final_destination = here.getlocal( *destination_point );
+                        final_destination = here.bub_from_abs( *destination_point );
                     } else {
                         final_destination = activity_route.back();
                     }
-                    np->update_path( final_destination );
+                    // TODO: fix point types
+                    np->update_path( final_destination.raw() );
                 }
             }
         }
@@ -2420,7 +2430,7 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
             const double encumb_moves = get_weight() / 4800.0_gram;
             moves -= static_cast<int>( std::ceil( base_moves + encumb_moves ) );
             if( mounted_creature->has_flag( MF_RIDEABLE_MECH ) ) {
-                mounted_creature->use_mech_power( -1 );
+                mounted_creature->use_mech_power( 1_kJ );
             }
         } else {
             moves -= run_cost( here.combined_movecost( pos(), p ), diag );
@@ -2461,6 +2471,7 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
     }
 
     if( moved ) {
+        make_footstep_noise();
         const tripoint old_pos = pos();
         setpos( p );
         if( old_pos.x - p.x < 0 ) {
@@ -3355,7 +3366,7 @@ bool npc::do_pulp()
     // TODO: Don't recreate the activity every time
     int old_moves = moves;
     assign_activity( ACT_PULP, calendar::INDEFINITELY_LONG, 0 );
-    activity.placement = pulp_location->raw();
+    activity.placement = *pulp_location;
     activity.do_turn( *this );
     return moves != old_moves;
 }
@@ -3425,7 +3436,7 @@ bool npc::wield_better_weapon()
     item *best = &weap;
     double best_value = -100.0;
 
-    const int ups_charges = available_ups();
+    const units::energy ups_charges = available_ups();
 
     const auto compare_weapon =
     [this, &best, &best_value, ups_charges, can_use_gun, use_silent]( const item & it ) {
@@ -3435,9 +3446,9 @@ bool npc::wield_better_weapon()
             val = weapon_value( it, 0 );
         } else {
             int ammo_count = it.ammo_remaining();
-            int ups_drain = it.get_gun_ups_drain();
-            if( ups_drain > 0 ) {
-                ammo_count = std::min( ammo_count, ups_charges / ups_drain );
+            units::energy ups_drain = it.get_gun_ups_drain();
+            if( ups_drain > 0_kJ ) {
+                ammo_count = std::min( ammo_count, static_cast<int>( ups_charges / ups_drain ) );
             }
 
             val = weapon_value( it, ammo_count );
@@ -3725,7 +3736,7 @@ void npc::heal_self()
         std::string iusage = "INHALER";
 
         const auto filter_use = [this]( const std::string & filter ) -> std::vector<item *> {
-            const auto inv_filtered = items_with( [&filter]( const item & itm )
+            auto inv_filtered = items_with( [&filter]( const item & itm )
             {
                 return ( itm.type->get_use( filter ) != nullptr ) && itm.ammo_sufficient( nullptr );
             } );
@@ -4438,6 +4449,7 @@ const Creature *npc::current_target() const
     return ai_cache.target.lock().get();
 }
 
+// NOLINTNEXTLINE(readability-make-member-function-const)
 Creature *npc::current_target()
 {
     // TODO: As above.
@@ -4451,6 +4463,7 @@ const Creature *npc::current_ally() const
     return ai_cache.ally.lock().get();
 }
 
+// NOLINTNEXTLINE(readability-make-member-function-const)
 Creature *npc::current_ally()
 {
     // TODO: As above.
@@ -4473,7 +4486,7 @@ static bodypart_id bp_affected( npc &who, const efftype_id &effect_type )
     return ret;
 }
 
-std::string npc::distance_string( int range )
+std::string npc::distance_string( int range ) const
 {
     if( range < 6 ) {
         return chatbin.snip_danger_close_distance;
@@ -4677,12 +4690,17 @@ bool npc::complain()
     return false;
 }
 
-void npc::do_reload( const item &it )
+void npc::do_reload( const item_location &it )
 {
+    if( !it ) {
+        debugmsg( "do_reload failed: %s tried to reload a none", name );
+        return;
+    }
+
     item::reload_option reload_opt = select_ammo( it );
 
     if( !reload_opt ) {
-        debugmsg( "do_reload failed: no usable ammo for %s", it.tname() );
+        debugmsg( "do_reload failed: no usable ammo for %s", it->tname() );
         return;
     }
 
@@ -4692,13 +4710,13 @@ void npc::do_reload( const item &it )
     item_location &usable_ammo = reload_opt.ammo;
 
     int qty = std::max( 1, std::min( usable_ammo->charges,
-                                     it.ammo_capacity( usable_ammo->ammo_data()->ammo->type ) - it.ammo_remaining() ) );
-    int reload_time = item_reload_cost( it, *usable_ammo, qty );
+                                     it->ammo_capacity( usable_ammo->ammo_data()->ammo->type ) - it->ammo_remaining() ) );
+    int reload_time = item_reload_cost( *it, *usable_ammo, qty );
     // TODO: Consider printing this info to player too
     const std::string ammo_name = usable_ammo->tname();
     if( !target.reload( *this, std::move( usable_ammo ), qty ) ) {
         debugmsg( "do_reload failed: item %s could not be reloaded with %ld charge(s) of %s",
-                  it.tname(), qty, ammo_name );
+                  it->tname(), qty, ammo_name );
         return;
     }
 
@@ -4706,8 +4724,8 @@ void npc::do_reload( const item &it )
     recoil = MAX_RECOIL;
 
     if( get_player_view().sees( *this ) ) {
-        add_msg( _( "%1$s reloads their %2$s." ), get_name(), it.tname() );
-        sfx::play_variant_sound( "reload", it.typeId().str(), sfx::get_heard_volume( pos() ),
+        add_msg( _( "%1$s reloads their %2$s." ), get_name(), it->tname() );
+        sfx::play_variant_sound( "reload", it->typeId().str(), sfx::get_heard_volume( pos() ),
                                  sfx::get_heard_angle( pos() ) );
     }
 

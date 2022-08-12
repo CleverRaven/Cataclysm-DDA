@@ -267,15 +267,18 @@ void map::generate( const tripoint &p, const time_point &when )
     if( spawns.group && x_in_y( odds_after_density, 100 ) ) {
         int pop = spawn_count * rng( spawns.population.min, spawns.population.max );
         for( ; pop > 0; pop-- ) {
-            MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup( spawns.group, &pop );
-            if( !spawn_details.name ) {
-                continue;
-            }
-            if( const cata::optional<tripoint> pt =
-            random_point( *this, [this]( const tripoint & n ) {
-            return passable( n );
-            } ) ) {
-                add_spawn( spawn_details, *pt );
+            std::vector<MonsterGroupResult> spawn_details =
+                MonsterGroupManager::GetResultFromGroup( spawns.group, &pop );
+            for( const MonsterGroupResult &mgr : spawn_details ) {
+                if( !mgr.name ) {
+                    continue;
+                }
+                if( const cata::optional<tripoint> pt =
+                random_point( *this, [this]( const tripoint & n ) {
+                return passable( n );
+                } ) ) {
+                    add_spawn( mgr, *pt );
+                }
             }
         }
     }
@@ -1873,6 +1876,7 @@ class jmapgen_sign : public jmapgen_piece
             dat.m.set_signage( tripoint( r, dat.m.get_abs_sub().z() ), signtext );
         }
         std::string apply_all_tags( std::string signtext, const std::string &cityname ) const {
+            signtext = SNIPPET.expand( signtext );
             replace_city_tag( signtext, cityname );
             replace_name_tags( signtext );
             return signtext;
@@ -1923,6 +1927,7 @@ class jmapgen_graffiti : public jmapgen_piece
             dat.m.set_graffiti( tripoint( r, dat.m.get_abs_sub().z() ), graffiti );
         }
         std::string apply_all_tags( std::string graffiti, const std::string &cityname ) const {
+            graffiti = SNIPPET.expand( graffiti );
             replace_city_tag( graffiti, cityname );
             replace_name_tags( graffiti );
             return graffiti;
@@ -2355,11 +2360,13 @@ class jmapgen_monster : public jmapgen_piece
 
             mongroup_id chosen_group = m_id.get( dat );
             if( !chosen_group.is_null() ) {
-                MonsterGroupResult spawn_details =
+                std::vector<MonsterGroupResult> spawn_details =
                     MonsterGroupManager::GetResultFromGroup( chosen_group );
-                dat.m.add_spawn( spawn_details.name, spawn_count * pack_size.get(),
-                { x.get(), y.get(), dat.m.get_abs_sub().z() },
-                friendly, -1, mission_id, name, data );
+                for( const MonsterGroupResult &mgr : spawn_details ) {
+                    dat.m.add_spawn( mgr.name, spawn_count * pack_size.get(),
+                    { x.get(), y.get(), dat.m.get_abs_sub().z() },
+                    friendly, -1, mission_id, name, data );
+                }
             } else {
                 mtype_id chosen_type = ids.pick()->get( dat );
                 if( !chosen_type.is_null() ) {
@@ -5503,9 +5510,9 @@ void map::draw_lab( mapgendata &dat )
                             if( one_in( 200 ) && ( t_thconc_floor == ter( point( i, j ) ) ||
                                                    t_strconc_floor == ter( point( i, j ) ) ) ) {
                                 if( is_toxic ) {
-                                    add_field( {i, j, abs_sub.z()}, fd_gas_vent, 1 );
+                                    add_field( tripoint_bub_ms{i, j, abs_sub.z()}, fd_gas_vent, 1 );
                                 } else {
-                                    add_field( {i, j, abs_sub.z()}, fd_smoke_vent, 2 );
+                                    add_field( tripoint_bub_ms{i, j, abs_sub.z()}, fd_smoke_vent, 2 );
                                 }
                             }
                         }
@@ -5972,8 +5979,8 @@ void map::draw_temple( const mapgendata &dat )
                     square( this, t_rock, point_zero, point( SEEX - 1, SOUTH_EDGE ) );
                     square( this, t_rock, point( SEEX + 2, 0 ), point( EAST_EDGE, SOUTH_EDGE ) );
                     for( int i = 2; i < SEEY * 2 - 4; i++ ) {
-                        add_field( {SEEX, i, abs_sub.z()}, fd_fire_vent, rng( 1, 3 ) );
-                        add_field( {SEEX + 1, i, abs_sub.z()}, fd_fire_vent, rng( 1, 3 ) );
+                        add_field( tripoint_bub_ms{SEEX, i, abs_sub.z()}, fd_fire_vent, rng( 1, 3 ) );
+                        add_field( tripoint_bub_ms{SEEX + 1, i, abs_sub.z()}, fd_fire_vent, rng( 1, 3 ) );
                     }
                     break;
 
@@ -6433,9 +6440,12 @@ void map::place_spawns( const mongroup_id &group, const int chance,
         } while( impassable( p ) && tries > 0 );
 
         // Pick a monster type
-        MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup( group, &num );
-        add_spawn( spawn_details.name, spawn_details.pack_size, { p, abs_sub.z() },
-                   friendly, -1, mission_id, name, spawn_details.data );
+        std::vector<MonsterGroupResult> spawn_details =
+            MonsterGroupManager::GetResultFromGroup( group, &num );
+        for( const MonsterGroupResult &mgr : spawn_details ) {
+            add_spawn( mgr.name, mgr.pack_size, { p, abs_sub.z() },
+                       friendly, -1, mission_id, name, mgr.data );
+        }
     }
 }
 
@@ -6590,20 +6600,21 @@ std::vector<item *> map::put_items_from_loc( const item_group_id &group_id, cons
     return spawn_items( p, items );
 }
 
-void map::add_spawn( const MonsterGroupResult &spawn_details, const tripoint &p ) const
+void map::add_spawn( const MonsterGroupResult &spawn_details, const tripoint &p )
 {
     add_spawn( spawn_details.name, spawn_details.pack_size, p, false, -1, -1, "NONE",
                spawn_details.data );
 }
 
 void map::add_spawn( const mtype_id &type, int count, const tripoint &p, bool friendly,
-                     int faction_id, int mission_id, const std::string &name ) const
+                     int faction_id, int mission_id, const std::string &name )
 {
     add_spawn( type, count, p, friendly, faction_id, mission_id, name, spawn_data() );
 }
 
-void map::add_spawn( const mtype_id &type, int count, const tripoint &p, bool friendly,
-                     int faction_id, int mission_id, const std::string &name, const spawn_data &data ) const
+void map::add_spawn(
+    const mtype_id &type, int count, const tripoint &p, bool friendly, int faction_id,
+    int mission_id, const std::string &name, const spawn_data &data )
 {
     if( p.x < 0 || p.x >= SEEX * my_MAPSIZE || p.y < 0 || p.y >= SEEY * my_MAPSIZE ) {
         debugmsg( "Out of bounds add_spawn(%s, %d, %d, %d)", type.c_str(), count, p.x, p.y );
@@ -7492,7 +7503,7 @@ void map::create_anomaly( const tripoint &cp, artifact_natural_property prop, bo
             for( int i = c.x - 5; i <= c.x + 5; i++ ) {
                 for( int j = c.y - 5; j <= c.y + 5; j++ ) {
                     if( furn( point( i, j ) ) == f_rubble ) {
-                        add_field( {i, j, abs_sub.z()}, fd_push_items, 1 );
+                        add_field( tripoint_bub_ms{i, j, abs_sub.z()}, fd_push_items, 1 );
                         if( one_in( 3 ) ) {
                             spawn_item( point( i, j ), "rock" );
                         }
@@ -7580,7 +7591,7 @@ void map::create_anomaly( const tripoint &cp, artifact_natural_property prop, bo
             for( int i = c.x - 5; i <= c.x + 5; i++ ) {
                 for( int j = c.y - 5; j <= c.y + 5; j++ ) {
                     if( furn( point( i, j ) ) == f_rubble ) {
-                        add_field( {i, j, abs_sub.z()}, fd_fire_vent,
+                        add_field( tripoint_bub_ms{i, j, abs_sub.z()}, fd_fire_vent,
                                    1 + ( rl_dist( c, point( i, j ) ) % 3 ) );
                     }
                 }

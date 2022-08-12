@@ -1731,5 +1731,24 @@
     "copy-from": "generic_city_building_no_sidewalk",
     "sym": "B",
     "color": "red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "salon",
+    "copy-from": "generic_city_building",
+    "name": "salon",
+    "sym": "s",
+    "color": "pink",
+    "looks_like": "salon",
+    "extend": { "flags": [ "SOURCE_LUXURY" ] }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "salon_roof",
+    "copy-from": "generic_city_building",
+    "name": "salon roof",
+    "looks_like": "salon_roof",
+    "sym": "s",
+    "color": "pink"
   }
 ]

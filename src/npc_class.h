@@ -16,6 +16,7 @@ class JsonObject;
 class Trait_group;
 
 struct dialogue;
+struct faction_price_rule;
 
 namespace trait_group
 {
@@ -86,6 +87,7 @@ class npc_class
 
         // first -> item group, second -> trust
         std::vector<shopkeeper_item_group> shop_item_groups;
+        std::vector<faction_price_rule> shop_price_rules;
         shopkeeper_cons_rates_id shop_cons_rates_id = shopkeeper_cons_rates_id::NULL_ID();
         shopkeeper_blacklist_id shop_blacklist_id = shopkeeper_blacklist_id::NULL_ID();
         time_duration restock_interval = 6_days;
@@ -124,6 +126,7 @@ class npc_class
         const shopkeeper_cons_rates &get_shopkeeper_cons_rates() const;
         const shopkeeper_blacklist &get_shopkeeper_blacklist() const;
         const time_duration &get_shop_restock_interval() const;
+        faction_price_rule const *get_price_rules( item const &it, npc const &guy ) const;
 
         void load( const JsonObject &jo, const std::string &src );
 

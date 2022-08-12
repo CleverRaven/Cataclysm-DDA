@@ -603,6 +603,7 @@
           "mx_collegekids": 25,
           "mx_grass": 20,
           "mx_science": 20,
+          "mx_toxic_waste": 10,
           "mx_crater": 10,
           "mx_supplydrop": 8,
           "mx_military": 8,
@@ -638,6 +639,7 @@
           "mx_drugdeal": 20,
           "mx_grass2": 20,
           "mx_fallen_shed": 20,
+          "mx_toxic_waste": 15,
           "mx_crater": 10,
           "mx_grass": 10,
           "mx_military": 8,
@@ -673,6 +675,7 @@
           "mx_corpses": 80,
           "mx_grass2": 20,
           "mx_grass": 10,
+          "mx_toxic_waste": 10,
           "mx_portal": 8,
           "mx_portal_in": 7,
           "mx_helicopter": 5,
@@ -702,6 +705,7 @@
           "mx_collegekids": 30,
           "mx_drugdeal": 30,
           "mx_corpses": 30,
+          "mx_toxic_waste": 10,
           "mx_portal": 10,
           "mx_portal_in": 10,
           "mx_science": 10,
@@ -741,7 +745,7 @@
         "extras": {
           "mx_bugout": 20,
           "mx_house_spider": 40,
-          "mx_house_wasp": 60,
+          "mx_house_wasp": 30,
           "mx_military": 5,
           "mx_science": 12,
           "mx_collegekids": 15,
@@ -822,6 +826,8 @@
         "2storyModern01": 5,
         "house_w_1": 50,
         "house_two_story_basement": 50,
+        "multi_unit_two_story_basement": 40,
+        "multi_unit_three_story_basement": 30,
         "house_crack1": 5,
         "house_crack2": 5,
         "house_crack3": 5,
@@ -1218,7 +1224,8 @@
         "cs_sex_shop": 100,
         "cs_tire_shop": 100,
         "homeless_shelter": 100,
-        "parking_garage": 200
+        "parking_garage": 200,
+        "salon": 500
       }
     },
     "weather": {

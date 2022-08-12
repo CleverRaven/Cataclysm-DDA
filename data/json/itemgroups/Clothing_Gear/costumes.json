@@ -91,7 +91,8 @@
       { "item": "jedi_cloak", "prob": 30 },
       { "item": "cloak", "prob": 15 },
       { "item": "cloak_leather", "prob": 20 },
-      { "item": "cloak_wool", "prob": 10 }
+      { "item": "cloak_wool", "prob": 10 },
+      { "item": "pride_flag", "prob": 2 }
     ]
   },
   {

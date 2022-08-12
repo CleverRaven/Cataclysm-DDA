@@ -483,7 +483,12 @@ void main_menu::init_strings()
     }
 
     loading_ui ui( false );
-    g->load_core_data( ui );
+    try {
+        g->load_core_data( ui );
+    } catch( const std::exception &err ) {
+        debugmsg( err.what() );
+        std::exit( 1 );
+    }
     vdaytip = SNIPPET.random_from_category( "tip" ).value_or( translation() ).translated();
 }
 
@@ -562,6 +567,7 @@ bool main_menu::opening_screen()
     // for the menu shortcuts
     ctxt.register_action( "ANY_INPUT" );
     bool start = false;
+    bool load_game = false;
 
     avatar &player_character = get_avatar();
     player_character = avatar();
@@ -784,6 +790,9 @@ bool main_menu::opening_screen()
                         }
                         cleanup.cancel();
                         start = true;
+                        if( g->gametype() == special_game_type::TUTORIAL ) {
+                            load_game = true;
+                        }
                     }
                     break;
                 case main_menu_opts::SETTINGS:
@@ -808,6 +817,9 @@ bool main_menu::opening_screen()
                 case main_menu_opts::LOADCHAR:
                     if( static_cast<std::size_t>( sel2 ) < world_generator->all_worldnames().size() ) {
                         start = load_character_tab( world_generator->all_worldnames().at( sel2 ) );
+                        if( start ) {
+                            load_game = true;
+                        }
                     } else {
                         popup( _( "No world to load." ) );
                     }
@@ -821,6 +833,9 @@ bool main_menu::opening_screen()
                     break;
             }
         }
+    }
+    if( start && !load_game && get_scenario() ) {
+        add_msg( get_scenario()->description( player_character.male ) );
     }
     return true;
 }
@@ -1016,9 +1031,11 @@ void main_menu::world_tab( const std::string &worldname )
     uilist mmenu( string_format( _( "Manage world \"%s\"" ), worldname ), {} );
     mmenu.border_color = c_white;
     int opt_val = 0;
+    std::array<char, 5> hotkeys = { 'd', 'r', 'm', 's', 't' };
     for( const std::string &it : vWorldSubItems ) {
-        mmenu.entries.emplace_back( opt_val++, true, MENU_AUTOASSIGN,
+        mmenu.entries.emplace_back( opt_val, true, hotkeys[opt_val],
                                     remove_color_tags( shortcut_text( c_white, it ) ) );
+        ++opt_val;
     }
     mmenu.entries.emplace_back( opt_val, true, 'q', _( "<- Back to Main Menu" ), c_yellow, c_yellow );
     mmenu.query();

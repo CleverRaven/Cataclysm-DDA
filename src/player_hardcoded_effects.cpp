@@ -592,9 +592,11 @@ static void eff_fun_teleglow( Character &u, effect &it )
                 if( here.impassable( dest ) ) {
                     here.make_rubble( dest, f_rubble_rock, true );
                 }
-                MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup(
-                                                       GROUP_NETHER );
-                g->place_critter_at( spawn_details.name, dest );
+                std::vector<MonsterGroupResult> spawn_details =
+                    MonsterGroupManager::GetResultFromGroup( GROUP_NETHER );
+                for( const MonsterGroupResult &mgr : spawn_details ) {
+                    g->place_critter_at( mgr.name, dest );
+                }
                 if( uistate.distraction_hostile_spotted && player_character.sees( dest ) ) {
                     g->cancel_activity_or_ignore_query( distraction_type::hostile_spotted_far,
                                                         _( "A monster appears nearby!" ) );
@@ -1300,9 +1302,11 @@ void Character::hardcoded_effects( effect &it )
                 if( here.impassable( dest ) ) {
                     here.make_rubble( dest, f_rubble_rock, true );
                 }
-                MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup(
-                                                       GROUP_NETHER );
-                g->place_critter_at( spawn_details.name, dest );
+                std::vector<MonsterGroupResult> spawn_details =
+                    MonsterGroupManager::GetResultFromGroup( GROUP_NETHER );
+                for( const MonsterGroupResult &mgr : spawn_details ) {
+                    g->place_critter_at( mgr.name, dest );
+                }
                 if( uistate.distraction_hostile_spotted && player_character.sees( dest ) ) {
                     g->cancel_activity_or_ignore_query( distraction_type::hostile_spotted_far,
                                                         _( "A monster appears nearby!" ) );

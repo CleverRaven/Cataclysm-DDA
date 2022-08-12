@@ -6,10 +6,14 @@
     "components": [
       [
         [ "flour", 2 ],
+        [ "flour_wheat_free", 2 ],
+        [ "bread_flour", 2 ],
         [ "cornmeal", 1 ],
         [ "flatbread", 1 ],
+        [ "flatbread_wheat_free", 1 ],
         [ "tortilla_corn", 1 ],
         [ "bread", 1 ],
+        [ "bread_wheat_free", 1 ],
         [ "wastebread", 1 ],
         [ "cornbread", 1 ],
         [ "biscuit", 1 ],
@@ -40,6 +44,12 @@
     "type": "requirement",
     "//": "Wheat free bread appropriate for sandwiches.",
     "components": [ [ [ "cornbread", 1 ], [ "bread_wheat_free", 1 ], [ "flatbread_wheat_free", 1 ] ] ]
+  },
+  {
+    "id": "any_bread",
+    "type": "requirement",
+    "//": "Any type of bread",
+    "components": [ [ [ "bread_sandwich", 1, "LIST" ], [ "bread_sandwich_wheat_free", 1, "LIST" ] ] ]
   },
   {
     "id": "any_peanutbutter",
@@ -107,6 +117,12 @@
     "type": "requirement",
     "//": "Pasteurized milk, including reconstituted",
     "components": [ [ [ "milk", 1 ], [ "milk_reconstituted", 1 ], [ "milk_UHT", 1 ] ] ]
+  },
+  {
+    "id": "cheese_standard",
+    "type": "requirement",
+    "//": "Any cheese you could use as is",
+    "components": [ [ [ "cheese", 1 ], [ "cheese_hard", 1 ], [ "can_cheese", 1 ], [ "cheese_rehydrated", 1 ] ] ]
   },
   {
     "id": "lf_milk_standard",

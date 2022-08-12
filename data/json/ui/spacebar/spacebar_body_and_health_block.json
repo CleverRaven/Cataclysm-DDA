@@ -45,7 +45,8 @@
       "spacebar_info_bar",
       "spacebar_filler_hp",
       "spacebar_separator_42",
-      "spacebar_filler_legend",
+      "spacebar_legend_bar_1",
+      "spacebar_legend_bar_2",
       "spacebar_separator_42",
       "spacebar_filler_needs"
     ]
@@ -61,7 +62,8 @@
       "spacebar_info_bar",
       "spacebar_filler_hp_sa",
       "spacebar_separator_42",
-      "spacebar_filler_legend",
+      "spacebar_legend_bar_1",
+      "spacebar_legend_bar_2",
       "spacebar_separator_42",
       "spacebar_filler_needs_sa"
     ]
@@ -72,6 +74,20 @@
     "style": "text",
     "colors": [ "c_dark_gray" ],
     "string": "=>  ( HP/Status/Encum./Temp./swet )  <="
+  },
+  {
+    "id": "spacebar_legend_bar_1",
+    "type": "widget",
+    "style": "text",
+    "colors": [ "c_dark_gray" ],
+    "string": "   b bleeding, + bandaged, $ disinfected   "
+  },
+  {
+    "id": "spacebar_legend_bar_2",
+    "type": "widget",
+    "style": "text",
+    "colors": [ "c_dark_gray" ],
+    "string": "     = splinted, % broken, I infected     "
   },
   {
     "id": "spacebar_filler_hp",
@@ -474,7 +490,14 @@
     "style": "layout",
     "arrange": "rows",
     "width": 23,
-    "widgets": [ "hunger_desc_label", "thirst_desc_label", "fatigue_desc_label", "body_temp_desc_label", "pain_desc_label" ]
+    "widgets": [
+      "hunger_desc_label",
+      "thirst_desc_label",
+      "fatigue_desc_label",
+      "body_temp_desc_label",
+      "pain_desc_label",
+      "power_short_desc"
+    ]
   },
   {
     "id": "spacebar_health_layout_sa",
@@ -482,7 +505,14 @@
     "style": "layout",
     "arrange": "rows",
     "width": 23,
-    "widgets": [ "hunger_desc_label", "thirst_desc_label", "fatigue_desc_label", "body_temp_desc_label", "pain_num_label" ]
+    "widgets": [
+      "hunger_desc_label",
+      "thirst_desc_label",
+      "fatigue_desc_label",
+      "body_temp_desc_label",
+      "pain_num_label",
+      "power_short_desc"
+    ]
   },
   {
     "id": "spacebar_stats_layout",
@@ -493,12 +523,6 @@
     "arrange": "rows",
     "width": 15,
     "widgets": [ "str_num", "dex_num", "int_num", "per_num", "safe_mode_classic_desc" ]
-  },
-  {
-    "id": "spacebar_filler_legend",
-    "type": "widget",
-    "style": "layout",
-    "widgets": [ "spacebar_bp_status_legend_text" ]
   },
   {
     "id": "spacebar_bp_status_legend_text",
