@@ -312,6 +312,7 @@
     "copy-from": "mon_gallimimus_juvenile",
     "looks_like": "mon_apatosaurus",
     "default_faction": "herbivore_dino",
+    "aggro_character": false,
     "description": "A huge, four-legged, plant-eating juvenile sauropod with a long neck and tail, it could be from a number of different species.",
     "volume": "1000 L",
     "weight": "1000 kg",
