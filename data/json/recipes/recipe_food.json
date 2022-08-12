@@ -9286,7 +9286,7 @@
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 1 } ],
     "components": [
       [ [ "meat_red", 2, "LIST" ] ],
-      [ [ "bread", 1 ] ],
+      [ [ "any_bread", 1, "LIST" ] ],
       [
         [ "salt", 2 ],
         [ "soysauce", 2 ],

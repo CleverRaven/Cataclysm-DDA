@@ -207,6 +207,7 @@ monster::monster()
     biosig_timer = calendar::before_time_starts;
     udder_timer = calendar::turn;
     horde_attraction = MHA_NULL;
+    aggro_character = true;
     set_anatomy( anatomy_default_anatomy );
     set_body();
 }
@@ -238,6 +239,7 @@ monster::monster( const mtype_id &id ) : monster()
         mech_bat_item.ammo_consume( rng( 0, max_charge ), tripoint_zero, nullptr );
         battery_item = cata::make_value<item>( mech_bat_item );
     }
+    aggro_character = type->aggro_character;
 }
 
 monster::monster( const mtype_id &id, const tripoint &p ) : monster( id )
@@ -291,6 +293,7 @@ void monster::poly( const mtype_id &id )
     upgrades = type->upgrades;
     reproduces = type->reproduces;
     biosignatures = type->biosignatures;
+    aggro_character = type->aggro_character;
 }
 
 bool monster::can_upgrade() const
@@ -1365,6 +1368,10 @@ monster_attitude monster::attitude( const Character *u ) const
         return MATT_FLEE;
     }
 
+    if( u != nullptr && !aggro_character && !u->is_monster() ) {
+        return MATT_IGNORE;
+    }
+
     return MATT_ATTACK;
 }
 
@@ -1414,6 +1421,12 @@ void monster::process_triggers()
         } else {
             anger--;
         }
+    }
+
+    // If we got angry at characters have a chance at calming down
+    if( anger == type->agro && aggro_character && !type->aggro_character && !x_in_y( anger, 100 ) ) {
+        add_msg_debug( debugmode::DF_MONSTER, "%s's character aggro reset", name() );
+        aggro_character = false;
     }
 
     // Cap values at [-100, 100] to prevent perma-angry moose etc.
@@ -1897,6 +1910,10 @@ void monster::apply_damage( Creature *source, bodypart_id /*bp*/, int dam,
         set_killer( source );
     } else if( dam > 0 ) {
         process_trigger( mon_trigger::HURT, 1 + static_cast<int>( dam / 3 ) );
+        // Get angry at characters if hurt by one
+        if( source != nullptr && !aggro_character && !source->is_monster() ) {
+            aggro_character = true;
+        }
     }
 }
 
@@ -2635,6 +2652,12 @@ void monster::die( Creature *nkiller )
                 // Anger trumps fear trumps ennui
                 if( critter.type->has_anger_trigger( mon_trigger::FRIEND_DIED ) ) {
                     critter.anger += 15;
+                    if( nkiller != nullptr && !nkiller->is_monster() ) {
+                        // A character killed our friend
+                        add_msg_debug( debugmode::DF_MONSTER, "%s's character aggro triggered by killing a friendly %s",
+                                       critter.name(), name() );
+                        aggro_character = true;
+                    }
                 } else if( critter.type->has_fear_trigger( mon_trigger::FRIEND_DIED ) ) {
                     critter.morale -= 15;
                 } else if( critter.type->has_placate_trigger( mon_trigger::FRIEND_DIED ) ) {
@@ -3220,6 +3243,12 @@ void monster::on_hit( Creature *source, bodypart_id,
                 // Anger trumps fear trumps ennui
                 if( critter.type->has_anger_trigger( mon_trigger::FRIEND_ATTACKED ) ) {
                     critter.anger += 15;
+                    if( source != nullptr && !source->is_monster() ) {
+                        // A character attacked our friend
+                        add_msg_debug( debugmode::DF_MONSTER, "%s's character aggro triggered by attacking a friendly %s",
+                                       critter.name(), name() );
+                        aggro_character = true;
+                    }
                 } else if( critter.type->has_fear_trigger( mon_trigger::FRIEND_ATTACKED ) ) {
                     critter.morale -= 15;
                 } else if( critter.type->has_placate_trigger( mon_trigger::FRIEND_ATTACKED ) ) {
@@ -3417,6 +3446,11 @@ void monster::on_load()
         } else {
             anger += std::min( ( dt_left_a / 8 ),
                                std::abs( anger - type->agro ) );
+        }
+        // If we got angry at characters have a chance at calming down
+        if( aggro_character && !type->aggro_character && !x_in_y( anger, 100 ) ) {
+            add_msg_debug( debugmode::DF_MONSTER, "%s's character aggro reset", name() );
+            aggro_character = false;
         }
     }
 
