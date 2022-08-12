@@ -89,7 +89,7 @@
         "moves": 300
       },
       {
-        "//": "waterbottle pocket",
+        "//": "water bottle pocket",
         "pocket_type": "CONTAINER",
         "holster": true,
         "max_contains_volume": "510 ml",
