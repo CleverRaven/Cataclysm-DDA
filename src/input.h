@@ -782,12 +782,9 @@ class input_context
 
         /**
          * Get the coordinates associated with the last mouse click (if any).
-         *
-         * TODO: This right now is more or less specific to the map window,
-         *       and returns the absolute map coordinate.
-         *       Eventually this should be made more flexible.
          */
-        cata::optional<tripoint> get_coordinates( const catacurses::window &capture_win_ );
+        cata::optional<tripoint> get_coordinates( const catacurses::window &capture_win_,
+                const point &offset = point_zero, const bool center_cursor = false ) const;
 
         // Below here are shortcuts for registering common key combinations.
         void register_directions();

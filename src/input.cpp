@@ -1736,7 +1736,8 @@ bool gamepad_available()
     return false;
 }
 
-cata::optional<tripoint> input_context::get_coordinates( const catacurses::window &capture_win )
+cata::optional<tripoint> input_context::get_coordinates( const catacurses::window &capture_win,
+        const point &offset, const bool center_cursor ) const
 {
     if( !coordinate_input_received ) {
         return cata::nullopt;
@@ -1749,12 +1750,17 @@ cata::optional<tripoint> input_context::get_coordinates( const catacurses::windo
         return cata::nullopt;
     }
 
-    point view_offset;
-    if( capture_win == g->w_terrain ) {
-        view_offset = g->ter_view_p.xy();
+    point p = coordinate + offset;
+    // If no offset is specified, account for the window location
+    if( offset == point_zero ) {
+        p -= win_min;
     }
-
-    const point p = view_offset - ( view_size / 2 - coordinate );
+    // If requested, move 0,0 to center of window rather than top left
+    if( center_cursor ) {
+        p -= view_size / 2;
+    }
+    /*const point p = offset + coordinate - ( center_cursor ? view_size / 2 : point_zero ) -
+      ( offset != point_zero ? point_zero : win_min );*/
     return tripoint( p, get_map().get_abs_sub().z() );
 }
 #endif
@@ -1763,8 +1769,12 @@ cata::optional<point> input_context::get_coordinates_text( const catacurses::win
         &capture_win ) const
 {
 #if !defined( TILES )
-    ( void ) capture_win;
-    return cata::nullopt;
+    cata::optional<tripoint> coord3d = get_coordinates( capture_win );
+    if( coord3d.has_value() ) {
+        return get_coordinates( capture_win )->xy();
+    } else {
+        return cata::nullopt;
+    }
 #else
     if( !coordinate_input_received ) {
         return cata::nullopt;
