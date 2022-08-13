@@ -67,6 +67,7 @@
       { "item": "oxygen_cylinder", "prob": 10, "count": [ 1, 2 ] },
       { "item": "polisher", "prob": 1, "charges": [ 0, 100 ] },
       { "item": "welder", "prob": 2, "charges": [ 0, 500 ] },
+      { "item": "welding_blanket", "prob": 10, "count": [ 0, 1 ] },
       {
         "distribution": [
           { "item": "welding_rod_steel", "prob": 20, "charges": [ 50, 360 ] },
