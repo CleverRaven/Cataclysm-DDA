@@ -109,6 +109,12 @@ struct MonsterGroup {
 
 struct mongroup {
     mongroup_id type;
+    /** The monsters vector will be ignored if the vector is empty.
+     *  Otherwise it will keep track of the individual monsters that
+     *  are contained in this horde, and the population property will
+     *  be ignored instead.
+     */
+    std::vector<monster> monsters;
     // Note: position is not saved as such in the json
     // Instead, a vector of positions is saved for
     tripoint_abs_sm abs_pos; // position of the mongroup in absolute submap coordinates
@@ -118,12 +124,6 @@ struct mongroup {
     int interest = 0; //interest to target in percents
     bool dying = false;
     bool horde = false;
-    /** This property will be ignored if the vector is empty.
-     *  Otherwise it will keep track of the individual monsters that
-     *  are contained in this horde, and the population property will
-     *  be ignored instead.
-     */
-    std::vector<monster> monsters;
 
     enum class horde_behaviour {
         none,
