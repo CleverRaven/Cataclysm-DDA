@@ -71,6 +71,7 @@
         "d hT",
         "TTTT"
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "gunshow" ]
     }
   },
@@ -86,6 +87,7 @@
         "m  T",
         "m TT"
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "gunshow" ]
     }
   },
@@ -101,6 +103,7 @@
         "d hT",
         "TTTT"
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "gunshow" ]
     }
   },
@@ -116,6 +119,7 @@
         "T  m",
         "TT m"
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "gunshow" ]
     }
   },
@@ -131,6 +135,7 @@
         "|mhT",
         "|  d"
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "gunshow" ]
     }
   },
@@ -146,6 +151,7 @@
         "Thm|",
         "d  |"
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "palettes": [ "gunshow" ]
     }
   }
