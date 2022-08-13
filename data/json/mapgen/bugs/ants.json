@@ -937,6 +937,49 @@
   {
     "type": "mapgen",
     "method": "json",
+    "om_terrain": "acid_ants_food",
+    "object": {
+      "fill_ter": "t_dirt_underground",
+      "rows": [
+        "#######          #######",
+        "#######          #######",
+        "#######          #######",
+        "######           #######",
+        "#######          #######",
+        "######            ######",
+        "######             #####",
+        "#####               ####",
+        "####               #####",
+        "#####              #####",
+        "####                ####",
+        "####                ####",
+        "###                  ###",
+        "###                 ####",
+        "####              ######",
+        "#######            #####",
+        "#########           ####",
+        "########          ######",
+        "#######           ######",
+        "########           #####",
+        "##########      ########",
+        "############  ##########",
+        "########################",
+        "########################"
+      ],
+      "terrain": { "#": "t_soil" },
+      "place_nested": [
+        { "chunks": [ "ant_tunnel_bounds_h" ], "x": [ 4, 6 ], "y": 0 },
+        { "chunks": [ "ant_tunnel_bounds_h" ], "x": [ 4, 6 ], "y": 1 },
+        { "chunks": [ "ant_tunnel_bounds_h" ], "x": [ 4, 6 ], "y": 2 },
+        { "chunks": [ "ant_tunnel_bounds_h" ], "x": [ 4, 6 ], "y": 3 },
+        { "chunks": [ "ant_tunnel_bounds_h" ], "x": [ 4, 6 ], "y": 4 }
+      ],
+      "items": { " ": { "item": "ant_food", "chance": 4 } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
     "om_terrain": "acid_ants_larvae",
     "object": {
       "fill_ter": "t_dirt_underground",
