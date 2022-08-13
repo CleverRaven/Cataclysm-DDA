@@ -213,12 +213,7 @@ cata::optional<std::pair<trap_str_id, std::pair<std::string, bool>>> ter_furn_tr
     return next( trap_flag_transform, flag );
 }
 
-void ter_furn_transform::transform( const tripoint &location ) const
-{
-    transform( get_map(), location );
-}
-
-void ter_furn_transform::transform( map &m, const tripoint &location ) const
+void ter_furn_transform::transform( map &m, const tripoint_bub_ms &location ) const
 {
     avatar &you = get_avatar();
     const ter_id ter_at_loc = m.ter( location );

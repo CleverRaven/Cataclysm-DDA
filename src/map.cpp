@@ -290,6 +290,11 @@ const_maptile map::maptile_at( const tripoint &p ) const
     return maptile_at_internal( p );
 }
 
+const_maptile map::maptile_at( const tripoint_bub_ms &p ) const
+{
+    return maptile_at( p.raw() );
+}
+
 maptile map::maptile_at( const tripoint &p )
 {
     if( !inbounds( p ) ) {
@@ -297,6 +302,11 @@ maptile map::maptile_at( const tripoint &p )
     }
 
     return maptile_at_internal( p );
+}
+
+maptile map::maptile_at( const tripoint_bub_ms &p )
+{
+    return maptile_at( p.raw() );
 }
 
 const_maptile map::maptile_at_internal( const tripoint &p ) const
@@ -4353,14 +4363,14 @@ void map::translate_radius( const ter_id &from, const ter_id &to, float radi, co
 }
 
 // NOLINTNEXTLINE(readability-make-member-function-const)
-void map::transform_radius( ter_furn_transform_id transform, float radi,
+void map::transform_radius( ter_furn_transform_id transform, int radi,
                             const tripoint_abs_ms &p )
 {
     if( !inbounds( p - point( radi, radi ) ) || !inbounds( p + point( radi, radi ) ) ) {
         debugmsg( "transform_radius called for area out of bounds" );
     }
-    tripoint const loc = getlocal( p );
-    for( tripoint const &t : points_in_radius( loc, radi, 0 ) ) {
+    tripoint_bub_ms const loc = bub_from_abs( p );
+    for( tripoint_bub_ms const &t : points_in_radius( loc, radi, 0 ) ) {
         if( trig_dist( loc, t ) <= radi ) {
             transform->transform( *this, t );
         }
