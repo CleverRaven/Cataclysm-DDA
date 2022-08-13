@@ -3754,6 +3754,19 @@
   },
   {
     "type": "construction",
+    "id": "app_asrg_containment",
+    "group": "place_asrg_containment",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "electronics", 1 ] ],
+    "time": "5 m",
+    "qualities": [ [ { "id": "WRENCH", "level": 1 } ] ],
+    "components": [ [ [ "compact_ASRG_containment", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance",
+    "activity_level": "LIGHT_EXERCISE"
+  },
+  {
+    "type": "construction",
     "id": "constr_pontoon_dp",
     "group": "build_pontoon_bridge",
     "//": "Set up pontoon bridge",
