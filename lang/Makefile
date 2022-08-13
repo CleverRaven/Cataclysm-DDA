@@ -1,10 +1,5 @@
 PO_DIR := ./po
-
-ifndef LOCALE_DIR
-	MO_DIR := ./mo
-else
-	MO_DIR := $(LOCALE_DIR)
-endif
+MO_DIR := ./mo
 
 ifndef LANGUAGES
 	PO := $(patsubst $(PO_DIR)/%,%,$(patsubst %.po,%,$(wildcard $(PO_DIR)/*.po)))
@@ -29,6 +24,12 @@ list_po:
 
 list_mo:
 	@echo $(MO)
+
+install: $(MO)
+ifdef LOCALE_DIR
+	mkdir -p $(LOCALE_DIR)
+	cp -R --no-preserve=ownership $(MO_DIR)/* $(LOCALE_DIR)
+endif
 
 clean:
 	rm -rf $(MO_DIR)

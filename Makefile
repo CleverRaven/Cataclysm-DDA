@@ -850,6 +850,7 @@ endif
 OBJS = $(sort $(patsubst %,$(ODIR)/%,$(_OBJS)))
 
 ifdef LANGUAGES
+  export LOCALE_DIR
   L10N = localization
 endif
 
@@ -1032,9 +1033,8 @@ ifeq ($(SOUND), 1)
 endif
 	install --mode=644 data/changelog.txt data/cataicon.ico data/fontdata.json \
                    LICENSE.txt LICENSE-OFL-Terminus-Font.txt -t $(DATA_PREFIX)
-	mkdir -p $(LOCALE_DIR)
 ifdef LANGUAGES
-	$(MAKE) -C lang
+	$(MAKE) -C lang install
 endif
 endif
 
@@ -1068,9 +1068,8 @@ ifeq ($(SOUND), 1)
 endif
 	install --mode=644 data/changelog.txt data/cataicon.ico data/fontdata.json \
                    LICENSE.txt LICENSE-OFL-Terminus-Font.txt -t $(DATA_PREFIX)
-	mkdir -p $(LOCALE_DIR)
 ifdef LANGUAGES
-	$(MAKE) -C lang
+	$(MAKE) -C lang install
 endif
 endif
 
