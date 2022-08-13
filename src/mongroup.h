@@ -125,7 +125,7 @@ struct mongroup {
     bool dying = false;
     bool horde = false;
 
-    enum class horde_behaviour {
+    enum class horde_behaviour : short {
         none,
         city, ///< Try to stick around cities and return to them whenever possible
         roam, ///< Roam around the map randomly
