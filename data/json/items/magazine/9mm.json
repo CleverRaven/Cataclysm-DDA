@@ -1041,7 +1041,7 @@
     "longest_side": "12 cm",
     "price": 4999,
     "price_postapoc": 100,
-    "material": [ "plastic" ],
+    "material": [ "plastic", "steel" ],
     "symbol": "#",
     "color": "light_gray",
     "ammo_type": [ "9mm" ],
