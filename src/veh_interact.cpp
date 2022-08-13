@@ -3279,7 +3279,7 @@ void veh_interact::complete_vehicle( Character &you )
 
             you.invalidate_crafting_inventory();
             cata_assert( you.activity.str_values.size() >= 2 );
-            const std::string &variant_id =  you.activity.str_values[1];
+            const std::string &variant_id = you.activity.str_values[1];
             int partnum = !base.is_null() ? veh->install_part( d, part_id,
                           std::move( base ), variant_id ) : -1;
             if( partnum < 0 ) {
@@ -3341,7 +3341,7 @@ void veh_interact::complete_vehicle( Character &you )
 
         case 'r': {
             cata_assert( you.activity.str_values.size() >= 2 );
-            const std::string &variant_id =  you.activity.str_values[1];
+            const std::string &variant_id = you.activity.str_values[1];
             veh_utils::repair_part( *veh, veh->part( vehicle_part ), you, variant_id );
             break;
         }

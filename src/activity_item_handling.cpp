@@ -669,6 +669,9 @@ static bool vehicle_activity( Character &you, const tripoint_bub_ms &src_loc, in
     // values[6]
     you.activity.values.push_back( veh->index_of_part( &veh->part( vpindex ) ) );
     you.activity.str_values.push_back( vp.get_id().str() );
+    std::pair<vpart_id, std::string> vp_v = get_vpart_id_variant( vp.get_id() );
+    const std::string &variant_id = vp_v.second;
+    you.activity.str_values.push_back( variant_id );
     // this would only be used for refilling tasks
     item_location target;
     you.activity.targets.emplace_back( std::move( target ) );
