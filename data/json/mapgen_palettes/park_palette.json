@@ -41,6 +41,7 @@
       "w": "t_water_dp"
     },
     "furniture": {
+      "N": "f_bulletin",
       "!": "f_street_light",
       "z": "f_hedge_short",
       "&": "f_trashcan",

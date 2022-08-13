@@ -282,6 +282,7 @@
         [ "dandelion_cooked", 1 ],
         [ "burdock_cooked", 1 ],
         [ "bamboo_cooked", 1 ],
+        [ "groundnut_prepared", 5 ],
         [ "wild_herbs", 40 ]
       ]
     ]
@@ -306,6 +307,7 @@
         [ "dandelion_cooked", 1 ],
         [ "burdock_cooked", 1 ],
         [ "bamboo_cooked", 1 ],
+        [ "groundnut_prepared", 5 ],
         [ "wild_herbs", 40 ]
       ]
     ]

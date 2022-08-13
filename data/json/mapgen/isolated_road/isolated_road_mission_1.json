@@ -4,7 +4,7 @@
     "method": "json",
     "om_terrain": [ [ "gunshow_0", "gunshow_1" ] ],
     "object": {
-      "fill_ter": "t_dirt",
+      "fill_ter": "t_region_soil",
       "rows": [
         "||||||||||||||||||||||||||||||||||||||||||||||||",
         "|c       c       c       c       c       c     |",
@@ -42,7 +42,7 @@
         { "group": "corpse_male", "chance": 100, "x": [ 2, 23 ], "y": [ 2, 22 ], "repeat": [ 1, 3 ] },
         { "group": "corpse_male", "chance": 100, "x": [ 24, 46 ], "y": [ 2, 22 ], "repeat": [ 1, 3 ] }
       ],
-      "terrain": { " ": "t_dirt" },
+      "terrain": { " ": "t_region_soil" },
       "furniture": { "|": "f_large_canvas_wall" },
       "nested": {
         "c": {

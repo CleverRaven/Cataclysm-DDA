@@ -96,7 +96,7 @@
     "damage_reduction": { "all": 30 },
     "durability": 80,
     "flags": [ "CARGO", "OBSTACLE", "COVERED", "FLAT_SURF", "APPLIANCE" ],
-    "pseudo_tools": [ { "id": "hotplate", "hotkey": "h" }, { "id": "fake_oven" } ],
+    "pseudo_tools": [ { "id": "pseudo_app_oven_hotplate", "hotkey": "h" } ],
     "//": "Doesn't draw power at baseline, only when cooking.",
     "epower": 0,
     "item": "oven",
@@ -176,7 +176,8 @@
     "item": "forge",
     "flags": [ "CARGO", "OBSTACLE", "APPLIANCE" ],
     "copy-from": "veh_forge",
-    "requirements": { "removal": { "time": "6 m" } }
+    "requirements": { "removal": { "time": "6 m" } },
+    "pseudo_tools": [ { "id": "pseudo_app_forge" } ]
   },
   {
     "type": "vehicle_part",
@@ -220,7 +221,8 @@
     "description": "An electric kiln for baking brick or clay.  When plugged in and powered you could use this to harden bricks or clay.  If you attempt to craft an item that needs a kiln, you will be given the option of selecting it as a tool.",
     "flags": [ "CARGO", "OBSTACLE", "APPLIANCE" ],
     "item": "kiln",
-    "copy-from": "veh_kiln"
+    "copy-from": "veh_kiln",
+    "pseudo_tools": [ { "id": "pseudo_app_kiln" } ]
   },
   {
     "type": "vehicle_part",
@@ -678,22 +680,22 @@
   {
     "type": "vehicle_part",
     "id": "ap_solar_panel_v2",
-    "name": { "str": "upgraded solar panel" },
+    "name": { "str": "advanced solar panel" },
     "symbol": "#",
     "color": "yellow",
     "flags": [ "SOLAR_PANEL", "OBSTACLE", "APPLIANCE" ],
-    "description": "An upgraded solar panel mounted on a frame and ready to power other appliances.",
+    "description": "A high-performance solar panel mounted on a frame and ready to power other appliances.",
     "copy-from": "solar_panel_v2",
     "requirements": { "removal": { "time": "3 m", "using": [ [ "vehicle_wrench_2", 1 ] ] } }
   },
   {
     "type": "vehicle_part",
     "id": "ap_reinforced_solar_panel_v2",
-    "name": { "str": "upgraded reinforced solar panel" },
+    "name": { "str": "advanced reinforced solar panel" },
     "symbol": "#",
     "color": "yellow",
     "flags": [ "SOLAR_PANEL", "OBSTACLE", "APPLIANCE" ],
-    "description": "An upgraded reinforced solar panel mounted on a frame and ready to power other appliances.",
+    "description": "A high-performance reinforced solar panel mounted on a frame and ready to power other appliances.",
     "copy-from": "reinforced_solar_panel_v2",
     "requirements": { "removal": { "time": "3 m", "using": [ [ "vehicle_wrench_2", 1 ] ] } }
   },
@@ -877,5 +879,48 @@
     ],
     "damage_reduction": { "all": 5 },
     "requirements": { "removal": { "time": "6 m" } }
+  },
+  {
+    "type": "vehicle_part",
+    "id": "ap_compact_ASRG_containment",
+    "name": { "str": "Compact Advanced Sterling Radioisotope Generator" },
+    "looks_like": "f_compact_ASRG_containment",
+    "symbol": "0",
+    "categories": [ "energy" ],
+    "color": "green_white",
+    "broken_symbol": "#",
+    "broken_color": "blue",
+    "location": "structure",
+    "damage_modifier": 80,
+    "durability": 500,
+    "description": "A military-grade ASRG covered in heavy plating.  Provides constant power when plugged in to your power grid.",
+    "epower": 130,
+    "size": 1800,
+    "item": "compact_ASRG_containment",
+    "requirements": {
+      "repair": {
+        "skills": [ [ "mechanics", 7 ] ],
+        "time": "60 m",
+        "using": [ [ "repair_welding_standard", 5 ], [ "soldering_standard", 5 ] ]
+      }
+    },
+    "flags": [
+      "CARGO",
+      "OBSTACLE",
+      "LEAK_DAM",
+      "RADIOACTIVE",
+      "COVERED",
+      "ENABLED_DRAINS_EPOWER",
+      "APPLIANCE",
+      "PERPETUAL",
+      "REACTOR"
+    ],
+    "breaks_into": [
+      { "item": "scrap", "count": [ 4, 16 ] },
+      { "item": "steel_chunk", "count": [ 1, 6 ] },
+      { "item": "plutonium", "charges": [ 0, 3 ] },
+      { "item": "lead", "charges": [ 12, 18 ] }
+    ],
+    "damage_reduction": { "all": 80 }
   }
 ]

@@ -365,6 +365,7 @@
       { "item": "small_propane_tank", "prob": 10, "count": [ 1, 5 ] },
       { "item": "medium_propane_tank", "prob": 20, "count": [ 1, 3 ] },
       { "item": "large_propane_tank", "prob": 15, "count": [ 1, 2 ] },
+      { "item": "welding_blanket", "prob": 20, "count": [ 0, 1 ] },
       {
         "distribution": [
           { "item": "welding_rod_steel", "prob": 20, "charges": [ 50, 360 ] },
@@ -738,6 +739,7 @@
       [ "duct_tape", 8 ],
       { "item": "misc_repairkit", "prob": 15, "charges-min": 0 },
       { "item": "welder", "prob": 10, "charges": [ 0, 500 ] },
+      { "item": "welding_blanket", "prob": 10, "count": [ 0, 1 ] },
       {
         "distribution": [
           { "item": "welding_rod_steel", "prob": 10, "charges": [ 50, 360 ] },

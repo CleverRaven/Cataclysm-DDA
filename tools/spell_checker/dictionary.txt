@@ -1961,7 +1961,6 @@ warhammer
 warmouth
 wastebread
 wastelanders
-waterbottle
 waterproofness
 waterskin
 waterskins
