@@ -140,7 +140,7 @@
     "description": "A home-made rifle.  It is simply a pipe attached to a stock, with a hammer to strike the single round it holds.",
     "ascii_picture": "sm_pipe_gun",
     "weight": "1953 g",
-    "volume": "1750 ml",
+    "volume": "1610 ml",
     "longest_side": "1000 mm",
     "price": 10000,
     "price_postapoc": 500,
@@ -158,7 +158,7 @@
     "loudness": 25,
     "clip_size": 1,
     "reload": 200,
-    "barrel_volume": "500 ml",
+    "barrel_volume": "360 ml",
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "muzzle", 1 ],
