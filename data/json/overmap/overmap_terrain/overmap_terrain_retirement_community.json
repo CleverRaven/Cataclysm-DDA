@@ -255,16 +255,9 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "retirement_community_sewer_sub_station" ],
-    "name": "subway station (sewer level)",
-    "sym": "S",
-    "color": "yellow"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": [ "retirement_community_sub_station" ],
-    "name": "subway station",
-    "sym": "S",
-    "color": "yellow"
+    "id": [ "retirement_community_sewer" ],
+    "name": "sewer",
+    "sym": "┐",
+    "color": "green"
   }
 ]
