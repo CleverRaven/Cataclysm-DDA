@@ -610,8 +610,6 @@ bool is_day( const time_point &p );
 bool is_dusk( const time_point &p );
 /** Returns true if it's currently dawn - between sunrise and twilight_duration after sunrise. */
 bool is_dawn( const time_point &p );
-/** How much light is provided in full daylight */
-light default_daylight_level();
 /** Returns the current sunlight.
  *  Based entirely on astronomical circumstances; does not account for e.g.
  *  weather.

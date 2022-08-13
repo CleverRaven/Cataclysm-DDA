@@ -139,7 +139,7 @@ TEST_CASE( "sunlight and moonlight", "[sun][sunlight][moonlight]" )
 
     // Expected numbers below assume 110.0f maximum daylight level
     // (maximum daylight is different at other times of year - see [daylight] tests)
-    REQUIRE( 100.0f == default_daylight_level().value );
+    REQUIRE( 100.0f == LIGHT_DAY.value );
 
     SECTION( "sunlight" ) {
         // Before dawn

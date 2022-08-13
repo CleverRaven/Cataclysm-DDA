@@ -107,14 +107,22 @@ class light
 static light LIGHT_SOURCE_LOCAL = light( 0.1f );
 static light LIGHT_SOURCE_BRIGHT = light( 10.0f );
 
-// Just enough light that you can see the current and adjacent squares with normal vision.
-static light LIGHT_AMBIENT_MINIMAL = light( 3.7f );
+// Absolute darkness. All lights are brighter than this threshold.
+static light LIGHT_AMBIENT_PITCH_BLACK = light( 0.0f );
 // The threshold between not being able to see anything and things appearing shadowy.
 static light LIGHT_AMBIENT_LOW = light( 3.5f );
+// Just enough light that you can see the current and adjacent squares with normal vision.
+static light LIGHT_AMBIENT_MINIMAL = light( 3.7f );
 // The lower threshold for seeing well enough to do detail work such as reading or crafting.
 static light LIGHT_AMBIENT_DIM = light( 5.0f );
+// The threshold between dim and cloudy.
+// Also used by nyctophobia
+static light LIGHT_AMBIENT_CLOUDY = light( 7.0f );
 // The threshold between things being shadowed and being brightly lit.
 static light LIGHT_AMBIENT_LIT = light( 10.0f );
+// How much light is provided in full daylight
+// TODO As previously defined by calendar.h. Check for consistency
+static light LIGHT_DAY = light( 100.0f );
 
 
 #endif // CATA_SRC_LIGHT_H

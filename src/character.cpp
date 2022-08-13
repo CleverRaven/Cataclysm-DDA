@@ -9120,7 +9120,7 @@ bool Character::sees_with_infrared( const Creature &critter ) const
     map &here = get_map();
     // Use range based on default daylight, not actual current light, since
     // we're seeing in infra red not via light.
-    int range = sight_range( default_daylight_level() );
+    int range = sight_range( LIGHT_DAY );
 
     if( is_avatar() || critter.is_avatar() ) {
         // Players should not use map::sees

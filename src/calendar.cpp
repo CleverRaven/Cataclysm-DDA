@@ -45,11 +45,6 @@ static constexpr units::angle nautical_dawn = -12_degrees;
 static constexpr units::angle civil_dawn = -6_degrees;
 static constexpr units::angle sunrise_angle = -1_degrees;
 
-light default_daylight_level()
-{
-    return light( 100.0f );
-}
-
 time_duration lunar_month()
 {
     return 29.530588853 * 1_days;

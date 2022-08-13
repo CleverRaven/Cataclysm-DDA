@@ -81,6 +81,7 @@
 #include "vpart_position.h"
 #include "weather.h"
 #include "weather_gen.h"
+#include "light.h"
 
 static const activity_id ACT_OPERATION( "ACT_OPERATION" );
 
@@ -1505,7 +1506,7 @@ void Character::burn_fuel( bionic &bio, const auto_toggle_bionic_result &result 
             if( result.burnable_fuel_id == fuel_type_sun_light && g->is_in_sunlight( pos() ) ) {
                 const weather_type_id &wtype = current_weather( pos() );
                 const light tick_sunlight = incident_sunlight( wtype, calendar::turn );
-                const float intensity = tick_sunlight / default_daylight_level();
+                const float intensity = tick_sunlight / LIGHT_DAY;
                 mod_power_level( units::from_kilojoule( result.fuel_energy ) * intensity *
                                  result.effective_efficiency );
             } else if( result.burnable_fuel_id == fuel_type_wind ) {
@@ -1568,7 +1569,7 @@ void Character::passive_power_gen( const bionic &bio )
         }
 
         if( fuel == fuel_type_sun_light ) {
-            const float modifier = g->natural_light_level( pos().z ) / default_daylight_level();
+            const float modifier = g->natural_light_level( pos().z ) / LIGHT_DAY;
             mod_power_level( units::from_kilojoule( fuel_energy ) * modifier * effective_passive_efficiency );
         } else if( fuel == fuel_type_wind ) {
             int vehwindspeed = 0;

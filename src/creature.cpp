@@ -61,6 +61,7 @@
 #include "value_ptr.h"
 #include "vehicle.h"
 #include "vpart_position.h"
+#include "light.h"
 
 struct mutation_branch;
 
@@ -426,7 +427,7 @@ bool Creature::sees( const tripoint &t, bool is_avatar, int range_mod ) const
 
     map &here = get_map();
     const int range_cur = sight_range( here.ambient_light_at( t ) );
-    const int range_day = sight_range( default_daylight_level() );
+    const int range_day = sight_range( LIGHT_DAY );
     const int range_night = sight_range( light( 0.0f ) );
     const int range_max = std::max( range_day, range_night );
     const int range_min = std::min( range_cur, range_max );

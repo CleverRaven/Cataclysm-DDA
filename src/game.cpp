@@ -183,6 +183,7 @@
 #include "weather.h"
 #include "weather_type.h"
 #include "worldfactory.h"
+#include "light.h"
 
 class computer;
 
@@ -3846,7 +3847,7 @@ light game::natural_light_level( const int zlev ) const
     }
     if( timed_events.queued( timed_event_type::ARTIFACT_LIGHT ) ) {
         // timed_event_type::ARTIFACT_LIGHT causes everywhere to become as bright as day.
-        mod_ret = std::max( ret, default_daylight_level() );
+        mod_ret = std::max( ret, LIGHT_DAY );
     }
     if( const timed_event *e = timed_events.get( timed_event_type::CUSTOM_LIGHT_LEVEL ) ) {
         mod_ret = light( e->strength );
@@ -9650,12 +9651,10 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
 
     const light dest_light_level = get_map().ambient_light_at( dest_loc );
 
-    // Allow players with nyctophobia to move freely through cloudy and dark tiles
-    const light nyctophobia_threshold = LIGHT_AMBIENT_LIT - light(3.0f);
-
     // Forbid players from moving through very dark tiles, unless they are running or took xanax
+    // Allow players with nyctophobia to move freely through cloudy and dark tiles
     if( u.has_flag( json_flag_NYCTOPHOBIA ) && !u.has_effect( effect_took_xanax ) && !u.is_running() &&
-        dest_light_level < nyctophobia_threshold ) {
+        dest_light_level < LIGHT_AMBIENT_CLOUDY ) {
         add_msg( m_bad,
                  _( "It's so dark and scary in there!  You can't force yourself to walk into this tile.  Switch to running movement mode to move there." ) );
         return false;
