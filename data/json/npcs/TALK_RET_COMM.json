@@ -96,7 +96,7 @@
   {
     "type": "talk_topic",
     "id": "COMP_RET_COMM_EMAILS_BINGO",
-    "dynamic_line": "FROM: BINGO CHAMPIONSHIPS ONLINE\n\n  Your Daily BINGO News!\n\n  Thank you for being a member of BINGO CHAMPIONSHIPS ONLINE! Today we have an interview with our latest champion, WINIFRED SMITH! Click the link below to hear her incredible story!",
+    "dynamic_line": "FROM: BINGO CHAMPIONSHIPS ONLINE\n\n  Your Daily BINGO News!\n\n  Thank you for being a member of BINGO CHAMPIONSHIPS ONLINE! Today we have an interview with our latest champion, WINIFRED SMITH!  Click the link below to hear her incredible story!",
     "responses": [ { "text": "RETURN TO MESSAGES", "topic": "COMP_RET_COMM_HOME_EMAILS" } ]
   }
 ]
