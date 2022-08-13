@@ -5959,8 +5959,7 @@ void game::print_terrain_info( const tripoint &lp, const catacurses::window &w_l
     }
 
     // Print light level on the selected tile.
-    std::pair<std::string, nc_color> ll = get_light_level( std::max( light( 1.0f ),
-                                          LIGHT_AMBIENT_LIT - m.ambient_light_at( lp ) + light( 1.0f ) ) );
+    std::pair<std::string, nc_color> ll = get_light_level( m.ambient_light_at( lp ) );
     mvwprintz( w_look, point( column, ++line ), c_light_gray, _( "Lighting: " ) );
     mvwprintz( w_look, point( column + utf8_width( _( "Lighting: " ) ), line ), ll.second, ll.first );
 

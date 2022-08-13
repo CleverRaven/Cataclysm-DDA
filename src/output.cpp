@@ -2239,25 +2239,26 @@ std::pair<std::string, nc_color> get_stamina_bar( int cur_stam, int max_stam )
     return get_bar( cur_stam, max_stam, 5, true, { c_cyan, c_light_cyan, c_yellow, c_light_red, c_red } );
 }
 
-std::pair<std::string, nc_color> get_light_level( const light light )
+std::pair<std::string, nc_color> get_light_level( const light level )
 {
-    using pair_t = std::pair<std::string, nc_color>;
-    static const std::array<pair_t, 6> strings {
+    using triple_t = std::tuple<light, std::string, nc_color>;
+    static const std::array<triple_t, 6> strings {
         {
-            pair_t {translate_marker( "unknown" ), c_pink},
-            pair_t {translate_marker( "bright" ), c_yellow},
-            pair_t {translate_marker( "cloudy" ), c_white},
-            pair_t {translate_marker( "shady" ), c_light_gray},
-            pair_t {translate_marker( "dark" ), c_dark_gray},
-            pair_t {translate_marker( "very dark" ), c_black_white}
+            triple_t {LIGHT_AMBIENT_LIT, translate_marker( "bright" ), c_yellow},
+            triple_t {LIGHT_AMBIENT_DIM, translate_marker( "cloudy" ), c_white},
+            triple_t {LIGHT_AMBIENT_MINIMAL, translate_marker( "shady" ), c_light_gray},
+            triple_t {LIGHT_AMBIENT_LOW, translate_marker( "dark" ), c_dark_gray},
+            triple_t {LIGHT_AMBIENT_PITCH_BLACK, translate_marker( "very dark" ), c_black_white}
         }
     };
-    // Avoid magic number
-    static const int maximum_light_level = static_cast< int >( strings.size() ) - 1;
-    const int light_level = clamp( static_cast< int >( std::ceil( light.value ) ), 0,
-                                   maximum_light_level );
-    const size_t array_index = static_cast< size_t >( light_level );
-    return pair_t{ _( strings[array_index].first ), strings[array_index].second };
+    for(const auto &entry : strings) {
+        if(level >= std::get<0>(entry)) {
+            return std::pair<std::string, nc_color>{ _(std::get<1>(entry)), std::get<2>(entry)};
+        }
+    }
+
+    debugmsg("Negative light level found.");
+    return std::pair<std::string, nc_color>{ _("very dark"), c_pink};
 }
 
 std::pair<std::string, nc_color> rad_badge_color( const int rad )
