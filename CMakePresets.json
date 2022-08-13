@@ -94,10 +94,22 @@
       "hidden": true
     },
     {
+      "name": "windows-tiles-sounds-x64",
+      "inherits": [ "release", "x64-mingw-static" ],
+      "displayName": "x64 Release",
+      "description": "Target Windows (64-bit) with the MINGW development environment.",
+      "cacheVariables": {
+        "CMAKE_PROJECT_INCLUDE_BEFORE": "${sourceDir}/build-scripts/windows-tiles-sounds-x64.cmake",
+        "CURSES": "False",
+        "TILES": "True",
+        "SOUND": "True"
+      }
+    },
+    {
       "name": "windows-tiles-sounds-x64-msvc",
       "inherits": [ "release", "x64-windows-static" ],
       "displayName": "x64 Release",
-      "description": "Target Windows (64-bit) with the Visual Studio development environment. (RelWithDebInfo)",
+      "description": "Target Windows (64-bit) with the Visual Studio development environment.",
       "cacheVariables": {
         "CMAKE_PROJECT_INCLUDE_BEFORE": "${sourceDir}/build-scripts/windows-tiles-sounds-x64-msvc.cmake",
         "CURSES": "False",
@@ -123,26 +135,12 @@
       "name": "linux-curses-x64",
       "inherits": [ "base", "linux" ],
       "displayName": "Linux Curses x64",
-      "description": "Target Linux (64-bit) with the GCC compiler suite. (RelWithDebInfo)",
+      "description": "Target Linux (64-bit) with the GCC compiler suite.",
       "generator": "Ninja",
       "cacheVariables": {
         "CURSES": "True",
         "TILES": "False",
         "SOUND": "False"
-      }
-    },
-    {
-      "name": "windows-tiles-sounds-x64",
-      "inherits":  [ "base", "x64-mingw-static"],
-      "displayName": "x64 Release",
-      "description": "Target Windows (64-bit) with the MINGW development environment. (RelWithDebInfo)",
-      "cacheVariables": {
-        "CMAKE_PROJECT_INCLUDE_BEFORE": "${sourceDir}/build-scripts/windows-tiles-sounds-x64.cmake",
-        "CMAKE_BUILD_TYPE": "RelWithDebInfo",
-        "CURSES": "False",
-        "LOCALIZE": "True",
-        "TILES": "True",
-        "SOUND": "True"
       }
     }
   ],
