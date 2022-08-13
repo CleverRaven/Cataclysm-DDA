@@ -224,7 +224,7 @@
       "Y": "f_null"
     },
     "toilets": { "&": {  } },
-	 "nested": { "@": { "chunks": [ "ret_comm_home" ] } }
+    "nested": { "@": { "chunks": [ "ret_comm_home" ] } }
   },
   {
     "type": "palette",
