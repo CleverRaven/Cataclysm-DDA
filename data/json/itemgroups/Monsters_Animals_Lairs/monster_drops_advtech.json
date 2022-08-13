@@ -43,6 +43,12 @@
   },
   {
     "type": "item_group",
+    "id": "manhack",
+    "subtype": "distribution",
+    "entries": [ { "item": "spike", "prob": 10 }, { "item": "scrap", "prob": 10 }, { "item": "blade", "prob": 5 } ]
+  },
+  {
+    "type": "item_group",
     "id": "skitterbot",
     "subtype": "distribution",
     "entries": [ { "item": "tazer", "prob": 3 }, { "item": "scrap", "prob": 9 } ]
