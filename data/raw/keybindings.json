@@ -371,6 +371,20 @@
   },
   {
     "type": "keybinding",
+    "id": "QUIT",
+    "category": "AUTO_PICKUP",
+    "name": "Quit",
+    "bindings": [
+      { "input_method": "keyboard_any", "key": "ESC" },
+      { "input_method": "keyboard_any", "key": "q" },
+      { "input_method": "keyboard_char", "key": "Q" },
+      { "input_method": "keyboard_code", "key": "q", "mod": [ "shift" ] },
+      { "input_method": "keyboard_any", "key": "SPACE" },
+      { "input_method": "mouse", "key": "MOUSE_RIGHT" }
+    ]
+  },
+  {
+    "type": "keybinding",
     "id": "ADD_DEFAULT_RULESET",
     "category": "SAFEMODE",
     "name": "Add default ruleset",
@@ -480,6 +494,20 @@
       { "input_method": "keyboard_any", "key": "s" },
       { "input_method": "keyboard_char", "key": "S" },
       { "input_method": "keyboard_code", "key": "s", "mod": [ "shift" ] }
+    ]
+  },
+  {
+    "type": "keybinding",
+    "id": "QUIT",
+    "category": "SAFEMODE",
+    "name": "Quit",
+    "bindings": [
+      { "input_method": "keyboard_any", "key": "ESC" },
+      { "input_method": "keyboard_any", "key": "q" },
+      { "input_method": "keyboard_char", "key": "Q" },
+      { "input_method": "keyboard_code", "key": "q", "mod": [ "shift" ] },
+      { "input_method": "keyboard_any", "key": "SPACE" },
+      { "input_method": "mouse", "key": "MOUSE_RIGHT" }
     ]
   },
   {
@@ -3666,6 +3694,20 @@
       { "input_method": "keyboard_any", "key": "c" },
       { "input_method": "keyboard_char", "key": "C" },
       { "input_method": "keyboard_code", "key": "c", "mod": [ "shift" ] }
+    ]
+  },
+  {
+    "type": "keybinding",
+    "id": "QUIT",
+    "category": "COLORS",
+    "name": "Quit",
+    "bindings": [
+      { "input_method": "keyboard_any", "key": "ESC" },
+      { "input_method": "keyboard_any", "key": "q" },
+      { "input_method": "keyboard_char", "key": "Q" },
+      { "input_method": "keyboard_code", "key": "q", "mod": [ "shift" ] },
+      { "input_method": "keyboard_any", "key": "SPACE" },
+      { "input_method": "mouse", "key": "MOUSE_RIGHT" }
     ]
   },
   {
