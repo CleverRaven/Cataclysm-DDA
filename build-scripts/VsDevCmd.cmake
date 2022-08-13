@@ -2,13 +2,13 @@ if("$ENV{VSCMD_VER}" STREQUAL "")
     # This cmake process is running under VsDevCmd.bat or VS IDE GUI
     # Avoid to run VsDevCmd.bat twice
 
-    if (NOT "$ENV{DevEnvDir}")
+    if ("$ENV{DevEnvDir}" STREQUAL "")
         # Use Community Edition when not specified
         set(ENV{DevEnvDir} "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\Common7\\IDE\\")
     endif()
 
     # Run VsDevCmd.bat and set all environment variables it changes
-    set(VSDEVCMD_BAT "$ENV{DevEnvDir}\\..\\Tools\\VsDevCmd.bat")
+    set(VSDEVCMD_BAT $ENV{DevEnvDir}..\\Tools\\VsDevCmd.bat)
     cmake_path(NATIVE_PATH VSDEVCMD_BAT VSDEVCMD_BAT)
     execute_process(COMMAND cmd /c ${VSDEVCMD_BAT} -no_logo -arch=amd64 && set
         OUTPUT_STRIP_TRAILING_WHITESPACE
