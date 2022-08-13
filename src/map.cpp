@@ -4356,22 +4356,14 @@ void map::translate_radius( const ter_id &from, const ter_id &to, float radi, co
 void map::transform_radius( ter_furn_transform_id transform, float radi,
                             const tripoint_abs_ms &p )
 {
-    tripoint_abs_ms avatar_pos = get_avatar().get_location();
-    bool shifted = false;
-    if( !get_map().inbounds( get_map().getlocal( p ) ) ) {
-        const tripoint_abs_ms abs_ms( p );
-        g->place_player_overmap( project_to<coords::omt>( abs_ms ), false );
-        shifted = true;
+    if( !inbounds( p - point( radi, radi ) ) || !inbounds( p + point( radi, radi ) ) ) {
+        debugmsg( "transform_radius called for area out of bounds" );
     }
-    for( const tripoint &t : points_on_zlevel() ) {
-        const float radiX = trig_dist( p, getglobal( t ) );
-        // within distance, and either no submap limitation or same overmap coords.
-        if( radiX <= radi ) {
-            transform->transform( t, shifted );
+    tripoint const loc = getlocal( p );
+    for( tripoint const &t : points_in_radius( loc, radi, 0 ) ) {
+        if( trig_dist( loc, t ) <= radi ) {
+            transform->transform( *this, t );
         }
-    }
-    if( shifted ) {
-        g->place_player_overmap( project_to<coords::omt>( avatar_pos ), false );
     }
 }
 

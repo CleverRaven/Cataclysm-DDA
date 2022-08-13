@@ -77,8 +77,8 @@ class ter_furn_transform
         std::vector<std::pair<ter_furn_transform_id, mod_id>> src;
         bool was_loaded = false;
 
-        void transform( const tripoint &location, bool shifted = false ) const;
-        void transform( map &m, const tripoint &location, bool shifted = false ) const;
+        void transform( const tripoint &location ) const;
+        void transform( map &m, const tripoint &location ) const;
 
         static void reset();
         static void load_transform( const JsonObject &jo, const std::string &src );

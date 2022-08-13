@@ -2562,8 +2562,9 @@ void talk_effect_fun_t<T>::set_transform_radius( const JsonObject &jo, const std
                                     //Timed events happen before the player turn and eocs are during so we add a second here to sync them up using the same variable
                                     -1, target_pos, radius, transform.str(), key.evaluate( d ) );
         } else {
-            get_map().transform_radius( transform, radius, target_pos );
-            get_map().invalidate_map_cache( target_pos.z() );
+            map tm;
+            tm.load( project_to<coords::sm>( target_pos - point{ radius, radius} ), false );
+            tm.transform_radius( transform, radius, target_pos );
         }
     };
 }
