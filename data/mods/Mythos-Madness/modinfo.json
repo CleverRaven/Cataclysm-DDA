@@ -1,0 +1,12 @@
+[
+  {
+    "type": "MOD_INFO",
+    "id": "Mythos-Madness",
+    "name": "[WIP] Mythos Mod - Madness and Insanity",
+    "authors": [ "mythosmod" ],
+    "description": "Introduces madness and insanity mechanics to the game.",
+    "category": "content",
+    "dependencies": [ "dda" ],
+    "version": "0.1"
+  }
+]
