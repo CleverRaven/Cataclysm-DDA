@@ -124,5 +124,6 @@ static light LIGHT_AMBIENT_LIT = light( 10.0f );
 // TODO As previously defined by calendar.h. Check for consistency
 static light LIGHT_DAY = light( 100.0f );
 
+float sight_calc(const float &numerator, const float &transparency, const int &distance);
 
 #endif // CATA_SRC_LIGHT_H

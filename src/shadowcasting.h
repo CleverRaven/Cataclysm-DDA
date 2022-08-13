@@ -86,15 +86,6 @@ struct four_quadrants {
     }
 };
 
-// Hoisted to header and inlined so the test in tests/shadowcasting_test.cpp can use it.
-// Beer-Lambert law says attenuation is going to be equal to
-// 1 / (e^al) where a = coefficient of absorption and l = length.
-// Factoring out length, we get 1 / (e^((a1*a2*a3*...*an)*l))
-// We merge all of the absorption values by taking their cumulative average.
-inline float sight_calc( const float &numerator, const float &transparency, const int &distance )
-{
-    return numerator / std::exp( transparency * distance );
-}
 inline bool sight_check( const float &transparency, const float &/*intensity*/ )
 {
     return transparency > LIGHT_TRANSPARENCY_SOLID;

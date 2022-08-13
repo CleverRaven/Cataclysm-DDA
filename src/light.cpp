@@ -19,3 +19,13 @@ int light::sight_range(light threshold, float transparency) const
     }
     return static_cast<int>( -std::log( threshold / *this ) / transparency);
 }
+
+// Factoring out the distance from Beer-Lambert results in:
+// 1 / (exp(a1*a2*a3*...*an)*l)
+// We merge all of the absorption values by taking their cumulative average.
+// TODO rename
+// TODO should this return a light?
+// TODO sometimes float argument as distance
+float sight_calc(const float &numerator, const float &transparency, const int &distance) {
+    return numerator / std::exp( transparency * distance );
+}
