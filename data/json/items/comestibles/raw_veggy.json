@@ -50,11 +50,13 @@
     "material": [ "veggy" ],
     "calories": 29,
     "spoils_in": "20 days",
-    "description": "An almost forgotten staple of the native tribes, called the indian potato by some.  Very nutritious, but more tasty cooked.",
+    "description": "An almost forgotten staple of the native tribes, called the indian potato by some.  Very nutritious, but mildly toxic unless cooked.",
+    "healthy": -1,
     "symbol": ",",
+    "looks_like": "potato",
     "flags": [ "RAW" ],
     "vitamins": [ [ "calcium", 14 ], [ "iron", 1 ] ],
-    "fun": -2
+    "fun": -3
   },
   {
     "type": "COMESTIBLE",
