@@ -12,7 +12,7 @@
   {
     "type": "talk_topic",
     "id": "COMP_RET_COMM_OFFICE",
-    "dynamic_line": "Shady Hills Corporation.\n You are logged in as: Randolph VanBuren, Community Manager.\n\nWARNING!  ERROR A101; FAILURE DETECTED IN POWER SUPPLY.\n RESERVE POWER ACTIVATED.  CONTACT INFORMATION TECHNOLOGY DEPARTMENT IMMEDIATELY!",
+    "dynamic_line": "Shady Hills Corporation.\n You are logged in as: Randolph VanBuren, Community Manager.\n\n WARNING!  ERROR A101; FAILURE DETECTED IN POWER SUPPLY.\n RESERVE POWER ACTIVATED.  CONTACT INFORMATION TECHNOLOGY DEPARTMENT IMMEDIATELY!",
     "responses": [
       { "text": "Access Messages", "topic": "COMP_RET_COMM_EMAILS" },
       { "text": "Access Main Drives", "topic": "COMP_RET_COMM_ERROR" },
@@ -39,19 +39,19 @@
   {
     "type": "talk_topic",
     "id": "COMP_RET_COMM_EMAILS_SERIOUSLY",
-    "dynamic_line": "FROM: Jamie Forest, Community Resident, Unit A02\n  TO: Shady Hills Corporation, Service Portal\n  RE: Seriously!?\n\n My son just told me he keeps receiving advertisements in the mail for a nursing home.  He told me that your company runs it!  Are you trying to get rid of me!?  You're sick!  I demand you have your CEO call me! ",
+    "dynamic_line": "FROM: Jamie Forest, Community Resident, Unit A02\n  TO: Shady Hills Corporation, Service Portal\n  RE: Seriously!?\n\n My son just told me he keeps receiving advertisements in the mail for a nursing home.  He told me that your company runs it!  Are you trying to get rid of me!?  You're sick!  I demand you have your CEO call me!",
     "responses": [ { "text": "RETURN TO MESSAGES", "topic": "COMP_RET_COMM_EMAILS" } ]
   },
   {
     "type": "talk_topic",
     "id": "COMP_RET_COMM_EMAILS_NOISE",
-    "dynamic_line": "FROM: Larry Landborn, Unit B11 \n  TO: Shady Hills Corporation, Service Portal\n  RE: Noise complaint\n\n   Hello. I am once again requesting your help with my neighbor in B10. There are loud sounds from all times of day. She claims her grandkids are visiting but they are there every day! ",
+    "dynamic_line": "FROM: Larry Landborn, Unit B11 \n  TO: Shady Hills Corporation, Service Portal\n  RE: Noise complaint\n\n  Hello.  I am once again requesting your help with my neighbor in B10.  There are loud sounds from all times of day.  She claims her grandkids are visiting but they are there every day!",
     "responses": [ { "text": "RETURN TO MESSAGES", "topic": "COMP_RET_COMM_EMAILS" } ]
   },
   {
     "type": "talk_topic",
     "id": "COMP_RET_COMM_EMAILS_SMELL",
-    "dynamic_line": "FROM: Sandra Shells, Unit B06 \n  TO: Shady Hills Corporation, Service Portal\n  RE: Horrible smell\n\n  There's a bad smell coming from unit B07. Please look into it. Thanks. ",
+    "dynamic_line": "FROM: Sandra Shells, Unit B06 \n  TO: Shady Hills Corporation, Service Portal\n  RE: Horrible smell\n\n  There's a bad smell coming from unit B07.  Please look into it.  Thanks.",
     "responses": [ { "text": "RETURN TO MESSAGES", "topic": "COMP_RET_COMM_EMAILS" } ]
   },
   {
