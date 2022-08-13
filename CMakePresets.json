@@ -102,7 +102,8 @@
         "CMAKE_PROJECT_INCLUDE_BEFORE": "${sourceDir}/build-scripts/windows-tiles-sounds-x64-msvc.cmake",
         "CURSES": "False",
         "LOCALIZE": "True",
-        "TILES": "True"
+        "TILES": "True",
+        "SOUND": "True"
       }
     },
     {
