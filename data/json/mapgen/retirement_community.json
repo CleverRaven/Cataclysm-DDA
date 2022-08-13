@@ -2005,13 +2005,7 @@
     "object": {
       "mapgensize": [ 1, 1 ],
       "place_computers": [
-        {
-          "x": 0,
-          "y": 0,
-          "name": "Welcome to MY PC",
-          "eocs": [ "EOC_RET_COMM_HOME" ],
-          "chat_topics": [ "COMP_RET_COMM_HOME" ]
-        }
+        { "x": 0, "y": 0, "name": "Welcome to MY PC", "eocs": [ "EOC_RET_COMM_HOME" ], "chat_topics": [ "COMP_RET_COMM_HOME" ] }
       ]
     }
   }
