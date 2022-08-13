@@ -343,7 +343,7 @@
     "description": "A home-made shotgun.  It is simply a pipe attached to a stock, with a hammer to strike the single round it holds.",
     "ascii_picture": "lg_pipe_gun",
     "weight": "2267 g",
-    "volume": "2250 ml",
+    "volume": "1610 ml",
     "longest_side": "95 cm",
     "price": 20000,
     "price_postapoc": 500,
