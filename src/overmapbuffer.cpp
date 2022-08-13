@@ -154,7 +154,7 @@ void overmapbuffer::fix_mongroups( overmap &new_overmap )
             continue;
         }
         overmap &om = get( omp );
-        om.spawn_mon_group( mg );
+        om.spawn_mon_group( mg, 1 );
         new_overmap.zg.erase( it++ );
     }
 }
@@ -182,7 +182,7 @@ void overmapbuffer::fix_nemesis( overmap &new_overmap )
 
         //otherwise, place it in the overmap that corresponds to its abs_sm coords
         overmap &om = get( omp );
-        om.spawn_mon_group( mg );
+        om.spawn_mon_group( mg, 1 );
         new_overmap.zg.erase( it++ );
         //there should only be one nemesis, so we can break after finding it
         break;

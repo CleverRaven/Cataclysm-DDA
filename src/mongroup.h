@@ -112,7 +112,6 @@ struct mongroup {
     // Note: position is not saved as such in the json
     // Instead, a vector of positions is saved for
     tripoint_abs_sm abs_pos; // position of the mongroup in absolute submap coordinates
-    unsigned int radius = 1;
     unsigned int population = 1;
     point_abs_sm target; // location the horde is interested in.
     point_abs_sm nemesis_target; // abs target for nemesis hordes
@@ -135,19 +134,16 @@ struct mongroup {
     };
     horde_behaviour behaviour = horde_behaviour::none;
 
-    bool diffuse = false;   // group size ind. of dist. from center and radius invariant
     mongroup( const mongroup_id &ptype, const tripoint_abs_sm &ppos,
-              unsigned int prad, unsigned int ppop )
+              unsigned int ppop )
         : type( ptype )
         , abs_pos( ppos )
-        , radius( prad )
         , population( ppop ) {
     }
-    mongroup( const std::string &ptype, const tripoint_abs_sm &ppos, unsigned int prad,
-              unsigned int ppop, point_abs_sm ptarget, int pint, bool pdie, bool phorde,
-              bool pdiff ) :
-        type( ptype ), abs_pos( ppos ), radius( prad ), population( ppop ), target( ptarget ),
-        interest( pint ), dying( pdie ), horde( phorde ), diffuse( pdiff ) { }
+    mongroup( const std::string &ptype, const tripoint_abs_sm &ppos,
+              unsigned int ppop, point_abs_sm ptarget, int pint, bool pdie, bool phorde ) :
+        type( ptype ), abs_pos( ppos ), population( ppop ), target( ptarget ),
+        interest( pint ), dying( pdie ), horde( phorde ) { }
     mongroup() = default;
     bool is_safe() const;
     bool empty() const;
