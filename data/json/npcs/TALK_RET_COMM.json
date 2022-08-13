@@ -90,7 +90,7 @@
   {
     "type": "talk_topic",
     "id": "COMP_RET_COMM_EMAILS_CLUB",
-    "dynamic_line": "FROM: Jamie Forest, Community Resident, Unit A02\n\n  RE: Survivor's Club!?\n\n  Hey there! Thanks for your interest in our club.  We are really excited to have you!  I'll have to come check out your panic room sometime!  A few of us are going to check out the cave in the park if you want to join us.  Officially, it's supposed to be off limits, but what are they going to do about it?  I heard it even connects to the sewers, maybe if the world really goes to hell like they're all thinking, we can make use of it!  I'm kidding, I don't believe that crap.",
+    "dynamic_line": "FROM: Jamie Forest, Community Resident, Unit A02\n\n  RE: Survivor's Club!?\n\n  Hey there!  Thanks for your interest in our club.  We are really excited to have you!  I'll have to come check out your panic room sometime!  A few of us are going to check out the cave in the park if you want to join us.  Officially, it's supposed to be off limits, but what are they going to do about it?  I heard it even connects to the sewers, maybe if the world really goes to hell like they're all thinking, we can make use of it!  I'm kidding, I don't believe that crap.",
     "responses": [ { "text": "RETURN TO MESSAGES", "topic": "COMP_RET_COMM_HOME_EMAILS" } ]
   },
   {
