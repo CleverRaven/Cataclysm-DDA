@@ -7560,7 +7560,7 @@ void map::loadn( const tripoint &grid, const bool update_vehicles, bool _actuali
             tinymap tmp_map;
             tmp_map.main_cleanup_override( false );
             tmp_map.generate( grid_abs_sub_rounded, calendar::turn );
-            _main_requires_cleanup = main_inbounds && tmp_map.is_main_cleanup_queued();
+            _main_requires_cleanup |= main_inbounds && tmp_map.is_main_cleanup_queued();
         }
 
         // This is the same call to MAPBUFFER as above!
