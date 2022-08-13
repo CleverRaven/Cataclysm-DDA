@@ -2632,7 +2632,14 @@
       { "point": [ 2, 1, 0 ], "overmap": "s_shoppingplaza_b3_north" },
       { "point": [ 3, 1, 0 ], "overmap": "s_shoppingplaza_b4_north" },
       { "point": [ 4, 1, 0 ], "overmap": "s_shoppingplaza_b5_north" },
-      { "point": [ 5, 1, 0 ], "overmap": "s_shoppingplaza_b6_north" }
+      { "point": [ 5, 1, 0 ], "overmap": "s_shoppingplaza_b6_north" },
+      { "point": [ 5, 0, 1 ], "overmap": "s_shoppingplaza_A6_north" },
+      { "point": [ 0, 1, 1 ], "overmap": "s_shoppingplaza_B1_north" },
+      { "point": [ 1, 1, 1 ], "overmap": "s_shoppingplaza_B2_north" },
+      { "point": [ 2, 1, 1 ], "overmap": "s_shoppingplaza_B3_north" },
+      { "point": [ 3, 1, 1 ], "overmap": "s_shoppingplaza_B4_north" },
+      { "point": [ 4, 1, 1 ], "overmap": "s_shoppingplaza_B5_north" },
+      { "point": [ 5, 1, 1 ], "overmap": "s_shoppingplaza_B6_north" }
     ]
   },
   {

@@ -879,5 +879,48 @@
     ],
     "damage_reduction": { "all": 5 },
     "requirements": { "removal": { "time": "6 m" } }
+  },
+  {
+    "type": "vehicle_part",
+    "id": "ap_compact_ASRG_containment",
+    "name": { "str": "Compact Advanced Sterling Radioisotope Generator" },
+    "looks_like": "f_compact_ASRG_containment",
+    "symbol": "0",
+    "categories": [ "energy" ],
+    "color": "green_white",
+    "broken_symbol": "#",
+    "broken_color": "blue",
+    "location": "structure",
+    "damage_modifier": 80,
+    "durability": 500,
+    "description": "A military-grade ASRG covered in heavy plating.  Provides constant power when plugged in to your power grid.",
+    "epower": 130,
+    "size": 1800,
+    "item": "compact_ASRG_containment",
+    "requirements": {
+      "repair": {
+        "skills": [ [ "mechanics", 7 ] ],
+        "time": "60 m",
+        "using": [ [ "repair_welding_standard", 5 ], [ "soldering_standard", 5 ] ]
+      }
+    },
+    "flags": [
+      "CARGO",
+      "OBSTACLE",
+      "LEAK_DAM",
+      "RADIOACTIVE",
+      "COVERED",
+      "ENABLED_DRAINS_EPOWER",
+      "APPLIANCE",
+      "PERPETUAL",
+      "REACTOR"
+    ],
+    "breaks_into": [
+      { "item": "scrap", "count": [ 4, 16 ] },
+      { "item": "steel_chunk", "count": [ 1, 6 ] },
+      { "item": "plutonium", "charges": [ 0, 3 ] },
+      { "item": "lead", "charges": [ 12, 18 ] }
+    ],
+    "damage_reduction": { "all": 80 }
   }
 ]
