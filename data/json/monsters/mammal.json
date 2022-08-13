@@ -312,26 +312,14 @@
     "copy-from": "mon_cat",
     "name": { "str": "shorthair kitten" },
     "description": "A cuddly kitten meowing and scampering amidst the death.  Currently feral.",
-    "default_faction": "cat",
-    "bodytype": "dog",
-    "categories": [ "WILDLIFE" ],
-    "species": [ "MAMMAL" ],
-    "volume": "1000 ml",
-    "weight": "1 kg",
+    "volume": "400 ml",
+    "weight": "400 g",
     "hp": 6,
-    "material": [ "flesh" ],
-    "symbol": "c",
-    "color": "light_gray",
-    "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
+    "//": "Kittens do not have their full fur yet and are really sensitive to cold temperature",
+    "armor_cold": 0,
+    "melee_damage": [ { "damage_type": "cut", "amount": 1 } ],
     "dodge": 14,
     "special_attacks": [ { "id": "scratch", "attack_upper": false, "cooldown": 10 } ],
-    "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "FRIEND_ATTACKED" ],
-    "harvest": "mammal_tiny",
-    "petfood": {
-      "food": [ "CATFOOD" ],
-      "feed": "The %s seems to like you!  Or maybe it just tolerates your presence better.  It's hard to tell with felines.",
-      "pet": "The %s softly purrs as you pet it.  It demands more."
-    },
     "flags": [
       "SEES",
       "HEARS",
@@ -369,9 +357,12 @@
     "melee_dice_sides": 2,
     "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
     "dodge": 8,
+    "//": "Their fur keeps them warm",
+    "armor_cold": 2,
     "vision_night": 20,
     "special_attacks": [ { "id": "scratch", "attack_upper": false, "cooldown": 10 } ],
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "FRIEND_ATTACKED" ],
+    "placate_triggers": [ "PLAYER_WEAK" ],
     "harvest": "mammal_tiny",
     "dissect": "dissect_feline_sample_single",
     "reproduction": { "baby_monster": "mon_cat_kitten", "baby_count": 4, "baby_timer": 60 },
@@ -398,9 +389,11 @@
     "type": "MONSTER",
     "copy-from": "mon_cat",
     "name": { "str": "longhair cat" },
-    "description": "This cat's long fur appears difficult to groom, but it seems to manage despite the circumstances.",
-    "volume": "6000 ml",
-    "weight": "6 kg",
+    "description": "This fluffy feline has longer hair than average.  Looks both beautiful and warm.  You want to bury your face in its soft fur and forget about the Cataclysm.",
+    "volume": "5000 ml",
+    "weight": "5 kg",
+    "//": "Longer fur, more cold protection",
+    "armor_cold": 4,
     "reproduction": { "baby_monster": "mon_cat_longhair_kitten", "baby_count": 4, "baby_timer": 60 }
   },
   {
@@ -409,25 +402,28 @@
     "copy-from": "mon_cat_kitten",
     "name": { "str": "longhair kitten" },
     "description": "Barely more than a ball of fluff with eyes, this kitten looks like a longhair breed.",
+    "armor_cold": 2,
     "upgrades": { "age_grow": 120, "into": "mon_cat_longhair" }
   },
   {
     "id": "mon_cat_maine_coon",
     "type": "MONSTER",
     "copy-from": "mon_cat",
-    "name": { "str": "Maine coon cat" },
+    "name": { "str": "Maine Coon" },
     "description": "Impressively large for a domestic cat, this thick-haired breed was once native to the state of Maine.",
-    "volume": "8000 ml",
-    "weight": "9 kg",
+    "volume": "6100 ml",
+    "weight": "6100 g",
     "hp": 16,
+    "armor_cold": 4,
     "reproduction": { "baby_monster": "mon_cat_maine_coon_kitten", "baby_count": 4, "baby_timer": 60 }
   },
   {
     "id": "mon_cat_maine_coon_kitten",
     "type": "MONSTER",
     "copy-from": "mon_cat_kitten",
-    "name": { "str": "Maine coon kitten" },
+    "name": { "str": "Maine Coon kitten" },
     "description": "This young Maine coon has tufted ears and a striking pattern on its face.",
+    "armor_cold": 2,
     "upgrades": { "age_grow": 120, "into": "mon_cat_maine_coon" }
   },
   {
@@ -451,7 +447,9 @@
     "type": "MONSTER",
     "copy-from": "mon_cat",
     "name": { "str": "Persian cat" },
-    "description": "The short nose and rounded face of this cat suggest it comes from the popular Persian breed.",
+    "volume": "4100 ml",
+    "weight": "4100 g",
+    "description": "The short nose and rounded face of this cat suggest it comes from the popular Persian breed.  Its fur is already matted without anyone being able to groom it.",
     "reproduction": { "baby_monster": "mon_cat_persian_kitten", "baby_count": 4, "baby_timer": 60 }
   },
   {
@@ -467,9 +465,9 @@
     "type": "MONSTER",
     "copy-from": "mon_cat",
     "name": { "str": "Bengal cat" },
-    "description": "Looking like a spotted wild cat, the Bengal breed derives from the Asian leopard cat and Egyptian Mau.",
-    "volume": "5000 ml",
-    "weight": "5 kg",
+    "description": "Looking like a spotted wild cat, the Bengal breed derives from the Asian leopard cat and Egyptian Mau.  Domesticated but very energetic.",
+    "volume": "4200 ml",
+    "weight": "4200 g",
     "reproduction": { "baby_monster": "mon_cat_bengal_kitten", "baby_count": 4, "baby_timer": 60 }
   },
   {
@@ -486,6 +484,8 @@
     "copy-from": "mon_cat",
     "name": { "str": "Devon Rex cat" },
     "description": "An unusual-looking cat with strikingly large eyes and ears, sporting a soft curly coat of fur.",
+    "volume": "3400 ml",
+    "weight": "3400 g",
     "reproduction": { "baby_monster": "mon_cat_devon_rex_kitten", "baby_count": 4, "baby_timer": 60 }
   },
   {
@@ -502,6 +502,8 @@
     "copy-from": "mon_cat",
     "name": { "str": "Sphynx cat" },
     "description": "The Sphynx cat has practically no fur on its body, exposing its curiously wrinkled skin.",
+    "//": "No fur, no cold protection",
+    "armor_cold": 0,
     "reproduction": { "baby_monster": "mon_cat_sphynx_kitten", "baby_count": 4, "baby_timer": 60 }
   },
   {
@@ -517,7 +519,7 @@
     "type": "MONSTER",
     "copy-from": "mon_cat",
     "name": { "str": "tabby cat" },
-    "description": "Marked with the characteristic 'M' on its forehead and decorated with swirling stripes, the tabby's markings must provide excellent camouflage.",
+    "description": "Marked with the characteristic 'M' on its forehead and decorated with swirling stripes, the tabby's markings provide excellent camouflage.",
     "reproduction": { "baby_monster": "mon_cat_tabby_kitten", "baby_count": 4, "baby_timer": 60 }
   },
   {
@@ -549,10 +551,14 @@
     "type": "MONSTER",
     "copy-from": "mon_cat",
     "name": { "str": "golden chonker" },
-    "description": "Oh lawd, he comin'!  This impressive feline would once have been celebrated on internet cat forums for its chonkiness and majestic golden mane.  Appears surprisingly well-groomed for a feral cat.",
-    "volume": "8000 ml",
-    "weight": "10 kg",
+    "description": "Oh lawd, he comin'!  This impressive feline would once have been celebrated on internet cat forums for its chonkiness and majestic golden mane.  Appears surprisingly well-groomed despite its bulk.",
+    "volume": "7500 ml",
+    "weight": "7 kg",
     "hp": 20,
+    "speed": 100,
+    "dodge": 5,
+    "//": "Fat helps keeping their body warm",
+    "armor_cold": 3,
     "reproduction": { "baby_monster": "mon_cat_chonker_kitten", "baby_count": 8, "baby_timer": 60 }
   },
   {
@@ -562,6 +568,22 @@
     "name": { "str": "yellow kitten" },
     "description": "This poor little kitten is starving!  You wonder if you have some cat food around…",
     "upgrades": { "age_grow": 120, "into": "mon_cat_chonker" }
+  },
+  {
+    "id": "mon_cat_black_kitten",
+    "type": "MONSTER",
+    "copy-from": "mon_cat_kitten",
+    "name": { "str": "black kitten" },
+    "description": "An adorable, little furry ball of darkness with pronounced green eyes.",
+    "upgrades": { "age_grow": 120, "into": "mon_cat_black" }
+  },
+  {
+    "id": "mon_cat_black",
+    "type": "MONSTER",
+    "copy-from": "mon_cat",
+    "name": { "str": "black cat" },
+    "description": "A black ball of fur with prominent green eyes staring right into your soul.",
+    "reproduction": { "baby_monster": "mon_cat_black_kitten", "baby_count": 8, "baby_timer": 60 }
   },
   {
     "id": "mon_chipmunk",
@@ -853,7 +875,7 @@
   {
     "id": "mon_dog",
     "type": "MONSTER",
-    "name": { "str": "Labrador mutt" },
+    "name": { "str": "labrador mutt" },
     "description": "This once-average Labrador mixed-breed dog has clearly gone feral.  Though it likely still instinctively trusts humans, it's probably far from domestic by now.",
     "default_faction": "dog",
     "bodytype": "dog",
@@ -911,7 +933,7 @@
     "id": "mon_dog_pup",
     "type": "MONSTER",
     "copy-from": "mon_dog",
-    "name": { "str": "Labrador puppy", "str_pl": "Labrador puppies" },
+    "name": { "str": "labrador puppy", "str_pl": "labrador puppies" },
     "description": "An adorable, defenseless Labrador puppy.  Much safer to tame than an adult dog.",
     "volume": "750 ml",
     "weight": "1 kg",
@@ -1310,7 +1332,7 @@
     "id": "mon_dog_chihuahua",
     "copy-from": "mon_dog",
     "type": "MONSTER",
-    "name": { "str": "Chihuahua" },
+    "name": { "str": "chihuahua" },
     "description": "It's a tiny Chihuahua.  How it has managed to survive is a miracle, although its small size and aggressive nature may have proven useful.",
     "volume": "750 ml",
     "weight": "2200 g",
@@ -1348,7 +1370,7 @@
   {
     "id": "mon_dog_chihuahua_pup",
     "type": "MONSTER",
-    "name": { "str": "Chihuahua puppy", "str_pl": "Chihuahua puppies" },
+    "name": { "str": "chihuahua puppy", "str_pl": "chihuahua puppies" },
     "description": "An adorable, defenseless Chihuahua puppy.  Much safer to tame than an adult dog.",
     "default_faction": "dog",
     "bodytype": "dog",
@@ -1474,7 +1496,7 @@
     "id": "mon_dog_gshepherd",
     "copy-from": "mon_dog",
     "type": "MONSTER",
-    "name": { "str": "German Shepherd" },
+    "name": { "str": "German shepherd" },
     "description": "The original K-9 breed.  An easily trained and powerful attack dog that will defend its owner to the death, however they don't work well in packs.",
     "volume": "35000 ml",
     "weight": "35 kg",
@@ -1507,7 +1529,7 @@
   {
     "id": "mon_dog_gshepherd_pup",
     "type": "MONSTER",
-    "name": { "str": "German Shepherd puppy", "str_pl": "German Shepherd puppies" },
+    "name": { "str": "German shepherd puppy", "str_pl": "German shepherd puppies" },
     "description": "An adorable, defenseless German Shepherd puppy.  Much safer to tame than an adult dog.",
     "default_faction": "dog",
     "bodytype": "dog",
@@ -1584,7 +1606,7 @@
   {
     "id": "mon_dog_gpyrenees_pup",
     "type": "MONSTER",
-    "name": { "str": "Great Pyrenees puppy", "str_pl": "Great Pyrenees puppies" },
+    "name": { "str": "great pyrenees puppy", "str_pl": "great pyrenees puppies" },
     "description": "An adorable, defenseless Great Pyrenees puppy.  Much safer to tame than an adult dog.",
     "default_faction": "dog",
     "bodytype": "dog",
@@ -2664,7 +2686,7 @@
     "id": "mon_reindeer_fawn",
     "type": "MONSTER",
     "copy-from": "mon_reindeer",
-    "name": { "str": "Reindeer fawn" },
+    "name": { "str": "reindeer fawn" },
     "description": "A juvenile caribou, it is smaller than its adult counterparts, as well as having shorter antlers.",
     "volume": "30000 ml",
     "weight": "120 g",

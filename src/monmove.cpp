@@ -1225,6 +1225,10 @@ void monster::nursebot_operate( Character *dragged_foe )
 // and create a sound in the monsters location when they move
 void monster::footsteps( const tripoint &p )
 {
+    if( is_hallucination() ) {
+        return;
+    }
+
     if( made_footstep ) {
         return;
     }
