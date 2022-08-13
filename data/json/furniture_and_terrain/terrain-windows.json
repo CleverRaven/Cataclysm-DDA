@@ -1098,6 +1098,7 @@
       "BARRICADABLE_WINDOW_CURTAINS",
       "BLOCK_WIND",
       "REDUCE_SCENT",
+      "PERMEABLE",
       "WINDOW",
       "SUPPORTS_ROOF"
     ],
