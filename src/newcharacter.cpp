@@ -134,6 +134,57 @@ enum class pool_type {
     TRANSFER,
 };
 
+
+class tab_manager
+{
+        std::vector<std::string> &tab_names;
+    public:
+  bool complete = false;
+  bool quit = false;
+        tab_list position;
+
+        explicit tab_manager( std::vector<std::string> &tab_names ) : tab_names( tab_names ),
+            position( tab_list( tab_names ) ) {
+        }
+
+        void draw( const catacurses::window &w );
+  bool handle_input( const std::string &action/*, const input_context &ctxt */);
+        void set_up_tab_navigation( input_context &ctxt );
+};
+
+void tab_manager::draw( const catacurses::window &w )
+{
+  draw_tabs( w, tab_names, position.cur() );
+    draw_border_below_tabs( w );
+
+    for( int i = 1; i < TERMX - 1; i++ ) {
+        mvwputch( w, point( i, 4 ), BORDER_COLOR, LINE_OXOX );
+    }
+    mvwputch( w, point( 0, 4 ), BORDER_COLOR, LINE_XXXO ); // |-
+    mvwputch( w, point( TERMX - 1, 4 ), BORDER_COLOR, LINE_XOXX ); // -|
+}
+
+bool tab_manager::handle_input( const std::string &action/*, const input_context &ctxt*/ )
+{
+    if( action == "QUIT" && query_yn( _( "Return to main menu?" ) ) ) {
+        quit = true;
+    } else if( action == "PREV_TAB" ) {
+        position.prev();
+    } else if( action == "NEXT_TAB" ) {
+        position.next();
+    } else {
+      return false;
+    }
+    return true;
+}
+
+void tab_manager::set_up_tab_navigation( input_context &ctxt )
+{
+    ctxt.register_action( "PREV_TAB" );
+    ctxt.register_action( "NEXT_TAB" );
+    ctxt.register_action( "QUIT" );
+}
+
 class details_pane_handler
 {
         std::unique_ptr<scrolling_text_view> text_view_ptr;
@@ -352,14 +403,14 @@ static std::string pools_to_string( const avatar &u, pool_type pool )
     return "If you see this, this is a bug";
 }
 
-static tab_direction set_points( avatar &u, pool_type & );
-static tab_direction set_stats( avatar &u, pool_type );
-static tab_direction set_traits( avatar &u, pool_type );
-static tab_direction set_scenario( avatar &u, pool_type );
-static tab_direction set_profession( avatar &u, pool_type );
-static tab_direction set_hobbies( avatar &u, pool_type );
-static tab_direction set_skills( avatar &u, pool_type );
-static tab_direction set_description( avatar &you, bool allow_reroll, pool_type );
+static tab_direction set_points( tab_manager &tabs, avatar &u, pool_type & );
+static tab_direction set_stats( tab_manager &tabs, avatar &u, pool_type );
+static tab_direction set_traits( tab_manager &tabs, avatar &u, pool_type );
+static tab_direction set_scenario( tab_manager &tabs, avatar &u, pool_type );
+static tab_direction set_profession( tab_manager &tabs, avatar &u, pool_type );
+static tab_direction set_hobbies( tab_manager &tabs, avatar &u, pool_type );
+static tab_direction set_skills( tab_manager &tabs, avatar &u, pool_type );
+static tab_direction set_description( tab_manager &tabs, avatar &you, bool allow_reroll, pool_type );
 
 static cata::optional<std::string> query_for_template_name();
 static void reset_scenario( avatar &u, const scenario *scen );
@@ -654,7 +705,19 @@ bool avatar::create( character_type type, const std::string &tempname )
     const bool interactive = type != character_type::NOW &&
                              type != character_type::FULL_RANDOM;
 
-    int tab = 0;
+    std::vector<std::string> character_tabs = {
+        _( "POINTS" ),
+        _( "SCENARIO" ),
+        _( "PROFESSION" ),
+        //~ Not scenery/backdrop, but previous life up to this point
+        _( "BACKGROUND" ),
+        _( "STATS" ),
+        _( "TRAITS" ),
+        _( "SKILLS" ),
+        _( "DESCRIPTION" ),
+    };
+    tab_manager tabs( character_tabs );
+    
     pool_type pool = pool_type::MULTI_POOL;
 
     switch( type ) {
@@ -663,7 +726,7 @@ bool avatar::create( character_type type, const std::string &tempname )
         case character_type::RANDOM:
             //random scenario, default name if exist
             randomize( true );
-            tab = NEWCHAR_TAB_MAX;
+	    tabs.position.last();
             break;
         case character_type::NOW:
             //default world, fixed scenario, random name
@@ -686,7 +749,7 @@ bool avatar::create( character_type type, const std::string &tempname )
             if( pool != pool_type::TRANSFER ) {
                 learned_recipes->clear();
             }
-            tab = NEWCHAR_TAB_MAX;
+	    tabs.position.last();
             break;
     }
 
@@ -710,63 +773,54 @@ bool avatar::create( character_type type, const std::string &tempname )
         }
 
         if( pool == pool_type::TRANSFER ) {
-            tab = 7;
+	  tabs.position.last();
         }
 
-        switch( tab ) {
+        switch( tabs.position.cur_index() ) {
             case 0:
-                result = set_points( *this, /*out*/ pool );
+	      result = set_points( tabs, *this, /*out*/ pool );
                 break;
             case 1:
-                result = set_scenario( *this, pool );
+	      result = set_scenario( tabs, *this, pool );
                 break;
             case 2:
-                result = set_profession( *this, pool );
+                result = set_profession( tabs, *this, pool );
                 break;
             case 3:
-                result = set_hobbies( *this, pool );
+                result = set_hobbies( tabs, *this, pool );
                 break;
             case 4:
-                result = set_stats( *this, pool );
+	      result = set_stats( tabs, *this, pool );
                 break;
             case 5:
-                result = set_traits( *this, pool );
+                result = set_traits( tabs, *this, pool );
                 break;
             case 6:
-                result = set_skills( *this, pool );
+                result = set_skills( tabs, *this, pool );
                 break;
             case 7:
-                result = set_description( *this, allow_reroll, pool );
+                result = set_description( tabs, *this, allow_reroll, pool );
                 break;
         }
 
+	if( tabs.quit ) {
+	  return false;
+	}
+	
         switch( result ) {
             case tab_direction::NONE:
                 break;
             case tab_direction::FORWARD:
-                tab++;
+	      tabs.position.next();
                 break;
             case tab_direction::BACKWARD:
-                tab--;
+	      tabs.position.prev();
                 break;
             case tab_direction::QUIT:
-                tab = -1;
-                break;
+	      return false;
+	      break;
         }
-
-        if( !( tab >= 0 && tab <= NEWCHAR_TAB_MAX ) ) {
-            if( tab != -1 && nameExists( name ) ) {
-                tab = NEWCHAR_TAB_MAX;
-            } else {
-                break;
-            }
-        }
-
     } while( true );
-
-    if( tab < 0 ) {
-        return false;
-    }
 
     if( pool == pool_type::TRANSFER ) {
         return true;
@@ -902,30 +956,6 @@ bool avatar::create( character_type type, const std::string &tempname )
     return true;
 }
 
-static void draw_character_tabs( const catacurses::window &w, const std::string &sTab )
-{
-    std::vector<std::string> tab_captions = {
-        _( "POINTS" ),
-        _( "SCENARIO" ),
-        _( "PROFESSION" ),
-        //~ Not scenery/backdrop, but previous life up to this point
-        _( "BACKGROUND" ),
-        _( "STATS" ),
-        _( "TRAITS" ),
-        _( "SKILLS" ),
-        _( "DESCRIPTION" ),
-    };
-
-    draw_tabs( w, tab_captions, sTab );
-    draw_border_below_tabs( w );
-
-    for( int i = 1; i < TERMX - 1; i++ ) {
-        mvwputch( w, point( i, 4 ), BORDER_COLOR, LINE_OXOX );
-    }
-    mvwputch( w, point( 0, 4 ), BORDER_COLOR, LINE_XXXO ); // |-
-    mvwputch( w, point( TERMX - 1, 4 ), BORDER_COLOR, LINE_XOXX ); // -|
-}
-
 static void draw_points( const catacurses::window &w, pool_type pool, const avatar &u,
                          int netPointCost = 0 )
 {
@@ -968,10 +998,8 @@ static const char *g_switch_msg( const avatar &u )
                "to <color_magenta>%2$s</color> (<color_light_cyan>male</color>)." );
 }
 
-tab_direction set_points( avatar &u, pool_type &pool )
+tab_direction set_points( tab_manager &tabs, avatar &u, pool_type &pool )
 {
-    tab_direction retval = tab_direction::NONE;
-
     ui_adaptor ui;
     catacurses::window w;
     catacurses::window w_description;
@@ -984,11 +1012,9 @@ tab_direction set_points( avatar &u, pool_type &pool )
     ui.on_screen_resize( init_windows );
 
     input_context ctxt( "NEW_CHAR_POINTS" );
+    tabs.set_up_tab_navigation( ctxt );
     ctxt.register_cardinal();
-    ctxt.register_action( "PREV_TAB" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
-    ctxt.register_action( "NEXT_TAB" );
-    ctxt.register_action( "QUIT" );
     ctxt.register_action( "CONFIRM" );
 
     const std::string point_pool = get_option<std::string>( "CHARACTER_POINT_POOLS" );
@@ -1021,7 +1047,8 @@ tab_direction set_points( avatar &u, pool_type &pool )
     ui.on_redraw( [&]( const ui_adaptor & ) {
         const int freeWidth = TERMX - FULL_SCREEN_WIDTH;
         isWide = ( TERMX > FULL_SCREEN_WIDTH && freeWidth > 15 );
-        draw_character_tabs( w, _( "POINTS" ) );
+	werase( w );
+	tabs.draw( w );
 
         const auto &cur_opt = opts[highlighted];
 
@@ -1072,26 +1099,20 @@ tab_direction set_points( avatar &u, pool_type &pool )
         }
         ui_manager::redraw();
         const std::string action = ctxt.handle_input();
-        if( action == "DOWN" ) {
+	if( tabs.handle_input( action ) ) {
+	  return tab_direction::NONE; // Tab has changed or user has quit the screen
+	} else if( action == "DOWN" ) {
             highlighted++;
         } else if( action == "UP" ) {
             highlighted--;
-        } else if( action == "PREV_TAB" && query_yn( _( "Return to main menu?" ) ) ) {
-            retval = tab_direction::BACKWARD;
-        } else if( action == "NEXT_TAB" ) {
-            retval = tab_direction::FORWARD;
-        } else if( action == "QUIT" && query_yn( _( "Return to main menu?" ) ) ) {
-            retval = tab_direction::QUIT;
         } else if( action == "CONFIRM" ) {
             const auto &cur_opt = opts[highlighted];
             pool = std::get<0>( cur_opt );
         }
-    } while( retval == tab_direction::NONE );
-
-    return retval;
+    } while( true );
 }
 
-tab_direction set_stats( avatar &u, pool_type pool )
+tab_direction set_stats( tab_manager &tabs, avatar &u, pool_type pool )
 {
     const int max_stat_points = pool == pool_type::FREEFORM ? 20 : MAX_STAT;
 
@@ -1099,11 +1120,9 @@ tab_direction set_stats( avatar &u, pool_type pool )
     const int iSecondColumn = std::max( 27,
                                         utf8_width( pools_to_string( u, pool ), true ) + 9 );
     input_context ctxt( "NEW_CHAR_STATS" );
+    tabs.set_up_tab_navigation( ctxt );
     ctxt.register_cardinal();
-    ctxt.register_action( "PREV_TAB" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
-    ctxt.register_action( "NEXT_TAB" );
-    ctxt.register_action( "QUIT" );
 
     ui_adaptor ui;
     catacurses::window w;
@@ -1121,7 +1140,7 @@ tab_direction set_stats( avatar &u, pool_type pool )
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
         werase( w );
-        draw_character_tabs( w, _( "STATS" ) );
+	tabs.draw( w );
         // Helptext stats tab
         fold_and_print( w, point( 2, TERMY - 5 ), getmaxx( w ) - 4, COL_NOTE_MINOR,
                         _( "Press <color_light_green>%s</color> to view and alter keybindings.\n"
@@ -1237,7 +1256,9 @@ tab_direction set_stats( avatar &u, pool_type pool )
     do {
         ui_manager::redraw();
         const std::string action = ctxt.handle_input();
-        if( action == "DOWN" ) {
+	if( tabs.handle_input( action ) ) {
+	  return tab_direction::NONE; // Tab has changed or user has quit the screen
+	} else if( action == "DOWN" ) {
             if( sel < 4 ) {
                 sel++;
             } else {
@@ -1269,12 +1290,6 @@ tab_direction set_stats( avatar &u, pool_type pool )
             } else if( sel == 4 && u.per_max < max_stat_points ) {
                 u.per_max++;
             }
-        } else if( action == "PREV_TAB" ) {
-            return tab_direction::BACKWARD;
-        } else if( action == "NEXT_TAB" ) {
-            return tab_direction::FORWARD;
-        } else if( action == "QUIT" && query_yn( _( "Return to main menu?" ) ) ) {
-            return tab_direction::QUIT;
         }
     } while( true );
 }
@@ -1298,7 +1313,7 @@ static void add_trait( std::vector<trait_and_var> &to, const trait_id &trait )
     }
 }
 
-tab_direction set_traits( avatar &u, pool_type pool )
+tab_direction set_traits( tab_manager &tabs, avatar &u, pool_type pool )
 {
     const int max_trait_points = get_option<int>( "MAX_TRAIT_POINTS" );
 
@@ -1439,25 +1454,23 @@ tab_direction set_traits( avatar &u, pool_type pool )
     ui.on_screen_resize( init_windows );
 
     input_context ctxt( "NEW_CHAR_TRAITS" );
+    tabs.set_up_tab_navigation( ctxt );
     ctxt.register_cardinal();
     ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
     ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
     ctxt.register_action( "HOME" );
     ctxt.register_action( "END" );
     ctxt.register_action( "CONFIRM" );
-    ctxt.register_action( "PREV_TAB" );
-    ctxt.register_action( "NEXT_TAB" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "FILTER" );
     ctxt.register_action( "RESET_FILTER" );
     ctxt.register_action( "SORT" );
-    ctxt.register_action( "QUIT" );
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
         werase( w );
         werase( w_description );
 
-        draw_character_tabs( w, _( "TRAITS" ) );
+	tabs.draw( w );
         draw_filter_and_sorting_indicators( w, ctxt, filterstring, traits_sorter );
         draw_points( w, pool, u );
         int full_string_length = 0;
@@ -1639,7 +1652,9 @@ tab_direction set_traits( avatar &u, pool_type pool )
 
         ui_manager::redraw();
         const std::string action = ctxt.handle_input();
-        if( action == "LEFT" ) {
+	if( tabs.handle_input( action ) ) {
+	  return tab_direction::NONE; // Tab has changed or user has quit the screen
+	} else if( action == "LEFT" ) {
             iCurWorkingPage = next_avail_page( true );
         } else if( action == "RIGHT" ) {
             iCurWorkingPage = next_avail_page( false );
@@ -1759,12 +1774,6 @@ tab_direction set_traits( avatar &u, pool_type pool )
                     num_bad += mdata.points * inc_type;
                 }
             }
-        } else if( action == "PREV_TAB" ) {
-            return tab_direction::BACKWARD;
-        } else if( action == "NEXT_TAB" ) {
-            return tab_direction::FORWARD;
-        } else if( action == "QUIT" && query_yn( _( "Return to main menu?" ) ) ) {
-            return tab_direction::QUIT;
         } else if( action == "SORT" ) {
             traits_sorter.sort_by_points = !traits_sorter.sort_by_points;
             recalc_traits = true;
@@ -1964,10 +1973,9 @@ static std::string assemble_profession_details( const avatar &u, const input_con
 }
 
 /** Handle the profession tab of the character generation menu */
-tab_direction set_profession( avatar &u, pool_type pool )
+tab_direction set_profession( tab_manager &tabs, avatar &u, pool_type pool )
 {
     int cur_id = 0;
-    tab_direction retval = tab_direction::NONE;
     int iContentHeight = 0;
     int iStartPos = 0;
 
@@ -1989,6 +1997,7 @@ tab_direction set_profession( avatar &u, pool_type pool )
 
     input_context ctxt( "NEW_CHAR_PROFESSIONS" );
     details.setup_details_pane_navigation( ctxt );
+    tabs.set_up_tab_navigation( ctxt );
     ctxt.register_cardinal();
     ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
     ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
@@ -1996,13 +2005,10 @@ tab_direction set_profession( avatar &u, pool_type pool )
     ctxt.register_action( "END" );
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "CHANGE_GENDER" );
-    ctxt.register_action( "PREV_TAB" );
-    ctxt.register_action( "NEXT_TAB" );
     ctxt.register_action( "SORT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "FILTER" );
     ctxt.register_action( "RESET_FILTER" );
-    ctxt.register_action( "QUIT" );
     ctxt.register_action( "RANDOMIZE" );
 
     bool recalc_profs = true;
@@ -2012,7 +2018,7 @@ tab_direction set_profession( avatar &u, pool_type pool )
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
         werase( w );
-        draw_character_tabs( w, _( "PROFESSION" ) );
+	tabs.draw( w );
         mvwputch( w, point( TERMX / 2, iHeaderHeight - 1 ), BORDER_COLOR,
                   LINE_OXXX );// '^|^' Tee pointing down
         mvwputch( w, point( TERMX / 2, TERMY - 1 ), BORDER_COLOR, LINE_XXOX );// '_|_' Tee pointing up
@@ -2133,8 +2139,9 @@ tab_direction set_profession( avatar &u, pool_type pool )
         const int recmax = profs_length;
         const int scroll_rate = recmax > 20 ? 10 : 2;
         const int id_for_curr_description = cur_id;
-
-        if( details.handle_details_pane_navigation( action, ctxt ) ) {
+	if( tabs.handle_input( action ) ) {
+	  return tab_direction::NONE; // Tab has changed or user has quit the screen
+	} else if( details.handle_details_pane_navigation( action, ctxt ) ) {
             //NO FURTHER ACTION REQUIRED
         } else if( action == "DOWN" ) {
             cur_id++;
@@ -2204,10 +2211,6 @@ tab_direction set_profession( avatar &u, pool_type pool )
                 std::sort( sorted_profs.begin(), sorted_profs.end(), profession_sorter );
             }
             details.recalc = true;
-        } else if( action == "PREV_TAB" ) {
-            retval = tab_direction::BACKWARD;
-        } else if( action == "NEXT_TAB" ) {
-            retval = tab_direction::FORWARD;
         } else if( action == "SORT" ) {
             profession_sorter.sort_by_points = !profession_sorter.sort_by_points;
             recalc_profs = true;
@@ -2223,8 +2226,6 @@ tab_direction set_profession( avatar &u, pool_type pool )
                 filterstring = "";
                 recalc_profs = true;
             }
-        } else if( action == "QUIT" && query_yn( _( "Return to main menu?" ) ) ) {
-            retval = tab_direction::QUIT;
         } else if( action == "RANDOMIZE" ) {
             cur_id = rng( 0, profs_length - 1 );
         }
@@ -2232,9 +2233,7 @@ tab_direction set_profession( avatar &u, pool_type pool )
             details.recalc = true;
         }
 
-    } while( retval == tab_direction::NONE );
-
-    return retval;
+    } while( true );
 }
 
 static std::string assemble_hobby_details( const avatar &u, const input_context &ctxt,
@@ -2325,7 +2324,7 @@ static std::string assemble_hobby_details( const avatar &u, const input_context 
 }
 
 /** Handle the hobbies tab of the character generation menu */
-tab_direction set_hobbies( avatar &u, pool_type pool )
+tab_direction set_hobbies( tab_manager &tabs, avatar &u, pool_type pool )
 {
     int cur_id = 0;
     tab_direction retval = tab_direction::NONE;
@@ -2350,6 +2349,7 @@ tab_direction set_hobbies( avatar &u, pool_type pool )
     ui.on_screen_resize( init_windows );
 
     input_context ctxt( "NEW_CHAR_PROFESSIONS" );
+    tabs.set_up_tab_navigation( ctxt );
     details.setup_details_pane_navigation( ctxt );
     ctxt.register_cardinal();
     ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
@@ -2358,13 +2358,10 @@ tab_direction set_hobbies( avatar &u, pool_type pool )
     ctxt.register_action( "END" );
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "CHANGE_GENDER" );
-    ctxt.register_action( "PREV_TAB" );
-    ctxt.register_action( "NEXT_TAB" );
     ctxt.register_action( "SORT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "FILTER" );
     ctxt.register_action( "RESET_FILTER" );
-    ctxt.register_action( "QUIT" );
     ctxt.register_action( "RANDOMIZE" );
 
     bool recalc_hobbies = true;
@@ -2374,7 +2371,7 @@ tab_direction set_hobbies( avatar &u, pool_type pool )
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
         werase( w );
-        draw_character_tabs( w, _( "BACKGROUND" ) );
+	tabs.draw( w );
         mvwputch( w, point( TERMX / 2, iHeaderHeight - 1 ), BORDER_COLOR,
                   LINE_OXXX );// '^|^' Tee pointing down
         mvwputch( w, point( TERMX / 2, TERMY - 1 ), BORDER_COLOR, LINE_XXOX );// '_|_' Tee pointing up
@@ -2476,7 +2473,9 @@ tab_direction set_hobbies( avatar &u, pool_type pool )
         const int recmax = profs_length;
         const int scroll_rate = recmax > 20 ? 10 : 2;
 
-        if( details.handle_details_pane_navigation( action, ctxt ) ) {
+	if( tabs.handle_input( action ) ) {
+	  return tab_direction::NONE; // Tab has changed or user has quit the screen
+	} else if( details.handle_details_pane_navigation( action, ctxt ) ) {
             //NO FURTHER ACTION REQUIRED
         } else if( action == "DOWN" ) {
             cur_id++;
@@ -2568,10 +2567,6 @@ tab_direction set_hobbies( avatar &u, pool_type pool )
                 std::sort( sorted_hobbies.begin(), sorted_hobbies.end(), profession_sorter );
             }
             recalc_hobbies = true;
-        } else if( action == "PREV_TAB" ) {
-            retval = tab_direction::BACKWARD;
-        } else if( action == "NEXT_TAB" ) {
-            retval = tab_direction::FORWARD;
         } else if( action == "SORT" ) {
             profession_sorter.sort_by_points = !profession_sorter.sort_by_points;
             recalc_hobbies = true;
@@ -2587,8 +2582,6 @@ tab_direction set_hobbies( avatar &u, pool_type pool )
                 filterstring = "";
                 recalc_hobbies = true;
             }
-        } else if( action == "QUIT" && query_yn( _( "Return to main menu?" ) ) ) {
-            retval = tab_direction::QUIT;
         } else if( action == "RANDOMIZE" ) {
             cur_id = rng( 0, profs_length - 1 );
         }
@@ -2612,7 +2605,7 @@ static int skill_increment_cost( const Character &u, const skill_id &skill )
     return std::max( 1, ( u.get_skill_level( skill ) + 1 ) / 2 );
 }
 
-tab_direction set_skills( avatar &u, pool_type pool )
+tab_direction set_skills( tab_manager &tabs, avatar &u, pool_type pool )
 {
     ui_adaptor ui;
     catacurses::window w;
@@ -2701,6 +2694,7 @@ tab_direction set_skills( avatar &u, pool_type pool )
     get_next( false, false );
 
     input_context ctxt( "NEW_CHAR_SKILLS" );
+    tabs.set_up_tab_navigation( ctxt );
     ctxt.register_cardinal();
     ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
     ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
@@ -2708,10 +2702,7 @@ tab_direction set_skills( avatar &u, pool_type pool )
     ctxt.register_action( "END" );
     ctxt.register_action( "SCROLL_SKILL_INFO_DOWN" );
     ctxt.register_action( "SCROLL_SKILL_INFO_UP" );
-    ctxt.register_action( "PREV_TAB" );
-    ctxt.register_action( "NEXT_TAB" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
-    ctxt.register_action( "QUIT" );
 
     std::map<skill_id, int> prof_skills;
     const profession::StartingSkillList &pskills = u.prof->skills();
@@ -2722,8 +2713,9 @@ tab_direction set_skills( avatar &u, pool_type pool )
     const int remaining_points_length = utf8_width( pools_to_string( u, pool ), true );
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
-        draw_character_tabs( w, _( "SKILLS" ) );
-
+      werase( w );
+      tabs.draw( w );
+      
         // Helptext skills tab
         fold_and_print( w, point( 2, TERMY - 5 ), getmaxx( w ) - 4, COL_NOTE_MINOR,
                         _( "Press <color_light_green>%s</color> to view and alter keybindings.\n"
@@ -2880,7 +2872,9 @@ tab_direction set_skills( avatar &u, pool_type pool )
     do {
         ui_manager::redraw();
         const std::string action = ctxt.handle_input();
-        if( action == "DOWN" ) {
+	if( tabs.handle_input( action ) ) {
+	  return tab_direction::NONE; // Tab has changed or user has quit the screen
+	} else if( action == "DOWN" ) {
             get_next( false, false );
         } else if( action == "UP" ) {
             get_next( true, false );
@@ -2918,12 +2912,6 @@ tab_direction set_skills( avatar &u, pool_type pool )
             selected++;
         } else if( action == "SCROLL_SKILL_INFO_UP" ) {
             selected--;
-        } else if( action == "PREV_TAB" ) {
-            return tab_direction::BACKWARD;
-        } else if( action == "NEXT_TAB" ) {
-            return tab_direction::FORWARD;
-        } else if( action == "QUIT" && query_yn( _( "Return to main menu?" ) ) ) {
-            return tab_direction::QUIT;
         }
     } while( true );
 }
@@ -3067,10 +3055,9 @@ static std::string assemble_scenario_details( const avatar &u, const input_conte
     return assembled;
 }
 
-tab_direction set_scenario( avatar &u, pool_type pool )
+tab_direction set_scenario( tab_manager &tabs, avatar &u, pool_type pool )
 {
     int cur_id = 0;
-    tab_direction retval = tab_direction::NONE;
     int iContentHeight = 0;
     int iStartPos = 0;
 
@@ -3093,6 +3080,7 @@ tab_direction set_scenario( avatar &u, pool_type pool )
     ui.on_screen_resize( init_windows );
 
     input_context ctxt( "NEW_CHAR_SCENARIOS" );
+    tabs.set_up_tab_navigation( ctxt );
     details.setup_details_pane_navigation( ctxt );
     ctxt.register_cardinal();
     ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
@@ -3117,7 +3105,7 @@ tab_direction set_scenario( avatar &u, pool_type pool )
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
         werase( w );
-        draw_character_tabs( w, _( "SCENARIO" ) );
+	tabs.draw( w );
         mvwputch( w, point( TERMX / 2, iHeaderHeight - 1 ), BORDER_COLOR,
                   LINE_OXXX );// '^|^' Tee pointing down
         mvwputch( w, point( TERMX / 2, TERMY - 1 ), BORDER_COLOR, LINE_XXOX );// '_|_' Tee pointing up
@@ -3246,7 +3234,9 @@ tab_direction set_scenario( avatar &u, pool_type pool )
         const std::string action = ctxt.handle_input();
         const int scroll_rate = scens_length > 20 ? 5 : 2;
         const int id_for_curr_description = cur_id;
-        if( details.handle_details_pane_navigation( action, ctxt ) ) {
+	if( tabs.handle_input( action ) ) {
+	  return tab_direction::NONE; // Tab has changed or user has quit the screen
+	} else if( details.handle_details_pane_navigation( action, ctxt ) ) {
             //NO FURTHER ACTION REQUIRED
         } else if( action == "DOWN" ) {
             cur_id++;
@@ -3291,10 +3281,6 @@ tab_direction set_scenario( avatar &u, pool_type pool )
                 continue;
             }
             reset_scenario( u, sorted_scens[cur_id] );
-        } else if( action == "PREV_TAB" ) {
-            retval = tab_direction::BACKWARD;
-        } else if( action == "NEXT_TAB" ) {
-            retval = tab_direction::FORWARD;
         } else if( action == "CHANGE_GENDER" ) {
             u.male = !u.male;
             recalc_scens = true;
@@ -3313,8 +3299,6 @@ tab_direction set_scenario( avatar &u, pool_type pool )
                 filterstring = "";
                 recalc_scens = true;
             }
-        } else if( action == "QUIT" && query_yn( _( "Return to main menu?" ) ) ) {
-            retval = tab_direction::QUIT;
         } else if( action == "RANDOMIZE" ) {
             cur_id = rng( 0, scens_length - 1 );
         }
@@ -3322,9 +3306,7 @@ tab_direction set_scenario( avatar &u, pool_type pool )
         if( cur_id != id_for_curr_description || recalc_scens ) {
             details.recalc = true;
         }
-    } while( retval == tab_direction::NONE );
-
-    return retval;
+    } while( true );
 }
 
 namespace char_creation
@@ -3406,7 +3388,7 @@ static void draw_location( const catacurses::window &w_location, const avatar &y
 
 } // namespace char_creation
 
-tab_direction set_description( avatar &you, const bool allow_reroll,
+tab_direction set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
                                pool_type pool )
 {
     static constexpr int RANDOM_START_LOC_ENTRY = INT_MIN;
@@ -3485,6 +3467,7 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
     const unsigned namebar_pos = 1 + utf8_width( _( "Name:" ) );
 
     input_context ctxt( "NEW_CHAR_DESCRIPTION" );
+    tabs.set_up_tab_navigation( ctxt );
     ctxt.register_cardinal();
     ctxt.register_action( "SAVE_TEMPLATE" );
     ctxt.register_action( "RANDOMIZE_CHAR_NAME" );
@@ -3494,15 +3477,12 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
         ctxt.register_action( "REROLL_CHARACTER_WITH_SCENARIO" );
     }
     ctxt.register_action( "CHANGE_GENDER" );
-    ctxt.register_action( "PREV_TAB" );
-    ctxt.register_action( "NEXT_TAB" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     if( get_option<bool>( "SELECT_STARTING_CITY" ) ) {
         ctxt.register_action( "CHOOSE_CITY" );
     }
     ctxt.register_action( "CHOOSE_LOCATION" );
     ctxt.register_action( "CONFIRM" );
-    ctxt.register_action( "QUIT" );
 
     uilist select_location;
     select_location.text = _( "Select a starting location." );
@@ -3547,9 +3527,9 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
 
     bool no_name_entered = false;
     ui.on_redraw( [&]( const ui_adaptor & ) {
-        draw_character_tabs( w, _( "DESCRIPTION" ) );
-
-        draw_points( w, pool, you );
+      werase( w );
+      tabs.draw( w );
+      draw_points( w, pool, you );
 
         //Draw the line between editable and non-editable stuff.
         for( int i = 0; i < getmaxx( w ); ++i ) {
@@ -3944,8 +3924,8 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
                 return tab_direction::FORWARD;
             }
             continue;
-        } else if( action == "PREV_TAB" ) {
-            return tab_direction::BACKWARD;
+	} else if( tabs.handle_input( action ) ) {
+	  return tab_direction::NONE; // Tab has changed or user has quit the screen
         } else if( action == "DOWN" ) {
             switch( current_selector ) {
                 case char_creation::NAME:
@@ -4193,8 +4173,6 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
                     break;
                 }
             }
-        } else if( action == "QUIT" && query_yn( _( "Return to main menu?" ) ) ) {
-            return tab_direction::QUIT;
         }
     } while( true );
 }
