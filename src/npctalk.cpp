@@ -1906,7 +1906,9 @@ talk_topic dialogue::opt( dialogue_window &d_win, const talk_topic &topic )
                                           chosen.proficiency );
     const bool success = chosen.trial.roll( *this );
     const auto &effects = success ? chosen.success : chosen.failure;
-    return effects.apply( *this );
+    talk_topic ret_topic =  effects.apply( *this );
+    effects.update_missions( *this );
+    return ret_topic;
 }
 
 /**
@@ -3426,6 +3428,32 @@ void talk_effect_fun_t<T>::set_weighted_list_eocs( const JsonObject &jo,
 }
 
 template<class T>
+void talk_effect_fun_t<T>::set_switch( const JsonObject &jo,
+                                       const std::string &member )
+{
+    std::function<int( const T & )> eoc_switch = conditional_t< T >::get_get_int(
+                jo.get_object( member ) );
+    std::vector<std::pair<int_or_var<T>, talk_effect_t<T>>> case_pairs;
+    for( const JsonValue jv : jo.get_array( "cases" ) ) {
+        JsonObject array_case = jv.get_object();
+        talk_effect_t<T> case_effect;
+        case_effect.load_effect( array_case, "effect" );
+        case_pairs.emplace_back( get_int_or_var<T>( array_case, "case" ), case_effect );
+    }
+    function = [eoc_switch, case_pairs]( const T & d ) {
+        int switch_int = eoc_switch( d );
+        talk_effect_t<T> case_effect;
+        for( std::pair<int_or_var<T>, talk_effect_t<T>> case_pair :
+             case_pairs ) {
+            if( switch_int >= case_pair.first.evaluate( d ) ) {
+                case_effect = case_pair.second;
+            }
+        }
+        case_effect.apply( d );
+    };
+}
+
+template<class T>
 void talk_effect_fun_t<T>::set_add_morale( const JsonObject &jo, const std::string &member,
         bool is_npc )
 {
@@ -3745,7 +3773,7 @@ void talk_effect_t<T>::set_effect( talkfunction_ptr ptr )
 }
 
 template<class T>
-talk_topic talk_effect_t<T>::apply( T &d ) const
+talk_topic talk_effect_t<T>::apply( const T &d ) const
 {
     if( d.has_beta ) {
         // Need to get a reference to the mission before effects are applied, because effects can remove the mission
@@ -3773,8 +3801,13 @@ talk_topic talk_effect_t<T>::apply( T &d ) const
             effect( d );
         }
     }
-    // TODO: this is a hack, it should be in clear_mission or so, but those functions have
-    // no access to the dialogue object.
+
+    return next_topic;
+}
+
+template<class T>
+void talk_effect_t<T>::update_missions( T &d ) const
+{
     auto &ma = d.missions_assigned;
     ma.clear();
     if( d.has_beta ) {
@@ -3785,8 +3818,6 @@ talk_topic talk_effect_t<T>::apply( T &d ) const
             }
         }
     }
-
-    return next_topic;
 }
 
 template<class T>
@@ -4033,6 +4064,8 @@ void talk_effect_t<T>::parse_sub_effect( const JsonObject &jo )
         subeffect_fun.set_run_npc_eocs( jo, "npc_run_npc_eocs", true );
     } else if( jo.has_array( "weighted_list_eocs" ) ) {
         subeffect_fun.set_weighted_list_eocs( jo, "weighted_list_eocs" );
+    } else if( jo.has_member( "switch" ) ) {
+        subeffect_fun.set_switch( jo, "switch" );
     } else if( jo.has_member( "u_mod_healthy" ) ) {
         subeffect_fun.set_mod_healthy( jo, "u_mod_healthy", false );
     } else if( jo.has_member( "npc_mod_healthy" ) ) {

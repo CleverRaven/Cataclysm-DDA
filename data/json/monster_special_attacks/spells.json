@@ -638,10 +638,10 @@
     "type": "effect_on_condition",
     "id": "EOC_mon_endless_hunger_attack",
     "effect": {
-      "run_eocs": [
+      "switch": { "distance": [ "u", "npc" ] },
+      "cases": [
         {
-          "id": "EOC_mon_endless_hunger_attack_close",
-          "condition": { "and": [ { "compare_int": [ { "distance": [ "u", "npc" ] }, "<=", { "const": 2 } ] } ] },
+          "case": 0,
           "effect": [
             { "u_message": "The endless hunger feasts directly on your essence." },
             { "arithmetic": [ { "u_val": "fatigue" }, "+=", { "global_val": "var", "var_name": "endless_hunger" } ] },
@@ -649,13 +649,7 @@
           ]
         },
         {
-          "id": "EOC_mon_endless_hunger_attack_medium",
-          "condition": {
-            "and": [
-              { "compare_int": [ { "distance": [ "u", "npc" ] }, ">", { "const": 2 } ] },
-              { "compare_int": [ { "distance": [ "u", "npc" ] }, "<", { "const": 8 } ] }
-            ]
-          },
+          "case": 2,
           "effect": [
             { "u_message": "The endless hunger uses your bond to feast on your essence." },
             { "arithmetic": [ { "u_val": "fatigue" }, "+=", { "global_val": "var", "var_name": "endless_hunger" } ] },
@@ -663,10 +657,7 @@
           ]
         },
         {
-          "id": "EOC_mon_endless_hunger_attack_far",
-          "condition": {
-            "and": [ { "compare_int": [ { "distance": [ "u", "npc" ] }, ">=", { "const": 8 } ] }, { "x_in_y_chance": { "x": 1, "y": 3 } } ]
-          },
+          "case": 8,
           "effect": [
             { "u_message": "The endless hunger uses some of the energy it stole from you to clear the way." },
             { "arithmetic": [ { "global_val": "var", "var_name": "endless_hunger" }, "--" ] },
