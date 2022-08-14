@@ -97,5 +97,10 @@
     "name": "test_top_level_no_packsize",
     "type": "monstergroup",
     "monsters": [ { "group": "test_nested_packsize" } ]
+  },
+  {
+    "name": "test_upgrades_multi",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_test_shearable", "pack_size": [ 4, 6 ] } ]
   }
 ]

@@ -3,10 +3,15 @@
 
 #include "cata_catch.h"
 #include "cata_utility.h"
+#include "coordinates.h"
+#include "game.h"
 #include "item.h"
+#include "map_helpers.h"
 #include "mongroup.h"
+#include "mtype.h"
 #include "options.h"
 #include "options_helpers.h"
+#include "player_helpers.h"
 
 static const mongroup_id GROUP_PETS( "GROUP_PETS" );
 static const mongroup_id GROUP_PET_DOGS( "GROUP_PET_DOGS" );
@@ -264,4 +269,43 @@ TEST_CASE( "mongroup_sets_quantity_correctly", "[mongroup]" )
         MonsterGroupManager::GetResultFromGroup( mg, &quantity, &found );
     CHECK( found );
     CHECK( 10 - quantity == static_cast<int>( res.size() ) );
+}
+
+TEST_CASE( "mongroup_multi_spawn_upgrades", "[mongroup]" )
+{
+    const int upgrade_attempts = 100;
+
+    for( int i = 0; i < upgrade_attempts; i++ ) {
+        clear_map();
+        clear_avatar();
+        map &m = get_map();
+        calendar::turn = calendar::turn_zero + 1_days;
+        const tripoint ground_zero = get_player_character().pos() - tripoint( 5, 5, 0 );
+
+        monster *orig = g->place_critter_at( mon_test_non_shearable, ground_zero );
+        REQUIRE( orig );
+        REQUIRE( orig->type->id == mon_test_non_shearable );
+        REQUIRE( orig->pos() == ground_zero );
+        REQUIRE( orig->can_upgrade() );
+
+        // monster::next_upgrade_time has a ~3% chance to outright fail
+        // so keep trying until we succeed
+        orig->try_upgrade( false );
+        if( orig->type->id != mon_test_shearable ) {
+            continue;
+        }
+
+        REQUIRE( orig->type->id == mon_test_shearable );
+        int total_spawns = 0;
+        for( const Creature *c : m.get_creatures_in_radius( ground_zero, 10 ) ) {
+            if( !c->is_monster() || c->as_monster()->type->id != mon_test_shearable ) {
+                continue;
+            }
+            total_spawns++;
+            CHECK( std::abs( c->pos().x - ground_zero.x ) <= 5 );
+            CHECK( std::abs( c->pos().y - ground_zero.y ) <= 5 );
+        }
+        CHECK( total_spawns == Approx( 5 ).margin( 1 ) );
+        break;
+    }
 }
