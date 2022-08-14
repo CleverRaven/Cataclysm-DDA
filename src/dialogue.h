@@ -178,7 +178,7 @@ struct talk_effect_fun_t {
         void set_field( const JsonObject &jo, const std::string &member, bool is_npc );
         void set_teleport( const JsonObject &jo, const std::string &member, bool is_npc );
         void set_give_equipment( const JsonObject &jo, const std::string &member );
-        void set_open_dialogue( const JsonObject &jo );
+        void set_open_dialogue( const JsonObject &jo, const std::string &member );
         void set_take_control( const JsonObject &jo );
         void set_take_control_menu();
         void operator()( const T &d ) const {

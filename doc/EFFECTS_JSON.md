@@ -497,7 +497,7 @@ Valid arguments:
 "healing_rate"      - Healed rate per day
 "healing_head"      - Percentage of healing value for head
 "healing_torso"     - Percentage of healing value for torso
-
+"enchantments" - (_optional_) List of enchantments applied by this effect (see MAGIC.md for instructions on enchantment. NB: enchantments are not necessarily magic.) Values can either be the enchantments id or an inline definition of the enchantment.
 ```
 Each argument can also take either one or two values.
 ```C++

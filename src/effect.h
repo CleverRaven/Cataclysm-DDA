@@ -127,7 +127,7 @@ class effect_type
         const time_duration &intensity_duration() const {
             return int_dur_factor;
         }
-
+        std::vector<enchantment_id> enchantments;
     protected:
         int max_intensity = 0;
         int max_effective_intensity = 0;

@@ -102,7 +102,7 @@ int_or_var_part<T> get_int_or_var_part( const JsonValue &jv, const std::string &
             arith.set_arithmetic( jo, "arithmetic", true );
             ret_val.arithmetic_val = arith;
         } else {
-            ret_val.var_val = read_var_info( jo, true );
+            ret_val.var_val = read_var_info( jo );
         }
     } else if( required ) {
         jv.throw_error( "No valid value for " + member );
@@ -155,7 +155,7 @@ duration_or_var_part<T> get_duration_or_var_part( const JsonValue &jv, const std
             arith.set_arithmetic( jo, "arithmetic", true );
             ret_val.arithmetic_val = arith;
         } else {
-            ret_val.var_val = read_var_info( jo, true );
+            ret_val.var_val = read_var_info( jo );
         }
     } else if( required ) {
         jv.throw_error( "No valid value for " + member );
@@ -195,7 +195,7 @@ str_or_var<T> get_str_or_var( const JsonValue &jv, const std::string &member, bo
     if( jv.test_string() ) {
         ret_val.str_val = jv.get_string();
     } else if( jv.test_object() ) {
-        ret_val.var_val = read_var_info( jv.get_object(), true );
+        ret_val.var_val = read_var_info( jv.get_object() );
     } else if( required ) {
         jv.throw_error( "No valid value for " + member );
     } else {
@@ -217,7 +217,7 @@ tripoint_abs_ms get_tripoint_from_var( cata::optional<var_info> var, const T &d 
     return target_pos;
 }
 
-var_info read_var_info( const JsonObject &jo, bool require_default )
+var_info read_var_info( const JsonObject &jo )
 {
     std::string default_val;
     int_or_var<dialogue> empty;
@@ -234,8 +234,6 @@ var_info read_var_info( const JsonObject &jo, bool require_default )
         time_duration max_time;
         mandatory( jo, false, "default_time", max_time );
         default_val = std::to_string( to_turns<int>( max_time ) );
-    } else if( require_default ) {
-        jo.throw_error( "No default value provided." );
     }
 
     if( jo.has_string( "var_name" ) ) {
@@ -1489,7 +1487,7 @@ std::function<int( const T & )> conditional_t<T>::get_get_int( const JsonObject 
                 return target.is_null() ? -1 : target.get_intensity();
             };
         } else if( checked_value == "var" ) {
-            var_info info = read_var_info( jo, false );
+            var_info info = read_var_info( jo );
             return [info]( const T & d ) {
                 std::string var = read_var_value( info, d );
                 if( !var.empty() ) {
@@ -1761,7 +1759,7 @@ std::function<int( const T & )> conditional_t<T>::get_get_int( const JsonObject 
         } else if( checked_value == "monsters_nearby" ) {
             cata::optional<var_info> target_var;
             if( jo.has_object( "target_var" ) ) {
-                read_var_info( jo.get_member( "target_var" ), false );
+                read_var_info( jo.get_member( "target_var" ) );
             }
             str_or_var<T> id;
             if( jo.has_member( "id" ) ) {

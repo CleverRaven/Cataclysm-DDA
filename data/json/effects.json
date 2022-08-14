@@ -3575,10 +3575,65 @@
     "type": "effect_type",
     "name": [ "Weakened Inertia" ],
     "desc": [ "Your body moves strangely easily, as if it weighted less." ],
-    "apply_message": "Reality as you know it is damaged, but for a change the outcome seems suspiciously beneficial.",
+    "apply_message": "Your inertia itself is damaged, but the outcome seems suspiciously beneficial.",
     "remove_message": "Reality reasserts itself and your inertia returns to normal.",
     "rating": "good",
     "show_intensity": false,
-    "base_mods": { "dex_mod": [ 4, 0 ] }
+    "base_mods": { "dex_mod": [ 6, 0 ] }
+  },
+  {
+    "id": "strengthened_inertia",
+    "type": "effect_type",
+    "name": [ "Weakened Inertia" ],
+    "desc": [ "Your body is strangely difficult to move, as if it weighted more." ],
+    "apply_message": "Your inertia itself is damaged, but hopefully it's not permanent yet.",
+    "remove_message": "Reality reasserts itself and your inertia returns to normal.",
+    "rating": "bad",
+    "show_intensity": false,
+    "base_mods": { "dex_mod": [ -6, 0 ] }
+  },
+  {
+    "id": "warped_viewpoint",
+    "type": "effect_type",
+    "name": [ "Warped Viewpoint" ],
+    "desc": [ "Space is warped around you such that you can see a wider arc and as if everything was closer." ],
+    "apply_message": "Space around you is damaged but in the process your can see more and more easily than before.",
+    "remove_message": "Reality reasserts itself and your perspective returns to normal.",
+    "rating": "good",
+    "show_intensity": false,
+    "base_mods": { "per_mod": [ 6, 0 ] }
+  },
+  {
+    "id": "narrow_viewpoint",
+    "type": "effect_type",
+    "name": [ "Narrowed Viewpoint" ],
+    "desc": [ "Space is warped around you such that you can see less and as if everything was farther away." ],
+    "apply_message": "Space around you is damaged narrowing your perspective.",
+    "remove_message": "Reality reasserts itself and your perspective returns to normal.",
+    "rating": "bad",
+    "show_intensity": false,
+    "base_mods": { "per_mod": [ 6, 0 ] }
+  },
+  {
+    "id": "weakened_gravity",
+    "type": "effect_type",
+    "name": [ "Weakened Gravity" ],
+    "desc": [ "Something is wrong with local spacetime and everything near you seems to weigh less." ],
+    "apply_message": "Space around you is damaged and everything near you seems to weigh less.",
+    "remove_message": "Reality reasserts itself and your gravity returns to normal.",
+    "rating": "good",
+    "show_intensity": false,
+    "enchantments": [ { "condition": { "not": "ALWAYS" }, "values": [ { "value": "CARRY_WEIGHT", "multiply": 1.25 } ] } ]
+  },
+  {
+    "id": "strengthened_gravity",
+    "type": "effect_type",
+    "name": [ "Strengthened Gravity" ],
+    "desc": [ "Something is wrong with local spacetime and everything near you seems to weigh more." ],
+    "apply_message": "Space around you is damaged and everything near you seems to weigh more.",
+    "remove_message": "Reality reasserts itself and your gravity returns to normal.",
+    "rating": "bad",
+    "show_intensity": false,
+    "enchantments": [ { "condition": { "not": "ALWAYS" }, "values": [ { "value": "CARRY_WEIGHT", "multiply": -0.25 } ] } ]
   }
 ]
