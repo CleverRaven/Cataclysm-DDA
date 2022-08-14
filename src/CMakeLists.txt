@@ -156,6 +156,12 @@ if (TILES)
     if (RELEASE)
         install(TARGETS cataclysm-tiles DESTINATION ${BIN_PREFIX})
     endif ()
+
+    if (MINGW)
+        if (BACKTRACE)
+            target_link_libraries(cataclysm-tiles-common PUBLIC dbghelp)
+        endif ()
+    endif ()
 endif ()
 
 # Build curses version if requested
