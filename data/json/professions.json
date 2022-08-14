@@ -4417,42 +4417,6 @@
   },
   {
     "type": "profession",
-    "id": "mil_rifleman",
-    "name": "Military Rifleman",
-    "description": "Frontline infantry, frontline infantry, frontline infantry, frontline infantry.",
-    "points": 2,
-    "skills": [ { "level": 1, "name": "survival" }, { "level": 1, "name": "gun" }, { "level": 1, "name": "rifle" } ],
-    "items": {
-      "both": {
-        "items": [
-          "tac_helmet",
-          "jacket_army",
-          "pants_army",
-          "longshirt",
-          "rucksack",
-          "glasses_bal",
-          "dump_pouch",
-          "knee_pads",
-          "elbow_pads",
-          "socks",
-          "boots_combat",
-          "gloves_tactical",
-          "ballistic_vest_esapi"
-        ],
-        "entries": [
-          { "item": "m4a1", "ammo-item": "556", "charges": 30, "contents-item": [ "shoulder_strap", "acog_scope", "grip" ] },
-          { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
-          { "item": "tacvest", "contents-group": "army_mags_m4" },
-          { "item": "knife_combat", "container-item": "sheath" },
-          { "item": "m17", "ammo-item": "9mm", "charges": 17, "container-item": "holster" }
-        ]
-      },
-      "male": [ "boxer_shorts" ],
-      "female": [ "boy_shorts", "sports_bra" ]
-    }
-  },
-  {
-    "type": "profession",
     "id": "mil_marksman",
     "name": "Military Marksman",
     "description": "You like to think you're a real sniper, but really you're just infantry with a bigger gun.",
@@ -4593,53 +4557,6 @@
           { "item": "shot_00", "charges": 12, "container-item": "bandolier_shotgun" },
           { "item": "knife_combat", "container-item": "sheath" },
           { "item": "m17", "ammo-item": "9mm", "charges": 17, "container-item": "holster" }
-        ]
-      },
-      "male": [ "boxer_shorts" ],
-      "female": [ "boy_shorts", "sports_bra" ]
-    }
-  },
-  {
-    "type": "profession",
-    "id": "mil_operator",
-    "name": "Operator Recon",
-    "description": "The only easy day was yesterday.",
-    "points": 4,
-    "skills": [
-      { "level": 2, "name": "survival" },
-      { "level": 2, "name": "gun" },
-      { "level": 2, "name": "rifle" },
-      { "level": 1, "name": "melee" }
-    ],
-    "items": {
-      "both": {
-        "items": [
-          "tac_helmet",
-          "keffiyeh",
-          "sweatshirt",
-          "pants_cargo",
-          "longshirt",
-          "rucksack",
-          "glasses_bal",
-          "dump_pouch",
-          "socks",
-          "boots_combat",
-          "gloves_tactical",
-          "diving_watch",
-          "ballistic_vest_esapi"
-        ],
-        "entries": [
-          {
-            "item": "acr_300blk",
-            "ammo-item": "300blk_ss",
-            "charges": 30,
-            "contents-item": [ "shoulder_strap", "acog_scope", "grip", "suppressor" ]
-          },
-          { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
-          { "item": "tacvest", "contents-group": "army_mags_300blk" },
-          { "item": "knife_rambo", "container-item": "scabbard" },
-          { "item": "XL_holster", "contents-group": "holster_supp_MEU" },
-          { "item": "legpouch_large", "contents-group": "army_mags_1911" }
         ]
       },
       "male": [ "boxer_shorts" ],
