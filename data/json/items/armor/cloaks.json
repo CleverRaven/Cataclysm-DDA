@@ -152,7 +152,7 @@
     "id": "state_flag",
     "repairs_like": "sheet",
     "type": "ARMOR",
-    "name": { "str": "massachusetts flag" },
+    "name": { "str": "state flag" },
     "description": "A large white flag with a shield featuring an American Indian and a star which represents the state of Massachusetts.",
     "copy-from": "american_flag",
     "symbol": "]",
