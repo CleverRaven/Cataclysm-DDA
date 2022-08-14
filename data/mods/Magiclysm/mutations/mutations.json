@@ -172,6 +172,7 @@
     "description": "Your legs and feet have become dragon-like and the claws on your toes have developed into incredibly tough talons.  These are fearsome and powerful, but prevent you from wearing shoes and slightly impede your movement.  Your toes have grown noticeably longer and webbing has grown between them.",
     "types": [ "LEGS", "FEET" ],
     "flags": [ "WEBBED_FEET" ],
+    "prereqs": [ "TOE_CLAWS" ],
     "cancels": [ "WEBBED_FEET" ],
     "category": [ "DRAGON_BLACK" ],
     "threshreq": [ "THRESH_DRAGON_BLACK" ],
