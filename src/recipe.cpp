@@ -160,6 +160,11 @@ void recipe::load( const JsonObject &jo, const std::string &src )
             jo.throw_error_at( "difficulty",
                                "Practice recipes should not have difficulty (use practice_data)" );
         }
+    } else if( type == "nested_category" ) {
+        ident_ = recipe_id( jo.get_string( "id" ) );
+        if( jo.has_member( "result" ) ) {
+            jo.throw_error_at( "result", "nested category should not have result" );
+        }
     } else {
         if( !jo.read( "result", result_, true ) && !result_ ) {
             jo.throw_error( "Recipe missing result" );
@@ -408,6 +413,13 @@ void recipe::load( const JsonObject &jo, const std::string &src )
         }
     } else if( type == "uncraft" ) {
         reversible = true;
+    } else if( type == "nested_category" ) {
+        mandatory( jo, false, "name", name_ );
+        mandatory( jo, was_loaded, "category", category );
+        mandatory( jo, was_loaded, "subcategory", subcategory );
+        assign( jo, "description", description, strict );
+        mandatory( jo, was_loaded, "nested_category_data", nested_category_data );
+
     } else {
         jo.throw_error_at( "type", "unknown recipe type" );
     }
@@ -1064,6 +1076,11 @@ std::function<bool( const item & )> recipe::get_component_filter(
 bool recipe::is_practice() const
 {
     return practice_data.has_value();
+}
+
+bool recipe::is_nested() const
+{
+    return !nested_category_data.empty();
 }
 
 bool recipe::is_blueprint() const

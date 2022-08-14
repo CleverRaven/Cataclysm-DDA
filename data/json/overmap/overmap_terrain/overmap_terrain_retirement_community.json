@@ -1,0 +1,263 @@
+[
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "retirement_community_1",
+      "retirement_community_2",
+      "retirement_community_3",
+      "retirement_community_4",
+      "retirement_community_5",
+      "retirement_community_6",
+      "retirement_community_7",
+      "retirement_community_2f_1",
+      "retirement_community_2f_2",
+      "retirement_community_2f_3",
+      "retirement_community_2f_4",
+      "retirement_community_2f_5",
+      "retirement_community_2f_6",
+      "retirement_community_2f_7"
+    ],
+    "name": "retirement home",
+    "sym": "v",
+    "color": "light_green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "retirement_community_3f_1",
+      "retirement_community_3f_2",
+      "retirement_community_3f_3",
+      "retirement_community_3f_4",
+      "retirement_community_3f_5",
+      "retirement_community_3f_6",
+      "retirement_community_3f_7"
+    ],
+    "name": "retirement home roof",
+    "sym": "v",
+    "color": "light_green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "retirement_community_2f_8",
+      "retirement_community_2f_9",
+      "retirement_community_2f_10",
+      "retirement_community_2f_11",
+      "retirement_community_2f_12",
+      "retirement_community_2f_13",
+      "retirement_community_2f_14",
+      "retirement_community_2f_27",
+      "retirement_community_2f_28",
+      "retirement_community_2f_29",
+      "retirement_community_2f_30",
+      "retirement_community_2f_31",
+      "retirement_community_2f_32",
+      "retirement_community_2f_33",
+      "retirement_community_2f_37"
+    ],
+    "name": "open air",
+    "sym": ".",
+    "color": "blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "retirement_community_b_1",
+      "retirement_community_b_2",
+      "retirement_community_b_3",
+      "retirement_community_b_4",
+      "retirement_community_b_5",
+      "retirement_community_b_6",
+      "retirement_community_b_7",
+      "retirement_community_b_15",
+      "retirement_community_b_18",
+      "retirement_community_b_19",
+      "retirement_community_b_22",
+      "retirement_community_b_23",
+      "retirement_community_b_26"
+    ],
+    "name": "basement",
+    "sym": "O",
+    "color": "dark_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "retirement_community_15",
+      "retirement_community_19",
+      "retirement_community_23",
+      "retirement_community_2f_15",
+      "retirement_community_2f_19",
+      "retirement_community_2f_23"
+    ],
+    "name": "retirement home",
+    "sym": ">",
+    "color": "light_green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "retirement_community_3f_15", "retirement_community_3f_19", "retirement_community_3f_23" ],
+    "name": "retirement home roof",
+    "sym": ">",
+    "color": "light_green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "retirement_community_17",
+      "retirement_community_21",
+      "retirement_community_25",
+      "retirement_community_16",
+      "retirement_community_20",
+      "retirement_community_24"
+    ],
+    "name": "road",
+    "sym": "│",
+    "color": "dark_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "retirement_community_37", "retirement_community_road" ],
+    "name": "retirement community entrance",
+    "sym": "│",
+    "color": "dark_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "retirement_community_18",
+      "retirement_community_22",
+      "retirement_community_26",
+      "retirement_community_2f_18",
+      "retirement_community_2f_22",
+      "retirement_community_2f_26"
+    ],
+    "name": "retirement home",
+    "sym": "<",
+    "color": "light_green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "retirement_community_3f_18", "retirement_community_3f_22", "retirement_community_3f_26" ],
+    "name": "retirement home roof",
+    "sym": "<",
+    "color": "light_green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "retirement_community_8", "retirement_community_14", "retirement_community_27", "retirement_community_33" ],
+    "name": "parking lot",
+    "sym": "O",
+    "color": "dark_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "retirement_community_10",
+      "retirement_community_11",
+      "retirement_community_12",
+      "retirement_community_29",
+      "retirement_community_31"
+    ],
+    "name": "road",
+    "sym": "─",
+    "color": "dark_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "retirement_community_9", "retirement_community_13", "retirement_community_30" ],
+    "name": "road",
+    "sym": "┬",
+    "color": "dark_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "retirement_community_28", "retirement_community_32" ],
+    "name": "road",
+    "sym": "┴",
+    "color": "dark_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "retirement_community_34", "retirement_community_35", "retirement_community_36" ],
+    "name": "community building",
+    "sym": "C",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "retirement_community_38", "retirement_community_39", "retirement_community_40" ],
+    "name": "administration building",
+    "sym": "A",
+    "color": "light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "retirement_community_b_37", "retirement_community_b_38" ],
+    "name": "administration building basement",
+    "sym": "A",
+    "color": "light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "retirement_community_2f_34", "retirement_community_2f_35", "retirement_community_2f_36" ],
+    "name": "community building roof",
+    "sym": "C",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "retirement_community_2f_38", "retirement_community_2f_39", "retirement_community_2f_40" ],
+    "name": "administration building roof",
+    "sym": "A",
+    "color": "light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "retirement_community_park_1",
+      "retirement_community_park_2",
+      "retirement_community_park_3",
+      "retirement_community_park_4",
+      "retirement_community_park_5",
+      "retirement_community_park_6",
+      "retirement_community_park_7",
+      "retirement_community_park_8",
+      "retirement_community_park_9"
+    ],
+    "name": "retirement community park",
+    "sym": "┼",
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "retirement_community_park_2f_2", "retirement_community_park_2f_5" ],
+    "name": "open air",
+    "sym": ".",
+    "color": "blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "retirement_community_park_b_1",
+      "retirement_community_park_b_2",
+      "retirement_community_park_b_3",
+      "retirement_community_park_b_4",
+      "retirement_community_park_b_5",
+      "retirement_community_park_b_6",
+      "retirement_community_park_b_7",
+      "retirement_community_park_b_8",
+      "retirement_community_park_b_9"
+    ],
+    "name": "retirement community park underground",
+    "sym": "┼",
+    "color": "brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "retirement_community_sewer" ],
+    "name": "sewer",
+    "sym": "┐",
+    "color": "green"
+  }
+]

@@ -55,16 +55,24 @@
       {
         "collection": [
           { "item": "bp_nomad_cowl", "prob": 100 },
+          { "item": "bp_nomad_bodyglove", "prob": 100 },
+          { "item": "bp_nomad_jumpsuit", "prob": 100 },
+          { "item": "exodii_ac_kit", "prob": 100, "count": 1 },
+          { "item": "exodii_wire_kit", "prob": 100, "count": 1 }
+        ],
+        "prob": 100
+      },
+      {
+        "collection": [
           { "item": "leather", "prob": 50, "count": [ 2, 4 ] },
           { "item": "tanned_hide", "prob": 30, "count": [ 1, 2 ] },
           { "item": "glasses_safety", "prob": 40 },
           { "item": "glasses_bal", "prob": 10 }
         ],
-        "prob": 60
+        "prob": 50
       },
       {
         "collection": [
-          { "item": "bp_nomad_bodyglove", "prob": 100 },
           { "item": "sheet_cotton_patchwork", "prob": 50, "count": [ 1, 4 ] },
           { "item": "cotton_patchwork", "prob": 30, "count": [ 3, 6 ] },
           { "item": "leather", "prob": 50, "count": [ 2, 4 ] },
@@ -74,15 +82,15 @@
           { "item": "zipper_long_plastic", "prob": 10, "count": [ 1, 2 ] },
           { "item": "snapfastener_steel", "prob": 40, "count": [ 5, 10 ] },
           { "item": "chunk_rubber", "prob": 50, "count": [ 1, 2 ] },
-          { "item": "superglue", "prob": 30, "count": [ 1, 2 ] }
+          { "item": "superglue", "prob": 30, "count": [ 1, 2 ] },
+          { "item": "rubber_cement", "prob": 40, "count": [ 1, 2 ] }
         ],
         "prob": 50
       },
       {
         "collection": [
-          { "item": "bp_nomad_jumpsuit", "prob": 100 },
-          { "item": "exodii_ac_kit", "prob": 100, "count": [ 1, 2 ] },
-          { "item": "exodii_wire_kit", "prob": 100, "count": [ 1, 4 ] },
+          { "item": "exodii_ac_kit", "prob": 100, "count": 1 },
+          { "item": "exodii_wire_kit", "prob": 100, "count": [ 1, 3 ] },
           { "item": "sheet_cotton_patchwork", "prob": 50, "count": [ 1, 4 ] },
           { "item": "cotton_patchwork", "prob": 30, "count": [ 3, 6 ] },
           { "item": "leather", "prob": 50, "count": [ 2, 4 ] },
@@ -93,7 +101,7 @@
           { "item": "leather_pouch", "prob": 10 },
           { "item": "superglue", "prob": 30, "count": [ 1, 2 ] }
         ],
-        "prob": 40
+        "prob": 50
       }
     ]
   },
@@ -242,7 +250,7 @@
   {
     "type": "item_group",
     "id": "EXODII_CBM_tier1_fun",
-    "items": [ [ "bio_tattoo_led", 10 ], [ "bio_nostril", 1 ], [ "bio_voice", 10 ], [ "bio_sleep_shutdown", 10 ] ]
+    "items": [ [ "bio_tattoo_led", 10 ], [ "bio_nostril", 1 ], [ "bio_voice", 10 ], [ "bio_sleep_shutdown", 2 ] ]
   },
   {
     "type": "item_group",

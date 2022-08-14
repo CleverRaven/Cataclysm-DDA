@@ -12,6 +12,7 @@
 #include "item_location.h"
 #include "itype.h"
 #include "map.h"
+#include "player_helpers.h"
 #include "point.h"
 #include "type_id.h"
 #include "units.h"
@@ -121,6 +122,11 @@ TEST_CASE( "vehicle_turret", "[vehicle][gun][magazine]" )
             CHECK( shots_fired > 0 );
 
             here.destroy_vehicle( veh );
+
+            // clear pending explosions so not to interfere with subsequent tests
+            explosion_handler::process_explosions();
+            // heal the avatar from explosion damages
+            clear_avatar();
         }
     }
 }

@@ -121,13 +121,14 @@
     "id": "f_compact_ASRG_containment",
     "name": "Compact Advanced Sterling Radioisotope Generator",
     "looks_like": "t_plut_generator",
-    "description": "This hefty lump of steel and lead is the housing unit for a small nuclear reactor.  It is plastered with warning signs.  You could probably ignore those and salvage the steel and lead shielding, what could possibly go wrong?",
+    "description": "This hefty lump of steel and lead is the housing unit for a stirling generator powered by plutonium-238, originally designed by NASA and repurposed by the military.  It is plastered with warning signs.  It's really heavy owing to the thick armor plating, but you could take this down and use it for your own purposes if you wanted.",
     "symbol": "0",
     "color": "green_white",
     "move_cost_mod": -1,
     "coverage": 80,
     "required_str": -1,
-    "flags": [ "NOITEM", "SEALED", "REDUCE_SCENT", "PERMEABLE" ],
+    "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "compact_ASRG_containment" },
+    "flags": [ "NOITEM", "SEALED", "REDUCE_SCENT", "PERMEABLE", "EASY_DECONSTRUCT" ],
     "bash": {
       "str_min": 70,
       "str_max": 400,
@@ -142,45 +143,7 @@
         { "item": "lead", "charges": [ 12, 18 ] }
       ]
     },
-    "deconstruct": {
-      "furn_set": "f_compact_ASRG",
-      "items": [
-        { "item": "lead", "count": [ 40, 80 ] },
-        { "item": "cable", "charges": [ 8, 16 ] },
-        { "item": "steel_plate", "count": [ 2, 4 ] },
-        { "item": "mil_plate", "count": [ 2, 4 ] },
-        { "item": "large_lcd_screen", "count": 1 },
-        { "item": "scrap", "count": [ 8, 16 ] }
-      ]
-    }
-  },
-  {
-    "type": "furniture",
-    "id": "f_compact_ASRG",
-    "name": "Compact Advanced Sterling Radioisotope Generator",
-    "looks_like": "f_compact_ASRG_containment",
-    "description": "Some insane fool has removed the outer containment on this small-scale nuclear reactor.  It is still fairly safe as it is: the reactor has considerable built-in containment as well.  Nevertheless, you probably don't want to stand too close for too long.",
-    "symbol": "0",
-    "color": "green",
-    "move_cost_mod": -1,
-    "coverage": 50,
-    "required_str": -1,
-    "flags": [ "TRANSPARENT", "NOITEM", "SEALED", "REDUCE_SCENT", "PERMEABLE" ],
-    "emissions": [ "emit_rad_leak" ],
-    "bash": {
-      "str_min": 20,
-      "str_max": 400,
-      "explosive": 100,
-      "sound": "metal screeching!",
-      "sound_fail": "clang!",
-      "furn_set": "f_reactor_meltdown",
-      "items": [
-        { "item": "scrap", "count": [ 4, 16 ] },
-        { "item": "steel_chunk", "count": [ 1, 6 ] },
-        { "item": "plutonium", "charges": [ 0, 3 ] },
-        { "item": "lead", "charges": [ 12, 18 ] }
-      ]
-    }
+    "deconstruct": { "items": [ { "item": "compact_ASRG_containment", "count": 1 } ] }
   },
   {
     "type": "furniture",
