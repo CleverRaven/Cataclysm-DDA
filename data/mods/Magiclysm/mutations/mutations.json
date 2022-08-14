@@ -169,7 +169,7 @@
     "visibility": 4,
     "ugliness": 2,
     "mixed_effect": true,
-    "description": "Your legs and feet have become dragon-like and the claws on your toes have developed in to incredibly tough talons.  These are fearsome and powerful, but prevent you from wearing shoes and slightly impede your movement.  Your toes have grown noticeably longer and webbings have grown between them.",
+    "description": "Your legs and feet have become dragon-like and the claws on your toes have developed in to incredibly tough talons.  These are fearsome and powerful, but prevent you from wearing shoes and slightly impede your movement.  Your toes have grown noticeably longer and webbing has grown between them.",
     "types": [ "LEGS", "FEET" ],
     "flags": [ "WEBBED_FEET" ],
     "cancels": [ "WEBBED_FEET" ],

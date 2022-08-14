@@ -3620,7 +3620,7 @@
     "id": "TOE_CLAWS",
     "name": { "str": "Reptilian Legs" },
     "points": 1,
-    "description": "Your legs and feet have become reptile-like and your toenails have grown into short claws.  Your toes have grown noticeably longer and webbings have grown between them.  Fortunately they don't impede your movement.",
+    "description": "Your legs and feet have become reptile-like and your toenails have grown into short claws.  Your toes have grown noticeably longer and webbing has grown between them.  Fortunately they don't impede your movement.",
     "types": [ "LEGS", "FEET" ],
     "flags": [ "WEBBED_FEET" ],
     "cancels": [ "WEBBED_FEET" ],
