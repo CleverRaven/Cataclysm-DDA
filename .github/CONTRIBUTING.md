@@ -144,6 +144,8 @@ Helpful pages:
     ```bash
     # Clones your fork of the repository into the current directory in terminal
     $ git clone https://github.com/YOUR_USERNAME/Cataclysm-DDA.git
+    # Alternatively if you don't want to clone an entire big history (5GB!)
+    $ git clone --depth=1 https://github.com/YOUR_USERNAME/Cataclysm-DDA.git
     ```
 
 3. Set commit message template.
@@ -380,5 +382,10 @@ $ git pull --ff-only upstream master
 # gets changes from the "upstream" remote for the matching branch, in this case "master"
 $ git checkout new_branch
 ```
+
+#### Oh no! I've made my changes to `master` branch and have pushed it to my repo! What should I do now?
+- [Rename your `master` branch](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-branches-in-your-repository/renaming-a-branch)
+- [Recreate a new `master` branch](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-branches-in-your-repository/changing-the-default-branch), change the repo source to `CleverRaven/Cataclysm-DDA` (base branch should be `master`)
+- Finally, make the new `master` branch [the default branch](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-branches-in-your-repository/changing-the-default-branch)
 
 For more frequently asked questions, see the [developer FAQ](../doc/DEVELOPER_FAQ.md).
