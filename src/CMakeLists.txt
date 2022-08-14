@@ -171,6 +171,13 @@ if (TILES)
     endif ()
 
     if (MINGW)
+        # <built-in>: error: redundant redeclaration of
+        # 'unsigned int __builtin_ia32_crc32qi(unsigned int, unsigned char)"
+        # in same scope [-Werror=redundant-decls]
+        # (because of SDL_cpuinfo.h)
+        set_property(TARGET cataclysm-tiles-common
+            PROPERTY COMPILE_OPTIONS -mcrc32 -g1 -Os
+        )
         if (BACKTRACE)
             target_link_libraries(cataclysm-tiles-common PUBLIC dbghelp)
         endif ()
