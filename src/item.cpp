@@ -10213,7 +10213,7 @@ ret_val<void> item::is_compatible( const item &it ) const
 
 ret_val<void> item::can_contain( const item &it, const bool nested,
                                  const bool ignore_rigidity, const bool ignore_pkt_settings,
-                                 const item_location &parent_it ) const
+                                 const item_location &parent_it, units::volume remaining_parent_volume ) const
 {
     if( this == &it || ( parent_it.where() != item_location::type::invalid &&
                          this == parent_it.get_item() ) ) {
@@ -10243,7 +10243,7 @@ ret_val<void> item::can_contain( const item &it, const bool nested,
                 continue;
             }
             if( internal_it->can_contain( it, true, ignore_rigidity, ignore_pkt_settings,
-                                          parent_it ).success() ) {
+                                          parent_it, pkt->remaining_volume() ).success() ) {
                 return ret_val<void>::make_success();
             }
         }
@@ -10251,7 +10251,7 @@ ret_val<void> item::can_contain( const item &it, const bool nested,
 
     return nested && !ignore_rigidity ?
            contents.can_contain_rigid( it, ignore_pkt_settings ) :
-           contents.can_contain( it, ignore_pkt_settings );
+           contents.can_contain( it, ignore_pkt_settings, remaining_parent_volume );
 }
 
 bool item::can_contain( const itype &tp ) const

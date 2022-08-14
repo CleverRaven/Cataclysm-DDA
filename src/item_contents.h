@@ -63,8 +63,11 @@ class item_contents
          * physical pockets.
          * @param it the item being put in
          * @param ignore_pkt_settings whether to ignore pocket autoinsert settings
+         * @param remaining_parent_volume if we are nesting things without concern for rigidity we need to be careful about overfilling pockets
+         * this tracks the remaining volume of any parent pockets
          */
-        ret_val<void> can_contain( const item &it, bool ignore_pkt_settings = true ) const;
+        ret_val<void> can_contain( const item &it, bool ignore_pkt_settings = true,
+                                   units::volume remaining_parent_volume = 10000000_ml ) const;
         ret_val<void> can_contain_rigid( const item &it, bool ignore_pkt_settings = true ) const;
         bool can_contain_liquid( bool held_or_ground ) const;
 

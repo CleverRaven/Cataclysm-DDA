@@ -50,6 +50,7 @@ Item_spawn_data_wallet_science_stylish_full( "wallet_science_stylish_full" );
 static const item_group_id Item_spawn_data_wallet_stylish_full( "wallet_stylish_full" );
 
 static const itype_id itype_test_backpack( "test_backpack" );
+static const itype_id itype_test_mini_backpack( "test_mini_backpack" );
 static const itype_id itype_test_socks( "test_socks" );
 static const itype_id
 itype_test_watertight_open_sealed_container_1L( "test_watertight_open_sealed_container_1L" );
@@ -2657,5 +2658,27 @@ TEST_CASE( "Sawed off fits in large holster", "[item][pocket]" )
     double_barrel.put_in( item( "barrel_small", calendar::turn ), item_pocket::pocket_type::MOD );
 
     CHECK( large_holster.can_contain( double_barrel ).success() );
+
+}
+
+// this tests for cases where we try to find a nested pocket for items (when a parent pocket has some restrictions) and find a massive bag inside the parent pocket
+// need to make sure we don't try to fit things larger than the parent pockets remaining volume inside the child pocket if it is non-rigid
+TEST_CASE( "bag with restrictions and nested bag doesn't fit too large items", "[item][pocket]" )
+{
+    item backpack( "test_backpack" );
+    item backpack_two( "test_backpack" );
+    item mini_backpack( "test_mini_backpack" );
+
+    mini_backpack.put_in( backpack, item_pocket::pocket_type::CONTAINER );
+    REQUIRE( !mini_backpack.is_container_empty() );
+    REQUIRE( mini_backpack.only_item().typeId() == backpack.typeId() );
+
+    // need to set a setting on the pocket for this to work since that's when nesting starts trying weird stuff
+    mini_backpack.get_contents().get_all_standard_pockets().front()->settings.set_disabled( true );
+
+    // check if the game thinks the mini bag can contain the second bag (it can't)
+    // but that the bag could otherwise fit if not in the parent pocket
+    CHECK( backpack.can_contain( backpack_two ).success() );
+    CHECK( !mini_backpack.can_contain( backpack_two ).success() );
 
 }
