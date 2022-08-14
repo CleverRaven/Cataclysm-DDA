@@ -154,7 +154,7 @@ if (TILES)
     endif ()
 
     if (RELEASE)
-        install(TARGETS cataclysm-tiles DESTINATION ${BIN_PREFIX})
+        install(TARGETS cataclysm-tiles RUNTIME DESTINATION ${BIN_PREFIX})
     endif ()
 
     if (MINGW)
