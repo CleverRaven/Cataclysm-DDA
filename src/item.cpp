@@ -10229,10 +10229,17 @@ ret_val<void> item::can_contain( const item &it, const bool nested,
         it.contents.bigger_on_the_inside( it.volume() ) ) {
         return ret_val<void>::make_failure();
     }
+
     for( const item_pocket *pkt : contents.get_all_contained_pockets() ) {
         if( pkt->empty() ) {
             continue;
         }
+
+        // early exit for max length no nested item is gonna fix this
+        if( pkt->max_containable_length() < it.length() ) {
+            continue;
+        }
+
         // If the current pocket has restrictions or blacklists the item,
         // try the nested pocket regardless of whether it's soft or rigid.
         const bool ignore_rigidity =
