@@ -384,8 +384,10 @@ $ git checkout new_branch
 ```
 
 #### Oh no! I've made my changes to `master` branch and have pushed it to my repo! What should I do now?
-- [Rename your `master` branch](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-branches-in-your-repository/renaming-a-branch)
-- [Recreate a new `master` branch](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-branches-in-your-repository/changing-the-default-branch), change the repo source to `CleverRaven/Cataclysm-DDA` (base branch should be `master`)
-- Finally, make the new `master` branch [the default branch](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-branches-in-your-repository/changing-the-default-branch)
+Assuming `upstream` is `CleverRaven/Cataclysm-DDA` and `origin` is your fork, do the commands:
+```
+git reset upstream/master
+git push --repo=origin --force
+```
 
 For more frequently asked questions, see the [developer FAQ](../doc/DEVELOPER_FAQ.md).
