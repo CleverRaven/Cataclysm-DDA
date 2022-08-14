@@ -1084,7 +1084,7 @@ double Character::aim_per_move( const item &gun, double recoil,
 int Character::sight_range( light light_level ) const
 {
     light threshold = get_vision_threshold();
-    return std::min( sight_max, light_level.sight_range(threshold));
+    return std::min( unimpaired_range(), light_level.sight_range(threshold));
 }
 
 int Character::unimpaired_range() const
