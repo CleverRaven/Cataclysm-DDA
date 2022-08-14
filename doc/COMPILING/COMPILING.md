@@ -94,9 +94,11 @@ Given you're building from source you have a number of choices to make:
 
 There is a couple of other possible options - feel free to read the `Makefile`.
 
-If you have a multi-core computer you'd probably want to add `-jX` to the options, where `X` should roughly be twice the number of cores you have available.
+If you have a multi-core computer you'd probably want to add `-jX` to the options, where `X` is your CPU's number of threads (generally twice the number of your CPU cores). Alternatively, you can add `-j$(nproc)` for the build to use all of your CPU processors.
 
-Example: `make -j4 CLANG=1 CCACHE=1 NATIVE=linux64 RELEASE=1 TILES=1`
+Examples: 
+- `make -j4 CLANG=1 CCACHE=1 NATIVE=linux64 RELEASE=1 TILES=1`
+- `make -j$(nproc) CLANG=1 TILES=1 SOUND=0`
 
 The above will build a tiles release explicitly for 64 bit Linux, using Clang and ccache and 4 parallel processes.
 
