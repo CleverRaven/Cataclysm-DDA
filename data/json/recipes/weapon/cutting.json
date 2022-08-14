@@ -858,7 +858,13 @@
     "using": [ [ "soldering_standard", 20 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" } ],
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_M", "level": 1 }, { "id": "GRIND", "level": 2 } ],
-    "components": [ [ [ "machete", 1 ], [ "makeshift_machete", 1 ] ], [ [ "duct_tape", 100 ] ] ]
+    "components": [
+      [ [ "machete", 1 ] ],
+      [ [ "duct_tape", 150 ] ],
+      [ [ "filament_durable", 20, "LIST" ] ],
+      [ [ "leather", 2 ], [ "chunk_rubber", 1 ] ],
+      [ [ "rubber_cement", 1 ], [ "superglue", 1 ] ]
+    ]
   },
   {
     "result": "survivor_machete_qt",
@@ -873,13 +879,14 @@
     "book_learn": [ [ "textbook_weapwest", 5 ], [ "welding_book", 6 ] ],
     "using": [ [ "soldering_standard", 20 ], [ "blacksmithing_standard", 10 ] ],
     "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "SAW_M", "level": 1 }, { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "swage", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ] ] ],
-    "proficiencies": [
-      { "proficiency": "prof_metalworking" },
-      { "proficiency": "prof_blacksmithing" },
-      { "proficiency": "prof_bladesmith" },
-      { "proficiency": "prof_quenching", "fail_multiplier": 2 }
-    ],
-    "components": [ [ [ "machete", 1 ] ], [ [ "duct_tape", 100 ] ], [ [ "coal_lump", 84 ], [ "charcoal", 55 ] ] ]
+    "tools": [ [ [ "swage", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -80 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_quenching", "fail_multiplier": 2 } ],
+    "components": [
+      [ [ "machete", 1 ] ],
+      [ [ "duct_tape", 150 ] ],
+      [ [ "filament_durable", 20, "LIST" ] ],
+      [ [ "leather", 2 ], [ "chunk_rubber", 1 ] ],
+      [ [ "rubber_cement", 1 ], [ "superglue", 1 ] ]
+    ]
   }
 ]
