@@ -827,5 +827,22 @@
       { "monster": "mon_zombie_scientist", "weight": 40 },
       { "monster": "mon_zombie_medical", "weight": 35 }
     ]
+  },
+  {
+    "name": "GROUP_RETIREMENT_COMMUNITY",
+    "type": "monstergroup",
+    "monsters": [
+      { "monster": "mon_zombie", "weight": 34 },
+      { "monster": "mon_zombie_fat", "weight": 14 },
+      { "monster": "mon_zombie_runner", "weight": 6 },
+      { "monster": "mon_zeriatric", "weight": 10, "pack_size": [ 2, 2 ] },
+      { "monster": "mon_zombie_crawler", "weight": 5 },
+      { "monster": "mon_zombie_brainless", "weight": 5 },
+      { "monster": "mon_zombie_child", "weight": 3 },
+      { "monster": "mon_boomer", "weight": 5 },
+      { "monster": "mon_zombie_dog", "weight": 5 },
+      { "monster": "mon_feral_granny", "weight": 10 },
+      { "monster": "mon_feral_human_crowbar", "weight": 3 }
+    ]
   }
 ]
