@@ -1151,9 +1151,7 @@
     "weight": "9540 g",
     "volume": "9 L",
     "to_hit": -3,
-    "pocket_data": [
-      { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 5000 } }
-    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 5000 } } ],
     "ammo": "battery",
     "charges_per_use": 1,
     "relic_data": { "passive_effects": [ { "id": "RM13" } ] },
