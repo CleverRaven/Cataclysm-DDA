@@ -3617,6 +3617,17 @@
   },
   {
     "type": "mutation",
+    "id": "TOE_CLAWS",
+    "name": { "str": "Reptilian Legs" },
+    "points": 1,
+    "description": "Your legs and feet have become reptile-like and your toenails have grown into short claws.  Your toes have grown noticeably longer and webbings have grown between them.  Fortunately they don't impede your movement.",
+    "types": [ "LEGS", "FEET" ],
+    "flags": [ "WEBBED_FEET" ],
+    "cancels": [ "WEBBED_FEET" ],
+    "category": [ "LIZARD" ]
+  },
+  {
+    "type": "mutation",
     "id": "BIRD_LEGS",
     "name": { "str": "Avian Legs" },
     "points": -1,
@@ -6053,7 +6064,7 @@
     "points": 1,
     "description": "Your feet are heavily webbed, allowing you to swim faster if you aren't wearing footwear.",
     "prereqs": [ "WEBBED" ],
-    "category": [ "LIZARD", "FISH", "SLIME", "BATRACHIAN" ],
+    "category": [ "FISH", "SLIME", "BATRACHIAN" ],
     "flags": [ "WEBBED_FEET" ],
     "wet_protection": [ { "part": "foot_l", "good": 6 }, { "part": "foot_r", "good": 6 } ]
   },
