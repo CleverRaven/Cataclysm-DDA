@@ -342,24 +342,30 @@
   },
   {
     "id": "pseudo_veh_chemlab_chemset",
-    "copy-from": "fake_power_tool_with_pseudo_battery",
+    "copy-from": "chemistry_set",
+    "sub": "chemistry_set",
     "type": "TOOL",
-    "name": { "str": "onboard chemistry lab" },
-    "sub": "chemistry_set"
+    "name": { "str": "onboard chemistry set" },
+    "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "default_magazine": "pseudo_battery" } ]
   },
   {
     "id": "pseudo_veh_chemlab_electrolysis_kit",
-    "copy-from": "fake_power_tool_with_pseudo_battery",
+    "copy-from": "electrolysis_kit",
+    "sub": "electrolysis_kit",
     "type": "TOOL",
-    "name": { "str": "onboard chemistry lab" },
-    "sub": "electrolysis_kit"
+    "name": { "str": "onboard electrolysis kit" },
+    "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "default_magazine": "pseudo_battery" } ]
   },
   {
     "id": "pseudo_veh_chemlab_hotplate",
-    "copy-from": "fake_power_tool_with_pseudo_battery",
+    "copy-from": "hotplate",
+    "sub": "hotplate",
     "type": "TOOL",
-    "name": { "str": "onboard chemistry lab" },
-    "sub": "hotplate"
+    "name": { "str": "onboard hotplate" },
+    "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "default_magazine": "pseudo_battery" } ]
   },
   {
     "id": "pseudo_veh_foodco_vac_sealer",
@@ -377,17 +383,19 @@
   },
   {
     "id": "pseudo_veh_foodco_water_purifier",
-    "copy-from": "fake_power_tool_with_pseudo_battery",
+    "copy-from": "water_purifier",
+    "sub": "water_purifier",
     "type": "TOOL",
-    "name": { "str": "FOODCO kitchen buddy", "str_pl": "FOODCO kitchen buddies" },
-    "sub": "water_purifier"
+    "name": { "str": "FOODCO kitchen buddy water purifier" },
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "default_magazine": "pseudo_battery" } ]
   },
   {
     "id": "pseudo_veh_foodco_food_processor",
-    "copy-from": "fake_power_tool_with_pseudo_battery",
+    "copy-from": "food_processor",
+    "sub": "food_processor",
     "type": "TOOL",
-    "name": { "str": "FOODCO kitchen buddy", "str_pl": "FOODCO kitchen buddies" },
-    "sub": "food_processor"
+    "name": { "str": "FOODCO kitchen buddy food processor" },
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "default_magazine": "pseudo_battery" } ]
   },
   {
     "id": "pseudo_veh_kitchen_hotplate",
@@ -398,10 +406,12 @@
   },
   {
     "id": "pseudo_veh_water_purifier",
-    "copy-from": "fake_power_tool_with_pseudo_battery",
+    "copy-from": "water_purifier",
+    "sub": "water_purifier",
     "type": "TOOL",
     "name": { "str": "mounted water purifier" },
-    "sub": "water_purifier"
+    "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "default_magazine": "pseudo_battery" } ]
   },
   {
     "id": "pseudo_app_oven_hotplate",
