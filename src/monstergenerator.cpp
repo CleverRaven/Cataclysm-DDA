@@ -1063,6 +1063,15 @@ void mtype::load( const JsonObject &jo, const std::string &src )
         optional( up, was_loaded, "into_group", upgrade_group, string_id_reader<::MonsterGroup> {},
                   mongroup_id::NULL_ID() );
         optional( up, was_loaded, "into", upgrade_into, string_id_reader<::mtype> {}, mtype_id::NULL_ID() );
+        bool multi = !!upgrade_multi_range;
+        optional( up, was_loaded, "multiple_spawns", multi, false );
+        if( multi && jo.has_bool( "multiple_spawns" ) ) {
+            mandatory( up, was_loaded, "spawn_range", upgrade_multi_range );
+        } else if( multi ) {
+            optional( up, was_loaded, "spawn_range", upgrade_multi_range );
+        } else {
+            jo.get_int( "spawn_range", 0 ); // ignore if defined
+        }
         upgrades = true;
     }
 
