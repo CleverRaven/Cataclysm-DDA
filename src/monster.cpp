@@ -383,7 +383,34 @@ void monster::try_upgrade( bool pin_time )
         if( type->upgrade_into ) {
             poly( type->upgrade_into );
         } else {
-            const mtype_id &new_type = MonsterGroupManager::GetRandomMonsterFromGroup( type->upgrade_group );
+            mtype_id new_type;
+            if( type->upgrade_multi_range ) {
+                std::vector<MonsterGroupResult> res = MonsterGroupManager::GetResultFromGroup(
+                        type->upgrade_group );
+                if( !res.empty() ) {
+                    // Set the type to poly the current monster (preserves inventory)
+                    new_type = res.front().name;
+                    res.front().pack_size--;
+                    for( const MonsterGroupResult &mgr : res ) {
+                        if( !mgr.name ) {
+                            continue;
+                        }
+                        for( int i = 0; i < mgr.pack_size; i++ ) {
+                            tripoint spawn_pos;
+                            if( g->find_nearby_spawn_point( pos(), mgr.name, 1, *type->upgrade_multi_range,
+                                                            spawn_pos, false ) ) {
+                                monster *spawned = g->place_critter_at( mgr.name, spawn_pos );
+                                if( spawned ) {
+                                    spawned->friendly = friendly;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            if( new_type ) {
+                new_type = MonsterGroupManager::GetRandomMonsterFromGroup( type->upgrade_group );
+            }
             if( new_type ) {
                 poly( new_type );
             }

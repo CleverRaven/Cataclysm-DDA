@@ -149,6 +149,56 @@
     ]
   },
   {
+    "id": "state_flag",
+    "repairs_like": "sheet",
+    "type": "ARMOR",
+    "name": { "str": "state flag" },
+    "description": "A large white flag with a shield featuring an American Native and a star which represents the state of Massachusetts.",
+    "copy-from": "american_flag",
+    "symbol": "]",
+    "looks_like": "sheet",
+    "color": "white",
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "massachusetts_flag",
+        "name": { "str": "Massachusetts flag" },
+        "description": "A large white flag with a shield featuring an American Native and a star which represents the state of Massachusetts.",
+        "weight": 5
+      },
+      {
+        "id": "maine_flag",
+        "name": { "str": "Maine flag" },
+        "description": "A large blue flag featuring a moose and pine tree emblem on a shield supported by a farmer and a sailor, above is the north star and the Latin motto “Dirigo” (“I direct”), below the shield reads out the state of “Maine”.",
+        "weight": 5
+      },
+      {
+        "id": "new_hampshire_flag",
+        "name": { "str": "New Hampshire flag" },
+        "description": "A large blue flag with New Hampshire's state seal of the frigate Raleigh surrounded by laurel leaves and nine stars against a field of blue.",
+        "weight": 5
+      },
+      {
+        "id": "vermont_flag",
+        "name": { "str": "Vermont flag" },
+        "description": "A large blue flag featuring a shield with wreaths on both sides, a pine tree in a green field along with a cow and bales of wheat reside within the shield representing Vermont.",
+        "weight": 5
+      },
+      {
+        "id": "connecticut_flag",
+        "name": { "str": "Connecticut flag" },
+        "description": "A large blue flag featuring a white baroque shield with three grapevines, each bearing three bunches of purple grapes on a field of royal blue, below the shield reads “Qui Transtulit Sustinet”, which is Latin for “He who transplanted sustains” which represents the state of Connecticut.",
+        "weight": 5
+      },
+      {
+        "id": "rhode_island_flag",
+        "name": { "str": "Rhode Island flag" },
+        "description": "A large white flag of Rhode Island that features a golden anchor in the middle of it surrounded by thirteen gold stars, below the anchor is a blue banner that reads “hope”.",
+        "weight": 5
+      }
+    ]
+  },
+  {
     "id": "cape_fp",
     "repairs_like": "sheet",
     "type": "ARMOR",
