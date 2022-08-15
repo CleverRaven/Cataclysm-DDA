@@ -160,5 +160,18 @@
     ],
     "difficulty": 5,
     "autolearn": [ [ "fabrication", 5 ] ]
+  },
+  {
+    "id": "nested_mask_gas",
+    "type": "nested_category",
+    "activity_level": "BRISK_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "name": "cuirasses",
+    "description": "Recipes related to constructing shapes and sizes of gas masks.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "mask_gas", "mask_gas_xl", "mask_gas_xs" ],
+    "difficulty": 3,
+    "autolearn": [ [ "tailor", 3 ] ]
   }
 ]
