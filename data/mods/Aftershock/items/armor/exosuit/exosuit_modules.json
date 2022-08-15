@@ -683,7 +683,7 @@
     "id": "exo_AR_module_on",
     "type": "TOOL",
     "copy-from": "exo_AR_module",
-    "name": { "str": "exosuit AR research module (on)" },
+    "name": { "str": "exosuit AR research module (on)", "str_pl": "exosuit AR research modules (on)" },
     "power_draw": 250,
     "revert_to": "exo_AR_module",
     "use_action": {
