@@ -27,7 +27,7 @@
     "reload": 3000,
     "valid_mod_locations": [
       [ "sling", 1 ],
-      [ "stock", 1 ],
+      [ "stock mount", 1 ],
       [ "stock accessory", 1 ],
       [ "grip mount", 1 ],
       [ "rail mount", 1 ],
