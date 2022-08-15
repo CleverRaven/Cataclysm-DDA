@@ -1337,7 +1337,7 @@ These flags apply to the `use_action` field, instead of the `flags` field.
 - ```TOWEL``` Dry your character using the item as towel.
 - ```TOW_ATTACH``` This is a tow cable, activate it to attach it to a vehicle.
 - ```TURRET``` Activate a turret.
-- ```WASH_ALL_ITEMS``` Wash items with `FILTHY` flag.
+- ```WASH_ALL_ITEMS``` Wash items with ```FILTHY``` flag.
 - ```WASH_HARD_ITEMS``` Wash hard items with ```FILTHY``` flag.
 - ```WASH_SOFT_ITEMS``` Wash soft items with ```FILTHY``` flag.
 - ```WATER_PURIFIER``` Purify water.
