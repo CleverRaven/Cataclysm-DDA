@@ -2103,7 +2103,7 @@
     "id": "mon_mutant_moose",
     "type": "MONSTER",
     "name": { "str_sp": "great tusked moose" },
-    "description": "The great tusked moose is a mutant variety of megafauna that evolved after the Cataclysm.  Easily recognized by the under slung tusks off the side of each mouth in addition to an impressive rack of horns.",
+    "description": "The great tusked moose is a mutant variety of megafauna that evolved after the Cataclysm.  Easily recognized by the underslung tusks off the side of each mouth, in addition to an impressive rack of horns.",
     "default_faction": "herbivore",
     "bodytype": "horse",
     "categories": [ "WILDLIFE" ],
