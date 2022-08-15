@@ -4454,7 +4454,7 @@
     "id": "mil_auto_rifleman",
     "name": "Military Automatic Rifleman",
     "description": "S stands for suppressing fire!",
-    "points": 3,
+    "points": 5,
     "skills": [ { "level": 1, "name": "survival" }, { "level": 1, "name": "gun" }, { "level": 1, "name": "rifle" } ],
     "items": {
       "both": {
