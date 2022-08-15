@@ -414,6 +414,7 @@
     "weight": "22700 g",
     "volume": "6 L",
     "price": 300000,
+    "price_postapoc": 4500,
     "to_hit": -5,
     "bashing": 10,
     "material": [ "iron" ],
