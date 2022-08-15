@@ -85,6 +85,11 @@
   },
   {
     "type": "monstergroup",
+    "name": "GROUP_DINOSAUR_EUROPE",
+    "monsters": [ { "monster": "mon_compsognathus", "weight": 100, "cost_multiplier": 40, "pack_size": [ 4, 12 ] } ]
+  },
+  {
+    "type": "monstergroup",
     "name": "GROUP_DINOSAUR_HARMLESS",
     "monsters": [
       { "monster": "mon_compsognathus", "weight": 100, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
