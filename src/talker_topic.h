@@ -21,7 +21,7 @@ class talker_topic: public talker
 {
     public:
         explicit talker_topic( std::vector<std::string> new_topics ) {
-            topics = new_topics;
+            topics = std::move( new_topics );
         }
         ~talker_topic() override = default;
 

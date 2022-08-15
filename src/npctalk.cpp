@@ -3456,7 +3456,7 @@ void talk_effect_fun_t<T>::set_switch( const JsonObject &jo,
     function = [eoc_switch, case_pairs]( const T & d ) {
         int switch_int = eoc_switch( d );
         talk_effect_t<T> case_effect;
-        for( std::pair<int_or_var<T>, talk_effect_t<T>> case_pair :
+        for( const std::pair<int_or_var<T>, talk_effect_t<T>> &case_pair :
              case_pairs ) {
             if( switch_int >= case_pair.first.evaluate( d ) ) {
                 case_effect = case_pair.second;
