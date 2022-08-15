@@ -926,7 +926,8 @@ ret_val<void> item_contents::can_contain_rigid( const item &it,
     return ret;
 }
 
-ret_val<void> item_contents::can_contain( const item &it, const bool ignore_pkt_settings ) const
+ret_val<void> item_contents::can_contain( const item &it, const bool ignore_pkt_settings,
+        units::volume remaining_parent_volume ) const
 {
     ret_val<void> ret = ret_val<void>::make_failure( _( "is not a container" ) );
     for( const item_pocket &pocket : contents ) {
@@ -936,6 +937,9 @@ ret_val<void> item_contents::can_contain( const item &it, const bool ignore_pkt_
         }
         if( !ignore_pkt_settings && !pocket.settings.accepts_item( it ) ) {
             ret = ret_val<void>::make_failure( _( "denied by pocket auto insert settings" ) );
+            continue;
+        }
+        if( !pocket.rigid() && it.volume() > remaining_parent_volume ) {
             continue;
         }
         const ret_val<item_pocket::contain_code> pocket_contain_code = pocket.can_contain( it );
