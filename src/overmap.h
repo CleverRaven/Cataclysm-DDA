@@ -563,8 +563,9 @@ class overmap
         void place_radios();
 
         void add_mon_group( const mongroup &group );
+        void add_mon_group( const mongroup &group, int radius );
         // Spawns a new mongroup (to be called by worldgen code)
-        void spawn_mon_group( const mongroup &group );
+        void spawn_mon_group( const mongroup &group, int radius );
 
         void load_monster_groups( JsonIn &jsin );
         void load_legacy_monstergroups( JsonIn &jsin );
