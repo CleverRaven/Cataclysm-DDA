@@ -1555,7 +1555,9 @@ void mapgen_place_zone( tripoint const &start, tripoint const &end, zone_type_id
     tripoint const s_ = std::min( start, end );
     tripoint const e_ = std::max( start, end );
     if( type == zone_type_LOOT_CUSTOM || type == zone_type_LOOT_ITEM_GROUP ) {
-        dynamic_cast<loot_options *>( &*options )->set_mark( filter );
+        if( options ) {
+            dynamic_cast<loot_options *>( &*options )->set_mark( filter );
+        }
     }
     mgr.add( name, type, fac, false, true, s_, e_, options, false, true, pmap );
 }
@@ -1569,7 +1571,9 @@ void mapgen_place_unload_zone( tripoint const &start, tripoint const &end, zone_
     tripoint const s_ = std::min( start, end );
     tripoint const e_ = std::max( start, end );
     if( type == zone_type_zone_unload_all ) {
-        dynamic_cast<unload_options *>( &*options )->set_rules( molle, mods, all );
+        if( options ) {
+            dynamic_cast<unload_options *>( &*options )->set_rules( molle, mods, all );
+        }
     }
     mgr.add( name, type, fac, false, true, s_, e_, options, false, true, pmap );
 }
