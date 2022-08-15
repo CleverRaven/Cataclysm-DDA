@@ -7,9 +7,12 @@
 #include "item_category.h"
 #include "item_pocket.h"
 #include "map_helpers.h"
+#include "player_helpers.h"
 #include "point.h"
 #include "ret_val.h"
 #include "type_id.h"
+
+static const activity_id ACT_MOVE_LOOT( "ACT_MOVE_LOOT" );
 
 static const faction_id faction_your_followers( "your_followers" );
 
@@ -17,6 +20,8 @@ static const zone_type_id zone_type_LOOT_DRINK( "LOOT_DRINK" );
 static const zone_type_id zone_type_LOOT_FOOD( "LOOT_FOOD" );
 static const zone_type_id zone_type_LOOT_PDRINK( "LOOT_PDRINK" );
 static const zone_type_id zone_type_LOOT_PFOOD( "LOOT_PFOOD" );
+static const zone_type_id zone_type_LOOT_UNSORTED( "LOOT_UNSORTED" );
+static const zone_type_id zone_type_zone_unload_all( "zone_unload_all" );
 
 static void create_tile_zone( const std::string &name, const zone_type_id &zone_type, tripoint pos )
 {
@@ -222,4 +227,36 @@ TEST_CASE( "zone sorting comestibles ", "[zones][items][food][activities]" )
             }
         }
     }
+}
+
+TEST_CASE( "zones_unload_basic", "[zones]" )
+{
+    clear_map();
+    map &m = get_map();
+    tripoint_abs_ms const zone_loc = get_player_character().get_location();
+    tripoint_abs_ms const zone_unsorted_end = zone_loc + tripoint_north;
+    tripoint_abs_ms const zone_unload_end = zone_loc + tripoint_north;
+
+    item mossberg( "mossberg_590" );
+    item shot_00( "shot_00" );
+    item shoulder_strap( "shoulder_strap" );
+
+    mossberg.force_insert_item( shoulder_strap, item_pocket::pocket_type::MOD );
+    mossberg.force_insert_item( shot_00, item_pocket::pocket_type::MAGAZINE );
+
+    mapgen_place_zone( zone_loc.raw(), zone_unsorted_end.raw(), zone_type_LOOT_UNSORTED, your_fac, {} );
+    mapgen_place_unload_zone( zone_loc.raw(), zone_unload_end.raw(), zone_type_zone_unload_all,
+                              your_fac, {}, true,
+                              true, true );
+
+
+    m.spawn_items( m.bub_from_abs( zone_loc ), { mossberg } );
+    REQUIRE( !m.i_at( m.bub_from_abs( zone_loc ) ).empty() );
+    REQUIRE( m.i_at( m.bub_from_abs( zone_loc ) ).size() == 1 );
+
+    get_player_character().assign_activity( ACT_MOVE_LOOT );
+    process_activity( get_player_character() );
+
+    // after unloading more items are there
+    CHECK( m.i_at( m.bub_from_abs( zone_loc ) ).size() == 3 );
 }

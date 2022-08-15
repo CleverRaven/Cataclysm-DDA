@@ -277,6 +277,12 @@ class unload_options : public zone_options, public mark_option
             return always_unload;
         }
 
+        void set_rules( bool unload_molle, bool unload_mods, bool all ) {
+            molle = unload_molle;
+            mods = unload_mods;
+            always_unload = all;
+        }
+
 
         void set_mark( std::string const &nmark ) {
             mark = nmark;
@@ -569,5 +575,9 @@ class zone_manager
 void mapgen_place_zone( tripoint const &start, tripoint const &end, zone_type_id const &type,
                         faction_id const &fac = your_fac, std::string const &name = {},
                         std::string const &filter = {}, map *pmap = nullptr );
+
+void mapgen_place_unload_zone( tripoint const &start, tripoint const &end, zone_type_id const &type,
+                               faction_id const &fac = your_fac, std::string const &name = {},
+                               bool molle = true, bool mods = true, bool all = true, map *pmap = nullptr );
 
 #endif // CATA_SRC_CLZONES_H

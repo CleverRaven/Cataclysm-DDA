@@ -1559,3 +1559,17 @@ void mapgen_place_zone( tripoint const &start, tripoint const &end, zone_type_id
     }
     mgr.add( name, type, fac, false, true, s_, e_, options, false, true, pmap );
 }
+
+void mapgen_place_unload_zone( tripoint const &start, tripoint const &end, zone_type_id const &type,
+                               faction_id const &fac, std::string const &name, bool molle, bool mods, bool all,
+                               map *pmap )
+{
+    zone_manager &mgr = zone_manager::get_manager();
+    auto options = zone_options::create( type );
+    tripoint const s_ = std::min( start, end );
+    tripoint const e_ = std::max( start, end );
+    if( type == zone_type_zone_unload_all ) {
+        dynamic_cast<unload_options *>( &*options )->set_rules( molle, mods, all );
+    }
+    mgr.add( name, type, fac, false, true, s_, e_, options, false, true, pmap );
+}
