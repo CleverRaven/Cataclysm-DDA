@@ -268,7 +268,7 @@
     "name": "gas masks",
     "description": "Recipes related to constructing various shapes and sizes of gas masks.",
     "skill_used": "fabrication",
-    "nested_category_data": [ "mask_gas", "mask_gas_xl", "mask_gas_xs" ],
+    "nested_category_data": [ "mask_gas", "mask_gas_xl", "mask_gas_xl_expand-existing", "mask_gas_xs", "mask_gas_xs_shrink-existing" ],
     "difficulty": 3,
     "autolearn": [ [ "tailor", 3 ] ]
   },
@@ -281,7 +281,7 @@
     "name": "rebreathers",
     "description": "Recipes related to constructing various shapes and sizes of rebreathers.",
     "skill_used": "electronics",
-    "nested_category_data": [ "rebreather", "rebreather_xl", "rebreather_xs" ],
+    "nested_category_data": [ "rebreather", "rebreather_xl", "rebreather_xl_expand-existing", "rebreather_xs", "rebreather_xs_shrink-existing" ],
     "difficulty": 3,
     "autolearn": [ [ "tailoring", 2 ] ]
   },
