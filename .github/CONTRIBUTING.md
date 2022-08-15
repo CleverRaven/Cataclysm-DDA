@@ -144,6 +144,8 @@ Helpful pages:
     ```bash
     # Clones your fork of the repository into the current directory in terminal
     $ git clone https://github.com/YOUR_USERNAME/Cataclysm-DDA.git
+    # Alternatively if you don't want to clone an entire big history (5GB!)
+    $ git clone --depth=1 https://github.com/YOUR_USERNAME/Cataclysm-DDA.git
     ```
 
 3. Set commit message template.
@@ -379,6 +381,13 @@ Now that `master` has been cleaned up, we can easily pull from `upstream/master`
 $ git pull --ff-only upstream master
 # gets changes from the "upstream" remote for the matching branch, in this case "master"
 $ git checkout new_branch
+```
+
+#### Oh no! I've made my changes to `master` branch and have pushed it to my repo! What should I do now?
+Assuming `upstream` is `CleverRaven/Cataclysm-DDA` and `origin` is your fork, do the commands:
+```
+git reset upstream/master
+git push --repo=origin --force
 ```
 
 For more frequently asked questions, see the [developer FAQ](../doc/DEVELOPER_FAQ.md).
