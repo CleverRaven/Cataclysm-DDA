@@ -4543,8 +4543,6 @@
           "armguard_hard",
           "legguard_hard",
           "grenadebandolier",
-          "flashbang",
-          "flashbang",
           "socks",
           "boots_combat",
           "gloves_tactical",
@@ -4553,6 +4551,7 @@
         "entries": [
           { "item": "mossberg_500", "ammo-item": "shot_00", "charges": 8, "contents-item": [ "shoulder_strap" ] },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
+          { "item": "flashbang", "charges": 2, "container-item": "grenadebandolier" },
           { "item": "shot_00", "charges": 12, "container-item": "bandolier_shotgun" },
           { "item": "knife_combat", "container-item": "sheath" },
           { "item": "m17", "ammo-item": "9mm", "charges": 17, "container-item": "holster" }
