@@ -312,7 +312,7 @@
   },
   {
     "type": "effect_type",
-    "id": "maimed_shell",
+    "id": "maimed_armor",
     "name": [ "Cracked Shell" ],
     "//": "Exposes certain weakpoints",
     "desc": [ "You feel exposed -and pretty buggy- without your shell." ]
