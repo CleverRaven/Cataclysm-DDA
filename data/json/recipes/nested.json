@@ -186,5 +186,83 @@
     "nested_category_data": [ "rebreather", "rebreather_xl", "rebreather_xs" ],
     "difficulty": 3,
     "autolearn": [ [ "tailoring", 2 ] ]
+  },
+  {
+    "id": "nested_mask_survivor",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "name": "survivor masks",
+    "description": "Recipes related to constructing various sizes of standard survivor masks.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "mask_survivor", "mask_survivorxs", "mask_survivorxl" ],
+    "difficulty": 6,
+    "autolearn": [ [ "fabrication", 6 ] ]
+  },
+  {
+    "id": "nested_mask_wsurvivor",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "name": "winter survivor masks",
+    "description": "Recipes related to constructing various sizes of survivor masks better suited for cold environments.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "mask_wsurvivor", "mask_wsurvivorxs", "mask_wsurvivorxl" ],
+    "difficulty": 7,
+    "autolearn": [ [ "fabrication", 7 ] ]
+  },
+  {
+    "id": "nested_mask_fsurvivor",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "name": "survivor firemasks",
+    "description": "Recipes related to constructing various sizes of survivor masks designed to withstand heavy smoke and fires.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "mask_fsurvivor", "mask_fsurvivorxs", "mask_fsurvivorxl" ],
+    "difficulty": 7,
+    "autolearn": [ [ "fabrication", 7 ] ]
+  },
+  {
+    "id": "nested_mask_h20survivor",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "name": "survivor divemasks",
+    "description": "Recipes related to constructing various sizes of survivor masks designed to protect the wearer and allow them to breath underwater.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "mask_h20survivor", "mask_h20survivorxs", "mask_h20survivorxl" ],
+    "difficulty": 7,
+    "autolearn": [ [ "fabrication", 7 ] ]
+  },
+  {
+    "id": "nested_mask_hsurvivor",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "name": "heavy survivor masks",
+    "description": "Recipes related to constructing various sizes of heavy survivor masks.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "mask_hsurvivor" ],
+    "difficulty": 7,
+    "autolearn": [ [ "fabrication", 7 ] ]
+  },
+  {
+    "id": "nested_mask_lsurvivor",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "name": "light survivor masks",
+    "description": "Recipes related to constructing various sizes of light survivor masks.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "mask_lsurvivor", "mask_lsurvivorxl" ],
+    "difficulty": 6,
+    "autolearn": [ [ "fabrication", 6 ] ]
   }
 ]
