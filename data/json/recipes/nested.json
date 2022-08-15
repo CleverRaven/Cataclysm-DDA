@@ -382,5 +382,97 @@
     ],
     "difficulty": 6,
     "autolearn": [ [ "fabrication", 6 ] ]
+  },
+  {
+    "id": "nested_sling_ready_explosives",
+    "type": "nested_category",
+    "activity_level": "fake",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_EXPLOSIVE",
+    "name": "sling-ready explosives",
+    "description": "Recipes related to modifying explosives to be usable in a staff sling.",
+    "skill_used": "fabrication",
+    "nested_category_data": [
+      "sling-ready_molotov",
+      "sling-ready_grenade",
+      "sling-ready_homemade_grenade",
+      "sling-ready_homemade_grenade_2",
+      "sling-ready_small_homemade_grenade",
+      "sling-ready_small_homemade_grenade_2"
+    ],
+    "autolearn": [ [ "fabrication", 0 ] ]
+  },
+  {
+    "id": "nested_modified_gunmods",
+    "type": "nested_category",
+    "activity_level": "fake",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_MODS",
+    "name": "modified attachments",
+    "description": "Recipes related to modifying weapon accessories to attach to a wider variety of guns and crossbows.",
+    "skill_used": "fabrication",
+    "nested_category_data": [
+      "bipod_mod",
+      "grip_mod",
+      "stabilizer_mod",
+      "muzzle_brake_mod",
+      "nested_modified_gunmods_weapons",
+      "nested_modified_gunmods_sights"
+    ],
+    "autolearn": [ [ "fabrication", 4 ], [ "gun", 2 ] ]
+  },
+  {
+    "id": "nested_modified_gunmods_weapons",
+    "type": "nested_category",
+    "activity_level": "fake",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "auxillary weapons",
+    "description": "Recipes related to modifying secondary weapons to attach to a wider variety of guns and crossbows.",
+    "skill_used": "fabrication",
+    "nested_category_data": [
+      "m26_mass_mod",
+      "knife_combat_mod",
+      "m203_mod",
+      "m320_mod_mod",
+      "masterkey_mod",
+      "gun_crossbow_mod",
+      "rm121aux_mod",
+      "sword_bayonet_mod",
+      "u_shotgun_mod"
+    ],
+    "autolearn": [ [ "fabrication", 4 ], [ "gun", 2 ] ]
+  },
+  {
+    "id": "nested_modified_gunmods_sights",
+    "type": "nested_category",
+    "activity_level": "fake",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "sights",
+    "description": "Recipes related to modifying sights to attach to a wider variety of guns and crossbows.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "acog_scope_mod", "offset_sights_mod", "offset_sight_rail_mod", "rifle_scope_mod" ],
+    "autolearn": [ [ "fabrication", 4 ], [ "gun", 2 ] ]
+  },
+  {
+    "id": "nested_gun_mounts",
+    "type": "nested_category",
+    "activity_level": "fake",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_MODS",
+    "name": "attachment mounts",
+    "description": "Recipes related to making mounts for attachments on older or makeshift guns.",
+    "skill_used": "fabrication",
+    "nested_category_data": [
+      "grip_mount",
+      "rail_mount",
+      "sights_mount",
+      "sights_mount_launcher",
+      "sights_mount_pistol",
+      "stock_mount",
+      "underbarrel_mount"
+    ],
+    "autolearn": [ [ "fabrication", 3 ], [ "gun", 4 ] ]
   }
 ]
