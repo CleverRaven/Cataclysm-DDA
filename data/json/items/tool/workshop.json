@@ -1335,12 +1335,10 @@
           "mc_steel",
           "hc_steel",
           "ch_steel",
-          "qt_steel",
           "lc_steel_chain",
           "mc_steel_chain",
           "hc_steel_chain",
           "ch_steel_chain",
-          "qt_steel_chain",
           "platinum",
           "superalloy"
         ],
@@ -1407,6 +1405,65 @@
         "tool_quality": 5,
         "cost_scaling": 0.1,
         "move_cost": 1000
+      }
+    ],
+    "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_cell"
+      }
+    ]
+  },
+  {
+    "id": "welding_kit",
+    "type": "TOOL",
+    "name": { "str": "welding kit" },
+    "description": "An welder combined with a fireproof insulating blanket allows for advanced welds and repairs to tempered steels.",
+    "weight": "10500 g",
+    "volume": "12500 ml",
+    "price": 9000,
+    "price_postapoc": 750,
+    "to_hit": -1,
+    "bashing": 7,
+    "material": [ "steel", "asbestos" ],
+    "symbol": ";",
+    "color": "red",
+    "ammo": [ "battery" ],
+    "charges_per_use": 5,
+    "charged_qualities": [ [ "WELD", 2 ] ],
+    "use_action": [
+      {
+        "type": "repair_item",
+        "item_action_type": "repair_metal",
+        "materials": [
+          "iron",
+          "steel",
+          "aluminum",
+          "copper",
+          "bronze",
+          "fancy_bronze",
+          "silver",
+          "gold",
+          "lc_steel",
+          "mc_steel",
+          "hc_steel",
+          "ch_steel",
+          "qt_steel",
+          "lc_steel_chain",
+          "mc_steel_chain",
+          "hc_steel_chain",
+          "ch_steel_chain",
+          "qt_steel_chain",
+          "platinum",
+          "superalloy"
+        ],
+        "skill": "fabrication",
+        "tool_quality": 10,
+        "cost_scaling": 0.1,
+        "move_cost": 500
       }
     ],
     "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
@@ -1614,6 +1671,18 @@
     "price_postapoc": 50,
     "material": [ "steel" ],
     "symbol": "&",
+    "color": "light_gray"
+  },
+  {
+    "id": "welding_blanket",
+    "type": "TOOL",
+    "name": { "str": "welding blanket" },
+    "description": "A non-flammable mat used to protect surfaces from welding splatter or to insulate a weld when repairing tempered metal.  This one is made with asbestos.",
+    "weight": "6 kg",
+    "volume": "11500 ml",
+    "price": 30000,
+    "material": [ "asbestos" ],
+    "symbol": "#",
     "color": "light_gray"
   }
 ]

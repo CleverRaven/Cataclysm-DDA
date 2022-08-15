@@ -378,6 +378,7 @@ void DynamicDataLoader::initialize()
 
     add( "charge_removal_blacklist", load_charge_removal_blacklist );
     add( "charge_migration_blacklist", load_charge_migration_blacklist );
+    add( "known_bad_density_list", &known_bad_density::load );
 
     add( "MONSTER", []( const JsonObject & jo, const std::string & src ) {
         MonsterGenerator::generator().load_monster( jo, src );
@@ -392,6 +393,7 @@ void DynamicDataLoader::initialize()
     add( "recipe",  &recipe_dictionary::load_recipe );
     add( "uncraft", &recipe_dictionary::load_uncraft );
     add( "practice", &recipe_dictionary::load_practice );
+    add( "nested_category", &recipe_dictionary::load_nested_category );
     add( "recipe_group",  &recipe_group::load );
 
     add( "tool_quality", &quality::load_static );

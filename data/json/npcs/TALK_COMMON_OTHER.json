@@ -8,7 +8,18 @@
       { "text": "Any tips?", "topic": "TALK_SHELTER_ADVICE" },
       { "text": "Can I do anything for you?", "topic": "TALK_MISSION_LIST" },
       { "text": "Want to travel with me?", "topic": "TALK_SUGGEST_FOLLOW", "condition": { "not": "npc_following" } },
-      { "text": "Let's trade items.", "topic": "TALK_NONE", "effect": "start_trade" },
+      {
+        "text": "Let's trade items.",
+        "condition": { "npc_has_trait": "NPC_STARTING_NPC" },
+        "topic": "TALK_SHELTER",
+        "effect": "start_trade"
+      },
+      {
+        "text": "Let's trade items.",
+        "condition": { "not": { "npc_has_trait": "NPC_STARTING_NPC" } },
+        "topic": "TALK_NONE",
+        "effect": "start_trade"
+      },
       { "text": "Want to share some useful items with me?", "topic": "TALK_SHARE_EQUIPMENT" },
       { "text": "Well, bye.", "topic": "TALK_DONE" }
     ]

@@ -879,5 +879,39 @@
       { "item": "years_old_newspaper", "prob": 10 },
       { "item": "one_year_old_newspaper", "prob": 20 }
     ]
+  },
+  {
+    "id": "missing_poster_human",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "missing_poster_adult", "prob": 3 }, { "item": "missing_poster_child", "prob": 2 } ]
+  },
+  {
+    "id": "missing_poster_animal",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "missing_poster_dog", "prob": 1 }, { "item": "missing_poster_cat", "prob": 1 } ]
+  },
+  {
+    "id": "missing_poster_all",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "group": "missing_poster_animal", "prob": 4 }, { "group": "missing_poster_human", "prob": 1 } ]
+  },
+  {
+    "id": "bulletin_public",
+    "type": "item_group",
+    "//": "Public messages posted on bulletin boards in public spaces to advertise items wanted or for sale, announce events, or provide information.",
+    "//2": "TO DO: local adverts, event announcements, job application posters, etc.",
+    "subtype": "collection",
+    "entries": [ { "group": "missing_poster_all", "prob": 30 }, { "item": "flyer", "prob": 70, "count": [ 1, 2 ] } ]
+  },
+  {
+    "id": "bulletin_police",
+    "type": "item_group",
+    "//": "Public messages posted on bulletin boards in police stations to provide information.",
+    "//2": "TO DO: crime bulletins, wanted criminals/suspects/fugitives, community notifications, etc.",
+    "subtype": "collection",
+    "entries": [ { "group": "missing_poster_human", "prob": 100 } ]
   }
 ]
