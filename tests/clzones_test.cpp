@@ -257,6 +257,19 @@ TEST_CASE( "zones_unload_basic", "[zones]" )
     get_player_character().assign_activity( ACT_MOVE_LOOT );
     process_activity( get_player_character() );
 
+    map_stack stack = m.i_at( m.bub_from_abs( zone_loc ) );
+
     // after unloading more items are there
-    CHECK( m.i_at( m.bub_from_abs( zone_loc ) ).size() == 3 );
+    CHECK( std::find_if( stack.begin(),
+    stack.end(), []( const item & it ) {
+        return it.typeId() == itype_id( "mossberg_590" );
+    } ) != m.i_at( m.bub_from_abs( zone_loc ) ).end() );
+    CHECK( std::find_if( stack.begin(),
+    stack.end(), []( const item & it ) {
+        return it.typeId() == itype_id( "shot_00" );
+    } ) != m.i_at( m.bub_from_abs( zone_loc ) ).end() );
+    CHECK( std::find_if( stack.begin(),
+    stack.end(), []( const item & it ) {
+        return it.typeId() == itype_id( "shoulder_strap" );
+    } ) != m.i_at( m.bub_from_abs( zone_loc ) ).end() );
 }
