@@ -284,7 +284,7 @@ Navigate on Console to a directory with the script you want to launch.
 Prefix the script filename with `py `, like this: `py compose.py --use-all --obsolete-fillers pathToYourTileset pathToYourOutputFolder`
 Alternatively you can copy `updtset.cmd` from `CDDA-Tilesets\tools` to your Desktop, right click on it, select `Edit`, change four variables on the top part. Then you can just doubleclick on it and get Tileset updated.
 
-It is recommended to bind any key to `update tileset` action, so you do not need to restart the game after composing tileset. `F12` usually free.
+It is recommended to bind a key to the `update tileset` action, so you do not need to restart the game after composing the tileset. E.g. `F12` is usually unused.
 
 ### Linux
 _TODO, please ask if you need it or send suggestions if you want to help_
