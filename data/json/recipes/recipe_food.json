@@ -4403,7 +4403,7 @@
         [ "garlic_clove", 1 ],
         [ "wild_garlic", 1 ],
         [ "onion", 1 ],
-        [ "groundnut", 1 ]
+        [ "veggy_potatolike", 1, "LIST" ]
       ],
       [ [ "cheese_standard", 1, "LIST" ], [ "veggy_green", 1, "LIST" ] ],
       [ [ "salt", 2 ], [ "soysauce", 2 ], [ "seasoning_salt", 2 ], [ "pepper", 4 ] ],
