@@ -1281,7 +1281,7 @@
     "description": "Most of this artichoke's inulin has been converted into fructose after cooking, and it now tastes pleasantly sweet.",
     "price": 0,
     "healthy": 0,
-    "calories": 120,
+    "calories": 150,
     "charges": 2,
     "delete": { "flags": [ "RAW" ] },
     "extend": { "flags": [ "EATEN_HOT", "FREEZERBURN" ] },
@@ -1295,7 +1295,7 @@
     "copy-from": "jerusalem_artichoke_sauteed",
     "fun": 2,
     "description": "Still crunchy but much more palatable than raw, with a slight nutty taste.",
-    "calories": 100
+    "calories": 120
   },
   {
     "type": "COMESTIBLE",
