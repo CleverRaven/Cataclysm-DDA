@@ -1700,6 +1700,25 @@
     "armor": [ { "encumbrance": [ 2, 15 ], "coverage": 30, "covers": [ "torso" ] } ]
   },
   {
+    "id": "test_mini_backpack",
+    "type": "ARMOR",
+    "name": "TEST backpack",
+    "description": "A small backpack designed for testing nesting issues.  Good storage for a little encumbrance.",
+    "weight": "633 g",
+    "volume": "2 L",
+    "price": 3900,
+    "price_postapoc": 16000,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "ragpouch",
+    "color": "green",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "3 L", "max_contains_weight": "30 kg", "moves": 300 } ],
+    "warmth": 6,
+    "material_thickness": 2,
+    "flags": [ "BELTED" ],
+    "armor": [ { "encumbrance": [ 2, 15 ], "coverage": 30, "covers": [ "torso" ] } ]
+  },
+  {
     "id": "test_briefcase",
     "repairs_like": "backpack_hiking",
     "type": "ARMOR",
