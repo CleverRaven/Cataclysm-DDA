@@ -189,25 +189,17 @@ TEST_CASE( "cardio is and isn't affected by certain traits", "[cardio][traits]" 
     // Ensure starting cardio are what we expect
     REQUIRE( they.get_cardiofit() == 1000 );
 
-    // Values trailing after check //123 are pre-Cardio in-game running distances, a high-level
-    // metric for balancing traits relative to how they were before cardio. Some traits were buffed
-    // by the change to cardio; the fast metabolism, persistence hunger, and cold-blooded traits got
-    // a 20-30% boost in total running distance. The old values are preserved here for possible
-    // future rebalancing and comparison.
-    // Addenum: Many of these pre-cardio values are completely wrong, where mutations that give bonus
-    // stamina/regen have worse running speed than base characters. I wouldn't put much faith in them.
-
     SECTION( "Base character with no traits" ) {
         // pre-Cardio, could run 96 steps
-        check_trait_cardio_stamina_run( they, "", base_cardio, base_stamina, 81 ); //96
+        check_trait_cardio_stamina_run( they, "", base_cardio, base_stamina, 81 );
     }
 
     // Body Size has no effect on running distance.
     SECTION( "Traits affecting body size" ) {
-        check_trait_cardio_stamina_run( they, "SMALL2", base_cardio, base_stamina, 81 ); //97
-        check_trait_cardio_stamina_run( they, "SMALL", base_cardio, base_stamina, 81 ); //97
-        check_trait_cardio_stamina_run( they, "LARGE", base_cardio, base_stamina, 81 ); //97
-        check_trait_cardio_stamina_run( they, "HUGE", base_cardio, base_stamina, 81 ); //97
+        check_trait_cardio_stamina_run( they, "SMALL2", base_cardio, base_stamina, 81 );
+        check_trait_cardio_stamina_run( they, "SMALL", base_cardio, base_stamina, 81 ); 
+        check_trait_cardio_stamina_run( they, "LARGE", base_cardio, base_stamina, 81 );
+        check_trait_cardio_stamina_run( they, "HUGE", base_cardio, base_stamina, 81 );
     }
 
     SECTION( "Traits with cardio_multiplier" ) {
@@ -215,37 +207,34 @@ TEST_CASE( "cardio is and isn't affected by certain traits", "[cardio][traits]" 
         // maximum stamina. Now that cardio fitness is actually implemented, these traits
         // directly affect total cardio fitness, and thus maximum stamina (and running distance).
         // Languorous
-        check_trait_cardio_stamina_run( they, "BADCARDIO", 0.7 * base_cardio, 7000, 66 ); //70
+        check_trait_cardio_stamina_run( they, "BADCARDIO", 0.7 * base_cardio, 7000, 66 );
         // Indefatigable
-        check_trait_cardio_stamina_run( they, "GOODCARDIO", 1.3 * base_cardio, 10000, 103 ); //126
+        check_trait_cardio_stamina_run( they, "GOODCARDIO", 1.3 * base_cardio, 10000, 103 );
         // Hyperactive
-        check_trait_cardio_stamina_run( they, "GOODCARDIO2", 1.6 * base_cardio, 11500, 121 ); //145
+        check_trait_cardio_stamina_run( they, "GOODCARDIO2", 1.6 * base_cardio, 11500, 121 );
     }
 
-    // Fast and v.fast metabolism apparently had worse run distance than a default character pre cardio?
     SECTION( "Traits with metabolism_modifier AND stamina_regen_modifier" ) {
         // Fast Metabolism
-        check_trait_cardio_stamina_run( they, "HUNGER", base_cardio, base_stamina, 83 ); //76
+        check_trait_cardio_stamina_run( they, "HUNGER", base_cardio, base_stamina, 83 );
         // Very Fast Metabolism
-        check_trait_cardio_stamina_run( they, "HUNGER2", base_cardio, base_stamina, 85 ); //87
+        check_trait_cardio_stamina_run( they, "HUNGER2", base_cardio, base_stamina, 85 );
         // Extreme Metabolism
-        check_trait_cardio_stamina_run( they, "HUNGER3", base_cardio, base_stamina, 88 ); //107
+        check_trait_cardio_stamina_run( they, "HUNGER3", base_cardio, base_stamina, 88 );
     }
 
-    // These pre-cardio numbers make literally no sense, why are they lower than a default character?
     SECTION( "Traits with ONLY stamina_regen_modifier" ) {
-        check_trait_cardio_stamina_run( they, "PERSISTENCE_HUNTER", base_cardio, base_stamina, 83 ); //68
-        check_trait_cardio_stamina_run( they, "PERSISTENCE_HUNTER2", base_cardio, base_stamina, 84 ); //69
+        check_trait_cardio_stamina_run( they, "PERSISTENCE_HUNTER", base_cardio, base_stamina, 83 );
+        check_trait_cardio_stamina_run( they, "PERSISTENCE_HUNTER2", base_cardio, base_stamina, 84 );
     }
 
-    // Pretty sure none of these traits affected stamina pre-cardio
     SECTION( "Traits with ONLY metabolism_modifier" ) {
-        check_trait_cardio_stamina_run( they, "COLDBLOOD", base_cardio, base_stamina, 81 ); //63
-        check_trait_cardio_stamina_run( they, "COLDBLOOD2", base_cardio, base_stamina, 81 ); //62
-        check_trait_cardio_stamina_run( they, "COLDBLOOD3", base_cardio, base_stamina, 81 ); //62
-        check_trait_cardio_stamina_run( they, "COLDBLOOD4", base_cardio, base_stamina, 81 ); //62
-        check_trait_cardio_stamina_run( they, "LIGHTEATER", base_cardio, base_stamina, 81 ); //63
-        check_trait_cardio_stamina_run( they, "MET_RAT", base_cardio, base_stamina, 81 ); //72
+        check_trait_cardio_stamina_run( they, "COLDBLOOD", base_cardio, base_stamina, 81 );
+        check_trait_cardio_stamina_run( they, "COLDBLOOD2", base_cardio, base_stamina, 81 );
+        check_trait_cardio_stamina_run( they, "COLDBLOOD3", base_cardio, base_stamina, 81 );
+        check_trait_cardio_stamina_run( they, "COLDBLOOD4", base_cardio, base_stamina, 81 );
+        check_trait_cardio_stamina_run( they, "LIGHTEATER", base_cardio, base_stamina, 81 );
+        check_trait_cardio_stamina_run( they, "MET_RAT", base_cardio, base_stamina, 81 );
     }
 }
 
