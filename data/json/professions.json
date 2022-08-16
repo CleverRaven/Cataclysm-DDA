@@ -4600,7 +4600,7 @@
     "id": "mil_hacker",
     "name": "Operator Hacker",
     "description": "You insist you're not a hacker, you're an 'Electronic Warfare Specialist'",
-    "points": 5,
+    "points": 8,
     "skills": [
       { "level": 1, "name": "survival" },
       { "level": 1, "name": "gun" },
