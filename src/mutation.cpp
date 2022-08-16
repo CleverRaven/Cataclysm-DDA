@@ -1040,15 +1040,6 @@ void Character::mutate( const int &true_random_chance, const bool use_vitamins )
                     return;
                 }
             }
-        } else {
-            // Remove existing mutations that don't fit into our category
-            if( !downgrades.empty() ) {
-                size_t roll = rng( 0, downgrades.size() + 4 );
-                if( roll < downgrades.size() ) {
-                    remove_mutation( downgrades[roll] );
-                    return;
-                }
-            }
         }
 
         // Remove anything we already have, that we have a child of, that
