@@ -155,12 +155,7 @@
         "condition": {
           "and": [
             { "u_compare_time_since_var": "u_waiting_on_hub", "type": "timer", "context": "hub_rnd", "op": ">", "time": "1 d" },
-            {
-              "u_has_var": "u_current_project",
-              "type": "dialogue",
-              "context": "hub_rnd",
-              "value": "rm13_armor"
-            }
+            { "u_has_var": "u_current_project", "type": "dialogue", "context": "hub_rnd", "value": "rm13_armor" }
           ]
         },
         "topic": "TALK_ROBOFAC_INTERCOM_RM13_REPAIR_COMPLETE"
