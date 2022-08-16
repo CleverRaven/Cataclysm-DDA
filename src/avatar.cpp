@@ -1525,10 +1525,11 @@ void avatar::update_cardio_acc()
         adjustment = std::sqrt( cardio_goal - cardio_accum );
     }
 
-    // Set a large sane upper limit to cardio fitness. This could be done 
-    // asymptotically instead of as a sharp cutoff, but the gradual growth 
+    // Set a large sane upper limit to cardio fitness. This could be done
+    // asymptotically instead of as a sharp cutoff, but the gradual growth
     // rate of cardio_acc should accomplish that naturally.
-    set_cardio_acc( clamp( cardio_accum + adjustment, get_cardio_acc_base(), get_cardio_acc_base() * 3 ) );
+    set_cardio_acc( clamp( cardio_accum + adjustment, get_cardio_acc_base(),
+                           get_cardio_acc_base() * 3 ) );
 }
 
 void avatar::advance_daily_calories()

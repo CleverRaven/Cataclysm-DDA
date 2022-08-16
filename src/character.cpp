@@ -6395,7 +6395,7 @@ int Character::get_cardiofit() const
     const int cardio_base = get_cardio_acc();
 
     // Mut mod contains the base 1.0f for all modifiers
-    const float mut_mod = mutation_value("cardio_multiplier");
+    const float mut_mod = mutation_value( "cardio_multiplier" );
     // 1 point of athletics skill = 1% more cardio, up to 10% cardio
     const float athletics_mod = get_skill_level( skill_swimming ) / 100.0f;
     // At some point we might have proficiencies that affect this.
@@ -6404,7 +6404,7 @@ int Character::get_cardiofit() const
     float health_mod = get_lifestyle() / 1000.0f;
 
     // Negative effects of health are doubled, up to 40% cardio
-    if ( health_mod < 0.0f ) {
+    if( health_mod < 0.0f ) {
         health_mod *= 2.0f;
     }
 

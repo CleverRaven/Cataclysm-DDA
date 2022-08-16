@@ -197,7 +197,7 @@ TEST_CASE( "cardio is and isn't affected by certain traits", "[cardio][traits]" 
     // Body Size has no effect on running distance.
     SECTION( "Traits affecting body size" ) {
         check_trait_cardio_stamina_run( they, "SMALL2", base_cardio, base_stamina, 81 );
-        check_trait_cardio_stamina_run( they, "SMALL", base_cardio, base_stamina, 81 ); 
+        check_trait_cardio_stamina_run( they, "SMALL", base_cardio, base_stamina, 81 );
         check_trait_cardio_stamina_run( they, "LARGE", base_cardio, base_stamina, 81 );
         check_trait_cardio_stamina_run( they, "HUGE", base_cardio, base_stamina, 81 );
     }
