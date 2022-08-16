@@ -1,5 +1,31 @@
 [
   {
+    "id": "nested_bows",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "name": "bows",
+    "description": "Recipes related to constructing bows to launch arrows with.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "selfbow", "shortbow", "longbow", "compositebow", "compgreatbow", "woodgreatbow" ],
+    "difficulty": 1,
+    "autolearn": [ [ "fabrication", 1 ] ]
+  },
+  {
+    "id": "nested_crossbows",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "name": "crossbows",
+    "description": "Recipes related to constructing crossbows to shoot bolts with.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "bullet_crossbow", "compositecrossbow", "huge_crossbow", "hand_crossbow", "rep_crossbow", "crossbow" ],
+    "difficulty": 3,
+    "autolearn": [ [ "fabrication", 3 ] ]
+  },
+  {
     "id": "nested_steel_suits",
     "type": "nested_category",
     "activity_level": "BRISK_EXERCISE",
