@@ -1130,7 +1130,7 @@
     "symbol": "[",
     "color": "dark_gray",
     "name": { "str": "RM13 combat armor" },
-    "description": "This full-body suit of sleek black military armor represents the pinnacle of Rivtech's non-rigid powered armor technology.  It has a proprietary internal battery recharged by UPS.  Use it to turn it on.",
+    "description": "This full-body suit of sleek black military armor represents the pinnacle of Rivtech's powered armor technology.  It has a proprietary internal battery recharged by UPS.  Use it to turn it on.",
     "flags": [
       "STURDY",
       "WATERPROOF",
@@ -1219,7 +1219,7 @@
     "repairs_like": "rm13_armor",
     "type": "TOOL_ARMOR",
     "name": { "str": "RM13 combat armor (on)", "str_pl": "RM13 combat armors (on)" },
-    "description": "This full-body suit of sleek black military armor represents the pinnacle of Rivtech's non-rigid powered armor technology.  As you move your fingers over the surface the armor tenses almost as though it were alive.  Use it to turn it off.",
+    "description": "This full-body suit of sleek black military armor represents the pinnacle of Rivtech's powered armor technology.  As you move your fingers over the surface the armor tenses almost as though it were alive.  Use it to turn it off.",
     "flags": [
       "STURDY",
       "WATERPROOF",
