@@ -2093,6 +2093,7 @@
     "zombify_into": "mon_zoose",
     "baby_flags": [ "AUTUMN" ],
     "reproduction": { "baby_monster": "mon_moose_calf", "baby_count": 1, "baby_timer": 154 },
+    "upgrades": { "half_life": 90, "into": "mon_tusked_moose" },
     "harvest": "mammal_large_fur",
     "dissect": "dissect_cattle_sample_large",
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 8 },
@@ -2138,7 +2139,7 @@
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "PET_WONT_FOLLOW" ]
   },
   {
-    "id": "mon_mutant_moose",
+    "id": "mon_tusked_moose",
     "type": "MONSTER",
     "name": { "str_sp": "great tusked moose" },
     "description": "The great tusked moose is a mutant variety of megafauna that evolved after the Cataclysm.  Easily recognized by the underslung tusks off the side of each mouth, in addition to an impressive rack of horns.  These moose are more aggressive than their predecessors.",
@@ -2177,7 +2178,7 @@
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM" ]
   },
   {
-    "id": "mon_mutant_moose_calf",
+    "id": "mon_tusked_moose_calf",
     "type": "MONSTER",
     "name": { "str": "tusked moose calf", "str_pl": "tusked moose calves" },
     "description": "The baby moose is called a calf so are it's tusked mutant descendants.  Calves can outrun a human within days of birth and gain weight at an incredible pace.",
@@ -2192,7 +2193,7 @@
     "material": [ "flesh" ],
     "symbol": "C",
     "color": "light_gray",
-    "looks_like": "mon_mutant_moose",
+    "looks_like": "mon_tusked_moose",
     "aggression": -70,
     "morale": 20,
     "melee_skill": 3,
