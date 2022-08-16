@@ -7,7 +7,12 @@
   {
     "type": "overmap_special_migration",
     "id": "Military Bunker",
-    "new_id": "military_bunker"
+    "new_id": "military_bunker_1"
+  },
+  {
+    "type": "overmap_special_migration",
+    "id": "military_bunker",
+    "new_id": "military_bunker_1"
   },
   {
     "type": "overmap_special_migration",

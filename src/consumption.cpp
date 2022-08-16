@@ -213,8 +213,16 @@ static std::map<vitamin_id, int> compute_default_effective_vitamins(
 
     std::map<vitamin_id, int> res = it.get_comestible()->default_nutrition.vitamins;
 
+    // for actual vitamins convert RDA to a internal value
+    for( std::pair<const vitamin_id, int> &vit : res ) {
+        if( vit.first->type() != vitamin_type::VITAMIN ) {
+            continue;
+        }
+        vit.second = vit.first->RDA_to_default( vit.second );
+    }
+
     for( const trait_id &trait : you.get_mutations() ) {
-        const auto &mut = trait.obj();
+        const mutation_branch &mut = trait.obj();
         // make sure to iterate over every material defined for vitamin absorption
         // TODO: put this loop into a function and utilize it again for bionics
         for( const auto &mat : mut.vitamin_absorb_multi ) {
@@ -264,6 +272,10 @@ nutrients Character::compute_effective_nutrients( const item &comest ) const
     // if item has components, will derive calories from that instead.
     if( !comest.components.empty() && !comest.has_flag( flag_NUTRIENT_OVERRIDE ) ) {
         nutrients tally{};
+        if( comest.recipe_charges == 0 ) {
+            // Avoid division by zero
+            return tally;
+        }
         for( const item &component : comest.components ) {
             nutrients component_value =
                 compute_effective_nutrients( component ) * component.charges;
@@ -492,7 +504,7 @@ time_duration Character::vitamin_rate( const vitamin_id &vit ) const
     time_duration res = vit.obj().rate();
 
     for( const auto &m : get_mutations() ) {
-        const auto &mut = m.obj();
+        const mutation_branch &mut = m.obj();
         auto iter = mut.vitamin_rates.find( vit );
         if( iter != mut.vitamin_rates.end() && iter->second != 0_turns ) {
             if( res != 0_turns ) {
@@ -557,6 +569,15 @@ int Character::vitamin_mod( const vitamin_id &vit, int qty )
         it->second = std::min( it->second + qty, v.max() );
         update_vitamins( vit );
 
+        // update the daily trackers too while here
+        // prevent overflow
+        constexpr int daily_vitamins_max = std::numeric_limits<int>::max();
+        if( daily_vitamins_max - daily_vitamins[vit].second >= qty ) {
+            daily_vitamins[vit].second += qty;
+        } else {
+            daily_vitamins[vit].second = daily_vitamins_max;
+        }
+
     } else if( qty < 0 ) {
         it->second = std::max( it->second + qty, v.min() );
         update_vitamins( vit );
@@ -585,15 +606,37 @@ int Character::vitamin_get( const vitamin_id &vit ) const
     return v != vitamin_levels.end() ? v->second : 0;
 }
 
-bool Character::vitamin_set( const vitamin_id &vit, int qty )
+int Character::get_daily_vitamin( const vitamin_id &vit, bool actual ) const
+{
+    if( get_option<bool>( "NO_VITAMINS" ) && vit->type() == vitamin_type::VITAMIN ) {
+        return 0;
+    }
+
+    const auto &v = daily_vitamins.find( vit );
+    // we didn't find it
+    if( v == daily_vitamins.end() ) {
+        return 0;
+    }
+    // if we should get the guess or the real value
+    return actual ? v->second.second : v->second.first;
+}
+
+void Character::reset_daily_vitamin( const vitamin_id &vit )
+{
+    if( get_option<bool>( "NO_VITAMINS" ) && vit->type() == vitamin_type::VITAMIN ) {
+        return;
+    }
+
+    daily_vitamins[vit] = { 0, 0 };
+}
+
+void Character::vitamin_set( const vitamin_id &vit, int qty )
 {
     auto v = vitamin_levels.find( vit );
     if( v == vitamin_levels.end() ) {
-        return false;
+        v = vitamin_levels.emplace( vit, 0 ).first;
     }
     vitamin_mod( vit, qty - v->second );
-
-    return true;
 }
 
 float Character::metabolic_rate_base() const
@@ -633,8 +676,8 @@ morale_type Character::allergy_type( const item &food ) const
 {
     using allergy_tuple = std::tuple<trait_id, flag_id, morale_type>;
     static const std::array<allergy_tuple, 8> allergy_tuples = {{
-            std::make_tuple( trait_VEGETARIAN, flag_ALLERGEN_MEAT, MORALE_VEGETARIAN ),
-            std::make_tuple( trait_MEATARIAN, flag_ALLERGEN_VEGGY, MORALE_MEATARIAN ),
+            std::make_tuple( trait_VEGETARIAN, flag_ALLERGEN_MEAT, MORALE_ANTIMEAT ),
+            std::make_tuple( trait_MEATARIAN, flag_ALLERGEN_VEGGY, MORALE_ANTIVEGGY ),
             std::make_tuple( trait_LACTOSE, flag_ALLERGEN_MILK, MORALE_LACTOSE ),
             std::make_tuple( trait_ANTIFRUIT, flag_ALLERGEN_FRUIT, MORALE_ANTIFRUIT ),
             std::make_tuple( trait_ANTIJUNK, flag_ALLERGEN_JUNK, MORALE_ANTIJUNK ),
@@ -715,7 +758,7 @@ ret_val<edible_rating> Character::can_eat( const item &food ) const
     if( consume_drug != nullptr ) { //its a drug)
         const consume_drug_iuse *consume_drug_use = dynamic_cast<const consume_drug_iuse *>
                 ( consume_drug->get_actor_ptr() );
-        for( auto &tool : consume_drug_use->tools_needed ) {
+        for( const auto &tool : consume_drug_use->tools_needed ) {
             const bool has = item::count_by_charges( tool.first )
                              ? has_charges( tool.first, ( tool.second == -1 ) ? 1 : tool.second )
                              : has_amount( tool.first, 1 );
@@ -795,7 +838,7 @@ ret_val<edible_rating> Character::can_consume_fuel( const item &fuel ) const
 
 ret_val<edible_rating> Character::will_eat( const item &food, bool interactive ) const
 {
-    const auto ret = can_eat( food );
+    ret_val<edible_rating> ret = can_eat( food );
     if( !ret.success() ) {
         if( interactive ) {
             add_msg_if_player( m_info, "%s", ret.c_str() );
@@ -1083,6 +1126,8 @@ static bool eat( item &food, Character &you, bool force )
         you.consumption_history.pop_front();
     }
 
+    you.recoil = MAX_RECOIL;
+
     return true;
 }
 
@@ -1091,7 +1136,7 @@ void Character::modify_health( const islot_comestible &comest )
     const int effective_health = comest.healthy;
     // Effectively no cap on health modifiers from food and meds
     const int health_cap = 200;
-    mod_healthy_mod( effective_health, effective_health >= 0 ? health_cap : -health_cap );
+    mod_daily_health( effective_health, effective_health >= 0 ? health_cap : -health_cap );
 }
 
 void Character::modify_stimulation( const islot_comestible &comest )
@@ -1161,7 +1206,7 @@ void Character::modify_morale( item &food, const int nutr )
         food.get_comestible()->comesttype != "MED" &&
         food.get_comestible()->comesttype != comesttype_DRINK ) {
         map &here = get_map();
-        if( here.has_nearby_chair( pos(), 1 ) && here.has_nearby_table( pos(), 1 ) ) {
+        if( here.has_nearby_chair( pos(), 1 ) && here.has_nearby_table( pos_bub(), 1 ) ) {
             if( has_trait( trait_TABLEMANNERS ) ) {
                 rem_morale( MORALE_ATE_WITHOUT_TABLE );
                 if( !food.rotten() ) {
@@ -1198,7 +1243,7 @@ void Character::modify_morale( item &food, const int nutr )
         const bool sapiovore = has_trait( trait_SAPIOVORE );
         const bool spiritual = has_trait( trait_SPIRITUAL );
         const bool numb = has_trait( trait_NUMB );
-        if( ( cannibal || sapiovore ) && psycho && spiritual ) {
+        if( cannibal && psycho && spiritual ) {
             add_msg_if_player( m_good,
                                _( "You feast upon the human flesh, and in doing so, devour their spirit." ) );
             // You're not really consuming anything special; you just think you are.
@@ -1206,19 +1251,24 @@ void Character::modify_morale( item &food, const int nutr )
         } else if( cannibal && psycho ) {
             add_msg_if_player( m_good, _( "You feast upon the human flesh." ) );
             add_morale( MORALE_CANNIBAL, 15, 200 );
-        } else if( ( cannibal || sapiovore ) && spiritual ) {
+        } else if( cannibal && spiritual ) {
             add_msg_if_player( m_good, _( "You consume the sacred human flesh." ) );
             // Boosted because you understand the philosophical implications of your actions, and YOU LIKE THEM.
             add_morale( MORALE_CANNIBAL, 15, 200 );
+        } else if( sapiovore && spiritual ) {
+            add_msg_if_player( m_good, _( "You eat the human flesh, and in doing so, devour their spirit." ) );
+            add_morale( MORALE_CANNIBAL, 10, 50 );
         } else if( cannibal ) {
             add_msg_if_player( m_good, _( "You indulge your shameful hunger." ) );
             add_morale( MORALE_CANNIBAL, 10, 50 );
-        } else if( ( psycho || sapiovore ) && spiritual ) {
+        } else if( psycho && spiritual ) {
             add_msg_if_player( _( "You greedily devour the taboo meat." ) );
             // Small bonus for violating a taboo.
             add_morale( MORALE_CANNIBAL, 5, 50 );
-        } else if( psycho || sapiovore ) {
+        } else if( psycho ) {
             add_msg_if_player( _( "Meh.  You've eaten worse." ) );
+        } else if( sapiovore ) {
+            add_msg_if_player( _( "Mmh.  Tastes like venison." ) );
         } else if( spiritual ) {
             add_msg_if_player( m_bad,
                                _( "This is probably going to count against you if there's still an afterlife." ) );
@@ -1265,7 +1315,7 @@ void Character::modify_morale( item &food, const int nutr )
     if( !food.has_flag( flag_NO_INGEST ) ) {
         const auto allergy = allergy_type( food );
         if( allergy != MORALE_NULL ) {
-            add_msg_if_player( m_bad, _( "Yuck!  How can anybody eat this stuff?" ) );
+            add_msg_if_player( m_bad, _( "Your stomach begins gurgling and you feel bloated and ill." ) );
             add_morale( allergy, -75, -400, 30_minutes, 24_minutes );
         }
         if( food.has_flag( flag_ALLERGEN_JUNK ) ) {
@@ -1400,7 +1450,7 @@ bool Character::consume_effects( item &food )
         return false;
     }
 
-    const auto &comest = *food.get_comestible();
+    const islot_comestible &comest = *food.get_comestible();
 
     // Rotten food causes health loss
     const float relative_rot = food.get_relative_rot();
@@ -1409,7 +1459,7 @@ bool Character::consume_effects( item &food )
         // ~-1 health per 1 nutrition at halfway-rotten-away, ~0 at "just got rotten"
         // But always round down
         int h_loss = -rottedness * comest.get_default_nutr();
-        mod_healthy_mod( h_loss, -200 );
+        mod_daily_health( h_loss, -200 );
         add_msg_debug( debugmode::DF_FOOD, "%d health from %0.2f%% rotten food", h_loss, rottedness );
     }
 
@@ -1508,7 +1558,15 @@ bool Character::consume_effects( item &food )
 
     // GET IN MAH BELLY!
     stomach.ingest( ingested );
+
+    // update speculative values
     get_avatar().add_ingested_kcal( ingested.nutr.calories / 1000 );
+    for( const auto &v : ingested.nutr.vitamins ) {
+        // update the estimated values for daily vitamins
+        // actual vitamins happen during digestion
+        daily_vitamins[v.first].first += v.second;
+    }
+
     return true;
 }
 
@@ -1625,7 +1683,7 @@ item &Character::get_consumable_from( item &it ) const
     return null_comestible;
 }
 
-time_duration Character::get_consume_time( const item &it )
+time_duration Character::get_consume_time( const item &it ) const
 {
     const int charges = std::max( it.charges, 1 );
     int volume = units::to_milliliter( it.volume() ) / charges;
@@ -1742,7 +1800,7 @@ static bool consume_med( item &target, Character &you )
     // TODO: Get the target it was used on
     // Otherwise injecting someone will give us addictions etc.
     if( target.has_flag( flag_NO_INGEST ) ) {
-        const auto &comest = *target.get_comestible();
+        const islot_comestible &comest = *target.get_comestible();
         // Assume that parenteral meds don't spoil, so don't apply rot
         you.modify_health( comest );
         you.modify_stimulation( comest );

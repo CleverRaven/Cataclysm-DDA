@@ -93,7 +93,7 @@ void for_each_dir_entry( const std::string &path, Function function )
         DebugLog( D_WARNING, D_MAIN ) << "opendir [" << path << "] failed with \"" << e_str << "\".";
         return;
     }
-    for( auto &dir_entry : dir_iter ) {
+    for( const ghc::filesystem::directory_entry &dir_entry : dir_iter ) {
         function( dir_entry );
     }
 }

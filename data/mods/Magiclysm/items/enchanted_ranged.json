@@ -137,6 +137,7 @@
     "barrel_volume": "500 ml",
     "valid_mod_locations": [ [ "mechanism", 1 ] ],
     "reload_noise": "chuk chuk.",
+    "weapon_category": [ "MEDIUM_SWORDS" ],
     "flags": [ "RELOAD_ONE", "PUMP_ACTION", "DURABLE_MELEE", "SHEATH_SWORD" ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 3 } } ]
@@ -175,7 +176,7 @@
     "symbol": "%",
     "color": "red",
     "name": { "str": "Bone Launcher" },
-    "description": "Once a flesh spear, now a grotesque pipe like object with an barrel made from bone and coated in flesh.  There is an biomancer rune embedded in the tooth like trigger.",
+    "description": "Once a flesh spear, now a grotesque pipe like object with an barrel made from bone and coated in flesh.  There is an biomancer rune embedded in the tooth like trigger.  Uses sharpened bone as an ammo.",
     "material": [ "hflesh", "bone" ],
     "flags": [
       "PRIMITIVE_RANGED_WEAPON",
@@ -209,6 +210,7 @@
       "target": "rune_biomancer_weapon_adept",
       "msg": "You feel the spear rapidly contracting and squirming for close combat",
       "need_wielding": true,
+      "ammo_scale": 0,
       "moves": 400
     }
   },

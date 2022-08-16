@@ -423,7 +423,7 @@ inline std::string string_format( std::string format, Args &&...args )
     }
 }
 template<typename ...Args>
-inline std::string string_format( const char *const format, Args &&...args )
+inline std::string string_format( const char *format, Args &&...args )
 {
     return string_format( std::string( format ), std::forward<Args>( args )... );
 }

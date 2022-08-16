@@ -266,7 +266,7 @@
     },
     "forest_mapgen_settings": {
       "forest": {
-        "terrains": [ "forest" ],
+        "terrains": [ "forest", "special_forest" ],
         "sparseness_adjacency_factor": 3,
         "item_group": "forest",
         "item_group_chance": 60,
@@ -300,6 +300,7 @@
       "forest_thick": {
         "terrains": [
           "forest_thick",
+          "special_forest_thick",
           "forest_trail_isolated",
           "forest_trail_end_north",
           "forest_trail_end_east",
@@ -456,8 +457,8 @@
           "mx_exocrash_1": 1,
           "mx_exocrash_2": 1,
           "mx_bandits_ambush": 5,
-          "mx_bandits_grave": 1,
-          "mx_bandits_outpost": 1
+          "mx_bandits_grave": 2,
+          "mx_bandits_outpost": 2
         }
       },
       "forest_thick": {
@@ -493,9 +494,9 @@
           "mx_mass_grave": 5,
           "mx_exocrash_1": 1,
           "mx_exocrash_2": 1,
-          "mx_bandits_ambush": 1,
-          "mx_bandits_grave": 1,
-          "mx_bandits_outpost": 1
+          "mx_bandits_ambush": 5,
+          "mx_bandits_grave": 2,
+          "mx_bandits_outpost": 2
         }
       },
       "forest_water": {
@@ -524,9 +525,9 @@
           "mx_nest_dermatik": 50,
           "mx_exocrash_1": 1,
           "mx_exocrash_2": 1,
-          "mx_bandits_ambush": 1,
-          "mx_bandits_grave": 1,
-          "mx_bandits_outpost": 1
+          "mx_bandits_ambush": 5,
+          "mx_bandits_grave": 2,
+          "mx_bandits_outpost": 2
         }
       },
       "field": {

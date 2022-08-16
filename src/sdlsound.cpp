@@ -99,7 +99,7 @@ static std::vector<sfx_args> sfx_preload;
 
 bool sounds::sound_enabled = false;
 
-static inline bool check_sound( const int volume = 1 )
+static bool check_sound( const int volume = 1 )
 {
     return sound_init_success && sounds::sound_enabled && volume > 0;
 }
@@ -324,7 +324,7 @@ static Mix_Chunk *load_chunk( const std::string &path )
 // Check to see if the resource has already been loaded
 // - Loaded: Return stored pointer
 // - Not Loaded: Load chunk from stored resource path
-static inline Mix_Chunk *get_sfx_resource( int resource_id )
+static Mix_Chunk *get_sfx_resource( int resource_id )
 {
     sound_effect_resource &resource = sfx_resources.resource[ resource_id ];
     if( !resource.chunk ) {
@@ -334,7 +334,7 @@ static inline Mix_Chunk *get_sfx_resource( int resource_id )
     return resource.chunk.get();
 }
 
-static inline int add_sfx_path( const std::string &path )
+static int add_sfx_path( const std::string &path )
 {
     auto find_result = unique_paths.find( path );
     if( find_result != unique_paths.end() ) {
@@ -366,7 +366,7 @@ void sfx::load_sound_effects( const JsonObject &jsobj )
         key.indoors = jsobj.get_bool( "is_indoors" );
     }
     if( jsobj.has_bool( "is_night" ) ) {
-        key.indoors = jsobj.get_bool( "is_night" );
+        key.night = jsobj.get_bool( "is_night" );
     }
     const int volume = jsobj.get_int( "volume", 100 );
     auto &effects = sfx_resources.sound_effects[ key ];
@@ -397,7 +397,7 @@ void sfx::load_sound_effect_preload( const JsonObject &jsobj )
             preload_key.indoors = aobj.get_bool( "is_indoors" );
         }
         if( aobj.has_bool( "is_night" ) ) {
-            preload_key.indoors = aobj.get_bool( "is_night" );
+            preload_key.night = aobj.get_bool( "is_night" );
         }
         sfx_preload.push_back( preload_key );
     }
@@ -755,7 +755,7 @@ void load_soundset()
     for( const sfx_args &preload : sfx_preload ) {
         const auto find_result = sfx_resources.sound_effects.find( preload );
         if( find_result != sfx_resources.sound_effects.end() ) {
-            for( const auto &sfx : find_result->second ) {
+            for( const sound_effect &sfx : find_result->second ) {
                 get_sfx_resource( sfx.resource_id );
             }
         }

@@ -61,8 +61,8 @@
     "material_thickness": 4,
     "environmental_protection": 3,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "OUTER", "HELMET_COMPAT" ],
-    "armor": [ { "encumbrance": 25, "coverage": 100, "covers": [ "head" ] } ]
+    "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "OUTER" ],
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 100, "covers": [ "head" ] } ]
   },
   {
     "id": "hood_wsurvivor",
@@ -83,8 +83,8 @@
     "warmth": 75,
     "material_thickness": 5,
     "environmental_protection": 5,
-    "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "OUTER", "HELMET_COMPAT" ],
-    "armor": [ { "encumbrance": 37, "coverage": 100, "covers": [ "head" ] } ]
+    "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "OUTER" ],
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 100, "covers": [ "head" ] } ]
   },
   {
     "id": "xl_hood_wsurvivor",
@@ -144,8 +144,8 @@
     "warmth": 10,
     "material_thickness": 4,
     "environmental_protection": 3,
-    "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "OUTER", "HELMET_COMPAT" ],
-    "armor": [ { "encumbrance": 15, "coverage": 100, "covers": [ "head" ] } ]
+    "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "OUTER" ],
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 100, "covers": [ "head" ] } ]
   },
   {
     "id": "xl_hood_lsurvivor",
@@ -219,8 +219,8 @@
     "warmth": 15,
     "material_thickness": 3,
     "environmental_protection": 10,
-    "flags": [ "VARSIZE", "WATER_FRIENDLY", "STURDY", "OUTER", "HELMET_COMPAT", "SOFT" ],
-    "armor": [ { "encumbrance": 25, "coverage": 100, "covers": [ "head" ] } ]
+    "flags": [ "VARSIZE", "WATER_FRIENDLY", "STURDY", "OUTER", "SOFT" ],
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 100, "covers": [ "head" ] } ]
   },
   {
     "id": "helmet_scavenger",
@@ -237,7 +237,7 @@
     "looks_like": "mask_gas",
     "color": "white",
     "armor": [
-      { "covers": [ "head" ], "coverage": 100, "encumbrance": 23 },
+      { "covers": [ "head" ], "coverage": 100, "encumbrance_modifiers": [ "NONE" ] },
       { "covers": [ "eyes", "mouth" ], "coverage": 100, "encumbrance": 5 }
     ],
     "warmth": 40,

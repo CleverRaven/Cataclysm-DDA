@@ -143,7 +143,8 @@
       "W": "t_water_dispenser"
     },
     "furniture": { "6": "f_console_broken" },
-    "toilets": { "&": {  } }
+    "toilets": { "&": {  } },
+    "liquids": { "W": { "liquid": "water_clean", "amount": [ 0, 80 ] } }
   },
   {
     "type": "palette",

@@ -273,7 +273,7 @@ bool craft_command::continue_prompt_liquids( const std::function<bool( const ite
             for( auto &mit : map_items ) {
                 m.add_item_or_charges( mit.first, mit.second );
             }
-            for( auto &iit : inv_items ) {
+            for( item &iit : inv_items ) {
                 crafter->i_add_or_drop( iit );
             }
             for( auto &vit : veh_items ) {

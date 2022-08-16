@@ -8,60 +8,114 @@
     "text_align": "left"
   },
   {
-    "id": "compass_N_text",
+    "id": "compass_text_template_no_label",
+    "type": "widget",
+    "copy-from": "compass_text_template",
+    "flags": [ "W_LABEL_NONE" ]
+  },
+  {
+    "id": "compass_N_text_label",
     "type": "widget",
     "label": "N",
     "direction": "N",
     "copy-from": "compass_text_template"
   },
   {
-    "id": "compass_S_text",
+    "id": "compass_N_text_no_label",
+    "type": "widget",
+    "direction": "N",
+    "copy-from": "compass_text_template_no_label"
+  },
+  {
+    "id": "compass_S_text_label",
     "type": "widget",
     "label": "S",
     "direction": "S",
     "copy-from": "compass_text_template"
   },
   {
-    "id": "compass_E_text",
+    "id": "compass_S_text_no_label",
+    "type": "widget",
+    "direction": "S",
+    "copy-from": "compass_text_template_no_label"
+  },
+  {
+    "id": "compass_E_text_label",
     "type": "widget",
     "label": "E",
     "direction": "E",
     "copy-from": "compass_text_template"
   },
   {
-    "id": "compass_W_text",
+    "id": "compass_E_text_no_label",
+    "type": "widget",
+    "direction": "E",
+    "copy-from": "compass_text_template_no_label"
+  },
+  {
+    "id": "compass_W_text_label",
     "type": "widget",
     "label": { "str": "W", "ctxt": "compass" },
     "direction": "W",
     "copy-from": "compass_text_template"
   },
   {
-    "id": "compass_NE_text",
+    "id": "compass_W_text_no_label",
+    "type": "widget",
+    "direction": "W",
+    "copy-from": "compass_text_template_no_label"
+  },
+  {
+    "id": "compass_NE_text_label",
     "type": "widget",
     "label": "NE",
     "direction": "NE",
     "copy-from": "compass_text_template"
   },
   {
-    "id": "compass_NW_text",
+    "id": "compass_NE_text_no_label",
+    "type": "widget",
+    "direction": "NE",
+    "copy-from": "compass_text_template_no_label"
+  },
+  {
+    "id": "compass_NW_text_label",
     "type": "widget",
     "label": "NW",
     "direction": "NW",
     "copy-from": "compass_text_template"
   },
   {
-    "id": "compass_SE_text",
+    "id": "compass_NW_text_no_label",
+    "type": "widget",
+    "direction": "NW",
+    "copy-from": "compass_text_template_no_label"
+  },
+  {
+    "id": "compass_SE_text_label",
     "type": "widget",
     "label": "SE",
     "direction": "SE",
     "copy-from": "compass_text_template"
   },
   {
-    "id": "compass_SW_text",
+    "id": "compass_SE_text_no_label",
+    "type": "widget",
+    "direction": "SE",
+    "copy-from": "compass_text_template_no_label"
+  },
+  {
+    "id": "compass_SW_text_label",
     "type": "widget",
     "label": "SW",
     "direction": "SW",
     "copy-from": "compass_text_template"
+  },
+  {
+    "id": "compass_SW_text_no_label",
+    "type": "widget",
+    "direction": "SW",
+    "copy-from": "compass_text_template_no_label"
   },
   {
     "//": "An empty space indicating threats nearby",
@@ -97,21 +151,21 @@
     "type": "widget",
     "style": "layout",
     "arrange": "columns",
-    "widgets": [ "compass_NW_text", "compass_N_text", "compass_NE_text" ]
+    "widgets": [ "compass_NW_text_label", "compass_N_text_label", "compass_NE_text_label" ]
   },
   {
     "id": "compass_middle_layout",
     "type": "widget",
     "style": "layout",
     "arrange": "columns",
-    "widgets": [ "compass_W_text", "compass_local_text", "compass_E_text" ]
+    "widgets": [ "compass_W_text_label", "compass_local_text", "compass_E_text_label" ]
   },
   {
     "id": "compass_bottom_layout",
     "type": "widget",
     "style": "layout",
     "arrange": "columns",
-    "widgets": [ "compass_SW_text", "compass_S_text", "compass_SE_text" ]
+    "widgets": [ "compass_SW_text_label", "compass_S_text_label", "compass_SE_text_label" ]
   },
   {
     "id": "compass_all_layout",

@@ -1,0 +1,38 @@
+[
+  {
+    "type": "overmap_special",
+    "id": "dumpsite_mutable",
+    "subtype": "mutable",
+    "locations": [ "land" ],
+    "city_distance": [ 4, 40 ],
+    "city_sizes": [ 5, -1 ],
+    "occurrences": [ 0, 3 ],
+    "flags": [ "CLASSIC" ],
+    "check_for_locations": [
+      [ [ 0, 0, 0 ], [ "land" ] ],
+      [ [ 1, 0, 0 ], [ "land" ] ],
+      [ [ 0, 1, 0 ], [ "land" ] ],
+      [ [ -1, 0, 0 ], [ "land" ] ],
+      [ [ 0, -1, 0 ], [ "land" ] ]
+    ],
+    "joins": [ "dump_to_dump" ],
+    "overmaps": {
+      "dump_core": {
+        "overmap": "dumpsite_north",
+        "north": { "id": "dump_to_dump" },
+        "east": { "id": "dump_to_dump" },
+        "south": { "id": "dump_to_dump" },
+        "west": { "id": "dump_to_dump" }
+      },
+      "dump_edge": {
+        "overmap": "dumpsite_edge_north",
+        "north": "dump_to_dump",
+        "east": { "id": "dump_to_dump", "type": "available" },
+        "south": { "id": "dump_to_dump", "type": "available" },
+        "west": { "id": "dump_to_dump", "type": "available" }
+      }
+    },
+    "root": "dump_core",
+    "phases": [ [ { "overmap": "dump_edge", "weight": 33 }, { "overmap": "dump_core", "weight": 11 } ] ]
+  }
+]

@@ -40,7 +40,7 @@
 #  make LOCALIZE=0
 # Disable backtrace support, not available on all platforms
 #  make BACKTRACE=0
-# Use libbacktrace. Only has effect if BACKTRACE=1. (currently only for MinGW builds)
+# Use libbacktrace. Only has effect if BACKTRACE=1. (currently only for MinGW and Linux builds)
 #  make LIBBACKTRACE=1
 # Compile localization files for specified languages
 #  make localization LANGUAGES="<lang_id_1>[ lang_id_2][ ...]"
@@ -49,8 +49,6 @@
 #  (for every .po file in lang/po)
 # Enable sanitizer (address, undefined, etc.)
 #  make SANITIZE=address
-# Change mapsize (reality bubble size)
-#  make MAPSIZE=<size>
 # Enable the string id debugging helper
 #  make STRING_ID_DEBUG=1
 # Adjust names of build artifacts (for example to allow easily toggling between build types).
@@ -263,7 +261,7 @@ W32ODIR = $(BUILD_PREFIX)objwin
 W32ODIRTILES = $(W32ODIR)/tiles
 
 ifdef AUTO_BUILD_PREFIX
-  BUILD_PREFIX = $(if $(RELEASE),release-)$(if $(DEBUG_SYMBOLS),symbol-)$(if $(TILES),tiles-)$(if $(SOUND),sound-)$(if $(LOCALIZE),local-)$(if $(BACKTRACE),back-$(if $(LIBBACKTRACE),libbacktrace-))$(if $(SANITIZE),sanitize-)$(if $(MAPSIZE),map-$(MAPSIZE)-)$(if $(USE_XDG_DIR),xdg-)$(if $(USE_HOME_DIR),home-)$(if $(DYNAMIC_LINKING),dynamic-)$(if $(MSYS2),msys2-)
+  BUILD_PREFIX = $(if $(RELEASE),release-)$(if $(DEBUG_SYMBOLS),symbol-)$(if $(TILES),tiles-)$(if $(SOUND),sound-)$(if $(LOCALIZE),local-)$(if $(BACKTRACE),back-$(if $(LIBBACKTRACE),libbacktrace-))$(if $(SANITIZE),sanitize-)$(if $(USE_XDG_DIR),xdg-)$(if $(USE_HOME_DIR),home-)$(if $(DYNAMIC_LINKING),dynamic-)$(if $(MSYS2),msys2-)
   export BUILD_PREFIX
 endif
 
@@ -400,7 +398,11 @@ ifeq ($(RELEASE), 1)
   OTHERS += $(RELEASE_FLAGS)
   DEBUG =
   ifndef DEBUG_SYMBOLS
-    DEBUGSYMS =
+    ifeq ($(LIBBACKTRACE), 1)
+      DEBUGSYMS = -g1
+    else
+      DEBUGSYMS =
+    endif
   endif
   DEFINES += -DRELEASE
   # Check for astyle or JSON regressions on release builds.
@@ -615,10 +617,6 @@ ifeq ($(TARGETSYSTEM),WINDOWS)
   endif
 endif
 
-ifdef MAPSIZE
-    CXXFLAGS += -DMAPSIZE=$(MAPSIZE)
-endif
-
 ifeq ($(shell git rev-parse --is-inside-work-tree),true)
   # We have a git repository, use git version
   DEFINES += -DGIT_VERSION
@@ -786,9 +784,6 @@ ifeq ($(TARGETSYSTEM),WINDOWS)
   LDFLAGS += -lgdi32 -lwinmm -limm32 -lole32 -loleaut32 -lversion
   ifeq ($(BACKTRACE),1)
     LDFLAGS += -ldbghelp
-    ifeq ($(LIBBACKTRACE),1)
-      LDFLAGS += -lbacktrace
-    endif
   endif
 endif
 
@@ -796,6 +791,7 @@ ifeq ($(BACKTRACE),1)
   DEFINES += -DBACKTRACE
   ifeq ($(LIBBACKTRACE),1)
       DEFINES += -DLIBBACKTRACE
+      LDFLAGS += -lbacktrace
   endif
 endif
 
@@ -909,7 +905,7 @@ endif
 
 LDFLAGS += -lz
 
-all: version $(CHECKS) $(TARGET) $(L10N) $(TESTS)
+all: version prefix $(CHECKS) $(TARGET) $(L10N) $(TESTS)
 	@
 
 $(TARGET): $(OBJS)
@@ -928,12 +924,18 @@ $(PCH_P): $(PCH_H)
 $(BUILD_PREFIX)$(TARGET_NAME).a: $(OBJS)
 	$(AR) rcs $(BUILD_PREFIX)$(TARGET_NAME).a $(filter-out $(ODIR)/main.o $(ODIR)/messages.o,$(OBJS))
 
-.PHONY: version
+.PHONY: version prefix
 version:
 	@( VERSION_STRING=$(VERSION) ; \
             [ -e ".git" ] && GITVERSION=$$( git describe --tags --always --match "[0-9A-Z]*.[0-9A-Z]*" ) && DIRTYFLAG=$$( [ -z "$$(git diff --numstat | grep -v lang/po/)" ] || echo "-dirty") && VERSION_STRING=$$GITVERSION$$DIRTYFLAG ; \
             [ -e "$(SRC_DIR)/version.h" ] && OLDVERSION=$$(grep VERSION $(SRC_DIR)/version.h|cut -d '"' -f2) ; \
             if [ "x$$VERSION_STRING" != "x$$OLDVERSION" ]; then printf '// NOLINT(cata-header-guard)\n#define VERSION "%s"\n' "$$VERSION_STRING" | tee $(SRC_DIR)/version.h ; fi \
+         )
+
+prefix:
+	@( PREFIX_STRING=$(PREFIX) ; \
+            [ -e "$(SRC_DIR)/prefix.h" ] && OLDPREFIX=$$(grep PREFIX $(SRC_DIR)/PREFIX.h|cut -d '"' -f2) ; \
+            if [ "x$$PREFIX_STRING" != "x$$OLDPREFIX" ]; then printf '// NOLINT(cata-header-guard)\n#define PREFIX "%s"\n' "$$PREFIX_STRING" | tee $(SRC_DIR)/prefix.h ; fi \
          )
 
 # Unconditionally create the object dir on every invocation.

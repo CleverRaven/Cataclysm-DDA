@@ -3,7 +3,7 @@
     "result": "blade_scythe",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
-    "time": 0,
+    "time": "0 s",
     "components": [ [ [ "steel_lump", 1 ] ] ]
   },
   {
@@ -29,7 +29,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "skill_used": "fabrication",
     "time": "5 m",
-    "tools": [ [ [ "pickaxe", -1 ], [ "jackhammer", 1 ], [ "elec_jackhammer", 50 ] ] ],
+    "tools": [ [ [ "pickaxe", -1 ], [ "bronze_pickaxe", -1 ], [ "jackhammer", 1 ], [ "elec_jackhammer", 50 ] ] ],
     "components": [ [ [ "rock", 24 ] ] ]
   },
   {
@@ -69,7 +69,7 @@
     "difficulty": 1,
     "time": "22 s",
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "rag", 60 ] ], [ [ "sheet", 4 ] ], [ [ "spring", 4 ] ], [ [ "wire", 20 ] ] ]
+    "components": [ [ [ "cotton_patchwork", 60 ] ], [ [ "sheet", 4 ] ], [ [ "spring", 4 ] ], [ [ "wire", 20 ] ] ]
   },
   {
     "result": "character_sheet",

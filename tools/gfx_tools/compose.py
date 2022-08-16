@@ -254,6 +254,7 @@ class Tileset:
         self.sprite_width = 16
         self.sprite_height = 16
         self.pixelscale = 1
+        self.iso = False
         self.info = [{}]
 
         if not os.access(info_path, os.R_OK):
@@ -264,6 +265,7 @@ class Tileset:
             self.sprite_width = self.info[0].get('width', self.sprite_width)
             self.sprite_height = self.info[0].get('height', self.sprite_height)
             self.pixelscale = self.info[0].get('pixelscale', self.pixelscale)
+            self.iso = self.info[0].get('iso', self.iso)
 
     def determine_conffile(self) -> str:
         '''
@@ -385,6 +387,11 @@ class Tileset:
         for sheet in sheet_configs:
             if sheet.is_fallback:
                 fallback_name = sheet.name
+                if not sheet.is_standard():
+                    FALLBACK['sprite_width'] = sheet.sprite_width
+                    FALLBACK['sprite_height'] = sheet.sprite_height
+                    FALLBACK['sprite_offset_x'] = sheet.offset_x
+                    FALLBACK['sprite_offset_y'] = sheet.offset_y
                 continue
             if sheet.is_filler and not main_finished:
                 create_tile_entries_for_unused(
@@ -436,6 +443,7 @@ class Tileset:
                 'pixelscale': self.pixelscale,
                 'width': self.sprite_width,
                 'height': self.sprite_height,
+                'iso': self.iso,
             }],
             'tiles-new': tiles_new
         }

@@ -7,33 +7,33 @@
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
-        "__________________'''___",
-        "_*___*___*___*___*'''_@_",
-        "_*___*___*___*___*'''_@_",
-        "_*___*___*___*___*'''_@_",
-        "_*___*___*___*___*'''_@_",
-        "_*___*___*___*___*'''___",
+        "___________________'''''",
+        "___*___*___*___*___'''@'",
+        "___*___*___*___*___'''@'",
+        "___*___*___*___*___'''@'",
+        "___*___*___*___*___'''@'",
+        "___*___*___*___*___'''''",
         "''''''''''''''''''''''''",
         "'##::::##::::##+##:::::'",
         "'#y..KKKKKK...^.^#dddd:'",
         "':y..............D...d:'",
-        "':y..vvvvvv...CC.######_",
-        "':y..YYYYYY...?a.|||||#_",
-        "':y...........Cr.....|#_",
-        "'#y..QQQQQQ...#VLLLL.|#_",
-        "'#----------D-------D-#_",
-        "'#CCCCCCC-<-.-nA^.l-.s#_",
-        "'#CA...AC-D-.-nA..l-.s:_",
-        "'+...A...D...D.....D.s:_",
-        "_#H.CCC.H-ss.-CCfgg-.s#_",
-        "_#H.UUU.H###+######-D-#_",
-        "_#H.UUU.H#''''___;#r.^#_",
-        "_#H.....H#'__*_ww_#q.&#_",
-        "_##::#::##'__*_ww_#####_",
-        "__________'__*_ww_______"
+        "':y..vvvvvv...CC.######'",
+        "':y..YYYYYY...Ca.|||||#'",
+        "':y...........Cr.....|#'",
+        "'#y..QQQQQQ...?VLLLL.|#'",
+        "'#----------D-------D-#'",
+        "'#CCCCCCC-<-.-nA^.l-.s#'",
+        "'#CA...AC-D-.-nA..l-.s:'",
+        "'+...A...D...D.....D.s:'",
+        "'#H.CCC.H-ss.-CCfgg-.s#'",
+        "'#H.UUU.H###+######-D-#'",
+        "'#H.UUU.H#''''''''#r.^#'",
+        "'#H.....H#'''''ww'#q.&#'",
+        "'##::#::##'''''ww'#####'",
+        "'''''''''''''''ww'''''''"
       ],
       "palettes": [ "gun_store_palette" ],
-      "terrain": { "V": "t_thconc_floor", "H": "t_thconc_floor", "u": "t_thconc_floor", ";": "t_thconc_floor", "w": "t_pavement" },
+      "terrain": { "V": "t_thconc_floor", "H": "t_thconc_floor", "u": "t_thconc_floor", ";": "t_thconc_floor", "w": "t_sidewalk" },
       "set": [
         { "point": "terrain", "id": "t_tree_young", "x": 22, "y": [ 1, 4 ], "chance": 10, "repeat": [ 1, 3 ] },
         { "point": "terrain", "id": "t_tree_apple", "x": 22, "y": [ 1, 4 ], "chance": 30, "repeat": [ 1, 2 ] }
@@ -48,7 +48,8 @@
         { "item": "puller", "x": 5, "y": 18, "chance": 75 },
         { "item": "press", "x": 6, "y": 18, "chance": 75 },
         { "item": "welder", "x": 7, "y": 15, "chance": 30 },
-        { "item": "goggles_welding", "x": 7, "y": 15, "chance": 30 }
+        { "item": "goggles_welding", "x": 7, "y": 15, "chance": 30 },
+        { "group": "cash_register_random", "x": 14, "y": [ 10, 12 ] }
       ]
     }
   },
@@ -144,33 +145,33 @@
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
-        "__________________'''___",
-        "_*___*___*___*___*'''_@_",
-        "_*___*___*___*___*'''_@_",
-        "_*___*___*___*___*'''_@_",
-        "_*___*___*___*___*'''_@_",
-        "_*___*___*___*___*'''___",
+        "___________________'''''",
+        "___*___*___*___*___'''@'",
+        "___*___*___*___*___'''@'",
+        "___*___*___*___*___'''@'",
+        "___*___*___*___*___'''@'",
+        "___*___*___*___*___'''''",
         "''''''''''''''''''''''''",
         "'##::::##::::##+##:::::'",
         "'#m``mmmmmm```^`^#pppp:'",
         "':m``````````````D```p:'",
-        "':m``mmmmmm```CC`######_",
-        "':m``mmmmmm```?a`MMMMM#_",
-        "':m```````````Cr`````M#_",
-        "'#m``mmmmmm```#eMMMM`M#_",
-        "'#----------D-------D-#_",
-        "'#CCCCCCC-<-`-nA^`M-`S#_",
-        "'#CA```AC-D-`-nA``M-`S:_",
-        "'+```A```D```D`````D`S:_",
-        "_#M`CCC`M-SS`-CCfgg-`S#_",
-        "_#M`mmm`M###+######-D-#_",
-        "_#M`mmm`M#''''___;#r`^#_",
-        "_#M````.M#'__*_ww_#q`&#_",
-        "_##::#::##'__*_ww_#####_",
-        "__________'__*_ww_______"
+        "':m``mmmmmm```CC`######'",
+        "':m``mmmmmm```Ca`MMMMM#'",
+        "':m```````````Cr`````M#'",
+        "'#m``mmmmmm```?eMMMM`M#'",
+        "'#----------D-------D-#'",
+        "'#CCCCCCC-<-`-nA^`M-`S#'",
+        "'#CA```AC-D-`-nA``M-`S:'",
+        "'+```A```D```D`````D`S:'",
+        "'#M`CCC`M-SS`-CCfgg-`S#'",
+        "'#M`mmm`M###+######-D-#'",
+        "'#M`mmm`M#''''''''#r`^#'",
+        "'#M````.M#'''''ww'#q`&#'",
+        "'##::#::##'''''ww'#####'",
+        "'''''''''''''''ww'''''''"
       ],
       "palettes": [ "gun_store_palette" ],
-      "terrain": { "V": "t_thconc_floor", "H": "t_thconc_floor", "u": "t_thconc_floor", ";": "t_thconc_floor", "w": "t_pavement" },
+      "terrain": { "V": "t_thconc_floor", "H": "t_thconc_floor", "u": "t_thconc_floor", ";": "t_thconc_floor", "w": "t_sidewalk" },
       "set": [
         { "point": "terrain", "id": "t_tree_young", "x": 22, "y": [ 1, 4 ], "chance": 10, "repeat": [ 1, 3 ] },
         { "point": "terrain", "id": "t_tree_apple", "x": 22, "y": [ 1, 4 ], "chance": 30, "repeat": [ 1, 2 ] }
@@ -197,7 +198,8 @@
         "e": { "chunks": [ [ "looted_gunsafe_nested", 25 ], [ "jammed_gunsafe_nested", 75 ], [ "null", 95 ] ] },
         "+": { "chunks": [ [ "destroyed_metal_door_nested", 90 ], [ "null", 75 ] ] },
         "`": { "chunks": [ [ "corpse_blood_casings_1x1", 4 ], [ "null", 20 ] ] }
-      }
+      },
+      "place_loot": [ { "group": "cash_register_random_ransacked", "x": 14, "y": [ 10, 12 ] } ]
     }
   }
 ]

@@ -12,6 +12,7 @@
       [ "light_detector", 5 ],
       [ "amplifier", 40 ],
       [ "antenna", 40 ],
+      [ "nuts_bolts", 15 ],
       { "group": "ammo_any_batteries_full", "prob": 100 },
       [ "cable", 60 ],
       [ "power_supply", 20 ],
@@ -25,6 +26,9 @@
       [ "transponder", 30 ],
       [ "light_bulb", 60 ],
       [ "lightstrip_inactive", 60 ],
+      [ "compressor", 10 ],
+      [ "hd_compressor", 2 ],
+      [ "magnet", 5 ],
       [ "motor_small", 10 ],
       [ "motor_tiny", 30 ],
       [ "motor_micro", 40 ],
@@ -59,7 +63,8 @@
       [ "p_paint", 45 ],
       [ "y_paint", 45 ],
       [ "chipper", 55 ],
-      [ "paint_brush", 55 ]
+      [ "paint_brush", 55 ],
+      { "item": "chem_turpentine", "prob": 45, "charges-min": 20 }
     ]
   },
   {
@@ -85,6 +90,7 @@
       [ "fertilizer_commercial", 100 ],
       [ "material_quicklime", 70 ],
       [ "concrete", 70 ],
+      { "item": "nuts_bolts", "prob": 60, "charges": [ 15, 30 ], "container-item": "box_small" },
       { "item": "rope_6", "prob": 10 },
       { "item": "sheet_metal", "prob": 10 },
       { "item": "sheet_metal_small", "prob": 10 },
@@ -106,6 +112,7 @@
     "id": "hardware_trash",
     "type": "item_group",
     "items": [
+      { "item": "nuts_bolts", "prob": 20, "charges": [ 1, 3 ], "container-item": "box_small" },
       [ "wrapper", 50 ],
       [ "wrapper_foil", 5 ],
       [ "bottle_glass", 50 ],
@@ -113,7 +120,7 @@
       [ "can_drink", 60 ],
       [ "flyer", 30 ],
       [ "box_small", 30 ],
-      [ "rag", 20 ],
+      [ "cotton_patchwork", 20 ],
       [ "bag_plastic", 20 ],
       [ "news_regional", 15 ],
       [ "mag_news", 15 ]
@@ -233,12 +240,21 @@
     "//": "General purpose supplies for building / blue collar work.",
     "//2": "Stuff you might find in a jobsite, a hardware store, or a home workshop.",
     "items": [
+      { "item": "nuts_bolts", "prob": 80, "charges": [ 5, 10 ], "container-item": "box_small" },
       [ "concrete", 20 ],
+      {
+        "collection": [
+          { "distribution": [ { "item": "rope_30", "prob": 70 }, { "item": "chain", "prob": 30 } ], "prob": 75 },
+          { "item": "block_and_tackle", "prob": 100 }
+        ],
+        "prob": 15
+      },
       { "item": "rebar", "prob": 20, "count": [ 5, 10 ] },
       { "item": "brick", "prob": 20, "count": [ 5, 10 ] },
       [ "solder_wire", 20 ],
       [ "superglue", 30 ],
       [ "rubber_cement", 25 ],
+      [ "magnet", 10 ],
       [ "chain", 20 ],
       [ "rope_6", 4 ],
       [ "rope_30", 35 ],
@@ -266,8 +282,18 @@
       { "item": "wire", "prob": 50, "count": [ 1, 10 ] },
       { "item": "wire_barbed", "prob": 20, "count": [ 1, 10 ] },
       [ "duct_tape", 60 ],
+      [ "compressor", 5 ],
       [ "foot_crank", 10 ],
       [ "spray_can", 50 ],
+      [ "nitrogen_membrane_filter", 1 ],
+      [ "hd_pipe", 5 ],
+      [ "hd_pipe_fittings", 5 ],
+      [ "hd_valve", 5 ],
+      [ "pressure_gauge", 5 ],
+      [ "pyrometer", 2 ],
+      [ "hd_compressor", 1 ],
+      [ "large_pressure_vessel", 1 ],
+      [ "small_pressure_vessel", 1 ],
       [ "bearing", 1 ],
       { "group": "writing_utensils", "prob": 25 },
       [ "cu_pipe", 50 ],
@@ -288,7 +314,8 @@
       [ "tarp", 15 ],
       [ "tempered_glass_sheet", 25 ],
       [ "rigid_plastic_sheet", 30 ],
-      [ "gas_forge", 15 ]
+      [ "gas_forge", 15 ],
+      { "item": "chem_turpentine", "prob": 20, "charges-min": 20 }
     ]
   },
   {
@@ -300,11 +327,13 @@
       { "item": "salt_water", "prob": 20, "charges-min": 1 },
       { "item": "detergent", "prob": 10, "charges": [ 1, 20 ] },
       { "item": "bleach", "prob": 10, "charges-min": 10 },
-      { "item": "ammonia", "prob": 10, "charges-min": 10 },
+      { "item": "ammonia_liquid", "prob": 20, "charges-min": 10 },
+      { "item": "ammonia_hydroxide", "prob": 10, "charges-min": 10 },
       { "item": "iodine", "prob": 10, "charges": [ 1, 10 ] },
       [ "oxy_powder", 10 ],
       [ "ash", 5 ],
       [ "lye", 5 ],
+      [ "lye_potassium", 5 ],
       { "item": "lye_powder", "prob": 10, "charges": [ 100, 200 ] },
       { "item": "magnesium", "prob": 10, "charges": [ 50, 100 ] },
       { "item": "charcoal", "prob": 10, "charges": [ 25, 50 ] },
@@ -313,6 +342,16 @@
       [ "chem_aluminium_powder", 10 ],
       [ "chem_aluminium_sulphate", 10 ],
       [ "chem_saltpetre", 10 ],
+      { "item": "bismuth", "prob": 5, "charges-min": 1 },
+      { "item": "chem_benzene", "prob": 10, "charges-min": 1 },
+      { "item": "chem_toluene", "prob": 10, "charges-min": 1 },
+      { "item": "chem_antimony_trichloride", "prob": 2, "charges-min": 1 },
+      { "item": "chem_ferric_chloride", "prob": 15, "charges-min": 1 },
+      { "item": "chem_nickel_powder", "prob": 5, "charges-min": 1 },
+      { "item": "chem_slaked_lime", "prob": 5, "charges-min": 1 },
+      { "item": "chem_baking_soda", "prob": 10, "charges-min": 1 },
+      { "item": "chem_washing_soda", "prob": 10, "charges-min": 1 },
+      { "item": "chem_calcium_chloride", "prob": 5 },
       { "item": "chem_nitric_acid", "prob": 10, "charges-min": 1 },
       { "item": "chem_sulphuric_acid", "prob": 10, "charges-min": 1 },
       { "item": "chem_muriatic_acid", "prob": 10, "charges-min": 1 },
@@ -346,7 +385,20 @@
       { "item": "chem_ethanol", "prob": 10, "charges-min": 250 },
       [ "oxygen_cylinder", 8 ],
       { "item": "chem_citric_acid", "prob": 16, "charges-min": 100 },
-      { "item": "chem_ethanol", "prob": 10, "charges-min": 250 }
+      { "item": "chem_ethanol", "prob": 10, "charges-min": 250 },
+      { "item": "chem_turpentine", "prob": 10, "charges-min": 20 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "supplies_fluid_catalytic_lab",
+    "//": "General laboratory reagents and expendibles.  This list contains most conceivable chemicals in the game.  More specific lists for each type of lab would be reasonable eventually.",
+    "items": [
+      { "item": "water_clean", "prob": 90, "charges-min": 1, "container-item": "bottle_plastic", "sealed": false },
+      { "item": "cooking_oil", "prob": 100, "count": 4, "charges-min": 10 },
+      { "item": "chem_washing_soda", "prob": 100, "charges": [ 1, 20 ] },
+      { "item": "cooking_oil2", "prob": 100, "count": 4, "charges-min": 10 },
+      { "item": "lamp_oil", "prob": 100, "count": 4, "charges-min": 10 }
     ]
   },
   {
@@ -378,6 +430,8 @@
       { "item": "lupine_sample", "prob": 10, "count": [ 1, 3 ] },
       { "item": "feline_sample", "prob": 10, "count": [ 1, 3 ] },
       { "item": "plant_sample", "prob": 10, "count": [ 3, 6 ] },
+      { "item": "slime_sample", "prob": 10, "count": [ 3, 6 ] },
+      { "item": "bird_sample", "prob": 10, "count": [ 3, 6 ] },
       { "item": "sweetbread", "prob": 10, "count": [ 1, 3 ] }
     ]
   },
@@ -443,6 +497,14 @@
     "//": "General supplies to run a mechanics shop or do mechanical work",
     "items": [
       [ "v_airjack_item", 20 ],
+      {
+        "collection": [
+          { "distribution": [ { "item": "rope_30", "prob": 50 }, { "item": "chain", "prob": 50 } ], "prob": 85 },
+          { "item": "block_and_tackle", "prob": 100 }
+        ],
+        "prob": 35
+      },
+      { "item": "nuts_bolts", "prob": 80, "charges": [ 20, 40 ], "container-item": "box_small" },
       [ "jumper_cable", 15 ],
       [ "jumper_cable_heavy", 5 ],
       [ "stereo", 25 ],

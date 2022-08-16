@@ -177,8 +177,8 @@
     "name": { "str": "garbage bag" },
     "looks_like": "bag_canvas",
     "description": "A hefty plastic bag, made to carry lots of trash.  It's sturdy and waterproof, and could easily be repurposed.",
-    "weight": "21 g",
-    "volume": "23 ml",
+    "weight": "40 g",
+    "volume": "42 ml",
     "price": 0,
     "price_postapoc": 0,
     "to_hit": -1,
@@ -608,6 +608,30 @@
     "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "145 ml", "max_contains_weight": "1 kg" } ]
   },
   {
+    "id": "box_snack",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "snack cardboard box", "str_pl": "snack cardboard boxes" },
+    "description": "A small cardboard box for housing snacks.  Sized so you can take it on the go.",
+    "weight": "12 g",
+    "volume": "550 ml",
+    "longest_side": "12 cm",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "540 ml",
+        "max_contains_weight": "500 g",
+        "max_item_length": "11 cm"
+      }
+    ],
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "cardboard" ],
+    "symbol": ")",
+    "color": "brown"
+  },
+  {
     "id": "box_small",
     "type": "GENERIC",
     "category": "container",
@@ -737,6 +761,17 @@
     "material": [ "cardboard" ],
     "symbol": ")",
     "color": "brown"
+  },
+  {
+    "id": "box_compact_wood",
+    "type": "GENERIC",
+    "name": { "str": "tiny wooden box", "str_pl": "tiny wooden boxes" },
+    "copy-from": "box_small_wood",
+    "description": "A small wooden box with cap and small handles.",
+    "weight": "200 g",
+    "volume": "6000 ml",
+    "longest_side": "22 cm",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "4000 ml", "max_contains_weight": "80 kg" } ]
   },
   {
     "id": "box_small_wood",
@@ -2629,6 +2664,35 @@
     ]
   },
   {
+    "id": "ipok",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "individual patrol officer kit" },
+    "//": "https://www.narescue.com/individual-patrol-officer-kit.html",
+    "looks_like": "mre_beef_box",
+    "description": "A first aid kit designed for patrolling police officers, contents selected for dealing with hemorrhaging injuries such as gunshot wounds.  Comes in a sealed pouch.",
+    "weight": "50 g",
+    "volume": "50 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "to_hit": -1,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "2000 ml",
+        "max_contains_weight": "1500 g",
+        "airtight": true,
+        "moves": 50,
+        "sealed_data": { "spoil_multiplier": 0.0 },
+        "watertight": true
+      }
+    ],
+    "material": [ "plastic" ],
+    "flags": [ "COLLAPSE_CONTENTS" ],
+    "symbol": ")",
+    "color": "light_gray"
+  },
+  {
     "id": "aquarium_medium",
     "type": "GENERIC",
     "category": "container",
@@ -2791,5 +2855,59 @@
         "max_contains_weight": "500 g"
       }
     ]
+  },
+  {
+    "id": "30gal_drum_aluminum",
+    "type": "GENERIC",
+    "category": "container",
+    "looks_like": "30gal_barrel",
+    "name": { "str": "aluminum tank (100L)", "str_pl": "aluminum tanks (100L)" },
+    "description": "A large aluminum tank, traditionally used to store fuel.",
+    "weight": "6000 g",
+    "volume": "130 L",
+    "price": 8000,
+    "price_postapoc": 250,
+    "to_hit": -5,
+    "bashing": 8,
+    "material": [ "aluminum" ],
+    "symbol": "0",
+    "color": "light_gray",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+        "rigid": true,
+        "max_contains_volume": "100 L",
+        "max_contains_weight": "250 kg"
+      }
+    ],
+    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
+  },
+  {
+    "id": "55gal_drum_aluminum",
+    "type": "GENERIC",
+    "category": "container",
+    "looks_like": "30gal_drum",
+    "name": { "str": "aluminum tank (200L)", "str_pl": "aluminum tanks (200L)" },
+    "description": "A massive aluminum tank, traditionally used to store fuel.",
+    "weight": "10000 g",
+    "volume": "230 L",
+    "price": 10000,
+    "price_postapoc": 250,
+    "to_hit": -5,
+    "bashing": 8,
+    "material": [ "aluminum" ],
+    "symbol": "0",
+    "color": "light_gray",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+        "rigid": true,
+        "max_contains_volume": "200 L",
+        "max_contains_weight": "500 kg"
+      }
+    ],
+    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   }
 ]

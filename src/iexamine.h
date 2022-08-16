@@ -59,7 +59,6 @@ bool harvestable_now( const tripoint &examp );
 void gaspump( Character &you, const tripoint &examp );
 void atm( Character &you, const tripoint &examp );
 void vending( Character &you, const tripoint &examp );
-void toilet( Character &, const tripoint &examp );
 void elevator( Character &you, const tripoint &examp );
 void nanofab( Character &you, const tripoint &examp );
 void controls_gate( Character &you, const tripoint &examp );
@@ -111,7 +110,6 @@ void shrub_marloss( Character &you, const tripoint &examp );
 void tree_marloss( Character &you, const tripoint &examp );
 void shrub_wildveggies( Character &you, const tripoint &examp );
 void water_source( Character &, const tripoint &examp );
-void clean_water_source( Character &, const tripoint &examp );
 void finite_water_source( Character &, const tripoint &examp );
 void kiln_empty( Character &you, const tripoint &examp );
 void kiln_full( Character &you, const tripoint &examp );
@@ -162,7 +160,7 @@ void harvest_plant_ex( Character &you, const tripoint &examp );
 void harvest_plant( Character &you, const tripoint &examp, bool from_activity );
 void fertilize_plant( Character &you, const tripoint &tile, const itype_id &fertilizer );
 itype_id choose_fertilizer( Character &you, const std::string &pname, bool ask_player );
-ret_val<bool> can_fertilize( Character &you, const tripoint &tile, const itype_id &fertilizer );
+ret_val<void> can_fertilize( Character &you, const tripoint &tile, const itype_id &fertilizer );
 
 // Skill training common functions
 void practice_survival_while_foraging( Character &who );

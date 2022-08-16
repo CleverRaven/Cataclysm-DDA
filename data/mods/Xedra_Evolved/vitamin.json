@@ -1,0 +1,13 @@
+[
+  {
+    "id": "underhill_essence",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Relative Physics" },
+    "excess": "relative_physics",
+    "min": 0,
+    "max": 500,
+    "rate": "5 m",
+    "disease_excess": [ [ 50, 100 ], [ 101, 250 ], [ 251, 500 ] ]
+  }
+]

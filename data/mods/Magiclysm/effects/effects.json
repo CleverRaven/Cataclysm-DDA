@@ -18,8 +18,8 @@
       "You consumed a large amount of black dragon mutagen.",
       "You consumed a life-changing amount of black dragon mutagen."
     ],
-    "main_parts_only": true,
     "max_intensity": 3,
+    "resist_traits": [ "THRESH_DRAGON_BLACK" ],
     "base_mods": {
       "hurt_min": [ 1 ],
       "hurt_max": [ 2 ],
@@ -30,7 +30,7 @@
       "pain_chance": [ 100 ],
       "pain_tick": [ 75 ]
     },
-    "scaling_mods": { "hurt_chance": [ 21 ], "pain_chance": [ -30 ] },
+    "scaling_mods": { "hurt_chance": [ 21, 0 ], "pain_chance": [ -30 ] },
     "rating": "bad",
     "blood_analysis_description": "Black Dragon Mutagen Contamination"
   },
@@ -43,8 +43,8 @@
       "You consumed a large amount of concentrated mana.",
       "You consumed a life-changing amount of concentrated mana."
     ],
-    "main_parts_only": true,
     "max_intensity": 3,
+    "resist_traits": [ "THRESH_MANA" ],
     "base_mods": {
       "hurt_min": [ 1 ],
       "hurt_max": [ 2 ],
@@ -55,7 +55,7 @@
       "pain_chance": [ 100 ],
       "pain_tick": [ 75 ]
     },
-    "scaling_mods": { "hurt_chance": [ 21 ], "pain_chance": [ -30 ] },
+    "scaling_mods": { "hurt_chance": [ 21, 0 ], "pain_chance": [ -30 ] },
     "rating": "bad",
     "blood_analysis_description": "Concentrated Mana Mutagen Contamination"
   },
@@ -350,6 +350,7 @@
     "apply_message": "This smells like home.",
     "remove_message": "Time to go.",
     "rating": "bad",
+    "max_duration": "1 d",
     "flags": [ "DIMENSIONAL_ANCHOR" ]
   },
   {
@@ -444,5 +445,20 @@
     "base_mods": { "speed_mod": [ -10 ], "hurt_amount": [ 1 ] },
     "scaling_mods": { "speed_mod": [ -15 ], "hurt_amount": [ 4 ] },
     "max_intensity": 3
+  },
+  {
+    "type": "effect_type",
+    "id": "flower_fern_eff",
+    "name": [ "Positivity" ],
+    "desc": [ "Your feel yourself a bit better." ],
+    "rating": "good",
+    "base_mods": { "per_mod": [ 1 ], "dex_mod": [ 1 ], "str_mod": [ 1 ], "int_mod": [ 1 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "glowing_mushroom_eff",
+    "name": [ "Lightness" ],
+    "desc": [ "You feel yourself a bit lighter.  You doubt you can lose weight from this." ],
+    "base_mods": { "speed_mod": [ 15 ] }
   }
 ]

@@ -25,7 +25,9 @@
       "portal_dependent",
       "quick_portal_storm_base",
       "strong_portal_storm_base",
-      "strong_portal_storm"
+      "strong_portal_storm",
+      "aircraft_carrier_start",
+      "overrun"
     ]
   },
   {

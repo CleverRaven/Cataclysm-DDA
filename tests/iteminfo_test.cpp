@@ -410,7 +410,7 @@ TEST_CASE( "item rigidity", "[iteminfo][rigidity]" )
         REQUIRE( briefcase.all_pockets_rigid() );
         CHECK( item_info_str( briefcase, encumbrance ) ==
                "--\n"
-               "<color_c_white>Encumbrance</color>:\n"
+               "<color_c_white>Encumbrance</color>"
                "  <color_c_yellow>30</color>: The <color_c_cyan>arms</color>. The <color_c_cyan>hands</color>.\n" );
     }
 
@@ -454,19 +454,19 @@ TEST_CASE( "item rigidity", "[iteminfo][rigidity]" )
             // based on the pocket "max_contains_volume" (1 encumbrance per 250 ml).
             CHECK( item_info_str( waterskin, encumbrance ) ==
                    "--\n"
-                   "<color_c_white>Encumbrance</color>:\n"
+                   "<color_c_white>Encumbrance</color>"
                    "  <color_c_yellow>0</color>, When full  <color_c_yellow>6</color>: The <color_c_cyan>legs</color>.\n" );
 
             // test_backpack has an explicit "encumbrance" and "max_encumbrance"
             CHECK( item_info_str( backpack, encumbrance ) ==
                    "--\n"
-                   "<color_c_white>Encumbrance</color>:\n"
+                   "<color_c_white>Encumbrance</color>"
                    "  <color_c_yellow>2</color>, When full  <color_c_yellow>15</color>: The <color_c_cyan>torso</color>.\n" );
 
             // quiver has no volume, only an implicit volume via ammo
             CHECK( item_info_str( quiver, encumbrance ) ==
                    "--\n"
-                   "<color_c_white>Encumbrance</color>:\n"
+                   "<color_c_white>Encumbrance</color>"
                    "  <color_c_yellow>3</color>, When full  <color_c_yellow>11</color>: The <color_c_cyan>legs</color>.\n" );
         }
     }
@@ -620,6 +620,74 @@ TEST_CASE( "weapon attack ratings and moves", "[iteminfo][weapon]" )
                "  Vs. Agile: <color_c_yellow>2.46</color>"
                "  Vs. Armored: <color_c_yellow>0.00</color>\n" );
     }
+
+    SECTION( "stamina per swing" ) {
+        // Stamina cost per swing is dynamically calculated based on many different
+        // factors, all outside the scope of these tests. Here we just hope they
+        // have the expected values in the item info summary.
+
+        std::vector<iteminfo_parts> stam = { iteminfo_parts::BASE_STAMINA };
+
+        CHECK( item_info_str( rock, stam ) ==
+               "--\n"
+               "<color_c_white>Stamina use</color>:"
+               " Costs about <color_c_yellow>1.00</color>%"
+               " stamina to swing.\n" );
+
+        CHECK( item_info_str( halligan, stam ) ==
+               "--\n"
+               "<color_c_white>Stamina use</color>:"
+               " Costs about <color_c_yellow>3.10</color>%"
+               " stamina to swing.\n" );
+
+        CHECK( item_info_str( mr_pointy, stam ) ==
+               "--\n"
+               "<color_c_white>Stamina use</color>:"
+               " Costs about <color_c_yellow>1.20</color>%"
+               " stamina to swing.\n" );
+
+        CHECK( item_info_str( arrow, stam ) ==
+               "--\n"
+               "<color_c_white>Stamina use</color>:"
+               " Costs about <color_c_yellow>0.70</color>%"
+               " stamina to swing.\n" );
+    }
+
+    SECTION( "base damage per stamina" ) {
+        // Damage per stamina is dynamically calculated based on many different factors,
+        // all outside the scope of these tests. Here we just hope they
+        // have the expected values in the item info summary.
+
+        std::vector<iteminfo_parts> dpstam = { iteminfo_parts::BASE_DPSTAM };
+
+        CHECK( item_info_str( rock, dpstam ) ==
+               "--\n"
+               "Typical damage per stamina:\n"
+               "Best: <color_c_yellow>5.41</color>"
+               "  Vs. Agile: <color_c_yellow>2.25</color>"
+               "  Vs. Armored: <color_c_yellow>0.16</color>\n" );
+
+        CHECK( item_info_str( halligan, dpstam ) ==
+               "--\n"
+               "Typical damage per stamina:\n"
+               "Best: <color_c_yellow>3.41</color>"
+               "  Vs. Agile: <color_c_yellow>2.09</color>"
+               "  Vs. Armored: <color_c_yellow>1.03</color>\n" );
+
+        CHECK( item_info_str( mr_pointy, dpstam ) ==
+               "--\n"
+               "Typical damage per stamina:\n"
+               "Best: <color_c_yellow>6.48</color>"
+               "  Vs. Agile: <color_c_yellow>3.02</color>"
+               "  Vs. Armored: <color_c_yellow>0.11</color>\n" );
+
+        CHECK( item_info_str( arrow, dpstam ) ==
+               "--\n"
+               "Typical damage per stamina:\n"
+               "Best: <color_c_yellow>7.21</color>"
+               "  Vs. Agile: <color_c_yellow>3.62</color>"
+               "  Vs. Armored: <color_c_yellow>0.00</color>\n" );
+    }
 }
 
 // Related JSON fields:
@@ -727,10 +795,6 @@ TEST_CASE( "armor coverage, warmth, and encumbrance", "[iteminfo][armor][coverag
                " The <color_c_cyan>arms</color>."
                " The <color_c_cyan>torso</color>.\n" );
 
-        CHECK( item_info_str( longshirt, { iteminfo_parts::ARMOR_LAYER } ) ==
-               "--\n"
-               "Layer: <color_c_light_blue>Normal</color>." );
-
         // Coverage and warmth are displayed together on a single line
         std::vector<iteminfo_parts> cov_warm_shirt = {
             iteminfo_parts::ARMOR_COVERAGE, iteminfo_parts::ARMOR_WARMTH
@@ -740,10 +804,10 @@ TEST_CASE( "armor coverage, warmth, and encumbrance", "[iteminfo][armor][coverag
         CHECK( item_info_str( longshirt, cov_warm_shirt )
                ==
                "--\n"
-               "  Warmth: <color_c_yellow>5</color>\n"
-               "--\n"
-               "<color_c_white>Total Coverage</color>:\n"
-               "  <color_c_yellow>90</color>%: The <color_c_cyan>arms</color>. The <color_c_cyan>torso</color>.\n" );
+               "<color_c_white>Total Coverage</color>"
+               "  <color_c_yellow>90</color>%: The <color_c_cyan>arms</color>. The <color_c_cyan>torso</color>.\n"
+               "<color_c_white>Warmth</color>"
+               "  <color_c_yellow>5</color>: The <color_c_cyan>arms</color>. The <color_c_cyan>torso</color>.\n" );
 
         verify_item_encumbrance(
         longshirt, item::encumber_flags::none, 3, {
@@ -780,7 +844,7 @@ TEST_CASE( "armor coverage, warmth, and encumbrance", "[iteminfo][armor][coverag
         CHECK( item_info_str( longshirt, { iteminfo_parts::ARMOR_ENCUMBRANCE } ) ==
                "--\n"
                "<color_c_white>Size/Fit</color>: <color_c_red>(poor fit)</color>\n"
-               "<color_c_white>Encumbrance</color>:\n"
+               "<color_c_white>Encumbrance</color>"
                "  <color_c_yellow>3</color>: The <color_c_cyan>arms</color>. The <color_c_cyan>torso</color>.\n" );
 
         item swat_armor( "test_swat_armor" );
@@ -793,9 +857,6 @@ TEST_CASE( "armor coverage, warmth, and encumbrance", "[iteminfo][armor][coverag
                " The <color_c_cyan>legs</color>."
                " The <color_c_cyan>torso</color>.\n" );
 
-        CHECK( item_info_str( swat_armor, { iteminfo_parts::ARMOR_LAYER } ) ==
-               "--\n"
-               "Layer: <color_c_light_blue>Normal</color>." );
 
         std::vector<iteminfo_parts> cov_warm_swat = { iteminfo_parts::ARMOR_COVERAGE, iteminfo_parts::ARMOR_WARMTH };
         REQUIRE( swat_armor.get_avg_coverage() == 95 );
@@ -803,10 +864,10 @@ TEST_CASE( "armor coverage, warmth, and encumbrance", "[iteminfo][armor][coverag
         CHECK( item_info_str( swat_armor, cov_warm_swat )
                ==
                "--\n"
-               "  Warmth: <color_c_yellow>35</color>\n"
-               "--\n"
-               "<color_c_white>Total Coverage</color>:\n"
-               "  <color_c_yellow>95</color>%: The <color_c_cyan>arms</color>. The <color_c_cyan>legs</color>. The <color_c_cyan>torso</color>.\n" );
+               "<color_c_white>Total Coverage</color>"
+               "  <color_c_yellow>95</color>%: The <color_c_cyan>arms</color>. The <color_c_cyan>legs</color>. The <color_c_cyan>torso</color>.\n"
+               "<color_c_white>Warmth</color>"
+               "  <color_c_yellow>35</color>: The <color_c_cyan>arms</color>. The <color_c_cyan>legs</color>. The <color_c_cyan>torso</color>.\n" );
 
         verify_item_coverage(
         swat_armor, {
@@ -861,8 +922,8 @@ TEST_CASE( "armor coverage, warmth, and encumbrance", "[iteminfo][armor][coverag
 
         CHECK( item_info_str( swat_armor, { iteminfo_parts::ARMOR_ENCUMBRANCE } ) ==
                "--\n"
-               "<color_c_white>Encumbrance</color>:\n"
-               "  <color_c_yellow>12</color>, When full  <color_c_yellow>25</color>:"
+               "<color_c_white>Encumbrance</color> "
+               " <color_c_yellow>12</color>, When full  <color_c_yellow>25</color>:"
                " The <color_c_cyan>arms</color>."
                " The <color_c_cyan>legs</color>."
                " The <color_c_cyan>torso</color>.\n" );
@@ -876,20 +937,14 @@ TEST_CASE( "armor coverage, warmth, and encumbrance", "[iteminfo][armor][coverag
                "<color_c_white>Covers</color>:"
                " The <color_c_cyan>legs</color>.\n" );
 
-        CHECK( item_info_str( faux_fur_pants, { iteminfo_parts::ARMOR_LAYER } ) ==
-               "--\n"
-               "Layer: <color_c_light_blue>Normal</color>." );
-
         std::vector<iteminfo_parts> cov_warm_pants = { iteminfo_parts::ARMOR_COVERAGE, iteminfo_parts::ARMOR_WARMTH };
         REQUIRE( faux_fur_pants.get_avg_coverage() == 95 );
         REQUIRE( faux_fur_pants.get_warmth() == 70 );
         CHECK( item_info_str( faux_fur_pants, cov_warm_pants )
                ==
                "--\n"
-               "  Warmth: <color_c_yellow>70</color>\n"
-               "--\n"
-               "<color_c_white>Total Coverage</color>:\n"
-               "  <color_c_yellow>95</color>%: The <color_c_cyan>legs</color>.\n" );
+               "<color_c_white>Total Coverage</color>  <color_c_yellow>95</color>%: The <color_c_cyan>legs</color>.\n"
+               "<color_c_white>Warmth</color>  <color_c_yellow>70</color>: The <color_c_cyan>legs</color>.\n" );
 
         REQUIRE( faux_fur_pants.get_avg_coverage() == 95 );
         verify_item_coverage(
@@ -954,10 +1009,6 @@ TEST_CASE( "armor coverage, warmth, and encumbrance", "[iteminfo][armor][coverag
                " The <color_c_cyan>legs</color>."
                " The <color_c_cyan>torso</color>.\n" );
 
-        CHECK( item_info_str( faux_fur_suit, { iteminfo_parts::ARMOR_LAYER } ) ==
-               "--\n"
-               "Layer: <color_c_light_blue>Normal</color>." );
-
         std::vector<iteminfo_parts> cov_warm_suit = {
             iteminfo_parts::ARMOR_COVERAGE, iteminfo_parts::ARMOR_WARMTH
         };
@@ -966,11 +1017,11 @@ TEST_CASE( "armor coverage, warmth, and encumbrance", "[iteminfo][armor][coverag
         CHECK( item_info_str( faux_fur_suit, cov_warm_suit )
                ==
                "--\n"
-               "  Warmth: <color_c_yellow>5</color>\n"
-               "--\n"
                "<color_c_white>Total Coverage</color>:\n"
                "  <color_c_yellow>50</color>%: The <color_c_cyan>head</color>. The <color_c_cyan>l. arm</color>. The <color_c_cyan>l. leg</color>.\n"
-               "  <color_c_yellow>100</color>%: The <color_c_cyan>r. arm</color>. The <color_c_cyan>r. leg</color>. The <color_c_cyan>torso</color>.\n" );
+               "  <color_c_yellow>100</color>%: The <color_c_cyan>r. arm</color>. The <color_c_cyan>r. leg</color>. The <color_c_cyan>torso</color>.\n"
+               "<color_c_white>Warmth</color>"
+               "  <color_c_yellow>5</color>: The <color_c_cyan>arms</color>. The <color_c_cyan>head</color>. The <color_c_cyan>legs</color>. The <color_c_cyan>torso</color>.\n" );
 
         REQUIRE( faux_fur_suit.get_avg_coverage() == 75 );
         verify_item_coverage(
@@ -1045,20 +1096,14 @@ TEST_CASE( "armor coverage, warmth, and encumbrance", "[iteminfo][armor][coverag
                "<color_c_white>Covers</color>:"
                " The <color_c_cyan>torso</color>.\n" );
 
-        CHECK( item_info_str( super_tank_top, { iteminfo_parts::ARMOR_LAYER } ) ==
-               "--\n"
-               "Layer: <color_c_light_blue>Close to skin</color>." );
-
         std::vector<iteminfo_parts> cov_warm_super_tank = { iteminfo_parts::ARMOR_COVERAGE, iteminfo_parts::ARMOR_WARMTH };
         REQUIRE( super_tank_top.get_avg_coverage() == 100 );
         REQUIRE( super_tank_top.get_warmth() == 20 );
         CHECK( item_info_str( super_tank_top, cov_warm_super_tank )
                ==
                "--\n"
-               "  Warmth: <color_c_yellow>20</color>\n"
-               "--\n"
-               "<color_c_white>Total Coverage</color>:\n"
-               "  <color_c_yellow>100</color>%: The <color_c_cyan>torso</color>.\n" );
+               "<color_c_white>Total Coverage</color>  <color_c_yellow>100</color>%: The <color_c_cyan>torso</color>.\n"
+               "<color_c_white>Warmth</color>  <color_c_yellow>20</color>: The <color_c_cyan>torso</color>.\n" );
 
         verify_item_coverage(
         super_tank_top, {
@@ -1096,7 +1141,7 @@ TEST_CASE( "armor coverage, warmth, and encumbrance", "[iteminfo][armor][coverag
 
         CHECK( item_info_str( super_tank_top, { iteminfo_parts::ARMOR_ENCUMBRANCE } ) ==
                "--\n"
-               "<color_c_white>Encumbrance</color>:\n"
+               "<color_c_white>Encumbrance</color>"
                "  <color_c_yellow>7</color>: The <color_c_cyan>torso</color>.\n" );
     }
 
@@ -1105,7 +1150,7 @@ TEST_CASE( "armor coverage, warmth, and encumbrance", "[iteminfo][armor][coverag
         item ear_plugs( "test_ear_plugs" );
         REQUIRE_FALSE( ear_plugs.get_covered_body_parts().any() );
 
-        CHECK( item_info_str( ear_plugs, { iteminfo_parts::ARMOR_BODYPARTS, iteminfo_parts::ARMOR_LAYER,
+        CHECK( item_info_str( ear_plugs, { iteminfo_parts::ARMOR_BODYPARTS,
                                            iteminfo_parts::ARMOR_COVERAGE, iteminfo_parts::ARMOR_WARMTH,
                                            iteminfo_parts::ARMOR_ENCUMBRANCE, iteminfo_parts::ARMOR_PROTECTION
                                          } ) ==
@@ -1260,21 +1305,20 @@ TEST_CASE( "armor protection", "[iteminfo][armor][protection]" )
         item super_tanktop( "test_complex_tanktop" );
         REQUIRE( super_tanktop.get_covered_body_parts().any() );
         // these values are averaged values but test that assumed armor portion is working at all
-        expected_armor_values( super_tanktop, 14, 14, 11.2f, 8.66667f );
+        expected_armor_values( super_tanktop, 15.33333f, 15.33333f, 12.26667f, 10.66667f );
 
         // Protection info displayed on two lines
         CHECK( item_info_str( super_tanktop, more_protection ) ==
                "--\n"
-               "<color_c_white>Encumbrance</color>:\n"
-               "  <color_c_yellow>7</color>: The <color_c_cyan>torso</color>.\n"
+               "<color_c_white>Encumbrance</color>  <color_c_yellow>7</color>: The <color_c_cyan>torso</color>.\n"
                "--\n"
                "<color_c_white>Protection for</color>: The <color_c_cyan>torso</color>.\n"
                "<color_c_white>Coverage</color>: <color_c_light_blue>Close to skin</color>.\n"
                "  Default:  <color_c_yellow>100</color>\n"
                "<color_c_white>Protection</color>: <color_c_red>4%</color>, <color_c_yellow>Median</color>, <color_c_green>4%</color>\n"
-               "  Bash:  <color_c_red>1.00</color>, <color_c_yellow>11.00</color>, <color_c_green>21.00</color>\n"
-               "  Cut:  <color_c_red>1.00</color>, <color_c_yellow>11.00</color>, <color_c_green>21.00</color>\n"
-               "  Ballistic:  <color_c_red>1.00</color>, <color_c_yellow>7.00</color>, <color_c_green>13.00</color>\n"
+               "  Bash:  <color_c_red>1.00</color>, <color_c_yellow>12.00</color>, <color_c_green>23.00</color>\n"
+               "  Cut:  <color_c_red>1.00</color>, <color_c_yellow>12.00</color>, <color_c_green>23.00</color>\n"
+               "  Ballistic:  <color_c_red>1.00</color>, <color_c_yellow>8.50</color>, <color_c_green>16.00</color>\n"
              );
     }
 
@@ -1824,10 +1868,10 @@ TEST_CASE( "nutrients in food", "[iteminfo][food]" )
                "--\n"
                "<color_c_white>Calories (kcal)</color>: <color_c_yellow>325</color>"
                "  Quench: <color_c_yellow>0</color>\n" );
-
+        // Values end up rounded slightly
         CHECK( item_info_str( ice_cream, { iteminfo_parts::FOOD_VITAMINS } ) ==
                "--\n"
-               "Vitamins (RDA): Calcium (9%)\n" );
+               "Vitamins (RDA): Calcium (8%)\n" );
     }
 
     SECTION( "nutrient ranges for recipe exemplars", "[iteminfo]" ) {
@@ -1840,11 +1884,11 @@ TEST_CASE( "nutrients in food", "[iteminfo][food]" )
                "<color_c_white>Calories (kcal)</color>:"
                " <color_c_yellow>56</color>-<color_c_yellow>532</color>"
                "  Quench: <color_c_yellow>0</color>\n" );
-
+        // Values end up rounded slightly
         CHECK( item_info_str( ice_cream, { iteminfo_parts::FOOD_VITAMINS } ) ==
                "--\n"
                "Nutrition will <color_cyan>vary with chosen ingredients</color>.\n"
-               "Vitamins (RDA): Calcium (7-37%), Iron (0-131%), and Vitamin C (1-79%)\n" );
+               "Vitamins (RDA): Calcium (6-35%), Iron (0-128%), and Vitamin C (0-79%)\n" );
     }
 }
 
@@ -1874,7 +1918,7 @@ TEST_CASE( "food freshness and lifetime", "[iteminfo][food]" )
         REQUIRE( nuts.is_fresh() );
         CHECK( item_info_str( nuts, { iteminfo_parts::FOOD_ROT } ) ==
                "--\n"
-               "* This food is <color_c_yellow>perishable</color>, and at room temperature has"
+               "* This item is <color_c_yellow>perishable</color>, and at room temperature has"
                " an estimated nominal shelf life of <color_c_cyan>6 weeks</color>.\n"
                "* This food looks as <color_c_green>fresh</color> as it can be.\n" );
     }
@@ -1884,7 +1928,7 @@ TEST_CASE( "food freshness and lifetime", "[iteminfo][food]" )
         REQUIRE( nuts.is_going_bad() );
         CHECK( item_info_str( nuts, { iteminfo_parts::FOOD_ROT } ) ==
                "--\n"
-               "* This food is <color_c_yellow>perishable</color>, and at room temperature has"
+               "* This item is <color_c_yellow>perishable</color>, and at room temperature has"
                " an estimated nominal shelf life of <color_c_cyan>6 weeks</color>.\n"
                "* This food looks <color_c_red>old</color>.  It's on the brink of becoming inedible.\n" );
     }
@@ -2224,6 +2268,25 @@ TEST_CASE( "list of item qualities", "[iteminfo][quality]" )
 }
 
 // Related JSON fields:
+// "actions"
+//
+// Functions:
+// item::actions_info
+TEST_CASE( "list of item actions", "[iteminfo][action]" )
+{
+    clear_avatar();
+
+    std::vector<iteminfo_parts> actions = { iteminfo_parts::ACTIONS };
+
+    SECTION( "Halligan bar" ) {
+        item halligan( "test_halligan" );
+        CHECK( item_info_str( halligan, actions ) ==
+               "--\n"
+               "<color_c_white>Actions</color>: <color_c_cyan>Pry crate, window, door or nails</color>, <color_c_cyan>Dig pit here</color>, <color_c_cyan>Dig water channel here</color>, <color_c_cyan>Fill pit / tamp ground</color>, and <color_c_cyan>Upturn earth</color>\n" );
+    }
+}
+
+// Related JSON fields:
 // "flags" (USE_UPS, RECHARGE)
 //
 // Functions:
@@ -2400,12 +2463,15 @@ TEST_CASE( "repairable and with what tools", "[iteminfo][repair]" )
 
     CHECK( item_info_str( halligan, repaired ) ==
            "--\n"
-           "<color_c_white>Repair</color> using extended multitool, arc welder, or makeshift arc welder.\n" );
+           "<color_c_white>Repair</color> using extended multitool, arc welder, makeshift arc welder, or welding kit.\n"
+           "<color_c_white>With</color> <color_c_cyan>Steel</color>.\n"
+         );
 
     // FIXME: Use an item that can only be repaired by test tools
     CHECK( item_info_str( hazmat, repaired ) ==
            "--\n"
-           "<color_c_white>Repair</color> using gunsmith repair kit, firearm repair kit, soldering iron, TEST soldering iron, or extended multitool.\n" );
+           "<color_c_white>Repair</color> using gunsmith repair kit, firearm repair kit, soldering iron, TEST soldering iron, or extended multitool.\n"
+           "<color_c_white>With</color> <color_c_cyan>Plastic</color>.\n" );
 
     CHECK( item_info_str( rock, repaired ) ==
            "--\n"
@@ -2502,12 +2568,12 @@ TEST_CASE( "show available recipes with item as an ingredient", "[iteminfo][reci
 
     GIVEN( "character has a potassium iodide tablet and no skill" ) {
         player_character.worn.wear_item( player_character, item( "backpack" ), false, false );
-        item &iodine = player_character.i_add( item( "iodine" ) );
+        item_location iodine = player_character.i_add( item( "iodine" ) );
         player_character.empty_skills();
         REQUIRE( !player_character.knows_recipe( purtab ) );
 
         THEN( "nothing is craftable from it" ) {
-            CHECK( item_info_str( iodine, crafting ) ==
+            CHECK( item_info_str( *iodine, crafting ) ==
                    "--\nYou know of nothing you could craft with it.\n" );
         }
 
@@ -2516,7 +2582,7 @@ TEST_CASE( "show available recipes with item as an ingredient", "[iteminfo][reci
             REQUIRE( player_character.get_skill_level( purtab->skill_used ) == purtab->difficulty );
 
             THEN( "still nothing is craftable from it" ) {
-                CHECK( item_info_str( iodine, crafting ) ==
+                CHECK( item_info_str( *iodine, crafting ) ==
                        "--\nYou know of nothing you could craft with it.\n" );
             }
 
@@ -2525,7 +2591,7 @@ TEST_CASE( "show available recipes with item as an ingredient", "[iteminfo][reci
                 REQUIRE( player_character.knows_recipe( purtab ) );
 
                 THEN( "they can use potassium iodide tablets to craft it" ) {
-                    CHECK( item_info_str( iodine, crafting ) ==
+                    CHECK( item_info_str( *iodine, crafting ) ==
                            "--\n"
                            "You could use it to craft: "
                            "<color_c_dark_gray>water purification tablet</color>\n" );
@@ -2533,18 +2599,17 @@ TEST_CASE( "show available recipes with item as an ingredient", "[iteminfo][reci
             }
 
             WHEN( "they have the recipe in a book, but not memorized" ) {
-                item &textbook = player_character.i_add( item( "textbook_chemistry" ) );
-                player_character.identify( textbook );
+                item_location textbook = player_character.i_add( item( "textbook_chemistry" ) );
+                player_character.identify( *textbook );
                 REQUIRE( player_character.has_identified( itype_textbook_chemistry ) );
                 // update the crafting inventory cache
                 player_character.moves++;
 
                 THEN( "they can use potassium iodide tablets to craft it" ) {
-                    CHECK( item_info_str( iodine, crafting ) ==
+                    CHECK( item_info_str( *iodine, crafting ) ==
                            "--\n"
                            "You could use it to craft: "
-                           "<color_c_dark_gray>antiseptic powder</color>"
-                           " and <color_c_dark_gray>water purification tablet</color>\n" );
+                           "<color_c_dark_gray>water purification tablet</color>\n" );
                 }
             }
         }

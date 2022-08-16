@@ -1192,5 +1192,55 @@
     "using": [ [ "forging_standard", 5 ] ],
     "tools": [ [ [ "press", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [ [ [ "weights", 34, "LIST" ], [ "steel_tiny", 2, "LIST" ] ] ]
+  },
+  {
+    "result": "reloaded_30carbine",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_RIFLE",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "skills_required": [ "gun", 5 ],
+    "time": "2 m",
+    "batch_time_factors": [ 60, 5 ],
+    "book_learn": [ [ "recipe_bullets", 3 ], [ "mag_rifle", 4 ] ],
+    "charges": 1,
+    "reversible": true,
+    "using": [ [ "bullet_forming", 20 ] ],
+    "//": "971 mg gunpowder rounded to 10 100 mg 'pieces'",
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
+    "components": [
+      [ [ "30carbine_casing", 1 ] ],
+      [ [ "smrifle_primer", 1 ] ],
+      [ [ "gunpowder", 10 ], [ "gunpowder_magnum_pistol", 10 ], [ "gunpowder_rifle", 10 ] ],
+      [ [ "lead", 1 ] ],
+      [ [ "copper", 1 ] ]
+    ]
+  },
+  {
+    "result": "bp_30carbine",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_RIFLE",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "skills_required": [ "gun", 5 ],
+    "time": "2 m",
+    "batch_time_factors": [ 60, 5 ],
+    "book_learn": [ [ "recipe_bullets", 3 ], [ "mag_rifle", 4 ] ],
+    "charges": 1,
+    "reversible": true,
+    "using": [ [ "bullet_forming", 20 ] ],
+    "//": "971 mg gunpowder rounded to 10 100 mg 'pieces'",
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
+    "components": [
+      [ [ "30carbine_casing", 1 ] ],
+      [ [ "smrifle_primer", 1 ] ],
+      [ [ "chem_black_powder", 10 ] ],
+      [ [ "lead", 1 ] ],
+      [ [ "copper", 1 ] ]
+    ]
   }
 ]

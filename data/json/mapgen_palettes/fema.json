@@ -67,7 +67,7 @@
       "b": { "item": "homebooks", "chance": 60, "repeat": [ 1, 5 ] },
       "B": { "item": "bed", "chance": 10, "repeat": [ 1, 2 ] },
       "D": { "item": "radio", "chance": 60 },
-      "l": { "item": "guns_milspec", "chance": 30 },
+      "l": { "item": "milspec_small_arms_arsenal_weapon&ammo_collection", "chance": 100 },
       "o": { "item": "SUS_oven", "chance": 70, "repeat": [ 1, 2 ] },
       "R": { "item": "SUS_fridge", "chance": 80, "repeat": [ 1, 3 ] },
       "s": { "item": "cleaning", "chance": 15 },

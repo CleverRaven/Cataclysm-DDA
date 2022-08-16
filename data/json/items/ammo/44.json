@@ -11,7 +11,7 @@
     "id": "44magnum",
     "type": "AMMO",
     "name": { "str": ".44 Magnum" },
-    "description": ".44 Magnum ammunition with 240gr JHP bullets.  The .44 Magnum round is one of the most powerful handgun cartridges available.  It has excellent stopping power but suffers from extremely high recoil for a handgun round.",
+    "description": ".44 Magnum ammunition with a 240gr JHP bullet.  The .44 Magnum round is one of the most powerful handgun cartridges available.  It has excellent stopping power but suffers from extremely high recoil for a handgun round.",
     "weight": "13 g",
     "volume": "87 ml",
     "price": 175,
@@ -35,6 +35,7 @@
     "copy-from": "44fmj",
     "type": "AMMO",
     "name": { "str_sp": ".44 Magnum FMJ, reloaded" },
+    "description": "A brass-jacketed variant of the .44 Magnum round.  This increases penetration slightly at the cost of reduced damage from expansion.  This one has been hand-reloaded by a survivor or perhaps a pre-Cataclysm hobbyist, leading to slightly inferior performance compared to factory-produced ammo.",
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
@@ -44,6 +45,7 @@
     "copy-from": "44magnum",
     "type": "AMMO",
     "name": { "str_sp": ".44 Magnum, reloaded" },
+    "description": ".44 Magnum ammunition with a 240gr JHP bullet.  The .44 Magnum round is one of the most powerful handgun cartridges available.  It has excellent stopping power but suffers from extremely high recoil for a handgun round.  This one has been hand-reloaded by a survivor or perhaps a pre-Cataclysm hobbyist, leading to slightly inferior performance compared to factory-produced ammo.",
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
@@ -53,6 +55,7 @@
     "copy-from": "44magnum",
     "type": "AMMO",
     "name": { "str_sp": ".44 Magnum, black powder" },
+    "description": ".44 Magnum ammunition with a 240gr JHP bullet.  The .44 Magnum round is one of the most powerful handgun cartridges available.  It has excellent stopping power but suffers from extremely high recoil for a handgun round.  Someone was down on their luck when they hand-reloaded this one - it's filled with black powder instead of smokeless powder.  Expect lower velocity, muzzle smoke, and a dirtier barrel if you shoot it.",
     "proportional": {
       "price": 0.3,
       "damage": { "damage_type": "bullet", "amount": 0.76, "armor_penetration": 0.5 },
@@ -67,6 +70,7 @@
     "copy-from": "44fmj",
     "type": "AMMO",
     "name": { "str_sp": ".44 Magnum FMJ, black powder" },
+    "description": "A brass-jacketed variant of the .44 Magnum round.  This increases penetration slightly at the cost of reduced damage from expansion.  Someone was down on their luck when they hand-reloaded this one - it's filled with black powder instead of smokeless powder.  Expect lower velocity, muzzle smoke, and a dirtier barrel if you shoot it.",
     "proportional": {
       "price": 0.3,
       "damage": { "damage_type": "bullet", "amount": 0.76, "armor_penetration": 0.5 },

@@ -62,7 +62,15 @@
     "longest_side": "60 cm",
     "material_thickness": 4,
     "flags": [ "STURDY", "OUTER" ],
-    "armor": [ { "encumbrance": 10, "coverage": 90, "covers": [ "torso", "leg_l", "leg_r" ] } ]
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 90, "encumbrance": 10 },
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "coverage": 90,
+        "encumbrance": [ 5, 5 ],
+        "specifically_covers": [ "leg_upper_r", "leg_upper_l" ]
+      }
+    ]
   },
   {
     "id": "xl_armor_chitin",
@@ -179,7 +187,7 @@
     "category": "armor",
     "name": { "str": "leather body armor" },
     "description": "Thick leather body armor.  Light and comfortable.",
-    "weight": "1498 g",
+    "weight": "4400 g",
     "volume": "7 L",
     "price": 12000,
     "price_postapoc": 2500,
@@ -237,7 +245,7 @@
     "type": "ARMOR",
     "copy-from": "armor_lightplate",
     "name": { "str": "junk plate armor" },
-    "description": "A suit of Gothic plate armor.  The metal shows signs of rust and corrosion and the leather straps are tattered.",
+    "description": "A suit of Gothic plate armor.  The metal shows signs of rust and corrosion, and the leather straps are tattered.",
     "material": [ "budget_steel", "leather" ]
   },
   {
@@ -245,7 +253,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "mild steel light plate armor" },
-    "description": "A light suit of plate armor with a 2 mm thick chestpiece.  This one has been made with mild steel.",
+    "description": "A light suit of plate armor with a 2mm thick chestpiece.  This one has been made with mild steel.",
     "weight": "15 kg",
     "volume": "17500 ml",
     "price": 60000,
@@ -307,7 +315,7 @@
     "copy-from": "armor_lc_lightplate",
     "material": [ "mc_steel", "mc_steel_chain" ],
     "name": { "str": "medium steel light plate armor" },
-    "description": "A light suit of plate armor with a 2 mm thick chestpiece.  Made with tougher medium steel, this suit offers solid protection.",
+    "description": "A light suit of plate armor with a 2mm thick chestpiece.  Made with tougher medium steel, this suit offers solid protection.",
     "armor": [
       {
         "material": [
@@ -355,7 +363,7 @@
     "copy-from": "armor_lc_lightplate",
     "material": [ "hc_steel", "hc_steel_chain" ],
     "name": { "str": "high steel light plate armor" },
-    "description": "A light suit of plate armor with a 2 mm thick chestpiece.  Made with high carbon steel offering excellent protection.",
+    "description": "A light suit of plate armor with a 2mm thick chestpiece.  Made with high carbon steel, offering excellent protection.",
     "armor": [
       {
         "material": [
@@ -403,7 +411,7 @@
     "copy-from": "armor_lc_lightplate",
     "material": [ "ch_steel", "ch_steel_chain" ],
     "name": { "str": "case hardened light plate armor" },
-    "description": "A light suit of plate armor with a 2 mm thick chestpiece.  The mild steel has been case hardened, offering superior protection.",
+    "description": "A light suit of plate armor with a 2mm thick chestpiece.  The mild steel has been case hardened, offering superior protection.",
     "armor": [
       {
         "material": [
@@ -451,7 +459,7 @@
     "copy-from": "armor_lc_lightplate",
     "material": [ "qt_steel", "qt_steel_chain" ],
     "name": { "str": "tempered light plate armor" },
-    "description": "A light suit of plate armor with a 2 mm thick chestpiece.  The medium steel has been quenched and tempered, offering top of the line protection.",
+    "description": "A light suit of plate armor with a 2mm thick chestpiece.  The medium steel has been quenched and tempered, offering top-of-the-line protection.",
     "armor": [
       {
         "material": [
@@ -498,7 +506,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "mild steel plate armor" },
-    "description": "A suit of plate armor with a 4 mm thick chestpiece.  This one has been made with mild steel.",
+    "description": "A suit of plate armor with a 4mm thick chestpiece.  This one has been made with mild steel.",
     "weight": "20 kg",
     "volume": "17500 ml",
     "price": 60000,
@@ -560,7 +568,7 @@
     "copy-from": "armor_lc_plate",
     "material": [ "mc_steel", "mc_steel_chain" ],
     "name": { "str": "medium steel plate armor" },
-    "description": "A suit of plate armor with a 4 mm thick chestpiece.  Made with tougher medium steel, this suit offers solid protection.",
+    "description": "A suit of plate armor with a 4mm thick chestpiece.  Made with tougher medium steel, this suit offers solid protection.",
     "armor": [
       {
         "material": [
@@ -608,7 +616,7 @@
     "copy-from": "armor_lc_plate",
     "material": [ "hc_steel", "hc_steel_chain" ],
     "name": { "str": "high steel plate armor" },
-    "description": "A suit of plate armor with a 4 mm thick chestpiece.  Made with high carbon steel offering excellent protection.",
+    "description": "A suit of plate armor with a 4mm thick chestpiece.  Made with high carbon steel, offering excellent protection.",
     "armor": [
       {
         "material": [
@@ -656,7 +664,7 @@
     "copy-from": "armor_lc_plate",
     "material": [ "ch_steel", "ch_steel_chain" ],
     "name": { "str": "case hardened plate armor" },
-    "description": "A suit of plate armor with a 4 mm thick chestpiece.  The mild steel has been case hardened, offering superior protection.",
+    "description": "A suit of plate armor with a 4mm thick chestpiece.  The mild steel has been case hardened, offering superior protection.",
     "armor": [
       {
         "material": [
@@ -704,7 +712,7 @@
     "copy-from": "armor_lc_plate",
     "material": [ "qt_steel", "qt_steel_chain" ],
     "name": { "str": "tempered plate armor" },
-    "description": "A suit of plate armor with a 4 mm thick chestpiece.  The medium steel has been quenched and tempered, offering top of the line protection.",
+    "description": "A suit of plate armor with a 4mm thick chestpiece.  The medium steel has been quenched and tempered, offering top-of-the-line-protection.",
     "armor": [
       {
         "material": [
@@ -751,7 +759,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "mild steel heavy plate armor" },
-    "description": "A heavy suit of plate armor with a 6 mm thick chestpiece.  This one has been made with mild steel.",
+    "description": "A heavy suit of plate armor with a 6mm thick chestpiece.  This one has been made with mild steel.",
     "weight": "25 kg",
     "volume": "17500 ml",
     "price": 60000,
@@ -813,7 +821,7 @@
     "copy-from": "armor_lc_heavyplate",
     "material": [ "mc_steel", "mc_steel_chain" ],
     "name": { "str": "medium steel heavy plate armor" },
-    "description": "A heavy suit of plate armor with a 6 mm thick chestpiece.  Made with tougher medium steel, this suit offers solid protection.",
+    "description": "A heavy suit of plate armor with a 6mm thick chestpiece.  Made with tougher medium steel, this suit offers solid protection.",
     "armor": [
       {
         "material": [
@@ -861,7 +869,7 @@
     "copy-from": "armor_lc_heavyplate",
     "material": [ "hc_steel", "hc_steel_chain" ],
     "name": { "str": "high steel heavy plate armor" },
-    "description": "A heavy suit of plate armor with a 6 mm thick chestpiece.  Made with high carbon steel offering excellent protection.",
+    "description": "A heavy suit of plate armor with a 6mm thick chestpiece.  Made with high carbon steel, offering excellent protection.",
     "armor": [
       {
         "material": [
@@ -909,7 +917,7 @@
     "copy-from": "armor_lc_heavyplate",
     "material": [ "ch_steel", "ch_steel_chain" ],
     "name": { "str": "case hardened heavy plate armor" },
-    "description": "A heavy suit of plate armor with a 6 mm thick chestpiece.  The mild steel has been case hardened, offering superior protection.",
+    "description": "A heavy suit of plate armor with a 6mm thick chestpiece.  The mild steel has been case hardened, offering superior protection.",
     "armor": [
       {
         "material": [
@@ -957,7 +965,7 @@
     "copy-from": "armor_lc_heavyplate",
     "material": [ "qt_steel", "qt_steel_chain" ],
     "name": { "str": "tempered heavy plate armor" },
-    "description": "A heavy suit of plate armor with a 6 mm thick chestpiece.  The medium steel has been quenched and tempered, offering top of the line protection.",
+    "description": "A heavy suit of plate armor with a 6mm thick chestpiece.  The medium steel has been quenched and tempered, offering top of the line protection.",
     "armor": [
       {
         "material": [
@@ -1078,7 +1086,7 @@
     "type": "ARMOR",
     "copy-from": "armor_plate",
     "name": { "str": "junk ornamental plate armor" },
-    "description": "An extremely heavy suit of ornamental armor.  The metal shows signs of rust and corrosion and the leather straps are tattered.",
+    "description": "An extremely heavy suit of ornamental armor.  The metal shows signs of rust and corrosion, and the leather straps are tattered.",
     "material": [ "budget_steel", "leather" ]
   },
   {
@@ -1463,7 +1471,7 @@
     "looks_like": "touring_suit",
     "color": "light_red",
     "warmth": 0,
-    "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT", "OUTER" ],
+    "flags": [ "VARSIZE", "STURDY", "OUTER" ],
     "armor": [
       {
         "material": [ { "type": "budget_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
@@ -1489,7 +1497,7 @@
     "looks_like": "touring_suit",
     "color": "light_red",
     "warmth": 0,
-    "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT", "OUTER" ],
+    "flags": [ "VARSIZE", "STURDY", "OUTER" ],
     "armor": [
       {
         "material": [ { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
@@ -1648,13 +1656,50 @@
     "type": "ARMOR",
     "copy-from": "lc_chainmail_suit",
     "name": { "str": "faraday chainmail suit" },
-    "description": "A fully customized chainmail suit that can be worn over your normal clothing.  The suit is conductively interconnected, protecting against electricity.",
+    "description": "A fully customized chainmail suit with integrated rubber boots that can be worn over your normal clothing.  The suit is conductively interconnected, protecting against electricity.",
     "armor": [
       {
-        "material": [ { "type": "lc_steel", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth", "eyes" ],
+        "material": [ { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
+        "covers": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "mouth", "eyes" ],
         "coverage": 100,
         "encumbrance": 30
+      },
+      {
+        "material": [ { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_upper_l", "leg_knee_l", "leg_hip_l", "leg_upper_r", "leg_knee_r", "leg_hip_r" ],
+        "coverage": 100,
+        "encumbrance": 30
+      },
+      {
+        "material": [ { "type": "rubber", "covered_by_mat": 100, "thickness": 3.0 } ],
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_lower_l", "leg_lower_r" ],
+        "coverage": 100
+      },
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [
+          "foot_toes_r",
+          "foot_toes_l",
+          "foot_ankle_r",
+          "foot_ankle_l",
+          "foot_heel_r",
+          "foot_heel_l",
+          "foot_arch_r",
+          "foot_arch_l"
+        ],
+        "material": [ { "type": "rubber", "covered_by_mat": 100, "thickness": 3.0 } ],
+        "layers": [ "NORMAL" ],
+        "encumbrance": 30,
+        "coverage": 100
+      },
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
+        "material": [ { "type": "rubber", "covered_by_mat": 100, "thickness": 6.0 } ],
+        "layers": [ "NORMAL" ],
+        "coverage": 100
       }
     ],
     "extend": { "flags": [ "ELECTRIC_IMMUNE" ] }
@@ -1751,7 +1796,7 @@
     "type": "ARMOR",
     "name": { "str": "gambeson" },
     "description": "A thick jacket of quilted fabric, designed to be worn underneath mail or other armor.  Or worn on its own, if you can't afford proper armor.  Use it to loosen it if you want to wear it over your clothes.",
-    "weight": "4140 g",
+    "weight": "2800 g",
     "volume": "3 L",
     "price": 20000,
     "price_postapoc": 750,
@@ -1775,7 +1820,7 @@
     "type": "ARMOR",
     "name": { "str": "gambeson vest" },
     "description": "A thick vest of quilted fabric, designed to be worn underneath mail or other armor.  This one has had its sleeves removed.  Use it to loosen it if you want to wear it over your clothes.",
-    "weight": "2760 g",
+    "weight": "1400 g",
     "volume": "2 L",
     "price": 20000,
     "price_postapoc": 600,
@@ -1826,7 +1871,7 @@
     "type": "ARMOR",
     "name": { "str_sp": "arming pants" },
     "description": "Thick pants made of quilted fabric, meant to be worn alongside a gambeson under or without armor.",
-    "weight": "2760 g",
+    "weight": "2100 g",
     "volume": "2 L",
     "price": 14000,
     "price_postapoc": 600,
@@ -1846,7 +1891,7 @@
     "type": "ARMOR",
     "name": { "str": "Kevlar gambeson" },
     "description": "Designed to mimic a thick jacket of quilted fabric that would be worn underneath mail or other armor.  A base layer of aramid fabric has had strips of soft body armor sewn into it to mimic quilting.  Use it to loosen it if you want to wear it over your clothes.",
-    "weight": "2760 g",
+    "weight": "11556 g",
     "volume": "2520 ml",
     "price": 20000,
     "price_postapoc": 750,
@@ -1899,7 +1944,7 @@
     "type": "ARMOR",
     "name": { "str": "Kevlar gambeson vest" },
     "description": "Designed to mimic a thick vest of quilted fabric that would be worn underneath mail or other armor.  A base layer of aramid fabric has had strips of soft body armor sewn into it to mimic quilting.  Use it to loosen it if you want to wear it over your clothes.",
-    "weight": "1840 g",
+    "weight": "6200 g",
     "volume": "1670 ml",
     "price": 20000,
     "price_postapoc": 600,
@@ -1960,7 +2005,7 @@
     "type": "ARMOR",
     "name": { "str": "Kevlar arming pants", "str_pl": "pairs of Kevlar arming pants" },
     "description": "Thick pants made of quilted fabric, meant to be worn alongside a gambeson under or without armor.  This one incorporates Kevlar layers added for better protection.",
-    "weight": "1840 g",
+    "weight": "9300 g",
     "volume": "2000 ml",
     "price": 14000,
     "price_postapoc": 600,
@@ -2102,7 +2147,7 @@
     "type": "ARMOR",
     "copy-from": "k_gambeson",
     "looks_like": "k_gambeson",
-    "name": { "str": "XS kevlar gambeson" },
+    "name": { "str": "XS Kevlar gambeson" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
@@ -2111,7 +2156,7 @@
     "type": "ARMOR",
     "copy-from": "k_gambeson_vest",
     "looks_like": "k_gambeson",
-    "name": { "str": "XS kevlar gambeson" },
+    "name": { "str": "XS Kevlar gambeson vest" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] },
     "use_action": { "type": "transform", "msg": "You loosen your %s.", "target": "k_gambeson_vest_xs_loose", "menu_text": "Loosen" }
@@ -2234,38 +2279,264 @@
     "repairs_like": "fsurvivor_suit",
     "type": "ARMOR",
     "name": { "str": "Hub 01 environmental suit" },
-    "description": "A lightweight environmental suit worn by Hub personnel in their rare forays aboveground.  Colored brown and blue, the white seal of Hub 01 is embroidered on both of its upper arms.  It requires a separate gas mask for full protection.",
+    "description": "A lightweight environmental suit incorporating Kevlar-lined boots and gloves, worn by Hub personnel in their rare forays aboveground.  Colored brown and blue, the white seal of Hub 01 is embroidered on both of its upper arms.  It requires a separate gas mask for full protection.",
     "weight": "4000 g",
     "volume": "14 L",
     "price": 117500,
-    "price_postapoc": 750,
-    "material": [ "nomex" ],
+    "price_postapoc": 2000,
+    "material": [ "nomex", "kevlar", "hc_steel", "thermo_resin", "lycra" ],
     "symbol": "[",
     "looks_like": "hazmat_suit",
     "color": "brown",
+    "//": "2mm Nomex across the entire suit to provide hazmat properties. Hands and feet reinforced/shaped with other materials to provide full-body hazmat protection with minimal encumbrance.",
     "armor": [
-      { "covers": [ "head" ], "coverage": 100, "encumbrance": [ 7, 7 ] },
-      { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 7, 7 ] },
-      { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": [ 7, 7 ] },
-      { "covers": [ "foot_l", "foot_r" ], "coverage": 100, "encumbrance": [ 7, 7 ] },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 7, 7 ] },
-      { "covers": [ "hand_l", "hand_r" ], "coverage": 100, "encumbrance": [ 7, 7 ] }
+      {
+        "material": [
+          { "type": "nomex", "covered_by_mat": 100, "thickness": 2 },
+          {
+            "type": "kevlar",
+            "covered_by_mat": 100,
+            "thickness": 2,
+            "//": "Back of hand from the wrist to the knuckles can be stiffer but still needs a little flexibility. This area can afford the most thickness on gloves."
+          },
+          {
+            "type": "thermo_resin",
+            "covered_by_mat": 30,
+            "thickness": 2,
+            "//": "Molded knuckle plates, spacious enough inside the gloves to flex your knuckles fine while providing extra knuckle protection because busting your knuckles sucks."
+          }
+        ],
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_back_r", "hand_back_l" ],
+        "coverage": 100,
+        "encumbrance": [ 16, 16 ]
+      },
+      {
+        "material": [
+          { "type": "nomex", "covered_by_mat": 100, "thickness": 2 },
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 1 }
+        ],
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_palm_r", "hand_wrist_r", "hand_palm_l", "hand_wrist_l" ],
+        "coverage": 100,
+        "//": "encumbrance accounted for above",
+        "encumbrance": [ 0, 0 ]
+      },
+      {
+        "material": [
+          { "type": "nomex", "covered_by_mat": 100, "thickness": 2 },
+          {
+            "type": "kevlar",
+            "covered_by_mat": 25,
+            "thickness": 1,
+            "//": "A bit of Kevlar between the third and second knuckles, the part of the fingers where flexibility is least important."
+          },
+          {
+            "type": "lycra",
+            "covered_by_mat": 100,
+            "thickness": 1,
+            "//": "Fingers need to be the most flexible and tactile part of the hand. Lycra/nylon blend (as the lycra material is defined) will give both those qualities while sacrificing the least protection."
+          }
+        ],
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_fingers_r", "hand_fingers_l" ],
+        "coverage": 100,
+        "//": "encumbrance accounted for above",
+        "encumbrance": [ 0, 0 ]
+      },
+      {
+        "material": [
+          { "type": "nomex", "covered_by_mat": 100, "thickness": 2 },
+          {
+            "type": "thermo_resin",
+            "covered_by_mat": 85,
+            "thickness": 1,
+            "//": "The boots are reinforced with plastic plates throughout to protect against penetration."
+          },
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 1 },
+          {
+            "type": "kevlar",
+            "covered_by_mat": 90,
+            "thickness": 1,
+            "//": "The Kevlar is 2mm thick over most of the boots, and 1mm thick for flexible joints."
+          }
+        ],
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_ankle_l", "foot_heel_l", "foot_ankle_r", "foot_heel_r" ],
+        "coverage": 100,
+        "encumbrance": [ 25, 25 ]
+      },
+      {
+        "material": [
+          { "type": "nomex", "covered_by_mat": 100, "thickness": 2 },
+          {
+            "type": "hc_steel",
+            "covered_by_mat": 25,
+            "thickness": 1,
+            "//": "Steel shank for excellent arch support and to maintain boot shape for longevity."
+          },
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 2 }
+        ],
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_arch_l", "foot_arch_r" ],
+        "coverage": 100,
+        "//": "encumbrance accounted for above",
+        "encumbrance": [ 0, 0 ]
+      },
+      {
+        "material": [
+          { "type": "nomex", "covered_by_mat": 100, "thickness": 2 },
+          { "type": "hc_steel", "covered_by_mat": 100, "thickness": 1, "//": "Steel toes" },
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 2 }
+        ],
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_toes_l", "foot_toes_r" ],
+        "coverage": 100,
+        "//": "encumbrance accounted for above",
+        "encumbrance": [ 0, 0 ]
+      },
+      {
+        "material": [
+          { "type": "rubber", "covered_by_mat": 100, "thickness": 6 },
+          { "type": "nomex", "covered_by_mat": 100, "thickness": 2 }
+        ],
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_sole_l", "foot_sole_r" ],
+        "coverage": 100,
+        "//": "encumbrance accounted for above",
+        "encumbrance": [ 0, 0 ]
+      },
+      {
+        "material": [ { "type": "nomex", "covered_by_mat": 100, "thickness": 2 } ],
+        "covers": [ "head", "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": [ 7, 7 ]
+      }
     ],
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 80 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 80 }
     ],
     "warmth": 40,
-    "material_thickness": 2,
     "environmental_protection": 20,
-    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "GAS_PROOF", "HELMET_COMPAT", "RAD_PROOF", "ELECTRIC_IMMUNE", "STURDY" ]
+    "use_action": {
+      "type": "transform",
+      "menu_text": "Wear casually",
+      "msg": "You slip out of the top of the suit and tie the sleeves around your waist.",
+      "target": "robofac_enviro_suit_casual"
+    },
+    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "GAS_PROOF", "RAD_PROOF", "ELECTRIC_IMMUNE", "STURDY" ]
+  },
+  {
+    "id": "robofac_enviro_suit_casual",
+    "repairs_like": "fsurvivor_suit",
+    "type": "ARMOR",
+    "copy-from": "robofac_enviro_suit",
+    "name": { "str": "Hub 01 environmental suit (casual)", "str_pl": "Hub 01 environmental suits (casual)" },
+    "description": "A lightweight environmental suit incorporating Kevlar-lined boots, worn by Hub personnel in their rare forays aboveground.  Colored brown and blue, the upper portion has been tied around the waist casually.",
+    "armor": [
+      {
+        "material": [
+          { "type": "nomex", "covered_by_mat": 100, "thickness": 2 },
+          {
+            "type": "thermo_resin",
+            "covered_by_mat": 85,
+            "thickness": 1,
+            "//": "The boots are reinforced with plastic plates throughout to protect against penetration."
+          },
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 1 },
+          {
+            "type": "kevlar",
+            "covered_by_mat": 90,
+            "thickness": 1,
+            "//": "The Kevlar is 2mm thick over most of the boots, and 1mm thick for flexible joints."
+          }
+        ],
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_ankle_l", "foot_heel_l", "foot_ankle_r", "foot_heel_r" ],
+        "coverage": 100,
+        "encumbrance": [ 25, 25 ]
+      },
+      {
+        "material": [
+          { "type": "nomex", "covered_by_mat": 100, "thickness": 2 },
+          {
+            "type": "hc_steel",
+            "covered_by_mat": 25,
+            "thickness": 1,
+            "//": "Steel shank for excellent arch support and to maintain boot shape for longevity."
+          },
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 2 }
+        ],
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_arch_l", "foot_arch_r" ],
+        "coverage": 100,
+        "//": "encumbrance accounted for above",
+        "encumbrance": [ 0, 0 ]
+      },
+      {
+        "material": [
+          { "type": "nomex", "covered_by_mat": 100, "thickness": 2 },
+          { "type": "hc_steel", "covered_by_mat": 100, "thickness": 1, "//": "Steel toes" },
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 2 }
+        ],
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_toes_l", "foot_toes_r" ],
+        "coverage": 100,
+        "//": "encumbrance accounted for above",
+        "encumbrance": [ 0, 0 ]
+      },
+      {
+        "material": [
+          { "type": "rubber", "covered_by_mat": 100, "thickness": 6 },
+          { "type": "nomex", "covered_by_mat": 100, "thickness": 2 }
+        ],
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_sole_l", "foot_sole_r" ],
+        "coverage": 100,
+        "//": "encumbrance accounted for above",
+        "encumbrance": [ 0, 0 ]
+      },
+      {
+        "material": [ { "type": "nomex", "covered_by_mat": 100, "thickness": 2 } ],
+        "covers": [ "leg_l", "leg_r" ],
+        "coverage": 100,
+        "encumbrance": [ 7, 7 ]
+      }
+    ],
+    "use_action": {
+      "type": "transform",
+      "menu_text": "Wear normally",
+      "msg": "You untie the sleeves and put back on the top of the suit.",
+      "target": "robofac_enviro_suit"
+    },
+    "delete": { "flags": [ "RAINPROOF", "GAS_PROOF", "RAD_PROOF", "ELECTRIC_IMMUNE" ] }
   },
   {
     "id": "xedra_enviro_suit",
     "copy-from": "robofac_enviro_suit",
     "type": "ARMOR",
     "name": { "str": "activity suit" },
-    "description": "A single-piece brown and orange environmental suit, tailored in a way that slightly recalls a military flight suit.  The letters \"X.E.D.R.A\" are inscribed on its back, and a white shoulder patch on the right arm shows an arrow reaching within rings of concentric circles."
+    "description": "A single-piece brown and orange environmental suit, tailored in a way that slightly recalls a military flight suit.  The letters \"X.E.D.R.A\" are inscribed on its back, and a white shoulder patch on the right arm shows an arrow reaching within rings of concentric circles.",
+    "use_action": {
+      "type": "transform",
+      "menu_text": "Wear casually",
+      "msg": "You slip out of the top of the suit and tie the sleeves around your waist.",
+      "target": "xedra_enviro_suit_casual"
+    }
+  },
+  {
+    "id": "xedra_enviro_suit_casual",
+    "copy-from": "robofac_enviro_suit_casual",
+    "type": "ARMOR",
+    "name": { "str": "activity suit (casual)", "str_pl": "activity suits (casual)" },
+    "description": "A single-piece brown and orange environmental suit, tailored in a way that slightly recalls a military flight suit.  The upper portion has been tied around the waist casually.",
+    "use_action": {
+      "type": "transform",
+      "menu_text": "Wear normally",
+      "msg": "You untie the sleeves and put back on the top of the suit.",
+      "target": "xedra_enviro_suit"
+    }
   },
   {
     "id": "stillsuit",
@@ -2324,44 +2595,44 @@
     "repairs_like": "armor_larmor",
     "type": "ARMOR",
     "name": { "str": "track touring suit" },
-    "description": "A stiff leather bodysuit with padding in high-impact areas, meant for motorcyclists out on the track.",
+    "description": "A leather bodysuit with padding in high-impact areas, meant for motorcyclists out on the track.  The leather is stiff but makes the armor much sturdier and more protective than lighter counterparts.",
     "weight": "2214 g",
     "volume": "6500 ml",
     "price": 58000,
     "price_postapoc": 1000,
     "to_hit": -5,
     "bashing": 2,
-    "material": [ "leather", "plastic" ],
+    "material": [ "leather", "plastic_pad" ],
     "symbol": "[",
     "looks_like": "jumpsuit",
     "color": "light_red",
     "armor": [
       {
         "material": [
-          { "type": "plastic", "covered_by_mat": 65, "thickness": 4.0 },
+          { "type": "plastic_pad", "covered_by_mat": 90, "thickness": 14.0 },
           { "type": "leather", "covered_by_mat": 100, "thickness": 1.3 }
         ],
         "covers": [ "torso" ],
         "coverage": 100,
-        "encumbrance": [ 20, 21 ]
+        "encumbrance": [ 25, 25 ]
       },
       {
         "material": [
-          { "type": "plastic", "covered_by_mat": 45, "thickness": 4.0 },
+          { "type": "plastic_pad", "covered_by_mat": 80, "thickness": 14.0 },
           { "type": "leather", "covered_by_mat": 100, "thickness": 1.3 }
         ],
         "covers": [ "arm_l", "arm_r" ],
         "coverage": 100,
-        "encumbrance": [ 20, 20 ]
+        "encumbrance": [ 25, 25 ]
       },
       {
         "material": [
-          { "type": "plastic", "covered_by_mat": 30, "thickness": 4.0 },
+          { "type": "plastic_pad", "covered_by_mat": 80, "thickness": 14.0 },
           { "type": "leather", "covered_by_mat": 100, "thickness": 1.3 }
         ],
         "covers": [ "leg_l", "leg_r" ],
         "coverage": 100,
-        "encumbrance": [ 20, 20 ]
+        "encumbrance": [ 25, 25 ]
       }
     ],
     "pocket_data": [
@@ -2383,8 +2654,8 @@
     "warmth": 25,
     "material_thickness": 4.3,
     "valid_mods": [ "steel_padded" ],
-    "environmental_protection": 2,
-    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "OUTER", "POCKETS", "STURDY" ]
+    "environmental_protection": 3,
+    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "OUTER", "POCKETS", "STURDY", "BLOCK_WHILE_WORN" ]
   },
   {
     "id": "officer_uniform",
@@ -2419,7 +2690,7 @@
     "warmth": 15,
     "material_thickness": 0.5,
     "environmental_protection": 3,
-    "flags": [ "OVERSIZE", "VARSIZE", "WATERPROOF", "POCKETS", "HOOD", "RAINPROOF", "STURDY" ]
+    "flags": [ "OVERSIZE", "VARSIZE", "POCKETS", "RAINPROOF", "STURDY" ]
   },
   {
     "id": "mil_flight_suit",
@@ -2456,7 +2727,7 @@
     "type": "TOOL_ARMOR",
     "copy-from": "armor_lc_plate",
     "name": { "str": "nomad plate armor" },
-    "description": "A full body multilayered suit of plate armor with a 4 mm thick chest piece.  The medium steel has been quenched, tempered and affixed over a full-body layered suit of weight-distributing straps.  The armor has an integrated breathable lycra jumpsuit and the torso has a spall liner of aramid panels.  Electronics run below the surface and circulate cool air to the skin drawing power from your internal CBM reservoir.",
+    "description": "A full body multilayered suit of plate armor with a 4mm thick chest piece.  The medium steel has been quenched, tempered and affixed over a full-body layered suit of weight-distributing straps.  The armor has an integrated breathable lycra jumpsuit and the torso has a spall liner of aramid panels.  Electronics run below the surface and circulate cool air to the skin, drawing power from your internal CBM reservoir.",
     "material": [ "qt_steel", "qt_steel_chain", "lycra", "kevlar" ],
     "armor": [
       {
@@ -2524,7 +2795,7 @@
     "type": "TOOL_ARMOR",
     "copy-from": "armor_lc_lightplate",
     "name": { "str": "nomad light plate armor" },
-    "description": "A full body multilayered light suit of plate armor with a 2 mm thick chest piece.  The medium steel has been quenched, tempered and affixed over a full-body layered suit of weight-distributing straps.  The armor has an integrated breathable lycra jumpsuit and the torso has a spall liner of aramid panels.  Electronics run below the surface and circulate cool air to the skin drawing power from your internal CBM reservoir.",
+    "description": "A full body multilayered light suit of plate armor with a 2mm thick chest piece.  The medium steel has been quenched, tempered and affixed over a full-body layered suit of weight-distributing straps.  The armor has an integrated breathable lycra jumpsuit and the torso has a spall liner of aramid panels.  Electronics run below the surface and circulate cool air to the skin, drawing power from your internal CBM reservoir.",
     "material": [ "qt_steel", "qt_steel_chain", "lycra", "kevlar" ],
     "armor": [
       {
@@ -2592,7 +2863,7 @@
     "type": "TOOL_ARMOR",
     "copy-from": "armor_lc_heavyplate",
     "name": { "str": "nomad heavy plate armor" },
-    "description": "A full body multilayered heavy suit of plate armor with a 6 mm thick chest piece.  The medium steel has been quenched, tempered and affixed over a full-body layered suit of weight-distributing straps.  The armor has an integrated breathable lycra jumpsuit and the torso has a spall liner of aramid panels.  Electronics run below the surface and circulate cool air to the skin drawing power from your internal CBM reservoir.",
+    "description": "A full body multilayered heavy suit of plate armor with a 6mm thick chest piece.  The medium steel has been quenched, tempered and affixed over a full-body layered suit of weight-distributing straps.  The armor has an integrated breathable lycra jumpsuit and the torso has a spall liner of aramid panels.  Electronics run below the surface and circulate cool air to the skin, drawing power from your internal CBM reservoir.",
     "material": [ "qt_steel", "qt_steel_chain", "lycra", "kevlar" ],
     "armor": [
       {

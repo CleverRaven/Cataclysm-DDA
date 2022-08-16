@@ -33,6 +33,7 @@
     ],
     "weight": "300 g",
     "volume": "500 ml",
+    "longest_side": "27 cm",
     "price": 5400,
     "price_postapoc": 100,
     "material": [ "plastic" ],

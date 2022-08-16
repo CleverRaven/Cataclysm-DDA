@@ -73,6 +73,7 @@
     "id": "EOC_blacksmith_crafting_armor",
     "type": "effect_on_condition",
     "effect": [
+      { "u_add_var": "u_current_project", "type": "dialogue", "context": "artisans", "value": "armor" },
       { "u_add_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "yes" },
       { "u_add_var": "u_waiting_on_armor", "type": "timer", "context": "artisans", "time": true },
       { "u_assign_activity": "ACT_MEASURE", "duration": "10 minutes" }
@@ -152,7 +153,8 @@
         },
         "effect": [
           { "u_spawn_item": "armor_hc_lightplate" },
-          { "u_add_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "no" }
+          { "u_add_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "no" },
+          { "u_add_var": "u_current_project", "type": "dialogue", "context": "artisans", "value": "none" }
         ],
         "topic": "TALK_BLACKSMITH_SERVICES"
       },
@@ -166,7 +168,8 @@
         },
         "effect": [
           { "u_spawn_item": "armor_qt_lightplate" },
-          { "u_add_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "no" }
+          { "u_add_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "no" },
+          { "u_add_var": "u_current_project", "type": "dialogue", "context": "artisans", "value": "none" }
         ],
         "topic": "TALK_BLACKSMITH_SERVICES"
       },
@@ -181,6 +184,7 @@
         "effect": [
           { "u_spawn_item": "armor_nomad_lightplate" },
           { "u_add_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "no" },
+          { "u_add_var": "u_current_project", "type": "dialogue", "context": "artisans", "value": "none" },
           { "u_lose_var": "blacksmith_has_exodii_items", "type": "dialogue", "context": "artisans" }
         ],
         "topic": "TALK_BLACKSMITH_SERVICES"
@@ -195,7 +199,8 @@
         },
         "effect": [
           { "u_spawn_item": "armor_hc_plate" },
-          { "u_add_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "no" }
+          { "u_add_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "no" },
+          { "u_add_var": "u_current_project", "type": "dialogue", "context": "artisans", "value": "none" }
         ],
         "topic": "TALK_BLACKSMITH_SERVICES"
       },
@@ -209,7 +214,8 @@
         },
         "effect": [
           { "u_spawn_item": "armor_qt_plate" },
-          { "u_add_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "no" }
+          { "u_add_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "no" },
+          { "u_add_var": "u_current_project", "type": "dialogue", "context": "artisans", "value": "none" }
         ],
         "topic": "TALK_BLACKSMITH_SERVICES"
       },
@@ -224,6 +230,7 @@
         "effect": [
           { "u_spawn_item": "armor_nomad_plate" },
           { "u_add_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "no" },
+          { "u_add_var": "u_current_project", "type": "dialogue", "context": "artisans", "value": "none" },
           { "u_lose_var": "blacksmith_has_exodii_items", "type": "dialogue", "context": "artisans" }
         ],
         "topic": "TALK_BLACKSMITH_SERVICES"
@@ -238,7 +245,8 @@
         },
         "effect": [
           { "u_spawn_item": "armor_hc_heavyplate" },
-          { "u_add_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "no" }
+          { "u_add_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "no" },
+          { "u_add_var": "u_current_project", "type": "dialogue", "context": "artisans", "value": "none" }
         ],
         "topic": "TALK_BLACKSMITH_SERVICES"
       },
@@ -252,7 +260,8 @@
         },
         "effect": [
           { "u_spawn_item": "armor_qt_heavyplate" },
-          { "u_add_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "no" }
+          { "u_add_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "no" },
+          { "u_add_var": "u_current_project", "type": "dialogue", "context": "artisans", "value": "none" }
         ],
         "topic": "TALK_BLACKSMITH_SERVICES"
       },
@@ -267,6 +276,7 @@
         "effect": [
           { "u_spawn_item": "armor_nomad_heavyplate" },
           { "u_add_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "no" },
+          { "u_add_var": "u_current_project", "type": "dialogue", "context": "artisans", "value": "none" },
           { "u_lose_var": "blacksmith_has_exodii_items", "type": "dialogue", "context": "artisans" }
         ],
         "topic": "TALK_BLACKSMITH_SERVICES"

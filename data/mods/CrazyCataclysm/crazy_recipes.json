@@ -59,7 +59,7 @@
     "reversible": true,
     "autolearn": true,
     "components": [
-      [ [ "rag", 1 ] ],
+      [ [ "cotton_patchwork", 1 ] ],
       [ [ "bat", 1 ] ],
       [ [ "nomex", 5 ] ],
       [

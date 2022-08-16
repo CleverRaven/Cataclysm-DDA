@@ -18,7 +18,7 @@
     "description": "Practical experience building electrical circuits, and a grasp of the principles of electrical continuity, current, voltage, and resistance.",
     "can_learn": true,
     "default_time_multiplier": 1.5,
-    "default_fail_multiplier": 4,
+    "default_fail_multiplier": 1.4,
     "time_to_learn": "10 h"
   },
   {
@@ -29,7 +29,7 @@
     "description": "Basic working knowledge of using semiconductors such as diodes and transistors in electrical circuits, for switching or amplifying electrical signals.",
     "can_learn": true,
     "default_time_multiplier": 2,
-    "default_fail_multiplier": 2,
+    "default_fail_multiplier": 1.2,
     "required_proficiencies": [ "prof_elec_circuits" ],
     "time_to_learn": "12 h"
   },
@@ -41,7 +41,7 @@
     "description": "Familiarity with the role of IC chips in circuit design, and ability to identify many common pre-Cataclysm ICs and understand how to use them in functional circuits.",
     "can_learn": true,
     "default_time_multiplier": 2,
-    "default_fail_multiplier": 3,
+    "default_fail_multiplier": 1.3,
     "required_proficiencies": [ "prof_elec_semiconductors" ],
     "time_to_learn": "16 h"
   },

@@ -44,8 +44,8 @@ TEST_CASE( "generate_monfactions_attitude_matrix", "[.]" )
 {
     cata::ofstream outfile;
     outfile.open( fs::u8path( "monfactions.txt" ) );
-    for( const auto &f : monfactions::get_all() ) {
-        for( const auto &f1 : monfactions::get_all() ) {
+    for( const monfaction &f : monfactions::get_all() ) {
+        for( const monfaction &f1 : monfactions::get_all() ) {
             mf_attitude att = f.attitude( f1.id );
             mf_attitude rev_att = f1.attitude( f.id );
             // NOLINTNEXTLINE(cata-text-style)
@@ -61,9 +61,9 @@ TEST_CASE( "generate_monfactions_attitude_matrix", "[.]" )
 
 TEST_CASE( "monfactions_reciprocate", "[monster][monfactions]" )
 {
-    for( const auto &f : monfactions::get_all() ) {
+    for( const monfaction &f : monfactions::get_all() ) {
         SECTION( f.id.str() ) {
-            for( const auto &f1 : monfactions::get_all() ) {
+            for( const monfaction &f1 : monfactions::get_all() ) {
                 mf_attitude att = f.attitude( f1.id );
                 mf_attitude rev_att = f1.attitude( f.id );
 

@@ -117,12 +117,25 @@ class wish_mutate_callback: public uilist_callback
                 mvwprintw( menu->window, point( startx, 3 ),
                            mdata.valid ? _( "Valid" ) : _( "Nonvalid" ) );
 
+                line2++;
+                mvwprintz(
+                    menu->window,
+                    point( startx, line2 ),
+                    c_light_gray,
+                    _( "Id:" )
+                );
+                mvwprintw(
+                    menu->window,
+                    point( startx + 11, line2 ),
+                    mdata.id.str()
+                );
+
                 if( !mdata.prereqs.empty() ) {
                     line2++;
                     mvwprintz( menu->window, point( startx, line2 ), c_light_gray, _( "Prereqs:" ) );
                     for( const trait_id &j : mdata.prereqs ) {
                         mvwprintz( menu->window, point( startx + 11, line2 ), mcolor( j ),
-                                   mutation_branch::get_name( j ) );
+                                   j->name() );
                         line2++;
                     }
                 }
@@ -132,7 +145,7 @@ class wish_mutate_callback: public uilist_callback
                     mvwprintz( menu->window, point( startx, line2 ), c_light_gray, _( "Prereqs, 2d:" ) );
                     for( const trait_id &j : mdata.prereqs2 ) {
                         mvwprintz( menu->window, point( startx + 15, line2 ), mcolor( j ),
-                                   mutation_branch::get_name( j ) );
+                                   j->name() );
                         line2++;
                     }
                 }
@@ -142,7 +155,7 @@ class wish_mutate_callback: public uilist_callback
                     mvwprintz( menu->window, point( startx, line2 ), c_light_gray, _( "Thresholds required:" ) );
                     for( const trait_id &j : mdata.threshreq ) {
                         mvwprintz( menu->window, point( startx + 21, line2 ), mcolor( j ),
-                                   mutation_branch::get_name( j ) );
+                                   j->name() );
                         line2++;
                     }
                 }
@@ -152,7 +165,7 @@ class wish_mutate_callback: public uilist_callback
                     mvwprintz( menu->window, point( startx, line2 ), c_light_gray, _( "Cancels:" ) );
                     for( const trait_id &j : mdata.cancels ) {
                         mvwprintz( menu->window, point( startx + 11, line2 ), mcolor( j ),
-                                   mutation_branch::get_name( j ) );
+                                   j->name() );
                         line2++;
                     }
                 }
@@ -162,7 +175,7 @@ class wish_mutate_callback: public uilist_callback
                     mvwprintz( menu->window, point( startx, line2 ), c_light_gray, _( "Becomes:" ) );
                     for( const trait_id &j : mdata.replacements ) {
                         mvwprintz( menu->window, point( startx + 11, line2 ), mcolor( j ),
-                                   mutation_branch::get_name( j ) );
+                                   j->name() );
                         line2++;
                     }
                 }
@@ -172,7 +185,7 @@ class wish_mutate_callback: public uilist_callback
                     mvwprintz( menu->window, point( startx, line2 ), c_light_gray, _( "Add-ons:" ) );
                     for( const string_id<mutation_branch> &j : mdata.additions ) {
                         mvwprintz( menu->window, point( startx + 11, line2 ), mcolor( j ),
-                                   mutation_branch::get_name( j ) );
+                                   j->name() );
                         line2++;
                     }
                 }
@@ -272,7 +285,7 @@ void debug_menu::wishmutate( Character *you )
         if( wmenu.ret >= 0 ) {
             int rc = 0;
             const trait_id mstr = cb.vTraits[ wmenu.ret ];
-            const auto &mdata = mstr.obj();
+            const mutation_branch &mdata = mstr.obj();
             const bool threshold = mdata.threshold;
             const bool profession = mdata.profession;
             // Manual override for the threshold-gaining
@@ -306,7 +319,7 @@ void debug_menu::wishmutate( Character *you )
                     uilist_entry &entry = wmenu.entries[ i ];
                     entry.extratxt.txt.clear();
                     if( you->has_trait( cb.vTraits[ i ] ) ) {
-                        entry.txt = string_format( _( "%s (active)" ), cb.vTraits[ i ].obj().name() );
+                        entry.txt = string_format( _( "%s (active)" ), cb.vTraits[ i ]->name() );
                         entry.enabled = true;
                         entry.text_color = c_green;
                         cb.pTraits[ cb.vTraits[ i ] ] = true;
@@ -314,7 +327,7 @@ void debug_menu::wishmutate( Character *you )
                             entry.extratxt.txt = "T";
                         }
                     } else {
-                        entry.txt = cb.vTraits[ i ].obj().name();
+                        entry.txt = cb.vTraits[ i ]->name();
                         entry.enabled = entry.enabled ? true : !cb.only_active;
                         entry.text_color = wmenu.text_color;
                         cb.pTraits[ cb.vTraits[ i ] ] = false;

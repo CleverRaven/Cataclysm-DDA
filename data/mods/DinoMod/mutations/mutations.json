@@ -1,5 +1,17 @@
 [
   {
+    "type": "mutation",
+    "id": "THRESH_RAPTOR",
+    "name": { "str": "Raptor" },
+    "points": 1,
+    "description": "The chance to undo not one but TWO extinction events.  You're confident you'll do fine.",
+    "valid": false,
+    "purifiable": false,
+    "anger_relations": [ [ "DINOSAUR", 20 ], [ "REPTILE", 20 ], [ "BIRD", 20 ], [ "MAMMAL", 20 ] ],
+    "ignored_by": [ "PLANT" ],
+    "threshold": true
+  },
+  {
     "type": "mutation_category",
     "id": "TYRANT",
     "name": "Tyrant",
@@ -17,6 +29,8 @@
     "valid": false,
     "profession": true,
     "purifiable": false,
+    "anger_relations": [ [ "DINOSAUR", 20 ], [ "REPTILE", 20 ], [ "BIRD", 20 ], [ "MAMMAL", 20 ] ],
+    "ignored_by": [ "PLANT" ],
     "threshold": true
   },
   {
@@ -37,6 +51,8 @@
     "valid": false,
     "profession": true,
     "purifiable": false,
+    "anger_relations": [ [ "DINOSAUR", -20 ], [ "REPTILE", -20 ], [ "PLANT", 20 ], [ "MAMMAL", -20 ] ],
+    "ignored_by": [ "BIRD" ],
     "threshold": true
   },
   {
@@ -462,24 +478,72 @@
     "type": "mutation",
     "id": "COLDBLOOD",
     "copy-from": "COLDBLOOD",
-    "extend": { "category": [ "STEGO", "TYRANT" ] }
+    "extend": { "category": [ "STEGO" ] }
   },
   {
     "type": "mutation",
     "id": "COLDBLOOD2",
     "copy-from": "COLDBLOOD2",
-    "extend": { "category": [ "STEGO", "TYRANT" ] }
+    "extend": { "category": [ "STEGO" ] }
   },
   {
     "type": "mutation",
     "id": "COLDBLOOD3",
     "copy-from": "COLDBLOOD3",
-    "extend": { "category": [ "STEGO", "TYRANT" ] }
+    "extend": { "category": [ "STEGO" ] }
   },
   {
     "type": "mutation",
     "id": "COLDBLOOD4",
     "copy-from": "COLDBLOOD4",
-    "extend": { "category": [ "STEGO", "TYRANT" ], "threshreq": [ "THRESH_STEGO", "THRESH_TYRANT" ] }
+    "extend": { "category": [ "STEGO" ], "threshreq": [ "THRESH_STEGO" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "STR_UP",
+    "copy-from": "STR_UP",
+    "extend": { "category": [ "STEGO", "TYRANT" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "STR_UP_2",
+    "copy-from": "STR_UP_2",
+    "extend": { "category": [ "STEGO", "TYRANT" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "STR_UP_3",
+    "copy-from": "STR_UP_3",
+    "extend": { "category": [ "STEGO", "TYRANT" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "STR_UP_4",
+    "copy-from": "STR_UP_4",
+    "extend": { "category": [ "STEGO", "TYRANT" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "THICKSKIN",
+    "copy-from": "THICKSKIN",
+    "extend": { "category": [ "STEGO", "TYRANT" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "STRONGBACK",
+    "copy-from": "STRONGBACK",
+    "extend": { "category": [ "STEGO", "TYRANT" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "FANGS",
+    "copy-from": "FANGS",
+    "extend": { "category": [ "TYRANT" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "TAIL_CLUB",
+    "copy-from": "TAIL_CLUB",
+    "extend": { "category": [ "STEGO" ] }
   }
 ]

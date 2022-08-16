@@ -17,7 +17,7 @@
     "material_thickness": 0.3,
     "environmental_protection": 1,
     "flags": [ "VARSIZE", "SUN_GLASSES" ],
-    "armor": [ { "encumbrance": 20, "coverage": 50, "covers": [ "head" ] } ]
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 50, "covers": [ "head" ] } ]
   },
   {
     "id": "bandana_head",
@@ -42,7 +42,7 @@
     "warmth": 5,
     "material_thickness": 0.1,
     "environmental_protection": 1,
-    "armor": [ { "coverage": 80, "covers": [ "head" ] } ]
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 80, "covers": [ "head" ] } ]
   },
   {
     "id": "beret",
@@ -61,7 +61,7 @@
     "warmth": 3,
     "material_thickness": 0.3,
     "flags": [ "VARSIZE", "WATER_FRIENDLY" ],
-    "armor": [ { "coverage": 40, "covers": [ "head" ] } ]
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 40, "covers": [ "head" ] } ]
   },
   {
     "id": "beret_wool",
@@ -79,7 +79,7 @@
     "warmth": 10,
     "material_thickness": 0.3,
     "flags": [ "VARSIZE", "WATERPROOF" ],
-    "armor": [ { "coverage": 40, "covers": [ "head" ] } ]
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 40, "covers": [ "head" ] } ]
   },
   {
     "id": "bowhat",
@@ -99,13 +99,13 @@
     "material_thickness": 0.3,
     "environmental_protection": 1,
     "flags": [ "FANCY", "VARSIZE" ],
-    "armor": [ { "encumbrance": 15, "coverage": 50, "covers": [ "head" ] } ]
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 50, "covers": [ "head" ] } ]
   },
   {
     "id": "chaplet",
     "type": "ARMOR",
     "name": { "str": "chaplet" },
-    "description": "A headdress in the form of wreath made from plant material and woven into a ring.",
+    "description": "A wreath headdress made from plant material woven into a ring.",
     "weight": "46 g",
     "volume": "150 ml",
     "price": 100,
@@ -116,7 +116,7 @@
     "color": "dark_gray",
     "material_thickness": 0.1,
     "flags": [ "OVERSIZE", "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS", "SOFT" ],
-    "armor": [ { "coverage": 40, "covers": [ "head" ] } ]
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 40, "covers": [ "head" ] } ]
   },
   {
     "id": "cowboy_hat",
@@ -135,7 +135,7 @@
     "material_thickness": 0.3,
     "environmental_protection": 1,
     "flags": [ "VARSIZE", "SUN_GLASSES" ],
-    "armor": [ { "encumbrance": 10, "coverage": 50, "covers": [ "head" ] } ]
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 50, "covers": [ "head" ] } ]
   },
   {
     "id": "drinking_hat",
@@ -144,7 +144,7 @@
     "symbol": "[",
     "color": "blue",
     "name": { "str": "drinking hat" },
-    "description": "This is an improvised harness that can be worn over other headgear or bare head, made from two small liquid containers, a rubber hose, a bundle of steel wire, and some cordage.  A convenient and simple device for hands-free drinking, though the liquid inside would spill if you put it into your backpack.",
+    "description": "An improvised harness that can be worn over other headgear or by itself, made from two small liquid containers, a rubber hose, a bundle of steel wire, and some cordage.  A convenient and simple device for hands-free drinking, though it's not watertight and would spill if you put it into your backpack.",
     "price": 1000,
     "price_postapoc": 50,
     "material": [ "cotton", "plastic" ],
@@ -153,7 +153,7 @@
     "material_thickness": 0.2,
     "pocket_data": [ { "max_contains_volume": "500 ml", "max_contains_weight": "1 kg", "watertight": true, "rigid": true } ],
     "flags": [ "OVERSIZE", "BELTED", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY" ],
-    "armor": [ { "encumbrance": 5, "coverage": 15, "covers": [ "head" ] } ]
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 15, "covers": [ "head" ] } ]
   },
   {
     "id": "eboshi",
@@ -172,7 +172,26 @@
     "warmth": 4,
     "material_thickness": 0.2,
     "environmental_protection": 1,
-    "armor": [ { "encumbrance": 10, "coverage": 60, "covers": [ "head" ] } ]
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 60, "covers": [ "head" ] } ]
+  },
+  {
+    "id": "hat_navy",
+    "type": "ARMOR",
+    "name": { "str": "eight point cap" },
+    "description": "Also known as a utility cover or utility cap, this is an eight pointed hat with a baseball-style visor at the front.  Commonly worn by Marines and sailors, this hat is the standard headwear of both the United States Marine Corps and Navy.",
+    "weight": "92 g",
+    "volume": "500 ml",
+    "price": 1699,
+    "price_postapoc": 50,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "cowboy_hat",
+    "color": "dark_gray",
+    "warmth": 5,
+    "material_thickness": 0.3,
+    "environmental_protection": 1,
+    "flags": [ "VARSIZE", "SUN_GLASSES" ],
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 65, "covers": [ "head" ] } ]
   },
   {
     "id": "hat_boonie",
@@ -191,7 +210,7 @@
     "material_thickness": 0.3,
     "environmental_protection": 1,
     "flags": [ "VARSIZE", "SUN_GLASSES" ],
-    "armor": [ { "encumbrance": 10, "coverage": 65, "covers": [ "head" ] } ]
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 65, "covers": [ "head" ] } ]
   },
   {
     "id": "hat_ball",
@@ -212,7 +231,7 @@
     "material_thickness": 0.1,
     "environmental_protection": 1,
     "flags": [ "SUN_GLASSES" ],
-    "armor": [ { "encumbrance": 10, "coverage": 50, "covers": [ "head" ] } ],
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 50, "covers": [ "head" ] } ],
     "variant_type": "generic",
     "variants": [
       {
@@ -252,7 +271,7 @@
     "warmth": 5,
     "material_thickness": 0.1,
     "environmental_protection": 1,
-    "armor": [ { "encumbrance": 15, "coverage": 75, "covers": [ "head" ] } ],
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 75, "covers": [ "head" ] } ],
     "variant_type": "generic",
     "variants": [
       {
@@ -266,6 +285,7 @@
         "id": "black_hat_chef",
         "name": { "str": "black toque" },
         "description": "It's colored black.",
+        "color": "dark_gray",
         "weight": 25,
         "append": true
       },
@@ -273,6 +293,7 @@
         "id": "blue_hat_chef",
         "name": { "str": "blue toque" },
         "description": "It's a royal blue color.",
+        "color": "blue",
         "weight": 10,
         "append": true
       },
@@ -280,6 +301,7 @@
         "id": "red_hat_chef",
         "name": { "str": "red toque" },
         "description": "It's colored red.",
+        "color": "red",
         "weight": 10,
         "append": true
       },
@@ -287,6 +309,7 @@
         "id": "pink_hat_chef",
         "name": { "str": "pink toque" },
         "description": "It's colored pink.",
+        "color": "pink",
         "weight": 10,
         "append": true
       },
@@ -294,6 +317,7 @@
         "id": "yellow_hat_chef",
         "name": { "str": "yellow toque" },
         "description": "It's colored yellow.",
+        "color": "yellow",
         "weight": 5,
         "append": true
       },
@@ -301,6 +325,7 @@
         "id": "camo_hat_chef",
         "name": { "str": "camo chef's jacket" },
         "description": "It has camouflage dye.",
+        "color": "green",
         "weight": 2,
         "append": true
       }
@@ -322,8 +347,8 @@
     "warmth": 15,
     "material_thickness": 0.1,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "HELMET_COMPAT" ],
-    "armor": [ { "coverage": 65, "covers": [ "head" ] } ]
+    "flags": [ "VARSIZE" ],
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 65, "covers": [ "head" ] } ]
   },
   {
     "id": "hat_fur",
@@ -341,7 +366,7 @@
     "warmth": 60,
     "material_thickness": 0.3,
     "environmental_protection": 2,
-    "armor": [ { "encumbrance": 10, "coverage": 95, "covers": [ "head" ] } ]
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 95, "covers": [ "head" ] } ]
   },
   {
     "id": "hat_faux_fur",
@@ -357,8 +382,8 @@
     "id": "hat_hard",
     "type": "ARMOR",
     "name": { "str": "hard hat" },
-    "description": "A hard plastic hat worn in construction sites.  Excellent protection from cuts and percussion.",
-    "weight": "796 g",
+    "description": "A hard plastic hat worn at construction and industrial sites.  Provides excellent protection from cuts and percussion.",
+    "weight": "430 g",
     "volume": "2500 ml",
     "price": 1200,
     "price_postapoc": 250,
@@ -372,15 +397,188 @@
     "environmental_protection": 1,
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "WATERPROOF", "PADDED" ],
-    "armor": [ { "encumbrance": 15, "coverage": 80, "covers": [ "head" ] } ]
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 80, "cover_vitals": 90, "covers": [ "head" ] } ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "500 g",
+        "moves": 250,
+        "description": "Pocket for a face shield or a shield visor.",
+        "flag_restriction": [ "HELMET_FACE_SHIELD" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "400 g",
+        "moves": 250,
+        "description": "Pocket for an ear attachment.",
+        "flag_restriction": [ "HELMET_EAR_ATTACHMENT" ],
+        "inherits_flags": true
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "250 g",
+        "moves": 250,
+        "description": "Pocket for a nape protector.",
+        "flag_restriction": [ "HELMET_NAPE_PROTECTOR" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "400 g",
+        "moves": 250,
+        "description": "Pocket for a strapped mandible guard.",
+        "flag_restriction": [ "HELMET_MANDIBLE_GUARD_STRAPPED" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "400 ml",
+        "max_contains_weight": "400 g",
+        "moves": 250,
+        "description": "Pocket for a counterweight pouch.",
+        "flag_restriction": [ "HELMET_BACK_POUCH" ]
+      }
+    ],
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "yellow_hat_hard",
+        "name": { "str": "yellow hard hat" },
+        "description": "It's colored yellow, commonly used by general, unspecialized workers like laborers and operators of heavy machinery.",
+        "weight": 110,
+        "append": true
+      },
+      {
+        "id": "orange_hat_hard",
+        "name": { "str": "orange hard hat" },
+        "description": "It's colored orange, commonly used by road construction workers, new hires, and site visitors.",
+        "color": "light_red",
+        "weight": 110,
+        "append": true
+      },
+      {
+        "id": "white_hat_hard",
+        "name": { "str": "white hard hat" },
+        "description": "It's colored white, commonly used by anyone in a supervisory position, including managers, architects, engineers, and foremen.",
+        "color": "white",
+        "weight": 25,
+        "append": true
+      },
+      {
+        "id": "brown_hat_hard",
+        "name": { "str": "brown hard hat" },
+        "description": "It's colored brown, commonly used by workers using applications involving high heat such as welders.",
+        "color": "brown",
+        "weight": 15,
+        "append": true
+      },
+      {
+        "id": "blue_hat_hard",
+        "name": { "str": "blue hard hat" },
+        "description": "It's colored blue, commonly used by medical workers and electricians, as well as employees in a technical advisory role.",
+        "color": "blue",
+        "weight": 15,
+        "append": true
+      },
+      {
+        "id": "green_hat_hard",
+        "name": { "str": "green hard hat" },
+        "description": "It's colored green, commonly used by safety officers and inspectors.",
+        "color": "green",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "red_hat_hard",
+        "name": { "str": "red hard hat" },
+        "description": "It's colored red, commonly used by emergency workers and firefighters.",
+        "color": "red",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "pink_hat_hard",
+        "name": { "str": "pink hard hat" },
+        "description": "It's colored pink, commonly issued as a punishment to workers that forgot or lost their hard hat.  Or maybe the previous owner just liked pink.",
+        "color": "pink",
+        "weight": 8,
+        "append": true
+      },
+      {
+        "id": "grey_hat_hard",
+        "name": { "str": "grey hard hat" },
+        "description": "It's colored grey, commonly used by visitors to any worksite.",
+        "color": "light_gray",
+        "weight": 5,
+        "append": true
+      },
+      {
+        "id": "black_hat_hard",
+        "name": { "str": "black hard hat" },
+        "description": "It's colored black, like the first real hard hats in history.",
+        "color": "dark_gray",
+        "weight": 4,
+        "append": true
+      },
+      {
+        "id": "cartoon_hat_hard",
+        "name": { "str": "cartoon hard hat" },
+        "description": "It has cartoon character stickers all over it.",
+        "weight": 2,
+        "append": true
+      },
+      {
+        "id": "camo_hat_hard",
+        "name": { "str": "camo hard hat" },
+        "description": "It's painted in camouflage dye.",
+        "color": "green",
+        "weight": 2,
+        "append": true
+      },
+      {
+        "id": "skull_hat_hard",
+        "name": { "str": "skull hard hat" },
+        "description": "It's colored white and has skull decorations.",
+        "color": "white",
+        "weight": 2,
+        "append": true
+      },
+      {
+        "id": "flag_hat_hard",
+        "name": { "str": "flag hard hat" },
+        "description": "It's decorated with an American flag pattern.  Protects your head with the power of freedom.",
+        "color": "light_red",
+        "weight": 2,
+        "append": true
+      },
+      {
+        "id": "steampunk_hat_hard",
+        "name": { "str": "steampunk hard hat" },
+        "description": "It's colored black, with industrial gear decorations and a steampunk design.",
+        "color": "dark_gray",
+        "weight": 1,
+        "append": true
+      }
+    ]
   },
   {
     "id": "hat_hard_hooded",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "hooded hard hat" },
-    "description": "A hard plastic hat worn in construction sites, with a cloth tucked in under it to serve as a makeshift hood.  Makes it a bit more comfortable to wear, and better protects the neck from sun and rain.",
-    "weight": "876 g",
+    "name": { "str": "summer hard hat" },
+    "description": "A hard plastic hat worn at construction and industrial sites, with a cloth tucked under it to serve as a makeshift hood.  Makes it a bit more comfortable to wear, and better protects the neck from sun and rain.",
+    "weight": "470 g",
     "volume": "2750 ml",
     "price": 1200,
     "price_postapoc": 300,
@@ -389,12 +587,164 @@
     "symbol": "[",
     "looks_like": "hat_hard",
     "color": "yellow",
-    "warmth": 6,
+    "warmth": 4,
     "material_thickness": 4,
     "techniques": [ "WBLOCK_1" ],
-    "environmental_protection": 2,
-    "flags": [ "WATERPROOF", "PADDED" ],
-    "armor": [ { "encumbrance": 13, "coverage": 80, "covers": [ "head" ] } ]
+    "environmental_protection": 1,
+    "flags": [ "WATERPROOF", "PADDED", "SUN_GLASSES" ],
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 80, "cover_vitals": 90, "covers": [ "head" ] } ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "250 g",
+        "moves": 250,
+        "description": "Pocket for a nape protector.",
+        "flag_restriction": [ "HELMET_NAPE_PROTECTOR" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "400 g",
+        "moves": 250,
+        "description": "Pocket for a strapped mandible guard.",
+        "flag_restriction": [ "HELMET_MANDIBLE_GUARD_STRAPPED" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "400 ml",
+        "max_contains_weight": "400 g",
+        "moves": 250,
+        "description": "Pocket for a counterweight pouch.",
+        "flag_restriction": [ "HELMET_BACK_POUCH" ]
+      }
+    ],
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "yellow_hat_hard",
+        "name": { "str": "yellow summer hard hat" },
+        "description": "It's colored yellow, commonly used by general, unspecialized workers like laborers and operators of heavy machinery.",
+        "weight": 110,
+        "append": true
+      },
+      {
+        "id": "orange_hat_hard",
+        "name": { "str": "orange summer hard hat" },
+        "description": "It's colored orange, commonly used by road construction workers, new hires, and site visitors.",
+        "color": "light_red",
+        "weight": 110,
+        "append": true
+      },
+      {
+        "id": "white_hat_hard",
+        "name": { "str": "white summer hard hat" },
+        "description": "It's colored white, commonly used by anyone in a supervisory position, including managers, architects, engineers, and foremen.",
+        "color": "white",
+        "weight": 25,
+        "append": true
+      },
+      {
+        "id": "brown_hat_hard",
+        "name": { "str": "brown summer hard hat" },
+        "description": "It's colored brown, commonly used by workers using applications involving high heat such as welders.",
+        "color": "brown",
+        "weight": 15,
+        "append": true
+      },
+      {
+        "id": "blue_hat_hard",
+        "name": { "str": "blue summer hard hat" },
+        "description": "It's colored blue, commonly used by medical workers and electricians, as well as employees in a technical advisory role.",
+        "color": "blue",
+        "weight": 15,
+        "append": true
+      },
+      {
+        "id": "green_hat_hard",
+        "name": { "str": "green summer hard hat" },
+        "description": "It's colored green, commonly used by safety officers and inspectors.",
+        "color": "green",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "red_hat_hard",
+        "name": { "str": "red summer hard hat" },
+        "description": "It's colored red, commonly used by emergency workers and firefighters.",
+        "color": "red",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "pink_hat_hard",
+        "name": { "str": "pink summer hard hat" },
+        "description": "It's colored pink, commonly issued as a punishment to regular workers that forgot or lost their hard hat.  Or maybe the previous owner just liked pink.",
+        "color": "pink",
+        "weight": 8,
+        "append": true
+      },
+      {
+        "id": "grey_hat_hard",
+        "name": { "str": "grey summer hard hat" },
+        "description": "It's colored grey, commonly used by visitors to any worksite.",
+        "color": "light_gray",
+        "weight": 5,
+        "append": true
+      },
+      {
+        "id": "black_hat_hard",
+        "name": { "str": "black summer hard hat" },
+        "description": "It's colored black, like the first real hard hats in history.",
+        "color": "dark_gray",
+        "weight": 4,
+        "append": true
+      },
+      {
+        "id": "cartoon_hat_hard",
+        "name": { "str": "cartoon summer hard hat" },
+        "description": "It has cartoon character stickers all over it.",
+        "weight": 2,
+        "append": true
+      },
+      {
+        "id": "camo_hat_hard",
+        "name": { "str": "camo summer hard hat" },
+        "description": "It's painted in camouflage dye.",
+        "color": "green",
+        "weight": 2,
+        "append": true
+      },
+      {
+        "id": "skull_hat_hard",
+        "name": { "str": "skull summer hard hat" },
+        "description": "It's colored white and has skull decorations.",
+        "color": "white",
+        "weight": 2,
+        "append": true
+      },
+      {
+        "id": "flag_hat_hard",
+        "name": { "str": "flag summer hard hat" },
+        "description": "It's decorated with an American flag pattern.  Protects your head with the power of freedom.",
+        "color": "light_red",
+        "weight": 2,
+        "append": true
+      },
+      {
+        "id": "steampunk_hat_hard",
+        "name": { "str": "steampunk summer hard hat" },
+        "description": "It's colored black, with industrial gear decorations and a steampunk design.",
+        "color": "dark_gray",
+        "weight": 1,
+        "append": true
+      }
+    ]
   },
   {
     "id": "hat_hunting",
@@ -413,7 +763,7 @@
     "material_thickness": 0.3,
     "environmental_protection": 2,
     "flags": [ "VARSIZE" ],
-    "armor": [ { "encumbrance": 10, "coverage": 85, "covers": [ "head" ] } ]
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 85, "covers": [ "head" ] } ]
   },
   {
     "id": "hat_knit",
@@ -431,8 +781,8 @@
     "warmth": 45,
     "material_thickness": 0.5,
     "environmental_protection": 2,
-    "flags": [ "VARSIZE", "HELMET_COMPAT" ],
-    "armor": [ { "coverage": 95, "covers": [ "head" ] } ]
+    "flags": [ "VARSIZE" ],
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 95, "covers": [ "head" ] } ]
   },
   {
     "id": "hat_newsboy",
@@ -452,13 +802,13 @@
     "material_thickness": 0.2,
     "environmental_protection": 1,
     "flags": [ "VARSIZE" ],
-    "armor": [ { "coverage": 70, "covers": [ "head" ] } ]
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 70, "covers": [ "head" ] } ]
   },
   {
     "id": "hat_noise_cancelling",
     "type": "ARMOR",
     "name": { "str": "noise canceling headgear" },
-    "description": "Padding over your ears kept in place by some string.  Blocks incoming sounds.",
+    "description": "Padding over your ears, kept in place by some string.  Blocks incoming sounds.",
     "weight": "72 g",
     "volume": "500 ml",
     "price": 2500,
@@ -469,8 +819,8 @@
     "color": "dark_gray",
     "warmth": 5,
     "material_thickness": 0.1,
-    "flags": [ "DEAF", "HELMET_COMPAT" ],
-    "armor": [ { "encumbrance": 17, "coverage": 5, "covers": [ "head" ] } ]
+    "flags": [ "DEAF" ],
+    "armor": [ { "encumbrance_modifiers": [ "IMBALANCED" ], "coverage": 5, "covers": [ "head" ] } ]
   },
   {
     "id": "hat_sombrero",
@@ -479,7 +829,7 @@
     "name": { "str": "sombrero" },
     "//": "Head encumbrance stops you from wearing additional headgear.  No helmet over a sombrero, sorry.  But brimmed gear gets the anti-glare flag!",
     "//2": "Not a real sombrero, but a felt imitation.",
-    "description": "A felt orange sombrero with traditional white and yellow hand stitching.  The wide brim keeps the sun out of your eyes, and a thin strap hooks around your chin.",
+    "description": "An orange felt sombrero with traditional white and yellow hand stitching.  The wide brim keeps the sun out of your eyes, and a thin strap hooks around your chin.",
     "weight": "140 g",
     "volume": "3500 ml",
     "price": 5500,
@@ -492,7 +842,7 @@
     "material_thickness": 0.2,
     "environmental_protection": 1,
     "flags": [ "OUTER", "SUN_GLASSES" ],
-    "armor": [ { "encumbrance": 20, "coverage": 65, "covers": [ "head" ] } ]
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 65, "covers": [ "head" ] } ]
   },
   {
     "id": "kippah",
@@ -510,8 +860,7 @@
     "color": "blue",
     "warmth": 2,
     "material_thickness": 0.1,
-    "flags": [ "HELMET_COMPAT" ],
-    "armor": [ { "coverage": 30, "covers": [ "head" ] } ]
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 30, "covers": [ "head" ] } ]
   },
   {
     "id": "kufi",
@@ -530,7 +879,7 @@
     "warmth": 6,
     "material_thickness": 0.1,
     "environmental_protection": 1,
-    "armor": [ { "encumbrance": 10, "coverage": 60, "covers": [ "head" ] } ]
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 60, "covers": [ "head" ] } ]
   },
   {
     "id": "maid_hat",
@@ -549,7 +898,7 @@
     "warmth": 2,
     "material_thickness": 0.05,
     "flags": [ "VARSIZE" ],
-    "armor": [ { "coverage": 25, "covers": [ "head" ] } ]
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 25, "covers": [ "head" ] } ]
   },
   {
     "id": "porkpie",
@@ -569,14 +918,14 @@
     "material_thickness": 0.2,
     "environmental_protection": 1,
     "flags": [ "FANCY", "VARSIZE" ],
-    "armor": [ { "encumbrance": 15, "coverage": 50, "covers": [ "head" ] } ]
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 50, "covers": [ "head" ] } ]
   },
   {
     "id": "postman_hat",
     "repairs_like": "balclava",
     "type": "ARMOR",
     "name": { "str": "mail carrier hat" },
-    "description": "A traditional mail carrier's cap, with the US postal service logo embroidered on the front above the plastic cap.  A symbol of a bygone world.",
+    "description": "A traditional mail carrier's cap, with the US postal service logo embroidered on the front above the plastic brim.  A symbol of a bygone world.",
     "weight": "90 g",
     "volume": "750 ml",
     "price": 1000,
@@ -589,7 +938,7 @@
     "material_thickness": 0.1,
     "environmental_protection": 1,
     "flags": [ "SUN_GLASSES" ],
-    "armor": [ { "encumbrance": 10, "coverage": 60, "covers": [ "head" ] } ]
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 60, "covers": [ "head" ] } ]
   },
   {
     "id": "santa_hat",
@@ -608,13 +957,13 @@
     "material_thickness": 0.3,
     "environmental_protection": 1,
     "flags": [ "VARSIZE", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS" ],
-    "armor": [ { "encumbrance": 10, "coverage": 80, "covers": [ "head" ] } ]
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 80, "covers": [ "head" ] } ]
   },
   {
     "id": "straw_hat",
     "type": "ARMOR",
     "name": { "str": "straw hat" },
-    "description": "Hat that is woven out of straw.  Its brim helps keep the sun out of your eyes.",
+    "description": "A hat woven out of straw.  Its brim helps keep the sun out of your eyes.",
     "weight": "50 g",
     "volume": "750 ml",
     "price": 300,
@@ -627,7 +976,7 @@
     "material_thickness": 0.2,
     "environmental_protection": 1,
     "flags": [ "VARSIZE", "SUN_GLASSES" ],
-    "armor": [ { "coverage": 40, "covers": [ "head" ] } ]
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 40, "covers": [ "head" ] } ]
   },
   {
     "id": "tinfoil_hat",
@@ -645,7 +994,7 @@
     "warmth": 5,
     "color": "yellow",
     "flags": [ "PSYSHIELD_PARTIAL", "SKINTIGHT", "TRADER_AVOID", "SOFT" ],
-    "armor": [ { "coverage": 90, "covers": [ "head" ] } ]
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 90, "covers": [ "head" ] } ]
   },
   {
     "id": "tophat",
@@ -666,7 +1015,7 @@
     "material_thickness": 0.2,
     "environmental_protection": 1,
     "flags": [ "VARSIZE", "SUPER_FANCY" ],
-    "armor": [ { "encumbrance": 20, "coverage": 50, "covers": [ "head" ] } ]
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 50, "covers": [ "head" ] } ]
   },
   {
     "id": "tricorne",
@@ -685,15 +1034,15 @@
     "material_thickness": 0.2,
     "environmental_protection": 1,
     "flags": [ "VARSIZE", "WATERPROOF", "WATER_FRIENDLY", "FANCY" ],
-    "armor": [ { "encumbrance": 10, "coverage": 50, "covers": [ "head" ] } ]
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 50, "covers": [ "head" ] } ]
   },
   {
     "id": "turban",
     "repairs_like": "balclava",
     "type": "ARMOR",
     "name": { "str": "turban" },
-    "description": "Rags worn around the head.",
-    "weight": "110 g",
+    "description": "Cloth wound around the head, worn by people of many cultures worldwide.  Some historical examples could be huge and ostentatious, but this one is a very simple design.",
+    "weight": "105 g",
     "volume": "250 ml",
     "price": 85,
     "price_postapoc": 10,
@@ -706,7 +1055,7 @@
     "material_thickness": 0.3,
     "environmental_protection": 1,
     "flags": [ "OVERSIZE", "ALLOWS_NATURAL_ATTACKS" ],
-    "armor": [ { "encumbrance": 5, "coverage": 60, "covers": [ "head" ] } ]
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 60, "covers": [ "head" ] } ]
   },
   {
     "id": "hat_golf",
@@ -727,7 +1076,7 @@
     "material_thickness": 0.1,
     "environmental_protection": 1,
     "flags": [ "SUN_GLASSES" ],
-    "armor": [ { "encumbrance": 10, "coverage": 40, "covers": [ "head" ] } ]
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 40, "covers": [ "head" ] } ]
   },
   {
     "id": "wizard_hat_costume",
@@ -745,7 +1094,7 @@
     "material_thickness": 0.2,
     "environmental_protection": 1,
     "flags": [ "VARSIZE" ],
-    "armor": [ { "encumbrance": 10, "coverage": 50, "covers": [ "head" ] } ]
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 50, "covers": [ "head" ] } ]
   },
   {
     "id": "pointed_hat",
@@ -763,6 +1112,6 @@
     "material_thickness": 0.2,
     "environmental_protection": 1,
     "flags": [ "VARSIZE" ],
-    "armor": [ { "encumbrance": 5, "coverage": 50, "covers": [ "head" ] } ]
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 50, "covers": [ "head" ] } ]
   }
 ]

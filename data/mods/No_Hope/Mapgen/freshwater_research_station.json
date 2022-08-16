@@ -42,8 +42,8 @@
       "items": { "#": { "item": "fishing_items", "chance": 10 } },
       "place_vehicles": [
         { "vehicle": "boat_motor_single", "x": 11, "y": 9, "rotation": 270, "chance": 70, "status": 0 },
-        { "vehicle": "lake", "x": 20, "y": 1, "rotation": 0, "chance": 30, "status": 0 },
-        { "vehicle": "lake", "x": 2, "y": 22, "rotation": 180, "chance": 30, "status": 0 },
+        { "vehicle": "lake", "x": 15, "y": 1, "rotation": 0, "chance": 30, "status": 0 },
+        { "vehicle": "lake", "x": 8, "y": 22, "rotation": 180, "chance": 30, "status": 0 },
         { "vehicle": "lake", "x": 2, "y": 10, "rotation": 270, "chance": 30, "status": 0 },
         { "vehicle": "lake", "x": 17, "y": 10, "rotation": 270, "chance": 30, "status": 0 },
         { "vehicle": "lake", "x": 6, "y": 15, "rotation": 90, "chance": 30, "status": 0 },
@@ -105,7 +105,7 @@
           { "item": "dining", "chance": 10 }
         ],
         "b": { "item": "homebooks", "chance": 30 },
-        "K": { "item": "SUS_fridge", "chance": 10 },
+        "K": { "item": "SUS_fridge_healthy_vegan", "chance": 10 },
         "Q": [
           { "item": "SUS_pantry", "chance": 5 },
           { "item": "SUS_breakfast_cupboard", "chance": 5 },

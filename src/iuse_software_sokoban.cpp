@@ -220,8 +220,9 @@ int sokoban_game::start_game()
     int iDirY = 0;
     int iDirX = 0;
 
-    using namespace std::placeholders;
-    read_from_file( PATH_INFO::sokoban(), std::bind( &sokoban_game::parse_level, this, _1 ) );
+    read_from_file( PATH_INFO::sokoban(), [this]( std::istream & is ) {
+        parse_level( is );
+    } );
 
     catacurses::window w_sokoban;
     ui_adaptor ui;

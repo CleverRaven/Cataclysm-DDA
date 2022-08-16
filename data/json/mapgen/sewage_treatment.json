@@ -601,7 +601,7 @@
       { "item": "hstomach_large", "prob": 60 },
       { "item": "hstomach", "prob": 60 },
       { "item": "bone_human", "prob": 90, "count-min": 1, "count-max": 5 },
-      { "item": "rag", "prob": 90, "count-min": 1, "count-max": 4, "custom-flags": [ "FILTHY" ] }
+      { "item": "cotton_patchwork", "prob": 90, "count-min": 1, "count-max": 4, "custom-flags": [ "FILTHY" ] }
     ]
   }
 ]

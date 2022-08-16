@@ -197,6 +197,22 @@
   },
   {
     "type": "overmap_terrain",
+    "id": [ "s_cosmetic" ],
+    "copy-from": "generic_city_building",
+    "looks_like": "s_grocery",
+    "name": "cosmetics store",
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "s_cosmetic_roof" ],
+    "copy-from": "generic_city_building",
+    "looks_like": "s_grocery_roof",
+    "name": "cosmetics store roof",
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
     "id": [ "s_hardware", "s_hardware_1", "s_hardware_2", "s_hardware_3" ],
     "copy-from": "generic_city_building",
     "looks_like": "s_hardware",
@@ -1096,6 +1112,20 @@
   },
   {
     "type": "overmap_terrain",
+    "id": [
+      "s_shoppingplaza_A6",
+      "s_shoppingplaza_B1",
+      "s_shoppingplaza_B2",
+      "s_shoppingplaza_B3",
+      "s_shoppingplaza_B4",
+      "s_shoppingplaza_B5",
+      "s_shoppingplaza_B6"
+    ],
+    "copy-from": "s_shoppingplaza_a6",
+    "name": "abandoned shopping plaza roof"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "veterinarian",
     "name": "veterinarian clinic",
     "copy-from": "generic_city_building",
@@ -1480,6 +1510,21 @@
   },
   {
     "type": "overmap_terrain",
+    "id": [
+      "station_radio_tower_even",
+      "station_radio_tower_odd",
+      "station_radio_tower_top",
+      "station_radio_1_tower_even",
+      "station_radio_1_tower_odd",
+      "station_radio_1_tower_top"
+    ],
+    "name": "radio tower",
+    "sym": "X",
+    "color": "light_gray",
+    "see_cost": 2
+  },
+  {
+    "type": "overmap_terrain",
     "id": "cs_gardening_allotment",
     "copy-from": "generic_city_building",
     "name": "gardening allotment",
@@ -1590,6 +1635,33 @@
   {
     "type": "overmap_terrain",
     "id": [
+      "textile_mill_museum_0a0",
+      "textile_mill_museum_0a1",
+      "textile_mill_museum_0a2",
+      "textile_mill_museum_0b0",
+      "textile_mill_museum_0b1",
+      "textile_mill_museum_0b2",
+      "textile_mill_museum_1a0",
+      "textile_mill_museum_1a1",
+      "textile_mill_museum_1a2",
+      "textile_mill_museum_1b0",
+      "textile_mill_museum_1b1",
+      "textile_mill_museum_1b2",
+      "textile_mill_museum_2a0",
+      "textile_mill_museum_2a1",
+      "textile_mill_museum_2a2",
+      "textile_mill_museum_2b0",
+      "textile_mill_museum_2b1",
+      "textile_mill_museum_2b2"
+    ],
+    "copy-from": "generic_city_building",
+    "name": "textile mill museum",
+    "color": "light_blue",
+    "extend": { "flags": [ "SOURCE_TAILORING" ] }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
       "urban_25_3",
       "urban_25_4",
       "urban_25_5",
@@ -1648,30 +1720,49 @@
   {
     "type": "overmap_terrain",
     "id": [ "s_gas_g1", "s_gas_g0" ],
-    "name": "gas station",
+    "copy-from": "s_gas",
     "sym": "g",
-    "color": "light_blue",
-    "see_cost": 5,
-    "extras": "build",
-    "mondensity": 2,
     "land_use_code": "commercial"
   },
   {
     "type": "overmap_terrain",
+    "id": [ "s_gas_g1_roof", "s_gas_g0_roof" ],
+    "name": "gas station roof",
+    "copy-from": "s_gas_g1"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "s_gas_b11",
-    "name": "reception",
+    "name": "bunker reception",
+    "copy-from": "generic_city_building_no_sidewalk",
     "sym": "R",
-    "color": "red",
-    "see_cost": 5,
-    "mondensity": 2
+    "color": "red"
   },
   {
     "type": "overmap_terrain",
     "id": [ "s_gas_b20", "s_gas_b21" ],
     "name": "bunker",
+    "copy-from": "generic_city_building_no_sidewalk",
     "sym": "B",
-    "color": "red",
-    "see_cost": 5,
-    "mondensity": 2
+    "color": "red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "salon",
+    "copy-from": "generic_city_building",
+    "name": "salon",
+    "sym": "s",
+    "color": "pink",
+    "looks_like": "salon",
+    "extend": { "flags": [ "SOURCE_LUXURY" ] }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "salon_roof",
+    "copy-from": "generic_city_building",
+    "name": "salon roof",
+    "looks_like": "salon_roof",
+    "sym": "s",
+    "color": "pink"
   }
 ]

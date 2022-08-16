@@ -137,7 +137,19 @@ void mission_start::kill_nemesis( mission * )
     // Pick an area for the nemesis to spawn
 
     const tripoint_abs_omt center = get_player_character().global_omt_location();
-    tripoint_abs_omt site = overmap_buffer.find_random( center, "field", rng( 40, 80 ), false );
+    tripoint_abs_omt site = overmap::invalid_tripoint;
+
+    static const std::array<float, 3> attempts_multipliers {1.0f, 1.5f, 2.f};
+
+    size_t attempt = 0;
+    do {
+        if( ++attempt >= attempts_multipliers.size() ) {
+            debugmsg( "Failed adding a nemesis mission" );
+            return;
+        }
+        int range = rng( 40, 80 ) * attempts_multipliers[attempt - 1];
+        site = overmap_buffer.find_random( center, "field", range, false );
+    } while( site == overmap::invalid_tripoint );
     overmap_buffer.add_nemesis( site );
 }
 

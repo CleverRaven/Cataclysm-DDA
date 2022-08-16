@@ -58,7 +58,7 @@ bool Character::studied_all_recipes( const itype &book ) const
     if( !book.book ) {
         return true;
     }
-    for( const auto &elem : book.book->recipes ) {
+    for( const islot_book::recipe_with_description_t &elem : book.book->recipes ) {
         if( !knows_recipe( elem.recipe ) ) {
             return false;
         }
@@ -69,7 +69,7 @@ const recipe_subset &Character::get_learned_recipes() const
 {
     // Cache validity check
     if( !_skills->has_same_levels_as( *valid_autolearn_skills ) ) {
-        for( const auto &r : recipe_dict.all_autolearn() ) {
+        for( const recipe * const &r : recipe_dict.all_autolearn() ) {
             if( meets_skill_requirements( r->autolearn_requirements ) ) {
                 learned_recipes->include( r );
             }

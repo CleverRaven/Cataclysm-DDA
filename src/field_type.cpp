@@ -253,7 +253,7 @@ void field_type::load( const JsonObject &jo, const std::string & )
         intensity_levels.emplace_back( intensity_level );
     }
     if( intensity_levels.empty() ) {
-        jo.throw_error( "No intensity levels defined for field type", "id" );
+        jo.throw_error_at( "id", "No intensity levels defined for field type" );
     }
 
     if( jo.has_object( "npc_complain" ) ) {
@@ -388,7 +388,7 @@ const std::vector<field_type> &field_types::get_all()
 
 field_type field_types::get_field_type_by_legacy_enum( int legacy_enum_id )
 {
-    for( const auto &ft : get_all_field_types().get_all() ) {
+    for( const field_type &ft : get_all_field_types().get_all() ) {
         if( legacy_enum_id == ft.legacy_enum_id ) {
             return ft;
         }

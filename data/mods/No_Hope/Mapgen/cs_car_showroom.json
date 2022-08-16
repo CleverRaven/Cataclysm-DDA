@@ -71,16 +71,16 @@
         "C": { "item": "oa_custom_trash", "chance": 20 },
         "d": { "item": "oa_ig_cs_desks", "chance": 20 },
         "L": { "item": "oa_ig_cs_lockers", "chance": 20 },
-        "V": { "item": "vending_food_items", "chance": 20 },
-        "v": { "item": "vending_drink_items", "chance": 20 },
+        "V": { "item": "vending_food_items", "chance": 5 },
+        "v": { "item": "vending_drink_items", "chance": 5 },
         "F": { "item": "fridgesnacks", "chance": 20 },
         "f": { "item": "office_paper", "chance": 70 }
       },
       "place_items": [
         { "item": "oa_custom_trash", "chance": 80, "repeat": [ 2, 4 ], "x": 17, "y": 22 },
         { "item": "oa_custom_trash", "chance": 80, "repeat": [ 2, 4 ], "x": 18, "y": 22 },
-        { "item": "vending_food_items", "chance": 20, "repeat": [ 3, 6 ], "x": 3, "y": 6 },
-        { "item": "vending_drink_items", "chance": 20, "repeat": [ 3, 6 ], "x": 3, "y": 7 },
+        { "item": "vending_food_items", "chance": 5, "repeat": [ 3, 6 ], "x": 3, "y": 6 },
+        { "item": "vending_drink_items", "chance": 5, "repeat": [ 3, 6 ], "x": 3, "y": 7 },
         { "item": "fridgesnacks", "chance": 70, "repeat": [ 0, 4 ], "x": 3, "y": 4 }
       ],
       "add": [ { "item": "microwave", "x": 4, "y": 4, "chance": 1 }, { "item": "coffeemaker", "x": 5, "y": 4, "chance": 1 } ],

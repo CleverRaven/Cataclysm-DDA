@@ -21,6 +21,7 @@
 #include "cata_assert.h"
 #include "catacharset.h"
 #include "color.h"
+#include "cuboid_rectangle.h"
 #include "debug.h"
 #include "enums.h"
 #include "item.h"
@@ -90,50 +91,7 @@ using chtype = int;
 #define LINE_XXXX_UNICODE 0x253C
 
 // Supports line drawing
-inline std::string string_from_int( const catacurses::chtype ch )
-{
-    catacurses::chtype charcode = ch;
-    // LINE_NESW  - X for on, O for off
-    switch( ch ) {
-        case LINE_XOXO:
-            charcode = LINE_XOXO_C;
-            break;
-        case LINE_OXOX:
-            charcode = LINE_OXOX_C;
-            break;
-        case LINE_XXOO:
-            charcode = LINE_XXOO_C;
-            break;
-        case LINE_OXXO:
-            charcode = LINE_OXXO_C;
-            break;
-        case LINE_OOXX:
-            charcode = LINE_OOXX_C;
-            break;
-        case LINE_XOOX:
-            charcode = LINE_XOOX_C;
-            break;
-        case LINE_XXOX:
-            charcode = LINE_XXOX_C;
-            break;
-        case LINE_XXXO:
-            charcode = LINE_XXXO_C;
-            break;
-        case LINE_XOXX:
-            charcode = LINE_XOXX_C;
-            break;
-        case LINE_OXXX:
-            charcode = LINE_OXXX_C;
-            break;
-        case LINE_XXXX:
-            charcode = LINE_XXXX_C;
-            break;
-        default:
-            break;
-    }
-    char buffer[2] = { static_cast<char>( charcode ), '\0' };
-    return buffer;
-}
+std::string string_from_int( catacurses::chtype ch );
 
 // a consistent border color
 #define BORDER_COLOR c_light_gray
@@ -215,7 +173,7 @@ std::string rm_prefix( std::string str, char c1 = '<', char c2 = '>' );
  */
 color_tag_parse_result::tag_type update_color_stack(
     std::stack<nc_color> &color_stack, const std::string &seg,
-    const report_color_error color_error = report_color_error::yes );
+    report_color_error color_error = report_color_error::yes );
 
 /**
  * Removes the color tags from the input string. This might be required when the string is to
@@ -324,7 +282,8 @@ inline int fold_and_print_from( const catacurses::window &w, const point &begin,
 }
 /**
  * Prints a single line of text. The text is automatically trimmed to fit into the given
- * width. The function handles @ref color_tags correctly.
+ * width. The function handles @ref color_tags correctly.  It does not handle any other
+ * tags, and does not handle line breaks.
  *
  * @param w Window we are printing in
  * @param begin The coordinates of line start (curses coordinates)
@@ -365,8 +324,14 @@ std::string satiety_bar( int calpereffv );
 std::string healthy_bar( int healthy );
 void scrollable_text( const std::function<catacurses::window()> &init_window,
                       const std::string &title, const std::string &text );
-std::string name_and_value( const std::string &name, int value, int field_width );
-std::string name_and_value( const std::string &name, const std::string &value, int field_width );
+void add_folded_name_and_value( std::vector<std::string> &current_vector, const std::string &name,
+                                int value, int field_width );
+void add_folded_name_and_value( std::vector<std::string> &current_vector, const std::string &name,
+                                const std::string &value, int field_width );
+std::string trimmed_name_and_value( const std::string &name, int value,
+                                    int field_width );
+std::string trimmed_name_and_value( const std::string &name, const std::string &value,
+                                    int field_width );
 
 void wputch( const catacurses::window &w, nc_color FG, int ch );
 // Using int ch is deprecated, use an UTF-8 encoded string instead
@@ -595,9 +560,15 @@ enum class item_filter_type : int {
 */
 void draw_item_filter_rules( const catacurses::window &win, int starty, int height,
                              item_filter_type type );
+/**
+ * Get the tips printed by `draw_item_filter_rules` as a string.
+ * @param type Filter to use when drawing
+ */
+std::string item_filter_rule_string( item_filter_type type );
 
 char rand_char();
 int special_symbol( int sym );
+int special_symbol( char sym );
 
 // Remove spaces from the start and the end of a string.
 std::string trim( const std::string &s );
@@ -644,7 +615,7 @@ std::pair<std::string, nc_color> get_stamina_bar( int cur_stam, int max_stam );
 
 std::pair<std::string, nc_color> get_light_level( float light );
 
-std::pair<std::string, nc_color> rad_badge_color( const int rad );
+std::pair<std::string, nc_color> rad_badge_color( int rad );
 
 /**
  * @return String containing the bar. Example: "Label [********    ]".
@@ -705,8 +676,8 @@ enum class enumeration_conjunction : int {
  * @param values A vector of strings
  * @param conj Choose how to separate the last elements.
  */
-template<typename _Container>
-std::string enumerate_as_string( const _Container &values,
+template<typename Container>
+std::string enumerate_as_string( const Container &values,
                                  enumeration_conjunction conj = enumeration_conjunction::and_ )
 {
     const std::string final_separator = [&]() {
@@ -755,13 +726,13 @@ std::string enumerate_as_string( const _Container &values,
  * May return an empty string to omit the element.
  * @param conj Choose how to separate the last elements.
  */
-template<typename _FIter, typename F>
-std::string enumerate_as_string( _FIter first, _FIter last, F &&string_for,
+template<typename FIter, typename F>
+std::string enumerate_as_string( FIter first, FIter last, F &&string_for,
                                  enumeration_conjunction conj = enumeration_conjunction::and_ )
 {
     std::vector<std::string> values;
     values.reserve( static_cast<size_t>( std::distance( first, last ) ) );
-    for( _FIter iter = first; iter != last; ++iter ) {
+    for( FIter iter = first; iter != last; ++iter ) {
         const std::string str( string_for( *iter ) );
         if( !str.empty() ) {
             values.push_back( str );
@@ -788,9 +759,9 @@ std::string get_labeled_bar( double val, int width, const std::string &label, ch
 
 void draw_tab( const catacurses::window &w, int iOffsetX, const std::string &sText,
                bool bSelected );
-void draw_subtab( const catacurses::window &w, int iOffsetX, const std::string &sText,
-                  bool bSelected,
-                  bool bDecorate = true, bool bDisabled = false );
+inclusive_rectangle<point> draw_subtab( const catacurses::window &w, int iOffsetX,
+                                        const std::string &sText, bool bSelected,
+                                        bool bDecorate = true, bool bDisabled = false );
 
 // Draws multiple tabs, with the titles specified in tab_texts.
 // Also draws the line beneath the tabs and corners at the ends.
@@ -799,11 +770,11 @@ void draw_subtab( const catacurses::window &w, int iOffsetX, const std::string &
 //   ┌──────┐ ┌──────┐
 //   │ TAB1 │ │ TAB2 │
 // ┌─┴──────┴─┘      └───────────┐
-void draw_tabs( const catacurses::window &, const std::vector<std::string> &tab_texts,
-                size_t current_tab );
+std::map<size_t, inclusive_rectangle<point>> draw_tabs( const catacurses::window &,
+        const std::vector<std::string> &tab_texts, size_t current_tab, size_t offset = 0 );
 // As above, but specify current tab by its label rather than position
-void draw_tabs( const catacurses::window &, const std::vector<std::string> &tab_texts,
-                const std::string &current_tab );
+std::map<std::string, inclusive_rectangle<point>> draw_tabs( const catacurses::window &,
+        const std::vector<std::string> &tab_texts, const std::string &current_tab );
 
 // This overload of draw_tabs is intended for use when you track the current
 // tab via some other value (like an enum) linked to each tab.  Expected use
@@ -818,8 +789,8 @@ void draw_tabs( const catacurses::window &, const std::vector<std::string> &tab_
 template<typename TabList, typename CurrentTab, typename = std::enable_if_t<
              std::is_same<CurrentTab,
                           std::remove_const_t<typename TabList::value_type::first_type>>::value>>
-void draw_tabs( const catacurses::window &w, const TabList &tab_list,
-                const CurrentTab &current_tab )
+std::map<CurrentTab, inclusive_rectangle<point>> draw_tabs( const catacurses::window &w,
+        const TabList &tab_list, const CurrentTab &current_tab )
 {
     std::vector<std::string> tab_text;
     std::transform( tab_list.begin(), tab_list.end(), std::back_inserter( tab_text ),
@@ -831,7 +802,18 @@ void draw_tabs( const catacurses::window &w, const TabList &tab_list,
         return pair.first == current_tab;
     } );
     cata_assert( current_tab_it != tab_list.end() );
-    draw_tabs( w, tab_text, std::distance( tab_list.begin(), current_tab_it ) );
+    std::map<size_t, inclusive_rectangle<point>> tab_map =
+                draw_tabs( w, tab_text, std::distance( tab_list.begin(), current_tab_it ) );
+
+    std::map<CurrentTab, inclusive_rectangle<point>> ret_map;
+    size_t i = 0;
+    for( const typename TabList::value_type &pair : tab_list ) {
+        if( tab_map.count( i ) > 0 ) {
+            ret_map.emplace( pair.first, tab_map.at( i ) );
+        }
+        i++;
+    }
+    return ret_map;
 }
 
 // Similar to the above, but where the order of tabs is specified separately
@@ -839,8 +821,8 @@ void draw_tabs( const catacurses::window &w, const TabList &tab_list,
 template<typename TabList, typename TabKeys, typename CurrentTab, typename = std::enable_if_t<
              std::is_same<CurrentTab,
                           std::remove_const_t<typename TabList::value_type::first_type>>::value>>
-void draw_tabs( const catacurses::window &w, const TabList &tab_list, const TabKeys &keys,
-                const CurrentTab &current_tab )
+std::map<CurrentTab, inclusive_rectangle<point>> draw_tabs( const catacurses::window &w,
+        const TabList &tab_list, const TabKeys &keys, const CurrentTab &current_tab )
 {
     std::vector<typename TabList::value_type> ordered_tab_list;
     for( const auto &key : keys ) {
@@ -848,7 +830,7 @@ void draw_tabs( const catacurses::window &w, const TabList &tab_list, const TabK
         cata_assert( it != tab_list.end() );
         ordered_tab_list.push_back( *it );
     }
-    draw_tabs( w, ordered_tab_list, current_tab );
+    return draw_tabs( w, ordered_tab_list, current_tab );
 }
 
 /**
@@ -861,23 +843,15 @@ void draw_tabs( const catacurses::window &w, const TabList &tab_list, const TabK
  * tab names, the translated strings can be returned instead of the generic identifiers.
  * @param max_width The maximum width available for display of the tabs.  Currently assumes
  * that this value includes a border.
- * @param current_tab The generic identifier for the currently selected tab
- * @param tab_names A map of translated tab names (generic identifier, translated name)
- * @param original_tab_list a list of the generic identifiers of all tabs that we want
- * to display
- * @param translate Whether or not translated strings should be returned by the function.
- * False by default.
+ * @param current_tab The index of the currently selected tab
+ * @param original_tab_list a list of the translated tab names to display
  * @return Return 1: A vector of tab identifiers or names that will fit within max_width and contain
  * current_tab.
- * @return Return 2 (optional): The index of the currently selected tab within return 1
+ * @return Return 2: The offset of the displayed tabs to be passed into draw_tabs
  */
-std::pair<std::vector<std::string>, size_t> fit_tabs_to_width( const size_t max_width,
-        const std::string &current_tab, const std::map<std::string, std::string> &tab_names,
-        const std::vector<std::string> &original_tab_list, bool translate = false );
-std::vector<std::string> simple_fit_tabs_to_width( const size_t max_width,
-        const std::string &current_tab,
-        const std::map<std::string, std::string> &tab_names,
-        const std::vector<std::string> &original_tab_list, bool translate = false );
+std::pair<std::vector<std::string>, size_t> fit_tabs_to_width( size_t max_width,
+        int current_tab,
+        const std::vector<std::string> &original_tab_list );
 
 struct best_fit {
     int start;
@@ -1115,7 +1089,7 @@ std::string colorize_symbols( const std::string &str, F color_of )
         }
     };
 
-    for( const auto &elem : str ) {
+    for( const char &elem : str ) {
         const nc_color new_color = color_of( elem );
 
         if( prev_color != new_color ) {

@@ -58,6 +58,7 @@
 #include "units_utility.h"
 #include "value_ptr.h"
 #include "vehicle_selector.h"
+#include "vitamin.h"
 #include "vpart_position.h"
 
 static const activity_id ACT_CONSUME_DRINK_MENU( "ACT_CONSUME_DRINK_MENU" );
@@ -395,7 +396,7 @@ class take_off_inventory_preset: public armor_inventory_preset
         }
 
         std::string get_denial( const item_location &loc ) const override {
-            const ret_val<bool> ret = you.can_takeoff( *loc );
+            const ret_val<void> ret = you.can_takeoff( *loc );
 
             if( !ret.success() ) {
                 return trim_trailing_punctuations( ret.str() );
@@ -508,16 +509,16 @@ class pickup_inventory_preset : public inventory_selector_preset
         bool skip_wield_check;
 };
 
-class disassemble_inventory_preset : public pickup_inventory_preset
+class disassemble_inventory_preset : public inventory_selector_preset
 {
     public:
-        disassemble_inventory_preset( const Character &you, const inventory &inv ) :
-            pickup_inventory_preset( you ), you( you ), inv( inv ) {
+        disassemble_inventory_preset( const Character &you, const inventory &inv ) : you( you ),
+            inv( inv ) {
 
             check_components = true;
 
             append_cell( [ this ]( const item_location & loc ) {
-                const auto &req = get_recipe( loc ).disassembly_requirements();
+                const requirement_data &req = get_recipe( loc ).disassembly_requirements();
                 if( req.is_empty() ) {
                     return std::string();
                 }
@@ -550,7 +551,7 @@ class disassemble_inventory_preset : public pickup_inventory_preset
             if( !ret.success() ) {
                 return ret.str();
             }
-            return pickup_inventory_preset::get_denial( loc );
+            return std::string();
         }
 
     protected:
@@ -1019,25 +1020,25 @@ static std::string get_consume_needs_hint( Character &you )
     std::string kcal_estimated_intake;
     if( kcal_ingested_today == 0 ) {
         //~ kcal_estimated_intake
-        kcal_estimated_intake = _( "none" );
+        kcal_estimated_intake = _( "none " );
     } else if( kcal_ingested_today < 0.2 * you.base_bmr() ) {
         //~ kcal_estimated_intake
-        kcal_estimated_intake = _( "minimal" );
+        kcal_estimated_intake = _( "minimal " );
     } else if( kcal_ingested_today < 0.5 * you.base_bmr() ) {
         //~ kcal_estimated_intake
-        kcal_estimated_intake = _( "low" );
+        kcal_estimated_intake = _( "low " );
     } else if( kcal_ingested_today < 1.0 * you.base_bmr() ) {
         //~ kcal_estimated_intake
-        kcal_estimated_intake = _( "moderate" );
+        kcal_estimated_intake = _( "moderate " );
     } else if( kcal_ingested_today < 1.5 * you.base_bmr() ) {
         //~ kcal_estimated_intake
-        kcal_estimated_intake = _( "high" );
+        kcal_estimated_intake = _( "high " );
     } else if( kcal_ingested_today < 2.0 * you.base_bmr() ) {
         //~ kcal_estimated_intake
-        kcal_estimated_intake = _( "very high" );
+        kcal_estimated_intake = _( "very high " );
     } else {
         //~ kcal_estimated_intake
-        kcal_estimated_intake = _( "huge" );
+        kcal_estimated_intake = _( "huge " );
     }
 
     hint.append( "\n" );
@@ -1059,10 +1060,38 @@ static std::string get_consume_needs_hint( Character &you )
         desc = std::make_pair( string_format( _( "%d kcal " ), kcal_spent_yesterday ), c_white );
         hint.append( string_format( "%s %s", _( "Yesterday:" ), colorize( desc.first, desc.second ) ) );
     }
+
+    // add info about vitamins as well
+    hint.append( _( "Vitamin Intake: " ) );
+
+    for( const auto &v : vitamin::all() ) {
+        if( v.first->type() != vitamin_type::VITAMIN || v.first->has_flag( "OBSOLETE" ) ) {
+            //skip non vitamins
+            continue;
+        }
+
+        const int &guessed_daily_vit_quantity = you.get_daily_vitamin( v.first, false );
+        const int &vit_percent = you.vitamin_RDA( v.first, guessed_daily_vit_quantity );
+
+        if( has_tracker ) {
+            desc = std::make_pair( string_format( _( "%s: %d%%.  " ), v.second.name(), vit_percent ), c_white );
+        } else {
+            if( vit_percent >= 90 ) {
+                desc = std::make_pair( string_format( _( "%s: %s.  " ), v.second.name(), _( "plenty" ) ), c_white );
+            } else if( vit_percent >= 50 ) {
+                desc = std::make_pair( string_format( _( "%s: %s.  " ), v.second.name(), _( "some" ) ), c_white );
+            } else if( vit_percent > 0 ) {
+                desc = std::make_pair( string_format( _( "%s: %s.  " ), v.second.name(), _( "little" ) ), c_white );
+            } else {
+                desc = std::make_pair( string_format( _( "%s: %s.  " ), v.second.name(), _( "none" ) ), c_white );
+            }
+        }
+        hint.append( colorize( desc.first, desc.second ) );
+    }
     return hint;
 }
 
-item_location game_menus::inv::consume( avatar &you, const item_location loc )
+item_location game_menus::inv::consume( avatar &you, const item_location &loc )
 {
     static item_location container_location;
     if( !you.has_activity( ACT_EAT_MENU ) ) {
@@ -1185,7 +1214,7 @@ class activatable_inventory_preset : public pickup_inventory_preset
             if( consume_drug != nullptr ) { //its a drug)
                 const consume_drug_iuse *consume_drug_use = dynamic_cast<const consume_drug_iuse *>
                         ( consume_drug->get_actor_ptr() );
-                for( auto &tool : consume_drug_use->tools_needed ) {
+                for( const auto &tool : consume_drug_use->tools_needed ) {
                     const bool has = item::count_by_charges( tool.first )
                                      ? you.has_charges( tool.first, ( tool.second == -1 ) ? 1 : tool.second )
                                      : you.has_amount( tool.first, 1 );
@@ -1318,7 +1347,7 @@ class gunmod_inventory_preset : public inventory_selector_preset
     protected:
         /** @return Odds for successful installation (pair.first) and gunmod damage (pair.second) */
         std::pair<int, int> get_odds( const item_location &gun ) const {
-            return you.gunmod_installation_odds( *gun, gunmod );
+            return you.gunmod_installation_odds( gun, gunmod );
         }
 
     private:
@@ -1338,7 +1367,7 @@ class read_inventory_preset: public pickup_inventory_preset
     public:
         explicit read_inventory_preset( const Character &you ) : pickup_inventory_preset( you ),
             you( you ) {
-            const std::string unknown = _( "<color_dark_gray>?</color>" );
+            std::string unknown = _( "<color_dark_gray>?</color>" );
 
             append_cell( [ this, &you, unknown ]( const item_location & loc ) -> std::string {
                 if( loc->type->can_use( "MA_MANUAL" ) ) {
@@ -1347,7 +1376,7 @@ class read_inventory_preset: public pickup_inventory_preset
                 if( !is_known( loc ) ) {
                     return unknown;
                 }
-                const auto &book = get_book( loc );
+                const islot_book &book = get_book( loc );
                 if( book.skill ) {
                     const SkillLevel &skill = you.get_skill_level_object( book.skill );
                     if( skill.can_train() ) {
@@ -1363,7 +1392,7 @@ class read_inventory_preset: public pickup_inventory_preset
                 if( !is_known( loc ) ) {
                     return unknown;
                 }
-                const auto &book = get_book( loc );
+                const islot_book &book = get_book( loc );
                 const int unlearned = book.recipes.size() - get_known_recipes( book );
 
                 return unlearned > 0 ? std::to_string( unlearned ) : std::string();
@@ -1386,10 +1415,10 @@ class read_inventory_preset: public pickup_inventory_preset
                     return std::string();  // Just to make sure
                 }
                 // Actual reading time (in turns). Can be penalized.
-                const int actual_turns = you.time_to_read( *loc, *reader ) / to_moves<int>( 1_turns );
+                const int actual_turns = to_turns<int>( you.time_to_read( *loc, *reader ) );
                 // Theoretical reading time (in turns) based on the reader speed. Free of penalties.
-                const int normal_turns = get_book( loc ).time * reader->read_speed() / to_moves<int>( 1_turns );
-                const std::string duration = to_string_approx( time_duration::from_turns( actual_turns ), false );
+                const int normal_turns = to_turns<int>( get_book( loc ).time ) * reader->read_speed() / 100 ;
+                std::string duration = to_string_approx( time_duration::from_turns( actual_turns ), false );
 
                 if( actual_turns > normal_turns ) { // Longer - complicated stuff.
                     return string_format( "<color_light_red>%s</color>", duration );
@@ -1425,7 +1454,7 @@ class read_inventory_preset: public pickup_inventory_preset
                     return false;
                 }
 
-                const auto &book = get_book( e.any_item() );
+                const islot_book &book = get_book( e.any_item() );
                 if( book.skill && you.get_skill_level_object( book.skill ).can_train() ) {
                     return lcmatch( book.skill->name(), filter );
                 }
@@ -1444,8 +1473,8 @@ class read_inventory_preset: public pickup_inventory_preset
                 return ( !known_a && !known_b ) ? base_sort : !known_a;
             }
 
-            const auto &book_a = get_book( lhs.any_item() );
-            const auto &book_b = get_book( rhs.any_item() );
+            const islot_book &book_a = get_book( lhs.any_item() );
+            const islot_book &book_b = get_book( rhs.any_item() );
 
             if( !book_a.skill && !book_b.skill ) {
                 return ( book_a.fun == book_b.fun ) ? base_sort : book_a.fun > book_b.fun;
@@ -1478,7 +1507,7 @@ class read_inventory_preset: public pickup_inventory_preset
 
         int get_known_recipes( const islot_book &book ) const {
             int res = 0;
-            for( const auto &elem : book.recipes ) {
+            for( const islot_book::recipe_with_description_t &elem : book.recipes ) {
                 if( you.knows_recipe( elem.recipe ) ) {
                     ++res; // If the player knows it, they recognize it even if it's not clearly stated.
                 }
@@ -1547,7 +1576,7 @@ class steal_inventory_preset : public pickup_inventory_preset
             pickup_inventory_preset( you ), victim( victim ) {}
 
         bool is_shown( const item_location &loc ) const override {
-            return !victim.is_worn( *loc ) && &victim.get_wielded_item() != &( *loc );
+            return !victim.is_worn( *loc ) && victim.get_wielded_item() != loc;
         }
 
     private:
@@ -1738,41 +1767,13 @@ static bool valid_unload_container( const item_location &container )
         return false;
     }
 
-    // This item must not be a liquid, relies on containers
-    // only being able to store one liquid at a time
-    if( container->num_item_stacks() == 1 && container->only_item().made_of( phase_id::LIQUID ) ) {
+    // Not all contents should not be liquid, gas or plasma
+    if( container->contains_no_solids() ) {
         return false;
     }
 
     return true;
 }
-
-// Due to current item_location limitations, these won't work.
-// When item_location gets updated to get items inside containers outside the player inventory
-// uncomment this
-// static item_location unload_container_item( drop_location &droplc, item *it, avatar &you )
-// {
-//     switch( droplc.first.where() ) {
-//         case item_location::type::invalid:
-//             return item_location();
-//         case item_location::type::character:
-//             return item_location( you, it );
-//         case item_location::type::map:
-//             return item_location( map_cursor( droplc.first.position() ), it );
-//         case item_location::type::vehicle: {
-//             const cata::optional<vpart_reference> vp =
-//                 get_map().veh_at( droplc.first.position() ).part_with_feature( "CARGO", true );
-//             if( !vp ) {
-//                 return item_location();
-//             }
-//             return item_location( vehicle_cursor( vp->vehicle(), vp->part_index() ), it );
-//         }
-//         case item_location::type::container:
-//             return item_location( droplc.first, it );
-//         default:
-//             return item_location();
-//     }
-// }
 
 drop_locations game_menus::inv::unload_container( avatar &you )
 {
@@ -1781,9 +1782,7 @@ drop_locations game_menus::inv::unload_container( avatar &you )
     inventory_drop_selector insert_menu( you, unload_preset, _( "CONTAINERS TO UNLOAD" ),
                                          /*warn_liquid=*/false );
     insert_menu.add_character_items( you );
-    // When item_location gets updated to get items inside containers outside the player inventory
-    // uncomment this
-    //insert_menu.add_nearby_items( 1 );
+    insert_menu.add_nearby_items( 1 );
     insert_menu.set_display_stats( false );
 
     insert_menu.set_title( _( "Select containers to unload" ) );
@@ -1794,12 +1793,6 @@ drop_locations game_menus::inv::unload_container( avatar &you )
             // no liquids and no items marked as favorite
             if( !it->made_of( phase_id::LIQUID ) && !it->is_favorite ) {
                 dropped.emplace_back( item_location( droplc.first, it ), it->count() );
-                // When item_location gets updated to get items inside containers outside the player inventory
-                // uncomment this
-                // item_location iloc = unload_container_item( droplc, it, you );
-                // if( iloc ) {
-                //     dropped.emplace_back( iloc, it->count() );
-                // }
             }
         }
     }
@@ -1832,6 +1825,34 @@ class saw_barrel_inventory_preset: public weapon_inventory_preset
         const Character &you;
         const item &tool;
         const saw_barrel_actor &actor;
+};
+
+class saw_stock_inventory_preset : public weapon_inventory_preset
+{
+    public:
+        saw_stock_inventory_preset( const Character &you, const item &tool,
+                                    const saw_stock_actor &actor ) :
+            weapon_inventory_preset( you ), you( you ), tool( tool ), actor( actor ) {
+        }
+
+        bool is_shown( const item_location &loc ) const override {
+            return loc->is_gun();
+        }
+
+        std::string get_denial( const item_location &loc ) const override {
+            const auto ret = actor.can_use_on( you, tool, *loc );
+
+            if( !ret.success() ) {
+                return trim_trailing_punctuations( ret.str() );
+            }
+
+            return std::string();
+        }
+
+    private:
+        const Character &you;
+        const item &tool;
+        const saw_stock_actor &actor;
 };
 
 class attach_molle_inventory_preset : public inventory_selector_preset
@@ -1878,7 +1899,7 @@ class salvage_inventory_preset: public inventory_selector_preset
         }
 
         bool is_shown( const item_location &loc ) const override {
-            return actor->valid_to_cut_up( *loc.get_item() );
+            return actor->valid_to_cut_up( nullptr, *loc.get_item() );
         }
 
     private:
@@ -1937,6 +1958,25 @@ item_location game_menus::inv::saw_barrel( Character &you, item &tool )
                        );
 }
 
+item_location game_menus::inv::saw_stock( Character &you, item &tool )
+{
+    const saw_stock_actor *actor = dynamic_cast<const saw_stock_actor *>
+                                   ( tool.type->get_use( "saw_stock" )->get_actor_ptr() );
+
+    if( !actor ) {
+        debugmsg( "Tried to use a wrong item." );
+        return item_location();
+    }
+
+    return inv_internal( you, saw_stock_inventory_preset( you, tool, *actor ),
+                         _( "Saw stock" ), 1,
+                         _( "You don't have any guns." ),
+                         string_format( _( "Choose a weapon to use your %s on" ),
+                                        tool.tname( 1, false )
+                                      )
+                       );
+}
+
 item_location game_menus::inv::molle_attach( Character &you, item &tool )
 {
     const molle_attach_actor *actor = dynamic_cast<const molle_attach_actor *>
@@ -1985,7 +2025,7 @@ drop_locations game_menus::inv::multidrop( avatar &you )
 }
 
 drop_locations game_menus::inv::pickup( avatar &you,
-                                        const cata::optional<tripoint> &target, std::vector<drop_location> selection )
+                                        const cata::optional<tripoint> &target, const std::vector<drop_location> &selection )
 {
     const pickup_inventory_preset preset( you, /*skip_wield_check=*/true );
 
@@ -2292,7 +2332,9 @@ static item_location autodoc_internal( Character &you, Character &patient,
 
         inv_s.clear_items();
         inv_s.add_character_items( you );
-        inv_s.add_character_items( patient );
+        if( you.getID() != patient.getID() ) {
+            inv_s.add_character_items( patient );
+        }
         inv_s.add_nearby_items( radius );
 
         if( inv_s.empty() ) {
@@ -2332,7 +2374,7 @@ class bionic_install_preset: public inventory_selector_preset
 
         std::string get_denial( const item_location &loc ) const override {
 
-            const ret_val<bool> installable = pa.is_installable( loc, true );
+            const ret_val<void> installable = pa.is_installable( loc, true );
             if( installable.success() && !you.has_enough_anesth( *loc.get_item()->type, pa ) ) {
                 const int weight = units::to_kilogram( pa.bodyweight() ) / 10;
                 const int duration = loc.get_item()->type->bionic->difficulty * 2;
@@ -2415,11 +2457,19 @@ class bionic_install_surgeon_preset : public inventory_selector_preset
         }
 
         bool is_shown( const item_location &loc ) const override {
-            return ( loc->is_owned_by( you ) or loc->is_owned_by( pa ) ) and loc->is_bionic();
+            return ( loc->is_owned_by( you ) || loc->is_owned_by( pa ) ) && loc->is_bionic();
         }
 
         std::string get_denial( const item_location &loc ) const override {
-            const ret_val<bool> installable = pa.is_installable( loc, false );
+            if( you.is_npc() ) {
+                int const price = npc_trading::bionic_install_price( you, pa, loc );
+                ret_val<void> const refusal =
+                    you.as_npc()->wants_to_sell( *loc, price, loc->price( true ) );
+                if( !refusal.success() ) {
+                    return you.replace_with_npc_name( refusal.str() );
+                }
+            }
+            const ret_val<void> installable = pa.is_installable( loc, false );
             return installable.str();
         }
 

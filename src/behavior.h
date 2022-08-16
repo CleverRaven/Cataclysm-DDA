@@ -65,7 +65,7 @@ class node_t
 
         // Interface to construct a node.
         void set_strategy( const strategy_t *new_strategy );
-        void add_predicate( std::function < status_t ( const oracle_t *, const std::string & )>
+        void add_predicate( const std::function < status_t ( const oracle_t *, const std::string & )> &
                             new_predicate, const std::string &argument = "", const bool &invert_result = false );
         void set_goal( const std::string &new_goal );
         void add_child( const node_t *new_child );

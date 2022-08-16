@@ -11,7 +11,7 @@
           "and": [
             { "u_compare_time_since_var": "u_waiting_on_armor", "type": "timer", "context": "hub_rnd", "op": "<", "time": "1 d" },
             {
-              "not": { "u_has_var": "u_has_researched_armor", "type": "dialogue", "context": "hub_rnd", "value": "yes" }
+              "compare_int": [ { "global_val": "var", "var_name": "hub01_uhmwpe_researched" }, "!=", { "const": 1 } ]
             },
             { "u_has_var": "u_gave_armor_disk", "type": "dialogue", "context": "hub_rnd", "value": "yes" }
           ]
@@ -24,7 +24,7 @@
           "and": [
             { "u_compare_time_since_var": "u_waiting_on_armor", "type": "timer", "context": "hub_rnd", "op": ">", "time": "1 d" },
             {
-              "not": { "u_has_var": "u_has_researched_armor", "type": "dialogue", "context": "hub_rnd", "value": "yes" }
+              "compare_int": [ { "global_val": "var", "var_name": "hub01_uhmwpe_researched" }, "!=", { "const": 1 } ]
             },
             { "u_has_var": "u_gave_armor_disk", "type": "dialogue", "context": "hub_rnd", "value": "yes" }
           ]
@@ -84,11 +84,6 @@
           ]
         },
         "topic": "TALK_ROBOFAC_INTERCOM_RIFLE_BREAKTHROUGH"
-      },
-      {
-        "text": "Can I get some HWP mags?",
-        "condition": { "u_has_var": "u_has_researched_gun", "type": "dialogue", "context": "hub_rnd", "value": "yes" },
-        "topic": "TALK_ROBOFAC_INTERCOM_MAG_BUY"
       },
       {
         "text": "My phase immersion suit has taken a serious beating.  Could someone repair it for me?",
@@ -197,6 +192,7 @@
         "text": "I found this odd caliber rifle with these robots I didn't recognize.  Could you make an HWP adaptor for it?",
         "condition": {
           "and": [
+            { "compare_int": [ { "global_val": "var", "var_name": "hub01_hwp_exotic_researched" }, "!=", { "const": 1 } ] },
             { "not": { "u_has_var": "u_project_ongoing", "type": "dialogue", "context": "hub_rnd", "value": "yes" } },
             { "u_has_var": "u_has_researched_gun", "type": "dialogue", "context": "hub_rnd", "value": "yes" },
             { "u_has_items": { "item": "pamd68", "count": 1 } }
@@ -258,13 +254,17 @@
     "//": "armor reward blurb after waiting",
     "type": "talk_topic",
     "dynamic_line": "Yes, we've made great progress!  I'll spare you the details but we've developed much more resilient materials for our armors while sacrificing no maneuverability.  As a thank you for bringing this to us the first working model is yours merc.  That said these do take a considerable amount of high-end materials.  If you want the matching pieces we'll need 6 of our coins to barely cover the materials cost.  Also, I've been told to inform you we would be happy to collaborate like this again in the future.",
-    "speaker_effect": { "effect": { "u_add_var": "u_project_ongoing", "type": "dialogue", "context": "hub_rnd", "value": "no" } },
+    "speaker_effect": {
+      "effect": [
+        { "u_add_var": "u_project_ongoing", "type": "dialogue", "context": "hub_rnd", "value": "no" },
+        { "arithmetic": [ { "global_val": "var", "var_name": "hub01_uhmwpe_researched" }, "=", { "const": 1 } ] }
+      ]
+    },
     "responses": [
       {
         "text": "[6 HGC] I'll take it now.",
         "condition": { "u_has_items": { "item": "RobofacCoin", "count": 6 } },
         "effect": [
-          { "u_add_var": "u_has_researched_armor", "type": "dialogue", "context": "hub_rnd", "value": "yes" },
           { "u_sell_item": "RobofacCoin", "count": 6 },
           { "u_spawn_item": "robofac_military_skirt" },
           { "u_spawn_item": "robofac_military_vambraces" },
@@ -277,7 +277,6 @@
         "text": "What about another project?",
         "effect": [
           { "u_add_var": "u_can_buy_armor", "type": "dialogue", "context": "hub_rnd", "value": "yes" },
-          { "u_add_var": "u_has_researched_armor", "type": "dialogue", "context": "hub_rnd", "value": "yes" },
           { "u_spawn_item": "robofac_military_mantle" }
         ],
         "topic": "TALK_ROBOFAC_INTERCOM_PROTOTYPE_MENU"
@@ -286,7 +285,6 @@
         "text": "I want to talk about something else.",
         "effect": [
           { "u_add_var": "u_can_buy_armor", "type": "dialogue", "context": "hub_rnd", "value": "yes" },
-          { "u_add_var": "u_has_researched_armor", "type": "dialogue", "context": "hub_rnd", "value": "yes" },
           { "u_spawn_item": "robofac_military_mantle" }
         ],
         "topic": "TALK_ROBOFAC_INTERCOM_SERVICES"
@@ -295,7 +293,6 @@
         "text": "I'll check in later.",
         "effect": [
           { "u_add_var": "u_can_buy_armor", "type": "dialogue", "context": "hub_rnd", "value": "yes" },
-          { "u_add_var": "u_has_researched_armor", "type": "dialogue", "context": "hub_rnd", "value": "yes" },
           { "u_spawn_item": "robofac_military_mantle" }
         ],
         "topic": "TALK_DONE"
@@ -527,6 +524,9 @@
     "//": "creating EXODII barrel",
     "type": "talk_topic",
     "dynamic_line": "The project was a success.  The ammo is fairly rudimentary but some of our operatives are excited by the prospect of a modular LMG using their giant magazines.",
+    "speaker_effect": {
+      "effect": [ { "arithmetic": [ { "global_val": "var", "var_name": "hub01_hwp_exotic_researched" }, "=", { "const": 1 } ] } ]
+    },
     "responses": [
       {
         "text": "Thanks.",
@@ -537,53 +537,6 @@
         ],
         "topic": "TALK_ROBOFAC_INTERCOM_SERVICES"
       }
-    ]
-  },
-  {
-    "id": "TALK_ROBOFAC_INTERCOM_MAG_BUY",
-    "//": "Buying HWP Magazines",
-    "type": "talk_topic",
-    "dynamic_line": "Certainly, we can immediately provide you with a loaded magazine of 5.56 NATO, 7.62 NATO, 9mm Parabellum, or 2 shotgun magazines for 1 coin.  We also offer drum magazines for 3 coins, since some of our operatives have found a sustained high-caliber firepower quite necessary lately.",
-    "responses": [
-      {
-        "text": "[1 HGC] I'll take a 5.56 NATO mag.",
-        "condition": { "u_has_items": { "item": "RobofacCoin", "count": 1 } },
-        "effect": [ { "u_sell_item": "RobofacCoin", "count": 1 }, { "u_spawn_item": "robofac40", "count": 1 } ],
-        "topic": "TALK_ROBOFAC_INTERCOM_SERVICES"
-      },
-      {
-        "text": "[1 HGC] I'll take a 7.62 NATO mag.",
-        "condition": { "u_has_items": { "item": "RobofacCoin", "count": 1 } },
-        "effect": [ { "u_sell_item": "RobofacCoin", "count": 1 }, { "u_spawn_item": "robofac20", "count": 1 } ],
-        "topic": "TALK_ROBOFAC_INTERCOM_SERVICES"
-      },
-      {
-        "text": "[1 HGC] I'll take a 9mm Parabellum mag.",
-        "condition": { "u_has_items": { "item": "RobofacCoin", "count": 1 } },
-        "effect": [ { "u_sell_item": "RobofacCoin", "count": 1 }, { "u_spawn_item": "robofac60", "count": 1 } ],
-        "topic": "TALK_ROBOFAC_INTERCOM_SERVICES"
-      },
-      {
-        "text": "[1 HGC] I'll take a pair of shotgun mags.",
-        "condition": { "u_has_items": { "item": "RobofacCoin", "count": 1 } },
-        "effect": [ { "u_sell_item": "RobofacCoin", "count": 1 }, { "u_spawn_item": "robofac10", "count": 2 } ],
-        "topic": "TALK_ROBOFAC_INTERCOM_SERVICES"
-      },
-      {
-        "text": "[3 HGC] I'll take a 7.62 NATO drum mag.",
-        "condition": { "u_has_items": { "item": "RobofacCoin", "count": 3 } },
-        "effect": [ { "u_sell_item": "RobofacCoin", "count": 3 }, { "u_spawn_item": "robofac50", "count": 1 } ],
-        "topic": "TALK_ROBOFAC_INTERCOM_SERVICES"
-      },
-      {
-        "text": "[3 HGC] I'll take a 5.56 NATO drum mag.",
-        "condition": { "u_has_items": { "item": "RobofacCoin", "count": 3 } },
-        "effect": [ { "u_sell_item": "RobofacCoin", "count": 3 }, { "u_spawn_item": "robofac100", "count": 1 } ],
-        "topic": "TALK_ROBOFAC_INTERCOM_SERVICES"
-      },
-      { "text": "What about another project?", "topic": "TALK_ROBOFAC_INTERCOM_PROTOTYPE_MENU" },
-      { "text": "I want to talk about something else.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" },
-      { "text": "I'll check in later.", "topic": "TALK_DONE" }
     ]
   }
 ]

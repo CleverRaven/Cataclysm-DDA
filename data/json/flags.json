@@ -44,7 +44,7 @@
   {
     "id": "ALLOWS_NATURAL_ATTACKS",
     "type": "json_flag",
-    "info": "This clothing won't hinder special attacks that involve <info>mutated anatomy</info>."
+    "info": "This clothing won't hinder special attacks that involve <info>mutated or cybernetic anatomy</info>."
   },
   {
     "id": "ALLOWS_REMOTE_USE",
@@ -263,6 +263,42 @@
     "info": "This gear <good>completely protects</good> you from <info>high temperatures</info>."
   },
   {
+    "id": "HELMET_FACE_SHIELD",
+    "type": "json_flag",
+    "info": "This item is attachable in the front of <info>hard hats and helmets</info> to protect your eyes or face.",
+    "restriction": "Item must be some kind of face shield"
+  },
+  {
+    "id": "HELMET_EAR_ATTACHMENT",
+    "type": "json_flag",
+    "info": "This item is attachable in <info>hard hats and helmets</info> to cover the ears.",
+    "restriction": "Item must be some kind of ear attachment"
+  },
+  {
+    "id": "HELMET_NAPE_PROTECTOR",
+    "type": "json_flag",
+    "info": "This item is attachable in <info>hard hats and helmets</info> as a nape protector.",
+    "restriction": "Item must be some kind of nape protector"
+  },
+  {
+    "id": "HELMET_MANDIBLE_GUARD",
+    "type": "json_flag",
+    "info": "This item is attachable as a mandible guard in military <info>helmets</info> or headgear specifically adapted with rails for attachments.",
+    "restriction": "Item must be some kind of mandible guard"
+  },
+  {
+    "id": "HELMET_MANDIBLE_GUARD_STRAPPED",
+    "type": "json_flag",
+    "info": "This item is attachable as a mandible guard in <info>hard hats and helmets</info>.",
+    "restriction": "Item must be some kind of strapped mandible guard"
+  },
+  {
+    "id": "HELMET_BACK_POUCH",
+    "type": "json_flag",
+    "info": "This item is attachable in the back of <info>hard hats and helmets</info> as a counterweight pouch.",
+    "restriction": "Item must be some kind of back pouch"
+  },
+  {
     "id": "COLD_IMMUNE",
     "type": "json_flag",
     "info": "This gear <good>completely protects</good> you from <info>low temperatures</info>."
@@ -416,6 +452,12 @@
     "//": "forces calories and vitamins to be the ones defined in the json, instead of inheriting from ingredients"
   },
   {
+    "id": "OBSOLETE",
+    "type": "json_flag",
+    "//": "This thing has been removed from the game",
+    "info": "This thing no longer spawns naturally and has been obsoleted."
+  },
+  {
     "id": "PLANTABLE_SEED",
     "type": "json_flag",
     "info": "You could probably <color_brown>plant</color> these."
@@ -427,6 +469,10 @@
   },
   {
     "id": "MAG_DESTROY",
+    "type": "json_flag"
+  },
+  {
+    "id": "MOP",
     "type": "json_flag"
   },
   {
@@ -606,17 +652,17 @@
   {
     "id": "PALS_SMALL",
     "type": "json_flag",
-    "info": "This item will <good>attach directly</good> to <info>load bearing vests</info> taking a <good>small amount of space</good>."
+    "info": "This item will <good>attach directly</good> to <info>load bearing vests</info>, taking a <good>small amount of space</good>."
   },
   {
     "id": "PALS_MEDIUM",
     "type": "json_flag",
-    "info": "This item will <good>attach directly</good> to <info>load bearing vests</info> taking an average amount of space."
+    "info": "This item will <good>attach directly</good> to <info>load bearing vests</info>, taking an average amount of space."
   },
   {
     "id": "PALS_LARGE",
     "type": "json_flag",
-    "info": "This item will <good>attach directly</good> to <info>load bearing vests</info> take a <bad>large amount of space</bad>."
+    "info": "This item will <good>attach directly</good> to <info>load bearing vests</info>, taking a <bad>large amount of space</bad>."
   },
   {
     "id": "PSYSHIELD_PARTIAL",
@@ -1004,6 +1050,11 @@
     "//": "Chooses a spell at random to cast from extra_effects.  See MAGIC.md for details"
   },
   {
+    "id": "EXTRA_EFFECTS_FIRST",
+    "type": "json_flag",
+    "//": "A spell extra effects are cast before the main spell.  See MAGIC.md for details"
+  },
+  {
     "id": "PAIN_NORESIST",
     "type": "json_flag",
     "//": "pain altering spells can't be resisted (like with the deadened trait)"
@@ -1165,6 +1216,12 @@
     "type": "json_flag"
   },
   {
+    "id": "REMOVED_STOCK",
+    "//": "for weapons whose stock has been cut off.",
+    "type": "json_flag",
+    "info": "This item has had its stock removed, it will be hard to shoot with."
+  },
+  {
     "id": "FOLDED_STOCK",
     "//": "for weapons that stock folds to one side, no change in volume.",
     "type": "json_flag",
@@ -1298,10 +1355,6 @@
   },
   {
     "id": "GNV_EFFECT",
-    "type": "json_flag"
-  },
-  {
-    "id": "HELMET_COMPAT",
     "type": "json_flag"
   },
   {
@@ -1923,6 +1976,12 @@
     "name": "heavy battery"
   },
   {
+    "id": "METHANOL_TANK",
+    "type": "json_flag",
+    "info": "This item fits in items that use methanol fuel cells.",
+    "name": "methanol fuel cell"
+  },
+  {
     "id": "COMBAT_TOGGLEABLE",
     "type": "json_flag",
     "info": "This item is meant to be toggled during combat."
@@ -1942,6 +2001,16 @@
     "type": "json_flag",
     "info": "Invalid when the target position is <bad>too far</bad> or <bad>too bright</bad>.",
     "name": "laser sight"
+  },
+  {
+    "id": "JETPACK",
+    "type": "json_flag",
+    "info": "This item is a jetpack."
+  },
+  {
+    "id": "LEVITATION",
+    "type": "json_flag",
+    "info": "Allows movement in open air."
   },
   {
     "id": "EXO_SMALL",
@@ -1979,6 +2048,11 @@
     "info": "This is meant for large exosuit gadgets, larger than 5 L."
   },
   {
+    "id": "EXO_UNDERLAYER",
+    "type": "json_flag",
+    "info": "This is meant for exosuit underlayers."
+  },
+  {
     "id": "EXO_HELMET_PLATE",
     "type": "json_flag",
     "info": "This is meant for exosuit helmet plating."
@@ -1987,11 +2061,6 @@
     "id": "EXO_TORSO_PLATE",
     "type": "json_flag",
     "info": "This is meant for exosuit torso plating."
-  },
-  {
-    "id": "EXO_PSU_PLATE",
-    "type": "json_flag",
-    "info": "This is meant for exosuit PSU plating."
   },
   {
     "id": "EXO_ARM_PLATE",
@@ -2012,5 +2081,10 @@
     "id": "EXO_BOOT_PLATE",
     "type": "json_flag",
     "info": "This is meant for exosuit foot plating."
+  },
+  {
+    "id": "VOLTMETER",
+    "type": "json_flag",
+    "info": "This tool can test for voltage."
   }
 ]

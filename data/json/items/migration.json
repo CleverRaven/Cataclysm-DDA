@@ -1775,5 +1775,25 @@
     "id": "rabbit_foot",
     "type": "MIGRATION",
     "replace": "rabbit_sample"
+  },
+  {
+    "id": "slug_garden",
+    "type": "MIGRATION",
+    "replace": "snail_garden"
+  },
+  {
+    "id": "rag",
+    "type": "MIGRATION",
+    "replace": "cotton_patchwork"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "ammonia",
+    "replace": "ammonia_hydroxide"
+  },
+  {
+    "id": "canola",
+    "type": "MIGRATION",
+    "replace": "seed_canola"
   }
 ]

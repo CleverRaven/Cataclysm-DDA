@@ -12,11 +12,13 @@ class JsonObject;
 class JsonValue;
 class Trait_group;
 
+struct trait_and_var;
+
 namespace trait_group
 {
 
 using Trait_group_tag = string_id<Trait_group>;
-using Trait_list = std::vector<trait_id>;
+using Trait_list = std::vector<trait_and_var>;
 
 /**
  * Returns a randomized list of traits from the given trait group.
@@ -109,10 +111,11 @@ class Trait_creation_data
 class Single_trait_creator : public Trait_creation_data
 {
     public:
-        Single_trait_creator( const trait_id &id, int probability );
+        Single_trait_creator( const trait_id &id, const std::string &var, int probability );
         ~Single_trait_creator() override = default;
 
         trait_id id;
+        std::string variant;
 
         trait_group::Trait_list create( RecursionList &rec ) const override;
         void check_consistency() const override;
@@ -149,7 +152,7 @@ class Trait_group : public Trait_creation_data
         explicit Trait_group( int probability );
         ~Trait_group() override = default;
 
-        void add_trait_entry( const trait_id &tid, int probability );
+        void add_trait_entry( const trait_id &tid, const std::string &var, int probability );
         void add_group_entry( const trait_group::Trait_group_tag &gid, int probability );
 
         /**

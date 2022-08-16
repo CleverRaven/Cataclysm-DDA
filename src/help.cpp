@@ -92,8 +92,11 @@ std::string help::get_dir_grid()
     return movement;
 }
 
-void help::draw_menu( const catacurses::window &win ) const
+std::map<int, inclusive_rectangle<point>> help::draw_menu( const catacurses::window &win,
+                                       int selected ) const
 {
+    std::map<int, inclusive_rectangle<point>> opt_map;
+
     werase( win );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     int y = fold_and_print( win, point( 1, 0 ), getmaxx( win ) - 2, c_white,
@@ -105,16 +108,23 @@ void help::draw_menu( const catacurses::window &win ) const
     size_t i = 0;
     for( const auto &text : help_texts ) {
         const std::string cat_name = text.second.first.translated();
+        const int cat_width = utf8_width( remove_color_tags( shortcut_text( c_white, cat_name ) ) );
         if( i < half_size ) {
-            second_column = std::max( second_column, utf8_width( cat_name ) + 4 );
+            second_column = std::max( second_column, cat_width + 4 );
         }
 
-        shortcut_print( win, point( i < half_size ? 1 : second_column, y + i % half_size ),
-                        c_white, c_light_blue, cat_name );
+        const point sc_start( i < half_size ? 1 : second_column, y + i % half_size );
+        shortcut_print( win, sc_start, selected == text.first ? hilite( c_white ) : c_white,
+                        selected == text.first ? hilite( c_light_blue ) : c_light_blue, cat_name );
         ++i;
+
+        opt_map.emplace( text.first,
+                         inclusive_rectangle<point>( sc_start, sc_start + point( cat_width - 1, 0 ) ) );
     }
 
     wnoutrefresh( win );
+
+    return opt_map;
 }
 
 std::string help::get_note_colors()
@@ -149,19 +159,24 @@ void help::display_help() const
     init_windows( ui );
     ui.on_screen_resize( init_windows );
 
-    input_context ctxt( "default", keyboard_mode::keychar );
+    input_context ctxt( "DISPLAY_HELP", keyboard_mode::keychar );
     ctxt.register_cardinal();
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "CONFIRM" );
+    // for mouse selection
+    ctxt.register_action( "SELECT" );
+    ctxt.register_action( "MOUSE_MOVE" );
     // for the menu shortcuts
     ctxt.register_action( "ANY_INPUT" );
 
     std::string action;
+    std::map<int, inclusive_rectangle<point>> opt_map;
+    int sel = -1;
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
         draw_border( w_help_border, BORDER_COLOR, _( "Help" ) );
         wnoutrefresh( w_help_border );
-        draw_menu( w_help );
+        opt_map = draw_menu( w_help, sel );
     } );
 
     std::map<int, std::vector<std::string>> hotkeys;
@@ -172,8 +187,28 @@ void help::display_help() const
     do {
         ui_manager::redraw();
 
+        sel = -1;
         action = ctxt.handle_input();
         std::string sInput = ctxt.get_raw_input().text;
+
+        // Mouse selection
+        if( action == "MOUSE_MOVE" || action == "SELECT" ) {
+            cata::optional<point> coord = ctxt.get_coordinates_text( w_help );
+            if( !!coord ) {
+                int cnt = run_for_point_in<int, point>( opt_map, *coord,
+                [&sel]( const std::pair<int, inclusive_rectangle<point>> &p ) {
+                    sel = p.first;
+                } );
+                if( cnt > 0 && action == "SELECT" ) {
+                    auto iter = hotkeys.find( sel );
+                    if( iter != hotkeys.end() && !iter->second.empty() ) {
+                        sInput = iter->second.front();
+                        action = "CONFIRM";
+                    }
+                }
+            }
+        }
+
         for( const auto &hotkey_entry : hotkeys ) {
             auto help_text_it = help_texts.find( hotkey_entry.first );
             if( help_text_it == help_texts.end() ) {

@@ -36,6 +36,7 @@
       "l": "f_fridge",
       "m": "f_glass_fridge",
       "p": [ "f_dumpster", "f_recycle_bin" ],
+      "q": [ "f_dumpster", "f_recycle_bin" ],
       "r": "f_wood_keg",
       "v": "f_safe_l",
       "w": "f_rack_wood",
@@ -46,6 +47,7 @@
       ".": [ [ "t_region_groundcover_urban", 10 ], "t_region_shrub_decorative" ],
       "-": "t_open_air",
       "p": "t_concrete",
+      "q": "t_pavement",
       "X": "t_region_groundcover_urban",
       " ": "t_floor",
       "|": "t_brick_wall",
@@ -117,6 +119,8 @@
       "i": { "item": "SUS_oven", "chance": 25, "repeat": [ 1, 2 ] },
       "l": { "item": "SUS_fridge", "chance": 30, "repeat": [ 1, 2 ] },
       "Y": { "item": "trash", "chance": 30, "repeat": [ 1, 2 ] },
+      "q": { "item": "trash", "chance": 70, "repeat": [ 1, 4 ] },
+      "p": { "item": "trash", "chance": 70, "repeat": [ 1, 4 ] },
       "R": { "item": "homebooks", "chance": 30, "repeat": [ 1, 2 ] }
     }
   }

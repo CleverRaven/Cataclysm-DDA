@@ -10,7 +10,17 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_flat_roof",
-    "flags": [ "FLAMMABLE_HARD", "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
+    "flags": [
+      "FLAMMABLE_HARD",
+      "NOITEM",
+      "SUPPORTS_ROOF",
+      "WALL",
+      "NO_SCENT",
+      "AUTO_WALL_SYMBOL",
+      "MINEABLE",
+      "BLOCK_WIND",
+      "WIRED_WALL"
+    ],
     "bash": {
       "str_min": 30,
       "str_max": 210,
@@ -41,7 +51,8 @@
       "CHIP",
       "AUTO_WALL_SYMBOL",
       "MINEABLE",
-      "BLOCK_WIND"
+      "BLOCK_WIND",
+      "WIRED_WALL"
     ],
     "bash": {
       "str_min": 30,
@@ -73,7 +84,8 @@
       "CHIP",
       "AUTO_WALL_SYMBOL",
       "MINEABLE",
-      "BLOCK_WIND"
+      "BLOCK_WIND",
+      "WIRED_WALL"
     ],
     "bash": {
       "str_min": 30,
@@ -105,7 +117,8 @@
       "CHIP",
       "AUTO_WALL_SYMBOL",
       "MINEABLE",
-      "BLOCK_WIND"
+      "BLOCK_WIND",
+      "WIRED_WALL"
     ],
     "bash": {
       "str_min": 30,
@@ -137,7 +150,8 @@
       "CHIP",
       "AUTO_WALL_SYMBOL",
       "MINEABLE",
-      "BLOCK_WIND"
+      "BLOCK_WIND",
+      "WIRED_WALL"
     ],
     "bash": {
       "str_min": 30,
@@ -169,7 +183,8 @@
       "CHIP",
       "AUTO_WALL_SYMBOL",
       "MINEABLE",
-      "BLOCK_WIND"
+      "BLOCK_WIND",
+      "WIRED_WALL"
     ],
     "bash": {
       "str_min": 30,
@@ -200,7 +215,8 @@
       "CHIP",
       "AUTO_WALL_SYMBOL",
       "MINEABLE",
-      "BLOCK_WIND"
+      "BLOCK_WIND",
+      "WIRED_WALL"
     ],
     "bash": {
       "str_min": 30,
@@ -232,7 +248,8 @@
       "CHIP",
       "AUTO_WALL_SYMBOL",
       "MINEABLE",
-      "BLOCK_WIND"
+      "BLOCK_WIND",
+      "WIRED_WALL"
     ],
     "bash": {
       "str_min": 30,

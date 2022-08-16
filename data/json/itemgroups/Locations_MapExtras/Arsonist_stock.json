@@ -5,7 +5,7 @@
     "subtype": "collection",
     "items": [
       { "item": "molotov", "count": 5 },
-      { "item": "rag", "count": 25 },
+      { "item": "cotton_patchwork", "count": 25 },
       { "item": "gasoline", "count": 1 },
       { "item": "improvised_pipebomb", "count": 25 },
       { "item": "fuse", "count": 5 },

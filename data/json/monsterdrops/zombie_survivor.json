@@ -133,12 +133,16 @@
     "type": "item_group",
     "//": "Survivor piercing weapons other than knives",
     "items": [
-      [ "spear_copper", 10 ],
-      [ "spear_forked", 10 ],
-      [ "spear_knife", 10 ],
+      [ "spear_copper", 1 ],
+      [ "spear_steel", 1 ],
+      [ "spear_forked", 15 ],
+      [ "spear_knife", 15 ],
+      [ "spear_pipe", 10 ],
+      [ "spear_spike", 15 ],
+      [ "spear_stone", 15 ],
       [ "spear_rebar", 10 ],
-      [ "spear_wood", 10 ],
-      [ "spear_homemade_halfpike", 10 ]
+      [ "spear_wood", 20 ],
+      [ "spear_homemade_halfpike", 15 ]
     ]
   },
   {

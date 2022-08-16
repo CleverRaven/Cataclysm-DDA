@@ -155,7 +155,7 @@
         "W": "t_water_dispenser",
         "*": "t_thconc_floor_olight"
       },
-      "liquids": { "E": { "liquid": "water_clean", "amount": [ 0, 100 ] } },
+      "liquids": { "E": { "liquid": "water_clean", "amount": [ 0, 100 ] }, "W": { "liquid": "water_clean", "amount": [ 0, 80 ] } },
       "furniture": {
         "T": "f_workbench",
         "G": "f_glass_cabinet",

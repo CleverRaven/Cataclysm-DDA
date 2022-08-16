@@ -21,7 +21,7 @@
         [ "bandages_makeshift_boiled", 1 ]
       ]
     ],
-    "byproducts": [ [ "rag", 1 ] ]
+    "byproducts": [ [ "cotton_patchwork", 1 ] ]
   },
   {
     "id": "prac_health_care_int",
@@ -49,6 +49,6 @@
         [ "bandages_makeshift_boiled", 2 ]
       ]
     ],
-    "byproducts": [ [ "rag", 2 ] ]
+    "byproducts": [ [ "cotton_patchwork", 2 ] ]
   }
 ]

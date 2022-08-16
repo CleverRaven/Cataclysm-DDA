@@ -47,7 +47,7 @@ static const json_character_flag json_flag_HARDTOHIT( "HARDTOHIT" );
 
 static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
 {
-    const auto &proj = attack.proj;
+    const projectile &proj = attack.proj;
     const item &drop_item = proj.get_drop();
     const auto &effects = proj.proj_effects;
     if( drop_item.is_null() ) {
@@ -481,7 +481,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
     drop_or_embed_projectile( attack );
 
     apply_ammo_effects( tp, proj.proj_effects );
-    const auto &expl = proj.get_custom_explosion();
+    const explosion_data &expl = proj.get_custom_explosion();
     if( expl.power > 0.0f ) {
         explosion_handler::explosion( tp, proj.get_custom_explosion() );
     }

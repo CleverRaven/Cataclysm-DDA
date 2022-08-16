@@ -189,7 +189,7 @@ item initialize( const initialization &init )
         if( content_init.fill_parent ) {
             REQUIRE( it.fill_with( content ) >= 1 );
         } else {
-            ret_val<bool> ret = it.put_in( content, item_pocket::pocket_type::CONTAINER );
+            ret_val<void> ret = it.put_in( content, item_pocket::pocket_type::CONTAINER );
             INFO( ret.str() );
             REQUIRE( ret.success() );
         }
@@ -415,7 +415,7 @@ void test_scenario::run()
             cata::optional<std::list<item>::iterator> worn = guy.wear_item( item(
                         itype_test_restricted_container_holder ), false );
             REQUIRE( worn.has_value() );
-            ret_val<bool> ret = ( **worn ).put_in( it, item_pocket::pocket_type::CONTAINER );
+            ret_val<void> ret = ( **worn ).put_in( it, item_pocket::pocket_type::CONTAINER );
             INFO( ret.str() );
             REQUIRE( ret.success() );
             item_location worn_loc = item_location( guy, & **worn );
@@ -430,7 +430,7 @@ void test_scenario::run()
         }
         case container_location::wielded: {
             REQUIRE( guy.wield( it ) );
-            it_loc = item_location( guy, &guy.get_wielded_item() );
+            it_loc = guy.get_wielded_item();
             break;
         }
         case container_location::vehicle: {
@@ -456,7 +456,7 @@ void test_scenario::run()
             return;
         }
     }
-    if( guy.get_wielded_item().is_null() ) {
+    if( !guy.get_wielded_item() ) {
         // so the guy does not wield spilled solid items
         item rag( itype_test_rag );
         REQUIRE( guy.wield( rag ) );
@@ -871,7 +871,7 @@ void test_scenario::run()
     match( guy, guy.worn.top_items_loc( guy ), worn_results );
     INFO( "checking wielded item" );
     if( wielded_results ) {
-        match( item_location( guy, &guy.get_wielded_item() ), *wielded_results );
+        match( guy.get_wielded_item(), *wielded_results );
     } else {
         REQUIRE( !guy.is_armed() );
     }

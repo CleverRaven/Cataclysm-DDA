@@ -19,14 +19,15 @@
 static const spell_id spell_AO_CLOSE_TEAR( "AO_CLOSE_TEAR" );
 static const spell_id spell_test_line_spell( "test_line_spell" );
 
-static int count_fields( const field_type_str_id &field_type )
+static std::set<tripoint_abs_ms> count_fields_near(
+    const tripoint_abs_ms &p, const field_type_str_id &field_type )
 {
     map &m = get_map();
-    int live_fields = 0;
-    for( const tripoint &cursor : m.points_on_zlevel() ) {
-        field_entry *entry = m.get_field( cursor, field_type );
+    std::set<tripoint_abs_ms> live_fields;
+    for( const tripoint_abs_ms &cursor : closest_points_first( p, 10 ) ) {
+        field_entry *entry = m.get_field( m.getlocal( cursor ), field_type );
         if( entry && entry->is_field_alive() ) {
-            live_fields++;
+            live_fields.insert( cursor );
         }
     }
     return live_fields;
@@ -77,6 +78,9 @@ TEST_CASE( "line_attack", "[magic]" )
 
 TEST_CASE( "remove_field_fd_fatigue", "[magic]" )
 {
+    // Test relies on lighting conditions, so ensure we control the level of
+    // daylight.
+    set_time( calendar::turn_zero );
     clear_map();
 
     map &m = get_map();
@@ -84,15 +88,22 @@ TEST_CASE( "remove_field_fd_fatigue", "[magic]" )
 
     avatar &dummy = get_avatar();
     clear_avatar();
-    tripoint player_initial_pos;
-
-    dummy.setpos( player_initial_pos );
+    tripoint player_initial_pos = dummy.pos();
 
     const auto setup_and_remove_fields = [&]( const bool & with_light ) {
+        CAPTURE( with_light );
+        CHECK( dummy.pos() == player_initial_pos );
+        tripoint_abs_ms player_global_pos = m.getglobal( player_initial_pos );
+
         // create fd_fatigue of each intensity near player
-        m.add_field( tripoint_east, fd_fatigue, 1, 1_hours );
-        m.add_field( tripoint_east * 2, fd_fatigue, 2, 1_hours );
-        m.add_field( tripoint_east * 3, fd_fatigue, 3, 1_hours );
+        tripoint_abs_ms p1 = player_global_pos + tripoint_east * 10;
+        tripoint_abs_ms p2 = player_global_pos + tripoint_east * 11;
+        tripoint_abs_ms p3 = player_global_pos + tripoint_east * 12;
+        tripoint_abs_ms p4 = player_global_pos + tripoint_east * 13;
+        m.add_field( m.getlocal( p1 ), fd_fatigue, 1, 1_hours );
+        m.add_field( m.getlocal( p2 ), fd_fatigue, 2, 1_hours );
+        m.add_field( m.getlocal( p3 ), fd_fatigue, 3, 1_hours );
+        m.add_field( m.getlocal( p4 ), fd_fatigue, 3, 1_hours );
 
         if( with_light ) {
             player_add_headlamp();
@@ -103,13 +114,8 @@ TEST_CASE( "remove_field_fd_fatigue", "[magic]" )
         m.build_map_cache( 0 );
         dummy.recalc_sight_limits();
 
-        spell_effect::remove_field( sp, dummy, player_initial_pos );
-        calendar::turn += 1_turns;
-        m.process_fields();
-        calendar::turn += 1_turns;
-        m.process_fields();
-
-        CHECK( count_fields( fd_fatigue ) == 2 );
+        CHECK( m.getglobal( dummy.pos() ) == player_global_pos );
+        CHECK( count_fields_near( p1, fd_fatigue ) == std::set<tripoint_abs_ms> { p1, p2, p3, p4 } );
 
         spell_effect::remove_field( sp, dummy, player_initial_pos );
         calendar::turn += 1_turns;
@@ -117,7 +123,8 @@ TEST_CASE( "remove_field_fd_fatigue", "[magic]" )
         calendar::turn += 1_turns;
         m.process_fields();
 
-        CHECK( count_fields( fd_fatigue ) == 1 );
+        CHECK( m.getglobal( dummy.pos() ) == player_global_pos );
+        CHECK( count_fields_near( p1, fd_fatigue ) == std::set<tripoint_abs_ms> { p2, p3, p4 } );
 
         spell_effect::remove_field( sp, dummy, player_initial_pos );
         calendar::turn += 1_turns;
@@ -125,7 +132,16 @@ TEST_CASE( "remove_field_fd_fatigue", "[magic]" )
         calendar::turn += 1_turns;
         m.process_fields();
 
-        CHECK( count_fields( fd_fatigue ) == 0 );
+        CHECK( m.getglobal( dummy.pos() ) == player_global_pos );
+        CHECK( count_fields_near( p1, fd_fatigue ) == std::set<tripoint_abs_ms> { p3, p4 } );
+
+        spell_effect::remove_field( sp, dummy, player_initial_pos );
+        calendar::turn += 1_turns;
+        m.process_fields();
+        calendar::turn += 1_turns;
+        m.process_fields();
+
+        CHECK( count_fields_near( p1, fd_fatigue ) == std::set<tripoint_abs_ms> { p4 } );
     };
 
     setup_and_remove_fields( true );
@@ -155,6 +171,8 @@ TEST_CASE( "remove_field_fd_fatigue", "[magic]" )
         }
     };
 
+    CAPTURE( calendar::turn );
+
     capture_removal_messages();
 
     CHECK( odd_ripple_msg == "The odd ripple fades.  You feel strange." );
@@ -166,8 +184,8 @@ TEST_CASE( "remove_field_fd_fatigue", "[magic]" )
     CHECK( dummy.pos() != player_initial_pos );
 
     // remove 3 fields again but without lighting this time
-    clear_map();
     clear_avatar();
+    clear_map();
     Messages::clear_messages();
 
     setup_and_remove_fields( false );

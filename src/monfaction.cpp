@@ -139,7 +139,7 @@ void monfaction::inherit_parent_attitude_rec(
 void monfaction::populate_attitude_vec() const
 {
     attitude_vec.clear();
-    for( const auto &f : faction_factory.get_all() ) {
+    for( const monfaction &f : faction_factory.get_all() ) {
         const cata::optional<mf_attitude> &attitude = attitude_rec( f.id );
         if( !attitude ) {
             debugmsg( "Invalid faction relations (no relation found): %s -> %s",
@@ -160,7 +160,7 @@ void monfactions::finalize()
         debugmsg( "MONSTER_FACTION \"sentinel\" (entry with empty name) is not found in json." );
     }
 
-    for( const auto &f : faction_factory.get_all() ) {
+    for( const monfaction &f : faction_factory.get_all() ) {
         // `detect_base_faction_cycle` detects a cycle that is formed by valid `base_faction` relations.
         // it will produce a warning if cycle is detected
         if( f.detect_base_faction_cycle() ) {
@@ -171,13 +171,13 @@ void monfactions::finalize()
 
     // adds attitudes_map collected from all `base_faction`
     std::set<mfaction_str_id> processed;
-    for( const auto &f : faction_factory.get_all() ) {
+    for( const monfaction &f : faction_factory.get_all() ) {
         std::map<mfaction_str_id, mf_attitude> accum;
         f.inherit_parent_attitude_rec( processed, accum );
     }
 
     // at this point all factions are loaded, populate the final attitude cache
-    for( const auto &f : faction_factory.get_all() ) {
+    for( const monfaction &f : faction_factory.get_all() ) {
         f.populate_attitude_vec();
     }
 }

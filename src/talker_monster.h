@@ -50,6 +50,7 @@ class talker_monster: public talker
         int posy() const override;
         int posz() const override;
         tripoint pos() const override;
+        tripoint_abs_ms global_pos() const override;
         tripoint_abs_omt global_omt_location() const override;
 
         int pain_cur() const override;
@@ -58,7 +59,8 @@ class talker_monster: public talker
         bool has_effect( const efftype_id &effect_id, const bodypart_id &bp ) const override;
         effect get_effect( const efftype_id &effect_id, const bodypart_id &bp ) const override;
         void add_effect( const efftype_id &new_effect, const time_duration &dur,
-                         std::string bp, bool permanent, bool force, int intensity ) override;
+                         const std::string &bp, bool permanent, bool force, int intensity
+                       ) override;
         void remove_effect( const efftype_id &old_effect ) override;
         void mod_pain( int amount ) override;
 

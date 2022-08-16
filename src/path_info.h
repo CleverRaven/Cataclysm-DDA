@@ -26,6 +26,7 @@ std::string base_colors();
 std::string base_path();
 std::string colors();
 std::string color_templates();
+std::string color_themes();
 std::string config_dir();
 std::string custom_colors();
 std::string datadir();

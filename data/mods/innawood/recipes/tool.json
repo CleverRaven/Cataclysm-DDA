@@ -33,7 +33,6 @@
     "time": "300 m",
     "reversible": true,
     "autolearn": true,
-    "book_learn": [ [ "manual_mechanics", 3 ], [ "manual_fabrication", 5 ], [ "textbook_fabrication", 5 ] ],
     "using": [ [ "forging_standard", 10 ], [ "steel_standard", 5 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
@@ -55,7 +54,6 @@
     "time": "100 m",
     "reversible": true,
     "autolearn": true,
-    "book_learn": [ [ "manual_mechanics", 1 ], [ "manual_fabrication", 2 ], [ "textbook_fabrication", 2 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
     "components": [ [ [ "pipe", 4 ] ], [ [ "scrap", 2 ] ] ]
   },
@@ -71,7 +69,6 @@
     "time": "200 m",
     "reversible": true,
     "autolearn": true,
-    "book_learn": [ [ "manual_mechanics", 2 ], [ "manual_fabrication", 3 ], [ "textbook_fabrication", 3 ] ],
     "using": [ [ "welding_standard", 5 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" } ],
     "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],

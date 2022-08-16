@@ -63,7 +63,7 @@
       "i": "f_beaded_door",
       "y": [ "f_indoor_plant_y", "f_indoor_plant" ],
       "b": "f_rotary_clothesline",
-      "p": [ "f_region_flower", "f_region_weed" ]
+      "p": "f_region_flower_decorative"
     }
   }
 ]

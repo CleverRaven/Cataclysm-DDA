@@ -1035,6 +1035,7 @@
         "     ",
         "     "
       ],
+      "terrain": { "2": "t_linoleum_white" },
       "set": [ { "square": "terrain", "id": "t_linoleum_white", "x": 0, "y": 0, "x2": 4, "y2": 2 } ],
       "palettes": [ "house_w_nest_palette" ],
       "furniture": { "1": "f_cupboard", "2": "f_cupboard", "3": "f_cupboard" },
@@ -1048,7 +1049,11 @@
           { "item": "SUS_dishes", "chance": 100 },
           { "item": "SUS_silverware", "chance": 100 }
         ],
-        "2": [ { "item": "SUS_breakfast_cupboard", "chance": 30 }, { "item": "SUS_coffee_cupboard", "chance": 50 } ],
+        "2": [
+          { "item": "SUS_breakfast_cupboard", "chance": 30 },
+          { "item": "SUS_coffee_cupboard", "chance": 50 },
+          { "item": "SUS_spice_collection", "chance": 100 }
+        ],
         "3": [ { "item": "SUS_utensils", "chance": 50 }, { "item": "SUS_knife_drawer", "chance": 50 } ],
         "~": { "item": "SUS_junk_drawer", "chance": 100 }
       }
@@ -1068,6 +1073,7 @@
         "     ",
         "     "
       ],
+      "terrain": { "2": "t_linoleum_white" },
       "set": [ { "square": "terrain", "id": "t_linoleum_white", "x": 0, "y": 0, "x2": 4, "y2": 2 } ],
       "palettes": [ "house_w_nest_palette" ],
       "furniture": { "1": "f_cupboard", "2": "f_cupboard", "3": "f_cupboard" },
@@ -1081,7 +1087,11 @@
           { "item": "SUS_dishes", "chance": 100 },
           { "item": "SUS_silverware", "chance": 100 }
         ],
-        "2": [ { "item": "SUS_breakfast_cupboard", "chance": 30 }, { "item": "SUS_coffee_cupboard", "chance": 50 } ],
+        "2": [
+          { "item": "SUS_breakfast_cupboard", "chance": 30 },
+          { "item": "SUS_coffee_cupboard", "chance": 50 },
+          { "item": "SUS_spice_collection", "chance": 100 }
+        ],
         "3": [ { "item": "SUS_utensils", "chance": 50 }, { "item": "SUS_knife_drawer", "chance": 50 } ],
         "~": { "item": "SUS_junk_drawer", "chance": 100 }
       }
@@ -1101,6 +1111,7 @@
         "     ",
         "     "
       ],
+      "terrain": { "2": "t_linoleum_white" },
       "set": [ { "square": "terrain", "id": "t_linoleum_white", "x": 0, "y": 0, "x2": 4, "y2": 2 } ],
       "palettes": [ "house_w_nest_palette" ],
       "furniture": { "1": "f_cupboard", "2": "f_cupboard", "3": "f_cupboard" },
@@ -1114,7 +1125,11 @@
           { "item": "SUS_dishes", "chance": 100 },
           { "item": "SUS_silverware", "chance": 100 }
         ],
-        "2": [ { "item": "SUS_breakfast_cupboard", "chance": 30 }, { "item": "SUS_coffee_cupboard", "chance": 50 } ],
+        "2": [
+          { "item": "SUS_breakfast_cupboard", "chance": 30 },
+          { "item": "SUS_coffee_cupboard", "chance": 50 },
+          { "item": "SUS_spice_collection", "chance": 100 }
+        ],
         "3": [ { "item": "SUS_utensils", "chance": 50 }, { "item": "SUS_knife_drawer", "chance": 50 } ],
         "~": { "item": "SUS_junk_drawer", "chance": 100 }
       }
@@ -1134,6 +1149,7 @@
         "     ",
         "     "
       ],
+      "terrain": { "2": "t_linoleum_white" },
       "set": [ { "square": "terrain", "id": "t_linoleum_white", "x": 0, "y": 0, "x2": 4, "y2": 2 } ],
       "palettes": [ "house_w_nest_palette" ],
       "furniture": { "1": "f_cupboard", "2": "f_cupboard", "3": "f_cupboard" },
@@ -1147,7 +1163,11 @@
           { "item": "SUS_dishes", "chance": 100 },
           { "item": "SUS_silverware", "chance": 100 }
         ],
-        "2": [ { "item": "SUS_breakfast_cupboard", "chance": 30 }, { "item": "SUS_coffee_cupboard", "chance": 50 } ],
+        "2": [
+          { "item": "SUS_breakfast_cupboard", "chance": 30 },
+          { "item": "SUS_coffee_cupboard", "chance": 50 },
+          { "item": "SUS_spice_collection", "chance": 100 }
+        ],
         "3": [ { "item": "SUS_utensils", "chance": 50 }, { "item": "SUS_knife_drawer", "chance": 50 } ],
         "~": { "item": "SUS_junk_drawer", "chance": 100 }
       }
@@ -1167,6 +1187,7 @@
         "     ",
         "     "
       ],
+      "terrain": { "2": "t_linoleum_white" },
       "set": [ { "square": "terrain", "id": "t_linoleum_white", "x": 0, "y": 0, "x2": 4, "y2": 2 } ],
       "palettes": [ "house_w_nest_palette" ],
       "furniture": { "1": "f_cupboard", "2": "f_cupboard", "3": "f_cupboard" },
@@ -1180,7 +1201,11 @@
           { "item": "SUS_dishes", "chance": 100 },
           { "item": "SUS_silverware", "chance": 100 }
         ],
-        "2": [ { "item": "SUS_breakfast_cupboard", "chance": 30 }, { "item": "SUS_coffee_cupboard", "chance": 50 } ],
+        "2": [
+          { "item": "SUS_breakfast_cupboard", "chance": 30 },
+          { "item": "SUS_coffee_cupboard", "chance": 50 },
+          { "item": "SUS_spice_collection", "chance": 100 }
+        ],
         "3": [ { "item": "SUS_utensils", "chance": 50 }, { "item": "SUS_knife_drawer", "chance": 50 } ],
         "~": { "item": "SUS_junk_drawer", "chance": 100 }
       }
@@ -1200,6 +1225,7 @@
         "     ",
         "     "
       ],
+      "terrain": { "2": "t_linoleum_white" },
       "set": [ { "square": "terrain", "id": "t_linoleum_white", "x": 0, "y": 0, "x2": 4, "y2": 2 } ],
       "palettes": [ "house_w_nest_palette" ],
       "furniture": { "1": "f_cupboard", "2": "f_cupboard", "3": "f_cupboard" },
@@ -1213,7 +1239,11 @@
           { "item": "SUS_dishes", "chance": 100 },
           { "item": "SUS_silverware", "chance": 100 }
         ],
-        "2": [ { "item": "SUS_breakfast_cupboard", "chance": 30 }, { "item": "SUS_coffee_cupboard", "chance": 50 } ],
+        "2": [
+          { "item": "SUS_breakfast_cupboard", "chance": 30 },
+          { "item": "SUS_coffee_cupboard", "chance": 50 },
+          { "item": "SUS_spice_collection", "chance": 100 }
+        ],
         "3": [ { "item": "SUS_utensils", "chance": 50 }, { "item": "SUS_knife_drawer", "chance": 50 } ]
       }
     }
@@ -1232,6 +1262,7 @@
         "  AAA",
         "     "
       ],
+      "terrain": { "2": "t_linoleum_white" },
       "set": [ { "square": "terrain", "id": "t_linoleum_white", "x": 0, "y": 0, "x2": 4, "y2": 2 } ],
       "palettes": [ "house_w_nest_palette" ],
       "furniture": { "1": "f_cupboard", "2": "f_cupboard", "3": "f_cupboard" },
@@ -1245,7 +1276,11 @@
           { "item": "SUS_dishes", "chance": 100 },
           { "item": "SUS_silverware", "chance": 100 }
         ],
-        "2": [ { "item": "SUS_breakfast_cupboard", "chance": 30 }, { "item": "SUS_coffee_cupboard", "chance": 50 } ],
+        "2": [
+          { "item": "SUS_breakfast_cupboard", "chance": 30 },
+          { "item": "SUS_coffee_cupboard", "chance": 50 },
+          { "item": "SUS_spice_collection", "chance": 100 }
+        ],
         "3": [ { "item": "SUS_utensils", "chance": 50 }, { "item": "SUS_knife_drawer", "chance": 50 } ],
         "~": { "item": "SUS_junk_drawer", "chance": 100 }
       }
@@ -1265,6 +1300,7 @@
         "  AAA",
         "     "
       ],
+      "terrain": { "2": "t_linoleum_white" },
       "set": [ { "square": "terrain", "id": "t_linoleum_white", "x": 0, "y": 0, "x2": 4, "y2": 2 } ],
       "palettes": [ "house_w_nest_palette" ],
       "furniture": { "1": "f_cupboard", "2": "f_cupboard", "3": "f_cupboard" },
@@ -1278,7 +1314,11 @@
           { "item": "SUS_dishes", "chance": 100 },
           { "item": "SUS_silverware", "chance": 100 }
         ],
-        "2": [ { "item": "SUS_breakfast_cupboard", "chance": 30 }, { "item": "SUS_coffee_cupboard", "chance": 50 } ],
+        "2": [
+          { "item": "SUS_breakfast_cupboard", "chance": 30 },
+          { "item": "SUS_coffee_cupboard", "chance": 50 },
+          { "item": "SUS_spice_collection", "chance": 100 }
+        ],
         "3": [ { "item": "SUS_utensils", "chance": 50 }, { "item": "SUS_knife_drawer", "chance": 50 } ],
         "~": { "item": "SUS_junk_drawer", "chance": 100 }
       }
@@ -1298,6 +1338,7 @@
         "    ~",
         "3j1 j"
       ],
+      "terrain": { "2": "t_linoleum_white" },
       "set": [ { "square": "terrain", "id": "t_linoleum_white", "x": 0, "y": 0, "x2": 4, "y2": 4 } ],
       "palettes": [ "house_w_nest_palette" ],
       "furniture": { "1": "f_cupboard", "2": "f_cupboard", "3": "f_cupboard" },
@@ -1311,7 +1352,11 @@
           { "item": "SUS_dishes", "chance": 100 },
           { "item": "SUS_silverware", "chance": 100 }
         ],
-        "2": [ { "item": "SUS_breakfast_cupboard", "chance": 30 }, { "item": "SUS_coffee_cupboard", "chance": 50 } ],
+        "2": [
+          { "item": "SUS_breakfast_cupboard", "chance": 30 },
+          { "item": "SUS_coffee_cupboard", "chance": 50 },
+          { "item": "SUS_spice_collection", "chance": 100 }
+        ],
         "3": [ { "item": "SUS_utensils", "chance": 50 }, { "item": "SUS_knife_drawer", "chance": 50 } ],
         "~": { "item": "SUS_junk_drawer", "chance": 100 }
       }
@@ -1331,6 +1376,7 @@
         "     ",
         "1~ 23"
       ],
+      "terrain": { "2": "t_linoleum_white" },
       "set": [ { "square": "terrain", "id": "t_linoleum_white", "x": 0, "y": 0, "x2": 4, "y2": 4 } ],
       "palettes": [ "house_w_nest_palette" ],
       "furniture": { "1": "f_cupboard", "2": "f_cupboard", "3": "f_cupboard" },
@@ -1344,7 +1390,11 @@
           { "item": "SUS_dishes", "chance": 100 },
           { "item": "SUS_silverware", "chance": 100 }
         ],
-        "2": [ { "item": "SUS_breakfast_cupboard", "chance": 30 }, { "item": "SUS_coffee_cupboard", "chance": 50 } ],
+        "2": [
+          { "item": "SUS_breakfast_cupboard", "chance": 30 },
+          { "item": "SUS_coffee_cupboard", "chance": 50 },
+          { "item": "SUS_spice_collection", "chance": 100 }
+        ],
         "3": [ { "item": "SUS_utensils", "chance": 50 }, { "item": "SUS_knife_drawer", "chance": 50 } ],
         "~": { "item": "SUS_junk_drawer", "chance": 100 }
       }

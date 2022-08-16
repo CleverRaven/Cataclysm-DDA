@@ -48,6 +48,7 @@ Monsters may also have any of these optional properties:
 | `diff`                   | (integer) Additional monster difficulty for special and ranged attacks
 | `aggression`             | (integer) Starting aggression, the monster will become hostile when it reaches 10
 | `morale`                 | (integer) Starting morale, monster will flee when (current aggression + current morale) < 0
+| `aggro_character`        | (bool) If the monster will always attack characters when angry.
 | `mountable_weight_ratio` | (float) For mounts, max ratio of mount to rider weight, ex. `0.2` for `<=20%`
 | `melee_skill`            | (integer) Monster skill in melee combat, from `0-10`, with `4` being an average mob
 | `dodge`                  | (integer) Monster's skill at dodging attacks
@@ -55,13 +56,15 @@ Monsters may also have any of these optional properties:
 | `melee_dice`             | (integer) Number of dice rolled on monster melee attack to determine bash damage
 | `melee_dice_sides`       | (integer) Number of sides on each die rolled by `melee_dice`
 | `grab_strength`          | (integer) Intensity of grab effect, from `1` to `n`, simulating `n` regular zombie grabs
-| `melee_cut`              | (integer) Amount of cutting damage added to the die roll on melee attack
 | `armor_bash`             | (integer) Monster's protection from bash damage
 | `armor_bullet`           | (integer) Monster's protection from bullet damage
 | `armor_cut`              | (integer) Monster's protection from cut damage
 | `armor_stab`             | (integer) Monster's protection from stab damage
 | `armor_acid`             | (integer) Monster's protection from acid damage
 | `armor_fire`             | (integer) Monster's protection from fire damage
+| `armor_electric`         | (integer) Monster's protection from electric damage
+| `armor_cold`             | (integer) Monster's protection from cold damage
+| `armor_pure`             | (integer) Monster's protection from pure damage
 | `weakpoints`             | (array of objects) Weakpoints in the monster's protection
 | `weakpoint_sets`         | (array of strings) Weakpoint sets to apply to the monster
 | `families`               | (array of objects) Weakpoint families that the monster belongs to
@@ -252,12 +255,17 @@ Most monsters should have difficulty 0 - even dangerous monsters like a zombie h
 ## "aggression"
 (integer, optional)
 
-Defines how aggressive the monster is. Ranges from -99 (totally passive) to 100 (guaranteed hostility on detection)
+Baseline aggression, modified by anger/placation triggers dynamically and tending towards this value otherwise.  Anger above 10 triggers hostility (gated by monster factions and character aggro), anger below 0 means ignoring or fleeing when not at max HP.
 
 ## "morale"
 (integer, optional)
 
-Monster morale. Defines how low monster HP can get before it retreats. This number is treated as % of their max HP.
+Baseline morale, modified by fear triggers dynamically and tending towards this value otherwise.  At negative morale the monster will flee unless its anger + morale is above 0 and it has more than a third of its max HP.
+
+## "aggro_character"
+(bool, optional, default true)
+
+If the monster will differentiate between monsters and characters when deciding on targets - if false the monster will ignore characters regardless of current anger/morale until a character trips and anger trigger. Resets randomly when the monster is at its base anger level.
 
 ## "speed"
 (integer, required)
@@ -321,12 +329,7 @@ Lower and upper bound of limb sizes the monster's melee attack can target - see 
 
 Intensity of the grab effect applied by this monster. Defaults to 1, is only useful for monster with a GRAB special attack and the GRABS flag. A monster with grab_strength = n applies a grab as if it was n zombies. A player with `max(Str,Dex)<=n` has no chance of breaking that grab.
 
-## "melee_cut"
-(integer, optional)
-
-Amount of cutting damage added to die roll on monster melee attack.
-
-## "armor_bash", "armor_cut", "armor_stab", "armor_acid", "armor_fire"
+## "armor_bash", "armor_cut", "armor_stab", "armor_acid", "armor_fire", "armor_electric", "armor_biological", "armor_pure"
 (integer, optional)
 
 Monster protection from bashing, cutting, stabbing, acid and fire damage.
@@ -514,6 +517,8 @@ The upgrades object may have the following members:
 | `into_group` | (string, optional) The upgraded monster's type is taken from the specified group.
 | `into`       | (string, optional) The upgraded monster's type.
 | `age_grow`   | (int, optional) Number of days needed for monster to change into another monster. Does not scale with the evolution factor.
+| `multiple_spawns` | (bool, optional) If using `into_group`, the selected entry spawns a number of monsters based on the entry's `pack_size`.
+| `spawn_range` | (int, optional) Mandatory when `multiple_spawns` is true. Determines how far away from the original monster the upgraded monsters can spawn.
 
 ## "reproduction"
 (dictionary, optional)
@@ -607,11 +612,13 @@ Each element of the array should be an object containing the following members:
 | field           | description
 | ---             | ---
 | `id`            | (string, required) The id of the effect that is to be applied.
-| `duration`      | (integer, optional) How long (in turns) the effect should last.
+| `duration`      | (integer or a pair of integers, optional) How long (in turns) the effect should last. When defined with a pair of values the duration will be randomized between those.
+| `intensity`     | ( integer or a pair of integers, optional) What intensity the effect should be applied at, when defined as a pair the intensity will be randomized between them. Can't overwrite effects that derive their intensity from their duration via `int_dur_factor`.
 | `affect_hit_bp` | (boolean, optional) Whether the effect should be applied to the hit body part instead of the one set below.
 | `bp`            | (string, optional) The body part that where the effect is applied. The default is to apply the effect to the whole body. Note that some effects may require a specific body part (e.g. "hot") and others may require the whole body (e.g. "meth").
 | `permanent`     | (boolean, optional) Whether the effect is permanent, in which case the "duration" will be ignored. The default is non-permanent.
 | `chance`        | (integer, optional) The chance of the effect getting applied.
+| `message`       | (string, optional) Message to print when the effect is applied to the player. Supports dynamic lines with the syntax `%s = <the monster's name>`.
 
 ## "path_settings"
 (object, optional)

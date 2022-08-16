@@ -1,7 +1,7 @@
 [
   {
     "type": "item_group",
-    "id": "ant_food_innawood",
+    "id": "ant_food",
     "subtype": "distribution",
     "entries": [
       { "item": "meat", "prob": 50 },
@@ -52,27 +52,8 @@
   },
   {
     "type": "item_group",
-    "id": "spider_innawood",
-    "magazine": 100,
-    "subtype": "distribution",
-    "entries": [
-      { "item": "meat", "prob": 50 },
-      { "item": "meat_tainted", "prob": 60 },
-      { "item": "weed", "prob": 20 },
-      { "item": "seed_weed", "prob": 15 },
-      { "item": "seed_tobacco", "prob": 5 },
-      { "item": "rope_30", "prob": 35 },
-      { "item": "stick", "prob": 95 },
-      { "item": "bee_sting", "prob": 5 },
-      { "item": "chitin_piece", "prob": 10 },
-      { "item": "honeycomb", "prob": 10 }
-    ]
-  },
-  {
-    "type": "item_group",
     "id": "hive",
     "subtype": "distribution",
-    "copy-from": "hive",
-    "extend": { "entries": [ { "item": "honeycomb", "prob": 100000 } ] }
+    "entries": [ { "item": "honeycomb", "prob": 10 } ]
   }
 ]

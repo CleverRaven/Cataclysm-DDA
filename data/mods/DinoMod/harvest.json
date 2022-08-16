@@ -103,33 +103,6 @@
     ]
   },
   {
-    "id": "dissect_dino_large_pred",
-    "type": "harvest",
-    "entries": [
-      { "drop": "spider", "type": "bionic_group" },
-      { "drop": "science", "type": "bionic_group" },
-      { "drop": "corpses", "type": "bionic_group" }
-    ]
-  },
-  {
-    "id": "dissect_CBM_DINO",
-    "type": "harvest",
-    "entries": [
-      {
-        "drop": "bio_power_storage_mkII",
-        "type": "bionic",
-        "flags": [ "NO_STERILE", "NO_PACKED" ],
-        "faults": [ "fault_bionic_salvaged" ]
-      },
-      {
-        "drop": "Zomborg_CBM_harvest",
-        "type": "bionic_group",
-        "flags": [ "NO_STERILE", "NO_PACKED" ],
-        "faults": [ "fault_bionic_salvaged" ]
-      }
-    ]
-  },
-  {
     "id": "zed_dino_leather",
     "type": "harvest",
     "entries": [

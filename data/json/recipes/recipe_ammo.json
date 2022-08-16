@@ -447,7 +447,7 @@
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [
       [ [ "arrow_field_point_fletched", 1 ] ],
-      [ [ "rag", 1, "NO_RECOVER" ] ],
+      [ [ "cotton_patchwork", 1, "NO_RECOVER" ] ],
       [
         [ "lamp_oil", 50, "NO_RECOVER" ],
         [ "motor_oil", 50, "NO_RECOVER" ],
@@ -908,7 +908,7 @@
         [ "2x4", 1 ],
         [ "splinter", 2 ],
         [ "pine_bough", 1 ],
-        [ "rag", 1 ],
+        [ "cotton_patchwork", 1 ],
         [ "paper", 5 ],
         [ "cardboard", 1 ],
         [ "rolling_paper", 30 ],

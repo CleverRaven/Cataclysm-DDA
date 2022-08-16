@@ -394,7 +394,7 @@
       [ "magazine", 1 ],
       [ "muzzle", 1 ],
       [ "sling", 1 ],
-      [ "stock", 1 ],
+      [ "stock mount", 1 ],
       [ "grip mount", 1 ],
       [ "rail mount", 1 ],
       [ "sights mount", 1 ],
@@ -414,7 +414,7 @@
       {
         "id": "mauser_c96",
         "name": { "str": "Mauser C96 Broomhandle" },
-        "description": "An early 19th century semi-automatic German pistol with an integral magazine loaded from the top via stripper clips, and quite possibly the most steampunk gun one could ever possibly lay their hands on.  A red number '9' burned and painted into the weapon's broom handle-shaped grip marks it as a variant chambered for 9x19mm rounds.  Both exported for commercial use and produced for the German military during the First World War, to make up for production shortages of the standard Luger, this example likely entered the US as a holdover from the Great War.  You suppose that it’s only fitting that one of the globe’s first produced and oldest semi-automatic handguns gets reinstated into service now that the planet’s facing its end.",
+        "description": "A late 19th century semi-automatic German pistol with an integral magazine loaded from the top via stripper clips, and quite possibly the most steampunk gun one could ever possibly lay their hands on.  A red number '9' burned and painted into the weapon's broom handle-shaped grip marks it as a variant chambered for 9x19mm rounds.  Both exported for commercial use and produced for the German military during the First World War, to make up for production shortages of the standard Luger, this example likely entered the US as a holdover from the Great War.  You suppose that it’s only fitting that one of the globe’s first produced and oldest semi-automatic handguns gets reinstated into service now that the planet’s facing its end.",
         "weight": 1
       }
     ],
@@ -467,7 +467,7 @@
       {
         "id": "mauser_m714",
         "name": { "str": "M714 Broomhandle" },
-        "description": "Recognised the world over as one of the first practical self-loading pistols, the Mauser C96 and its derivatives are nearly universally regarded as some of the most classic and rugged guns in history, with the model being praised as a true marvel of industrial craftsmanship and most collectors wishing to be the proud owner of an example.  However, what stands before you is not an original production C96, but rather a modern American spin on the original Mauser recipe.  Feeding from detachable box magazines rather than an internal clip, the M714 is crafted out of a mix of modern and surplus parts, being chambered for 9x19mm rounds, with some other models being offered in the Mauser’s own 7.63x25mm cartridge.",
+        "description": "Recognized the world over as one of the first practical self-loading pistols, the Mauser C96 and its derivatives are nearly universally regarded as some of the most classic and rugged guns in history, with the model being praised as a true marvel of industrial craftsmanship and most collectors wishing to be the proud owner of an example.  However, what stands before you is not an original production C96, but rather a modern American spin on the original Mauser recipe.  Feeding from detachable box magazines rather than an internal clip, the M714 is crafted out of a mix of modern and surplus parts, being chambered for 9x19mm rounds, with some other models being offered in the Mauser’s own 7.63x25mm cartridge.",
         "weight": 1
       }
     ],
@@ -697,7 +697,7 @@
       [ "accessories", 2 ],
       [ "muzzle", 1 ],
       [ "sling", 1 ],
-      [ "stock", 1 ],
+      [ "stock mount", 1 ],
       [ "grip mount", 1 ],
       [ "rail mount", 1 ],
       [ "sights mount", 1 ],

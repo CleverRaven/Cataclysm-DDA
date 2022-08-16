@@ -172,7 +172,7 @@
     "to_hit": 2,
     "category": "weapons",
     "use_action": { "type": "transform", "menu_text": "Collapse", "msg": "You collapse your axe", "target": "crt_hatchet" },
-    "qualities": [ [ "AXE", 2 ], [ "CUT", 2 ], [ "HAMMER", 2 ], [ "HAMMER_FINE", 1 ], [ "BUTCHER", 15 ] ]
+    "qualities": [ [ "AXE", 3 ], [ "CUT", 2 ], [ "HAMMER", 2 ], [ "HAMMER_FINE", 1 ], [ "BUTCHER", 15 ] ]
   },
   {
     "id": "crt_etool",

@@ -303,12 +303,48 @@
     "id": "staggered",
     "name": [ "Staggered" ],
     "//": "Mainly for monsters",
-    "desc": [ "You've been knocked off-balance by an attack'." ],
+    "desc": [ "You've been knocked off-balance by an attack." ],
     "apply_message": "You're staggered off-balance.",
     "base_mods": { "speed_mod": [ -20 ] },
     "removes_effects": [ "grabbing" ],
     "rating": "bad",
     "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "maimed_armor",
+    "name": [ "Cracked Shell" ],
+    "//": "Exposes certain weakpoints",
+    "desc": [ "You feel exposed -and pretty buggy- without your shell." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "maimed_mandible",
+    "name": [ "Maimed Mandibles" ],
+    "//": "Given by weakpoints, used to disable bites if specified in the bite def",
+    "desc": [ "Your mandibles are unusable.  What, you don't have mandibles?  Then it must be a bug if you have it." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "maimed_leg",
+    "name": [ "Maimed Legs" ],
+    "desc": [ "Your bugged legs are maimed beyond recognition.  How will you leap now?" ],
+    "base_mods": { "speed_mod": [ -20 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "maimed_stinger",
+    "name": [ "Maimed Stinger" ],
+    "//": "Same as maimed_mandible, no effect unless specified in the attack's definition",
+    "desc": [ "Your beautiful stinger is broken!  That must be a bug, right?" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "maimed_wings",
+    "name": [ "Maimed Wings" ],
+    "//": "Hardcoded effect handled by monster::flies via effect flag",
+    "desc": [ "Your wings are useless, robbing you of unlimited flight." ],
+    "flags": [ "DISABLE_FLIGHT" ]
   },
   {
     "//": "ACTUAL PLAYER EFFECTS START HERE",
@@ -319,7 +355,8 @@
     "apply_message": "You're knocked to the floor!",
     "rating": "bad",
     "resist_traits": [ "GASTROPOD_FOOT" ],
-    "show_in_info": true
+    "show_in_info": true,
+    "flags": [ "DISABLE_FLIGHT" ]
   },
   {
     "type": "effect_type",
@@ -380,7 +417,8 @@
     "desc": [ "Your movement is randomized." ],
     "apply_message": "You're stunned!",
     "rating": "bad",
-    "show_in_info": true
+    "show_in_info": true,
+    "flags": [ "DISABLE_FLIGHT" ]
   },
   {
     "type": "effect_type",
@@ -651,6 +689,21 @@
     "resist_traits": [ "ELFA_NV" ],
     "base_mods": { "per_mod": [ -3, 0 ] },
     "scaling_mods": { "per_mod": [ -2, -1 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "venom_pain",
+    "name": [ "Distracting Wound", "Painful Wound", "Searing Wound" ],
+    "desc": [ "The wound throbs with sharp pain." ],
+    "apply_message": "A dull pain starts spreading from the wound!",
+    "max_intensity": 6,
+    "int_add_val": 1,
+    "int_decay_step": -1,
+    "int_decay_tick": 100,
+    "int_decay_remove": true,
+    "resist_traits": [ "PAINRESIST" ],
+    "base_mods": { "pain_amount": [ 10, 2 ], "pain_min": [ 5, 1 ], "pain_chance": [ 10, 20 ], "pain_tick": [ 5 ] },
+    "scaling_mods": { "pain_min": [ 5, 1 ], "pain_chance": [ -1, 0 ] }
   },
   {
     "type": "effect_type",
@@ -1681,6 +1734,22 @@
   },
   {
     "type": "effect_type",
+    "id": "pkill_wintergreen",
+    "pkill_addict_reduces": true,
+    "base_mods": { "pkill_max_val": [ 15 ], "pkill_tick": [ 50 ], "pkill_min": [ 1 ], "pkill_chance": [ 45 ] },
+    "rating": "good",
+    "blood_analysis_description": "Ate wintergreen leaves"
+  },
+  {
+    "type": "effect_type",
+    "id": "pkill_wintergreen_oil",
+    "pkill_addict_reduces": true,
+    "base_mods": { "pkill_max_val": [ 30 ], "pkill_tick": [ 42 ], "pkill_min": [ 2 ] },
+    "rating": "good",
+    "blood_analysis_description": "Wintergreen Oil"
+  },
+  {
+    "type": "effect_type",
     "id": "webbed",
     "name": [ "Webbed" ],
     "desc": [ "You are covered in webs!" ],
@@ -2098,7 +2167,7 @@
     "type": "effect_type",
     "id": "chafing",
     "name": [ "Uncomfortable" ],
-    "desc": [ "Your %s is uncomfortable.  Wearing something soft under your hard armor would help" ],
+    "desc": [ "Your %s is uncomfortable.  Wearing something soft under your hard armor would help." ],
     "max_intensity": 1,
     "part_descs": true,
     "base_mods": { "speed_mod": [ -2 ], "pain_min": [ 1 ], "pain_chance": [ 2 ], "pain_max_val": [ -1 ] }
@@ -2940,6 +3009,18 @@
   },
   {
     "type": "effect_type",
+    "id": "genetics_damaged",
+    "name": [ "Mild Genetic Damage", "Genetic Damage", "Severe Genetic Damage" ],
+    "desc": [
+      "After some mutations, you feel slightly uncomfortable - and that's it.",
+      "After many mutations, you feel uncomfortable, and you know for sure - that your Genetics System is getting damaged.",
+      "After LOTS OF mutations, you feel REALLY unnerving, seems like you Genetics System is getting badly damaged now."
+    ],
+    "max_intensity": 3,
+    "rating": "bad"
+  },
+  {
+    "type": "effect_type",
     "id": "hypovolemia",
     "name": [ "Mild Hypovolemic Shock", "Moderate Hypovolemic Shock", "Advanced Hypovolemic Shock", "Severe Hypovolemic Shock" ],
     "desc": [
@@ -3488,5 +3569,71 @@
     "id": "eyebot_depleted",
     "int_add_val": 1,
     "max_intensity": 10
+  },
+  {
+    "id": "weakened_inertia",
+    "type": "effect_type",
+    "name": [ "Weakened Inertia" ],
+    "desc": [ "Your body moves strangely easily, as if it weighted less." ],
+    "apply_message": "Your inertia itself is damaged, but the outcome seems suspiciously beneficial.",
+    "remove_message": "Reality reasserts itself and your inertia returns to normal.",
+    "rating": "good",
+    "show_intensity": false,
+    "base_mods": { "dex_mod": [ 6, 0 ] }
+  },
+  {
+    "id": "strengthened_inertia",
+    "type": "effect_type",
+    "name": [ "Weakened Inertia" ],
+    "desc": [ "Your body is strangely difficult to move, as if it weighted more." ],
+    "apply_message": "Your inertia itself is damaged, but hopefully it's not permanent yet.",
+    "remove_message": "Reality reasserts itself and your inertia returns to normal.",
+    "rating": "bad",
+    "show_intensity": false,
+    "base_mods": { "dex_mod": [ -6, 0 ] }
+  },
+  {
+    "id": "warped_viewpoint",
+    "type": "effect_type",
+    "name": [ "Warped Viewpoint" ],
+    "desc": [ "Space is warped around you such that you can see a wider arc and as if everything was closer." ],
+    "apply_message": "Space around you is damaged but in the process your can see more and more easily than before.",
+    "remove_message": "Reality reasserts itself and your perspective returns to normal.",
+    "rating": "good",
+    "show_intensity": false,
+    "base_mods": { "per_mod": [ 6, 0 ] }
+  },
+  {
+    "id": "narrow_viewpoint",
+    "type": "effect_type",
+    "name": [ "Narrowed Viewpoint" ],
+    "desc": [ "Space is warped around you such that you can see less and as if everything was farther away." ],
+    "apply_message": "Space around you is damaged narrowing your perspective.",
+    "remove_message": "Reality reasserts itself and your perspective returns to normal.",
+    "rating": "bad",
+    "show_intensity": false,
+    "base_mods": { "per_mod": [ 6, 0 ] }
+  },
+  {
+    "id": "weakened_gravity",
+    "type": "effect_type",
+    "name": [ "Weakened Gravity" ],
+    "desc": [ "Something is wrong with local spacetime and everything near you seems to weigh less." ],
+    "apply_message": "Space around you is damaged and everything near you seems to weigh less.",
+    "remove_message": "Reality reasserts itself and your gravity returns to normal.",
+    "rating": "good",
+    "show_intensity": false,
+    "enchantments": [ { "condition": { "not": "ALWAYS" }, "values": [ { "value": "CARRY_WEIGHT", "multiply": 1.25 } ] } ]
+  },
+  {
+    "id": "strengthened_gravity",
+    "type": "effect_type",
+    "name": [ "Strengthened Gravity" ],
+    "desc": [ "Something is wrong with local spacetime and everything near you seems to weigh more." ],
+    "apply_message": "Space around you is damaged and everything near you seems to weigh more.",
+    "remove_message": "Reality reasserts itself and your gravity returns to normal.",
+    "rating": "bad",
+    "show_intensity": false,
+    "enchantments": [ { "condition": { "not": "ALWAYS" }, "values": [ { "value": "CARRY_WEIGHT", "multiply": -0.25 } ] } ]
   }
 ]

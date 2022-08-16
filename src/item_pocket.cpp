@@ -170,6 +170,7 @@ void pocket_data::load( const JsonObject &jo )
     optional( jo, was_loaded, "watertight", watertight, false );
     optional( jo, was_loaded, "airtight", airtight, false );
     optional( jo, was_loaded, "open_container", open_container, false );
+    optional( jo, was_loaded, "transparent", transparent, false );
     optional( jo, was_loaded, "rigid", rigid, false );
     optional( jo, was_loaded, "holster", holster );
     optional( jo, was_loaded, "ablative", ablative );
@@ -433,7 +434,7 @@ bool item_pocket::is_funnel_container( units::volume &bigger_than ) const
 
 bool item_pocket::is_restricted() const
 {
-    return !data->get_flag_restrictions().empty();
+    return !data->get_flag_restrictions().empty() || !data->ammo_restriction.empty();
 }
 
 std::list<item *> item_pocket::all_items_top()
@@ -705,15 +706,13 @@ int item_pocket::remaining_ammo_capacity( const ammotype &ammo ) const
         return 0;
     }
     int ammo_count = 0;
-    if( !contents.empty() ) {
-        for( const item &it : contents ) {
-            if( it.has_flag( flag_CASING ) ) {
-                continue;
-            } else if( ammo != it.ammo_type() ) {
-                return 0;
-            }
-            ammo_count += it.count();
+    for( const item &it : contents ) {
+        if( it.has_flag( flag_CASING ) ) {
+            continue;
+        } else if( ammo != it.ammo_type() ) {
+            return 0;
         }
+        ammo_count += it.count();
     }
     return total_capacity - ammo_count;
 }
@@ -859,7 +858,7 @@ bool item_pocket::detonate( const tripoint &pos, std::vector<item> &drops )
     return false;
 }
 
-bool item_pocket::process( const itype &type, Character *carrier, const tripoint &pos,
+bool item_pocket::process( const itype &type, map &here, Character *carrier, const tripoint &pos,
                            float insulation, const temperature_flag flag )
 {
     bool processed = false;
@@ -868,7 +867,8 @@ bool item_pocket::process( const itype &type, Character *carrier, const tripoint
         if( _sealed ) {
             spoil_multiplier = 0.0f;
         }
-        if( it->process( carrier, pos, type.insulation_factor * insulation, flag, spoil_multiplier ) ) {
+        if( it->process( here, carrier, pos, type.insulation_factor * insulation, flag,
+                         spoil_multiplier ) ) {
             it->spill_contents( pos );
             it = contents.erase( it );
             processed = true;
@@ -1204,7 +1204,7 @@ void item_pocket::contents_info( std::vector<iteminfo> &info, int pocket_number,
     }
 }
 
-void item_pocket::favorite_info( std::vector<iteminfo> &info )
+void item_pocket::favorite_info( std::vector<iteminfo> &info ) const
 {
     settings.info( info );
 }
@@ -1649,7 +1649,7 @@ void item_pocket::on_contents_changed()
 
 bool item_pocket::spill_contents( const tripoint &pos )
 {
-    if( is_type( pocket_type::EBOOK ) ) {
+    if( is_type( pocket_type::EBOOK ) || is_type( pocket_type::CORPSE ) ) {
         return false;
     }
 
@@ -1691,11 +1691,11 @@ void item_pocket::remove_items_if( const std::function<bool( item & )> &filter )
     on_contents_changed();
 }
 
-void item_pocket::process( Character *carrier, const tripoint &pos, float insulation,
+void item_pocket::process( map &here, Character *carrier, const tripoint &pos, float insulation,
                            temperature_flag flag, float spoil_multiplier_parent )
 {
     for( auto iter = contents.begin(); iter != contents.end(); ) {
-        if( iter->process( carrier, pos, insulation, flag,
+        if( iter->process( here, carrier, pos, insulation, flag,
                            // spoil multipliers on pockets are not additive or multiplicative, they choose the best
                            std::min( spoil_multiplier_parent, spoil_multiplier() ) ) ) {
             iter->spill_contents( pos );
@@ -1745,6 +1745,11 @@ bool item_pocket::rigid() const
 bool item_pocket::watertight() const
 {
     return data->watertight;
+}
+
+bool item_pocket::transparent() const
+{
+    return data->transparent || ( data->open_container && !sealed() );
 }
 
 bool item_pocket::is_standard_type() const
@@ -1817,7 +1822,7 @@ std::list<item> &item_pocket::edit_contents()
 
 ret_val<item_pocket::contain_code> item_pocket::insert_item( const item &it )
 {
-    const ret_val<item_pocket::contain_code> ret = !is_standard_type() ?
+    ret_val<item_pocket::contain_code> ret = !is_standard_type() ?
             ret_val<item_pocket::contain_code>::make_success() : can_contain( it );
 
     if( ret.success() ) {
@@ -1827,25 +1832,28 @@ ret_val<item_pocket::contain_code> item_pocket::insert_item( const item &it )
     return ret;
 }
 
-item_pocket *item_pocket::best_pocket_in_contents(
-    item_location &parent, const item &it, const item *avoid,
+std::pair<item_location, item_pocket *> item_pocket::best_pocket_in_contents(
+    item_location &this_loc, const item &it, const item *avoid,
     const bool allow_sealed, const bool ignore_settings )
 {
-    item_pocket *ret = nullptr;
+    std::pair<item_location, item_pocket *> ret( this_loc, nullptr );
     // If the current pocket has restrictions or blacklists the item,
     // try the nested pocket regardless of whether it's soft or rigid.
     const bool ignore_rigidity =
         !settings.accepts_item( it ) ||
-        !get_pocket_data()->get_flag_restrictions().empty();
+        !get_pocket_data()->get_flag_restrictions().empty() ||
+        settings.priority() > 0;
 
     for( item &contained_item : contents ) {
         if( &contained_item == &it || &contained_item == avoid ) {
             continue;
         }
-        item_pocket *nested_pocket = contained_item.best_pocket( it, parent, avoid,
-                                     allow_sealed, ignore_settings, /*nested=*/true, ignore_rigidity ).second;
-        if( nested_pocket != nullptr &&
-            ( ret == nullptr || ret->better_pocket( *nested_pocket, it, /*nested=*/true ) ) ) {
+        item_location new_loc( this_loc, &contained_item );
+        std::pair<item_location, item_pocket *> nested_pocket = contained_item.best_pocket( it, new_loc,
+                avoid, allow_sealed, ignore_settings, /*nested=*/true, ignore_rigidity );
+        if( nested_pocket.second != nullptr &&
+            ( ret.second == nullptr ||
+              ret.second->better_pocket( *nested_pocket.second, it, /*nested=*/true ) ) ) {
             ret = nested_pocket;
         }
     }
@@ -2230,11 +2238,11 @@ void item_pocket::favorite_settings::info( std::vector<iteminfo> &info ) const
 {
     if( disabled ) {
         info.emplace_back( "BASE", string_format(
-                               _( "Items <bad>won't be inserted</bad> into this pocket unless you manually insert them" ) ) );
+                               _( "Items <bad>won't be inserted</bad> into this pocket unless you manually insert them." ) ) );
     }
     if( !unload ) {
         info.emplace_back( "BASE", string_format(
-                               _( "Items in this pocket <bad>won't be unloaded</bad> unless you manually drop them" ) ) );
+                               _( "Items in this pocket <bad>won't be unloaded</bad> unless you manually drop them." ) ) );
     }
     info.emplace_back( "BASE", string_format( "%s %d", _( "Priority:" ), priority_rating ) );
     info.emplace_back( "BASE", string_format( _( "Item Whitelist: %s" ),

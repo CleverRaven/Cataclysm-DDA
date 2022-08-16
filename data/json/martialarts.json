@@ -717,6 +717,33 @@
   },
   {
     "type": "martial_art",
+    "id": "style_kickboxing",
+    "name": { "str": "Kickboxing" },
+    "description": "A martial art that combines western boxing with elements of Karate, Taekwando, Muay Thai and Savate, particularly in the use of kicks.",
+    "initiate": [ "You assume a kickboxing stance and focus power into your limbs.", "%s assumes a kickboxing stance." ],
+    "learn_difficulty": 4,
+    "arm_block": 2,
+    "leg_block": 4,
+    "static_buffs": [
+      {
+        "id": "buff_kickboxing_stance_static",
+        "name": "Kick stance",
+        "description": "You have adopted a stance which allows for greater mobility and stability.  Your hands are in a guard position with elbows forward to protect yourself.\n\nBlocked damage reduced by 25% of Strength.\n+1.0 Dodging skill",
+        "unarmed_allowed": true,
+        "flat_bonuses": [ { "stat": "block", "scaling-stat": "str", "scale": 0.5 }, { "stat": "dodge", "scale": 1.0 } ]
+      }
+    ],
+    "techniques": [
+      "tec_kickboxing_rapid",
+      "tec_kickboxing_upper",
+      "tec_kickboxing_roundhouse",
+      "tec_kickboxing_sidekick",
+      "tec_kickboxing_straight_knee",
+      "tec_kickboxing_flying_knee"
+    ]
+  },
+  {
+    "type": "martial_art",
     "id": "style_krav_maga",
     "name": { "str": "Krav Maga" },
     "description": "Originating in Israel, Krav Maga is based on taking down an enemy quickly and effectively.  It focuses on applicable attacks rather than showy or complex moves.  Popular among police and armed forces everywhere.",
@@ -1078,7 +1105,7 @@
     "type": "martial_art",
     "id": "style_silat",
     "name": { "str": "Silat" },
-    "description": "Pentjak Silat, of Indonesian origin, is a fighting style that covers the use of short blades and bludgeons.  Fighters stay low and mobile to avoid attacks, then unleash deadly critical hits.",
+    "description": "Pencak Silat, of Indonesian origin, is a fighting style that covers the use of short blades and bludgeons.  Fighters stay low and mobile to avoid attacks, then unleash deadly critical hits.",
     "initiate": [ "You give a salute of respect as you prepare to combat.", "%s gives a combat salute." ],
     "learn_difficulty": 7,
     "primary_skill": "cutting",
@@ -1235,6 +1262,7 @@
     "learn_difficulty": 5,
     "arm_block": 1,
     "leg_block": 3,
+    "force_unarmed": true,
     "prevent_weapon_blocking": true,
     "allow_all_weapons": true,
     "static_buffs": [

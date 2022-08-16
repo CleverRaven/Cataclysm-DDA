@@ -4,14 +4,14 @@
     "method": "json",
     "om_terrain": [ "s_butcher" ],
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_linoleum_gray",
       "rows": [
         "bbbbbbbbbbbbbbbbbbbbbbbb",
         "bbbbbbbbbbbbbbbbbbbbbbbb",
         "   addddddaeeadddddda   ",
         "   affffffa..affffffa   ",
         "   a......h.........a   ",
-        "   a......j.........a   ",
+        "   a......h.........a   ",
         "   ak.h...h.........a   ",
         "   ak.h...k.........a   ",
         "   ak.h...h.........a   ",
@@ -33,8 +33,8 @@
       ],
       "terrain": {
         " ": "t_region_groundcover_urban",
-        ".": "t_floor",
-        "a": "t_wall_w",
+        ".": "t_linoleum_gray",
+        "a": "t_wall_r",
         "b": "t_sidewalk",
         "d": "t_wall_glass",
         "e": "t_door_c",
@@ -49,7 +49,6 @@
         "g": "f_dumpster",
         "h": "f_counter",
         "i": "f_fridge",
-        "j": "f_console_broken",
         "k": "f_rack",
         "l": "f_trashcan",
         "m": "f_trashcan",
@@ -81,7 +80,8 @@
         { "group": "restaur_trash", "chance": 80, "repeat": [ 1, 2 ], "x": [ 13, 13 ], "y": [ 19, 19 ] },
         { "group": "butcher_tools", "chance": 100, "repeat": [ 1, 3 ], "x": [ 6, 6 ], "y": [ 6, 12 ] },
         { "group": "butcher_raw_meat", "chance": 80, "repeat": [ 1, 3 ], "x": [ 4, 4 ], "y": [ 6, 10 ] },
-        { "group": "restaur_trash", "chance": 80, "repeat": [ 1, 2 ], "x": [ 4, 18 ], "y": [ 14, 16 ] }
+        { "group": "restaur_trash", "chance": 80, "repeat": [ 1, 2 ], "x": [ 4, 18 ], "y": [ 14, 16 ] },
+        { "group": "cash_register_random", "x": 10, "y": 5 }
       ],
       "place_monsters": [ { "monster": "GROUP_ZOMBIE_FAT_BASE", "chance": 1, "x": [ 4, 9 ], "y": [ 5, 13 ] } ],
       "place_fields": [
@@ -208,7 +208,7 @@
     "method": "json",
     "om_terrain": [ "s_butcher_1" ],
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_linoleum_gray",
       "rows": [
         "bbbbbbbbbbbbbbbbbbbbbbbb",
         "bbbbbbbbbbbbbbbbbbbbbbbb",
@@ -219,14 +219,14 @@
         "   a...............Fa   ",
         "   a...............Fa   ",
         "   a............FFFFa   ",
-        "   ahhjhhhhhaeaaaaaaa   ",
+        "   ahhhhhhhhaeaaaaaaa   ",
         "   a........e.e.....a   ",
         "   ahhhhhhhha.am.Sata   ",
         "   ak.......a.aaaaaaa   ",
-        "   ak...ff..a.all.aLa   ",
-        "   ak.p.ff..a.ac..e.a   ",
-        "   ak.......e.e...a.a   ",
-        "  4a.iiiii.ma.am..a<a   ",
+        "   ak...ff..a.all,aLa   ",
+        "   ak.p.ff..a.ac,,e.a   ",
+        "   ak.......e.e,,,a.a   ",
+        "  4a.iiiii.ma.aM,,a<a   ",
         "   aaaaaaaaaaeaaaaaaa   ",
         "              gggg      ",
         "              gggg      ",
@@ -237,8 +237,12 @@
       ],
       "terrain": {
         " ": "t_region_groundcover",
-        ".": "t_floor",
-        "a": "t_wall_w",
+        ".": "t_linoleum_gray",
+        ",": "t_floor",
+        "l": "t_floor",
+        "c": "t_floor",
+        "M": "t_floor",
+        "a": "t_wall_y",
         "b": "t_sidewalk",
         "d": "t_wall_glass",
         "e": "t_door_c",
@@ -247,7 +251,6 @@
         "4": "t_gutter_downspout"
       },
       "furniture": {
-        "j": "f_console_broken",
         "c": "f_chair",
         "f": "f_table",
         "g": "f_dumpster",
@@ -258,6 +261,7 @@
         "l": "f_desk",
         "L": "f_locker",
         "m": "f_trashcan",
+        "M": "f_trashcan",
         "p": "f_metal_butcher_rack",
         "S": "f_sink"
       },
@@ -283,7 +287,8 @@
         { "group": "restaur_trash", "chance": 80, "repeat": [ 1, 2 ], "x": [ 14, 16 ], "y": 19 },
         { "group": "butcher_tools", "chance": 100, "repeat": [ 1, 3 ], "x": [ 8, 9 ], "y": [ 13, 14 ] },
         { "group": "clothing_glasses", "chance": 80, "x": 16, "y": 13 },
-        { "group": "cleaning", "chance": 80, "x": 19, "y": 13, "repeat": [ 1, 2 ] }
+        { "group": "cleaning", "chance": 80, "x": 19, "y": 13, "repeat": [ 1, 2 ] },
+        { "group": "cash_register_random", "x": [ 4, 11 ], "y": 9 }
       ],
       "place_monsters": [ { "monster": "GROUP_ZOMBIE_FAT_BASE", "chance": 1, "x": [ 4, 9 ], "y": [ 5, 13 ] } ],
       "place_fields": [
@@ -407,7 +412,7 @@
     "method": "json",
     "om_terrain": [ "s_butcher_2" ],
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_linoleum_white",
       "rows": [
         "bbbbbbbbbbbbbbbbbbbbbbbb",
         "bbbbbbbbbbbbbbbbbbbbbbbb",
@@ -418,14 +423,14 @@
         "   aF....k....k....Fa   ",
         "   aF....k....k....Fa   ",
         "   a..............FFa   ",
-        "   ahhjhhaaaaeaaaeaaa   ",
+        "   ahhhhhaaaaeaaaeaaa   ",
         "   a........e.aS....a   ",
         "   aaaahhaaaa.am..ata   ",
         "   ak.......a.aaaaaaa   ",
-        "   ak...ff..a.al..lla   ",
-        "   ak.p.ff..a.alc..ca   ",
-        "   ak.......o.o.....a   ",
-        "  4a.iiiiiXma.am.sssa   ",
+        "   ak...ff..a.al,,lla   ",
+        "   ak.p.ff..a.alc,,ca   ",
+        "   ak.......o.o,,,,,a   ",
+        "  4a.iiiiiXma.aM,sssa   ",
         "   aaaaaaaaaaoaaaaaaa   ",
         "              gggg<     ",
         "              gggg      ",
@@ -436,10 +441,15 @@
       ],
       "terrain": {
         " ": "t_region_groundcover",
-        ".": "t_floor",
+        ".": "t_linoleum_white",
+        "l": "t_floor",
+        "c": "t_floor",
+        "s": "t_floor",
+        "M": "t_floor",
+        ",": "t_floor",
         "a": "t_wall_w",
         "b": "t_sidewalk",
-        "d": "t_wall_glass",
+        "d": "t_window",
         "e": "t_door_c",
         "g": "t_region_groundcover_barren",
         "o": "t_door_o",
@@ -447,7 +457,6 @@
         "4": "t_gutter_downspout"
       },
       "furniture": {
-        "j": "f_console_broken",
         "c": "f_chair",
         "f": "f_table",
         "g": "f_dumpster",
@@ -458,6 +467,7 @@
         "k": "f_rack",
         "l": "f_desk",
         "m": "f_trashcan",
+        "M": "f_trashcan",
         "s": "f_sofa",
         "p": "f_metal_butcher_rack",
         "S": "f_sink"
@@ -473,7 +483,8 @@
         { "group": "trash", "chance": 80, "x": 15, "y": 16 },
         { "group": "restaur_trash", "chance": 80, "repeat": [ 1, 2 ], "x": [ 14, 16 ], "y": 19 },
         { "group": "butcher_tools", "chance": 100, "repeat": [ 1, 3 ], "x": [ 8, 9 ], "y": [ 13, 14 ] },
-        { "group": "clothing_glasses", "chance": 80, "x": 18, "y": 13 }
+        { "group": "clothing_glasses", "chance": 80, "x": 18, "y": 13 },
+        { "group": "cash_register_random", "x": [ 4, 8 ], "y": 9 }
       ],
       "place_monsters": [ { "monster": "GROUP_ANIMALPOUND_DOGS", "chance": 1, "x": [ 5, 10 ], "y": [ 13, 15 ] } ],
       "place_fields": [

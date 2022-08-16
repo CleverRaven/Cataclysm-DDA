@@ -43,7 +43,7 @@
     "symbol": "#",
     "color": "green",
     "move_cost": 5,
-    "flags": [ "TRANSPARENT", "DIGGABLE" ],
+    "flags": [ "TRANSPARENT", "DIGGABLE", "PIT_FILLABLE" ],
     "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 50, "str_max": 100, "str_min_supported": 100, "bash_below": true },
     "//": "left diggable to clean out corpses-KA101"
   },
@@ -70,7 +70,7 @@
     "connects_to": "PIT_DEEP",
     "move_cost": 10,
     "trap": "tr_spike_pit",
-    "flags": [ "TRANSPARENT" ],
+    "flags": [ "TRANSPARENT", "PIT_FILLABLE" ],
     "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 40, "str_max": 100, "str_min_supported": 100, "bash_below": true },
     "examine_action": "pit"
   },
@@ -97,7 +97,7 @@
     "connects_to": "PIT_DEEP",
     "move_cost": 10,
     "trap": "tr_glass_pit",
-    "flags": [ "TRANSPARENT" ],
+    "flags": [ "TRANSPARENT", "PIT_FILLABLE" ],
     "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 40, "str_max": 100, "str_min_supported": 100, "bash_below": true },
     "examine_action": "pit"
   },
@@ -113,6 +113,36 @@
     "flags": [ "TRANSPARENT", "ROAD" ],
     "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 40, "str_max": 100, "str_min_supported": 100, "bash_below": true },
     "examine_action": "pit_covered"
+  },
+  {
+    "type": "terrain",
+    "id": "t_pit_BEM_human_sample",
+    "looks_like": "t_pit_shallow",
+    "name": "dead drop pit",
+    "description": "A seemingly innocuous shallow pit.  Careful inspection reveals a black canister half buried in the exposed soil.",
+    "symbol": "0",
+    "color": "yellow",
+    "move_cost": 8,
+    "flags": [ "TRANSPARENT" ],
+    "examine_action": {
+      "type": "effect_on_condition",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_BEM_human_sample_deliver",
+          "condition": {
+            "and": [ { "u_has_items": { "item": "human_sample", "count": 1 } }, { "u_has_mission": "BEM_human_sample_mission" } ]
+          },
+          "effect": [
+            { "u_adjust_var": "BEM_human_sample_reward_owed", "type": "counter", "context": "BEM", "adjustment": 1 },
+            { "u_message": "You prepare the drop as instructed", "popup": true },
+            { "u_consume_item": "human_sample", "count": 1 },
+            { "finish_mission": "BEM_human_sample_mission", "success": true }
+          ],
+          "false_effect": { "u_message": "You dont have anything to deliver.", "popup": true }
+        }
+      ]
+    },
+    "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 50, "str_max": 100, "str_min_supported": 100, "bash_below": true }
   },
   {
     "type": "terrain",

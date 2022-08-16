@@ -115,6 +115,8 @@
 #include "weighted_list.h"
 #include "worldfactory.h"
 
+static const achievement_id achievement_achievement_arcade_mode( "achievement_arcade_mode" );
+
 static const bodypart_str_id body_part_no_a_real_part( "no_a_real_part" );
 
 static const efftype_id effect_asthma( "asthma" );
@@ -133,6 +135,7 @@ static const vproto_id vehicle_prototype_custom( "custom" );
 #if defined(TILES)
 #include "sdl_wrappers.h"
 #endif
+#include "timed_event.h"
 
 #define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -186,6 +189,7 @@ std::string enum_to_string<debug_menu::debug_menu_index>( debug_menu::debug_menu
         case debug_menu::debug_menu_index::OM_TELEPORT_CITY: return "OM_TELEPORT_CITY";
         case debug_menu::debug_menu_index::TRAIT_GROUP: return "TRAIT_GROUP";
         case debug_menu::debug_menu_index::ENABLE_ACHIEVEMENTS: return "ENABLE_ACHIEVEMENTS";
+        case debug_menu::debug_menu_index::UNLOCK_ALL: return "UNLOCK_ALL";
         case debug_menu::debug_menu_index::SHOW_MSG: return "SHOW_MSG";
         case debug_menu::debug_menu_index::CRASH_GAME: return "CRASH_GAME";
         case debug_menu::debug_menu_index::MAP_EXTRA: return "MAP_EXTRA";
@@ -198,6 +202,7 @@ std::string enum_to_string<debug_menu::debug_menu_index>( debug_menu::debug_menu
         case debug_menu::debug_menu_index::WRITE_GLOBAL_EOCS: return "WRITE_GLOBAL_EOCS";
         case debug_menu::debug_menu_index::WRITE_GLOBAL_VARS: return "WRITE_GLOBAL_VARS";
         case debug_menu::debug_menu_index::EDIT_GLOBAL_VARS: return "SET_GLOBAL_VARS";
+        case debug_menu::debug_menu_index::WRITE_TIMED_EVENTS: return "WRITE_TIMED_EVENTS";
         case debug_menu::debug_menu_index::SAVE_SCREENSHOT: return "SAVE_SCREENSHOT";
         case debug_menu::debug_menu_index::GAME_REPORT: return "GAME_REPORT";
         case debug_menu::debug_menu_index::DISPLAY_SCENTS_LOCAL: return "DISPLAY_SCENTS_LOCAL";
@@ -216,7 +221,7 @@ std::string enum_to_string<debug_menu::debug_menu_index>( debug_menu::debug_menu
         case debug_menu::debug_menu_index::EDIT_CAMP_LARDER: return "EDIT_CAMP_LARDER";
         case debug_menu::debug_menu_index::VEHICLE_BATTERY_CHARGE: return "VEHICLE_BATTERY_CHARGE";
         case debug_menu::debug_menu_index::GENERATE_EFFECT_LIST: return "GENERATE_EFFECT_LIST";
-        case debug_menu::debug_menu_index::ACTIVATE_EOC: return "ACTIVATE_EOC";        
+        case debug_menu::debug_menu_index::ACTIVATE_EOC: return "ACTIVATE_EOC";
         // *INDENT-ON*
         case debug_menu::debug_menu_index::last:
             break;
@@ -319,7 +324,8 @@ static int info_uilist( bool display_all_entries = true )
             { uilist_entry( debug_menu_index::TEST_WEATHER, true, 'W', _( "Test weather" ) ) },
             { uilist_entry( debug_menu_index::WRITE_GLOBAL_EOCS, true, 'C', _( "Write global effect_on_condition(s) to eocs.output" ) ) },
             { uilist_entry( debug_menu_index::WRITE_GLOBAL_VARS, true, 'G', _( "Write global var(s) to var_list.output" ) ) },
-            { uilist_entry( debug_menu_index::EDIT_GLOBAL_VARS, true, 'e', _( "Edit global var(s)" ) ) },
+            { uilist_entry( debug_menu_index::WRITE_TIMED_EVENTS, true, 'E', _( "Write Timed (E)vents to timed_event_list.output" ) ) },
+            { uilist_entry( debug_menu_index::EDIT_GLOBAL_VARS, true, 's', _( "Edit global var(s)" ) ) },
             { uilist_entry( debug_menu_index::TEST_MAP_EXTRA_DISTRIBUTION, true, 'e', _( "Test map extra list" ) ) },
             { uilist_entry( debug_menu_index::GENERATE_EFFECT_LIST, true, 'L', _( "Generate effect list" ) ) },
         };
@@ -334,6 +340,7 @@ static int game_uilist()
 {
     std::vector<uilist_entry> uilist_initializer = {
         { uilist_entry( debug_menu_index::ENABLE_ACHIEVEMENTS, true, 'a', _( "Enable achievements" ) ) },
+        { uilist_entry( debug_menu_index::UNLOCK_ALL, true, 'u', _( "Unlock all progression" ) ) },
         { uilist_entry( debug_menu_index::SHOW_MSG, true, 'd', _( "Show debug message" ) ) },
         { uilist_entry( debug_menu_index::CRASH_GAME, true, 'C', _( "Crash game (test crash handling)" ) ) },
         { uilist_entry( debug_menu_index::ACTIVATE_EOC, true, 'E', _( "Activate EOC" ) ) },
@@ -498,7 +505,7 @@ static void spell_description(
 
     // Class: Spell Class
     description << string_format( _( "Class: %1$s" ), colorize( spl.spell_class() == trait_NONE ?
-                                  _( "Classless" ) : spl.spell_class()->name(),
+                                  _( "Classless" ) : chrc.mutation_name( spl.spell_class() ),
                                   yellow ) ) << "\n";
 
     // Spell description
@@ -518,7 +525,7 @@ static void spell_description(
     // Difficulty: 0 ( 0.0 % Failure Chance)
     description << string_format(
                     //~ %1$d - difficulty, %2$s - failure chance
-                    _( "Difficulty: %1$d ( %2$s )" ),
+                    _( "Difficulty: %1$d (%2$s)" ),
                     spl.get_difficulty(), spl.colorized_fail_percent( chrc ) ) << '\n';
 
 
@@ -527,7 +534,7 @@ static void spell_description(
     // Casting Cost: 0 (impeded) ( 0 current )
     description << string_format(
                     //~ %1$s - energy cost, %2$s - is casting impeded, %3$s - current character energy
-                    _( "Casting Cost: %1$s %2$s ( %3$s current ) " ),
+                    _( "Casting Cost: %1$s %2$s (%3$s current) " ),
                     spl.energy_cost_string( chrc ),
                     spell_desc::energy_cost_encumbered( spl, chrc ) ?  impeded : "",
                     spl.energy_cur_string( chrc ) ) << '\n';
@@ -535,7 +542,7 @@ static void spell_description(
     // Casting Time: 0 (impeded)
     description << string_format(
                     //~ %1$s - cast time, %2$s - is casting impeded, %3$s - casting base time
-                    _( "Casting Time: %1$s %2$s ( %3$s base time ) " ),
+                    _( "Casting Time: %1$s %2$s (%3$s base time) " ),
                     to_string( time_duration::from_moves( spl.casting_time( chrc ) ) ),
                     spell_desc::casting_time_encumbered( spl, chrc ) ? impeded : "",
                     to_string( time_duration::from_moves( std::get<0>( spl_data ).base_casting_time ) ) ) << '\n';
@@ -1067,7 +1074,7 @@ static void spawn_artifact()
     map &here = get_map();
     uilist relic_menu;
     std::vector<relic_procgen_id> relic_list;
-    for( auto &elem : relic_procgen_data::get_all() ) {
+    for( const relic_procgen_data &elem : relic_procgen_data::get_all() ) {
         relic_list.emplace_back( elem.id );
     }
     relic_menu.text = _( "Choose artifact data:" );
@@ -1303,7 +1310,8 @@ static void character_edit_needs_menu( Character &you )
 
     const auto &vits = vitamin::all();
     for( const auto &v : vits ) {
-        smenu.addentry( -1, true, 0, "%s: %d", v.second.name(), you.vitamin_get( v.first ) );
+        smenu.addentry( -1, true, 0, _( "%s: daily %d, overall %d" ), v.second.name(),
+                        you.get_daily_vitamin( v.first ), you.vitamin_get( v.first ) );
     }
 
     smenu.query();
@@ -1621,6 +1629,9 @@ static void character_edit_menu()
         std::stringstream data;
         data << np->get_name() << " - " << ( np->male ? _( "Male" ) : _( "Female" ) ) << " " <<
              np->myclass->get_name() << std::endl;
+        if( !np->get_unique_id().empty() ) {
+            data << string_format( _( "Unique Id: %s" ), np->get_unique_id() ) << std::endl;
+        }
         data << string_format( _( "Faction: %s (api v%d)" ), np->get_faction()->id.str(),
                                np->get_faction_ver() ) << "; "
              << string_format( _( "Attitude: %s" ), npc_attitude_name( np->get_attitude() ) ) << std::endl;
@@ -1643,7 +1654,7 @@ static void character_edit_menu()
              << string_format( _( "Altruism: %d" ), static_cast<int>( np->personality.altruism ) ) << std::endl;
 
         data << _( "Needs:" );
-        for( const auto &need : np->needs ) {
+        for( const npc_need &need : np->needs ) {
             data << " " << npc::get_need_str_id( need );
         }
         data << std::endl;
@@ -1740,7 +1751,7 @@ static void character_edit_menu()
             } else if( !to_wear.is_null() ) {
                 you.set_wielded_item( to_wear );
                 get_event_bus().send<event_type::character_wields_item>( you.getID(),
-                        you.get_wielded_item().typeId() );
+                        you.get_wielded_item()->typeId() );
             }
         }
         break;
@@ -1834,20 +1845,20 @@ static void character_edit_menu()
         }
         case D_HEALTHY: {
             uilist smenu;
-            smenu.addentry( 0, true, 'h', "%s: %d", _( "Health" ), you.get_healthy() );
-            smenu.addentry( 1, true, 'm', "%s: %d", _( "Health modifier" ), you.get_healthy_mod() );
+            smenu.addentry( 0, true, 'h', "%s: %d", _( "Health" ), you.get_lifestyle() );
+            smenu.addentry( 1, true, 'm', "%s: %d", _( "Health modifier" ), you.get_daily_health() );
             smenu.addentry( 2, true, 'r', "%s: %d", _( "Radiation" ), you.get_rad() );
             smenu.query();
             int value;
             switch( smenu.ret ) {
                 case 0:
-                    if( query_int( value, _( "Set the value to?  Currently: %d" ), you.get_healthy() ) ) {
-                        you.set_healthy( value );
+                    if( query_int( value, _( "Set the value to?  Currently: %d" ), you.get_lifestyle() ) ) {
+                        you.set_lifestyle( value );
                     }
                     break;
                 case 1:
-                    if( query_int( value, _( "Set the value to?  Currently: %d" ), you.get_healthy_mod() ) ) {
-                        you.set_healthy_mod( value );
+                    if( query_int( value, _( "Set the value to?  Currently: %d" ), you.get_daily_health() ) ) {
+                        you.set_daily_health( value );
                     }
                     break;
                 case 2:
@@ -2414,6 +2425,7 @@ void debug()
         debug_menu_index::SAVE_SCREENSHOT,
         debug_menu_index::GAME_REPORT,
         debug_menu_index::ENABLE_ACHIEVEMENTS,
+        debug_menu_index::UNLOCK_ALL,
         debug_menu_index::BENCHMARK,
         debug_menu_index::SHOW_MSG,
     };
@@ -2453,11 +2465,11 @@ void debug()
             break;
 
         case debug_menu_index::REVEAL_MAP: {
-            auto &cur_om = g->get_cur_om();
+            overmap &cur_om = g->get_cur_om();
             for( int i = 0; i < OMAPX; i++ ) {
                 for( int j = 0; j < OMAPY; j++ ) {
                     for( int k = -OVERMAP_DEPTH; k <= OVERMAP_HEIGHT; k++ ) {
-                        cur_om.seen( { i, j, k } ) = true;
+                        cur_om.set_seen( { i, j, k }, true );
                     }
                 }
             }
@@ -2722,7 +2734,9 @@ void debug()
             }
             if( query_int( dbg_damage, _( "Damage self for how much?  hp: %s" ), part.id().c_str() ) ) {
                 player_character.apply_damage( nullptr, part, dbg_damage );
-                player_character.die( nullptr );
+                if( player_character.is_dead_state() ) {
+                    player_character.die( nullptr );
+                }
             }
         }
         break;
@@ -2775,10 +2789,10 @@ void debug()
                 const point offset {
                     player_character.view_offset.xy() + point( POSX - player_character.posx(), POSY - player_character.posy() )
                 };
-                for( const auto &sound : sounds_to_draw.first ) {
+                for( const tripoint &sound : sounds_to_draw.first ) {
                     mvwputch( g->w_terrain, offset + sound.xy(), c_yellow, '?' );
                 }
-                for( const auto &sound : sounds_to_draw.second ) {
+                for( const tripoint &sound : sounds_to_draw.second ) {
                     mvwputch( g->w_terrain, offset + sound.xy(), c_red, '?' );
                 }
             } );
@@ -2840,7 +2854,9 @@ void debug()
                 break;
             }
 
-            auto rt = here.route( player_character.pos(), *dest, player_character.get_pathfinding_settings(),
+            // TODO: fix point types
+            auto rt = here.route( player_character.pos_bub(), tripoint_bub_ms( *dest ),
+                                  player_character.get_pathfinding_settings(),
                                   player_character.get_path_avoid() );
             if( !rt.empty() ) {
                 player_character.set_destination( rt );
@@ -2887,6 +2903,13 @@ void debug()
             } else {
                 achievements.set_enabled( true );
                 popup( _( "Achievements enabled" ) );
+            }
+            break;
+        case debug_menu_index::UNLOCK_ALL:
+            if( query_yn(
+                    _( "Activating this will add the Arcade Mode achievement unlocking all starting scenarios and professions for all worlds.  The character who performs this action will need to die for it to be recorded.  Achievements are tracked from the memorial folder if you need to get rid of this.  Activating this will spoil factions and situations you may otherwise stumble upon naturally while playing.  Some scenarios are frustrating for the uninitiated, and some professions skip portions of the game's content.  If new to the game progression would otherwise help you be introduced to mechanics at a reasonable pace." ) ) ) {
+                get_achievements().report_achievement( &achievement_achievement_arcade_mode.obj(),
+                                                       achievement_completion::completed );
             }
             break;
         case debug_menu_index::SHOW_MSG:
@@ -3002,7 +3025,20 @@ void debug()
             popup( _( "Var list written to var_list.output" ) );
         }
         break;
+        case debug_menu_index::WRITE_TIMED_EVENTS: {
+            write_to_file( "timed_event_list.output", [&]( std::ostream & testfile ) {
+                testfile << "|;when;type;key;string_id;strength;map_point;faction_id;" << std::endl;
+                for( const timed_event &te : get_timed_events().get_all() ) {
+                    testfile << "|;" << to_string( te.when ) << ";" << static_cast<int>( te.type ) << ";" << te.key <<
+                             ";" << te.string_id << ";" << te.strength << ";" << te.map_point << ";" << te.faction_id << ";" <<
+                             std::endl;
+                }
 
+            }, "timed_event_list" );
+
+            popup( _( "Var list written to timed_event_list.output" ) );
+        }
+        break;
         case debug_menu_index::EDIT_GLOBAL_VARS: {
             std::string key;
             std::string value;

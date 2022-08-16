@@ -158,7 +158,7 @@
     "description": "You know how to accurately measure powder and projectile weights for reloading firearm cartridges.",
     "can_learn": true,
     "default_time_multiplier": 1.5,
-    "default_fail_multiplier": 5,
+    "default_fail_multiplier": 1.5,
     "time_to_learn": "8 h"
   },
   {

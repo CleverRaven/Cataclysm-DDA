@@ -330,8 +330,8 @@ void map::spread_gas( field_entry &cur, const tripoint &p, int percent_spread,
             const maptile &remove_tile = std::get<0>( maptiles );
             const maptile &remove_tile2 = std::get<1>( maptiles );
             const maptile &remove_tile3 = std::get<2>( maptiles );
-            for( const auto &i : spread ) {
-                const auto &neigh = neighs[i].second;
+            for( const size_t &i : spread ) {
+                const maptile &neigh = neighs[i].second;
                 if( ( neigh.pos_ != remove_tile.pos_ &&
                       neigh.pos_ != remove_tile2.pos_ &&
                       neigh.pos_ != remove_tile3.pos_ ) ||
@@ -645,7 +645,7 @@ static void field_processor_fd_electricity( const tripoint &p, field_entry &cur,
     bool valid_candidates = false;
     for( const tripoint &dst : points_in_radius( p, 1 ) ) {
         // Skip tiles with intense fields
-        auto &field_type = pd.here.get_applicable_electricity_field( dst );
+        const field_type_str_id &field_type = pd.here.get_applicable_electricity_field( dst );
         if( field_entry *field = pd.here.get_field( dst, field_type ) ) {
             if( field->get_field_intensity() >= spread_intensity_cap ) {
                 continue;
@@ -712,7 +712,7 @@ static void field_processor_fd_electricity( const tripoint &p, field_entry &cur,
         auto target_it = target_vector->begin() + vector_index;
         tripoint target_point = *target_it;
 
-        auto &field_type = pd.here.get_applicable_electricity_field( target_point );
+        const field_type_str_id &field_type = pd.here.get_applicable_electricity_field( target_point );
 
         // Intensify target field if it exists, create a new one otherwise
         if( field_entry *target_field = pd.here.get_field( target_point, field_type ) ) {
@@ -742,17 +742,19 @@ static void field_processor_monster_spawn( const tripoint &p, field_entry &cur,
     int monster_spawn_count = int_level.monster_spawn_count;
     if( monster_spawn_count > 0 && monster_spawn_chance > 0 && one_in( monster_spawn_chance ) ) {
         for( ; monster_spawn_count > 0; monster_spawn_count-- ) {
-            MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup(
-                                                   int_level.monster_spawn_group, &monster_spawn_count );
-            if( !spawn_details.name ) {
-                continue;
-            }
-            if( const cata::optional<tripoint> spawn_point = random_point(
-                        points_in_radius( p, int_level.monster_spawn_radius ),
-            [&pd]( const tripoint & n ) {
-            return pd.here.passable( n );
-            } ) ) {
-                pd.here.add_spawn( spawn_details, *spawn_point );
+            std::vector<MonsterGroupResult> spawn_details =
+                MonsterGroupManager::GetResultFromGroup( int_level.monster_spawn_group, &monster_spawn_count );
+            for( const MonsterGroupResult &mgr : spawn_details ) {
+                if( !mgr.name ) {
+                    continue;
+                }
+                if( const cata::optional<tripoint> spawn_point =
+                        random_point( points_in_radius( p, int_level.monster_spawn_radius ),
+                [&pd]( const tripoint & n ) {
+                return pd.here.passable( n );
+                } ) ) {
+                    pd.here.add_spawn( mgr, *spawn_point );
+                }
             }
         }
     }
@@ -1057,7 +1059,7 @@ void field_processor_fd_fire( const tripoint &p, field_entry &cur, field_proc_da
     // Get the part of the vehicle in the fire (_internal skips the boundary check)
     vehicle *veh = here.veh_at_internal( p, part );
     if( veh != nullptr ) {
-        veh->damage( part, cur.get_field_intensity() * 10, damage_type::HEAT, true );
+        veh->damage( here, part, cur.get_field_intensity() * 10, damage_type::HEAT, true );
         // Damage the vehicle in the fire.
     }
     if( can_burn ) {
@@ -1169,7 +1171,7 @@ void field_processor_fd_fire( const tripoint &p, field_entry &cur, field_proc_da
     for( size_t i = ( end_it + 1 ) % neighs.size(), count = 0;
          count != neighs.size();
          i = ( i + 1 ) % neighs.size(), count++ ) {
-        const auto &neigh = neighs[i].second;
+        const maptile &neigh = neighs[i].second;
         if( ( neigh.pos().x != remove_tile.pos().x && neigh.pos().y != remove_tile.pos().y ) ||
             ( neigh.pos().x != remove_tile2.pos().x && neigh.pos().y != remove_tile2.pos().y ) ||
             ( neigh.pos().x != remove_tile3.pos().x && neigh.pos().y != remove_tile3.pos().y ) ||
@@ -1286,7 +1288,7 @@ void field_processor_fd_fire( const tripoint &p, field_entry &cur, field_proc_da
         const tripoint dst_p = tripoint( p.xy(), p.z + 1 );
         // Let it burn through the floor
         maptile dst = here.maptile_at_internal( dst_p );
-        const auto &dst_ter = dst.get_ter_t();
+        const ter_t &dst_ter = dst.get_ter_t();
         if( dst_ter.has_flag( ter_furn_flag::TFLAG_NO_FLOOR ) ||
             dst_ter.has_flag( ter_furn_flag::TFLAG_FLAMMABLE ) ||
             dst_ter.has_flag( ter_furn_flag::TFLAG_FLAMMABLE_ASH ) ||
@@ -1506,14 +1508,14 @@ void map::player_in_field( Character &you )
 
                 if( on_ground && total_damage > 0 ) {
                     you.add_msg_player_or_npc( m_bad, _( "The acid burns your body!" ),
-                                               _( "The acid burns <npcname>s body!" ) );
+                                               _( "The acid burns <npcname>'s body!" ) );
                 } else if( total_damage > 0 ) {
                     you.add_msg_player_or_npc( m_bad, _( "The acid burns your legs and feet!" ),
-                                               _( "The acid burns <npcname>s legs and feet!" ) );
+                                               _( "The acid burns <npcname>'s legs and feet!" ) );
                 } else if( on_ground ) {
-                    you.add_msg_if_player( m_warning, _( "You're lying in a pool of acid" ) );
-                } else {
-                    you.add_msg_if_player( m_warning, _( "You're standing in a pool of acid" ) );
+                    you.add_msg_if_player( m_warning, _( "You're lying in a pool of acid!" ) );
+                } else if( !you.is_immune_field( fd_acid ) ) {
+                    you.add_msg_if_player( m_warning, _( "You're standing in a pool of acid!" ) );
                 }
 
                 you.check_dead_state();
@@ -1819,7 +1821,7 @@ void map::creature_in_field( Creature &critter )
         }
         const field_type_id cur_field_id = cur_field_entry.get_field_type();
 
-        for( const auto &fe : cur_field_entry.get_intensity_level().field_effects ) {
+        for( const field_effect &fe : cur_field_entry.get_intensity_level().field_effects ) {
             if( in_vehicle && fe.immune_in_vehicle ) {
                 continue;
             }
@@ -2321,7 +2323,7 @@ std::vector<FieldProcessorPtr> map_field_processing::processors_for_type( const 
     return processors;
 }
 
-const field_type_str_id &map::get_applicable_electricity_field( const tripoint &p )
+const field_type_str_id &map::get_applicable_electricity_field( const tripoint &p ) const
 {
     return is_transparent( p ) ? fd_electricity : fd_electricity_unlit;
 }

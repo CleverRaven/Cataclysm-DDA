@@ -6,6 +6,7 @@
 #include <memory>
 #include <string>
 #include <unordered_map>
+#include <utility>
 #include <vector>
 
 #include "activity_type.h"
@@ -98,8 +99,8 @@ class aim_activity_actor : public activity_actor
         void serialize( JsonOut &jsout ) const override;
         static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
 
-        item *get_weapon();
-        void restore_view();
+        item_location get_weapon();
+        void restore_view() const;
         // Load/unload a RELOAD_AND_SHOOT weapon
         bool load_RAS_weapon();
         void unload_RAS_weapon();
@@ -108,7 +109,13 @@ class aim_activity_actor : public activity_actor
 class autodrive_activity_actor : public activity_actor
 {
     private:
+        // The player's vehicle, updated at the very start.
+        // Will be updated again if, e.g., the player gets unboarded,
+        // to make sure the pointer is still valid; the pointer might be invalid due to summoning despawn.
         vehicle *player_vehicle = nullptr;
+
+        // Update player_vehicle; will set it to nullptr if the player no longer has a vehicle.
+        void update_player_vehicle( Character & );
 
     public:
         autodrive_activity_actor() = default;
@@ -124,125 +131,6 @@ class autodrive_activity_actor : public activity_actor
 
         std::unique_ptr<activity_actor> clone() const override {
             return std::make_unique<autodrive_activity_actor>( *this );
-        }
-
-        void serialize( JsonOut &jsout ) const override;
-        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
-};
-
-class dig_activity_actor : public activity_actor
-{
-    private:
-        int moves_total;
-        /** location of the dig **/
-        tripoint location;
-        std::string result_terrain;
-        tripoint byproducts_location;
-        int byproducts_count;
-        item_group_id byproducts_item_group;
-
-        /**
-         * Returns true if @p other and `this` are "equivalent" in the sense that
-         *  `this` can be resumed instead of starting @p other.
-         */
-        bool equivalent_activity( const dig_activity_actor &other ) const {
-            return  location == other.location &&
-                    result_terrain == other.result_terrain &&
-                    byproducts_location == other.byproducts_location &&
-                    byproducts_count == other.byproducts_count &&
-                    byproducts_item_group == other.byproducts_item_group;
-        }
-
-        /**
-         * @pre @p other is a `dig_activity_actor`
-         */
-        bool can_resume_with_internal( const activity_actor &other, const Character & ) const override {
-            const dig_activity_actor &d_actor = static_cast<const dig_activity_actor &>( other );
-            return equivalent_activity( d_actor );
-        }
-
-    public:
-        dig_activity_actor(
-            int dig_moves, const tripoint &dig_loc,
-            const std::string &resulting_ter, const tripoint &dump_loc,
-            int dump_spawn_count, const std::string &dump_item_group
-        ):
-            moves_total( dig_moves ), location( dig_loc ),
-            result_terrain( resulting_ter ),
-            byproducts_location( dump_loc ),
-            byproducts_count( dump_spawn_count ),
-            byproducts_item_group( dump_item_group ) {}
-
-        activity_id get_type() const override {
-            return activity_id( "ACT_DIG" );
-        }
-
-        void start( player_activity &act, Character & ) override;
-        void do_turn( player_activity &, Character & ) override;
-        void finish( player_activity &act, Character &who ) override;
-
-        std::unique_ptr<activity_actor> clone() const override {
-            return std::make_unique<dig_activity_actor>( *this );
-        }
-
-        void serialize( JsonOut &jsout ) const override;
-        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
-};
-
-class dig_channel_activity_actor : public activity_actor
-{
-    private:
-        int moves_total;
-        /** location of the dig **/
-        tripoint location;
-        std::string result_terrain;
-        tripoint byproducts_location;
-        int byproducts_count;
-        item_group_id byproducts_item_group;
-
-        /**
-         * Returns true if @p other and `this` are "equivalent" in the sense that
-         *  `this` can be resumed instead of starting @p other.
-         */
-        bool equivalent_activity( const dig_channel_activity_actor &other ) const {
-            return  location == other.location &&
-                    result_terrain == other.result_terrain &&
-                    byproducts_location == other.byproducts_location &&
-                    byproducts_count == other.byproducts_count &&
-                    byproducts_item_group == other.byproducts_item_group;
-        }
-
-        /**
-         * @pre @p other is a `dig_activity_actor`
-         */
-        bool can_resume_with_internal( const activity_actor &other, const Character & ) const override {
-            const dig_channel_activity_actor &dc_actor = static_cast<const dig_channel_activity_actor &>
-                    ( other );
-            return equivalent_activity( dc_actor );
-        }
-
-    public:
-        dig_channel_activity_actor(
-            int dig_moves, const tripoint &dig_loc,
-            const std::string &resulting_ter, const tripoint &dump_loc,
-            int dump_spawn_count, const std::string &dump_item_group
-        ):
-            moves_total( dig_moves ), location( dig_loc ),
-            result_terrain( resulting_ter ),
-            byproducts_location( dump_loc ),
-            byproducts_count( dump_spawn_count ),
-            byproducts_item_group( dump_item_group ) {}
-
-        activity_id get_type() const override {
-            return activity_id( "ACT_DIG_CHANNEL" );
-        }
-
-        void start( player_activity &act, Character & ) override;
-        void do_turn( player_activity &, Character & ) override;
-        void finish( player_activity &act, Character &who ) override;
-
-        std::unique_ptr<activity_actor> clone() const override {
-            return std::make_unique<dig_channel_activity_actor>( *this );
         }
 
         void serialize( JsonOut &jsout ) const override;
@@ -386,7 +274,7 @@ class hotwire_car_activity_actor : public activity_actor
         tripoint target;
 
         bool can_resume_with_internal( const activity_actor &other, const Character & ) const override {
-            const auto &a = static_cast<const hotwire_car_activity_actor &>( other );
+            const hotwire_car_activity_actor &a = static_cast<const hotwire_car_activity_actor &>( other );
             return target == a.target && moves_total == a.moves_total;
         }
 
@@ -419,7 +307,7 @@ class bikerack_racking_activity_actor : public activity_actor
     public:
         bikerack_racking_activity_actor( int moves_total, vehicle &parent_vehicle,
                                          std::vector<std::vector<int>> parts ): moves_total( moves_total ),
-            parent_vehicle( parent_vehicle ), parts( parts ) {}
+            parent_vehicle( parent_vehicle ), parts( std::move( parts ) ) {}
 
         activity_id get_type() const override {
             return activity_id( "ACT_BIKERACK_RACKING" );
@@ -448,7 +336,7 @@ class bikerack_unracking_activity_actor : public activity_actor
     public:
         bikerack_unracking_activity_actor( int moves_total, vehicle &parent_vehicle,
                                            std::vector<int> parts, std::vector<int> racks ) : moves_total( moves_total ),
-            parent_vehicle( parent_vehicle ), parts( parts ), racks( racks ) {}
+            parent_vehicle( parent_vehicle ), parts( std::move( parts ) ), racks( std::move( racks ) ) {}
 
         activity_id get_type() const override {
             return activity_id( "ACT_BIKERACK_UNRACKING" );
@@ -532,7 +420,8 @@ class move_items_activity_actor : public activity_actor
     public:
         move_items_activity_actor( std::vector<item_location> target_items, std::vector<int> quantities,
                                    bool to_vehicle, tripoint relative_destination ) :
-            target_items( target_items ), quantities( quantities ), to_vehicle( to_vehicle ),
+            target_items( std::move( target_items ) ), quantities( std::move( quantities ) ),
+            to_vehicle( to_vehicle ),
             relative_destination( relative_destination ) {}
 
         activity_id get_type() const override {
@@ -814,7 +703,8 @@ class consume_activity_actor : public activity_actor
                                 std::vector<int> consume_menu_selections,
                                 const std::vector<item_location> &consume_menu_selected_items,
                                 const std::string &consume_menu_filter, activity_id type, bool refuel = false ) :
-            consume_location( consume_location ), consume_menu_selections( consume_menu_selections ),
+            consume_location( consume_location ),
+            consume_menu_selections( std::move( consume_menu_selections ) ),
             consume_menu_selected_items( consume_menu_selected_items ),
             consume_menu_filter( consume_menu_filter ),
             type( type ), refuel( refuel ) {}
@@ -969,6 +859,7 @@ class craft_activity_actor : public activity_actor
         void start( player_activity &act, Character &crafter ) override;
         void do_turn( player_activity &act, Character &crafter ) override;
         void finish( player_activity &act, Character &crafter ) override;
+        void canceled( player_activity &/*act*/, Character &/*who*/ ) override;
 
         std::unique_ptr<activity_actor> clone() const override {
             return std::make_unique<craft_activity_actor>( *this );
@@ -1202,8 +1093,8 @@ class milk_activity_actor : public activity_actor
     public:
         milk_activity_actor() = default;
         milk_activity_actor( int moves, std::vector<tripoint> coords,
-                             std::vector<std::string> str_values ) : total_moves( moves ), monster_coords( coords ),
-            string_values( str_values ) {}
+                             std::vector<std::string> str_values ) : total_moves( moves ), monster_coords( std::move( coords ) ),
+            string_values( std::move( str_values ) ) {}
 
         activity_id get_type() const override {
             return activity_id( "ACT_MILK" );
@@ -1367,7 +1258,8 @@ class tent_placement_activity_actor : public activity_actor
         tent_placement_activity_actor( int moves_total, tripoint target, int radius, const item &it,
                                        string_id<furn_t> wall, string_id<furn_t> floor, cata::optional<string_id<furn_t>> floor_center,
                                        string_id<furn_t> door_closed ) : moves_total( moves_total ), target( target ), radius( radius ),
-            it( it ), wall( wall ), floor( floor ), floor_center( floor_center ), door_closed( door_closed ) {}
+            it( it ), wall( wall ), floor( floor ), floor_center( std::move( floor_center ) ),
+            door_closed( door_closed ) {}
 
         activity_id get_type() const override {
             return activity_id( "ACT_TENT_PLACE" );
@@ -1584,8 +1476,8 @@ class wear_activity_actor : public activity_actor
 {
     public:
         wear_activity_actor( std::vector<item_location> target_items, std::vector<int> quantities ) :
-            target_items( target_items ),
-            quantities( quantities ) {};
+            target_items( std::move( target_items ) ),
+            quantities( std::move( quantities ) ) {};
         activity_id get_type() const override {
             return activity_id( "ACT_WEAR" );
         }
@@ -1611,7 +1503,7 @@ class wield_activity_actor : public activity_actor
 {
     public:
         wield_activity_actor( item_location target_item, int quantity ) :
-            target_item( target_item ),
+            target_item( std::move( target_item ) ),
             quantity( quantity ) {};
         activity_id get_type() const override {
             return activity_id( "ACT_WIELD" );
@@ -1638,7 +1530,8 @@ class pickup_menu_activity_actor : public activity_actor
 {
     public:
         pickup_menu_activity_actor( cata::optional<tripoint> where,
-                                    std::vector<drop_location> selection ) : where( where ), selection( selection ) {};
+                                    std::vector<drop_location> selection ) : where( std::move( where ) ),
+            selection( std::move( selection ) ) {};
         activity_id get_type() const override {
             return activity_id( "ACT_PICKUP_MENU" );
         }
@@ -1948,6 +1841,35 @@ class mop_activity_actor : public activity_actor
 
     private:
         int moves;
+};
+
+class unload_loot_activity_actor : public activity_actor
+{
+    public:
+        unload_loot_activity_actor() = default;
+        explicit unload_loot_activity_actor( int moves ) : moves( moves ) {}
+
+        activity_id get_type() const override {
+            return activity_id( "ACT_UNLOAD_LOOT" );
+        }
+
+        void start( player_activity &act, Character &who ) override;
+        void do_turn( player_activity &act, Character &you ) override;
+        void finish( player_activity &, Character & ) override {};
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<unload_loot_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
+
+    private:
+        int moves;
+        int num_processed;
+        int stage;
+        std::unordered_set<tripoint> coord_set;
+        tripoint placement;
 };
 
 #endif // CATA_SRC_ACTIVITY_ACTOR_DEFINITIONS_H

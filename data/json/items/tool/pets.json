@@ -45,7 +45,7 @@
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "light_gray",
-    "qualities": [ [ "CUT", 1 ], [ "SHEAR", 1 ], [ "BUTCHER", 3 ] ],
+    "qualities": [ [ "CUT", 1 ], [ "FABRIC_CUT", 1 ], [ "SHEAR", 1 ], [ "BUTCHER", 3 ] ],
     "flags": [ "STAB" ]
   },
   {
@@ -62,8 +62,26 @@
     "material": [ "steel" ],
     "symbol": ";",
     "color": "light_gray",
-    "qualities": [ [ "CUT", 1 ], [ "SHEAR", 1 ], [ "BUTCHER", 3 ] ],
+    "qualities": [ [ "CUT", 1 ], [ "FABRIC_CUT", 1 ], [ "SHEAR", 1 ], [ "BUTCHER", 3 ] ],
     "flags": [ "STAB" ]
+  },
+  {
+    "id": "bronze_shears",
+    "type": "TOOL",
+    "name": { "str_sp": "bronze shears" },
+    "description": "This is a set of forged single-piece bronze shears for cutting fabrics.  Made of two painstakingly sharpened blades connected by a carefully tempered twisted bridge.",
+    "weight": "900 g",
+    "volume": "750 ml",
+    "price": 500,
+    "price_postapoc": 250,
+    "to_hit": -1,
+    "cutting": 3,
+    "material": [ "bronze" ],
+    "symbol": ";",
+    "color": "yellow",
+    "looks_like": "forged_shears",
+    "qualities": [ [ "CUT", 1 ], [ "FABRIC_CUT", 1 ], [ "SHEAR", 1 ], [ "BUTCHER", 3 ] ],
+    "flags": [ "STAB", "FRAGILE_MELEE" ]
   },
   {
     "id": "elec_shears",

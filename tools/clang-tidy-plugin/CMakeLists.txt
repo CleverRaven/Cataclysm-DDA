@@ -7,11 +7,13 @@ find_package(Clang REQUIRED CONFIG)
 set(CataAnalyzerSrc
         AlmostNeverAutoCheck.cpp
         AssertCheck.cpp
+        AvoidAlternativeTokensCheck.cpp
         CataTidyModule.cpp
         CombineLocalsIntoPointCheck.cpp
         DeterminismCheck.cpp
         HeaderGuardCheck.cpp
         JsonTranslationInputCheck.cpp
+        LargeInlineFunctionCheck.cpp
         LargeStackObjectCheck.cpp
         NoLongCheck.cpp
         NoStaticTranslationCheck.cpp
@@ -34,6 +36,7 @@ set(CataAnalyzerSrc
         UnsequencedCallsCheck.cpp
         UnusedStaticsCheck.cpp
         UseLocalizedSortingCheck.cpp
+        UseMdarrayCheck.cpp
         UseNamedPointConstantsCheck.cpp
         UsePointApisCheck.cpp
         UsePointArithmeticCheck.cpp

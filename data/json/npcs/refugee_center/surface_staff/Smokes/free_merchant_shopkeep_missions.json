@@ -17,6 +17,9 @@
         "search_range": 240
       }
     },
+    "end": {
+      "effect": { "arithmetic": [ { "global_val": "var", "var_name": "free_merchants_hub_trade_route" }, "=", { "const": 1 } ] }
+    },
     "goal_condition": { "u_has_var": "completed_free_merchants_hub_delivery_1", "type": "dialogue", "context": "intercom", "value": "yes" },
     "value": 5000,
     "origins": [ "ORIGIN_SECONDARY" ],

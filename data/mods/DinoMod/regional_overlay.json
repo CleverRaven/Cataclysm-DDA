@@ -7,7 +7,7 @@
       "forest_water": {
         "chance": 20,
         "extras": {
-          "mx_mass_grave_dino": 60,
+          "mx_mass_grave_dino": 30,
           "mx_nest_acrocanthosaurus": 30,
           "mx_nest_albertosaurus": 30,
           "mx_nest_allosaurus": 30,
@@ -19,6 +19,8 @@
           "mx_nest_dromaeosaurus": 30,
           "mx_nest_dryptosaurus": 30,
           "mx_nest_gorgosaurus": 30,
+          "mx_nest_nanuqsaurus": 30,
+          "mx_nest_saurornitholestes": 30,
           "mx_nest_siats": 30,
           "mx_nest_stenonychosaurus": 30,
           "mx_nest_torvosaurus": 30,
@@ -36,23 +38,30 @@
           "mx_nest_ankylosaurus": 30,
           "mx_nest_camptosaurus": 30,
           "mx_nest_corythosaurus": 30,
+          "mx_nest_dryosaurus": 30,
           "mx_nest_dyoplosaurus": 30,
           "mx_nest_edmontonia": 30,
           "mx_nest_edmontosaurus": 30,
           "mx_nest_hadrosaurus": 30,
+          "mx_nest_issi": 30,
           "mx_nest_kosmoceratops": 30,
           "mx_nest_maiasaura": 30,
+          "mx_nest_nanosaurus": 30,
           "mx_nest_nodosaurus": 30,
+          "mx_nest_stegoceras": 30,
           "mx_nest_pachycephalosaurus": 30,
+          "mx_nest_aquilops": 30,
           "mx_nest_pachyrhinosaurus": 30,
           "mx_nest_parasaurolophus": 30,
           "mx_nest_pentaceratops": 30,
           "mx_nest_scutellosaurus": 30,
           "mx_nest_stegosaurus": 30,
+          "mx_nest_thescelosaurus": 30,
           "mx_nest_torosaurus": 30,
           "mx_nest_triceratops": 30
         }
-      }
+      },
+      "field": { "chance": 6, "extras": { "mx_mass_grave_dino": 30 } }
     },
     "city": { "parks": { "dinozoo": 25 } }
   }

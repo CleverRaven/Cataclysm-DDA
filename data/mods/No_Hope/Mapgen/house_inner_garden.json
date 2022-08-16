@@ -64,7 +64,7 @@
           { "item": "SUS_appliances_cupboard", "chance": 30 }
         ],
         "J": [ { "item": "SUS_breakfast_cupboard", "chance": 5 }, { "item": "SUS_coffee_cupboard", "chance": 5 } ],
-        "l": { "item": "SUS_fridge", "chance": 10 },
+        "l": { "item": "SUS_fridge_healthy_vegan", "chance": 10 },
         "i": { "item": "SUS_oven", "chance": 50 }
       },
       "nested": {

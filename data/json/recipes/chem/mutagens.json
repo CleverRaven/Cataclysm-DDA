@@ -28,7 +28,7 @@
         [ "leg", 2 ]
       ],
       [ [ "bleach", 2 ], [ "oxy_powder", 200 ] ],
-      [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ]
+      [ [ "ammonia_liquid", 1 ], [ "lye_powder", 100 ] ]
     ],
     "flags": [ "SECRET" ]
   },
@@ -154,7 +154,7 @@
       [ [ "mutagen", 1 ] ],
       [ [ "spider_egg", 1 ], [ "chitin_piece", 4 ] ],
       [ [ "spider_sample", 1 ] ],
-      [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ]
+      [ [ "ammonia_liquid", 1 ], [ "lye_powder", 100 ] ]
     ],
     "flags": [ "SECRET" ]
   },
@@ -452,7 +452,7 @@
     "components": [
       [ [ "mutagen", 1 ] ],
       [ [ "feline_sample", 1 ] ],
-      [ [ "ammonia", 2 ], [ "lye_powder", 200 ] ],
+      [ [ "ammonia_liquid", 2 ], [ "lye_powder", 200 ] ],
       [ [ "iodine", 1 ], [ "feline_sample", 1 ] ]
     ],
     "flags": [ "SECRET" ]
@@ -783,7 +783,7 @@
       [ [ "mutagen", 2 ] ],
       [ [ "bleach", 3 ], [ "oxy_powder", 300 ] ],
       [ [ "human_sample", 2 ] ],
-      [ [ "ammonia", 2 ], [ "lye_powder", 200 ] ]
+      [ [ "ammonia_liquid", 2 ], [ "lye_powder", 200 ] ]
     ],
     "flags": [ "SECRET" ]
   },

@@ -182,7 +182,7 @@
       "pedestrian_12_9_0",
       "pedestrian_13_9_0"
     ],
-    "name": "campus pedestrian area ",
+    "name": "campus pedestrian area",
     "sym": ".",
     "color": "light_green",
     "see_cost": 5,

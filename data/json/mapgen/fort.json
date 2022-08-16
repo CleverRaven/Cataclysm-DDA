@@ -156,7 +156,7 @@
     "id": "fort_crate",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "cannonball_4lb", "prob": 100 }, { "item": "rag", "prob": 50 } ]
+    "entries": [ { "item": "cannonball_4lb", "prob": 100 }, { "item": "cotton_patchwork", "prob": 50 } ]
   },
   {
     "id": "fort_powderbarrel",
@@ -253,7 +253,7 @@
       "items": {  },
       "place_loot": [  ],
       "place_monsters": [  ],
-      "monster": { "Z": { "monster": "mon_zombie_brute" } },
+      "monster": { "Z": { "monster": "mon_zombie_tough" } },
       "vehicles": { "U": { "vehicle": "cannon_3in", "chance": 100 }, "Q": { "vehicle": "cannon_3in_plugged", "chance": 100 } }
     }
   }

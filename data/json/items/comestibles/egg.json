@@ -36,7 +36,7 @@
     "copy-from": "egg_bird",
     "looks_like": "egg_bird",
     "name": { "str": "unfertilized bird egg" },
-    "description": "Nutritious egg laid by a bird.  This one is unfertilized and is probably from a farm.",
+    "description": "Nutritious egg laid by a bird.  This one is unfertilized and probably from a farm.",
     "rot_spawn_chance": 0
   },
   {
@@ -183,7 +183,7 @@
     "price": 0,
     "price_postapoc": 100,
     "spoils_in": "5 days",
-    "flags": [ "FREEZERBURN", "RAW" ],
+    "flags": [ "FREEZERBURN", "RAW", "NO_AUTO_CONSUME" ],
     "vitamins": [ [ "calcium", 7 ], [ "iron", 18 ], [ "mutant_toxin", 25 ] ]
   },
   {
@@ -348,8 +348,20 @@
     "color": "light_red",
     "symbol": "o",
     "spoils_in": "7 days",
-    "description": "A lady bug egg.  It looks like a huge yellow rice grain.  Inside there is a hungry translucent lavrae.",
+    "description": "A lady bug egg.  It looks like a huge yellow rice grain.  Inside there is a hungry translucent larva.",
     "rot_spawn": "GROUP_EGG_LADY_BUG",
+    "rot_spawn_chance": 50
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_lady_bug_giant",
+    "name": { "str": "giant ladybug egg" },
+    "copy-from": "egg_insect",
+    "color": "red",
+    "symbol": "o",
+    "spoils_in": "7 days",
+    "description": "A giant ladybug egg.  It looks like a huge yellow rice grain.  Inside there is a hungry giant translucent larva.",
+    "rot_spawn": "GROUP_EGG_LADY_BUG_GIANT",
     "rot_spawn_chance": 50
   },
   {
@@ -434,7 +446,7 @@
     "material": [ "powder", "egg" ],
     "primary_material": "powder",
     "volume": "250 ml",
-    "flags": [ "EDIBLE_FROZEN" ],
+    "flags": [ "EDIBLE_FROZEN", "NO_AUTO_CONSUME" ],
     "charges": 16,
     "fun": -4,
     "freezing_point": -274

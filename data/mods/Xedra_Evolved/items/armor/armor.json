@@ -1,0 +1,450 @@
+[
+  {
+    "id": "boots_glimmer_fur",
+    "type": "ARMOR",
+    "name": { "str": "pair of glimmer fur boots", "str_pl": "pairs of glimmer fur boots" },
+    "description": "Boots lined with glimmer fur for warmth.",
+    "copy-from": "boots_fur",
+    "price": 19000,
+    "price_postapoc": 1750,
+    "material": [ "leather", "fae_fur" ],
+    "color": "brown_red",
+    "armor": [ { "encumbrance": 20, "coverage": 90, "covers": [ "foot_l", "foot_r" ] } ]
+  },
+  {
+    "id": "xl_boots_glimmer_fur",
+    "type": "ARMOR",
+    "name": { "str": "pair of XL glimmer fur boots", "str_pl": "pairs of XL glimmer fur boots" },
+    "copy-from": "boots_glimmer_fur",
+    "proportional": { "weight": 1.15, "volume": 1.15 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_boots_glimmer_fur",
+    "type": "ARMOR",
+    "copy-from": "boots_glimmer_fur",
+    "looks_like": "boots_glimmer_fur",
+    "name": { "str": "pair of XS glimmer fur boots", "str_pl": "pairs of XS glimmer fur boots" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "cloak_glimmer_fur",
+    "type": "ARMOR",
+    "name": { "str": "glimmer fur cloak" },
+    "description": "A heavy glimmer fur cloak meant to be thrown over your body.  The shimmering nature of the fur made these garments coveted before the Cataclysm.",
+    "copy-from": "cloak_fur",
+    "price": 34500,
+    "price_postapoc": 2750,
+    "material": [ "fae_fur" ],
+    "color": "brown_red",
+    "flags": [ "OVERSIZE", "HOOD", "OUTER", "WATERPROOF", "RAINPROOF", "FANCY" ],
+    "armor": [ { "encumbrance": 6, "coverage": 65, "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ] } ]
+  },
+  {
+    "id": "coat_glimmer_fur",
+    "type": "ARMOR",
+    "name": { "str": "glimmer fur coat" },
+    "description": "A glimmer fur coat with a couple small pockets.  Extremely warm and very rare before the Cataclysm.",
+    "copy-from": "coat_fur",
+    "price": 65000,
+    "price_postapoc": 900,
+    "material": [ "fae_fur", "cotton" ],
+    "color": "brown_red",
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 95, "encumbrance": [ 26, 30 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 95, "encumbrance": [ 26, 26 ] }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "16 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "16 cm",
+        "moves": 80
+      }
+    ],
+    "warmth": 80,
+    "material_thickness": 2,
+    "valid_mods": [ "steel_padded" ],
+    "environmental_protection": 2,
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "FANCY" ]
+  },
+  {
+    "id": "xl_coat_glimmer_fur",
+    "type": "ARMOR",
+    "name": { "str": "XL glimmer fur coat" },
+    "copy-from": "coat_glimmer_fur",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_coat_fur",
+    "type": "ARMOR",
+    "copy-from": "coat_glimmer_fur",
+    "looks_like": "coat_glimmer_fur",
+    "name": { "str": "XS glimmer fur coat" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "duster_glimmer_fur",
+    "type": "ARMOR",
+    "name": { "str": "glimmer fur duster" },
+    "description": "A thick glimmer fur full-length duster.  Has many pockets for storage.  Shimmers in direct sunlight and would have been fancy clothing prior to the Cataclysm.",
+    "copy-from": "duster_fur",
+    "price": 197900,
+    "price_postapoc": 2500,
+    "material": [ "fae_fur" ],
+    "color": "brown_red",
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 90, "encumbrance": [ 9, 16 ] },
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "coverage": 90,
+        "encumbrance": [ 5, 6 ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r", "leg_upper_l", "leg_upper_r" ]
+      },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 90, "encumbrance": [ 9, 9 ] }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1500 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "24 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1500 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "24 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "21 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "21 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "1 kg",
+        "max_item_length": "13 cm",
+        "moves": 120
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "1 kg",
+        "max_item_length": "13 cm",
+        "moves": 120
+      }
+    ],
+    "warmth": 50,
+    "material_thickness": 3,
+    "valid_mods": [ "steel_padded" ],
+    "environmental_protection": 1,
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "WATERPROOF", "RAINPROOF", "FANCY" ]
+  },
+  {
+    "id": "xl_duster_glimmer_fur",
+    "type": "ARMOR",
+    "name": { "str": "XL glimmer fur duster" },
+    "copy-from": "duster_glimmer_fur",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_duster_glimmer_fur",
+    "type": "ARMOR",
+    "copy-from": "duster_glimmer_fur",
+    "looks_like": "duster_glimmer_fur",
+    "name": { "str": "XS glimmer fur duster" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "mt_chainmail_arms",
+    "type": "ARMOR",
+    "copy-from": "hc_chainmail_arms",
+    "material": [ "moon_tears_fine_chain" ],
+    "name": { "str": "pair of moon tears chainmail sleeves", "str_pl": "pairs of moon tears chainmail sleeves" },
+    "description": "Moon tears chainmail arms, found in places where changeling bannermen are numerous.  Each sleeve has straps to connect them with each other.  The lack of fingers makes them less cumbersome and allows them to be used with gloves.",
+    "armor": [
+      {
+        "material": [ { "type": "moon_tears_fine_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
+        "covers": [ "arm_l", "arm_r" ],
+        "coverage": 95,
+        "encumbrance": 12
+      }
+    ]
+  },
+  {
+    "id": "xl_mt_chainmail_arms",
+    "type": "ARMOR",
+    "copy-from": "mt_chainmail_arms",
+    "name": { "str": "pair of XL moon tears chainmail sleeves", "str_pl": "pairs of XL moon tears chainmail sleeves" },
+    "description": "Moon tears chainmail arms found in places where redcap aspirants are numerous.  Each sleeve has straps to connect them with each other.  The lack of fingers makes them less cumbersome and allows them to be used with gloves.  These are oversized.",
+    "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_mt_chainmail_arms",
+    "type": "ARMOR",
+    "copy-from": "mt_chainmail_arms",
+    "name": { "str": "pair of XS moon tears chainmail sleeves", "str_pl": "pairs of XS moon tears chainmail sleeves" },
+    "description": "Moon tears chainmail arms found in places where pooka aspirants are numerous.  Each sleeve has straps to connect them with each other.  The lack of fingers makes them less cumbersome and allows them to be used with gloves.  These are undersized.",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "mt_chainmail_feet",
+    "type": "ARMOR",
+    "copy-from": "hc_chainmail_feet",
+    "material": [ "moon_tears_fine_chain" ],
+    "name": { "str": "pair of moon tears chainmail chausses", "str_pl": "pairs of moon tears chainmail chausses" },
+    "description": "Moon tears chainmail chausses that cover the feet, like booties made of chainmail.  Found in places where changeling bannermen are numerous.",
+    "armor": [
+      {
+        "material": [ { "type": "moon_tears_fine_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
+        "covers": [ "foot_l", "foot_r" ],
+        "coverage": 100,
+        "encumbrance": 12
+      }
+    ]
+  },
+  {
+    "id": "xl_mt_chainmail_feet",
+    "type": "ARMOR",
+    "copy-from": "mt_chainmail_feet",
+    "name": { "str": "pair of XL moon tears chainmail chausses", "str_pl": "pairs of XL moon tears chainmail chausses" },
+    "proportional": { "weight": 2, "volume": 2 },
+    "description": "Moon tears chainmail chausses that cover the feet, like booties made of chainmail.  Found in places where redcap aspirants are numerous.",
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_mt_chainmail_feet",
+    "type": "ARMOR",
+    "copy-from": "mt_chainmail_feet",
+    "name": { "str": "pair of XS moon tears chainmail chausses", "str_pl": "pairs of XS moon tears chainmail chausses" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "description": "Moon tears chainmail chausses that cover the feet, like booties made of chainmail.  Found in places where pooka aspirants are numerous.",
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "mt_chainmail_hands",
+    "type": "ARMOR",
+    "copy-from": "hc_chainmail_hands",
+    "material": [ "moon_tears_fine_chain" ],
+    "name": { "str": "pair of moon tears chainmail gloves", "str_pl": "pairs of moon tears chainmail gloves" },
+    "description": "Moon tears chainmail gloves that fully enclose the hand.",
+    "armor": [
+      {
+        "material": [ { "type": "moon_tears_fine_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
+        "covers": [ "hand_l", "hand_r" ],
+        "coverage": 100,
+        "encumbrance": 12
+      }
+    ]
+  },
+  {
+    "id": "xl_mt_chainmail_hands",
+    "type": "ARMOR",
+    "copy-from": "mt_chainmail_hands",
+    "name": { "str": "pair of XL moon tears chainmail gloves", "str_pl": "pairs of XL moon tears chainmail gloves" },
+    "proportional": { "weight": 1.5, "volume": 1.5 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_mt_chainmail_hands",
+    "type": "ARMOR",
+    "copy-from": "mt_chainmail_hands",
+    "name": { "str": "pair of XS moon tears chainmail gloves", "str_pl": "pairs of XS moon tears chainmail gloves" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "mt_chainmail_hood",
+    "type": "ARMOR",
+    "copy-from": "lc_chainmail_hood",
+    "material": [ "moon_tears_fine_chain" ],
+    "name": { "str": "moon tears chainmail coif" },
+    "description": "A fine moon tears chainmail hood.  Can be worn comfortably under helmets.",
+    "armor": [
+      {
+        "material": [ { "type": "moon_tears_fine_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
+        "covers": [ "head" ],
+        "coverage": 95,
+        "encumbrance": 6
+      }
+    ]
+  },
+  {
+    "id": "xl_mt_chainmail_hood",
+    "type": "ARMOR",
+    "copy-from": "mt_chainmail_hood",
+    "name": { "str": "XL moon tears chainmail coif" },
+    "description": "A fine moon tears chainmail hood.  Can be worn comfortably under helmets.  Comes in XL size.",
+    "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_mt_chainmail_hood",
+    "type": "ARMOR",
+    "copy-from": "mt_chainmail_hood",
+    "looks_like": "hc_chainmail_hood",
+    "name": { "str": "XS moon tears chainmail coif" },
+    "description": "A fine moon tears chainmail hood.  Can be worn comfortably under helmets.  Comes in XS size.",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "mt_chainmail_legs",
+    "type": "ARMOR",
+    "copy-from": "lc_chainmail_legs",
+    "material": [ "moon_tears_fine_chain" ],
+    "name": { "str": "moon tears chainmail leggings", "str_pl": "pairs of moon tears chainmail leggings" },
+    "description": "Moon tears chainmail leggings.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
+    "armor": [
+      {
+        "material": [ { "type": "moon_tears_fine_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
+        "covers": [ "leg_l", "leg_r" ],
+        "coverage": 95,
+        "encumbrance": 20
+      }
+    ]
+  },
+  {
+    "id": "xl_mt_chainmail_legs",
+    "type": "ARMOR",
+    "copy-from": "mt_chainmail_legs",
+    "name": { "str": "XL moon tears chainmail leggings", "str_pl": "pairs of XL moon tears chainmail leggings" },
+    "description": "Moon tears chainmail leggings for the largest of redcaps.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
+    "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_mt_chainmail_legs",
+    "type": "ARMOR",
+    "copy-from": "mt_chainmail_legs",
+    "name": { "str": "XS moon tears chainmail leggings", "str_pl": "pairs of XS moon tears chainmail leggings" },
+    "description": "Moon tears chainmail leggings for the smallest of pooka.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "mt_chainmail_hauberk",
+    "type": "ARMOR",
+    "copy-from": "lc_chainmail_hauberk",
+    "material": [ "moon_tears_fine_chain" ],
+    "name": { "str": "moon tears chainmail hauberk" },
+    "description": "A fully customized high steel chainmail outfit, leaving the head uncovered.  Combine with a gambeson or other padded layer for optimal protection.",
+    "armor": [
+      {
+        "material": [ { "type": "moon_tears_fine_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
+        "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
+        "coverage": 95,
+        "encumbrance": 20
+      }
+    ]
+  },
+  {
+    "id": "xl_mt_chainmail_hauberk",
+    "type": "ARMOR",
+    "name": { "str": "XL moon tears chainmail hauberk" },
+    "copy-from": "mt_chainmail_hauberk",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "mt_chainmail_hauberk_xs",
+    "type": "ARMOR",
+    "copy-from": "mt_chainmail_hauberk",
+    "name": { "str": "XS moon tears chainmail hauberk" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "mt_chainmail_suit",
+    "type": "ARMOR",
+    "copy-from": "lc_chainmail_suit",
+    "material": [ "moon_tears_fine_chain" ],
+    "name": { "str": "moon tears chainmail armor" },
+    "description": "A fully customized moon tears chainmail suit.  Combine with a gambeson or other padded layer for optimal protection.",
+    "armor": [
+      {
+        "material": [ { "type": "moon_tears_fine_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
+        "covers": [ "head", "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
+        "coverage": 95,
+        "encumbrance": 20
+      }
+    ]
+  },
+  {
+    "id": "xl_mt_chainmail_suit",
+    "type": "ARMOR",
+    "name": { "str": "XL moon tears chainmail armor" },
+    "copy-from": "mt_chainmail_suit",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "mt_chainmail_suit_xs",
+    "type": "ARMOR",
+    "copy-from": "mt_chainmail_suit",
+    "material": [ "moon_tears_fine_chain" ],
+    "name": { "str": "XS moon tears chainmail armor" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "mt_chainmail_vest",
+    "type": "ARMOR",
+    "copy-from": "hc_chainmail_vest",
+    "material": [ "moon_tears_fine_chain" ],
+    "name": { "str": "high steel chainmail vest" },
+    "description": "A customized moon tears chainmail vest.  It's a sleeveless piece of chainmail with small straps designed to better distribute the weight.",
+    "armor": [
+      {
+        "material": [ { "type": "moon_tears_fine_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
+        "covers": [ "torso" ],
+        "coverage": 95,
+        "encumbrance": 20
+      }
+    ]
+  },
+  {
+    "id": "xl_mt_chainmail_vest",
+    "type": "ARMOR",
+    "name": { "str": "XL moon tears chainmail vest" },
+    "copy-from": "mt_chainmail_vest",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_mt_chainmail_vest",
+    "type": "ARMOR",
+    "copy-from": "hc_chainmail_vest",
+    "name": { "str": "XS moon tears chainmail vest" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  }
+]

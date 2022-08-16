@@ -208,6 +208,7 @@ TEST_CASE( "monster_throwing_sanity_test", "[throwing],[balance]" )
         REQUIRE( rl_dist( test_monster.pos(), target->pos() ) <= 5 );
         statistics<int> damage_dealt;
         statistics<bool> hits;
+        epsilon_threshold threshold{ expected_damage, 2.5 };
         do {
             you.set_all_parts_hp_to_max();
             you.dodges_left = 1;
@@ -220,13 +221,14 @@ TEST_CASE( "monster_throwing_sanity_test", "[throwing],[balance]" )
             hits.add( current_hp < prev_hp );
             damage_dealt.add( prev_hp - current_hp );
             test_monster.ammo[ itype_rock ]++;
-        } while( damage_dealt.n() < 100 );
+        } while( damage_dealt.n() < 100 || damage_dealt.uncertain_about( threshold ) );
         clear_creatures();
         CAPTURE( expected_damage );
         CAPTURE( distance );
+        INFO( "Num hits: " << damage_dealt.n() );
         INFO( "Hit rate: " << hits.avg() );
         INFO( "Avg total damage: " << damage_dealt.avg() );
         INFO( "Dmg Lower: " << damage_dealt.lower() << " Dmg Upper: " << damage_dealt.upper() );
-        CHECK( damage_dealt.test_threshold( epsilon_threshold{ expected_damage, 2.5 } ) );
+        CHECK( damage_dealt.test_threshold( threshold ) );
     }
 }

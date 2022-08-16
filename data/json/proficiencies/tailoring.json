@@ -179,7 +179,7 @@
     "type": "proficiency",
     "id": "prof_polymerworking",
     "category": "prof_tailoring",
-    "name": { "str": "Advanced polymer sewing" },
+    "name": { "str": "Advanced Polymer Sewing" },
     "description": "You know the tricks for working with Kevlar, Nomex, and other advanced polymer cloth.",
     "can_learn": true,
     "default_time_multiplier": 2,

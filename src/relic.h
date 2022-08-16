@@ -147,7 +147,9 @@ enum class relic_recharge_has : int {
 enum class relic_recharge_type : int {
     NONE,
     PERIODIC,
+    LUNAR,
     SOLAR_SUNNY,
+    SOLAR_CLOUDY,
     NUM
 };
 
@@ -220,7 +222,7 @@ class relic
 
         void try_recharge( item &parent, Character *carrier, const tripoint &pos );
 
-        bool can_recharge( item &parent, Character *carrier );
+        bool can_recharge( item &parent, Character *carrier ) const;
 
         void load( const JsonObject &jo );
 

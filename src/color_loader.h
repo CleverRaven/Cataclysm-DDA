@@ -32,8 +32,7 @@ class color_loader
         }
 
         void load_colors( const JsonObject &jsobj ) {
-            for( size_t c = 0; c < main_color_names().size(); c++ ) {
-                const std::string &color = main_color_names()[c];
+            for( const std::string &color : main_color_names() ) {
                 JsonArray jsarr = jsobj.get_array( color );
                 consolecolors[color] = from_rgb( jsarr.get_int( 0 ), jsarr.get_int( 1 ), jsarr.get_int( 2 ) );
             }

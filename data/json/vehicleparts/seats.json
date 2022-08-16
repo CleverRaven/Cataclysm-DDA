@@ -1,7 +1,7 @@
 [
   {
     "entries": [
-      { "count": [ 2, 8 ], "item": "rag" },
+      { "count": [ 2, 8 ], "item": "cotton_patchwork" },
       { "count": [ 1, 3 ], "item": "pipe" },
       { "count": [ 0, 2 ], "item": "spring" },
       { "count": [ 3, 5 ], "item": "scrap" }
@@ -13,7 +13,7 @@
   {
     "entries": [
       { "count": [ 1, 5 ], "item": "leather" },
-      { "count": [ 1, 3 ], "item": "rag" },
+      { "count": [ 1, 3 ], "item": "cotton_patchwork" },
       { "count": [ 1, 3 ], "item": "pipe" },
       { "count": [ 0, 2 ], "item": "spring" },
       { "count": [ 3, 5 ], "item": "scrap" }
@@ -201,7 +201,7 @@
       }
     },
     "flags": [ "SEAT", "BOARDABLE", "FOLDABLE", "NONBELTABLE" ],
-    "breaks_into": [ { "item": "rag", "count": [ 1, 6 ] } ]
+    "breaks_into": [ { "item": "cotton_patchwork", "count": [ 1, 6 ] } ]
   },
   {
     "abstract": "metal_bench_abstract",

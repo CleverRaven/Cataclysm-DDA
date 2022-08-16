@@ -51,7 +51,7 @@ cata::optional<tripoint> random_point( const tripoint_range<tripoint> &range,
         }
     }
     std::vector<tripoint> suitable;
-    for( const auto &p : range ) {
+    for( const tripoint &p : range ) {
         if( predicate( p ) ) {
             suitable.push_back( p );
         }

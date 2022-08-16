@@ -440,6 +440,7 @@
     "color": "red",
     "addiction_potential": 0,
     "charges": 5,
+    "weight": "50 g",
     "fun": -10,
     "vitamins": [ [ "mutagen_beast", 60 ] ]
   },

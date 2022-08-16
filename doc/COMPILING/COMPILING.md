@@ -94,9 +94,11 @@ Given you're building from source you have a number of choices to make:
 
 There is a couple of other possible options - feel free to read the `Makefile`.
 
-If you have a multi-core computer you'd probably want to add `-jX` to the options, where `X` should roughly be twice the number of cores you have available.
+If you have a multi-core computer you'd probably want to add `-jX` to the options, where `X` is your CPU's number of threads (generally twice the number of your CPU cores). Alternatively, you can add `-j$(nproc)` for the build to use all of your CPU processors.
 
-Example: `make -j4 CLANG=1 CCACHE=1 NATIVE=linux64 RELEASE=1 TILES=1`
+Examples: 
+- `make -j4 CLANG=1 CCACHE=1 NATIVE=linux64 RELEASE=1 TILES=1`
+- `make -j$(nproc) CLANG=1 TILES=1 SOUND=0`
 
 The above will build a tiles release explicitly for 64 bit Linux, using Clang and ccache and 4 parallel processes.
 
@@ -127,6 +129,17 @@ You can get the language ID from the filenames of `*.po` in `lang/po` directory.
 Instructions for compiling on a Debian-based system. The package names here are valid for Ubuntu 12.10 and may or may not work on your system.
 
 The building instructions below always assume you are running them from the Cataclysm:DDA source directory.
+
+# Gentoo
+If you want sound and graphics, make sure to emerge with the following:
+
+`USE="flac fluidsynth mad midi mod modplug mp3 playtools vorbis wav png" emerge -1va emerge media-libs/libsdl2 media-libs/sdl2-gfx media-libs/sdl2-image media-libs/sdl2-mixer media-libs/sdl2-ttf`
+
+It may also be possible to get away with fewer dependencies, but this set has been tested.
+
+Once the above libraries are installed, compile with:
+
+`make -j$(nproc) TILES=1 SOUND=1 RELEASE=1`
 
 ## Linux (native) ncurses builds
 

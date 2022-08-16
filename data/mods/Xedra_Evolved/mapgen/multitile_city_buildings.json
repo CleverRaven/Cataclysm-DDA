@@ -1,0 +1,12 @@
+[
+  {
+    "type": "city_building",
+    "id": "safe_house",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "safe_house_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "safe_house_roof_north" },
+      { "point": [ 0, 0, -1 ], "overmap": "safe_house_basement_north" }
+    ]
+  }
+]

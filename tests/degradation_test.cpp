@@ -24,6 +24,7 @@ static const itype_id itype_test_baseball_half_degradation( "test_baseball_half_
 static const itype_id itype_test_baseball_x2_degradation( "test_baseball_x2_degradation" );
 static const itype_id itype_test_folding_bicycle( "test_folding_bicycle" );
 static const itype_id itype_test_glock_degrade( "test_glock_degrade" );
+static const itype_id itype_test_steelball( "test_steelball" );
 static const itype_id itype_thread( "thread" );
 
 static const skill_id skill_mechanics( "mechanics" );
@@ -227,7 +228,7 @@ static void setup_repair( item &fix, player_activity &act, Character &u )
     clear_character( u, true );
     u.set_skill_level( skill_tailor, 10 );
     u.wield( fix );
-    REQUIRE( u.get_wielded_item().typeId() == fix.typeId() );
+    REQUIRE( u.get_wielded_item()->typeId() == fix.typeId() );
 
     // Setup tool
     item &thread = m.add_item_or_charges( spawn_pos, item( itype_thread ) );
@@ -400,6 +401,29 @@ TEST_CASE( "Repairing degraded items", "[item][degradation]" )
                 CHECK( fix.damage() == 3000 );
             }
         }
+    }
+}
+
+// Testing activity_handlers::repair_item_finish / repair_item_actor::repair
+TEST_CASE( "Repairing items with specific requirements", "[item][degradation]" )
+{
+    Character &u = get_player_character();
+    item fix( itype_test_steelball );
+
+    fix.set_damage( 1000 );
+    fix.set_degradation( 0 );
+    REQUIRE( fix.damage() == 1000 );
+    REQUIRE( fix.degradation() == 0 );
+
+    THEN( "Try repairing and fail" ) {
+        player_activity act( ACT_REPAIR_ITEM, 0, 0 );
+        setup_repair( fix, act, u );
+        while( !act.is_null() ) {
+            ::repair_item_finish( &act, &u, true );
+        }
+
+        // shouldn't repair since the sewing kit can't repair steel ball
+        CHECK( fix.damage() == 1000 );
     }
 }
 
@@ -615,11 +639,12 @@ static vehicle &unfold_and_check( int dmg, int deg )
     optional_vpart_position bike_part = m.veh_at( u.get_location() );
     REQUIRE( bike_part.has_value() );
     CHECK( bike_part->vehicle().get_all_parts().part_count() > 0 );
-    for( auto &part : bike_part->vehicle().get_all_parts() ) {
+    for( const vpart_reference &part : bike_part->vehicle().get_all_parts() ) {
         CAPTURE( part.part().name() );
         CHECK( part.part().damage() == dmg );
         CHECK( part.part().degradation() == deg );
     }
+    bike_part->vehicle().unboard_all();
     return bike_part->vehicle();
 }
 

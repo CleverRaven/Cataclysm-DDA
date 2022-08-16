@@ -157,6 +157,7 @@ are applied afterwards. The `om_terrain` is the only required field.
 `min_distance`         | Range in overmap terrain coordinates.  Instances of `om_terrain` in this range will be ignored.
 `origin_npc`           | Start the search at the NPC's, rather than the player's, current position.
 `z`                    | If specified, will be used rather than the player or NPC's z when searching.
+`var`                  | A variable_object ( see `variable_object` in [doc](NPC.md) ), if set this variable's value will be used.
 `offset_x`,<br\>`offset_y`,<br\>`offset_z` | After finding or creating `om_terrain`, offset the mission target terrain by the offsets in overmap terrain coordinates.
 
 **example**

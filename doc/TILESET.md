@@ -88,7 +88,7 @@ Are defined by adding `_female` or `_male` part to the `overlay_` part of a pref
 
 Are defined by adding `_season_spring`, `_season_summer`, `_season_autumn`, or `_season_winter` suffix to any tile entry `id`. For example `"id": "mon_wolf_season_winter"`.
 
-#### Item variant sprite variants
+#### Item/Mutation variant sprite variants
 
 Are defined by adding `_var_variant_id`, where `variant_id` is replaced by the id of the variant you want to sprite.
 
@@ -260,7 +260,9 @@ Requires `pyvips` module, see below.
 ### Windows
 
 #### Python and pyvips
- * Install Python with the latest **installer** https://www.python.org/downloads/windows/ (do not uncheck setting up the `py` shortcut unless you know what you are doing)
+ * Install Python with the latest **installer** https://www.python.org/downloads/windows/ (do not uncheck setting up the `py` shortcut unless you know what you are doing, check 'add Python to PATH'.)
+ 
+Installation of pyvips can be skipped if you are planning to use `updtset.cmd` - see below. Otherwise:
  * Open Console (Window key + `R` key, type `cmd` and hit `Enter`)
  * Install pyvips with these commands:
 ```
@@ -280,6 +282,9 @@ py -m pip install --user pyvips
 #### Launching scripts
 Navigate on Console to a directory with the script you want to launch.
 Prefix the script filename with `py `, like this: `py compose.py --use-all --obsolete-fillers pathToYourTileset pathToYourOutputFolder`
+Alternatively you can copy `updtset.cmd` from `CDDA-Tilesets\tools` to your Desktop, right click on it, select `Edit`, change four variables on the top part. Then you can just doubleclick on it and get Tileset updated.
+
+It is recommended to bind a key to the `update tileset` action, so you do not need to restart the game after composing the tileset. E.g. `F12` is usually unused.
 
 ### Linux
 _TODO, please ask if you need it or send suggestions if you want to help_

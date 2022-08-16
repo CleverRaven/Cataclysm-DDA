@@ -36,6 +36,7 @@ class spell_window : public QMainWindow
         QTextEdit spell_json;
 
         void write_json();
+        void populate_fields();
 
         QLabel id_label;
         QLineEdit id_box;
@@ -84,8 +85,16 @@ class spell_window : public QMainWindow
         QDoubleSpinBox casting_time_increment_box;
         QSpinBox final_casting_time_box;
 
+        QLabel duration_label;
+        QSpinBox min_duration_box;
+        QDoubleSpinBox duration_increment_box;
+        QSpinBox max_duration_box;
+
         QLabel spell_flags_label;
         QListWidget spell_flags_box;
+
+        QLabel spell_items_label;
+        QListWidget spell_items_box;
 
         QLabel energy_source_label;
         QComboBox energy_source_box;

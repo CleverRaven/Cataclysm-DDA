@@ -708,6 +708,34 @@
     }
   },
   {
+    "//": "5x5 lab front room catalytic fluid cracking workspace",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_surface_2partworkspace_front_5x5",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "bb  f",
+        "Us  f",
+        "     ",
+        "os   ",
+        "bbbbS"
+      ],
+      "furniture": { "U": "f_catalytic_cracking_reactor" },
+      "items": {
+        "b": { "item": "tools_science", "chance": 30, "repeat": [ 1, 2 ] },
+        "f": { "item": "supplies_fluid_catalytic_lab", "chance": 60, "repeat": [ 1, 5 ] },
+        "8": [
+          { "item": "supplies_fluid_catalytic_lab", "chance": 50, "repeat": [ 2, 5 ] },
+          { "item": "supplies_fluid_catalytic_lab", "chance": 30, "repeat": [ 1, 3 ] }
+        ],
+        "S": { "item": "cleaning", "chance": 30, "repeat": [ 1, 2 ] }
+      },
+      "palettes": [ "lab_workspace_palette" ]
+    }
+  },
+  {
     "//": "5x5 lab front room",
     "type": "mapgen",
     "method": "json",

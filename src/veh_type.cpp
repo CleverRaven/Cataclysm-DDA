@@ -149,6 +149,8 @@ static std::map<vpart_id, vpart_info> vpart_info_all;
 
 static std::map<vpart_id, vpart_info> abstract_parts;
 
+static std::map<vpart_id, vpart_id> vpart_migrations;
+
 static DynamicDataLoader::deferred_json deferred;
 
 std::pair<std::string, std::string> get_vpart_str_variant( const std::string &vpid )
@@ -467,12 +469,12 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
         for( const auto &vp_variant_pair : vpart_variants ) {
             const std::string &vp_variant = vp_variant_pair.first;
             if( jo_variants.has_string( vp_variant ) ) {
-                def.symbols[ vp_variant ] = jo_variants.get_string( vp_variant )[ 0 ];
+                def.symbols[ vp_variant ] = static_cast<uint8_t>( jo_variants.get_string( vp_variant )[ 0 ] );
             }
         }
     }
     if( jo.has_string( "broken_symbol" ) ) {
-        def.sym_broken = jo.get_string( "broken_symbol" )[ 0 ];
+        def.sym_broken = static_cast<uint8_t>( jo.get_string( "broken_symbol" )[ 0 ] );
     }
     jo.read( "looks_like", def.looks_like );
 
@@ -567,6 +569,12 @@ void vpart_info::finalize()
             }
         }
 
+        if( e.second.has_flag( VPFLAG_APPLIANCE ) ) {
+            // force all appliances' location field to "structure"
+            // dragging code currently checks this for considering collisions
+            e.second.location = "structure";
+        }
+
         // Calculate and cache z-ordering based off of location
         // list_order is used when inspecting the vehicle
         if( e.second.location == "on_roof" ) {
@@ -621,7 +629,7 @@ static bool type_can_contain( const itype &container, const itype_id &containee 
 void vpart_info::check()
 {
     for( auto &vp : vpart_info_all ) {
-        auto &part = vp.second;
+        vpart_info &part = vp.second;
 
         // add the base item to the installation requirements
         // TODO: support multiple/alternative base items
@@ -1248,6 +1256,20 @@ void vehicle_prototype::finalize()
                           blueprint.part_count(), pt.pos.x, pt.pos.y );
             }
 
+            std::vector<itype_id> migrated;
+            for( auto it = pt.ammo_types.begin(); it != pt.ammo_types.end(); ) {
+                if( item_controller->migrate_id( *it ) != *it ) {
+                    migrated.push_back( item_controller->migrate_id( *it ) );
+                    it = pt.ammo_types.erase( it );
+                } else {
+                    ++it;
+                }
+            }
+
+            for( const itype_id &migrant : migrated ) {
+                pt.ammo_types.insert( migrant );
+            }
+
             if( !base->gun ) {
                 if( pt.with_ammo ) {
                     debugmsg( "init_vehicles: non-turret %s with ammo in %s", pt.part.c_str(),
@@ -1265,30 +1287,14 @@ void vehicle_prototype::finalize()
             } else {
                 for( const auto &e : pt.ammo_types ) {
                     const itype *ammo = item::find_type( e );
-                    if( !ammo->ammo && base->gun->ammo.count( ammo->ammo->type ) ) {
+                    if( !ammo->ammo || !base->gun->ammo.count( ammo->ammo->type ) ) {
                         debugmsg( "init_vehicles: turret %s has invalid ammo_type %s in %s",
                                   pt.part.c_str(), e.c_str(), id.c_str() );
                     }
                 }
-                if( pt.ammo_types.empty() ) {
-                    if( !base->gun->ammo.empty() ) {
-                        pt.ammo_types.insert( ammotype( *base->gun->ammo.begin() )->default_ammotype() );
-                    }
+                if( pt.ammo_types.empty() && !base->gun->ammo.empty() ) {
+                    pt.ammo_types.insert( ammotype( *base->gun->ammo.begin() )->default_ammotype() );
                 }
-            }
-
-            std::vector<itype_id> migrated;
-            for( auto it = pt.ammo_types.begin(); it != pt.ammo_types.end(); ) {
-                if( item_controller->migrate_id( *it ) != *it ) {
-                    migrated.push_back( item_controller->migrate_id( *it ) );
-                    it = pt.ammo_types.erase( it );
-                } else {
-                    ++it;
-                }
-            }
-
-            for( const itype_id &migrant : migrated ) {
-                pt.ammo_types.insert( migrant );
             }
 
             if( type_can_contain( *base, pt.fuel ) || base->magazine ) {
@@ -1309,7 +1315,7 @@ void vehicle_prototype::finalize()
         }
         blueprint.enable_refresh();
 
-        for( auto &i : proto.item_spawns ) {
+        for( vehicle_item_spawn &i : proto.item_spawns ) {
             if( cargo_spots.count( i.pos ) == 0 ) {
                 debugmsg( "Invalid spawn location (no CARGO vpart) in %s (%d, %d): %d%%",
                           proto.name, i.pos.x, i.pos.y, i.chance );
@@ -1365,4 +1371,22 @@ void vpart_category::finalize()
 void vpart_category::reset()
 {
     vpart_categories_all.clear();
+}
+
+void vpart_migration::load( const JsonObject &jo )
+{
+    const std::string from = jo.get_string( "from" );
+    const std::string to = jo.get_string( "to" );
+
+    vpart_migrations.emplace( vpart_id( from ), vpart_id( to ) );
+}
+
+void vpart_migration::reset()
+{
+    vpart_migrations.clear();
+}
+
+const std::map<vpart_id, vpart_id> &vpart_migration::get_migrations()
+{
+    return vpart_migrations;
 }

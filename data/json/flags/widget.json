@@ -18,5 +18,10 @@
     "type": "json_flag",
     "id": "W_DYNAMIC_HEIGHT",
     "//": "Allow multi-line widgets to dynamically adjust their height"
+  },
+  {
+    "type": "json_flag",
+    "id": "W_NO_PADDING",
+    "//": "Removes alignment padding from widgets and sub-widgets"
   }
 ]

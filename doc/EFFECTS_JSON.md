@@ -301,11 +301,6 @@ main part (arms, head, legs, etc.).
 them more pkill. "pain_sizing" and "hurt_sizing" cause large/huge mutations to affect the chance of pain
 and hurt effects triggering. "harmful_cough" means that the coughs caused by this effect can hurt the player.
 
-### Flags
-
-"EFFECT_INVISIBLE" Character affected by an effect with this flag are invisible.
-"EFFECT_IMPEDING" Character affected by an effect with this flag can't move until they break free from the effect.  Breaking free requires a strength check: `x_in_y( STR * limb lifting score * limb grip score, 6 * get_effect_int( eff_id )`
-
 ### Vitamin Mods
 
 ```json
@@ -502,7 +497,7 @@ Valid arguments:
 "healing_rate"      - Healed rate per day
 "healing_head"      - Percentage of healing value for head
 "healing_torso"     - Percentage of healing value for torso
-
+"enchantments" - (_optional_) List of enchantments applied by this effect (see MAGIC.md for instructions on enchantment. NB: enchantments are not necessarily magic.) Values can either be the enchantments id or an inline definition of the enchantment.
 ```
 Each argument can also take either one or two values.
 ```C++

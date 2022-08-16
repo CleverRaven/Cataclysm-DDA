@@ -160,7 +160,8 @@
       { "group": "used_ifak", "prob": 50 },
       { "group": "full_1st_aid", "prob": 50 },
       { "group": "used_1st_aid", "prob": 50 },
-      { "item": "homeopathic_pills", "prob": 50 }
+      { "item": "homeopathic_pills", "prob": 50 },
+      { "group": "full_ipok", "prob": 50 }
     ]
   },
   {
@@ -294,6 +295,8 @@
       [ "bottle_glass", 40 ],
       [ "creepy_doll", 40 ],
       [ "holy_symbol", 40 ],
+      [ "pride_flag", 20 ],
+      [ "state_flag", 15 ],
       [ "spiral_stone", 5 ],
       [ "petrified_eye", 5 ],
       [ "talking_doll", 40 ],

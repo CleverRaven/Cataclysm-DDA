@@ -119,7 +119,7 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Pablo_1a",
     "dynamic_line": {
-      "and": [
+      "concatenate": [
         "*dusts off his jacket and makes eye contact with you.  \"",
         [ "Hello, nice to see you again.", "It's good to see you're still around." ],
         "\""

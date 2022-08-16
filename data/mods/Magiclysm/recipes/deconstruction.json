@@ -45,7 +45,7 @@
     "activity_level": "NO_EXERCISE",
     "skill_used": "fabrication",
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "dragon_black_scale", 10 ] ], [ [ "rag", 3 ] ] ],
+    "components": [ [ [ "dragon_black_scale", 10 ] ], [ [ "cotton_patchwork", 3 ] ] ],
     "flags": [ "BLIND_EASY" ]
   },
   {

@@ -22,6 +22,7 @@
 #include "output.h"
 #include "rng.h"
 #include "translations.h"
+#include "unicode.h"
 #include "zlib.h"
 
 static double pow10( unsigned int n )
@@ -75,30 +76,17 @@ bool isBetween( int test, int down, int up )
 
 bool lcmatch( const std::string &str, const std::string &qry )
 {
-#if defined(LOCALIZE)
-    const bool not_english = TranslationManager::GetInstance().GetCurrentLanguage() != "en";
-#else
-    const bool not_english = false;
-#endif
-    if( not_english || ( std::locale().name() != "en_US.UTF-8" && std::locale().name() != "C" ) ) {
-        const auto &f = std::use_facet<std::ctype<wchar_t>>( std::locale() );
-        std::wstring wneedle = utf8_to_wstr( qry );
-        std::wstring whaystack = utf8_to_wstr( str );
-
-        f.tolower( &whaystack[0], &whaystack[0] + whaystack.size() );
-        f.tolower( &wneedle[0], &wneedle[0] + wneedle.size() );
-
-        return whaystack.find( wneedle ) != std::wstring::npos;
+    std::u32string u32_str = utf8_to_utf32( str );
+    std::u32string u32_qry = utf8_to_utf32( qry );
+    std::for_each( u32_str.begin(), u32_str.end(), u32_to_lowercase );
+    std::for_each( u32_qry.begin(), u32_qry.end(), u32_to_lowercase );
+    // First try match their lowercase forms
+    if( u32_str.find( u32_qry ) != std::u32string::npos ) {
+        return true;
     }
-    std::string needle;
-    needle.reserve( qry.size() );
-    std::transform( qry.begin(), qry.end(), std::back_inserter( needle ), tolower );
-
-    std::string haystack;
-    haystack.reserve( str.size() );
-    std::transform( str.begin(), str.end(), std::back_inserter( haystack ), tolower );
-
-    return haystack.find( needle ) != std::string::npos;
+    // Then try removing accents from str ONLY
+    std::for_each( u32_str.begin(), u32_str.end(), remove_accent );
+    return u32_str.find( u32_qry ) != std::u32string::npos;
 }
 
 bool lcmatch( const translation &str, const std::string &qry )

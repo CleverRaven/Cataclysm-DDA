@@ -145,8 +145,10 @@ void trap::load( const JsonObject &jo, const std::string & )
 
     // Require either none, or both
     if( !!memorial_male != !!memorial_female ) {
-        jo.throw_error( "Only one gender of memorial message specified for trap %s, but none or both required.",
-                        id.str() );
+        jo.throw_error_at(
+            id.str(),
+            "Only one gender of memorial message specified for trap " + id.str() + ", but none "
+            "or both required." );
     }
 
     optional( jo, was_loaded, "flags", _flags );

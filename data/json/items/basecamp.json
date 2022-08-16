@@ -7,6 +7,7 @@
     "name": { "str": "basecamp kiln" },
     "description": "A fake kiln used for basecamps.",
     "sub": "char_kiln",
+    "flags": [ "ALLOWS_REMOTE_USE" ],
     "ammo": [ "charcoal" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "charcoal": 2000 } } ]
   },
@@ -18,6 +19,7 @@
     "name": { "str": "basecamp charcoal smoker" },
     "description": "A fake charcoal smoker used for basecamps.",
     "sub": "char_smoker",
+    "flags": [ "ALLOWS_REMOTE_USE" ],
     "ammo": [ "charcoal" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "charcoal": 2000 } } ]
   },
@@ -28,6 +30,7 @@
     "name": { "str": "basecamp forge" },
     "copy-from": "char_forge",
     "description": "A fake forge used for basecamps.",
+    "flags": [ "ALLOWS_REMOTE_USE" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "charcoal": 2000 } } ]
   },
   {
@@ -38,6 +41,7 @@
     "name": { "str": "basecamp clay kiln" },
     "description": "A fake clay kiln used for basecamps.",
     "sub": "brick_kiln",
+    "flags": [ "ALLOWS_REMOTE_USE" ],
     "ammo": [ "charcoal" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "charcoal": 2000 } } ]
   },
@@ -48,6 +52,7 @@
     "name": { "str": "basecamp fireplace" },
     "description": "A fake fireplace used for basecamps.",
     "sub": "hotplate",
+    "flags": [ "ALLOWS_REMOTE_USE" ],
     "ammo": [ "tinder" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "tinder": 50000 } } ],
     "charge_factor": 25
@@ -59,6 +64,7 @@
     "name": { "str": "basecamp stove" },
     "description": "A fake stove used for basecamps.",
     "sub": "hotplate",
+    "flags": [ "ALLOWS_REMOTE_USE" ],
     "ammo": [ "tinder" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "tinder": 50000 } } ],
     "charge_factor": 10

@@ -222,11 +222,11 @@
         "=": "t_carpet_red",
         "f": "t_carpet_red",
         "h": "t_carpet_red",
-        "?": "t_shrub",
+        "?": "t_region_shrub",
         "~": "t_pavement",
         "%": "t_door_glass_c"
       },
-      "furniture": { "!": "f_flower_tulip", "$": "f_table" },
+      "furniture": { "!": "f_region_flower_decorative", "$": "f_table" },
       "items": { "$": { "item": "table_foyer", "chance": 30 } },
       "place_loot": [ { "item": "television", "x": 11, "y": 10, "chance": 100 } ],
       "place_vehicles": [ { "vehicle": "suv", "x": 3, "y": 18, "chance": 20, "status": 50, "rotation": 270 } ],
@@ -280,7 +280,7 @@
         "=": "t_carpet_green",
         "f": "t_carpet_green",
         "h": "t_carpet_green",
-        "?": "t_shrub",
+        "?": "t_region_shrub",
         "%": "t_door_glass_c",
         ",": "t_floor_noroof",
         "K": "t_floor_noroof"
@@ -328,34 +328,17 @@
       ],
       "terrain": {
         "|": "t_strconc_wall",
-        "}": "t_shrub_lilac",
-        "{": "t_tree_birch",
+        "}": "t_region_shrub_decorative",
+        "{": "t_region_tree_shade",
         "_": "t_linoleum_gray",
-        "[": "t_dirt",
+        "[": "t_region_soil",
         "=": "t_carpet_yellow",
         "f": "t_carpet_yellow",
         "h": "t_carpet_yellow",
-        "?": "t_shrub",
+        "?": "t_region_shrub",
         "%": "t_door_glass_c"
       },
-      "furniture": {
-        "$": "f_table",
-        ",": "f_chair",
-        "(": "f_piano",
-        "[": [
-          "f_black_eyed_susan",
-          "f_mutpoppy",
-          "f_lily",
-          "f_flower_tulip",
-          "f_datura",
-          "f_flower_spurge",
-          "f_dahlia",
-          "f_chamomile",
-          "f_sunflower",
-          "f_chicory",
-          "f_dandelion"
-        ]
-      },
+      "furniture": { "$": "f_table", ",": "f_chair", "(": "f_piano", "[": "f_region_flower_decorative" },
       "items": { "$": { "item": "table_foyer", "chance": 30 } },
       "rotation": [ 2 ]
     }

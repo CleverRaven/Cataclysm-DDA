@@ -161,6 +161,9 @@ using npc_template_id = string_id<npc_template>;
 class faction;
 using faction_id = string_id<faction>;
 
+struct option_slider;
+using option_slider_id = string_id<option_slider>;
+
 struct oter_t;
 using oter_id = int_id<oter_t>;
 using oter_str_id = string_id<oter_t>;
@@ -192,6 +195,12 @@ using requirement_id = string_id<requirement_data>;
 
 class score;
 using score_id = string_id<score>;
+
+struct shopkeeper_cons_rates;
+using shopkeeper_cons_rates_id = string_id<shopkeeper_cons_rates>;
+
+struct shopkeeper_blacklist;
+using shopkeeper_blacklist_id = string_id<shopkeeper_blacklist>;
 
 class Skill;
 using skill_id = string_id<Skill>;

@@ -43,3 +43,5 @@ The major goal is to make Cataclysm harder and harsher. To achieve this goal, I 
 - Gave all mechas ability to protect their operators from melee and ranged damage.
 
 - Returned CBM loot in most places it was removed from (electronic stores, toxic dumps, sewage treatment plants etc).
+
+- Removed military base from the game as it has very serious balance issues.

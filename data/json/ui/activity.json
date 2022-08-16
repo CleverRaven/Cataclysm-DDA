@@ -42,5 +42,11 @@
         "condition": { "compare_int": [ { "u_val": "activity_level" }, ">=", { "const": 5 } ] }
       }
     ]
+  },
+  {
+    "id": "activity_desc_no_label",
+    "type": "widget",
+    "copy-from": "activity_desc",
+    "flags": [ "W_LABEL_NONE" ]
   }
 ]

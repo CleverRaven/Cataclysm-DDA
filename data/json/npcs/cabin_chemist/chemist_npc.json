@@ -1,0 +1,259 @@
+[
+  {
+    "type": "npc",
+    "id": "NPC_cabin_chemist",
+    "class": "NC_CHEM_MERCHANT",
+    "name_suffix": "chemist",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_NPC_CABIN_CHEMIST",
+    "faction": "wasteland_scavengers",
+    "mission_offered": "MISSION_CABIN_CHEMIST_GET_analytical_set_basic"
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_CHEM_MERCHANT",
+    "name": { "str": "Chemist" },
+    "job_description": "I make and sell chemicals",
+    "traits": [ { "group": "BG_survival_story_RURAL" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
+    "bonus_int": { "rng": [ 1, 2 ] },
+    "shopkeeper_item_group": [ { "group": "cabin_chemist_sell", "rigid": true } ],
+    "skills": [
+      { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "rng": [ 0, -4 ] } ] } ] } },
+      { "skill": "speech", "bonus": { "rng": [ 0, 2 ] } },
+      { "skill": "firstaid", "bonus": { "rng": [ 1, 2 ] } },
+      { "skill": "cooking", "bonus": { "rng": [ 1, 2 ] } },
+      { "skill": "chemistry", "bonus": { "rng": [ 3, 5 ] } }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_NPC_CABIN_CHEMIST",
+    "dynamic_line": "Hello, <name_g>.",
+    "responses": [
+      { "text": "Hello.", "topic": "TALK_NPC_CABIN_CHEMIST_INTRO" },
+      {
+        "text": "Hands up!",
+        "trial": { "type": "INTIMIDATE", "difficulty": 30 },
+        "success": { "topic": "TALK_WEAPON_DROPPED", "effect": "drop_weapon", "opinion": { "trust": -4, "fear": 3 } },
+        "failure": { "topic": "TALK_DONE", "effect": "hostile" },
+        "condition": { "not": { "npc_has_var": "talked_to_merchant", "type": "dialogue", "context": "first_meeting", "value": "yes" } }
+      },
+      { "text": "Bye.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_NPC_CABIN_CHEMIST_INTRO",
+    "dynamic_line": "So, what's up?",
+    "responses": [
+      { "text": "Who are you?", "topic": "TALK_NPC_CABIN_CHEMIST_STORY" },
+      { "text": "What is this place?", "topic": "TALK_NPC_CABIN_CHEMIST_HOME" },
+      { "text": "Care to trade?", "topic": "TALK_NPC_CABIN_CHEMIST_INTRO", "effect": "start_trade" },
+      {
+        "text": "I'd like to buy in bulk.",
+        "topic": "TALK_CABIN_CHEMIST_BULK_SELL",
+        "condition": { "npc_has_var": "mass_chem_tradeable", "type": "dialogue", "context": "trade", "value": "yes" }
+      },
+      {
+        "text": "Any jobs you need done?",
+        "condition": { "and": [ { "not": "has_assigned_mission" }, { "not": "has_many_assigned_missions" } ] },
+        "topic": "TALK_MISSION_LIST"
+      },
+      { "text": "I gotta go.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_NPC_CABIN_CHEMIST_STORY",
+    "dynamic_line": "I used to be a chemist.  Well, I am a chemist.  I've been living out here in the wilderness for a little while now since <the_cataclysm>.  Even brought some of my equipment, though unfortunately missing some of the more sensitive and expensive stuff.  I found a couple useful things here in the cupboards, but other than that, entirely empty.  So, I moved in.",
+    "responses": [ { "text": "Hmm.", "topic": "TALK_NONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_NPC_CABIN_CHEMIST_HOME",
+    "dynamic_line": "Not my place, just somewhere I ended up.  Some old shack, maybe a hunting cabin or something more… criminal, at least judging by some of what I found on the shelves.  You certainly wouldn't attract much attention synthesizing illegal substances all the way out here, that's all I'm saying.  I found it while I was trying to escape all the <zombies> in the city, and I decided to stay.",
+    "responses": [ { "text": "Hmm.", "topic": "TALK_NONE" } ]
+  },
+  {
+    "id": "TALK_CABIN_CHEMIST_BULK_SELL",
+    "//": "This is all the dialogue related to buying bulk chemicals.  It should remain somewhat prohibitively expensive and time-consuming so the chemist doesn't become a one-stop shop for survival needs. TO-DO - Use variables to refine shop system. See SCRIPT_EFFECTS.md and isolated road fabriation system.",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "npc_has_effect": "currently_busy",
+      "yes": "I'm out of some things, <name_g>.  It takes a while to source the good stuff - days usually - but I'm working hard to replace it.  What can I get you in the meantime?",
+      "no": "I'll see what I've got around here for you.  I've gotta warn you: it's gonna be expensive.  Hard to stay supplied in the apocalypse, you know.  What do you need?"
+    },
+    "responses": [
+      { "text": "Nevermind.", "topic": "TALK_NONE" },
+      {
+        "text": "[10$]  I'll buy some bandages.",
+        "effect": [ { "u_buy_item": "bandages", "cost": 1000, "container": "bag_plastic", "count": 20 } ],
+        "topic": "TALK_CABIN_CHEMIST_BULK_SELL_END"
+      },
+      {
+        "text": "[40$]  I'll buy some aspirin.",
+        "effect": [ { "u_buy_item": "aspirin", "container": "bottle_plastic_pill_prescription", "cost": 4000, "count": 20 } ],
+        "topic": "TALK_CABIN_CHEMIST_BULK_SELL_END"
+      },
+      {
+        "text": "[50$]  I'll buy some sprayable fungicide.",
+        "effect": [
+          { "u_buy_item": "gas_fungicidal", "container": "jug_plastic", "cost": 5000, "count": 1500 },
+          { "u_add_effect": "chemist_waiting_for_gas_fungicidal", "duration": "8 h" },
+          { "npc_add_effect": "currently_busy", "duration": "8 h" }
+        ],
+        "condition": { "not": { "u_has_effect": "chemist_waiting_for_gas_fungicidal" } },
+        "topic": "TALK_CABIN_CHEMIST_BULK_SELL_END"
+      },
+      {
+        "text": "[50$]  I'll buy some powder fungicide.",
+        "effect": [
+          { "u_buy_item": "fungicide", "container": "bottle_twoliter", "cost": 5000, "count": 1500 },
+          { "u_add_effect": "chemist_waiting_for_fungicide", "duration": "8 h" },
+          { "npc_add_effect": "currently_busy", "duration": "8 h" }
+        ],
+        "condition": { "not": { "u_has_effect": "chemist_waiting_for_fungicide" } },
+        "topic": "TALK_CABIN_CHEMIST_BULK_SELL_END"
+      },
+      {
+        "text": "[50$]  I'll buy some disinfectant.",
+        "effect": [
+          { "u_buy_item": "disinfectant", "container": "bottle_plastic", "cost": 5000, "count": 20 },
+          { "u_add_effect": "chemist_waiting_for_disinfectant", "duration": "12 h" },
+          { "npc_add_effect": "currently_busy", "duration": "12 h" }
+        ],
+        "condition": { "not": { "u_has_effect": "chemist_waiting_for_disinfectant" } },
+        "topic": "TALK_CABIN_CHEMIST_BULK_SELL_END"
+      },
+      {
+        "text": "[120$]  I'll buy some antibiotics.",
+        "effect": [
+          { "u_buy_item": "antibiotics", "container": "bottle_plastic_pill_prescription", "cost": 12000, "count": 20 },
+          { "u_add_effect": "chemist_waiting_for_antibiotics", "duration": "96 h" },
+          { "npc_add_effect": "currently_busy", "duration": "96 h" }
+        ],
+        "condition": { "not": { "u_has_effect": "chemist_waiting_for_antibiotics" } },
+        "topic": "TALK_CABIN_CHEMIST_BULK_SELL_END"
+      },
+      {
+        "text": "[140$]  I'll buy some antifungal drugs.",
+        "effect": [
+          { "u_buy_item": "antifungal", "container": "bottle_plastic_pill_prescription", "cost": 14000, "count": 20 },
+          { "u_add_effect": "chemist_waiting_for_antifungal", "duration": "96 h" },
+          { "npc_add_effect": "currently_busy", "duration": "96 h" }
+        ],
+        "condition": { "not": { "u_has_effect": "chemist_waiting_for_antifungal" } },
+        "topic": "TALK_CABIN_CHEMIST_BULK_SELL_END"
+      },
+      {
+        "text": "[200$]  I'll buy some black gunpowder.",
+        "effect": [
+          { "u_buy_item": "chem_black_powder", "container": "jar_3l_glass_sealed", "cost": 20000, "count": 10000 },
+          { "u_add_effect": "chemist_waiting_for_chem_black_powder", "duration": "72 h" },
+          { "npc_add_effect": "currently_busy", "duration": "72 h" }
+        ],
+        "condition": { "not": { "u_has_effect": "chemist_waiting_for_chem_black_powder" } },
+        "topic": "TALK_CABIN_CHEMIST_BULK_SELL_END"
+      },
+      {
+        "text": "[300$]  I'll buy some napalm.",
+        "effect": [
+          { "u_buy_item": "napalm", "container": "jerrycan", "cost": 30000, "count": 10000 },
+          { "u_add_effect": "chemist_waiting_for_napalm", "duration": "72 h" },
+          { "npc_add_effect": "currently_busy", "duration": "72 h" }
+        ],
+        "condition": { "not": { "u_has_effect": "chemist_waiting_for_napalm" } },
+        "topic": "TALK_CABIN_CHEMIST_BULK_SELL_END"
+      }
+    ]
+  },
+  {
+    "id": "TALK_CABIN_CHEMIST_BULK_SELL_END",
+    "type": "talk_topic",
+    "dynamic_line": [ "Is there anything else you need?" ],
+    "responses": [
+      { "text": "No, that's all.", "topic": "TALK_DONE" },
+      {
+        "text": "[10$]  I'll buy some bandages.",
+        "effect": [ { "u_buy_item": "bandages", "cost": 1000, "container": "bag_plastic", "count": 20 } ],
+        "topic": "TALK_CABIN_CHEMIST_BULK_SELL_END"
+      },
+      {
+        "text": "[40$]  I'll buy some aspirin.",
+        "effect": [ { "u_buy_item": "aspirin", "container": "bottle_plastic_pill_prescription", "cost": 4000, "count": 20 } ],
+        "topic": "TALK_CABIN_CHEMIST_BULK_SELL_END"
+      },
+      {
+        "text": "[50$]  I'll buy some sprayable fungicide.",
+        "effect": [
+          { "u_buy_item": "gas_fungicidal", "container": "jug_plastic", "cost": 5000, "count": 1500 },
+          { "u_add_effect": "chemist_waiting_for_gas_fungicidal", "duration": "8 h" },
+          { "npc_add_effect": "currently_busy", "duration": "8 h" }
+        ],
+        "condition": { "not": { "u_has_effect": "chemist_waiting_for_gas_fungicidal" } },
+        "topic": "TALK_CABIN_CHEMIST_BULK_SELL_END"
+      },
+      {
+        "text": "[50$]  I'll buy some powder fungicide.",
+        "effect": [
+          { "u_buy_item": "fungicide", "container": "bottle_twoliter", "cost": 5000, "count": 1500 },
+          { "u_add_effect": "chemist_waiting_for_fungicide", "duration": "8 h" },
+          { "npc_add_effect": "currently_busy", "duration": "8 h" }
+        ],
+        "condition": { "not": { "u_has_effect": "chemist_waiting_for_fungicide" } },
+        "topic": "TALK_CABIN_CHEMIST_BULK_SELL_END"
+      },
+      {
+        "text": "[50$]  I'll buy some disinfectant.",
+        "effect": [
+          { "u_buy_item": "disinfectant", "container": "bottle_plastic", "cost": 5000, "count": 20 },
+          { "u_add_effect": "chemist_waiting_for_disinfectant", "duration": "12 h" },
+          { "npc_add_effect": "currently_busy", "duration": "12 h" }
+        ],
+        "condition": { "not": { "u_has_effect": "chemist_waiting_for_disinfectant" } },
+        "topic": "TALK_CABIN_CHEMIST_BULK_SELL_END"
+      },
+      {
+        "text": "[120$]  I'll buy some antibiotics.",
+        "effect": [
+          { "u_buy_item": "antibiotics", "container": "bottle_plastic_pill_prescription", "cost": 12000, "count": 20 },
+          { "u_add_effect": "chemist_waiting_for_antibiotics", "duration": "96 h" },
+          { "npc_add_effect": "currently_busy", "duration": "96 h" }
+        ],
+        "condition": { "not": { "u_has_effect": "chemist_waiting_for_antibiotics" } },
+        "topic": "TALK_CABIN_CHEMIST_BULK_SELL_END"
+      },
+      {
+        "text": "[140$]  I'll buy some antifungal drugs.",
+        "effect": [
+          { "u_buy_item": "antifungal", "container": "bottle_plastic_pill_prescription", "cost": 14000, "count": 20 },
+          { "u_add_effect": "chemist_waiting_for_antifungal", "duration": "96 h" },
+          { "npc_add_effect": "currently_busy", "duration": "96 h" }
+        ],
+        "condition": { "not": { "u_has_effect": "chemist_waiting_for_antifungal" } },
+        "topic": "TALK_CABIN_CHEMIST_BULK_SELL_END"
+      },
+      {
+        "text": "[200$]  I'll buy some black gunpowder.",
+        "effect": [
+          { "u_buy_item": "chem_black_powder", "container": "jar_3l_glass_sealed", "cost": 20000, "count": 10000 },
+          { "u_add_effect": "chemist_waiting_for_chem_black_powder", "duration": "72 h" },
+          { "npc_add_effect": "currently_busy", "duration": "72 h" }
+        ],
+        "condition": { "not": { "u_has_effect": "chemist_waiting_for_chem_black_powder" } },
+        "topic": "TALK_CABIN_CHEMIST_BULK_SELL_END"
+      },
+      {
+        "text": "[300$]  I'll buy some napalm.",
+        "effect": [
+          { "u_buy_item": "napalm", "container": "jerrycan", "cost": 30000, "count": 10000 },
+          { "u_add_effect": "chemist_waiting_for_napalm", "duration": "72 h" },
+          { "npc_add_effect": "currently_busy", "duration": "72 h" }
+        ],
+        "condition": { "not": { "u_has_effect": "chemist_waiting_for_napalm" } },
+        "topic": "TALK_CABIN_CHEMIST_BULK_SELL_END"
+      }
+    ]
+  }
+]

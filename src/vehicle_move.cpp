@@ -98,7 +98,8 @@ int vehicle::slowdown( int at_velocity ) const
         const double skid_factor = 1 + 24 * std::abs( units::sin( face.dir() - move.dir() ) );
         f_total_drag += f_rolling_drag * skid_factor;
     }
-    double accel_slowdown = f_total_drag / to_kilogram( total_mass() );
+    // check mass to make sure it's not 0 which happens for some reason
+    double accel_slowdown = total_mass().value() > 0 ? f_total_drag / to_kilogram( total_mass() ) : 0;
     // converting m/s^2 to vmiph/s
     int slowdown = mps_to_vmiph( accel_slowdown );
     if( is_towing() ) {
@@ -561,7 +562,7 @@ void vehicle::thrust( int thd, int z )
                 if( velocity > mon->get_speed() * 12 ) {
                     add_msg( m_bad, _( "Your %s is not fast enough to keep up with the %s" ), mon->get_name(), name );
                     int dmg = rng( 0, 10 );
-                    damage_direct( e, dmg );
+                    damage_direct( get_map(), e, dmg );
                 }
             }
         }
@@ -682,10 +683,14 @@ bool vehicle::collision( std::vector<veh_collision> &colls,
     const int sign_before = sgn( velocity_before );
     bool empty = true;
     map &here = get_map();
-    for( int p = 0; static_cast<size_t>( p ) < parts.size(); p++ ) {
+    for( int p = 0; p < num_parts(); p++ ) {
+        if( parts.at( p ).removed || ( parts.at( p ).is_fake && !parts.at( p ).is_active_fake ) ) {
+            continue;
+        }
+
         const vpart_info &info = part_info( p );
-        if( ( info.location != part_location_structure && info.rotor_diameter() == 0 ) ||
-            parts[ p ].removed ) {
+        if( !parts.at( p ).is_fake &&
+            info.location != part_location_structure && info.rotor_diameter() == 0 ) {
             continue;
         }
         empty = false;
@@ -903,8 +908,8 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
     // Calculate mass AFTER checking for collision
     //  because it involves iterating over all cargo
     // Rotors only use rotor mass in calculation.
-    const float mass = ( part_info( part ).rotor_diameter() > 0 ) ?
-                       to_kilogram( parts[ part ].base.weight() ) : to_kilogram( total_mass() );
+    const float mass = ( part_info( ret.part ).rotor_diameter() > 0 ) ?
+                       to_kilogram( parts[ ret.part ].base.weight() ) : to_kilogram( total_mass() );
 
     //Calculate damage resulting from d_E
     const itype *type = item::find_type( part_info( ret.part ).base_item );
@@ -1043,6 +1048,12 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
                                   critter->get_armor_bash( bodypart_id( "torso" ) );
                 dam = std::max( 0, dam - armor );
                 critter->apply_damage( driver, bodypart_id( "torso" ), dam );
+                if( part_flag( ret.part, "SHARP" ) ) {
+                    critter->make_bleed( effect_source( driver ), bodypart_id( "torso" ), 1_minutes * rng( 1, dam ) );
+                } else if( dam > 18 && rng( 1, 20 ) > 15 ) {
+                    //low chance of lighter bleed even with non sharp objects.
+                    critter->make_bleed( effect_source( driver ), bodypart_id( "torso" ), 1_minutes );
+                }
                 add_msg_debug( debugmode::DF_VEHICLE_MOVE, "Critter collision damage: %d", dam );
             }
 
@@ -1185,7 +1196,7 @@ void vehicle::handle_trap( const tripoint &p, int part )
             explosion_handler::explosion( p, veh_data.damage, 0.5f, false, veh_data.shrapnel );
         } else {
             // Hit the wheel directly since it ran right over the trap.
-            damage_direct( pwh, veh_data.damage );
+            damage_direct( here, pwh, veh_data.damage );
         }
         bool still_has_trap = true;
         if( veh_data.remove_trap || veh_data.do_explosion ) {
@@ -1295,7 +1306,7 @@ bool vehicle::check_is_heli_landed()
     return false;
 }
 
-bool vehicle::check_heli_descend( Character &p )
+bool vehicle::check_heli_descend( Character &p ) const
 {
     if( !is_rotorcraft() ) {
         debugmsg( "A vehicle is somehow flying without being an aircraft" );
@@ -1330,7 +1341,7 @@ bool vehicle::check_heli_descend( Character &p )
 
 }
 
-bool vehicle::check_heli_ascend( Character &p )
+bool vehicle::check_heli_ascend( Character &p ) const
 {
     if( !is_rotorcraft() ) {
         debugmsg( "A vehicle is somehow flying without being an aircraft" );
@@ -1427,9 +1438,8 @@ void vehicle::pldrive( Character &driver, const point &p, int z )
     }
 
     if( p.y != 0 ) {
-        int thr_amount = 100 * ( std::abs( velocity ) < 2000 ? 4 : 5 );
         if( cruise_on ) {
-            cruise_thrust( -p.y * thr_amount );
+            cruise_thrust( -p.y * 400 );
         } else {
             thrust( -p.y );
             driver.moves = std::min( driver.moves, 0 );
@@ -1504,7 +1514,7 @@ rl_vec2d vehicle::velo_vec() const
     return ret;
 }
 
-static inline rl_vec2d angle_to_vec( const units::angle &angle )
+static rl_vec2d angle_to_vec( const units::angle &angle )
 {
     return rl_vec2d( units::cos( angle ), units::sin( angle ) );
 }
@@ -1986,7 +1996,7 @@ void vehicle::check_falling_or_floating()
     }
     // If half of the wheels are supported, we're not falling and we're not in water.
     if( supported_wheels > 0 &&
-        static_cast<size_t>( supported_wheels * 2 ) >= wheelcache.size() ) {
+        static_cast<size_t>( supported_wheels ) * 2 >= wheelcache.size() ) {
         is_falling = false;
         in_water = false;
         is_floating = false;
@@ -2043,7 +2053,7 @@ float map::vehicle_wheel_traction( const vehicle &veh,
         const tripoint pp = veh.global_part_pos3( p );
         const int wheel_area = veh.part( p ).wheel_area();
 
-        const auto &tr = ter( pp ).obj();
+        const ter_t &tr = ter( pp ).obj();
         // Deep water and air
         if( tr.has_flag( ter_furn_flag::TFLAG_DEEP_WATER ) ||
             tr.has_flag( ter_furn_flag::TFLAG_NO_FLOOR ) ) {
@@ -2177,4 +2187,42 @@ units::angle map::shake_vehicle( vehicle &veh, const int velocity_before,
     }
 
     return coll_turn;
+}
+
+bool vehicle::should_enable_fake( const tripoint &fake_precalc, const tripoint &parent_precalc,
+                                  const tripoint &neighbor_precalc ) const
+{
+    // if parent's pos is diagonal to neighbor, but fake isn't, fake can fill a gap opened
+    tripoint abs_parent_neighbor_diff = get_abs_diff( parent_precalc, neighbor_precalc );
+    tripoint abs_fake_neighbor_diff = get_abs_diff( fake_precalc, neighbor_precalc );
+    return ( abs_parent_neighbor_diff.x == 1 && abs_parent_neighbor_diff.y == 1 ) &&
+           ( ( abs_fake_neighbor_diff.x == 1 && abs_fake_neighbor_diff.y == 0 ) ||
+             ( abs_fake_neighbor_diff.x == 0 && abs_fake_neighbor_diff.y == 1 ) );
+}
+
+void vehicle::update_active_fakes()
+{
+    for( const int fake_index : fake_parts ) {
+        vehicle_part &part_fake = parts.at( fake_index );
+        if( part_fake.removed ) {
+            continue;
+        }
+        const vehicle_part &part_real = parts.at( part_fake.fake_part_to );
+        const tripoint &fake_precalc = part_fake.precalc[0];
+        const tripoint &real_precalc = part_real.precalc[0];
+        const vpart_edge_info &real_edge = edges[part_real.mount];
+        const bool is_protrusion = part_real.info().has_flag( "PROTRUSION" );
+
+        if( real_edge.forward != -1 ) {
+            const tripoint &forward = parts.at( real_edge.forward ).precalc[0];
+            part_fake.is_active_fake = should_enable_fake( fake_precalc, real_precalc, forward );
+        }
+        if( real_edge.back != -1 && ( !part_fake.is_active_fake || real_edge.forward == -1 ) ) {
+            const tripoint &back = parts.at( real_edge.back ).precalc[0];
+            part_fake.is_active_fake = should_enable_fake( fake_precalc, real_precalc, back );
+        }
+        if( is_protrusion && part_fake.fake_protrusion_on >= 0 ) {
+            part_fake.is_active_fake = parts.at( part_fake.fake_protrusion_on ).is_active_fake;
+        }
+    }
 }

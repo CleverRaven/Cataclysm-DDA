@@ -237,7 +237,7 @@
         "condition": { "not": { "u_has_items": { "item": "FMCNote", "count": 200 } } }
       },
       {
-        "text": "Maybe Later.",
+        "text": "Maybe later.",
         "topic": "TALK_RANCH_CROP_OVERSEER",
         "condition": { "u_has_items": { "item": "FMCNote", "count": 200 } }
       },
@@ -271,7 +271,7 @@
         "condition": { "not": { "u_has_items": { "item": "FMCNote", "count": 300 } } }
       },
       {
-        "text": "Maybe Later.",
+        "text": "Maybe later.",
         "topic": "TALK_RANCH_CROP_OVERSEER",
         "condition": { "u_has_items": { "item": "FMCNote", "count": 300 } }
       },

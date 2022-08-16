@@ -123,6 +123,7 @@ enum jmapgen_setmap_op {
     JMAPGEN_SETMAP_TRAP,
     JMAPGEN_SETMAP_RADIATION,
     JMAPGEN_SETMAP_TRAP_REMOVE,
+    JMAPGEN_SETMAP_CREATURE_REMOVE,
     JMAPGEN_SETMAP_ITEM_REMOVE,
     JMAPGEN_SETMAP_FIELD_REMOVE,
     JMAPGEN_SETMAP_BASH,
@@ -133,6 +134,7 @@ enum jmapgen_setmap_op {
     JMAPGEN_SETMAP_LINE_TRAP,
     JMAPGEN_SETMAP_LINE_RADIATION,
     JMAPGEN_SETMAP_LINE_TRAP_REMOVE,
+    JMAPGEN_SETMAP_LINE_CREATURE_REMOVE,
     JMAPGEN_SETMAP_LINE_ITEM_REMOVE,
     JMAPGEN_SETMAP_LINE_FIELD_REMOVE,
     JMAPGEN_SETMAP_OPTYPE_SQUARE = 200,
@@ -141,6 +143,7 @@ enum jmapgen_setmap_op {
     JMAPGEN_SETMAP_SQUARE_TRAP,
     JMAPGEN_SETMAP_SQUARE_RADIATION,
     JMAPGEN_SETMAP_SQUARE_TRAP_REMOVE,
+    JMAPGEN_SETMAP_SQUARE_CREATURE_REMOVE,
     JMAPGEN_SETMAP_SQUARE_ITEM_REMOVE,
     JMAPGEN_SETMAP_SQUARE_FIELD_REMOVE
 };
@@ -166,7 +169,7 @@ struct jmapgen_setmap {
     ) :
         x( ix ), y( iy ), x2( ix2 ), y2( iy2 ), op( iop ), val( ival ), chance( ione_in ),
         repeat( irepeat ), rotation( irotation ),
-        fuel( ifuel ), status( istatus ), string_val( istring_val ) {}
+        fuel( ifuel ), status( istatus ), string_val( std::move( istring_val ) ) {}
 
     mapgen_phase phase() const;
 
@@ -563,6 +566,8 @@ class update_mapgen
  */
 std::shared_ptr<mapgen_function> load_mapgen_function( const JsonObject &jio,
         const std::string &id_base, const point &offset, const point &total );
+void load_and_add_mapgen_function(
+    const JsonObject &jio, const std::string &id_base, const point &offset, const point &total );
 /*
  * Load the above directly from a file via init, as opposed to riders attached to overmap_terrain. Added check
  * for oter_mapgen / oter_mapgen_weights key, multiple possible ( i.e., [ "house_w_1", "duplex" ] )

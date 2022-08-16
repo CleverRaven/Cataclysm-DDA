@@ -63,6 +63,7 @@ The various ways this artifact can charge and use charges.
 - **none** This artifact does not recharge
 - **periodic** This artifact takes 'time' amount of time to recharge
 - **solar_sunny** This artifact takes 'time' amount of time to recharge, only recharges if weather is sunny and character is outside
+- **solar_cloudy** This artifact takes 'time' amount of time to recharge, only recharges if weather is cloudy and character is outside
 
 #### recharge_conditions
 

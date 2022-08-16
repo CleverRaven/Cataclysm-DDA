@@ -232,7 +232,7 @@ void ter_furn_transform::transform( map &m, const tripoint &location, bool shift
                 trap_at_loc );
 
     const field &field_at_loc = m.field_at( location );
-    for( auto &fld : field_at_loc ) {
+    for( const auto &fld : field_at_loc ) {
         cata::optional<std::pair<field_type_id, std::pair<std::string, bool>>> field_potential = next_field(
                     fld.first );
         if( field_potential ) {
