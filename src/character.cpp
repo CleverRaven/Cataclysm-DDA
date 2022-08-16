@@ -6389,7 +6389,7 @@ int Character::get_cardiofit() const
 {
     if( is_npc() ) {
         // No point in doing a bunch of checks on NPCs for now since they can't use cardio.
-        return 2000;
+        return 2 * get_cardio_acc_base();
     }
 
     const int cardio_base = get_cardio_acc();
