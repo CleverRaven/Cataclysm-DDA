@@ -448,12 +448,7 @@
           { "u_add_faction_trust": 1 },
           { "u_add_var": "u_waiting_on_hub", "type": "timer", "context": "hub_rnd", "time": true },
           { "u_add_var": "u_project_ongoing", "type": "dialogue", "context": "hub_rnd", "value": "yes" },
-          {
-            "u_add_var": "u_current_project",
-            "type": "dialogue",
-            "context": "hub_rnd",
-            "value": "rm13_armor"
-          }
+          { "u_add_var": "u_current_project", "type": "dialogue", "context": "hub_rnd", "value": "rm13_armor" }
         ],
         "topic": "TALK_ROBOFAC_INTERCOM_SERVICES"
       },
