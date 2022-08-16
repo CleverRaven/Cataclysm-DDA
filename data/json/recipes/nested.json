@@ -349,7 +349,7 @@
     "nested_category_data": [ "nested_bandages", "nested_tourniquets", "nested_hemostatic" ],
     "difficulty": 1,
     "autolearn": [ [ "firstaid", 0 ] ]
-  },  
+  },
   {
     "id": "nested_mask_gas",
     "type": "nested_category",
