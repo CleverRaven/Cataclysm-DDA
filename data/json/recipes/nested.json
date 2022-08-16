@@ -351,6 +351,19 @@
     "autolearn": [ [ "firstaid", 0 ] ]
   },
   {
+    "id": "nested_antiseptics",
+    "type": "nested_category",
+    "activity_level": "fake",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MEDICAL",
+    "name": "antiseptics",
+    "description": "Recipes related to crafting different kinds of antiseptics.",
+    "skill_used": "firstaid",
+    "nested_category_data": [ "disinfectant_makeshift", "wintergreen_oil", "thyme_oil", "disinrag", "disincotton_ball" ],
+    "difficulty": 1,
+    "autolearn": [ [ "firstaid", 0 ] ]
+  },  
+  {
     "id": "nested_mask_gas",
     "type": "nested_category",
     "activity_level": "LIGHT_EXERCISE",
