@@ -133,7 +133,7 @@
     "nested_category_data": [ "nested_all_rechargeable_battery", "nested_all_disposable_battery" ],
     "difficulty": 1,
     "autolearn": [ [ "electronics", 0 ] ]
-  },    
+  },
   {
     "id": "nested_crossbows",
     "type": "nested_category",
