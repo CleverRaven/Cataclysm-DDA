@@ -96,32 +96,6 @@
     "autolearn": [ [ "electronics", 1 ] ]
   },
   {
-    "id": "nested_all_disposable_battery",
-    "type": "nested_category",
-    "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_*",
-    "subcategory": "CSC_*_NESTED",
-    "name": "disposable batteries",
-    "description": "Recipes related to constructing all kinds of disposable batteries.",
-    "skill_used": "electronics",
-    "nested_category_data": [ "nested_atomic_battery", "nested_disposable_battery", "nested_dry_battery" ],
-    "difficulty": 1,
-    "autolearn": [ [ "electronics", 0 ] ]
-  },
-  {
-    "id": "nested_all_rechargeable_battery",
-    "type": "nested_category",
-    "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_*",
-    "subcategory": "CSC_*_NESTED",
-    "name": "rechargeable batteries",
-    "description": "Recipes related to constructing all kinds of rechargeable batteries.",
-    "skill_used": "electronics",
-    "nested_category_data": [ "nested_standard_battery", "nested_storage_battery", "nested_vehicle_battery" ],
-    "difficulty": 1,
-    "autolearn": [ [ "electronics", 0 ] ]
-  },
-  {
     "id": "nested_all_battery",
     "type": "nested_category",
     "activity_level": "LIGHT_EXERCISE",
@@ -130,7 +104,14 @@
     "name": "batteries",
     "description": "Recipes related to constructing all kinds of batteries.",
     "skill_used": "electronics",
-    "nested_category_data": [ "nested_all_rechargeable_battery", "nested_all_disposable_battery" ],
+    "nested_category_data": [
+      "nested_atomic_battery",
+      "nested_disposable_battery",
+      "nested_dry_battery",
+      "nested_standard_battery",
+      "nested_storage_battery",
+      "nested_vehicle_battery"
+    ],
     "difficulty": 1,
     "autolearn": [ [ "electronics", 0 ] ]
   },
