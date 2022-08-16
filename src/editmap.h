@@ -60,9 +60,9 @@ class editmap
         void edit_fld();
         void edit_itm();
         void edit_critter( Creature &critter );
-        void edit_veh();
+        void edit_veh() const;
         void edit_mapgen();
-        void cleartmpmap( tinymap &tmpmap );
+        void cleartmpmap( tinymap &tmpmap ) const;
         void mapgen_preview( const real_coords &tc, uilist &gmenu );
         vehicle *mapgen_veh_query( const tripoint_abs_omt &omt_tgt );
         bool mapgen_veh_destroy( const tripoint_abs_omt &omt_tgt, vehicle *car_target );

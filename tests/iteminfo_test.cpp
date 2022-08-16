@@ -1305,7 +1305,7 @@ TEST_CASE( "armor protection", "[iteminfo][armor][protection]" )
         item super_tanktop( "test_complex_tanktop" );
         REQUIRE( super_tanktop.get_covered_body_parts().any() );
         // these values are averaged values but test that assumed armor portion is working at all
-        expected_armor_values( super_tanktop, 14, 14, 11.2f, 8.66667f );
+        expected_armor_values( super_tanktop, 15.33333f, 15.33333f, 12.26667f, 10.66667f );
 
         // Protection info displayed on two lines
         CHECK( item_info_str( super_tanktop, more_protection ) ==
@@ -1316,9 +1316,9 @@ TEST_CASE( "armor protection", "[iteminfo][armor][protection]" )
                "<color_c_white>Coverage</color>: <color_c_light_blue>Close to skin</color>.\n"
                "  Default:  <color_c_yellow>100</color>\n"
                "<color_c_white>Protection</color>: <color_c_red>4%</color>, <color_c_yellow>Median</color>, <color_c_green>4%</color>\n"
-               "  Bash:  <color_c_red>1.00</color>, <color_c_yellow>11.00</color>, <color_c_green>21.00</color>\n"
-               "  Cut:  <color_c_red>1.00</color>, <color_c_yellow>11.00</color>, <color_c_green>21.00</color>\n"
-               "  Ballistic:  <color_c_red>1.00</color>, <color_c_yellow>7.00</color>, <color_c_green>13.00</color>\n"
+               "  Bash:  <color_c_red>1.00</color>, <color_c_yellow>12.00</color>, <color_c_green>23.00</color>\n"
+               "  Cut:  <color_c_red>1.00</color>, <color_c_yellow>12.00</color>, <color_c_green>23.00</color>\n"
+               "  Ballistic:  <color_c_red>1.00</color>, <color_c_yellow>8.50</color>, <color_c_green>16.00</color>\n"
              );
     }
 
@@ -1868,10 +1868,10 @@ TEST_CASE( "nutrients in food", "[iteminfo][food]" )
                "--\n"
                "<color_c_white>Calories (kcal)</color>: <color_c_yellow>325</color>"
                "  Quench: <color_c_yellow>0</color>\n" );
-
+        // Values end up rounded slightly
         CHECK( item_info_str( ice_cream, { iteminfo_parts::FOOD_VITAMINS } ) ==
                "--\n"
-               "Vitamins (RDA): Calcium (9%)\n" );
+               "Vitamins (RDA): Calcium (8%)\n" );
     }
 
     SECTION( "nutrient ranges for recipe exemplars", "[iteminfo]" ) {
@@ -1884,11 +1884,11 @@ TEST_CASE( "nutrients in food", "[iteminfo][food]" )
                "<color_c_white>Calories (kcal)</color>:"
                " <color_c_yellow>56</color>-<color_c_yellow>532</color>"
                "  Quench: <color_c_yellow>0</color>\n" );
-
+        // Values end up rounded slightly
         CHECK( item_info_str( ice_cream, { iteminfo_parts::FOOD_VITAMINS } ) ==
                "--\n"
                "Nutrition will <color_cyan>vary with chosen ingredients</color>.\n"
-               "Vitamins (RDA): Calcium (7-37%), Iron (0-131%), and Vitamin C (1-79%)\n" );
+               "Vitamins (RDA): Calcium (6-35%), Iron (0-128%), and Vitamin C (0-79%)\n" );
     }
 }
 
@@ -2268,6 +2268,25 @@ TEST_CASE( "list of item qualities", "[iteminfo][quality]" )
 }
 
 // Related JSON fields:
+// "actions"
+//
+// Functions:
+// item::actions_info
+TEST_CASE( "list of item actions", "[iteminfo][action]" )
+{
+    clear_avatar();
+
+    std::vector<iteminfo_parts> actions = { iteminfo_parts::ACTIONS };
+
+    SECTION( "Halligan bar" ) {
+        item halligan( "test_halligan" );
+        CHECK( item_info_str( halligan, actions ) ==
+               "--\n"
+               "<color_c_white>Actions</color>: <color_c_cyan>Pry crate, window, door or nails</color>, <color_c_cyan>Dig pit here</color>, <color_c_cyan>Dig water channel here</color>, <color_c_cyan>Fill pit / tamp ground</color>, and <color_c_cyan>Upturn earth</color>\n" );
+    }
+}
+
+// Related JSON fields:
 // "flags" (USE_UPS, RECHARGE)
 //
 // Functions:
@@ -2444,12 +2463,15 @@ TEST_CASE( "repairable and with what tools", "[iteminfo][repair]" )
 
     CHECK( item_info_str( halligan, repaired ) ==
            "--\n"
-           "<color_c_white>Repair</color> using extended multitool, arc welder, or makeshift arc welder.\n" );
+           "<color_c_white>Repair</color> using extended multitool, arc welder, makeshift arc welder, or welding kit.\n"
+           "<color_c_white>With</color> <color_c_cyan>Steel</color>.\n"
+         );
 
     // FIXME: Use an item that can only be repaired by test tools
     CHECK( item_info_str( hazmat, repaired ) ==
            "--\n"
-           "<color_c_white>Repair</color> using gunsmith repair kit, firearm repair kit, soldering iron, TEST soldering iron, or extended multitool.\n" );
+           "<color_c_white>Repair</color> using gunsmith repair kit, firearm repair kit, soldering iron, TEST soldering iron, or extended multitool.\n"
+           "<color_c_white>With</color> <color_c_cyan>Plastic</color>.\n" );
 
     CHECK( item_info_str( rock, repaired ) ==
            "--\n"

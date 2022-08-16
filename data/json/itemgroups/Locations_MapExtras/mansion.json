@@ -52,6 +52,12 @@
     ]
   },
   {
+    "id": "grave_contents",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "group": "everyday_corpse", "prob": 85 }, { "group": "grave_cremains", "prob": 15 } ]
+  },
+  {
     "id": "everyday_corpse",
     "type": "item_group",
     "subtype": "collection",
@@ -713,7 +719,8 @@
       { "item": "wizard_cane_cheap", "prob": 5, "charges": [ 0, 100 ] },
       { "item": "wizard_cane", "prob": 10, "charges": [ 50, 100 ] },
       [ "sinister_cane", 10 ],
-      [ "scythe_toy", 10 ]
+      [ "scythe_toy", 10 ],
+      [ "aim_game", 10 ]
     ]
   },
   {
@@ -881,7 +888,8 @@
       [ "plastron_plastic", 10 ],
       [ "gauntlet_fencing", 9 ],
       [ "gauntlet_fencing_l", 1 ],
-      [ "iceaxe", 4 ]
+      [ "iceaxe", 4 ],
+      [ "aim_game", 5 ]
     ]
   },
   {
@@ -923,7 +931,8 @@
       { "item": "coffeemaker", "prob": 10, "charges": [ 0, 500 ] },
       [ "cookbook_daintydishes", 40 ],
       [ "cookbook_indian", 10 ],
-      [ "cookbook_foodfashions", 18 ]
+      [ "cookbook_foodfashions", 18 ],
+      [ "cookbook_mexican", 10 ]
     ]
   },
   {
@@ -1031,6 +1040,8 @@
       [ "socks_wool", 40 ],
       [ "towel", 40 ],
       [ "can_drink", 30 ],
+      [ "pride_flag", 5 ],
+      [ "state_flag", 3 ],
       [ "bottle_plastic", 30 ],
       [ "leathersandals", 30 ],
       [ "leather_belt", 30 ],
@@ -1118,6 +1129,7 @@
       [ "shot_hull", 20 ],
       [ "38_casing", 20 ],
       [ "45_casing", 20 ],
+      [ "pride_flag", 3 ],
       [ "wrapper", 20 ],
       [ "wrapper_foil", 2 ],
       [ "bottle_glass", 10 ],
@@ -1169,6 +1181,8 @@
       [ "45_casing", 20 ],
       [ "tieclip", 20 ],
       [ "splinter", 20 ],
+      [ "pride_flag", 1 ],
+      [ "state_flag", 3 ],
       [ "purse", 20 ],
       [ "heels", 20 ],
       [ "cotton_patchwork", 20 ],

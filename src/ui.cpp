@@ -720,7 +720,7 @@ void uilist::apply_scrollbar()
 /**
  * Generate and refresh output
  */
-void uilist::show()
+void uilist::show( ui_adaptor &ui )
 {
     if( !started ) {
         setup();
@@ -832,12 +832,12 @@ void uilist::show()
         }
     }
 
-    cata::optional<point> cursor_pos;
     if( filter_popup ) {
         mvwprintz( window, point( 2, w_height - 1 ), border_color, "< " );
         mvwprintz( window, point( w_width - 3, w_height - 1 ), border_color, " >" );
         filter_popup->query( /*loop=*/false, /*draw_only=*/true );
-        cursor_pos = point( getcurx( window ), getcury( window ) );
+        // Record cursor immediately after filter_popup drawing
+        ui.record_term_cursor();
     } else {
         if( !filter.empty() ) {
             mvwprintz( window, point( 2, w_height - 1 ), border_color, "< %s >", filter );
@@ -849,11 +849,6 @@ void uilist::show()
     wnoutrefresh( window );
     if( callback != nullptr ) {
         callback->refresh( this );
-    }
-
-    if( cursor_pos ) {
-        wmove( window, cursor_pos.value() );
-        wnoutrefresh( window );
     }
 }
 
@@ -944,8 +939,8 @@ shared_ptr_fast<ui_adaptor> uilist::create_or_get_ui_adaptor()
     shared_ptr_fast<ui_adaptor> current_ui = ui.lock();
     if( !current_ui ) {
         ui = current_ui = make_shared_fast<ui_adaptor>();
-        current_ui->on_redraw( [this]( const ui_adaptor & ) {
-            show();
+        current_ui->on_redraw( [this]( ui_adaptor & ui ) {
+            show( ui );
         } );
         current_ui->on_screen_resize( [this]( ui_adaptor & ui ) {
             reposition( ui );

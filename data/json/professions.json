@@ -2992,7 +2992,12 @@
           "socks",
           "sneakers"
         ],
-        "entries": [ { "group": "charged_smart_phone" } ]
+        "entries": [
+          { "item": "letter", "container-item": "envelope" },
+          { "item": "letter", "container-item": "envelope" },
+          { "item": "postcard", "container-item": "envelope" },
+          { "group": "charged_smart_phone" }
+        ]
       },
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]

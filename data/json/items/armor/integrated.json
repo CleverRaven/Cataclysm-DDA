@@ -234,16 +234,7 @@
     "color": "black",
     "warmth": 45,
     "environmental_protection": 1,
-    "flags": [
-      "INTEGRATED",
-      "ALLOWS_NATURAL_ATTACKS",
-      "UNBREAKABLE",
-      "SKINTIGHT",
-      "NORMAL",
-      "HELMET_COMPAT",
-      "WATER_FRIENDLY",
-      "SOFT"
-    ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "SKINTIGHT", "NORMAL", "WATER_FRIENDLY", "SOFT" ],
     "armor": [
       {
         "material": [ { "type": "fur", "covered_by_mat": 100, "thickness": 14 } ],
@@ -380,7 +371,7 @@
     "color": "light_red",
     "warmth": 10,
     "environmental_protection": 1,
-    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "SKINTIGHT", "HELMET_COMPAT", "WATER_FRIENDLY", "PADDED" ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "SKINTIGHT", "WATER_FRIENDLY", "PADDED" ],
     "armor": [
       {
         "material": [
@@ -411,16 +402,7 @@
     "color": "light_red",
     "warmth": 14,
     "environmental_protection": 1,
-    "flags": [
-      "INTEGRATED",
-      "ALLOWS_NATURAL_ATTACKS",
-      "UNBREAKABLE",
-      "SKINTIGHT",
-      "NORMAL",
-      "HELMET_COMPAT",
-      "WATER_FRIENDLY",
-      "PADDED"
-    ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "SKINTIGHT", "NORMAL", "WATER_FRIENDLY", "PADDED" ],
     "armor": [
       {
         "material": [
@@ -453,16 +435,7 @@
     "color": "light_red",
     "warmth": 20,
     "environmental_protection": 1,
-    "flags": [
-      "INTEGRATED",
-      "ALLOWS_NATURAL_ATTACKS",
-      "UNBREAKABLE",
-      "SKINTIGHT",
-      "NORMAL",
-      "HELMET_COMPAT",
-      "WATER_FRIENDLY",
-      "PADDED"
-    ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "SKINTIGHT", "NORMAL", "WATER_FRIENDLY", "PADDED" ],
     "armor": [
       {
         "material": [
@@ -570,16 +543,7 @@
     "color": "dark_gray",
     "warmth": 8,
     "environmental_protection": 1,
-    "flags": [
-      "INTEGRATED",
-      "ALLOWS_NATURAL_ATTACKS",
-      "BLOCK_WHILE_WORN",
-      "UNBREAKABLE",
-      "SKINTIGHT",
-      "NORMAL",
-      "HELMET_COMPAT",
-      "WATER_FRIENDLY"
-    ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "BLOCK_WHILE_WORN", "UNBREAKABLE", "SKINTIGHT", "NORMAL", "WATER_FRIENDLY" ],
     "armor": [
       {
         "material": [ { "type": "chitin", "covered_by_mat": 100, "thickness": 2.8 } ],
@@ -727,6 +691,162 @@
         "covers": [ "hand_l", "hand_r" ],
         "coverage": 80,
         "encumbrance": 7
+      }
+    ]
+  },
+  {
+    "id": "integrated_shell",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str_sp": "shell" },
+    "description": "You have a large, protective shell on your back, but unfortunately, it doesn't have enough space to fit inside or store anything, makes wearing anything on your torso impossible, and makes backpacks encumbering.",
+    "weight": "7 kg",
+    "volume": "10 L",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "chitin_light" ],
+    "symbol": "x",
+    "color": "magenta",
+    "warmth": 5,
+    "environmental_protection": 10,
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "BELTED", "WATERPROOF", "PADDED" ],
+    "armor": [
+      {
+        "material": [ { "type": "chitin_light", "covered_by_mat": 100, "thickness": 10 } ],
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": 5
+      }
+    ]
+  },
+  {
+    "id": "integrated_shell2",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str_sp": "roomy shell" },
+    "description": "Your shell has grown larger and thicker.  You can hide yourself in it, as well as use it as a backpack, but torso armor is still off limits.",
+    "weight": "9 kg",
+    "volume": "15 L",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "chitin_light" ],
+    "symbol": "x",
+    "color": "magenta",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "7 L",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "50 cm",
+        "moves": 350
+      }
+    ],
+    "warmth": 7,
+    "environmental_protection": 13,
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "BELTED", "WATERPROOF", "PADDED" ],
+    "armor": [
+      {
+        "material": [ { "type": "chitin_light", "covered_by_mat": 100, "thickness": 15 } ],
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": 10
+      }
+    ]
+  },
+  {
+    "id": "integrated_shell3",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str_sp": "nacreous shell" },
+    "description": "Your shell has grown larger and even thicker, and has a pearly sheen to it.  You can hide yourself in it, as well as use it as a backpack, but torso armor is still off limits.",
+    "weight": "9 kg",
+    "volume": "15 L",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "bone" ],
+    "symbol": "x",
+    "color": "magenta",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "7 L",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "50 cm",
+        "moves": 350
+      }
+    ],
+    "warmth": 7,
+    "environmental_protection": 13,
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "BELTED", "WATERPROOF", "PADDED" ],
+    "armor": [
+      {
+        "material": [ { "type": "bone", "covered_by_mat": 100, "thickness": 20 } ],
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": 10
+      }
+    ]
+  },
+  {
+    "id": "armor_bio_eyes",
+    "//": "These do not preclude wearing glasses, but you'll get double-up penalties.  If you really needed to you could likely still situate the lenses in front of them.  You should probably just augment your eyes though.",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str_sp": "protective lenses" },
+    "description": "Highly protective lenses which seal off your eyes from danger, routing your tear ducts to your mouth.",
+    "weight": "180 g",
+    "volume": "250 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "to_hit": -2,
+    "material": [ "plastic", "lvl4ballisticglass" ],
+    "symbol": "[",
+    "color": "dark_gray",
+    "warmth": 5,
+    "material_thickness": 1.5,
+    "environmental_protection": 10,
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "SKINTIGHT", "SOFT", "WATER_FRIENDLY", "SUN_GLASSES", "NO_REPAIR", "SWIM_GOGGLES" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "plastic", "covered_by_mat": 100, "thickness": 0.5 },
+          { "type": "lvl4ballisticglass", "covered_by_mat": 100, "thickness": 1.0 }
+        ],
+        "covers": [ "eyes" ],
+        "coverage": 100,
+        "encumbrance": 5,
+        "rigid_layer_only": true,
+        "cover_vitals": 90
+      }
+    ]
+  },
+  {
+    "id": "armor_bio_carbon_filament",
+    "type": "ARMOR",
+    "category": "armor",
+    "weight": "500 g",
+    "volume": "1200 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "symbol": ",",
+    "color": "brown",
+    "warmth": 0,
+    "environmental_protection": 1,
+    "material_thickness": 1.25,
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "PERSONAL", "PADDED", "WATER_FRIENDLY", "SOFT", "NO_REPAIR", "ALLOWS_NATURAL_ATTACKS" ],
+    "material": [ "nanotubes" ],
+    "name": { "str_sp": "subdermal carbon filament" },
+    "description": "A layer of thin carbon nanotubes implanted in your skin.  Helps protect your vitals from laceration.",
+    "armor": [
+      {
+        "material": [
+          { "type": "nanotubes", "covered_by_mat": 100, "thickness": 1 },
+          { "type": "nanotubes", "covered_by_mat": 75, "thickness": 0.25 }
+        ],
+        "covers": [ "torso", "head", "mouth", "leg_l", "leg_r", "arm_l", "arm_r", "hand_l", "hand_r", "foot_l", "foot_r" ],
+        "coverage": 100,
+        "encumbrance": 0,
+        "cover_vitals": 60
       }
     ]
   }

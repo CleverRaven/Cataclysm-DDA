@@ -221,7 +221,7 @@ void computer_session::use()
     reset_terminal(); // This should have been done by now, but just in case.
 }
 
-bool computer_session::hack_attempt( Character &you, int Security )
+bool computer_session::hack_attempt( Character &you, int Security ) const
 {
     if( Security == -1 ) {
         Security = comp.security;    // Set to main system security if no value passed

@@ -140,15 +140,13 @@ void overmapbuffer::fix_mongroups( overmap &new_overmap )
             continue;
         }
         // Inside the bounds of the overmap?
-        if( mg.pos.x() >= 0 && mg.pos.y() >= 0 && mg.pos.x() < OMAPX * 2 &&
-            mg.pos.y() < OMAPY * 2 ) {
+        point_abs_om omp;
+        point_om_sm sm_rem;
+        std::tie( omp, sm_rem ) = project_remain<coords::om>( mg.abs_pos.xy() );
+        if( omp == new_overmap.pos() ) {
             ++it;
             continue;
         }
-        point_abs_sm smabs = project_combine( new_overmap.pos(), mg.pos.xy() );
-        point_abs_om omp;
-        point_om_sm sm_rem;
-        std::tie( omp, sm_rem ) = project_remain<coords::om>( smabs );
         if( !has( omp ) ) {
             // Don't generate new overmaps, as this can be called from the
             // overmap-generating code.
@@ -156,8 +154,7 @@ void overmapbuffer::fix_mongroups( overmap &new_overmap )
             continue;
         }
         overmap &om = get( omp );
-        mg.pos = tripoint_om_sm( sm_rem, mg.pos.z() );
-        om.spawn_mon_group( mg );
+        om.spawn_mon_group( mg, 1 );
         new_overmap.zg.erase( it++ );
     }
 }
@@ -169,25 +166,23 @@ void overmapbuffer::fix_nemesis( overmap &new_overmap )
         mongroup &mg = it->second;
 
         //if it's not the nemesis, continue
-        if( mg.horde_behaviour != "nemesis" ) {
+        if( mg.behaviour != mongroup::horde_behaviour::nemesis ) {
             ++it;
             continue;
         }
 
+        point_abs_om omp;
+        point_om_sm sm_rem;
+        std::tie( omp, sm_rem ) = project_remain<coords::om>( mg.abs_pos.xy() );
         //if the nemesis's abs coordinates put it in this overmap, it belongs here
-        if( project_to<coords::om>( mg.abs_pos.xy() ) == new_overmap.pos() ) {
+        if( omp == new_overmap.pos() ) {
             ++it;
             continue;
         }
 
         //otherwise, place it in the overmap that corresponds to its abs_sm coords
-        point_abs_om omp;
-        point_om_sm sm_rem;
-        std::tie( omp, sm_rem ) = project_remain<coords::om>( mg.abs_pos.xy() );
-
         overmap &om = get( omp );
-        mg.pos = tripoint_om_sm( sm_rem, mg.pos.z() );
-        om.spawn_mon_group( mg );
+        om.spawn_mon_group( mg, 1 );
         new_overmap.zg.erase( it++ );
         //there should only be one nemesis, so we can break after finding it
         break;
@@ -1020,7 +1015,8 @@ bool overmapbuffer::reveal_route( const tripoint_abs_omt &source, const tripoint
     }
 
     const pf::two_node_scoring_fn<point_rel_omt> estimate =
-    [&]( pf::directed_node<point_rel_omt> cur, cata::optional<pf::directed_node<point_rel_omt>> ) {
+        [&]( pf::directed_node<point_rel_omt> cur,
+    const cata::optional<pf::directed_node<point_rel_omt>> & ) {
         int cost = 0;
         const oter_id oter = get_ter_at( cur.pos );
         if( !connection->has( oter ) ) {
@@ -1281,7 +1277,7 @@ shared_ptr_fast<npc> overmapbuffer::find_npc( character_id id )
     return nullptr;
 }
 
-shared_ptr_fast<npc> overmapbuffer::find_npc_by_unique_id( std::string unique_id )
+shared_ptr_fast<npc> overmapbuffer::find_npc_by_unique_id( const std::string &unique_id )
 {
     point_abs_om loc = g->get_unique_npc_location( unique_id );
     return get( loc ).find_npc_by_unique_id( unique_id );
@@ -1313,7 +1309,7 @@ void overmapbuffer::insert_npc( const shared_ptr_fast<npc> &who )
 shared_ptr_fast<npc> overmapbuffer::remove_npc( const character_id &id )
 {
     for( auto &it : overmaps ) {
-        if( const auto p = it.second->erase_npc( id ) ) {
+        if( auto p = it.second->erase_npc( id ) ) {
             return p;
         }
     }
@@ -1535,7 +1531,7 @@ std::string overmapbuffer::get_description_at( const tripoint_abs_sm &where )
 {
     const auto oter = ter( project_to<coords::omt>( where ) );
     const nc_color ter_color = oter->get_color();
-    const std::string ter_name = colorize( oter->get_name(), ter_color );
+    std::string ter_name = colorize( oter->get_name(), ter_color );
 
     if( where.z() != 0 ) {
         return ter_name;

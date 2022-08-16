@@ -144,7 +144,8 @@
       [ "halter_top", 30 ],
       [ "iceaxe", 30 ],
       [ "tourist_table", 30 ],
-      [ "fitness_band", 5 ]
+      [ "fitness_band", 5 ],
+      [ "aim_game", 5 ]
     ]
   },
   {
@@ -153,6 +154,19 @@
     "subtype": "collection",
     "container-item": "helmet_bike",
     "items": [ { "item": "plastic_chin_guard", "prob": 50 }, { "item": "shield_visor", "prob": 10 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boat_equipment",
+    "//": "Any items likely to be found in a boat or in any place which has boats.",
+    "items": [
+      { "group": "allsporting", "prob": 50 },
+      { "item": "methanol_fuel_cell", "prob": 1 },
+      { "item": "5l_methanol_tank", "prob": 1 },
+      { "item": "10l_methanol_tank", "prob": 1 },
+      { "item": "28l_methanol_tank", "prob": 1 },
+      { "item": "60l_methanol_tank", "prob": 1 }
+    ]
   },
   {
     "type": "item_group",

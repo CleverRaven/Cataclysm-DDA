@@ -11,7 +11,23 @@
     "weight": "81500 g",
     "hp": 100,
     "speed": 50,
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "PET_WONT_FOLLOW" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "PET_WONT_FOLLOW" ],
+    "upgrades": { "half_life": 0, "into_group": "test_upgrades_multi", "multiple_spawns": true, "spawn_range": 5 }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_test_camera",
+    "name": { "str_sp": "test camera" },
+    "description": "It's a camera!",
+    "default_faction": "player",
+    "material": [ "slime" ],
+    "symbol": "O",
+    "volume": "1 ml",
+    "weight": "1 g",
+    "hp": 1,
+    "speed": 1,
+    "vision_day": 6,
+    "flags": [ "SEES" ]
   },
   {
     "type": "MONSTER",

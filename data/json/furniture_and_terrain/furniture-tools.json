@@ -1551,5 +1551,52 @@
       "sound_fail": "twang.",
       "items": [ { "item": "rope_30", "count": [ 1, 1 ] } ]
     }
+  },
+  {
+    "type": "furniture",
+    "id": "f_hoist_rope",
+    "name": "rope hoist",
+    "description": "A loop of rope hangs here, using a sturdy horizontal support as a basic pulley.  While crude, it gives you some mechanical advantage for lifting things.",
+    "symbol": "|",
+    "color": "yellow",
+    "move_cost_mod": 0,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "EASY_DECONSTRUCT" ],
+    "examine_action": "deployed_furniture",
+    "deployed_item": "rope_30",
+    "deconstruct": { "items": [ { "item": "rope_30", "count": 1 } ] },
+    "crafting_pseudo_item": "fake_lift_light"
+  },
+  {
+    "type": "furniture",
+    "id": "f_hoist_pulley",
+    "name": "rope and tackle hoist",
+    "looks_like": "f_hoist_rope",
+    "description": "A loop of rope hangs here, looped through a quality tackle to give a significant mechanical advantage while lifting heavy objects.",
+    "symbol": "|",
+    "color": "white",
+    "move_cost_mod": 0,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT" ],
+    "deconstruct": {
+      "items": [ { "item": "block_and_tackle", "count": 1 }, { "item": "rope_30", "count": 1 }, { "item": "spike", "count": 1 } ]
+    },
+    "crafting_pseudo_item": "fake_lift_medium"
+  },
+  {
+    "type": "furniture",
+    "id": "f_hoist_chain",
+    "name": "chain hoist",
+    "looks_like": "f_hoist_rope",
+    "description": "A sturdy chain and heavy tackle hang well-supported from the ceiling here, ready to lift most heavy items you could think of using mechanical advantage.",
+    "symbol": "|",
+    "color": "dark_gray",
+    "move_cost_mod": 1,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT" ],
+    "deconstruct": {
+      "items": [ { "item": "chain", "count": 1 }, { "item": "block_and_tackle", "count": 1 }, { "item": "nuts_bolts", "count": 2 } ]
+    },
+    "crafting_pseudo_item": "fake_lift_heavy"
   }
 ]

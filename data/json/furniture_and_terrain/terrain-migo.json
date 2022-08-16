@@ -29,7 +29,7 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_resin_roof",
-    "flags": [ "NOITEM", "WALL", "PERMEABLE", "TRANSPARENT", "INDOORS", "MINEABLE" ],
+    "flags": [ "NOITEM", "WALL", "PERMEABLE", "TRANSPARENT", "INDOORS", "MINEABLE", "SUPPORTS_ROOF" ],
     "bash": {
       "str_min": 70,
       "str_max": 300,
@@ -106,7 +106,7 @@
     "move_cost": 0,
     "coverage": 95,
     "roof": "t_resin_roof",
-    "flags": [ "DOOR", "NOITEM", "CONNECT_TO_WALL", "BLOCK_WIND" ],
+    "flags": [ "DOOR", "NOITEM", "CONNECT_TO_WALL", "BLOCK_WIND", "SUPPORTS_ROOF" ],
     "open": "t_resin_hole_o",
     "deconstruct": { "ter_set": "t_resin_hole", "items": [ { "item": "resin_chunk", "count": [ 2, 5 ] } ] },
     "bash": {
@@ -127,7 +127,7 @@
     "color": "light_gray",
     "move_cost": 2,
     "roof": "t_resin_roof",
-    "flags": [ "TRANSPARENT", "FLAT", "CONNECT_TO_WALL" ],
+    "flags": [ "TRANSPARENT", "FLAT", "CONNECT_TO_WALL", "SUPPORTS_ROOF" ],
     "deconstruct": { "ter_set": "t_resin_hole", "items": [ { "item": "resin_chunk", "count": [ 2, 5 ] } ] },
     "close": "t_resin_hole_c",
     "bash": {
@@ -148,7 +148,7 @@
     "color": "light_gray",
     "move_cost": 4,
     "roof": "t_resin_roof",
-    "flags": [ "TRANSPARENT", "FLAT", "CONNECT_TO_WALL" ],
+    "flags": [ "TRANSPARENT", "FLAT", "CONNECT_TO_WALL", "SUPPORTS_ROOF" ],
     "bash": {
       "str_min": 100,
       "str_max": 500,

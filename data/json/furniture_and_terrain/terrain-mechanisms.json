@@ -154,7 +154,7 @@
   {
     "type": "terrain",
     "id": "t_barndoor",
-    "name": "rope and pulley",
+    "name": "barn door pulley",
     "description": "A system of ropes and pulleys that allows to pull up heavy doors.",
     "symbol": "|",
     "color": "brown",
@@ -170,15 +170,24 @@
       "items": [
         { "item": "rope_6", "count": [ 3, 4 ] },
         { "item": "2x4", "count": [ 1, 4 ] },
-        { "item": "splinter", "count": [ 2, 4 ] }
+        { "item": "splinter", "count": [ 2, 4 ] },
+        { "item": "block_and_tackle", "count": [ 0, 1 ] }
       ]
     },
-    "deconstruct": { "ter_set": "t_dirtfloor", "items": [ { "item": "rope_30", "count": 1 }, { "item": "2x4", "count": 8 } ] }
+    "deconstruct": {
+      "ter_set": "t_dirtfloor",
+      "items": [
+        { "item": "rope_30", "count": 1 },
+        { "item": "nuts_bolts", "count": 1 },
+        { "item": "2x4", "count": 8 },
+        { "item": "block_and_tackle", "count": 1 }
+      ]
+    }
   },
   {
     "type": "terrain",
     "id": "t_palisade_pulley",
-    "name": "rope and pulley",
+    "name": "gate pulley",
     "description": "A system of ropes and pulleys that allows to pull up heavy doors or gates.",
     "symbol": "|",
     "color": "brown",
@@ -197,7 +206,14 @@
         { "item": "splinter", "count": [ 2, 4 ] }
       ]
     },
-    "deconstruct": { "ter_set": "t_dirt", "items": [ { "item": "rope_makeshift_30", "count": 1 }, { "item": "2x4", "count": 8 } ] }
+    "deconstruct": {
+      "ter_set": "t_dirt",
+      "items": [
+        { "item": "rope_makeshift_30", "count": 1 },
+        { "item": "2x4", "count": 8 },
+        { "item": "block_and_tackle", "count": 1 }
+      ]
+    }
   },
   {
     "type": "terrain",

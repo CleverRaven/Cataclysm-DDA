@@ -116,6 +116,12 @@
     "info": "You need to be in a seat or saddle to operate vehicle controls."
   },
   {
+    "id": "ENHANCED_VISION",
+    "type": "json_flag",
+    "info": "Can be used to <color_cyan>scout things far away</color> when seated.",
+    "requires_flag": "SEAT"
+  },
+  {
     "id": "SEATBELT",
     "type": "json_flag",
     "info": "This part will help prevent you from being thrown from the vehicle in a collision.  You will automatically enable this part when you move into a tile with it.",

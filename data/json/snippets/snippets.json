@@ -347,5 +347,27 @@
       "They know what you've done…",
       "You're feeling even more paranoid than usual."
     ]
+  },
+  {
+    "type": "snippet",
+    "category": "toxic_waste_corpse_disposal",
+    "text": [
+      {
+        "id": "lost_note_1",
+        "text": "A crumpled and dirty note containing some printed text.  The text contains detailed instructions on how to dispose of \"experiments\" in remote areas."
+      },
+      {
+        "id": "lost_note_2",
+        "text": "You see a faded map, stained with unknown fluids and riddled with holes.  A route is scribbled onto it.  The point of departure looks to be some kind of odd research facility."
+      },
+      {
+        "id": "lost_note_3",
+        "text": "Some sheets of paper, folded, crinkled and wet due to exposure to the environment.  It smells vile and there are faint smears of blood.  A map is printed on it, depicting instructions on how to handle deceased \"experiments\" and a route to some remote site.  You find it very odd that the starting point of the route is a subway station."
+      },
+      {
+        "id": "lost_note_4",
+        "text": "This note has a chemical smell and a bloody thumbprint on it.  You see directions to nearby isolated sites, mainly forests and fields.  The name of the company(?) who printed this, XEDRA, sounds ominous."
+      }
+    ]
   }
 ]

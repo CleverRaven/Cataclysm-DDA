@@ -23,7 +23,7 @@
     "material_thickness": 5,
     "environmental_protection": 1,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT" ]
+    "flags": [ "VARSIZE", "STURDY" ]
   },
   {
     "id": "tac_fullhelmet_uicas",

@@ -186,6 +186,8 @@ class recipe
         std::map<itype_id, book_recipe_data> booksets;
         // Parameters for practice recipes
         cata::optional<practice_recipe_data> practice_data;
+        // Parameters for nested categories
+        std::set<recipe_id> nested_category_data;
 
         std::set<flag_id> flags_to_delete; // Flags to delete from the resultant item.
 
@@ -258,6 +260,7 @@ class recipe
         std::string get_consistency_error() const;
 
         bool is_practice() const;
+        bool is_nested() const;
         bool is_blueprint() const;
         const update_mapgen_id &get_blueprint() const;
         const translation &blueprint_name() const;

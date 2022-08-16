@@ -171,6 +171,7 @@ class uistatedata
         // crafting gui
         std::set<recipe_id> hidden_recipes;
         std::set<recipe_id> favorite_recipes;
+        std::set<recipe_id> nested_recipes; // NOLINT(cata-serialize)
         cata::flat_set<recipe_id> read_recipes;
         std::vector<recipe_id> recent_recipes;
 
@@ -198,7 +199,7 @@ class uistatedata
 
         // nice little convenience function for serializing an array, regardless of amount. :^)
         template<typename T>
-        void serialize_array( JsonOut &json, std::string name, T &data ) const {
+        void serialize_array( JsonOut &json, const std::string &name, T &data ) const {
             json.member( name );
             json.start_array();
             for( const auto &d : data ) {

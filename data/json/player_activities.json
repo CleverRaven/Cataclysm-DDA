@@ -475,6 +475,14 @@
     "based_on": "neither"
   },
   {
+    "id": "ACT_UNLOAD_LOOT",
+    "type": "activity_type",
+    "activity_level": "MODERATE_EXERCISE",
+    "verb": "unloading loot",
+    "based_on": "neither",
+    "multi_activity": true
+  },
+  {
     "id": "ACT_FETCH_REQUIRED",
     "type": "activity_type",
     "activity_level": "MODERATE_EXERCISE",

@@ -261,7 +261,10 @@ void vehicle::control_doors()
                 } else {
                     int part = next_part_to_close( motor );
                     if( part != -1 ) {
-                        if( part_flag( part, "CURTAIN" ) &&  option == CLOSEDOORS ) {
+                        if( part_flag( part, "CURTAIN" ) && option == CLOSEDOORS ) {
+                            continue;
+                        }
+                        if( !can_close( part, get_player_character() ) ) {
                             continue;
                         }
                         open_or_close( part, open );
@@ -269,6 +272,9 @@ void vehicle::control_doors()
                             next_part = next_part_to_close( motor );
                         }
                         if( next_part != -1 ) {
+                            if( !can_close( part, get_player_character() ) ) {
+                                continue;
+                            }
                             open_or_close( next_part, open );
                         }
                     }
@@ -563,7 +569,7 @@ void vehicle::smash_security_system()
     }
 }
 
-std::string vehicle::tracking_toggle_string()
+std::string vehicle::tracking_toggle_string() const
 {
     return tracking_on ? _( "Forget vehicle position" ) : _( "Remember vehicle position" );
 }
@@ -1198,11 +1204,11 @@ void vehicle::start_engines( const bool take_control, const bool autodrive )
     int start_time = 0;
     // record the first usable engine as the referenced position checked at the end of the engine starting activity
     bool has_starting_engine_position = false;
-    tripoint starting_engine_position;
+    tripoint_bub_ms starting_engine_position;
     for( size_t e = 0; e < engines.size(); ++e ) {
         if( !has_starting_engine_position && !parts[ engines[ e ] ].is_broken() &&
             parts[ engines[ e ] ].enabled ) {
-            starting_engine_position = global_part_pos3( engines[ e ] );
+            starting_engine_position = bub_part_pos( engines[ e ] );
             has_starting_engine_position = true;
         }
         has_engine = has_engine || is_engine_on( e );
@@ -1210,7 +1216,7 @@ void vehicle::start_engines( const bool take_control, const bool autodrive )
     }
 
     if( !has_starting_engine_position ) {
-        starting_engine_position = global_pos3();
+        starting_engine_position = {};
     }
 
     if( !has_engine ) {
@@ -1225,7 +1231,8 @@ void vehicle::start_engines( const bool take_control, const bool autodrive )
     }
     if( !autodrive ) {
         player_character.assign_activity( ACT_START_ENGINES, start_time );
-        player_character.activity.placement = starting_engine_position - player_character.pos();
+        player_character.activity.relative_placement =
+            starting_engine_position - player_character.pos_bub();
         player_character.activity.values.push_back( take_control );
     }
 }
@@ -1239,7 +1246,7 @@ void vehicle::enable_patrol()
     refresh();
 }
 
-void vehicle::honk_horn()
+void vehicle::honk_horn() const
 {
     const bool no_power = !fuel_left( fuel_type_battery, true );
     bool honked = false;
@@ -1311,12 +1318,14 @@ void vehicle::reload_seeds( const tripoint &pos )
             }
             used_seed.front().set_age( 0_turns );
             //place seeds into the planter
-            put_into_vehicle_or_drop( player_character, item_drop_reason::deliberate, used_seed, pos );
+            // TODO: fix point types
+            put_into_vehicle_or_drop( player_character, item_drop_reason::deliberate, used_seed,
+                                      tripoint_bub_ms( pos ) );
         }
     }
 }
 
-void vehicle::beeper_sound()
+void vehicle::beeper_sound() const
 {
     // No power = no sound
     if( fuel_left( fuel_type_battery, true ) == 0 ) {
@@ -1336,7 +1345,7 @@ void vehicle::beeper_sound()
     }
 }
 
-void vehicle::play_music()
+void vehicle::play_music() const
 {
     Character &player_character = get_player_character();
     for( const vpart_reference &vp : get_enabled_parts( "STEREO" ) ) {
@@ -1344,7 +1353,7 @@ void vehicle::play_music()
     }
 }
 
-void vehicle::play_chimes()
+void vehicle::play_chimes() const
 {
     if( !one_in( 3 ) ) {
         return;
@@ -1529,7 +1538,8 @@ void vehicle::operate_scoop()
             parts_points.push_back( current );
         }
         for( const tripoint &position : parts_points ) {
-            here.mop_spills( position );
+            // TODO: fix point types
+            here.mop_spills( tripoint_bub_ms( position ) );
             if( !here.has_items( position ) ) {
                 continue;
             }
@@ -1650,7 +1660,7 @@ bool vehicle::can_close( int part_index, Character &who )
                     }
                     return false;
                 }
-                if( parts[partID].has_fake ) {
+                if( parts[partID].has_fake && parts[parts[partID].fake_part_at].is_active_fake ) {
                     partID = parts[partID].fake_part_at;
                 } else {
                     partID = -1;
@@ -2108,7 +2118,7 @@ void vehicle::validate_carried_vehicles( std::vector<std::vector<int>>
 }
 
 
-void vpart_position::form_inventory( inventory &inv )
+void vpart_position::form_inventory( inventory &inv ) const
 {
     const int veh_battery = vehicle().fuel_left( itype_battery, true );
     const cata::optional<vpart_reference> vp_faucet = part_with_tool( itype_water_faucet );

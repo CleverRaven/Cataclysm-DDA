@@ -1104,7 +1104,7 @@ void npc::revert_after_activity()
     backlog.clear();
 }
 
-npc_mission npc::get_previous_mission()
+npc_mission npc::get_previous_mission() const
 {
     return previous_mission;
 }
@@ -1114,7 +1114,7 @@ npc_attitude npc::get_previous_attitude()
     return previous_attitude;
 }
 
-bool npc::get_known_to_u()
+bool npc::get_known_to_u() const
 {
     return known_to_u;
 }
@@ -1879,10 +1879,10 @@ void npc::decide_needs()
         elem = 20;
     }
     if( weapon && weapon->is_gun() ) {
-        int ups_drain = weapon->get_gun_ups_drain();
-        if( ups_drain > 0 ) {
-            int ups_charges = available_ups();
-            needrank[need_ammo] = static_cast<double>( ups_charges ) / ups_drain;
+        units::energy ups_drain = weapon->get_gun_ups_drain();
+        if( ups_drain > 0_kJ ) {
+            units::energy ups_charges = available_ups();
+            needrank[need_ammo] = static_cast<double>( ups_charges / ups_drain );
         } else {
             const ammotype ammo_type = weapon->ammo_type();
             if( ammo_type != ammotype::NULL_ID() ) {
@@ -2073,14 +2073,19 @@ int npc::max_willing_to_owe() const
     const int credit_trust    = 10000;
     const int credit_value    = 10000;
     const int credit_fear     = 10000;
-    const int credit_altruism = 0;
+    const int credit_altruism = 10000;
     const int credit_anger    = -10000;
+    const int credit_default  = 10000;
 
+    // NPCs will usually be happy to owe at least credit_default, but may be willing to owe
+    // more if they trust, value, are fearful, or altruistic.
+    // Angry NPCs could conceiveably refuse to owe you money, out of spite.
     return std::max( 0,
-                     op_of_u.trust * credit_trust +
-                     op_of_u.value * credit_value +
-                     op_of_u.fear  * credit_fear  +
-                     personality.altruism * credit_altruism +
+                     credit_default +
+                     std::max( 0, op_of_u.trust ) * credit_trust +
+                     std::max( 0, op_of_u.value ) * credit_value +
+                     std::max( 0, op_of_u.fear )  * credit_fear  +
+                     std::max( 0, static_cast<int>( personality.altruism ) ) * credit_altruism +
                      op_of_u.anger * credit_anger
                    );
 
@@ -2260,6 +2265,15 @@ double npc::value( const item &it, double market_price ) const
     return std::round( ret * market_price );
 }
 
+faction_price_rule const *npc::get_price_rules( item const &it ) const
+{
+    faction_price_rule const *ret = myclass->get_price_rules( it, *this );
+    if( ret == nullptr && get_faction() != nullptr ) {
+        ret = get_faction()->get_price_rules( it, *this );
+    }
+    return ret;
+}
+
 void healing_options::clear_all()
 {
     bandage = false;
@@ -2269,12 +2283,12 @@ void healing_options::clear_all()
     infect = false;
 }
 
-bool healing_options::all_false()
+bool healing_options::all_false() const
 {
     return !any_true();
 }
 
-bool healing_options::any_true()
+bool healing_options::any_true() const
 {
     return bandage || bleed || bite || infect || disinfect;
 }
@@ -2641,7 +2655,7 @@ int npc::smash_ability() const
     return 0;
 }
 
-float npc::danger_assessment()
+float npc::danger_assessment() const
 {
     return ai_cache.danger_assessment;
 }
@@ -2652,7 +2666,7 @@ float npc::average_damage_dealt()
     return static_cast<float>( melee_value( weap ) );
 }
 
-bool npc::bravery_check( int diff )
+bool npc::bravery_check( int diff ) const
 {
     return dice( 10 + personality.bravery, 6 ) >= dice( diff, 4 );
 }
@@ -3613,7 +3627,7 @@ attitude_group npc::get_attitude_group( npc_attitude att ) const
     return attitude_group::neutral;
 }
 
-void npc::set_unique_id( std::string id )
+void npc::set_unique_id( const std::string &id )
 {
     if( !unique_id.empty() ) {
         debugmsg( "Tried to set unique_id of npc with one already of value: ", unique_id );

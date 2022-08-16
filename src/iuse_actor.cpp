@@ -814,15 +814,18 @@ void consume_drug_iuse::info( const item &, std::vector<iteminfo> &dump ) const
         if( rate <= 0_turns ) {
             return std::string();
         }
-        const int lo = static_cast<int>( v.second.first  * rate / 1_days * 100 );
-        const int hi = static_cast<int>( v.second.second * rate / 1_days * 100 );
 
-        return string_format( lo == hi ? "%s (%i%%)" : "%s (%i-%i%%)", v.first.obj().name(), lo,
-                              hi );
+        const int lo = v.second.first;
+        const int hi = v.second.second;
+
+        if( v.first->type() == vitamin_type::VITAMIN ) {
+            return string_format( lo == hi ? "%s (%i%%)" : "%s (%i-%i%%)", v.first.obj().name(), lo, hi );
+        }
+        return string_format( lo == hi ? "%s (%i U)" : "%s (%i-%i U)", v.first.obj().name(), lo, hi );
     } );
 
     if( !vits.empty() ) {
-        dump.emplace_back( "TOOL", _( "Vitamins (RDA): " ), vits );
+        dump.emplace_back( "TOOL", _( "Vitamins (RDA) and Compounds (U): " ), vits );
     }
 
     if( tools_needed.count( itype_syringe ) ) {
@@ -877,14 +880,19 @@ cata::optional<int> consume_drug_iuse::use( Character &p, item &it, bool, const 
     for( const auto &field : fields_produced ) {
         const field_type_id fid = field_type_id( field.first );
         for( int i = 0; i < 3; i++ ) {
-            here.add_field( {p.posx() + static_cast<int>( rng( -2, 2 ) ), p.posy() + static_cast<int>( rng( -2, 2 ) ), p.posz()},
-                            fid,
-                            field.second );
+            point offset( rng( -2, 2 ), rng( -2, 2 ) );
+            here.add_field( p.pos_bub() + offset, fid, field.second );
         }
     }
 
     for( const auto &v : vitamins ) {
-        p.vitamin_mod( v.first, rng( v.second.first, v.second.second ) );
+        const int lo = v.first->RDA_to_default( v.second.first );
+        const int high = v.first->RDA_to_default( v.second.second );
+
+        // have to update the daily estimate with the vitamins from the drug as well
+        p.daily_vitamins[v.first].first += lo;
+
+        p.vitamin_mod( v.first, rng( lo, high ) );
     }
 
     // Output message.
@@ -1251,17 +1259,18 @@ std::unique_ptr<iuse_actor> firestarter_actor::clone() const
     return std::make_unique<firestarter_actor>( *this );
 }
 
-bool firestarter_actor::prep_firestarter_use( const Character &p, tripoint &pos )
+bool firestarter_actor::prep_firestarter_use( const Character &p, tripoint_bub_ms &pos )
 {
     // checks for fuel are handled by use and the activity, not here
-    if( pos == p.pos() ) {
+    if( pos == p.pos_bub() ) {
         if( const cata::optional<tripoint> pnt_ = choose_adjacent( _( "Light where?" ) ) ) {
-            pos = *pnt_;
+            // TODO: fix point types
+            pos = tripoint_bub_ms( *pnt_ );
         } else {
             return false;
         }
     }
-    if( pos == p.pos() ) {
+    if( pos == p.pos_bub() ) {
         p.add_msg_if_player( m_info, _( "You would set yourself on fire." ) );
         p.add_msg_if_player( _( "But you're already smokin' hot." ) );
         return false;
@@ -1300,7 +1309,7 @@ bool firestarter_actor::prep_firestarter_use( const Character &p, tripoint &pos 
                _( "There's a brazier there but you haven't set it up to contain the fire.  Continue?" ) );
 }
 
-void firestarter_actor::resolve_firestarter_use( Character &p, const tripoint &pos )
+void firestarter_actor::resolve_firestarter_use( Character &p, const tripoint_bub_ms &pos )
 {
     if( get_map().add_field( pos, fd_fire, 1, 10_minutes ) ) {
         if( !p.has_trait( trait_PYROMANIA ) ) {
@@ -1351,7 +1360,7 @@ float firestarter_actor::light_mod( const tripoint &pos ) const
     return 0.0f;
 }
 
-int firestarter_actor::moves_cost_by_fuel( const tripoint &pos ) const
+int firestarter_actor::moves_cost_by_fuel( const tripoint_bub_ms &pos ) const
 {
     map &here = get_map();
     if( here.flammable_items_at( pos, 100 ) ) {
@@ -1372,7 +1381,8 @@ cata::optional<int> firestarter_actor::use( Character &p, item &it, bool t,
         return cata::nullopt;
     }
 
-    tripoint pos = spos;
+    // TODO: fix point types
+    tripoint_bub_ms pos( spos );
     float light = light_mod( p.pos() );
     if( !prep_firestarter_use( p, pos ) ) {
         return cata::nullopt;
@@ -1408,8 +1418,8 @@ cata::optional<int> firestarter_actor::use( Character &p, item &it, bool t,
     p.assign_activity( ACT_START_FIRE, moves, potential_skill_gain,
                        0, it.tname() );
     p.activity.targets.emplace_back( p, &it );
-    p.activity.values.push_back( g->natural_light_level( pos.z ) );
-    p.activity.placement = pos;
+    p.activity.values.push_back( g->natural_light_level( pos.z() ) );
+    p.activity.placement = get_map().getglobal( pos );
     // charges to use are handled by the activity
     return 0;
 }
@@ -1464,7 +1474,8 @@ cata::optional<int> salvage_actor::try_to_cut_up
 }
 
 // Helper to visit instances of all the sub-materials of an item.
-static void visit_salvage_products( const item &it, std::function<void( const item & )> func )
+static void visit_salvage_products( const item &it,
+                                    const std::function<void( const item & )> &func )
 {
     for( const auto &material : it.made_of() ) {
         if( const cata::optional<itype_id> id = material.first->salvaged_into() ) {
@@ -1551,7 +1562,7 @@ bool salvage_actor::valid_to_cut_up( const Character *const p, const item &it ) 
 // Used only by salvage_actor::cut_up
 static cata::optional<recipe> find_uncraft_recipe( item x )
 {
-    auto is_valid_uncraft = [&x]( recipe curr ) -> bool {
+    auto is_valid_uncraft = [&x]( const recipe & curr ) -> bool {
         return !( curr.obsolete || curr.result() != x.typeId()
                   || curr.makes_amount() > 1 || curr.is_null() );
     };
@@ -1601,7 +1612,7 @@ void salvage_actor::cut_up( Character &p, item_location &cut ) const
     // Reinforcing does not decrease losses.
     efficiency *= std::min( std::pow( 0.8, cut.get_item()->damage_level() ), 1.0 );
 
-    auto distribute_uniformly = [&mat_to_weight]( item x, float num_adjusted ) -> void {
+    auto distribute_uniformly = [&mat_to_weight]( const item & x, float num_adjusted ) -> void {
         const float mat_total = std::max( x.type->mat_portion_total, 1 );
         for( const auto &type : x.made_of() )
         {
@@ -1614,7 +1625,7 @@ void salvage_actor::cut_up( Character &p, item_location &cut ) const
     // num_adjusted represents the number of items and efficiency in one value
     std::function<void( item, float )> cut_up_component =
         [&salvage, &mat_set, &distribute_uniformly, &cut_up_component]
-    ( item curr, float num_adjusted ) -> void {
+    ( const item & curr, float num_adjusted ) -> void {
 
         // If it is one of the basic components, add it into the list
         if( curr.type->is_basic_component() )
@@ -2804,7 +2815,7 @@ std::set<itype_id> repair_item_actor::get_valid_repair_materials( const item &fi
 {
     std::set<itype_id> valid_entries;
     for( const auto &mat : materials ) {
-        if( fix.made_of( mat ) ) {
+        if( fix.can_repair_with( mat ) ) {
             const itype_id &component_id = mat.obj().repaired_with();
             // Certain (different!) materials are repaired with the same components (steel, iron, hard steel use scrap metal).
             // This checks avoids adding the same component twice, which is annoying to the user.
@@ -3128,7 +3139,7 @@ static bool damage_item( Character &pl, item_location &fix )
                 if( it->has_flag( flag_NO_DROP ) ) {
                     continue;
                 }
-                put_into_vehicle_or_drop( pl, item_drop_reason::tumbling, { *it }, fix.position() );
+                put_into_vehicle_or_drop( pl, item_drop_reason::tumbling, { *it }, fix.pos_bub() );
             }
             fix.remove_item();
         }

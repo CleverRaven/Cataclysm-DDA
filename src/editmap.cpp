@@ -1577,7 +1577,7 @@ void editmap::edit_critter( Creature &critter )
     }
 }
 
-void editmap::edit_veh()
+void editmap::edit_veh() const
 {
     edit_json( get_map().veh_at( target )->vehicle() );
 }
@@ -2218,7 +2218,7 @@ void editmap::edit_mapgen()
 /*
  * Special voodoo sauce required to cleanse vehicles and caches to prevent debugmsg loops when re-applying mapgen.
  */
-void editmap::cleartmpmap( tinymap &tmpmap )
+void editmap::cleartmpmap( tinymap &tmpmap ) const
 {
     for( submap *&smap : tmpmap.grid ) {
         delete smap;

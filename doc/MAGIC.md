@@ -192,6 +192,7 @@ Spells may have any number of flags, for example:
 | `SPAWN_WITH_DEATH_DROPS` | allows summoned monsters to retain their usual death drops, otherwise they drop nothing
 | `NON_MAGICAL` | ignores spell resistance when calculating damage mitigation
 | `NO_PROJECTILE` | the "projectile" portion of the spell phases through walls. the epicenter of the spell effect is exactly where you target it with no regards to obstacles
+| `NO_EXPLOSION_SFX` | The spell will not generate a visual explosion effect
 
 
 ### Damage Types

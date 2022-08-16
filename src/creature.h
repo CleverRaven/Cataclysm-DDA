@@ -488,7 +488,7 @@ class Creature : public viewer
          * @param name Name of the implement used to pull the target.
          * @param p Position of the target creature.
         */
-        void longpull( std::string name, const tripoint &p );
+        void longpull( const std::string &name, const tripoint &p );
 
         /**
          * This creature just dodged an attack - possibly special/ranged attack - from source.

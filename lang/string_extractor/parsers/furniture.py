@@ -22,3 +22,14 @@ def parse_furniture(json, origin):
     if "examine_action" in json:
         parse_examine_action(json["examine_action"], origin,
                              "furniture \"{}\"".format(name))
+    if "prying" in json:
+        if "message" in json["prying"]:
+            write_text(json["prying"]["message"], origin,
+                       comment="Prying action message of furniture \"{}\""
+                       .format(name))
+        if "prying_data" in json["prying"]:
+            prying_data = json["prying"]["prying_data"]
+            if "failure" in prying_data:
+                write_text(prying_data["failure"], origin,
+                           comment="Prying failure message of furniture \"{}\""
+                           .format(name))

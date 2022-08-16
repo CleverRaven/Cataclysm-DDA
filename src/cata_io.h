@@ -131,7 +131,16 @@ struct enable_if_type {
  */
 template<class T, class E = void>
 struct has_archive_tag : std::false_type {
-    static void write( JsonOut &stream, const T &value ) {
+    template < typename S,
+               std::enable_if_t < std::is_enum<T>::value &&std::is_same<S, T>::value > * = nullptr >
+    static void write( JsonOut &stream, const S &value ) {
+        // TODO: When writing strings as enums is the default, this overload of
+        // write can be removed
+        stream.write_as_string( value );
+    }
+    template < typename S,
+               std::enable_if_t < !std::is_enum<T>::value &&std::is_same<S, T>::value > * = nullptr >
+    static void write( JsonOut &stream, const S &value ) {
         stream.write( value );
     }
     static bool read( const JsonObject &obj, const std::string &key, T &value ) {

@@ -1353,22 +1353,6 @@
   {
     "type": "mapgen",
     "method": "json",
-    "//": "A nested map for walls variety.",
-    "nested_mapgen_id": "lab_mutagen_3x3_EW_open",
-    "object": {
-      "mapgensize": [ 3, 3 ],
-      "rows": [
-        "   ",
-        " % ",
-        "   "
-      ],
-      "furniture": { "%": "f_standing_tank" },
-      "liquids": { "%": { "liquid": "ammonia_liquid", "amount": [ 2, 100 ] } }
-    }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
     "weight": 30,
     "//": "A nested map for walls variety.",
     "nested_mapgen_id": "lab_mutagen_3x3_EW_open",

@@ -75,6 +75,8 @@ static const std::vector<activity_id> consuming {
     ACT_CONSUME_MEDS_MENU,
     ACT_CONSUME_FUEL_MENU };
 
+constexpr tripoint_abs_ms player_activity::invalid_place;
+
 player_activity::player_activity() : type( activity_id::NULL_ID() ) { }
 
 player_activity::player_activity( activity_id t, int turns, int Index, int pos,
@@ -482,7 +484,7 @@ void player_activity::inherit_distractions( const player_activity &other )
 }
 
 
-std::map<distraction_type, std::string> player_activity::get_distractions()
+std::map<distraction_type, std::string> player_activity::get_distractions() const
 {
     std::map < distraction_type, std::string > res;
     activity_id act_id = id();

@@ -9,7 +9,7 @@
     "difficulty": 6,
     "time": "10 h",
     "autolearn": true,
-    "using": [ [ "sewing_kevlar", 200 ], [ "fabric_lycra", 20 ], [ "fabric_fauxfur", 20 ] ],
+    "using": [ [ "sewing_kevlar", 200 ], [ "fabric_lycra", 20 ], [ "fabric_fauxfur", 20 ], [ "fastener_large", 1 ], [ "clasps", 8 ] ],
     "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
     "proficiencies": [
       { "proficiency": "prof_closures" },
@@ -17,11 +17,7 @@
       { "proficiency": "prof_polymerworking" },
       { "proficiency": "prof_elastics" }
     ],
-    "components": [
-      [ [ "coat_rain", 1 ], [ "jacket_windbreaker", 1 ], [ "jacket_evac", 1 ], [ "coat_gut", 1 ] ],
-      [ [ "duct_tape", 300 ] ],
-      [ [ "sheet_kevlar_layered", 24 ] ]
-    ]
+    "components": [ [ [ "sheet_kevlar", 130 ] ] ]
   },
   {
     "result": "xs_wsurvivor_jumpsuit_nofur",
@@ -29,14 +25,9 @@
     "activity_level": "LIGHT_EXERCISE",
     "copy-from": "wsurvivor_jumpsuit_nofur",
     "time": "10 h",
-    "using": [ [ "sewing_kevlar", 150 ], [ "fabric_lycra", 15 ], [ "fabric_fauxfur", 15 ] ],
+    "using": [ [ "sewing_kevlar", 150 ], [ "fabric_lycra", 15 ], [ "fabric_fauxfur", 15 ], [ "fastener_large", 1 ], [ "clasps", 8 ] ],
     "qualities": [ { "id": "LEATHER_AWL", "level": 1 }, { "id": "FABRIC_CUT", "level": 2 } ],
-    "components": [
-      [ [ "leather", 15 ], [ "tanned_hide", 3 ] ],
-      [ [ "coat_rain", 1 ], [ "jacket_windbreaker", 1 ], [ "jacket_evac", 1 ], [ "coat_gut", 1 ] ],
-      [ [ "duct_tape", 225 ] ],
-      [ [ "sheet_kevlar_layered", 18 ] ]
-    ]
+    "components": [ [ [ "sheet_kevlar", 100 ] ] ]
   },
   {
     "result": "xl_wsurvivor_jumpsuit_nofur",
@@ -44,13 +35,9 @@
     "activity_level": "LIGHT_EXERCISE",
     "copy-from": "wsurvivor_jumpsuit_nofur",
     "time": "11 h 36 m",
-    "using": [ [ "sewing_kevlar", 300 ], [ "fabric_lycra", 30 ], [ "fabric_fauxfur", 30 ] ],
+    "using": [ [ "sewing_kevlar", 300 ], [ "fabric_lycra", 30 ], [ "fabric_fauxfur", 30 ], [ "fastener_large", 1 ], [ "clasps", 8 ] ],
     "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
-    "components": [
-      [ [ "coat_rain", 2 ], [ "jacket_windbreaker", 2 ], [ "jacket_evac", 2 ], [ "coat_gut", 2 ] ],
-      [ [ "duct_tape", 400 ] ],
-      [ [ "sheet_kevlar_layered", 48 ] ]
-    ]
+    "components": [ [ [ "sheet_kevlar", 200 ] ] ]
   },
   {
     "result": "h20survivor_jumpsuit",
@@ -62,7 +49,7 @@
     "difficulty": 7,
     "time": "12 h",
     "autolearn": true,
-    "using": [ [ "sewing_kevlar", 200 ] ],
+    "using": [ [ "sewing_kevlar", 200 ], [ "fastener_large", 1 ], [ "clasps", 8 ] ],
     "proficiencies": [
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_closures_waterproofing" },
@@ -70,11 +57,7 @@
       { "proficiency": "prof_elastics" }
     ],
     "qualities": [ { "id": "SEW_CURVED", "level": 1 }, { "id": "FABRIC_CUT", "level": 2 } ],
-    "components": [
-      [ [ "wetsuit", 1 ], [ "sheet_neoprene_patchwork", 2 ], [ "neoprene", 10 ], [ "sheet_neoprene", 140 ] ],
-      [ [ "duct_tape", 400 ] ],
-      [ [ "sheet_kevlar_layered", 12 ] ]
-    ]
+    "components": [ [ [ "wetsuit", 1 ], [ "sheet_neoprene_patchwork", 140 ], [ "sheet_neoprene", 140 ] ], [ [ "sheet_kevlar", 100 ] ] ]
   },
   {
     "result": "xs_h20survivor_jumpsuit",
@@ -82,13 +65,9 @@
     "copy-from": "h20survivor_jumpsuit",
     "activity_level": "LIGHT_EXERCISE",
     "time": "12 h",
-    "using": [ [ "sewing_kevlar", 150 ] ],
+    "using": [ [ "sewing_kevlar", 150 ], [ "fastener_large", 1 ], [ "clasps", 8 ] ],
     "qualities": [ { "id": "SEW_CURVED", "level": 1 }, { "id": "FABRIC_CUT", "level": 2 } ],
-    "components": [
-      [ [ "wetsuit", 1 ], [ "sheet_neoprene_patchwork", 2 ], [ "neoprene", 7 ], [ "sheet_neoprene", 105 ] ],
-      [ [ "duct_tape", 300 ] ],
-      [ [ "sheet_kevlar_layered", 9 ] ]
-    ]
+    "components": [ [ [ "wetsuit", 1 ], [ "sheet_neoprene_patchwork", 105 ], [ "sheet_neoprene", 105 ] ], [ [ "sheet_kevlar", 75 ] ] ]
   },
   {
     "result": "xl_h20survivor_jumpsuit",
@@ -96,13 +75,9 @@
     "copy-from": "h20survivor_jumpsuit",
     "activity_level": "LIGHT_EXERCISE",
     "time": "14 h",
-    "using": [ [ "sewing_kevlar", 300 ] ],
+    "using": [ [ "sewing_kevlar", 300 ], [ "fastener_large", 1 ], [ "clasps", 8 ] ],
     "qualities": [ { "id": "SEW_CURVED", "level": 1 } ],
-    "components": [
-      [ [ "wetsuit", 1 ], [ "sheet_neoprene_patchwork", 3 ], [ "neoprene", 15 ], [ "sheet_neoprene", 210 ] ],
-      [ [ "duct_tape", 600 ] ],
-      [ [ "sheet_kevlar_layered", 18 ] ]
-    ]
+    "components": [ [ [ "wetsuit", 1 ], [ "sheet_neoprene_patchwork", 210 ], [ "sheet_neoprene", 210 ] ], [ [ "sheet_kevlar", 150 ] ] ]
   },
   {
     "result": "lsurvivor_jumpsuit",
@@ -114,7 +89,7 @@
     "difficulty": 5,
     "time": "6 h",
     "autolearn": true,
-    "using": [ [ "sewing_kevlar", 100 ], [ "fabric_lycra", 20 ] ],
+    "using": [ [ "sewing_kevlar", 100 ], [ "fabric_lycra", 20 ], [ "fabric_nylon", 30 ], [ "fastener_large", 1 ], [ "clasps", 8 ] ],
     "proficiencies": [
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_closures_waterproofing" },
@@ -122,35 +97,23 @@
       { "proficiency": "prof_elastics" }
     ],
     "qualities": [ { "id": "FABRIC_CUT", "level": 2 } ],
-    "components": [
-      [ [ "coat_rain", 1 ], [ "jacket_windbreaker", 1 ], [ "jacket_evac", 1 ], [ "coat_gut", 1 ] ],
-      [ [ "duct_tape", 200 ] ],
-      [ [ "sheet_kevlar", 384 ] ]
-    ]
+    "components": [ [ [ "sheet_kevlar", 130 ] ] ]
   },
   {
     "result": "xs_lsurvivor_jumpsuit",
     "type": "recipe",
     "copy-from": "lsurvivor_jumpsuit",
     "time": "6 h",
-    "using": [ [ "sewing_kevlar", 75 ], [ "fabric_lycra", 15 ] ],
-    "components": [
-      [ [ "coat_rain", 1 ], [ "jacket_windbreaker", 1 ], [ "jacket_evac", 1 ], [ "coat_gut", 1 ] ],
-      [ [ "duct_tape", 150 ] ],
-      [ [ "sheet_kevlar", 288 ] ]
-    ]
+    "using": [ [ "sewing_kevlar", 75 ], [ "fabric_lycra", 15 ], [ "fabric_nylon", 23 ], [ "fastener_large", 1 ], [ "clasps", 8 ] ],
+    "components": [ [ [ "sheet_kevlar", 100 ] ] ]
   },
   {
     "result": "xl_lsurvivor_jumpsuit",
     "type": "recipe",
     "copy-from": "lsurvivor_jumpsuit",
     "time": "7 h",
-    "using": [ [ "sewing_kevlar", 150 ], [ "fabric_lycra", 30 ] ],
-    "components": [
-      [ [ "coat_rain", 2 ], [ "jacket_windbreaker", 2 ], [ "jacket_evac", 2 ], [ "coat_gut", 2 ] ],
-      [ [ "duct_tape", 300 ] ],
-      [ [ "sheet_kevlar_layered", 576 ] ]
-    ]
+    "using": [ [ "sewing_kevlar", 150 ], [ "fabric_lycra", 30 ], [ "fabric_nylon", 45 ], [ "fastener_large", 1 ], [ "clasps", 8 ] ],
+    "components": [ [ [ "sheet_kevlar_layered", 200 ] ] ]
   },
   {
     "result": "survivor_jumpsuit",
@@ -162,18 +125,14 @@
     "difficulty": 6,
     "time": "7 h",
     "autolearn": true,
-    "using": [ [ "sewing_kevlar", 150 ], [ "fabric_lycra", 20 ] ],
+    "using": [ [ "sewing_kevlar", 150 ], [ "fabric_lycra", 20 ], [ "fabric_nylon", 30 ], [ "fastener_large", 1 ], [ "clasps", 8 ] ],
     "proficiencies": [
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_closures_waterproofing" },
       { "proficiency": "prof_polymerworking" },
       { "proficiency": "prof_elastics" }
     ],
-    "components": [
-      [ [ "coat_rain", 1 ], [ "jacket_windbreaker", 1 ], [ "jacket_evac", 1 ], [ "coat_gut", 1 ] ],
-      [ [ "duct_tape", 300 ] ],
-      [ [ "sheet_kevlar", 672 ] ]
-    ]
+    "components": [ [ [ "sheet_kevlar", 220 ] ] ]
   },
   {
     "result": "xssurvivor_jumpsuit",
@@ -181,12 +140,8 @@
     "copy-from": "survivor_jumpsuit",
     "activity_level": "LIGHT_EXERCISE",
     "time": "7 h",
-    "using": [ [ "sewing_kevlar", 112 ], [ "fabric_lycra", 15 ] ],
-    "components": [
-      [ [ "coat_rain", 1 ], [ "jacket_windbreaker", 1 ], [ "jacket_evac", 1 ], [ "coat_gut", 1 ] ],
-      [ [ "duct_tape", 225 ] ],
-      [ [ "sheet_kevlar", 504 ] ]
-    ]
+    "using": [ [ "sewing_kevlar", 112 ], [ "fabric_lycra", 15 ], [ "fabric_nylon", 23 ], [ "fastener_large", 1 ], [ "clasps", 8 ] ],
+    "components": [ [ [ "sheet_kevlar", 155 ] ] ]
   },
   {
     "result": "xlsurvivor_jumpsuit",
@@ -194,12 +149,8 @@
     "copy-from": "survivor_jumpsuit",
     "activity_level": "LIGHT_EXERCISE",
     "time": "8 h 10 m",
-    "using": [ [ "sewing_kevlar", 200 ], [ "fabric_lycra", 30 ] ],
-    "components": [
-      [ [ "coat_rain", 2 ], [ "jacket_windbreaker", 2 ], [ "jacket_evac", 2 ], [ "coat_gut", 2 ] ],
-      [ [ "duct_tape", 450 ] ],
-      [ [ "sheet_kevlar", 1010 ] ]
-    ]
+    "using": [ [ "sewing_kevlar", 200 ], [ "fabric_lycra", 30 ], [ "fabric_nylon", 45 ], [ "fastener_large", 1 ], [ "clasps", 8 ] ],
+    "components": [ [ [ "sheet_kevlar", 310 ] ] ]
   },
   {
     "result": "wsurvivor_jumpsuit",
@@ -211,7 +162,7 @@
     "difficulty": 6,
     "time": "10 h",
     "autolearn": true,
-    "using": [ [ "sewing_kevlar", 200 ], [ "fabric_lycra", 20 ], [ "fabric_fur_pelt", 3 ] ],
+    "using": [ [ "sewing_kevlar", 200 ], [ "fabric_lycra", 20 ], [ "fabric_fur_pelt", 3 ], [ "fastener_large", 1 ], [ "clasps", 8 ] ],
     "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
     "proficiencies": [
       { "proficiency": "prof_furriery" },
@@ -220,11 +171,7 @@
       { "proficiency": "prof_polymerworking" },
       { "proficiency": "prof_elastics" }
     ],
-    "components": [
-      [ [ "coat_rain", 1 ], [ "jacket_windbreaker", 1 ], [ "jacket_evac", 1 ], [ "coat_gut", 1 ] ],
-      [ [ "duct_tape", 300 ] ],
-      [ [ "sheet_kevlar", 384 ] ]
-    ]
+    "components": [ [ [ "sheet_kevlar", 130 ] ] ]
   },
   {
     "result": "xs_wsurvivor_jumpsuit",
@@ -232,13 +179,9 @@
     "copy-from": "wsurvivor_jumpsuit",
     "activity_level": "LIGHT_EXERCISE",
     "time": "10 h",
-    "using": [ [ "sewing_kevlar", 150 ], [ "fabric_lycra", 15 ], [ "fabric_fur_pelt", 2 ] ],
+    "using": [ [ "sewing_kevlar", 150 ], [ "fabric_lycra", 15 ], [ "fabric_fur_pelt", 2 ], [ "fastener_large", 1 ], [ "clasps", 8 ] ],
     "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
-    "components": [
-      [ [ "coat_rain", 1 ], [ "jacket_windbreaker", 1 ], [ "jacket_evac", 1 ], [ "coat_gut", 1 ] ],
-      [ [ "duct_tape", 225 ] ],
-      [ [ "sheet_kevlar", 288 ] ]
-    ]
+    "components": [ [ [ "sheet_kevlar", 100 ] ] ]
   },
   {
     "result": "xl_wsurvivor_jumpsuit",
@@ -246,13 +189,9 @@
     "copy-from": "wsurvivor_jumpsuit",
     "activity_level": "LIGHT_EXERCISE",
     "time": "11 h 36 m",
-    "using": [ [ "sewing_kevlar", 300 ], [ "fabric_lycra", 30 ], [ "fabric_fur_pelt", 5 ] ],
+    "using": [ [ "sewing_kevlar", 300 ], [ "fabric_lycra", 30 ], [ "fabric_fur_pelt", 5 ], [ "fastener_large", 1 ], [ "clasps", 8 ] ],
     "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
-    "components": [
-      [ [ "coat_rain", 2 ], [ "jacket_windbreaker", 2 ], [ "jacket_evac", 2 ], [ "coat_gut", 2 ] ],
-      [ [ "duct_tape", 450 ] ],
-      [ [ "sheet_kevlar_layered", 576 ] ]
-    ]
+    "components": [ [ [ "sheet_kevlar_layered", 200 ] ] ]
   },
   {
     "result": "survivor_rig",
@@ -289,43 +228,28 @@
     "time": "12 h 20 m",
     "autolearn": true,
     "book_learn": [ [ "tailor_portfolio", 7 ], [ "textbook_fireman", 7 ] ],
-    "using": [ [ "sewing_kevlar", 200 ] ],
+    "using": [ [ "sewing_kevlar", 200 ], [ "fabric_nomex", 30 ], [ "fastener_large", 1 ], [ "clasps", 8 ] ],
     "proficiencies": [
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_closures_waterproofing" },
       { "proficiency": "prof_polymerworking" }
     ],
-    "components": [
-      [ [ "nomex_suit", 1 ], [ "entry_suit", 1 ], [ "sheet_nomex_patchwork", 2 ], [ "nomex", 10 ], [ "sheet_nomex", 140 ] ],
-      [ [ "coat_rain", 1 ], [ "jacket_windbreaker", 1 ], [ "jacket_evac", 1 ], [ "coat_gut", 1 ] ],
-      [ [ "duct_tape", 200 ] ],
-      [ [ "sheet_kevlar", 400 ] ]
-    ]
+    "components": [ [ [ "sheet_kevlar", 130 ] ] ]
   },
   {
     "result": "xs_fsurvivor_jumpsuit",
     "type": "recipe",
     "copy-from": "fsurvivor_jumpsuit",
     "time": "12 h 20 m",
-    "using": [ [ "sewing_kevlar", 150 ] ],
-    "components": [
-      [ [ "nomex_suit", 1 ], [ "entry_suit", 1 ], [ "sheet_nomex_patchwork", 2 ], [ "nomex", 7 ], [ "sheet_nomex", 105 ] ],
-      [ [ "coat_rain", 1 ], [ "jacket_windbreaker", 1 ], [ "jacket_evac", 1 ], [ "coat_gut", 1 ] ],
-      [ [ "duct_tape", 150 ] ],
-      [ [ "sheet_kevlar", 300 ] ]
-    ]
+    "using": [ [ "sewing_kevlar", 150 ], [ "fabric_nomex", 23 ], [ "fastener_large", 1 ], [ "clasps", 8 ] ],
+    "components": [ [ [ "sheet_kevlar", 100 ] ] ]
   },
   {
     "result": "xl_fsurvivor_jumpsuit",
     "type": "recipe",
     "copy-from": "fsurvivor_jumpsuit",
     "time": "14 h 18 m",
-    "using": [ [ "sewing_kevlar", 300 ] ],
-    "components": [
-      [ [ "nomex_suit", 1 ], [ "entry_suit", 1 ], [ "sheet_nomex_patchwork", 3 ], [ "nomex", 15 ], [ "sheet_nomex", 210 ] ],
-      [ [ "coat_rain", 2 ], [ "jacket_windbreaker", 2 ], [ "jacket_evac", 2 ], [ "coat_gut", 2 ] ],
-      [ [ "duct_tape", 300 ] ],
-      [ [ "sheet_kevlar", 600 ] ]
-    ]
+    "using": [ [ "sewing_kevlar", 300 ], [ "fabric_nomex", 30 ], [ "fastener_large", 1 ], [ "clasps", 8 ] ],
+    "components": [ [ [ "sheet_kevlar", 200 ] ] ]
   }
 ]
