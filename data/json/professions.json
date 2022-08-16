@@ -4525,7 +4525,7 @@
     "id": "mil_breacher",
     "name": "Military Breacher",
     "description": "Doors and windows everywhere dare not speak your name.",
-    "points": 3,
+    "points": 5,
     "skills": [
       { "level": 1, "name": "survival" },
       { "level": 1, "name": "gun" },
