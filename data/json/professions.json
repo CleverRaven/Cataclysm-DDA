@@ -4654,7 +4654,7 @@
       { "level": 1, "name": "survival" },
       { "level": 2, "name": "gun" },
       { "level": 2, "name": "pistol" },
-      { "level": 6, "name": "speech" }
+      { "level": 4, "name": "speech" }
     ],
     "items": {
       "both": {
