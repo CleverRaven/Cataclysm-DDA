@@ -120,6 +120,7 @@ struct talk_effect_fun_t {
         void set_run_eocs( const JsonObject &jo, const std::string &member );
         void set_run_npc_eocs( const JsonObject &jo, const std::string &member, bool is_npc );
         void set_queue_eocs( const JsonObject &jo, const std::string &member );
+        void set_switch( const JsonObject &jo, const std::string &member );
         void set_weighted_list_eocs( const JsonObject &jo, const std::string &member );
         void set_mod_healthy( const JsonObject &jo, const std::string &member, bool is_npc );
         void set_cast_spell( const JsonObject &jo, const std::string &member, bool is_npc,
@@ -177,7 +178,7 @@ struct talk_effect_fun_t {
         void set_field( const JsonObject &jo, const std::string &member, bool is_npc );
         void set_teleport( const JsonObject &jo, const std::string &member, bool is_npc );
         void set_give_equipment( const JsonObject &jo, const std::string &member );
-        void set_open_dialogue( const JsonObject &jo );
+        void set_open_dialogue( const JsonObject &jo, const std::string &member );
         void set_take_control( const JsonObject &jo );
         void set_take_control_menu();
         void operator()( const T &d ) const {
@@ -209,7 +210,8 @@ struct talk_effect_t {
           */
         talk_topic next_topic = talk_topic( "TALK_NONE" );
 
-        talk_topic apply( T &d ) const;
+        talk_topic apply( const T &d ) const;
+        void update_missions( T &d ) const;
         dialogue_consequence get_consequence( const T &d ) const;
 
         /**
