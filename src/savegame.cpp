@@ -1089,14 +1089,12 @@ struct mongroup_bin_eq {
         return a.monsters.empty() &&
                b.monsters.empty() &&
                a.type == b.type &&
-               a.radius == b.radius &&
                a.population == b.population &&
                a.target == b.target &&
                a.interest == b.interest &&
                a.dying == b.dying &&
                a.horde == b.horde &&
-               a.behaviour == b.behaviour &&
-               a.diffuse == b.diffuse;
+               a.behaviour == b.behaviour;
     }
 };
 
@@ -1104,14 +1102,12 @@ struct mongroup_hash {
     std::size_t operator()( const mongroup &mg ) const {
         // Note: not hashing monsters or position
         size_t ret = std::hash<mongroup_id>()( mg.type );
-        cata::hash_combine( ret, mg.radius );
         cata::hash_combine( ret, mg.population );
         cata::hash_combine( ret, mg.target );
         cata::hash_combine( ret, mg.interest );
         cata::hash_combine( ret, mg.dying );
         cata::hash_combine( ret, mg.horde );
         cata::hash_combine( ret, mg.behaviour );
-        cata::hash_combine( ret, mg.diffuse );
         return ret;
     }
 };
@@ -1348,9 +1344,7 @@ void mongroup::io( Archive &archive )
 {
     archive.io( "type", type );
     archive.io( "abs_pos", abs_pos, tripoint_abs_sm() );
-    archive.io( "radius", radius, 1u );
     archive.io( "population", population, 1u );
-    archive.io( "diffuse", diffuse, false );
     archive.io( "dying", dying, false );
     archive.io( "horde", horde, false );
     archive.io( "target", target, point_abs_sm() );
@@ -1382,12 +1376,8 @@ void mongroup::deserialize_legacy( JsonIn &json )
             type = mongroup_id( json.get_string() );
         } else if( name == "abs_pos" ) {
             abs_pos.deserialize( json );
-        } else if( name == "radius" ) {
-            radius = json.get_int();
         } else if( name == "population" ) {
             population = json.get_int();
-        } else if( name == "diffuse" ) {
-            diffuse = json.get_bool();
         } else if( name == "dying" ) {
             dying = json.get_bool();
         } else if( name == "horde" ) {

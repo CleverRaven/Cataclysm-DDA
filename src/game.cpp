@@ -2185,7 +2185,7 @@ bool game::handle_mouseview( input_context &ctxt, std::string &action )
     do {
         action = ctxt.handle_input();
         if( action == "MOUSE_MOVE" ) {
-            const cata::optional<tripoint> mouse_pos = ctxt.get_coordinates( w_terrain );
+            const cata::optional<tripoint> mouse_pos = ctxt.get_coordinates( w_terrain, ter_view_p.xy(), true );
             if( mouse_pos && ( !liveview_pos || *mouse_pos != *liveview_pos ) ) {
                 liveview_pos = mouse_pos;
                 liveview.show( *liveview_pos );
@@ -7194,7 +7194,7 @@ look_around_result game::look_around(
             if( edge_scrolling ) {
                 center += action == "MOUSE_MOVE" ? edge_scroll * 2 : edge_scroll;
             } else if( action == "MOUSE_MOVE" ) {
-                const cata::optional<tripoint> mouse_pos = ctxt.get_coordinates( w_terrain );
+                const cata::optional<tripoint> mouse_pos = ctxt.get_coordinates( w_terrain, ter_view_p.xy(), true );
                 if( mouse_pos ) {
                     lx = mouse_pos->x;
                     ly = mouse_pos->y;

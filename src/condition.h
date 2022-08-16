@@ -80,7 +80,12 @@ struct str_or_var {
             if( !val.empty() ) {
                 return std::string( val );
             }
-            return default_val.value();
+            if( default_val.has_value() ) {
+                return default_val.value();
+            } else {
+                debugmsg( "No default provided for str_or_var_part" );
+                return "";
+            }
         } else {
             debugmsg( "No valid value." );
             return "";
@@ -102,7 +107,12 @@ struct int_or_var_part {
             if( !val.empty() ) {
                 return std::stoi( val );
             }
-            return default_val.value();
+            if( default_val.has_value() ) {
+                return default_val.value();
+            } else {
+                debugmsg( "No default provided for int_or_var_part" );
+                return 0;
+            }
         } else if( arithmetic_val.has_value() ) {
             arithmetic_val.value()( d );
             var_info info = var_info( var_type::global, "temp_var" );
@@ -150,7 +160,12 @@ struct duration_or_var_part {
                 ret_val = time_duration::from_turns( std::stoi( val ) );
                 return ret_val;
             }
-            return default_val.value();
+            if( default_val.has_value() ) {
+                return default_val.value();
+            } else {
+                debugmsg( "No default provided for duration_or_var_part" );
+                return 0_seconds;
+            }
         } else if( arithmetic_val.has_value() ) {
             arithmetic_val.value()( d );
             var_info info = var_info( var_type::global, "temp_var" );
@@ -203,7 +218,7 @@ duration_or_var_part<T> get_duration_or_var_part( const JsonValue &jv, const std
         time_duration default_val = 0_seconds );
 template<class T>
 tripoint_abs_ms get_tripoint_from_var( cata::optional<var_info> var, const T &d );
-var_info read_var_info( const JsonObject &jo, bool require_default );
+var_info read_var_info( const JsonObject &jo );
 void write_var_value( var_type type, const std::string &name, talker *talk,
                       const std::string &value );
 template<class T>

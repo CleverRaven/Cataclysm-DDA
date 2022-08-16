@@ -441,7 +441,7 @@ std::set<tripoint> calculate_spell_effect_area( const spell &sp, const tripoint 
     }
 
     std::set<tripoint> targets = { epicenter }; // initialize with epicenter
-    if( sp.aoe() <= 1 && sp.shape() != spell_shape::line ) {
+    if( sp.aoe() < 1 && sp.shape() != spell_shape::line ) {
         return targets;
     }
 
