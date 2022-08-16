@@ -665,7 +665,9 @@ This command sets your login class to `pbuild` thus the data ulimit is increased
 **NOTE: don't run this command for your main user, as it is already a part
 of the `staff` login class**
 
-Instead, you need to increase `datasize-cur` manually inside `/etc/login.conf` for that class.
+Instead, you need to increase `data` limit with:
+
+`$ ulimit -d 8000000`
 
 ### Building on OpenBSD/amd64 5.8 with GCC 4.9.2 from ports/packages
 
