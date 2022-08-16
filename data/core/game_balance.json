@@ -25,7 +25,7 @@
     "name": "PLAYER_CARDIOFIT_STAMINA_SCALING",
     "info": "Sets the effect of cardio on maximum stamina.",
     "stype": "int",
-    "value": 3
+    "value": 5
   },
   {
     "type": "EXTERNAL_OPTION",

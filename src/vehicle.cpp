@@ -4662,7 +4662,7 @@ void vehicle::consume_fuel( int load, bool idling )
         const int base_staminaRegen = static_cast<int>
                                       ( get_option<float>( "PLAYER_BASE_STAMINA_REGEN_RATE" ) );
         const int actual_staminaRegen = static_cast<int>( base_staminaRegen *
-                                        player_character.get_cardiofit() / player_character.base_bmr() );
+                                        player_character.get_cardiofit() / 1000 );
         int base_burn = actual_staminaRegen - 3;
         base_burn = std::max( eff_load / 3, base_burn );
         //charge bionics when using muscle engine

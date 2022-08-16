@@ -6234,8 +6234,8 @@ int Character::get_stamina_max() const
     static const std::string player_max_stamina( "PLAYER_MAX_STAMINA_BASE" );
     static const std::string player_cardiofit_stamina_scale( "PLAYER_CARDIOFIT_STAMINA_SCALING" );
 
-    // Cardiofit stamina mod defaults to 3, and get_cardiofit() should return a value in the vicinity
-    // of 1000-4000, so this should add somewhere between 3000 to 12000 stamina.
+    // Cardiofit stamina mod defaults to 5, and get_cardiofit() should return a value in the vicinity
+    // of 1000-3000, so this should add somewhere between 3000 to 15000 stamina.
     int max_stamina = get_option<int>( player_max_stamina ) +
                       get_option<int>( player_cardiofit_stamina_scale ) * get_cardiofit();
     max_stamina = enchantment_cache->modify_value( enchant_vals::mod::MAX_STAMINA, max_stamina );
@@ -6327,7 +6327,7 @@ void Character::update_stamina( int turns )
     // Your stamina regen rate works as a function of how fit you are compared to your body size.
     // This allows it to scale more quickly than your stamina, so that at higher fitness levels you
     // recover stamina faster.
-    const float effective_regen_rate = base_regen_rate * get_cardiofit() / base_bmr();
+    const float effective_regen_rate = base_regen_rate * get_cardiofit() / 1000;
     const int current_stim = get_stim();
     // Mutations can affect stamina regen via stamina_regen_modifier (0.0 is normal)
     // Values above or below normal will increase or decrease stamina regen
@@ -6388,36 +6388,32 @@ int Character::get_cardiofit() const
 {
     if( is_npc() ) {
         // No point in doing a bunch of checks on NPCs for now since they can't use cardio.
-        return 2 * base_bmr();
+        return 2000;
     }
-    const int bmr = base_bmr();
-    const int athletics_mod = get_skill_level( skill_swimming ) * 10;
-    const int health_effect = get_lifestyle();
 
-    // FIXME: Delete this untruth
-    // Traits now exclusively affect cardio, NOT max_stamina directly. In the future, make
-    // cardio_acc also be affected by cardio traits so that they don't become less impactful.
-    //const int trait_mod = 0;
+    const int cardio_base = get_cardio_acc();
 
+    // Mut mod contains the base 1.0f for all modifiers
+    const float mut_mod = mutation_value("cardio_multiplier");
+    // 1 point of athletics skill = 1% more cardio, up to 10% cardio
+    const float athletics_mod = get_skill_level( skill_swimming ) / 100.0f;
     // At some point we might have proficiencies that affect this.
-    const int prof_mod = 0;
-    const int cardio_acc_mod = get_cardio_acc();
+    const float prof_mod = 0.0f;
+    // 10 points of health = 1% cardio, up to 20% cardio
+    float health_mod = get_lifestyle() / 1000.0f;
 
-    // Base formula for cardio fitness
-    int base_cardio_fitness = bmr / 2 + athletics_mod + health_effect + prof_mod + cardio_acc_mod;
+    // Negative effects of health are doubled, up to 40% cardio
+    if ( health_mod < 0.0f ) {
+        health_mod *= 2.0f;
+    }
 
-    // Apply trait modifier as a scaling factor to total cardio
-    // FIXME: Do this additively as a trait_mod using the original formula, somehow
-    const float scale = mutation_value( "cardio_multiplier" );
-    const float scaled_fitness = base_cardio_fitness * scale;
+    // Add up all of our cardio mods.
+    float cardio_modifier = mut_mod + athletics_mod + prof_mod + health_mod;
 
-    // Set a large sane upper limit to cardio fitness. This could be done asymptotically instead of
-    // as a sharp cutoff, but the gradual growth rate of cardio_acc_mod should accomplish that
-    // naturally. The BMR will mostly determine this as it is based on the size of the character,
-    // but mutations might push it up.
-    int final_cardio_fitness = static_cast<int>( std::min( scaled_fitness, 3 * bmr * scale ) );
+    // Modify cardio accumulator by our cardio mods.
+    const int cardio_fitness = static_cast<int>( cardio_base * cardio_modifier );
 
-    return final_cardio_fitness;
+    return cardio_fitness;
 }
 
 int Character::get_cardio_acc() const
@@ -6432,7 +6428,7 @@ void Character::set_cardio_acc( int ncardio_acc )
 
 void Character::reset_cardio_acc()
 {
-    set_cardio_acc( base_bmr() / 2 );
+    set_cardio_acc( 1000 );
 }
 
 bool Character::invoke_item( item *used )
