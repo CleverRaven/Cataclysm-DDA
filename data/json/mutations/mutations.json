@@ -3623,6 +3623,7 @@
     "description": "Your legs and feet have become reptile-like and your toenails have grown into short claws.  Your toes have grown noticeably longer and webbing has grown between them.  Fortunately they don't impede your movement.",
     "types": [ "LEGS", "FEET" ],
     "flags": [ "WEBBED_FEET" ],
+    "wet_protection": [ { "part": "foot_l", "good": 6 }, { "part": "foot_r", "good": 6 } ],
     "cancels": [ "WEBBED_FEET" ],
     "category": [ "LIZARD" ]
   },
