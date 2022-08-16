@@ -637,7 +637,7 @@ TEST_CASE( "weapon attack ratings and moves", "[iteminfo][weapon]" )
         CHECK( item_info_str( halligan, stam ) ==
                "--\n"
                "<color_c_white>Stamina use</color>:"
-               " Costs about <color_c_yellow>3.10</color>%"
+               " Costs about <color_c_yellow>3.20</color>%"
                " stamina to swing.\n" );
 
         CHECK( item_info_str( mr_pointy, stam ) ==
@@ -649,7 +649,7 @@ TEST_CASE( "weapon attack ratings and moves", "[iteminfo][weapon]" )
         CHECK( item_info_str( arrow, stam ) ==
                "--\n"
                "<color_c_white>Stamina use</color>:"
-               " Costs about <color_c_yellow>0.70</color>%"
+               " Costs about <color_c_yellow>0.80</color>%"
                " stamina to swing.\n" );
     }
 
