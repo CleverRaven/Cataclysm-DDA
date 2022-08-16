@@ -1206,7 +1206,7 @@
     "description": "Living in the woods,\nkilling for sport,\neating all the bodies--\nactual cannibal Shia LaBeouf.",
     "default_faction": "zombie",
     "bodytype": "human",
-    "species": [ "ZOMBIE" ],
+    "species": [ "ZOMBIE", "HUMAN" ],
     "volume": "62500 ml",
     "weight": "81500 g",
     "hp": 50,
