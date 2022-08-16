@@ -362,7 +362,7 @@
     "nested_category_data": [ "disinfectant_makeshift", "wintergreen_oil", "thyme_oil", "disinrag", "disincotton_ball" ],
     "difficulty": 1,
     "autolearn": [ [ "firstaid", 0 ] ]
-  },  
+  },
   {
     "id": "nested_mask_gas",
     "type": "nested_category",
