@@ -1513,7 +1513,7 @@ void avatar::update_cardio_acc()
     const int bmr = get_bmr();
     const int last_24h_kcal = calorie_diary.front().spent;
 
-    const int cardio_goal = ( last_24h_kcal * 1000 ) / bmr;
+    const int cardio_goal = ( last_24h_kcal * get_cardio_acc_base() ) / bmr;
 
     // If cardio accumulator is below cardio goal, gain some cardio.
     // Or, if cardio accumulator is above cardio goal, lose some cardio.
@@ -1528,7 +1528,7 @@ void avatar::update_cardio_acc()
     // Set a large sane upper limit to cardio fitness. This could be done 
     // asymptotically instead of as a sharp cutoff, but the gradual growth 
     // rate of cardio_acc should accomplish that naturally.
-    set_cardio_acc( clamp( cardio_accum + adjustment, 1000, 3000 ) );
+    set_cardio_acc( clamp( cardio_accum + adjustment, get_cardio_acc_base(), get_cardio_acc_base() * 3 ) );
 }
 
 void avatar::advance_daily_calories()

@@ -547,6 +547,7 @@ Character::Character() :
     pkill = 0;
     // 55 Mcal or 55k kcal
     healthy_calories = 55'000'000;
+    base_cardio_acc = 1000;
     // this makes sure characters start with normal bmi
     stored_calories = healthy_calories - 1'000'000;
     initialize_stomach_contents();
@@ -6327,7 +6328,7 @@ void Character::update_stamina( int turns )
     // Your stamina regen rate works as a function of how fit you are compared to your body size.
     // This allows it to scale more quickly than your stamina, so that at higher fitness levels you
     // recover stamina faster.
-    const float effective_regen_rate = base_regen_rate * get_cardiofit() / 1000;
+    const float effective_regen_rate = base_regen_rate * get_cardiofit() / get_cardio_acc_base();
     const int current_stim = get_stim();
     // Mutations can affect stamina regen via stamina_regen_modifier (0.0 is normal)
     // Values above or below normal will increase or decrease stamina regen
@@ -6428,7 +6429,12 @@ void Character::set_cardio_acc( int ncardio_acc )
 
 void Character::reset_cardio_acc()
 {
-    set_cardio_acc( 1000 );
+    set_cardio_acc( get_cardio_acc_base() );
+}
+
+int Character::get_cardio_acc_base() const
+{
+    return base_cardio_acc;
 }
 
 bool Character::invoke_item( item *used )
