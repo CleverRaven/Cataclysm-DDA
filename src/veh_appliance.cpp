@@ -211,7 +211,7 @@ void veh_app_interact::draw_info()
 
     // Reactor power output
     if( !veh->reactors.empty() ) {
-        int rate = veh->max_reactor_epower_w();
+        int rate = veh->active_reactor_epower_w( true );
         print_charge( _( "Reactor power output: " ), rate, row );
         row++;
     }

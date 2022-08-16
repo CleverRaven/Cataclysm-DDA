@@ -663,5 +663,34 @@
     "description": "A long soft leather rifle case.  Provides storage for long arms and rifles.  Includes a small pocket, strap and handle.",
     "flags": [ "WATER_FRIENDLY", "STURDY", "BELTED", "OVERSIZE", "UNDERSIZE", "OBSOLETE" ],
     "price": 0
+  },
+  {
+    "type": "furniture",
+    "id": "f_compact_ASRG",
+    "name": "Compact Advanced Sterling Radioisotope Generator",
+    "looks_like": "f_compact_ASRG_containment",
+    "description": "This is a stirling generator originally designed by NASA, powered by plutonium-238.  Without most of the military shielding only a thin metal layer remains and thus this is much closer to its original NASA incarnation.  Since plutonium-238 mostly emits alpha radiation it is still basically safe but without its armor it's much more likely to be broken by something dangerous.",
+    "symbol": "0",
+    "color": "green",
+    "move_cost_mod": -1,
+    "coverage": 50,
+    "required_str": -1,
+    "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "compact_ASRG_containment" },
+    "flags": [ "TRANSPARENT", "NOITEM", "SEALED", "REDUCE_SCENT", "PERMEABLE", "EASY_DECONSTRUCT" ],
+    "bash": {
+      "str_min": 20,
+      "str_max": 400,
+      "explosive": 100,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "furn_set": "f_reactor_meltdown",
+      "items": [
+        { "item": "scrap", "count": [ 4, 16 ] },
+        { "item": "steel_chunk", "count": [ 1, 6 ] },
+        { "item": "plutonium", "charges": [ 0, 3 ] },
+        { "item": "lead", "charges": [ 12, 18 ] }
+      ]
+    },
+    "deconstruct": { "items": [ { "item": "compact_ASRG_containment", "count": 1 } ] }
   }
 ]

@@ -1806,7 +1806,7 @@
     "copy-from": "foldable_solar_panel",
     "name": { "str": "advanced collapsible solar array" },
     "proportional": { "epower": 2 },
-    "description": "A small array of high-efficiency solar panels designed to be able to fold into one another.",
+    "description": "A small array of high-performance solar panels designed to be able to fold into one another.",
     "item": "folding_solar_panel_v2"
   },
   {
@@ -1843,7 +1843,7 @@
     "copy-from": "solar_panel",
     "name": { "str": "advanced solar panel" },
     "looks_like": "solar_panel",
-    "description": "A high performance solar panel.",
+    "description": "A high-performance solar panel.",
     "item": "solar_panel_v2",
     "proportional": { "epower": 2.0 },
     "requirements": {
@@ -1867,13 +1867,13 @@
     "id": "reinforced_solar_panel_v2",
     "copy-from": "solar_panel_v2",
     "looks_like": "reinforced_solar_panel",
-    "name": { "str": "upgraded reinforced solar panel" },
+    "name": { "str": "advanced reinforced solar panel" },
     "color": "light_blue",
     "broken_color": "light_gray",
     "proportional": { "epower": 0.9 },
     "damage_modifier": 80,
     "durability": 300,
-    "description": "A high performance solar panel.  Reinforced with armored glass to make it more resistant to damage.",
+    "description": "A high-performance solar panel.  Reinforced with armored glass to make it more resistant to damage.",
     "item": "reinforced_solar_panel_v2",
     "requirements": {
       "repair": {
@@ -2072,10 +2072,9 @@
     "location": "armor",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 6 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
-      "removal": { "skills": [ [ "mechanics", 4 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 7 ] ], "time": "60 m", "using": [ [ "repair_welding_standard", 5 ] ] }
+      "removal": { "skills": [ [ "mechanics", 4 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] }
     },
-    "flags": [ "ARMOR" ],
+    "flags": [ "ARMOR", "NO_REPAIR" ],
     "breaks_into": [
       { "item": "steel_lump", "count": [ 4, 6 ] },
       { "item": "steel_chunk", "count": [ 4, 6 ] },
@@ -3062,7 +3061,7 @@
       "repair": { "skills": [ [ "mechanics", 5 ] ], "time": "15 m", "using": [ [ "adhesive", 1 ], [ "soldering_standard", 2 ] ] }
     },
     "flags": [  ],
-    "pseudo_tools": [ { "id": "water_purifier", "hotkey": "p" } ],
+    "pseudo_tools": [ { "id": "pseudo_veh_water_purifier", "hotkey": "p" } ],
     "breaks_into": [ { "item": "plastic_chunk", "count": [ 1, 2 ] } ],
     "damage_reduction": { "all": 26 }
   },

@@ -1300,16 +1300,21 @@ class vehicle
         // Total power drain across all vehicle accessories.
         int total_accessory_epower_w() const;
         // Net power draw or drain on batteries.
-        int net_battery_charge_rate_w() const;
+        int net_battery_charge_rate_w( bool include_reactors = true ) const;
         // Maximum available power available from all reactors. Power from
         // reactors is only drawn when batteries are empty.
         int max_reactor_epower_w() const;
+        // Active power from reactors that is actually being drained by batteries.
+        int active_reactor_epower_w( bool connected_vehicles ) const;
         // Produce and consume electrical power, with excess power stored or
         // taken from batteries.
         void power_parts();
 
         // Current and total battery power level as a pair
         std::pair<int, int> battery_power_level() const;
+
+        // Current and total battery power level of all connected vehicles as a pair
+        std::pair<int, int> connected_battery_power_level() const;
 
         /**
          * Try to charge our (and, optionally, connected vehicles') batteries by the given amount.

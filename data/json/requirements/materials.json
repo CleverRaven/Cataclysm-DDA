@@ -396,8 +396,8 @@
   {
     "id": "solar_panel_v2",
     "type": "requirement",
-    "//": "Materials used for repairing upgraded solar panels",
-    "components": [ [ [ "solar_cell", 5 ] ], [ [ "cable", 8 ] ], [ [ "power_supply", 1 ] ], [ [ "amplifier", 1 ] ] ]
+    "//": "Materials used for advanced solar panels",
+    "components": [ [ [ "solar_cell_v2", 3 ] ], [ [ "cable", 5 ] ] ]
   },
   {
     "id": "paint",

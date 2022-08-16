@@ -597,7 +597,7 @@
     "//": "capacity: 50kg/hour * 40% efficiency = 20 L/hour -> 45s / 250 mL",
     "time": "45 s",
     "//2": "45 s * 5.5kW = 250 kJ",
-    "tools": [ [ [ "oil_press_mounted", 250 ] ] ],
+    "tools": [ [ [ "pseudo_veh_oil_press", 250 ] ] ],
     "autolearn": true,
     "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "BOIL", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_food_prep" } ],
@@ -1927,7 +1927,7 @@
     "qualities": [ { "id": "OVEN", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 3, "LIST" ] ] ],
     "proficiencies": [ { "proficiency": "prof_food_prep" } ],
-    "components": [ [ [ "potato", 1 ], [ "irradiated_potato", 1 ] ] ]
+    "components": [ [ [ "veggy_potatolike", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -1942,7 +1942,7 @@
     "autolearn": true,
     "qualities": [ { "id": "BOIL", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
-    "components": [ [ [ "potato", 1 ], [ "irradiated_potato", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+    "components": [ [ [ "veggy_potatolike", 1, "LIST" ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -1977,11 +1977,7 @@
       { "proficiency": "prof_knife_skills", "time_multiplier": 2 },
       { "proficiency": "prof_frying" }
     ],
-    "components": [
-      [ [ "potato", 1 ], [ "irradiated_potato", 1 ] ],
-      [ [ "salt", 2 ], [ "seasoning_salt", 2 ] ],
-      [ [ "fry_oil", 2, "LIST" ] ]
-    ]
+    "components": [ [ [ "veggy_potatolike", 1, "LIST" ] ], [ [ "salt", 2 ], [ "seasoning_salt", 2 ] ], [ [ "fry_oil", 2, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -2113,11 +2109,7 @@
       { "proficiency": "prof_knife_skills", "time_multiplier": 2 },
       { "proficiency": "prof_frying" }
     ],
-    "components": [
-      [ [ "potato", 1 ], [ "irradiated_potato", 1 ] ],
-      [ [ "salt", 2 ], [ "seasoning_salt", 2 ] ],
-      [ [ "fry_oil", 4, "LIST" ] ]
-    ]
+    "components": [ [ [ "veggy_potatolike", 1, "LIST" ] ], [ [ "salt", 2 ], [ "seasoning_salt", 2 ] ], [ [ "fry_oil", 4, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -2711,9 +2703,7 @@
     "time": "20 m",
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CONTAIN", "level": 1 } ],
-    "components": [
-      [ [ "dahlia_root", 10 ], [ "potato", 5 ], [ "irradiated_potato", 5 ], [ "plantain", 5 ], [ "irradiated_plantain", 5 ] ]
-    ]
+    "components": [ [ [ "dahlia_root", 10 ], [ "veggy_potatolike", 5, "LIST" ], [ "plantain", 5 ], [ "irradiated_plantain", 5 ] ] ]
   },
   {
     "type": "recipe",
@@ -3364,8 +3354,7 @@
     "components": [
       [ [ "can_clams", 1 ] ],
       [
-        [ "irradiated_potato", 1 ],
-        [ "potato", 1 ],
+        [ "veggy_potatolike", 1, "LIST" ],
         [ "meat_smoked", 1 ],
         [ "dry_meat", 1 ],
         [ "rehydrated_meat", 1 ],
@@ -5730,6 +5719,7 @@
       [
         [ "ketchup", 1 ],
         [ "barbecue_sauce", 1 ],
+        [ "honey_mustard", 1 ],
         [ "mustard", 1 ],
         [ "horseradish", 1 ],
         [ "mayonnaise", 1 ],
@@ -5762,7 +5752,7 @@
       [ [ "can_tomato", 1 ], [ "irradiated_tomato", 1 ], [ "tomato", 1 ] ],
       [ [ "young_leaves", 2 ], [ "lettuce", 1 ], [ "irradiated_lettuce", 1 ] ],
       [ [ "ketchup", 1 ], [ "barbecue_sauce", 1 ] ],
-      [ [ "mustard", 1 ] ],
+      [ [ "mustard", 1 ], [ "honey_mustard", 1 ] ],
       [ [ "horseradish", 1 ], [ "mayonnaise", 1 ] ]
     ]
   },
@@ -5795,6 +5785,7 @@
       [
         [ "ketchup", 1 ],
         [ "barbecue_sauce", 1 ],
+        [ "honey_mustard", 1 ],
         [ "mustard", 1 ],
         [ "horseradish", 1 ],
         [ "mayonnaise", 1 ],
@@ -5832,6 +5823,7 @@
       [
         [ "ketchup", 1 ],
         [ "barbecue_sauce", 1 ],
+        [ "honey_mustard", 1 ],
         [ "mustard", 1 ],
         [ "butter", 1 ],
         [ "horseradish", 1 ],
@@ -5871,6 +5863,7 @@
       [
         [ "ketchup", 1 ],
         [ "barbecue_sauce", 1 ],
+        [ "honey_mustard", 1 ],
         [ "mustard", 1 ],
         [ "horseradish", 1 ],
         [ "mayonnaise", 1 ],
@@ -5982,6 +5975,7 @@
       [
         [ "ketchup", 1 ],
         [ "barbecue_sauce", 1 ],
+        [ "honey_mustard", 1 ],
         [ "mustard", 1 ],
         [ "horseradish", 1 ],
         [ "mayonnaise", 1 ],
@@ -6057,6 +6051,7 @@
       [
         [ "ketchup", 1 ],
         [ "barbecue_sauce", 1 ],
+        [ "honey_mustard", 1 ],
         [ "mustard", 1 ],
         [ "horseradish", 1 ],
         [ "mayonnaise", 1 ],
@@ -6146,6 +6141,7 @@
       [
         [ "ketchup", 1 ],
         [ "barbecue_sauce", 1 ],
+        [ "honey_mustard", 1 ],
         [ "mustard", 1 ],
         [ "horseradish", 1 ],
         [ "mayonnaise", 1 ],
@@ -6187,6 +6183,7 @@
       [
         [ "ketchup", 1 ],
         [ "barbecue_sauce", 1 ],
+        [ "honey_mustard", 1 ],
         [ "mustard", 1 ],
         [ "horseradish", 1 ],
         [ "mayonnaise", 1 ],
@@ -6261,7 +6258,14 @@
     "components": [
       [ [ "hotdogs_frozen", 1 ], [ "homemade_hotdogs", 1 ], [ "bratwurst_sausage", 1 ] ],
       [ [ "bread_sandwich", 2, "LIST" ] ],
-      [ [ "ketchup", 1 ], [ "barbecue_sauce", 1 ], [ "mustard", 1 ], [ "horseradish", 1 ], [ "sauerkraut", 1 ] ],
+      [
+        [ "ketchup", 1 ],
+        [ "barbecue_sauce", 1 ],
+        [ "honey_mustard", 1 ],
+        [ "mustard", 1 ],
+        [ "horseradish", 1 ],
+        [ "sauerkraut", 1 ]
+      ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ]
     ]
   },
@@ -6280,7 +6284,14 @@
     "components": [
       [ [ "hotdogs_frozen", 1 ], [ "homemade_hotdogs", 1 ], [ "bratwurst_sausage", 1 ] ],
       [ [ "bread_sandwich_wheat_free", 2, "LIST" ] ],
-      [ [ "ketchup", 1 ], [ "barbecue_sauce", 1 ], [ "mustard", 1 ], [ "horseradish", 1 ], [ "sauerkraut", 1 ] ],
+      [
+        [ "ketchup", 1 ],
+        [ "barbecue_sauce", 1 ],
+        [ "honey_mustard", 1 ],
+        [ "mustard", 1 ],
+        [ "horseradish", 1 ],
+        [ "sauerkraut", 1 ]
+      ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ]
     ]
   },
@@ -6761,6 +6772,28 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
+    "result": "honey_mustard",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": "7 m",
+    "charges": 6,
+    "batch_time_factors": [ 40, 5 ],
+    "book_learn": [ [ "cookbook", 1 ], [ "mag_cooking", 1 ], [ "cookbook_foodfashions", 1 ] ],
+    "qualities": [ { "id": "CONTAIN", "level": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" } ],
+    "components": [
+      [ [ "honey_bottled", 1 ], [ "honeycomb", 1 ], [ "honey_glassed", 1 ] ],
+      [ [ "mustard", 2 ] ],
+      [ [ "vinegar", 1 ] ],
+      [ [ "mayonnaise", 1 ] ],
+      [ [ "seasoning_mild", 1, "LIST" ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "veggy_pickled",
     "id_suffix": "jarred",
     "container": "jar_glass_sealed",
@@ -6790,8 +6823,7 @@
         [ "irradiated_zucchini", 2 ],
         [ "cucumber", 2 ],
         [ "irradiated_cucumber", 2 ],
-        [ "potato", 2 ],
-        [ "irradiated_potato", 2 ],
+        [ "veggy_potatolike", 2, "LIST" ],
         [ "corn", 2 ],
         [ "irradiated_corn", 2 ],
         [ "onion", 2 ],
@@ -7471,6 +7503,7 @@
         [ "mayonnaise", 1 ],
         [ "ketchup", 1 ],
         [ "barbecue_sauce", 1 ],
+        [ "honey_mustard", 1 ],
         [ "sauce_pesto", 1 ],
         [ "sauce_red", 1 ],
         [ "mustard", 1 ],
@@ -7496,6 +7529,7 @@
         [ "mayonnaise", 1 ],
         [ "ketchup", 1 ],
         [ "barbecue_sauce", 1 ],
+        [ "honey_mustard", 1 ],
         [ "sauce_pesto", 1 ],
         [ "sauce_red", 1 ],
         [ "mustard", 1 ],
@@ -8246,7 +8280,7 @@
         [ "oats", 5 ],
         [ "buckwheat", 5 ],
         [ "wheat", 5 ],
-        [ "potato", 5 ],
+        [ "veggy_potatolike", 5, "LIST" ],
         [ "barley", 5 ],
         [ "raw_beans", 5 ],
         [ "veggy_green", 5, "LIST" ],
@@ -8725,8 +8759,7 @@
         [ "irradiated_zucchini", 12 ],
         [ "cucumber", 12 ],
         [ "irradiated_cucumber", 12 ],
-        [ "potato", 12 ],
-        [ "irradiated_potato", 12 ],
+        [ "veggy_potatolike", 12, "LIST" ],
         [ "corn", 12 ],
         [ "irradiated_corn", 12 ],
         [ "onion", 12 ],
@@ -9286,7 +9319,7 @@
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 1 } ],
     "components": [
       [ [ "meat_red", 2, "LIST" ] ],
-      [ [ "bread", 1 ] ],
+      [ [ "any_bread", 1, "LIST" ] ],
       [
         [ "salt", 2 ],
         [ "soysauce", 2 ],

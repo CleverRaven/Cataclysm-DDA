@@ -1672,7 +1672,7 @@ void suffer::from_nyctophobia( Character &you )
     const bool in_darkness = get_map().ambient_light_at( you.pos() ) < nyctophobia_threshold;
     const int chance = in_darkness ? 10 : 50;
 
-    if( !dark_places.empty() && one_in( chance ) ) {
+    if( you.is_avatar() && !dark_places.empty() && one_in( chance ) ) {
         g->spawn_hallucination( random_entry( dark_places ) );
     }
 
@@ -1966,6 +1966,10 @@ void Character::mend( int rate_multiplier )
 
 void Character::sound_hallu()
 {
+    if( is_npc() ) {
+        return;
+    }
+
     // Random 'dangerous' sound from a random direction
     // 1/5 chance to be a loud sound
     std::vector<std::string> dir{ "north",

@@ -49,6 +49,7 @@ class recipe_dictionary
         static void load_recipe( const JsonObject &jo, const std::string &src );
         static void load_uncraft( const JsonObject &jo, const std::string &src );
         static void load_practice( const JsonObject &jo, const std::string &src );
+        static void load_nested_category( const JsonObject &jo, const std::string &src );
 
         static void finalize();
         static void check_consistency();
@@ -151,6 +152,9 @@ class recipe_subset
 
         /** Find hidden recipes */
         std::vector<const recipe *> hidden() const;
+
+        /** Find current nested recipes */
+        std::vector<const recipe *> nested() const;
 
         /** Find recipes matching query (left anchored partial matches are supported) */
         std::vector<const recipe *> search(

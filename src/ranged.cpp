@@ -2763,7 +2763,8 @@ bool target_ui::handle_cursor_movement( const std::string &action, bool &skip_re
     } else if( const cata::optional<tripoint> delta = ctxt.get_direction( action ) ) {
         // Shift view/cursor with directional keys
         shift_view_or_cursor( *delta );
-    } else if( action == "SELECT" && ( mouse_pos = ctxt.get_coordinates( g->w_terrain ) ) ) {
+    } else if( action == "SELECT" &&
+               ( mouse_pos = ctxt.get_coordinates( g->w_terrain, g->ter_view_p.xy() ) ) ) {
         // Set pos by clicking with mouse
         mouse_pos->z = you->pos().z + you->view_offset.z;
         set_cursor_pos( *mouse_pos );

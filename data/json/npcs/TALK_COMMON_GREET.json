@@ -54,13 +54,14 @@
     "responses": [
       {
         "text": "Drop your weapon!",
-        "condition": "npc_has_weapon",
+        "condition": { "and": [ "npc_has_weapon", { "not": "npc_friend" } ] },
         "trial": { "type": "INTIMIDATE", "difficulty": 30 },
         "success": { "topic": "TALK_WEAPON_DROPPED", "effect": "drop_weapon", "opinion": { "trust": 4, "fear": -3 } },
         "failure": { "topic": "TALK_DONE", "effect": "hostile" }
       },
       {
         "text": "Get out of here or I'll kill you.",
+        "condition": { "not": "npc_friend" },
         "trial": { "type": "INTIMIDATE", "difficulty": 20 },
         "success": { "topic": "TALK_DONE", "effect": "flee" },
         "failure": { "topic": "TALK_DONE", "effect": "hostile" }

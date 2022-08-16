@@ -4275,6 +4275,7 @@
       { "item": "folding_poncho", "prob": 5 },
       { "item": "american_flag", "prob": 1 },
       { "item": "pride_flag", "prob": 1 },
+      { "item": "state_flag", "prob": 1 },
       { "item": "tool_belt", "prob": 2 },
       { "item": "leather_belt", "prob": 30 },
       { "item": "wearable_light", "prob": 10, "charges": [ 0, 100 ] },

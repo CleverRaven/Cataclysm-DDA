@@ -67,6 +67,7 @@ Use the `Home` key to return to the top.
       - [`requirement`](#requirement)
     - [Recipes](#recipes)
       - [Practice recipes](#practice-recipes)
+      - [Nested recipes](#nested-recipes)
       - [Recipe requirements](#recipe-requirements)
       - [Defining common requirements](#defining-common-requirements)
       - [Overlapping recipe component requirements](#overlapping-recipe-component-requirements)
@@ -1715,6 +1716,64 @@ Recipes may instead be defined with type "practice", to make them appear in the 
 the crafting menu.  These recipes do not have a "result", but they may define "byproducts"/"byproduct_group".
 See [PRACTICE_RECIPES.md](PRACTICE_RECIPES.md) for how to define them.
 
+#### Nested recipes
+
+Similar recipes may instead be nested allowing you to save space in the UI.  This is done as such:
+```json
+{
+  "id": "nested_steel_legs",
+  "type": "nested_category",
+  "activity_level": "BRISK_EXERCISE",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_LEGS",
+  "name": "steel leg guards",
+  "description": "Recipes related to constructing steel leg guards in various thickness and steel variants.",
+  "skill_used": "fabrication",
+  "nested_category_data": [
+    "xl_armor_qt_heavy_leg_guard",
+    "armor_qt_heavy_leg_guard",
+    "xl_armor_ch_heavy_leg_guard",
+    "armor_ch_heavy_leg_guard",
+    "xl_armor_hc_heavy_leg_guard",
+    "armor_hc_heavy_leg_guard",
+    "xl_armor_mc_heavy_leg_guard",
+    "armor_mc_heavy_leg_guard",
+    "xl_armor_lc_heavy_leg_guard",
+    "armor_lc_heavy_leg_guard",
+    "xl_armor_qt_leg_guard",
+    "armor_qt_leg_guard",
+    "xl_armor_ch_leg_guard",
+    "armor_ch_leg_guard",
+    "xl_armor_hc_leg_guard",
+    "armor_hc_leg_guard",
+    "xl_armor_mc_leg_guard",
+    "armor_mc_leg_guard",
+    "xl_armor_lc_leg_guard",
+    "armor_lc_leg_guard",
+    "xl_armor_qt_light_leg_guard",
+    "armor_qt_light_leg_guard",
+    "xl_armor_ch_light_leg_guard",
+    "armor_ch_light_leg_guard",
+    "xl_armor_hc_light_leg_guard",
+    "armor_hc_light_leg_guard",
+    "xl_armor_mc_light_leg_guard",
+    "armor_mc_light_leg_guard",
+    "xl_armor_lc_light_leg_guard",
+    "armor_lc_light_leg_guard"
+  ],
+  "difficulty": 5,
+  "autolearn": [ [ "fabrication", 5 ] ]
+}
+```
+
+So it is identical to a normal recipe with the addition of the "nested_category_data" which lists all of the recipe ID's that are in the category.
+
+If you want to hide recipes that are nested you can set their category and subcategory as:
+
+```json
+"category": "CC_*",
+"subcategory": "CSC_*_NESTED",
+```
 
 #### Recipe requirements
 

@@ -2783,6 +2783,7 @@
       [ "sandpaper", 20 ],
       [ "vac_mold", 15 ],
       { "item": "welder", "prob": 10, "charges": [ 0, 500 ] },
+      { "item": "welding_blanket", "prob": 10, "count": [ 0, 1 ] },
       {
         "distribution": [
           { "item": "welding_rod_steel", "prob": 30, "charges": [ 50, 360 ] },

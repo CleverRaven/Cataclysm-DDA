@@ -6541,7 +6541,7 @@
     "mixed_effect": true,
     "description": "Your muscle response is dependent on ambient temperatures.  You lose 1% of your speed for every 5 (2.8) degrees below 65 F (18.3 C).  This sluggishness helps you conserve energy, however.",
     "changes_to": [ "COLDBLOOD2" ],
-    "category": [ "FISH", "CEPHALOPOD", "SPIDER", "GASTROPOD", "RAPTOR", "INSECT", "LIZARD", "BATRACHIAN", "PLANT" ],
+    "category": [ "FISH", "CEPHALOPOD", "SPIDER", "GASTROPOD", "INSECT", "LIZARD", "BATRACHIAN", "PLANT" ],
     "temperature_speed_modifier": 0.2,
     "metabolism_modifier": -0.333
   },
@@ -6554,7 +6554,7 @@
     "description": "Your muscle response is highly dependent on ambient temperatures.  You lose 1% of your speed for every 3 (1.7) degrees below 65 F (18.3 C), but your slow metabolism requires much less energy.",
     "prereqs": [ "COLDBLOOD" ],
     "changes_to": [ "COLDBLOOD3" ],
-    "category": [ "RAPTOR", "INSECT", "LIZARD", "BATRACHIAN", "PLANT" ],
+    "category": [ "INSECT", "LIZARD", "BATRACHIAN", "PLANT" ],
     "temperature_speed_modifier": 0.333,
     "metabolism_modifier": -0.5
   },
