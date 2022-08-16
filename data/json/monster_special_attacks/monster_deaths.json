@@ -319,6 +319,19 @@
     "effect": "noise"
   },
   {
+    "id": "death_shock_blast",
+    "type": "SPELL",
+    "name": { "str": "Shock Death" },
+    "valid_targets": [ "ally", "ground", "hostile" ],
+    "description": "1/5 chance to burst into electric clouds.",
+    "flags": [ "WONDER" ],
+    "effect": "noise",
+    "min_damage": 1,
+    "max_damage": 1,
+    "shape": "blast",
+    "extra_effects": [ { "id": "death_fakespell" }, { "id": "death_fakespell" }, { "id": "shock_blast", "hit_self": true, "min_level": 2 } ]
+  },
+  {
     "id": "death_fireball",
     "type": "SPELL",
     "name": { "str": "Fireball Death" },

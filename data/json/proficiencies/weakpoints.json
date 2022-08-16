@@ -46,6 +46,17 @@
   },
   {
     "type": "proficiency",
+    "id": "prof_wp_abomination",
+    "category": "prof_weakpoint",
+    "name": { "str": "Anatomy of Abominations" },
+    "description": "You are as familiar with the anatomy of these purpose-built amalgamations as it's possible given their great variation.",
+    "can_learn": true,
+    "time_to_learn": "20 h",
+    "default_weakpoint_bonus": 4,
+    "default_weakpoint_penalty": -2
+  },
+  {
+    "type": "proficiency",
     "id": "prof_wp_syn_armored",
     "category": "prof_weakpoint",
     "name": { "str": "Synthetic Armors" },
