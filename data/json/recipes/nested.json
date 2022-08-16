@@ -299,6 +299,58 @@
     "autolearn": [ [ "firstaid", 1 ] ]
   },
   {
+    "id": "nested_bandages",
+    "type": "nested_category",
+    "activity_level": "fake",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "bandages",
+    "description": "Recipes related to crafting variations of bandages.",
+    "skill_used": "firstaid",
+    "nested_category_data": [ "bandages", "bandages_makeshift", "bandages_makeshift_bleached", "bandages_makeshift_boiled", "adhesive_bandages" ],
+    "difficulty": 1,
+    "autolearn": [ [ "firstaid", 0 ] ]
+  },
+  {
+    "id": "nested_tourniquets",
+    "type": "nested_category",
+    "activity_level": "fake",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "tourniquets",
+    "description": "Recipes related to crafting different kinds of tourniquets.",
+    "skill_used": "firstaid",
+    "nested_category_data": [ "tourniquet_upper" ],
+    "difficulty": 1,
+    "autolearn": [ [ "firstaid", 0 ] ]
+  },
+  {
+    "id": "nested_hemostatic",
+    "type": "nested_category",
+    "activity_level": "fake",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "hemostatic compounds",
+    "description": "Recipes related to creating different hemostatic compounds.",
+    "skill_used": "chemistry",
+    "nested_category_data": [ "quikclot", "quikclot_from_alder" ],
+    "difficulty": 4,
+    "autolearn": [ [ "firstaid", 0 ] ]
+  },
+  {
+    "id": "nested_bleedcontrol",
+    "type": "nested_category",
+    "activity_level": "fake",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MEDICAL",
+    "name": "bleeding control",
+    "description": "Recipes that create items used to stop or slow blood loss.",
+    "skill_used": "firstaid",
+    "nested_category_data": [ "nested_bandages", "nested_tourniquets", "nested_hemostatic" ],
+    "difficulty": 1,
+    "autolearn": [ [ "firstaid", 0 ] ]
+  },  
+  {
     "id": "nested_mask_gas",
     "type": "nested_category",
     "activity_level": "LIGHT_EXERCISE",
