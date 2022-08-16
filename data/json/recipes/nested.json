@@ -307,7 +307,14 @@
     "name": "winter survivor masks",
     "description": "Recipes related to constructing various sizes of survivor masks better suited for cold environments.",
     "skill_used": "fabrication",
-    "nested_category_data": [ "mask_wsurvivor", "mask_wsurvivorxs", "mask_wsurvivorxl" ],
+    "nested_category_data": [
+      "mask_wsurvivor",
+      "mask_wsurvivorxs",
+      "mask_wsurvivorxl",
+      "mask_wsurvivor_nofur",
+      "mask_wsurvivor_nofur_xs",
+      "mask_wsurvivorxl_nofur"
+    ],
     "difficulty": 7,
     "autolearn": [ [ "fabrication", 7 ] ]
   },
