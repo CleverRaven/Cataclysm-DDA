@@ -1096,6 +1096,16 @@
   },
   {
     "type": "technique",
+    "id": "tec_kickboxing_straight_cross",
+    "name": "Straight Cross",
+    "messages": [ "You deliver a cross punch to %s", "<npcname> delivers a cross punch to %s" ],
+    "skill_requirements": [ { "name": "unarmed", "level": 3 } ],
+    "unarmed_allowed": true,
+    "crit_tec": true,
+    "attack_vectors": [ "HAND" ]
+  },
+  {
+    "type": "technique",
     "id": "tec_kickboxing_upper",
     "name": "Uppercut",
     "messages": [ "You uppercut %s", "<npcname> uppercuts %s" ],
@@ -1137,27 +1147,19 @@
   },
   {
     "type": "technique",
-    "id": "tec_kickboxing_straight_knee",
-    "name": "Straight Knee",
-    "messages": [ "You deliver a straight knee to %s", "<npcname> delivers a straight knee to %s" ],
+    "id": "tec_kickboxing_straight_kick",
+    "name": "Straight Kick",
+    "messages": [
+      "You deliver a straight kick to %s, knocking them back",
+      "<npcname> delivers a straight kick to %s, knocking them back"
+    ],
     "skill_requirements": [ { "name": "unarmed", "level": 3 } ],
     "unarmed_allowed": true,
     "crit_tec": true,
+    "knockback_dist": 1,
     "stun_dur": 1,
-    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.4 } ],
-    "attack_vectors": [ "KNEE" ]
-  },
-  {
-    "type": "technique",
-    "id": "tec_kickboxing_flying_knee",
-    "name": "Flying Knee",
-    "messages": [ "You leap and deliver a flying knee to %s", "<npcname> leaps and delivers a flying knees to %s" ],
-    "skill_requirements": [ { "name": "unarmed", "level": 5 } ],
-    "unarmed_allowed": true,
-    "crit_tec": true,
-    "stun_dur": 1,
-    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.4 } ],
-    "attack_vectors": [ "KNEE" ]
+    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.3 } ],
+    "attack_vectors_random": [ "LOWER_LEG", "FOOT" ]
   },
   {
     "type": "technique",
