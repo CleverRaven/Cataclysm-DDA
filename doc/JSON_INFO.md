@@ -38,6 +38,9 @@ Use the `Home` key to return to the top.
     - [Emitters](#emitters)
     - [Item Groups](#item-groups)
     - [Item Category](#item-category)
+    - [Item Properties](#item-properties)
+    - [Item Variables](#item-variables)
+    - [Item Migrations](#item-migrations)
     - [Materials](#materials)
       - [Fuel data](#fuel-data)
     - [Monster Groups](#monster-groups)
@@ -1171,6 +1174,61 @@ When you sort your inventory by category, these are the categories that are disp
     "sort_rank": -21,
     "priority_zones": [ { "id": "LOOT_FARMOR", "filthy": true, "flags": [ "RAINPROOF" ] } ],
 }
+```
+
+### Item Properties
+
+Properties are bound to item's type definition and code checks for them for special behaviour,
+for example the property below makes a container burst open when filled over 75% and it's thrown.
+
+```json
+  {
+    "properties": [ [ "burst_when_filled", "75" ] ]
+  }
+```
+
+### Item Variables
+
+Item variables are bound to the item itself and used to serialize special behaviour,
+for example folding a vehicle serializes the folded vehicle's name and list of parts
+(part type ids, part damage, degradation etc) into json string for use when unfolding.
+
+They can originate from code - like in the example above when folding a vehicle.
+
+Alternatively item variables may also originate from the item's prototype. Specifying them
+can be done in the item's definition, add the `variables` key and inside write a key-value
+map.
+
+Example:
+```json
+    "variables": {
+      "special_key": "spiffy value"
+    }
+```
+
+This will make any item instantiated from that prototype get assigned this variable, once
+the item is spawned the variables set on the prototype no longer affect the item's variables,
+a migration can clear out the item's variables and reassign the prototype ones if reset_item_vars
+flag is set.
+
+### Item Migrations
+
+Migrations allow replacing items or modifying them in ways to keep up with code changes or
+maintain a consistent list of item type ids.
+
+The item migration code itself is at Item_factory::migrate_item and may provide more details.
+
+The following migration will migrate items with id 'arrow_heavy_field_point' to id
+'arrow_heavy_field_point_fletched', it will also reset the item's item_vars field to
+the item prototype ones (although in this case most likely both item_vars are empty)
+
+```json
+  {
+    "id": "arrow_heavy_field_point",
+    "type": "MIGRATION",
+    "replace": "arrow_heavy_field_point_fletched",
+    "reset_item_vars": "true"
+  }
 ```
 
 ### Materials

@@ -9,7 +9,7 @@
 
 static const flag_id json_flag_FROZEN( "FROZEN" );
 
-static void set_map_temperature( int new_temperature )
+static void set_map_temperature( units::temperature new_temperature )
 {
     get_weather().temperature = new_temperature;
     get_weather().clear_temp_cache();
@@ -37,7 +37,7 @@ TEST_CASE( "Rate of rotting", "[rot]" )
         item sealed_item( "offal_canned" );
         sealed_item = sealed_item.in_its_container();
 
-        set_map_temperature( 65 ); // 18,3 C
+        set_map_temperature( units::from_fahrenheit( 65 ) ); // 18,3 C
 
         normal_item.process( get_map(), nullptr, tripoint_zero, 1, temperature_flag::NORMAL );
         sealed_item.process( get_map(), nullptr, tripoint_zero, 1, temperature_flag::NORMAL );

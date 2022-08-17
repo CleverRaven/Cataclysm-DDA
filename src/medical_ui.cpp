@@ -637,16 +637,16 @@ static medical_column draw_stats_summary( const int column_count, avatar *player
     if( temperature_speed_modifier != 0 ) {
         nc_color pen_color;
         std::string pen_sign;
-        const int player_local_temp = get_weather().get_temperature( player->pos() );
-        if( player->has_trait( trait_COLDBLOOD4 ) && player_local_temp > 65 ) {
+        const units::temperature player_local_temp = get_weather().get_temperature( player->pos() );
+        if( player->has_trait( trait_COLDBLOOD4 ) && player_local_temp > units::from_fahrenheit( 65 ) ) {
             pen_color = c_green;
             pen_sign = "+";
-        } else if( player_local_temp < 65 ) {
+        } else if( player_local_temp < units::from_fahrenheit( 65 ) ) {
             pen_color = c_red;
             pen_sign = "-";
         }
         if( !pen_sign.empty() ) {
-            pen = ( player_local_temp - 65 ) * temperature_speed_modifier;
+            pen = ( units::to_fahrenheit( player_local_temp ) - 65 ) * temperature_speed_modifier;
             pge_str = pgettext( "speed modifier", "Cold-Blooded " );
             speed_detail_str += colorize( string_format( _( "%s     %s%2d%%\n" ), pge_str, pen_sign,
                                           std::abs( pen ) ), c_red );

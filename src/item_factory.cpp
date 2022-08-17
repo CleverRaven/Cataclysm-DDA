@@ -1740,7 +1740,6 @@ void Item_factory::init()
     add_actor( std::make_unique<place_npc_iuse>() );
     add_actor( std::make_unique<reveal_map_actor>() );
     add_actor( std::make_unique<salvage_actor>() );
-    add_actor( std::make_unique<unfold_vehicle_iuse>() );
     add_actor( std::make_unique<place_trap_actor>() );
     add_actor( std::make_unique<emit_actor>() );
     add_actor( std::make_unique<saw_barrel_actor>() );
@@ -3943,6 +3942,7 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
         def.explosion = load_explosion_data( je );
     }
 
+    assign( jo, "variables", def.item_variables );
     assign( jo, "flags", def.item_tags );
     assign( jo, "faults", def.faults );
 
@@ -4119,6 +4119,7 @@ void Item_factory::load_migration( const JsonObject &jo )
     assign( jo, "charges", m.charges );
     assign( jo, "contents", m.contents );
     assign( jo, "sealed", m.sealed );
+    assign( jo, "reset_item_vars", m.reset_item_vars );
 
     std::vector<itype_id> ids;
     if( jo.has_string( "id" ) ) {
@@ -4201,6 +4202,12 @@ void Item_factory::migrate_item( const itype_id &id, item &obj )
         obj.convert( migrant->replace );
     }
 
+    if( migrant->reset_item_vars ) {
+        obj.clear_vars();
+        for( const auto &pair : migrant->replace.obj().item_variables ) {
+            obj.set_var( pair.first, pair.second ) ;
+        }
+    }
     for( const std::string &f : migrant->flags ) {
         obj.set_flag( flag_id( f ) );
     }
