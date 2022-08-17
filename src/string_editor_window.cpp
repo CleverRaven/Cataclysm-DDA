@@ -173,7 +173,7 @@ point folded_text::codepoint_coordinates( const int cpt_idx, const bool zero_x )
     int y = std::distance( lines.begin(), it );
     // if zero_x is true and the line is not the last line, cursor at the end of
     // the line is moved to the start of the next line
-    if( zero_x && static_cast<size_t>( y + 1 ) < lines.size()
+    if( zero_x && static_cast<size_t>( y ) + 1 < lines.size()
         && cpt_idx == it->cpts_end ) {
         return point( 0, y + 1 );
     }

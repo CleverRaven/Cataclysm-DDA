@@ -71,7 +71,7 @@
     "origins": [ "ORIGIN_OPENER_NPC" ],
     "followup": "MISSION_BUILD_CAMP_2",
     "end": {
-      "update_mapgen": { "om_terrain": "homelesscamp", "place_nested": [ { "chunks": [ "homeless_camp_refurb_1" ], "x": 0, "y": 0 } ] }
+      "update_mapgen": { "om_terrain": "homelesscamp_npc", "place_nested": [ { "chunks": [ "homeless_camp_refurb_1" ], "x": 0, "y": 0 } ] }
     },
     "has_generic_rewards": true,
     "dialogue": {
@@ -99,7 +99,7 @@
     "origins": [ "ORIGIN_OPENER_NPC" ],
     "followup": "MISSION_BUILD_CAMP_3",
     "end": {
-      "update_mapgen": { "om_terrain": "homelesscamp", "place_nested": [ { "chunks": [ "homeless_camp_refurb_2" ], "x": 0, "y": 0 } ] }
+      "update_mapgen": { "om_terrain": "homelesscamp_npc", "place_nested": [ { "chunks": [ "homeless_camp_refurb_2" ], "x": 0, "y": 0 } ] }
     },
     "has_generic_rewards": true,
     "dialogue": {
@@ -134,7 +134,7 @@
     "origins": [ "ORIGIN_OPENER_NPC" ],
     "followup": "MISSION_BUILD_CAMP_4",
     "end": {
-      "update_mapgen": { "om_terrain": "homelesscamp", "place_nested": [ { "chunks": [ "homeless_camp_refurb_3" ], "x": 0, "y": 0 } ] }
+      "update_mapgen": { "om_terrain": "homelesscamp_npc", "place_nested": [ { "chunks": [ "homeless_camp_refurb_3" ], "x": 0, "y": 0 } ] }
     },
     "has_generic_rewards": true,
     "dialogue": {
@@ -215,7 +215,7 @@
     "value": 5000,
     "origins": [ "ORIGIN_OPENER_NPC" ],
     "end": {
-      "update_mapgen": { "om_terrain": "homelesscamp", "place_nested": [ { "chunks": [ "homeless_camp_refurb_5" ], "x": 0, "y": 0 } ] },
+      "update_mapgen": { "om_terrain": "homelesscamp_npc", "place_nested": [ { "chunks": [ "homeless_camp_refurb_5" ], "x": 0, "y": 0 } ] },
       "effect": [ { "npc_add_var": "smoked_meat_tradeable", "type": "dialogue", "context": "trade", "value": "yes" } ]
     },
     "has_generic_rewards": true,

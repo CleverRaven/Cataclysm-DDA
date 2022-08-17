@@ -441,7 +441,7 @@ std::set<tripoint> calculate_spell_effect_area( const spell &sp, const tripoint 
     }
 
     std::set<tripoint> targets = { epicenter }; // initialize with epicenter
-    if( sp.aoe() <= 1 && sp.shape() != spell_shape::line ) {
+    if( sp.aoe() < 1 && sp.shape() != spell_shape::line ) {
         return targets;
     }
 
@@ -463,17 +463,18 @@ static std::set<tripoint> spell_effect_area( const spell &sp, const tripoint &ta
 {
     // calculate spell's effect area
     std::set<tripoint> targets = calculate_spell_effect_area( sp, target, caster );
+    if( !sp.has_flag( spell_flag::NO_EXPLOSION_SFX ) ) {
+        // Draw the explosion
+        std::map<tripoint, nc_color> explosion_colors;
+        for( const tripoint &pt : targets ) {
+            explosion_colors[pt] = sp.damage_type_color();
+        }
 
-    // Draw the explosion
-    std::map<tripoint, nc_color> explosion_colors;
-    for( const tripoint &pt : targets ) {
-        explosion_colors[pt] = sp.damage_type_color();
+        std::string exp_name = "explosion_" + sp.id().str();
+
+        explosion_handler::draw_custom_explosion( get_player_character().pos(), explosion_colors,
+                exp_name );
     }
-
-    std::string exp_name = "explosion_" + sp.id().str();
-
-    explosion_handler::draw_custom_explosion( get_player_character().pos(), explosion_colors,
-            exp_name );
     return targets;
 }
 
@@ -1059,7 +1060,8 @@ void spell_effect::spawn_ethereal_item( const spell &sp, Creature &caster, const
 {
     item granted( sp.effect_data(), calendar::turn );
     // Comestibles are never ethereal. Other spawned items are ethereal unless permanent and max level.
-    if( !granted.is_comestible() && !( sp.has_flag( spell_flag::PERMANENT ) && sp.is_max_level() ) ) {
+    if( !granted.is_comestible() && !( sp.has_flag( spell_flag::PERMANENT ) && sp.is_max_level() ) &&
+        !sp.has_flag( spell_flag::PERMANENT_ALL_LEVELS ) ) {
         granted.set_var( "ethereal", to_turns<int>( sp.duration_turns() ) );
         granted.ethereal = true;
     }
@@ -1447,8 +1449,8 @@ void spell_effect::guilt( const spell &sp, Creature &caster, const tripoint &tar
             // player no longer cares
             if( kill_count == max_kills ) {
                 //~ Message after killing a lot of monsters which would normally affect the morale negatively. %s is the monster name, it most likely will be pluralized.
-                add_msg( m_good, _( "After killing so many bloody %s you no longer care "
-                                    "about their deaths anymore." ), z.name( max_kills ) );
+                guy.add_msg_if_player( m_good, _( "After killing so many bloody %s you no longer care "
+                                                  "about their deaths anymore." ), z.name( max_kills ) );
             }
             return;
         } else if( guy.has_flag( json_flag_PRED1 ) ||
@@ -1464,7 +1466,7 @@ void spell_effect::guilt( const spell &sp, Creature &caster, const tripoint &tar
             }
         }
 
-        add_msg( msgtype, msg, z.name() );
+        guy.add_msg_if_player( msgtype, msg, z.name() );
 
         float killRatio = static_cast<float>( kill_count ) / max_kills;
         int moraleMalus = -5 * guilt_mult * ( 1.0 - killRatio );

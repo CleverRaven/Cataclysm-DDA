@@ -78,6 +78,20 @@ constexpr origin origin_from_scale( scale s )
     }
 }
 
+constexpr scale scale_from_origin( origin o )
+{
+    switch( o ) {
+        case origin::submap:
+            return scale::submap;
+        case origin::overmap_terrain:
+            return scale::overmap_terrain;
+        case origin::overmap:
+            return scale::overmap;
+        default:
+            constexpr_fatal( ms, "Requested scale for origin %d", o );
+    }
+}
+
 /**
  * A generic coordinate-type-safe point.
  *
@@ -679,14 +693,14 @@ struct real_coords {
 
     // helper functions to return abs_pos of submap/overmap tile/overmap's start
 
-    point begin_sub() {
+    point begin_sub() const {
         return point( abs_sub.x * tiles_in_sub, abs_sub.y * tiles_in_sub );
     }
-    point begin_om_pos() {
+    point begin_om_pos() const {
         return point( ( abs_om.x * subs_in_om * tiles_in_sub ) + ( om_pos.x * 2 * tiles_in_sub ),
                       ( abs_om.y * subs_in_om * tiles_in_sub ) + ( om_pos.y * 2 * tiles_in_sub ) );
     }
-    point begin_om() {
+    point begin_om() const {
         return point( abs_om.x * subs_in_om * tiles_in_sub, abs_om.y * subs_in_om * tiles_in_sub );
     }
 };

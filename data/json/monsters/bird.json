@@ -271,6 +271,7 @@
     "hp": 15,
     "aggression": 0,
     "morale": 15,
+    "aggro_character": false,
     "dodge": 3,
     "melee_damage": [ { "damage_type": "cut", "amount": 1 } ],
     "anger_triggers": [ "PLAYER_CLOSE", "FRIEND_ATTACKED" ],
@@ -529,7 +530,7 @@
     "fear_triggers": [ "PLAYER_CLOSE" ],
     "special_attacks": [ [ "SHRIEK", 10 ] ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 8 },
-    "upgrades": { "half_life": 10, "into_group": "GROUP_CROW_MUTANT" },
+    "upgrades": { "half_life": 21, "into_group": "GROUP_CROW_MUTANT" },
     "flags": [ "SEES", "HEARS", "SMELLS", "PATH_AVOID_DANGER_1", "WARM", "FLIES" ]
   },
   {

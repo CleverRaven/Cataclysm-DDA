@@ -16,6 +16,7 @@
 #include "map_helpers.h"
 #include "map_test_case.h"
 #include "mapdata.h"
+#include "mtype.h"
 #include "optional.h"
 #include "point.h"
 #include "type_id.h"
@@ -31,11 +32,17 @@ static const field_type_str_id field_fd_smoke( "fd_smoke" );
 static const move_mode_id move_mode_crouch( "crouch" );
 static const move_mode_id move_mode_walk( "walk" );
 
+static const mtype_id mon_test_camera( "mon_test_camera" );
+static const mtype_id mon_zombie( "mon_zombie" );
+static const mtype_id mon_zombie_electric( "mon_zombie_electric" );
+
 static const ter_str_id ter_t_brick_wall( "t_brick_wall" );
 static const ter_str_id ter_t_flat_roof( "t_flat_roof" );
 static const ter_str_id ter_t_floor( "t_floor" );
 static const ter_str_id ter_t_utility_light( "t_utility_light" );
 static const ter_str_id ter_t_window_frame( "t_window_frame" );
+
+static const trait_id trait_MYOPIC( "MYOPIC" );
 
 static const vproto_id vehicle_prototype_meth_lab( "meth_lab" );
 
@@ -97,9 +104,20 @@ using namespace map_test_case_common::tiles;
 
 auto static const ter_set_flat_roof_above = ter_set( ter_t_flat_roof, tripoint_above );
 
+static bool spawn_moncam( map_test_case::tile tile )
+{
+    monster *const slime = g->place_critter_at( mon_test_camera, tile.p );
+    REQUIRE( slime->type->vision_day == 6 );
+    slime->friendly = -1;
+    return true;
+}
+
 static const tile_predicate set_up_tiles_common =
     ifchar( ' ', noop ) ||
     ifchar( 'U', noop ) ||
+    ifchar( 'C', noop ) ||
+    ifchar( 'Z', noop ) ||
+    ifchar( 'z', ter_set( ter_t_floor ) + ter_set_flat_roof_above ) ||
     ifchar( 'u', ter_set( ter_t_floor ) + ter_set_flat_roof_above ) ||
     ifchar( 'L', ter_set( ter_t_utility_light ) + ter_set_flat_roof_above ) ||
     ifchar( '#', ter_set( ter_t_brick_wall ) + ter_set_flat_roof_above ) ||
@@ -110,6 +128,9 @@ static const tile_predicate set_up_tiles_common =
 struct vision_test_flags {
     bool crouching = false;
     bool headlamp = false;
+    bool blindfold = false;
+    bool moncam = false;
+    bool myopic = false;
 };
 
 struct vision_test_case {
@@ -132,6 +153,7 @@ struct vision_test_case {
         player_character.clear_effects();
         player_character.clear_bionics();
         player_character.clear_mutations(); // remove mutations that potentially affect vision
+        player_character.clear_moncams();
         clear_map();
         g->reset_light_level();
 
@@ -157,6 +179,15 @@ struct vision_test_case {
         }
         if( flags.headlamp ) {
             player_add_headlamp();
+        }
+        if( flags.blindfold ) {
+            player_wear_blindfold();
+        }
+        if( flags.moncam ) {
+            player_character.add_moncam( { mon_test_camera, 60 } );
+        }
+        if( flags.myopic ) {
+            player_character.set_mutation( trait_MYOPIC );
         }
 
         // test both 2d and 3d cases
@@ -472,15 +503,214 @@ TEST_CASE( "vision_single_tile_skylight", "[shadowcasting][vision]" )
     t.test_all();
 }
 
-TEST_CASE( "vision_inside_meth_lab", "[shadowcasting][vision]" )
+TEST_CASE( "vision_junction_reciprocity", "[vision][reciprocity]" )
+{
+    bool player_in_junction = GENERATE( true, false );
+
+    vision_test_case t {
+        player_in_junction ?
+        std::vector<std::string>{
+            "u#  ",
+            "-- Z",
+}:
+        std::vector<std::string>{
+            "z#  ",
+            "-- u",
+        },
+        player_in_junction ?
+        std::vector<std::string>{
+            "4466",
+            "4446",
+}:
+        std::vector<std::string>{
+            "4444",
+            "4444",
+        },
+        day_time
+    };
+
+    monster *zombie = nullptr;
+    tile_predicate spawn_zombie = [&]( map_test_case::tile tile ) {
+        zombie = g->place_critter_at( mon_zombie, tile.p );
+        return true;
+    };
+
+    t.set_up_tiles =
+        ifchar( 'C', spawn_moncam ) ||
+        ifchar( 'Z', spawn_zombie ) ||
+        ifchar( 'z', spawn_zombie ) ||
+        t.set_up_tiles;
+    t.test_all();
+
+    if( player_in_junction ) {
+        REQUIRE( !get_avatar().sees( *zombie ) );
+        REQUIRE( !zombie->sees( get_avatar() ) );
+    } else {
+        REQUIRE( get_avatar().sees( *zombie ) );
+        REQUIRE( zombie->sees( get_avatar() ) );
+    }
+}
+
+TEST_CASE( "vision_blindfold_reciprocity", "[vision][reciprocity]" )
+{
+    vision_test_case t {
+        {
+            "U  Z",
+        },
+        {
+            "4666",
+        },
+        day_time
+    };
+
+    monster *zombie = nullptr;
+    tile_predicate spawn_zombie = [&]( map_test_case::tile tile ) {
+        zombie = g->place_critter_at( mon_zombie, tile.p );
+        return true;
+    };
+
+    t.flags.blindfold = true;
+    t.set_up_tiles =
+        ifchar( 'C', spawn_moncam ) ||
+        ifchar( 'Z', spawn_zombie ) ||
+        t.set_up_tiles;
+    t.test_all();
+
+    REQUIRE( !get_avatar().sees( *zombie ) );
+    // don't "optimize" lightcasting with player sight range
+    REQUIRE( zombie->sees( get_avatar() ) );
+}
+
+TEST_CASE( "vision_moncam_basic", "[shadowcasting][vision][moncam]" )
+{
+    bool add_moncam = GENERATE( true, false );
+    bool obstructed = GENERATE( true, false );
+
+    vision_test_case t {
+        obstructed ?
+        std::vector<std::string>{
+            "             ",
+            "             ",
+            "             ",
+            "      Z      ",
+            "             ",
+            "             ",
+            "      C      ",
+            "             ",
+            "             ",
+            "             ",
+            "             ",
+            "           ##",
+            "           #u",
+} :
+        std::vector<std::string>{
+            "             ",
+            "             ",
+            "             ",
+            "      Z      ",
+            "             ",
+            "             ",
+            "      C      ",
+            "             ",
+            "             ",
+            "             ",
+            "             ",
+            "             ",
+            "            u",
+        },
+        add_moncam ?
+        std::vector<std::string>{
+            "6661111111666",
+            "6611111111166",
+            "6111111111116",
+            "1111111111111",
+            "1111111111111",
+            "1111111111111",
+            "1111114111111",
+            "1111111111111",
+            "1111111111111",
+            "1111111111111",
+            "6111111111116",
+            "6611111111166",
+            "6661111111664",
+} :
+        std::vector<std::string>{
+            "6666666666666",
+            "6666666666666",
+            "6666666666666",
+            "6666666666666",
+            "6666666666666",
+            "6666666666666",
+            "6666666666666",
+            "6666666666666",
+            "6666666666666",
+            "6666666666666",
+            "6666666666666",
+            "6666666666666",
+            "6666666666664",
+        }
+        ,
+        sunset( calendar::turn )
+    };
+
+    monster *zombie = nullptr;
+    tile_predicate spawn_zombie = [&]( map_test_case::tile tile ) {
+        zombie = g->place_critter_at( mon_zombie, tile.p );
+        return true;
+    };
+    t.flags.blindfold = true;
+    t.flags.moncam = add_moncam;
+    t.set_up_tiles =
+        ifchar( 'C', spawn_moncam ) ||
+        ifchar( 'Z', spawn_zombie ) ||
+        t.set_up_tiles;
+
+    t.test_all();
+
+    avatar &u = get_avatar();
+    REQUIRE( zombie->sees( u ) == !obstructed );
+    if( add_moncam ) {
+        REQUIRE( u.sees( zombie->pos(), true ) );
+    } else {
+        REQUIRE( !u.sees( zombie->pos(), true ) );
+    }
+}
+
+TEST_CASE( "vision_bright_source", "[vision]" )
+{
+    vision_test_case t {
+        {
+            "U             Z",
+        },
+        {
+            "444444444444462",
+        },
+        day_time
+    };
+
+    monster *zombie = nullptr;
+    tile_predicate spawn_shocker = [&]( map_test_case::tile tile ) {
+        zombie = g->place_critter_at( mon_zombie_electric, tile.p );
+        return true;
+    };
+
+    t.flags.myopic = true;
+    t.set_up_tiles =
+        ifchar( 'Z', spawn_shocker ) ||
+        t.set_up_tiles;
+    t.test_all();
+}
+
+TEST_CASE( "vision_inside_meth_lab", "[shadowcasting][vision][moncam]" )
 {
     clear_vehicles();
 
     bool door_open = GENERATE( false, true );
+    bool moncam = GENERATE( false, true );
 
     vision_test_case t {
         {
-            "  M M  ", // left M is origin location of meth lab (driver's seat)
+            "  MCM  ", // left M is origin location of meth lab (driver's seat); camera can see side mirrors
             "       ",
             "       ",
             "   U   ",
@@ -490,6 +720,7 @@ TEST_CASE( "vision_inside_meth_lab", "[shadowcasting][vision]" )
             "       "
         },
         door_open ?
+        !moncam ?
         std::vector<std::string> {
             // when door is open, light shines inside, forming a cone
             "6666666",
@@ -500,6 +731,29 @@ TEST_CASE( "vision_inside_meth_lab", "[shadowcasting][vision]" )
             "6144416",
             "6444446",
             "6644466"
+} :
+        std::vector<std::string> {
+            "4444444",
+            "4444444",
+            "4444444",
+            "6444446",
+            "6444446",
+            "6144416",
+            "6444446",
+            "6644466"
+} :
+
+        moncam ?
+        std::vector<std::string> {
+            // active moncam can see through mirrors
+            "4444444",
+            "4444444",
+            "4411144",
+            "6411146",
+            "6111116",
+            "6111116",
+            "6111116",
+            "6666666"
 } :
         std::vector<std::string> {
             // when door is closed, everything is dark
@@ -558,7 +812,9 @@ TEST_CASE( "vision_inside_meth_lab", "[shadowcasting][vision]" )
         return true;
     };
 
+    t.flags.moncam = moncam;
     t.set_up_tiles =
+        ifchar( 'C', spawn_moncam ) ||
         ifchar( 'M', spawn_meth_lab ) ||
         ifchar( 'D', set_door_location ) ||
         t.set_up_tiles;

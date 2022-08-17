@@ -443,7 +443,8 @@
     "name": "ant",
     "base_faction": "insect",
     "by_mood": [ "zombie", "fungus" ],
-    "neutral": [ "aphid", "stag_beetle_larva" ]
+    "friendly": [ "aphid" ],
+    "neutral": [ "stag_beetle_larva" ]
   },
   {
     "type": "MONSTER_FACTION",

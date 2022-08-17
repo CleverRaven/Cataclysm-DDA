@@ -139,8 +139,8 @@ class panel_manager
         widget *get_current_sidebar();
         widget *get_sidebar( const std::string &name );
         std::string get_current_layout_id() const;
-        int get_width_right();
-        int get_width_left();
+        int get_width_right() const;
+        int get_width_left() const;
 
         void show_adm();
 

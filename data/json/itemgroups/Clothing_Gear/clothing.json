@@ -2465,7 +2465,7 @@
       [ "fish_sandwich", 2 ],
       [ "mango", 1 ],
       [ "hand_pump", 5 ],
-      [ "inflatable_boat", 1 ]
+      [ "folded_inflatable_boat", 1 ]
     ]
   },
   {
@@ -4274,6 +4274,8 @@
       { "group": "accessory_sportsgear", "prob": 5 },
       { "item": "folding_poncho", "prob": 5 },
       { "item": "american_flag", "prob": 1 },
+      { "item": "pride_flag", "prob": 1 },
+      { "item": "state_flag", "prob": 1 },
       { "item": "tool_belt", "prob": 2 },
       { "item": "leather_belt", "prob": 30 },
       { "item": "wearable_light", "prob": 10, "charges": [ 0, 100 ] },

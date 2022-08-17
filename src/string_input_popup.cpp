@@ -459,7 +459,7 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
         bool next_loop = false;
         for( const auto &cb : callbacks ) {
             if( ( !std::get<0>( cb ).empty() && std::get<0>( cb ) == action ) ||
-                ( std::get<1>( cb ) != INT64_MIN && std::get<1>( cb ) == ch ) ) {
+                ( std::get<1>( cb ) != INT_MIN && std::get<1>( cb ) == ch ) ) {
                 if( std::get<2>( cb )() ) {
                     next_loop = true;
                     break;
@@ -691,7 +691,7 @@ string_input_popup &string_input_popup::text( const std::string &value )
 void string_input_popup::add_callback( const std::string &action,
                                        const std::function<bool()> &callback_func )
 {
-    callbacks.emplace_back( action, INT64_MIN, callback_func );
+    callbacks.emplace_back( action, INT_MIN, callback_func );
 }
 
 void string_input_popup::add_callback( int input, const std::function<bool()> &callback_func )

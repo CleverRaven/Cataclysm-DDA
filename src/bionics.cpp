@@ -240,11 +240,13 @@ void bionic::initialize_pseudo_items( bool create_weapon )
             }
         }
     }
-
+    //integrated armor uses pseudo item structure to be convenient but these should be visible in inventory
     for( const itype_id &id : bid.passive_pseudo_items ) {
         if( !id.is_empty() && id.is_valid() ) {
             item pseudo( id );
-            pseudo.set_flag( flag_PSEUDO );
+            if( !pseudo.has_flag( flag_INTEGRATED ) ) {
+                pseudo.set_flag( flag_PSEUDO );
+            }
             passive_pseudo_items.emplace_back( pseudo );
         }
     }
@@ -646,9 +648,9 @@ void npc::check_or_use_weapon_cbm( const bionic_id &cbm_id )
         }
 
         int ammo_count = weap.ammo_remaining( this );
-        const int ups_drain = weap.get_gun_ups_drain();
-        if( ups_drain > 0 ) {
-            ammo_count = ammo_count / ups_drain;
+        const units::energy ups_drain =  weap.get_gun_ups_drain();
+        if( ups_drain > 0_kJ ) {
+            ammo_count = units::from_kilojoule( ammo_count ) / ups_drain;
         }
         const int cbm_ammo = free_power /  bio.info().power_activate;
 
@@ -1075,7 +1077,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
         const oter_id &cur_om_ter = overmap_buffer.ter( global_omt_location() );
         /* cache g->get_temperature( player location ) since it is used twice. No reason to recalc */
         weather_manager &weather = get_weather();
-        const int player_local_temp = weather.get_temperature( player_character.pos() );
+        const units::temperature player_local_temp = weather.get_temperature( player_character.pos() );
         const int windpower = get_local_windpower( weather.windspeed + vehwindspeed,
                               cur_om_ter, pos(), weather.winddirection, g->is_sheltered( pos() ) );
         add_msg_if_player( m_info, _( "Temperature: %s." ), print_temperature( player_local_temp ) );
@@ -1090,9 +1092,8 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
                            convert_velocity( windpower * 100, VU_WIND ),
                            velocity_units( VU_WIND ) );
         add_msg_if_player( m_info, _( "Feels Like: %s." ),
-                           print_temperature(
-                               get_local_windchill( weatherPoint.temperature, weatherPoint.humidity,
-                                       windpower ) + player_local_temp ) );
+                           print_temperature( player_local_temp + get_local_windchill( weatherPoint.temperature,
+                                              weatherPoint.humidity,  windpower ) ) );
         std::string dirstring = get_dirstring( weather.winddirection );
         add_msg_if_player( m_info, _( "Wind Direction: From the %s." ), dirstring );
     } else if( bio.id == bio_remote ) {
@@ -1504,8 +1505,7 @@ void Character::burn_fuel( bionic &bio, const auto_toggle_bionic_result &result 
         case auto_toggle_bionic_result::fuel_type_t::perpetual:
             if( result.burnable_fuel_id == fuel_type_sun_light && g->is_in_sunlight( pos() ) ) {
                 const weather_type_id &wtype = current_weather( pos() );
-                const float tick_sunlight = incident_sunlight( wtype, calendar::turn );
-                const double intensity = tick_sunlight / default_daylight_level();
+                const float intensity = incident_sun_irradiance( wtype, calendar::turn ) / max_sun_irradiance();
                 mod_power_level( units::from_kilojoule( result.fuel_energy ) * intensity *
                                  result.effective_efficiency );
             } else if( result.burnable_fuel_id == fuel_type_wind ) {
@@ -1701,7 +1701,7 @@ void Character::heat_emission( const bionic &bio, int fuel_energy )
     }
 }
 
-float Character::get_effective_efficiency( const bionic &bio, float fuel_efficiency )
+float Character::get_effective_efficiency( const bionic &bio, float fuel_efficiency ) const
 {
     const cata::optional<float> &coverage_penalty = bio.info().coverage_power_gen_penalty;
     float effective_efficiency = fuel_efficiency;
@@ -2088,7 +2088,7 @@ void Character::bionics_uninstall_failure( monster &installer, Character &patien
     }
 }
 
-bool Character::has_enough_anesth( const itype &cbm, Character &patient )
+bool Character::has_enough_anesth( const itype &cbm, Character &patient ) const
 {
     if( !cbm.bionic ) {
         debugmsg( "has_enough_anesth( const itype *cbm ): %s is not a bionic", cbm.get_id().str() );
@@ -2107,7 +2107,7 @@ bool Character::has_enough_anesth( const itype &cbm, Character &patient )
     return req_anesth.can_make_with_inventory( crafting_inventory(), is_crafting_component );
 }
 
-bool Character::has_enough_anesth( const itype &cbm )
+bool Character::has_enough_anesth( const itype &cbm ) const
 {
     if( has_bionic( bio_painkiller ) || has_trait( trait_NOPAIN ) ||
         has_trait( trait_DEBUG_BIONICS ) ) {
@@ -2141,7 +2141,7 @@ void Character::consume_anesth_requirement( const itype &cbm, Character &patient
     invalidate_crafting_inventory();
 }
 
-bool Character::has_installation_requirement( const bionic_id &bid )
+bool Character::has_installation_requirement( const bionic_id &bid ) const
 {
     if( bid->installation_requirement.is_empty() ) {
         return false;
@@ -2250,7 +2250,7 @@ int bionic_manip_cos( float adjusted_skill, int bionic_difficulty )
 }
 
 bool Character::can_uninstall_bionic( const bionic &bio, Character &installer, bool autodoc,
-                                      int skill_level )
+                                      int skill_level ) const
 {
 
     // if malfunctioning bionics doesn't have associated item it gets a difficulty of 12
@@ -2506,7 +2506,7 @@ ret_val<void> Character::is_installable( const item_location &loc, const bool by
 }
 
 bool Character::can_install_bionics( const itype &type, Character &installer, bool autodoc,
-                                     int skill_level )
+                                     int skill_level ) const
 {
     if( !type.bionic ) {
         debugmsg( "Tried to install NULL bionic" );
@@ -2931,6 +2931,13 @@ bionic_uid Character::add_bionic( const bionic_id &b, bionic_uid parent_uid )
         add_proficiency( learned );
     }
 
+    for( const itype_id &pseudo : b->passive_pseudo_items ) {
+        item tmparmor( pseudo );
+        if( tmparmor.has_flag( flag_INTEGRATED ) ) {
+            wear_item( tmparmor, false );
+        }
+    }
+
     update_bionic_power_capacity();
 
     calc_encumbrance();
@@ -3007,6 +3014,12 @@ void Character::remove_bionic( const bionic &bio )
 
     for( const proficiency_id &lost : bio.id->proficiencies ) {
         lose_proficiency( lost );
+    }
+
+    for( const itype_id &popped_armor : bio.id->passive_pseudo_items ) {
+        remove_worn_items_with( [&]( item & armor ) {
+            return armor.typeId() == popped_armor;
+        } );
     }
 
     const bool has_enchantments = !bio.id->enchantments.empty();

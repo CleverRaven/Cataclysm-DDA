@@ -109,42 +109,41 @@ struct MonsterGroup {
 
 struct mongroup {
     mongroup_id type;
+    /** The monsters vector will be ignored if the vector is empty.
+     *  Otherwise it will keep track of the individual monsters that
+     *  are contained in this horde, and the population property will
+     *  be ignored instead.
+     */
+    std::vector<monster> monsters;
     // Note: position is not saved as such in the json
     // Instead, a vector of positions is saved for
     tripoint_abs_sm abs_pos; // position of the mongroup in absolute submap coordinates
-    unsigned int radius = 1;
     unsigned int population = 1;
     point_abs_sm target; // location the horde is interested in.
     point_abs_sm nemesis_target; // abs target for nemesis hordes
     int interest = 0; //interest to target in percents
     bool dying = false;
     bool horde = false;
-    /** This property will be ignored if the vector is empty.
-     *  Otherwise it will keep track of the individual monsters that
-     *  are contained in this horde, and the population property will
-     *  be ignored instead.
-     */
-    std::vector<monster> monsters;
 
-    /** There are two types of hordes: "city", who try to stick around cities
-     *  and return to them whenever possible.
-     *  And "roam", who roam around the map randomly, not taking care to return
-     *  anywhere.
-     */
-    std::string horde_behaviour;
-    bool diffuse = false;   // group size ind. of dist. from center and radius invariant
+    enum class horde_behaviour : short {
+        none,
+        city, ///< Try to stick around cities and return to them whenever possible
+        roam, ///< Roam around the map randomly
+        nemesis, ///< Follow the avatar specifically
+        last
+    };
+    horde_behaviour behaviour = horde_behaviour::none;
+
     mongroup( const mongroup_id &ptype, const tripoint_abs_sm &ppos,
-              unsigned int prad, unsigned int ppop )
+              unsigned int ppop )
         : type( ptype )
         , abs_pos( ppos )
-        , radius( prad )
         , population( ppop ) {
     }
-    mongroup( const std::string &ptype, const tripoint_abs_sm &ppos, unsigned int prad,
-              unsigned int ppop, point_abs_sm ptarget, int pint, bool pdie, bool phorde,
-              bool pdiff ) :
-        type( ptype ), abs_pos( ppos ), radius( prad ), population( ppop ), target( ptarget ),
-        interest( pint ), dying( pdie ), horde( phorde ), diffuse( pdiff ) { }
+    mongroup( const std::string &ptype, const tripoint_abs_sm &ppos,
+              unsigned int ppop, point_abs_sm ptarget, int pint, bool pdie, bool phorde ) :
+        type( ptype ), abs_pos( ppos ), population( ppop ), target( ptarget ),
+        interest( pint ), dying( pdie ), horde( phorde ) { }
     mongroup() = default;
     bool is_safe() const;
     bool empty() const;
@@ -191,6 +190,11 @@ struct mongroup {
     void serialize( JsonOut &json ) const;
 };
 
+template<>
+struct enum_traits<mongroup::horde_behaviour> {
+    static constexpr mongroup::horde_behaviour last = mongroup::horde_behaviour::last;
+};
+
 class MonsterGroupManager
 {
     public:
@@ -199,7 +203,7 @@ class MonsterGroupManager
         static void LoadMonsterWhitelist( const JsonObject &jo );
         static void FinalizeMonsterGroups();
         static std::vector<MonsterGroupResult> GetResultFromGroup( const mongroup_id &group,
-                int *quantity = nullptr, bool *mon_found = nullptr, bool from_subgroup = false );
+                int *quantity = nullptr, bool *mon_found = nullptr, bool is_recursive = false );
         static bool IsMonsterInGroup( const mongroup_id &group, const mtype_id &monster );
         static bool isValidMonsterGroup( const mongroup_id &group );
         static const mongroup_id &Monster2Group( const mtype_id &monster );

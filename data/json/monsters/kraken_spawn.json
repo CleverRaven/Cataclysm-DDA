@@ -17,6 +17,7 @@
     "color": "white_magenta",
     "aggression": 6,
     "morale": 60,
+    "aggro_character": false,
     "melee_skill": 2,
     "melee_dice": 3,
     "melee_dice_sides": 4,

@@ -17,6 +17,7 @@
 #include <tuple>
 #include <unordered_map>
 #include <unordered_set>
+#include <utility>
 
 #include "activity_type.h"
 #include "avatar.h"
@@ -800,7 +801,7 @@ void vehicle::drive_to_local_target( const tripoint &target, bool follow_protoco
     selfdrive( point( turn_x, accel_y ) );
 }
 
-units::angle vehicle::get_angle_from_targ( const tripoint &targ )
+units::angle vehicle::get_angle_from_targ( const tripoint &targ ) const
 {
     tripoint vehpos = global_square_location().raw();
     rl_vec2d facevec = face_vec();
@@ -2098,7 +2099,7 @@ bool vehicle::find_and_split_vehicles( map &here, int exclude )
 bool vehicle::find_and_split_vehicles( map &here, std::set<int> exclude )
 {
     std::vector<int> valid_parts = all_parts_at_location( part_location_structure );
-    std::set<int> checked_parts = exclude;
+    std::set<int> checked_parts = std::move( exclude );
 
     std::vector<std::vector <int>> all_vehicles;
 
@@ -2176,7 +2177,7 @@ bool vehicle::find_and_split_vehicles( map &here, std::set<int> exclude )
     return false;
 }
 
-void vehicle::relocate_passengers( const std::vector<Character *> &passengers )
+void vehicle::relocate_passengers( const std::vector<Character *> &passengers ) const
 {
     const auto boardables = get_avail_parts( "BOARDABLE" );
     for( Character *passenger : passengers ) {
@@ -2435,7 +2436,7 @@ std::vector<int> vehicle::parts_at_relative( const point &dp, const bool use_cac
 
 cata::optional<vpart_reference> vpart_position::obstacle_at_part() const
 {
-    const cata::optional<vpart_reference> part = part_with_feature( VPFLAG_OBSTACLE, true );
+    cata::optional<vpart_reference> part = part_with_feature( VPFLAG_OBSTACLE, true );
     if( !part ) {
         return cata::nullopt; // No obstacle here
     }
@@ -2643,6 +2644,7 @@ bool vehicle::has_part( const tripoint &pos, const std::string &flag, bool enabl
     return false;
 }
 
+// NOLINTNEXTLINE(readability-make-member-function-const)
 std::vector<vehicle_part *> vehicle::get_parts_at( const tripoint &pos, const std::string &flag,
         const part_status_flag condition )
 {
@@ -2826,7 +2828,7 @@ std::vector<int> vehicle::all_parts_at_location( const std::string &location ) c
 // as the part index was first "chosen" before the NPC started traveling here.
 // therefore the part index is now invalid shifted by one or two ( depending on how many other NPCs working on this vehicle )
 // so loop over the part indexes in reverse order to get the next one down that matches the part type we wanted to remove
-int vehicle::get_next_shifted_index( int original_index, Character &you )
+int vehicle::get_next_shifted_index( int original_index, Character &you ) const
 {
     int ret_index = original_index;
     bool found_shifted_index = false;
@@ -2865,6 +2867,12 @@ std::vector<std::vector<int>> vehicle::find_lines_of_parts( int part, const std:
 
     std::vector<int> x_parts;
     std::vector<int> y_parts;
+
+    if( parts[part].is_fake ) {
+        // start from the real part, otherwise it fails in certain orientations
+        part = parts[part].fake_part_to;
+    }
+
     vpart_id part_id = part_info( part ).get_id();
     // create vectors of parts on the same X or Y axis
     point target = parts[ part ].mount;
@@ -3186,6 +3194,12 @@ tripoint vehicle::global_pos3() const
     return sm_to_ms_copy( sm_pos ) + pos;
 }
 
+tripoint_bub_ms vehicle::pos_bub() const
+{
+    // TODO: fix point types
+    return tripoint_bub_ms( global_pos3() );
+}
+
 tripoint vehicle::global_part_pos3( const int &index ) const
 {
     return global_part_pos3( parts[ index ] );
@@ -3194,6 +3208,16 @@ tripoint vehicle::global_part_pos3( const int &index ) const
 tripoint vehicle::global_part_pos3( const vehicle_part &pt ) const
 {
     return global_pos3() + pt.precalc[ 0 ];
+}
+
+tripoint_bub_ms vehicle::bub_part_pos( const int index ) const
+{
+    return bub_part_pos( parts[ index ] );
+}
+
+tripoint_bub_ms vehicle::bub_part_pos( const vehicle_part &pt ) const
+{
+    return pos_bub() + pt.precalc[ 0 ];
 }
 
 void vehicle::set_submap_moved( const tripoint &p )
@@ -3731,7 +3755,7 @@ int vehicle::safe_velocity( const bool fueled ) const
     }
 }
 
-bool vehicle::do_environmental_effects()
+bool vehicle::do_environmental_effects() const
 {
     bool needed = false;
     map &here = get_map();
@@ -3751,7 +3775,7 @@ bool vehicle::do_environmental_effects()
     return needed;
 }
 
-void vehicle::spew_field( double joules, int part, field_type_id type, int intensity )
+void vehicle::spew_field( double joules, int part, field_type_id type, int intensity ) const
 {
     if( rng( 1, 10000 ) > joules ) {
         return;
@@ -3785,9 +3809,10 @@ void vehicle::noise_and_smoke( int load, time_duration time )
     bool bad_filter = false;
     bool combustion = false;
 
+    this->vehicle_noise = 0; // reset noise, in case all combustion engines are dead
     for( size_t e = 0; e < engines.size(); e++ ) {
         int p = engines[e];
-        if( is_engine_on( e ) &&  engine_fuel_left( e ) ) {
+        if( engine_on && is_engine_on( e ) && engine_fuel_left( e ) ) {
             // convert current engine load to units of watts/40K
             // then spew more smoke and make more noise as the engine load increases
             int part_watts = part_vpower_w( p, true );
@@ -4708,6 +4733,30 @@ std::pair<int, int> vehicle::battery_power_level() const
     return std::make_pair( remaining_epower, total_epower_capacity );
 }
 
+std::pair<int, int> vehicle::connected_battery_power_level() const
+{
+    int total_epower_capacity = 0;
+    int remaining_epower = 0;
+
+    std::tie( remaining_epower, total_epower_capacity ) = battery_power_level();
+
+    auto get_power_visitor = [&]( vehicle const * veh, int amount, int ) {
+        int other_total_epower_capacity = 0;
+        int other_remaining_epower = 0;
+
+        std::tie( other_remaining_epower, other_total_epower_capacity ) = veh->battery_power_level();
+
+        total_epower_capacity += other_total_epower_capacity;
+        remaining_epower += other_remaining_epower;
+
+        return amount;
+    };
+
+    traverse_vehicle_graph( this, 1, get_power_visitor );
+
+    return std::make_pair( remaining_epower, total_epower_capacity );
+}
+
 bool vehicle::start_engine( int e, bool turn_on )
 {
     if( parts[engines[e]].enabled == turn_on ) {
@@ -4779,8 +4828,7 @@ int vehicle::total_solar_epower_w() const
     // Weather doesn't change much across the area of the vehicle, so just
     // sample it once.
     weather_type_id wtype = current_weather( global_pos3() );
-    const float tick_sunlight = incident_sunlight( wtype, calendar::turn );
-    double intensity = tick_sunlight / default_daylight_level();
+    const float intensity = incident_sun_irradiance( wtype, calendar::turn ) / max_sun_irradiance();
     return epower_w * intensity;
 }
 
@@ -4829,10 +4877,60 @@ int vehicle::total_water_wheel_epower_w() const
     return epower_w;
 }
 
-int vehicle::net_battery_charge_rate_w() const
+int vehicle::net_battery_charge_rate_w( bool include_reactors ) const
 {
     return total_engine_epower_w() + total_alternator_epower_w() + total_accessory_epower_w() +
-           total_solar_epower_w() + total_wind_epower_w() + total_water_wheel_epower_w();
+           total_solar_epower_w() + total_wind_epower_w() + total_water_wheel_epower_w() +
+           ( include_reactors ? active_reactor_epower_w( false ) : 0 );
+}
+
+int vehicle::active_reactor_epower_w( bool connected_vehicles ) const
+{
+    int reactor_w = 0;
+
+    for( int elem : reactors ) {
+        if( is_part_on( elem ) && !parts[elem].is_unavailable() &&
+            ( parts[ elem ].info().has_flag( STATIC( std::string( "PERPETUAL" ) ) ) ||
+              parts[elem].ammo_remaining() > 0 ) ) {
+            reactor_w += part_epower_w( elem );
+        }
+    }
+
+    if( reactor_w > 0 ) {
+        // The reactor is providing power, but not all of it will really be used.
+        // Only count as much power as will be drawn from the reactor to fill the batteries.
+        int total_battery_left;
+        int total_battery_capacity;
+        std::tie( total_battery_left, total_battery_capacity ) = connected_vehicles ?
+                connected_battery_power_level() : battery_power_level();
+
+        // How much battery needs filled?
+        int batteries_need = std::max( 0, total_battery_capacity - total_battery_left );
+
+        // How much battery are others adding/draining?
+        int others_w = net_battery_charge_rate_w( false );
+        int others_bat = power_to_energy_bat( others_w, 1_turns );
+
+        // How much battery will the reactors add?
+        int reactor_bat = power_to_energy_bat( reactor_w, 1_turns );
+
+        batteries_need -= others_bat;
+
+        if( reactor_bat >= batteries_need ) {
+            // The reactor will provide more than the batteries need.
+            // Since the batteries will be filled up immediately,
+            // the reactor will throttle, providing just enough to cancel out
+            // any negative draw on the batteries.
+            return std::max( 1, -others_w );
+        } else {
+            // The reactor will not immediately fill up the batteries.
+            // Thus it will provide full power.
+            return reactor_w;
+        }
+    } else {
+        // No power provded by reactors, don't bother checking battery level.
+        return 0;
+    }
 }
 
 int vehicle::max_reactor_epower_w() const
@@ -4877,57 +4975,60 @@ void vehicle::power_parts()
     int epower = engine_epower + total_accessory_epower_w() + total_alternator_epower_w();
 
     int delta_energy_bat = power_to_energy_bat( epower, 1_turns );
-    int battery_left;
-    int battery_capacity;
-    std::tie( battery_left, battery_capacity ) = battery_power_level();
-    int storage_deficit_bat = std::max( 0, battery_capacity - battery_left - delta_energy_bat );
     Character &player_character = get_player_character();
-    // Reactors trigger only on demand. If we'd otherwise run out of power, see
-    // if we can spin up the reactors.
-    if( !reactors.empty() && storage_deficit_bat > 0 ) {
-        // Still not enough surplus epower to fully charge battery
-        // Produce additional epower from any reactors
-        bool reactor_working = false;
-        bool reactor_online = false;
-        for( int elem : reactors ) {
-            // Check whether the reactor is on. If not, move on.
-            if( !is_part_on( elem ) ) {
-                continue;
-            }
-            // Keep track whether or not the vehicle has any reactors activated
-            reactor_online = true;
-            // the amount of energy the reactor generates each turn
-            const int gen_energy_bat = power_to_energy_bat( part_epower_w( elem ), 1_turns );
-            if( parts[ elem ].is_unavailable() ) {
-                continue;
-            } else if( parts[ elem ].info().has_flag( STATIC( std::string( "PERPETUAL" ) ) ) ) {
-                reactor_working = true;
-                delta_energy_bat += std::min( storage_deficit_bat, gen_energy_bat );
-            } else if( parts[elem].ammo_remaining() > 0 ) {
-                // Efficiency: one unit of fuel is this many units of battery
-                // Note: One battery is 1 kJ
-                const int efficiency = part_info( elem ).power;
-                const int avail_fuel = parts[elem].ammo_remaining() * efficiency;
-                const int elem_energy_bat = std::min( gen_energy_bat, avail_fuel );
-                // Cap output at what we can achieve and utilize
-                const int reactors_output_bat = std::min( elem_energy_bat, storage_deficit_bat );
-                // Fuel consumed in actual units of the resource
-                int fuel_consumed = reactors_output_bat / efficiency;
-                // Remainder has a chance of resulting in more fuel consumption
-                fuel_consumed += x_in_y( reactors_output_bat % efficiency, efficiency ) ? 1 : 0;
-                parts[ elem ].ammo_consume( fuel_consumed, global_part_pos3( elem ) );
-                reactor_working = true;
-                delta_energy_bat += reactors_output_bat;
-            }
-        }
 
-        if( !reactor_working && reactor_online ) {
-            // All reactors out of fuel or destroyed
+    if( !reactors.empty() ) {
+        // Reactors trigger only on demand -- that is, if they can fill up a battery in the vehicle or any connected vehicles.
+        // Check the entire graph of connected vehicles to determine power output.
+        int battery_left;
+        int battery_capacity;
+        std::tie( battery_left, battery_capacity ) = connected_battery_power_level();
+        int storage_deficit_bat = std::max( 0, battery_capacity - battery_left - delta_energy_bat );
+        if( storage_deficit_bat > 0 ) {
+            // Still not enough surplus epower to fully charge battery
+            // Produce additional epower from any reactors
+            bool reactor_working = false;
+            bool reactor_online = false;
             for( int elem : reactors ) {
-                parts[ elem ].enabled = false;
+                // Check whether the reactor is on. If not, move on.
+                if( !is_part_on( elem ) ) {
+                    continue;
+                }
+                // Keep track whether or not the vehicle has any reactors activated
+                reactor_online = true;
+                // the amount of energy the reactor generates each turn
+                const int gen_energy_bat = power_to_energy_bat( part_epower_w( elem ), 1_turns );
+                if( parts[ elem ].is_unavailable() ) {
+                    continue;
+                } else if( parts[ elem ].info().has_flag( STATIC( std::string( "PERPETUAL" ) ) ) ) {
+                    reactor_working = true;
+                    delta_energy_bat += std::min( storage_deficit_bat, gen_energy_bat );
+                } else if( parts[elem].ammo_remaining() > 0 ) {
+                    // Efficiency: one unit of fuel is this many units of battery
+                    // Note: One battery is 1 kJ
+                    const int efficiency = part_info( elem ).power;
+                    const int avail_fuel = parts[elem].ammo_remaining() * efficiency;
+                    const int elem_energy_bat = std::min( gen_energy_bat, avail_fuel );
+                    // Cap output at what we can achieve and utilize
+                    const int reactors_output_bat = std::min( elem_energy_bat, storage_deficit_bat );
+                    // Fuel consumed in actual units of the resource
+                    int fuel_consumed = reactors_output_bat / efficiency;
+                    // Remainder has a chance of resulting in more fuel consumption
+                    fuel_consumed += x_in_y( reactors_output_bat % efficiency, efficiency ) ? 1 : 0;
+                    parts[ elem ].ammo_consume( fuel_consumed, global_part_pos3( elem ) );
+                    reactor_working = true;
+                    delta_energy_bat += reactors_output_bat;
+                }
             }
-            if( player_in_control( player_character ) || player_character.sees( global_pos3() ) ) {
-                add_msg( _( "The %s's reactor dies!" ), name );
+
+            if( !reactor_working && reactor_online ) {
+                // All reactors out of fuel or destroyed
+                for( int elem : reactors ) {
+                    parts[ elem ].enabled = false;
+                }
+                if( player_in_control( player_character ) || player_character.sees( global_pos3() ) ) {
+                    add_msg( _( "The %s's reactor dies!" ), name );
+                }
             }
         }
     }
@@ -4970,6 +5071,7 @@ void vehicle::power_parts()
                 add_msg( _( "The %s's engine dies!" ), name );
             }
         }
+        noise_and_smoke( 0, 1_turns ); // refreshes this->vehicle_noise
     }
 }
 
@@ -5684,7 +5786,7 @@ void vehicle::refresh( const bool remove_fakes )
     // Used to sort part list so it displays properly when examining
     struct sort_veh_part_vector {
         vehicle *veh;
-        inline bool operator()( const int p1, const int p2 ) {
+        inline bool operator()( const int p1, const int p2 ) const {
             return veh->part_info( p1 ).list_order < veh->part_info( p2 ).list_order;
         }
     } svpv = { this };
@@ -5902,6 +6004,11 @@ void vehicle::refresh( const bool remove_fakes )
         std::vector<int> current_fakes = fake_parts; // copy, not a reference
         for( const int fake_index : current_fakes ) {
             add_fake_part( parts.at( fake_index ).mount, "PROTRUSION" );
+        }
+
+        // add fake camera parts so vision isn't blocked by fake parts
+        for( const std::pair <const point, std::vector<int>> &rp : relative_parts ) {
+            add_fake_part( rp.first, "CAMERA" );
         }
     } else {
         // Always repopulate fake parts in relative_parts cache since we cleared it.
@@ -6528,7 +6635,7 @@ bool vpart_position::is_inside() const
     return vehicle().part( part_index() ).inside;
 }
 
-void vehicle::unboard_all()
+void vehicle::unboard_all() const
 {
     map &here = get_map();
     std::vector<int> bp = boarded_parts();
@@ -6912,7 +7019,7 @@ int vehicle::damage_direct( map &here, int p, int dmg, damage_type type )
     return std::max( dres, 0 );
 }
 
-void vehicle::leak_fuel( vehicle_part &pt )
+void vehicle::leak_fuel( vehicle_part &pt ) const
 {
     // only liquid fuels from non-empty tanks can leak out onto map tiles
     if( !pt.is_tank() || pt.ammo_remaining() <= 0 ) {
@@ -6963,6 +7070,9 @@ std::list<item *> vehicle::fuel_items_left()
 
 bool vehicle::is_foldable() const
 {
+    if( has_tag( flag_APPLIANCE ) ) {
+        return false;
+    }
     for( const vpart_reference &vp : get_all_parts() ) {
         if( !vp.has_feature( "FOLDABLE" ) ) {
             return false;
@@ -7239,7 +7349,8 @@ void vehicle::update_time( const time_point &update_to )
 
             epower_w += part_epower_w( part );
         }
-        double intensity = accum_weather.sunlight / default_daylight_level() / to_turns<double>( elapsed );
+        double intensity = accum_weather.radiant_exposure / max_sun_irradiance() / to_seconds<float>
+                           ( elapsed );
         int energy_bat = power_to_energy_bat( epower_w * intensity, elapsed );
         if( energy_bat > 0 ) {
             add_msg_debug( debugmode::DF_VEHICLE, "%s got %d kJ energy from solar panels", name, energy_bat );
@@ -7586,12 +7697,12 @@ tripoint vehicle::exhaust_dest( int part ) const
     return global_pos3() + tripoint( q, 0 );
 }
 
-void vehicle::add_tag( std::string tag )
+void vehicle::add_tag( const std::string &tag )
 {
     tags.insert( tag );
 }
 
-bool vehicle::has_tag( std::string tag ) const
+bool vehicle::has_tag( const std::string &tag ) const
 {
     return tags.count( tag ) > 0;
 }

@@ -1238,6 +1238,7 @@
         [ "down_blanket", 1 ],
         [ "fur_blanket", 1 ],
         [ "electric_blanket", 1 ],
+        [ "emer_blanket", 1 ],
         [ "quilt", 1 ],
         [ "quilt_patchwork", 1 ],
         [ "sheet", 1 ]

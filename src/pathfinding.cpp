@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <array>
 #include <cstdlib>
+#include <iterator>
 #include <memory>
 #include <queue>
 #include <set>
@@ -186,7 +187,7 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
     // Except when the line contains a pre-closed tile - we need to do regular pathing then
     static const pf_special non_normal = PF_SLOW | PF_WALL | PF_VEHICLE | PF_TRAP | PF_SHARP;
     if( f.z == t.z ) {
-        const auto line_path = line_to( f, t );
+        auto line_path = line_to( f, t );
         const pathfinding_cache &pf_cache = get_pathfinding_cache_ref( f.z );
         // Check all points for any special case (including just hard terrain)
         if( std::all_of( line_path.begin(), line_path.end(), [&pf_cache]( const tripoint & p ) {
@@ -293,7 +294,7 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
                 }
 
                 int part = -1;
-                const maptile &tile = maptile_at_internal( p );
+                const const_maptile &tile = maptile_at_internal( p );
                 const ter_t &terrain = tile.get_ter_t();
                 const furn_t &furniture = tile.get_furn_t();
                 const field &field = tile.get_field();
@@ -420,7 +421,7 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
         }
 
         bool rope_ladder = false;
-        const maptile &parent_tile = maptile_at_internal( cur );
+        const const_maptile &parent_tile = maptile_at_internal( cur );
         const ter_t &parent_terrain = parent_tile.get_ter_t();
         if( settings.allow_climb_stairs && cur.z > min.z &&
             parent_terrain.has_flag( ter_furn_flag::TFLAG_GOES_DOWN ) ) {
@@ -513,4 +514,17 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
     }
 
     return ret;
+}
+
+std::vector<tripoint_bub_ms> map::route( const tripoint_bub_ms &f, const tripoint_bub_ms &t,
+        const pathfinding_settings &settings,
+        const std::set<tripoint> &pre_closed ) const
+{
+    std::vector<tripoint> raw_result = route( f.raw(), t.raw(), settings, pre_closed );
+    std::vector<tripoint_bub_ms> result;
+    std::transform( raw_result.begin(), raw_result.end(), std::back_inserter( result ),
+    []( const tripoint & p ) {
+        return tripoint_bub_ms( p );
+    } );
+    return result;
 }
