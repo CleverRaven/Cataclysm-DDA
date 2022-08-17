@@ -118,6 +118,27 @@
     }
   },
   {
+    "id": "popping_gas_sac",
+    "type": "TOOL",
+    "name": { "str": "popping gas sacs" },
+    "description": "This is a set of plastic zipper bags filled with mutant gas sacs and some soil to weigh it down.  Use it to set it on the ground, creating a trap that will warn you with noise when something steps on it.",
+    "weight": "7860 g",
+    "volume": "11600 ml",
+    "price": 50,
+    "price_postapoc": 10,
+    "material": [ "flesh", "plastic" ],
+    "symbol": ";",
+    "color": "red",
+    "use_action": {
+      "type": "place_trap",
+      "allow_underwater": false,
+      "trap": "tr_popping_gas_sacs",
+      "moves": 1250,
+      "practice": 2,
+      "done_message": "You scatter the popping gas sacs on the ground, ready to be popped."
+    }
+  },
+  {
     "id": "caltrops",
     "type": "TOOL",
     "name": { "str_sp": "loose caltrops" },

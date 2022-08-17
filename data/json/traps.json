@@ -16,6 +16,21 @@
   },
   {
     "type": "trap",
+    "id": "tr_popping_gas_sacs",
+    "name": "popping gas sacs",
+    "color": "red",
+    "memorial_male": { "ctxt": "memorial_male", "str": "Stepped on popping gas sacs." },
+    "memorial_female": { "ctxt": "memorial_female", "str": "Stepped on popping gas sacs." },
+    "symbol": "_",
+    "visibility": 4,
+    "avoidance": 8,
+    "difficulty": 0,
+    "action": "bubble",
+    "drops": [ "popping_gas_sac" ],
+    "vehicle_data": { "sound_volume": 14, "sound": "Pop!" }
+  },
+  {
+    "type": "trap",
     "id": "tr_glass",
     "name": "glass shards",
     "color": "light_cyan",

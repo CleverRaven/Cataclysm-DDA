@@ -2,6 +2,23 @@
   {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
+    "result": "popping_gas_sac",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TRAPS",
+    "skill_used": "fabrication",
+    "skills_required": [ "traps", 2 ],
+    "difficulty": 2,
+    "time": "15 m",
+    "autolearn": true,
+    "components": [
+      [ [ "mutant_bug_hydrogen_sacs", 24 ] ],
+      [ [ "bag_zipper", 32 ], [ "bag_zipper_gallon", 8 ] ],
+      [ [ "material_soil", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "caltrops",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TRAPS",
