@@ -1072,7 +1072,7 @@ void set_points( tab_manager &tabs, avatar &u, pool_type &pool )
                                "Press <color_light_green>%s</color> to go to the next tab or "
                                "<color_light_green>%s</color> to return to main menu." ),
                             ctxt.get_desc( "HELP_KEYBINDINGS" ), ctxt.get_desc( "UP" ), ctxt.get_desc( "DOWN" ),
-                            ctxt.get_desc( "CONFIRM" ), ctxt.get_desc( "NEXT_TAB" ), ctxt.get_desc( "PREV_TAB" ) );
+                            ctxt.get_desc( "CONFIRM" ), ctxt.get_desc( "NEXT_TAB" ), ctxt.get_desc( "QUIT" ) );
         } else {
             fold_and_print( w, point( 2, TERMY - 2 ), getmaxx( w ) - 4, COL_NOTE_MINOR,
                             _( "Press <color_light_green>%s</color> to view and alter keybindings." ),
