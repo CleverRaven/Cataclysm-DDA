@@ -656,7 +656,7 @@
     "copy-from": "egg_goose",
     "calories": 300,
     "volume": "125 ml",
-    "weight": "144 g",
+    "weight": "155 g",
     "vitamins": [ [ "calcium", 9 ], [ "iron", 29 ] ],
     "rot_spawn": "GROUP_EGG_GOOSE"
   },
