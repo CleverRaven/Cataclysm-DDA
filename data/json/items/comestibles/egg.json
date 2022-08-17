@@ -642,7 +642,7 @@
     "type": "COMESTIBLE",
     "id": "egg_goose",
     "name": "goose egg",
-    "copy-from": "egg_guinea_fowl",
+    "copy-from": "egg_chicken",
     "calories": 266,
     "volume": "125 ml",
     "weight": "144 g",
