@@ -84,7 +84,7 @@ static const itype_id itype_soldering_iron( "soldering_iron" );
 static const itype_id itype_water( "water" );
 static const itype_id itype_water_clean( "water_clean" );
 static const itype_id itype_water_faucet( "water_faucet" );
-static const itype_id itype_water_purifier( "pseudo_water_purifier" );
+static const itype_id itype_pseudo_water_purifier( "pseudo_water_purifier" );
 static const itype_id itype_welder( "welder" );
 
 static const quality_id qual_SCREW( "SCREW" );
@@ -2158,7 +2158,7 @@ void vehicle::interact_with( const vpart_position &vp, bool with_pickup )
     const turret_data turret = turret_query( vp.pos() );
     const cata::optional<vpart_reference> vp_curtain = vp.avail_part_with_feature( "CURTAIN" );
     const cata::optional<vpart_reference> vp_faucet = vp.part_with_tool( itype_water_faucet );
-    const cata::optional<vpart_reference> vp_purify = vp.part_with_tool( itype_water_purifier );
+    const cata::optional<vpart_reference> vp_purify = vp.part_with_tool( itype_pseudo_water_purifier );
     const cata::optional<vpart_reference> vp_controls = vp.avail_part_with_feature( "CONTROLS" );
     const cata::optional<vpart_reference> vp_electronics =
         vp.avail_part_with_feature( "CTRL_ELECTRONIC" );
@@ -2275,7 +2275,7 @@ void vehicle::interact_with( const vpart_position &vp, bool with_pickup )
     }
     if( vp_purify ) {
         bool can_purify = fuel_left( itype_water ) &&
-                          fuel_left( itype_battery, true ) >= itype_water_purifier.obj().charges_to_use();
+                          fuel_left( itype_battery, true ) >= itype_pseudo_water_purifier.obj().charges_to_use();
         selectmenu.addentry( PURIFY_TANK, can_purify, 'P', _( "Purify water in vehicle tank" ) );
     }
     if( vp_monster_capture ) {
@@ -2402,7 +2402,7 @@ void vehicle::interact_with( const vpart_position &vp, bool with_pickup )
                                                get_all_colors().get_name( item::find_type( itype_water )->color ) );
             vehicle_part &tank = veh_interact::select_part( *this, sel, title );
             if( tank ) {
-                int cost = item::find_type( itype_water_purifier )->charges_to_use();
+                int cost = item::find_type( itype_pseudo_water_purifier )->charges_to_use();
                 if( fuel_left( itype_battery, true ) < tank.ammo_remaining() * cost ) {
                     //~ $1 - vehicle name, $2 - part name
                     add_msg( m_bad, _( "Insufficient power to purify the contents of the %1$s's %2$s" ),
