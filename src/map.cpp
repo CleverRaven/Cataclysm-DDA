@@ -8842,7 +8842,7 @@ void map::build_map_cache( const int zlev, bool skip_lightmap )
     // Initial value is illegal player position.
     const tripoint p = get_player_character().pos();
     static tripoint player_prev_pos;
-    seen_cache_dirty |= player_prev_pos != p;
+    seen_cache_dirty |= player_prev_pos != p || camera_cache_dirty;
     if( seen_cache_dirty ) {
         build_seen_cache( p, zlev );
         player_prev_pos = p;
@@ -8852,7 +8852,7 @@ void map::build_map_cache( const int zlev, bool skip_lightmap )
         u.moncam_cache = mcache;
         bool cumulative = seen_cache_dirty;
         for( Character::cached_moncam const &mon : u.moncam_cache ) {
-            build_seen_cache( get_map().getlocal( mon.second ), zlev, cumulative, true,
+            build_seen_cache( get_map().getlocal( mon.second ), mon.second.z(), cumulative, true,
                               std::max( 60 - mon.first->type->vision_day, 0 ) );
             cumulative = true;
         }
