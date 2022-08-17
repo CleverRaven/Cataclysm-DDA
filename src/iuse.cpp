@@ -5406,7 +5406,13 @@ cata::optional<int> iuse::unfold_generic( Character *p, item *it, bool, const tr
     }
     veh->suspend_refresh();
     veh->name = it->get_var( "vehicle_name" );
-    if( !veh->restore( it->get_var( "folding_bicycle_parts" ) ) ) {
+
+    // TODO: Remove folding_bicycle_parts after savegames migrate
+    std::string folded_parts = it->has_var( "folding_bicycle_parts" )
+                               ? it->get_var( "folding_bicycle_parts" )
+                               : it->get_var( "folded_parts" );
+
+    if( !veh->restore( folded_parts ) ) {
         here.destroy_vehicle( veh );
         return 0;
     }

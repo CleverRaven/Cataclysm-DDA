@@ -286,6 +286,7 @@ item::item( const itype *type, time_point turn, int qty ) : type( type ), bday( 
     corpse = has_flag( flag_CORPSE ) ? &mtype_id::NULL_ID().obj() : nullptr;
     contents = item_contents( type->pockets );
     item_counter = type->countdown_interval;
+    item_vars = type->item_variables;
 
     if( qty >= 0 ) {
         charges = qty;
