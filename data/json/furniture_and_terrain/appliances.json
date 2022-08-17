@@ -123,7 +123,7 @@
     "damage_reduction": { "all": 30 },
     "durability": 60,
     "flags": [ "OBSTACLE", "APPLIANCE" ],
-    "pseudo_tools": [ { "id": "water_purifier_tool" } ],
+    "pseudo_tools": [ { "id": "pseudo_water_purifier", "hotkey": "p" } ],
     "epower": 0,
     "item": "stationary_water_purifier",
     "looks_like": "f_water_purifier",
@@ -175,7 +175,7 @@
     "description": "An electric forge for metalworking.  When plugged in and powered you could use this for metalworking.  If you attempt to craft an item that needs a forge, you will be given the option of selecting it as a tool.",
     "item": "forge",
     "flags": [ "CARGO", "OBSTACLE", "APPLIANCE" ],
-    "copy-from": "veh_forge",
+    "copy-from": "veh_forge_abstract",
     "requirements": { "removal": { "time": "6 m" } },
     "pseudo_tools": [ { "id": "pseudo_app_forge" } ]
   },
@@ -186,7 +186,7 @@
     "description": "Assembled from a set of instructions you found in an old book of DIY projects, the *FOODCO kitchen buddy* claims to be *the perfect solution to all your home-cooking needs!*.  While it is surprisingly handy for vacuum-sealing as well as dehydrating food, the cheery sales pitch neglected to mention A - how awkward the damn thing is, B - That you still need a normal kitchen and C - how it doesn't take batteries.  You're going to have to weld it to a vehicle, or something else with a supply of electricity, if you want to use it.  In addition to the food preservation features, it also has a food processor, a water-purification system, a drawer for holding extra tools, and for some insane reason, a press and die set for hand-loading ammunition.",
     "item": "craftrig",
     "flags": [ "CARGO", "OBSTACLE", "APPLIANCE" ],
-    "copy-from": "craft_rig"
+    "copy-from": "craft_rig_abstract"
   },
   {
     "type": "vehicle_part",
