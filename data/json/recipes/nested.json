@@ -946,7 +946,7 @@
     "nested_category_data": [ "nested_lsurvivor_pants", "nested_survivor_pants" ],
     "difficulty": 5,
     "autolearn": [ [ "tailor", 4 ] ]
-  },    
+  },
   {
     "id": "nested_sling_ready_explosives",
     "type": "nested_category",
