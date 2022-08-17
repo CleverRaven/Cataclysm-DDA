@@ -70,8 +70,35 @@ const recipe_subset &Character::get_learned_recipes() const
     // Cache validity check
     if( !_skills->has_same_levels_as( *valid_autolearn_skills ) ) {
         for( const recipe * const &r : recipe_dict.all_autolearn() ) {
-            if( meets_skill_requirements( r->autolearn_requirements ) ) {
+            // skip nested recipes they will be covered in get_available_nested
+            if( meets_skill_requirements( r->autolearn_requirements ) && !r->is_nested() ) {
                 learned_recipes->include( r );
+            }
+        }
+        *valid_autolearn_skills = *_skills; // Reassign the validity stamp
+    }
+
+    return *learned_recipes;
+}
+
+const recipe_subset &Character::get_available_nested( const inventory &crafting_inv,
+        const std::vector<npc *> *helpers ) const
+{
+    // Cache validity check
+    if( !_skills->has_same_levels_as( *valid_autolearn_skills ) ) {
+        for( const recipe * const &r : recipe_dict.all_autolearn() ) {
+            // only display a nested category if you know at least one recipe within it
+            if( r->is_nested() ) {
+                bool found = false;
+                for( const recipe_id &nestedr : r->nested_category_data ) {
+                    if( has_recipe( &nestedr.obj(), crafting_inv, *helpers ) ) {
+                        found = true;
+                    }
+                }
+
+                if( found ) {
+                    learned_recipes->include( r );
+                }
             }
         }
         *valid_autolearn_skills = *_skills; // Reassign the validity stamp
@@ -122,7 +149,7 @@ recipe_subset Character::get_available_recipes( const inventory &crafting_inv,
         const std::vector<npc *> *helpers ) const
 {
     recipe_subset res( get_learned_recipes() );
-
+    res.include( get_available_nested( crafting_inv, helpers ) );
     res.include( get_recipes_from_books( crafting_inv ) );
     res.include( get_recipes_from_ebooks( crafting_inv ) );
 
