@@ -3962,7 +3962,7 @@
     "pre_terrain": "t_grass_dead",
     "post_terrain": "t_grass"
   },
-     {
+  {
     "type": "construction",
     "id": "constr_cut_grass_alien",
     "group": "cut_grass",
