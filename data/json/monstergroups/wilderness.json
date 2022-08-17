@@ -3072,7 +3072,7 @@
         "pack_size": [ 6, 12 ],
         "conditions": [ "DAWN", "DUSK", "NIGHT", "SPRING", "SUMMER", "AUTUMN" ]
       },
-      { "monster": "mon_woodpecker", "weight": 25, "cost_multiplier": 0 },
+      { "monster": "mon_woodpecker", "weight": 25, "cost_multiplier": 0 }
     ]
   },
   {
