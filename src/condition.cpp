@@ -1394,7 +1394,7 @@ std::function<int( const T & )> conditional_t<T>::get_get_int( const JsonObject 
         std::string weather_aspect = jo.get_string( "weather" );
         if( weather_aspect == "temperature" ) {
             return []( const T & ) {
-                return static_cast<int>( get_weather().weather_precise->temperature );
+                return static_cast<int>( units::to_fahrenheit( get_weather().weather_precise->temperature ) );
             };
         } else if( weather_aspect == "windpower" ) {
             return []( const T & ) {
@@ -1912,8 +1912,8 @@ static std::function<void( const T &, int )> get_set_int( const JsonObject &jo,
         if( weather_aspect == "temperature" ) {
             return [min, max]( const T & d, int input ) {
                 const int new_temperature = handle_min_max<T>( d, input, min, max );
-                get_weather().weather_precise->temperature = new_temperature;
-                get_weather().temperature = new_temperature;
+                get_weather().weather_precise->temperature = units::from_fahrenheit( new_temperature );
+                get_weather().temperature = units::from_fahrenheit( new_temperature );
                 get_weather().clear_temp_cache();
             };
         } else if( weather_aspect == "windpower" ) {

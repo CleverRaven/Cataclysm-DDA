@@ -117,7 +117,7 @@
       [ "disc_golf", 40 ],
       [ "magic_8_ball", 30 ],
       [ "novel_pulp", 20 ],
-      [ "folding_bicycle", 5 ],
+      [ "folded_bicycle", 5 ],
       [ "sunglasses", 25 ],
       [ "cowboy_hat", 25 ],
       { "item": "mp3", "prob": 40, "charges": 100 },

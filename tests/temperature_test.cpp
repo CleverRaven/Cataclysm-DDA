@@ -9,7 +9,7 @@
 #include "point.h"
 #include "weather.h"
 
-static void set_map_temperature( int new_temperature )
+static void set_map_temperature( units::temperature new_temperature )
 {
     get_weather().temperature = new_temperature;
     get_weather().clear_temp_cache();
@@ -26,7 +26,7 @@ TEST_CASE( "Item spawns with right thermal attributes", "[temperature]" )
     CHECK( units::to_kelvin( D.temperature ) == 0 );
     CHECK( units::to_joule_per_gram( D.specific_energy ) == -10 );
 
-    set_map_temperature( 122 );
+    set_map_temperature( units::from_fahrenheit( 122 ) );
     D.process_temperature_rot( 1, tripoint_zero, get_map(), nullptr );
 
     CHECK( units::to_kelvin( D.temperature ) == Approx( 323.15 ) );
@@ -62,7 +62,7 @@ TEST_CASE( "Rate of temperature change", "[temperature]" )
         item water1( "water" );
         item water2( "water" );
 
-        set_map_temperature( 131 ); // 55 C
+        set_map_temperature( units::from_fahrenheit( 131 ) ); // 55 C
 
         water1.process_temperature_rot( 1, tripoint_zero, here, nullptr );
         water2.process_temperature_rot( 1, tripoint_zero, here, nullptr );
@@ -70,7 +70,7 @@ TEST_CASE( "Rate of temperature change", "[temperature]" )
         // 55 C
         CHECK( units::to_kelvin( water1.temperature ) == Approx( 328.15 ) );
 
-        set_map_temperature( 68 ); // 20C
+        set_map_temperature( units::from_fahrenheit( 68 ) ); // 20C
 
         calendar::turn += 11_minutes;
         water1.process_temperature_rot( 1, tripoint_zero, here, nullptr );
@@ -102,7 +102,7 @@ TEST_CASE( "Rate of temperature change", "[temperature]" )
         item meat1( "meat_cooked" );
         item meat2( "meat_cooked" );
 
-        set_map_temperature( 122 ); //50 C
+        set_map_temperature( units::from_fahrenheit( 122 ) ); //50 C
 
         meat1.process_temperature_rot( 1, tripoint_zero, here, nullptr );
         meat2.process_temperature_rot( 1, tripoint_zero, here, nullptr );
@@ -111,7 +111,7 @@ TEST_CASE( "Rate of temperature change", "[temperature]" )
         CHECK( units::to_kelvin( meat1.temperature ) == Approx( 323.15 ) );
         CHECK( meat1.has_own_flag( flag_HOT ) );
 
-        set_map_temperature( -4 ); // -20 C
+        set_map_temperature( units::from_fahrenheit( -4 ) ); // -20 C
 
         calendar::turn += 15_minutes;
         meat1.process_temperature_rot( 1, tripoint_zero, here, nullptr );
@@ -190,7 +190,7 @@ TEST_CASE( "Rate of temperature change", "[temperature]" )
         item meat1( "meat_cooked" );
         item meat2( "meat_cooked" );
 
-        set_map_temperature( -4 ); // -20 C
+        set_map_temperature( units::from_fahrenheit( -4 ) ); // -20 C
 
         meat1.process_temperature_rot( 1, tripoint_zero, here, nullptr );
         meat2.process_temperature_rot( 1, tripoint_zero, here, nullptr );
@@ -199,7 +199,7 @@ TEST_CASE( "Rate of temperature change", "[temperature]" )
         CHECK( units::to_kelvin( meat1.temperature ) == Approx( 253.15 ) );
         CHECK( meat1.has_own_flag( flag_FROZEN ) );
 
-        set_map_temperature( 68 ); // 20 C
+        set_map_temperature( units::from_fahrenheit( 68 ) ); // 20 C
 
         calendar::turn += 11_minutes;
         meat1.process_temperature_rot( 1, tripoint_zero, here, nullptr );
@@ -266,7 +266,7 @@ TEST_CASE( "Temperature controlled location", "[temperature]" )
         // Process water 2h 3m later. Should still be temperatures::normal.
         item water1( "water" );
 
-        set_map_temperature( 0 ); // -17 C
+        set_map_temperature( units::from_fahrenheit( 0 ) ); // -17 C
 
         map &here = get_map();
         water1.process_temperature_rot( 1, tripoint_zero, here, nullptr,
