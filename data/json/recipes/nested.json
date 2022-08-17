@@ -792,7 +792,7 @@
     "description": "Recipes related to constructing various sizes of survivor firegloves.",
     "skill_used": "tailor",
     "nested_category_data": [ "gloves_fsurvivor", "xs_gloves_fsurvivor", "xl_gloves_fsurvivor" ],
-    "difficulty": 8,
+    "difficulty": 7,
     "autolearn": [ [ "tailor", 5 ] ]
   },
   {
@@ -884,7 +884,7 @@
       "xs_gloves_lsurvivor_fingerless",
       "xl_gloves_lsurvivor_fingerless"
     ],
-    "difficulty": 0,
+    "difficulty": 1,
     "autolearn": [ [ "tailor", 0 ] ]
   },
   {
@@ -905,7 +905,7 @@
       "nested_gloves_wsurvivor",
       "nested_gloves_fsurvivor"
     ],
-    "difficulty": 0,
+    "difficulty": 1,
     "autolearn": [ [ "tailor", 0 ] ]
   },
   {
