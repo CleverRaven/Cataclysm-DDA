@@ -128,6 +128,8 @@ enum class pool_type {
 class tab_manager
 {
         std::vector<std::string> &tab_names;
+        std::map<size_t, inclusive_rectangle<point>> tab_map;
+        point window_pos;
     public:
         bool complete = false;
         bool quit = false;
@@ -138,7 +140,7 @@ class tab_manager
         }
 
         void draw( const catacurses::window &w );
-        bool handle_input( const std::string &action/*, const input_context &ctxt */ );
+        bool handle_input( const std::string &action, const input_context &ctxt );
         void set_up_tab_navigation( input_context &ctxt );
 };
 
@@ -146,7 +148,9 @@ void tab_manager::draw( const catacurses::window &w )
 {
     std::pair<std::vector<std::string>, size_t> fitted_tabs = fit_tabs_to_width( getmaxx( w ),
             position.cur_index(), tab_names );
-    draw_tabs( w, fitted_tabs.first, position.cur_index() - fitted_tabs.second, fitted_tabs.second );
+    tab_map = draw_tabs( w, fitted_tabs.first, position.cur_index() - fitted_tabs.second,
+                         fitted_tabs.second );
+    window_pos = point( getbegx( w ), getbegy( w ) );
     draw_border_below_tabs( w );
 
     for( int i = 1; i < TERMX - 1; i++ ) {
@@ -156,7 +160,7 @@ void tab_manager::draw( const catacurses::window &w )
     mvwputch( w, point( TERMX - 1, 4 ), BORDER_COLOR, LINE_XOXX ); // -|
 }
 
-bool tab_manager::handle_input( const std::string &action/*, const input_context &ctxt*/ )
+bool tab_manager::handle_input( const std::string &action, const input_context &ctxt )
 {
     if( action == "QUIT" && query_yn( _( "Return to main menu?" ) ) ) {
         quit = true;
@@ -164,6 +168,16 @@ bool tab_manager::handle_input( const std::string &action/*, const input_context
         position.prev();
     } else if( action == "NEXT_TAB" ) {
         position.next();
+    } else if( action == "SELECT" ) {
+        cata::optional<point> coord = ctxt.get_coordinates_text( catacurses::stdscr );
+        if( coord.has_value() ) {
+            point local_coord = coord.value() + window_pos;
+            for( const auto &entry : tab_map ) {
+                if( entry.second.contains( local_coord ) ) {
+                    position.set_index( entry.first );
+                }
+            }
+        }
     } else {
         return false;
     }
@@ -174,6 +188,7 @@ void tab_manager::set_up_tab_navigation( input_context &ctxt )
 {
     ctxt.register_action( "PREV_TAB" );
     ctxt.register_action( "NEXT_TAB" );
+    ctxt.register_action( "SELECT" );
     ctxt.register_action( "QUIT" );
 }
 
@@ -1076,7 +1091,7 @@ void set_points( tab_manager &tabs, avatar &u, pool_type &pool )
         }
         ui_manager::redraw();
         const std::string action = ctxt.handle_input();
-        if( tabs.handle_input( action ) ) {
+        if( tabs.handle_input( action, ctxt ) ) {
             break; // Tab has changed or user has quit the screen
         } else if( action == "DOWN" ) {
             highlighted++;
@@ -1233,7 +1248,7 @@ void set_stats( tab_manager &tabs, avatar &u, pool_type pool )
     do {
         ui_manager::redraw();
         const std::string action = ctxt.handle_input();
-        if( tabs.handle_input( action ) ) {
+        if( tabs.handle_input( action, ctxt ) ) {
             break; // Tab has changed or user has quit the screen
         } else if( action == "DOWN" ) {
             if( sel < 4 ) {
@@ -1629,7 +1644,7 @@ void set_traits( tab_manager &tabs, avatar &u, pool_type pool )
 
         ui_manager::redraw();
         const std::string action = ctxt.handle_input();
-        if( tabs.handle_input( action ) ) {
+        if( tabs.handle_input( action, ctxt ) ) {
             break; // Tab has changed or user has quit the screen
         } else if( action == "LEFT" ) {
             iCurWorkingPage = next_avail_page( true );
@@ -2116,7 +2131,7 @@ void set_profession( tab_manager &tabs, avatar &u, pool_type pool )
         const int recmax = profs_length;
         const int scroll_rate = recmax > 20 ? 10 : 2;
         const int id_for_curr_description = cur_id;
-        if( tabs.handle_input( action ) ) {
+        if( tabs.handle_input( action, ctxt ) ) {
             break; // Tab has changed or user has quit the screen
         } else if( details.handle_details_pane_navigation( action, ctxt ) ) {
             //NO FURTHER ACTION REQUIRED
@@ -2449,7 +2464,7 @@ void set_hobbies( tab_manager &tabs, avatar &u, pool_type pool )
         const int recmax = profs_length;
         const int scroll_rate = recmax > 20 ? 10 : 2;
 
-        if( tabs.handle_input( action ) ) {
+        if( tabs.handle_input( action, ctxt ) ) {
             break; // Tab has changed or user has quit the screen
         } else if( details.handle_details_pane_navigation( action, ctxt ) ) {
             //NO FURTHER ACTION REQUIRED
@@ -2846,7 +2861,7 @@ void set_skills( tab_manager &tabs, avatar &u, pool_type pool )
     do {
         ui_manager::redraw();
         const std::string action = ctxt.handle_input();
-        if( tabs.handle_input( action ) ) {
+        if( tabs.handle_input( action, ctxt ) ) {
             break; // Tab has changed or user has quit the screen
         } else if( action == "DOWN" ) {
             get_next( false, false );
@@ -3205,7 +3220,7 @@ void set_scenario( tab_manager &tabs, avatar &u, pool_type pool )
         const std::string action = ctxt.handle_input();
         const int scroll_rate = scens_length > 20 ? 5 : 2;
         const int id_for_curr_description = cur_id;
-        if( tabs.handle_input( action ) ) {
+        if( tabs.handle_input( action, ctxt ) ) {
             break; // Tab has changed or user has quit the screen
         } else if( details.handle_details_pane_navigation( action, ctxt ) ) {
             //NO FURTHER ACTION REQUIRED
@@ -3897,7 +3912,7 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
                 break;
             }
             continue;
-        } else if( tabs.handle_input( action ) ) {
+        } else if( tabs.handle_input( action, ctxt ) ) {
             break; // Tab has changed or user has quit the screen
         } else if( action == "DOWN" ) {
             switch( current_selector ) {
