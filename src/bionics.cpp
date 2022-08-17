@@ -1505,8 +1505,7 @@ void Character::burn_fuel( bionic &bio, const auto_toggle_bionic_result &result 
         case auto_toggle_bionic_result::fuel_type_t::perpetual:
             if( result.burnable_fuel_id == fuel_type_sun_light && g->is_in_sunlight( pos() ) ) {
                 const weather_type_id &wtype = current_weather( pos() );
-                const float tick_sunlight = incident_sunlight( wtype, calendar::turn );
-                const double intensity = tick_sunlight / default_daylight_level();
+                const float intensity = incident_sun_irradiance( wtype, calendar::turn ) / max_sun_irradiance();
                 mod_power_level( units::from_kilojoule( result.fuel_energy ) * intensity *
                                  result.effective_efficiency );
             } else if( result.burnable_fuel_id == fuel_type_wind ) {

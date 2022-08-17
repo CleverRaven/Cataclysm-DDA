@@ -1097,6 +1097,11 @@
   },
   {
     "type": "item_action",
+    "id": "DBG_LUX_METER",
+    "name": { "str": "Measure light level" }
+  },
+  {
+    "type": "item_action",
     "id": "CALORIES_INTAKE_TRACKER",
     "name": { "str": "Calories intake tracker" }
   },

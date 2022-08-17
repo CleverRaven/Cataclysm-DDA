@@ -610,12 +610,18 @@ bool is_dusk( const time_point &p );
 bool is_dawn( const time_point &p );
 /** How much light is provided in full daylight */
 float default_daylight_level();
+/* Irradiance (W/m2) on clear day when sun is at 90 degrees */
+float max_sun_irradiance();
 /** Returns the current sunlight.
  *  Based entirely on astronomical circumstances; does not account for e.g.
  *  weather.
  *  For most situations you actually want to call the below function which also
  *  includes moonlight. */
 float sun_light_at( const time_point &p );
+
+/* Returns sun irradiance (W/m2) on a flat surface*/
+float sun_irradiance( const time_point &p );
+
 /** Returns the current sunlight plus moonlight level.
  *  Based entirely on astronomical circumstances; does not account for e.g.
  *  weather. */
