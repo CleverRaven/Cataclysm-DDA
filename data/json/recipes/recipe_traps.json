@@ -12,7 +12,7 @@
     "autolearn": true,
     "components": [
       [ [ "mutant_bug_hydrogen_sacs", 24 ] ],
-      [ [ "bag_zipper", 32 ], [ "bag_zipper_gallon", 8 ] ],
+      [ [ "bag_zipper", 32 ], [ "beverage_bag", 32 ], [ "bag_zipper_gallon", 8 ], [ "bag_plastic", 6 ], [ "bag_garbage", 2 ] ],
       [ [ "material_soil", 1 ] ]
     ]
   },
