@@ -221,6 +221,7 @@ void mon_spellcasting_actor::load_internal( const JsonObject &obj, const std::st
     optional( obj, was_loaded, "forbidden_effects_all", forbidden_effects_all );
     optional( obj, was_loaded, "required_effects_any", required_effects_any );
     optional( obj, was_loaded, "required_effects_all", required_effects_all );
+    optional( obj, was_loaded, "allow_no_target", allow_no_target, false );
 
 }
 
@@ -230,8 +231,9 @@ bool mon_spellcasting_actor::call( monster &mon ) const
         return false;
     }
 
-    if( !mon.attack_target() ) {
+    if( !mon.attack_target() && !allow_no_target ) {
         // this is an attack. there is no reason to attack if there isn't a real target.
+        // Unless we don't need one
         return false;
     }
 
@@ -277,7 +279,8 @@ bool mon_spellcasting_actor::call( monster &mon ) const
         }
     }
 
-    const tripoint target = spell_data.self ? mon.pos() : mon.attack_target()->pos();
+    const tripoint target = ( spell_data.self ||
+                              allow_no_target ) ? mon.pos() : mon.attack_target()->pos();
     spell spell_instance = spell_data.get_spell();
     spell_instance.set_message( spell_data.trigger_message );
 

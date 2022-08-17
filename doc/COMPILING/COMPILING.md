@@ -637,6 +637,38 @@ gmake RELEASE=1 # ncurses builds
 gmake RELEASE=1 TILES=1 # tiles builds
 ```
 
+### Building on OpenBSD/amd64 7.1 with clang
+
+Install necessary dependencies:
+
+`# pkg_add gmake libiconv`
+
+If building with tiles also install:
+
+`# pkg_add sdl2 sdl2-image sdl2-mixer sdl2-ttf`
+
+Compiling:
+
+```
+$ gmake RELEASE=1 BSD=1 CLANG=1 RUNTESTS=0 # ncurses build
+$ gmake RELEASE=1 BSD=1 CLANG=1 RUNTESTS=0 TILES=1 # tiles build
+```
+
+You may get an out of memory error when compiling with an underprivileged user,
+you can simply fix this by running:
+
+`# usermod -L pbuild <user>`
+
+This command sets your login class to `pbuild` thus the data ulimit is increased from
+1GB to 8GB.
+
+**NOTE: don't run this command for your main user, as it is already a part
+of the `staff` login class**
+
+Instead, you need to increase `data` limit with:
+
+`$ ulimit -d 8000000`
+
 ### Building on OpenBSD/amd64 5.8 with GCC 4.9.2 from ports/packages
 
 First, install g++, gmake, and libexecinfo from packages (g++ 4.8 or 4.9 should work; 4.9 has been tested):

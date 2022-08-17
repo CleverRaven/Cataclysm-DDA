@@ -2655,6 +2655,7 @@
     "bodytype": "pig",
     "categories": [ "WILDLIFE" ],
     "species": [ "MAMMAL" ],
+    "looks_like": "mon_squirrel",
     "volume": "663 ml",
     "weight": "663 g",
     "hp": 6,
