@@ -129,8 +129,8 @@ class tab_manager
 {
         std::vector<std::string> &tab_names;
     public:
-  bool complete = false;
-  bool quit = false;
+        bool complete = false;
+        bool quit = false;
         tab_list position;
 
         explicit tab_manager( std::vector<std::string> &tab_names ) : tab_names( tab_names ),
@@ -138,13 +138,15 @@ class tab_manager
         }
 
         void draw( const catacurses::window &w );
-  bool handle_input( const std::string &action/*, const input_context &ctxt */);
+        bool handle_input( const std::string &action/*, const input_context &ctxt */ );
         void set_up_tab_navigation( input_context &ctxt );
 };
 
 void tab_manager::draw( const catacurses::window &w )
 {
-  draw_tabs( w, tab_names, position.cur() );
+    std::pair<std::vector<std::string>, size_t> fitted_tabs = fit_tabs_to_width( getmaxx( w ),
+            position.cur_index(), tab_names );
+    draw_tabs( w, fitted_tabs.first, position.cur_index() - fitted_tabs.second, fitted_tabs.second );
     draw_border_below_tabs( w );
 
     for( int i = 1; i < TERMX - 1; i++ ) {
@@ -163,7 +165,7 @@ bool tab_manager::handle_input( const std::string &action/*, const input_context
     } else if( action == "NEXT_TAB" ) {
         position.next();
     } else {
-      return false;
+        return false;
     }
     return true;
 }
@@ -707,7 +709,7 @@ bool avatar::create( character_type type, const std::string &tempname )
         _( "DESCRIPTION" ),
     };
     tab_manager tabs( character_tabs );
-    
+
     pool_type pool = pool_type::MULTI_POOL;
 
     switch( type ) {
@@ -716,7 +718,7 @@ bool avatar::create( character_type type, const std::string &tempname )
         case character_type::RANDOM:
             //random scenario, default name if exist
             randomize( true );
-	    tabs.position.last();
+            tabs.position.last();
             break;
         case character_type::NOW:
             //default world, fixed scenario, random name
@@ -739,7 +741,7 @@ bool avatar::create( character_type type, const std::string &tempname )
             if( pool != pool_type::TRANSFER ) {
                 learned_recipes->clear();
             }
-	    tabs.position.last();
+            tabs.position.last();
             break;
     }
 
@@ -762,15 +764,15 @@ bool avatar::create( character_type type, const std::string &tempname )
         }
 
         if( pool == pool_type::TRANSFER ) {
-	  tabs.position.last();
+            tabs.position.last();
         }
 
         switch( tabs.position.cur_index() ) {
             case 0:
-	      set_points( tabs, *this, /*out*/ pool );
+                set_points( tabs, *this, /*out*/ pool );
                 break;
             case 1:
-	      set_scenario( tabs, *this, pool );
+                set_scenario( tabs, *this, pool );
                 break;
             case 2:
                 set_profession( tabs, *this, pool );
@@ -779,7 +781,7 @@ bool avatar::create( character_type type, const std::string &tempname )
                 set_hobbies( tabs, *this, pool );
                 break;
             case 4:
-	      set_stats( tabs, *this, pool );
+                set_stats( tabs, *this, pool );
                 break;
             case 5:
                 set_traits( tabs, *this, pool );
@@ -792,9 +794,9 @@ bool avatar::create( character_type type, const std::string &tempname )
                 break;
         }
 
-	if( tabs.quit ) {
-	  return false;
-	}
+        if( tabs.quit ) {
+            return false;
+        }
     } while( !tabs.complete );
 
     if( pool == pool_type::TRANSFER ) {
@@ -1022,8 +1024,8 @@ void set_points( tab_manager &tabs, avatar &u, pool_type &pool )
     ui.on_redraw( [&]( const ui_adaptor & ) {
         const int freeWidth = TERMX - FULL_SCREEN_WIDTH;
         isWide = ( TERMX > FULL_SCREEN_WIDTH && freeWidth > 15 );
-	werase( w );
-	tabs.draw( w );
+        werase( w );
+        tabs.draw( w );
 
         const auto &cur_opt = opts[highlighted];
 
@@ -1074,9 +1076,9 @@ void set_points( tab_manager &tabs, avatar &u, pool_type &pool )
         }
         ui_manager::redraw();
         const std::string action = ctxt.handle_input();
-	if( tabs.handle_input( action ) ) {
-	  break; // Tab has changed or user has quit the screen
-	} else if( action == "DOWN" ) {
+        if( tabs.handle_input( action ) ) {
+            break; // Tab has changed or user has quit the screen
+        } else if( action == "DOWN" ) {
             highlighted++;
         } else if( action == "UP" ) {
             highlighted--;
@@ -1115,7 +1117,7 @@ void set_stats( tab_manager &tabs, avatar &u, pool_type pool )
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
         werase( w );
-	tabs.draw( w );
+        tabs.draw( w );
         // Helptext stats tab
         fold_and_print( w, point( 2, TERMY - 5 ), getmaxx( w ) - 4, COL_NOTE_MINOR,
                         _( "Press <color_light_green>%s</color> to view and alter keybindings.\n"
@@ -1231,9 +1233,9 @@ void set_stats( tab_manager &tabs, avatar &u, pool_type pool )
     do {
         ui_manager::redraw();
         const std::string action = ctxt.handle_input();
-	if( tabs.handle_input( action ) ) {
-	  break; // Tab has changed or user has quit the screen
-	} else if( action == "DOWN" ) {
+        if( tabs.handle_input( action ) ) {
+            break; // Tab has changed or user has quit the screen
+        } else if( action == "DOWN" ) {
             if( sel < 4 ) {
                 sel++;
             } else {
@@ -1445,7 +1447,7 @@ void set_traits( tab_manager &tabs, avatar &u, pool_type pool )
         werase( w );
         werase( w_description );
 
-	tabs.draw( w );
+        tabs.draw( w );
         draw_filter_and_sorting_indicators( w, ctxt, filterstring, traits_sorter );
         draw_points( w, pool, u );
         int full_string_length = 0;
@@ -1627,9 +1629,9 @@ void set_traits( tab_manager &tabs, avatar &u, pool_type pool )
 
         ui_manager::redraw();
         const std::string action = ctxt.handle_input();
-	if( tabs.handle_input( action ) ) {
-	  break; // Tab has changed or user has quit the screen
-	} else if( action == "LEFT" ) {
+        if( tabs.handle_input( action ) ) {
+            break; // Tab has changed or user has quit the screen
+        } else if( action == "LEFT" ) {
             iCurWorkingPage = next_avail_page( true );
         } else if( action == "RIGHT" ) {
             iCurWorkingPage = next_avail_page( false );
@@ -1993,7 +1995,7 @@ void set_profession( tab_manager &tabs, avatar &u, pool_type pool )
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
         werase( w );
-	tabs.draw( w );
+        tabs.draw( w );
         mvwputch( w, point( TERMX / 2, iHeaderHeight - 1 ), BORDER_COLOR,
                   LINE_OXXX );// '^|^' Tee pointing down
         mvwputch( w, point( TERMX / 2, TERMY - 1 ), BORDER_COLOR, LINE_XXOX );// '_|_' Tee pointing up
@@ -2114,9 +2116,9 @@ void set_profession( tab_manager &tabs, avatar &u, pool_type pool )
         const int recmax = profs_length;
         const int scroll_rate = recmax > 20 ? 10 : 2;
         const int id_for_curr_description = cur_id;
-	if( tabs.handle_input( action ) ) {
-	  break; // Tab has changed or user has quit the screen
-	} else if( details.handle_details_pane_navigation( action, ctxt ) ) {
+        if( tabs.handle_input( action ) ) {
+            break; // Tab has changed or user has quit the screen
+        } else if( details.handle_details_pane_navigation( action, ctxt ) ) {
             //NO FURTHER ACTION REQUIRED
         } else if( action == "DOWN" ) {
             cur_id++;
@@ -2345,7 +2347,7 @@ void set_hobbies( tab_manager &tabs, avatar &u, pool_type pool )
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
         werase( w );
-	tabs.draw( w );
+        tabs.draw( w );
         mvwputch( w, point( TERMX / 2, iHeaderHeight - 1 ), BORDER_COLOR,
                   LINE_OXXX );// '^|^' Tee pointing down
         mvwputch( w, point( TERMX / 2, TERMY - 1 ), BORDER_COLOR, LINE_XXOX );// '_|_' Tee pointing up
@@ -2447,9 +2449,9 @@ void set_hobbies( tab_manager &tabs, avatar &u, pool_type pool )
         const int recmax = profs_length;
         const int scroll_rate = recmax > 20 ? 10 : 2;
 
-	if( tabs.handle_input( action ) ) {
-	  break; // Tab has changed or user has quit the screen
-	} else if( details.handle_details_pane_navigation( action, ctxt ) ) {
+        if( tabs.handle_input( action ) ) {
+            break; // Tab has changed or user has quit the screen
+        } else if( details.handle_details_pane_navigation( action, ctxt ) ) {
             //NO FURTHER ACTION REQUIRED
         } else if( action == "DOWN" ) {
             cur_id++;
@@ -2685,9 +2687,9 @@ void set_skills( tab_manager &tabs, avatar &u, pool_type pool )
     const int remaining_points_length = utf8_width( pools_to_string( u, pool ), true );
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
-      werase( w );
-      tabs.draw( w );
-      
+        werase( w );
+        tabs.draw( w );
+
         // Helptext skills tab
         fold_and_print( w, point( 2, TERMY - 5 ), getmaxx( w ) - 4, COL_NOTE_MINOR,
                         _( "Press <color_light_green>%s</color> to view and alter keybindings.\n"
@@ -2844,9 +2846,9 @@ void set_skills( tab_manager &tabs, avatar &u, pool_type pool )
     do {
         ui_manager::redraw();
         const std::string action = ctxt.handle_input();
-	if( tabs.handle_input( action ) ) {
-	  break; // Tab has changed or user has quit the screen
-	} else if( action == "DOWN" ) {
+        if( tabs.handle_input( action ) ) {
+            break; // Tab has changed or user has quit the screen
+        } else if( action == "DOWN" ) {
             get_next( false, false );
         } else if( action == "UP" ) {
             get_next( true, false );
@@ -3074,7 +3076,7 @@ void set_scenario( tab_manager &tabs, avatar &u, pool_type pool )
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
         werase( w );
-	tabs.draw( w );
+        tabs.draw( w );
         mvwputch( w, point( TERMX / 2, iHeaderHeight - 1 ), BORDER_COLOR,
                   LINE_OXXX );// '^|^' Tee pointing down
         mvwputch( w, point( TERMX / 2, TERMY - 1 ), BORDER_COLOR, LINE_XXOX );// '_|_' Tee pointing up
@@ -3203,9 +3205,9 @@ void set_scenario( tab_manager &tabs, avatar &u, pool_type pool )
         const std::string action = ctxt.handle_input();
         const int scroll_rate = scens_length > 20 ? 5 : 2;
         const int id_for_curr_description = cur_id;
-	if( tabs.handle_input( action ) ) {
-	  break; // Tab has changed or user has quit the screen
-	} else if( details.handle_details_pane_navigation( action, ctxt ) ) {
+        if( tabs.handle_input( action ) ) {
+            break; // Tab has changed or user has quit the screen
+        } else if( details.handle_details_pane_navigation( action, ctxt ) ) {
             //NO FURTHER ACTION REQUIRED
         } else if( action == "DOWN" ) {
             cur_id++;
@@ -3358,7 +3360,7 @@ static void draw_location( const catacurses::window &w_location, const avatar &y
 } // namespace char_creation
 
 void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
-                               pool_type pool )
+                      pool_type pool )
 {
     static constexpr int RANDOM_START_LOC_ENTRY = INT_MIN;
 
@@ -3496,9 +3498,9 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
 
     bool no_name_entered = false;
     ui.on_redraw( [&]( const ui_adaptor & ) {
-      werase( w );
-      tabs.draw( w );
-      draw_points( w, pool, you );
+        werase( w );
+        tabs.draw( w );
+        draw_points( w, pool, you );
 
         //Draw the line between editable and non-editable stuff.
         for( int i = 0; i < getmaxx( w ); ++i ) {
@@ -3886,17 +3888,17 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
                     continue;
                 } else {
                     you.pick_name();
-		    tabs.complete = true;
-		    break;
+                    tabs.complete = true;
+                    break;
                 }
             }
             if( query_yn( _( "Are you SURE you're finished?" ) ) ) {
-	      tabs.complete = true;
-	      break;
+                tabs.complete = true;
+                break;
             }
             continue;
-	} else if( tabs.handle_input( action ) ) {
-	  break; // Tab has changed or user has quit the screen
+        } else if( tabs.handle_input( action ) ) {
+            break; // Tab has changed or user has quit the screen
         } else if( action == "DOWN" ) {
             switch( current_selector ) {
                 case char_creation::NAME:
@@ -4004,11 +4006,11 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
         } else if( action == "REROLL_CHARACTER" && allow_reroll ) {
             you.randomize( false );
             // Re-enter this tab again, but it forces a complete redrawing of it.
-	    break;
+            break;
         } else if( action == "REROLL_CHARACTER_WITH_SCENARIO" && allow_reroll ) {
             you.randomize( true );
             // Re-enter this tab again, but it forces a complete redrawing of it.
-	    break;
+            break;
         } else if( action == "SAVE_TEMPLATE" ) {
             if( const auto name = query_for_template_name() ) {
                 you.save_template( *name, pool );
