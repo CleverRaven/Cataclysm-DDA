@@ -4598,7 +4598,7 @@ void stats_tracker::deserialize( const JsonObject &jo )
 void submap::store( JsonOut &jsout ) const
 {
     jsout.member( "turn_last_touched", last_touched );
-    jsout.member( "temperature", temperature );
+    jsout.member( "temperature", temperature_mod );
 
     // Terrain is saved using a simple RLE scheme.  Legacy saves don't have
     // this feature but the algorithm is backward compatible.
@@ -4820,7 +4820,7 @@ void submap::load( JsonIn &jsin, const std::string &member_name, int version )
     if( member_name == "turn_last_touched" ) {
         last_touched = time_point( jsin.get_int() );
     } else if( member_name == "temperature" ) {
-        temperature = jsin.get_int();
+        temperature_mod = jsin.get_int();
     } else if( member_name == "terrain" ) {
         // TODO: try block around this to error out if we come up short?
         jsin.start_array();

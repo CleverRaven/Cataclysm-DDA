@@ -8213,7 +8213,7 @@ cata::optional<int> iuse::multicooker( Character *p, item *it, bool t, const tri
                 meal.heat_up();
             } else {
                 meal.set_item_temperature( std::max( temperatures::cold,
-                                                     units::from_fahrenheit( get_weather().get_temperature( pos ) ) ) );
+                                                     get_weather().get_temperature( pos ) ) );
             }
 
             it->active = false;
@@ -9060,7 +9060,7 @@ cata::optional<int> iuse::weather_tool( Character *p, item *it, bool, const trip
     const w_point weatherPoint = *weather.weather_precise;
 
     /* Possibly used twice. Worth spending the time to precalculate. */
-    const int player_local_temp = weather.get_temperature( p->pos() );
+    const units::temperature player_local_temp = weather.get_temperature( p->pos() );
 
     if( it->typeId() == itype_weather_reader ) {
         p->add_msg_if_player( m_neutral, _( "The %s's monitor slowly outputs the data…" ),
@@ -9113,9 +9113,8 @@ cata::optional<int> iuse::weather_tool( Character *p, item *it, bool, const trip
                               velocity_units( VU_WIND ) );
         p->add_msg_if_player(
             m_neutral, _( "Feels Like: %s." ),
-            print_temperature(
-                get_local_windchill( weatherPoint.temperature, weatherPoint.humidity, windpower ) +
-                player_local_temp ) );
+            print_temperature( player_local_temp + get_local_windchill( weatherPoint.temperature,
+                               weatherPoint.humidity, windpower ) ) );
         std::string dirstring = get_dirstring( weather.winddirection );
         p->add_msg_if_player( m_neutral, _( "Wind Direction: From the %s." ), dirstring );
     }

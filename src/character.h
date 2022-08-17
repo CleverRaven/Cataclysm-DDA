@@ -3212,7 +3212,7 @@ class Character : public Creature, public visitable
         /** Drenches the player with water, saturation is the percent gotten wet */
         void drench( int saturation, const body_part_set &flags, bool ignore_waterproof );
         /** Recalculates morale penalty/bonus from wetness based on mutations, equipment and temperature */
-        void apply_wetness_morale( int temperature );
+        void apply_wetness_morale( units::temperature temperature );
         int heartrate_bpm() const;
         std::vector<std::string> short_description_parts() const;
         std::string short_description() const;

@@ -990,12 +990,13 @@ double vehicle::engine_cold_factor( const int e ) const
         return 0.0;
     }
 
-    int eff_temp = get_weather().get_temperature( get_player_character().pos() );
+    double eff_temp = units::to_fahrenheit( get_weather().get_temperature(
+            get_player_character().pos() ) );
     if( !parts[ engines[ e ] ].has_fault_flag( "BAD_COLD_START" ) ) {
-        eff_temp = std::min( eff_temp, 20 );
+        eff_temp = std::min( eff_temp, 20.0 );
     }
 
-    return 1.0 - ( std::max( 0, std::min( 30, eff_temp ) ) / 30.0 );
+    return 1.0 - ( std::max( 0.0, std::min( 30.0, eff_temp ) ) / 30.0 );
 }
 
 int vehicle::engine_start_time( const int e ) const
