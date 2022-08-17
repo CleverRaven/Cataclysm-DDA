@@ -633,7 +633,6 @@
     "color": "yellow",
     "aggression": 0,
     "morale": 30,
-    "dodge": 3,
     "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
     "reproduction": { "baby_egg": "egg_goose_golden", "baby_count": 1, "baby_timer": 10 }
   },
