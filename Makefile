@@ -298,7 +298,7 @@ ifneq ($(CLANG), 0)
   endif
   ifdef USE_LIBCXX
     OTHERS += -stdlib=libc++
-    LDFLAGS += -stdlib=libc++
+    LDFLAGS += -stdlib=libc++ -Wno-unused-command-line-argument
   endif
   ifeq ($(CCACHE), 1)
     CXX = CCACHE_CPP2=1 $(CCACHEBIN) $(CROSS)$(CLANGCMD)
