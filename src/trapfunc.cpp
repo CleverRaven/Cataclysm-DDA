@@ -184,7 +184,8 @@ bool trapfunc::beartrap( const tripoint &p, Creature *c, item * )
         dealt_damage_instance dealt_dmg = c->deal_damage( nullptr, hit, d );
 
         Character *you = dynamic_cast<Character *>( c );
-        if( you != nullptr && !you->has_trait( trait_INFIMMUNE ) && dealt_dmg.type_damage( damage_type::CUT ) > 0 ) {
+        if( you != nullptr && !you->has_trait( trait_INFIMMUNE ) &&
+            dealt_dmg.type_damage( damage_type::CUT ) > 0 ) {
             const int chance_in = you->has_trait( trait_INFRESIST ) ? 512 : 128;
             if( one_in( chance_in ) ) {
                 you->add_effect( effect_tetanus, 1_turns, true );
@@ -226,7 +227,8 @@ bool trapfunc::board( const tripoint &, Creature *c, item * )
                                             damage_instance( damage_type::CUT, rng( 6, 10 ) ) );
         dealt_damage_instance dealt_dmg_r = c->deal_damage( nullptr, bodypart_id( "foot_r" ),
                                             damage_instance( damage_type::CUT, rng( 6, 10 ) ) );
-        int total_cut_dmg = dealt_dmg_l.type_damage( damage_type::CUT ) + dealt_dmg_l.type_damage( damage_type::CUT );
+        int total_cut_dmg = dealt_dmg_l.type_damage( damage_type::CUT ) + dealt_dmg_l.type_damage(
+                                damage_type::CUT );
         if( !you->has_trait( trait_INFIMMUNE ) && total_cut_dmg > 0 ) {
             const int chance_in = you->has_trait( trait_INFRESIST ) ? 256 : 35;
             if( one_in( chance_in ) ) {
@@ -384,32 +386,32 @@ bool trapfunc::crossbow( const tripoint &p, Creature *c, item * )
             if( !one_in( 4 ) && rng( 8, 20 ) > you->get_dodge() ) {
                 bodypart_id hit( "bp_null" );
                 switch( rng( 1, 10 ) ) {
-                case  1:
-                    if( one_in( 2 ) ) {
-                        hit = bodypart_id( "foot_l" );
-                    } else {
-                        hit = bodypart_id( "foot_r" );
-                    }
-                    break;
-                case  2:
-                case  3:
-                case  4:
-                    if( one_in( 2 ) ) {
-                        hit = bodypart_id( "leg_l" );
-                    } else {
-                        hit = bodypart_id( "leg_r" );
-                    }
-                    break;
-                case  5:
-                case  6:
-                case  7:
-                case  8:
-                case  9:
-                    hit = bodypart_id( "torso" );
-                    break;
-                case 10:
-                    hit = bodypart_id( "head" );
-                    break;
+                    case  1:
+                        if( one_in( 2 ) ) {
+                            hit = bodypart_id( "foot_l" );
+                        } else {
+                            hit = bodypart_id( "foot_r" );
+                        }
+                        break;
+                    case  2:
+                    case  3:
+                    case  4:
+                        if( one_in( 2 ) ) {
+                            hit = bodypart_id( "leg_l" );
+                        } else {
+                            hit = bodypart_id( "leg_r" );
+                        }
+                        break;
+                    case  5:
+                    case  6:
+                    case  7:
+                    case  8:
+                    case  9:
+                        hit = bodypart_id( "torso" );
+                        break;
+                    case 10:
+                        hit = bodypart_id( "head" );
+                        break;
                 }
                 //~ %s is bodypart
                 you->add_msg_if_player( m_bad, _( "Your %s is hit!" ), body_part_name( hit ) );
@@ -424,24 +426,24 @@ bool trapfunc::crossbow( const tripoint &p, Creature *c, item * )
             int chance = 0;
             // adapted from shotgun code - chance of getting hit depends on size
             switch( z->type->size ) {
-            case creature_size::tiny:
-                chance = 50;
-                break;
-            case creature_size::small:
-                chance = 8;
-                break;
-            case creature_size::medium:
-                chance = 6;
-                break;
-            case creature_size::large:
-                chance = 4;
-                break;
-            case creature_size::huge:
-                chance = 1;
-                break;
-            case creature_size::num_sizes:
-                debugmsg( "ERROR: Invalid Creature size class." );
-                break;
+                case creature_size::tiny:
+                    chance = 50;
+                    break;
+                case creature_size::small:
+                    chance = 8;
+                    break;
+                case creature_size::medium:
+                    chance = 6;
+                    break;
+                case creature_size::large:
+                    chance = 4;
+                    break;
+                case creature_size::huge:
+                    chance = 1;
+                    break;
+                case creature_size::num_sizes:
+                    debugmsg( "ERROR: Invalid Creature size class." );
+                    break;
             }
             if( one_in( chance ) ) {
                 if( seen ) {
@@ -490,32 +492,32 @@ bool trapfunc::shotgun( const tripoint &p, Creature *c, item * )
             if( rng( 5, 50 ) > you->get_dodge() ) {
                 bodypart_id hit = bodypart_id( "bp_null" );
                 switch( rng( 1, 10 ) ) {
-                case  1:
-                    if( one_in( 2 ) ) {
-                        hit = bodypart_id( "foot_l" );
-                    } else {
-                        hit = bodypart_id( "foot_r" );
-                    }
-                    break;
-                case  2:
-                case  3:
-                case  4:
-                    if( one_in( 2 ) ) {
-                        hit = bodypart_id( "leg_l" );
-                    } else {
-                        hit = bodypart_id( "leg_r" );
-                    }
-                    break;
-                case  5:
-                case  6:
-                case  7:
-                case  8:
-                case  9:
-                    hit = bodypart_id( "torso" );
-                    break;
-                case 10:
-                    hit = bodypart_id( "head" );
-                    break;
+                    case  1:
+                        if( one_in( 2 ) ) {
+                            hit = bodypart_id( "foot_l" );
+                        } else {
+                            hit = bodypart_id( "foot_r" );
+                        }
+                        break;
+                    case  2:
+                    case  3:
+                    case  4:
+                        if( one_in( 2 ) ) {
+                            hit = bodypart_id( "leg_l" );
+                        } else {
+                            hit = bodypart_id( "leg_r" );
+                        }
+                        break;
+                    case  5:
+                    case  6:
+                    case  7:
+                    case  8:
+                    case  9:
+                        hit = bodypart_id( "torso" );
+                        break;
+                    case 10:
+                        hit = bodypart_id( "head" );
+                        break;
                 }
                 //~ %s is bodypart
                 you->add_msg_if_player( m_bad, _( "Your %s is hit!" ), body_part_name( hit ) );
@@ -529,24 +531,24 @@ bool trapfunc::shotgun( const tripoint &p, Creature *c, item * )
             bool seen = get_player_view().sees( *z );
             int chance = 0;
             switch( z->type->size ) {
-            case creature_size::tiny:
-                chance = 100;
-                break;
-            case creature_size::small:
-                chance = 16;
-                break;
-            case creature_size::medium:
-                chance = 12;
-                break;
-            case creature_size::large:
-                chance = 8;
-                break;
-            case creature_size::huge:
-                chance = 2;
-                break;
-            case creature_size::num_sizes:
-                debugmsg( "ERROR: Invalid Creature size class." );
-                break;
+                case creature_size::tiny:
+                    chance = 100;
+                    break;
+                case creature_size::small:
+                    chance = 16;
+                    break;
+                case creature_size::medium:
+                    chance = 12;
+                    break;
+                case creature_size::large:
+                    chance = 8;
+                    break;
+                case creature_size::huge:
+                    chance = 2;
+                    break;
+                case creature_size::num_sizes:
+                    debugmsg( "ERROR: Invalid Creature size class." );
+                    break;
             }
             shots = ( one_in( 8 ) || one_in( chance ) ? 2 : 1 );
             if( here.tr_at( p ) != tr_shotgun_2 ) {
@@ -639,15 +641,15 @@ bool trapfunc::snare_heavy( const tripoint &p, Creature *c, item * )
     } else if( z != nullptr ) {
         int damage;
         switch( z->type->size ) {
-        case creature_size::tiny:
-        case creature_size::small:
-            damage = 20;
-            break;
-        case creature_size::medium:
-            damage = 10;
-            break;
-        default:
-            damage = 0;
+            case creature_size::tiny:
+            case creature_size::small:
+                damage = 20;
+                break;
+            case creature_size::medium:
+                damage = 10;
+                break;
+            default:
+                damage = 0;
         }
         z->deal_damage( nullptr, hit, damage_instance( damage_type::BASH, damage ) );
     }
@@ -875,30 +877,31 @@ bool trapfunc::pit_spikes( const tripoint &p, Creature *c, item * )
         } else {
             bodypart_id hit( "bp_null" );
             switch( rng( 1, 10 ) ) {
-            case  1:
-                hit = bodypart_id( "leg_l" );
-                break;
-            case  2:
-                hit = bodypart_id( "leg_r" );
-                break;
-            case  3:
-                hit = bodypart_id( "arm_l" );
-                break;
-            case  4:
-                hit = bodypart_id( "arm_r" );
-                break;
-            case  5:
-            case  6:
-            case  7:
-            case  8:
-            case  9:
-            case 10:
-                hit = bodypart_id( "torso" );
-                break;
+                case  1:
+                    hit = bodypart_id( "leg_l" );
+                    break;
+                case  2:
+                    hit = bodypart_id( "leg_r" );
+                    break;
+                case  3:
+                    hit = bodypart_id( "arm_l" );
+                    break;
+                case  4:
+                    hit = bodypart_id( "arm_r" );
+                    break;
+                case  5:
+                case  6:
+                case  7:
+                case  8:
+                case  9:
+                case 10:
+                    hit = bodypart_id( "torso" );
+                    break;
             }
             you->add_msg_if_player( m_bad, _( "The spikes impale your %s!" ),
                                     body_part_name_accusative( hit ) );
-            dealt_damage_instance dealt_dmg = you->deal_damage( nullptr, hit, damage_instance( damage_type::CUT, damage ) );
+            dealt_damage_instance dealt_dmg = you->deal_damage( nullptr, hit, damage_instance( damage_type::CUT,
+                                              damage ) );
             if( !you->has_trait( trait_INFIMMUNE ) && dealt_dmg.type_damage( damage_type::CUT ) > 0 ) {
                 const int chance_in = you->has_trait( trait_INFRESIST ) ? 256 : 35;
                 if( one_in( chance_in ) ) {
@@ -959,34 +962,35 @@ bool trapfunc::pit_glass( const tripoint &p, Creature *c, item * )
         } else {
             bodypart_id hit( "bp_null" );
             switch( rng( 1, 10 ) ) {
-            case  1:
-                hit = bodypart_id( "leg_l" );
-                break;
-            case  2:
-                hit = bodypart_id( "leg_r" );
-                break;
-            case  3:
-                hit = bodypart_id( "arm_l" );
-                break;
-            case  4:
-                hit = bodypart_id( "arm_r" );
-                break;
-            case  5:
-                hit = bodypart_id( "foot_l" );
-                break;
-            case  6:
-                hit = bodypart_id( "foot_r" );
-                break;
-            case  7:
-            case  8:
-            case  9:
-            case 10:
-                hit = bodypart_id( "torso" );
-                break;
+                case  1:
+                    hit = bodypart_id( "leg_l" );
+                    break;
+                case  2:
+                    hit = bodypart_id( "leg_r" );
+                    break;
+                case  3:
+                    hit = bodypart_id( "arm_l" );
+                    break;
+                case  4:
+                    hit = bodypart_id( "arm_r" );
+                    break;
+                case  5:
+                    hit = bodypart_id( "foot_l" );
+                    break;
+                case  6:
+                    hit = bodypart_id( "foot_r" );
+                    break;
+                case  7:
+                case  8:
+                case  9:
+                case 10:
+                    hit = bodypart_id( "torso" );
+                    break;
             }
             you->add_msg_if_player( m_bad, _( "The glass shards slash your %s!" ),
                                     body_part_name_accusative( hit ) );
-            dealt_damage_instance dealt_dmg = you->deal_damage( nullptr, hit, damage_instance( damage_type::CUT, damage ) );
+            dealt_damage_instance dealt_dmg = you->deal_damage( nullptr, hit, damage_instance( damage_type::CUT,
+                                              damage ) );
             if( !you->has_trait( trait_INFIMMUNE ) && dealt_dmg.type_damage( damage_type::CUT ) > 0 ) {
                 const int chance_in = you->has_trait( trait_INFRESIST ) ? 256 : 35;
                 if( one_in( chance_in ) ) {
