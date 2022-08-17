@@ -165,7 +165,8 @@
       { "x": 1, "y": 2, "parts": [ "frame_horizontal", "metal_boat_hull" ] },
       { "x": 2, "y": 2, "parts": [ "frame_horizontal", "metal_boat_hull" ] },
       { "x": 3, "y": 2, "parts": [ "frame_ne", "metal_boat_hull" ] }
-    ]
+    ],
+    "items": [ { "x": 1, "y": 1, "chance": 40, "item_groups": [ "boat_equipment" ] } ]
   },
   {
     "type": "vehicle",
@@ -197,6 +198,10 @@
       { "x": 2, "y": 2, "parts": [ "frame_wood_ne", "boat_board" ] },
       { "x": 3, "y": 0, "parts": [ "frame_wood_nw", "boat_board" ] },
       { "x": 3, "y": 1, "parts": [ "frame_wood_ne", "boat_board" ] }
+    ],
+    "items": [
+      { "x": 2, "y": 0, "chance": 10, "item_groups": [ "boat_equipment" ] },
+      { "x": 2, "y": 1, "chance": 10, "item_groups": [ "boat_equipment" ] }
     ]
   },
   {

@@ -94,9 +94,11 @@ Given you're building from source you have a number of choices to make:
 
 There is a couple of other possible options - feel free to read the `Makefile`.
 
-If you have a multi-core computer you'd probably want to add `-jX` to the options, where `X` should roughly be twice the number of cores you have available.
+If you have a multi-core computer you'd probably want to add `-jX` to the options, where `X` is your CPU's number of threads (generally twice the number of your CPU cores). Alternatively, you can add `-j$(nproc)` for the build to use all of your CPU processors.
 
-Example: `make -j4 CLANG=1 CCACHE=1 NATIVE=linux64 RELEASE=1 TILES=1`
+Examples: 
+- `make -j4 CLANG=1 CCACHE=1 NATIVE=linux64 RELEASE=1 TILES=1`
+- `make -j$(nproc) CLANG=1 TILES=1 SOUND=0`
 
 The above will build a tiles release explicitly for 64 bit Linux, using Clang and ccache and 4 parallel processes.
 
@@ -634,6 +636,38 @@ Then you should be able to build with something like this:
 gmake RELEASE=1 # ncurses builds
 gmake RELEASE=1 TILES=1 # tiles builds
 ```
+
+### Building on OpenBSD/amd64 7.1 with clang
+
+Install necessary dependencies:
+
+`# pkg_add gmake libiconv`
+
+If building with tiles also install:
+
+`# pkg_add sdl2 sdl2-image sdl2-mixer sdl2-ttf`
+
+Compiling:
+
+```
+$ gmake RELEASE=1 BSD=1 CLANG=1 RUNTESTS=0 # ncurses build
+$ gmake RELEASE=1 BSD=1 CLANG=1 RUNTESTS=0 TILES=1 # tiles build
+```
+
+You may get an out of memory error when compiling with an underprivileged user,
+you can simply fix this by running:
+
+`# usermod -L pbuild <user>`
+
+This command sets your login class to `pbuild` thus the data ulimit is increased from
+1GB to 8GB.
+
+**NOTE: don't run this command for your main user, as it is already a part
+of the `staff` login class**
+
+Instead, you need to increase `data` limit with:
+
+`$ ulimit -d 8000000`
 
 ### Building on OpenBSD/amd64 5.8 with GCC 4.9.2 from ports/packages
 

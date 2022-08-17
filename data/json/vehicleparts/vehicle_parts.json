@@ -1183,7 +1183,7 @@
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_screw", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "adhesive", 2 ] ] }
     },
-    "flags": [ "MOUNTABLE", "FOLDABLE", "BOARDABLE", "CARGO" ],
+    "flags": [ "MOUNTABLE", "FOLDABLE", "BOARDABLE", "CARGO", "NO_INSTALL_PLAYER", "NO_UNINSTALL" ],
     "breaks_into": [ { "item": "plastic_chunk", "count": [ 10, 20 ] } ],
     "damage_reduction": { "bash": 10 }
   },
@@ -1206,7 +1206,7 @@
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_screw", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "adhesive_rubber", 2 ], [ "tire_rubber", 2 ] ] }
     },
-    "flags": [ "FLOATS", "VARIABLE_SIZE", "FOLDABLE" ],
+    "flags": [ "FLOATS", "VARIABLE_SIZE", "FOLDABLE", "NO_INSTALL_PLAYER", "NO_UNINSTALL" ],
     "breaks_into": [ { "item": "plastic_chunk", "count": [ 10, 20 ] } ],
     "damage_reduction": { "bash": 10 }
   },
@@ -1806,7 +1806,7 @@
     "copy-from": "foldable_solar_panel",
     "name": { "str": "advanced collapsible solar array" },
     "proportional": { "epower": 2 },
-    "description": "A small array of high-efficiency solar panels designed to be able to fold into one another.",
+    "description": "A small array of high-performance solar panels designed to be able to fold into one another.",
     "item": "folding_solar_panel_v2"
   },
   {
@@ -1843,7 +1843,7 @@
     "copy-from": "solar_panel",
     "name": { "str": "advanced solar panel" },
     "looks_like": "solar_panel",
-    "description": "A high performance solar panel.",
+    "description": "A high-performance solar panel.",
     "item": "solar_panel_v2",
     "proportional": { "epower": 2.0 },
     "requirements": {
@@ -1867,13 +1867,13 @@
     "id": "reinforced_solar_panel_v2",
     "copy-from": "solar_panel_v2",
     "looks_like": "reinforced_solar_panel",
-    "name": { "str": "upgraded reinforced solar panel" },
+    "name": { "str": "advanced reinforced solar panel" },
     "color": "light_blue",
     "broken_color": "light_gray",
     "proportional": { "epower": 0.9 },
     "damage_modifier": 80,
     "durability": 300,
-    "description": "A high performance solar panel.  Reinforced with armored glass to make it more resistant to damage.",
+    "description": "A high-performance solar panel.  Reinforced with armored glass to make it more resistant to damage.",
     "item": "reinforced_solar_panel_v2",
     "requirements": {
       "repair": {
@@ -2072,10 +2072,9 @@
     "location": "armor",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 6 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
-      "removal": { "skills": [ [ "mechanics", 4 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 7 ] ], "time": "60 m", "using": [ [ "repair_welding_standard", 5 ] ] }
+      "removal": { "skills": [ [ "mechanics", 4 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] }
     },
-    "flags": [ "ARMOR" ],
+    "flags": [ "ARMOR", "NO_REPAIR" ],
     "breaks_into": [
       { "item": "steel_lump", "count": [ 4, 6 ] },
       { "item": "steel_chunk", "count": [ 4, 6 ] },
@@ -3062,7 +3061,7 @@
       "repair": { "skills": [ [ "mechanics", 5 ] ], "time": "15 m", "using": [ [ "adhesive", 1 ], [ "soldering_standard", 2 ] ] }
     },
     "flags": [  ],
-    "pseudo_tools": [ { "id": "water_purifier", "hotkey": "p" } ],
+    "pseudo_tools": [ { "id": "pseudo_veh_water_purifier", "hotkey": "p" } ],
     "breaks_into": [ { "item": "plastic_chunk", "count": [ 1, 2 ] } ],
     "damage_reduction": { "all": 26 }
   },
@@ -3276,5 +3275,29 @@
       "removal": { "skills": [ [ "mechanics", 3 ] ], "qualities": [ { "id": "SCREW", "level": 1 } ] }
     },
     "breaks_into": "ig_vp_device"
+  },
+  {
+    "type": "vehicle_part",
+    "id": "aluminum_boat_hull",
+    "name": { "str": "aluminum boat hull" },
+    "description": "An aluminum hull that keeps the water out of your boat.",
+    "symbol": "o",
+    "categories": [ "hull" ],
+    "color": "dark_gray",
+    "looks_like": "boat_board",
+    "broken_symbol": "x",
+    "broken_color": "light_gray",
+    "damage_modifier": 50,
+    "durability": 200,
+    "item": "aluminum_boat_hull",
+    "location": "under",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 5 ] ], "time": "60 m", "using": [ [ "repair_welding_standard", 3 ] ] }
+    },
+    "flags": [ "FLOATS" ],
+    "breaks_into": "ig_vp_sheet_metal",
+    "damage_reduction": { "all": 18 }
   }
 ]

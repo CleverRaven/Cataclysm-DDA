@@ -2451,7 +2451,7 @@ comp_list talk_function::companion_sort( comp_list available,
             req_skill = skill_tested;
         }
 
-        bool operator()( const npc_ptr &first, const npc_ptr &second ) {
+        bool operator()( const npc_ptr &first, const npc_ptr &second ) const {
             return first->get_skill_level( req_skill ) > second->get_skill_level( req_skill );
         }
 

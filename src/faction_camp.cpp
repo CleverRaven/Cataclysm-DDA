@@ -1904,26 +1904,27 @@ void basecamp::scan_pseudo_items()
 
         tripoint mapmin = tripoint( 0, 0, omt_pos.z() );
         tripoint mapmax = tripoint( 2 * SEEX - 1, 2 * SEEY - 1, omt_pos.z() );
-        map &here = get_map();
         for( const tripoint &pos : expansion_map.points_in_rectangle( mapmin, mapmax ) ) {
-            if( here.furn( pos ) != f_null &&
-                here.furn( pos ).obj().crafting_pseudo_item.is_valid() &&
-                here.furn( pos ).obj().crafting_pseudo_item.obj().has_flag( flag_ALLOWS_REMOTE_USE ) ) {
+            if( expansion_map.furn( pos ) != f_null &&
+                expansion_map.furn( pos ).obj().crafting_pseudo_item.is_valid() &&
+                expansion_map.furn( pos ).obj().crafting_pseudo_item.obj().has_flag( flag_ALLOWS_REMOTE_USE ) ) {
                 bool found = false;
                 for( itype_id &element : expansion.second.available_pseudo_items ) {
-                    if( element == here.furn( pos ).obj().crafting_pseudo_item ) {
+                    if( element == expansion_map.furn( pos ).obj().crafting_pseudo_item ) {
                         found = true;
                         break;
                     }
                 }
                 if( !found ) {
-                    expansion.second.available_pseudo_items.push_back( here.furn( pos ).obj().crafting_pseudo_item );
+                    expansion.second.available_pseudo_items.push_back( expansion_map.furn(
+                                pos ).obj().crafting_pseudo_item );
                 }
             }
 
-            if( here.veh_at( pos ).has_value() && here.veh_at( pos )->vehicle().has_tag( "APPLIANCE" ) ) {
+            if( expansion_map.veh_at( pos ).has_value() &&
+                expansion_map.veh_at( pos )->vehicle().has_tag( "APPLIANCE" ) ) {
                 const std::vector<std::pair<itype_id, int>> tools =
-                            here.veh_at( pos )->part_displayed().value().get_tools();
+                            expansion_map.veh_at( pos )->part_displayed().value().get_tools();
 
                 for( const auto &tool : tools ) {
                     if( tool.first.obj().has_flag( flag_PSEUDO ) &&
@@ -2529,16 +2530,15 @@ static const double diagonal_salt_pipe_cost = std::sqrt( 2.0 );
 static const double salt_pipe_legal = 0.0;
 static const double salt_pipe_illegal = -0.1;
 static const double salt_pipe_swamp = -0.2;
+static constexpr size_t path_map_size = 2 * max_salt_water_pipe_distance + 1;
+using PathMap = cata::mdarray<double, point, path_map_size, path_map_size>;
 
-//  The logic discourages diagonal connections when there are horizontal ones of the same number of tiles, as the original approach
-//  resulted in rather odd paths. At the time of this writing there is no corresponding construction cost difference, though, as that
-//  doesn't match with the fixed recipe approach taken.
-static point check_salt_pipe_neighbors( double path_map[2 * max_salt_water_pipe_distance + 1][2 *
-                                        max_salt_water_pipe_distance + 1],
-                                        point pt );  //  Uglified to point parameter by demand from clang-tidy
-
-point check_salt_pipe_neighbors( double path_map[2 * max_salt_water_pipe_distance + 1][2 *
-                                 max_salt_water_pipe_distance + 1], point pt )
+//  The logic discourages diagonal connections when there are horizontal ones
+//  of the same number of tiles, as the original approach resulted in rather
+//  odd paths. At the time of this writing there is no corresponding
+//  construction cost difference, though, as that doesn't match with the fixed
+//  recipe approach taken.
+static point check_salt_pipe_neighbors( PathMap &path_map, point pt )
 {
     point found = { -999, -999 };
     double lowest_found = -10000.0;
@@ -2748,7 +2748,7 @@ void basecamp::start_salt_water_pipe( const mission_id &miss_id )
         std::vector<std::string> allowed_locations = {
             "forest", "forest_thick", "forest_trail", "field", "road"
         };
-        double path_map[2 * max_salt_water_pipe_distance + 1][2 * max_salt_water_pipe_distance + 1];
+        PathMap path_map;
 
         for( int i = -max_salt_water_pipe_distance; i <= max_salt_water_pipe_distance; i++ ) {
             for( int k = -max_salt_water_pipe_distance; k <= max_salt_water_pipe_distance; k++ ) {
@@ -4874,7 +4874,7 @@ int basecamp::recruit_evaluation() const
     return recruit_evaluation( sbase, sexpansions, sfaction, sbonus );
 }
 
-std::string basecamp::recruit_description( int npc_count )
+std::string basecamp::recruit_description( int npc_count ) const
 {
     int sbase;
     int sexpansions;

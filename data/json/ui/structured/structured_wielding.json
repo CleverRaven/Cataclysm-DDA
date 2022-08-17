@@ -1,0 +1,16 @@
+[
+  {
+    "id": "structured_wielding_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "columns",
+    "widgets": [ "wielding_simple_desc_no_label", "structured_wielding_mode_ammo_layout" ]
+  },
+  {
+    "id": "structured_wielding_mode_ammo_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "columns",
+    "widgets": [ "wielding_mode_desc_no_label", "wielding_ammo_desc_no_label" ]
+  }
+]

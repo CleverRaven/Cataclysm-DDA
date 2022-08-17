@@ -134,6 +134,17 @@
   },
   {
     "type": "item_group",
+    "subtype": "distribution",
+    "id": "xed_notes",
+    "entries": [
+      { "item": "report_march_lord", "prob": 10 },
+      { "item": "green_postit_field_agent", "prob": 40 },
+      { "item": "agent_postit_gray", "prob": 50 },
+      { "item": "agent_postit_migo", "prob": 20 }
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "fae_furs",
     "items": [
       [ "hat_fur", 300 ],
@@ -186,16 +197,6 @@
     "id": "redcap_headgear",
     "subtype": "distribution",
     "entries": [ { "item": "xl_mt_chainmail_hood", "prob": 20 }, { "item": "theredcap", "prob": 20 } ]
-  },
-  {
-    "type": "item_group",
-    "subtype": "collection",
-    "id": "spy_map",
-    "entries": [
-      { "item": "permanent_marker", "prob": 50, "charges": [ 0, 500 ] },
-      { "item": "spy_note", "prob": 90 },
-      { "item": "spy_map" }
-    ]
   },
   {
     "type": "item_group",

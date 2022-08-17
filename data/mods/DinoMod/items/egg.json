@@ -512,10 +512,10 @@
   },
   {
     "type": "COMESTIBLE",
-    "id": "egg_thescelosaurus",
-    "name": "thescelosaurus egg",
-    "copy-from": "egg_dino",
-    "rot_spawn": "GROUP_EGG_thescelosaurus"
+    "id": "egg_nanosaurus",
+    "name": "nanosaurus egg",
+    "copy-from": "egg_dino_small",
+    "rot_spawn": "GROUP_EGG_nanosaurus"
   },
   {
     "type": "COMESTIBLE",
@@ -523,6 +523,13 @@
     "name": "oryctodromeus egg",
     "copy-from": "egg_dino_small",
     "rot_spawn": "GROUP_EGG_oryctodromeus"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_thescelosaurus",
+    "name": "thescelosaurus egg",
+    "copy-from": "egg_dino",
+    "rot_spawn": "GROUP_EGG_thescelosaurus"
   },
   {
     "type": "COMESTIBLE",

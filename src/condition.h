@@ -40,7 +40,7 @@ const std::unordered_set<std::string> complex_conds = { {
         "npc_role_nearby", "npc_allies", "npc_allies_global", "npc_service",
         "u_has_cash", "u_are_owed", "u_query", "npc_query", "u_has_item_with_flag", "npc_has_item_with_flag",
         "npc_aim_rule", "npc_engagement_rule", "npc_rule", "npc_override", "u_has_hp", "npc_has_hp",
-        "npc_cbm_reserve_rule", "npc_cbm_recharge_rule", "u_has_faction_trust",
+        "u_has_part_temp", "npc_has_part_temp", "npc_cbm_reserve_rule", "npc_cbm_recharge_rule", "u_has_faction_trust",
         "days_since_cataclysm", "is_season", "mission_goal", "u_has_var", "npc_has_var",
         "u_has_skill", "npc_has_skill", "u_know_recipe", "u_compare_var", "npc_compare_var",
         "u_compare_time_since_var", "npc_compare_time_since_var", "is_weather", "one_in_chance", "x_in_y_chance",
@@ -80,7 +80,12 @@ struct str_or_var {
             if( !val.empty() ) {
                 return std::string( val );
             }
-            return default_val.value();
+            if( default_val.has_value() ) {
+                return default_val.value();
+            } else {
+                debugmsg( "No default provided for str_or_var_part" );
+                return "";
+            }
         } else {
             debugmsg( "No valid value." );
             return "";
@@ -102,7 +107,12 @@ struct int_or_var_part {
             if( !val.empty() ) {
                 return std::stoi( val );
             }
-            return default_val.value();
+            if( default_val.has_value() ) {
+                return default_val.value();
+            } else {
+                debugmsg( "No default provided for int_or_var_part" );
+                return 0;
+            }
         } else if( arithmetic_val.has_value() ) {
             arithmetic_val.value()( d );
             var_info info = var_info( var_type::global, "temp_var" );
@@ -150,7 +160,12 @@ struct duration_or_var_part {
                 ret_val = time_duration::from_turns( std::stoi( val ) );
                 return ret_val;
             }
-            return default_val.value();
+            if( default_val.has_value() ) {
+                return default_val.value();
+            } else {
+                debugmsg( "No default provided for duration_or_var_part" );
+                return 0_seconds;
+            }
         } else if( arithmetic_val.has_value() ) {
             arithmetic_val.value()( d );
             var_info info = var_info( var_type::global, "temp_var" );
@@ -203,7 +218,7 @@ duration_or_var_part<T> get_duration_or_var_part( const JsonValue &jv, const std
         time_duration default_val = 0_seconds );
 template<class T>
 tripoint_abs_ms get_tripoint_from_var( cata::optional<var_info> var, const T &d );
-var_info read_var_info( const JsonObject &jo, bool require_default );
+var_info read_var_info( const JsonObject &jo );
 void write_var_value( var_type type, const std::string &name, talker *talk,
                       const std::string &value );
 template<class T>
@@ -251,6 +266,7 @@ struct conditional_t {
         void set_has_intelligence( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_has_perception( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_has_hp( const JsonObject &jo, const std::string &member, bool is_npc = false );
+        void set_has_part_temp( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_is_deaf( bool is_npc = false );
         void set_is_on_terrain( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_is_in_field( const JsonObject &jo, const std::string &member, bool is_npc = false );

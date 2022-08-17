@@ -1232,7 +1232,7 @@
     "id": "mon_endless_hunger",
     "type": "MONSTER",
     "name": { "str": "endless hunger" },
-    "description": "Your mind fills in large shifting images of predators to save you from its actual appearance.",
+    "description": "Your mind fills in large shifting images of predators to save you from its actual appearance.  You can feel it despite the distance as if it were connected to you.",
     "default_faction": "nether",
     "species": [ "NETHER" ],
     "volume": "62500 ml",
@@ -1250,9 +1250,17 @@
     "death_function": {
       "effect": { "id": "mon_endless_hunger_revive", "hit_self": true },
       "corpse_type": "NO_CORPSE",
-      "message": "Something about the %s disappearing feels off.."
+      "message": "The %s vanishes but you can still feel it through your connection."
     },
-    "flags": [ "SEES", "HEARS", "NO_BREATHE", "PUSH_MON", "ALWAYS_VISIBLE" ]
+    "special_attacks": [
+      {
+        "type": "spell",
+        "monster_message": "You can feel the endless hunger.",
+        "spell_data": { "id": "mon_endless_hunger_attack", "min_level": 1, "hit_self": false },
+        "cooldown": 5
+      }
+    ],
+    "flags": [ "SEES", "HEARS", "NO_BREATHE", "PUSH_MON", "ALWAYS_VISIBLE", "ALWAYS_SEES_YOU" ]
   },
   {
     "id": "mon_tainted_shadow",

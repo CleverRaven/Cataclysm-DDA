@@ -483,6 +483,19 @@ void Item_factory::finalize_pre( itype &obj )
             }
         }
 
+        // generate cached map for [mag type_id] -> [set of compatible guns]
+        for( const pocket_data &pocket : obj.pockets ) {
+            if( pocket.type != item_pocket::pocket_type::MAGAZINE_WELL ) {
+                continue;
+            }
+            for( const itype_id &mag_type_id : pocket.item_id_restriction ) {
+                if( item_is_blacklisted( mag_type_id ) || item_is_blacklisted( obj.id ) ) {
+                    continue;
+                }
+                islot_magazine::compatible_guns[mag_type_id].insert( obj.id );
+            }
+        }
+
         for( pocket_data &magazine : obj.pockets ) {
             if( magazine.type != item_pocket::pocket_type::MAGAZINE ) {
                 continue;
@@ -655,18 +668,13 @@ void Item_factory::finalize_post( itype &obj )
                 // if no portion info defined skip scaling for portions
                 bool skip_scale = obj.mat_portion_total == 0;
                 for( const auto &m : obj.materials ) {
-                    if( skip_scale ) {
-                        part_material pm( m.first, 100, obj.materials.size() * data.avg_thickness );
-                        // need to ignore sheet thickness since inferred thicknesses are not gonna be perfect
-                        pm.ignore_sheet_thickness = true;
-                        data.materials.push_back( pm );
-                    } else {
-                        part_material pm( m.first, 100,
-                                          static_cast<float>( m.second ) / static_cast<float>( obj.mat_portion_total ) * data.avg_thickness );
-                        // need to ignore sheet thickness since inferred thicknesses are not gonna be perfect
-                        pm.ignore_sheet_thickness = true;
-                        data.materials.push_back( pm );
-                    }
+                    float factor = skip_scale
+                                   ? obj.materials.size()
+                                   : static_cast<float>( m.second ) / static_cast<float>( obj.mat_portion_total );
+                    part_material pm( m.first, 100, factor * data.avg_thickness );
+                    // need to ignore sheet thickness since inferred thicknesses are not gonna be perfect
+                    pm.ignore_sheet_thickness = true;
+                    data.materials.push_back( pm );
                 }
             }
         }
@@ -1180,6 +1188,13 @@ void Item_factory::finalize_post( itype &obj )
                 debugmsg( "contamination in %s contains invalid diseasetype_id %s.",
                           obj.id.str(), dtype.str() );
             }
+        }
+    }
+
+    // if we haven't set what the item can be repaired with calculate it now
+    if( obj.repairs_with.empty() ) {
+        for( const auto &mats : obj.materials ) {
+            obj.repairs_with.insert( mats.first );
         }
     }
 }
@@ -1725,7 +1740,6 @@ void Item_factory::init()
     add_actor( std::make_unique<place_npc_iuse>() );
     add_actor( std::make_unique<reveal_map_actor>() );
     add_actor( std::make_unique<salvage_actor>() );
-    add_actor( std::make_unique<unfold_vehicle_iuse>() );
     add_actor( std::make_unique<place_trap_actor>() );
     add_actor( std::make_unique<emit_actor>() );
     add_actor( std::make_unique<saw_barrel_actor>() );
@@ -3679,7 +3693,7 @@ struct acc_data {
     static constexpr int balance_offset = -2;
     // all the constant offsets and the base accuracy together
     static constexpr int acc_offset = base_acc + grip_offset + surface_offset + balance_offset;
-    int sum_values() {
+    int sum_values() const {
         return acc_offset + static_cast<int>( grip ) + static_cast<int>( length ) +
                static_cast<int>( surface ) + static_cast<int>( balance );
     }
@@ -3768,6 +3782,8 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
     assign( jo, "insulation", def.insulation_factor );
     assign( jo, "solar_efficiency", def.solar_efficiency );
     assign( jo, "ascii_picture", def.picture_id );
+
+    optional( jo, false, "repairs_with", def.repairs_with, string_id_reader<material_type>() );
 
     if( jo.has_member( "thrown_damage" ) ) {
         def.thrown_damage = load_damage_instance( jo.get_array( "thrown_damage" ) );
@@ -3926,6 +3942,7 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
         def.explosion = load_explosion_data( je );
     }
 
+    assign( jo, "variables", def.item_variables );
     assign( jo, "flags", def.item_tags );
     assign( jo, "faults", def.faults );
 
@@ -4102,6 +4119,7 @@ void Item_factory::load_migration( const JsonObject &jo )
     assign( jo, "charges", m.charges );
     assign( jo, "contents", m.contents );
     assign( jo, "sealed", m.sealed );
+    assign( jo, "reset_item_vars", m.reset_item_vars );
 
     std::vector<itype_id> ids;
     if( jo.has_string( "id" ) ) {
@@ -4184,6 +4202,12 @@ void Item_factory::migrate_item( const itype_id &id, item &obj )
         obj.convert( migrant->replace );
     }
 
+    if( migrant->reset_item_vars ) {
+        obj.clear_vars();
+        for( const auto &pair : migrant->replace.obj().item_variables ) {
+            obj.set_var( pair.first, pair.second ) ;
+        }
+    }
     for( const std::string &f : migrant->flags ) {
         obj.set_flag( flag_id( f ) );
     }
@@ -4301,6 +4325,8 @@ void Item_factory::clear()
     migrated_ammo.clear();
     migrated_magazines.clear();
     migrations.clear();
+
+    deferred.clear();
 
     frozen = false;
 }

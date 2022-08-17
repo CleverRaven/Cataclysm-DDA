@@ -18,6 +18,7 @@
 #include "inventory.h"
 #include "item.h"
 #include "item_category.h"
+#include "item_factory.h"
 #include "item_location.h"
 #include "item_pocket.h"
 #include "iteminfo_query.h"
@@ -203,9 +204,15 @@ void pocket_favorite_callback::move_item( uilist *menu, item_pocket *selected_po
             }
         }
     } else {
-        // storage should mimick character inserting
-        get_avatar().as_character()->store( selected_pocket, *item_to_move.first );
-
+        // If no pockets are enabled, uilist allows scrolling through them, so we need to recheck
+        ret_val<item_pocket::contain_code> contain = selected_pocket->can_contain( *item_to_move.first );
+        if( contain.success() ) {
+            // storage should mimick character inserting
+            get_avatar().as_character()->store( selected_pocket, *item_to_move.first );
+        } else {
+            const std::string base_string = _( "Cannot put item in pocket because %s" );
+            popup( string_format( base_string, contain.str() ) );
+        }
         // reset the moved item
         item_to_move = { nullptr, nullptr };
 
@@ -919,7 +926,8 @@ ret_val<void> item_contents::can_contain_rigid( const item &it,
     return ret;
 }
 
-ret_val<void> item_contents::can_contain( const item &it, const bool ignore_pkt_settings ) const
+ret_val<void> item_contents::can_contain( const item &it, const bool ignore_pkt_settings,
+        units::volume remaining_parent_volume ) const
 {
     ret_val<void> ret = ret_val<void>::make_failure( _( "is not a container" ) );
     for( const item_pocket &pocket : contents ) {
@@ -929,6 +937,9 @@ ret_val<void> item_contents::can_contain( const item &it, const bool ignore_pkt_
         }
         if( !ignore_pkt_settings && !pocket.settings.accepts_item( it ) ) {
             ret = ret_val<void>::make_failure( _( "denied by pocket auto insert settings" ) );
+            continue;
+        }
+        if( !pocket.rigid() && it.volume() > remaining_parent_volume ) {
             continue;
         }
         const ret_val<item_pocket::contain_code> pocket_contain_code = pocket.can_contain( it );
@@ -1101,6 +1112,10 @@ std::set<ammotype> item_contents::ammo_types() const
 
 item &item_contents::first_ammo()
 {
+    if( empty() ) {
+        debugmsg( "Error: Contents has no pockets" );
+        return null_item_reference();
+    }
     for( item_pocket &pocket : contents ) {
         if( pocket.is_type( item_pocket::pocket_type::MAGAZINE_WELL ) ) {
             return pocket.front().first_ammo();
@@ -1108,9 +1123,16 @@ item &item_contents::first_ammo()
         if( !pocket.is_type( item_pocket::pocket_type::MAGAZINE ) || pocket.empty() ) {
             continue;
         }
+        if( pocket.front().has_flag( json_flag_CASING ) ) {
+            for( item *i : pocket.all_items_top() ) {
+                if( !i->has_flag( json_flag_CASING ) ) {
+                    return *i;
+                }
+            }
+            continue;
+        }
         return pocket.front();
     }
-    debugmsg( "Error: Tried to get first ammo in container not containing ammo" );
     return null_item_reference();
 }
 
@@ -1654,6 +1676,9 @@ std::set<itype_id> item_contents::magazine_compatible() const
     for( const item_pocket &pocket : contents ) {
         if( pocket.is_type( item_pocket::pocket_type::MAGAZINE_WELL ) ) {
             for( const itype_id &id : pocket.item_type_restrictions() ) {
+                if( item_is_blacklisted( id ) ) {
+                    continue;
+                }
                 ret.emplace( id );
             }
         }

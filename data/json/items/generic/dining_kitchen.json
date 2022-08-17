@@ -1190,5 +1190,56 @@
     "bashing": 8,
     "pocket_data": [ { "max_contains_volume": "2 L", "max_contains_weight": "2100 g", "watertight": true, "rigid": true } ],
     "extend": { "qualities": [ [ "OVEN", 1 ] ] }
+  },
+  {
+    "type": "GENERIC",
+    "category": "tools",
+    "id": "aluminum_pan",
+    "name": { "str": "aluminum frying pan" },
+    "description": "An aluminum frying pan.  Makes a decent melee weapon, and is used for cooking.",
+    "copy-from": "base_cookpot",
+    "material": [ "aluminum" ],
+    "color": "light_gray",
+    "looks_like": "pan",
+    "weight": "200 g",
+    "volume": "1050 ml",
+    "longest_side": "35 cm",
+    "bashing": 7,
+    "to_hit": -2,
+    "pocket_data": [
+      {
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "1 kg",
+        "watertight": true,
+        "open_container": true,
+        "rigid": true
+      }
+    ],
+    "delete": { "qualities": [ [ "COOK", 3 ] ] },
+    "extend": { "qualities": [ [ "COOK", 2 ] ] }
+  },
+  {
+    "type": "GENERIC",
+    "category": "tools",
+    "id": "pot_aluminum",
+    "name": { "str": "aluminum pot" },
+    "description": "Useful for boiling water when cooking spaghetti and more.  Made from aluminum.",
+    "copy-from": "base_cookpot",
+    "material": [ "aluminum" ],
+    "color": "light_gray",
+    "weight": "231 g",
+    "volume": "2100 ml",
+    "longest_side": "23 cm",
+    "bashing": 6,
+    "to_hit": -2,
+    "pocket_data": [
+      {
+        "max_contains_volume": "2 L",
+        "max_contains_weight": "1 kg",
+        "watertight": true,
+        "open_container": true,
+        "rigid": true
+      }
+    ]
   }
 ]

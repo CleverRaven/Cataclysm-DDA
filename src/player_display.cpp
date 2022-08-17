@@ -452,19 +452,23 @@ static void draw_stats_tab( ui_adaptor &ui, const catacurses::window &w_stats, c
     right_print( w_stats, 5, 1, c_light_gray, display::weight_string( you ) );
 
     set_highlight_cursor( 5 );
-    mvwprintz( w_stats, point( 1, 6 ), line_color( 5 ), _( "Height:" ) );
-    mvwprintz( w_stats, point( 25 - utf8_width( you.height_string() ), 6 ), c_light_gray,
-               you.height_string() );
+    mvwprintz( w_stats, point( 1, 6 ), line_color( 5 ), _( "Lifestyle:" ) );
+    right_print( w_stats, 6, 1, c_light_gray, display::health_string( you ) );
 
     set_highlight_cursor( 6 );
-    mvwprintz( w_stats, point( 1, 7 ), line_color( 6 ), _( "Age:" ) );
-    mvwprintz( w_stats, point( 25 - utf8_width( you.age_string() ), 7 ), c_light_gray,
-               you.age_string() );
+    mvwprintz( w_stats, point( 1, 7 ), line_color( 6 ), _( "Height:" ) );
+    mvwprintz( w_stats, point( 25 - utf8_width( you.height_string() ), 7 ), c_light_gray,
+               you.height_string() );
 
     set_highlight_cursor( 7 );
-    mvwprintz( w_stats, point( 1, 8 ), line_color( 7 ), _( "Blood type:" ) );
+    mvwprintz( w_stats, point( 1, 8 ), line_color( 7 ), _( "Age:" ) );
+    mvwprintz( w_stats, point( 25 - utf8_width( you.age_string() ), 8 ), c_light_gray,
+               you.age_string() );
+
+    set_highlight_cursor( 8 );
+    mvwprintz( w_stats, point( 1, 9 ), line_color( 8 ), _( "Blood type:" ) );
     mvwprintz( w_stats, point( 25 - utf8_width( io::enum_to_string( you.my_blood_type ) +
-                               ( you.blood_rh_factor ? "+" : "-" ) ), 8 ),
+                               ( you.blood_rh_factor ? "+" : "-" ) ), 9 ),
                c_light_gray,
                io::enum_to_string( you.my_blood_type ) + ( you.blood_rh_factor ? "+" : "-" ) );
 
@@ -533,17 +537,21 @@ static void draw_stats_info( const catacurses::window &w_info, const Character &
                         display::weight_long_description( you ) );
     } else if( line == 5 ) {
         // NOLINTNEXTLINE(cata-use-named-point-constants)
+        fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_magenta,
+                        _( "How healthy you feel.  Excercise, vitamins, sleep and not ingesting poison will increase this overtime." ) );
+    } else if( line == 6 ) {
+        // NOLINTNEXTLINE(cata-use-named-point-constants)
         const int lines = fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_magenta,
                                           _( "Your height.  Simply how tall you are." ) );
         fold_and_print( w_info, point( 1, 1 + lines ), FULL_SCREEN_WIDTH - 2, c_light_gray,
                         you.height_string() );
-    } else if( line == 6 ) {
+    } else if( line == 7 ) {
         // NOLINTNEXTLINE(cata-use-named-point-constants)
         const int lines = fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_magenta,
                                           _( "This is how old you are." ) );
         fold_and_print( w_info, point( 1, 1 + lines ), FULL_SCREEN_WIDTH - 2, c_light_gray,
                         you.age_string() );
-    } else if( line == 7 ) {
+    } else if( line == 8 ) {
         // NOLINTNEXTLINE(cata-use-named-point-constants)
         const int lines = fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_magenta,
                                           _( "This is your blood type and Rh factor." ) );
@@ -1405,7 +1413,7 @@ void Character::disp_info( bool customize_character )
     const unsigned int skill_win_size_y_max = 1 + skillslist.size();
     const unsigned int info_win_size_y = 6;
 
-    const unsigned int grid_height = 9;
+    const unsigned int grid_height = 10;
 
     const unsigned int infooffsetytop = grid_height + 2;
     unsigned int infooffsetybottom = infooffsetytop + 1 + info_win_size_y;

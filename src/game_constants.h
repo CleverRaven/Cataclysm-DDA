@@ -215,4 +215,16 @@ constexpr float very_obese = 35.0f;
 constexpr float morbidly_obese = 40.0f;
 } // namespace character_weight_category
 
+// these are the lower bounds of each of the health classes.
+namespace character_health_category
+{
+//horrible
+constexpr int very_bad = -100;
+constexpr int bad = -50;
+constexpr int fine = -10;
+constexpr int good = 10;
+constexpr int very_good = 50;
+constexpr int great = 100;
+} // namespace character_health_category
+
 #endif // CATA_SRC_GAME_CONSTANTS_H

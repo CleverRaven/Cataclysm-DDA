@@ -737,7 +737,7 @@ void worldfactory::load_last_world_info()
     last_character_name = data.get_string( "character_name" );
 }
 
-void worldfactory::save_last_world_info()
+void worldfactory::save_last_world_info() const
 {
     write_to_file( PATH_INFO::lastworld(), [&]( std::ostream & file ) {
         JsonOut jsout( file, true );
@@ -2035,7 +2035,7 @@ std::map<size_t, inclusive_rectangle<point>> worldfactory::draw_worldgen_tabs(
     return tab_map;
 }
 
-bool worldfactory::valid_worldname( const std::string &name, bool automated )
+bool worldfactory::valid_worldname( const std::string &name, bool automated ) const
 {
     std::string msg;
 

@@ -351,7 +351,7 @@ void Character::long_craft( const cata::optional<tripoint> &loc, const recipe_id
     }
 }
 
-bool Character::making_would_work( const recipe_id &id_to_make, int batch_size )
+bool Character::making_would_work( const recipe_id &id_to_make, int batch_size ) const
 {
     const recipe &making = *id_to_make;
     if( !( making && crafting_allowed( *this, making ) ) ) {
@@ -513,7 +513,7 @@ std::vector<const item *> Character::get_eligible_containers_for_crafting() cons
     return conts;
 }
 
-bool Character::can_make( const recipe *r, int batch_size )
+bool Character::can_make( const recipe *r, int batch_size ) const
 {
     const inventory &crafting_inv = crafting_inventory();
 
@@ -529,7 +529,8 @@ bool Character::can_make( const recipe *r, int batch_size )
                crafting_inv, r->get_component_filter(), batch_size );
 }
 
-bool Character::can_start_craft( const recipe *rec, recipe_filter_flags flags, int batch_size )
+bool Character::can_start_craft( const recipe *rec, recipe_filter_flags flags,
+                                 int batch_size ) const
 {
     if( !rec ) {
         return false;
@@ -2540,7 +2541,7 @@ void Character::complete_disassemble( item_location &target, const recipe &dis )
 {
     // Get the proper recipe - the one for disassembly, not assembly
     const requirement_data dis_requirements = dis.disassembly_requirements();
-    const tripoint loc = target.position();
+    const tripoint_bub_ms loc = target.pos_bub();
 
     // Get the item to disassemble, and make a copy to keep its data (damage/components)
     // after the original has been removed.
@@ -2668,7 +2669,9 @@ void Character::complete_disassemble( item_location &target, const recipe &dis )
         item act_item = newit;
 
         if( act_item.has_temperature() ) {
-            act_item.set_item_temperature( units::from_fahrenheit( get_weather().get_temperature( loc ) ) );
+            // TODO: fix point types
+            act_item.set_item_temperature(
+                units::from_fahrenheit( get_weather().get_temperature( loc.raw() ) ) );
         }
 
         // Refitted clothing disassembles into refitted components (when applicable)

@@ -62,7 +62,15 @@
     "longest_side": "60 cm",
     "material_thickness": 4,
     "flags": [ "STURDY", "OUTER" ],
-    "armor": [ { "encumbrance": 10, "coverage": 90, "covers": [ "torso", "leg_l", "leg_r" ] } ]
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 90, "encumbrance": 10 },
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "coverage": 90,
+        "encumbrance": [ 5, 5 ],
+        "specifically_covers": [ "leg_upper_r", "leg_upper_l" ]
+      }
+    ]
   },
   {
     "id": "xl_armor_chitin",
@@ -1463,7 +1471,7 @@
     "looks_like": "touring_suit",
     "color": "light_red",
     "warmth": 0,
-    "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT", "OUTER" ],
+    "flags": [ "VARSIZE", "STURDY", "OUTER" ],
     "armor": [
       {
         "material": [ { "type": "budget_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
@@ -1489,7 +1497,7 @@
     "looks_like": "touring_suit",
     "color": "light_red",
     "warmth": 0,
-    "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT", "OUTER" ],
+    "flags": [ "VARSIZE", "STURDY", "OUTER" ],
     "armor": [
       {
         "material": [ { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
@@ -2139,7 +2147,7 @@
     "type": "ARMOR",
     "copy-from": "k_gambeson",
     "looks_like": "k_gambeson",
-    "name": { "str": "XS kevlar gambeson" },
+    "name": { "str": "XS Kevlar gambeson" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
@@ -2148,7 +2156,7 @@
     "type": "ARMOR",
     "copy-from": "k_gambeson_vest",
     "looks_like": "k_gambeson",
-    "name": { "str": "XS kevlar gambeson" },
+    "name": { "str": "XS Kevlar gambeson vest" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] },
     "use_action": { "type": "transform", "msg": "You loosen your %s.", "target": "k_gambeson_vest_xs_loose", "menu_text": "Loosen" }
@@ -2417,7 +2425,7 @@
       "msg": "You slip out of the top of the suit and tie the sleeves around your waist.",
       "target": "robofac_enviro_suit_casual"
     },
-    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "GAS_PROOF", "HELMET_COMPAT", "RAD_PROOF", "ELECTRIC_IMMUNE", "STURDY" ]
+    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "GAS_PROOF", "RAD_PROOF", "ELECTRIC_IMMUNE", "STURDY" ]
   },
   {
     "id": "robofac_enviro_suit_casual",
@@ -2502,7 +2510,7 @@
       "msg": "You untie the sleeves and put back on the top of the suit.",
       "target": "robofac_enviro_suit"
     },
-    "delete": { "flags": [ "RAINPROOF", "GAS_PROOF", "HELMET_COMPAT", "RAD_PROOF", "ELECTRIC_IMMUNE" ] }
+    "delete": { "flags": [ "RAINPROOF", "GAS_PROOF", "RAD_PROOF", "ELECTRIC_IMMUNE" ] }
   },
   {
     "id": "xedra_enviro_suit",

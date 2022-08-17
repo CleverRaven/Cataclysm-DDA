@@ -5,6 +5,7 @@
 #include <iosfwd>
 
 #include "game_constants.h"
+#include "mdarray.h"
 #include "memory_fast.h"
 #include "point.h" // IWYU pragma: keep
 
@@ -97,7 +98,7 @@ struct mm_submap {
  * and each region is saved in its own file.
  */
 struct mm_region {
-    shared_ptr_fast<mm_submap> submaps[MM_REG_SIZE][MM_REG_SIZE];
+    cata::mdarray<shared_ptr_fast<mm_submap>, point, MM_REG_SIZE, MM_REG_SIZE> submaps;
 
     mm_region();
 

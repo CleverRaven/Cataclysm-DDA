@@ -72,7 +72,7 @@
     "delete": { "categories": [ "CLASSIC" ] },
     "speed": 95,
     "regenerates": 10,
-    "upgrades": { "half_life": 21, "into_group": "GROUP_BRUTE_PUPA" },
+    "upgrades": { "half_life": 42, "into_group": "GROUP_BRUTE_PUPA" },
     "extend": { "flags": [ "SMALLSLUDGETRAIL", "SLUDGEPROOF" ] }
   },
   {
