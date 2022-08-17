@@ -11,7 +11,7 @@
     "autolearn": true,
     "batch_time_factors": [ 67, 5 ],
     "tools": [ [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ] ],
-    "components": [ [ [ "fish", 1 ] ] ]
+    "components": [ [ [ "fish", 1 ], [ "fish_scrap", 10 ] ] ]
   },
   {
     "type": "recipe",
@@ -26,7 +26,7 @@
     "autolearn": true,
     "batch_time_factors": [ 67, 5 ],
     "tools": [ [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ], [ [ "surface_heat", 5, "LIST" ] ] ],
-    "components": [ [ [ "fish", 1 ] ] ]
+    "components": [ [ [ "fish", 1 ], [ "fish_scrap", 10 ] ] ]
   },
   {
     "type": "recipe",
