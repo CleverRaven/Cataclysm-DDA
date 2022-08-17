@@ -1,6 +1,7 @@
 #include <functional>
 #include <new>
 #include <ostream>
+#include <utility>
 #include <vector>
 
 #include "cached_options.h"
@@ -32,7 +33,7 @@ static const tile_predicate set_up_tiles_common =
 static void test_reachability( std::vector<std::string> setup, bool up )
 {
     map_test_case t;
-    t.setup = setup;
+    t.setup = std::move( setup );
     t.expected_results = t.setup;
     t.anchor_char = 'X';
     t.anchor_map_pos = tripoint( 60, 60, 0 );

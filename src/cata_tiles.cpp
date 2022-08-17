@@ -292,6 +292,7 @@ tile_type &tileset::create_tile_type( const std::string &id, tile_type &&new_til
 
     // populate cache by season
     constexpr size_t suffix_len = 15;
+    // NOLINTNEXTLINE(cata-use-mdarray)
     constexpr char season_suffix[NUM_SEASONS][suffix_len] = {
         "_season_spring", "_season_summer", "_season_autumn", "_season_winter"
     };
@@ -894,8 +895,8 @@ void tileset_cache::loader::load_layers( const JsonObject &config )
 
 }
 
-void tileset_cache::loader::process_variations_after_loading( weighted_int_list<std::vector<int>>
-        &vs )
+void tileset_cache::loader::process_variations_after_loading(
+    weighted_int_list<std::vector<int>> &vs ) const
 {
     // loop through all of the variations
     for( auto &v : vs ) {
@@ -1129,7 +1130,7 @@ tile_type &tileset_cache::loader::load_tile( const JsonObject &entry, const std:
 
 void tileset_cache::loader::load_tile_spritelists( const JsonObject &entry,
         weighted_int_list<std::vector<int>> &vs,
-        const std::string &objname )
+        const std::string &objname ) const
 {
     // json array indicates rotations or variations
     if( entry.has_array( objname ) ) {
@@ -1450,31 +1451,32 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
             // Add temperature value to the overlay_strings list for every visible tile when
             // displaying temperature
             if( g->display_overlay_state( ACTION_DISPLAY_TEMPERATURE ) && !invisible[0] ) {
-                int temp_value = get_weather().get_temperature( pos );
-                int ctemp = temp_to_celsius( temp_value );
+                units::temperature temp_value = get_weather().get_temperature( pos );
                 short color;
                 const short bold = 8;
-                if( ctemp > 40 ) {
+                if( temp_value > units::from_celcius( 40 ) ) {
                     color = catacurses::red;
-                } else if( ctemp > 25 ) {
+                } else if( temp_value > units::from_celcius( 25 ) ) {
                     color = catacurses::yellow + bold;
-                } else if( ctemp > 10 ) {
+                } else if( temp_value > units::from_celcius( 10 ) ) {
                     color = catacurses::green + bold;
-                } else if( ctemp > 0 ) {
+                } else if( temp_value > units::from_celcius( 0 ) ) {
                     color = catacurses::white + bold;
-                } else if( ctemp > -10 ) {
+                } else if( temp_value > units::from_celcius( -10 ) ) {
                     color = catacurses::cyan + bold;
                 } else {
                     color = catacurses::blue + bold;
                 }
+
+                std::string temp_str;
                 if( get_option<std::string>( "USE_CELSIUS" ) == "celsius" ) {
-                    temp_value = temp_to_celsius( temp_value );
+                    temp_str = std::to_string( units::to_celcius( temp_value ) );
                 } else if( get_option<std::string>( "USE_CELSIUS" ) == "kelvin" ) {
-                    temp_value = temp_to_kelvin( temp_value );
+                    temp_str = std::to_string( units::to_kelvin( temp_value ) );
 
                 }
                 overlay_strings.emplace( player_to_screen( point( x, y ) ) + half_tile,
-                                         formatted_text( std::to_string( temp_value ), color,
+                                         formatted_text( temp_str, color,
                                                  direction::NORTH ) );
             }
 
@@ -1548,9 +1550,10 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
             if( !invisible[0] && apply_vision_effects( pos, here.get_visibility( ll, cache ) ) ) {
                 const Creature *critter = creatures.creature_at( pos, true );
                 if( has_draw_override( pos ) || has_memory_at( pos ) ||
-                    ( critter && ( you.sees_with_infrared( *critter ) ||
-                                   you.sees_with_specials( *critter ) ) ) ) {
-
+                    ( critter &&
+                      ( critter->has_flag( MF_ALWAYS_VISIBLE )
+                        || you.sees_with_infrared( *critter )
+                        || you.sees_with_specials( *critter ) ) ) ) {
                     invisible[0] = true;
                 } else {
                     continue;
@@ -1839,18 +1842,18 @@ cata_tiles::find_tile_looks_like( const std::string &id, TILE_CATEGORY category,
     */
     // Try the variant first
     if( !variant.empty() ) {
-        const auto tile_variant_with_season = find_tile_with_season( id + "_var_" + variant );
+        auto tile_variant_with_season = find_tile_with_season( id + "_var_" + variant );
         if( tile_variant_with_season ) {
             return tile_variant_with_season;
         } else {
             // Then try the non-variant
-            const auto tile_with_season = find_tile_with_season( id );
+            auto tile_with_season = find_tile_with_season( id );
             if( tile_with_season ) {
                 return tile_with_season;
             }
         }
     } else {
-        const auto tile_with_season = find_tile_with_season( id );
+        auto tile_with_season = find_tile_with_season( id );
         if( tile_with_season ) {
             return tile_with_season;
         }
@@ -2815,7 +2818,7 @@ memorized_terrain_tile cata_tiles::get_terrain_memory_at( const tripoint &p ) co
 {
     avatar &you = get_avatar();
     if( you.should_show_map_memory() ) {
-        const memorized_terrain_tile t = you.get_memorized_tile( get_map().getabs( p ) );
+        memorized_terrain_tile t = you.get_memorized_tile( get_map().getabs( p ) );
         if( string_starts_with( t.tile, "t_" ) ) {
             return t;
         }
@@ -2827,7 +2830,7 @@ memorized_terrain_tile cata_tiles::get_furniture_memory_at( const tripoint &p ) 
 {
     avatar &you = get_avatar();
     if( you.should_show_map_memory() ) {
-        const memorized_terrain_tile t = you.get_memorized_tile( get_map().getabs( p ) );
+        memorized_terrain_tile t = you.get_memorized_tile( get_map().getabs( p ) );
         if( string_starts_with( t.tile, "f_" ) ) {
             return t;
         }
@@ -2839,7 +2842,7 @@ memorized_terrain_tile cata_tiles::get_trap_memory_at( const tripoint &p ) const
 {
     avatar &you = get_avatar();
     if( you.should_show_map_memory() ) {
-        const memorized_terrain_tile t = you.get_memorized_tile( get_map().getabs( p ) );
+        memorized_terrain_tile t = you.get_memorized_tile( get_map().getabs( p ) );
         if( string_starts_with( t.tile, "tr_" ) ) {
             return t;
         }
@@ -2851,7 +2854,7 @@ memorized_terrain_tile cata_tiles::get_vpart_memory_at( const tripoint &p ) cons
 {
     avatar &you = get_avatar();
     if( you.should_show_map_memory() ) {
-        const memorized_terrain_tile t = you.get_memorized_tile( get_map().getabs( p ) );
+        memorized_terrain_tile t = you.get_memorized_tile( get_map().getabs( p ) );
         if( string_starts_with( t.tile, "vp_" ) ) {
             return t;
         }
@@ -3053,9 +3056,8 @@ bool cata_tiles::draw_field_or_item( const tripoint &p, const lit_level ll, int 
     if( !fld_overridden ) {
         const maptile &tile = here.maptile_at( p );
 
-        for( std::map<field_type_id, field_entry>::iterator fd_it = here.field_at( p ).begin();
-             fd_it != here.field_at( p ).end(); ++fd_it ) {
-            const field_type_id &fld = fd_it->first;
+        for( const std::pair<const field_type_id, field_entry> &fd_pr : here.field_at( p ) ) {
+            const field_type_id &fld = fd_pr.first;
             if( !invisible[0] && fld.obj().display_field ) {
                 const lit_level lit = ll;
                 const bool nv = nv_goggles_activated;
@@ -3087,7 +3089,7 @@ bool cata_tiles::draw_field_or_item( const tripoint &p, const lit_level ll, int 
                 get_tile_values( fld.to_i(), neighborhood, subtile, rotation );
 
                 //get field intensity
-                int intensity = fd_it->second.get_field_intensity();
+                int intensity = fd_pr.second.get_field_intensity();
                 int nullint = 0;
 
                 bool has_drawn = false;
@@ -3488,7 +3490,8 @@ bool cata_tiles::draw_critter_at( const tripoint &p, lit_level ll, int &height_3
     bool sees_player;
     Creature::Attitude attitude;
     Character &you = get_player_character();
-    creature_tracker &creatures = get_creature_tracker();
+    const Creature *pcritter = get_creature_tracker().creature_at( p, true );
+    const bool always_visible = pcritter && pcritter->has_flag( MF_ALWAYS_VISIBLE );
     const auto override = monster_override.find( p );
     if( override != monster_override.end() ) {
         const mtype_id id = std::get<0>( override->second );
@@ -3503,8 +3506,7 @@ bool cata_tiles::draw_critter_at( const tripoint &p, lit_level ll, int &height_3
                                              empty_string : id.obj().species.begin()->str();
         result = draw_from_id_string( chosen_id, TILE_CATEGORY::MONSTER, ent_subcategory, p,
                                       corner, 0, lit_level::LIT, false, height_3d );
-    } else if( !invisible[0] ) {
-        const Creature *pcritter = creatures.creature_at( p, true );
+    } else if( !invisible[0] || always_visible ) {
         if( pcritter == nullptr ) {
             return false;
         }
@@ -3572,9 +3574,13 @@ bool cata_tiles::draw_critter_at( const tripoint &p, lit_level ll, int &height_3
         }
     } else {
         // invisible
-        const Creature *critter = creatures.creature_at( p, true );
-        if( critter && ( you.sees_with_infrared( *critter ) ||
-                         you.sees_with_specials( *critter ) ) ) {
+        if( pcritter == nullptr ) {
+            return false;
+        }
+        // scope_is_blocking is true if player is aiming and aim FOV limits obscure that position
+        const bool scope_is_blocking = you.is_avatar() && you.as_avatar()->cant_see( p );
+        const bool sees_with_infrared = !scope_is_blocking && you.sees_with_infrared( *pcritter );
+        if( sees_with_infrared || you.sees_with_specials( *pcritter ) ) {
             // try drawing infrared creature if invisible and not overridden
             // return directly without drawing overlay
             return draw_from_id_string( "infrared_creature", TILE_CATEGORY::NONE, empty_string, p,

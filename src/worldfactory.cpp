@@ -32,8 +32,6 @@
 #include "translations.h"
 #include "ui_manager.h"
 
-using namespace std::placeholders;
-
 // single instance of world generator
 std::unique_ptr<worldfactory> world_generator;
 
@@ -119,8 +117,14 @@ worldfactory::worldfactory()
     , mman_ui( *mman )
 {
     // prepare tab display order
-    tabs.emplace_back( std::bind( &worldfactory::show_worldgen_tab_modselection, this, _1, _2, _3 ) );
-    tabs.emplace_back( std::bind( &worldfactory::show_worldgen_tab_options, this, _1, _2, _3 ) );
+    tabs.emplace_back(
+    [this]( const catacurses::window & win, WORLD * w, bool b ) {
+        return show_worldgen_tab_modselection( win, w, b );
+    } );
+    tabs.emplace_back(
+    [this]( const catacurses::window & win, WORLD * w, bool b ) {
+        return show_worldgen_tab_options( win, w, b );
+    } );
 }
 
 worldfactory::~worldfactory() = default;
@@ -169,6 +173,26 @@ WORLD *worldfactory::make_new_world( bool show_prompt, const std::string &world_
     return add_world( std::move( retworld ) );
 }
 
+static cata::optional<std::string> prompt_world_name( const std::string &title,
+        const std::string &cur_worldname )
+{
+    string_input_popup popup;
+    popup.max_length( max_worldname_len ).title( title ).text( cur_worldname );
+
+    input_context ctxt( "STRING_INPUT" );
+    popup.description( string_format(
+                           _( "Press [<color_c_yellow>%s</color>] to randomize the world name." ),
+                           ctxt.get_desc( "PICK_RANDOM_WORLDNAME", 1U ) ) );
+
+    popup.custom_actions.emplace_back( "PICK_RANDOM_WORLDNAME", translation() );
+    popup.add_callback( "PICK_RANDOM_WORLDNAME", [&popup]() {
+        popup.text( get_next_valid_worldname() );
+        return true;
+    } );
+    std::string message = popup.query_string();
+    return !popup.canceled() ? cata::optional<std::string>( message ) : cata::optional<std::string>();
+}
+
 int worldfactory::show_worldgen_advanced( WORLD *world )
 {
     // set up window
@@ -199,23 +223,19 @@ int worldfactory::show_worldgen_advanced( WORLD *world )
             curtab += tabs[curtab]( wf_win, world, true );
         }
         if( curtab >= 0 ) {
-            string_input_popup str_input;
-            std::string nname = str_input
-                                .max_length( max_worldname_len )
-                                .title( _( "Choose a new name for this world." ) )
-                                .text( world->world_name )
-                                .query_string();
-            if( str_input.canceled() ) {
+            cata::optional<std::string> ret = prompt_world_name( _( "Choose a new name for this world." ),
+                                              world->world_name );
+            if( !ret.has_value() ) {
                 // return to settings tab
                 curtab = 1;
-            } else if( nname.empty() ) {
+            } else if( ret.value().empty() ) {
                 // no name entered
                 if( query_yn( _( "World name is empty.  Randomize the name?" ) ) ) {
                     world->world_name = pick_random_name();
                 }
             } else {
                 // done, generate world
-                world->world_name = nname;
+                world->world_name = ret.value();
                 done = true;
             }
         } else if( curtab < 0 ) {
@@ -717,7 +737,7 @@ void worldfactory::load_last_world_info()
     last_character_name = data.get_string( "character_name" );
 }
 
-void worldfactory::save_last_world_info()
+void worldfactory::save_last_world_info() const
 {
     write_to_file( PATH_INFO::lastworld(), [&]( std::ostream & file ) {
         JsonOut jsout( file, true );
@@ -817,7 +837,7 @@ std::map<int, inclusive_rectangle<point>> worldfactory::draw_mod_list( const cat
 
         int larger = ( iMaxRows > static_cast<int>( iModNum ) ) ? static_cast<int>( iModNum ) : iMaxRows;
         for( auto iter = mods.begin(); iter != mods.end(); ++index ) {
-            if( iNum >= static_cast<size_t>( start ) && iNum < static_cast<size_t>( start + larger ) ) {
+            if( iNum >= static_cast<size_t>( start ) && iNum < static_cast<size_t>( start ) + larger ) {
                 if( !mSortCategory[iNum].empty() ) {
                     bKeepIter = true;
                     trim_and_print( w, point( 1, iNum - start ), wwidth, c_magenta, mSortCategory[iNum] );
@@ -1836,14 +1856,9 @@ int worldfactory::show_worldgen_basic( WORLD *world )
         if( action == "CONFIRM" ) {
             if( sel_opt == 0 ) {
                 // rename
-                string_input_popup popup;
-                std::string message = popup
-                                      .max_length( max_worldname_len )
-                                      .title( _( "World name:" ) )
-                                      .text( worldname )
-                                      .query_string();
-                if( !popup.canceled() ) {
-                    world->world_name = worldname = message;
+                cata::optional<std::string> ret = prompt_world_name( _( "World name:" ), worldname );
+                if( !ret.value_or( "" ).empty() ) {
+                    world->world_name = worldname = ret.value();
                 }
             } else if( sel_opt == static_cast<int>( wg_sliders.size() + 1 ) ) {
                 // finish
@@ -2020,7 +2035,7 @@ std::map<size_t, inclusive_rectangle<point>> worldfactory::draw_worldgen_tabs(
     return tab_map;
 }
 
-bool worldfactory::valid_worldname( const std::string &name, bool automated )
+bool worldfactory::valid_worldname( const std::string &name, bool automated ) const
 {
     std::string msg;
 
@@ -2083,7 +2098,6 @@ bool WORLD::load_options()
 {
     WORLD_OPTIONS = get_options().get_world_defaults();
 
-    using namespace std::placeholders;
     const std::string path = folder_path() + "/" + PATH_INFO::worldoptions();
     return read_from_file_optional_json( path, [this]( JsonIn & jsin ) {
         this->load_options( jsin );

@@ -320,7 +320,7 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "destroys_gear", destroys_gear, false );
     optional( jo, was_loaded, "allow_soft_gear", allow_soft_gear, false );
     optional( jo, was_loaded, "cost", cost, 0 );
-    optional( jo, was_loaded, "time", cooldown, 0 );
+    optional( jo, was_loaded, "time", cooldown, 0_turns );
     optional( jo, was_loaded, "kcal", hunger, false );
     optional( jo, was_loaded, "thirst", thirst, false );
     optional( jo, was_loaded, "fatigue", fatigue, false );
@@ -724,12 +724,18 @@ void mutation_branch::check_consistency()
             }
         }
         for( const trait_id &addition : mdata.additions ) {
+            if( mdata.category.empty() ) {
+                break;
+            }
             const mutation_branch &adata = addition.obj();
+            bool found = false;
             for( const mutation_category_id &cat : adata.category ) {
-                if( std::find( mdata.category.begin(), mdata.category.end(), cat ) == mdata.category.end() ) {
-                    debugmsg( "mutation %s lacks category %s present in additive mutation %s", mid.c_str(), cat.c_str(),
-                              addition.c_str() );
-                }
+                found = found ||
+                        std::find( mdata.category.begin(), mdata.category.end(), cat ) != mdata.category.end();
+            }
+            if( !found ) {
+                debugmsg( "categories in mutation %s don't match any category present in additive mutation %s",
+                          mid.c_str(), addition.c_str() );
             }
         }
 

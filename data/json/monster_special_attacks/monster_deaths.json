@@ -303,6 +303,8 @@
     "valid_targets": [ "hostile", "ally", "ground" ],
     "flags": [ "SILENT" ],
     "shape": "blast",
+    "min_damage": 1,
+    "max_damage": 1,
     "effect": "noise"
   },
   {
@@ -312,7 +314,9 @@
     "valid_targets": [ "ally", "ground", "hostile" ],
     "description": "1/10 chance to burst into flames.",
     "flags": [ "WONDER" ],
-    "effect": "none",
+    "effect": "noise",
+    "min_damage": 1,
+    "max_damage": 1,
     "shape": "blast",
     "extra_effects": [
       { "id": "death_fakespell" },
@@ -413,6 +417,21 @@
     "shape": "blast",
     "effect": "summon",
     "effect_str": "mon_giant_cockroach_nymph",
+    "min_aoe": 2,
+    "max_aoe": 2
+  },
+  {
+    "type": "SPELL",
+    "id": "death_spider_cellar_mom",
+    "name": { "str": "Mommy Long Legs Death" },
+    "description": "Spawns a bunch of small spiders.",
+    "valid_targets": [ "self", "ground" ],
+    "min_damage": 3,
+    "max_damage": 8,
+    "flags": [ "RANDOM_DAMAGE", "HOSTILE_SUMMON", "PERMANENT", "SPAWN_WITH_DEATH_DROPS", "SILENT" ],
+    "shape": "blast",
+    "effect": "summon",
+    "effect_str": "mon_spider_cellar_small",
     "min_aoe": 2,
     "max_aoe": 2
   },
@@ -575,12 +594,12 @@
     "type": "SPELL",
     "name": { "str": "Amigara Death" },
     "valid_targets": [ "hostile", "ally", "ground" ],
-    "description": "Removes hypnosis.",
-    "effect": "remove_effect",
-    "effect_str": "amigara",
+    "description": "Spawns an artifact and removes hypnosis if this is the last amigara.",
     "min_range": 48,
     "max_range": 48,
-    "shape": "blast"
+    "shape": "blast",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_last_amigara_death"
   },
   {
     "id": "death_slimespring",

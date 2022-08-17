@@ -169,23 +169,33 @@ class event_statistic::impl
 };
 
 struct value_constraint {
-    cata::optional<cata_variant> equals_;
+    std::vector<cata_variant> equals_any_;
     cata::optional<string_id<event_statistic>> equals_statistic_;
 
     bool permits( const cata_variant &v, stats_tracker &stats ) const {
-        if( equals_ && *equals_ != v ) {
-            return false;
+        if( std::find( equals_any_.begin(), equals_any_.end(), v ) != equals_any_.end() ) {
+            return true;
         }
-        if( equals_statistic_ && stats.value_of( *equals_statistic_ ) != v ) {
-            return false;
+        // NOLINTNEXTLINE(readability-simplify-boolean-expr)
+        if( equals_statistic_ && stats.value_of( *equals_statistic_ ) == v ) {
+            return true;
         }
-        return true;
+        return false;
     }
 
     void deserialize( const JsonObject &jo ) {
         cata_variant equals_variant;
         if( jo.read( "equals", equals_variant, false ) ) {
-            equals_ = equals_variant;
+            equals_any_ = { equals_variant };
+        }
+
+        std::pair<cata_variant_type, std::vector<std::string>> equals_any;
+        if( jo.read( "equals_any", equals_any ) ) {
+            equals_any_.reserve( equals_any.second.size() );
+            for( std::string &s : equals_any.second ) {
+                equals_any_.push_back(
+                    cata_variant::from_string( equals_any.first, std::move( s ) ) );
+            }
         }
 
         string_id<event_statistic> stat;
@@ -193,7 +203,7 @@ struct value_constraint {
             equals_statistic_ = stat;
         }
 
-        if( !equals_ && !equals_statistic_ ) {
+        if( equals_any_.empty() && !equals_statistic_ ) {
             jo.throw_error( "No valid value constraint found" );
         }
     }
@@ -216,17 +226,17 @@ struct value_constraint {
             }
         }
 
-        if( equals_ ) {
-            if( input_type != equals_->type() ) {
+        for( const cata_variant &e : equals_any_ ) {
+            if( input_type != e.type() ) {
                 debugmsg( "constraint for event_transformation %s matches constant of type %s "
                           "but value compared with it has type %s",
-                          name, io::enum_to_string( equals_->type() ),
+                          name, io::enum_to_string( e.type() ),
                           io::enum_to_string( input_type ) );
             }
-            if( !equals_->is_valid() ) {
+            if( !e.is_valid() ) {
                 debugmsg( "constraint for event_transformation %s matches constant %s of type %s "
                           "but that is not a valid value of that type",
-                          name, equals_->get_string(), io::enum_to_string( equals_->type() ) );
+                          name, e.get_string(), io::enum_to_string( e.type() ) );
             }
         }
     }

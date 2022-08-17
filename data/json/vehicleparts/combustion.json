@@ -61,7 +61,7 @@
     "copy-from": "diesel_engine",
     "type": "vehicle_part",
     "item": "i6_diesel",
-    "description": "An inline 6-cylinder diesel engine.  Somewhat more powerful than a V6, you might see an engine like this in a road roller or excavator.",
+    "description": "An inline 6-cylinder diesel engine.  Somewhat more powerful but much larger than a V6, you might see an engine like this in a road roller or excavator.",
     "durability": 400,
     "epower": -350,
     "power": 223800,
@@ -145,7 +145,7 @@
     "epower": 0,
     "power": 7370,
     "energy_consumption": 18425,
-    "folded_volume": "1500 ml",
+    "folded_volume": "60 L",
     "breaks_into": [
       { "item": "steel_lump", "count": [ 5, 10 ] },
       { "item": "steel_chunk", "count": [ 5, 10 ] },
@@ -174,7 +174,7 @@
     "epower": 0,
     "power": 41000,
     "energy_consumption": 124500,
-    "folded_volume": "2 L",
+    "folded_volume": "90 L",
     "breaks_into": [
       { "item": "steel_lump", "count": [ 6, 12 ] },
       { "item": "steel_chunk", "count": [ 6, 12 ] },
@@ -204,7 +204,7 @@
     "epower": 0,
     "power": 3728,
     "energy_consumption": 9320,
-    "folded_volume": "750 ml",
+    "folded_volume": "629 ml",
     "breaks_into": [
       { "item": "steel_lump", "count": [ 2, 4 ] },
       { "item": "steel_chunk", "count": [ 2, 4 ] },
@@ -387,7 +387,7 @@
     "epower": -50,
     "power": 37300,
     "energy_consumption": 124500,
-    "folded_volume": "2 L",
+    "folded_volume": "109 L",
     "breaks_into": [
       { "item": "steel_lump", "count": [ 10, 20 ] },
       { "item": "steel_chunk", "count": [ 10, 20 ] },

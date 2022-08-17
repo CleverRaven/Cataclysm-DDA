@@ -105,7 +105,7 @@ class iuse_transform : public iuse_actor
         ~iuse_transform() override = default;
         void load( const JsonObject &obj ) override;
         cata::optional<int> use( Character &, item &, bool, const tripoint & ) const override;
-        ret_val<bool> can_use( const Character &, const item &, bool, const tripoint & ) const override;
+        ret_val<void> can_use( const Character &, const item &, bool, const tripoint & ) const override;
         std::unique_ptr<iuse_actor> clone() const override;
         std::string get_name() const override;
         void finalize( const itype_id &my_item_type ) override;
@@ -154,7 +154,7 @@ class countdown_actor : public iuse_actor
         void load( const JsonObject &obj ) override;
         cata::optional<int> use( Character &, item &, bool, const tripoint & ) const override;
         std::unique_ptr<iuse_actor> clone() const override;
-        ret_val<bool> can_use( const Character &, const item &it, bool, const tripoint & ) const override;
+        ret_val<void> can_use( const Character &, const item &it, bool, const tripoint & ) const override;
         std::string get_name() const override;
         void info( const item &, std::vector<iteminfo> & ) const override;
 };
@@ -201,29 +201,6 @@ class explosion_iuse : public iuse_actor
         cata::optional<int> use( Character &, item &, bool, const tripoint & ) const override;
         std::unique_ptr<iuse_actor> clone() const override;
         void info( const item &, std::vector<iteminfo> & ) const override;
-};
-
-/**
- * This iuse creates a new vehicle on the map.
- */
-class unfold_vehicle_iuse : public iuse_actor
-{
-    public:
-        /** Id of the vehicle prototype (@see map::add_vehicle what it expects) that will be
-         * created when unfolding the item. */
-        vproto_id vehicle_id;
-        /** Message shown after successfully unfolding the item. */
-        translation unfold_msg;
-        /** Creature::moves it takes to unfold. */
-        int moves = 0;
-        std::map<itype_id, int> tools_needed;
-
-        explicit unfold_vehicle_iuse( const std::string &type = "unfold_vehicle" ) : iuse_actor( type ) {}
-
-        ~unfold_vehicle_iuse() override = default;
-        void load( const JsonObject &obj ) override;
-        cata::optional<int> use( Character &, item &, bool, const tripoint & ) const override;
-        std::unique_ptr<iuse_actor> clone() const override;
 };
 
 /** Used in consume_drug_iuse for storing effect data. */
@@ -464,20 +441,20 @@ class firestarter_actor : public iuse_actor
          */
         bool need_sunlight = false;
 
-        static bool prep_firestarter_use( const Character &p, tripoint &pos );
+        static bool prep_firestarter_use( const Character &p, tripoint_bub_ms &pos );
         /** Player here isn't const because pyromaniacs gain a mood boost from it */
-        static void resolve_firestarter_use( Character &p, const tripoint &pos );
+        static void resolve_firestarter_use( Character &p, const tripoint_bub_ms &pos );
         /** Modifier on speed - higher is better, 0 means it won't work. */
         float light_mod( const tripoint &pos ) const;
         /** Checks quality of fuel on the tile and interpolates move cost based on that. */
-        int moves_cost_by_fuel( const tripoint &pos ) const;
+        int moves_cost_by_fuel( const tripoint_bub_ms &pos ) const;
 
         explicit firestarter_actor( const std::string &type = "firestarter" ) : iuse_actor( type ) {}
 
         ~firestarter_actor() override = default;
         void load( const JsonObject &obj ) override;
         cata::optional<int> use( Character &, item &, bool, const tripoint & ) const override;
-        ret_val<bool> can_use( const Character &, const item &, bool, const tripoint & ) const override;
+        ret_val<void> can_use( const Character &, const item &, bool, const tripoint & ) const override;
         std::unique_ptr<iuse_actor> clone() const override;
 };
 
@@ -513,10 +490,9 @@ class salvage_actor : public iuse_actor
             material_id( "wool" )
         };
 
-        bool try_to_cut_up( Character &p, item &it ) const;
-        int cut_up( Character &p, item &it, item_location &cut ) const;
+        cata::optional<int> try_to_cut_up( Character &p, item &cutter, item_location &cut ) const;
         int time_to_cut_up( const item &it ) const;
-        bool valid_to_cut_up( const item &it ) const;
+        bool valid_to_cut_up( const Character *p, const item &it ) const;
 
         explicit salvage_actor( const std::string &type = "salvage" ) : iuse_actor( type ) {}
 
@@ -524,6 +500,8 @@ class salvage_actor : public iuse_actor
         void load( const JsonObject &obj ) override;
         cata::optional<int> use( Character &, item &, bool, const tripoint & ) const override;
         std::unique_ptr<iuse_actor> clone() const override;
+    private:
+        void cut_up( Character &p, item_location &cut ) const;
 };
 
 /**
@@ -542,6 +520,8 @@ class inscribe_actor : public iuse_actor
         // Materials it can write on
         std::set<material_id> material_whitelist = {
             material_id( "wood" ),
+            material_id( "clay" ),
+            material_id( "porcelain" ),
             material_id( "plastic" ),
             material_id( "glass" ),
             material_id( "chitin" ),
@@ -581,7 +561,7 @@ class cauterize_actor : public iuse_actor
         ~cauterize_actor() override = default;
         void load( const JsonObject &obj ) override;
         cata::optional<int> use( Character &, item &, bool, const tripoint & ) const override;
-        ret_val<bool> can_use( const Character &, const item &, bool, const tripoint & ) const override;
+        ret_val<void> can_use( const Character &, const item &, bool, const tripoint & ) const override;
         std::unique_ptr<iuse_actor> clone() const override;
 };
 
@@ -606,7 +586,7 @@ class fireweapon_off_actor : public iuse_actor
         ~fireweapon_off_actor() override = default;
         void load( const JsonObject &obj ) override;
         cata::optional<int> use( Character &, item &, bool, const tripoint & ) const override;
-        ret_val<bool> can_use( const Character &, const item &, bool, const tripoint & ) const override;
+        ret_val<void> can_use( const Character &, const item &, bool, const tripoint & ) const override;
         std::unique_ptr<iuse_actor> clone() const override;
 };
 
@@ -652,7 +632,7 @@ class manualnoise_actor : public iuse_actor
         ~manualnoise_actor() override = default;
         void load( const JsonObject &obj ) override;
         cata::optional<int> use( Character &, item &, bool, const tripoint & ) const override;
-        ret_val<bool> can_use( const Character &, const item &, bool, const tripoint & ) const override;
+        ret_val<void> can_use( const Character &, const item &, bool, const tripoint & ) const override;
         std::unique_ptr<iuse_actor> clone() const override;
 };
 
@@ -697,7 +677,7 @@ class musical_instrument_actor : public iuse_actor
         ~musical_instrument_actor() override = default;
         void load( const JsonObject &obj ) override;
         cata::optional<int> use( Character &, item &, bool, const tripoint & ) const override;
-        ret_val<bool> can_use( const Character &, const item &, bool, const tripoint & ) const override;
+        ret_val<void> can_use( const Character &, const item &, bool, const tripoint & ) const override;
         std::unique_ptr<iuse_actor> clone() const override;
 };
 
@@ -864,6 +844,7 @@ class repair_item_actor : public iuse_actor
         std::unique_ptr<iuse_actor> clone() const override;
 
         std::string get_name() const override;
+        std::string get_description() const override;
 };
 
 class heal_actor : public iuse_actor
@@ -1001,7 +982,7 @@ class saw_barrel_actor : public iuse_actor
         cata::optional<int> use( Character &p, item &it, bool t, const tripoint &pnt ) const override;
         std::unique_ptr<iuse_actor> clone() const override;
 
-        ret_val<bool> can_use_on( const Character &you, const item &it, const item &target ) const;
+        ret_val<void> can_use_on( const Character &you, const item &it, const item &target ) const;
 };
 
 class saw_stock_actor : public iuse_actor
@@ -1013,7 +994,7 @@ class saw_stock_actor : public iuse_actor
         cata::optional<int> use( Character &p, item &it, bool t, const tripoint &pnt ) const override;
         std::unique_ptr<iuse_actor> clone() const override;
 
-        ret_val<bool> can_use_on( const Character &you, const item &it, const item &target ) const;
+        ret_val<void> can_use_on( const Character &you, const item &it, const item &target ) const;
 };
 
 // this adds a pocket to a molle item
@@ -1050,7 +1031,7 @@ class install_bionic_actor : public iuse_actor
 
         void load( const JsonObject & ) override {}
         cata::optional<int> use( Character &p, item &it, bool t, const tripoint &pnt ) const override;
-        ret_val<bool> can_use( const Character &, const item &it, bool, const tripoint & ) const override;
+        ret_val<void> can_use( const Character &, const item &it, bool, const tripoint & ) const override;
         std::unique_ptr<iuse_actor> clone() const override;
         void finalize( const itype_id &my_item_type ) override;
 };
@@ -1062,7 +1043,7 @@ class detach_gunmods_actor : public iuse_actor
 
         void load( const JsonObject & ) override {}
         cata::optional<int> use( Character &p, item &it, bool t, const tripoint &pnt ) const override;
-        ret_val<bool> can_use( const Character &, const item &it, bool, const tripoint & ) const override;
+        ret_val<void> can_use( const Character &, const item &it, bool, const tripoint & ) const override;
         std::unique_ptr<iuse_actor> clone() const override;
         void finalize( const itype_id &my_item_type ) override;
 };
@@ -1074,7 +1055,7 @@ class modify_gunmods_actor : public iuse_actor
 
         void load( const JsonObject & ) override {}
         cata::optional<int> use( Character &p, item &it, bool t, const tripoint &pnt ) const override;
-        ret_val<bool> can_use( const Character &, const item &it, bool, const tripoint & ) const override;
+        ret_val<void> can_use( const Character &, const item &it, bool, const tripoint & ) const override;
         std::unique_ptr<iuse_actor> clone() const override;
         void finalize( const itype_id &my_item_type ) override;
 };

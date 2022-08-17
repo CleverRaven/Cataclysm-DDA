@@ -219,7 +219,7 @@ void stomach_contents::empty()
 }
 
 stomach_digest_rates stomach_contents::get_digest_rates( const needs_rates &metabolic_rates,
-        const Character &owner )
+        const Character &owner ) const
 {
     stomach_digest_rates rates;
     if( stomach ) {

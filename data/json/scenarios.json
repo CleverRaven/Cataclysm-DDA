@@ -767,6 +767,16 @@
   },
   {
     "type": "scenario",
+    "id": "infested_shelter_start",
+    "name": "Compromised Shelter",
+    "points": -1,
+    "description": "You have survived the initial wave of panic, and have achieved (relative) safety in one of the many government evac shelters.  However, the people you came with started to turn and now they're out for your flesh!  You've holed up in the basement for now, but sooner or later you have to make for the door… and fast!",
+    "allowed_locs": [ "sloc_shelter_infest_a", "sloc_shelter_infest_b", "sloc_shelter_infest_c" ],
+    "start_name": "In an Infested Shelter",
+    "flags": [ "CHALLENGE", "LONE_START" ]
+  },
+  {
+    "type": "scenario",
     "id": "aircraft_carrier_start",
     "name": "CVN Sailor",
     "points": 4,
@@ -789,5 +799,16 @@
       "combat-engineer"
     ],
     "flags": [ "CHALLENGE", "LONE_START" ]
+  },
+  {
+    "type": "scenario",
+    "id": "golden_years",
+    "name": "Golden Years",
+    "points": 0,
+    "description": "After a life time of hard work, you managed to settle down in a posh retirement community.  Safe behind those walls, you would live a peaceful, privileged life, away from all the crazy lunatics outside.  Then, the crazies made it inside anyway, leaving you no choice but to deal with them personally.  Welcome to your golden years.",
+    "allowed_locs": [ "sloc_retirement_community" ],
+    "start_name": "Retirement Community",
+    "professions": [ "senior" ],
+    "flags": [ "CITY_START", "LONE_START" ]
   }
 ]

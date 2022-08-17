@@ -83,6 +83,7 @@ static const efftype_id effect_deaf( "deaf" );
 static const efftype_id effect_disabled( "disabled" );
 static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_drunk( "drunk" );
+static const efftype_id effect_fearparalyze( "fearparalyze" );
 static const efftype_id effect_formication( "formication" );
 static const efftype_id effect_grabbed( "grabbed" );
 static const efftype_id effect_hallu( "hallu" );
@@ -97,6 +98,7 @@ static const efftype_id effect_shakes( "shakes" );
 static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_took_antiasthmatic( "took_antiasthmatic" );
 static const efftype_id effect_took_thorazine( "took_thorazine" );
+static const efftype_id effect_took_xanax( "took_xanax" );
 static const efftype_id effect_valium( "valium" );
 static const efftype_id effect_visuals( "visuals" );
 static const efftype_id effect_weary_0( "weary_0" );
@@ -119,6 +121,7 @@ static const json_character_flag json_flag_GILLS( "GILLS" );
 static const json_character_flag json_flag_GLARE_RESIST( "GLARE_RESIST" );
 static const json_character_flag json_flag_MEND_ALL( "MEND_ALL" );
 static const json_character_flag json_flag_MEND_LIMB( "MEND_LIMB" );
+static const json_character_flag json_flag_NYCTOPHOBIA( "NYCTOPHOBIA" );
 static const json_character_flag json_flag_RAD_DETECT( "RAD_DETECT" );
 
 static const mtype_id mon_zombie( "mon_zombie" );
@@ -160,6 +163,7 @@ static const trait_id trait_RADIOGENIC( "RADIOGENIC" );
 static const trait_id trait_SCHIZOPHRENIC( "SCHIZOPHRENIC" );
 static const trait_id trait_SHARKTEETH( "SHARKTEETH" );
 static const trait_id trait_SHELL2( "SHELL2" );
+static const trait_id trait_SHELL3( "SHELL3" );
 static const trait_id trait_SHOUT1( "SHOUT1" );
 static const trait_id trait_SHOUT2( "SHOUT2" );
 static const trait_id trait_SHOUT3( "SHOUT3" );
@@ -199,6 +203,7 @@ static void from_exertion( Character &you );
 static void without_sleep( Character &you, int sleep_deprivation );
 static void from_tourniquet( Character &you );
 static void from_pain( Character &you );
+static void from_nyctophobia( Character &you );
 } // namespace suffer
 
 static float addiction_scaling( float at_min, float at_max, float add_lvl )
@@ -232,13 +237,13 @@ void suffer::water_damage( Character &you, const trait_id &mut_id )
 
 void suffer::mutation_power( Character &you, const trait_id &mut_id )
 {
-    if( you.get_cost_timer( mut_id ) > 0 ) {
+    if( you.get_cost_timer( mut_id ) > 0_turns ) {
         // Not ready to consume cost yet, the timer ticks on
-        you.mod_cost_timer( mut_id, -1 );
+        you.mod_cost_timer( mut_id, -1_turns );
     } else {
         // Ready to consume cost: pay the power cost and reset timer
-        if( mut_id->cooldown > 0 ) {
-            you.set_cost_timer( mut_id, mut_id->cooldown - 1 );
+        if( mut_id->cooldown > 0_turns ) {
+            you.set_cost_timer( mut_id, mut_id->cooldown - 1_turns );
         }
         if( mut_id->hunger ) {
             if( you.get_bmi() < character_weight_category::underweight ) {
@@ -365,9 +370,15 @@ void suffer::while_awake( Character &you, const int current_stim )
             you.add_effect( effect_downed, 2_turns, false, 0, true );
         }
     }
+
+    if( you.has_flag( json_flag_NYCTOPHOBIA ) && !you.has_effect( effect_took_xanax ) ) {
+        suffer::from_nyctophobia( you );
+    }
+
     if( you.has_trait( trait_CHEMIMBALANCE ) ) {
         suffer::from_chemimbalance( you );
     }
+
     if( you.has_trait( trait_SCHIZOPHRENIC ) &&
         !you.has_effect( effect_took_thorazine ) ) {
         suffer::from_schizophrenia( you );
@@ -806,7 +817,7 @@ void suffer::in_sunlight( Character &you )
         const bool has_hat = you.wearing_something_on( bodypart_id( "head" ) );
         const float weather_factor = ( get_weather().weather_id->sun_intensity >=
                                        sun_intensity_type::normal ) ? 1.0 : 0.5;
-        const int player_local_temp = get_weather().get_temperature( position );
+        const int player_local_temp = units::to_fahrenheit( get_weather().get_temperature( position ) );
         const int flux = ( player_local_temp - 65 ) / 2;
         if( !has_hat ) {
             sunlight_nutrition += ( 100 + flux ) * weather_factor;
@@ -1646,6 +1657,61 @@ void suffer::from_pain( Character &you )
     }
 }
 
+void suffer::from_nyctophobia( Character &you )
+{
+    std::vector<tripoint> dark_places;
+    const float nyctophobia_threshold = LIGHT_AMBIENT_LIT - 3.0f;
+
+    for( const tripoint &dark_place : points_in_radius( you.pos(), 5 ) ) {
+        if( !you.sees( dark_place ) || get_map().ambient_light_at( dark_place ) >= nyctophobia_threshold ) {
+            continue;
+        }
+        dark_places.push_back( dark_place );
+    }
+
+    const bool in_darkness = get_map().ambient_light_at( you.pos() ) < nyctophobia_threshold;
+    const int chance = in_darkness ? 10 : 50;
+
+    if( you.is_avatar() && !dark_places.empty() && one_in( chance ) ) {
+        g->spawn_hallucination( random_entry( dark_places ) );
+    }
+
+    if( in_darkness ) {
+        if( one_turn_in( 5_minutes ) ) {
+            you.add_msg_if_player( m_bad, _( "You feel a twinge of panic as darkness engulfs you." ) );
+        }
+
+        if( one_in( 2 ) && one_turn_in( 30_seconds ) ) {
+            you.sound_hallu();
+        }
+
+        if( one_in( 50 ) && !you.is_on_ground() ) {
+            you.add_msg_if_player( m_bad,
+                                   _( "Your fear of the dark is so intense that your trembling legs fail you, and you fall to the ground." ) );
+            you.add_effect( effect_downed, rng( 1_minutes, 2_minutes ) );
+        }
+
+        if( one_in( 50 ) && !you.has_effect( effect_shakes ) ) {
+            you.add_msg_if_player( m_bad,
+                                   _( "Your fear of the dark is so intense that your hands start shaking uncontrollably." ) );
+            you.add_effect( effect_shakes, rng( 1_minutes, 2_minutes ) );
+        }
+
+        if( one_in( 50 ) ) {
+            you.add_msg_if_player( m_bad,
+                                   _( "Your fear of the dark is so intense that you start breathing rapidly, and you feel like your heart is ready to jump out of the chest." ) );
+            you.mod_stamina( -500 * rng( 1, 3 ) );
+        }
+
+        if( one_in( 50 ) && !you.has_effect( effect_fearparalyze ) ) {
+            you.add_msg_if_player( m_bad,
+                                   _( "Your fear of the dark is so intense that you stand paralyzed." ) );
+            you.add_effect( effect_fearparalyze, 5_turns );
+            you.mod_moves( -4 * you.get_speed() );
+        }
+    }
+}
+
 void Character::suffer()
 {
     const int current_stim = get_stim();
@@ -1900,6 +1966,10 @@ void Character::mend( int rate_multiplier )
 
 void Character::sound_hallu()
 {
+    if( is_npc() ) {
+        return;
+    }
+
     // Random 'dangerous' sound from a random direction
     // 1/5 chance to be a loud sound
     std::vector<std::string> dir{ "north",
@@ -1949,12 +2019,14 @@ void Character::sound_hallu()
 
 void Character::drench( int saturation, const body_part_set &flags, bool ignore_waterproof )
 {
+    bool in_shell = has_active_mutation( trait_SHELL2 ) ||
+                    has_active_mutation( trait_SHELL3 );
     if( saturation < 1 ) {
         return;
     }
 
     // OK, water gets in your AEP suit or whatever.  It wasn't built to keep you dry.
-    if( has_trait( trait_DEBUG_NOTEMP ) || has_active_mutation( trait_SHELL2 ) ||
+    if( has_trait( trait_DEBUG_NOTEMP ) || in_shell ||
         ( !ignore_waterproof && is_waterproof( flags ) ) ) {
         return;
     }
@@ -1998,7 +2070,7 @@ void Character::drench( int saturation, const body_part_set &flags, bool ignore_
     }
 }
 
-void Character::apply_wetness_morale( int temperature )
+void Character::apply_wetness_morale( units::temperature temperature )
 {
     // First, a quick check if we have any wetness to calculate morale from
     // Faster than checking all worn items for friendliness
@@ -2007,8 +2079,9 @@ void Character::apply_wetness_morale( int temperature )
     }
 
     // Normalize temperature to [-1.0,1.0]
-    temperature = std::max( 0, std::min( 100, temperature ) );
-    const double global_temperature_mod = -1.0 + ( 2.0 * temperature / 100.0 );
+    float temperature_f = units::to_fahrenheit( temperature );
+    temperature_f = std::max( 0.f, std::min( 100.f, temperature_f ) );
+    const double global_temperature_mod = -1.0 + ( 2.0 * temperature_f / 100.0 );
 
     int total_morale = 0;
     const body_part_set wet_friendliness = exclusive_flag_coverage( flag_WATER_FRIENDLY );

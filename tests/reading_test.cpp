@@ -161,7 +161,7 @@ TEST_CASE( "character reading speed", "[reading][character][speed]" )
         REQUIRE( dummy.get_int() == 8 );
 
         THEN( "reading speed is normal" ) {
-            CHECK( dummy.read_speed() == 6000 );
+            CHECK( dummy.read_speed() * 60 == 6000 );
         }
     }
 
@@ -169,13 +169,13 @@ TEST_CASE( "character reading speed", "[reading][character][speed]" )
 
         THEN( "reading speed gets slower as intelligence decreases" ) {
             dummy.int_max = 7;
-            CHECK( dummy.read_speed() == 6300 );
+            CHECK( dummy.read_speed() * 60 == 6300 );
             dummy.int_max = 6;
-            CHECK( dummy.read_speed() == 6600 );
+            CHECK( dummy.read_speed() * 60 == 6600 );
             dummy.int_max = 5;
-            CHECK( dummy.read_speed() == 6900 );
+            CHECK( dummy.read_speed() * 60 == 6900 );
             dummy.int_max = 4;
-            CHECK( dummy.read_speed() == 7200 );
+            CHECK( dummy.read_speed() * 60 == 7200 );
         }
     }
 
@@ -183,13 +183,13 @@ TEST_CASE( "character reading speed", "[reading][character][speed]" )
 
         THEN( "reading speed gets faster as intelligence increases" ) {
             dummy.int_max = 9;
-            CHECK( dummy.read_speed() == 5700 );
+            CHECK( dummy.read_speed() * 60 == 5700 );
             dummy.int_max = 10;
-            CHECK( dummy.read_speed() == 5400 );
+            CHECK( dummy.read_speed() * 60 == 5400 );
             dummy.int_max = 12;
-            CHECK( dummy.read_speed() == 4800 );
+            CHECK( dummy.read_speed() * 60 == 4800 );
             dummy.int_max = 14;
-            CHECK( dummy.read_speed() == 4200 );
+            CHECK( dummy.read_speed() * 60 == 4200 );
         }
     }
 }
@@ -215,9 +215,9 @@ TEST_CASE( "estimated reading time for a book", "[reading][book][time]" )
     REQUIRE( alpha->type->book );
 
     // Convert time to read from minutes to moves, for easier comparison later
-    int moves_child = child->type->book->time * to_moves<int>( 1_minutes );
-    int moves_western = western->type->book->time * to_moves<int>( 1_minutes );
-    int moves_alpha = alpha->type->book->time * to_moves<int>( 1_minutes );
+    time_duration moves_child = child->type->book->time;
+    time_duration moves_western = western->type->book->time;
+    time_duration moves_alpha = alpha->type->book->time;
 
     GIVEN( "some unidentified books and plenty of light" ) {
         REQUIRE_FALSE( dummy.has_identified( child->typeId() ) );
@@ -249,7 +249,7 @@ TEST_CASE( "estimated reading time for a book", "[reading][book][time]" )
         WHEN( "player has average intelligence" ) {
             dummy.int_max = 8;
             REQUIRE( dummy.get_int() == 8 );
-            REQUIRE( dummy.read_speed() == 6000 ); // 60s, "normal"
+            REQUIRE( dummy.read_speed() * 60 == 6000 ); // 60s, "normal"
 
             THEN( "they can read books at their reading level in the normal amount time" ) {
                 CHECK( dummy.time_to_read( *child, dummy ) == moves_child );
@@ -263,7 +263,7 @@ TEST_CASE( "estimated reading time for a book", "[reading][book][time]" )
         WHEN( "player has below average intelligence" ) {
             dummy.int_max = 6;
             REQUIRE( dummy.get_int() == 6 );
-            REQUIRE( dummy.read_speed() == 6600 ); // 66s
+            REQUIRE( dummy.read_speed() * 60 == 6600 ); // 66s
 
             THEN( "they take longer than average to read any book" ) {
                 CHECK( dummy.time_to_read( *child, dummy ) > moves_child );
@@ -275,7 +275,7 @@ TEST_CASE( "estimated reading time for a book", "[reading][book][time]" )
         WHEN( "player has above average intelligence" ) {
             dummy.int_max = 10;
             REQUIRE( dummy.get_int() == 10 );
-            REQUIRE( dummy.read_speed() == 5400 ); // 54s
+            REQUIRE( dummy.read_speed() * 60 == 5400 ); // 54s
 
             THEN( "they take less time than average to read any book" ) {
                 CHECK( dummy.time_to_read( *child, dummy ) < moves_child );
@@ -496,7 +496,7 @@ TEST_CASE( "reading a book with an ebook reader", "[reading][book][ereader]" )
 
             dummy.activity = player_activity(
                                  read_activity_actor(
-                                     dummy.time_to_read( *booklc, dummy ),
+                                     to_moves<int>( dummy.time_to_read( *booklc, dummy ) ),
                                      booklc,
                                      ereader,
                                      true

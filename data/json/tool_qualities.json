@@ -362,5 +362,35 @@
     "//2": "oven 1 represents makeshift ovens.",
     "//3": "oven 2 represents purpose built ovens with basic temperature reglation, including dutch ovens and similar.",
     "//4": "oven 3 represents professional ovens with fine-grained temperature regulation, suitable for the most demanding culinary application."
+  },
+  {
+    "type": "tool_quality",
+    "id": "GUN",
+    "//": "A catchall for firearms so they can be used in practice recipes.",
+    "name": { "str": "gun" }
+  },
+  {
+    "type": "tool_quality",
+    "id": "RIFLE",
+    "//": "A catchall for firearms so they can be used in practice recipes.",
+    "name": { "str": "rifle" }
+  },
+  {
+    "type": "tool_quality",
+    "id": "SHOTGUN",
+    "//": "A catchall for firearms so they can be used in practice recipes.",
+    "name": { "str": "shotgun" }
+  },
+  {
+    "type": "tool_quality",
+    "id": "SMG",
+    "//": "A catchall for firearms so they can be used in practice recipes.",
+    "name": { "str": "smg" }
+  },
+  {
+    "type": "tool_quality",
+    "id": "PISTOL",
+    "//": "A catchall for firearms so they can be used in practice recipes.",
+    "name": { "str": "pistol" }
   }
 ]

@@ -160,7 +160,7 @@
     "volume": "6 ml",
     "//": "This is calculated from medium weight cotton at 203 GSM, with a size of 6 inches square",
     "price": 200,
-    "price_postapoc": 50,
+    "price_postapoc": 2,
     "material": [ "cotton" ],
     "symbol": ",",
     "color": "white",

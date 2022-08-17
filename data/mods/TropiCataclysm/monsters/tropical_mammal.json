@@ -101,7 +101,6 @@
     "dodge": 8,
     "vision_night": 20,
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
-    "placate_triggers": [ "MEAT" ],
     "harvest": "mammal_small_fur",
     "flags": [ "SEES", "HEARS", "GOODHEARING", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "HIT_AND_RUN" ]
   },

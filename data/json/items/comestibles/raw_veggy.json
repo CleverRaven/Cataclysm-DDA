@@ -50,11 +50,13 @@
     "material": [ "veggy" ],
     "calories": 29,
     "spoils_in": "20 days",
-    "description": "An almost forgotten staple of the native tribes, called the indian potato by some.  Very nutritious, but more tasty cooked.",
+    "description": "An almost forgotten staple of the native tribes, called the indian potato by some.  Very nutritious, but mildly toxic unless cooked.",
+    "healthy": -1,
     "symbol": ",",
+    "looks_like": "potato",
     "flags": [ "RAW" ],
     "vitamins": [ [ "calcium", 14 ], [ "iron", 1 ] ],
-    "fun": -2
+    "fun": -3
   },
   {
     "type": "COMESTIBLE",
@@ -70,6 +72,7 @@
     "stim": 1,
     "spoils_in": "20 days",
     "description": "This aromatic rhizome can be eaten as is in an emergency, but it is much better used for making beverages.  Its taste is pleasant but it is also tough and stringy.",
+    "comestible_type": "FOOD",
     "symbol": ",",
     "flags": [ "RAW" ],
     "vitamins": [ [ "calcium", 10 ], [ "iron", 8 ] ],
@@ -88,6 +91,7 @@
     "calories": 33,
     "spoils_in": "20 days",
     "description": "A slightly sweet tuber.  Contains much inulin which may cause some minor issues with your digestive tract, so it should be cooked.",
+    "comestible_type": "FOOD",
     "healthy": -1,
     "symbol": ",",
     "flags": [ "RAW" ],
@@ -993,23 +997,6 @@
     "flags": [ "EATEN_HOT", "SMOKABLE" ],
     "smoking_result": "dry_veggy",
     "vitamins": [ [ "vitC", 39 ], [ "calcium", 3 ], [ "iron", 4 ] ]
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "canola",
-    "name": { "str": "canola" },
-    "description": "A pretty stalk of canola.  Its seeds can be pressed into oil.",
-    "comestible_type": "FOOD",
-    "calories": 9,
-    "fun": -8,
-    "weight": "40 g",
-    "to_hit": -3,
-    "color": "magenta",
-    "symbol": ",",
-    "material": [ "veggy" ],
-    "volume": "250 ml",
-    "price": 0,
-    "price_postapoc": 25
   },
   {
     "type": "COMESTIBLE",

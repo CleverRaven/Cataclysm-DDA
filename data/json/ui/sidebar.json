@@ -9,10 +9,12 @@
     "padding": 2,
     "widgets": [
       "hitpoints_all_narrow_graphs_layout",
+      "hitpoints_all_narrow_nums_layout",
       "stats_narrow_layout",
       "movement_layout",
       "stamina_activity_weary_layout",
       "needs_desc_layout_label",
+      "needs_desc_sa_layout_label",
       "safe_sound_layout",
       "power_desc",
       "rad_badge_desc",

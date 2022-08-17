@@ -13,6 +13,7 @@
     "category": "chems",
     "name": { "str_sp": "supercritical coolant" },
     "description": "Capable of withstanding extreme temperature gradients, fulleroclathrate supercritical coolants are the lifeblood of high-energy systems, from cutting-edge aerospace engines to experimental small arms tech.  Liquid at room conditions, it has to be used in a pressurized closed-loop system at 450 psi or greater.",
+    "comestible_type": "DRINK",
     "looks_like": "napalm",
     "container": "metal_tank",
     "symbol": "~",

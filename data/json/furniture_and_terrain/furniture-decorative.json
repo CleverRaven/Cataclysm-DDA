@@ -9,6 +9,7 @@
     "move_cost_mod": 2,
     "coverage": 80,
     "required_str": 5,
+    "crafting_pseudo_item": "mirror",
     "flags": [ "NOITEM", "BLOCKSDOOR" ],
     "examine_action": "change_appearance",
     "bash": {

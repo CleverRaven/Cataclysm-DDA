@@ -74,5 +74,31 @@
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "pipe", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 5 ] ] ],
     "components": [ [ [ "glass_shard", 1 ], [ "flask_glass", 1 ], [ "marble", 25 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "fake",
+    "result": "bag_canvas_small",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_CONTAINERS",
+    "skill_used": "tailor",
+    "difficulty": 1,
+    "time": "10 m",
+    "autolearn": true,
+    "using": [ [ "filament", 50 ], [ "cordage_short", 1 ] ],
+    "components": [ [ [ "cotton_patchwork", 2 ], [ "fibercloth_patchwork", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "fake",
+    "result": "bag_canvas",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_CONTAINERS",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": "50 m",
+    "autolearn": true,
+    "using": [ [ "filament", 300 ], [ "cordage", 1 ] ],
+    "components": [ [ [ "cotton_patchwork", 12 ], [ "fibercloth_patchwork", 12 ] ] ]
   }
 ]

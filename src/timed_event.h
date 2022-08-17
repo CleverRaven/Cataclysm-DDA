@@ -73,26 +73,27 @@ class timed_event_manager
          * through to @ref timed_event::timed_event.
          */
         void add( timed_event_type type, const time_point &when, int faction_id = -1, int strength = -1,
-                  std::string key = "" );
+                  const std::string &key = "" );
         /**
          * Add an entry to the event queue. Parameters are basically passed
          * through to @ref timed_event::timed_event.
          */
         void add( timed_event_type type, const time_point &when, int faction_id,
-                  const tripoint_abs_ms &where, int strength = -1, std::string key = "" );
+                  const tripoint_abs_ms &where, int strength = -1, const std::string &key = "" );
         void add( timed_event_type type, const time_point &when, int faction_id,
-                  const tripoint_abs_ms &where, int strength, std::string string_id, std::string key = "" );
+                  const tripoint_abs_ms &where, int strength, const std::string &string_id,
+                  const std::string &key = "" );
         void add( timed_event_type type, const time_point &when, int faction_id,
-                  const tripoint_abs_ms &where, int strength, std::string string_id, submap_revert sr,
-                  std::string key = "" );
+                  const tripoint_abs_ms &where, int strength, const std::string &string_id, submap_revert sr,
+                  const std::string &key = "" );
         /// @returns Whether at least one element of the given type is queued.
         bool queued( timed_event_type type ) const;
         /// @returns One of the queued events of the given type, or `nullptr`
         /// if no event of that type is queued.
         timed_event *get( timed_event_type type );
-        timed_event *get( timed_event_type type, std::string key );
+        timed_event *get( timed_event_type type, const std::string &key );
         std::list<timed_event> get_all() const;
-        void set_all( std::string key, time_duration time_in_future );
+        void set_all( const std::string &key, time_duration time_in_future );
         /// Process all queued events, potentially altering the game state and
         /// modifying the event queue.
         void process();

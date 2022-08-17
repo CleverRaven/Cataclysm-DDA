@@ -139,12 +139,12 @@ class scenario
         /**
          * Do you have the necessary achievement state
          */
-        ret_val<bool> can_pick() const;
+        ret_val<void> can_pick() const;
 
         /**
          * Do you have the points to afford swapping to this scenario
          */
-        ret_val<bool> can_afford( const scenario &current_scenario, int points ) const;
+        ret_val<void> can_afford( const scenario &current_scenario, int points ) const;
 
         const std::vector<mission_type_id> &missions() const;
         const std::vector<effect_on_condition_id> &eoc() const;

@@ -228,6 +228,7 @@ TEST_CASE( "snippet-tag-test" )
  * B/C is acid with (follower/non-follower) NPC on it.
  */
 static constexpr int height = 5, width = 17;
+// NOLINTNEXTLINE(cata-use-mdarray)
 static constexpr char setup[height][width + 1] = {
     "U ###############",
     "V #R#AAA#W# # #C#",

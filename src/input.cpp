@@ -499,10 +499,10 @@ void input_manager::add_gamepad_keycode_pair( int ch, const std::string &name )
     gamepad_keyname_to_keycode[name] = ch;
 }
 
-void input_manager::add_mouse_keycode_pair( const int ch, const std::string &name )
+void input_manager::add_mouse_keycode_pair( const MouseInput mouse_input, const std::string &name )
 {
-    mouse_keycode_to_keyname[ch] = name;
-    mouse_keyname_to_keycode[name] = ch;
+    mouse_keycode_to_keyname[static_cast<int>( mouse_input )] = name;
+    mouse_keyname_to_keycode[name] = static_cast<int>( mouse_input );
 }
 
 static constexpr int char_key_beg = ' ';
@@ -654,11 +654,21 @@ void input_manager::init_keycode_mapping()
     add_gamepad_keycode_pair( JOY_29,        translate_marker_context( "key name", "JOY_29" ) );
     add_gamepad_keycode_pair( JOY_30,        translate_marker_context( "key name", "JOY_30" ) );
 
-    add_mouse_keycode_pair( MOUSE_BUTTON_LEFT,  translate_marker_context( "key name", "MOUSE_LEFT" ) );
-    add_mouse_keycode_pair( MOUSE_BUTTON_RIGHT, translate_marker_context( "key name", "MOUSE_RIGHT" ) );
-    add_mouse_keycode_pair( SCROLLWHEEL_UP,     translate_marker_context( "key name", "SCROLL_UP" ) );
-    add_mouse_keycode_pair( SCROLLWHEEL_DOWN,   translate_marker_context( "key name", "SCROLL_DOWN" ) );
-    add_mouse_keycode_pair( MOUSE_MOVE,         translate_marker_context( "key name", "MOUSE_MOVE" ) );
+    add_mouse_keycode_pair( MouseInput::LeftButtonPressed,
+                            translate_marker_context( "key name", "MOUSE_LEFT_PRESSED" ) );
+    add_mouse_keycode_pair( MouseInput::LeftButtonReleased,
+                            translate_marker_context( "key name", "MOUSE_LEFT" ) );
+    add_mouse_keycode_pair( MouseInput::RightButtonPressed,
+                            translate_marker_context( "key name", "MOUSE_RIGHT_PRESSED" ) );
+    add_mouse_keycode_pair( MouseInput::RightButtonReleased,
+                            translate_marker_context( "key name", "MOUSE_RIGHT" ) );
+    add_mouse_keycode_pair( MouseInput::ScrollWheelUp,
+                            translate_marker_context( "key name", "SCROLL_UP" ) );
+    add_mouse_keycode_pair( MouseInput::ScrollWheelDown,
+                            translate_marker_context( "key name", "SCROLL_DOWN" ) );
+    add_mouse_keycode_pair( MouseInput::Move,
+                            translate_marker_context( "key name", "MOUSE_MOVE" ) );
+
 }
 
 int input_manager::get_keycode( const input_event_t inp_type, const std::string &name ) const
@@ -1373,9 +1383,9 @@ action_id input_context::display_menu( const bool permit_execute_action )
     string_input_popup spopup;
     // ignore hardcoded keys in string input popup
     for( const std::pair<const fallback_action, int> &v : fallback_keys ) {
-        spopup.callbacks[v.second] = []() {
+        spopup.add_callback( v.second, []() {
             return true;
-        };
+        } );
     }
     const auto recalc_size = [&]( ui_adaptor & ui ) {
         int maxwidth = std::max( FULL_SCREEN_WIDTH, TERMX );
@@ -1440,7 +1450,7 @@ action_id input_context::display_menu( const bool permit_execute_action )
     std::string action;
     int raw_input_char = 0;
 
-    const auto redraw = [&]( const ui_adaptor & ) {
+    const auto redraw = [&]( ui_adaptor & ui ) {
         werase( w_help );
         draw_border( w_help, BORDER_COLOR, _( "Keybindings" ), c_light_red );
         draw_scrollbar( w_help, scroll_offset, display_height,
@@ -1485,10 +1495,11 @@ action_id input_context::display_menu( const bool permit_execute_action )
             mvwprintz( w_help, point( 52, i + 10 ), col, "%s", get_desc( action_id ) );
         }
 
-        // spopup.query_string() will call wnoutrefresh( w_help ), and should
-        // be called last to position the cursor at the correct place in the curses build.
+        // spopup.query_string() will call wnoutrefresh( w_help )
         spopup.text( filter_phrase );
         spopup.query_string( false, true );
+        // Record cursor immediately after spopup drawing
+        ui.record_term_cursor();
     };
     ui.on_redraw( redraw );
 
@@ -1725,7 +1736,8 @@ bool gamepad_available()
     return false;
 }
 
-cata::optional<tripoint> input_context::get_coordinates( const catacurses::window &capture_win )
+cata::optional<tripoint> input_context::get_coordinates( const catacurses::window &capture_win,
+        const point &offset, const bool center_cursor ) const
 {
     if( !coordinate_input_received ) {
         return cata::nullopt;
@@ -1738,12 +1750,15 @@ cata::optional<tripoint> input_context::get_coordinates( const catacurses::windo
         return cata::nullopt;
     }
 
-    point view_offset;
-    if( capture_win == g->w_terrain ) {
-        view_offset = g->ter_view_p.xy();
+    point p = coordinate + offset;
+    // If no offset is specified, account for the window location
+    if( offset == point_zero ) {
+        p -= win_min;
     }
-
-    const point p = view_offset - ( view_size / 2 - coordinate );
+    // Some windows (notably the overmap) want 0,0 to be the center of the screen
+    if( center_cursor ) {
+        p -= view_size / 2;
+    }
     return tripoint( p, get_map().get_abs_sub().z() );
 }
 #endif
@@ -1752,8 +1767,12 @@ cata::optional<point> input_context::get_coordinates_text( const catacurses::win
         &capture_win ) const
 {
 #if !defined( TILES )
-    ( void ) capture_win;
-    return cata::nullopt;
+    cata::optional<tripoint> coord3d = get_coordinates( capture_win );
+    if( coord3d.has_value() ) {
+        return get_coordinates( capture_win )->xy();
+    } else {
+        return cata::nullopt;
+    }
 #else
     if( !coordinate_input_received ) {
         return cata::nullopt;

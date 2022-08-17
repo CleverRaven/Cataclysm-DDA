@@ -9,12 +9,22 @@
     "widgets": [ "piktogram", "char_num_block" ]
   },
   {
+    "id": "player_health_and_stasistik_block_sa",
+    "type": "widget",
+    "style": "layout",
+    "label": "1_player_block (self-aware)",
+    "width": 58,
+    "arrange": "minimum_columns",
+    "widgets": [ "piktogram", "char_num_block_sa" ],
+    "flags": [ "W_DISABLED_BY_DEFAULT" ]
+  },
+  {
     "id": "piktogram",
     "type": "widget",
     "style": "layout",
     "arrange": "rows",
     "width": 14,
-    "widgets": [ "spacebar_separator_2", "spacebar_body_graph" ]
+    "widgets": [ "spacebar_separator_2", "spacebar_separator_2", "spacebar_body_graph" ]
   },
   {
     "id": "spacebar_body_graph",
@@ -22,7 +32,7 @@
     "var": "body_graph",
     "style": "text",
     "width": 13,
-    "height": 17
+    "height": 15
   },
   {
     "id": "char_num_block",
@@ -35,9 +45,27 @@
       "spacebar_info_bar",
       "spacebar_filler_hp",
       "spacebar_separator_42",
-      "spacebar_filler_legend",
+      "spacebar_legend_bar_1",
+      "spacebar_legend_bar_2",
       "spacebar_separator_42",
       "spacebar_filler_needs"
+    ]
+  },
+  {
+    "id": "char_num_block_sa",
+    "type": "widget",
+    "style": "layout",
+    "label": "table_3",
+    "width": 44,
+    "arrange": "rows",
+    "widgets": [
+      "spacebar_info_bar",
+      "spacebar_filler_hp_sa",
+      "spacebar_separator_42",
+      "spacebar_legend_bar_1",
+      "spacebar_legend_bar_2",
+      "spacebar_separator_42",
+      "spacebar_filler_needs_sa"
     ]
   },
   {
@@ -45,7 +73,21 @@
     "type": "widget",
     "style": "text",
     "colors": [ "c_dark_gray" ],
-    "string": "=>  ( HP/Status/Encum./Temp./swet )  <="
+    "string": "=>    ( HP/Status/Encum./Temp./swet )   <="
+  },
+  {
+    "id": "spacebar_legend_bar_1",
+    "type": "widget",
+    "style": "text",
+    "colors": [ "c_dark_gray" ],
+    "string": " b bleeding, + bandaged, $ disinfected     "
+  },
+  {
+    "id": "spacebar_legend_bar_2",
+    "type": "widget",
+    "style": "text",
+    "colors": [ "c_dark_gray" ],
+    "string": " = splinted, % broken, B bite, I infected  "
   },
   {
     "id": "spacebar_filler_hp",
@@ -56,6 +98,21 @@
     "widgets": [
       "spacebar_separator_4",
       "spacebar_health_left_layout",
+      "spacebar_bodypart_status_list_layout",
+      "spacebar_encumbrance_layout",
+      "spacebar_warmth_layout",
+      "spacebar_wetness_layout"
+    ]
+  },
+  {
+    "id": "spacebar_filler_hp_sa",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "minimum_columns",
+    "width": 43,
+    "widgets": [
+      "spacebar_separator_4",
+      "spacebar_health_left_layout_sa",
       "spacebar_bodypart_status_list_layout",
       "spacebar_encumbrance_layout",
       "spacebar_warmth_layout",
@@ -77,6 +134,23 @@
       "spacebar_hp_right_arm_graph",
       "spacebar_hp_left_leg_graph",
       "spacebar_hp_right_leg_graph"
+    ]
+  },
+  {
+    "id": "spacebar_health_left_layout_sa",
+    "type": "widget",
+    "style": "layout",
+    "label": "status",
+    "flags": [ "W_LABEL_NONE" ],
+    "arrange": "rows",
+    "width": 12,
+    "widgets": [
+      "hp_head_num_no_label",
+      "hp_torso_num_no_label",
+      "hp_left_arm_num_no_label",
+      "hp_right_arm_num_no_label",
+      "hp_left_leg_num_no_label",
+      "hp_right_leg_num_no_label"
     ]
   },
   {
@@ -403,12 +477,42 @@
     "widgets": [ "spacebar_separator_4", "spacebar_health_layout", "spacebar_stats_layout" ]
   },
   {
+    "id": "spacebar_filler_needs_sa",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "minimum_columns",
+    "width": 43,
+    "widgets": [ "spacebar_separator_4", "spacebar_health_layout_sa", "spacebar_stats_layout" ]
+  },
+  {
     "id": "spacebar_health_layout",
     "type": "widget",
     "style": "layout",
     "arrange": "rows",
     "width": 23,
-    "widgets": [ "hunger_desc_label", "thirst_desc_label", "fatigue_desc_label", "body_temp_desc_label", "pain_desc_label" ]
+    "widgets": [
+      "hunger_desc_label",
+      "thirst_desc_label",
+      "fatigue_desc_label",
+      "body_temp_desc_label",
+      "power_short_desc",
+      "pain_desc_label"
+    ]
+  },
+  {
+    "id": "spacebar_health_layout_sa",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "width": 23,
+    "widgets": [
+      "hunger_desc_label",
+      "thirst_desc_label",
+      "fatigue_desc_label",
+      "body_temp_desc_label",
+      "power_short_desc",
+      "pain_num_label"
+    ]
   },
   {
     "id": "spacebar_stats_layout",
@@ -418,13 +522,7 @@
     "label_align": "right",
     "arrange": "rows",
     "width": 15,
-    "widgets": [ "str_num", "dex_num", "int_num", "per_num", "safe_mode_classic_desc" ]
-  },
-  {
-    "id": "spacebar_filler_legend",
-    "type": "widget",
-    "style": "layout",
-    "widgets": [ "spacebar_bp_status_legend_text" ]
+    "widgets": [ "str_num", "dex_num", "int_num", "per_num", "safe_mode_desc" ]
   },
   {
     "id": "spacebar_bp_status_legend_text",

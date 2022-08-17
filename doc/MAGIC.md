@@ -192,6 +192,7 @@ Spells may have any number of flags, for example:
 | `SPAWN_WITH_DEATH_DROPS` | allows summoned monsters to retain their usual death drops, otherwise they drop nothing
 | `NON_MAGICAL` | ignores spell resistance when calculating damage mitigation
 | `NO_PROJECTILE` | the "projectile" portion of the spell phases through walls. the epicenter of the spell effect is exactly where you target it with no regards to obstacles
+| `NO_EXPLOSION_SFX` | The spell will not generate a visual explosion effect
 
 
 ### Damage Types
@@ -455,6 +456,7 @@ You can assign a spell as a special attack for a monster.  Spells with `target_s
 | `forbidden_effects_all` | Array of effect ids, if the monster has every effect the attack can't trigger.
 | `required_effects_any`  | Array of effect ids, the monster needs any one for the attack to trigger.
 | `required_effects_all`  | Array of effect ids, the monster needs every effect for the attack to trigger.
+| `allow_no_target`       | Bool, default false. If true the monster will cast it even without a hostile target.
 
 ### Enchantments
 | Identifier                  | Description

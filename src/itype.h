@@ -518,10 +518,10 @@ struct islot_book {
      */
     int intel = 0;
     /**
-     * How long in minutes it takes to read.
+     * How long it takes to read.
      * "To read" means getting 1 skill point, not all of them.
      */
-    int time = 0;
+    time_duration time = 0_turns;
     /**
      * Fun books have chapters; after all are read, the book is less fun.
      */
@@ -822,7 +822,7 @@ struct islot_gunmod : common_ranged_data {
     /** Increases base gun UPS consumption by this many times per shot */
     float ups_charges_multiplier = 1.0f;
 
-    /** Increases base gun UPS consumption by this value per shot */
+    /** Increases base gun UPS consumption by this value (kJ) per shot */
     int ups_charges_modifier = 0;
 
     /** Increases base gun ammo to fire by this many times per shot */
@@ -885,6 +885,9 @@ struct islot_magazine {
 
     /** For ammo belts one linkage (of given type) is dropped for each unit of ammo consumed */
     cata::optional<itype_id> linkage;
+
+    /** Map of [magazine type id] -> [set of gun itype_ids that accept the mag type ] */
+    static std::map<itype_id, std::set<itype_id>> compatible_guns;
 };
 
 struct islot_battery {
@@ -1171,13 +1174,18 @@ struct itype {
         // Tool qualities that work only when the tool has charges_to_use charges remaining
         std::map<quality_id, int> charged_qualities;
 
+        // Properties are assigned to the type (belong to the item definition)
         std::map<std::string, std::string> properties;
+
+        // Item vars are loaded from the type, but assigned and de/serialized with the item itself
+        std::map<std::string, std::string> item_variables;
 
         // What we're made of (material names). .size() == made of nothing.
         // First -> the material
         // Second -> the portion of item covered by the material (portion / total portions)
         // MATERIALS WORK IN PROGRESS.
         std::map<material_id, int> materials;
+        std::set<material_id> repairs_with;
 
         // This stores the first inserted material so that it can be used if all materials
         // are equivalent in proportion as a default
@@ -1407,5 +1415,12 @@ struct itype {
 
 void load_charge_removal_blacklist( const JsonObject &jo, const std::string &src );
 void load_charge_migration_blacklist( const JsonObject &jo, const std::string &src );
+// can be removed once all known bad items got fixed
+class known_bad_density
+{
+    public:
+        static std::set<itype_id> known_bad;
+        static void load( const JsonObject &jo );
+};
 
 #endif // CATA_SRC_ITYPE_H

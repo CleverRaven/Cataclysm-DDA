@@ -144,7 +144,8 @@
       [ "halter_top", 30 ],
       [ "iceaxe", 30 ],
       [ "tourist_table", 30 ],
-      [ "fitness_band", 5 ]
+      [ "fitness_band", 5 ],
+      [ "aim_game", 5 ]
     ]
   },
   {
@@ -153,6 +154,19 @@
     "subtype": "collection",
     "container-item": "helmet_bike",
     "items": [ { "item": "plastic_chin_guard", "prob": 50 }, { "item": "shield_visor", "prob": 10 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boat_equipment",
+    "//": "Any items likely to be found in a boat or in any place which has boats.",
+    "items": [
+      { "group": "allsporting", "prob": 50 },
+      { "item": "methanol_fuel_cell", "prob": 1 },
+      { "item": "5l_methanol_tank", "prob": 1 },
+      { "item": "10l_methanol_tank", "prob": 1 },
+      { "item": "28l_methanol_tank", "prob": 1 },
+      { "item": "60l_methanol_tank", "prob": 1 }
+    ]
   },
   {
     "type": "item_group",
@@ -211,7 +225,7 @@
       { "item": "bandolier_wrist", "prob": 100 },
       { "item": "fitness_band", "prob": 10 },
       { "item": "hand_pump", "prob": 10 },
-      { "item": "inflatable_boat", "prob": 4 }
+      { "item": "folded_inflatable_boat", "prob": 4 }
     ]
   },
   {
@@ -227,7 +241,7 @@
       { "item": "misc_repairkit", "prob": 5, "charges-min": 0 },
       { "item": "mess_kit", "prob": 10, "charges": [ 0, 500 ] },
       [ "pot", 20 ],
-      [ "inflatable_boat", 25 ],
+      [ "folded_inflatable_boat", 25 ],
       [ "hand_pump", 5 ],
       [ "pot_copper", 5 ],
       [ "teapot", 5 ],
@@ -288,6 +302,7 @@
       { "item": "ref_lighter", "prob": 10, "charges": [ 0, 50 ] },
       { "item": "matches", "prob": 60, "charges": [ 1, 20 ] },
       { "item": "ref_matches", "prob": 50, "charges": [ 1, 32 ] },
+      { "group": "butane_lighter_and_fuel", "prob": 10 },
       { "item": "sewing_kit", "prob": 47, "charges-min": 0 },
       { "item": "tailors_kit", "prob": 3, "charges-min": 0 },
       [ "thread", 40 ],
@@ -369,7 +384,7 @@
       { "item": "electric_lantern", "prob": 8, "charges": [ 0, 100 ] },
       { "item": "oil_lamp", "prob": 5, "charges-min": 0 },
       { "item": "lamp_oil", "prob": 5, "charges-min": 0 },
-      [ "folding_bicycle", 1 ],
+      [ "folded_bicycle", 1 ],
       [ "coat_rain", 10 ],
       [ "hood_rain", 5 ],
       [ "rubber_harness_dog", 3 ],
@@ -433,7 +448,7 @@
       { "item": "misc_repairkit", "prob": 5, "charges-min": 0 },
       { "item": "mess_kit", "prob": 10, "charges": [ 0, 500 ] },
       [ "pot", 20 ],
-      [ "inflatable_boat", 25 ],
+      [ "folded_inflatable_boat", 25 ],
       [ "hand_pump", 5 ],
       [ "pot_copper", 5 ],
       [ "teapot", 5 ],

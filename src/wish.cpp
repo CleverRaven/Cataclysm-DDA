@@ -117,6 +117,19 @@ class wish_mutate_callback: public uilist_callback
                 mvwprintw( menu->window, point( startx, 3 ),
                            mdata.valid ? _( "Valid" ) : _( "Nonvalid" ) );
 
+                line2++;
+                mvwprintz(
+                    menu->window,
+                    point( startx, line2 ),
+                    c_light_gray,
+                    _( "Id:" )
+                );
+                mvwprintw(
+                    menu->window,
+                    point( startx + 11, line2 ),
+                    mdata.id.str()
+                );
+
                 if( !mdata.prereqs.empty() ) {
                     line2++;
                     mvwprintz( menu->window, point( startx, line2 ), c_light_gray, _( "Prereqs:" ) );

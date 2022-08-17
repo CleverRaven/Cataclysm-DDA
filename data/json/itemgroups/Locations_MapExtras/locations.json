@@ -625,7 +625,7 @@
       { "item": "glowstick", "prob": 60, "charges": 1400 },
       { "item": "handflare", "prob": 40, "charges": 300 },
       [ "hand_pump", 10 ],
-      [ "inflatable_boat", 10 ],
+      [ "folded_inflatable_boat", 10 ],
       [ "grapnel", 40 ],
       [ "fishing_rod_professional", 60 ],
       [ "fishing_rod_basic", 60 ],
@@ -844,6 +844,7 @@
       { "item": "rebar_rail", "prob": 45, "charges-min": 1, "charges-max": 50 },
       [ "pastaextruder", 75 ],
       { "item": "nail", "prob": 300, "charges-min": 1, "charges-max": 15 },
+      { "item": "nuts_bolts", "prob": 60, "charges-min": 5, "charges-max": 30 },
       [ "well_pump", 50 ],
       [ "manhole_cover", 20 ],
       [ "hairpin", 120 ],
@@ -1233,7 +1234,7 @@
       [ "jar_glass_sealed", 80 ],
       { "item": "heroin", "prob": 1, "charges": [ 1, 4 ] },
       { "item": "bleach", "prob": 60, "charges-min": 10 },
-      { "item": "ammonia_liquid", "prob": 60, "charges-min": 10 },
+      { "item": "ammonia_liquid", "prob": 80, "charges-min": 10 },
       { "item": "chem_baking_soda", "prob": 60, "charges-min": 10 },
       [ "syringe", 30 ],
       [ "punch_dagger", 12 ],
@@ -1267,7 +1268,7 @@
       [ "hose", 15 ],
       [ "water_faucet", 20 ],
       [ "screwdriver", 40 ],
-      [ "inflatable_boat", 10 ],
+      [ "folded_inflatable_boat", 10 ],
       [ "hand_pump", 10 ],
       [ "wrench", 30 ],
       [ "pipe", 20 ],
@@ -2018,6 +2019,7 @@
       [ "cookbook", 35 ],
       [ "mask_guy_fawkes", 5 ],
       [ "cookbook_italian", 25 ],
+      [ "cookbook_mexican", 14 ],
       [ "manual_electronics", 20 ],
       [ "decoy_elfa", 5 ],
       [ "manual_tailor", 15 ],
@@ -2106,7 +2108,7 @@
       { "item": "water_clean", "prob": 90, "charges-min": 1, "container-item": "bottle_plastic", "sealed": false },
       { "item": "salt_water", "prob": 30, "charges-min": 1 },
       { "item": "bleach", "prob": 10, "charges-min": 6 },
-      { "item": "ammonia_liquid", "prob": 12, "charges-min": 6 },
+      { "item": "ammonia_liquid", "prob": 30, "charges-min": 6 },
       { "item": "chem_washing_soda", "prob": 10 },
       { "item": "chem_baking_soda", "prob": 10 },
       { "item": "chem_calcium_chloride", "prob": 2 },
@@ -2387,7 +2389,7 @@
       [ "soup_meat", 15 ],
       [ "soup_chicken", 15 ],
       [ "soup_mushroom", 15 ],
-      [ "inflatable_boat", 5 ],
+      [ "folded_inflatable_boat", 5 ],
       [ "hand_pump", 5 ],
       [ "soup_tomato", 15 ],
       [ "soup_dumplings", 15 ],
@@ -2781,6 +2783,7 @@
       [ "sandpaper", 20 ],
       [ "vac_mold", 15 ],
       { "item": "welder", "prob": 10, "charges": [ 0, 500 ] },
+      { "item": "welding_blanket", "prob": 10, "count": [ 0, 1 ] },
       {
         "distribution": [
           { "item": "welding_rod_steel", "prob": 30, "charges": [ 50, 360 ] },
@@ -2801,6 +2804,35 @@
       { "item": "exodiiminimag", "count": [ 2, 20 ], "ammo-item": "123ln", "charges": 10, "prob": 80 },
       { "item": "exodiiBRmag", "count": [ 2, 20 ], "ammo-item": "123ln", "charges": 60, "prob": 100 },
       { "item": "grenade", "count": [ 1, 10 ], "prob": 20 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "nursing_home_clothes",
+    "entries": [
+      {
+        "distribution": [
+          { "item": "jersey", "prob": 5 },
+          { "item": "linuxtshirt", "prob": 5 },
+          { "item": "longshirt", "prob": 20 },
+          { "item": "striped_shirt", "prob": 10 },
+          { "item": "sweater", "prob": 20 },
+          { "item": "sweatshirt", "prob": 20 },
+          { "item": "tshirt", "prob": 10 },
+          { "item": "polo_shirt", "prob": 10 }
+        ]
+      },
+      {
+        "distribution": [
+          { "item": "pants_checkered", "prob": 10 },
+          { "item": "pants", "prob": 40 },
+          { "item": "jeans", "prob": 20 },
+          { "item": "flag_pants", "prob": 5 },
+          { "item": "breeches", "prob": 25 }
+        ]
+      },
+      { "item": "slippers", "prob": 50 }
     ]
   }
 ]

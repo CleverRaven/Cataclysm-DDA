@@ -1150,6 +1150,7 @@
     "color": "white",
     "symbol": "%",
     "description": "A bone from some creature or other.  Could be used to make some stuff, like needles.",
+    "comestible_type": "FOOD",
     "price": 0,
     "price_postapoc": 10,
     "material": [ "bone" ],

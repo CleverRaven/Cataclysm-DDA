@@ -312,6 +312,7 @@
     "copy-from": "mon_gallimimus_juvenile",
     "looks_like": "mon_apatosaurus",
     "default_faction": "herbivore_dino",
+    "aggro_character": false,
     "description": "A huge, four-legged, plant-eating juvenile sauropod with a long neck and tail, it could be from a number of different species.",
     "volume": "1000 L",
     "weight": "1000 kg",
@@ -498,6 +499,16 @@
     "copy-from": "mon_triceratops",
     "hp": 200,
     "upgrades": { "age_grow": 365, "into": "mon_triceratops" },
+    "extend": { "flags": [ "CANPLAY", "NO_BREED" ] }
+  },
+  {
+    "id": "mon_thescelosaurus_juvenile",
+    "type": "MONSTER",
+    "name": "thescelosaurus juvenile",
+    "description": "A two-legged plant-eating dinosaur juvenile with strong arms and a long toothy beak.",
+    "copy-from": "mon_thescelosaurus",
+    "hp": 70,
+    "upgrades": { "age_grow": 60, "into": "mon_thescelosaurus" },
     "extend": { "flags": [ "CANPLAY", "NO_BREED" ] }
   },
   {

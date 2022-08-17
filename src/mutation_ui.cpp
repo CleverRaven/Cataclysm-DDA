@@ -318,13 +318,13 @@ void avatar::power_mutations()
                     resource_unit += _( " fatigue" );
                 }
                 mut_desc += mutation_name( md.id );
-                if( md.cost > 0 && md.cooldown > 0 ) {
-                    mut_desc += string_format( _( " - %d%s / %d turns" ),
-                                               md.cost, resource_unit, md.cooldown );
+                if( md.cost > 0 && md.cooldown > 0_turns ) {
+                    mut_desc += string_format( _( " - %d%s / %s" ),
+                                               md.cost, resource_unit, to_string_clipped( md.cooldown ) );
                 } else if( md.cost > 0 ) {
                     mut_desc += string_format( _( " - %d%s" ), md.cost, resource_unit );
-                } else if( md.cooldown > 0 ) {
-                    mut_desc += string_format( _( " - %d turns" ), md.cooldown );
+                } else if( md.cooldown > 0_turns ) {
+                    mut_desc += string_format( _( " - %s" ), to_string_clipped( md.cooldown ) );
                 }
                 if( td.powered ) {
                     mut_desc += _( " - Active" );

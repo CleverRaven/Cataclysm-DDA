@@ -7,7 +7,7 @@
     "symbol": ">",
     "color": "light_red",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "GOES_DOWN", "PLACE_ITEM" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "GOES_DOWN", "PLACE_ITEM", "SUPPORTS_ROOF" ],
     "bash": {
       "str_min": 10,
       "str_max": 70,
@@ -113,7 +113,7 @@
     "color": "yellow",
     "move_cost": 2,
     "roof": "t_flat_roof",
-    "flags": [ "TRANSPARENT", "GOES_DOWN", "INDOORS", "PLACE_ITEM" ]
+    "flags": [ "TRANSPARENT", "GOES_DOWN", "INDOORS", "PLACE_ITEM", "SUPPORTS_ROOF" ]
   },
   {
     "type": "terrain",

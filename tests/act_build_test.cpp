@@ -208,8 +208,7 @@ void run_test_case( Character &u )
             setup_testcase( u, "constr_door", tri_window, tripoint_bub_ms() );
         here.ter_set( tri_window, ter_id( build.pre_terrain ) );
         REQUIRE( u.sees( tri_window ) );
-        // TODO: fix point types
-        REQUIRE( route_adjacent( u, tri_window.raw() ).empty() );
+        REQUIRE( route_adjacent( u, tri_window ).empty() );
         run_activities( u, build.time * 10 );
         REQUIRE( here.ter( tri_window ) == ter_id( build.pre_terrain ) );
     }

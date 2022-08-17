@@ -473,7 +473,6 @@ class time_point
         // TODO: make private
         explicit constexpr time_point( const int t ) : turn_( t ) { }
 
-    public:
         // TODO: remove this, nobody should need it, one should use a constant `time_point`
         // (representing turn 0) and a `time_duration` instead.
         static constexpr time_point from_turn( const int t ) {
@@ -610,7 +609,7 @@ bool is_dusk( const time_point &p );
 /** Returns true if it's currently dawn - between sunrise and twilight_duration after sunrise. */
 bool is_dawn( const time_point &p );
 /** How much light is provided in full daylight */
-double default_daylight_level();
+float default_daylight_level();
 /** Returns the current sunlight.
  *  Based entirely on astronomical circumstances; does not account for e.g.
  *  weather.
@@ -622,7 +621,7 @@ float sun_light_at( const time_point &p );
  *  weather. */
 float sun_moon_light_at( const time_point &p );
 /** How much light is provided at the solar noon nearest to given time */
-double sun_moon_light_at_noon_near( const time_point &p );
+float sun_moon_light_at_noon_near( const time_point &p );
 
 std::pair<units::angle, units::angle> sun_azimuth_altitude( time_point );
 

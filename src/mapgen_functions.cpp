@@ -35,6 +35,7 @@
 #include "trap.h"
 #include "vehicle_group.h"
 #include "weighted_list.h"
+#include "creature_tracker.h"
 
 static const item_group_id Item_spawn_data_field( "field" );
 static const item_group_id Item_spawn_data_forest_trail( "forest_trail" );
@@ -3235,8 +3236,15 @@ void mremove_trap( map *m, const point &p, trap_id type )
     }
 }
 
-void mtrap_set( map *m, const point &p, trap_id type )
+void mtrap_set( map *m, const point &p, trap_id type, bool avoid_creatures )
 {
+    if( avoid_creatures ) {
+        Creature *c = get_creature_tracker().creature_at( tripoint_abs_ms( m->getabs( tripoint( p,
+                      m->get_abs_sub().z() ) ) ), true );
+        if( c ) {
+            return;
+        }
+    }
     tripoint actual_location( p, m->get_abs_sub().z() );
     m->trap_set( actual_location, type );
 }

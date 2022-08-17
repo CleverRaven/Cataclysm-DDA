@@ -600,7 +600,7 @@ construction_id construction_menu( const bool blueprint )
     } );
     ui.mark_resize();
 
-    ui.on_redraw( [&]( const ui_adaptor & ) {
+    ui.on_redraw( [&]( ui_adaptor & ui ) {
         draw_grid( w_con, w_list_width + w_list_x0 );
 
         // Erase existing tab selection & list of constructions
@@ -612,7 +612,6 @@ construction_id construction_menu( const bool blueprint )
         // Determine where in the master list to start printing
         calcStartPos( offset, select, w_list_height, constructs.size() );
         // Print the constructions between offset and max (or how many will fit)
-        cata::optional<point> cursor_pos;
         for( size_t i = 0; static_cast<int>( i ) < w_list_height &&
              ( i + offset ) < constructs.size(); i++ ) {
             int current = i + offset;
@@ -620,7 +619,7 @@ construction_id construction_menu( const bool blueprint )
             bool highlight = current == select;
             const point print_from( 0, i );
             if( highlight ) {
-                cursor_pos = print_from;
+                ui.set_cursor( w_list, print_from );
             }
             trim_and_print( w_list, print_from, w_list_width,
                             construction_color( group, highlight ), group->name() );
@@ -652,8 +651,8 @@ construction_id construction_menu( const bool blueprint )
                                 _( "Press [<color_yellow>%s</color>] to show previous stage(s)." ),
                                 ctxt.get_desc( "SCROLL_STAGE_UP" ) );
             }
-            if( static_cast<size_t>( construct_buffer_breakpoints[current_construct_breakpoint] +
-                                     available_buffer_height ) < full_construct_buffer.size() ) {
+            if( static_cast<size_t>( construct_buffer_breakpoints[current_construct_breakpoint] ) +
+                available_buffer_height < full_construct_buffer.size() ) {
                 // Print next stage indicator if more breakpoints are remaining after screen height
                 trim_and_print( w_con, point( pos_x, w_height - 2 - static_cast<int>( notes.size() ) ),
                                 available_window_width, c_white,
@@ -677,10 +676,6 @@ construction_id construction_menu( const bool blueprint )
         draw_scrollbar( w_con, select, w_list_height, constructs.size(), point( 0, 3 ) );
         wnoutrefresh( w_con );
 
-        // place the cursor at the selected construction name as expected by screen readers
-        if( cursor_pos ) {
-            wmove( w_list, cursor_pos.value() );
-        }
         wnoutrefresh( w_list );
     } );
 
@@ -1071,7 +1066,7 @@ void place_construction( const construction_group_str_id &group )
         player_character.consume_tools( it );
     }
     player_character.assign_activity( ACT_BUILD );
-    player_character.activity.placement = here.getabs( pnt );
+    player_character.activity.placement = here.getglobal( pnt );
 }
 
 void complete_construction( Character *you )
@@ -1882,9 +1877,7 @@ void load_construction( const JsonObject &jo )
     }
 
     con.category = construction_category_id( jo.get_string( "category", "OTHER" ) );
-    if( jo.has_int( "time" ) ) {
-        con.time = to_moves<int>( time_duration::from_minutes( jo.get_int( "time" ) ) );
-    } else if( jo.has_string( "time" ) ) {
+    if( jo.has_string( "time" ) ) {
         con.time = to_moves<int>( read_from_json_string<time_duration>( jo.get_member( "time" ),
                                   time_duration::units ) );
     }
@@ -1916,8 +1909,14 @@ void load_construction( const JsonObject &jo )
         con.post_is_furniture = true;
     }
 
-    con.activity_level =
-        activity_levels_map.find( jo.get_string( "activity_level", "MODERATE_EXERCISE" ) )->second;
+    std::string activity_level = jo.get_string( "activity_level", "MODERATE_EXERCISE" );
+    const auto activity_it = activity_levels_map.find( activity_level );
+    if( activity_it != activity_levels_map.end() ) {
+        con.activity_level = activity_it->second;
+    } else {
+        jo.throw_error( string_format( "Invalid activity level %s in construction %s", activity_level,
+                                       con.str_id.str() ) );
+    }
 
     if( jo.has_member( "pre_flags" ) ) {
         con.pre_flags.clear();

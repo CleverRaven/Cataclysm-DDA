@@ -35,7 +35,7 @@
       [ [ "motor_small", 1 ] ],
       [ [ "well_pump", 2 ] ],
       [ [ "power_supply", 1 ] ],
-      [ [ "cable", 40 ] ],
+      [ [ "cable", 30 ] ],
       [ [ "engine_block_tiny", 1 ] ],
       [ [ "metal_tank_little", 1 ] ],
       [ [ "motor_oil", 900 ] ]
@@ -53,13 +53,11 @@
       [ [ "drivebelt", 2 ] ],
       [ [ "filter_air", 1 ] ],
       [ [ "filter_liquid", 1 ] ],
-      [ [ "motor_small", 1 ] ],
+      [ [ "motor_tiny", 1 ] ],
       [ [ "well_pump", 2 ] ],
       [ [ "power_supply", 1 ] ],
-      [ [ "cable", 40 ] ],
-      [ [ "engine_block_tiny", 1 ] ],
-      [ [ "metal_tank_little", 1 ] ],
-      [ [ "motor_oil", 650 ] ]
+      [ [ "cable", 20 ] ],
+      [ [ "motor_oil", 350 ] ]
     ]
   },
   {
@@ -122,7 +120,7 @@
       [ [ "well_pump", 2 ] ],
       [ [ "power_supply", 1 ] ],
       [ [ "cable", 40 ] ],
-      [ [ "engine_block_tiny", 1 ] ],
+      [ [ "engine_block_small", 1 ] ],
       [ [ "metal_tank_little", 1 ] ],
       [ [ "motor_oil", 2200 ] ]
     ]

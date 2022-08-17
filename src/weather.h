@@ -101,17 +101,20 @@ std::string weather_forecast( const point_abs_sm &abs_sm_pos );
 // If scale is Fahrenheit: temperature(100) will return "100F"
 //
 // Use the decimals parameter to set number of decimal places returned in string.
-std::string print_temperature( double fahrenheit, int decimals = 0 );
+std::string print_temperature( units::temperature temperature, int decimals = 0 );
 std::string print_humidity( double humidity, int decimals = 0 );
 std::string print_pressure( double pressure, int decimals = 0 );
 
-// Return windchill offset in degrees F, starting from given temperature, humidity and wind
-int get_local_windchill( double temperature_f, double humidity, double wind_mph );
+// Returns temperature delta caused by windchill at given temperature, humidity and wind
+units::temperature get_local_windchill( units::temperature temperature, double humidity,
+                                        double wind_mph );
 
 int get_local_humidity( double humidity, const weather_type_id &weather, bool sheltered = false );
-double get_local_windpower( double windpower, const oter_id &omter, const tripoint &location,
-                            const int &winddirection,
-                            bool sheltered = false );
+
+// Returns windspeed (mph) after being modified by local cover
+int get_local_windpower( int windpower, const oter_id &omter, const tripoint &location,
+                         const int &winddirection,
+                         bool sheltered = false );
 weather_sum sum_conditions( const time_point &start,
                             const time_point &end,
                             const tripoint &location );
@@ -154,8 +157,8 @@ void glare( const weather_type_id &w );
  * Amount of sunlight incident at the ground, taking weather and time of day
  * into account.
  */
-int incident_sunlight( const weather_type_id &wtype,
-                       const time_point &t = calendar::turn );
+float incident_sunlight( const weather_type_id &wtype,
+                         const time_point &t = calendar::turn );
 
 void weather_sound( const translation &sound_message, const std::string &sound_effect );
 
@@ -167,7 +170,7 @@ class weather_manager
         // Updates the temperature and weather patten
         void update_weather();
         // The air temperature
-        int temperature = 0;
+        units::temperature temperature = 0_K;
         bool lightning_active = false;
         // Weather pattern
         weather_type_id weather_id = WEATHER_NULL;
@@ -183,11 +186,11 @@ class weather_manager
         // The time at which weather will shift next.
         time_point nextweather;
         /** temperature cache, cleared every turn, sparse map of map tripoints to temperatures */
-        std::unordered_map< tripoint, int > temperature_cache;
-        // Returns outdoor or indoor temperature of given location (in absolute (@ref map::getabs))
-        int get_temperature( const tripoint &location );
+        std::unordered_map< tripoint, units::temperature > temperature_cache;
         // Returns outdoor or indoor temperature of given location
-        int get_temperature( const tripoint_abs_omt &location );
+        units::temperature get_temperature( const tripoint &location );
+        // Returns outdoor or indoor temperature of given location
+        units::temperature get_temperature( const tripoint_abs_omt &location ) const;
         void clear_temp_cache();
         static void unserialize_all( JsonIn &jsin );
 };

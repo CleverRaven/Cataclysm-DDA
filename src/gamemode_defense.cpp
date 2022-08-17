@@ -115,7 +115,7 @@ defense_game::defense_game()
 bool defense_game::init()
 {
     calendar::turn = calendar::turn_zero + 12_hours; // Start at noon
-    get_weather().temperature = 65;
+    get_weather().temperature = units::from_fahrenheit( 65 );
     avatar &player_character = get_avatar();
     if( !player_character.create( character_type::CUSTOM ) ) {
         return false;
@@ -876,7 +876,7 @@ std::string defense_location_description( defense_location location )
     return "Unknown data bug.  (defense.cpp:defense_location_description)";
 }
 
-void defense_game::caravan()
+void defense_game::caravan() const
 {
     std::vector<itype_id> items[NUM_CARAVAN_CATEGORIES];
     std::vector<int> item_count[NUM_CARAVAN_CATEGORIES];
@@ -1344,7 +1344,7 @@ void defense_game::spawn_wave()
     add_msg( m_info, "********" );
 }
 
-std::vector<mtype_id> defense_game::pick_monster_wave()
+std::vector<mtype_id> defense_game::pick_monster_wave() const
 {
     std::vector<mongroup_id> valid;
     std::vector<mtype_id> ret;

@@ -252,7 +252,7 @@ void Character::switch_mutations( const trait_id &switched, const trait_id &targ
     my_mutations[target].powered = start_powered;
 }
 
-bool Character::can_power_mutation( const trait_id &mut )
+bool Character::can_power_mutation( const trait_id &mut ) const
 {
     bool hunger = mut->hunger && get_kcal_percent() < 0.5f;
     bool thirst = mut->thirst && get_thirst() >= 260;
@@ -537,7 +537,7 @@ bool Character::has_active_mutation( const trait_id &b ) const
     return iter != my_mutations.end() && iter->second.powered;
 }
 
-int Character::get_cost_timer( const trait_id &mut ) const
+time_duration Character::get_cost_timer( const trait_id &mut ) const
 {
     const auto iter = my_mutations.find( mut );
     if( iter != my_mutations.end() ) {
@@ -545,10 +545,10 @@ int Character::get_cost_timer( const trait_id &mut ) const
     } else {
         debugmsg( "Tried to get cost timer of %s but doesn't have this mutation.", mut.c_str() );
     }
-    return 0;
+    return 0_turns;
 }
 
-void Character::set_cost_timer( const trait_id &mut, int set )
+void Character::set_cost_timer( const trait_id &mut, time_duration set )
 {
     const auto iter = my_mutations.find( mut );
     if( iter != my_mutations.end() ) {
@@ -558,7 +558,7 @@ void Character::set_cost_timer( const trait_id &mut, int set )
     }
 }
 
-void Character::mod_cost_timer( const trait_id &mut, int mod )
+void Character::mod_cost_timer( const trait_id &mut, time_duration mod )
 {
     set_cost_timer( mut, get_cost_timer( mut ) + mod );
 }
@@ -673,13 +673,13 @@ void Character::activate_mutation( const trait_id &mut )
                            mutation_name( mut ) );
         return;
     }
-    if( tdata.powered && tdata.charge > 0 ) {
+    if( tdata.powered && tdata.charge > 0_turns ) {
         // Already-on units just lose a bit of charge
-        tdata.charge--;
+        tdata.charge -= 1_turns;
     } else {
         // Not-on units, or those with zero charge, have to pay the power cost
-        if( mdata.cooldown > 0 ) {
-            tdata.charge = mdata.cooldown - 1;
+        if( mdata.cooldown > 0_turns ) {
+            tdata.charge = mdata.cooldown - 1_turns;
         }
         if( mdata.hunger ) {
             // burn some energy
@@ -2059,7 +2059,7 @@ void Character::customize_appearance( customize_appearance_choice choice )
 std::string Character::visible_mutations( const int visibility_cap ) const
 {
     const std::vector<trait_id> &my_muts = get_mutations();
-    const std::string trait_str = enumerate_as_string( my_muts.begin(), my_muts.end(),
+    return enumerate_as_string( my_muts.begin(), my_muts.end(),
     [this, visibility_cap ]( const trait_id & pr ) -> std::string {
         const mutation_branch &mut_branch = pr.obj();
         // Finally some use for visibility trait of mutations
@@ -2070,6 +2070,5 @@ std::string Character::visible_mutations( const int visibility_cap ) const
 
         return std::string();
     } );
-    return trait_str;
 }
 

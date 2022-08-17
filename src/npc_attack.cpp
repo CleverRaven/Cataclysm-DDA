@@ -390,7 +390,9 @@ void npc_attack_gun::use( npc &source, const tripoint &location ) const
     }
 
     if( !gun.ammo_sufficient( &source ) ) {
-        source.do_reload( gun );
+        // todo: make gun an item_location instead of getting wielded item here
+        // but since wielding is required before this, it should be fine
+        source.do_reload( source.get_wielded_item() );
         add_msg_debug( debugmode::debug_filter::DF_NPC, "%s is reloading %s", source.disp_name(),
                        gun.display_name() );
         return;

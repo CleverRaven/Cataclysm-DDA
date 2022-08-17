@@ -1048,6 +1048,12 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
                                   critter->get_armor_bash( bodypart_id( "torso" ) );
                 dam = std::max( 0, dam - armor );
                 critter->apply_damage( driver, bodypart_id( "torso" ), dam );
+                if( part_flag( ret.part, "SHARP" ) ) {
+                    critter->make_bleed( effect_source( driver ), bodypart_id( "torso" ), 1_minutes * rng( 1, dam ) );
+                } else if( dam > 18 && rng( 1, 20 ) > 15 ) {
+                    //low chance of lighter bleed even with non sharp objects.
+                    critter->make_bleed( effect_source( driver ), bodypart_id( "torso" ), 1_minutes );
+                }
                 add_msg_debug( debugmode::DF_VEHICLE_MOVE, "Critter collision damage: %d", dam );
             }
 
@@ -1300,7 +1306,7 @@ bool vehicle::check_is_heli_landed()
     return false;
 }
 
-bool vehicle::check_heli_descend( Character &p )
+bool vehicle::check_heli_descend( Character &p ) const
 {
     if( !is_rotorcraft() ) {
         debugmsg( "A vehicle is somehow flying without being an aircraft" );
@@ -1335,7 +1341,7 @@ bool vehicle::check_heli_descend( Character &p )
 
 }
 
-bool vehicle::check_heli_ascend( Character &p )
+bool vehicle::check_heli_ascend( Character &p ) const
 {
     if( !is_rotorcraft() ) {
         debugmsg( "A vehicle is somehow flying without being an aircraft" );
@@ -1990,7 +1996,7 @@ void vehicle::check_falling_or_floating()
     }
     // If half of the wheels are supported, we're not falling and we're not in water.
     if( supported_wheels > 0 &&
-        static_cast<size_t>( supported_wheels * 2 ) >= wheelcache.size() ) {
+        static_cast<size_t>( supported_wheels ) * 2 >= wheelcache.size() ) {
         is_falling = false;
         in_water = false;
         is_floating = false;

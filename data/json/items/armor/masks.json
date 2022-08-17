@@ -145,7 +145,7 @@
     "warmth": 10,
     "material_thickness": 4,
     "environmental_protection": 1,
-    "flags": [ "WATER_FRIENDLY", "STURDY" ],
+    "flags": [ "WATER_FRIENDLY", "STURDY", "PADDED" ],
     "armor": [ { "encumbrance": 20, "coverage": 100, "covers": [ "eyes", "mouth" ] } ]
   },
   {
@@ -315,7 +315,6 @@
     "warmth": 8,
     "material_thickness": 0.5,
     "environmental_protection": 1,
-    "flags": [ "HELMET_COMPAT" ],
     "armor": [ { "encumbrance": 8, "coverage": 90, "covers": [ "head", "mouth" ] } ]
   },
   {

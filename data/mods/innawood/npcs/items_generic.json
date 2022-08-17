@@ -36,42 +36,42 @@
   {
     "type": "item_group",
     "id": "npc_pants_male",
-    "items": [ [ "null", 80 ], [ "pants_leather", 20 ] ]
+    "items": [ [ "null", 50 ], [ "pants_leather", 10 ], [ "skirt_leather", 10 ], [ "skirt_grass", 20 ] ]
   },
   {
     "type": "item_group",
     "id": "npc_pants_female",
-    "items": [ [ "null", 80 ], [ "pants_leather", 20 ], [ "skirt_leather", 20 ] ]
+    "items": [ [ "null", 50 ], [ "pants_leather", 10 ], [ "skirt_leather", 20 ], [ "skirt_grass", 30 ] ]
   },
   {
     "type": "item_group",
     "id": "npc_shirt_male",
-    "items": [ [ "null", 80 ] ]
+    "items": [ [ "null", 70 ], [ "shirt_straw", 30 ] ]
   },
   {
     "type": "item_group",
     "id": "npc_shirt_female",
-    "items": [ [ "null", 80 ] ]
+    "items": [ [ "null", 70 ], [ "shirt_straw", 30 ] ]
   },
   {
     "type": "item_group",
     "id": "npc_gloves",
-    "items": [ [ "null", 80 ], [ "gloves_leather", 20 ] ]
+    "items": [ [ "null", 70 ], [ "gloves_leather", 10 ], [ "gloves_wraps_leather", 20 ] ]
   },
   {
     "type": "item_group",
     "id": "npc_coat",
-    "items": [ [ "null", 80 ], [ "jacket_leather", 20 ] ]
+    "items": [ [ "null", 40 ], [ "grass_cloak", 30 ], [ "cloak_leather", 10 ], [ "cloak_fur", 10 ] ]
   },
   {
     "type": "item_group",
     "id": "npc_shoes_male",
-    "items": [ [ "null", 80 ], [ "leathersandals", 5 ] ]
+    "items": [ [ "null", 50 ], [ "leathersandals", 5 ], [ "footrags_leather", 15 ], [ "footrags_fur", 15 ] ]
   },
   {
     "type": "item_group",
     "id": "npc_shoes_female",
-    "items": [ [ "null", 80 ], [ "leathersandals", 5 ] ]
+    "items": [ [ "null", 50 ], [ "leathersandals", 5 ], [ "footrags_leather", 15 ], [ "footrags_fur", 15 ] ]
   },
   {
     "type": "item_group",
@@ -91,7 +91,7 @@
   {
     "type": "item_group",
     "id": "npc_hat",
-    "items": [ [ "null", 40 ], [ "straw_hat", 5 ] ]
+    "items": [ [ "null", 40 ], [ "straw_hat", 5 ], [ "grass_keffiyeh", 10 ] ]
   },
   {
     "type": "item_group",
@@ -106,7 +106,7 @@
   {
     "type": "item_group",
     "id": "npc_storage",
-    "items": [ [ "null", 10 ] ]
+    "items": [ { "item": "null", "prob": 50 }, { "group": "pottery", "prob": 25 }, { "item": "wicker_backpack", "prob": 50 } ]
   },
   {
     "type": "item_group",
@@ -126,7 +126,7 @@
   {
     "type": "item_group",
     "id": "npc_stabbing",
-    "items": [ [ "null", 50 ] ]
+    "items": [ [ "null", 50 ], [ "primitive_knife", 50 ] ]
   },
   {
     "type": "item_group",
@@ -136,7 +136,7 @@
   {
     "type": "item_group",
     "id": "npc_archery",
-    "items": [ [ "null", 50 ] ]
+    "items": [ [ "selfbow", 50 ] ]
   },
   {
     "type": "item_group",

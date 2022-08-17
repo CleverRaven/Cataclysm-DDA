@@ -33,6 +33,8 @@ static const event_statistic_id event_statistic_first_omt( "first_omt" );
 static const event_statistic_id
 event_statistic_last_oter_type_avatar_entered( "last_oter_type_avatar_entered" );
 static const event_statistic_id
+event_statistic_num_avatar_enters_lab_finale( "num_avatar_enters_lab_finale" );
+static const event_statistic_id
 event_statistic_num_avatar_monster_kills( "num_avatar_monster_kills" );
 static const event_statistic_id
 event_statistic_num_avatar_zombie_kills( "num_avatar_zombie_kills" );
@@ -361,6 +363,19 @@ TEST_CASE( "stats_tracker_with_event_statistics", "[stats]" )
         b.send<event_type::character_wields_item>( u_id, itype_crowbar );
         CHECK( event_statistic_first_omt->value( s ) == cata_variant( tripoint_zero ) );
         CHECK( event_statistic_avatar_last_item_wielded->value( s ) == cata_variant( itype_crowbar ) );
+    }
+
+    SECTION( "equals_any" ) {
+        const oter_id lab_finale( "lab_finale" );
+        const oter_id central_lab_finale( "central_lab_finale" );
+        send_game_start( b, u_id );
+        CHECK( event_statistic_num_avatar_enters_lab_finale->value( s ) == cata_variant( 0 ) );
+        b.send<event_type::avatar_enters_omt>( tripoint_zero, lab_finale );
+        CHECK( event_statistic_num_avatar_enters_lab_finale->value( s ) == cata_variant( 1 ) );
+
+        calendar::turn += 1_minutes;
+        b.send<event_type::avatar_enters_omt>( tripoint_below, central_lab_finale );
+        CHECK( event_statistic_num_avatar_enters_lab_finale->value( s ) == cata_variant( 2 ) );
     }
 
     SECTION( "invalid_values_filtered_out" ) {

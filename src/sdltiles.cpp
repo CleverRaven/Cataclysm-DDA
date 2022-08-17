@@ -107,7 +107,9 @@ static const trait_id trait_DEBUG_NIGHTVISION( "DEBUG_NIGHTVISION" );
 //***********************************
 
 static tileset_cache ts_cache;
-std::unique_ptr<cata_tiles> tilecontext;
+std::shared_ptr<cata_tiles> tilecontext;
+std::shared_ptr<cata_tiles> closetilecontext;
+std::shared_ptr<cata_tiles> fartilecontext;
 std::unique_ptr<cata_tiles> overmap_tilecontext;
 static uint32_t lastupdate = 0;
 static uint32_t interval = 25;
@@ -1436,7 +1438,6 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
         for( const auto &iter : overlay_strings ) {
             const point coord = iter.first;
             const formatted_text ft = iter.second;
-            const utf8_wrapper text( ft.text );
 
             // Strings at equal coords are displayed sequentially.
             if( coord != prev_coord ) {
@@ -1460,7 +1461,7 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
             }
 
             int width = 0;
-            for( size_t i = 0; i < text.size(); ++i ) {
+            for( const char32_t ch : utf8_view( ft.text ) ) {
                 const point p0( win->pos.x * fontwidth, win->pos.y * fontheight );
                 const point p( coord + p0 + point( ( x_offset - alignment_offset + width ) * map_font->width, 0 ) );
 
@@ -1471,7 +1472,6 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
                 }
 
                 // TODO: draw with outline / BG color for better readability
-                const uint32_t ch = text.at( i );
                 map_font->OutputChar( renderer, geometry, utf32_to_utf8( ch ), p, ft.color );
                 width += mk_wcwidth( ch );
             }
@@ -3227,26 +3227,37 @@ static void CheckMessages()
                     }
 
                     // Only monitor motion when cursor is visible
-                    last_input = input_event( MOUSE_MOVE, input_event_t::mouse );
+                    last_input = input_event( MouseInput::Move, input_event_t::mouse );
+                }
+                break;
+
+            case SDL_MOUSEBUTTONDOWN:
+                switch( ev.button.button ) {
+                    case SDL_BUTTON_LEFT:
+                        last_input = input_event( MouseInput::LeftButtonPressed, input_event_t::mouse );
+                        break;
+                    case SDL_BUTTON_RIGHT:
+                        last_input = input_event( MouseInput::RightButtonPressed, input_event_t::mouse );
+                        break;
                 }
                 break;
 
             case SDL_MOUSEBUTTONUP:
                 switch( ev.button.button ) {
                     case SDL_BUTTON_LEFT:
-                        last_input = input_event( MOUSE_BUTTON_LEFT, input_event_t::mouse );
+                        last_input = input_event( MouseInput::LeftButtonReleased, input_event_t::mouse );
                         break;
                     case SDL_BUTTON_RIGHT:
-                        last_input = input_event( MOUSE_BUTTON_RIGHT, input_event_t::mouse );
+                        last_input = input_event( MouseInput::RightButtonReleased, input_event_t::mouse );
                         break;
                 }
                 break;
 
             case SDL_MOUSEWHEEL:
                 if( ev.wheel.y > 0 ) {
-                    last_input = input_event( SCROLLWHEEL_UP, input_event_t::mouse );
+                    last_input = input_event( MouseInput::ScrollWheelUp, input_event_t::mouse );
                 } else if( ev.wheel.y < 0 ) {
-                    last_input = input_event( SCROLLWHEEL_DOWN, input_event_t::mouse );
+                    last_input = input_event( MouseInput::ScrollWheelDown, input_event_t::mouse );
                 }
                 break;
 
@@ -3594,13 +3605,30 @@ void catacurses::init_interface()
     WinCreate();
 
     dbg( D_INFO ) << "Initializing SDL Tiles context";
-    tilecontext = std::make_unique<cata_tiles>( renderer, geometry, ts_cache );
+    fartilecontext = std::make_shared<cata_tiles>( renderer, geometry, ts_cache );
+    if( use_far_tiles ) {
+        try {
+            // Disable UIs below to avoid accessing the tile context during loading.
+            ui_adaptor dummy( ui_adaptor::disable_uis_below{} );
+            fartilecontext->load_tileset( get_option<std::string>( "DISTANT_TILES" ),
+                                          /*precheck=*/true, /*force=*/false,
+                                          /*pump_events=*/true );
+        } catch( const std::exception &err ) {
+            dbg( D_ERROR ) << "failed to check for tileset: " << err.what();
+            // use_tiles is the cached value of the USE_TILES option.
+            // most (all?) code refers to this to see if cata_tiles should be used.
+            // Setting it to false disables this from getting used.
+            use_far_tiles = false;
+        }
+    }
+    closetilecontext = std::make_shared<cata_tiles>( renderer, geometry, ts_cache );
     try {
         // Disable UIs below to avoid accessing the tile context during loading.
-        ui_adaptor dummy( ui_adaptor::disable_uis_below {} );
-        tilecontext->load_tileset( get_option<std::string>( "TILES" ),
-                                   /*precheck=*/true, /*force=*/false,
-                                   /*pump_events=*/true );
+        ui_adaptor dummy( ui_adaptor::disable_uis_below{} );
+        closetilecontext->load_tileset( get_option<std::string>( "TILES" ),
+                                        /*precheck=*/true, /*force=*/false,
+                                        /*pump_events=*/true );
+        tilecontext = closetilecontext;
     } catch( const std::exception &err ) {
         dbg( D_ERROR ) << "failed to check for tileset: " << err.what();
         // use_tiles is the cached value of the USE_TILES option.
@@ -3653,9 +3681,15 @@ void load_tileset()
     if( !tilecontext || !use_tiles ) {
         return;
     }
-    tilecontext->load_tileset( get_option<std::string>( "TILES" ),
-                               /*precheck=*/false, /*force=*/false,
-                               /*pump_events=*/true );
+    closetilecontext->load_tileset( get_option<std::string>( "TILES" ),
+                                    /*precheck=*/false, /*force=*/false,
+                                    /*pump_events=*/true );
+    if( use_far_tiles ) {
+        fartilecontext->load_tileset( get_option<std::string>( "DISTANT_TILES" ),
+                                      /*precheck=*/false, /*force=*/false,
+                                      /*pump_events=*/true );
+    }
+    tilecontext = closetilecontext;
     tilecontext->do_tile_loading_report();
 
     if( overmap_tilecontext ) {
@@ -3670,6 +3704,8 @@ void load_tileset()
 void catacurses::endwin()
 {
     tilecontext.reset();
+    closetilecontext.reset();
+    fartilecontext.reset();
     overmap_tilecontext.reset();
     font.reset();
     map_font.reset();
@@ -3791,6 +3827,14 @@ bool gamepad_available()
 
 void rescale_tileset( int size )
 {
+    // zoom is calculated as powers of 2 so need to convert swap zoom between 4 and 64
+    if( size <= pow( 2, get_option<int>( "SWAP_ZOOM" ) + 1 ) && use_far_tiles ) {
+        tilecontext = fartilecontext;
+        g->mark_main_ui_adaptor_resize();
+    } else {
+        tilecontext = closetilecontext;
+        g->mark_main_ui_adaptor_resize();
+    }
     tilecontext->set_draw_scale( size );
 }
 
@@ -3853,8 +3897,12 @@ window_dimensions get_window_dimensions( const point &pos, const point &size )
     return get_window_dimensions( {}, pos, size );
 }
 
-cata::optional<tripoint> input_context::get_coordinates( const catacurses::window &capture_win_ )
+cata::optional<tripoint> input_context::get_coordinates( const catacurses::window &capture_win_,
+        const point &offset, const bool center_cursor ) const
 {
+    // This information is required by curses, but is not (currently) used in SDL
+    ( void ) center_cursor;
+
     if( !coordinate_input_received ) {
         return cata::nullopt;
     }
@@ -3875,11 +3923,6 @@ cata::optional<tripoint> input_context::get_coordinates( const catacurses::windo
         return cata::nullopt;
     }
 
-    point view_offset;
-    if( capture_win == g->w_terrain ) {
-        view_offset = g->ter_view_p.xy();
-    }
-
     const point screen_pos = coordinate - win_min;
     point p;
     if( tile_iso && use_tiles ) {
@@ -3888,10 +3931,10 @@ cata::optional<tripoint> input_context::get_coordinates( const catacurses::windo
         const int screen_col = std::round( ( screen_pos.x - win_mid_x ) / ( fw / 2.0 ) );
         const int screen_row = std::round( ( screen_pos.y - win_mid_y ) / ( fw / 4.0 ) );
         const point selected( ( screen_col - screen_row ) / 2, ( screen_row + screen_col ) / 2 );
-        p = view_offset + selected;
+        p = offset + selected;
     } else {
         const point selected( screen_pos.x / fw, screen_pos.y / fh );
-        p = view_offset + selected - dim.window_size_cell / 2;
+        p = offset + selected - dim.window_size_cell / 2;
     }
 
     return tripoint( p, get_map().get_abs_sub().z() );

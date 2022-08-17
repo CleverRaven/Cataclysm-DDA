@@ -31,8 +31,8 @@ alamosaurus
 alate
 alates
 alay
-albertosaurus
 albertonykus
+albertosaurus
 aldosterone
 alembic
 alexandrites
@@ -290,6 +290,7 @@ cegamente
 centerdamage
 centric
 cepa
+cephalothorax
 ceratopsian
 ceratosaurus
 cere
@@ -485,6 +486,8 @@ doots
 downspout
 doz
 draconic
+dragonail
+dragonails
 dragonbreath
 dragonfire
 dragonhide
@@ -604,6 +607,7 @@ fetick
 feticks
 fetlock
 ffect
+fibercloth
 fiddleheads
 filenames
 fileset
@@ -653,6 +657,7 @@ foodcart
 foodplace
 footgear
 foregrip
+foregrips
 forestock
 forgemaster
 forgnottedn
@@ -685,6 +690,7 @@ functionless
 fungaloid
 fungaloids
 fungicidal
+funnelcap
 fursuit
 fusillies
 fusilly
@@ -732,6 +738,8 @@ gozu
 gr
 gracken
 granivorous
+grasper
+graspers
 gravelbag
 gravelbags
 gravol
@@ -902,6 +910,8 @@ junipers
 k
 kabuto
 kalimotxo
+kampuch
+kampuches
 kariginu
 kasaya
 katar
@@ -1020,6 +1030,7 @@ macrophenotypic
 macuahuitl
 maculata
 mafuckin
+magnifiers
 magwells
 maiasaura
 makizushi
@@ -1078,6 +1089,7 @@ microportals
 microreactor
 microskirt
 mideastern
+midsentence
 migo
 milkfat
 milspec
@@ -1088,6 +1100,7 @@ minimap
 minin
 mininuke
 minireactor
+mirrorshades
 misc
 misjudgements
 misprogram
@@ -1110,6 +1123,7 @@ monomeric
 monomolecular
 monstah
 moonflower
+moonflowers
 moriatur
 morningstar
 mortems
@@ -1158,6 +1172,7 @@ nanomaterials
 nanomesh
 nanoprinted
 nanoribbon
+nanosaurus
 nanoskirt
 nanuqsaurus
 narry
@@ -1226,6 +1241,7 @@ offroading
 ohms
 oignon
 oleaginous
+olieribos
 olors
 ompare
 omplete
@@ -1264,6 +1280,7 @@ pachyrhinosaurus
 packable
 paf
 papyrifera
+parabellum
 parabolan
 parachuter
 parasaurolophus
@@ -1312,6 +1329,7 @@ pickelhaube
 pickhead
 pickin
 piezomechanical
+pileus
 pinout
 pipebomb
 pipework
@@ -1392,7 +1410,6 @@ pushmower
 pussywillows
 pwn
 pyrolusite
-parabellum
 pyrophoric
 pyrrolidone
 q
@@ -1422,8 +1439,8 @@ rainsuit
 rale
 randomize
 rangehands
-rashguard
 raptorial
+rashguard
 ratlike
 rayed
 razorbar
@@ -1436,6 +1453,7 @@ reachability
 readme
 reamer
 reamers
+rearwards
 rebrands
 rebreathing
 recalt
@@ -1459,7 +1477,6 @@ reimpose
 reluctancy
 remodulator
 rended
-rearwards
 renderer
 renfaires
 rennet
@@ -1565,6 +1582,9 @@ shadowcat
 shambler
 shamblers
 shantak
+shapechangers
+sharksuit
+sharksuits
 shatteringly
 shedded
 sheetmetal
@@ -1673,6 +1693,8 @@ starrin
 std
 steeltoed
 steerable
+stegoceras
+stegosaurus
 stegosaurusfindsrobot
 stenonychosaurus
 stimulative
@@ -1768,6 +1790,7 @@ thawb
 thawbs
 thermochemistry
 thermoplastics
+thescelosaurus
 thonged
 thorned
 thosun
@@ -1946,7 +1969,6 @@ warhammer
 warmouth
 wastebread
 wastelanders
-waterbottle
 waterproofness
 waterskin
 waterskins
@@ -1963,6 +1985,8 @@ whiplike
 whirrr
 whirrrr
 whirrrrrclick
+whiskflower
+whiskflowers
 whitelist
 whitelisted
 whitelists
@@ -2010,9 +2034,9 @@ yateveo
 ybindings
 yipe
 ynn
+yo-yo
 yoroi
 yowl
-yo-yo
 yugg
 yulecat
 z
@@ -2037,4 +2061,4 @@ zpzzzzpzz
 zubon
 zygomaticus
 zzz
-zzzzchzzzzchurzzz
+zzzzchzzzzchurzzzpileus

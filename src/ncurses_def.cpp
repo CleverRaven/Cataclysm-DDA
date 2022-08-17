@@ -223,6 +223,7 @@ void catacurses::init_pair( const short pair, const base_color f, const base_col
                                 OK, "init_pair" );
 }
 
+catacurses::window catacurses::newscr;
 catacurses::window catacurses::stdscr;
 
 void catacurses::resizeterm()
@@ -244,6 +245,10 @@ void catacurses::init_interface()
     stdscr = window( std::shared_ptr<void>( ::initscr(), []( void *const ) { } ) );
     if( !stdscr ) {
         throw std::runtime_error( "initscr failed" );
+    }
+    newscr = window( std::shared_ptr<void>( ::newscr, []( void *const ) { } ) );
+    if( !newscr ) {
+        throw std::runtime_error( "null newscr" );
     }
 #if !defined(__CYGWIN__)
     // ncurses mouse registration
@@ -331,11 +336,11 @@ input_event input_manager::get_input_event( const keyboard_mode /*preferred_keyb
                 rval.type = input_event_t::mouse;
                 rval.mouse_pos = point( event.x, event.y );
                 if( event.bstate & BUTTON1_CLICKED ) {
-                    rval.add_input( MOUSE_BUTTON_LEFT );
+                    rval.add_input( MouseInput::LeftButtonReleased );
                 } else if( event.bstate & BUTTON3_CLICKED ) {
-                    rval.add_input( MOUSE_BUTTON_RIGHT );
+                    rval.add_input( MouseInput::RightButtonReleased );
                 } else if( event.bstate & REPORT_MOUSE_POSITION ) {
-                    rval.add_input( MOUSE_MOVE );
+                    rval.add_input( MouseInput::Move );
                     if( input_timeout > 0 ) {
                         // Mouse movement seems to clear ncurses timeout
                         set_timeout( input_timeout );

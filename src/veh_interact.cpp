@@ -613,7 +613,7 @@ task_reason veh_interact::cant_do( char mode )
         case 'i':
             // install mode
             enough_morale = player_character.has_morale_to_craft();
-            valid_target = !can_mount.empty() && 0 == veh->tags.count( "convertible" );
+            valid_target = !can_mount.empty();
             //tool checks processed later
             enough_light = player_character.fine_detail_vision_mod() <= 4;
             has_tools = true;
@@ -655,7 +655,7 @@ task_reason veh_interact::cant_do( char mode )
         case 'o':
             // remove mode
             enough_morale = player_character.has_morale_to_craft();
-            valid_target = cpart >= 0 && 0 == veh->tags.count( "convertible" );
+            valid_target = cpart >= 0;
             part_free = parts_here.size() > 1 || ( cpart >= 0 && veh->can_unmount( cpart ) );
             //tool and skill checks processed later
             has_tools = true;
@@ -1388,10 +1388,6 @@ void veh_interact::do_refill()
                 }
             } else if( pt.is_fuel_store() ) {
                 bool can_reload = pt.can_reload( obj );
-                if( obj.typeId() == fuel_type_battery && can_reload ) {
-                    msg = _( "You cannot recharge a vehicle battery with handheld batteries" );
-                    return false;
-                }
                 //check base item for fuel_stores that can take multiple types of ammunition (like the fuel_bunker)
                 if( pt.get_base().can_reload_with( obj, true ) ) {
                     return true;
@@ -1417,7 +1413,7 @@ void veh_interact::calc_overview()
     const hotkey_queue &hotkeys = hotkey_queue::alphabets();
 
     const auto next_hotkey = [&]( input_event & evt ) {
-        const input_event prev = evt;
+        input_event prev = evt;
         evt = main_context.next_unassigned_hotkey( hotkeys, evt );
         return prev;
     };
@@ -1452,11 +1448,8 @@ void veh_interact::calc_overview()
         trim_and_print( w, point( 1, y ), getmaxx( w ) - 2, c_light_gray, batt );
         right_print( w, y, 1, c_light_gray, _( "Capacity  Status" ) );
     };
-    overview_headers["4_REACTOR"] = [this, epower_w]( const catacurses::window & w, int y ) {
+    overview_headers["4_REACTOR"] = [this]( const catacurses::window & w, int y ) {
         int reactor_epower_w = veh->max_reactor_epower_w();
-        if( reactor_epower_w > 0 && epower_w < 0 ) {
-            reactor_epower_w += epower_w;
-        }
         std::string reactor;
         if( reactor_epower_w == 0 ) {
             reactor = _( "Reactors" );
@@ -3283,7 +3276,7 @@ void veh_interact::complete_vehicle( Character &you )
 
             you.invalidate_crafting_inventory();
             cata_assert( you.activity.str_values.size() >= 2 );
-            const std::string &variant_id =  you.activity.str_values[1];
+            const std::string &variant_id = you.activity.str_values[1];
             int partnum = !base.is_null() ? veh->install_part( d, part_id,
                           std::move( base ), variant_id ) : -1;
             if( partnum < 0 ) {
@@ -3345,7 +3338,7 @@ void veh_interact::complete_vehicle( Character &you )
 
         case 'r': {
             cata_assert( you.activity.str_values.size() >= 2 );
-            const std::string &variant_id =  you.activity.str_values[1];
+            const std::string &variant_id = you.activity.str_values[1];
             veh_utils::repair_part( *veh, veh->part( vehicle_part ), you, variant_id );
             break;
         }
