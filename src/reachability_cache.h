@@ -7,6 +7,7 @@
 
 #include "enums.h"
 #include "game_constants.h"
+#include "mdarray.h"
 
 class reachability_cache_layer;
 struct level_cache;
@@ -56,7 +57,7 @@ class reachability_cache_layer
         // all checks for distance that exceeds MAX_D will return "false"
         static constexpr int MAX_D = std::numeric_limits<ElType>::max() - 3;
     private:
-        ElType cache[MAPSIZE_X][MAPSIZE_Y];
+        cata::mdarray<ElType, point_bub_ms> cache;
 
         bool update( const point &p, ElType value );
         ElType &operator[]( const point &p );

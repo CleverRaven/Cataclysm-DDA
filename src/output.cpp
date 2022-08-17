@@ -270,21 +270,33 @@ void trim_and_print( const catacurses::window &w, const point &begin,
 std::string trim_by_length( const std::string  &text, int width )
 {
     std::string sText;
+    sText.reserve( width );
     if( utf8_width( remove_color_tags( text ) ) > width ) {
 
         int iLength = 0;
         std::string sTempText;
+        sTempText.reserve( width );
         std::string sColor;
+        std::string sColorClose;
+        std::string sEllipsis = "\u2026";
 
-        const auto color_segments = split_by_color( text );
-        for( const std::string &seg : color_segments ) {
+        const std::vector<std::string> color_segments = split_by_color( text );
+        for( size_t i = 0; i < color_segments.size() ; ++i ) {
+            std::string seg = color_segments[i];
+            if( seg.empty() ) {
+                // TODO: Check is required right now because, for a fully-color-tagged string, split_by_color
+                // returns an empty string first
+                continue;
+            }
             sColor.clear();
+            sColorClose.clear();
 
             if( !seg.empty() && ( seg.substr( 0, 7 ) == "<color_" || seg.substr( 0, 7 ) == "</color" ) ) {
                 sTempText = rm_prefix( seg );
 
                 if( seg.substr( 0, 7 ) == "<color_" ) {
                     sColor = seg.substr( 0, seg.find( '>' ) + 1 );
+                    sColorClose = "</color>";
                 }
             } else {
                 sTempText = seg;
@@ -292,20 +304,30 @@ std::string trim_by_length( const std::string  &text, int width )
 
             const int iTempLen = utf8_width( sTempText );
             iLength += iTempLen;
+            int next_char_width = 0;
+            if( i + 1 < color_segments.size() ) {
+                next_char_width = mk_wcwidth( UTF8_getch( remove_color_tags( color_segments[i + 1] ) ) );
+            }
 
-            if( iLength > width ) {
-                int pos = 0;
+            int pos = 0;
+            bool trimmed = false;
+            if( iLength > width || ( iLength == width && i + 1 < color_segments.size() ) ) {
+                // This segment won't fit OR
+                // This segment just fits and there's another segment coming
                 cursorx_to_position( sTempText.c_str(), iTempLen - ( iLength - width ) - 1, &pos, -1 );
-                sTempText = sTempText.substr( 0, pos ) + "\u2026";
+                sTempText = sColor.append( sTempText.substr( 0, pos ) ).append( sEllipsis ).append( sColorClose );
+                trimmed = true;
+            } else if( iLength + next_char_width >= width ) {
+                // This segments fits, but the next segment starts with a wide character
+                sTempText = sColor.append( sTempText ).append( sColorClose ).append( sEllipsis );
+                trimmed = true;
             }
 
-            sText += sColor + sTempText;
-            if( !sColor.empty() ) {
-                sText += "</color>";
-            }
-
-            if( iLength > width ) {
+            if( trimmed ) {
+                sText += sTempText; // Color tags were handled when the segment was trimmed
                 break;
+            } else { // This segment fits, and the next one has room to start
+                sText += sColor.append( sTempText ).append( sColorClose );
             }
         }
     } else {
@@ -919,8 +941,7 @@ input_event draw_item_info( const int iLeft, const int iWidth, const int iTop, c
     wclear( win );
     wnoutrefresh( win );
 
-    const input_event result = draw_item_info( win, data );
-    return result;
+    return draw_item_info( win, data );
 }
 
 std::string string_replace( std::string text, const std::string &before, const std::string &after )
@@ -1126,7 +1147,7 @@ input_event draw_item_info( const std::function<catacurses::window()> &init_wind
         if( *data.ptr_selected < 0 || height < 0 ||
             folded.size() < static_cast<size_t>( height ) ) {
             *data.ptr_selected = 0;
-        } else if( static_cast<size_t>( *data.ptr_selected + height ) >= folded.size() ) {
+        } else if( static_cast<size_t>( *data.ptr_selected ) + height >= folded.size() ) {
             *data.ptr_selected = static_cast<int>( folded.size() ) - height;
         }
     };
@@ -1192,7 +1213,7 @@ input_event draw_item_info( const std::function<catacurses::window()> &init_wind
             }
         } else if( data.handle_scrolling && action == "PAGE_DOWN" ) {
             if( *data.ptr_selected < 0 ||
-                ( height > 0 && static_cast<size_t>( *data.ptr_selected + height ) < folded.size() ) ) {
+                ( height > 0 && static_cast<size_t>( *data.ptr_selected ) + height < folded.size() ) ) {
                 ++*data.ptr_selected;
             }
         } else if( action == "CONFIRM" || action == "QUIT" ||
@@ -1442,9 +1463,9 @@ void draw_tab( const catacurses::window &w, int iOffsetX, const std::string &sTe
     }
 }
 
-void draw_subtab( const catacurses::window &w, int iOffsetX, const std::string &sText,
-                  bool bSelected,
-                  bool bDecorate, bool bDisabled )
+inclusive_rectangle<point> draw_subtab( const catacurses::window &w, int iOffsetX,
+                                        const std::string &sText,  bool bSelected,
+                                        bool bDecorate, bool bDisabled )
 {
     int iOffsetXRight = iOffsetX + utf8_width( sText ) + 1;
 
@@ -1467,10 +1488,12 @@ void draw_subtab( const catacurses::window &w, int iOffsetX, const std::string &
             mvwputch( w, point( i, 1 ), c_black, ' ' );
         }
     }
+    return inclusive_rectangle<point>( point( iOffsetX, 0 ), point( iOffsetXRight, 0 ) );
 }
 
 std::map<size_t, inclusive_rectangle<point>> draw_tabs( const catacurses::window &w,
-        const std::vector<std::string> &tab_texts, size_t current_tab )
+        const std::vector<std::string> &tab_texts,
+        const size_t current_tab, const size_t offset )
 {
     std::map<size_t, inclusive_rectangle<point>> tab_map;
 
@@ -1488,7 +1511,8 @@ std::map<size_t, inclusive_rectangle<point>> draw_tabs( const catacurses::window
         const std::string &tab_text = tab_texts[i];
         draw_tab( w, x, tab_text, i == current_tab );
         const int txt_width = utf8_width( tab_text, true );
-        tab_map.emplace( i, inclusive_rectangle<point>( point( x, 1 ), point( x + txt_width, 1 ) ) );
+        tab_map.emplace( i + offset, inclusive_rectangle<point>( point( x, 1 ), point( x + txt_width,
+                         1 ) ) );
         x += txt_width + tab_step;
     }
 
@@ -1558,65 +1582,43 @@ best_fit find_best_fit_in_size( const std::vector<int> &size_of_items_to_fit, co
     return returnVal;
 }
 
-std::vector<std::string> simple_fit_tabs_to_width( const size_t max_width,
-        const std::string &current_tab,
-        const std::map<std::string, std::string> &tab_names,
-        const std::vector<std::string> &original_tab_list, bool translate )
-{
-    std::pair<std::vector<std::string>, size_t> placeholder_result;
-    placeholder_result = fit_tabs_to_width( max_width, current_tab, tab_names,
-                                            original_tab_list, translate );
-    return placeholder_result.first;
-}
-
 std::pair<std::vector<std::string>, size_t> fit_tabs_to_width( const size_t max_width,
-        const std::string &current_tab, const std::map<std::string, std::string> &tab_names,
-        const std::vector<std::string> &original_tab_list,  bool translate )
+        const int current_tab,
+        const std::vector<std::string> &original_tab_list )
 {
     const int tab_step = 3; // Step between tabs, two for tab border
     size_t available_width = max_width - 1;
-    std::pair<std::vector<std::string>, size_t> tab_list_and_index;
+    std::pair<std::vector<std::string>, size_t> tab_list_and_offset;
     std::vector<int> tab_width;
-    tab_width.resize( original_tab_list.size() );
+    tab_width.reserve( original_tab_list.size() );
 
-    for( size_t i = 0; i < original_tab_list.size(); ++i ) {
-        auto tab_name_it = tab_names.find( original_tab_list[i] );
-        cata_assert( tab_name_it != tab_names.end() );
-        tab_width[i] = utf8_width( ( *tab_name_it ).second, true );
-        if( original_tab_list[i] == current_tab ) {
-            tab_list_and_index.second = i;
-        }
+    for( const std::string &tab : original_tab_list ) {
+        tab_width.emplace_back( utf8_width( tab, true ) );
     }
 
-    best_fit tabs_to_print = find_best_fit_in_size( tab_width, tab_list_and_index.second,
+    best_fit tabs_to_print = find_best_fit_in_size( tab_width, current_tab,
                              available_width, tab_step, 1 );
 
     //Assemble list to return
     if( tabs_to_print.start != 0 ) { //Signify that the list continues left
-        tab_list_and_index.first.emplace_back( "<" );
+        tab_list_and_offset.first.emplace_back( "<" );
     }
     for( int i = tabs_to_print.start; i < static_cast<int>( original_tab_list.size() ); ++i ) {
         if( i < tabs_to_print.start + tabs_to_print.length ) {
-            //Update tab_list_and_index to suit new list:
-            if( i == static_cast<int>( tab_list_and_index.second ) ) {
-                tab_list_and_index.second = tab_list_and_index.first.size();
-            }
-            //Assemble the string vector
-            if( translate ) {
-                auto tab_name_it = tab_names.find( original_tab_list[i] );
-                cata_assert( tab_name_it != tab_names.end() );
-                tab_list_and_index.first.push_back( ( *tab_name_it ).second );
-            } else {
-                tab_list_and_index.first.push_back( original_tab_list[i] );
-            }
+            tab_list_and_offset.first.emplace_back( original_tab_list[i] );
         }
     }
     if( tabs_to_print.start + tabs_to_print.length != static_cast<int>( original_tab_list.size() ) ) {
         //Signify that the list continues right
-        tab_list_and_index.first.emplace_back( ">" );
+        tab_list_and_offset.first.emplace_back( ">" );
     }
-
-    return tab_list_and_index;
+    //Mark down offset
+    if( tabs_to_print.start > 0 ) {
+        tab_list_and_offset.second = tabs_to_print.start - 1;
+    } else {
+        tab_list_and_offset.second = tabs_to_print.start;
+    }
+    return tab_list_and_offset;
 }
 
 /**

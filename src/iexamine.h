@@ -160,7 +160,7 @@ void harvest_plant_ex( Character &you, const tripoint &examp );
 void harvest_plant( Character &you, const tripoint &examp, bool from_activity );
 void fertilize_plant( Character &you, const tripoint &tile, const itype_id &fertilizer );
 itype_id choose_fertilizer( Character &you, const std::string &pname, bool ask_player );
-ret_val<bool> can_fertilize( Character &you, const tripoint &tile, const itype_id &fertilizer );
+ret_val<void> can_fertilize( Character &you, const tripoint &tile, const itype_id &fertilizer );
 
 // Skill training common functions
 void practice_survival_while_foraging( Character &who );

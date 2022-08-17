@@ -42,12 +42,12 @@
     "damage_max_instance": [ { "damage_type": "stab", "amount": 10, "armor_penetration": 8, "armor_multiplier": 0.5 } ],
     "hitsize_min": 4,
     "effects": [ { "id": "bleed", "duration": 100, "affect_hit_bp": true } ],
-    "hit_dmg_u": "The %1$s impales your %2$s!",
-    "hit_dmg_npc": "The %1$s impales <npcname>!",
-    "miss_msg_u": "The %1$s tries to impale your %2$s, but you dodge!",
-    "miss_msg_npc": "The %1$s tries to impale <npcname>, but they dodge!",
-    "no_dmg_msg_u": "The %1$s tries to impale your %2$s, but fails to penetrate your armor!",
-    "no_dmg_msg_npc": "The %1$s tries to impale <npcname>, but fails to penetrate their armor!",
+    "hit_dmg_u": "%1$s impales your %2$s!",
+    "hit_dmg_npc": "%1$s impales <npcname>!",
+    "miss_msg_u": "%1$s tries to impale your %2$s, but you dodge!",
+    "miss_msg_npc": "%1$s tries to impale <npcname>, but they dodge!",
+    "no_dmg_msg_u": "%1$s tries to impale your %2$s, but fails to penetrate your armor!",
+    "no_dmg_msg_npc": "%1$s tries to impale <npcname>, but fails to penetrate their armor!",
     "dodgeable": true,
     "blockable": true
   }

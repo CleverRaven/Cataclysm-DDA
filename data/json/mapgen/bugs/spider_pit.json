@@ -76,7 +76,6 @@
       ],
       "terrain": { "#": "t_soil", "?": [ [ "t_soil", 2 ], "t_dirt_underground" ], ".": "t_dirt_underground", "<": "t_slope_up" },
       "furniture": { ".": [ [ "f_null", 20 ], "f_egg_sackws" ] },
-      "items": { ".": { "item": "spider", "chance": 2 } },
       "place_fields": [
         { "field": "fd_web", "x": [ 3, 20 ], "y": [ 3, 20 ], "repeat": 60 },
         { "field": "fd_web", "x": [ 8, 15 ], "y": [ 8, 15 ], "repeat": 60 }

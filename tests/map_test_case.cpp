@@ -334,7 +334,7 @@ tile_predicate operator||( const tile_predicate &f, const tile_predicate &g )
 namespace tiles
 {
 
-tile_predicate ifchar( char c, tile_predicate f )
+tile_predicate ifchar( char c, const tile_predicate &f )
 {
     return [ = ]( map_test_case::tile t ) {
         if( t.setup_c == c ) {

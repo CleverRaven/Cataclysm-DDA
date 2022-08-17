@@ -66,6 +66,9 @@ bool teleport::teleport_to_point( Creature &critter, tripoint target, bool safe,
         }
         return false;
     }
+    if( p && p->in_vehicle ) {
+        here.unboard_vehicle( p->pos() );
+    }
     tripoint_abs_ms avatar_pos = get_avatar().get_location();
     bool shifted = false;
     if( !here.inbounds( target ) ) {

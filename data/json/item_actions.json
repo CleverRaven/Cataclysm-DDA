@@ -1037,11 +1037,6 @@
   },
   {
     "type": "item_action",
-    "id": "unfold_vehicle",
-    "name": { "str": "Unfold" }
-  },
-  {
-    "type": "item_action",
     "id": "install_bionic",
     "name": { "str": "Install bionic" }
   },

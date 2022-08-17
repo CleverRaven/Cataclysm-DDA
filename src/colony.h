@@ -298,7 +298,7 @@ class colony : private element_allocator_type
                 }
 
                 inline colony_iterator operator++( int ) {
-                    const colony_iterator copy( *this );
+                    colony_iterator copy( *this );
                     ++*this;
                     return copy;
                 }
@@ -955,7 +955,7 @@ class colony : private element_allocator_type
                         reinterpret_cast<aligned_pointer_type>( end_iterator.group_pointer->skipfield ) ) ) {
                     case 0: { // ie. there are no erased elements and end_iterator is not at end of current final group
                         // Make copy for return before modifying end_iterator
-                        const iterator return_iterator = end_iterator;
+                        iterator return_iterator = end_iterator;
 
                         if COLONY_CONSTEXPR( std::is_nothrow_copy_constructible<element_type>::value ) {
                             // For no good reason this compiles to faster code under GCC:
@@ -1113,7 +1113,7 @@ class colony : private element_allocator_type
                 switch( ( ( groups_with_erasures_list_head != nullptr ) << 1 ) | ( end_iterator.element_pointer ==
                         reinterpret_cast<aligned_pointer_type>( end_iterator.group_pointer->skipfield ) ) ) {
                     case 0: {
-                        const iterator return_iterator = end_iterator;
+                        iterator return_iterator = end_iterator;
 
                         if COLONY_CONSTEXPR( std::is_nothrow_move_constructible<element_type>::value ) {
                             COLONY_CONSTRUCT( element_allocator_type, ( *this ),
@@ -1261,7 +1261,7 @@ class colony : private element_allocator_type
                 switch( ( ( groups_with_erasures_list_head != nullptr ) << 1 ) | ( end_iterator.element_pointer ==
                         reinterpret_cast<aligned_pointer_type>( end_iterator.group_pointer->skipfield ) ) ) {
                     case 0: {
-                        const iterator return_iterator = end_iterator;
+                        iterator return_iterator = end_iterator;
 
                         if COLONY_CONSTEXPR( std::is_nothrow_constructible<element_type, arguments ...>::value ) {
                             COLONY_CONSTRUCT( element_allocator_type, ( *this ),

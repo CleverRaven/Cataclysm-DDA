@@ -114,7 +114,6 @@ class auto_note_settings
 
         bool was_discovered( const map_extra_id &mapExtId ) const;
 
-    public:
         cata::optional<custom_symbol> get_custom_symbol( const map_extra_id &mapExtId ) const;
 
         void set_custom_symbol( const map_extra_id &mapExtId, const custom_symbol &symbol,
@@ -122,7 +121,6 @@ class auto_note_settings
 
         void clear_all_custom_symbols( bool bCharacter );
 
-    public:
         void load( bool bCharacter );
 
         bool save( bool bCharacter );
@@ -139,7 +137,6 @@ class auto_note_settings
         /// Build string containing path to the auto notes save file for the active player.
         std::string build_save_path() const;
 
-    private:
         /// This set contains the ID strings of all map extras that have auto note enabled for a character.
         std::unordered_set<map_extra_id> character_autoNoteEnabled;
 

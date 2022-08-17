@@ -127,6 +127,7 @@ std::string enum_to_string<spell_flag>( spell_flag data )
         case spell_flag::FRIENDLY_POLY: return "FRIENDLY_POLY";
         case spell_flag::POLYMORPH_GROUP: return "POLYMORPH_GROUP";
         case spell_flag::SILENT: return "SILENT";
+        case spell_flag::NO_EXPLOSION_SFX: return "NO_EXPLOSION_SFX";
         case spell_flag::LOUD: return "LOUD";
         case spell_flag::VERBAL: return "VERBAL";
         case spell_flag::SOMATIC: return "SOMATIC";

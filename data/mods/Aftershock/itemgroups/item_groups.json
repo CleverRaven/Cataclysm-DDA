@@ -320,27 +320,6 @@
     }
   },
   {
-    "id": "rare",
-    "type": "item_group",
-    "copy-from": "rare",
-    "extend": {
-      "items": [
-        { "item": "xlswat_armor", "prob": 60 },
-        { "item": "xlballistic_vest_empty", "prob": 65 },
-        { "item": "xlballistic_vest_esapi", "prob": 39 },
-        { "item": "xlboots_combat", "prob": 70 },
-        { "item": "xlgloves_tactical", "prob": 50 },
-        { "item": "tripaw_xlgloves_tactical", "prob": 48 },
-        { "item": "afs_atomic_smartphone", "prob": 5 },
-        { "item": "iv_mutagen_mastodon", "prob": 5 },
-        { "item": "mutagen_mastodon", "prob": 10 },
-        { "item": "recipe_uplift", "prob": 2 },
-        { "item": "atomic_butterchurn", "prob": 5 },
-        { "item": "alien_battery", "prob": 5 }
-      ]
-    }
-  },
-  {
     "type": "item_group",
     "id": "guns_ganger",
     "//": "Guns commonly carried by gangers and underworld types.",

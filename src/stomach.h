@@ -172,7 +172,7 @@ class stomach_contents
 
         // Gets the rates at which this stomach will digest things.
         stomach_digest_rates get_digest_rates( const needs_rates &metabolic_rates,
-                                               const Character &owner );
+                                               const Character &owner ) const;
 
 };
 

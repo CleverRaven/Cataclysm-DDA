@@ -32,7 +32,7 @@ class computer_session
 
         /** Returns true if the player successfully hacks the computer. Security = -1 defaults to
          *  the main system security. */
-        bool hack_attempt( Character &you, int Security = -1 );
+        bool hack_attempt( Character &you, int Security = -1 ) const;
 
         /**
          * Checks whether the specified action can be activated (has any effect)

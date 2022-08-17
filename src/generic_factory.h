@@ -11,7 +11,7 @@
 #include "assign.h"
 #include "cached_options.h"
 #include "catacharset.h"
-#include "cata_void.h"
+#include "cata_type_traits.h"
 #include "debug.h"
 #include "enum_bitset.h"
 #include "init.h"
@@ -401,6 +401,7 @@ class generic_factory
          * Postcondition: `size() == 0`
          */
         void reset() {
+            deferred.clear();
             list.clear();
             map.clear();
             inc_version();
@@ -1214,7 +1215,6 @@ class typed_flag_reader : public generic_typed_reader<typed_flag_reader<T>>
     private:
         using map_t = std::unordered_map<std::string, T>;
 
-    private:
         const map_t &flag_map;
         const std::string flag_type;
 

@@ -155,6 +155,8 @@ static const ter_str_id ter_t_rubble( "t_rubble" );
 static const ter_str_id ter_t_wreckage( "t_wreckage" );
 
 static const vpart_id vpart_turret_mount( "turret_mount" );
+static const vproto_id vehicle_prototype_bicycle( "bicycle" );
+static const vproto_id vehicle_prototype_bicycle_folding( "bicycle_folding" );
 
 static const std::array<std::string, static_cast<size_t>( object_type::NUM_OBJECT_TYPES )>
 obj_type_name = { { "OBJECT_NONE", "OBJECT_ITEM", "OBJECT_ACTOR", "OBJECT_PLAYER",
@@ -337,6 +339,7 @@ void player_activity::serialize( JsonOut &json ) const
         json.member( "name", name );
         json.member( "targets", targets );
         json.member( "placement", placement );
+        json.member( "relative_placement", relative_placement );
         json.member( "values", values );
         json.member( "str_values", str_values );
         json.member( "auto_resume", auto_resume );
@@ -397,6 +400,7 @@ void player_activity::deserialize( const JsonObject &data )
     data.read( "name", name );
     data.read( "targets", targets );
     data.read( "placement", placement );
+    data.read( "relative_placement", relative_placement );
     values = data.get_int_array( "values" );
     str_values = data.get_string_array( "str_values" );
     data.read( "auto_resume", auto_resume );
@@ -703,6 +707,16 @@ void Character::load( const JsonObject &data )
         if( vits.has_member( v.first.str() ) ) {
             int lvl = vits.get_int( v.first.str() );
             vitamin_levels[v.first] = clamp( lvl, v.first->min(), v.first->max() );
+        }
+    }
+    JsonObject vits_daily = data.get_object( "daily_vitamins" );
+    vits_daily.allow_omitted_members();
+    for( const std::pair<const vitamin_id, vitamin> &v : vitamin::all() ) {
+        if( vits_daily.has_member( v.first.str() ) ) {
+            JsonArray vals = vits_daily.get_array( v.first.str() );
+            int speculative = vals.next_int();
+            int lvl = vals.next_int();
+            daily_vitamins[v.first] = { speculative, lvl };
         }
     }
     data.read( "consumption_history", consumption_history );
@@ -1271,6 +1285,7 @@ void Character::store( JsonOut &json ) const
     json.member( "radiation", radiation );
     json.member( "stamina", stamina );
     json.member( "vitamin_levels", vitamin_levels );
+    json.member( "daily_vitamins", daily_vitamins );
     json.member( "pkill", pkill );
     json.member( "omt_path", omt_path );
     json.member( "consumption_history", consumption_history );
@@ -1526,6 +1541,8 @@ void avatar::store( JsonOut &json ) const
     json.member( "calorie_diary", calorie_diary );
 
     json.member( "preferred_aiming_mode", preferred_aiming_mode );
+
+    json.member( "power_prev_turn", power_prev_turn );
 }
 
 void avatar::deserialize( const JsonObject &data )
@@ -1676,6 +1693,10 @@ void avatar::load( const JsonObject &data )
     data.read( "calorie_diary", calorie_diary );
 
     data.read( "preferred_aiming_mode", preferred_aiming_mode );
+
+    if( data.has_member( "power_prev_turn" ) ) {
+        data.read( "power_prev_turn", power_prev_turn );
+    }
 
     data.read( "snippets_read", snippets_read );
 }
@@ -2630,6 +2651,7 @@ void monster::load( const JsonObject &data )
     horde_attraction = static_cast<monster_horde_attraction>( data.get_int( "horde_attraction", 0 ) );
 
     data.read( "inv", inv );
+    data.read( "dissectable_inv", dissectable_inv );
     data.read( "dragged_foe_id", dragged_foe_id );
 
     data.read( "ammo", ammo );
@@ -2710,6 +2732,7 @@ void monster::store( JsonOut &json ) const
         json.member( "horde_attraction", horde_attraction );
     }
     json.member( "inv", inv );
+    json.member( "dissectable_inv", dissectable_inv );
 
     json.member( "dragged_foe_id", dragged_foe_id );
     // storing the rider
@@ -2868,6 +2891,7 @@ void item::io( Archive &archive )
     archive.io( "is_favorite", is_favorite, false );
     archive.io( "item_counter", item_counter, static_cast<decltype( item_counter )>( 0 ) );
     archive.io( "wetness", wetness, 0 );
+    archive.io( "dropped_from", dropped_from, cata::optional<harvest_drop_type_id>() );
     archive.io( "rot", rot, 0_turns );
     archive.io( "last_temp_check", last_temp_check, calendar::start_of_cataclysm );
     archive.io( "current_phase", cur_phase, static_cast<int>( type->phase ) );
@@ -3150,55 +3174,9 @@ void vehicle_part::deserialize( const JsonObject &data )
     vpart_id pid;
     data.read( "id", pid );
 
-    std::map<std::string, std::string> deprecated = {
-        { "laser_gun", "laser_rifle" },
-        { "seat_nocargo", "seat" },
-        { "engine_plasma", "minireactor" },
-        { "battery_truck", "battery_car" },
+    const std::map<vpart_id, vpart_id> &deprecated = vpart_migration::get_migrations();
 
-        { "diesel_tank_little", "tank_little" },
-        { "diesel_tank_small", "tank_small" },
-        { "diesel_tank_medium", "tank_medium" },
-        { "diesel_tank",  "tank" },
-        { "external_diesel_tank_small", "external_tank_small" },
-        { "external_diesel_tank", "external_tank" },
-        { "gas_tank_little", "tank_little" },
-        { "gas_tank_small", "tank_small" },
-        { "gas_tank_medium", "tank_medium" },
-        { "gas_tank", "tank" },
-        { "external_gas_tank_small", "external_tank_small" },
-        { "external_gas_tank", "external_tank" },
-        { "water_dirty_tank_little", "tank_little" },
-        { "water_dirty_tank_small", "tank_small" },
-        { "water_dirty_tank_medium", "tank_medium" },
-        { "water_dirty_tank", "tank" },
-        { "external_water_dirty_tank_small", "external_tank_small" },
-        { "external_water_dirty_tank", "external_tank" },
-        { "dirty_water_tank_barrel", "tank_barrel" },
-        { "water_tank_little", "tank_little" },
-        { "water_tank_small", "tank_small" },
-        { "water_tank_medium", "tank_medium" },
-        { "water_tank", "tank" },
-        { "external_water_tank_small", "external_tank_small" },
-        { "external_water_tank", "external_tank" },
-        { "water_tank_barrel", "tank_barrel" },
-        { "napalm_tank", "tank" },
-        { "hydrogen_tank", "tank" },
-
-        { "wheel_underbody", "wheel_wide" },
-        { "wheel_steerable", "wheel" },
-        { "wheel_slick_steerable", "wheel_slick" },
-        { "wheel_armor_steerable", "wheel_armor" },
-        { "wheel_bicycle_steerable", "wheel_bicycle" },
-        { "wheel_bicycle_or_steerable", "wheel_bicycle_or" },
-        { "wheel_motorbike_steerable", "wheel_motorbike" },
-        { "wheel_motorbike_or_steerable", "wheel_motorbike_or" },
-        { "wheel_small_steerable", "wheel_small" },
-        { "wheel_wide_steerable", "wheel_wide" },
-        { "wheel_wide_or_steerable", "wheel_wide_or" }
-    };
-
-    auto dep = deprecated.find( pid.str() );
+    const auto dep = deprecated.find( pid );
     if( dep != deprecated.end() ) {
         DebugLog( D_INFO, D_GAME ) << "Replacing vpart " << pid.str() << " with " << dep->second;
         pid = vpart_id( dep->second );
@@ -3476,12 +3454,34 @@ void vehicle::deserialize( const JsonObject &data )
         }
     }
 
-    refresh();
-
     data.read( "tags", tags );
     data.read( "fuel_remainder", fuel_remainder );
     data.read( "fuel_used_last_turn", fuel_used_last_turn );
     data.read( "labels", labels );
+
+    // TODO: Remove after enough time passes for save games to migrate.
+    // This migrates old "convertible" vehicles to new generic "folding" ones
+    if( has_tag( "convertible" ) ) {
+        // remove tags starting from "convertible"
+        for( auto it = tags.begin(); it != tags.end(); ) {
+            if( it->rfind( "convertible", 0 ) == 0 ) {
+                it = tags.erase( it );
+            } else {
+                ++it;
+            }
+        }
+
+        // Special case convertible folding bicycles as they had non-foldable parts
+        // as part of their vehicle prototype. Other in-tree "convertibles"
+        // (wheelchair, inflatable boat) can just have their tags removed as their
+        // vehicles were made from foldable parts already
+        if( type == vehicle_prototype_bicycle ) {
+            type = vehicle_prototype_bicycle_folding;
+            parts = type.obj().blueprint->parts;
+        }
+    }
+
+    refresh();
 
     point p;
     zone_data zd;
@@ -4598,7 +4598,7 @@ void stats_tracker::deserialize( const JsonObject &jo )
 void submap::store( JsonOut &jsout ) const
 {
     jsout.member( "turn_last_touched", last_touched );
-    jsout.member( "temperature", temperature );
+    jsout.member( "temperature", temperature_mod );
 
     // Terrain is saved using a simple RLE scheme.  Legacy saves don't have
     // this feature but the algorithm is backward compatible.
@@ -4820,7 +4820,7 @@ void submap::load( JsonIn &jsin, const std::string &member_name, int version )
     if( member_name == "turn_last_touched" ) {
         last_touched = time_point( jsin.get_int() );
     } else if( member_name == "temperature" ) {
-        temperature = jsin.get_int();
+        temperature_mod = jsin.get_int();
     } else if( member_name == "terrain" ) {
         // TODO: try block around this to error out if we come up short?
         jsin.start_array();

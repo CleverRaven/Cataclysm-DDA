@@ -1352,7 +1352,7 @@ ma_technique character_martial_arts::get_miss_recovery( const Character &owner )
 
 
 std::string character_martial_arts::get_valid_attack_vector( const Character &user,
-        std::vector<std::string> attack_vectors ) const
+        const std::vector<std::string> &attack_vectors ) const
 {
     for( auto av : attack_vectors ) {
         if( can_use_attack_vector( user, av ) ) {
@@ -1363,7 +1363,8 @@ std::string character_martial_arts::get_valid_attack_vector( const Character &us
     return "NONE";
 }
 
-bool character_martial_arts::can_use_attack_vector( const Character &user, std::string av ) const
+bool character_martial_arts::can_use_attack_vector( const Character &user,
+        const std::string &av ) const
 {
     martialart ma = style_selected.obj();
     bool valid_weapon = ma.weapon_valid( user.get_wielded_item() );

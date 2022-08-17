@@ -78,6 +78,7 @@ static const zone_type_id zone_type_VEHICLE_DECONSTRUCT( "VEHICLE_DECONSTRUCT" )
 static const zone_type_id zone_type_VEHICLE_PATROL( "VEHICLE_PATROL" );
 static const zone_type_id zone_type_VEHICLE_REPAIR( "VEHICLE_REPAIR" );
 static const zone_type_id zone_type_zone_disassemble( "zone_disassemble" );
+static const zone_type_id zone_type_zone_unload_all( "zone_unload_all" );
 
 zone_manager::zone_manager()
 {
@@ -200,6 +201,8 @@ shared_ptr_fast<zone_options> zone_options::create( const zone_type_id &type )
         return make_shared_fast<blueprint_options>();
     } else if( type == zone_type_LOOT_CUSTOM || type == zone_type_LOOT_ITEM_GROUP ) {
         return make_shared_fast<loot_options>();
+    } else if( type == zone_type_zone_unload_all ) {
+        return make_shared_fast<unload_options>();
     }
 
     return make_shared_fast<zone_options>();
@@ -213,6 +216,8 @@ bool zone_options::is_valid( const zone_type_id &type, const zone_options &optio
         return dynamic_cast<const blueprint_options *>( &options ) != nullptr;
     } else if( type == zone_type_LOOT_CUSTOM || type == zone_type_LOOT_ITEM_GROUP ) {
         return dynamic_cast<const loot_options *>( &options ) != nullptr;
+    } else if( type == zone_type_zone_unload_all ) {
+        return dynamic_cast<const unload_options *>( &options ) != nullptr;
     }
 
     // ensure options is not derived class for the rest of zone types
@@ -284,6 +289,15 @@ loot_options::query_loot_result loot_options::query_loot()
     return changed;
 }
 
+unload_options::query_unload_result unload_options::query_unload()
+{
+    molle = query_yn( _( "Detach MOLLE attached pouches" ) );
+    mods = query_yn( _( "Detach mods from weapons" ) );
+    always_unload = query_yn(
+                        _( "Always unload (even if the container has a valid sorting location)" ) );
+    return changed;
+}
+
 plot_options::query_seed_result plot_options::query_seed()
 {
     Character &player_character = get_player_character();
@@ -346,9 +360,19 @@ bool loot_options::query_at_creation()
     return query_loot() != canceled;
 }
 
+bool unload_options::query_at_creation()
+{
+    return query_unload() != canceled;
+}
+
 bool loot_options::query()
 {
     return query_loot() == changed;
+}
+
+bool unload_options::query()
+{
+    return query_unload() == changed;
 }
 
 std::string loot_options::get_zone_name_suggestion() const
@@ -359,11 +383,28 @@ std::string loot_options::get_zone_name_suggestion() const
     return _( "Loot: Custom: No Filter" );
 }
 
+std::string unload_options::get_zone_name_suggestion() const
+{
+    return string_format( "%s%s%s%s", _( "Unload: " ), mods ? _( "mods, " ) : "",
+                          molle ? _( "MOLLE, " ) : "",
+                          always_unload ? _( "unload all" ) : _( "unload unmatched" ) );
+}
+
 std::vector<std::pair<std::string, std::string>> loot_options::get_descriptions() const
 {
     std::vector<std::pair<std::string, std::string>> options;
     options.emplace_back( std::make_pair( _( "Loot: Custom: " ),
                                           !mark.empty() ? mark : _( "No filter" ) ) );
+
+    return options;
+}
+
+std::vector<std::pair<std::string, std::string>> unload_options::get_descriptions() const
+{
+    std::vector<std::pair<std::string, std::string>> options;
+    options.emplace_back( std::make_pair( _( "Unload: " ),
+                                          string_format( "%s%s%s", mods ? _( "mods " ) : "",  molle ? _( "MOLLE " ) : "",
+                                                  always_unload ? _( "unload all" ) : _( "unload unmatched" ) ) ) );
 
     return options;
 }
@@ -376,6 +417,22 @@ void loot_options::serialize( JsonOut &json ) const
 void loot_options::deserialize( const JsonObject &jo_zone )
 {
     jo_zone.read( "mark", mark );
+}
+
+void unload_options::serialize( JsonOut &json ) const
+{
+    json.member( "mark", mark );
+    json.member( "mods", mods );
+    json.member( "molle", molle );
+    json.member( "always_unload", always_unload );
+}
+
+void unload_options::deserialize( const JsonObject &jo_zone )
+{
+    jo_zone.read( "mark", mark );
+    jo_zone.read( "mods", mods );
+    jo_zone.read( "molle", molle );
+    jo_zone.read( "always_unload", always_unload );
 }
 
 bool blueprint_options::query_at_creation()

@@ -15,7 +15,7 @@ static constexpr int num_iters = 1000;
 static constexpr tripoint dude_pos( HALF_MAPSIZE_X, HALF_MAPSIZE_Y, 0 );
 static constexpr tripoint target_pos( HALF_MAPSIZE_X - 10, HALF_MAPSIZE_Y, 0 );
 
-static void check_near( std::string subject, float prob, const float expected,
+static void check_near( const std::string &subject, float prob, const float expected,
                         const float tolerance )
 {
     const float low = expected - tolerance;

@@ -229,8 +229,16 @@
     "label": "Body Status",
     "style": "layout",
     "arrange": "columns",
-    "widgets": [ "body_graph", "hitpoint_graphs_vertical_layout" ],
+    "widgets": [ "bodygraph_wrapper_layout", "hitpoint_graphs_vertical_layout" ],
     "flags": [ "W_DISABLED_BY_DEFAULT" ]
+  },
+  {
+    "id": "bodygraph_wrapper_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "width": 13,
+    "widgets": [ "body_graph" ]
   },
   {
     "id": "status_hpg_layout_head",

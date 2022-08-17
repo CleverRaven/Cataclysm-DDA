@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <map>
 #include <string>
+#include <utility>
 #include <vector>
 
 #include "color.h"
@@ -69,11 +70,12 @@ void print_list_scrollable( catacurses::window *win, std::vector<std::string> li
 void print_list_scrollable( catacurses::window *win, std::vector<std::string> list, int *selection,
                             bool active, bool border, const report_color_error color_error )
 {
-    print_list_scrollable( win, list, selection, getmaxy( *win ), 0, getmaxx( *win ), active, border,
+    print_list_scrollable( win, std::move( list ), selection, getmaxy( *win ), 0, getmaxx( *win ),
+                           active, border,
                            color_error );
 }
 
-void print_list_scrollable( catacurses::window *win, std::string text, int *selection,
+void print_list_scrollable( catacurses::window *win, const std::string &text, int *selection,
                             int entries_per_page, int xoffset, int width, bool active, bool border,
                             const report_color_error color_error )
 {
@@ -84,7 +86,8 @@ void print_list_scrollable( catacurses::window *win, std::string text, int *sele
                            color_error );
 }
 
-void print_list_scrollable( catacurses::window *win, std::string text, int *selection, bool active,
+void print_list_scrollable( catacurses::window *win, const std::string &text, int *selection,
+                            bool active,
                             bool border, const report_color_error color_error )
 {
     print_list_scrollable( win, text, selection, getmaxy( *win ), 0, getmaxx( *win ), active, border,

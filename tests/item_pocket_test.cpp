@@ -213,7 +213,7 @@ TEST_CASE( "max item length", "[pocket][max_item_length]" )
 
             REQUIRE( box.is_container_empty() );
             std::string dmsg = capture_debugmsg_during( [&box, &rod_15]() {
-                ret_val<bool> result = box.put_in( rod_15, item_pocket::pocket_type::CONTAINER );
+                ret_val<void> result = box.put_in( rod_15, item_pocket::pocket_type::CONTAINER );
                 CHECK_FALSE( result.success() );
             } );
             CHECK_THAT( dmsg, Catch::EndsWith( "item is too long" ) );
@@ -2657,5 +2657,27 @@ TEST_CASE( "Sawed off fits in large holster", "[item][pocket]" )
     double_barrel.put_in( item( "barrel_small", calendar::turn ), item_pocket::pocket_type::MOD );
 
     CHECK( large_holster.can_contain( double_barrel ).success() );
+
+}
+
+// this tests for cases where we try to find a nested pocket for items (when a parent pocket has some restrictions) and find a massive bag inside the parent pocket
+// need to make sure we don't try to fit things larger than the parent pockets remaining volume inside the child pocket if it is non-rigid
+TEST_CASE( "bag with restrictions and nested bag doesn't fit too large items", "[item][pocket]" )
+{
+    item backpack( "test_backpack" );
+    item backpack_two( "test_backpack" );
+    item mini_backpack( "test_mini_backpack" );
+
+    mini_backpack.put_in( backpack, item_pocket::pocket_type::CONTAINER );
+    REQUIRE( !mini_backpack.is_container_empty() );
+    REQUIRE( mini_backpack.only_item().typeId() == backpack.typeId() );
+
+    // need to set a setting on the pocket for this to work since that's when nesting starts trying weird stuff
+    mini_backpack.get_contents().get_all_standard_pockets().front()->settings.set_disabled( true );
+
+    // check if the game thinks the mini bag can contain the second bag (it can't)
+    // but that the bag could otherwise fit if not in the parent pocket
+    CHECK( backpack.can_contain( backpack_two ).success() );
+    CHECK( !mini_backpack.can_contain( backpack_two ).success() );
 
 }

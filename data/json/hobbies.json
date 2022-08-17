@@ -387,10 +387,19 @@
     "subtype": "hobby",
     "id": "gourmand",
     "name": "Fine Dining",
-    "description": "Everyone eats to live, but you live to eat.  Tasty food will raise your morale more, and you aren't as upset by gross food.  You also eat faster, and can overeat with less chance of getting sick.",
-    "points": 3,
-    "traits": [ "GOURMAND" ],
+    "description": "You loved going to all kinds of restaurants and experiencing everything the world of culinary arts had to offer.  Nowadays, those chefs are all dead, so it'll be up to you to recreate the joys of your past.",
+    "points": 2,
+    "traits": [ "GOURMAND", "TABLEMANNERS" ],
     "skills": [ { "level": 2, "name": "cooking" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "gourmand_alt",
+    "name": "Competitive Eating",
+    "description": "You were a professional eater before the Cataclysm and frequently participated in eating contests.  Thanks to your training you can eat huge amounts of food without getting sick, and while eating forty hot dogs in ten minutes might not be too useful in a world of zombies, your fortitude might help you survive off food other survivors would pass over.",
+    "points": 3,
+    "traits": [ "GOURMAND", "STRONGSTOMACH" ]
   },
   {
     "type": "profession",

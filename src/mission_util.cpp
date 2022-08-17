@@ -431,7 +431,7 @@ mission_target_params mission_util::parse_mission_om_target( const JsonObject &j
         p.z = jo.get_int( "z" );
     }
     if( jo.has_member( "var" ) ) {
-        p.target_var = read_var_info( jo.get_object( "var" ), false );
+        p.target_var = read_var_info( jo.get_object( "var" ) );
     }
     return p;
 }

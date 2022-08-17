@@ -6,7 +6,7 @@
     "color": "light_gray",
     "name": "boarding axe",
     "ascii_picture": "halberd",
-    "description": "This is a sturdy axe with a pick opposite the blade.  A composite titanium/Kevlar handle provides a sturdy grip that protects against electrical shocks and high temperatures.  Designed for use by soldiers wearing strength-enhancing exosuits, it's quite heavy.",
+    "description": "This is a sturdy axe with a pick opposite the blade.  A composite titanium/Kevlar handle provides a sturdy grip that protects against electrical shocks and high temperatures.  Designed for use by soldiers wearing strength-enhancing exosuits, it's quite heavy.  Activate it to fold it into a compact module.",
     "weight": "3500 g",
     "volume": "2750 ml",
     "longest_side": "120 cm",
@@ -18,7 +18,15 @@
     "material": [ "qt_steel", "titanium", "kevlar" ],
     "weapon_category": [ "HOOKING_WEAPONRY", "GREAT_AXES" ],
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "SHEATH_AXE", "BELT_CLIP" ],
-    "use_action": [ "CROWBAR" ],
+    "use_action": [
+      {
+        "menu_text": "Collapse",
+        "type": "transform",
+        "target": "collapsed_boarding_axe",
+        "msg": "You fold the axe in on itself."
+      },
+      "CROWBAR"
+    ],
     "category": "weapons"
   },
   {
@@ -172,7 +180,7 @@
     "id": "exosuit_power_cutter",
     "type": "TOOL_ARMOR",
     "name": { "str": "exosuit power cutter (off)", "str_pl": "exosuit power cutters (off)" },
-    "description": "A huge, gas-powered saw with a diamond blade, mounted on an exosuit.  If it has fuel, it can be turned on to turn it into a powerful metal cutting tool.  Heavy cables run from the module to a handheld trigger mechanism.",
+    "description": "A huge, multi-fuel powered saw with a diamond blade, mounted on an exosuit.  If it has fuel, it can be turned on to turn it into a powerful metal cutting tool.  Heavy cables run from the module to a handheld trigger mechanism.",
     "weight": "10 kg",
     "volume": "4 L",
     "to_hit": { "grip": "weapon", "length": "short", "surface": "point", "balance": "good" },
@@ -182,14 +190,25 @@
     "symbol": "/",
     "looks_like": "circsaw_off",
     "color": "light_red",
-    "ammo": [ "gasoline", "diesel", "jp8", "avgas" ],
+    "ammo": [ "gasoline", "diesel", "jp8", "avgas", "lamp_oil", "motor_oil", "propane", "conc_alcohol", "ammonia_liquid" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE",
         "description": "This is a tank for fuel.  Holds up to 1 liter.",
         "rigid": true,
         "watertight": true,
-        "ammo_restriction": { "gasoline": 1000, "diesel": 1000, "jp8": 1000, "avgas": 1000 }
+        "airtight": true,
+        "ammo_restriction": {
+          "gasoline": 1000,
+          "diesel": 1000,
+          "jp8": 1000,
+          "avgas": 1000,
+          "lamp_oil": 1000,
+          "motor_oil": 1000,
+          "propane": 1000,
+          "conc_alcohol": 1000,
+          "ammonia_liquid": 1000
+        }
       }
     ],
     "charges_per_use": 1,
@@ -212,7 +231,7 @@
     "copy-from": "exosuit_power_cutter",
     "type": "TOOL",
     "name": { "str": "exosuit power cutter (on)", "str_pl": "exosuit power cutters (on)" },
-    "description": "A huge, gas-powered saw with a diamond blade, currently a whirling blur.  It's consuming fuel and can be used as a fantastic tool for cutting metal.  You can also use it as a terrifying weapon, if you're into that sort of thing.",
+    "description": "A huge, multi-fuel powered saw with a diamond blade, currently a whirling blur.  It's consuming fuel and can be used as a fantastic tool for cutting metal.  You can also use it as a terrifying weapon, if you're into that sort of thing.",
     "cutting": 100,
     "turns_per_charge": 5,
     "revert_to": "exosuit_power_cutter",

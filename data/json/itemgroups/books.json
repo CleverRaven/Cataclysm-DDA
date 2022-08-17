@@ -297,6 +297,7 @@
       { "item": "cookbook_eatyrway", "prob": 15 },
       { "item": "cookbook_foodfashions", "prob": 10 },
       { "item": "cookbook_indian", "prob": 10 },
+      { "item": "cookbook_mexican", "prob": 10 },
       { "item": "sweets_book", "prob": 10 },
       { "item": "survnote", "prob": 1 },
       { "item": "arduino_experiments", "prob": 5 },
@@ -314,7 +315,8 @@
       { "item": "baking_book", "prob": 80 },
       { "item": "fermenting_book", "prob": 8 },
       { "item": "distilling_cookbook", "prob": 3 },
-      { "item": "cookbook_bloodforgood", "prob": 2 }
+      { "item": "cookbook_bloodforgood", "prob": 2 },
+      { "group": "memorial", "prob": 10 }
     ]
   },
   {
@@ -380,6 +382,7 @@
       { "item": "offalcooking", "prob": 8 },
       { "item": "cookbook_italian", "prob": 25 },
       { "item": "cookbook_indian", "prob": 10 },
+      { "item": "cookbook_mexican", "prob": 10 },
       { "item": "sweets_book", "prob": 10 },
       { "item": "manual_electronics", "prob": 20 },
       { "item": "manual_tailor", "prob": 15 },
@@ -446,6 +449,7 @@
       { "item": "textbook_chemistry", "prob": 11 },
       { "item": "brewing_cookbook", "prob": 3 },
       { "item": "cookbook_indian", "prob": 5 },
+      { "item": "cookbook_mexican", "prob": 3 },
       { "item": "sweets_book", "prob": 5 },
       { "item": "textbook_carpentry", "prob": 6 },
       { "item": "SICP", "prob": 3 },
@@ -566,7 +570,8 @@
       { "item": "vacuum_sealing", "prob": 15 },
       { "item": "baking_book", "prob": 190 },
       { "item": "book_pneumatics", "prob": 8 },
-      { "item": "cookbook_bloodforgood", "prob": 50 }
+      { "item": "cookbook_bloodforgood", "prob": 50 },
+      { "group": "memorial_mansion", "prob": 10 }
     ]
   },
   {
@@ -631,6 +636,7 @@
     "subtype": "distribution",
     "entries": [
       { "item": "manual_karate", "prob": 12 },
+      { "item": "manual_kickboxing", "prob": 12 },
       { "item": "manual_judo", "prob": 12 },
       { "item": "manual_aikido", "prob": 12 },
       { "item": "manual_taekwondo", "prob": 12 },
@@ -873,5 +879,39 @@
       { "item": "years_old_newspaper", "prob": 10 },
       { "item": "one_year_old_newspaper", "prob": 20 }
     ]
+  },
+  {
+    "id": "missing_poster_human",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "missing_poster_adult", "prob": 3 }, { "item": "missing_poster_child", "prob": 2 } ]
+  },
+  {
+    "id": "missing_poster_animal",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "missing_poster_dog", "prob": 1 }, { "item": "missing_poster_cat", "prob": 1 } ]
+  },
+  {
+    "id": "missing_poster_all",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "group": "missing_poster_animal", "prob": 4 }, { "group": "missing_poster_human", "prob": 1 } ]
+  },
+  {
+    "id": "bulletin_public",
+    "type": "item_group",
+    "//": "Public messages posted on bulletin boards in public spaces to advertise items wanted or for sale, announce events, or provide information.",
+    "//2": "TO DO: local adverts, event announcements, job application posters, etc.",
+    "subtype": "collection",
+    "entries": [ { "group": "missing_poster_all", "prob": 30 }, { "item": "flyer", "prob": 70, "count": [ 1, 2 ] } ]
+  },
+  {
+    "id": "bulletin_police",
+    "type": "item_group",
+    "//": "Public messages posted on bulletin boards in police stations to provide information.",
+    "//2": "TO DO: crime bulletins, wanted criminals/suspects/fugitives, community notifications, etc.",
+    "subtype": "collection",
+    "entries": [ { "group": "missing_poster_human", "prob": 100 } ]
   }
 ]

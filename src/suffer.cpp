@@ -163,6 +163,7 @@ static const trait_id trait_RADIOGENIC( "RADIOGENIC" );
 static const trait_id trait_SCHIZOPHRENIC( "SCHIZOPHRENIC" );
 static const trait_id trait_SHARKTEETH( "SHARKTEETH" );
 static const trait_id trait_SHELL2( "SHELL2" );
+static const trait_id trait_SHELL3( "SHELL3" );
 static const trait_id trait_SHOUT1( "SHOUT1" );
 static const trait_id trait_SHOUT2( "SHOUT2" );
 static const trait_id trait_SHOUT3( "SHOUT3" );
@@ -816,7 +817,7 @@ void suffer::in_sunlight( Character &you )
         const bool has_hat = you.wearing_something_on( bodypart_id( "head" ) );
         const float weather_factor = ( get_weather().weather_id->sun_intensity >=
                                        sun_intensity_type::normal ) ? 1.0 : 0.5;
-        const int player_local_temp = get_weather().get_temperature( position );
+        const int player_local_temp = units::to_fahrenheit( get_weather().get_temperature( position ) );
         const int flux = ( player_local_temp - 65 ) / 2;
         if( !has_hat ) {
             sunlight_nutrition += ( 100 + flux ) * weather_factor;
@@ -1671,7 +1672,7 @@ void suffer::from_nyctophobia( Character &you )
     const bool in_darkness = get_map().ambient_light_at( you.pos() ) < nyctophobia_threshold;
     const int chance = in_darkness ? 10 : 50;
 
-    if( !dark_places.empty() && one_in( chance ) ) {
+    if( you.is_avatar() && !dark_places.empty() && one_in( chance ) ) {
         g->spawn_hallucination( random_entry( dark_places ) );
     }
 
@@ -1965,6 +1966,10 @@ void Character::mend( int rate_multiplier )
 
 void Character::sound_hallu()
 {
+    if( is_npc() ) {
+        return;
+    }
+
     // Random 'dangerous' sound from a random direction
     // 1/5 chance to be a loud sound
     std::vector<std::string> dir{ "north",
@@ -2014,12 +2019,14 @@ void Character::sound_hallu()
 
 void Character::drench( int saturation, const body_part_set &flags, bool ignore_waterproof )
 {
+    bool in_shell = has_active_mutation( trait_SHELL2 ) ||
+                    has_active_mutation( trait_SHELL3 );
     if( saturation < 1 ) {
         return;
     }
 
     // OK, water gets in your AEP suit or whatever.  It wasn't built to keep you dry.
-    if( has_trait( trait_DEBUG_NOTEMP ) || has_active_mutation( trait_SHELL2 ) ||
+    if( has_trait( trait_DEBUG_NOTEMP ) || in_shell ||
         ( !ignore_waterproof && is_waterproof( flags ) ) ) {
         return;
     }
@@ -2063,7 +2070,7 @@ void Character::drench( int saturation, const body_part_set &flags, bool ignore_
     }
 }
 
-void Character::apply_wetness_morale( int temperature )
+void Character::apply_wetness_morale( units::temperature temperature )
 {
     // First, a quick check if we have any wetness to calculate morale from
     // Faster than checking all worn items for friendliness
@@ -2072,8 +2079,9 @@ void Character::apply_wetness_morale( int temperature )
     }
 
     // Normalize temperature to [-1.0,1.0]
-    temperature = std::max( 0, std::min( 100, temperature ) );
-    const double global_temperature_mod = -1.0 + ( 2.0 * temperature / 100.0 );
+    float temperature_f = units::to_fahrenheit( temperature );
+    temperature_f = std::max( 0.f, std::min( 100.f, temperature_f ) );
+    const double global_temperature_mod = -1.0 + ( 2.0 * temperature_f / 100.0 );
 
     int total_morale = 0;
     const body_part_set wet_friendliness = exclusive_flag_coverage( flag_WATER_FRIENDLY );

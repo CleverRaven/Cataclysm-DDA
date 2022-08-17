@@ -110,6 +110,26 @@
     "display_field": true
   },
   {
+    "id": "fd_web_nostick",
+    "type": "field_type",
+    "looks_like": "fd_web",
+    "intensity_levels": [ { "name": "thin cobwebs", "sym": "}", "color": "white" }, { "name": "thin webs", "transparent": false } ],
+    "description_affix": "covered_in",
+    "decrease_intensity_on_contact": true,
+    "priority": 2,
+    "phase": "solid",
+    "display_items": true,
+    "bash": {
+      "str_min": 1,
+      "str_max": 3,
+      "sound_vol": 2,
+      "sound_fail_vol": 2,
+      "sound": "hsh!",
+      "msg_success": "You brush aside some webs."
+    },
+    "display_field": true
+  },
+  {
     "id": "fd_slime",
     "type": "field_type",
     "legacy_enum_id": 6,

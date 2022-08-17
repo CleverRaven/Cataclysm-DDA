@@ -352,7 +352,7 @@ class item_pocket
 
         void general_info( std::vector<iteminfo> &info, int pocket_number, bool disp_pocket_number ) const;
         void contents_info( std::vector<iteminfo> &info, int pocket_number, bool disp_pocket_number ) const;
-        void favorite_info( std::vector<iteminfo> &info );
+        void favorite_info( std::vector<iteminfo> &info ) const;
 
         void serialize( JsonOut &json ) const;
         void deserialize( const JsonObject &data );

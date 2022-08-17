@@ -61,7 +61,7 @@
     "material_thickness": 4,
     "environmental_protection": 3,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "OUTER", "HELMET_COMPAT" ],
+    "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "OUTER" ],
     "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 100, "covers": [ "head" ] } ]
   },
   {
@@ -83,7 +83,7 @@
     "warmth": 75,
     "material_thickness": 5,
     "environmental_protection": 5,
-    "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "OUTER", "HELMET_COMPAT" ],
+    "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "OUTER" ],
     "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 100, "covers": [ "head" ] } ]
   },
   {
@@ -144,7 +144,7 @@
     "warmth": 10,
     "material_thickness": 4,
     "environmental_protection": 3,
-    "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "OUTER", "HELMET_COMPAT" ],
+    "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "OUTER" ],
     "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 100, "covers": [ "head" ] } ]
   },
   {
@@ -219,7 +219,7 @@
     "warmth": 15,
     "material_thickness": 3,
     "environmental_protection": 10,
-    "flags": [ "VARSIZE", "WATER_FRIENDLY", "STURDY", "OUTER", "HELMET_COMPAT", "SOFT" ],
+    "flags": [ "VARSIZE", "WATER_FRIENDLY", "STURDY", "OUTER", "SOFT" ],
     "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 100, "covers": [ "head" ] } ]
   },
   {

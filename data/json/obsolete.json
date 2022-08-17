@@ -1,5 +1,41 @@
 [
   {
+    "id": "mon_spider_cellar_giant_s",
+    "type": "MONSTER",
+    "name": { "str": "immature giant cellar spider" },
+    "description": "A newly-hatched mutant cellar spider, about the size of a beer bottle.  Too small to possess much venom, but still quick and agile like an adult.",
+    "default_faction": "spider_cellar",
+    "bodytype": "spider",
+    "species": [ "SPIDER" ],
+    "volume": "750 ml",
+    "weight": "1 kg",
+    "hp": 23,
+    "speed": 150,
+    "material": [ "iflesh" ],
+    "symbol": "c",
+    "color": "brown",
+    "aggression": -10,
+    "morale": 100,
+    "melee_skill": 5,
+    "melee_dice": 1,
+    "melee_dice_sides": 3,
+    "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
+    "dodge": 6,
+    "armor_bash": 1,
+    "armor_cut": 2,
+    "armor_bullet": 2,
+    "armor_acid": 3,
+    "armor_elec": 1,
+    "weakpoint_sets": [ "wps_arthropod", "wps_arthropod_spider" ],
+    "families": [ "prof_intro_biology", "prof_wp_basic_bug", "prof_wp_spider" ],
+    "vision_day": 5,
+    "vision_night": 5,
+    "harvest": "arachnid",
+    "anger_triggers": [ "STALK", "PLAYER_WEAK", "PLAYER_CLOSE" ],
+    "upgrades": { "age_grow": 40, "into": "mon_spider_cellar_giant" },
+    "flags": [ "SEES", "SMELLS", "HEARS", "WEBWALK", "CLIMBS", "HARDTOSHOOT", "PATH_AVOID_FIRE" ]
+  },
+  {
     "id": "MISSION_ROBOFAC_MERC_1_GOLD",
     "type": "mission_definition",
     "name": { "str": "Retrieve chunks of gold for Cranberry" },
@@ -104,7 +140,8 @@
     "name": { "str": "Vitamin A" },
     "min": -8400,
     "max": 3600,
-    "rate": "180 m"
+    "rate": "180 m",
+    "flags": [ "OBSOLETE" ]
   },
   {
     "id": "vitB",
@@ -113,7 +150,8 @@
     "name": { "str": "Vitamin B12" },
     "min": -5600,
     "max": 2000,
-    "rate": "360 m"
+    "rate": "360 m",
+    "flags": [ "OBSOLETE" ]
   },
   {
     "id": "1st_aid",
@@ -625,5 +663,77 @@
     "description": "A long soft leather rifle case.  Provides storage for long arms and rifles.  Includes a small pocket, strap and handle.",
     "flags": [ "WATER_FRIENDLY", "STURDY", "BELTED", "OVERSIZE", "UNDERSIZE", "OBSOLETE" ],
     "price": 0
+  },
+  {
+    "type": "furniture",
+    "id": "f_compact_ASRG",
+    "name": "Compact Advanced Sterling Radioisotope Generator",
+    "looks_like": "f_compact_ASRG_containment",
+    "description": "This is a stirling generator originally designed by NASA, powered by plutonium-238.  Without most of the military shielding only a thin metal layer remains and thus this is much closer to its original NASA incarnation.  Since plutonium-238 mostly emits alpha radiation it is still basically safe but without its armor it's much more likely to be broken by something dangerous.",
+    "symbol": "0",
+    "color": "green",
+    "move_cost_mod": -1,
+    "coverage": 50,
+    "required_str": -1,
+    "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "compact_ASRG_containment" },
+    "flags": [ "TRANSPARENT", "NOITEM", "SEALED", "REDUCE_SCENT", "PERMEABLE", "EASY_DECONSTRUCT" ],
+    "bash": {
+      "str_min": 20,
+      "str_max": 400,
+      "explosive": 100,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "furn_set": "f_reactor_meltdown",
+      "items": [
+        { "item": "scrap", "count": [ 4, 16 ] },
+        { "item": "steel_chunk", "count": [ 1, 6 ] },
+        { "item": "plutonium", "charges": [ 0, 3 ] },
+        { "item": "lead", "charges": [ 12, 18 ] }
+      ]
+    },
+    "deconstruct": { "items": [ { "item": "compact_ASRG_containment", "count": 1 } ] }
+  },
+  {
+    "id": "folding_bicycle",
+    "type": "TOOL",
+    "name": { "str": "folding bicycle" },
+    "description": "This is a bicycle folded into a relatively portable package.",
+    "weight": "10160 g",
+    "volume": "76651 ml",
+    "//": "Data taken from given values/dimensions for the Brompton S1E folding bicycle",
+    "price": 35000,
+    "price_postapoc": 2000,
+    "to_hit": -5,
+    "bashing": 10,
+    "material": [ "steel" ],
+    "symbol": "0",
+    "color": "light_gray"
+  },
+  {
+    "id": "folded_wheelchair",
+    "type": "TOOL",
+    "name": { "str": "folded wheelchair" },
+    "description": "A folded wheelchair.",
+    "weight": "10586 g",
+    "volume": "13500 ml",
+    "longest_side": "92 cm",
+    "symbol": "/",
+    "color": "light_gray",
+    "flags": [ "NO_REPAIR" ]
+  },
+  {
+    "id": "inflatable_boat",
+    "type": "TOOL",
+    "symbol": "0",
+    "color": "light_gray",
+    "name": { "str": "inflatable boat" },
+    "description": "This rubber rowboat (oars included) is deflated for storage.  Activate it (having an air pump in inventory) to inflate and launch.",
+    "price": 350000,
+    "price_postapoc": 4000,
+    "material": [ "rubber" ],
+    "weight": "1100 g",
+    "volume": "10000 ml",
+    "bashing": 10,
+    "to_hit": -5
   }
 ]

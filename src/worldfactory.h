@@ -113,12 +113,12 @@ class worldfactory
         std::string last_world_name;
         std::string last_character_name;
 
-        void save_last_world_info();
+        void save_last_world_info() const;
 
         mod_manager &get_mod_manager();
 
         void remove_world( const std::string &worldname );
-        bool valid_worldname( const std::string &name, bool automated = false );
+        bool valid_worldname( const std::string &name, bool automated = false ) const;
 
         /**
          * @param delete_folder If true: delete all the files and directories  of the given

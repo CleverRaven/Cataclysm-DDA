@@ -14,6 +14,24 @@ jobs:
     if: github.repository == 'CleverRaven/Cataclysm-DDA'
     runs-on: ubuntu-latest
     steps:
+      - name: "Generate PR body/tileset update changelog"
+        id: pr-changelog
+        run: |
+          printf '#### Summary\nNone\n\nAutomatic tilesets updates in:\n\nhttps://github.com/I-am-Erk/CDDA-Tilesets\n' >> pr-body
+          gh release view -R I-am-Erk/CDDA-Tilesets --json body --jq .body >> pr-body
+          printf 'https://github.com/pixel-32/CDDA-tileset\n' >> pr-body
+          gh release view -R pixel-32/CDDA-tileset --json body --jq .body >> pr-body
+          sed -i "s/## What's Changed/**What's Changed**/g" pr-body
+          sed -i '/Full Changelog/d' pr-body
+
+          CHANGELOG=$(cat pr-body)
+          CHANGELOG="${CHANGELOG//'%'/'%25'}"
+          CHANGELOG="${CHANGELOG//$'\n'/'%0A'}"
+          CHANGELOG="${CHANGELOG//$'\r'/'%0D'}"
+
+          echo "::set-output name=pr-body::$CHANGELOG"
+          rm -f pr-body
+
       - uses: actions/checkout@v3
       - name: "Get current date"
         uses: 1466587594/get-current-time@v2
@@ -37,18 +55,12 @@ jobs:
         uses: peter-evans/create-pull-request@v4
         with:
           commit-message: |
-            Routine Tileset updates on ${{ steps.current-date.outputs.formattedTime }}
+            Routine tileset updates on ${{ steps.current-date.outputs.formattedTime }}
           committer: casswedson <casswedson@users.noreply.github.com>
           author: casswedson <casswedson@users.noreply.github.com>
           token: ${{ secrets.TX_PR_CREATOR }}
           branch: tileset-updates
           delete-branch: true
           base: master
-          title: Routine Tileset updates on ${{ steps.current-date.outputs.formattedTime }}
-          body: |
-            #### Summary
-            None
-
-            Automatic tilesets updates from latest release in
-            <https://github.com/I-am-Erk/CDDA-Tilesets>
-            <https://github.com/pixel-32/CDDA-tileset>
+          title: Routine tileset updates on ${{ steps.current-date.outputs.formattedTime }}
+          body: ${{ steps.pr-changelog.outputs.pr-body }}

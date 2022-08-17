@@ -307,7 +307,7 @@ static void draw_messages( const draw_args &args )
     const catacurses::window &w = args._win;
 
     werase( w );
-    int line = getmaxy( w ) - 2;
+    int line = getmaxy( w ) - 1;
     int maxlength = getmaxx( w );
     Messages::display_messages( w, 1, 0 /*topline*/, maxlength - 1, line );
     wnoutrefresh( w );
@@ -340,12 +340,10 @@ static void draw_custom_hint( const draw_args &args )
 
     werase( w );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
-    mvwprintz( w, point( 1, 0 ), c_white, _( "Custom sidebar" ) );
+    mvwprintz( w, point( 1, 0 ), c_white, _( "Press } for sidebar options." ) );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     mvwprintz( w, point( 1, 1 ), c_light_gray,
-               _( "Edit sidebar.json to adjust." ) );
-    mvwprintz( w, point( 1, 2 ), c_light_gray,
-               _( "See WIDGETS.md for help." ) );
+               _( "See docs/WIDGETS.md for help." ) );
 
     wnoutrefresh( w );
 }
@@ -360,7 +358,7 @@ static std::vector<window_panel> initialize_default_custom_panels( const widget 
 
     // Show hint on configuration
     ret.emplace_back( window_panel( draw_custom_hint, "Hint", to_translation( "Hint" ),
-                                    3, width, true ) );
+                                    2, width, true ) );
 
     // Add window panel for each child widget
     for( const widget_id &row_wid : wgt._widgets ) {
@@ -415,9 +413,15 @@ panel_layout &panel_manager::get_current_layout()
 widget *panel_manager::get_current_sidebar()
 {
     panel_layout layout = get_current_layout();
+    const std::string name = layout.name();
+    return get_sidebar( name );
+}
+
+widget *panel_manager::get_sidebar( const std::string &name )
+{
     widget *w = nullptr;
     for( const widget &wgt : widget::get_all() ) {
-        if( wgt._style == "sidebar" && wgt._label.translated() == layout.name() ) {
+        if( wgt._style == "sidebar" && wgt._label.translated() == name ) {
             w = const_cast<widget *>( &wgt );
             break;
         }
@@ -430,7 +434,7 @@ std::string panel_manager::get_current_layout_id() const
     return current_layout_id;
 }
 
-int panel_manager::get_width_right()
+int panel_manager::get_width_right() const
 {
     if( get_option<std::string>( "SIDEBAR_POSITION" ) == "left" ) {
         return width_left;
@@ -438,7 +442,7 @@ int panel_manager::get_width_right()
     return width_right;
 }
 
-int panel_manager::get_width_left()
+int panel_manager::get_width_left() const
 {
     if( get_option<std::string>( "SIDEBAR_POSITION" ) == "left" ) {
         return width_right;
@@ -649,7 +653,9 @@ static void draw_right_win( catacurses::window &w,
     wnoutrefresh( w );
 }
 
-static void draw_center_win( catacurses::window &w, int col_width, const input_context &ctxt )
+static void draw_center_win( catacurses::window &w, int col_width, const input_context &ctxt,
+                             const widget &sidebar, const std::map<size_t, size_t> &row_indices,
+                             const std::vector<window_panel> &panels, size_t current_row, bool left_panel )
 {
     werase( w );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
@@ -663,6 +669,18 @@ static void draw_center_win( catacurses::window &w, int col_width, const input_c
     mvwprintz( w, point( 1, 4 ), c_light_green, trunc_ellipse( ctxt.get_desc( "QUIT" ),
                col_width - 1 ) + ":" );
     mvwprintz( w, point( 1, 5 ), c_white, _( "Exit" ) );
+
+    if( left_panel ) {
+        const widget_id current_widget = panels[row_indices.at( current_row )].get_widget();
+        for( const widget &wgt : widget::get_all() ) {
+            if( wgt.getId() == current_widget ) {
+                fold_and_print( w, point( 1, 7 ), col_width - 2, c_white, _( wgt._description ) );
+                break;
+            }
+        }
+    } else {
+        fold_and_print( w, point( 1, 7 ), col_width - 2, c_white, _( sidebar._description ) );
+    }
 
     wnoutrefresh( w );
 }
@@ -724,7 +742,18 @@ void panel_manager::show_adm()
         auto &panels = get_current_layout().panels();
         draw_left_win( w_left, row_indices, panels, source_index, current_row, source_row, current_col == 0,
                        swapping, column_widths[0], popup_height - 2, start );
-        draw_center_win( w_center, column_widths[1], ctxt );
+
+        widget *sidebar = nullptr;
+        if( current_col == 0 ) {
+            sidebar = get_current_sidebar();
+        } else {
+            auto it = layouts.begin();
+            std::advance( it, current_row );
+            panel_layout layout = it->second;
+            sidebar = get_sidebar( layout.name() );
+        }
+        draw_center_win( w_center, column_widths[1], ctxt, *sidebar, row_indices, panels, current_row,
+                         current_col == 0 );
     } );
 
     while( !exit ) {

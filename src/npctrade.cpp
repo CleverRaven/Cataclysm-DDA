@@ -161,14 +161,15 @@ int npc_trading::bionic_install_price( Character &installer, Character &patient,
 int npc_trading::adjusted_price( item const *it, int amount, Character const &buyer,
                                  Character const &seller )
 {
-    faction const *const fac = buyer.is_npc() ? buyer.get_faction() : seller.get_faction();
     npc const *faction_party = buyer.is_npc() ? buyer.as_npc() : seller.as_npc();
-    faction_price_rule const *const fpr = fac != nullptr ? fac->get_price_rules( *it,
-                                          *faction_party ) : nullptr;
+    faction_price_rule const *const fpr = faction_party->get_price_rules( *it );
 
-    double price = it->price_no_contents( true );
-    if( fpr != nullptr && seller.is_npc() ) {
-        price *= fpr->markup;
+    double price = it->price_no_contents( true, fpr != nullptr ? fpr->price : cata::nullopt );
+    if( fpr != nullptr ) {
+        price *= fpr->premium;
+        if( seller.is_npc() ) {
+            price *= fpr->markup;
+        }
     }
     if( it->count_by_charges() && amount >= 0 ) {
         price *= static_cast<double>( amount ) / it->charges;
@@ -351,7 +352,7 @@ bool npc_trading::npc_can_fit_items( npc const &np, trade_selector::select_t con
                 break;
             }
         }
-        if( !item_stored && !np.can_wear( *it.first, false ).value() ) {
+        if( !item_stored && !np.can_wear( *it.first, false ).success() ) {
             return false;
         }
     }
