@@ -157,8 +157,8 @@ void glare( const weather_type_id &w );
  * Amount of sunlight incident at the ground, taking weather and time of day
  * into account.
  */
-int incident_sunlight( const weather_type_id &wtype,
-                       const time_point &t = calendar::turn );
+float incident_sunlight( const weather_type_id &wtype,
+                         const time_point &t = calendar::turn );
 
 void weather_sound( const translation &sound_message, const std::string &sound_effect );
 

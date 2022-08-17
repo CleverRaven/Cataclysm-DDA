@@ -650,13 +650,13 @@ class Character : public Creature, public visitable
         float get_hit_base() const override;
 
         /** Returns the player's sight range */
-        int sight_range( int light_level ) const override;
+        int sight_range( float light_level ) const override;
         /** Returns the player maximum vision range factoring in mutations, diseases, and other effects */
         int  unimpaired_range() const;
         /** Returns true if overmap tile is within player line-of-sight */
         bool overmap_los( const tripoint_abs_omt &omt, int sight_points ) const;
         /** Returns the distance the player can see on the overmap */
-        int  overmap_sight_range( int light_level ) const;
+        int  overmap_sight_range( float light_level ) const;
         /** Returns the distance the player can see through walls */
         int  clairvoyance() const;
         /** Returns true if the player has some form of impaired sight */

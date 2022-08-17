@@ -131,7 +131,7 @@ void glare( const weather_type_id &w )
 
 ////// food vs weather
 
-int incident_sunlight( const weather_type_id &wtype, const time_point &t )
+float incident_sunlight( const weather_type_id &wtype, const time_point &t )
 {
     return std::max<float>( 0.0f, sun_light_at( t ) + wtype->light_modifier );
 }
