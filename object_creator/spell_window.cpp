@@ -232,7 +232,7 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
                                _( "The type of effect the spell can have.  See MAGIC.md for details." ) ) );
     effect_box.show();
     QStringList spell_effects;
-    for( const auto spell_effect_pair : spell_effect::effect_map ) {
+    for( const auto &spell_effect_pair : spell_effect::effect_map ) {
         spell_effects.append( QString( spell_effect_pair.first.c_str() ) );
     }
     effect_box.addItems( spell_effects );
@@ -260,7 +260,7 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
     shape_box.move( QPoint( col * default_text_box_width,
                             row++ * default_text_box_height ) );
     QStringList spell_shapes;
-    for( const auto spell_shape_pair : spell_effect::shape_map ) {
+    for( const auto &spell_shape_pair : spell_effect::shape_map ) {
         spell_shapes.append( QString( io::enum_to_string<spell_shape>( spell_shape_pair.first ).c_str() ) );
     }
     shape_box.addItems( spell_shapes );
@@ -1475,7 +1475,6 @@ void creator::spell_window::populate_fields()
             }
 
             std::string field = sp_t.field->id().str();
-            field_type_id fieldid = sp_t.field->id();
             field_id_box.setCurrentIndex( field_id_box.findText( QString( "NONE" ) ) );
             if( sp_t.field ) {
                 index = field_id_box.findText( QString( field.c_str() ) );

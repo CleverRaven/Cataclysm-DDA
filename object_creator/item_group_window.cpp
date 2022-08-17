@@ -65,7 +65,7 @@ creator::item_group_window::item_group_window( QWidget *parent, Qt::WindowFlags 
     subtype->setToolTip( tooltipText );
     subtype->addItems( QStringList{ "none", "collection", "distribution" } );
     connect( subtype, QOverload<int>::of( &QComboBox::currentIndexChanged ),
-        [=]( int index ) { write_json(); } );
+        [=]( ) { write_json(); } );
 
     QLabel* containerItem_label = new QLabel;
     containerItem_label->setText( QString( "Container-item:" ) );
@@ -90,7 +90,7 @@ creator::item_group_window::item_group_window( QWidget *parent, Qt::WindowFlags 
     overflow->setToolTip( tooltipText );
     overflow->addItems( QStringList{ "discard", "spill" } );
     connect( overflow, QOverload<int>::of( &QComboBox::currentIndexChanged ),
-        [=]( int index ) { write_json(); } );
+        [=]( ) { write_json(); } );
 
     item_search_label = new QLabel("Search items");
     item_search_box = new QLineEdit;
@@ -230,7 +230,7 @@ void creator::item_group_window::group_list_populate_filtered( std::string searc
     std::string groupID;
     group_list_total_box->clear();
     if( searchQuery == "" ) {
-        for( const item_group_id i : item_controller.get()->get_all_group_names() ) {
+        for( const item_group_id &i : item_controller.get()->get_all_group_names() ) {
             groupID = i.c_str();
             //Inline groups get an ID assigned. We don't add those to the list
             //Inline groups' ID contains a ' ' so we filter for that
@@ -241,7 +241,7 @@ void creator::item_group_window::group_list_populate_filtered( std::string searc
             }
         }
     } else {
-        for( const item_group_id i : item_controller.get()->get_all_group_names() ) {
+        for( const item_group_id &i : item_controller.get()->get_all_group_names() ) {
             groupID = i.c_str();
             if( groupID.find( searchQuery ) != std::string::npos ) {
                 QListWidgetItem* new_item = new QListWidgetItem( QString( groupID.c_str() ) );
@@ -330,7 +330,7 @@ bool creator::item_group_window::event( QEvent* event )
 
 
 creator::distributionCollection::distributionCollection( bool isCollection, 
-                            QWidget* parent, item_group_window* top_parent ){
+                                            item_group_window* top_parent ){
     top_parent_widget = top_parent;
 
     setObjectName( "distributionCollection" );
@@ -348,7 +348,7 @@ creator::distributionCollection::distributionCollection( bool isCollection,
     entryType->addItems( QStringList{ "collection", "distribution" } );
     entryType->setToolTip( QString( _( "Change the type to a collection or a distribution" ) ) );
     connect( entryType, QOverload<int>::of( &QComboBox::currentIndexChanged ),
-        [=]( int index ) { change_notify_top_parent(); } );
+        [=]( ) { change_notify_top_parent(); } );
     if( isCollection ) {
         entryType->setCurrentIndex( 0 );
     } else {
@@ -381,7 +381,7 @@ creator::distributionCollection::distributionCollection( bool isCollection,
     tooltipText += " property from json";
     prob->setToolTip( tooltipText );
     connect( prob, QOverload<int>::of( &QSpinBox::valueChanged ),
-        [=]( int i ) { change_notify_top_parent(); } );
+        [=]( ) { change_notify_top_parent(); } );
 
     QPushButton* btnDeleteThis = new QPushButton;
     btnDeleteThis->setText( "X" );
@@ -427,7 +427,7 @@ QSize creator::distributionCollection::minimumSizeHint() const
 
 void creator::distributionCollection::add_distribution() {
     creator::distributionCollection* dis = new creator::distributionCollection( false, 
-                                            this, top_parent_widget );
+                                            top_parent_widget );
     dis->set_depth( depth+1 );
     dis->set_bg_color();
     layout()->addWidget( dis );
@@ -436,7 +436,7 @@ void creator::distributionCollection::add_distribution() {
 
 void creator::distributionCollection::add_collection() {
     creator::distributionCollection* dis = new creator::distributionCollection( true, 
-                                            this, top_parent_widget );
+                                            top_parent_widget );
     dis->set_depth( depth+1 );
     dis->set_bg_color();
     layout()->addWidget( dis );
@@ -567,7 +567,7 @@ void creator::nested_group_container::change_notify_top_parent()
 
 void creator::nested_group_container::add_distribution() {
     creator::distributionCollection* dis = new creator::distributionCollection( false, 
-                                        this, top_parent_widget );
+                                        top_parent_widget );
     dis->set_depth( 0 );
     QVBoxLayout* b = static_cast<QVBoxLayout*>( this->layout() );
     b->insertWidget( b->count() - 1, dis ); //Add before the stretch element
@@ -577,7 +577,7 @@ void creator::nested_group_container::add_distribution() {
 
 void creator::nested_group_container::add_collection() {
     creator::distributionCollection* col = new creator::distributionCollection( true, 
-                                        this, top_parent_widget );
+                                        top_parent_widget );
     col->set_depth( 0 );
     QVBoxLayout* b = static_cast<QVBoxLayout*>( this->layout() );
     b->insertWidget( b->count() - 1, col ); //Add before the stretch element
@@ -655,7 +655,7 @@ creator::itemGroupEntry::itemGroupEntry( QWidget* parent, QString entryText, boo
     prob->setMinimumSize( QSize( 45, 24 ) );
     prob->setMaximumSize( QSize( 50, 24 ) );
     connect( prob, QOverload<int>::of( &QSpinBox::valueChanged ),
-        [=]( int i ) { change_notify_top_parent(); } );
+        [=]( ) { change_notify_top_parent(); } );
 
     QLabel* count_label = new QLabel;
     count_label->setText( QString( "Count:" ) );
@@ -674,7 +674,7 @@ creator::itemGroupEntry::itemGroupEntry( QWidget* parent, QString entryText, boo
     tooltipText += "\nIf only count-min is set, the JSON value will simply be count: <number>";
     count_min->setToolTip( tooltipText );
     connect( count_min, QOverload<int>::of( &QSpinBox::valueChanged ),
-        [=]( int i ) { count_min_changed(); } );
+        [=]( ) { count_min_changed(); } );
 
     count_max = new QSpinBox;
     count_max->setRange( 0, INT_MAX );
@@ -688,7 +688,7 @@ creator::itemGroupEntry::itemGroupEntry( QWidget* parent, QString entryText, boo
     tooltipText += "\nIf only count-max is set, the JSON value will simply be count: <number>";
     count_max->setToolTip( tooltipText );
     connect( count_max, QOverload<int>::of( &QSpinBox::valueChanged ),
-        [=]( int i ) { count_max_changed(); } );
+        [=]( ) { count_max_changed(); } );
 
     QLabel* charges_label = new QLabel;
     charges_label->setText( QString( "Charges:" ) );
@@ -703,7 +703,7 @@ creator::itemGroupEntry::itemGroupEntry( QWidget* parent, QString entryText, boo
     tooltipText += "a greater value then 0";
     charges_min->setToolTip( tooltipText );
     connect( charges_min, QOverload<int>::of( &QSpinBox::valueChanged ),
-        [=]( int i ) { change_notify_top_parent(); } );
+        [=]( ) { change_notify_top_parent(); } );
 
     charges_max = new QSpinBox;
     charges_max->setRange( 0, INT_MAX );
@@ -713,7 +713,7 @@ creator::itemGroupEntry::itemGroupEntry( QWidget* parent, QString entryText, boo
     tooltipText += "is greater then 0";
     charges_max->setToolTip( tooltipText );
     connect( charges_max, QOverload<int>::of( &QSpinBox::valueChanged ),
-        [=]( int i ) { change_notify_top_parent(); } );
+        [=]( ) { change_notify_top_parent(); } );
 
     QLabel* containerItem_label = new QLabel;
     containerItem_label->setText( QString( "Container-item:" ) );
@@ -789,7 +789,6 @@ void creator::itemGroupEntry::count_max_changed() {
 }
 
 void creator::itemGroupEntry::delete_self() {
-    QObject* myParent = this->parent();
     setParent( nullptr );
     change_notify_top_parent();
     deleteLater();

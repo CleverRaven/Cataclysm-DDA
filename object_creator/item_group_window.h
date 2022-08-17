@@ -80,8 +80,8 @@ namespace creator
         explicit itemGroupEntry( QWidget* parent, QString entryText, bool group, 
                                 item_group_window* top_parent );
         void get_json( JsonOut &jo );
-        QSize sizeHint() const;
-        QSize minimumSizeHint() const;
+        QSize sizeHint() const override;
+        QSize minimumSizeHint() const override;
 
     private:
         void delete_self();
@@ -103,7 +103,7 @@ namespace creator
     class distributionCollection : public QFrame
     {
     public:
-        explicit distributionCollection( bool isCollection, QWidget* parent = nullptr,
+        explicit distributionCollection( bool isCollection, 
                     item_group_window* top_parent = nullptr );
         void get_json( JsonOut &jo );
         void set_bg_color();
