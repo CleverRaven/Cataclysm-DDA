@@ -1112,6 +1112,20 @@
   },
   {
     "type": "overmap_terrain",
+    "id": [
+      "s_shoppingplaza_A6",
+      "s_shoppingplaza_B1",
+      "s_shoppingplaza_B2",
+      "s_shoppingplaza_B3",
+      "s_shoppingplaza_B4",
+      "s_shoppingplaza_B5",
+      "s_shoppingplaza_B6"
+    ],
+    "copy-from": "s_shoppingplaza_a6",
+    "name": "abandoned shopping plaza roof"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "veterinarian",
     "name": "veterinarian clinic",
     "copy-from": "generic_city_building",

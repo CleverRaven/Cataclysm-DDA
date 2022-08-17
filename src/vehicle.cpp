@@ -4733,6 +4733,30 @@ std::pair<int, int> vehicle::battery_power_level() const
     return std::make_pair( remaining_epower, total_epower_capacity );
 }
 
+std::pair<int, int> vehicle::connected_battery_power_level() const
+{
+    int total_epower_capacity = 0;
+    int remaining_epower = 0;
+
+    std::tie( remaining_epower, total_epower_capacity ) = battery_power_level();
+
+    auto get_power_visitor = [&]( vehicle const * veh, int amount, int ) {
+        int other_total_epower_capacity = 0;
+        int other_remaining_epower = 0;
+
+        std::tie( other_remaining_epower, other_total_epower_capacity ) = veh->battery_power_level();
+
+        total_epower_capacity += other_total_epower_capacity;
+        remaining_epower += other_remaining_epower;
+
+        return amount;
+    };
+
+    traverse_vehicle_graph( this, 1, get_power_visitor );
+
+    return std::make_pair( remaining_epower, total_epower_capacity );
+}
+
 bool vehicle::start_engine( int e, bool turn_on )
 {
     if( parts[engines[e]].enabled == turn_on ) {
@@ -4854,10 +4878,60 @@ int vehicle::total_water_wheel_epower_w() const
     return epower_w;
 }
 
-int vehicle::net_battery_charge_rate_w() const
+int vehicle::net_battery_charge_rate_w( bool include_reactors ) const
 {
     return total_engine_epower_w() + total_alternator_epower_w() + total_accessory_epower_w() +
-           total_solar_epower_w() + total_wind_epower_w() + total_water_wheel_epower_w();
+           total_solar_epower_w() + total_wind_epower_w() + total_water_wheel_epower_w() +
+           ( include_reactors ? active_reactor_epower_w( false ) : 0 );
+}
+
+int vehicle::active_reactor_epower_w( bool connected_vehicles ) const
+{
+    int reactor_w = 0;
+
+    for( int elem : reactors ) {
+        if( is_part_on( elem ) && !parts[elem].is_unavailable() &&
+            ( parts[ elem ].info().has_flag( STATIC( std::string( "PERPETUAL" ) ) ) ||
+              parts[elem].ammo_remaining() > 0 ) ) {
+            reactor_w += part_epower_w( elem );
+        }
+    }
+
+    if( reactor_w > 0 ) {
+        // The reactor is providing power, but not all of it will really be used.
+        // Only count as much power as will be drawn from the reactor to fill the batteries.
+        int total_battery_left;
+        int total_battery_capacity;
+        std::tie( total_battery_left, total_battery_capacity ) = connected_vehicles ?
+                connected_battery_power_level() : battery_power_level();
+
+        // How much battery needs filled?
+        int batteries_need = std::max( 0, total_battery_capacity - total_battery_left );
+
+        // How much battery are others adding/draining?
+        int others_w = net_battery_charge_rate_w( false );
+        int others_bat = power_to_energy_bat( others_w, 1_turns );
+
+        // How much battery will the reactors add?
+        int reactor_bat = power_to_energy_bat( reactor_w, 1_turns );
+
+        batteries_need -= others_bat;
+
+        if( reactor_bat >= batteries_need ) {
+            // The reactor will provide more than the batteries need.
+            // Since the batteries will be filled up immediately,
+            // the reactor will throttle, providing just enough to cancel out
+            // any negative draw on the batteries.
+            return std::max( 1, -others_w );
+        } else {
+            // The reactor will not immediately fill up the batteries.
+            // Thus it will provide full power.
+            return reactor_w;
+        }
+    } else {
+        // No power provded by reactors, don't bother checking battery level.
+        return 0;
+    }
 }
 
 int vehicle::max_reactor_epower_w() const
@@ -4902,57 +4976,60 @@ void vehicle::power_parts()
     int epower = engine_epower + total_accessory_epower_w() + total_alternator_epower_w();
 
     int delta_energy_bat = power_to_energy_bat( epower, 1_turns );
-    int battery_left;
-    int battery_capacity;
-    std::tie( battery_left, battery_capacity ) = battery_power_level();
-    int storage_deficit_bat = std::max( 0, battery_capacity - battery_left - delta_energy_bat );
     Character &player_character = get_player_character();
-    // Reactors trigger only on demand. If we'd otherwise run out of power, see
-    // if we can spin up the reactors.
-    if( !reactors.empty() && storage_deficit_bat > 0 ) {
-        // Still not enough surplus epower to fully charge battery
-        // Produce additional epower from any reactors
-        bool reactor_working = false;
-        bool reactor_online = false;
-        for( int elem : reactors ) {
-            // Check whether the reactor is on. If not, move on.
-            if( !is_part_on( elem ) ) {
-                continue;
-            }
-            // Keep track whether or not the vehicle has any reactors activated
-            reactor_online = true;
-            // the amount of energy the reactor generates each turn
-            const int gen_energy_bat = power_to_energy_bat( part_epower_w( elem ), 1_turns );
-            if( parts[ elem ].is_unavailable() ) {
-                continue;
-            } else if( parts[ elem ].info().has_flag( STATIC( std::string( "PERPETUAL" ) ) ) ) {
-                reactor_working = true;
-                delta_energy_bat += std::min( storage_deficit_bat, gen_energy_bat );
-            } else if( parts[elem].ammo_remaining() > 0 ) {
-                // Efficiency: one unit of fuel is this many units of battery
-                // Note: One battery is 1 kJ
-                const int efficiency = part_info( elem ).power;
-                const int avail_fuel = parts[elem].ammo_remaining() * efficiency;
-                const int elem_energy_bat = std::min( gen_energy_bat, avail_fuel );
-                // Cap output at what we can achieve and utilize
-                const int reactors_output_bat = std::min( elem_energy_bat, storage_deficit_bat );
-                // Fuel consumed in actual units of the resource
-                int fuel_consumed = reactors_output_bat / efficiency;
-                // Remainder has a chance of resulting in more fuel consumption
-                fuel_consumed += x_in_y( reactors_output_bat % efficiency, efficiency ) ? 1 : 0;
-                parts[ elem ].ammo_consume( fuel_consumed, global_part_pos3( elem ) );
-                reactor_working = true;
-                delta_energy_bat += reactors_output_bat;
-            }
-        }
 
-        if( !reactor_working && reactor_online ) {
-            // All reactors out of fuel or destroyed
+    if( !reactors.empty() ) {
+        // Reactors trigger only on demand -- that is, if they can fill up a battery in the vehicle or any connected vehicles.
+        // Check the entire graph of connected vehicles to determine power output.
+        int battery_left;
+        int battery_capacity;
+        std::tie( battery_left, battery_capacity ) = connected_battery_power_level();
+        int storage_deficit_bat = std::max( 0, battery_capacity - battery_left - delta_energy_bat );
+        if( storage_deficit_bat > 0 ) {
+            // Still not enough surplus epower to fully charge battery
+            // Produce additional epower from any reactors
+            bool reactor_working = false;
+            bool reactor_online = false;
             for( int elem : reactors ) {
-                parts[ elem ].enabled = false;
+                // Check whether the reactor is on. If not, move on.
+                if( !is_part_on( elem ) ) {
+                    continue;
+                }
+                // Keep track whether or not the vehicle has any reactors activated
+                reactor_online = true;
+                // the amount of energy the reactor generates each turn
+                const int gen_energy_bat = power_to_energy_bat( part_epower_w( elem ), 1_turns );
+                if( parts[ elem ].is_unavailable() ) {
+                    continue;
+                } else if( parts[ elem ].info().has_flag( STATIC( std::string( "PERPETUAL" ) ) ) ) {
+                    reactor_working = true;
+                    delta_energy_bat += std::min( storage_deficit_bat, gen_energy_bat );
+                } else if( parts[elem].ammo_remaining() > 0 ) {
+                    // Efficiency: one unit of fuel is this many units of battery
+                    // Note: One battery is 1 kJ
+                    const int efficiency = part_info( elem ).power;
+                    const int avail_fuel = parts[elem].ammo_remaining() * efficiency;
+                    const int elem_energy_bat = std::min( gen_energy_bat, avail_fuel );
+                    // Cap output at what we can achieve and utilize
+                    const int reactors_output_bat = std::min( elem_energy_bat, storage_deficit_bat );
+                    // Fuel consumed in actual units of the resource
+                    int fuel_consumed = reactors_output_bat / efficiency;
+                    // Remainder has a chance of resulting in more fuel consumption
+                    fuel_consumed += x_in_y( reactors_output_bat % efficiency, efficiency ) ? 1 : 0;
+                    parts[ elem ].ammo_consume( fuel_consumed, global_part_pos3( elem ) );
+                    reactor_working = true;
+                    delta_energy_bat += reactors_output_bat;
+                }
             }
-            if( player_in_control( player_character ) || player_character.sees( global_pos3() ) ) {
-                add_msg( _( "The %s's reactor dies!" ), name );
+
+            if( !reactor_working && reactor_online ) {
+                // All reactors out of fuel or destroyed
+                for( int elem : reactors ) {
+                    parts[ elem ].enabled = false;
+                }
+                if( player_in_control( player_character ) || player_character.sees( global_pos3() ) ) {
+                    add_msg( _( "The %s's reactor dies!" ), name );
+                }
             }
         }
     }

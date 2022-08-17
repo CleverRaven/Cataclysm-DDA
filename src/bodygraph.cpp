@@ -487,7 +487,7 @@ void bodygraph_display::prepare_infotext( bool reset_pos )
     // part temperature
     const bool temp_precise = u->has_item_with_flag( STATIC( flag_id( "THERMOMETER" ) ) ) ||
                               u->has_flag( STATIC( json_character_flag( "THERMOMETER" ) ) );
-    const int temp = info.temperature.first / 100.0 * 2; // farenheit
+    const units::temperature temp = units::from_fahrenheit( info.temperature.first / 50.0 );
     info_txt.emplace_back( string_format( "%s: %s", colorize( _( "Body temp" ), c_magenta ),
                                           temp_precise ? colorize( print_temperature( temp ),
                                                   info.temperature.second ) : info.temp_approx ) );

@@ -207,6 +207,7 @@ monster::monster()
     biosig_timer = calendar::before_time_starts;
     udder_timer = calendar::turn;
     horde_attraction = MHA_NULL;
+    aggro_character = true;
     set_anatomy( anatomy_default_anatomy );
     set_body();
 }
@@ -238,6 +239,7 @@ monster::monster( const mtype_id &id ) : monster()
         mech_bat_item.ammo_consume( rng( 0, max_charge ), tripoint_zero, nullptr );
         battery_item = cata::make_value<item>( mech_bat_item );
     }
+    aggro_character = type->aggro_character;
 }
 
 monster::monster( const mtype_id &id, const tripoint &p ) : monster( id )
@@ -291,6 +293,7 @@ void monster::poly( const mtype_id &id )
     upgrades = type->upgrades;
     reproduces = type->reproduces;
     biosignatures = type->biosignatures;
+    aggro_character = type->aggro_character;
 }
 
 bool monster::can_upgrade() const
@@ -380,7 +383,34 @@ void monster::try_upgrade( bool pin_time )
         if( type->upgrade_into ) {
             poly( type->upgrade_into );
         } else {
-            const mtype_id &new_type = MonsterGroupManager::GetRandomMonsterFromGroup( type->upgrade_group );
+            mtype_id new_type;
+            if( type->upgrade_multi_range ) {
+                std::vector<MonsterGroupResult> res = MonsterGroupManager::GetResultFromGroup(
+                        type->upgrade_group );
+                if( !res.empty() ) {
+                    // Set the type to poly the current monster (preserves inventory)
+                    new_type = res.front().name;
+                    res.front().pack_size--;
+                    for( const MonsterGroupResult &mgr : res ) {
+                        if( !mgr.name ) {
+                            continue;
+                        }
+                        for( int i = 0; i < mgr.pack_size; i++ ) {
+                            tripoint spawn_pos;
+                            if( g->find_nearby_spawn_point( pos(), mgr.name, 1, *type->upgrade_multi_range,
+                                                            spawn_pos, false ) ) {
+                                monster *spawned = g->place_critter_at( mgr.name, spawn_pos );
+                                if( spawned ) {
+                                    spawned->friendly = friendly;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            if( new_type ) {
+                new_type = MonsterGroupManager::GetRandomMonsterFromGroup( type->upgrade_group );
+            }
             if( new_type ) {
                 poly( new_type );
             }
@@ -1059,22 +1089,21 @@ bool monster::can_act() const
              ( !has_effect( effect_stunned ) && !has_effect( effect_downed ) && !has_effect( effect_webbed ) ) );
 }
 
-int monster::sight_range( const int light_level ) const
+int monster::sight_range( const float light_level ) const
 {
     // Non-aquatic monsters can't see much when submerged
     if( !can_see() || effect_cache[VISION_IMPAIRED] ||
         ( underwater && !swims() && !has_flag( MF_AQUATIC ) && !digging() ) ) {
         return 1;
     }
-    static const int default_daylight = default_daylight_level();
+    static const float default_daylight = default_daylight_level();
     if( light_level == 0 ) {
         return type->vision_night;
-    } else if( light_level == default_daylight ) {
+    } else if( light_level >= default_daylight ) {
         return type->vision_day;
     }
-    int range = light_level * type->vision_day + ( default_daylight - light_level ) *
-                type->vision_night;
-    range /= default_daylight;
+    int range = ( light_level * type->vision_day + ( default_daylight - light_level ) *
+                  type->vision_night ) / default_daylight;
 
     return range;
 }
@@ -1365,6 +1394,10 @@ monster_attitude monster::attitude( const Character *u ) const
         return MATT_FLEE;
     }
 
+    if( u != nullptr && !aggro_character && !u->is_monster() ) {
+        return MATT_IGNORE;
+    }
+
     return MATT_ATTACK;
 }
 
@@ -1414,6 +1447,12 @@ void monster::process_triggers()
         } else {
             anger--;
         }
+    }
+
+    // If we got angry at characters have a chance at calming down
+    if( anger == type->agro && aggro_character && !type->aggro_character && !x_in_y( anger, 100 ) ) {
+        add_msg_debug( debugmode::DF_MONSTER, "%s's character aggro reset", name() );
+        aggro_character = false;
     }
 
     // Cap values at [-100, 100] to prevent perma-angry moose etc.
@@ -1897,6 +1936,10 @@ void monster::apply_damage( Creature *source, bodypart_id /*bp*/, int dam,
         set_killer( source );
     } else if( dam > 0 ) {
         process_trigger( mon_trigger::HURT, 1 + static_cast<int>( dam / 3 ) );
+        // Get angry at characters if hurt by one
+        if( source != nullptr && !aggro_character && !source->is_monster() ) {
+            aggro_character = true;
+        }
     }
 }
 
@@ -2635,6 +2678,12 @@ void monster::die( Creature *nkiller )
                 // Anger trumps fear trumps ennui
                 if( critter.type->has_anger_trigger( mon_trigger::FRIEND_DIED ) ) {
                     critter.anger += 15;
+                    if( nkiller != nullptr && !nkiller->is_monster() ) {
+                        // A character killed our friend
+                        add_msg_debug( debugmode::DF_MONSTER, "%s's character aggro triggered by killing a friendly %s",
+                                       critter.name(), name() );
+                        aggro_character = true;
+                    }
                 } else if( critter.type->has_fear_trigger( mon_trigger::FRIEND_DIED ) ) {
                     critter.morale -= 15;
                 } else if( critter.type->has_placate_trigger( mon_trigger::FRIEND_DIED ) ) {
@@ -3220,6 +3269,12 @@ void monster::on_hit( Creature *source, bodypart_id,
                 // Anger trumps fear trumps ennui
                 if( critter.type->has_anger_trigger( mon_trigger::FRIEND_ATTACKED ) ) {
                     critter.anger += 15;
+                    if( source != nullptr && !source->is_monster() ) {
+                        // A character attacked our friend
+                        add_msg_debug( debugmode::DF_MONSTER, "%s's character aggro triggered by attacking a friendly %s",
+                                       critter.name(), name() );
+                        aggro_character = true;
+                    }
                 } else if( critter.type->has_fear_trigger( mon_trigger::FRIEND_ATTACKED ) ) {
                     critter.morale -= 15;
                 } else if( critter.type->has_placate_trigger( mon_trigger::FRIEND_ATTACKED ) ) {
@@ -3417,6 +3472,11 @@ void monster::on_load()
         } else {
             anger += std::min( ( dt_left_a / 8 ),
                                std::abs( anger - type->agro ) );
+        }
+        // If we got angry at characters have a chance at calming down
+        if( aggro_character && !type->aggro_character && !x_in_y( anger, 100 ) ) {
+            add_msg_debug( debugmode::DF_MONSTER, "%s's character aggro reset", name() );
+            aggro_character = false;
         }
     }
 
