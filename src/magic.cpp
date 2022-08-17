@@ -2172,10 +2172,10 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
     // todo: damage over time here, when it gets implemented
 
     // Show duration for spells that endure
-    if( sp.duration() > 0 || sp.has_flag( spell_flag::PERMANENT ||
-    sp.has_flag( spell_flag::PERMANENT_ALL_LEVELS ) ) {
-    print_colored_text( w_menu, point( h_col1, line++ ), gray, gray,
-                        string_format( "%s: %s", _( "Duration" ), sp.duration_string() ) );
+    if( sp.duration() > 0 || sp.has_flag( spell_flag::PERMANENT ) ||
+        sp.has_flag( spell_flag::PERMANENT_ALL_LEVELS ) ) {
+        print_colored_text( w_menu, point( h_col1, line++ ), gray, gray,
+                            string_format( "%s: %s", _( "Duration" ), sp.duration_string() ) );
     }
 
     // helper function for printing tool and item component requirement lists
@@ -2186,7 +2186,7 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
     };
 
     if( sp.has_components() ) {
-    if( !sp.components().get_components().empty() ) {
+        if( !sp.components().get_components().empty() ) {
             print_vec_string( sp.components().get_folded_components_list( info_width - 2, gray,
                               player_character.crafting_inventory(), return_true<item> ) );
         }
