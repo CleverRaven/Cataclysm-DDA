@@ -1494,13 +1494,9 @@ static int maptile_field_intensity( maptile &mt, field_type_id fld )
     return field_ptr == nullptr ? 0 : field_ptr->get_field_intensity();
 }
 
-int get_heat_radiation( const tripoint &location, bool direct )
+units::temperature get_heat_radiation( const tripoint &location )
 {
-    // Direct heat from fire sources
-    // Cache fires to avoid scanning the map around us bp times
-    // Stored as intensity-distance pairs
-    int temp_mod = 0;
-    int best_fire = 0;
+    units::temperature temp_mod = 0_K;
     Character &player_character = get_player_character();
     map &here = get_map();
     // Convert it to an int id once, instead of 139 times per turn
@@ -1529,32 +1525,62 @@ int get_heat_radiation( const tripoint &location, bool direct )
         }
         // Ensure fire_dist >= 1 to avoid divide-by-zero errors.
         const int fire_dist = std::max( 1, square_dist( dest, location ) );
-        temp_mod += 6 * heat_intensity * heat_intensity / fire_dist;
-        if( fire_dist <= 1 ) {
-            // Extend limbs/lean over a single adjacent fire to warm up
-            best_fire = std::max( best_fire, heat_intensity );
-        }
-    }
-    if( direct ) {
-        return best_fire;
+        temp_mod += units::from_kelvin( 6.f * heat_intensity * heat_intensity / fire_dist / 1.8 );
     }
     return temp_mod;
 }
 
-int get_convection_temperature( const tripoint &location )
+int get_best_fire( const tripoint &location )
 {
-    int temp_mod = 0;
+    int best_fire = 0;
+    Character &player_character = get_player_character();
+    map &here = get_map();
+    // Convert it to an int id once, instead of 139 times per turn
+    const field_type_id fd_fire_int = fd_fire.id();
+    for( const tripoint &dest : here.points_in_radius( location, 6 ) ) {
+        int heat_intensity = 0;
+
+        maptile mt = here.maptile_at( dest );
+
+        int ffire = maptile_field_intensity( mt, fd_fire_int );
+        if( ffire > 0 ) {
+            heat_intensity = ffire;
+        } else  {
+            heat_intensity = mt.get_ter()->heat_radiation;
+        }
+        if( heat_intensity == 0 ) {
+            // No heat source here
+            continue;
+        }
+        if( player_character.pos() == location ) {
+            if( !here.clear_path( dest, location, -1, 1, 100 ) ) {
+                continue;
+            }
+        } else if( !here.sees( location, dest, -1 ) ) {
+            continue;
+        }
+        if( square_dist( dest, location ) <= 1 ) {
+            // Extend limbs/lean over a single adjacent fire to warm up
+            best_fire = std::max( best_fire, heat_intensity );
+        }
+    }
+    return best_fire;
+}
+
+units::temperature get_convection_temperature( const tripoint &location )
+{
+    units::temperature temp_mod = 0_K;
     map &here = get_map();
     // Directly on lava tiles
-    int lava_mod = here.tr_at( location ).has_flag( json_flag_CONVECTS_TEMPERATURE ) ?
-                   fd_fire->get_intensity_level().convection_temperature_mod : 0;
+    units::temperature lava_mod = here.tr_at( location ).has_flag( json_flag_CONVECTS_TEMPERATURE ) ?
+                                  units::from_kelvin( fd_fire->get_intensity_level().convection_temperature_mod / 1.8 ) : 0_K;
     // Modifier from fields
     for( auto fd : here.field_at( location ) ) {
         // Nullify lava modifier when there is open fire
         if( fd.first.obj().has_fire ) {
-            lava_mod = 0;
+            lava_mod = 0_K;
         }
-        temp_mod += fd.second.get_intensity_level().convection_temperature_mod;
+        temp_mod += units::from_kelvin( fd.second.get_intensity_level().convection_temperature_mod / 1.8 );
     }
     return temp_mod + lava_mod;
 }
@@ -2185,7 +2211,7 @@ bool game::handle_mouseview( input_context &ctxt, std::string &action )
     do {
         action = ctxt.handle_input();
         if( action == "MOUSE_MOVE" ) {
-            const cata::optional<tripoint> mouse_pos = ctxt.get_coordinates( w_terrain );
+            const cata::optional<tripoint> mouse_pos = ctxt.get_coordinates( w_terrain, ter_view_p.xy(), true );
             if( mouse_pos && ( !liveview_pos || *mouse_pos != *liveview_pos ) ) {
                 liveview_pos = mouse_pos;
                 liveview.show( *liveview_pos );
@@ -7194,7 +7220,7 @@ look_around_result game::look_around(
             if( edge_scrolling ) {
                 center += action == "MOUSE_MOVE" ? edge_scroll * 2 : edge_scroll;
             } else if( action == "MOUSE_MOVE" ) {
-                const cata::optional<tripoint> mouse_pos = ctxt.get_coordinates( w_terrain );
+                const cata::optional<tripoint> mouse_pos = ctxt.get_coordinates( w_terrain, ter_view_p.xy(), true );
                 if( mouse_pos ) {
                     lx = mouse_pos->x;
                     ly = mouse_pos->y;
@@ -8653,6 +8679,8 @@ static void butcher_submenu( const std::vector<map_stack::iterator> &corpses, in
     bool has_blood = false;
     bool has_skin = false;
     bool has_organs = false;
+    std::string dissect_wp_hint; // dissection weakpoint proficiencies training hint
+    int dissect_wp_hint_lines = 0; // track hint lines so menu width doesn't change
 
     if( index != -1 ) {
         const mtype *dead_mon = corpses[index]->get_mtype();
@@ -8672,11 +8700,26 @@ static void butcher_submenu( const std::vector<map_stack::iterator> &corpses, in
                     has_blood = true;
                 }
             }
+            if( !dead_mon->families.families.empty() ) {
+                dissect_wp_hint += std::string( "\n\n" ) + _( "Dissecting may yield knowledge of:" );
+                dissect_wp_hint_lines += 2;
+                for( const weakpoint_family &wf : dead_mon->families.families ) {
+                    std::string prof_status;
+                    if( !player_character.has_prof_prereqs( wf.proficiency ) ) {
+                        prof_status += colorize( string_format( " (%s)", _( "missing proficiencies" ) ), c_red );
+                    } else if( player_character.has_proficiency( wf.proficiency ) ) {
+                        prof_status += colorize( string_format( " (%s)", _( "already known" ) ), c_dark_gray );
+                    }
+                    dissect_wp_hint += string_format( "\n  %s%s", wf.proficiency->name(), prof_status );
+                    dissect_wp_hint_lines++;
+                }
+            }
         }
     }
 
     uilist smenu;
     smenu.desc_enabled = true;
+    smenu.desc_lines_hint += dissect_wp_hint_lines;
     smenu.text = _( "Choose type of butchery:" );
 
     const std::string cannot_see = colorize( _( "can't see!" ), c_red );
@@ -8754,13 +8797,13 @@ static void butcher_submenu( const std::vector<map_stack::iterator> &corpses, in
     smenu.addentry_col( static_cast<int>( butcher_type::DISSECT ), enough_light,
                         'd', _( "Dissect corpse" ),
                         enough_light ? cut_time( butcher_type::DISSECT ) : cannot_see,
-                        string_format( "%s  %s",
+                        string_format( "%s  %s%s",
                                        _( "By careful dissection of the corpse, you will examine it for "
                                           "possible bionic implants, or discrete organs and harvest them "
                                           "if possible.  Requires scalpel-grade cutting tools, ruins "
                                           "corpse, and consumes a lot of time.  Your medical knowledge "
                                           "is most useful here." ),
-                                       msgFactorD ) );
+                                       msgFactorD, dissect_wp_hint ) );
     smenu.query();
     switch( smenu.ret ) {
         case static_cast<int>( butcher_type::QUICK ):

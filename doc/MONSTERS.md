@@ -517,6 +517,8 @@ The upgrades object may have the following members:
 | `into_group` | (string, optional) The upgraded monster's type is taken from the specified group.
 | `into`       | (string, optional) The upgraded monster's type.
 | `age_grow`   | (int, optional) Number of days needed for monster to change into another monster. Does not scale with the evolution factor.
+| `multiple_spawns` | (bool, optional) If using `into_group`, the selected entry spawns a number of monsters based on the entry's `pack_size`.
+| `spawn_range` | (int, optional) Mandatory when `multiple_spawns` is true. Determines how far away from the original monster the upgraded monsters can spawn.
 
 ## "reproduction"
 (dictionary, optional)

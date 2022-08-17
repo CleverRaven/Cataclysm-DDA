@@ -1077,7 +1077,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
         const oter_id &cur_om_ter = overmap_buffer.ter( global_omt_location() );
         /* cache g->get_temperature( player location ) since it is used twice. No reason to recalc */
         weather_manager &weather = get_weather();
-        const int player_local_temp = weather.get_temperature( player_character.pos() );
+        const units::temperature player_local_temp = weather.get_temperature( player_character.pos() );
         const int windpower = get_local_windpower( weather.windspeed + vehwindspeed,
                               cur_om_ter, pos(), weather.winddirection, g->is_sheltered( pos() ) );
         add_msg_if_player( m_info, _( "Temperature: %s." ), print_temperature( player_local_temp ) );
@@ -1092,9 +1092,8 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
                            convert_velocity( windpower * 100, VU_WIND ),
                            velocity_units( VU_WIND ) );
         add_msg_if_player( m_info, _( "Feels Like: %s." ),
-                           print_temperature(
-                               get_local_windchill( weatherPoint.temperature, weatherPoint.humidity,
-                                       windpower ) + player_local_temp ) );
+                           print_temperature( player_local_temp + get_local_windchill( weatherPoint.temperature,
+                                              weatherPoint.humidity,  windpower ) ) );
         std::string dirstring = get_dirstring( weather.winddirection );
         add_msg_if_player( m_info, _( "Wind Direction: From the %s." ), dirstring );
     } else if( bio.id == bio_remote ) {

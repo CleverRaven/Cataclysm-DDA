@@ -50,6 +50,7 @@ mtype::mtype()
     phase = phase_id::SOLID;
     def_chance = 0;
     upgrades = false;
+    upgrade_multi_range = cata::optional<int>();
     half_life = -1;
     age_grow = -1;
     upgrade_into = mtype_id::NULL_ID();

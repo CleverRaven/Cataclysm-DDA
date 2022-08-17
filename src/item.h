@@ -1546,12 +1546,15 @@ class item : public visitable
          * @param it the item being put in
          * @param nested whether or not the current call is nested (used recursively).
          * @param ignore_pkt_settings whether to ignore pocket autoinsert settings
+         * @param remaining_parent_volume the ammount of space in the parent pocket,
+         * needed to make sure we dont try to nest items which can't fit in the nested pockets
          */
         /*@{*/
         ret_val<void> can_contain( const item &it, bool nested = false,
                                    bool ignore_rigidity = false,
                                    bool ignore_pkt_settings = true,
-                                   const item_location &parent_it = item_location() ) const;
+                                   const item_location &parent_it = item_location(),
+                                   units::volume remaining_parent_volume = 10000000_ml ) const;
         bool can_contain( const itype &tp ) const;
         bool can_contain_partial( const item &it ) const;
         /*@}*/

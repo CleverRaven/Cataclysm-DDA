@@ -22,6 +22,7 @@
     "dissect": "dissect_batrachian_sample_single",
     "special_attacks": [ { "type": "leap", "cooldown": 4, "max_range": 5, "allow_no_target": true } ],
     "fear_triggers": [ "PLAYER_CLOSE" ],
+    "upgrades": { "half_life": 34, "into": "mon_frog_small" },
     "flags": [ "SEES", "SMELLS", "HEARS", "SWIMS", "WATER_CAMOUFLAGE" ]
   },
   {
