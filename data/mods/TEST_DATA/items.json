@@ -3145,28 +3145,6 @@
     ]
   },
   {
-    "id": "test_folding_bicycle",
-    "type": "TOOL",
-    "name": { "str": "folding bicycle" },
-    "description": "This is a bicycle folded into a relatively portable package.",
-    "weight": "10160 g",
-    "volume": "76651 ml",
-    "//": "Data taken from given values/dimensions for the Brompton S1E folding bicycle",
-    "price": 35000,
-    "price_postapoc": 2000,
-    "to_hit": -5,
-    "bashing": 10,
-    "material": [ "steel" ],
-    "symbol": "0",
-    "color": "light_gray",
-    "use_action": {
-      "type": "unfold_vehicle",
-      "vehicle_name": "bicycle",
-      "unfold_msg": "You painstakingly unfold the bicycle and make it ready to ride.",
-      "moves": 500
-    }
-  },
-  {
     "id": "test_exo_lense_module",
     "type": "TOOL",
     "name": { "str": "exosuit multi lense zoom module" },

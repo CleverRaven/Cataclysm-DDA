@@ -444,6 +444,7 @@
         [ "fried_spam", 2 ],
         [ "can_chicken", 1 ],
         [ "fish_cooked", 1 ],
+        [ "fish_scrap_cooked", 10 ],
         [ "fish_smoked", 1 ],
         [ "lobster_cooked", 1 ],
         [ "lobster_smoked", 1 ],
@@ -564,6 +565,7 @@
         [ "salted_fish", 2 ],
         [ "fish_canned", 2 ],
         [ "can_salmon", 2 ],
+        [ "fish_scrap", 10 ],
         [ "can_tuna", 2 ]
       ]
     ]

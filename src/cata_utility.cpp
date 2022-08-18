@@ -199,21 +199,6 @@ const char *velocity_units( const units_type vel_units )
     return "error: unknown units!";
 }
 
-double temp_to_celsius( double fahrenheit )
-{
-    return ( fahrenheit - 32.0 ) * 5.0 / 9.0;
-}
-
-double temp_to_kelvin( double fahrenheit )
-{
-    return temp_to_celsius( fahrenheit ) + 273.15;
-}
-
-double celsius_to_kelvin( double celsius )
-{
-    return celsius + 273.15;
-}
-
 double kelvin_to_fahrenheit( double kelvin )
 {
     return 1.8 * ( kelvin - 273.15 ) + 32;

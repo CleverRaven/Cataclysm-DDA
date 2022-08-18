@@ -4532,6 +4532,33 @@
     "flags": [ "BLIND_HARD" ]
   },
   {
+    "result": "tshirt_text",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "skill_used": "tailor",
+    "time": "1 m",
+    "components": [ [ [ "cotton_patchwork", 5 ] ] ],
+    "flags": [ "BLIND_HARD" ]
+  },
+  {
+    "result": "flag_shirt",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "skill_used": "tailor",
+    "time": "1 m",
+    "components": [ [ [ "cotton_patchwork", 5 ] ] ],
+    "flags": [ "BLIND_HARD" ]
+  },
+  {
+    "result": "linuxtshirt",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "skill_used": "tailor",
+    "time": "1 m",
+    "components": [ [ [ "cotton_patchwork", 5 ] ] ],
+    "flags": [ "BLIND_HARD" ]
+  },
+  {
     "result": "dish_towel",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",

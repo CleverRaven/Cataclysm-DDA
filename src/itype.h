@@ -1174,7 +1174,11 @@ struct itype {
         // Tool qualities that work only when the tool has charges_to_use charges remaining
         std::map<quality_id, int> charged_qualities;
 
+        // Properties are assigned to the type (belong to the item definition)
         std::map<std::string, std::string> properties;
+
+        // Item vars are loaded from the type, but assigned and de/serialized with the item itself
+        std::map<std::string, std::string> item_variables;
 
         // What we're made of (material names). .size() == made of nothing.
         // First -> the material
