@@ -88,6 +88,6 @@
     "flags": [ "NO_SALVAGE" ],
     "volume": "250 ml",
     "charges": 4,
-    "stack_size": 4,
+    "stack_size": 4
   }
 ]
