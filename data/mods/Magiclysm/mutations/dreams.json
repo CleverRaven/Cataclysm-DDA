@@ -1,10 +1,7 @@
 [
   {
     "type": "dream",
-    "messages": [
-      "You have a strange dream about dragons.",
-      "Your dreams give you a strange scaly feeling."
-    ],
+    "messages": [ "You have a strange dream about dragons.", "Your dreams give you a strange scaly feeling." ],
     "category": "DRAGON_BLACK",
     "strength": 1
   },
