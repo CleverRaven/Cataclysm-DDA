@@ -213,10 +213,11 @@ These are handled through `ammo_types.json`.  You can tag a weapon with these to
 
 ## Traps
 
-- ```SONAR_DETECTABLE``` This trap can be identified with ground-penetrating SONAR.
-- ```CONVECTS_TEMPERATURE``` This trap convects temperature, like lava.
-- ```UNCONSUMED``` If this trap is a spell type it will not be removed after activation.
 - ```AVATAR_ONLY``` Only the player character will trigger this trap.
+- ```CONVECTS_TEMPERATURE``` This trap convects temperature, like lava.
+- ```PIT``` This trap is a version of the pit terrain.
+- ```SONAR_DETECTABLE``` This trap can be identified with ground-penetrating SONAR.
+- ```UNCONSUMED``` If this trap is a spell type it will not be removed after activation.
 - ```UNDODGEABLE``` This trap can't be dodged.
 
 ## Armor
