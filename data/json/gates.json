@@ -85,6 +85,21 @@
   },
   {
     "type": "gate",
+    "id": "t_palisade_pulley_wood",
+    "door": "t_palisade_gate",
+    "floor": "t_palisade_gate_o",
+    "walls": "t_palisade",
+    "messages": {
+      "pull": "You pull the rope…",
+      "open": "The palisade gate swings open!",
+      "close": "The palisade gate swings closed with a crash!",
+      "fail": "The palisade gate can't be closed!"
+    },
+    "moves": 1800,
+    "bashing_damage": 30
+  },
+  {
+    "type": "gate",
     "id": "t_gates_control_metal",
     "door": "t_door_metal_locked",
     "floor": "t_metal_floor",
