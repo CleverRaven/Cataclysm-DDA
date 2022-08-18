@@ -2782,6 +2782,8 @@ Vehicle components when installed on a vehicle.
                               // Negative values mean power is consumed, positive values mean power
                               // is generated.  Power consumption usually also requires the
                               // ENABLED_DRAINS_EPOWER flag and for the item to be turned on.
+                              // Solar panel power gneration is modified by sun angle.
+                              // When sun is at 90 degrees the panel produces the full epower.
 "item": "wheel",              // The item used to install this part, and the item obtained when
                               // removing this part.
 "difficulty": 4,              // Your mechanics skill must be at least this level to install this part

@@ -29,6 +29,27 @@
     "calories": 260
   },
   {
+    "id": "fish_scrap",
+    "copy-from": "fish",
+    "type": "COMESTIBLE",
+    "name": { "str": "scrap of fish", "str_pl": "scraps of fish" },
+    "description": "This is a tiny scrap of edible fish.  It's not much, but it'll do in a pinch.",
+    "cooks_like": "fish_scrap_cooked",
+    "proportional": { "weight": 0.1, "volume": 0.1, "price": 0.1, "calories": 0.1 },
+    "delete": { "flags": [ "SMOKABLE" ] },
+    "vitamins": [ [ "calcium", 1 ], [ "iron", 1 ] ]
+  },
+  {
+    "id": "fish_scrap_cooked",
+    "copy-from": "fish_scrap",
+    "type": "COMESTIBLE",
+    "name": { "str": "cooked scrap of fish", "str_pl": "cooked scraps of fish" },
+    "parasites": 0,
+    "spoils_in": "1 day",
+    "flags": [ "NUTRIENT_OVERRIDE" ],
+    "calories": 51
+  },
+  {
     "id": "fish_cooked",
     "copy-from": "fish",
     "type": "COMESTIBLE",

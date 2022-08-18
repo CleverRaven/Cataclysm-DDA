@@ -50,6 +50,10 @@ static const efftype_id effect_wet( "wet" );
 
 static const itype_id itype_rm13_armor_on( "rm13_armor_on" );
 
+static const json_character_flag json_flag_COLDBLOOD( "COLDBLOOD" );
+static const json_character_flag json_flag_COLDBLOOD2( "COLDBLOOD2" );
+static const json_character_flag json_flag_COLDBLOOD3( "COLDBLOOD3" );
+static const json_character_flag json_flag_ECTOTHERM( "ECTOTHERM" );
 static const json_character_flag json_flag_HEATSINK( "HEATSINK" );
 static const json_character_flag json_flag_HEAT_IMMUNE( "HEAT_IMMUNE" );
 static const json_character_flag json_flag_IGNORE_TEMP( "IGNORE_TEMP" );
@@ -61,10 +65,6 @@ static const trait_id trait_BARK( "BARK" );
 static const trait_id trait_CHITIN_FUR( "CHITIN_FUR" );
 static const trait_id trait_CHITIN_FUR2( "CHITIN_FUR2" );
 static const trait_id trait_CHITIN_FUR3( "CHITIN_FUR3" );
-static const trait_id trait_COLDBLOOD( "COLDBLOOD" );
-static const trait_id trait_COLDBLOOD2( "COLDBLOOD2" );
-static const trait_id trait_COLDBLOOD3( "COLDBLOOD3" );
-static const trait_id trait_COLDBLOOD4( "COLDBLOOD4" );
 static const trait_id trait_DEBUG_LS( "DEBUG_LS" );
 static const trait_id trait_DEBUG_NOTEMP( "DEBUG_NOTEMP" );
 static const trait_id trait_FELINE_FUR( "FELINE_FUR" );
@@ -1269,13 +1269,13 @@ void Character::update_heartrate_index()
     //COLDBLOOD dependencies, works almost same way as temperature effect for speed.
     const float player_local_temp = units::to_fahrenheit( get_weather().get_temperature( pos() ) );
     float temperature_modifier = 0.0f;
-    if( has_trait( trait_COLDBLOOD ) ) {
+    if( has_flag( json_flag_COLDBLOOD ) ) {
         temperature_modifier = 0.002f;
     }
-    if( has_trait( trait_COLDBLOOD2 ) ) {
+    if( has_flag( json_flag_COLDBLOOD2 ) ) {
         temperature_modifier = 0.00333f;
     }
-    if( has_trait( trait_COLDBLOOD3 ) || has_trait( trait_COLDBLOOD4 ) ) {
+    if( has_flag( json_flag_COLDBLOOD3 ) || has_flag( json_flag_ECTOTHERM ) ) {
         temperature_modifier = 0.005f;
     }
     const float hr_temp_mod = ( player_local_temp - 65 ) * temperature_modifier;

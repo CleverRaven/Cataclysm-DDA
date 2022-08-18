@@ -199,7 +199,7 @@ static float lerped_multiplier( const T &value, const T &low, const T &high )
     return 1.0f + ( value - low ) * ( 0.25f - 1.0f ) / ( high - low );
 }
 
-static float workbench_crafting_speed_multiplier( const item &craft,
+static float workbench_crafting_speed_multiplier( const Character &you, const item &craft,
         const cata::optional<tripoint> &loc )
 {
     float multiplier;
@@ -243,6 +243,12 @@ static float workbench_crafting_speed_multiplier( const item &craft,
     const units::mass &craft_mass = craft.weight();
     const units::volume &craft_volume = craft.volume();
 
+    units::mass lifting_mass = you.best_nearby_lifting_assist();
+
+    if( lifting_mass > craft_mass ) {
+        return multiplier;
+    }
+
     multiplier *= lerped_multiplier( craft_mass, allowed_mass, 1000_kilogram );
     multiplier *= lerped_multiplier( craft_volume, allowed_volume, 1000_liter );
 
@@ -271,7 +277,7 @@ float Character::crafting_speed_multiplier( const item &craft,
     const recipe &rec = craft.get_making();
 
     const float light_multi = lighting_craft_speed_multiplier( rec );
-    const float bench_multi = workbench_crafting_speed_multiplier( craft, loc );
+    const float bench_multi = workbench_crafting_speed_multiplier( *this, craft, loc );
     const float morale_multi = morale_crafting_speed_multiplier( rec );
     const float mut_multi = mutation_value( "crafting_speed_multiplier" );
 
@@ -284,7 +290,7 @@ float Character::crafting_speed_multiplier( const item &craft,
     }
     if( bench_multi <= 0.1f || ( bench_multi <= 0.33f && total_multi <= 0.2f ) ) {
         add_msg_if_player( m_bad, _( "The %s is too large and/or heavy to work on.  You may want to"
-                                     " use a workbench or a smaller batch size" ), craft.tname() );
+                                     " use a workbench or a lifting tool" ), craft.tname() );
         return 0.0f;
     }
     if( morale_multi <= 0.2f || ( morale_multi <= 0.33f && total_multi <= 0.2f ) ) {

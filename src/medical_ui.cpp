@@ -26,7 +26,8 @@ static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_infected( "infected" );
 static const efftype_id effect_mending( "mending" );
 
-static const trait_id trait_COLDBLOOD4( "COLDBLOOD4" );
+static const json_character_flag json_flag_ECTOTHERM( "ECTOTHERM" );
+
 static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_SUNLIGHT_DEPENDENT( "SUNLIGHT_DEPENDENT" );
 static const trait_id trait_TROGLO( "TROGLO" );
@@ -638,7 +639,7 @@ static medical_column draw_stats_summary( const int column_count, avatar *player
         nc_color pen_color;
         std::string pen_sign;
         const units::temperature player_local_temp = get_weather().get_temperature( player->pos() );
-        if( player->has_trait( trait_COLDBLOOD4 ) && player_local_temp > units::from_fahrenheit( 65 ) ) {
+        if( player->has_flag( json_flag_ECTOTHERM ) && player_local_temp > units::from_fahrenheit( 65 ) ) {
             pen_color = c_green;
             pen_sign = "+";
         } else if( player_local_temp < units::from_fahrenheit( 65 ) ) {
@@ -649,7 +650,7 @@ static medical_column draw_stats_summary( const int column_count, avatar *player
             pen = ( units::to_fahrenheit( player_local_temp ) - 65 ) * temperature_speed_modifier;
             pge_str = pgettext( "speed modifier", "Cold-Blooded " );
             speed_detail_str += colorize( string_format( _( "%s     %s%2d%%\n" ), pge_str, pen_sign,
-                                          std::abs( pen ) ), c_red );
+                                          std::abs( pen ) ), pen_color );
         }
     }
 

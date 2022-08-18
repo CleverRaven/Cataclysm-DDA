@@ -1291,7 +1291,7 @@ class vehicle
         int total_engine_epower_w() const;
         // Total production of electrical power from alternators.
         int total_alternator_epower_w() const;
-        // Total power currently being produced by all solar panels.
+        // Total power (W) currently being produced by all solar panels.
         int total_solar_epower_w() const;
         // Total power currently being produced by all wind turbines.
         int total_wind_epower_w() const;
