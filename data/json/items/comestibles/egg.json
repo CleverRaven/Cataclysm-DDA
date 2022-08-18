@@ -665,6 +665,8 @@
     "id": "egg_hummingbird",
     "name": "hummingbird egg",
     "copy-from": "egg_bird",
+    "volume": "1 ml",
+    "weight": "1 g",
     "rot_spawn": "GROUP_EGG_HUMMINGBIRD",
     "rot_spawn_chance": 70
   },
