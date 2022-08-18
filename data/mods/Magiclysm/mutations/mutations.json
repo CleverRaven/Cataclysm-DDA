@@ -592,7 +592,7 @@
   {
     "type": "mutation",
     "id": "DRAGON_TAIL_STUB",
-    "name": { "str": "Stubby Reptile Tail" },
+    "name": { "str": "Stubby Dragon Tail" },
     "points": 0,
     "visibility": 1,
     "ugliness": 2,
@@ -604,11 +604,11 @@
   {
     "type": "mutation",
     "id": "DRAGON_TAIL_SCALED",
-    "name": { "str": "Scaled Reptile Tail" },
+    "name": { "str": "Short Dragon Tail" },
     "points": 1,
     "visibility": 8,
     "ugliness": 2,
-    "description": "You have a long, thick, reptile tail.  You can use it decently as a club of sorts, but it's not doing anything to help you balance.  Prevents wearing non-fabric pants.",
+    "description": "You have a short, dragonlike tail.  You can use it decently as a club of sorts, but it's not doing anything to help you balance.  Prevents wearing non-fabric pants.",
     "types": [ "TAIL" ],
     "prereqs": [ "DRAGON_TAIL_STUB" ],
     "prereqs2": [ "SCALES", "DRAGON_SCALES_BLACK" ],
