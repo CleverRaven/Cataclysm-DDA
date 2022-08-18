@@ -170,6 +170,7 @@ Spells may have any number of flags, for example:
 | `RANDOM_DAMAGE` | picks random number between min+increment*level and max instead of normal behavior
 | `RANDOM_AOE` | picks random number between min+increment*level and max instead of normal behavior
 | `PERMANENT` | items or creatures spawned with this spell do not disappear and die as normal.  Items can only be permanent at maximum spell level; creatures can be permanent at any spell level.
+| `PERMANENT_ALL_LEVELS` | items spawned with this spell do not disappear even if the spell is not max level. 
 | `IGNORE_WALLS` | spell's aoe goes through walls
 | `SWAP_POS` | a projectile spell swaps the positions of the caster and target
 | `HOSTILE_SUMMON` | summon spell always spawns a hostile monster

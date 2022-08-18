@@ -84,6 +84,7 @@ struct weather_sum {
     int rain_amount = 0;
     int acid_amount = 0;
     float sunlight = 0.0f;
+    float radiant_exposure = 0.0f; // J/m2
     int wind_amount = 0;
 };
 bool is_creature_outside( const Creature &target );
@@ -159,6 +160,10 @@ void glare( const weather_type_id &w );
  */
 float incident_sunlight( const weather_type_id &wtype,
                          const time_point &t = calendar::turn );
+
+/* Amount of irradiance (W/m2) at ground after weather modifications */
+float incident_sun_irradiance( const weather_type_id &wtype,
+                               const time_point &t = calendar::turn );
 
 void weather_sound( const translation &sound_message, const std::string &sound_effect );
 

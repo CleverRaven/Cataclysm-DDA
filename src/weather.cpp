@@ -136,6 +136,11 @@ float incident_sunlight( const weather_type_id &wtype, const time_point &t )
     return std::max<float>( 0.0f, sun_light_at( t ) + wtype->light_modifier );
 }
 
+float incident_sun_irradiance( const weather_type_id &wtype, const time_point &t )
+{
+    return std::max<float>( 0.0f, sun_irradiance( t ) * wtype->sun_multiplier );
+}
+
 static void proc_weather_sum( const weather_type_id &wtype, weather_sum &data,
                               const time_point &t, const time_duration &tick_size )
 {
@@ -164,6 +169,8 @@ static void proc_weather_sum( const weather_type_id &wtype, weather_sum &data,
     // TODO: Change this sunlight "sampling" here into a proper interpolation
     const float tick_sunlight = incident_sunlight( wtype, t );
     data.sunlight += tick_sunlight * to_turns<int>( tick_size );
+    const float tick_irradiance = incident_sun_irradiance( wtype, t );
+    data.radiant_exposure += tick_irradiance * to_seconds<int>( tick_size );
 }
 
 weather_type_id current_weather( const tripoint &location, const time_point &t )

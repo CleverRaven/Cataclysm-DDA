@@ -20,6 +20,8 @@
 
 void game::list_missions()
 {
+    constexpr int MAX_CHARS_PER_MISSION_ROW_NAME{ 38 };
+
     catacurses::window w_missions;
 
     enum class tab_mode : int {
@@ -37,7 +39,16 @@ void game::list_missions()
     ctxt.register_cardinal();
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "QUIT" );
+    ctxt.register_action( "SELECT" );
+    ctxt.register_action( "MOUSE_MOVE" );
+    ctxt.register_action( "SCROLL_UP" );
+    ctxt.register_action( "SCROLL_DOWN" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
+
+    // rectangular coordinates of each tab
+    // used for mouse controls
+    std::map<tab_mode, inclusive_rectangle<point>> tabs_coords;
+    std::map<size_t, inclusive_rectangle<point>> mission_row_coords;
 
     ui_adaptor ui;
     ui.on_screen_resize( [&]( ui_adaptor & ui ) {
@@ -68,7 +79,7 @@ void game::list_missions()
             { tab_mode::TAB_COMPLETED, _( "COMPLETED MISSIONS" ) },
             { tab_mode::TAB_FAILED, _( "FAILED MISSIONS" ) },
         };
-        draw_tabs( w_missions, tabs, tab );
+        tabs_coords = draw_tabs( w_missions, tabs, tab );
         draw_border_below_tabs( w_missions );
         int x1 = 2;
         int x2 = 2;
@@ -84,13 +95,16 @@ void game::list_missions()
 
         draw_scrollbar( w_missions, selection, entries_per_page, umissions.size(), point( 0, 3 ) );
 
+        mission_row_coords.clear();
         for( int i = top_of_page; i <= bottom_of_page; i++ ) {
             mission *miss = umissions[i];
             const nc_color col = u.get_active_mission() == miss ? c_light_green : c_white;
             const int y = i - top_of_page + 3;
-            trim_and_print( w_missions, point( 1, y ), 38,
+            trim_and_print( w_missions, point( 1, y ), MAX_CHARS_PER_MISSION_ROW_NAME,
                             static_cast<int>( selection ) == i ? hilite( col ) : col,
                             miss->name() );
+            inclusive_rectangle<point> rec( point( 1, y ), point( 1 + MAX_CHARS_PER_MISSION_ROW_NAME - 1, y ) );
+            mission_row_coords.emplace( i, rec );
         }
 
         if( selection < umissions.size() ) {
@@ -201,12 +215,12 @@ void game::list_missions()
                 tab = tab_mode::LAST_TAB;
             }
             selection = 0;
-        } else if( action == "DOWN" ) {
+        } else if( action == "DOWN" || action == "SCROLL_DOWN" ) {
             selection++;
             if( selection >= umissions.size() ) {
                 selection = 0;
             }
-        } else if( action == "UP" ) {
+        } else if( action == "UP" || action == "SCROLL_UP" ) {
             if( selection == 0 ) {
                 selection = umissions.empty() ? 0 : umissions.size() - 1;
             } else {
@@ -217,6 +231,37 @@ void game::list_missions()
                 u.set_active_mission( *umissions[selection] );
             }
             break;
+        } else if( action == "SELECT" ) {
+            // get clicked coord
+            cata::optional<point> coord = ctxt.get_coordinates_text( w_missions );
+            if( coord.has_value() ) {
+
+                for( auto &it : tabs_coords ) {
+                    if( it.second.contains( coord.value() ) ) {
+                        tab = it.first;
+                    }
+                }
+
+                for( auto &it : mission_row_coords ) {
+                    if( it.second.contains( coord.value() ) ) {
+                        selection = it.first;
+                        if( tab == tab_mode::TAB_ACTIVE && selection < umissions.size() ) {
+                            u.set_active_mission( *umissions[selection] );
+                        }
+                    }
+                }
+            }
+        } else if( action == "MOUSE_MOVE" ) {
+            // get clicked coord
+            cata::optional<point> coord = ctxt.get_coordinates_text( w_missions );
+            if( coord.has_value() ) {
+
+                for( auto &it : mission_row_coords ) {
+                    if( it.second.contains( coord.value() ) ) {
+                        selection = it.first;
+                    }
+                }
+            }
         } else if( action == "QUIT" ) {
             break;
         }
