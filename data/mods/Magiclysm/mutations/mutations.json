@@ -472,6 +472,7 @@
   {
     "type": "mutation",
     "id": "DRAGONBLOOD",
+    "flags": [ "COLDBLOOD" ],
     "name": { "str": "Draconic Heat Dependence" },
     "points": -1,
     "description": "Your muscle response is dependent on ambient temperatures.  You lose 1% of your speed for every 5 (2.8) degrees below 65 F (18.3 C).  Unfortunately, this doesn't seem to help you conserve any energy.",
@@ -483,18 +484,20 @@
   {
     "type": "mutation",
     "id": "DRAGONBLOOD2",
+    "flags": [ "COLDBLOOD2" ],
     "name": { "str": "High Draconic Heat Dependence" },
     "points": -2,
     "description": "Your muscle response is highly dependent on ambient temperatures.  You lose 1% of your speed for every 3 (1.7) degrees below 65 F (18.3 C).  Unfortunately, it seems you have to exert more energy to keep moving.",
     "changes_to": [ "DRAGONBLOOD3" ],
     "types": [ "METABOLISM" ],
     "category": [ "DRAGON_BLACK" ],
-    "temperature_speed_modifier": 0.2,
+    "temperature_speed_modifier": 0.333,
     "metabolism_modifier": 0.25
   },
   {
     "type": "mutation",
     "id": "DRAGONBLOOD3",
+    "flags": [ "ECTOTHERM" ],
     "name": { "str": "Draconic Ectothermia" },
     "points": -3,
     "description": "Your body has become permanently cold-blooded.  Your speed lowers or raises 1% for every 2 (1.1) degrees below or above 65 F (18.3 C).  All this and you need even more food to maintain your energy.",

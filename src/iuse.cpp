@@ -9141,19 +9141,24 @@ cata::optional<int> iuse::sextant( Character *p, item *, bool, const tripoint &p
     return 0;
 }
 
-cata::optional<int> iuse::lux_meter( Character *p, item *, bool, const tripoint &pos )
+cata::optional<int> iuse::lux_meter( Character *p, item *it, bool, const tripoint &pos )
 {
-    if( debug_mode ) {
-        // In debug mode show extra info:
-        // Sun illumination is sun with no clouds
-        const units::angle altitude = sun_azimuth_altitude( calendar::turn ).second;
-        p->add_msg_if_player( m_neutral,
-                              "The illumination is %.1f, Sun illumination %.1f, Sun altitude %.1f.",
-                              g->natural_light_level( pos.z ), sun_light_at( calendar::turn ), to_degrees( altitude ) );
-    } else {
-        p->add_msg_if_player( m_neutral, _( "The illumination is %.1f." ),
-                              g->natural_light_level( pos.z ) );
-    }
+    p->add_msg_if_player( m_neutral, _( "The illumination is %.1f." ),
+                          g->natural_light_level( pos.z ) );
+
+    return it->type->charges_to_use();
+}
+
+cata::optional<int> iuse::dbg_lux_meter( Character *p, item *, bool, const tripoint &pos )
+{
+    const float incident_light = incident_sunlight( current_weather( pos ), calendar::turn );
+    const float nat_light = g->natural_light_level( pos.z );
+    const float sunlight = sun_light_at( calendar::turn );
+    const float sun_irrad = sun_irradiance( calendar::turn );
+    const float incident_irrad = incident_sun_irradiance( current_weather( pos ), calendar::turn );
+    p->add_msg_if_player( m_neutral,
+                          _( "Incident light: %.1f\nNatural light: %.1f\nSunlight: %.1f\nSun irradiance: %.1f\nIncident irradiance %.1f" ),
+                          incident_light, nat_light, sunlight, sun_irrad, incident_irrad );
 
     return 0;
 }
