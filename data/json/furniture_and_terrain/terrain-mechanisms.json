@@ -218,6 +218,7 @@
   {
     "type": "terrain",
     "id": "t_palisade_pulley_wood",
+    "looks_like": "t_palisade_pulley",
     "name": "gate pulley",
     "description": "A system of ropes and wooden pulleys that allows to pull up heavy doors or gates.",
     "symbol": "|",
