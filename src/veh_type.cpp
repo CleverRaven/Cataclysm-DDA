@@ -511,6 +511,8 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
             }
         }
     }
+    assign( jo, "folding_tools", def.folding_tools );
+    assign( jo, "unfolding_tools", def.unfolding_tools );
     if( jo.has_member( "damage_reduction" ) ) {
         JsonObject dred = jo.get_object( "damage_reduction" );
         def.damage_reduction = load_damage_array( dred );
@@ -1066,6 +1068,16 @@ const cata::optional<vpslot_workbench> &vpart_info::get_workbench_info() const
 std::set<std::pair<itype_id, int>> vpart_info::get_pseudo_tools() const
 {
     return pseudo_tools;
+}
+
+std::vector<itype_id> vpart_info::get_folding_tools() const
+{
+    return folding_tools;
+}
+
+std::vector<itype_id> vpart_info::get_unfolding_tools() const
+{
+    return unfolding_tools;
 }
 
 /** @relates string_id */

@@ -330,6 +330,11 @@ class vpart_info
         const cata::optional<vpslot_workbench> &get_workbench_info() const;
 
         std::set<std::pair<itype_id, int>> get_pseudo_tools() const;
+
+        // @returns tools required for folding this part
+        std::vector<itype_id> get_folding_tools() const;
+        // @returns tools required for unfolding this part
+        std::vector<itype_id> get_unfolding_tools() const;
     private:
         std::set<std::string> flags;
         // category list for installation ui breakdown
@@ -344,6 +349,10 @@ class vpart_info
 
         /** Pseudo tools this provides when installed, second is the hotkey */
         std::set<std::pair<itype_id, int>> pseudo_tools;
+        // tools required to fold this part
+        std::vector<itype_id> folding_tools;
+        // tools required to unfold this part
+        std::vector<itype_id> unfolding_tools;
 
         cata::optional<vpslot_engine> engine_info;
         cata::optional<vpslot_wheel> wheel_info;

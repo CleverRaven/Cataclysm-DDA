@@ -2816,6 +2816,8 @@ Vehicle components when installed on a vehicle.
   { "id": "hotplate", "hotkey": "h" },
   { "id": "pot" }
 ],
+"fold_tools": [ "needle" ], // tool itype_ids required for folding
+"unfold_tools": [ "hand_pump" ], // tool itype_ids required for unfolding
 "damage_reduction" : {        // Flat reduction of damage, as described below. If not specified, set to zero
     "all" : 10,
     "physical" : 5

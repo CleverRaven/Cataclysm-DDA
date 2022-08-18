@@ -6465,6 +6465,15 @@ bool vehicle_folding_activity_actor::fold_vehicle( Character &p, bool check_only
         return false;
     }
 
+    for( const vpart_reference &vp : veh.get_all_parts() ) {
+        for( const itype_id &tool : vp.info().get_folding_tools() ) {
+            if( !p.has_amount( tool, 1 ) ) {
+                p.add_msg_if_player( _( "You need %s to do it!" ), item::nname( tool ) );
+                return false;
+            }
+        }
+    }
+
     if( veh.velocity != 0 ) {
         p.add_msg_if_player( m_warning, _( "You can't fold the %s while it's in motion." ), veh.name );
         return false;
@@ -6584,6 +6593,13 @@ bool vehicle_unfolding_activity_actor::unfold_vehicle( Character &p, bool check_
             p.add_msg_if_player( m_info, _( "There's no room to unfold the %s." ), it.tname() );
             here.destroy_vehicle( veh );
             return false;
+        }
+        for( const itype_id &tool : vp.info().get_unfolding_tools() ) {
+            if( !p.has_amount( tool, 1 ) ) {
+                p.add_msg_if_player( _( "You need %s to do it!" ), item::nname( tool ) );
+                here.destroy_vehicle( veh );
+                return false;
+            }
         }
     }
     if( check_only ) { // if we're just checking bail out at this point - this is a valid location.
