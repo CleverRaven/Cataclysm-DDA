@@ -1034,7 +1034,7 @@
     "armor": [ { "encumbrance": 5, "coverage": 95, "covers": [ "eyes" ] } ],
     "material_thickness": 1,
     "environmental_protection": 1,
-    "flags": [ "WATCH", "ALARMCLOCK", "FRAGILE", "WATER_BREAK" ]
+    "flags": [ "WATCH", "ALARMCLOCK", "FRAGILE", "WATER_BREAK", "PADDED" ]
   },
   {
     "id": "ar_glasses_advanced",
@@ -1071,7 +1071,7 @@
     "armor": [ { "encumbrance": 5, "coverage": 100, "covers": [ "eyes" ] } ],
     "material_thickness": 1,
     "environmental_protection": 1,
-    "flags": [ "ZOOM", "WATCH", "ALARMCLOCK", "OUTER", "FRAGILE", "SUN_GLASSES", "THERMOMETER", "WATER_BREAK" ]
+    "flags": [ "ZOOM", "WATCH", "ALARMCLOCK", "OUTER", "FRAGILE", "SUN_GLASSES", "THERMOMETER", "WATER_BREAK", "PADDED" ]
   },
   {
     "id": "helmet_eod",
