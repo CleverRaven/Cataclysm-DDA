@@ -517,9 +517,10 @@
     "type": "mutation",
     "id": "DRAGON_MAGIC",
     "name": { "str": "Draconic Magic" },
-    "description": "You are imbued with with the ancient magic powers of black dragons, improving your mana reserves and opening your mind to amazing feats of magic.",
+    "description": "You are imbued with the ancient magic powers of black dragons, improving your mana reserves and opening your mind to amazing feats of magic.",
     "points": 3,
     "category": [ "DRAGON_BLACK" ],
+    "changes_to": [ "DRAGON_SPELLS" ],
     "threshreq": [ "THRESH_DRAGON_BLACK" ],
     "prereqs": [ "MANA_MULT3" ],
     "purifiable": false,
@@ -536,9 +537,9 @@
     "category": [ "DRAGON_BLACK" ],
     "threshreq": [ "THRESH_DRAGON_BLACK" ],
     "prereqs": [ "DRAGON_MAGIC" ],
-    "spells_learned": [ [ "dragon_boost", 1 ] ],
-    "mana_modifier": 500,
-    "passive_mods": { "int_mod": 2 }
+    "spells_learned": [ [ "dragon_terror", 0 ], [ "dragon_boost", 1 ] ],
+    "mana_modifier": 750,
+    "passive_mods": { "int_mod": 4 }
   },
   {
     "type": "mutation",
