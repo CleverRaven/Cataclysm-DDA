@@ -2989,7 +2989,7 @@
     "dodge": 2,
     "harvest": "arachnid_flying",
     "reproduction": { "baby_egg": "egg_butterfly", "baby_count": 1, "baby_timer": 15 },
-    "upgrades": { "half_life": 14, "into": "mon_butterfly_giant" },
+    "upgrades": { "age_grow": 30, "into": "mon_butterfly_giant" },
     "baby_flags": [ "SPRING", "SUMMER" ],
     "fear_triggers": [ "HURT", "FIRE" ],
     "flags": [ "SEES", "HEARS", "FLIES", "STUMBLES" ]
@@ -3049,7 +3049,7 @@
     "dodge": 2,
     "harvest": "arachnid_flying",
     "reproduction": { "baby_egg": "egg_butterfly", "baby_count": 1, "baby_timer": 15 },
-    "upgrades": { "half_life": 14, "into": "mon_moth_giant" },
+    "upgrades": { "age_grow": 30, "into": "mon_moth_giant" },
     "baby_flags": [ "SPRING", "SUMMER" ],
     "fear_triggers": [ "HURT", "FIRE" ],
     "flags": [ "SEES", "HEARS", "FLIES", "STUMBLES" ]
