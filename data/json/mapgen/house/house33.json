@@ -31,7 +31,10 @@
         ".X..````............[...",
         "........................"
       ],
-      "palettes": [ "standard_domestic_palette" ],
+      "palettes": [
+        "standard_domestic_palette",
+        { "distribution": [ [ "standard_domestic_untidy_palette", 3 ], [ "standard_domestic_messy_palette", 1 ] ] }
+      ],
       "terrain": {
         "%": [ "t_region_shrub", "t_region_shrub_fruit", "t_region_shrub_decorative" ],
         "[": [ [ "t_region_tree_fruit", 2 ], [ "t_region_tree_nut", 2 ], "t_region_tree_shade" ],
