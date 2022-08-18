@@ -395,8 +395,6 @@ static const trait_id trait_WAYFARER( "WAYFARER" );
 static const vitamin_id vitamin_blood( "blood" );
 static const vitamin_id vitamin_redcells( "redcells" );
 
-static const vproto_id vehicle_prototype_none( "none" );
-
 static const weather_type_id weather_portal_storm( "portal_storm" );
 
 // how many characters per turn of radio
@@ -5387,69 +5385,7 @@ int iuse::towel_common( Character *p, item *it, bool t )
 
 cata::optional<int> iuse::unfold_generic( Character *p, item *it, bool, const tripoint & )
 {
-    if( p->is_underwater() ) {
-        p->add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
-        return cata::nullopt;
-    }
-    if( p->is_mounted() ) {
-        p->add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
-        return cata::nullopt;
-    }
-    map &here = get_map();
-    vehicle *veh = here.add_vehicle( vehicle_prototype_none, p->pos(), 0_degrees, 0, 0, false );
-    if( veh == nullptr ) {
-        p->add_msg_if_player( m_info, _( "There's no room to unfold the %s." ), it->tname() );
-        return cata::nullopt;
-    }
-    veh->suspend_refresh();
-    veh->name = it->get_var( "vehicle_name" );
-
-    // TODO: Remove folding_bicycle_parts after savegames migrate
-    std::string folded_parts = it->has_var( "folding_bicycle_parts" )
-                               ? it->get_var( "folding_bicycle_parts" )
-                               : it->get_var( "folded_parts" );
-
-    if( !veh->restore( folded_parts ) ) {
-        here.destroy_vehicle( veh );
-        return 0;
-    }
-    const bool can_float = size( veh->get_avail_parts( "FLOATS" ) ) > 2;
-
-    const auto invalid_pos = [&here]( const tripoint & pp, bool can_float ) {
-        return ( here.has_flag_ter( ter_furn_flag::TFLAG_DEEP_WATER, pp ) && !can_float ) ||
-               here.veh_at( pp ) || here.impassable( pp );
-    };
-    for( const vpart_reference &vp : veh->get_all_parts() ) {
-        if( vp.info().location != "structure" ) {
-            continue;
-        }
-        const tripoint pp = vp.pos();
-        if( invalid_pos( pp, can_float ) ) {
-            p->add_msg_if_player( m_info, _( "There's no room to unfold the %s." ), it->tname() );
-            here.destroy_vehicle( veh );
-            return 0;
-        }
-    }
-    veh->set_owner( *p );
-    veh->enable_refresh();
-    here.add_vehicle_to_cache( veh );
-    if( here.veh_at( p->pos() ).part_with_feature( VPFLAG_BOARDABLE, true ) ) {
-        here.board_vehicle( p->pos(), p ); // if boardable unbroken part is present -> get on it
-    }
-
-    std::string unfold_msg = it->get_var( "unfold_msg" );
-    if( unfold_msg.empty() ) {
-        unfold_msg = _( "You painstakingly unfold the %s and make it ready to ride." );
-    } else {
-        unfold_msg = _( unfold_msg );
-    }
-    p->add_msg_if_player( m_neutral, unfold_msg, veh->name );
-
-    if( p->is_avatar() && it->get_var( "tracking", 0 ) == 1 ) {
-        veh->toggle_tracking(); // restore position tracking state
-    }
-
-    p->moves -= it->get_var( "moves", to_turns<int>( 5_seconds ) );
+    p->assign_activity( player_activity( vehicle_unfolding_activity_actor( *it ) ) );
     p->i_rem( it );
     return 0;
 }
