@@ -1134,18 +1134,11 @@ class tab_list
             return static_cast<int>( _index );
         }
 
-        std::string cur( const bool translated = false ) const {
+        std::string cur() const {
             if( _list->empty() ) {
                 return std::string( "" );
             }
-            std::string returnVal;
-
-            if( translated ) {
-                returnVal =  _( ( *_list )[_index] );
-            } else {
-                returnVal = ( *_list )[_index];
-            }
-            return returnVal;
+            return ( *_list )[_index];
         }
 
         void set_index( const size_t new_index ) {
