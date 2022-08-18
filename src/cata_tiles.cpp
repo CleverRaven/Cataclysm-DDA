@@ -332,7 +332,9 @@ void cata_tiles::load_tileset( const std::string &tileset_id, const bool prechec
 
     set_draw_scale( 16 );
 
-    minimap->set_type( tile_iso ? pixel_minimap_type::iso : pixel_minimap_type::ortho );
+    minimap->set_type( g->is_tileset_isometric()
+                       ? pixel_minimap_type::iso
+                       : pixel_minimap_type::ortho );
 }
 
 void cata_tiles::reinit()
@@ -661,7 +663,6 @@ void tileset_cache::loader::load( const std::string &tileset_id, const bool prec
         ts.tile_height = curr_info.get_int( "height" );
         ts.tile_width = curr_info.get_int( "width" );
         ts.tile_isometric = curr_info.get_bool( "iso", false );
-        tile_iso = ts.tile_isometric;
         ts.tile_pixelscale = curr_info.get_float( "pixelscale", 1.0f );
     }
 

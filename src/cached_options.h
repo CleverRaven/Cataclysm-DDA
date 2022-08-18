@@ -12,7 +12,6 @@ extern bool keycode_mode;
 extern bool log_from_top;
 extern int message_ttl;
 extern int message_cooldown;
-extern bool tile_iso;
 extern bool use_tiles;
 extern bool use_far_tiles;
 extern bool use_tiles_overmap;
