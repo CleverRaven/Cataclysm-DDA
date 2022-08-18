@@ -331,10 +331,6 @@ void cata_tiles::load_tileset( const std::string &tileset_id, const bool prechec
     tileset_ptr = cache.load_tileset( tileset_id, renderer, precheck, force, pump_events );
 
     set_draw_scale( 16 );
-
-    minimap->set_type( g->is_tileset_isometric()
-                       ? pixel_minimap_type::iso
-                       : pixel_minimap_type::ortho );
 }
 
 void cata_tiles::reinit()
@@ -1741,6 +1737,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
 
 void cata_tiles::draw_minimap( const point &dest, const tripoint &center, int width, int height )
 {
+    minimap->set_type( is_isometric() ? pixel_minimap_type::iso : pixel_minimap_type::ortho );
     minimap->draw( SDL_Rect{ dest.x, dest.y, width, height }, center );
 }
 
