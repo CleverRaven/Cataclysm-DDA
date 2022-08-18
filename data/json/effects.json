@@ -2718,7 +2718,7 @@
     "rating": "bad",
     "resist_effects": [ "valium" ],
     "base_mods": { "dex_mod": [ -4, 0 ] },
-    "blood_analysis_description": "Clostridium Tetani Infection"
+    "blood_analysis_description": "Clostridium tetani Infection"
   },
   {
     "type": "effect_type",
