@@ -834,7 +834,7 @@
         "default_magazine": "light_plus_battery_cell"
       }
     ],
-    "armor": [ { "coverage": 15, "covers": [ "head" ] } ]
+    "armor": [ { "coverage": 45, "covers": [ "head" ], "specifically_covers": [ "head_crown", "head_forehead" ] } ]
   },
   {
     "id": "wearable_camera",
@@ -944,7 +944,7 @@
         "default_magazine": "light_plus_battery_cell"
       }
     ],
-    "armor": [ { "coverage": 20, "covers": [ "head" ] } ]
+    "armor": [ { "coverage": 50, "covers": [ "head" ], "specifically_covers": [ "head_crown", "head_forehead" ] } ]
   },
   {
     "id": "survivor_light_on",
@@ -987,7 +987,7 @@
       "target": "wearable_atomic_light_off"
     },
     "material_thickness": 1,
-    "armor": [ { "encumbrance": 5, "coverage": 20, "covers": [ "head" ] } ]
+    "armor": [ { "encumbrance": 5, "coverage": 50, "covers": [ "head" ], "specifically_covers": [ "head_crown", "head_forehead" ] } ]
   },
   {
     "id": "wearable_atomic_light_off",
