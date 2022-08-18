@@ -5123,7 +5123,7 @@
     "required_skills": [ [ "fabrication", 2 ] ],
     "time": "30 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M", "level": 1 } ] ],
-    "components": [ [ [ "nail", 4 ] ], [ [ "sheet", 2 ] ], [ [ "stick", 1 ] ], [ [ "string_36", 1 ] ] ],
+    "components": [ [ [ "nail", 4 ] ], [ [ "sheet", 1 ] ], [ [ "stick", 1 ] ], [ [ "string_36", 1 ] ] ],
     "pre_terrain": "t_metal_grate_window",
     "post_terrain": "t_metal_grate_window_with_curtain"
   },
@@ -5136,7 +5136,7 @@
     "required_skills": [ [ "fabrication", 2 ] ],
     "time": "30 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M", "level": 1 } ] ],
-    "components": [ [ [ "nail", 4 ] ], [ [ "sheet", 2 ] ], [ [ "stick", 1 ] ], [ [ "string_36", 1 ] ] ],
+    "components": [ [ [ "nail", 4 ] ], [ [ "sheet", 1 ] ], [ [ "stick", 1 ] ], [ [ "string_36", 1 ] ] ],
     "pre_terrain": "t_metal_grate_window_noglass",
     "post_terrain": "t_metal_grate_window_with_curtain_noglass"
   },
@@ -5162,7 +5162,7 @@
     "required_skills": [ [ "fabrication", 2 ] ],
     "time": "30 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M", "level": 1 } ] ],
-    "components": [ [ [ "nail", 4 ] ], [ [ "sheet", 2 ] ], [ [ "stick", 1 ] ], [ [ "string_36", 1 ] ] ],
+    "components": [ [ [ "nail", 4 ] ], [ [ "sheet", 1 ] ], [ [ "stick", 1 ] ], [ [ "string_36", 1 ] ] ],
     "pre_terrain": "t_single_pane_glass",
     "post_terrain": "t_single_pane_glass_with_curtain"
   },
@@ -5188,7 +5188,7 @@
     "required_skills": [ [ "fabrication", 2 ] ],
     "time": "30 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M", "level": 1 } ] ],
-    "components": [ [ [ "nail", 4 ] ], [ [ "sheet", 2 ] ], [ [ "stick", 1 ] ], [ [ "string_36", 1 ] ] ],
+    "components": [ [ [ "nail", 4 ] ], [ [ "sheet", 1 ] ], [ [ "stick", 1 ] ], [ [ "string_36", 1 ] ] ],
     "pre_terrain": "t_reinforced_single_pane_glass",
     "post_terrain": "t_reinforced_single_pane_glass_with_curtain"
   },
@@ -5214,7 +5214,7 @@
     "required_skills": [ [ "fabrication", 2 ] ],
     "time": "30 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M", "level": 1 } ] ],
-    "components": [ [ [ "nail", 4 ] ], [ [ "sheet", 2 ] ], [ [ "stick", 1 ] ], [ [ "string_36", 1 ] ] ],
+    "components": [ [ [ "nail", 4 ] ], [ [ "sheet", 1 ] ], [ [ "stick", 1 ] ], [ [ "string_36", 1 ] ] ],
     "pre_terrain": "t_double_pane_glass",
     "post_terrain": "t_double_pane_glass_with_curtain"
   },
@@ -5240,7 +5240,7 @@
     "required_skills": [ [ "fabrication", 2 ] ],
     "time": "30 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M", "level": 1 } ] ],
-    "components": [ [ [ "nail", 4 ] ], [ [ "sheet", 2 ] ], [ [ "stick", 1 ] ], [ [ "string_36", 1 ] ] ],
+    "components": [ [ [ "nail", 4 ] ], [ [ "sheet", 1 ] ], [ [ "stick", 1 ] ], [ [ "string_36", 1 ] ] ],
     "pre_terrain": "t_reinforced_double_pane_glass",
     "post_terrain": "t_reinforced_double_pane_glass_with_curtain"
   },
