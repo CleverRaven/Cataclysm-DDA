@@ -292,6 +292,7 @@ static const json_character_flag json_flag_CLIMATE_CONTROL( "CLIMATE_CONTROL" );
 static const json_character_flag json_flag_COLD_IMMUNE( "COLD_IMMUNE" );
 static const json_character_flag json_flag_CUT_IMMUNE( "CUT_IMMUNE" );
 static const json_character_flag json_flag_DEAF( "DEAF" );
+static const json_character_flag json_flag_ECTOTHERM( "ECTOTHERM" );
 static const json_character_flag json_flag_ELECTRIC_IMMUNE( "ELECTRIC_IMMUNE" );
 static const json_character_flag json_flag_ENHANCED_VISION( "ENHANCED_VISION" );
 static const json_character_flag json_flag_EYE_MEMBRANE( "EYE_MEMBRANE" );
@@ -392,7 +393,6 @@ static const trait_id trait_CF_HAIR( "CF_HAIR" );
 static const trait_id trait_CHEMIMBALANCE( "CHEMIMBALANCE" );
 static const trait_id trait_CHLOROMORPH( "CHLOROMORPH" );
 static const trait_id trait_CLUMSY( "CLUMSY" );
-static const trait_id trait_COLDBLOOD4( "COLDBLOOD4" );
 static const trait_id trait_DEBUG_BIONIC_POWER( "DEBUG_BIONIC_POWER" );
 static const trait_id trait_DEBUG_CLOAK( "DEBUG_CLOAK" );
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
@@ -10663,7 +10663,7 @@ void Character::recalc_speed_bonus()
         const float temperature_speed_modifier = mutation_value( "temperature_speed_modifier" );
         if( temperature_speed_modifier != 0 ) {
             const units::temperature player_local_temp = get_weather().get_temperature( pos() );
-            if( has_trait( trait_COLDBLOOD4 ) || player_local_temp < units::from_fahrenheit( 65 ) ) {
+            if( has_flag( json_flag_ECTOTHERM ) || player_local_temp < units::from_fahrenheit( 65 ) ) {
                 mod_speed_bonus( ( units::to_fahrenheit( player_local_temp ) - 65 ) * temperature_speed_modifier );
             }
         }

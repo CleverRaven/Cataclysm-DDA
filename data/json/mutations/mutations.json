@@ -6536,6 +6536,7 @@
   {
     "type": "mutation",
     "id": "COLDBLOOD",
+    "flags": [ "COLDBLOOD" ],
     "name": { "str": "Heat Dependent" },
     "points": 0,
     "mixed_effect": true,
@@ -6548,6 +6549,7 @@
   {
     "type": "mutation",
     "id": "COLDBLOOD2",
+    "flags": [ "COLDBLOOD2" ],
     "name": { "str": "Very Heat Dependent" },
     "points": -2,
     "mixed_effect": true,
@@ -6561,6 +6563,7 @@
   {
     "type": "mutation",
     "id": "COLDBLOOD3",
+    "flags": [ "COLDBLOOD3" ],
     "name": { "str": "Cold Blooded" },
     "points": -3,
     "mixed_effect": true,
@@ -6574,6 +6577,7 @@
   {
     "type": "mutation",
     "id": "COLDBLOOD4",
+    "flags": [ "ECTOTHERM" ],
     "name": { "str": "Ectothermic" },
     "points": 0,
     "mixed_effect": true,

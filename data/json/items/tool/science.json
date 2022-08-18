@@ -1291,7 +1291,17 @@
     "material": [ "plastic" ],
     "symbol": ";",
     "color": "light_gray",
-    "use_action": [ "LUX_METER" ]
+    "use_action": [ "LUX_METER" ],
+    "ammo": [ "battery" ],
+    "charges_per_use": 10,
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
+        "default_magazine": "light_battery_cell"
+      }
+    ]
   },
   {
     "id": "migo_bio_tech",
