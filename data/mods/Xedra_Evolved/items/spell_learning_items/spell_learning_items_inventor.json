@@ -17,7 +17,7 @@
     "use_action": { "type": "learn_spell", "spells": [ "summon_battery_gun" ] }
   },
   {
-    "id": "ray_diagrams",
+    "id": "ray_weapon_diagrams",
     "type": "GENERIC",
     "category": "artifacts",
     "name": { "str": "ray weapon schematics", "str_pl": "copies of ray weapon schematics" },
@@ -32,5 +32,52 @@
     "color": "yellow",
     "looks_like": "battery",
     "use_action": { "type": "learn_spell", "spells": [ "summon_ray_gun" ] }
+  },
+  {
+    "id": "wolf_mask",
+    "type": "GENERIC",
+    "category": "artifacts",
+    "name": { "str": "wolf's mask" },
+    "description": "Huge, respirator-like mask, which covers the whole head, except the right eye.  The tubes are not connected to anything, so you can't breath with the mask on your face.",
+    "weight": "405 g",
+    "volume": "1479 ml",
+    "price": 4000,
+    "price_postapoc": 50,
+    "to_hit": -3,
+    "material": [ "forged_dreamstuff" ],
+    "symbol": "[",
+    "looks_like": "mask_gas",
+    "color": "dark_gray",
+    "use_action": { "type": "learn_spell", "spells": [ "summon_mace_magic" ] }
+  },
+  {
+    "id": "firmament_driver_book",
+    "type": "GENERIC",
+    "category": "artifacts",
+    "name": { "str": "String Theory For Dummies", "str_pl": "copies of String Theory For Dummies" },
+    "description": "A small hardcover book, that describes a version of string theory that seems quite preposterous.",
+    "weight": "77 g",
+    "volume": "334 ml",
+    "price": 1000,
+    "price_postapoc": 10,
+    "material": [ "forged_dreamstuff" ],
+    "symbol": "*",
+    "color": "black",
+    "use_action": { "type": "learn_spell", "spells": [ "firmament_driver" ] }
+  },
+  {
+    "id": "syringe_artifact",
+    "type": "GENERIC",
+    "category": "artifacts",
+    "name": { "str": "syringe with vermilion liquid", "str_pl": "syringes with vermilion liquid" },
+    "description": "Small syringe filled with dark red liquid.  The piston seems to be glued, and you can't move it.",
+    "weight": "5 g",
+    "volume": "10 ml",
+    "price": 10000,
+    "price_postapoc": 300,
+    "material": [ "forged_dreamstuff" ],
+    "symbol": ".",
+    "color": "red",
+    "use_action": { "type": "learn_spell", "spells": [ "summon_bio_launcher" ] }
   }
 ]

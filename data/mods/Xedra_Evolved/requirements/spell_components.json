@@ -37,5 +37,28 @@
     "type": "requirement",
     "using": [ [ "compute_standard", 10 ] ]
     "components": [ [ [ "drawing_tool", 2 ] ] ]
+  },
+  {
+    "id": "spell_components_mace_magic",
+    "type": "requirement",
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "SAW_W", "level": 1 }, { "id": "GRIND", "level": 2 }  ],
+    "components": [ [ [ "magnetron", 1 ] ], [ [ "pipe", 3 ] ], [ [ "scrap", 25 ] ], [ [ "duct_tape", 25 ] ] ]
+  },
+  {
+    "id": "spell_components_build_bio_launcher",
+    "type": "requirement",
+    "qualities": [ { "id": "GRIND", "level": 1 } ],
+    "components": [ [ [ "55gal_drum", 1 ] ], [ [ "brain", 1 ] ], [ [ "pipe", 1 ] ], [ [ "e_scrap", 6 ] ], [ [ "scrap", 10 ] ] ]
+  },
+  {
+    "id": "spell_components_bio_launcher_warhead",
+    "type": "requirement",
+    "qualities": [ { "id": "SAW_W", "level": 1 } ],
+    "components": [ [ [ "inventor_warhead", 1 ] ], [ [ "c4", 1 ] ], [ [ "bioweapon", 1 ] ], [ [ "fuse", 1 ] ], [ [ "scrap", 2 ] ] ]
+  },
+  {
+    "id": "spell_components_fire_biowarhead",
+    "type": "requirement",
+    "components": [ [ [ "bio_warhead", 1 ] ] ]
   }
 ]
