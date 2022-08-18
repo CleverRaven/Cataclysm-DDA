@@ -9,10 +9,17 @@
 #include "map.h"
 #include "map_helpers.h"
 #include "optional.h"
+#include "activity_actor_definitions.h"
+#include "player_helpers.h"
 #include "point.h"
 #include "type_id.h"
 #include "units.h"
 #include "vehicle.h"
+#include "veh_type.h"
+
+
+static const itype_id itype_folded_inflatable_boat( "folded_inflatable_boat" );
+static const itype_id itype_hand_pump( "hand_pump" );
 
 static const vproto_id vehicle_prototype_bicycle( "bicycle" );
 
@@ -112,4 +119,123 @@ TEST_CASE( "starting_bicycle_damaged_pedal" )
     }
 
     here.detach_vehicle( veh_ptr );
+}
+
+static void unfold_and_check( double damage, double degradation,
+                              double expect_damage, double expect_degradation, double expected_hp )
+{
+    map &m = get_map();
+    Character &u = get_player_character();
+    clear_avatar();
+    clear_map();
+    clear_vehicles( &m );
+    u.move_to( u.get_location() + tripoint( 1, 0, 0 ) );
+    item boat_item( itype_folded_inflatable_boat );
+    item hand_pump( itype_hand_pump );
+    const units::volume boat_item_volume = boat_item.volume();
+    const units::mass boat_item_weight = boat_item.weight();
+    CAPTURE( damage, degradation, expect_damage, expect_degradation, expected_hp );
+    INFO( "unfold inflatable boat sourced from item factory without hand pump" );
+    {
+        u.assign_activity( player_activity( vehicle_unfolding_activity_actor( boat_item ) ) );
+        while( !u.activity.is_null() ) {
+            u.set_moves( u.get_speed() );
+            u.activity.do_turn( u );
+        }
+
+        // should fail as avatar has no hand_pump
+        REQUIRE( !m.veh_at( u.get_location() ).has_value() );
+
+        // the folded item should drop and should be deleted
+        map_stack map_items = m.i_at( u.pos_bub() );
+        REQUIRE( map_items.size() == 1 );
+        map_items.clear();
+    }
+
+    INFO( "unfold inflatable boat sourced from item factory with hand pump" );
+    {
+        u.wield( hand_pump ); // give hand_pump
+
+        u.assign_activity( player_activity( vehicle_unfolding_activity_actor( boat_item ) ) );
+        while( !u.activity.is_null() ) {
+            u.set_moves( u.get_speed() );
+            u.activity.do_turn( u );
+        }
+
+        // should succeed now avatar has hand_pump
+        optional_vpart_position boat_part = m.veh_at( u.get_location() );
+        REQUIRE( boat_part.has_value() );
+
+        // set damage/degradation on every part
+        vehicle &veh = boat_part->vehicle();
+        for( const vpart_reference &vpr : veh.get_all_parts() ) {
+            item base = vpr.part().get_base();
+            base.set_degradation( degradation * base.max_damage() );
+            base.set_damage( damage * base.max_damage() );
+            vpr.part().set_base( base );
+            veh.set_hp( vpr.part(), vpr.info().durability, true );
+        }
+
+        // fold into an item
+        u.assign_activity( player_activity( vehicle_folding_activity_actor( veh ) ) );
+        while( !u.activity.is_null() ) {
+            u.set_moves( u.get_speed() );
+            u.activity.do_turn( u );
+        }
+
+        // should fail as vehicle is now folded into item
+        REQUIRE( !m.veh_at( u.get_location() ).has_value() );
+
+        map_stack map_items = m.i_at( u.pos_bub() );
+        REQUIRE( map_items.size() == 1 );
+        item player_folded_boat = map_items.only_item();
+        map_items.clear();
+
+        // check player-folded boat has same volume/weight as item factory one
+        CHECK( boat_item_volume == player_folded_boat.volume() );
+        CHECK( boat_item_weight == player_folded_boat.weight() );
+
+        // unfold the player folded one
+        u.assign_activity( player_activity( vehicle_unfolding_activity_actor( player_folded_boat ) ) );
+        while( !u.activity.is_null() ) {
+            u.set_moves( u.get_speed() );
+            u.activity.do_turn( u );
+        }
+
+        optional_vpart_position unfolded_boat_part = m.veh_at( u.get_location() );
+        REQUIRE( unfolded_boat_part.has_value() );
+
+        // verify the damage/degradation roundtripped via serialization on every part
+        for( const vpart_reference &vpr : unfolded_boat_part->vehicle().get_all_parts() ) {
+            const item &base = vpr.part().get_base();
+            CHECK( base.damage() == ( expect_damage * base.max_damage() ) );
+            CHECK( base.degradation() == ( expect_degradation * base.max_damage() ) );
+            CHECK( vpr.part().health_percent() == expected_hp );
+        }
+    }
+}
+
+// Testing iuse::unfold_generic and vehicle part degradation
+TEST_CASE( "Unfolding vehicle parts and testing degradation", "[item][degradation][vehicle]" )
+{
+    struct degradation_preset {
+        double damage;
+        double degradation;
+        double expect_damage;
+        double expect_degradation;
+        double expect_hp;
+    };
+
+    const std::vector<degradation_preset> presets {
+        { 0.00, 0.00, 0.00, 0.00, 1.00 }, //   0% damaged,   0% degraded
+        { 0.25, 0.25, 0.00, 0.25, 1.00 }, //  25% damaged,  25% degraded
+        { 0.50, 0.50, 0.25, 0.50, 0.75 }, //  50% damaged,  50% degraded
+        { 0.75, 0.50, 0.25, 0.50, 0.75 }, //  75% damaged,  50% degraded
+        { 0.75, 1.00, 0.75, 1.00, 0.25 }, //  75% damaged, 100% degraded
+        { 1.00, 1.00, 0.75, 1.00, 0.25 }, // 100% damaged, 100% degraded
+    };
+
+    for( const degradation_preset &p : presets ) {
+        unfold_and_check( p.damage, p.degradation, p.expect_damage, p.expect_degradation, p.expect_hp );
+    }
 }
