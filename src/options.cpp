@@ -2085,9 +2085,15 @@ void options_manager::add_options_graphics()
 
     get_option( "USE_TILES_OVERMAP" ).setPrerequisite( "USE_TILES" );
 
+    std::vector<options_manager::id_and_option> om_tilesets = build_tilesets_list();
+    // filter out SmashButton_iso from overmap tilesets
+    om_tilesets.erase( std::remove_if( om_tilesets.begin(), om_tilesets.end(), []( const auto & it ) {
+        return it.first == "SmashButton_iso";
+    } ), om_tilesets.end() );
+
     add( "OVERMAP_TILES", "graphics", to_translation( "Choose overmap tileset" ),
          to_translation( "Choose the overmap tileset you want to use." ),
-         build_tilesets_list(), "retrodays", COPT_CURSES_HIDE
+         om_tilesets, "retrodays", COPT_CURSES_HIDE
        ); // populate the options dynamically
 
     get_option( "OVERMAP_TILES" ).setPrerequisite( "USE_TILES_OVERMAP" );
