@@ -18,7 +18,7 @@
     "copy-from": "generic_folded_vehicle",
     "name": { "str": "folded Bicycle" },
     "description": "A folded Bicycle.",
-    "weight": "20790 g",
+    "weight": "20786 g",
     "volume": "18500 ml",
     "symbol": "0",
     "color": "light_gray",
