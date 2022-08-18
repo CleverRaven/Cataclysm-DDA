@@ -578,7 +578,7 @@ static void draw_ascii(
     // A small LRU cache: most oter_id's occur in clumps like forests of swamps.
     // This cache helps avoid much more costly lookups in the full hashmap.
     constexpr size_t cache_size = 8; // used below to calculate the next index
-    std::array<std::pair<oter_id, oter_t const *>, cache_size> cache{ {} };
+    std::array<std::pair<oter_id, oter_t const *>, cache_size> cache;
     size_t cache_next = 0;
 
     const auto set_color_and_symbol = [&]( const oter_id & cur_ter, const tripoint_abs_omt & omp,
@@ -1124,10 +1124,10 @@ static void draw_om_sidebar(
         }
 
         for( const mongroup *mg : overmap_buffer.monsters_at( center ) ) {
-            mvwprintz( wbar, point( 1, ++lines ), c_red, "mongroup %s (%zu/%u), %s %s%s%s",
+            mvwprintz( wbar, point( 1, ++lines ), c_red, "mongroup %s (%zu/%u), %s %s%s",
                        mg->type.str(), mg->monsters.size(), mg->population,
                        io::enum_to_string( mg->behaviour ),
-                       mg->dying ? "x" : "", mg->horde ? "h" : "", mg->diffuse ? "d" : "" );
+                       mg->dying ? "x" : "", mg->horde ? "h" : "" );
             mvwprintz( wbar, point( 1, ++lines ), c_red, "target: %s (%d)",
                        project_to<coords::omt>( mg->target ).to_string(), mg->interest );
         }
@@ -1804,7 +1804,8 @@ static tripoint_abs_omt display( const tripoint_abs_omt &orig,
                 }
                 curs += edge_scroll;
             }
-        } else if( action == "SELECT" && ( mouse_pos = ictxt.get_coordinates( g->w_overmap ) ) ) {
+        } else if( action == "SELECT" &&
+                   ( mouse_pos = ictxt.get_coordinates( g->w_overmap, point_zero, true ) ) ) {
             curs += mouse_pos->xy();
         } else if( action == "CENTER" ) {
             curs = orig;

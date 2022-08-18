@@ -32,11 +32,7 @@ robot_finds_kitten::robot_finds_kitten()
     empty.pos = point( -1, -1 );
     empty.color = nc_color();
     empty.character = ' ';
-    for( int ( &col )[rfkLINES] : rfkscreen ) {
-        for( int &i : col ) {
-            i = EMPTY;
-        }
-    }
+    rfkscreen.fill( EMPTY );
     /* Create an array to ensure we don't get duplicate messages. */
     for( int c = 0; c < nummessages; c++ ) {
         bogus[c] = empty;

@@ -36,6 +36,7 @@ set(CataAnalyzerSrc
         UnsequencedCallsCheck.cpp
         UnusedStaticsCheck.cpp
         UseLocalizedSortingCheck.cpp
+        UseMdarrayCheck.cpp
         UseNamedPointConstantsCheck.cpp
         UsePointApisCheck.cpp
         UsePointArithmeticCheck.cpp

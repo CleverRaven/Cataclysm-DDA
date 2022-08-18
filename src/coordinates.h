@@ -78,6 +78,20 @@ constexpr origin origin_from_scale( scale s )
     }
 }
 
+constexpr scale scale_from_origin( origin o )
+{
+    switch( o ) {
+        case origin::submap:
+            return scale::submap;
+        case origin::overmap_terrain:
+            return scale::overmap_terrain;
+        case origin::overmap:
+            return scale::overmap;
+        default:
+            constexpr_fatal( ms, "Requested scale for origin %d", o );
+    }
+}
+
 /**
  * A generic coordinate-type-safe point.
  *

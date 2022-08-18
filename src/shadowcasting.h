@@ -119,8 +119,8 @@ template<typename T, typename Out, T( *calc )( const T &, const T &, const int &
          bool( *check )( const T &, const T & ),
          void( *update_output )( Out &, const T &, quadrant ),
          T( *accumulate )( const T &, const T &, const int & )>
-void castLightAll( cata::mdarray<Out, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> &output_cache,
-                   const cata::mdarray<T, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> &input_array,
+void castLightAll( cata::mdarray<Out, point_bub_ms> &output_cache,
+                   const cata::mdarray<T, point_bub_ms> &input_array,
                    const point &offset, int offsetDistance = 0,
                    T numerator = 1.0 );
 
@@ -128,8 +128,8 @@ template<typename T>
 using array_of_grids_of =
     std::conditional_t <
     std::is_const<T>::value,
-    std::array<const cata::mdarray<std::remove_const_t<T>, point_bub_ms, MAPSIZE_X, MAPSIZE_Y>*, OVERMAP_LAYERS>,
-    std::array<cata::mdarray<T, point_bub_ms, MAPSIZE_X, MAPSIZE_Y>*, OVERMAP_LAYERS>
+    std::array<const cata::mdarray<std::remove_const_t<T>, point_bub_ms>*, OVERMAP_LAYERS>,
+    std::array<cata::mdarray<T, point_bub_ms>*, OVERMAP_LAYERS>
     >;
 
 // TODO: Generalize the floor check, allow semi-transparent floors

@@ -6,10 +6,14 @@
     "components": [
       [
         [ "flour", 2 ],
+        [ "flour_wheat_free", 2 ],
+        [ "bread_flour", 2 ],
         [ "cornmeal", 1 ],
         [ "flatbread", 1 ],
+        [ "flatbread_wheat_free", 1 ],
         [ "tortilla_corn", 1 ],
         [ "bread", 1 ],
+        [ "bread_wheat_free", 1 ],
         [ "wastebread", 1 ],
         [ "cornbread", 1 ],
         [ "biscuit", 1 ],
@@ -40,6 +44,12 @@
     "type": "requirement",
     "//": "Wheat free bread appropriate for sandwiches.",
     "components": [ [ [ "cornbread", 1 ], [ "bread_wheat_free", 1 ], [ "flatbread_wheat_free", 1 ] ] ]
+  },
+  {
+    "id": "any_bread",
+    "type": "requirement",
+    "//": "Any type of bread",
+    "components": [ [ [ "bread_sandwich", 1, "LIST" ], [ "bread_sandwich_wheat_free", 1, "LIST" ] ] ]
   },
   {
     "id": "any_peanutbutter",
@@ -107,6 +117,12 @@
     "type": "requirement",
     "//": "Pasteurized milk, including reconstituted",
     "components": [ [ [ "milk", 1 ], [ "milk_reconstituted", 1 ], [ "milk_UHT", 1 ] ] ]
+  },
+  {
+    "id": "cheese_standard",
+    "type": "requirement",
+    "//": "Any cheese you could use as is",
+    "components": [ [ [ "cheese", 1 ], [ "cheese_hard", 1 ], [ "can_cheese", 1 ], [ "cheese_rehydrated", 1 ] ] ]
   },
   {
     "id": "lf_milk_standard",
@@ -428,6 +444,7 @@
         [ "fried_spam", 2 ],
         [ "can_chicken", 1 ],
         [ "fish_cooked", 1 ],
+        [ "fish_scrap_cooked", 10 ],
         [ "fish_smoked", 1 ],
         [ "lobster_cooked", 1 ],
         [ "lobster_smoked", 1 ],
@@ -468,8 +485,7 @@
     "components": [
       [ [ "broth", 2 ], [ "broth_bone", 2 ] ],
       [
-        [ "irradiated_potato", 1 ],
-        [ "potato", 1 ],
+        [ "veggy_potatolike", 1, "LIST" ],
         [ "celery", 1 ],
         [ "irradiated_celery", 1 ],
         [ "cabbage", 1 ],
@@ -549,6 +565,7 @@
         [ "salted_fish", 2 ],
         [ "fish_canned", 2 ],
         [ "can_salmon", 2 ],
+        [ "fish_scrap", 10 ],
         [ "can_tuna", 2 ]
       ]
     ]
@@ -787,6 +804,7 @@
         [ "hot_sauce", 1 ],
         [ "ketchup", 1 ],
         [ "barbecue_sauce", 1 ],
+        [ "honey_mustard", 1 ],
         [ "horseradish", 1 ],
         [ "sauerkraut", 1 ],
         [ "butter", 1 ]
@@ -939,6 +957,12 @@
     ]
   },
   {
+    "id": "veggy_potatolike",
+    "type": "requirement",
+    "//": "Any edible tuber that can be used like potato",
+    "components": [ [ [ "potato", 1 ], [ "irradiated_potato", 1 ], [ "groundnut_prepared", 5 ] ] ]
+  },
+  {
     "id": "veggy_any_corn_uncooked",
     "type": "requirement",
     "components": [ [ [ "corn", 1 ], [ "corn_kernels", 1 ], [ "rehydrated_corn_kernels", 1 ], [ "can_corn", 1 ] ] ]
@@ -1002,6 +1026,7 @@
         [ "burdock_cooked", 1 ],
         [ "bamboo_cooked", 1 ],
         [ "salsify_baked", 1 ],
+        [ "groundnut_prepared", 1 ],
         [ "veggy_any_uncooked", 1, "LIST" ],
         [ "veggy_canned", 1 ],
         [ "veggy_salted", 1 ]
@@ -1054,11 +1079,10 @@
         [ "spaghetti_raw", 1 ],
         [ "macaroni_raw", 1 ],
         [ "noodles_fast", 1 ],
-        [ "irradiated_potato", 1 ],
-        [ "potato", 1 ],
         [ "celery", 1 ],
         [ "irradiated_celery", 1 ],
         [ "veggy_green", 1, "LIST" ],
+        [ "veggy_potatolike", 1, "LIST" ],
         [ "sauerkraut", 1 ],
         [ "powder_eggs", 1 ],
         [ "eggs_bird", 1, "LIST" ],

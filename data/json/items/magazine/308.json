@@ -9,7 +9,7 @@
     "count": 100,
     "default_ammo": "762_51",
     "linkage": "ammolink308",
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "308": 500 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": false, "ammo_restriction": { "308": 500 } } ]
   },
   {
     "id": "falbigmag",

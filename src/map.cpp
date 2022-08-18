@@ -1510,6 +1510,11 @@ std::string map::name( const tripoint &p )
     return has_furn( p ) ? furnname( p ) : tername( p );
 }
 
+std::string map::name( const tripoint_bub_ms &p )
+{
+    return name( p.raw() );
+}
+
 std::string map::disp_name( const tripoint &p )
 {
     return string_format( _( "the %s" ), name( p ) );
@@ -1707,6 +1712,11 @@ std::string map::furnname( const tripoint &p )
     } else {
         return f.name();
     }
+}
+
+std::string map::furnname( const tripoint_bub_ms &p )
+{
+    return furnname( p.raw() );
 }
 
 /*
@@ -2137,6 +2147,11 @@ int map::move_cost( const tripoint &p, const vehicle *ignored_vehicle ) const
     return move_cost_internal( furniture, terrain, field, veh, part );
 }
 
+int map::move_cost( const tripoint_bub_ms &p, const vehicle *ignored_vehicle ) const
+{
+    return move_cost( p.raw(), ignored_vehicle );
+}
+
 bool map::impassable( const tripoint &p ) const
 {
     return !passable( p );
@@ -2150,6 +2165,11 @@ bool map::impassable( const tripoint_bub_ms &p ) const
 bool map::passable( const tripoint &p ) const
 {
     return move_cost( p ) != 0;
+}
+
+bool map::passable( const tripoint_bub_ms &p ) const
+{
+    return passable( p.raw() );
 }
 
 int map::move_cost_ter_furn( const tripoint &p ) const
@@ -2673,6 +2693,11 @@ bool map::can_put_items_ter_furn( const tripoint &p ) const
     return !has_flag( ter_furn_flag::TFLAG_NOITEM, p ) && !has_flag( ter_furn_flag::TFLAG_SEALED, p );
 }
 
+bool map::can_put_items_ter_furn( const tripoint_bub_ms &p ) const
+{
+    return can_put_items_ter_furn( p.raw() );
+}
+
 bool map::has_flag_ter( const std::string &flag, const tripoint &p ) const
 {
     return ter( p ).obj().has_flag( flag );
@@ -2720,6 +2745,11 @@ bool map::has_flag_furn( const ter_furn_flag flag, const tripoint &p ) const
     return furn( p ).obj().has_flag( flag );
 }
 
+bool map::has_flag_furn( const ter_furn_flag flag, const tripoint_bub_ms &p ) const
+{
+    return furn( p ).obj().has_flag( flag );
+}
+
 bool map::has_flag_ter_or_furn( const ter_furn_flag flag, const tripoint &p ) const
 {
     if( !inbounds( p ) ) {
@@ -2735,6 +2765,11 @@ bool map::has_flag_ter_or_furn( const ter_furn_flag flag, const tripoint &p ) co
 
     return current_submap->get_ter( l ).obj().has_flag( flag ) ||
            current_submap->get_furn( l ).obj().has_flag( flag );
+}
+
+bool map::has_flag_ter_or_furn( const ter_furn_flag flag, const tripoint_bub_ms &p ) const
+{
+    return has_flag_ter_or_furn( flag, p.raw() );
 }
 
 // End of 3D flags
@@ -3021,6 +3056,11 @@ bool map::flammable_items_at( const tripoint &p, int threshold )
     return false;
 }
 
+bool map::flammable_items_at( const tripoint_bub_ms &p, int threshold )
+{
+    return flammable_items_at( p.raw(), threshold );
+}
+
 bool map::is_flammable( const tripoint &p )
 {
 
@@ -3041,6 +3081,11 @@ bool map::is_flammable( const tripoint &p )
     }
 
     return false;
+}
+
+bool map::is_flammable( const tripoint_bub_ms &p )
+{
+    return is_flammable( p.raw() );
 }
 
 void map::decay_fields_and_scent( const time_duration &amount )
@@ -3149,9 +3194,9 @@ bool map::has_nearby_fire( const tripoint &p, int radius ) const
     return false;
 }
 
-bool map::has_nearby_table( const tripoint &p, int radius ) const
+bool map::has_nearby_table( const tripoint_bub_ms &p, int radius ) const
 {
-    for( const tripoint &pt : points_in_radius( p, radius ) ) {
+    for( const tripoint_bub_ms &pt : points_in_radius( p, radius ) ) {
         if( has_flag( ter_furn_flag::TFLAG_FLAT_SURF, pt ) ) {
             return true;
         }
@@ -3187,7 +3232,7 @@ bool map::has_nearby_ter( const tripoint &p, const ter_id &type, int radius ) co
     return false;
 }
 
-bool map::terrain_moppable( const tripoint &p )
+bool map::terrain_moppable( const tripoint_bub_ms &p )
 {
     // Moppable items ( spills )
     if( !has_flag( ter_furn_flag::TFLAG_LIQUIDCONT, p ) ) {
@@ -3231,7 +3276,7 @@ bool map::terrain_moppable( const tripoint &p )
     return false;
 }
 
-bool map::mop_spills( const tripoint &p )
+bool map::mop_spills( const tripoint_bub_ms &p )
 {
     bool retval = false;
 
@@ -4226,7 +4271,7 @@ bool map::open_door( Creature const &u, const tripoint &p, const bool inside,
                            "open_door", ter.id.str() );
             ter_set( p, ter.open );
 
-            if( u.has_trait( trait_SCHIZOPHRENIC ) &&
+            if( u.has_trait( trait_SCHIZOPHRENIC ) && u.is_avatar() &&
                 one_in( 50 ) && !ter.has_flag( ter_furn_flag::TFLAG_TRANSPARENT ) ) {
                 tripoint mp = p + -2 * u.pos().xy() + tripoint( 2 * p.x, 2 * p.y, p.z );
                 g->spawn_hallucination( mp );
@@ -4375,6 +4420,11 @@ bool map::close_door( const tripoint &p, const bool inside, const bool check_onl
     return false;
 }
 
+bool map::close_door( const tripoint_bub_ms &p, const bool inside, const bool check_only )
+{
+    return close_door( p.raw(), inside, check_only );
+}
+
 std::string map::get_signage( const tripoint &p ) const
 {
     if( !inbounds( p ) ) {
@@ -4474,22 +4524,22 @@ void map::adjust_radiation( const tripoint &p, const int delta )
     current_submap->set_radiation( l, current_radiation + delta );
 }
 
-int map::get_temperature( const tripoint &p ) const
+units::temperature map::get_temperature_mod( const tripoint &p ) const
 {
     if( !inbounds( p ) ) {
-        return 0;
+        return 0_K;
     }
 
     const submap *const current_submap = unsafe_get_submap_at( p );
     if( current_submap == nullptr ) {
         debugmsg( "Tried to get temperature at (%d,%d,%d) but the submap is not loaded", p.x, p.y, p.z );
-        return 0;
+        return 0_K;
     }
 
     return current_submap->get_temperature();
 }
 
-void map::set_temperature( const tripoint &p, int new_temperature )
+void map::set_temperature_mod( const tripoint &p, units::temperature new_temperature_mod )
 {
     if( !inbounds( p ) ) {
         return;
@@ -4500,7 +4550,7 @@ void map::set_temperature( const tripoint &p, int new_temperature )
         return;
     }
 
-    current_submap->set_temperature( new_temperature );
+    current_submap->set_temperature_mod( new_temperature_mod );
 }
 // Items: 3D
 
@@ -4557,6 +4607,11 @@ void map::i_rem( const tripoint &p, item *it )
     if( iter != map_items.end() ) {
         i_rem( p, iter );
     }
+}
+
+void map::i_rem( const tripoint_bub_ms &p, item *it )
+{
+    return i_rem( p.raw(), it );
 }
 
 void map::i_clear( const tripoint &p )
@@ -4679,6 +4734,11 @@ units::volume map::stored_volume( const tripoint &p )
 units::volume map::free_volume( const tripoint &p )
 {
     return i_at( p ).free_volume();
+}
+
+units::volume map::free_volume( const tripoint_bub_ms &p )
+{
+    return free_volume( p.raw() );
 }
 
 item &map::add_item_or_charges( const tripoint &pos, item obj, bool overflow )
@@ -4871,14 +4931,14 @@ item map::water_from( const tripoint &p )
     weather_manager &weather = get_weather();
     if( has_flag( ter_furn_flag::TFLAG_SALT_WATER, p ) ) {
         item ret( "salt_water", calendar::turn, item::INFINITE_CHARGES );
-        ret.set_item_temperature( std::max( units::from_fahrenheit( weather.get_temperature( p ) ),
+        ret.set_item_temperature( std::max( weather.get_temperature( p ),
                                             temperatures::cold ) );
         return ret;
     }
 
     if( has_flag( ter_furn_flag::TFLAG_CHOCOLATE, p ) ) {
         item ret( "liquid_cacao", calendar::turn, item::INFINITE_CHARGES );
-        ret.set_item_temperature( std::max( units::from_fahrenheit( weather.get_temperature( p ) ),
+        ret.set_item_temperature( std::max( weather.get_temperature( p ),
                                             temperatures::cold ) );
         return ret;
     }
@@ -4886,7 +4946,7 @@ item map::water_from( const tripoint &p )
     if( has_flag( ter_furn_flag::TFLAG_MURKY, p ) ) {
         for( item &ret : get_map().i_at( p ) ) {
             if( ret.made_of( phase_id::LIQUID ) ) {
-                ret.set_item_temperature( std::max( units::from_fahrenheit( weather.get_temperature( p ) ),
+                ret.set_item_temperature( std::max( weather.get_temperature( p ),
                                                     temperatures::cold ) );
                 ret.poison = rng( 1, 6 );
                 ret.get_comestible()->parasites = 5;
@@ -4899,7 +4959,7 @@ item map::water_from( const tripoint &p )
     if( has_flag( ter_furn_flag::TFLAG_TOILET_WATER, p ) ) {
         for( item &ret : get_map().i_at( p ) ) {
             if( ret.made_of( phase_id::LIQUID ) ) {
-                ret.set_item_temperature( std::max( units::from_fahrenheit( weather.get_temperature( p ) ),
+                ret.set_item_temperature( std::max( weather.get_temperature( p ),
                                                     temperatures::cold ) );
                 ret.poison = one_in( 3 ) ? 0 : rng( 1, 3 );
             }
@@ -4910,14 +4970,14 @@ item map::water_from( const tripoint &p )
     const ter_id terrain_id = ter( p );
     if( terrain_id == t_sewage ) {
         item ret( "water_sewage", calendar::turn, item::INFINITE_CHARGES );
-        ret.set_item_temperature( std::max( units::from_fahrenheit( weather.get_temperature( p ) ),
+        ret.set_item_temperature( std::max( weather.get_temperature( p ),
                                             temperatures::cold ) );
         ret.poison = rng( 1, 7 );
         return ret;
     }
 
     item ret( "water", calendar::turn, item::INFINITE_CHARGES );
-    ret.set_item_temperature( std::max( units::from_fahrenheit( weather.get_temperature( p ) ),
+    ret.set_item_temperature( std::max( weather.get_temperature( p ),
                                         temperatures::cold ) );
     // iexamine::water_source requires a valid liquid from this function.
     if( terrain_id->has_examine( iexamine::water_source ) ) {
@@ -5364,6 +5424,11 @@ bool map::has_items( const tripoint &p ) const
     }
 
     return !current_submap->get_items( l ).empty();
+}
+
+bool map::has_items( const tripoint_bub_ms &p ) const
+{
+    return has_items( p.raw() );
 }
 
 template <typename Stack>
@@ -5823,6 +5888,11 @@ field &map::field_at( const tripoint &p )
     return current_submap->get_field( l );
 }
 
+field &map::field_at( const tripoint_bub_ms &p )
+{
+    return field_at( p.raw() );
+}
+
 time_duration map::mod_field_age( const tripoint &p, const field_type_id &type,
                                   const time_duration &offset )
 {
@@ -5871,6 +5941,11 @@ time_duration map::get_field_age( const tripoint &p, const field_type_id &type )
     return field_ptr == nullptr ? -1_turns : field_ptr->get_field_age();
 }
 
+time_duration map::get_field_age( const tripoint_bub_ms &p, const field_type_id &type ) const
+{
+    return get_field_age( p.raw(), type );
+}
+
 int map::get_field_intensity( const tripoint &p, const field_type_id &type ) const
 {
     const field_entry *field_ptr = get_field( p, type );
@@ -5911,9 +5986,19 @@ field_entry *map::get_field( const tripoint &p, const field_type_id &type )
     return get_field_helper( *this, p, type );
 }
 
+field_entry *map::get_field( const tripoint_bub_ms &p, const field_type_id &type )
+{
+    return get_field( p.raw(), type );
+}
+
 const field_entry *map::get_field( const tripoint &p, const field_type_id &type ) const
 {
     return get_field_helper( *this, p, type );
+}
+
+const field_entry *map::get_field( const tripoint_bub_ms &p, const field_type_id &type ) const
+{
+    return get_field( p.raw(), type );
 }
 
 bool map::dangerous_field_at( const tripoint &p )
@@ -5925,6 +6010,11 @@ bool map::dangerous_field_at( const tripoint &p )
         }
     }
     return false;
+}
+
+bool map::dangerous_field_at( const tripoint_bub_ms &p )
+{
+    return dangerous_field_at( p.raw() );
 }
 
 bool map::mopsafe_field_at( const tripoint &p )
@@ -5994,9 +6084,20 @@ bool map::add_field( const tripoint &p, const field_type_id &type_id, int intens
     return true;
 }
 
+bool map::add_field( const tripoint_bub_ms &p, const field_type_id &type_id, int intensity,
+                     const time_duration &age, bool hit_player )
+{
+    return add_field( p.raw(), type_id, intensity, age, hit_player );
+}
+
 void map::remove_field( const tripoint &p, const field_type_id &field_to_remove )
 {
     set_field_intensity( p, field_to_remove, 0 );
+}
+
+void map::remove_field( const tripoint_bub_ms &p, const field_type_id &field_to_remove )
+{
+    return remove_field( p.raw(), field_to_remove );
 }
 
 void map::clear_fields( const tripoint &p )
@@ -6175,8 +6276,7 @@ void map::update_visibility_cache( const int zlev )
         visibility_variables_cache.clairvoyance_field = field_fd_clairvoyant;
     }
 
-    int sm_squares_seen[MAPSIZE][MAPSIZE];
-    std::memset( sm_squares_seen, 0, sizeof( sm_squares_seen ) );
+    cata::mdarray<int, point_bub_sm> sm_squares_seen = {};
 
     auto &visibility_cache = get_cache( zlev ).visibility_cache;
 
@@ -7035,10 +7135,21 @@ bool map::clear_path( const tripoint &f, const tripoint &t, const int range,
     return is_clear;
 }
 
+bool map::clear_path( const tripoint_bub_ms &f, const tripoint_bub_ms &t, const int range,
+                      const int cost_min, const int cost_max ) const
+{
+    return clear_path( f.raw(), t.raw(), range, cost_min, cost_max );
+}
+
 bool map::accessible_items( const tripoint &t ) const
 {
     return !has_flag( ter_furn_flag::TFLAG_SEALED, t ) ||
            has_flag( ter_furn_flag::TFLAG_LIQUIDCONT, t );
+}
+
+bool map::accessible_items( const tripoint_bub_ms &t ) const
+{
+    return accessible_items( t.raw() );
 }
 
 std::vector<tripoint> map::get_dir_circle( const tripoint &f, const tripoint &t ) const
@@ -7765,7 +7876,7 @@ void map::produce_sap( const tripoint &p, const time_duration &time_since_last_a
 
     item sap( "maple_sap", calendar::turn );
 
-    sap.set_item_temperature( units::from_fahrenheit( get_temperature( p ) ) );
+    sap.set_item_temperature( get_weather().get_temperature( p ) );
     sap.charges = new_charges;
 
     // Is there a proper container?
@@ -7866,6 +7977,7 @@ void map::actualize( const tripoint &grid )
 
     // check spoiled stuff, and fill up funnels while we're at it
     process_items_in_submap( *tmpsub, grid );
+    explosion_handler::process_explosions();
     for( int x = 0; x < SEEX; x++ ) {
         for( int y = 0; y < SEEY; y++ ) {
             const tripoint pnt = sm_to_ms_copy( grid ) + point( x, y );
@@ -8425,7 +8537,7 @@ void map::build_outside_cache( const int zlev )
     // We will later copy it to our regular cache
     const size_t padded_w = MAPSIZE_X + 2;
     const size_t padded_h = MAPSIZE_Y + 2;
-    bool padded_cache[padded_w][padded_h];
+    cata::mdarray<bool, point_bub_ms, padded_w, padded_h> padded_cache;
 
     auto &outside_cache = ch.outside_cache;
     if( zlev < 0 ) {
@@ -8434,8 +8546,7 @@ void map::build_outside_cache( const int zlev )
         return;
     }
 
-    std::uninitialized_fill_n(
-        &padded_cache[0][0], padded_w * padded_h, true );
+    padded_cache.fill( true );
 
     for( int smx = 0; smx < my_MAPSIZE; ++smx ) {
         for( int smy = 0; smy < my_MAPSIZE; ++smy ) {
@@ -8474,7 +8585,7 @@ void map::build_outside_cache( const int zlev )
 
 void map::build_obstacle_cache(
     const tripoint &start, const tripoint &end,
-    cata::mdarray<fragment_cloud, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> &obstacle_cache )
+    cata::mdarray<fragment_cloud, point_bub_ms> &obstacle_cache )
 {
     const point min_submap{ std::max( 0, start.x / SEEX ), std::max( 0, start.y / SEEY ) };
     const point max_submap{

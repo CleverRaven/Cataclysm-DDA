@@ -2852,6 +2852,12 @@
   },
   {
     "type": "keybinding",
+    "name": "Cycle movement mode reverse",
+    "category": "DEFAULTMODE",
+    "id": "cycle_move_reverse"
+  },
+  {
+    "type": "keybinding",
     "name": "Reset movement to walk",
     "category": "DEFAULTMODE",
     "id": "reset_move"

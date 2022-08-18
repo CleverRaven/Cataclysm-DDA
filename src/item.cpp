@@ -286,6 +286,7 @@ item::item( const itype *type, time_point turn, int qty ) : type( type ), bday( 
     corpse = has_flag( flag_CORPSE ) ? &mtype_id::NULL_ID().obj() : nullptr;
     contents = item_contents( type->pockets );
     item_counter = type->countdown_interval;
+    item_vars = type->item_variables;
 
     if( qty >= 0 ) {
         charges = qty;
@@ -2398,12 +2399,16 @@ void item::food_info( const item *food_item, std::vector<iteminfo> &info,
             display_vitamins != is_vitamin || v.first->has_flag( flag_NO_DISPLAY ) ) {
             return std::string();
         }
-        const double multiplier = player_character.vitamin_rate( v.first ) / 1_days * 100;
         const int min_value = min_nutr.get_vitamin( v.first );
         const int max_value = v.second;
-        const int min_rda = std::lround( min_value * multiplier );
-        const int max_rda = std::lround( max_value * multiplier );
-        const std::string format = min_rda == max_rda ? "%s (%i%%)" : "%s (%i-%i%%)";
+        const int min_rda = player_character.vitamin_RDA( v.first, min_value );
+        const int max_rda = player_character.vitamin_RDA( v.first, max_value );
+        std::string format;
+        if( is_vitamin ) {
+            format = min_value == max_value ? "%s (%i%%)" : "%s (%i-%i%%)";
+            return string_format( format, v.first->name(), min_rda, max_rda );
+        }
+        format = min_value == max_value ? "%s (%i U)" : "%s (%i-%i U)";
         return string_format( format, v.first->name(), min_value, max_value );
     };
 
@@ -4715,6 +4720,13 @@ void item::repair_info( std::vector<iteminfo> &info, const iteminfo_query *parts
         enumerate_as_string( rep.begin(), rep.end(), []( const itype_id & e ) {
             return nname( e );
         }, enumeration_conjunction::or_ ) ) );
+
+        std::string repairs_with = enumerate_as_string( type->repairs_with.begin(),
+        type->repairs_with.end(), []( const material_id & e ) {
+            return string_format( "<info>%s</info>", e->name() );
+        } );
+
+        info.emplace_back( "DESCRIPTION", string_format( _( "<bold>With</bold> %s." ), repairs_with ) );
         if( reinforceable() ) {
             info.emplace_back( "DESCRIPTION", _( "* This item can be <good>reinforced</good>." ) );
         }
@@ -6724,12 +6736,13 @@ int item::price( bool practical ) const
     return res;
 }
 
-int item::price_no_contents( bool practical ) const
+int item::price_no_contents( bool practical, cata::optional<int> price_override ) const
 {
     if( rotten() ) {
         return 0;
     }
-    int price = units::to_cent( practical ? type->price_post : type->price );
+    int price = price_override ? *price_override
+                : units::to_cent( practical ? type->price_post : type->price );
     if( damage() > 0 ) {
         // maximal damage level is 4, maximal reduction is 80% of the value.
         price -= price * static_cast< double >( damage_level() ) / 5;
@@ -9432,6 +9445,12 @@ int item::made_of( const material_id &mat_ident ) const
     return mat->second;
 }
 
+bool item::can_repair_with( const material_id &mat_ident ) const
+{
+    auto mat = type->repairs_with.find( mat_ident );
+    return mat != type->repairs_with.end();
+}
+
 bool item::made_of( phase_id phase ) const
 {
     if( is_null() ) {
@@ -10195,7 +10214,7 @@ ret_val<void> item::is_compatible( const item &it ) const
 
 ret_val<void> item::can_contain( const item &it, const bool nested,
                                  const bool ignore_rigidity, const bool ignore_pkt_settings,
-                                 const item_location &parent_it ) const
+                                 const item_location &parent_it, units::volume remaining_parent_volume ) const
 {
     if( this == &it || ( parent_it.where() != item_location::type::invalid &&
                          this == parent_it.get_item() ) ) {
@@ -10211,10 +10230,17 @@ ret_val<void> item::can_contain( const item &it, const bool nested,
         it.contents.bigger_on_the_inside( it.volume() ) ) {
         return ret_val<void>::make_failure();
     }
+
     for( const item_pocket *pkt : contents.get_all_contained_pockets() ) {
         if( pkt->empty() ) {
             continue;
         }
+
+        // early exit for max length no nested item is gonna fix this
+        if( pkt->max_containable_length() < it.length() ) {
+            continue;
+        }
+
         // If the current pocket has restrictions or blacklists the item,
         // try the nested pocket regardless of whether it's soft or rigid.
         const bool ignore_rigidity =
@@ -10225,7 +10251,7 @@ ret_val<void> item::can_contain( const item &it, const bool nested,
                 continue;
             }
             if( internal_it->can_contain( it, true, ignore_rigidity, ignore_pkt_settings,
-                                          parent_it ).success() ) {
+                                          parent_it, pkt->remaining_volume() ).success() ) {
                 return ret_val<void>::make_success();
             }
         }
@@ -10233,7 +10259,7 @@ ret_val<void> item::can_contain( const item &it, const bool nested,
 
     return nested && !ignore_rigidity ?
            contents.can_contain_rigid( it, ignore_pkt_settings ) :
-           contents.can_contain( it, ignore_pkt_settings );
+           contents.can_contain( it, ignore_pkt_settings, remaining_parent_volume );
 }
 
 bool item::can_contain( const itype &tp ) const
@@ -12442,7 +12468,7 @@ bool item::process_temperature_rot( float insulation, const tripoint &pos, map &
         return false;
     }
 
-    units::temperature temp = units::from_fahrenheit( get_weather().get_temperature( pos ) );
+    units::temperature temp = get_weather().get_temperature( pos );
 
     switch( flag ) {
         case temperature_flag::NORMAL:
@@ -12468,7 +12494,7 @@ bool item::process_temperature_rot( float insulation, const tripoint &pos, map &
     // body heat increases inventory temperature by 5 F (2.77 K) and insulation by 50%
     if( carried ) {
         insulation *= 1.5;
-        temp = temp + units::from_kelvin( 2.77 );
+        temp += units::from_kelvin( 2.77 );
     }
 
     time_point time = last_temp_check;
@@ -12480,19 +12506,19 @@ bool item::process_temperature_rot( float insulation, const tripoint &pos, map &
 
         const weather_generator &wgen = get_weather().get_cur_weather_gen();
         const unsigned int seed = g->get_seed();
-        int local_mod = g->new_game ? 0 : here.get_temperature( pos );
+        units::temperature local_mod = g->new_game ? 0_K : here.get_temperature_mod( pos );
 
-        int enviroment_mod;
+        units::temperature enviroment_mod;
         // Toilets and vending machines will try to get the heat radiation and convection during mapgen and segfault.
         if( !g->new_game ) {
-            enviroment_mod = get_heat_radiation( pos, false );
+            enviroment_mod = get_heat_radiation( pos );
             enviroment_mod += get_convection_temperature( pos );
         } else {
-            enviroment_mod = 0;
+            enviroment_mod = 0_K;
         }
 
         if( carried ) {
-            local_mod += 5; // body heat increases inventory temperature
+            local_mod += units::from_kelvin( 2.77 ); // body heat increases inventory temperature
         }
 
         // Process the past of this item in 1h chunks until there is less than 1h left.
@@ -12505,12 +12531,12 @@ bool item::process_temperature_rot( float insulation, const tripoint &pos, map &
             // Use weather if above ground, use map temp if below
             units::temperature env_temperature;
             if( pos.z >= 0 && flag != temperature_flag::ROOT_CELLAR ) {
-                double weather_temperature = wgen.get_weather_temperature( pos, time, seed );
-                env_temperature = units::from_fahrenheit( weather_temperature + enviroment_mod + local_mod );
+                env_temperature = wgen.get_weather_temperature( pos, time, seed );
             } else {
-                env_temperature = units::from_fahrenheit( units::to_fahrenheit( AVERAGE_ANNUAL_TEMPERATURE ) +
-                                  enviroment_mod + local_mod );
+                env_temperature = AVERAGE_ANNUAL_TEMPERATURE;
             }
+            env_temperature += local_mod;
+            env_temperature += enviroment_mod;
 
             switch( flag ) {
                 case temperature_flag::NORMAL:

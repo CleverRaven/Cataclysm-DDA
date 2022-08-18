@@ -450,7 +450,6 @@
     "path_settings": { "max_dist": 10 },
     "anger_triggers": [ "HURT", "PLAYER_NEAR_BABY", "PLAYER_CLOSE" ],
     "fear_triggers": [ "FIRE", "SOUND" ],
-    "placate_triggers": [ "MEAT" ],
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 4 },
     "harvest": "mammal_large_fur",
     "reproduction": { "baby_monster": "mon_shortface_cub", "baby_count": 1, "baby_timer": 720 },

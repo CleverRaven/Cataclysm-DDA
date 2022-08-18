@@ -579,7 +579,7 @@ class item : public visitable
          * If `practical` is false, returns pre-Cataclysm market value,
          * otherwise returns approximate post-cataclysm value.
          */
-        int price_no_contents( bool practical ) const;
+        int price_no_contents( bool practical, cata::optional<int> price_override = cata::nullopt ) const;
 
         /**
          * Whether two items should stack when displayed in a inventory menu.
@@ -1161,6 +1161,11 @@ class item : public visitable
          */
         int made_of( const material_id &mat_ident ) const;
         /**
+        * Check we can repair with this material (e.g. matches at least one
+        * in our set.)
+        */
+        bool can_repair_with( const material_id &mat_ident ) const;
+        /**
          * Are we solid, liquid, gas, plasma?
          */
         bool made_of( phase_id phase ) const;
@@ -1541,12 +1546,15 @@ class item : public visitable
          * @param it the item being put in
          * @param nested whether or not the current call is nested (used recursively).
          * @param ignore_pkt_settings whether to ignore pocket autoinsert settings
+         * @param remaining_parent_volume the ammount of space in the parent pocket,
+         * needed to make sure we dont try to nest items which can't fit in the nested pockets
          */
         /*@{*/
         ret_val<void> can_contain( const item &it, bool nested = false,
                                    bool ignore_rigidity = false,
                                    bool ignore_pkt_settings = true,
-                                   const item_location &parent_it = item_location() ) const;
+                                   const item_location &parent_it = item_location(),
+                                   units::volume remaining_parent_volume = 10000000_ml ) const;
         bool can_contain( const itype &tp ) const;
         bool can_contain_partial( const item &it ) const;
         /*@}*/

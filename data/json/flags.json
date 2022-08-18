@@ -44,7 +44,7 @@
   {
     "id": "ALLOWS_NATURAL_ATTACKS",
     "type": "json_flag",
-    "info": "This clothing won't hinder special attacks that involve <info>mutated anatomy</info>."
+    "info": "This clothing won't hinder special attacks that involve <info>mutated or cybernetic anatomy</info>."
   },
   {
     "id": "ALLOWS_REMOTE_USE",

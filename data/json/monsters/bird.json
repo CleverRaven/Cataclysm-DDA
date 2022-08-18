@@ -271,6 +271,7 @@
     "hp": 15,
     "aggression": 0,
     "morale": 15,
+    "aggro_character": false,
     "dodge": 3,
     "melee_damage": [ { "damage_type": "cut", "amount": 1 } ],
     "anger_triggers": [ "PLAYER_CLOSE", "FRIEND_ATTACKED" ],

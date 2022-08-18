@@ -87,6 +87,7 @@
   },
   {
     "id": "tie_skinny",
+    "repairs_like": "tshirt",
     "type": "ARMOR",
     "name": { "str": "skinny tie" },
     "description": "A skinny black and white checkered necktie.",
@@ -156,6 +157,7 @@
   },
   {
     "id": "tie_bow",
+    "repairs_like": "tshirt",
     "type": "ARMOR",
     "name": { "str": "bow tie" },
     "description": "A simple black bow tie.  Best worn with a suit.",
@@ -170,6 +172,7 @@
   },
   {
     "id": "tie_clipon",
+    "repairs_like": "tshirt",
     "type": "ARMOR",
     "name": { "str": "clip-on tie" },
     "description": "A clip-on necktie with blue and silver stripes.  It's quick and easy to put on, and really, who's going to know the difference?",
@@ -184,6 +187,7 @@
   },
   {
     "id": "tie_necktie",
+    "repairs_like": "tshirt",
     "type": "ARMOR",
     "name": { "str": "necktie" },
     "description": "An ordinary green necktie.  Knowing how to properly tie it takes some practice, but it's an important skill to learn.  Clip-ons are for children.",

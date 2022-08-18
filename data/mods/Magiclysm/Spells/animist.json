@@ -221,7 +221,7 @@
     "shape": "blast",
     "spell_class": "ANIMIST",
     "energy_source": "HP",
-    "flags": [ "NO_LEGS", "CONCENTRATE", "SOMATIC" ],
+    "flags": [ "NO_LEGS", "CONCENTRATE", "SOMATIC", "NO_PROJECTILE" ],
     "min_damage": 10,
     "max_damage": 160,
     "damage_increment": 6.0,
