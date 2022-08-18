@@ -865,7 +865,7 @@
       "both": {
         "items": [
           "helmet_bike",
-          "folding_bicycle",
+          "folded_bicycle",
           "under_armor_shorts",
           "under_armor",
           "socks_ankle",
@@ -3422,7 +3422,7 @@
           "newest_newspaper",
           "newest_newspaper",
           "newest_newspaper",
-          "folding_bicycle"
+          "folded_bicycle"
         ],
         "entries": [ { "group": "charged_smart_phone" } ]
       },
@@ -4940,7 +4940,7 @@
     "traits": [ "OUTDOORSMAN" ],
     "items": {
       "both": {
-        "items": [ "trunks", "bastsandals", "dive_bag", "wristwatch", "flotation_vest", "hand_pump", "inflatable_boat" ],
+        "items": [ "trunks", "bastsandals", "dive_bag", "wristwatch", "flotation_vest", "hand_pump", "folded_inflatable_boat" ],
         "entries": [
           { "item": "rashguard", "variant": "tropical_rashguard_shirt" },
           { "item": "hat_ball", "variant": "generic_hatball" },

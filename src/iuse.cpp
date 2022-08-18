@@ -5406,7 +5406,13 @@ cata::optional<int> iuse::unfold_generic( Character *p, item *it, bool, const tr
     }
     veh->suspend_refresh();
     veh->name = it->get_var( "vehicle_name" );
-    if( !veh->restore( it->get_var( "folding_bicycle_parts" ) ) ) {
+
+    // TODO: Remove folding_bicycle_parts after savegames migrate
+    std::string folded_parts = it->has_var( "folding_bicycle_parts" )
+                               ? it->get_var( "folding_bicycle_parts" )
+                               : it->get_var( "folded_parts" );
+
+    if( !veh->restore( folded_parts ) ) {
         here.destroy_vehicle( veh );
         return 0;
     }
@@ -8207,7 +8213,7 @@ cata::optional<int> iuse::multicooker( Character *p, item *it, bool t, const tri
                 meal.heat_up();
             } else {
                 meal.set_item_temperature( std::max( temperatures::cold,
-                                                     units::from_fahrenheit( get_weather().get_temperature( pos ) ) ) );
+                                                     get_weather().get_temperature( pos ) ) );
             }
 
             it->active = false;
@@ -9054,7 +9060,7 @@ cata::optional<int> iuse::weather_tool( Character *p, item *it, bool, const trip
     const w_point weatherPoint = *weather.weather_precise;
 
     /* Possibly used twice. Worth spending the time to precalculate. */
-    const int player_local_temp = weather.get_temperature( p->pos() );
+    const units::temperature player_local_temp = weather.get_temperature( p->pos() );
 
     if( it->typeId() == itype_weather_reader ) {
         p->add_msg_if_player( m_neutral, _( "The %s's monitor slowly outputs the data…" ),
@@ -9107,9 +9113,8 @@ cata::optional<int> iuse::weather_tool( Character *p, item *it, bool, const trip
                               velocity_units( VU_WIND ) );
         p->add_msg_if_player(
             m_neutral, _( "Feels Like: %s." ),
-            print_temperature(
-                get_local_windchill( weatherPoint.temperature, weatherPoint.humidity, windpower ) +
-                player_local_temp ) );
+            print_temperature( player_local_temp + get_local_windchill( weatherPoint.temperature,
+                               weatherPoint.humidity, windpower ) ) );
         std::string dirstring = get_dirstring( weather.winddirection );
         p->add_msg_if_player( m_neutral, _( "Wind Direction: From the %s." ), dirstring );
     }
@@ -9136,19 +9141,24 @@ cata::optional<int> iuse::sextant( Character *p, item *, bool, const tripoint &p
     return 0;
 }
 
-cata::optional<int> iuse::lux_meter( Character *p, item *, bool, const tripoint &pos )
+cata::optional<int> iuse::lux_meter( Character *p, item *it, bool, const tripoint &pos )
 {
-    if( debug_mode ) {
-        // In debug mode show extra info:
-        // Sun illumination is sun with no clouds
-        const units::angle altitude = sun_azimuth_altitude( calendar::turn ).second;
-        p->add_msg_if_player( m_neutral,
-                              "The illumination is %.1f, Sun illumination %.1f, Sun altitude %.1f.",
-                              g->natural_light_level( pos.z ), sun_light_at( calendar::turn ), to_degrees( altitude ) );
-    } else {
-        p->add_msg_if_player( m_neutral, _( "The illumination is %.1f." ),
-                              g->natural_light_level( pos.z ) );
-    }
+    p->add_msg_if_player( m_neutral, _( "The illumination is %.1f." ),
+                          g->natural_light_level( pos.z ) );
+
+    return it->type->charges_to_use();
+}
+
+cata::optional<int> iuse::dbg_lux_meter( Character *p, item *, bool, const tripoint &pos )
+{
+    const float incident_light = incident_sunlight( current_weather( pos ), calendar::turn );
+    const float nat_light = g->natural_light_level( pos.z );
+    const float sunlight = sun_light_at( calendar::turn );
+    const float sun_irrad = sun_irradiance( calendar::turn );
+    const float incident_irrad = incident_sun_irradiance( current_weather( pos ), calendar::turn );
+    p->add_msg_if_player( m_neutral,
+                          _( "Incident light: %.1f\nNatural light: %.1f\nSunlight: %.1f\nSun irradiance: %.1f\nIncident irradiance %.1f" ),
+                          incident_light, nat_light, sunlight, sun_irrad, incident_irrad );
 
     return 0;
 }

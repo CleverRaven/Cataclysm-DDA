@@ -282,6 +282,16 @@
   },
   {
     "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "fish_scrap_cooked",
+    "copy-from": "meat_cooked",
+    "time": "45 s",
+    "qualities": [ { "id": "COOK", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 1, "LIST" ] ] ],
+    "components": [ [ [ "fish_scrap", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "mutant_meat_cooked",
     "category": "CC_FOOD",
@@ -5772,7 +5782,7 @@
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [
-      [ [ "fish_cooked", 1 ], [ "fish_fried", 1 ] ],
+      [ [ "fish_cooked", 1 ], [ "fish_fried", 1 ], [ "fish_scrap_cooked", 10 ] ],
       [ [ "bread_sandwich", 2, "LIST" ] ],
       [
         [ "pickle", 1 ],
@@ -5850,7 +5860,7 @@
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [
-      [ [ "fish_cooked", 1 ], [ "fish_fried", 1 ] ],
+      [ [ "fish_cooked", 1 ], [ "fish_fried", 1 ], [ "fish_scrap_cooked", 10 ] ],
       [ [ "bread_sandwich_wheat_free", 2, "LIST" ] ],
       [
         [ "pickle", 1 ],
@@ -5889,7 +5899,7 @@
     "book_learn": [ [ "family_cookbook", 2 ], [ "mag_cooking", 2 ] ],
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [
-      [ [ "fish_cooked", 1 ], [ "can_salmon", 1 ] ],
+      [ [ "fish_cooked", 1 ], [ "can_salmon", 1 ], [ "fish_scrap_cooked", 10 ] ],
       [ [ "bread_sandwich", 2, "LIST" ] ],
       [ [ "spinach", 1 ] ],
       [ [ "cooking_oil", 1 ] ],
