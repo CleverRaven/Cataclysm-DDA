@@ -513,6 +513,9 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
     }
     assign( jo, "folding_tools", def.folding_tools );
     assign( jo, "unfolding_tools", def.unfolding_tools );
+    assign( jo, "folding_time", def.folding_time );
+    assign( jo, "unfolding_time", def.unfolding_time );
+
     if( jo.has_member( "damage_reduction" ) ) {
         JsonObject dred = jo.get_object( "damage_reduction" );
         def.damage_reduction = load_damage_array( dred );
@@ -1078,6 +1081,16 @@ std::vector<itype_id> vpart_info::get_folding_tools() const
 std::vector<itype_id> vpart_info::get_unfolding_tools() const
 {
     return unfolding_tools;
+}
+
+time_duration vpart_info::get_folding_time() const
+{
+    return folding_time;
+}
+
+time_duration vpart_info::get_unfolding_time() const
+{
+    return unfolding_time;
 }
 
 /** @relates string_id */

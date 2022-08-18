@@ -335,6 +335,10 @@ class vpart_info
         std::vector<itype_id> get_folding_tools() const;
         // @returns tools required for unfolding this part
         std::vector<itype_id> get_unfolding_tools() const;
+        // @returns time required for folding this part
+        time_duration get_folding_time() const;
+        // @returns time required for unfolding this part
+        time_duration get_unfolding_time() const;
     private:
         std::set<std::string> flags;
         // category list for installation ui breakdown
@@ -353,6 +357,10 @@ class vpart_info
         std::vector<itype_id> folding_tools;
         // tools required to unfold this part
         std::vector<itype_id> unfolding_tools;
+        // time required to fold this part
+        time_duration folding_time = time_duration::from_seconds( 10 );
+        // time required to unfold this part
+        time_duration unfolding_time = time_duration::from_seconds( 10 );
 
         cata::optional<vpslot_engine> engine_info;
         cata::optional<vpslot_wheel> wheel_info;

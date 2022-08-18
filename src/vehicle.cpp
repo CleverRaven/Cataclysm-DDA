@@ -7064,19 +7064,20 @@ bool vehicle::is_foldable() const
 
 time_duration vehicle::folding_time() const
 {
-    time_duration result;
-    for( const vpart_reference &part : get_all_parts() ) {
-        if( !part.part().removed ) {
-            // TODO: add fold/unfold time to parts
-            result += time_duration::from_seconds( 30 );
-        }
-    }
-    return result;
+    const vehicle_part_range vpr = get_all_parts();
+    return std::accumulate( vpr.begin(), vpr.end(), time_duration(),
+    []( time_duration & acc, const vpart_reference & part ) {
+        return acc + ( part.part().removed ? time_duration() : part.info().get_folding_time() );
+    } );
 }
 
 time_duration vehicle::unfolding_time() const
 {
-    return folding_time();
+    const vehicle_part_range vpr = get_all_parts();
+    return std::accumulate( vpr.begin(), vpr.end(), time_duration(),
+    []( time_duration & acc, const vpart_reference & part ) {
+        return acc + ( part.part().removed ? time_duration() : part.info().get_unfolding_time() );
+    } );
 }
 
 item vehicle::get_folded_item() const
