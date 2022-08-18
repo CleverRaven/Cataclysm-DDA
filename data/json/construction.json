@@ -1585,13 +1585,29 @@
     "required_skills": [ [ "fabrication", 5 ], [ "mechanics", 2 ] ],
     "time": "60 m",
     "components": [
-      [ [ "rope_makeshift_30", 1 ], [ "rope_30", 1 ], [ "vine_30", 1 ] ],
+      [ [ "rope_natural", 1, "LIST" ] ],
       [ [ "stick", 8 ], [ "stick_long", 4 ], [ "2x4", 8 ] ],
       [ [ "block_and_tackle", 1 ] ]
     ],
     "pre_note": "Can be deconstructed without tools.  Must be adjacent to a palisade wall that is itself adjacent to a palisade gate in order to open said gate.",
     "pre_special": "check_empty",
     "post_terrain": "t_palisade_pulley"
+  },
+  {
+    "type": "construction",
+    "id": "constr_palisade_pulley_wood",
+    "group": "build_rope_pulley_system",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 5 ], [ "mechanics", 2 ] ],
+    "time": "60 m",
+    "components": [
+      [ [ "rope_natural", 1, "LIST" ] ],
+      [ [ "stick", 8 ], [ "stick_long", 4 ], [ "2x4", 8 ] ],
+      [ [ "block_and_tackle_wood", 1 ] ]
+    ],
+    "pre_note": "Can be deconstructed without tools.  Must be adjacent to a palisade wall that is itself adjacent to a palisade gate in order to open said gate.",
+    "pre_special": "check_empty",
+    "post_terrain": "t_palisade_pulley_wood"
   },
   {
     "type": "construction",
