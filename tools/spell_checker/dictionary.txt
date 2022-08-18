@@ -2058,6 +2058,8 @@ zombiespawn
 zombiethustra
 zomborg
 zombull
+zombullfrog
+zombullfrogs
 zpzzzzpzz
 zubon
 zygomaticus
