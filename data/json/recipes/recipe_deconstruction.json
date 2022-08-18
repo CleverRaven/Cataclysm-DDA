@@ -5914,7 +5914,7 @@
     "time": "10 m",
     "difficulty": 1,
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "tarp", 1 ] ], [ [ "tent_pole", 2 ] ], [ [ "plastic_sheet", 1 ] ], [ [ "plastic_sheet_small", 1 ] ] ]
+    "components": [ [ [ "tarp", 1 ] ], [ [ "tent_pole", 2 ] ] ]
   },
   {
     "result": "largebroketent",
@@ -5924,7 +5924,7 @@
     "time": "30 m",
     "difficulty": 1,
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "tarp", 4 ] ], [ [ "tent_pole", 5 ] ], [ [ "plastic_sheet", 3 ] ], [ [ "plastic_sheet_small", 3 ] ] ]
+    "components": [ [ [ "tarp", 2 ] ], [ [ "tent_pole", 5 ] ], [ [ "plastic_sheet", 2 ] ], [ [ "plastic_sheet_small", 5 ] ] ]
   },
   {
     "result": "knife_butter",
@@ -6613,6 +6613,108 @@
     "time": "12 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "scrap", 3 ] ] ]
+  },
+  {
+    "result": "esbit_stove",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "1 m",
+    "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "scrap_aluminum", 1 ] ] ]
+  },
+  {
+    "result": "survival_kit_box",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "5 m",
+    "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "scrap_aluminum", 16 ] ] ]
+  },
+  {
+    "result": "airhorn",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "12 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "scrap_aluminum", 6 ] ], [ [ "plastic_chunk", 3 ] ] ]
+  },
+  {
+    "result": "saddle",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "10 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "scrap_aluminum", 4 ] ], [ [ "leather", 2 ] ] ]
+  },
+  {
+    "result": "tent_kit",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "tailor",
+    "time": "10 m",
+    "difficulty": 1,
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "tarp", 1 ] ], [ [ "tent_pole", 2 ] ], [ [ "plastic_sheet", 1 ] ], [ [ "plastic_sheet_small", 1 ] ] ]
+  },
+  {
+    "result": "large_tent_kit",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "tailor",
+    "time": "30 m",
+    "difficulty": 1,
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "tarp", 4 ] ], [ [ "tent_pole", 5 ] ], [ [ "plastic_sheet", 3 ] ], [ [ "plastic_sheet_small", 3 ] ] ]
+  },
+  {
+    "result": "tent_pole",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "12 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "scrap_aluminum", 4 ] ] ]
+  },
+  {
+    "result": "hand_pump",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "12 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "scrap_aluminum", 1 ] ], [ [ "plastic_chunk", 1 ] ] ]
+  },
+  {
+    "result": "mre_bag_small",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "5 s",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "aluminum_foil", 22 ] ], [ [ "plastic_sheet_small", 4 ] ] ]
+  },
+  {
+    "result": "mre_bag",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "5 s",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "aluminum_foil", 66 ] ], [ [ "plastic_sheet_small", 9 ] ] ]
+  },
+  {
+    "result": "mre_package",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "12 s",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "aluminum_foil", 118 ] ], [ [ "plastic_sheet_small", 16 ] ] ]
   },
   {
     "result": "missing_poster_adult",

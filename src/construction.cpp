@@ -72,6 +72,7 @@ static const construction_category_id construction_category_FILTER( "FILTER" );
 static const construction_category_id construction_category_REPAIR( "REPAIR" );
 
 static const flag_id json_flag_FILTHY( "FILTHY" );
+static const flag_id json_flag_PIT( "PIT" );
 static const furn_str_id furn_f_console( "f_console" );
 static const furn_str_id furn_f_console_broken( "f_console_broken" );
 static const furn_str_id furn_f_machinery_electronic( "f_machinery_electronic" );
@@ -136,6 +137,8 @@ static bool check_channel( const tripoint_bub_ms & ); // tile has adjacent flowi
 static bool check_empty_lite( const tripoint_bub_ms & );
 static bool check_empty( const tripoint_bub_ms & ); // tile is empty
 static bool check_support( const tripoint_bub_ms & ); // at least two orthogonal supports
+static bool check_support_below( const tripoint_bub_ms
+                                 & ); // at least two orthogonal supports at the level below
 static bool check_stable( const tripoint_bub_ms & ); // tile below has a flag SUPPORTS_ROOF
 static bool check_empty_stable( const tripoint_bub_ms
                                 & ); // tile is empty, tile below has a flag SUPPORTS_ROOF
@@ -1241,6 +1244,38 @@ bool construct::check_support( const tripoint_bub_ms &p )
     return num_supports >= 2;
 }
 
+bool construct::check_support_below( const tripoint_bub_ms &p )
+{
+    bool blocking_creature = g->get_creature_if( [&]( const Creature & creature ) {
+        return creature.pos() == p.raw();
+    } ) != nullptr;
+
+    map &here = get_map();
+    // These checks are based on check_empty_lite, but accept no floor and the traps associated
+    // with it, i.e. ledge, and various forms of pits.
+    // - Check if there's nothing in the way. The "passable" check rejects tiles you can't
+    //   pass through, but we want air and water to be OK as well (that's what we want to bridge).
+    // - Apart from that, vehicles, items, creatures, and furniture also have to be absent.
+    // - Then we have traps, and, unfortunately, there are "ledge" traps on all the open
+    //   space tiles adjacent to passable tiles, so we can't just reject all traps outright,
+    //   but have to accept those.
+    if( !( here.passable( p.raw() ) || here.has_flag( ter_furn_flag::TFLAG_LIQUID, p ) ||
+           here.has_flag( ter_furn_flag::TFLAG_NO_FLOOR, p ) ) ||
+        blocking_creature || here.has_furn( p ) || !( here.tr_at( p ).is_null() ||
+                here.tr_at( p ).id == tr_ledge  || here.tr_at( p ).has_flag( json_flag_PIT ) ) ||
+        !here.i_at( p ).empty() || here.veh_at( p ) ) {
+        return false;
+    }
+    // need two or more orthogonally adjacent supports at the Z level below
+    int num_supports = 0;
+    for( const tripoint_bub_ms &nb : get_orthogonal_neighbors( p + tripoint_below ) ) {
+        if( here.has_flag( ter_furn_flag::TFLAG_SUPPORTS_ROOF, nb ) ) {
+            num_supports++;
+        }
+    }
+    return num_supports >= 2;
+}
+
 bool construct::check_stable( const tripoint_bub_ms &p )
 {
     return get_map().has_flag( ter_furn_flag::TFLAG_SUPPORTS_ROOF, p + tripoint_below );
@@ -1950,6 +1985,7 @@ void load_construction( const JsonObject &jo )
             { "check_empty", construct::check_empty },
             { "check_empty_lite", construct::check_empty_lite },
             { "check_support", construct::check_support },
+            { "check_support_below", construct::check_support_below },
             { "check_stable", construct::check_stable },
             { "check_empty_stable", construct::check_empty_stable },
             { "check_nofloor_above", construct::check_nofloor_above },

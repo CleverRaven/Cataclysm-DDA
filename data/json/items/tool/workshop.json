@@ -1675,6 +1675,20 @@
     "color": "light_gray"
   },
   {
+    "id": "block_and_tackle_wood",
+    "type": "TOOL",
+    "category": "spare_parts",
+    "name": { "str": "wooden block and tackle", "str_pl": "wooden blocks and tackles" },
+    "description": "An wooden housing with a pair of pulleys that can be used with a thick rope or a chain to gain mechanical advantage on a lift.  Not as durable as a metal set.",
+    "weight": "230 g",
+    "volume": "400 ml",
+    "price": 500,
+    "price_postapoc": 50,
+    "material": [ "wood" ],
+    "symbol": "&",
+    "color": "brown"
+  },
+  {
     "id": "welding_blanket",
     "type": "TOOL",
     "name": { "str": "welding blanket" },
