@@ -661,7 +661,6 @@
     "volume": "1 ml",
     "weight": "1 g",
     "rot_spawn": "GROUP_EGG_HUMMINGBIRD",
-    "rot_spawn_chance": 70
   },
   {
     "type": "COMESTIBLE",
@@ -669,7 +668,6 @@
     "name": "woodpecker egg",
     "copy-from": "egg_crow",
     "rot_spawn": "GROUP_EGG_WOODPECKER",
-    "rot_spawn_chance": 70
   },
   {
     "type": "COMESTIBLE",
@@ -677,7 +675,6 @@
     "name": "coot egg",
     "copy-from": "egg_chicken",
     "rot_spawn": "GROUP_EGG_COOT",
-    "rot_spawn_chance": 70
   },
   {
     "type": "COMESTIBLE",
@@ -685,7 +682,6 @@
     "name": "cormorant egg",
     "copy-from": "egg_chicken",
     "rot_spawn": "GROUP_EGG_CORMORANT",
-    "rot_spawn_chance": 70
   },
   {
     "type": "COMESTIBLE",
@@ -693,7 +689,6 @@
     "name": "moorhen egg",
     "copy-from": "egg_chicken",
     "rot_spawn": "GROUP_EGG_MOORHEN",
-    "rot_spawn_chance": 70
   },
   {
     "type": "COMESTIBLE",
@@ -701,7 +696,6 @@
     "name": "grebe egg",
     "copy-from": "egg_chicken",
     "rot_spawn": "GROUP_EGG_GREBE",
-    "rot_spawn_chance": 70
   },
   {
     "type": "COMESTIBLE",
