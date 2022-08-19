@@ -173,7 +173,7 @@
     "id": "flask_feather",
     "type": "COMESTIBLE",
     "name": { "str": "potion of lesser gravity control", "str_pl": "potions of lesser gravity control" },
-    "description": "Allow user to survive the fall from any height. Sadly, the required preparation and effect's weakness do not allow to use it for climbing protection.",
+    "description": "Allow user to survive the fall from any height.  Sadly, the required preparation and effect's weakness do not allow to use it for climbing protection.",
     "copy-from": "mana_potion_lesser",
     "calories": 57,
     "use_action": { "type": "cast_spell", "spell_id": "flask_feather", "no_fail": true, "level": 0 },

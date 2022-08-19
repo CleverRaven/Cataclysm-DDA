@@ -1008,7 +1008,7 @@
   },
   {
     "id": "flask_ethereal_rebreather",
-    "name": "Spiritus",
+    "name": { "str_sp": "spiritus" },
     "description": "Now you can breath under water, like a fish.",
     "type": "TOOL_ARMOR",
     "category": "clothing",
