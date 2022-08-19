@@ -113,7 +113,7 @@
     "name": { "str": "goose egg" },
     "copy-from": "egg_chicken",
     "calories": 266,
-    "volume": "125 ml",
+    "volume": "130 ml",
     "weight": "144 g",
     "vitamins": [ [ "calcium", 9 ], [ "iron", 29 ] ],
     "rot_spawn": "GROUP_EGG_GOOSE_CANADIAN"
@@ -175,7 +175,7 @@
     "symbol": "%",
     "material": [ "egg" ],
     "stack_size": 1,
-    "volume": "250 ml",
+    "volume": "272 ml",
     "weight": "300 g",
     "calories": 240,
     "quench": 10,
