@@ -118,7 +118,7 @@
     "copy-from": "gastropod_purged",
     "type": "COMESTIBLE",
     "name": { "str_sp": "cooked gastropod" },
-    "description": "Escargots de Cataclysm.  A bit low on calories, but high in protein.",
+    "description": "Cooked gastropods.  A bit low on calories, but high in protein.",
     "proportional": { "price": 1.5 },
     "spoils_in": "1 day",
     "price_postapoc": 150,
