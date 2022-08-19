@@ -245,6 +245,7 @@
     "id": "SUS_junk_drawer",
     "type": "item_group",
     "copy-from": "SUS_junk_drawer",
+    "subtype": "collection",
     "extend": {
       "items": [
         [ "fire_ball", 5 ],
@@ -264,6 +265,7 @@
     "id": "SUS_junk_drawer_messy",
     "type": "item_group",
     "copy-from": "SUS_junk_drawer_messy",
+    "subtype": "collection",
     "extend": {
       "items": [
         [ "fire_ball", 1 ],
@@ -283,6 +285,7 @@
     "id": "SUS_office_filing_cabinet",
     "type": "item_group",
     "copy-from": "SUS_office_filing_cabinet",
+    "subtype": "collection",
     "extend": {
       "items": [
         [ "hurricane_lamp_thorns", 5 ],
