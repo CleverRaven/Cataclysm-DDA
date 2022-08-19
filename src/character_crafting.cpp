@@ -101,12 +101,10 @@ bool check_nested_has_recipes( const recipe *r, const recipe_subset &res )
 const recipe_subset Character::get_available_nested( const recipe_subset &res ) const
 {
     recipe_subset nested_recipes;
-    for( const recipe * const &r : recipe_dict.all_autolearn() ) {
+    for( const recipe * const &r : recipe_dict.all_nested() ) {
         // only display a nested category if you know at least one recipe within it
-        if( r->is_nested() ) {
-            if( check_nested_has_recipes( r, res ) ) {
-                nested_recipes.include( r );
-            }
+        if( check_nested_has_recipes( r, res ) ) {
+            nested_recipes.include( r );
         }
     }
 

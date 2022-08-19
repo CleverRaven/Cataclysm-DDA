@@ -9,8 +9,7 @@
     "description": "Recipes related to constructing bows to launch arrows with.",
     "skill_used": "fabrication",
     "nested_category_data": [ "selfbow", "shortbow", "longbow", "compositebow", "compgreatbow", "woodgreatbow" ],
-    "difficulty": 1,
-    "autolearn": [ [ "fabrication", 1 ] ]
+    "difficulty": 1
   },
   {
     "id": "nested_vehicle_battery",
@@ -22,8 +21,7 @@
     "description": "Recipes related to constructing batteries used in vehicles.",
     "skill_used": "electronics",
     "nested_category_data": [ "battery_car", "battery_motorbike" ],
-    "difficulty": 3,
-    "autolearn": [ [ "electronics", 2 ] ]
+    "difficulty": 3
   },
   {
     "id": "nested_atomic_battery",
@@ -40,8 +38,7 @@
       "medium_atomic_battery_cell",
       "heavy_atomic_battery_cell"
     ],
-    "difficulty": 6,
-    "autolearn": [ [ "electronics", 4 ] ]
+    "difficulty": 6
   },
   {
     "id": "nested_standard_battery",
@@ -53,8 +50,7 @@
     "description": "Recipes related to constructing standard rechargeable batteries.",
     "skill_used": "electronics",
     "nested_category_data": [ "UPS_off", "medium_battery_cell", "medium_plus_battery_cell", "heavy_battery_cell", "heavy_plus_battery_cell" ],
-    "difficulty": 3,
-    "autolearn": [ [ "electronics", 1 ] ]
+    "difficulty": 3
   },
   {
     "id": "nested_storage_battery",
@@ -66,8 +62,7 @@
     "description": "Recipes related to constructing storage batteries used in vehicles or in buildings.",
     "skill_used": "electronics",
     "nested_category_data": [ "storage_battery", "storage_battery_from_medium", "medium_storage_battery", "large_storage_battery" ],
-    "difficulty": 3,
-    "autolearn": [ [ "electronics", 2 ] ]
+    "difficulty": 3
   },
   {
     "id": "nested_dry_battery",
@@ -79,8 +74,7 @@
     "description": "Recipes related to constructing basic dry-cell batteries.",
     "skill_used": "electronics",
     "nested_category_data": [ "light_dry_cell", "medium_dry_cell", "heavy_dry_cell" ],
-    "difficulty": 3,
-    "autolearn": [ [ "electronics", 1 ] ]
+    "difficulty": 3
   },
   {
     "id": "nested_disposable_battery",
@@ -92,8 +86,7 @@
     "description": "Recipes related to constructing standard disposable batteries.",
     "skill_used": "electronics",
     "nested_category_data": [ "light_minus_disposable_cell", "light_disposable_cell", "medium_disposable_cell", "heavy_disposable_cell" ],
-    "difficulty": 4,
-    "autolearn": [ [ "electronics", 1 ] ]
+    "difficulty": 4
   },
   {
     "id": "nested_all_battery",
@@ -112,8 +105,7 @@
       "nested_storage_battery",
       "nested_vehicle_battery"
     ],
-    "difficulty": 1,
-    "autolearn": [ [ "electronics", 0 ] ]
+    "difficulty": 1
   },
   {
     "id": "nested_crossbows",
@@ -125,8 +117,7 @@
     "description": "Recipes related to constructing crossbows to shoot bolts with.",
     "skill_used": "fabrication",
     "nested_category_data": [ "bullet_crossbow", "compositecrossbow", "huge_crossbow", "hand_crossbow", "rep_crossbow", "crossbow" ],
-    "difficulty": 3,
-    "autolearn": [ [ "fabrication", 3 ] ]
+    "difficulty": 3
   },
   {
     "id": "nested_cocktails_mixdrinks",
@@ -160,8 +151,7 @@
       "drink_hobo",
       "eggnog_spiked",
       "drink_bloody_mary_blood"
-    ],
-    "autolearn": [ [ "cooking", 0 ] ]
+    ]
   },
   {
     "id": "nested_tea",
@@ -194,8 +184,7 @@
       "herbal_tea_from_tea_bag",
       "dandelion_tea_from_tea_bag",
       "chamomile_tea_from_tea_bag"
-    ],
-    "autolearn": [ [ "cooking", 0 ] ]
+    ]
   },
   {
     "id": "nested_steel_suits",
@@ -268,8 +257,7 @@
       "xl_armor_lc_lightplate_assembly",
       "armor_lc_lightplate_assembly"
     ],
-    "difficulty": 3,
-    "autolearn": [ [ "fabrication", 3 ] ]
+    "difficulty": 3
   },
   {
     "id": "nested_steel_arms",
@@ -312,8 +300,7 @@
       "xl_armor_lc_lightarmguard",
       "armor_lc_lightarmguard"
     ],
-    "difficulty": 5,
-    "autolearn": [ [ "fabrication", 5 ] ]
+    "difficulty": 5
   },
   {
     "id": "nested_lc_chainmail_hauberk",
@@ -542,8 +529,7 @@
     "description": "Recipes related to constructing scrap cuirasses in various shapes and sizes.",
     "skill_used": "fabrication",
     "nested_category_data": [ "cuirass_scrap", "xs_cuirass_scrap", "xl_cuirass_scrap" ],
-    "difficulty": 3,
-    "autolearn": [ [ "fabrication", 3 ] ]
+    "difficulty": 3
   },
   {
     "id": "nested_cuirass_tire",
@@ -555,8 +541,7 @@
     "description": "Recipes related to constructing tire cuirasses in various shapes and sizes.",
     "skill_used": "fabrication",
     "nested_category_data": [ "cuirass_tire", "xs_cuirass_tire", "xl_cuirass_tire" ],
-    "difficulty": 3,
-    "autolearn": [ [ "fabrication", 2 ] ]
+    "difficulty": 3
   },
   {
     "id": "nested_cuirass_bronze",
@@ -568,8 +553,7 @@
     "description": "Recipes related to constructing bronze cuirasses in various shapes and sizes.",
     "skill_used": "fabrication",
     "nested_category_data": [ "cuirass_bronze", "xs_cuirass_bronze", "xl_cuirass_bronze" ],
-    "difficulty": 5,
-    "autolearn": [ [ "fabrication", 4 ] ]
+    "difficulty": 5
   },
   {
     "id": "nested_armor_lamellar",
@@ -581,8 +565,7 @@
     "description": "Recipes related to constructing lamellar cuirasses in various shapes and sizes.",
     "skill_used": "tailor",
     "nested_category_data": [ "armor_lamellar", "xs_armor_lamellar", "xl_armor_lamellar" ],
-    "difficulty": 3,
-    "autolearn": [ [ "tailor", 2 ] ]
+    "difficulty": 3
   },
   {
     "id": "nested_armor_cuirass",
@@ -594,8 +577,7 @@
     "description": "Recipes related to constructing Greek cuirasses in various shapes and sizes.",
     "skill_used": "fabrication",
     "nested_category_data": [ "armor_cuirass", "xs_armor_cuirass", "xl_armor_cuirass" ],
-    "difficulty": 5,
-    "autolearn": [ [ "fabrication", 5 ] ]
+    "difficulty": 5
   },
   {
     "id": "nested_cuirass_lightplate",
@@ -607,8 +589,7 @@
     "description": "Recipes related to constructing plate cuirasses in various shapes and sizes.",
     "skill_used": "fabrication",
     "nested_category_data": [ "cuirass_lightplate", "xs_cuirass_lightplate", "xl_cuirass_lightplate" ],
-    "difficulty": 8,
-    "autolearn": [ [ "fabrication", 7 ] ]
+    "difficulty": 8
   },
   {
     "id": "nested_cuirasses",
@@ -627,8 +608,7 @@
       "nested_armor_cuirass",
       "nested_cuirass_lightplate"
     ],
-    "difficulty": 3,
-    "autolearn": [ [ "fabrication", 3 ] ]
+    "difficulty": 3
   },
   {
     "id": "nested_steel_legs",
@@ -671,8 +651,7 @@
       "xl_armor_lc_light_leg_guard",
       "armor_lc_light_leg_guard"
     ],
-    "difficulty": 5,
-    "autolearn": [ [ "fabrication", 5 ] ]
+    "difficulty": 5
   },
   {
     "id": "nested_arm_splint",
@@ -684,8 +663,7 @@
     "description": "Recipes related to constructing various shapes and sizes of arm splints.",
     "skill_used": "firstaid",
     "nested_category_data": [ "arm_splint", "arm_xlsplint", "arm_xs_splint" ],
-    "difficulty": 1,
-    "autolearn": [ [ "firstaid", 1 ] ]
+    "difficulty": 1
   },
   {
     "id": "nested_leg_splint",
@@ -697,8 +675,7 @@
     "description": "Recipes related to constructing various shapes and sizes of leg splints.",
     "skill_used": "firstaid",
     "nested_category_data": [ "leg_splint", "leg_xlsplint", "leg_xs_splint" ],
-    "difficulty": 1,
-    "autolearn": [ [ "firstaid", 1 ] ]
+    "difficulty": 1
   },
   {
     "id": "nested_splints",
@@ -710,8 +687,7 @@
     "description": "Recipes related to constructing various shapes and sizes of splints.",
     "skill_used": "firstaid",
     "nested_category_data": [ "nested_arm_splint", "nested_leg_splint" ],
-    "difficulty": 1,
-    "autolearn": [ [ "firstaid", 1 ] ]
+    "difficulty": 1
   },
   {
     "id": "nested_bandages",
@@ -723,8 +699,7 @@
     "description": "Recipes related to crafting variations of bandages.",
     "skill_used": "firstaid",
     "nested_category_data": [ "bandages", "bandages_makeshift", "bandages_makeshift_bleached", "bandages_makeshift_boiled", "adhesive_bandages" ],
-    "difficulty": 1,
-    "autolearn": [ [ "firstaid", 0 ] ]
+    "difficulty": 1
   },
   {
     "id": "nested_tourniquets",
@@ -736,8 +711,7 @@
     "description": "Recipes related to crafting different kinds of tourniquets.",
     "skill_used": "firstaid",
     "nested_category_data": [ "tourniquet_upper" ],
-    "difficulty": 1,
-    "autolearn": [ [ "firstaid", 0 ] ]
+    "difficulty": 1
   },
   {
     "id": "nested_hemostatic",
@@ -749,8 +723,7 @@
     "description": "Recipes related to creating different hemostatic compounds.",
     "skill_used": "chemistry",
     "nested_category_data": [ "quikclot", "quikclot_from_alder" ],
-    "difficulty": 4,
-    "autolearn": [ [ "firstaid", 0 ] ]
+    "difficulty": 4
   },
   {
     "id": "nested_bleedcontrol",
@@ -762,8 +735,7 @@
     "description": "Recipes that create items used to stop or slow blood loss.",
     "skill_used": "firstaid",
     "nested_category_data": [ "nested_bandages", "nested_tourniquets", "nested_hemostatic" ],
-    "difficulty": 1,
-    "autolearn": [ [ "firstaid", 0 ] ]
+    "difficulty": 1
   },
   {
     "id": "nested_antiseptics",
@@ -775,8 +747,7 @@
     "description": "Recipes related to crafting different kinds of antiseptics.",
     "skill_used": "firstaid",
     "nested_category_data": [ "disinfectant_makeshift", "wintergreen_oil", "thyme_oil", "disinrag", "disincotton_ball", "cattail_jelly" ],
-    "difficulty": 1,
-    "autolearn": [ [ "firstaid", 0 ] ]
+    "difficulty": 1
   },
   {
     "id": "nested_hood_fsurvivor",
@@ -788,8 +759,7 @@
     "description": "Recipes related to constructing various sizes of specialized hoods designed to protect the wearer from flames.",
     "skill_used": "tailor",
     "nested_category_data": [ "hood_fsurvivor", "xs_hood_fsurvivor", "xl_hood_fsurvivor" ],
-    "difficulty": 8,
-    "autolearn": [ [ "tailor", 7 ] ]
+    "difficulty": 8
   },
   {
     "id": "nested_hood_h20survivor",
@@ -801,8 +771,7 @@
     "description": "Recipes related to constructing various sizes of specialized hoods designed to protect the wearer from water.",
     "skill_used": "tailor",
     "nested_category_data": [ "hood_h20survivor" ],
-    "difficulty": 7,
-    "autolearn": [ [ "tailor", 6 ] ]
+    "difficulty": 7
   },
   {
     "id": "nested_hood_lsurvivor",
@@ -814,8 +783,7 @@
     "description": "Recipes related to constructing various sizes of specialized hoods designed to protect the wearer while not being too encumbering.",
     "skill_used": "tailor",
     "nested_category_data": [ "hood_lsurvivor", "xs_hood_lsurvivor", "xl_hood_lsurvivor" ],
-    "difficulty": 5,
-    "autolearn": [ [ "tailor", 4 ] ]
+    "difficulty": 5
   },
   {
     "id": "nested_hood_wsurvivor",
@@ -834,8 +802,7 @@
       "xs_hood_wsurvivor",
       "xl_hood_wsurvivor"
     ],
-    "difficulty": 5,
-    "autolearn": [ [ "tailor", 4 ] ]
+    "difficulty": 5
   },
   {
     "id": "nested_hood_survivor",
@@ -847,8 +814,7 @@
     "description": "Recipes related to constructing various sizes of specialized hoods designed to protect the wearer.",
     "skill_used": "tailor",
     "nested_category_data": [ "hood_survivor", "hood_xssurvivor", "hood_xlsurvivor" ],
-    "difficulty": 5,
-    "autolearn": [ [ "tailor", 4 ] ]
+    "difficulty": 5
   },
   {
     "id": "nested_all_hood_survivor",
@@ -866,8 +832,7 @@
       "nested_hood_h20survivor",
       "nested_hood_fsurvivor"
     ],
-    "difficulty": 5,
-    "autolearn": [ [ "tailor", 4 ] ]
+    "difficulty": 5
   },
   {
     "id": "nested_lc_chainmail_hood",
@@ -963,8 +928,7 @@
     "description": "Recipes related to constructing various shapes and sizes of gas masks.",
     "skill_used": "fabrication",
     "nested_category_data": [ "mask_gas", "mask_gas_xl", "mask_gas_xl_expand-existing", "mask_gas_xs", "mask_gas_xs_shrink-existing" ],
-    "difficulty": 3,
-    "autolearn": [ [ "tailor", 3 ] ]
+    "difficulty": 3
   },
   {
     "id": "nested_rebreather",
@@ -976,8 +940,7 @@
     "description": "Recipes related to constructing various shapes and sizes of rebreathers.",
     "skill_used": "electronics",
     "nested_category_data": [ "rebreather", "rebreather_xl", "rebreather_xl_mod_existing", "rebreather_xs", "rebreather_xs_mod_existing" ],
-    "difficulty": 3,
-    "autolearn": [ [ "tailoring", 2 ] ]
+    "difficulty": 3
   },
   {
     "id": "nested_mask_survivor",
@@ -989,8 +952,7 @@
     "description": "Recipes related to constructing various sizes of standard survivor masks.",
     "skill_used": "fabrication",
     "nested_category_data": [ "mask_survivor", "mask_survivorxs", "mask_survivorxl" ],
-    "difficulty": 6,
-    "autolearn": [ [ "fabrication", 6 ] ]
+    "difficulty": 6
   },
   {
     "id": "nested_mask_wsurvivor",
@@ -1009,8 +971,7 @@
       "mask_wsurvivor_nofur_xs",
       "mask_wsurvivorxl_nofur"
     ],
-    "difficulty": 7,
-    "autolearn": [ [ "fabrication", 7 ] ]
+    "difficulty": 7
   },
   {
     "id": "nested_mask_fsurvivor",
@@ -1022,8 +983,7 @@
     "description": "Recipes related to constructing various sizes of survivor masks designed to withstand heavy smoke and fires.",
     "skill_used": "fabrication",
     "nested_category_data": [ "mask_fsurvivor", "mask_fsurvivorxs", "mask_fsurvivorxl" ],
-    "difficulty": 7,
-    "autolearn": [ [ "fabrication", 7 ] ]
+    "difficulty": 7
   },
   {
     "id": "nested_mask_h20survivor",
@@ -1035,8 +995,7 @@
     "description": "Recipes related to constructing various sizes of survivor masks designed to protect the wearer and allow them to breath underwater.",
     "skill_used": "fabrication",
     "nested_category_data": [ "mask_h20survivor", "mask_h20survivorxs", "mask_h20survivorxl" ],
-    "difficulty": 7,
-    "autolearn": [ [ "fabrication", 7 ] ]
+    "difficulty": 7
   },
   {
     "id": "nested_mask_hsurvivor",
@@ -1048,8 +1007,7 @@
     "description": "Recipes related to constructing various sizes of heavy survivor masks.",
     "skill_used": "fabrication",
     "nested_category_data": [ "mask_hsurvivor" ],
-    "difficulty": 7,
-    "autolearn": [ [ "fabrication", 7 ] ]
+    "difficulty": 7
   },
   {
     "id": "nested_mask_lsurvivor",
@@ -1061,8 +1019,7 @@
     "description": "Recipes related to constructing various sizes of light survivor masks.",
     "skill_used": "fabrication",
     "nested_category_data": [ "mask_lsurvivor", "mask_lsurvivorxl" ],
-    "difficulty": 6,
-    "autolearn": [ [ "fabrication", 6 ] ]
+    "difficulty": 6
   },
   {
     "id": "nested_all_mask_survivor",
@@ -1081,8 +1038,7 @@
       "nested_mask_hsurvivor",
       "nested_mask_lsurvivor"
     ],
-    "difficulty": 6,
-    "autolearn": [ [ "fabrication", 6 ] ]
+    "difficulty": 6
   },
   {
     "id": "nested_lc_chainmail_vest",
@@ -1178,8 +1134,7 @@
     "description": "Recipes related to constructing various sizes of survivor firegloves.",
     "skill_used": "tailor",
     "nested_category_data": [ "gloves_fsurvivor", "xs_gloves_fsurvivor", "xl_gloves_fsurvivor" ],
-    "difficulty": 7,
-    "autolearn": [ [ "tailor", 5 ] ]
+    "difficulty": 7
   },
   {
     "id": "nested_gloves_wsurvivor",
@@ -1198,8 +1153,7 @@
       "xs_gloves_wsurvivor",
       "xl_gloves_wsurvivor"
     ],
-    "difficulty": 7,
-    "autolearn": [ [ "tailor", 5 ] ]
+    "difficulty": 7
   },
   {
     "id": "nested_gloves_h20survivor",
@@ -1211,8 +1165,7 @@
     "description": "Recipes related to constructing various sizes of survivor wetsuit gloves.",
     "skill_used": "tailor",
     "nested_category_data": [ "gloves_h20survivor" ],
-    "difficulty": 7,
-    "autolearn": [ [ "tailor", 5 ] ]
+    "difficulty": 7
   },
   {
     "id": "nested_gloves_hsurvivor",
@@ -1224,8 +1177,7 @@
     "description": "Recipes related to constructing various sizes of heavy survivor gloves.",
     "skill_used": "tailor",
     "nested_category_data": [ "gloves_hsurvivor", "xs_gloves_hsurvivor", "xl_gloves_hsurvivor" ],
-    "difficulty": 7,
-    "autolearn": [ [ "tailor", 5 ] ]
+    "difficulty": 7
   },
   {
     "id": "nested_gloves_lsurvivor",
@@ -1237,8 +1189,7 @@
     "description": "Recipes related to constructing various sizes of light survivor gloves.",
     "skill_used": "tailor",
     "nested_category_data": [ "gloves_lsurvivor", "xs_gloves_lsurvivor", "xl_gloves_lsurvivor" ],
-    "difficulty": 5,
-    "autolearn": [ [ "tailor", 5 ] ]
+    "difficulty": 5
   },
   {
     "id": "nested_gloves_survivor",
@@ -1250,8 +1201,7 @@
     "description": "Recipes related to constructing various sizes of survivor gloves.",
     "skill_used": "tailor",
     "nested_category_data": [ "gloves_survivor", "xs_gloves_survivor", "xl_gloves_survivor" ],
-    "difficulty": 5,
-    "autolearn": [ [ "tailor", 5 ] ]
+    "difficulty": 5
   },
   {
     "id": "nested_gloves_survivor_fingerless",
@@ -1270,8 +1220,7 @@
       "xs_gloves_lsurvivor_fingerless",
       "xl_gloves_lsurvivor_fingerless"
     ],
-    "difficulty": 1,
-    "autolearn": [ [ "tailor", 0 ] ]
+    "difficulty": 1
   },
   {
     "id": "nested_all_gloves_survivor",
@@ -1291,8 +1240,7 @@
       "nested_gloves_wsurvivor",
       "nested_gloves_fsurvivor"
     ],
-    "difficulty": 1,
-    "autolearn": [ [ "tailor", 0 ] ]
+    "difficulty": 1
   },
   {
     "id": "nested_lc_chainmail_hands",
@@ -1472,8 +1420,7 @@
     "description": "Recipes related to constructing various sizes of light survivor cargo pants.",
     "skill_used": "tailor",
     "nested_category_data": [ "lsurvivor_pants", "xs_lsurvivor_pants", "xl_lsurvivor_pants" ],
-    "difficulty": 5,
-    "autolearn": [ [ "tailor", 4 ] ]
+    "difficulty": 5
   },
   {
     "id": "nested_survivor_pants",
@@ -1485,8 +1432,7 @@
     "description": "Recipes related to constructing various sizes of survivor cargo pants.",
     "skill_used": "tailor",
     "nested_category_data": [ "pants_survivor", "xs_pants_survivor", "xl_pants_survivor" ],
-    "difficulty": 5,
-    "autolearn": [ [ "tailor", 4 ] ]
+    "difficulty": 5
   },
   {
     "id": "nested_all_survivor_pants",
@@ -1498,8 +1444,7 @@
     "description": "Recipes related to constructing various sizes and variations of survivor cargo pants.",
     "skill_used": "tailor",
     "nested_category_data": [ "nested_lsurvivor_pants", "nested_survivor_pants" ],
-    "difficulty": 5,
-    "autolearn": [ [ "tailor", 4 ] ]
+    "difficulty": 5
   },
   {
     "id": "nested_lc_chainmail_legs",
@@ -1595,8 +1540,7 @@
     "description": "Recipes related to constructing various sizes of survivor fireboots.",
     "skill_used": "tailor",
     "nested_category_data": [ "boots_fsurvivor", "xs_boots_fsurvivor", "xl_boots_fsurvivor" ],
-    "difficulty": 5,
-    "autolearn": [ [ "tailor", 5 ] ]
+    "difficulty": 5
   },
   {
     "id": "nested_boots_wsurvivor",
@@ -1615,8 +1559,7 @@
       "xs_boots_wsurvivor",
       "xl_boots_wsurvivor"
     ],
-    "difficulty": 5,
-    "autolearn": [ [ "tailor", 5 ] ]
+    "difficulty": 5
   },
   {
     "id": "nested_boots_h20survivor",
@@ -1628,8 +1571,7 @@
     "description": "Recipes related to constructing various sizes of survivor wetsuit boots.",
     "skill_used": "tailor",
     "nested_category_data": [ "boots_h20survivor" ],
-    "difficulty": 5,
-    "autolearn": [ [ "tailor", 5 ] ]
+    "difficulty": 5
   },
   {
     "id": "nested_boots_hsurvivor",
@@ -1641,8 +1583,7 @@
     "description": "Recipes related to constructing various sizes of heavy survivor boots.",
     "skill_used": "tailor",
     "nested_category_data": [ "boots_hsurvivor", "xs_boots_hsurvivor", "xl_boots_hsurvivor" ],
-    "difficulty": 5,
-    "autolearn": [ [ "tailor", 5 ] ]
+    "difficulty": 5
   },
   {
     "id": "nested_boots_lsurvivor",
@@ -1654,8 +1595,7 @@
     "description": "Recipes related to constructing various sizes of light survivor boots.",
     "skill_used": "tailor",
     "nested_category_data": [ "boots_lsurvivor", "xs_boots_lsurvivor", "xl_boots_lsurvivor" ],
-    "difficulty": 5,
-    "autolearn": [ [ "tailor", 5 ] ]
+    "difficulty": 5
   },
   {
     "id": "nested_boots_survivor",
@@ -1667,8 +1607,7 @@
     "description": "Recipes related to constructing various sizes of standard survivor boots.",
     "skill_used": "tailor",
     "nested_category_data": [ "boots_survivor", "boots_xssurvivor", "boots_xlsurvivor" ],
-    "difficulty": 5,
-    "autolearn": [ [ "tailor", 5 ] ]
+    "difficulty": 5
   },
   {
     "id": "nested_all_boots_survivor",
@@ -1687,8 +1626,7 @@
       "nested_boots_wsurvivor",
       "nested_boots_fsurvivor"
     ],
-    "difficulty": 5,
-    "autolearn": [ [ "tailor", 5 ] ]
+    "difficulty": 5
   },
   {
     "id": "nested_lc_chainmail_feet",
@@ -1790,8 +1728,7 @@
       "sling-ready_homemade_grenade_2",
       "sling-ready_small_homemade_grenade",
       "sling-ready_small_homemade_grenade_2"
-    ],
-    "autolearn": [ [ "fabrication", 0 ] ]
+    ]
   },
   {
     "id": "nested_bundle_of_items",
@@ -2015,8 +1952,7 @@
       "muzzle_brake_mod",
       "nested_modified_gunmods_weapons",
       "nested_modified_gunmods_sights"
-    ],
-    "autolearn": [ [ "fabrication", 4 ], [ "gun", 2 ] ]
+    ]
   },
   {
     "id": "nested_modified_gunmods_weapons",
@@ -2036,8 +1972,7 @@
       "rm121aux_mod",
       "sword_bayonet_mod",
       "u_shotgun_mod"
-    ],
-    "autolearn": [ [ "fabrication", 4 ], [ "gun", 2 ] ]
+    ]
   },
   {
     "id": "nested_modified_gunmods_sights",
@@ -2048,8 +1983,7 @@
     "name": "sights",
     "description": "Recipes related to modifying sights to attach to a wider variety of guns and crossbows.",
     "skill_used": "fabrication",
-    "nested_category_data": [ "acog_scope_mod", "offset_sights_mod", "offset_sight_rail_mod", "rifle_scope_mod" ],
-    "autolearn": [ [ "fabrication", 4 ], [ "gun", 2 ] ]
+    "nested_category_data": [ "acog_scope_mod", "offset_sights_mod", "offset_sight_rail_mod", "rifle_scope_mod" ]
   },
   {
     "id": "nested_gun_mounts",
@@ -2068,7 +2002,6 @@
       "sights_mount_pistol",
       "stock_mount",
       "underbarrel_mount"
-    ],
-    "autolearn": [ [ "fabrication", 3 ], [ "gun", 4 ] ]
+    ]
   }
 ]
