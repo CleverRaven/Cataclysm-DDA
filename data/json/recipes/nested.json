@@ -176,6 +176,7 @@
       "tea_willowbark",
       "tea_wild_sarsaparilla",
       "tea",
+      "tea_green",
       "pine_tea",
       "dandelion_tea",
       "dandelionburdock_tea",
@@ -695,7 +696,7 @@
     "name": "leg splints",
     "description": "Recipes related to constructing various shapes and sizes of leg splints.",
     "skill_used": "firstaid",
-    "nested_category_data": [ "leg_splint", "leg_xlsplint", "arm_xs_splint" ],
+    "nested_category_data": [ "leg_splint", "leg_xlsplint", "leg_xs_splint" ],
     "difficulty": 1,
     "autolearn": [ [ "firstaid", 1 ] ]
   },
@@ -773,7 +774,7 @@
     "name": "antiseptics",
     "description": "Recipes related to crafting different kinds of antiseptics.",
     "skill_used": "firstaid",
-    "nested_category_data": [ "disinfectant_makeshift", "wintergreen_oil", "thyme_oil", "disinrag", "disincotton_ball" ],
+    "nested_category_data": [ "disinfectant_makeshift", "wintergreen_oil", "thyme_oil", "disinrag", "disincotton_ball", "cattail_jelly" ],
     "difficulty": 1,
     "autolearn": [ [ "firstaid", 0 ] ]
   },
@@ -974,7 +975,7 @@
     "name": "rebreathers",
     "description": "Recipes related to constructing various shapes and sizes of rebreathers.",
     "skill_used": "electronics",
-    "nested_category_data": [ "rebreather", "rebreather_xl", "rebreather_xl_expand-existing", "rebreather_xs", "rebreather_xs_shrink-existing" ],
+    "nested_category_data": [ "rebreather", "rebreather_xl", "rebreather_xl_mod_existing", "rebreather_xs", "rebreather_xs_mod_existing" ],
     "difficulty": 3,
     "autolearn": [ [ "tailoring", 2 ] ]
   },
@@ -2032,7 +2033,6 @@
       "m203_mod",
       "m320_mod_mod",
       "masterkey_mod",
-      "gun_crossbow_mod",
       "rm121aux_mod",
       "sword_bayonet_mod",
       "u_shotgun_mod"
