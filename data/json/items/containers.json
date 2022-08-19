@@ -242,7 +242,7 @@
     "copy-from": "bag_zipper",
     "type": "GENERIC",
     "name": { "str": "gallon-sized zipper bag" },
-    "description": "An inexpensive flexible rectangular storage bag, noticeably larger than it's more common counterpart.  Transparent and made of plastic, it can be sealed and opened by a slider which works in a similar way to a zip fastener.",
+    "description": "An inexpensive flexible rectangular storage bag, noticeably larger than its more common counterpart.  Transparent and made of plastic, it can be sealed and opened by a slider which works in a similar way to a zip fastener.",
     "weight": "20 g",
     "volume": "75 ml",
     "price_postapoc": 13,
