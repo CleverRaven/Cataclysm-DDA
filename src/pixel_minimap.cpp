@@ -437,8 +437,7 @@ void pixel_minimap::reset()
 void pixel_minimap::render( const tripoint &center )
 {
     SetRenderTarget( renderer, main_tex );
-    SetRenderDrawColor( renderer, pixel_minimap_color.r, pixel_minimap_color.g, pixel_minimap_color.b,
-                        pixel_minimap_color.a );
+    SetRenderDrawColor( renderer, pixel_minimap_r, pixel_minimap_g, pixel_minimap_b, pixel_minimap_a );
     RenderClear( renderer );
 
     render_cache( center );

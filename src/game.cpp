@@ -579,13 +579,16 @@ void game_ui::init_ui()
         //only set once, toggle action is used to change during game
         pixel_minimap_option = get_option<bool>( "PIXEL_MINIMAP" );
         if( get_option<std::string>( "PIXEL_MINIMAP_BG" ) == "theme" ) {
-            pixel_minimap_color = curses_color_to_SDL( c_black );
+            SDL_Color pixel_minimap_color = curses_color_to_SDL( c_black );
+            pixel_minimap_r = pixel_minimap_color.r;
+            pixel_minimap_g = pixel_minimap_color.g;
+            pixel_minimap_b = pixel_minimap_color.b;
+            pixel_minimap_a = pixel_minimap_color.a;
         } else {
-            pixel_minimap_color = SDL_Color();
-            pixel_minimap_color.r = 0x00;
-            pixel_minimap_color.g = 0x00;
-            pixel_minimap_color.b = 0x00;
-            pixel_minimap_color.a = 0x00;
+            pixel_minimap_r = 0x00;
+            pixel_minimap_g = 0x00;
+            pixel_minimap_b = 0x00;
+            pixel_minimap_a = 0x00;
         }
 #endif // TILES
     }
