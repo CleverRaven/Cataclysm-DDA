@@ -18,6 +18,17 @@
   },
   {
     "type": "proficiency",
+    "id": "prof_fine_alchemy",
+    "//": "for alchemist attunement purposes",
+    "category": "prof_alchemy",
+    "name": { "str": "Obscure alchemy" },
+    "description": "You have a supernatural understanding of alchemy processes.",
+    "can_learn": false,
+    "default_time_multiplier": 5,
+    "default_fail_multiplier": 1
+  },
+  {
+    "type": "proficiency",
     "id": "prof_almetallurgy",
     "category": "prof_alchemy",
     "name": { "str": "Almetallurgy" },
