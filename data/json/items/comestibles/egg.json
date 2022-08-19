@@ -660,42 +660,42 @@
     "copy-from": "egg_crow",
     "volume": "1 ml",
     "weight": "1 g",
-    "rot_spawn": "GROUP_EGG_HUMMINGBIRD",
+    "rot_spawn": "GROUP_EGG_HUMMINGBIRD"
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_woodpecker",
     "name": "woodpecker egg",
     "copy-from": "egg_crow",
-    "rot_spawn": "GROUP_EGG_WOODPECKER",
+    "rot_spawn": "GROUP_EGG_WOODPECKER"
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_coot",
     "name": "coot egg",
     "copy-from": "egg_chicken",
-    "rot_spawn": "GROUP_EGG_COOT",
+    "rot_spawn": "GROUP_EGG_COOT"
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_cormorant",
     "name": "cormorant egg",
     "copy-from": "egg_chicken",
-    "rot_spawn": "GROUP_EGG_CORMORANT",
+    "rot_spawn": "GROUP_EGG_CORMORANT"
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_moorhen",
     "name": "moorhen egg",
     "copy-from": "egg_chicken",
-    "rot_spawn": "GROUP_EGG_MOORHEN",
+    "rot_spawn": "GROUP_EGG_MOORHEN"
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_grebe",
     "name": "grebe egg",
     "copy-from": "egg_chicken",
-    "rot_spawn": "GROUP_EGG_GREBE",
+    "rot_spawn": "GROUP_EGG_GREBE"
   },
   {
     "type": "COMESTIBLE",
