@@ -71,7 +71,7 @@
     "type": "COMESTIBLE",
     "id": "toasterpastry",
     "name": { "str": "toaster pastry", "str_pl": "toaster pastries" },
-    "copy-from": "toastem4",
+    "copy-from": "toasterpastryfrozen",
     "quench": 4,
     "description": "A delicious fruit-filled pastry that you've cooked.  It even comes with frosting!",
     "fun": 20
