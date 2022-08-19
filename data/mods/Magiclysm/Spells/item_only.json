@@ -730,8 +730,8 @@
     "min_field_intensity": 1,
     "max_field_intensity": 1,
     "damage_type": "biological",
-    "min_duration": 9000,
-    "max_duration": 27000,
+    "min_duration": 2500,
+    "max_duration": 7500,
     "min_range": 15,
     "max_range": 15
   },
