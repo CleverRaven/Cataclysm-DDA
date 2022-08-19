@@ -1117,6 +1117,74 @@
     "autolearn": [ [ "cooking", 0 ] ]
   },
   {
+    "id": "nested_short_string",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "short strings",
+    "description": "Recipes related to constructing short strings.",
+    "skill_used": "tailor",
+    "nested_category_data": [ "string_6", "string_6_spinwheel" ],
+    "difficulty": 1,
+    "autolearn": [ [ "tailor", 0 ] ]
+  },
+  {
+    "id": "nested_short_rope",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "short ropes",
+    "description": "Recipes related to constructing short ropes.",
+    "skill_used": "tailor",
+    "nested_category_data": [
+      "rope_6",
+      "rope_6_spinwheel_string",
+      "rope_6_from_filament",
+      "rope_6_spinwheel_filament",
+      "rope_6_from_cloth",
+      "rope_6_spinwheel_cloth"
+    ],
+    "difficulty": 1,
+    "autolearn": [ [ "tailor", 0 ] ]
+  },
+  {
+    "id": "nested_long_string",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "long strings",
+    "description": "Recipes related to constructing long strings.",
+    "skill_used": "tailor",
+    "nested_category_data": [ "string_36", "string_36_spinwheel" ],
+    "difficulty": 1,
+    "autolearn": [ [ "tailor", 0 ] ]
+  },
+  {
+    "id": "nested_long_rope",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "long ropes",
+    "description": "Recipes related to constructing long ropes.",
+    "skill_used": "tailor",
+    "nested_category_data": [
+      "rope_30",
+      "rope_30_spinwheel_ropes",
+      "rope_30_from_cloth",
+      "rope_30_spinwheel_cloth",
+      "rope_30_from_string",
+      "rope_30_spinwheel_string",
+      "rope_30_from_filament",
+      "rope_30_spinwheel_filament"
+    ],
+    "difficulty": 1,
+    "autolearn": [ [ "tailor", 0 ] ]
+  },
+  {
     "id": "nested_modified_gunmods",
     "type": "nested_category",
     "activity_level": "fake",
