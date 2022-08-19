@@ -1,6 +1,8 @@
 #ifndef CATA_SRC_CACHED_OPTIONS_H
 #define CATA_SRC_CACHED_OPTIONS_H
 
+#include "sdl_wrappers.h"
+
 // A collection of options which are accessed frequently enough that we don't
 // want to pay the overhead of a string lookup each time one is tested.
 // They should be updated when the corresponding option is changed (in
@@ -17,6 +19,7 @@ extern bool use_tiles;
 extern bool use_far_tiles;
 extern bool use_tiles_overmap;
 extern bool pixel_minimap_option;
+extern SDL_Color pixel_minimap_color;
 
 // test_mode is not a regular game option; it's true when we are running unit
 // tests.

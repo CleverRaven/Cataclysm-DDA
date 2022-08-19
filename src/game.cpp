@@ -155,6 +155,7 @@
 #include "scenario.h"
 #include "scent_map.h"
 #include "scores_ui.h"
+#include "sdl_utils.h"
 #include "sdltiles.h" // IWYU pragma: keep
 #include "sounds.h"
 #include "start_location.h"
@@ -577,6 +578,15 @@ void game_ui::init_ui()
         //class variable to track the option being active
         //only set once, toggle action is used to change during game
         pixel_minimap_option = get_option<bool>( "PIXEL_MINIMAP" );
+        if( get_option<std::string>( "PIXEL_MINIMAP_BG" ) == "theme" ) {
+            pixel_minimap_color = curses_color_to_SDL( c_black );
+        } else {
+            pixel_minimap_color = SDL_Color();
+            pixel_minimap_color.r = 0x00;
+            pixel_minimap_color.g = 0x00;
+            pixel_minimap_color.b = 0x00;
+            pixel_minimap_color.a = 0x00;
+        }
 #endif // TILES
     }
 

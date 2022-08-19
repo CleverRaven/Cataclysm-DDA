@@ -13,6 +13,7 @@
 #include <utility>
 #include <vector>
 
+#include "cached_options.h"
 #include "cata_assert.h"
 #include "cata_utility.h"
 #include "cata_tiles.h"
@@ -436,8 +437,8 @@ void pixel_minimap::reset()
 void pixel_minimap::render( const tripoint &center )
 {
     SetRenderTarget( renderer, main_tex );
-
-    SetRenderDrawColor( renderer, 0x00, 0x00, 0x00, 0x00 );
+    SetRenderDrawColor( renderer, pixel_minimap_color.r, pixel_minimap_color.g, pixel_minimap_color.b,
+                        pixel_minimap_color.a );
     RenderClear( renderer );
 
     render_cache( center );
