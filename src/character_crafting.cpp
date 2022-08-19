@@ -83,7 +83,6 @@ const recipe_subset &Character::get_learned_recipes() const
 
 bool check_nested_has_recipes( const recipe *r, const recipe_subset &res )
 {
-    bool found = false;
     for( const recipe_id &nestedr : r->nested_category_data ) {
         if( nestedr->is_nested() ) {
             // recursively check for a category that has stuff in it
