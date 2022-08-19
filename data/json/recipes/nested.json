@@ -1072,6 +1072,19 @@
     "autolearn": [ [ "fabrication", 0 ] ]
   },
   {
+    "id": "nested_bundle_of_items",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "name": "bundle of items",
+    "description": "Recipes related to tying items into compact bundles for transport or storage.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "bundle_rag", "bundle_leather", "bundle_wool", "bundle_plank", "bundle_rebar", "bundle_pipe", "bundle_copper_pipe", "bundle_branch", "bundle_branch_long" ],
+    "difficulty": 1,
+    "autolearn": [ [ "tailor", 0 ] ]
+  },  
+  {
     "id": "nested_modified_gunmods",
     "type": "nested_category",
     "activity_level": "fake",
