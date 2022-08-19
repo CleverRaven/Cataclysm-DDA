@@ -9,28 +9,6 @@
   },
   {
     "type": "COMESTIBLE",
-    "id": "egg_goose",
-    "name": "goose egg",
-    "copy-from": "egg_guinea_fowl",
-    "calories": 266,
-    "volume": "125 ml",
-    "weight": "144 g",
-    "vitamins": [ [ "calcium", 9 ], [ "iron", 29 ] ],
-    "rot_spawn": "GROUP_EGG_GOOSE"
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "egg_goose_golden",
-    "name": "golden goose egg",
-    "copy-from": "egg_goose",
-    "calories": 300,
-    "volume": "125 ml",
-    "weight": "144 g",
-    "vitamins": [ [ "calcium", 9 ], [ "iron", 29 ] ],
-    "rot_spawn": "GROUP_EGG_GOOSE"
-  },
-  {
-    "type": "COMESTIBLE",
     "id": "egg_quail",
     "name": "quail egg",
     "copy-from": "egg_guinea_fowl",
@@ -45,22 +23,6 @@
     "weight": "600 g",
     "calories": 1000,
     "rot_spawn": "GROUP_EGG_RHEA"
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "egg_hummingbird",
-    "name": "hummingbird egg",
-    "copy-from": "egg_bird",
-    "rot_spawn": "GROUP_EGG_HUMMINGBIRD",
-    "rot_spawn_chance": 70
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "egg_woodpecker",
-    "name": "woodpecker egg",
-    "copy-from": "egg_bird",
-    "rot_spawn": "GROUP_EGG_WOODPECKER",
-    "rot_spawn_chance": 70
   },
   {
     "type": "COMESTIBLE",
@@ -152,48 +114,6 @@
   },
   {
     "type": "COMESTIBLE",
-    "id": "egg_coot",
-    "name": "coot egg",
-    "copy-from": "egg_bird",
-    "rot_spawn": "GROUP_EGG_COOT",
-    "rot_spawn_chance": 70
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "egg_cormorant",
-    "name": "cormorant egg",
-    "copy-from": "egg_bird",
-    "rot_spawn": "GROUP_EGG_CORMORANT",
-    "rot_spawn_chance": 70
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "egg_moorhen",
-    "name": "moorhen egg",
-    "copy-from": "egg_bird",
-    "rot_spawn": "GROUP_EGG_MOORHEN",
-    "rot_spawn_chance": 70
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "egg_grebe",
-    "name": "grebe egg",
-    "copy-from": "egg_bird",
-    "rot_spawn": "GROUP_EGG_GREBE",
-    "rot_spawn_chance": 70
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "egg_toad",
-    "name": { "str": "cluster of toad's eggs", "str_pl": "clusters of toad's eggs" },
-    "copy-from": "egg_chicken",
-    "weight": "20 g",
-    "volume": "650 ml",
-    "description": "A large clump of the eggs of a toad.  The eggs themselves are gelatinous and transparent.",
-    "rot_spawn": "GROUP_EGG_TOAD"
-  },
-  {
-    "type": "COMESTIBLE",
     "id": "egg_constrictor",
     "name": "snake egg",
     "copy-from": "egg_reptile",
@@ -226,22 +146,6 @@
   },
   {
     "type": "COMESTIBLE",
-    "id": "egg_water_beetle",
-    "name": "water beetle egg",
-    "copy-from": "egg_strider",
-    "description": "The egg of a water beetle, usually found near aquatic grass.",
-    "rot_spawn": "GROUP_EGG_WATER_BEETLE"
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "egg_water_bug",
-    "name": "water scorpion egg",
-    "copy-from": "egg_strider",
-    "description": "The egg of a water scorpion, usually found near aquatic grass.",
-    "rot_spawn": "GROUP_EGG_WATER_BUG"
-  },
-  {
-    "type": "COMESTIBLE",
     "id": "egg_turtle",
     "name": "turtle egg",
     "copy-from": "egg_reptile",
@@ -271,22 +175,6 @@
     "copy-from": "ant_egg",
     "description": "The small translucent egg of a termite.  It will grow quickly into a nymph if allowed.",
     "rot_spawn": "GROUP_EGG_TERMITE"
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "egg_butterfly",
-    "name": "butterfly egg",
-    "copy-from": "egg_insect",
-    "description": "The egg of a butterfly.  They are usually found clustered on leaves.",
-    "rot_spawn": "GROUP_EGG_BUTTERFLY"
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "egg_cicada",
-    "name": "cicada egg",
-    "copy-from": "egg_insect",
-    "description": "The egg of a cicada.  They are usually found near trees.",
-    "rot_spawn": "GROUP_EGG_CICADA"
   },
   {
     "type": "COMESTIBLE",

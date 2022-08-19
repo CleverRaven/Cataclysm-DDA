@@ -92,6 +92,7 @@
     "//": "Z-2 subways, some lost nether things but otherwise mostly normal mobs",
     "default": "mon_spider_jumping_small",
     "monsters": [
+      { "monster": "mon_woodlouse", "weight": 300, "pack_size": [ 1, 3 ] },
       { "monster": "mon_slug_small", "weight": 180, "ends": "180 hours" },
       { "monster": "mon_slug_giant", "weight": 180, "starts": "180 hours" },
       { "monster": "mon_nakedmolerat_giant", "weight": 100, "cost_multiplier": 2, "ends": "180 hours" },
@@ -231,6 +232,8 @@
       { "monster": "mon_pig", "weight": 10, "cost_multiplier": 25, "ends": "90 days", "pack_size": [ 1, 6 ] },
       { "monster": "mon_sheep", "weight": 50, "cost_multiplier": 25, "pack_size": [ 1, 12 ] },
       { "monster": "mon_goat", "weight": 25, "cost_multiplier": 25, "pack_size": [ 1, 12 ] },
+      { "monster": "mon_goose", "weight": 10, "cost_multiplier": 25, "pack_size": [ 1, 6 ] },
+      { "monster": "mon_llama", "weight": 50, "cost_multiplier": 25, "pack_size": [ 1, 8 ] },
       { "monster": "mon_zombie_pig", "weight": 10, "cost_multiplier": 25, "starts": "3 days", "pack_size": [ 1, 5 ] },
       { "monster": "mon_zombie_pig", "weight": 10, "cost_multiplier": 25, "starts": "7 days", "pack_size": [ 1, 5 ] },
       { "monster": "mon_zombie_pig", "weight": 10, "cost_multiplier": 25, "starts": "28 days", "pack_size": [ 1, 5 ] },
@@ -238,7 +241,9 @@
       { "monster": "mon_giant_cockroach", "weight": 10, "pack_size": [ 1, 5 ] },
       { "monster": "mon_pregnant_giant_cockroach", "weight": 1, "cost_multiplier": 3 },
       { "monster": "mon_giant_cockroach_nymph", "weight": 5 },
-      { "monster": "mon_tiger", "weight": 1, "cost_multiplier": 30 }
+      { "monster": "mon_tiger", "weight": 1, "cost_multiplier": 30 },
+      { "monster": "mon_woodlouse", "weight": 10, "pack_size": [ 1, 5 ] },
+      { "monster": "mon_woodlouse_manca", "weight": 5 }
     ]
   },
   {
@@ -282,7 +287,12 @@
       { "monster": "mon_pig", "weight": 10 },
       { "monster": "mon_sheep", "weight": 10 },
       { "monster": "mon_goat", "weight": 10 },
-      { "monster": "mon_lemming", "weight": 10 }
+      { "monster": "mon_lemming", "weight": 10 },
+      { "monster": "mon_goose", "weight": 10 },
+      { "monster": "mon_goose_golden", "weight": 1 },
+      { "monster": "mon_llama", "weight": 10 },
+      { "monster": "mon_woodlouse", "weight": 10 },
+      { "monster": "mon_cicada_nymph", "weight": 10 }
     ]
   },
   {
@@ -331,7 +341,8 @@
       { "monster": "mon_zombie_child", "weight": 20, "pack_size": [ 2, 6 ] },
       { "monster": "mon_zombie", "weight": 20, "pack_size": [ 2, 6 ] },
       { "monster": "mon_zombie_rot", "weight": 10, "pack_size": [ 1, 5 ] },
-      { "monster": "mon_beekeeper", "weight": 10, "pack_size": [ 1, 5 ] }
+      { "monster": "mon_beekeeper", "weight": 10, "pack_size": [ 1, 5 ] },
+      { "monster": "mon_woodlouse", "weight": 30, "pack_size": [ 4, 8 ] }
     ]
   },
   {
@@ -350,6 +361,9 @@
       { "monster": "mon_slug_giant", "weight": 75, "starts": "180 hours" },
       { "monster": "mon_sludge_crawler", "weight": 25 },
       { "monster": "mon_zombie_mancroc", "weight": 100, "starts": "180 hours" },
+      { "monster": "mon_toad", "weight": 100, "cost_multiplier": 0 },
+      { "monster": "mon_toad_small", "weight": 100, "cost_multiplier": 0 },
+      { "monster": "mon_gastro_bufo", "weight": 5, "cost_multiplier": 3, "starts": "15 days" },
       { "monster": "mon_zombullfrog", "weight": 10, "cost_multiplier": 2 },
       { "monster": "mon_frog_mother", "weight": 5, "cost_multiplier": 3, "starts": "15 days" }
     ]
