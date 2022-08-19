@@ -165,6 +165,8 @@ void recipe::load( const JsonObject &jo, const std::string &src )
         if( jo.has_member( "result" ) ) {
             jo.throw_error_at( "result", "nested category should not have result" );
         }
+        // nested recipes are never learned directly
+        never_learn = true;
     } else {
         if( !jo.read( "result", result_, true ) && !result_ ) {
             jo.throw_error( "Recipe missing result" );

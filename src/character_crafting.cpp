@@ -81,21 +81,30 @@ const recipe_subset &Character::get_learned_recipes() const
     return *learned_recipes;
 }
 
+bool check_nested_has_recipes( const recipe *r, const recipe_subset &res )
+{
+    bool found = false;
+    for( const recipe_id &nestedr : r->nested_category_data ) {
+        if( nestedr->is_nested() ) {
+            // recursively check for a category that has stuff in it
+            if( check_nested_has_recipes( &nestedr.obj(), res ) ) {
+                return true;
+            }
+        } else if( res.contains( &nestedr.obj() ) ) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
 const recipe_subset Character::get_available_nested( const recipe_subset &res ) const
 {
     recipe_subset nested_recipes;
-    // Cache validity check
     for( const recipe * const &r : recipe_dict.all_autolearn() ) {
         // only display a nested category if you know at least one recipe within it
         if( r->is_nested() ) {
-            bool found = false;
-            for( const recipe_id &nestedr : r->nested_category_data ) {
-                if( res.contains( &nestedr.obj() ) ) {
-                    found = true;
-                }
-            }
-
-            if( found ) {
+            if( check_nested_has_recipes( r, res ) ) {
                 nested_recipes.include( r );
             }
         }
