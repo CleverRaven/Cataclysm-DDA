@@ -14,7 +14,7 @@
     "price": 44,
     "price_postapoc": 50,
     "material": [ "egg" ],
-    "volume": "43 ml",
+    "volume": "50 ml",
     "stack_size": 1,
     "fun": -8,
     "flags": [ "FREEZERBURN", "RAW" ],
