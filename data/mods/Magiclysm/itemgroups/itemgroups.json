@@ -272,6 +272,7 @@
       [ "flask_excitement", 10 ],
       [ "flask_regeneration", 10 ],
       [ "flask_mana_regen", 10 ],
+      [ "flask_teleport_rand", 10 ],
       { "group": "potions_illegal", "prob": 1 }
     ]
   },
