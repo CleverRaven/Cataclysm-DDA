@@ -136,7 +136,7 @@ class tab_manager
         tab_list position;
 
         explicit tab_manager( std::vector<std::string> &tab_names ) : tab_names( tab_names ),
-            position( tab_list( tab_names ) ) {
+            position( tab_names ) {
         }
 
         void draw( const catacurses::window &w );
