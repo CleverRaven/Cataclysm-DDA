@@ -155,7 +155,6 @@
 #include "scenario.h"
 #include "scent_map.h"
 #include "scores_ui.h"
-#include "sdl_utils.h"
 #include "sdltiles.h" // IWYU pragma: keep
 #include "sounds.h"
 #include "start_location.h"
@@ -184,6 +183,10 @@
 #include "weather.h"
 #include "weather_type.h"
 #include "worldfactory.h"
+
+#if defined(TILES)
+#include "sdl_utils.h"
+#endif // TILES
 
 class computer;
 
