@@ -260,6 +260,7 @@
       [ "flask_max_mana", 10 ],
       [ "flask_fireball", 10 ],
       [ "flask_spear", 10 ],
+      [ "flask_shadow_field", 10 ],
       { "group": "potions_rare", "prob": 2 },
       { "group": "potions_illegal", "prob": 1 }
     ]
