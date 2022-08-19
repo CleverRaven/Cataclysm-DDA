@@ -2266,8 +2266,8 @@
     "result": "lc_chainmail_hood",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_HEAD",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "difficulty": 7,
     "time": "3 h",
@@ -2278,44 +2278,25 @@
     "proficiencies": [ { "proficiency": "prof_chain_armour" } ]
   },
   {
-    "result": "xs_lc_chainmail_hood",
-    "type": "recipe",
-    "id_suffix": "less_charges",
-    "copy-from": "lc_chainmail_hood",
-    "time": "3 h",
-    "using": [ [ "chainmail_standard", 1 ] ],
-    "components": [ [ [ "lc_link_sheet", 2 ] ], [ [ "lc_chain_link", 38 ] ], [ [ "lc_wire", 2 ] ], [ [ "cotton_patchwork", 3 ] ] ]
-  },
-  {
     "result": "xl_lc_chainmail_hood",
     "type": "recipe",
-    "id_suffix": "more_charges",
     "copy-from": "lc_chainmail_hood",
     "time": "3 h 20 m",
     "using": [ [ "chainmail_standard", 4 ] ],
     "components": [ [ [ "lc_link_sheet", 3 ] ], [ [ "lc_chain_link", 75 ] ], [ [ "lc_wire", 2 ] ], [ [ "cotton_patchwork", 6 ] ] ]
   },
   {
-    "result": "xl_lc_chainmail_hood",
-    "type": "recipe",
-    "id_suffix": "standard_charges",
-    "copy-from": "lc_chainmail_hood",
-    "components": [ [ [ "lc_link_sheet", 3 ] ], [ [ "lc_chain_link", 75 ] ], [ [ "lc_wire", 2 ] ], [ [ "cotton_patchwork", 6 ] ] ]
-  },
-  {
     "result": "xs_lc_chainmail_hood",
     "type": "recipe",
-    "id_suffix": "standard_charges",
     "copy-from": "lc_chainmail_hood",
-    "time": "3 h 20 m",
     "components": [ [ [ "lc_link_sheet", 2 ] ], [ [ "lc_chain_link", 50 ] ], [ [ "lc_wire", 2 ] ], [ [ "cotton_patchwork", 4 ] ] ]
   },
   {
     "result": "mc_chainmail_hood",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_HEAD",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "difficulty": 7,
     "time": "3 h",
@@ -2326,44 +2307,25 @@
     "proficiencies": [ { "proficiency": "prof_chain_armour" } ]
   },
   {
-    "result": "xs_mc_chainmail_hood",
-    "type": "recipe",
-    "id_suffix": "less_charges",
-    "copy-from": "mc_chainmail_hood",
-    "time": "3 h",
-    "using": [ [ "chainmail_standard", 1 ] ],
-    "components": [ [ [ "mc_link_sheet", 2 ] ], [ [ "mc_chain_link", 38 ] ], [ [ "mc_wire", 2 ] ], [ [ "cotton_patchwork", 3 ] ] ]
-  },
-  {
     "result": "xl_mc_chainmail_hood",
     "type": "recipe",
-    "id_suffix": "more_charges",
     "copy-from": "mc_chainmail_hood",
     "time": "3 h 20 m",
     "using": [ [ "chainmail_standard", 4 ] ],
     "components": [ [ [ "mc_link_sheet", 3 ] ], [ [ "mc_chain_link", 75 ] ], [ [ "mc_wire", 2 ] ], [ [ "cotton_patchwork", 6 ] ] ]
   },
   {
-    "result": "xl_mc_chainmail_hood",
-    "type": "recipe",
-    "id_suffix": "standard_charges",
-    "copy-from": "mc_chainmail_hood",
-    "components": [ [ [ "mc_link_sheet", 3 ] ], [ [ "mc_chain_link", 75 ] ], [ [ "mc_wire", 2 ] ], [ [ "cotton_patchwork", 6 ] ] ]
-  },
-  {
     "result": "xs_mc_chainmail_hood",
     "type": "recipe",
-    "id_suffix": "standard_charges",
     "copy-from": "mc_chainmail_hood",
-    "time": "3 h 20 m",
     "components": [ [ [ "mc_link_sheet", 2 ] ], [ [ "mc_chain_link", 50 ] ], [ [ "mc_wire", 2 ] ], [ [ "cotton_patchwork", 4 ] ] ]
   },
   {
     "result": "hc_chainmail_hood",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_HEAD",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "difficulty": 7,
     "time": "3 h",
@@ -2374,44 +2336,25 @@
     "proficiencies": [ { "proficiency": "prof_chain_armour" } ]
   },
   {
-    "result": "xs_hc_chainmail_hood",
-    "type": "recipe",
-    "id_suffix": "less_charges",
-    "copy-from": "hc_chainmail_hood",
-    "time": "3 h",
-    "using": [ [ "chainmail_standard", 1 ] ],
-    "components": [ [ [ "hc_link_sheet", 2 ] ], [ [ "hc_chain_link", 38 ] ], [ [ "hc_wire", 2 ] ], [ [ "cotton_patchwork", 3 ] ] ]
-  },
-  {
     "result": "xl_hc_chainmail_hood",
     "type": "recipe",
-    "id_suffix": "more_charges",
     "copy-from": "hc_chainmail_hood",
     "time": "3 h 20 m",
     "using": [ [ "chainmail_standard", 4 ] ],
     "components": [ [ [ "hc_link_sheet", 3 ] ], [ [ "hc_chain_link", 75 ] ], [ [ "hc_wire", 2 ] ], [ [ "cotton_patchwork", 6 ] ] ]
   },
   {
-    "result": "xl_hc_chainmail_hood",
-    "type": "recipe",
-    "id_suffix": "standard_charges",
-    "copy-from": "hc_chainmail_hood",
-    "components": [ [ [ "hc_link_sheet", 3 ] ], [ [ "hc_chain_link", 75 ] ], [ [ "hc_wire", 2 ] ], [ [ "cotton_patchwork", 6 ] ] ]
-  },
-  {
     "result": "xs_hc_chainmail_hood",
     "type": "recipe",
-    "id_suffix": "standard_charges",
     "copy-from": "hc_chainmail_hood",
-    "time": "3 h 20 m",
     "components": [ [ [ "hc_link_sheet", 2 ] ], [ [ "hc_chain_link", 50 ] ], [ [ "hc_wire", 2 ] ], [ [ "cotton_patchwork", 4 ] ] ]
   },
   {
     "result": "ch_chainmail_hood",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_HEAD",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "difficulty": 7,
     "time": "3 h",
@@ -2424,42 +2367,24 @@
   {
     "result": "xs_ch_chainmail_hood",
     "type": "recipe",
-    "id_suffix": "less_charges",
     "copy-from": "ch_chainmail_hood",
-    "time": "3 h",
     "using": [ [ "chainmail_standard", 1 ] ],
     "components": [ [ [ "ch_link_sheet", 2 ] ], [ [ "ch_chain_link", 38 ] ], [ [ "ch_wire", 2 ] ], [ [ "cotton_patchwork", 3 ] ] ]
   },
   {
     "result": "xl_ch_chainmail_hood",
     "type": "recipe",
-    "id_suffix": "more_charges",
     "copy-from": "ch_chainmail_hood",
     "time": "3 h 20 m",
     "using": [ [ "chainmail_standard", 4 ] ],
     "components": [ [ [ "ch_link_sheet", 3 ] ], [ [ "ch_chain_link", 75 ] ], [ [ "ch_wire", 2 ] ], [ [ "cotton_patchwork", 6 ] ] ]
   },
   {
-    "result": "xl_ch_chainmail_hood",
-    "type": "recipe",
-    "id_suffix": "standard_charges",
-    "copy-from": "ch_chainmail_hood",
-    "components": [ [ [ "ch_link_sheet", 3 ] ], [ [ "ch_chain_link", 75 ] ], [ [ "ch_wire", 2 ] ], [ [ "cotton_patchwork", 6 ] ] ]
-  },
-  {
-    "result": "xs_ch_chainmail_hood",
-    "type": "recipe",
-    "id_suffix": "standard_charges",
-    "copy-from": "ch_chainmail_hood",
-    "time": "3 h 20 m",
-    "components": [ [ [ "ch_link_sheet", 2 ] ], [ [ "ch_chain_link", 50 ] ], [ [ "ch_wire", 2 ] ], [ [ "cotton_patchwork", 4 ] ] ]
-  },
-  {
     "result": "qt_chainmail_hood",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_HEAD",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "difficulty": 7,
     "time": "3 h",
@@ -2472,35 +2397,17 @@
   {
     "result": "xs_qt_chainmail_hood",
     "type": "recipe",
-    "id_suffix": "less_charges",
     "copy-from": "qt_chainmail_hood",
-    "time": "3 h",
     "using": [ [ "chainmail_standard", 1 ] ],
     "components": [ [ [ "qt_link_sheet", 2 ] ], [ [ "qt_chain_link", 38 ] ], [ [ "qt_wire", 2 ] ], [ [ "cotton_patchwork", 3 ] ] ]
   },
   {
     "result": "xl_qt_chainmail_hood",
     "type": "recipe",
-    "id_suffix": "more_charges",
     "copy-from": "qt_chainmail_hood",
     "time": "3 h 20 m",
     "using": [ [ "chainmail_standard", 4 ] ],
     "components": [ [ [ "qt_link_sheet", 3 ] ], [ [ "qt_chain_link", 75 ] ], [ [ "qt_wire", 2 ] ], [ [ "cotton_patchwork", 6 ] ] ]
-  },
-  {
-    "result": "xl_qt_chainmail_hood",
-    "id_suffix": "standard_charges",
-    "type": "recipe",
-    "copy-from": "qt_chainmail_hood",
-    "components": [ [ [ "qt_link_sheet", 3 ] ], [ [ "qt_chain_link", 75 ] ], [ [ "qt_wire", 2 ] ], [ [ "cotton_patchwork", 6 ] ] ]
-  },
-  {
-    "result": "xs_qt_chainmail_hood",
-    "type": "recipe",
-    "id_suffix": "standard_charges",
-    "copy-from": "qt_chainmail_hood",
-    "time": "3 h 20 m",
-    "components": [ [ [ "qt_link_sheet", 2 ] ], [ [ "qt_chain_link", 50 ] ], [ [ "qt_wire", 2 ] ], [ [ "cotton_patchwork", 4 ] ] ]
   },
   {
     "result": "pot_xlhelmet",
