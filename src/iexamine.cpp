@@ -296,9 +296,9 @@ void iexamine::cvdmachine( Character &you, const tripoint & )
     item_location loc = g->inv_map_splice( []( const item & e ) {
         return ( e.is_melee( damage_type::CUT ) || e.is_melee( damage_type::STAB ) ) &&
                !e.has_flag( flag_DIAMOND ) && !e.has_flag( flag_NO_CVD ) &&
-               ( e.made_of( material_steel ) || e.made_of( material_chsteel ) ||
-                 e.made_of( material_hcsteel ) || e.made_of( material_lcsteel ) ||
-                 e.made_of( material_mcsteel ) || e.made_of( material_qtsteel ) );
+               ( e.made_of( material_steel ) || e.made_of( material_ch_steel ) ||
+                 e.made_of( material_hc_steel ) || e.made_of( material_lc_steel ) ||
+                 e.made_of( material_mc_steel ) || e.made_of( material_qt_steel ) );
     }, _( "Apply diamond coating" ), 1, _( "You don't have a suitable item to coat with diamond" ) );
 
     if( !loc ) {
