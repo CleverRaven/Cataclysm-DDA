@@ -312,8 +312,7 @@
     "description": "Recipes related to constructing chainmail hauberks in various sizes.",
     "skill_used": "fabrication",
     "nested_category_data": [ "lc_chainmail_hauberk", "lc_chainmail_hauberk_xs", "xl_lc_chainmail_hauberk" ],
-    "difficulty": 2,
-    "autolearn": [ [ "fabrication", 1 ] ]
+    "difficulty": 2
   },
   {
     "id": "nested_mc_chainmail_hauberk",
@@ -325,8 +324,7 @@
     "description": "Recipes related to constructing chainmail hauberks in various sizes.",
     "skill_used": "fabrication",
     "nested_category_data": [ "mc_chainmail_hauberk", "mc_chainmail_hauberk_xs", "xl_mc_chainmail_hauberk" ],
-    "difficulty": 2,
-    "autolearn": [ [ "fabrication", 1 ] ]
+    "difficulty": 2
   },
   {
     "id": "nested_hc_chainmail_hauberk",
@@ -338,8 +336,7 @@
     "description": "Recipes related to constructing chainmail hauberks in various sizes.",
     "skill_used": "fabrication",
     "nested_category_data": [ "hc_chainmail_hauberk", "hc_chainmail_hauberk_xs", "xl_hc_chainmail_hauberk" ],
-    "difficulty": 2,
-    "autolearn": [ [ "fabrication", 1 ] ]
+    "difficulty": 2
   },
   {
     "id": "nested_ch_chainmail_hauberk",
@@ -351,8 +348,7 @@
     "description": "Recipes related to constructing chainmail hauberks in various sizes.",
     "skill_used": "fabrication",
     "nested_category_data": [ "ch_chainmail_hauberk", "ch_chainmail_hauberk_xs", "xl_ch_chainmail_hauberk" ],
-    "difficulty": 2,
-    "autolearn": [ [ "fabrication", 1 ] ]
+    "difficulty": 2
   },
   {
     "id": "nested_qt_chainmail_hauberk",
@@ -364,8 +360,7 @@
     "description": "Recipes related to constructing chainmail hauberks in various sizes.",
     "skill_used": "fabrication",
     "nested_category_data": [ "qt_chainmail_hauberk", "qt_chainmail_hauberk_xs", "xl_qt_chainmail_hauberk" ],
-    "difficulty": 2,
-    "autolearn": [ [ "fabrication", 1 ] ]
+    "difficulty": 2
   },
   {
     "id": "nested_all_chainmail_hauberk",
@@ -383,8 +378,7 @@
       "nested_ch_chainmail_hauberk",
       "nested_qt_chainmail_hauberk"
     ],
-    "difficulty": 2,
-    "autolearn": [ [ "fabrication", 1 ] ]
+    "difficulty": 2
   },
   {
     "id": "nested_lc_chainmail_suit",
@@ -403,8 +397,7 @@
       "lc_chainmail_suit_xs_hauberk",
       "xl_lc_chainmail_suit_hauberk"
     ],
-    "difficulty": 2,
-    "autolearn": [ [ "fabrication", 1 ] ]
+    "difficulty": 2
   },
   {
     "id": "nested_mc_chainmail_suit",
@@ -423,8 +416,7 @@
       "mc_chainmail_suit_xs_hauberk",
       "xl_mc_chainmail_suit_hauberk"
     ],
-    "difficulty": 2,
-    "autolearn": [ [ "fabrication", 1 ] ]
+    "difficulty": 2
   },
   {
     "id": "nested_hc_chainmail_suit",
@@ -443,8 +435,7 @@
       "hc_chainmail_suit_xs_hauberk",
       "xl_hc_chainmail_suit_hauberk"
     ],
-    "difficulty": 2,
-    "autolearn": [ [ "fabrication", 1 ] ]
+    "difficulty": 2
   },
   {
     "id": "nested_ch_chainmail_suit",
@@ -463,8 +454,7 @@
       "ch_chainmail_suit_xs_hauberk",
       "xl_ch_chainmail_suit_hauberk"
     ],
-    "difficulty": 2,
-    "autolearn": [ [ "fabrication", 1 ] ]
+    "difficulty": 2
   },
   {
     "id": "nested_qt_chainmail_suit",
@@ -483,8 +473,7 @@
       "qt_chainmail_suit_xs_hauberk",
       "xl_qt_chainmail_suit_hauberk"
     ],
-    "difficulty": 2,
-    "autolearn": [ [ "fabrication", 1 ] ]
+    "difficulty": 2
   },
   {
     "id": "nested_chainmail_suit_faraday",
@@ -496,8 +485,7 @@
     "description": "Recipes related to constructing chainmail suits that resist electricity.",
     "skill_used": "fabrication",
     "nested_category_data": [ "chainmail_suit_faraday", "chainmail_suit_faraday_xs", "xl_chainmail_suit_faraday" ],
-    "difficulty": 2,
-    "autolearn": [ [ "fabrication", 1 ] ]
+    "difficulty": 2
   },
   {
     "id": "nested_all_chainmail_suit",
@@ -516,8 +504,7 @@
       "nested_chainmail_suit_faraday",
       "nested_qt_chainmail_suit"
     ],
-    "difficulty": 2,
-    "autolearn": [ [ "fabrication", 1 ] ]
+    "difficulty": 2
   },
   {
     "id": "nested_scrap_cuirass",
@@ -844,8 +831,7 @@
     "description": "Recipes related to constructing various sizes of chainmail hoods designed to protect the wearer.",
     "skill_used": "fabrication",
     "nested_category_data": [ "lc_chainmail_hood", "xl_lc_chainmail_hood", "xs_lc_chainmail_hood" ],
-    "difficulty": 5,
-    "autolearn": [ [ "fabrication", 5 ] ]
+    "difficulty": 5
   },
   {
     "id": "nested_mc_chainmail_hood",
@@ -857,8 +843,7 @@
     "description": "Recipes related to constructing various sizes of chainmail hoods designed to protect the wearer.",
     "skill_used": "fabrication",
     "nested_category_data": [ "mc_chainmail_hood", "xl_mc_chainmail_hood", "xs_mc_chainmail_hood" ],
-    "difficulty": 5,
-    "autolearn": [ [ "fabrication", 5 ] ]
+    "difficulty": 5
   },
   {
     "id": "nested_hc_chainmail_hood",
@@ -870,8 +855,7 @@
     "description": "Recipes related to constructing various sizes of chainmail hoods designed to protect the wearer.",
     "skill_used": "fabrication",
     "nested_category_data": [ "hc_chainmail_hood", "xl_hc_chainmail_hood", "xs_hc_chainmail_hood" ],
-    "difficulty": 5,
-    "autolearn": [ [ "fabrication", 5 ] ]
+    "difficulty": 5
   },
   {
     "id": "nested_ch_chainmail_hood",
@@ -883,8 +867,7 @@
     "description": "Recipes related to constructing various sizes of chainmail hoods designed to protect the wearer.",
     "skill_used": "fabrication",
     "nested_category_data": [ "ch_chainmail_hood", "xl_ch_chainmail_hood", "xs_ch_chainmail_hood" ],
-    "difficulty": 5,
-    "autolearn": [ [ "fabrication", 5 ] ]
+    "difficulty": 5
   },
   {
     "id": "nested_qt_chainmail_hood",
@@ -896,8 +879,7 @@
     "description": "Recipes related to constructing various sizes of chainmail hoods designed to protect the wearer.",
     "skill_used": "fabrication",
     "nested_category_data": [ "qt_chainmail_hood", "xl_qt_chainmail_hood", "xs_qt_chainmail_hood" ],
-    "difficulty": 5,
-    "autolearn": [ [ "fabrication", 5 ] ]
+    "difficulty": 5
   },
   {
     "id": "nested_all_chainmail_hood",
@@ -915,8 +897,7 @@
       "nested_ch_chainmail_hood",
       "nested_qt_chainmail_hood"
     ],
-    "difficulty": 5,
-    "autolearn": [ [ "fabrication", 5 ] ]
+    "difficulty": 5
   },
   {
     "id": "nested_mask_gas",
@@ -1050,8 +1031,7 @@
     "description": "Recipes related to constructing various sizes of chainmail vests.",
     "skill_used": "fabrication",
     "nested_category_data": [ "lc_chainmail_vest", "xs_lc_chainmail_vest", "xl_lc_chainmail_vest" ],
-    "difficulty": 5,
-    "autolearn": [ [ "fabrication", 5 ] ]
+    "difficulty": 5
   },
   {
     "id": "nested_mc_chainmail_vest",
@@ -1063,8 +1043,7 @@
     "description": "Recipes related to constructing various sizes of chainmail vests.",
     "skill_used": "fabrication",
     "nested_category_data": [ "mc_chainmail_vest", "xs_mc_chainmail_vest", "xl_mc_chainmail_vest" ],
-    "difficulty": 5,
-    "autolearn": [ [ "fabrication", 5 ] ]
+    "difficulty": 5
   },
   {
     "id": "nested_hc_chainmail_vest",
@@ -1076,8 +1055,7 @@
     "description": "Recipes related to constructing various sizes of chainmail vests.",
     "skill_used": "fabrication",
     "nested_category_data": [ "hc_chainmail_vest", "xs_hc_chainmail_vest", "xl_hc_chainmail_vest" ],
-    "difficulty": 5,
-    "autolearn": [ [ "fabrication", 5 ] ]
+    "difficulty": 5
   },
   {
     "id": "nested_ch_chainmail_vest",
@@ -1089,8 +1067,7 @@
     "description": "Recipes related to constructing various sizes of chainmail vests.",
     "skill_used": "fabrication",
     "nested_category_data": [ "ch_chainmail_vest", "xs_ch_chainmail_vest", "xl_ch_chainmail_vest" ],
-    "difficulty": 5,
-    "autolearn": [ [ "fabrication", 5 ] ]
+    "difficulty": 5
   },
   {
     "id": "nested_qt_chainmail_vest",
@@ -1102,8 +1079,7 @@
     "description": "Recipes related to constructing various sizes of chainmail vests.",
     "skill_used": "fabrication",
     "nested_category_data": [ "qt_chainmail_vest", "xs_qt_chainmail_vest", "xl_qt_chainmail_vest" ],
-    "difficulty": 5,
-    "autolearn": [ [ "fabrication", 5 ] ]
+    "difficulty": 5
   },
   {
     "id": "nested_all_chainmail_vest",
@@ -1121,8 +1097,7 @@
       "nested_ch_chainmail_vest",
       "nested_qt_chainmail_vest"
     ],
-    "difficulty": 5,
-    "autolearn": [ [ "fabrication", 5 ] ]
+    "difficulty": 5
   },
   {
     "id": "nested_gloves_fsurvivor",
@@ -1252,8 +1227,7 @@
     "description": "Recipes related to constructing various sizes of chain gloves.",
     "skill_used": "fabrication",
     "nested_category_data": [ "lc_chainmail_hands", "xs_lc_chainmail_hands", "xl_lc_chainmail_hands" ],
-    "difficulty": 5,
-    "autolearn": [ [ "fabrication", 5 ] ]
+    "difficulty": 5
   },
   {
     "id": "nested_mc_chainmail_hands",
@@ -1265,8 +1239,7 @@
     "description": "Recipes related to constructing various sizes of chain gloves.",
     "skill_used": "fabrication",
     "nested_category_data": [ "mc_chainmail_hands", "xs_mc_chainmail_hands", "xl_mc_chainmail_hands" ],
-    "difficulty": 5,
-    "autolearn": [ [ "fabrication", 5 ] ]
+    "difficulty": 5
   },
   {
     "id": "nested_hc_chainmail_hands",
@@ -1278,8 +1251,7 @@
     "description": "Recipes related to constructing various sizes of chain gloves.",
     "skill_used": "fabrication",
     "nested_category_data": [ "hc_chainmail_hands", "xs_hc_chainmail_hands", "xl_hc_chainmail_hands" ],
-    "difficulty": 5,
-    "autolearn": [ [ "fabrication", 5 ] ]
+    "difficulty": 5
   },
   {
     "id": "nested_ch_chainmail_hands",
@@ -1291,8 +1263,7 @@
     "description": "Recipes related to constructing various sizes of chain gloves.",
     "skill_used": "fabrication",
     "nested_category_data": [ "ch_chainmail_hands", "xs_ch_chainmail_hands", "xl_ch_chainmail_hands" ],
-    "difficulty": 5,
-    "autolearn": [ [ "fabrication", 5 ] ]
+    "difficulty": 5
   },
   {
     "id": "nested_qt_chainmail_hands",
@@ -1304,8 +1275,7 @@
     "description": "Recipes related to constructing various sizes of chain gloves.",
     "skill_used": "fabrication",
     "nested_category_data": [ "qt_chainmail_hands", "xs_qt_chainmail_hands", "xl_qt_chainmail_hands" ],
-    "difficulty": 5,
-    "autolearn": [ [ "fabrication", 5 ] ]
+    "difficulty": 5
   },
   {
     "id": "nested_all_chainmail_hands",
@@ -1323,8 +1293,7 @@
       "nested_ch_chainmail_hands",
       "nested_qt_chainmail_hands"
     ],
-    "difficulty": 5,
-    "autolearn": [ [ "fabrication", 5 ] ]
+    "difficulty": 5
   },
   {
     "id": "nested_lc_chainmail_arms",
@@ -1336,8 +1305,7 @@
     "description": "Recipes related to constructing various sizes of chain sleeves.",
     "skill_used": "fabrication",
     "nested_category_data": [ "lc_chainmail_arms", "xs_lc_chainmail_arms", "xl_lc_chainmail_arms" ],
-    "difficulty": 5,
-    "autolearn": [ [ "fabrication", 5 ] ]
+    "difficulty": 5
   },
   {
     "id": "nested_mc_chainmail_arms",
@@ -1349,8 +1317,7 @@
     "description": "Recipes related to constructing various sizes of chain sleeves.",
     "skill_used": "fabrication",
     "nested_category_data": [ "mc_chainmail_arms", "xs_mc_chainmail_arms", "xl_mc_chainmail_arms" ],
-    "difficulty": 5,
-    "autolearn": [ [ "fabrication", 5 ] ]
+    "difficulty": 5
   },
   {
     "id": "nested_hc_chainmail_arms",
@@ -1362,8 +1329,7 @@
     "description": "Recipes related to constructing various sizes of chain sleeves.",
     "skill_used": "fabrication",
     "nested_category_data": [ "hc_chainmail_arms", "xs_hc_chainmail_arms", "xl_hc_chainmail_arms" ],
-    "difficulty": 5,
-    "autolearn": [ [ "fabrication", 5 ] ]
+    "difficulty": 5
   },
   {
     "id": "nested_ch_chainmail_arms",
@@ -1375,8 +1341,7 @@
     "description": "Recipes related to constructing various sizes of chain sleeves.",
     "skill_used": "fabrication",
     "nested_category_data": [ "ch_chainmail_arms", "xs_ch_chainmail_arms", "xl_ch_chainmail_arms" ],
-    "difficulty": 5,
-    "autolearn": [ [ "fabrication", 5 ] ]
+    "difficulty": 5
   },
   {
     "id": "nested_qt_chainmail_arms",
@@ -1388,8 +1353,7 @@
     "description": "Recipes related to constructing various sizes of chain sleeves.",
     "skill_used": "fabrication",
     "nested_category_data": [ "qt_chainmail_arms", "xs_qt_chainmail_arms", "xl_qt_chainmail_arms" ],
-    "difficulty": 5,
-    "autolearn": [ [ "fabrication", 5 ] ]
+    "difficulty": 5
   },
   {
     "id": "nested_all_chainmail_arms",
@@ -1407,8 +1371,7 @@
       "nested_ch_chainmail_arms",
       "nested_qt_chainmail_arms"
     ],
-    "difficulty": 5,
-    "autolearn": [ [ "fabrication", 5 ] ]
+    "difficulty": 5
   },
   {
     "id": "nested_lsurvivor_pants",
@@ -1456,8 +1419,7 @@
     "description": "Recipes related to constructing various sizes of chainmail leggings.",
     "skill_used": "fabrication",
     "nested_category_data": [ "lc_chainmail_legs", "xs_lc_chainmail_legs", "xl_lc_chainmail_legs" ],
-    "difficulty": 5,
-    "autolearn": [ [ "fabrication", 5 ] ]
+    "difficulty": 5
   },
   {
     "id": "nested_mc_chainmail_legs",
@@ -1469,8 +1431,7 @@
     "description": "Recipes related to constructing various sizes of chainmail leggings.",
     "skill_used": "fabrication",
     "nested_category_data": [ "mc_chainmail_legs", "xs_mc_chainmail_legs", "xl_mc_chainmail_legs" ],
-    "difficulty": 5,
-    "autolearn": [ [ "fabrication", 5 ] ]
+    "difficulty": 5
   },
   {
     "id": "nested_hc_chainmail_legs",
@@ -1482,8 +1443,7 @@
     "description": "Recipes related to constructing various sizes of chainmail leggings.",
     "skill_used": "fabrication",
     "nested_category_data": [ "hc_chainmail_legs", "xs_hc_chainmail_legs", "xl_hc_chainmail_legs" ],
-    "difficulty": 5,
-    "autolearn": [ [ "fabrication", 5 ] ]
+    "difficulty": 5
   },
   {
     "id": "nested_ch_chainmail_legs",
@@ -1495,8 +1455,7 @@
     "description": "Recipes related to constructing various sizes of chainmail leggings.",
     "skill_used": "fabrication",
     "nested_category_data": [ "ch_chainmail_legs", "xs_ch_chainmail_legs", "xl_ch_chainmail_legs" ],
-    "difficulty": 5,
-    "autolearn": [ [ "fabrication", 5 ] ]
+    "difficulty": 5
   },
   {
     "id": "nested_qt_chainmail_legs",
@@ -1508,8 +1467,7 @@
     "description": "Recipes related to constructing various sizes of chainmail leggings.",
     "skill_used": "fabrication",
     "nested_category_data": [ "qt_chainmail_legs", "xs_qt_chainmail_legs", "xl_qt_chainmail_legs" ],
-    "difficulty": 5,
-    "autolearn": [ [ "fabrication", 5 ] ]
+    "difficulty": 5
   },
   {
     "id": "nested_all_chainmail_legs",
@@ -1527,8 +1485,7 @@
       "nested_ch_chainmail_legs",
       "nested_qt_chainmail_legs"
     ],
-    "difficulty": 5,
-    "autolearn": [ [ "fabrication", 5 ] ]
+    "difficulty": 5
   },
   {
     "id": "nested_boots_fsurvivor",
@@ -1638,8 +1595,7 @@
     "description": "Recipes related to constructing various sizes of chainmail chausses.",
     "skill_used": "fabrication",
     "nested_category_data": [ "lc_chainmail_feet", "xs_lc_chainmail_feet", "xl_lc_chainmail_feet" ],
-    "difficulty": 5,
-    "autolearn": [ [ "fabrication", 5 ] ]
+    "difficulty": 5
   },
   {
     "id": "nested_mc_chainmail_feet",
@@ -1651,8 +1607,7 @@
     "description": "Recipes related to constructing various sizes of chainmail chausses.",
     "skill_used": "fabrication",
     "nested_category_data": [ "mc_chainmail_feet", "xs_mc_chainmail_feet", "xl_mc_chainmail_feet" ],
-    "difficulty": 5,
-    "autolearn": [ [ "fabrication", 5 ] ]
+    "difficulty": 5
   },
   {
     "id": "nested_hc_chainmail_feet",
@@ -1664,8 +1619,7 @@
     "description": "Recipes related to constructing various sizes of chainmail chausses.",
     "skill_used": "fabrication",
     "nested_category_data": [ "hc_chainmail_feet", "xs_hc_chainmail_feet", "xl_hc_chainmail_feet" ],
-    "difficulty": 5,
-    "autolearn": [ [ "fabrication", 5 ] ]
+    "difficulty": 5
   },
   {
     "id": "nested_ch_chainmail_feet",
@@ -1677,8 +1631,7 @@
     "description": "Recipes related to constructing various sizes of chainmail chausses.",
     "skill_used": "fabrication",
     "nested_category_data": [ "ch_chainmail_feet", "xs_ch_chainmail_feet", "xl_ch_chainmail_feet" ],
-    "difficulty": 5,
-    "autolearn": [ [ "fabrication", 5 ] ]
+    "difficulty": 5
   },
   {
     "id": "nested_qt_chainmail_feet",
@@ -1690,8 +1643,7 @@
     "description": "Recipes related to constructing various sizes of chainmail chausses.",
     "skill_used": "fabrication",
     "nested_category_data": [ "qt_chainmail_feet", "xs_qt_chainmail_feet", "xl_qt_chainmail_feet" ],
-    "difficulty": 5,
-    "autolearn": [ [ "fabrication", 5 ] ]
+    "difficulty": 5
   },
   {
     "id": "nested_all_chainmail_feet",
@@ -1709,8 +1661,7 @@
       "nested_ch_chainmail_feet",
       "nested_qt_chainmail_feet"
     ],
-    "difficulty": 5,
-    "autolearn": [ [ "fabrication", 5 ] ]
+    "difficulty": 5
   },
   {
     "id": "nested_sling_ready_explosives",
@@ -1750,8 +1701,7 @@
       "bundle_branch",
       "bundle_branch_long"
     ],
-    "difficulty": 1,
-    "autolearn": [ [ "tailor", 0 ] ]
+    "difficulty": 1
   },
   {
     "id": "nested_shelled_nuts",
@@ -1772,8 +1722,7 @@
       "almond_shelled",
       "pistachio_shelled"
     ],
-    "difficulty": 1,
-    "autolearn": [ [ "cooking", 0 ] ]
+    "difficulty": 1
   },
   {
     "id": "nested_short_string",
@@ -1785,8 +1734,7 @@
     "description": "Recipes related to constructing short strings.",
     "skill_used": "tailor",
     "nested_category_data": [ "string_6", "string_6_spinwheel" ],
-    "difficulty": 1,
-    "autolearn": [ [ "tailor", 0 ] ]
+    "difficulty": 1
   },
   {
     "id": "nested_short_rope",
@@ -1805,8 +1753,7 @@
       "rope_6_from_cloth",
       "rope_6_spinwheel_cloth"
     ],
-    "difficulty": 1,
-    "autolearn": [ [ "tailor", 0 ] ]
+    "difficulty": 1
   },
   {
     "id": "nested_long_string",
@@ -1818,8 +1765,7 @@
     "description": "Recipes related to constructing long strings.",
     "skill_used": "tailor",
     "nested_category_data": [ "string_36", "string_36_spinwheel" ],
-    "difficulty": 1,
-    "autolearn": [ [ "tailor", 0 ] ]
+    "difficulty": 1
   },
   {
     "id": "nested_long_rope",
@@ -1840,8 +1786,7 @@
       "rope_30_from_filament",
       "rope_30_spinwheel_filament"
     ],
-    "difficulty": 1,
-    "autolearn": [ [ "tailor", 0 ] ]
+    "difficulty": 1
   },
   {
     "id": "nested_short_cordage_piece",
@@ -1853,8 +1798,7 @@
     "description": "Recipes related to constructing short cordage pieces.",
     "skill_used": "tailor",
     "nested_category_data": [ "cordage_6", "cordage_6_spinwheel_plant" ],
-    "difficulty": 1,
-    "autolearn": [ [ "tailor", 0 ] ]
+    "difficulty": 1
   },
   {
     "id": "nested_long_cordage_piece",
@@ -1866,8 +1810,7 @@
     "description": "Recipes related to constructing long cordage pieces.",
     "skill_used": "tailor",
     "nested_category_data": [ "cordage_36", "cordage_36_spinwheel_plant", "cordage_36_from_cordage_6", "cordage_36_spinwheel_ropes" ],
-    "difficulty": 1,
-    "autolearn": [ [ "tailor", 0 ] ]
+    "difficulty": 1
   },
   {
     "id": "nested_leather_lace",
@@ -1879,8 +1822,7 @@
     "description": "Recipes related to constructing leather laces.",
     "skill_used": "tailor",
     "nested_category_data": [ "cordage_6_leather", "cordage_36_leather" ],
-    "difficulty": 1,
-    "autolearn": [ [ "tailor", 0 ] ]
+    "difficulty": 1
   },
   {
     "id": "nested_short_cordage_rope",
@@ -1892,8 +1834,7 @@
     "description": "Recipes related to constructing short cordage ropes.",
     "skill_used": "tailor",
     "nested_category_data": [ "rope_makeshift_6", "rope_makeshift_6_spinwheel_cordages" ],
-    "difficulty": 1,
-    "autolearn": [ [ "tailor", 0 ] ]
+    "difficulty": 1
   },
   {
     "id": "nested_long_cordage_rope",
@@ -1910,8 +1851,7 @@
       "rope_makeshift_30_from_rope_makeshift_6",
       "rope_makeshift_30_spinwheel_ropes"
     ],
-    "difficulty": 1,
-    "autolearn": [ [ "tailor", 0 ] ]
+    "difficulty": 1
   },
   {
     "id": "nested_rope_and_cord",
@@ -1933,8 +1873,7 @@
       "nested_short_cordage_rope",
       "nested_long_cordage_rope"
     ],
-    "difficulty": 1,
-    "autolearn": [ [ "tailor", 0 ] ]
+    "difficulty": 1
   },
   {
     "id": "nested_modified_gunmods",
