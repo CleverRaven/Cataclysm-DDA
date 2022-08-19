@@ -213,10 +213,11 @@ These are handled through `ammo_types.json`.  You can tag a weapon with these to
 
 ## Traps
 
-- ```SONAR_DETECTABLE``` This trap can be identified with ground-penetrating SONAR.
-- ```CONVECTS_TEMPERATURE``` This trap convects temperature, like lava.
-- ```UNCONSUMED``` If this trap is a spell type it will not be removed after activation.
 - ```AVATAR_ONLY``` Only the player character will trigger this trap.
+- ```CONVECTS_TEMPERATURE``` This trap convects temperature, like lava.
+- ```PIT``` This trap is a version of the pit terrain.
+- ```SONAR_DETECTABLE``` This trap can be identified with ground-penetrating SONAR.
+- ```UNCONSUMED``` If this trap is a spell type it will not be removed after activation.
 - ```UNDODGEABLE``` This trap can't be dodged.
 
 ## Armor
@@ -1521,6 +1522,10 @@ Gun fault flags:
 
 ## Character
 
+- ```COLDBLOOD``` For heat dependent mutations.
+- ```COLDBLOOD2``` For very heat dependent mutations.
+- ```COLDBLOOD3``` For cold-blooded mutations.
+- ```ECTOTHERM``` For ectothermic mutations, like `COLDBLOOD4` and `DRAGONBLOOD3` (Black Dragon from Magiclysm).
 - ```HEAT_IMMUNE``` Immune to very hot temperatures.
 - ```NO_DISEASE``` This mutation grants immunity to diseases.
 - ```NO_THIRST``` Your thirst is not modified by food or drinks.

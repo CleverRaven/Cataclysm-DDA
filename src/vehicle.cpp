@@ -4828,8 +4828,7 @@ int vehicle::total_solar_epower_w() const
     // Weather doesn't change much across the area of the vehicle, so just
     // sample it once.
     weather_type_id wtype = current_weather( global_pos3() );
-    const float tick_sunlight = incident_sunlight( wtype, calendar::turn );
-    double intensity = tick_sunlight / default_daylight_level();
+    const float intensity = incident_sun_irradiance( wtype, calendar::turn ) / max_sun_irradiance();
     return epower_w * intensity;
 }
 
@@ -7350,7 +7349,8 @@ void vehicle::update_time( const time_point &update_to )
 
             epower_w += part_epower_w( part );
         }
-        double intensity = accum_weather.sunlight / default_daylight_level() / to_turns<double>( elapsed );
+        double intensity = accum_weather.radiant_exposure / max_sun_irradiance() / to_seconds<float>
+                           ( elapsed );
         int energy_bat = power_to_energy_bat( epower_w * intensity, elapsed );
         if( energy_bat > 0 ) {
             add_msg_debug( debugmode::DF_VEHICLE, "%s got %d kJ energy from solar panels", name, energy_bat );

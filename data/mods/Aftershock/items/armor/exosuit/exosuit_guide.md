@@ -82,6 +82,7 @@ General purpose utility modules
 | Med Injector   | Small  | ---        |  500 g | Injects RA21E to treat injuries.
 | Zoom Lenses    | Helmet | ---        |  500 g | Corrects vision and provides optical zoom.
 | Imager         | Helmet | 50 per use |  500 g | As the handheld tool, sees through walls.
+| AR Research    | Helmet | 250        | 500 g  | Adds 15 learning focus while active.
 
 # Exosuit Ranged Weapons
 Purpose built ranged weapons

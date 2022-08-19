@@ -145,7 +145,7 @@
     "warmth": 10,
     "material_thickness": 4,
     "environmental_protection": 1,
-    "flags": [ "WATER_FRIENDLY", "STURDY" ],
+    "flags": [ "WATER_FRIENDLY", "STURDY", "PADDED" ],
     "armor": [ { "encumbrance": 20, "coverage": 100, "covers": [ "eyes", "mouth" ] } ]
   },
   {

@@ -27,7 +27,7 @@
     "type": "MONSTER_FACTION",
     "name": "zombie",
     "friendly": [ "slime" ],
-    "neutral": [ "cult", "small_animal", "fish", "insect", "aquatic_predator", "passive_machine" ],
+    "neutral": [ "cult", "small_animal", "fish", "insect", "aquatic_predator", "passive_machine", "nether_player_hate" ],
     "by_mood": [ "ant", "acid_ant", "bee", "wasp", "stag_beetle" ]
   },
   {
@@ -157,6 +157,13 @@
     "name": "nether",
     "neutral": [ "cult", "small_animal", "fish", "slime", "passive_machine" ],
     "by_mood": [ "leech_plant", "vortex", "mi-go" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "nether_player_hate",
+    "base_faction": "nether",
+    "friendly": [ "zombie" ],
+    "hate": [ "player" ]
   },
   {
     "type": "MONSTER_FACTION",
@@ -596,5 +603,10 @@
     "name": "dark_wyrm",
     "base_faction": "mutant",
     "neutral": [ "dark_wyrm" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "beetle",
+    "//": "faction for non-stag beetles, ported from TropiCata"
   }
 ]

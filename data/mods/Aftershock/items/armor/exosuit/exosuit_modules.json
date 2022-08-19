@@ -652,7 +652,46 @@
       "type": "transform",
       "target": "boarding_axe",
       "msg": "With a snap of your arm, the axe extends."
+    }
+  },
+  {
+    "id": "exo_AR_module",
+    "type": "TOOL",
+    "name": { "str": "exosuit AR research module" },
+    "description": "An augmented reality module interfaces with the exosuit's HUD, assisting you with research and study.",
+    "weight": "500 g",
+    "volume": "250 ml",
+    "price": "10 kUSD",
+    "material": [ "lvl4ballisticglass", "qt_steel" ],
+    "symbol": "(",
+    "color": "yellow",
+    "flags": [ "CANT_WEAR", "EXO_HELMET_GADGET" ],
+    "relic_data": {
+      "passive_effects": [ { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "LEARNING_FOCUS", "add": 15 } ] } ]
     },
-    "category": "weapons"
+    "use_action": {
+      "target": "exo_AR_module_on",
+      "msg": "The %s engages.",
+      "menu_text": "Turn on module",
+      "active": true,
+      "need_charges": 5,
+      "need_charges_msg": "There is not enough charge to activate the module.",
+      "type": "transform"
+    }
+  },
+  {
+    "id": "exo_AR_module_on",
+    "type": "TOOL",
+    "copy-from": "exo_AR_module",
+    "name": { "str": "exosuit AR research module (on)", "str_pl": "exosuit AR research modules (on)" },
+    "power_draw": 250,
+    "revert_to": "exo_AR_module",
+    "use_action": {
+      "ammo_scale": 0,
+      "target": "exo_AR_module",
+      "msg": "You deactivate the module.",
+      "menu_text": "Turn off module",
+      "type": "transform"
+    }
   }
 ]

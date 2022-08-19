@@ -1451,31 +1451,32 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
             // Add temperature value to the overlay_strings list for every visible tile when
             // displaying temperature
             if( g->display_overlay_state( ACTION_DISPLAY_TEMPERATURE ) && !invisible[0] ) {
-                int temp_value = get_weather().get_temperature( pos );
-                int ctemp = temp_to_celsius( temp_value );
+                units::temperature temp_value = get_weather().get_temperature( pos );
                 short color;
                 const short bold = 8;
-                if( ctemp > 40 ) {
+                if( temp_value > units::from_celcius( 40 ) ) {
                     color = catacurses::red;
-                } else if( ctemp > 25 ) {
+                } else if( temp_value > units::from_celcius( 25 ) ) {
                     color = catacurses::yellow + bold;
-                } else if( ctemp > 10 ) {
+                } else if( temp_value > units::from_celcius( 10 ) ) {
                     color = catacurses::green + bold;
-                } else if( ctemp > 0 ) {
+                } else if( temp_value > units::from_celcius( 0 ) ) {
                     color = catacurses::white + bold;
-                } else if( ctemp > -10 ) {
+                } else if( temp_value > units::from_celcius( -10 ) ) {
                     color = catacurses::cyan + bold;
                 } else {
                     color = catacurses::blue + bold;
                 }
+
+                std::string temp_str;
                 if( get_option<std::string>( "USE_CELSIUS" ) == "celsius" ) {
-                    temp_value = temp_to_celsius( temp_value );
+                    temp_str = std::to_string( units::to_celcius( temp_value ) );
                 } else if( get_option<std::string>( "USE_CELSIUS" ) == "kelvin" ) {
-                    temp_value = temp_to_kelvin( temp_value );
+                    temp_str = std::to_string( units::to_kelvin( temp_value ) );
 
                 }
                 overlay_strings.emplace( player_to_screen( point( x, y ) ) + half_tile,
-                                         formatted_text( std::to_string( temp_value ), color,
+                                         formatted_text( temp_str, color,
                                                  direction::NORTH ) );
             }
 
