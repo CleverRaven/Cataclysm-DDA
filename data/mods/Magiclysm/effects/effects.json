@@ -555,7 +555,7 @@
     "copy-from": "flask_abstract",
     "type": "ARMOR",
     "name": "Resistentia",
-    "description": "Thin layer of energy cover your body, and allow you to hlod more physical damage than before.",
+    "description": "Thin layer of energy cover your body, and allow you to hold more physical damage than before.",
     "armor": [
       {
         "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r", "mouth", "eyes" ]
