@@ -27,6 +27,13 @@
   },
   {
     "type": "GENERIC",
+    "id": "foldxlframe",
+    "name": { "str": "foldable extra-light frame" },
+    "description": "A small foldable lightweight frame made from aluminum.",
+    "copy-from": "xlframe"
+  },
+  {
+    "type": "GENERIC",
     "id": "frame",
     "name": { "str": "steel frame" },
     "description": "A large frame made of steel.  Useful for crafting.",
