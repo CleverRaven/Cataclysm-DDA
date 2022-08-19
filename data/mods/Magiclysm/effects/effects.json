@@ -489,128 +489,89 @@
     "base_mods": { "stamina_min": [ 50 ] }
   },
   {
-    "//": "TODO: transform all stuff below this comment to effects when there would be a way to use enchantments with effect mechanic",
-    "abstract": "flask_abstract",
-    "name": "flask effect abstract",
-    "description": "really? it's an abstract, it does not even exist in the game.  Ignore this",
-    "type": "ARMOR",
-    "category": "clothing",
-    "weight": "0 g",
-    "material": [ "concentrated_mana" ],
-    "volume": "1 ml",
-    "symbol": "0",
-    "color": "white",
-    "flags": [
-      "WATER_FRIENDLY",
-      "SEMITANGIBLE",
-      "ONLY_ONE",
-      "OVERSIZE",
-      "AURA",
-      "ZERO_WEIGHT",
-      "NO_TAKEOFF",
-      "NONCONDUCTIVE",
-      "TRADER_AVOID"
+    "id": "flask_excitement",
+    "type": "effect_type",
+    "name": [ "Motus" ],
+    "desc": [ "Your reaction now is way better than before." ],
+    "apply_message": "You can feel the fly wings movement now.",
+    "remove_message": "Your reflexes turn back to normal.",
+    "rating": "good",
+    "show_intensity": false,
+    "enchantments": [
+      {
+        "condition": { "not": "ALWAYS" },
+        "values": [
+          { "value": "SPEED", "add": 30 },
+          { "value": "ATTACK_SPEED", "add": 20 },
+          { "value": "BONUS_DODGE", "add": 2 },
+          { "value": "MELEE_DAMAGE", "multiply": 0.5 }
+        ]
+      }
     ]
   },
   {
-    "id": "flask_ethereal_rebreather",
-    "copy-from": "flask_abstract",
-    "type": "TOOL_ARMOR",
-    "name": "Spiritus",
-    "description": "Now you can breath under water, like a fish.",
-    "extend": { "flags": [ "REBREATHER" ] },
-    "armor": [ { "encumbrance": 0, "coverage": 75, "covers": [ "mouth" ] } ]
-  },
-  {
-    "id": "flask_excitement_aura",
-    "copy-from": "flask_abstract",
-    "type": "ARMOR",
-    "name": "Motus",
-    "description": "Your reaction now is way better than before.",
-    "relic_data": {
-      "passive_effects": [
-        {
-          "has": "WORN",
-          "condition": "ALWAYS",
-          "values": [
-            { "value": "SPEED", "add": 30 },
-            { "value": "ATTACK_SPEED", "add": 20 },
-            { "value": "BONUS_DODGE", "add": 2 },
-            { "value": "MELEE_DAMAGE", "multiply": 0.5 }
-          ]
-        }
-      ]
-    }
-  },
-  {
-    "id": "flask_hp_max_aura",
-    "copy-from": "flask_abstract",
-    "type": "ARMOR",
-    "name": "Vigor",
-    "description": "You feel how your bones and flesh are stronger than before.",
-    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MAX_HP", "multiply": 2 } ] } ] }
-  },
-  {
-    "id": "flask_resistance_aura",
-    "copy-from": "flask_abstract",
-    "type": "ARMOR",
-    "name": "Resistentia",
-    "description": "Thin layer of energy cover your body, and allow you to hold more physical damage than before.",
-    "armor": [
+    "id": "flask_resistance",
+    "type": "effect_type",
+    "name": [ "Resistentia" ],
+    "desc": [ "Thin layer of energy cover your body, and allow you to hold more physical damage than before." ],
+    "apply_message": "Your touch sense are blunted for a bit, but your skin feels more dense.",
+    "remove_message": "The sturdy feeling is gone.",
+    "rating": "good",
+    "show_intensity": false,
+    "enchantments": [
       {
-        "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r", "mouth", "eyes" ]
+        "condition": { "not": "ALWAYS" },
+        "values": [ { "value": "ARMOR_BASH", "add": -10 }, { "value": "ARMOR_CUT", "add": -10 }, { "value": "ARMOR_STAB", "add": -10 } ]
       }
-    ],
-    "relic_data": {
-      "passive_effects": [
-        {
-          "has": "WORN",
-          "condition": "ALWAYS",
-          "values": [ { "value": "ARMOR_BASH", "add": -10 }, { "value": "ARMOR_CUT", "add": -10 }, { "value": "ARMOR_STAB", "add": -10 } ]
-        }
-      ]
-    }
+    ]
   },
   {
-    "id": "flask_illumination_aura",
-    "copy-from": "flask_abstract",
-    "type": "ARMOR",
-    "name": "Illuminatio",
-    "description": "Your body emit a lot of light around.",
-    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "LUMINATION", "add": 800 } ] } ] }
+    "id": "flask_illumination",
+    "type": "effect_type",
+    "name": [ "Illuminatio" ],
+    "desc": [ "Your body emit a lot of light around." ],
+    "apply_message": "Your skin glow like an old lantern.  You feel no discomfort for some reason.",
+    "remove_message": "Your skin turn back to normal state.",
+    "rating": "good",
+    "show_intensity": false,
+    "enchantments": [ { "condition": { "not": "ALWAYS" }, "values": [ { "value": "LUMINATION", "add": 800 } ] } ]
   },
   {
-    "id": "flask_mana_regen_aura",
-    "copy-from": "flask_abstract",
-    "type": "ARMOR",
-    "name": "Recuperatio",
-    "description": "Increase the amount of ley-lines your body can process at once, making you restore your mana pool faster.",
-    "relic_data": {
-      "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "REGEN_MANA", "multiply": 2 } ] } ]
-    }
+    "id": "flask_mana_regen",
+    "type": "effect_type",
+    "name": [ "Recuperatio" ],
+    "desc": [ "Increase the amount of ley-lines your body can process at once, making you restore your mana pool faster." ],
+    "apply_message": "You can feel the thinnest ley lines around you.",
+    "remove_message": "The mana senses blunts.",
+    "rating": "good",
+    "show_intensity": false,
+    "enchantments": [ { "condition": { "not": "ALWAYS" }, "values": [ { "value": "REGEN_MANA", "multiply": 2 } ] } ]
   },
   {
-    "id": "flask_max_mana_aura",
-    "copy-from": "flask_abstract",
-    "type": "ARMOR",
-    "name": "Augere",
-    "description": "Increase the amount of mana you can operate.",
-    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 1500 } ] } ] }
+    "id": "flask_max_mana",
+    "type": "effect_type",
+    "name": [ "Augere" ],
+    "desc": [ "Increase the amount of mana you can operate." ],
+    "apply_message": "You feel a deep mana well inside your body.",
+    "remove_message": "Your well feels empty now.",
+    "rating": "good",
+    "show_intensity": false,
+    "enchantments": [ { "condition": { "not": "ALWAYS" }, "values": [ { "value": "MAX_MANA", "add": 1500 } ] } ]
   },
   {
-    "id": "flask_regeneration_aura",
-    "copy-from": "flask_abstract",
-    "type": "ARMOR",
-    "name": "Renovamen",
-    "description": "Slowly regenerate your damaged body.",
-    "relic_data": {
-      "passive_effects": [
-        {
-          "has": "WORN",
-          "condition": "ALWAYS",
-          "intermittent_activation": { "effects": [ { "frequency": "30 seconds", "spell_effects": [ { "id": "flask_regeneration_effect" } ] } ] }
-        }
-      ]
-    }
+    "id": "flask_regeneration",
+    "type": "effect_type",
+    "name": [ "Renovamen" ],
+    "desc": [ "Slowly regenerate your damaged body." ],
+    "apply_message": "Your flesh and bones start to regenerate before your eyes.",
+    "remove_message": "Your regeneration slows down.",
+    "rating": "good",
+    "show_intensity": false,
+    "enchantments": [
+      {
+        "condition": { "not": "ALWAYS" },
+        "intermittent_activation": { "effects": [ { "frequency": "30 seconds", "spell_effects": [ { "id": "flask_regeneration_effect" } ] } ] }
+      }
+    ]
   }
 ]
