@@ -157,7 +157,7 @@ class veh_interact
          */
         /*@{*/
         void do_install();
-        void do_repair();
+        void do_repair( bool force_replace );
         void do_mend();
         void do_refill();
         void do_remove();

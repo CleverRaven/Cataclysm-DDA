@@ -238,6 +238,7 @@ veh_interact::veh_interact( vehicle &veh, const point &p )
     main_context.register_action( "QUIT" );
     main_context.register_action( "INSTALL" );
     main_context.register_action( "REPAIR" );
+    main_context.register_action( "REPLACE" );
     main_context.register_action( "MEND" );
     main_context.register_action( "REFILL" );
     main_context.register_action( "REMOVE" );
@@ -483,7 +484,11 @@ void veh_interact::do_main_loop()
             }
         } else if( action == "REPAIR" ) {
             if( veh->handle_potential_theft( dynamic_cast<Character &>( player_character ) ) ) {
-                do_repair();
+                do_repair( false );
+            }
+        } else if( action == "REPLACE" ) {
+            if( veh->handle_potential_theft( dynamic_cast<Character &>( player_character ) ) ) {
+                do_repair( true );
             }
         } else if( action == "MEND" ) {
             if( veh->handle_potential_theft( dynamic_cast<Character &>( player_character ) ) ) {
@@ -987,7 +992,7 @@ void veh_interact::do_install()
             .edit( filter );
             tab = tab_filters.size() - 1; // Move to the user filter tab.
         }
-        if( action == "REPAIR" ) {
+        if( action == "REPAIR" || action == "REPLACE" ) {
             filter.clear();
             tab = 0;
         }
@@ -1137,7 +1142,7 @@ void veh_interact::do_install()
             sel_vpart_variant.clear();
             break;
         } else if( action == "PREV_TAB" || action == "NEXT_TAB" || action == "FILTER" ||
-                   action == "REPAIR" ) {
+                   action == "REPAIR" || action == "REPLACE" ) {
             tab_vparts.clear();
             pos = 0;
 
@@ -1182,7 +1187,7 @@ bool veh_interact::move_in_list( int &pos, const std::string &action, const int 
     return true;
 }
 
-void veh_interact::do_repair()
+void veh_interact::do_repair( bool force_replace )
 {
     task_reason reason = cant_do( 'r' );
 
@@ -1236,7 +1241,7 @@ void veh_interact::do_repair()
 
         // this will always be set, but the gcc thinks that sometimes it won't be
         bool ok = true;
-        if( pt.is_broken() ) {
+        if( pt.is_broken() || force_replace = true ) {
             ok = format_reqs( nmsg, vp.install_requirements(), vp.install_skills,
                               vp.install_time( player_character ) );
 
@@ -1285,7 +1290,7 @@ void veh_interact::do_repair()
 
         const std::string action = main_context.handle_input();
         msg.reset();
-        if( ( action == "REPAIR" || action == "CONFIRM" ) && ok ) {
+        if( ( action == "REPAIR" || action == "REPLACE" || action == "CONFIRM" ) && ok ) {
             // Modifying a vehicle with rotors will make in not flightworthy (until we've got a better model)
             if( would_prevent_flying ) {
                 // It can only be the player doing this - an npc won't work well with query_yn
@@ -2837,6 +2842,9 @@ void veh_interact::display_mode()
                 veh_act_desc( main_context, "REPAIR",
                               pgettext( "veh_interact", "repair" ),
                               cant_do( 'r' ) ),
+                veh_act_desc( main_context, "REPLACE",
+                              pgettext( "veh_interact", "replace" ),
+                              cant_do( 'l' ) ),
                 veh_act_desc( main_context, "MEND",
                               pgettext( "veh_interact", "mend" ),
                               cant_do( 'm' ) ),
