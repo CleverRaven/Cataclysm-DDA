@@ -3467,6 +3467,46 @@ void talk_effect_fun_t<T>::set_switch( const JsonObject &jo,
 }
 
 template<class T>
+void talk_effect_fun_t<T>::set_roll_remainder( const JsonObject &jo,
+        const std::string &member, bool is_npc )
+{
+    std::vector<std::string> list = jo.get_string_array( member );
+    std::string type = jo.get_string( "type" );
+    if( type != "bionic" && type != "mutation" ) {
+        jo.throw_error( "Type must be either bionic or mutation." );
+    }
+    std::vector<effect_on_condition_id> true_eocs = load_eoc_vector( jo, "true_eocs" );
+    std::vector<effect_on_condition_id> false_eocs = load_eoc_vector( jo, "false_eocs" );
+
+    function = [list, type, is_npc, true_eocs, false_eocs]( const T & d ) {
+        std::vector<std::string> not_had;
+        for( const std::string &cur_string : list ) {
+            if( type == "bionic" ) {
+                if( !d.actor( is_npc )->has_bionic( bionic_id( cur_string ) ) ) {
+                    not_had.push_back( cur_string );
+                }
+            } else if( type == "mutation" ) {
+                if( !d.actor( is_npc )->has_trait( trait_id( cur_string ) ) ) {
+                    not_had.push_back( cur_string );
+                }
+            }
+        }
+        if( !not_had.empty() ) {
+            int index = rng( 0, not_had.size() - 1 );
+            std::string cur_choice = not_had[index];
+            if( type == "bionic" ) {
+                d.actor( is_npc )->add_bionic( bionic_id( cur_choice ) );
+            } else if( type == "mutation" ) {
+                d.actor( is_npc )->set_mutation( trait_id( cur_choice ) );
+            }
+            run_eoc_vector( true_eocs, d );
+        } else {
+            run_eoc_vector( false_eocs, d );
+        }
+    };
+}
+
+template<class T>
 void talk_effect_fun_t<T>::set_add_morale( const JsonObject &jo, const std::string &member,
         bool is_npc )
 {
@@ -4079,6 +4119,10 @@ void talk_effect_t<T>::parse_sub_effect( const JsonObject &jo )
         subeffect_fun.set_weighted_list_eocs( jo, "weighted_list_eocs" );
     } else if( jo.has_member( "switch" ) ) {
         subeffect_fun.set_switch( jo, "switch" );
+    } else if( jo.has_member( "u_roll_remainder" ) ) {
+        subeffect_fun.set_roll_remainder( jo, "u_roll_remainder", false );
+    } else if( jo.has_member( "npc_roll_remainder" ) ) {
+        subeffect_fun.set_roll_remainder( jo, "npc_roll_remainder", true );
     } else if( jo.has_member( "u_mod_healthy" ) ) {
         subeffect_fun.set_mod_healthy( jo, "u_mod_healthy", false );
     } else if( jo.has_member( "npc_mod_healthy" ) ) {
