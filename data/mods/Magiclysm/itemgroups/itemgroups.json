@@ -336,10 +336,10 @@
       { "group": "jewelry_safe", "prob": 10 },
       { "group": "jewelry_front", "prob": 8 },
       { "group": "potions_common", "prob": 15, "count-min": 1, "count-max": 3 },
-      { "group": "potions_uncommon", "prob": 7, "count-min": 1, "count-max": 2  },
+      { "group": "potions_uncommon", "prob": 7, "count-min": 1, "count-max": 2 },
       { "group": "potions_rare", "prob": 3 },
       { "group": "potions_illegal", "prob": 1 },
-      { "group": "magical_reagents", "prob": 45, "count-min": 1, "count-max": 3  },
+      { "group": "magical_reagents", "prob": 45, "count-min": 1, "count-max": 3 },
       {
         "distribution": [
           { "group": "enchanted_wands_lesser", "prob": 15 },
