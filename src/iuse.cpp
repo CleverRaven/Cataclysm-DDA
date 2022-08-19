@@ -9067,13 +9067,15 @@ cata::optional<int> iuse::weather_tool( Character *p, item *it, bool, const trip
                               it->tname() );
     }
     if( it->has_flag( flag_THERMOMETER ) ) {
-        if( it->typeId() == itype_thermometer ) {
-            p->add_msg_if_player( m_neutral, _( "The %1$s reads %2$s." ), it->tname(),
-                                  print_temperature( player_local_temp ) );
+        std::string temperature_str;
+        if( get_map().has_flag_ter( ter_furn_flag::TFLAG_DEEP_WATER, p->pos() ) ||
+            get_map().has_flag_ter( ter_furn_flag::TFLAG_SHALLOW_WATER, p->pos() ) ) {
+            temperature_str = print_temperature( get_weather().get_cur_weather_gen().get_water_temperature() );
         } else {
-            p->add_msg_if_player( m_neutral, _( "Temperature: %s." ),
-                                  print_temperature( player_local_temp ) );
+            temperature_str = print_temperature( player_local_temp );
         }
+        p->add_msg_if_player( m_neutral, _( "The %1$s reads %2$s." ), it->tname(),
+                              temperature_str );
     }
     if( it->has_flag( flag_HYGROMETER ) ) {
         if( it->typeId() == itype_hygrometer ) {
