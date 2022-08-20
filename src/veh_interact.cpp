@@ -2844,7 +2844,7 @@ void veh_interact::display_mode()
                               cant_do( 'r' ) ),
                 veh_act_desc( main_context, "REPLACE",
                               pgettext( "veh_interact", "replace" ),
-                              cant_do( 'l' ) ),
+                              cant_do( 'c' ) ),
                 veh_act_desc( main_context, "MEND",
                               pgettext( "veh_interact", "mend" ),
                               cant_do( 'm' ) ),
