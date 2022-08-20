@@ -81,7 +81,7 @@ const recipe_subset &Character::get_learned_recipes() const
     return *learned_recipes;
 }
 
-bool check_nested_has_recipes( const recipe *r, const recipe_subset &res )
+static bool check_nested_has_recipes( const recipe *r, const recipe_subset &res )
 {
     for( const recipe_id &nestedr : r->nested_category_data ) {
         if( nestedr->is_nested() ) {
@@ -97,7 +97,7 @@ bool check_nested_has_recipes( const recipe *r, const recipe_subset &res )
     return false;
 }
 
-const recipe_subset Character::get_available_nested( const recipe_subset &res ) const
+recipe_subset Character::get_available_nested( const recipe_subset &res ) const
 {
     recipe_subset nested_recipes;
     for( const recipe * const &r : recipe_dict.all_nested() ) {
