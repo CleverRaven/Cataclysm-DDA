@@ -1587,6 +1587,13 @@
   },
   {
     "type": "keybinding",
+    "id": "REPLACE",
+    "category": "VEH_INTERACT",
+    "name": "Replace part",
+    "bindings": [ { "input_method": "keyboard_any", "key": "c" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "MEND",
     "category": "VEH_INTERACT",
     "name": "Mend part",
