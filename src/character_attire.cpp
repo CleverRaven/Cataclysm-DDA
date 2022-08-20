@@ -582,10 +582,8 @@ std::list<item> Character::get_visible_worn_items() const
 bool outfit::is_wearing_helmet() const
 {
     for( const item &i : worn ) {
-        if( i.covers( body_part_head ) && !i.has_flag( flag_HELMET_COMPAT ) &&
-            !i.has_flag( flag_SKINTIGHT ) &&
-            !i.has_flag( flag_PERSONAL ) && !i.has_flag( flag_AURA ) && !i.has_flag( flag_SEMITANGIBLE ) &&
-            !i.has_flag( flag_OVERSIZE ) ) {
+        if( i.covers( body_part_head ) && !i.has_flag( flag_SKINTIGHT ) && !i.has_flag( flag_PERSONAL ) &&
+            !i.has_flag( flag_AURA ) && !i.has_flag( flag_SEMITANGIBLE ) && !i.has_flag( flag_OVERSIZE ) ) {
             return true;
         }
     }
@@ -595,11 +593,6 @@ bool outfit::is_wearing_helmet() const
 bool Character::is_wearing_helmet() const
 {
     return worn.is_wearing_helmet();
-}
-
-int Character::head_cloth_encumbrance() const
-{
-    return worn.head_cloth_encumbrance( *this );
 }
 
 double Character::armwear_factor() const
@@ -960,19 +953,6 @@ bool outfit::wearing_something_on( const bodypart_id &bp ) const
         }
     }
     return false;
-}
-
-int outfit::head_cloth_encumbrance( const Character &guy ) const
-{
-    int ret = 0;
-    for( const item &i : worn ) {
-        const item *worn_item = &i;
-        if( i.covers( body_part_head ) && !i.has_flag( flag_SEMITANGIBLE ) &&
-            ( worn_item->has_flag( flag_HELMET_COMPAT ) || worn_item->has_flag( flag_SKINTIGHT ) ) ) {
-            ret += worn_item->get_encumber( guy, body_part_head );
-        }
-    }
-    return ret;
 }
 
 int outfit::swim_modifier( const int swim_skill ) const

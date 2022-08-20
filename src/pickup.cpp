@@ -84,6 +84,7 @@ struct pickup_count {
 
 enum pickup_answer : int {
     CANCEL = -1,
+    WIELD,
     SPILL,
     STASH,
     NUM_ANSWERS
@@ -98,6 +99,7 @@ static pickup_answer handle_problematic_pickup( const item &it, const std::strin
     amenu.text = explain;
 
     if( it.is_bucket_nonempty() ) {
+        amenu.addentry( WIELD, true, 'w', _( "Wield %s" ), it.display_name() );
         amenu.addentry( SPILL, u.can_stash( it ), 's', _( "Spill contents of %s, then pick up %s" ),
                         it.tname(), it.display_name() );
     }
@@ -225,6 +227,9 @@ static bool pick_one_up( item_location &loc, int quantity, bool &got_water, Pick
             break;
         case CANCEL:
             picked_up = false;
+            break;
+        case WIELD:
+            picked_up = player_character.wield( newit );
             break;
         case SPILL:
             if( newit.is_container_empty() ) {

@@ -363,7 +363,34 @@
       "str_min": 50,
       "str_max": 400,
       "str_min_supported": 100,
-      "items": [ { "item": "splinter", "count": [ 2, 8 ] }, { "item": "nail", "charges": [ 5, 10 ] } ]
+      "items": [
+        { "item": "splinter", "count": [ 2, 32 ] },
+        { "item": "2x4", "count": [ 0, 8 ] },
+        { "item": "nail", "charges": [ 5, 10 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_floor_wooden_gangway",
+    "name": "wooden floor gangway",
+    "description": "Wooden gangway bridging a short gap.  Sturdy enough to act as a floor, but not sufficient to support additional flooring.",
+    "symbol": ".",
+    "color": "brown",
+    "looks_like": "t_floor",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "FLAT", "ROAD" ],
+    "bash": {
+      "sound": "SMASH!",
+      "ter_set": "t_null",
+      "str_min": 50,
+      "str_max": 400,
+      "str_min_supported": 100,
+      "items": [
+        { "item": "splinter", "count": [ 2, 32 ] },
+        { "item": "2x4", "count": [ 0, 8 ] },
+        { "item": "nail", "charges": [ 5, 10 ] }
+      ]
     }
   },
   {
@@ -372,6 +399,30 @@
     "name": "metal floor",
     "looks_like": "t_metal_floor",
     "description": "High-quality and tough checkered flooring to reduce risk of slips and falls.",
+    "symbol": ".",
+    "color": "light_cyan",
+    "connects_to": "METALFLOOR",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "FLAT", "ROAD" ],
+    "bash": {
+      "sound": "thump",
+      "ter_set": "t_null",
+      "str_min": 200,
+      "str_max": 500,
+      "str_min_supported": 200,
+      "items": [
+        { "item": "steel_lump", "count": [ 1, 4 ] },
+        { "item": "steel_chunk", "count": [ 3, 12 ] },
+        { "item": "scrap", "count": [ 9, 36 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_floor_metal_gangway",
+    "name": "metal floor gangway",
+    "looks_like": "t_metal_floor",
+    "description": "Metal gangway bridging a short gap.  Sturdy enough to act as a floor, but not sufficient to support additional flooring.",
     "symbol": ".",
     "color": "light_cyan",
     "connects_to": "METALFLOOR",

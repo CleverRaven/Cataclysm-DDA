@@ -7,7 +7,7 @@
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
     "time": "30 m",
-    "reversible": true,
+    "reversible": { "time": "1 s" },
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "steel_chunk", 1 ] ] ]
@@ -384,7 +384,7 @@
       { "proficiency": "prof_welding_basic", "fail_multiplier": 1.5 },
       { "proficiency": "prof_welding" }
     ],
-    "components": [ [ [ "material_aluminium_ingot", 8 ] ] ]
+    "components": [ [ [ "material_aluminium_ingot", 4 ], [ "scrap_aluminum", 35 ] ] ]
   },
   {
     "type": "recipe",
@@ -582,7 +582,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "result": "electronics_controls",
     "category": "CC_ELECTRONIC",
-    "subcategory": "CSC_ELECTRONIC_TOOLS",
+    "subcategory": "CSC_ELECTRONIC_PARTS",
     "skill_used": "electronics",
     "skills_required": [ "mechanics", 1 ],
     "difficulty": 3,
@@ -660,7 +660,7 @@
     "book_learn": [ [ "mag_electronics", 2 ] ],
     "using": [ [ "soldering_standard", 6 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "amplifier", 1 ] ], [ [ "scrap", 2 ] ], [ [ "cable", 4 ] ] ]
+    "components": [ [ [ "amplifier", 1 ] ], [ [ "scrap_aluminum", 2 ] ], [ [ "cable", 4 ] ], [ [ "plastic_chunk", 1 ] ] ]
   },
   {
     "type": "recipe",

@@ -896,7 +896,15 @@
       ],
       "terrain": { ">": "t_stairs_down", "$": "t_window_boarded", "=": "t_door_locked", "-": "t_railing" },
       "place_loot": [ { "group": "homeguns", "x": 7, "y": 9, "chance": 100, "ammo": 90, "magazine": 100 } ],
-      "place_monsters": [ { "monster": "GROUP_PREPPER_HOUSE", "x": [ 4, 20 ], "y": [ 3, 15 ], "density": 0.1 } ]
+      "place_monster": [
+        {
+          "group": "GROUP_PREPPER_HOUSE",
+          "x": [ 4, 20 ],
+          "y": [ 3, 15 ],
+          "pack_size": [ 1, 2 ],
+          "spawn_data": { "patrol": [ { "x": [ 4, 20 ], "y": [ 3, 15 ] } ] }
+        }
+      ]
     }
   },
   {
@@ -935,7 +943,15 @@
         "########################"
       ],
       "palettes": [ "bunker", "empty_bunker_items" ],
-      "place_monsters": [ { "monster": "GROUP_PREPPER_HOUSE", "x": [ 4, 22 ], "y": [ 10, 19 ], "density": 0.3 } ],
+      "place_monster": [
+        {
+          "group": "GROUP_PREPPER_HOUSE",
+          "x": [ 4, 22 ],
+          "y": [ 10, 19 ],
+          "pack_size": [ 1, 2 ],
+          "spawn_data": { "patrol": [ { "x": [ 4, 22 ], "y": [ 10, 19 ] } ] }
+        }
+      ],
       "set": [ { "point": "trap", "id": "tr_beartrap", "x": 3, "y": 7 }, { "point": "trap", "id": "tr_shotgun_1", "x": 18, "y": 8 } ]
     }
   }

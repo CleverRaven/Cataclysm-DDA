@@ -307,7 +307,7 @@ static void draw_messages( const draw_args &args )
     const catacurses::window &w = args._win;
 
     werase( w );
-    int line = getmaxy( w ) - 2;
+    int line = getmaxy( w ) - 1;
     int maxlength = getmaxx( w );
     Messages::display_messages( w, 1, 0 /*topline*/, maxlength - 1, line );
     wnoutrefresh( w );
@@ -434,7 +434,7 @@ std::string panel_manager::get_current_layout_id() const
     return current_layout_id;
 }
 
-int panel_manager::get_width_right()
+int panel_manager::get_width_right() const
 {
     if( get_option<std::string>( "SIDEBAR_POSITION" ) == "left" ) {
         return width_left;
@@ -442,7 +442,7 @@ int panel_manager::get_width_right()
     return width_right;
 }
 
-int panel_manager::get_width_left()
+int panel_manager::get_width_left() const
 {
     if( get_option<std::string>( "SIDEBAR_POSITION" ) == "left" ) {
         return width_right;
@@ -674,12 +674,12 @@ static void draw_center_win( catacurses::window &w, int col_width, const input_c
         const widget_id current_widget = panels[row_indices.at( current_row )].get_widget();
         for( const widget &wgt : widget::get_all() ) {
             if( wgt.getId() == current_widget ) {
-                mvwprintz( w, point( 1, 7 ), c_white, _( wgt._description ) );
+                fold_and_print( w, point( 1, 7 ), col_width - 2, c_white, _( wgt._description ) );
                 break;
             }
         }
     } else {
-        mvwprintz( w, point( 1, 7 ), c_white, _( sidebar._description ) );
+        fold_and_print( w, point( 1, 7 ), col_width - 2, c_white, _( sidebar._description ) );
     }
 
     wnoutrefresh( w );

@@ -125,5 +125,21 @@
     "bashing": 8,
     "to_hit": -1,
     "category": "veh_parts"
+  },
+  {
+    "type": "GENERIC",
+    "id": "aluminum_boat_hull",
+    "symbol": "o",
+    "color": "light_gray",
+    "name": { "str": "aluminum boat hull" },
+    "description": "An aluminum hull that keeps the boat afloat.  Add boat hulls to a vehicle until it floats, then attach oars or a motor to get the boat to move.",
+    "price": 16000,
+    "price_postapoc": 250,
+    "material": [ "aluminum" ],
+    "weight": "2250 g",
+    "volume": "12500 ml",
+    "bashing": 8,
+    "to_hit": -1,
+    "category": "veh_parts"
   }
 ]

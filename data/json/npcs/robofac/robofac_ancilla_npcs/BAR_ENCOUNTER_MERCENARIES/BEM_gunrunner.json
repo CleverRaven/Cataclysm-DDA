@@ -18,7 +18,8 @@
       { "skill": "gun", "bonus": { "rng": [ 2, 4 ] } },
       { "skill": "pistol", "bonus": { "rng": [ 2, 4 ] } },
       { "skill": "rifle", "bonus": { "rng": [ 2, 4 ] } }
-    ]
+    ],
+    "shopkeeper_price_rules": [ { "group": "BEM_GUNRUNNER_STOCK", "markup": 3.5 } ]
   },
   {
     "type": "item_group",

@@ -27,7 +27,7 @@
     "price_postapoc": 1000,
     "to_hit": 1,
     "bashing": 4,
-    "material": [ "aluminum" ],
+    "material": [ "steel" ],
     "symbol": ";",
     "color": "dark_gray",
     "initial_charges": 1,
@@ -414,6 +414,7 @@
     "weight": "22700 g",
     "volume": "6 L",
     "price": 300000,
+    "price_postapoc": 4500,
     "to_hit": -5,
     "bashing": 10,
     "material": [ "iron" ],
@@ -1290,7 +1291,17 @@
     "material": [ "plastic" ],
     "symbol": ";",
     "color": "light_gray",
-    "use_action": [ "LUX_METER" ]
+    "use_action": [ "LUX_METER" ],
+    "ammo": [ "battery" ],
+    "charges_per_use": 10,
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
+        "default_magazine": "light_battery_cell"
+      }
+    ]
   },
   {
     "id": "migo_bio_tech",

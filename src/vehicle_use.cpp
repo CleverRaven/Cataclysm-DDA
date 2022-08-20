@@ -91,6 +91,8 @@ static const quality_id qual_SCREW( "SCREW" );
 
 static const skill_id skill_mechanics( "mechanics" );
 
+static const trait_id trait_BRAWLER( "BRAWLER" );
+
 static const vpart_id vpart_horn_bicycle( "horn_bicycle" );
 
 static const zone_type_id zone_type_VEHICLE_PATROL( "VEHICLE_PATROL" );
@@ -261,7 +263,10 @@ void vehicle::control_doors()
                 } else {
                     int part = next_part_to_close( motor );
                     if( part != -1 ) {
-                        if( part_flag( part, "CURTAIN" ) &&  option == CLOSEDOORS ) {
+                        if( part_flag( part, "CURTAIN" ) && option == CLOSEDOORS ) {
+                            continue;
+                        }
+                        if( !can_close( part, get_player_character() ) ) {
                             continue;
                         }
                         open_or_close( part, open );
@@ -269,6 +274,9 @@ void vehicle::control_doors()
                             next_part = next_part_to_close( motor );
                         }
                         if( next_part != -1 ) {
+                            if( !can_close( part, get_player_character() ) ) {
+                                continue;
+                            }
                             open_or_close( next_part, open );
                         }
                     }
@@ -563,7 +571,7 @@ void vehicle::smash_security_system()
     }
 }
 
-std::string vehicle::tracking_toggle_string()
+std::string vehicle::tracking_toggle_string() const
 {
     return tracking_on ? _( "Forget vehicle position" ) : _( "Remember vehicle position" );
 }
@@ -767,7 +775,7 @@ void vehicle::use_controls( const tripoint &pos )
                           keybind( "TOGGLE_TRACKING" ) );
     actions.emplace_back( [&] { toggle_tracking(); } );
 
-    if( ( is_foldable() || tags.count( "convertible" ) ) && !remote ) {
+    if( is_foldable() && !remote ) {
         options.emplace_back( string_format( _( "Fold %s" ), name ), keybind( "FOLD_VEHICLE" ) );
         actions.emplace_back( [&] { fold_up(); } );
     }
@@ -812,23 +820,29 @@ void vehicle::use_controls( const tripoint &pos )
         }
     }
 
-    if( has_part( "TURRET" ) ) {
-        options.emplace_back( _( "Set turret targeting modes" ), keybind( "TURRET_TARGET_MODE" ) );
+    //  TODO: Decide - Do I disable options or remove them entirely?
+    if( has_part( "TURRET" ) /*&& !player_character.has_trait(trait_BRAWLER) */ ) {
+        bool enabled = !player_character.has_trait( trait_BRAWLER );
+
+        options.emplace_back( 0, enabled, keybind( "TURRET_TARGET_MODE" ),
+                              _( "Set turret targeting modes" ) );
         actions.emplace_back( [&] { turrets_set_targeting(); refresh(); } );
 
-        options.emplace_back( _( "Set turret firing modes" ), keybind( "TURRET_FIRE_MODE" ) );
+        options.emplace_back( 0, enabled, keybind( "TURRET_FIRE_MODE" ), _( "Set turret firing modes" ) );
         actions.emplace_back( [&] { turrets_set_mode(); refresh(); } );
 
         // We can also fire manual turrets with ACTION_FIRE while standing at the controls.
-        options.emplace_back( _( "Aim turrets manually" ), keybind( "TURRET_MANUAL_AIM" ) );
+        options.emplace_back( 0, enabled, keybind( "TURRET_MANUAL_AIM" ), _( "Aim turrets manually" ) );
         actions.emplace_back( [&] { turrets_aim_and_fire_all_manual( true ); refresh(); } );
 
         // This lets us manually override and set the target for the automatic turrets instead.
-        options.emplace_back( _( "Aim automatic turrets" ), keybind( "TURRET_MANUAL_OVERRIDE" ) );
+        options.emplace_back( 0, enabled, keybind( "TURRET_MANUAL_OVERRIDE" ),
+                              _( "Aim automatic turrets" ) );
         actions.emplace_back( [&] { turrets_override_automatic_aim(); refresh(); } );
 
-        options.emplace_back( _( "Aim individual turret" ), keybind( "TURRET_SINGLE_FIRE" ) );
+        options.emplace_back( 0, enabled, keybind( "TURRET_SINGLE_FIRE" ), _( "Aim individual turret" ) );
         actions.emplace_back( [&] { turrets_aim_and_fire_single(); refresh(); } );
+        // }
     }
 
     uilist menu;
@@ -912,9 +926,7 @@ void vehicle::connect( const tripoint &source_pos, const tripoint &target_pos )
 
 bool vehicle::fold_up()
 {
-    const bool can_be_folded = is_foldable();
-    const bool is_convertible = ( tags.count( "convertible" ) > 0 );
-    if( !( can_be_folded || is_convertible ) ) {
+    if( !is_foldable() ) {
         debugmsg( _( "Tried to fold non-folding vehicle %s" ), name );
         return false;
     }
@@ -939,16 +951,7 @@ bool vehicle::fold_up()
         add_msg( _( "You let go of %s as you fold it." ), name );
     }
 
-    std::string itype_id = "folding_bicycle";
-    for( const auto &elem : tags ) {
-        if( elem.compare( 0, 12, "convertible:" ) == 0 ) {
-            itype_id = elem.substr( 12 );
-            break;
-        }
-    }
-
-    // create a folding [non]bicycle item
-    item bicycle( can_be_folded ? "generic_folded_vehicle" : "folding_bicycle", calendar::turn );
+    item folded( "generic_folded_vehicle", calendar::turn );
 
     map &here = get_map();
     // Drop stuff in containers on ground
@@ -964,35 +967,27 @@ bool vehicle::fold_up()
 
     unboard_all();
 
-    // Store data of all parts, iuse::unfold_bicyle only loads
-    // some of them, some are expect to be
-    // vehicle specific and therefore constant (like id, mount).
-    // Writing everything here is easier to manage, as only
-    // iuse::unfold_bicyle has to adopt to changes.
     try {
         std::ostringstream veh_data;
         JsonOut json( veh_data );
         json.write( real_parts() );
-        bicycle.set_var( "folding_bicycle_parts", veh_data.str() );
+        folded.set_var( "folded_parts", veh_data.str() );
     } catch( const JsonError &e ) {
         debugmsg( "Error storing vehicle: %s", e.c_str() );
     }
 
-    bicycle.set_var( "tracking", tracking_on ? 1 : 0 );
-    if( can_be_folded ) {
-        bicycle.set_var( "weight", to_milligram( total_mass() ) );
-        bicycle.set_var( "volume", total_folded_volume() / units::legacy_volume_factor );
-        bicycle.set_var( "name", string_format( _( "folded %s" ), name ) );
-        bicycle.set_var( "vehicle_name", name );
-        // TODO: a better description?
-        bicycle.set_var( "description", string_format( _( "A folded %s." ), name ) );
-    }
+    folded.set_var( "tracking", tracking_on ? 1 : 0 );
+    folded.set_var( "weight", to_milligram( total_mass() ) );
+    folded.set_var( "volume", total_folded_volume() / units::legacy_volume_factor );
+    folded.set_var( "name", string_format( _( "folded %s" ), name ) );
+    folded.set_var( "vehicle_name", name );
+    // TODO: a better description?
+    folded.set_var( "description", string_format( _( "A folded %s." ), name ) );
 
-    here.add_item_or_charges( global_part_pos3( 0 ), bicycle );
+    here.add_item_or_charges( global_part_pos3( 0 ), folded );
     here.destroy_vehicle( this );
 
-    // TODO: take longer to fold bigger vehicles
-    // TODO: make this interruptible
+    // TODO: make un/folding an activity with time scaling with volume/weight etc
     player_character.moves -= 500;
     return true;
 }
@@ -1003,12 +998,13 @@ double vehicle::engine_cold_factor( const int e ) const
         return 0.0;
     }
 
-    int eff_temp = get_weather().get_temperature( get_player_character().pos() );
+    double eff_temp = units::to_fahrenheit( get_weather().get_temperature(
+            get_player_character().pos() ) );
     if( !parts[ engines[ e ] ].has_fault_flag( "BAD_COLD_START" ) ) {
-        eff_temp = std::min( eff_temp, 20 );
+        eff_temp = std::min( eff_temp, 20.0 );
     }
 
-    return 1.0 - ( std::max( 0, std::min( 30, eff_temp ) ) / 30.0 );
+    return 1.0 - ( std::max( 0.0, std::min( 30.0, eff_temp ) ) / 30.0 );
 }
 
 int vehicle::engine_start_time( const int e ) const
@@ -1198,11 +1194,11 @@ void vehicle::start_engines( const bool take_control, const bool autodrive )
     int start_time = 0;
     // record the first usable engine as the referenced position checked at the end of the engine starting activity
     bool has_starting_engine_position = false;
-    tripoint starting_engine_position;
+    tripoint_bub_ms starting_engine_position;
     for( size_t e = 0; e < engines.size(); ++e ) {
         if( !has_starting_engine_position && !parts[ engines[ e ] ].is_broken() &&
             parts[ engines[ e ] ].enabled ) {
-            starting_engine_position = global_part_pos3( engines[ e ] );
+            starting_engine_position = bub_part_pos( engines[ e ] );
             has_starting_engine_position = true;
         }
         has_engine = has_engine || is_engine_on( e );
@@ -1210,7 +1206,7 @@ void vehicle::start_engines( const bool take_control, const bool autodrive )
     }
 
     if( !has_starting_engine_position ) {
-        starting_engine_position = global_pos3();
+        starting_engine_position = {};
     }
 
     if( !has_engine ) {
@@ -1225,7 +1221,8 @@ void vehicle::start_engines( const bool take_control, const bool autodrive )
     }
     if( !autodrive ) {
         player_character.assign_activity( ACT_START_ENGINES, start_time );
-        player_character.activity.placement = starting_engine_position - player_character.pos();
+        player_character.activity.relative_placement =
+            starting_engine_position - player_character.pos_bub();
         player_character.activity.values.push_back( take_control );
     }
 }
@@ -1239,7 +1236,7 @@ void vehicle::enable_patrol()
     refresh();
 }
 
-void vehicle::honk_horn()
+void vehicle::honk_horn() const
 {
     const bool no_power = !fuel_left( fuel_type_battery, true );
     bool honked = false;
@@ -1311,12 +1308,14 @@ void vehicle::reload_seeds( const tripoint &pos )
             }
             used_seed.front().set_age( 0_turns );
             //place seeds into the planter
-            put_into_vehicle_or_drop( player_character, item_drop_reason::deliberate, used_seed, pos );
+            // TODO: fix point types
+            put_into_vehicle_or_drop( player_character, item_drop_reason::deliberate, used_seed,
+                                      tripoint_bub_ms( pos ) );
         }
     }
 }
 
-void vehicle::beeper_sound()
+void vehicle::beeper_sound() const
 {
     // No power = no sound
     if( fuel_left( fuel_type_battery, true ) == 0 ) {
@@ -1336,7 +1335,7 @@ void vehicle::beeper_sound()
     }
 }
 
-void vehicle::play_music()
+void vehicle::play_music() const
 {
     Character &player_character = get_player_character();
     for( const vpart_reference &vp : get_enabled_parts( "STEREO" ) ) {
@@ -1344,7 +1343,7 @@ void vehicle::play_music()
     }
 }
 
-void vehicle::play_chimes()
+void vehicle::play_chimes() const
 {
     if( !one_in( 3 ) ) {
         return;
@@ -1529,7 +1528,8 @@ void vehicle::operate_scoop()
             parts_points.push_back( current );
         }
         for( const tripoint &position : parts_points ) {
-            here.mop_spills( position );
+            // TODO: fix point types
+            here.mop_spills( tripoint_bub_ms( position ) );
             if( !here.has_items( position ) ) {
                 continue;
             }
@@ -2108,7 +2108,7 @@ void vehicle::validate_carried_vehicles( std::vector<std::vector<int>>
 }
 
 
-void vpart_position::form_inventory( inventory &inv )
+void vpart_position::form_inventory( inventory &inv ) const
 {
     const int veh_battery = vehicle().fuel_left( itype_battery, true );
     const cata::optional<vpart_reference> vp_faucet = part_with_tool( itype_water_faucet );
@@ -2247,7 +2247,7 @@ void vehicle::interact_with( const vpart_position &vp, bool with_pickup )
     if( with_pickup && ( vp_has_items || map_has_items ) ) {
         selectmenu.addentry( GET_ITEMS, true, 'g', _( "Get items" ) );
     }
-    if( ( is_foldable() || tags.count( "convertible" ) > 0 ) && g->remoteveh() != this ) {
+    if( is_foldable() && g->remoteveh() != this ) {
         selectmenu.addentry( FOLD_VEHICLE, true, 'f', _( "Fold vehicle" ) );
     }
     if( turret.can_unload() ) {

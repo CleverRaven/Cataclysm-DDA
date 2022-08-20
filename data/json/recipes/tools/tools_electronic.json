@@ -141,7 +141,7 @@
     "using": [ [ "soldering_standard", 10 ] ],
     "proficiencies": [ { "proficiency": "prof_elec_soldering" }, { "proficiency": "prof_elec_semiconductors" } ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "amplifier", 2 ] ], [ [ "antenna", 1 ] ], [ [ "scrap", 5 ] ], [ [ "cable", 7 ] ] ]
+    "components": [ [ [ "amplifier", 2 ] ], [ [ "antenna", 1 ] ], [ [ "scrap_aluminum", 5 ] ], [ [ "cable", 7 ] ] ]
   },
   {
     "type": "recipe",
@@ -157,7 +157,7 @@
     "using": [ [ "soldering_standard", 10 ] ],
     "proficiencies": [ { "proficiency": "prof_elec_soldering" }, { "proficiency": "prof_elec_semiconductors" } ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "receiver", 1 ] ], [ [ "antenna", 1 ] ], [ [ "scrap", 5 ] ], [ [ "cable", 7 ] ] ]
+    "components": [ [ [ "receiver", 1 ] ], [ [ "antenna", 1 ] ], [ [ "scrap_aluminum", 5 ] ], [ [ "cable", 7 ] ] ]
   },
   {
     "type": "recipe",
@@ -204,7 +204,7 @@
       [ [ "transponder", 1 ] ],
       [ [ "receiver", 1 ] ],
       [ [ "antenna", 1 ] ],
-      [ [ "scrap", 5 ] ],
+      [ [ "scrap_aluminum", 5 ] ],
       [ [ "cable", 10 ] ]
     ]
   },
@@ -260,7 +260,7 @@
     ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "tools": [ [ [ "laptop", -1 ] ] ],
-    "components": [ [ [ "processor", 1 ] ], [ [ "RAM", 1 ] ], [ [ "scrap", 4 ] ], [ [ "cable", 10 ] ] ]
+    "components": [ [ [ "processor", 1 ] ], [ [ "RAM", 1 ] ], [ [ "scrap_aluminum", 4 ] ], [ [ "cable", 10 ] ] ]
   },
   {
     "type": "recipe",
@@ -281,7 +281,7 @@
       { "proficiency": "prof_elec_semiconductors" }
     ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "amplifier", 1 ] ], [ [ "power_supply", 1 ] ], [ [ "scrap", 2 ] ] ]
+    "components": [ [ [ "amplifier", 1 ] ], [ [ "power_supply", 1 ] ], [ [ "scrap_aluminum", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -440,7 +440,7 @@
       [ [ "element", 4 ], [ "crude_heating_element", 4 ] ],
       [ [ "amplifier", 1 ] ],
       [
-        [ "scrap", 2 ],
+        [ "scrap_aluminum", 2 ],
         [ "pan", 1 ],
         [ "pot", 1 ],
         [ "pot_copper", 1 ],
@@ -526,7 +526,7 @@
     "using": [ [ "soldering_standard", 14 ] ],
     "proficiencies": [ { "proficiency": "prof_elec_soldering" }, { "proficiency": "prof_elec_semiconductors" } ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "power_supply", 1 ] ], [ [ "amplifier", 2 ] ], [ [ "scrap", 6 ] ], [ [ "cable", 10 ] ] ]
+    "components": [ [ [ "power_supply", 1 ] ], [ [ "amplifier", 2 ] ], [ [ "scrap_aluminum", 6 ] ], [ [ "cable", 10 ] ] ]
   },
   {
     "type": "recipe",
@@ -569,7 +569,7 @@
       [ [ "wire_mesh", 1 ], [ "sieve_steel", 1 ], [ "colander_steel", 1 ], [ "splatter_guard", 1 ] ],
       [ [ "thermos", 2 ] ],
       [ [ "element", 1 ], [ "crude_heating_element", 1 ] ],
-      [ [ "scrap", 2 ] ],
+      [ [ "scrap_aluminum", 2 ] ],
       [ [ "betavoltaic", 2 ] ],
       [ [ "RTG_coffee", 1 ] ]
     ]

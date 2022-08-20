@@ -1232,7 +1232,7 @@
     "id": "mon_endless_hunger",
     "type": "MONSTER",
     "name": { "str": "endless hunger" },
-    "description": "Your mind fills in large shifting images of predators to save you from its actual appearance.",
+    "description": "Your mind fills in large shifting images of predators to save you from its actual appearance.  You can feel it despite the distance as if it were connected to you.",
     "default_faction": "nether",
     "species": [ "NETHER" ],
     "volume": "62500 ml",
@@ -1250,9 +1250,17 @@
     "death_function": {
       "effect": { "id": "mon_endless_hunger_revive", "hit_self": true },
       "corpse_type": "NO_CORPSE",
-      "message": "Something about the %s disappearing feels off.."
+      "message": "The %s vanishes but you can still feel it through your connection."
     },
-    "flags": [ "SEES", "HEARS", "NO_BREATHE", "PUSH_MON", "ALWAYS_VISIBLE" ]
+    "special_attacks": [
+      {
+        "type": "spell",
+        "monster_message": "You can feel the endless hunger.",
+        "spell_data": { "id": "mon_endless_hunger_attack", "min_level": 1, "hit_self": false },
+        "cooldown": 5
+      }
+    ],
+    "flags": [ "SEES", "HEARS", "NO_BREATHE", "PUSH_MON", "ALWAYS_VISIBLE", "ALWAYS_SEES_YOU" ]
   },
   {
     "id": "mon_tainted_shadow",
@@ -1279,5 +1287,49 @@
       "message": "Your shadow seemingly becomes normal again."
     },
     "flags": [ "SEES", "HEARS", "NO_BREATHE" ]
+  },
+  {
+    "id": "mon_hallucinator",
+    "type": "MONSTER",
+    "name": { "str": "person" },
+    "description": "A common human, that looks exactly like human do.  You can see it.  It can see you.  You know it knows you can see it.  It knows you know you can see him.  It moves towards you.",
+    "//": "it must be spooky, but god im bad in this stuff",
+    "default_faction": "nether_player_hate",
+    "species": [ "NETHER" ],
+    "volume": "62500 ml",
+    "weight": "0 g",
+    "hp": 100000000,
+    "speed": 25,
+    "symbol": "@",
+    "color": "white",
+    "aggression": 100,
+    "morale": 100,
+    "vision_day": 60,
+    "vision_night": 60,
+    "path_settings": { "max_dist": 60, "allow_open_doors": true },
+    "death_function": { "corpse_type": "NO_CORPSE", "message": "it just dissapeared." },
+    "flags": [
+      "NO_BREATHE",
+      "SEES",
+      "HEARS",
+      "ACIDPROOF",
+      "CAN_OPEN_DOORS",
+      "FIREPROOF",
+      "LOUDMOVES",
+      "SLUDGEPROOF",
+      "SMELLS",
+      "STUN_IMMUNE",
+      "WEBWALK",
+      "ALL_SEEING",
+      "ALWAYS_VISIBLE"
+    ],
+    "special_attacks": [
+      {
+        "type": "spell",
+        "spell_data": { "id": "hallucinator_touch" },
+        "monster_message": "You feel something was destroyed inside you."
+      }
+    ],
+    "emit_fields": [ { "emit_id": "emit_clairvoyant", "delay": "1 s" } ]
   }
 ]

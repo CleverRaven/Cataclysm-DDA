@@ -10,7 +10,7 @@
     "count": 100,
     "default_ammo": "556",
     "linkage": "ammolink223",
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "223": 500 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": false, "ammo_restriction": { "223": 500 } } ]
   },
   {
     "id": "famasmag",

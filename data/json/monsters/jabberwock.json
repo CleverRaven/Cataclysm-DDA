@@ -29,7 +29,7 @@
     "special_attacks": [ [ "FLESH_GOLEM", 10 ], [ "ABSORB_MEAT", 10 ] ],
     "harvest": "zombie",
     "dissect": "dissect_beast_sample_small",
-    "upgrades": { "half_life": 15, "into": "mon_flesh_golem" },
+    "upgrades": { "half_life": 42, "into": "mon_flesh_golem" },
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "ATTACKMON", "POISON" ]
   },
   {
@@ -62,7 +62,7 @@
     "special_attacks": [ [ "FLESH_GOLEM", 8 ], [ "ABSORB_MEAT", 1 ] ],
     "harvest": "flesh_golem",
     "dissect": "dissect_beast_sample_small",
-    "upgrades": { "half_life": 15, "into": "mon_jabberwock" },
+    "upgrades": { "half_life": 60, "into": "mon_jabberwock" },
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "ATTACKMON", "POISON" ]
   },
   {

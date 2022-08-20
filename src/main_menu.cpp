@@ -483,7 +483,12 @@ void main_menu::init_strings()
     }
 
     loading_ui ui( false );
-    g->load_core_data( ui );
+    try {
+        g->load_core_data( ui );
+    } catch( const std::exception &err ) {
+        debugmsg( err.what() );
+        std::exit( 1 );
+    }
     vdaytip = SNIPPET.random_from_category( "tip" ).value_or( translation() ).translated();
 }
 

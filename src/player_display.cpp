@@ -44,6 +44,8 @@
 
 static const bionic_id bio_cqb( "bio_cqb" );
 
+static const json_character_flag json_flag_ECTOTHERM( "ECTOTHERM" );
+
 static const skill_id skill_bashing( "bashing" );
 static const skill_id skill_cutting( "cutting" );
 static const skill_id skill_dodge( "dodge" );
@@ -51,7 +53,6 @@ static const skill_id skill_melee( "melee" );
 static const skill_id skill_stabbing( "stabbing" );
 static const skill_id skill_unarmed( "unarmed" );
 
-static const trait_id trait_COLDBLOOD4( "COLDBLOOD4" );
 static const trait_id trait_SUNLIGHT_DEPENDENT( "SUNLIGHT_DEPENDENT" );
 static const trait_id trait_TROGLO( "TROGLO" );
 static const trait_id trait_TROGLO2( "TROGLO2" );
@@ -452,19 +453,23 @@ static void draw_stats_tab( ui_adaptor &ui, const catacurses::window &w_stats, c
     right_print( w_stats, 5, 1, c_light_gray, display::weight_string( you ) );
 
     set_highlight_cursor( 5 );
-    mvwprintz( w_stats, point( 1, 6 ), line_color( 5 ), _( "Height:" ) );
-    mvwprintz( w_stats, point( 25 - utf8_width( you.height_string() ), 6 ), c_light_gray,
-               you.height_string() );
+    mvwprintz( w_stats, point( 1, 6 ), line_color( 5 ), _( "Lifestyle:" ) );
+    right_print( w_stats, 6, 1, c_light_gray, display::health_string( you ) );
 
     set_highlight_cursor( 6 );
-    mvwprintz( w_stats, point( 1, 7 ), line_color( 6 ), _( "Age:" ) );
-    mvwprintz( w_stats, point( 25 - utf8_width( you.age_string() ), 7 ), c_light_gray,
-               you.age_string() );
+    mvwprintz( w_stats, point( 1, 7 ), line_color( 6 ), _( "Height:" ) );
+    mvwprintz( w_stats, point( 25 - utf8_width( you.height_string() ), 7 ), c_light_gray,
+               you.height_string() );
 
     set_highlight_cursor( 7 );
-    mvwprintz( w_stats, point( 1, 8 ), line_color( 7 ), _( "Blood type:" ) );
+    mvwprintz( w_stats, point( 1, 8 ), line_color( 7 ), _( "Age:" ) );
+    mvwprintz( w_stats, point( 25 - utf8_width( you.age_string() ), 8 ), c_light_gray,
+               you.age_string() );
+
+    set_highlight_cursor( 8 );
+    mvwprintz( w_stats, point( 1, 9 ), line_color( 8 ), _( "Blood type:" ) );
     mvwprintz( w_stats, point( 25 - utf8_width( io::enum_to_string( you.my_blood_type ) +
-                               ( you.blood_rh_factor ? "+" : "-" ) ), 8 ),
+                               ( you.blood_rh_factor ? "+" : "-" ) ), 9 ),
                c_light_gray,
                io::enum_to_string( you.my_blood_type ) + ( you.blood_rh_factor ? "+" : "-" ) );
 
@@ -533,17 +538,21 @@ static void draw_stats_info( const catacurses::window &w_info, const Character &
                         display::weight_long_description( you ) );
     } else if( line == 5 ) {
         // NOLINTNEXTLINE(cata-use-named-point-constants)
+        fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_magenta,
+                        _( "How healthy you feel.  Excercise, vitamins, sleep and not ingesting poison will increase this overtime." ) );
+    } else if( line == 6 ) {
+        // NOLINTNEXTLINE(cata-use-named-point-constants)
         const int lines = fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_magenta,
                                           _( "Your height.  Simply how tall you are." ) );
         fold_and_print( w_info, point( 1, 1 + lines ), FULL_SCREEN_WIDTH - 2, c_light_gray,
                         you.height_string() );
-    } else if( line == 6 ) {
+    } else if( line == 7 ) {
         // NOLINTNEXTLINE(cata-use-named-point-constants)
         const int lines = fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_magenta,
                                           _( "This is how old you are." ) );
         fold_and_print( w_info, point( 1, 1 + lines ), FULL_SCREEN_WIDTH - 2, c_light_gray,
                         you.age_string() );
-    } else if( line == 7 ) {
+    } else if( line == 8 ) {
         // NOLINTNEXTLINE(cata-use-named-point-constants)
         const int lines = fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_magenta,
                                           _( "This is your blood type and Rh factor." ) );
@@ -947,16 +956,16 @@ static void draw_speed_tab( const catacurses::window &w_speed,
     if( temperature_speed_modifier != 0 ) {
         nc_color pen_color;
         std::string pen_sign;
-        const int player_local_temp = get_weather().get_temperature( you.pos() );
-        if( you.has_trait( trait_COLDBLOOD4 ) && player_local_temp > 65 ) {
+        const units::temperature player_local_temp = get_weather().get_temperature( you.pos() );
+        if( you.has_flag( json_flag_ECTOTHERM ) && player_local_temp > units::from_fahrenheit( 65 ) ) {
             pen_color = c_green;
             pen_sign = "+";
-        } else if( player_local_temp < 65 ) {
+        } else if( player_local_temp < units::from_fahrenheit( 65 ) ) {
             pen_color = c_red;
             pen_sign = "-";
         }
         if( !pen_sign.empty() ) {
-            pen = ( player_local_temp - 65 ) * temperature_speed_modifier;
+            pen = ( units::to_fahrenheit( player_local_temp ) - 65 ) * temperature_speed_modifier;
             mvwprintz( w_speed, point( 1, line ), pen_color,
                        //~ %s: sign of bonus/penalty, %2d: speed bonus/penalty
                        pgettext( "speed modifier", "Cold-Blooded        %s%2d%%" ), pen_sign, std::abs( pen ) );
@@ -1405,7 +1414,7 @@ void Character::disp_info( bool customize_character )
     const unsigned int skill_win_size_y_max = 1 + skillslist.size();
     const unsigned int info_win_size_y = 6;
 
-    const unsigned int grid_height = 9;
+    const unsigned int grid_height = 10;
 
     const unsigned int infooffsetytop = grid_height + 2;
     unsigned int infooffsetybottom = infooffsetytop + 1 + info_win_size_y;

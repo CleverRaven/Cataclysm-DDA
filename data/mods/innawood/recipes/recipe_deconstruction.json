@@ -63,5 +63,13 @@
     "time": "5 m",
     "qualities": [ { "id": "PRY", "level": 1 } ],
     "components": [ [ [ "light_battery_shell", 1 ] ] ]
+  },
+  {
+    "result": "sheet_fibercloth",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "30 s",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "fibercloth_patchwork", 8 ] ] ]
   }
 ]

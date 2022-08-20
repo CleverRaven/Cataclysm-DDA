@@ -25,7 +25,7 @@
     "id": "style_aikido",
     "name": { "str": "Aikido" },
     "description": "Aikido is a Japanese martial art focused on self-defense, while minimizing injury to the attacker.  It uses defensive throws and disarms but its techniques lack offensive power.",
-    "initiate": [ "You enter the hamni stance.", "%s changes into a relaxed combat posture." ],
+    "initiate": [ "You enter the hanmi stance.", "%s changes into a relaxed combat posture." ],
     "learn_difficulty": 5,
     "arm_block": 0,
     "static_buffs": [
@@ -714,6 +714,33 @@
     ],
     "techniques": [ "tec_karate_rapid", "tec_karate_precise", "tec_karate_roundhouse", "tec_karate_staff", "tec_karate_staff_crit" ],
     "weapon_category": [ "QUARTERSTAVES" ]
+  },
+  {
+    "type": "martial_art",
+    "id": "style_kickboxing",
+    "name": { "str": "Kickboxing" },
+    "description": "A martial art that combines western boxing with elements of Karate, Taekwando, Muay Thai and Savate, particularly in the use of kicks.",
+    "initiate": [ "You assume a kickboxing stance and focus power into your limbs.", "%s assumes a kickboxing stance." ],
+    "learn_difficulty": 4,
+    "arm_block": 2,
+    "leg_block": 4,
+    "static_buffs": [
+      {
+        "id": "buff_kickboxing_stance_static",
+        "name": "Kick stance",
+        "description": "You have adopted a stance which allows for greater mobility and stability.  Your hands are in a guard position with elbows forward to protect yourself.\n\nBlocked damage reduced by 25% of Strength.\n+1.0 Dodging skill",
+        "unarmed_allowed": true,
+        "flat_bonuses": [ { "stat": "block", "scaling-stat": "str", "scale": 0.5 }, { "stat": "dodge", "scale": 1.0 } ]
+      }
+    ],
+    "techniques": [
+      "tec_kickboxing_rapid",
+      "tec_kickboxing_upper",
+      "tec_kickboxing_roundhouse",
+      "tec_kickboxing_sidekick",
+      "tec_kickboxing_straight_knee",
+      "tec_kickboxing_flying_knee"
+    ]
   },
   {
     "type": "martial_art",

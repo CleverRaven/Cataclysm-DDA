@@ -49,7 +49,7 @@ int diary::set_opened_page( int pagenum )
     return opened_page;
 }
 
-int diary::get_opened_page_num()
+int diary::get_opened_page_num() const
 {
     return opened_page;
 }

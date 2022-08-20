@@ -194,26 +194,6 @@ const char *velocity_units( units_type vel_units );
  */
 double convert_velocity( int velocity, units_type vel_units );
 
-/**
- * Convert a temperature from degrees Fahrenheit to degrees Celsius.
- *
- * @return Temperature in degrees C.
- */
-double temp_to_celsius( double fahrenheit );
-
-/**
- * Convert a temperature from degrees Fahrenheit to Kelvin.
- *
- * @return Temperature in degrees K.
- */
-double temp_to_kelvin( double fahrenheit );
-
-/**
- * Convert a temperature from degrees Celsius to Kelvin.
- *
- * @return Temperature in degrees K.
- */
-double celsius_to_kelvin( double celsius );
 
 /**
  * Convert a temperature from Kelvin to degrees Fahrenheit.

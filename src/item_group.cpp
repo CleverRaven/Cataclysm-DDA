@@ -619,6 +619,7 @@ bool Item_modifier::remove_item( const itype_id &itemid )
 }
 
 void Item_modifier::replace_items( const std::unordered_map<itype_id, itype_id> &replacements )
+const
 {
     if( ammo ) {
         ammo->replace_items( replacements );

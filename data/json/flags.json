@@ -44,7 +44,7 @@
   {
     "id": "ALLOWS_NATURAL_ATTACKS",
     "type": "json_flag",
-    "info": "This clothing won't hinder special attacks that involve <info>mutated anatomy</info>."
+    "info": "This clothing won't hinder special attacks that involve <info>mutated or cybernetic anatomy</info>."
   },
   {
     "id": "ALLOWS_REMOTE_USE",
@@ -1358,10 +1358,6 @@
     "type": "json_flag"
   },
   {
-    "id": "HELMET_COMPAT",
-    "type": "json_flag"
-  },
-  {
     "id": "HIDDEN_ITEM",
     "type": "json_flag"
   },
@@ -2065,11 +2061,6 @@
     "id": "EXO_TORSO_PLATE",
     "type": "json_flag",
     "info": "This is meant for exosuit torso plating."
-  },
-  {
-    "id": "EXO_PSU_PLATE",
-    "type": "json_flag",
-    "info": "This is meant for exosuit PSU plating."
   },
   {
     "id": "EXO_ARM_PLATE",

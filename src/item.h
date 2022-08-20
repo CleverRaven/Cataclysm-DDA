@@ -258,7 +258,7 @@ class item : public visitable
          * @param qty energy quantity to add (can be negative)
          * @return 0 valued energy quantity on success
          */
-        units::energy set_energy( const units::energy &qty );
+        units::energy mod_energy( const units::energy &qty );
 
         /**
          * Filter setting the ammo for this instance
@@ -481,6 +481,8 @@ class item : public visitable
                            bool debug ) const;
         void tool_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
                         bool debug ) const;
+        void actions_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
+                           bool debug ) const;
         void component_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
                              bool debug ) const;
         void repair_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
@@ -577,7 +579,7 @@ class item : public visitable
          * If `practical` is false, returns pre-Cataclysm market value,
          * otherwise returns approximate post-cataclysm value.
          */
-        int price_no_contents( bool practical ) const;
+        int price_no_contents( bool practical, cata::optional<int> price_override = cata::nullopt ) const;
 
         /**
          * Whether two items should stack when displayed in a inventory menu.
@@ -947,7 +949,7 @@ class item : public visitable
          * If count_by_charges(), returns charges, otherwise 1
          */
         int count() const;
-        bool craft_has_charges();
+        bool craft_has_charges() const;
 
         /**
          * Modify the charges of this item, only use for items counted by charges!
@@ -1159,6 +1161,11 @@ class item : public visitable
          */
         int made_of( const material_id &mat_ident ) const;
         /**
+        * Check we can repair with this material (e.g. matches at least one
+        * in our set.)
+        */
+        bool can_repair_with( const material_id &mat_ident ) const;
+        /**
          * Are we solid, liquid, gas, plasma?
          */
         bool made_of( phase_id phase ) const;
@@ -1364,7 +1371,7 @@ class item : public visitable
          * Items such as ablative plates are considered with this.
          * @return the state of the armor
          */
-        armor_status damage_armor_transforms( damage_unit &du );
+        armor_status damage_armor_transforms( damage_unit &du ) const;
 
 
         /** Provide color for UI display dependent upon current item damage level */
@@ -1524,7 +1531,7 @@ class item : public visitable
         /** Returns the string of the id of the terrain that pumps this fuel, if any. */
         std::string fuel_pump_terrain() const;
         bool has_explosion_data() const;
-        fuel_explosion_data get_explosion_data();
+        fuel_explosion_data get_explosion_data() const;
 
         /**
          * returns whether any of the pockets is compatible with the specified item.
@@ -1539,12 +1546,15 @@ class item : public visitable
          * @param it the item being put in
          * @param nested whether or not the current call is nested (used recursively).
          * @param ignore_pkt_settings whether to ignore pocket autoinsert settings
+         * @param remaining_parent_volume the ammount of space in the parent pocket,
+         * needed to make sure we dont try to nest items which can't fit in the nested pockets
          */
         /*@{*/
         ret_val<void> can_contain( const item &it, bool nested = false,
                                    bool ignore_rigidity = false,
                                    bool ignore_pkt_settings = true,
-                                   const item_location &parent_it = item_location() ) const;
+                                   const item_location &parent_it = item_location(),
+                                   units::volume remaining_parent_volume = 10000000_ml ) const;
         bool can_contain( const itype &tp ) const;
         bool can_contain_partial( const item &it ) const;
         /*@}*/
@@ -2498,6 +2508,7 @@ class item : public visitable
          * use_function with type use_name. Returns the first item that does have
          * such type or nullptr if none found.
          */
+        const item *get_usable_item( const std::string &use_name ) const;
         item *get_usable_item( const std::string &use_name );
 
         /**
@@ -2559,7 +2570,7 @@ class item : public visitable
         time_point birthday() const;
         void set_birthday( const time_point &bday );
         void handle_pickup_ownership( Character &c );
-        int get_gun_ups_drain() const;
+        units::energy get_gun_ups_drain() const;
         void validate_ownership() const;
         inline void set_old_owner( const faction_id &temp_owner ) {
             old_owner = temp_owner;
@@ -2733,6 +2744,8 @@ class item : public visitable
         bool use_amount_internal( const itype_id &it, int &quantity, std::list<item> &used,
                                   const std::function<bool( const item & )> &filter = return_true<item> );
         const use_function *get_use_internal( const std::string &use_name ) const;
+        template<typename Item>
+        static Item *get_usable_item_helper( Item &self, const std::string &use_name );
         bool process_internal( map &here, Character *carrier, const tripoint &pos, float insulation = 1,
                                temperature_flag flag = temperature_flag::NORMAL, float spoil_modifier = 1.0f );
         void iterate_covered_body_parts_internal( side s,
@@ -2748,7 +2761,8 @@ class item : public visitable
         void calc_temp( units::temperature temp, float insulation, const time_duration &time_delta );
 
         /** Calculates item specific energy (J/g) from temperature*/
-        units::specific_energy get_specific_energy_from_temperature( units::temperature new_temperature );
+        units::specific_energy get_specific_energy_from_temperature( units::temperature new_temperature )
+        const;
 
         /** Update flags associated with temperature */
         void set_temp_flags( units::temperature new_temperature, float freeze_percentage );
@@ -2870,6 +2884,9 @@ class item : public visitable
         int wetness = 0;           // Turns until this item is completely dry.
 
         int seed = rng( 0, INT_MAX );  // A random seed for layering and other options
+
+        harvest_drop_type_id dropped_from =
+            harvest_drop_type_id::NULL_ID(); // The drop type this item spawned from
 
         // Set when the item / its content changes. Used for worn item with
         // encumbrance depending on their content.

@@ -90,6 +90,57 @@
     "flags": [ "SEES", "HEARS", "SMELLS", "KEENNOSE", "STUMBLES", "WARM", "POISON", "GRABS", "NO_BREATHE", "FILTHY" ]
   },
   {
+    "id": "mon_zombullfrog",
+    "type": "MONSTER",
+    "name": { "str": "zombullfrog" },
+    "description": "The wound covered skin of this large bullfrog appears to be peeling in places, revealing a black goop beneath the surface.  Its vacant stare passes by anything that isn't food, and it will leap to devour anything it can.",
+    "default_faction": "zombie",
+    "species": [ "ZOMBIE", "AMPHIBIAN" ],
+    "volume": "120 L",
+    "weight": "150 kg",
+    "hp": 160,
+    "speed": 50,
+    "attack_cost": 50,
+    "material": [ "flesh" ],
+    "symbol": "F",
+    "color": "black_green",
+    "aggression": 100,
+    "morale": 100,
+    "melee_skill": 4,
+    "melee_dice": 4,
+    "melee_dice_sides": 6,
+    "melee_damage": [ { "damage_type": "bash", "amount": 5 } ],
+    "dodge": 1,
+    "armor_bash": 8,
+    "armor_cut": 2,
+    "armor_bullet": 1,
+    "armor_elec": 2,
+    "bleed_rate": 0,
+    "vision_night": 7,
+    "harvest": "zombie",
+    "special_attacks": [
+      { "type": "leap", "cooldown": 12, "move_cost": 0, "max_range": 4, "min_consider_range": 2 },
+      [ "RANGED_PULL", 10 ],
+      [ "GRAB_DRAG", 3 ]
+    ],
+    "regen_morale": true,
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "KEENNOSE",
+      "STUMBLES",
+      "WARM",
+      "BASHES",
+      "GROUP_BASH",
+      "NO_BREATHE",
+      "REVIVES",
+      "PUSH_MON",
+      "RANGED_ATTACKER"
+    ],
+    "upgrades": { "half_life": 34, "into": "mon_frog_mother" }
+  },
+  {
     "id": "mon_zombie_biter",
     "type": "MONSTER",
     "name": { "str": "slavering biter" },
@@ -186,7 +237,7 @@
     "//4": "Removed Bite attack to reflect damage to mouth.",
     "death_drops": "default_zombie_death_drops",
     "burn_into": "mon_zombie_scorched",
-    "upgrades": { "half_life": 8, "into_group": "GROUP_ZOMBIE_BRAINLESS_UPGRADE" },
+    "upgrades": { "half_life": 24, "into_group": "GROUP_ZOMBIE_BRAINLESS_UPGRADE" },
     "flags": [
       "HEARS",
       "STUMBLES",
@@ -282,7 +333,7 @@
     "special_attacks": [ { "id": "smash", "throw_strength": 72, "cooldown": 30 }, [ "GRAB", 7 ] ],
     "death_drops": "default_zombie_death_drops",
     "burn_into": "mon_zombie_fiend",
-    "upgrades": { "half_life": 21, "into_group": "GROUP_ZOMBIE_BRUTE" },
+    "upgrades": { "half_life": 42, "into_group": "GROUP_ZOMBIE_BRUTE" },
     "fungalize_into": "mon_zombie_fungus",
     "flags": [
       "SEES",
@@ -507,6 +558,7 @@
     "death_drops": "mon_zombie_hulk_death_drops",
     "regenerates": 15,
     "flags": [
+      "ALL_SEEING",
       "SEES",
       "HEARS",
       "GOODHEARING",
@@ -556,7 +608,7 @@
     "special_attacks": [ { "type": "bite", "cooldown": 5 }, [ "scratch", 20 ] ],
     "death_drops": "default_zombie_death_drops",
     "burn_into": "mon_zombie_scorched",
-    "upgrades": { "half_life": 14, "into_group": "GROUP_ZOMBIE_GRAB" },
+    "upgrades": { "half_life": 30, "into_group": "GROUP_ZOMBIE_GRAB" },
     "fungalize_into": "mon_zombie_fungus",
     "flags": [
       "SEES",
@@ -755,7 +807,7 @@
     ],
     "death_drops": "default_zombie_death_drops",
     "burn_into": "mon_zombie_scorched",
-    "upgrades": { "half_life": 28, "into": "mon_zombie_predator" },
+    "upgrades": { "half_life": 42, "into": "mon_zombie_predator" },
     "fungalize_into": "mon_zombie_fungus",
     "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "CLIMBS", "PUSH_MON", "FILTHY" ]
   },
@@ -1022,7 +1074,7 @@
     ],
     "death_drops": "default_zombie_death_drops",
     "burn_into": "mon_zombie_scorched",
-    "upgrades": { "half_life": 20, "into": "mon_zombie_hunter" },
+    "upgrades": { "half_life": 35, "into": "mon_zombie_hunter" },
     "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "PUSH_MON", "FILTHY" ]
   },
   {
@@ -1054,7 +1106,7 @@
     "death_drops": "default_zombie_death_drops",
     "regenerates": 12,
     "burn_into": "mon_zombie_scorched",
-    "upgrades": { "half_life": 14, "into_group": "GROUP_ZOMBIE_CRAWLER_UPGRADE" },
+    "upgrades": { "half_life": 28, "into_group": "GROUP_ZOMBIE_CRAWLER_UPGRADE" },
     "flags": [
       "SEES",
       "HEARS",
@@ -1205,7 +1257,7 @@
     "description": "Living in the woods,\nkilling for sport,\neating all the bodies--\nactual cannibal Shia LaBeouf.",
     "default_faction": "zombie",
     "bodytype": "human",
-    "species": [ "ZOMBIE" ],
+    "species": [ "ZOMBIE", "HUMAN" ],
     "volume": "62500 ml",
     "weight": "81500 g",
     "hp": 50,
@@ -1262,7 +1314,7 @@
     "death_drops": "default_zombie_death_drops",
     "burn_into": "mon_zombie_scorched",
     "fungalize_into": "mon_zombie_fungus",
-    "upgrades": { "half_life": 10, "into": "mon_zombie_screecher" },
+    "upgrades": { "half_life": 26, "into": "mon_zombie_screecher" },
     "flags": [
       "SEES",
       "HEARS",
@@ -1359,7 +1411,7 @@
     "special_attacks": [ { "type": "bite", "cooldown": 5 }, [ "scratch", 15 ] ],
     "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true }, "message": "A %s explode!" },
     "fungalize_into": "mon_zombie_smoker_fungus",
-    "upgrades": { "half_life": 28, "into": "mon_smoker_brute" },
+    "upgrades": { "half_life": 30, "into": "mon_smoker_brute" },
     "flags": [
       "SEES",
       "HEARS",
@@ -1467,7 +1519,7 @@
     "death_drops": "mon_zombie_swimmer_death_drops",
     "burn_into": "mon_zombie_scorched",
     "fungalize_into": "mon_zombie_fungus",
-    "upgrades": { "half_life": 14, "into": "mon_zombie_swimmer" },
+    "upgrades": { "half_life": 30, "into": "mon_zombie_swimmer" },
     "categories": [ "CLASSIC" ],
     "flags": [
       "SEES",
@@ -1513,7 +1565,7 @@
     "death_drops": "mon_zombie_swimmer_death_drops",
     "burn_into": "mon_zombie_scorched",
     "fungalize_into": "mon_zombie_fungus",
-    "upgrades": { "half_life": 28, "into": "mon_zombie_mancroc" },
+    "upgrades": { "half_life": 42, "into": "mon_zombie_mancroc" },
     "flags": [
       "SEES",
       "HEARS",
@@ -1569,7 +1621,7 @@
     "fungalize_into": "mon_zombie_fungus",
     "special_attacks": [ [ "PULL_METAL_WEAPON", 25 ], { "type": "bite", "cooldown": 20 } ],
     "death_drops": "mon_zombie_technician_death_drops",
-    "upgrades": { "half_life": 28, "into_group": "GROUP_ZOMBIE_ELECTRIC_UPGRADE" },
+    "upgrades": { "half_life": 35, "into_group": "GROUP_ZOMBIE_ELECTRIC_UPGRADE" },
     "flags": [
       "SEES",
       "HEARS",

@@ -369,7 +369,7 @@ class inventory_column
          */
         void highlight( size_t new_index, scroll_direction dir );
 
-        size_t get_highlighted_index() {
+        size_t get_highlighted_index() const {
             return highlighted_index;
         }
 
@@ -624,7 +624,7 @@ class inventory_selector
             this->use_invlet = show;
         }
         /** @return true if invlets should be used on this menu */
-        bool showing_invlet() {
+        bool showing_invlet() const {
             return this->use_invlet;
         }
 
@@ -758,7 +758,7 @@ class inventory_selector
          */
         bool highlight( const item_location &loc );
 
-        const inventory_entry &get_highlighted() {
+        const inventory_entry &get_highlighted() const {
             return get_active_column().get_highlighted();
         }
 
@@ -770,7 +770,7 @@ class inventory_selector
 
         bool highlight_one_of( const std::vector<item_location> &locations );
 
-        std::pair<size_t, size_t> get_highlighted_position() {
+        std::pair<size_t, size_t> get_highlighted_position() const {
             std::pair<size_t, size_t> position;
             position.first = active_column_index;
             position.second = get_active_column().get_highlighted_index();
@@ -1007,7 +1007,7 @@ class inventory_examiner : public inventory_selector
          * Called at the end of execute().
          * Checks if anything was changed (e.g. show/hide contents), and selects the appropriate return value
               **/
-        int cleanup();
+        int cleanup() const;
 
         /**
          * Draw the details of sitem in the w_examine window

@@ -207,7 +207,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "time": "30 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "silver_small", 3 ] ] ]
+    "components": [ [ [ "silver_small", 12 ] ], [ [ "clockworks", 1 ] ] ]
   },
   {
     "result": "holy_symbol_wood",
@@ -707,7 +707,7 @@
     "time": "1 m",
     "activity_level": "NO_EXERCISE",
     "qualities": [ { "id": "CUT_FINE", "level": 1 } ],
-    "components": [ [ [ "sheet_lycra", 10 ] ], [ [ "thread_nomex", 1 ] ], [ [ "thread", 3 ] ] ]
+    "components": [ [ [ "sheet_lycra", 1 ] ], [ [ "thread_nomex", 5 ] ] ]
   },
   {
     "result": "bikini_top",
@@ -715,7 +715,7 @@
     "time": "2 m",
     "activity_level": "NO_EXERCISE",
     "qualities": [ { "id": "CUT_FINE", "level": 1 } ],
-    "components": [ [ [ "sheet_lycra", 10 ] ], [ [ "thread_nomex", 1 ] ], [ [ "thread", 6 ] ] ]
+    "components": [ [ [ "sheet_lycra", 1 ] ], [ [ "thread_nomex", 5 ] ], [ [ "thread", 10 ] ] ]
   },
   {
     "result": "bikini_top_fur",
@@ -2229,7 +2229,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "time": "2 m",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "scrap", 1 ] ], [ [ "small_lcd_screen", 1 ] ], [ [ "processor", 1 ] ] ]
+    "components": [ [ [ "scrap_aluminum", 1 ] ], [ [ "small_lcd_screen", 1 ] ], [ [ "processor", 1 ] ] ]
   },
   {
     "result": "smart_phone",
@@ -2238,7 +2238,7 @@
     "time": "3 m 30 s",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
-      [ [ "scrap", 1 ] ],
+      [ [ "scrap_aluminum", 1 ] ],
       [ [ "light_plus_battery_cell", 1 ] ],
       [ [ "small_lcd_screen", 1 ] ],
       [ [ "mobile_memory_card", 1 ] ],
@@ -2252,7 +2252,13 @@
     "activity_level": "LIGHT_EXERCISE",
     "time": "3 m",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "scrap", 1 ] ], [ [ "amplifier", 1 ] ], [ [ "small_lcd_screen", 1 ] ], [ [ "RAM", 1 ] ], [ [ "processor", 1 ] ] ]
+    "components": [
+      [ [ "scrap_aluminum", 1 ] ],
+      [ [ "amplifier", 1 ] ],
+      [ [ "small_lcd_screen", 1 ] ],
+      [ [ "RAM", 1 ] ],
+      [ [ "processor", 1 ] ]
+    ]
   },
   {
     "result": "splatter_guard",
@@ -3265,7 +3271,7 @@
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
     "time": "30 s",
-    "components": [ [ [ "scrap", 1 ] ], [ [ "plastic_chunk", 1 ] ] ]
+    "components": [ [ [ "scrap_aluminum", 1 ] ], [ [ "plastic_chunk", 1 ] ] ]
   },
   {
     "result": "silver_locket",
@@ -3317,7 +3323,13 @@
     "time": "10 m",
     "using": [ [ "soldering_standard", 10 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "element", 3 ] ], [ [ "amplifier", 1 ] ], [ [ "scrap", 6 ] ], [ [ "plastic_chunk", 1 ] ], [ [ "cable", 8 ] ] ]
+    "components": [
+      [ [ "element", 3 ] ],
+      [ [ "amplifier", 1 ] ],
+      [ [ "scrap_aluminum", 6 ] ],
+      [ [ "plastic_chunk", 1 ] ],
+      [ [ "cable", 8 ] ]
+    ]
   },
   {
     "result": "mess_tray",
@@ -3675,15 +3687,6 @@
     "components": [ [ [ "antenna", 1 ] ], [ [ "e_scrap", 2 ] ], [ [ "transponder", 1 ] ], [ [ "plastic_chunk", 1 ] ] ]
   },
   {
-    "result": "rag",
-    "type": "uncraft",
-    "activity_level": "LIGHT_EXERCISE",
-    "time": "1 h",
-    "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "scrap_cotton", 4 ] ] ],
-    "//": "This should be obsoleted once we're sure nobody has any rags left and they're removed from any recipes i missed."
-  },
-  {
     "result": "stick_fiber",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
@@ -3696,7 +3699,7 @@
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
     "time": "1 m",
-    "components": [ [ [ "pilot_light", 1 ] ], [ [ "scrap", 1 ] ] ]
+    "components": [ [ [ "pilot_light", 1 ] ], [ [ "scrap_aluminum", 1 ] ] ]
   },
   {
     "result": "restaurantmap",
@@ -4529,6 +4532,33 @@
     "flags": [ "BLIND_HARD" ]
   },
   {
+    "result": "tshirt_text",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "skill_used": "tailor",
+    "time": "1 m",
+    "components": [ [ [ "cotton_patchwork", 5 ] ] ],
+    "flags": [ "BLIND_HARD" ]
+  },
+  {
+    "result": "flag_shirt",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "skill_used": "tailor",
+    "time": "1 m",
+    "components": [ [ [ "cotton_patchwork", 5 ] ] ],
+    "flags": [ "BLIND_HARD" ]
+  },
+  {
+    "result": "linuxtshirt",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "skill_used": "tailor",
+    "time": "1 m",
+    "components": [ [ [ "cotton_patchwork", 5 ] ] ],
+    "flags": [ "BLIND_HARD" ]
+  },
+  {
     "result": "dish_towel",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
@@ -4550,7 +4580,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "time": "6 m",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "scrap", 4 ] ], [ [ "element", 2 ] ], [ [ "hose", 1 ] ], [ [ "power_supply", 1 ] ] ]
+    "components": [ [ [ "scrap_aluminum", 4 ] ], [ [ "element", 2 ] ], [ [ "hose", 1 ] ], [ [ "power_supply", 1 ] ] ]
   },
   {
     "result": "vehicle_dashboard",
@@ -4561,17 +4591,6 @@
     "time": "30 m",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "electronics_controls", 1 ] ], [ [ "cable", 5 ] ], [ [ "plastic_chunk", 15 ] ] ]
-  },
-  {
-    "result": "vibrator",
-    "type": "uncraft",
-    "activity_level": "LIGHT_EXERCISE",
-    "skill_used": "electronics",
-    "difficulty": 3,
-    "skills_required": [ "fabrication", 2 ],
-    "time": "4 m 20 s",
-    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "e_scrap", 1 ] ], [ [ "scrap", 1 ] ], [ [ "plastic_chunk", 1 ] ] ]
   },
   {
     "result": "weeks_old_newspaper",
@@ -5895,7 +5914,7 @@
     "time": "10 m",
     "difficulty": 1,
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "tarp", 1 ] ], [ [ "tent_pole", 2 ] ], [ [ "plastic_sheet", 1 ] ], [ [ "plastic_sheet_small", 1 ] ] ]
+    "components": [ [ [ "tarp", 1 ] ], [ [ "tent_pole", 2 ] ] ]
   },
   {
     "result": "largebroketent",
@@ -5905,7 +5924,7 @@
     "time": "30 m",
     "difficulty": 1,
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "tarp", 4 ] ], [ [ "tent_pole", 5 ] ], [ [ "plastic_sheet", 3 ] ], [ [ "plastic_sheet_small", 3 ] ] ]
+    "components": [ [ [ "tarp", 2 ] ], [ [ "tent_pole", 5 ] ], [ [ "plastic_sheet", 2 ] ], [ [ "plastic_sheet_small", 5 ] ] ]
   },
   {
     "result": "knife_butter",
@@ -5929,7 +5948,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "scrap", 6 ] ] ]
+    "components": [ [ [ "scrap", 4 ] ] ]
   },
   {
     "result": "e_tool",
@@ -6096,8 +6115,8 @@
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
     "time": "1 m",
-    "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "plastic_chunk", 2 ] ] ]
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "plastic_chunk", 1 ] ], [ [ "scrap_aluminum", 1 ] ] ]
   },
   {
     "result": "mask_dust",
@@ -6192,7 +6211,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "20 m",
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "steel_lump", 8 ] ] ]
+    "components": [ [ [ "steel_lump", 4 ] ] ]
   },
   {
     "result": "sheet_kevlar",
@@ -6202,7 +6221,7 @@
     "skill_used": "tailor",
     "difficulty": 3,
     "qualities": [ { "id": "CUT_FINE", "level": 2 } ],
-    "components": [ [ [ "thread_kevlar", 40 ] ] ],
+    "components": [ [ [ "thread_kevlar", 80 ] ] ],
     "//": "Realistically, this may be out of the question (though I have not found info to the contrary), and a full sheet would give way more thread, but this is to keep the time down"
   },
   {
@@ -6420,7 +6439,7 @@
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
     "time": "10 m",
-    "components": [ [ [ "nylon", 64 ] ] ],
+    "components": [ [ [ "nylon", 16 ] ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ]
   },
   {
@@ -6478,5 +6497,287 @@
     "time": "2 m",
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "scrap_aluminum", 10 ], [ "plastic_chunk", 3 ] ] ]
+  },
+  {
+    "result": "sheet_cotton",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "30 s",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "cotton_patchwork", 8 ] ] ]
+  },
+  {
+    "result": "sheet_faux_fur",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "30 s",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "faux_fur", 8 ] ] ]
+  },
+  {
+    "result": "sheet_felt",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "30 s",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "felt_patch", 8 ] ] ]
+  },
+  {
+    "result": "sheet_lycra",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "30 s",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "lycra_patch", 8 ] ] ]
+  },
+  {
+    "result": "sheet_neoprene",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "30 s",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "neoprene", 8 ] ] ]
+  },
+  {
+    "result": "sheet_nomex",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "30 s",
+    "qualities": [ { "id": "FABRIC_CUT", "level": 2 } ],
+    "components": [ [ [ "nomex", 8 ] ] ]
+  },
+  {
+    "result": "sheet_nylon",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "30 s",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "nylon", 8 ] ] ]
+  },
+  {
+    "result": "golf_club",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "2 m",
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "scrap_aluminum", 6 ] ] ]
+  },
+  {
+    "result": "baton",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "2 m",
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "scrap_aluminum", 14 ] ] ]
+  },
+  {
+    "result": "baton-extended",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "2 m",
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "scrap_aluminum", 14 ] ] ]
+  },
+  {
+    "result": "pot_aluminum",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "3 m",
+    "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "scrap_aluminum", 4 ] ] ]
+  },
+  {
+    "result": "aluminum_pan",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "2 m",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "scrap_aluminum", 4 ] ] ]
+  },
+  {
+    "result": "aluminum_stepladder",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "2 m",
+    "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "material_aluminium_ingot", 135 ] ] ]
+  },
+  {
+    "result": "steel_scissors",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "12 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "scrap", 3 ] ] ]
+  },
+  {
+    "result": "esbit_stove",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "1 m",
+    "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "scrap_aluminum", 1 ] ] ]
+  },
+  {
+    "result": "survival_kit_box",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "5 m",
+    "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "scrap_aluminum", 16 ] ] ]
+  },
+  {
+    "result": "airhorn",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "12 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "scrap_aluminum", 6 ] ], [ [ "plastic_chunk", 3 ] ] ]
+  },
+  {
+    "result": "saddle",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "10 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "scrap_aluminum", 4 ] ], [ [ "leather", 2 ] ] ]
+  },
+  {
+    "result": "tent_kit",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "tailor",
+    "time": "10 m",
+    "difficulty": 1,
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "tarp", 1 ] ], [ [ "tent_pole", 2 ] ], [ [ "plastic_sheet", 1 ] ], [ [ "plastic_sheet_small", 1 ] ] ]
+  },
+  {
+    "result": "large_tent_kit",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "tailor",
+    "time": "30 m",
+    "difficulty": 1,
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "tarp", 4 ] ], [ [ "tent_pole", 5 ] ], [ [ "plastic_sheet", 3 ] ], [ [ "plastic_sheet_small", 3 ] ] ]
+  },
+  {
+    "result": "tent_pole",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "12 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "scrap_aluminum", 4 ] ] ]
+  },
+  {
+    "result": "hand_pump",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "12 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "scrap_aluminum", 1 ] ], [ [ "plastic_chunk", 1 ] ] ]
+  },
+  {
+    "result": "mre_bag_small",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "5 s",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "aluminum_foil", 22 ] ], [ [ "plastic_sheet_small", 4 ] ] ]
+  },
+  {
+    "result": "mre_bag",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "5 s",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "aluminum_foil", 66 ] ], [ [ "plastic_sheet_small", 9 ] ] ]
+  },
+  {
+    "result": "mre_package",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "12 s",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "aluminum_foil", 118 ] ], [ [ "plastic_sheet_small", 16 ] ] ]
+  },
+  {
+    "result": "missing_poster_adult",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "6 s",
+    "components": [ [ [ "paper", 2 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "missing_poster_child",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "6 s",
+    "components": [ [ [ "paper", 2 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "missing_poster_dog",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "6 s",
+    "components": [ [ [ "paper", 2 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "missing_poster_cat",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "6 s",
+    "components": [ [ [ "paper", 2 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "letter",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "6 s",
+    "components": [ [ [ "paper", 1 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "envelope",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "6 s",
+    "components": [ [ [ "paper", 2 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "postcard",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "6 s",
+    "components": [ [ [ "paper", 1 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "greeting_card",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "6 s",
+    "components": [ [ [ "paper", 2 ] ] ],
+    "flags": [ "BLIND_EASY" ]
   }
 ]

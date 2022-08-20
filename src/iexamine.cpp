@@ -187,6 +187,11 @@ static const json_character_flag json_flag_WEB_RAPPEL( "WEB_RAPPEL" );
 
 static const material_id material_bone( "bone" );
 static const material_id material_cac2powder( "cac2powder" );
+static const material_id material_ch_steel( "ch_steel" );
+static const material_id material_hc_steel( "hc_steel" );
+static const material_id material_lc_steel( "lc_steel" );
+static const material_id material_mc_steel( "mc_steel" );
+static const material_id material_qt_steel( "qt_steel" );
 static const material_id material_steel( "steel" );
 static const material_id material_wood( "wood" );
 
@@ -243,6 +248,7 @@ static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_PROBOSCIS( "PROBOSCIS" );
 static const trait_id trait_PYROMANIA( "PYROMANIA" );
 static const trait_id trait_SHELL2( "SHELL2" );
+static const trait_id trait_SHELL3( "SHELL3" );
 static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
 
@@ -289,8 +295,10 @@ void iexamine::cvdmachine( Character &you, const tripoint & )
     // Select an item to which it is possible to apply a diamond coating
     item_location loc = g->inv_map_splice( []( const item & e ) {
         return ( e.is_melee( damage_type::CUT ) || e.is_melee( damage_type::STAB ) ) &&
-               e.made_of( material_steel ) &&
-               !e.has_flag( flag_DIAMOND ) && !e.has_flag( flag_NO_CVD );
+               !e.has_flag( flag_DIAMOND ) && !e.has_flag( flag_NO_CVD ) &&
+               ( e.made_of( material_steel ) || e.made_of( material_ch_steel ) ||
+                 e.made_of( material_hc_steel ) || e.made_of( material_lc_steel ) ||
+                 e.made_of( material_mc_steel ) || e.made_of( material_qt_steel ) );
     }, _( "Apply diamond coating" ), 1, _( "You don't have a suitable item to coat with diamond" ) );
 
     if( !loc ) {
@@ -1034,7 +1042,8 @@ void iexamine::vending( Character &you, const tripoint &examp )
     for( auto it = std::begin( vend_items ); it != std::end( vend_items ); ++it ) {
         // |# {name}|
         // 123      4
-        item_map[it->tname()].push_back( it );
+        std::string suffix = it->count() > 1 ? string_format( " (%d)", it->count() ) : "";
+        item_map[it->tname() + suffix].push_back( it );
     }
 
     // Next, put pointers to the pairs in the map in a vector to allow indexing.
@@ -1224,6 +1233,7 @@ elevator_vehicles _get_vehicles_on_elevator( std::vector<tripoint> const &elevat
 void iexamine::elevator( Character &you, const tripoint &examp )
 {
     map &here = get_map();
+    tripoint_abs_ms const old_abs_pos = you.get_location();
     tripoint_abs_omt const this_omt = project_to<coords::omt>( here.getglobal( examp ) );
     tripoint const sm_orig = here.getlocal( project_to<coords::ms>( this_omt ) );
     std::vector<tripoint> this_elevator;
@@ -1300,6 +1310,11 @@ void iexamine::elevator( Character &you, const tripoint &examp )
         v->precalc_mounts( 0, v->turn_dir, v->pivot_anchor[0] );
     }
     here.rebuild_vehicle_level_caches();
+    if( you.is_avatar() ) {
+        g->vertical_shift( movez );
+        g->update_map( you, true );
+        cata_event_dispatch::avatar_moves( old_abs_pos.raw(), *you.as_avatar(), get_map() );
+    }
 }
 
 /**
@@ -1327,7 +1342,7 @@ bool iexamine::try_start_hacking( Character &you, const tripoint &examp )
     }
     you.use_charges( itype_electrohack, 25 );
     you.assign_activity( player_activity( hacking_activity_actor() ) );
-    you.activity.placement = examp;
+    you.activity.placement = get_map().getglobal( examp );
     return true;
 }
 
@@ -1428,7 +1443,7 @@ void iexamine::rubble( Character &you, const tripoint &examp )
         return;
     }
     you.assign_activity( player_activity( clear_rubble_activity_actor( moves ) ) );
-    you.activity.placement = examp;
+    you.activity.placement = here.getglobal( examp );
 }
 
 /**
@@ -1862,7 +1877,13 @@ void iexamine::locked_object_pickable( Character &you, const tripoint &examp )
 
     // Sort by their picklock level.
     std::sort( picklocks.begin(), picklocks.end(), [&]( const item * a, const item * b ) {
-        return a->get_quality( qual_LOCKPICK ) > b->get_quality( qual_LOCKPICK );
+        int a_quality = a->get_quality( qual_LOCKPICK );
+        int b_quality = b->get_quality( qual_LOCKPICK );
+        // Sort by durability to spend most broken item
+        if( a_quality == b_quality ) {
+            return a->damage() > b->damage();
+        }
+        return a_quality > b_quality;
     } );
 
     for( item *it : picklocks ) {
@@ -2123,8 +2144,7 @@ void iexamine_helper::handle_harvest( Character &you, const std::string &itemid,
 {
     item harvest = item( itemid );
     if( harvest.has_temperature() ) {
-        harvest.set_item_temperature( units::from_fahrenheit( get_weather().get_temperature(
-                                          you.pos() ) ) );
+        harvest.set_item_temperature( get_weather().get_temperature( you.pos() ) );
     }
     if( !force_drop && you.can_pickVolume( harvest, true ) &&
         you.can_pickWeight( harvest, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) ) {
@@ -2499,7 +2519,7 @@ int iexamine::query_seed( const std::vector<seed_tuple> &seed_entries )
 void iexamine::plant_seed( Character &you, const tripoint &examp, const itype_id &seed_id )
 {
     player_activity act( ACT_PLANT_SEED, to_moves<int>( 30_seconds ) );
-    act.placement = get_map().getabs( examp );
+    act.placement = get_map().getglobal( examp );
     act.str_values.emplace_back( seed_id );
     you.assign_activity( act );
 }
@@ -3009,7 +3029,7 @@ void iexamine::arcfurnace_empty( Character &you, const tripoint &examp )
         return;
     }
     //arc furnaces require a huge amount of current, so 1 full storage battery would work as a stand in
-    if( you.available_ups() < 1250 ) {
+    if( you.available_ups() < 1250_kJ ) {
         add_msg( _( "This furnace is ready to be turned on, but you lack a UPS with sufficient power." ) );
         return;
     } else {
@@ -3020,7 +3040,7 @@ void iexamine::arcfurnace_empty( Character &you, const tripoint &examp )
         }
     }
 
-    you.consume_ups( 1250 );
+    you.consume_ups( 1250_kJ );
     here.i_clear( examp );
     here.furn_set( examp, next_arcfurnace_type );
     item result( "unfinished_cac2", calendar::turn );
@@ -4040,7 +4060,7 @@ void iexamine::shrub_wildveggies( Character &you, const tripoint &examp )
     ///\EFFECT_PER randomly speeds up foraging
     move_cost /= rng( std::max( 4, you.per_cur ), 4 + you.per_cur * 2 );
     you.assign_activity( player_activity( forage_activity_actor( move_cost ) ) );
-    you.activity.placement = here.getabs( examp );
+    you.activity.placement = here.getglobal( examp );
     you.activity.auto_resume = true;
 }
 
@@ -4079,7 +4099,7 @@ void trap::examine( const tripoint &examp ) const
             }
         } else {
             player_character.assign_activity( ACT_BUILD );
-            player_character.activity.placement = here.getabs( examp );
+            player_character.activity.placement = here.getglobal( examp );
         }
         return;
     }
@@ -6532,9 +6552,11 @@ void iexamine::workbench_internal( Character &you, const tripoint &examp,
     amenu.query();
 
     const option choice = static_cast<option>( amenu.ret );
+    bool in_shell = you.has_active_mutation( trait_SHELL2 ) ||
+                    you.has_active_mutation( trait_SHELL3 );
     switch( choice ) {
         case start_craft: {
-            if( you.has_active_mutation( trait_SHELL2 ) ) {
+            if( in_shell ) {
                 you.add_msg_if_player( m_info, _( "You can't craft while you're in your shell." ) );
             } else if( you.has_effect( effect_incorporeal ) ) {
                 add_msg( m_info, _( "You lack the substance to affect anything." ) );
@@ -6544,7 +6566,7 @@ void iexamine::workbench_internal( Character &you, const tripoint &examp,
             break;
         }
         case repeat_craft: {
-            if( you.has_active_mutation( trait_SHELL2 ) ) {
+            if( in_shell ) {
                 you.add_msg_if_player( m_info, _( "You can't craft while you're in your shell." ) );
             } else if( you.has_effect( effect_incorporeal ) ) {
                 add_msg( m_info, _( "You lack the substance to affect anything." ) );
@@ -6554,7 +6576,7 @@ void iexamine::workbench_internal( Character &you, const tripoint &examp,
             break;
         }
         case start_long_craft: {
-            if( you.has_active_mutation( trait_SHELL2 ) ) {
+            if( in_shell ) {
                 you.add_msg_if_player( m_info, _( "You can't craft while you're in your shell." ) );
             } else if( you.has_effect( effect_incorporeal ) ) {
                 add_msg( m_info, _( "You lack the substance to affect anything." ) );

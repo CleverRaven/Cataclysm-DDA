@@ -35,8 +35,12 @@ Use the `Home` key to return to the top.
     - [Bionics](#bionics)
     - [Dreams](#dreams)
     - [Disease](#disease)
+    - [Emitters](#emitters)
     - [Item Groups](#item-groups)
     - [Item Category](#item-category)
+    - [Item Properties](#item-properties)
+    - [Item Variables](#item-variables)
+    - [Item Migrations](#item-migrations)
     - [Materials](#materials)
       - [Fuel data](#fuel-data)
     - [Monster Groups](#monster-groups)
@@ -66,6 +70,7 @@ Use the `Home` key to return to the top.
       - [`requirement`](#requirement)
     - [Recipes](#recipes)
       - [Practice recipes](#practice-recipes)
+      - [Nested recipes](#nested-recipes)
       - [Recipe requirements](#recipe-requirements)
       - [Defining common requirements](#defining-common-requirements)
       - [Overlapping recipe component requirements](#overlapping-recipe-component-requirements)
@@ -98,6 +103,7 @@ Use the `Home` key to return to the top.
     - [Vehicle Placement](#vehicle-placement)
     - [Vehicle Spawn](#vehicle-spawn)
     - [Vehicles](#vehicles)
+    - [Vehicle Part Migrations](#vehicle-part-migrations)
     - [Weakpoint Sets](#weakpoint-sets)
 - [`data/json/items/` JSONs](#datajsonitems-jsons)
     - [Generic Items](#generic-items)
@@ -1100,6 +1106,28 @@ When adding a new bionic, if it's not included with another one, you must also a
   }
 ```
 
+### Emitters
+
+Emitters randomly place [fields](#field-types) around their positions - every turn for monster emissions, every ten seconds for furniture/terrain.
+
+| Identifier | Description
+|---         |---
+| id         | Unique ID
+| field      | Field type emitted
+| intensity  | Initial intensity of the spawned fields (spawning multiple fields will still cause their intensity to increase). Default 1.
+| chance     | **Percent** chance of the emitter emitting, values above 100 will increase the quantity of fields placed via `roll_remainder` (ex: `chance: 150` will place one field 50% of the time and two fields the other 50% ). Failing the roll will disable the whole emission for the tick, not rolled for every `qty`! Default 100.
+| qty        | Number of fields placed. Fields are placed using the field propagation rules, allowing fields to spread. Default 1.
+
+```JSON
+  {
+    "id": "emit_shock_burst",
+    "type": "emit",
+    "field": "fd_electricity",
+    "intensity": 3,
+    "chance": 1,
+    "qty": 10
+  },
+```
 ### Item Groups
 
 Item groups have been expanded, look at [the detailed docs](ITEM_SPAWN.md) to their new description.
@@ -1146,6 +1174,61 @@ When you sort your inventory by category, these are the categories that are disp
     "sort_rank": -21,
     "priority_zones": [ { "id": "LOOT_FARMOR", "filthy": true, "flags": [ "RAINPROOF" ] } ],
 }
+```
+
+### Item Properties
+
+Properties are bound to item's type definition and code checks for them for special behaviour,
+for example the property below makes a container burst open when filled over 75% and it's thrown.
+
+```json
+  {
+    "properties": [ [ "burst_when_filled", "75" ] ]
+  }
+```
+
+### Item Variables
+
+Item variables are bound to the item itself and used to serialize special behaviour,
+for example folding a vehicle serializes the folded vehicle's name and list of parts
+(part type ids, part damage, degradation etc) into json string for use when unfolding.
+
+They can originate from code - like in the example above when folding a vehicle.
+
+Alternatively item variables may also originate from the item's prototype. Specifying them
+can be done in the item's definition, add the `variables` key and inside write a key-value
+map.
+
+Example:
+```json
+    "variables": {
+      "special_key": "spiffy value"
+    }
+```
+
+This will make any item instantiated from that prototype get assigned this variable, once
+the item is spawned the variables set on the prototype no longer affect the item's variables,
+a migration can clear out the item's variables and reassign the prototype ones if reset_item_vars
+flag is set.
+
+### Item Migrations
+
+Migrations allow replacing items or modifying them in ways to keep up with code changes or
+maintain a consistent list of item type ids.
+
+The item migration code itself is at Item_factory::migrate_item and may provide more details.
+
+The following migration will migrate items with id 'arrow_heavy_field_point' to id
+'arrow_heavy_field_point_fletched', it will also reset the item's item_vars field to
+the item prototype ones (although in this case most likely both item_vars are empty)
+
+```json
+  {
+    "id": "arrow_heavy_field_point",
+    "type": "MIGRATION",
+    "replace": "arrow_heavy_field_point_fletched",
+    "reset_item_vars": "true"
+  }
 ```
 
 ### Materials
@@ -1691,6 +1774,64 @@ Recipes may instead be defined with type "practice", to make them appear in the 
 the crafting menu.  These recipes do not have a "result", but they may define "byproducts"/"byproduct_group".
 See [PRACTICE_RECIPES.md](PRACTICE_RECIPES.md) for how to define them.
 
+#### Nested recipes
+
+Similar recipes may instead be nested allowing you to save space in the UI.  This is done as such:
+```json
+{
+  "id": "nested_steel_legs",
+  "type": "nested_category",
+  "activity_level": "BRISK_EXERCISE",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_LEGS",
+  "name": "steel leg guards",
+  "description": "Recipes related to constructing steel leg guards in various thickness and steel variants.",
+  "skill_used": "fabrication",
+  "nested_category_data": [
+    "xl_armor_qt_heavy_leg_guard",
+    "armor_qt_heavy_leg_guard",
+    "xl_armor_ch_heavy_leg_guard",
+    "armor_ch_heavy_leg_guard",
+    "xl_armor_hc_heavy_leg_guard",
+    "armor_hc_heavy_leg_guard",
+    "xl_armor_mc_heavy_leg_guard",
+    "armor_mc_heavy_leg_guard",
+    "xl_armor_lc_heavy_leg_guard",
+    "armor_lc_heavy_leg_guard",
+    "xl_armor_qt_leg_guard",
+    "armor_qt_leg_guard",
+    "xl_armor_ch_leg_guard",
+    "armor_ch_leg_guard",
+    "xl_armor_hc_leg_guard",
+    "armor_hc_leg_guard",
+    "xl_armor_mc_leg_guard",
+    "armor_mc_leg_guard",
+    "xl_armor_lc_leg_guard",
+    "armor_lc_leg_guard",
+    "xl_armor_qt_light_leg_guard",
+    "armor_qt_light_leg_guard",
+    "xl_armor_ch_light_leg_guard",
+    "armor_ch_light_leg_guard",
+    "xl_armor_hc_light_leg_guard",
+    "armor_hc_light_leg_guard",
+    "xl_armor_mc_light_leg_guard",
+    "armor_mc_light_leg_guard",
+    "xl_armor_lc_light_leg_guard",
+    "armor_lc_light_leg_guard"
+  ],
+  "difficulty": 5,
+  "autolearn": [ [ "fabrication", 5 ] ]
+}
+```
+
+So it is identical to a normal recipe with the addition of the "nested_category_data" which lists all of the recipe ID's that are in the category.
+
+If you want to hide recipes that are nested you can set their category and subcategory as:
+
+```json
+"category": "CC_*",
+"subcategory": "CSC_*_NESTED",
+```
 
 #### Recipe requirements
 
@@ -1924,8 +2065,11 @@ request](https://github.com/CleverRaven/Cataclysm-DDA/pull/36657) and the
 
 | pre_special            | Description
 |---                     |---
-| `check_empty`          | Tile is empty
+| `check_channel`        | Must be empty and have a current in at least one orthogonal tile
+| `check_empty`          | Tile is empty (no furniture, trap, item, or vehicle) and flat terrain
+| `check_empty_lite`     | Tile is empty (no furniture, trap, item, or vehicle)
 | `check_support`        | Must have at least two solid walls/obstructions nearby on orthogonals (non-diagonal directions only) to support the tile
+| `check_support_below`  | Must have at least two solid walls/obstructions at the Z level below on orthogonals (non-diagonal directions only) to support the tile and be empty lite but with a ledge trap acceptable, as well as open air
 | `check_stable`         | Tile on level below has a flag `SUPPORTS_ROOF`
 | `check_empty_stable`   | Tile is empty and stable
 | `check_nofloor_above`  | Tile on level above has a flag `NO_FLOOR`
@@ -1936,6 +2080,7 @@ request](https://github.com/CleverRaven/Cataclysm-DDA/pull/36657) and the
 | `check_no_trap`        | There is no trap object in this tile
 | `check_ramp_low`       | Both this and the next level above can be built up one additional Z level
 | `check_ramp_high`      | There is a complete downramp on the next higher level, and both this and next level above can be built up one additional Z level
+| `check_no_wiring`      | The tile must either be free of a vehicle, or at least a vehicle that doesn't have the WIRING flag
 
 ### Scent_types
 
@@ -2641,6 +2786,8 @@ Vehicle components when installed on a vehicle.
                               // Negative values mean power is consumed, positive values mean power
                               // is generated.  Power consumption usually also requires the
                               // ENABLED_DRAINS_EPOWER flag and for the item to be turned on.
+                              // Solar panel power gneration is modified by sun angle.
+                              // When sun is at 90 degrees the panel produces the full epower.
 "item": "wheel",              // The item used to install this part, and the item obtained when
                               // removing this part.
 "difficulty": 4,              // Your mechanics skill must be at least this level to install this part
@@ -2863,6 +3010,31 @@ See also VEHICLE_JSON.md
                                             * (you can't stack non-stackable part flags). */
 ```
 
+### Vehicle Part Migrations
+
+These migrations will (at runtime) replace one vehicle part id with another one.
+This is useful when vpart ids are changing or obsoleting one part for another.
+
+```json
+[
+  {
+    "type": "vehicle_part_migration",
+    "from": "old_vpart_id",
+    "to": "new_vpart_id"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "old_vpart_id",
+    "to": "new_vpart_id"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "old_vpart_id",
+    "to": "new_vpart_id"
+  }
+]
+```
+
 ### Weakpoint Sets
 A thin container for weakpoint definitions. The only unique fields for this object are `"id"` and `"type"`. The `"weakpoints"` array contains weakpoints that are defined the same way as in monster definitions. See [Weakpoints](MONSTERS.md#weakpoints) for details.
 
@@ -2947,6 +3119,7 @@ Weakpoints only match if they share the same id, so it's important to define the
   { "type": "cotton", "portion": 9 },        // type indicates the material's ID, portion indicates proportionally how much of the item is composed of that material
   { "type": "plastic" }                      // portion can be omitted and will default to 1. In this case, the item is 90% cotton and 10% plastic.
 ],
+"repairs_with": [ "plastic" ],               // Material types that this item can be repaired with. Defaults to all the item materials.
 "weapon_category": [ "WEAPON_CAT1" ],        // (Optional) Weapon categories this item is in for martial arts.
 "cutting": 0,                                // (Optional, default = 0) Cutting damage caused by using it as a melee weapon.  This value cannot be negative.
 "bashing": 0,                                // (Optional, default = 0) Bashing damage caused by using it as a melee weapon.  This value cannot be negative.
@@ -5092,14 +5265,14 @@ Setting of sprite sheets. Same as `tiles-new` field in `tile_config`. Sprite fil
 
 # Field types
 
-Fields can exist on top of terrain/furniture, and support different intensity levels. Each intensity level inherits its properties from the lower one, so any field not explicitly overwritten will carry over. They affect both characters and monsters, but a lot of fields have hardcoded effects that are potentially different for both (found in `map_field.cpp:creature_in_field`). Gaseous fields that have a chance to do so are spread depending on the local wind force when outside, preferring spreading down to on the same Z-level, which is preferred to spreading upwards. Indoors and by weak winds fields spread randomly. 
+Fields can exist on top of terrain/furniture, and support different intensity levels. Each intensity level inherits its properties from the lower one, so any field not explicitly overwritten will carry over. They affect both characters and monsters, but a lot of fields have hardcoded effects that are potentially different for both (found in `map_field.cpp:creature_in_field`). Gaseous fields that have a chance to do so are spread depending on the local wind force when outside, preferring spreading down to on the same Z-level, which is preferred to spreading upwards. Indoors and by weak winds fields spread randomly.
 
 ```C++
   {
     "type": "field_type", // this is a field type
     "id": "fd_gum_web", // id of the field
     "immune_mtypes": [ "mon_spider_gum" ], // list of monster immune to this field
-    "intensity_levels":  // The below fields are all tied to the specific intensity unless they got defined in the lower-level one 
+    "intensity_levels":  // The below fields are all tied to the specific intensity unless they got defined in the lower-level one
     [
       { "name": "shadow",  // name of this level of intensity
         "sym": "{", // symbol of this level of intensity
@@ -5107,7 +5280,7 @@ Fields can exist on top of terrain/furniture, and support different intensity le
         "transparent": false, // default true, on false this intensity blocks vision
         "dangerous": false, // is this level of intensity considered dangerous for monster avoidance and player warnings
         "move_cost": 120, // Extra movement cost for moving through this level of intensity (on top of base terrain/furniture movement costs)
-        "extra_radiation_min": 1, 
+        "extra_radiation_min": 1,
         "extra_radiation_max": 5, // This level of intensity will add a random amount of radiation between the min and the max value to its tile
         "radiation_hurt_damage_min": 5,
         "radiation_hurt_damage_max": 7, // When standing in this field hurt every limb for a random amount of damage between the min and max value. Requires extra_radiation_min > 0
@@ -5122,7 +5295,7 @@ Fields can exist on top of terrain/furniture, and support different intensity le
         "light_override": 3.7 }, //light level on the tile occupied by this field will be set at 3.7 no matter the ambient light.
         "translucency": 2.0, // How much light the field blocks (higher numbers mean less light can penetrate through)
         "convection_temperature_mod": 12, // Heat given off by this level of intensity
-        "effects":  // List of effects applied to any creatures within the field as long as they aren't immune to the effect or the field itself 
+        "effects":  // List of effects applied to any creatures within the field as long as they aren't immune to the effect or the field itself
         [
           {
             "effect_id": "webbed", // Effect ID
@@ -5144,7 +5317,7 @@ Fields can exist on top of terrain/furniture, and support different intensity le
         "scent_neutralization": 3, // Reduce scents at the field's position by this value        
     ],
     "npc_complain": { "chance": 20, "issue": "weed_smoke", "duration": "10 minutes", "speech": "<weed_smoke>" }, // NPCs in this field will complain about being in it once per <duration> if a 1-in-<chance> roll succeeds, giving off a <speech> bark that supports snippets
-    "immunity_data": { 
+    "immunity_data": {
       { "traits": [ "WEB_WALKER" ] },
       { "body_part_env_resistance": [ [ "mouth", 15 ] ] }
       }, // If the character in the field has the defined traits or env resistance on the bodypart they will be considered immune to the field

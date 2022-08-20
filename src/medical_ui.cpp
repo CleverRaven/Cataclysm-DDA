@@ -26,7 +26,8 @@ static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_infected( "infected" );
 static const efftype_id effect_mending( "mending" );
 
-static const trait_id trait_COLDBLOOD4( "COLDBLOOD4" );
+static const json_character_flag json_flag_ECTOTHERM( "ECTOTHERM" );
+
 static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_SUNLIGHT_DEPENDENT( "SUNLIGHT_DEPENDENT" );
 static const trait_id trait_TROGLO( "TROGLO" );
@@ -81,7 +82,7 @@ class selection_line
             return detail_str;
         }
 
-        int get_row_count() {
+        int get_row_count() const {
             return row_count;
         }
 
@@ -89,7 +90,7 @@ class selection_line
             highlight_line = true;
         }
 
-        bool highlighted() {
+        bool highlighted() const {
             return highlight_line;
         }
 
@@ -110,7 +111,7 @@ class medical_column
             : column_id( column_id ), COLUMN_BOUNDS( COLUMN_BOUNDS ), COLUMN_START( COLUMN_START ) {}
 
         void draw_column( const catacurses::window &window, const int BORDER_START,
-                          const int BORDER_END ) {
+                          const int BORDER_END ) const {
             mvwvline( window, point( COLUMN_START.x, BORDER_START ), LINE_XOXO,
                       BORDER_END - 4 ); // |
             mvwputch( window, point( COLUMN_START.x, BORDER_END - 1 ), BORDER_COLOR,
@@ -145,7 +146,7 @@ class medical_column
             COLUMN_ROWS = { selectionrow, linerow };
         }
 
-        void add_column_line( selection_line line ) {
+        void add_column_line( const selection_line &line ) {
             column_lines.emplace_back( line );
             COLUMN_ROWS.second += line.get_row_count();
         }
@@ -156,15 +157,15 @@ class medical_column
             return column_lines[offset];
         }
 
-        int selection_count() {
+        int selection_count() const {
             return COLUMN_ROWS.first;
         }
 
-        int row_count() {
+        int row_count() const {
             return COLUMN_ROWS.second;
         }
 
-        int max_width() {
+        int max_width() const {
             return COLUMN_BOUNDS.first - COLUMN_START.x - left_padding;
         }
 
@@ -172,7 +173,7 @@ class medical_column
             return column_lines.empty();
         }
 
-        bool current_column( const int selected_id ) {
+        bool current_column( const int selected_id ) const {
             return column_id == selected_id;
         }
 
@@ -637,19 +638,19 @@ static medical_column draw_stats_summary( const int column_count, avatar *player
     if( temperature_speed_modifier != 0 ) {
         nc_color pen_color;
         std::string pen_sign;
-        const int player_local_temp = get_weather().get_temperature( player->pos() );
-        if( player->has_trait( trait_COLDBLOOD4 ) && player_local_temp > 65 ) {
+        const units::temperature player_local_temp = get_weather().get_temperature( player->pos() );
+        if( player->has_flag( json_flag_ECTOTHERM ) && player_local_temp > units::from_fahrenheit( 65 ) ) {
             pen_color = c_green;
             pen_sign = "+";
-        } else if( player_local_temp < 65 ) {
+        } else if( player_local_temp < units::from_fahrenheit( 65 ) ) {
             pen_color = c_red;
             pen_sign = "-";
         }
         if( !pen_sign.empty() ) {
-            pen = ( player_local_temp - 65 ) * temperature_speed_modifier;
+            pen = ( units::to_fahrenheit( player_local_temp ) - 65 ) * temperature_speed_modifier;
             pge_str = pgettext( "speed modifier", "Cold-Blooded " );
             speed_detail_str += colorize( string_format( _( "%s     %s%2d%%\n" ), pge_str, pen_sign,
-                                          std::abs( pen ) ), c_red );
+                                          std::abs( pen ) ), pen_color );
         }
     }
 

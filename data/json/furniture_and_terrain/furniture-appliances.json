@@ -342,7 +342,8 @@
         { "item": "cu_pipe", "count": [ 1, 4 ] },
         { "item": "scrap_copper", "count": [ 0, 2 ] }
       ]
-    }
+    },
+    "crafting_pseudo_item": "pseudo_app_oven_hotplate"
   },
   {
     "type": "furniture",
@@ -374,7 +375,7 @@
         { "item": "pilot_light", "count": 1 }
       ]
     },
-    "crafting_pseudo_item": "fake_oven"
+    "crafting_pseudo_item": "pseudo_app_oven_hotplate"
   },
   {
     "type": "furniture",

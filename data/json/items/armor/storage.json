@@ -21,7 +21,7 @@
         "moves": 300
       },
       {
-        "//": "waterbottle pocket",
+        "//": "water bottle pocket",
         "pocket_type": "CONTAINER",
         "holster": true,
         "max_contains_volume": "510 ml",
@@ -667,7 +667,7 @@
         "ripoff": 3
       },
       {
-        "//": "waterbottle pocket",
+        "//": "water bottle pocket",
         "pocket_type": "CONTAINER",
         "holster": true,
         "max_contains_volume": "510 ml",
@@ -675,7 +675,7 @@
         "max_item_length": "12 cm",
         "min_item_length": "7 cm",
         "moves": 80,
-        "description": "Small pocket for a waterbottle",
+        "description": "Small pocket for a water bottle",
         "ripoff": 2
       },
       {
@@ -2250,7 +2250,7 @@
         "moves": 120
       },
       {
-        "//": "waterbottle pocket",
+        "//": "water bottle pocket",
         "pocket_type": "CONTAINER",
         "holster": true,
         "max_contains_volume": "510 ml",
@@ -2258,7 +2258,7 @@
         "max_item_length": "12 cm",
         "min_item_length": "7 cm",
         "moves": 80,
-        "description": "Small pocket for a waterbottle",
+        "description": "Small pocket for a water bottle",
         "ripoff": 2
       },
       {

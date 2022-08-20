@@ -38,5 +38,10 @@
     "type": "overmap_special_migration",
     "id": "Mine Entrance",
     "//": "Removed - no new id"
+  },
+  {
+    "type": "overmap_special_migration",
+    "id": "Homeless Camp",
+    "new_id": "Occupied Homeless Camp"
   }
 ]

@@ -813,7 +813,7 @@
     "material_thickness": 5,
     "environmental_protection": 1,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT" ]
+    "flags": [ "VARSIZE", "STURDY" ]
   },
   {
     "id": "xl_helmet_plate",
@@ -832,7 +832,7 @@
     "name": { "str": "XS great helm" },
     "description": "A medieval helmet that provides excellent protection to the entire head, at the cost of great encumbrance.  Smaller than average.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT", "UNDERSIZE" ]
+    "flags": [ "VARSIZE", "STURDY", "UNDERSIZE" ]
   },
   {
     "id": "helmet_kettle",
