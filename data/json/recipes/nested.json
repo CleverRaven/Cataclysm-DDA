@@ -394,7 +394,6 @@
       "lc_chainmail_suit_xs",
       "xl_lc_chainmail_suit",
       "lc_chainmail_suit_hauberk",
-      "lc_chainmail_suit_xs_hauberk",
       "xl_lc_chainmail_suit_hauberk"
     ],
     "difficulty": 2
@@ -413,7 +412,6 @@
       "mc_chainmail_suit_xs",
       "xl_mc_chainmail_suit",
       "mc_chainmail_suit_hauberk",
-      "mc_chainmail_suit_xs_hauberk",
       "xl_mc_chainmail_suit_hauberk"
     ],
     "difficulty": 2
@@ -432,7 +430,6 @@
       "hc_chainmail_suit_xs",
       "xl_hc_chainmail_suit",
       "hc_chainmail_suit_hauberk",
-      "hc_chainmail_suit_xs_hauberk",
       "xl_hc_chainmail_suit_hauberk"
     ],
     "difficulty": 2
@@ -451,7 +448,6 @@
       "ch_chainmail_suit_xs",
       "xl_ch_chainmail_suit",
       "ch_chainmail_suit_hauberk",
-      "ch_chainmail_suit_xs_hauberk",
       "xl_ch_chainmail_suit_hauberk"
     ],
     "difficulty": 2
@@ -470,7 +466,6 @@
       "qt_chainmail_suit_xs",
       "xl_qt_chainmail_suit",
       "qt_chainmail_suit_hauberk",
-      "qt_chainmail_suit_xs_hauberk",
       "xl_qt_chainmail_suit_hauberk"
     ],
     "difficulty": 2
@@ -1746,12 +1741,12 @@
     "description": "Recipes related to constructing short ropes.",
     "skill_used": "tailor",
     "nested_category_data": [
-      "rope_6",
       "rope_6_spinwheel_string",
       "rope_6_from_filament",
       "rope_6_spinwheel_filament",
       "rope_6_from_cloth",
-      "rope_6_spinwheel_cloth"
+      "rope_6_spinwheel_cloth",
+      "rope_6_from_string"
     ],
     "difficulty": 1
   },
@@ -1849,7 +1844,8 @@
       "rope_makeshift_30",
       "rope_makeshift_30_spinwheel_cordages",
       "rope_makeshift_30_from_rope_makeshift_6",
-      "rope_makeshift_30_spinwheel_ropes"
+      "rope_makeshift_30_spinwheel_ropes",
+      "rope_makeshift_30_from_cordage"
     ],
     "difficulty": 1
   },
