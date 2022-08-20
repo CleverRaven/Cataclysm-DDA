@@ -22,6 +22,11 @@
         "condition": { "not": { "npc_has_effect": "asked_to_socialize" } },
         "topic": "TALK_FRIEND_CHAT" 
       },
+      {
+        "text": "Any jobs you need done?",
+        "condition": { "and": [ { "u_has_var": "u_joined_valhallists", "type": "general", "context": "meeting", "value": "yes" }, { "not": "has_assigned_mission" }, { "not": "has_many_assigned_missions" } ] },
+        "topic": "TALK_MISSION_LIST"
+      },
       { "text": "A pleasure chatting.  Gotta go!", "topic": "TALK_DONE" }
     ]
   },

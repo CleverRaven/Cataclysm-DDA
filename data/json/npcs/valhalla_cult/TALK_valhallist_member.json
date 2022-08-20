@@ -59,5 +59,30 @@
     "responses": [
       { "text": "Thanks.", "topic": "TALK_DONE" }
     ]
+  },
+{
+    "type": "talk_topic",
+    "id": "TALK_VALHALLIST_MEMBER_Rescue",
+    "dynamic_line": [
+      "*prays unintelligebly.",
+      "Great Tyr, defendeth me.",
+      "Just in time for the party. Get your sword ready!",
+      "Hallelujah, rescue!",
+      "I can't believe my eyes.  Thank you, thank you!"
+    ],
+    "responses": [
+      { "text": "Get up, we're going home.", "topic": "TALK_DONE", "effect": [ { "npc_first_topic": "TALK_VALHALLIST_MEMBER_Rescue_2" }, "follow_only" ] }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_VALHALLIST_MEMBER_Rescue_2",
+    "dynamic_line": [
+      "What's up?"
+    ],
+    "responses": [
+      { "text": "I want you to follow me.", "topic": "TALK_DONE", "effect": "follow_only" },
+      { "text": "I want you to stop following me.", "topic": "TALK_DONE", "effect": "stop_following" }
+    ]
   }
 ]
