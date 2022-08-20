@@ -1275,6 +1275,25 @@
     "difficulty": 1
   },
   {
+    "id": "nested_all_gambeson_hoods",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "name": "gambeson hoods",
+    "description": "Recipes related to constructing a variety of gambeson hoods.",
+    "skill_used": "fabrication",
+    "nested_category_data": [
+      "gambeson_hood",
+      "xl_gambeson_hood",
+      "xs_gambeson_hood",
+      "k_gambeson_hood",
+      "xl_k_gambeson_hood",
+      "xs_k_gambeson_hood"
+    ],
+    "difficulty": 1
+  },
+  {
     "id": "nested_gloves_fsurvivor",
     "type": "nested_category",
     "activity_level": "LIGHT_EXERCISE",
