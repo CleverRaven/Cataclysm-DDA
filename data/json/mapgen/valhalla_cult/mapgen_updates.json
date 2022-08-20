@@ -54,5 +54,17 @@
     "object": {
       "place_nested": [ { "chunks": [ "scooter_electric_spawn" ], "x": 13, "y": 11 } ]
     }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "valahllist_remove_raiding_party",
+    "method": "json",
+    "object": { "remove_npcs": [ { "class": "pagan_cult_member_rescue", "x": [ 0, 23 ], "y": [ 0, 23 ] } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "valahllist_remove_slaves",
+    "method": "json",
+    "object": { "remove_npcs": [ { "class": "hells_raiders_slave", "x": [ 0, 23 ], "y": [ 0, 23 ] } ] }
   }
 ]
