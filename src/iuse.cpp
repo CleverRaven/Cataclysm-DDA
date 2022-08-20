@@ -238,6 +238,7 @@ static const efftype_id effect_weed_high( "weed_high" );
 
 static const flag_id json_flag_POWER_CORD( "POWER_CORD" );
 
+static const furn_str_id furn_f_aluminum_stepladder( "f_aluminum_stepladder" );
 static const furn_str_id furn_f_ladder( "f_ladder" );
 
 static const itype_id itype_advanced_ecig( "advanced_ecig" );
@@ -245,6 +246,7 @@ static const itype_id itype_afs_atomic_smartphone( "afs_atomic_smartphone" );
 static const itype_id itype_afs_atomic_smartphone_music( "afs_atomic_smartphone_music" );
 static const itype_id itype_afs_atomic_wraitheon_music( "afs_atomic_wraitheon_music" );
 static const itype_id itype_afs_wraitheon_smartphone( "afs_wraitheon_smartphone" );
+static const itype_id itype_aluminum_stepladder( "aluminum_stepladder" );
 static const itype_id itype_apparatus( "apparatus" );
 static const itype_id itype_arcade_machine( "arcade_machine" );
 static const itype_id itype_atomic_coffeepot( "atomic_coffeepot" );
@@ -301,6 +303,7 @@ static const itype_id itype_smartphone_music( "smartphone_music" );
 static const itype_id itype_soap( "soap" );
 static const itype_id itype_soldering_iron( "soldering_iron" );
 static const itype_id itype_spiral_stone( "spiral_stone" );
+static const itype_id itype_stepladder( "stepladder" );
 static const itype_id itype_thermometer( "thermometer" );
 static const itype_id itype_towel( "towel" );
 static const itype_id itype_towel_wet( "towel_wet" );
@@ -9355,7 +9358,7 @@ cata::optional<int> iuse::capture_monster_act( Character *p, item *it, bool, con
     return 0;
 }
 
-cata::optional<int> iuse::ladder( Character *p, item *, bool, const tripoint & )
+cata::optional<int> iuse::ladder( Character *p, item *it, bool, const tripoint & )
 {
     map &here = get_map();
     if( p->is_mounted() ) {
@@ -9375,7 +9378,13 @@ cata::optional<int> iuse::ladder( Character *p, item *, bool, const tripoint & )
 
     p->add_msg_if_player( _( "You set down the ladder." ) );
     p->moves -= to_moves<int>( 5_seconds );
-    here.furn_set( pnt, furn_f_ladder );
+
+    if( it->typeId() == itype_stepladder ) {
+        here.furn_set( pnt, furn_f_ladder );
+    } else if( it->typeId() == itype_aluminum_stepladder ) {
+        here.furn_set( pnt, furn_f_aluminum_stepladder );
+    }
+
     return 1;
 }
 
