@@ -137,6 +137,7 @@ static const quality_id qual_CUT( "CUT" );
 
 static const skill_id skill_melee( "melee" );
 
+static const trait_id trait_BRAWLER( "BRAWLER" );
 static const trait_id trait_HIBERNATE( "HIBERNATE" );
 static const trait_id trait_PROF_CHURL( "PROF_CHURL" );
 static const trait_id trait_SHELL2( "SHELL2" );
@@ -1480,11 +1481,19 @@ static void fire()
 
         turret_data turret;
         if( vp && ( turret = vp->vehicle().turret_query( player_character.pos() ) ) ) {
+            if( player_character.has_trait( trait_BRAWLER ) ) {
+                add_msg( m_bad, _( "You refuse to use the turret." ) );
+                return;
+            }
             avatar_action::fire_turret_manual( player_character, here, turret );
             return;
         }
 
         if( vp.part_with_feature( "CONTROLS", true ) ) {
+            if( player_character.has_trait( trait_BRAWLER ) ) {
+                add_msg( m_bad, _( "You refuse to use the turret." ) );
+                return;
+            }
             if( vp->vehicle().turrets_aim_and_fire_all_manual() ) {
                 return;
             }

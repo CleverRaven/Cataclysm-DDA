@@ -240,5 +240,65 @@
       { "item": "xs_mt_chainmail_legs", "prob": 20 },
       { "item": "xs_mt_chainmail_vest", "prob": 20 }
     ]
+  },
+  {
+    "id": "SUS_junk_drawer",
+    "type": "item_group",
+    "copy-from": "SUS_junk_drawer",
+    "subtype": "collection",
+    "extend": {
+      "items": [
+        [ "fire_ball", 5 ],
+        [ "glass_dagger_paperweight", 5 ],
+        [ "deck_of_tarot_cards", 5 ],
+        [ "polaroid_of_missing_person", 5 ],
+        [ "brass_cylinders", 1 ],
+        [ "glass_berries", 1 ],
+        [ "occult_seal", 1 ],
+        [ "hurricane_lamp_thorns", 1 ],
+        [ "caravaggio_self_portrait", 1 ],
+        [ "magick_8_ball", 1 ]
+      ]
+    }
+  },
+  {
+    "id": "SUS_junk_drawer_messy",
+    "type": "item_group",
+    "copy-from": "SUS_junk_drawer_messy",
+    "subtype": "collection",
+    "extend": {
+      "items": [
+        [ "fire_ball", 1 ],
+        [ "glass_dagger_paperweight", 1 ],
+        [ "deck_of_tarot_cards", 1 ],
+        [ "polaroid_of_missing_person", 1 ],
+        [ "brass_cylinders", 5 ],
+        [ "glass_berries", 5 ],
+        [ "occult_seal", 5 ],
+        [ "hurricane_lamp_thorns", 1 ],
+        [ "caravaggio_self_portrait", 1 ],
+        [ "magick_8_ball", 1 ]
+      ]
+    }
+  },
+  {
+    "id": "SUS_office_filing_cabinet",
+    "type": "item_group",
+    "copy-from": "SUS_office_filing_cabinet",
+    "subtype": "collection",
+    "extend": {
+      "items": [
+        [ "hurricane_lamp_thorns", 5 ],
+        [ "caravaggio_self_portrait", 5 ],
+        [ "magick_8_ball", 5 ],
+        [ "fire_ball", 1 ],
+        [ "glass_dagger_paperweight", 1 ],
+        [ "deck_of_tarot_cards", 1 ],
+        [ "polaroid_of_missing_person", 1 ],
+        [ "brass_cylinders", 1 ],
+        [ "glass_berries", 1 ],
+        [ "occult_seal", 1 ]
+      ]
+    }
   }
 ]

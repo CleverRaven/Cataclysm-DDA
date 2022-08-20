@@ -603,5 +603,10 @@
     "name": "dark_wyrm",
     "base_faction": "mutant",
     "neutral": [ "dark_wyrm" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "beetle",
+    "//": "faction for non-stag beetles, ported from TropiCata"
   }
 ]

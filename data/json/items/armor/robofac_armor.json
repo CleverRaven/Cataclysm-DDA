@@ -16,7 +16,7 @@
     "material": [ "nylon", "kevlar" ],
     "color": "light_gray",
     "warmth": 5,
-    "flags": [ "STURDY", "OUTER", "WATERPROOF", "VARSIZE", "RAINPROOF", "HOOD" ],
+    "flags": [ "STURDY", "OUTER", "WATERPROOF", "VARSIZE", "RAINPROOF", "HOOD", "SOFT" ],
     "material_thickness": 3,
     "pocket_data": [
       {
@@ -241,7 +241,7 @@
       "msg": "The Hub logo on your front stops glowing.",
       "target": "robofac_armor_anchor"
     },
-    "flags": [ "DIMENSIONAL_ANCHOR", "PORTAL_PROOF", "STURDY", "OUTER", "WATERPROOF", "VARSIZE", "RAINPROOF", "HOOD" ]
+    "flags": [ "DIMENSIONAL_ANCHOR", "PORTAL_PROOF", "STURDY", "OUTER", "WATERPROOF", "VARSIZE", "RAINPROOF", "HOOD", "SOFT" ]
   },
   {
     "abstract": "robofac_mantle",

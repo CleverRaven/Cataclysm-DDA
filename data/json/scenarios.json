@@ -227,7 +227,7 @@
   {
     "type": "scenario",
     "name": "(un)living History",
-    "description": "After doing historical reenactment you and your friend are taking break inside the fort, and then you heard a scream and gunshot noises.",
+    "description": "After doing historical reenactment, you and your friend were taking a break inside the fort, and then you heard a scream and gunshot noises.",
     "id": "BastionFortStart",
     "points": -2,
     "start_name": "Bastion Fort",
@@ -694,7 +694,7 @@
     "id": "strong_portal_storm",
     "name": "Splintering Reality",
     "points": -3,
-    "description": "You found yourself alone in an open field when reality begun to heave and crack all around you.  You need to find shelter, and fast.",
+    "description": "You found yourself alone in an open field when reality began to heave and crack all around you.  You need to find shelter, and fast.",
     "flags": [ "CHALLENGE", "LONE_START" ],
     "start_name": "Field",
     "allowed_locs": [ "sloc_field" ],

@@ -6,9 +6,7 @@
     "monsters": [
       { "monster": "mon_guinea_fowl_chick", "freq": 50, "cost_multiplier": 1 },
       { "monster": "mon_quail_chick", "freq": 100, "cost_multiplier": 1 },
-      { "monster": "mon_rhea_chick", "freq": 250, "cost_multiplier": 1 },
-      { "monster": "mon_goose_chick", "freq": 100, "cost_multiplier": 1 },
-      { "monster": "mon_goose_golden_chick", "freq": 100, "cost_multiplier": 1 }
+      { "monster": "mon_rhea_chick", "freq": 250, "cost_multiplier": 1 }
     ]
   },
   {
@@ -16,18 +14,6 @@
     "type": "monstergroup",
     "default": "mon_guinea_fowl_chick",
     "monsters": [ { "monster": "mon_guinea_fowl_chick", "freq": 100, "cost_multiplier": 1 } ]
-  },
-  {
-    "name": "GROUP_EGG_GOOSE",
-    "type": "monstergroup",
-    "default": "mon_goose_chick",
-    "monsters": [ { "monster": "mon_goose_chick", "freq": 100, "cost_multiplier": 1 } ]
-  },
-  {
-    "name": "GROUP_EGG_GOOSE_GOLD",
-    "type": "monstergroup",
-    "default": "mon_goose_golden_chick",
-    "monsters": [ { "monster": "mon_goose_golden_chick", "freq": 100, "cost_multiplier": 1 } ]
   },
   {
     "name": "GROUP_EGG_QUAIL",
@@ -40,18 +26,6 @@
     "type": "monstergroup",
     "default": "mon_rhea_chick",
     "monsters": [ { "monster": "mon_rhea_chick", "freq": 100, "cost_multiplier": 1 } ]
-  },
-  {
-    "name": "GROUP_EGG_HUMMINGBIRD",
-    "type": "monstergroup",
-    "default": "mon_hummingbird_chick",
-    "monsters": [ { "monster": "mon_hummingbird_chick", "freq": 100, "cost_multiplier": 1 } ]
-  },
-  {
-    "name": "GROUP_EGG_WOODPECKER",
-    "type": "monstergroup",
-    "default": "mon_woodpecker_chick",
-    "monsters": [ { "monster": "mon_woodpecker_chick", "freq": 100, "cost_multiplier": 1 } ]
   },
   {
     "name": "GROUP_EGG_TOUCAN",
@@ -120,36 +94,6 @@
     "monsters": [ { "monster": "mon_flamingo_chick", "freq": 100, "cost_multiplier": 1 } ]
   },
   {
-    "name": "GROUP_EGG_COOT",
-    "type": "monstergroup",
-    "default": "mon_coot_chick",
-    "monsters": [ { "monster": "mon_coot_chick", "freq": 100, "cost_multiplier": 1 } ]
-  },
-  {
-    "name": "GROUP_EGG_CORMORANT",
-    "type": "monstergroup",
-    "default": "mon_cormorant_chick",
-    "monsters": [ { "monster": "mon_cormorant_chick", "freq": 100, "cost_multiplier": 1 } ]
-  },
-  {
-    "name": "GROUP_EGG_MOORHEN",
-    "type": "monstergroup",
-    "default": "mon_moorhen_chick",
-    "monsters": [ { "monster": "mon_moorhen_chick", "freq": 100, "cost_multiplier": 1 } ]
-  },
-  {
-    "name": "GROUP_EGG_GREBE",
-    "type": "monstergroup",
-    "default": "mon_grebe_chick",
-    "monsters": [ { "monster": "mon_grebe_chick", "freq": 100, "cost_multiplier": 1 } ]
-  },
-  {
-    "name": "GROUP_EGG_TOAD",
-    "type": "monstergroup",
-    "default": "mon_tadpole_brown",
-    "monsters": [ { "monster": "mon_tadpole_brown", "freq": 100, "cost_multiplier": 1 } ]
-  },
-  {
     "name": "GROUP_EGG_CONSTRICTOR",
     "type": "monstergroup",
     "default": "mon_anaconda",
@@ -177,18 +121,6 @@
     "monsters": [ { "monster": "mon_iguana", "freq": 100, "cost_multiplier": 1 } ]
   },
   {
-    "name": "GROUP_EGG_WATER_BEETLE",
-    "type": "monstergroup",
-    "default": "mon_diving_larva",
-    "monsters": [ { "monster": "mon_diving_larva", "freq": 100, "cost_multiplier": 1 } ]
-  },
-  {
-    "name": "GROUP_EGG_WATER_BUG",
-    "type": "monstergroup",
-    "default": "mon_water_scorpion_larva",
-    "monsters": [ { "monster": "mon_water_scorpion_larva", "freq": 100, "cost_multiplier": 1 } ]
-  },
-  {
     "name": "GROUP_EGG_TURTLE",
     "type": "monstergroup",
     "default": "mon_turtle",
@@ -211,21 +143,6 @@
     "type": "monstergroup",
     "default": "mon_termite_nymph",
     "monsters": [ { "monster": "mon_termite_nymph", "freq": 100, "cost_multiplier": 1 } ]
-  },
-  {
-    "name": "GROUP_EGG_CICADA",
-    "type": "monstergroup",
-    "default": "mon_cicada_nymph",
-    "monsters": [ { "monster": "mon_cicada_nymph", "freq": 100, "cost_multiplier": 1 } ]
-  },
-  {
-    "name": "GROUP_EGG_BUTTERFLY",
-    "type": "monstergroup",
-    "default": "mon_caterpillar",
-    "monsters": [
-      { "monster": "mon_caterpillar_giant", "freq": 25, "cost_multiplier": 1 },
-      { "monster": "mon_caterpillar", "freq": 100, "cost_multiplier": 1 }
-    ]
   },
   {
     "name": "GROUP_EGG_TRIFFID",
