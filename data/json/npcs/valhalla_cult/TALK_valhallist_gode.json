@@ -11,20 +11,26 @@
     ]
   },
   {
-    "type": "talk_topic",               
+    "type": "talk_topic",
     "id": "TALK_VALHALLIST_GODE_2",
     "dynamic_line": "Hello again, how can I help you?",
     "responses": [
       { "text": "I'm sorry, who are you again?", "topic": "TALK_VALHALLIST_GODE_WHO" },
       { "text": "What's your deal here?", "topic": "TALK_VALHALLIST_GODE_Job" },
-      { 
-        "text": "Do you mind if we just talk a bit?", 
+      {
+        "text": "Do you mind if we just talk a bit?",
         "condition": { "not": { "npc_has_effect": "asked_to_socialize" } },
-        "topic": "TALK_FRIEND_CHAT" 
+        "topic": "TALK_FRIEND_CHAT"
       },
       {
         "text": "Any jobs you need done?",
-        "condition": { "and": [ { "u_has_var": "u_joined_valhallists", "type": "general", "context": "meeting", "value": "yes" }, { "not": "has_assigned_mission" }, { "not": "has_many_assigned_missions" } ] },
+        "condition": {
+          "and": [
+            { "u_has_var": "u_joined_valhallists", "type": "general", "context": "meeting", "value": "yes" },
+            { "not": "has_assigned_mission" },
+            { "not": "has_many_assigned_missions" }
+          ]
+        },
         "topic": "TALK_MISSION_LIST"
       },
       { "text": "A pleasure chatting.  Gotta go!", "topic": "TALK_DONE" }
@@ -63,9 +69,7 @@
     "type": "talk_topic",
     "id": "TALK_VALHALLIST_GODE_Join",
     "dynamic_line": "Our leader should be around here somewhere, likely in their hall.  While I can teach you about our way, they're the ones who could let you join us.  Gudene vil det!",
-    "responses": [
-      { "text": "Thanks.", "topic": "TALK_DONE" }
-    ]
+    "responses": [ { "text": "Thanks.", "topic": "TALK_DONE" } ]
   },
   {
     "type": "talk_topic",
