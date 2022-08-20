@@ -59,6 +59,7 @@
       { "monster": "mon_compsognathus_bio_op", "weight": 100, "cost_multiplier": 10, "pack_size": [ 2, 3 ] },
       { "monster": "mon_albertonykus_bio_op", "weight": 100, "cost_multiplier": 10, "pack_size": [ 2, 3 ] },
       { "monster": "mon_saurornitholestes_bio_op", "weight": 100, "cost_multiplier": 10, "pack_size": [ 2, 3 ] },
+      { "monster": "mon_velociraptor", "weight": 100, "cost_multiplier": 10, "pack_size": [ 2, 3 ] },
       { "monster": "mon_velociraptor_bio_op", "weight": 100, "cost_multiplier": 10, "pack_size": [ 2, 3 ] },
       {
         "monster": "mon_deino_bio_op",
