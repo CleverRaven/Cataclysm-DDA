@@ -3283,10 +3283,10 @@ point vehicle::pivot_displacement() const
     return dp.xy();
 }
 
-int vehicle::fuel_left( const itype_id &ftype, bool recurse,
-                        const std::function<bool( const vehicle_part & )> &filter ) const
+int64_t vehicle::fuel_left( const itype_id &ftype, bool recurse,
+                            const std::function<bool( const vehicle_part & )> &filter ) const
 {
-    int fl = 0;
+    int64_t fl = 0;
 
     for( const int i : fuel_containers ) {
         const vehicle_part &part = parts[i];
@@ -3336,10 +3336,6 @@ int vehicle::fuel_left( const itype_id &ftype, bool recurse,
     }
 
     return fl;
-}
-int vehicle::fuel_left( const int p, bool recurse ) const
-{
-    return fuel_left( parts[ p ].fuel_current(), recurse );
 }
 
 int vehicle::engine_fuel_left( const int e, bool recurse ) const
