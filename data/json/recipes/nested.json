@@ -1885,6 +1885,28 @@
     "difficulty": 1
   },
   {
+    "id": "nested_sheet_patchwork",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "name": "patchwork fabrics",
+    "description": "Recipes related to sewing together patchwork fabrics.",
+    "skill_used": "tailor",
+    "nested_category_data": [
+      "sheet_cotton_patchwork",
+      "sheet_faux_fur_patchwork",
+      "sheet_fur_patchwork",
+      "sheet_leather_patchwork",
+      "sheet_felt_patchwork",
+      "sheet_neoprene_patchwork",
+      "sheet_nomex_patchwork",
+      "sheet_lycra_patchwork",
+      "sheet_nylon_patchwork"
+    ],
+    "difficulty": 1
+  },
+  {
     "id": "nested_shelled_nuts",
     "type": "nested_category",
     "activity_level": "LIGHT_EXERCISE",
