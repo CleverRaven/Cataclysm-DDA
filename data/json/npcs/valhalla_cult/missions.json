@@ -106,6 +106,7 @@
     "start": {
       "assign_mission_target": {
         "om_terrain": "mi-go_scout_tower_3",
+        "om_special": "Mi-Go Scout Tower",
         "reveal_radius": 2,
         "random": false,
         "search_range": 100,
