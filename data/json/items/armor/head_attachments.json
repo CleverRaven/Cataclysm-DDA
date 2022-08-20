@@ -28,7 +28,7 @@
       "type": "transform",
       "menu_text": "Press tightly to ears",
       "target": "attachable_ear_muffs_on",
-      "msg": "You put ear muffs tightly to your ears.",
+      "msg": "You put the ear muffs tightly to your ears.",
       "moves": 100
     }
   },
@@ -43,7 +43,7 @@
       "type": "transform",
       "menu_text": "Put away from ears",
       "target": "attachable_ear_muffs",
-      "msg": "You put ear muffs away from your ears.",
+      "msg": "You put the ear muffs away from your ears.",
       "moves": 100
     }
   },
