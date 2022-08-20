@@ -37,11 +37,7 @@
     "using": [ [ "forging_standard", 2 ] ],
     "qualities": [ { "id": "CHISEL", "level": 2 }, { "id": "MANA_INFUSE", "level": 2 }, { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "water", -1 ] ], [ [ "tongs", -1 ] ] ],
-    "proficiencies": [
-      { "proficiency": "prof_carving" },
-      { "proficiency": "prof_alchemy", "required": false, "time_multiplier": 3 },
-      { "proficiency": "prof_fine_alchemy", "required": false }
-    ],
+    "proficiencies": [ { "proficiency": "prof_carving" }, { "proficiency": "prof_alchemy", "required": false, "time_multiplier": 3 } ],
     "components": [
       [ [ "enchanted_wood", 1 ] ],
       [ [ "mana_pearl", 2 ] ],
@@ -87,7 +83,6 @@
     "proficiencies": [
       { "proficiency": "prof_carving" },
       { "proficiency": "prof_alchemy", "required": false, "time_multiplier": 3 },
-      { "proficiency": "prof_fine_alchemy", "required": false },
       { "proficiency": "prof_gunsmithing_basic", "required": false, "time_multiplier": 3 }
     ],
     "components": [
@@ -167,8 +162,7 @@
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
-      { "proficiency": "prof_alchemy", "required": false, "time_multiplier": 3 },
-      { "proficiency": "prof_fine_alchemy", "required": false }
+      { "proficiency": "prof_alchemy", "required": false, "time_multiplier": 3 }
     ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ] ],
     "components": [ [ [ "rune_animist_weapon", 1 ] ], [ [ "twisted_restore_potion", 1 ] ], [ [ "blood", 5 ] ] ]
@@ -344,8 +338,7 @@
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 2.5 },
-      { "proficiency": "prof_alchemy", "required": false, "time_multiplier": 3 },
-      { "proficiency": "prof_fine_alchemy", "required": false }
+      { "proficiency": "prof_alchemy", "required": false, "time_multiplier": 3 }
     ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ] ],
     "components": [
@@ -643,11 +636,7 @@
     "time": "20 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "proficiencies": [
-      { "proficiency": "prof_carving" },
-      { "proficiency": "prof_alchemy" },
-      { "proficiency": "prof_fine_alchemy", "required": false }
-    ],
+    "proficiencies": [ { "proficiency": "prof_carving" }, { "proficiency": "prof_alchemy" } ],
     "components": [ [ [ "stick_long", 1 ] ], [ [ "small_mana_crystal", 1 ] ], [ [ "leather", 2 ] ], [ [ "mana_dust", 10 ] ] ]
   },
   {
@@ -662,11 +651,7 @@
     "time": "60 m",
     "book_learn": [ [ "enchantment_basic", 2 ] ],
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "MANA_INFUSE", "level": 1 } ],
-    "proficiencies": [
-      { "proficiency": "prof_carving" },
-      { "proficiency": "prof_alchemy" },
-      { "proficiency": "prof_fine_alchemy", "required": false }
-    ],
+    "proficiencies": [ { "proficiency": "prof_carving" }, { "proficiency": "prof_alchemy" } ],
     "tools": [ [ [ "rune_alchemist", -1 ] ] ],
     "components": [ [ [ "enchanted_wood", 1 ] ], [ [ "mana_pearl", 1 ] ], [ [ "leather", 2 ] ], [ [ "mana_dust", 10 ] ] ]
   },
@@ -690,12 +675,7 @@
       { "id": "HAMMER", "level": 3 },
       { "id": "CHISEL", "level": 3 }
     ],
-    "proficiencies": [
-      { "proficiency": "prof_carving" },
-      { "proficiency": "prof_alchemy" },
-      { "proficiency": "prof_fine_alchemy", "required": false },
-      { "proficiency": "prof_almetallurgy" }
-    ],
+    "proficiencies": [ { "proficiency": "prof_carving" }, { "proficiency": "prof_alchemy" }, { "proficiency": "prof_almetallurgy" } ],
     "tools": [ [ [ "rune_alchemist", -1 ], [ "tongs", -1 ] ], [ [ "swage", -1 ] ] ],
     "components": [ [ [ "enchanted_wood", 1 ] ], [ [ "bulette_pearl", 1 ] ], [ [ "mithril_ingot", 1 ] ], [ [ "mana_dust", 10 ] ] ]
   }

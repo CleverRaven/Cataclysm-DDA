@@ -23,8 +23,7 @@
       { "proficiency": "prof_leatherworking_basic" },
       { "proficiency": "prof_leatherworking" },
       { "proficiency": "prof_leatherworking_dragon" },
-      { "proficiency": "prof_alchemy" },
-      { "proficiency": "prof_fine_alchemy", "required": false }
+      { "proficiency": "prof_alchemy" }
     ],
     "book_learn": [ [ "black_dragons", 2 ] ],
     "components": [ [ [ "dragon_essence", 1 ] ], [ [ "black_dragon_hide_raw", 1 ] ] ]
