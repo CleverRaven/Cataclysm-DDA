@@ -1241,7 +1241,7 @@ void veh_interact::do_repair( bool force_replace )
 
         // this will always be set, but the gcc thinks that sometimes it won't be
         bool ok = true;
-        if( pt.is_broken() || force_replace = true ) {
+        if( pt.is_broken() || force_replace ) {
             ok = format_reqs( nmsg, vp.install_requirements(), vp.install_skills,
                               vp.install_time( player_character ) );
 
