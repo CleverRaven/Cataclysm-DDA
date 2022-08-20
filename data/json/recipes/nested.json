@@ -1263,6 +1263,18 @@
     "difficulty": 1
   },
   {
+    "id": "nested_all_arming_pants",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_LEGS",
+    "name": "arming pants",
+    "description": "Recipes related to constructing a variety of arming pants.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "gambeson_pants", "xl_gambeson_pants", "k_gambeson_pants", "xl_k_gambeson_pants" ],
+    "difficulty": 1
+  },
+  {
     "id": "nested_gloves_fsurvivor",
     "type": "nested_category",
     "activity_level": "LIGHT_EXERCISE",
