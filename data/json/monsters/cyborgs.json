@@ -271,7 +271,7 @@
     "families": [ "prof_wp_cyborg" ],
     "harvest": "mon_zomborg",
     "dissect": "dissect_mon_zomborg",
-    "special_attacks": [ [ "GRAB", 7 ], [ "scratch", 20 ], [ "ZOMBIE_FUSE", 80 ], [ "OPERATE", 30 ], [ "PARROT", 80 ] ],
+    "special_attacks": [ [ "GRAB", 7 ], [ "scratch", 20 ], [ "ZOMBIE_FUSE", 80 ] ],
     "regenerates": 1,
     "flags": [
       "SEES",
