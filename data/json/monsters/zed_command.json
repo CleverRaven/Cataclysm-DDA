@@ -1,5 +1,5 @@
 [
-{
+  {
     "id": "mon_skeleton_master",
     "type": "MONSTER",
     "name": { "str": "skeletal master" },
@@ -59,7 +59,7 @@
     "id": "mon_skeleton_necro",
     "type": "MONSTER",
     "name": { "str": "zombie lich", "str_pl": "zombie liches" },
-    "description": "A twisted visage of the human body decked in bone from head to toe.  Its vague shape reminiscent of some tabletop monster, it walks and watches your actions with a cold and calculating demeanor."
+    "description": "A twisted visage of the human body decked in bone from head to toe.  Its vague shape reminiscent of some tabletop monster, it walks and watches your actions with a cold and calculating demeanor.",
     "default_faction": "zombie",
     "bodytype": "human",
     "species": [ "ZOMBIE", "HUMAN" ],
