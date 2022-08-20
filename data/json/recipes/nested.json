@@ -33,6 +33,18 @@
     "difficulty": 1
   },
   {
+    "id": "nested_staffs",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_BASHING",
+    "name": "staffs",
+    "description": "Recipes related to constructing different types of staffs.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "shock_staff", "q_staff", "bo_from long stick", "bo_from quarterstaff", "i_staff" ],
+    "difficulty": 1
+  },
+  {
     "id": "nested_vehicle_battery",
     "type": "nested_category",
     "activity_level": "LIGHT_EXERCISE",
