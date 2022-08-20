@@ -13,6 +13,26 @@
     "autolearn": [ [ "fabrication", 1 ] ]
   },
   {
+    "id": "nested_flintlock_arms",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "name": "flintlock arms",
+    "description": "Recipes related to constructing flintlock rifles, pistols and shotguns.",
+    "skill_used": "fabrication",
+    "nested_category_data": [
+      "rifle_flintlock",
+      "longrifle_flintlock",
+      "carbine_flintlock",
+      "pistol_flintlock",
+      "carbine_flintlock_double",
+      "carbine_flintlock_double_from_antiques",
+      "blunderbuss"
+    ],
+    "difficulty": 1
+  },
+  {
     "id": "nested_vehicle_battery",
     "type": "nested_category",
     "activity_level": "LIGHT_EXERCISE",
