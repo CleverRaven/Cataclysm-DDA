@@ -42,7 +42,8 @@
       "t_wall_p",
       "t_concrete_wall",
       "t_brick_wall",
-      "t_strconc_wall"
+      "t_strconc_wall",
+      "t_rock_wall"
     ],
     "messages": {
       "pull": "You turn the handle…",
