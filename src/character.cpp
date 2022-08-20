@@ -8984,7 +8984,7 @@ bool Character::crush_frozen_liquid( item_location loc )
             }
         } else {
             add_msg_if_player(
-                _( "You need a hammering tool and screwling tool or a dorill to crush up frozen liquids in rigid container!" ) );
+                _( "You need both hammering tools and screwdrivers or a drill to crush up frozen liquids in rigid container!" ) );
         }
     } else {
         if( has_quality( qual_HAMMER ) ) {
