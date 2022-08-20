@@ -1610,6 +1610,7 @@ class Character : public Creature, public visitable
                                          std::string name_override = std::string() ) const;
 
         void process_items();
+        void leak_items();
         /** Search surrounding squares for traps (and maybe other things in the future). */
         void search_surroundings();
         /**Passively produce power from PERPETUAL fuel*/

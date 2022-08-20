@@ -714,7 +714,8 @@ bool inventory_holster_preset::is_shown( const item_location &contained ) const
     if( contained.eventually_contains( holster ) || holster.eventually_contains( contained ) ) {
         return false;
     }
-    if( !is_container( contained ) && contained->made_of( phase_id::LIQUID ) ) {
+    if( !is_container( contained ) && contained->made_of( phase_id::LIQUID ) &&
+        !contained->is_frozen_liquid() ) {
         // spilt liquid cannot be picked up
         return false;
     }
@@ -3164,7 +3165,11 @@ void inventory_multiselector::deselect_contained_items()
     for( inventory_column *col : get_all_columns() ) {
         for( inventory_entry *selected : col->get_entries(
         []( const inventory_entry & entry ) {
-        return entry.is_item() && entry.chosen_count > 0 && entry.locations.front()->is_frozen_liquid();
+        return entry.is_item() && entry.chosen_count > 0 && ( entry.locations.front()->is_frozen_liquid() &&
+                    entry.locations.front().where() != item_location::type::map &&
+                    ( !entry.locations.front().has_parent() || ( entry.locations.front().has_parent() &&
+                            ( entry.locations.front()->length() > entry.locations.front().parent_item()->contained_where(
+                                  *entry.locations.front() )->get_pocket_data()->max_item_length ) ) ) ) ;
         } ) ) {
             set_chosen_count( *selected, 0 );
         }
@@ -3253,7 +3258,8 @@ drop_locations inventory_drop_selector::execute()
 
     for( const std::pair<item_location, int> &drop_pair : to_use ) {
         bool should_drop = true;
-        if( drop_pair.first->made_of_from_type( phase_id::LIQUID ) ) {
+        if( drop_pair.first->made_of_from_type( phase_id::LIQUID ) &&
+            !drop_pair.first->is_frozen_liquid() ) {
             if( should_drop_liquid == drop_liquid::ask ) {
                 if( !warn_liquid || query_yn(
                         _( "You are dropping liquid from its container.  You might not be able to pick it back up.  Really do so?" ) ) ) {

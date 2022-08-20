@@ -1265,7 +1265,7 @@ ret_val<item_pocket::contain_code> item_pocket::is_compatible( const item &it ) 
         return ret_val<item_pocket::contain_code>::make_success();
     }
 
-    if( it.made_of( phase_id::LIQUID ) ) {
+    if( it.made_of( phase_id::LIQUID ) && !it.has_flag( flag_MELTING_FROZEN ) ) {
         if( !data->watertight ) {
             return ret_val<item_pocket::contain_code>::make_failure(
                        contain_code::ERR_LIQUID, _( "can't contain liquid" ) );
@@ -1358,11 +1358,11 @@ ret_val<item_pocket::contain_code> item_pocket::can_contain( const item &it ) co
                        contain_code::ERR_LIQUID, _( "can't mix liquid with contained item" ) );
         }
     } else if( size() == 1 && !it.is_frozen_liquid() &&
-               ( contents.front().made_of( phase_id::LIQUID ) ||
-                 contents.front().is_frozen_liquid() ) ) {
+               ( contents.front().made_of( phase_id::LIQUID ) ) ) {
         return ret_val<item_pocket::contain_code>::make_failure(
                    contain_code::ERR_LIQUID, _( "can't put non liquid into pocket with liquid" ) );
     }
+
     if( it.made_of( phase_id::GAS ) ) {
         if( size() != 0 && !contents.front().can_combine( it ) ) {
             return ret_val<item_pocket::contain_code>::make_failure(
@@ -1704,6 +1704,54 @@ void item_pocket::process( map &here, Character *carrier, const tripoint &pos, f
             ++iter;
         }
     }
+}
+
+bool item_pocket::leak( map &here, Character *carrier, const tripoint &pos, item_pocket *pocke )
+{
+    std::vector<item *> erases;
+    for( auto iter = contents.begin(); iter != contents.end(); ) {
+        if( iter->leak( here, carrier, pos, this ) ) {
+            if( watertight() ) {
+                continue;
+            }
+            item *it = &*iter;
+            int count = it->count();
+
+            if( pocke ) {
+                if( pocke->watertight() ) {
+                    ++iter;
+                    continue;
+                }
+                if( count > 1 && it->has_flag( flag_MELTING_FROZEN ) && false ) {
+                    item split_item;
+                    split_item = it->split( 1 );
+                    split_item.unset_flag( flag_MELTING_FROZEN );
+                    pocke->add( split_item );
+                } else {
+                    it->unset_flag( flag_MELTING_FROZEN );
+                    pocke->add( *it );
+                    contents.erase( iter );
+                }
+            } else {
+                if( count > 1 && it->has_flag( flag_MELTING_FROZEN )  && false ) {
+                    item split_item;
+                    split_item = it->split( 1 );
+                    split_item.unset_flag( flag_MELTING_FROZEN );
+                    split_item.on_drop( pos );
+                    here.add_item_or_charges( pos, split_item );
+                } else {
+                    it->unset_flag( flag_MELTING_FROZEN );
+                    iter->on_drop( pos );
+                    here.add_item_or_charges( pos, *iter );
+                    contents.erase( iter );
+                }
+                carrier->add_msg_if_player( _( "Liquid leaked out from the %s and dripped onto the ground!" ),
+                                            this->get_name() );
+            }
+        }
+        ++iter;
+    }
+    return false;
 }
 
 bool item_pocket::is_default_state() const

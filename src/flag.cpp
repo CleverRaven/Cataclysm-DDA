@@ -352,6 +352,8 @@ const flag_id flag_ZERO_WEIGHT( "ZERO_WEIGHT" );
 const flag_id flag_ZOOM( "ZOOM" );
 const flag_id flag_wooled( "wooled" );
 const flag_id json_flag_HIDDEN_ITEM( "HIDDEN_ITEM" );
+const flag_id flag_SHREDDED( "SHREDDED" );
+const flag_id flag_MELTING_FROZEN( "MELTING_FROZEN" );
 static const flag_id json_flag_null( "null" );
 
 const flag_id flag_NULL = json_flag_null; // intentionally invalid flag

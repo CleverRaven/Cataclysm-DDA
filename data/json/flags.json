@@ -2086,5 +2086,15 @@
     "id": "VOLTMETER",
     "type": "json_flag",
     "info": "This tool can test for voltage."
+  },
+  {
+    "id": "SHREDDED",
+    "type": "json_flag",
+    "info": "This is a small fragment."
+  },
+  {
+    "id": "MELTING_FROZEN",
+    "type": "json_flag",
+    "info": "This is melting out."
   }
 ]

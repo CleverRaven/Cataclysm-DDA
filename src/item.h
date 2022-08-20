@@ -1423,6 +1423,8 @@ class item : public visitable
         bool process( map &here, Character *carrier, const tripoint &pos, float insulation = 1,
                       temperature_flag flag = temperature_flag::NORMAL, float spoil_multiplier_parent = 1.0f );
 
+        bool leak( map &here, Character *carrier, const tripoint &pos, item_pocket *pocke = nullptr );
+
         /**
          * Gets the point (vehicle tile) the cable is connected to.
          * Returns nothing if not connected to anything.

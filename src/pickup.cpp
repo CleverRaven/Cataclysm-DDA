@@ -59,6 +59,7 @@ using ItemCount = std::pair<item, int>;
 using PickupMap = std::map<std::string, ItemCount>;
 
 static const zone_type_id zone_type_NO_AUTO_PICKUP( "NO_AUTO_PICKUP" );
+static const flag_id flag_SHREDDED( "SHREDDED" );
 
 //helper function for Pickup::autopickup
 static void show_pickup_message( const PickupMap &mapPickup )
@@ -159,11 +160,13 @@ bool Pickup::query_thief()
 
 // Returns false if pickup caused a prompt and the player selected to cancel pickup
 static bool pick_one_up( item_location &loc, int quantity, bool &got_water, PickupMap &mapPickup,
-                         bool autopickup, bool &stash_successful )
+                         bool autopickup, bool &stash_successful, bool &got_frozen_liquid )
 {
     Character &player_character = get_player_character();
     int moves_taken = loc.obtain_cost( player_character, quantity );
     bool picked_up = false;
+    bool crushed = false;
+
     pickup_answer option = CANCEL;
 
     // We already checked in do_pickup if this was a nullptr
@@ -199,8 +202,16 @@ static bool pick_one_up( item_location &loc, int quantity, bool &got_water, Pick
 
     bool did_prompt = false;
     if( newit.is_frozen_liquid() ) {
-        if( !( got_water = !player_character.crush_frozen_liquid( newloc ) ) ) {
+        if( newit.has_flag( flag_SHREDDED ) ) {
             option = STASH;
+        } else {
+            crushed = player_character.crush_frozen_liquid( newloc );
+            if( !( got_water = !crushed ) ) {
+                option = STASH;
+                newit.set_flag( flag_SHREDDED );
+            } else {
+                got_frozen_liquid = true;
+            }
         }
     } else if( newit.made_of_from_type( phase_id::LIQUID ) && !newit.is_frozen_liquid() ) {
         got_water = true;
@@ -308,6 +319,7 @@ bool Pickup::do_pickup( std::vector<item_location> &targets, std::vector<int> &q
                         bool autopickup, bool &stash_successful )
 {
     bool got_water = false;
+    bool got_frozen_liquid = false;
     Character &player_character = get_player_character();
     bool weight_is_okay = ( player_character.weight_carried() <= player_character.weight_capacity() );
 
@@ -329,14 +341,16 @@ bool Pickup::do_pickup( std::vector<item_location> &targets, std::vector<int> &q
             continue;
         }
 
-        problem = !pick_one_up( target, quantity, got_water, mapPickup, autopickup, stash_successful );
+        problem = !pick_one_up( target, quantity, got_water, mapPickup, autopickup, stash_successful,
+                                got_frozen_liquid );
     }
 
     if( !mapPickup.empty() ) {
         show_pickup_message( mapPickup );
     }
-
-    if( got_water ) {
+    if( got_frozen_liquid ) {
+        add_msg( m_info, _( "Chunks of frozen liquid cannot be picked up without the correct tools." ) );
+    } else if( got_water ) {
         add_msg( m_info, _( "Spilt liquid cannot be picked back up.  Try mopping it instead." ) );
     }
     if( weight_is_okay && player_character.weight_carried() > player_character.weight_capacity() ) {

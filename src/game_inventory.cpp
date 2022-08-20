@@ -483,7 +483,7 @@ class pickup_inventory_preset : public inventory_selector_preset
 
         std::string get_denial( const item_location &loc ) const override {
             if( !you.has_item( *loc ) ) {
-                if( loc->made_of_from_type( phase_id::LIQUID ) ) {
+                if( loc->made_of_from_type( phase_id::LIQUID ) && !loc->is_frozen_liquid() ) {
                     if( loc.has_parent() ) {
                         return _( "Can't pick up liquids." );
                     } else {
@@ -1791,7 +1791,8 @@ drop_locations game_menus::inv::unload_container( avatar &you )
     for( drop_location &droplc : insert_menu.execute() ) {
         for( item *it : droplc.first->all_items_top( item_pocket::pocket_type::CONTAINER, true ) ) {
             // no liquids and no items marked as favorite
-            if( !it->made_of( phase_id::LIQUID ) && !it->is_favorite ) {
+            if( ( !it->made_of( phase_id::LIQUID ) || ( it->made_of( phase_id::LIQUID ) &&
+                    it->is_frozen_liquid() ) ) && !it->is_favorite ) {
                 dropped.emplace_back( item_location( droplc.first, it ), it->count() );
             }
         }
@@ -2007,7 +2008,9 @@ drop_locations game_menus::inv::multidrop( avatar &you )
     you.inv->restack( you );
 
     const inventory_filter_preset preset( [ &you ]( const item_location & location ) {
-        return you.can_drop( *location ).success();
+        return you.can_drop( *location ).success() && ( !location.get_item()->is_frozen_liquid() ||
+                !location.has_parent() || ( location.has_parent() &&
+                                            !location.parent_item()->contained_where( *location )->get_pocket_data()->rigid ) ) ;
     } );
 
     inventory_drop_selector inv_s( you, preset );

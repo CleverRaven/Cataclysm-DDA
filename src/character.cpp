@@ -361,7 +361,10 @@ static const proficiency_id proficiency_prof_trapsetting( "prof_trapsetting" );
 static const proficiency_id proficiency_prof_wound_care( "prof_wound_care" );
 static const proficiency_id proficiency_prof_wound_care_expert( "prof_wound_care_expert" );
 
+static const quality_id qual_DRILL( "DRILL" );
 static const quality_id qual_HAMMER( "HAMMER" );
+static const quality_id qual_SCREW( "SCREW" );
+
 static const quality_id qual_LIFT( "LIFT" );
 
 static const scenttype_id scent_sc_human( "sc_human" );
@@ -2060,6 +2063,7 @@ void Character::process_turn()
         drop_invalid_inventory();
     }
     process_items();
+    leak_items();
     // Didn't just pick something up
     last_item = itype_null;
 
@@ -7115,7 +7119,7 @@ ret_val<void> Character::can_wield( const item &it ) const
         return ret_val<void>::make_failure(
                    _( "You need at least one arm available to even consider wielding something." ) );
     }
-    if( it.made_of_from_type( phase_id::LIQUID ) ) {
+    if( it.made_of_from_type( phase_id::LIQUID ) && !it.is_frozen_liquid() ) {
         return ret_val<void>::make_failure( _( "Can't wield spilt liquids." ) );
     }
     if( it.has_flag( flag_NO_UNWIELD ) ) {
@@ -8951,25 +8955,58 @@ const pathfinding_settings &Character::get_pathfinding_settings() const
 
 bool Character::crush_frozen_liquid( item_location loc )
 {
-    if( has_quality( qual_HAMMER ) ) {
-        item hammering_item = item_with_best_of_quality( qual_HAMMER, true );
-        //~ %1$s: item to be crushed, %2$s: hammer name
-        if( query_yn( _( "Do you want to crush up %1$s with your %2$s?\n"
-                         "<color_red>Be wary of fragile items nearby!</color>" ),
-                      loc.get_item()->display_name(), hammering_item.tname() ) ) {
-
-            //Risk smashing tile with hammering tool, risk is lower with higher dex, damage lower with lower strength
-            if( one_in( 1 + dex_cur / 4 ) ) {
-                add_msg_if_player( colorize( _( "You swing your %s wildly!" ), c_red ),
-                                   hammering_item.tname() );
-                int smashskill = get_arm_str() + hammering_item.damage_melee( damage_type::BASH );
-                get_map().bash( loc.position(), smashskill );
+    if( loc.has_parent() && loc.parent_item()->contained_where( *loc )->get_pocket_data()->rigid ) {
+        bool enough_quality = false;
+        if( has_quality( qual_DRILL ) ) {
+            enough_quality = true;
+        } else if( has_quality( qual_HAMMER ) && has_quality( qual_SCREW ) ) {
+            std::list<item_location> screw_tools;
+            std::vector<item_location> hammer_tools;
+            for( item_location &loc : all_items_loc() ) {
+                if( loc->has_quality( qual_HAMMER ) ) {
+                    hammer_tools.emplace_back( loc );
+                }
+                if( loc->has_quality( qual_SCREW ) ) {
+                    screw_tools.emplace_back( loc );
+                }
             }
-            add_msg_if_player( _( "You crush up and gather %s" ), loc.get_item()->display_name() );
-            return true;
+            if( screw_tools.size() >= 1 && hammer_tools.size() >= 1 ) {
+                for( item_location &hammer : hammer_tools ) {
+                    screw_tools.remove( hammer );
+                }
+                if( screw_tools.size() >= 1 ) {
+                    enough_quality = true;
+                }
+            }
+            if( enough_quality ) {
+                add_msg_if_player( _( "You pulverize and gather %s" ), loc.get_item()->display_name() );
+                return true;
+            }
+        } else {
+            add_msg_if_player(
+                _( "You need a hammering tool and screwling tool or a dorill to crush up frozen liquids in rigid container!" ) );
         }
     } else {
-        popup( _( "You need a hammering tool to crush up frozen liquids!" ) );
+        if( has_quality( qual_HAMMER ) ) {
+            item hammering_item = item_with_best_of_quality( qual_HAMMER, true );
+            //~ %1$s: item to be crushed, %2$s: hammer name
+            if( query_yn( _( "Do you want to crush up %1$s with your %2$s?\n"
+                             "<color_red>Be wary of fragile items nearby!</color>" ),
+                          loc.get_item()->display_name(), hammering_item.tname() ) ) {
+
+                //Risk smashing tile with hammering tool, risk is lower with higher dex, damage lower with lower strength
+                if( one_in( 1 + dex_cur / 4 ) ) {
+                    add_msg_if_player( colorize( _( "You swing your %s wildly!" ), c_red ),
+                                       hammering_item.tname() );
+                    int smashskill = get_arm_str() + hammering_item.damage_melee( damage_type::BASH );
+                    get_map().bash( loc.position(), smashskill );
+                }
+                add_msg_if_player( _( "You crush up and gather %s" ), loc.get_item()->display_name() );
+                return true;
+            }
+        } else {
+            add_msg_if_player( _( "You need a hammering tool to crush up frozen liquids!" ) );
+        }
     }
     return false;
 }
@@ -11121,6 +11158,28 @@ void Character::siphon( vehicle &veh, const itype_id &desired_liquid )
 void Character::on_worn_item_transform( const item &old_it, const item &new_it )
 {
     morale->on_worn_item_transform( old_it, new_it );
+}
+
+void Character::leak_items()
+{
+    std::vector<item_location> removed_items;
+    if( weapon.is_container() ) {
+        if( weapon.leak( get_map(), this, pos() ) ) {
+            weapon.spill_contents( pos() );
+        }
+    }
+    for( item_location it : top_items_loc() ) {
+        if( !it || ( !it->is_container() && !it->made_of( phase_id::LIQUID ) ) ) {
+            continue;
+        }
+        if( it->leak( get_map(), this, pos() ) ) {
+            it->spill_contents( pos() );
+            removed_items.push_back( it );
+        }
+    }
+    for( item_location removed : removed_items ) {
+        removed.remove_item();
+    }
 }
 
 void Character::process_items()
