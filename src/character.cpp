@@ -8966,8 +8966,8 @@ bool Character::crush_frozen_liquid( item_location loc )
                 if( tool->has_quality( qual_HAMMER ) ) {
                     hammer_tools.emplace_back( tool );
                 }
-                if( loc->has_quality( qual_SCREW ) ) {
-                    screw_tools.emplace_back( loc );
+                if( tool->has_quality( qual_SCREW ) ) {
+                    screw_tools.emplace_back( tool );
                 }
             }
             if( screw_tools.size() >= 1 && hammer_tools.size() >= 1 ) {
