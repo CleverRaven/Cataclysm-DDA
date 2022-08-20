@@ -478,11 +478,6 @@ void DynamicDataLoader::initialize()
 #endif
 }
 
-void DynamicDataLoader::load_data_from_path( const std::string &path, const std::string &src,
-        loading_ui &ui )
-{
-    load_data_from_path( cata_path{ cata_path::root_path::unknown, path }, src, ui );
-}
 void DynamicDataLoader::load_data_from_path( const cata_path &path, const std::string &src,
         loading_ui &ui )
 {
@@ -514,13 +509,6 @@ void DynamicDataLoader::load_data_from_path( const cata_path &path, const std::s
             throw std::runtime_error( err.what() );
         }
     }
-}
-
-void DynamicDataLoader::load_all_from_json( const JsonValue &jsin, const std::string &src,
-        loading_ui &ui,
-        const std::string &base_path, const std::string &full_path )
-{
-    load_all_from_json( jsin, src, ui, cata_path{ cata_path::root_path::unknown, base_path }, cata_path{ cata_path::root_path::unknown, full_path } );
 }
 
 void DynamicDataLoader::load_all_from_json( const JsonValue &jsin, const std::string &src,

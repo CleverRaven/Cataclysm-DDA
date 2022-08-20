@@ -100,8 +100,6 @@ class DynamicDataLoader
          * @param ui Finalization status display.
          * @throws std::exception on all kind of errors.
          */
-        void load_all_from_json( const JsonValue &jsin, const std::string &src, loading_ui &ui,
-                                 const std::string &base_path, const std::string &full_path );
         void load_all_from_json( const JsonValue &jsin, const std::string &src,
                                  loading_ui &,
                                  const cata_path &base_path, const cata_path &full_path );
@@ -144,7 +142,6 @@ class DynamicDataLoader
          * @throws std::exception on all kind of errors.
          */
         /*@{*/
-        void load_data_from_path( const std::string &path, const std::string &src, loading_ui &ui );
         void load_data_from_path( const cata_path &path, const std::string &src, loading_ui &ui );
         /*@}*/
         /**
