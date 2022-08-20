@@ -8962,9 +8962,9 @@ bool Character::crush_frozen_liquid( item_location loc )
         } else if( has_quality( qual_HAMMER ) && has_quality( qual_SCREW ) ) {
             std::list<item_location> screw_tools;
             std::vector<item_location> hammer_tools;
-            for( item_location &loc : all_items_loc() ) {
-                if( loc->has_quality( qual_HAMMER ) ) {
-                    hammer_tools.emplace_back( loc );
+            for( item_location &tool : all_items_loc() ) {
+                if( tool->has_quality( qual_HAMMER ) ) {
+                    hammer_tools.emplace_back( tool );
                 }
                 if( loc->has_quality( qual_SCREW ) ) {
                     screw_tools.emplace_back( loc );

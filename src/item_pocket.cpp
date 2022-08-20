@@ -1712,6 +1712,7 @@ bool item_pocket::leak( map &here, Character *carrier, const tripoint &pos, item
     for( auto iter = contents.begin(); iter != contents.end(); ) {
         if( iter->leak( here, carrier, pos, this ) ) {
             if( watertight() ) {
+                ++iter;
                 continue;
             }
             item *it = &*iter;
