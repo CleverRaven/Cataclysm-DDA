@@ -342,12 +342,6 @@
   },
   {
     "type": "item_group",
-    "id": "NC_LUMBERJACK_tools",
-    "subtype": "distribution",
-    "entries": [ { "item": "hand_axe" } ]
-  },
-  {
-    "type": "item_group",
     "id": "NC_meteorologist_worn",
     "subtype": "collection",
     "entries": [ { "group": "npc_coat" }, { "group": "npc_shirt_male" }, { "group": "underwear" } ]
