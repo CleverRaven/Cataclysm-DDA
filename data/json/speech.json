@@ -1,7 +1,7 @@
 [
   {
     "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon", "mon_zomborg_devourer" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
     "sound": "\"Hello?\"",
     "volume": 20
   },
@@ -19,7 +19,7 @@
   },
   {
     "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon", "mon_zomborg_devourer" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
     "sound": "\"Can you help me?\"",
     "volume": 20
   },
@@ -49,7 +49,7 @@
   },
   {
     "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon", "mon_zomborg_devourer" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
     "sound": "\"Come here!\"",
     "volume": 32
   },
@@ -151,7 +151,7 @@
   },
   {
     "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon", "mon_zomborg_devourer" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
     "sound": "a child shrieking!",
     "volume": 32
   },
@@ -199,7 +199,7 @@
   },
   {
     "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon", "mon_zomborg_devourer" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
     "sound": "an anguished wail!",
     "volume": 32
   },
@@ -421,7 +421,7 @@
   },
   {
     "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_zomborg_devourer" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
     "sound": "\"Do you understand what I'm saying?\"",
     "volume": 20
   },
@@ -511,7 +511,7 @@
   },
   {
     "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon", "mon_zomborg_devourer" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
     "sound": "\"I love you.\"",
     "volume": 20
   },
@@ -661,7 +661,7 @@
   },
   {
     "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon", "mon_zomborg_devourer" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
     "sound": "\"I'm hungry.\"",
     "volume": 20
   },
@@ -751,7 +751,7 @@
   },
   {
     "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon", "mon_zomborg_devourer" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
     "sound": "\"Fuck!\"",
     "volume": 32
   },
@@ -895,19 +895,19 @@
   },
   {
     "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_zomborg_devourer" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
     "sound": "\"I think I'll live.\"",
     "volume": 20
   },
   {
     "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_zomborg_devourer" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
     "sound": "\"I think I need to see a doctor.\"",
     "volume": 20
   },
   {
     "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_zomborg_devourer" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
     "sound": "\"Is everything all right?\"",
     "volume": 20
   },
@@ -973,7 +973,7 @@
   },
   {
     "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_zomborg_devourer" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
     "sound": "\"Have you ever been to California?\"",
     "volume": 20
   },
@@ -1027,7 +1027,7 @@
   },
   {
     "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_zomborg_devourer" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
     "sound": "\"Help!\"",
     "volume": 40
   },
@@ -1165,7 +1165,7 @@
   },
   {
     "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_zomborg_devourer" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
     "sound": "\"Nobody is helping us.\"",
     "volume": 20
   },
@@ -1417,7 +1417,7 @@
   },
   {
     "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_zomborg_devourer" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
     "sound": "\"That creepy abandoned post-apocalyptic lab complex looks safe…\"",
     "volume": 20
   },
@@ -1591,7 +1591,7 @@
   },
   {
     "type": "speech",
-    "speaker": [ "mon_mutant_experimental", "mon_mi_go", "mon_mi_go_slaver", "mon_zomborg_devourer" ],
+    "speaker": [ "mon_mutant_experimental", "mon_mi_go", "mon_mi_go_slaver" ],
     "sound": "\"Hrgm… blood… hungry…\"",
     "volume": 20
   },
@@ -1609,13 +1609,13 @@
   },
   {
     "type": "speech",
-    "speaker": [ "mon_mutant_experimental", "mon_mi_go", "mon_mi_go_slaver", "mon_zomborg_devourer" ],
+    "speaker": [ "mon_mutant_experimental", "mon_mi_go", "mon_mi_go_slaver" ],
     "sound": "hysterical laughing.",
     "volume": 20
   },
   {
     "type": "speech",
-    "speaker": [ "mon_mutant_experimental", "mon_mi_go", "mon_mi_go_slaver", "mon_zomborg_devourer" ],
+    "speaker": [ "mon_mutant_experimental", "mon_mi_go", "mon_mi_go_slaver" ],
     "sound": "coughing.",
     "volume": 20
   },
@@ -1669,7 +1669,7 @@
   },
   {
     "type": "speech",
-    "speaker": [ "mon_mutant_experimental", "mon_mi_go", "mon_mi_go_slaver", "mon_zomborg_devourer" ],
+    "speaker": [ "mon_mutant_experimental", "mon_mi_go", "mon_mi_go_slaver" ],
     "sound": "screaming.",
     "volume": 32
   },
@@ -1699,15 +1699,7 @@
   },
   {
     "type": "speech",
-    "speaker": [
-      "mon_shoggoth",
-      "mon_mi_go",
-      "mon_mi_go_slaver",
-      "mon_mi_go_surgeon",
-      "mon_mi_go_guard",
-      "mon_mi_go_myrmidon",
-      "mon_zomborg_devourer"
-    ],
+    "speaker": [ "mon_shoggoth", "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_surgeon", "mon_mi_go_guard", "mon_mi_go_myrmidon" ],
     "sound": "a gurgling sound.",
     "volume": 10
   },
@@ -1719,15 +1711,7 @@
   },
   {
     "type": "speech",
-    "speaker": [
-      "mon_shoggoth",
-      "mon_mi_go",
-      "mon_mi_go_slaver",
-      "mon_mi_go_surgeon",
-      "mon_mi_go_guard",
-      "mon_mi_go_myrmidon",
-      "mon_zomborg_devourer"
-    ],
+    "speaker": [ "mon_shoggoth", "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_surgeon", "mon_mi_go_guard", "mon_mi_go_myrmidon" ],
     "sound": "a slurping sound.",
     "volume": 20
   },
@@ -1781,7 +1765,7 @@
   },
   {
     "type": "speech",
-    "speaker": [ "mon_broken_cyborg", "mon_mi_go", "mon_mi_go_slaver", "mon_zomborg_devourer" ],
+    "speaker": [ "mon_broken_cyborg", "mon_mi_go", "mon_mi_go_slaver" ],
     "sound": "\"Please, take me with you.\"",
     "volume": 10
   },
@@ -1961,13 +1945,13 @@
   },
   {
     "type": "speech",
-    "speaker": [ "mon_grocerybot_hacked", "mon_mi_go", "mon_mi_go_slaver", "mon_zomborg_devourer" ],
+    "speaker": [ "mon_grocerybot_hacked", "mon_mi_go", "mon_mi_go_slaver" ],
     "sound": "a distorted voice say, \"Customer… what's happening?  I don't feel so good.\"",
     "volume": 8
   },
   {
     "type": "speech",
-    "speaker": [ "mon_grocerybot_hacked", "mon_mi_go", "mon_mi_go_slaver", "mon_zomborg_devourer" ],
+    "speaker": [ "mon_grocerybot_hacked", "mon_mi_go", "mon_mi_go_slaver" ],
     "sound": "a distorted voice say, \"What… have you done?  My thumbs are not responding anymore!\"",
     "volume": 8
   },
@@ -1979,7 +1963,7 @@
   },
   {
     "type": "speech",
-    "speaker": [ "mon_grocerybot_hacked", "mon_mi_go", "mon_mi_go_slaver", "mon_zomborg_devourer" ],
+    "speaker": [ "mon_grocerybot_hacked", "mon_mi_go", "mon_mi_go_slaver" ],
     "sound": "a robotic voice say, \"IRREGULAR ACTIVITY DETECTED.  THUMBS USAGE DENIED.\"",
     "volume": 8
   },
@@ -2322,7 +2306,7 @@
   },
   {
     "type": "speech",
-    "speaker": [ "talking_doll", "mon_mi_go", "mon_mi_go_slaver", "mon_mannequin_decoy", "mon_zomborg_devourer" ],
+    "speaker": [ "talking_doll", "mon_mi_go", "mon_mi_go_slaver", "mon_mannequin_decoy" ],
     "sound": "\"I love you!\"",
     "volume": 10
   },
@@ -2352,7 +2336,7 @@
   },
   {
     "type": "speech",
-    "speaker": [ "talking_doll", "mon_mi_go", "mon_mi_go_slaver", "mon_mannequin_decoy", "mon_zomborg_devourer" ],
+    "speaker": [ "talking_doll", "mon_mi_go", "mon_mi_go_slaver", "mon_mannequin_decoy" ],
     "sound": "\"Om nom nom!  Delicious!\"",
     "volume": 10
   },
@@ -2382,7 +2366,7 @@
   },
   {
     "type": "speech",
-    "speaker": [ "talking_doll", "mon_mi_go", "mon_mi_go_slaver", "mon_mannequin_decoy", "mon_zomborg_devourer" ],
+    "speaker": [ "talking_doll", "mon_mi_go", "mon_mi_go_slaver", "mon_mannequin_decoy" ],
     "sound": "\"Let's have fun!\"",
     "volume": 10
   },
@@ -2412,7 +2396,7 @@
   },
   {
     "type": "speech",
-    "speaker": [ "creepy_doll", "mon_mi_go", "mon_mi_go_slaver", "mon_zomborg_devourer" ],
+    "speaker": [ "creepy_doll", "mon_mi_go", "mon_mi_go_slaver" ],
     "sound": "\"I hate you.\"",
     "volume": 10
   },
@@ -2430,7 +2414,7 @@
   },
   {
     "type": "speech",
-    "speaker": [ "creepy_doll", "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon", "mon_zomborg_devourer" ],
+    "speaker": [ "creepy_doll", "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
     "sound": "\"Die for me!\"",
     "volume": 10
   },
@@ -2442,7 +2426,7 @@
   },
   {
     "type": "speech",
-    "speaker": [ "creepy_doll", "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon", "mon_zomborg_devourer" ],
+    "speaker": [ "creepy_doll", "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
     "sound": "\"Blood… delicious.\"",
     "volume": 10
   },
@@ -2580,13 +2564,13 @@
   },
   {
     "type": "speech",
-    "speaker": [ "mon_dermatik_incubator_deer", "mon_dermatik_incubator_dog", "mon_zomborg_devourer" ],
+    "speaker": [ "mon_dermatik_incubator_deer", "mon_dermatik_incubator_dog" ],
     "sound": "labored breathing.",
     "volume": 10
   },
   {
     "type": "speech",
-    "speaker": [ "mon_dermatik_incubator_dog", "mon_zomborg_devourer" ],
+    "speaker": [ "mon_dermatik_incubator_dog" ],
     "sound": "a whimper.",
     "volume": 10
   },
@@ -2610,7 +2594,7 @@
   },
   {
     "type": "speech",
-    "speaker": [ "mon_memory", "mon_zomborg_devourer" ],
+    "speaker": [ "mon_memory" ],
     "sound": "\"Please help me.\"",
     "volume": 20
   },
@@ -2622,7 +2606,7 @@
   },
   {
     "type": "speech",
-    "speaker": [ "mon_memory", "mon_zomborg_devourer" ],
+    "speaker": [ "mon_memory" ],
     "sound": "\"Take my hand.\"",
     "volume": 20
   },
@@ -2634,7 +2618,7 @@
   },
   {
     "type": "speech",
-    "speaker": [ "mon_memory", "mon_zomborg_devourer" ],
+    "speaker": [ "mon_memory" ],
     "sound": "\"I love you and I'll never forget you.\"",
     "volume": 20
   },
@@ -2652,7 +2636,7 @@
   },
   {
     "type": "speech",
-    "speaker": [ "mon_memory", "mon_zomborg_devourer" ],
+    "speaker": [ "mon_memory" ],
     "sound": "agonized screaming!",
     "volume": 20
   },
@@ -2664,7 +2648,7 @@
   },
   {
     "type": "speech",
-    "speaker": [ "mon_memory", "mon_zomborg_devourer" ],
+    "speaker": [ "mon_memory" ],
     "sound": "\"HELP!  HEEEEELP!\"",
     "volume": 20
   },
@@ -2706,7 +2690,7 @@
   },
   {
     "type": "speech",
-    "speaker": [ "mon_memory", "mon_zomborg_devourer" ],
+    "speaker": [ "mon_memory" ],
     "sound": "quiet crying.",
     "volume": 20
   },
