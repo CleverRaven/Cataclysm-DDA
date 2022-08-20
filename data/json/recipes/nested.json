@@ -197,6 +197,27 @@
     "autolearn": [ [ "cooking", 0 ] ]
   },
   {
+    "id": "nested_refined_cannabis",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_DRUGS",
+    "name": "refined cannabis",
+    "description": "Recipes related to refining cannabis into more potent forms.",
+    "skill_used": "chemistry",
+    "nested_category_data": [
+      "hi_q_wax",
+      "hi_q_wax_improvised_extraction",
+      "hi_q_shatter",
+      "hi_q_shatter_improvised_extraction",
+      "hi_q_distillate",
+      "hi_q_distillate_improvised_extraction",
+      "hi_q_distillate_large_extraction",
+      "hi_q_distillate_crude_extraction"
+    ],
+    "difficulty": 1
+  },
+  {
     "id": "nested_steel_suits",
     "type": "nested_category",
     "activity_level": "BRISK_EXERCISE",
