@@ -553,7 +553,7 @@
   },
   {
     "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_zomborg_devourer" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
     "sound": "\"It won't hurt a bit.\"",
     "volume": 20
   },
@@ -1411,7 +1411,7 @@
   },
   {
     "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon", "mon_zomborg_devourer" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
     "sound": "a static hissing sound.",
     "volume": 30
   },
@@ -1789,13 +1789,13 @@
   },
   {
     "type": "speech",
-    "speaker": [ "mon_broken_cyborg", "mon_mi_go", "mon_mi_go_slaver", "mon_zomborg_devourer" ],
+    "speaker": [ "mon_broken_cyborg", "mon_mi_go", "mon_mi_go_slaver" ],
     "sound": "\"THIS UNIT IS BROKEN.  PLEASE CALL AN ATTENDANT.\"",
     "volume": 20
   },
   {
     "type": "speech",
-    "speaker": [ "mon_broken_cyborg", "mon_mi_go", "mon_mi_go_slaver", "mon_zomborg_devourer" ],
+    "speaker": [ "mon_broken_cyborg", "mon_mi_go", "mon_mi_go_slaver" ],
     "sound": "\"Can't… breathe…\"",
     "volume": 10
   },
@@ -1819,7 +1819,7 @@
   },
   {
     "type": "speech",
-    "speaker": [ "mon_prototype_cyborg", "mon_mi_go", "mon_mi_go_slaver", "mon_zomborg_devourer" ],
+    "speaker": [ "mon_prototype_cyborg", "mon_mi_go", "mon_mi_go_slaver" ],
     "sound": "\"Is it done?  Am I perfect now?\"",
     "volume": 10
   },
@@ -1837,7 +1837,7 @@
   },
   {
     "type": "speech",
-    "speaker": [ "mon_prototype_cyborg", "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_surgeon", "mon_zomborg_devourer" ],
+    "speaker": [ "mon_prototype_cyborg", "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_surgeon" ],
     "sound": "\"This is a dream.  This has to be a dream.\"",
     "volume": 10
   },
@@ -1855,13 +1855,13 @@
   },
   {
     "type": "speech",
-    "speaker": [ "mon_prototype_cyborg", "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_surgeon", "mon_zomborg_devourer" ],
+    "speaker": [ "mon_prototype_cyborg", "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_surgeon" ],
     "sound": "screams of pain.",
     "volume": 20
   },
   {
     "type": "speech",
-    "speaker": [ "mon_prototype_cyborg", "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_surgeon", "mon_zomborg_devourer" ],
+    "speaker": [ "mon_prototype_cyborg", "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_surgeon" ],
     "sound": "muffled sobbing.",
     "volume": 5
   },
@@ -1873,19 +1873,19 @@
   },
   {
     "type": "speech",
-    "speaker": [ "mon_nursebot_defective", "mon_mi_go", "mon_mi_go_slaver", "mon_zomborg_devourer" ],
+    "speaker": [ "mon_nursebot_defective", "mon_mi_go", "mon_mi_go_slaver" ],
     "sound": "a soft robotic voice say, \"Come here and stand still for a few minutes, I'll give you a check-up.\"",
     "volume": 8
   },
   {
     "type": "speech",
-    "speaker": [ "mon_nursebot_defective", "mon_mi_go", "mon_mi_go_slaver", "mon_zomborg_devourer" ],
+    "speaker": [ "mon_nursebot_defective", "mon_mi_go", "mon_mi_go_slaver" ],
     "sound": "a soft robotic voice say, \"Come on.  I don't bite, I promise it won't hurt one bit.\"",
     "volume": 8
   },
   {
     "type": "speech",
-    "speaker": [ "mon_nursebot_defective", "mon_mi_go", "mon_mi_go_slaver", "mon_zomborg_devourer" ],
+    "speaker": [ "mon_nursebot_defective", "mon_mi_go", "mon_mi_go_slaver" ],
     "sound": "a soft robotic voice say, \"Here we go.  Just hold still.\"",
     "volume": 8
   },
