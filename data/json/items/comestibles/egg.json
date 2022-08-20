@@ -3,7 +3,7 @@
     "type": "COMESTIBLE",
     "id": "egg_bird",
     "name": { "str": "bird egg" },
-    "weight": "57 g",
+    "weight": "55 g",
     "color": "brown",
     "spoils_in": "7 days",
     "comestible_type": "FOOD",
@@ -113,8 +113,8 @@
     "name": { "str": "goose egg" },
     "copy-from": "egg_chicken",
     "calories": 266,
-    "volume": "125 ml",
-    "weight": "144 g",
+    "volume": "130 ml",
+    "weight": "143 g",
     "vitamins": [ [ "calcium", 9 ], [ "iron", 29 ] ],
     "rot_spawn": "GROUP_EGG_GOOSE_CANADIAN"
   },
@@ -176,7 +176,7 @@
     "material": [ "egg" ],
     "stack_size": 1,
     "volume": "250 ml",
-    "weight": "300 g",
+    "weight": "275 g",
     "calories": 240,
     "quench": 10,
     "fun": -20,
@@ -637,5 +637,104 @@
     "volume": "650 ml",
     "description": "A large clump of the eggs of a frog.  The eggs themselves are gelatinous and transparent.",
     "rot_spawn": "GROUP_EGG_FROG"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_goose",
+    "name": "goose egg",
+    "copy-from": "egg_goose_canadian",
+    "rot_spawn": "GROUP_EGG_GOOSE"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_goose_golden",
+    "name": "golden goose egg",
+    "copy-from": "egg_goose_canadian",
+    "proportional": { "weight": 2, "calories": 2, "volume": 2 },
+    "rot_spawn": "GROUP_EGG_GOOSE"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_hummingbird",
+    "name": "hummingbird egg",
+    "copy-from": "egg_crow",
+    "volume": "1 ml",
+    "weight": "1 g",
+    "rot_spawn": "GROUP_EGG_HUMMINGBIRD"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_woodpecker",
+    "name": "woodpecker egg",
+    "copy-from": "egg_crow",
+    "rot_spawn": "GROUP_EGG_WOODPECKER"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_coot",
+    "name": "coot egg",
+    "copy-from": "egg_chicken",
+    "rot_spawn": "GROUP_EGG_COOT"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_cormorant",
+    "name": "cormorant egg",
+    "copy-from": "egg_chicken",
+    "rot_spawn": "GROUP_EGG_CORMORANT"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_moorhen",
+    "name": "moorhen egg",
+    "copy-from": "egg_chicken",
+    "rot_spawn": "GROUP_EGG_MOORHEN"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_grebe",
+    "name": "grebe egg",
+    "copy-from": "egg_chicken",
+    "rot_spawn": "GROUP_EGG_GREBE"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_toad",
+    "name": { "str": "cluster of toad's eggs", "str_pl": "clusters of toad's eggs" },
+    "copy-from": "egg_frog",
+    "description": "A large clump of the eggs of a toad.  The eggs themselves are gelatinous and transparent.",
+    "rot_spawn": "GROUP_EGG_TOAD"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_water_beetle",
+    "name": "water beetle egg",
+    "copy-from": "egg_strider",
+    "description": "The egg of a water beetle, usually found near aquatic grass.",
+    "rot_spawn": "GROUP_EGG_WATER_BEETLE"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_water_bug",
+    "name": "water scorpion egg",
+    "copy-from": "egg_strider",
+    "description": "The egg of a water scorpion, usually found near aquatic grass.",
+    "rot_spawn": "GROUP_EGG_WATER_BUG"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_butterfly",
+    "name": "butterfly egg",
+    "copy-from": "egg_insect",
+    "description": "The egg of a butterfly.  They are usually found clustered on leaves.",
+    "rot_spawn": "GROUP_EGG_BUTTERFLY"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_cicada",
+    "name": "cicada egg",
+    "copy-from": "egg_insect",
+    "description": "The egg of a cicada.  They are usually found near trees.",
+    "rot_spawn": "GROUP_EGG_CICADA"
   }
 ]
