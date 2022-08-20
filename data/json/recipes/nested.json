@@ -1837,6 +1837,54 @@
     "autolearn": [ [ "tailor", 0 ] ]
   },
   {
+    "id": "nested_cardboard_boxes",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "cardboard boxes",
+    "description": "Recipes related to constructing cardboard boxes.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "box_small", "box_medium", "box_large", "box_large_reinforced", "box_oversize" ],
+    "difficulty": 1
+  },
+  {
+    "id": "nested_wooden_boxes",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "wooden boxes",
+    "description": "Recipes related to constructing wooden boxes.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "box_small_wood", "box_medium_wood", "box_large_wood", "box_oversize_wood" ],
+    "difficulty": 1
+  },
+  {
+    "id": "nested_metal_boxes",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "metal boxes",
+    "description": "Recipes related to constructing metal boxes.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "box_small_metal", "box_medium_metal", "box_large_metal", "box_oversize_metal" ],
+    "difficulty": 1
+  },
+  {
+    "id": "nested_all_boxes",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_CONTAINERS",
+    "name": "boxes",
+    "description": "Recipes related to constructing boxes.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "nested_cardboard_boxes", "nested_wooden_boxes", "nested_metal_boxes" ],
+    "difficulty": 1
+  },
+  {
     "id": "nested_shelled_nuts",
     "type": "nested_category",
     "activity_level": "LIGHT_EXERCISE",
