@@ -1472,8 +1472,8 @@ static void add_basecamp_storage_to_loot_zone_list(
     if( npc *const guy = dynamic_cast<npc *>( &you ) ) {
         map &here = get_map();
         if( guy->assigned_camp &&
-            mgr.has_near( zone_type_CAMP_STORAGE, here.getglobal( src_loc ), ACTIVITY_SEARCH_DISTANCE ),
-            _fac_id( you ) ) {
+            mgr.has_near( zone_type_CAMP_STORAGE, here.getglobal( src_loc ), ACTIVITY_SEARCH_DISTANCE,
+                          _fac_id( you ) ) ) {
             std::unordered_set<tripoint_abs_ms> bc_storage_set =
                 mgr.get_near( zone_type_CAMP_STORAGE, here.getglobal( src_loc ),
                               ACTIVITY_SEARCH_DISTANCE, nullptr, _fac_id( you ) );
