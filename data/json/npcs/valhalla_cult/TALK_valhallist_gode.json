@@ -2,7 +2,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_VALHALLIST_GODE_1",
-    "dynamic_line": "Hallo, reisendre. What is it you want?",
+    "dynamic_line": "Hallo, reisendre.  What is it you want?",
     "speaker_effect": { "effect": { "npc_first_topic": "TALK_VALHALLIST_GODE_2" } },
     "responses": [
       { "text": "Who are you, exactly?", "topic": "TALK_VALHALLIST_GODE_WHO" },
