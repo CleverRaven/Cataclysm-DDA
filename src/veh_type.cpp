@@ -991,11 +991,14 @@ const std::map<vpart_id, vpart_info> &vpart_info::all()
 
 std::string vpart_info::name() const
 {
-    if( name_.empty() ) {
-        return item::nname( base_item );
-    } else {
-        return name_.translated();
+    std::string res = name_.translated();
+    if( res.empty() ) {
+        res = item::nname( base_item ); // fallback to base item's translation
     }
+    if( has_flag( "TURRET" ) ) {
+        res = string_format( pgettext( "mounted turret prefix", "mounted %s" ), res );
+    }
+    return res;
 }
 
 int vpart_info::format_description( std::string &msg, const nc_color &format_color,
