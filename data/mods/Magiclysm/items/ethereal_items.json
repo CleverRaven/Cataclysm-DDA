@@ -328,6 +328,7 @@
       "NO_SALVAGE",
       "NO_UNLOAD",
       "WATERPROOF_GUN",
+      "NO_TURRET",
       "NEVER_JAMS"
     ],
     "ammo_effects": [ "NEVER_MISFIRES" ],
@@ -675,6 +676,7 @@
       "TRADER_AVOID",
       "NO_UNLOAD",
       "NO_REPAIR",
+      "NO_TURRET",
       "WATERPROOF_GUN"
     ],
     "ammo_effects": [ "NEVER_MISFIRES" ],
