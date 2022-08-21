@@ -134,8 +134,8 @@ void character_modifier::load( const JsonObject &jo, const std::string & )
         optional( jobj, was_loaded, "nominator", nominator, 0.0f );
         optional( jobj, was_loaded, "denominator", denominator, 1.0f );
         if( std::abs( denominator ) < std::numeric_limits<float>::epsilon() ) {
-            jobj.throw_error( "denominator cannot be set to 0" );
             denominator = 1.0f;
+            jobj.throw_error( "denominator cannot be set to 0" );
         }
         optional( jobj, was_loaded, "subtract", subtractor, 0.0f );
     }
