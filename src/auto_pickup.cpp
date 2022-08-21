@@ -250,7 +250,6 @@ drop_locations auto_pickup::select_items(
             item_entry->is_owned_by( get_player_character() ) ) {
             continue;
         }
-        std::string sItemName = item_entry->tname( 1, false );
         rule_state pickup_state = get_autopickup_rule( item_entry );
         bool is_container = item_entry->is_container() && !item_entry->empty_container();
 

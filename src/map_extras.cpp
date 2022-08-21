@@ -1785,7 +1785,6 @@ static void burned_ground_parser( map &m, const tripoint &loc )
     std::vector<tripoint> points;
     for( wrapped_vehicle vehicle : vehs ) {
         vehicles.push_back( vehicle.v );
-        std::set<tripoint> occupied = vehicle.v->get_points();
         // Important that this loop excludes fake parts, because those can be
         // outside map bounds
         for( const vpart_reference &vp : vehicle.v->get_all_parts() ) {

@@ -7076,7 +7076,6 @@ void Character::recalculate_bodyparts()
         body_set.set( bp.id() );
     }
     body_set = enchantment_cache->modify_bodyparts( body_set );
-    std::vector<bodypart_str_id> remove;
     // first come up with the bodyparts that need to be removed from body
     for( auto bp_iter = body.begin(); bp_iter != body.end(); ) {
         if( !body_set.test( bp_iter->first ) ) {

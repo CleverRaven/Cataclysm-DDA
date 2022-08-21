@@ -2723,7 +2723,6 @@ void map::drop_fields( const tripoint &p )
         return;
     }
 
-    std::list<field_type_id> dropped;
     const tripoint below = p + tripoint_below;
     for( const auto &iter : fld ) {
         const field_entry &entry = iter.second;

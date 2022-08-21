@@ -1758,7 +1758,6 @@ class jmapgen_npc : public jmapgen_piece
             npc_class( jsi.get_member( "class" ) )
             , target( jsi.get_bool( "target", false ) ) {
             if( jsi.has_string( "add_trait" ) ) {
-                std::string new_trait = jsi.get_string( "add_trait" );
                 traits.emplace_back();
                 jsi.read( "add_trait", traits.back() );
             } else if( jsi.has_array( "add_trait" ) ) {

@@ -773,7 +773,6 @@ void basecamp::add_available_recipes( mission_data &mission_key, mission_kind ki
                                       const point &dir,
                                       const std::map<recipe_id, translation> &craft_recipes )
 {
-    const std::string dir_id = base_camps::all_directions.at( dir ).id;
     const std::string dir_abbr = base_camps::all_directions.at( dir ).bracket_abbr.translated();
     for( const auto &recipe_data : craft_recipes ) {
         const mission_id miss_id = {kind, recipe_data.first.str(), dir};

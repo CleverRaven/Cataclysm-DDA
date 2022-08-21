@@ -2847,7 +2847,6 @@ void monster::spawn_dissectables_on_death( item *corpse )
         return;
     }
 
-    std::vector<item> new_dissectables;
     for( const harvest_entry &entry : *type->dissect ) {
         std::vector<item> dissectables = item_group::items_from( item_group_id( entry.drop ),
                                          calendar::turn,
